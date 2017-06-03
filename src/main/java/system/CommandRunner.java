@@ -7,10 +7,22 @@ import java.io.*;
  */
 public class CommandRunner {
 
+    public static String blameAll(String root){
+        File rootFile = new File(root);
+        return runCommand(rootFile,"git ls-files -- '*.java' | xargs -I{} git blame {}  -M -C --follow --find-copies-harder --line-porcelain | grep -E  \"^filename|^author \"\n");
+    }
+
     public static String blameRaw(String root, String fileDirectory){
         File rootFile = new File(root);
         return runCommand(rootFile, "git blame " + fileDirectory + " -M -C --follow --find-copies-harder --line-porcelain | grep  \"^author \"");
     }
+
+    public static String checkStyleRaw(String absoluteDirectory){
+        File rootFile = new File(".");
+        return runCommand(rootFile, "java -jar checkstyle-7.7-all.jar -c /google_checks.xml -f xml " + absoluteDirectory);
+    }
+
+
 
     public static String runCommand(File directory, String command) {
         ProcessBuilder pb = new ProcessBuilder()

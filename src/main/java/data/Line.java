@@ -11,10 +11,23 @@ public class Line {
 
     private int lineNumber;
     private Author author;
+    private String issue;
+
+
+    public String getIssue() {
+        return issue;
+    }
+
+    public void setIssue(String issue) {
+        this.issue = issue;
+    }
+
 
     public Author getAuthor() {
         return author;
     }
+
+
 
     public void setAuthor(Author author) {
         this.author = author;
