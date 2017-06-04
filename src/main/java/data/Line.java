@@ -11,14 +11,14 @@ public class Line {
 
     private int lineNumber;
     private Author author;
-    private String issue;
+    private IssueInfo issue;
 
 
-    public String getIssue() {
+    public IssueInfo getIssue() {
         return issue;
     }
 
-    public void setIssue(String issue) {
+    public void setIssue(IssueInfo issue) {
         this.issue = issue;
     }
 

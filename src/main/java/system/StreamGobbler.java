@@ -16,7 +16,7 @@ public class StreamGobbler extends Thread {
         return value;
     }
 
-    String value;
+    String value ="";
 
     public StreamGobbler(InputStream is) {
         this.is = is;

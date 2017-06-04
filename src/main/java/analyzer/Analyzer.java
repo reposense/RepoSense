@@ -13,7 +13,7 @@ import java.util.HashMap;
  */
 public class Analyzer {
 
-    private final String[] ignoredList = new String[] {".git",".log", ".class",".classpath","bin/",".gitignore",".DS_Store",".project"};
+    private final String[] ignoredList = new String[] {"org/",".git",".log", ".class",".classpath","bin/",".gitignore",".DS_Store",".project"};
 
     private String repoRoot;
 
@@ -35,7 +35,11 @@ public class Analyzer {
             if (file.isDirectory()){
                 recursiveAnalyze(file,result);
             }else{
-                result.add(BlameParser.blameSingleFile(repoRoot,relativePath));
+                if (!relativePath.endsWith(".java")) continue;
+                FileInfo fileInfo = BlameParser.blameSingleFile(repoRoot,relativePath);
+                CheckStyleParser.addStyleIssue(fileInfo,repoRoot);
+                result.add(fileInfo);
+
             }
         }
 
