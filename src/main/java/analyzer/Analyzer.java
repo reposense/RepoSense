@@ -1,6 +1,7 @@
 package analyzer;
 
 
+import data.Author;
 import data.FileInfo;
 import data.Line;
 
@@ -22,6 +23,25 @@ public class Analyzer {
         this.repoRoot = addFinalSlash(repoRoot);
     }
 
+    public HashMap<Author, Integer> getAuthorIssueCount(ArrayList<FileInfo> files){
+        HashMap<Author, Integer> result = new HashMap<Author, Integer>();
+        for (FileInfo fileInfo : files){
+            for (Line line:fileInfo.getLines()){
+                if (line.hasIssue()){
+
+                    Author author = line.getAuthor();
+                    if (!result.containsKey(author)){
+                        result.put(author,0);
+                    }
+                    int issueCount = result.get(author);
+                    issueCount += line.getIssues().size();
+                    result.put(author,issueCount);
+                }
+            }
+        }
+        return result;
+    }
+
     public ArrayList<FileInfo> analyzeAllFile(){
         ArrayList<FileInfo> result = new ArrayList<FileInfo>();
         recursiveAnalyze(new File(repoRoot),result);
@@ -37,7 +57,7 @@ public class Analyzer {
             }else{
                 if (!relativePath.endsWith(".java")) continue;
                 FileInfo fileInfo = BlameParser.blameSingleFile(repoRoot,relativePath);
-                CheckStyleParser.addStyleIssue(fileInfo,repoRoot);
+                CheckStyleParser.aggregateStyleIssue(fileInfo,repoRoot);
                 result.add(fileInfo);
 
             }

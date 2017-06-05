@@ -1,10 +1,14 @@
 package main;
 
 import analyzer.Analyzer;
+import data.Author;
+import data.FileInfo;
 import org.xml.sax.SAXException;
 
 import javax.xml.parsers.ParserConfigurationException;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashMap;
 
 
 /**
@@ -16,9 +20,14 @@ public class Main {
 
 
         long time = System.nanoTime();
-        b.analyzeAllFile();
+        ArrayList<FileInfo> list = b.analyzeAllFile();
         long time1 = System.nanoTime();
         System.out.println(time1-time);
+        HashMap<Author,Integer> result = b.getAuthorIssueCount(list);
+        for (Author author:result.keySet()){
+            System.out.println(author.getName());
+            System.out.println(result.get(author));
+        }
 //        DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
 //        DocumentBuilder builder = factory.newDocumentBuilder();
 //        InputSource is = new InputSource(new StringReader(result));

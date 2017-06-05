@@ -2,6 +2,7 @@ package analyzer;
 
 import data.FileInfo;
 import data.IssueInfo;
+import data.Line;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
@@ -19,8 +20,13 @@ import java.io.StringReader;
  * Created by matanghao1 on 3/6/17.
  */
 public class CheckStyleParser {
+    final private static String MESSAGE = "message";
+    final private static String SEVERITY = "severity";
+    final private static String LINE = "line";
 
-    public static void addStyleIssue(FileInfo fileInfo, String rootRepo){
+
+
+    public static void aggregateStyleIssue(FileInfo fileInfo, String rootRepo){
         String raw = CommandRunner.checkStyleRaw(rootRepo + '/' + fileInfo.getPath());
         //System.out.println(raw);
         System.out.println(fileInfo.getPath());
@@ -28,12 +34,13 @@ public class CheckStyleParser {
         NodeList nodeList = getNodeListFromRawOutput(raw);
         for (int i = 0; i < nodeList.getLength(); i++) {
             Element element = (Element) nodeList.item(i);
-            String message = element.getAttribute("message");
-            String serverity = element.getAttribute("severity");
+            String message = element.getAttribute(MESSAGE);
+            String severity = element.getAttribute(SEVERITY);
 
-            int lineNumber = Integer.parseInt(element.getAttribute("line"));
+            int lineNumber = Integer.parseInt(element.getAttribute(LINE));
 
-            fileInfo.getLineByNumber(lineNumber).setIssue(new IssueInfo(serverity,message));
+            Line line = fileInfo.getLineByNumber(lineNumber);
+            line.getIssues().add(new IssueInfo(severity,message));
         }
     }
 
