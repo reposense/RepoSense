@@ -12,6 +12,11 @@ public class CommandRunner {
         return runCommand(rootFile, "git log --reverse --pretty=format:\"%h|%an|%ad|%s\" --date=iso");
     }
 
+    public static void checkOut(String root, String hash){
+        File rootFile = new File(root);
+        runCommand(rootFile, "git checkout "+hash);
+    }
+
     public static String blameAll(String root){
         File rootFile = new File(root);
         return runCommand(rootFile,"git ls-files -- '*.java' | xargs -I{} git blame {}  -M -C --follow --find-copies-harder --line-porcelain | grep -E  \"^filename|^author \"\n");

@@ -23,7 +23,7 @@ public class Analyzer {
         this.repoRoot = addFinalSlash(repoRoot);
     }
 
-    public HashMap<Author, Integer> getAuthorIssueCount(ArrayList<FileInfo> files){
+    public static HashMap<Author, Integer> getAuthorIssueCount(ArrayList<FileInfo> files){
         HashMap<Author, Integer> result = new HashMap<Author, Integer>();
         for (FileInfo fileInfo : files){
             for (Line line:fileInfo.getLines()){
