@@ -10,13 +10,15 @@ public class FileInfo {
     String path;
     ArrayList<Line> lines;
 
+    ArrayList<MethodInfo> methodInfos;
+
     public FileInfo(String path,ArrayList<Line> lines) {
         this.path = path;
         this.lines = lines;
     }
 
     public Line getLineByNumber(int num){
-        return lines.get(num);
+        return lines.get(num - 1);
     }
 
     public ArrayList<Line> getLines() {
@@ -36,5 +38,12 @@ public class FileInfo {
         this.path = path;
     }
 
+    public ArrayList<MethodInfo> getMethodInfos() {
+        return methodInfos;
+    }
+
+    public void setMethodInfos(ArrayList<MethodInfo> methodInfos) {
+        this.methodInfos = methodInfos;
+    }
 
 }

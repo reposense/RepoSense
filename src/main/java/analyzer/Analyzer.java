@@ -2,8 +2,11 @@ package analyzer;
 
 
 import data.Author;
+import data.CommitInfo;
 import data.FileInfo;
 import data.Line;
+import timetravel.GitChecker;
+import timetravel.GitLogger;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -23,7 +26,24 @@ public class Analyzer {
         this.repoRoot = addFinalSlash(repoRoot);
     }
 
-    public static HashMap<Author, Integer> getAuthorIssueCount(ArrayList<FileInfo> files){
+    public HashMap<CommitInfo, ArrayList<FileInfo>> analyzeRecentNCommit(int recent){
+        ArrayList<CommitInfo> allCommits = GitLogger.getAllCommits(repoRoot);
+        ArrayList<CommitInfo> processingCommits;
+        if ( recent >= allCommits.size()){
+            processingCommits = allCommits;
+        }else{
+            processingCommits = new ArrayList<CommitInfo>(allCommits.subList(allCommits.size()-recent, allCommits.size()));
+        }
+        HashMap<CommitInfo, ArrayList<FileInfo>> result = new HashMap<CommitInfo, ArrayList<FileInfo>>();
+        for (CommitInfo commitInfo:processingCommits){
+            GitChecker.checkOutToCommit(repoRoot,commitInfo);
+            result.put(commitInfo,analyzeAllFile());
+        }
+        return result;
+
+    }
+
+    private static HashMap<Author, Integer> getAuthorIssueCount(ArrayList<FileInfo> files){
         HashMap<Author, Integer> result = new HashMap<Author, Integer>();
         for (FileInfo fileInfo : files){
             for (Line line:fileInfo.getLines()){
@@ -42,7 +62,7 @@ public class Analyzer {
         return result;
     }
 
-    public ArrayList<FileInfo> analyzeAllFile(){
+    private ArrayList<FileInfo> analyzeAllFile(){
         ArrayList<FileInfo> result = new ArrayList<FileInfo>();
         recursiveAnalyze(new File(repoRoot),result);
         return result;
@@ -58,8 +78,8 @@ public class Analyzer {
                 if (!relativePath.endsWith(".java")) continue;
                 FileInfo fileInfo = BlameParser.blameSingleFile(repoRoot,relativePath);
                 CheckStyleParser.aggregateStyleIssue(fileInfo,repoRoot);
+                MethodAnalyzer.aggregateMethodInfo(fileInfo,repoRoot);
                 result.add(fileInfo);
-
             }
         }
 

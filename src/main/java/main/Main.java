@@ -1,45 +1,51 @@
 package main;
 
 import analyzer.Analyzer;
+import com.github.javaparser.JavaParser;
+import com.github.javaparser.ast.body.MethodDeclaration;
+import com.github.javaparser.ast.visitor.VoidVisitorAdapter;
 import data.Author;
+import data.CommitInfo;
 import data.FileInfo;
+import data.MethodInfo;
 import org.xml.sax.SAXException;
+import system.CommandRunner;
+import timetravel.GitLogger;
 
 import javax.xml.parsers.ParserConfigurationException;
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 
-
+import com.github.javaparser.ast.CompilationUnit;
 /**
  * Created by matanghao1 on 28/5/17.
  */
 public class Main {
-    public static void main(String[] args) throws IOException, InterruptedException, ParserConfigurationException, SAXException {
+    public static void main(String[] args) throws IOException, InterruptedException, ParserConfigurationException, SAXException, ParseException {
         Analyzer b = new Analyzer("/Users/matanghao1/Developer/main");
+        HashMap<CommitInfo, ArrayList<FileInfo>> map = b.analyzeRecentNCommit(1);
+        for (CommitInfo commit: map.keySet()){
+            ArrayList<FileInfo> files = map.get(commit);
+            for (FileInfo file:files){
+                System.out.println(file.getPath());
+                for (MethodInfo method: file.getMethodInfos()){
+                    System.out.println(method.getMethodName());
+                    System.out.println(method.getOwner().getName());
 
-
-        long time = System.nanoTime();
-        ArrayList<FileInfo> list = b.analyzeAllFile();
-        long time1 = System.nanoTime();
-        System.out.println(time1-time);
-        HashMap<Author,Integer> result = b.getAuthorIssueCount(list);
-        for (Author author:result.keySet()){
-            System.out.println(author.getName());
-            System.out.println(result.get(author));
+                }
+            }
         }
-//        DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
-//        DocumentBuilder builder = factory.newDocumentBuilder();
-//        InputSource is = new InputSource(new StringReader(result));
-//        Document doc = builder.parse(is);
-//        doc.getDocumentElement().normalize();
-//        NodeList nodeList = doc.getElementsByTagName("*");
-//        for (int i = 0; i < nodeList.getLength(); i++) {
-//            if (!nodeList.item(i).getNodeName().equals("file")) continue;
-//            System.out.println(((Element) nodeList.item(i)).getAttribute("name"));
-//        }
+
+
 
 
 
     }
+
 }

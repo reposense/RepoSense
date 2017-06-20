@@ -24,7 +24,7 @@ public class CommandRunner {
 
     public static String blameRaw(String root, String fileDirectory){
         File rootFile = new File(root);
-        return runCommand(rootFile, "git blame " + fileDirectory + " -M -C --follow --find-copies-harder --line-porcelain | grep  \"^author \"");
+        return runCommand(rootFile, "git blame " + fileDirectory + " -w -M -C --follow --find-copies-harder --line-porcelain | grep  \"^author \"");
     }
 
     public static String checkStyleRaw(String absoluteDirectory){

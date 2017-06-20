@@ -8,38 +8,19 @@
     <artifactId>GitGrader</artifactId>
     <version>1.0-SNAPSHOT</version>
 
-    <dependencies></dependencies>
+    <properties>
+        <maven.compiler.source>1.8</maven.compiler.source>
+        <maven.compiler.target>1.8</maven.compiler.target>
 
-    <build>
-        <plugins>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-dependency-plugin</artifactId>
-                <version>3.0.1</version>
-                <executions>
-                    <execution>
-                        <id>copy</id>
-                        <phase>package</phase>
-                        <goals>
-                            <goal>copy</goal>
-                        </goals>
-                        <configuration>
-                            <artifactItems>
-                                <artifactItem>
-                                    <groupId>com.puppycrawl.tools</groupId>
-                                    <artifactId>checkstyle</artifactId>
-                                    <version>7.8</version>
-                                    <type>jar</type>
-                                </artifactItem>
-                            </artifactItems>
-                            <overWrite>true</overWrite>
-                            <outputDirectory>lib/</outputDirectory>
-                            <destFileName>checkstyle.jar</destFileName>
-                        </configuration>
-                    </execution>
-                </executions>
-            </plugin>
-        </plugins>
-    </build>
+    </properties>
+
+    <dependencies>
+        <dependency>
+            <groupId>com.github.javaparser</groupId>
+            <artifactId>javaparser-core</artifactId>
+            <version>3.0.1</version>
+        </dependency>
+
+    </dependencies>
 
 </project>
