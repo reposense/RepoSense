@@ -1,10 +1,9 @@
 package analyzer;
 
-import data.FileInfo;
-import data.Line;
+import dataObject.FileInfo;
+import dataObject.Line;
 import system.CommandRunner;
 
-import java.io.File;
 import java.util.ArrayList;
 
 /**

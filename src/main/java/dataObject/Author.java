@@ -1,4 +1,4 @@
-package data;
+package dataObject;
 
 /**
  * Created by matanghao1 on 29/5/17.

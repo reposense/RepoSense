@@ -12,6 +12,11 @@ public class CommandRunner {
         return runCommand(rootFile, "git log --reverse --pretty=format:\"%h|%an|%ad|%s\" --date=iso");
     }
 
+    public static String gitLog(String root, int last){
+        File rootFile = new File(root);
+        return runCommand(rootFile, "git log --reverse --pretty=format:\"%h|%an|%ad|%s\" --date=iso -n " + last);
+    }
+
     public static void checkOut(String root, String hash){
         File rootFile = new File(root);
         runCommand(rootFile, "git checkout "+hash);

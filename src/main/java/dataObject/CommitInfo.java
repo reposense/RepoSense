@@ -1,6 +1,8 @@
-package data;
+package dataObject;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 
 /**
  * Created by matanghao1 on 5/6/17.
@@ -10,6 +12,9 @@ public class CommitInfo {
     private String hash;
     private Date time;
     private String message;
+    private ArrayList<FileInfo> fileinfos;
+    private HashMap<Author, Integer> authorIssueMap;
+    private HashMap<Author, Integer> authorContributionMap;
 
     public CommitInfo(Author author, String hash, Date time, String message) {
         this.author = author;
@@ -48,5 +53,29 @@ public class CommitInfo {
 
     public void setTime(Date time) {
         this.time = time;
+    }
+
+    public ArrayList<FileInfo> getFileinfos() {
+        return fileinfos;
+    }
+
+    public void setFileinfos(ArrayList<FileInfo> fileinfos) {
+        this.fileinfos = fileinfos;
+    }
+
+    public HashMap<Author, Integer> getAuthorIssueMap() {
+        return authorIssueMap;
+    }
+
+    public void setAuthorIssueMap(HashMap<Author, Integer> authorIssueMap) {
+        this.authorIssueMap = authorIssueMap;
+    }
+
+    public HashMap<Author, Integer> getAuthorContributionMap() {
+        return authorContributionMap;
+    }
+
+    public void setAuthorContributionMap(HashMap<Author, Integer> authorContributionMap) {
+        this.authorContributionMap = authorContributionMap;
     }
 }

@@ -1,11 +1,10 @@
 package timetravel;
 
-import data.Author;
-import data.CommitInfo;
+import dataObject.Author;
+import dataObject.CommitInfo;
 import system.CommandRunner;
 import util.Constants;
 
-import java.lang.reflect.Array;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Date;
@@ -14,10 +13,19 @@ import java.util.Date;
  * Created by matanghao1 on 5/6/17.
  */
 public class GitLogger {
-    public static ArrayList<CommitInfo> getAllCommits(String repoRoot){
+    public static ArrayList<CommitInfo> getCommits(String repoRoot){
         String raw = CommandRunner.gitLog(repoRoot);
+        return parseCommitInfo(raw);
+    }
+
+    public static ArrayList<CommitInfo> getCommits(String repoRoot, int last){
+        String raw = CommandRunner.gitLog(repoRoot, last);
+        return parseCommitInfo(raw);
+    }
+
+    private static ArrayList<CommitInfo> parseCommitInfo(String rawResult){
         ArrayList<CommitInfo> result = new ArrayList<CommitInfo>();
-        for (String line:raw.split("\n")){
+        for (String line:rawResult.split("\n")){
             result.add(parseRawLine(line));
         }
         return result;

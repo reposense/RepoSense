@@ -2,11 +2,12 @@ package analyzer;
 
 import com.github.javaparser.JavaParser;
 import com.github.javaparser.ast.CompilationUnit;
+import com.github.javaparser.ast.body.ConstructorDeclaration;
 import com.github.javaparser.ast.body.MethodDeclaration;
 import com.github.javaparser.ast.visitor.VoidVisitorAdapter;
-import data.Author;
-import data.FileInfo;
-import data.MethodInfo;
+import dataObject.Author;
+import dataObject.FileInfo;
+import dataObject.MethodInfo;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -54,9 +55,16 @@ public class MethodAnalyzer {
             super.visit(n, arg);
         }
 
+        @Override
+        public void visit(ConstructorDeclaration n, Void arg) {
+            methods.add(new MethodInfo(n.getBegin().get().line,n.getEnd().get().line,n.getName().toString()));
+            super.visit(n, arg);
+        }
+
         public ArrayList<MethodInfo> getMethods(){
             return methods;
         }
+
     }
 
 }

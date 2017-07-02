@@ -1,4 +1,4 @@
-package data;
+package dataObject;
 
 /**
  * Created by matanghao1 on 19/6/17.
@@ -45,5 +45,9 @@ public class MethodInfo {
 
     public void setOwner(Author owner) {
         this.owner = owner;
+    }
+
+    public int getTotalLines(){
+        return end - start + 1;
     }
 }
