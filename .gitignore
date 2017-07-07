@@ -3,3 +3,5 @@
 *.class
 *.iml
 /target/
+.gradle/
+build/
