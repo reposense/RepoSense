@@ -6,6 +6,7 @@ import dataObject.CommitInfo;
 import dataObject.FileInfo;
 import dataObject.MethodInfo;
 import org.xml.sax.SAXException;
+import report.RepoInfoFileGenerator;
 
 import javax.xml.parsers.ParserConfigurationException;
 import java.io.File;
@@ -19,7 +20,7 @@ import java.util.HashMap;
  */
 public class Main {
     public static void main(String[] args) throws IOException, InterruptedException, ParserConfigurationException, SAXException, ParseException {
-        ArrayList<CommitInfo> map = RepoAnalyzer.analyzeRecentNCommit("/Users/matanghao1/Developer/main/",1);
+      //  ArrayList<CommitInfo> map = RepoAnalyzer.analyzeRecentNCommit("/Users/matanghao1/Developer/main/",1);
 //        for (CommitInfo commit: map){
 //            ArrayList<FileInfo> files = commit.getFileinfos();
 //            for (FileInfo file:files){
@@ -31,14 +32,14 @@ public class Main {
 //                }
 //            }
 //        }
-        for (CommitInfo commit: map){
-            for (Author author:commit.getAuthorContributionMap().keySet()){
-                System.out.println(author.getName());
-                System.out.println(commit.getAuthorContributionMap().get(author));
-                System.out.println(commit.getAuthorIssueMap().get(author));
-            }
-        }
-
+//        for (CommitInfo commit: map){
+//            for (Author author:commit.getAuthorContributionMap().keySet()){
+//                System.out.println(author.getName());
+//                System.out.println(commit.getAuthorContributionMap().get(author));
+//                System.out.println(commit.getAuthorIssueMap().get(author));
+//            }
+//        }
+        RepoInfoFileGenerator.generateForNewestCommit("/Users/matanghao1/Developer/main/");
 
 
     }

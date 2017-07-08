@@ -2,6 +2,7 @@ package analyzer;
 
 import dataObject.CommitInfo;
 import dataObject.FileInfo;
+import dataObject.RepoInfo;
 import timetravel.GitChecker;
 import timetravel.GitLogger;
 
@@ -14,16 +15,16 @@ import java.util.HashMap;
 public class RepoAnalyzer {
 
 
-    public static ArrayList<CommitInfo> analyzeRecentNCommit(String repoRoot, int recent){
+    public static RepoInfo analyzeRecentNCommit(String repoRoot, int recent){
         ArrayList<CommitInfo> commits = GitLogger.getCommits(repoRoot, recent);
         processCommits(repoRoot, commits);
-        return commits;
+        return new RepoInfo(commits);
     }
 
-    public static ArrayList<CommitInfo> analyzeAllCommit(String repoRoot){
+    public static RepoInfo analyzeAllCommit(String repoRoot){
         ArrayList<CommitInfo> commits = GitLogger.getCommits(repoRoot);
         processCommits(repoRoot, commits);
-        return commits;
+        return new RepoInfo(commits);
     }
 
     private static void processCommits(String repoRoot, ArrayList<CommitInfo> commits){

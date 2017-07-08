@@ -10,18 +10,14 @@ import java.util.ArrayList;
  * Created by matanghao1 on 3/6/17.
  */
 public class BlameParser {
-    static public FileInfo blameSingleFile(String repoRoot, String relativePath){
-
-        ArrayList<Line> result = new ArrayList<Line>();
-        String raw = CommandRunner.blameRaw(repoRoot, relativePath);
-        if (raw.contains("\n")) {
-            String[] rawLines = raw.split("\n");
-            for (int i = 0; i < rawLines.length; i++) {
-                String authorName = getAuthorNameFromSingleLine(rawLines[i]);
-                result.add(new Line(i, authorName));
-            }
+    static public void aggregateBlameInfo(FileInfo fileInfo, String repoRoot){
+        String raw = CommandRunner.blameRaw(repoRoot, fileInfo.getPath());
+        String[] rawLines = raw.split("\n");
+        for (int i = 0; i < rawLines.length; i++) {
+            String authorName = getAuthorNameFromSingleLine(rawLines[i]);
+            fileInfo.getLines().get(i).setAuthorByName(authorName);
         }
-        return new FileInfo(relativePath,result);
+
     }
     static private String getAuthorNameFromSingleLine(String line) {
         return line.substring(line.indexOf(" ") + 1);

@@ -6,16 +6,21 @@ import java.util.ArrayList;
  * Created by matanghao1 on 29/5/17.
  */
 public class Line {
-    public Line(int lineNumber,String authorName) {
-        this.lineNumber = lineNumber;
-        this.author = new Author(authorName);
-        this.issues = new ArrayList<IssueInfo>();
-    }
+
 
     private int lineNumber;
     private Author author;
     private ArrayList<IssueInfo> issues;
 
+
+
+    private String content;
+
+    public Line(int lineNumber, String content) {
+        this.lineNumber = lineNumber;
+        this.issues = new ArrayList<>();
+        this.content = content;
+    }
 
     public ArrayList<IssueInfo> getIssues() {
         return issues;
@@ -36,6 +41,10 @@ public class Line {
         this.author = author;
     }
 
+    public void setAuthorByName(String authorName) {
+        this.author = new Author(authorName);
+    }
+
     public int getLineNumber() {
 
         return lineNumber;
@@ -43,6 +52,14 @@ public class Line {
 
     public void setLineNumber(int lineNumber) {
         this.lineNumber = lineNumber;
+    }
+
+    public String getContent() {
+        return content;
+    }
+
+    public void setContent(String content) {
+        this.content = content;
     }
 
     public boolean hasIssue(){

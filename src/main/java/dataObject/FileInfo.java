@@ -12,6 +12,11 @@ public class FileInfo {
 
     ArrayList<MethodInfo> methodInfos;
 
+    public FileInfo(String path) {
+        this.path = path;
+        this.lines = new ArrayList<>();
+    }
+
     public FileInfo(String path,ArrayList<Line> lines) {
         this.path = path;
         this.lines = lines;
