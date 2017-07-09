@@ -1,5 +1,8 @@
 package system;
 
+import util.Constants;
+import util.FileUtil;
+
 import java.io.*;
 
 /**
@@ -37,9 +40,17 @@ public class CommandRunner {
         return runCommand(rootFile, "java -jar checkstyle-7.7-all.jar -c /google_checks.xml -f xml " + absoluteDirectory);
     }
 
+    public static String cloneRepo(String org, String repoName){
+        File rootFile = new File(Constants.REPOS_ADDRESS + "/" + org);
+        if (!rootFile.exists()){
+            rootFile.mkdir();
+        }
+        return runCommand(rootFile, "git clone " + Constants.GITHUB_URL_ROOT + org + "/" + repoName);
+    }
 
 
-    public static String runCommand(File directory, String command) {
+
+    private static String runCommand(File directory, String command) {
         ProcessBuilder pb = new ProcessBuilder()
                 .command(new String[] {"bash", "-c" , command})
                 .directory(directory);

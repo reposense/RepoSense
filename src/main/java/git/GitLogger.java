@@ -1,4 +1,4 @@
-package timetravel;
+package git;
 
 import dataObject.Author;
 import dataObject.CommitInfo;

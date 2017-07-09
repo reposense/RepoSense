@@ -1,4 +1,4 @@
-package timetravel;
+package git;
 
 import dataObject.CommitInfo;
 import system.CommandRunner;
@@ -9,17 +9,18 @@ import system.CommandRunner;
 public class GitChecker {
 
     public static void checkOutToRecentBranch(String root){
-        checkoutToCommit(root,"-");
+        checkout(root,"-");
     }
 
 
     public static void checkOutToCommit(String root, CommitInfo commit){
         System.out.println("Checking out "+commit.getHash()+"time:"+commit.getTime());
-        checkoutToCommit(root,commit.getHash());
+        checkout(root,commit.getHash());
     }
 
-    private static void checkoutToCommit(String root, String commitHash){
+    public static void checkout(String root, String commitHash){
         CommandRunner.checkOut(root,commitHash);
     }
+
 }
 

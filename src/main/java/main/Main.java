@@ -5,8 +5,10 @@ import dataObject.Author;
 import dataObject.CommitInfo;
 import dataObject.FileInfo;
 import dataObject.MethodInfo;
+import git.GitCloner;
 import org.xml.sax.SAXException;
 import report.RepoInfoFileGenerator;
+import system.CommandRunner;
 
 import javax.xml.parsers.ParserConfigurationException;
 import java.io.File;
@@ -20,27 +22,10 @@ import java.util.HashMap;
  */
 public class Main {
     public static void main(String[] args) throws IOException, InterruptedException, ParserConfigurationException, SAXException, ParseException {
-      //  ArrayList<CommitInfo> map = RepoAnalyzer.analyzeRecentNCommit("/Users/matanghao1/Developer/main/",1);
-//        for (CommitInfo commit: map){
-//            ArrayList<FileInfo> files = commit.getFileinfos();
-//            for (FileInfo file:files){
-//                System.out.println(file.getPath());
-//                for (MethodInfo method: file.getMethodInfos()){
-//                    System.out.println(method.getMethodName());
-//                    System.out.println(method.getOwner().getName());
-//
-//                }
-//            }
-//        }
-//        for (CommitInfo commit: map){
-//            for (Author author:commit.getAuthorContributionMap().keySet()){
-//                System.out.println(author.getName());
-//                System.out.println(commit.getAuthorContributionMap().get(author));
-//                System.out.println(commit.getAuthorIssueMap().get(author));
-//            }
-//        }
-        RepoInfoFileGenerator.generateForNewestCommit("/Users/matanghao1/Developer/main/");
 
+        //RepoInfoFileGenerator.generateForNewestCommit("/Users/matanghao1/Developer/main/");
+        //CommandRunner.cloneRepo("https://github.com/cs2103aug2015-w09-4j/main")
+        GitCloner.downloadRepo("cs2103aug2015-w09-4j","main","develop");
 
     }
 

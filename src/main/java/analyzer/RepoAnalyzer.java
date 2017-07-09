@@ -1,13 +1,11 @@
 package analyzer;
 
 import dataObject.CommitInfo;
-import dataObject.FileInfo;
 import dataObject.RepoInfo;
-import timetravel.GitChecker;
-import timetravel.GitLogger;
+import git.GitChecker;
+import git.GitLogger;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 
 /**
  * Created by matanghao1 on 21/6/17.
