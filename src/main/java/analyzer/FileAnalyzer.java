@@ -20,7 +20,8 @@ public class FileAnalyzer {
     public static void analyzeAllFiles(String repoRoot, File directory,ArrayList<FileInfo> result){
 
         for (File file:directory.listFiles()){
-            String relativePath = file.getAbsolutePath().replaceFirst(repoRoot,"");
+
+            String relativePath = file.getPath().replaceFirst(repoRoot,"");
             if (shouldIgnore(relativePath)) continue;
             if (file.isDirectory()){
                 analyzeAllFiles(repoRoot, file,result);

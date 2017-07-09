@@ -23,9 +23,9 @@ import java.util.HashMap;
 public class Main {
     public static void main(String[] args) throws IOException, InterruptedException, ParserConfigurationException, SAXException, ParseException {
 
-        //RepoInfoFileGenerator.generateForNewestCommit("/Users/matanghao1/Developer/main/");
+        RepoInfoFileGenerator.generateForNewestCommit("cs2103aug2015-w09-4j","main","develop");
         //CommandRunner.cloneRepo("https://github.com/cs2103aug2015-w09-4j/main")
-        GitCloner.downloadRepo("cs2103aug2015-w09-4j","main","develop");
+        //GitCloner.downloadRepo("cs2103aug2015-w09-4j","main","develop");
 
     }
 

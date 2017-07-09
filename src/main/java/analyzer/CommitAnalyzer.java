@@ -53,11 +53,6 @@ public class CommitAnalyzer {
                 int lineCount = result.get(author);
                 lineCount += method.getTotalLines();
 
-                System.out.println("method:"+method.getMethodName());
-                System.out.println("method owner:"+method.getOwner().getName());
-                System.out.println("method lines:"+method.getTotalLines());
-                System.out.println();
-
                 result.put(author,lineCount);
             }
         }

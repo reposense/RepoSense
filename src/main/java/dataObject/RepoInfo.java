@@ -7,12 +7,32 @@ import java.util.ArrayList;
  */
 public class RepoInfo {
 
-
+    private String organization;
+    private String repoName;
     private ArrayList<CommitInfo> commits;
 
-    public RepoInfo(ArrayList<CommitInfo> commits) {
-        this.commits = commits;
+    public RepoInfo(String organization, String repoName) {
+        this.organization = organization;
+        this.repoName = repoName;
     }
+
+    public String getOrganization() {
+        return organization;
+    }
+
+    public void setOrganization(String organization) {
+        this.organization = organization;
+    }
+
+    public String getRepoName() {
+        return repoName;
+    }
+
+    public void setRepoName(String repoName) {
+        this.repoName = repoName;
+    }
+
+
 
     public ArrayList<CommitInfo> getCommits() {
 

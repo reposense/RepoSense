@@ -13,16 +13,16 @@ import java.util.ArrayList;
 public class RepoAnalyzer {
 
 
-    public static RepoInfo analyzeRecentNCommit(String repoRoot, int recent){
+    public static void analyzeRecentNCommit(String repoRoot, RepoInfo repo, int recent){
         ArrayList<CommitInfo> commits = GitLogger.getCommits(repoRoot, recent);
         processCommits(repoRoot, commits);
-        return new RepoInfo(commits);
+        repo.setCommits(commits);
     }
 
-    public static RepoInfo analyzeAllCommit(String repoRoot){
+    public static void analyzeAllCommit(String repoRoot, RepoInfo repo){
         ArrayList<CommitInfo> commits = GitLogger.getCommits(repoRoot);
         processCommits(repoRoot, commits);
-        return new RepoInfo(commits);
+        repo.setCommits(commits);
     }
 
     private static void processCommits(String repoRoot, ArrayList<CommitInfo> commits){

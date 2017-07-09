@@ -8,7 +8,7 @@ import java.io.File;
 public class FileUtil {
 
     public static String getRepoDirectory(String org, String repoName){
-        return Constants.REPOS_ADDRESS + "/" + org + "/" + repoName + "/";
+        return Constants.REPOS_ADDRESS + "/" + org + "/" + repoName+"/";
     }
 
     public static void deleteDirectory(String root)
