@@ -1,6 +1,7 @@
 package analyzer;
 
 import dataObject.CommitInfo;
+import dataObject.Configuration;
 import dataObject.RepoInfo;
 import git.GitChecker;
 import git.GitLogger;
@@ -13,23 +14,23 @@ import java.util.ArrayList;
 public class RepoAnalyzer {
 
 
-    public static void analyzeRecentNCommit(String repoRoot, RepoInfo repo, int recent){
-        ArrayList<CommitInfo> commits = GitLogger.getCommits(repoRoot, recent);
-        processCommits(repoRoot, commits);
+    public static void analyzeRecentNCommit(Configuration config, RepoInfo repo){
+        ArrayList<CommitInfo> commits = GitLogger.getCommits(config.getRepoRoot(), config.getCommitNum());
+        processCommits(config, commits);
         repo.setCommits(commits);
     }
 
-    public static void analyzeAllCommit(String repoRoot, RepoInfo repo){
-        ArrayList<CommitInfo> commits = GitLogger.getCommits(repoRoot);
-        processCommits(repoRoot, commits);
+    public static void analyzeAllCommit(Configuration config, RepoInfo repo){
+        ArrayList<CommitInfo> commits = GitLogger.getCommits(config.getRepoRoot());
+        processCommits(config, commits);
         repo.setCommits(commits);
     }
 
-    private static void processCommits(String repoRoot, ArrayList<CommitInfo> commits){
+    private static void processCommits(Configuration config, ArrayList<CommitInfo> commits){
         for (CommitInfo commitInfo : commits){
-            GitChecker.checkOutToCommit(repoRoot,commitInfo);
-            CommitAnalyzer.aggregateFileInfos(repoRoot,commitInfo);
+            GitChecker.checkOutToCommit(config.getRepoRoot(),commitInfo);
+            CommitAnalyzer.aggregateFileInfos(config,commitInfo);
         }
-        GitChecker.checkOutToRecentBranch(repoRoot);
+        GitChecker.checkOutToRecentBranch(config.getRepoRoot());
     }
 }
