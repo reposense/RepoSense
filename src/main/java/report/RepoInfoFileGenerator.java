@@ -17,6 +17,9 @@ import java.io.PrintWriter;
  */
 public class RepoInfoFileGenerator {
 
+    public static void test(){
+        System.out.println("bal");
+    }
     public static void generateForNewestCommit(Configuration config){
 
         GitCloner.downloadRepo(config.getOrganization(), config.getRepoName(), config.getBranch());
@@ -34,6 +37,8 @@ public class RepoInfoFileGenerator {
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
+
+        System.out.println("report Generated!");
 
     }
 
