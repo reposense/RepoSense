@@ -1,5 +1,6 @@
 package frontend;
 
+import dataObject.Configuration;
 import factory.ConfigurationFactory;
 import javafx.application.Application;
 
@@ -57,12 +58,16 @@ public class GitGrader extends Application {
         TextField branchText = new TextField("master");
         grid.add(branchText, 1, 3);
 
+        CheckBox checkStyleCb = new CheckBox("CheckStyle");
+        grid.add(checkStyleCb, 1, 4, 2, 1);
+
+
 
         Button btn = new Button("Analyze");
         HBox hbBtn = new HBox(10);
         hbBtn.setAlignment(Pos.BOTTOM_RIGHT);
         hbBtn.getChildren().add(btn);
-        grid.add(hbBtn, 1, 4);
+        grid.add(hbBtn, 1, 5);
 
 
         TextArea consoleText = TextAreaBuilder.create()
@@ -71,13 +76,11 @@ public class GitGrader extends Application {
                 .wrapText(true)
                 .editable(false)
                 .build();
-        grid.add(consoleText, 1, 5);
+        grid.add(consoleText, 1, 6);
 
         Console console = new Console(consoleText);
         PrintStream ps = new PrintStream(console, true);
         System.setOut(ps);
-        System.setErr(ps);
-
 
 
         btn.setOnAction(new EventHandler<ActionEvent>() {
@@ -89,24 +92,11 @@ public class GitGrader extends Application {
                         String org = orgText.getText();
                         String repoName = repoText.getText();
                         String branch = branchText.getText();
-                        consoleText.clear();
-                        RepoInfoFileGenerator.generateForNewestCommit(ConfigurationFactory.getCheckStyleConfig(org,repoName,branch));
+                        console.clear();
+                        Configuration config = new Configuration(org,repoName,branch);
+                        config.setNeedCheckStyle(checkStyleCb.isSelected());
+                        RepoInfoFileGenerator.generateForNewestCommit(config);
                         return 0;
-                    }
-
-                    @Override protected void succeeded() {
-                        super.succeeded();
-                        updateMessage("Done!");
-                    }
-
-                    @Override protected void cancelled() {
-                        super.cancelled();
-                        updateMessage("Cancelled!");
-                    }
-
-                    @Override protected void failed() {
-                        super.failed();
-                        updateMessage("Failed!");
                     }
                 };
                 new Thread(task).start();

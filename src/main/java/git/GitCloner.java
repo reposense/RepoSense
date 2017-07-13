@@ -17,16 +17,21 @@ public class GitCloner {
 
 
         try {
+            System.out.println("cloning start!");
             CommandRunner.cloneRepo(organization, repoName);
             System.out.println("cloning done!");
         } catch (RuntimeException e){
-            throw new RuntimeException("Repo does not exist!");
+            System.out.println("repo does not exist in Github! Analyze terminated.");
+            e.printStackTrace();
+            throw e;
         }
 
         try{
             GitChecker.checkout(FileUtil.getRepoDirectory(organization,repoName), branchName);
         } catch (RuntimeException e){
-            throw new RuntimeException("Branch does not exist!");
+            System.out.println("Branch does not exist! Analyze terminated.");
+            e.printStackTrace();
+            throw e;
         }
 
     }

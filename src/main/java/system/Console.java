@@ -25,4 +25,8 @@ public class Console extends OutputStream
         });
     }
 
+    public void clear(){
+        output.clear();
+    }
+
 }
