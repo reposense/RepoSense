@@ -58,8 +58,14 @@ public class GitGrader extends Application {
         TextField branchText = new TextField("master");
         grid.add(branchText, 1, 3);
 
+        Label numCommitLabel = new Label("How many Commits:");
+        grid.add(numCommitLabel, 0, 4);
+
+        TextField numCommitText = new TextField("5");
+        grid.add(numCommitText, 1, 4);
+
         CheckBox checkStyleCb = new CheckBox("CheckStyle");
-        grid.add(checkStyleCb, 1, 4, 2, 1);
+        grid.add(checkStyleCb, 1, 5, 2, 1);
 
 
 
@@ -67,7 +73,7 @@ public class GitGrader extends Application {
         HBox hbBtn = new HBox(10);
         hbBtn.setAlignment(Pos.BOTTOM_RIGHT);
         hbBtn.getChildren().add(btn);
-        grid.add(hbBtn, 1, 5);
+        grid.add(hbBtn, 1, 6);
 
 
         TextArea consoleText = TextAreaBuilder.create()
@@ -76,7 +82,7 @@ public class GitGrader extends Application {
                 .wrapText(true)
                 .editable(false)
                 .build();
-        grid.add(consoleText, 1, 6);
+        grid.add(consoleText, 1, 7);
 
         Console console = new Console(consoleText);
         PrintStream ps = new PrintStream(console, true);
@@ -93,8 +99,11 @@ public class GitGrader extends Application {
                         String repoName = repoText.getText();
                         String branch = branchText.getText();
                         console.clear();
+
                         Configuration config = new Configuration(org,repoName,branch);
                         config.setNeedCheckStyle(checkStyleCb.isSelected());
+                        config.setCommitNum(Integer.parseInt(numCommitText.getText()));
+
                         RepoInfoFileGenerator.generateForNewestCommit(config);
                         return 0;
                     }

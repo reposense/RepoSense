@@ -17,13 +17,9 @@ import java.io.PrintWriter;
  */
 public class RepoInfoFileGenerator {
 
-    public static void test(){
-        System.out.println("bal");
-    }
     public static void generateForNewestCommit(Configuration config){
 
         GitCloner.downloadRepo(config.getOrganization(), config.getRepoName(), config.getBranch());
-        String rootRepo = FileUtil.getRepoDirectory(config.getOrganization(), config.getRepoName());
         RepoInfo repoinfo = new RepoInfo(config.getOrganization(), config.getRepoName());
         RepoAnalyzer.analyzeRecentNCommit(config, repoinfo);
 
@@ -32,7 +28,7 @@ public class RepoInfoFileGenerator {
 
         try {
             PrintWriter out = new PrintWriter(getReportPath(config.getOrganization(), config.getRepoName()));
-            out.println(result);
+            out.println(attachJsPrefix(result));
             out.close();
         } catch (FileNotFoundException e) {
             e.printStackTrace();
@@ -42,8 +38,12 @@ public class RepoInfoFileGenerator {
 
     }
 
+    private static String attachJsPrefix(String original){
+        return "var resultJson = "+original;
+    }
+
     private static String getReportPath(String organization, String repoName){
-        return Constants.REPORT_ADDRESS + "/" + organization +"_" + repoName + "_" + System.currentTimeMillis() + ".json";
+        return Constants.REPORT_ADDRESS + "/result.js";
     }
 
 }

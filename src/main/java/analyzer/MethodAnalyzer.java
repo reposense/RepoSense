@@ -7,6 +7,7 @@ import com.github.javaparser.ast.body.MethodDeclaration;
 import com.github.javaparser.ast.visitor.VoidVisitorAdapter;
 import dataObject.Author;
 import dataObject.FileInfo;
+import dataObject.Line;
 import dataObject.MethodInfo;
 
 import java.io.FileInputStream;
@@ -34,10 +35,13 @@ public class MethodAnalyzer {
         ArrayList<MethodInfo> methods = methodVistor.getMethods();
         for (MethodInfo methodInfo : methods){
             HashMap<Author, Integer> countributorMap = new HashMap<>();
-            for (int line = methodInfo.getStart(); line<=methodInfo.getEnd();line++){
-                Author author = fileInfo.getLineByNumber(line).getAuthor();
+            for (int lineNum = methodInfo.getStart(); lineNum<=methodInfo.getEnd();lineNum++){
+                Line line = fileInfo.getLineByNumber(lineNum);
+                Author author = line.getAuthor();
                 int authorLineCount = countributorMap.getOrDefault(author,0);
                 countributorMap.put(author , authorLineCount+1);
+
+                line.setMethodInfo(methodInfo);
             }
             Author owner = Collections.max(countributorMap.entrySet(),(author1,author2) -> (author1.getValue() - author2.getValue())).getKey();
             methodInfo.setOwner(owner);

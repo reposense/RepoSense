@@ -12,6 +12,7 @@ public class Line {
     private Author author;
     private ArrayList<IssueInfo> issues;
 
+    private MethodInfo methodInfo;
 
 
     private String content;
@@ -65,4 +66,13 @@ public class Line {
     public boolean hasIssue(){
         return !issues.isEmpty();
     }
+
+    public MethodInfo getMethodInfo() {
+        return methodInfo;
+    }
+
+    public void setMethodInfo(MethodInfo methodInfo) {
+        this.methodInfo = methodInfo;
+    }
 }
+

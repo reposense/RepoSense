@@ -27,9 +27,14 @@ public class RepoAnalyzer {
     }
 
     private static void processCommits(Configuration config, ArrayList<CommitInfo> commits){
-        for (CommitInfo commitInfo : commits){
-            GitChecker.checkOutToCommit(config.getRepoRoot(),commitInfo);
-            CommitAnalyzer.aggregateFileInfos(config,commitInfo);
+        for (int i=0;i<commits.size();i++){
+            CommitInfo commit = commits.get(i);
+            GitChecker.checkOutToCommit(config.getRepoRoot(),commit);
+            CommitAnalyzer.aggregateFileInfos(config,commit);
+            if (i != (commits.size()-1)) {
+                commit.minify();
+            }
+
         }
         GitChecker.checkOutToRecentBranch(config.getRepoRoot());
     }

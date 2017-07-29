@@ -23,6 +23,9 @@ public class CommitInfo {
         this.message = message;
     }
 
+    public void minify() {
+        setFileinfos(null);
+    }
     public String getMessage() {
         return message;
     }
