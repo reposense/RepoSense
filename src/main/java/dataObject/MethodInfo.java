@@ -4,15 +4,20 @@ package dataObject;
  * Created by matanghao1 on 19/6/17.
  */
 public class MethodInfo {
+
+    private static int METHOD_IDENTIFIER_COUNT = 0;
+
     private int start;
     private int end;
     private String methodName;
     private Author owner;
+    private int methodUID;
 
     public MethodInfo(int start, int end, String methodName) {
         this.start = start;
         this.end = end;
         this.methodName = methodName;
+        this.methodUID = ++METHOD_IDENTIFIER_COUNT;
     }
 
     public String getMethodName() {
@@ -49,5 +54,13 @@ public class MethodInfo {
 
     public int getTotalLines(){
         return end - start + 1;
+    }
+
+    public int getMethodUID() {
+        return methodUID;
+    }
+
+    public void setMethodUID(int methodUID) {
+        this.methodUID = methodUID;
     }
 }

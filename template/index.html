@@ -20,7 +20,7 @@
 				data: resultJson,
 				methods: {
     				getMethodIdentifier: function (line) {
-      					return line.methodInfo == null ? '' : line.methodInfo.methodName
+      					return line.methodInfo == null ? '' : line.methodInfo.methodUID
     				},
     				getMethodOwnerName: function (line) {
       					return line.methodInfo == null ? '' : 'method owner : '+line.methodInfo.owner.name

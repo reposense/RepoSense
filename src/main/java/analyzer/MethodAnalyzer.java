@@ -53,6 +53,8 @@ public class MethodAnalyzer {
 
         ArrayList<MethodInfo> methods = new ArrayList<MethodInfo>();
 
+        int identifierCounter = 0;
+
         @Override
         public void visit(MethodDeclaration n, Void arg) {
             methods.add(new MethodInfo(n.getBegin().get().line,n.getEnd().get().line,n.getName().toString()));
