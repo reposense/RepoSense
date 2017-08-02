@@ -2,6 +2,9 @@ package dataObject;
 
 import util.FileUtil;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Created by matanghao1 on 10/7/17.
  */
@@ -11,12 +14,14 @@ public class Configuration {
     private String organization;
     private String repoName;
     private String branch;
+    private List<String> ignoreList;
 
 
     public Configuration(String organization, String repoName, String branch) {
         this.organization = organization;
         this.repoName = repoName;
         this.branch = branch;
+        this.ignoreList = new ArrayList<>();
     }
 
     public String getRepoRoot(){
@@ -61,5 +66,13 @@ public class Configuration {
 
     public void setBranch(String branch) {
         this.branch = branch;
+    }
+
+    public List<String> getIgnoreList() {
+        return ignoreList;
+    }
+
+    public void setIgnoreList(List<String> ignoreList) {
+        this.ignoreList = ignoreList;
     }
 }

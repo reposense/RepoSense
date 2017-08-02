@@ -9,6 +9,7 @@ import java.text.SimpleDateFormat;
 public class Constants {
     public static final String REPORT_ADDRESS = "report";
     public static final String REPOS_ADDRESS = "repos";
+    public static final String TEMPLATE_ADDRESS = "template";
 
     public static final String GITHUB_URL_ROOT = "https://github.com/";
 

@@ -19,6 +19,9 @@ import report.RepoInfoFileGenerator;
 import system.Console;
 
 import java.io.PrintStream;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import java.util.concurrent.ExecutionException;
 
 /**
@@ -64,8 +67,24 @@ public class GitGrader extends Application {
         TextField numCommitText = new TextField("5");
         grid.add(numCommitText, 1, 4);
 
+        Label ignoreListLabel = new Label("ignore list:");
+        grid.add(ignoreListLabel, 0, 5);
+
+        TextArea ignoreListText  = TextAreaBuilder.create()
+                .prefWidth(300)
+                .prefHeight(100)
+                .wrapText(true)
+                .promptText("(one entry each line)")
+                .build();
+        grid.add(ignoreListText, 1, 5);
+
+
+        Label qualityCheckLabel = new Label("Quality Check:");
+        grid.add(qualityCheckLabel, 0, 6);
+
+
         CheckBox checkStyleCb = new CheckBox("CheckStyle");
-        grid.add(checkStyleCb, 1, 5, 2, 1);
+        grid.add(checkStyleCb, 1, 6, 2, 1);
 
 
 
@@ -73,7 +92,7 @@ public class GitGrader extends Application {
         HBox hbBtn = new HBox(10);
         hbBtn.setAlignment(Pos.BOTTOM_RIGHT);
         hbBtn.getChildren().add(btn);
-        grid.add(hbBtn, 1, 6);
+        grid.add(hbBtn, 1, 7);
 
 
         TextArea consoleText = TextAreaBuilder.create()
@@ -82,7 +101,7 @@ public class GitGrader extends Application {
                 .wrapText(true)
                 .editable(false)
                 .build();
-        grid.add(consoleText, 1, 7);
+        grid.add(consoleText, 1, 8);
 
         Console console = new Console(consoleText);
         PrintStream ps = new PrintStream(console, true);
@@ -104,7 +123,10 @@ public class GitGrader extends Application {
                         config.setNeedCheckStyle(checkStyleCb.isSelected());
                         config.setCommitNum(Integer.parseInt(numCommitText.getText()));
 
-                        RepoInfoFileGenerator.generateForNewestCommit(config);
+                        List<String> ignoreList = Arrays.asList(ignoreListText.getText().split("\n"));
+                        config.setIgnoreList(ignoreList);
+
+                        RepoInfoFileGenerator.generateReport(config);
                         return 0;
                     }
                 };
@@ -112,7 +134,7 @@ public class GitGrader extends Application {
             }
         });
 
-        Scene scene = new Scene(grid, 600, 550);
+        Scene scene = new Scene(grid, 800, 600);
         primaryStage.setScene(scene);
         primaryStage.show();
     }

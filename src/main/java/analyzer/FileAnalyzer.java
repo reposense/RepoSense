@@ -10,20 +10,19 @@ import system.CommandRunner;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 /**
  * Created by matanghao1 on 28/5/17.
  */
 public class FileAnalyzer {
 
-    private static final String[] ignoredList = new String[] {"org/",".git",".log", ".class",".classpath","bin/",".gitignore",".DS_Store",".project"};
-
     public static void analyzeAllFiles(Configuration config, File directory, ArrayList<FileInfo> result){
 
         for (File file:directory.listFiles()){
 
             String relativePath = file.getPath().replaceFirst(config.getRepoRoot(),"");
-            if (shouldIgnore(relativePath)) continue;
+            if (shouldIgnore(relativePath, config.getIgnoreList())) continue;
             if (file.isDirectory()){
                 analyzeAllFiles(config, file,result);
             }else{
@@ -58,8 +57,8 @@ public class FileAnalyzer {
         return result;
     }
 
-    private static boolean shouldIgnore(String name) {
-        for (String element : ignoredList) {
+    private static boolean shouldIgnore(String name, List<String> ignoreList) {
+        for (String element : ignoreList) {
             if (name.contains(element)) return true;
         }
         return false;
