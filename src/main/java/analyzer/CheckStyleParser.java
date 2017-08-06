@@ -2,7 +2,7 @@ package analyzer;
 
 import dataObject.FileInfo;
 import dataObject.IssueInfo;
-import dataObject.Line;
+import dataObject.LineInfo;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
@@ -38,7 +38,7 @@ public class CheckStyleParser {
 
             int lineNumber = Integer.parseInt(element.getAttribute(LINE));
 
-            Line line = fileInfo.getLineByNumber(lineNumber);
+            LineInfo line = fileInfo.getLineByNumber(lineNumber);
             line.getIssues().add(new IssueInfo(severity,message));
         }
     }

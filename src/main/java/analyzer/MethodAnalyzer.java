@@ -7,7 +7,7 @@ import com.github.javaparser.ast.body.MethodDeclaration;
 import com.github.javaparser.ast.visitor.VoidVisitorAdapter;
 import dataObject.Author;
 import dataObject.FileInfo;
-import dataObject.Line;
+import dataObject.LineInfo;
 import dataObject.MethodInfo;
 
 import java.io.FileInputStream;
@@ -36,7 +36,7 @@ public class MethodAnalyzer {
         for (MethodInfo methodInfo : methods){
             HashMap<Author, Integer> countributorMap = new HashMap<>();
             for (int lineNum = methodInfo.getStart(); lineNum<=methodInfo.getEnd();lineNum++){
-                Line line = fileInfo.getLineByNumber(lineNum);
+                LineInfo line = fileInfo.getLineByNumber(lineNum);
                 Author author = line.getAuthor();
                 int authorLineCount = countributorMap.getOrDefault(author,0);
                 countributorMap.put(author , authorLineCount+1);

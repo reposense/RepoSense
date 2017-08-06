@@ -15,6 +15,7 @@ public class Configuration {
     private String repoName;
     private String branch;
     private List<String> ignoreList;
+    private boolean annotationOverwrite = false;
 
 
     public Configuration(String organization, String repoName, String branch) {
@@ -74,5 +75,13 @@ public class Configuration {
 
     public void setIgnoreList(List<String> ignoreList) {
         this.ignoreList = ignoreList;
+    }
+
+    public boolean isAnnotationOverwrite() {
+        return annotationOverwrite;
+    }
+
+    public void setAnnotationOverwrite(boolean annotationOverwrite) {
+        this.annotationOverwrite = annotationOverwrite;
     }
 }

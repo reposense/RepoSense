@@ -5,7 +5,7 @@ import java.util.ArrayList;
 /**
  * Created by matanghao1 on 29/5/17.
  */
-public class Line {
+public class LineInfo {
 
 
     private int lineNumber;
@@ -17,7 +17,7 @@ public class Line {
 
     private String content;
 
-    public Line(int lineNumber, String content) {
+    public LineInfo(int lineNumber, String content) {
         this.lineNumber = lineNumber;
         this.issues = new ArrayList<>();
         this.content = content;

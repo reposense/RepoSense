@@ -8,7 +8,7 @@ import java.util.ArrayList;
 public class FileInfo {
 
     String path;
-    ArrayList<Line> lines;
+    ArrayList<LineInfo> lines;
 
     ArrayList<MethodInfo> methodInfos;
 
@@ -17,20 +17,20 @@ public class FileInfo {
         this.lines = new ArrayList<>();
     }
 
-    public FileInfo(String path,ArrayList<Line> lines) {
+    public FileInfo(String path,ArrayList<LineInfo> lines) {
         this.path = path;
         this.lines = lines;
     }
 
-    public Line getLineByNumber(int num){
+    public LineInfo getLineByNumber(int num){
         return lines.get(num - 1);
     }
 
-    public ArrayList<Line> getLines() {
+    public ArrayList<LineInfo> getLines() {
         return lines;
     }
 
-    public void setLines(ArrayList<Line> lines) {
+    public void setLines(ArrayList<LineInfo> lines) {
         this.lines = lines;
     }
 

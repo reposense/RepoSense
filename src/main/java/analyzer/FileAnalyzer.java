@@ -1,15 +1,12 @@
 package analyzer;
 
 
-import dataObject.Author;
 import dataObject.Configuration;
 import dataObject.FileInfo;
-import dataObject.Line;
-import system.CommandRunner;
+import dataObject.LineInfo;
 
 import java.io.*;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -32,6 +29,9 @@ public class FileAnalyzer {
                 if (config.isNeedCheckStyle()) {
                     CheckStyleParser.aggregateStyleIssue(fileInfo, config.getRepoRoot());
                 }
+                if (config.isAnnotationOverwrite()) {
+                    AnnotatorAnalyzer.aggregateAnnotationAuthorInfo(fileInfo);
+                }
                 MethodAnalyzer.aggregateMethodInfo(fileInfo,config.getRepoRoot());
                 result.add(fileInfo);
             }
@@ -46,7 +46,7 @@ public class FileAnalyzer {
             String line;
             int lineNum = 1;
             while ((line = br.readLine()) != null) {
-                result.getLines().add(new Line(lineNum,line));
+                result.getLines().add(new LineInfo(lineNum,line));
                 lineNum += 1;
             }
         } catch (FileNotFoundException e) {

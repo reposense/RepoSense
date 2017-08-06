@@ -87,12 +87,16 @@ public class GitGrader extends Application {
         grid.add(checkStyleCb, 1, 6, 2, 1);
 
 
+        CheckBox annotationCb = new CheckBox("Annotation Overwrite");
+        grid.add(annotationCb, 1, 7, 2, 1);
+
+
 
         Button btn = new Button("Analyze");
         HBox hbBtn = new HBox(10);
         hbBtn.setAlignment(Pos.BOTTOM_RIGHT);
         hbBtn.getChildren().add(btn);
-        grid.add(hbBtn, 1, 7);
+        grid.add(hbBtn, 1, 8);
 
 
         TextArea consoleText = TextAreaBuilder.create()
@@ -101,7 +105,7 @@ public class GitGrader extends Application {
                 .wrapText(true)
                 .editable(false)
                 .build();
-        grid.add(consoleText, 1, 8);
+        grid.add(consoleText, 1, 9);
 
         Console console = new Console(consoleText);
         PrintStream ps = new PrintStream(console, true);
@@ -122,6 +126,7 @@ public class GitGrader extends Application {
                         Configuration config = new Configuration(org,repoName,branch);
                         config.setNeedCheckStyle(checkStyleCb.isSelected());
                         config.setCommitNum(Integer.parseInt(numCommitText.getText()));
+                        config.setAnnotationOverwrite(annotationCb.isSelected());
 
                         List<String> ignoreList = Arrays.asList(ignoreListText.getText().split("\n"));
                         config.setIgnoreList(ignoreList);

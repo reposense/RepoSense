@@ -23,7 +23,7 @@ public class CommitAnalyzer {
     private static HashMap<Author, Integer> getAuthorIssueCount(ArrayList<FileInfo> files){
         HashMap<Author, Integer> result = new HashMap<Author, Integer>();
         for (FileInfo fileInfo : files){
-            for (Line line:fileInfo.getLines()){
+            for (LineInfo line:fileInfo.getLines()){
                 if (line.hasIssue()){
 
                     Author author = line.getAuthor();
