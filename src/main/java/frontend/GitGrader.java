@@ -1,7 +1,7 @@
 package frontend;
 
+import builder.ConfigurationBuilder;
 import dataObject.Configuration;
-import factory.ConfigurationFactory;
 import javafx.application.Application;
 
 import javafx.concurrent.Task;
@@ -19,10 +19,8 @@ import report.RepoInfoFileGenerator;
 import system.Console;
 
 import java.io.PrintStream;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.concurrent.ExecutionException;
 
 /**
  * Created by matanghao1 on 11/7/17.
@@ -123,13 +121,12 @@ public class GitGrader extends Application {
                         String branch = branchText.getText();
                         console.clear();
 
-                        Configuration config = new Configuration(org,repoName,branch);
-                        config.setNeedCheckStyle(checkStyleCb.isSelected());
-                        config.setCommitNum(Integer.parseInt(numCommitText.getText()));
-                        config.setAnnotationOverwrite(annotationCb.isSelected());
-
-                        List<String> ignoreList = Arrays.asList(ignoreListText.getText().split("\n"));
-                        config.setIgnoreList(ignoreList);
+                        Configuration config = new ConfigurationBuilder(org,repoName,branch)
+                                .needCheckStyle(checkStyleCb.isSelected())
+                                .annotationOverwrite(annotationCb.isSelected())
+                                .commitNum(Integer.parseInt(numCommitText.getText()))
+                                .ignoreList(Arrays.asList(ignoreListText.getText().split("\n")))
+                                .build();
 
                         RepoInfoFileGenerator.generateReport(config);
                         return 0;

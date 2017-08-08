@@ -14,7 +14,7 @@ public class Configuration {
     private String organization;
     private String repoName;
     private String branch;
-    private List<String> ignoreList;
+    private List<String> ignoreList = new ArrayList<>();
     private boolean annotationOverwrite = false;
 
 
@@ -22,7 +22,6 @@ public class Configuration {
         this.organization = organization;
         this.repoName = repoName;
         this.branch = branch;
-        this.ignoreList = new ArrayList<>();
     }
 
     public String getRepoRoot(){
