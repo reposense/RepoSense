@@ -9,8 +9,7 @@
 		<script src="scripts/lib/charts.js"></script>
 		<script src="scripts/lib/vue.js"></script>
 		<script type="text/javascript" src="scripts/utils.js"></script>
-		<script type="text/javascript" src="scripts/analysis.js"></script>
-
+		<script type="text/javascript" src="scripts/table-data-formating.js"></script>
 		<script>
 		$(document).ready(function() {
 		$( "#tabs" ).tabs();
@@ -19,13 +18,13 @@
 				el: '#code-style-app',
 				data: resultJson,
 				methods: {
-    				getMethodIdentifier: function (line) {
-      					return line.methodInfo == null ? '' : line.methodInfo.methodUID
-    				},
-    				getMethodOwnerName: function (line) {
-      					return line.methodInfo == null ? '' : 'method owner : '+line.methodInfo.owner.name
-    				}
-  				}
+				getMethodIdentifier: function (line) {
+					return line.methodInfo == null ? '' : line.methodInfo.methodUID
+				},
+				getMethodOwnerName: function (line) {
+					return line.methodInfo == null ? '' : 'method owner : '+line.methodInfo.owner.name
+				}
+				}
 			});
 			$( "#code-style-app" ).accordion({
 				collapsible: true,
@@ -33,23 +32,24 @@
 			});
 		});
 		</script>
-
 		<script type="text/javascript" src="scripts/codeEffects.js"></script>
-
 	</head>
 	<body>
 		<div id="tabs">
 			<ul>
 				<li><a href="#contribution-progress">Contribution Progress</a></li>
-				<li><a href="#tabs-2">Proin dolor</a></li>
+				<li><a href="#tabs-2">Issue Progress</a></li>
 				<li><a href="#tabs-3">Aenean lacinia</a></li>
 			</ul>
 			<div id="contribution-progress">
-				<div id="container1" style="width: 90%;">
+				<div style="width: 90%;">
 					<canvas id="contribution-progress-canvas"></canvas>
 				</div>
 			</div>
 			<div id="tabs-2">
+				<div style="width: 90%;">
+					<canvas id="issue-progress-canvas"></canvas>
+				</div>
 			</div>
 			<div id="tabs-3">
 				
@@ -57,22 +57,22 @@
 		</div>
 		<div id="code-style-app" >
 			<template v-for="file in commits[commits.length-1].fileinfos">
-				<h3>{{ file.path }}</h3>
-				<div>
-					<template v-for="line in file.lines">
-						<div class="row">
-							<div class="col-md-1 author-col">{{ line.author.name }}</div>
-							<div class="col-md-3 issue-col">
-								<span v-if="line.issues.length==0"> &nbsp; </span>
-								<ul v-for="issue in line.issues">
-									<li>{{issue.message}}</li>
-								</ul>
-							</div>
-							<div class="col-md-1 line-number">{{ line.lineNumber }}</div>
-							<div class="col-md-7 line-content " v-bind:id="getMethodIdentifier(line)" v-bind:title="getMethodOwnerName(line)" ><pre>{{line.content}}</pre></div>
-						</div>
-					</template>
+			<h3>{{ file.path }}</h3>
+			<div>
+				<template v-for="line in file.lines">
+				<div class="row">
+					<div class="col-md-1 author-col">{{ line.author.name }}</div>
+					<div class="col-md-3 issue-col">
+						<span v-if="line.issues.length==0"> &nbsp; </span>
+						<ul v-for="issue in line.issues">
+							<li>{{issue.message}}</li>
+						</ul>
+					</div>
+					<div class="col-md-1 line-number">{{ line.lineNumber }}</div>
+					<div class="col-md-7 line-content " v-bind:id="getMethodIdentifier(line)" v-bind:title="getMethodOwnerName(line)" ><pre>{{line.content}}</pre></div>
 				</div>
+				</template>
+			</div>
 			</template>
 		</div>
 	</body>

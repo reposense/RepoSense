@@ -19,6 +19,7 @@ import report.RepoInfoFileGenerator;
 import system.Console;
 
 import java.io.PrintStream;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -44,13 +45,13 @@ public class GitGrader extends Application {
         Label orgLabel = new Label("Organization:");
         grid.add(orgLabel, 0, 1);
 
-        TextField orgText = new TextField("cs2103aug2015-w09-4j");
+        TextField orgText = new TextField("se-edu");
         grid.add(orgText, 1, 1);
 
         Label repoLabel = new Label("Repo Name:");
         grid.add(repoLabel, 0, 2);
 
-        TextField repoText = new TextField("main");
+        TextField repoText = new TextField("addressbook-level4");
         grid.add(repoText, 1, 2);
 
         Label branchLabel = new Label("Branch Name:");
@@ -125,7 +126,7 @@ public class GitGrader extends Application {
                                 .needCheckStyle(checkStyleCb.isSelected())
                                 .annotationOverwrite(annotationCb.isSelected())
                                 .commitNum(Integer.parseInt(numCommitText.getText()))
-                                .ignoreList(Arrays.asList(ignoreListText.getText().split("\n")))
+                                .ignoreList(getIgnoreListFromRaw(ignoreListText.getText()))
                                 .build();
 
                         RepoInfoFileGenerator.generateReport(config);
@@ -139,5 +140,13 @@ public class GitGrader extends Application {
         Scene scene = new Scene(grid, 800, 600);
         primaryStage.setScene(scene);
         primaryStage.show();
+    }
+
+    private List<String> getIgnoreListFromRaw(String raw){
+        if ("".equals(raw)){
+            return new ArrayList<>();
+        }else{
+            return Arrays.asList(raw.split("\n"));
+        }
     }
 }

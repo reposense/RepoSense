@@ -13,7 +13,7 @@ public class CommitAnalyzer {
 
     public static void aggregateFileInfos(Configuration config, CommitInfo commitInfo){
         ArrayList<FileInfo> result = new ArrayList<FileInfo>();
-        FileAnalyzer.analyzeAllFiles(config, new File(config.getRepoRoot()),result);
+        FileAnalyzer.analyzeAllFiles(config, new File(config.getRepoRoot()), result);
         commitInfo.setFileinfos(result);
         commitInfo.setAuthorIssueMap(getAuthorIssueCount(commitInfo.getFileinfos()));
         commitInfo.setAuthorContributionMap(getAuthorMethodContributionCount(commitInfo.getFileinfos()));
