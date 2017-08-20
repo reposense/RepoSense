@@ -5,10 +5,7 @@ import com.github.javaparser.ast.CompilationUnit;
 import com.github.javaparser.ast.body.ConstructorDeclaration;
 import com.github.javaparser.ast.body.MethodDeclaration;
 import com.github.javaparser.ast.visitor.VoidVisitorAdapter;
-import dataObject.Author;
-import dataObject.FileInfo;
-import dataObject.LineInfo;
-import dataObject.MethodInfo;
+import dataObject.*;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -20,10 +17,10 @@ import java.util.HashMap;
  * Created by matanghao1 on 19/6/17.
  */
 public class MethodAnalyzer {
-    public static void aggregateMethodInfo(FileInfo fileInfo, String rootRepo){
+    public static void aggregateMethodInfo(FileInfo fileInfo, Configuration config){
         FileInputStream in = null;
         try {
-            in = new FileInputStream(rootRepo + "/" + fileInfo.getPath());
+            in = new FileInputStream(config.getRepoRoot() + "/" + fileInfo.getPath());
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }

@@ -1,5 +1,6 @@
 package builder;
 
+import dataObject.Author;
 import dataObject.Configuration;
 
 import java.util.List;
@@ -30,10 +31,15 @@ public class ConfigurationBuilder {
           return this;
       }
 
-      public ConfigurationBuilder ignoreList(List<String> list) {
-          config.setIgnoreList(list);
+      public ConfigurationBuilder ignoreDirectoryList(List<String> list) {
+          config.setIgnoreDirectoryList(list);
           return this;
       }
+
+    public ConfigurationBuilder ignoreAuthorList(List<Author> list) {
+        config.setIgnoreAuthorList(list);
+        return this;
+    }
 
       public Configuration build() {
           return config;

@@ -14,14 +14,20 @@ import java.util.List;
  */
 public class FileAnalyzer {
 
-    public static void analyzeAllFiles(Configuration config, File directory, ArrayList<FileInfo> result){
+    public static ArrayList<FileInfo> analyzeAllFiles(Configuration config) {
+        ArrayList<FileInfo> result = new ArrayList<>();
+        analyzeAllFilesRecursive(config, new File(config.getRepoRoot()),result);
+        return result;
+    }
+
+    private static void analyzeAllFilesRecursive(Configuration config, File directory, ArrayList<FileInfo> result){
 
         for (File file:directory.listFiles()){
 
             String relativePath = file.getPath().replaceFirst(config.getRepoRoot(),"");
-            if (shouldIgnore(relativePath, config.getIgnoreList())) continue;
+            if (shouldIgnore(relativePath, config.getIgnoreDirectoryList())) continue;
             if (file.isDirectory()){
-                analyzeAllFiles(config, file,result);
+                analyzeAllFilesRecursive(config, file,result);
             }else{
                 if (!relativePath.endsWith(".java")) continue;
                 FileInfo fileInfo = generateFileInfo(config.getRepoRoot(),relativePath);
@@ -32,7 +38,10 @@ public class FileAnalyzer {
                 if (config.isAnnotationOverwrite()) {
                     AnnotatorAnalyzer.aggregateAnnotationAuthorInfo(fileInfo);
                 }
-                MethodAnalyzer.aggregateMethodInfo(fileInfo,config.getRepoRoot());
+                if (fileInfo.isAllAuthorsIgnored(config.getIgnoreAuthorList())){
+                    continue;
+                }
+                MethodAnalyzer.aggregateMethodInfo(fileInfo,config);
                 result.add(fileInfo);
             }
         }

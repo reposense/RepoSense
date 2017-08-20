@@ -14,7 +14,8 @@ public class Configuration {
     private String organization;
     private String repoName;
     private String branch;
-    private List<String> ignoreList = new ArrayList<>();
+    private List<String> ignoreDirectoryList = new ArrayList<>();
+    private List<Author> ignoreAuthorList = new ArrayList<>();
     private boolean annotationOverwrite = false;
 
 
@@ -68,19 +69,27 @@ public class Configuration {
         this.branch = branch;
     }
 
-    public List<String> getIgnoreList() {
-        return ignoreList;
-    }
-
-    public void setIgnoreList(List<String> ignoreList) {
-        this.ignoreList = ignoreList;
-    }
-
     public boolean isAnnotationOverwrite() {
         return annotationOverwrite;
     }
 
     public void setAnnotationOverwrite(boolean annotationOverwrite) {
         this.annotationOverwrite = annotationOverwrite;
+    }
+
+    public List<Author> getIgnoreAuthorList() {
+        return ignoreAuthorList;
+    }
+
+    public void setIgnoreAuthorList(List<Author> ignoreAuthorList) {
+        this.ignoreAuthorList = ignoreAuthorList;
+    }
+
+    public List<String> getIgnoreDirectoryList() {
+        return ignoreDirectoryList;
+    }
+
+    public void setIgnoreDirectoryList(List<String> ignoreDirectoryList) {
+        this.ignoreDirectoryList = ignoreDirectoryList;
     }
 }

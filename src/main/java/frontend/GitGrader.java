@@ -1,6 +1,7 @@
 package frontend;
 
 import builder.ConfigurationBuilder;
+import dataObject.Author;
 import dataObject.Configuration;
 import javafx.application.Application;
 
@@ -66,7 +67,7 @@ public class GitGrader extends Application {
         TextField numCommitText = new TextField("5");
         grid.add(numCommitText, 1, 4);
 
-        Label ignoreListLabel = new Label("ignore list:");
+        Label ignoreListLabel = new Label("ignore directories:");
         grid.add(ignoreListLabel, 0, 5);
 
         TextArea ignoreListText  = TextAreaBuilder.create()
@@ -77,17 +78,28 @@ public class GitGrader extends Application {
                 .build();
         grid.add(ignoreListText, 1, 5);
 
+        Label ignoreAuthorListLabel = new Label("ignore authors:");
+        grid.add(ignoreAuthorListLabel, 0, 6);
+
+        TextArea ignoreAuthorListText  = TextAreaBuilder.create()
+                .prefWidth(300)
+                .prefHeight(100)
+                .wrapText(true)
+                .promptText("(one entry each line)")
+                .build();
+        grid.add(ignoreAuthorListText, 1, 6);
+
 
         Label qualityCheckLabel = new Label("Quality Check:");
-        grid.add(qualityCheckLabel, 0, 6);
+        grid.add(qualityCheckLabel, 0, 7);
 
 
         CheckBox checkStyleCb = new CheckBox("CheckStyle");
-        grid.add(checkStyleCb, 1, 6, 2, 1);
+        grid.add(checkStyleCb, 1, 7, 2, 1);
 
 
         CheckBox annotationCb = new CheckBox("Annotation Overwrite");
-        grid.add(annotationCb, 1, 7, 2, 1);
+        grid.add(annotationCb, 1, 8, 2, 1);
 
 
 
@@ -95,7 +107,7 @@ public class GitGrader extends Application {
         HBox hbBtn = new HBox(10);
         hbBtn.setAlignment(Pos.BOTTOM_RIGHT);
         hbBtn.getChildren().add(btn);
-        grid.add(hbBtn, 1, 8);
+        grid.add(hbBtn, 1, 9);
 
 
         TextArea consoleText = TextAreaBuilder.create()
@@ -104,7 +116,7 @@ public class GitGrader extends Application {
                 .wrapText(true)
                 .editable(false)
                 .build();
-        grid.add(consoleText, 1, 9);
+        grid.add(consoleText, 1, 10);
 
         Console console = new Console(consoleText);
         PrintStream ps = new PrintStream(console, true);
@@ -126,7 +138,8 @@ public class GitGrader extends Application {
                                 .needCheckStyle(checkStyleCb.isSelected())
                                 .annotationOverwrite(annotationCb.isSelected())
                                 .commitNum(Integer.parseInt(numCommitText.getText()))
-                                .ignoreList(getIgnoreListFromRaw(ignoreListText.getText()))
+                                .ignoreDirectoryList(getStringListFromRaw(ignoreListText.getText()))
+                                .ignoreAuthorList(getAuthorListFromRaw(ignoreAuthorListText.getText()))
                                 .build();
 
                         RepoInfoFileGenerator.generateReport(config);
@@ -142,7 +155,16 @@ public class GitGrader extends Application {
         primaryStage.show();
     }
 
-    private List<String> getIgnoreListFromRaw(String raw){
+    private List<Author> getAuthorListFromRaw(String raw) {
+        List<String> stringResult =  getStringListFromRaw(raw);
+        List<Author> result = new ArrayList<>();
+        for (String authorName: stringResult){
+            result.add(new Author(authorName));
+        }
+        return result;
+    }
+
+    private List<String> getStringListFromRaw(String raw){
         if ("".equals(raw)){
             return new ArrayList<>();
         }else{

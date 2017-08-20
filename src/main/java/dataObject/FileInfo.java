@@ -1,6 +1,7 @@
 package dataObject;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by matanghao1 on 3/6/17.
@@ -49,6 +50,15 @@ public class FileInfo {
 
     public void setMethodInfos(ArrayList<MethodInfo> methodInfos) {
         this.methodInfos = methodInfos;
+    }
+
+    public boolean isAllAuthorsIgnored(List<Author> ignoredAuthors){
+        for (LineInfo line: lines) {
+            if (!ignoredAuthors.contains(line.getAuthor())){
+                return false;
+            }
+        }
+        return true;
     }
 
 }
