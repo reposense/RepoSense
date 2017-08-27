@@ -1,3 +1,15 @@
+div.content-container {
+	width: 90vw;
+	float:right;
+}
+
+div.author-name-menu-container {
+	width: 7vw;
+	float:left;
+	position: fixed;
+
+}
+
 div.code-container {
 
 }

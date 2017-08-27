@@ -2,7 +2,7 @@
 	<head>
 		<link rel="stylesheet" href="css/jquery-ui.css">
 		<link rel="stylesheet" href="css/bootstrap.min.css">
-		<link rel="stylesheet" href="css/code-table.css">
+		<link rel="stylesheet" href="css/style.css">
 		<script type="text/javascript" src="result.js"></script>
 		<script src="scripts/lib/jquery-1.12.4.js"></script>
 		<script src="scripts/lib/jquery-ui.js"></script>
@@ -12,10 +12,8 @@
 		<script type="text/javascript" src="scripts/table-data-formating.js"></script>
 		<script>
 		$(document).ready(function() {
-		$( "#tabs" ).tabs();
-			
 			var app = new Vue({
-				el: '#code-style-app',
+				el: '#vue-app',
 				data: resultJson,
 				methods: {
 				getMethodIdentifier: function (line) {
@@ -23,6 +21,9 @@
 				},
 				getMethodOwnerName: function (line) {
 					return line.methodInfo == null ? '' : 'method owner : '+line.methodInfo.owner.name
+				},
+				getAuthorLink : function (author) {
+					return "?author=" + author
 				}
 				}
 			});
@@ -30,50 +31,67 @@
 				collapsible: true,
 				heightStyle: "content"
 			});
+			$( ".author-name-menu" ).menu({
+				items: "> :not(.ui-widget-header)"
+			});
+			$( ".tabs" ).tabs();
 		});
 		</script>
 		<script type="text/javascript" src="scripts/codeEffects.js"></script>
 	</head>
 	<body>
-		<div id="tabs">
-			<ul>
-				<li><a href="#contribution-progress">Contribution Progress</a></li>
-				<li><a href="#tabs-2">Issue Progress</a></li>
-				<li><a href="#tabs-3">Aenean lacinia</a></li>
-			</ul>
-			<div id="contribution-progress">
-				<div style="width: 90%;">
-					<canvas id="contribution-progress-canvas"></canvas>
-				</div>
+		<div id="vue-app">
+			<div class="author-name-menu-container">
+				<ul class="author-name-menu">
+					<li class="ui-widget-header"><div>Authors</div></li>
+					<li><a href="?">All</a></li>
+					<template v-for="(k,author) in commits[0].authorContributionMap">
+						<li><a v-bind:href="getAuthorLink(author)">{{ author }}</a></li>
+					</template>
+				</ul>
 			</div>
-			<div id="tabs-2">
-				<div style="width: 90%;">
-					<canvas id="issue-progress-canvas"></canvas>
-				</div>
-			</div>
-			<div id="tabs-3">
-				
-			</div>
-		</div>
-		<div id="code-style-app" >
-			<template v-for="file in commits[commits.length-1].fileinfos">
-			<h3>{{ file.path }}</h3>
-			<div>
-				<template v-for="line in file.lines">
-				<div class="row">
-					<div class="col-md-1 author-col">{{ line.author.name }}</div>
-					<div class="col-md-3 issue-col">
-						<span v-if="line.issues.length==0"> &nbsp; </span>
-						<ul v-for="issue in line.issues">
-							<li>{{issue.message}}</li>
-						</ul>
+			<div class="content-container">
+				<div class="tabs">
+					<ul>
+						<li><a href="#contribution-progress">Contribution Progress</a></li>
+						<li><a href="#tabs-2">Issue Progress</a></li>
+						<li><a href="#tabs-3">Aenean lacinia</a></li>
+					</ul>
+					<div id="contribution-progress">
+						<div style="width: 90%;">
+							<canvas id="contribution-progress-canvas"></canvas>
+						</div>
 					</div>
-					<div class="col-md-1 line-number">{{ line.lineNumber }}</div>
-					<div class="col-md-7 line-content " v-bind:id="getMethodIdentifier(line)" v-bind:title="getMethodOwnerName(line)" ><pre>{{line.content}}</pre></div>
+					<div id="tabs-2">
+						<div style="width: 90%;">
+							<canvas id="issue-progress-canvas"></canvas>
+						</div>
+					</div>
+					<div id="tabs-3">
+						
+					</div>
 				</div>
-				</template>
+				<div id="code-style-app" >
+					<template v-for="file in commits[commits.length-1].fileinfos">
+					<h3>{{ file.path }}</h3>
+					<div>
+						<template v-for="line in file.lines">
+						<div class="row">
+							<div class="col-md-1 author-col">{{ line.author.name }}</div>
+							<div class="col-md-3 issue-col">
+								<span v-if="line.issues.length==0"> &nbsp; </span>
+								<ul v-for="issue in line.issues">
+									<li>{{issue.message}}</li>
+								</ul>
+							</div>
+							<div class="col-md-1 line-number">{{ line.lineNumber }}</div>
+							<div class="col-md-7 line-content " v-bind:id="getMethodIdentifier(line)" v-bind:title="getMethodOwnerName(line)" ><pre>{{line.content}}</pre></div>
+						</div>
+						</template>
+					</div>
+					</template>
+				</div>
 			</div>
-			</template>
 		</div>
 	</body>
 </html>

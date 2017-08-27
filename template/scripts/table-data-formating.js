@@ -17,7 +17,6 @@ var prepareChartData = function(datasetName) {
             }
             resultMap[author].push(rawDataMap[author]);
         }
-        normalizeResult(resultMap, i + 1);
 
     }
 
