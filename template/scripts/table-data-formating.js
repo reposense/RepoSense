@@ -1,75 +1,85 @@
-//console.log(resultJson['commits'][0]['authorContributionMap']);
-
-
-
-var prepareChartData = function(datasetName) {
+var prepareChartData = function(author) {
     var commitsLength = resultJson['commits'].length;
-    var resultMap = {};
     var labels = []
+    var countributionData = [];
+    var issueData = [];
 
     for (var i = 0; i < commitsLength; i++) {
         var currentCommit = resultJson['commits'][i];
         labels.push(currentCommit['time']);
-        var rawDataMap = currentCommit[datasetName];
-        for (var author in rawDataMap) {
-            if (!(author in resultMap)) {
-                resultMap[author] = zeros(i);
-            }
-            resultMap[author].push(rawDataMap[author]);
-        }
-
+        countributionData.push(currentCommit['authorContributionMap'][author]);
+        issueData.push(currentCommit['authorIssueMap'][author]);
     }
 
     var datasets = [];
 
-    for (author in resultMap) {
-        var authorData = {
-            label: author,
-            backgroundColor: dynamicColors(),
-            borderWidth: 1,
-            data: resultMap[author]
-        }
-        datasets.push(authorData);
-    }
-
-    var barChartData = {
+    var lineChartData = {
         labels: labels,
-        datasets: datasets
+        datasets: [{
+            label: "Contribution",
+            borderColor: "rgb(0,0,255)",
+            backgroundColor: "rgb(0,0,255)",
+            fill: false,
+            data: countributionData,
+            yAxisID: "contribution",
+        }, {
+            label: "Issues",
+            borderColor: "rgb(255,0,0)",
+            backgroundColor: "rgb(255,0,0)",
+            fill: false,
+            data: issueData,
+            yAxisID: "issue",
+        }]
 
     };
-    return barChartData;
+    return lineChartData;
 }
 
 window.onload = function() {
-    var ctx1 = document.getElementById("contribution-progress-canvas").getContext("2d");
-    window.bar1 = new Chart(ctx1, {
-        type: 'bar',
-        data: prepareChartData('authorContributionMap'),
-        options: {
-            responsive: true,
-            legend: {
-                position: 'top',
-            },
-            title: {
-                display: true,
-                text: 'contribution progress'
-            }
+    var currentAuthor = getQueryVariable('author');
+    for (author in resultJson['commits'][0].authorContributionMap) {
+        if (currentAuthor == null || currentAuthor == author) {
+            var ctx = document.getElementById(getLegalClassName(author) + "-progress-canvas").getContext("2d");
+            Chart.Line(ctx, {
+                data: prepareChartData(author),
+                options: {
+                    responsive: true,
+                    hoverMode: 'index',
+                    stacked: false,
+                    title: {
+                        display: true,
+                        text: author + "'s contribution and issue progress"
+                    },
+                    scales: {
+                        yAxes: [{
+                            type: "linear", // only linear but allow scale type registration. This allows extensions to exist solely for log scale for instance
+                            display: true,
+                            position: "left",
+                            id: "contribution",
+                            scaleLabel: {
+                                display: true,
+                                labelString: 'contribution'
+                            }
+                        }, {
+                            type: "linear", // only linear but allow scale type registration. This allows extensions to exist solely for log scale for instance
+                            display: true,
+                            position: "right",
+                            id: "issue",
+
+                            // grid line settings
+                            gridLines: {
+                                drawOnChartArea: false, // only want the grid lines for one axis to show up
+                            },
+                            scaleLabel: {
+                                display: true,
+                                labelString: 'issue'
+                            }
+                        }],
+                    }
+                }
+            });
+
         }
-    });
-    var ctx2 = document.getElementById("issue-progress-canvas").getContext("2d");
-    window.bar2 = new Chart(ctx2, {
-        type: 'bar',
-        data: prepareChartData('authorIssueMap'),
-        options: {
-            responsive: true,
-            legend: {
-                position: 'top',
-            },
-            title: {
-                display: true,
-                text: 'contribution progress'
-            }
-        }
-    });
+    }
 
 };

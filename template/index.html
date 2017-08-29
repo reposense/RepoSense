@@ -22,8 +22,20 @@
 				getMethodOwnerName: function (line) {
 					return line.methodInfo == null ? '' : 'method owner : '+line.methodInfo.owner.name
 				},
-				getAuthorLink : function (author) {
+				getAuthorUrlQuery : function (author) {
 					return "?author=" + author
+				},
+				getAuthorTabLink : function (author) {
+					return "#" + getLegalClassName(author);
+				},
+				getAuthorContributionCanvasID : function (author) {
+					return getLegalClassName(author) + "-progress-canvas";
+				},
+				getLegalClassName : function (author) {
+					return getLegalClassName(author);
+				},
+				getCurrentAuthor : function() {
+					return getQueryVariable('author');
 				}
 				}
 			});
@@ -45,38 +57,31 @@
 				<ul class="author-name-menu">
 					<li class="ui-widget-header"><div>Authors</div></li>
 					<li><a href="?">All</a></li>
-					<template v-for="(k,author) in commits[0].authorContributionMap">
-						<li><a v-bind:href="getAuthorLink(author)">{{ author }}</a></li>
-					</template>
+					<li v-for="(k,author) in commits[0].authorContributionMap">
+						<a v-bind:href="getAuthorUrlQuery(author)">{{ author }}</a>
+					</li>
 				</ul>
 			</div>
 			<div class="content-container">
 				<div class="tabs">
 					<ul>
-						<li><a href="#contribution-progress">Contribution Progress</a></li>
-						<li><a href="#tabs-2">Issue Progress</a></li>
-						<li><a href="#tabs-3">Aenean lacinia</a></li>
+						<li v-for="(k,author) in commits[0].authorContributionMap">
+							<a v-if="getCurrentAuthor()==null || getCurrentAuthor() == author" v-bind:href="getAuthorTabLink(author)">{{ author}} </a>
+						</li>
 					</ul>
-					<div id="contribution-progress">
+					<template v-for="(k,author) in commits[0].authorContributionMap">
+					<div v-if="getCurrentAuthor()==null || getCurrentAuthor() == author" v-bind:id="getLegalClassName(author)">
 						<div style="width: 90%;">
-							<canvas id="contribution-progress-canvas"></canvas>
+							<canvas v-bind:id="getAuthorContributionCanvasID(author)"></canvas>
 						</div>
 					</div>
-					<div id="tabs-2">
-						<div style="width: 90%;">
-							<canvas id="issue-progress-canvas"></canvas>
-						</div>
-					</div>
-					<div id="tabs-3">
-						
-					</div>
+					</template>
 				</div>
 				<div id="code-style-app" >
 					<template v-for="file in commits[commits.length-1].fileinfos">
 					<h3>{{ file.path }}</h3>
 					<div>
-						<template v-for="line in file.lines">
-						<div class="row">
+						<div class="row" v-for="line in file.lines">
 							<div class="col-md-1 author-col">{{ line.author.name }}</div>
 							<div class="col-md-3 issue-col">
 								<span v-if="line.issues.length==0"> &nbsp; </span>
@@ -87,7 +92,6 @@
 							<div class="col-md-1 line-number">{{ line.lineNumber }}</div>
 							<div class="col-md-7 line-content " v-bind:id="getMethodIdentifier(line)" v-bind:title="getMethodOwnerName(line)" ><pre>{{line.content}}</pre></div>
 						</div>
-						</template>
 					</div>
 					</template>
 				</div>
