@@ -14,7 +14,10 @@
 		$(document).ready(function() {
 			var app = new Vue({
 				el: '#vue-app',
-				data: resultJson,
+				data: {
+					currentAuthor : getQueryVariable('author'),
+					result : resultJson
+				},
 				methods: {
 				getMethodIdentifier: function (line) {
 					return line.methodInfo == null ? '' : line.methodInfo.methodUID
@@ -34,8 +37,19 @@
 				getLegalClassName : function (author) {
 					return getLegalClassName(author);
 				},
-				getCurrentAuthor : function() {
-					return getQueryVariable('author');
+				containAuthorLine : function(file, authorName){
+					for (i=0; i<file.lines.length;i++){
+						if (file.lines[i].author.name == authorName){
+							return true;
+						}
+					}
+					return false;
+				},
+				shouldDisplayLine : function(line, authorName){
+					if (authorName == null || line.author.name == authorName || (line.methodInfo != null && line.methodInfo.owner.name == authorName)){
+						return true;
+					}
+					return false;
 				}
 				}
 			});
@@ -57,7 +71,7 @@
 				<ul class="author-name-menu">
 					<li class="ui-widget-header"><div>Authors</div></li>
 					<li><a href="?">All</a></li>
-					<li v-for="(k,author) in commits[0].authorContributionMap">
+					<li v-for="(k,author) in result.commits[0].authorContributionMap">
 						<a v-bind:href="getAuthorUrlQuery(author)">{{ author }}</a>
 					</li>
 				</ul>
@@ -65,12 +79,12 @@
 			<div class="content-container">
 				<div class="tabs">
 					<ul>
-						<li v-for="(k,author) in commits[0].authorContributionMap">
-							<a v-if="getCurrentAuthor()==null || getCurrentAuthor() == author" v-bind:href="getAuthorTabLink(author)">{{ author}} </a>
+						<li v-for="(k,author) in result.commits[0].authorContributionMap">
+							<a v-if="currentAuthor==null || currentAuthor == author" v-bind:href="getAuthorTabLink(author)">{{ author}} </a>
 						</li>
 					</ul>
-					<template v-for="(k,author) in commits[0].authorContributionMap">
-					<div v-if="getCurrentAuthor()==null || getCurrentAuthor() == author" v-bind:id="getLegalClassName(author)">
+					<template v-for="(k,author) in result.commits[0].authorContributionMap">
+					<div v-if="getCurrentAuthor()==null || currentAuthor == author" v-bind:id="getLegalClassName(author)">
 						<div style="width: 90%;">
 							<canvas v-bind:id="getAuthorContributionCanvasID(author)"></canvas>
 						</div>
@@ -78,21 +92,27 @@
 					</template>
 				</div>
 				<div id="code-style-app" >
-					<template v-for="file in commits[commits.length-1].fileinfos">
-					<h3>{{ file.path }}</h3>
-					<div>
-						<div class="row" v-for="line in file.lines">
-							<div class="col-md-1 author-col">{{ line.author.name }}</div>
-							<div class="col-md-3 issue-col">
-								<span v-if="line.issues.length==0"> &nbsp; </span>
-								<ul v-for="issue in line.issues">
-									<li>{{issue.message}}</li>
-								</ul>
+					<template v-for="file in result.commits[result.commits.length-1].fileinfos">
+						<template v-if="containAuthorLine(file, currentAuthor) || currentAuthor == null">
+							<h3>{{ file.path }}</h3>
+							<div>
+								<template v-for="line in file.lines">
+									<template v-if="shouldDisplayLine(line, currentAuthor)">
+										<div class="row">
+											<div class="col-md-1 author-col">{{ line.author.name }}</div>
+											<div class="col-md-3 issue-col">
+												<span v-if="line.issues.length==0"> &nbsp; </span>
+												<ul v-for="issue in line.issues">
+													<li>{{issue.message}}</li>
+												</ul>
+											</div>
+											<div class="col-md-1 line-number" >{{ line.lineNumber }}</div>
+											<div class="col-md-7 line-content " v-bind:id="getMethodIdentifier(line)" v-bind:title="getMethodOwnerName(line)" ><pre>{{line.content}}</pre></div>
+										</div>
+									</template>
+								</template>
 							</div>
-							<div class="col-md-1 line-number">{{ line.lineNumber }}</div>
-							<div class="col-md-7 line-content " v-bind:id="getMethodIdentifier(line)" v-bind:title="getMethodOwnerName(line)" ><pre>{{line.content}}</pre></div>
-						</div>
-					</div>
+						</template>
 					</template>
 				</div>
 			</div>

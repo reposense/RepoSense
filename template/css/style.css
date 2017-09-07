@@ -39,3 +39,7 @@ pre {
 {
     background-color:Silver;
 }
+
+div.highlighted {
+	background-color: #66ccff;
+}
