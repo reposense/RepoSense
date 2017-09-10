@@ -78,16 +78,16 @@ public class GitGrader extends Application {
                 .build();
         grid.add(ignoreListText, 1, 5);
 
-        Label ignoreAuthorListLabel = new Label("ignore authors:");
-        grid.add(ignoreAuthorListLabel, 0, 6);
+        Label authorListLabel = new Label("Authors:");
+        grid.add(authorListLabel, 0, 6);
 
-        TextArea ignoreAuthorListText  = TextAreaBuilder.create()
+        TextArea authorListText  = TextAreaBuilder.create()
                 .prefWidth(300)
                 .prefHeight(100)
                 .wrapText(true)
-                .promptText("(one entry each line)")
+                .promptText("(one entry each line, leaves empty if you want to include all)")
                 .build();
-        grid.add(ignoreAuthorListText, 1, 6);
+        grid.add(authorListText, 1, 6);
 
 
         Label qualityCheckLabel = new Label("Quality Check:");
@@ -139,7 +139,7 @@ public class GitGrader extends Application {
                                 .annotationOverwrite(annotationCb.isSelected())
                                 .commitNum(Integer.parseInt(numCommitText.getText()))
                                 .ignoreDirectoryList(getStringListFromRaw(ignoreListText.getText()))
-                                .ignoreAuthorList(getAuthorListFromRaw(ignoreAuthorListText.getText()))
+                                .authorList(getAuthorListFromRaw(authorListText.getText()))
                                 .build();
 
                         RepoInfoFileGenerator.generateReport(config);

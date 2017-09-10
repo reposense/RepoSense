@@ -15,19 +15,19 @@ public class CommitAnalyzer {
     public static void aggregateFileInfos(Configuration config, CommitInfo commitInfo){
         ArrayList<FileInfo> result = FileAnalyzer.analyzeAllFiles(config);
         commitInfo.setFileinfos(result);
-        commitInfo.setAuthorIssueMap(getAuthorIssueCount(commitInfo.getFileinfos(),config.getIgnoreAuthorList()));
-        commitInfo.setAuthorContributionMap(getAuthorMethodContributionCount(commitInfo.getFileinfos(),config.getIgnoreAuthorList()));
+        commitInfo.setAuthorIssueMap(getAuthorIssueCount(commitInfo.getFileinfos(),config.getAuthorList()));
+        commitInfo.setAuthorContributionMap(getAuthorMethodContributionCount(commitInfo.getFileinfos(),config.getAuthorList()));
 
     }
 
-    private static HashMap<Author, Integer> getAuthorIssueCount(ArrayList<FileInfo> files, List<Author> ignoredAuthors){
+    private static HashMap<Author, Integer> getAuthorIssueCount(ArrayList<FileInfo> files, List<Author> authors){
         HashMap<Author, Integer> result = new HashMap<Author, Integer>();
         for (FileInfo fileInfo : files){
             for (LineInfo line:fileInfo.getLines()){
                 if (line.hasIssue()){
 
                     Author author = line.getAuthor();
-                    if (ignoredAuthors.contains(author)) continue;
+                    if (!authors.isEmpty() && !authors.contains(author)) continue;
                     if (!result.containsKey(author)){
                         result.put(author,0);
                     }
@@ -40,13 +40,13 @@ public class CommitAnalyzer {
         return result;
     }
 
-    private static HashMap<Author, Integer> getAuthorMethodContributionCount(ArrayList<FileInfo> files, List<Author> ignoredAuthors){
+    private static HashMap<Author, Integer> getAuthorMethodContributionCount(ArrayList<FileInfo> files, List<Author> authors){
         HashMap<Author, Integer> result = new HashMap<Author, Integer>();
         for (FileInfo fileInfo : files){
             for (MethodInfo method:fileInfo.getMethodInfos()){
 
                 Author author = method.getOwner();
-                if (ignoredAuthors.contains(author)) continue;
+                if (!authors.isEmpty() && !authors.contains(author)) continue;
 
                 if (!result.containsKey(author)){
                     result.put(author,0);

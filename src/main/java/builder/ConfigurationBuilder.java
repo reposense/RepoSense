@@ -36,8 +36,8 @@ public class ConfigurationBuilder {
           return this;
       }
 
-    public ConfigurationBuilder ignoreAuthorList(List<Author> list) {
-        config.setIgnoreAuthorList(list);
+    public ConfigurationBuilder authorList(List<Author> list) {
+        config.setAuthorList(list);
         return this;
     }
 

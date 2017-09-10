@@ -84,7 +84,7 @@
 						</li>
 					</ul>
 					<template v-for="(k,author) in result.commits[0].authorContributionMap">
-					<div v-if="getCurrentAuthor()==null || currentAuthor == author" v-bind:id="getLegalClassName(author)">
+					<div v-if="currentAuthor ==null || currentAuthor == author" v-bind:id="getLegalClassName(author)">
 						<div style="width: 90%;">
 							<canvas v-bind:id="getAuthorContributionCanvasID(author)"></canvas>
 						</div>

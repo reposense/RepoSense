@@ -38,7 +38,7 @@ public class FileAnalyzer {
                 if (config.isAnnotationOverwrite()) {
                     AnnotatorAnalyzer.aggregateAnnotationAuthorInfo(fileInfo);
                 }
-                if (fileInfo.isAllAuthorsIgnored(config.getIgnoreAuthorList())){
+                if (!config.getAuthorList().isEmpty() && fileInfo.isAllAuthorsIgnored(config.getAuthorList())){
                     continue;
                 }
                 MethodAnalyzer.aggregateMethodInfo(fileInfo,config);

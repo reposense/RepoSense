@@ -52,9 +52,9 @@ public class FileInfo {
         this.methodInfos = methodInfos;
     }
 
-    public boolean isAllAuthorsIgnored(List<Author> ignoredAuthors){
+    public boolean isAllAuthorsIgnored(List<Author> listedAuthors){
         for (LineInfo line: lines) {
-            if (!ignoredAuthors.contains(line.getAuthor())){
+            if (listedAuthors.contains(line.getAuthor())){
                 return false;
             }
         }
