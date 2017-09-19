@@ -16,7 +16,8 @@
 				el: '#vue-app',
 				data: {
 					currentAuthor : getQueryVariable('author'),
-					result : resultJson
+					result : resultJson,
+					authors : Object.keys(resultJson.commits[0].authorContributionMap)
 				},
 				methods: {
 				getMethodIdentifier: function (line) {
@@ -45,9 +46,21 @@
 					}
 					return false;
 				},
-				shouldDisplayLine : function(line, authorName){
-					if (authorName == null || line.author.name == authorName || (line.methodInfo != null && line.methodInfo.owner.name == authorName)){
-						return true;
+				shouldDisplayLine : function(line, currentAuthor, authors){
+					if (currentAuthor == null){
+						if (authors.includes(line.author.name)){
+							return true;
+						}
+						if (line.methodInfo!=null && authors.includes(line.methodInfo.owner.name)){
+							return true;
+						}
+					} else{
+						if (line.author.name == currentAuthor){
+							return true;
+						}
+						if (line.methodInfo != null && line.methodInfo.owner.name == currentAuthor){
+							return true;
+						}
 					}
 					return false;
 				}
@@ -71,7 +84,7 @@
 				<ul class="author-name-menu">
 					<li class="ui-widget-header"><div>Authors</div></li>
 					<li><a href="?">All</a></li>
-					<li v-for="(k,author) in result.commits[0].authorContributionMap">
+					<li v-for="author in authors">
 						<a v-bind:href="getAuthorUrlQuery(author)">{{ author }}</a>
 					</li>
 				</ul>
@@ -79,11 +92,11 @@
 			<div class="content-container">
 				<div class="tabs">
 					<ul>
-						<li v-for="(k,author) in result.commits[0].authorContributionMap">
+						<li v-for="author in authors">
 							<a v-if="currentAuthor==null || currentAuthor == author" v-bind:href="getAuthorTabLink(author)">{{ author}} </a>
 						</li>
 					</ul>
-					<template v-for="(k,author) in result.commits[0].authorContributionMap">
+					<template v-for="author in authors">
 					<div v-if="currentAuthor ==null || currentAuthor == author" v-bind:id="getLegalClassName(author)">
 						<div style="width: 90%;">
 							<canvas v-bind:id="getAuthorContributionCanvasID(author)"></canvas>
@@ -97,7 +110,7 @@
 							<h3>{{ file.path }}</h3>
 							<div>
 								<template v-for="line in file.lines">
-									<template v-if="shouldDisplayLine(line, currentAuthor)">
+									<template v-if="shouldDisplayLine(line, currentAuthor,authors)">
 										<div class="row">
 											<div class="col-md-1 author-col">{{ line.author.name }}</div>
 											<div class="col-md-3 issue-col">
