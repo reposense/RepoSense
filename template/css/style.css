@@ -18,8 +18,11 @@ div.row {
 }
 
 div.issue-col {
-  border-right: 3px solid  #8B4513	;
     border-left: 1px solid  #8B4513	;
+}
+
+div.author-col {
+	  border-right: 3px solid  #8B4513	;
 
 }
 
@@ -33,6 +36,7 @@ pre {
 	transparent;
 	padding: 0;
 	margin: 0;
+	overflow: hidden;
 }
 
 .hover

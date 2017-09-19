@@ -113,14 +113,8 @@
 									<template v-if="shouldDisplayLine(line, currentAuthor,authors)">
 										<div class="row">
 											<div class="col-md-1 author-col">{{ line.author.name }}</div>
-											<div class="col-md-3 issue-col">
-												<span v-if="line.issues.length==0"> &nbsp; </span>
-												<ul v-for="issue in line.issues">
-													<li>{{issue.message}}</li>
-												</ul>
-											</div>
 											<div class="col-md-1 line-number" >{{ line.lineNumber }}</div>
-											<div class="col-md-7 line-content " v-bind:id="getMethodIdentifier(line)" v-bind:title="getMethodOwnerName(line)" ><pre>{{line.content}}</pre></div>
+											<div class="col-md-10 line-content " v-bind:id="getMethodIdentifier(line)" v-bind:title="getMethodOwnerName(line)" ><pre>{{line.content}}</pre></div>
 										</div>
 									</template>
 								</template>
