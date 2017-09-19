@@ -12,12 +12,12 @@ public class CommandRunner {
 
     public static String gitLog(String root){
         File rootFile = new File(root);
-        return runCommand(rootFile, "git log --reverse --pretty=format:\"%h|%an|%ad|%s\" --date=iso");
+        return runCommand(rootFile, "git log --reverse --no-merges --pretty=format:\"%h|%an|%ad|%s\" --date=iso --shortstat | sed '/^$/d'");
     }
 
     public static String gitLog(String root, int last){
         File rootFile = new File(root);
-        return runCommand(rootFile, "git log --reverse --pretty=format:\"%h|%an|%ad|%s\" --date=iso -n " + last);
+        return runCommand(rootFile, "git log --reverse --no-merges --pretty=format:\"%h|%an|%ad|%s\" --date=iso --shortstat -n " + last +" | sed '/^$/d'");
     }
 
     public static void checkOut(String root, String hash){

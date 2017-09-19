@@ -15,12 +15,16 @@ public class CommitInfo {
     private ArrayList<FileInfo> fileinfos;
     private HashMap<Author, Integer> authorIssueMap;
     private HashMap<Author, Integer> authorContributionMap;
+    private int insertions;
+    private int deletions;
 
-    public CommitInfo(Author author, String hash, Date time, String message) {
+    public CommitInfo(Author author, String hash, Date time, String message, int insertions, int deletions) {
         this.author = author;
         this.hash = hash;
         this.time = time;
         this.message = message;
+        this.insertions = insertions;
+        this.deletions = deletions;
     }
 
     public void minify() {
@@ -80,5 +84,21 @@ public class CommitInfo {
 
     public void setAuthorContributionMap(HashMap<Author, Integer> authorContributionMap) {
         this.authorContributionMap = authorContributionMap;
+    }
+
+    public int getInsertions() {
+        return insertions;
+    }
+
+    public void setInsertions(int insertions) {
+        this.insertions = insertions;
+    }
+
+    public int getDeletions() {
+        return deletions;
+    }
+
+    public void setDeletions(int deletions) {
+        this.deletions = deletions;
     }
 }

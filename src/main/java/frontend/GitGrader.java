@@ -46,13 +46,13 @@ public class GitGrader extends Application {
         Label orgLabel = new Label("Organization:");
         grid.add(orgLabel, 0, 1);
 
-        TextField orgText = new TextField("se-edu");
+        TextField orgText = new TextField("cs2103aug2015-w09-4j");
         grid.add(orgText, 1, 1);
 
         Label repoLabel = new Label("Repo Name:");
         grid.add(repoLabel, 0, 2);
 
-        TextField repoText = new TextField("addressbook-level4");
+        TextField repoText = new TextField("main");
         grid.add(repoText, 1, 2);
 
         Label branchLabel = new Label("Branch Name:");
