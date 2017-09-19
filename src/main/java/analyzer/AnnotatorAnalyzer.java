@@ -14,7 +14,6 @@ import java.util.regex.Pattern;
 public class AnnotatorAnalyzer {
 
     private static final String AUTHOR_TAG = "@@author";
-    private static final String AUTHOR_END_TAG = "@@end_author";
     private static final String REGEX_AUTHOR_NAME_FORMAT = "([a-zA-Z0-9][a-zA-Z0-9-]*[a-zA-Z0-9])";
     private static final Pattern PATTERN_AUTHOR_NAME_FORMAT = Pattern.compile(REGEX_AUTHOR_NAME_FORMAT);
     private static final int MATCHER_GROUP_AUTHOR_NAME = 1;
@@ -25,14 +24,8 @@ public class AnnotatorAnalyzer {
         for (LineInfo line: fileInfo.getLines()){
             if (line.getContent().contains(AUTHOR_TAG)){
                 //set a new author
-                Author tempAuthor = findAuthorInLine(line.getContent());
-                if (tempAuthor != null){
-                    currentAuthor = tempAuthor;
-                }
-            } else if (line.getContent().contains((AUTHOR_END_TAG))){
-                currentAuthor = null;
+                currentAuthor = findAuthorInLine(line.getContent());
             }
-
             if (currentAuthor != null){
                 line.setAuthor(currentAuthor);
             }
