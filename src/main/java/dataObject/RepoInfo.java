@@ -1,6 +1,7 @@
 package dataObject;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by matanghao1 on 8/7/17.
@@ -9,7 +10,7 @@ public class RepoInfo {
 
     private String organization;
     private String repoName;
-    private ArrayList<CommitInfo> commits;
+    private List<CommitInfo> commits;
 
     public RepoInfo(String organization, String repoName) {
         this.organization = organization;
@@ -34,12 +35,12 @@ public class RepoInfo {
 
 
 
-    public ArrayList<CommitInfo> getCommits() {
+    public List<CommitInfo> getCommits() {
 
         return commits;
     }
 
-    public void setCommits(ArrayList<CommitInfo> commits) {
+    public void setCommits(List<CommitInfo> commits) {
         this.commits = commits;
     }
 

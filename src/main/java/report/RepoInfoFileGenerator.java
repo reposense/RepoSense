@@ -19,7 +19,7 @@ public class RepoInfoFileGenerator {
 
         GitCloner.downloadRepo(config.getOrganization(), config.getRepoName(), config.getBranch());
         RepoInfo repoinfo = new RepoInfo(config.getOrganization(), config.getRepoName());
-        RepoAnalyzer.analyzeRecentNCommit(config, repoinfo);
+        RepoAnalyzer.analyzeCommits(config, repoinfo);
 
         String reportName = generateReportDirectoryName(config.getOrganization(), config.getRepoName());
 

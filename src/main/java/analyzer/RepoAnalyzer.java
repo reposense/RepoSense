@@ -9,6 +9,7 @@ import git.GitLogger;
 
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 
 /**
  * Created by matanghao1 on 21/6/17.
@@ -16,20 +17,14 @@ import java.util.HashSet;
 public class RepoAnalyzer {
 
 
-    public static void analyzeRecentNCommit(Configuration config, RepoInfo repo){
-        ArrayList<CommitInfo> commits = GitLogger.getCommits(config.getRepoRoot(), config.getCommitNum());
+    public static void analyzeCommits(Configuration config, RepoInfo repo){
+        List<CommitInfo> commits = GitLogger.getCommits(config.getRepoRoot(), config);
         processCommits(config, commits);
         formatAuthorContributionMaps(commits);
         repo.setCommits(commits);
     }
 
-    public static void analyzeAllCommit(Configuration config, RepoInfo repo){
-        ArrayList<CommitInfo> commits = GitLogger.getCommits(config.getRepoRoot());
-        processCommits(config, commits);
-        repo.setCommits(commits);
-    }
-
-    private static void formatAuthorContributionMaps(ArrayList<CommitInfo> commits) {
+    private static void formatAuthorContributionMaps(List<CommitInfo> commits) {
         HashSet<Author> authors = new HashSet<>();
         for (CommitInfo commit : commits) {
             for (Author author : commit.getAuthorIssueMap().keySet()) {
@@ -55,7 +50,7 @@ public class RepoAnalyzer {
         }
     }
 
-    private static void processCommits(Configuration config, ArrayList<CommitInfo> commits){
+    private static void processCommits(Configuration config, List<CommitInfo> commits){
         for (int i=0;i<commits.size();i++){
             CommitInfo commit = commits.get(i);
             GitChecker.checkOutToCommit(config.getRepoRoot(),commit);

@@ -61,12 +61,6 @@ public class GitGrader extends Application {
         TextField branchText = new TextField("master");
         grid.add(branchText, 1, 3);
 
-        Label numCommitLabel = new Label("How many Commits:");
-        grid.add(numCommitLabel, 0, 4);
-
-        TextField numCommitText = new TextField("5");
-        grid.add(numCommitText, 1, 4);
-
         Label ignoreListLabel = new Label("ignore directories:");
         grid.add(ignoreListLabel, 0, 5);
 
@@ -89,17 +83,8 @@ public class GitGrader extends Application {
                 .build();
         grid.add(authorListText, 1, 6);
 
-
-        Label qualityCheckLabel = new Label("Quality Check:");
-        grid.add(qualityCheckLabel, 0, 7);
-
-
-        CheckBox checkStyleCb = new CheckBox("CheckStyle");
-        grid.add(checkStyleCb, 1, 7, 2, 1);
-
-
         CheckBox annotationCb = new CheckBox("Annotation Overwrite");
-        grid.add(annotationCb, 1, 8, 2, 1);
+        grid.add(annotationCb, 1, 7, 2, 1);
 
 
 
@@ -107,7 +92,7 @@ public class GitGrader extends Application {
         HBox hbBtn = new HBox(10);
         hbBtn.setAlignment(Pos.BOTTOM_RIGHT);
         hbBtn.getChildren().add(btn);
-        grid.add(hbBtn, 1, 9);
+        grid.add(hbBtn, 1, 8);
 
 
         TextArea consoleText = TextAreaBuilder.create()
@@ -116,7 +101,7 @@ public class GitGrader extends Application {
                 .wrapText(true)
                 .editable(false)
                 .build();
-        grid.add(consoleText, 1, 10);
+        grid.add(consoleText, 1, 9);
 
         Console console = new Console(consoleText);
         PrintStream ps = new PrintStream(console, true);
@@ -135,9 +120,8 @@ public class GitGrader extends Application {
                         console.clear();
 
                         Configuration config = new ConfigurationBuilder(org,repoName,branch)
-                                .needCheckStyle(checkStyleCb.isSelected())
+                                .needCheckStyle(false)
                                 .annotationOverwrite(annotationCb.isSelected())
-                                .commitNum(Integer.parseInt(numCommitText.getText()))
                                 .ignoreDirectoryList(getStringListFromRaw(ignoreListText.getText()))
                                 .authorList(getAuthorListFromRaw(authorListText.getText()))
                                 .build();

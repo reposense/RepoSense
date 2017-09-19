@@ -2,12 +2,12 @@ package git;
 
 import dataObject.Author;
 import dataObject.CommitInfo;
+import dataObject.Configuration;
 import system.CommandRunner;
 import util.Constants;
 
 import java.text.ParseException;
-import java.util.ArrayList;
-import java.util.Date;
+import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -19,23 +19,24 @@ public class GitLogger {
     private static final Pattern INSERTION_PATTERN = Pattern.compile("([0-9]+) insertions");
     private static final Pattern DELETION_PATTERN = Pattern.compile("([0-9]+) deletions");
 
-
-    public static ArrayList<CommitInfo> getCommits(String repoRoot){
+    public static List<CommitInfo> getCommits(String repoRoot, Configuration config){
         String raw = CommandRunner.gitLog(repoRoot);
-        return parseCommitInfo(raw);
+        ArrayList<CommitInfo> relevantCommits = parseCommitInfo(raw, config.getAuthorList());
+        return relevantCommits;
     }
 
-    public static ArrayList<CommitInfo> getCommits(String repoRoot, int last){
-        String raw = CommandRunner.gitLog(repoRoot, last);
-        return parseCommitInfo(raw);
-    }
-
-    private static ArrayList<CommitInfo> parseCommitInfo(String rawResult){
+    private static ArrayList<CommitInfo> parseCommitInfo(String rawResult, List<Author> authors){
         ArrayList<CommitInfo> result = new ArrayList<CommitInfo>();
         String[] rawLines= rawResult.split("\n");
         for (int i=0;i<rawLines.length;i++){
-            result.add(parseRawLine(rawLines[i],rawLines[++i]));
+            CommitInfo commit = parseRawLine(rawLines[i],rawLines[++i]);
+            //if the commit is done by someone not being analyzed, skip it.
+            if (!authors.isEmpty() && !authors.contains(commit.getAuthor())){
+                continue;
+            }
+            result.add(commit);
         }
+        Collections.reverse(result);
         return result;
     }
 
