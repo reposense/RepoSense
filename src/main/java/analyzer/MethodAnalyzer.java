@@ -17,7 +17,7 @@ import java.util.HashMap;
  * Created by matanghao1 on 19/6/17.
  */
 public class MethodAnalyzer {
-    public static void aggregateMethodInfo(FileInfo fileInfo, Configuration config){
+    public static void aggregateMethodInfo(FileInfo fileInfo, RepoConfiguration config){
         FileInputStream in = null;
         try {
             in = new FileInputStream(config.getRepoRoot() + "/" + fileInfo.getPath());
@@ -25,7 +25,12 @@ public class MethodAnalyzer {
             e.printStackTrace();
         }
 
-        CompilationUnit cu = JavaParser.parse(in);
+        CompilationUnit cu;
+        try {
+            cu = JavaParser.parse(in);
+        } catch (Exception e){
+            return;
+        }
 
         MethodVisitor methodVistor = new MethodVisitor();
         methodVistor.visit(cu, null);

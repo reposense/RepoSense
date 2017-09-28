@@ -20,7 +20,11 @@ public class Console extends OutputStream
     {
         Platform.runLater(new Runnable() {
             public void run() {
+                if (output.getText().length()>5000){
+                    output.clear();
+                }
                 output.appendText(String.valueOf((char) i));
+
             }
         });
     }

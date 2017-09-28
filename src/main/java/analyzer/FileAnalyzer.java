@@ -1,7 +1,7 @@
 package analyzer;
 
 
-import dataObject.Configuration;
+import dataObject.RepoConfiguration;
 import dataObject.FileInfo;
 import dataObject.LineInfo;
 
@@ -14,13 +14,13 @@ import java.util.List;
  */
 public class FileAnalyzer {
 
-    public static ArrayList<FileInfo> analyzeAllFiles(Configuration config) {
+    public static ArrayList<FileInfo> analyzeAllFiles(RepoConfiguration config) {
         ArrayList<FileInfo> result = new ArrayList<>();
         analyzeAllFilesRecursive(config, new File(config.getRepoRoot()),result);
         return result;
     }
 
-    private static void analyzeAllFilesRecursive(Configuration config, File directory, ArrayList<FileInfo> result){
+    private static void analyzeAllFilesRecursive(RepoConfiguration config, File directory, ArrayList<FileInfo> result){
 
         for (File file:directory.listFiles()){
 

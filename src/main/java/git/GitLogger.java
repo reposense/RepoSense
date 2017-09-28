@@ -2,7 +2,7 @@ package git;
 
 import dataObject.Author;
 import dataObject.CommitInfo;
-import dataObject.Configuration;
+import dataObject.RepoConfiguration;
 import system.CommandRunner;
 import util.Constants;
 
@@ -19,7 +19,7 @@ public class GitLogger {
     private static final Pattern INSERTION_PATTERN = Pattern.compile("([0-9]+) insertions");
     private static final Pattern DELETION_PATTERN = Pattern.compile("([0-9]+) deletions");
 
-    public static List<CommitInfo> getCommits(String repoRoot, Configuration config){
+    public static List<CommitInfo> getCommits(String repoRoot, RepoConfiguration config){
         String raw = CommandRunner.gitLog(repoRoot);
         ArrayList<CommitInfo> relevantCommits = parseCommitInfo(raw, config.getAuthorList());
         return relevantCommits;

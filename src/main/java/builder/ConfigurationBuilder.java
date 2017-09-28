@@ -1,7 +1,7 @@
 package builder;
 
 import dataObject.Author;
-import dataObject.Configuration;
+import dataObject.RepoConfiguration;
 
 import java.util.List;
 
@@ -10,10 +10,10 @@ import java.util.List;
  */
 
 public class ConfigurationBuilder {
-      private Configuration config;
+      private RepoConfiguration config;
 
       public ConfigurationBuilder(String organization, String repoName, String branch){
-          config = new Configuration(organization, repoName, branch);
+          config = new RepoConfiguration(organization, repoName, branch);
       }
 
       public ConfigurationBuilder needCheckStyle(boolean value) {
@@ -41,7 +41,7 @@ public class ConfigurationBuilder {
         return this;
     }
 
-      public Configuration build() {
+      public RepoConfiguration build() {
           return config;
       }
 

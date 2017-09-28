@@ -13,7 +13,7 @@ import java.util.regex.Pattern;
  */
 public class Main {
     public static void main(String[] args) throws IOException, InterruptedException, ParserConfigurationException, SAXException, ParseException {
-//        Configuration config = ConfigurationFactory.getMinimalConfig("cs2103aug2015-w09-4j","main","develop");
+//        RepoConfiguration config = ConfigurationFactory.getMinimalConfig("cs2103aug2015-w09-4j","main","develop");
 //        config.setNeedCheckStyle(true);
 //        RepoInfoFileGenerator.generateForNewestCommit(config);
         String raw = " 25 files changed, 72 deletions(-)";

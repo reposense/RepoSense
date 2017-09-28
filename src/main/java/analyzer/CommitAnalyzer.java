@@ -2,7 +2,6 @@ package analyzer;
 
 import dataObject.*;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -12,7 +11,7 @@ import java.util.List;
  */
 public class CommitAnalyzer {
 
-    public static void aggregateFileInfos(Configuration config, CommitInfo commitInfo){
+    public static void aggregateFileInfos(RepoConfiguration config, CommitInfo commitInfo){
         ArrayList<FileInfo> result = FileAnalyzer.analyzeAllFiles(config);
         commitInfo.setFileinfos(result);
         commitInfo.setAuthorIssueMap(getAuthorIssueCount(commitInfo.getFileinfos(),config.getAuthorList()));
@@ -54,7 +53,6 @@ public class CommitAnalyzer {
 
                 int lineCount = result.get(author);
                 lineCount += 1;
-
                 result.put(author,lineCount);
             }
         }

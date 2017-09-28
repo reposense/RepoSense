@@ -8,7 +8,7 @@ import java.util.List;
 /**
  * Created by matanghao1 on 10/7/17.
  */
-public class Configuration {
+public class RepoConfiguration {
     private boolean needCheckStyle = false;
     private int commitNum = 1;
     private String organization;
@@ -19,7 +19,7 @@ public class Configuration {
     private boolean annotationOverwrite = false;
 
 
-    public Configuration(String organization, String repoName, String branch) {
+    public RepoConfiguration(String organization, String repoName, String branch) {
         this.organization = organization;
         this.repoName = repoName;
         this.branch = branch;

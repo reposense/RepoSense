@@ -2,12 +2,11 @@ package analyzer;
 
 import dataObject.Author;
 import dataObject.CommitInfo;
-import dataObject.Configuration;
+import dataObject.RepoConfiguration;
 import dataObject.RepoInfo;
 import git.GitChecker;
 import git.GitLogger;
 
-import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 
@@ -17,7 +16,7 @@ import java.util.List;
 public class RepoAnalyzer {
 
 
-    public static void analyzeCommits(Configuration config, RepoInfo repo){
+    public static void analyzeCommits(RepoConfiguration config, RepoInfo repo){
         List<CommitInfo> commits = GitLogger.getCommits(config.getRepoRoot(), config);
         processCommits(config, commits);
         formatAuthorContributionMaps(commits);
@@ -50,7 +49,7 @@ public class RepoAnalyzer {
         }
     }
 
-    private static void processCommits(Configuration config, List<CommitInfo> commits){
+    private static void processCommits(RepoConfiguration config, List<CommitInfo> commits){
         for (int i=0;i<commits.size();i++){
             CommitInfo commit = commits.get(i);
             GitChecker.checkOutToCommit(config.getRepoRoot(),commit);

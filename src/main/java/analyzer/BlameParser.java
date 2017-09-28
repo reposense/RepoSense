@@ -8,7 +8,7 @@ import system.CommandRunner;
  */
 public class BlameParser {
     static public void aggregateBlameInfo(FileInfo fileInfo, String repoRoot){
-        System.out.println("blaming " + fileInfo.getPath());
+        //System.out.println("blaming " + fileInfo.getPath());
         String raw = CommandRunner.blameRaw(repoRoot, fileInfo.getPath());
         String[] rawLines = raw.split("\n");
         for (int i = 0; i < rawLines.length; i++) {
