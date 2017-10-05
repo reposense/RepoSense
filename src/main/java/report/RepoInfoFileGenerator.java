@@ -1,8 +1,8 @@
 package report;
 
 import analyzer.RepoAnalyzer;
-import com.google.gson.Gson;
 import dataObject.RepoConfiguration;
+import dataObject.RepoContributionSummary;
 import dataObject.RepoInfo;
 import git.GitCloner;
 import util.Constants;
@@ -11,6 +11,7 @@ import util.FileUtil;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by matanghao1 on 8/7/17.
@@ -18,12 +19,16 @@ import java.util.List;
 public class RepoInfoFileGenerator {
 
     public static void generateReposReport(List<RepoConfiguration> repoConfigs){
-        String reportName = Long.toString(System.currentTimeMillis());
-        copyStaticLib(reportName);
+        String reportName = String.valueOf(System.currentTimeMillis());
         List<RepoInfo> repos = analyzeRepos(repoConfigs);
+        copyStaticLib(reportName);
+
         for (RepoInfo repo : repos) {
             generateIndividualRepoReport(repo, reportName);
         }
+        List<RepoContributionSummary> repoSummaries = ContributionSummaryGenerator.analyzeContribution(repos);
+        FileUtil.writeJSONFile(repoSummaries, getSummaryResultPath(reportName));
+        FileUtil.copyFile(new File(Constants.STATIC_SUMMARY_REPORT_FILE_ADDRESS),new File(getSummaryPagePath(reportName)));
     }
 
     private static List<RepoInfo> analyzeRepos(List<RepoConfiguration> configs) {
@@ -39,21 +44,12 @@ public class RepoInfoFileGenerator {
 
     private static void generateIndividualRepoReport(RepoInfo repoinfo, String reportName){
 
-        String repoReportName = generateIndividualReportDirectoryName(repoinfo.getOrganization(), repoinfo.getRepoName());
+        String repoReportName = repoinfo.getDirectoryName();
         String repoReportDirectory = Constants.REPORT_ADDRESS+"/"+reportName+"/"+repoReportName;
         new File(repoReportDirectory).mkdirs();
         copyTemplate(repoReportDirectory, Constants.STATIC_INDIVIDUAL_REPORT_TEMPLATE_ADDRESS);
 
-        Gson gson = new Gson();
-        String result = gson.toJson(repoinfo);
-
-        try {
-            PrintWriter out = new PrintWriter(getReportPath(repoReportDirectory));
-            out.println(attachJsPrefix(result));
-            out.close();
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        }
+        FileUtil.writeJSONFile(repoinfo,getIndividualResultPath(repoReportDirectory));
 
         System.out.println("report for "+ repoReportName+" Generated!");
 
@@ -65,24 +61,25 @@ public class RepoInfoFileGenerator {
         copyTemplate(staticLibDirectory, Constants.STATIC_LIB_TEMPLATE_ADDRESS );
     }
 
+
     private static void copyTemplate(String dest, String src){
         try {
-            FileUtil.copyFolder(new File(src), new File(dest));
+            FileUtil.copyFiles(new File(src), new File(dest));
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
-    private static String generateIndividualReportDirectoryName(String organization, String repoName){
-        return organization + "_" + repoName;
+    private static String getSummaryPagePath(String repoReportDirectory){
+        return Constants.REPORT_ADDRESS+"/"+repoReportDirectory+ "/index.html";
     }
 
-    private static String attachJsPrefix(String original){
-        return "var resultJson = "+original;
-    }
-
-    private static String getReportPath(String repoReportDirectory){
+    private static String getIndividualResultPath(String repoReportDirectory){
         return repoReportDirectory+ "/result.js";
+    }
+
+    private static String getSummaryResultPath(String reportName){
+        return Constants.REPORT_ADDRESS+"/"+reportName+"/result.js";
     }
 
 }

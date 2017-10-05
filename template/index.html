@@ -1,0 +1,58 @@
+<html>
+	<head>
+		<title>GitGrader</title>
+		<link rel="stylesheet" href="static/css/jquery-ui.css">
+		<link rel="stylesheet" href="static/css/bootstrap.min.css">
+		<link rel="stylesheet" href="static/css/style.css">
+		<script type="text/javascript" src="result.js"></script>
+		<script src="static/scripts/lib/jquery-1.12.4.js"></script>
+		<script src="static/scripts/lib/jquery-ui.js"></script>
+		<script src="static/scripts/lib/charts.js"></script>
+		<script src="static/scripts/lib/vue.js"></script>
+		<script type="text/javascript" src="static/scripts/utils.js"></script>
+		<script type="text/javascript" src="static/scripts/summary-data-formating.js"></script>
+
+		<script>
+		$(document).ready(function() {
+			var app = new Vue({
+				el: '#vue-app',
+				data: {
+					result : resultJson,
+				},
+				methods: {
+					getDistributionCanvasID : function (repo) {
+						return repo + "-distribution-canvas";
+					},
+				}
+			});
+			$( "#contribution-app" ).accordion({
+				collapsible: true,
+				heightStyle: "content"
+			});
+			$( ".tabs" ).tabs();
+		});
+		</script>
+	</head>
+	<body>
+		<div id="vue-app">
+			<div id="contribution-app" >
+				<template v-for="repo in result">
+				<h3>{{ repo.displayName }}</h3>
+				<div class="tabs">
+					<ul>
+						<li><a href="#progress"> Contribution Progress</a></li>
+						<li><a href="#chart">Final Contribution Chart</a></li>
+					</ul>
+					<div id="progress">
+					</div>
+					<div id="chart" style="width:30%">
+						<canvas v-bind:id="getDistributionCanvasID(repo.displayName)"></canvas>
+
+					</div>
+				</div>
+				</template>
+			</div>
+		</div>
+	</div>
+</body>
+</html>

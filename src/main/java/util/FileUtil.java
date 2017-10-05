@@ -1,11 +1,26 @@
 package util;
 
+import com.google.gson.Gson;
+
 import java.io.*;
 
 /**
  * Created by matanghao1 on 10/7/17.
  */
 public class FileUtil {
+
+    public static void writeJSONFile(Object object, String path){
+        Gson gson = new Gson();
+        String result = gson.toJson(object);
+
+        try {
+            PrintWriter out = new PrintWriter(path);
+            out.println(attachJsPrefix(result));
+            out.close();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+    }
 
     public static String getRepoDirectory(String org, String repoName){
         return Constants.REPOS_ADDRESS + "/" + org + "/" + repoName+"/";
@@ -57,7 +72,7 @@ public class FileUtil {
         }
     }
 
-    public static void copyFolder(File src, File dest)
+    public static void copyFiles(File src, File dest)
             throws IOException{
 
         if(src.isDirectory()){
@@ -77,13 +92,21 @@ public class FileUtil {
                 File srcFile = new File(src, file);
                 File destFile = new File(dest, file);
                 //recursive copy
-                copyFolder(srcFile,destFile);
+                copyFiles(srcFile,destFile);
             }
 
         }else{
             //if file, then copy it
             //Use bytes stream to support all file types
-            InputStream in = new FileInputStream(src);
+            copyFile(src,dest);
+            //System.out.println("File copied from " + src + " to " + dest);
+        }
+    }
+
+    public static void copyFile(File src, File dest){
+        InputStream in = null;
+        try {
+            in = new FileInputStream(src);
             OutputStream out = new FileOutputStream(dest);
 
             byte[] buffer = new byte[1024];
@@ -96,7 +119,15 @@ public class FileUtil {
 
             in.close();
             out.close();
-            //System.out.println("File copied from " + src + " to " + dest);
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
+
+    private static String attachJsPrefix(String original){
+        return "var resultJson = "+original;
+    }
+
 }

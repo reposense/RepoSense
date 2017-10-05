@@ -17,48 +17,12 @@ public class RepoAnalyzer {
 
 
     public static void analyzeCommits(RepoConfiguration config, RepoInfo repo){
+        System.out.println("analyzing commits...");
         List<CommitInfo> commits = GitLogger.getCommits(config.getRepoRoot(), config);
-        processCommits(config, commits);
-        formatAuthorContributionMaps(commits);
+        CommitInfo lastCommit = commits.get(commits.size()-1);
+        CommitAnalyzer.aggregateFileInfos(config,lastCommit);
         repo.setCommits(commits);
-    }
+        System.out.println("done analyzing commits...");
 
-    private static void formatAuthorContributionMaps(List<CommitInfo> commits) {
-        HashSet<Author> authors = new HashSet<>();
-        for (CommitInfo commit : commits) {
-            for (Author author : commit.getAuthorIssueMap().keySet()) {
-                if (!authors.contains(author)) {
-                    authors.add(author);
-                }
-            }
-            for (Author author : commit.getAuthorContributionMap().keySet()) {
-                if (!authors.contains(author)) {
-                    authors.add(author);
-                }
-            }
-        }
-        for (CommitInfo commit : commits) {
-            for (Author author: authors) {
-                if (!commit.getAuthorContributionMap().containsKey(author)){
-                    commit.getAuthorContributionMap().put(author,0);
-                }
-                if (!commit.getAuthorIssueMap().containsKey(author)){
-                    commit.getAuthorIssueMap().put(author,0);
-                }
-            }
-        }
-    }
-
-    private static void processCommits(RepoConfiguration config, List<CommitInfo> commits){
-        for (int i=0;i<commits.size();i++){
-            CommitInfo commit = commits.get(i);
-            GitChecker.checkOutToCommit(config.getRepoRoot(),commit);
-            CommitAnalyzer.aggregateFileInfos(config,commit);
-            if (i != (commits.size()-1)) {
-                commit.minify();
-            }
-
-        }
-        GitChecker.checkOutToRecentBranch(config.getRepoRoot());
     }
 }

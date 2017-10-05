@@ -44,5 +44,9 @@ public class RepoInfo {
         this.commits = commits;
     }
 
+    public String getDirectoryName(){
+        return organization + "_" + repoName;
+    }
+
 
 }

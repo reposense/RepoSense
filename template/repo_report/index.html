@@ -9,7 +9,6 @@
 		<script src="../static/scripts/lib/charts.js"></script>
 		<script src="../static/scripts/lib/vue.js"></script>
 		<script type="text/javascript" src="../static/scripts/utils.js"></script>
-		<script type="text/javascript" src="../static/scripts/table-data-formating.js"></script>
 		<script>
 		$(document).ready(function() {
 			var app = new Vue({
@@ -17,7 +16,7 @@
 				data: {
 					currentAuthor : getQueryVariable('author'),
 					result : resultJson,
-					authors : Object.keys(resultJson.commits[0].authorContributionMap)
+					authors : Object.keys(resultJson.commits[resultJson.commits.length-1].authorContributionMap)
 				},
 				methods: {
 				getMethodIdentifier: function (line) {
@@ -73,10 +72,9 @@
 			$( ".author-name-menu" ).menu({
 				items: "> :not(.ui-widget-header)"
 			});
-			$( ".tabs" ).tabs();
 		});
 		</script>
-		<script type="text/javascript" src="scripts/codeEffects.js"></script>
+		<script type="text/javascript" src="../static/scripts/codeEffects.js"></script>
 	</head>
 	<body>
 		<div id="vue-app">
@@ -90,20 +88,6 @@
 				</ul>
 			</div>
 			<div class="content-container">
-				<div class="tabs">
-					<ul>
-						<li v-for="author in authors">
-							<a v-if="currentAuthor==null || currentAuthor == author" v-bind:href="getAuthorTabLink(author)">{{ author}} </a>
-						</li>
-					</ul>
-					<template v-for="author in authors">
-					<div v-if="currentAuthor ==null || currentAuthor == author" v-bind:id="getLegalClassName(author)">
-						<div style="width: 90%;">
-							<canvas v-bind:id="getAuthorContributionCanvasID(author)"></canvas>
-						</div>
-					</div>
-					</template>
-				</div>
 				<div id="code-style-app" >
 					<template v-for="file in result.commits[result.commits.length-1].fileinfos">
 						<template v-if="containAuthorLine(file, currentAuthor) || currentAuthor == null">
