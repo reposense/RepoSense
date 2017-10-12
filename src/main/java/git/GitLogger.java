@@ -46,7 +46,7 @@ public class GitLogger {
         Author author = new Author(elements[1]);
         Date date = null;
         try {
-            date = Constants.ISO_FORMAT.parse(elements[2]);
+            date = Constants.GIT_ISO_FORMAT.parse(elements[2]);
         } catch (ParseException e) {
             e.printStackTrace();
         }

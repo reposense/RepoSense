@@ -1,6 +1,5 @@
 package report;
 
-import com.google.gson.Gson;
 import dataObject.*;
 
 import java.util.*;
@@ -24,12 +23,12 @@ public class ContributionSummaryGenerator {
         return result;
     }
 
-    private static Map<Author, Map<Date, AuthorIntervalContribution>> getAuthorIntervalContributions(List<CommitInfo> commits){
+    private static Map<Author, List<AuthorIntervalContribution>> getAuthorIntervalContributions(List<CommitInfo> commits){
         //init
         long durationDays = getDurationInDays(commits);
-        Map<Author, Map<Date, AuthorIntervalContribution>> result = new HashMap<>();
+        Map<Author, List<AuthorIntervalContribution>> result = new HashMap<>();
         for (Author author: commits.get(commits.size()-1).getAuthorContributionMap().keySet()){
-            result.put(author,new HashMap<>());
+            result.put(author,new ArrayList<>());
         }
         Date currentDate = commits.get(0).getTime();
         Date nextDate = getNextCutoffDate(currentDate, durationDays);
@@ -41,14 +40,16 @@ public class ContributionSummaryGenerator {
                 nextDate = getNextCutoffDate(nextDate, durationDays);
                 initIntervalContributionForNewDate(result,currentDate);
             }
-            result.get(commit.getAuthor()).get(currentDate).updateForCommit(commit);
+            List<AuthorIntervalContribution> tempList = result.get(commit.getAuthor());
+            tempList.get(tempList.size()-1).updateForCommit(commit);
         }
         return result;
     }
 
-    private static void initIntervalContributionForNewDate(Map<Author, Map<Date, AuthorIntervalContribution>> map, Date date){
-        for (Map<Date, AuthorIntervalContribution> dateToInvertal : map.values()){
-            dateToInvertal.put(date,new AuthorIntervalContribution(0,0));
+    private static void initIntervalContributionForNewDate(Map<Author, List<AuthorIntervalContribution>> map, Date date){
+        for (List<AuthorIntervalContribution> dateToInvertal : map.values()){
+            //dials back one minute so that github api can include the commit on the time itself
+            dateToInvertal.add(new AuthorIntervalContribution(getOneMinuteBefore(date),0,0));
         }
     }
 
@@ -58,6 +59,12 @@ public class ContributionSummaryGenerator {
 
     }
 
+    private static Date getOneMinuteBefore(Date current){
+        Calendar c = Calendar.getInstance();
+        c.setTime(current);
+        c.add(Calendar.MINUTE,-1);
+        return c.getTime();
+    }
     private static Date getNextCutoffDate(Date current, long totalDuration){
         Calendar c = Calendar.getInstance();
         c.setTime(current);

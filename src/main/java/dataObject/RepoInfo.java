@@ -11,10 +11,20 @@ public class RepoInfo {
     private String organization;
     private String repoName;
     private List<CommitInfo> commits;
+    private String branch;
 
-    public RepoInfo(String organization, String repoName) {
+    public RepoInfo(String organization, String repoName, String branch) {
         this.organization = organization;
         this.repoName = repoName;
+        this.branch = branch;
+    }
+
+    public String getBranch() {
+        return branch;
+    }
+
+    public void setBranch(String branch) {
+        this.branch = branch;
     }
 
     public String getOrganization() {

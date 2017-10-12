@@ -17,6 +17,7 @@ public class RepoAnalyzer {
 
 
     public static void analyzeCommits(RepoConfiguration config, RepoInfo repo){
+        GitChecker.checkoutBranch(config.getRepoRoot(),config.getBranch());
         System.out.println("analyzing commits...");
         List<CommitInfo> commits = GitLogger.getCommits(config.getRepoRoot(), config);
         CommitInfo lastCommit = commits.get(commits.size()-1);

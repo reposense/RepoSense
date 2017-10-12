@@ -12,12 +12,12 @@ public class CommandRunner {
 
     public static String gitLog(String root){
         File rootFile = new File(root);
-        return runCommand(rootFile, "git log --no-merges --pretty=format:\"%h|%an|%ad|%s\" --date=iso --shortstat | sed '/^$/d'");
+        return runCommand(rootFile, "git log --no-merges --pretty=format:\"%h|%aE|%ad|%s\" --date=iso --shortstat | sed '/^$/d'");
     }
 
     public static String gitLog(String root, int last){
         File rootFile = new File(root);
-        return runCommand(rootFile, "git log --no-merges --pretty=format:\"%h|%an|%ad|%s\" --date=iso --shortstat -n " + last +" | sed '/^$/d'");
+        return runCommand(rootFile, "git log --no-merges --pretty=format:\"%h|%aE|%ad|%s\" --date=iso --shortstat -n " + last +" | sed '/^$/d'");
     }
 
     public static void checkOut(String root, String hash){
@@ -25,14 +25,9 @@ public class CommandRunner {
         runCommand(rootFile, "git checkout "+hash);
     }
 
-    public static String blameAll(String root){
-        File rootFile = new File(root);
-        return runCommand(rootFile,"git ls-files -- '*.java' | xargs -I{} git blame {}  -M -C --follow --find-copies-harder --line-porcelain | grep -E  \"^filename|^author \"\n");
-    }
-
     public static String blameRaw(String root, String fileDirectory){
         File rootFile = new File(root);
-        return runCommand(rootFile, "git blame " + fileDirectory + " -w -M -C --follow --find-copies-harder --line-porcelain | grep  \"^author \"");
+        return runCommand(rootFile, "git blame " + fileDirectory + " -w -M -C --follow --find-copies-harder --line-porcelain | grep  \"^author-mail \"");
     }
 
     public static String checkStyleRaw(String absoluteDirectory){

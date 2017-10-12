@@ -11,7 +11,6 @@
 		<script src="static/scripts/lib/vue.js"></script>
 		<script type="text/javascript" src="static/scripts/utils.js"></script>
 		<script type="text/javascript" src="static/scripts/summary-data-formating.js"></script>
-
 		<script>
 		$(document).ready(function() {
 			var app = new Vue({
@@ -23,6 +22,9 @@
 					getDistributionCanvasID : function (repo) {
 						return repo + "-distribution-canvas";
 					},
+					getProgressCanvasID : function(repo) {
+						return repo + "-progress-canvas";
+					}
 				}
 			});
 			$( "#contribution-app" ).accordion({
@@ -44,10 +46,10 @@
 						<li><a href="#chart">Final Contribution Chart</a></li>
 					</ul>
 					<div id="progress">
+						<canvas v-bind:id="getProgressCanvasID(repo.displayName)"></canvas>
 					</div>
 					<div id="chart" style="width:30%">
 						<canvas v-bind:id="getDistributionCanvasID(repo.displayName)"></canvas>
-
 					</div>
 				</div>
 				</template>

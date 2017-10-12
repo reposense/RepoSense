@@ -4,18 +4,18 @@ package dataObject;
  * Created by matanghao1 on 29/5/17.
  */
 public class Author {
-    String name;
+    String email;
 
-    public Author(String name) {
-        this.name = name;
+    public Author(String email) {
+        this.email = email;
     }
 
-    public String getName() {
-        return name;
+    public String getEmail() {
+        return email;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     @Override
@@ -25,17 +25,17 @@ public class Author {
 
         Author author = (Author) o;
 
-        return name != null ? name.equals(author.name) : author.name == null;
+        return email != null ? email.equals(author.email) : author.email == null;
     }
 
     @Override
     public int hashCode() {
-        return name != null ? name.hashCode() : 0;
+        return email != null ? email.hashCode() : 0;
     }
 
     @Override
     public String toString() {
-        return name;
+        return email;
     }
 }
 

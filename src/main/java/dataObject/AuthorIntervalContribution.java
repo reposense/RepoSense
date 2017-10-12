@@ -1,15 +1,27 @@
 package dataObject;
 
+import java.util.Date;
+
 /**
  * Created by matanghao1 on 4/10/17.
  */
 public class AuthorIntervalContribution {
     private int insertions;
     private int deletions;
+    private Date date;
 
-    public AuthorIntervalContribution(int insertions, int deletions) {
+    public AuthorIntervalContribution(Date date, int insertions, int deletions) {
+        this.date = date;
         this.insertions = insertions;
         this.deletions = deletions;
+    }
+
+    public Date getDate() {
+        return date;
+    }
+
+    public void setDate(Date date) {
+        this.date = date;
     }
 
     public int getInsertions() {

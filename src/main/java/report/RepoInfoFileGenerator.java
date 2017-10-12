@@ -35,7 +35,7 @@ public class RepoInfoFileGenerator {
         List<RepoInfo> result = new ArrayList<>();
         for (RepoConfiguration config : configs) {
             GitCloner.downloadRepo(config.getOrganization(), config.getRepoName(), config.getBranch());
-            RepoInfo repoinfo = new RepoInfo(config.getOrganization(), config.getRepoName());
+            RepoInfo repoinfo = new RepoInfo(config.getOrganization(), config.getRepoName(),config.getBranch());
             RepoAnalyzer.analyzeCommits(config, repoinfo);
             result.add(repoinfo);
         }

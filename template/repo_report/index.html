@@ -23,7 +23,7 @@
 					return line.methodInfo == null ? '' : line.methodInfo.methodUID
 				},
 				getMethodOwnerName: function (line) {
-					return line.methodInfo == null ? '' : 'method owner : '+line.methodInfo.owner.name
+					return line.methodInfo == null ? '' : 'method owner : '+line.methodInfo.owner.email
 				},
 				getAuthorUrlQuery : function (author) {
 					return "?author=" + author
@@ -39,7 +39,7 @@
 				},
 				containAuthorLine : function(file, authorName){
 					for (i=0; i<file.lines.length;i++){
-						if (file.lines[i].author.name == authorName){
+						if (file.lines[i].author.email == authorName){
 							return true;
 						}
 					}
@@ -47,17 +47,17 @@
 				},
 				shouldDisplayLine : function(line, currentAuthor, authors){
 					if (currentAuthor == null){
-						if (authors.includes(line.author.name)){
+						if (authors.includes(line.author.email)){
 							return true;
 						}
-						if (line.methodInfo!=null && authors.includes(line.methodInfo.owner.name)){
+						if (line.methodInfo!=null && authors.includes(line.methodInfo.owner.email)){
 							return true;
 						}
 					} else{
-						if (line.author.name == currentAuthor){
+						if (line.author.email == currentAuthor){
 							return true;
 						}
-						if (line.methodInfo != null && line.methodInfo.owner.name == currentAuthor){
+						if (line.methodInfo != null && line.methodInfo.owner.email == currentAuthor){
 							return true;
 						}
 					}
@@ -96,9 +96,9 @@
 								<template v-for="line in file.lines">
 									<template v-if="shouldDisplayLine(line, currentAuthor,authors)">
 										<div class="row">
-											<div class="col-md-1 author-col">{{ line.author.name }}</div>
+											<div class="col-md-3 author-col">{{ line.author.email }}</div>
 											<div class="col-md-1 line-number" >{{ line.lineNumber }}</div>
-											<div class="col-md-10 line-content " v-bind:id="getMethodIdentifier(line)" v-bind:title="getMethodOwnerName(line)" ><pre>{{line.content}}</pre></div>
+											<div class="col-md-8 line-content " v-bind:id="getMethodIdentifier(line)" v-bind:title="getMethodOwnerName(line)" ><pre>{{line.content}}</pre></div>
 										</div>
 									</template>
 								</template>

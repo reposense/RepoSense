@@ -1,6 +1,7 @@
 package util;
 
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 
 import java.io.*;
 
@@ -10,7 +11,8 @@ import java.io.*;
 public class FileUtil {
 
     public static void writeJSONFile(Object object, String path){
-        Gson gson = new Gson();
+        Gson gson = new GsonBuilder()
+                .setDateFormat(Constants.GITHUB_API_DATE_FORMAT).create();
         String result = gson.toJson(object);
 
         try {
