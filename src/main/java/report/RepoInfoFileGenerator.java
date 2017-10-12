@@ -10,6 +10,7 @@ import util.FileUtil;
 
 import java.io.*;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -19,7 +20,7 @@ import java.util.Map;
 public class RepoInfoFileGenerator {
 
     public static void generateReposReport(List<RepoConfiguration> repoConfigs){
-        String reportName = String.valueOf(System.currentTimeMillis());
+        String reportName = generateReportName();
         List<RepoInfo> repos = analyzeRepos(repoConfigs);
         copyStaticLib(reportName);
 
@@ -80,6 +81,10 @@ public class RepoInfoFileGenerator {
 
     private static String getSummaryResultPath(String reportName){
         return Constants.REPORT_ADDRESS+"/"+reportName+"/result.js";
+    }
+
+    private static String generateReportName(){
+        return Constants.REPORT_NAME_FORMAT.format(new Date());
     }
 
 }
