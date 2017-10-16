@@ -10,14 +10,14 @@ import java.io.*;
  */
 public class FileUtil {
 
-    public static void writeJSONFile(Object object, String path){
+    public static void writeJSONFile(Object object, String path, String prefix){
         Gson gson = new GsonBuilder()
                 .setDateFormat(Constants.GITHUB_API_DATE_FORMAT).create();
         String result = gson.toJson(object);
 
         try {
             PrintWriter out = new PrintWriter(path);
-            out.println(attachJsPrefix(result));
+            out.println(attachJsPrefix(result, prefix));
             out.close();
         } catch (FileNotFoundException e) {
             e.printStackTrace();
@@ -128,8 +128,8 @@ public class FileUtil {
         }
     }
 
-    private static String attachJsPrefix(String original){
-        return "var resultJson = "+original;
+    private static String attachJsPrefix(String original,String prefix){
+        return "var " + prefix + " = " + original;
     }
 
 }

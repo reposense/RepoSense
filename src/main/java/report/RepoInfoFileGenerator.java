@@ -28,7 +28,7 @@ public class RepoInfoFileGenerator {
             generateIndividualRepoReport(repo, reportName);
         }
         List<RepoContributionSummary> repoSummaries = ContributionSummaryGenerator.analyzeContribution(repos);
-        FileUtil.writeJSONFile(repoSummaries, getSummaryResultPath(reportName));
+        FileUtil.writeJSONFile(repoSummaries, getSummaryResultPath(reportName), "summaryJson");
         FileUtil.copyFile(new File(Constants.STATIC_SUMMARY_REPORT_FILE_ADDRESS),new File(getSummaryPagePath(reportName)));
     }
 
@@ -50,7 +50,7 @@ public class RepoInfoFileGenerator {
         new File(repoReportDirectory).mkdirs();
         copyTemplate(repoReportDirectory, Constants.STATIC_INDIVIDUAL_REPORT_TEMPLATE_ADDRESS);
 
-        FileUtil.writeJSONFile(repoinfo,getIndividualResultPath(repoReportDirectory));
+        FileUtil.writeJSONFile(repoinfo,getIndividualResultPath(repoReportDirectory),"resultJson");
 
         System.out.println("report for "+ repoReportName+" Generated!");
 
@@ -80,7 +80,7 @@ public class RepoInfoFileGenerator {
     }
 
     private static String getSummaryResultPath(String reportName){
-        return Constants.REPORT_ADDRESS+"/"+reportName+"/result.js";
+        return Constants.REPORT_ADDRESS+"/"+reportName+"/summary.js";
     }
 
     private static String generateReportName(){

@@ -51,7 +51,27 @@ var prepareProgressData = function(data) {
         },
         options: {
             responsive: true,
-            onClick: githubCommitsLink
+            onClick: githubCommitsLink,
+            legend: {
+                display: false
+            },
+            title: {
+                display: true,
+                position: 'left',
+                text: "Contribution Progress"
+            },
+            scales: {
+                yAxes: [{
+                    ticks: {
+                        display: false
+                    }
+                }],
+                xAxes: [{
+                    ticks: {
+                        display: false
+                    }
+                }]
+            }
 
         }
 
@@ -82,6 +102,14 @@ var prepareDistributionData = function(data) {
         },
         options: {
             responsive: true,
+            title: {
+                display: true,
+                position: 'left',
+                text: "Contribution Distribution"
+            },
+            legend: {
+                display: false
+            },
         }
 
     };
@@ -93,29 +121,28 @@ function githubCommitsLink(event, array) {
     var canvasId = element[0]._chart.canvas.id;
     var repoInfo = resultJson[repoInfoIndexMap[canvasId]];
     var authorRawTag = element[0]._model.datasetLabel;
-    var author = authorRawTag.substring(0,authorRawTag.lastIndexOf(" "))
+    var author = authorRawTag.substring(0, authorRawTag.lastIndexOf(" "))
     var date = element[0]._model.label;
-    var nextDate = getNextDate(date,repoInfo);
-    var url = "https://github.com/"+
-        repoInfo["organization"]+"/"+repoInfo["repo"]+
+    var nextDate = getNextDate(date, repoInfo);
+    var url = "https://github.com/" +
+        repoInfo["organization"] + "/" + repoInfo["repo"] +
         "/commits/" + repoInfo["branch"] +
-        "?author=" + author +"&since=" +
-        date
-        ;
-    if (nextDate!=null){
+        "?author=" + author + "&since=" +
+        date;
+    if (nextDate != null) {
         url += ("&until=" + nextDate);
     }
     var win = window.open(url, '_blank');
     win.focus();
 }
 
-function getNextDate(date, repoInfo){
+function getNextDate(date, repoInfo) {
     var intervalMap = repoInfo["authorIntervalContributions"]
     var elements = intervalMap[Object.keys(intervalMap)[0]];
-    for (var i=0;i<elements.length;i++){
-        if (elements[i]['date']==date){
-            if (i!=elements.length-1){
-                return elements[i+1]['date']
+    for (var i = 0; i < elements.length; i++) {
+        if (elements[i]['date'] == date) {
+            if (i != elements.length - 1) {
+                return elements[i + 1]['date']
             } else {
                 return null;
             }

@@ -1,3 +1,7 @@
+html, body{
+    height: 100%;
+}
+
 div.content-container {
 	width: 82vw;
 	float:right;
@@ -39,6 +43,43 @@ pre {
 	overflow: hidden;
 }
 
+div.box-wrapper {
+	width: 100%;
+    display: -webkit-box;
+    display: -moz-box;
+    display: -webkit-flexbox;
+    display: -ms-flexbox;
+    display: -webkit-flex;
+    display: flex;
+    position: relative;
+}
+
+div.summary_box {
+	margin-left: 2%;
+    margin-bottom: 2%;
+    width: 50%;
+    border: 1px solid #b6b6b6;
+    border: 0.0625rem solid #b6b6b6;
+    box-sizing: border-box;
+    position: relative;
+
+}
+
+div.progress_box {
+	margin-top: 5%;
+	margin-left: 2%;
+    margin-bottom: 2%;
+    width: 40%;
+}
+
+div.distribution_box {
+	margin-left: 25%;
+    margin-bottom: 2%;
+    width: 30%;
+}
+
+
+
 .hover
 {
     background-color:Silver;
@@ -46,4 +87,10 @@ pre {
 
 div.highlighted {
 	background-color: #66ccff;
+}
+
+a.detail_link {
+	position: absolute;
+    top: 0px;
+    right: 0px;
 }
