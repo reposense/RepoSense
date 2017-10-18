@@ -44,25 +44,48 @@ pre {
 }
 
 div.box-wrapper {
-	width: 100%;
-    display: -webkit-box;
-    display: -moz-box;
-    display: -webkit-flexbox;
-    display: -ms-flexbox;
-    display: -webkit-flex;
-    display: flex;
-    position: relative;
+	display: -webkit-box;     /* iOS 6-, Safari 3.1-6 */
+    display: -moz-box;        /* Firefox 19- */
+    display: -ms-flexbox;     /* IE 10 */
+    display: -webkit-flex;    /* Chrome */
+    display: flex;            /* Opera 12.1, Firefox 20+ */
+    
+    /* iOS 6-, Safari 3.1-6 */
+    -webkit-box-orient: horizontal;
+    -webkit-box-pack: justify;
+    -webkit-lines: multiple;  /* Only here for informative purpose, this line is what should have made it work, it has never been implemented */     
+
+    /* Firefox 19- */
+    -moz-flex-flow: row wrap;
+    -moz-justify-content: space-between;
+    -moz-box-lines: multiple; /* Only here for informative purpose, this line is what should have made it work, it has never been implemented */ 
+    
+    /* Chrome */
+    -webkit-flex-flow: row wrap;
+    -webkit-justify-content: space-between;
+    
+    /* IE10 */
+    -ms-flex-flow: row wrap;
+    -ms-justify-content: space-between;
+    
+    /* Opera 12.1, Firefox 20+ */
+    flex-flow: row wrap;
+    justify-content: space-between;
+    width:100%;
 }
 
 div.summary_box {
-	margin-left: 2%;
-    margin-bottom: 2%;
-    width: 50%;
-    border: 1px solid #b6b6b6;
-    border: 0.0625rem solid #b6b6b6;
-    box-sizing: border-box;
-    position: relative;
-
+    width: 45%;
+    -webkit-box-flex: auto;    /* iOS 6-, Safari 3.1-6 */
+    -moz-box-flex: 1.0;        /* Firefox 19- */
+    -webkit-flex: auto;        /* Chrome */
+    -ms-flex: auto;            /* IE10 */
+    flex: auto; 
+    position:relative;
+    padding: 2%;
+    border-radius: 25px;
+    border: 1px solid black;
+    margin: 1%;
 }
 
 div.progress_box {
@@ -70,6 +93,7 @@ div.progress_box {
 	margin-left: 2%;
     margin-bottom: 2%;
     width: 40%;
+
 }
 
 div.distribution_box {

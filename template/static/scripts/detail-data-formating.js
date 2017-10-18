@@ -7,40 +7,39 @@ var dynamicColors = function() {
 
 var authorColors = {};
 var repoInfoIndexMap = {};
+var currentRepo = getQueryVariable('repo');
 
-var prepareProgressData = function(data) {
-    datasets = [];
+
+var prepareProgressData = function(author) {
+    data = summaryJson[currentRepo]['authorIntervalContributions'][author],
+        datasets = [];
     labels = [];
     //init labels
-    firstKey = Object.keys(data)[0];
-    for (var i in data[firstKey]) {
-        labels.push(data[firstKey][i]['date']);
+    for (var i in data) {
+        labels.push(data[i]['date']);
     }
 
-    for (var author in data) {
-        currentDeletions = [];
-        currentInsertions = [];
-        for (i in data[author]) {
-            temp = data[author][i];
-            currentDeletions.push(-temp['deletions'])
-            currentInsertions.push(temp['insertions'])
-        }
-        datasets.push({
-            data: currentDeletions,
-            label: author + " deletions",
-            backgroundColor: authorColors[author],
-            stack: author,
-
-        })
-        datasets.push({
-            data: currentInsertions,
-            label: author + " insertions",
-            backgroundColor: authorColors[author],
-            stack: author,
-
-        })
+    currentDeletions = [];
+    currentInsertions = [];
+    for (i in data) {
+        temp = data[i];
+        currentDeletions.push(-temp['deletions'])
+        currentInsertions.push(temp['insertions'])
     }
+    datasets.push({
+        data: currentDeletions,
+        label: author + " deletions",
+        backgroundColor: authorColors[author],
+        stack: author,
 
+    })
+    datasets.push({
+        data: currentInsertions,
+        label: author + " insertions",
+        backgroundColor: authorColors[author],
+        stack: author,
+
+    })
 
     var config = {
         type: 'bar',
@@ -61,18 +60,12 @@ var prepareProgressData = function(data) {
                 text: "Contribution Progress"
             },
             scales: {
-                yAxes: [{
-                    ticks: {
-                        display: false
-                    }
-                }],
                 xAxes: [{
                     ticks: {
                         display: false
                     }
                 }]
             }
-
         }
 
     };
@@ -119,7 +112,7 @@ var prepareDistributionData = function(data) {
 function githubCommitsLink(event, array) {
     var element = this.getElementAtEvent(event);
     var canvasId = element[0]._chart.canvas.id;
-    var repoInfo = summaryJson[repoInfoIndexMap[canvasId]];
+    var repoInfo = summaryJson[currentRepo];
     var authorRawTag = element[0]._model.datasetLabel;
     var author = authorRawTag.substring(0, authorRawTag.lastIndexOf(" "))
     var date = element[0]._model.label;
@@ -153,41 +146,33 @@ function getNextDate(date, repoInfo) {
 }
 
 window.onload = function() {
-    piesMap = {};
-    for (var i in summaryJson) {
-        for (author in summaryJson[i]['authorIntervalContributions']) {
-            authorColors[author] = dynamicColors();
+    for (author in summaryJson[currentRepo]['authorIntervalContributions']) {
+        authorColors[author] = dynamicColors();
+    }
+    var id = "distribution-canvas";
+    var canvas = document.getElementById(id);
+    var ctx = canvas.getContext("2d");
+
+    var currentChart = new Chart(ctx, prepareDistributionData(summaryJson[currentRepo]));
+    canvas.onclick = function(evt) {
+        var activePoints = currentChart.getElementsAtEvent(evt);
+        console.log(currentChart)
+        if (activePoints[0]) {
+            var chartData = activePoints[0]['_chart'].config.data;
+            var idx = activePoints[0]['_index'];
+
+            var label = chartData.labels[idx];
+
+            var url = currentRepo + "/index.html?author=" + label;
+            window.location.href = url;
+
         }
-    }
-    for (var i in summaryJson) {
-        var id = summaryJson[i].displayName + "-distribution-canvas";
+    };
+
+    for (var author in summaryJson[currentRepo]['authorIntervalContributions']) {
+        var id = author + "-progress-canvas";
         var canvas = document.getElementById(id);
         var ctx = canvas.getContext("2d");
-
-        var currentChart = new Chart(ctx, prepareDistributionData(summaryJson[i]));
-        piesMap[summaryJson[i].displayName] = currentChart;
-        canvas.onclick = function(evt) {
-            currentRepoName = (evt.srcElement.id).replace("-distribution-canvas", "");
-
-            var activePoints = piesMap[currentRepoName].getElementsAtEvent(evt);
-            if (activePoints[0]) {
-                var chartData = activePoints[0]['_chart'].config.data;
-                var idx = activePoints[0]['_index'];
-
-                var label = chartData.labels[idx];
-
-                var url = currentRepoName + "/index.html?author=" + label;
-                window.location.href = url;
-
-            }
-        };
-    }
-
-    for (var i in summaryJson) {
-        var id = summaryJson[i].displayName + "-progress-canvas";
-        var canvas = document.getElementById(id);
-        var ctx = canvas.getContext("2d");
-        var currentChart = new Chart(ctx, prepareProgressData(summaryJson[i]['authorIntervalContributions']));
-        repoInfoIndexMap[id] = i;
+        new Chart(ctx, prepareProgressData(author));
     }
 };

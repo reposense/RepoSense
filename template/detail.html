@@ -10,23 +10,18 @@
 		<script src="static/scripts/lib/charts.js"></script>
 		<script src="static/scripts/lib/vue.js"></script>
 		<script type="text/javascript" src="static/scripts/utils.js"></script>
-		<script type="text/javascript" src="static/scripts/summary-data-formating.js"></script>
+		<script type="text/javascript" src="static/scripts/detail-data-formating.js"></script>
 		<script>
 		$(document).ready(function() {
 			var app = new Vue({
 				el: '#vue-app',
 				data: {
 					summary : summaryJson,
+					currentRepo : getQueryVariable('repo')
 				},
 				methods: {
-					getDistributionCanvasID : function (repo) {
-						return repo + "-distribution-canvas";
-					},
-					getProgressCanvasID : function(repo) {
-						return repo + "-progress-canvas";
-					},
-					getHrefFromName : function(name) {
-						return "detail.html?repo=" + name;
+					getAuthorProgressID : function(author,repo) {
+						return author + "-progress-canvas";
 					}
 				}
 			});
@@ -36,19 +31,20 @@
 	<body>
 		<div id="vue-app">
 			<div class="box-wrapper">
-				<template v-for="repo in summary">
+				<template v-for="(v,author) in summary[currentRepo]['authorIntervalContributions']">
 				<div class="summary_box">
-					<h6><a v-bind:href="getHrefFromName(repo.displayName)">{{ repo.displayName }}</a></h6>
+					<h6>{{ author }}</h6>
 					<div class="box-wrapper">
-						<div class="progress_box" >
-							<canvas v-bind:id="getProgressCanvasID(repo.displayName)"></canvas>
-						</div>
-						<div class="distribution_box" >
-							<canvas v-bind:id="getDistributionCanvasID(repo.displayName)"></canvas>
-						</div>
+						<canvas v-bind:id="getAuthorProgressID(author,currentRepo)"></canvas>
 					</div>
 				</div>
 				</template>
+				<div class="summary_box">
+					<h6>Contribution Distribution</h6>
+					<div class="box-wrapper" style="width: 50%">
+						<canvas id="distribution-canvas"></canvas>
+					</div>
+				</div>
 			</div>
 		</div>
 	</body>

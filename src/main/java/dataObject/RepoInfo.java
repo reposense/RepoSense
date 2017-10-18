@@ -57,6 +57,4 @@ public class RepoInfo {
     public String getDirectoryName(){
         return organization + "_" + repoName;
     }
-
-
 }

@@ -10,14 +10,14 @@ import java.util.concurrent.TimeUnit;
  */
 public class ContributionSummaryGenerator {
 
-    public static List<RepoContributionSummary> analyzeContribution(List<RepoInfo> repos){
+    public static Map<String, RepoContributionSummary> analyzeContribution(List<RepoInfo> repos){
         System.out.println("Generating summary report...");
-        List<RepoContributionSummary> result = new ArrayList<>();
+        Map<String, RepoContributionSummary> result = new HashMap<>();
         for (RepoInfo repo:repos){
             RepoContributionSummary summary = new RepoContributionSummary(repo);
             summary.setAuthorIntervalContributions(getAuthorIntervalContributions(repo.getCommits()));
             summary.setAuthorFinalContributionMap(repo.getCommits().get(repo.getCommits().size()-1).getAuthorContributionMap());
-            result.add(summary);
+            result.put(repo.getDirectoryName(),summary);
         }
         System.out.println("done");
         return result;

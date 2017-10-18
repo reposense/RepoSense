@@ -27,9 +27,11 @@ public class RepoInfoFileGenerator {
         for (RepoInfo repo : repos) {
             generateIndividualRepoReport(repo, reportName);
         }
-        List<RepoContributionSummary> repoSummaries = ContributionSummaryGenerator.analyzeContribution(repos);
+        Map<String, RepoContributionSummary> repoSummaries = ContributionSummaryGenerator.analyzeContribution(repos);
         FileUtil.writeJSONFile(repoSummaries, getSummaryResultPath(reportName), "summaryJson");
         FileUtil.copyFile(new File(Constants.STATIC_SUMMARY_REPORT_FILE_ADDRESS),new File(getSummaryPagePath(reportName)));
+        FileUtil.copyFile(new File(Constants.STATIC_SUMMARY_REPORT_DETAIL_FILE_ADDRESS),new File(getDetailPagePath(reportName)));
+
     }
 
     private static List<RepoInfo> analyzeRepos(List<RepoConfiguration> configs) {
@@ -73,6 +75,10 @@ public class RepoInfoFileGenerator {
 
     private static String getSummaryPagePath(String repoReportDirectory){
         return Constants.REPORT_ADDRESS+"/"+repoReportDirectory+ "/index.html";
+    }
+
+    private static String getDetailPagePath(String repoReportDirectory){
+        return Constants.REPORT_ADDRESS+"/"+repoReportDirectory+ "/detail.html";
     }
 
     private static String getIndividualResultPath(String repoReportDirectory){

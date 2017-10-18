@@ -21,7 +21,7 @@ public class RepoContributionSummary {
         repo = repoInfo.getRepoName();
         organization = repoInfo.getOrganization();
         branch = repoInfo.getBranch();
-        displayName = repoInfo.getOrganization() + "_" + repoInfo.getRepoName();
+        displayName = repoInfo.getDirectoryName();
         authorIntervalContributions = new HashMap<>();
     }
 
