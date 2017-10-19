@@ -29,5 +29,8 @@ public class Constants {
 
     public static final String CSV_SPLITTER = ",";
 
+    public static final String REUSED_TAG = "//@reused";
+
+
 
 }

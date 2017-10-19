@@ -4,6 +4,7 @@ package analyzer;
 import dataObject.RepoConfiguration;
 import dataObject.FileInfo;
 import dataObject.LineInfo;
+import util.Constants;
 
 import java.io.*;
 import java.util.ArrayList;
@@ -30,8 +31,9 @@ public class FileAnalyzer {
                 analyzeAllFilesRecursive(config, file,result);
             }else{
                 if (!relativePath.endsWith(".java")) continue;
+                if (isReused(config.getRepoRoot(),relativePath)) continue;
                 FileInfo fileInfo = generateFileInfo(config.getRepoRoot(),relativePath);
-                BlameParser.aggregateBlameInfo(fileInfo,config.getRepoRoot());
+                BlameParser.aggregateBlameInfo(fileInfo,config);
                 if (config.isNeedCheckStyle()) {
                     CheckStyleParser.aggregateStyleIssue(fileInfo, config.getRepoRoot());
                 }
@@ -64,6 +66,19 @@ public class FileAnalyzer {
             e.printStackTrace();
         }
         return result;
+    }
+
+    private static boolean isReused(String repoRoot, String relativePath){
+        File file = new File(repoRoot+'/'+relativePath);
+        try (BufferedReader br = new BufferedReader(new FileReader(file))) {
+            String firstLine = br.readLine();
+            if (firstLine==null || firstLine.contains(Constants.REUSED_TAG)) return true;
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return false;
     }
 
     private static boolean shouldIgnore(String name, List<String> ignoreList) {
