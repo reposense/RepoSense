@@ -13,3 +13,11 @@ var getQueryVariable = function(variable) {
 var getLegalClassName = function(original) {
     return original.replace(/ /g, "-");
 }
+
+var getContribution = function(repo) {
+    var count = 0;
+    for (author in repo['authorFinalContributionMap']) {
+        count += repo['authorFinalContributionMap'][author];
+    }
+    return count;
+}

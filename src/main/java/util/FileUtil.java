@@ -1,3 +1,4 @@
+//@reused
 package util;
 
 import com.google.gson.Gson;
@@ -8,6 +9,7 @@ import java.io.*;
 /**
  * Created by matanghao1 on 10/7/17.
  */
+//@reused
 public class FileUtil {
 
     public static void writeJSONFile(Object object, String path, String prefix){
@@ -39,7 +41,7 @@ public class FileUtil {
         }else{
             delete(directory);
         }
-        System.out.println("Deletion Done");
+        //System.out.println("Deletion Done");
     }
 
     private static void delete(File file) {

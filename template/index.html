@@ -27,6 +27,17 @@
 					},
 					getHrefFromName : function(name) {
 						return "detail.html?repo=" + name;
+					},
+					sortByTotalContribution : function(summary) {
+						repos = [];
+						for (repo in summary){
+							summary[repo]["totalContribution"] = getContribution(summary[repo]);
+							repos.push(summary[repo]);
+						}
+						repos.sort(function(a,b){
+							return b["totalContribution"] - a["totalContribution"];
+						})
+						return repos;
 					}
 				}
 			});
@@ -36,7 +47,7 @@
 	<body>
 		<div id="vue-app">
 			<div class="box-wrapper">
-				<template v-for="repo in summary">
+				<template v-for="repo in sortByTotalContribution(summary)">
 				<div class="summary_box">
 					<h6><a v-bind:href="getHrefFromName(repo.displayName)">{{ repo.displayName }}</a></h6>
 					<div class="box-wrapper">
