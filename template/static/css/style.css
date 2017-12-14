@@ -2,10 +2,6 @@ html, body{
     height: 100%;
 }
 
-div.content-container {
-	width: 82vw;
-	float:right;
-}
 
 div.author-name-menu-container {
 	width: 15vw;
@@ -17,9 +13,11 @@ div.author-name-menu-container {
 div.code-container {
 
 }
-div.row {
-  border-bottom: 1px solid  #D3D3D3;
+
+div.authored {
+    background-color: Silver;
 }
+
 
 div.issue-col {
     border-left: 1px solid  #8B4513	;
@@ -74,40 +72,17 @@ div.box-wrapper {
     width:100%;
 }
 
-div.summary_box {
-    width: 45%;
-    -webkit-box-flex: auto;    /* iOS 6-, Safari 3.1-6 */
-    -moz-box-flex: 1.0;        /* Firefox 19- */
-    -webkit-flex: auto;        /* Chrome */
-    -ms-flex: auto;            /* IE10 */
-    flex: auto; 
-    position:relative;
-    padding: 2%;
-    border-radius: 25px;
-    border: 1px solid black;
-    margin: 1%;
+div.progress-chart-box {
+    width:30%;
+    float: left;
+}
+div.code-review-box {
+    width:68%;
+    float: right;
+    padding: 5px;
+    border-left: 1px solid black;
 }
 
-div.progress_box {
-	margin-top: 5%;
-	margin-left: 2%;
-    margin-bottom: 2%;
-    width: 40%;
-
-}
-
-div.distribution_box {
-	margin-left: 25%;
-    margin-bottom: 2%;
-    width: 30%;
-}
-
-
-
-.hover
-{
-    background-color:Silver;
-}
 
 div.highlighted {
 	background-color: #66ccff;
@@ -117,4 +92,20 @@ a.detail_link {
 	position: absolute;
     top: 0px;
     right: 0px;
+}
+
+div.slice {
+    position:absolute;
+    margin-left: 0%;
+    height: 100%;
+    width:3%;
+    background: linear-gradient(to top right, rgba(255,0,0,0.8) 50%, transparent 50%);
+    display: inline-block;
+}
+
+div.spectrum {
+    width:100%;
+    height:30px;
+    background-color:#deebf6;
+    position: relative;
 }

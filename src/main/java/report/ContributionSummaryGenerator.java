@@ -17,9 +17,31 @@ public class ContributionSummaryGenerator {
             RepoContributionSummary summary = new RepoContributionSummary(repo);
             summary.setAuthorIntervalContributions(getAuthorIntervalContributions(repo.getCommits()));
             summary.setAuthorFinalContributionMap(repo.getCommits().get(repo.getCommits().size()-1).getAuthorContributionMap());
+            summary.setAuthorRushiness(getAuthorRushiness(summary.getAuthorIntervalContributions()));
             result.put(repo.getDirectoryName(),summary);
         }
         System.out.println("done");
+        return result;
+    }
+
+    private static Map<Author, Float> getAuthorRushiness(Map<Author, List<AuthorIntervalContribution>> intervalContributionMaps) {
+        Map<Author, Float> result = new HashMap<>();
+        for (Author author : intervalContributionMaps.keySet()){
+            float totalRush = 0;
+            List<AuthorIntervalContribution> contributions = intervalContributionMaps.get(author);
+            for (int i = 1;i<contributions.size();i++){
+                int previous = contributions.get(i-1).getTotalContribution();
+                int current = contributions.get(i).getTotalContribution();
+                if (current> previous){
+                    if (previous==0){
+                        totalRush += 1.0;
+                    }else {
+                        totalRush += (current - previous) * 1.0 / previous;
+                    }
+                }
+            }
+            result.put(author,totalRush/contributions.size());
+        }
         return result;
     }
 

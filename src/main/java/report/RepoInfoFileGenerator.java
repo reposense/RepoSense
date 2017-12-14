@@ -1,6 +1,7 @@
 package report;
 
 import analyzer.RepoAnalyzer;
+import dataObject.FileInfo;
 import dataObject.RepoConfiguration;
 import dataObject.RepoContributionSummary;
 import dataObject.RepoInfo;
@@ -27,6 +28,7 @@ public class RepoInfoFileGenerator {
         for (RepoInfo repo : repos) {
             generateIndividualRepoReport(repo, reportName);
         }
+
         Map<String, RepoContributionSummary> repoSummaries = ContributionSummaryGenerator.analyzeContribution(repos);
         FileUtil.writeJSONFile(repoSummaries, getSummaryResultPath(reportName), "summaryJson");
         FileUtil.copyFile(new File(Constants.STATIC_SUMMARY_REPORT_FILE_ADDRESS),new File(getSummaryPagePath(reportName)));
@@ -37,7 +39,7 @@ public class RepoInfoFileGenerator {
     private static List<RepoInfo> analyzeRepos(List<RepoConfiguration> configs) {
         List<RepoInfo> result = new ArrayList<>();
         for (RepoConfiguration config : configs) {
-            GitCloner.downloadRepo(config.getOrganization(), config.getRepoName(), config.getBranch());
+            //GitCloner.downloadRepo(config.getOrganization(), config.getRepoName(), config.getBranch());
             RepoInfo repoinfo = new RepoInfo(config.getOrganization(), config.getRepoName(),config.getBranch());
             RepoAnalyzer.analyzeCommits(config, repoinfo);
             result.add(repoinfo);
@@ -51,8 +53,8 @@ public class RepoInfoFileGenerator {
         String repoReportDirectory = Constants.REPORT_ADDRESS+"/"+reportName+"/"+repoReportName;
         new File(repoReportDirectory).mkdirs();
         copyTemplate(repoReportDirectory, Constants.STATIC_INDIVIDUAL_REPORT_TEMPLATE_ADDRESS);
-
-        FileUtil.writeJSONFile(repoinfo,getIndividualResultPath(repoReportDirectory),"resultJson");
+        ArrayList<FileInfo> fileInfos = repoinfo.getCommits().get(repoinfo.getCommits().size()-1).getFileinfos();
+        FileUtil.writeJSONFile(fileInfos,getIndividualResultPath(repoReportDirectory),"resultJson");
 
         System.out.println("report for "+ repoReportName+" Generated!");
 

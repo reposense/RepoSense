@@ -15,27 +15,11 @@
 				el: '#vue-app',
 				data: {
 					currentAuthor : getQueryVariable('author'),
-					result : resultJson,
-					authors : Object.keys(resultJson.commits[resultJson.commits.length-1].authorContributionMap)
+					result : resultJson
 				},
 				methods: {
-				getMethodIdentifier: function (line) {
-					return line.methodInfo == null ? '' : line.methodInfo.methodUID
-				},
-				getMethodOwnerName: function (line) {
-					return line.methodInfo == null ? '' : 'method owner : '+line.methodInfo.owner.email
-				},
 				getAuthorUrlQuery : function (author) {
 					return "?author=" + author
-				},
-				getAuthorTabLink : function (author) {
-					return "#" + getLegalClassName(author);
-				},
-				getAuthorContributionCanvasID : function (author) {
-					return getLegalClassName(author) + "-progress-canvas";
-				},
-				getLegalClassName : function (author) {
-					return getLegalClassName(author);
 				},
 				containAuthorLine : function(file, authorName){
 					for (i=0; i<file.lines.length;i++){
@@ -45,32 +29,18 @@
 					}
 					return false;
 				},
-				shouldDisplayLine : function(line, currentAuthor, authors){
-					if (currentAuthor == null){
-						if (authors.includes(line.author.email)){
-							return true;
-						}
-						if (line.methodInfo!=null && authors.includes(line.methodInfo.owner.email)){
-							return true;
-						}
-					} else{
-						if (line.author.email == currentAuthor){
-							return true;
-						}
-						if (line.methodInfo != null && line.methodInfo.owner.email == currentAuthor){
-							return true;
-						}
+				getAuthorClass : function(line, currentAuthor){
+					if (currentAuthor!=null && line.author.email == currentAuthor){
+						return "authored";
 					}
-					return false;
+					return "";
 				}
+
 				}
 			});
 			$( "#code-style-app" ).accordion({
 				collapsible: true,
 				heightStyle: "content"
-			});
-			$( ".author-name-menu" ).menu({
-				items: "> :not(.ui-widget-header)"
 			});
 		});
 		</script>
@@ -78,29 +48,17 @@
 	</head>
 	<body>
 		<div id="vue-app">
-			<div class="author-name-menu-container">
-				<ul class="author-name-menu">
-					<li class="ui-widget-header"><div>Authors</div></li>
-					<li><a href="?">All</a></li>
-					<li v-for="author in authors">
-						<a v-bind:href="getAuthorUrlQuery(author)">{{ author }}</a>
-					</li>
-				</ul>
-			</div>
 			<div class="content-container">
+				<h3>current author:{{currentAuthor}}</h3>
 				<div id="code-style-app" >
-					<template v-for="file in result.commits[result.commits.length-1].fileinfos">
+					<template v-for="file in result">
 						<template v-if="containAuthorLine(file, currentAuthor) || currentAuthor == null">
 							<h3>{{ file.path }}</h3>
 							<div>
 								<template v-for="line in file.lines">
-									<template v-if="shouldDisplayLine(line, currentAuthor,authors)">
 										<div class="row">
-											<div class="col-md-3 author-col">{{ line.author.email }}</div>
-											<div class="col-md-1 line-number" >{{ line.lineNumber }}</div>
-											<div class="col-md-8 line-content " v-bind:id="getMethodIdentifier(line)" v-bind:title="getMethodOwnerName(line)" ><pre>{{line.content}}</pre></div>
+											<div class="col-sm-11 line-content " v-bind:class="getAuthorClass(line,currentAuthor)" ><pre>{{line.content}}</pre></div>
 										</div>
-									</template>
 								</template>
 							</div>
 						</template>

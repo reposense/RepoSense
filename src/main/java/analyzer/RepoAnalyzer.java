@@ -20,7 +20,9 @@ public class RepoAnalyzer {
         GitChecker.checkoutBranch(config.getRepoRoot(),config.getBranch());
         System.out.println("analyzing commits for "+config.getOrganization()+"/"+config.getRepoName()+"...");
         List<CommitInfo> commits = GitLogger.getCommits(config.getRepoRoot(), config);
+        System.out.println("analyzing git log output...");
         CommitInfo lastCommit = commits.get(commits.size()-1);
+        System.out.println("aggregating file info...");
         CommitAnalyzer.aggregateFileInfos(config,lastCommit);
         repo.setCommits(commits);
         System.out.println("done analyzing commits...");

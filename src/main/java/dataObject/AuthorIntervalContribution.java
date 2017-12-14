@@ -43,6 +43,9 @@ public class AuthorIntervalContribution {
     public void updateForCommit(CommitInfo commit){
         insertions += commit.getInsertions();
         deletions += commit.getDeletions();
+    }
 
+    public int getTotalContribution(){
+        return insertions + deletions;
     }
 }

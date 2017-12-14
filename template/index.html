@@ -10,8 +10,36 @@
 		<script src="static/scripts/lib/charts.js"></script>
 		<script src="static/scripts/lib/vue.js"></script>
 		<script type="text/javascript" src="static/scripts/utils.js"></script>
-		<script type="text/javascript" src="static/scripts/summary-data-formating.js"></script>
 		<script>
+		function getScaleLimit(){
+			var totalContribution = 0;
+			var count = 0;
+			for (repo in summaryJson){
+				for (author in summaryJson[repo]['authorIntervalContributions']){
+					for (i in summaryJson[repo]['authorIntervalContributions'][author]){
+						currentPeriod = summaryJson[repo]['authorIntervalContributions'][author][i];
+						totalContribution += currentPeriod['insertions'] + currentPeriod['deletions'];
+						count += 1
+					}
+				}
+			}
+			return totalContribution/count*6;
+		};
+		function getTotalContributionLimit(){
+			var totalContribution = 0;
+			var count = 0;
+			for (repo in summaryJson){
+				for (author in summaryJson[repo]['authorFinalContributionMap']){
+					totalContribution += (summaryJson[repo]['authorFinalContributionMap'][author]);
+								count += 1
+				}
+			}
+			return totalContribution/count*2;
+		};
+		var sliceScaleLimit = getScaleLimit();
+		var totalContributionLimit = getTotalContributionLimit();
+		var hexcolors = [ "#E69F00", "#56B4E9", "#009E73", "#F0E442", "#0072B2", "#D55E00", "#CC79A7"];
+		var rgbacolors = ["rgba(230,159,0,0.6)","rgba(86,180,233,0.6)","rgba(0,158,115,0.6)","rgba(240,228,66,0.6)","rgba(0,114,178,0.6)","rgba(213,94,0,0.6)","rgba(204,121,167,0.6)"];
 		$(document).ready(function() {
 			var app = new Vue({
 				el: '#vue-app',
@@ -19,48 +47,84 @@
 					summary : summaryJson,
 				},
 				methods: {
-					getDistributionCanvasID : function (repo) {
-						return repo + "-distribution-canvas";
-					},
-					getProgressCanvasID : function(repo) {
-						return repo + "-progress-canvas";
-					},
-					getHrefFromName : function(name) {
-						return "detail.html?repo=" + name;
-					},
-					sortByTotalContribution : function(summary) {
-						repos = [];
-						for (repo in summary){
-							summary[repo]["totalContribution"] = getContribution(summary[repo]);
-							repos.push(summary[repo]);
+					getSliceStyle : function(index, value){
+						var contribution = value['insertions'];
+						var width;
+						if (contribution==0) {
+							width = 0;
+						}else if(contribution > sliceScaleLimit){
+							width = 20;
+						} else {
+							width = contribution/sliceScaleLimit*20;
+							if (width<0.5){
+								width = 0.5;
+							}
 						}
-						repos.sort(function(a,b){
-							return b["totalContribution"] - a["totalContribution"];
-						})
-						return repos;
-					}
-				}
-			});
-		});
-		</script>
-	</head>
-	<body>
-		<div id="vue-app">
-			<div class="box-wrapper">
-				<template v-for="repo in sortByTotalContribution(summary)">
-				<div class="summary_box">
-					<h6><a v-bind:href="getHrefFromName(repo.displayName)">{{ repo.displayName }}</a></h6>
-					<div class="box-wrapper">
-						<div class="progress_box" >
-							<canvas v-bind:id="getProgressCanvasID(repo.displayName)"></canvas>
+						var color = rgbacolors[index%(rgbacolors.length)];
+						return "margin-left:"+(index*5-width+12)+"%;"+"width:"+width+"%;"+"background: linear-gradient(to left top, "+color+" 50%, transparent 50%);";
+					},
+					getContributionBarWidths : function(value) {
+						var widths = [];
+						for (var i=0; i<parseInt(value/totalContributionLimit);i++){
+								widths.push("100%");
+							}
+							widths.push((value%totalContributionLimit)/totalContributionLimit*100+"%");
+							return widths;
+						},
+						getSliceTitle : function(value) {
+							return value['date']+"'s contribution : " + value['insertions'];
+						},
+						getContributionBarTitle : function(value) {
+							return "total contribution : " + value;
+						},
+						sortByTotalContribution : function(summary) {
+								repos = [];
+								for (repo in summary){
+									summary[repo]["totalContribution"] = getContribution(summary[repo]);
+									repos.push(summary[repo]);
+								}
+								repos.sort(function(a,b){
+									return b["totalContribution"] - a["totalContribution"];
+								})
+								return repos;
+							}
+						}
+					});
+					$(".author_name_tag").click(function(){
+						repoName = $(this).attr("reponame");
+						org = $(this).attr("org");
+						author = $(this).attr("author");
+						url = org + "_" +repoName + "/" + "index.html?author=" + author;
+						$(".report-frame").attr('src',url);
+					});
+				});
+				$( function() {
+					$( document ).tooltip();
+				} );
+			</script>
+		</head>
+		<body>
+			<div id="vue-app">
+				<div class="progress-chart-box" style="height:100%">
+					<template v-for="repo in sortByTotalContribution(summary)">
+					<template v-for="(value, author) in repo.authorIntervalContributions">
+					<div class="main" style="width:100%;margin-left:5%">
+						<h3 class="author_name_tag" v-bind:org="repo.organization" v-bind:author="author" v-bind:reponame="repo.repo">{{repo.organization}}/{{author}}</h3>
+						<div class="spectrum">
+							<template v-for="(value, index) in value">
+							<div class="slice" v-bind:style="getSliceStyle(index,value)" v-bind:title="getSliceTitle(value)" ></div>
+							</template>
 						</div>
-						<div class="distribution_box" >
-							<canvas v-bind:id="getDistributionCanvasID(repo.displayName)"></canvas>
+						<div v-bind:title="getContributionBarTitle(repo.authorFinalContributionMap[author])" style="min-height:15px;" >
+							<hr align="left" v-for="width in getContributionBarWidths(repo.authorFinalContributionMap[author])" v-bind:width="width" style="border-color: red"/>
 						</div>
 					</div>
+					</template>
+					</template>
 				</div>
-				</template>
+				<div class="code-review-box">
+					<iframe class="report-frame" src="repo_report/index.html?author=ongjingyin@yahoo.com.sg" style="height:100%;width: 100%"></iframe>
+				</div>
 			</div>
-		</div>
-	</body>
-</html>
+		</body>
+	</html>

@@ -1,9 +1,6 @@
 package dataObject;
 
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Created by matanghao1 on 4/10/17.
@@ -16,6 +13,7 @@ public class RepoContributionSummary {
     private String displayName;
     private Map<Author, List<AuthorIntervalContribution>> authorIntervalContributions;
     private Map<Author, Integer> authorFinalContributionMap;
+    private Map<Author, Float> authorRushiness;
 
     public RepoContributionSummary(RepoInfo repoInfo){
         repo = repoInfo.getRepoName();
@@ -23,6 +21,7 @@ public class RepoContributionSummary {
         branch = repoInfo.getBranch();
         displayName = repoInfo.getDirectoryName();
         authorIntervalContributions = new HashMap<>();
+        authorRushiness = new HashMap<>();
     }
 
     public String getBranch() {
@@ -71,5 +70,13 @@ public class RepoContributionSummary {
 
     public void setAuthorFinalContributionMap(Map<Author, Integer> authorFinalContributionMap) {
         this.authorFinalContributionMap = authorFinalContributionMap;
+    }
+
+    public Map<Author, Float> getAuthorRushiness() {
+        return authorRushiness;
+    }
+
+    public void setAuthorRushiness(Map<Author, Float> authorRushiness) {
+        this.authorRushiness = authorRushiness;
     }
 }
