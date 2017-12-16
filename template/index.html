@@ -45,6 +45,8 @@
 				el: '#vue-app',
 				data: {
 					summary : summaryJson,
+					sortElement : "",
+					sortOrder : "",
 				},
 				methods: {
 					getSliceStyle : function(index, value){
@@ -66,61 +68,90 @@
 					getContributionBarWidths : function(value) {
 						var widths = [];
 						for (var i=0; i<parseInt(value/totalContributionLimit);i++){
-								widths.push("100%");
-							}
-							widths.push((value%totalContributionLimit)/totalContributionLimit*100+"%");
-							return widths;
-						},
-						getSliceTitle : function(value) {
-							return value['date']+"'s contribution : " + value['insertions'];
-						},
-						getContributionBarTitle : function(value) {
-							return "total contribution : " + value;
-						},
-						sortByTotalContribution : function(summary) {
-								repos = [];
-								for (repo in summary){
-									summary[repo]["totalContribution"] = getContribution(summary[repo]);
-									repos.push(summary[repo]);
+									widths.push("100%");
 								}
-								repos.sort(function(a,b){
-									return b["totalContribution"] - a["totalContribution"];
-								})
-								return repos;
+								widths.push((value%totalContributionLimit)/totalContributionLimit*100+"%");
+								return widths;
+							},
+							getSliceTitle : function(value) {
+								return value['date']+"'s contribution : " + value['insertions'];
+							},
+							getContributionBarTitle : function(value) {
+								return "total contribution : " + value;
+							},
+							getUpdatedSortLink : function(sortElement,sortOrder) {
+								return "window.location.href='?sortElement=" + sortElement + "&sortOrder=" + sortOrder +"'";
+							},
+							sort : function(summary,sortElement,sortOrder) {
+									authorRepos = [];
+									for (repo in summary){
+										for (author in summary[repo]['authorIntervalContributions']){
+											authorRepo={};
+											authorRepo['author'] = author;
+											authorRepo['displayName'] = summary[repo]['displayName'];
+											authorRepo['authorIntervalContribution'] = summary[repo]['authorIntervalContributions'][author];
+											authorRepo['finalContribution'] = summary[repo]['authorFinalContributionMap'][author];
+											authorRepo['rushiness'] = summary[repo]['authorRushiness'][author];
+											authorRepos.push(authorRepo);
+										}
+									}
+									if(sortOrder=="high2low"){
+										authorRepos.sort(function(a,b){
+											return b[sortElement] - a[sortElement];
+										})
+									}else{
+										authorRepos.sort(function(a,b){
+											return a[sortElement] - b[sortElement];
+										})
+									}
+									
+									return authorRepos;
+								}
 							}
-						}
+						});
+						$(".author_name_tag").click(function(){
+							displayName = $(this).attr("displayName");
+							author = $(this).attr("author");
+							url = displayName + "/" + "index.html?author=" + author;
+							$(".report-frame").attr('src',url);
+						});
 					});
-					$(".author_name_tag").click(function(){
-						repoName = $(this).attr("reponame");
-						org = $(this).attr("org");
-						author = $(this).attr("author");
-						url = org + "_" +repoName + "/" + "index.html?author=" + author;
-						$(".report-frame").attr('src',url);
-					});
-				});
-				$( function() {
-					$( document ).tooltip();
-				} );
+					$( function() {
+						$( document ).tooltip();
+					} );
 			</script>
 		</head>
 		<body>
 			<div id="vue-app">
 				<div class="progress-chart-box" style="height:100%">
-					<template v-for="repo in sortByTotalContribution(summary)">
-					<template v-for="(value, author) in repo.authorIntervalContributions">
-					<div class="main" style="width:100%;margin-left:5%">
-						<h3 class="author_name_tag" v-bind:org="repo.organization" v-bind:author="author" v-bind:reponame="repo.repo">{{repo.organization}}/{{author}}</h3>
-						<div class="spectrum">
-							<template v-for="(value, index) in value">
-							<div class="slice" v-bind:style="getSliceStyle(index,value)" v-bind:title="getSliceTitle(value)" ></div>
-							</template>
-						</div>
-						<div v-bind:title="getContributionBarTitle(repo.authorFinalContributionMap[author])" style="min-height:15px;" >
-							<hr align="left" v-for="width in getContributionBarWidths(repo.authorFinalContributionMap[author])" v-bind:width="width" style="border-color: red"/>
-						</div>
+					<div class="progress-chart-tool" style="height:3%;padding:1%">
+						<label>Sort By:</label>
+						<select v-model="sortElement">
+							<option disabled value="">-</option>
+							<option value="rushiness">Rushiness</option>
+							<option value="finalContribution">Total Contribution</option>
+						</select>
+						<select v-model="sortOrder">
+							<option disabled value="">-</option>
+							<option value="low2high">Low To High</option>
+							<option value="high2low">High To Low</option>
+						</select>
 					</div>
-					</template>
-					</template>
+					<div class="progress-chart-main" style="height:97%">
+						<template v-for="(authorRepo, i) in sort(summary,sortElement,sortOrder)">
+						<div class="main" style="width:100%;margin-left:5%">
+							<h3 class="author_name_tag" v-bind:displayName="authorRepo.displayName" v-bind:author="authorRepo.author">{{authorRepo.displayName}}/{{authorRepo.author}}</h3>
+							<div class="spectrum">
+								<template v-for="(element, index) in authorRepo.authorIntervalContribution">
+								<div class="slice" v-bind:style="getSliceStyle(index,element)" v-bind:title="getSliceTitle(element)" ></div>
+								</template>
+							</div>
+							<div v-bind:title="getContributionBarTitle(authorRepo.finalContribution)" style="min-height:15px;" >
+								<hr align="left" v-for="width in getContributionBarWidths(authorRepo.finalContribution)" v-bind:width="width" style="border-color: red"/>
+							</div>
+						</div>
+						</template>
+					</div>
 				</div>
 				<div class="code-review-box">
 					<iframe class="report-frame" src="repo_report/index.html?author=ongjingyin@yahoo.com.sg" style="height:100%;width: 100%"></iframe>

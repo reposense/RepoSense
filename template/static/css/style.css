@@ -41,46 +41,19 @@ pre {
 	overflow: hidden;
 }
 
-div.box-wrapper {
-	display: -webkit-box;     /* iOS 6-, Safari 3.1-6 */
-    display: -moz-box;        /* Firefox 19- */
-    display: -ms-flexbox;     /* IE 10 */
-    display: -webkit-flex;    /* Chrome */
-    display: flex;            /* Opera 12.1, Firefox 20+ */
-    
-    /* iOS 6-, Safari 3.1-6 */
-    -webkit-box-orient: horizontal;
-    -webkit-box-pack: justify;
-    -webkit-lines: multiple;  /* Only here for informative purpose, this line is what should have made it work, it has never been implemented */     
-
-    /* Firefox 19- */
-    -moz-flex-flow: row wrap;
-    -moz-justify-content: space-between;
-    -moz-box-lines: multiple; /* Only here for informative purpose, this line is what should have made it work, it has never been implemented */ 
-    
-    /* Chrome */
-    -webkit-flex-flow: row wrap;
-    -webkit-justify-content: space-between;
-    
-    /* IE10 */
-    -ms-flex-flow: row wrap;
-    -ms-justify-content: space-between;
-    
-    /* Opera 12.1, Firefox 20+ */
-    flex-flow: row wrap;
-    justify-content: space-between;
-    width:100%;
-}
-
 div.progress-chart-box {
     width:30%;
     float: left;
 }
+
+div.progress-chart-main {
+    overflow-y: scroll;
+    overflow-x: hidden;
+}
 div.code-review-box {
-    width:68%;
+    width:69%;
     float: right;
-    padding: 5px;
-    border-left: 1px solid black;
+    padding: 1px;
 }
 
 
@@ -108,4 +81,8 @@ div.spectrum {
     height:30px;
     background-color:#deebf6;
     position: relative;
+}
+
+::-webkit-scrollbar { 
+    display: none; 
 }
