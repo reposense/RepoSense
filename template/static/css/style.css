@@ -2,6 +2,10 @@ html, body{
     height: 100%;
 }
 
+body.main-app{
+    overflow: hidden;
+}
+
 
 div.author-name-menu-container {
 	width: 15vw;
@@ -42,7 +46,6 @@ pre {
 }
 
 div.progress-chart-box {
-    width:30%;
     float: left;
 }
 
@@ -51,7 +54,6 @@ div.progress-chart-main {
     overflow-x: hidden;
 }
 div.code-review-box {
-    width:69%;
     float: right;
     padding: 1px;
 }

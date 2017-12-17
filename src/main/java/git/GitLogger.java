@@ -21,29 +21,28 @@ public class GitLogger {
 
     public static List<CommitInfo> getCommits(String repoRoot, RepoConfiguration config){
         String raw = CommandRunner.gitLog(repoRoot);
-        ArrayList<CommitInfo> relevantCommits = parseCommitInfo(raw, config.getAuthorList());
+        ArrayList<CommitInfo> relevantCommits = parseCommitInfo(raw, config.getAuthorList(),config);
         return relevantCommits;
     }
 
-    private static ArrayList<CommitInfo> parseCommitInfo(String rawResult, List<Author> authors){
+    private static ArrayList<CommitInfo> parseCommitInfo(String rawResult, List<Author> authors,RepoConfiguration config){
         ArrayList<CommitInfo> result = new ArrayList<CommitInfo>();
         String[] rawLines= rawResult.split("\n");
         for (int i=0;i<rawLines.length;i++){
-            CommitInfo commit = parseRawLine(rawLines[i],rawLines[++i]);
-            //if the commit is done by someone not being analyzed, skip it.
-            if (!authors.isEmpty() && !authors.contains(commit.getAuthor())){
-                continue;
-            }
+            CommitInfo commit = parseRawLine(rawLines[i],rawLines[++i],config);
+            if (commit == null) continue;
             result.add(commit);
         }
         Collections.reverse(result);
         return result;
     }
 
-    private static CommitInfo parseRawLine(String infoLine, String statLine){
+    private static CommitInfo parseRawLine(String infoLine, String statLine, RepoConfiguration config){
         String[] elements = infoLine.split(Constants.LOG_SPLITTER);
         String hash = elements[0];
-        Author author = new Author(elements[1]);
+        Author author = config.getAuthorAliasMap().get(elements[1]);
+        //if the commit is done by someone not being analyzed, skip it.
+        if (author == null) return null;
         Date date = null;
         try {
             date = Constants.GIT_ISO_FORMAT.parse(elements[2]);

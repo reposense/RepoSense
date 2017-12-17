@@ -14,11 +14,12 @@ public class BlameParser {
         String raw = CommandRunner.blameRaw(config.getRepoRoot(), fileInfo.getPath());
         String[] rawLines = raw.split("\n");
         for (int i = 0; i < rawLines.length; i++) {
-            String authorName = getAuthorNameFromSingleLine(rawLines[i]);
-            if (!config.getAuthorList().contains(new Author(authorName))){
-                authorName = "-";
+            String authorRawName = getAuthorNameFromSingleLine(rawLines[i]);
+            Author author = config.getAuthorAliasMap().get(authorRawName);
+            if (author == null){
+                author = new Author("-");
             }
-            fileInfo.getLines().get(i).setAuthorByName(authorName);
+            fileInfo.getLines().get(i).setAuthor(author);
         }
 
     }

@@ -68,62 +68,76 @@
 					getContributionBarWidths : function(value) {
 						var widths = [];
 						for (var i=0; i<parseInt(value/totalContributionLimit);i++){
-									widths.push("100%");
-								}
-								widths.push((value%totalContributionLimit)/totalContributionLimit*100+"%");
-								return widths;
-							},
-							getSliceTitle : function(value) {
-								return value['date']+"'s contribution : " + value['insertions'];
-							},
-							getContributionBarTitle : function(value) {
-								return "total contribution : " + value;
-							},
-							getUpdatedSortLink : function(sortElement,sortOrder) {
-								return "window.location.href='?sortElement=" + sortElement + "&sortOrder=" + sortOrder +"'";
-							},
-							sort : function(summary,sortElement,sortOrder) {
-									authorRepos = [];
-									for (repo in summary){
-										for (author in summary[repo]['authorIntervalContributions']){
-											authorRepo={};
-											authorRepo['author'] = author;
-											authorRepo['displayName'] = summary[repo]['displayName'];
-											authorRepo['authorIntervalContribution'] = summary[repo]['authorIntervalContributions'][author];
-											authorRepo['finalContribution'] = summary[repo]['authorFinalContributionMap'][author];
-											authorRepo['rushiness'] = summary[repo]['authorRushiness'][author];
-											authorRepos.push(authorRepo);
+										widths.push("100%");
+									}
+									widths.push((value%totalContributionLimit)/totalContributionLimit*100+"%");
+									return widths;
+								},
+								getSliceTitle : function(value) {
+									return value['date']+"'s contribution : " + value['insertions'];
+								},
+								getContributionBarTitle : function(value) {
+									return "total contribution : " + value;
+								},
+								getUpdatedSortLink : function(sortElement,sortOrder) {
+									return "window.location.href='?sortElement=" + sortElement + "&sortOrder=" + sortOrder +"'";
+								},
+								sort : function(summary,sortElement,sortOrder) {
+										authorRepos = [];
+										for (repo in summary){
+											for (author in summary[repo]['authorIntervalContributions']){
+												authorRepo={};
+												authorRepo['author'] = author;
+												authorRepo['displayName'] = summary[repo]['displayName'];
+												authorRepo['authorIntervalContribution'] = summary[repo]['authorIntervalContributions'][author];
+												authorRepo['finalContribution'] = summary[repo]['authorFinalContributionMap'][author];
+												authorRepo['rushiness'] = summary[repo]['authorRushiness'][author];
+												authorRepos.push(authorRepo);
+											}
 										}
+										if(sortOrder=="high2low"){
+											authorRepos.sort(function(a,b){
+												return b[sortElement] - a[sortElement];
+											})
+										}else{
+											authorRepos.sort(function(a,b){
+												return a[sortElement] - b[sortElement];
+											})
+										}
+										
+										return authorRepos;
 									}
-									if(sortOrder=="high2low"){
-										authorRepos.sort(function(a,b){
-											return b[sortElement] - a[sortElement];
-										})
-									}else{
-										authorRepos.sort(function(a,b){
-											return a[sortElement] - b[sortElement];
-										})
-									}
-									
-									return authorRepos;
 								}
-							}
+							});
+							$(".author_name_tag").click(function(){
+								displayName = $(this).attr("displayName");
+								author = $(this).attr("author");
+								url = displayName + "/" + "index.html?author=" + author;
+								$(".report-frame").attr('src',url);
+								$(".progress-chart-box").animate({
+									width: "30%"
+								}, 300 );
+								$(".code-review-box").animate({
+									width: "70%"
+								}, 300 );
+							});
+							$(".hide_button").click(function() {
+								$(".progress-chart-box").animate({
+									width: "100%"
+								}, 300 );
+								$(".code-review-box").animate({
+									width: "0%"
+								}, 300 );
+							})
 						});
-						$(".author_name_tag").click(function(){
-							displayName = $(this).attr("displayName");
-							author = $(this).attr("author");
-							url = displayName + "/" + "index.html?author=" + author;
-							$(".report-frame").attr('src',url);
-						});
-					});
-					$( function() {
-						$( document ).tooltip();
-					} );
+						$( function() {
+							$( document ).tooltip();
+						} );
 			</script>
 		</head>
-		<body>
+		<body class="main-app">
 			<div id="vue-app">
-				<div class="progress-chart-box" style="height:100%">
+				<div class="progress-chart-box" style="height:100%;width:100%;">
 					<div class="progress-chart-tool" style="height:3%;padding:1%">
 						<label>Sort By:</label>
 						<select v-model="sortElement">
@@ -153,7 +167,8 @@
 						</template>
 					</div>
 				</div>
-				<div class="code-review-box">
+				<div class="code-review-box" style="width:0%;position:relative;">
+					<div style="left:2%;top:2%;position:absolute;" class="hide_button">>></div>
 					<iframe class="report-frame" src="repo_report/index.html?author=ongjingyin@yahoo.com.sg" style="height:100%;width: 100%"></iframe>
 				</div>
 			</div>

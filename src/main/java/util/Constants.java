@@ -12,7 +12,6 @@ public class Constants {
     public static final String REPOS_ADDRESS = "repos";
     public static final String STATIC_LIB_TEMPLATE_ADDRESS = "template/static/";
     public static final String STATIC_SUMMARY_REPORT_FILE_ADDRESS = "template/index.html";
-    public static final String STATIC_SUMMARY_REPORT_DETAIL_FILE_ADDRESS = "template/detail.html";
 
 
     public static final String STATIC_INDIVIDUAL_REPORT_TEMPLATE_ADDRESS = "template/repo_report/";
@@ -28,6 +27,7 @@ public class Constants {
 
 
     public static final String CSV_SPLITTER = ",";
+    public static final String AUTHOR_ALIAS_SPLITTER = ";";
 
     public static final String REUSED_TAG = "//@reused";
 

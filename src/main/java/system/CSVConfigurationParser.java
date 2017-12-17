@@ -28,8 +28,9 @@ public class CSVConfigurationParser {
                 String org = elements[0];
                 String repoName = elements[1];
                 String branch = elements[2];
-                List<Author> authors = getAuthors(elements);
-                configs.add((new ConfigurationBuilder(org,repoName,branch)).authorList(authors).build());
+                RepoConfiguration newConfig = new RepoConfiguration(org,repoName,branch);
+                aggregateAuthorInfo(elements,newConfig);
+                configs.add(newConfig);
             }
             return configs;
         } catch (IOException e) {
@@ -38,11 +39,17 @@ public class CSVConfigurationParser {
         }
     }
 
-    private static List<Author> getAuthors(String[] elements){
-        List<Author> authors = new ArrayList<>();
+    private static void aggregateAuthorInfo(String[] elements, RepoConfiguration config){
         for (int i=3;i<elements.length;i++){
-            authors.add(new Author(elements[i]));
+            Author currentAuthor = new Author(elements[i]);
+            config.getAuthorList().add(currentAuthor);
+            config.getAuthorAliasMap().put(elements[i],currentAuthor);
+            i++;
+            if (elements[i].length()!=0){
+                for (String alias : elements[i].split(Constants.AUTHOR_ALIAS_SPLITTER)){
+                    config.getAuthorAliasMap().put(alias,currentAuthor);
+                }
+            }
         }
-        return authors;
     }
 }

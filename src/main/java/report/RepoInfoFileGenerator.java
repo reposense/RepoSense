@@ -32,7 +32,6 @@ public class RepoInfoFileGenerator {
         Map<String, RepoContributionSummary> repoSummaries = ContributionSummaryGenerator.analyzeContribution(repos);
         FileUtil.writeJSONFile(repoSummaries, getSummaryResultPath(reportName), "summaryJson");
         FileUtil.copyFile(new File(Constants.STATIC_SUMMARY_REPORT_FILE_ADDRESS),new File(getSummaryPagePath(reportName)));
-        FileUtil.copyFile(new File(Constants.STATIC_SUMMARY_REPORT_DETAIL_FILE_ADDRESS),new File(getDetailPagePath(reportName)));
 
     }
 
