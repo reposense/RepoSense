@@ -3,12 +3,14 @@ package dataObject;
 import util.FileUtil;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by matanghao1 on 10/7/17.
  */
-public class Configuration {
+public class RepoConfiguration {
     private boolean needCheckStyle = false;
     private int commitNum = 1;
     private String organization;
@@ -16,10 +18,11 @@ public class Configuration {
     private String branch;
     private List<String> ignoreDirectoryList = new ArrayList<>();
     private List<Author> authorList = new ArrayList<>();
+    private Map<String,Author> authorAliasMap = new HashMap<>();
     private boolean annotationOverwrite = false;
 
 
-    public Configuration(String organization, String repoName, String branch) {
+    public RepoConfiguration(String organization, String repoName, String branch) {
         this.organization = organization;
         this.repoName = repoName;
         this.branch = branch;
@@ -91,5 +94,13 @@ public class Configuration {
 
     public void setAuthorList(List<Author> authorList) {
         this.authorList = authorList;
+    }
+
+    public Map<String, Author> getAuthorAliasMap() {
+        return authorAliasMap;
+    }
+
+    public void setAuthorAliasMap(Map<String, Author> authorAliasMap) {
+        this.authorAliasMap = authorAliasMap;
     }
 }

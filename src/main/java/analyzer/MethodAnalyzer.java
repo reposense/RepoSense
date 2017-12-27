@@ -17,7 +17,7 @@ import java.util.HashMap;
  * Created by matanghao1 on 19/6/17.
  */
 public class MethodAnalyzer {
-    public static void aggregateMethodInfo(FileInfo fileInfo, Configuration config){
+    public static void aggregateMethodInfo(FileInfo fileInfo, RepoConfiguration config){
         FileInputStream in = null;
         try {
             in = new FileInputStream(config.getRepoRoot() + "/" + fileInfo.getPath());
@@ -25,25 +25,35 @@ public class MethodAnalyzer {
             e.printStackTrace();
         }
 
-        CompilationUnit cu = JavaParser.parse(in);
+        CompilationUnit cu;
+        try {
+            cu = JavaParser.parse(in);
+        } catch (Exception e){
+            return;
+        }
 
         MethodVisitor methodVistor = new MethodVisitor();
         methodVistor.visit(cu, null);
         ArrayList<MethodInfo> methods = methodVistor.getMethods();
         for (MethodInfo methodInfo : methods){
-            HashMap<Author, Integer> countributorMap = new HashMap<>();
+            HashMap<Author, Integer> contributorMap = new HashMap<>();
             for (int lineNum = methodInfo.getStart(); lineNum<=methodInfo.getEnd();lineNum++){
                 LineInfo line = fileInfo.getLineByNumber(lineNum);
                 Author author = line.getAuthor();
-                int authorLineCount = countributorMap.getOrDefault(author,0);
-                countributorMap.put(author , authorLineCount+1);
-
-                line.setMethodInfo(methodInfo);
+                if (config.getAuthorList().isEmpty() || config.getAuthorList().contains(author)) {
+                    int authorLineCount = contributorMap.getOrDefault(author, 0);
+                    contributorMap.put(author, authorLineCount + 1);
+                }
+                //line.setMethodInfo(methodInfo);
             }
-            Author owner = Collections.max(countributorMap.entrySet(),(author1,author2) -> (author1.getValue() - author2.getValue())).getKey();
-            methodInfo.setOwner(owner);
+            if (!contributorMap.isEmpty()) {
+                Author owner = Collections.max(contributorMap.entrySet(), (author1, author2) -> (author1.getValue() - author2.getValue())).getKey();
+                methodInfo.setOwner(owner);
+            } else {
+                methodInfo.setOwner(new Author(""));
+            }
         }
-        fileInfo.setMethodInfos(methods);
+        //fileInfo.setMethodInfos(methods);
     }
 
     private static class MethodVisitor extends VoidVisitorAdapter<Void> {

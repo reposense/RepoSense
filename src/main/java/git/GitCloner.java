@@ -17,7 +17,7 @@ public class GitCloner {
 
 
         try {
-            System.out.println("cloning start!");
+            System.out.println("cloning "+ organization+"/"+repoName+"...");
             CommandRunner.cloneRepo(organization, repoName);
             System.out.println("cloning done!");
         } catch (RuntimeException e){

@@ -12,6 +12,9 @@ public class GitChecker {
         checkout(root,"-");
     }
 
+    public static void checkoutBranch(String root, String branch){
+        checkout(root,branch);
+    }
 
     public static void checkOutToCommit(String root, CommitInfo commit){
         System.out.println("Checking out "+commit.getHash()+"time:"+commit.getTime());

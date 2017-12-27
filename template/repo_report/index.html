@@ -1,0 +1,70 @@
+<html>
+	<head>
+		<link rel="stylesheet" href="../static/css/jquery-ui.css">
+		<link rel="stylesheet" href="../static/css/bootstrap.min.css">
+		<link rel="stylesheet" href="../static/css/style.css">
+		<script type="text/javascript" src="result.js"></script>
+		<script src="../static/scripts/lib/jquery-1.12.4.js"></script>
+		<script src="../static/scripts/lib/jquery-ui.js"></script>
+		<script src="../static/scripts/lib/charts.js"></script>
+		<script src="../static/scripts/lib/vue.js"></script>
+		<script type="text/javascript" src="../static/scripts/utils.js"></script>
+		<script>
+		$(document).ready(function() {
+			var app = new Vue({
+				el: '#vue-app',
+				data: {
+					currentAuthor : getQueryVariable('author'),
+					result : resultJson
+				},
+				methods: {
+				getAuthorUrlQuery : function (author) {
+					return "?author=" + author
+				},
+				containAuthorLine : function(file, authorName){
+					for (i=0; i<file.lines.length;i++){
+						if (file.lines[i].author.email == authorName){
+							return true;
+						}
+					}
+					return false;
+				},
+				getAuthorClass : function(line, currentAuthor){
+					if (currentAuthor!=null && line.author.email == currentAuthor){
+						return "authored";
+					}
+					return "";
+				}
+
+				}
+			});
+			$( "#code-style-app" ).accordion({
+				collapsible: true,
+				heightStyle: "content"
+			});
+		});
+		</script>
+		<script type="text/javascript" src="../static/scripts/codeEffects.js"></script>
+	</head>
+	<body>
+		<div id="vue-app">
+			<div class="content-container">
+				<h3>current author:{{currentAuthor}}</h3>
+				<div id="code-style-app" >
+					<template v-for="file in result">
+						<template v-if="containAuthorLine(file, currentAuthor) || currentAuthor == null">
+							<h3>{{ file.path }}</h3>
+							<div>
+								<template v-for="line in file.lines">
+										<div class="row">
+											<div class="col-sm-11 line-content " v-bind:class="getAuthorClass(line,currentAuthor)" ><pre>{{line.content}}</pre></div>
+										</div>
+								</template>
+							</div>
+						</template>
+					</template>
+				</div>
+			</div>
+		</div>
+	</body>
+</html>

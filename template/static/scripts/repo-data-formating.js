@@ -22,13 +22,6 @@ var prepareChartData = function(author) {
             fill: false,
             data: countributionData,
             yAxisID: "contribution",
-        }, {
-            label: "Issues",
-            borderColor: "rgb(255,0,0)",
-            backgroundColor: "rgb(255,0,0)",
-            fill: false,
-            data: issueData,
-            yAxisID: "issue",
         }]
 
     };
@@ -59,20 +52,6 @@ window.onload = function() {
                             scaleLabel: {
                                 display: true,
                                 labelString: 'contribution'
-                            }
-                        }, {
-                            type: "linear", // only linear but allow scale type registration. This allows extensions to exist solely for log scale for instance
-                            display: true,
-                            position: "right",
-                            id: "issue",
-
-                            // grid line settings
-                            gridLines: {
-                                drawOnChartArea: false, // only want the grid lines for one axis to show up
-                            },
-                            scaleLabel: {
-                                display: true,
-                                labelString: 'issue'
                             }
                         }],
                     }

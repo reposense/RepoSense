@@ -1,8 +1,7 @@
 package frontend;
 
-import builder.ConfigurationBuilder;
-import dataObject.Author;
-import dataObject.Configuration;
+import dataObject.RepoConfiguration;
+import dataObject.RepoInfo;
 import javafx.application.Application;
 
 import javafx.concurrent.Task;
@@ -13,21 +12,27 @@ import javafx.geometry.Pos;
 import javafx.scene.Scene;
 
 import javafx.scene.control.*;
+import javafx.scene.control.Button;
+import javafx.scene.control.TextArea;
 import javafx.scene.layout.GridPane;
-import javafx.scene.layout.HBox;
+import javafx.stage.DirectoryChooser;
+import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import report.RepoInfoFileGenerator;
+import system.CSVConfigurationParser;
 import system.Console;
 
+import java.io.File;
 import java.io.PrintStream;
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 /**
  * Created by matanghao1 on 11/7/17.
  */
 public class GitGrader extends Application {
+
+    File configFile;
+    File targetFile;
 
     public static void main(String[] args) {
         launch(args);
@@ -38,137 +43,95 @@ public class GitGrader extends Application {
 
         primaryStage.setTitle("GitGrader");
         GridPane grid = new GridPane();
-        grid.setAlignment(Pos.CENTER);
+        grid.setAlignment(Pos.TOP_CENTER);
         grid.setHgap(10);
         grid.setVgap(10);
-        grid.setPadding(new Insets(25, 10, 25, 10));
+        grid.setPadding(new Insets(10, 10, 25, 10));
 
-        Label orgLabel = new Label("Organization:");
-        grid.add(orgLabel, 0, 1);
+        FileChooser configFileChooser = new FileChooser();
+        configFileChooser.setTitle("Open CSV");
 
-        TextField orgText = new TextField("se-edu");
-        grid.add(orgText, 1, 1);
+        Label configFileLabel = new Label("Config CSV:");
+        grid.add(configFileLabel, 0, 1);
 
-        Label repoLabel = new Label("Repo Name:");
-        grid.add(repoLabel, 0, 2);
+        TextField configFileText = new TextField("");
+        grid.add(configFileText, 1, 1);
 
-        TextField repoText = new TextField("addressbook-level4");
-        grid.add(repoText, 1, 2);
+        final Button openConfigFileButton = new Button("Open...");
 
-        Label branchLabel = new Label("Branch Name:");
-        grid.add(branchLabel, 0, 3);
-
-        TextField branchText = new TextField("master");
-        grid.add(branchText, 1, 3);
-
-        Label numCommitLabel = new Label("How many Commits:");
-        grid.add(numCommitLabel, 0, 4);
-
-        TextField numCommitText = new TextField("5");
-        grid.add(numCommitText, 1, 4);
-
-        Label ignoreListLabel = new Label("ignore directories:");
-        grid.add(ignoreListLabel, 0, 5);
-
-        TextArea ignoreListText  = TextAreaBuilder.create()
-                .prefWidth(300)
-                .prefHeight(100)
-                .wrapText(true)
-                .promptText("(one entry each line)")
-                .build();
-        grid.add(ignoreListText, 1, 5);
-
-        Label authorListLabel = new Label("Authors:");
-        grid.add(authorListLabel, 0, 6);
-
-        TextArea authorListText  = TextAreaBuilder.create()
-                .prefWidth(300)
-                .prefHeight(100)
-                .wrapText(true)
-                .promptText("(one entry each line, leaves empty if you want to include all)")
-                .build();
-        grid.add(authorListText, 1, 6);
+        grid.add(openConfigFileButton,2,1);
 
 
-        Label qualityCheckLabel = new Label("Quality Check:");
-        grid.add(qualityCheckLabel, 0, 7);
+        DirectoryChooser targetChooser = new DirectoryChooser();
+        targetChooser.setTitle("Open CSV");
 
+        Label targetFileLabel = new Label("Target Location:");
+        grid.add(targetFileLabel, 0, 2);
 
-        CheckBox checkStyleCb = new CheckBox("CheckStyle");
-        grid.add(checkStyleCb, 1, 7, 2, 1);
+        TextField targetFileText = new TextField("");
+        grid.add(targetFileText, 1, 2);
 
+        final Button targetConfigFileButton = new Button("Open...");
 
-        CheckBox annotationCb = new CheckBox("Annotation Overwrite");
-        grid.add(annotationCb, 1, 8, 2, 1);
+        grid.add(targetConfigFileButton,2,2);
 
+        final Button startButton = new Button("Start Analysis!");
 
-
-        Button btn = new Button("Analyze");
-        HBox hbBtn = new HBox(10);
-        hbBtn.setAlignment(Pos.BOTTOM_RIGHT);
-        hbBtn.getChildren().add(btn);
-        grid.add(hbBtn, 1, 9);
-
+        grid.add(startButton,1,3);
 
         TextArea consoleText = TextAreaBuilder.create()
                 .prefWidth(300)
-                .prefHeight(200)
+                .prefHeight(500)
                 .wrapText(true)
                 .editable(false)
                 .build();
-        grid.add(consoleText, 1, 10);
+        grid.add(consoleText, 1, 4);
 
         Console console = new Console(consoleText);
         PrintStream ps = new PrintStream(console, true);
         System.setOut(ps);
 
-
-        btn.setOnAction(new EventHandler<ActionEvent>() {
-
-            @Override
-            public void handle(ActionEvent e) {
-                Task<Integer> task = new Task<Integer>() {
-                    @Override protected Integer call() throws Exception {
-                        String org = orgText.getText();
-                        String repoName = repoText.getText();
-                        String branch = branchText.getText();
-                        console.clear();
-
-                        Configuration config = new ConfigurationBuilder(org,repoName,branch)
-                                .needCheckStyle(checkStyleCb.isSelected())
-                                .annotationOverwrite(annotationCb.isSelected())
-                                .commitNum(Integer.parseInt(numCommitText.getText()))
-                                .ignoreDirectoryList(getStringListFromRaw(ignoreListText.getText()))
-                                .authorList(getAuthorListFromRaw(authorListText.getText()))
-                                .build();
-
-                        RepoInfoFileGenerator.generateReport(config);
-                        return 0;
+        openConfigFileButton.setOnAction(
+                new EventHandler<ActionEvent>() {
+                    @Override
+                    public void handle(final ActionEvent e) {
+                        configFile = configFileChooser.showOpenDialog(primaryStage);
+                        configFileText.appendText(configFile.getAbsolutePath());
                     }
-                };
-                new Thread(task).start();
-            }
-        });
 
-        Scene scene = new Scene(grid, 800, 600);
+                });
+        targetConfigFileButton.setOnAction(
+                new EventHandler<ActionEvent>() {
+                    @Override
+                    public void handle(final ActionEvent e) {
+                        targetFile = targetChooser.showDialog(primaryStage);
+                        targetFileText.appendText(targetFile.getAbsolutePath());
+                    }
+                }
+        );
+
+        startButton.setOnAction(
+                new EventHandler<ActionEvent>() {
+                    @Override
+                    public void handle(ActionEvent event) {
+                        Task<Integer> task = new Task<Integer>() {
+                            @Override protected Integer call() throws Exception {
+                                console.clear();
+                                if (configFile != null) {
+                                    List<RepoConfiguration> configs = CSVConfigurationParser.parseFromFile(configFile);
+                                    RepoInfoFileGenerator.generateReposReport(configs, targetFile.getAbsolutePath());
+                                }
+                                return 0;
+                            }
+                        };
+                        new Thread(task).start();
+                    }
+                }
+        );
+
+        Scene scene = new Scene(grid, 550, 600);
         primaryStage.setScene(scene);
         primaryStage.show();
     }
 
-    private List<Author> getAuthorListFromRaw(String raw) {
-        List<String> stringResult =  getStringListFromRaw(raw);
-        List<Author> result = new ArrayList<>();
-        for (String authorName: stringResult){
-            result.add(new Author(authorName));
-        }
-        return result;
-    }
-
-    private List<String> getStringListFromRaw(String raw){
-        if ("".equals(raw)){
-            return new ArrayList<>();
-        }else{
-            return Arrays.asList(raw.split("\n"));
-        }
-    }
 }

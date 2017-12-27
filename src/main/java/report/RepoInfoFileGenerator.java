@@ -1,63 +1,97 @@
 package report;
 
 import analyzer.RepoAnalyzer;
-import com.google.gson.Gson;
-import dataObject.Configuration;
+import dataObject.FileInfo;
+import dataObject.RepoConfiguration;
+import dataObject.RepoContributionSummary;
 import dataObject.RepoInfo;
 import git.GitCloner;
 import util.Constants;
 import util.FileUtil;
 
 import java.io.*;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+import java.util.Map;
 
 /**
  * Created by matanghao1 on 8/7/17.
  */
 public class RepoInfoFileGenerator {
 
-    public static void generateReport(Configuration config){
+    public static void generateReposReport(List<RepoConfiguration> repoConfigs, String targetFileLocation){
+        String reportName = generateReportName();
+        List<RepoInfo> repos = analyzeRepos(repoConfigs);
+        copyStaticLib(reportName);
 
-        GitCloner.downloadRepo(config.getOrganization(), config.getRepoName(), config.getBranch());
-        RepoInfo repoinfo = new RepoInfo(config.getOrganization(), config.getRepoName());
-        RepoAnalyzer.analyzeRecentNCommit(config, repoinfo);
-
-        String reportName = generateReportDirectoryName(config.getOrganization(), config.getRepoName());
-
-        copyBasicTemplate(reportName);
-
-        Gson gson = new Gson();
-        String result = gson.toJson(repoinfo);
-
-        try {
-            PrintWriter out = new PrintWriter(getReportPath(reportName));
-            out.println(attachJsPrefix(result));
-            out.close();
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
+        for (RepoInfo repo : repos) {
+            generateIndividualRepoReport(repo, reportName,targetFileLocation);
         }
 
-        System.out.println("report Generated!");
+        Map<String, RepoContributionSummary> repoSummaries = ContributionSummaryGenerator.analyzeContribution(repos);
+        FileUtil.writeJSONFile(repoSummaries, getSummaryResultPath(reportName,targetFileLocation), "summaryJson");
+        FileUtil.copyFile(new File(Constants.STATIC_SUMMARY_REPORT_FILE_ADDRESS),new File(getSummaryPagePath(reportName,targetFileLocation)));
 
     }
 
-    private static void copyBasicTemplate(String reportName){
+    private static List<RepoInfo> analyzeRepos(List<RepoConfiguration> configs) {
+        List<RepoInfo> result = new ArrayList<>();
+        for (RepoConfiguration config : configs) {
+            //GitCloner.downloadRepo(config.getOrganization(), config.getRepoName(), config.getBranch());
+            RepoInfo repoinfo = new RepoInfo(config.getOrganization(), config.getRepoName(),config.getBranch());
+            RepoAnalyzer.analyzeCommits(config, repoinfo);
+            result.add(repoinfo);
+        }
+        return result;
+    }
+
+    private static void generateIndividualRepoReport(RepoInfo repoinfo, String reportName, String targetFileLocation){
+
+        String repoReportName = repoinfo.getDirectoryName();
+        String repoReportDirectory = targetFileLocation+"/"+reportName+"/"+repoReportName;
+        new File(repoReportDirectory).mkdirs();
+        copyTemplate(repoReportDirectory, Constants.STATIC_INDIVIDUAL_REPORT_TEMPLATE_ADDRESS);
+        ArrayList<FileInfo> fileInfos = repoinfo.getCommits().get(repoinfo.getCommits().size()-1).getFileinfos();
+        FileUtil.writeJSONFile(fileInfos,getIndividualResultPath(repoReportDirectory),"resultJson");
+
+        System.out.println("report for "+ repoReportName+" Generated!");
+
+    }
+
+    private static void copyStaticLib(String reportName){
+        String staticLibDirectory = Constants.REPORT_ADDRESS+"/"+reportName+"/"+"static";
+        new File(staticLibDirectory).mkdirs();
+        copyTemplate(staticLibDirectory, Constants.STATIC_LIB_TEMPLATE_ADDRESS );
+    }
+
+
+    private static void copyTemplate(String dest, String src){
         try {
-            FileUtil.copyFolder(new File(Constants.TEMPLATE_ADDRESS), new File(Constants.REPORT_ADDRESS+"/"+reportName));
+            FileUtil.copyFiles(new File(src), new File(dest));
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
-    private static String generateReportDirectoryName(String organization, String repoName){
-        return organization + "_" + repoName + "_" + System.currentTimeMillis();
+    private static String getSummaryPagePath(String repoReportDirectory, String targetFileLocation){
+        return targetFileLocation + "/"+repoReportDirectory+ "/index.html";
     }
 
-    private static String attachJsPrefix(String original){
-        return "var resultJson = "+original;
+    private static String getDetailPagePath(String repoReportDirectory, String targetFileLocation){
+        return targetFileLocation+"/"+repoReportDirectory+ "/detail.html";
     }
 
-    private static String getReportPath(String reportName){
-        return Constants.REPORT_ADDRESS + "/" + reportName+ "/result.js";
+    private static String getIndividualResultPath(String repoReportDirectory){
+        return repoReportDirectory+ "/result.js";
+    }
+
+    private static String getSummaryResultPath(String reportName, String targetFileLocation){
+        return targetFileLocation+"/"+reportName+"/summary.js";
+    }
+
+    private static String generateReportName(){
+        return Constants.REPORT_NAME_FORMAT.format(new Date());
     }
 
 }

@@ -1,70 +1,56 @@
 package analyzer;
 
 
-import dataObject.Configuration;
+import dataObject.RepoConfiguration;
 import dataObject.FileInfo;
 import dataObject.LineInfo;
+import util.Constants;
 
 import java.io.*;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 /**
  * Created by matanghao1 on 28/5/17.
  */
 public class FileAnalyzer {
 
-    public static ArrayList<FileInfo> analyzeAllFiles(Configuration config) {
-        ArrayList<FileInfo> result = new ArrayList<>();
-        analyzeAllFilesRecursive(config, new File(config.getRepoRoot()),result);
+    public static ArrayList<FileInfo> analyzeAllFiles(RepoConfiguration config) {
+        ArrayList<String> relativePaths = new ArrayList<>();
+        getAllPossibleFilePaths(config, new File(config.getRepoRoot()),relativePaths);
+        ArrayList<FileInfo> result = processFiles(config,relativePaths);
         return result;
     }
 
-    private static void analyzeAllFilesRecursive(Configuration config, File directory, ArrayList<FileInfo> result){
+    private static void getAllPossibleFilePaths(RepoConfiguration config, File directory, ArrayList<String> relativePaths){
+        for (File file:directory.listFiles()) {
 
-        for (File file:directory.listFiles()){
-
-            String relativePath = file.getPath().replaceFirst(config.getRepoRoot(),"");
+            String relativePath = file.getPath().replaceFirst(config.getRepoRoot(), "");
             if (shouldIgnore(relativePath, config.getIgnoreDirectoryList())) continue;
-            if (file.isDirectory()){
-                analyzeAllFilesRecursive(config, file,result);
-            }else{
+            if (file.isDirectory()) {
+                getAllPossibleFilePaths(config, file, relativePaths);
+            } else {
                 if (!relativePath.endsWith(".java")) continue;
-                FileInfo fileInfo = generateFileInfo(config.getRepoRoot(),relativePath);
-                BlameParser.aggregateBlameInfo(fileInfo,config.getRepoRoot());
-                if (config.isNeedCheckStyle()) {
-                    CheckStyleParser.aggregateStyleIssue(fileInfo, config.getRepoRoot());
-                }
-                if (config.isAnnotationOverwrite()) {
-                    AnnotatorAnalyzer.aggregateAnnotationAuthorInfo(fileInfo);
-                }
-                if (!config.getAuthorList().isEmpty() && fileInfo.isAllAuthorsIgnored(config.getAuthorList())){
-                    continue;
-                }
-                MethodAnalyzer.aggregateMethodInfo(fileInfo,config);
-                result.add(fileInfo);
+                relativePaths.add(relativePath);
             }
         }
-
     }
 
-    private static FileInfo generateFileInfo(String repoRoot, String relativePath){
-        FileInfo result = new FileInfo(relativePath);
-        File file = new File(repoRoot+'/'+relativePath);
-        try (BufferedReader br = new BufferedReader(new FileReader(file))) {
-            String line;
-            int lineNum = 1;
-            while ((line = br.readLine()) != null) {
-                result.getLines().add(new LineInfo(lineNum,line));
-                lineNum += 1;
-            }
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
+    private static ArrayList<FileInfo> processFiles(RepoConfiguration config, List<String> relativePaths){
+        List<FileInfo> fileInfos = Collections.synchronizedList(new ArrayList<FileInfo>());
+        ExecutorService executor = Executors.newFixedThreadPool(20);
+        for (String relativePath: relativePaths) {
+            Runnable worker = new FileAnalyzeThread(fileInfos,config,relativePath);
+            executor.execute(worker);
         }
-        return result;
+        executor.shutdown();
+        while (!executor.isTerminated()) {}
+        return new ArrayList<>(fileInfos);
     }
+
 
     private static boolean shouldIgnore(String name, List<String> ignoreList) {
         for (String element : ignoreList) {
