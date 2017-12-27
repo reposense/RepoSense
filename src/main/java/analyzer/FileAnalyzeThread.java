@@ -40,9 +40,7 @@ public class FileAnalyzeThread implements Runnable {
         if (!config.getAuthorList().isEmpty() && fileInfo.isAllAuthorsIgnored(config.getAuthorList())){
             return;
         }
-        //System.out.println("extracting AST "+relativePath);
-        MethodAnalyzer.aggregateMethodInfo(fileInfo,config);
-        //System.out.println("finish extracting AST...");
+        //MethodAnalyzer.aggregateMethodInfo(fileInfo,config);
         fileInfos.add(fileInfo);
 
     }

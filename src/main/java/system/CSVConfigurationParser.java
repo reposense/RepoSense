@@ -40,13 +40,13 @@ public class CSVConfigurationParser {
     }
 
     private static void aggregateAuthorInfo(String[] elements, RepoConfiguration config){
-        for (int i=3;i<elements.length;i++){
+        for (int i=3;i<elements.length;i+=2){
             Author currentAuthor = new Author(elements[i]);
             config.getAuthorList().add(currentAuthor);
             config.getAuthorAliasMap().put(elements[i],currentAuthor);
-            i++;
-            if (elements[i].length()!=0){
-                for (String alias : elements[i].split(Constants.AUTHOR_ALIAS_SPLITTER)){
+            if (i + 1 ==elements.length) break;
+            if (elements[i+1].length()!=0){
+                for (String alias : elements[i+1].split(Constants.AUTHOR_ALIAS_SPLITTER)){
                     config.getAuthorAliasMap().put(alias,currentAuthor);
                 }
             }

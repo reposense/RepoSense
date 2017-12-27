@@ -16,7 +16,6 @@ public class FileUtil {
         Gson gson = new GsonBuilder()
                 .setDateFormat(Constants.GITHUB_API_DATE_FORMAT).create();
         String result = gson.toJson(object);
-        System.out.println("conversion done"+path);
 
         try {
             PrintWriter out = new PrintWriter(path);

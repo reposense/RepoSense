@@ -55,12 +55,12 @@ public class ContributionSummaryGenerator {
         Date currentDate = commits.get(0).getTime();
         Date nextDate = getNextCutoffDate(currentDate, durationDays);
 
-        initIntervalContributionForNewDate(result, currentDate);
+        initIntervalContributionForNewDate(result, currentDate, nextDate);
         for (CommitInfo commit: commits){
             if (nextDate.before(commit.getTime())){
                 currentDate = new Date(nextDate.getTime());
                 nextDate = getNextCutoffDate(nextDate, durationDays);
-                initIntervalContributionForNewDate(result,currentDate);
+                initIntervalContributionForNewDate(result,currentDate, nextDate);
             }
             List<AuthorIntervalContribution> tempList = result.get(commit.getAuthor());
             tempList.get(tempList.size()-1).updateForCommit(commit);
@@ -68,10 +68,10 @@ public class ContributionSummaryGenerator {
         return result;
     }
 
-    private static void initIntervalContributionForNewDate(Map<Author, List<AuthorIntervalContribution>> map, Date date){
+    private static void initIntervalContributionForNewDate(Map<Author, List<AuthorIntervalContribution>> map, Date fromDate, Date toDate){
         for (List<AuthorIntervalContribution> dateToInvertal : map.values()){
             //dials back one minute so that github api can include the commit on the time itself
-            dateToInvertal.add(new AuthorIntervalContribution(getOneMinuteBefore(date),0,0));
+            dateToInvertal.add(new AuthorIntervalContribution(0,0, getOneMinuteBefore(fromDate), toDate));
         }
     }
 
@@ -90,13 +90,14 @@ public class ContributionSummaryGenerator {
     private static Date getNextCutoffDate(Date current, long totalDuration){
         Calendar c = Calendar.getInstance();
         c.setTime(current);
-        if (totalDuration < 30){
-            c.add(Calendar.DATE,1);
-        } else if (totalDuration < 180) {
-            c.add(Calendar.DATE,7);
-        } else{
-            c.add(Calendar.MONTH,1);
-        }
+//        if (totalDuration < 30){
+//            c.add(Calendar.DATE,1);
+//        } else if (totalDuration < 180) {
+//            c.add(Calendar.DATE,7);
+//        } else{
+//            c.add(Calendar.MONTH,1);
+//        }
+        c.add(Calendar.DATE,7);
         return c.getTime();
     }
 }

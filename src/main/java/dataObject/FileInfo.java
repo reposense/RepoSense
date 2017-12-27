@@ -11,7 +11,7 @@ public class FileInfo {
     String path;
     ArrayList<LineInfo> lines;
 
-    ArrayList<MethodInfo> methodInfos;
+    //ArrayList<MethodInfo> methodInfos;
 
     public FileInfo(String path) {
         this.path = path;
@@ -42,14 +42,6 @@ public class FileInfo {
 
     public void setPath(String path) {
         this.path = path;
-    }
-
-    public ArrayList<MethodInfo> getMethodInfos() {
-        return methodInfos;
-    }
-
-    public void setMethodInfos(ArrayList<MethodInfo> methodInfos) {
-        this.methodInfos = methodInfos;
     }
 
     public boolean isAllAuthorsIgnored(List<Author> listedAuthors){

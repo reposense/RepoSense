@@ -44,7 +44,7 @@ public class MethodAnalyzer {
                     int authorLineCount = contributorMap.getOrDefault(author, 0);
                     contributorMap.put(author, authorLineCount + 1);
                 }
-                line.setMethodInfo(methodInfo);
+                //line.setMethodInfo(methodInfo);
             }
             if (!contributorMap.isEmpty()) {
                 Author owner = Collections.max(contributorMap.entrySet(), (author1, author2) -> (author1.getValue() - author2.getValue())).getKey();
@@ -53,7 +53,7 @@ public class MethodAnalyzer {
                 methodInfo.setOwner(new Author(""));
             }
         }
-        fileInfo.setMethodInfos(methods);
+        //fileInfo.setMethodInfos(methods);
     }
 
     private static class MethodVisitor extends VoidVisitorAdapter<Void> {

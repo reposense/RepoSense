@@ -8,20 +8,30 @@ import java.util.Date;
 public class AuthorIntervalContribution {
     private int insertions;
     private int deletions;
-    private Date date;
+    private Date fromDate;
+    private Date toDate;
 
-    public AuthorIntervalContribution(Date date, int insertions, int deletions) {
-        this.date = date;
+    public AuthorIntervalContribution(int insertions, int deletions, Date fromDate, Date toDate) {
         this.insertions = insertions;
         this.deletions = deletions;
+        this.fromDate = fromDate;
+        this.toDate = toDate;
     }
 
-    public Date getDate() {
-        return date;
+    public Date getFromDate() {
+        return fromDate;
     }
 
-    public void setDate(Date date) {
-        this.date = date;
+    public void setFromDate(Date fromDate) {
+        this.fromDate = fromDate;
+    }
+
+    public Date getToDate() {
+        return toDate;
+    }
+
+    public void setToDate(Date toDate) {
+        this.toDate = toDate;
     }
 
     public int getInsertions() {

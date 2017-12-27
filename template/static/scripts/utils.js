@@ -21,3 +21,32 @@ var getContribution = function(repo) {
     }
     return count;
 }
+
+function openInNewTab(url) {
+    var win = window.open(url, '_blank');
+    win.focus();
+}
+
+function flatten(authorRepos) {
+    result = [];
+    for (repo in authorRepos){
+        for (author in authorRepos[repo]){
+            result.push(authorRepos[repo][author]);
+        }
+    }
+    return result;
+}
+
+function sortSegment(segment, sortElement, sortOrder) {
+    
+    if (sortOrder == "high2low") {
+        segment.sort(function(a, b) {
+            return b[sortElement] - a[sortElement];
+        })
+    } else {
+        segment.sort(function(a, b) {
+            return a[sortElement] - b[sortElement];
+        })
+    }
+    return segment;
+}
