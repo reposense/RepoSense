@@ -15,6 +15,7 @@ import javafx.scene.control.*;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextArea;
 import javafx.scene.layout.GridPane;
+import javafx.stage.DirectoryChooser;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import report.RepoInfoFileGenerator;
@@ -30,6 +31,9 @@ import java.util.List;
  */
 public class GitGrader extends Application {
 
+    File configFile;
+    File targetFile;
+
     public static void main(String[] args) {
         launch(args);
     }
@@ -42,51 +46,90 @@ public class GitGrader extends Application {
         grid.setAlignment(Pos.TOP_CENTER);
         grid.setHgap(10);
         grid.setVgap(10);
-        grid.setPadding(new Insets(25, 10, 25, 10));
+        grid.setPadding(new Insets(10, 10, 25, 10));
 
-        FileChooser fileChooser = new FileChooser();
-        fileChooser.setTitle("Open CSV");
+        FileChooser configFileChooser = new FileChooser();
+        configFileChooser.setTitle("Open CSV");
 
-        final Button openButton = new Button("Open a csv...");
+        Label configFileLabel = new Label("Config CSV:");
+        grid.add(configFileLabel, 0, 1);
 
-        grid.add(openButton,1,1);
+        TextField configFileText = new TextField("");
+        grid.add(configFileText, 1, 1);
 
+        final Button openConfigFileButton = new Button("Open...");
+
+        grid.add(openConfigFileButton,2,1);
+
+
+        DirectoryChooser targetChooser = new DirectoryChooser();
+        targetChooser.setTitle("Open CSV");
+
+        Label targetFileLabel = new Label("Target Location:");
+        grid.add(targetFileLabel, 0, 2);
+
+        TextField targetFileText = new TextField("");
+        grid.add(targetFileText, 1, 2);
+
+        final Button targetConfigFileButton = new Button("Open...");
+
+        grid.add(targetConfigFileButton,2,2);
+
+        final Button startButton = new Button("Start Analysis!");
+
+        grid.add(startButton,1,3);
 
         TextArea consoleText = TextAreaBuilder.create()
                 .prefWidth(300)
-                .prefHeight(400)
+                .prefHeight(500)
                 .wrapText(true)
                 .editable(false)
                 .build();
-        grid.add(consoleText, 1, 3);
+        grid.add(consoleText, 1, 4);
 
         Console console = new Console(consoleText);
         PrintStream ps = new PrintStream(console, true);
         System.setOut(ps);
 
-        openButton.setOnAction(
+        openConfigFileButton.setOnAction(
                 new EventHandler<ActionEvent>() {
                     @Override
                     public void handle(final ActionEvent e) {
-                        final File file = fileChooser.showOpenDialog(primaryStage);
+                        configFile = configFileChooser.showOpenDialog(primaryStage);
+                        configFileText.appendText(configFile.getAbsolutePath());
+                    }
 
+                });
+        targetConfigFileButton.setOnAction(
+                new EventHandler<ActionEvent>() {
+                    @Override
+                    public void handle(final ActionEvent e) {
+                        targetFile = targetChooser.showDialog(primaryStage);
+                        targetFileText.appendText(targetFile.getAbsolutePath());
+                    }
+                }
+        );
+
+        startButton.setOnAction(
+                new EventHandler<ActionEvent>() {
+                    @Override
+                    public void handle(ActionEvent event) {
                         Task<Integer> task = new Task<Integer>() {
                             @Override protected Integer call() throws Exception {
                                 console.clear();
-                                if (file != null) {
-                                    List<RepoConfiguration> configs = CSVConfigurationParser.parseFromFile(file);
-                                    RepoInfoFileGenerator.generateReposReport(configs);
+                                if (configFile != null) {
+                                    List<RepoConfiguration> configs = CSVConfigurationParser.parseFromFile(configFile);
+                                    RepoInfoFileGenerator.generateReposReport(configs, targetFile.getAbsolutePath());
                                 }
                                 return 0;
                             }
                         };
                         new Thread(task).start();
                     }
+                }
+        );
 
-                });
-
-
-        Scene scene = new Scene(grid, 400, 600);
+        Scene scene = new Scene(grid, 550, 600);
         primaryStage.setScene(scene);
         primaryStage.show();
     }

@@ -20,18 +20,18 @@ import java.util.Map;
  */
 public class RepoInfoFileGenerator {
 
-    public static void generateReposReport(List<RepoConfiguration> repoConfigs){
+    public static void generateReposReport(List<RepoConfiguration> repoConfigs, String targetFileLocation){
         String reportName = generateReportName();
         List<RepoInfo> repos = analyzeRepos(repoConfigs);
         copyStaticLib(reportName);
 
         for (RepoInfo repo : repos) {
-            generateIndividualRepoReport(repo, reportName);
+            generateIndividualRepoReport(repo, reportName,targetFileLocation);
         }
 
         Map<String, RepoContributionSummary> repoSummaries = ContributionSummaryGenerator.analyzeContribution(repos);
-        FileUtil.writeJSONFile(repoSummaries, getSummaryResultPath(reportName), "summaryJson");
-        FileUtil.copyFile(new File(Constants.STATIC_SUMMARY_REPORT_FILE_ADDRESS),new File(getSummaryPagePath(reportName)));
+        FileUtil.writeJSONFile(repoSummaries, getSummaryResultPath(reportName,targetFileLocation), "summaryJson");
+        FileUtil.copyFile(new File(Constants.STATIC_SUMMARY_REPORT_FILE_ADDRESS),new File(getSummaryPagePath(reportName,targetFileLocation)));
 
     }
 
@@ -46,10 +46,10 @@ public class RepoInfoFileGenerator {
         return result;
     }
 
-    private static void generateIndividualRepoReport(RepoInfo repoinfo, String reportName){
+    private static void generateIndividualRepoReport(RepoInfo repoinfo, String reportName, String targetFileLocation){
 
         String repoReportName = repoinfo.getDirectoryName();
-        String repoReportDirectory = Constants.REPORT_ADDRESS+"/"+reportName+"/"+repoReportName;
+        String repoReportDirectory = targetFileLocation+"/"+reportName+"/"+repoReportName;
         new File(repoReportDirectory).mkdirs();
         copyTemplate(repoReportDirectory, Constants.STATIC_INDIVIDUAL_REPORT_TEMPLATE_ADDRESS);
         ArrayList<FileInfo> fileInfos = repoinfo.getCommits().get(repoinfo.getCommits().size()-1).getFileinfos();
@@ -74,20 +74,20 @@ public class RepoInfoFileGenerator {
         }
     }
 
-    private static String getSummaryPagePath(String repoReportDirectory){
-        return Constants.REPORT_ADDRESS+"/"+repoReportDirectory+ "/index.html";
+    private static String getSummaryPagePath(String repoReportDirectory, String targetFileLocation){
+        return targetFileLocation + "/"+repoReportDirectory+ "/index.html";
     }
 
-    private static String getDetailPagePath(String repoReportDirectory){
-        return Constants.REPORT_ADDRESS+"/"+repoReportDirectory+ "/detail.html";
+    private static String getDetailPagePath(String repoReportDirectory, String targetFileLocation){
+        return targetFileLocation+"/"+repoReportDirectory+ "/detail.html";
     }
 
     private static String getIndividualResultPath(String repoReportDirectory){
         return repoReportDirectory+ "/result.js";
     }
 
-    private static String getSummaryResultPath(String reportName){
-        return Constants.REPORT_ADDRESS+"/"+reportName+"/summary.js";
+    private static String getSummaryResultPath(String reportName, String targetFileLocation){
+        return targetFileLocation+"/"+reportName+"/summary.js";
     }
 
     private static String generateReportName(){
