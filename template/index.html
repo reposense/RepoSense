@@ -64,7 +64,7 @@
 							}
 						}
 						var color = rgbacolors[index%(rgbacolors.length)];
-						return "margin-left:"+(index*5-width+12)+"%;"+"width:"+width+"%;"+"background: linear-gradient(to left top, "+color+" 50%, transparent 50%);";
+						return "margin-left:"+(index*5-width+5)+"%;"+"width:"+width+"%;"+"background: linear-gradient(to left top, "+color+" 50%, transparent 50%);"+"z-index:"+(1000-index)+";";
 					},
 					getContributionBarWidths : function(value) {
 						var widths = [];
@@ -186,8 +186,8 @@
 					</div>
 				</div>
 				<div class="code-review-box" style="width:0%;position:relative;">
-					<div style="left:2%;top:2%;position:absolute;" class="hide_button">>></div>
-					<iframe class="report-frame" src="repo_report/index.html?author=ongjingyin@yahoo.com.sg" style="height:100%;width: 100%"></iframe>
+					<div style="left:2%;top:2%;position:absolute;" class="hide_button"><img src="static/img/right_arrow.png" height="30px" width="30px"/></div>
+					<iframe class="report-frame" src="about:blank" style="height:100%;width: 100%"></iframe>
 				</div>
 			</div>
 		</body>

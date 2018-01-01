@@ -23,7 +23,7 @@ public class RepoInfoFileGenerator {
     public static void generateReposReport(List<RepoConfiguration> repoConfigs, String targetFileLocation){
         String reportName = generateReportName();
         List<RepoInfo> repos = analyzeRepos(repoConfigs);
-        copyStaticLib(reportName);
+        copyStaticLib(reportName, targetFileLocation);
 
         for (RepoInfo repo : repos) {
             generateIndividualRepoReport(repo, reportName,targetFileLocation);
@@ -37,7 +37,9 @@ public class RepoInfoFileGenerator {
 
     private static List<RepoInfo> analyzeRepos(List<RepoConfiguration> configs) {
         List<RepoInfo> result = new ArrayList<>();
+        int count = 1;
         for (RepoConfiguration config : configs) {
+            System.out.println("Analyzing Repository No."+(count++)+"( " + configs.size() + " repositories in total)");
             //GitCloner.downloadRepo(config.getOrganization(), config.getRepoName(), config.getBranch());
             RepoInfo repoinfo = new RepoInfo(config.getOrganization(), config.getRepoName(),config.getBranch());
             RepoAnalyzer.analyzeCommits(config, repoinfo);
@@ -59,8 +61,8 @@ public class RepoInfoFileGenerator {
 
     }
 
-    private static void copyStaticLib(String reportName){
-        String staticLibDirectory = Constants.REPORT_ADDRESS+"/"+reportName+"/"+"static";
+    private static void copyStaticLib(String reportName, String targetFileLocation){
+        String staticLibDirectory = targetFileLocation +"/"+reportName+"/"+"static";
         new File(staticLibDirectory).mkdirs();
         copyTemplate(staticLibDirectory, Constants.STATIC_LIB_TEMPLATE_ADDRESS );
     }

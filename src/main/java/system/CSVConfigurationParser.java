@@ -43,11 +43,12 @@ public class CSVConfigurationParser {
         for (int i=3;i<elements.length;i+=2){
             Author currentAuthor = new Author(elements[i]);
             config.getAuthorList().add(currentAuthor);
-            config.getAuthorAliasMap().put(elements[i],currentAuthor);
+            //put the gitID itself as alias
+            config.getAuthorAliasMap().put(elements[i].toLowerCase(),currentAuthor);
             if (i + 1 ==elements.length) break;
             if (elements[i+1].length()!=0){
                 for (String alias : elements[i+1].split(Constants.AUTHOR_ALIAS_SPLITTER)){
-                    config.getAuthorAliasMap().put(alias,currentAuthor);
+                    config.getAuthorAliasMap().put(alias.toLowerCase(),currentAuthor);
                 }
             }
         }
