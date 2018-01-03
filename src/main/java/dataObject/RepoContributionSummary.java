@@ -11,17 +11,24 @@ public class RepoContributionSummary {
     private String organization;
     private String branch;
     private String displayName;
-    private Map<Author, List<AuthorIntervalContribution>> authorIntervalContributions;
-    private Map<Author, Integer> authorFinalContributionMap;
-    private Map<Author, Float> authorRushiness;
+    private Map<Author, List<AuthorIntervalContribution>> authorIntervalContributions = new HashMap<>();
+    private Map<Author, Integer> authorFinalContributionMap = new HashMap<>();
+    private Map<Author, Float> authorRushiness = new HashMap<>() ;
+    private Map<Author, String> authorDisplayNameMap = new HashMap<>();
 
     public RepoContributionSummary(RepoInfo repoInfo){
         repo = repoInfo.getRepoName();
         organization = repoInfo.getOrganization();
         branch = repoInfo.getBranch();
         displayName = repoInfo.getDirectoryName();
-        authorIntervalContributions = new HashMap<>();
-        authorRushiness = new HashMap<>();
+    }
+
+    public Map<Author, String> getAuthorDisplayNameMap() {
+        return authorDisplayNameMap;
+    }
+
+    public void setAuthorDisplayNameMap(Map<Author, String> authorDisplayNameMap) {
+        this.authorDisplayNameMap = authorDisplayNameMap;
     }
 
     public String getBranch() {

@@ -41,7 +41,7 @@ public class RepoInfoFileGenerator {
         for (RepoConfiguration config : configs) {
             System.out.println("Analyzing Repository No."+(count++)+"( " + configs.size() + " repositories in total)");
             //GitCloner.downloadRepo(config.getOrganization(), config.getRepoName(), config.getBranch());
-            RepoInfo repoinfo = new RepoInfo(config.getOrganization(), config.getRepoName(),config.getBranch());
+            RepoInfo repoinfo = new RepoInfo(config.getOrganization(), config.getRepoName(),config.getBranch(),config.getAuthorDisplayNameMap());
             RepoAnalyzer.analyzeCommits(config, repoinfo);
             result.add(repoinfo);
         }

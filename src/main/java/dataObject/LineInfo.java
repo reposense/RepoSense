@@ -19,7 +19,8 @@ public class LineInfo {
 
     public LineInfo(int lineNumber, String content) {
         this.lineNumber = lineNumber;
-        this.issues = new ArrayList<>();
+        //V this line is commented to reduce the size of the output JSON
+        //this.issues = new ArrayList<>();
         this.content = content;
     }
 

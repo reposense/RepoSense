@@ -29,8 +29,8 @@ function openInNewTab(url) {
 
 function flatten(authorRepos) {
     result = [];
-    for (repo in authorRepos){
-        for (author in authorRepos[repo]){
+    for (repo in authorRepos) {
+        for (author in authorRepos[repo]) {
             result.push(authorRepos[repo][author]);
         }
     }
@@ -38,7 +38,7 @@ function flatten(authorRepos) {
 }
 
 function sortSegment(segment, sortElement, sortOrder) {
-    
+
     if (sortOrder == "high2low") {
         segment.sort(function(a, b) {
             return b[sortElement] - a[sortElement];
@@ -49,4 +49,23 @@ function sortSegment(segment, sortElement, sortOrder) {
         })
     }
     return segment;
+}
+
+function isSearchMatch(searchTerm, authorRepo) {
+    if (searchTerm == "") {
+        return true;
+    }
+    var terms = searchTerm.split(" ");
+    for (var i = 0; i < terms.length; i++) {
+        //neither author name or repo name is a match for the search term
+        if (isMatch(terms[i],authorRepo['author']) && isMatch(terms[i],authorRepo['displayName']) && isMatch(terms[i],authorRepo['authorDisplayName'])) {
+            return false;
+        }
+    }
+    return true;
+
+}
+
+function isMatch(searchTerm, currentPhrase){
+    return currentPhrase.toLowerCase().indexOf(searchTerm.toLowerCase()) == -1;
 }

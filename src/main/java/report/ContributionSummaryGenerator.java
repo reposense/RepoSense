@@ -18,6 +18,7 @@ public class ContributionSummaryGenerator {
             summary.setAuthorIntervalContributions(getAuthorIntervalContributions(repo.getCommits()));
             summary.setAuthorFinalContributionMap(repo.getCommits().get(repo.getCommits().size()-1).getAuthorContributionMap());
             summary.setAuthorRushiness(getAuthorRushiness(summary.getAuthorIntervalContributions()));
+            summary.setAuthorDisplayNameMap(repo.getAuthorDisplayNameMap());
             result.put(repo.getDirectoryName(),summary);
         }
         System.out.println("done");

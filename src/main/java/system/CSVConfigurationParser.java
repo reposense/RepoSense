@@ -40,14 +40,26 @@ public class CSVConfigurationParser {
     }
 
     private static void aggregateAuthorInfo(String[] elements, RepoConfiguration config){
-        for (int i=3;i<elements.length;i+=2){
+        for (int i=3;i<elements.length;i+=3){
             Author currentAuthor = new Author(elements[i]);
             config.getAuthorList().add(currentAuthor);
             //put the gitID itself as alias
             config.getAuthorAliasMap().put(elements[i].toLowerCase(),currentAuthor);
-            if (i + 1 ==elements.length) break;
-            if (elements[i+1].length()!=0){
-                for (String alias : elements[i+1].split(Constants.AUTHOR_ALIAS_SPLITTER)){
+            //handle student's display name
+            if (i+1 == elements.length) {
+                // put the gitID itself as display name if display name is not available
+                config.getAuthorDisplayNameMap().put(currentAuthor,currentAuthor.getGitID());
+                break;
+            }
+            if (elements[i+1].length()==0){
+                config.getAuthorDisplayNameMap().put(currentAuthor,currentAuthor.getGitID());
+            } else{
+                config.getAuthorDisplayNameMap().put(currentAuthor,elements[i+1]);
+            }
+            //handle student's git aliases
+            if (i + 2 ==elements.length) break;
+            if (elements[i+2].length()!=0){
+                for (String alias : elements[i+2].split(Constants.AUTHOR_ALIAS_SPLITTER)){
                     config.getAuthorAliasMap().put(alias.toLowerCase(),currentAuthor);
                 }
             }
