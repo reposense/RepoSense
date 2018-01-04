@@ -20,7 +20,7 @@ public class RepoConfiguration {
     private List<Author> authorList = new ArrayList<>();
     private Map<String,Author> authorAliasMap = new HashMap<>();
     private Map<Author,String> authorDisplayNameMap = new HashMap<>();
-    private boolean annotationOverwrite = false;
+    private boolean annotationOverwrite = true;
 
 
     public RepoConfiguration(String organization, String repoName, String branch) {

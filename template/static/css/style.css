@@ -82,7 +82,7 @@ a.detail_link {
     right: 0px;
 }
 
-h3.author_name_tag:hover {
+h4.author_name_tag:hover {
     text-decoration: underline;
 }
 

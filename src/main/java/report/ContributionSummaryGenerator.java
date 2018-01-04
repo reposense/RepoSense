@@ -15,9 +15,10 @@ public class ContributionSummaryGenerator {
         Map<String, RepoContributionSummary> result = new HashMap<>();
         for (RepoInfo repo:repos){
             RepoContributionSummary summary = new RepoContributionSummary(repo);
-            summary.setAuthorIntervalContributions(getAuthorIntervalContributions(repo.getCommits()));
+            summary.setAuthorWeeklyIntervalContributions(getAuthorIntervalContributions(repo.getCommits(),7));
+            summary.setAuthorDailyIntervalContributions(getAuthorIntervalContributions(repo.getCommits(),1));
             summary.setAuthorFinalContributionMap(repo.getCommits().get(repo.getCommits().size()-1).getAuthorContributionMap());
-            summary.setAuthorRushiness(getAuthorRushiness(summary.getAuthorIntervalContributions()));
+            summary.setAuthorRushiness(getAuthorRushiness(summary.getAuthorDailyIntervalContributions()));
             summary.setAuthorDisplayNameMap(repo.getAuthorDisplayNameMap());
             result.put(repo.getDirectoryName(),summary);
         }
@@ -28,39 +29,41 @@ public class ContributionSummaryGenerator {
     private static Map<Author, Float> getAuthorRushiness(Map<Author, List<AuthorIntervalContribution>> intervalContributionMaps) {
         Map<Author, Float> result = new HashMap<>();
         for (Author author : intervalContributionMaps.keySet()){
-            float totalRush = 0;
             List<AuthorIntervalContribution> contributions = intervalContributionMaps.get(author);
-            for (int i = 1;i<contributions.size();i++){
-                int previous = contributions.get(i-1).getTotalContribution();
-                int current = contributions.get(i).getTotalContribution();
-                if (current> previous){
-                    if (previous==0){
-                        totalRush += 1.0;
-                    }else {
-                        totalRush += (current - previous) * 1.0 / previous;
-                    }
-                }
-            }
-            result.put(author,totalRush/contributions.size());
+            result.put(author,getContributionVariance(contributions));
         }
         return result;
     }
 
-    private static Map<Author, List<AuthorIntervalContribution>> getAuthorIntervalContributions(List<CommitInfo> commits){
+    private static float getContributionVariance(List<AuthorIntervalContribution> contributions){
+        //get mean
+        float total = 0;
+        for (AuthorIntervalContribution contribution : contributions) {
+            total += contribution.getTotalContribution();
+        }
+        float mean = total / contributions.size();
+        float variance = 0;
+        for (AuthorIntervalContribution contribution : contributions) {
+            variance += Math.pow((mean-contribution.getTotalContribution()),2);
+        }
+        return variance / contributions.size();
+    }
+
+    private static Map<Author, List<AuthorIntervalContribution>> getAuthorIntervalContributions(List<CommitInfo> commits, int intervalLength){
         //init
         long durationDays = getDurationInDays(commits);
         Map<Author, List<AuthorIntervalContribution>> result = new HashMap<>();
         for (Author author: commits.get(commits.size()-1).getAuthorContributionMap().keySet()){
             result.put(author,new ArrayList<>());
         }
-        Date currentDate = commits.get(0).getTime();
-        Date nextDate = getNextCutoffDate(currentDate, durationDays);
+        Date currentDate = getStartOfDate(commits.get(0).getTime());
+        Date nextDate = getNextCutoffDate(currentDate, intervalLength);
 
         initIntervalContributionForNewDate(result, currentDate, nextDate);
         for (CommitInfo commit: commits){
             if (nextDate.before(commit.getTime())){
                 currentDate = new Date(nextDate.getTime());
-                nextDate = getNextCutoffDate(nextDate, durationDays);
+                nextDate = getNextCutoffDate(nextDate, intervalLength);
                 initIntervalContributionForNewDate(result,currentDate, nextDate);
             }
             List<AuthorIntervalContribution> tempList = result.get(commit.getAuthor());
@@ -72,7 +75,7 @@ public class ContributionSummaryGenerator {
     private static void initIntervalContributionForNewDate(Map<Author, List<AuthorIntervalContribution>> map, Date fromDate, Date toDate){
         for (List<AuthorIntervalContribution> dateToInvertal : map.values()){
             //dials back one minute so that github api can include the commit on the time itself
-            dateToInvertal.add(new AuthorIntervalContribution(0,0, getOneMinuteBefore(fromDate), toDate));
+            dateToInvertal.add(new AuthorIntervalContribution(0,0, fromDate, toDate));
         }
     }
 
@@ -82,23 +85,20 @@ public class ContributionSummaryGenerator {
 
     }
 
-    private static Date getOneMinuteBefore(Date current){
-        Calendar c = Calendar.getInstance();
-        c.setTime(current);
-        c.add(Calendar.MINUTE,-1);
-        return c.getTime();
+    private static Date getStartOfDate(Date current) {
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(current);
+        cal.set(Calendar.HOUR_OF_DAY, 0);
+        cal.set(Calendar.MINUTE, 0);
+        cal.set(Calendar.SECOND, 0);
+        cal.set(Calendar.MILLISECOND, 0);
+        return cal.getTime();
     }
-    private static Date getNextCutoffDate(Date current, long totalDuration){
+
+    private static Date getNextCutoffDate(Date current, int intervalLength){
         Calendar c = Calendar.getInstance();
         c.setTime(current);
-//        if (totalDuration < 30){
-//            c.add(Calendar.DATE,1);
-//        } else if (totalDuration < 180) {
-//            c.add(Calendar.DATE,7);
-//        } else{
-//            c.add(Calendar.MONTH,1);
-//        }
-        c.add(Calendar.DATE,7);
+        c.add(Calendar.DATE,intervalLength);
         return c.getTime();
     }
 }

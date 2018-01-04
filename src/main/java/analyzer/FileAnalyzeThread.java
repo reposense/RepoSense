@@ -35,12 +35,13 @@ public class FileAnalyzeThread implements Runnable {
             CheckStyleParser.aggregateStyleIssue(fileInfo, config.getRepoRoot());
         }
         if (config.isAnnotationOverwrite()) {
-            AnnotatorAnalyzer.aggregateAnnotationAuthorInfo(fileInfo);
+            AnnotatorAnalyzer.aggregateAnnotationAuthorInfo(fileInfo,config);
         }
         if (!config.getAuthorList().isEmpty() && fileInfo.isAllAuthorsIgnored(config.getAuthorList())){
             return;
         }
         //MethodAnalyzer.aggregateMethodInfo(fileInfo,config);
+        fileInfo.constructAuthorContributionMap();
         fileInfos.add(fileInfo);
 
     }

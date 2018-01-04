@@ -3,8 +3,6 @@ package analyzer;
 
 import dataObject.RepoConfiguration;
 import dataObject.FileInfo;
-import dataObject.LineInfo;
-import util.Constants;
 
 import java.io.*;
 import java.util.ArrayList;

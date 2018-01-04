@@ -24,6 +24,6 @@ public class BlameParser {
 
     }
     static private String getAuthorNameFromSingleLine(String line) {
-        return line.substring(line.indexOf("<") + 1,line.length()-1).toLowerCase();
+        return line.substring(line.indexOf("<") + 1,line.length()-1);
     }
 }

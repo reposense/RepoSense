@@ -44,7 +44,7 @@ public class CSVConfigurationParser {
             Author currentAuthor = new Author(elements[i]);
             config.getAuthorList().add(currentAuthor);
             //put the gitID itself as alias
-            config.getAuthorAliasMap().put(elements[i].toLowerCase(),currentAuthor);
+            config.getAuthorAliasMap().put(elements[i],currentAuthor);
             //handle student's display name
             if (i+1 == elements.length) {
                 // put the gitID itself as display name if display name is not available
@@ -60,7 +60,7 @@ public class CSVConfigurationParser {
             if (i + 2 ==elements.length) break;
             if (elements[i+2].length()!=0){
                 for (String alias : elements[i+2].split(Constants.AUTHOR_ALIAS_SPLITTER)){
-                    config.getAuthorAliasMap().put(alias.toLowerCase(),currentAuthor);
+                    config.getAuthorAliasMap().put(alias,currentAuthor);
                 }
             }
         }

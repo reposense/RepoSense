@@ -11,7 +11,8 @@ public class RepoContributionSummary {
     private String organization;
     private String branch;
     private String displayName;
-    private Map<Author, List<AuthorIntervalContribution>> authorIntervalContributions = new HashMap<>();
+    private Map<Author, List<AuthorIntervalContribution>> authorWeeklyIntervalContributions = new HashMap<>();
+    private Map<Author, List<AuthorIntervalContribution>> authorDailyIntervalContributions = new HashMap<>();
     private Map<Author, Integer> authorFinalContributionMap = new HashMap<>();
     private Map<Author, Float> authorRushiness = new HashMap<>() ;
     private Map<Author, String> authorDisplayNameMap = new HashMap<>();
@@ -63,12 +64,20 @@ public class RepoContributionSummary {
         this.displayName = displayName;
     }
 
-    public Map<Author, List<AuthorIntervalContribution>> getAuthorIntervalContributions() {
-        return authorIntervalContributions;
+    public Map<Author, List<AuthorIntervalContribution>> getAuthorWeeklyIntervalContributions() {
+        return authorWeeklyIntervalContributions;
     }
 
-    public void setAuthorIntervalContributions(Map<Author, List<AuthorIntervalContribution>> authorIntervalContributions) {
-        this.authorIntervalContributions = authorIntervalContributions;
+    public void setAuthorWeeklyIntervalContributions(Map<Author, List<AuthorIntervalContribution>> authorWeeklyIntervalContributions) {
+        this.authorWeeklyIntervalContributions = authorWeeklyIntervalContributions;
+    }
+
+    public Map<Author, List<AuthorIntervalContribution>> getAuthorDailyIntervalContributions() {
+        return authorDailyIntervalContributions;
+    }
+
+    public void setAuthorDailyIntervalContributions(Map<Author, List<AuthorIntervalContribution>> authorDailyIntervalContributions) {
+        this.authorDailyIntervalContributions = authorDailyIntervalContributions;
     }
 
     public Map<Author, Integer> getAuthorFinalContributionMap() {
