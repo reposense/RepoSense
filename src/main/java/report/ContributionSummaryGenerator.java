@@ -51,17 +51,16 @@ public class ContributionSummaryGenerator {
 
     private static Map<Author, List<AuthorIntervalContribution>> getAuthorIntervalContributions(List<CommitInfo> commits, int intervalLength){
         //init
-        long durationDays = getDurationInDays(commits);
         Map<Author, List<AuthorIntervalContribution>> result = new HashMap<>();
         for (Author author: commits.get(commits.size()-1).getAuthorContributionMap().keySet()){
             result.put(author,new ArrayList<>());
         }
         Date currentDate = getStartOfDate(commits.get(0).getTime());
         Date nextDate = getNextCutoffDate(currentDate, intervalLength);
-
         initIntervalContributionForNewDate(result, currentDate, nextDate);
+
         for (CommitInfo commit: commits){
-            if (nextDate.before(commit.getTime())){
+            while (nextDate.before(commit.getTime())){
                 currentDate = new Date(nextDate.getTime());
                 nextDate = getNextCutoffDate(nextDate, intervalLength);
                 initIntervalContributionForNewDate(result,currentDate, nextDate);
@@ -77,12 +76,6 @@ public class ContributionSummaryGenerator {
             //dials back one minute so that github api can include the commit on the time itself
             dateToInvertal.add(new AuthorIntervalContribution(0,0, fromDate, toDate));
         }
-    }
-
-    private static long getDurationInDays(List<CommitInfo> commits){
-        long duration = commits.get(commits.size()-1).getTime().getTime() - commits.get(0).getTime().getTime();
-        return TimeUnit.DAYS.convert(duration, TimeUnit.MILLISECONDS);
-
     }
 
     private static Date getStartOfDate(Date current) {
