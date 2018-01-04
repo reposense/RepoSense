@@ -36,9 +36,9 @@
                         if (contribution == 0) {
                             width = 0;
                         } else if (contribution > sliceScaleLimit) {
-                            width = spacing * 4;
+                            width = spacing * 1.5;
                         } else {
-                            width = contribution / sliceScaleLimit * spacing * 4;
+                            width = contribution / sliceScaleLimit * spacing * 1.5;
                             if (width < 0.5) {
                                 width = 0.5;
                             }
@@ -75,7 +75,7 @@
                         authorRepos = [];
                         for (repo in summary) {
                             newRepo = [];
-                            for (author in summary[repo]['authorDailyIntervalContributions']) {
+                            for (author in summary[repo]['authorFinalContributionMap']) {
                                 authorRepo = {};
                                 authorRepo['author'] = author;
                                 authorRepo['authorDisplayName'] = summary[repo]['authorDisplayNameMap'][author];
@@ -84,6 +84,7 @@
                                 authorRepo['branch'] = summary[repo]['branch'];
                                 authorRepo['organization'] = summary[repo]['organization'];
                                 authorRepo['authorDailyIntervalContributions'] = summary[repo]['authorDailyIntervalContributions'][author];
+                                authorRepo['authorWeeklyIntervalContributions'] = summary[repo]['authorWeeklyIntervalContributions'][author];
                                 authorRepo['finalContribution'] = summary[repo]['authorFinalContributionMap'][author];
                                 authorRepo['rushiness'] = summary[repo]['authorRushiness'][author];
                                 if (isSearchMatch(searchTerm, authorRepo)) {
@@ -162,11 +163,11 @@
                 </div>
             </div>
             <div class="progress-chart-main" style="">
-                <template v-for="(authorRepo, i) in sortAndFilter(summary,searchTerm,sortElement,sortOrder,isGroupByRepo)">
+                <template v-for="(authorRepo, i) in sortAndFilter(summary,searchTerm,sortElement,sortOrder,isGroupByRepo,intervalType)">
 						<div class="main" style="width:100%;margin-left:5%">
 							<h4 class="author_name_tag" v-bind:displayName="authorRepo.displayName" v-bind:author="authorRepo.author">{{authorRepo.displayName}}/{{authorRepo.authorDisplayName}}</h4>
 							<div class="spectrum">
-								<template v-for="(element, index) in authorRepo.authorDailyIntervalContributions">
+								<template v-for="(element, index) in authorRepo[intervalType]">
 								<div class="slice" v-bind:style="getSliceStyle(index,element,intervalType)" v-bind:title="getSliceTitle(element)" v-bind:onclick="getSliceGithubLink(element,authorRepo)"></div>
 								</template>
             </div>
