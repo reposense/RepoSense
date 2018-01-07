@@ -22,6 +22,10 @@ div.authored {
     background-color: Silver;
 }
 
+code.authored {
+    background-color: Silver;
+}
+
 
 div.issue-col {
     border-left: 1px solid  #8B4513	;
@@ -43,6 +47,10 @@ pre {
 	padding: 0;
 	margin: 0;
 	overflow: hidden;
+}
+
+code {
+    overflow: hidden;
 }
 
 div.progress-chart-box {
@@ -101,8 +109,4 @@ div.spectrum {
     height:30px;
     background-color:#deebf6;
     position: relative;
-}
-
-::-webkit-scrollbar { 
-    display: none; 
 }
