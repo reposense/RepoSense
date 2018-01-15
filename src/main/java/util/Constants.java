@@ -2,7 +2,6 @@ package util;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.Date;
 
 /**
  * Created by matanghao1 on 5/6/17.

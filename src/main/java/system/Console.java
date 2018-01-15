@@ -1,10 +1,10 @@
 package system;
 
-import java.io.IOException;
-import java.io.OutputStream;
-
 import javafx.application.Platform;
 import javafx.scene.control.TextArea;
+
+import java.io.IOException;
+import java.io.OutputStream;
 
 public class Console extends OutputStream
 {

@@ -1,10 +1,10 @@
 package analyzer;
 
 
-import dataObject.RepoConfiguration;
 import dataObject.FileInfo;
+import dataObject.RepoConfiguration;
 
-import java.io.*;
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;

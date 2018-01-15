@@ -5,11 +5,11 @@ import dataObject.FileInfo;
 import dataObject.RepoConfiguration;
 import dataObject.RepoContributionSummary;
 import dataObject.RepoInfo;
-import git.GitCloner;
 import util.Constants;
 import util.FileUtil;
 
-import java.io.*;
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;

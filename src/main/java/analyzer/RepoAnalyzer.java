@@ -1,13 +1,11 @@
 package analyzer;
 
-import dataObject.Author;
 import dataObject.CommitInfo;
 import dataObject.RepoConfiguration;
 import dataObject.RepoInfo;
 import git.GitChecker;
 import git.GitLogger;
 
-import java.util.HashSet;
 import java.util.List;
 
 /**
