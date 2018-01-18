@@ -113,8 +113,13 @@ public class GitGrader extends Application {
                             @Override protected Integer call() throws Exception {
                                 console.clear();
                                 if (configFile != null) {
-                                    List<RepoConfiguration> configs = CSVConfigurationParser.parseFromFile(configFile);
-                                    RepoInfoFileGenerator.generateReposReport(configs, targetFile.getAbsolutePath());
+                                    try {
+                                        List<RepoConfiguration> configs = CSVConfigurationParser.parseFromFile(configFile);
+                                        RepoInfoFileGenerator.generateReposReport(configs, targetFile.getAbsolutePath());
+                                    } catch (Exception e){
+                                        System.out.println("error caught!!");
+                                        e.printStackTrace();
+                                    }
                                 }
                                 return 0;
                             }

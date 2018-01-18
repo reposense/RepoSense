@@ -40,7 +40,7 @@ public class AnnotatorAnalyzer {
             if (name==null){
                 return null;
             }
-            return config.getAuthorAliasMap().get(name);
+            return config.getAuthorAliasMap().get(name.toLowerCase());
         } catch (ArrayIndexOutOfBoundsException e) {
             return null;
         }

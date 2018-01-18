@@ -19,6 +19,7 @@ public class RepoAnalyzer {
         System.out.println("analyzing commits for "+config.getOrganization()+"/"+config.getRepoName()+"...");
         List<CommitInfo> commits = GitLogger.getCommits(config.getRepoRoot(), config);
         System.out.println("analyzing git log output...");
+        if (commits.isEmpty()) return;
         CommitInfo lastCommit = commits.get(commits.size()-1);
         System.out.println("aggregating file info...");
         CommitAnalyzer.aggregateFileInfos(config,lastCommit);

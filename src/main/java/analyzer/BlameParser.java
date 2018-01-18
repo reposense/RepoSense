@@ -15,7 +15,7 @@ public class BlameParser {
         String[] rawLines = raw.split("\n");
         for (int i = 0; i < rawLines.length; i++) {
             String authorRawName = getAuthorNameFromSingleLine(rawLines[i]);
-            Author author = config.getAuthorAliasMap().get(authorRawName);
+            Author author = config.getAuthorAliasMap().get(authorRawName.toLowerCase());
             if (author == null){
                 author = new Author("-");
             }
@@ -24,6 +24,6 @@ public class BlameParser {
 
     }
     static private String getAuthorNameFromSingleLine(String line) {
-        return line.substring(line.indexOf("<") + 1,line.length()-1);
+        return line.substring(line.indexOf(" ") + 1);
     }
 }

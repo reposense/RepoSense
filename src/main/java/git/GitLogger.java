@@ -43,7 +43,7 @@ public class GitLogger {
     private static CommitInfo parseRawLine(String infoLine, String statLine, RepoConfiguration config){
         String[] elements = infoLine.split(Constants.LOG_SPLITTER);
         String hash = elements[0];
-        Author author = config.getAuthorAliasMap().get(elements[1]);
+        Author author = config.getAuthorAliasMap().get(elements[1].toLowerCase());
         //if the commit is done by someone not being analyzed, skip it.
         if (author == null) return null;
         Date date = null;

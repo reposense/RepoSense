@@ -25,12 +25,12 @@ public class Author {
 
         Author author = (Author) o;
 
-        return gitID != null ? gitID.equals(author.gitID) : author.gitID == null;
+        return gitID != null ? gitID.toLowerCase().equals(author.gitID.toLowerCase()) : author.gitID == null;
     }
 
     @Override
     public int hashCode() {
-        return gitID != null ? gitID.hashCode() : 0;
+        return gitID != null ? gitID.toLowerCase().hashCode() : 0;
     }
 
     @Override

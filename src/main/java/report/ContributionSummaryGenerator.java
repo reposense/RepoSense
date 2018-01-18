@@ -65,7 +65,11 @@ public class ContributionSummaryGenerator {
                 initIntervalContributionForNewDate(result,currentDate, nextDate);
             }
             List<AuthorIntervalContribution> tempList = result.get(commit.getAuthor());
-            tempList.get(tempList.size()-1).updateForCommit(commit);
+            if (tempList==null){
+                System.out.println("NOTE: Abnormal User:"+commit.getAuthor()+",please check his repository");
+            }else {
+                tempList.get(tempList.size() - 1).updateForCommit(commit);
+            }
         }
         return result;
     }
