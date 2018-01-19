@@ -1,9 +1,9 @@
 package system;
 
 import util.Constants;
-import util.FileUtil;
 
-import java.io.*;
+import java.io.File;
+import java.io.IOException;
 
 /**
  * Created by matanghao1 on 28/5/17.
@@ -12,12 +12,12 @@ public class CommandRunner {
 
     public static String gitLog(String root){
         File rootFile = new File(root);
-        return runCommand(rootFile, "git log --no-merges --pretty=format:\"%h|%aE|%ad|%s\" --date=iso --shortstat -- . '*.java'| sed '/^$/d'");
+        return runCommand(rootFile, "git log --no-merges --pretty=format:\"%h|%aN|%ad|%s\" --date=iso --shortstat -- '*.java'| sed '/^$/d'");
     }
 
     public static String gitLog(String root, int last){
         File rootFile = new File(root);
-        return runCommand(rootFile, "git log --no-merges --pretty=format:\"%h|%aE|%ad|%s\" --date=iso --shortstat -n " + last +" -- . '*.java'| sed '/^$/d'");
+        return runCommand(rootFile, "git log --no-merges --pretty=format:\"%h|%aN|%ad|%s\" --date=iso --shortstat -n " + last +" -- '*.java'| sed '/^$/d'");
     }
 
     public static void checkOut(String root, String hash){
@@ -27,7 +27,7 @@ public class CommandRunner {
 
     public static String blameRaw(String root, String fileDirectory){
         File rootFile = new File(root);
-        return runCommand(rootFile, "git blame " + fileDirectory + " -w -M -C --follow --find-copies-harder --line-porcelain | grep  \"^author-mail \"");
+        return runCommand(rootFile, "git blame " + fileDirectory + " -w -M -C --follow --find-copies-harder --line-porcelain | grep  \"^author \"");
     }
 
     public static String checkStyleRaw(String absoluteDirectory){

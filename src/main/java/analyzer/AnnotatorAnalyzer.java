@@ -3,6 +3,7 @@ package analyzer;
 import dataObject.Author;
 import dataObject.FileInfo;
 import dataObject.LineInfo;
+import dataObject.RepoConfiguration;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -19,12 +20,12 @@ public class AnnotatorAnalyzer {
     private static final int MATCHER_GROUP_AUTHOR_NAME = 1;
 
 
-    public static void aggregateAnnotationAuthorInfo(FileInfo fileInfo) {
+    public static void aggregateAnnotationAuthorInfo(FileInfo fileInfo, RepoConfiguration config) {
         Author currentAuthor = null;
         for (LineInfo line: fileInfo.getLines()){
             if (line.getContent().contains(AUTHOR_TAG)){
                 //set a new author
-                currentAuthor = findAuthorInLine(line.getContent());
+                currentAuthor = findAuthorInLine(line.getContent(),config);
             }
             if (currentAuthor != null){
                 line.setAuthor(currentAuthor);
@@ -32,16 +33,14 @@ public class AnnotatorAnalyzer {
         }
     }
 
-    private static Author findAuthorInLine(String line) {
+    private static Author findAuthorInLine(String line, RepoConfiguration config) {
         try {
             String[] split = line.split(AUTHOR_TAG);
-
             String name = extractAuthorName(split[1]);
             if (name==null){
                 return null;
             }
-            return new Author(name);
-
+            return config.getAuthorAliasMap().get(name.toLowerCase());
         } catch (ArrayIndexOutOfBoundsException e) {
             return null;
         }

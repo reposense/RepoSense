@@ -22,6 +22,10 @@ div.authored {
     background-color: Silver;
 }
 
+code.authored {
+    background-color: Silver;
+}
+
 
 div.issue-col {
     border-left: 1px solid  #8B4513	;
@@ -45,16 +49,33 @@ pre {
 	overflow: hidden;
 }
 
+code {
+    overflow: hidden;
+}
+
 div.progress-chart-box {
-    float: left;
+    float:left;
+}
+
+div.progress-chart-tool {
+    padding-top:1%;
+    padding-left:5%;
+    height:15%;
+    display: block;
+}
+
+div.filter-row {
 }
 
 div.progress-chart-main {
+    height:85%;
     overflow-y: scroll;
     overflow-x: hidden;
 }
+
+
 div.code-review-box {
-    float: right;
+    float: left;
     padding: 1px;
 }
 
@@ -68,6 +89,11 @@ a.detail_link {
     top: 0px;
     right: 0px;
 }
+
+h4.author_name_tag:hover {
+    text-decoration: underline;
+}
+
 
 div.slice {
     position:absolute;
@@ -83,8 +109,4 @@ div.spectrum {
     height:30px;
     background-color:#deebf6;
     position: relative;
-}
-
-::-webkit-scrollbar { 
-    display: none; 
 }

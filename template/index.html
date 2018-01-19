@@ -1,194 +1,194 @@
 <html>
-	<head>
-		<title>GitGrader</title>
-		<link rel="stylesheet" href="static/css/jquery-ui.css">
-		<link rel="stylesheet" href="static/css/bootstrap.min.css">
-		<link rel="stylesheet" href="static/css/style.css">
-		<script type="text/javascript" src="summary.js"></script>
-		<script src="static/scripts/lib/jquery-1.12.4.js"></script>
-		<script src="static/scripts/lib/jquery-ui.js"></script>
-		<script src="static/scripts/lib/charts.js"></script>
-		<script src="static/scripts/lib/vue.js"></script>
-		<script type="text/javascript" src="static/scripts/utils.js"></script>
-		<script>
-		function getScaleLimit(){
-			var totalContribution = 0;
-			var count = 0;
-			for (repo in summaryJson){
-				for (author in summaryJson[repo]['authorIntervalContributions']){
-					for (i in summaryJson[repo]['authorIntervalContributions'][author]){
-						currentPeriod = summaryJson[repo]['authorIntervalContributions'][author][i];
-						totalContribution += currentPeriod['insertions'] + currentPeriod['deletions'];
-						count += 1
-					}
-				}
-			}
-			return totalContribution/count*6;
-		};
-		function getTotalContributionLimit(){
-			var totalContribution = 0;
-			var count = 0;
-			for (repo in summaryJson){
-				for (author in summaryJson[repo]['authorFinalContributionMap']){
-					totalContribution += (summaryJson[repo]['authorFinalContributionMap'][author]);
-								count += 1
-				}
-			}
-			return totalContribution/count*2;
-		};
-		var sliceScaleLimit = getScaleLimit();
-		var totalContributionLimit = getTotalContributionLimit();
-		var hexcolors = [ "#E69F00", "#56B4E9", "#009E73", "#F0E442", "#0072B2", "#D55E00", "#CC79A7"];
-		var rgbacolors = ["rgba(230,159,0,0.6)","rgba(86,180,233,0.6)","rgba(0,158,115,0.6)","rgba(240,228,66,0.6)","rgba(0,114,178,0.6)","rgba(213,94,0,0.6)","rgba(204,121,167,0.6)"];
-		$(document).ready(function() {
-			var app = new Vue({
-				el: '#vue-app',
-				data: {
-					summary : summaryJson,
-					sortElement : "",
-					sortOrder : "",
-					isGroupByRepo : true
-				},
-				methods: {
-					getSliceStyle : function(index, value){
-						var contribution = value['insertions'];
-						var width;
-						if (contribution==0) {
-							width = 0;
-						}else if(contribution > sliceScaleLimit){
-							width = 20;
-						} else {
-							width = contribution/sliceScaleLimit*20;
-							if (width<0.5){
-								width = 0.5;
-							}
-						}
-						var color = rgbacolors[index%(rgbacolors.length)];
-						return "margin-left:"+(index*5-width+12)+"%;"+"width:"+width+"%;"+"background: linear-gradient(to left top, "+color+" 50%, transparent 50%);";
-					},
-					getContributionBarWidths : function(value) {
-						var widths = [];
-						for (var i=0; i<parseInt(value/totalContributionLimit);i++){
-												widths.push("100%");
-											}
-											widths.push((value%totalContributionLimit)/totalContributionLimit*100+"%");
-											return widths;
-										},
-										getSliceTitle : function(value) {
-											return "contribution from " +value["fromDate"] + " to "+value["toDate"]+": " + value['insertions'];
-										},
-										getSliceGithubLink : function(timeSlice, authorRepo) {
-											var url = "https://github.com/" +
-												authorRepo.organization + "/" + authorRepo.repo +
-												"/commits/" + authorRepo["branch"] +
-												"?author=" + authorRepo["author"] + "&since=" +
-												timeSlice["fromDate"] + "&until=" + timeSlice["toDate"];
-											return "openInNewTab('"+ url +"')";
-										},
-										getContributionBarTitle : function(value) {
-											return "total contribution : " + value;
-										},
-										getUpdatedSortLink : function(sortElement,sortOrder) {
-											return "window.location.href='?sortElement=" + sortElement + "&sortOrder=" + sortOrder +"'";
-										},
-										sort : function(summary,sortElement,sortOrder,isGroupByRepo) {
-												authorRepos = [];
-												for (repo in summary){
-													newRepo = [];
-													for (author in summary[repo]['authorIntervalContributions']){
-														authorRepo={};
-														authorRepo['author'] = author;
-														authorRepo['displayName'] = summary[repo]['displayName'];
-														authorRepo['repo'] = summary[repo]['repo'];
-														authorRepo['branch'] = summary[repo]['branch'];
-														authorRepo['organization'] = summary[repo]['organization'];
-														authorRepo['authorIntervalContribution'] = summary[repo]['authorIntervalContributions'][author];
-														authorRepo['finalContribution'] = summary[repo]['authorFinalContributionMap'][author];
-														authorRepo['rushiness'] = summary[repo]['authorRushiness'][author];
-														newRepo.push(authorRepo);
-													}
-													authorRepos.push(newRepo);
-												}
-												if (isGroupByRepo==true){
-													for (repoIndex in authorRepos){
-														authorRepos[repoIndex] = sortSegment(authorRepos[repoIndex],sortElement,sortOrder);
-													}
-													console.log(authorRepos)
-													authorRepos = flatten(authorRepos);
-												} else{
-													authorRepos = flatten(authorRepos);
-													console.log(authorRepos)
-													sortSegment(authorRepos,sortElement,sortOrder);
-												}
-												return authorRepos;
-												
-											}
-										}
-									});
-									$(".author_name_tag").click(function(){
-										displayName = $(this).attr("displayName");
-										author = $(this).attr("author");
-										url = displayName + "/" + "index.html?author=" + author;
-										$(".progress-chart-box").animate({
-											width: "30%"
-										}, 300 );
-										$(".code-review-box").animate({
-											width: "70%"
-										}, 300,function(){
-											$(".report-frame").attr('src',url);
-										});
-									});
-									$(".hide_button").click(function() {
-										$(".progress-chart-box").animate({
-											width: "100%"
-										}, 300 );
-										$(".code-review-box").animate({
-											width: "0%"
-										}, 300 );
-									})
-								});
-								$( function() {
-									$( document ).tooltip();
-								} );
-			</script>
-		</head>
-		<body class="main-app">
-			<div id="vue-app">
-				<div class="progress-chart-box" style="height:100%;width:100%;">
-					<div class="progress-chart-tool" style="height:3%;padding:1%">
-						<label>Sort By:</label>
-						<select v-model="sortElement">
-							<option disabled value="">-</option>
-							<option value="rushiness">Rushiness</option>
-							<option value="finalContribution">Total Contribution</option>
-						</select>
-						<select v-model="sortOrder">
-							<option disabled value="">-</option>
-							<option value="low2high">Low To High</option>
-							<option value="high2low">High To Low</option>
-						</select>
-						<input type="checkbox" v-model="isGroupByRepo"/><label>Group By Repo</label>
-					</div>
-					<div class="progress-chart-main" style="height:97%">
-						<template v-for="(authorRepo, i) in sort(summary,sortElement,sortOrder,isGroupByRepo)">
-						<div class="main" style="width:100%;margin-left:5%">
-							<h3 class="author_name_tag" v-bind:displayName="authorRepo.displayName" v-bind:author="authorRepo.author">{{authorRepo.displayName}}/{{authorRepo.author}}</h3>
-							<div class="spectrum">
-								<template v-for="(element, index) in authorRepo.authorIntervalContribution">
-								<div class="slice" v-bind:style="getSliceStyle(index,element)" v-bind:title="getSliceTitle(element)" v-bind:onclick="getSliceGithubLink(element,authorRepo)"></div>
-								</template>
-							</div>
-							<div v-bind:title="getContributionBarTitle(authorRepo.finalContribution)" style="min-height:15px;" >
-								<hr align="left" v-for="width in getContributionBarWidths(authorRepo.finalContribution)" v-bind:width="width" style="border-color: red"/>
-							</div>
-						</div>
-						</template>
-					</div>
-				</div>
-				<div class="code-review-box" style="width:0%;position:relative;">
-					<div style="left:2%;top:2%;position:absolute;" class="hide_button">>></div>
-					<iframe class="report-frame" src="repo_report/index.html?author=ongjingyin@yahoo.com.sg" style="height:100%;width: 100%"></iframe>
-				</div>
-			</div>
-		</body>
-	</html>
+<head>
+    <title>GitGrader</title>
+    <link rel="stylesheet" href="static/css/jquery-ui.css">
+    <link rel="stylesheet" href="static/css/bootstrap.min.css">
+    <link rel="stylesheet" href="static/css/style.css">
+    <script type="text/javascript" src="summary.js"></script>
+    <script src="static/scripts/lib/jquery-1.12.4.js"></script>
+    <script src="static/scripts/lib/jquery-ui.js"></script>
+    <script src="static/scripts/lib/vue.js"></script>
+    <script type="text/javascript" src="static/scripts/utils.js"></script>
+    <script>
+        var totalContributionLimit = getTotalContributionLimit();
+        var hexcolors = ["#E69F00", "#56B4E9", "#009E73", "#F0E442", "#0072B2", "#D55E00", "#CC79A7"];
+        var rgbacolors = ["rgba(230,159,0,0.6)", "rgba(86,180,233,0.6)", "rgba(0,158,115,0.6)", "rgba(240,228,66,0.6)", "rgba(0,114,178,0.6)", "rgba(213,94,0,0.6)", "rgba(204,121,167,0.6)"];
+
+        var sliceScaleLimitMap = getScaleLimitMap();
+        var spectrumMaxLengthMap = getSpectrumMaxLengthMap();
+        $(document).ready(function() {
+            var app = new Vue({
+                el: '#vue-app',
+                data: {
+                    summary: summaryJson,
+                    sortElement: "finalContribution",
+                    sortOrder: "high2low",
+                    searchTerm: "",
+                    intervalType: "authorDailyIntervalContributions",
+                    isGroupByRepo: true,
+                },
+                methods: {
+                    getSliceStyle: function(index, value, intervalType) {
+                        var sliceScaleLimit = sliceScaleLimitMap[intervalType];
+                        var spacing = 93 / spectrumMaxLengthMap[intervalType];
+                        var contribution = value['insertions'];
+                        var width;
+                        if (contribution == 0) {
+                            width = 0;
+                        } else if (contribution > sliceScaleLimit) {
+                            width = spacing * 1.5;
+                        } else {
+                            width = contribution / sliceScaleLimit * spacing * 1.5;
+                            if (width < 0.5) {
+                                width = 0.5;
+                            }
+                        }
+                        var color = rgbacolors[index % (rgbacolors.length)];
+                        return "margin-left:" + (index * spacing - width + spacing) + "%;" + "width:" + width + "%;" + "background: linear-gradient(to left top, " + color + " 50%, transparent 50%);" + "z-index:" + (1000 - index) + ";";
+                    },
+                    getContributionBarWidths: function(value) {
+                        var widths = [];
+                        for (var i = 0; i < parseInt(value / totalContributionLimit); i++) {
+                            widths.push("100%");
+                        }
+                        widths.push((value % totalContributionLimit) / totalContributionLimit * 100 + "%");
+                        return widths;
+                    },
+                    getSliceTitle: function(value) {
+                        return "contribution from " + value["fromDate"] + " to " + value["toDate"] + ": " + value['insertions'] + " lines";
+                    },
+                    getSliceGithubLink: function(timeSlice, authorRepo) {
+                        var url = "https://github.com/" +
+                            authorRepo.organization + "/" + authorRepo.repo +
+                            "/commits/" + authorRepo["branch"] +
+                            "?author=" + authorRepo["author"] + "&since=" +
+                            timeSlice["fromDate"] + "&until=" + timeSlice["toDate"];
+                        return "openInNewTab('" + url + "')";
+                    },
+                    getContributionBarTitle: function(value) {
+                        return "total contribution : " + value;
+                    },
+                    getUpdatedSortLink: function(sortElement, sortOrder) {
+                        return "window.location.href='?sortElement=" + sortElement + "&sortOrder=" + sortOrder + "'";
+                    },
+                    sortAndFilter: function(summary, searchTerm, sortElement, sortOrder, isGroupByRepo) {
+                        authorRepos = [];
+                        for (repo in summary) {
+                            newRepo = [];
+                            for (author in summary[repo]['authorFinalContributionMap']) {
+                                authorRepo = {};
+                                authorRepo['author'] = author;
+                                authorRepo['authorDisplayName'] = summary[repo]['authorDisplayNameMap'][author];
+                                authorRepo['displayName'] = summary[repo]['displayName'];
+                                authorRepo['repo'] = summary[repo]['repo'];
+                                authorRepo['branch'] = summary[repo]['branch'];
+                                authorRepo['organization'] = summary[repo]['organization'];
+                                authorRepo['authorDailyIntervalContributions'] = summary[repo]['authorDailyIntervalContributions'][author];
+                                authorRepo['authorWeeklyIntervalContributions'] = summary[repo]['authorWeeklyIntervalContributions'][author];
+                                authorRepo['finalContribution'] = summary[repo]['authorFinalContributionMap'][author];
+                                authorRepo['rushiness'] = summary[repo]['authorRushiness'][author];
+                                if (isSearchMatch(searchTerm, authorRepo)) {
+                                    newRepo.push(authorRepo);
+                                }
+                            }
+                            authorRepos.push(newRepo);
+                        }
+                        if (isGroupByRepo == true) {
+                            for (repoIndex in authorRepos) {
+                                authorRepos[repoIndex] = sortSegment(authorRepos[repoIndex], sortElement, sortOrder);
+                            }
+                            authorRepos = flatten(authorRepos);
+                        } else {
+                            authorRepos = flatten(authorRepos);
+                            sortSegment(authorRepos, sortElement, sortOrder);
+                        }
+                        return authorRepos;
+
+                    }
+                }
+            });
+            $(".author_name_tag").click(function() {
+                displayName = $(this).attr("displayName");
+                author = $(this).attr("author");
+                url = displayName + "/" + "index.html?author=" + author;
+                $(".progress-chart-box").animate({
+                    width: "30%"
+                }, 300);
+                $(".code-review-box").animate({
+                    width: "70%"
+                }, 300, function() {
+                    $(".report-frame").attr('src', url);
+                });
+            });
+            $(".hide_button").click(function() {
+                $(".report-frame").attr('src', 'about:blank')
+                setTimeout((function(){
+                    $(".progress-chart-box").animate({
+                        width: "100%"
+                    }, 300);
+                    $(".code-review-box").animate({
+                        width: "0%"
+                    }, 300);
+                    
+                }),200);
+                
+                
+            })
+        });
+        $(function() {
+            $(document).tooltip();
+        });
+    </script>
+</head>
+
+<body class="main-app">
+    <div id="vue-app">
+        <div class="progress-chart-box" style="width:100%;">
+            <div class="progress-chart-tool">
+                <div class="filter-row">
+                    <label>Sort By:</label>
+                    <select v-model="sortElement">
+                                <option value="finalContribution">Total Contribution</option>
+                                <option value="rushiness">Rushiness</option>
+                            </select>
+                    <select v-model="sortOrder">
+                                <option value="high2low">High To Low</option>
+                                <option value="low2high">Low To High</option>
+                            </select>
+                </div>
+                <div class="filter-row">
+                    <label>Time Interval:</label>
+                    <input type="radio" id="weekly" value="authorWeeklyIntervalContributions" v-model="intervalType"><label for="weekly">Weekly</label>
+                    <input type="radio" id="daily" value="authorDailyIntervalContributions" v-model="intervalType"><label for="daily">Daily</label>
+                </div>
+                <div class="filter-row">
+                    <input type="checkbox" v-model="isGroupByRepo" /><label>Group By Team</label>
+                </div>
+                <div class="filter-row">
+                    <label>Search Keyword:</label><input type="text" v-model="searchTerm" />
+                </div>
+            </div>
+            <div class="progress-chart-main" style="">
+                <template v-for="(authorRepo, i) in sortAndFilter(summary,searchTerm,sortElement,sortOrder,isGroupByRepo,intervalType)">
+                        <div class="main" style="width:100%;margin-left:5%">
+                            <h4 class="author_name_tag" v-bind:displayName="authorRepo.displayName" v-bind:author="authorRepo.author">{{authorRepo.displayName}}/{{authorRepo.authorDisplayName}}</h4>
+                            <div class="spectrum">
+                                <template v-for="(element, index) in authorRepo[intervalType]">
+                                <div class="slice" v-bind:style="getSliceStyle(index,element,intervalType)" v-bind:title="getSliceTitle(element)" v-bind:onclick="getSliceGithubLink(element,authorRepo)"></div>
+                                </template>
+            </div>
+            <div v-bind:title="getContributionBarTitle(authorRepo.finalContribution)" style="min-height:15px;">
+                <hr align="left" v-for="width in getContributionBarWidths(authorRepo.finalContribution)" v-bind:width="width" style="border-color: red" />
+            </div>
+        </div>
+        </template>
+    </div>
+    </div>
+    <div class="code-review-box" style="width:0%;position:relative;">
+        <div style="left:2%;top:2%;position:absolute;" class="hide_button"><img src="static/img/right_arrow.png" height="30px" width="30px" /></div>
+        <iframe class="report-frame" src="about:blank" style="height:100%;width: 100%"></iframe>
+    </div>
+    </div>
+</body>
+
+</html>

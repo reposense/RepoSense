@@ -1,6 +1,7 @@
 package dataObject;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -9,16 +10,24 @@ import java.util.List;
 public class FileInfo {
 
     String path;
-    ArrayList<LineInfo> lines;
+    ArrayList<LineInfo> lines = new ArrayList<>();
+    HashMap<Author, Integer> authorContributionMap = new HashMap<>();
 
     //ArrayList<MethodInfo> methodInfos;
 
     public FileInfo(String path) {
         this.path = path;
-        this.lines = new ArrayList<>();
     }
 
-    public FileInfo(String path,ArrayList<LineInfo> lines) {
+    public HashMap<Author, Integer> getAuthorContributionMap() {
+        return authorContributionMap;
+    }
+
+    public void setAuthorContributionMap(HashMap<Author, Integer> authorContributionMap) {
+        this.authorContributionMap = authorContributionMap;
+    }
+
+    public FileInfo(String path, ArrayList<LineInfo> lines) {
         this.path = path;
         this.lines = lines;
     }
@@ -42,6 +51,17 @@ public class FileInfo {
 
     public void setPath(String path) {
         this.path = path;
+    }
+
+    public void constructAuthorContributionMap(){
+        for (LineInfo line : lines){
+            Author author = line.getAuthor();
+            if (!authorContributionMap.containsKey(author)) {
+                authorContributionMap.put(author,1);
+            } else {
+                authorContributionMap.put(author,authorContributionMap.get(author)+1);
+            }
+        }
     }
 
     public boolean isAllAuthorsIgnored(List<Author> listedAuthors){

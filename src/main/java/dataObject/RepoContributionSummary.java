@@ -1,6 +1,8 @@
 package dataObject;
 
-import java.util.*;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * Created by matanghao1 on 4/10/17.
@@ -11,17 +13,25 @@ public class RepoContributionSummary {
     private String organization;
     private String branch;
     private String displayName;
-    private Map<Author, List<AuthorIntervalContribution>> authorIntervalContributions;
-    private Map<Author, Integer> authorFinalContributionMap;
-    private Map<Author, Float> authorRushiness;
+    private Map<Author, List<AuthorIntervalContribution>> authorWeeklyIntervalContributions = new HashMap<>();
+    private Map<Author, List<AuthorIntervalContribution>> authorDailyIntervalContributions = new HashMap<>();
+    private Map<Author, Integer> authorFinalContributionMap = new HashMap<>();
+    private Map<Author, Float> authorRushiness = new HashMap<>() ;
+    private Map<Author, String> authorDisplayNameMap = new HashMap<>();
 
     public RepoContributionSummary(RepoInfo repoInfo){
         repo = repoInfo.getRepoName();
         organization = repoInfo.getOrganization();
         branch = repoInfo.getBranch();
         displayName = repoInfo.getDirectoryName();
-        authorIntervalContributions = new HashMap<>();
-        authorRushiness = new HashMap<>();
+    }
+
+    public Map<Author, String> getAuthorDisplayNameMap() {
+        return authorDisplayNameMap;
+    }
+
+    public void setAuthorDisplayNameMap(Map<Author, String> authorDisplayNameMap) {
+        this.authorDisplayNameMap = authorDisplayNameMap;
     }
 
     public String getBranch() {
@@ -56,12 +66,20 @@ public class RepoContributionSummary {
         this.displayName = displayName;
     }
 
-    public Map<Author, List<AuthorIntervalContribution>> getAuthorIntervalContributions() {
-        return authorIntervalContributions;
+    public Map<Author, List<AuthorIntervalContribution>> getAuthorWeeklyIntervalContributions() {
+        return authorWeeklyIntervalContributions;
     }
 
-    public void setAuthorIntervalContributions(Map<Author, List<AuthorIntervalContribution>> authorIntervalContributions) {
-        this.authorIntervalContributions = authorIntervalContributions;
+    public void setAuthorWeeklyIntervalContributions(Map<Author, List<AuthorIntervalContribution>> authorWeeklyIntervalContributions) {
+        this.authorWeeklyIntervalContributions = authorWeeklyIntervalContributions;
+    }
+
+    public Map<Author, List<AuthorIntervalContribution>> getAuthorDailyIntervalContributions() {
+        return authorDailyIntervalContributions;
+    }
+
+    public void setAuthorDailyIntervalContributions(Map<Author, List<AuthorIntervalContribution>> authorDailyIntervalContributions) {
+        this.authorDailyIntervalContributions = authorDailyIntervalContributions;
     }
 
     public Map<Author, Integer> getAuthorFinalContributionMap() {

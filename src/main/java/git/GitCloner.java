@@ -1,11 +1,7 @@
 package git;
 
 import system.CommandRunner;
-import util.Constants;
 import util.FileUtil;
-
-import java.io.File;
-import java.io.IOException;
 
 /**
  * Created by matanghao1 on 10/7/17.

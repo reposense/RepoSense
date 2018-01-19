@@ -19,13 +19,22 @@ public class RepoConfiguration {
     private List<String> ignoreDirectoryList = new ArrayList<>();
     private List<Author> authorList = new ArrayList<>();
     private Map<String,Author> authorAliasMap = new HashMap<>();
-    private boolean annotationOverwrite = false;
+    private Map<Author,String> authorDisplayNameMap = new HashMap<>();
+    private boolean annotationOverwrite = true;
 
 
     public RepoConfiguration(String organization, String repoName, String branch) {
         this.organization = organization;
         this.repoName = repoName;
         this.branch = branch;
+    }
+
+    public Map<Author, String> getAuthorDisplayNameMap() {
+        return authorDisplayNameMap;
+    }
+
+    public void setAuthorDisplayNameMap(Map<Author, String> authorDisplayNameMap) {
+        this.authorDisplayNameMap = authorDisplayNameMap;
     }
 
     public String getRepoRoot(){

@@ -1,19 +1,14 @@
 package frontend;
 
 import dataObject.RepoConfiguration;
-import dataObject.RepoInfo;
 import javafx.application.Application;
-
 import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
-
 import javafx.scene.control.*;
-import javafx.scene.control.Button;
-import javafx.scene.control.TextArea;
 import javafx.scene.layout.GridPane;
 import javafx.stage.DirectoryChooser;
 import javafx.stage.FileChooser;
@@ -118,8 +113,13 @@ public class GitGrader extends Application {
                             @Override protected Integer call() throws Exception {
                                 console.clear();
                                 if (configFile != null) {
-                                    List<RepoConfiguration> configs = CSVConfigurationParser.parseFromFile(configFile);
-                                    RepoInfoFileGenerator.generateReposReport(configs, targetFile.getAbsolutePath());
+                                    try {
+                                        List<RepoConfiguration> configs = CSVConfigurationParser.parseFromFile(configFile);
+                                        RepoInfoFileGenerator.generateReposReport(configs, targetFile.getAbsolutePath());
+                                    } catch (Exception e){
+                                        System.out.println("error caught!!");
+                                        e.printStackTrace();
+                                    }
                                 }
                                 return 0;
                             }

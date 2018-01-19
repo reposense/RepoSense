@@ -7,7 +7,10 @@ import system.CommandRunner;
 import util.Constants;
 
 import java.text.ParseException;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Date;
+import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -40,7 +43,7 @@ public class GitLogger {
     private static CommitInfo parseRawLine(String infoLine, String statLine, RepoConfiguration config){
         String[] elements = infoLine.split(Constants.LOG_SPLITTER);
         String hash = elements[0];
-        Author author = config.getAuthorAliasMap().get(elements[1]);
+        Author author = config.getAuthorAliasMap().get(elements[1].toLowerCase());
         //if the commit is done by someone not being analyzed, skip it.
         if (author == null) return null;
         Date date = null;

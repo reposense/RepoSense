@@ -2,7 +2,6 @@ package util;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.Date;
 
 /**
  * Created by matanghao1 on 5/6/17.
@@ -23,7 +22,7 @@ public class Constants {
     public static final String LOG_SPLITTER = "\\|";
     public static final DateFormat GIT_ISO_FORMAT = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
     public static final DateFormat REPORT_NAME_FORMAT = new SimpleDateFormat("yyyy-MM-dd-HH-mm-ss");
-    public static final String GITHUB_API_DATE_FORMAT = "yyyy-MM-dd'T'HH:mm:ss'Z'";
+    public static final String GITHUB_API_DATE_FORMAT = "yyyy-MM-dd";
 
 
     public static final String CSV_SPLITTER = ",";
