@@ -19,6 +19,9 @@ import system.Console;
 
 import java.io.File;
 import java.io.PrintStream;
+import java.time.LocalDate;
+import java.time.ZoneId;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -70,9 +73,21 @@ public class GitGrader extends Application {
 
         grid.add(targetConfigFileButton,2,2);
 
+        Label fromDateLabel = new Label("From Date:");
+        grid.add(fromDateLabel, 0, 3);
+
+        final DatePicker fromDatePicker = new DatePicker();
+        grid.add(fromDatePicker, 1,3);
+
+        Label toDateLabel = new Label("To Date:");
+        grid.add(toDateLabel, 0, 4);
+
+        final DatePicker toDatePicker = new DatePicker();
+        grid.add(toDatePicker, 1,4);
+
         final Button startButton = new Button("Start Analysis!");
 
-        grid.add(startButton,1,3);
+        grid.add(startButton,1,5);
 
         TextArea consoleText = TextAreaBuilder.create()
                 .prefWidth(300)
@@ -80,7 +95,7 @@ public class GitGrader extends Application {
                 .wrapText(true)
                 .editable(false)
                 .build();
-        grid.add(consoleText, 1, 4);
+        grid.add(consoleText, 1, 6);
 
         Console console = new Console(consoleText);
         PrintStream ps = new PrintStream(console, true);
@@ -111,10 +126,22 @@ public class GitGrader extends Application {
                     public void handle(ActionEvent event) {
                         Task<Integer> task = new Task<Integer>() {
                             @Override protected Integer call() throws Exception {
+                                Date fromDate = null;
+                                Date toDate = null;
                                 console.clear();
                                 if (configFile != null) {
                                     try {
+                                        if (fromDatePicker.getValue() != null){
+                                            fromDate = convertToDate(fromDatePicker.getValue());
+                                        }
+                                        if (toDatePicker.getValue() != null){
+                                            toDate = convertToDate(toDatePicker.getValue());
+                                        }
                                         List<RepoConfiguration> configs = CSVConfigurationParser.parseFromFile(configFile);
+                                        for (RepoConfiguration config : configs){
+                                            config.setToDate(toDate);
+                                            config.setFromDate(fromDate);
+                                        }
                                         RepoInfoFileGenerator.generateReposReport(configs, targetFile.getAbsolutePath());
                                     } catch (Exception e){
                                         System.out.println("error caught!!");
@@ -129,9 +156,12 @@ public class GitGrader extends Application {
                 }
         );
 
-        Scene scene = new Scene(grid, 550, 600);
+        Scene scene = new Scene(grid, 550, 800);
         primaryStage.setScene(scene);
         primaryStage.show();
     }
 
+    private Date convertToDate(LocalDate localDate){
+        return Date.from(localDate.atStartOfDay().atZone(ZoneId.systemDefault()).toInstant());
+    }
 }

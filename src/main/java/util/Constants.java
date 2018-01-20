@@ -22,6 +22,7 @@ public class Constants {
     public static final String LOG_SPLITTER = "\\|";
     public static final DateFormat GIT_ISO_FORMAT = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
     public static final DateFormat REPORT_NAME_FORMAT = new SimpleDateFormat("yyyy-MM-dd-HH-mm-ss");
+    public static final DateFormat GIT_LOG_DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
     public static final String GITHUB_API_DATE_FORMAT = "yyyy-MM-dd";
 
 

@@ -4,20 +4,26 @@ import util.Constants;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Date;
 
 /**
  * Created by matanghao1 on 28/5/17.
  */
 public class CommandRunner {
 
-    public static String gitLog(String root){
+    public static String gitLog(String root, Date fromDate, Date toDate){
         File rootFile = new File(root);
-        return runCommand(rootFile, "git log --no-merges --pretty=format:\"%h|%aN|%ad|%s\" --date=iso --shortstat -- '*.java'| sed '/^$/d'");
-    }
+        String command = "git log --no-merges ";
+        if (fromDate!=null){
+            command+=" --since='" + Constants.GIT_LOG_DATE_FORMAT.format(fromDate) + "' ";
+        }
+        if (toDate != null){
+            command+=" --until='" + Constants.GIT_LOG_DATE_FORMAT.format(toDate) + "' ";
+        }
+        command += " --pretty=format:\"%h|%aN|%ad|%s\" --date=iso --shortstat -- '*.java' | sed '/^$/d'";
+        System.out.println(command);
 
-    public static String gitLog(String root, int last){
-        File rootFile = new File(root);
-        return runCommand(rootFile, "git log --no-merges --pretty=format:\"%h|%aN|%ad|%s\" --date=iso --shortstat -n " + last +" -- '*.java'| sed '/^$/d'");
+        return runCommand(rootFile, command);
     }
 
     public static void checkOut(String root, String hash){

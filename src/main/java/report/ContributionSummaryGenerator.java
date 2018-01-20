@@ -9,11 +9,13 @@ import java.util.*;
  */
 public class ContributionSummaryGenerator {
 
-    public static Map<String, RepoContributionSummary> analyzeContribution(List<RepoInfo> repos){
+    public static Map<String, RepoContributionSummary> analyzeContribution(List<RepoInfo> repos, List<RepoConfiguration> configs){
         System.out.println("Generating summary report...");
         Map<String, RepoContributionSummary> result = new HashMap<>();
         for (RepoInfo repo:repos){
             RepoContributionSummary summary = new RepoContributionSummary(repo);
+            summary.setFromDate(configs.get(0).getFromDate());
+            summary.setToDate(configs.get(0).getToDate());
             summary.setAuthorWeeklyIntervalContributions(getAuthorIntervalContributions(repo.getCommits(),7));
             summary.setAuthorDailyIntervalContributions(getAuthorIntervalContributions(repo.getCommits(),1));
             summary.setAuthorFinalContributionMap(repo.getCommits().get(repo.getCommits().size()-1).getAuthorContributionMap());

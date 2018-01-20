@@ -1,5 +1,6 @@
 package dataObject;
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -13,6 +14,8 @@ public class RepoContributionSummary {
     private String organization;
     private String branch;
     private String displayName;
+    private Date fromDate;
+    private Date toDate;
     private Map<Author, List<AuthorIntervalContribution>> authorWeeklyIntervalContributions = new HashMap<>();
     private Map<Author, List<AuthorIntervalContribution>> authorDailyIntervalContributions = new HashMap<>();
     private Map<Author, Integer> authorFinalContributionMap = new HashMap<>();
@@ -96,5 +99,21 @@ public class RepoContributionSummary {
 
     public void setAuthorRushiness(Map<Author, Float> authorRushiness) {
         this.authorRushiness = authorRushiness;
+    }
+
+    public Date getFromDate() {
+        return fromDate;
+    }
+
+    public void setFromDate(Date fromDate) {
+        this.fromDate = fromDate;
+    }
+
+    public Date getToDate() {
+        return toDate;
+    }
+
+    public void setToDate(Date toDate) {
+        this.toDate = toDate;
     }
 }

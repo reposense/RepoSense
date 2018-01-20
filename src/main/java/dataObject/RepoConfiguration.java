@@ -2,10 +2,7 @@ package dataObject;
 
 import util.FileUtil;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Created by matanghao1 on 10/7/17.
@@ -21,6 +18,8 @@ public class RepoConfiguration {
     private Map<String,Author> authorAliasMap = new HashMap<>();
     private Map<Author,String> authorDisplayNameMap = new HashMap<>();
     private boolean annotationOverwrite = true;
+    private Date fromDate;
+    private Date toDate;
 
 
     public RepoConfiguration(String organization, String repoName, String branch) {
@@ -111,5 +110,21 @@ public class RepoConfiguration {
 
     public void setAuthorAliasMap(Map<String, Author> authorAliasMap) {
         this.authorAliasMap = authorAliasMap;
+    }
+
+    public Date getFromDate() {
+        return fromDate;
+    }
+
+    public void setFromDate(Date fromDate) {
+        this.fromDate = fromDate;
+    }
+
+    public Date getToDate() {
+        return toDate;
+    }
+
+    public void setToDate(Date toDate) {
+        this.toDate = toDate;
     }
 }
