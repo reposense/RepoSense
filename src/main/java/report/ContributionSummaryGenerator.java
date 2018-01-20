@@ -12,18 +12,25 @@ public class ContributionSummaryGenerator {
     public static Map<String, RepoContributionSummary> analyzeContribution(List<RepoInfo> repos, List<RepoConfiguration> configs){
         System.out.println("Generating summary report...");
         Map<String, RepoContributionSummary> result = new HashMap<>();
+        HashSet<Author> suspiciousAuthors = new HashSet<>(); //authors with bugs that I didnt catch
         for (RepoInfo repo:repos){
             RepoContributionSummary summary = new RepoContributionSummary(repo);
             summary.setFromDate(configs.get(0).getFromDate());
             summary.setToDate(configs.get(0).getToDate());
-            summary.setAuthorWeeklyIntervalContributions(getAuthorIntervalContributions(repo.getCommits(),7));
-            summary.setAuthorDailyIntervalContributions(getAuthorIntervalContributions(repo.getCommits(),1));
+            summary.setAuthorWeeklyIntervalContributions(getAuthorIntervalContributions(repo.getCommits(),7,suspiciousAuthors));
+            summary.setAuthorDailyIntervalContributions(getAuthorIntervalContributions(repo.getCommits(),1,suspiciousAuthors));
             summary.setAuthorFinalContributionMap(repo.getCommits().get(repo.getCommits().size()-1).getAuthorContributionMap());
             summary.setAuthorRushiness(getAuthorRushiness(summary.getAuthorDailyIntervalContributions()));
             summary.setAuthorDisplayNameMap(repo.getAuthorDisplayNameMap());
             result.put(repo.getDirectoryName(),summary);
         }
-        System.out.println("done");
+        if (!suspiciousAuthors.isEmpty()) {
+            System.out.println("PLEASE NOTE, BELOW IS THE LIST OF SUSPICIOUS AUTHORS:");
+            for (Author author : suspiciousAuthors) {
+                System.out.println(author);
+            }
+        }
+        System.out.println("done!Congrats!");
         return result;
     }
 
@@ -50,7 +57,7 @@ public class ContributionSummaryGenerator {
         return variance / contributions.size();
     }
 
-    private static Map<Author, List<AuthorIntervalContribution>> getAuthorIntervalContributions(List<CommitInfo> commits, int intervalLength){
+    private static Map<Author, List<AuthorIntervalContribution>> getAuthorIntervalContributions(List<CommitInfo> commits, int intervalLength, Set<Author> suspiciousAuthors){
         //init
         Map<Author, List<AuthorIntervalContribution>> result = new HashMap<>();
         for (Author author: commits.get(commits.size()-1).getAuthorContributionMap().keySet()){
@@ -68,7 +75,8 @@ public class ContributionSummaryGenerator {
             }
             List<AuthorIntervalContribution> tempList = result.get(commit.getAuthor());
             if (tempList==null){
-                System.out.println("NOTE: Abnormal User:"+commit.getAuthor()+",please check his repository");
+                //there's no matching author for this commits, meaning there's probably something wrong with CSV input?
+                suspiciousAuthors.add(commit.getAuthor());
             }else {
                 tempList.get(tempList.size() - 1).updateForCommit(commit);
             }

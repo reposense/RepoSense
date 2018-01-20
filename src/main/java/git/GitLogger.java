@@ -28,7 +28,7 @@ public class GitLogger {
         return relevantCommits;
     }
 
-    private static ArrayList<CommitInfo> parseCommitInfo(String rawResult, List<Author> authors,RepoConfiguration config){
+    private static ArrayList<CommitInfo> parseCommitInfo(String rawResult, List<Author> authors, RepoConfiguration config){
         ArrayList<CommitInfo> result = new ArrayList<CommitInfo>();
         String[] rawLines= rawResult.split("\n");
         for (int i=0;i<rawLines.length;i++){
