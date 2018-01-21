@@ -46,8 +46,6 @@ public class RepoInfo {
         this.repoName = repoName;
     }
 
-
-
     public List<CommitInfo> getCommits() {
 
         return commits;

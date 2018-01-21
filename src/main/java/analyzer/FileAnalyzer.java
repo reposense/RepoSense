@@ -39,7 +39,7 @@ public class FileAnalyzer {
 
     private static ArrayList<FileInfo> processFiles(RepoConfiguration config, List<String> relativePaths){
         List<FileInfo> fileInfos = Collections.synchronizedList(new ArrayList<FileInfo>());
-        ExecutorService executor = Executors.newFixedThreadPool(20);
+        ExecutorService executor = Executors.newFixedThreadPool(10);
         for (String relativePath: relativePaths) {
             Runnable worker = new FileAnalyzeThread(fileInfos,config,relativePath);
             executor.execute(worker);

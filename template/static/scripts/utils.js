@@ -44,22 +44,18 @@ function getScaleLimit(intervalType) {
     return totalContribution / count * 3;
 };
 
-function getSpectrumMaxLengthMap() {
-    var result = {};
-    result["authorWeeklyIntervalContributions"] = getSpectrumMaxLength("authorWeeklyIntervalContributions");
-    result["authorDailyIntervalContributions"] = getSpectrumMaxLength("authorDailyIntervalContributions");
-    return result;
-}
+function getIntervalCount(intervalType, minDate, maxDate) {
+    var minDateParsed = Date.parse(minDate);
+    var maxDateParsed = Date.parse(maxDate);
+    var oneDay = 24 * 60 * 60 * 1000; // hours*minutes*seconds*milliseconds
 
-function getSpectrumMaxLength(intervalType) {
-    var maxLength = 0;
-    for (repo in summaryJson) {
-        for (author in summaryJson[repo][intervalType]) {
-            maxLength = Math.max(maxLength, summaryJson[repo][intervalType][author].length);
-        }
+    var diffDays = Math.round(Math.abs((minDateParsed.getTime() - maxDateParsed.getTime()) / (oneDay)));
+    if (intervalType == "authorWeeklyIntervalContributions"){
+        var divisor = 7;
+    }else {
+        var divisor = 1;
     }
-    return maxLength;
-
+    return diffDays/divisor;
 }
 
 function getTotalContributionLimit() {
@@ -129,4 +125,55 @@ function isSearchMatch(searchTerm, authorRepo) {
 
 function isNotMatch(searchTerm, currentPhrase) {
     return currentPhrase.toLowerCase().indexOf(searchTerm.toLowerCase()) == -1;
+}
+
+function getMinDate() {
+    rawDate = summaryJson[Object.keys(summaryJson)[0]]["fromDate"];
+    if (rawDate){
+        //the fromDate has been set
+        console.log(Date.parse(rawDate))
+        console.log(Date.parse(rawDate).toString("M/d/yy"))
+        return Date.parse(rawDate).toString("M/d/yy");
+    } else {
+        //find the min Date among all intervals
+        var result;
+        for (var i in summaryJson) {
+            var authorContribution = summaryJson[i]["authorDailyIntervalContributions"];
+            var currentRawDate = authorContribution[Object.keys(authorContribution)[0]][0]["fromDate"];
+            var currentDate = Date.parse(currentRawDate);
+            if (result) {
+                if (result.compareTo(currentDate) > 0) {
+                    result = currentDate;
+                }
+            } else {
+                result = currentDate;
+            }
+        }
+        return result.toString("M/d/yy");
+    }
+}
+
+function getMaxDate() {
+    rawDate = summaryJson[Object.keys(summaryJson)[0]]["toDate"];
+    if (rawDate) {
+        //the fromDate has been set
+        return Date.parse(rawDate).toString("M/d/yy");
+    } else {
+        //find the min Date among all intervals
+        var result;
+        for (var i in summaryJson) {
+            var authorContributions = summaryJson[i]["authorDailyIntervalContributions"];
+            var authorIntervals = authorContributions[Object.keys(authorContributions)[0]];
+            var currentRawDate = authorIntervals[authorIntervals.length - 1]["toDate"];
+            var currentDate = Date.parse(currentRawDate);
+            if (result) {
+                if (result.compareTo(currentDate) < 0) {
+                    result = currentDate;
+                }
+            } else {
+                result = currentDate;
+            }
+        }
+        return result.toString("M/d/yy");
+    }
 }

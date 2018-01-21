@@ -1,12 +1,14 @@
 <html>
 <head>
     <title>GitGrader</title>
-    <link rel="stylesheet" href="static/css/jquery-ui.css">
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
     <link rel="stylesheet" href="static/css/bootstrap.min.css">
     <link rel="stylesheet" href="static/css/style.css">
     <script type="text/javascript" src="summary.js"></script>
-    <script src="static/scripts/lib/jquery-1.12.4.js"></script>
-    <script src="static/scripts/lib/jquery-ui.js"></script>
+    <script src="static/scripts/lib/date.js"></script>
+
+    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
     <script src="static/scripts/lib/vue.js"></script>
     <script type="text/javascript" src="static/scripts/utils.js"></script>
     <script>
@@ -15,7 +17,30 @@
         var rgbacolors = ["rgba(230,159,0,0.6)", "rgba(86,180,233,0.6)", "rgba(0,158,115,0.6)", "rgba(240,228,66,0.6)", "rgba(0,114,178,0.6)", "rgba(213,94,0,0.6)", "rgba(204,121,167,0.6)"];
 
         var sliceScaleLimitMap = getScaleLimitMap();
-        var spectrumMaxLengthMap = getSpectrumMaxLengthMap();
+        var minDateRange = getMinDate();
+        var maxDateRange = getMaxDate();
+        Vue.component('date-picker', {
+            template: '<input/>',
+            props: [ 'defaultDate' ],
+            mounted: function() {
+                var self = this;
+                var minDateParsed = Date.parse(minDateRange);
+                var maxDateParsed = Date.parse(maxDateRange);
+                console.log(this.defaultDate)
+                $(this.$el).datepicker({
+                    minDate: minDateParsed, 
+                    maxDate:maxDateParsed,
+                    defaultDate : Date.parse(this.defaultDate),
+                    dateFormat:"mm/dd/yy",
+                    onSelect: function(date) {
+                        self.$emit('update-date', date);
+                    }
+        });
+        },
+        beforeDestroy: function() {
+            $(this.$el).datepicker('hide').datepicker('destroy');
+        }
+        });
         $(document).ready(function() {
             var app = new Vue({
                 el: '#vue-app',
@@ -26,11 +51,32 @@
                     searchTerm: "",
                     intervalType: "authorDailyIntervalContributions",
                     isGroupByRepo: true,
+                    minDate: minDateRange,
+                    maxDate: maxDateRange
                 },
                 methods: {
-                    getSliceStyle: function(index, value, intervalType) {
+                    updateMinDate : function(date) {
+                        this.minDate = date;
+                    },
+                    updateMaxDate : function(date) {
+                        this.maxDate = date;
+                    },
+                    rangeFilter: function(contributions,minDate,maxDate) {
+                        var resultContribution = [];
+                        var minDateParsed = Date.parse(minDate);
+                        var maxDateParsed = Date.parse(maxDate);
+                        for (contribution of contributions){
+                            var currentFromDate = Date.parse(contribution["fromDate"]);
+                            var currentToDate = Date.parse(contribution["toDate"]);
+                            if (minDateParsed.compareTo(currentFromDate)<=0 && maxDateParsed.compareTo(currentToDate)>=0){
+                                resultContribution.push(contribution);
+                            }
+                        }
+                        return resultContribution;
+                    },
+                    getSliceStyle: function(index, value, intervalType, minDate, maxDate) {
                         var sliceScaleLimit = sliceScaleLimitMap[intervalType];
-                        var spacing = 93 / spectrumMaxLengthMap[intervalType];
+                        var spacing = 93 / getIntervalCount(intervalType,minDate,maxDate);
                         var contribution = value['insertions'];
                         var width;
                         if (contribution == 0) {
@@ -44,7 +90,7 @@
                             }
                         }
                         var color = rgbacolors[index % (rgbacolors.length)];
-                        return "margin-left:" + (index * spacing - width + spacing) + "%;" + "width:" + width + "%;" + "background: linear-gradient(to left top, " + color + " 50%, transparent 50%);" + "z-index:" + (1000 - index) + ";";
+                        return "margin-left:" + (index * spacing - width + spacing) + "%;" + "width:" + width + "%;" + "background: linear-gradient(to left top, " + color + " 50%, transparent 50%);" + ";";
                     },
                     getContributionBarWidths: function(value) {
                         var widths = [];
@@ -137,6 +183,9 @@
         });
         $(function() {
             $(document).tooltip();
+            $("#minDatePicker").val(minDateRange);
+            $("#maxDatePicker").val(maxDateRange);
+
         });
     </script>
 </head>
@@ -162,6 +211,10 @@
                     <input type="radio" id="daily" value="authorDailyIntervalContributions" v-model="intervalType"><label for="daily">Daily</label>
                 </div>
                 <div class="filter-row">
+                    <label>Start Date:</label><date-picker id="minDatePicker" @update-date="updateMinDate" v-bind:default-date="minDate" v-once></date-picker>
+                    <label>End Date:</label><date-picker id="maxDatePicker" @update-date="updateMaxDate" v-bind:default-date="maxDate" v-once></date-picker>
+                </div>
+                <div class="filter-row">
                     <input type="checkbox" v-model="isGroupByRepo" /><label>Group By Team</label>
                 </div>
                 <div class="filter-row">
@@ -173,8 +226,8 @@
                         <div class="main" style="width:100%;margin-left:5%">
                             <h4 class="author_name_tag" v-bind:displayName="authorRepo.displayName" v-bind:author="authorRepo.author">{{authorRepo.displayName}}/{{authorRepo.authorDisplayName}}</h4>
                             <div class="spectrum">
-                                <template v-for="(element, index) in authorRepo[intervalType]">
-                                <div class="slice" v-bind:style="getSliceStyle(index,element,intervalType)" v-bind:title="getSliceTitle(element)" v-bind:onclick="getSliceGithubLink(element,authorRepo)"></div>
+                                <template v-for="(element, index) in rangeFilter(authorRepo[intervalType],minDate,maxDate)">
+                                <div class="slice" v-bind:style="getSliceStyle(index,element,intervalType,minDate,maxDate)" v-bind:title="getSliceTitle(element)" v-bind:onclick="getSliceGithubLink(element,authorRepo)"></div>
                                 </template>
             </div>
             <div v-bind:title="getContributionBarTitle(authorRepo.finalContribution)" style="min-height:15px;">

@@ -21,8 +21,6 @@ public class CommandRunner {
             command+=" --until='" + Constants.GIT_LOG_DATE_FORMAT.format(toDate) + "' ";
         }
         command += " --pretty=format:\"%h|%aN|%ad|%s\" --date=iso --shortstat -- '*.java' | sed '/^$/d'";
-        System.out.println(command);
-
         return runCommand(rootFile, command);
     }
 

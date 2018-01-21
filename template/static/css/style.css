@@ -60,7 +60,7 @@ div.progress-chart-box {
 div.progress-chart-tool {
     padding-top:1%;
     padding-left:5%;
-    height:15%;
+    height:20%;
     display: block;
 }
 
@@ -68,7 +68,7 @@ div.filter-row {
 }
 
 div.progress-chart-main {
-    height:85%;
+    height:80%;
     overflow-y: scroll;
     overflow-x: hidden;
 }
