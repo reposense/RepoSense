@@ -11,6 +11,8 @@ import java.util.Date;
  */
 public class CommandRunner {
 
+    private static boolean isWindows = isWindows();
+
     public static String gitLog(String root, Date fromDate, Date toDate){
         File rootFile = new File(root);
         String command = "git log --no-merges ";
@@ -50,9 +52,16 @@ public class CommandRunner {
 
 
     private static String runCommand(File directory, String command) {
-        ProcessBuilder pb = new ProcessBuilder()
-                .command(new String[] {"bash", "-c" , command})
-                .directory(directory);
+        ProcessBuilder pb = null;
+        if (isWindows){
+            pb = new ProcessBuilder()
+                    .command(new String[]{"CMD", "/c", command})
+                    .directory(directory);
+        }else {
+             pb = new ProcessBuilder()
+                    .command(new String[]{"bash", "-c", command})
+                    .directory(directory);
+        }
         Process p = null;
         try {
             p = pb.start();
@@ -77,6 +86,10 @@ public class CommandRunner {
         }else{
             throw new RuntimeException("Error returned from command:\n"+errorGobbler.getValue());
         }
+    }
+
+    private static boolean isWindows(){
+        return (System.getProperty("os.name").toLowerCase().indexOf("win")>=0);
     }
 
 
