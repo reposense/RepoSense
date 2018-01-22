@@ -26,7 +26,7 @@ public class FileAnalyzer {
     private static void getAllPossibleFilePaths(RepoConfiguration config, File directory, ArrayList<String> relativePaths){
         for (File file:directory.listFiles()) {
 
-            String relativePath = file.getPath().replaceFirst(config.getRepoRoot(), "");
+            String relativePath = file.getPath().substring(config.getRepoRoot().length());
             if (shouldIgnore(relativePath, config.getIgnoreDirectoryList())) continue;
             if (file.isDirectory()) {
                 getAllPossibleFilePaths(config, file, relativePaths);
