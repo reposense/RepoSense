@@ -22,7 +22,7 @@ public class CommandRunner {
         if (toDate != null){
             command+=" --until='" + Constants.GIT_LOG_DATE_FORMAT.format(toDate) + "' ";
         }
-        command += " --pretty=format:\"%h|%aN|%ad|%s\" --date=iso --shortstat -- '*.java' | sed '/^$/d'";
+        command += " --pretty=format:\"%h|%aN|%ad|%s\" --date=iso --shortstat -- '*.java'";
         return runCommand(rootFile, command);
     }
 
@@ -33,7 +33,7 @@ public class CommandRunner {
 
     public static String blameRaw(String root, String fileDirectory){
         File rootFile = new File(root);
-        return runCommand(rootFile, "git blame " + fileDirectory + " -w -M -C --follow --find-copies-harder --line-porcelain | grep  \"^author \"");
+        return runCommand(rootFile, "git blame " + fileDirectory + " -w -M -C --follow --find-copies-harder --line-porcelain");
     }
 
     public static String checkStyleRaw(String absoluteDirectory){

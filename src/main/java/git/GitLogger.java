@@ -33,6 +33,7 @@ public class GitLogger {
         String[] rawLines= rawResult.split("\n");
         for (int i=0;i<rawLines.length;i++){
             CommitInfo commit = parseRawLine(rawLines[i],rawLines[++i],config);
+            i++; //to skip the empty line
             if (commit == null) continue;
             result.add(commit);
         }
