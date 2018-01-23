@@ -114,9 +114,6 @@
                     getContributionBarTitle: function(value) {
                         return "total contribution : " + value;
                     },
-                    getUpdatedSortLink: function(sortElement, sortOrder) {
-                        return "window.location.href='?sortElement=" + sortElement + "&sortOrder=" + sortOrder + "'";
-                    },
                     sortAndFilter: function(summary, searchTerm, sortElement, sortOrder, isGroupByRepo) {
                         authorRepos = [];
                         for (repo in summary) {
@@ -132,7 +129,7 @@
                                 authorRepo['authorDailyIntervalContributions'] = summary[repo]['authorDailyIntervalContributions'][author];
                                 authorRepo['authorWeeklyIntervalContributions'] = summary[repo]['authorWeeklyIntervalContributions'][author];
                                 authorRepo['finalContribution'] = summary[repo]['authorFinalContributionMap'][author];
-                                authorRepo['rushiness'] = summary[repo]['authorRushiness'][author];
+                                authorRepo['consistency'] = summary[repo]['authorConsistency'][author];
                                 if (isSearchMatch(searchTerm, authorRepo)) {
                                     newRepo.push(authorRepo);
                                 }
@@ -198,7 +195,7 @@
                     <label>Sort By:</label>
                     <select v-model="sortElement">
                                 <option value="finalContribution">Total Contribution</option>
-                                <option value="rushiness">Rushiness</option>
+                                <option value="consistency">Consistency</option>
                             </select>
                     <select v-model="sortOrder">
                                 <option value="high2low">High To Low</option>
