@@ -110,3 +110,7 @@ div.spectrum {
     background-color:#deebf6;
     position: relative;
 }
+
+code::-webkit-scrollbar {
+    display:none;
+}
