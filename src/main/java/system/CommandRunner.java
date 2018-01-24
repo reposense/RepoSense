@@ -84,7 +84,10 @@ public class CommandRunner {
         if (exit == 0) {
             return outputGobbler.getValue();
         }else{
-            throw new RuntimeException("Error returned from command:\n"+errorGobbler.getValue());
+            String errorMessage = "Error returned from command ";
+            errorMessage += command + "on path ";
+            errorMessage += directory.getPath() + " :\n" + errorGobbler.getValue();
+            throw new RuntimeException(errorMessage);
         }
     }
 

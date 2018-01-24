@@ -34,8 +34,8 @@
 					return false;
 				},
 				getAuthorClass : function(line, currentAuthor){
-					if (currentAuthor!=null && line.author.gitID == currentAuthor){
-						return "authored";
+					if (currentAuthor==null || line.author.gitID != currentAuthor){
+						return "unauthored";
 					}
 					return "";
 				},
