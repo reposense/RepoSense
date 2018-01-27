@@ -19,3 +19,12 @@ jar {
         attributes 'Main-Class': 'frontend.GitGrader'
     }
 }
+
+task myZip(type: Zip) {
+    from 'template/'
+    baseName = 'templateZip'
+    destinationDir = file("src/main/resources")
+}
+
+tasks.build.dependsOn("myZip");
+tasks.run.dependsOn("myZip");

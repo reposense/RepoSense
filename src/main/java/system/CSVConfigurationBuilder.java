@@ -9,14 +9,24 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /**
  * Created by matanghao1 on 28/9/17.
  */
-public class CSVConfigurationParser {
+public class CSVConfigurationBuilder {
 
-    public static List<RepoConfiguration> parseFromFile(File csvFile){
+    public static List<RepoConfiguration> buildConfigs(File configFile, Date fromDate, Date toDate){
+        List<RepoConfiguration> configs = parseConfig(configFile);
+        for (RepoConfiguration config : configs){
+            config.setToDate(toDate);
+            config.setFromDate(fromDate);
+        }
+        return configs;
+    }
+
+    private static List<RepoConfiguration> parseConfig(File csvFile){
         String line;
         List<RepoConfiguration> configs = new ArrayList<>();
         try (BufferedReader br = new BufferedReader(new FileReader(csvFile))) {

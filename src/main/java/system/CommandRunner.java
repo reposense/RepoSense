@@ -44,7 +44,7 @@ public class CommandRunner {
     public static String cloneRepo(String org, String repoName){
         File rootFile = new File(Constants.REPOS_ADDRESS + "/" + org);
         if (!rootFile.exists()){
-            rootFile.mkdir();
+            rootFile.mkdirs();
         }
         return runCommand(rootFile, "git clone " + Constants.GITHUB_URL_ROOT + org + "/" + repoName);
     }

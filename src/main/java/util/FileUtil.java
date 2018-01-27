@@ -5,6 +5,8 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
 import java.io.*;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipInputStream;
 
 /**
  * Created by matanghao1 on 10/7/17.
@@ -27,7 +29,7 @@ public class FileUtil {
     }
 
     public static String getRepoDirectory(String org, String repoName){
-        return Constants.REPOS_ADDRESS + "/" + org + "/" + repoName+"/";
+        return Constants.REPOS_ADDRESS + File.separator + org + File.separator  + repoName+File.separator;
     }
 
     public static void deleteDirectory(String root)
@@ -76,8 +78,7 @@ public class FileUtil {
         }
     }
 
-    public static void copyFiles(File src, File dest)
-            throws IOException{
+    public static void copyFiles(File src, File dest) {
 
         if(src.isDirectory()){
 
@@ -125,6 +126,55 @@ public class FileUtil {
             out.close();
         } catch (FileNotFoundException e) {
             e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static void unzip(ZipInputStream zipInput,String destinationFolder) {
+        File directory = new File(destinationFolder);
+
+        // if the output directory doesn't exist, create it
+        if(!directory.exists())
+            directory.mkdirs();
+
+        // buffer for read and write data to file
+        byte[] buffer = new byte[2048];
+
+        try {
+            ZipEntry entry = zipInput.getNextEntry();
+
+            while(entry != null){
+                String entryName = entry.getName();
+                File file = new File(destinationFolder + File.separator + entryName);
+                // create the directories of the zip directory
+                if(entry.isDirectory()) {
+                    File newDir = new File(file.getAbsolutePath());
+                    if(!newDir.exists()) {
+                        boolean success = newDir.mkdirs();
+                        if(success == false) {
+                            System.out.println("Problem creating Folder");
+                        }
+                    }
+                }
+                else {
+                    FileOutputStream fOutput = new FileOutputStream(file);
+                    int count = 0;
+                    while ((count = zipInput.read(buffer)) > 0) {
+                        // write 'count' bytes to the file output stream
+                        fOutput.write(buffer, 0, count);
+                    }
+                    fOutput.close();
+                }
+                // close ZipEntry and take the next one
+                zipInput.closeEntry();
+                entry = zipInput.getNextEntry();
+            }
+
+            // close the last ZipEntry
+            zipInput.closeEntry();
+
+            zipInput.close();
         } catch (IOException e) {
             e.printStackTrace();
         }

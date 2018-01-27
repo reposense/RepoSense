@@ -5,16 +5,19 @@ import dataObject.FileInfo;
 import dataObject.RepoConfiguration;
 import dataObject.RepoContributionSummary;
 import dataObject.RepoInfo;
+import frontend.GitGrader;
 import git.GitCloner;
 import util.Constants;
 import util.FileUtil;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
+import java.util.zip.ZipInputStream;
 
 /**
  * Created by matanghao1 on 8/7/17.
@@ -24,15 +27,14 @@ public class RepoInfoFileGenerator {
     public static void generateReposReport(List<RepoConfiguration> repoConfigs, String targetFileLocation){
         String reportName = generateReportName();
         List<RepoInfo> repos = analyzeRepos(repoConfigs);
-        copyStaticLib(reportName, targetFileLocation);
-
+        copyTemplate(reportName, targetFileLocation);
         for (RepoInfo repo : repos) {
             generateIndividualRepoReport(repo, reportName,targetFileLocation);
         }
 
         Map<String, RepoContributionSummary> repoSummaries = ContributionSummaryGenerator.analyzeContribution(repos, repoConfigs);
         FileUtil.writeJSONFile(repoSummaries, getSummaryResultPath(reportName,targetFileLocation), "summaryJson");
-        FileUtil.copyFile(new File(Constants.STATIC_SUMMARY_REPORT_FILE_ADDRESS),new File(getSummaryPagePath(reportName,targetFileLocation)));
+        //FileUtil.copyFile(new File(Constants.STATIC_SUMMARY_REPORT_FILE_ADDRESS),new File(getSummaryPagePath(reportName,targetFileLocation)));
 
     }
 
@@ -54,27 +56,20 @@ public class RepoInfoFileGenerator {
         String repoReportName = repoinfo.getDirectoryName();
         String repoReportDirectory = targetFileLocation+"/"+reportName+"/"+repoReportName;
         new File(repoReportDirectory).mkdirs();
-        copyTemplate(repoReportDirectory, Constants.STATIC_INDIVIDUAL_REPORT_TEMPLATE_ADDRESS);
+        //copyTemplate(repoReportDirectory, Constants.STATIC_INDIVIDUAL_REPORT_TEMPLATE_ADDRESS);
+        String templateLocation = targetFileLocation+File.separator+
+                reportName+ File.separator +
+                Constants.STATIC_INDIVIDUAL_REPORT_TEMPLATE_ADDRESS;
+        FileUtil.copyFiles(new File(templateLocation), new File(repoReportDirectory));
         ArrayList<FileInfo> fileInfos = repoinfo.getCommits().get(repoinfo.getCommits().size()-1).getFileinfos();
         FileUtil.writeJSONFile(fileInfos,getIndividualResultPath(repoReportDirectory),"resultJson");
-
         System.out.println("report for "+ repoReportName+" Generated!");
-
     }
 
-    private static void copyStaticLib(String reportName, String targetFileLocation){
-        String staticLibDirectory = targetFileLocation +"/"+reportName+"/"+"static";
-        new File(staticLibDirectory).mkdirs();
-        copyTemplate(staticLibDirectory, Constants.STATIC_LIB_TEMPLATE_ADDRESS );
-    }
-
-
-    private static void copyTemplate(String dest, String src){
-        try {
-            FileUtil.copyFiles(new File(src), new File(dest));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+    private static void copyTemplate(String reportName, String targetFileLocation){
+        String location = targetFileLocation + File.separator + reportName;
+        InputStream is = GitGrader.class.getResourceAsStream(Constants.TEMPLATE_ZIP_ADDRESS);
+        FileUtil.unzip(new ZipInputStream(is),location);
     }
 
     private static String getSummaryPagePath(String repoReportDirectory, String targetFileLocation){
