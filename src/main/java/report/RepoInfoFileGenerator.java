@@ -34,7 +34,6 @@ public class RepoInfoFileGenerator {
 
         Map<String, RepoContributionSummary> repoSummaries = ContributionSummaryGenerator.analyzeContribution(repos, repoConfigs);
         FileUtil.writeJSONFile(repoSummaries, getSummaryResultPath(reportName,targetFileLocation), "summaryJson");
-        //FileUtil.copyFile(new File(Constants.STATIC_SUMMARY_REPORT_FILE_ADDRESS),new File(getSummaryPagePath(reportName,targetFileLocation)));
 
     }
 
@@ -48,6 +47,8 @@ public class RepoInfoFileGenerator {
             RepoAnalyzer.analyzeCommits(config, repoinfo);
             result.add(repoinfo);
         }
+        FileUtil.deleteDirectory(Constants.REPOS_ADDRESS);
+
         return result;
     }
 
@@ -56,7 +57,6 @@ public class RepoInfoFileGenerator {
         String repoReportName = repoinfo.getDirectoryName();
         String repoReportDirectory = targetFileLocation+"/"+reportName+"/"+repoReportName;
         new File(repoReportDirectory).mkdirs();
-        //copyTemplate(repoReportDirectory, Constants.STATIC_INDIVIDUAL_REPORT_TEMPLATE_ADDRESS);
         String templateLocation = targetFileLocation+File.separator+
                 reportName+ File.separator +
                 Constants.STATIC_INDIVIDUAL_REPORT_TEMPLATE_ADDRESS;
@@ -70,14 +70,6 @@ public class RepoInfoFileGenerator {
         String location = targetFileLocation + File.separator + reportName;
         InputStream is = GitGrader.class.getResourceAsStream(Constants.TEMPLATE_ZIP_ADDRESS);
         FileUtil.unzip(new ZipInputStream(is),location);
-    }
-
-    private static String getSummaryPagePath(String repoReportDirectory, String targetFileLocation){
-        return targetFileLocation + "/"+repoReportDirectory+ "/index.html";
-    }
-
-    private static String getDetailPagePath(String repoReportDirectory, String targetFileLocation){
-        return targetFileLocation+"/"+repoReportDirectory+ "/detail.html";
     }
 
     private static String getIndividualResultPath(String repoReportDirectory){
