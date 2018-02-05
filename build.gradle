@@ -7,6 +7,10 @@ repositories {
     mavenCentral()
 }
 
+test {
+  testLogging.showStandardStreams = true
+}
+
 dependencies {
     compile group: 'commons-collections', name: 'commons-collections', version: '3.2'
     compile 'com.github.javaparser:javaparser-core:3.0.1'
