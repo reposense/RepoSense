@@ -22,13 +22,13 @@ public class GitLogger {
     private static final Pattern INSERTION_PATTERN = Pattern.compile("([0-9]+) insertions");
     private static final Pattern DELETION_PATTERN = Pattern.compile("([0-9]+) deletions");
 
-    public static List<CommitInfo> getCommits(String repoRoot, RepoConfiguration config){
-        String raw = CommandRunner.gitLog(repoRoot, config.getFromDate(), config.getToDate());
-        ArrayList<CommitInfo> relevantCommits = parseCommitInfo(raw, config.getAuthorList(),config);
+    public static List<CommitInfo> getCommits(RepoConfiguration config){
+        String raw = CommandRunner.gitLog(config.getRepoRoot(), config.getFromDate(), config.getToDate());
+        ArrayList<CommitInfo> relevantCommits = parseCommitInfo(raw, config);
         return relevantCommits;
     }
 
-    private static ArrayList<CommitInfo> parseCommitInfo(String rawResult, List<Author> authors, RepoConfiguration config){
+    private static ArrayList<CommitInfo> parseCommitInfo(String rawResult, RepoConfiguration config){
         ArrayList<CommitInfo> result = new ArrayList<CommitInfo>();
         String[] rawLines= rawResult.split("\n");
         for (int i=0;i<rawLines.length;i++){

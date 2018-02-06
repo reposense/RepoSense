@@ -1,6 +1,7 @@
 package system;
 
 import org.junit.*;
+import template.GitTemplate;
 import util.Constants;
 import util.FileUtil;
 import util.TestConstants;
@@ -15,27 +16,7 @@ import static util.TestConstants.TEST_REPO;
 /**
  * Created by matanghao1 on 5/2/18.
  */
-public class CommandRunnerTest {
-
-    @BeforeClass
-    public static void before(){
-        deleteRepos();
-        CommandRunner.cloneRepo(TEST_ORG,TEST_REPO);
-    }
-
-    @AfterClass
-    public static void afterClass(){
-        deleteRepos();
-    }
-
-    @After
-    public void after(){
-        CommandRunner.checkOut(TestConstants.LOCAL_TEST_REPO_ADDRESS,"master");
-    }
-
-    private static void deleteRepos(){
-        FileUtil.deleteDirectory(Constants.REPOS_ADDRESS);
-    }
+public class CommandRunnerTest extends GitTemplate {
 
     @Test
     public void cloneTest(){

@@ -12,4 +12,8 @@ public class TestConstants {
                                                             File.separator + TEST_ORG + File.separator + TEST_REPO;
 
 
+    public static final String FIRST_COMMIT_HASH = "7d7584f";
+
+    public static final String MAIN_AUTHOR_NAME = "harryggg";
+
 }
