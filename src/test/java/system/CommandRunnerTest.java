@@ -1,22 +1,16 @@
 package system;
 
 import org.junit.*;
-import template.GitTemplate;
-import util.Constants;
-import util.FileUtil;
+import template.GitTestTemplate;
 import util.TestConstants;
 
 import java.io.File;
 import java.util.Calendar;
-import java.util.logging.Logger;
-
-import static util.TestConstants.TEST_ORG;
-import static util.TestConstants.TEST_REPO;
 
 /**
  * Created by matanghao1 on 5/2/18.
  */
-public class CommandRunnerTest extends GitTemplate {
+public class CommandRunnerTest extends GitTestTemplate {
 
     @Test
     public void cloneTest(){

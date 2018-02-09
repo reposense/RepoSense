@@ -1,4 +1,4 @@
-package analyzer;
+package git;
 
 import dataObject.Author;
 import dataObject.FileInfo;
@@ -11,7 +11,7 @@ import java.util.regex.Pattern;
 /**
  * Created by matanghao1 on 3/6/17.
  */
-public class BlameParser {
+public class GitBlamer {
 
     private static final Pattern INSERTION_PATTERN = Pattern.compile("^author (.+)");
 
@@ -24,7 +24,7 @@ public class BlameParser {
             Matcher m = INSERTION_PATTERN.matcher(rawLines[i]);
             if (m.find()){
                 String authorRawName = m.group(1);
-                Author author = config.getAuthorAliasMap().get(authorRawName.toLowerCase());
+                Author author = config.getAuthorAliasMap().get(authorRawName);
                 if (author == null){
                     author = new Author("-");
                 }

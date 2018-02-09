@@ -15,5 +15,7 @@ public class TestConstants {
     public static final String FIRST_COMMIT_HASH = "7d7584f";
 
     public static final String MAIN_AUTHOR_NAME = "harryggg";
+    public static final String FAKE_AUTHOR_NAME = "fakeAuthor";
+
 
 }

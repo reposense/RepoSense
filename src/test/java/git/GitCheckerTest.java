@@ -2,7 +2,7 @@ package git;
 
 import org.junit.Assert;
 import org.junit.Test;
-import template.GitTemplate;
+import template.GitTestTemplate;
 import util.TestConstants;
 
 import java.io.File;
@@ -10,7 +10,7 @@ import java.io.File;
 /**
  * Created by matanghao1 on 6/2/18.
  */
-public class GitCheckerTest extends GitTemplate{
+public class GitCheckerTest extends GitTestTemplate {
     @Test
     public void checkoutBranchTest(){
         GitChecker.checkoutBranch(TestConstants.LOCAL_TEST_REPO_ADDRESS,"test");

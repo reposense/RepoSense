@@ -5,12 +5,9 @@ import dataObject.CommitInfo;
 import dataObject.RepoConfiguration;
 import org.junit.Assert;
 import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
-import template.GitTemplate;
-import util.TestConstants;
+import template.GitTestTemplate;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -19,12 +16,12 @@ import static util.TestConstants.*;
 /**
  * Created by matanghao1 on 7/2/18.
  */
-public class GitLoggerTest extends GitTemplate {
-    RepoConfiguration config;
+public class GitLoggerTest extends GitTestTemplate {
 
     @Before
+    @Override
     public void before(){
-        config = new RepoConfiguration(TEST_ORG,TEST_REPO,"master");
+        super.before();
 
 
     }
@@ -37,11 +34,8 @@ public class GitLoggerTest extends GitTemplate {
 
     @Test
     public void withContentTest(){
-        HashMap<String,Author> aliasMap = new HashMap<>();
-        aliasMap.put(MAIN_AUTHOR_NAME,new Author(MAIN_AUTHOR_NAME));
-        config.setAuthorAliasMap(aliasMap);
+        config.getAuthorAliasMap().put(MAIN_AUTHOR_NAME,new Author(MAIN_AUTHOR_NAME));
         List<CommitInfo> commits = GitLogger.getCommits(config);
-        System.out.println(config.getRepoRoot());
         Assert.assertNotEquals(commits.size(),0);
         CommitInfo commit = commits.get(0);
         Assert.assertEquals(commit.getHash(),FIRST_COMMIT_HASH);

@@ -3,6 +3,7 @@ package analyzer;
 import dataObject.FileInfo;
 import dataObject.LineInfo;
 import dataObject.RepoConfiguration;
+import git.GitBlamer;
 import util.Constants;
 
 import java.io.*;
@@ -27,9 +28,9 @@ public class FileAnalyzeThread implements Runnable {
     public void run() {
         if (isReused(config.getRepoRoot(),relativePath)) return;
         //System.out.println("analyzing file info for "+relativePath);
-        FileInfo fileInfo = generateFileInfo(config.getRepoRoot(),relativePath);
+        FileInfo fileInfo = FileInfoGenerator.generateFileInfo(config.getRepoRoot(),relativePath);
         //System.out.println("analyzing blame "+relativePath);
-        BlameParser.aggregateBlameInfo(fileInfo,config);
+        GitBlamer.aggregateBlameInfo(fileInfo,config);
         //System.out.println("finish blame...");
         if (config.isNeedCheckStyle()) {
             CheckStyleParser.aggregateStyleIssue(fileInfo, config.getRepoRoot());
@@ -43,25 +44,6 @@ public class FileAnalyzeThread implements Runnable {
         //MethodAnalyzer.aggregateMethodInfo(fileInfo,config);
         fileInfo.constructAuthorContributionMap();
         fileInfos.add(fileInfo);
-
-    }
-
-    private static FileInfo generateFileInfo(String repoRoot, String relativePath){
-        FileInfo result = new FileInfo(relativePath);
-        File file = new File(repoRoot+'/'+relativePath);
-        try (BufferedReader br = new BufferedReader(new FileReader(file))) {
-            String line;
-            int lineNum = 1;
-            while ((line = br.readLine()) != null) {
-                result.getLines().add(new LineInfo(lineNum,line));
-                lineNum += 1;
-            }
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return result;
     }
 
     private static boolean isReused(String repoRoot, String relativePath){

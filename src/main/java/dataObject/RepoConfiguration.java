@@ -15,7 +15,7 @@ public class RepoConfiguration {
     private String branch;
     private List<String> ignoreDirectoryList = new ArrayList<>();
     private List<Author> authorList = new ArrayList<>();
-    private Map<String,Author> authorAliasMap = new HashMap<>();
+    private TreeMap<String,Author> authorAliasMap = new TreeMap<>(String.CASE_INSENSITIVE_ORDER);
     private Map<Author,String> authorDisplayNameMap = new HashMap<>();
     private boolean annotationOverwrite = true;
     private Date fromDate;
@@ -104,11 +104,11 @@ public class RepoConfiguration {
         this.authorList = authorList;
     }
 
-    public Map<String, Author> getAuthorAliasMap() {
+    public TreeMap<String, Author> getAuthorAliasMap() {
         return authorAliasMap;
     }
 
-    public void setAuthorAliasMap(Map<String, Author> authorAliasMap) {
+    public void setAuthorAliasMap(TreeMap<String, Author> authorAliasMap) {
         this.authorAliasMap = authorAliasMap;
     }
 
