@@ -24,8 +24,13 @@ public class AnnotatorAnalyzer {
         Author currentAuthor = null;
         for (LineInfo line: fileInfo.getLines()){
             if (line.getContent().contains(AUTHOR_TAG)){
+                Author newAuthor = findAuthorInLine(line.getContent(),config);
+                if (newAuthor==null){
+                    //end of an author tag should belong to this author too.
+                    line.setAuthor(currentAuthor);
+                }
                 //set a new author
-                currentAuthor = findAuthorInLine(line.getContent(),config);
+                currentAuthor = newAuthor;
             }
             if (currentAuthor != null){
                 line.setAuthor(currentAuthor);

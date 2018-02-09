@@ -1,7 +1,11 @@
 package template;
 
+import analyzer.FileInfoGenerator;
 import dataObject.Author;
+import dataObject.FileInfo;
+import dataObject.LineInfo;
 import dataObject.RepoConfiguration;
+import git.GitBlamer;
 import git.GitCloner;
 import org.junit.*;
 import system.CommandRunner;
@@ -45,6 +49,27 @@ public class GitTestTemplate {
 
     private static void deleteRepos(){
         FileUtil.deleteDirectory(Constants.REPOS_ADDRESS);
+    }
+
+
+    public FileInfo getBlamedFileInfo(String relativePath){
+        FileInfo fileinfo = FileInfoGenerator.generateFileInfo(TestConstants.LOCAL_TEST_REPO_ADDRESS, relativePath);
+
+        config.getAuthorAliasMap().put(TestConstants.MAIN_AUTHOR_NAME,new Author(TestConstants.MAIN_AUTHOR_NAME));
+        config.getAuthorAliasMap().put(TestConstants.FAKE_AUTHOR_NAME,new Author(TestConstants.FAKE_AUTHOR_NAME));
+        GitBlamer.aggregateBlameInfo(fileinfo,config);
+        return fileinfo;
+    }
+
+    public boolean checkBlameInfoCorrectness(FileInfo fileinfo){
+        for (LineInfo line:fileinfo.getLines()){
+            if (line.getContent().startsWith("fake")){
+                Assert.assertEquals(line.getAuthor(),new Author(TestConstants.FAKE_AUTHOR_NAME));
+            } else {
+                Assert.assertNotEquals(line.getAuthor(),new Author(TestConstants.FAKE_AUTHOR_NAME));
+            }
+        }
+        return true;
     }
 
 }

@@ -18,31 +18,15 @@ public class GitBlamerTest extends GitTestTemplate {
 
     @Test
     public void blameTest(){
-        testAuthorCorrectness("blameTest.java");
+        FileInfo fileInfo = getBlamedFileInfo("blameTest.java");
+        checkBlameInfoCorrectness(fileInfo);
     }
 
     @Test
     public void movedFileBlameTest(){
-        testAuthorCorrectness("newPos/movedFile.java");
+        FileInfo fileInfo = getBlamedFileInfo("newPos/movedFile.java");
+        checkBlameInfoCorrectness(fileInfo);
+
     }
 
-    private void testAuthorCorrectness(String relativePath){
-        FileInfo fileinfo = FileInfoGenerator.generateFileInfo(TestConstants.LOCAL_TEST_REPO_ADDRESS, relativePath);
-
-        config.getAuthorAliasMap().put(TestConstants.MAIN_AUTHOR_NAME,new Author(TestConstants.MAIN_AUTHOR_NAME));
-        config.getAuthorAliasMap().put(TestConstants.FAKE_AUTHOR_NAME,new Author(TestConstants.FAKE_AUTHOR_NAME));
-        GitBlamer.aggregateBlameInfo(fileinfo,config);
-        checkBlameInfoCorrectness(fileinfo);
-    }
-
-    private boolean checkBlameInfoCorrectness(FileInfo fileinfo){
-        for (LineInfo line:fileinfo.getLines()){
-            if (line.getContent().startsWith("fake")){
-                Assert.assertEquals(line.getAuthor(),new Author(TestConstants.FAKE_AUTHOR_NAME));
-            } else {
-                Assert.assertNotEquals(line.getAuthor(),new Author(TestConstants.FAKE_AUTHOR_NAME));
-            }
-        }
-        return true;
-    }
 }
