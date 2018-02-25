@@ -73,7 +73,7 @@ vueMethods = {
                 authorRepo['authorDailyIntervalContributions'] = summary[repo]['authorDailyIntervalContributions'][author];
                 authorRepo['authorWeeklyIntervalContributions'] = summary[repo]['authorWeeklyIntervalContributions'][author];
                 authorRepo['finalContribution'] = summary[repo]['authorFinalContributionMap'][author];
-                authorRepo['consistency'] = summary[repo]['authorConsistency'][author];
+                authorRepo['variance'] = summary[repo]['authorContributionVariance'][author];
                 if (isSearchMatch(searchTerm, authorRepo)) {
                     newRepo.push(authorRepo);
                 }

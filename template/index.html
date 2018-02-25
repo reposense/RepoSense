@@ -97,47 +97,44 @@
 
 <body class="main-app">
     <div id="vue-app">
-        <div class="progress-chart-box" style="width:100%;">
-            <div class="progress-chart-tool">
-                <div class="filter-row">
+        <div id="toolbar" style="padding: 4px; border: 1px solid #dfdfdf; border-radius: 3px;height:10%">
+            <div class="filter-row">
                     <label>Sort By:</label>
                     <select v-model="sortElement">
                                 <option value="finalContribution">Total Contribution</option>
-                                <option value="consistency">Consistency</option>
+                                <option value="variance">Variance</option>
                             </select>
                     <select v-model="sortOrder">
                                 <option value="high2low">High To Low</option>
                                 <option value="low2high">Low To High</option>
                             </select>
-                </div>
-                <div class="filter-row">
                     <label>Time Interval:</label>
-                    <input type="radio" id="weekly" value="authorWeeklyIntervalContributions" v-model="intervalType"><label for="weekly">Weekly</label>
-                    <input type="radio" id="daily" value="authorDailyIntervalContributions" v-model="intervalType"><label for="daily">Daily</label>
-                </div>
-                <div class="filter-row">
+                    <select v-model="intervalType">
+                            <option value="authorWeeklyIntervalContributions">Weekly</option>
+                            <option value="authorDailyIntervalContributions">Daily</option>
+                    </select>
                     <label>Start Date:</label>
                     <date-picker id="minDatePicker" @update-date="updateMinDate" v-bind:default-date="minDate" v-once></date-picker>
                     <label>End Date:</label>
                     <date-picker id="maxDatePicker" @update-date="updateMaxDate" v-bind:default-date="maxDate" v-once></date-picker>
-                </div>
-                <div class="filter-row">
                     <input type="checkbox" v-model="isGroupByRepo" /><label>Group By Team</label>
                 </div>
                 <div class="filter-row">
-                    <label>Search Keyword:</label><input type="text" v-model="searchTerm" />
+                    <label>Search Keyword:</label><input type="text" v-model="searchTerm" size="100"/>
                 </div>
-            </div>
+
+        </div>
+        <div class="progress-chart-box" style="width:100%;">
             <div class="progress-chart-main" style="">
                 <template v-for="(authorRepo, i) in sortAndFilter(summary,searchTerm,sortElement,sortOrder,isGroupByRepo,intervalType)">
-                        <div class="main" style="width:100%;margin-left:5%">
+                        <div class="main" style="width:100%;margin-left:2%">
                             <h4 class="author_name_tag" v-bind:displayName="authorRepo.displayName" v-bind:author="authorRepo.author">{{authorRepo.displayName}}/{{authorRepo.authorDisplayName}}</h4>
                             <div class="spectrum">
                                 <template v-for="(element, index) in rangeFilter(authorRepo[intervalType],minDate,maxDate)">
                                 <div class="slice" v-bind:style="getSliceStyle(index,element,intervalType,minDate,maxDate)" v-bind:title="getSliceTitle(element)" v-bind:onclick="getSliceGithubLink(element,authorRepo)"></div>
                                 </template>
             </div>
-            <div v-bind:title="getContributionBarTitle(authorRepo.finalContribution)" style="min-height:15px;">
+            <div v-bind:title="getContributionBarTitle(authorRepo.finalContribution)" style="min-height:5px;">
                 <hr align="left" v-for="width in getContributionBarWidths(authorRepo.finalContribution)" v-bind:width="width" style="border-color: red" />
             </div>
         </div>

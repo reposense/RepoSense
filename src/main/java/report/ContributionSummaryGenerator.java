@@ -20,7 +20,7 @@ public class ContributionSummaryGenerator {
             summary.setAuthorWeeklyIntervalContributions(getAuthorIntervalContributions(repo.getCommits(),7,suspiciousAuthors));
             summary.setAuthorDailyIntervalContributions(getAuthorIntervalContributions(repo.getCommits(),1,suspiciousAuthors));
             summary.setAuthorFinalContributionMap(repo.getCommits().get(repo.getCommits().size()-1).getAuthorContributionMap());
-            summary.setAuthorConsistency(getAuthorConsistency(summary.getAuthorDailyIntervalContributions()));
+            summary.setAuthorContributionVariance(calcAuthorContributionVariance(summary.getAuthorDailyIntervalContributions()));
             summary.setAuthorDisplayNameMap(repo.getAuthorDisplayNameMap());
             result.put(repo.getDirectoryName(),summary);
         }
@@ -34,11 +34,11 @@ public class ContributionSummaryGenerator {
         return result;
     }
 
-    private static Map<Author, Float> getAuthorConsistency(Map<Author, List<AuthorIntervalContribution>> intervalContributionMaps) {
+    private static Map<Author, Float> calcAuthorContributionVariance(Map<Author, List<AuthorIntervalContribution>> intervalContributionMaps) {
         Map<Author, Float> result = new HashMap<>();
         for (Author author : intervalContributionMaps.keySet()){
             List<AuthorIntervalContribution> contributions = intervalContributionMaps.get(author);
-            result.put(author,(1/getContributionVariance(contributions)));
+            result.put(author,getContributionVariance(contributions));
         }
         return result;
     }
@@ -49,6 +49,7 @@ public class ContributionSummaryGenerator {
         for (AuthorIntervalContribution contribution : contributions) {
             total += contribution.getTotalContribution();
         }
+        System.out.println("sizee:"+contributions.size());
         float mean = total / contributions.size();
         float variance = 0;
         for (AuthorIntervalContribution contribution : contributions) {

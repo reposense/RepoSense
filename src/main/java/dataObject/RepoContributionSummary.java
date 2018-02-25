@@ -19,7 +19,7 @@ public class RepoContributionSummary {
     private Map<Author, List<AuthorIntervalContribution>> authorWeeklyIntervalContributions = new HashMap<>();
     private Map<Author, List<AuthorIntervalContribution>> authorDailyIntervalContributions = new HashMap<>();
     private Map<Author, Integer> authorFinalContributionMap = new HashMap<>();
-    private Map<Author, Float> authorConsistency = new HashMap<>() ;
+    private Map<Author, Float> authorContributionVariance = new HashMap<>() ;
     private Map<Author, String> authorDisplayNameMap = new HashMap<>();
 
     public RepoContributionSummary(RepoInfo repoInfo){
@@ -93,12 +93,12 @@ public class RepoContributionSummary {
         this.authorFinalContributionMap = authorFinalContributionMap;
     }
 
-    public Map<Author, Float> getAuthorConsistency() {
-        return authorConsistency;
+    public Map<Author, Float> getAuthorContributionVariance() {
+        return authorContributionVariance;
     }
 
-    public void setAuthorConsistency(Map<Author, Float> authorConsistency) {
-        this.authorConsistency = authorConsistency;
+    public void setAuthorContributionVariance(Map<Author, Float> authorContributionVariance) {
+        this.authorContributionVariance = authorContributionVariance;
     }
 
     public Date getFromDate() {
