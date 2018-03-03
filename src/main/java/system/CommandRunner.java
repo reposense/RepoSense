@@ -66,7 +66,7 @@ public class CommandRunner {
         try {
             p = pb.start();
         } catch (IOException e) {
-            throw new RuntimeException("Error Creating Thread.");
+            throw new RuntimeException("Error Creating Thread:"+e.getMessage());
         }
         StreamGobbler errorGobbler = new StreamGobbler(p.getErrorStream());
         StreamGobbler outputGobbler = new StreamGobbler(p.getInputStream());
