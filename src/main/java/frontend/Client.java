@@ -73,10 +73,10 @@ public class Client {
             if (i+1>args.length){
                 return false;
             }
-            if (!args[i].startsWith("--")){
+            if (!args[i].startsWith("-")){
                 return false;
             }
-            String key=args[i].substring(2);
+            String key=args[i].substring(1);
             argMap.put(key,args[i+1]);
         }
         return true;

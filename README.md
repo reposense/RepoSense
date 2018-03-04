@@ -14,7 +14,7 @@ $ gradle clean build
 Unzip the file in build/distributions/
 ```
 $ cd build/distributions/GitGrader/bin/
-$ ./GitGrader --config CSV_path.csv --output output_path/ --since 01/10/2017 --until 01/11/2017
+$ ./GitGrader -config CSV_path.csv -output output_path/ -since 01/10/2017 -until 01/11/2017
 ```
 Argument List:
 - config: Mandatory.The path to the CSV config file.
