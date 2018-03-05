@@ -27,14 +27,14 @@
 				},
 				containAuthorLine : function(file, authorName){
 					for (i=0; i<file.lines.length;i++){
-						if (file.lines[i].author.gitID == authorName){
+						if (file.lines[i].author!= null && file.lines[i].author.gitID == authorName){
 							return true;
 						}
 					}
 					return false;
 				},
 				getAuthorClass : function(line, currentAuthor){
-					if (currentAuthor==null || line.author.gitID != currentAuthor){
+					if (currentAuthor==null || line.author == null || line.author.gitID != currentAuthor){
 						return "unauthored";
 					}
 					return "";

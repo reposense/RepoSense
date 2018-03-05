@@ -49,7 +49,6 @@ public class ContributionSummaryGenerator {
         for (AuthorIntervalContribution contribution : contributions) {
             total += contribution.getTotalContribution();
         }
-        System.out.println("sizee:"+contributions.size());
         float mean = total / contributions.size();
         float variance = 0;
         for (AuthorIntervalContribution contribution : contributions) {
@@ -86,9 +85,9 @@ public class ContributionSummaryGenerator {
     }
 
     private static void initIntervalContributionForNewDate(Map<Author, List<AuthorIntervalContribution>> map, Date fromDate, Date toDate){
-        for (List<AuthorIntervalContribution> dateToInvertal : map.values()){
+        for (List<AuthorIntervalContribution> dateToInterval : map.values()){
             //dials back one minute so that github api can include the commit on the time itself
-            dateToInvertal.add(new AuthorIntervalContribution(0,0, fromDate, toDate));
+            dateToInterval.add(new AuthorIntervalContribution(0,0, fromDate, toDate));
         }
     }
 
