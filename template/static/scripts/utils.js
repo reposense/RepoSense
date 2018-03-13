@@ -67,7 +67,7 @@ function getTotalContributionLimit() {
             count += 1
         }
     }
-    return totalContribution / count * 2;
+    return totalContribution / count * 10;
 };
 
 function openInNewTab(url) {
