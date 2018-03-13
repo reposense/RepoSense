@@ -1,5 +1,6 @@
 package dataObject;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -11,7 +12,7 @@ public class RepoInfo {
 
     private String organization;
     private String repoName;
-    private List<CommitInfo> commits;
+    private List<CommitInfo> commits = new ArrayList<>();
     private String branch;
     private Map<Author,String> authorDisplayNameMap = new HashMap<>();
 

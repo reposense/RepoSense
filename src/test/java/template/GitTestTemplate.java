@@ -7,6 +7,7 @@ import dataObject.LineInfo;
 import dataObject.RepoConfiguration;
 import git.GitBlamer;
 import git.GitCloner;
+import git.GitClonerException;
 import org.junit.*;
 import system.CommandRunner;
 import util.Constants;
@@ -32,7 +33,7 @@ public class GitTestTemplate {
     }
 
     @BeforeClass
-    public static void beforeClass(){
+    public static void beforeClass() throws GitClonerException {
         deleteRepos();
         GitCloner.downloadRepo(TEST_ORG, TEST_REPO,"master");
     }

@@ -7,8 +7,7 @@ import util.FileUtil;
  * Created by matanghao1 on 10/7/17.
  */
 public class GitCloner {
-    public static void downloadRepo(String organization, String repoName, String branchName)
-            {
+    public static void downloadRepo(String organization, String repoName, String branchName) throws GitClonerException {
         FileUtil.deleteDirectory(FileUtil.getRepoDirectory(organization,repoName));
 
 
@@ -19,7 +18,7 @@ public class GitCloner {
         } catch (RuntimeException e){
             System.out.println("Error encountered in Git Cloning, will attempt to continue analyzing");
             e.printStackTrace();
-            //throw e;
+            throw new GitClonerException(e);
             //Due to an unsolved bug on Windows Git, for some repository, Git Clone will return an error even
             // though the repo is cloned properly.
         }
@@ -29,7 +28,7 @@ public class GitCloner {
         } catch (RuntimeException e){
             System.out.println("Branch does not exist! Analyze terminated.");
             e.printStackTrace();
-            throw e;
+            throw new GitClonerException(e);
         }
 
     }

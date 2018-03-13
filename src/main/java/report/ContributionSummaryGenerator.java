@@ -14,6 +14,7 @@ public class ContributionSummaryGenerator {
         Map<String, RepoContributionSummary> result = new HashMap<>();
         HashSet<Author> suspiciousAuthors = new HashSet<>(); //authors with bugs that I didnt catch
         for (RepoInfo repo:repos){
+            if (repo.getCommits().isEmpty()) continue;
             RepoContributionSummary summary = new RepoContributionSummary(repo);
             summary.setFromDate(configs.get(0).getFromDate());
             summary.setToDate(configs.get(0).getToDate());

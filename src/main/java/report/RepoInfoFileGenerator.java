@@ -7,6 +7,7 @@ import dataObject.RepoContributionSummary;
 import dataObject.RepoInfo;
 import frontend.GitGrader;
 import git.GitCloner;
+import git.GitClonerException;
 import util.Constants;
 import util.FileUtil;
 
@@ -41,7 +42,12 @@ public class RepoInfoFileGenerator {
         int count = 1;
         for (RepoConfiguration config : configs) {
             System.out.println("Analyzing Repository No."+(count++)+"( " + configs.size() + " repositories in total)");
-            GitCloner.downloadRepo(config.getOrganization(), config.getRepoName(), config.getBranch());
+            try {
+                GitCloner.downloadRepo(config.getOrganization(), config.getRepoName(), config.getBranch());
+            } catch (GitClonerException e){
+                System.out.println("Exception met when cloning the repo, will skip this one");
+                continue;
+            }
             RepoInfo repoinfo = new RepoInfo(config.getOrganization(), config.getRepoName(),config.getBranch(),config.getAuthorDisplayNameMap());
             RepoAnalyzer.analyzeCommits(config, repoinfo);
             result.add(repoinfo);
@@ -52,7 +58,6 @@ public class RepoInfoFileGenerator {
     }
 
     private static void generateIndividualRepoReport(RepoInfo repoinfo, String reportName, String targetFileLocation){
-
         String repoReportName = repoinfo.getDirectoryName();
         String repoReportDirectory = targetFileLocation+"/"+reportName+"/"+repoReportName;
         new File(repoReportDirectory).mkdirs();
@@ -60,6 +65,10 @@ public class RepoInfoFileGenerator {
                 reportName+ File.separator +
                 Constants.STATIC_INDIVIDUAL_REPORT_TEMPLATE_ADDRESS;
         FileUtil.copyFiles(new File(templateLocation), new File(repoReportDirectory));
+        if (repoinfo.getCommits().isEmpty()) {
+            System.out.println(repoinfo.getRepoName()+" has no Java contribution,skipped");
+            return;
+        }
         ArrayList<FileInfo> fileInfos = repoinfo.getCommits().get(repoinfo.getCommits().size()-1).getFileinfos();
         FileUtil.writeJSONFile(fileInfos,getIndividualResultPath(repoReportDirectory),"resultJson");
         System.out.println("report for "+ repoReportName+" Generated!");

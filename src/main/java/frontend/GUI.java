@@ -136,7 +136,7 @@ public class GUI extends Application {
                                         List<RepoConfiguration> configs = CSVConfigurationBuilder.buildConfigs(configFile,fromDate, toDate);
                                         RepoInfoFileGenerator.generateReposReport(configs, targetFile.getAbsolutePath());
                                     } catch (Exception e){
-                                        System.out.println("error caught!!");
+                                        System.out.println("error caught!!"+e.getMessage());
                                         e.printStackTrace();
                                     }
                                 }
