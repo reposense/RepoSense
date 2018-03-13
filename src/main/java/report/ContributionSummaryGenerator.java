@@ -13,13 +13,14 @@ public class ContributionSummaryGenerator {
         System.out.println("Generating summary report...");
         Map<String, RepoContributionSummary> result = new HashMap<>();
         HashSet<Author> suspiciousAuthors = new HashSet<>(); //authors with bugs that I didnt catch
+        Date startDate = configs.get(0).getFromDate() == null ? getStartDate(repos) : configs.get(0).getFromDate();
         for (RepoInfo repo:repos){
             if (repo.getCommits().isEmpty()) continue;
             RepoContributionSummary summary = new RepoContributionSummary(repo);
-            summary.setFromDate(configs.get(0).getFromDate());
+            summary.setFromDate(startDate);
             summary.setToDate(configs.get(0).getToDate());
-            summary.setAuthorWeeklyIntervalContributions(getAuthorIntervalContributions(repo.getCommits(),7,suspiciousAuthors));
-            summary.setAuthorDailyIntervalContributions(getAuthorIntervalContributions(repo.getCommits(),1,suspiciousAuthors));
+            summary.setAuthorWeeklyIntervalContributions(getAuthorIntervalContributions(repo.getCommits(),startDate,7,suspiciousAuthors));
+            summary.setAuthorDailyIntervalContributions(getAuthorIntervalContributions(repo.getCommits(),startDate,1,suspiciousAuthors));
             summary.setAuthorFinalContributionMap(repo.getCommits().get(repo.getCommits().size()-1).getAuthorContributionMap());
             summary.setAuthorContributionVariance(calcAuthorContributionVariance(summary.getAuthorDailyIntervalContributions()));
             summary.setAuthorDisplayNameMap(repo.getAuthorDisplayNameMap());
@@ -58,13 +59,13 @@ public class ContributionSummaryGenerator {
         return variance / contributions.size();
     }
 
-    private static Map<Author, List<AuthorIntervalContribution>> getAuthorIntervalContributions(List<CommitInfo> commits, int intervalLength, Set<Author> suspiciousAuthors){
+    private static Map<Author, List<AuthorIntervalContribution>> getAuthorIntervalContributions(List<CommitInfo> commits, Date startDate, int intervalLength, Set<Author> suspiciousAuthors){
         //init
         Map<Author, List<AuthorIntervalContribution>> result = new HashMap<>();
         for (Author author: commits.get(commits.size()-1).getAuthorContributionMap().keySet()){
             result.put(author,new ArrayList<>());
         }
-        Date currentDate = getStartOfDate(commits.get(0).getTime());
+        Date currentDate = getStartOfDate(startDate);
         Date nextDate = getNextCutoffDate(currentDate, intervalLength);
         initIntervalContributionForNewDate(result, currentDate, nextDate);
 
@@ -75,10 +76,7 @@ public class ContributionSummaryGenerator {
                 initIntervalContributionForNewDate(result,currentDate, nextDate);
             }
             List<AuthorIntervalContribution> tempList = result.get(commit.getAuthor());
-            if (tempList==null){
-                //there's no matching author for this commits, meaning there's probably something wrong with CSV input?
-                suspiciousAuthors.add(commit.getAuthor());
-            }else {
+            if (tempList!=null){
                 tempList.get(tempList.size() - 1).updateForCommit(commit);
             }
         }
@@ -107,5 +105,19 @@ public class ContributionSummaryGenerator {
         c.setTime(current);
         c.add(Calendar.DATE,intervalLength);
         return c.getTime();
+    }
+
+    private static Date getStartDate(List<RepoInfo> repos){
+        Calendar cal = Calendar.getInstance();
+        cal.set(Calendar.YEAR, 2050);
+        Date min = cal.getTime();
+        for (RepoInfo repo : repos){
+            if (repo.getCommits().isEmpty()) continue;
+            Date current = repo.getCommits().get(0).getTime();
+            if (current.before(min)){
+                min = current;
+            }
+        }
+        return min;
     }
 }
