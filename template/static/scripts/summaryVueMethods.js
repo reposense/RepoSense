@@ -44,8 +44,12 @@ vueMethods = {
         widths.push((value % totalContributionLimit) / totalContributionLimit * 100 + "%");
         return widths;
     },
-    getSliceTitle: function(value) {
-        return "contribution from " + value["fromDate"] + " to " + value["toDate"] + ": " + value['insertions'] + " lines";
+    getSliceTitle: function(value, intervalType) {
+        if (intervalType == "authorDailyIntervalContributions"){
+            return "contribution on " + value["fromDate"] + ": " + value['insertions'] + " lines";
+        } else{
+            return "contribution from " + value["fromDate"] + " to " + value["toDate"] + ": " + value['insertions'] + " lines";
+        }
     },
     getSliceGithubLink: function(timeSlice, authorRepo) {
         var url = "https://github.com/" +
