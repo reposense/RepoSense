@@ -36,12 +36,15 @@ function getScaleLimit(intervalType) {
         for (author in summaryJson[repo][intervalType]) {
             for (i in summaryJson[repo][intervalType][author]) {
                 currentPeriod = summaryJson[repo][intervalType][author][i];
-                totalContribution += currentPeriod['insertions'];
-                count += 1
+                if (totalContribution['insertions'] != 0){
+                    totalContribution += currentPeriod['insertions'];
+                    count += 1 
+                }
+
             }
         }
     }
-    return totalContribution / count * 3;
+    return totalContribution / count * 5;
 };
 
 function getIntervalCount(intervalType, minDate, maxDate) {
@@ -115,16 +118,16 @@ function isSearchMatch(searchTerm, authorRepo) {
     var terms = searchTerm.split(" ");
     for (var i = 0; i < terms.length; i++) {
         //neither author name or repo name is a match for the search term
-        if (isNotMatch(terms[i], authorRepo['author']) && isNotMatch(terms[i], authorRepo['displayName']) && isNotMatch(terms[i], authorRepo['authorDisplayName'])) {
-            return false;
+        if (isMatch(terms[i], authorRepo['author']) || isMatch(terms[i], authorRepo['displayName']) || isMatch(terms[i], authorRepo['authorDisplayName'])) {
+            return true;
         }
     }
-    return true;
+    return false;
 
 }
 
-function isNotMatch(searchTerm, currentPhrase) {
-    return currentPhrase.toLowerCase().indexOf(searchTerm.toLowerCase()) == -1;
+function isMatch(searchTerm, currentPhrase) {
+    return currentPhrase.toLowerCase().indexOf(searchTerm.toLowerCase()) != -1;
 }
 
 function getMinDate() {

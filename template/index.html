@@ -128,7 +128,7 @@
             <div class="progress-chart-main" style="">
                 <template v-for="(authorRepo, i) in sortAndFilter(summary,searchTerm,sortElement,sortOrder,isGroupByRepo,intervalType)">
                         <div class="main" style="width:100%;margin-left:2%">
-                            <h4 class="author_name_tag" v-bind:displayName="authorRepo.displayName" v-bind:author="authorRepo.author">{{authorRepo.organization}}/{{authorRepo.repo}}/{{authorRepo.authorDisplayName}}</h4>
+                            <h4 class="author_name_tag" v-bind:displayName="authorRepo.displayName" v-bind:author="authorRepo.author">{{i+1}}. {{authorRepo.organization}}/{{authorRepo.repo}}/{{authorRepo.authorDisplayName}}</h4>
                             <div class="spectrum">
                                 <template v-for="(element, index) in rangeFilter(authorRepo[intervalType],minDate,maxDate)">
                                 <div class="slice" v-bind:style="getSliceStyle(index,element,intervalType,minDate,maxDate)" v-bind:title="getSliceTitle(element)" v-bind:onclick="getSliceGithubLink(element,authorRepo)"></div>
