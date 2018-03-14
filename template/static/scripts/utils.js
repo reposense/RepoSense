@@ -44,7 +44,7 @@ function getScaleLimit(intervalType) {
             }
         }
     }
-    return totalContribution / count * 5;
+    return totalContribution / count * 20;
 };
 
 function getIntervalCount(intervalType, minDate, maxDate) {

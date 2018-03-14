@@ -25,9 +25,7 @@ vueMethods = {
         var width;
         if (contribution == 0) {
             width = 0;
-        } else if (contribution > sliceScaleLimit) {
-            width = spacing * 1.5;
-        } else {
+        }  else {
             width = contribution / sliceScaleLimit * spacing * 1.5;
             if (width < 0.5) {
                 width = 0.5;
