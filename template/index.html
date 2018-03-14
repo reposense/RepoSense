@@ -22,13 +22,12 @@
         var minDateRange = getMinDate();
         var maxDateRange = getMaxDate();
         Vue.component('date-picker', {
-            template: '<input/>',
+            template: '<input size="8"/>',
             props: ['defaultDate'],
             mounted: function() {
                 var self = this;
                 var minDateParsed = Date.parse(minDateRange);
                 var maxDateParsed = Date.parse(maxDateRange);
-                console.log(this.defaultDate)
                 $(this.$el).datepicker({
                     minDate: minDateParsed,
                     maxDate: maxDateParsed,
@@ -97,7 +96,7 @@
 
 <body class="main-app">
     <div id="vue-app">
-        <div id="toolbar" style="padding: 4px; border: 1px solid #dfdfdf; border-radius: 3px;height:10%">
+        <div class="toolbar" style="">
             <div class="filter-row">
                     <label>Sort By:</label>
                     <select v-model="sortElement">
@@ -108,19 +107,17 @@
                                 <option value="high2low">High To Low</option>
                                 <option value="low2high">Low To High</option>
                             </select>
-                    <label>Time Interval:</label>
+                    <label>Interval:</label>
                     <select v-model="intervalType">
                             <option value="authorWeeklyIntervalContributions">Weekly</option>
                             <option value="authorDailyIntervalContributions">Daily</option>
                     </select>
-                    <label>Start Date:</label>
+                    <label>Period:</label>
                     <date-picker id="minDatePicker" @update-date="updateMinDate" v-bind:default-date="minDate" v-once></date-picker>
-                    <label>End Date:</label>
+                    <label>-</label>
                     <date-picker id="maxDatePicker" @update-date="updateMaxDate" v-bind:default-date="maxDate" v-once></date-picker>
                     <input type="checkbox" v-model="isGroupByRepo" /><label>Group By Team</label>
-                </div>
-                <div class="filter-row">
-                    <label>Search Keyword:</label><input type="text" v-model="searchTerm" size="100"/>
+                    <label>Search:</label><input type="text" v-model="searchTerm" size="50"/>
                 </div>
 
         </div>
