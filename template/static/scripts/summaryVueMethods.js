@@ -57,6 +57,17 @@ vueMethods = {
             timeSlice["fromDate"] + "&until=" + timeSlice["toDate"];
         return "openInNewTab('" + url + "')";
     },
+    generateBookmark : function(searchTerm,sortElement,sortOrder,isGroupByRepo,intervalType,minDate,maxDate) {
+        var url = window.location.href.split('?')[0] + "?";
+        url += "searchTerm="+encodeURI(searchTerm);
+        url += "&sortElement="+encodeURI(sortElement);
+        url += "&sortOrder="+encodeURI(sortOrder);
+        url += "&isGroupByRepo="+encodeURI(isGroupByRepo);
+        url += "&intervalType="+encodeURI(intervalType);
+        url += "&minDate="+encodeURI(minDate);
+        url += "&maxDate="+encodeURI(maxDate);
+        return "copyTextToClipboard('"+url+"');alert('copied bookmark to your clipboard!');";
+    },
     getContributionBarTitle: function(value) {
         return "total contribution : " + value;
     },
@@ -92,6 +103,5 @@ vueMethods = {
             sortSegment(authorRepos, sortElement, sortOrder);
         }
         return authorRepos;
-
     }
 }

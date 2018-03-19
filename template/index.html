@@ -47,13 +47,13 @@
                 el: '#vue-app',
                 data: {
                     summary: summaryJson,
-                    sortElement: "finalContribution",
-                    sortOrder: "high2low",
-                    searchTerm: "",
-                    intervalType: "authorDailyIntervalContributions",
-                    isGroupByRepo: true,
-                    minDate: minDateRange,
-                    maxDate: maxDateRange
+                    sortElement: getQueryVariable("sortElement","finalContribution"),
+                    sortOrder: getQueryVariable("sortOrder","high2low"),
+                    searchTerm: getQueryVariable("searchTerm",""),
+                    intervalType: getQueryVariable("intervalType","authorDailyIntervalContributions"),
+                    isGroupByRepo: (getQueryVariable("isGroupByRepo","true")=="true"),
+                    minDate: getQueryVariable("minDate") == null ? minDateRange : Date.parse(getQueryVariable("minDate")),
+                    maxDate: getQueryVariable("maxDate") == null ? maxDateRange : Date.parse(getQueryVariable("maxDate")),
                 },
                 methods: vueMethods
             });
@@ -100,6 +100,7 @@
 
 <body class="main-app">
     <div id="vue-app">
+        <div style="right:1%;top:0%;position:absolute;" class="bookmark_button" v-bind:onclick="generateBookmark(searchTerm,sortElement,sortOrder,isGroupByRepo,intervalType,minDate,maxDate)"><img src="static/img/bookmark.png" height="45px" width="30px" /></div>
         <div class="toolbar" style="">
             <div class="filter-row">
                     <label>Sort By:</label>

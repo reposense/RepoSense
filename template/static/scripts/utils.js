@@ -1,4 +1,4 @@
-var getQueryVariable = function(variable) {
+var getQueryVariable = function(variable, defaultValue) {
     var query = window.location.search.substring(1);
     var vars = query.split("&");
     for (var i = 0; i < vars.length; i++) {
@@ -7,7 +7,26 @@ var getQueryVariable = function(variable) {
             return decodeURI(pair[1]);
         }
     }
-    return null;
+    return defaultValue;
+}
+
+function copyTextToClipboard(text) {
+    var textArea = document.createElement("textarea");
+    textArea.style.position = 'fixed';
+    textArea.style.top = 0;
+    textArea.style.left = 0;
+    textArea.style.width = '2em';
+    textArea.style.height = '2em';
+    textArea.style.padding = 0;
+    textArea.style.border = 'none';
+    textArea.style.outline = 'none';
+    textArea.style.boxShadow = 'none';
+    textArea.style.background = 'transparent';
+    textArea.value = text;
+    document.body.appendChild(textArea);
+    textArea.select();
+    document.execCommand('copy');
+    document.body.removeChild(textArea);
 }
 
 var getLegalClassName = function(original) {
@@ -36,9 +55,9 @@ function getScaleLimit(intervalType) {
         for (author in summaryJson[repo][intervalType]) {
             for (i in summaryJson[repo][intervalType][author]) {
                 currentPeriod = summaryJson[repo][intervalType][author][i];
-                if (totalContribution['insertions'] != 0){
+                if (totalContribution['insertions'] != 0) {
                     totalContribution += currentPeriod['insertions'];
-                    count += 1 
+                    count += 1
                 }
 
             }
@@ -53,12 +72,12 @@ function getIntervalCount(intervalType, minDate, maxDate) {
     var oneDay = 24 * 60 * 60 * 1000; // hours*minutes*seconds*milliseconds
 
     var diffDays = Math.round(Math.abs((minDateParsed.getTime() - maxDateParsed.getTime()) / (oneDay)));
-    if (intervalType == "authorWeeklyIntervalContributions"){
+    if (intervalType == "authorWeeklyIntervalContributions") {
         var divisor = 7;
-    }else {
+    } else {
         var divisor = 1;
     }
-    return diffDays/divisor;
+    return diffDays / divisor;
 }
 
 function getTotalContributionLimit() {
@@ -132,7 +151,7 @@ function isMatch(searchTerm, currentPhrase) {
 
 function getMinDate() {
     rawDate = summaryJson[Object.keys(summaryJson)[0]]["fromDate"];
-    if (rawDate){
+    if (rawDate) {
         //the fromDate has been set
         console.log(Date.parse(rawDate))
         console.log(Date.parse(rawDate).toString("M/d/yy"))
