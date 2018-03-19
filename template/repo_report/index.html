@@ -51,7 +51,7 @@
 	<body>
 		<div id="vue-app">
 			<div class="content-container">
-				<h3>current author:{{currentAuthorDisplayName}}</h3>
+				<h3>current author:{{currentAuthorDisplayName==null?currentAuthor:currentAuthorDisplayName}}</h3>
 				<div class="collapse-container" >
 					<template v-for="file in result">
 					<template v-if="containAuthorLine(file, currentAuthor) || currentAuthor == null">
