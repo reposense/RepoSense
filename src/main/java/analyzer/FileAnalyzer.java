@@ -31,7 +31,7 @@ public class FileAnalyzer {
             if (file.isDirectory()) {
                 getAllPossibleFilePaths(config, file, relativePaths);
             } else {
-                if (!relativePath.endsWith(".java")) continue;
+                if (!relativePath.endsWith(".java") && !relativePath.endsWith(".adoc")) continue;
                 relativePaths.add(relativePath);
             }
         }

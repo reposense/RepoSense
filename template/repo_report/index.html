@@ -13,6 +13,7 @@
 		<script>
 		hljs.initHighlightingOnLoad();
 		var currentAuthor = getQueryVariable('author');
+		var currentAuthorDisplayName = getQueryVariable('authorDisplayName');
 		resultJson = sortByLineContributed(resultJson,currentAuthor);
 		$(document).ready(function() {
 			var app = new Vue({
@@ -50,7 +51,7 @@
 	<body>
 		<div id="vue-app">
 			<div class="content-container">
-				<h3>current author:{{currentAuthor}}</h3>
+				<h3>current author:{{currentAuthorDisplayName}}</h3>
 				<div class="collapse-container" >
 					<template v-for="file in result">
 					<template v-if="containAuthorLine(file, currentAuthor) || currentAuthor == null">
