@@ -107,6 +107,8 @@
                     <select v-model="sortElement">
                                 <option value="finalContribution">Total Contribution</option>
                                 <option value="variance">Variance</option>
+                                <option value="authorDisplayName">Author Name</option>
+                                <option value="organization">Team Name</option>
                             </select>
                     <select v-model="sortOrder">
                                 <option value="high2low">High To Low</option>
@@ -121,7 +123,7 @@
                     <date-picker id="minDatePicker" @update-date="updateMinDate" v-bind:default-date="minDate" v-once></date-picker>
                     <label>-</label>
                     <date-picker id="maxDatePicker" @update-date="updateMaxDate" v-bind:default-date="maxDate" v-once></date-picker>
-                    <input type="checkbox" v-model="isGroupByRepo" /><label>Group By Team</label>
+                    <input type="checkbox" v-model="isGroupByRepo" /><label>Group By Repo</label>
                     <label>Search:</label><input type="text" v-model="searchTerm" size="50"/>
                 </div>
 

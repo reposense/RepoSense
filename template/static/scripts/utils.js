@@ -108,14 +108,25 @@ function flatten(authorRepos) {
 }
 
 function sortSegment(segment, sortElement, sortOrder) {
-
     if (sortOrder == "high2low") {
         segment.sort(function(a, b) {
-            return b[sortElement] - a[sortElement];
+            if (b[sortElement] > a[sortElement]){
+                return 1;
+            } else if (b[sortElement] > a[sortElement]){
+                return -1
+            } else{
+                return 0;
+            }
         })
     } else {
         segment.sort(function(a, b) {
-            return a[sortElement] - b[sortElement];
+            if (a[sortElement] > b[sortElement]){
+                return 1;
+            } else if (a[sortElement] > b[sortElement]){
+                return -1
+            } else{
+                return 0;
+            }
         })
     }
     return segment;
