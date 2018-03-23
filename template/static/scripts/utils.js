@@ -211,3 +211,7 @@ function getMaxDate() {
         return result.toString("M/d/yy");
     }
 }
+
+function isNotAuthored(currentAuthor,line){
+    return currentAuthor==null || line.author == null || line.author.gitID != currentAuthor;
+}

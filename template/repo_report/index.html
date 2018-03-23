@@ -20,7 +20,8 @@
 				el: '#vue-app',
 				data: {
 					currentAuthor : currentAuthor,
-					result : resultJson
+					result : resultJson,
+
 				},
 				methods: {
 				getAuthorUrlQuery : function (author) {
@@ -35,15 +36,55 @@
 					return false;
 				},
 				getAuthorClass : function(line, currentAuthor){
-					if (currentAuthor==null || line.author == null || line.author.gitID != currentAuthor){
+					if (isNotAuthored(currentAuthor,line)){
 						return "unauthored";
 					}
 					return "";
 				},
+				isCollapseStart : function(lines,currentIndex,currentAuthor){
+					//console.log(currentIndex);
+					if (lines.length - currentIndex < 5){
+						//console.log("not enough");
+						// less than 10 lines left
+						return false;
+					}
+					if (currentIndex != 0 && isNotAuthored(currentAuthor,lines[currentIndex - 1])){
+						//console.log("not start");
+						return false;
+					}
+					for (var i=currentIndex;i<currentIndex+5;i++){
+						if (!isNotAuthored(currentAuthor,lines[i])){
+							//console.log("breaked");
+							return false;
+						}
+					}
+					return true;
+				},
+				isCollapseEnd : function(lines,currentIndex,currentAuthor){
+					if (currentIndex < 5){
+						return false;
+					}
+					if (currentIndex != lines.length - 1 && isNotAuthored(currentAuthor,lines[currentIndex + 1])){
+						return false;
+					}
+					for (var i=currentIndex;i>currentIndex-5;i--){
+						if (!isNotAuthored(currentAuthor,lines[i])){
+							return false;
+						}
+					}
+					return true;
+				},
 				
 				}
 			});
+			$(".collapseStart").each(function(){ 
+    			var $set = $(this).nextUntil("collapseEnd").andSelf();
+    			$set.wrapAll("<div class='collapse-container-small'></div>");
+    			var $innerSet = $(this).nextUntil("collapseEnd");
+    			$innerSet.wrapAll("<div></div>");
+			});
 			$( ".collapse-container" ).collapsible({animate: false});
+			$( ".collapse-container-small" ).collapsible("default-close",{animate: false});
 
 		});
 		</script>
@@ -57,8 +98,13 @@
 					<template v-if="containAuthorLine(file, currentAuthor) || currentAuthor == null">
 					<h3>{{ file.path }} ( {{file.authorContributionMap[currentAuthor]}} lines)</h3>
 					<div>
-						<template v-for="line in file.lines">
+							
+						<template v-for="(line,index) in file.lines">
+							<h6 class="collapseStart"  v-if="isCollapseStart(file.lines,index,currentAuthor)">Untouched Code Chunk(Click to Expand)</h6>
 							<pre><code class="java" v-bind:class="getAuthorClass(line,currentAuthor)">{{line.content}}</code></pre>
+							<template v-if="isCollapseEnd(file.lines,index,currentAuthor)">
+  									<collapseEnd></collapseEnd>
+							</template>
 						</template>
 					</div>
 					</template>

@@ -43,3 +43,26 @@
 	-moz-user-select: none; /* mozilla browsers */
     -khtml-user-select: none; /* webkit browsers */
 }
+
+.collapse-container-small>:nth-child(odd) {
+	padding: 5px;
+    background-color: Silver;
+    border: 1px solid black;
+    margin: auto;
+}
+.collapse-container-small>:nth-child(even) {
+	background-color: white;
+	-moz-box-sizing: border-box;
+	-webkit-box-sizing: border-box;
+	box-sizing: border-box;
+	border: 1px solid black;
+}
+.collapse-container-small>:nth-child(even) p {
+    padding: 0px 5px;
+}
+
+.collapse-container-small>:nth-child(odd):hover {
+	cursor: pointer;
+	-moz-user-select: none; /* mozilla browsers */
+    -khtml-user-select: none; /* webkit browsers */
+}
