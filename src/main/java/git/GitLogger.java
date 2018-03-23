@@ -19,8 +19,8 @@ import java.util.regex.Pattern;
  */
 public class GitLogger {
 
-    private static final Pattern INSERTION_PATTERN = Pattern.compile("([0-9]+) insertions");
-    private static final Pattern DELETION_PATTERN = Pattern.compile("([0-9]+) deletions");
+    private static final Pattern INSERTION_PATTERN = Pattern.compile("([0-9]+) insertion");
+    private static final Pattern DELETION_PATTERN = Pattern.compile("([0-9]+) deletion");
 
     public static List<CommitInfo> getCommits(RepoConfiguration config){
         String raw = CommandRunner.gitLog(config.getRepoRoot(), config.getFromDate(), config.getToDate());

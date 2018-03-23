@@ -33,7 +33,6 @@
                 $(this.$el).datepicker({
                     minDate: minDateParsed,
                     maxDate: maxDateParsed,
-                    defaultDate: this.defaultDate,
                     dateFormat: "mm/dd/y",
                     onSelect: function(date) {
                         self.$emit('update-date', date);
