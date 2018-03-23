@@ -1,7 +1,7 @@
 <html>
 
 <head>
-    <title>GitGrader</title>
+    <title>RepoSense</title>
     <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
     <link rel="stylesheet" href="static/css/style.css">
@@ -21,6 +21,8 @@
         var sliceScaleLimitMap = getScaleLimitMap();
         var minDateRange = getMinDate();
         var maxDateRange = getMaxDate();
+        var minDateValue = getQueryVariable("minDate") == null ? minDateRange : getQueryVariable("minDate");
+        var maxDateValue = getQueryVariable("maxDate") == null ? maxDateRange : getQueryVariable("maxDate")
         Vue.component('date-picker', {
             template: '<input size="8"/>',
             props: ['defaultDate'],
@@ -31,8 +33,8 @@
                 $(this.$el).datepicker({
                     minDate: minDateParsed,
                     maxDate: maxDateParsed,
-                    defaultDate: Date.parse(this.defaultDate),
-                    dateFormat: "mm/dd/yy",
+                    defaultDate: this.defaultDate,
+                    dateFormat: "mm/dd/y",
                     onSelect: function(date) {
                         self.$emit('update-date', date);
                     }
@@ -52,8 +54,8 @@
                     searchTerm: getQueryVariable("searchTerm",""),
                     intervalType: getQueryVariable("intervalType","authorDailyIntervalContributions"),
                     isGroupByRepo: (getQueryVariable("isGroupByRepo","true")=="true"),
-                    minDate: getQueryVariable("minDate") == null ? minDateRange : Date.parse(getQueryVariable("minDate")),
-                    maxDate: getQueryVariable("maxDate") == null ? maxDateRange : Date.parse(getQueryVariable("maxDate")),
+                    minDate: minDateValue,
+                    maxDate: maxDateValue,
                 },
                 methods: vueMethods
             });
@@ -91,8 +93,8 @@
         });
         $(function() {
             $(document).tooltip();
-            $("#minDatePicker").val(minDateRange);
-            $("#maxDatePicker").val(maxDateRange);
+            $("#minDatePicker").val(minDateValue);
+            $("#maxDatePicker").val(maxDateValue);
 
         });
     </script>
@@ -129,7 +131,7 @@
 
         </div>
         <div class="progress-chart-box" style="width:100%;">
-            <div class="progress-chart-main" style="">
+            <div class="progress-chart-main">
                 <template v-for="(authorRepo, i) in sortAndFilter(summary,searchTerm,sortElement,sortOrder,isGroupByRepo,intervalType)">
                         <div class="author_block" v-bind:id="authorRepo.author" style="width:100%;margin-left:2%">
                             <h5 class="author_name_tag" v-bind:displayName="authorRepo.displayName" v-bind:author="authorRepo.author" v-bind:authorDisplayName="authorRepo.authorDisplayName">{{i+1}}. {{authorRepo.organization}}/{{authorRepo.repo}}/{{authorRepo.authorDisplayName}}</h5>

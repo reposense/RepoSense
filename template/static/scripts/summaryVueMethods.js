@@ -64,8 +64,8 @@ vueMethods = {
         url += "&sortOrder="+encodeURI(sortOrder);
         url += "&isGroupByRepo="+encodeURI(isGroupByRepo);
         url += "&intervalType="+encodeURI(intervalType);
-        url += "&minDate="+encodeURI(minDate);
-        url += "&maxDate="+encodeURI(maxDate);
+        url += "&minDate="+encodeURI(minDate.toString("M/d/yy"));
+        url += "&maxDate="+encodeURI(maxDate.toString("M/d/yy"));
         return "copyTextToClipboard('"+url+"');alert('copied bookmark to your clipboard!');";
     },
     getContributionBarTitle: function(value) {
