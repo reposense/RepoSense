@@ -112,7 +112,7 @@ function sortSegment(segment, sortElement, sortOrder) {
         segment.sort(function(a, b) {
             if (b[sortElement] > a[sortElement]){
                 return 1;
-            } else if (b[sortElement] > a[sortElement]){
+            } else if (b[sortElement] < a[sortElement]){
                 return -1
             } else{
                 return 0;
@@ -122,7 +122,7 @@ function sortSegment(segment, sortElement, sortOrder) {
         segment.sort(function(a, b) {
             if (a[sortElement] > b[sortElement]){
                 return 1;
-            } else if (a[sortElement] > b[sortElement]){
+            } else if (a[sortElement] < b[sortElement]){
                 return -1
             } else{
                 return 0;
@@ -164,8 +164,6 @@ function getMinDate() {
     rawDate = summaryJson[Object.keys(summaryJson)[0]]["fromDate"];
     if (rawDate) {
         //the fromDate has been set
-        console.log(Date.parse(rawDate))
-        console.log(Date.parse(rawDate).toString("M/d/yy"))
         return Date.parse(rawDate).toString("M/d/yy");
     } else {
         //find the min Date among all intervals
