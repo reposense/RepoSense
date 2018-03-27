@@ -57,15 +57,13 @@ vueMethods = {
             timeSlice["fromDate"] + "&until=" + timeSlice["toDate"];
         return "openInNewTab('" + url + "')";
     },
-    generateBookmark : function(searchTerm,sortElement,sortOrder,isGroupByRepo,intervalType,minDate,maxDate) {
+    generateBookmark : function(searchTerm,sortElement,sortOrder,isGroupByRepo,intervalType) {
         var url = window.location.href.split('?')[0] + "?";
         url += "searchTerm="+encodeURI(searchTerm);
         url += "&sortElement="+encodeURI(sortElement);
         url += "&sortOrder="+encodeURI(sortOrder);
         url += "&isGroupByRepo="+encodeURI(isGroupByRepo);
         url += "&intervalType="+encodeURI(intervalType);
-        url += "&minDate="+encodeURI(minDate.toString("M/d/yy"));
-        url += "&maxDate="+encodeURI(maxDate.toString("M/d/yy"));
         return "copyTextToClipboard('"+url+"');alert('copied bookmark to your clipboard!');";
     },
     getContributionBarTitle: function(value) {

@@ -21,8 +21,6 @@
         var sliceScaleLimitMap = getScaleLimitMap();
         var minDateRange = getMinDate();
         var maxDateRange = getMaxDate();
-        var minDateValue = getQueryVariable("minDate") == null ? minDateRange : getQueryVariable("minDate");
-        var maxDateValue = getQueryVariable("maxDate") == null ? maxDateRange : getQueryVariable("maxDate")
         Vue.component('date-picker', {
             template: '<input size="8"/>',
             props: ['defaultDate'],
@@ -53,8 +51,8 @@
                     searchTerm: getQueryVariable("searchTerm",""),
                     intervalType: getQueryVariable("intervalType","authorDailyIntervalContributions"),
                     isGroupByRepo: (getQueryVariable("isGroupByRepo","true")=="true"),
-                    minDate: minDateValue,
-                    maxDate: maxDateValue,
+                    minDate: minDateRange,
+                    maxDate: maxDateRange,
                 },
                 methods: vueMethods
             });
@@ -92,8 +90,8 @@
         });
         $(function() {
             $(document).tooltip();
-            $("#minDatePicker").val(minDateValue);
-            $("#maxDatePicker").val(maxDateValue);
+            $("#minDatePicker").val(minDateRange);
+            $("#maxDatePicker").val(maxDateRange);
 
         });
     </script>
@@ -101,7 +99,7 @@
 
 <body class="main-app">
     <div id="vue-app">
-        <div style="right:1%;top:0%;position:absolute;" class="bookmark_button" v-bind:onclick="generateBookmark(searchTerm,sortElement,sortOrder,isGroupByRepo,intervalType,minDate,maxDate)"><img src="static/img/bookmark.png" height="45px" width="30px" /></div>
+        <div style="right:1%;top:0%;position:absolute;" class="bookmark_button" v-bind:onclick="generateBookmark(searchTerm,sortElement,sortOrder,isGroupByRepo,intervalType)"><img src="static/img/bookmark.png" height="45px" width="30px" /></div>
         <div class="toolbar" style="">
             <div class="filter-row">
                     <label>Sort By:</label>
