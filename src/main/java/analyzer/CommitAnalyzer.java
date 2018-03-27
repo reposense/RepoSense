@@ -41,16 +41,14 @@ public class CommitAnalyzer {
 
     private static HashMap<Author, Integer> getAuthorMethodContributionCount(ArrayList<FileInfo> files, List<Author> authors){
         HashMap<Author, Integer> result = new HashMap<Author, Integer>();
+        for (Author author:authors){
+            result.put(author,0);
+        }
         for (FileInfo fileInfo : files){
             for (LineInfo line:fileInfo.getLines()){
 
                 Author author = line.getAuthor();
-                if (!authors.isEmpty() && !authors.contains(author)) continue;
-
-                if (!result.containsKey(author)){
-                    result.put(author,0);
-                }
-
+                if (!authors.contains(author)) continue;
                 int lineCount = result.get(author);
                 lineCount += 1;
                 result.put(author,lineCount);

@@ -196,6 +196,8 @@ function getMaxDate() {
             var authorContributions = summaryJson[i]["authorDailyIntervalContributions"];
             if (Object.keys(authorContributions).length == 0) continue;
             var authorIntervals = authorContributions[Object.keys(authorContributions)[0]];
+            if (authorIntervals.length == 0) continue;
+
             var currentRawDate = authorIntervals[authorIntervals.length - 1]["toDate"];
             var currentDate = Date.parse(currentRawDate);
             if (result) {

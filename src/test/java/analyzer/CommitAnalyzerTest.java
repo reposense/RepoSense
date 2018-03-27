@@ -20,6 +20,9 @@ public class CommitAnalyzerTest extends GitTestTemplate{
     public void commitTest(){
         config.getAuthorAliasMap().put(TestConstants.MAIN_AUTHOR_NAME,new Author(TestConstants.MAIN_AUTHOR_NAME));
         config.getAuthorAliasMap().put(TestConstants.FAKE_AUTHOR_NAME,new Author(TestConstants.FAKE_AUTHOR_NAME));
+        config.getAuthorList().add(new Author(TestConstants.MAIN_AUTHOR_NAME));
+        config.getAuthorList().add(new Author(TestConstants.FAKE_AUTHOR_NAME));
+
         CommitInfo commit = getCommit(TestConstants.TEST_COMMIT_HASH);
         CommitAnalyzer.aggregateFileInfos(config,commit);
         Assert.assertEquals(4,commit.getFileinfos().size());

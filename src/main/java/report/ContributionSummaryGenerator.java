@@ -15,13 +15,13 @@ public class ContributionSummaryGenerator {
         HashSet<Author> suspiciousAuthors = new HashSet<>(); //authors with bugs that I didnt catch
         Date startDate = configs.get(0).getFromDate() == null ? getStartDate(repos) : configs.get(0).getFromDate();
         for (RepoInfo repo:repos){
-            if (repo.getCommits().isEmpty()) continue;
+            //if (repo.getCommits().isEmpty()) continue;
             RepoContributionSummary summary = new RepoContributionSummary(repo);
             summary.setFromDate(startDate);
             summary.setToDate(configs.get(0).getToDate());
-            summary.setAuthorWeeklyIntervalContributions(getAuthorIntervalContributions(repo.getCommits(),startDate,7,suspiciousAuthors));
-            summary.setAuthorDailyIntervalContributions(getAuthorIntervalContributions(repo.getCommits(),startDate,1,suspiciousAuthors));
-            summary.setAuthorFinalContributionMap(repo.getCommits().get(repo.getCommits().size()-1).getAuthorContributionMap());
+            summary.setAuthorWeeklyIntervalContributions(getAuthorIntervalContributions(repo,startDate,7,suspiciousAuthors));
+            summary.setAuthorDailyIntervalContributions(getAuthorIntervalContributions(repo,startDate,1,suspiciousAuthors));
+            summary.setAuthorFinalContributionMap(getFinalContributions(repo));
             summary.setAuthorContributionVariance(calcAuthorContributionVariance(summary.getAuthorDailyIntervalContributions()));
             summary.setAuthorDisplayNameMap(repo.getAuthorDisplayNameMap());
             result.put(repo.getDirectoryName(),summary);
@@ -36,6 +36,19 @@ public class ContributionSummaryGenerator {
         return result;
     }
 
+    private static Map<Author, Integer> getFinalContributions(RepoInfo repo){
+        if (repo.getCommits().isEmpty()){
+            Map<Author,Integer> result = new HashMap<>();
+            for (Author author : repo.getAuthorDisplayNameMap().keySet()){
+                result.put(author,0);
+            }
+            return result;
+        }else{
+            return repo.getCommits().get(repo.getCommits().size()-1).getAuthorContributionMap();
+
+        }
+    }
+
     private static Map<Author, Float> calcAuthorContributionVariance(Map<Author, List<AuthorIntervalContribution>> intervalContributionMaps) {
         Map<Author, Float> result = new HashMap<>();
         for (Author author : intervalContributionMaps.keySet()){
@@ -46,6 +59,7 @@ public class ContributionSummaryGenerator {
     }
 
     private static float getContributionVariance(List<AuthorIntervalContribution> contributions){
+        if (contributions.size()==0) return 0;
         //get mean
         float total = 0;
         for (AuthorIntervalContribution contribution : contributions) {
@@ -59,25 +73,27 @@ public class ContributionSummaryGenerator {
         return variance / contributions.size();
     }
 
-    private static Map<Author, List<AuthorIntervalContribution>> getAuthorIntervalContributions(List<CommitInfo> commits, Date startDate, int intervalLength, Set<Author> suspiciousAuthors){
+    private static Map<Author, List<AuthorIntervalContribution>> getAuthorIntervalContributions(RepoInfo repo, Date startDate, int intervalLength, Set<Author> suspiciousAuthors){
         //init
         Map<Author, List<AuthorIntervalContribution>> result = new HashMap<>();
-        for (Author author: commits.get(commits.size()-1).getAuthorContributionMap().keySet()){
+        for (Author author: repo.getAuthorDisplayNameMap().keySet()){
             result.put(author,new ArrayList<>());
         }
-        Date currentDate = getStartOfDate(startDate);
-        Date nextDate = getNextCutoffDate(currentDate, intervalLength);
-        initIntervalContributionForNewDate(result, currentDate, nextDate);
+        if (!repo.getCommits().isEmpty()) {
+            Date currentDate = getStartOfDate(startDate);
+            Date nextDate = getNextCutoffDate(currentDate, intervalLength);
+            initIntervalContributionForNewDate(result, currentDate, nextDate);
 
-        for (CommitInfo commit: commits){
-            while (nextDate.before(commit.getTime())){
-                currentDate = new Date(nextDate.getTime());
-                nextDate = getNextCutoffDate(nextDate, intervalLength);
-                initIntervalContributionForNewDate(result,currentDate, nextDate);
-            }
-            List<AuthorIntervalContribution> tempList = result.get(commit.getAuthor());
-            if (tempList!=null){
-                tempList.get(tempList.size() - 1).updateForCommit(commit);
+            for (CommitInfo commit : repo.getCommits()) {
+                while (nextDate.before(commit.getTime())) {
+                    currentDate = new Date(nextDate.getTime());
+                    nextDate = getNextCutoffDate(nextDate, intervalLength);
+                    initIntervalContributionForNewDate(result, currentDate, nextDate);
+                }
+                List<AuthorIntervalContribution> tempList = result.get(commit.getAuthor());
+                if (tempList != null) {
+                    tempList.get(tempList.size() - 1).updateForCommit(commit);
+                }
             }
         }
         return result;
