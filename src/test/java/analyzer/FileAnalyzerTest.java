@@ -8,6 +8,7 @@ import org.junit.Test;
 import template.GitTestTemplate;
 import util.TestConstants;
 
+import java.io.File;
 import java.util.List;
 
 /**
@@ -23,7 +24,7 @@ public class FileAnalyzerTest extends GitTestTemplate {
         Assert.assertEquals(files.size(),4);
         Assert.assertTrue(isFileExistence("annotationTest.java",files));
         Assert.assertTrue(isFileExistence("blameTest.java",files));
-        Assert.assertTrue(isFileExistence("newPos/movedFile.java",files));
+        Assert.assertTrue(isFileExistence("newPos"+ File.separator+"movedFile.java",files));
         Assert.assertFalse(isFileExistence("inMasterBranch.java",files)); //empty file
     }
 
