@@ -109,7 +109,7 @@ h5.author_name_tag {
     padding: 0px;
 }
 
-h4.author_name_tag:hover {
+h5.author_name_tag:hover {
     text-decoration: underline;
 }
 
