@@ -1,8 +1,8 @@
 # RepoSense
-# Dependency
+## Dependency
 1. Git
 2. Gradle
-# How to Use
+## How to Use
 1. GUI
 ```sh
 $ gradle clean run
