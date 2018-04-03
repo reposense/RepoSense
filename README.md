@@ -1,4 +1,4 @@
-# GitGrader
+# RepoSense
 # Dependency
 1. Git
 2. Gradle
