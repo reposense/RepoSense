@@ -15,6 +15,9 @@ public class RepoInfo {
     private List<CommitInfo> commits = new ArrayList<>();
     private String branch;
     private Map<Author,String> authorDisplayNameMap = new HashMap<>();
+    private ArrayList<FileInfo> fileinfos;
+    private HashMap<Author, Integer> authorIssueMap;
+    private HashMap<Author, Integer> authorContributionMap;
 
     public RepoInfo(String organization, String repoName, String branch, Map<Author, String> authorDisplayNameMap) {
         this.organization = organization;
@@ -66,5 +69,29 @@ public class RepoInfo {
 
     public String getDirectoryName(){
         return organization + "_" + repoName;
+    }
+
+    public ArrayList<FileInfo> getFileinfos() {
+        return fileinfos;
+    }
+
+    public void setFileinfos(ArrayList<FileInfo> fileinfos) {
+        this.fileinfos = fileinfos;
+    }
+
+    public HashMap<Author, Integer> getAuthorIssueMap() {
+        return authorIssueMap;
+    }
+
+    public void setAuthorIssueMap(HashMap<Author, Integer> authorIssueMap) {
+        this.authorIssueMap = authorIssueMap;
+    }
+
+    public HashMap<Author, Integer> getAuthorContributionMap() {
+        return authorContributionMap;
+    }
+
+    public void setAuthorContributionMap(HashMap<Author, Integer> authorContributionMap) {
+        this.authorContributionMap = authorContributionMap;
     }
 }

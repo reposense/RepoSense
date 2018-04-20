@@ -12,9 +12,6 @@ public class CommitInfo {
     private String hash;
     private Date time;
     private String message;
-    private ArrayList<FileInfo> fileinfos;
-    private HashMap<Author, Integer> authorIssueMap;
-    private HashMap<Author, Integer> authorContributionMap;
     private int insertions;
     private int deletions;
 
@@ -27,9 +24,6 @@ public class CommitInfo {
         this.deletions = deletions;
     }
 
-    public void minify() {
-        setFileinfos(null);
-    }
     public String getMessage() {
         return message;
     }
@@ -60,30 +54,6 @@ public class CommitInfo {
 
     public void setTime(Date time) {
         this.time = time;
-    }
-
-    public ArrayList<FileInfo> getFileinfos() {
-        return fileinfos;
-    }
-
-    public void setFileinfos(ArrayList<FileInfo> fileinfos) {
-        this.fileinfos = fileinfos;
-    }
-
-    public HashMap<Author, Integer> getAuthorIssueMap() {
-        return authorIssueMap;
-    }
-
-    public void setAuthorIssueMap(HashMap<Author, Integer> authorIssueMap) {
-        this.authorIssueMap = authorIssueMap;
-    }
-
-    public HashMap<Author, Integer> getAuthorContributionMap() {
-        return authorContributionMap;
-    }
-
-    public void setAuthorContributionMap(HashMap<Author, Integer> authorContributionMap) {
-        this.authorContributionMap = authorContributionMap;
     }
 
     public int getInsertions() {

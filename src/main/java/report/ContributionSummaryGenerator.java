@@ -21,7 +21,7 @@ public class ContributionSummaryGenerator {
             summary.setToDate(configs.get(0).getToDate());
             summary.setAuthorWeeklyIntervalContributions(getAuthorIntervalContributions(repo,startDate,7,suspiciousAuthors));
             summary.setAuthorDailyIntervalContributions(getAuthorIntervalContributions(repo,startDate,1,suspiciousAuthors));
-            summary.setAuthorFinalContributionMap(getFinalContributions(repo));
+            summary.setAuthorFinalContributionMap(repo.getAuthorContributionMap());
             summary.setAuthorContributionVariance(calcAuthorContributionVariance(summary.getAuthorDailyIntervalContributions()));
             summary.setAuthorDisplayNameMap(repo.getAuthorDisplayNameMap());
             result.put(repo.getDirectoryName(),summary);
@@ -34,19 +34,6 @@ public class ContributionSummaryGenerator {
         }
         System.out.println("done!Congrats!");
         return result;
-    }
-
-    private static Map<Author, Integer> getFinalContributions(RepoInfo repo){
-        if (repo.getCommits().isEmpty()){
-            Map<Author,Integer> result = new HashMap<>();
-            for (Author author : repo.getAuthorDisplayNameMap().keySet()){
-                result.put(author,0);
-            }
-            return result;
-        }else{
-            return repo.getCommits().get(repo.getCommits().size()-1).getAuthorContributionMap();
-
-        }
     }
 
     private static Map<Author, Float> calcAuthorContributionVariance(Map<Author, List<AuthorIntervalContribution>> intervalContributionMaps) {

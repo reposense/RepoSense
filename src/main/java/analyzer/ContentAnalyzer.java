@@ -9,13 +9,13 @@ import java.util.List;
 /**
  * Created by matanghao1 on 3/7/17.
  */
-public class CommitAnalyzer {
+public class ContentAnalyzer {
 
-    public static void aggregateFileInfos(RepoConfiguration config, CommitInfo commitInfo){
+    public static void aggregateFileInfos(RepoConfiguration config, RepoInfo repoInfo){
         ArrayList<FileInfo> result = FileAnalyzer.analyzeAllFiles(config);
-        commitInfo.setFileinfos(result);
+        repoInfo.setFileinfos(result);
         //commitInfo.setAuthorIssueMap(getAuthorIssueCount(commitInfo.getFileinfos(),config.getAuthorList()));
-        commitInfo.setAuthorContributionMap(getAuthorMethodContributionCount(commitInfo.getFileinfos(),config.getAuthorList()));
+        repoInfo.setAuthorContributionMap(getAuthorMethodContributionCount(repoInfo.getFileinfos(),config.getAuthorList()));
 
     }
 

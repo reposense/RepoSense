@@ -65,11 +65,7 @@ public class RepoInfoFileGenerator {
                 reportName+ File.separator +
                 Constants.STATIC_INDIVIDUAL_REPORT_TEMPLATE_ADDRESS;
         FileUtil.copyFiles(new File(templateLocation), new File(repoReportDirectory));
-        if (repoinfo.getCommits().isEmpty()) {
-            System.out.println(repoinfo.getRepoName()+" has no Java contribution,skipped");
-            return;
-        }
-        ArrayList<FileInfo> fileInfos = repoinfo.getCommits().get(repoinfo.getCommits().size()-1).getFileinfos();
+        ArrayList<FileInfo> fileInfos = repoinfo.getFileinfos();
         FileUtil.writeJSONFile(fileInfos,getIndividualResultPath(repoReportDirectory),"resultJson");
         System.out.println("report for "+ repoReportName+" Generated!");
     }

@@ -180,8 +180,10 @@ function getMinDate() {
                 result = currentDate;
             }
         }
-        return result.toString("M/d/yy");
-    }
+        if (result==null){
+            result = Date.today();
+        }
+        return result.toString("M/d/yy");    }
 }
 
 function getMaxDate() {
@@ -207,6 +209,9 @@ function getMaxDate() {
             } else {
                 result = currentDate;
             }
+        }
+        if (result==null){
+            result = Date.today();
         }
         return result.toString("M/d/yy");
     }
