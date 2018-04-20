@@ -5,7 +5,7 @@ import dataObject.FileInfo;
 import dataObject.RepoConfiguration;
 import dataObject.RepoContributionSummary;
 import dataObject.RepoInfo;
-import frontend.GitGrader;
+import frontend.RepoSense;
 import git.GitCloner;
 import git.GitClonerException;
 import util.Constants;
@@ -76,7 +76,7 @@ public class RepoInfoFileGenerator {
 
     private static void copyTemplate(String reportName, String targetFileLocation){
         String location = targetFileLocation + File.separator + reportName;
-        InputStream is = GitGrader.class.getResourceAsStream(Constants.TEMPLATE_ZIP_ADDRESS);
+        InputStream is = RepoSense.class.getResourceAsStream(Constants.TEMPLATE_ZIP_ADDRESS);
         FileUtil.unzip(new ZipInputStream(is),location);
     }
 

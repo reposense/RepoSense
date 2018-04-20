@@ -1,7 +1,7 @@
 apply plugin: 'java'
 apply plugin:'application'
 
-mainClassName = "frontend.GitGrader"
+mainClassName = "frontend.RepoSense"
 
 repositories {
     mavenCentral()
@@ -21,7 +21,7 @@ dependencies {
 
 jar {
     manifest {
-        attributes 'Main-Class': 'frontend.GitGrader'
+        attributes 'Main-Class': 'frontend.RepoSense'
     }
 }
 

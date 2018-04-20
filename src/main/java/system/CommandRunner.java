@@ -1,6 +1,7 @@
 package system;
 
 import util.Constants;
+import util.FileUtil;
 
 import java.io.File;
 import java.io.IOException;
@@ -33,7 +34,7 @@ public class CommandRunner {
 
     public static String blameRaw(String root, String fileDirectory){
         File rootFile = new File(root);
-        return runCommand(rootFile, "git blame " + fileDirectory + " -w -C -C -M --line-porcelain");
+        return runCommand(rootFile, "git blame " + addQuote(fileDirectory) + " -w -C -C -M --line-porcelain");
     }
 
     public static String checkStyleRaw(String absoluteDirectory){
@@ -89,6 +90,11 @@ public class CommandRunner {
             errorMessage += directory.getPath() + " :\n" + errorGobbler.getValue();
             throw new RuntimeException(errorMessage);
         }
+    }
+
+
+    private static String addQuote(String original){
+        return "\""+original +"\"";
     }
 
     private static boolean isWindows(){
