@@ -30,11 +30,11 @@ public class GitLogger {
 
     private static ArrayList<CommitInfo> parseCommitInfo(String rawResult, RepoConfiguration config){
         ArrayList<CommitInfo> result = new ArrayList<CommitInfo>();
-        if (!rawResult.contains("\n")){
+        String[] rawLines= rawResult.split("\n");
+        if (rawLines.length < 2){
             //no log (maybe because no contribution for that file type)
             return result;
         }
-        String[] rawLines= rawResult.split("\n");
         for (int i=0;i<rawLines.length;i++){
             CommitInfo commit = parseRawLine(rawLines[i],rawLines[++i],config);
             i++; //to skip the empty line
