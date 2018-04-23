@@ -1,4 +1,7 @@
 # RepoSense
+RepoSense is a contribution analysis tool for Git repositories. It generates a static HTML report including contribution information for each author in the repository. 
+The content of the report includes:
+
 ## Dependency
 1. Git
 2. Gradle
