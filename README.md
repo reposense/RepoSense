@@ -6,5 +6,5 @@ The features of the report includes:
 * Code review panel
 * Comparison of contribution between authors
 * Filtering and sorting of authors
-
-* [**User Guide**](docs/user_guide.md)
+[**User Guide**](docs/user_guide.md)****
+[**Developer Guide**](docs/developer_guide.md)****

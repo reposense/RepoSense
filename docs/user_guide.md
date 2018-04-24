@@ -1,8 +1,8 @@
 ## Quick Start
-1. Check [dependencies](##Dependencies)
-2. Fill the CSV [config file](##CSV-Config-File)
-3. Generate the [dashboard](##how-to-generate-dashboard)
-4. Profit
+1. Check [dependencies](#dependencies)
+2. Fill the CSV [config file](#csv-config-file)
+3. Generate the [dashboard](#how-to-generate-dashboard)
+4. Profit!
 
 ## Dependencies
 1. Git
@@ -10,6 +10,7 @@
 ## How to Generate Dashboard
 1. GUI
 ```sh
+$ gradle clean build
 $ gradle clean run
 ```
 2. CLI
@@ -71,7 +72,7 @@ If an author's local Git Author Name is not the same as his Github ID, he needs 
 ### Contribution Tags
 Although RepoSense's contribution analysis is quite accurate, authors can still use annotations to make sure that RepoSense correctly recognize their contribution. Special thanks to [Collate](https://github.com/se-edu/collate) for providing the inspiration for this functionality.
 
-There are 2 types of tags: Start Tags (@@author YOUR_GITHUB_ID) and End Tags(@@author). Below are some examples:
+There are 2 types of tags: Start Tags (@@author YOUR_GITHUB_ID) and End Tags(@@author). Below are some examples (stolen from Collate's User Guide):
  
  
  ![author tags](images/add-author-tags.png)
@@ -87,3 +88,42 @@ The dashboard is written in HTML and Javascript, so you can easily publish and s
 ![dashboard](images/dashboard.png)
 
 It is consisted of three main parts: tool bar, Chart Panel and Code Panel.
+### Tool Bar
+
+The tool bar at the top provides a set of filters that control the chart panel. From right to left, the filters are:
+- Sorting: Users can sort by: 
+	- Total Contribution: the amount of lines written by the author did in the latest version of the project
+	- Variance: The variance of contribution of all commits. This indicates whether the author is contributing regularly or just rushing before deadlines and milestones. This can be useful for instructors of student projects, e.g. CS2103
+	- Author Name
+	- Team Name: The name of the organization of the repository
+- Interval: Interval refers to amount of time one single ramp represents. Users can choose two modes of time intervals: weekly (7 days)  and daily (1 day).
+- Period: The time period that the ramp charts display.
+- Group By Repo: Checkbox. If checked, the author that contributed to the same repo will be displayed next to each other, no matter what the sorting element is.
+- Search: Only display the author whose name or the repository’s name match the keyword. The user can separate keywords by spaces, and the keywords are logically connected with OR operators.
+- Bookmarking: By clicking the hyperlink icon on the top right corner, a link to the report with all the tooltip settings will be generated and copied to user’s clipboard.
+
+### Chart Panel
+The chart panel contains two types of charts: ramp charts and total contribution bars. The length of the red bars is proportional to the total contribution of the author. If the author contributes ‘too much’ compared to other authors in the report, there will be multiple red bars for him. If the user hovers on the bar, the exact amount of contribution will be shown.
+#### Ramp Chart
+To illustrate frequency and amount of contribution in the same graph, and also allow easy comparison between we created a new type of visualization. We call it Ramp Charts. Here are some examples of the Ramp graphs:
+
+![Ramp Charts](images/rampchart.jpg)
+Each light blue bar represents the contribution timeline of an individual author for a specific repository. On each row, there are several ‘ramps’. 
+- The area of the ramp is proportional to the amount of contribution the author did at that time period.  
+- The position of the right edge of the ramp (perpendicular to the blue bar) is dependent on the time period that ramp represents.
+- To make comparison between two authors easier, the color of the ramps that represent different authors' contributions at the same time period are the same. 
+- The timelines (blue bar) of the charts should be aligned, so that the comparison of contribution between two authors are easier.
+- There is no limit to the area of the ramp. If the contribution for a time period is too large compared to the rest of the time period, it is going to overlap with the neighbor ramps. Thus, the ramps are transparent, so they will not cover their neighbors.
+- As Figure shown, when the user hovers the mouse above a ramp, the time period and the exact amount of contribution will be shown.
+- If you click on a ramp, a github page containing the commits in that period of time will be opened
+
+### Code Panel
+The Code Panel allows the instructors to review students' code in the report, and easily maps a line to its author.
+If the user clicks on the name of the author in the visualizations of Chart Panel, the Code Panel will slide from right.
+
+Below is the list of features in this panel:
+- All files that contain author's contribution will be shown in this panel. The file that contains more lines written by the author will be shown on the top.
+- After the user has reviewed a file, he can click the title of the file to hide it.
+- The user can click the title again to display the file content.
+- The lines that are NOT written by the current author will be marked gray, but they will still be displayed to provide context for the user
+- Segments of codes that are not written by the current author is default to be collapsed. If the user wants to refer to it, he can open the segment.
