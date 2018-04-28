@@ -32,8 +32,9 @@ Argument List:
 ## CSV Config File
 The CSV Config files control the list of target repositories. It also contains a white list of authors(if the author is listed in the CSV, his/her contribution will be ignored by the analyzer.)
 [Sample_full.csv](../sample_full.csv) in root is an example CSV config file. It should contain the following columns:
+
 Column Name | Explanation
-------------- | -------------
+----------- | -----------
 Organization | Organization of the target repository
 Repository | Name of the target repository
 branch | Target branch
