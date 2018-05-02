@@ -1,11 +1,46 @@
 # Developer Guide
 Thank you for contributing to RepoSense!
+- [Setting Up](#setting-up)
+- [Architecture](#architecture)
+- [Notable POJOs](#notable-pojos)
+- [Frontend Components](#frontend-components)
+- [Dashboard Generator Components](#dashboard-generator-components)
+- [Git Utilities](#git-utilities)
+- [Analyzer Components](#analyzer-components)
+- [HTML Dashboard](#html-dashboard)
+
+## Setting up
+
+### Prerequisites
+
+1. **JDK `1.8.0_60`**  or later <br>
+> This app only works with Java 8 version. <br>
+2. **Git** on the command line <br>
+> Ensure that you're able to use it on the OS terminal. <br>
+3. **IntelliJ** IDE [Optional]
+
+### Setting up the project in your computer using IntelliJ
+1. Fork this repo, and clone the fork to your computer.
+2. Open IntelliJ (if you are not in the welcome screen, click `File` > `Close Project` to close the existing project dialog first).
+3. Set up the correct JDK version for Gradle.
+4. Click `Configure` > `Project Defaults` > `Project Structure`.
+5. Click `New…​` and find the directory of the JDK.
+6. Click `Import Project`.
+7. Locate the build.gradle file and select it. Click OK.
+8. Ensure that the selected version of `Gradle JVM` matches our prerequisite.
+9. Click `OK` to accept the all the other default settings.
+
+### Verifying the setup
+1. Ensure that Gradle build without error.
+2. Run the tests to ensure they all pass.
+   1. Go to `src` -> `main` -> `test`. Right click -> Run Tests.
+
 ## Architecture
 
  ![architecture](images/architecture.png)
- 
+
  Above is the overall architecture of RepoSense. User imports a CSV configuration file into the Frontend.
- After that, the CSV file will be parsed in Backend, and Git Component will clone and analyze the projects listed in CSV. The result from Git will be parsed and aggregated with syntax information from javaparser, will be output into a JSON file. 
+ After that, the CSV file will be parsed in Backend, and Git Component will clone and analyze the projects listed in CSV. The result from Git will be parsed and aggregated with syntax information from javaparser, will be output into a JSON file.
  Finally, Report Generator will copy the report template into the designated location, and put in the JSON file, and user can browse the report in any browser, or deploy it onto his server.
 
 ## Notable POJOs
@@ -101,7 +136,7 @@ ContentAnalyzer does the following things in order:
 1. Use `FileAnalyzer` to analyze contribution in releavant files
 2. Generate HashMap of author to number of lines each he contributed
 
-## FileAnalyzer
+### FileAnalyzer
 File Analyzer does  the following things in order:
 1. Recursively go through the whole repository to find all relavant files(files with relevant file type)
 2. Create a threadpool to analyze individual files, the analysis process includes:
