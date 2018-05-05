@@ -4,7 +4,8 @@ matrix:
     - jdk: oraclejdk8
 
 script: >-
-    ./gradlew clean test
+    ./config/travis/run-checks.sh &&
+    travis_retry ./gradlew clean test
 
 addons:
   apt:
