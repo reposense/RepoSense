@@ -38,12 +38,9 @@ public class FileUtil {
         File directory = new File(root);
 
         //make sure directory exists
-        if(!directory.exists()){
-            System.out.println("Directory does not exist.");
-        }else{
+        if(directory.exists()){
             delete(directory);
         }
-        //System.out.println("Deletion Done");
     }
 
     private static void delete(File file) {
@@ -52,7 +49,6 @@ public class FileUtil {
 
             //directory is empty, then delete it
             if(file.list().length==0){
-
                 file.delete();
             }else{
 
