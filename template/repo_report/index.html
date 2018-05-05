@@ -74,10 +74,10 @@
 					}
 					return true;
 				},
-				
+
 				}
 			});
-			$(".collapseStart").each(function(){ 
+			$(".collapseStart").each(function(){
     			var $set = $(this).nextUntil("collapseEnd").andSelf();
     			$set.wrapAll("<div class='collapse-container-small'></div>");
     			var $innerSet = $(this).nextUntil("collapseEnd");
@@ -98,7 +98,7 @@
 					<template v-if="containAuthorLine(file, currentAuthor) || currentAuthor == null">
 					<h3>{{ file.path }} ( {{file.authorContributionMap[currentAuthor]}} lines)</h3>
 					<div>
-							
+
 						<template v-for="(line,index) in file.lines">
 							<h6 class="collapseStart"  v-if="isCollapseStart(file.lines,index,currentAuthor)">Untouched Code Chunk(Click to Expand)</h6>
 							<pre><code class="java" v-bind:class="getAuthorClass(line,currentAuthor)">{{line.content}}</code></pre>

@@ -19,7 +19,7 @@ div.author-name-menu-container {
 }
 
 div.toolbar {
-    padding: 4px; 
+    padding: 4px;
     border: 1px solid #dfdfdf;
     border-radius: 3px;
     height:5%
@@ -52,8 +52,8 @@ span.line-number {
 }
 
 pre {
-	border: 0; 
-	background-color: 
+	border: 0;
+	background-color:
 	transparent;
 	padding: 0;
 	margin: 0;
