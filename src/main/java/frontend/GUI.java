@@ -14,7 +14,7 @@ import javafx.stage.DirectoryChooser;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import report.RepoInfoFileGenerator;
-import system.CSVConfigurationBuilder;
+import system.CsvConfigurationBuilder;
 import system.Console;
 
 import java.io.File;
@@ -133,7 +133,7 @@ public class GUI extends Application {
                                         if (toDatePicker.getValue() != null){
                                             toDate = convertToDate(toDatePicker.getValue());
                                         }
-                                        List<RepoConfiguration> configs = CSVConfigurationBuilder.buildConfigs(configFile,fromDate, toDate);
+                                        List<RepoConfiguration> configs = CsvConfigurationBuilder.buildConfigs(configFile,fromDate, toDate);
                                         RepoInfoFileGenerator.generateReposReport(configs, targetFile.getAbsolutePath());
                                     } catch (Exception e){
                                         System.out.println("error caught!!"+e.getMessage());

@@ -5,9 +5,9 @@
 import dataObject.RepoConfiguration;
 import org.junit.Assert;
 import org.junit.Test;
-import org.json.*;
+
 import report.RepoInfoFileGenerator;
-import system.CSVConfigurationBuilder;
+import system.CsvConfigurationBuilder;
 import util.FileUtil;
 
 import java.io.File;
@@ -36,7 +36,7 @@ public class Entry {
         Date fromDate = c.getTime();
         c.set(2017,10,30);
         Date toDate = c.getTime();
-        List<RepoConfiguration> configs = CSVConfigurationBuilder.buildConfigs(configFile,fromDate, toDate);
+        List<RepoConfiguration> configs = CsvConfigurationBuilder.buildConfigs(configFile,fromDate, toDate);
         RepoInfoFileGenerator.generateReposReport(configs, FT_TEMP_DIR);
     }
 
