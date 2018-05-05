@@ -1,5 +1,5 @@
 # RepoSense
-RepoSense is a contribution analysis tool for Git repositories. It generates a static HTML dashboard including contribution information for each author in the repository. 
+RepoSense is a contribution analysis tool for Git repositories. It generates a static HTML dashboard including contribution information for each author in the repository.
 The features of the report includes:
 * Visualization for contribution frequency
 * Visualization for contribution amount

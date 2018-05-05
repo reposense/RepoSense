@@ -44,7 +44,7 @@ StudentX's Local Author Name | Detailed explanation below
 
 ## Preparation of Repositories
 ### Local Git Author Name
-First, what is Git Author Name? 
+First, what is Git Author Name?
 
 Git Author Name refers to the customizable Git Author Display Name set in local .gitconfig file. It will be displayed as Author name and Committer Name in Git. For example, in Git Log output:
 ```
@@ -74,11 +74,11 @@ If an author's local Git Author Name is not the same as his Github ID, he needs 
 Although RepoSense's contribution analysis is quite accurate, authors can still use annotations to make sure that RepoSense correctly recognize their contribution. Special thanks to [Collate](https://github.com/se-edu/collate) for providing the inspiration for this functionality.
 
 There are 2 types of tags: Start Tags (@@author YOUR_GITHUB_ID) and End Tags(@@author). Below are some examples (stolen from Collate's User Guide):
- 
- 
+
+
  ![author tags](images/add-author-tags.png)
- 
- 
+
+
 You can use start tags to mark the start of your contribution. The author specified in the start tag will be recognized by RepoSense as the author for all lines between a start tag and the next end tag. If RepoSense cannot find a matching End Tag for a Start Tag in the same file, it will assume that all lines between the Start Tag to the end of the file is authored by the author specified in the Start Tag.
 
 
@@ -92,7 +92,7 @@ It is consisted of three main parts: tool bar, Chart Panel and Code Panel.
 ### Tool Bar
 
 The tool bar at the top provides a set of filters that control the chart panel. From right to left, the filters are:
-- Sorting: Users can sort by: 
+- Sorting: Users can sort by:
 	- Total Contribution: the amount of lines written by the author did in the latest version of the project
 	- Variance: The variance of contribution of all commits. This indicates whether the author is contributing regularly or just rushing before deadlines and milestones. This can be useful for instructors of student projects, e.g. CS2103
 	- Author Name
@@ -109,10 +109,10 @@ The chart panel contains two types of charts: ramp charts and total contribution
 To illustrate frequency and amount of contribution in the same graph, and also allow easy comparison between we created a new type of visualization. We call it Ramp Charts. Here are some examples of the Ramp graphs:
 
 ![Ramp Charts](images/rampchart.jpg)
-Each light blue bar represents the contribution timeline of an individual author for a specific repository. On each row, there are several ‘ramps’. 
-- The area of the ramp is proportional to the amount of contribution the author did at that time period.  
+Each light blue bar represents the contribution timeline of an individual author for a specific repository. On each row, there are several ‘ramps’.
+- The area of the ramp is proportional to the amount of contribution the author did at that time period.
 - The position of the right edge of the ramp (perpendicular to the blue bar) is dependent on the time period that ramp represents.
-- To make comparison between two authors easier, the color of the ramps that represent different authors' contributions at the same time period are the same. 
+- To make comparison between two authors easier, the color of the ramps that represent different authors' contributions at the same time period are the same.
 - The timelines (blue bar) of the charts should be aligned, so that the comparison of contribution between two authors are easier.
 - There is no limit to the area of the ramp. If the contribution for a time period is too large compared to the rest of the time period, it is going to overlap with the neighbor ramps. Thus, the ramps are transparent, so they will not cover their neighbors.
 - As Figure shown, when the user hovers the mouse above a ramp, the time period and the exact amount of contribution will be shown.
