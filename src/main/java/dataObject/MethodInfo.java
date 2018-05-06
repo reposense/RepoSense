@@ -1,8 +1,6 @@
 package dataObject;
 
-/**
- * Created by matanghao1 on 19/6/17.
- */
+
 public class MethodInfo {
 
     private static int METHOD_IDENTIFIER_COUNT = 0;
@@ -11,13 +9,13 @@ public class MethodInfo {
     private int end;
     private String methodName;
     private Author owner;
-    private int methodUID;
+    private int methodUid;
 
     public MethodInfo(int start, int end, String methodName) {
         this.start = start;
         this.end = end;
         this.methodName = methodName;
-        this.methodUID = ++METHOD_IDENTIFIER_COUNT;
+        this.methodUid = ++METHOD_IDENTIFIER_COUNT;
     }
 
     public String getMethodName() {
@@ -52,15 +50,15 @@ public class MethodInfo {
         this.owner = owner;
     }
 
-    public int getTotalLines(){
+    public int getTotalLines() {
         return end - start + 1;
     }
 
-    public int getMethodUID() {
-        return methodUID;
+    public int getMethodUid() {
+        return methodUid;
     }
 
-    public void setMethodUID(int methodUID) {
-        this.methodUID = methodUID;
+    public void setMethodUid(int methodUid) {
+        this.methodUid = methodUid;
     }
 }
