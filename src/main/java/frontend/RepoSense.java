@@ -9,7 +9,7 @@ public class RepoSense {
             new Thread() {
                 @Override
                 public void run() {
-                    javafx.application.Application.launch(GUI.class);
+                    javafx.application.Application.launch(Gui.class);
                 }
             }.start();
         }else{

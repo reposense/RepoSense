@@ -33,7 +33,7 @@ public class RepoInfoFileGenerator {
         }
 
         Map<String, RepoContributionSummary> repoSummaries = ContributionSummaryGenerator.analyzeContribution(repos, repoConfigs);
-        FileUtil.writeJSONFile(repoSummaries, getSummaryResultPath(reportName,targetFileLocation), "summaryJson");
+        FileUtil.writeJsonFile(repoSummaries, getSummaryResultPath(reportName,targetFileLocation), "summaryJson");
 
     }
 
@@ -66,7 +66,7 @@ public class RepoInfoFileGenerator {
                 Constants.STATIC_INDIVIDUAL_REPORT_TEMPLATE_ADDRESS;
         FileUtil.copyFiles(new File(templateLocation), new File(repoReportDirectory));
         ArrayList<FileInfo> fileInfos = repoinfo.getFileinfos();
-        FileUtil.writeJSONFile(fileInfos,getIndividualResultPath(repoReportDirectory),"resultJson");
+        FileUtil.writeJsonFile(fileInfos,getIndividualResultPath(repoReportDirectory),"resultJson");
         System.out.println("report for "+ repoReportName+" Generated!");
     }
 
