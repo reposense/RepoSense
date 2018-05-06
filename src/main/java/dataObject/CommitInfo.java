@@ -1,12 +1,8 @@
 package dataObject;
 
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashMap;
 
-/**
- * Created by matanghao1 on 5/6/17.
- */
+
 public class CommitInfo {
     private Author author;
     private String hash;
