@@ -21,9 +21,9 @@ public class GitCloner {
             // though the repo is cloned properly.
         }
 
-        try{
-            GitChecker.checkout(FileUtil.getRepoDirectory(organization,repoName), branchName);
-        } catch (RuntimeException e){
+        try {
+            GitChecker.checkout(FileUtil.getRepoDirectory(organization, repoName), branchName);
+        } catch (RuntimeException e) {
             System.out.println("Error: Branch does not exist! Analyze terminated.");
             e.printStackTrace();
             throw new GitClonerException(e);

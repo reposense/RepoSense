@@ -40,7 +40,7 @@ public class FileUtil {
         File directory = new File(root);
 
         //make sure directory exists
-        if(directory.exists()){
+        if (directory.exists()) {
             delete(directory);
         }
     }
