@@ -1,4 +1,6 @@
 # RepoSense
+[![Build Status](https://travis-ci.org/reposense/RepoSense.svg?branch=master)](https://travis-ci.org/reposense/RepoSense)
+
 RepoSense is a contribution analysis tool for Git repositories. It generates a static HTML dashboard including contribution information for each author in the repository.
 The features of the report includes:
 * Visualization for contribution frequency
