@@ -2,9 +2,7 @@ package dataObject;
 
 import java.util.Date;
 
-/**
- * Created by matanghao1 on 4/10/17.
- */
+
 public class AuthorIntervalContribution {
     private int insertions;
     private int deletions;
@@ -50,12 +48,12 @@ public class AuthorIntervalContribution {
         this.deletions = deletions;
     }
 
-    public void updateForCommit(CommitInfo commit){
+    public void updateForCommit(CommitInfo commit) {
         insertions += commit.getInsertions();
         deletions += commit.getDeletions();
     }
 
-    public int getTotalContribution(){
+    public int getTotalContribution() {
         return insertions + deletions;
     }
 }

@@ -362,6 +362,7 @@
 
     <!-- Checks that every class, enumeration and interface have a header comment. -->
     <module name="JavadocType">
+      <property name="severity" value="warning"/>
       <property name="allowMissingParamTags" value="true"/>
     </module>
 
@@ -370,6 +371,7 @@
       <!-- Checks public methods that have more than 1 line of code.
         Single line of code methods are often due to refactor for readability.
       -->
+      <property name="severity" value="warning"/>
       <property name="minLineCount" value="1"/>
       <property name="allowedAnnotations" value="Override, Test, Before, BeforeClass, After, AfterClass, Subscribe"/>
       <property name="scope" value="public"/>
@@ -387,6 +389,7 @@
       <!-- Checks private methods that have more than 3 lines of code.
         We define methods that have more than 3 lines of code as non-trivial.
       -->
+      <property name="severity" value="warning"/>
       <property name="minLineCount" value="3"/>
       <property name="allowedAnnotations" value="Override, Test, Before, BeforeClass, After, AfterClass, Subscribe"/>
       <property name="scope" value="private"/>

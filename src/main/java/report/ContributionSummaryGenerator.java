@@ -1,30 +1,44 @@
 package report;
 
-import dataObject.*;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
-import java.util.*;
+import dataObject.Author;
+import dataObject.AuthorIntervalContribution;
+import dataObject.CommitInfo;
+import dataObject.RepoConfiguration;
+import dataObject.RepoContributionSummary;
+import dataObject.RepoInfo;
 
-/**
- * Created by matanghao1 on 4/10/17.
- */
+
 public class ContributionSummaryGenerator {
 
-    public static Map<String, RepoContributionSummary> analyzeContribution(List<RepoInfo> repos, List<RepoConfiguration> configs){
+    public static Map<String, RepoContributionSummary> analyzeContribution(
+            List<RepoInfo> repos, List<RepoConfiguration> configs) {
         System.out.println("Generating summary report...");
         Map<String, RepoContributionSummary> result = new HashMap<>();
         HashSet<Author> suspiciousAuthors = new HashSet<>(); //authors with bugs that I didnt catch
         Date startDate = configs.get(0).getFromDate() == null ? getStartDate(repos) : configs.get(0).getFromDate();
-        for (RepoInfo repo:repos){
+        for (RepoInfo repo : repos) {
             //if (repo.getCommits().isEmpty()) continue;
             RepoContributionSummary summary = new RepoContributionSummary(repo);
             summary.setFromDate(startDate);
             summary.setToDate(configs.get(0).getToDate());
-            summary.setAuthorWeeklyIntervalContributions(getAuthorIntervalContributions(repo,startDate,7,suspiciousAuthors));
-            summary.setAuthorDailyIntervalContributions(getAuthorIntervalContributions(repo,startDate,1,suspiciousAuthors));
+            summary.setAuthorWeeklyIntervalContributions(
+                    getAuthorIntervalContributions(repo, startDate, 7, suspiciousAuthors));
+            summary.setAuthorDailyIntervalContributions(
+                    getAuthorIntervalContributions(repo, startDate, 1, suspiciousAuthors));
             summary.setAuthorFinalContributionMap(repo.getAuthorContributionMap());
-            summary.setAuthorContributionVariance(calcAuthorContributionVariance(summary.getAuthorDailyIntervalContributions()));
+            summary.setAuthorContributionVariance(
+                    calcAuthorContributionVariance(summary.getAuthorDailyIntervalContributions()));
             summary.setAuthorDisplayNameMap(repo.getAuthorDisplayNameMap());
-            result.put(repo.getDirectoryName(),summary);
+            result.put(repo.getDirectoryName(), summary);
         }
         if (!suspiciousAuthors.isEmpty()) {
             System.out.println("PLEASE NOTE, BELOW IS THE LIST OF SUSPICIOUS AUTHORS:");
@@ -36,17 +50,20 @@ public class ContributionSummaryGenerator {
         return result;
     }
 
-    private static Map<Author, Float> calcAuthorContributionVariance(Map<Author, List<AuthorIntervalContribution>> intervalContributionMaps) {
+    private static Map<Author, Float> calcAuthorContributionVariance(
+            Map<Author, List<AuthorIntervalContribution>> intervalContributionMaps) {
         Map<Author, Float> result = new HashMap<>();
-        for (Author author : intervalContributionMaps.keySet()){
+        for (Author author : intervalContributionMaps.keySet()) {
             List<AuthorIntervalContribution> contributions = intervalContributionMaps.get(author);
-            result.put(author,getContributionVariance(contributions));
+            result.put(author, getContributionVariance(contributions));
         }
         return result;
     }
 
-    private static float getContributionVariance(List<AuthorIntervalContribution> contributions){
-        if (contributions.size()==0) return 0;
+    private static float getContributionVariance(List<AuthorIntervalContribution> contributions) {
+        if (contributions.size() == 0) {
+            return 0;
+        }
         //get mean
         float total = 0;
         for (AuthorIntervalContribution contribution : contributions) {
@@ -55,16 +72,17 @@ public class ContributionSummaryGenerator {
         float mean = total / contributions.size();
         float variance = 0;
         for (AuthorIntervalContribution contribution : contributions) {
-            variance += Math.pow((mean-contribution.getTotalContribution()),2);
+            variance += Math.pow((mean - contribution.getTotalContribution()), 2);
         }
         return variance / contributions.size();
     }
 
-    private static Map<Author, List<AuthorIntervalContribution>> getAuthorIntervalContributions(RepoInfo repo, Date startDate, int intervalLength, Set<Author> suspiciousAuthors){
+    private static Map<Author, List<AuthorIntervalContribution>> getAuthorIntervalContributions(
+            RepoInfo repo, Date startDate, int intervalLength, Set<Author> suspiciousAuthors) {
         //init
         Map<Author, List<AuthorIntervalContribution>> result = new HashMap<>();
-        for (Author author: repo.getAuthorDisplayNameMap().keySet()){
-            result.put(author,new ArrayList<>());
+        for (Author author : repo.getAuthorDisplayNameMap().keySet()) {
+            result.put(author, new ArrayList<>());
         }
         if (!repo.getCommits().isEmpty()) {
             Date currentDate = getStartOfDate(startDate);
@@ -86,10 +104,11 @@ public class ContributionSummaryGenerator {
         return result;
     }
 
-    private static void initIntervalContributionForNewDate(Map<Author, List<AuthorIntervalContribution>> map, Date fromDate, Date toDate){
-        for (List<AuthorIntervalContribution> dateToInterval : map.values()){
+    private static void initIntervalContributionForNewDate(
+            Map<Author, List<AuthorIntervalContribution>> map, Date fromDate, Date toDate) {
+        for (List<AuthorIntervalContribution> dateToInterval : map.values()) {
             //dials back one minute so that github api can include the commit on the time itself
-            dateToInterval.add(new AuthorIntervalContribution(0,0, fromDate, toDate));
+            dateToInterval.add(new AuthorIntervalContribution(0, 0, fromDate, toDate));
         }
     }
 
@@ -103,21 +122,23 @@ public class ContributionSummaryGenerator {
         return cal.getTime();
     }
 
-    private static Date getNextCutoffDate(Date current, int intervalLength){
+    private static Date getNextCutoffDate(Date current, int intervalLength) {
         Calendar c = Calendar.getInstance();
         c.setTime(current);
-        c.add(Calendar.DATE,intervalLength);
+        c.add(Calendar.DATE, intervalLength);
         return c.getTime();
     }
 
-    private static Date getStartDate(List<RepoInfo> repos){
+    private static Date getStartDate(List<RepoInfo> repos) {
         Calendar cal = Calendar.getInstance();
         cal.set(Calendar.YEAR, 2050);
         Date min = cal.getTime();
-        for (RepoInfo repo : repos){
-            if (repo.getCommits().isEmpty()) continue;
+        for (RepoInfo repo : repos) {
+            if (repo.getCommits().isEmpty()) {
+                continue;
+            }
             Date current = repo.getCommits().get(0).getTime();
-            if (current.before(min)){
+            if (current.before(min)) {
                 min = current;
             }
         }

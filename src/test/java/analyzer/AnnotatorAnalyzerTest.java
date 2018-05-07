@@ -1,25 +1,23 @@
 package analyzer;
 
-import dataObject.FileInfo;
-import dataObject.LineInfo;
 import org.junit.Test;
+
+import dataObject.FileInfo;
 import template.GitTestTemplate;
 
-/**
- * Created by matanghao1 on 9/2/18.
- */
-public class AnnotatorAnalyzerTest extends GitTestTemplate{
+
+public class AnnotatorAnalyzerTest extends GitTestTemplate {
     @Test
-    public void noAnnotationTest(){
+    public void noAnnotationTest() {
         FileInfo fileInfo = getBlamedFileInfo("blameTest.java");
-        AnnotatorAnalyzer.aggregateAnnotationAuthorInfo(fileInfo,config);
+        AnnotatorAnalyzer.aggregateAnnotationAuthorInfo(fileInfo, config);
         checkBlameInfoCorrectness(fileInfo);
     }
 
     @Test
-    public void AnnotationTest(){
+    public void annotationTest() {
         FileInfo fileInfo = getBlamedFileInfo("annotationTest.java");
-        AnnotatorAnalyzer.aggregateAnnotationAuthorInfo(fileInfo,config);
+        AnnotatorAnalyzer.aggregateAnnotationAuthorInfo(fileInfo, config);
         checkBlameInfoCorrectness(fileInfo);
     }
 }

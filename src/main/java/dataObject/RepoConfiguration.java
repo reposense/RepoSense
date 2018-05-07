@@ -1,12 +1,15 @@
 package dataObject;
 
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.TreeMap;
+
 import util.FileUtil;
 
-import java.util.*;
 
-/**
- * Created by matanghao1 on 10/7/17.
- */
 public class RepoConfiguration {
     private boolean needCheckStyle = false;
     private int commitNum = 1;
@@ -15,8 +18,8 @@ public class RepoConfiguration {
     private String branch;
     private List<String> ignoreDirectoryList = new ArrayList<>();
     private List<Author> authorList = new ArrayList<>();
-    private TreeMap<String,Author> authorAliasMap = new TreeMap<>(String.CASE_INSENSITIVE_ORDER);
-    private Map<Author,String> authorDisplayNameMap = new HashMap<>();
+    private TreeMap<String, Author> authorAliasMap = new TreeMap<>(String.CASE_INSENSITIVE_ORDER);
+    private Map<Author, String> authorDisplayNameMap = new HashMap<>();
     private boolean annotationOverwrite = true;
     private Date fromDate;
     private Date toDate;
@@ -36,7 +39,7 @@ public class RepoConfiguration {
         this.authorDisplayNameMap = authorDisplayNameMap;
     }
 
-    public String getRepoRoot(){
+    public String getRepoRoot() {
         return FileUtil.getRepoDirectory(organization, repoName);
     }
 

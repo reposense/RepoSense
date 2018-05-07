@@ -1,10 +1,17 @@
-apply plugin: 'java'
-apply plugin:'application'
+plugins {
+    id 'java'
+    id 'checkstyle'
+    id 'application'
+}
 
 mainClassName = "frontend.RepoSense"
 
 repositories {
     mavenCentral()
+}
+
+checkstyle {
+    toolVersion = '8.1'
 }
 
 test {

@@ -5,7 +5,7 @@ matrix:
 
 script: >-
     ./config/travis/run-checks.sh &&
-    travis_retry ./gradlew clean test
+    travis_retry ./gradlew clean checkstyleMain checkstyleTest test
 
 addons:
   apt:

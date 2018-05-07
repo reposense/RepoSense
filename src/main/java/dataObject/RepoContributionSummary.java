@@ -5,9 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-/**
- * Created by matanghao1 on 4/10/17.
- */
+
 public class RepoContributionSummary {
 
     private String repo;
@@ -19,10 +17,10 @@ public class RepoContributionSummary {
     private Map<Author, List<AuthorIntervalContribution>> authorWeeklyIntervalContributions = new HashMap<>();
     private Map<Author, List<AuthorIntervalContribution>> authorDailyIntervalContributions = new HashMap<>();
     private Map<Author, Integer> authorFinalContributionMap = new HashMap<>();
-    private Map<Author, Float> authorContributionVariance = new HashMap<>() ;
+    private Map<Author, Float> authorContributionVariance = new HashMap<>();
     private Map<Author, String> authorDisplayNameMap = new HashMap<>();
 
-    public RepoContributionSummary(RepoInfo repoInfo){
+    public RepoContributionSummary(RepoInfo repoInfo) {
         repo = repoInfo.getRepoName();
         organization = repoInfo.getOrganization();
         branch = repoInfo.getBranch();
@@ -73,7 +71,8 @@ public class RepoContributionSummary {
         return authorWeeklyIntervalContributions;
     }
 
-    public void setAuthorWeeklyIntervalContributions(Map<Author, List<AuthorIntervalContribution>> authorWeeklyIntervalContributions) {
+    public void setAuthorWeeklyIntervalContributions(
+            Map<Author, List<AuthorIntervalContribution>> authorWeeklyIntervalContributions) {
         this.authorWeeklyIntervalContributions = authorWeeklyIntervalContributions;
     }
 
@@ -81,7 +80,8 @@ public class RepoContributionSummary {
         return authorDailyIntervalContributions;
     }
 
-    public void setAuthorDailyIntervalContributions(Map<Author, List<AuthorIntervalContribution>> authorDailyIntervalContributions) {
+    public void setAuthorDailyIntervalContributions(
+            Map<Author, List<AuthorIntervalContribution>> authorDailyIntervalContributions) {
         this.authorDailyIntervalContributions = authorDailyIntervalContributions;
     }
 
