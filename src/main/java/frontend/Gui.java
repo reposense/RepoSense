@@ -1,22 +1,5 @@
 package frontend;
 
-import dataObject.RepoConfiguration;
-import javafx.application.Application;
-import javafx.concurrent.Task;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
-import javafx.geometry.Insets;
-import javafx.geometry.Pos;
-import javafx.scene.Scene;
-import javafx.scene.control.*;
-import javafx.scene.layout.GridPane;
-import javafx.stage.DirectoryChooser;
-import javafx.stage.FileChooser;
-import javafx.stage.Stage;
-import report.RepoInfoFileGenerator;
-import system.CSVConfigurationBuilder;
-import system.Console;
-
 import java.io.File;
 import java.io.PrintStream;
 import java.time.LocalDate;
@@ -24,13 +7,35 @@ import java.time.ZoneId;
 import java.util.Date;
 import java.util.List;
 
-/**
- * Created by matanghao1 on 25/1/18.
- */
-public class GUI extends Application {
+import dataObject.RepoConfiguration;
 
-    File configFile;
-    File targetFile;
+import javafx.application.Application;
+import javafx.concurrent.Task;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
+import javafx.geometry.Insets;
+import javafx.geometry.Pos;
+import javafx.scene.Scene;
+import javafx.scene.control.Button;
+import javafx.scene.control.DatePicker;
+import javafx.scene.control.Label;
+import javafx.scene.control.TextArea;
+import javafx.scene.control.TextAreaBuilder;
+import javafx.scene.control.TextField;
+import javafx.scene.layout.GridPane;
+import javafx.stage.DirectoryChooser;
+import javafx.stage.FileChooser;
+import javafx.stage.Stage;
+
+import report.RepoInfoFileGenerator;
+import system.Console;
+import system.CsvConfigurationBuilder;
+
+
+public class Gui extends Application {
+
+    private File configFile;
+    private File targetFile;
 
     @Override
     public void start(Stage primaryStage) {
@@ -53,7 +58,7 @@ public class GUI extends Application {
 
         final Button openConfigFileButton = new Button("Open...");
 
-        grid.add(openConfigFileButton,2,1);
+        grid.add(openConfigFileButton, 2, 1);
 
 
         DirectoryChooser targetChooser = new DirectoryChooser();
@@ -67,23 +72,23 @@ public class GUI extends Application {
 
         final Button targetConfigFileButton = new Button("Open...");
 
-        grid.add(targetConfigFileButton,2,2);
+        grid.add(targetConfigFileButton, 2, 2);
 
         Label fromDateLabel = new Label("From Date:");
         grid.add(fromDateLabel, 0, 3);
 
         final DatePicker fromDatePicker = new DatePicker();
-        grid.add(fromDatePicker, 1,3);
+        grid.add(fromDatePicker, 1, 3);
 
         Label toDateLabel = new Label("To Date:");
         grid.add(toDateLabel, 0, 4);
 
         final DatePicker toDatePicker = new DatePicker();
-        grid.add(toDatePicker, 1,4);
+        grid.add(toDatePicker, 1, 4);
 
         final Button startButton = new Button("Start Analysis!");
 
-        grid.add(startButton,1,5);
+        grid.add(startButton, 1, 5);
 
         TextArea consoleText = TextAreaBuilder.create()
                 .prefWidth(300)
@@ -107,45 +112,41 @@ public class GUI extends Application {
 
                 });
         targetConfigFileButton.setOnAction(
-                new EventHandler<ActionEvent>() {
-                    @Override
-                    public void handle(final ActionEvent e) {
-                        targetFile = targetChooser.showDialog(primaryStage);
-                        targetFileText.appendText(targetFile.getAbsolutePath());
-                    }
-                }
+            e -> {
+                targetFile = targetChooser.showDialog(primaryStage);
+                targetFileText.appendText(targetFile.getAbsolutePath());
+            }
         );
 
         startButton.setOnAction(
-                new EventHandler<ActionEvent>() {
+            event -> {
+                Task<Integer> task = new Task<Integer>() {
                     @Override
-                    public void handle(ActionEvent event) {
-                        Task<Integer> task = new Task<Integer>() {
-                            @Override protected Integer call() throws Exception {
-                                Date fromDate = null;
-                                Date toDate = null;
-                                console.clear();
-                                if (configFile != null) {
-                                    try {
-                                        if (fromDatePicker.getValue() != null){
-                                            fromDate = convertToDate(fromDatePicker.getValue());
-                                        }
-                                        if (toDatePicker.getValue() != null){
-                                            toDate = convertToDate(toDatePicker.getValue());
-                                        }
-                                        List<RepoConfiguration> configs = CSVConfigurationBuilder.buildConfigs(configFile,fromDate, toDate);
-                                        RepoInfoFileGenerator.generateReposReport(configs, targetFile.getAbsolutePath());
-                                    } catch (Exception e){
-                                        System.out.println("error caught!!"+e.getMessage());
-                                        e.printStackTrace();
-                                    }
+                    protected Integer call() throws Exception {
+                        Date fromDate = null;
+                        Date toDate = null;
+                        console.clear();
+                        if (configFile != null) {
+                            try {
+                                if (fromDatePicker.getValue() != null) {
+                                    fromDate = convertToDate(fromDatePicker.getValue());
                                 }
-                                return 0;
+                                if (toDatePicker.getValue() != null) {
+                                    toDate = convertToDate(toDatePicker.getValue());
+                                }
+                                List<RepoConfiguration> configs = CsvConfigurationBuilder.buildConfigs(
+                                        configFile, fromDate, toDate);
+                                RepoInfoFileGenerator.generateReposReport(configs, targetFile.getAbsolutePath());
+                            } catch (Exception e) {
+                                System.out.println("error caught!!" + e.getMessage());
+                                e.printStackTrace();
                             }
-                        };
-                        new Thread(task).start();
+                        }
+                        return 0;
                     }
-                }
+                };
+                new Thread(task).start();
+            }
         );
 
         Scene scene = new Scene(grid, 550, 800);
@@ -153,7 +154,7 @@ public class GUI extends Application {
         primaryStage.show();
     }
 
-    private Date convertToDate(LocalDate localDate){
+    private Date convertToDate(LocalDate localDate) {
         return Date.from(localDate.atStartOfDay().atZone(ZoneId.systemDefault()).toInstant());
     }
 }

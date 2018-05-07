@@ -2,18 +2,12 @@ package dataObject;
 
 import java.util.ArrayList;
 
-/**
- * Created by matanghao1 on 29/5/17.
- */
-public class LineInfo {
 
+public class LineInfo {
 
     private int lineNumber;
     private Author author;
     private ArrayList<IssueInfo> issues;
-
-    //private MethodInfo methodInfo;
-
 
     private String content;
 
@@ -36,7 +30,6 @@ public class LineInfo {
     public Author getAuthor() {
         return author;
     }
-
 
 
     public void setAuthor(Author author) {
@@ -64,7 +57,7 @@ public class LineInfo {
         this.content = content;
     }
 
-    public boolean hasIssue(){
+    public boolean hasIssue() {
         return !issues.isEmpty();
     }
 }

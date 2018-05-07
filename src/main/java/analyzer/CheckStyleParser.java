@@ -1,34 +1,35 @@
 package analyzer;
 
-import dataObject.FileInfo;
-import dataObject.IssueInfo;
-import dataObject.LineInfo;
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
-import org.w3c.dom.NodeList;
-import org.xml.sax.InputSource;
-import org.xml.sax.SAXException;
-import system.CommandRunner;
+import java.io.IOException;
+import java.io.StringReader;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
-import java.io.IOException;
-import java.io.StringReader;
 
-/**
- * Created by matanghao1 on 3/6/17.
- */
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.NodeList;
+
+import org.xml.sax.InputSource;
+import org.xml.sax.SAXException;
+
+import dataObject.FileInfo;
+import dataObject.IssueInfo;
+import dataObject.LineInfo;
+
+import system.CommandRunner;
+
+
 public class CheckStyleParser {
-    final private static String MESSAGE = "message";
-    final private static String SEVERITY = "severity";
-    final private static String LINE = "line";
 
+    private static final String MESSAGE = "message";
+    private static final String SEVERITY = "severity";
+    private static final String LINE = "line";
 
-
-    public static void aggregateStyleIssue(FileInfo fileInfo, String rootRepo){
+    public static void aggregateStyleIssue(FileInfo fileInfo, String rootRepo) {
         String raw = CommandRunner.checkStyleRaw(rootRepo + '/' + fileInfo.getPath());
-        System.out.println("checking style of:"+fileInfo.getPath());
+        System.out.println("checking style of:" + fileInfo.getPath());
 
         NodeList nodeList = getNodeListFromRawOutput(raw);
         for (int i = 0; i < nodeList.getLength(); i++) {
@@ -39,11 +40,11 @@ public class CheckStyleParser {
             int lineNumber = Integer.parseInt(element.getAttribute(LINE));
 
             LineInfo line = fileInfo.getLineByNumber(lineNumber);
-            line.getIssues().add(new IssueInfo(severity,message));
+            line.getIssues().add(new IssueInfo(severity, message));
         }
     }
 
-    private static NodeList getNodeListFromRawOutput(String raw){
+    private static NodeList getNodeListFromRawOutput(String raw) {
 
         DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
         DocumentBuilder builder = null;

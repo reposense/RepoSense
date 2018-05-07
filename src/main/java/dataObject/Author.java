@@ -1,41 +1,42 @@
 package dataObject;
 
-/**
- * Created by matanghao1 on 29/5/17.
- */
+
 public class Author {
-    String gitID;
+    private String gitId;
 
-    public Author(String gitID) {
-        this.gitID = gitID;
+    public Author(String gitId) {
+        this.gitId = gitId;
     }
 
-    public String getGitID() {
-        return gitID;
+    public String getGitId() {
+        return gitId;
     }
 
-    public void setGitID(String gitID) {
-        this.gitID = gitID;
+    public void setGitId(String gitId) {
+        this.gitId = gitId;
     }
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
         Author author = (Author) o;
 
-        return gitID != null ? gitID.toLowerCase().equals(author.gitID.toLowerCase()) : author.gitID == null;
+        return gitId != null ? gitId.toLowerCase().equals(author.gitId.toLowerCase()) : author.gitId == null;
     }
 
     @Override
     public int hashCode() {
-        return gitID != null ? gitID.toLowerCase().hashCode() : 0;
+        return gitId != null ? gitId.toLowerCase().hashCode() : 0;
     }
 
     @Override
     public String toString() {
-        return gitID;
+        return gitId;
     }
 }
 

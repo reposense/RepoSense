@@ -5,21 +5,18 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 
-/**
- * Created by matanghao1 on 28/5/17.
- */
+
 public class StreamGobbler extends Thread {
 
-    InputStream is;
-
-    public String getValue() {
-        return value;
-    }
-
-    String value ="";
+    private InputStream is;
+    private String value = "";
 
     public StreamGobbler(InputStream is) {
         this.is = is;
+    }
+
+    public String getValue() {
+        return value;
     }
 
     @Override

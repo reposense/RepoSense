@@ -5,16 +5,14 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-/**
- * Created by matanghao1 on 8/7/17.
- */
+
 public class RepoInfo {
 
     private String organization;
     private String repoName;
     private List<CommitInfo> commits = new ArrayList<>();
     private String branch;
-    private Map<Author,String> authorDisplayNameMap = new HashMap<>();
+    private Map<Author, String> authorDisplayNameMap = new HashMap<>();
     private ArrayList<FileInfo> fileinfos;
     private HashMap<Author, Integer> authorIssueMap;
     private HashMap<Author, Integer> authorContributionMap;
@@ -67,7 +65,7 @@ public class RepoInfo {
         this.commits = commits;
     }
 
-    public String getDirectoryName(){
+    public String getDirectoryName() {
         return organization + "_" + repoName;
     }
 
