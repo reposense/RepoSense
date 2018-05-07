@@ -1,9 +1,9 @@
 plugins {
     id 'java'
     id 'checkstyle'
+    id 'com.github.johnrengelman.shadow' version '2.0.3'
     id 'application'
 }
-
 mainClassName = "frontend.RepoSense"
 
 repositories {
@@ -26,10 +26,9 @@ dependencies {
     compile group: 'org.json', name: 'json', version: '20180130'
 }
 
-jar {
-    manifest {
-        attributes 'Main-Class': 'frontend.RepoSense'
-    }
+shadowJar {
+    archiveName = 'RepoSense.jar'
+    destinationDir = file("${buildDir}/jar/")
 }
 
 task myZip(type: Zip) {
@@ -38,9 +37,8 @@ task myZip(type: Zip) {
     destinationDir = file("src/main/resources")
 }
 
-tasks.build.dependsOn("myZip");
+tasks.shadowJar.dependsOn("myZip");
 tasks.run.dependsOn("myZip");
-
 
 configurations {
   functionalCompile.extendsFrom testCompile
