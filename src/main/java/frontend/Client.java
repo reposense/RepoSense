@@ -1,5 +1,8 @@
 package frontend;
 
+import static frontend.RepoSense.FLAG_ERROR;
+import static frontend.RepoSense.FLAG_SUCCESS;
+
 import java.io.File;
 import java.text.ParseException;
 import java.util.Date;
@@ -20,11 +23,10 @@ public class Client {
 
     private HashMap<String, String> argMap = new HashMap<>();
 
-
-    public void run(String[] args) {
+    public int run(String[] args) {
         if (!parseArgs(args)) {
             System.out.println("Illegal Arguments");
-            return;
+            return FLAG_ERROR;
         }
         File configFile = null;
         File targetFile = null;
@@ -32,7 +34,7 @@ public class Client {
         Date toDate = null;
         if (!argMap.containsKey(CONFIG_FILE_ARG)) {
             System.out.println("you need to specify a config CSV file!");
-            return;
+            return FLAG_ERROR;
         } else {
             configFile = new File(argMap.get(CONFIG_FILE_ARG));
         }
@@ -45,11 +47,12 @@ public class Client {
             fromDate = parseDateArgs(SINCE_DATE_ARG);
             toDate = parseDateArgs(UNTIL_DATE_ARG);
         } catch (ParseException e) {
-            return;
+            return FLAG_ERROR;
         }
 
         List<RepoConfiguration> configs = CsvConfigurationBuilder.buildConfigs(configFile, fromDate, toDate);
         RepoInfoFileGenerator.generateReposReport(configs, targetFile.getAbsolutePath());
+        return FLAG_SUCCESS;
     }
 
     private Date parseDateArgs(String argName) throws ParseException {
@@ -79,4 +82,5 @@ public class Client {
         }
         return true;
     }
+
 }
