@@ -35,6 +35,9 @@ Thank you for contributing to RepoSense!
 2. Run the tests to ensure they all pass.
    1. Go to `src` -> `main` -> `test`. Right click -> Run Tests.
 
+### Before writing code
+1. Do check out our [process guide](../docs/Process.md) before start making changes.
+
 ## Architecture
 
  ![architecture](images/architecture.png)
