@@ -12,6 +12,7 @@
 
 ## How to Generate Dashboard
 1. Download the latest executable Jar on our [release](https://github.com/reposense/RepoSense/releases/latest).
+   * Alternatively, you can compile the executable Jar yourself by following our [build from source guide](Build.md).
 2. Execute it on the OS terminal. <br>
 Usage: `java -jar RepoSense.jar -config CSV_CONFIG_FILE_PATH [-output OUTPUT_DIRECTORY] [-since DD/MM/YYYY] [-until DD/MM/YYYY]`
 3. The dashboard can be in the folder designated in OUTPUT_DIRECTORY, or current working directory otherwise, as index.html.
