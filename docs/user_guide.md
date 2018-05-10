@@ -5,16 +5,21 @@
 4. Profit!
 
 ## Dependencies
-1. Git
-2. Gradle
+1. **JDK `1.8.0_60`**  or later
+   * This app only works with Java 8 version.
+2. **Git** on the command line
+   * Ensure that you're able to use it on the OS terminal.
+
 ## How to Generate Dashboard
-```sh
-$ gradle clean build
+1. Download the latest executable Jar on our [release](https://github.com/reposense/RepoSense/releases/latest).
+   * Alternatively, you can compile the executable Jar yourself by following our [build from source guide](Build.md).
+2. Execute it on the OS terminal. <br>
+Usage: `java -jar RepoSense.jar -config CSV_CONFIG_FILE_PATH [-output OUTPUT_DIRECTORY] [-since DD/MM/YYYY] [-until DD/MM/YYYY]`
+3. The dashboard can be in the folder designated in OUTPUT_DIRECTORY, or current working directory otherwise, as index.html.
+
+Sample usage:
 ```
-Unzip the file in build/distributions/
-```
-$ cd build/distributions/RepoSense/bin
-$ ./RepoSense -config CSV_path.csv -output output_path/ -since 01/10/2017 -until 01/11/2017
+$ java -jar RepoSense.jar -config CSV_path.csv -output output_path/ -since 01/10/2017 -until 01/11/2017
 ```
 Argument List:
 - config: Mandatory. The path to the CSV config file.
