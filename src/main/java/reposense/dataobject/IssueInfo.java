@@ -1,4 +1,4 @@
-package reposense.dataObject;
+package reposense.dataobject;
 
 /**
  * Created by matanghao1 on 3/6/17.

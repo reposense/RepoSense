@@ -12,11 +12,11 @@ import com.github.javaparser.ast.body.ConstructorDeclaration;
 import com.github.javaparser.ast.body.MethodDeclaration;
 import com.github.javaparser.ast.visitor.VoidVisitorAdapter;
 
-import reposense.dataObject.Author;
-import reposense.dataObject.FileInfo;
-import reposense.dataObject.LineInfo;
-import reposense.dataObject.MethodInfo;
-import reposense.dataObject.RepoConfiguration;
+import reposense.dataobject.Author;
+import reposense.dataobject.FileInfo;
+import reposense.dataobject.LineInfo;
+import reposense.dataobject.MethodInfo;
+import reposense.dataobject.RepoConfiguration;
 
 
 public class MethodAnalyzer {

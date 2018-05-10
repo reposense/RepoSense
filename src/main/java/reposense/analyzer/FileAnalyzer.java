@@ -7,8 +7,8 @@ import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-import reposense.dataObject.FileInfo;
-import reposense.dataObject.RepoConfiguration;
+import reposense.dataobject.FileInfo;
+import reposense.dataobject.RepoConfiguration;
 
 
 public class FileAnalyzer {

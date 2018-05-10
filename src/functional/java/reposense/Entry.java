@@ -10,7 +10,7 @@ import java.util.List;
 import org.junit.Assert;
 import org.junit.Test;
 
-import reposense.dataObject.RepoConfiguration;
+import reposense.dataobject.RepoConfiguration;
 import reposense.report.RepoInfoFileGenerator;
 import reposense.system.CsvConfigurationBuilder;
 import reposense.util.FileUtil;

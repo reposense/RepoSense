@@ -3,10 +3,10 @@ package reposense.analyzer;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import reposense.dataObject.Author;
-import reposense.dataObject.FileInfo;
-import reposense.dataObject.LineInfo;
-import reposense.dataObject.RepoConfiguration;
+import reposense.dataobject.Author;
+import reposense.dataobject.FileInfo;
+import reposense.dataobject.LineInfo;
+import reposense.dataobject.RepoConfiguration;
 
 
 public class AnnotatorAnalyzer {

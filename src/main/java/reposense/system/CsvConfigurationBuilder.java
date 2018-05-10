@@ -8,8 +8,8 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import reposense.dataObject.Author;
-import reposense.dataObject.RepoConfiguration;
+import reposense.dataobject.Author;
+import reposense.dataobject.RepoConfiguration;
 import reposense.util.Constants;
 
 

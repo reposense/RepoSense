@@ -7,8 +7,8 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.List;
 
-import reposense.dataObject.FileInfo;
-import reposense.dataObject.RepoConfiguration;
+import reposense.dataobject.FileInfo;
+import reposense.dataobject.RepoConfiguration;
 import reposense.git.GitBlamer;
 import reposense.util.Constants;
 

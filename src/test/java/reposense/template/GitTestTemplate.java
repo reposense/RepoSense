@@ -10,10 +10,10 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 
 import reposense.analyzer.FileInfoGenerator;
-import reposense.dataObject.Author;
-import reposense.dataObject.FileInfo;
-import reposense.dataObject.LineInfo;
-import reposense.dataObject.RepoConfiguration;
+import reposense.dataobject.Author;
+import reposense.dataobject.FileInfo;
+import reposense.dataobject.LineInfo;
+import reposense.dataobject.RepoConfiguration;
 import reposense.git.GitBlamer;
 import reposense.git.GitCloner;
 import reposense.git.GitClonerException;

@@ -9,10 +9,10 @@ import java.util.Map;
 import java.util.zip.ZipInputStream;
 
 import reposense.analyzer.RepoAnalyzer;
-import reposense.dataObject.FileInfo;
-import reposense.dataObject.RepoConfiguration;
-import reposense.dataObject.RepoContributionSummary;
-import reposense.dataObject.RepoInfo;
+import reposense.dataobject.FileInfo;
+import reposense.dataobject.RepoConfiguration;
+import reposense.dataobject.RepoContributionSummary;
+import reposense.dataobject.RepoInfo;
 import reposense.frontend.RepoSense;
 import reposense.git.GitCloner;
 import reposense.git.GitClonerException;

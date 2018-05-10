@@ -1,7 +1,7 @@
 package reposense.analyzer;
 
-import reposense.dataObject.RepoConfiguration;
-import reposense.dataObject.RepoInfo;
+import reposense.dataobject.RepoConfiguration;
+import reposense.dataobject.RepoInfo;
 import reposense.git.GitChecker;
 import reposense.git.GitLogger;
 

@@ -8,9 +8,9 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import reposense.dataObject.Author;
-import reposense.dataObject.CommitInfo;
-import reposense.dataObject.RepoConfiguration;
+import reposense.dataobject.Author;
+import reposense.dataobject.CommitInfo;
+import reposense.dataobject.RepoConfiguration;
 import reposense.system.CommandRunner;
 import reposense.util.Constants;
 

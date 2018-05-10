@@ -1,6 +1,6 @@
 package reposense.git;
 
-import reposense.dataObject.CommitInfo;
+import reposense.dataobject.CommitInfo;
 import reposense.system.CommandRunner;
 
 

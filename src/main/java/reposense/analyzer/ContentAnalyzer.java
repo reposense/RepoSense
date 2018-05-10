@@ -4,11 +4,11 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-import reposense.dataObject.Author;
-import reposense.dataObject.FileInfo;
-import reposense.dataObject.LineInfo;
-import reposense.dataObject.RepoConfiguration;
-import reposense.dataObject.RepoInfo;
+import reposense.dataobject.Author;
+import reposense.dataobject.FileInfo;
+import reposense.dataobject.LineInfo;
+import reposense.dataobject.RepoConfiguration;
+import reposense.dataobject.RepoInfo;
 
 
 public class ContentAnalyzer {

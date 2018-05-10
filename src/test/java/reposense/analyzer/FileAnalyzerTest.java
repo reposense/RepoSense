@@ -6,8 +6,8 @@ import java.util.List;
 import org.junit.Assert;
 import org.junit.Test;
 
-import reposense.dataObject.Author;
-import reposense.dataObject.FileInfo;
+import reposense.dataobject.Author;
+import reposense.dataobject.FileInfo;
 import reposense.git.GitChecker;
 import reposense.template.GitTestTemplate;
 import reposense.util.TestConstants;

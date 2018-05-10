@@ -2,7 +2,7 @@ package reposense.git;
 
 import org.junit.Test;
 
-import reposense.dataObject.FileInfo;
+import reposense.dataobject.FileInfo;
 import reposense.template.GitTestTemplate;
 
 

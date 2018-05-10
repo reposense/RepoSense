@@ -3,9 +3,9 @@ package reposense.git;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import reposense.dataObject.Author;
-import reposense.dataObject.FileInfo;
-import reposense.dataObject.RepoConfiguration;
+import reposense.dataobject.Author;
+import reposense.dataobject.FileInfo;
+import reposense.dataobject.RepoConfiguration;
 import reposense.system.CommandRunner;
 
 

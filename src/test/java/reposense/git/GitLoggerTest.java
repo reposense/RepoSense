@@ -9,8 +9,8 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
-import reposense.dataObject.Author;
-import reposense.dataObject.CommitInfo;
+import reposense.dataobject.Author;
+import reposense.dataobject.CommitInfo;
 import reposense.template.GitTestTemplate;
 
 

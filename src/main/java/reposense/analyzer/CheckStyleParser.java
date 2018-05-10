@@ -14,9 +14,9 @@ import org.w3c.dom.NodeList;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 
-import reposense.dataObject.FileInfo;
-import reposense.dataObject.IssueInfo;
-import reposense.dataObject.LineInfo;
+import reposense.dataobject.FileInfo;
+import reposense.dataobject.IssueInfo;
+import reposense.dataobject.LineInfo;
 
 import reposense.system.CommandRunner;
 

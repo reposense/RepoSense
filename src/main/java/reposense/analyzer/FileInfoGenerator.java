@@ -6,8 +6,8 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 
-import reposense.dataObject.FileInfo;
-import reposense.dataObject.LineInfo;
+import reposense.dataobject.FileInfo;
+import reposense.dataobject.LineInfo;
 
 
 public class FileInfoGenerator {

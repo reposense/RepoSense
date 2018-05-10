@@ -9,12 +9,12 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import reposense.dataObject.Author;
-import reposense.dataObject.AuthorIntervalContribution;
-import reposense.dataObject.CommitInfo;
-import reposense.dataObject.RepoConfiguration;
-import reposense.dataObject.RepoContributionSummary;
-import reposense.dataObject.RepoInfo;
+import reposense.dataobject.Author;
+import reposense.dataobject.AuthorIntervalContribution;
+import reposense.dataobject.CommitInfo;
+import reposense.dataobject.RepoConfiguration;
+import reposense.dataobject.RepoContributionSummary;
+import reposense.dataobject.RepoInfo;
 
 
 public class ContributionSummaryGenerator {
