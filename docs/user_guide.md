@@ -6,7 +6,6 @@
 
 ## Dependencies
 1. **JDK `1.8.0_60`**  or later
-   * This app only works with Java 8 version.
 2. **Git** on the command line
    * Ensure that you're able to use it on the OS terminal.
 
