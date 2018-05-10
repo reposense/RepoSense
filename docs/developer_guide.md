@@ -30,10 +30,21 @@ Thank you for contributing to RepoSense!
 8. Ensure that the selected version of `Gradle JVM` matches our prerequisite.
 9. Click `OK` to accept the all the other default settings.
 
-### Verifying the setup
+#### Verifying the setup
 1. Ensure that Gradle build without error.
 2. Run the tests to ensure they all pass.
    1. Go to `src` -> `main` -> `test`. Right click -> Run Tests.
+
+#### Configuring the coding style
+This project follows [oss-generic coding standards](https://oss-generic.github.io/process/docs/CodingStandards.html). IntelliJ’s default style is mostly compliant with our Java coding convention but it uses a different import order from ours. To rectify,
+
+1. Go to `File` > `Settings…`​ (Windows/Linux), or `IntelliJ IDEA` > `Preferences…`​ (macOS)
+2. Select `Editor` > `Code Style` > `Java`
+3. Click on the `Imports` tab to set the order
+   * For `Class count to use import with '*'` and `Names count to use static import with '*'`: Set to `999` to prevent IntelliJ from contracting the import statements
+   * For `Import Layout`: The order is `import static all other imports`, `import java.*`, `import javax.*`, `import org.*`, `import com.*`, `import all other imports`. Add a ``<blank line>`` between each `import`
+
+Optionally, you can follow the [Using Checkstyle](UsingCheckstyle.md) document to configure Intellij to check style-compliance as you write code.
 
 ### Before writing code
 1. Do check out our [process guide](../docs/Process.md) before start making changes.
