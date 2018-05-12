@@ -19,11 +19,12 @@ test {
 }
 
 dependencies {
-    compile group: 'commons-collections', name: 'commons-collections', version: '3.2'
-    compile 'com.github.javaparser:javaparser-core:3.0.1'
-    compile 'com.google.code.gson:gson:2.6.2'
-    testCompile group: 'junit', name: 'junit', version: '4.12'
-    compile group: 'org.json', name: 'json', version: '20180130'
+    implementation  group: 'commons-collections', name: 'commons-collections', version: '3.2'
+    implementation  'com.github.javaparser:javaparser-core:3.0.1'
+    implementation  'com.google.code.gson:gson:2.6.2'
+    implementation  group: 'org.json', name: 'json', version: '20180130'
+
+    testImplementation group: 'junit', name: 'junit', version: '4.12'
 }
 
 shadowJar {
@@ -41,7 +42,7 @@ tasks.shadowJar.dependsOn("myZip");
 tasks.run.dependsOn("myZip");
 
 configurations {
-  functionalCompile.extendsFrom testCompile
+  functionalImplementation.extendsFrom testImplementation
   functionalRuntime.extendsFrom testRuntime
 }
 sourceSets {
@@ -56,7 +57,7 @@ sourceSets {
 }
 
 task functional(type: Test) {
-  testClassesDir = sourceSets.functional.output.classesDir
+  testClassesDirs = sourceSets.functional.output.classesDirs
   classpath = sourceSets.functional.runtimeClasspath
   testLogging {
     events "passed", "skipped", "failed"

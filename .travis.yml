@@ -1,7 +1,7 @@
 language: java
 matrix:
   include:
-    - jdk: oraclejdk8
+    - jdk: oraclejdk9
 
 script: >-
     ./config/travis/run-checks.sh &&
@@ -10,7 +10,7 @@ script: >-
 addons:
   apt:
     packages:
-      - oracle-java8-installer
+      - oracle-java9-installer
 
 before_cache:
   - rm -f  $HOME/.gradle/caches/modules-2/modules-2.lock
