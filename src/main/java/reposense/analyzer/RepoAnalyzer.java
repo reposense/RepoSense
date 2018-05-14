@@ -13,7 +13,9 @@ public class RepoAnalyzer {
         GitChecker.checkoutBranch(config.getRepoRoot(), config.getBranch());
         System.out.println("analyzing commits for " + config.getOrganization() + "/" + config.getRepoName() + "...");
         repo.setCommits(GitLogger.getCommits(config));
-        System.out.println("analyzing git log output...");
+    }
+
+    public static void analyzeAuthorship(RepoConfiguration config, RepoInfo repo) {
         System.out.println("aggregating file info...");
         ContentAnalyzer.aggregateFileInfos(config, repo);
         System.out.println("done analyzing commits...");

@@ -55,6 +55,7 @@ public class RepoInfoFileGenerator {
                     config.getAuthorDisplayNameMap()
             );
             RepoAnalyzer.analyzeCommits(config, repoinfo);
+            RepoAnalyzer.analyzeAuthorship(config, repoinfo);
             result.add(repoinfo);
         }
         FileUtil.deleteDirectory(Constants.REPOS_ADDRESS);
