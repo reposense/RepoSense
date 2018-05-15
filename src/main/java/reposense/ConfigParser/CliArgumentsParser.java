@@ -5,7 +5,7 @@ import reposense.exceptions.ParseException;
 import java.util.Date;
 import java.util.HashMap;
 
-public class CliArgumentsParser extends Parser<Argument, String[]> {
+public class CliArgumentsParser extends Parser<InputParameter, String[]> {
 
     private static final String ARGUMENT_PREFIX_DASH = "-";
 
@@ -19,22 +19,22 @@ public class CliArgumentsParser extends Parser<Argument, String[]> {
 
     private final HashMap<String, String> argumentMap;
     private final DateParser dateParser;
-    private final Argument argument;
+    private final InputParameter argument;
 
     public CliArgumentsParser() {
         argumentMap = new HashMap<String, String>();
         dateParser = new DateParser();
-        argument = new Argument();
+        argument = new InputParameter();
     }
 
     /**
-     * Parses user-supplied arguments into an Argument object.
+     * Parses user-supplied arguments into an InputParameter object.
      *
-     * @return Argument object, which contains the user supplied arguments.
+     * @return InputParameter object, which contains the user supplied arguments.
      * @throws ParseException If the given inputs or the csv file fail to parse or mandatory fields are missing.
      */
     @Override
-    public Argument parse(String[] args) throws ParseException{
+    public InputParameter parse(String[] args) throws ParseException {
         for (int i = 0; i < args.length; i = i + 2) {
 
             if (i + 1 > args.length) {
@@ -62,13 +62,13 @@ public class CliArgumentsParser extends Parser<Argument, String[]> {
      * @throws ParseException If there are missing mandatory fields.
      */
     private void isAllMandatoryArgumentsPresent() throws ParseException {
-        if(!argumentMap.containsKey(CONFIG_FILE_ARG)) {
+        if (!argumentMap.containsKey(CONFIG_FILE_ARG)) {
             throw new ParseException(PARSE_EXCEPTION_MESSAGE_NO_CSV_FILE);
         }
     }
 
     /**
-     * Set user-supplied inputs to the Argument object
+     * Set user-supplied inputs to the InputParameter object
      *
      * @throws ParseException If the supplied dates fail to parse.
      */
