@@ -1,12 +1,12 @@
 package reposense.ConfigParser;
 
+import reposense.exceptions.ParseException;
 import reposense.util.Constants;
 
-import reposense.exceptions.ParseException;
 import java.util.Date;
 
 public class DateParser extends Parser<Date, String> {
-    private static final String PARSE_EXCEPTION_MESSAGE_INVALID_DATE = "illegal date: ";
+    private static final String PARSE_EXCEPTION_MESSAGE_INVALID_DATE = "Invalid Date";
 
     @Override
     public Date parse(String input) throws ParseException {
