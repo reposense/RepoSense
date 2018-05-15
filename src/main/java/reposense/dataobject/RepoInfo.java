@@ -13,7 +13,7 @@ public class RepoInfo {
     private List<CommitInfo> commits = new ArrayList<>();
     private String branch;
     private Map<Author, String> authorDisplayNameMap = new HashMap<>();
-    private ArrayList<FileInfo> fileinfos;
+    private List<FileInfo> fileinfos;
     private HashMap<Author, Integer> authorIssueMap;
     private HashMap<Author, Integer> authorContributionMap;
 
@@ -69,11 +69,11 @@ public class RepoInfo {
         return organization + "_" + repoName;
     }
 
-    public ArrayList<FileInfo> getFileinfos() {
+    public List<FileInfo> getFileinfos() {
         return fileinfos;
     }
 
-    public void setFileinfos(ArrayList<FileInfo> fileinfos) {
+    public void setFileinfos(List<FileInfo> fileinfos) {
         this.fileinfos = fileinfos;
     }
 

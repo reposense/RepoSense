@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.zip.ZipInputStream;
 
+import reposense.analyzer.ContentAnalyzer;
 import reposense.analyzer.RepoAnalyzer;
 import reposense.dataobject.FileInfo;
 import reposense.dataobject.RepoConfiguration;
@@ -24,11 +25,21 @@ public class RepoInfoFileGenerator {
 
     public static void generateReposReport(List<RepoConfiguration> repoConfigs, String targetFileLocation) {
         String reportName = generateReportName();
-        List<RepoInfo> repos = analyzeRepos(repoConfigs);
-        copyTemplate(reportName, targetFileLocation);
-        for (RepoInfo repo : repos) {
-            generateIndividualRepoReport(repo, reportName, targetFileLocation);
+        List<RepoInfo> repos = new ArrayList<>();
+
+        for (RepoConfiguration config: repoConfigs) {
+            try {
+                GitCloner.downloadRepo(config.getOrganization(), config.getRepoName(), config.getBranch());
+            } catch (GitClonerException e) {
+                System.out.println("Exception met when cloning the repo, will skip this one");
+                continue;
+            }
+            RepoInfo repoInfo = analyzeRepo(config);
+            repos.add(repoInfo);
+            generateIndividualRepoReport(repoInfo, reportName, targetFileLocation);
+            FileUtil.deleteDirectory(Constants.REPOS_ADDRESS);
         }
+        copyTemplate(reportName, targetFileLocation);
 
         Map<String, RepoContributionSummary> repoSummaries =
                 ContributionSummaryGenerator.analyzeContribution(repos, repoConfigs);
@@ -36,31 +47,18 @@ public class RepoInfoFileGenerator {
 
     }
 
-    private static List<RepoInfo> analyzeRepos(List<RepoConfiguration> configs) {
-        List<RepoInfo> result = new ArrayList<>();
-        int count = 1;
-        for (RepoConfiguration config : configs) {
-            System.out.println("Analyzing Repository No." + (count++)
-                    + "( " + configs.size() + " repositories in total)");
-            try {
-                GitCloner.downloadRepo(config.getOrganization(), config.getRepoName(), config.getBranch());
-            } catch (GitClonerException e) {
-                System.out.println("Exception met when cloning the repo, will skip this one");
-                continue;
-            }
-            RepoInfo repoinfo = new RepoInfo(
-                    config.getOrganization(),
-                    config.getRepoName(),
-                    config.getBranch(),
-                    config.getAuthorDisplayNameMap()
-            );
-            RepoAnalyzer.analyzeCommits(config, repoinfo);
-            RepoAnalyzer.analyzeAuthorship(config, repoinfo);
-            result.add(repoinfo);
-        }
-        FileUtil.deleteDirectory(Constants.REPOS_ADDRESS);
-
-        return result;
+    private static RepoInfo analyzeRepo(RepoConfiguration config) {
+        RepoInfo repoinfo = new RepoInfo(
+                config.getOrganization(),
+                config.getRepoName(),
+                config.getBranch(),
+                config.getAuthorDisplayNameMap()
+        );
+        repoinfo.setCommits(RepoAnalyzer.analyzeCommits(config, repoinfo));
+        repoinfo.setFileinfos(RepoAnalyzer.analyzeAuthorship(config, repoinfo));
+        repoinfo.setAuthorContributionMap(
+                ContentAnalyzer.getAuthorMethodContributionCount(repoinfo.getFileinfos(), config.getAuthorList()));
+        return repoinfo;
     }
 
     private static void generateIndividualRepoReport(RepoInfo repoinfo, String reportName, String targetFileLocation) {
@@ -71,7 +69,7 @@ public class RepoInfoFileGenerator {
                 + reportName + File.separator
                 + Constants.STATIC_INDIVIDUAL_REPORT_TEMPLATE_ADDRESS;
         FileUtil.copyFiles(new File(templateLocation), new File(repoReportDirectory));
-        ArrayList<FileInfo> fileInfos = repoinfo.getFileinfos();
+        List<FileInfo> fileInfos = repoinfo.getFileinfos();
         FileUtil.writeJsonFile(fileInfos, getIndividualResultPath(repoReportDirectory), "resultJson");
         System.out.println("report for " + repoReportName + " Generated!");
     }

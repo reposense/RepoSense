@@ -44,8 +44,8 @@ public class ContentAnalyzer {
         return result;
     }
 
-    private static HashMap<Author, Integer> getAuthorMethodContributionCount(
-            ArrayList<FileInfo> files, List<Author> authors) {
+    public static HashMap<Author, Integer> getAuthorMethodContributionCount(
+            List<FileInfo> files, List<Author> authors) {
         HashMap<Author, Integer> result = new HashMap<Author, Integer>();
         for (Author author : authors) {
             result.put(author, 0);
