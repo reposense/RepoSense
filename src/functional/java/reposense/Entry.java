@@ -60,6 +60,8 @@ public class Entry {
     }
 
     private void verifyContent(File expected, File actual) {
+        System.out.println("comparing "+expected+" "+actual);
+
         String expectedContent = "";
         String actualContent = "";
         try {
