@@ -1,4 +1,7 @@
 package reposense.exceptions;
 
-public class ParseException {
+public class ParseException extends Exception {
+    public ParseException(String message) {
+        super(message);
+    }
 }
