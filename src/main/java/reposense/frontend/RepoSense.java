@@ -1,14 +1,45 @@
 package reposense.frontend;
 
 
+import reposense.ConfigParser.InputParameter;
+import reposense.ConfigParser.CliArgumentsParser;
+import reposense.dataobject.RepoConfiguration;
+import reposense.exceptions.ParseException;
+import reposense.report.RepoInfoFileGenerator;
+import reposense.system.CsvConfigurationBuilder;
+
+import java.io.File;
+import java.util.Date;
+import java.util.List;
+
 public class RepoSense {
 
     public static final int FLAG_SUCCESS = 0;
     public static final int FLAG_ERROR = 1;
 
     public static void main(String[] args) {
-        if (args.length == 0 || new Client().run(args) == FLAG_ERROR) {
+        if (args.length == 0) {
             showHelpMessage();
+        }
+
+        try {
+            CliArgumentsParser cliArgumentsParser = new CliArgumentsParser();
+            InputParameter argument = cliArgumentsParser.parse(args);
+
+            //CsvParser csvParser = new CsvParser();
+            //List<RepoConfiguration> configs = csvParser.parse(argument);
+
+            File configFile = argument.getConfigFile();
+            File targetFile= argument.getTargetFile();
+            Date fromDate = argument.getSinceDate().orElse(null);
+            Date toDate = argument.getUntilDate().orElse(null);
+
+            List<RepoConfiguration> configs = CsvConfigurationBuilder.buildConfigs(configFile, fromDate, toDate);
+            RepoInfoFileGenerator.generateReposReport(configs, targetFile.getAbsolutePath());
+            RepoInfoFileGenerator.generateReposReport(configs, argument.getTargetFile().getAbsolutePath());
+        } catch (ParseException exception) {
+            showHelpMessage();
+            System.out.print(exception.getMessage());
         }
     }
 
