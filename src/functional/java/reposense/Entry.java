@@ -44,7 +44,7 @@ public class Entry {
             if (file.isDirectory()) {
                 verifyAllJson(file, actualRelative);
             } else {
-                if (!file.getName().endsWith(".json")) {
+                if (!file.getName().endsWith(".js")) {
                     continue;
                 }
                 String relativeDirectory = file.getAbsolutePath().split("expected/")[1];
@@ -54,12 +54,14 @@ public class Entry {
     }
 
     private void assertJson(File expectedJson, String expectedPosition, String actualRelative) {
-        File actual = new File(actualRelative + expectedPosition);
+        File actual = new File(actualRelative + "/" + expectedPosition);
         Assert.assertTrue(actual.exists());
         verifyContent(expectedJson, actual);
     }
 
     private void verifyContent(File expected, File actual) {
+        System.out.println("checking "+actual+" with "+expected);
+
         String expectedContent = "";
         String actualContent = "";
         try {
@@ -69,15 +71,14 @@ public class Entry {
             Assert.fail();
         }
         Assert.assertEquals(expectedContent, actualContent);
-
     }
 
     private String getRelativeDir() {
-        for (File file : (new File("ft_temp")).listFiles()) {
+        for (File file : (new File(FT_TEMP_DIR)).listFiles()) {
             if (file.getName().contains("DS_Store")) {
                 continue;
             }
-            return file.getName();
+            return FT_TEMP_DIR + "/" + file.getName();
         }
         Assert.fail();
         return "";
