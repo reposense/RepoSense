@@ -8,6 +8,13 @@ import java.util.Date;
 public class DateParser extends Parser<Date, String> {
     private static final String PARSE_EXCEPTION_MESSAGE_INVALID_DATE = "Invalid Date";
 
+    /**
+     * Parses the given string to a Date object
+     *
+     * @param input the string to be parsed
+     * @return Date object
+     * @throws ParseException If the given string fails to parse to a Date object.
+     */
     @Override
     public Date parse(String input) throws ParseException {
         Date date = null;

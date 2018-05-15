@@ -14,8 +14,8 @@ public class CliArgumentsParser extends Parser<Argument, String[]> {
     private static final String SINCE_DATE_ARG = "since";
     private static final String UNTIL_DATE_ARG = "until";
 
-    private static final String PARSE_EXCEPTION_MESSAGE_INVALID_INPUTS = "Failed to parse inputs argumentMap";
-    private static final String PARSE_EXCEPTION_MESSAGE_NO_CSV_FILE = "you need to specify a config CSV file!";
+    private static final String PARSE_EXCEPTION_MESSAGE_INVALID_INPUTS = "Failed to parse inputs arguments";
+    private static final String PARSE_EXCEPTION_MESSAGE_NO_CSV_FILE = "You need to specify a config CSV file!";
 
     private final HashMap<String, String> argumentMap;
     private final DateParser dateParser;
@@ -27,6 +27,12 @@ public class CliArgumentsParser extends Parser<Argument, String[]> {
         argument = new Argument();
     }
 
+    /**
+     * Parses user-supplied arguments into an Argument object.
+     *
+     * @return Argument object, which contains the user supplied arguments.
+     * @throws ParseException If the given inputs or the csv file fail to parse or mandatory fields are missing.
+     */
     @Override
     public Argument parse(String[] args) throws ParseException{
         for (int i = 0; i < args.length; i = i + 2) {
@@ -52,10 +58,20 @@ public class CliArgumentsParser extends Parser<Argument, String[]> {
         return argument;
     }
 
+    /**
+     * Checks if all mandatory fields are present
+     *
+     * @return true if all mandatory fields are present, otherwise false.
+     */
     private boolean isAllMandatoryArgumentsPresent() {
         return !argumentMap.containsKey(CONFIG_FILE_ARG);
     }
 
+    /**
+     * Set user-supplied inputs to the Argument object
+     *
+     * @throws ParseException If the supplied dates fail to parse.
+     */
     private void setUserInputValuesToArgument() throws ParseException {
         if (argumentMap.containsKey(CONFIG_FILE_ARG)) {
             String configFile = argumentMap.get(CONFIG_FILE_ARG);

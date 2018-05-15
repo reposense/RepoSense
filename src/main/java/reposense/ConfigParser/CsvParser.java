@@ -20,8 +20,21 @@ public class CsvParser extends Parser<List<RepoConfiguration>, Argument> {
     private static final int BRANCH_POSITION = 2;
     private static final String PARSE_EXCEPTION_MESSAGE_MALFORMED_CSV_FILE = "The supplied CSV file is malformed or corrupted.";
 
+    /**
+     * Returns a list of RepoConfiguration, which are the inflated object a line of the csv file.
+     *
+     * @param argument Instance of an Argument object
+     * @return List of RepoConfiguration
+     * @throws IllegalArgumentException  If argument is null
+     * @throws ParseException If given inputs or file fail to parse
+     */
     @Override
     public List<RepoConfiguration> parse(Argument argument) throws ParseException {
+
+        if (argument == null) {
+            throw new IllegalArgumentException("The supplied argument cannot be null");
+        }
+
         List<RepoConfiguration> configs = new ArrayList<>();
 
         Date sinceDate = argument.getSinceDate().orElse(null);
