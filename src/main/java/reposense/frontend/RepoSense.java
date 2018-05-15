@@ -3,12 +3,10 @@ package reposense.frontend;
 
 import reposense.ConfigParser.Argument;
 import reposense.ConfigParser.CliArgumentsParser;
-import reposense.ConfigParser.ConfigParser;
-import reposense.ConfigParser.Parser;
+import reposense.ConfigParser.CsvParser;
 import reposense.dataobject.RepoConfiguration;
 import reposense.exceptions.ParseException;
 import reposense.report.RepoInfoFileGenerator;
-import sun.security.krb5.Config;
 
 import java.util.List;
 
@@ -26,12 +24,13 @@ public class RepoSense {
             CliArgumentsParser cliArgumentsParser = new CliArgumentsParser();
             Argument argument = cliArgumentsParser.parse(args);
 
-            ConfigParser configParser = new ConfigParser();
-            List<RepoConfiguration> configs = configParser.parse(argument);
+            CsvParser csvParser = new CsvParser();
+            List<RepoConfiguration> configs = csvParser.parse(argument);
 
             RepoInfoFileGenerator.generateReposReport(configs, argument.getTargetFile().getAbsolutePath());
         } catch (ParseException exception) {
             showHelpMessage();
+            System.out.print(exception.getMessage());
         }
     }
 
