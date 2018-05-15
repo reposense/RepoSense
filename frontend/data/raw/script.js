@@ -1,6 +1,6 @@
 const fs = require("fs");
 
-var data = require("./pretty.json");
+var data = require("./summary.json");
 var objs = {};
 
 var attrs = "repo organization branch displayName fromDate".split(" ");
