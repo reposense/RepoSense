@@ -1,15 +1,13 @@
 package reposense.frontend;
 
 
+import reposense.ConfigParser.CsvParser;
 import reposense.ConfigParser.InputParameter;
 import reposense.ConfigParser.CliArgumentsParser;
 import reposense.dataobject.RepoConfiguration;
 import reposense.exceptions.ParseException;
 import reposense.report.RepoInfoFileGenerator;
-import reposense.system.CsvConfigurationBuilder;
 
-import java.io.File;
-import java.util.Date;
 import java.util.List;
 
 public class RepoSense {
@@ -24,19 +22,11 @@ public class RepoSense {
 
         try {
             CliArgumentsParser cliArgumentsParser = new CliArgumentsParser();
-            InputParameter argument = cliArgumentsParser.parse(args);
+            InputParameter inputParameter = cliArgumentsParser.parse(args);
 
-            //CsvParser csvParser = new CsvParser();
-            //List<RepoConfiguration> configs = csvParser.parse(argument);
-
-            File configFile = argument.getConfigFile();
-            File targetFile= argument.getTargetFile();
-            Date fromDate = argument.getSinceDate().orElse(null);
-            Date toDate = argument.getUntilDate().orElse(null);
-
-            List<RepoConfiguration> configs = CsvConfigurationBuilder.buildConfigs(configFile, fromDate, toDate);
-            RepoInfoFileGenerator.generateReposReport(configs, targetFile.getAbsolutePath());
-            RepoInfoFileGenerator.generateReposReport(configs, argument.getTargetFile().getAbsolutePath());
+            CsvParser csvParser = new CsvParser();
+            List<RepoConfiguration> configs = csvParser.parse(inputParameter);
+            RepoInfoFileGenerator.generateReposReport(configs, inputParameter.getTargetFile().getAbsolutePath());
         } catch (ParseException exception) {
             showHelpMessage();
             System.out.print(exception.getMessage());
