@@ -49,9 +49,7 @@ public class CliArgumentsParser extends Parser<Argument, String[]> {
             argumentMap.put(key, args[i + 1]);
         }
 
-        if (isAllMandatoryArgumentsPresent()) {
-            throw new ParseException(PARSE_EXCEPTION_MESSAGE_NO_CSV_FILE);
-        }
+        isAllMandatoryArgumentsPresent();
 
         setUserInputValuesToArgument();
 
@@ -59,12 +57,14 @@ public class CliArgumentsParser extends Parser<Argument, String[]> {
     }
 
     /**
-     * Checks if all mandatory fields are present
+     * Checks if all mandatory fields are present.
      *
-     * @return true if all mandatory fields are present, otherwise false.
+     * @throws ParseException If there are missing mandatory fields.
      */
-    private boolean isAllMandatoryArgumentsPresent() {
-        return !argumentMap.containsKey(CONFIG_FILE_ARG);
+    private void isAllMandatoryArgumentsPresent() throws ParseException {
+        if(!argumentMap.containsKey(CONFIG_FILE_ARG)) {
+            throw new ParseException(PARSE_EXCEPTION_MESSAGE_NO_CSV_FILE);
+        }
     }
 
     /**
