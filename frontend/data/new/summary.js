@@ -7,19 +7,20 @@ function loadJSON(file, fn){
     xhr.send(null);
 }
 
-var summaryJson = {};
+function loadSubFile(dir){
+    loadJSON(dir+"/summary.json", obj2 => {
+        for(var key in obj2){
+            summaryJson[dir][key] = obj2[key];
+        }
+
+        cnt -= 1;
+        if(!cnt){ initialize(); }
+    });
+}
+
+var cnt=0, summaryJson={};
 loadJSON("repo.json", obj => {
     summaryJson = obj;
-    for(var dir in obj){
-        loadJSON(dir+"/summary.json", obj2 => {
-            var g_dir = dir;
-            for(var key in obj2){
-                summaryJson[g_dir][key] = obj2[key];
-                console.log(key);
-                if(dir=="CS2103JAN2018-F09-B1_main"){
-                    console.log(summaryJson[g_dir]);
-                }
-            }
-        });
-    } 
+    for(var dir in obj){ cnt+=1; }
+    for(var dir in obj){ loadSubFile(dir); } 
 });

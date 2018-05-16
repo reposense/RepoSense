@@ -13,15 +13,18 @@
     <script type="text/javascript" src="static/scripts/utils.js"></script>
     <script type="text/javascript" src="static/scripts/summaryVueMethods.js"></script>
     <script>
-        var app;
-        var initialize = function(){
-          var totalContributionLimit = getTotalContributionLimit();
-          var hexcolors = ["#E69F00", "#56B4E9", "#009E73", "#F0E442", "#0072B2", "#D55E00", "#CC79A7"];
-          var rgbacolors = ["rgba(230,159,0,0.6)", "rgba(86,180,233,0.6)", "rgba(0,158,115,0.6)", "rgba(240,228,66,0.6)", "rgba(0,114,178,0.6)", "rgba(213,94,0,0.6)", "rgba(204,121,167,0.6)"];
+        var app, totalContributionLimit;
+        var hexcolors, rgbacolor;
+        var sliceScaleLimitMap, minDateRange, maxDateRange;
 
-          var sliceScaleLimitMap = getScaleLimitMap();
-          var minDateRange = getMinDate();
-          var maxDateRange = getMaxDate();
+        var initialize = function(){
+          totalContributionLimit = getTotalContributionLimit();
+          hexcolors = ["#E69F00", "#56B4E9", "#009E73", "#F0E442", "#0072B2", "#D55E00", "#CC79A7"];
+          rgbacolors = ["rgba(230,159,0,0.6)", "rgba(86,180,233,0.6)", "rgba(0,158,115,0.6)", "rgba(240,228,66,0.6)", "rgba(0,114,178,0.6)", "rgba(213,94,0,0.6)", "rgba(204,121,167,0.6)"];
+
+          sliceScaleLimitMap = getScaleLimitMap();
+          minDateRange = getMinDate();
+          maxDateRange = getMaxDate();
           Vue.component('date-picker', {
               template: '<input size="8"/>',
               props: ['defaultDate'],
