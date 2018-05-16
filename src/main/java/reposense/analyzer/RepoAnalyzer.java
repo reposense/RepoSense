@@ -5,7 +5,6 @@ import java.util.List;
 import reposense.dataobject.CommitInfo;
 import reposense.dataobject.FileInfo;
 import reposense.dataobject.RepoConfiguration;
-import reposense.dataobject.RepoInfo;
 import reposense.git.GitChecker;
 import reposense.git.GitLogger;
 

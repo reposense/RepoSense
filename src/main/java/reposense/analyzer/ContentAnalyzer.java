@@ -7,8 +7,6 @@ import java.util.List;
 import reposense.dataobject.Author;
 import reposense.dataobject.FileInfo;
 import reposense.dataobject.LineInfo;
-import reposense.dataobject.RepoConfiguration;
-import reposense.dataobject.RepoInfo;
 
 
 public class ContentAnalyzer {
