@@ -54,8 +54,8 @@ public class RepoInfoFileGenerator {
                 config.getBranch(),
                 config.getAuthorDisplayNameMap()
         );
-        repoinfo.setCommits(RepoAnalyzer.analyzeCommits(config, repoinfo));
-        repoinfo.setFileinfos(RepoAnalyzer.analyzeAuthorship(config, repoinfo));
+        repoinfo.setCommits(RepoAnalyzer.analyzeCommits(config));
+        repoinfo.setFileinfos(RepoAnalyzer.analyzeAuthorship(config));
         repoinfo.setAuthorContributionMap(
                 ContentAnalyzer.getAuthorMethodContributionCount(repoinfo.getFileinfos(), config.getAuthorList()));
         return repoinfo;
