@@ -35,8 +35,11 @@ public class RepoInfoFileGenerator {
                 continue;
             }
             RepoInfo repoInfo = analyzeRepo(config);
+            List<FileInfo> fileInfos = RepoAnalyzer.analyzeAuthorship(config);
+            repoInfo.setAuthorContributionMap(
+                    ContentAnalyzer.getAuthorMethodContributionCount(fileInfos, config.getAuthorList()));
             repos.add(repoInfo);
-            generateIndividualRepoReport(repoInfo, reportName, targetFileLocation);
+            generateIndividualRepoReport(repoInfo, fileInfos, reportName, targetFileLocation);
             FileUtil.deleteDirectory(Constants.REPOS_ADDRESS);
         }
         copyTemplate(reportName, targetFileLocation);
@@ -55,13 +58,12 @@ public class RepoInfoFileGenerator {
                 config.getAuthorDisplayNameMap()
         );
         repoinfo.setCommits(RepoAnalyzer.analyzeCommits(config));
-        repoinfo.setFileinfos(RepoAnalyzer.analyzeAuthorship(config));
-        repoinfo.setAuthorContributionMap(
-                ContentAnalyzer.getAuthorMethodContributionCount(repoinfo.getFileinfos(), config.getAuthorList()));
         return repoinfo;
     }
 
-    private static void generateIndividualRepoReport(RepoInfo repoinfo, String reportName, String targetFileLocation) {
+    private static void generateIndividualRepoReport(RepoInfo repoinfo, List<FileInfo> fileInfos,
+            String reportName, String targetFileLocation) {
+
         String repoReportName = repoinfo.getDirectoryName();
         String repoReportDirectory = targetFileLocation + "/" + reportName + "/" + repoReportName;
         new File(repoReportDirectory).mkdirs();
@@ -69,7 +71,6 @@ public class RepoInfoFileGenerator {
                 + reportName + File.separator
                 + Constants.STATIC_INDIVIDUAL_REPORT_TEMPLATE_ADDRESS;
         FileUtil.copyFiles(new File(templateLocation), new File(repoReportDirectory));
-        List<FileInfo> fileInfos = repoinfo.getFileinfos();
         FileUtil.writeJsonFile(fileInfos, getIndividualResultPath(repoReportDirectory), "resultJson");
         System.out.println("report for " + repoReportName + " Generated!");
     }
