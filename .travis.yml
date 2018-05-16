@@ -4,8 +4,9 @@ matrix:
     - jdk: oraclejdk9
 
 script: >-
-    ./config/travis/run-checks.sh &&
-    travis_retry cat ./build/reports/tests/functional/classes/reposense.Entry.html; ./gradlew clean checkstyleMain checkstyleTest test functional
+    - ./config/travis/run-checks.sh
+    - ./gradlew clean checkstyleMain checkstyleTest test functional 
+    - cat ./build/reports/tests/functional/classes/reposense.Entry.html 
 
 addons:
   apt:
