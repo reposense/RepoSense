@@ -6,7 +6,7 @@ matrix:
 script: 
     - ./config/travis/run-checks.sh
     - ./gradlew clean checkstyleMain checkstyleTest test functional 
-    - cat ./build/reports/tests/functional/classes/reposense.Entry.html 
+    - sed -ne '/^<h2>Standard output<\/h2>$/ { :a; n; p; ba; }' ./build/reports/tests/functional/classes/reposense.Entry.html 
 
 addons:
   apt:
