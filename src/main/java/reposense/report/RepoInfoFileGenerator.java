@@ -27,6 +27,7 @@ public class RepoInfoFileGenerator {
         String reportName = generateReportName();
         List<RepoInfo> repos = new ArrayList<>();
 
+        copyTemplate(reportName, targetFileLocation);
         for (RepoConfiguration config: repoConfigs) {
             try {
                 GitCloner.downloadRepo(config.getOrganization(), config.getRepoName(), config.getBranch());
@@ -42,7 +43,6 @@ public class RepoInfoFileGenerator {
             generateIndividualRepoReport(repoInfo, fileInfos, reportName, targetFileLocation);
             FileUtil.deleteDirectory(Constants.REPOS_ADDRESS);
         }
-        copyTemplate(reportName, targetFileLocation);
 
         Map<String, RepoContributionSummary> repoSummaries =
                 ContributionSummaryGenerator.analyzeContribution(repos, repoConfigs);
