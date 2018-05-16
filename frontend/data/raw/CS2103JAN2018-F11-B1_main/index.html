@@ -1,0 +1,116 @@
+<html>
+	<head>
+		<link rel="stylesheet" href="../static/css/collapse.css">
+		<link rel="stylesheet" href="../static/css/highlight-tomorrow.css">
+				<link rel="stylesheet" href="../static/css/style.css">
+
+		<script type="text/javascript" src="result.js"></script>
+		<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+		<script src="../static/scripts/lib/jquery.collapsible.min.js"></script>
+		<script src="https://cdn.jsdelivr.net/npm/vue"></script>
+		<script src="../static/scripts/lib/highlight.pack.js"></script>
+		<script type="text/javascript" src="../static/scripts/utils.js"></script>
+		<script>
+		hljs.initHighlightingOnLoad();
+		var currentAuthor = getQueryVariable('author');
+		var currentAuthorDisplayName = getQueryVariable('authorDisplayName');
+		resultJson = sortByLineContributed(resultJson,currentAuthor);
+		$(document).ready(function() {
+			var app = new Vue({
+				el: '#vue-app',
+				data: {
+					currentAuthor : currentAuthor,
+					result : resultJson,
+
+				},
+				methods: {
+				getAuthorUrlQuery : function (author) {
+					return "?author=" + author
+				},
+				containAuthorLine : function(file, authorName){
+					for (i=0; i<file.lines.length;i++){
+						if (file.lines[i].author!= null && file.lines[i].author.gitID == authorName){
+							return true;
+						}
+					}
+					return false;
+				},
+				getAuthorClass : function(line, currentAuthor){
+					if (isNotAuthored(currentAuthor,line)){
+						return "unauthored";
+					}
+					return "";
+				},
+				isCollapseStart : function(lines,currentIndex,currentAuthor){
+					//console.log(currentIndex);
+					if (lines.length - currentIndex < 5){
+						//console.log("not enough");
+						// less than 10 lines left
+						return false;
+					}
+					if (currentIndex != 0 && isNotAuthored(currentAuthor,lines[currentIndex - 1])){
+						//console.log("not start");
+						return false;
+					}
+					for (var i=currentIndex;i<currentIndex+5;i++){
+						if (!isNotAuthored(currentAuthor,lines[i])){
+							//console.log("breaked");
+							return false;
+						}
+					}
+					return true;
+				},
+				isCollapseEnd : function(lines,currentIndex,currentAuthor){
+					if (currentIndex < 5){
+						return false;
+					}
+					if (currentIndex != lines.length - 1 && isNotAuthored(currentAuthor,lines[currentIndex + 1])){
+						return false;
+					}
+					for (var i=currentIndex;i>currentIndex-5;i--){
+						if (!isNotAuthored(currentAuthor,lines[i])){
+							return false;
+						}
+					}
+					return true;
+				},
+				
+				}
+			});
+			$(".collapseStart").each(function(){ 
+    			var $set = $(this).nextUntil("collapseEnd").andSelf();
+    			$set.wrapAll("<div class='collapse-container-small'></div>");
+    			var $innerSet = $(this).nextUntil("collapseEnd");
+    			$innerSet.wrapAll("<div></div>");
+			});
+			$( ".collapse-container" ).collapsible({animate: false});
+			$( ".collapse-container-small" ).collapsible("default-close",{animate: false});
+
+		});
+		</script>
+	</head>
+	<body>
+		<div id="vue-app">
+			<div class="content-container">
+				<h3>current author:{{currentAuthorDisplayName==null?currentAuthor:currentAuthorDisplayName}}</h3>
+				<div class="collapse-container" >
+					<template v-for="file in result">
+					<template v-if="containAuthorLine(file, currentAuthor) || currentAuthor == null">
+					<h3>{{ file.path }} ( {{file.authorContributionMap[currentAuthor]}} lines)</h3>
+					<div>
+							
+						<template v-for="(line,index) in file.lines">
+							<h6 class="collapseStart"  v-if="isCollapseStart(file.lines,index,currentAuthor)">Untouched Code Chunk(Click to Expand)</h6>
+							<pre><code class="java" v-bind:class="getAuthorClass(line,currentAuthor)">{{line.content}}</code></pre>
+							<template v-if="isCollapseEnd(file.lines,index,currentAuthor)">
+  									<collapseEnd></collapseEnd>
+							</template>
+						</template>
+					</div>
+					</template>
+					</template>
+				</div>
+			</div>
+		</div>
+	</body>
+</html>
