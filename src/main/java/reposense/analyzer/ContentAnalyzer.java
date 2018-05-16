@@ -13,15 +13,6 @@ import reposense.dataobject.RepoInfo;
 
 public class ContentAnalyzer {
 
-    public static void aggregateFileInfos(RepoConfiguration config, RepoInfo repoInfo) {
-        ArrayList<FileInfo> result = FileAnalyzer.analyzeAllFiles(config);
-        repoInfo.setFileinfos(result);
-        //commitInfo.setAuthorIssueMap(getAuthorIssueCount(commitInfo.getFileinfos(),config.getAuthorList()));
-        repoInfo.setAuthorContributionMap(
-                getAuthorMethodContributionCount(repoInfo.getFileinfos(), config.getAuthorList()));
-
-    }
-
     private static HashMap<Author, Integer> getAuthorIssueCount(ArrayList<FileInfo> files, List<Author> authors) {
         HashMap<Author, Integer> result = new HashMap<Author, Integer>();
         for (FileInfo fileInfo : files) {
