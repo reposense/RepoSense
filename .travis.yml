@@ -5,7 +5,7 @@ matrix:
 
 script: >-
     ./config/travis/run-checks.sh &&
-    travis_retry ./gradlew clean checkstyleMain checkstyleTest test functional
+    travis_retry cat ./build/reports/tests/functional/classes/reposense.Entry.html; ./gradlew clean checkstyleMain checkstyleTest test functional
 
 addons:
   apt:
