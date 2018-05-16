@@ -20,10 +20,19 @@ public class GitCredentials {
         authenticateGithub();
     }
 
-    /*
+    /**
      * Authenticates github using the username and the passcode
+     *
+     * @throws IOException if there is any problem authenticating with github
      */
     private void authenticateGithub() throws IOException {
         github = GitHub.connectUsingPassword(USERNAME, PASSCODE);
+    }
+
+    /**
+     * Returns the Github object
+     */
+    public static GitHub getGithub() {
+        return github;
     }
 }
