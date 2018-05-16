@@ -24,4 +24,4 @@ for(var dir in data){
     objs[dir] = obj;
 }
 
-fs.writeFileSync("new/repo.js", JSON.stringify(objs));
+fs.writeFileSync("new/repo.json", JSON.stringify(objs));
