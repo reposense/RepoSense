@@ -5,7 +5,6 @@
     <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
     <link rel="stylesheet" href="static/css/style.css">
-    <script type="text/javascript" src="summary.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/datejs/1.0/date.min.js"></script>
 
     <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
@@ -14,93 +13,94 @@
     <script type="text/javascript" src="static/scripts/utils.js"></script>
     <script type="text/javascript" src="static/scripts/summaryVueMethods.js"></script>
     <script>
-        var totalContributionLimit = getTotalContributionLimit();
-        var hexcolors = ["#E69F00", "#56B4E9", "#009E73", "#F0E442", "#0072B2", "#D55E00", "#CC79A7"];
-        var rgbacolors = ["rgba(230,159,0,0.6)", "rgba(86,180,233,0.6)", "rgba(0,158,115,0.6)", "rgba(240,228,66,0.6)", "rgba(0,114,178,0.6)", "rgba(213,94,0,0.6)", "rgba(204,121,167,0.6)"];
+        var app, totalContributionLimit;
+        var hexcolors, rgbacolor;
+        var sliceScaleLimitMap, minDateRange, maxDateRange;
 
-        var sliceScaleLimitMap = getScaleLimitMap();
-        var minDateRange = getMinDate();
-        var maxDateRange = getMaxDate();
-        Vue.component('date-picker', {
-            template: '<input size="8"/>',
-            props: ['defaultDate'],
-            mounted: function() {
-                var self = this;
-                var minDateParsed = Date.parse(minDateRange);
-                var maxDateParsed = Date.parse(maxDateRange);
-                $(this.$el).datepicker({
-                    minDate: minDateParsed,
-                    maxDate: maxDateParsed,
-                    dateFormat: "mm/dd/y",
-                    onSelect: function(date) {
-                        self.$emit('update-date', date);
-                    }
-                });
-            },
-            beforeDestroy: function() {
-                $(this.$el).datepicker('hide').datepicker('destroy');
-            }
-        });
+        var initialize = function(){
+          totalContributionLimit = getTotalContributionLimit();
+          hexcolors = ["#E69F00", "#56B4E9", "#009E73", "#F0E442", "#0072B2", "#D55E00", "#CC79A7"];
+          rgbacolors = ["rgba(230,159,0,0.6)", "rgba(86,180,233,0.6)", "rgba(0,158,115,0.6)", "rgba(240,228,66,0.6)", "rgba(0,114,178,0.6)", "rgba(213,94,0,0.6)", "rgba(204,121,167,0.6)"];
 
-
-        var app;
-        $(document).ready(function() {
-            app = new Vue({
-                el: '#vue-app',
-                data: {
-                    summary: summaryJson,
-                    sortElement: getQueryVariable("sortElement","finalContribution"),
-                    sortOrder: getQueryVariable("sortOrder","high2low"),
-                    searchTerm: getQueryVariable("searchTerm",""),
-                    intervalType: getQueryVariable("intervalType","authorDailyIntervalContributions"),
-                    isGroupByRepo: (getQueryVariable("isGroupByRepo","true")=="true"),
-                    minDate: minDateRange,
-                    maxDate: maxDateRange,
-                },
-                methods: vueMethods
-            });
-            console.log(app);
-            
-
-            $(".author_name_tag").click(function() {
-                displayName = $(this).attr("displayName");
-                author = $(this).attr("author");
-                authorDisplayName = $(this).attr("authorDisplayName");
-                url = displayName + "/" + "index.html?author=" + author+"&authorDisplayName=" +authorDisplayName;
-                $(".author_block").removeClass("highlighted_block");
-                $("#" + author).addClass("highlighted_block");
-                $(".progress-chart-box").animate({
-                    width: "30%"
-                }, 300);
-                $(".code-review-box").animate({
-                    width: "70%"
-                }, 300, function() {
-                    $(".report-frame").attr('src', url);
-                });
-            });
-            $(".hide_button").click(function() {
-                $(".report-frame").attr('src', 'about:blank')
-                $(".author_block").removeClass("highlighted_block");
-                setTimeout((function() {
-                    $(".progress-chart-box").animate({
-                        width: "100%"
-                    }, 300);
-                    $(".code-review-box").animate({
-                        width: "0%"
-                    }, 300);
-
-                }), 200);
+          sliceScaleLimitMap = getScaleLimitMap();
+          minDateRange = getMinDate();
+          maxDateRange = getMaxDate();
+          Vue.component('date-picker', {
+              template: '<input size="8"/>',
+              props: ['defaultDate'],
+              mounted: function() {
+                  var self = this;
+                  var minDateParsed = Date.parse(minDateRange);
+                  var maxDateParsed = Date.parse(maxDateRange);
+                  $(this.$el).datepicker({
+                      minDate: minDateParsed,
+                      maxDate: maxDateParsed,
+                      dateFormat: "mm/dd/y",
+                      onSelect: function(date) {
+                          self.$emit('update-date', date);
+                      }
+                  });
+              },
+              beforeDestroy: function() {
+                  $(this.$el).datepicker('hide').datepicker('destroy');
+              }
+          });
 
 
-            })
-        });
-        $(function() {
-            $(document).tooltip();
-            $("#minDatePicker").val(minDateRange);
-            $("#maxDatePicker").val(maxDateRange);
+          app = new Vue({
+              el: '#vue-app',
+              data: {
+                  summary: summaryJson,
+                  sortElement: getQueryVariable("sortElement","finalContribution"),
+                  sortOrder: getQueryVariable("sortOrder","high2low"),
+                  searchTerm: getQueryVariable("searchTerm",""),
+                  intervalType: getQueryVariable("intervalType","authorDailyIntervalContributions"),
+                  isGroupByRepo: (getQueryVariable("isGroupByRepo","true")=="true"),
+                  minDate: minDateRange,
+                  maxDate: maxDateRange,
+              },
+              methods: vueMethods
+          });
+          
+          $(".author_name_tag").click(function() {
+              displayName = $(this).attr("displayName");
+              author = $(this).attr("author");
+              authorDisplayName = $(this).attr("authorDisplayName");
+              url = displayName + "/" + "index.html?author=" + author+"&authorDisplayName=" +authorDisplayName;
+              $(".author_block").removeClass("highlighted_block");
+              $("#" + author).addClass("highlighted_block");
+              $(".progress-chart-box").animate({
+                  width: "30%"
+              }, 300);
+              $(".code-review-box").animate({
+                  width: "70%"
+              }, 300, function() {
+                  $(".report-frame").attr('src', url);
+              });
+          });
 
-        });
+          $(".hide_button").click(function() {
+              $(".report-frame").attr('src', 'about:blank')
+              $(".author_block").removeClass("highlighted_block");
+              setTimeout((function() {
+                  $(".progress-chart-box").animate({
+                      width: "100%"
+                  }, 300);
+                  $(".code-review-box").animate({
+                      width: "0%"
+                  }, 300);
+
+              }), 200);
+          });
+
+          $(function() {
+              $(document).tooltip();
+              $("#minDatePicker").val(minDateRange);
+              $("#maxDatePicker").val(maxDateRange);
+          });
+        };
     </script>
+    <script type="text/javascript" src="summary.js"></script>
 </head>
 
 <body class="main-app">
