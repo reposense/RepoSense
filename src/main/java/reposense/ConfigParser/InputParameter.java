@@ -4,27 +4,18 @@ import java.io.File;
 import java.util.Date;
 import java.util.Optional;
 
+/**
+ * Stores parsed user-supplied CLI arguments.
+ */
 public final class InputParameter {
     private static final String DEFAULT_FILE_ARG = ".";
 
-    /**
-     * Stores the csv file location
-     */
     private File configFile;
 
-    /**
-     * Stores the output location
-     */
     private File targetFile;
 
-    /**
-     * The date to start
-     */
     private Optional<Date> sinceDate;
 
-    /**
-     * The date to stop
-     */
     private Optional<Date> untilDate;
 
     public InputParameter() {

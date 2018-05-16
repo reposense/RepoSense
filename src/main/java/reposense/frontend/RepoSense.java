@@ -26,9 +26,6 @@ public class RepoSense {
             CliArgumentsParser cliArgumentsParser = new CliArgumentsParser();
             InputParameter argument = cliArgumentsParser.parse(args);
 
-            //CsvParser csvParser = new CsvParser();
-            //List<RepoConfiguration> configs = csvParser.parse(argument);
-
             File configFile = argument.getConfigFile();
             File targetFile= argument.getTargetFile();
             Date fromDate = argument.getSinceDate().orElse(null);

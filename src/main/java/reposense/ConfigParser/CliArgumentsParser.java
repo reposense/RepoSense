@@ -5,6 +5,9 @@ import reposense.exceptions.ParseException;
 import java.util.Date;
 import java.util.HashMap;
 
+/**
+ * Verifies and parses user-supplied CLI arguments into an InputParameter Object.
+ */
 public class CliArgumentsParser extends Parser<InputParameter, String[]> {
 
     private static final String ARGUMENT_PREFIX_DASH = "-";
@@ -49,7 +52,7 @@ public class CliArgumentsParser extends Parser<InputParameter, String[]> {
             argumentMap.put(key, args[i + 1]);
         }
 
-        isAllMandatoryArgumentsPresent();
+        checkAllMandatoryArgumentsPresent();
 
         setUserInputValuesToArgument();
 
@@ -61,7 +64,7 @@ public class CliArgumentsParser extends Parser<InputParameter, String[]> {
      *
      * @throws ParseException If there are missing mandatory fields.
      */
-    private void isAllMandatoryArgumentsPresent() throws ParseException {
+    private void checkAllMandatoryArgumentsPresent() throws ParseException {
         if (!argumentMap.containsKey(CONFIG_FILE_ARG)) {
             throw new ParseException(PARSE_EXCEPTION_MESSAGE_NO_CSV_FILE);
         }

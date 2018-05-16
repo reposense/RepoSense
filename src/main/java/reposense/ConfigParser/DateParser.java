@@ -5,8 +5,12 @@ import reposense.util.Constants;
 
 import java.util.Date;
 
+/**
+ * Verifies and parses a string-formatted date to a Date object.
+ */
 public class DateParser extends Parser<Date, String> {
     private static final String PARSE_EXCEPTION_MESSAGE_INVALID_DATE = "Invalid Date";
+    private static final String PARSE_EXCEPTION_MESSAGE_INVALID_DATE_STRING_FORMAT =  PARSE_EXCEPTION_MESSAGE_INVALID_DATE + " %s";
 
     /**
      * Parses the given string to a Date object
@@ -22,7 +26,7 @@ public class DateParser extends Parser<Date, String> {
         try {
             date =  Constants.CLI_ARGS_DATE_FORMAT.parse(input);
         } catch (Exception e) {
-            throw new ParseException(PARSE_EXCEPTION_MESSAGE_INVALID_DATE + " " + input);
+            throw new ParseException(String.format(PARSE_EXCEPTION_MESSAGE_INVALID_DATE_STRING_FORMAT, input));
         }
 
         return date;
