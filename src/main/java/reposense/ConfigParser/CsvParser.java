@@ -19,7 +19,7 @@ public class CsvParser extends Parser<List<RepoConfiguration>, InputParameter> {
 
     private static final int SKIP_FIRST_LINE = 1;
 
-    /** Positions of the elements of a line in the CSV file */
+    /** Positions of the elements of a line in the user-supplied CSV file */
     private static final int ORGANIZATION_POSITION = 0;
     private static final int REPOSITORY_NAME_POSITION = 1;
     private static final int BRANCH_POSITION = 2;
@@ -27,10 +27,22 @@ public class CsvParser extends Parser<List<RepoConfiguration>, InputParameter> {
     private static final int DISPLAY_NAME_POSITION = 4;
     private static final int ALIAS_POSITION = 5;
 
-    public static final String REPO_CONFIG_MAP_KEY_FORMAT = "%s|%s|%s";
+    /** String format of the key for RepoConfig HashMap */
+    private static final String REPO_CONFIG_MAP_KEY_FORMAT = "%s|%s|%s";
 
     private HashMap<String, RepoConfiguration> repoMap = new HashMap<String, RepoConfiguration>();
 
+    /**
+     * Creates a RepoConfiguration object in the repoMap, if it does not exists.
+     *
+     * Parameters - organization, repositoryName and branch are used to create the key to access RepoMap.
+     *
+     * @param organization the String of the GitHub Organization
+     * @param repositoryName the String of the Repository Name
+     * @param branch the String of the Branch
+     * @param sinceDate the starting Date to limit the results
+     * @param untilDate the ending Date to limit the results
+     */
     private void createRepoConfigInMapIfNotExists(final String organization, final String repositoryName, final String branch, final Date sinceDate, final Date untilDate) {
 
         final String key = String.format(REPO_CONFIG_MAP_KEY_FORMAT, organization, repositoryName, branch);
@@ -45,6 +57,16 @@ public class CsvParser extends Parser<List<RepoConfiguration>, InputParameter> {
         }
     }
 
+    /**
+     * Creates a RepoConfiguration object in the repoMap, if it does not exists.
+     *
+     * Parameters - organization, repositoryName and branch are used to create the key to access RepoMap.
+     *
+     * @param organization the String of the GitHub Organization
+     * @param repositoryName the String of the Repository Name
+     * @param branch the String of the Branch
+     * @throws UnsupportedOperationException, if the key does not exists in repoMap, which may happen if createRepoConfigInMapIfNotExists() is not called before this method.
+     */
     private RepoConfiguration getRepoConfigFromMap(final String organization, final String repositoryName, final String branch) {
         final String key = String.format(REPO_CONFIG_MAP_KEY_FORMAT, organization, repositoryName, branch);
 
@@ -52,7 +74,7 @@ public class CsvParser extends Parser<List<RepoConfiguration>, InputParameter> {
             return repoMap.get(key);
         }
 
-        throw new RuntimeException("Illegal Usage: RepositoryConfiguration key does not exists");
+        throw new UnsupportedOperationException("Illegal Usage: RepositoryConfiguration key does not exists. You should use call createRepoConfigInMapIfNotExists() first.");
     }
 
     /**
@@ -116,7 +138,7 @@ public class CsvParser extends Parser<List<RepoConfiguration>, InputParameter> {
             throw new ParseException(PARSE_EXCEPTION_MESSAGE_MALFORMED_CSV_FILE);
         }
 
-        // Converts hashmap to list
+        // Converts HashMap to list
         List<RepoConfiguration> configs = new ArrayList<RepoConfiguration>(repoMap.values());
         return configs;
     }
