@@ -20,6 +20,7 @@ public class FileAnalyzer {
     public static ArrayList<FileInfo> analyzeAllFiles(RepoConfiguration config) {
         ArrayList<String> relativePaths = new ArrayList<>();
         getAllPossibleFilePaths(config, new File(config.getRepoRoot()), relativePaths);
+        Collections.sort(relativePaths);
         ArrayList<FileInfo> result = processFiles(config, relativePaths);
         return result;
     }
@@ -38,7 +39,7 @@ public class FileAnalyzer {
                 if (!relativePath.endsWith(".java") && !relativePath.endsWith(".adoc")) {
                     continue;
                 }
-                relativePaths.add(relativePath);
+                relativePaths.add(relativePath.replace('\\', '/'));
             }
         }
     }
