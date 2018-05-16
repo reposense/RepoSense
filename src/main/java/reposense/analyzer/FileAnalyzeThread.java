@@ -13,7 +13,7 @@ import reposense.git.GitBlamer;
 import reposense.util.Constants;
 
 
-public class FileAnalyzeThread implements Runnable {
+public class FileAnalyzeThread {
 
     private List<FileInfo> fileInfos;
     private RepoConfiguration config;
@@ -25,7 +25,6 @@ public class FileAnalyzeThread implements Runnable {
         this.relativePath = relativePath;
     }
 
-    @Override
     public void run() {
         if (isReused(config.getRepoRoot(), relativePath)) {
             return;

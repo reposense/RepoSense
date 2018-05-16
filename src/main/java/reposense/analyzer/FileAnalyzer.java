@@ -4,8 +4,6 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 
 import reposense.dataobject.FileInfo;
 import reposense.dataobject.RepoConfiguration;
@@ -41,13 +39,9 @@ public class FileAnalyzer {
 
     private static ArrayList<FileInfo> processFiles(RepoConfiguration config, List<String> relativePaths) {
         List<FileInfo> fileInfos = Collections.synchronizedList(new ArrayList<FileInfo>());
-        ExecutorService executor = Executors.newFixedThreadPool(5);
         for (String relativePath : relativePaths) {
-            Runnable worker = new FileAnalyzeThread(fileInfos, config, relativePath);
-            executor.execute(worker);
-        }
-        executor.shutdown();
-        while (!executor.isTerminated()) {
+            FileAnalyzeThread thread = new FileAnalyzeThread(fileInfos, config, relativePath);
+            thread.run();
         }
         return new ArrayList<>(fileInfos);
     }
