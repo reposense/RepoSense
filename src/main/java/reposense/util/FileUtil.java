@@ -19,7 +19,9 @@ public class FileUtil {
 
     public static void writeJsonFile(Object object, String path, String prefix) {
         Gson gson = new GsonBuilder()
-                .setDateFormat(Constants.GITHUB_API_DATE_FORMAT).create();
+                .setDateFormat(Constants.GITHUB_API_DATE_FORMAT)
+                .setPrettyPrinting()
+                .create();
         String result = gson.toJson(object);
 
         try {
