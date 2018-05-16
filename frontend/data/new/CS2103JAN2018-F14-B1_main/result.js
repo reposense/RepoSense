@@ -7,7 +7,7 @@ function loadJSON(file, fn){
     xhr.send(null);
 }
 
-var cnt=0, resultJson={};
+var resultJson={};
 loadJSON("result.json", obj => {
     resultJson = obj;
     initialize();
