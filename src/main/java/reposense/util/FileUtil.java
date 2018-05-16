@@ -26,7 +26,8 @@ public class FileUtil {
 
         try {
             PrintWriter out = new PrintWriter(path);
-            out.println(attachJsPrefix(result, prefix));
+            out.print(attachJsPrefix(result, prefix));
+            out.print("\n");
             out.close();
         } catch (FileNotFoundException e) {
             e.printStackTrace();
