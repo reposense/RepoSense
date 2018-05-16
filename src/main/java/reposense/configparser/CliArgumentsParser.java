@@ -1,9 +1,9 @@
-package reposense.ConfigParser;
-
-import reposense.exceptions.ParseException;
+package reposense.configparser;
 
 import java.util.Date;
 import java.util.HashMap;
+
+import reposense.exceptions.ParseException;
 
 /**
  * Verifies and parses user-supplied CLI arguments into an InputParameter Object.

@@ -1,16 +1,18 @@
 package reposense.frontend;
 
+import java.io.File;
+import java.util.Date;
+import java.util.List;
 
-import reposense.ConfigParser.InputParameter;
-import reposense.ConfigParser.CliArgumentsParser;
+import reposense.configparser.CliArgumentsParser;
+
+import reposense.configparser.InputParameter;
+
 import reposense.dataobject.RepoConfiguration;
 import reposense.exceptions.ParseException;
 import reposense.report.RepoInfoFileGenerator;
 import reposense.system.CsvConfigurationBuilder;
 
-import java.io.File;
-import java.util.Date;
-import java.util.List;
 
 public class RepoSense {
 
@@ -27,7 +29,7 @@ public class RepoSense {
             InputParameter argument = cliArgumentsParser.parse(args);
 
             File configFile = argument.getConfigFile();
-            File targetFile= argument.getTargetFile();
+            File targetFile = argument.getTargetFile();
             Date fromDate = argument.getSinceDate().orElse(null);
             Date toDate = argument.getUntilDate().orElse(null);
 

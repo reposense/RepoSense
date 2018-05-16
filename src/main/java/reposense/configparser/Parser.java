@@ -1,4 +1,4 @@
-package reposense.ConfigParser;
+package reposense.configparser;
 
 import reposense.exceptions.ParseException;
 
