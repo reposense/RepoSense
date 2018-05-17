@@ -1,6 +1,7 @@
 package reposense.configparser;
 
 import java.util.Date;
+import java.util.Optional;
 
 import reposense.exceptions.ParseException;
 import reposense.util.Constants;
@@ -8,7 +9,7 @@ import reposense.util.Constants;
 /**
  * Verifies and parses a string-formatted date to a Date object.
  */
-public class DateParser extends Parser<Date, String> {
+public class DateParser extends Parser<Optional<Date>, String> {
     private static final String PARSE_EXCEPTION_MESSAGE_INVALID_DATE_STRING_FORMAT =
             "Invalid Date: %s";
 
@@ -18,11 +19,11 @@ public class DateParser extends Parser<Date, String> {
      * @throws ParseException If the given string fails to parse to a Date object.
      */
     @Override
-    public Date parse(String input) throws ParseException {
-        Date date = null;
+    public Optional<Date> parse(String input) throws ParseException {
+        Optional<Date> date;
 
         try {
-            date = Constants.CLI_ARGS_DATE_FORMAT.parse(input);
+            date = Optional.of(Constants.CLI_ARGS_DATE_FORMAT.parse(input));
         } catch (Exception e) {
             throw new ParseException(String.format(PARSE_EXCEPTION_MESSAGE_INVALID_DATE_STRING_FORMAT, input));
         }
