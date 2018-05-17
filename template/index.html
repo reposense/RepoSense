@@ -138,7 +138,7 @@
                                 </template>
             </div>
             <div class="contributionBar" v-bind:title="getContributionBarTitle(authorRepo.finalContribution)" style="min-height:5px;">
-                <hr align="left" v-for="width in getContributionBarWidths(authorRepo.finalContribution)" v-bind:width="width" style="border-color: red" />
+                <hr align="left" v-for="width in getContributionBarWidths(authorRepo.finalContribution)" v-bind:width="width" style="height:3px; background-color:#f00;" />
             </div>
         </div>
         </template>
