@@ -1,0 +1,22 @@
+/** global **/
+body{
+    font-family:Roboto;
+}
+
+.wrapper{
+    max-width:40rem;
+}
+
+/** navigation bar **/
+header{
+    display:flex;
+    justify-content:center;
+
+    .wrapper{
+        display:flex;  
+        justify-content:space-between;
+        align-items:center;
+        
+        flex-grow:1;
+    }
+}
