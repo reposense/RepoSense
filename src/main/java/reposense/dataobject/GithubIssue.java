@@ -10,11 +10,14 @@ public class GithubIssue {
     private final GithubIssueTitle title;
     private final List<GithubIssueLabels> labels;
     private final GithubIssueIndex index;
+    private final GithubIssueState state;
 
-    public GithubIssue(GithubIssueTitle title, List<GithubIssueLabels> labels, GithubIssueIndex index) {
+    public GithubIssue(GithubIssueTitle title, List<GithubIssueLabels> labels,
+                       GithubIssueIndex index, GithubIssueState state) {
         this.title = title;
         this.labels = labels;
         this.index = index;
+        this.state = state;
     }
 
     public GithubIssueTitle getTitle() {
@@ -28,4 +31,6 @@ public class GithubIssue {
     public GithubIssueIndex getIndex() {
         return index;
     }
+
+    public GithubIssueState getState() { return state; }
 }
