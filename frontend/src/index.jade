@@ -6,6 +6,7 @@ html
     link(rel="stylesheet", href="static/css/style.css")
 
     script(src="//cdnjs.cloudflare.com/ajax/libs/muicss/0.9.39/js/mui.min.js")
+
     script(src="//cdnjs.cloudflare.com/ajax/libs/vue/2.5.16/vue.min.js")
   body
     div#app
@@ -13,7 +14,19 @@ html
         .wrapper
           .logo.mui--text-title RepoSense
           .repo
-            input(placeHolder="insert report URL")
-            button.mui-btn Go
+            input(placeHolder="insert report URL", v-model="reportDirInput")
+            button.mui-btn(v-on:click="updateReportDir();") Go
 
-      
+      #summary
+        #summary__picker
+        #summary__charts
+    
+    script#v_summary-chart
+        .summary-chart__title
+        .summary-chart__ramp
+        .summary-chart__contrib 
+    
+    script#v_commits
+    
+    script(src="static/js/api.js")
+    script(src="static/js/main.js")
