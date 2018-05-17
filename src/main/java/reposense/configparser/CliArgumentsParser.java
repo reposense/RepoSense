@@ -18,17 +18,7 @@ public class CliArgumentsParser extends Parser<InputParameter, String[]> {
     private static final String UNTIL_DATE_ARG = "until";
 
     private static final String PARSE_EXCEPTION_MESSAGE_INVALID_INPUTS = "Failed to parse inputs arguments";
-    private static final String PARSE_EXCEPTION_MESSAGE_NO_CSV_FILE = "You need to specify a config CSV file!";
-
-    private final HashMap<String, String> argumentMap;
-    private final DateParser dateParser;
-    private final InputParameter argument;
-
-    public CliArgumentsParser() {
-        argumentMap = new HashMap<String, String>();
-        dateParser = new DateParser();
-        argument = new InputParameter();
-    }
+    private static final String PARSE_EXCEPTION_MESSAGE_NO_CSV_FILE = "Failed due to missing CSV file";
 
     /**
      * Parses user-supplied arguments into an InputParameter object.
@@ -38,6 +28,9 @@ public class CliArgumentsParser extends Parser<InputParameter, String[]> {
      */
     @Override
     public InputParameter parse(String[] args) throws ParseException {
+        final HashMap<String, String> argumentMap = new HashMap<String, String>();
+        final InputParameter parameter = new InputParameter();
+
         for (int i = 0; i < args.length; i = i + 2) {
 
             if (i + 1 > args.length) {
@@ -48,15 +41,14 @@ public class CliArgumentsParser extends Parser<InputParameter, String[]> {
                 throw new ParseException(PARSE_EXCEPTION_MESSAGE_INVALID_INPUTS);
             }
 
-            String key = args[i].substring(1);
+            final String key = args[i].substring(1);
             argumentMap.put(key, args[i + 1]);
         }
 
-        checkAllMandatoryArgumentsPresent();
+        checkAllMandatoryArgumentsPresent(argumentMap);
+        setUserInputValuesToArgument(argumentMap, parameter);
 
-        setUserInputValuesToArgument();
-
-        return argument;
+        return parameter;
     }
 
     /**
@@ -64,7 +56,7 @@ public class CliArgumentsParser extends Parser<InputParameter, String[]> {
      *
      * @throws ParseException If there are missing mandatory fields.
      */
-    private void checkAllMandatoryArgumentsPresent() throws ParseException {
+    private void checkAllMandatoryArgumentsPresent(final HashMap<String, String> argumentMap) throws ParseException {
         if (!argumentMap.containsKey(CONFIG_FILE_ARG)) {
             throw new ParseException(PARSE_EXCEPTION_MESSAGE_NO_CSV_FILE);
         }
@@ -75,27 +67,29 @@ public class CliArgumentsParser extends Parser<InputParameter, String[]> {
      *
      * @throws ParseException If the supplied dates fail to parse.
      */
-    private void setUserInputValuesToArgument() throws ParseException {
+    private void setUserInputValuesToArgument(final HashMap<String, String> argumentMap, final InputParameter parameter) throws ParseException {
+        final DateParser dateParser = new DateParser();
+
         if (argumentMap.containsKey(CONFIG_FILE_ARG)) {
-            String configFile = argumentMap.get(CONFIG_FILE_ARG);
-            argument.setConfigFile(configFile);
+            final String configFile = argumentMap.get(CONFIG_FILE_ARG);
+            parameter.setConfigFile(configFile);
         }
 
         if (argumentMap.containsKey(TARGET_FILE_ARG)) {
-            String targetFile = argumentMap.get(TARGET_FILE_ARG);
-            argument.setTargetFile(targetFile);
+            final String targetFile = argumentMap.get(TARGET_FILE_ARG);
+            parameter.setTargetFile(targetFile);
         }
 
         if (argumentMap.containsKey(SINCE_DATE_ARG)) {
-            String sinceDateInString = argumentMap.get(SINCE_DATE_ARG);
-            Date sinceDate = dateParser.parse(sinceDateInString);
-            argument.setUntilDate(sinceDate);
+            final String sinceDateInString = argumentMap.get(SINCE_DATE_ARG);
+            final Date sinceDate = dateParser.parse(sinceDateInString);
+            parameter.setUntilDate(sinceDate);
         }
 
         if (argumentMap.containsKey(UNTIL_DATE_ARG)) {
-            String untilDateInString = argumentMap.get(UNTIL_DATE_ARG);
-            Date untilDate = dateParser.parse(untilDateInString);
-            argument.setUntilDate(untilDate);
+            final String untilDateInString = argumentMap.get(UNTIL_DATE_ARG);
+            final Date untilDate = dateParser.parse(untilDateInString);
+            parameter.setUntilDate(untilDate);
         }
     }
 }

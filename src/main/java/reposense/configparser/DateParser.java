@@ -11,13 +11,13 @@ import reposense.util.Constants;
 public class DateParser extends Parser<Date, String> {
     private static final String PARSE_EXCEPTION_MESSAGE_INVALID_DATE = "Invalid Date";
     private static final String PARSE_EXCEPTION_MESSAGE_INVALID_DATE_STRING_FORMAT =
-        PARSE_EXCEPTION_MESSAGE_INVALID_DATE + " %s";
+            PARSE_EXCEPTION_MESSAGE_INVALID_DATE + " %s";
 
     /**
      * Parses the given string to a Date object
      *
-     * @param input the string to be parsed
-     * @return Date object
+     * @param input
+     * @return Date
      * @throws ParseException If the given string fails to parse to a Date object.
      */
     @Override

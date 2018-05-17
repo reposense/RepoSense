@@ -26,18 +26,18 @@ public class RepoSense {
 
         try {
             CliArgumentsParser cliArgumentsParser = new CliArgumentsParser();
-            InputParameter argument = cliArgumentsParser.parse(args);
+            InputParameter parameter = cliArgumentsParser.parse(args);
 
-            File configFile = argument.getConfigFile();
-            File targetFile = argument.getTargetFile();
-            Date fromDate = argument.getSinceDate().orElse(null);
-            Date toDate = argument.getUntilDate().orElse(null);
+            File configFile = parameter.getConfigFile();
+            File targetFile = parameter.getTargetFile();
+            Date fromDate = parameter.getSinceDate().orElse(null);
+            Date toDate = parameter.getUntilDate().orElse(null);
 
             List<RepoConfiguration> configs = CsvConfigurationBuilder.buildConfigs(configFile, fromDate, toDate);
             RepoInfoFileGenerator.generateReposReport(configs, targetFile.getAbsolutePath());
         } catch (ParseException exception) {
-            showHelpMessage();
             System.out.print(exception.getMessage());
+            showHelpMessage();
         }
     }
 
