@@ -1,7 +1,10 @@
 package reposense.analyzer;
 
+import java.util.List;
+
+import reposense.dataobject.CommitInfo;
+import reposense.dataobject.FileInfo;
 import reposense.dataobject.RepoConfiguration;
-import reposense.dataobject.RepoInfo;
 import reposense.git.GitChecker;
 import reposense.git.GitLogger;
 
@@ -9,13 +12,14 @@ import reposense.git.GitLogger;
 public class RepoAnalyzer {
 
 
-    public static void analyzeCommits(RepoConfiguration config, RepoInfo repo) {
+    public static List<CommitInfo> analyzeCommits(RepoConfiguration config) {
         GitChecker.checkoutBranch(config.getRepoRoot(), config.getBranch());
         System.out.println("analyzing commits for " + config.getOrganization() + "/" + config.getRepoName() + "...");
-        repo.setCommits(GitLogger.getCommits(config));
-        System.out.println("analyzing git log output...");
-        System.out.println("aggregating file info...");
-        ContentAnalyzer.aggregateFileInfos(config, repo);
-        System.out.println("done analyzing commits...");
+        return GitLogger.getCommits(config);
+    }
+
+    public static List<FileInfo> analyzeAuthorship(RepoConfiguration config) {
+        System.out.println("analyzing authorship...");
+        return FileAnalyzer.analyzeAllFiles(config);
     }
 }
