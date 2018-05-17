@@ -16,8 +16,6 @@ public class DateParser extends Parser<Date, String> {
     /**
      * Parses the given string to a Date object
      *
-     * @param input
-     * @return Date
      * @throws ParseException If the given string fails to parse to a Date object.
      */
     @Override

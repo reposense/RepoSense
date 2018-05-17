@@ -23,7 +23,6 @@ public class CliArgumentsParser extends Parser<InputParameter, String[]> {
     /**
      * Parses user-supplied arguments into an InputParameter object.
      *
-     * @return InputParameter object, which contains the user supplied arguments.
      * @throws ParseException If the given inputs or the csv file fail to parse or mandatory fields are missing.
      */
     @Override
