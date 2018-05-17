@@ -17,7 +17,8 @@ import reposense.util.FileUtil;
 
 
 public class Entry {
-    static final String FT_TEMP_DIR = "ft_temp";
+    private static final String FT_TEMP_DIR = "ft_temp";
+    private static final String EXPECTED_FOLDER = "expected";
 
     @Test
     public void test() {
@@ -44,10 +45,10 @@ public class Entry {
             if (file.isDirectory()) {
                 verifyAllJson(file, actualRelative);
             } else {
-                if (!file.getName().endsWith(".json")) {
+                if (!file.getName().endsWith(".js")) {
                     continue;
                 }
-                String relativeDirectory = file.getAbsolutePath().split("expected/")[1];
+                String relativeDirectory = file.getAbsolutePath().split(EXPECTED_FOLDER)[1];
                 assertJson(file, relativeDirectory, actualRelative);
             }
         }
@@ -69,20 +70,16 @@ public class Entry {
             Assert.fail();
         }
         Assert.assertEquals(expectedContent, actualContent);
-
     }
 
     private String getRelativeDir() {
-        for (File file : (new File("ft_temp")).listFiles()) {
+        for (File file : (new File(FT_TEMP_DIR)).listFiles()) {
             if (file.getName().contains("DS_Store")) {
                 continue;
             }
-            return file.getName();
+            return FT_TEMP_DIR + File.separator + file.getName();
         }
         Assert.fail();
         return "";
-
     }
-
-
 }

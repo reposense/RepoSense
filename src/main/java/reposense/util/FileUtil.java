@@ -19,12 +19,15 @@ public class FileUtil {
 
     public static void writeJsonFile(Object object, String path, String prefix) {
         Gson gson = new GsonBuilder()
-                .setDateFormat(Constants.GITHUB_API_DATE_FORMAT).create();
+                .setDateFormat(Constants.GITHUB_API_DATE_FORMAT)
+                .setPrettyPrinting()
+                .create();
         String result = gson.toJson(object);
 
         try {
             PrintWriter out = new PrintWriter(path);
-            out.println(attachJsPrefix(result, prefix));
+            out.print(attachJsPrefix(result, prefix));
+            out.print("\n");
             out.close();
         } catch (FileNotFoundException e) {
             e.printStackTrace();
