@@ -35,7 +35,6 @@ public class RepoSense {
 
             List<RepoConfiguration> configs = CsvConfigurationBuilder.buildConfigs(configFile, fromDate, toDate);
             RepoInfoFileGenerator.generateReposReport(configs, targetFile.getAbsolutePath());
-            RepoInfoFileGenerator.generateReposReport(configs, argument.getTargetFile().getAbsolutePath());
         } catch (ParseException exception) {
             showHelpMessage();
             System.out.print(exception.getMessage());
