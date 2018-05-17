@@ -1,0 +1,88 @@
+html
+  head
+    link(rel="stylesheet", href="//fonts.googleapis.com/css?family=Titillium+Web")
+    link(rel="stylesheet", href="//cdnjs.cloudflare.com/ajax/libs/normalize/8.0.0/normalize.min.css")
+    link(rel="stylesheet", href="//cdnjs.cloudflare.com/ajax/libs/muicss/0.9.39/css/mui.min.css")
+    link(rel="stylesheet", href="static/css/style.css")
+
+    script(src="//use.fontawesome.com/releases/v5.0.13/js/all.js", defer=True)
+    script(src="//cdnjs.cloudflare.com/ajax/libs/muicss/0.9.39/js/mui.min.js")
+    script(src="//cdnjs.cloudflare.com/ajax/libs/vue/2.5.16/vue.min.js")
+  body
+    div#app
+      header.mui-appbar.wrapper
+        .content
+          .logo.mui--text-title RepoSense
+          form.repo(onsubmit="return false;")
+            input(placeHolder="insert report URL", v-model="reportDirInput")
+            button.mui-btn.mui-btn--flat(v-on:click="updateReportDir();") Go
+
+      .wrapper(v-if="userUpdated")
+        #summary-wrapper
+          .summary-status(v-if="loadedRepo<repoLength") Loading repos ... {{ loadedRepo }} / {{ repoLength }}
+          v_summary(v-bind:repos="getUsers()")
+        #tabs-wrapper
+
+
+      .wrapper(v-else)
+        .empty please enter a report directory
+
+    script#v_summary
+      #summary
+        form.summary-picker.content.mui-form--inline(v-on:submit.prevent="getFiltered();")
+          .mui-textfield.summary-picker__input
+            input.summary-picker__search(type="text", v-model="filterSearch")
+            label search
+          .mui-select.summary-picker__input
+            select(v-model="filterSort")
+              option(value="totalCommits") Contribution
+              option(value="variance") Variance
+              option(value="displayName") Author Name
+              option(value="searchPath") Team Name
+            label sort by
+          .mui-checkbox.summary-picker__checkboxes.summary-picker__input
+            label
+              input(type="checkbox", v-model="filterSortReverse").summary-picker__checkbox
+              span reverse
+            label
+              input(type="checkbox", v-model="filterGroupRepos").summary-picker__checkbox
+              span group by repo
+            label
+              input(type="checkbox", v-model="filterGroupWeek").summary-picker__checkbox
+              span week
+          .summary-picker__input
+            .mui-textfield.summary-picker__date
+              input(type="date", v-model="filterSinceDate")
+              label since
+            .mui-textfield.summary-picker__date
+              input(type="date", v-model="filterUntilDate")
+              label until
+        #summary-charts
+          .summary-charts(v-for="repo of filtered", v-if="repo.length>0")
+            .summary-charts--title(v-if="filterGroupRepos") {{ repo[0].repoPath }}
+            .summary-chart(v-for="(user, i) in repo", v-bind:class="{indented:filterGroupRepos}")
+              .summary-chart__title
+                .summary-chart__title--index {{ i+1 }}
+                .summary-chart__title--repo(v-if="!filterGroupRepos") {{ user.repoPath }}
+                .summary-chart__title--name {{ user.displayName }}
+              .summary-chart__ramp
+                a.summary-chart__ramp__slice(
+                  v-for="(slice, j) in user.commits",
+                  v-if="slice.insertions>0",
+                  v-bind:title="getSliceTitle(slice)",
+                  v-bind:href="getSliceLink(user, slice)", target="_blank",
+                  v-bind:class="'summary-chart__ramp__slice--color'+j%5",
+                  v-bind:style="{
+                    borderLeftWidth: getWidth(slice)+'em',
+                    right: (sliceCount-j-1)*sliceWidth + '%'
+                  }"
+                )
+              .summary-chart__contrib(v-bind:title="'total contribution: '+user.totalCommits")
+                .summary-chart__contrib--bar(
+                  v-for="width in getContributionBars(user.totalCommits)",
+                  v-bind:style="{ width: width+'%' }"
+                )
+
+    script(src="static/js/api.js")
+    script(src="static/js/v_summary.js")
+    script(src="static/js/main.js")

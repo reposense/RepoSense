@@ -131,3 +131,13 @@ Below is the list of features in this panel:
 - The user can click the title again to display the file content.
 - The lines that are NOT written by the current author will be marked gray, but they will still be displayed to provide context for the user
 - Segments of codes that are not written by the current author is default to be collapsed. If the user wants to refer to it, he can open the segment.
+
+## User Dashboard V2 (beta)
+Works is in progress for the second version of the dashboard. Instructions to get it up and running:
+- start a webserver serving your generated report directory
+- `python2 -m SimpleHTTPServer`
+- go to `http://localhost:8000/v2` on your browser, or whatever port your server is hosted
+- in the data field, enter `http://localhost:8000` and click go (again, your own port num should be used)
+- and viola.
+
+When this version of the dashboard is finalized, the process will be streamlined for ease of use.
