@@ -1,14 +1,35 @@
 package reposense.frontend;
 
 
+import reposense.ConfigParser.CsvParser;
+import reposense.ConfigParser.InputParameter;
+import reposense.ConfigParser.CliArgumentsParser;
+import reposense.dataobject.RepoConfiguration;
+import reposense.exceptions.ParseException;
+import reposense.report.RepoInfoFileGenerator;
+
+import java.util.List;
+
 public class RepoSense {
 
     public static final int FLAG_SUCCESS = 0;
     public static final int FLAG_ERROR = 1;
 
     public static void main(String[] args) {
-        if (args.length == 0 || new Client().run(args) == FLAG_ERROR) {
+        if (args.length == 0) {
             showHelpMessage();
+        }
+
+        try {
+            CliArgumentsParser cliArgumentsParser = new CliArgumentsParser();
+            InputParameter inputParameter = cliArgumentsParser.parse(args);
+
+            CsvParser csvParser = new CsvParser();
+            List<RepoConfiguration> configs = csvParser.parse(inputParameter);
+            RepoInfoFileGenerator.generateReposReport(configs, inputParameter.getTargetFile().getAbsolutePath());
+        } catch (ParseException exception) {
+            showHelpMessage();
+            System.out.print(exception.getMessage());
         }
     }
 
