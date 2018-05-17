@@ -83,7 +83,7 @@ public class CliArgumentsParser extends Parser<InputParameter, String[]> {
         if (argumentMap.containsKey(SINCE_DATE_ARG)) {
             final String sinceDateInString = argumentMap.get(SINCE_DATE_ARG);
             final Date sinceDate = dateParser.parse(sinceDateInString);
-            parameter.setUntilDate(sinceDate);
+            parameter.setSinceDate(sinceDate);
         }
 
         if (argumentMap.containsKey(UNTIL_DATE_ARG)) {
