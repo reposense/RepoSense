@@ -114,9 +114,14 @@ h5.author_name_tag:hover {
 }
 
 div.contributionBar {
-    margin:0px;
-    padding: 0px;
+    margin:0;
+    padding:1rem 0 2.5rem 0;
+}
 
+div.contributionBar hr{
+    height:5px;
+    background-color:red;
+    margin:0;
 }
 
 div.slice {

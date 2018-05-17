@@ -137,8 +137,8 @@
                                 <div class="slice" v-bind:style="getSliceStyle(index,element,intervalType,minDate,maxDate)" v-bind:title="getSliceTitle(element,intervalType)" v-bind:onclick="getSliceGithubLink(element,authorRepo)"></div>
                                 </template>
             </div>
-            <div class="contributionBar" v-bind:title="getContributionBarTitle(authorRepo.finalContribution)" style="padding:1rem 0 2rem 0;">
-                <hr align="left" v-for="width in getContributionBarWidths(authorRepo.finalContribution)" v-bind:width="width" style="height:3px; background-color:#f00; margin:0;" />
+            <div class="contributionBar" v-bind:title="getContributionBarTitle(authorRepo.finalContribution)">
+                <hr align="left" v-for="width in getContributionBarWidths(authorRepo.finalContribution)" v-bind:width="width" />
             </div>
         </div>
         </template>
