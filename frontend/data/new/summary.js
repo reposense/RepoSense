@@ -22,5 +22,5 @@ var cnt=0, summaryJson={};
 loadJSON("repo.json", obj => {
     summaryJson = obj;
     for(var dir in obj){ cnt+=1; }
-    for(var dir in obj){ loadSubFile(dir); } 
+    for(var dir in obj){ loadSubFile(dir); }
 });

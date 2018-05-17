@@ -13,7 +13,7 @@ for(var dir in data){
     var ndir = "new/"+dir;
 
     if(!fs.existsSync(ndir)){ fs.mkdirSync(ndir); }
-    
+
     for(var a in attrs){
         var attr = attrs[a];
         obj[attr] = tar[attr];
