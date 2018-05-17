@@ -10,7 +10,6 @@ public class RepoInfo {
 
     private String organization;
     private String repoName;
-    private List<CommitInfo> commits = new ArrayList<>();
     private String branch;
     private Map<Author, String> authorDisplayNameMap = new HashMap<>();
     private HashMap<Author, Integer> authorIssueMap;
@@ -47,21 +46,12 @@ public class RepoInfo {
         this.repoName = repoName;
     }
 
-    public List<CommitInfo> getCommits() {
-
-        return commits;
-    }
-
     public Map<Author, String> getAuthorDisplayNameMap() {
         return authorDisplayNameMap;
     }
 
     public void setAuthorDisplayNameMap(Map<Author, String> authorDisplayNameMap) {
         this.authorDisplayNameMap = authorDisplayNameMap;
-    }
-
-    public void setCommits(List<CommitInfo> commits) {
-        this.commits = commits;
     }
 
     public String getDirectoryName() {
