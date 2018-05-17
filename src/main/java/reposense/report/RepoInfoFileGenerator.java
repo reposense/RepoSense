@@ -46,8 +46,8 @@ public class RepoInfoFileGenerator {
 
         Map<String, RepoContributionSummary> repoSummaries =
                 ContributionSummaryGenerator.analyzeContribution(repos, repoConfigs);
-        FileUtil.writeJsonFile(repoSummaries, getSummaryResultPath(reportName, targetFileLocation), "summaryJson");
 
+        FileUtil.writeJsonFile(repoSummaries, getSummaryResultPath(reportName, targetFileLocation));
     }
 
     private static RepoInfo analyzeRepo(RepoConfiguration config) {
@@ -71,15 +71,7 @@ public class RepoInfoFileGenerator {
                 + reportName + File.separator
                 + Constants.STATIC_INDIVIDUAL_REPORT_TEMPLATE_ADDRESS;
         FileUtil.copyFiles(new File(templateLocation), new File(repoReportDirectory));
-<<<<<<< HEAD
-        FileUtil.writeJsonFile(fileInfos, getIndividualResultPath(repoReportDirectory), "resultJson");
-||||||| merged common ancestors
-        ArrayList<FileInfo> fileInfos = repoinfo.getFileinfos();
-        FileUtil.writeJsonFile(fileInfos, getIndividualResultPath(repoReportDirectory), "resultJson");
-=======
-        ArrayList<FileInfo> fileInfos = repoinfo.getFileinfos();
         FileUtil.writeJsonFile(fileInfos, getIndividualResultPath(repoReportDirectory));
->>>>>>> wip: doing it on the report side
         System.out.println("report for " + repoReportName + " Generated!");
     }
 

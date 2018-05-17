@@ -18,7 +18,6 @@ import reposense.dataobject.RepoInfo;
 
 
 public class ContributionSummaryGenerator {
-
     public static Map<String, RepoContributionSummary> analyzeContribution(
             List<RepoInfo> repos, List<RepoConfiguration> configs) {
         System.out.println("Generating summary report...");
