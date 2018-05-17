@@ -67,7 +67,8 @@ public class CliArgumentsParser extends Parser<InputParameter, String[]> {
      *
      * @throws ParseException If the supplied dates fail to parse.
      */
-    private void setUserInputValuesToArgument(final HashMap<String, String> argumentMap, final InputParameter parameter) throws ParseException {
+    private void setUserInputValuesToArgument(final HashMap<String, String> argumentMap, final InputParameter parameter)
+            throws ParseException {
         final DateParser dateParser = new DateParser();
 
         if (argumentMap.containsKey(CONFIG_FILE_ARG)) {
