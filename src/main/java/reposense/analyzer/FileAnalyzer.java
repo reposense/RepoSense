@@ -1,13 +1,15 @@
 package reposense.analyzer;
 
 import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import reposense.dataobject.FileInfo;
 import reposense.dataobject.RepoConfiguration;
@@ -19,28 +21,28 @@ public class FileAnalyzer {
 
     public static ArrayList<FileInfo> analyzeAllFiles(RepoConfiguration config) {
         ArrayList<String> relativePaths = new ArrayList<>();
-        getAllPossibleFilePaths(config, new File(config.getRepoRoot()), relativePaths);
+        getAllPossibleFilePaths(config, Paths.get(config.getRepoRoot()), relativePaths);
         Collections.sort(relativePaths);
-        ArrayList<FileInfo> result = processFiles(config, relativePaths);
-        return result;
+        return processFiles(config, relativePaths);
     }
 
     private static void getAllPossibleFilePaths(
-            RepoConfiguration config, File directory, ArrayList<String> relativePaths) {
-        for (File file : directory.listFiles()) {
-
-            String relativePath = file.getPath().substring(config.getRepoRoot().length());
-            if (shouldIgnore(relativePath, config.getIgnoreDirectoryList())) {
-                continue;
-            }
-            if (file.isDirectory()) {
-                getAllPossibleFilePaths(config, file, relativePaths);
-            } else {
-                if (!relativePath.endsWith(".java") && !relativePath.endsWith(".adoc")) {
-                    continue;
+            RepoConfiguration config, Path directory, ArrayList<String> relativePaths) {
+        try (Stream<Path> pathStream = Files.list(directory)) {
+            for (Path filePath : pathStream.collect(Collectors.toList())) {
+                String relativePath = filePath.toString().substring(config.getRepoRoot().length());
+                if (shouldIgnore(relativePath, config.getIgnoreDirectoryList())) {
+                    return;
                 }
-                relativePaths.add(relativePath.replace('\\', '/'));
+                if (Files.isDirectory(filePath)) {
+                    getAllPossibleFilePaths(config, filePath, relativePaths);
+                }
+                if (relativePath.endsWith(".java") || relativePath.endsWith(".adoc")) {
+                    relativePaths.add(relativePath.replace('\\', '/'));
+                }
             }
+        } catch (IOException ioe) {
+            System.out.println("Error occured while getting all possible files to analyze.");
         }
     }
 
@@ -78,16 +80,14 @@ public class FileAnalyzer {
     }
 
     private static boolean isReused(String repoRoot, String relativePath) {
-        File file = new File(repoRoot + '/' + relativePath);
-        try (BufferedReader br = new BufferedReader(new FileReader(file))) {
+        Path path = Paths.get(repoRoot, relativePath);
+        try (BufferedReader br = new BufferedReader(Files.newBufferedReader(path))) {
             String firstLine = br.readLine();
             if (firstLine == null || firstLine.contains(Constants.REUSED_TAG)) {
                 return true;
             }
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
+        } catch (IOException ioe) {
+            ioe.printStackTrace();
         }
         return false;
     }

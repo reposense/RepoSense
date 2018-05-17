@@ -1,7 +1,11 @@
 package reposense.report;
 
 import java.io.File;
+import java.io.IOException;
 import java.io.InputStream;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -43,7 +47,12 @@ public class RepoInfoFileGenerator {
             RepoContributionSummary summary = ContributionSummaryGenerator.analyzeContribution(
                     config, commitInfos, authorContributionMap, suspiciousAuthors);
             generateIndividualRepoReport(config, fileInfos, summary, reportName, targetFileLocation);
-            FileUtil.deleteDirectory(Constants.REPOS_ADDRESS);
+
+            try {
+                FileUtil.deleteDirectory(Constants.REPOS_ADDRESS);
+            } catch (IOException ioe) {
+                System.out.println("Error deleting report directory.");
+            }
         }
 
         if (!suspiciousAuthors.isEmpty()) {
@@ -58,17 +67,19 @@ public class RepoInfoFileGenerator {
 
     private static void generateIndividualRepoReport(RepoConfiguration repoConfig, List<FileInfo> fileInfos,
             RepoContributionSummary summary, String reportName, String targetFileLocation) {
-
         String repoReportName = repoConfig.getDisplayName();
-        String repoReportDirectory = targetFileLocation + "/" + reportName + "/" + repoReportName;
-        new File(repoReportDirectory).mkdirs();
-        String templateLocation = targetFileLocation + File.separator
-                + reportName + File.separator
-                + Constants.STATIC_INDIVIDUAL_REPORT_TEMPLATE_ADDRESS;
-        FileUtil.copyFiles(new File(templateLocation), new File(repoReportDirectory));
-        FileUtil.writeJsonFile(fileInfos, getIndividualAuthorshipPath(repoReportDirectory));
-        FileUtil.writeJsonFile(summary, getIndividualCommitsPath(repoReportDirectory));
-        System.out.println("Report for " + repoReportName + " Generated!");
+        Path repoReportDirectory = Paths.get(targetFileLocation, reportName, repoReportName);
+        Path templateLocation = Paths.get(targetFileLocation, reportName,
+                Constants.STATIC_INDIVIDUAL_REPORT_TEMPLATE_ADDRESS);
+
+        try {
+            Files.copy(templateLocation, repoReportDirectory);
+            FileUtil.writeJsonFile(fileInfos, getIndividualAuthorshipPath(repoReportDirectory.toString()));
+            FileUtil.writeJsonFile(summary, getIndividualCommitsPath(repoReportDirectory.toString()));
+            System.out.println("report for " + repoReportName + " Generated!");
+        } catch (IOException ioe) {
+            System.out.println("Error in copying template file for report.");
+        }
     }
 
     private static void copyTemplate(String reportName, String targetFileLocation) {

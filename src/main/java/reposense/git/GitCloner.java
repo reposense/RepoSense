@@ -1,15 +1,16 @@
 package reposense.git;
 
+import java.io.IOException;
+
 import reposense.system.CommandRunner;
 import reposense.util.FileUtil;
 
 
 public class GitCloner {
     public static void downloadRepo(String organization, String repoName, String branchName) throws GitClonerException {
-        FileUtil.deleteDirectory(FileUtil.getRepoDirectory(organization, repoName));
-
-
         try {
+            FileUtil.deleteDirectory(FileUtil.getRepoDirectory(organization, repoName));
+
             System.out.println("cloning " + organization + "/" + repoName + "...");
             CommandRunner.cloneRepo(organization, repoName);
             System.out.println("cloning done!");
@@ -19,6 +20,8 @@ public class GitCloner {
             throw new GitClonerException(e);
             //Due to an unsolved bug on Windows Git, for some repository, Git Clone will return an error even
             // though the repo is cloned properly.
+        } catch (IOException ioe) {
+            throw new GitClonerException(ioe);
         }
 
         try {
