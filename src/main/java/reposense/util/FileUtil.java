@@ -17,7 +17,7 @@ import com.google.gson.GsonBuilder;
 
 public class FileUtil {
 
-    public static void writeJsonFile(Object object, String path, String prefix) {
+    public static void writeJsonFile(Object object, String path) {
         Gson gson = new GsonBuilder()
                 .setDateFormat(Constants.GITHUB_API_DATE_FORMAT)
                 .setPrettyPrinting()
@@ -26,7 +26,7 @@ public class FileUtil {
 
         try {
             PrintWriter out = new PrintWriter(path);
-            out.print(attachJsPrefix(result, prefix));
+            out.print(result);
             out.print("\n");
             out.close();
         } catch (FileNotFoundException e) {
@@ -179,9 +179,4 @@ public class FileUtil {
             e.printStackTrace();
         }
     }
-
-    private static String attachJsPrefix(String original, String prefix) {
-        return "var " + prefix + " = " + original;
-    }
-
 }
