@@ -34,7 +34,6 @@ public class CliArguments {
      *
      * @throws IllegalArgumentException If the given args inputs are malformed
      * or fail to parse or mandatory fields are missing.
-     * @throws ParseException If the given date string fails to parse.
      */
     public CliArguments(String[] args) throws IllegalArgumentException {
         sinceDate = Optional.empty();
@@ -44,11 +43,7 @@ public class CliArguments {
         final HashMap<String, String> argumentMap = generateArgumentMap(args);
         checkAllMandatoryArgumentsPresent(argumentMap);
 
-        try {
-            setUserInputValuesToArgument(argumentMap);
-        } catch (ParseException pe) {
-            throw new IllegalArgumentException(pe.getMessage());
-        }
+        setUserInputValuesToArgument(argumentMap);
     }
 
     /**
@@ -93,10 +88,10 @@ public class CliArguments {
     /**
      * Set user-supplied inputs to instance variables
      *
-     * @throws ParseException If the supplied dates fail to parse.
+     * @throws IllegalArgumentException If the supplied dates fail to parse.
      */
     private void setUserInputValuesToArgument(final HashMap<String, String> argumentMap)
-            throws ParseException {
+            throws IllegalArgumentException {
         final DateParser dateParser = new DateParser();
 
         if (argumentMap.containsKey(CONFIG_FILE_ARG)) {
@@ -109,14 +104,18 @@ public class CliArguments {
             targetFile = new File(targetFilePath);
         }
 
-        if (argumentMap.containsKey(SINCE_DATE_ARG)) {
-            final String sinceDateInString = argumentMap.get(SINCE_DATE_ARG);
-            sinceDate = dateParser.parse(sinceDateInString);
-        }
+        try {
+            if (argumentMap.containsKey(SINCE_DATE_ARG)) {
+                final String sinceDateInString = argumentMap.get(SINCE_DATE_ARG);
+                sinceDate = dateParser.parse(sinceDateInString);
+            }
 
-        if (argumentMap.containsKey(UNTIL_DATE_ARG)) {
-            final String untilDateInString = argumentMap.get(UNTIL_DATE_ARG);
-            untilDate = dateParser.parse(untilDateInString);
+            if (argumentMap.containsKey(UNTIL_DATE_ARG)) {
+                final String untilDateInString = argumentMap.get(UNTIL_DATE_ARG);
+                untilDate = dateParser.parse(untilDateInString);
+            }
+        } catch (ParseException pe) {
+            throw new IllegalArgumentException(pe.getMessage());
         }
     }
 
