@@ -32,43 +32,52 @@ public class CliArguments {
     /**
      * Parses user-supplied arguments.
      *
-     * @throws ParseException If the given inputs or the csv file fail to parse or mandatory fields are missing.
+     * @throws IllegalArgumentException If the given args inputs are malformed or fail to parse or mandatory fields are missing.
+     * @throws ParseException If the given date string fails to parse.
      */
-    public CliArguments(String[] args) throws ParseException {
+    public CliArguments(String[] args) throws IllegalArgumentException, ParseException {
         sinceDate = Optional.empty();
         untilDate = Optional.empty();
         targetFile = new File(DEFAULT_FILE_ARG);
 
         final HashMap<String, String> argumentMap = new HashMap<String, String>();
 
+        addArgsToArgumentMap(args, argumentMap);
+        checkAllMandatoryArgumentsPresent(argumentMap);
+        setUserInputValuesToArgument(argumentMap);
+    }
+
+    /**
+     * Checks if args begins with a dash character and follows by an input.
+     *
+     * @throws IllegalArgumentException If the given args are malformed,
+     * which means it does not have a dash character or does not follow by an input.
+     */
+    private void addArgsToArgumentMap(String[] args, HashMap<String, String> argumentMap) {
         for (int i = 0; i < args.length; i = i + 2) {
 
             if (i + 1 > args.length) {
-                throw new ParseException(PARSE_EXCEPTION_MESSAGE_INVALID_INPUTS);
+                throw new IllegalArgumentException(PARSE_EXCEPTION_MESSAGE_INVALID_INPUTS);
             }
 
             if (!args[i].startsWith(ARGUMENT_PREFIX_DASH)) {
-                throw new ParseException(PARSE_EXCEPTION_MESSAGE_INVALID_INPUTS);
+                throw new IllegalArgumentException(PARSE_EXCEPTION_MESSAGE_INVALID_INPUTS);
             }
 
             final String key = args[i].substring(1);
             argumentMap.put(key, args[i + 1]);
         }
-
-        checkAllMandatoryArgumentsPresent(argumentMap);
-        setUserInputValuesToArgument(argumentMap);
     }
-
 
 
     /**
      * Checks if all mandatory fields are present.
      *
-     * @throws ParseException If there are missing mandatory fields.
+     * @throws IllegalArgumentException If there are missing mandatory fields.
      */
-    private void checkAllMandatoryArgumentsPresent(final HashMap<String, String> argumentMap) throws ParseException {
+    private void checkAllMandatoryArgumentsPresent(final HashMap<String, String> argumentMap) throws IllegalArgumentException {
         if (!argumentMap.containsKey(CONFIG_FILE_ARG)) {
-            throw new ParseException(PARSE_EXCEPTION_MESSAGE_NO_CSV_FILE);
+            throw new IllegalArgumentException(PARSE_EXCEPTION_MESSAGE_NO_CSV_FILE);
         }
     }
 
