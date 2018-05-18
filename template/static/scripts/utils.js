@@ -160,9 +160,7 @@ function isMatch(searchTerm, currentPhrase) {
     return currentPhrase.toLowerCase().indexOf(searchTerm.toLowerCase()) != -1;
 }
 
-function getMinDate() {
-    return "01/01/01";
-
+function getMinDate() {    
     rawDate = summaryJson[Object.keys(summaryJson)[0]]["fromDate"];
     if (rawDate) {
         //the fromDate has been set
@@ -189,8 +187,6 @@ function getMinDate() {
 }
 
 function getMaxDate() {
-    return "01/01/99";
-
     rawDate = summaryJson[Object.keys(summaryJson)[0]]["toDate"];
     if (rawDate) {
         //the fromDate has been set
