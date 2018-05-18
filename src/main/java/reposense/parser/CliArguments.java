@@ -32,7 +32,8 @@ public class CliArguments {
     /**
      * Parses user-supplied arguments.
      *
-     * @throws IllegalArgumentException If the given args inputs are malformed or fail to parse or mandatory fields are missing.
+     * @throws IllegalArgumentException If the given args inputs are malformed
+     * or fail to parse or mandatory fields are missing.
      * @throws ParseException If the given date string fails to parse.
      */
     public CliArguments(String[] args) throws IllegalArgumentException {
@@ -82,7 +83,8 @@ public class CliArguments {
      *
      * @throws IllegalArgumentException If there are missing mandatory fields.
      */
-    private void checkAllMandatoryArgumentsPresent(final HashMap<String, String> argumentMap) throws IllegalArgumentException {
+    private void checkAllMandatoryArgumentsPresent(final HashMap<String, String> argumentMap)
+            throws IllegalArgumentException {
         if (!argumentMap.containsKey(CONFIG_FILE_ARG)) {
             throw new IllegalArgumentException(PARSE_EXCEPTION_MESSAGE_NO_CSV_FILE);
         }

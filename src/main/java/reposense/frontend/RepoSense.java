@@ -5,7 +5,6 @@ import java.util.Date;
 import java.util.List;
 
 import reposense.dataobject.RepoConfiguration;
-import reposense.exception.ParseException;
 import reposense.parser.CliArguments;
 import reposense.report.RepoInfoFileGenerator;
 import reposense.system.CsvConfigurationBuilder;
