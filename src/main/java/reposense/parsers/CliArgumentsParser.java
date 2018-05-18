@@ -9,7 +9,7 @@ import reposense.exception.ParseException;
 /**
  * Verifies and parses user-supplied CLI arguments into an InputParameter Object.
  */
-public class CliArgumentsParser extends Parser<InputParameter, String[]> {
+public class CliArgumentsParser implements Parser<InputParameter, String[]> {
 
     private static final String ARGUMENT_PREFIX_DASH = "-";
 
