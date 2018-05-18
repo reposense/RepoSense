@@ -25,10 +25,6 @@ div.toolbar {
     height:5%
 }
 
-div.code-container {
-
-}
-
 div.authored {
     background-color: Silver;
 }
@@ -66,6 +62,7 @@ code {
 
 div.progress-chart-box {
     float:left;
+    padding-top:5rem;
 }
 
 div.progress-chart-tool {
@@ -115,13 +112,15 @@ h5.author_name_tag:hover {
 
 div.contributionBar {
     margin:0;
-    padding-bottom:3rem;
+    width:95%;
+    padding-bottom:1.5rem;
 }
 
 div.contributionBar hr{
-    height:5px;
+    height:3px;
     background-color:red;
     margin:0;
+    margin-top:0.1rem;
 }
 
 div.slice {
@@ -148,3 +147,4 @@ code::-webkit-scrollbar {
 label {
     margin-right: 10px;
 }
+
