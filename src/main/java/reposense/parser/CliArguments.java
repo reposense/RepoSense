@@ -8,7 +8,7 @@ import java.util.Optional;
 import reposense.exception.ParseException;
 
 /**
- * Verifies and parses user-supplied CLI arguments.
+ * Represents command line arguments user supplied when running the program.
  */
 public class CliArguments {
 
@@ -48,7 +48,7 @@ public class CliArguments {
     }
 
     /**
-     * Verifies if args begins with a dash character and follows by an input and generates an ArgumentMap
+     * Verifies if {@code args} begins with a dash character and follows by an input and generates an ArgumentMap
      *
      * @throws IllegalArgumentException If the given args are malformed,
      * which means it does not have a dash character or does not follow by an input.
