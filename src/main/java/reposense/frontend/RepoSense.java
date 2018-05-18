@@ -6,15 +6,11 @@ import java.util.List;
 
 import reposense.dataobject.RepoConfiguration;
 import reposense.exception.ParseException;
-import reposense.parser.CliArgumentsParser;
-import reposense.parser.InputParameter;
+import reposense.parser.CliArguments;
 import reposense.report.RepoInfoFileGenerator;
 import reposense.system.CsvConfigurationBuilder;
 
 public class RepoSense {
-
-    public static final int FLAG_SUCCESS = 0;
-    public static final int FLAG_ERROR = 1;
 
     public static void main(String[] args) {
         if (args.length == 0) {
@@ -22,13 +18,12 @@ public class RepoSense {
         }
 
         try {
-            CliArgumentsParser cliArgumentsParser = new CliArgumentsParser();
-            InputParameter parameter = cliArgumentsParser.parse(args);
+            CliArguments cliArguments = new CliArguments(args);
 
-            File configFile = parameter.getConfigFile();
-            File targetFile = parameter.getTargetFile();
-            Date fromDate = parameter.getSinceDate().orElse(null);
-            Date toDate = parameter.getUntilDate().orElse(null);
+            File configFile = cliArguments.getConfigFile();
+            File targetFile = cliArguments.getTargetFile();
+            Date fromDate = cliArguments.getSinceDate().orElse(null);
+            Date toDate = cliArguments.getUntilDate().orElse(null);
 
             List<RepoConfiguration> configs = CsvConfigurationBuilder.buildConfigs(configFile, fromDate, toDate);
             RepoInfoFileGenerator.generateReposReport(configs, targetFile.getAbsolutePath());

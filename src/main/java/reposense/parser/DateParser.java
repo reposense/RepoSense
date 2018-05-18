@@ -9,7 +9,7 @@ import reposense.util.Constants;
 /**
  * Verifies and parses a string-formatted date to a Date object.
  */
-public class DateParser implements Parser<Optional<Date>, String> {
+public class DateParser {
     private static final String PARSE_EXCEPTION_MESSAGE_INVALID_DATE_STRING_FORMAT = "Invalid Date: %s";
 
     /**
@@ -17,7 +17,6 @@ public class DateParser implements Parser<Optional<Date>, String> {
      *
      * @throws ParseException If the given string fails to parse to a Date object.
      */
-    @Override
     public Optional<Date> parse(String input) throws ParseException {
         Optional<Date> date;
 
