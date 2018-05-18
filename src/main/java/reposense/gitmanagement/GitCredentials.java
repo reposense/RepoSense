@@ -15,7 +15,7 @@ public class GitCredentials {
 
     private static GitHub github;
 
-    private GitCredentials() throws IOException {
+    public GitCredentials() throws IOException {
         github = null;
         authenticateGithub();
     }
@@ -32,7 +32,7 @@ public class GitCredentials {
     /**
      * Returns the Github object
      */
-    public static GitHub getGithub() {
+    public GitHub getGithub() {
         return github;
     }
 }
