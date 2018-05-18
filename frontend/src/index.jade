@@ -27,7 +27,11 @@ html
               .summary-chart__title--repo {{ repos[user.repoId].repoName }}
               .summary-chart__title--user {{ user.displayName }}
             .summary-chart__ramp
-              . 
+              .summary-chart__ramp--slice(
+                v-for="(slice, i) in user.weeklyCommits",
+                v-bind:class="'summary-chart__ramp--slice'+i%5",
+                v-bind:style="{ border-left:calcWidth(slice) }"
+              )
             .summary-chart__contrib 
     
     script#v_commits
