@@ -50,7 +50,6 @@ public class RepoInfoFileGenerator {
             RepoContributionSummary summary = ContributionSummaryGenerator.analyzeContribution(
                     config, commitInfos, authorContributionMap, suspiciousAuthors);
             generateIndividualRepoReport(repoInfo, fileInfos, summary, reportName, targetFileLocation);
-            FileUtil.writeJsonFile(summary, config.getDirectoryName());
             FileUtil.deleteDirectory(Constants.REPOS_ADDRESS);
         }
 
