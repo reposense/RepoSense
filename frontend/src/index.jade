@@ -17,14 +17,18 @@ html
             input(placeHolder="insert report URL", v-model="reportDirInput")
             button.mui-btn.mui-btn--flat(v-on:click="updateReportDir();") Go 
 
-        #summary(
-          #summary__picker
-          #summary__charts
-    
-    script#v_summary-chart
-        .summary-chart__title
-        .summary-chart__ramp
-        .summary-chart__contrib 
+      #summary
+        #summary__picker
+        #summary__charts.wrapper
+          .summary-chart(v-for="(user, i) in users") 
+            .summary-chart__title 
+              .summary-chart__title--index {{ i+1 }} 
+              .summary-chart__title--organization {{ repos[user.repoId].organization }}
+              .summary-chart__title--repo {{ repos[user.repoId].repoName }}
+              .summary-chart__title--user {{ user.displayName }}
+            .summary-chart__ramp
+              . 
+            .summary-chart__contrib 
     
     script#v_commits
     

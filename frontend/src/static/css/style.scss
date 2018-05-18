@@ -24,3 +24,24 @@ header{
         margin:0;
     }
 }
+
+/* summary chart */
+#summary{
+    padding-top:2rem;
+    text-align:center;
+}
+
+.summary-chart{ 
+    &__title{
+        display:flex;
+
+        &--index::after{ 
+            content:"."; 
+            display:inline-block;
+            padding-right:0.5rem;
+        }
+
+        &--organization::after{ content:"/"; }
+        &--repo::after{ content:"/"; }
+    } 
+}

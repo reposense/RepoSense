@@ -30,6 +30,21 @@ var api = {
     loadCommits: function(repo){
         loadJSON(REPORT_DIR+"/"+repo+"/commits.json", commits => {
             REPOS[repo].commits = commits;
+
+            var res = [];
+            for(var author in commits.authorDisplayNameMap){
+                var obj = {
+                    name: author,
+                    repoId: repo,
+                    displayName: commits.authorDisplayNameMap[author],
+                    weeklyCommits: commits.authorWeeklyIntervalContributions[author],
+                    dailyCommits: commits.authorDailyIntervalContributions[author],
+                    totalCommits: commits.authorFinalContributionMap[author]
+                };
+                res.push(obj);
+            }
+
+            app.addUsers(res);
         });
     }
 };
