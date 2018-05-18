@@ -10,3 +10,24 @@ function loadJSON(file, fn){
     };
     xhr.send(null);
 }
+
+var api = {
+    loadSummary: function(){ 
+        loadJSON(REPORT_DIR+"/summary.json", repos => {
+            REPOS = {};
+            
+            for(var i in repos){
+                var repo = repos[i];
+                var name = repo.organization+"_"+repo.repoName;
+                REPOS[name] = repo;
+                api.loadCommits(name);
+            }
+        });
+    },
+
+    loadCommits: function(repo){
+        loadJSON(REPORT_DIR+"/"+repo+"/commits.json", commits => {
+            REPOS[repo].commits = commits;
+        });
+    }
+};

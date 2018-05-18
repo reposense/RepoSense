@@ -13,9 +13,9 @@ html
       header.mui-appbar
         .wrapper
           .logo.mui--text-title RepoSense
-          .repo
+          form.repo(onsubmit="return false;")
             input(placeHolder="insert report URL", v-model="reportDirInput")
-            button.mui-btn(v-on:click="updateReportDir();") Go
+            button.mui-btn.mui-btn--flat(v-on:click="updateReportDir();") Go
 
       #summary
         #summary__picker
