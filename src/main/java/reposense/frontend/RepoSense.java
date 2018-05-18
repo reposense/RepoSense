@@ -4,15 +4,12 @@ import java.io.File;
 import java.util.Date;
 import java.util.List;
 
-import reposense.parsers.CliArgumentsParser;
-
-import reposense.parsers.InputParameter;
-
 import reposense.dataobject.RepoConfiguration;
 import reposense.exceptions.ParseException;
+import reposense.parsers.CliArgumentsParser;
+import reposense.parsers.InputParameter;
 import reposense.report.RepoInfoFileGenerator;
 import reposense.system.CsvConfigurationBuilder;
-
 
 public class RepoSense {
 
