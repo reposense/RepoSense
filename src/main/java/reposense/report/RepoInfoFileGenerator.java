@@ -2,14 +2,16 @@ package reposense.report;
 
 import java.io.File;
 import java.io.InputStream;
-import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
-import java.util.Map;
 import java.util.zip.ZipInputStream;
 
 import reposense.analyzer.ContentAnalyzer;
 import reposense.analyzer.RepoAnalyzer;
+import reposense.dataobject.Author;
+import reposense.dataobject.CommitInfo;
 import reposense.dataobject.FileInfo;
 import reposense.dataobject.RepoConfiguration;
 import reposense.dataobject.RepoContributionSummary;
@@ -25,7 +27,7 @@ public class RepoInfoFileGenerator {
 
     public static void generateReposReport(List<RepoConfiguration> repoConfigs, String targetFileLocation) {
         String reportName = generateReportName();
-        List<RepoInfo> repos = new ArrayList<>();
+        HashSet<Author> suspiciousAuthors = new HashSet<>();
 
         copyTemplate(reportName, targetFileLocation);
         for (RepoConfiguration config: repoConfigs) {
@@ -35,34 +37,35 @@ public class RepoInfoFileGenerator {
                 System.out.println("Exception met when cloning the repo, will skip this one");
                 continue;
             }
-            RepoInfo repoInfo = analyzeRepo(config);
+            RepoInfo repoInfo = new RepoInfo(
+                    config.getOrganization(),
+                    config.getRepoName(),
+                    config.getBranch(),
+                    config.getAuthorDisplayNameMap()
+            );
             List<FileInfo> fileInfos = RepoAnalyzer.analyzeAuthorship(config);
-            repoInfo.setAuthorContributionMap(
-                    ContentAnalyzer.getAuthorMethodContributionCount(fileInfos, config.getAuthorList()));
-            repos.add(repoInfo);
-            generateIndividualRepoReport(repoInfo, fileInfos, reportName, targetFileLocation);
+            List<CommitInfo> commitInfos = RepoAnalyzer.analyzeCommits(config);
+            HashMap<Author, Integer> authorContributionMap =
+                    ContentAnalyzer.getAuthorMethodContributionCount(fileInfos, config.getAuthorList());
+            RepoContributionSummary summary = ContributionSummaryGenerator.analyzeContribution(
+                    config, commitInfos, authorContributionMap, suspiciousAuthors);
+            generateIndividualRepoReport(repoInfo, fileInfos, summary, reportName, targetFileLocation);
+            FileUtil.writeJsonFile(summary, config.getDirectoryName());
             FileUtil.deleteDirectory(Constants.REPOS_ADDRESS);
         }
 
-        Map<String, RepoContributionSummary> repoSummaries =
-                ContributionSummaryGenerator.analyzeContribution(repos, repoConfigs);
-        FileUtil.writeJsonFile(repoSummaries, getSummaryResultPath(reportName, targetFileLocation), "summaryJson");
+        if (!suspiciousAuthors.isEmpty()) {
+            System.out.println("PLEASE NOTE, BELOW IS THE LIST OF SUSPICIOUS AUTHORS:");
+            for (Author author : suspiciousAuthors) {
+                System.out.println(author);
+            }
+        }
+        FileUtil.writeJsonFile(repoConfigs, getSummaryResultPath(reportName, targetFileLocation));
 
-    }
-
-    private static RepoInfo analyzeRepo(RepoConfiguration config) {
-        RepoInfo repoinfo = new RepoInfo(
-                config.getOrganization(),
-                config.getRepoName(),
-                config.getBranch(),
-                config.getAuthorDisplayNameMap()
-        );
-        repoinfo.setCommits(RepoAnalyzer.analyzeCommits(config));
-        return repoinfo;
     }
 
     private static void generateIndividualRepoReport(RepoInfo repoinfo, List<FileInfo> fileInfos,
-            String reportName, String targetFileLocation) {
+            RepoContributionSummary summary, String reportName, String targetFileLocation) {
 
         String repoReportName = repoinfo.getDirectoryName();
         String repoReportDirectory = targetFileLocation + "/" + reportName + "/" + repoReportName;
@@ -71,8 +74,9 @@ public class RepoInfoFileGenerator {
                 + reportName + File.separator
                 + Constants.STATIC_INDIVIDUAL_REPORT_TEMPLATE_ADDRESS;
         FileUtil.copyFiles(new File(templateLocation), new File(repoReportDirectory));
-        FileUtil.writeJsonFile(fileInfos, getIndividualResultPath(repoReportDirectory), "resultJson");
-        System.out.println("report for " + repoReportName + " Generated!");
+        FileUtil.writeJsonFile(fileInfos, getIndividualAuthorshipPath(repoReportDirectory));
+        FileUtil.writeJsonFile(summary, getIndividualCommitsPath(repoReportDirectory));
+        System.out.println("Report for " + repoReportName + " Generated!");
     }
 
     private static void copyTemplate(String reportName, String targetFileLocation) {
@@ -81,12 +85,16 @@ public class RepoInfoFileGenerator {
         FileUtil.unzip(new ZipInputStream(is), location);
     }
 
-    private static String getIndividualResultPath(String repoReportDirectory) {
-        return repoReportDirectory + "/result.js";
+    private static String getIndividualAuthorshipPath(String repoReportDirectory) {
+        return repoReportDirectory + "/authorship.json";
+    }
+
+    private static String getIndividualCommitsPath(String repoReportDirectory) {
+        return repoReportDirectory + "/commits.json";
     }
 
     private static String getSummaryResultPath(String reportName, String targetFileLocation) {
-        return targetFileLocation + "/" + reportName + "/summary.js";
+        return targetFileLocation + "/" + reportName + "/summary.json";
     }
 
     private static String generateReportName() {
