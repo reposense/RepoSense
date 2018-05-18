@@ -1,4 +1,4 @@
-package reposense.parser;
+package reposense.frontend;
 
 import java.io.File;
 import java.util.Date;
@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.Optional;
 
 import reposense.exception.ParseException;
+import reposense.parser.DateParser;
 
 /**
  * Represents command line arguments user supplied when running the program.
@@ -19,7 +20,7 @@ public class CliArguments {
     private static final String SINCE_DATE_ARG = "since";
     private static final String UNTIL_DATE_ARG = "until";
 
-    private static final String PARSE_EXCEPTION_MESSAGE_INVALID_INPUTS = "Failed to parse inputs arguments";
+    private static final String MESSAGE_INVALID_INPUTS = "Failed to parse inputs arguments";
     private static final String PARSE_EXCEPTION_MESSAGE_NO_CSV_FILE = "Failed due to missing CSV file";
 
     private static final String DEFAULT_FILE_ARG = ".";
@@ -59,11 +60,11 @@ public class CliArguments {
         for (int i = 0; i < args.length; i = i + 2) {
 
             if (i + 1 > args.length) {
-                throw new IllegalArgumentException(PARSE_EXCEPTION_MESSAGE_INVALID_INPUTS);
+                throw new IllegalArgumentException(MESSAGE_INVALID_INPUTS);
             }
 
             if (!args[i].startsWith(ARGUMENT_PREFIX_DASH)) {
-                throw new IllegalArgumentException(PARSE_EXCEPTION_MESSAGE_INVALID_INPUTS);
+                throw new IllegalArgumentException(MESSAGE_INVALID_INPUTS);
             }
 
             final String key = args[i].substring(1);
