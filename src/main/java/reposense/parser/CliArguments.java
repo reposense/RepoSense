@@ -32,8 +32,10 @@ public class CliArguments {
     /**
      * Parses user-supplied arguments.
      *
-     * @throws IllegalArgumentException If the given args inputs are malformed
-     * or fail to parse or mandatory fields are missing.
+     * @throws IllegalArgumentException if the given args inputs are either
+     *  - malformed
+     *  - fail to parse
+     *  - missing mandatory fields
      */
     public CliArguments(String[] args) throws IllegalArgumentException {
         sinceDate = Optional.empty();
@@ -42,7 +44,6 @@ public class CliArguments {
 
         final HashMap<String, String> argumentMap = generateArgumentMap(args);
         checkAllMandatoryArgumentsPresent(argumentMap);
-
         setUserInputValuesToArgument(argumentMap);
     }
 
