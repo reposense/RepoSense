@@ -21,7 +21,7 @@ public class CliArguments {
     private static final String UNTIL_DATE_ARG = "until";
 
     private static final String MESSAGE_INVALID_INPUTS = "Failed to parse inputs arguments";
-    private static final String PARSE_EXCEPTION_MESSAGE_NO_CSV_FILE = "Failed due to missing CSV file";
+    private static final String MESSAGE_NO_CSV_FILE = "Failed due to missing CSV file";
 
     private static final String DEFAULT_FILE_ARG = ".";
 
@@ -83,7 +83,7 @@ public class CliArguments {
     private void checkAllMandatoryArgumentsPresent(final HashMap<String, String> argumentMap)
             throws IllegalArgumentException {
         if (!argumentMap.containsKey(CONFIG_FILE_ARG)) {
-            throw new IllegalArgumentException(PARSE_EXCEPTION_MESSAGE_NO_CSV_FILE);
+            throw new IllegalArgumentException(MESSAGE_NO_CSV_FILE);
         }
     }
 
