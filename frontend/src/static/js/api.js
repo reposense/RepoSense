@@ -12,7 +12,7 @@ function loadJSON(file, fn){
 }
 
 var api = {
-    loadSummary: function(){ 
+    loadSummary: function(callback){ 
         loadJSON(REPORT_DIR+"/summary.json", repos => {
             REPOS = {};
             
@@ -22,6 +22,8 @@ var api = {
                 REPOS[name] = repo;
                 api.loadCommits(name);
             }
+
+            if(callback){ callback(); }
         });
     },
 
