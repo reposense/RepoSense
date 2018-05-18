@@ -15,11 +15,11 @@ html
           .logo.mui--text-title RepoSense
           form.repo(onsubmit="return false;")
             input(placeHolder="insert report URL", v-model="reportDirInput")
-            button.mui-btn.mui-btn--flat(v-on:click="updateReportDir();") Go
+            button.mui-btn.mui-btn--flat(v-on:click="updateReportDir();") Go 
 
-      #summary
-        #summary__picker
-        #summary__charts
+        #summary(
+          #summary__picker
+          #summary__charts
     
     script#v_summary-chart
         .summary-chart__title

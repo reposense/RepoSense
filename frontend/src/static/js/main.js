@@ -11,6 +11,8 @@ var app = new Vue({
         updateReportDir: function(evt){
             REPORT_DIR = this.reportDirInput;
             api.loadSummary(() => this.repos=REPOS);
-        },
+        }
     }
 });
+
+Vue.component(
