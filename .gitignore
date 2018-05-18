@@ -8,8 +8,4 @@ build/
 
 *.zip
 
-template/repo_report/result.js
-
-template/summary.js
-
 repos/
