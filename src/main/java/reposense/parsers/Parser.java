@@ -1,6 +1,6 @@
 package reposense.parsers;
 
-import reposense.exceptions.ParseException;
+import reposense.exception.ParseException;
 
 /**
  * An abstract generic parser class, which can be implemented by concrete parsers.

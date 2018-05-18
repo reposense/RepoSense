@@ -5,7 +5,7 @@ import java.util.Date;
 import java.util.List;
 
 import reposense.dataobject.RepoConfiguration;
-import reposense.exceptions.ParseException;
+import reposense.exception.ParseException;
 import reposense.parsers.CliArgumentsParser;
 import reposense.parsers.InputParameter;
 import reposense.report.RepoInfoFileGenerator;

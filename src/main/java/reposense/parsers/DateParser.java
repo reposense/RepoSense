@@ -3,7 +3,7 @@ package reposense.parsers;
 import java.util.Date;
 import java.util.Optional;
 
-import reposense.exceptions.ParseException;
+import reposense.exception.ParseException;
 import reposense.util.Constants;
 
 /**

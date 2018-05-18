@@ -4,7 +4,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Optional;
 
-import reposense.exceptions.ParseException;
+import reposense.exception.ParseException;
 
 /**
  * Verifies and parses user-supplied CLI arguments into an InputParameter Object.
