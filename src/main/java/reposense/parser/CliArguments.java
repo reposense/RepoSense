@@ -35,25 +35,30 @@ public class CliArguments {
      * @throws IllegalArgumentException If the given args inputs are malformed or fail to parse or mandatory fields are missing.
      * @throws ParseException If the given date string fails to parse.
      */
-    public CliArguments(String[] args) throws IllegalArgumentException, ParseException {
+    public CliArguments(String[] args) throws IllegalArgumentException {
         sinceDate = Optional.empty();
         untilDate = Optional.empty();
         targetFile = new File(DEFAULT_FILE_ARG);
 
-        final HashMap<String, String> argumentMap = new HashMap<String, String>();
-
-        addArgsToArgumentMap(args, argumentMap);
+        final HashMap<String, String> argumentMap = generateArgumentMap(args);
         checkAllMandatoryArgumentsPresent(argumentMap);
-        setUserInputValuesToArgument(argumentMap);
+
+        try {
+            setUserInputValuesToArgument(argumentMap);
+        } catch (ParseException pe) {
+            throw new IllegalArgumentException(pe.getMessage());
+        }
     }
 
     /**
-     * Checks if args begins with a dash character and follows by an input.
+     * Verifies if args begins with a dash character and follows by an input and generates an ArgumentMap
      *
      * @throws IllegalArgumentException If the given args are malformed,
      * which means it does not have a dash character or does not follow by an input.
      */
-    private void addArgsToArgumentMap(String[] args, HashMap<String, String> argumentMap) {
+    private HashMap<String, String> generateArgumentMap(String[] args) {
+        final HashMap<String, String> argumentMap = new HashMap<String, String>();
+
         for (int i = 0; i < args.length; i = i + 2) {
 
             if (i + 1 > args.length) {
@@ -67,6 +72,8 @@ public class CliArguments {
             final String key = args[i].substring(1);
             argumentMap.put(key, args[i + 1]);
         }
+
+        return argumentMap;
     }
 
 

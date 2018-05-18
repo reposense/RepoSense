@@ -27,7 +27,7 @@ public class RepoSense {
 
             List<RepoConfiguration> configs = CsvConfigurationBuilder.buildConfigs(configFile, fromDate, toDate);
             RepoInfoFileGenerator.generateReposReport(configs, targetFile.getAbsolutePath());
-        } catch (ParseException | IllegalArgumentException ex) {
+        } catch (IllegalArgumentException ex) {
             System.out.print(ex.getMessage());
             showHelpMessage();
         }
