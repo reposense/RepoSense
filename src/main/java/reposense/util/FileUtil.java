@@ -158,6 +158,9 @@ public class FileUtil {
                         }
                     }
                 } else {
+                    if (!file.getParentFile().exists()) {
+                        file.getParentFile().mkdirs();
+                    }
                     FileOutputStream fOutput = new FileOutputStream(file);
                     int count = 0;
                     while ((count = zipInput.read(buffer)) > 0) {
