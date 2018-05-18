@@ -1,4 +1,4 @@
-package reposense.configparser;
+package reposense.parsers;
 
 import java.util.Date;
 import java.util.Optional;

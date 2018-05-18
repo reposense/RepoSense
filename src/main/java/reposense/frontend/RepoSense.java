@@ -4,9 +4,9 @@ import java.io.File;
 import java.util.Date;
 import java.util.List;
 
-import reposense.configparser.CliArgumentsParser;
+import reposense.parsers.CliArgumentsParser;
 
-import reposense.configparser.InputParameter;
+import reposense.parsers.InputParameter;
 
 import reposense.dataobject.RepoConfiguration;
 import reposense.exceptions.ParseException;
