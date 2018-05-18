@@ -8,7 +8,7 @@ function loadJSON(file, fn){
 }
 
 var resultJson={};
-loadJSON("result.json", obj => {
+loadJSON("authorship.json", obj => {
     resultJson = obj;
     initialize();
 });
