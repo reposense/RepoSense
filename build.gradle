@@ -64,3 +64,4 @@ task functional(type: Test) {
     showStandardStreams = true
   }
 }
+tasks.functional.dependsOn("myZip");
