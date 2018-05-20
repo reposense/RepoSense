@@ -1,0 +1,18 @@
+[
+  {
+    "organization": "CS2103AUG2017-W09-B1",
+    "repoName": "main",
+    "branch": "master",
+    "displayName": "CS2103AUG2017-W09-B1_main",
+    "fromDate": "2017-06-01",
+    "toDate": "2017-10-30"
+  },
+  {
+    "organization": "CS2103AUG2017-W09-B2",
+    "repoName": "main",
+    "branch": "master",
+    "displayName": "CS2103AUG2017-W09-B2_main",
+    "fromDate": "2017-06-01",
+    "toDate": "2017-10-30"
+  }
+]

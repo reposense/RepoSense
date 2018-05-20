@@ -63,3 +63,4 @@ task functional(type: Test) {
     events "passed", "skipped", "failed"
   }
 }
+tasks.functional.dependsOn("myZip");
