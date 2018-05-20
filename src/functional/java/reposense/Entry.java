@@ -45,7 +45,7 @@ public class Entry {
             if (file.isDirectory()) {
                 verifyAllJson(file, actualRelative);
             } else {
-                if (!file.getName().endsWith(".js")) {
+                if (!file.getName().endsWith(".json")) {
                     continue;
                 }
                 String relativeDirectory = file.getAbsolutePath().split(EXPECTED_FOLDER)[1];
