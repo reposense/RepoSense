@@ -28,5 +28,5 @@ loadJSON("summary.json", res => {
     }
 
     cnt = res.length;
-    for(var dir in summaryJson){ loadSubFile(dir); } 
+    for(var dir in summaryJson){ loadSubFile(dir); }
 });

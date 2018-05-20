@@ -32,9 +32,9 @@ public class Entry {
     private void generateReport() {
         File configFile = new File(getClass().getClassLoader().getResource("sample_full.csv").getFile());
         Calendar c = Calendar.getInstance();
-        c.set(2017, 6, 1);
+        c.set(2017, Calendar.JUNE, 1);
         Date fromDate = c.getTime();
-        c.set(2017, 10, 30);
+        c.set(2017, Calendar.OCTOBER, 30);
         Date toDate = c.getTime();
         List<RepoConfiguration> configs = CsvConfigurationBuilder.buildConfigs(configFile, fromDate, toDate);
         RepoInfoFileGenerator.generateReposReport(configs, FT_TEMP_DIR);
@@ -45,7 +45,7 @@ public class Entry {
             if (file.isDirectory()) {
                 verifyAllJson(file, actualRelative);
             } else {
-                if (!file.getName().endsWith(".js")) {
+                if (!file.getName().endsWith(".json")) {
                     continue;
                 }
                 String relativeDirectory = file.getAbsolutePath().split(EXPECTED_FOLDER)[1];
