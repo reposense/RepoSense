@@ -185,7 +185,7 @@ function getMinDate() {
             result = Date.today();
         }
 
-        return result.toString("M/d/yy");    
+        return result.toString("M/d/yy");
     }
 }
 

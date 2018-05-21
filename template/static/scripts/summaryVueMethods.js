@@ -9,15 +9,13 @@ vueMethods = {
         var resultContribution = [];
         var minDateParsed = Date.parse(minDate);
         var maxDateParsed = Date.parse(maxDate);
-        
         var startingDate = Date.parse(contributions[0]["fromDate"]);
         var paddingCount = getIntervalCount(intervalType, minDate, startingDate);
         if(minDateParsed < startingDate){
             for(var i=0; i<paddingCount; i++){
                 resultContribution.push({ insertions:0 });
             }
-        } 
-
+        }
         for (contribution of contributions) {
             var currentFromDate = Date.parse(contribution["fromDate"]);
             var currentToDate = Date.parse(contribution["toDate"]);
