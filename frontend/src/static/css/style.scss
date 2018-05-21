@@ -34,6 +34,8 @@ header{
 }
 
 .summary-chart{ 
+    margin-bottom:1rem;
+
     &__title{
         display:flex;
 
@@ -48,7 +50,18 @@ header{
     } 
 
     &__ramp{
-        height:3rem;
-        background-color: mui-color("blue", "50");
+        position:relative; 
+
+        $height:3rem;
+        height:$height;
+        background-color:mui-color("blue", "50");
+
+        &__slice{
+            position:absolute;
+            width:0;
+            height:0;
+
+            &--color0{ border-bottom:$height rgba(mui-color("red", "200"), 0.8) solid;  }
+        }
     }
 }

@@ -27,9 +27,10 @@ html
               .summary-chart__title--repo {{ repos[user.repoId].repoName }}
               .summary-chart__title--user {{ user.displayName }}
             .summary-chart__ramp
-              .summary-chart__ramp--slice(
+              .summary-chart__ramp__slice(
                 v-for="(slice, i) in user.dailyCommits",
-                v-bind:class="'summary-chart__ramp--slice'+i%5"
+                v-bind:class="'summary-chart__ramp__slice--color'+i%5",
+                v-bind:style="{ borderLeft: '#0000 solid' }"
               )
             .summary-chart__contrib 
     
