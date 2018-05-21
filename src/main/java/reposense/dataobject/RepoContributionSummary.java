@@ -6,7 +6,6 @@ import java.util.Map;
 
 
 public class RepoContributionSummary {
-
     private Map<Author, List<AuthorIntervalContribution>> authorWeeklyIntervalContributions = new HashMap<>();
     private Map<Author, List<AuthorIntervalContribution>> authorDailyIntervalContributions = new HashMap<>();
     private Map<Author, Integer> authorFinalContributionMap = new HashMap<>();

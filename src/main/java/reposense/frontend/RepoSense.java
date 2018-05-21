@@ -1,7 +1,7 @@
 package reposense.frontend;
 
 import java.io.File;
-import java.util.Date;
+import java.io.IOException;
 import java.util.List;
 
 import reposense.dataobject.RepoConfiguration;
@@ -22,9 +22,11 @@ public class RepoSense {
 
             List<RepoConfiguration> configs = csvParser.parse(cliArguments);
             RepoInfoFileGenerator.generateReposReport(configs, targetFile.getAbsolutePath());
-        } catch (IllegalArgumentException ex) {
-            System.out.print(ex.getMessage());
+        } catch (IllegalArgumentException iaex) {
+            System.out.print(iaex.getMessage());
             showHelpMessage();
+        } catch (IOException ioex) {
+            System.out.print(ioex.getMessage());
         }
     }
 

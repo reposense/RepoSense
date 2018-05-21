@@ -1,0 +1,145 @@
+html, body{
+    height: 100%;
+}
+
+
+body.main-app{
+    overflow: hidden;
+}
+
+div.highlighted_block{
+    background-color: Silver;
+}
+
+div.author-name-menu-container {
+	width: 15vw;
+	float:left;
+	position: fixed;
+
+}
+
+div.toolbar {
+    padding: 4px;
+    border: 1px solid #dfdfdf;
+    border-radius: 3px;
+    height:5%
+}
+
+div.code-container {
+
+}
+
+div.authored {
+    background-color: Silver;
+}
+
+code.unauthored {
+    background-color: Silver;
+}
+
+
+div.issue-col {
+    border-left: 1px solid  #8B4513	;
+}
+
+div.author-col {
+	  border-right: 3px solid  #8B4513	;
+
+}
+
+span.line-number {
+	padding-right: 2%;
+}
+
+pre {
+	border: 0;
+	background-color:
+	transparent;
+	padding: 0;
+	margin: 0;
+	overflow: hidden;
+}
+
+code {
+    overflow: hidden;
+}
+
+div.progress-chart-box {
+    float:left;
+}
+
+div.progress-chart-tool {
+    padding-top:1%;
+    padding-left:5%;
+    height:20%;
+    display: block;
+}
+
+div.filter-row {
+    float:left;
+    border-color: coral;
+}
+
+div.progress-chart-main {
+    height:95%;
+    overflow-y: scroll;
+    overflow-x: hidden;
+}
+
+
+div.code-review-box {
+    float: left;
+    padding: 1px;
+}
+
+
+div.highlighted {
+	background-color: #66ccff;
+}
+
+a.detail_link {
+	position: absolute;
+    top: 0px;
+    right: 0px;
+}
+
+
+h5.author_name_tag {
+    margin:0px;
+    padding: 0px;
+}
+
+h5.author_name_tag:hover {
+    text-decoration: underline;
+}
+
+div.contributionBar {
+    margin:0px;
+    padding: 0px;
+
+}
+
+div.slice {
+    position:absolute;
+    margin-left: 0%;
+    height: 100%;
+    width:3%;
+    background: linear-gradient(to top right, rgba(255,0,0,0.8) 50%, transparent 50%);
+    display: inline-block;
+}
+
+div.spectrum {
+    width:95%;
+    height:30px;
+    background-color:#deebf6;
+    position: relative;
+    margin-bottom: 0px;
+}
+
+code::-webkit-scrollbar {
+    display:none;
+}
+
+label {
+    margin-right: 10px;
+}
