@@ -1,3 +1,5 @@
+@import "static/css/colors";
+
 /** global **/
 body{
     font-family:Roboto;
@@ -44,4 +46,9 @@ header{
         &--organization::after{ content:"/"; }
         &--repo::after{ content:"/"; }
     } 
+
+    &__ramp{
+        height:3rem;
+        background-color: mui-color("blue", "50");
+    }
 }

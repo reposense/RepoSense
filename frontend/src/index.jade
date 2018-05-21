@@ -16,10 +16,10 @@ html
           form.repo(onsubmit="return false;")
             input(placeHolder="insert report URL", v-model="reportDirInput")
             button.mui-btn.mui-btn--flat(v-on:click="updateReportDir();") Go 
-
+      
       #summary
         #summary__picker
-        #summary__charts.wrapper
+        #summary__charts.wrapper 
           .summary-chart(v-for="(user, i) in users") 
             .summary-chart__title 
               .summary-chart__title--index {{ i+1 }} 
@@ -28,9 +28,8 @@ html
               .summary-chart__title--user {{ user.displayName }}
             .summary-chart__ramp
               .summary-chart__ramp--slice(
-                v-for="(slice, i) in user.weeklyCommits",
-                v-bind:class="'summary-chart__ramp--slice'+i%5",
-                v-bind:style="{ border-left:calcWidth(slice) }"
+                v-for="(slice, i) in user.dailyCommits",
+                v-bind:class="'summary-chart__ramp--slice'+i%5"
               )
             .summary-chart__contrib 
     
