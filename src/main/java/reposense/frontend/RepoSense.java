@@ -5,8 +5,8 @@ import java.util.Date;
 import java.util.List;
 
 import reposense.dataobject.RepoConfiguration;
+import reposense.parser.CsvParser;
 import reposense.report.RepoInfoFileGenerator;
-import reposense.system.CsvConfigurationBuilder;
 
 public class RepoSense {
 
@@ -17,13 +17,10 @@ public class RepoSense {
 
         try {
             CliArguments cliArguments = new CliArguments(args);
-
-            File configFile = cliArguments.getConfigFile();
+            CsvParser csvParser = new CsvParser();
             File targetFile = cliArguments.getTargetFile();
-            Date fromDate = cliArguments.getSinceDate().orElse(null);
-            Date toDate = cliArguments.getUntilDate().orElse(null);
 
-            List<RepoConfiguration> configs = CsvConfigurationBuilder.buildConfigs(configFile, fromDate, toDate);
+            List<RepoConfiguration> configs = csvParser.parse(cliArguments);
             RepoInfoFileGenerator.generateReposReport(configs, targetFile.getAbsolutePath());
         } catch (IllegalArgumentException ex) {
             System.out.print(ex.getMessage());

@@ -10,8 +10,9 @@ import org.junit.Assert;
 import org.junit.Test;
 
 import reposense.dataobject.RepoConfiguration;
+import reposense.frontend.CliArguments;
 import reposense.report.RepoInfoFileGenerator;
-import reposense.system.CsvConfigurationBuilder;
+import reposense.parser.CsvParser;
 import reposense.util.FileUtil;
 import reposense.util.TestUtil;
 
@@ -36,7 +37,11 @@ public class Entry {
         Date fromDate = c.getTime();
         c.set(2017, 10, 30);
         Date toDate = c.getTime();
-        List<RepoConfiguration> configs = CsvConfigurationBuilder.buildConfigs(configFile, fromDate, toDate);
+
+        CliArguments arguments = new CliArguments(configFile, fromDate, toDate);
+        CsvParser csvParser = new CsvParser();
+
+        List<RepoConfiguration> configs = csvParser.parse(arguments);
         RepoInfoFileGenerator.generateReposReport(configs, FT_TEMP_DIR);
     }
 

@@ -49,6 +49,19 @@ public class CliArguments {
     }
 
     /**
+     * Alternative constructor for testing
+     *
+     * @param configFile
+     * @param sinceDate
+     * @param untilDate
+     */
+    public CliArguments(File configFile, Date sinceDate, Date untilDate) {
+        this.configFile = configFile;
+        this.sinceDate = Optional.of(sinceDate);
+        this.untilDate = Optional.of(untilDate);
+    }
+
+    /**
      * Verifies if {@code args} begins with a dash character and follows by an input and generates an ArgumentMap
      *
      * @throws IllegalArgumentException If the given args are malformed,
