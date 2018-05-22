@@ -53,6 +53,20 @@ var app = new Vue({
             var size = this.sliceWidth;
             size *= slice.insertions/this.avgCommitSize;
             return Math.max(size*RAMP_SCALE, 0.5);
+        },
+        getSliceTitle(slice){
+            return "contribution on " + slice.fromDate + 
+                ": " + slice.insertions + " lines";
+        },
+        getSliceLink(user, slice){
+            console.log(user);
+            return 'http://github.com/' +
+              this.repos[user.repoId].organization + '/' +
+              this.repos[user.repoId].repoName + '/commits/' +
+              this.repos[user.repoId].branch + '?' +
+              'author=' + user.name + '&' +
+              'since=' + slice.fromDate + '&' +
+              'until=' + slice.toDate;
         }
     }
 });

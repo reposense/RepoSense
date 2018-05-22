@@ -58,6 +58,7 @@ header{
         background-color:mui-color("blue", "50");
 
         &__slice{
+            display:block;
             position:absolute;
             width:0;
             height:0;
