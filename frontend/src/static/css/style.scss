@@ -6,7 +6,16 @@ body{
 }
 
 .wrapper{
+    text-align:center;
+}
+
+.content{
     max-width:40rem;
+    text-align:left;
+}
+
+.empty{
+    margin:3rem 5rem;
 }
 
 /** navigation bar **/
@@ -14,7 +23,7 @@ header{
     display:flex;
     justify-content:center;
 
-    .wrapper{
+    .content{
         display:flex;
         justify-content:space-between;
         align-items:center;
@@ -68,6 +77,17 @@ header{
             &--color2{ border-bottom:$height rgba(mui-color("green"), 0.5) solid;  }
             &--color3{ border-bottom:$height rgba(mui-color("indigo"), 0.5) solid;  }
             &--color4{ border-bottom:$height rgba(mui-color("pink"), 0.5) solid;  }
+        }
+    }
+
+    &__contrib{
+        width:100%;
+        text-align:left;
+
+        &--bar{
+            height:0.5rem;
+            margin-top:0.1rem;
+            background-color:mui-color("red");
         }
     }
 }

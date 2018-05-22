@@ -9,18 +9,20 @@ html
     script(src="//cdnjs.cloudflare.com/ajax/libs/vue/2.5.16/vue.min.js")
   body
     div#app
-      header.mui-appbar
-        .wrapper
+      header.mui-appbar.wrapper
+        .content
           .logo.mui--text-title RepoSense
           form.repo(onsubmit="return false;")
             input(placeHolder="insert report URL", v-model="reportDirInput")
             button.mui-btn.mui-btn--flat(v-on:click="updateReportDir();") Go
 
-      template(v-if="userUpdated")
+      .wrapper(v-if="userUpdated")
         v_summary(v-bind:users="users")
+      .wrapper(v-else)
+        .empty please enter a report directory
 
     script#v_summary
-      #summary
+      #summary.content
         #summary-picker
         #summary-charts
           .summary-chart(v-for="(user, i) in filtered")
@@ -40,7 +42,11 @@ html
                   right: (sliceCount-j-1)*sliceWidth + '%'
                 }"
               )
-            .summary-chart__contrib
+            .summary-chart__contrib(v-bind:title="'total contribution: '+user.totalCommits")
+              .summary-chart__contrib--bar(
+                v-for="width in getContributionBars(user.totalCommits)",
+                v-bind:style="{ width: width+'%' }"
+              )
 
     script(src="static/js/api.js")
     script(src="static/js/main.js")

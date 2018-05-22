@@ -30,6 +30,15 @@ const vSummary = {
                 }
             }
             return totalCommits/totalCount;
+        },
+        avgContributionSize: function(){
+            var totalLines=0, totalCount=0;
+            for(user of this.filtered){
+                if(user.totalCommits==0){ continue; }
+                totalCount += 1;
+                totalLines += user.totalCommits;
+            }
+            return totalLines/totalCount;
         }
     },
     methods: {
@@ -52,6 +61,18 @@ const vSummary = {
               'author=' + user.name + '&' +
               'since=' + slice.fromDate + '&' +
               'until=' + slice.toDate;
+        },
+        getContributionBars: function(totalContribution){
+            var res = []; 
+            var contributionLimit = (this.avgContributionSize*2);
+
+            var cnt = parseInt(totalContribution/contributionLimit);
+            for(i=0; i<cnt; i++){ res.push(100); }
+            
+            var last = (totalContribution%contributionLimit)/contributionLimit;
+            if(last!=0){ res.push(last*100); }
+
+            return res;
         }
     }
 };
