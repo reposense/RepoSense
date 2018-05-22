@@ -128,8 +128,8 @@
         "toDate": "2017-10-26"
       },
       {
-        "insertions": 285,
-        "deletions": 101,
+        "insertions": 427,
+        "deletions": 303,
         "fromDate": "2017-10-26",
         "toDate": "2017-11-02"
       }
@@ -396,8 +396,8 @@
         "toDate": "2017-10-26"
       },
       {
-        "insertions": 1153,
-        "deletions": 119,
+        "insertions": 1222,
+        "deletions": 130,
         "fromDate": "2017-10-26",
         "toDate": "2017-11-02"
       }
@@ -530,8 +530,8 @@
         "toDate": "2017-10-26"
       },
       {
-        "insertions": 508,
-        "deletions": 90,
+        "insertions": 835,
+        "deletions": 464,
         "fromDate": "2017-10-26",
         "toDate": "2017-11-02"
       }
@@ -1446,8 +1446,8 @@
         "toDate": "2017-10-30"
       },
       {
-        "insertions": 40,
-        "deletions": 3,
+        "insertions": 182,
+        "deletions": 205,
         "fromDate": "2017-10-30",
         "toDate": "2017-10-31"
       }
@@ -3274,8 +3274,8 @@
         "toDate": "2017-10-30"
       },
       {
-        "insertions": 63,
-        "deletions": 32,
+        "insertions": 132,
+        "deletions": 43,
         "fromDate": "2017-10-30",
         "toDate": "2017-10-31"
       }
@@ -4188,8 +4188,8 @@
         "toDate": "2017-10-30"
       },
       {
-        "insertions": 19,
-        "deletions": 4,
+        "insertions": 346,
+        "deletions": 378,
         "fromDate": "2017-10-30",
         "toDate": "2017-10-31"
       }
@@ -4202,10 +4202,10 @@
     "wangyiming1019": 3544
   },
   "authorContributionVariance": {
-    "charlesgoh": 3480.7026,
+    "charlesgoh": 4379.5645,
     "jeffreygohkw": 7917.3906,
-    "Esilocke": 15256.98,
-    "wangyiming1019": 26157.486
+    "Esilocke": 15367.906,
+    "wangyiming1019": 29295.332
   },
   "authorDisplayNameMap": {
     "charlesgoh": "charlesgoh",
