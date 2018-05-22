@@ -15,10 +15,10 @@ header{
     justify-content:center;
 
     .wrapper{
-        display:flex;  
+        display:flex;
         justify-content:space-between;
         align-items:center;
-        
+
         flex-grow:1;
     }
 
@@ -33,24 +33,25 @@ header{
     text-align:center;
 }
 
-.summary-chart{ 
+.summary-chart{
     margin-bottom:1rem;
 
     &__title{
         display:flex;
 
-        &--index::after{ 
-            content:"."; 
+        &--index::after{
+            content:".";
             display:inline-block;
             padding-right:0.5rem;
         }
 
         &--organization::after{ content:"/"; }
         &--repo::after{ content:"/"; }
-    } 
+    }
 
     &__ramp{
-        position:relative; 
+        position:relative;
+        font-size:100%;
 
         $height:3rem;
         height:$height;
@@ -61,7 +62,11 @@ header{
             width:0;
             height:0;
 
-            &--color0{ border-bottom:$height rgba(mui-color("red", "200"), 0.8) solid;  }
+            &--color0{ border-bottom:$height rgba(mui-color("orange"), 0.5) solid;  }
+            &--color1{ border-bottom:$height rgba(mui-color("light-blue"), 0.5) solid;  }
+            &--color2{ border-bottom:$height rgba(mui-color("green"), 0.5) solid;  }
+            &--color3{ border-bottom:$height rgba(mui-color("indigo"), 0.5) solid;  }
+            &--color4{ border-bottom:$height rgba(mui-color("pink"), 0.5) solid;  }
         }
     }
 }

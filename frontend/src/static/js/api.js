@@ -16,8 +16,7 @@ var api = {
         loadJSON(REPORT_DIR+"/summary.json", repos => {
             REPOS = {};
             
-            for(var i in repos){
-                var repo = repos[i];
+            for(var repo of repos){
                 var name = repo.organization+"_"+repo.repoName;
                 REPOS[name] = repo;
                 api.loadCommits(name);
