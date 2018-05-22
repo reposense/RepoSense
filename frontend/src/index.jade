@@ -6,7 +6,6 @@ html
     link(rel="stylesheet", href="static/css/style.css")
 
     script(src="//cdnjs.cloudflare.com/ajax/libs/muicss/0.9.39/js/mui.min.js")
-
     script(src="//cdnjs.cloudflare.com/ajax/libs/vue/2.5.16/vue.min.js")
   body
     div#app
@@ -15,31 +14,33 @@ html
           .logo.mui--text-title RepoSense
           form.repo(onsubmit="return false;")
             input(placeHolder="insert report URL", v-model="reportDirInput")
-            button.mui-btn.mui-btn--flat(v-on:click="updateReportDir();") Go 
-      
+            button.mui-btn.mui-btn--flat(v-on:click="updateReportDir();") Go
+
+      template(v-if="userUpdated")
+        v_summary(v-bind:users="users")
+
+    script#v_summary
       #summary
-        #summary__picker
-        #summary__charts.wrapper 
-          .summary-chart(v-for="(user, i) in users") 
-            .summary-chart__title 
-              .summary-chart__title--index {{ i+1 }} 
-              .summary-chart__title--organization {{ repos[user.repoId].organization }}
-              .summary-chart__title--repo {{ repos[user.repoId].repoName }}
+        #summary-picker
+        #summary-charts
+          .summary-chart(v-for="(user, i) in filtered")
+            .summary-chart__title
+              .summary-chart__title--index {{ i+1 }}
+              .summary-chart__title--organization {{ REPOS[user.repoId].organization }}
+              .summary-chart__title--repo {{ REPOS[user.repoId].repoName }}
               .summary-chart__title--user {{ user.displayName }}
             .summary-chart__ramp
               a.summary-chart__ramp__slice(
-                v-for="(slice, i) in user.dailyCommits",
+                v-for="(slice, j) in user.commits",
                 v-bind:title="getSliceTitle(slice)",
-                v-bind:href="getSliceLink(user, slice)", target="_blank", 
-                v-bind:class="'summary-chart__ramp__slice--color'+i%5",
-                v-bind:style="{ 
+                v-bind:href="getSliceLink(user, slice)", target="_blank",
+                v-bind:class="'summary-chart__ramp__slice--color'+j%5",
+                v-bind:style="{
                   borderLeft: getWidth(slice)+'em #0000 solid',
-                  right: (sliceCount-i-1)*sliceWidth + '%'
+                  right: (sliceCount-j-1)*sliceWidth + '%'
                 }"
               )
-            .summary-chart__contrib 
-    
-    script#v_commits
-    
+            .summary-chart__contrib
+
     script(src="static/js/api.js")
     script(src="static/js/main.js")

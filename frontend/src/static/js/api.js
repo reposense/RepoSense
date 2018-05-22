@@ -12,10 +12,10 @@ function loadJSON(file, fn){
 }
 
 var api = {
-    loadSummary: function(callback){ 
+    loadSummary: function(callback){
         loadJSON(REPORT_DIR+"/summary.json", repos => {
             REPOS = {};
-            
+
             for(var repo of repos){
                 var name = repo.organization+"_"+repo.repoName;
                 REPOS[name] = repo;
