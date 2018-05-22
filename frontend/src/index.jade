@@ -27,15 +27,16 @@ html
               .summary-chart__title--repo {{ repos[user.repoId].repoName }}
               .summary-chart__title--user {{ user.displayName }}
             .summary-chart__ramp
-              .summary-chart__ramp__slice(
-                v-for="(slice, i) in user.dailyCommits",
-                v-bind:title="'contribution on '+slice.fromDate+': '+slice.insertions+' lines'",
-                v-bind:class="'summary-chart__ramp__slice--color'+i%5",
-                v-bind:style="{ 
-                  borderLeft: getWidth(slice)+'em #0000 solid',
-                  right: (sliceCount-i-1)*sliceWidth + '%'
-                }"
-              )
+              a(href="#")
+                .summary-chart__ramp__slice(
+                  v-for="(slice, i) in user.dailyCommits",
+                  v-bind:title="'contribution on '+slice.fromDate+': '+slice.insertions+' lines'",
+                  v-bind:class="'summary-chart__ramp__slice--color'+i%5",
+                  v-bind:style="{ 
+                    borderLeft: getWidth(slice)+'em #0000 solid',
+                    right: (sliceCount-i-1)*sliceWidth + '%'
+                  }"
+                )
             .summary-chart__contrib 
     
     script#v_commits
