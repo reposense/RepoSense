@@ -106,7 +106,7 @@ The chart panel contains two types of charts: ramp charts and total contribution
 #### Ramp Chart
 To illustrate frequency and amount of contribution in the same graph, and also allow easy comparison between we created a new type of visualization. We call it Ramp Charts. Here are some examples of the Ramp graphs:
 
-![Ramp Charts](images/rampchart.jpg)
+![Ramp Charts](images/rampchart.png)
 Each light blue bar represents the contribution timeline of an individual author for a specific repository. On each row, there are several ‘ramps’.
 - The area of the ramp is proportional to the amount of contribution the author did at that time period.
 - The position of the right edge of the ramp (perpendicular to the blue bar) is dependent on the time period that ramp represents.
