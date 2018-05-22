@@ -61,6 +61,7 @@ task functional(type: Test) {
   classpath = sourceSets.functional.runtimeClasspath
   testLogging {
     events "passed", "skipped", "failed"
+    showStandardStreams = true
   }
 }
 tasks.functional.dependsOn("myZip");

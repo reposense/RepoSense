@@ -2,7 +2,6 @@ package reposense;
 
 import java.io.File;
 import java.io.IOException;
-import java.nio.file.Files;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -14,6 +13,7 @@ import reposense.dataobject.RepoConfiguration;
 import reposense.report.RepoInfoFileGenerator;
 import reposense.system.CsvConfigurationBuilder;
 import reposense.util.FileUtil;
+import reposense.util.TestUtil;
 
 
 public class Entry {
@@ -57,19 +57,11 @@ public class Entry {
     private void assertJson(File expectedJson, String expectedPosition, String actualRelative) {
         File actual = new File(actualRelative + expectedPosition);
         Assert.assertTrue(actual.exists());
-        verifyContent(expectedJson, actual);
-    }
-
-    private void verifyContent(File expected, File actual) {
-        String expectedContent = "";
-        String actualContent = "";
         try {
-            expectedContent = new String(Files.readAllBytes(expected.toPath()));
-            actualContent = new String(Files.readAllBytes(actual.toPath()));
+            Assert.assertTrue(TestUtil.compareFileContents(expectedJson, actual));
         } catch (IOException e) {
-            Assert.fail();
+            Assert.fail(e.getMessage());
         }
-        Assert.assertEquals(expectedContent, actualContent);
     }
 
     private String getRelativeDir() {

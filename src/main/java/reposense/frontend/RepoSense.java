@@ -1,13 +1,32 @@
 package reposense.frontend;
 
+import java.io.File;
+import java.util.Date;
+import java.util.List;
+
+import reposense.dataobject.RepoConfiguration;
+import reposense.report.RepoInfoFileGenerator;
+import reposense.system.CsvConfigurationBuilder;
 
 public class RepoSense {
 
-    public static final int FLAG_SUCCESS = 0;
-    public static final int FLAG_ERROR = 1;
-
     public static void main(String[] args) {
-        if (args.length == 0 || new Client().run(args) == FLAG_ERROR) {
+        if (args.length == 0) {
+            showHelpMessage();
+        }
+
+        try {
+            CliArguments cliArguments = new CliArguments(args);
+
+            File configFile = cliArguments.getConfigFile();
+            File targetFile = cliArguments.getTargetFile();
+            Date fromDate = cliArguments.getSinceDate().orElse(null);
+            Date toDate = cliArguments.getUntilDate().orElse(null);
+
+            List<RepoConfiguration> configs = CsvConfigurationBuilder.buildConfigs(configFile, fromDate, toDate);
+            RepoInfoFileGenerator.generateReposReport(configs, targetFile.getAbsolutePath());
+        } catch (IllegalArgumentException ex) {
+            System.out.print(ex.getMessage());
             showHelpMessage();
         }
     }
