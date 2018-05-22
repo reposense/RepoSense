@@ -2,6 +2,7 @@ package reposense.analyzer;
 
 import java.io.IOException;
 import java.io.StringReader;
+import java.util.logging.Logger;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -19,6 +20,7 @@ import reposense.dataobject.IssueInfo;
 import reposense.dataobject.LineInfo;
 
 import reposense.system.CommandRunner;
+import reposense.system.LogsManager;
 
 
 public class CheckStyleParser {
@@ -27,9 +29,11 @@ public class CheckStyleParser {
     private static final String SEVERITY = "severity";
     private static final String LINE = "line";
 
+    private static final Logger logger = LogsManager.getLogger(CheckStyleParser.class);
+
     public static void aggregateStyleIssue(FileInfo fileInfo, String rootRepo) {
         String raw = CommandRunner.checkStyleRaw(rootRepo + '/' + fileInfo.getPath());
-        System.out.println("checking style of:" + fileInfo.getPath());
+        logger.info("checking style of:" + fileInfo.getPath());
 
         NodeList nodeList = getNodeListFromRawOutput(raw);
         for (int i = 0; i < nodeList.getLength(); i++) {

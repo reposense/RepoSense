@@ -1,10 +1,15 @@
 package reposense.git;
 
+import java.util.logging.Logger;
+
 import reposense.dataobject.CommitInfo;
 import reposense.system.CommandRunner;
+import reposense.system.LogsManager;
 
 
 public class GitChecker {
+
+    private static final Logger logger = LogsManager.getLogger(GitChecker.class);
 
     public static void checkOutToRecentBranch(String root) {
         checkout(root, "-");
@@ -15,7 +20,7 @@ public class GitChecker {
     }
 
     public static void checkOutToCommit(String root, CommitInfo commit) {
-        System.out.println("Checking out " + commit.getHash() + "time:" + commit.getTime());
+        logger.info("Checking out " + commit.getHash() + "time:" + commit.getTime());
         checkout(root, commit.getHash());
     }
 
