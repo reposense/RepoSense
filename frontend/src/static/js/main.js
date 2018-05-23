@@ -4,44 +4,71 @@ var REPOS = {};
 function $(id){ return document.getElementById(id); }
 
 const vSummary = {
-    props: ["users"],
+    props: ["repos"],
     template: $("v_summary").innerHTML,
     data: function(){
-        return { rampScale: 0.1 };
+        return { 
+            filtered: [],
+            rampScale: 0.1,
+            filterSearch: "",
+            filterHash: ""
+        };
+    },
+    watch:{ 
+        filterHash: function(){ this.getFiltered(); },
+        repos: function(){ this.getFiltered(); }
     },
     computed: {
-        filtered: function(){
-            var res = [];
-            for(user of this.users){
-                user["commits"] = user["dailyCommits"];
-                res.push(user);
-            }
-            return res;
-        },
-        sliceCount: function(){ return this.filtered[0].commits.length; },
+        sliceCount: function(){ return this.filtered[0][0].commits.length; },
         sliceWidth: function(){ return 100/this.sliceCount; },
         avgCommitSize: function(){
             var totalCommits=0, totalCount=0;
-            for(user of this.filtered){
-                for(slice of user.commits){
-                    if(slice.insertions==0){ continue; }
-                    totalCount += 1;
-                    totalCommits += slice.insertions;
+            for(repo of this.filtered){
+                for(user of repo){
+                    for(slice of user.commits){
+                        if(slice.insertions==0){ continue; }
+                        totalCount += 1;
+                        totalCommits += slice.insertions;
+                    }
                 }
             }
             return totalCommits/totalCount;
         },
         avgContributionSize: function(){
-            var totalLines=0, totalCount=0;
-            for(user of this.filtered){
-                if(user.totalCommits==0){ continue; }
-                totalCount += 1;
-                totalLines += user.totalCommits;
+            var totalLines=0, totalCount=0; 
+            for(repo of this.filtered){
+                for(user of repo){
+                    if(user.totalCommits==0){ continue; }
+                    totalCount += 1;
+                    totalLines += user.totalCommits;
+                }
             }
             return totalLines/totalCount;
         }
     },
     methods: {
+        getFilterHash: function(){ 
+            this.filterHash = "search=" + encodeURIComponent(this.filterSearch.toLowerCase()) + "&";
+        },
+        getFiltered: function(){ 
+            // array of array, sorted by repo
+            var full = []; 
+            for(repo of this.repos){
+                var res = [];
+                for(user of repo.users){
+                    // TODO: group by week
+                    user["commits"] = user["dailyCommits"];
+                    
+                    if(this.filterSearch && user.displayPath.search(this.filterSearch) == -1){
+                        continue; 
+                    } 
+
+                    res.push(user);
+                }
+                full.push(res);
+            }
+            this.filtered = full;
+        },
         getWidth: function(slice){
             if(slice.insertions==0){ return 0; }
 
@@ -74,7 +101,8 @@ const vSummary = {
 
             return res;
         }
-    }
+    },
+    created: function(){ this.getFiltered(); }
 };
 
 var app = new Vue({
@@ -82,24 +110,37 @@ var app = new Vue({
     data: {
         reportDirInput: "",
         repos: {},
-        users: [],
+        repoLength: 0,
+        loadedRepo: 0,
         userUpdated: false
     },
     methods:{
         // model funcs
-        updateReportDir: function(evt){
+        updateReportDir: function(evt){ 
             REPORT_DIR = this.reportDirInput;
             this.users = [];
 
-            api.loadSummary(() => this.repos=REPOS);
+            api.loadSummary(() => {
+                this.repos = REPOS;
+                this.repoLength = Object.keys(REPOS).length;
+                this.loadedRepo = 0;
+            });
         },
         addUsers: function(users){
             this.userUpdated = false;
-            for(var i in users){ this.users.push(users[i]); }
+            this.loadedRepo += 1;
             this.userUpdated = true;
+        },
+        getUsers: function(){
+            var full = [];
+            for(var repo in this.repos){
+                if(!this.repos[repo].users){ continue; }
+                full.push(this.repos[repo]); 
+            }
+            return full;
         }
     },
     components:{
         "v_summary": vSummary
-    }
+    },
 });

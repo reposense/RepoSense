@@ -15,14 +15,16 @@ var api = {
     loadSummary: function(callback){
         loadJSON(REPORT_DIR+"/summary.json", repos => {
             REPOS = {};
-
+            
+            var names = [];
             for(var repo of repos){
                 var name = repo.organization+"_"+repo.repoName;
                 REPOS[name] = repo;
-                api.loadCommits(name);
+                names.push(name);
             }
 
             if(callback){ callback(); }
+            for(var name of names){ api.loadCommits(name); }
         });
     },
 
@@ -35,15 +37,22 @@ var api = {
                 var obj = {
                     name: author,
                     repoId: repo,
+                    variance: commits.authorContributionVariance[author],
                     displayName: commits.authorDisplayNameMap[author],
                     weeklyCommits: commits.authorWeeklyIntervalContributions[author],
                     dailyCommits: commits.authorDailyIntervalContributions[author],
-                    totalCommits: commits.authorFinalContributionMap[author]
+                    totalCommits: commits.authorFinalContributionMap[author],
                 };
+                obj.displayPath = REPOS[repo].organization+"/";
+                obj.displayPath += REPOS[repo].repoName+"/";
+                obj.displayPath += obj.displayName+"/";
+                obj.displayPath += author;
+
                 res.push(obj);
             }
-
-            app.addUsers(res);
+            
+            REPOS[repo]["users"] = res;
+            app.addUsers();
         });
     }
 };

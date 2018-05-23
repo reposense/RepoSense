@@ -37,13 +37,26 @@ header{
 }
 
 /* summary chart */
-#summary{
-    padding-top:2rem;
-    text-align:center;
+#summary, .summary-status{
+    margin:2rem;
+}
+
+.summary-picker{
+    &__search{
+        text-transform:lowercase;
+    }
+}
+
+.summary-charts{
+    margin-bottom:3rem;
+
+    &--title{
+        font-weight:bold;
+    }
 }
 
 .summary-chart{
-    margin-bottom:1rem;
+    margin-bottom:1rem; 
 
     &__title{
         display:flex;
@@ -53,9 +66,6 @@ header{
             display:inline-block;
             padding-right:0.5rem;
         }
-
-        &--organization::after{ content:"/"; }
-        &--repo::after{ content:"/"; }
     }
 
     &__ramp{
