@@ -5,10 +5,17 @@ vueMethods = {
     updateMaxDate: function(date) {
         this.maxDate = date;
     },
-    rangeFilter: function(contributions, minDate, maxDate) {
+    rangeFilter: function(contributions, intervalType, minDate, maxDate) {
         var resultContribution = [];
         var minDateParsed = Date.parse(minDate);
         var maxDateParsed = Date.parse(maxDate);
+        var startingDate = Date.parse(contributions[0]["fromDate"]);
+        var paddingCount = getIntervalCount(intervalType, minDate, startingDate);
+        if(minDateParsed < startingDate){
+            for(var i=0; i<paddingCount; i++){
+                resultContribution.push({ insertions:0 });
+            }
+        }
         for (contribution of contributions) {
             var currentFromDate = Date.parse(contribution["fromDate"]);
             var currentToDate = Date.parse(contribution["toDate"]);
@@ -16,11 +23,12 @@ vueMethods = {
                 resultContribution.push(contribution);
             }
         }
+
         return resultContribution;
     },
     getSliceStyle: function(index, value, intervalType, minDate, maxDate) {
         var sliceScaleLimit = sliceScaleLimitMap[intervalType];
-        var spacing = 93 / getIntervalCount(intervalType, minDate, maxDate);
+        var spacing = 100 / getIntervalCount(intervalType, minDate, maxDate);
         var contribution = value['insertions'];
         var width;
         if (contribution == 0) {
