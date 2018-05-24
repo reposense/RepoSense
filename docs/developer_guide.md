@@ -61,12 +61,6 @@ Optionally, you can follow the [Using Checkstyle](UsingCheckstyle.md) document t
 RepoConfiguration stores the configuration information for one single repository, including repository orgarization, name, branch, author whitelist etc.
 
 It should be read-only. It can be constructed using **ConfigurationBuilder**.
-### `RepoInfo`
-RepoInfo contains the result of repository analyzing. It has two main parts:
-1. an ArrayList of CommitInfo
-2. an ArrayList of FileInfo
-
-It also includes some basic information of the repository, like organization and repo name.
 
 ### `FileInfo`
 FileInfo contains the result of one single file. It has two main parts:
@@ -86,9 +80,9 @@ Frontend parses the CSV file and the CLI arguments, and build a list of RepoConf
 The list of RepoConfigurations will be passed to RepoInfoFileGenerator.
 
 ## Dashboard Generator Components
-### `RepoInfoFileGenerator`
-RepoInfoFileGenerator first calls RepoAnalyzer to generate a list of RepoInfo. It will use RepoInfo to generate the summarized information for each repository using ContributionSummaryGenerator,
-then it will generate the dashboard.
+### `ContributionSummaryGenerator`
+`RepoInfoFileGenerator` utilizes `RepoAnalyzer` to generate the contribution summary of each repository and output them as json files.
+These json files are import by **summary.js** to generate the dashboard displayed in the **index.html**.
 
 ## Git Utilities
 Calling Git Commands and parsing the output is essential in RepoSense. Thus, wrapper for each Git command is written.
