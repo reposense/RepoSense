@@ -5,6 +5,11 @@ function comparator(fn){ return function(a, b){
     return 1;
 };}
 
+function getIntervalDay(a, b){
+    var diff = Date.parse(a) - Date.parse(b); 
+    return diff/(1000*60*60*24);
+}
+
 var vSummary = {
     props: ["repos"],
     template: $("v_summary").innerHTML,
@@ -16,6 +21,7 @@ var vSummary = {
             filterSort: "totalCommits",
             filterSortReverse: false,
             filterGroupRepos: true,
+            filterGroupWeek: false,
             filterSinceDate: "",
             filterUntilDate: "",
             filterHash: ""
@@ -26,6 +32,7 @@ var vSummary = {
         filterSort: function(){ this.getFiltered(); },
         filterSortReverse: function(){ this.getFiltered(); },
         filterGroupRepos: function(){ this.getFiltered(); },
+        filterGroupWeek: function(){ this.getFiltered(); },
         filterSinceDate: function(){ this.getFiltered(); },
         filterUntilDate: function(){ this.getFiltered(); }
     },
@@ -57,69 +64,7 @@ var vSummary = {
             return totalLines/totalCount;
         }
     },
-    methods: {
-        // model funcs
-        getFilterHash: function(){ 
-            this.filterSearch = this.filterSearch.toLowerCase();
-            this.filterHash = [
-                enquery("search", this.filterSearch),
-                enquery("sort", this.filterSort),
-                enquery("reverse", this.filterSortReverse),
-                enquery("repoSort", this.filterGroupRepos),
-                enquery("since", this.filterSinceDate),
-                enquery("until", this.filterUntilDate)
-            ].join('&');
-
-            window.location.hash = this.filterHash;
-        },
-        getFiltered: function(){ 
-            this.getFilterHash();
-
-            // array of array, sorted by repo
-            var full = []; 
-
-            for(repo of this.repos){
-                var res = [];
-                
-                // filtering
-                for(user of repo.users){ 
-                    if(user.searchPath.search(this.filterSearch) == -1){
-                        continue; 
-                    } 
-                    res.push(user);
-                }
-
-                // getting the ramp slices
-                for(user of res){
-                    user["commits"] = user["dailyCommits"];
-                }
-
-                full.push(res);
-            }
-            
-            var full2 = [];
-            if(this.filterGroupRepos){
-                for(users of full){ 
-                    users.sort(comparator(ele => ele[this.filterSort]));
-                    full2.push(users);
-                }
-            }else{
-                full2.push([]);
-                for(users of full){
-                    for(user of users){
-                        full2[0].push(user);
-                    }
-                }
-
-                full2[0].sort(comparator(ele => ele[this.filterSort]));
-            }
-
-            if(this.filterSortReverse){
-                for(users of full2){ users.reverse(); }
-            }
-
-            this.filtered = full2;
-        },
+    methods: { 
         // view funcs
         getWidth: function(slice){
             if(slice.insertions==0){ return 0; }
@@ -152,7 +97,121 @@ var vSummary = {
             if(last!=0){ res.push(last*100); }
 
             return res;
-        }
+        },
+        // model funcs
+        getFilterHash: function(){ 
+            this.filterSearch = this.filterSearch.toLowerCase();
+            this.filterHash = [
+                enquery("search", this.filterSearch),
+                enquery("sort", this.filterSort),
+                enquery("reverse", this.filterSortReverse),
+                enquery("repoSort", this.filterGroupRepos),
+                enquery("since", this.filterSinceDate),
+                enquery("until", this.filterUntilDate)
+            ].join('&');
+
+            window.location.hash = this.filterHash;
+        },
+        getCommits: function(user){
+            var res = [];
+            var userFirst = user.dailyCommits[0];
+            var userLast = user.dailyCommits[user.dailyCommits.length-1];
+            
+            var sinceDate = this.filterSinceDate;
+            if(!sinceDate){ sinceDate = userFirst.fromDate; }
+
+            var untilDate = this.filterUntilDate;
+            if(!untilDate){ untilDate = userLast.fromDate; }
+
+            var diff = getIntervalDay(userFirst.fromDate, sinceDate);
+            for(var i=0; i<diff; i++){ 
+                res.push({ insertions:0, deletions:0 }); 
+            }
+
+            for(commit of user.dailyCommits){
+                if(commit.fromDate<sinceDate){ continue; } 
+                if(commit.fromDate>untilDate){ break; }
+                res.push(commit);
+            }
+
+            diff = getIntervalDay(untilDate, userLast.fromDate);
+            for(var i=0; i<diff; i++){ 
+                res.push({ insertions:0, deletions:0 }); 
+            }
+
+            return res;
+        },
+        getDates: function(){
+            if(this.filterSinceDate && this.filterUntilDate){
+                return;
+            }
+
+            var minDate="", maxDate="";
+            for(repo of this.filtered){
+                for(user of repo){
+                    var commits = user.commits;
+                    var date1 = commits[0].fromDate;
+                    var date2 = commits[commits.length-1].fromDate;
+                    if(!minDate || minDate>date1){ minDate=date1; }
+                    if(!maxDate || maxDate<date2){ maxDate=date2; }
+                }
+            }
+
+            if(!this.filterSinceDate){ this.filterSinceDate=minDate; }
+            if(!this.filterUntilDate){ this.filterUntilDate=maxDate; }
+        },
+        getFiltered: function(){ 
+            this.getFilterHash();
+
+            // array of array, sorted by repo
+            var full = []; 
+
+            for(repo of this.repos){
+                var res = [];
+                
+                // filtering
+                for(user of repo.users){ 
+                    if(user.searchPath.search(this.filterSearch)>-1){
+                        res.push(user);
+                    } 
+                }
+
+                // getting the ramp slices
+                for(user of res){
+                    if(this.filterGroupWeek){
+                        user["commits"] = user["weeklyCommits"];
+                    }else{
+                        user["commits"] = this.getCommits(user); 
+                    }
+                }
+                
+                if(res.length){ full.push(res); }
+            }
+            
+            // sorting
+            var full2 = [];
+            if(this.filterGroupRepos){
+                for(users of full){ 
+                    users.sort(comparator(ele => ele[this.filterSort]));
+                    full2.push(users);
+                }
+            }else{
+                full2.push([]);
+                for(users of full){
+                    for(user of users){
+                        full2[0].push(user);
+                    }
+                }
+
+                full2[0].sort(comparator(ele => ele[this.filterSort]));
+            }
+            if(this.filterSortReverse){
+                for(users of full2){ users.reverse(); }
+            }
+
+            this.filtered = full2;
+            this.getDates();
+        },
     },
     created: function(){ this.getFiltered(); }
 };

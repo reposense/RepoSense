@@ -38,10 +38,13 @@ html
           .mui-checkbox.summary-picker__checkboxes.summary-picker__input
             label
               input(type="checkbox", v-model="filterSortReverse").summary-picker__checkbox
-              span reverse sorting
+              span reverse
             label
               input(type="checkbox", v-model="filterGroupRepos").summary-picker__checkbox
               span group by repo 
+            label
+              input(type="checkbox", v-model="filterGroupWeek").summary-picker__checkbox
+              span week 
           .summary-picker__input
             .mui-textfield.summary-picker__date
               input(type="date", v-model="filterSinceDate")
@@ -60,6 +63,7 @@ html
               .summary-chart__ramp
                 a.summary-chart__ramp__slice(
                   v-for="(slice, j) in user.commits",
+                  v-if="slice.insertions>0",
                   v-bind:title="getSliceTitle(slice)",
                   v-bind:href="getSliceLink(user, slice)", target="_blank",
                   v-bind:class="'summary-chart__ramp__slice--color'+j%5",
