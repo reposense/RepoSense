@@ -25,7 +25,7 @@ html
     script#v_summary
       #summary
         form.summary-picker.content.mui-form--inline(v-on:submit.prevent="getFiltered();") 
-          .mui-textfield.mui-textfield--float-label.summary-picker__input
+          .mui-textfield.summary-picker__input
             input.summary-picker__search(type="text", v-model="filterSearch")
             label search
           .mui-select.summary-picker__input
@@ -42,6 +42,13 @@ html
             label
               input(type="checkbox", v-model="filterGroupRepos").summary-picker__checkbox
               span group by repo 
+          .summary-picker__input
+            .mui-textfield.summary-picker__date
+              input(type="date", v-model="filterSinceDate")
+              label since
+            .mui-textfield.summary-picker__date
+              input(type="date", v-model="filterUntilDate")
+              label until 
         #summary-charts
           .summary-charts(v-for="repo of filtered", v-if="repo.length>0")
             .summary-charts--title(v-if="filterGroupRepos") {{ repo[0].repoId }}
@@ -68,4 +75,5 @@ html
                 )
 
     script(src="static/js/api.js")
+    script(src="static/js/v_summary.js")
     script(src="static/js/main.js")

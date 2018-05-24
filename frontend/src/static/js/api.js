@@ -1,3 +1,11 @@
+/* util funcs */
+function $(id){ return document.getElementById(id); } 
+
+function enquery(key, val){
+    return key + "=" + encodeURIComponent(val);
+}
+
+/* api funcs */
 function loadJSON(file, fn){
     var xhr = new XMLHttpRequest();
     xhr.open("GET", file);

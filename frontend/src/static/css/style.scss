@@ -45,7 +45,7 @@ header{
     margin-bottom:2rem;
 
     &__input{
-        margin-right:1rem;
+        margin:0.5rem;
     }
 
     &__search{
@@ -55,6 +55,10 @@ header{
     &__checkboxes{
         label{ margin-left:0.5rem; }
         span{ margin-left:0.25rem; } 
+    }
+
+    &__date:first-child{
+        margin-right:0.5rem;
     }
 }
 
