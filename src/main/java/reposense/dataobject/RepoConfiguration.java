@@ -134,7 +134,7 @@ public class RepoConfiguration {
         this.toDate = toDate;
     }
 
-    public String getDirectoryName() {
+    public String getDisplayName() {
         return displayName;
     }
 }
