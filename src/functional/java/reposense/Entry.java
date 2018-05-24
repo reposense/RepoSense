@@ -55,10 +55,10 @@ public class Entry {
     }
 
     private void assertJson(File expectedJson, String expectedPosition, String actualRelative) {
-        File actual = new File(actualRelative + expectedPosition);
-        Assert.assertTrue(actual.exists());
+        File actualJson = new File(actualRelative + expectedPosition);
+        Assert.assertTrue(actualJson.exists());
         try {
-            Assert.assertTrue(TestUtil.compareFileContents(expectedJson, actual));
+            Assert.assertTrue(TestUtil.compareFileContents(expectedJson, actualJson));
         } catch (IOException e) {
             Assert.fail(e.getMessage());
         }
