@@ -7,7 +7,8 @@
 ## Dependencies
 1. **JDK `1.8.0_60`**  or later
 2. **Git** on the command line
-   * Ensure that you're able to use it on the OS terminal.
+3. **findstr** for Windows, **grep** for Linux on the command line
+   * Ensure that you're able to use these tools on the OS terminal.
 
 ## How to Generate Dashboard
 1. Download the latest executable Jar on our [release](https://github.com/reposense/RepoSense/releases/latest).

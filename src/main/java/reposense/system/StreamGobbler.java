@@ -1,15 +1,17 @@
 package reposense.system;
 
-import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.InputStreamReader;
-
+import java.nio.ByteBuffer;
+import java.nio.channels.Channels;
+import java.nio.channels.ReadableByteChannel;
 
 public class StreamGobbler extends Thread {
 
+    private final ByteBuffer buffer = ByteBuffer.allocate(1 << 13); // 8KB
+
     private InputStream is;
-    private String value = "";
+    private String value;
 
     public StreamGobbler(InputStream is) {
         this.is = is;
@@ -22,12 +24,14 @@ public class StreamGobbler extends Thread {
     @Override
     public void run() {
         try {
-            InputStreamReader isr = new InputStreamReader(is);
-            BufferedReader br = new BufferedReader(isr);
-            String line = null;
-            while ((line = br.readLine()) != null) {
-                value += line + "\n";
+            StringBuilder sb = new StringBuilder();
+            ReadableByteChannel ch = Channels.newChannel(is);
+            int len;
+            while ((len = ch.read(buffer)) > 0) {
+                sb.append(new String(buffer.array(), 0, len));
+                buffer.rewind();
             }
+            value = sb.toString();
         } catch (IOException ioe) {
             ioe.printStackTrace();
         }

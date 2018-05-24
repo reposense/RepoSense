@@ -8,7 +8,6 @@ import java.util.Date;
 
 import reposense.util.Constants;
 
-
 public class CommandRunner {
 
     private static boolean isWindows = isWindows();
@@ -33,7 +32,15 @@ public class CommandRunner {
 
     public static String blameRaw(String root, String fileDirectory) {
         Path rootPath = Paths.get(root);
-        return runCommand(rootPath, "git blame " + addQuote(fileDirectory) + " -w -C -C -M --line-porcelain");
+        String blameCommand = "git blame " + addQuote(fileDirectory) + " -w -C -C -M --line-porcelain | ";
+
+        if (isWindows) {
+            blameCommand += "findstr /B /C:" + addQuote("author ");
+        } else {
+            blameCommand += "grep " + addQuote("^author .*");
+        }
+
+        return runCommand(rootPath, blameCommand);
     }
 
     public static String checkStyleRaw(String absoluteDirectory) {

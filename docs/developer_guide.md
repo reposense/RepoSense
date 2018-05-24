@@ -14,9 +14,10 @@ Thank you for contributing to RepoSense!
 ### Prerequisites
 
 1. **JDK `1.8.0_60`**  or later
-2. **Git** on the command line <br>
-> Ensure that you're able to use it on the OS terminal. <br>
-3. **IntelliJ** IDE [Optional]
+2. **Git** on the command line 
+3. **findstr** for Windows, **grep** for Linux on the command line
+   * Ensure that you're able to use these tools on the OS terminal.
+4. **IntelliJ** IDE [Optional]
 
 ### Setting up the project in your computer using IntelliJ
 1. Fork this repo, and clone the fork to your computer.
