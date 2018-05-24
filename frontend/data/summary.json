@@ -1,14 +1,14 @@
 [
   {
-    "organization": "CS2103AUG2017-W09-B1",
-    "repoName": "main",
-    "branch": "master",
-    "displayName": "CS2103AUG2017-W09-B1_main"
-  },
-  {
     "organization": "CS2103AUG2017-W09-B2",
     "repoName": "main",
     "branch": "master",
     "displayName": "CS2103AUG2017-W09-B2_main"
+  },
+  {
+    "organization": "CS2103AUG2017-W09-B1",
+    "repoName": "main",
+    "branch": "master",
+    "displayName": "CS2103AUG2017-W09-B1_main"
   }
 ]

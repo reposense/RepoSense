@@ -2,6 +2,15 @@ var REPORT_DIR = "";
 var REPOS = {};
 
 function $(id){ return document.getElementById(id); }
+function comparator(fn){ return function(a, b){ 
+    var a1 = fn(a), b1=fn(b);
+    if(a1 == b1){ return 0; }
+    else if(a1 < b1){ return -1; }
+    return 1;
+};}
+function enquery(key, val){
+    return key + "=" + encodeURIComponent(val);
+} 
 
 const vSummary = {
     props: ["repos"],
@@ -12,12 +21,16 @@ const vSummary = {
             rampScale: 0.1,
             filterSearch: "",
             filterSort: "totalCommits",
+            filterSortReverse: false,
+            filterGroupRepos: true,
             filterHash: ""
         };
     },
     watch:{ 
-        filterHash: function(){ this.getFiltered(); },
-        repos: function(){ this.getFiltered(); }
+        repos: function(){ this.getFiltered(); },
+        filterSort: function(){ this.getFiltered(); },
+        filterSortReverse: function(){ this.getFiltered(); },
+        filterGroupRepos: function(){ this.getFiltered(); }
     },
     computed: {
         sliceCount: function(){ return this.filtered[0][0].commits.length; },
@@ -50,8 +63,12 @@ const vSummary = {
     methods: {
         getFilterHash: function(){ 
             this.filterSearch = this.filterSearch.toLowerCase();
-            this.filterHash = "search=" + encodeURIComponent(this.filterSearch) + "&";
-            this.filterHash = "sort=" + encodeURIComponent(this.filterSort) + "&";
+            this.filterHash = [
+                enquery("search", this.filterSearch),
+                enquery("sort", this.filterSort),
+                enquery("reverse", this.filterSortReverse),
+                enquery("repoSort", this.filterGroupRepos)
+            ].join('&');
 
             window.location.hash = this.filterHash;
         },
@@ -72,21 +89,41 @@ const vSummary = {
                     res.push(user);
                 }
 
-                // sorting
-                res = res.sort((a, b) => {
-                    return a[this.filterSort] - b[this.filterSort];
-                });
-
                 // getting the ramp slices
                 for(user of res){
-                    // TODO: group by week
                     user["commits"] = user["dailyCommits"];
                 }
 
                 full.push(res);
             }
+            
+            var full2 = [];
+            if(this.filterGroupRepos){
+                for(users of full){ 
+                    users.sort(comparator(ele => ele[this.filterSort]));
+                    full2.push(users);
+                }
+            }else{
+                full2.push([]);
+                for(users of full){
+                    for(user of users){
+                        full2[0].push(user);
+                    }
+                }
 
-            this.filtered = full;
+                full2[0].sort(comparator(ele => ele[this.filterSort]));
+            }
+
+            if(this.filterSortReverse){
+                for(users of full2){ users.reverse(); }
+            }
+
+            this.filtered = full2;
+
+            console.log('aa');
+            for(user of full2[0]){
+                console.log(user[this.filterSort]);
+            }
         },
         getWidth: function(slice){
             if(slice.insertions==0){ return 0; }

@@ -42,8 +42,19 @@ header{
 }
 
 .summary-picker{
+    margin-bottom:2rem;
+
+    &__input{
+        margin-right:1rem;
+    }
+
     &__search{
         text-transform:lowercase;
+    }
+
+    &__checkboxes{
+        label{ margin-left:0.5rem; }
+        span{ margin-left:0.25rem; } 
     }
 }
 
@@ -65,6 +76,12 @@ header{
             content:".";
             display:inline-block;
             padding-right:0.5rem;
+        }
+
+        &--repo::after{
+            content:"/";
+            display:inline-block;
+            padding-right:0.1rem;
         }
     }
 
