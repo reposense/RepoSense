@@ -23,6 +23,7 @@ public class RepoConfiguration {
     private boolean annotationOverwrite = true;
     private Date fromDate;
     private Date toDate;
+    private List<GithubIssue> githubIssues;
 
 
     public RepoConfiguration(String organization, String repoName, String branch) {
@@ -129,5 +130,13 @@ public class RepoConfiguration {
 
     public void setToDate(Date toDate) {
         this.toDate = toDate;
+    }
+
+    public List<GithubIssue> getGithubIssues() {
+        return githubIssues;
+    }
+
+    public void setGithubIssues(List<GithubIssue> githubIssues) {
+        this.githubIssues = githubIssues;
     }
 }

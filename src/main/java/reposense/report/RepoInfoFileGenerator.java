@@ -1,6 +1,7 @@
 package reposense.report;
 
 import java.io.File;
+import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Date;
@@ -17,6 +18,8 @@ import reposense.dataobject.RepoInfo;
 import reposense.frontend.RepoSense;
 import reposense.git.GitCloner;
 import reposense.git.GitClonerException;
+import reposense.gitmanagement.GitCredentials;
+import reposense.gitmanagement.GitIssueManager;
 import reposense.util.Constants;
 import reposense.util.FileUtil;
 
@@ -26,13 +29,26 @@ public class RepoInfoFileGenerator {
     public static void generateReposReport(List<RepoConfiguration> repoConfigs, String targetFileLocation) {
         String reportName = generateReportName();
         List<RepoInfo> repos = new ArrayList<>();
+        GitCredentials gitCredentials = null;
+
+        try {
+            gitCredentials = new GitCredentials();
+        } catch (IOException ie) {
+            System.out.println("There was some problem with github authentication");
+        }
 
         copyTemplate(reportName, targetFileLocation);
         for (RepoConfiguration config: repoConfigs) {
             try {
                 GitCloner.downloadRepo(config.getOrganization(), config.getRepoName(), config.getBranch());
+                GitIssueManager.fetchGithubIssues(gitCredentials.getGithub(),
+                        config.getOrganization(), config.getRepoName());
             } catch (GitClonerException e) {
                 System.out.println("Exception met when cloning the repo, will skip this one");
+                continue;
+            } catch (IOException ie) {
+                System.out.println("Exception met when fetching the issue of this repo,"
+                        + " will skip this one");
                 continue;
             }
             RepoInfo repoInfo = analyzeRepo(config);
