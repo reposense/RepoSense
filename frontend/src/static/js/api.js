@@ -43,10 +43,11 @@ var api = {
                     dailyCommits: commits.authorDailyIntervalContributions[author],
                     totalCommits: commits.authorFinalContributionMap[author],
                 };
-                obj.displayPath = REPOS[repo].organization+"/";
-                obj.displayPath += REPOS[repo].repoName+"/";
-                obj.displayPath += obj.displayName+"/";
-                obj.displayPath += author;
+                obj.searchPath = REPOS[repo].organization+"/";
+                obj.searchPath += REPOS[repo].repoName+"/";
+                obj.searchPath += obj.displayName+"/";
+                obj.searchPath += author;
+                obj.searchPath = obj.searchPath.toLowerCase()
 
                 res.push(obj);
             }

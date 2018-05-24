@@ -82,6 +82,9 @@ header{
             width:0;
             height:0;
 
+            border-left-color: rgba(0,0,0,0);
+            border-left-style: solid;
+
             &--color0{ border-bottom:$height rgba(mui-color("orange"), 0.5) solid;  }
             &--color1{ border-bottom:$height rgba(mui-color("light-blue"), 0.5) solid;  }
             &--color2{ border-bottom:$height rgba(mui-color("green"), 0.5) solid;  }

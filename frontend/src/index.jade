@@ -24,12 +24,15 @@ html
 
     script#v_summary
       #summary
-        form#summary-picker.content.mui-form(onsubmit="return false;", v-on:submit="getFilterHash();") 
-          .mui-textfield
-            input.summary-picker__search(type="text", placeHolder="search", v-model="filterSearch")
+        form#summary-picker.content.mui-form(v-on:submit.prevent="getFiltered();") 
+          .mui-textfield.mui-textfield--float-label
+            input.summary-picker__search(type="text", v-model="filterSearch")
+            label search
           .mui-select
-            select
-              option Variance
+            select(v-model="filterSort", v-on:change="getFiltered();")
+              option(value="totalCommits") Contribution
+              option(value="variance") Variance 
+            label sort by 
         #summary-charts
           .summary-charts(v-for="repo of filtered", v-if="repo.length>0")
             .summary-charts--title {{ repo[0].repoId }}
@@ -44,11 +47,11 @@ html
                   v-bind:href="getSliceLink(user, slice)", target="_blank",
                   v-bind:class="'summary-chart__ramp__slice--color'+j%5",
                   v-bind:style="{
-                    borderLeft: getWidth(slice)+'em #0000 solid',
+                    borderLeftWidth: getWidth(slice)+'em',
                     right: (sliceCount-j-1)*sliceWidth + '%'
                   }"
                 )
-              .summary-chart__contrib(v-bind:title="'total contribution: '+user.totalCommits")
+              .summary-chart__contrib(v-bind:title="'total contribution: '+user.totalCommits+', '+user.variance")
                 .summary-chart__contrib--bar(
                   v-for="width in getContributionBars(user.totalCommits)",
                   v-bind:style="{ width: width+'%' }"

@@ -11,6 +11,7 @@ const vSummary = {
             filtered: [],
             rampScale: 0.1,
             filterSearch: "",
+            filterSort: "totalCommits",
             filterHash: ""
         };
     },
@@ -48,25 +49,43 @@ const vSummary = {
     },
     methods: {
         getFilterHash: function(){ 
-            this.filterHash = "search=" + encodeURIComponent(this.filterSearch.toLowerCase()) + "&";
+            this.filterSearch = this.filterSearch.toLowerCase();
+            this.filterHash = "search=" + encodeURIComponent(this.filterSearch) + "&";
+            this.filterHash = "sort=" + encodeURIComponent(this.filterSort) + "&";
+
+            window.location.hash = this.filterHash;
         },
         getFiltered: function(){ 
+            this.getFilterHash();
+
             // array of array, sorted by repo
             var full = []; 
+
             for(repo of this.repos){
                 var res = [];
-                for(user of repo.users){
-                    // TODO: group by week
-                    user["commits"] = user["dailyCommits"];
-                    
-                    if(this.filterSearch && user.displayPath.search(this.filterSearch) == -1){
+                
+                // filtering
+                for(user of repo.users){ 
+                    if(user.searchPath.search(this.filterSearch) == -1){
                         continue; 
                     } 
-
                     res.push(user);
                 }
+
+                // sorting
+                res = res.sort((a, b) => {
+                    return a[this.filterSort] - b[this.filterSort];
+                });
+
+                // getting the ramp slices
+                for(user of res){
+                    // TODO: group by week
+                    user["commits"] = user["dailyCommits"];
+                }
+
                 full.push(res);
             }
+
             this.filtered = full;
         },
         getWidth: function(slice){
