@@ -15,7 +15,7 @@ public class TestUtil {
     private static final String MESSAGE_LINES_LENGTH_DIFFERENT = "The files' lines count do not match.";
 
     /**
-     * Returns true if the files' contents are the same, and false otherwise.
+     * Returns true if the files' contents are the same.
      * Also prints out error message if the lines count are different,
      * else prints out the first line of content difference (if any).
      */
@@ -24,7 +24,7 @@ public class TestUtil {
     }
 
     /**
-     * Returns true if the files' contents are the same, and false otherwise.
+     * Returns true if the files' contents are the same.
      * Also prints out error message if the lines count are different,
      * else prints out maximum {@code maxTraceCounts} lines of content difference (if any).
      */
