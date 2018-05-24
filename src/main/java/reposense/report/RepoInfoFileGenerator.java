@@ -15,7 +15,6 @@ import reposense.dataobject.CommitInfo;
 import reposense.dataobject.FileInfo;
 import reposense.dataobject.RepoConfiguration;
 import reposense.dataobject.RepoContributionSummary;
-import reposense.dataobject.RepoInfo;
 import reposense.frontend.RepoSense;
 import reposense.git.GitCloner;
 import reposense.git.GitClonerException;
@@ -37,19 +36,13 @@ public class RepoInfoFileGenerator {
                 System.out.println("Exception met when cloning the repo, will skip this one");
                 continue;
             }
-            RepoInfo repoInfo = new RepoInfo(
-                    config.getOrganization(),
-                    config.getRepoName(),
-                    config.getBranch(),
-                    config.getAuthorDisplayNameMap()
-            );
             List<FileInfo> fileInfos = RepoAnalyzer.analyzeAuthorship(config);
             List<CommitInfo> commitInfos = RepoAnalyzer.analyzeCommits(config);
             HashMap<Author, Integer> authorContributionMap =
                     ContentAnalyzer.getAuthorMethodContributionCount(fileInfos, config.getAuthorList());
             RepoContributionSummary summary = ContributionSummaryGenerator.analyzeContribution(
                     config, commitInfos, authorContributionMap, suspiciousAuthors);
-            generateIndividualRepoReport(repoInfo, fileInfos, summary, reportName, targetFileLocation);
+            generateIndividualRepoReport(config, fileInfos, summary, reportName, targetFileLocation);
             FileUtil.deleteDirectory(Constants.REPOS_ADDRESS);
         }
 
@@ -63,10 +56,10 @@ public class RepoInfoFileGenerator {
 
     }
 
-    private static void generateIndividualRepoReport(RepoInfo repoinfo, List<FileInfo> fileInfos,
+    private static void generateIndividualRepoReport(RepoConfiguration repoConfig, List<FileInfo> fileInfos,
             RepoContributionSummary summary, String reportName, String targetFileLocation) {
 
-        String repoReportName = repoinfo.getDirectoryName();
+        String repoReportName = repoConfig.getDisplayName();
         String repoReportDirectory = targetFileLocation + "/" + reportName + "/" + repoReportName;
         new File(repoReportDirectory).mkdirs();
         String templateLocation = targetFileLocation + File.separator
