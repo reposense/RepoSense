@@ -3,9 +3,10 @@ package reposense.util;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.Calendar;
+import java.util.Date;
 
 public class TestUtil {
-
     private static final String MESSAGE_COMPARING_FILES = "Comparing files %s & %s\n";
 
     private static final String MESSAGE_LINE_CONTENT_DIFFERENT = "Content different at line number %d:\n"
@@ -54,5 +55,17 @@ public class TestUtil {
             return false;
         }
         return true;
+    }
+
+    /**
+    * Creates and returns a {@code Date} object with the specified {@code year}, {@code month}, {@code day}.
+    */
+    public static Date getDate(int year, int month, int date) {
+        return new Calendar
+                .Builder()
+                .setDate(year, month, date)
+                .setTimeOfDay(0, 0, 0)
+                .build()
+                .getTime();
     }
 }

@@ -5,41 +5,26 @@ import java.util.Date;
 import java.util.List;
 
 import reposense.dataobject.RepoConfiguration;
+import reposense.exception.ParseException;
+import reposense.parser.ArgsParser;
 import reposense.report.RepoInfoFileGenerator;
 import reposense.system.CsvConfigurationBuilder;
 
 public class RepoSense {
 
     public static void main(String[] args) {
-        if (args.length == 0) {
-            showHelpMessage();
-        }
-
         try {
-            CliArguments cliArguments = new CliArguments(args);
+            CliArguments cliArguments = ArgsParser.parse(args);
 
             Path configFile = cliArguments.getConfigFilePath();
-            Path targetFile = cliArguments.getTargetFilePath();
+            Path targetFile = cliArguments.getOutputFilePath();
             Date fromDate = cliArguments.getSinceDate().orElse(null);
             Date toDate = cliArguments.getUntilDate().orElse(null);
 
             List<RepoConfiguration> configs = CsvConfigurationBuilder.buildConfigs(configFile, fromDate, toDate);
             RepoInfoFileGenerator.generateReposReport(configs, targetFile.toAbsolutePath().toString());
-        } catch (IllegalArgumentException ex) {
-            System.out.print(ex.getMessage());
-            showHelpMessage();
+        } catch (ParseException pe) {
+            System.out.print(pe.getMessage());
         }
-    }
-
-    private static void showHelpMessage() {
-        System.out.println("usage: java -jar RepoSense.jar -config CSV_CONFIG_FILE_PATH\n"
-                + "   [-output OUTPUT_DIRECTORY]\n"
-                + "   [-since DD/MM/YYYY]\n"
-                + "   [-until DD/MM/YYYY]\n");
-        System.out.println("-config: Mandatory. The path to the CSV config file.");
-        System.out.println("-output: Optional. The path to the dashboard generated.\n"
-                + "   If not provided, it will be generated in the current directory.");
-        System.out.println("-since : Optional. start date of analysis. Format: dd/MM/yyyy");
-        System.out.println("-until : Optional. end date of analysis. Format: dd/MM/yyyy");
     }
 }
