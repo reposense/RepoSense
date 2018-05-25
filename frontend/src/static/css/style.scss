@@ -1,0 +1,54 @@
+@import "static/css/colors";
+
+/** global **/
+body{
+    font-family:Roboto;
+}
+
+.wrapper{
+    max-width:40rem;
+}
+
+/** navigation bar **/
+header{
+    display:flex;
+    justify-content:center;
+
+    .wrapper{
+        display:flex;  
+        justify-content:space-between;
+        align-items:center;
+        
+        flex-grow:1;
+    }
+
+    .repo, .logo{
+        margin:0;
+    }
+}
+
+/* summary chart */
+#summary{
+    padding-top:2rem;
+    text-align:center;
+}
+
+.summary-chart{ 
+    &__title{
+        display:flex;
+
+        &--index::after{ 
+            content:"."; 
+            display:inline-block;
+            padding-right:0.5rem;
+        }
+
+        &--organization::after{ content:"/"; }
+        &--repo::after{ content:"/"; }
+    } 
+
+    &__ramp{
+        height:3rem;
+        background-color: mui-color("blue", "50");
+    }
+}
