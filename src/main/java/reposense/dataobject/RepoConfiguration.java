@@ -11,24 +11,27 @@ import reposense.util.FileUtil;
 
 
 public class RepoConfiguration {
-    private boolean needCheckStyle = false;
-    private int commitNum = 1;
     private String organization;
     private String repoName;
     private String branch;
-    private List<String> ignoreDirectoryList = new ArrayList<>();
-    private List<Author> authorList = new ArrayList<>();
-    private TreeMap<String, Author> authorAliasMap = new TreeMap<>(String.CASE_INSENSITIVE_ORDER);
-    private Map<Author, String> authorDisplayNameMap = new HashMap<>();
-    private boolean annotationOverwrite = true;
+    private String displayName;
     private Date fromDate;
     private Date toDate;
+
+    private transient boolean needCheckStyle = false;
+    private transient int commitNum = 1;
+    private transient List<String> ignoreDirectoryList = new ArrayList<>();
+    private transient List<Author> authorList = new ArrayList<>();
+    private transient TreeMap<String, Author> authorAliasMap = new TreeMap<>(String.CASE_INSENSITIVE_ORDER);
+    private transient Map<Author, String> authorDisplayNameMap = new HashMap<>();
+    private transient boolean annotationOverwrite = true;
 
 
     public RepoConfiguration(String organization, String repoName, String branch) {
         this.organization = organization;
         this.repoName = repoName;
         this.branch = branch;
+        this.displayName = organization + "_" + repoName;
     }
 
     public Map<Author, String> getAuthorDisplayNameMap() {
@@ -129,5 +132,9 @@ public class RepoConfiguration {
 
     public void setToDate(Date toDate) {
         this.toDate = toDate;
+    }
+
+    public String getDisplayName() {
+        return displayName;
     }
 }
