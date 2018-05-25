@@ -11,19 +11,24 @@ function getIntervalDay(a, b){
     var diff = Date.parse(a) - Date.parse(b); 
     return diff/DAY;
 }
-
+function getIntervalWeek(a, b){
+    return getIntervalDay(a, b)/7;
+}
+function getDateStr(date){
+    return (new Date(date)).toISOString().split("T")[0];
+}
 function dateRounding(datestr, roundDown){
     // rounding up to nearest sunday
-    var date = new Date(datestr); 
+    var date = new Date(datestr);
     var day = date.getUTCDay();
-    if(day){
-        if(roundDown){
-            date += (7-day)*DAY;
-        }else{
-            date -= (7-day)*DAY;
-        }
+    var datems = date.getTime();
+    if(roundDown){
+        datems -= day*DAY;
+    }else{
+        datems += (7-day)*DAY;
     }
-    return date.toISOString().split("T")[0];
+
+    return getDateStr(datems); 
 }
 
 var vSummary = {
@@ -159,70 +164,111 @@ var vSummary = {
                 // filtering
                 for(user of repo.users){ 
                     if(user.searchPath.search(this.filterSearch)>-1){
+                        this.getUserCommits(user);
+                        if(this.filterGroupWeek){ this.splitCommitsWeek(user); }
                         res.push(user);
                     } 
                 }
 
-                // getting the ramp slices
-                for(user of res){
-                    if(this.filterGroupWeek){
-                        user["commits"] = user["weeklyCommits"];
-                    }
-
-                    user["commits"] = []; 
-                    var userFirst = user.dailyCommits[0];
-                    var userLast = user.dailyCommits[user.dailyCommits.length-1];
-
-                    var sinceDate = this.filterSinceDate;
-                    if(!sinceDate){ sinceDate = userFirst.fromDate; }
-
-                    var untilDate = this.filterUntilDate;
-                    if(!untilDate){ untilDate = userLast.fromDate; }
-
-                    var diff = getIntervalDay(userFirst.fromDate, sinceDate);
-                    for(var i=0; i<diff; i++){ 
-                        user.commits.push({ insertions:0, deletions:0 }); 
-                    }
-
-                    for(commit of user.dailyCommits){
-                        if(commit.fromDate<sinceDate){ continue; } 
-                        if(commit.fromDate>untilDate){ break; }
-                        user.commits.push(commit);
-                    }
-
-                    diff = getIntervalDay(untilDate, userLast.fromDate);
-                    for(var i=0; i<diff; i++){ 
-                        user.commits.push({ insertions:0, deletions:0 }); 
-                    }
-                }
-                
                 if(res.length){ full.push(res); }
-            }
-            
-            // sorting
-            var full2 = [];
-            if(this.filterGroupRepos){
-                for(users of full){ 
-                    users.sort(comparator(ele => ele[this.filterSort]));
-                    full2.push(users);
-                }
-            }else{
-                full2.push([]);
-                for(users of full){
-                    for(user of users){
-                        full2[0].push(user);
-                    }
-                }
+            } 
+            this.filtered = full;
 
-                full2[0].sort(comparator(ele => ele[this.filterSort]));
-            }
-            if(this.filterSortReverse){
-                for(users of full2){ users.reverse(); }
-            }
-
-            this.filtered = full2;
+            this.sortFiltered();
             this.getDates();
         },
+        splitCommitsWeek: function(user){
+            var commits = user.commits;
+            var leng = commits.length;
+
+            var res = []; 
+            for(var i=0; i<(leng-1)/7; i++){
+                var week = {
+                    insertions:0,
+                    deletions:0,
+                    fromDate:commits[i*7].fromDate,
+                    toDate:""
+                };
+
+                for(var j=0; j<7; j++){
+                    var commit = commits[i*7 + j];
+                    week.insertions += commit.insertions;
+                    week.deletions += commit.deletions;     
+                    week.toDate = commit.toDate;
+                }
+                
+                res.push(week);
+            }
+
+            user.commits = res;
+        },
+        getUserCommits: function(user){
+            user["commits"] = []; 
+            var userFirst = user.dailyCommits[0];
+            var userLast = user.dailyCommits[user.dailyCommits.length-1];
+
+            var sinceDate = this.filterSinceDate;
+            if(!sinceDate){ sinceDate = userFirst.fromDate; }
+
+            if(this.filterGroupWeek){ sinceDate = dateRounding(sinceDate, 1); }
+            var diff = getIntervalDay(userFirst.fromDate, sinceDate); 
+
+            var startMs = (new Date(sinceDate)).getTime();
+            for(var i=0; i<diff; i++){ 
+                user.commits.push({ 
+                    insertions:0, 
+                    deletions:0,
+                    fromDate:getDateStr(startMs + i*DAY),
+                    toDate:getDateStr(startMs + (i+1)*DAY)
+                }); 
+            }
+
+            for(commit of user.dailyCommits){
+                if(commit.fromDate<sinceDate){ continue; } 
+                if(commit.fromDate>untilDate){ break; }
+                user.commits.push(commit);
+            }
+
+            var untilDate = this.filterUntilDate;
+            if(!untilDate){ untilDate = userLast.fromDate; }
+
+            if(this.filterGroupWeek){ untilDate = dateRounding(untilDate); }
+            diff = getIntervalDay(untilDate, userLast.fromDate);
+
+            var endMs = (new Date(userLast.fromDate)).getTime();
+            for(var i=0; i<diff; i++){ 
+                user.commits.push({ 
+                    insertions:0, 
+                    deletions:0,
+                    fromDate:getDateStr(endMs + i*DAY),
+                    endDate:getDateStr(endMs + (i+1)*DAY)
+                }); 
+            }
+        },
+        sortFiltered: function(){ 
+            var full = [];
+            if(this.filterGroupRepos){
+                for(users of this.filtered){ 
+                    users.sort(comparator(ele => ele[this.filterSort]));
+                    full.push(users);
+                }
+            }else{
+                full.push([]);
+                for(users of this.filtered){
+                    for(user of users){
+                        full[0].push(user);
+                    }
+                }
+
+                full[0].sort(comparator(ele => ele[this.filterSort]));
+            }
+
+            if(this.filterSortReverse){
+                for(users of full){ users.reverse(); }
+            }
+
+            this.filtered = full;
+        }
     },
     created: function(){ this.getFiltered(); }
 };
