@@ -26,6 +26,10 @@ Argument List:
 - since : Optional. start date of analysis. Format: dd/MM/yyyy
 - until : Optional. end date of analysis. Format: dd/MM/yyyy
 
+```
+Note:
+The contribution calculation is base on the daily commits made within 00:00 to 23:59 in GMT+8.
+```
 
 ## CSV Config File
 The CSV Config files control the list of target repositories. It also contains a white list of authors(if the author is listed in the CSV, his/her contribution will be ignored by the analyzer.)
