@@ -6,30 +6,30 @@ import java.util.Date;
 public class AuthorIntervalContribution {
     private int insertions;
     private int deletions;
-    private Date fromDate;
-    private Date toDate;
+    private Date sinceDate;
+    private Date untilDate;
 
-    public AuthorIntervalContribution(int insertions, int deletions, Date fromDate, Date toDate) {
+    public AuthorIntervalContribution(int insertions, int deletions, Date sinceDate, Date untilDate) {
         this.insertions = insertions;
         this.deletions = deletions;
-        this.fromDate = fromDate;
-        this.toDate = toDate;
+        this.sinceDate = sinceDate;
+        this.untilDate = untilDate;
     }
 
-    public Date getFromDate() {
-        return fromDate;
+    public Date getSinceDate() {
+        return sinceDate;
     }
 
-    public void setFromDate(Date fromDate) {
-        this.fromDate = fromDate;
+    public void setSinceDate(Date sinceDate) {
+        this.sinceDate = sinceDate;
     }
 
-    public Date getToDate() {
-        return toDate;
+    public Date getUntilDate() {
+        return untilDate;
     }
 
-    public void setToDate(Date toDate) {
-        this.toDate = toDate;
+    public void setUntilDate(Date untilDate) {
+        this.untilDate = untilDate;
     }
 
     public int getInsertions() {

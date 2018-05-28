@@ -1,0 +1,154 @@
+<html>
+
+<head>
+    <title>RepoSense</title>
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" href="static/css/style.css">
+    <script type="text/javascript" src="summary.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/datejs/1.0/date.min.js"></script>
+
+    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vue"></script>
+    <script type="text/javascript" src="static/scripts/utils.js"></script>
+    <script type="text/javascript" src="static/scripts/summaryVueMethods.js"></script>
+    <script>
+        var totalContributionLimit = getTotalContributionLimit();
+        var hexcolors = ["#E69F00", "#56B4E9", "#009E73", "#F0E442", "#0072B2", "#D55E00", "#CC79A7"];
+        var rgbacolors = ["rgba(230,159,0,0.6)", "rgba(86,180,233,0.6)", "rgba(0,158,115,0.6)", "rgba(240,228,66,0.6)", "rgba(0,114,178,0.6)", "rgba(213,94,0,0.6)", "rgba(204,121,167,0.6)"];
+
+        var sliceScaleLimitMap = getScaleLimitMap();
+        var minDateRange = getMinDate();
+        var maxDateRange = getMaxDate();
+        Vue.component('date-picker', {
+            template: '<input size="8"/>',
+            props: ['defaultDate'],
+            mounted: function() {
+                var self = this;
+                var minDateParsed = Date.parse(minDateRange);
+                var maxDateParsed = Date.parse(maxDateRange);
+                $(this.$el).datepicker({
+                    minDate: minDateParsed,
+                    maxDate: maxDateParsed,
+                    dateFormat: "mm/dd/y",
+                    onSelect: function(date) {
+                        self.$emit('update-date', date);
+                    }
+                });
+            },
+            beforeDestroy: function() {
+                $(this.$el).datepicker('hide').datepicker('destroy');
+            }
+        });
+        $(document).ready(function() {
+            var app = new Vue({
+                el: '#vue-app',
+                data: {
+                    summary: summaryJson,
+                    sortElement: getQueryVariable("sortElement","finalContribution"),
+                    sortOrder: getQueryVariable("sortOrder","high2low"),
+                    searchTerm: getQueryVariable("searchTerm",""),
+                    intervalType: getQueryVariable("intervalType","authorDailyIntervalContributions"),
+                    isGroupByRepo: (getQueryVariable("isGroupByRepo","true")=="true"),
+                    minDate: minDateRange,
+                    maxDate: maxDateRange,
+                },
+                methods: vueMethods
+            });
+            $(".author_name_tag").click(function() {
+                displayName = $(this).attr("displayName");
+                author = $(this).attr("author");
+                authorDisplayName = $(this).attr("authorDisplayName");
+                url = displayName + "/" + "index.html?author=" + author+"&authorDisplayName=" +authorDisplayName;
+                $(".author_block").removeClass("highlighted_block");
+                $("#" + author).addClass("highlighted_block");
+                $(".progress-chart-box").animate({
+                    width: "30%"
+                }, 300);
+                $(".code-review-box").animate({
+                    width: "70%"
+                }, 300, function() {
+                    $(".report-frame").attr('src', url);
+                });
+            });
+            $(".hide_button").click(function() {
+                $(".report-frame").attr('src', 'about:blank')
+                $(".author_block").removeClass("highlighted_block");
+                setTimeout((function() {
+                    $(".progress-chart-box").animate({
+                        width: "100%"
+                    }, 300);
+                    $(".code-review-box").animate({
+                        width: "0%"
+                    }, 300);
+
+                }), 200);
+
+
+            })
+        });
+        $(function() {
+            $(document).tooltip();
+            $("#minDatePicker").val(minDateRange);
+            $("#maxDatePicker").val(maxDateRange);
+
+        });
+    </script>
+</head>
+
+<body class="main-app">
+    <div id="vue-app">
+        <div style="right:0.5%;top:0.5%;position:absolute;" class="bookmark_button" v-bind:onclick="generateBookmark(searchTerm,sortElement,sortOrder,isGroupByRepo,intervalType)"><img src="static/img/star.png" height="25px" width="25px" /></div>
+        <div class="toolbar" style="">
+            <div class="filter-row">
+                    <label>Sort By:</label>
+                    <select v-model="sortElement">
+                                <option value="finalContribution">Total Contribution</option>
+                                <option value="variance">Variance</option>
+                                <option value="authorDisplayName">Author Name</option>
+                                <option value="organization">Team Name</option>
+                            </select>
+                    <select v-model="sortOrder">
+                                <option value="high2low">High To Low</option>
+                                <option value="low2high">Low To High</option>
+                            </select>
+                    <label>Interval:</label>
+                    <select v-model="intervalType">
+                            <option value="authorWeeklyIntervalContributions">Weekly</option>
+                            <option value="authorDailyIntervalContributions">Daily</option>
+                    </select>
+                    <label>Period:</label>
+                    <date-picker id="minDatePicker" @update-date="updateMinDate" v-bind:default-date="minDate" v-once></date-picker>
+                    <label>-</label>
+                    <date-picker id="maxDatePicker" @update-date="updateMaxDate" v-bind:default-date="maxDate" v-once></date-picker>
+                    <input type="checkbox" v-model="isGroupByRepo" /><label>Group By Repo</label>
+                    <label>Search:</label><input type="text" v-model="searchTerm" size="50"/>
+                </div>
+
+        </div>
+        <div class="progress-chart-box" style="width:100%;">
+            <div class="progress-chart-main">
+                <template v-for="(authorRepo, i) in sortAndFilter(summary,searchTerm,sortElement,sortOrder,isGroupByRepo,intervalType)">
+                        <div class="author_block" v-bind:id="authorRepo.author" style="width:100%;margin-left:2%">
+                            <h5 class="author_name_tag" v-bind:displayName="authorRepo.displayName" v-bind:author="authorRepo.author" v-bind:authorDisplayName="authorRepo.authorDisplayName">{{i+1}}. {{authorRepo.organization}}/{{authorRepo.repo}}/{{authorRepo.authorDisplayName}}</h5>
+                            <div class="spectrum">
+                                <template v-for="(element, index) in rangeFilter(authorRepo[intervalType],minDate,maxDate)">
+                                <div class="slice" v-bind:style="getSliceStyle(index,element,intervalType,minDate,maxDate)" v-bind:title="getSliceTitle(element,intervalType)" v-bind:onclick="getSliceGithubLink(element,authorRepo)"></div>
+                                </template>
+            </div>
+            <div class="contributionBar" v-bind:title="getContributionBarTitle(authorRepo.finalContribution)" style="min-height:5px;">
+                <hr align="left" v-for="width in getContributionBarWidths(authorRepo.finalContribution)" v-bind:width="width" style="border-color: red" />
+            </div>
+        </div>
+        </template>
+    </div>
+    </div>
+    <div class="code-review-box" style="width:0%;position:relative;">
+        <div style="left:2px;top:35%;position:absolute;" class="hide_button"><img src="static/img/right.png" height="30%" width="10px" /></div>
+        <iframe class="report-frame" src="about:blank" style="height:100%;width: 100%"></iframe>
+    </div>
+    </div>
+</body>
+
+</html>

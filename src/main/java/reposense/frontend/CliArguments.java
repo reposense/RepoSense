@@ -22,6 +22,8 @@ public class CliArguments {
 
     private static final String MESSAGE_INVALID_INPUTS = "Failed to parse inputs arguments";
     private static final String MESSAGE_NO_CSV_FILE = "Failed due to missing CSV file";
+    private static final String MESSAGE_SINCE_DATE_LATER_THAN_UNTIL_DATE =
+            "\"Since Date\" cannot be later than \"Until Date\"";
 
     private static final String DEFAULT_FILE_ARG = ".";
 
@@ -46,6 +48,7 @@ public class CliArguments {
         final HashMap<String, String> argumentMap = generateArgumentMap(args);
         checkAllMandatoryArgumentsPresent(argumentMap);
         setUserInputValuesToArgument(argumentMap);
+        verifyDatesAreInCorrectRange();
     }
 
     /**
@@ -118,6 +121,17 @@ public class CliArguments {
             }
         } catch (ParseException pe) {
             throw new IllegalArgumentException(pe.getMessage());
+        }
+    }
+
+    /**
+     * Verifies that {@code sinceDate} is earlier than {@code untilDate}
+     *
+     * @throws IllegalArgumentException If user-supplied values are invalid
+     */
+    private void verifyDatesAreInCorrectRange() {
+        if (sinceDate.isPresent() && untilDate.isPresent() && sinceDate.get().getTime() > untilDate.get().getTime()) {
+            throw new IllegalArgumentException(MESSAGE_SINCE_DATE_LATER_THAN_UNTIL_DATE);
         }
     }
 
