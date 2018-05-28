@@ -8,7 +8,6 @@ import java.nio.file.Paths;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -34,14 +33,13 @@ public class Entry {
 
     @Test
     public void test() throws IOException, URISyntaxException {
-        generateReport();
-        String actualRelativeDir = getRelativeDir();
+        String actualRelativeDir = FT_TEMP_DIR + "/" + generateReport();
         Path actualFiles = Paths.get(getClass().getClassLoader().getResource("expected").toURI());
         verifyAllJson(actualFiles, actualRelativeDir);
         FileUtil.deleteDirectory(FT_TEMP_DIR);
     }
 
-    private void generateReport() throws URISyntaxException {
+    private String generateReport() throws URISyntaxException {
         Path configFilePath = Paths.get(getClass().getClassLoader().getResource("sample_full.csv").toURI());
         Calendar c = Calendar.getInstance();
         c.set(2017, 6, 1);
@@ -49,7 +47,7 @@ public class Entry {
         c.set(2017, 10, 30);
         Date toDate = c.getTime();
         List<RepoConfiguration> configs = CsvConfigurationBuilder.buildConfigs(configFilePath, fromDate, toDate);
-        RepoInfoFileGenerator.generateReposReport(configs, FT_TEMP_DIR);
+        return RepoInfoFileGenerator.generateReposReport(configs, FT_TEMP_DIR);
     }
 
     private void verifyAllJson(Path expectedDirectory, String actualRelative) {
@@ -70,27 +68,12 @@ public class Entry {
 
     private void assertJson(Path expectedJson, String expectedPosition, String actualRelative) {
         Path actualJson = Paths.get(actualRelative, expectedPosition);
+        System.out.println(actualRelative);
         Assert.assertTrue(Files.exists(actualJson));
         try {
             Assert.assertTrue(TestUtil.compareFileContents(expectedJson, actualJson));
         } catch (IOException e) {
             Assert.fail(e.getMessage());
         }
-    }
-
-    private String getRelativeDir() {
-        try (Stream<Path> pathStream = Files.list(Paths.get(FT_TEMP_DIR))) {
-            // filter out attribute file created in macOS
-            Optional<Path> optionalPath = pathStream
-                    .filter(filePath -> !filePath.toString().contains("DS_Store"))
-                    .findFirst();
-            if (optionalPath.isPresent()) {
-                return optionalPath.get().toString();
-            }
-        } catch (IOException ioe) {
-            ioe.printStackTrace();
-        }
-        Assert.fail();
-        return "";
     }
 }

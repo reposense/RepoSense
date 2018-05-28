@@ -28,7 +28,11 @@ import reposense.util.FileUtil;
 
 public class RepoInfoFileGenerator {
 
-    public static void generateReposReport(List<RepoConfiguration> repoConfigs, String targetFileLocation) {
+    /**
+     * Generates the repo report in a new folder inside {@code targetFileLocation}, using the configs in
+     * {@code repoConfigs}, and returns the name of the folder generated.
+     */
+    public static String generateReposReport(List<RepoConfiguration> repoConfigs, String targetFileLocation) {
         String reportName = generateReportName();
         HashSet<Author> suspiciousAuthors = new HashSet<>();
 
@@ -63,6 +67,7 @@ public class RepoInfoFileGenerator {
         }
         FileUtil.writeJsonFile(repoConfigs, getSummaryResultPath(reportName, targetFileLocation));
 
+        return reportName;
     }
 
     private static void generateIndividualRepoReport(RepoConfiguration repoConfig, List<FileInfo> fileInfos,
