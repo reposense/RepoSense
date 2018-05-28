@@ -91,8 +91,10 @@ public class LogsManager {
     }
 
     private static ConsoleHandler createConsoleHandler() {
+        CustomLogFormatter consoleHandlerFormat = new CustomLogFormatter();
         ConsoleHandler consoleHandler = new ConsoleHandler();
         consoleHandler.setLevel(currentConsoleLogLevel);
+        consoleHandler.setFormatter(consoleHandlerFormat);
         return consoleHandler;
     }
 }
