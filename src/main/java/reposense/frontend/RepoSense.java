@@ -1,6 +1,5 @@
 package reposense.frontend;
 
-import java.io.File;
 import java.io.IOException;
 import java.util.List;
 
@@ -18,10 +17,8 @@ public class RepoSense {
         try {
             CliArguments cliArguments = new CliArguments(args);
             CsvParser csvParser = new CsvParser();
-            File targetFile = cliArguments.getTargetFile();
-
             List<RepoConfiguration> configs = csvParser.parse(cliArguments);
-            RepoInfoFileGenerator.generateReposReport(configs, targetFile.getAbsolutePath());
+            RepoInfoFileGenerator.generateReposReport(configs, cliArguments.getTargetFile().getAbsolutePath());
         } catch (IllegalArgumentException iaex) {
             System.out.print(iaex.getMessage());
             showHelpMessage();
