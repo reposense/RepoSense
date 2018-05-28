@@ -1,6 +1,7 @@
 package reposense;
 
 import java.io.IOException;
+import java.net.URISyntaxException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -32,7 +33,7 @@ public class Entry {
     }
 
     @Test
-    public void test() throws Exception {
+    public void test() throws IOException, URISyntaxException {
         generateReport();
         String actualRelativeDir = getRelativeDir();
         Path actualFiles = Paths.get(getClass().getClassLoader().getResource("expected").toURI());
@@ -40,7 +41,7 @@ public class Entry {
         FileUtil.deleteDirectory(FT_TEMP_DIR);
     }
 
-    private void generateReport() throws Exception {
+    private void generateReport() throws URISyntaxException {
         Path configFilePath = Paths.get(getClass().getClassLoader().getResource("sample_full.csv").toURI());
         Calendar c = Calendar.getInstance();
         c.set(2017, 6, 1);
