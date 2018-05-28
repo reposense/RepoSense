@@ -12,10 +12,12 @@ import java.util.logging.SimpleFormatter;
  * Configures and manages the loggers and handlers, including their levels
  */
 public class LogsManager {
-    private static final int FILE_COUNT = 1;
-    private static final int MAX_FILE_SIZE_IN_BYTES = (int) (Math.pow(2, 20) * 5); // 5MB
+    private static final int FILE_COUNT = 2;
+    private static final int MEGABYTE = (int) (Math.pow(2.0, 20));
+    private static final int MAX_FILE_SIZE_IN_BYTES = 5 * MEGABYTE; // 5MB
     private static final String LOG_FILE = "reposense.log";
-    private static Level currentLogLevel = Level.INFO;
+    private static Level currentConsoleLogLevel = Level.INFO;
+    private static Level currentFileLogLevel = Level.INFO;
     private static final Logger logger = LogsManager.getLogger(LogsManager.class);
     private static FileHandler fileHandler;
     private static ConsoleHandler consoleHandler;
@@ -28,7 +30,7 @@ public class LogsManager {
         addConsoleHandler(logger);
         addFileHandler(logger);
 
-        return Logger.getLogger(name);
+        return logger;
     }
 
     /**
@@ -84,13 +86,13 @@ public class LogsManager {
     private static FileHandler createFileHandler() throws IOException {
         FileHandler fileHandler = new FileHandler(LOG_FILE, MAX_FILE_SIZE_IN_BYTES, FILE_COUNT, true);
         fileHandler.setFormatter(new SimpleFormatter());
-        fileHandler.setLevel(currentLogLevel);
+        fileHandler.setLevel(currentFileLogLevel);
         return fileHandler;
     }
 
     private static ConsoleHandler createConsoleHandler() {
         ConsoleHandler consoleHandler = new ConsoleHandler();
-        consoleHandler.setLevel(currentLogLevel);
+        consoleHandler.setLevel(currentConsoleLogLevel);
         return consoleHandler;
     }
 }
