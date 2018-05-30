@@ -45,7 +45,7 @@ public class LogsManager {
 
     /**
      * Adds the Console Handler to the {@code logger}.
-     * Creates the {@code consoleHandler} if it is null.
+     * Creates the Console Handler if it is null.
      */
     private static void addConsoleHandler(Logger logger) {
         if (consoleHandler == null) {
@@ -66,7 +66,7 @@ public class LogsManager {
 
     /**
      * Adds the File Handler to the {@code logger}.
-     * Creates {@code fileHandler} if it is null.
+     * Creates File Handler if it is null.
      */
     private static void addFileHandler(Logger logger) {
         try {
@@ -91,10 +91,9 @@ public class LogsManager {
     }
 
     private static ConsoleHandler createConsoleHandler() {
-        CustomLogFormatter consoleHandlerFormat = new CustomLogFormatter();
         ConsoleHandler consoleHandler = new ConsoleHandler();
         consoleHandler.setLevel(currentConsoleLogLevel);
-        consoleHandler.setFormatter(consoleHandlerFormat);
+        consoleHandler.setFormatter(new CustomLogFormatter());
         return consoleHandler;
     }
 

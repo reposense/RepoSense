@@ -33,7 +33,7 @@ public class CheckStyleParser {
 
     public static void aggregateStyleIssue(FileInfo fileInfo, String rootRepo) {
         String raw = CommandRunner.checkStyleRaw(rootRepo + '/' + fileInfo.getPath());
-        logger.info("checking style of:" + fileInfo.getPath());
+        logger.info("Checking style of:" + fileInfo.getPath());
 
         NodeList nodeList = getNodeListFromRawOutput(raw);
         for (int i = 0; i < nodeList.getLength(); i++) {
