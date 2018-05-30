@@ -20,7 +20,7 @@ public class GitCloner {
             CommandRunner.cloneRepo(organization, repoName);
             logger.info("Cloning completed!");
         } catch (RuntimeException e) {
-            logger.info("Error encountered in Git Cloning, will attempt to continue analyzing");
+            logger.warning("Error encountered in Git Cloning, will attempt to continue analyzing");
             e.printStackTrace();
             throw new GitClonerException(e);
             //Due to an unsolved bug on Windows Git, for some repository, Git Clone will return an error even
@@ -30,7 +30,7 @@ public class GitCloner {
         try {
             GitChecker.checkout(FileUtil.getRepoDirectory(organization, repoName), branchName);
         } catch (RuntimeException e) {
-            logger.info("Error: Branch does not exist! Analyze terminated.");
+            logger.severe("Branch does not exist! Analyze terminated.");
             e.printStackTrace();
             throw new GitClonerException(e);
         }

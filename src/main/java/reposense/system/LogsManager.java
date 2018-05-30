@@ -18,7 +18,6 @@ public class LogsManager {
     private static final String LOG_FILE = "reposense.log";
     private static Level currentConsoleLogLevel = Level.INFO;
     private static Level currentFileLogLevel = Level.INFO;
-    private static final Logger logger = LogsManager.getLogger(LogsManager.class);
     private static FileHandler fileHandler;
     private static ConsoleHandler consoleHandler;
 
@@ -34,7 +33,7 @@ public class LogsManager {
     }
 
     /**
-     * Creates a Logger for the given class name.
+     * Creates a {@code Logger} for the given class name.
      */
     public static <T> Logger getLogger(Class<T> clazz) {
         if (clazz == null) {
@@ -44,7 +43,7 @@ public class LogsManager {
     }
 
     /**
-     * Adds the {@code consoleHandler} to the {@code logger}.
+     * Adds the Console Handler to the {@code logger}.
      * Creates the {@code consoleHandler} if it is null.
      */
     private static void addConsoleHandler(Logger logger) {
@@ -65,7 +64,7 @@ public class LogsManager {
     }
 
     /**
-     * Adds the {@code fileHandler} to the {@code logger}.
+     * Adds the File Handler to the {@code logger}.
      * Creates {@code fileHandler} if it is null.
      */
     private static void addFileHandler(Logger logger) {

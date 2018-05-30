@@ -37,7 +37,7 @@ public class RepoInfoFileGenerator {
             try {
                 GitCloner.downloadRepo(config.getOrganization(), config.getRepoName(), config.getBranch());
             } catch (GitClonerException e) {
-                logger.info("Exception met when cloning the repo, will skip this one");
+                logger.warning("Exception met when cloning the repo, will skip this one");
                 continue;
             }
             List<FileInfo> fileInfos = RepoAnalyzer.analyzeAuthorship(config);
