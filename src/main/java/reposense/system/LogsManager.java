@@ -96,5 +96,13 @@ public class LogsManager {
         consoleHandler.setFormatter(consoleHandlerFormat);
         return consoleHandler;
     }
+
+    public static void setConsoleHandlerLevel(Level level) {
+        currentConsoleLogLevel = level;
+    }
+
+    public static void setFileConsoleHandlerLevel(Level level) {
+        currentFileLogLevel = level;
+    }
 }
 
