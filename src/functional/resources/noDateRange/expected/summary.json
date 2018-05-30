@@ -1,14 +1,14 @@
 [
   {
-    "organization": "CS2103AUG2017-W09-B1",
-    "repoName": "main",
+    "organization": "reposense",
+    "repoName": "testrepo-Beta",
     "branch": "master",
-    "displayName": "CS2103AUG2017-W09-B1_main"
+    "displayName": "reposense_testrepo-Beta"
   },
   {
-    "organization": "CS2103AUG2017-W09-B2",
-    "repoName": "main",
+    "organization": "reposense",
+    "repoName": "testrepo-Charlie",
     "branch": "master",
-    "displayName": "CS2103AUG2017-W09-B2_main"
+    "displayName": "reposense_testrepo-Charlie"
   }
 ]

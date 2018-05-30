@@ -1,10 +1,9 @@
 Organization,Repository,branch,Author's GitHub ID,Author's Display Name,Author's Git Author Name
-CS2103AUG2017-W09-B1,main,master,nbriannl
-CS2103AUG2017-W09-B1,main,master,zacharytang,Zachary Tang,Zachary Tang
-CS2103AUG2017-W09-B1,main,master,April0616,Fan Yuting,LAPTOP-7KFM2KSP\User;Fan Yuting
-CS2103AUG2017-W09-B1,main,master,CindyTsai1,Cindy Tsai,YuHsuan
-CS2103AUG2017-W09-B2,main,master,charlesgoh,,Charles Goh
-CS2103AUG2017-W09-B2,main,master,Esilocke
-CS2103AUG2017-W09-B2,main,master,jeffreygohkw,,Jeffrey Goh
-CS2103AUG2017-W09-B2,main,master,wangyiming1019,,ACER\kyle;Wang Yiming
-
+reposense,testrepo-Beta,master,nbriannl,,
+reposense,testrepo-Beta,master,zacharytang,Zachary Tang,Zachary Tang
+reposense,testrepo-Beta,master,April0616,Fan Yuting,LAPTOP-7KFM2KSP\User;Fan Yuting
+reposense,testrepo-Beta,master,CindyTsai1,Cindy Tsai,YuHsuan
+reposense,testrepo-Charlie,master,charlesgoh,,Charles Goh
+reposense,testrepo-Charlie,master,Esilocke,,
+reposense,testrepo-Charlie,master,jeffreygohkw,,Jeffrey Goh
+reposense,testrepo-Charlie,master,wangyiming1019,,ACER\kyle;Wang Yiming
