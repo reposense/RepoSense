@@ -13,9 +13,10 @@ import java.util.logging.SimpleFormatter;
  */
 public class LogsManager {
     private static final int FILE_COUNT = 2;
-    private static final int MEGABYTE = (int) (Math.pow(2.0, 20));
+    private static final int MEGABYTE = (1 << 20);
     private static final int MAX_FILE_SIZE_IN_BYTES = 5 * MEGABYTE; // 5MB
     private static final String LOG_FILE = "reposense.log";
+
     private static Level currentConsoleLogLevel = Level.INFO;
     private static Level currentFileLogLevel = Level.INFO;
     private static FileHandler fileHandler;
