@@ -12,33 +12,43 @@ public class CommandRunner {
 
     private static boolean isWindows = isWindows();
 
-    public static String gitLog(String root, Date fromDate, Date toDate) {
+    public static String gitLog(String root, Date sinceDate, Date untilDate) {
         Path rootPath = Paths.get(root);
+
         String command = "git log --no-merges ";
-        if (fromDate != null) {
-            command += " --since=\"" + Constants.GIT_LOG_SINCE_DATE_FORMAT.format(fromDate) + "\" ";
-        }
-        if (toDate != null) {
-            command += " --until=\"" + Constants.GIT_LOG_UNTIL_DATE_FORMAT.format(toDate) + "\" ";
-        }
+        command += getGitDateRangeArgs(sinceDate, untilDate);
         command += " --pretty=format:\"%h|%aN|%ad|%s\" --date=iso --shortstat -- \"*.java\" -- \"*.adoc\"";
+
         return runCommand(rootPath, command);
     }
 
-    public static void checkOut(String root, String hash) {
+    public static void checkout(String root, String hash) {
         Path rootPath = Paths.get(root);
         runCommand(rootPath, "git checkout " + hash);
     }
 
-    public static String blameRaw(String root, String fileDirectory) {
-        Path rootPath = Paths.get(root);
-        String blameCommand = "git blame " + addQuote(fileDirectory) + " -w -C -C -M --line-porcelain | ";
-
-        if (isWindows) {
-            blameCommand += "findstr /B /C:" + addQuote("author ");
-        } else {
-            blameCommand += "grep " + addQuote("^author .*");
+    /**
+     * Checkout to the latest commit before {@code untilDate} in {@code branchName} branch
+     * if {@code untilDate} is not null.
+     */
+    public static void checkoutToDate(String root, String branchName, Date untilDate) {
+        if (untilDate == null) {
+            return;
         }
+
+        Path rootPath = Paths.get(root);
+        String checkOutCommand = "git checkout `git rev-list -1 --before="
+                + Constants.GIT_LOG_UNTIL_DATE_FORMAT.format(untilDate) + " " + branchName + "`";
+        runCommand(rootPath, checkOutCommand);
+    }
+
+    public static String blameRaw(String root, String fileDirectory, Date sinceDate, Date untilDate) {
+        Path rootPath = Paths.get(root);
+
+        String blameCommand = "git blame -w -C -C -M --line-porcelain";
+        blameCommand += getGitDateRangeArgs(sinceDate, untilDate);
+        blameCommand += " " + addQuote(fileDirectory);
+        blameCommand += getAuthorFilterCommand();
 
         return runCommand(rootPath, blameCommand);
     }
@@ -56,8 +66,6 @@ public class CommandRunner {
         Files.createDirectories(rootPath);
         return runCommand(rootPath, "git clone " + Constants.GITHUB_URL_ROOT + org + "/" + repoName);
     }
-
-
 
     private static String runCommand(Path path, String command) {
         ProcessBuilder pb = null;
@@ -99,7 +107,6 @@ public class CommandRunner {
         }
     }
 
-
     private static String addQuote(String original) {
         return "\"" + original + "\"";
     }
@@ -108,5 +115,31 @@ public class CommandRunner {
         return (System.getProperty("os.name").toLowerCase().indexOf("win") >= 0);
     }
 
+    /**
+     * Returns the {@code String} command which filters the git blame output to produce only the necessary author
+     * name for each line.
+     */
+    private static String getAuthorFilterCommand() {
+        if (isWindows) {
+            return "| findstr /B /C:" + addQuote("author ");
+        } else {
+            return "| grep " + addQuote("^author .*");
+        }
+    }
 
+    /**
+     * Returns the {@code String} command to specify the date range of commits to analyze for `git` commands.
+     */
+    private static String getGitDateRangeArgs(Date sinceDate, Date untilDate) {
+        String gitDateRangeArgs = "";
+
+        if (sinceDate != null) {
+            gitDateRangeArgs += " --since=" + addQuote(Constants.GIT_LOG_SINCE_DATE_FORMAT.format(sinceDate));
+        }
+        if (untilDate != null) {
+            gitDateRangeArgs += " --until=" + addQuote(Constants.GIT_LOG_UNTIL_DATE_FORMAT.format(untilDate));
+        }
+
+        return gitDateRangeArgs;
+    }
 }

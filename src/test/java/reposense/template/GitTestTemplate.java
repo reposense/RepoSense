@@ -24,7 +24,6 @@ import reposense.util.Constants;
 import reposense.util.FileUtil;
 import reposense.util.TestConstants;
 
-
 public class GitTestTemplate {
 
     protected RepoConfiguration config;
@@ -47,7 +46,7 @@ public class GitTestTemplate {
 
     @After
     public void after() {
-        CommandRunner.checkOut(TestConstants.LOCAL_TEST_REPO_ADDRESS, "master");
+        CommandRunner.checkout(TestConstants.LOCAL_TEST_REPO_ADDRESS, "master");
     }
 
     private static void deleteRepos() throws IOException {
@@ -74,5 +73,4 @@ public class GitTestTemplate {
         }
         return true;
     }
-
 }
