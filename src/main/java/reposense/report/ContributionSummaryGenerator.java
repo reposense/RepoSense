@@ -15,6 +15,7 @@ import reposense.dataobject.CommitInfo;
 import reposense.dataobject.RepoConfiguration;
 import reposense.dataobject.RepoContributionSummary;
 
+
 public class ContributionSummaryGenerator {
 
     /**
