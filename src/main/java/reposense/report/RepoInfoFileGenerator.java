@@ -10,6 +10,8 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 import java.util.zip.ZipInputStream;
 
 import reposense.analyzer.ContentAnalyzer;
@@ -78,7 +80,7 @@ public class RepoInfoFileGenerator {
                 Constants.STATIC_INDIVIDUAL_REPORT_TEMPLATE_ADDRESS);
 
         try {
-            Files.copy(templateLocation, repoReportDirectory);
+            copyDirectoryFiles(templateLocation, repoReportDirectory);
             FileUtil.writeJsonFile(fileInfos, getIndividualAuthorshipPath(repoReportDirectory.toString()));
             FileUtil.writeJsonFile(summary, getIndividualCommitsPath(repoReportDirectory.toString()));
             System.out.println("report for " + repoReportName + " Generated!");
@@ -91,6 +93,19 @@ public class RepoInfoFileGenerator {
         String location = targetFileLocation + File.separator + reportName;
         InputStream is = RepoSense.class.getResourceAsStream(Constants.TEMPLATE_ZIP_ADDRESS);
         FileUtil.unzip(new ZipInputStream(is), location);
+    }
+
+    /**
+     * Copies all the files inside {@code src} directory to {@code dest} directory.
+     * Creates the {@code dest} directory if it does not exist.
+     */
+    private static void copyDirectoryFiles(Path src, Path dest) throws IOException {
+        Files.createDirectories(dest);
+        try (Stream<Path> pathStream = Files.list(src)) {
+            for (Path filePath: pathStream.collect(Collectors.toList())) {
+                Files.copy(filePath, dest.resolve(src.relativize(filePath)));
+            }
+        }
     }
 
     private static String getIndividualAuthorshipPath(String repoReportDirectory) {
