@@ -1,5 +1,6 @@
 package reposense.system;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.logging.ConsoleHandler;
 import java.util.logging.FileHandler;
@@ -15,7 +16,8 @@ public class LogsManager {
     private static final int FILE_COUNT = 2;
     private static final int MEGABYTE = (1 << 20);
     private static final int MAX_FILE_SIZE_IN_BYTES = 5 * MEGABYTE; // 5MB
-    private static final String LOG_FILE = "reposense.log";
+    private static final String LOG_FILE_LOCATION = "./logs/";
+    private static final String LOG_FILE =  LOG_FILE_LOCATION + "reposense.log";
 
     private static Level currentConsoleLogLevel = Level.INFO;
     private static Level currentFileLogLevel = Level.INFO;
@@ -69,6 +71,12 @@ public class LogsManager {
      * Creates File Handler if it is null.
      */
     private static void addFileHandler(Logger logger) {
+        File file = new File(LOG_FILE_LOCATION);
+        if (!file.exists()) {
+            if (file.mkdir()) {
+                logger.info("Log folder has been successfully created");
+            }
+        }
         try {
             if (fileHandler == null) {
                 fileHandler = createFileHandler();
