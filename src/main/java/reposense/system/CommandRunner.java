@@ -17,10 +17,10 @@ public class CommandRunner {
         Path rootPath = Paths.get(root);
         String command = "git log --no-merges ";
         if (fromDate != null) {
-            command += " --since=\"" + Constants.GIT_LOG_DATE_FORMAT.format(fromDate) + "\" ";
+            command += " --since=\"" + Constants.GIT_LOG_SINCE_DATE_FORMAT.format(fromDate) + "\" ";
         }
         if (toDate != null) {
-            command += " --until=\"" + Constants.GIT_LOG_DATE_FORMAT.format(toDate) + "\" ";
+            command += " --until=\"" + Constants.GIT_LOG_UNTIL_DATE_FORMAT.format(toDate) + "\" ";
         }
         command += " --pretty=format:\"%h|%aN|%ad|%s\" --date=iso --shortstat -- \"*.java\" -- \"*.adoc\"";
         return runCommand(rootPath, command);
