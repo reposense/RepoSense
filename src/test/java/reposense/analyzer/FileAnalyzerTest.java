@@ -1,6 +1,7 @@
 package reposense.analyzer;
 
-import java.io.File;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.List;
 
 import org.junit.Assert;
@@ -21,18 +22,13 @@ public class FileAnalyzerTest extends GitTestTemplate {
         GitChecker.checkout(config.getRepoRoot(), TestConstants.TEST_COMMIT_HASH);
         List<FileInfo> files = FileAnalyzer.analyzeAllFiles(config);
         Assert.assertEquals(files.size(), 4);
-        Assert.assertTrue(isFileExistence("annotationTest.java", files));
-        Assert.assertTrue(isFileExistence("blameTest.java", files));
-        Assert.assertTrue(isFileExistence("newPos" + File.separator + "movedFile.java", files));
-        Assert.assertFalse(isFileExistence("inMasterBranch.java", files)); //empty file
+        Assert.assertTrue(isFileExistence(Paths.get("annotationTest.java"), files));
+        Assert.assertTrue(isFileExistence(Paths.get("blameTest.java"), files));
+        Assert.assertTrue(isFileExistence(Paths.get("newPos/movedFile.java"), files));
+        Assert.assertFalse(isFileExistence(Paths.get("inMasterBranch.java"), files)); //empty file
     }
 
-    private boolean isFileExistence(String filePath, List<FileInfo> files) {
-        for (FileInfo file : files) {
-            if (file.getPath().equals(filePath)) {
-                return true;
-            }
-        }
-        return false;
+    private boolean isFileExistence(Path filePath, List<FileInfo> files) {
+        return files.stream().anyMatch(file -> Paths.get(file.getPath()).equals(filePath));
     }
 }

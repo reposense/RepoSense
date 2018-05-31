@@ -3,6 +3,8 @@ package reposense.template;
 import static reposense.util.TestConstants.TEST_ORG;
 import static reposense.util.TestConstants.TEST_REPO;
 
+import java.io.IOException;
+
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Assert;
@@ -17,7 +19,6 @@ import reposense.dataobject.RepoConfiguration;
 import reposense.git.GitBlamer;
 import reposense.git.GitCloner;
 import reposense.git.GitClonerException;
-
 import reposense.system.CommandRunner;
 import reposense.util.Constants;
 import reposense.util.FileUtil;
@@ -34,13 +35,13 @@ public class GitTestTemplate {
     }
 
     @BeforeClass
-    public static void beforeClass() throws GitClonerException {
+    public static void beforeClass() throws GitClonerException, IOException {
         deleteRepos();
         GitCloner.downloadRepo(TEST_ORG, TEST_REPO, "master");
     }
 
     @AfterClass
-    public static void afterClass() {
+    public static void afterClass() throws IOException {
         deleteRepos();
     }
 
@@ -49,7 +50,7 @@ public class GitTestTemplate {
         CommandRunner.checkOut(TestConstants.LOCAL_TEST_REPO_ADDRESS, "master");
     }
 
-    private static void deleteRepos() {
+    private static void deleteRepos() throws IOException {
         FileUtil.deleteDirectory(Constants.REPOS_ADDRESS);
     }
 

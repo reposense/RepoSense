@@ -1,6 +1,8 @@
 package reposense.git;
 
-import java.io.File;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 
 import org.junit.Assert;
 import org.junit.Test;
@@ -13,15 +15,15 @@ public class GitCheckerTest extends GitTestTemplate {
     @Test
     public void checkoutBranchTest() {
         GitChecker.checkoutBranch(TestConstants.LOCAL_TEST_REPO_ADDRESS, "test");
-        File branchFile = new File(TestConstants.LOCAL_TEST_REPO_ADDRESS + File.separator + "inTestBranch.java");
-        Assert.assertTrue(branchFile.exists());
+        Path branchFile = Paths.get(TestConstants.LOCAL_TEST_REPO_ADDRESS, "inTestBranch.java");
+        Assert.assertTrue(Files.exists(branchFile));
     }
 
     @Test
     public void checkoutHashTest() {
         GitChecker.checkout(TestConstants.LOCAL_TEST_REPO_ADDRESS, TestConstants.FIRST_COMMIT_HASH);
-        File newFile = new File(TestConstants.LOCAL_TEST_REPO_ADDRESS + File.separator + "newFile.java");
-        Assert.assertFalse(newFile.exists());
+        Path newFile = Paths.get(TestConstants.LOCAL_TEST_REPO_ADDRESS, "newFile.java");
+        Assert.assertFalse(Files.exists(newFile));
     }
 
 }
