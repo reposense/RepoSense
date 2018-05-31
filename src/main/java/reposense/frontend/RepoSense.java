@@ -1,6 +1,6 @@
 package reposense.frontend;
 
-import java.io.File;
+import java.nio.file.Path;
 import java.util.Date;
 import java.util.List;
 
@@ -18,13 +18,13 @@ public class RepoSense {
         try {
             CliArguments cliArguments = new CliArguments(args);
 
-            File configFile = cliArguments.getConfigFile();
-            File targetFile = cliArguments.getTargetFile();
+            Path configFile = cliArguments.getConfigFilePath();
+            Path targetFile = cliArguments.getTargetFilePath();
             Date fromDate = cliArguments.getSinceDate().orElse(null);
             Date toDate = cliArguments.getUntilDate().orElse(null);
 
             List<RepoConfiguration> configs = CsvConfigurationBuilder.buildConfigs(configFile, fromDate, toDate);
-            RepoInfoFileGenerator.generateReposReport(configs, targetFile.getAbsolutePath());
+            RepoInfoFileGenerator.generateReposReport(configs, targetFile.toAbsolutePath().toString());
         } catch (IllegalArgumentException ex) {
             System.out.print(ex.getMessage());
             showHelpMessage();

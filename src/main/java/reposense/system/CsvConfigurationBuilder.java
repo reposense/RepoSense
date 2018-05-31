@@ -1,9 +1,9 @@
 package reposense.system;
 
 import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -15,7 +15,7 @@ import reposense.util.Constants;
 
 public class CsvConfigurationBuilder {
 
-    public static List<RepoConfiguration> buildConfigs(File configFile, Date fromDate, Date toDate) {
+    public static List<RepoConfiguration> buildConfigs(Path configFile, Date fromDate, Date toDate) {
         List<RepoConfiguration> configs = parseConfig(configFile);
         for (RepoConfiguration config : configs) {
             config.setToDate(toDate);
@@ -24,10 +24,10 @@ public class CsvConfigurationBuilder {
         return configs;
     }
 
-    private static List<RepoConfiguration> parseConfig(File csvFile) {
+    private static List<RepoConfiguration> parseConfig(Path csvFile) {
         String line;
         List<RepoConfiguration> configs = new ArrayList<>();
-        try (BufferedReader br = new BufferedReader(new FileReader(csvFile))) {
+        try (BufferedReader br = new BufferedReader(Files.newBufferedReader(csvFile))) {
             br.readLine(); //skip title line
             while ((line = br.readLine()) != null) {
                 // use comma as separator

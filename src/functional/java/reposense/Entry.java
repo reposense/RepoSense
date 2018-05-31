@@ -1,12 +1,18 @@
 package reposense;
 
-import java.io.File;
 import java.io.IOException;
+import java.net.URISyntaxException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import org.junit.Assert;
+import org.junit.Before;
 import org.junit.Test;
 
 import reposense.dataobject.RepoConfiguration;
@@ -20,58 +26,54 @@ public class Entry {
     private static final String FT_TEMP_DIR = "ft_temp";
     private static final String EXPECTED_FOLDER = "expected";
 
+    @Before
+    public void setUp() throws IOException {
+        FileUtil.deleteDirectory(FT_TEMP_DIR);
+    }
+
     @Test
-    public void test() {
-        generateReport();
-        String actualRelativeDir = getRelativeDir();
-        File actualFiles = new File(getClass().getClassLoader().getResource("expected").getFile());
+    public void test() throws IOException, URISyntaxException {
+        String actualRelativeDir = FT_TEMP_DIR + "/" + generateReport();
+        Path actualFiles = Paths.get(getClass().getClassLoader().getResource("expected").toURI());
         verifyAllJson(actualFiles, actualRelativeDir);
         FileUtil.deleteDirectory(FT_TEMP_DIR);
     }
 
-    private void generateReport() {
-        File configFile = new File(getClass().getClassLoader().getResource("sample_full.csv").getFile());
+    private String generateReport() throws URISyntaxException {
+        Path configFilePath = Paths.get(getClass().getClassLoader().getResource("sample_full.csv").toURI());
         Calendar c = Calendar.getInstance();
         c.set(2017, 6, 1);
         Date fromDate = c.getTime();
         c.set(2017, 10, 30);
         Date toDate = c.getTime();
-        List<RepoConfiguration> configs = CsvConfigurationBuilder.buildConfigs(configFile, fromDate, toDate);
-        RepoInfoFileGenerator.generateReposReport(configs, FT_TEMP_DIR);
+        List<RepoConfiguration> configs = CsvConfigurationBuilder.buildConfigs(configFilePath, fromDate, toDate);
+        return RepoInfoFileGenerator.generateReposReport(configs, FT_TEMP_DIR);
     }
 
-    private void verifyAllJson(File expectedDirectory, String actualRelative) {
-        for (File file : expectedDirectory.listFiles()) {
-            if (file.isDirectory()) {
-                verifyAllJson(file, actualRelative);
-            } else {
-                if (!file.getName().endsWith(".json")) {
-                    continue;
+    private void verifyAllJson(Path expectedDirectory, String actualRelative) {
+        try (Stream<Path> pathStream = Files.list(expectedDirectory)) {
+            for (Path filePath : pathStream.collect(Collectors.toList())) {
+                if (Files.isDirectory(filePath)) {
+                    verifyAllJson(filePath, actualRelative);
                 }
-                String relativeDirectory = file.getAbsolutePath().split(EXPECTED_FOLDER)[1];
-                assertJson(file, relativeDirectory, actualRelative);
+                if (filePath.toString().endsWith(".json")) {
+                    String relativeDirectory = filePath.toAbsolutePath().toString().split(EXPECTED_FOLDER)[1];
+                    assertJson(filePath, relativeDirectory, actualRelative);
+                }
             }
+        } catch (IOException ioe) {
+            ioe.printStackTrace();
         }
     }
 
-    private void assertJson(File expectedJson, String expectedPosition, String actualRelative) {
-        File actualJson = new File(actualRelative + expectedPosition);
-        Assert.assertTrue(actualJson.exists());
+    private void assertJson(Path expectedJson, String expectedPosition, String actualRelative) {
+        Path actualJson = Paths.get(actualRelative, expectedPosition);
+        System.out.println(actualRelative);
+        Assert.assertTrue(Files.exists(actualJson));
         try {
             Assert.assertTrue(TestUtil.compareFileContents(expectedJson, actualJson));
         } catch (IOException e) {
             Assert.fail(e.getMessage());
         }
-    }
-
-    private String getRelativeDir() {
-        for (File file : (new File(FT_TEMP_DIR)).listFiles()) {
-            if (file.getName().contains("DS_Store")) {
-                continue;
-            }
-            return FT_TEMP_DIR + File.separator + file.getName();
-        }
-        Assert.fail();
-        return "";
     }
 }
