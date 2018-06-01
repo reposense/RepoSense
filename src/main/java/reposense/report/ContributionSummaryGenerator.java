@@ -27,7 +27,7 @@ public class ContributionSummaryGenerator {
             List<CommitInfo> commitInfos,
             HashMap<Author, Integer> authorContributionMap,
             HashSet<Author> suspiciousAuthors) {
-        Date startDate = config.getFromDate() == null ? getStartDate(commitInfos) : config.getFromDate();
+        Date startDate = config.getSinceDate() == null ? getStartDate(commitInfos) : config.getSinceDate();
         RepoContributionSummary summary = new RepoContributionSummary();
         summary.setAuthorWeeklyIntervalContributions(
                 getAuthorIntervalContributions(config, commitInfos, startDate, 7, suspiciousAuthors));
