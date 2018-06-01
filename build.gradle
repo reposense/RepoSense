@@ -67,6 +67,5 @@ task functional(type: Test) {
 tasks.functional.dependsOn("myZip");
 
 run {
-    /* Need to split the space-delimited value in the exec.args */
     args System.getProperty("exec.args", "").split()
 }
