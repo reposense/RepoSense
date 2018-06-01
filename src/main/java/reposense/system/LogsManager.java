@@ -13,9 +13,15 @@ import java.util.logging.SimpleFormatter;
  * Configures and manages the loggers and handlers, including their levels
  */
 public class LogsManager {
+
+    // Whenever the log file size exceeds {@code MAX_FILE_SIZE_IN_BYTES} it rolls over to another file
+    // The maximum number of files to store the logs is {@code FILE_COUNT}
     private static final int FILE_COUNT = 2;
     private static final int MEGABYTE = (1 << 20);
     private static final int MAX_FILE_SIZE_IN_BYTES = 5 * MEGABYTE; // 5MB
+
+    // All the log files will be store with a .log extension
+    // eg. reposense.log.0, in the logs/ folder of the working directory
     private static final String LOG_FILE_LOCATION = "./logs/";
     private static final String LOG_FILE =  LOG_FILE_LOCATION + "reposense.log";
 

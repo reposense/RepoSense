@@ -3,7 +3,6 @@ package reposense.system;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.logging.Handler;
 import java.util.logging.LogRecord;
 import java.util.logging.SimpleFormatter;
 
@@ -22,13 +21,5 @@ public class CustomLogFormatter extends SimpleFormatter {
         builder.append(formatMessage(record));
         builder.append("\n");
         return builder.toString();
-    }
-
-    public String getHead(Handler h) {
-        return super.getHead(h);
-    }
-
-    public String getTail(Handler h) {
-        return super.getTail(h);
     }
 }
