@@ -78,10 +78,8 @@ public class LogsManager {
      */
     private static void addFileHandler(Logger logger) {
         File file = new File(LOG_FILE_LOCATION);
-        if (!file.exists()) {
-            if (file.mkdir()) {
-                logger.info("Log folder has been successfully created");
-            }
+        if (!file.exists() && file.mkdir()) {
+            logger.info("Log folder has been successfully created");
         }
         try {
             if (fileHandler == null) {
