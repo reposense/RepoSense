@@ -23,7 +23,7 @@ $ java -jar RepoSense.jar -config CSV_path.csv -output output_path/ -since 01/10
 
 Alternatively, you can run the application from gradle in the following way:
 ```
-$ ./gradlew run -Dexec.args="-config CSV_path.csv -output output_path/ -since 01/10/2017 -until 01/11/2017"
+$ ./gradlew run -Dargs="-config CSV_path.csv -output output_path/ -since 01/10/2017 -until 01/11/2017"
 ```
 
 Argument List:
