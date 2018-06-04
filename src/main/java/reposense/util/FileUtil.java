@@ -42,17 +42,7 @@ public class FileUtil {
         if (Files.exists(rootPath)) {
             Files.walk(rootPath)
                     .sorted(Comparator.reverseOrder())
-                    .forEach(FileUtil::deleteFile);
-        }
-    }
-
-    private static void deleteFile(Path filePath) {
-        try {
-            // .git files created when cloning repo are `readonly`, so we need to set it to false in order to delete it
-            Files.setAttribute(filePath, "dos:readonly", false);
-            Files.delete(filePath);
-        } catch (IOException ioe) {
-            System.out.println("Error in deleting file " + filePath.toString());
+                    .forEach(filePath -> filePath.toFile().delete());
         }
     }
 
