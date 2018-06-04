@@ -69,4 +69,4 @@ tasks.functional.dependsOn("myZip");
 run {
     args System.getProperty("args", "").split()
 }
-
+tasks.compileJava.dependsOn(clean)
