@@ -67,6 +67,6 @@ task functional(type: Test) {
 tasks.functional.dependsOn("myZip");
 
 run {
-    args System.getProperty("run.args", "").split()
+    args System.getProperty("args", "").split()
 }
 
