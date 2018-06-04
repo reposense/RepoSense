@@ -67,6 +67,7 @@ task functional(type: Test) {
 tasks.functional.dependsOn("myZip");
 
 run {
-    args System.getProperty("args").split()
+    //the second arguments indicates the default value associated with the property
+    args System.getProperty("args", "").split()
 }
 tasks.compileJava.dependsOn(clean)
