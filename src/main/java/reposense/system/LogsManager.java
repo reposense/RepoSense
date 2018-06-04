@@ -1,7 +1,9 @@
 package reposense.system;
 
-import java.io.File;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.logging.ConsoleHandler;
 import java.util.logging.FileHandler;
 import java.util.logging.Handler;
@@ -23,7 +25,7 @@ public class LogsManager {
     // All the log files will be store with a .log extension
     // eg. reposense.log.0, in the logs/ folder of the working directory
     private static final String LOG_FILE_LOCATION = "./logs/";
-    private static final String LOG_FILE =  LOG_FILE_LOCATION + "reposense.log";
+    private static final String LOG_FILE = LOG_FILE_LOCATION + "reposense.log";
 
     private static Level currentConsoleLogLevel = Level.INFO;
     private static Level currentFileLogLevel = Level.INFO;
@@ -77,9 +79,15 @@ public class LogsManager {
      * Creates File Handler if it is null.
      */
     private static void addFileHandler(Logger logger) {
-        File file = new File(LOG_FILE_LOCATION);
-        if (!file.exists() && file.mkdir()) {
-            logger.info("Log folder has been successfully created");
+        Path path = Paths.get(LOG_FILE_LOCATION);
+
+        if (!Files.exists(path)) {
+            try {
+                Files.createDirectory(path);
+                logger.info("Log folder has been successfully created");
+            } catch (IOException io) {
+                logger.warning("There was problem creating a log folder");
+            }
         }
         try {
             if (fileHandler == null) {
