@@ -65,7 +65,7 @@ public class LogsManager {
     }
 
     /**
-     * Remove all the handlers from {@code logger}.
+     * Removes all the handlers from {@code logger}.
      */
     private static void removeHandlers(Logger logger) {
         Handler[] handlers = logger.getHandlers();
@@ -83,10 +83,11 @@ public class LogsManager {
 
         if (!Files.exists(path)) {
             try {
-                Files.createDirectory(path);
+                Files.createDirectories(path);
                 logger.info("Log folder has been successfully created");
             } catch (IOException io) {
                 logger.warning("There was problem creating a log folder");
+                return;
             }
         }
         try {
