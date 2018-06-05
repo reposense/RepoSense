@@ -8,7 +8,6 @@ import java.util.Date;
 
 import reposense.util.Constants;
 
-
 public class CommandRunner {
 
     private static boolean isWindows = isWindows();
@@ -17,10 +16,10 @@ public class CommandRunner {
         Path rootPath = Paths.get(root);
         String command = "git log --no-merges ";
         if (fromDate != null) {
-            command += " --since=\"" + Constants.GIT_LOG_DATE_FORMAT.format(fromDate) + "\" ";
+            command += " --since=\"" + Constants.GIT_LOG_SINCE_DATE_FORMAT.format(fromDate) + "\" ";
         }
         if (toDate != null) {
-            command += " --until=\"" + Constants.GIT_LOG_DATE_FORMAT.format(toDate) + "\" ";
+            command += " --until=\"" + Constants.GIT_LOG_UNTIL_DATE_FORMAT.format(toDate) + "\" ";
         }
         command += " --pretty=format:\"%h|%aN|%ad|%s\" --date=iso --shortstat -- \"*.java\" -- \"*.adoc\"";
         return runCommand(rootPath, command);
@@ -33,7 +32,15 @@ public class CommandRunner {
 
     public static String blameRaw(String root, String fileDirectory) {
         Path rootPath = Paths.get(root);
-        return runCommand(rootPath, "git blame " + addQuote(fileDirectory) + " -w -C -C -M --line-porcelain");
+        String blameCommand = "git blame " + addQuote(fileDirectory) + " -w -C -C -M --line-porcelain | ";
+
+        if (isWindows) {
+            blameCommand += "findstr /B /C:" + addQuote("author ");
+        } else {
+            blameCommand += "grep " + addQuote("^author .*");
+        }
+
+        return runCommand(rootPath, blameCommand);
     }
 
     public static String checkStyleRaw(String absoluteDirectory) {

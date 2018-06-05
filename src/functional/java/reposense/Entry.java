@@ -42,9 +42,9 @@ public class Entry {
     private String generateReport() throws URISyntaxException {
         Path configFilePath = Paths.get(getClass().getClassLoader().getResource("sample_full.csv").toURI());
         Calendar c = Calendar.getInstance();
-        c.set(2017, 6, 1);
+        c.set(2017, Calendar.JUNE, 1);
         Date fromDate = c.getTime();
-        c.set(2017, 10, 30);
+        c.set(2017, Calendar.OCTOBER, 30);
         Date toDate = c.getTime();
         List<RepoConfiguration> configs = CsvConfigurationBuilder.buildConfigs(configFilePath, fromDate, toDate);
         return RepoInfoFileGenerator.generateReposReport(configs, FT_TEMP_DIR);
@@ -68,7 +68,6 @@ public class Entry {
 
     private void assertJson(Path expectedJson, String expectedPosition, String actualRelative) {
         Path actualJson = Paths.get(actualRelative, expectedPosition);
-        System.out.println(actualRelative);
         Assert.assertTrue(Files.exists(actualJson));
         try {
             Assert.assertTrue(TestUtil.compareFileContents(expectedJson, actualJson));
