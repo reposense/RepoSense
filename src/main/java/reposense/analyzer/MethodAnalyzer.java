@@ -5,6 +5,7 @@ import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.logging.Logger;
 
 import com.github.javaparser.JavaParser;
 import com.github.javaparser.ast.CompilationUnit;
@@ -17,15 +18,19 @@ import reposense.dataobject.FileInfo;
 import reposense.dataobject.LineInfo;
 import reposense.dataobject.MethodInfo;
 import reposense.dataobject.RepoConfiguration;
+import reposense.system.LogsManager;
 
 
 public class MethodAnalyzer {
+
+    private static final Logger logger = LogsManager.getLogger(MethodAnalyzer.class);
+
     public static void aggregateMethodInfo(FileInfo fileInfo, RepoConfiguration config) {
         FileInputStream in = null;
         try {
             in = new FileInputStream(config.getRepoRoot() + "/" + fileInfo.getPath());
         } catch (FileNotFoundException e) {
-            e.printStackTrace();
+            logger.severe(LogsManager.getErrorDetails(e));
         }
 
         CompilationUnit cu;

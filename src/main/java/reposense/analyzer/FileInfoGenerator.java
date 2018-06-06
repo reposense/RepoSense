@@ -5,12 +5,16 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.logging.Logger;
 
 import reposense.dataobject.FileInfo;
 import reposense.dataobject.LineInfo;
-
+import reposense.system.LogsManager;
 
 public class FileInfoGenerator {
+
+    private static final Logger logger = LogsManager.getLogger(FileInfoGenerator.class);
+
     public static FileInfo generateFileInfo(String repoRoot, String relativePath) {
         FileInfo result = new FileInfo(relativePath);
         Path path = Paths.get(repoRoot, relativePath);
@@ -22,7 +26,7 @@ public class FileInfoGenerator {
                 lineNum += 1;
             }
         } catch (IOException ioe) {
-            ioe.printStackTrace();
+            logger.severe(LogsManager.getErrorDetails(ioe));
         }
         return result;
     }

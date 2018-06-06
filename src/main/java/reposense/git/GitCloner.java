@@ -20,7 +20,7 @@ public class GitCloner {
             logger.info("Cloning completed!");
         } catch (RuntimeException e) {
             logger.warning("Error encountered in Git Cloning, will attempt to continue analyzing");
-            e.printStackTrace();
+            logger.severe(LogsManager.getErrorDetails(e));
             throw new GitClonerException(e);
             //Due to an unsolved bug on Windows Git, for some repository, Git Clone will return an error even
             // though the repo is cloned properly.

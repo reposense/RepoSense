@@ -1,6 +1,8 @@
 package reposense.system;
 
 import java.io.IOException;
+import java.io.PrintWriter;
+import java.io.StringWriter;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -85,18 +87,14 @@ public class LogsManager {
             try {
                 Files.createDirectories(path);
                 logger.info("Log folder has been successfully created");
-            } catch (IOException io) {
-                logger.warning("There was problem creating a log folder");
-                return;
+
+                if (fileHandler == null) {
+                    fileHandler = createFileHandler();
+                }
+                logger.addHandler(fileHandler);
+            } catch (IOException e) {
+                logger.severe(LogsManager.getErrorDetails(e));
             }
-        }
-        try {
-            if (fileHandler == null) {
-                fileHandler = createFileHandler();
-            }
-            logger.addHandler(fileHandler);
-        } catch (IOException e) {
-            logger.warning("Error adding file handler for logger.");
         }
     }
 
@@ -125,5 +123,15 @@ public class LogsManager {
     public static void setFileConsoleHandlerLevel(Level level) {
         currentFileLogLevel = level;
     }
+
+    /**
+     * Returns a detailed message of the t, including the stack trace.
+     */
+    public static String getErrorDetails(Throwable t) {
+        StringWriter sw = new StringWriter();
+        t.printStackTrace(new PrintWriter(sw));
+        return t.getMessage() + "\n" + sw.toString();
+    }
+
 }
 

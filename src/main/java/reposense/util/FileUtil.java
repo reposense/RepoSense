@@ -9,14 +9,19 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Comparator;
+import java.util.logging.Logger;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
+import reposense.system.LogsManager;
+
 
 public class FileUtil {
+
+    private static Logger logger = LogsManager.getLogger(FileUtil.class);
 
     public static void writeJsonFile(Object object, String path) {
         Gson gson = new GsonBuilder()
@@ -29,7 +34,7 @@ public class FileUtil {
             out.print(result);
             out.print("\n");
         } catch (FileNotFoundException e) {
-            e.printStackTrace();
+            logger.severe(LogsManager.getErrorDetails(e));
         }
     }
 
@@ -85,7 +90,7 @@ public class FileUtil {
 
             zipInput.close();
         } catch (IOException e) {
-            e.printStackTrace();
+            logger.severe(LogsManager.getErrorDetails(e));
         }
     }
 
