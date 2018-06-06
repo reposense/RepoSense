@@ -22,9 +22,12 @@ $ java -jar RepoSense.jar -config CSV_path.csv -output output_path/ -since 01/10
 ```
 
 Alternatively, you can run the application from gradle in the following way:
+
+For Mac/Linux users:
 ```
 $ ./gradlew run -Dargs="-config CSV_path.csv -output output_path/ -since 01/10/2017 -until 01/11/2017"
 ```
+Windows users can run the above command by replacing *./gradlew* with *gradlew.* 
 
 Argument List:
 - config: Mandatory. The path to the CSV config file.
