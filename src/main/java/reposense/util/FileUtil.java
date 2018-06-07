@@ -91,7 +91,7 @@ public class FileUtil {
 
             zipInput.close();
         } catch (IOException e) {
-            //logger.severe(LogsManager.getErrorDetails(e));
+            logger.log(Level.SEVERE, e.getMessage(), e);
         }
     }
 
