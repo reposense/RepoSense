@@ -10,6 +10,8 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import java.util.zip.ZipInputStream;
@@ -24,11 +26,14 @@ import reposense.dataobject.RepoContributionSummary;
 import reposense.frontend.RepoSense;
 import reposense.git.GitCloner;
 import reposense.git.GitClonerException;
+import reposense.system.LogsManager;
 import reposense.util.Constants;
 import reposense.util.FileUtil;
 
 
 public class RepoInfoFileGenerator {
+
+    private static final Logger logger = LogsManager.getLogger(RepoInfoFileGenerator.class);
 
     /**
      * Generates the repo report in a new folder inside {@code targetFileLocation}, using the configs in
@@ -43,7 +48,7 @@ public class RepoInfoFileGenerator {
             try {
                 GitCloner.downloadRepo(config.getOrganization(), config.getRepoName(), config.getBranch());
             } catch (GitClonerException e) {
-                System.out.println("Exception met when cloning the repo, will skip this one");
+                logger.warning("Exception met when cloning the repo, will skip this one");
                 continue;
             }
             List<FileInfo> fileInfos = RepoAnalyzer.analyzeAuthorship(config);
@@ -57,14 +62,14 @@ public class RepoInfoFileGenerator {
             try {
                 FileUtil.deleteDirectory(Constants.REPOS_ADDRESS);
             } catch (IOException ioe) {
-                System.out.println("Error deleting report directory.");
+                logger.log(Level.SEVERE, "Error deleting report directory.", ioe);
             }
         }
 
         if (!suspiciousAuthors.isEmpty()) {
-            System.out.println("PLEASE NOTE, BELOW IS THE LIST OF SUSPICIOUS AUTHORS:");
+            logger.info("PLEASE NOTE, BELOW IS THE LIST OF SUSPICIOUS AUTHORS:");
             for (Author author : suspiciousAuthors) {
-                System.out.println(author);
+                logger.info(author.toString());
             }
         }
         FileUtil.writeJsonFile(repoConfigs, getSummaryResultPath(reportName, targetFileLocation));
@@ -83,9 +88,9 @@ public class RepoInfoFileGenerator {
             copyDirectoryFiles(templateLocation, repoReportDirectory);
             FileUtil.writeJsonFile(fileInfos, getIndividualAuthorshipPath(repoReportDirectory.toString()));
             FileUtil.writeJsonFile(summary, getIndividualCommitsPath(repoReportDirectory.toString()));
-            System.out.println("report for " + repoReportName + " Generated!");
+            logger.info("Report for " + repoReportName + " generated!");
         } catch (IOException ioe) {
-            System.out.println("Error in copying template file for report.");
+            logger.warning("Error in copying template file for report.");
         }
     }
 

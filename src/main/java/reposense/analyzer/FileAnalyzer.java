@@ -8,16 +8,21 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import reposense.dataobject.FileInfo;
 import reposense.dataobject.RepoConfiguration;
 import reposense.git.GitBlamer;
+import reposense.system.LogsManager;
 import reposense.util.Constants;
 
 
 public class FileAnalyzer {
+
+    private static final Logger logger = LogsManager.getLogger(FileAnalyzer.class);
 
     public static ArrayList<FileInfo> analyzeAllFiles(RepoConfiguration config) {
         ArrayList<String> relativePaths = new ArrayList<>();
@@ -42,7 +47,7 @@ public class FileAnalyzer {
                 }
             }
         } catch (IOException ioe) {
-            System.out.println("Error occured while getting all possible files to analyze.");
+            logger.log(Level.SEVERE, "Error occured while getting all possible files to analyze.", ioe);
         }
     }
 

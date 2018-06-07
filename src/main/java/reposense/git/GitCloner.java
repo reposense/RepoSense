@@ -1,22 +1,26 @@
 package reposense.git;
 
 import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import reposense.system.CommandRunner;
+import reposense.system.LogsManager;
 import reposense.util.FileUtil;
 
 
 public class GitCloner {
+
+    private static final Logger logger = LogsManager.getLogger(GitCloner.class);
+
     public static void downloadRepo(String organization, String repoName, String branchName) throws GitClonerException {
         try {
             FileUtil.deleteDirectory(FileUtil.getRepoDirectory(organization, repoName));
-
-            System.out.println("cloning " + organization + "/" + repoName + "...");
+            logger.info("Cloning " + organization + "/" + repoName + "...");
             CommandRunner.cloneRepo(organization, repoName);
-            System.out.println("cloning done!");
+            logger.info("Cloning completed!");
         } catch (RuntimeException e) {
-            System.out.println("Error encountered in Git Cloning, will attempt to continue analyzing");
-            e.printStackTrace();
+            logger.log(Level.SEVERE, "Error encountered in Git Cloning, will attempt to continue analyzing", e);
             throw new GitClonerException(e);
             //Due to an unsolved bug on Windows Git, for some repository, Git Clone will return an error even
             // though the repo is cloned properly.
@@ -27,8 +31,7 @@ public class GitCloner {
         try {
             GitChecker.checkout(FileUtil.getRepoDirectory(organization, repoName), branchName);
         } catch (RuntimeException e) {
-            System.out.println("Error: Branch does not exist! Analyze terminated.");
-            e.printStackTrace();
+            logger.log(Level.SEVERE, "Branch does not exist! Analyze terminated.", e);
             throw new GitClonerException(e);
         }
 
