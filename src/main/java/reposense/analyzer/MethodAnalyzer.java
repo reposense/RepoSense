@@ -5,6 +5,7 @@ import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import com.github.javaparser.JavaParser;
@@ -30,7 +31,7 @@ public class MethodAnalyzer {
         try {
             in = new FileInputStream(config.getRepoRoot() + "/" + fileInfo.getPath());
         } catch (FileNotFoundException e) {
-            logger.severe(LogsManager.getErrorDetails(e));
+            logger.log(Level.SEVERE, e.getMessage(), e);
         }
 
         CompilationUnit cu;

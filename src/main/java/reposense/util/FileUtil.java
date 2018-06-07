@@ -9,6 +9,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Comparator;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
@@ -34,7 +35,7 @@ public class FileUtil {
             out.print(result);
             out.print("\n");
         } catch (FileNotFoundException e) {
-            logger.severe(LogsManager.getErrorDetails(e));
+            logger.log(Level.SEVERE, e.getMessage(), e);
         }
     }
 
@@ -90,7 +91,7 @@ public class FileUtil {
 
             zipInput.close();
         } catch (IOException e) {
-            logger.severe(LogsManager.getErrorDetails(e));
+            //logger.severe(LogsManager.getErrorDetails(e));
         }
     }
 

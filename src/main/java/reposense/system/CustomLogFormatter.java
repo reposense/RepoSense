@@ -1,5 +1,7 @@
 package reposense.system;
 
+import java.io.PrintWriter;
+import java.io.StringWriter;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -20,6 +22,15 @@ public class CustomLogFormatter extends SimpleFormatter {
         builder.append("[").append(record.getLevel()).append("] - ");
         builder.append(formatMessage(record));
         builder.append("\n");
+
+        Throwable t = record.getThrown();
+
+        if (t != null) {
+            StringWriter sw = new StringWriter();
+            t.printStackTrace(new PrintWriter(sw));
+            builder.append(sw);
+        }
+
         return builder.toString();
     }
 }

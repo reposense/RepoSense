@@ -1,8 +1,6 @@
 package reposense.system;
 
 import java.io.IOException;
-import java.io.PrintWriter;
-import java.io.StringWriter;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -94,7 +92,7 @@ public class LogsManager {
             }
             logger.addHandler(fileHandler);
         } catch (IOException e) {
-            logger.severe(LogsManager.getErrorDetails(e));
+            logger.log(Level.SEVERE, e.getMessage(), e);
         }
     }
 
@@ -122,15 +120,6 @@ public class LogsManager {
 
     public static void setFileConsoleHandlerLevel(Level level) {
         currentFileLogLevel = level;
-    }
-
-    /**
-     * Returns a detailed message of the {@code t}, including the stack trace.
-     */
-    public static String getErrorDetails(Throwable t) {
-        StringWriter sw = new StringWriter();
-        t.printStackTrace(new PrintWriter(sw));
-        return t.getMessage() + "\n" + sw.toString();
     }
 
 }

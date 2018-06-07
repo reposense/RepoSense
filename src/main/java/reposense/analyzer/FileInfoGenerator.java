@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import reposense.dataobject.FileInfo;
@@ -26,7 +27,7 @@ public class FileInfoGenerator {
                 lineNum += 1;
             }
         } catch (IOException ioe) {
-            logger.severe(LogsManager.getErrorDetails(ioe));
+            logger.log(Level.SEVERE, ioe.getMessage(), ioe);
         }
         return result;
     }
