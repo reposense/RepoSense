@@ -10,6 +10,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -61,7 +62,7 @@ public class RepoInfoFileGenerator {
             try {
                 FileUtil.deleteDirectory(Constants.REPOS_ADDRESS);
             } catch (IOException ioe) {
-                System.out.println("Error deleting report directory.");
+                logger.log(Level.SEVERE, "Error deleting report directory.", ioe);
             }
         }
 
