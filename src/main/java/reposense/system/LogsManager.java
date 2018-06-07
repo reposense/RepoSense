@@ -125,7 +125,7 @@ public class LogsManager {
     }
 
     /**
-     * Returns a detailed message of the t, including the stack trace.
+     * Returns a detailed message of the {@code t}, including the stack trace.
      */
     public static String getErrorDetails(Throwable t) {
         StringWriter sw = new StringWriter();
