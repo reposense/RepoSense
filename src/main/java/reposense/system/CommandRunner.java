@@ -37,9 +37,16 @@ public class CommandRunner {
         }
 
         Path rootPath = Paths.get(root);
-        String checkOutCommand = "git checkout `git rev-list -1 --before="
+        String checkoutCommand = "git checkout `git rev-list -1 --before="
                 + Constants.GIT_LOG_UNTIL_DATE_FORMAT.format(untilDate) + " " + branchName + "`";
-        runCommand(rootPath, checkOutCommand);
+
+        if (isWindows) {
+            checkoutCommand = "for /f %g in ('git rev-list -n 1 --before="
+                    + Constants.GIT_LOG_UNTIL_DATE_FORMAT.format(untilDate) + " " + branchName
+                    + "') do git checkout %g";
+        }
+
+        runCommand(rootPath, checkoutCommand);
     }
 
     public static String blameRaw(String root, String fileDirectory, Date sinceDate, Date untilDate) {
