@@ -28,7 +28,7 @@ public class CommandRunner {
     }
 
     /**
-     * Checkout to the latest commit before {@code untilDate} in {@code branchName} branch
+     * Checks out to the latest commit before {@code untilDate} in {@code branchName} branch
      * if {@code untilDate} is not null.
      */
     public static void checkoutToDate(String root, String branchName, Date untilDate) {
@@ -120,11 +120,7 @@ public class CommandRunner {
      * name for each line.
      */
     private static String getAuthorFilterCommand() {
-        if (isWindows) {
-            return "| findstr /B /C:" + addQuote("author ");
-        } else {
-            return "| grep " + addQuote("^author .*");
-        }
+        return isWindows ? "| findstr /B /C:" + addQuote("author ") : "| grep " + addQuote("^author .*");
     }
 
     /**

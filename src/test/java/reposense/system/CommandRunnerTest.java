@@ -1,7 +1,5 @@
 package reposense.system;
 
-import static org.junit.Assert.fail;
-
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -40,49 +38,37 @@ public class CommandRunnerTest extends GitTestTemplate {
     @Test
     public void logWithoutContentTest() {
         Date date = TestUtil.getDate(2050, Calendar.JANUARY, 1);
-        String content;
-        try {
-            content = CommandRunner.gitLog(TestConstants.LOCAL_TEST_REPO_ADDRESS, date, null);
-            Assert.assertTrue(content.isEmpty());
-        } catch (Exception e) {
-            fail();
-        }
+        String content = CommandRunner.gitLog(TestConstants.LOCAL_TEST_REPO_ADDRESS, date, null);
+        Assert.assertTrue(content.isEmpty());
 
         date = TestUtil.getDate(1950, Calendar.JANUARY, 1);
-        try {
-            content = CommandRunner.gitLog(TestConstants.LOCAL_TEST_REPO_ADDRESS, null, date);
-            Assert.assertTrue(content.isEmpty());
-        } catch (Exception e) {
-            fail();
-        }
+        content = CommandRunner.gitLog(TestConstants.LOCAL_TEST_REPO_ADDRESS, null, date);
+        Assert.assertTrue(content.isEmpty());
     }
 
     @Test
     public void blameRawTest() {
         Date sinceDate = TestUtil.getDate(1950, Calendar.JANUARY, 1);
         Date untilDate = TestUtil.getDate(2050, Calendar.JANUARY, 1);
-        try {
-            // supply both sinceDate and untilDate -> success
-            String content = CommandRunner.blameRaw(
-                    TestConstants.LOCAL_TEST_REPO_ADDRESS, "blameTest.java", sinceDate, untilDate);
-            Assert.assertFalse(content.isEmpty());
 
-            // supply only untilDate -> success
-            content = CommandRunner.blameRaw(
-                    TestConstants.LOCAL_TEST_REPO_ADDRESS, "blameTest.java", null, untilDate);
-            Assert.assertFalse(content.isEmpty());
+        // supply both sinceDate and untilDate -> success
+        String content = CommandRunner.blameRaw(
+                TestConstants.LOCAL_TEST_REPO_ADDRESS, "blameTest.java", sinceDate, untilDate);
+        Assert.assertFalse(content.isEmpty());
 
-            // supply only since sinceDate -> success
-            content = CommandRunner.blameRaw(
-                    TestConstants.LOCAL_TEST_REPO_ADDRESS, "blameTest.java", sinceDate, null);
-            Assert.assertFalse(content.isEmpty());
+        // supply only untilDate -> success
+        content = CommandRunner.blameRaw(
+                TestConstants.LOCAL_TEST_REPO_ADDRESS, "blameTest.java", null, untilDate);
+        Assert.assertFalse(content.isEmpty());
 
-            // no sinceDate or untilDate supplied -> success
-            content = CommandRunner.blameRaw(
-                    TestConstants.LOCAL_TEST_REPO_ADDRESS, "blameTest.java", null, null);
-            Assert.assertFalse(content.isEmpty());
-        } catch (Exception e) {
-            fail();
-        }
+        // supply only since sinceDate -> success
+        content = CommandRunner.blameRaw(
+                TestConstants.LOCAL_TEST_REPO_ADDRESS, "blameTest.java", sinceDate, null);
+        Assert.assertFalse(content.isEmpty());
+
+        // no sinceDate or untilDate supplied -> success
+        content = CommandRunner.blameRaw(
+                TestConstants.LOCAL_TEST_REPO_ADDRESS, "blameTest.java", null, null);
+        Assert.assertFalse(content.isEmpty());
     }
 }

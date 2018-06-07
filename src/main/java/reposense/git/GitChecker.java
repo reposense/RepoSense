@@ -30,7 +30,7 @@ public class GitChecker {
     }
 
     /**
-     * Checkout to the latest commit before {@code untilDate} in {@code branchName} branch
+     * Checks out to the latest commit before {@code untilDate} in {@code branchName} branch
      * if {@code untilDate} is not null.
      */
     public static void checkoutToDate(String root, String branchName, Date untilDate) {
