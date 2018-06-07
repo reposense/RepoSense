@@ -82,11 +82,12 @@ public class LogsManager {
      */
     private static void addFileHandler(Logger logger) {
         Path path = Paths.get(LOG_FILE_LOCATION);
-
-        if (!Files.exists(path)) {
+        
             try {
-                Files.createDirectories(path);
-                logger.info("Log folder has been successfully created");
+                if (!Files.exists(path)) {
+                    Files.createDirectories(path);
+                    logger.info("Log folder has been successfully created");
+                }
 
                 if (fileHandler == null) {
                     fileHandler = createFileHandler();
@@ -95,7 +96,6 @@ public class LogsManager {
             } catch (IOException e) {
                 logger.severe(LogsManager.getErrorDetails(e));
             }
-        }
     }
 
     /**
