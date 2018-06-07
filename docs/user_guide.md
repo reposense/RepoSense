@@ -27,7 +27,6 @@ For Mac/Linux users:
 ```
 $ gradlew run -Dargs="-config CSV_path.csv -output output_path/ -since 01/10/2017 -until 01/11/2017"
 ```
-
 Argument List:
 - config: Mandatory. The path to the CSV config file.
 - output: Optional. The path to the dashboard generated. If not provided, it will be generated in the current directory.
