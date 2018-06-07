@@ -1,6 +1,7 @@
 package reposense.frontend;
 
-import java.io.File;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Optional;
@@ -25,8 +26,8 @@ public class CliArguments {
 
     private static final String DEFAULT_FILE_ARG = ".";
 
-    private File configFile;
-    private File targetFile;
+    private Path configFilePath;
+    private Path targetFilePath;
     private Optional<Date> sinceDate;
     private Optional<Date> untilDate;
 
@@ -41,7 +42,7 @@ public class CliArguments {
     public CliArguments(String[] args) throws IllegalArgumentException {
         sinceDate = Optional.empty();
         untilDate = Optional.empty();
-        targetFile = new File(DEFAULT_FILE_ARG);
+        targetFilePath = Paths.get(DEFAULT_FILE_ARG);
 
         final HashMap<String, String> argumentMap = generateArgumentMap(args);
         checkAllMandatoryArgumentsPresent(argumentMap);
@@ -98,12 +99,12 @@ public class CliArguments {
 
         if (argumentMap.containsKey(CONFIG_FILE_ARG)) {
             final String configFilePath = argumentMap.get(CONFIG_FILE_ARG);
-            configFile = new File(configFilePath);
+            this.configFilePath = Paths.get(configFilePath);
         }
 
         if (argumentMap.containsKey(TARGET_FILE_ARG)) {
             final String targetFilePath = argumentMap.get(TARGET_FILE_ARG);
-            targetFile = new File(targetFilePath);
+            this.targetFilePath = Paths.get(targetFilePath);
         }
 
         try {
@@ -121,16 +122,16 @@ public class CliArguments {
         }
     }
 
-    public File getConfigFile() {
-        return configFile;
+    public Path getConfigFilePath() {
+        return configFilePath;
     }
 
     public Optional<Date> getSinceDate() {
         return sinceDate;
     }
 
-    public File getTargetFile() {
-        return targetFile;
+    public Path getTargetFilePath() {
+        return targetFilePath;
     }
 
     public Optional<Date> getUntilDate() {

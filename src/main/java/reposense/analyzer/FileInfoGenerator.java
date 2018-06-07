@@ -1,30 +1,33 @@
 package reposense.analyzer;
 
 import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import reposense.dataobject.FileInfo;
 import reposense.dataobject.LineInfo;
-
+import reposense.system.LogsManager;
 
 public class FileInfoGenerator {
+
+    private static final Logger logger = LogsManager.getLogger(FileInfoGenerator.class);
+
     public static FileInfo generateFileInfo(String repoRoot, String relativePath) {
         FileInfo result = new FileInfo(relativePath);
-        File file = new File(repoRoot + '/' + relativePath);
-        try (BufferedReader br = new BufferedReader(new FileReader(file))) {
+        Path path = Paths.get(repoRoot, relativePath);
+        try (BufferedReader br = new BufferedReader(Files.newBufferedReader(path))) {
             String line;
             int lineNum = 1;
             while ((line = br.readLine()) != null) {
                 result.getLines().add(new LineInfo(lineNum, line));
                 lineNum += 1;
             }
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
+        } catch (IOException ioe) {
+            logger.log(Level.SEVERE, ioe.getMessage(), ioe);
         }
         return result;
     }

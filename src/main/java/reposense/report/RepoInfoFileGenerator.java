@@ -1,11 +1,19 @@
 package reposense.report;
 
 import java.io.File;
+import java.io.IOException;
 import java.io.InputStream;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 import java.util.zip.ZipInputStream;
 
 import reposense.analyzer.ContentAnalyzer;
@@ -18,13 +26,20 @@ import reposense.dataobject.RepoContributionSummary;
 import reposense.frontend.RepoSense;
 import reposense.git.GitCloner;
 import reposense.git.GitClonerException;
+import reposense.system.LogsManager;
 import reposense.util.Constants;
 import reposense.util.FileUtil;
 
 
 public class RepoInfoFileGenerator {
 
-    public static void generateReposReport(List<RepoConfiguration> repoConfigs, String targetFileLocation) {
+    private static final Logger logger = LogsManager.getLogger(RepoInfoFileGenerator.class);
+
+    /**
+     * Generates the repo report in a new folder inside {@code targetFileLocation}, using the configs in
+     * {@code repoConfigs}, and returns the name of the folder generated.
+     */
+    public static String generateReposReport(List<RepoConfiguration> repoConfigs, String targetFileLocation) {
         String reportName = generateReportName();
         HashSet<Author> suspiciousAuthors = new HashSet<>();
 
@@ -33,7 +48,7 @@ public class RepoInfoFileGenerator {
             try {
                 GitCloner.downloadRepo(config.getOrganization(), config.getRepoName(), config.getBranch());
             } catch (GitClonerException e) {
-                System.out.println("Exception met when cloning the repo, will skip this one");
+                logger.warning("Exception met when cloning the repo, will skip this one");
                 continue;
             }
             List<FileInfo> fileInfos = RepoAnalyzer.analyzeAuthorship(config);
@@ -43,38 +58,59 @@ public class RepoInfoFileGenerator {
             RepoContributionSummary summary = ContributionSummaryGenerator.analyzeContribution(
                     config, commitInfos, authorContributionMap, suspiciousAuthors);
             generateIndividualRepoReport(config, fileInfos, summary, reportName, targetFileLocation);
-            FileUtil.deleteDirectory(Constants.REPOS_ADDRESS);
+
+            try {
+                FileUtil.deleteDirectory(Constants.REPOS_ADDRESS);
+            } catch (IOException ioe) {
+                logger.log(Level.SEVERE, "Error deleting report directory.", ioe);
+            }
         }
 
         if (!suspiciousAuthors.isEmpty()) {
-            System.out.println("PLEASE NOTE, BELOW IS THE LIST OF SUSPICIOUS AUTHORS:");
+            logger.info("PLEASE NOTE, BELOW IS THE LIST OF SUSPICIOUS AUTHORS:");
             for (Author author : suspiciousAuthors) {
-                System.out.println(author);
+                logger.info(author.toString());
             }
         }
         FileUtil.writeJsonFile(repoConfigs, getSummaryResultPath(reportName, targetFileLocation));
 
+        return reportName;
     }
 
     private static void generateIndividualRepoReport(RepoConfiguration repoConfig, List<FileInfo> fileInfos,
             RepoContributionSummary summary, String reportName, String targetFileLocation) {
-
         String repoReportName = repoConfig.getDisplayName();
-        String repoReportDirectory = targetFileLocation + "/" + reportName + "/" + repoReportName;
-        new File(repoReportDirectory).mkdirs();
-        String templateLocation = targetFileLocation + File.separator
-                + reportName + File.separator
-                + Constants.STATIC_INDIVIDUAL_REPORT_TEMPLATE_ADDRESS;
-        FileUtil.copyFiles(new File(templateLocation), new File(repoReportDirectory));
-        FileUtil.writeJsonFile(fileInfos, getIndividualAuthorshipPath(repoReportDirectory));
-        FileUtil.writeJsonFile(summary, getIndividualCommitsPath(repoReportDirectory));
-        System.out.println("Report for " + repoReportName + " Generated!");
+        Path repoReportDirectory = Paths.get(targetFileLocation, reportName, repoReportName);
+        Path templateLocation = Paths.get(targetFileLocation, reportName,
+                Constants.STATIC_INDIVIDUAL_REPORT_TEMPLATE_ADDRESS);
+
+        try {
+            copyDirectoryFiles(templateLocation, repoReportDirectory);
+            FileUtil.writeJsonFile(fileInfos, getIndividualAuthorshipPath(repoReportDirectory.toString()));
+            FileUtil.writeJsonFile(summary, getIndividualCommitsPath(repoReportDirectory.toString()));
+            logger.info("Report for " + repoReportName + " generated!");
+        } catch (IOException ioe) {
+            logger.warning("Error in copying template file for report.");
+        }
     }
 
     private static void copyTemplate(String reportName, String targetFileLocation) {
         String location = targetFileLocation + File.separator + reportName;
         InputStream is = RepoSense.class.getResourceAsStream(Constants.TEMPLATE_ZIP_ADDRESS);
         FileUtil.unzip(new ZipInputStream(is), location);
+    }
+
+    /**
+     * Copies all the files inside {@code src} directory to {@code dest} directory.
+     * Creates the {@code dest} directory if it does not exist.
+     */
+    private static void copyDirectoryFiles(Path src, Path dest) throws IOException {
+        Files.createDirectories(dest);
+        try (Stream<Path> pathStream = Files.list(src)) {
+            for (Path filePath: pathStream.collect(Collectors.toList())) {
+                Files.copy(filePath, dest.resolve(src.relativize(filePath)));
+            }
+        }
     }
 
     private static String getIndividualAuthorshipPath(String repoReportDirectory) {
