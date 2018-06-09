@@ -1,125 +1,23 @@
 package reposense.frontend;
 
 import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.Optional;
-
-import reposense.exception.ParseException;
-import reposense.parser.DateParser;
 
 /**
  * Represents command line arguments user supplied when running the program.
  */
 public class CliArguments {
-
-    private static final String ARGUMENT_PREFIX_DASH = "-";
-
-    private static final String CONFIG_FILE_ARG = "config";
-    private static final String TARGET_FILE_ARG = "output";
-    private static final String SINCE_DATE_ARG = "since";
-    private static final String UNTIL_DATE_ARG = "until";
-
-    private static final String MESSAGE_INVALID_INPUTS = "Failed to parse inputs arguments";
-    private static final String MESSAGE_NO_CSV_FILE = "Failed due to missing CSV file";
-
-    private static final String DEFAULT_FILE_ARG = ".";
-
     private Path configFilePath;
-    private Path targetFilePath;
+    private Path outputFilePath;
     private Optional<Date> sinceDate;
     private Optional<Date> untilDate;
 
-    /**
-     * Parses user-supplied arguments.
-     *
-     * @throws IllegalArgumentException if the given args inputs are either
-     *  - malformed
-     *  - fail to parse
-     *  - missing mandatory fields
-     */
-    public CliArguments(String[] args) throws IllegalArgumentException {
-        sinceDate = Optional.empty();
-        untilDate = Optional.empty();
-        targetFilePath = Paths.get(DEFAULT_FILE_ARG);
-
-        final HashMap<String, String> argumentMap = generateArgumentMap(args);
-        checkAllMandatoryArgumentsPresent(argumentMap);
-        setUserInputValuesToArgument(argumentMap);
-    }
-
-    /**
-     * Verifies if {@code args} begins with a dash character and follows by an input and generates an ArgumentMap
-     *
-     * @throws IllegalArgumentException If the given args are malformed,
-     * which means it does not have a dash character or does not follow by an input.
-     */
-    private HashMap<String, String> generateArgumentMap(String[] args) {
-        final HashMap<String, String> argumentMap = new HashMap<String, String>();
-
-        for (int i = 0; i < args.length; i = i + 2) {
-
-            if (i + 1 > args.length) {
-                throw new IllegalArgumentException(MESSAGE_INVALID_INPUTS);
-            }
-
-            if (!args[i].startsWith(ARGUMENT_PREFIX_DASH)) {
-                throw new IllegalArgumentException(MESSAGE_INVALID_INPUTS);
-            }
-
-            final String key = args[i].substring(1);
-            argumentMap.put(key, args[i + 1]);
-        }
-
-        return argumentMap;
-    }
-
-
-    /**
-     * Checks if all mandatory fields are present.
-     *
-     * @throws IllegalArgumentException If there are missing mandatory fields.
-     */
-    private void checkAllMandatoryArgumentsPresent(final HashMap<String, String> argumentMap)
-            throws IllegalArgumentException {
-        if (!argumentMap.containsKey(CONFIG_FILE_ARG)) {
-            throw new IllegalArgumentException(MESSAGE_NO_CSV_FILE);
-        }
-    }
-
-    /**
-     * Set user-supplied inputs to instance variables
-     *
-     * @throws IllegalArgumentException If the supplied dates fail to parse.
-     */
-    private void setUserInputValuesToArgument(final HashMap<String, String> argumentMap)
-            throws IllegalArgumentException {
-        final DateParser dateParser = new DateParser();
-
-        if (argumentMap.containsKey(CONFIG_FILE_ARG)) {
-            final String configFilePath = argumentMap.get(CONFIG_FILE_ARG);
-            this.configFilePath = Paths.get(configFilePath);
-        }
-
-        if (argumentMap.containsKey(TARGET_FILE_ARG)) {
-            final String targetFilePath = argumentMap.get(TARGET_FILE_ARG);
-            this.targetFilePath = Paths.get(targetFilePath);
-        }
-
-        try {
-            if (argumentMap.containsKey(SINCE_DATE_ARG)) {
-                final String sinceDateInString = argumentMap.get(SINCE_DATE_ARG);
-                sinceDate = dateParser.parse(sinceDateInString);
-            }
-
-            if (argumentMap.containsKey(UNTIL_DATE_ARG)) {
-                final String untilDateInString = argumentMap.get(UNTIL_DATE_ARG);
-                untilDate = dateParser.parse(untilDateInString);
-            }
-        } catch (ParseException pe) {
-            throw new IllegalArgumentException(pe.getMessage());
-        }
+    public CliArguments(Path configFilePath, Path outputFilePath, Optional<Date> sinceDate, Optional<Date> untilDate) {
+        this.configFilePath = configFilePath;
+        this.outputFilePath = outputFilePath;
+        this.sinceDate = sinceDate;
+        this.untilDate = untilDate;
     }
 
     public Path getConfigFilePath() {
@@ -130,12 +28,11 @@ public class CliArguments {
         return sinceDate;
     }
 
-    public Path getTargetFilePath() {
-        return targetFilePath;
+    public Path getOutputFilePath() {
+        return outputFilePath;
     }
 
     public Optional<Date> getUntilDate() {
         return untilDate;
     }
-
 }
