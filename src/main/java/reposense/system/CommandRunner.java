@@ -38,13 +38,13 @@ public class CommandRunner {
 
         Path rootPath = Paths.get(root);
         String checkoutCommand;
-        String substituteCommand = "`git rev-list -1 --before="
-                + Constants.GIT_LOG_UNTIL_DATE_FORMAT.format(untilDate) + " " + branchName + "`";
+        String substituteCommand = "git rev-list -1 --before="
+                + Constants.GIT_LOG_UNTIL_DATE_FORMAT.format(untilDate) + " " + branchName;
 
         if (isWindows) {
-            checkoutCommand = "for /f %g in (" + substituteCommand + ") do git checkout %g";
+            checkoutCommand = "for /f %g in ('" + substituteCommand + "') do git checkout %g";
         } else {
-            checkoutCommand = "git checkout " + substituteCommand;
+            checkoutCommand = "git checkout `" + substituteCommand + "`";
         }
 
         runCommand(rootPath, checkoutCommand);
