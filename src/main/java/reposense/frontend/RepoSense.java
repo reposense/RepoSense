@@ -29,7 +29,7 @@ public class RepoSense {
             List<RepoConfiguration> configs = CsvConfigurationBuilder.buildConfigs(configFile, fromDate, toDate);
             RepoInfoFileGenerator.generateReposReport(configs, targetFile.toAbsolutePath().toString());
         } catch (ParseException pe) {
-            logger.log(Level.SEVERE, pe.getMessage(), pe);
+            logger.warning(pe.getMessage());
         }
     }
 }
