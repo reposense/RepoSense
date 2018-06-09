@@ -3,7 +3,6 @@ package reposense.frontend;
 import java.nio.file.Path;
 import java.util.Date;
 import java.util.List;
-import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import reposense.dataobject.RepoConfiguration;
