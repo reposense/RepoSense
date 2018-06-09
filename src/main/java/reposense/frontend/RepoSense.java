@@ -3,14 +3,19 @@ package reposense.frontend;
 import java.nio.file.Path;
 import java.util.Date;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import reposense.dataobject.RepoConfiguration;
 import reposense.exception.ParseException;
 import reposense.parser.ArgsParser;
 import reposense.report.RepoInfoFileGenerator;
 import reposense.system.CsvConfigurationBuilder;
+import reposense.system.LogsManager;
 
 public class RepoSense {
+
+    private static final Logger logger = LogsManager.getLogger(RepoSense.class);
 
     public static void main(String[] args) {
         try {
@@ -24,7 +29,7 @@ public class RepoSense {
             List<RepoConfiguration> configs = CsvConfigurationBuilder.buildConfigs(configFile, fromDate, toDate);
             RepoInfoFileGenerator.generateReposReport(configs, targetFile.toAbsolutePath().toString());
         } catch (ParseException pe) {
-            System.out.print(pe.getMessage());
+            logger.log(Level.SEVERE, pe.getMessage(), pe);
         }
     }
 }
