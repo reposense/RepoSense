@@ -23,6 +23,8 @@ dependencies {
     implementation  'com.github.javaparser:javaparser-core:3.0.1'
     implementation  'com.google.code.gson:gson:2.6.2'
     implementation  group: 'org.json', name: 'json', version: '20180130'
+    implementation  group: 'net.sourceforge.argparse4j', name: 'argparse4j', version: '0.8.1'
+    implementation  group: 'org.apache.ant', name: 'ant', version: '1.10.3'
 
     testImplementation group: 'junit', name: 'junit', version: '4.12'
 }
@@ -71,3 +73,9 @@ run {
     args System.getProperty("args", "").split()
 }
 tasks.compileJava.dependsOn(clean)
+
+tasks.functional.dependsOn("myZip")
+
+tasks.withType(Copy) {
+    includeEmptyDirs = true
+}
