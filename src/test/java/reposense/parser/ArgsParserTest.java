@@ -21,10 +21,10 @@ import reposense.util.TestUtil;
 public class ArgsParserTest {
 
     private static final Path PROJECT_DIRECTORY = Paths.get(System.getProperty("user.dir"));
-    private static final Path CONFIG_FILE_ABSOLUTE = Paths.get(new File(ArgsParserTest.class.getClassLoader()
-            .getResource("output/parser_test.csv").getPath()).getPath());
-    private static final Path OUTPUT_DIRECTORY_ABSOLUTE = Paths.get(new File(ArgsParserTest.class.getClassLoader()
-            .getResource("output").getPath()).getPath());
+    private static final Path CONFIG_FILE_ABSOLUTE = new File(ArgsParserTest.class.getClassLoader()
+            .getResource("output/parser_test.csv").getFile()).toPath();
+    private static final Path OUTPUT_DIRECTORY_ABSOLUTE = new File(ArgsParserTest.class.getClassLoader()
+            .getResource("output").getFile()).toPath();
     private static final Path CONFIG_FILE_RELATIVE = PROJECT_DIRECTORY.relativize(CONFIG_FILE_ABSOLUTE);
     private static final Path OUTPUT_DIRECTORY_RELATIVE = PROJECT_DIRECTORY.relativize(OUTPUT_DIRECTORY_ABSOLUTE);
     private static final String DEFAULT_MANDATORY_ARGS = "-config " + CONFIG_FILE_ABSOLUTE + " ";
