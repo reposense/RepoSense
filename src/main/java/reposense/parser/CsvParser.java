@@ -117,16 +117,20 @@ public class CsvParser {
         }
     }
 
+    /**
+     * Associates aliases to an author, if provided.
+     * Always use github id as the primary alias.
+     */
     private static void setAlias(String[] elements, RepoConfiguration config, Author author) {
         //Always use GitHub Id as an alias
         config.getAuthorAliasMap().put(elements[GITHUB_ID_POSITION], author);
-        // If more aliases are provided, use them as well
         boolean isAliasPositionInElements = elements.length > ALIAS_POSITION
                 && !elements[ALIAS_POSITION].isEmpty();
 
         if (isAliasPositionInElements) {
             String[] aliases = elements[ALIAS_POSITION].split(Constants.AUTHOR_ALIAS_SPLITTER);
 
+            //If more aliases are provided, use them as well
             for (String alias : aliases) {
                 config.getAuthorAliasMap().put(alias, author);
             }
