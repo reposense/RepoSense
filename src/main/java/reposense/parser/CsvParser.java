@@ -7,11 +7,13 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
 import java.util.List;
+import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
 import reposense.dataobject.Author;
 import reposense.dataobject.RepoConfiguration;
 import reposense.frontend.CliArguments;
+import reposense.system.LogsManager;
 import reposense.util.Constants;
 
 /**
@@ -31,6 +33,8 @@ public class CsvParser {
     private static final int GITHUB_ID_POSITION = 3;
     private static final int DISPLAY_NAME_POSITION = 4;
     private static final int ALIAS_POSITION = 5;
+
+    private static final Logger logger = LogsManager.getLogger(CsvParser.class);
 
     /**
      * Returns a list of {@code RepoConfiguration}, which are the inflated object a line of the csv file.
@@ -56,7 +60,7 @@ public class CsvParser {
             }
 
         } catch (IOException ioe) {
-            throw new IOException(MESSAGE_UNABLE_TO_READ_CSV_FILE);
+            throw new IOException(MESSAGE_UNABLE_TO_READ_CSV_FILE, ioe);
         }
 
         return repoConfigurations;
@@ -67,44 +71,48 @@ public class CsvParser {
      */
     private static void processLine(List<RepoConfiguration> repoConfigurations,
             Date sinceDate, Date untilDate, String line, int lineNumber) {
-        if (!line.isEmpty()) {
-            String[] elements = line.split(Constants.CSV_SPLITTER);
-
-            if (elements.length < GITHUB_ID_POSITION) {
-                // Warns malformed line and skips it
-                System.out.println(String.format(MESSAGE_MALFORMED_LINE_FORMAT, lineNumber, line));
-                return;
-            }
-
-            String organization = elements[ORGANIZATION_POSITION];
-            String repositoryName = elements[REPOSITORY_NAME_POSITION];
-            String branch = elements[BRANCH_POSITION];
-
-            RepoConfiguration config = new RepoConfiguration(organization, repositoryName, branch);
-            int index = repoConfigurations.indexOf(config);
-
-            if (index != -1) {
-                config = repoConfigurations.get(index);
-            } else {
-                repoConfigurations.add(config);
-                config.setSinceDate(sinceDate);
-                config.setUntilDate(untilDate);
-            }
-
-            Author author = new Author(elements[GITHUB_ID_POSITION]);
-            config.getAuthorList().add(author);
-            setDisplayName(elements, config, author);
-            setAlias(elements, config, author);
+        if (line.isEmpty()) {
+            return;
         }
+
+        String[] elements = line.split(Constants.CSV_SPLITTER);
+
+        if (elements.length < GITHUB_ID_POSITION) {
+            // Warns malformed line and skips it
+            logger.warning(String.format(MESSAGE_MALFORMED_LINE_FORMAT, lineNumber, line));
+            return;
+        }
+
+        String organization = elements[ORGANIZATION_POSITION];
+        String repositoryName = elements[REPOSITORY_NAME_POSITION];
+        String branch = elements[BRANCH_POSITION];
+
+        RepoConfiguration config = new RepoConfiguration(organization, repositoryName, branch);
+        int index = repoConfigurations.indexOf(config);
+
+        if (index != -1) {
+            config = repoConfigurations.get(index);
+        } else {
+            repoConfigurations.add(config);
+            config.setSinceDate(sinceDate);
+            config.setUntilDate(untilDate);
+        }
+
+        Author author = new Author(elements[GITHUB_ID_POSITION]);
+        config.getAuthorList().add(author);
+        setDisplayName(elements, config, author);
+        setAlias(elements, config, author);
     }
 
     private static void setDisplayName(String[] elements, RepoConfiguration config, Author author) {
-        // Checks length of the elements array as trailing commas may be omitted for empty columns
-        if (elements.length > DISPLAY_NAME_POSITION && !elements[DISPLAY_NAME_POSITION].isEmpty()) {
+        boolean isDisplayNameInElements = elements.length > DISPLAY_NAME_POSITION
+                && !elements[DISPLAY_NAME_POSITION].isEmpty();
+
+        if (isDisplayNameInElements) {
             //Not empty, take the supplied value as Display Name
             config.getAuthorDisplayNameMap().put(author, elements[DISPLAY_NAME_POSITION]);
         } else {
-            //else, use GitHub Id as Display Name
+            //Use GitHub Id as Display Name
             config.getAuthorDisplayNameMap().put(author, author.getGitId());
         }
     }
@@ -112,10 +120,11 @@ public class CsvParser {
     private static void setAlias(String[] elements, RepoConfiguration config, Author author) {
         //Always use GitHub Id as an alias
         config.getAuthorAliasMap().put(elements[GITHUB_ID_POSITION], author);
+        // If more aliases are provided, use them as well
+        boolean isAliasPositionInElements = elements.length > ALIAS_POSITION
+                && !elements[ALIAS_POSITION].isEmpty();
 
-        // Checks length of the elements array as trailing commas may be omitted for empty columns
-        // If more alias are provided, use them as well
-        if (elements.length > ALIAS_POSITION &&  !elements[ALIAS_POSITION].isEmpty()) {
+        if (isAliasPositionInElements) {
             String[] aliases = elements[ALIAS_POSITION].split(Constants.AUTHOR_ALIAS_SPLITTER);
 
             for (String alias : aliases) {
