@@ -15,7 +15,10 @@
    * Alternatively, you can compile the executable Jar yourself by following our [build from source guide](Build.md).
 2. Execute it on the OS terminal. <br>
 Usage: `java -jar RepoSense.jar -config CSV_CONFIG_FILE_PATH [-output OUTPUT_DIRECTORY] [-since DD/MM/YYYY] [-until DD/MM/YYYY]`
-3. The dashboard can be in the folder designated in OUTPUT_DIRECTORY, or current working directory otherwise, as index.html.
+
+3. Alternatively, you can clone (or download) the repository and execute this command on the OS terminal inside the project directory.<br>
+Usage: `gradlew run -Dargs="-config CSV_CONFIG_FILE_PATH [-output OUTPUT_DIRECTORY] [-since DD/MM/YYYY] [-until DD/MM/YYYY]"`
+4. The dashboard can be in the folder designated in OUTPUT_DIRECTORY, or current working directory otherwise, as index.html.
 
 Sample usage:
 ```
