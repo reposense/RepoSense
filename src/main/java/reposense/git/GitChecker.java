@@ -1,5 +1,6 @@
 package reposense.git;
 
+import java.util.Date;
 import java.util.logging.Logger;
 
 import reposense.dataobject.CommitInfo;
@@ -25,8 +26,15 @@ public class GitChecker {
     }
 
     public static void checkout(String root, String commitHash) {
-        CommandRunner.checkOut(root, commitHash);
+        CommandRunner.checkout(root, commitHash);
     }
 
+    /**
+     * Checks out to the latest commit before {@code untilDate} in {@code branchName} branch
+     * if {@code untilDate} is not null.
+     */
+    public static void checkoutToDate(String root, String branchName, Date untilDate) {
+        CommandRunner.checkoutToDate(root, branchName, untilDate);
+    }
 }
 

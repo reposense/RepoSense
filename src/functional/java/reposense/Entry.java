@@ -12,7 +12,7 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import org.junit.Assert;
-import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Test;
 
 import reposense.dataobject.RepoConfiguration;
@@ -26,27 +26,33 @@ public class Entry {
     private static final String FT_TEMP_DIR = "ft_temp";
     private static final String EXPECTED_FOLDER = "expected";
 
-    @Before
-    public void setUp() throws IOException {
+    @BeforeClass
+    public static void setUp() throws IOException {
         FileUtil.deleteDirectory(FT_TEMP_DIR);
     }
 
     @Test
-    public void test() throws IOException, URISyntaxException {
-        String actualRelativeDir = FT_TEMP_DIR + "/" + generateReport();
-        Path actualFiles = Paths.get(getClass().getClassLoader().getResource("expected").toURI());
+    public void testNoDateRange() throws IOException, URISyntaxException {
+        String actualRelativeDir = FT_TEMP_DIR + "/" + generateReport(null, null);
+        Path actualFiles = Paths.get(getClass().getClassLoader().getResource("noDateRange/expected").toURI());
         verifyAllJson(actualFiles, actualRelativeDir);
         FileUtil.deleteDirectory(FT_TEMP_DIR);
     }
 
-    private String generateReport() throws URISyntaxException {
+    @Test
+    public void testDateRange() throws IOException, URISyntaxException {
+        Date sinceDate = TestUtil.getDate(2017, Calendar.SEPTEMBER, 1);
+        Date untilDate = TestUtil.getDate(2017, Calendar.OCTOBER, 30);
+
+        String actualRelativeDir = FT_TEMP_DIR + "/" + generateReport(sinceDate, untilDate);
+        Path actualFiles = Paths.get(getClass().getClassLoader().getResource("dateRange/expected").toURI());
+        verifyAllJson(actualFiles, actualRelativeDir);
+        FileUtil.deleteDirectory(FT_TEMP_DIR);
+    }
+
+    private String generateReport(Date sinceDate, Date untilDate) throws URISyntaxException {
         Path configFilePath = Paths.get(getClass().getClassLoader().getResource("sample_full.csv").toURI());
-        Calendar c = Calendar.getInstance();
-        c.set(2017, Calendar.JUNE, 1);
-        Date fromDate = c.getTime();
-        c.set(2017, Calendar.OCTOBER, 30);
-        Date toDate = c.getTime();
-        List<RepoConfiguration> configs = CsvConfigurationBuilder.buildConfigs(configFilePath, fromDate, toDate);
+        List<RepoConfiguration> configs = CsvConfigurationBuilder.buildConfigs(configFilePath, sinceDate, untilDate);
         return RepoInfoFileGenerator.generateReposReport(configs, FT_TEMP_DIR);
     }
 
