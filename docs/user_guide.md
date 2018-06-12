@@ -135,9 +135,8 @@ Below is the list of features in this panel:
 ## User Dashboard V2 (beta)
 Works is in progress for the second version of the dashboard. Instructions to get it up and running:
 - start a webserver serving your generated report directory
-- `python2 -m SimpleHTTPServer`
-- go to `http://localhost:8000/v2` on your browser, or whatever port your server is hosted
-- in the data field, enter `http://localhost:8000` and click go (again, your own port num should be used)
-- and viola.
+- `python2 -m SimpleHTTPServer 8000` or `python3 -m http.server 8000`
+- go to `http://localhost:8000/v2` on your browser
+- in the data field, enter `http://localhost:8000` 
 
 When this version of the dashboard is finalized, the process will be streamlined for ease of use.
