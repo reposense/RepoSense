@@ -44,21 +44,19 @@ var api = {
         });
     },
 
-    loadCommits(repo) {
+    loadCommits(repoName) {
         var REPORT_DIR = window.REPORT_DIR;
-        var REPOS = window.REPOS;
-        var app = window.app;
 
-        loadJSON(REPORT_DIR+"/"+repo+"/commits.json", (commits) => {
-            window.REPOS[repo].commits = commits;
-
+        loadJSON(REPORT_DIR+"/"+repoName+"/commits.json", (commits) => {
             var res = [];
+            var repo = window.REPOS[repoName];
+
             for(var author in commits.authorDisplayNameMap){
                 if(!author){ continue; }
 
                 var obj = {
                     name: author,
-                    repoId: repo,
+                    repoId: repoName,
                     variance: commits.authorContributionVariance[author],
                     displayName: commits.authorDisplayNameMap[author],
                     weeklyCommits: commits.authorWeeklyIntervalContributions[author],
@@ -66,7 +64,6 @@ var api = {
                     totalCommits: commits.authorFinalContributionMap[author],
                 };
 
-                var repo = REPOS[repo];
                 var searchParams = [
                     repo.organization, repo.repoName,
                     obj.displayName, author
@@ -78,7 +75,10 @@ var api = {
                 res.push(obj);
             }
 
-            REPOS[repo]["users"] = res;
+            repo.commits = commits;
+            repo.users = res;
+
+            var app = window.app;
             app.addUsers();
         });
     }
