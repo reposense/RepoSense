@@ -24,7 +24,7 @@ public class RepoSense {
         } catch (IOException ioe) {
             logger.warning(ioe.getMessage());
         } catch (ParseException pe) {
-            logger.exiting("", pe.getMessage());
+            logger.warning(pe.getMessage());
         }
     }
 }
