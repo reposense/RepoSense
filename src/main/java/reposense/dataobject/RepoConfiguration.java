@@ -10,7 +10,6 @@ import java.util.TreeMap;
 
 import reposense.util.FileUtil;
 
-
 public class RepoConfiguration {
     private String organization;
     private String repoName;
@@ -155,5 +154,15 @@ public class RepoConfiguration {
 
     public String getDisplayName() {
         return displayName;
+    }
+
+    public void setAuthorDisplayName(Author author, String displayName) {
+        authorDisplayNameMap.put(author, displayName);
+    }
+
+    public void setAuthorAliases(Author author, String... aliases) {
+        for (String alias : aliases) {
+            authorAliasMap.put(alias, author);
+        }
     }
 }

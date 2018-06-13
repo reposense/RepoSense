@@ -5,14 +5,12 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Date;
 import java.util.List;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
 import reposense.dataobject.Author;
 import reposense.dataobject.RepoConfiguration;
-import reposense.frontend.CliArguments;
 import reposense.system.LogsManager;
 import reposense.util.Constants;
 
@@ -21,11 +19,8 @@ import reposense.util.Constants;
  */
 public class CsvParser {
     private static final String MESSAGE_UNABLE_TO_READ_CSV_FILE = "Unable to read the supplied CSV file.";
-    private static final String MESSAGE_MALFORMED_LINE_FORMAT =
-            "Warning! line %d in configuration file is malformed.\n"
+    private static final String MESSAGE_MALFORMED_LINE_FORMAT = "Warning! line %d in configuration file is malformed.\n"
             + "Contents: %s";
-
-    private static final int SKIP_FIRST_LINE = 1;
 
     /** Positions of the elements of a line in the user-supplied CSV file */
     private static final int ORGANIZATION_POSITION = 0;
@@ -38,25 +33,22 @@ public class CsvParser {
     private static final Logger logger = LogsManager.getLogger(CsvParser.class);
 
     /**
-     * Returns a list of {@code RepoConfiguration}, which are the inflated object a line of the csv file.
+     * Returns a list of {@code RepoConfiguration}, each of which corresponds to a data line in the csv file.
+     * The first line is assumed to be the header line and will be ignored.
      * @throws IOException if user-supplied csv file does not exists or is not readable.
      */
-    public static List<RepoConfiguration> parse(CliArguments argument) throws IOException {
-        assert (argument != null);
-
-        final Date sinceDate = argument.getSinceDate().orElse(null);
-        final Date untilDate = argument.getUntilDate().orElse(null);
-        final Path path = argument.getConfigFilePath();
+    public static List<RepoConfiguration> parse(Path configFilePath) throws IOException {
+        assert (configFilePath != null);
 
         List<RepoConfiguration> repoConfigurations = new ArrayList<RepoConfiguration>();
         int lineNumber = 1;
 
         try {
             // Skip first line, which is the header row
-            final Collection<String> lines = Files.lines(path).skip(SKIP_FIRST_LINE).collect(Collectors.toList());
+            final Collection<String> lines = Files.lines(configFilePath).skip(1).collect(Collectors.toList());
 
             for (final String line : lines) {
-                processLine(repoConfigurations, sinceDate, untilDate, line, lineNumber);
+                processLine(repoConfigurations, line, lineNumber);
                 lineNumber++;
             }
 
@@ -70,8 +62,7 @@ public class CsvParser {
     /**
      * Extracts {@code Author} information from the {@code line}.
      */
-    private static void processLine(List<RepoConfiguration> repoConfigurations,
-            Date sinceDate, Date untilDate, String line, int lineNumber) {
+    private static void processLine(List<RepoConfiguration> repoConfigurations, String line, int lineNumber) {
         if (line.isEmpty()) {
             return;
         }
@@ -88,9 +79,6 @@ public class CsvParser {
         String branch = elements[BRANCH_POSITION];
 
         RepoConfiguration config = new RepoConfiguration(organization, repositoryName, branch);
-        config.setSinceDate(sinceDate);
-        config.setUntilDate(untilDate);
-
         int index = repoConfigurations.indexOf(config);
 
         // Take existing repoConfig if exists
@@ -107,15 +95,18 @@ public class CsvParser {
         setAliases(elements, config, author);
     }
 
+    /**
+     * Associates display name from {@elements} to {@code author}, if provided.
+     * Else, use github id from {@elements}.
+     */
     private static void setDisplayName(String[] elements, RepoConfiguration config, Author author) {
         boolean isDisplayNameInElements = elements.length > DISPLAY_NAME_POSITION
                 && !elements[DISPLAY_NAME_POSITION].isEmpty();
 
         if (isDisplayNameInElements) {
-            //Not empty, take the supplied value as Display Name
-            config.getAuthorDisplayNameMap().put(author, elements[DISPLAY_NAME_POSITION]);
+            config.setAuthorDisplayName(author, elements[DISPLAY_NAME_POSITION]);
         } else {
-            config.getAuthorDisplayNameMap().put(author, author.getGitId());
+            config.setAuthorDisplayName(author, author.getGitId());
         }
     }
 
@@ -124,15 +115,12 @@ public class CsvParser {
      */
     private static void setAliases(String[] elements, RepoConfiguration config, Author author) {
         config.getAuthorAliasMap().put(elements[GITHUB_ID_POSITION], author);
-        boolean isAliasPositionInElements = elements.length > ALIAS_POSITION
+        boolean areAliasesInElements = elements.length > ALIAS_POSITION
                 && !elements[ALIAS_POSITION].isEmpty();
 
-        if (isAliasPositionInElements) {
+        if (areAliasesInElements) {
             String[] aliases = elements[ALIAS_POSITION].split(Constants.AUTHOR_ALIAS_SPLITTER);
-
-            for (String alias : aliases) {
-                config.getAuthorAliasMap().put(alias, author);
-            }
+            config.setAuthorAliases(author, aliases);
         }
     }
 }
