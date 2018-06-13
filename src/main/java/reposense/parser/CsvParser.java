@@ -21,7 +21,8 @@ import reposense.util.Constants;
  */
 public class CsvParser {
     private static final String MESSAGE_UNABLE_TO_READ_CSV_FILE = "Unable to read the supplied CSV file.";
-    private static final String MESSAGE_MALFORMED_LINE_FORMAT = "Warning! line %d in configuration file is malformed.\n"
+    private static final String MESSAGE_MALFORMED_LINE_FORMAT =
+            "Warning! line %d in configuration file is malformed.\n"
             + "Contents: %s";
 
     private static final int SKIP_FIRST_LINE = 1;
@@ -51,7 +52,7 @@ public class CsvParser {
         int lineNumber = 1;
 
         try {
-            // Skips first line, which is the header row
+            // Skip first line, which is the header row
             final Collection<String> lines = Files.lines(path).skip(SKIP_FIRST_LINE).collect(Collectors.toList());
 
             for (final String line : lines) {
@@ -78,7 +79,6 @@ public class CsvParser {
         String[] elements = line.split(Constants.CSV_SPLITTER);
 
         if (elements.length < GITHUB_ID_POSITION) {
-            // Warns malformed line and skips it
             logger.warning(String.format(MESSAGE_MALFORMED_LINE_FORMAT, lineNumber, line));
             return;
         }
@@ -88,20 +88,23 @@ public class CsvParser {
         String branch = elements[BRANCH_POSITION];
 
         RepoConfiguration config = new RepoConfiguration(organization, repositoryName, branch);
+        config.setSinceDate(sinceDate);
+        config.setUntilDate(untilDate);
+
         int index = repoConfigurations.indexOf(config);
 
+        // Take existing repoConfig if exists
         if (index != -1) {
             config = repoConfigurations.get(index);
         } else {
+            // Add it in if it does not
             repoConfigurations.add(config);
-            config.setSinceDate(sinceDate);
-            config.setUntilDate(untilDate);
         }
 
         Author author = new Author(elements[GITHUB_ID_POSITION]);
         config.getAuthorList().add(author);
         setDisplayName(elements, config, author);
-        setAlias(elements, config, author);
+        setAliases(elements, config, author);
     }
 
     private static void setDisplayName(String[] elements, RepoConfiguration config, Author author) {
@@ -112,17 +115,14 @@ public class CsvParser {
             //Not empty, take the supplied value as Display Name
             config.getAuthorDisplayNameMap().put(author, elements[DISPLAY_NAME_POSITION]);
         } else {
-            //Use GitHub Id as Display Name
             config.getAuthorDisplayNameMap().put(author, author.getGitId());
         }
     }
 
     /**
-     * Associates aliases to an author, if provided.
-     * Always use github id as the primary alias.
+     * Associates github id and additional aliases in {@elements} to {@code author}.
      */
-    private static void setAlias(String[] elements, RepoConfiguration config, Author author) {
-        //Always use GitHub Id as an alias
+    private static void setAliases(String[] elements, RepoConfiguration config, Author author) {
         config.getAuthorAliasMap().put(elements[GITHUB_ID_POSITION], author);
         boolean isAliasPositionInElements = elements.length > ALIAS_POSITION
                 && !elements[ALIAS_POSITION].isEmpty();
@@ -130,7 +130,6 @@ public class CsvParser {
         if (isAliasPositionInElements) {
             String[] aliases = elements[ALIAS_POSITION].split(Constants.AUTHOR_ALIAS_SPLITTER);
 
-            //If more aliases are provided, use them as well
             for (String alias : aliases) {
                 config.getAuthorAliasMap().put(alias, author);
             }
