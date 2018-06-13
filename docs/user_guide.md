@@ -34,7 +34,7 @@ The contribution calculation is base on the daily commits made within 00:00 to 2
 
 ## CSV Config File
 The CSV Config files control the list of target repositories. It also contains a white list of authors(if the author is listed in the CSV, his/her contribution will be ignored by the analyzer.)
-[Sample_full.csv](../sample_full.csv) in root is an example CSV config file. It should contain the following columns:
+[sample_config_full.csv](../samples/config_files/sample_config.csv) is an example CSV config file. It should contain the following columns:
 
 Column Name | Explanation
 ----------- | -----------
