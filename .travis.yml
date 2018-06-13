@@ -4,10 +4,6 @@ os:
   - linux
   - osx
 
-matrix:
-  include:
-    - jdk: oraclejdk9
-
 script: >-
     ./config/travis/run-checks.sh &&
     travis_retry ./gradlew clean checkstyleMain checkstyleTest test functional
