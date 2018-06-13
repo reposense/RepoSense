@@ -1,4 +1,9 @@
 language: java
+
+os:
+  - linux
+  - osx
+
 matrix:
   include:
     - jdk: oraclejdk9
