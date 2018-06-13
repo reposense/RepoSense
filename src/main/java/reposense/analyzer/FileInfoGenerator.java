@@ -16,6 +16,11 @@ public class FileInfoGenerator {
 
     private static final Logger logger = LogsManager.getLogger(FileInfoGenerator.class);
 
+
+    /**
+     * Generates and returns a {@code FileInfo} with a list of {@code LineInfo} for each line content in the
+     * {@code relativePath} file.
+     */
     public static FileInfo generateFileInfo(String repoRoot, String relativePath) {
         FileInfo result = new FileInfo(relativePath);
         Path path = Paths.get(repoRoot, relativePath);

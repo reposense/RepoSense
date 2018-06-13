@@ -31,7 +31,6 @@ public class LineInfo {
         return author;
     }
 
-
     public void setAuthor(Author author) {
         this.author = author;
     }
@@ -59,6 +58,10 @@ public class LineInfo {
 
     public boolean hasIssue() {
         return !issues.isEmpty();
+    }
+
+    public void addNewIssue(IssueInfo issueInfo) {
+        issues.add(issueInfo);
     }
 }
 

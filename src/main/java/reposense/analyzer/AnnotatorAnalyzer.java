@@ -1,5 +1,6 @@
 package reposense.analyzer;
 
+import java.util.TreeMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -16,32 +17,35 @@ public class AnnotatorAnalyzer {
     private static final Pattern PATTERN_AUTHOR_NAME_FORMAT = Pattern.compile(REGEX_AUTHOR_NAME_FORMAT);
     private static final int MATCHER_GROUP_AUTHOR_NAME = 1;
 
+    /**
+     * Overrides the authorship information in {@code fileInfo} based on given annotations.
+     */
     public static void aggregateAnnotationAuthorInfo(FileInfo fileInfo, RepoConfiguration config) {
         Author currentAuthor = null;
-        for (LineInfo line: fileInfo.getLines()) {
-            if (line.getContent().contains(AUTHOR_TAG)) {
-                Author newAuthor = findAuthorInLine(line.getContent(), config);
+        for (LineInfo lineInfo : fileInfo.getLines()) {
+            if (lineInfo.getContent().contains(AUTHOR_TAG)) {
+                Author newAuthor = findAuthorInLine(lineInfo.getContent(), config.getAuthorAliasMap());
                 if (newAuthor == null) {
                     //end of an author tag should belong to this author too.
-                    line.setAuthor(currentAuthor);
+                    lineInfo.setAuthor(currentAuthor);
                 }
                 //set a new author
                 currentAuthor = newAuthor;
             }
             if (currentAuthor != null) {
-                line.setAuthor(currentAuthor);
+                lineInfo.setAuthor(currentAuthor);
             }
         }
     }
 
-    private static Author findAuthorInLine(String line, RepoConfiguration config) {
+    private static Author findAuthorInLine(String line, TreeMap<String, Author> authorAliasMap) {
         try {
             String[] split = line.split(AUTHOR_TAG);
             String name = extractAuthorName(split[1]);
             if (name == null) {
                 return null;
             }
-            return config.getAuthorAliasMap().get(name);
+            return authorAliasMap.get(name);
         } catch (ArrayIndexOutOfBoundsException e) {
             return null;
         }

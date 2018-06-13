@@ -1,70 +1,22 @@
 package reposense.dataobject;
 
-import java.util.Date;
-
-
+/**
+ * Stores the raw information generated for each commit.
+ */
 public class CommitInfo {
-    private Author author;
-    private String hash;
-    private Date time;
-    private String message;
-    private int insertions;
-    private int deletions;
+    private final String infoLine;
+    private final String statLine;
 
-    public CommitInfo(Author author, String hash, Date time, String message, int insertions, int deletions) {
-        this.author = author;
-        this.hash = hash;
-        this.time = time;
-        this.message = message;
-        this.insertions = insertions;
-        this.deletions = deletions;
+    public CommitInfo(String infoLine, String statLine) {
+        this.infoLine = infoLine;
+        this.statLine = statLine;
     }
 
-    public String getMessage() {
-        return message;
+    public String getInfoLine() {
+        return infoLine;
     }
 
-    public void setMessage(String message) {
-        this.message = message;
-    }
-
-    public Author getAuthor() {
-        return author;
-    }
-
-    public void setAuthor(Author author) {
-        this.author = author;
-    }
-
-    public String getHash() {
-        return hash;
-    }
-
-    public void setHash(String hash) {
-        this.hash = hash;
-    }
-
-    public Date getTime() {
-        return time;
-    }
-
-    public void setTime(Date time) {
-        this.time = time;
-    }
-
-    public int getInsertions() {
-        return insertions;
-    }
-
-    public void setInsertions(int insertions) {
-        this.insertions = insertions;
-    }
-
-    public int getDeletions() {
-        return deletions;
-    }
-
-    public void setDeletions(int deletions) {
-        this.deletions = deletions;
+    public String getStatLine() {
+        return statLine;
     }
 }

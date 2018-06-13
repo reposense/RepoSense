@@ -48,7 +48,7 @@ public class AuthorIntervalContribution {
         this.deletions = deletions;
     }
 
-    public void updateForCommit(CommitInfo commit) {
+    public void updateForCommit(CommitResult commit) {
         insertions += commit.getInsertions();
         deletions += commit.getDeletions();
     }

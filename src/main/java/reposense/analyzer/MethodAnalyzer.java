@@ -47,7 +47,7 @@ public class MethodAnalyzer {
         for (MethodInfo methodInfo : methods) {
             HashMap<Author, Integer> contributorMap = new HashMap<>();
             for (int lineNum = methodInfo.getStart(); lineNum <= methodInfo.getEnd(); lineNum++) {
-                LineInfo line = fileInfo.getLineByNumber(lineNum);
+                LineInfo line = fileInfo.getLine(lineNum);
                 Author author = line.getAuthor();
                 if (config.getAuthorList().isEmpty() || config.getAuthorList().contains(author)) {
                     int authorLineCount = contributorMap.getOrDefault(author, 0);

@@ -5,23 +5,23 @@ import java.util.Date;
 
 import org.junit.Test;
 
-import reposense.dataobject.FileInfo;
+import reposense.dataobject.FileResult;
 import reposense.template.GitTestTemplate;
 import reposense.util.TestUtil;
 
 
-public class GitBlamerTest extends GitTestTemplate {
+public class FileAnalyzerTest extends GitTestTemplate {
 
     @Test
     public void blameTest() {
-        FileInfo fileInfo = getBlamedFileInfo("blameTest.java");
-        checkBlameInfoCorrectness(fileInfo);
+        FileResult fileResult = getAnalyzedFileResults("blameTest.java");
+        assertFileAnalysisCorrectness(fileResult);
     }
 
     @Test
     public void movedFileBlameTest() {
-        FileInfo fileInfo = getBlamedFileInfo("newPos/movedFile.java");
-        checkBlameInfoCorrectness(fileInfo);
+        FileResult fileResult = getAnalyzedFileResults("newPos/movedFile.java");
+        assertFileAnalysisCorrectness(fileResult);
 
     }
 
@@ -33,8 +33,9 @@ public class GitBlamerTest extends GitTestTemplate {
         GitChecker.checkoutToDate(config.getRepoRoot(), config.getBranch(), untilDate);
         config.setSinceDate(sinceDate);
         config.setUntilDate(untilDate);
-        FileInfo fileInfo = getBlamedFileInfo("blameTest.java");
-        checkBlameInfoCorrectness(fileInfo);
+
+        FileResult fileResult = getAnalyzedFileResults("blameTest.java");
+        assertFileAnalysisCorrectness(fileResult);
     }
 
     @Test
@@ -45,7 +46,8 @@ public class GitBlamerTest extends GitTestTemplate {
         GitChecker.checkoutToDate(config.getRepoRoot(), config.getBranch(), untilDate);
         config.setSinceDate(sinceDate);
         config.setUntilDate(untilDate);
-        FileInfo fileInfo = getBlamedFileInfo("newPos/movedFile.java");
-        checkBlameInfoCorrectness(fileInfo);
+
+        FileResult fileResult = getAnalyzedFileResults("newPos/movedFile.java");
+        assertFileAnalysisCorrectness(fileResult);
     }
 }

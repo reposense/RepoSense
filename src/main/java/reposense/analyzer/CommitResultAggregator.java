@@ -1,4 +1,4 @@
-package reposense.report;
+package reposense.analyzer;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -11,33 +11,37 @@ import java.util.Set;
 
 import reposense.dataobject.Author;
 import reposense.dataobject.AuthorIntervalContribution;
-import reposense.dataobject.CommitInfo;
+import reposense.dataobject.CommitContributionSummary;
+import reposense.dataobject.CommitResult;
 import reposense.dataobject.RepoConfiguration;
-import reposense.dataobject.RepoContributionSummary;
 
-
-public class ContributionSummaryGenerator {
+/**
+ * Aggregates the commit analysis results to get the contribution summary of all commits.
+ */
+public class CommitResultAggregator {
 
     /**
-     * Analyzes contribution of authors in a single repository.
-     * @param suspiciousAuthors authors with bugs not caught in the analyzer.
+     * Returns the {@code CommitContributionSummary} generated from aggregating the {@code commitResults}.
      */
-    public static RepoContributionSummary analyzeContribution(
-            RepoConfiguration config,
-            List<CommitInfo> commitInfos,
-            HashMap<Author, Integer> authorContributionMap,
-            HashSet<Author> suspiciousAuthors) {
-        Date startDate = config.getSinceDate() == null ? getStartDate(commitInfos) : config.getSinceDate();
-        RepoContributionSummary summary = new RepoContributionSummary();
-        summary.setAuthorWeeklyIntervalContributions(
-                getAuthorIntervalContributions(config, commitInfos, startDate, 7, suspiciousAuthors));
-        summary.setAuthorDailyIntervalContributions(
-                getAuthorIntervalContributions(config, commitInfos, startDate, 1, suspiciousAuthors));
-        summary.setAuthorFinalContributionMap(authorContributionMap);
-        summary.setAuthorContributionVariance(
-                calcAuthorContributionVariance(summary.getAuthorDailyIntervalContributions()));
-        summary.setAuthorDisplayNameMap(config.getAuthorDisplayNameMap());
-        return summary;
+    public static CommitContributionSummary aggregateCommitResults(
+            RepoConfiguration config, List<CommitResult> commitResults) {
+        Date startDate = config.getSinceDate() == null ? getStartDate(commitResults) : config.getSinceDate();
+        HashSet<Author> suspiciousAuthors = new HashSet<>();
+
+        Map<Author, List<AuthorIntervalContribution>> authorDailyIntervalContributions =
+                getAuthorIntervalContributions(config, commitResults, startDate, 1, suspiciousAuthors);
+
+        Map<Author, List<AuthorIntervalContribution>> authorWeeklyIntervalContributions =
+                getAuthorIntervalContributions(config, commitResults, startDate, 7, suspiciousAuthors);
+
+        Map<Author, Float> authorContributionVariance =
+                calcAuthorContributionVariance(authorDailyIntervalContributions);
+
+        return new CommitContributionSummary(
+                config.getAuthorDisplayNameMap(),
+                authorDailyIntervalContributions,
+                authorWeeklyIntervalContributions,
+                authorContributionVariance);
     }
 
     private static Map<Author, Float> calcAuthorContributionVariance(
@@ -68,7 +72,7 @@ public class ContributionSummaryGenerator {
     }
 
     private static Map<Author, List<AuthorIntervalContribution>> getAuthorIntervalContributions(
-            RepoConfiguration config, List<CommitInfo> commitInfos,
+            RepoConfiguration config, List<CommitResult> commitInfos,
             Date startDate, int intervalLength, Set<Author> suspiciousAuthors) {
         //init
         Map<Author, List<AuthorIntervalContribution>> result = new HashMap<>();
@@ -80,7 +84,7 @@ public class ContributionSummaryGenerator {
             Date nextDate = getNextCutoffDate(currentDate, intervalLength);
             initIntervalContributionForNewDate(result, currentDate, nextDate);
 
-            for (CommitInfo commit : commitInfos) {
+            for (CommitResult commit : commitInfos) {
                 while (nextDate.before(commit.getTime())) {
                     currentDate = new Date(nextDate.getTime());
                     nextDate = getNextCutoffDate(nextDate, intervalLength);
@@ -120,7 +124,7 @@ public class ContributionSummaryGenerator {
         return c.getTime();
     }
 
-    private static Date getStartDate(List<CommitInfo> commitInfos) {
+    private static Date getStartDate(List<CommitResult> commitInfos) {
         Calendar cal = Calendar.getInstance();
         cal.set(Calendar.YEAR, 2050);
         Date min = cal.getTime();

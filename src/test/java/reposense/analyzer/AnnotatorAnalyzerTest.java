@@ -2,22 +2,22 @@ package reposense.analyzer;
 
 import org.junit.Test;
 
-import reposense.dataobject.FileInfo;
+import reposense.dataobject.FileResult;
 import reposense.template.GitTestTemplate;
 
 
 public class AnnotatorAnalyzerTest extends GitTestTemplate {
     @Test
     public void noAnnotationTest() {
-        FileInfo fileInfo = getBlamedFileInfo("blameTest.java");
-        AnnotatorAnalyzer.aggregateAnnotationAuthorInfo(fileInfo, config);
-        checkBlameInfoCorrectness(fileInfo);
+        config.setAnnotationOverwrite(false);
+        FileResult fileResult = getAnalyzedFileResults("blameTest.java");
+        assertFileAnalysisCorrectness(fileResult);
     }
 
     @Test
     public void annotationTest() {
-        FileInfo fileInfo = getBlamedFileInfo("annotationTest.java");
-        AnnotatorAnalyzer.aggregateAnnotationAuthorInfo(fileInfo, config);
-        checkBlameInfoCorrectness(fileInfo);
+        config.setAnnotationOverwrite(true);
+        FileResult fileResult = getAnalyzedFileResults("blameTest.java");
+        assertFileAnalysisCorrectness(fileResult);
     }
 }

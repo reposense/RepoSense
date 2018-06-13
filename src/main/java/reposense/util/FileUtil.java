@@ -3,6 +3,7 @@ package reposense.util;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.nio.file.Files;
@@ -11,12 +12,15 @@ import java.nio.file.Paths;
 import java.util.Comparator;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
+import reposense.frontend.RepoSense;
 import reposense.system.LogsManager;
 
 
@@ -92,6 +96,27 @@ public class FileUtil {
             zipInput.close();
         } catch (IOException e) {
             logger.log(Level.SEVERE, e.getMessage(), e);
+        }
+    }
+
+    /**
+     * Copies the template files to the {@code templateLocation}.
+     */
+    public static void copyTemplate(String templateLocation) {
+        InputStream is = RepoSense.class.getResourceAsStream(Constants.TEMPLATE_ZIP_ADDRESS);
+        FileUtil.unzip(new ZipInputStream(is), templateLocation);
+    }
+
+    /**
+     * Copies all the files inside {@code src} directory to {@code dest} directory.
+     * Creates the {@code dest} directory if it does not exist.
+     */
+    public static void copyDirectoryFiles(Path src, Path dest) throws IOException {
+        Files.createDirectories(dest);
+        try (Stream<Path> pathStream = Files.list(src)) {
+            for (Path filePath: pathStream.collect(Collectors.toList())) {
+                Files.copy(filePath, dest.resolve(src.relativize(filePath)));
+            }
         }
     }
 
