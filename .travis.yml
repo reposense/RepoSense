@@ -1,8 +1,10 @@
 language: java
 
-os:
-  - linux
-  - osx
+matrix:
+  include:
+    - os: linux
+      jdk: oraclejdk9
+    - os: osx
 
 script: >-
     ./config/travis/run-checks.sh &&
