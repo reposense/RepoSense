@@ -7,8 +7,8 @@ matrix:
     - os: osx
 
 script: >-
-    ./config/travis/run-checks.sh &&
-    travis_retry ./gradlew clean checkstyleMain checkstyleTest test functional
+    ./config/travis/run-checks.sh && 
+    time travis_retry ./gradlew clean checkstyleMain checkstyleTest test functional
 
 addons:
   apt:
