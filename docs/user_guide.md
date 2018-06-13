@@ -16,9 +16,11 @@
 2. Execute it on the OS terminal. <br>
 Usage: `java -jar RepoSense.jar -config CSV_CONFIG_FILE_PATH [-output OUTPUT_DIRECTORY] [-since DD/MM/YYYY] [-until DD/MM/YYYY]`
 
-3. Alternatively, you can clone (or download) the repository and execute this command on the OS terminal inside the project directory.<br>
-Usage: `gradlew run -Dargs="-config CSV_CONFIG_FILE_PATH [-output OUTPUT_DIRECTORY] [-since DD/MM/YYYY] [-until DD/MM/YYYY]"`
-4. The dashboard can be in the folder designated in OUTPUT_DIRECTORY, or current working directory otherwise, as index.html.
+3. The dashboard will be generated in the designated OUTPUT_DIRECTORY, or current working directory otherwise, upon successful compilation as index.html.
+
+### Other option:
+Clone this repository (or [download as zip](https://github.com/reposense/RepoSense/archive/master.zip)) and execute the command on the OS terminal inside the project directory in this format:<br>
+Usage: `gradlew run -Dargs="-config CSV_CONFIG_FILE_PATH [-output OUTPUT_DIRECTORY] [-since DD/MM/YYYY] [-until DD/MM/YYYY]"` <br>
 
 Sample usage:
 ```
