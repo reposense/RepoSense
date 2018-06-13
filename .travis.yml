@@ -4,18 +4,9 @@ os:
   - linux
   - osx
 
-matrix:
-  include:
-    - jdk: oraclejdk9
-
 script: >-
     ./config/travis/run-checks.sh &&
     travis_retry ./gradlew clean checkstyleMain checkstyleTest test functional
-
-addons:
-  apt:
-    packages:
-      - oracle-java9-installer
 
 before_cache:
   - rm -f  $HOME/.gradle/caches/modules-2/modules-2.lock
