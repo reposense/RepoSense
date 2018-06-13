@@ -1,11 +1,13 @@
 language: java
 
-jdk:
-  - oraclejdk9
-  
 os:
   - linux
   - osx
+
+addons:
+  apt:
+    packages:
+      - oracle-java9-installer
 
 script: >-
     ./config/travis/run-checks.sh &&
