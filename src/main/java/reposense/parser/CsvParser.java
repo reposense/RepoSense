@@ -12,12 +12,14 @@ import java.util.stream.Collectors;
 import reposense.dataobject.Author;
 import reposense.dataobject.RepoConfiguration;
 import reposense.system.LogsManager;
-import reposense.util.Constants;
 
 /**
  * Parses a CSV configuration file for repository information.
  */
 public class CsvParser {
+    private static final String ELEMENT_SEPARATOR = ",";
+    private static final String AUTHOR_ALIAS_SPLITTER = ";";
+
     private static final String MESSAGE_UNABLE_TO_READ_CSV_FILE = "Unable to read the supplied CSV file.";
     private static final String MESSAGE_MALFORMED_LINE_FORMAT = "Warning! line %d in configuration file is malformed.\n"
             + "Contents: %s";
@@ -61,13 +63,15 @@ public class CsvParser {
 
     /**
      * Extracts {@code Author} information from the {@code line}.
+     * Adds the {@code Author} to its corresponding {@RepoConfiguration} if it exists, or creates a new
+     * {@RepoConfiguration} containing the {@code Author} and add it to the {@code repoConfigurations} otherwise.
      */
     private static void processLine(List<RepoConfiguration> repoConfigurations, String line, int lineNumber) {
         if (line.isEmpty()) {
             return;
         }
 
-        String[] elements = line.split(Constants.CSV_SPLITTER);
+        String[] elements = line.split(ELEMENT_SEPARATOR);
 
         if (elements.length < GITHUB_ID_POSITION) {
             logger.warning(String.format(MESSAGE_MALFORMED_LINE_FORMAT, lineNumber, line));
@@ -96,8 +100,8 @@ public class CsvParser {
     }
 
     /**
-     * Associates display name from {@elements} to {@code author}, if provided.
-     * Else, use github id from {@elements}.
+     * Associates display name from {@code elements} to {@code author}, if provided.
+     * Otherwise, use github id from {@code elements}.
      */
     private static void setDisplayName(String[] elements, RepoConfiguration config, Author author) {
         boolean isDisplayNameInElements = elements.length > DISPLAY_NAME_POSITION
@@ -119,7 +123,7 @@ public class CsvParser {
                 && !elements[ALIAS_POSITION].isEmpty();
 
         if (areAliasesInElements) {
-            String[] aliases = elements[ALIAS_POSITION].split(Constants.AUTHOR_ALIAS_SPLITTER);
+            String[] aliases = elements[ALIAS_POSITION].split(AUTHOR_ALIAS_SPLITTER);
             config.setAuthorAliases(author, aliases);
         }
     }

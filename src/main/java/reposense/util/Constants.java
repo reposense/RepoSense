@@ -19,8 +19,5 @@ public class Constants {
     public static final DateFormat GIT_LOG_UNTIL_DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd'T'23:59:59+08:00");
     public static final String GITHUB_API_DATE_FORMAT = "yyyy-MM-dd";
 
-    public static final String CSV_SPLITTER = ",";
-    public static final String AUTHOR_ALIAS_SPLITTER = ";";
-
     public static final String REUSED_TAG = "//@reused";
 }

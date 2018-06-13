@@ -7,9 +7,7 @@ import java.net.URISyntaxException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.Date;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -55,14 +53,6 @@ public class Entry {
         return String.format("-since %s -until %s", sinceDate, untilDate);
     }
 
-    private static void setDatesToRepoConfigs(List<RepoConfiguration> configs,
-                                              Optional<Date> sinceDate, Optional<Date> untilDate) {
-        for (RepoConfiguration config : configs) {
-            config.setSinceDate(sinceDate.orElse(null));
-            config.setUntilDate(untilDate.orElse(null));
-        }
-    }
-
     private String generateReport() throws IOException, URISyntaxException, ParseException {
         return generateReport("");
     }
@@ -73,7 +63,7 @@ public class Entry {
 
         CliArguments cliArguments = ArgsParser.parse(translateCommandline(input));
         List<RepoConfiguration> configs = CsvParser.parse(cliArguments.getConfigFilePath());
-        setDatesToRepoConfigs(configs, cliArguments.getSinceDate(), cliArguments.getUntilDate());
+        RepoConfiguration.setDatesToRepoConfigs(configs, cliArguments.getSinceDate(), cliArguments.getUntilDate());
 
         return RepoInfoFileGenerator.generateReposReport(configs, FT_TEMP_DIR);
     }

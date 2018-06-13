@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
+import java.util.Optional;
 import java.util.TreeMap;
 
 import reposense.util.FileUtil;
@@ -31,6 +32,14 @@ public class RepoConfiguration {
         this.repoName = repoName;
         this.branch = branch;
         this.displayName = organization + "_" + repoName;
+    }
+
+    public static void setDatesToRepoConfigs(
+            List<RepoConfiguration> configs, Optional<Date> sinceDate, Optional<Date> untilDate) {
+        for (RepoConfiguration config : configs) {
+            config.setSinceDate(sinceDate.orElse(null));
+            config.setUntilDate(untilDate.orElse(null));
+        }
     }
 
     @Override
