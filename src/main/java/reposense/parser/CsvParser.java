@@ -63,7 +63,7 @@ public class CsvParser {
 
     /**
      * Adds the {@code Author} to its corresponding {@code RepoConfiguration} if it exists, or creates a new
-     * {@RepoConfiguration} containing the {@code Author} and add it to the {@code repoConfigurations} otherwise.
+     * {@code RepoConfiguration} containing the {@code Author} and add it to the {@code repoConfigurations} otherwise.
      */
     private static void processLine(List<RepoConfiguration> repoConfigurations, String line, int lineNumber) {
         if (line.isEmpty()) {
