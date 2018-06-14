@@ -6,10 +6,10 @@ function comparator(fn){ return function(a, b){
 };}
 
 /* dates funcs */
-const DAY = (1000*60*60*24);
+const DAY_IN_MS = (1000*60*60*24);
 function getIntervalDay(a, b){
     var diff = Date.parse(a) - Date.parse(b);
-    return diff/DAY;
+    return diff/DAY_IN_MS;
 }
 function getIntervalWeek(a, b){
     return getIntervalDay(a, b)/7;
@@ -23,9 +23,9 @@ function dateRounding(datestr, roundDown){
     var day = date.getUTCDay();
     var datems = date.getTime();
     if(roundDown){
-        datems -= day*DAY;
+        datems -= day*DAY_IN_MS;
     }else{
-        datems += (7-day)*DAY;
+        datems += (7-day)*DAY_IN_MS;
     }
 
     return getDateStr(datems);
@@ -247,8 +247,8 @@ var vSummary = {
                 user.commits.push({
                     insertions:0,
                     deletions:0,
-                    fromDate:getDateStr(startMs + dayId*DAY),
-                    toDate:getDateStr(startMs + (dayId+1)*DAY)
+                    fromDate:getDateStr(startMs + dayId*DAY_IN_MS),
+                    toDate:getDateStr(startMs + (dayId+1)*DAY_IN_MS)
                 });
             }
 
@@ -273,8 +273,8 @@ var vSummary = {
                 user.commits.push({
                     insertions:0,
                     deletions:0,
-                    fromDate:getDateStr(endMs + paddingId*DAY),
-                    endDate:getDateStr(endMs + (paddingId+1)*DAY)
+                    fromDate:getDateStr(endMs + paddingId*DAY_IN_MS),
+                    endDate:getDateStr(endMs + (paddingId+1)*DAY_IN_MS)
                 });
             }
         },

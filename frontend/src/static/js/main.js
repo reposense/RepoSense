@@ -10,7 +10,7 @@ var app = new window.Vue({
         loadedRepo: 0,
         userUpdated: false
     },
-    methods:{
+    methods: {
         // model funcs
         updateReportDir(evt) {
             REPORT_DIR = this.reportDirInput;
@@ -37,7 +37,7 @@ var app = new window.Vue({
             return full;
         }
     },
-    components:{
+    components: {
         "v_summary": window.vSummary
     },
 });
