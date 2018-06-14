@@ -103,13 +103,13 @@ Below is an example of how the Dashboard looks like:
 
 ![dashboard](images/dashboard.png)
 
-It is consisted of three main parts: [Tool Bar](#tool-bar), [Chart Panel](#chart-panel) and [Code Panel](#code-panel).
+It consists of three main parts: [Tool Bar](#tool-bar), [Chart Panel](#chart-panel) and [Code Panel](#code-panel).
 
 ### Tool Bar
 The tool bar at the top provides a set of filters that control the chart panel. From right to left, the filters are:
 - Sorting: Users can sort by:
 	- Total Contribution: the amount of lines written by the author did in the latest version of the project
-	- Variance: The variance of contribution of all commits. This indicates whether the author is contributing regularly or just rushing before deadlines and milestones. This can be useful for instructors of student projects, e.g. CS2103
+	- Variance: The variance of contribution of all commits. This indicates whether the author is contributing regularly or just rushing before deadlines and milestones. This can be useful for instructors of student projects, e.g. [Addressbook](https://github.com/se-edu/addressbook-level4).
 	- Author Name
 	- Team Name: The name of the organization of the repository
 - Interval: Interval refers to amount of time one single ramp represents. Users can choose two modes of time intervals: weekly (7 days)  and daily (1 day).
