@@ -59,8 +59,6 @@ sourceSets {
 }
 
 task functional(type: Test) {
-  println(JavaVersion.current())
-
   testClassesDirs = sourceSets.functional.output.classesDirs
   classpath = sourceSets.functional.runtimeClasspath
   testLogging {

@@ -16,11 +16,9 @@ addons:
       - oracle-java9-installer
 
 before_install:
-  # Ensure checkstyle runs in osx image
+  # pcre2 is needed for checkstyle to run in osx
   - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then brew update; fi
   - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then brew reinstall --with-pcre2 git; fi
-  - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then brew tap caskroom/cask; fi
-  - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then brew cask install java; fi
 
 before_cache:
   - rm -f  $HOME/.gradle/caches/modules-2/modules-2.lock
