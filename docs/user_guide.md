@@ -18,30 +18,32 @@ Usage: `java -jar RepoSense.jar -config CSV_CONFIG_FILE_PATH [-output OUTPUT_DIR
 
 3. The dashboard will be generated in the designated OUTPUT_DIRECTORY, or current working directory otherwise, upon successful compilation as index.html.
 
-### Other option:
-Clone this repository (or [download as zip](https://github.com/reposense/RepoSense/archive/master.zip)) and execute the command on the OS terminal inside the project directory in this format:<br>
-Usage: `gradlew run -Dargs="-config CSV_CONFIG_FILE_PATH [-output OUTPUT_DIRECTORY] [-since DD/MM/YYYY] [-until DD/MM/YYYY]"` <br>
-
 Sample usage:
 ```
 $ java -jar RepoSense.jar -config CSV_path.csv -output output_path/ -since 01/10/2017 -until 01/11/2017
 ```
-Alternatively, you can run the application from gradle in the following way:
 
-```
-$ gradlew run -Dargs="-config CSV_path.csv -output output_path/ -since 01/10/2017 -until 01/11/2017"
-```
 Argument List:
 - config: Mandatory. The path to the CSV config file.
 - output: Optional. The path to the dashboard generated. If not provided, it will be generated in the current directory.
 - since : Optional. start date of analysis. Format: dd/MM/yyyy
 - until : Optional. end date of analysis. Format: dd/MM/yyyy
 
-```
-Note:
-The contribution calculation is base on the daily commits made within 00:00 to 23:59 in GMT+8.
-```
 
+### Other option:
+   * Clone this repository (or [download as zip](https://github.com/reposense/RepoSense/archive/master.zip))
+   * Execute the command on the OS terminal inside the project directory.<br>
+Usage: `gradlew run -Dargs="-config CSV_CONFIG_FILE_PATH [-output OUTPUT_DIRECTORY] [-since DD/MM/YYYY] [-until DD/MM/YYYY]"` <br>
+
+Sample usage:
+```
+$ gradlew run -Dargs="-config CSV_path.csv -output output_path/ -since 01/10/2017 -until 01/11/2017"
+```
+`-Dargs="..."` uses the same argument list as mentioned above.
+
+```
+Note: The contribution calculation is base on the daily commits made within 00:00 to 23:59 in GMT+8.
+```
 ## CSV Config File
 The CSV Config files control the list of target repositories. It also contains a white list of authors(if the author is listed in the CSV, his/her contribution will be ignored by the analyzer.)
 [Sample_full.csv](../sample_full.csv) in root is an example CSV config file. It should contain the following columns:
