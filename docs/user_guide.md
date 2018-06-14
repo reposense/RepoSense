@@ -146,8 +146,8 @@ If the author contributes **too much** compared to other authors in the report, 
 
 
 ### Code Panel
-The Code Panel allows the users to review contributers' code in the report, and easily maps a line to its author.
-Clicking on the name of the author, in the visualizations of Chart Panel, will show the Code Panel display on the right.
+The Code Panel allows users to review contributers' code in the report, showing all the lines written by the selected author.
+Clicking on the name of the author, in the Chart Panel, will show the Code Panel display on the right.
 
 Below is the list of features in this panel:
 - Files that contain author's contribution will be shown in this panel, sorted by the number of lines written.
