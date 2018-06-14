@@ -1,8 +1,8 @@
 ## Quick Start
-1. Check [dependencies](#dependencies)
-2. Fill the CSV [config file](#csv-config-file)
-3. Generate the [dashboard](#how-to-generate-dashboard)
-4. Profit!
+1. Ensure that you have the necessary [dependencies](#dependencies)
+2. Read up on [How to Generate Dashboard](#how-to-generate-dashboard)
+3. Fill up the CSV [configuration file](#csv-config-file)
+4. Perform the execution to generate the [dashboard](#dashboard)
 
 ## Dependencies
 1. **JDK `1.8.0_60`**  or later
@@ -33,7 +33,7 @@ The contribution calculation is base on the daily commits made within 00:00 to 2
 ```
 
 ## CSV Config File
-The CSV Config files control the list of target repositories. It also contains a white list of authors(if the author is listed in the CSV, his/her contribution will be ignored by the analyzer.)
+The CSV Config files control the list of repositories and the target author.
 [Sample_full.csv](../sample_full.csv) in root is an example CSV config file. It should contain the following columns:
 
 Column Name | Explanation
@@ -41,59 +41,71 @@ Column Name | Explanation
 Organization | Organization of the target repository
 Repository | Name of the target repository
 branch | Target branch
-StudentX's Github ID | Author's Github ID.
-StudentX's Display Name | Optional Field. The value of this field, if not empty,will be displayed in the dashboard instead of author's Github ID.
-StudentX's Local Author Name | Detailed explanation below
+ContributorX's Github ID | Author's Github ID.
+ContributorX's Display Name | Optional Field. The value of this field, if not empty,will be displayed in the dashboard instead of author's Github ID.
+ContributorX's Local Author Name | Detailed explanation below
 
-## Preparation of Repositories
-### Local Git Author Name
-First, what is Git Author Name?
+### Preparation of Repositories
+#### Local Git Author Name
+First, what is `Git Author Name`?
 
-Git Author Name refers to the customizable Git Author Display Name set in local .gitconfig file. It will be displayed as Author name and Committer Name in Git. For example, in Git Log output:
+Git Author Name refers to the customizable Git Author Display Name set in local .gitconfig file.
+It will be displayed as Author name and Committer Name in Git.
+For example, in Git Log output:
 ```
 ...
 commit cd7f610e0becbdf331d5231887d8010a689f87c7
-Author: fakeAuthor <ma.tanghao@dhs.sg>
+Author: actualGitHubId <ma.tanghao@dhs.sg>
 Date:   Fri Feb 9 19:14:41 2018 +0800
 
     moved
 
 commit e3f699fd4ef128eebce98d5b4e5b3bb06a512f49
-Author: harryggg <ma.tanghao@dhs.sg>
+Author: configuredAuthorName <ma.tanghao@dhs.sg>
 Date:   Fri Feb 9 19:13:13 2018 +0800
 
     new
  ...
 ```
-*fakeAuthor* and *harryggg* are both Local Git Author Name.
+*actualGitHubId* and *configuredAuthorName* are both Local Git Author Name.
 
-RepoSense assumes that authors' local Author Name is identical as their Github ID. However, it is not always the case. Many Git users will customize their local author name. Authors can use the following command to set the their local author name to Github ID before contributing:
+By default, git uses that authors' Github ID as their local Author Name.
+However, this is not always the case. Many Git users customize their Local Git Author Name.
+
+To fix this, authors can use the following command to reset their local author name to Github ID before contributing:
 ```
 git config --global user.name “YOUR_GITHUB_ID_HERE”
 ```
-If an author's local Git Author Name is not the same as his Github ID, he needs to fill in their local Author Name in the CSV config file. If more than one local Author Name is used, they can separate them with semicolon (；)
+For more details, do checkout this [faq](https://www.git-tower.com/learn/git/faq/change-author-name-email) on changing Git Author Identity.
 
-### Contribution Tags
-Although RepoSense's contribution analysis is quite accurate, authors can still use annotations to make sure that RepoSense correctly recognize their contribution. Special thanks to [Collate](https://github.com/se-edu/collate) for providing the inspiration for this functionality.
+If an author's local Git Author Name is not the same as his Github ID, the local Author Name needs to filled into the CSV config file for accurate consolidation.
+If more than one local Author Name is used, they can separate them semicolon (；) within the Local Author Name column.
 
-There are 2 types of tags: Start Tags (@@author YOUR_GITHUB_ID) and End Tags(@@author). Below are some examples (stolen from Collate's User Guide):
+#### Contribution Tags
+Although RepoSense's contribution analysis is quite accurate, authors can use annotations to ensure that RepoSense correctly recognize their contribution.
+Special thanks to [Collate](https://github.com/se-edu/collate) for providing the inspiration for this functionality.
 
+There are 2 types of tags:
+- Start Tags (@@author YOUR_GITHUB_ID)
+- and End Tags(@@author)
 
- ![author tags](images/add-author-tags.png)
+Below are some examples (stolen from Collate's User Guide):
 
+![author tags](images/add-author-tags.png)
 
 You can use start tags to mark the start of your contribution. The author specified in the start tag will be recognized by RepoSense as the author for all lines between a start tag and the next end tag. If RepoSense cannot find a matching End Tag for a Start Tag in the same file, it will assume that all lines between the Start Tag to the end of the file is authored by the author specified in the Start Tag.
 
 
 ## Dashboard
 
-The dashboard is written in HTML and Javascript, so you can easily publish and share it. Below is what the Dashboard looks like:
+The dashboard is written in HTML and Javascript as static pages - readable by majority of web browsers, and easily deploy-able in most hosting platforms (such as [GitHub Pages](https://pages.github.com/)).
+Below is an example of how the Dashboard looks like:
 
 ![dashboard](images/dashboard.png)
 
-It is consisted of three main parts: tool bar, Chart Panel and Code Panel.
-### Tool Bar
+It is consisted of three main parts: [Tool Bar](#tool-bar), [Chart Panel](#chart-panel) and [Code Panel](#code-panel).
 
+### Tool Bar
 The tool bar at the top provides a set of filters that control the chart panel. From right to left, the filters are:
 - Sorting: Users can sort by:
 	- Total Contribution: the amount of lines written by the author did in the latest version of the project
@@ -107,9 +119,15 @@ The tool bar at the top provides a set of filters that control the chart panel. 
 - Bookmarking: By clicking the hyperlink icon on the top right corner, a link to the report with all the tooltip settings will be generated and copied to user’s clipboard.
 
 ### Chart Panel
-The chart panel contains two types of charts: ramp charts and total contribution bars. The length of the red bars is proportional to the total contribution of the author. If the author contributes ‘too much’ compared to other authors in the report, there will be multiple red bars for him. If the user hovers on the bar, the exact amount of contribution will be shown.
+The chart panel contains two types of charts:
+- ramp charts and
+- total contribution bars.
+
 #### Ramp Chart
-To illustrate frequency and amount of contribution in the same graph, and also allow easy comparison between we created a new type of visualization. We call it Ramp Charts. Here are some examples of the Ramp graphs:
+To illustrate frequency and amount of contribution in the same graph, and also allow easy comparison between we created a new type of visualization.
+This is referred as the **Ramp Charts**.
+
+Below are a few examples:
 
 ![Ramp Charts](images/rampchart.png)
 Each light blue bar represents the contribution timeline of an individual author for a specific repository. On each row, there are several ‘ramps’.
@@ -121,13 +139,17 @@ Each light blue bar represents the contribution timeline of an individual author
 - As Figure shown, when the user hovers the mouse above a ramp, the time period and the exact amount of contribution will be shown.
 - If you click on a ramp, a github page containing the commits in that period of time will be opened
 
+#### Total Contribution Bars
+The total amount of code contributed is represented by the **red bars**, and the length of these red bars is proportional to the total contribution of the corresponding author.
+Hovers on the bar shows the exact amount of contribution.
+If the author contributes **too much** compared to other authors in the report, there will be multiple red bars for him.
+
 ### Code Panel
-The Code Panel allows the instructors to review students' code in the report, and easily maps a line to its author.
-If the user clicks on the name of the author in the visualizations of Chart Panel, the Code Panel will slide from right.
+The Code Panel allows the users to review contributers' code in the report, and easily maps a line to its author.
+Clicking on the name of the author, in the visualizations of Chart Panel, will show the Code Panel display on the right.
 
 Below is the list of features in this panel:
-- All files that contain author's contribution will be shown in this panel. The file that contains more lines written by the author will be shown on the top.
-- After the user has reviewed a file, he can click the title of the file to hide it.
-- The user can click the title again to display the file content.
-- The lines that are NOT written by the current author will be marked gray, but they will still be displayed to provide context for the user
-- Segments of codes that are not written by the current author is default to be collapsed. If the user wants to refer to it, he can open the segment.
+- Files that contain author's contribution will be shown in this panel, sorted by the number of lines written.
+- Clicking the file title will show/hide the file content.
+- The lines that are NOT written by the selected author will be marked in gray and displayed to provide context for the user
+- Segments of codes that are not written by the selected author are default to be collapsed. User can click on the segments to display them, if necessary.
