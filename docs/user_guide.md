@@ -24,8 +24,8 @@ $ java -jar RepoSense.jar -config CSV_path.csv -output output_path/ -since 01/10
 Argument List:
 - config: Mandatory. The path to the CSV config file.
 - output: Optional. The path to the dashboard generated. If not provided, it will be generated in the current directory.
-- since : Optional. start date of analysis. Format: dd/MM/yyyy
-- until : Optional. end date of analysis. Format: dd/MM/yyyy
+- since : Optional. start date of analysis. Format: `DD/MM/YYYY`
+- until : Optional. end date of analysis. Format: `DD/MM/YYYY`
 
 ```
 Note:
@@ -67,9 +67,9 @@ Date:   Fri Feb 9 19:13:13 2018 +0800
     new
  ...
 ```
-*actualGitHubId* and *configuredAuthorName* are both Local Git Author Name.
+**actualGitHubId** and **configuredAuthorName** are both Local Git Author Name.
 
-By default, git uses that authors' Github ID as their local Author Name.
+By default, git uses the authors' Github ID as their local Author Name.
 However, this is not always the case. Many Git users customize their Local Git Author Name.
 
 To fix this, authors can use the following command to reset their local author name to Github ID before contributing:
@@ -79,7 +79,7 @@ git config --global user.name “YOUR_GITHUB_ID_HERE”
 For more details, do checkout this [faq](https://www.git-tower.com/learn/git/faq/change-author-name-email) on changing Git Author Identity.
 
 If an author's local Git Author Name is not the same as his Github ID, the local Author Name needs to filled into the CSV config file for accurate consolidation.
-If more than one local Author Name is used, they can separate them semicolon (；) within the Local Author Name column.
+If more than one local Author Name is used, they can separate them by using the semicolon `;` operator within the `Local Author Name` column.
 
 #### Contribution Tags
 Although RepoSense's contribution analysis is quite accurate, authors can use annotations to ensure that RepoSense correctly recognize their contribution.
@@ -143,6 +143,7 @@ Each light blue bar represents the contribution timeline of an individual author
 The total amount of code contributed is represented by the **red bars**, and the length of these red bars is proportional to the total contribution of the corresponding author.
 Hovers on the bar shows the exact amount of contribution.
 If the author contributes **too much** compared to other authors in the report, there will be multiple red bars for him.
+
 
 ### Code Panel
 The Code Panel allows the users to review contributers' code in the report, and easily maps a line to its author.
