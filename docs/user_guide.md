@@ -31,15 +31,15 @@ Argument List:
 
 
 ### Other option:
-   * Clone this repository (or [download as zip](https://github.com/reposense/RepoSense/archive/master.zip))
-   * Execute the following command on the OS terminal inside the project directory.<br>
+ 1. Clone this repository (or [download as zip](https://github.com/reposense/RepoSense/archive/master.zip))
+ 2. Execute the following command on the OS terminal inside the project directory.<br>
 Usage: `gradlew run -Dargs="-config CSV_CONFIG_FILE_PATH [-output OUTPUT_DIRECTORY] [-since DD/MM/YYYY] [-until DD/MM/YYYY]"` <br>
 
 Sample usage:
 ```
 $ gradlew run -Dargs="-config CSV_path.csv -output output_path/ -since 01/10/2017 -until 01/11/2017"
 ```
-`-Dargs="..."` uses the same argument list as mentioned above.
+`-Dargs="..."` uses the same argument format as mentioned above.
 
 ```
 Note: 
