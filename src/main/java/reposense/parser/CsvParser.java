@@ -62,7 +62,6 @@ public class CsvParser {
     }
 
     /**
-     * Extracts {@code Author} information from the {@code line}.
      * Adds the {@code Author} to its corresponding {@RepoConfiguration} if it exists, or creates a new
      * {@RepoConfiguration} containing the {@code Author} and add it to the {@code repoConfigurations} otherwise.
      */
