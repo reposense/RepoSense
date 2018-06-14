@@ -89,7 +89,7 @@ There are 2 types of tags:
 - Start Tags (`@@author YOUR_GITHUB_ID`)
 - End Tags (`@@author`)
 
-Below are some examples (stolen from Collate's User Guide):
+Below are some examples (by the courtesy of Collate's User Guide):
 
 ![author tags](images/add-author-tags.png)
 
