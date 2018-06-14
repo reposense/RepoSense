@@ -34,7 +34,7 @@ The contribution calculation is base on the daily commits made within 00:00 to 2
 
 ## CSV Config File
 The CSV Config files control the list of repositories and the target author.
-[Sample_full.csv](../sample_full.csv) in root is an example CSV config file. It should contain the following columns:
+[Sample_full.csv](../sample_full.csv) is an example configuration file setup. It should contain the following columns:
 
 Column Name | Explanation
 ----------- | -----------
@@ -42,7 +42,7 @@ Organization | Organization of the target repository
 Repository | Name of the target repository
 branch | Target branch
 ContributorX's Github ID | Author's Github ID.
-ContributorX's Display Name | Optional Field. The value of this field, if not empty,will be displayed in the dashboard instead of author's Github ID.
+ContributorX's Display Name | Optional Field. The value of this field, if not empty, will be displayed in the dashboard instead of author's Github ID.
 ContributorX's Local Author Name | Detailed explanation below
 
 ### Preparation of Repositories
@@ -86,8 +86,8 @@ Although RepoSense's contribution analysis is quite accurate, authors can use an
 Special thanks to [Collate](https://github.com/se-edu/collate) for providing the inspiration for this functionality.
 
 There are 2 types of tags:
-- Start Tags (@@author YOUR_GITHUB_ID)
-- and End Tags(@@author)
+- Start Tags (`@@author YOUR_GITHUB_ID`)
+- End Tags (`@@author`)
 
 Below are some examples (stolen from Collate's User Guide):
 
@@ -119,9 +119,9 @@ The tool bar at the top provides a set of filters that control the chart panel. 
 - Bookmarking: By clicking the hyperlink icon on the top right corner, a link to the report with all the tooltip settings will be generated and copied to user’s clipboard.
 
 ### Chart Panel
-The chart panel contains two types of charts:
-- ramp charts and
-- total contribution bars.
+The chart panel contains two type of indicators:
+- ramp charts
+- total contribution bars
 
 #### Ramp Chart
 To illustrate frequency and amount of contribution in the same graph, and also allow easy comparison between we created a new type of visualization.
