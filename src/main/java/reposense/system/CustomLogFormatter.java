@@ -17,16 +17,8 @@ public class CustomLogFormatter extends SimpleFormatter {
     public synchronized String format(LogRecord record) {
         StringBuilder builder = new StringBuilder();
         builder.append(dateFormat.format(new Date(record.getMillis()))).append(" - ");
-
-        Throwable t = record.getThrown();
-
-        if (t != null) {
-            builder.append("An error has occurred");
-            builder.append("\n");
-        } else {
-            builder.append(formatMessage(record));
-            builder.append("\n");
-        }
+        builder.append(formatMessage(record));
+        builder.append("\n");
 
         return builder.toString();
     }
