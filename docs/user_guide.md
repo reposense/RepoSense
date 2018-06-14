@@ -32,7 +32,7 @@ Argument List:
 
 ### Other option:
    * Clone this repository (or [download as zip](https://github.com/reposense/RepoSense/archive/master.zip))
-   * Execute the command on the OS terminal inside the project directory.<br>
+   * Execute the following command on the OS terminal inside the project directory.<br>
 Usage: `gradlew run -Dargs="-config CSV_CONFIG_FILE_PATH [-output OUTPUT_DIRECTORY] [-since DD/MM/YYYY] [-until DD/MM/YYYY]"` <br>
 
 Sample usage:
