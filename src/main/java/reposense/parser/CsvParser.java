@@ -18,7 +18,7 @@ import reposense.system.LogsManager;
  */
 public class CsvParser {
     private static final String ELEMENT_SEPARATOR = ",";
-    private static final String AUTHOR_ALIAS_SPLITTER = ";";
+    private static final String AUTHOR_ALIAS_SEPARATOR = ";";
 
     private static final String MESSAGE_UNABLE_TO_READ_CSV_FILE = "Unable to read the supplied CSV file.";
     private static final String MESSAGE_MALFORMED_LINE_FORMAT = "Warning! line %d in configuration file is malformed.\n"
@@ -62,7 +62,7 @@ public class CsvParser {
     }
 
     /**
-     * Adds the {@code Author} to its corresponding {@RepoConfiguration} if it exists, or creates a new
+     * Adds the {@code Author} to its corresponding {@code RepoConfiguration} if it exists, or creates a new
      * {@RepoConfiguration} containing the {@code Author} and add it to the {@code repoConfigurations} otherwise.
      */
     private static void processLine(List<RepoConfiguration> repoConfigurations, String line, int lineNumber) {
@@ -114,7 +114,7 @@ public class CsvParser {
     }
 
     /**
-     * Associates github id and additional aliases in {@elements} to {@code author}.
+     * Associates github id and additional aliases in {@code elements} to {@code author}.
      */
     private static void setAliases(String[] elements, RepoConfiguration config, Author author) {
         config.getAuthorAliasMap().put(elements[GITHUB_ID_POSITION], author);
@@ -122,7 +122,7 @@ public class CsvParser {
                 && !elements[ALIAS_POSITION].isEmpty();
 
         if (areAliasesInElements) {
-            String[] aliases = elements[ALIAS_POSITION].split(AUTHOR_ALIAS_SPLITTER);
+            String[] aliases = elements[ALIAS_POSITION].split(AUTHOR_ALIAS_SEPARATOR);
             config.setAuthorAliases(author, aliases);
         }
     }
