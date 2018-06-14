@@ -41,9 +41,9 @@ Column Name | Explanation
 Organization | Organization of the target repository
 Repository | Name of the target repository
 branch | Target branch
-ContributorX's Github ID | Author's Github ID.
-ContributorX's Display Name | Optional Field. The value of this field, if not empty, will be displayed in the dashboard instead of author's Github ID.
-ContributorX's Local Author Name | Detailed explanation below
+Contributor's Github ID | Author's Github ID.
+Contributor's Display Name | Optional Field. The value of this field, if not empty, will be displayed in the dashboard instead of author's Github ID.
+Contributor's Local Author Name | Detailed explanation below
 
 ### Preparation of Repositories
 #### Local Git Author Name
