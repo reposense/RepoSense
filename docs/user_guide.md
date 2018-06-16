@@ -43,9 +43,8 @@ Repository | Name of the target repository
 branch | Target branch
 Contributor's Github ID | Author's Github ID.
 Contributor's Display Name | Optional Field. The value of this field, if not empty, will be displayed in the dashboard instead of author's Github ID.
-Contributor's Local Author Name | Detailed explanation below
+Contributor's local Git Author Name | Detailed explanation below
 
-### Preparation of Repositories
 #### Local Git Author Name
 First, what is `Git Author Name`?
 
@@ -67,10 +66,10 @@ Date:   Fri Feb 9 19:13:13 2018 +0800
     new
  ...
 ```
-**actualGitHubId** and **configuredAuthorName** are both Local Git Author Name.
+**actualGitHubId** and **configuredAuthorName** are both local Git Author Name.
 
 By default, git uses the authors' Github ID as their local Author Name.
-However, this is not always the case. Many Git users customize their Local Git Author Name.
+However, this is not always the case. Many Git users customize their local Git Author Name.
 
 To fix this, authors can use the following command to reset their local author name to Github ID before contributing:
 ```
@@ -81,6 +80,7 @@ For more details, do checkout this [faq](https://www.git-tower.com/learn/git/faq
 If an author's local Git Author Name is not the same as his Github ID, the local Author Name needs to filled into the CSV config file for accurate consolidation.
 If more than one local Author Name is used, they can separate them by using the semicolon `;` operator within the `Local Author Name` column.
 
+### [Optional] Preparation of Repositories
 #### Contribution Tags
 Although RepoSense's contribution analysis is quite accurate, authors can use annotations to ensure that RepoSense correctly recognize their contribution.
 Special thanks to [Collate](https://github.com/se-edu/collate) for providing the inspiration for this functionality.
@@ -136,21 +136,21 @@ Each light blue bar represents the contribution timeline of an individual author
 - To make comparison between two authors easier, the color of the ramps that represent different authors' contributions at the same time period are the same.
 - The timelines (blue bar) of the charts should be aligned, so that the comparison of contribution between two authors are easier.
 - There is no limit to the area of the ramp. If the contribution for a time period is too large compared to the rest of the time period, it is going to overlap with the neighbor ramps. Thus, the ramps are transparent, so they will not cover their neighbors.
-- As Figure shown, when the user hovers the mouse above a ramp, the time period and the exact amount of contribution will be shown.
+- As Figure shown, when the user hovers the mouse a ramp, the time period and the exact amount of contribution will be shown.
 - If you click on a ramp, a github page containing the commits in that period of time will be opened
 
 #### Total Contribution Bars
 The total amount of code contributed is represented by the **red bars**, and the length of these red bars is proportional to the total contribution of the corresponding author.
-Hovers on the bar shows the exact amount of contribution.
+Hovering over the bar shows the exact amount of contribution.
 If the author contributes **too much** compared to other authors in the report, there will be multiple red bars for him.
 
 
 ### Code Panel
-The Code Panel allows users to review contributers' code in the report, showing all the lines written by the selected author.
-Clicking on the name of the author, in the Chart Panel, will show the Code Panel display on the right.
+The `Code Panel` allows users to review contributers' code in the report, showing all the lines written by the selected author.
+Clicking on the name of the author, in the `Chart Panel`, will display the `Code Panel` on the right.
 
 Below is the list of features in this panel:
 - Files that contain author's contribution will be shown in this panel, sorted by the number of lines written.
 - Clicking the file title will show/hide the file content.
 - The lines that are NOT written by the selected author will be marked in gray and displayed to provide context for the user
-- Segments of codes that are not written by the selected author are default to be collapsed. User can click on the segments to display them, if necessary.
+- Segments of codes that are not written by the selected author are by default collapsed. User can click on the segments to display them, if necessary.
