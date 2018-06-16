@@ -40,10 +40,10 @@ Column Name | Explanation
 ----------- | -----------
 Organization | Organization of the target repository
 Repository | Name of the target repository
-branch | Target branch
+branch | The branch to analyse in the target repository
 Contributor's Github ID | Author's Github ID.
 Contributor's Display Name | Optional Field. The value of this field, if not empty, will be displayed in the dashboard instead of author's Github ID.
-Contributor's local Git Author Name | Detailed explanation below
+[Optional] Contributor's local Git Author Name | Detailed explanation below
 
 #### Local Git Author Name
 First, what is `Git Author Name`?
@@ -77,12 +77,12 @@ git config --global user.name “YOUR_GITHUB_ID_HERE”
 ```
 For more details, do checkout this [faq](https://www.git-tower.com/learn/git/faq/change-author-name-email) on changing Git Author Identity.
 
-If an author's local Git Author Name is not the same as his Github ID, the local Author Name needs to filled into the CSV config file for accurate consolidation.
+If an author's local Git Author Name is not the same as his Github ID, the local Author Name needs to be filled into the CSV config file for accurate consolidation.
 If more than one local Author Name is used, they can separate them by using the semicolon `;` operator within the `Local Author Name` column.
 
 ### [Optional] Preparation of Repositories
 #### Contribution Tags
-Although RepoSense's contribution analysis is quite accurate, authors can use annotations to ensure that RepoSense correctly recognize their contribution.
+Although RepoSense's contribution analysis is quite accurate, authors can use annotations to ensure that RepoSense correctly recognizes their contribution.
 Special thanks to [Collate](https://github.com/se-edu/collate) for providing the inspiration for this functionality.
 
 There are 2 types of tags:
