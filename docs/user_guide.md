@@ -33,7 +33,7 @@ The contribution calculation is base on the daily commits made within 00:00 to 2
 ```
 
 ## CSV Config File
-The CSV Config files control the list of repositories and the target author.
+The `CSV Config File` control the list of repositories and the target author.
 [Sample_full.csv](../sample_full.csv) is an example configuration file setup. It should contain the following columns:
 
 Column Name | Explanation
@@ -124,7 +124,7 @@ The chart panel contains two type of indicators:
 - total contribution bars
 
 #### Ramp Chart
-To illustrate frequency and amount of contribution in the same graph, and also allow easy comparison between we created a new type of visualization.
+To illustrate frequency and amount of contribution in the same graph, and also allow easy comparison between each entry, we implemented a new type of visualization.
 This is referred as the **Ramp Charts**.
 
 Below are a few examples:
