@@ -37,7 +37,7 @@ The contribution calculation is base on the daily commits made within 00:00 to 2
 
 ## CSV Config File
 The `CSV Config File` control the list of repositories and the target author.
-[Sample_full.csv](../sample_full.csv) is an example configuration file setup. It should contain the following columns:
+[Sample_full.csv](../sample_full.csv) is an example of a configuration file setup. It should contain the following columns:
 
 Column Name | Explanation
 ----------- | -----------
