@@ -1,14 +1,14 @@
 ## Quick Start
-1. Ensure that you have the necessary [dependencies](#dependencies)
-2. Read up on [How to Generate Dashboard](#how-to-generate-dashboard)
-3. Fill up the CSV [configuration file](#csv-config-file)
-4. Perform the execution to generate the [dashboard](#dashboard)
+1. Ensure that you have the necessary [dependencies](#dependencies).
+2. Read up on [How to Generate Dashboard](#how-to-generate-dashboard).
+3. Fill up the CSV [configuration file](#csv-config-file).
+4. Perform the execution to generate the [dashboard](#dashboard).
 
 
 ## Dependencies
-1. **JDK `1.8.0_60`**  or later
-2. **Git** on the command line
-3. **findstr** for Windows, **grep** for macOS or Linux on the command line
+1. **JDK `1.8.0_60`**  or later.
+2. **Git** on the command line.
+3. **findstr** for Windows, **grep** for macOS or Linux on the command line.
    * Ensure that you're able to use these tools on the OS terminal.
 
 
@@ -133,8 +133,8 @@ The `Tool Bar` at the top provides a set of filters that control the chart panel
 
 ### Chart Panel
 The `Chart Panel` contains two type of indicators:
-- ramp chart
-- total contribution bar
+- [Ramp Chart](#ramp-chart)
+- [Total Contribution Bar](#total-contribution-bars)
 
 #### Ramp Chart
 To illustrate frequency and amount of contribution in the same graph, and to allow easy comparison between each entry, we implemented a new type of visualization.
@@ -143,14 +143,14 @@ This is referred as the `Ramp Charts`.
 Below are a few examples:
 
 ![Ramp Charts](images/rampchart.png)
-Each light blue bar represents the contribution timeline of an individual author for a specific repository. On each row, there are several ‘ramps’.
+Each light blue bar represents the contribution timeline of an individual author for a specific repository. On each row, there are several **ramps**.
 - The area of the ramp is proportional to the amount of contribution the author did at that time period.
 - The position of the right edge of the ramp (perpendicular to the blue bar) is dependent on the time period that ramp represents.
 - To make comparison between two authors easier, the color of the ramps that represent different authors' contributions at the same time period are the same.
 - The timelines (blue bar) of the charts should be aligned, so that the comparison of contribution between two authors are easier.
 - There is no limit to the area of the ramp. If the contribution for a time period is too large compared to the rest of the time period, it is going to overlap with the neighbor ramps. Thus, the ramps are transparent, so they will not cover their neighbors.
 - As Figure shown, when the user hovers the mouse a ramp, the time period and the exact amount of contribution will be shown.
-- If you click on a ramp, a GitHub page containing the commits in that period of time will be opened
+- If you click on a ramp, a GitHub page containing the commits in that period of time will be opened.
 
 #### Total Contribution Bars
 The total amount of code contributed is represented by the **red bars**, and the length of these red bars is proportional to the total contribution of the corresponding author.
@@ -165,5 +165,5 @@ Clicking on the name of the author, in the `Chart Panel`, will display the `Code
 Below is the list of features in this panel:
 - Files that contain author's contribution will be shown in this panel, sorted by the number of lines written.
 - Clicking the file title will show/hide the file content.
-- The lines that are NOT written by the selected author will be marked in gray and displayed to provide context for the user
+- The lines that are NOT written by the selected author will be marked in gray and displayed to provide context for the user.
 - Segments of codes that are not written by the selected author are by default collapsed. User can click on the segments to display them, if necessary.
