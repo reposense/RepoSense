@@ -124,7 +124,9 @@ The `Tool Bar` at the top provides a set of filters that control the chart panel
 - Search : Filters the author and repository by keywords.
     - Multiple keywords can be used, separated by spaces.
     - The keywords are logically connected with OR operators.
-- Bookmark : By clicking the hyperlink icon on the top right corner, a link to the report with all the tooltip settings will be generated and copied to user’s clipboard.
+- Bookmark : The star icon at the top right corner.
+    - Clicking on it will generates a link to the report with all the tooltip settings.
+    - This link will be copied to user’s clipboard.
 
 ### Chart Panel
 The `Chart Panel` contains two type of indicators:
