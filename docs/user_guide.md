@@ -44,9 +44,9 @@ Column Name | Explanation
 Organization | Organization of the target repository
 Repository | Name of the target repository
 branch | The branch to analyse in the target repository
-Contributor's GitHub ID | Author's GitHub ID
-Contributor's Display Name | Optional Field. The value of this field, if not empty, will be displayed in the dashboard instead of author's GitHub ID.
-[Optional] Contributor's Git Author Name | Detailed explanation below
+Author's GitHub ID | GitHub ID of the target contributor in the repository
+Author's Display Name | Optional Field. The value of this field, if not empty, will be displayed in the dashboard instead of author's GitHub ID.
+[Optional] Author's Git Author Name | Detailed explanation below
 
 #### Git Author Name
 `Git Author Name` refers to the customizable author's display name set in the local `.gitconfig` file.
