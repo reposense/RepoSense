@@ -81,7 +81,7 @@ If more than one local Author Name is used, they can separate them by using the 
 ### [Optional] Preparation of Repositories
 #### Contribution Tags
 Although RepoSense's contribution analysis is quite accurate, authors can use annotations to ensure that RepoSense correctly recognizes their contribution.
-Special thanks to [Collate](https://GitHub.com/se-edu/collate) for providing the inspiration for this functionality.
+Special thanks to [Collate](https://github.com/se-edu/collate) for providing the inspiration for this functionality.
 
 There are 2 types of tags:
 - Start Tags (`@@author YOUR_GITHUB_ID`)
@@ -96,7 +96,7 @@ You can use start tags to mark the start of your contribution. The author specif
 
 ## Dashboard
 
-The dashboard is written in HTML and Javascript as static pages - readable by majority of web browsers, and easily deploy-able in most hosting platforms (such as [GitHub Pages](https://pages.GitHub.com/)).
+The dashboard is written in HTML and Javascript as static pages - readable by majority of web browsers, and easily deploy-able in most hosting platforms (such as [GitHub Pages](https://pages.github.com/)).
 Below is an example of how the Dashboard looks like:
 
 ![dashboard](images/dashboard.png)
@@ -107,7 +107,7 @@ It consists of three main parts: [Tool Bar](#tool-bar), [Chart Panel](#chart-pan
 The tool bar at the top provides a set of filters that control the chart panel. From right to left, the filters are:
 - Sorting: Users can sort by:
 	- Total Contribution: the amount of lines written by the author did in the latest version of the project
-	- Variance: The variance of contribution of all commits. This indicates whether the author is contributing regularly or just rushing before deadlines and milestones. This can be useful for instructors of student projects, e.g. [Addressbook](https://GitHub.com/se-edu/addressbook-level4).
+	- Variance: The variance of contribution of all commits. This indicates whether the author is contributing regularly or just rushing before deadlines and milestones. This can be useful for instructors of student projects, e.g. [Addressbook](https://github.com/se-edu/addressbook-level4).
 	- Author Name
 	- Team Name: The name of the organization of the repository
 - Interval: Interval refers to amount of time one single ramp represents. Users can choose two modes of time intervals: weekly (7 days)  and daily (1 day).
