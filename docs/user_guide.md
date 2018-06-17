@@ -109,10 +109,13 @@ It consists of three main parts: [Tool Bar](#tool-bar), [Chart Panel](#chart-pan
 ### Tool Bar
 The `Tool Bar` at the top provides a set of filters that control the chart panel. From right to left, the filters are:
 - Sort : Users can sort by:
-    - Total Contribution : the amount of lines written by the author did in the latest version of the project
-    - Variance : The variance of contribution of all commits. This indicates whether the author is contributing regularly or just rushing before deadlines and milestones. This can be useful for instructors of student projects, e.g. [Addressbook](https://github.com/se-edu/addressbook-level4).
-    - Author Name
-    - Team Name : The name of the organization of the repository
+    - Total Contribution : The amount of lines written by the author did in the latest version of the project.
+    - Variance : The variance of contribution of all commits.
+        - It indicates the code consistency of an author.
+        - It helps to determine whether the author has been contributing regularly or procrastinating.
+        - This can be useful for instructors of student projects, e.g. [Addressbook](https://github.com/se-edu/addressbook-level4).
+    - Author Name : The Author's GitHub ID or Display Name configured in the `CSV Config File`.
+    - Team Name : The name of the organization of the repository.
 - Interval : Interval refers to amount of time one single ramp represents.
     - Users can choose two modes of time intervals:
         - daily
