@@ -41,15 +41,13 @@ Column Name | Explanation
 Organization | Organization of the target repository
 Repository | Name of the target repository
 branch | The branch to analyse in the target repository
-Contributor's Github ID | Author's Github ID.
-Contributor's Display Name | Optional Field. The value of this field, if not empty, will be displayed in the dashboard instead of author's Github ID.
-[Optional] Contributor's local Git Author Name | Detailed explanation below
+Contributor's GitHub ID | Author's GitHub ID
+Contributor's Display Name | Optional Field. The value of this field, if not empty, will be displayed in the dashboard instead of author's GitHub ID.
+[Optional] Contributor's Git Author Name | Detailed explanation below
 
-#### Local Git Author Name
-First, what is `Git Author Name`?
-
-Git Author Name refers to the customizable Git Author Display Name set in local .gitconfig file.
-It will be displayed as Author name and Committer Name in Git.
+#### Git Author Name
+**Git Author Name** refers to the customizable author's display name set in the local `.gitconfig` file.
+It is displayed as author name as opposed to the `GitHub ID` in the entries.
 For example, in Git Log output:
 ```
 ...
@@ -68,22 +66,22 @@ Date:   Fri Feb 9 19:13:13 2018 +0800
 ```
 **actualGitHubId** and **configuredAuthorName** are both local Git Author Name.
 
-By default, git uses the authors' Github ID as their local Author Name.
+By default, git uses the authors' GitHub ID as their local Author Name.
 However, this is not always the case. Many Git users customize their local Git Author Name.
 
-To fix this, authors can use the following command to reset their local author name to Github ID before contributing:
+To fix this, authors can use the following command to reset their local author name to GitHub ID before contributing:
 ```
-git config --global user.name “YOUR_GITHUB_ID_HERE”
+git config --global user.name “YOUR_GitHub_ID_HERE”
 ```
 For more details, do checkout this [faq](https://www.git-tower.com/learn/git/faq/change-author-name-email) on changing Git Author Identity.
 
-If an author's local Git Author Name is not the same as his Github ID, the local Author Name needs to be filled into the CSV config file for accurate consolidation.
+If an author's local Git Author Name is not the same as his GitHub ID, the local Author Name needs to be filled into the CSV config file for accurate consolidation.
 If more than one local Author Name is used, they can separate them by using the semicolon `;` operator within the `Local Author Name` column.
 
 ### [Optional] Preparation of Repositories
 #### Contribution Tags
 Although RepoSense's contribution analysis is quite accurate, authors can use annotations to ensure that RepoSense correctly recognizes their contribution.
-Special thanks to [Collate](https://github.com/se-edu/collate) for providing the inspiration for this functionality.
+Special thanks to [Collate](https://GitHub.com/se-edu/collate) for providing the inspiration for this functionality.
 
 There are 2 types of tags:
 - Start Tags (`@@author YOUR_GITHUB_ID`)
@@ -98,7 +96,7 @@ You can use start tags to mark the start of your contribution. The author specif
 
 ## Dashboard
 
-The dashboard is written in HTML and Javascript as static pages - readable by majority of web browsers, and easily deploy-able in most hosting platforms (such as [GitHub Pages](https://pages.github.com/)).
+The dashboard is written in HTML and Javascript as static pages - readable by majority of web browsers, and easily deploy-able in most hosting platforms (such as [GitHub Pages](https://pages.GitHub.com/)).
 Below is an example of how the Dashboard looks like:
 
 ![dashboard](images/dashboard.png)
@@ -109,7 +107,7 @@ It consists of three main parts: [Tool Bar](#tool-bar), [Chart Panel](#chart-pan
 The tool bar at the top provides a set of filters that control the chart panel. From right to left, the filters are:
 - Sorting: Users can sort by:
 	- Total Contribution: the amount of lines written by the author did in the latest version of the project
-	- Variance: The variance of contribution of all commits. This indicates whether the author is contributing regularly or just rushing before deadlines and milestones. This can be useful for instructors of student projects, e.g. [Addressbook](https://github.com/se-edu/addressbook-level4).
+	- Variance: The variance of contribution of all commits. This indicates whether the author is contributing regularly or just rushing before deadlines and milestones. This can be useful for instructors of student projects, e.g. [Addressbook](https://GitHub.com/se-edu/addressbook-level4).
 	- Author Name
 	- Team Name: The name of the organization of the repository
 - Interval: Interval refers to amount of time one single ramp represents. Users can choose two modes of time intervals: weekly (7 days)  and daily (1 day).
@@ -137,7 +135,7 @@ Each light blue bar represents the contribution timeline of an individual author
 - The timelines (blue bar) of the charts should be aligned, so that the comparison of contribution between two authors are easier.
 - There is no limit to the area of the ramp. If the contribution for a time period is too large compared to the rest of the time period, it is going to overlap with the neighbor ramps. Thus, the ramps are transparent, so they will not cover their neighbors.
 - As Figure shown, when the user hovers the mouse a ramp, the time period and the exact amount of contribution will be shown.
-- If you click on a ramp, a github page containing the commits in that period of time will be opened
+- If you click on a ramp, a GitHub page containing the commits in that period of time will be opened
 
 #### Total Contribution Bars
 The total amount of code contributed is represented by the **red bars**, and the length of these red bars is proportional to the total contribution of the corresponding author.
