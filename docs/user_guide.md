@@ -108,16 +108,23 @@ It consists of three main parts: [Tool Bar](#tool-bar), [Chart Panel](#chart-pan
 
 ### Tool Bar
 The `Tool Bar` at the top provides a set of filters that control the chart panel. From right to left, the filters are:
-- Sorting: Users can sort by:
-	- Total Contribution: the amount of lines written by the author did in the latest version of the project
-	- Variance: The variance of contribution of all commits. This indicates whether the author is contributing regularly or just rushing before deadlines and milestones. This can be useful for instructors of student projects, e.g. [Addressbook](https://github.com/se-edu/addressbook-level4).
-	- Author Name
-	- Team Name: The name of the organization of the repository
-- Interval: Interval refers to amount of time one single ramp represents. Users can choose two modes of time intervals: weekly (7 days)  and daily (1 day).
-- Period: The time period that the ramp charts display.
-- Group By Repo: Checkbox. If checked, the author that contributed to the same repo will be displayed next to each other, no matter what the sorting element is.
-- Search: Only display the author whose name or the repository’s name match the keyword. The user can separate keywords by spaces, and the keywords are logically connected with OR operators.
-- Bookmarking: By clicking the hyperlink icon on the top right corner, a link to the report with all the tooltip settings will be generated and copied to user’s clipboard.
+- Sort : Users can sort by:
+    - Total Contribution : the amount of lines written by the author did in the latest version of the project
+    - Variance : The variance of contribution of all commits. This indicates whether the author is contributing regularly or just rushing before deadlines and milestones. This can be useful for instructors of student projects, e.g. [Addressbook](https://github.com/se-edu/addressbook-level4).
+    - Author Name
+    - Team Name : The name of the organization of the repository
+- Interval : Interval refers to amount of time one single ramp represents.
+    - Users can choose two modes of time intervals:
+        - daily
+        - weekly
+- Period : The time period that the ramp charts display.
+- Group : Checkbox.
+    - If checked, authors that have contributed to the same repository will be displayed next to each other.
+    - This overrides the sort function.
+- Search : Filters the author and repository by keywords.
+    - Multiple keywords can be used, separated by spaces.
+    - The keywords are logically connected with OR operators.
+- Bookmark : By clicking the hyperlink icon on the top right corner, a link to the report with all the tooltip settings will be generated and copied to user’s clipboard.
 
 ### Chart Panel
 The `Chart Panel` contains two type of indicators:
