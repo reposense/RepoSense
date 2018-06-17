@@ -51,20 +51,20 @@ Author's Display Name | Optional Field. The value of this field, if not empty, w
 #### Git Author Name
 `Git Author Name` refers to the customizable author's display name set in the local `.gitconfig` file.
 It is displayed as author name as opposed to the `GitHub ID` in the entries.
-For example, in Git Log output:
+For example, in the Git Log's display:
 ```
 ...
 commit cd7f610e0becbdf331d5231887d8010a689f87c7
-Author: actualGitHubId <ma.tanghao@dhs.sg>
+Author: configuredAuthorName <ma.tanghao@dhs.sg>
 Date:   Fri Feb 9 19:14:41 2018 +0800
 
-    moved
+    Make some changes to show my new author's name
 
 commit e3f699fd4ef128eebce98d5b4e5b3bb06a512f49
-Author: configuredAuthorName <ma.tanghao@dhs.sg>
+Author: actualGitHubId <ma.tanghao@dhs.sg>
 Date:   Fri Feb 9 19:13:13 2018 +0800
 
-    new
+    Initial commit
  ...
 ```
 **actualGitHubId** and **configuredAuthorName** are both `Git Author Name`.
