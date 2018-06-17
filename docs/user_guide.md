@@ -4,11 +4,13 @@
 3. Fill up the CSV [configuration file](#csv-config-file)
 4. Perform the execution to generate the [dashboard](#dashboard)
 
+
 ## Dependencies
 1. **JDK `1.8.0_60`**  or later
 2. **Git** on the command line
 3. **findstr** for Windows, **grep** for macOS or Linux on the command line
    * Ensure that you're able to use these tools on the OS terminal.
+
 
 ## How to Generate Dashboard
 1. Download the latest executable Jar on our [release](https://github.com/reposense/RepoSense/releases/latest).
@@ -32,6 +34,7 @@ Note:
 The contribution calculation is base on the daily commits made within 00:00 to 23:59 in GMT+8.
 ```
 
+
 ## CSV Config File
 The `CSV Config File` control the list of repositories and the target author.
 [Sample_full.csv](../sample_full.csv) is an example configuration file setup. It should contain the following columns:
@@ -46,7 +49,7 @@ Contributor's Display Name | Optional Field. The value of this field, if not emp
 [Optional] Contributor's Git Author Name | Detailed explanation below
 
 #### Git Author Name
-**Git Author Name** refers to the customizable author's display name set in the local `.gitconfig` file.
+`Git Author Name` refers to the customizable author's display name set in the local `.gitconfig` file.
 It is displayed as author name as opposed to the `GitHub ID` in the entries.
 For example, in Git Log output:
 ```
@@ -95,8 +98,7 @@ You can use start tags to mark the start of your contribution. The author specif
 
 
 ## Dashboard
-
-The dashboard is written in HTML and Javascript as static pages - readable by majority of web browsers, and easily deploy-able in most hosting platforms (such as [GitHub Pages](https://pages.github.com/)).
+The `Dashboard` is written in HTML and Javascript as static pages - readable by majority of web browsers, and easily deploy-able in most hosting platforms (such as [GitHub Pages](https://pages.github.com/)).
 Below is an example of how the Dashboard looks like:
 
 ![dashboard](images/dashboard.png)
@@ -104,7 +106,7 @@ Below is an example of how the Dashboard looks like:
 It consists of three main parts: [Tool Bar](#tool-bar), [Chart Panel](#chart-panel) and [Code Panel](#code-panel).
 
 ### Tool Bar
-The tool bar at the top provides a set of filters that control the chart panel. From right to left, the filters are:
+The `Tool Bar` at the top provides a set of filters that control the chart panel. From right to left, the filters are:
 - Sorting: Users can sort by:
 	- Total Contribution: the amount of lines written by the author did in the latest version of the project
 	- Variance: The variance of contribution of all commits. This indicates whether the author is contributing regularly or just rushing before deadlines and milestones. This can be useful for instructors of student projects, e.g. [Addressbook](https://github.com/se-edu/addressbook-level4).
@@ -117,13 +119,13 @@ The tool bar at the top provides a set of filters that control the chart panel. 
 - Bookmarking: By clicking the hyperlink icon on the top right corner, a link to the report with all the tooltip settings will be generated and copied to user’s clipboard.
 
 ### Chart Panel
-The chart panel contains two type of indicators:
-- ramp charts
-- total contribution bars
+The `Chart Panel` contains two type of indicators:
+- ramp chart
+- total contribution bar
 
 #### Ramp Chart
 To illustrate frequency and amount of contribution in the same graph, and also allow easy comparison between each entry, we implemented a new type of visualization.
-This is referred as the **Ramp Charts**.
+This is referred as the `Ramp Charts`.
 
 Below are a few examples:
 
