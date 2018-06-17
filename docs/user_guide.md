@@ -69,7 +69,7 @@ Date:   Fri Feb 9 19:13:13 2018 +0800
 ```
 **actualGitHubId** and **configuredAuthorName** are both `Git Author Name`.
 
-By default, git uses the authors' `GitHub ID` as their `Git Author Name`.
+By default, Git uses the authors' `GitHub ID` as their `Git Author Name`.
 However, this is not always the case. Many Git users customize their `Git Author Name`.
 
 To fix this, authors can use the following command to reset their `Git Author Name` to `GitHub ID` before contributing:
@@ -94,11 +94,12 @@ Below are some examples (by the courtesy of Collate's User Guide):
 
 ![author tags](images/add-author-tags.png)
 
-You can use start tags to mark the start of your contribution. The author specified in the start tag will be recognized by RepoSense as the author for all lines between a start tag and the next end tag. If RepoSense cannot find a matching End Tag for a Start Tag in the same file, it will assume that all lines between the Start Tag to the end of the file is authored by the author specified in the Start Tag.
+You can use `Start Tags` to mark the start of your contribution. The author specified in the `Start Tags` will be recognized by RepoSense as the author for all lines between a `Start Tag` and the next `End Tag`. If RepoSense cannot find a matching `End Tag` for a `Start Tag` in the same file, it will assume that all lines between the `Start Tag` to the end of the file is authored by the author specified in the `Start Tag`.
 
 
 ## Dashboard
 The `Dashboard` is written in HTML and Javascript as static pages - readable by majority of web browsers, and easily deploy-able in most hosting platforms (such as [GitHub Pages](https://pages.github.com/)).
+
 Below is an example of how the Dashboard looks like:
 
 ![dashboard](images/dashboard.png)
