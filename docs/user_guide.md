@@ -132,7 +132,7 @@ The `Chart Panel` contains two type of indicators:
 - total contribution bar
 
 #### Ramp Chart
-To illustrate frequency and amount of contribution in the same graph, and also allow easy comparison between each entry, we implemented a new type of visualization.
+To illustrate frequency and amount of contribution in the same graph, and to allow easy comparison between each entry, we implemented a new type of visualization.
 This is referred as the `Ramp Charts`.
 
 Below are a few examples:
