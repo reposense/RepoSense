@@ -67,19 +67,19 @@ Date:   Fri Feb 9 19:13:13 2018 +0800
     new
  ...
 ```
-**actualGitHubId** and **configuredAuthorName** are both local Git Author Name.
+**actualGitHubId** and **configuredAuthorName** are both `Git Author Name`.
 
-By default, git uses the authors' GitHub ID as their local Author Name.
-However, this is not always the case. Many Git users customize their local Git Author Name.
+By default, git uses the authors' `GitHub ID` as their `Git Author Name`.
+However, this is not always the case. Many Git users customize their `Git Author Name`.
 
-To fix this, authors can use the following command to reset their local author name to GitHub ID before contributing:
+To fix this, authors can use the following command to reset their `Git Author Name` to `GitHub ID` before contributing:
 ```
 git config --global user.name “YOUR_GitHub_ID_HERE”
 ```
 For more details, do checkout this [faq](https://www.git-tower.com/learn/git/faq/change-author-name-email) on changing Git Author Identity.
 
-If an author's local Git Author Name is not the same as his GitHub ID, the local Author Name needs to be filled into the CSV config file for accurate consolidation.
-If more than one local Author Name is used, they can separate them by using the semicolon `;` operator within the `Local Author Name` column.
+If an author's `Git Author Name` is not the same as his `GitHub ID`, the `Git Author Name` needs to be filled into the CSV config file for accurate consolidation.
+If more than one `Git Author Name` is used, they can separate them by using the semicolon `;` operator within the `Git Author Name` column.
 
 ### [Optional] Preparation of Repositories
 #### Contribution Tags
