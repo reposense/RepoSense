@@ -17,9 +17,9 @@ vueMethods = {
             }
         }
         for (contribution of contributions) {
-            var currentFromDate = Date.parse(contribution["fromDate"]);
-            var currentToDate = Date.parse(contribution["toDate"]);
-            if (minDateParsed.compareTo(currentFromDate) <= 0 && maxDateParsed.compareTo(currentToDate) >= 0) {
+            var currentSinceDate = Date.parse(contribution["sinceDate"]);
+            var currentUntilDate = Date.parse(contribution["untilDate"]);
+            if (minDateParsed.compareTo(currentSinceDate) <= 0 && maxDateParsed.compareTo(currentUntilDate) >= 0) {
                 resultContribution.push(contribution);
             }
         }
@@ -52,9 +52,9 @@ vueMethods = {
     },
     getSliceTitle: function(value, intervalType) {
         if (intervalType == "authorDailyIntervalContributions"){
-            return "contribution on " + value["fromDate"] + ": " + value['insertions'] + " lines";
+            return "contribution on " + value["sinceDate"] + ": " + value['insertions'] + " lines";
         } else{
-            return "contribution from " + value["fromDate"] + " to " + value["toDate"] + ": " + value['insertions'] + " lines";
+            return "contribution from " + value["sinceDate"] + " to " + value["untilDate"] + ": " + value['insertions'] + " lines";
         }
     },
     getSliceGithubLink: function(timeSlice, authorRepo) {
@@ -62,7 +62,7 @@ vueMethods = {
             authorRepo.organization + "/" + authorRepo.repo +
             "/commits/" + authorRepo["branch"] +
             "?author=" + authorRepo["author"] + "&since=" +
-            timeSlice["fromDate"] + "&until=" + timeSlice["toDate"];
+            timeSlice["sinceDate"] + "&until=" + timeSlice["untilDate"];
         return "openInNewTab('" + url + "')";
     },
     generateBookmark : function(searchTerm,sortElement,sortOrder,isGroupByRepo,intervalType) {

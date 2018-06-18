@@ -21,7 +21,7 @@ public class GitLogger {
     private static final Pattern DELETION_PATTERN = Pattern.compile("([0-9]+) deletion");
 
     public static List<CommitInfo> getCommits(RepoConfiguration config) {
-        String raw = CommandRunner.gitLog(config.getRepoRoot(), config.getFromDate(), config.getToDate());
+        String raw = CommandRunner.gitLog(config.getRepoRoot(), config.getSinceDate(), config.getUntilDate());
         ArrayList<CommitInfo> relevantCommits = parseCommitInfo(raw, config);
         return relevantCommits;
     }

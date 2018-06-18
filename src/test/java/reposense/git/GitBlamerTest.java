@@ -31,8 +31,8 @@ public class GitBlamerTest extends GitTestTemplate {
         Date untilDate = TestUtil.getDate(2018, Calendar.FEBRUARY, 8);
 
         GitChecker.checkoutToDate(config.getRepoRoot(), config.getBranch(), untilDate);
-        config.setFromDate(sinceDate);
-        config.setToDate(untilDate);
+        config.setSinceDate(sinceDate);
+        config.setUntilDate(untilDate);
         FileInfo fileInfo = getBlamedFileInfo("blameTest.java");
         checkBlameInfoCorrectness(fileInfo);
     }
@@ -43,8 +43,8 @@ public class GitBlamerTest extends GitTestTemplate {
         Date untilDate = TestUtil.getDate(2018, Calendar.FEBRUARY, 9);
 
         GitChecker.checkoutToDate(config.getRepoRoot(), config.getBranch(), untilDate);
-        config.setFromDate(sinceDate);
-        config.setToDate(untilDate);
+        config.setSinceDate(sinceDate);
+        config.setUntilDate(untilDate);
         FileInfo fileInfo = getBlamedFileInfo("newPos/movedFile.java");
         checkBlameInfoCorrectness(fileInfo);
     }

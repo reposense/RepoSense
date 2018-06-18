@@ -28,7 +28,7 @@ public class RepoAnalyzer {
 
         // checks out to the latest commit of the date range to ensure the FileInfo generated correspond to the
         // git blame file analyze output
-        GitChecker.checkoutToDate(config.getRepoRoot(), config.getBranch(), config.getToDate());
+        GitChecker.checkoutToDate(config.getRepoRoot(), config.getBranch(), config.getUntilDate());
         return FileAnalyzer.analyzeAllFiles(config);
     }
 }

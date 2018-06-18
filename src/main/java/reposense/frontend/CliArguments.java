@@ -24,12 +24,12 @@ public class CliArguments {
         return configFilePath;
     }
 
-    public Optional<Date> getSinceDate() {
-        return sinceDate;
-    }
-
     public Path getOutputFilePath() {
         return outputFilePath;
+    }
+
+    public Optional<Date> getSinceDate() {
+        return sinceDate;
     }
 
     public Optional<Date> getUntilDate() {
