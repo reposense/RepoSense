@@ -17,21 +17,36 @@
    * Alternatively, you can compile the executable Jar yourself by following our [build from source guide](Build.md).
 2. Execute it on the OS terminal. <br>
 Usage: `java -jar RepoSense.jar -config CSV_CONFIG_FILE_PATH [-output OUTPUT_DIRECTORY] [-since DD/MM/YYYY] [-until DD/MM/YYYY]`
-3. The dashboard can be in the folder designated in OUTPUT_DIRECTORY, or current working directory otherwise, as index.html.
+
+3. The dashboard will be generated in the designated OUTPUT_DIRECTORY, or current working directory otherwise, upon successful compilation as index.html.
 
 Sample usage:
 ```
 $ java -jar RepoSense.jar -config CSV_path.csv -output output_path/ -since 01/10/2017 -until 01/11/2017
 ```
+
 Argument List:
 - config : Mandatory. The path to the CSV config file.
 - output : Optional. The path to the dashboard generated. If not provided, it will be generated in the current directory.
 - since : Optional. start date of analysis. Format: `DD/MM/YYYY`
 - until : Optional. end date of analysis. Format: `DD/MM/YYYY`
 
+
+### Other option:
+ 1. Clone this repository (or [download as zip](https://github.com/reposense/RepoSense/archive/master.zip))
+ 2. Execute the following command on the OS terminal inside the project directory.<br>
+Usage: `gradlew run -Dargs="-config CSV_CONFIG_FILE_PATH [-output OUTPUT_DIRECTORY] [-since DD/MM/YYYY] [-until DD/MM/YYYY]"` <br>
+
+Sample usage:
 ```
-Note:
-The contribution calculation is based on the daily commits made within 00:00 to 23:59 in GMT+8.
+$ gradlew run -Dargs="-config CSV_path.csv -output output_path/ -since 01/10/2017 -until 01/11/2017"
+```
+
+`-Dargs="..."` uses the same argument format as mentioned above.
+
+```
+Note: 
+The contribution calculation is base on the daily commits made within 00:00 to 23:59 in GMT+8.
 ```
 
 

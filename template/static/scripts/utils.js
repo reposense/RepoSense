@@ -161,16 +161,16 @@ function isMatch(searchTerm, currentPhrase) {
 }
 
 function getMinDate() {
-    rawDate = summaryJson[Object.keys(summaryJson)[0]]["fromDate"];
+    rawDate = summaryJson[Object.keys(summaryJson)[0]]["sinceDate"];
     if (rawDate) {
-        //the fromDate has been set
+        //the sinceDate has been set
         return Date.parse(rawDate).toString("M/d/yy");
     } else {
         //find the min Date among all intervals
         var result;
         for (var i in summaryJson) {
             var authorContribution = summaryJson[i]["authorDailyIntervalContributions"];
-            var currentRawDate = authorContribution[Object.keys(authorContribution)[0]][0]["fromDate"];
+            var currentRawDate = authorContribution[Object.keys(authorContribution)[0]][0]["sinceDate"];
             var currentDate = Date.parse(currentRawDate);
 
             if (result) {
@@ -190,9 +190,9 @@ function getMinDate() {
 }
 
 function getMaxDate() {
-    rawDate = summaryJson[Object.keys(summaryJson)[0]]["toDate"];
+    rawDate = summaryJson[Object.keys(summaryJson)[0]]["untilDate"];
     if (rawDate) {
-        //the fromDate has been set
+        //the untilDate has been set
         return Date.parse(rawDate).toString("M/d/yy");
     } else {
         //find the max Date among all intervals
@@ -205,7 +205,7 @@ function getMaxDate() {
             var authorIntervals = authorContributions[Object.keys(authorContributions)[0]];
             if (authorIntervals.length == 0) continue;
 
-            var currentRawDate = authorIntervals[authorIntervals.length - 1]["toDate"];
+            var currentRawDate = authorIntervals[authorIntervals.length - 1]["untilDate"];
             var currentDate = Date.parse(currentRawDate);
 
             if (result) {

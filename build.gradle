@@ -66,6 +66,13 @@ task functional(type: Test) {
     showStandardStreams = true
   }
 }
+tasks.functional.dependsOn("myZip");
+
+run {
+    //the second arguments indicates the default value associated with the property.
+    args System.getProperty("args", "").split()
+}
+tasks.compileJava.dependsOn(clean)
 
 tasks.functional.dependsOn("myZip")
 

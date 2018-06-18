@@ -12,7 +12,7 @@ public class GitBlamer {
 
     public static void aggregateBlameInfo(FileInfo fileInfo, RepoConfiguration config) {
         String raw = CommandRunner.blameRaw(
-                config.getRepoRoot(), fileInfo.getPath(), config.getFromDate(), config.getToDate());
+                config.getRepoRoot(), fileInfo.getPath(), config.getSinceDate(), config.getUntilDate());
         String[] rawLines = raw.split("\n");
         int lineCount = 0;
         for (String line : rawLines) {
