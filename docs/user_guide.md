@@ -46,7 +46,7 @@ $ gradlew run -Dargs="-config CSV_path.csv -output output_path/ -since 01/10/201
 
 ```
 Note: 
-The contribution calculation is base on the daily commits made within 00:00 to 23:59 in GMT+8.
+The contribution calculation is based on the daily commits made within 00:00 to 23:59 in GMT+8.
 ```
 
 
