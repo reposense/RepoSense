@@ -6,12 +6,12 @@ import java.util.List;
 /**
  * Stores the contribution summary of the authors in the repo.
  */
-public class AuthorContributionSummary {
+public class AuthorshipSummary {
 
     private final List<FileResult> fileResults;
     private final HashMap<Author, Integer> authorFinalContributionMap;
 
-    public AuthorContributionSummary(List<FileResult> fileResults, List<Author> authors) {
+    public AuthorshipSummary(List<FileResult> fileResults, List<Author> authors) {
         this.fileResults = fileResults;
         authorFinalContributionMap = new HashMap<>();
 
@@ -24,5 +24,13 @@ public class AuthorContributionSummary {
      */
     public void addAuthorContributionCount(Author author) {
         authorFinalContributionMap.put(author, authorFinalContributionMap.get(author) + 1);
+    }
+
+    public HashMap<Author, Integer> getAuthorFinalContributionMap() {
+        return authorFinalContributionMap;
+    }
+
+    public List<FileResult> getFileResults() {
+        return fileResults;
     }
 }

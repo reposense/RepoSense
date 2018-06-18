@@ -4,7 +4,6 @@ import java.util.List;
 import java.util.Map;
 
 public class CommitContributionSummary {
-
     private final Map<Author, List<AuthorIntervalContribution>> authorWeeklyIntervalContributions;
     private final Map<Author, List<AuthorIntervalContribution>> authorDailyIntervalContributions;
     private final Map<Author, Float> authorContributionVariance;
@@ -19,6 +18,10 @@ public class CommitContributionSummary {
         this.authorDailyIntervalContributions = authorDailyIntervalContributions;
         this.authorWeeklyIntervalContributions = authorWeeklyIntervalContributions;
         this.authorContributionVariance = authorContributionVariance;
+    }
+
+    public Map<Author, String> getAuthorDisplayNameMap() {
+        return authorDisplayNameMap;
     }
 
     public Map<Author, List<AuthorIntervalContribution>> getAuthorWeeklyIntervalContributions() {

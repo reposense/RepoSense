@@ -3,7 +3,7 @@ package reposense.analyzer;
 import java.util.List;
 
 import reposense.dataobject.Author;
-import reposense.dataobject.AuthorContributionSummary;
+import reposense.dataobject.AuthorshipSummary;
 import reposense.dataobject.FileResult;
 import reposense.dataobject.LineInfo;
 
@@ -13,10 +13,10 @@ import reposense.dataobject.LineInfo;
 public class FileResultAggregator {
 
     /**
-     * Returns the {@code AuthorContributionSummary} generated from aggregating the {@code fileResults}.
+     * Returns the {@code AuthorshipSummary} generated from aggregating the {@code fileResults}.
      */
-    public static AuthorContributionSummary aggregateFileResult(List<FileResult> fileResults, List<Author> authors) {
-        AuthorContributionSummary authorContributionSummary = new AuthorContributionSummary(fileResults, authors);
+    public static AuthorshipSummary aggregateFileResult(List<FileResult> fileResults, List<Author> authors) {
+        AuthorshipSummary authorContributionSummary = new AuthorshipSummary(fileResults, authors);
         for (FileResult fileResult : fileResults) {
             for (LineInfo lineInfo : fileResult.getLines()) {
                 Author author = lineInfo.getAuthor();

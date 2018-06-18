@@ -18,9 +18,9 @@ import org.junit.Test;
 import reposense.dataobject.RepoConfiguration;
 import reposense.exception.ParseException;
 import reposense.frontend.CliArguments;
-import reposense.frontend.RepoSense;
 import reposense.parser.ArgsParser;
 import reposense.parser.CsvParser;
+import reposense.report.RepoReportGenerator;
 import reposense.util.FileUtil;
 import reposense.util.TestUtil;
 
@@ -65,7 +65,7 @@ public class Entry {
         List<RepoConfiguration> configs = CsvParser.parse(cliArguments.getConfigFilePath());
         RepoConfiguration.setDatesToRepoConfigs(configs, cliArguments.getSinceDate(), cliArguments.getUntilDate());
 
-        return RepoSense.generateReposReport(configs, FT_TEMP_DIR);
+        return RepoReportGenerator.generateReposReport(configs, FT_TEMP_DIR);
     }
 
     private void verifyAllJson(Path expectedDirectory, String actualRelative) {
@@ -86,7 +86,6 @@ public class Entry {
 
     private void assertJson(Path expectedJson, String expectedPosition, String actualRelative) {
         Path actualJson = Paths.get(actualRelative, expectedPosition);
-        System.out.println(actualJson.toString());
         Assert.assertTrue(Files.exists(actualJson));
         try {
             Assert.assertTrue(TestUtil.compareFileContents(expectedJson, actualJson));

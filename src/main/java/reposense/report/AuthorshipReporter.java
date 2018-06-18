@@ -7,21 +7,17 @@ import java.util.stream.Collectors;
 import reposense.analyzer.FileInfoAnalyzer;
 import reposense.analyzer.FileInfoExtractor;
 import reposense.analyzer.FileResultAggregator;
-import reposense.dataobject.AuthorContributionSummary;
+import reposense.dataobject.AuthorshipSummary;
 import reposense.dataobject.FileInfo;
 import reposense.dataobject.FileResult;
 import reposense.dataobject.RepoConfiguration;
-import reposense.util.FileUtil;
 
-/**
- *
- */
 public class AuthorshipReporter {
 
     /**
-     * Generates the authorship report for each repo in {@code config} at {@code reportReportDirectory}.
+     * Generates and returns the authorship summary for each repo in {@code config}.
      */
-    public static void generateAuthorshipReport(RepoConfiguration config, String repoReportDirectory) {
+    public static AuthorshipSummary generateAuthorshipSummary(RepoConfiguration config) {
         List<FileInfo> fileInfos = FileInfoExtractor.extractFileInfos(config);
 
         List<FileResult> fileResults = fileInfos.stream()
@@ -29,14 +25,6 @@ public class AuthorshipReporter {
                 .filter(Objects::nonNull)
                 .collect(Collectors.toList());
 
-        AuthorContributionSummary authorshipSummary = FileResultAggregator.aggregateFileResult(
-                fileResults, config.getAuthorList());
-
-        FileUtil.writeJsonFile(authorshipSummary, getIndividualAuthorshipPath(repoReportDirectory));
+        return FileResultAggregator.aggregateFileResult(fileResults, config.getAuthorList());
     }
-
-    private static String getIndividualAuthorshipPath(String repoReportDirectory) {
-        return repoReportDirectory + "/authorship.json";
-    }
-
 }

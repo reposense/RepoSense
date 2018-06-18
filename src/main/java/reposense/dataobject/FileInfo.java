@@ -5,7 +5,6 @@ import java.util.List;
 
 
 public class FileInfo {
-
     private String path;
     private ArrayList<LineInfo> lines = new ArrayList<>();
 
