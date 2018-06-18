@@ -24,26 +24,26 @@ Sample usage:
 $ java -jar RepoSense.jar -config CSV_path.csv -output output_path/ -since 01/10/2017 -until 01/11/2017
 ```
 Argument List:
-- config: Mandatory. The path to the CSV config file.
-- output: Optional. The path to the dashboard generated. If not provided, it will be generated in the current directory.
+- config : Mandatory. The path to the CSV config file.
+- output : Optional. The path to the dashboard generated. If not provided, it will be generated in the current directory.
 - since : Optional. start date of analysis. Format: `DD/MM/YYYY`
 - until : Optional. end date of analysis. Format: `DD/MM/YYYY`
 
 ```
 Note:
-The contribution calculation is base on the daily commits made within 00:00 to 23:59 in GMT+8.
+The contribution calculation is based on the daily commits made within 00:00 to 23:59 in GMT+8.
 ```
 
 
 ## CSV Config File
-The `CSV Config File` control the list of repositories and the target author.
+The `CSV Config File` control the list of repositories, and the corresponding target authors to track contribution of.
 [Sample_full.csv](../sample_full.csv) is an example of a configuration file setup. It should contain the following columns:
 
 Column Name | Explanation
 ----------- | -----------
 Organization | Organization of the target repository
 Repository | Name of the target repository
-branch | The branch to analyse in the target repository
+Branch | The branch to analyse in the target repository
 Author's GitHub ID | GitHub ID of the target contributor in the repository
 Author's Display Name | Optional Field. The value of this field, if not empty, will be displayed in the dashboard instead of author's GitHub ID.
 [Optional] Author's Git Author Name | Detailed explanation below
@@ -109,7 +109,7 @@ It consists of three main parts: [Tool Bar](#tool-bar), [Chart Panel](#chart-pan
 ### Tool Bar
 The `Tool Bar` at the top provides a set of filters that control the chart panel. From right to left, the filters are:
 - Sort : Users can sort by:
-    - Total Contribution : The amount of lines written by the author did in the latest version of the project.
+    - Total Contribution : The amount of lines, written by the author, in the repository.
     - Variance : The variance of contribution of all commits.
         - It indicates the code consistency of an author.
         - It helps to determine whether the author has been contributing regularly or procrastinating.
@@ -143,7 +143,7 @@ This is referred as the `Ramp Charts`.
 Below are a few examples:
 
 ![Ramp Charts](images/rampchart.png)
-Each light blue bar represents the contribution timeline of an individual author for a specific repository. On each row, there are several **ramps**.
+Each light blue bar represents the contribution timeline of an individual author for a specific repository. Each row, there are several **ramps**.
 - The area of the ramp is proportional to the amount of contribution the author did at that time period.
 - The position of the right edge of the ramp (perpendicular to the blue bar) is dependent on the time period that ramp represents.
 - To make comparison between two authors easier, the color of the ramps that represent different authors' contributions at the same time period are the same.
