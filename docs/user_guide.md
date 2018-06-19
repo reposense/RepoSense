@@ -70,19 +70,19 @@ For example, in the Git Log's display:
 ```
 ...
 commit cd7f610e0becbdf331d5231887d8010a689f87c7
-Author: configuredAuthorName <ma.tanghao@dhs.sg>
+Author: ConfiguredAuthorName <author@example.com>
 Date:   Fri Feb 9 19:14:41 2018 +0800
 
     Make some changes to show my new author's name
 
 commit e3f699fd4ef128eebce98d5b4e5b3bb06a512f49
-Author: actualGitHubId <ma.tanghao@dhs.sg>
+Author: ActualGitHubId <author@example.com>
 Date:   Fri Feb 9 19:13:13 2018 +0800
 
     Initial commit
  ...
 ```
-**actualGitHubId** and **configuredAuthorName** are both `Git Author Name`.
+**ActualGitHubId** and **ConfiguredAuthorName** are both `Git Author Name`.
 
 By default, Git uses the authors' `GitHub ID` as their `Git Author Name`.
 However, this is not always the case. Many Git users customize their `Git Author Name`.
