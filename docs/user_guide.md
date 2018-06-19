@@ -185,3 +185,12 @@ Below is the list of features in this panel:
 - The lines that are **NOT** written by the selected author are hidden in collapsable boxes.
   - User can click on the boxes to display the hidden lines for context.
   - These lines will be highlighted in a different color, gray.
+
+## User Dashboard V2 (beta)
+Works is in progress for the second version of the dashboard. Instructions to get it up and running:
+- start a webserver serving your generated report directory
+- `python2 -m SimpleHTTPServer 8000` or `python3 -m http.server 8000`
+- go to `http://localhost:8000/v2` on your browser
+- in the data field, enter `http://localhost:8000`
+
+When this version of the dashboard is finalized, the process will be streamlined for ease of use.
