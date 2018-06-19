@@ -8,9 +8,9 @@ import java.util.List;
  * Stores the result from analyzing a {@code FileInfo}.
  */
 public class FileResult {
-    private String path;
-    private ArrayList<LineInfo> lines;
-    private HashMap<Author, Integer> authorContributionMap;
+    private final String path;
+    private final ArrayList<LineInfo> lines;
+    private final HashMap<Author, Integer> authorContributionMap;
 
     public FileResult(String path, ArrayList<LineInfo> lines, HashMap<Author, Integer> authorContributionMap) {
         this.path = path;

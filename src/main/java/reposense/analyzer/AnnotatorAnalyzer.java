@@ -8,9 +8,7 @@ import reposense.dataobject.Author;
 import reposense.dataobject.FileInfo;
 import reposense.dataobject.LineInfo;
 
-
 public class AnnotatorAnalyzer {
-
     private static final String AUTHOR_TAG = "@@author";
     private static final String REGEX_AUTHOR_NAME_FORMAT = "([a-zA-Z0-9][a-zA-Z0-9-]*[a-zA-Z0-9])";
     private static final Pattern PATTERN_AUTHOR_NAME_FORMAT = Pattern.compile(REGEX_AUTHOR_NAME_FORMAT);
@@ -66,5 +64,4 @@ public class AnnotatorAnalyzer {
 
         return matcher.group(MATCHER_GROUP_AUTHOR_NAME);
     }
-
 }

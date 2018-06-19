@@ -20,9 +20,7 @@ import reposense.dataobject.LineInfo;
 import reposense.system.CommandRunner;
 import reposense.system.LogsManager;
 
-
 public class CheckStyleParser {
-
     private static final String MESSAGE = "message";
     private static final String SEVERITY = "severity";
     private static final String LINE = "line";

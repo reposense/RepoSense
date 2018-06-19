@@ -7,11 +7,12 @@ import java.util.List;
  * Stores the path to the file and the list of {@code LineInfo} for each line in the file.
  */
 public class FileInfo {
-    private String path;
-    private ArrayList<LineInfo> lines = new ArrayList<>();
+    private final String path;
+    private final ArrayList<LineInfo> lines;
 
     public FileInfo(String path) {
         this.path = path;
+        lines = new ArrayList<>();
     }
 
     /**
@@ -25,20 +26,16 @@ public class FileInfo {
         return lines.get(num - 1);
     }
 
+    public void addLine(LineInfo line) {
+        lines.add(line);
+    }
+
     public ArrayList<LineInfo> getLines() {
         return lines;
     }
 
-    public void setLines(ArrayList<LineInfo> lines) {
-        this.lines = lines;
-    }
-
     public String getPath() {
         return path;
-    }
-
-    public void setPath(String path) {
-        this.path = path;
     }
 
     public void setLineAuthor(int lineNumber, Author author) {

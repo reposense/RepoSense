@@ -64,7 +64,7 @@ public class FileInfoAnalyzer {
     }
 
     /**
-     * Analyzes the file specified in {@code fileInfo} and sets the authorship for each line in {@code fileInfo}.
+     * Analyzes the file specified in {@code fileInfo} and sets the {@code Author} for each line in {@code fileInfo}.
      */
     private static void analyzeFileContributions(RepoConfiguration config, FileInfo fileInfo) {
         Map<String, Author> authorAliasMap = config.getAuthorAliasMap();
@@ -92,9 +92,7 @@ public class FileInfoAnalyzer {
                 return true;
             }
         } catch (IOException ioe) {
-            logger.log(Level.WARNING,
-                    String.format("Error checking if %s contains reused tag, will skip this.", path.toString()),
-                    ioe);
+            logger.log(Level.WARNING, ioe.getMessage(), ioe);
         }
         return false;
     }

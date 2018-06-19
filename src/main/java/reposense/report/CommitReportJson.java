@@ -8,6 +8,10 @@ import reposense.dataobject.AuthorIntervalContribution;
 import reposense.dataobject.AuthorshipSummary;
 import reposense.dataobject.CommitContributionSummary;
 
+@SuppressWarnings("PMD")
+/**
+ * Class that holds the data to be serialized into JSON format in `commits.json`.
+ */
 public class CommitReportJson {
     private final Map<Author, List<AuthorIntervalContribution>> authorWeeklyIntervalContributions;
     private final Map<Author, List<AuthorIntervalContribution>> authorDailyIntervalContributions;

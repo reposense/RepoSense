@@ -7,7 +7,6 @@ import java.util.List;
  * Stores the contribution summary of the authors in the repo.
  */
 public class AuthorshipSummary {
-
     private final List<FileResult> fileResults;
     private final HashMap<Author, Integer> authorFinalContributionMap;
 

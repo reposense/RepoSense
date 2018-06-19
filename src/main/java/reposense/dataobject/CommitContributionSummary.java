@@ -13,7 +13,6 @@ public class CommitContributionSummary {
                                      Map<Author, List<AuthorIntervalContribution>> authorDailyIntervalContributions,
                                      Map<Author, List<AuthorIntervalContribution>> authorWeeklyIntervalContributions,
                                      Map<Author, Float> authorContributionVariance) {
-
         this.authorDisplayNameMap = authorDisplayNameMap;
         this.authorDailyIntervalContributions = authorDailyIntervalContributions;
         this.authorWeeklyIntervalContributions = authorWeeklyIntervalContributions;

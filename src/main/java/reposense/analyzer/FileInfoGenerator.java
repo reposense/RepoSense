@@ -20,18 +20,17 @@ public class FileInfoGenerator {
      * {@code relativePath} file.
      */
     public static FileInfo generateFileInfo(String repoRoot, String relativePath) {
-        FileInfo result = new FileInfo(relativePath);
+        FileInfo fileInfo = new FileInfo(relativePath);
         Path path = Paths.get(repoRoot, relativePath);
         try (BufferedReader br = new BufferedReader(Files.newBufferedReader(path))) {
             String line;
             int lineNum = 1;
             while ((line = br.readLine()) != null) {
-                result.getLines().add(new LineInfo(lineNum, line));
-                lineNum += 1;
+                fileInfo.addLine(new LineInfo(lineNum++, line));
             }
         } catch (IOException ioe) {
             logger.log(Level.SEVERE, ioe.getMessage(), ioe);
         }
-        return result;
+        return fileInfo;
     }
 }

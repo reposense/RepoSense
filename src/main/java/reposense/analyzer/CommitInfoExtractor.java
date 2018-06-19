@@ -18,7 +18,7 @@ public class CommitInfoExtractor {
      * Extracts out and returns the raw information of each commit for the repo in {@code config}.
      */
     public static List<CommitInfo> extractCommitInfos(RepoConfiguration config) {
-        logger.info("Extracting commits for " + config.getOrganization() + "/" + config.getRepoName() + "...");
+        logger.info("Extracting commits info for " + config.getOrganization() + "/" + config.getRepoName() + "...");
 
         GitChecker.checkoutBranch(config.getRepoRoot(), config.getBranch());
         String gitLogResult = getGitLogResult(config);
@@ -26,15 +26,14 @@ public class CommitInfoExtractor {
     }
 
     /**
-     * Returns the git log information for the repo in {@code config}.
+     * Returns the git log information for the repo for the date range in {@code config}.
      */
     private static String getGitLogResult(RepoConfiguration config) {
         return CommandRunner.gitLog(config.getRepoRoot(), config.getSinceDate(), config.getUntilDate());
-
     }
 
     /**
-     * Parses the {@code gitLogResult} into a list of {@code CommtInfo} and returns it.
+     * Parses the {@code gitLogResult} into a list of {@code CommitInfo} and returns it.
      */
     private static ArrayList<CommitInfo> parseGitLogResults(String gitLogResult) {
         ArrayList<CommitInfo> commitInfos = new ArrayList<>();

@@ -2,14 +2,14 @@ package reposense.dataobject;
 
 import java.util.ArrayList;
 
-
+/**
+ * Stores the information of a line in a {@code FileInfo}.
+ */
 public class LineInfo {
-
     private int lineNumber;
     private Author author;
-    private ArrayList<IssueInfo> issues;
-
     private String content;
+    private ArrayList<IssueInfo> issues;
 
     public LineInfo(int lineNumber, String content) {
         this.lineNumber = lineNumber;
@@ -22,11 +22,6 @@ public class LineInfo {
         return issues;
     }
 
-    public void setIssues(ArrayList<IssueInfo> issues) {
-        this.issues = issues;
-    }
-
-
     public Author getAuthor() {
         return author;
     }
@@ -35,25 +30,12 @@ public class LineInfo {
         this.author = author;
     }
 
-    public void setAuthorByName(String authorName) {
-        this.author = new Author(authorName);
-    }
-
     public int getLineNumber() {
-
         return lineNumber;
-    }
-
-    public void setLineNumber(int lineNumber) {
-        this.lineNumber = lineNumber;
     }
 
     public String getContent() {
         return content;
-    }
-
-    public void setContent(String content) {
-        this.content = content;
     }
 
     public boolean hasIssue() {
