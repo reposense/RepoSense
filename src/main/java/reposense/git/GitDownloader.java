@@ -8,7 +8,6 @@ import reposense.system.CommandRunner;
 import reposense.system.LogsManager;
 import reposense.util.FileUtil;
 
-
 public class GitDownloader {
 
     private static final Logger logger = LogsManager.getLogger(GitDownloader.class);

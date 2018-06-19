@@ -11,23 +11,34 @@ import reposense.git.GitChecker;
 import reposense.system.CommandRunner;
 import reposense.system.LogsManager;
 
-/**
- * Extracts out the raw information generated from git log for each commit.
- */
 public class CommitInfoExtractor {
     private static final Logger logger = LogsManager.getLogger(CommitInfoExtractor.class);
 
+    /**
+     * Extracts out and returns the raw information of each commit for the repo in {@code config}.
+     */
     public static List<CommitInfo> extractCommitInfos(RepoConfiguration config) {
         logger.info("Extracting commits for " + config.getOrganization() + "/" + config.getRepoName() + "...");
 
         GitChecker.checkoutBranch(config.getRepoRoot(), config.getBranch());
-        String gitLogResults = CommandRunner.gitLog(config.getRepoRoot(), config.getSinceDate(), config.getUntilDate());
-        return parseGitLogResults(gitLogResults);
+        String gitLogResult = getGitLogResult(config);
+        return parseGitLogResults(gitLogResult);
     }
 
-    private static ArrayList<CommitInfo> parseGitLogResults(String rawResult) {
+    /**
+     * Returns the git log information for the repo in {@code config}.
+     */
+    private static String getGitLogResult(RepoConfiguration config) {
+        return CommandRunner.gitLog(config.getRepoRoot(), config.getSinceDate(), config.getUntilDate());
+
+    }
+
+    /**
+     * Parses the {@code gitLogResult} into a list of {@code CommtInfo} and returns it.
+     */
+    private static ArrayList<CommitInfo> parseGitLogResults(String gitLogResult) {
         ArrayList<CommitInfo> commitInfos = new ArrayList<>();
-        String[] rawLines = rawResult.split("\n");
+        String[] rawLines = gitLogResult.split("\n");
 
         if (rawLines.length < 2) {
             //no log (maybe because no contribution for that file type)

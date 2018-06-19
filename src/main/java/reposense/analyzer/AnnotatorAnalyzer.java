@@ -1,13 +1,12 @@
 package reposense.analyzer;
 
-import java.util.TreeMap;
+import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import reposense.dataobject.Author;
 import reposense.dataobject.FileInfo;
 import reposense.dataobject.LineInfo;
-import reposense.dataobject.RepoConfiguration;
 
 
 public class AnnotatorAnalyzer {
@@ -20,11 +19,11 @@ public class AnnotatorAnalyzer {
     /**
      * Overrides the authorship information in {@code fileInfo} based on given annotations.
      */
-    public static void aggregateAnnotationAuthorInfo(FileInfo fileInfo, RepoConfiguration config) {
+    public static void aggregateAnnotationAuthorInfo(FileInfo fileInfo, Map<String, Author> authorAliasMap) {
         Author currentAuthor = null;
         for (LineInfo lineInfo : fileInfo.getLines()) {
             if (lineInfo.getContent().contains(AUTHOR_TAG)) {
-                Author newAuthor = findAuthorInLine(lineInfo.getContent(), config.getAuthorAliasMap());
+                Author newAuthor = findAuthorInLine(lineInfo.getContent(), authorAliasMap);
                 if (newAuthor == null) {
                     //end of an author tag should belong to this author too.
                     lineInfo.setAuthor(currentAuthor);
@@ -38,7 +37,7 @@ public class AnnotatorAnalyzer {
         }
     }
 
-    private static Author findAuthorInLine(String line, TreeMap<String, Author> authorAliasMap) {
+    private static Author findAuthorInLine(String line, Map<String, Author> authorAliasMap) {
         try {
             String[] split = line.split(AUTHOR_TAG);
             String name = extractAuthorName(split[1]);

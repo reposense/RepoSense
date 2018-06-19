@@ -5,7 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 
 /**
- * Stores the git blame analysis result of the file.
+ * Stores the result from analyzing a {@code FileInfo}.
  */
 public class FileResult {
     private String path;
@@ -18,15 +18,15 @@ public class FileResult {
         this.authorContributionMap = authorContributionMap;
     }
 
-    public LineInfo getLine(int idx) {
-        return lines.get(idx);
-    }
-
     public List<LineInfo> getLines() {
         return lines;
     }
 
     public String getPath() {
         return path;
+    }
+
+    public HashMap<Author, Integer> getAuthorContributionMap() {
+        return authorContributionMap;
     }
 }

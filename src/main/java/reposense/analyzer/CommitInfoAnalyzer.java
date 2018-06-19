@@ -11,30 +11,42 @@ import reposense.dataobject.CommitInfo;
 import reposense.dataobject.CommitResult;
 import reposense.util.Constants;
 
+/**
+ * Class for analyzing of {@code CommitInfo}.
+ */
 public class CommitInfoAnalyzer {
+
+    private static final int COMMIT_HASH_INDEX = 0;
+    private static final int AUTHOR_INDEX = 1;
+    private static final int DATE_INDEX = 2;
+    private static final int MESSAGE_INDEX = 3;
 
     private static final Pattern INSERTION_PATTERN = Pattern.compile("([0-9]+) insertion");
     private static final Pattern DELETION_PATTERN = Pattern.compile("([0-9]+) deletion");
 
+    /**
+     * Analyzes the data in {@code commitInfo}, then generates and returns the {@code CommitResult}.
+     * Returns null if the author found in the {@code commitInfo} does not exist in {@code authorAliasMap}.
+     */
     public static CommitResult analyzeCommit(CommitInfo commitInfo, Map<String, Author> authorAliasMap) {
         String infoLine = commitInfo.getInfoLine();
         String statLine = commitInfo.getStatLine();
 
         String[] elements = infoLine.split(Constants.LOG_SPLITTER);
-        String hash = elements[0];
-        Author author = authorAliasMap.get(elements[1]);
+        String hash = elements[COMMIT_HASH_INDEX];
+        Author author = authorAliasMap.get(elements[AUTHOR_INDEX]);
         //if the commit is done by someone not being analyzed, skip it.
         if (author == null) {
             return null;
         }
         Date date = null;
         try {
-            date = Constants.GIT_ISO_FORMAT.parse(elements[2]);
+            date = Constants.GIT_ISO_FORMAT.parse(elements[DATE_INDEX]);
         } catch (ParseException e) {
             e.printStackTrace();
         }
 
-        String message = elements[3];
+        String message = elements[MESSAGE_INDEX];
         int insertion = getInsertion(statLine);
         int deletion = getDeletion(statLine);
         return new CommitResult(author, hash, date, message, insertion, deletion);

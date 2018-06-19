@@ -66,6 +66,9 @@ public class FileInfoExtractor {
         }
     }
 
+    /**
+     * Returns true if any of the {@code String} in {@code ignoreList} is contained inside {@code name}.
+     */
     private static boolean shouldIgnore(String name, List<String> ignoreList) {
         return ignoreList.stream().anyMatch(name::contains);
     }
