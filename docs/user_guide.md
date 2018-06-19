@@ -51,7 +51,7 @@ The contribution calculation is based on the daily commits made within 00:00 to 
 
 
 ## CSV Config File
-The `CSV Config File` control the list of repositories, and the corresponding target authors to track contribution of.
+The `CSV Config File` contains the list of repositories, and the corresponding target authors to track contribution of.
 [Sample_full.csv](../sample_full.csv) is an example of a configuration file setup. It should contain the following columns:
 
 Column Name | Explanation
@@ -94,7 +94,7 @@ git config --global user.name “YOUR_GitHub_ID_HERE”
 For more details, do checkout this [faq](https://www.git-tower.com/learn/git/faq/change-author-name-email) on changing Git Author Identity.
 
 If an author's `Git Author Name` is not the same as his `GitHub ID`, the `Git Author Name` needs to be filled into the CSV config file for accurate consolidation.
-If more than one `Git Author Name` is used, they can separate them by using the semicolon `;` operator within the `Git Author Name` column.
+If more than one `Git Author Name` is used, they can be separated by using the semicolon `;` operator within the `Git Author Name` column.
 
 ### [Optional] Preparation of Repositories
 #### Contribution Tags
@@ -180,5 +180,6 @@ Clicking on the name of the author, in the `Chart Panel`, will display the `Code
 Below is the list of features in this panel:
 - Files that contain author's contribution will be shown in this panel, sorted by the number of lines written.
 - Clicking the file title will show/hide the file content.
-- The lines that are NOT written by the selected author will be marked in gray and displayed to provide context for the user.
-- Segments of codes that are not written by the selected author are by default collapsed. User can click on the segments to display them, if necessary.
+- The lines that are **NOT** written by the selected author are hidden in collapsable boxes.
+  - User can click on the boxes to display the hidden lines for context.
+  - These lines will be highlighted in a different color, gray.
