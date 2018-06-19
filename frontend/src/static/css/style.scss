@@ -1,0 +1,138 @@
+@import "static/css/colors";
+
+/** global **/
+body{
+    font-family:"Titillium Web", sans-serif;
+}
+
+.wrapper{
+    text-align:center;
+}
+
+.content{
+    max-width:40rem;
+    text-align:left;
+}
+
+.empty{
+    margin:3rem 5rem;
+}
+
+/** navigation bar **/
+header{
+    display:flex;
+    justify-content:center;
+
+    .content{
+        display:flex;
+        justify-content:space-between;
+        align-items:center;
+
+        flex-grow:1;
+    }
+
+    .repo, .logo{
+        margin:0;
+    }
+}
+
+/* summary chart */
+#summary, .summary-status{
+    margin:2rem;
+}
+
+.summary-picker{
+    margin-bottom:2rem;
+
+    &__input{
+        margin:0.5rem;
+    }
+
+    &__search{
+        text-transform:lowercase;
+    }
+
+    &__checkboxes{
+        label{ margin-left:0.5rem; }
+        span{ margin-left:0.25rem; }
+    }
+
+    &__date:first-child{
+        margin-right:0.5rem;
+    }
+}
+
+.summary-charts{
+    margin-bottom:3rem;
+
+    &--title{
+        text-align:left;
+        font-weight:bold;
+    }
+}
+
+.summary-chart{
+    margin-bottom:1rem;
+
+    &.indented{
+        margin-left:1.5rem;
+    }
+
+    &__title{
+        text-align:left;
+
+        &--index, &--repo, &--name{
+            display:inline;
+        }
+
+        &--index, &--repo{
+            font-weight:bold;
+        }
+
+        &--index::after{
+            content:".";
+            display:inline-block;
+            padding-right:0.5rem;
+        }
+
+        &--repo{
+            padding-right:0.25rem;
+        }
+    }
+
+    &__ramp{
+        position:relative;
+        font-size:100%;
+
+        $height:3rem;
+        height:$height;
+        background-color:mui-color("blue", "50");
+
+        &__slice{
+            display:block;
+            position:absolute;
+            width:0;
+            height:0;
+
+            border-left-color: rgba(0,0,0,0);
+            border-left-style: solid;
+
+            &--color0{ border-bottom:$height rgba(mui-color("orange"), 0.5) solid;  }
+            &--color1{ border-bottom:$height rgba(mui-color("light-blue"), 0.5) solid;  }
+            &--color2{ border-bottom:$height rgba(mui-color("green"), 0.5) solid;  }
+            &--color3{ border-bottom:$height rgba(mui-color("indigo"), 0.5) solid;  }
+            &--color4{ border-bottom:$height rgba(mui-color("pink"), 0.5) solid;  }
+        }
+    }
+
+    &__contrib{
+        width:100%;
+        text-align:left;
+
+        &--bar{
+            height:0.3rem;
+            margin-top:0.1rem;
+            background-color:mui-color("red");
+        }
+    }
+}
