@@ -91,7 +91,7 @@ To fix this, authors can use the following command to reset their `Git Author Na
 ```
 git config --global user.name “YOUR_GitHub_ID_HERE”
 ```
-For more details, do checkout this [faq](https://www.git-tower.com/learn/git/faq/change-author-name-email) on changing Git Author Identity.
+For more details, do checkout this [FAQ](https://www.git-tower.com/learn/git/faq/change-author-name-email) on changing Git Author Identity.
 
 If an author's `Git Author Name` is not the same as his `GitHub ID`, the `Git Author Name` needs to be filled into the CSV config file for accurate consolidation.
 If more than one `Git Author Name` is used, they can be separated by using the semicolon `;` operator within the `Git Author Name` column.
