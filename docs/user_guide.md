@@ -1,14 +1,18 @@
+# RepoSense - User Guide
+
 ## Quick Start
-1. Check [dependencies](#dependencies)
-2. Fill the CSV [config file](#csv-config-file)
-3. Generate the [dashboard](#how-to-generate-dashboard)
-4. Profit!
+1. Ensure that you have the necessary [dependencies](#dependencies).
+2. Read up on [How to Generate Dashboard](#how-to-generate-dashboard).
+3. Fill up the [CSV Config File](#csv-config-file).
+4. Perform the execution to generate the [dashboard](#dashboard).
+
 
 ## Dependencies
-1. **JDK `1.8.0_60`**  or later
-2. **Git** on the command line
-3. **findstr** for Windows, **grep** for macOS or Linux on the command line
-   * Ensure that you're able to use these tools on the OS terminal.
+1. **JDK `1.8.0_60`**  or later.
+2. **Git** on the command line.
+3. **findstr** for Windows, **grep** for macOS or Linux on the command line.
+   * Check that the tool exist on your OS terminal by typing it's name on your terminal and ensure that it does not output messages such as `not found` or `not recognized`.
+
 
 ## How to Generate Dashboard
 1. Download the latest executable Jar on our [release](https://github.com/reposense/RepoSense/releases/latest).
@@ -24,11 +28,15 @@ $ java -jar RepoSense.jar -config CSV_path.csv -output output_path/ -since 01/10
 ```
 
 Argument List:
-- config: Mandatory. The path to the CSV config file.
-- output: Optional. The path to the dashboard generated. If not provided, it will be generated in the current directory.
-- since : Optional. start date of analysis. Format: dd/MM/yyyy
-- until : Optional. end date of analysis. Format: dd/MM/yyyy
+- config : Mandatory. The path to the CSV config file.
+- output : Optional. The path to the dashboard generated. If not provided, it will be generated in the current directory.
+- since : Optional. start date of analysis. Format: `DD/MM/YYYY`
+- until : Optional. end date of analysis. Format: `DD/MM/YYYY`
 
+```
+Note:
+The contribution calculation is based on the daily commits made within 00:00 to 23:59 in GMT+8.
+```
 
 ### Other option:
  1. Clone this repository (or [download as zip](https://github.com/reposense/RepoSense/archive/master.zip))
@@ -39,108 +47,141 @@ Sample usage:
 ```
 $ gradlew run -Dargs="-config CSV_path.csv -output output_path/ -since 01/10/2017 -until 01/11/2017"
 ```
+
 `-Dargs="..."` uses the same argument format as mentioned above.
 
-```
-Note: 
-The contribution calculation is base on the daily commits made within 00:00 to 23:59 in GMT+8.
-```
+
 ## CSV Config File
-The CSV Config files control the list of target repositories. It also contains a white list of authors(if the author is listed in the CSV, his/her contribution will be ignored by the analyzer.)
-[Sample_full.csv](../sample_full.csv) in root is an example CSV config file. It should contain the following columns:
+The `CSV Config File` contains the list of repositories, and the corresponding target authors to track contribution of.
+[Sample_full.csv](../sample_full.csv) is an example of a configuration file setup. It should contain the following columns:
 
 Column Name | Explanation
 ----------- | -----------
 Organization | Organization of the target repository
 Repository | Name of the target repository
-branch | Target branch
-StudentX's Github ID | Author's Github ID.
-StudentX's Display Name | Optional Field. The value of this field, if not empty,will be displayed in the dashboard instead of author's Github ID.
-StudentX's Local Author Name | Detailed explanation below
+Branch | The branch to analyse in the target repository
+Author's GitHub ID | GitHub ID of the target contributor in the repository
+Author's Display Name | Optional Field. The value of this field, if not empty, will be displayed in the dashboard instead of author's GitHub ID.
+[Optional] Author's Git Author Name | Detailed explanation below
 
-## Preparation of Repositories
-### Local Git Author Name
-First, what is Git Author Name?
-
-Git Author Name refers to the customizable Git Author Display Name set in local .gitconfig file. It will be displayed as Author name and Committer Name in Git. For example, in Git Log output:
+#### Git Author Name
+`Git Author Name` refers to the customizable author's display name set in the local `.gitconfig` file.
+It is displayed as author name as opposed to the `GitHub ID` in the entries.
+For example, in the Git Log's display:
 ```
 ...
 commit cd7f610e0becbdf331d5231887d8010a689f87c7
-Author: fakeAuthor <ma.tanghao@dhs.sg>
+Author: ConfiguredAuthorName <author@example.com>
 Date:   Fri Feb 9 19:14:41 2018 +0800
 
-    moved
+    Make some changes to show my new author's name
 
 commit e3f699fd4ef128eebce98d5b4e5b3bb06a512f49
-Author: harryggg <ma.tanghao@dhs.sg>
+Author: ActualGitHubId <author@example.com>
 Date:   Fri Feb 9 19:13:13 2018 +0800
 
-    new
+    Initial commit
  ...
 ```
-*fakeAuthor* and *harryggg* are both Local Git Author Name.
+**ActualGitHubId** and **ConfiguredAuthorName** are both `Git Author Name` of the same author.
 
-RepoSense assumes that authors' local Author Name is identical as their Github ID. However, it is not always the case. Many Git users will customize their local author name. Authors can use the following command to set the their local author name to Github ID before contributing:
+By default, Git uses the authors' `GitHub ID` as their `Git Author Name`.
+However, this is not always the case. Many Git users customize their `Git Author Name`.
+
+To fix this, authors can use the following command to reset their `Git Author Name` to `GitHub ID` before contributing:
 ```
 git config --global user.name “YOUR_GITHUB_ID_HERE”
 ```
-If an author's local Git Author Name is not the same as his Github ID, he needs to fill in their local Author Name in the CSV config file. If more than one local Author Name is used, they can separate them with semicolon (；)
+For more information, do visit this [FAQ](https://www.git-tower.com/learn/git/faq/change-author-name-email) on changing Git Author Identity.
 
-### Contribution Tags
-Although RepoSense's contribution analysis is quite accurate, authors can still use annotations to make sure that RepoSense correctly recognize their contribution. Special thanks to [Collate](https://github.com/se-edu/collate) for providing the inspiration for this functionality.
+If an author's `Git Author Name` is not the same as his `GitHub ID`, the `Git Author Name` needs to be filled into the CSV config file for accurate consolidation.
+In the event that the author has more than one `Git Author Name`, multiple values can be entered in the `Git Author Name` column by using a semicolon `;` separator.
+For example,`Alice;Bob`.
 
-There are 2 types of tags: Start Tags (@@author YOUR_GITHUB_ID) and End Tags(@@author). Below are some examples (stolen from Collate's User Guide):
+### [Optional] Preparation of Repositories
+#### Contribution Tags
+Although RepoSense's contribution analysis is quite accurate, authors can use annotations to ensure that RepoSense correctly recognizes their contribution.
+Special thanks to [Collate](https://github.com/se-edu/collate) for providing the inspiration for this functionality.
 
+There are 2 types of tags:
+- Start Tags (`@@author YOUR_GITHUB_ID`)
+- End Tags (`@@author`)
 
- ![author tags](images/add-author-tags.png)
+Below are some examples (by the courtesy of Collate's User Guide):
 
+![author tags](images/add-author-tags.png)
 
-You can use start tags to mark the start of your contribution. The author specified in the start tag will be recognized by RepoSense as the author for all lines between a start tag and the next end tag. If RepoSense cannot find a matching End Tag for a Start Tag in the same file, it will assume that all lines between the Start Tag to the end of the file is authored by the author specified in the Start Tag.
+You can use `Start Tags` to mark the start of your contribution. The author specified in the `Start Tags` will be recognized by RepoSense as the author for all lines between a `Start Tag` and the next `End Tag`. If RepoSense cannot find a matching `End Tag` for a `Start Tag` in the same file, it will assume that all lines between the `Start Tag` to the end of the file is authored by the author specified in the `Start Tag`.
 
 
 ## Dashboard
+The `Dashboard` is written in HTML and Javascript as static pages - readable by majority of web browsers, and easily deploy-able in most hosting platforms (such as [GitHub Pages](https://pages.github.com/)).
 
-The dashboard is written in HTML and Javascript, so you can easily publish and share it. Below is what the Dashboard looks like:
+Below is an example of how the Dashboard looks like:
 
 ![dashboard](images/dashboard.png)
 
-It is consisted of three main parts: tool bar, Chart Panel and Code Panel.
-### Tool Bar
+It consists of three main parts: [Tool Bar](#tool-bar), [Chart Panel](#chart-panel) and [Code Panel](#code-panel).
 
-The tool bar at the top provides a set of filters that control the chart panel. From right to left, the filters are:
-- Sorting: Users can sort by:
-	- Total Contribution: the amount of lines written by the author did in the latest version of the project
-	- Variance: The variance of contribution of all commits. This indicates whether the author is contributing regularly or just rushing before deadlines and milestones. This can be useful for instructors of student projects, e.g. CS2103
-	- Author Name
-	- Team Name: The name of the organization of the repository
-- Interval: Interval refers to amount of time one single ramp represents. Users can choose two modes of time intervals: weekly (7 days)  and daily (1 day).
-- Period: The time period that the ramp charts display.
-- Group By Repo: Checkbox. If checked, the author that contributed to the same repo will be displayed next to each other, no matter what the sorting element is.
-- Search: Only display the author whose name or the repository’s name match the keyword. The user can separate keywords by spaces, and the keywords are logically connected with OR operators.
-- Bookmarking: By clicking the hyperlink icon on the top right corner, a link to the report with all the tooltip settings will be generated and copied to user’s clipboard.
+### Tool Bar
+The `Tool Bar` at the top provides a set of filters that control the chart panel. From right to left, the filters are:
+- Sort : Users can sort by:
+    - Total Contribution : The amount of lines, written by the author, in the repository.
+    - Variance : The variance of contribution of all commits.
+        - It indicates the code consistency of an author.
+        - It helps to determine whether the author has been contributing regularly or procrastinating.
+        - This can be useful for instructors of student projects, e.g. [Addressbook](https://github.com/se-edu/addressbook-level4).
+    - Author Name : The Author's GitHub ID or Display Name configured in the `CSV Config File`.
+    - Team Name : The name of the organization of the repository.
+- Interval : Interval refers to amount of time one single ramp represents.
+    - Users can choose two modes of time intervals:
+        - daily
+        - weekly
+- Period : The time period that the ramp charts display.
+- Group : Checkbox.
+    - If checked, authors that have contributed to the same repository will be displayed next to each other.
+    - This overrides the sort function.
+- Search : Filters the author and repository by keywords.
+    - Multiple keywords can be used, separated by spaces.
+    - The keywords are logically connected with OR operators.
+- Bookmark : The star icon at the top right corner.
+    - Clicking on it will generates a link to the report with all the tooltip settings.
+    - This link will be copied to user’s clipboard.
 
 ### Chart Panel
-The chart panel contains two types of charts: ramp charts and total contribution bars. The length of the red bars is proportional to the total contribution of the author. If the author contributes ‘too much’ compared to other authors in the report, there will be multiple red bars for him. If the user hovers on the bar, the exact amount of contribution will be shown.
+The `Chart Panel` contains two type of indicators:
+- [Ramp Chart](#ramp-chart)
+- [Total Contribution Bar](#total-contribution-bars)
+
 #### Ramp Chart
-To illustrate frequency and amount of contribution in the same graph, and also allow easy comparison between we created a new type of visualization. We call it Ramp Charts. Here are some examples of the Ramp graphs:
+To illustrate frequency and amount of contribution in the same graph, and to allow easy comparison between each entry, we implemented a new type of visualization.
+This is referred as the `Ramp Charts`.
+
+Below are a few examples:
 
 ![Ramp Charts](images/rampchart.png)
-Each light blue bar represents the contribution timeline of an individual author for a specific repository. On each row, there are several ‘ramps’.
+Each light blue bar represents the contribution timeline of an individual author for a specific repository. Each row, there are several **ramps**.
 - The area of the ramp is proportional to the amount of contribution the author did at that time period.
 - The position of the right edge of the ramp (perpendicular to the blue bar) is dependent on the time period that ramp represents.
 - To make comparison between two authors easier, the color of the ramps that represent different authors' contributions at the same time period are the same.
 - The timelines (blue bar) of the charts should be aligned, so that the comparison of contribution between two authors are easier.
 - There is no limit to the area of the ramp. If the contribution for a time period is too large compared to the rest of the time period, it is going to overlap with the neighbor ramps. Thus, the ramps are transparent, so they will not cover their neighbors.
-- As Figure shown, when the user hovers the mouse above a ramp, the time period and the exact amount of contribution will be shown.
-- If you click on a ramp, a github page containing the commits in that period of time will be opened
+- When user hovers the pointer over a ramp, as shown in the above Figure, total amount of contribution over the time period will be shown.
+- Clicking on the ramp will redirect user to the GitHub page, which contains all the commits within the fixed time period.
+
+#### Total Contribution Bars
+The total amount of code contributed is represented by the **red bars**, and the length of these red bars is proportional to the total contribution of the corresponding author.
+Hovering over the bar shows the exact amount of contribution.
+If the author contributes **too much** compared to other authors, there will be multiple red bars in his `Chart Panel`.
+
 
 ### Code Panel
-The Code Panel allows the instructors to review students' code in the report, and easily maps a line to its author.
-If the user clicks on the name of the author in the visualizations of Chart Panel, the Code Panel will slide from right.
+The `Code Panel` allows users to review contributers' code, showing all the lines written by the selected author.
+Clicking on the name of the author, in the `Chart Panel`, will display the `Code Panel` on the right.
 
 Below is the list of features in this panel:
-- All files that contain author's contribution will be shown in this panel. The file that contains more lines written by the author will be shown on the top.
-- After the user has reviewed a file, he can click the title of the file to hide it.
-- The user can click the title again to display the file content.
-- The lines that are NOT written by the current author will be marked gray, but they will still be displayed to provide context for the user
-- Segments of codes that are not written by the current author is default to be collapsed. If the user wants to refer to it, he can open the segment.
+- Files that contain author's contribution will be shown in this panel, sorted by the number of lines written.
+- Clicking the file title will show/hide the file content.
+- The lines that are **NOT** written by the selected author are hidden in collapsable boxes.
+  - User can click on the boxes to display the hidden lines for context.
+  - These lines will be highlighted in a different color, gray.
