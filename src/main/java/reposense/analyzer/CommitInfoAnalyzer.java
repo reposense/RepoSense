@@ -16,7 +16,7 @@ import reposense.dataobject.CommitResult;
 import reposense.system.LogsManager;
 
 /**
- * Class for analyzing commit information found in the git log.
+ * Analyzes commit information found in the git log.
  */
 public class CommitInfoAnalyzer {
     private static final Logger logger = LogsManager.getLogger(FileInfoAnalyzer.class);

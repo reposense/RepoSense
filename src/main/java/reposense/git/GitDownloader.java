@@ -10,7 +10,7 @@ import reposense.util.FileUtil;
 
 @SuppressWarnings("PMD")
 /**
- * Class for cloning of the repo from GitHub.
+ * Clones the repository from GitHub.
  */
 public class GitDownloader {
 

@@ -14,7 +14,7 @@ import reposense.dataobject.RepoConfiguration;
 
 @SuppressWarnings("PMD")
 /**
- * Class for generating of the commit summary data for each repo.
+ * Generates the commit summary data for each repository.
  */
 public class CommitsReporter {
 
