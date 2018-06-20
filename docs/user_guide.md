@@ -167,8 +167,8 @@ Each light blue bar represents the contribution timeline of an individual author
 - To make comparison between two authors easier, the color of the ramps that represent different authors' contributions at the same time period are the same.
 - The timelines (blue bar) of the charts should be aligned, so that the comparison of contribution between two authors are easier.
 - There is no limit to the area of the ramp. If the contribution for a time period is too large compared to the rest of the time period, it is going to overlap with the neighbor ramps. Thus, the ramps are transparent, so they will not cover their neighbors.
-- As Figure shown, when the user hovers the mouse a ramp, the time period and the exact amount of contribution will be shown.
-- If you click on a ramp, a GitHub page containing the commits in that period of time will be opened.
+- As shown in the above Figure, when user hovers the pointer over a ramp, total amount of contribution over the time period will be shown.
+- Clicking on the ramp will redirect user to the GitHub page that contains all the commits within the fixed time period.
 
 #### Total Contribution Bars
 The total amount of code contributed is represented by the **red bars**, and the length of these red bars is proportional to the total contribution of the corresponding author.
