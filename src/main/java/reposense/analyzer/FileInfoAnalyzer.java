@@ -6,7 +6,6 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.HashMap;
-import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -15,14 +14,11 @@ import reposense.dataobject.FileInfo;
 import reposense.dataobject.FileResult;
 import reposense.dataobject.LineInfo;
 import reposense.dataobject.RepoConfiguration;
-import reposense.system.CommandRunner;
 import reposense.system.LogsManager;
 import reposense.util.Constants;
 
 public class FileInfoAnalyzer {
     private static final Logger logger = LogsManager.getLogger(FileInfoAnalyzer.class);
-
-    private static final int AUTHOR_NAME_OFFSET = "author ".length();
 
     /**
      * Analyzes the {@code fileInfo}, then generates and returns the {@code FileResult}.
@@ -35,7 +31,7 @@ public class FileInfoAnalyzer {
             return null;
         }
 
-        analyzeFileContributions(config, fileInfo);
+        BlameAnalyzer.aggregateBlameAuthorInfo(config, fileInfo);
 
         if (config.isNeedCheckStyle()) {
             CheckStyleParser.aggregateStyleIssue(fileInfo, config.getRepoRoot());
@@ -64,23 +60,6 @@ public class FileInfoAnalyzer {
     }
 
     /**
-     * Analyzes the file specified in {@code fileInfo} and sets the {@code Author} for each line in {@code fileInfo}.
-     */
-    private static void analyzeFileContributions(RepoConfiguration config, FileInfo fileInfo) {
-        Map<String, Author> authorAliasMap = config.getAuthorAliasMap();
-
-        String blameResults = getGitBlameResult(config, fileInfo.getPath());
-        String[] blameResultLines = blameResults.split("\n");
-        int lineCount = 0;
-
-        for (String line : blameResultLines) {
-            String authorRawName = line.substring(AUTHOR_NAME_OFFSET);
-            Author author = authorAliasMap.getOrDefault(authorRawName, new Author("-"));
-            fileInfo.setLineAuthor(lineCount++, author);
-        }
-    }
-
-    /**
      * Returns true if the first line in the file at {@code repoRoot}'s {@code relativePath} contains the
      * {@code Constants#REUSED_TAG}.
      */
@@ -95,12 +74,5 @@ public class FileInfoAnalyzer {
             logger.log(Level.WARNING, ioe.getMessage(), ioe);
         }
         return false;
-    }
-
-    /**
-     * Returns the analysis result from running git blame on {@code filePath}.
-     */
-    private static String getGitBlameResult(RepoConfiguration config, String filePath) {
-        return CommandRunner.blameRaw(config.getRepoRoot(), filePath, config.getSinceDate(), config.getUntilDate());
     }
 }

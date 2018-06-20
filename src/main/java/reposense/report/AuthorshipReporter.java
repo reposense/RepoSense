@@ -12,6 +12,10 @@ import reposense.dataobject.FileInfo;
 import reposense.dataobject.FileResult;
 import reposense.dataobject.RepoConfiguration;
 
+@SuppressWarnings("PMD")
+/**
+ * Class for generating of the authorship summary data for each repo.
+ */
 public class AuthorshipReporter {
 
     /**

@@ -15,7 +15,7 @@ public class AnnotatorAnalyzer {
     private static final int MATCHER_GROUP_AUTHOR_NAME = 1;
 
     /**
-     * Overrides the authorship information in {@code fileInfo} based on given annotations.
+     * Overrides the authorship information in {@code fileInfo} based on annotations given on the file.
      */
     public static void aggregateAnnotationAuthorInfo(FileInfo fileInfo, Map<String, Author> authorAliasMap) {
         Author currentAuthor = null;

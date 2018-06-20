@@ -8,6 +8,10 @@ import reposense.system.CommandRunner;
 import reposense.system.LogsManager;
 import reposense.util.FileUtil;
 
+@SuppressWarnings("PMD")
+/**
+ * Class for cloning of the repo from GitHub.
+ */
 public class GitDownloader {
 
     private static final Logger logger = LogsManager.getLogger(GitDownloader.class);

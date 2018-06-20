@@ -2,7 +2,6 @@ package reposense.report;
 
 import java.util.List;
 import java.util.Objects;
-import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
 import reposense.analyzer.CommitInfoAnalyzer;
@@ -12,11 +11,12 @@ import reposense.dataobject.CommitContributionSummary;
 import reposense.dataobject.CommitInfo;
 import reposense.dataobject.CommitResult;
 import reposense.dataobject.RepoConfiguration;
-import reposense.system.LogsManager;
 
+@SuppressWarnings("PMD")
+/**
+ * Class for generating of the commit summary data for each repo.
+ */
 public class CommitsReporter {
-    private static final Logger logger = LogsManager.getLogger(CommitsReporter.class);
-
     /**
      * Generates and returns the commit contribution summary for each repo in {@code config}.
      */
