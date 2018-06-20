@@ -66,10 +66,6 @@ public class CommitInfoAnalyzer {
 
     private static int getNumberWithPattern(String raw, Pattern p) {
         Matcher m = p.matcher(raw);
-        if (m.find()) {
-            return (Integer.parseInt(m.group(1)));
-        } else {
-            return 0;
-        }
+        return m.find() ? Integer.parseInt(m.group(1)) : 0;
     }
 }
