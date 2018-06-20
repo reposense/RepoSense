@@ -7,6 +7,9 @@ import reposense.dataobject.FileInfo;
 import reposense.dataobject.RepoConfiguration;
 import reposense.system.CommandRunner;
 
+/**
+ * Analyzes the authorship of a {@code FileInfo} using the git blame result.
+ */
 public class BlameAnalyzer {
     private static final int AUTHOR_NAME_OFFSET = "author ".length();
 

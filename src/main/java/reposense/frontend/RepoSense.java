@@ -8,7 +8,7 @@ import reposense.dataobject.RepoConfiguration;
 import reposense.exception.ParseException;
 import reposense.parser.ArgsParser;
 import reposense.parser.CsvParser;
-import reposense.report.RepoReportGenerator;
+import reposense.report.ReportGenerator;
 import reposense.system.LogsManager;
 
 public class RepoSense {
@@ -21,7 +21,7 @@ public class RepoSense {
             List<RepoConfiguration> configs = CsvParser.parse(cliArguments.getConfigFilePath());
             RepoConfiguration.setDatesToRepoConfigs(configs, cliArguments.getSinceDate(), cliArguments.getUntilDate());
 
-            RepoReportGenerator.generateReposReport(
+            ReportGenerator.generateReposReport(
                     configs, cliArguments.getOutputFilePath().toAbsolutePath().toString());
         } catch (IOException ioe) {
             logger.warning(ioe.getMessage());

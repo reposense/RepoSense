@@ -62,7 +62,7 @@ public class GitTestTemplate {
         return fileInfo;
     }
 
-    public FileResult getAnalyzedFileResults(String relativePath) {
+    public FileResult getFileResult(String relativePath) {
         FileInfo fileinfo = generateTestFileInfo(relativePath);
         return FileInfoAnalyzer.analyzeFile(config, fileinfo);
     }

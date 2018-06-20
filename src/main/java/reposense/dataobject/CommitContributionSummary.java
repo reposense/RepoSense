@@ -3,16 +3,20 @@ package reposense.dataobject;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * Stores the consolidated results of commit analysis.
+ */
 public class CommitContributionSummary {
     private final Map<Author, List<AuthorIntervalContribution>> authorWeeklyIntervalContributions;
     private final Map<Author, List<AuthorIntervalContribution>> authorDailyIntervalContributions;
     private final Map<Author, Float> authorContributionVariance;
     private final Map<Author, String> authorDisplayNameMap;
 
-    public CommitContributionSummary(Map<Author, String> authorDisplayNameMap,
-                                     Map<Author, List<AuthorIntervalContribution>> authorDailyIntervalContributions,
-                                     Map<Author, List<AuthorIntervalContribution>> authorWeeklyIntervalContributions,
-                                     Map<Author, Float> authorContributionVariance) {
+    public CommitContributionSummary(
+            Map<Author, String> authorDisplayNameMap,
+            Map<Author, List<AuthorIntervalContribution>> authorDailyIntervalContributions,
+            Map<Author, List<AuthorIntervalContribution>> authorWeeklyIntervalContributions,
+            Map<Author, Float> authorContributionVariance) {
         this.authorDisplayNameMap = authorDisplayNameMap;
         this.authorDailyIntervalContributions = authorDailyIntervalContributions;
         this.authorWeeklyIntervalContributions = authorWeeklyIntervalContributions;

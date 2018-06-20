@@ -24,7 +24,6 @@ public class FileResultAggregator {
                 if (!authors.contains(author)) {
                     continue;
                 }
-
                 authorContributionSummary.addAuthorContributionCount(author);
             }
         }

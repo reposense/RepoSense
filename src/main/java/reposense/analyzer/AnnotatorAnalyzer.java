@@ -8,6 +8,9 @@ import reposense.dataobject.Author;
 import reposense.dataobject.FileInfo;
 import reposense.dataobject.LineInfo;
 
+/**
+ * Analyzes the authorship of a {@code FileInfo} using the given annotations on the file.
+ */
 public class AnnotatorAnalyzer {
     private static final String AUTHOR_TAG = "@@author";
     private static final String REGEX_AUTHOR_NAME_FORMAT = "([a-zA-Z0-9][a-zA-Z0-9-]*[a-zA-Z0-9])";

@@ -17,8 +17,8 @@ import reposense.system.LogsManager;
 import reposense.util.Constants;
 import reposense.util.FileUtil;
 
-public class RepoReportGenerator {
-    private static final Logger logger = LogsManager.getLogger(RepoReportGenerator.class);
+public class ReportGenerator {
+    private static final Logger logger = LogsManager.getLogger(ReportGenerator.class);
 
     /**
      * Generates the authorship and commits JSON file for each repo in {@code configs} at {@code outputPath}, as

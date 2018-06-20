@@ -14,13 +14,13 @@ public class FileAnalyzerTest extends GitTestTemplate {
 
     @Test
     public void blameTest() {
-        FileResult fileResult = getAnalyzedFileResults("blameTest.java");
+        FileResult fileResult = getFileResult("blameTest.java");
         assertFileAnalysisCorrectness(fileResult);
     }
 
     @Test
     public void movedFileBlameTest() {
-        FileResult fileResult = getAnalyzedFileResults("newPos/movedFile.java");
+        FileResult fileResult = getFileResult("newPos/movedFile.java");
         assertFileAnalysisCorrectness(fileResult);
 
     }
@@ -34,7 +34,7 @@ public class FileAnalyzerTest extends GitTestTemplate {
         config.setSinceDate(sinceDate);
         config.setUntilDate(untilDate);
 
-        FileResult fileResult = getAnalyzedFileResults("blameTest.java");
+        FileResult fileResult = getFileResult("blameTest.java");
         assertFileAnalysisCorrectness(fileResult);
     }
 
@@ -47,7 +47,7 @@ public class FileAnalyzerTest extends GitTestTemplate {
         config.setSinceDate(sinceDate);
         config.setUntilDate(untilDate);
 
-        FileResult fileResult = getAnalyzedFileResults("newPos/movedFile.java");
+        FileResult fileResult = getFileResult("newPos/movedFile.java");
         assertFileAnalysisCorrectness(fileResult);
     }
 }

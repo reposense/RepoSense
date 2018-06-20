@@ -10,14 +10,14 @@ public class AnnotatorAnalyzerTest extends GitTestTemplate {
     @Test
     public void noAnnotationTest() {
         config.setAnnotationOverwrite(false);
-        FileResult fileResult = getAnalyzedFileResults("blameTest.java");
+        FileResult fileResult = getFileResult("blameTest.java");
         assertFileAnalysisCorrectness(fileResult);
     }
 
     @Test
     public void annotationTest() {
         config.setAnnotationOverwrite(true);
-        FileResult fileResult = getAnalyzedFileResults("blameTest.java");
+        FileResult fileResult = getFileResult("blameTest.java");
         assertFileAnalysisCorrectness(fileResult);
     }
 }

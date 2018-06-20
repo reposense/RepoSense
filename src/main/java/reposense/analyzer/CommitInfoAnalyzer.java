@@ -1,20 +1,28 @@
 package reposense.analyzer;
 
+import java.text.DateFormat;
 import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import reposense.dataobject.Author;
 import reposense.dataobject.CommitInfo;
 import reposense.dataobject.CommitResult;
+import reposense.system.LogsManager;
 import reposense.util.Constants;
 
 /**
- * Class for analyzing of {@code CommitInfo}.
+ * Class for analyzing commit information found in the git log.
  */
 public class CommitInfoAnalyzer {
+    private static final Logger logger = LogsManager.getLogger(FileInfoAnalyzer.class);
+
+    private static final DateFormat GIT_ISO_FORMAT = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
     private static final int COMMIT_HASH_INDEX = 0;
     private static final int AUTHOR_INDEX = 1;
@@ -25,8 +33,7 @@ public class CommitInfoAnalyzer {
     private static final Pattern DELETION_PATTERN = Pattern.compile("([0-9]+) deletion");
 
     /**
-     * Analyzes the data in {@code commitInfo}, then generates and returns the {@code CommitResult}.
-     * Returns null if the author found in the {@code commitInfo} does not exist in {@code authorAliasMap}.
+     * Extracts the relevant data from {@code commitInfo} into a {@code CommitResult}.
      */
     public static CommitResult analyzeCommit(CommitInfo commitInfo, Map<String, Author> authorAliasMap) {
         String infoLine = commitInfo.getInfoLine();
@@ -34,16 +41,13 @@ public class CommitInfoAnalyzer {
 
         String[] elements = infoLine.split(Constants.LOG_SPLITTER);
         String hash = elements[COMMIT_HASH_INDEX];
-        Author author = authorAliasMap.get(elements[AUTHOR_INDEX]);
-        //if the commit is done by someone not being analyzed, skip it.
-        if (author == null) {
-            return null;
-        }
+        Author author = authorAliasMap.getOrDefault(elements[AUTHOR_INDEX], new Author("-"));
+
         Date date = null;
         try {
-            date = Constants.GIT_ISO_FORMAT.parse(elements[DATE_INDEX]);
-        } catch (ParseException e) {
-            e.printStackTrace();
+            date = GIT_ISO_FORMAT.parse(elements[DATE_INDEX]);
+        } catch (ParseException pe) {
+            logger.log(Level.WARNING, "Unable to parse the date from git log result for commit.", pe);
         }
 
         String message = elements[MESSAGE_INDEX];

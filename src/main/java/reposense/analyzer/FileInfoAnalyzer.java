@@ -17,11 +17,15 @@ import reposense.dataobject.RepoConfiguration;
 import reposense.system.LogsManager;
 import reposense.util.Constants;
 
+/**
+ * Analyzes the target and information given in the {@code FileInfo}.
+ */
 public class FileInfoAnalyzer {
     private static final Logger logger = LogsManager.getLogger(FileInfoAnalyzer.class);
 
     /**
-     * Analyzes the {@code fileInfo}, then generates and returns the {@code FileResult}.
+     * Analyzes the lines of the file, given in the {@code fileInfo}, that has changed in the time period provided
+     * by {@code config}.
      * Returns null if the file contains the {@code Constants#REUSED_TAG}, or none of the {@code Author} specified in
      * {@code config} contributed to the file in {@code fileInfo}.
      */

@@ -16,7 +16,7 @@ import reposense.dataobject.CommitResult;
 import reposense.dataobject.RepoConfiguration;
 
 /**
- * Aggregates the commit analysis results to get the contribution summary of all commits.
+ * Uses the commit analysis results to generate the summary information of a repository.
  */
 public class CommitResultAggregator {
 

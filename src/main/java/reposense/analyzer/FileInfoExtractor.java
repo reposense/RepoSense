@@ -24,7 +24,7 @@ public class FileInfoExtractor {
     private static final Logger logger = LogsManager.getLogger(FileInfoExtractor.class);
 
     /**
-     * Extracts out and returns the list of relevant files to analyze based on {@code config}.
+     * Extracts a list of relevant files given in {@code config}.
      */
     public static List<FileInfo> extractFileInfos(RepoConfiguration config) {
         logger.info("Extracting relevant file infos...");

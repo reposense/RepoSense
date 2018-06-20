@@ -11,6 +11,9 @@ import reposense.git.GitChecker;
 import reposense.system.CommandRunner;
 import reposense.system.LogsManager;
 
+/**
+ * Extracts commit information of a repository.
+ */
 public class CommitInfoExtractor {
     private static final Logger logger = LogsManager.getLogger(CommitInfoExtractor.class);
 
