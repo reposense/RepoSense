@@ -33,6 +33,10 @@ Argument List:
 - since : Optional. start date of analysis. Format: `DD/MM/YYYY`
 - until : Optional. end date of analysis. Format: `DD/MM/YYYY`
 
+```
+Note:
+The contribution calculation is based on the daily commits made within 00:00 to 23:59 in GMT+8.
+```
 
 ### Other option:
  1. Clone this repository (or [download as zip](https://github.com/reposense/RepoSense/archive/master.zip))
@@ -45,11 +49,6 @@ $ gradlew run -Dargs="-config CSV_path.csv -output output_path/ -since 01/10/201
 ```
 
 `-Dargs="..."` uses the same argument format as mentioned above.
-
-```
-Note: 
-The contribution calculation is based on the daily commits made within 00:00 to 23:59 in GMT+8.
-```
 
 
 ## CSV Config File
