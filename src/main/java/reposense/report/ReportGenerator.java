@@ -3,6 +3,8 @@ package reposense.report;
 import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 import java.util.logging.Level;
@@ -19,6 +21,8 @@ import reposense.util.FileUtil;
 
 public class ReportGenerator {
     private static final Logger logger = LogsManager.getLogger(ReportGenerator.class);
+
+    private static final DateFormat REPORT_NAME_FORMAT = new SimpleDateFormat("yyyy-MM-dd-HH-mm-ss");
 
     /**
      * Generates the authorship and commits JSON file for each repo in {@code configs} at {@code outputPath}, as
@@ -69,7 +73,7 @@ public class ReportGenerator {
     }
 
     private static String generateReportName() {
-        return Constants.REPORT_NAME_FORMAT.format(new Date());
+        return REPORT_NAME_FORMAT.format(new Date());
     }
 
     private static String getIndividualAuthorshipPath(String repoReportDirectory) {

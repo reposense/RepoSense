@@ -14,7 +14,6 @@ import reposense.dataobject.Author;
 import reposense.dataobject.CommitInfo;
 import reposense.dataobject.CommitResult;
 import reposense.system.LogsManager;
-import reposense.util.Constants;
 
 /**
  * Class for analyzing commit information found in the git log.
@@ -23,6 +22,7 @@ public class CommitInfoAnalyzer {
     private static final Logger logger = LogsManager.getLogger(FileInfoAnalyzer.class);
 
     private static final DateFormat GIT_ISO_FORMAT = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+    private static final String LOG_SPLITTER = "\\|";
 
     private static final int COMMIT_HASH_INDEX = 0;
     private static final int AUTHOR_INDEX = 1;
@@ -39,7 +39,7 @@ public class CommitInfoAnalyzer {
         String infoLine = commitInfo.getInfoLine();
         String statLine = commitInfo.getStatLine();
 
-        String[] elements = infoLine.split(Constants.LOG_SPLITTER);
+        String[] elements = infoLine.split(LOG_SPLITTER);
         String hash = elements[COMMIT_HASH_INDEX];
         Author author = authorAliasMap.getOrDefault(elements[AUTHOR_INDEX], new Author(Author.UNKNOWN_AUTHOR_GIT_ID));
 

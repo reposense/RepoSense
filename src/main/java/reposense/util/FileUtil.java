@@ -25,12 +25,13 @@ import reposense.system.LogsManager;
 
 
 public class FileUtil {
-
     private static Logger logger = LogsManager.getLogger(FileUtil.class);
+
+    private static final String GITHUB_API_DATE_FORMAT = "yyyy-MM-dd";
 
     public static void writeJsonFile(Object object, String path) {
         Gson gson = new GsonBuilder()
-                .setDateFormat(Constants.GITHUB_API_DATE_FORMAT)
+                .setDateFormat(GITHUB_API_DATE_FORMAT)
                 .setPrettyPrinting()
                 .create();
         String result = gson.toJson(object);
@@ -115,7 +116,7 @@ public class FileUtil {
     public static void copyDirectoryFiles(Path src, Path dest) throws IOException {
         Files.createDirectories(dest);
         try (Stream<Path> pathStream = Files.list(src)) {
-            for (Path filePath: pathStream.collect(Collectors.toList())) {
+            for (Path filePath : pathStream.collect(Collectors.toList())) {
                 Files.copy(filePath, dest.resolve(src.relativize(filePath)));
             }
         }

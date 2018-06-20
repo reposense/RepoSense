@@ -15,7 +15,6 @@ import reposense.dataobject.FileResult;
 import reposense.dataobject.LineInfo;
 import reposense.dataobject.RepoConfiguration;
 import reposense.system.LogsManager;
-import reposense.util.Constants;
 
 /**
  * Analyzes the target and information given in the {@code FileInfo}.
@@ -23,10 +22,12 @@ import reposense.util.Constants;
 public class FileInfoAnalyzer {
     private static final Logger logger = LogsManager.getLogger(FileInfoAnalyzer.class);
 
+    private static final String REUSED_TAG = "//@reused";
+
     /**
      * Analyzes the lines of the file, given in the {@code fileInfo}, that has changed in the time period provided
      * by {@code config}.
-     * Returns null if the file contains the {@code Constants#REUSED_TAG}, or none of the {@code Author} specified in
+     * Returns null if the file contains the reused tag, or none of the {@code Author} specified in
      * {@code config} contributed to the file in {@code fileInfo}.
      */
     public static FileResult analyzeFile(RepoConfiguration config, FileInfo fileInfo) {
@@ -56,7 +57,7 @@ public class FileInfoAnalyzer {
      */
     private static FileResult generateFileResult(FileInfo fileInfo) {
         HashMap<Author, Integer> authorContributionMap = new HashMap<>();
-        for (LineInfo line: fileInfo.getLines()) {
+        for (LineInfo line : fileInfo.getLines()) {
             Author author = line.getAuthor();
             authorContributionMap.put(author, authorContributionMap.getOrDefault(author, 0) + 1);
         }
@@ -64,14 +65,13 @@ public class FileInfoAnalyzer {
     }
 
     /**
-     * Returns true if the first line in the file at {@code repoRoot}'s {@code relativePath} contains the
-     * {@code Constants#REUSED_TAG}.
+     * Returns true if the first line in the file at {@code repoRoot}'s {@code relativePath} contains the reused tag.
      */
     private static boolean isReused(String repoRoot, String relativePath) {
         Path path = Paths.get(repoRoot, relativePath);
         try (BufferedReader br = new BufferedReader(Files.newBufferedReader(path))) {
             String firstLine = br.readLine();
-            if (firstLine == null || firstLine.contains(Constants.REUSED_TAG)) {
+            if (firstLine == null || firstLine.contains(REUSED_TAG)) {
                 return true;
             }
         } catch (IOException ioe) {
