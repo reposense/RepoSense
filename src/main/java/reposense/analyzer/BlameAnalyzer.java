@@ -25,7 +25,7 @@ public class BlameAnalyzer {
 
         for (String line : blameResultLines) {
             String authorRawName = line.substring(AUTHOR_NAME_OFFSET);
-            Author author = authorAliasMap.getOrDefault(authorRawName, new Author("-"));
+            Author author = authorAliasMap.getOrDefault(authorRawName, new Author(Author.UNKNOWN_AUTHOR_GIT_ID));
             fileInfo.setLineAuthor(lineCount++, author);
         }
     }

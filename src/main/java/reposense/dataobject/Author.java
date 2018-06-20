@@ -2,6 +2,8 @@ package reposense.dataobject;
 
 
 public class Author {
+    public static final String UNKNOWN_AUTHOR_GIT_ID = "-";
+
     private String gitId;
 
     public Author(String gitId) {

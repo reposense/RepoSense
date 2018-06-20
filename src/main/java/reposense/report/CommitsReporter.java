@@ -27,7 +27,7 @@ public class CommitsReporter {
 
         List<CommitResult> commitResults = commitInfos.stream()
                 .map(commitInfo -> CommitInfoAnalyzer.analyzeCommit(commitInfo, config.getAuthorAliasMap()))
-                .filter(commitResult -> commitResult.getAuthor().equals(new Author("-")))
+                .filter(commitResult -> !commitResult.getAuthor().equals(new Author(Author.UNKNOWN_AUTHOR_GIT_ID)))
                 .collect(Collectors.toList());
 
         return CommitResultAggregator.aggregateCommitResults(config, commitResults);

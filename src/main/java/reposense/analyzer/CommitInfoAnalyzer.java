@@ -41,7 +41,7 @@ public class CommitInfoAnalyzer {
 
         String[] elements = infoLine.split(Constants.LOG_SPLITTER);
         String hash = elements[COMMIT_HASH_INDEX];
-        Author author = authorAliasMap.getOrDefault(elements[AUTHOR_INDEX], new Author("-"));
+        Author author = authorAliasMap.getOrDefault(elements[AUTHOR_INDEX], new Author(Author.UNKNOWN_AUTHOR_GIT_ID));
 
         Date date = null;
         try {
