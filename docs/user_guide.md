@@ -11,7 +11,7 @@
 1. **JDK `1.8.0_60`**  or later.
 2. **Git** on the command line.
 3. **findstr** for Windows, **grep** for macOS or Linux on the command line.
-   * Ensure that you're able to use these tools on the OS terminal.
+   * Check that the tool exist on your OS terminal by typing it's name on your terminal and ensure that it does not output messages such as `not found` or `not recognized`.
 
 
 ## How to Generate Dashboard
