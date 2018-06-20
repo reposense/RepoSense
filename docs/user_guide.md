@@ -1,7 +1,9 @@
+# RepoSense - User Guide
+
 ## Quick Start
 1. Ensure that you have the necessary [dependencies](#dependencies).
 2. Read up on [How to Generate Dashboard](#how-to-generate-dashboard).
-3. Fill up the CSV [configuration file](#csv-config-file).
+3. Fill up the [CSV Config File](#csv-config-file).
 4. Perform the execution to generate the [dashboard](#dashboard).
 
 
@@ -82,19 +84,20 @@ Date:   Fri Feb 9 19:13:13 2018 +0800
     Initial commit
  ...
 ```
-**ActualGitHubId** and **ConfiguredAuthorName** are both `Git Author Name`.
+**ActualGitHubId** and **ConfiguredAuthorName** are both `Git Author Name` of the same author.
 
 By default, Git uses the authors' `GitHub ID` as their `Git Author Name`.
 However, this is not always the case. Many Git users customize their `Git Author Name`.
 
 To fix this, authors can use the following command to reset their `Git Author Name` to `GitHub ID` before contributing:
 ```
-git config --global user.name “YOUR_GitHub_ID_HERE”
+git config --global user.name “YOUR_GITHUB_ID_HERE”
 ```
-For more details, do checkout this [FAQ](https://www.git-tower.com/learn/git/faq/change-author-name-email) on changing Git Author Identity.
+For more information, do visit this [FAQ](https://www.git-tower.com/learn/git/faq/change-author-name-email) on changing Git Author Identity.
 
 If an author's `Git Author Name` is not the same as his `GitHub ID`, the `Git Author Name` needs to be filled into the CSV config file for accurate consolidation.
-If more than one `Git Author Name` is used, they can be separated by using the semicolon `;` operator within the `Git Author Name` column.
+In the event that the author has more than one `Git Author Name`, multiple values can be entered in the `Git Author Name` column by using a semicolon `;` separator.
+For example,`Alice;Bob`.
 
 ### [Optional] Preparation of Repositories
 #### Contribution Tags
@@ -170,11 +173,11 @@ Each light blue bar represents the contribution timeline of an individual author
 #### Total Contribution Bars
 The total amount of code contributed is represented by the **red bars**, and the length of these red bars is proportional to the total contribution of the corresponding author.
 Hovering over the bar shows the exact amount of contribution.
-If the author contributes **too much** compared to other authors in the report, there will be multiple red bars for him.
+If the author contributes **too much** compared to other authors, there will be multiple red bars in his `Chart Panel`.
 
 
 ### Code Panel
-The `Code Panel` allows users to review contributers' code in the report, showing all the lines written by the selected author.
+The `Code Panel` allows users to review contributers' code, showing all the lines written by the selected author.
 Clicking on the name of the author, in the `Chart Panel`, will display the `Code Panel` on the right.
 
 Below is the list of features in this panel:
