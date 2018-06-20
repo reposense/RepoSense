@@ -15,11 +15,11 @@ import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
+import reposense.dataobject.CliArguments;
 import reposense.dataobject.RepoConfiguration;
-import reposense.exception.ParseException;
-import reposense.frontend.CliArguments;
 import reposense.parser.ArgsParser;
 import reposense.parser.CsvParser;
+import reposense.parser.ParseException;
 import reposense.report.ReportGenerator;
 import reposense.util.FileUtil;
 import reposense.util.TestUtil;

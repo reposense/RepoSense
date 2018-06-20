@@ -20,7 +20,7 @@ import java.util.zip.ZipInputStream;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
-import reposense.frontend.RepoSense;
+import reposense.RepoSense;
 import reposense.system.LogsManager;
 
 

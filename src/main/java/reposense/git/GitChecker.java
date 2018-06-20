@@ -3,10 +3,9 @@ package reposense.git;
 import java.util.Date;
 import java.util.logging.Logger;
 
-import reposense.dataobject.CommitResult;
+import reposense.commits.CommitResult;
 import reposense.system.CommandRunner;
 import reposense.system.LogsManager;
-
 
 public class GitChecker {
 

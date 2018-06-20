@@ -12,8 +12,7 @@ import net.sourceforge.argparse4j.impl.action.HelpArgumentAction;
 import net.sourceforge.argparse4j.inf.ArgumentParser;
 import net.sourceforge.argparse4j.inf.ArgumentParserException;
 import net.sourceforge.argparse4j.inf.Namespace;
-import reposense.exception.ParseException;
-import reposense.frontend.CliArguments;
+import reposense.dataobject.CliArguments;
 
 
 /**
@@ -67,6 +66,7 @@ public class ArgsParser {
 
     /**
      * Parses the given string arguments to a {@code CliArguments} object.
+     *
      * @throws ParseException if the given string arguments fails to parse to a {@code CliArguments} object.
      */
     public static CliArguments parse(String[] args) throws ParseException {
@@ -91,6 +91,7 @@ public class ArgsParser {
 
     /**
      * Verifies that {@code sinceDate} is earlier than {@code untilDate}.
+     *
      * @throws ParseException if {@code sinceDate} supplied is later than {@code untilDate}.
      */
     private static void verifyDatesRangeIsCorrect(Optional<Date> sinceDate, Optional<Date> untilDate)

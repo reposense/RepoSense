@@ -10,8 +10,10 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import reposense.dataobject.AuthorshipSummary;
-import reposense.dataobject.CommitContributionSummary;
+import reposense.authorship.AuthorshipReporter;
+import reposense.authorship.AuthorshipSummary;
+import reposense.commits.CommitContributionSummary;
+import reposense.commits.CommitsReporter;
 import reposense.dataobject.RepoConfiguration;
 import reposense.git.GitDownloader;
 import reposense.git.GitDownloaderException;

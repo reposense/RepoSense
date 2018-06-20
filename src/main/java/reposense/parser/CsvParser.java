@@ -24,7 +24,9 @@ public class CsvParser {
     private static final String MESSAGE_MALFORMED_LINE_FORMAT = "Warning! line %d in configuration file is malformed.\n"
             + "Contents: %s";
 
-    /** Positions of the elements of a line in the user-supplied CSV file */
+    /**
+     * Positions of the elements of a line in the user-supplied CSV file
+     */
     private static final int ORGANIZATION_POSITION = 0;
     private static final int REPOSITORY_NAME_POSITION = 1;
     private static final int BRANCH_POSITION = 2;
@@ -37,6 +39,7 @@ public class CsvParser {
     /**
      * Returns a list of {@code RepoConfiguration}, each of which corresponds to a data line in the csv file.
      * The first line is assumed to be the header line and will be ignored.
+     *
      * @throws IOException if user-supplied csv file does not exists or is not readable.
      */
     public static List<RepoConfiguration> parse(Path configFilePath) throws IOException {

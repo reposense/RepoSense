@@ -11,12 +11,12 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.BeforeClass;
 
-import reposense.analyzer.FileInfoAnalyzer;
-import reposense.analyzer.FileInfoGenerator;
+import reposense.authorship.FileInfo;
+import reposense.authorship.FileInfoAnalyzer;
+import reposense.authorship.FileInfoGenerator;
+import reposense.authorship.FileResult;
+import reposense.authorship.LineInfo;
 import reposense.dataobject.Author;
-import reposense.dataobject.FileInfo;
-import reposense.dataobject.FileResult;
-import reposense.dataobject.LineInfo;
 import reposense.dataobject.RepoConfiguration;
 import reposense.git.GitDownloader;
 import reposense.git.GitDownloaderException;
@@ -59,6 +59,7 @@ public class GitTestTemplate {
 
         config.getAuthorAliasMap().put(TestConstants.MAIN_AUTHOR_NAME, new Author(TestConstants.MAIN_AUTHOR_NAME));
         config.getAuthorAliasMap().put(TestConstants.FAKE_AUTHOR_NAME, new Author(TestConstants.FAKE_AUTHOR_NAME));
+
         return fileInfo;
     }
 
