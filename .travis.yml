@@ -10,20 +10,14 @@ script:
   - ./config/travis/run-checks.sh
   - time travis_retry ./gradlew clean checkstyleMain checkstyleTest test functional
 
-after_success:
-  # deploy the last created folder (no date range test) to netlify
-  - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then netlify deploy -s $NETLIFY_SITE_ID -t $NETLIFY_ACCESS_TOKEN -p ft_temp/$(ls ft_temp | tail -1)/; fi
-
 addons:
   apt:
     packages:
       - oracle-java9-installer
-      - npm
 
 before_install:
   # pcre2 is needed for checkstyle to run in osx
   - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then brew update && brew reinstall --with-pcre2 git; fi
-  - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then npm install netlify-cli -g; fi
 
 before_cache:
   - rm -f  $HOME/.gradle/caches/modules-2/modules-2.lock
