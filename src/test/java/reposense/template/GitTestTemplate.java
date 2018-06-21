@@ -11,7 +11,7 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.BeforeClass;
 
-import reposense.authorship.analyzer.FileInfoAnalyzer;
+import reposense.authorship.FileInfoAnalyzer;
 import reposense.authorship.extractor.FileInfoGenerator;
 import reposense.authorship.model.FileInfo;
 import reposense.authorship.model.FileResult;

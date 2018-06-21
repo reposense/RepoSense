@@ -4,9 +4,6 @@ import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
-import reposense.authorship.aggregator.FileResultAggregator;
-import reposense.authorship.analyzer.FileInfoAnalyzer;
-import reposense.authorship.extractor.FileInfoExtractor;
 import reposense.authorship.model.AuthorshipSummary;
 import reposense.authorship.model.FileInfo;
 import reposense.authorship.model.FileResult;

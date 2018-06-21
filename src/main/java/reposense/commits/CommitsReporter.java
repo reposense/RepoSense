@@ -3,7 +3,6 @@ package reposense.commits;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import reposense.commits.aggregator.CommitResultAggregator;
 import reposense.commits.analyzer.CommitInfoAnalyzer;
 import reposense.commits.extractor.CommitInfoExtractor;
 import reposense.commits.model.CommitContributionSummary;

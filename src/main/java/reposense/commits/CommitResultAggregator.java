@@ -1,4 +1,4 @@
-package reposense.commits.aggregator;
+package reposense.commits;
 
 import java.util.ArrayList;
 import java.util.Calendar;

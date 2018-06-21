@@ -1,4 +1,4 @@
-package reposense.authorship.analyzer;
+package reposense.authorship;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -10,6 +10,8 @@ import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import reposense.authorship.analyzer.AnnotatorAnalyzer;
+import reposense.authorship.analyzer.CheckStyleParser;
 import reposense.authorship.model.FileInfo;
 import reposense.authorship.model.FileResult;
 import reposense.authorship.model.LineInfo;

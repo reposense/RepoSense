@@ -1,4 +1,4 @@
-package reposense.authorship.aggregator;
+package reposense.authorship;
 
 import java.util.List;
 
