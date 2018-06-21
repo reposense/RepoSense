@@ -7,7 +7,6 @@ import reposense.authorship.model.FileResult;
 import reposense.authorship.model.LineInfo;
 import reposense.model.Author;
 
-@SuppressWarnings("PMD")
 /**
  * Aggregates the file analysis results to get the contribution and issue summary for all authors.
  */

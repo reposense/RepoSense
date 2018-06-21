@@ -12,7 +12,7 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 
 import reposense.authorship.FileInfoAnalyzer;
-import reposense.authorship.extractor.FileInfoGenerator;
+import reposense.authorship.FileInfoExtractor;
 import reposense.authorship.model.FileInfo;
 import reposense.authorship.model.FileResult;
 import reposense.authorship.model.LineInfo;
@@ -55,7 +55,7 @@ public class GitTestTemplate {
     }
 
     public FileInfo generateTestFileInfo(String relativePath) {
-        FileInfo fileInfo = FileInfoGenerator.generateFileInfo(TestConstants.LOCAL_TEST_REPO_ADDRESS, relativePath);
+        FileInfo fileInfo = FileInfoExtractor.generateFileInfo(TestConstants.LOCAL_TEST_REPO_ADDRESS, relativePath);
 
         config.getAuthorAliasMap().put(TestConstants.MAIN_AUTHOR_NAME, new Author(TestConstants.MAIN_AUTHOR_NAME));
         config.getAuthorAliasMap().put(TestConstants.FAKE_AUTHOR_NAME, new Author(TestConstants.FAKE_AUTHOR_NAME));

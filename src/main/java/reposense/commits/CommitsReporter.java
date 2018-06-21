@@ -3,15 +3,12 @@ package reposense.commits;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import reposense.commits.analyzer.CommitInfoAnalyzer;
-import reposense.commits.extractor.CommitInfoExtractor;
 import reposense.commits.model.CommitContributionSummary;
 import reposense.commits.model.CommitInfo;
 import reposense.commits.model.CommitResult;
 import reposense.model.Author;
 import reposense.model.RepoConfiguration;
 
-@SuppressWarnings("PMD")
 /**
  * Generates the commit summary data for each repository.
  */

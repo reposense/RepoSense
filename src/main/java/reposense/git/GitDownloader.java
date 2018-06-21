@@ -8,7 +8,6 @@ import reposense.system.CommandRunner;
 import reposense.system.LogsManager;
 import reposense.util.FileUtil;
 
-@SuppressWarnings("PMD")
 /**
  * Clones the repository from GitHub.
  */

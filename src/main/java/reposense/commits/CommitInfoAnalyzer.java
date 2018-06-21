@@ -1,4 +1,4 @@
-package reposense.commits.analyzer;
+package reposense.commits;
 
 import java.text.DateFormat;
 import java.text.ParseException;

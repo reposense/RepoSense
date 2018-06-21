@@ -9,7 +9,6 @@ import reposense.authorship.model.FileInfo;
 import reposense.authorship.model.FileResult;
 import reposense.model.RepoConfiguration;
 
-@SuppressWarnings("PMD")
 /**
  * Generates the authorship summary data for each repository.
  */

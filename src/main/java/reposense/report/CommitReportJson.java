@@ -8,7 +8,6 @@ import reposense.commits.model.AuthorIntervalContribution;
 import reposense.commits.model.CommitContributionSummary;
 import reposense.model.Author;
 
-@SuppressWarnings("PMD")
 /**
  * Class that holds the data to be serialized into JSON format in `commits.json`.
  */
