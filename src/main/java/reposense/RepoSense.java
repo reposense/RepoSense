@@ -5,8 +5,8 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import reposense.dataobject.CliArguments;
-import reposense.dataobject.RepoConfiguration;
+import reposense.model.CliArguments;
+import reposense.model.RepoConfiguration;
 import reposense.parser.ArgsParser;
 import reposense.parser.CsvParser;
 import reposense.parser.ParseException;

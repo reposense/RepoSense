@@ -1,4 +1,4 @@
-package reposense.commits;
+package reposense.commits.aggregator;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -9,8 +9,11 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import reposense.dataobject.Author;
-import reposense.dataobject.RepoConfiguration;
+import reposense.commits.model.AuthorIntervalContribution;
+import reposense.commits.model.CommitContributionSummary;
+import reposense.commits.model.CommitResult;
+import reposense.model.Author;
+import reposense.model.RepoConfiguration;
 
 /**
  * Uses the commit analysis results to generate the summary information of a repository.

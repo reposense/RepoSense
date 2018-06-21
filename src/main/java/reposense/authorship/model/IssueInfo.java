@@ -1,4 +1,4 @@
-package reposense.authorship;
+package reposense.authorship.model;
 
 public class IssueInfo {
     private String severity;

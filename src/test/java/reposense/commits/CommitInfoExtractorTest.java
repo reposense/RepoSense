@@ -7,6 +7,8 @@ import java.util.List;
 import org.junit.Assert;
 import org.junit.Test;
 
+import reposense.commits.extractor.CommitInfoExtractor;
+import reposense.commits.model.CommitInfo;
 import reposense.template.GitTestTemplate;
 import reposense.util.TestUtil;
 

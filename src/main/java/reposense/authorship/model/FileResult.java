@@ -1,10 +1,10 @@
-package reposense.authorship;
+package reposense.authorship.model;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-import reposense.dataobject.Author;
+import reposense.model.Author;
 
 /**
  * Stores the result from analyzing a {@code FileInfo}.

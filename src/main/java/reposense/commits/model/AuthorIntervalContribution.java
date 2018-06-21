@@ -1,4 +1,4 @@
-package reposense.commits;
+package reposense.commits.model;
 
 import java.util.Date;
 

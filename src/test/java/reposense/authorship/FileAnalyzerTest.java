@@ -5,6 +5,7 @@ import java.util.Date;
 
 import org.junit.Test;
 
+import reposense.authorship.model.FileResult;
 import reposense.git.GitChecker;
 import reposense.template.GitTestTemplate;
 import reposense.util.TestUtil;

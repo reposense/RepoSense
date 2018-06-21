@@ -1,4 +1,4 @@
-package reposense.dataobject;
+package reposense.model;
 
 import java.nio.file.Path;
 import java.util.Date;

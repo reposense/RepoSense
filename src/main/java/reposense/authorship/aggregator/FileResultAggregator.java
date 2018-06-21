@@ -1,8 +1,11 @@
-package reposense.authorship;
+package reposense.authorship.aggregator;
 
 import java.util.List;
 
-import reposense.dataobject.Author;
+import reposense.authorship.model.AuthorshipSummary;
+import reposense.authorship.model.FileResult;
+import reposense.authorship.model.LineInfo;
+import reposense.model.Author;
 
 @SuppressWarnings("PMD")
 /**

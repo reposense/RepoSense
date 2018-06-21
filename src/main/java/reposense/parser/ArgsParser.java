@@ -12,7 +12,7 @@ import net.sourceforge.argparse4j.impl.action.HelpArgumentAction;
 import net.sourceforge.argparse4j.inf.ArgumentParser;
 import net.sourceforge.argparse4j.inf.ArgumentParserException;
 import net.sourceforge.argparse4j.inf.Namespace;
-import reposense.dataobject.CliArguments;
+import reposense.model.CliArguments;
 
 
 /**

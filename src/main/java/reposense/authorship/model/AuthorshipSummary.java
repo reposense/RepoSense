@@ -1,9 +1,9 @@
-package reposense.authorship;
+package reposense.authorship.model;
 
 import java.util.HashMap;
 import java.util.List;
 
-import reposense.dataobject.Author;
+import reposense.model.Author;
 
 /**
  * Stores the contribution summary of the authors in the repo.

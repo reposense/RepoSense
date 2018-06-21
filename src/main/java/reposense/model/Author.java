@@ -1,4 +1,4 @@
-package reposense.dataobject;
+package reposense.model;
 
 
 public class Author {

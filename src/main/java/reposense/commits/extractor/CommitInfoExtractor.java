@@ -1,12 +1,13 @@
-package reposense.commits;
+package reposense.commits.extractor;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.logging.Logger;
 
-import reposense.dataobject.RepoConfiguration;
+import reposense.commits.model.CommitInfo;
 import reposense.git.GitChecker;
+import reposense.model.RepoConfiguration;
 import reposense.system.CommandRunner;
 import reposense.system.LogsManager;
 

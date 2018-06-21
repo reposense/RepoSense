@@ -2,6 +2,7 @@ package reposense.authorship;
 
 import org.junit.Test;
 
+import reposense.authorship.model.FileResult;
 import reposense.template.GitTestTemplate;
 
 

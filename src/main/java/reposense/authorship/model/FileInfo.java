@@ -1,9 +1,9 @@
-package reposense.authorship;
+package reposense.authorship.model;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import reposense.dataobject.Author;
+import reposense.model.Author;
 
 /**
  * Stores the path to the file and the list of {@code LineInfo} for each line in the file.

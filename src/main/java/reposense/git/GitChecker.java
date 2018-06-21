@@ -3,7 +3,7 @@ package reposense.git;
 import java.util.Date;
 import java.util.logging.Logger;
 
-import reposense.commits.CommitResult;
+import reposense.commits.model.CommitResult;
 import reposense.system.CommandRunner;
 import reposense.system.LogsManager;
 

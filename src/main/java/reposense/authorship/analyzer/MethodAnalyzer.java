@@ -1,4 +1,4 @@
-package reposense.authorship;
+package reposense.authorship.analyzer;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -14,8 +14,11 @@ import com.github.javaparser.ast.body.ConstructorDeclaration;
 import com.github.javaparser.ast.body.MethodDeclaration;
 import com.github.javaparser.ast.visitor.VoidVisitorAdapter;
 
-import reposense.dataobject.Author;
-import reposense.dataobject.RepoConfiguration;
+import reposense.authorship.model.FileInfo;
+import reposense.authorship.model.LineInfo;
+import reposense.authorship.model.MethodInfo;
+import reposense.model.Author;
+import reposense.model.RepoConfiguration;
 import reposense.system.LogsManager;
 
 public class MethodAnalyzer {

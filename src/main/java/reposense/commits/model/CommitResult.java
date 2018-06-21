@@ -1,8 +1,8 @@
-package reposense.commits;
+package reposense.commits.model;
 
 import java.util.Date;
 
-import reposense.dataobject.Author;
+import reposense.model.Author;
 
 /**
  * Stores the result from analyzing a {@code CommitInfo}.

@@ -3,10 +3,10 @@ package reposense.report;
 import java.util.List;
 import java.util.Map;
 
-import reposense.authorship.AuthorshipSummary;
-import reposense.commits.AuthorIntervalContribution;
-import reposense.commits.CommitContributionSummary;
-import reposense.dataobject.Author;
+import reposense.authorship.model.AuthorshipSummary;
+import reposense.commits.model.AuthorIntervalContribution;
+import reposense.commits.model.CommitContributionSummary;
+import reposense.model.Author;
 
 @SuppressWarnings("PMD")
 /**

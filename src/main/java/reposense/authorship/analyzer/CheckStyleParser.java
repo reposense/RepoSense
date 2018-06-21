@@ -1,4 +1,4 @@
-package reposense.authorship;
+package reposense.authorship.analyzer;
 
 import java.io.IOException;
 import java.io.StringReader;
@@ -14,6 +14,9 @@ import org.w3c.dom.NodeList;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 
+import reposense.authorship.model.FileInfo;
+import reposense.authorship.model.IssueInfo;
+import reposense.authorship.model.LineInfo;
 import reposense.system.CommandRunner;
 import reposense.system.LogsManager;
 

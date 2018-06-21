@@ -1,4 +1,4 @@
-package reposense.commits;
+package reposense.commits.analyzer;
 
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -10,7 +10,9 @@ import java.util.logging.Logger;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import reposense.dataobject.Author;
+import reposense.commits.model.CommitInfo;
+import reposense.commits.model.CommitResult;
+import reposense.model.Author;
 import reposense.system.LogsManager;
 
 /**

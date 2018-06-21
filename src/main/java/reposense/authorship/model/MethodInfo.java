@@ -1,6 +1,6 @@
-package reposense.authorship;
+package reposense.authorship.model;
 
-import reposense.dataobject.Author;
+import reposense.model.Author;
 
 public class MethodInfo {
 

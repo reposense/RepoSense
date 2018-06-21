@@ -1,10 +1,12 @@
-package reposense.authorship;
+package reposense.authorship.analyzer;
 
 import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import reposense.dataobject.Author;
+import reposense.authorship.model.FileInfo;
+import reposense.authorship.model.LineInfo;
+import reposense.model.Author;
 
 /**
  * Analyzes the authorship of a {@code FileInfo} using the given annotations on the file.

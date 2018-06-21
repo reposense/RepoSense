@@ -1,8 +1,8 @@
-package reposense.authorship;
+package reposense.authorship.model;
 
 import java.util.ArrayList;
 
-import reposense.dataobject.Author;
+import reposense.model.Author;
 
 /**
  * Stores the information of a line in a {@code FileInfo}.

@@ -1,9 +1,9 @@
-package reposense.commits;
+package reposense.commits.model;
 
 import java.util.List;
 import java.util.Map;
 
-import reposense.dataobject.Author;
+import reposense.model.Author;
 
 /**
  * Stores the consolidated results of commit analysis.

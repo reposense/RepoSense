@@ -15,8 +15,8 @@ import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import reposense.dataobject.CliArguments;
-import reposense.dataobject.RepoConfiguration;
+import reposense.model.CliArguments;
+import reposense.model.RepoConfiguration;
 import reposense.parser.ArgsParser;
 import reposense.parser.CsvParser;
 import reposense.parser.ParseException;

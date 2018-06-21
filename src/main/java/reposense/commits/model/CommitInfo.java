@@ -1,4 +1,4 @@
-package reposense.commits;
+package reposense.commits.model;
 
 /**
  * Stores the raw information generated for each commit.

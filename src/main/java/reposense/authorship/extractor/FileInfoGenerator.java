@@ -1,4 +1,4 @@
-package reposense.authorship;
+package reposense.authorship.extractor;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -8,6 +8,8 @@ import java.nio.file.Paths;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import reposense.authorship.model.FileInfo;
+import reposense.authorship.model.LineInfo;
 import reposense.system.LogsManager;
 
 public class FileInfoGenerator {

@@ -1,4 +1,4 @@
-package reposense.authorship;
+package reposense.authorship.extractor;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -12,8 +12,9 @@ import java.util.logging.Logger;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import reposense.dataobject.RepoConfiguration;
+import reposense.authorship.model.FileInfo;
 import reposense.git.GitChecker;
+import reposense.model.RepoConfiguration;
 import reposense.system.LogsManager;
 
 /**

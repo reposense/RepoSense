@@ -9,7 +9,7 @@ vueMethods = {
         var resultContribution = [];
         var minDateParsed = Date.parse(minDate);
         var maxDateParsed = Date.parse(maxDate);
-        var startingDate = Date.parse(contributions[0]["fromDate"]);
+        var startingDate = Date.parse(contributions[0]["sinceDate"]);
         var paddingCount = getIntervalCount(intervalType, minDate, startingDate);
         if(minDateParsed < startingDate){
             for(var i=0; i<paddingCount; i++){

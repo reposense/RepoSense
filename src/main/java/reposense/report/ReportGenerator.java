@@ -11,12 +11,12 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import reposense.authorship.AuthorshipReporter;
-import reposense.authorship.AuthorshipSummary;
-import reposense.commits.CommitContributionSummary;
+import reposense.authorship.model.AuthorshipSummary;
 import reposense.commits.CommitsReporter;
-import reposense.dataobject.RepoConfiguration;
+import reposense.commits.model.CommitContributionSummary;
 import reposense.git.GitDownloader;
 import reposense.git.GitDownloaderException;
+import reposense.model.RepoConfiguration;
 import reposense.system.LogsManager;
 import reposense.util.Constants;
 import reposense.util.FileUtil;

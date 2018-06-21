@@ -1,4 +1,4 @@
-package reposense.dataobject;
+package reposense.model;
 
 import java.util.ArrayList;
 import java.util.Date;

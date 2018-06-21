@@ -9,8 +9,8 @@ import java.util.List;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
-import reposense.dataobject.Author;
-import reposense.dataobject.RepoConfiguration;
+import reposense.model.Author;
+import reposense.model.RepoConfiguration;
 import reposense.system.LogsManager;
 
 /**
