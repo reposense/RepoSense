@@ -9,7 +9,7 @@ matrix:
 script:
   - ./config/travis/run-checks.sh
   - time travis_retry ./gradlew clean checkstyleMain checkstyleTest test functional
-  - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then netlify deploy -s $NETLIFY_SITE_ID -t $NETLIFY_ACCESS_TOKEN -p ./build; fi
+  - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then netlify deploy -s $NETLIFY_SITE_ID -t $NETLIFY_ACCESS_TOKEN -p ./ft_temp/$(ls ./ft_temp/ | head -1)/; fi
 
 addons:
   apt:
