@@ -38,7 +38,6 @@ public class Entry {
         String actualRelativeDir = FT_TEMP_DIR + "/" + generateReport();
         Path actualFiles = Paths.get(getClass().getClassLoader().getResource("noDateRange/expected").toURI());
         verifyAllJson(actualFiles, actualRelativeDir);
-        //FileUtil.deleteDirectory(FT_TEMP_DIR);
     }
 
     @Test
@@ -46,7 +45,6 @@ public class Entry {
         String actualRelativeDir = FT_TEMP_DIR + "/" + generateReport(getInputWithDates("1/9/2017", "30/10/2017"));
         Path actualFiles = Paths.get(getClass().getClassLoader().getResource("dateRange/expected").toURI());
         verifyAllJson(actualFiles, actualRelativeDir);
-        //FileUtil.deleteDirectory(FT_TEMP_DIR);
     }
 
     private String getInputWithDates(String sinceDate, String untilDate) {
