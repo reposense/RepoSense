@@ -53,17 +53,21 @@ Optionally, you can follow the [Using Checkstyle](UsingCheckstyle.md) document t
 
  ![architecture](images/architecture.png)
 
- Above is the overall architecture of RepoSense. User imports a CSV configuration file and other configurations through the command line arguments into `Main` . After that, the command line arguments and CSV config file will be parsed by `Parser` to give the `RepoConfiguration`. The `RepoConfiguration` is then passed to the other components, such as `GitDownloader` for cloning of the repo from **GitHub**, `AuthorshipReporter` to analyse the commits using git log result, and `CommitReporter` to analyse the files using git blame analysis respectively. The analysis results are then passed to `ReportGenerator`, which will copy the template files and produce the _JSON_ files necessary to generate the dashboard.
+ Above is the overall architecture of RepoSense. User imports a CSV configuration file and other configurations through the command line arguments into `Main` . After that, the command line arguments and CSV config file will be parsed by `Parser` to give the `RepoConfiguration`. The `RepoConfiguration` is then passed to the other components, such as `GitDownloader` for cloning of the repo from **GitHub**, `CommitReporter` to analyse the commits using git log result, and `AuthorshipReporter` to analyse the files using git blame analysis respectively. The analysis results are then passed to `ReportGenerator`, which will copy the template files and produce the _JSON_ files necessary to generate the dashboard.
 
-## Packages
-Below are the description of each individual package, the classes they hold and their responsiblity.
 
-### Model
-Model holds the data structures that are commonly used or produced by the different aspects of RepoSense.
+## Model
+Model holds the data structures that are commonly used by the different aspects of RepoSense.
 
-RepoConfiguration stores the configuration information for one single repository, including repository orgarization, name, branch, author whitelist etc.
+### Author
+`Author` stores the single GitHub ID of the author. Any contribution or commits of the author which may have different aliases will be attributed to the same `Author` object.
 
-It should be read-only. It can be constructed using **ConfigurationBuilder**.
+### CliArguments
+`CliArguments` stores the parsed command line arguments supplied by the user. It is passed into **ConfigurationBuilder** to produce the `RepoConfiguration`.
+
+### RepoConfiguration
+`RepoConfiguration` stores the configuration information from the CSV config file and `CliArguments` for one single repository, such as the repository's orgarization, name, branch, list of authors to analyse, date range of commits to analyse etc.
+
 
 ### `FileInfo`
 FileInfo contains the result of one single file. It has two main parts:
