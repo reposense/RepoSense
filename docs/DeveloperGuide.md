@@ -53,7 +53,8 @@ Optionally, you can follow the [Using Checkstyle](UsingCheckstyle.md) document t
 
  ![architecture](images/architecture.png)
 
- Above is the overall architecture of RepoSense. User imports a CSV configuration file and other configurations through the command line arguments into `Main` . After that, the command line arguments and CSV config file will be parsed by `Parser` to give the `RepoConfiguration`. The `RepoConfiguration` is then passed to the other components, such as `GitDownloader` for cloning of the repo from **GitHub**, `CommitReporter` to analyse the commits using git log result, and `AuthorshipReporter` to analyse the files using git blame analysis respectively. The analysis results are then passed to `ReportGenerator`, which will copy the template files and produce the _JSON_ files necessary to generate the dashboard.
+ Above is the overall architecture of RepoSense. User imports a CSV configuration file and other configurations through the command line arguments into `Main`. After that, the command line arguments and CSV config file will be parsed by `Parser` to give the `RepoConfiguration`. The `RepoConfiguration` is then passed to the other components, such as `GitDownloader` for cloning of the repo from **GitHub**, `CommitReporter` to analyse the commits using git log result, and `AuthorshipReporter` to analyse the files using git blame analysis respectively. The analysis results are then passed to `ReportGenerator`, which will copy the template files and produce the _JSON_ files necessary to generate the dashboard.<br>
+ Below gives a list of descriptions of the `RepoSense`'s components, and of the importants classes within. 
 
 
 ## Model
@@ -68,6 +69,22 @@ Model holds the data structures that are commonly used by the different aspects 
 ### RepoConfiguration
 `RepoConfiguration` stores the configuration information from the CSV config file and `CliArguments` for one single repository, such as the repository's orgarization, name, branch, list of authors to analyse, date range of commits to analyse etc.
 
+## System
+
+## Git
+`Git` contains the wrapper classes for the respective git commands.
+
+### GitDownloader
+Wrapper class for the `git clone` functionality. Clones the repository from **GitHub** into a temporary folder in order to run the analysis.
+
+### GitChecker
+Wrapper class for the `git checkout` functionality. Checks out the repository by branch name or commit hash.
+
+## Authorship
+
+## Commits
+
+## Report
 
 ### `FileInfo`
 FileInfo contains the result of one single file. It has two main parts:
