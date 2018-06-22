@@ -14,8 +14,7 @@ import java.util.Optional;
 import org.junit.Assert;
 import org.junit.Test;
 
-import reposense.exception.ParseException;
-import reposense.frontend.CliArguments;
+import reposense.model.CliArguments;
 import reposense.util.TestUtil;
 
 public class ArgsParserTest {

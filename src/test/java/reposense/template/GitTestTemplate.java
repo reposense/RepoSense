@@ -11,14 +11,15 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.BeforeClass;
 
-import reposense.analyzer.FileInfoGenerator;
-import reposense.dataobject.Author;
-import reposense.dataobject.FileInfo;
-import reposense.dataobject.LineInfo;
-import reposense.dataobject.RepoConfiguration;
-import reposense.git.GitBlamer;
-import reposense.git.GitCloner;
-import reposense.git.GitClonerException;
+import reposense.authorship.FileInfoAnalyzer;
+import reposense.authorship.FileInfoExtractor;
+import reposense.authorship.model.FileInfo;
+import reposense.authorship.model.FileResult;
+import reposense.authorship.model.LineInfo;
+import reposense.git.GitDownloader;
+import reposense.git.GitDownloaderException;
+import reposense.model.Author;
+import reposense.model.RepoConfiguration;
 import reposense.system.CommandRunner;
 import reposense.util.Constants;
 import reposense.util.FileUtil;
@@ -34,9 +35,9 @@ public class GitTestTemplate {
     }
 
     @BeforeClass
-    public static void beforeClass() throws GitClonerException, IOException {
+    public static void beforeClass() throws GitDownloaderException, IOException {
         deleteRepos();
-        GitCloner.downloadRepo(TEST_ORG, TEST_REPO, "master");
+        GitDownloader.downloadRepo(TEST_ORG, TEST_REPO, "master");
     }
 
     @AfterClass
@@ -53,24 +54,27 @@ public class GitTestTemplate {
         FileUtil.deleteDirectory(Constants.REPOS_ADDRESS);
     }
 
-
-    public FileInfo getBlamedFileInfo(String relativePath) {
-        FileInfo fileinfo = FileInfoGenerator.generateFileInfo(TestConstants.LOCAL_TEST_REPO_ADDRESS, relativePath);
+    public FileInfo generateTestFileInfo(String relativePath) {
+        FileInfo fileInfo = FileInfoExtractor.generateFileInfo(TestConstants.LOCAL_TEST_REPO_ADDRESS, relativePath);
 
         config.getAuthorAliasMap().put(TestConstants.MAIN_AUTHOR_NAME, new Author(TestConstants.MAIN_AUTHOR_NAME));
         config.getAuthorAliasMap().put(TestConstants.FAKE_AUTHOR_NAME, new Author(TestConstants.FAKE_AUTHOR_NAME));
-        GitBlamer.aggregateBlameInfo(fileinfo, config);
-        return fileinfo;
+
+        return fileInfo;
     }
 
-    public boolean checkBlameInfoCorrectness(FileInfo fileinfo) {
-        for (LineInfo line : fileinfo.getLines()) {
+    public FileResult getFileResult(String relativePath) {
+        FileInfo fileinfo = generateTestFileInfo(relativePath);
+        return FileInfoAnalyzer.analyzeFile(config, fileinfo);
+    }
+
+    public void assertFileAnalysisCorrectness(FileResult fileResult) {
+        for (LineInfo line : fileResult.getLines()) {
             if (line.getContent().startsWith("fake")) {
                 Assert.assertEquals(line.getAuthor(), new Author(TestConstants.FAKE_AUTHOR_NAME));
             } else {
                 Assert.assertNotEquals(line.getAuthor(), new Author(TestConstants.FAKE_AUTHOR_NAME));
             }
         }
-        return true;
     }
 }

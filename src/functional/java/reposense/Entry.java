@@ -15,12 +15,12 @@ import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import reposense.dataobject.RepoConfiguration;
-import reposense.exception.ParseException;
-import reposense.frontend.CliArguments;
+import reposense.model.CliArguments;
+import reposense.model.RepoConfiguration;
 import reposense.parser.ArgsParser;
 import reposense.parser.CsvParser;
-import reposense.report.RepoInfoFileGenerator;
+import reposense.parser.ParseException;
+import reposense.report.ReportGenerator;
 import reposense.util.FileUtil;
 import reposense.util.TestUtil;
 
@@ -65,7 +65,7 @@ public class Entry {
         List<RepoConfiguration> configs = CsvParser.parse(cliArguments.getConfigFilePath());
         RepoConfiguration.setDatesToRepoConfigs(configs, cliArguments.getSinceDate(), cliArguments.getUntilDate());
 
-        return RepoInfoFileGenerator.generateReposReport(configs, FT_TEMP_DIR);
+        return ReportGenerator.generateReposReport(configs, FT_TEMP_DIR);
     }
 
     private void verifyAllJson(Path expectedDirectory, String actualRelative) {
