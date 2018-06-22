@@ -53,8 +53,8 @@ Optionally, you can follow the [Using Checkstyle](UsingCheckstyle.md) document t
 
  ![architecture](images/architecture.png)
 
- Above is the overall architecture of RepoSense. User imports a CSV configuration file and other configurations through the command line arguments into `Main`. After that, the command line arguments and CSV config file will be parsed by `Parser` to give the `RepoConfiguration`. The `RepoConfiguration` is then passed to the other components, such as `GitDownloader` for cloning of the repo from **GitHub**, `CommitReporter` to analyse the commits using git log result, and `AuthorshipReporter` to analyse the files using git blame analysis respectively. The analysis results are then passed to `ReportGenerator`, which will copy the template files and produce the _JSON_ files necessary to generate the dashboard.<br>
- Below gives a list of descriptions of the `RepoSense`'s components, and of the importants classes within. 
+ Above is the proposed overall architecture of RepoSense.<br>
+ Below gives a brief description for each of `RepoSense`'s component. 
 
 
 ## Model
@@ -64,12 +64,24 @@ Model holds the data structures that are commonly used by the different aspects 
 `Author` stores the single GitHub ID of the author. Any contribution or commits of the author which may have different aliases will be attributed to the same `Author` object.
 
 ### CliArguments
-`CliArguments` stores the parsed command line arguments supplied by the user. It is passed into **ConfigurationBuilder** to produce the `RepoConfiguration`.
+`CliArguments` stores the parsed command line arguments supplied by the user. It is passed into `RepoConfiguration`.
 
 ### RepoConfiguration
 `RepoConfiguration` stores the configuration information from the CSV config file and `CliArguments` for one single repository, such as the repository's orgarization, name, branch, list of authors to analyse, date range of commits to analyse etc.
 
 ## System
+`System` contains the classes that interact with the System and external processes.
+
+### CommandRunner
+`CommandRunner` creates processes which runs System Commands. It is mainly used to run git commands in RepoSense.
+
+### LogsManager
+`LogsManager` uses the `java.util.logging` package for logging. The `LogsManager` class is used to manage the logging levels and logging destinations. Log messages are output through: `Console` and to a `.log` file.
+
+## Parser
+`Parser` contains two classes:
+ * ArgsParser: Parses the user-supplied command line arguments into a `CliArguments` object.
+ * CsvParser: Parses the the user-supplied CSV config file and produces the a list of `RepoConfiguration` for each repository for analyze.
 
 ## Git
 `Git` contains the wrapper classes for the respective git commands.
@@ -80,101 +92,28 @@ Wrapper class for the `git clone` functionality. Clones the repository from **Gi
 ### GitChecker
 Wrapper class for the `git checkout` functionality. Checks out the repository by branch name or commit hash.
 
-## Authorship
+## AuthorshipReporter
+`AuthorshipReporter`,
+ 1. Uses `FileInfoGenerator` to traverse the repository to find all relevant files.
+ 2. Generates a `FileInfo` for each relevant file, which contains the path to the file and a list of `LineInfo` representing each line of the file.
+ 3. Uses `FileInfoAnalyzer` to analyze each file using git blame or annonations to set the `Author` for each `LineInfo`.
+ 4. Generates a `FileResult` which consolidates the authorship results into a **Map** of each author's line contribution to the file.
+ 5. Uses `FileResultAggregator` to aggregate all `FileResult` into an`AuthorshipSummary`.
 
-## Commits
+## CommitReporter
+`CommitReporter`,
+ 1. Uses `CommitInfoGenerator` to run the git log command to generate the statistics of each commit made within date range.
+ 2. Generates a `CommitInfo` for each relevant file, which contains the `infoLine` and `statLine`.
+ 3. Uses `CommitInfoAnalyzer` to extract the relevant data from `CommitInfo` into a ` CommitResult`, such as number of line insertions and deletions in the commit.
+ 4. Uses `CommitResultAggregator` to aggregate all `CommitResult` into a `CommitContributionSummary`.
 
-## Report
+## ReportGenerator
+`ReportGenerator`,
+ 1. Uses `GitDownloader` API to download the repository from **GitHub**
+ 2. Uses `AuthorshipReporter` and `CommitReporter` to produce the authorship and commit summary respectively.
+ 3. Copys the template files into the output directory.
+ 4. Generates the `JSON` files needed to generate the `HTML` dashboard.
 
-### `FileInfo`
-FileInfo contains the result of one single file. It has two main parts:
-1. an ArrayList of `LineInfo`
-2. a Map of Author to the number _of_ lines he contributed
-### `LineInfo`
-LineInfo contains:
-1. line number
-2. content of the line
-3. the author of the line
-### `CommitInfo`
-CommitInfo contains the information of a commit, including hash, committer, number of insertions and deletions.
-
-## Frontend Components
-Frontend parses the CSV file and the CLI arguments, and build a list of RepoConfigurations, one for each repository.
-
-The list of RepoConfigurations will be passed to RepoInfoFileGenerator.
-
-## Dashboard Generator Components
-### `ContributionSummaryGenerator`
-`RepoInfoFileGenerator` utilizes `RepoAnalyzer` to generate the contribution summary of each repository and output them as json files.
-These json files are import by **summary.js** to generate the dashboard displayed in the **index.html**.
-
-## Git Utilities
-Calling Git Commands and parsing the output is essential in RepoSense. Thus, wrapper for each Git command is written.
-
-### CommandRunner
-Command Runner creates processes which runs System Commands. It is mainly used to run Git commands in RepoSense.
-
-If command failed to execute, (for example, Git Clone failed to download the repo, or Git Blame on a non-existent file), a RuntimeException will be thrown.
-
-### GitCloner
-Wrapper for `git clone`
-
-API:
-
-Return type | Method and Description
------------ | ----------------------
-void | `downloadRepo(String organization, String repoName, String branchName) throws GitClonerException`
-
-### GitChecker
-Wrapper for `git checkout`
-
-Return type | Method and Description
------------ | ----------------------
-void | `checkOutToRecentBranch(String root)`:root is the root location of the Git Repo
-void | `checkoutBranch(String root, String branch)`:root is the root location of the Git Repo
-void | `checkOutToCommit(String root, CommitInfo commit)`:root is the root location of the Git Repo
-void | `checkout(String root, String commitHash)`:root is the root location of the Git Repo
-
-### GitBlamer
-Wrapper for `git blame`
-
-Return type | Method and Description
------------ | ----------------------
-void | `aggregateBlameInfo(FileInfo fileInfo, RepoConfiguration config)`:put author information into each line of the file.
-
-### GitLogger
-Wrapper for `git log`
-
-API:
-
-Return type | Method and Description
------------ | ----------------------
-List<CommitInfo> | `getCommits(RepoConfiguration config)`
-
-
-## Analyzer Components
- ![Analyzer](images/analyzer.jpg)
-Above is the overall structure of the analyzer. There are several notable classes:
-
-### RepoAnalyzer
-RepoAnalyzer does the following things in order:
-1. Use `GitChecker` to checkout to the target branch
-2. Use `GitLogger` to extract relevant Commit information
-3. Use `ContentAnalyzer` to identify the author of each line of code
-
-### ContentAnalyzer
-ContentAnalyzer does the following things in order:
-1. Use `FileAnalyzer` to analyze contribution in releavant files
-2. Generate HashMap of author to number of lines each he contributed
-
-### FileAnalyzer
-File Analyzer does  the following things in order:
-1. Recursively go through the whole repository to find all relavant files(files with relevant file type)
-2. Create a threadpool to analyze individual files, the analysis process includes:
-    1. generate LineInfo for each line of code
-    2. Use `GitBlamer` to identify the author of each line
-    3. **currently disabled**.Use CheckStyleParser to identify possible issues with the code
-    4. Use AnnotatorAnalyzer to override GitBlamer's result
 
 ## HTML Dashboard
 
