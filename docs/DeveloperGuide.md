@@ -53,12 +53,14 @@ Optionally, you can follow the [Using Checkstyle](UsingCheckstyle.md) document t
 
  ![architecture](images/architecture.png)
 
- Above is the overall architecture of RepoSense. User imports a CSV configuration file into the Frontend.
- After that, the CSV file will be parsed in Backend, and Git Component will clone and analyze the projects listed in CSV. The result from Git will be parsed and aggregated with syntax information from javaparser, will be output into a JSON file.
- Finally, Report Generator will copy the report template into the designated location, and put in the JSON file, and user can browse the report in any browser, or deploy it onto his server.
+ Above is the overall architecture of RepoSense. User imports a CSV configuration file and other configurations through the command line arguments into `Main` . After that, the command line arguments and CSV config file will be parsed by `Parser` to give the `RepoConfiguration`. The `RepoConfiguration` is then passed to the other components, such as `GitDownloader` for cloning of the repo from **GitHub**, `AuthorshipReporter` to analyse the commits using git log result, and `CommitReporter` to analyse the files using git blame analysis respectively. The analysis results are then passed to `ReportGenerator`, which will copy the template files and produce the _JSON_ files necessary to generate the dashboard.
 
-## Notable POJOs
-### RepoConfiguration
+## Packages
+Below are the description of each individual package, the classes they hold and their responsiblity.
+
+### Model
+Model holds the data structures that are commonly used or produced by the different aspects of RepoSense.
+
 RepoConfiguration stores the configuration information for one single repository, including repository orgarization, name, branch, author whitelist etc.
 
 It should be read-only. It can be constructed using **ConfigurationBuilder**.
@@ -66,7 +68,7 @@ It should be read-only. It can be constructed using **ConfigurationBuilder**.
 ### `FileInfo`
 FileInfo contains the result of one single file. It has two main parts:
 1. an ArrayList of `LineInfo`
-2. a Map of Author to the number of lines he contributed
+2. a Map of Author to the number _of_ lines he contributed
 ### `LineInfo`
 LineInfo contains:
 1. line number
