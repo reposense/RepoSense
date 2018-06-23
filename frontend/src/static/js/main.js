@@ -1,43 +1,83 @@
-var REPORT_DIR = "";
-var REPOS = {};
+window.REPORT_ZIP = null;
+window.REPOS = {};
 
-var app = new window.Vue({
-    el: "#app",
-    data: {
-        reportDirInput: "",
-        repos: {},
-        repoLength: 0,
-        loadedRepo: 0,
-        userUpdated: false
+window.app = new window.Vue({
+  el: "#app",
+  data: {
+    repos: {},
+    repoLength: 0,
+    loadedRepo: 0,
+    userUpdated: false,
+
+    isTabActive: false,
+    isTabAuthorship: false,
+    isTabIssues: false,
+
+    tabAuthor: "",
+    tabRepo: "",
+  },
+  methods: {
+    // model funcs
+    updateReportZip(evt) {
+      this.users = [];
+
+      window.JSZip.loadAsync(evt.target.files[0])
+        .then((zip) => {
+          window.REPORT_ZIP = zip;
+        })
+        .then(() => this.updateReportView());
     },
-    methods: {
-        // model funcs
-        updateReportDir(evt) {
-            REPORT_DIR = this.reportDirInput;
-            this.users = [];
+    updateReportDir() {
+      window.REPORT_ZIP = null;
 
-            window.api.loadSummary(() => {
-                this.repos = REPOS;
-                this.repoLength = Object.keys(REPOS).length;
-                this.loadedRepo = 0;
-            });
-        },
-        addUsers(users) {
-            this.userUpdated = false;
-            this.loadedRepo += 1;
-            this.userUpdated = true;
-        },
-        getUsers() {
-            var full = [];
-            for(var repo in this.repos){
-                if(this.repos[repo].users){
-                    full.push(this.repos[repo]);
-                }
-            }
-            return full;
+      this.users = [];
+      this.updateReportView();
+    },
+    updateReportView() {
+      window.api.loadSummary((names) => {
+        this.repos = window.REPOS;
+        this.repoLength = Object.keys(window.REPOS).length;
+        this.loadedRepo = 0;
+
+        names.forEach((name) => {
+          window.api.loadCommits(name, () => this.addUsers());
+        });
+      });
+    },
+    addUsers() {
+      this.userUpdated = false;
+      this.loadedRepo += 1;
+      this.userUpdated = true;
+    },
+    getUsers() {
+      const full = [];
+      Object.keys(this.repos).forEach((repo) => {
+        if (this.repos[repo].users) {
+          full.push(this.repos[repo]);
         }
+      });
+      return full;
     },
-    components: {
-        "v_summary": window.vSummary
+
+    deactivateTabs() {
+      this.isTabAuthorship = false;
+      this.isTabIssues = false;
     },
+
+    updateTabAuthorship(obj) {
+      this.deactivateTabs();
+      this.tabAuthor = obj.author;
+      this.tabRepo = obj.repo;
+
+      this.isTabActive = true;
+      this.isTabAuthorship = true;
+    },
+  },
+  components: {
+    v_summary: window.vSummary,
+    v_authorship: window.vAuthorship,
+  },
+  created() {
+    this.updateReportDir();
+  }
 });

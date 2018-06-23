@@ -1,85 +1,95 @@
 /* util funcs */
-function $(id){
-    return document.getElementById(id);
-}
+window.$ = (id) => document.getElementById(id);
+window.enquery = (key, val) => `${key}=${encodeURIComponent(val)}`;
 
-function enquery(key, val){
-    return key + "=" + encodeURIComponent(val);
-}
+var REPORT_DIR = "";
 
 /* api funcs */
-function loadJSON(file, fn){
-    var xhr = new XMLHttpRequest();
+function loadJSON(file, fn) {
+  const err = () => window.alert("unable to get file");
+
+  if (window.REPORT_ZIP) {
+    window.REPORT_ZIP.file(file.slice(1)).async("text")
+      .then((txt) => fn(JSON.parse(txt)));
+  } else {
+    const xhr = new XMLHttpRequest();
     xhr.open("GET", file);
-    xhr.onload = function(){
-        if(xhr.status === 200){
-            fn(JSON.parse(xhr.responseText));
-        }else{
-            alert("unable to get file");
-        }
+    xhr.onload = function xhrOnload() {
+      if (xhr.status === 200) {
+        fn(JSON.parse(xhr.responseText));
+      } else {
+        err();
+      }
     };
     xhr.send(null);
+  }
 }
 
-var api = {
-    loadSummary(callback) {
-        var REPORT_DIR = window.REPORT_DIR;
-        window.REPOS = {};
+window.api = {
+  loadSummary(callback) {
+    window.REPOS = {};
 
-        loadJSON(REPORT_DIR+"/summary.json", (repos) => {
-            var names = [];
-            for(var repo of repos){
-                var repoName = repo.organization+"_"+repo.repoName;
-                window.REPOS[repoName] = repo;
-                names.push(repoName);
-            }
+    loadJSON(`${REPORT_DIR}/summary.json`, (repos) => {
+      const names = [];
+      repos.forEach((repo) => {
+        const repoName = `${repo.organization}_${repo.repoName}`;
+        window.REPOS[repoName] = repo;
+        names.push(repoName);
+      });
 
-            if(callback){
-                callback();
-            }
+      if (callback) {
+        callback(names);
+      }
+    });
+  },
 
-            for(var name of names){
-                api.loadCommits(name);
-            }
-        });
-    },
+  loadCommits(repoName, callback) {
+    loadJSON(`${REPORT_DIR}/${repoName}/commits.json`, (commits) => {
+      const res = [];
+      const repo = window.REPOS[repoName];
 
-    loadCommits(repoName) {
-        var REPORT_DIR = window.REPORT_DIR;
+      Object.keys(commits.authorDisplayNameMap).forEach((author) => {
+        if (author) {
+          const obj = {
+            name: author,
+            repoId: repoName,
+            variance: commits.authorContributionVariance[author],
+            displayName: commits.authorDisplayNameMap[author],
+            weeklyCommits: commits.authorWeeklyIntervalContributions[author],
+            dailyCommits: commits.authorDailyIntervalContributions[author],
+            totalCommits: commits.authorFinalContributionMap[author],
+          };
 
-        loadJSON(REPORT_DIR+"/"+repoName+"/commits.json", (commits) => {
-            var res = [];
-            var repo = window.REPOS[repoName];
+          const searchParams = [
+            repo.organization, repo.repoName,
+            obj.displayName, author,
+          ];
 
-            for(var author in commits.authorDisplayNameMap){
-                if(!author){ continue; }
+          obj.searchPath = searchParams.join("/").toLowerCase();
+          obj.repoPath = `${repo.organization}/${repo.repoName}`;
+          obj.repoName = `${repo.organization}_${repo.repoName}`;
 
-                var obj = {
-                    name: author,
-                    repoId: repoName,
-                    variance: commits.authorContributionVariance[author],
-                    displayName: commits.authorDisplayNameMap[author],
-                    weeklyCommits: commits.authorWeeklyIntervalContributions[author],
-                    dailyCommits: commits.authorDailyIntervalContributions[author],
-                    totalCommits: commits.authorFinalContributionMap[author],
-                };
+          res.push(obj);
+        }
+      });
 
-                var searchParams = [
-                    repo.organization, repo.repoName,
-                    obj.displayName, author
-                ];
+      repo.commits = commits;
+      repo.users = res;
 
-                obj.searchPath = searchParams.join("/").toLowerCase();
-                obj.repoPath = repo.organization + "/" + repo.repoName;
+      if (callback) {
+        callback(res);
+      }
+    });
+  },
 
-                res.push(obj);
-            }
+  loadAuthorship(repoName, callback) {
+    loadJSON(`${REPORT_DIR}/${repoName}/authorship.json`, (files) => {
+      window.REPOS[repoName].files = files;
 
-            repo.commits = commits;
-            repo.users = res;
+      if (callback) {
+        callback(files);
+      }
+    });
+  },
 
-            var app = window.app;
-            app.addUsers();
-        });
-    }
 };
