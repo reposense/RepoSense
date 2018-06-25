@@ -58,7 +58,7 @@ public class Entry {
     }
 
     private String generateReport(String inputDates) throws IOException, URISyntaxException, ParseException {
-        Path configFilePath = Paths.get(getClass().getClassLoader().getResource("sample_full.csv").toURI());
+        Path configFilePath = Paths.get(getClass().getClassLoader().getResource("sample.csv").toURI());
         String input = String.format("-config %s ", configFilePath) + inputDates;
 
         CliArguments cliArguments = ArgsParser.parse(translateCommandline(input));
