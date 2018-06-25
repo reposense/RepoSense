@@ -33,6 +33,7 @@ public class CsvParser {
     private static final int GITHUB_ID_POSITION = 3;
     private static final int DISPLAY_NAME_POSITION = 4;
     private static final int ALIAS_POSITION = 5;
+    private static final int DISPLAY_NAME_SHORT_LENGTH = 3;
 
     private static final Logger logger = LogsManager.getLogger(CsvParser.class);
 
@@ -109,8 +110,16 @@ public class CsvParser {
         boolean isDisplayNameInElements = elements.length > DISPLAY_NAME_POSITION
                 && !elements[DISPLAY_NAME_POSITION].isEmpty();
 
-        config.setAuthorDisplayName(author,
-                isDisplayNameInElements ? elements[DISPLAY_NAME_POSITION] : author.getGitId());
+        String nameToDisplay = isDisplayNameInElements ? elements[DISPLAY_NAME_POSITION] : author.getGitId();
+
+        config.setAuthorDisplayName(author, getShortDisplayName(nameToDisplay));
+    }
+
+    /**
+     * Returns a shorten form of the {@code displayName}.
+     */
+    private static String getShortDisplayName(String displayName) {
+        return displayName.length() < 3 ? displayName : displayName.substring(0, DISPLAY_NAME_SHORT_LENGTH);
     }
 
     /**
