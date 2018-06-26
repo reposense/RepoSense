@@ -101,12 +101,11 @@ public class FileUtil {
     }
 
     /**
-     * Copies the template files to the {@code outputPath}'s {@code reportName} directory.
+     * Copies the template files to the {@code outputPath}.
      */
-    public static void copyTemplate(String outputPath, String reportName) {
-        String templateLocation = outputPath + File.separator + reportName;
+    public static void copyTemplate(String outputPath) {
         InputStream is = RepoSense.class.getResourceAsStream(Constants.TEMPLATE_ZIP_ADDRESS);
-        FileUtil.unzip(new ZipInputStream(is), templateLocation);
+        FileUtil.unzip(new ZipInputStream(is), outputPath);
     }
 
     /**

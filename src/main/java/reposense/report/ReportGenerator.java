@@ -27,9 +27,8 @@ public class ReportGenerator {
      */
     public static String generateReposReport(List<RepoConfiguration> configs, String outputPath) {
         String reportName = Paths.get(outputPath).getFileName().toString();
-        FileUtil.copyTemplate(outputPath, reportName);
-        Path templateLocation = Paths.get(outputPath, reportName,
-                Constants.STATIC_INDIVIDUAL_REPORT_TEMPLATE_ADDRESS);
+        FileUtil.copyTemplate(outputPath);
+        Path templateLocation = Paths.get(outputPath, Constants.STATIC_INDIVIDUAL_REPORT_TEMPLATE_ADDRESS);
 
         for (RepoConfiguration config : configs) {
             Path repoReportDirectory = Paths.get(outputPath, reportName, config.getDisplayName());
