@@ -51,24 +51,23 @@ Optionally, you can follow the [Using Checkstyle](UsingCheckstyle.md) document t
 
 ## Architecture
 
- ![architecture](images/architecture.png)
- *Figure 1. The proposed overall architecture of RepoSense.*
+ ![Figure 1.](images/architecture.png)
 
 
 ### Parser
 `Parser` contains two classes:
- * ArgsParser: Parses the user-supplied command line arguments into a `CliArguments` object.
- * CsvParser: Parses the the user-supplied CSV config file and produces the a list of `RepoConfiguration` for each repository for analyze.
+ * `ArgsParser`: Parses the user-supplied command line arguments into a `CliArguments` object.
+ * `CsvParser`: Parses the the user-supplied CSV config file and produces the a list of `RepoConfiguration` for each repository for analyze.
 
 
 ### Git
 `Git` contains the wrapper classes for the respective git commands.
 
 #### GitDownloader
-Wrapper class for the `git clone` functionality. Clones the repository from **GitHub** into a temporary folder in order to run the analysis.
+`GitDownloader`: Wrapper class for the `git clone` functionality. Clones the repository from **GitHub** into a temporary folder in order to run the analysis.
 
 #### GitChecker
-Wrapper class for the `git checkout` functionality. Checks out the repository by branch name or commit hash.
+`GitChecker`: Wrapper class for the `git checkout` functionality. Checks out the repository by branch name or commit hash.
 
 
 ### AuthorshipReporter
@@ -107,16 +106,16 @@ Wrapper class for the `git checkout` functionality. Checks out the repository by
 
 
 ### Model
-Model holds the data structures that are commonly used by the different aspects of RepoSense.
+`Model` holds the data structures that are commonly used by the different aspects of *RepoSense*.
 
 #### Author
-`Author` stores the GitHub ID and the aliases of an author. Any contribution or commits made by the author, using his/her GitHub ID or aliases, will be attributed to the same Author object.
+`Author` stores the GitHub ID of an author. Any contribution or commits made by the author, using his/her GitHub ID or aliases, will be attributed to the same Author object. It is used by `AuthorshipReporter` and `CommitsReporter` to attribute the commit and line contributions to the respective authors.
 
 #### CliArguments
-`CliArguments` stores the parsed command line arguments supplied by the user. It is passed into `RepoConfiguration`.
+`CliArguments` stores the parsed command line arguments supplied by the user. It contains the configuration settings such as the `.csv` to read from, the directory to output the report to, and the since and end date of commits to analyze. These configuration settings are passed into `RepoConfiguration`.
 
 #### RepoConfiguration
-`RepoConfiguration` stores the configuration information from the CSV config file and `CliArguments` for one single repository, such as the repository's orgarization, name, branch, list of authors to analyse, date range of commits to analyse etc.
+`RepoConfiguration` stores the configuration information from the CSV config file and `CliArguments` for one single repository, such as the repository's orgarization, name, branch, list of authors to analyse, date range of commits to analyse etc. The configuration information is used by `GitDownloader` to determine which repository to download from and which branch to checkout to, `AuthorshipReporter` and `CommitsReporter` to determine the range of commits and files to analyze, and `RepoGenerator` to determine where to output the report directory to.
 
 
 ## HTML Dashboard
