@@ -1,4 +1,4 @@
-# Developer Guide
+# RepoSense - Developer Guide
 Thank you for contributing to RepoSense!
 - [Setting Up](#setting-up)
 - [Architecture](#architecture)
@@ -12,12 +12,10 @@ Thank you for contributing to RepoSense!
 ## Setting up
 
 ### Prerequisites
-
-1. **JDK `1.8.0_60`**  or later
-2. **Git** on the command line 
-3. **findstr** for Windows, **grep** for macOS or Linux on the command line
-   * Ensure that you're able to use these tools on the OS terminal.
-4. **IntelliJ** IDE [Optional]
+1. **JDK `1.8.0_60`**  or later.
+2. **Git** on the command line.
+3. **findstr** for Windows, **grep** for macOS or Linux on the command line.
+   * Check that the tool exist on your OS terminal by typing it's name on your terminal and ensure that it does not output messages such as `not found` or `not recognized`.
 
 ### Setting up the project in your computer using IntelliJ
 1. Fork this repo, and clone the fork to your computer.
@@ -33,7 +31,7 @@ Thank you for contributing to RepoSense!
 #### Verifying the setup
 1. Ensure that Gradle build without error.
 2. Run the tests to ensure they all pass.
-   1. Go to `src` -> `main` -> `test`. Right click -> Run Tests.
+   1. On the project root directory, run the command `gradlew clean build functional` and ensure the build is successful.
 
 #### Configuring the coding style
 This project follows [oss-generic coding standards](https://oss-generic.github.io/process/docs/CodingStandards.html). IntelliJ’s default style is mostly compliant with our Java coding convention but it uses a different import order from ours. To rectify,
@@ -54,45 +52,44 @@ Optionally, you can follow the [Using Checkstyle](UsingCheckstyle.md) document t
  ![architecture](images/architecture.png)
 
  Above is the proposed overall architecture of RepoSense.<br>
- Below gives a brief description for each of `RepoSense`'s component. 
 
 
-## Model
+### Model
 Model holds the data structures that are commonly used by the different aspects of RepoSense.
 
-### Author
-`Author` stores the single GitHub ID of the author. Any contribution or commits of the author which may have different aliases will be attributed to the same `Author` object.
+#### Author
+`Author` stores the GitHub ID and the aliases of an author. Any contribution or commits of the author which may have different aliases will be attributed to the same `Author` object.
 
-### CliArguments
+#### CliArguments
 `CliArguments` stores the parsed command line arguments supplied by the user. It is passed into `RepoConfiguration`.
 
-### RepoConfiguration
+#### RepoConfiguration
 `RepoConfiguration` stores the configuration information from the CSV config file and `CliArguments` for one single repository, such as the repository's orgarization, name, branch, list of authors to analyse, date range of commits to analyse etc.
 
-## System
+### System
 `System` contains the classes that interact with the System and external processes.
 
-### CommandRunner
+#### CommandRunner
 `CommandRunner` creates processes which runs System Commands. It is mainly used to run git commands in RepoSense.
 
-### LogsManager
+#### LogsManager
 `LogsManager` uses the `java.util.logging` package for logging. The `LogsManager` class is used to manage the logging levels and logging destinations. Log messages are output through: `Console` and to a `.log` file.
 
-## Parser
+### Parser
 `Parser` contains two classes:
  * ArgsParser: Parses the user-supplied command line arguments into a `CliArguments` object.
  * CsvParser: Parses the the user-supplied CSV config file and produces the a list of `RepoConfiguration` for each repository for analyze.
 
-## Git
+### Git
 `Git` contains the wrapper classes for the respective git commands.
 
-### GitDownloader
+#### GitDownloader
 Wrapper class for the `git clone` functionality. Clones the repository from **GitHub** into a temporary folder in order to run the analysis.
 
-### GitChecker
+#### GitChecker
 Wrapper class for the `git checkout` functionality. Checks out the repository by branch name or commit hash.
 
-## AuthorshipReporter
+### AuthorshipReporter
 `AuthorshipReporter`,
  1. Uses `FileInfoGenerator` to traverse the repository to find all relevant files.
  2. Generates a `FileInfo` for each relevant file, which contains the path to the file and a list of `LineInfo` representing each line of the file.
@@ -100,14 +97,14 @@ Wrapper class for the `git checkout` functionality. Checks out the repository by
  4. Generates a `FileResult` which consolidates the authorship results into a **Map** of each author's line contribution to the file.
  5. Uses `FileResultAggregator` to aggregate all `FileResult` into an`AuthorshipSummary`.
 
-## CommitReporter
-`CommitReporter`,
+### CommitsReporter
+`CommitsReporter`,
  1. Uses `CommitInfoGenerator` to run the git log command to generate the statistics of each commit made within date range.
  2. Generates a `CommitInfo` for each relevant file, which contains the `infoLine` and `statLine`.
  3. Uses `CommitInfoAnalyzer` to extract the relevant data from `CommitInfo` into a ` CommitResult`, such as number of line insertions and deletions in the commit.
  4. Uses `CommitResultAggregator` to aggregate all `CommitResult` into a `CommitContributionSummary`.
 
-## ReportGenerator
+### ReportGenerator
 `ReportGenerator`,
  1. Uses `GitDownloader` API to download the repository from **GitHub**
  2. Uses `AuthorshipReporter` and `CommitReporter` to produce the authorship and commit summary respectively.
