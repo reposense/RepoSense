@@ -12,7 +12,7 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import org.junit.Assert;
-import org.junit.BeforeClass;
+import org.junit.Before;
 import org.junit.Test;
 
 import reposense.model.CliArguments;
@@ -28,21 +28,21 @@ public class Entry {
     private static final String FT_TEMP_DIR = "ft_temp";
     private static final String EXPECTED_FOLDER = "expected";
 
-    @BeforeClass
-    public static void setUp() throws IOException {
+    @Before
+    public void setUp() throws IOException {
         FileUtil.deleteDirectory(FT_TEMP_DIR);
     }
 
     @Test
     public void testNoDateRange() throws IOException, URISyntaxException, ParseException {
-        String actualRelativeDir = FT_TEMP_DIR + "/" + generateReport();
+        String actualRelativeDir = generateReport();
         Path actualFiles = Paths.get(getClass().getClassLoader().getResource("noDateRange/expected").toURI());
         verifyAllJson(actualFiles, actualRelativeDir);
     }
 
     @Test
     public void testDateRange() throws IOException, URISyntaxException, ParseException {
-        String actualRelativeDir = FT_TEMP_DIR + "/" + generateReport(getInputWithDates("1/9/2017", "30/10/2017"));
+        String actualRelativeDir = generateReport(getInputWithDates("1/9/2017", "30/10/2017"));
         Path actualFiles = Paths.get(getClass().getClassLoader().getResource("dateRange/expected").toURI());
         verifyAllJson(actualFiles, actualRelativeDir);
     }
