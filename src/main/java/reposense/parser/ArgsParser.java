@@ -3,6 +3,8 @@ package reposense.parser;
 import java.io.File;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Optional;
 
@@ -25,6 +27,12 @@ public class ArgsParser {
     private static final String MESSAGE_SINCE_DATE_LATER_THAN_UNTIL_DATE =
             "\"Since Date\" cannot be later than \"Until Date\"";
 
+    private static final DateFormat REPORT_NAME_FORMAT = new SimpleDateFormat("yyyy-MM-dd-HH-mm-ss");
+
+    private static String generateReportName() {
+        return REPORT_NAME_FORMAT.format(new Date());
+    }
+
     private static ArgumentParser getArgumentParser() {
         ArgumentParser parser = ArgumentParsers
                 .newFor(PROGRAM_USAGE)
@@ -45,7 +53,7 @@ public class ArgsParser {
         parser.addArgument("-output")
                 .metavar("PATH")
                 .type(Arguments.fileType().verifyExists().verifyIsDirectory().verifyCanWrite())
-                .setDefault(new File("."))
+                .setDefault(new File(generateReportName()))
                 .help("The path to the dashboard generated. "
                         + "If not provided, it will be generated in the current directory.");
 

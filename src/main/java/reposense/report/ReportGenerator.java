@@ -24,14 +24,12 @@ import reposense.util.FileUtil;
 public class ReportGenerator {
     private static final Logger logger = LogsManager.getLogger(ReportGenerator.class);
 
-    private static final DateFormat REPORT_NAME_FORMAT = new SimpleDateFormat("yyyy-MM-dd-HH-mm-ss");
-
     /**
      * Generates the authorship and commits JSON file for each repo in {@code configs} at {@code outputPath}, as
      * well as the summary JSON file of all the repos.
      */
     public static String generateReposReport(List<RepoConfiguration> configs, String outputPath) {
-        String reportName = generateReportName();
+        String reportName = Paths.get(outputPath).getFileName().toString();
         FileUtil.copyTemplate(outputPath, reportName);
         Path templateLocation = Paths.get(outputPath, reportName,
                 Constants.STATIC_INDIVIDUAL_REPORT_TEMPLATE_ADDRESS);
@@ -72,10 +70,6 @@ public class ReportGenerator {
 
     private static String getSummaryResultPath(String reportName, String targetFileLocation) {
         return targetFileLocation + "/" + reportName + "/summary.json";
-    }
-
-    private static String generateReportName() {
-        return REPORT_NAME_FORMAT.format(new Date());
     }
 
     private static String getIndividualAuthorshipPath(String repoReportDirectory) {
