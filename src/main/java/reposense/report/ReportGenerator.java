@@ -1,6 +1,7 @@
 package reposense.report;
 
 import java.io.IOException;
+import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.text.DateFormat;
@@ -33,19 +34,17 @@ public class ReportGenerator {
     public static String generateReposReport(List<RepoConfiguration> configs, String outputPath) {
         String reportName = generateReportName();
         FileUtil.copyTemplate(outputPath, reportName);
-        Path templateLocation = Paths.get(outputPath, reportName,
-                Constants.STATIC_INDIVIDUAL_REPORT_TEMPLATE_ADDRESS);
 
         for (RepoConfiguration config : configs) {
             Path repoReportDirectory = Paths.get(outputPath, reportName, config.getDisplayName());
             try {
                 GitDownloader.downloadRepo(config.getOrganization(), config.getRepoName(), config.getBranch());
-                FileUtil.copyDirectoryFiles(templateLocation, repoReportDirectory);
+                Files.createDirectories(repoReportDirectory);
             } catch (GitDownloaderException gde) {
                 logger.log(Level.WARNING, "Exception met while trying to clone the repo, will skip this one", gde);
                 continue;
             } catch (IOException ioe) {
-                logger.log(Level.WARNING, "Error while copying template files, will skip this repo.", ioe);
+                logger.log(Level.WARNING, "Error when trying to create directory.", ioe);
                 continue;
             }
 
