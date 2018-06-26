@@ -72,19 +72,19 @@ Optionally, you can follow the [Using Checkstyle](UsingCheckstyle.md) document t
 
 ### AuthorshipReporter
 [`AuthorshipReporter`](/src/main/java/reposense/authorship/AuthorshipReporter.java),
- 1. Uses [`FileInfoGenerator`](/src/main/java/reposense/authorship/FileInfoGenerator.java) to traverse the repository to find all relevant files.
+ 1. Uses [`FileInfoExtractor`](/src/main/java/reposense/authorship/FileInfoExtractor.java) to traverse the repository to find all relevant files.
  2. Generates a [`FileInfo`](/src/main/java/reposense/authorship/model/FileInfo.java) for each relevant file, which contains the path to the file and a list of [`LineInfo`](/src/main/java/reposense/authorship/model/LineInfo.java) representing each line of the file.
  3. Uses [`FileInfoAnalyzer`](/src/main/java/reposense/authorship/FileInfoAnalyzer.java) to analyze each file using git blame or annonations to set the `Author` for each `LineInfo`.
- 4. Generates a [`FileResult`](/src/main/java/reposense/authorship/model/FileResult.java) which consolidates the authorship results into a **Map** of each author's line contribution to the file.
+ 4. Generates a [`FileResult`](/src/main/java/reposense/authorship/model/FileResult.java) which consolidates the authorship results into a *Map* of each author's line contribution to the file.
  5. Uses [`FileResultAggregator`](/src/main/java/reposense/authorship/FileResultAggregator.java) to aggregate all `FileResult` into an [`AuthorshipSummary`](/src/main/java/reposense/authorship/model/AuthorshipSummary.java).
 
 
 ### CommitsReporter
 [`CommitsReporter`](/src/main/java/reposense/commits/CommitsReporter.java),
- 1. Uses [`CommitInfoGenerator`](/src/main/java/reposense/commits/CommitInfoGenerator.java) to run the git log command to generate the statistics of each commit made within date range.
+ 1. Uses [`CommitInfoExtractor`](/src/main/java/reposense/commits/CommitInfoExtractor.java) to run the git log command to generate the statistics of each commit made within date range.
  2. Generates a [`CommitInfo`](/src/main/java/reposense/commits/model/CommitInfo.java) for each relevant file, which contains the `infoLine` and `statLine`.
  3. Uses [`CommitInfoAnalyzer`](/src/main/java/reposense/commits/CommitInfoAnalyzer.java) to extract the relevant data from `CommitInfo` into a [`CommitResult`](/src/main/java/reposense/commits/model/CommitResult.java), such as number of line insertions and deletions in the commit.
- 4. Uses [`CommitResultAggregator`](/src/main/java/reposense/commits/CommitsResultAggregator.java) to aggregate all `CommitResult` into a [`CommitContributionSummary`](/src/main/java/reposense/commits/model/CommitContributionSummary.java).
+ 4. Uses [`CommitResultAggregator`](/src/main/java/reposense/commits/CommitResultAggregator.java) to aggregate all `CommitResult` into a [`CommitContributionSummary`](/src/main/java/reposense/commits/model/CommitContributionSummary.java).
 
 
 ### ReportGenerator
