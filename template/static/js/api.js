@@ -1,8 +1,8 @@
 /* util funcs */
-window.$ = (id) => document.getElementById(id);
+window.$ = id => document.getElementById(id);
 window.enquery = (key, val) => `${key}=${encodeURIComponent(val)}`;
 
-var REPORT_DIR = "";
+const REPORT_DIR = "";
 
 /* api funcs */
 function loadJSON(file, fn) {
@@ -10,7 +10,7 @@ function loadJSON(file, fn) {
 
   if (window.REPORT_ZIP) {
     window.REPORT_ZIP.file(file.slice(1)).async("text")
-      .then((txt) => fn(JSON.parse(txt)));
+      .then(txt => fn(JSON.parse(txt)));
   } else {
     const xhr = new XMLHttpRequest();
     xhr.open("GET", file);

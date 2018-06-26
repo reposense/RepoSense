@@ -38,7 +38,7 @@ window.vAuthorship = {
       } else {
         window.api.loadAuthorship(
           this.repo,
-          (files) => this.processFiles(files),
+          files => this.processFiles(files),
         );
       }
     },
@@ -91,7 +91,7 @@ window.vAuthorship = {
       segments.forEach((segment) => {
         if (segment.lines.length < MIN_LINES && !segment.authored) {
           if (res.length === 0) {
-            const {lines} = segments[1];
+            const { lines } = segments[1];
             segments[1].lines = segment.lines.concat(lines);
           } else {
             const last = res[res.length - 1];

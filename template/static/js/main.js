@@ -79,5 +79,5 @@ window.app = new window.Vue({
   },
   created() {
     this.updateReportDir();
-  }
+  },
 });
