@@ -65,7 +65,6 @@ public class ArgsParserTest {
         //Optional arguments have default values
         Assert.assertEquals(Optional.empty(), cliArguments.getSinceDate());
         Assert.assertEquals(Optional.empty(), cliArguments.getUntilDate());
-        Assert.assertTrue(Files.isSameFile(Paths.get("."), cliArguments.getOutputFilePath()));
 
         input = String.format("-config %s", CONFIG_FILE_RELATIVE);
         cliArguments = ArgsParser.parse(translateCommandline(input));
@@ -73,7 +72,6 @@ public class ArgsParserTest {
         //Optional arguments have default values
         Assert.assertEquals(Optional.empty(), cliArguments.getSinceDate());
         Assert.assertEquals(Optional.empty(), cliArguments.getUntilDate());
-        Assert.assertTrue(Files.isSameFile(Paths.get("."), cliArguments.getOutputFilePath()));
     }
 
     @Test
