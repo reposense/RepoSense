@@ -28,10 +28,11 @@ public class ReportGenerator {
     public static String generateReposReport(List<RepoConfiguration> configs, String outputPath) {
         String reportName = Paths.get(outputPath).getFileName().toString();
         FileUtil.copyTemplate(outputPath);
-        Path templateLocation = Paths.get(outputPath, Constants.STATIC_INDIVIDUAL_REPORT_TEMPLATE_ADDRESS);
+        Path templateLocation = Paths.get(outputPath,
+                Constants.STATIC_INDIVIDUAL_REPORT_TEMPLATE_ADDRESS);
 
         for (RepoConfiguration config : configs) {
-            Path repoReportDirectory = Paths.get(outputPath, reportName, config.getDisplayName());
+            Path repoReportDirectory = Paths.get(outputPath, config.getDisplayName());
             try {
                 GitDownloader.downloadRepo(config.getOrganization(), config.getRepoName(), config.getBranch());
                 FileUtil.copyDirectoryFiles(templateLocation, repoReportDirectory);
@@ -53,7 +54,7 @@ public class ReportGenerator {
                 logger.log(Level.WARNING, "Error deleting report directory.", ioe);
             }
         }
-        FileUtil.writeJsonFile(configs, getSummaryResultPath(reportName, outputPath));
+        FileUtil.writeJsonFile(configs, getSummaryResultPath(outputPath));
         return reportName;
     }
 
@@ -64,8 +65,8 @@ public class ReportGenerator {
         FileUtil.writeJsonFile(authorshipSummary.getFileResults(), getIndividualAuthorshipPath(repoReportDirectory));
     }
 
-    private static String getSummaryResultPath(String reportName, String targetFileLocation) {
-        return targetFileLocation + "/" + reportName + "/summary.json";
+    private static String getSummaryResultPath(String targetFileLocation) {
+        return targetFileLocation + "/summary.json";
     }
 
     private static String getIndividualAuthorshipPath(String repoReportDirectory) {
