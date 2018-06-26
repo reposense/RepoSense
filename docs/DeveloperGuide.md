@@ -51,12 +51,12 @@ Optionally, you can follow the [Using Checkstyle](UsingCheckstyle.md) document t
 
 ## Architecture
 
- ![Figure 1.](images/architecture.png)
-
+ ![architecture](images/architecture.png)
+*Figure 1. Proposed overall architecture of RepoSense*
 
 ### Parser
 `Parser` contains two classes:
- * `ArgsParser`: Parses the user-supplied command line arguments into a `CliArguments` object.
+ * [`ArgsParser`](/src/main/java/reposense/parser/ArgsParser.java): Parses the user-supplied command line arguments into a `CliArguments` object.
  * `CsvParser`: Parses the the user-supplied CSV config file and produces the a list of `RepoConfiguration` for each repository for analyze.
 
 
