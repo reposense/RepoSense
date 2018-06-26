@@ -2,11 +2,13 @@
 Thank you for contributing to RepoSense!
 - [Setting Up](#setting-up)
 - [Architecture](#architecture)
-- [Notable POJOs](#notable-pojos)
-- [Frontend Components](#frontend-components)
-- [Dashboard Generator Components](#dashboard-generator-components)
-- [Git Utilities](#git-utilities)
-- [Analyzer Components](#analyzer-components)
+  - [Parser](#parser)
+  - [Git](#git)
+  - [AuthorshipReporter](#authorshipreporter)
+  - [CommitsReporter](#commitsreporter)
+  - [ReportGenerator](#reportgenerator)
+  - [System](#system)
+  - [Model](#model)
 - [HTML Dashboard](#html-dashboard)
 
 ## Setting up
@@ -36,11 +38,11 @@ Thank you for contributing to RepoSense!
 #### Configuring the coding style
 This project follows [oss-generic coding standards](https://oss-generic.github.io/process/docs/CodingStandards.html). IntelliJ’s default style is mostly compliant with our Java coding convention but it uses a different import order from ours. To rectify,
 
-1. Go to `File` > `Settings…`​ (Windows/Linux), or `IntelliJ IDEA` > `Preferences…`​ (macOS)
-2. Select `Editor` > `Code Style` > `Java`
+1. Go to `File` > `Settings…`​ (Windows/Linux), or `IntelliJ IDEA` > `Preferences…`​ (macOS).
+2. Select `Editor` > `Code Style` > `Java`.
 3. Click on the `Imports` tab to set the order
    * For `Class count to use import with '*'` and `Names count to use static import with '*'`: Set to `999` to prevent IntelliJ from contracting the import statements
-   * For `Import Layout`: The order is `import static all other imports`, `import java.*`, `import javax.*`, `import org.*`, `import com.*`, `import all other imports`. Add a ``<blank line>`` between each `import`
+   * For `Import Layout`: The order is `import static all other imports`, `import java.*`, `import javax.*`, `import org.*`, `import com.*`, `import all other imports`. Add a ``<blank line>`` between each `import`.
 
 Optionally, you can follow the [Using Checkstyle](UsingCheckstyle.md) document to configure Intellij to check style-compliance as you write code.
 
@@ -50,35 +52,14 @@ Optionally, you can follow the [Using Checkstyle](UsingCheckstyle.md) document t
 ## Architecture
 
  ![architecture](images/architecture.png)
+ *Figure 1. The proposed overall architecture of RepoSense.*
 
- Above is the proposed overall architecture of RepoSense.<br>
-
-
-### Model
-Model holds the data structures that are commonly used by the different aspects of RepoSense.
-
-#### Author
-`Author` stores the GitHub ID and the aliases of an author. Any contribution or commits of the author which may have different aliases will be attributed to the same `Author` object.
-
-#### CliArguments
-`CliArguments` stores the parsed command line arguments supplied by the user. It is passed into `RepoConfiguration`.
-
-#### RepoConfiguration
-`RepoConfiguration` stores the configuration information from the CSV config file and `CliArguments` for one single repository, such as the repository's orgarization, name, branch, list of authors to analyse, date range of commits to analyse etc.
-
-### System
-`System` contains the classes that interact with the System and external processes.
-
-#### CommandRunner
-`CommandRunner` creates processes which runs System Commands. It is mainly used to run git commands in RepoSense.
-
-#### LogsManager
-`LogsManager` uses the `java.util.logging` package for logging. The `LogsManager` class is used to manage the logging levels and logging destinations. Log messages are output through: `Console` and to a `.log` file.
 
 ### Parser
 `Parser` contains two classes:
  * ArgsParser: Parses the user-supplied command line arguments into a `CliArguments` object.
  * CsvParser: Parses the the user-supplied CSV config file and produces the a list of `RepoConfiguration` for each repository for analyze.
+
 
 ### Git
 `Git` contains the wrapper classes for the respective git commands.
@@ -89,6 +70,7 @@ Wrapper class for the `git clone` functionality. Clones the repository from **Gi
 #### GitChecker
 Wrapper class for the `git checkout` functionality. Checks out the repository by branch name or commit hash.
 
+
 ### AuthorshipReporter
 `AuthorshipReporter`,
  1. Uses `FileInfoGenerator` to traverse the repository to find all relevant files.
@@ -97,6 +79,7 @@ Wrapper class for the `git checkout` functionality. Checks out the repository by
  4. Generates a `FileResult` which consolidates the authorship results into a **Map** of each author's line contribution to the file.
  5. Uses `FileResultAggregator` to aggregate all `FileResult` into an`AuthorshipSummary`.
 
+
 ### CommitsReporter
 `CommitsReporter`,
  1. Uses `CommitInfoGenerator` to run the git log command to generate the statistics of each commit made within date range.
@@ -104,12 +87,36 @@ Wrapper class for the `git checkout` functionality. Checks out the repository by
  3. Uses `CommitInfoAnalyzer` to extract the relevant data from `CommitInfo` into a ` CommitResult`, such as number of line insertions and deletions in the commit.
  4. Uses `CommitResultAggregator` to aggregate all `CommitResult` into a `CommitContributionSummary`.
 
+
 ### ReportGenerator
 `ReportGenerator`,
- 1. Uses `GitDownloader` API to download the repository from **GitHub**
+ 1. Uses `GitDownloader` API to download the repository from **GitHub**.
  2. Uses `AuthorshipReporter` and `CommitReporter` to produce the authorship and commit summary respectively.
  3. Copys the template files into the output directory.
  4. Generates the `JSON` files needed to generate the `HTML` dashboard.
+
+
+### System
+`System` contains the classes that interact with the System and external processes.
+
+#### CommandRunner
+`CommandRunner` creates processes which runs System Commands. It is mainly used to run git commands in RepoSense.
+
+#### LogsManager
+`LogsManager` uses the `java.util.logging` package for logging. The `LogsManager` class is used to manage the logging levels and logging destinations. Log messages are output through: `Console` and to a `.log` file.
+
+
+### Model
+Model holds the data structures that are commonly used by the different aspects of RepoSense.
+
+#### Author
+`Author` stores the GitHub ID and the aliases of an author. Any contribution or commits made by the author, using his/her GitHub ID or aliases, will be attributed to the same Author object.
+
+#### CliArguments
+`CliArguments` stores the parsed command line arguments supplied by the user. It is passed into `RepoConfiguration`.
+
+#### RepoConfiguration
+`RepoConfiguration` stores the configuration information from the CSV config file and `CliArguments` for one single repository, such as the repository's orgarization, name, branch, list of authors to analyse, date range of commits to analyse etc.
 
 
 ## HTML Dashboard
