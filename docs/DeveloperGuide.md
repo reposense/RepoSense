@@ -26,7 +26,7 @@ Thank you for contributing to RepoSense!
 4. Click `Configure` > `Project Defaults` > `Project Structure`.
 5. Click `New…​` and find the directory of the JDK.
 6. Click `Import Project`.
-7. Locate the build.gradle file and select it. Click OK.
+7. Locate the `build.gradle` file and select it. Click `OK`.
 8. Ensure that the selected version of `Gradle JVM` matches our prerequisite.
 9. Click `OK` to accept the all the other default settings.
 
