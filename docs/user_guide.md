@@ -53,7 +53,7 @@ $ gradlew run -Dargs="-config CSV_path.csv -output output_path/ -since 01/10/201
 
 ## CSV Config File
 The `CSV Config File` contains the list of repositories, and the corresponding target authors to track contribution of.
-[Sample_full.csv](../sample_full.csv) is an example of a configuration file setup. It should contain the following columns:
+[sample.csv](../sample.csv) is an example of a configuration file setup. It should contain the following columns:
 
 Column Name | Explanation
 ----------- | -----------
