@@ -10,7 +10,7 @@
     "eslint-plugin-import": "^2.13.0"
   },
   "scripts": {
-    "lint": "eslint --fix"
+    "lint": "eslint"
   },
   "author": "",
   "license": "ISC"

@@ -6,9 +6,10 @@ matrix:
       jdk: oraclejdk9
     - os: osx
 
-script: >-
-    ./config/travis/run-checks.sh &&
-    time travis_retry ./gradlew clean checkstyleMain checkstyleTest test functional
+script:
+  - ./config/travis/run-checks.sh
+  - cd ./frontend; npm run lint src/static/js/*js; cd ..
+  - time travis_retry ./gradlew clean checkstyleMain checkstyleTest test functional
 
 addons:
   apt:
@@ -19,6 +20,9 @@ before_install:
   # pcre2 is needed for checkstyle to run in osx
   - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then brew update; fi
   - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then brew reinstall --with-pcre2 git; fi
+
+  # install npm tools for eslint
+  - cd ./frontend; npm install --only=dev; cd ..
 
 before_cache:
   - rm -f  $HOME/.gradle/caches/modules-2/modules-2.lock

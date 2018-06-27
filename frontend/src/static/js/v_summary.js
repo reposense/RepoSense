@@ -18,7 +18,7 @@ function getIntervalDay(a, b) {
   return diff / DAY_IN_MS;
 }
 function getDateStr(date) {
-  return (new Date(date)).toISOString().split("T")[0];
+  return (new Date(date)).toISOString().split('T')[0];
 }
 function dateRounding(datestr, roundDown) {
   // rounding up to nearest sunday
@@ -35,20 +35,20 @@ function dateRounding(datestr, roundDown) {
 }
 
 window.vSummary = {
-  props: ["repos"],
-  template: window.$("v_summary").innerHTML,
+  props: ['repos'],
+  template: window.$('v_summary').innerHTML,
   data() {
     return {
       filtered: [],
       rampScale: 0.1,
-      filterSearch: "",
-      filterSort: "totalCommits",
+      filterSearch: '',
+      filterSort: 'totalCommits',
       filterSortReverse: false,
       filterGroupRepos: true,
       filterGroupWeek: false,
-      filterSinceDate: "",
-      filterUntilDate: "",
-      filterHash: "",
+      filterSinceDate: '',
+      filterUntilDate: '',
+      filterHash: '',
     };
   },
   watch: {
@@ -158,13 +158,13 @@ window.vSummary = {
 
       this.filterSearch = this.filterSearch.toLowerCase();
       this.filterHash = [
-        enquery("search", this.filterSearch),
-        enquery("sort", this.filterSort),
-        enquery("reverse", this.filterSortReverse),
-        enquery("repoSort", this.filterGroupRepos),
-        enquery("since", this.filterSinceDate),
-        enquery("until", this.filterUntilDate),
-      ].join("&");
+        enquery('search', this.filterSearch),
+        enquery('sort', this.filterSort),
+        enquery('reverse', this.filterSortReverse),
+        enquery('repoSort', this.filterGroupRepos),
+        enquery('since', this.filterSinceDate),
+        enquery('until', this.filterUntilDate),
+      ].join('&');
 
       window.location.hash = this.filterHash;
     },
@@ -173,8 +173,8 @@ window.vSummary = {
         return;
       }
 
-      let minDate = "";
-      let maxDate = "";
+      let minDate = '';
+      let maxDate = '';
       this.filtered.forEach((repo) => {
         repo.forEach((user) => {
           const { commits } = user;
@@ -237,7 +237,7 @@ window.vSummary = {
           insertions: 0,
           deletions: 0,
           sinceDate: commits[weekId * 7].sinceDate,
-          untilDate: "",
+          untilDate: '',
         };
 
         for (let dayId = 0; dayId < 7; dayId += 1) {

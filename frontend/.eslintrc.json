@@ -4,10 +4,6 @@
     },
     "extends": "airbnb-base",
     "rules": {
-        "quotes": [
-            "warn",
-            "double"
-        ],
         "no-param-reassign": "warn"
     }
 }

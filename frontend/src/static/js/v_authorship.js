@@ -2,17 +2,17 @@ window.toggleNext = function toggleNext(ele) {
   // function for toggling unopened code
   const target = ele.nextSibling.style;
 
-  let style = "none";
-  if (target.display === "none") {
-    style = "";
+  let style = 'none';
+  if (target.display === 'none') {
+    style = '';
   }
 
   target.display = style;
 };
 
 window.vAuthorship = {
-  props: ["repo", "author"],
-  template: window.$("v_authorship").innerHTML,
+  props: ['repo', 'author'],
+  template: window.$('v_authorship').innerHTML,
   data() {
     return {
       isLoaded: false,
@@ -108,7 +108,7 @@ window.vAuthorship = {
     removeEmptySegments(segments) {
       const res = [];
       segments.forEach((segment) => {
-        if (segment.lines.join("") !== "") {
+        if (segment.lines.join('') !== '') {
           res.push(segment);
         }
       });
@@ -145,7 +145,7 @@ window.vAuthorship = {
 
   updated() {
     this.$nextTick(() => {
-      document.querySelectorAll("pre.hljs code").forEach((ele) => {
+      document.querySelectorAll('pre.hljs code').forEach((ele) => {
         window.hljs.highlightBlock(ele);
       });
     });
