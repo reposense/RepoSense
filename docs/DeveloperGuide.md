@@ -93,25 +93,15 @@ Optionally, you can follow the [Using Checkstyle](UsingCheckstyle.md) document t
 
 ### System
 `System` contains the classes that interact with the System and external processes.
-
-#### CommandRunner
-[`CommandRunner`](/src/main/java/reposense/system/CommandRunner.java) creates processes which runs System Commands. It is mainly used to run git commands in *RepoSense*.
-
-#### LogsManager
-[`LogsManager`](/src/main/java/reposense/system/LogsManager.java) uses the `java.util.logging` package for logging. The `LogsManager` class is used to manage the logging levels and logging destinations. Log messages are output through: `Console` and to a `.log` file.
+ * [`CommandRunner`](/src/main/java/reposense/system/CommandRunner.java) creates processes which runs System Commands. It is mainly used to run git commands in *RepoSense*.
+ * [`LogsManager`](/src/main/java/reposense/system/LogsManager.java) uses the `java.util.logging` package for logging. The `LogsManager` class is used to manage the logging levels and logging destinations. Log messages are output through: `Console` and to a `.log` file.
 
 
 ### Model
 `Model` holds the data structures that are commonly used by the different aspects of *RepoSense*.
-
-#### Author
-[`Author`](/src/main/java/reposense/model/Author.java) stores the GitHub ID of an author. Any contribution or commits made by the author, using his/her GitHub ID or aliases, will be attributed to the same Author object. It is used by `AuthorshipReporter` and `CommitsReporter` to attribute the commit and line contributions to the respective authors.
-
-#### CliArguments
-[`CliArguments`](/src/main/java/reposense/model/CliArguments.java) stores the parsed command line arguments supplied by the user. It contains the configuration settings such as the `.csv` to read from, the directory to output the report to, and the since and end date of commits to analyze. These configuration settings are passed into `RepoConfiguration`.
-
-#### RepoConfiguration
-[`RepoConfiguration`](/src/main/java/reposense/model/RepoConfiguration.java) stores the configuration information from the CSV config file and `CliArguments` for one single repository, such as the repository's orgarization, name, branch, list of authors to analyse, date range of commits to analyse etc. The configuration information is used by `GitDownloader` to determine which repository to download from and which branch to checkout to, `AuthorshipReporter` and `CommitsReporter` to determine the range of commits and files to analyze, and `RepoGenerator` to determine where to output the report directory to.
+ * [`Author`](/src/main/java/reposense/model/Author.java) stores the GitHub ID of an author. Any contribution or commits made by the author, using his/her GitHub ID or aliases, will be attributed to the same Author object. It is used by `AuthorshipReporter` and `CommitsReporter` to attribute the commit and line contributions to the respective authors.
+ * [`CliArguments`](/src/main/java/reposense/model/CliArguments.java) stores the parsed command line arguments supplied by the user. It contains the configuration settings such as the `.csv` to read from, the directory to output the report to, and the since and end date of commits to analyze. These configuration settings are passed into `RepoConfiguration`.
+ * [`RepoConfiguration`](/src/main/java/reposense/model/RepoConfiguration.java) stores the configuration information from the CSV config file and `CliArguments` for one single repository, such as the repository's orgarization, name, branch, list of authors to analyse, date range of commits to analyse etc. The configuration information is used by `GitDownloader` to determine which repository to download from and which branch to checkout to, `AuthorshipReporter` and `CommitsReporter` to determine the range of commits and files to analyze, and `RepoGenerator` to determine where to output the report directory to.
 
 
 ## HTML Dashboard
