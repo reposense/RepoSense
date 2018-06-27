@@ -1,6 +1,6 @@
 # RepoSense - Developer Guide
 Thank you for contributing to RepoSense!
-- [Setting Up](#setting-up)
+- [Setting up](#setting-up)
 - [Architecture](#architecture)
   - [Parser](#parser)
   - [Git](#git)
@@ -14,10 +14,10 @@ Thank you for contributing to RepoSense!
 ## Setting up
 
 ### Prerequisites
-1. **JDK `1.8.0_60`**  or later.
-2. **Git** on the command line.
-3. **findstr** for Windows, **grep** for macOS or Linux on the command line.
-   * Check that the tool exist on your OS terminal by typing it's name on your terminal and ensure that it does not output messages such as `not found` or `not recognized`.
+1. **JDK `1.8.0_60`** or later.
+2. **git** on the command line.
+3. **findstr** for *Windows*, **grep** for *macOS* or *Linux* on the command line.
+ > Check that the tools exist on your OS terminal by typing its name on the terminal and ensure that the terminal does not output messages such as `not found` or `not recognized`.
 
 ### Setting up the project in your computer using IntelliJ
 1. Fork this repo, and clone the fork to your computer.
@@ -33,7 +33,7 @@ Thank you for contributing to RepoSense!
 #### Verifying the setup
 1. Ensure that *Gradle* build without error.
 2. Run the tests to ensure they all pass.
-   1. On the project root directory, run the command `gradlew clean build functional` and ensure the build is successful. Note that the `clean build` and `functional` command may require to be run separately.
+   1. On the project root directory, run the command `gradlew clean build functional` and ensure the build is successful. Note that the `clean build` and `functional` command may be required to be run separately.
 
 #### Configuring the coding style
 This project follows [oss-generic coding standards](https://oss-generic.github.io/process/docs/CodingStandards.html). IntelliJ’s default style is mostly compliant with our Java coding convention but it uses a different import order from ours. To rectify,
@@ -57,13 +57,13 @@ Optionally, you can follow the [Using Checkstyle](UsingCheckstyle.md) document t
 ### Parser
 `Parser` contains two classes:
  * [`ArgsParser`](/src/main/java/reposense/parser/ArgsParser.java): Parses the user-supplied command line arguments into a `CliArguments` object.
- * [`CsvParser`](/src/main/java/reposense/parser/CsvParser.java): Parses the the user-supplied CSV config file and produces the a list of `RepoConfiguration` for each repository for analyze.
+ * [`CsvParser`](/src/main/java/reposense/parser/CsvParser.java): Parses the the user-supplied CSV config file and produces a list of `RepoConfiguration` for each repository for analysis.
 
 
 ### Git
-`Git` contains the wrapper classes for the respective *git* commands.
- * [`GitDownloader`](/src/main/java/reposense/git/GitDownloader.java): Wrapper class for the `git clone` functionality. Clones the repository from *GitHub* into a temporary folder in order to run the analysis.
- * [`GitChecker`](/src/main/java/reposense/git/GitChecker.java): Wrapper class for the `git checkout` functionality. Checks out the repository by branch name or commit hash.
+`Git` contains the wrapper classes for respective *git* commands.
+ * [`GitDownloader`](/src/main/java/reposense/git/GitDownloader.java): Wrapper class for `git clone` functionality. Clones the repository from *GitHub* into a temporary folder in order to run the analysis.
+ * [`GitChecker`](/src/main/java/reposense/git/GitChecker.java): Wrapper class for `git checkout` functionality. Checks out the repository by branch name or commit hash.
 
 
 ### AuthorshipReporter
@@ -87,7 +87,7 @@ Optionally, you can follow the [Using Checkstyle](UsingCheckstyle.md) document t
 [`ReportGenerator`](/src/main/java/reposense/report/ReportGenerator.java),
  1. Uses `GitDownloader` API to download the repository from *GitHub*.
  2. Uses `AuthorshipReporter` and `CommitReporter` to produce the authorship and commit summary respectively.
- 3. Copys the template files into the output directory.
+ 3. Copies the template files into the output directory.
  4. Generates the `JSON` files needed to generate the `HTML` dashboard.
 
 
@@ -99,9 +99,13 @@ Optionally, you can follow the [Using Checkstyle](UsingCheckstyle.md) document t
 
 ### Model
 `Model` holds the data structures that are commonly used by the different aspects of *RepoSense*.
- * [`Author`](/src/main/java/reposense/model/Author.java) stores the `GitHub ID` of an author. Any contribution or commits made by the author, using his/her `GitHub ID` or aliases, will be attributed to the same `Author` object. It is used by `AuthorshipReporter` and `CommitsReporter` to attribute the commit and line contributions to the respective authors.
+ * [`Author`](/src/main/java/reposense/model/Author.java) stores the `GitHub ID` of an author. Any contributions or commits made by the author, using his/her `GitHub ID` or aliases, will be attributed to the same `Author` object. It is used by `AuthorshipReporter` and `CommitsReporter` to attribute the commit and line contributions to the respective authors.
  * [`CliArguments`](/src/main/java/reposense/model/CliArguments.java) stores the parsed command line arguments supplied by the user. It contains the configuration settings such as the `.csv` to read from, the directory to output the report to, and date range of commits to analyze. These configuration settings are passed into `RepoConfiguration`.
- * [`RepoConfiguration`](/src/main/java/reposense/model/RepoConfiguration.java) stores the configuration information from the CSV config file and `CliArguments` for one single repository, such as the repository's orgarization, name, branch, list of authors to analyse, date range of commits to analyse etc. The configuration information is used by `GitDownloader` to determine which repository to download from and which branch to checkout to, `AuthorshipReporter` and `CommitsReporter` to determine the range of commits and files to analyze, and `RepoGenerator` to determine where to output the report directory to.
+ * [`RepoConfiguration`](/src/main/java/reposense/model/RepoConfiguration.java) stores the configuration information from the CSV config file for a single repository, which are the repository's orgarization, name, branch, list of authors to analyse, date range to analyze commits from `CliArguments`. 
+ The configuration information is used by:
+    - `GitDownloader` to determine which repository to download from and which branch to checkout to.
+    - `AuthorshipReporter` and `CommitsReporter` to determine the range of commits and files to analyze.
+    - `RepoGenerator` to determine the directory to output the report.
 
 
 ## HTML Dashboard
