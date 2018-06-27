@@ -21,19 +21,19 @@ Thank you for contributing to RepoSense!
 
 ### Setting up the project in your computer using IntelliJ
 1. Fork this repo, and clone the fork to your computer.
-2. Open IntelliJ (if you are not in the welcome screen, click `File` > `Close Project` to close the existing project dialog first).
-3. Set up the correct JDK version for Gradle.
+2. Open *IntelliJ* (if you are not in the welcome screen, click `File` > `Close Project` to close the existing project dialog first).
+3. Set up the correct *JDK* version for *Gradle*.
 4. Click `Configure` > `Project Defaults` > `Project Structure`.
-5. Click `New…​` and find the directory of the JDK.
+5. Click `New…​` and find the directory of the *JDK*.
 6. Click `Import Project`.
 7. Locate the `build.gradle` file and select it. Click `OK`.
 8. Ensure that the selected version of `Gradle JVM` matches our prerequisite.
 9. Click `OK` to accept the all the other default settings.
 
 #### Verifying the setup
-1. Ensure that Gradle build without error.
+1. Ensure that *Gradle* build without error.
 2. Run the tests to ensure they all pass.
-   1. On the project root directory, run the command `gradlew clean build functional` and ensure the build is successful.
+   1. On the project root directory, run the command `gradlew clean build functional` and ensure the build is successful. Note that the `clean build` and `functional` command may require to be run separately.
 
 #### Configuring the coding style
 This project follows [oss-generic coding standards](https://oss-generic.github.io/process/docs/CodingStandards.html). IntelliJ’s default style is mostly compliant with our Java coding convention but it uses a different import order from ours. To rectify,
@@ -44,10 +44,10 @@ This project follows [oss-generic coding standards](https://oss-generic.github.i
    * For `Class count to use import with '*'` and `Names count to use static import with '*'`: Set to `999` to prevent IntelliJ from contracting the import statements
    * For `Import Layout`: The order is `import static all other imports`, `import java.*`, `import javax.*`, `import org.*`, `import com.*`, `import all other imports`. Add a ``<blank line>`` between each `import`.
 
-Optionally, you can follow the [Using Checkstyle](UsingCheckstyle.md) document to configure Intellij to check style-compliance as you write code.
+Optionally, you can follow the [Using Checkstyle](UsingCheckstyle.md) document to configure *Intellij* to check-style compliance as you write code.
 
 ### Before writing code
-1. Do check out our [process guide](../docs/Process.md) before start making changes.
+1. Do check out our [process guide](../docs/Process.md) before submitting any PR with your changes.
 
 ## Architecture
 
