@@ -13,13 +13,8 @@ html
     script(src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js")
   body
     div#app
-      header.mui-appbar.wrapper
-        .content
-          .logo.mui--text-title RepoSense
-
       #app-wrapper(v-if="userUpdated")
         #summary-wrapper
-          .buffer.mui--appbar-height
           .summary-status(v-if="loadedRepo<repoLength") Loading repos ... {{ loadedRepo }} / {{ repoLength }}
           v_summary(
             v-bind:repos="getUsers()",
@@ -29,7 +24,6 @@ html
         #tabs-wrapper(v-if="isTabActive")
           .tab-close(v-on:click="isTabActive=false")
             i.fas.fa-caret-right
-          .buffer.mui--appbar-height
           ul.mui-tabs__bar
             li(v-bind:class="{'mui--is-active':isTabAuthorship}")
               a(v-on:click="deactivateTabs(); isTabAuthorship=true;")
@@ -37,7 +31,7 @@ html
           .tab-content
             .tab-panes
               #tab-authorship.tab-pane(v-if="isTabAuthorship")
-                v_authorship(v-bind:repo="tabRepo", v-bind:author="tabAuthor")
+                v_authorship(v-bind:repo="tabRepo", v-bind:author="tabAuthor", v-bind:key="tabRepo+'_'+tabAuthor")
 
       template(v-else)
         .empty please enter a report directory or upload a report zip
@@ -47,7 +41,7 @@ html
 
     vuetemplate#v_summary
       #summary.wrapper
-        form.summary-picker.content.mui-form--inline(v-on:submit.prevent="getFiltered();")
+        form.summary-picker.mui-form--inline(v-on:submit.prevent="getFiltered();")
           .mui-textfield.summary-picker__input
             input.summary-picker__search(type="text", v-model="filterSearch")
             label search

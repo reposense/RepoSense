@@ -23,31 +23,6 @@ vuetemplate{
     text-align:center;
 }
 
-/** navigation bar **/
-header{
-    z-index:100;
-    position:relative;
-
-    display:flex;
-    justify-content:center;
-
-    .content{
-        display:flex;
-        justify-content:space-between;
-        align-items:center;
-
-        flex-grow:1;
-    }
-
-    .repo, .logo{
-        margin:0;
-    }
-}
-
-#file-upload{
-    text-align:center;
-}
-
 #app-wrapper{
     display:flex;
     position:absolute;
@@ -110,7 +85,7 @@ header{
 
 /* summary chart */
 #summary, .summary-status{
-    padding:2rem 1rem;
+    padding:1rem 1rem;
 }
 
 .summary-picker{
@@ -118,6 +93,9 @@ header{
 
     &__input{
         margin:0.5rem;
+        display:inline-block;
+
+        text-align:left;
     }
 
     &__search{
