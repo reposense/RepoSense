@@ -61,8 +61,8 @@ Optionally, you can follow the [Using Checkstyle](UsingCheckstyle.md) document t
 
 
 ### Git
-`Git` contains the wrapper classes for the respective git commands.
- * [`GitDownloader`](/src/main/java/reposense/git/GitDownloader.java): Wrapper class for the `git clone` functionality. Clones the repository from **GitHub** into a temporary folder in order to run the analysis.
+`Git` contains the wrapper classes for the respective *git* commands.
+ * [`GitDownloader`](/src/main/java/reposense/git/GitDownloader.java): Wrapper class for the `git clone` functionality. Clones the repository from *GitHub* into a temporary folder in order to run the analysis.
  * [`GitChecker`](/src/main/java/reposense/git/GitChecker.java): Wrapper class for the `git checkout` functionality. Checks out the repository by branch name or commit hash.
 
 
@@ -70,7 +70,7 @@ Optionally, you can follow the [Using Checkstyle](UsingCheckstyle.md) document t
 [`AuthorshipReporter`](/src/main/java/reposense/authorship/AuthorshipReporter.java),
  1. Uses [`FileInfoExtractor`](/src/main/java/reposense/authorship/FileInfoExtractor.java) to traverse the repository to find all relevant files.
  2. Generates a [`FileInfo`](/src/main/java/reposense/authorship/model/FileInfo.java) for each relevant file, which contains the path to the file and a list of [`LineInfo`](/src/main/java/reposense/authorship/model/LineInfo.java) representing each line of the file.
- 3. Uses [`FileInfoAnalyzer`](/src/main/java/reposense/authorship/FileInfoAnalyzer.java) to analyze each file using git blame or annonations to set the `Author` for each `LineInfo`.
+ 3. Uses [`FileInfoAnalyzer`](/src/main/java/reposense/authorship/FileInfoAnalyzer.java) to analyze each file using `git blame` or annonations to set the `Author` for each `LineInfo`.
  4. Generates a [`FileResult`](/src/main/java/reposense/authorship/model/FileResult.java) which consolidates the authorship results into a *Map* of each author's line contribution to the file.
  5. Uses [`FileResultAggregator`](/src/main/java/reposense/authorship/FileResultAggregator.java) to aggregate all `FileResult` into an [`AuthorshipSummary`](/src/main/java/reposense/authorship/model/AuthorshipSummary.java).
 
@@ -85,7 +85,7 @@ Optionally, you can follow the [Using Checkstyle](UsingCheckstyle.md) document t
 
 ### ReportGenerator
 [`ReportGenerator`](/src/main/java/reposense/report/ReportGenerator.java),
- 1. Uses `GitDownloader` API to download the repository from **GitHub**.
+ 1. Uses `GitDownloader` API to download the repository from *GitHub*.
  2. Uses `AuthorshipReporter` and `CommitReporter` to produce the authorship and commit summary respectively.
  3. Copys the template files into the output directory.
  4. Generates the `JSON` files needed to generate the `HTML` dashboard.
@@ -93,13 +93,13 @@ Optionally, you can follow the [Using Checkstyle](UsingCheckstyle.md) document t
 
 ### System
 `System` contains the classes that interact with the System and external processes.
- * [`CommandRunner`](/src/main/java/reposense/system/CommandRunner.java) creates processes which runs System Commands. It is mainly used to run git commands in *RepoSense*.
+ * [`CommandRunner`](/src/main/java/reposense/system/CommandRunner.java) creates processes which runs System Commands. It is mainly used to run *git* commands in *RepoSense*.
  * [`LogsManager`](/src/main/java/reposense/system/LogsManager.java) uses the `java.util.logging` package for logging. The `LogsManager` class is used to manage the logging levels and logging destinations. Log messages are output through: `Console` and to a `.log` file.
 
 
 ### Model
 `Model` holds the data structures that are commonly used by the different aspects of *RepoSense*.
- * [`Author`](/src/main/java/reposense/model/Author.java) stores the GitHub ID of an author. Any contribution or commits made by the author, using his/her GitHub ID or aliases, will be attributed to the same `Author` object. It is used by `AuthorshipReporter` and `CommitsReporter` to attribute the commit and line contributions to the respective authors.
+ * [`Author`](/src/main/java/reposense/model/Author.java) stores the `GitHub ID` of an author. Any contribution or commits made by the author, using his/her `GitHub ID` or aliases, will be attributed to the same `Author` object. It is used by `AuthorshipReporter` and `CommitsReporter` to attribute the commit and line contributions to the respective authors.
  * [`CliArguments`](/src/main/java/reposense/model/CliArguments.java) stores the parsed command line arguments supplied by the user. It contains the configuration settings such as the `.csv` to read from, the directory to output the report to, and date range of commits to analyze. These configuration settings are passed into `RepoConfiguration`.
  * [`RepoConfiguration`](/src/main/java/reposense/model/RepoConfiguration.java) stores the configuration information from the CSV config file and `CliArguments` for one single repository, such as the repository's orgarization, name, branch, list of authors to analyse, date range of commits to analyse etc. The configuration information is used by `GitDownloader` to determine which repository to download from and which branch to checkout to, `AuthorshipReporter` and `CommitsReporter` to determine the range of commits and files to analyze, and `RepoGenerator` to determine where to output the report directory to.
 
