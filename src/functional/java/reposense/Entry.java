@@ -63,7 +63,8 @@ public class Entry {
         List<RepoConfiguration> configs = CsvParser.parse(cliArguments.getConfigFilePath());
         RepoConfiguration.setDatesToRepoConfigs(configs, cliArguments.getSinceDate(), cliArguments.getUntilDate());
 
-        return ReportGenerator.generateReposReport(configs, FT_TEMP_DIR);
+        ReportGenerator.generateReposReport(configs, FT_TEMP_DIR);
+        return FT_TEMP_DIR;
     }
 
     private void verifyAllJson(Path expectedDirectory, String actualRelative) {

@@ -25,11 +25,9 @@ public class ReportGenerator {
      * Generates the authorship and commits JSON file for each repo in {@code configs} at {@code outputPath}, as
      * well as the summary JSON file of all the repos.
      */
-    public static String generateReposReport(List<RepoConfiguration> configs, String outputPath) {
-        String reportName = Paths.get(outputPath).getFileName().toString();
+    public static void generateReposReport(List<RepoConfiguration> configs, String outputPath) {
         FileUtil.copyTemplate(outputPath);
-        Path templateLocation = Paths.get(outputPath,
-                Constants.STATIC_INDIVIDUAL_REPORT_TEMPLATE_ADDRESS);
+        Path templateLocation = Paths.get(outputPath, Constants.STATIC_INDIVIDUAL_REPORT_TEMPLATE_ADDRESS);
 
         for (RepoConfiguration config : configs) {
             Path repoReportDirectory = Paths.get(outputPath, config.getDisplayName());
@@ -55,7 +53,6 @@ public class ReportGenerator {
             }
         }
         FileUtil.writeJsonFile(configs, getSummaryResultPath(outputPath));
-        return reportName;
     }
 
     private static void generateIndividualRepoReport(

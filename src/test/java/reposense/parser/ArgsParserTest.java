@@ -15,6 +15,7 @@ import org.junit.Assert;
 import org.junit.Test;
 
 import reposense.model.CliArguments;
+import reposense.util.Constants;
 import reposense.util.TestUtil;
 
 public class ArgsParserTest {
@@ -57,7 +58,7 @@ public class ArgsParserTest {
     }
 
     @Test
-    public void parse_configFileOnly_success() throws ParseException, IOException {
+    public void parse_configFileOnly_success() throws ParseException, IOException, java.text.ParseException {
         Path expected = CONFIG_FILE_ABSOLUTE;
         String input = String.format("-config %s", CONFIG_FILE_ABSOLUTE);
         CliArguments cliArguments = ArgsParser.parse(translateCommandline(input));
@@ -65,6 +66,8 @@ public class ArgsParserTest {
         //Optional arguments have default values
         Assert.assertEquals(Optional.empty(), cliArguments.getSinceDate());
         Assert.assertEquals(Optional.empty(), cliArguments.getUntilDate());
+        //Checks if generate output folder is in yyyy-MM-dd-HH-mm-ss format
+        Constants.DEFAULT_REPORT_NAME_FORMAT.parse(cliArguments.getOutputFilePath().getFileName().toString());
 
         input = String.format("-config %s", CONFIG_FILE_RELATIVE);
         cliArguments = ArgsParser.parse(translateCommandline(input));
@@ -72,6 +75,8 @@ public class ArgsParserTest {
         //Optional arguments have default values
         Assert.assertEquals(Optional.empty(), cliArguments.getSinceDate());
         Assert.assertEquals(Optional.empty(), cliArguments.getUntilDate());
+        //Checks if generate output folder is in yyyy-MM-dd-HH-mm-ss format
+        Constants.DEFAULT_REPORT_NAME_FORMAT.parse(cliArguments.getOutputFilePath().getFileName().toString());
     }
 
     @Test
