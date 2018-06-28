@@ -35,12 +35,14 @@ public class Entry {
 
     @Test
     public void testNoDateRange() throws IOException, URISyntaxException, ParseException {
+        generateReport();
         Path actualFiles = Paths.get(getClass().getClassLoader().getResource("noDateRange/expected").toURI());
         verifyAllJson(actualFiles, FT_TEMP_DIR);
     }
 
     @Test
     public void testDateRange() throws IOException, URISyntaxException, ParseException {
+        generateReport(getInputWithDates("1/9/2017", "30/10/2017"));
         Path actualFiles = Paths.get(getClass().getClassLoader().getResource("dateRange/expected").toURI());
         verifyAllJson(actualFiles, FT_TEMP_DIR);
     }
