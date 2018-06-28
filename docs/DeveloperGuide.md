@@ -36,15 +36,15 @@ Thank you for contributing to RepoSense!
    1. On the project root directory, run the command `gradlew clean build functional` and ensure the build is successful. Note that the `clean build` and `functional` command may be required to be run separately.
 
 #### Configuring the coding style
-This project follows [oss-generic coding standards](https://oss-generic.github.io/process/docs/CodingStandards.html). IntelliJ’s default style is mostly compliant with our Java coding convention but it uses a different import order from ours. To rectify,
+This project follows [oss-generic coding standards](https://oss-generic.github.io/process/docs/CodingStandards.html). *IntelliJ’s* default style is mostly compliant with our *Java* coding convention but it uses a different import order from ours. To rectify,
 
-1. Go to `File` > `Settings…`​ (Windows/Linux), or `IntelliJ IDEA` > `Preferences…`​ (macOS).
+1. Go to `File` > `Settings…`​ (*Windows/Linux*), or `IntelliJ IDEA` > `Preferences…`​ (*macOS*).
 2. Select `Editor` > `Code Style` > `Java`.
 3. Click on the `Imports` tab to set the order
    * For `Class count to use import with '*'` and `Names count to use static import with '*'`: Set to `999` to prevent IntelliJ from contracting the import statements
    * For `Import Layout`: The order is `import static all other imports`, `import java.*`, `import javax.*`, `import org.*`, `import com.*`, `import all other imports`. Add a ``<blank line>`` between each `import`.
 
-Optionally, you can follow the [Using Checkstyle](UsingCheckstyle.md) document to configure *Intellij* to check-style compliance as you write code.
+Optionally, you can follow the [Using Checkstyle](UsingCheckstyle.md) document to configure *Intellij* to check style-compliance as you write code.
 
 ### Before writing code
 1. Do check out our [process guide](../docs/Process.md) before submitting any PR with your changes.
@@ -101,7 +101,7 @@ Optionally, you can follow the [Using Checkstyle](UsingCheckstyle.md) document t
 ### Model
 `Model` holds the data structures that are commonly used by the different aspects of *RepoSense*.
  * [`Author`](/src/main/java/reposense/model/Author.java) stores the `GitHub ID` of an author. Any contributions or commits made by the author, using his/her `GitHub ID` or aliases, will be attributed to the same `Author` object. It is used by `AuthorshipReporter` and `CommitsReporter` to attribute the commit and line contributions to the respective authors.
- * [`CliArguments`](/src/main/java/reposense/model/CliArguments.java) stores the parsed command line arguments supplied by the user. It contains the configuration settings such as the `.csv` to read from, the directory to output the report to, and date range of commits to analyze. These configuration settings are passed into `RepoConfiguration`.
+ * [`CliArguments`](/src/main/java/reposense/model/CliArguments.java) stores the parsed command line arguments supplied by the user. It contains the configuration settings such as the CSV config file to read from, the directory to output the report to, and date range of commits to analyze. These configuration settings are passed into `RepoConfiguration`.
  * [`RepoConfiguration`](/src/main/java/reposense/model/RepoConfiguration.java) stores the configuration information from the CSV config file for a single repository, which are the repository's orgarization, name, branch, list of authors to analyse, date range to analyze commits from `CliArguments`. 
  The configuration information is used by:
     - `GitDownloader` to determine which repository to download from and which branch to checkout to.
