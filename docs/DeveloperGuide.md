@@ -1,6 +1,10 @@
 # RepoSense - Developer Guide
 Thank you for your interest in contributing to RepoSense!
 - [Setting up](#setting-up)
+  - [Prerequisites](#prerequisites)
+  - [Setting up the project in your computer using IntelliJ](#setting-up-the-project-in-your-computer-using-intellij)
+  - [Verifying the setup](#verifying-the-setup)
+  - [Configuring the coding style](#configuring-the-coding-style)
 - [Architecture](#architecture)
   - [Parser](#parser)
   - [Git](#git)
