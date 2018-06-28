@@ -17,12 +17,12 @@ public class CommandRunner {
 
     private static boolean isWindows = isWindows();
 
-    public static String gitLog(String root, Date sinceDate, Date untilDate) {
+    public static String gitLog(String root, Date sinceDate, Date untilDate, String docType) {
         Path rootPath = Paths.get(root);
 
         String command = "git log --no-merges ";
         command += getGitDateRangeArgs(sinceDate, untilDate);
-        command += " --pretty=format:\"%h|%aN|%ad|%s\" --date=iso --shortstat -- \"*.java\" -- \"*.adoc\"";
+        command += " --pretty=format:\"%h|%aN|%ad|%s\" --date=iso --shortstat -- " + docType;
 
         return runCommand(rootPath, command);
     }
