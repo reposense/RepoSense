@@ -1,5 +1,5 @@
 # RepoSense - Developer Guide
-Thank you for contributing to RepoSense!
+Thank you for your interest in contributing to RepoSense!
 - [Setting up](#setting-up)
 - [Architecture](#architecture)
   - [Parser](#parser)
@@ -30,12 +30,12 @@ Thank you for contributing to RepoSense!
 8. Ensure that the selected version of `Gradle JVM` matches our prerequisite.
 9. Click `OK` to accept the all the other default settings.
 
-#### Verifying the setup
+### Verifying the setup
 1. Ensure that *Gradle* build without error.
 2. Run the tests to ensure they all pass.
    1. On the project root directory, run the command `gradlew clean build functional` and ensure the build is successful. Note that the `clean build` and `functional` command may be required to be run separately.
 
-#### Configuring the coding style
+### Configuring the coding style
 This project follows [oss-generic coding standards](https://oss-generic.github.io/process/docs/CodingStandards.html). *IntelliJ’s* default style is mostly compliant with our *Java* coding convention but it uses a different import order from ours. To rectify,
 
 1. Go to `File` > `Settings…`​ (*Windows/Linux*), or `IntelliJ IDEA` > `Preferences…`​ (*macOS*).
@@ -57,7 +57,7 @@ Optionally, you can follow the [Using Checkstyle](UsingCheckstyle.md) document t
 ### Parser
 `Parser` contains two classes:
  * [`ArgsParser`](/src/main/java/reposense/parser/ArgsParser.java): Parses the user-supplied command line arguments into a `CliArguments` object.
- * [`CsvParser`](/src/main/java/reposense/parser/CsvParser.java): Parses the the user-supplied CSV config file and produces a list of `RepoConfiguration` for each repository for analysis.
+ * [`CsvParser`](/src/main/java/reposense/parser/CsvParser.java): Parses the the user-supplied CSV config file and produces a list of `RepoConfiguration` for each repository to analyze.
 
 
 ### Git
@@ -67,7 +67,7 @@ Optionally, you can follow the [Using Checkstyle](UsingCheckstyle.md) document t
 
 
 ### CommitsReporter
-[`CommitsReporter`](/src/main/java/reposense/commits/CommitsReporter.java) is responsible for analyzing and generating a summary of the **commit** history for each repository. `CommitsReporter`:
+[`CommitsReporter`](/src/main/java/reposense/commits/CommitsReporter.java) is responsible for analyzing and generating a summary of the **commit** history for each repository. `CommitsReporter`,
  1. Uses [`CommitInfoExtractor`](/src/main/java/reposense/commits/CommitInfoExtractor.java) to run the git log command to generate the statistics of each commit made within date range.
  2. Generates a [`CommitInfo`](/src/main/java/reposense/commits/model/CommitInfo.java) for each relevant file, which contains the `infoLine` and `statLine`.
  3. Uses [`CommitInfoAnalyzer`](/src/main/java/reposense/commits/CommitInfoAnalyzer.java) to extract the relevant data from `CommitInfo` into a [`CommitResult`](/src/main/java/reposense/commits/model/CommitResult.java), such as number of line insertions and deletions in the commit.
@@ -75,7 +75,7 @@ Optionally, you can follow the [Using Checkstyle](UsingCheckstyle.md) document t
 
 
 ### AuthorshipReporter
-[`AuthorshipReporter`](/src/main/java/reposense/authorship/AuthorshipReporter.java) is responsible for analyzing and generating a summary of every relevant **file** in each repository. `AuthorshipReporter`:
+[`AuthorshipReporter`](/src/main/java/reposense/authorship/AuthorshipReporter.java) is responsible for analyzing and generating a summary of every relevant **file** in each repository. `AuthorshipReporter`,
  1. Uses [`FileInfoExtractor`](/src/main/java/reposense/authorship/FileInfoExtractor.java) to traverse the repository to find all relevant files.
  2. Generates a [`FileInfo`](/src/main/java/reposense/authorship/model/FileInfo.java) for each relevant file, which contains the path to the file and a list of [`LineInfo`](/src/main/java/reposense/authorship/model/LineInfo.java) representing each line of the file.
  3. Uses [`FileInfoAnalyzer`](/src/main/java/reposense/authorship/FileInfoAnalyzer.java) to analyze each file, using `git blame` or annotations, and finds the `Author` for each `LineInfo`.
@@ -87,8 +87,8 @@ Optionally, you can follow the [Using Checkstyle](UsingCheckstyle.md) document t
 ### ReportGenerator
 [`ReportGenerator`](/src/main/java/reposense/report/ReportGenerator.java),
  1. Uses `GitDownloader` API to download the repository from *GitHub*.
- 2. Uses `AuthorshipReporter` and `CommitReporter` to produce the authorship and commit summary respectively.
- 3. Copies the template files into the output directory.
+ 2. Copies the template files into the designated output directory.
+ 3. Uses `CommitReporter` and `AuthorshipReporter` to produce the commit and authorship summary respectively.
  4. Generates the `JSON` files needed to generate the `HTML` dashboard.
 
 
@@ -100,20 +100,20 @@ Optionally, you can follow the [Using Checkstyle](UsingCheckstyle.md) document t
 
 ### Model
 `Model` holds the data structures that are commonly used by the different aspects of *RepoSense*.
- * [`Author`](/src/main/java/reposense/model/Author.java) stores the `GitHub ID` of an author. Any contributions or commits made by the author, using his/her `GitHub ID` or aliases, will be attributed to the same `Author` object. It is used by `AuthorshipReporter` and `CommitsReporter` to attribute the commit and line contributions to the respective authors.
+ * [`Author`](/src/main/java/reposense/model/Author.java) stores the `GitHub ID` of an author. Any contributions or commits made by the author, using his/her `GitHub ID` or aliases, will be attributed to the same `Author` object. It is used by `AuthorshipReporter` and `CommitsReporter` to attribute the commit and file contributions to the respective authors.
  * [`CliArguments`](/src/main/java/reposense/model/CliArguments.java) stores the parsed command line arguments supplied by the user. It contains the configuration settings such as the CSV config file to read from, the directory to output the report to, and date range of commits to analyze. These configuration settings are passed into `RepoConfiguration`.
- * [`RepoConfiguration`](/src/main/java/reposense/model/RepoConfiguration.java) stores the configuration information from the CSV config file for a single repository, which are the repository's orgarization, name, branch, list of authors to analyse, date range to analyze commits from `CliArguments`. 
- The configuration information is used by:
-    - `GitDownloader` to determine which repository to download from and which branch to checkout to.
+ * [`RepoConfiguration`](/src/main/java/reposense/model/RepoConfiguration.java) stores the configuration information from the CSV config file for a single repository, which are the repository's orgarization, name, branch, list of authors to analyse, date range to analyze commits and files from `CliArguments`. 
+ These configuration information are used by:
+    - `GitDownloader` to determine which repository to download from and which branch to check out to.
     - `AuthorshipReporter` and `CommitsReporter` to determine the range of commits and files to analyze.
-    - `RepoGenerator` to determine the directory to output the report.
+    - `ReportGenerator` to determine the directory to output the report.
 
 
 ## HTML Dashboard
 
  ![Dashboard](images/dashboard-architeture.png)
 
-The dashboard is consisted of two main parts: data `JSONs` (generated by `ReportGenerator`), and the static Dashboard template.
+The dashboard contains two main parts: data `JSONs`(generated by `ReportGenerator`), and the static Dashboard template.
 
  * As shown in the graph above, there will be one summary `JSON`(`summary.json`) containing the summary information of all repositories, and one set of repo detail `JSON`(`commits.json` and `authorship.json`) for each repository, containing the contribution information of each specified author to that repository.
 
