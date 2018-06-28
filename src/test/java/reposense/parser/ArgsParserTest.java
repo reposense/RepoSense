@@ -66,7 +66,7 @@ public class ArgsParserTest {
         Assert.assertEquals(Optional.empty(), cliArguments.getSinceDate());
         Assert.assertEquals(Optional.empty(), cliArguments.getUntilDate());
         // Checks if output folder generated is in correct format
-        ArgsParser.DEFAULT_REPORT_NAME_FORMAT.parse(cliArguments.getOutputFilePath().getFileName().toString());
+        Assert.assertNotNull(ArgsParser.DEFAULT_REPORT_NAME_FORMAT.parse(cliArguments.getOutputFilePath().getFileName().toString()));
 
         input = String.format("-config %s", CONFIG_FILE_RELATIVE);
         cliArguments = ArgsParser.parse(translateCommandline(input));
@@ -75,7 +75,7 @@ public class ArgsParserTest {
         Assert.assertEquals(Optional.empty(), cliArguments.getSinceDate());
         Assert.assertEquals(Optional.empty(), cliArguments.getUntilDate());
         // Checks if output folder generated is in correct format
-        ArgsParser.DEFAULT_REPORT_NAME_FORMAT.parse(cliArguments.getOutputFilePath().getFileName().toString());
+        Assert.assertNotNull(ArgsParser.DEFAULT_REPORT_NAME_FORMAT.parse(cliArguments.getOutputFilePath().getFileName().toString()));
     }
 
     @Test
