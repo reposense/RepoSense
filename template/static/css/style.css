@@ -148,3 +148,6 @@ label {
     margin-right: 10px;
 }
 
+#filterDocTypeBtn {
+    border:0px solid transparent;
+}

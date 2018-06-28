@@ -141,6 +141,33 @@ function sortByLineContributed(files, currentAuthor) {
     return files;
 }
 
+function filterFilesBasedOnDocTypes(files, docTypes) {
+    var filteredFiles = [];
+    if (docTypes[0] == '') {
+        return filteredFiles;
+    }
+    for (var [id, file] of Object.entries(files)) {
+        if(isFileMatch(file.path, docTypes)) {
+            filteredFiles.push(file);
+        }
+    }
+
+    return filteredFiles;
+}
+
+function isFileMatch(file, docTypes) {
+    for (var [key, value] of Object.entries(docTypes)) {
+        var type = value.split(".");
+        type = type[type.length-1];
+        var exp = new RegExp("\."+type);
+        var result = exp.test(file);
+        if(result) {
+            return result;
+        }
+    }
+    return false;
+}
+
 function isSearchMatch(searchTerm, authorRepo) {
     if (searchTerm == "") {
         return true;

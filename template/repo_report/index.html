@@ -16,6 +16,8 @@
     var initialize = function(){
       currentAuthor = getQueryVariable('author');
       currentAuthorDisplayName = getQueryVariable('authorDisplayName');
+      docTypes = getQueryVariable('docType').split(",");
+      resultJson = filterFilesBasedOnDocTypes(resultJson, docTypes);
       resultJson = sortByLineContributed(resultJson,currentAuthor);
 
       app = new Vue({
@@ -23,7 +25,7 @@
           data: {
             currentAuthor : currentAuthor,
             result : resultJson,
-
+            docTypes: docTypes,
           },
           methods: {
           getAuthorUrlQuery : function (author) {
