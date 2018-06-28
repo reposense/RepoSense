@@ -3,6 +3,8 @@ package reposense.parser;
 import java.io.File;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Optional;
 
@@ -13,13 +15,13 @@ import net.sourceforge.argparse4j.inf.ArgumentParser;
 import net.sourceforge.argparse4j.inf.ArgumentParserException;
 import net.sourceforge.argparse4j.inf.Namespace;
 import reposense.model.CliArguments;
-import reposense.util.Constants;
-
 
 /**
  * Verifies and parses a string-formatted date to a {@code CliArguments} object.
  */
 public class ArgsParser {
+    public static final DateFormat DEFAULT_REPORT_NAME_FORMAT = new SimpleDateFormat("yyyy-MM-dd-HH-mm-ss");
+
     private static final String PROGRAM_USAGE = "java -jar RepoSense.jar";
     private static final String PROGRAM_DESCRIPTION =
             "RepoSense is a contribution analysis tool for Git repositories.";
@@ -27,7 +29,7 @@ public class ArgsParser {
             "\"Since Date\" cannot be later than \"Until Date\"";
 
     private static String generateDefaultReportName() {
-        return Constants.DEFAULT_REPORT_NAME_FORMAT.format(new Date());
+        return DEFAULT_REPORT_NAME_FORMAT.format(new Date());
     }
 
     private static ArgumentParser getArgumentParser() {
