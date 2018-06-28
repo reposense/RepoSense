@@ -71,7 +71,7 @@ Optionally, you can follow the [Using Checkstyle](UsingCheckstyle.md) document t
 
 
 ### CommitsReporter
-[`CommitsReporter`](/src/main/java/reposense/commits/CommitsReporter.java) is responsible for analyzing the **commit** history and generating a [`CommitContributionSummary`](/src/main/java/reposense/commits/model/CommitContributionSummary.java) for each repository. The `CommitContributionSummary` contains information such as each author's daily and weekly contribution and the variance of their contribution. `CommitsReporter`,
+[`CommitsReporter`](/src/main/java/reposense/commits/CommitsReporter.java) is responsible for analyzing the **commit** history and generating a [`CommitContributionSummary`](/src/main/java/reposense/commits/model/CommitContributionSummary.java) for each repository. `CommitContributionSummary` contains information such as each author's daily and weekly contribution and the variance of their contribution. `CommitsReporter`,
  1. Uses [`CommitInfoExtractor`](/src/main/java/reposense/commits/CommitInfoExtractor.java) to run the `git log` command, which generates the statistics of each commit made within date range.
  2. Generates a [`CommitInfo`](/src/main/java/reposense/commits/model/CommitInfo.java) for each commit, which contains the `infoLine` and `statLine`.
  3. Uses [`CommitInfoAnalyzer`](/src/main/java/reposense/commits/CommitInfoAnalyzer.java) to extract the relevant data from `CommitInfo` into a [`CommitResult`](/src/main/java/reposense/commits/model/CommitResult.java), such as the number of line insertions and deletions in the commit and the author of the commit.
@@ -79,7 +79,7 @@ Optionally, you can follow the [Using Checkstyle](UsingCheckstyle.md) document t
 
 
 ### AuthorshipReporter
-[`AuthorshipReporter`](/src/main/java/reposense/authorship/AuthorshipReporter.java) is responsible for analyzing every relevant **file** and generating an [`AuthorshipSummary`](/src/main/java/reposense/authorship/model/AuthorshipSummary.java) for each repository. The `AuthorshipSummary` tracks the author for each line in every file. `AuthorshipReporter`,
+[`AuthorshipReporter`](/src/main/java/reposense/authorship/AuthorshipReporter.java) is responsible for analyzing the white listed **files** and generating an [`AuthorshipSummary`](/src/main/java/reposense/authorship/model/AuthorshipSummary.java) for each repository. `AuthorshipSummary` traces the original author for each line of text/code in the white listed files. `AuthorshipReporter`,
  1. Uses [`FileInfoExtractor`](/src/main/java/reposense/authorship/FileInfoExtractor.java) to traverse the repository to find all relevant files.
  2. Generates a [`FileInfo`](/src/main/java/reposense/authorship/model/FileInfo.java) for each relevant file, which contains the path to the file and a list of [`LineInfo`](/src/main/java/reposense/authorship/model/LineInfo.java) representing each line of the file.
  3. Uses [`FileInfoAnalyzer`](/src/main/java/reposense/authorship/FileInfoAnalyzer.java) to analyze each file, using `git blame` or annotations, and finds the `Author` for each `LineInfo`.
