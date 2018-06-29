@@ -34,7 +34,7 @@ public class ArgsParserTest {
                 CONFIG_FILE_ABSOLUTE, OUTPUT_DIRECTORY_ABSOLUTE);
         CliArguments cliArguments = ArgsParser.parse(translateCommandline(input));
         Assert.assertTrue(Files.isSameFile(CONFIG_FILE_ABSOLUTE, cliArguments.getConfigFilePath()));
-        Assert.assertTrue(Files.isSameFile(Paths.get(OUTPUT_DIRECTORY_ABSOLUTE.toUri().toString(),
+        Assert.assertTrue(Files.isSameFile(Paths.get(OUTPUT_DIRECTORY_ABSOLUTE.toString(),
                 ArgsParser.DEFAULT_REPORT_NAME), cliArguments.getOutputFilePath()));
 
         Date expectedSinceDate = TestUtil.getDate(2017, Calendar.JULY, 1);
@@ -49,7 +49,7 @@ public class ArgsParserTest {
                 CONFIG_FILE_ABSOLUTE, OUTPUT_DIRECTORY_ABSOLUTE);
         CliArguments cliArguments = ArgsParser.parse(translateCommandline(input));
         Assert.assertTrue(Files.isSameFile(CONFIG_FILE_ABSOLUTE, cliArguments.getConfigFilePath()));
-        Assert.assertTrue(Files.isSameFile(Paths.get(OUTPUT_DIRECTORY_ABSOLUTE.toUri().toString(),
+        Assert.assertTrue(Files.isSameFile(Paths.get(OUTPUT_DIRECTORY_ABSOLUTE.toString(),
                 ArgsParser.DEFAULT_REPORT_NAME), cliArguments.getOutputFilePath()));
 
         Date expectedSinceDate = TestUtil.getDate(2017, Calendar.JULY, 1);
@@ -82,7 +82,7 @@ public class ArgsParserTest {
     public void parse_configFileAndOutputDirectory_success() throws ParseException, IOException {
         Path expectedConfigFilePath = CONFIG_FILE_ABSOLUTE;
         Path expectedOutputDirectoryPath =
-                Paths.get(OUTPUT_DIRECTORY_ABSOLUTE.toUri().toString(), ArgsParser.DEFAULT_REPORT_NAME);
+                Paths.get(OUTPUT_DIRECTORY_ABSOLUTE.toString(), ArgsParser.DEFAULT_REPORT_NAME);
 
         String input = String.format("-config %s -output %s", CONFIG_FILE_ABSOLUTE, OUTPUT_DIRECTORY_RELATIVE);
         CliArguments cliArguments = ArgsParser.parse(translateCommandline(input));

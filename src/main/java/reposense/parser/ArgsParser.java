@@ -79,8 +79,8 @@ public class ArgsParser {
             Optional<Date> sinceDate = results.get("since");
             Optional<Date> untilDate = results.get("until");
 
-            Path configFilePath = Paths.get(configFile.toURI());
-            Path outputFilePath = Paths.get(outputFile.toURI().toString(), DEFAULT_REPORT_NAME);
+            Path configFilePath = configFile.toPath();
+            Path outputFilePath = Paths.get(outputFile.toString(), DEFAULT_REPORT_NAME);
 
             verifyDatesRangeIsCorrect(sinceDate, untilDate);
             return new CliArguments(configFilePath, outputFilePath, sinceDate, untilDate);
