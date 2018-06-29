@@ -81,18 +81,20 @@ public class ArgsParserTest {
     @Test
     public void parse_configFileAndOutputDirectory_success() throws ParseException, IOException {
         Path expectedConfigFilePath = CONFIG_FILE_ABSOLUTE;
-        Path expectedOutputDirectoryPath =
-                Paths.get(OUTPUT_DIRECTORY_ABSOLUTE.toString(), ArgsParser.DEFAULT_REPORT_NAME);
+        Path expectedRelativeOutputDirectoryPath =
+                Paths.get(OUTPUT_DIRECTORY_RELATIVE.toString(), ArgsParser.DEFAULT_REPORT_NAME);
+        Path expectedAbsoluteOutputDirectoryPath =
+                Paths.get(OUTPUT_DIRECTORY_RELATIVE.toString(), ArgsParser.DEFAULT_REPORT_NAME);
 
         String input = String.format("-config %s -output %s", CONFIG_FILE_ABSOLUTE, OUTPUT_DIRECTORY_RELATIVE);
         CliArguments cliArguments = ArgsParser.parse(translateCommandline(input));
         Assert.assertTrue(Files.isSameFile(expectedConfigFilePath, cliArguments.getConfigFilePath()));
-        Assert.assertTrue(Files.isSameFile(expectedOutputDirectoryPath, cliArguments.getOutputFilePath()));
+        Assert.assertTrue(Files.isSameFile(expectedRelativeOutputDirectoryPath, cliArguments.getOutputFilePath()));
 
         input = String.format("-config %s -output %s", CONFIG_FILE_RELATIVE, OUTPUT_DIRECTORY_ABSOLUTE);
         cliArguments = ArgsParser.parse(translateCommandline(input));
         Assert.assertTrue(Files.isSameFile(expectedConfigFilePath, cliArguments.getConfigFilePath()));
-        Assert.assertTrue(Files.isSameFile(expectedOutputDirectoryPath, cliArguments.getOutputFilePath()));
+        Assert.assertTrue(Files.isSameFile(expectedAbsoluteOutputDirectoryPath, cliArguments.getOutputFilePath()));
     }
 
     @Test
