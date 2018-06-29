@@ -2,7 +2,7 @@ window.REPORT_ZIP = null;
 window.REPOS = {};
 
 window.app = new window.Vue({
-  el: "#app",
+  el: '#app',
   data: {
     repos: {},
     repoLength: 0,
@@ -13,8 +13,8 @@ window.app = new window.Vue({
     isTabAuthorship: false,
     isTabIssues: false,
 
-    tabAuthor: "",
-    tabRepo: "",
+    tabAuthor: '',
+    tabRepo: '',
   },
   methods: {
     // model funcs
