@@ -3,8 +3,6 @@ package reposense.parser;
 import java.io.File;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Optional;
 
@@ -20,17 +18,12 @@ import reposense.model.CliArguments;
  * Verifies and parses a string-formatted date to a {@code CliArguments} object.
  */
 public class ArgsParser {
-    public static final DateFormat DEFAULT_REPORT_NAME_FORMAT = new SimpleDateFormat("yyyy-MM-dd-HH-mm-ss");
-
+    public static final String DEFAULT_REPORT_NAME = "reposense";
     private static final String PROGRAM_USAGE = "java -jar RepoSense.jar";
     private static final String PROGRAM_DESCRIPTION =
             "RepoSense is a contribution analysis tool for Git repositories.";
     private static final String MESSAGE_SINCE_DATE_LATER_THAN_UNTIL_DATE =
             "\"Since Date\" cannot be later than \"Until Date\"";
-
-    private static String generateDefaultReportName() {
-        return DEFAULT_REPORT_NAME_FORMAT.format(new Date());
-    }
 
     private static ArgumentParser getArgumentParser() {
         ArgumentParser parser = ArgumentParsers
@@ -52,9 +45,9 @@ public class ArgsParser {
         parser.addArgument("-output")
                 .metavar("PATH")
                 .type(Arguments.fileType().verifyExists().verifyIsDirectory().verifyCanWrite())
-                .setDefault(new File(generateDefaultReportName()))
+                .setDefault(new File("."))
                 .help("The directory to output the generated dashboard. "
-                        + "If not provided, a folder with timestamp will be created in the current working directory.");
+                        + "If not provided, a reposense folder will be created in the current working directory.");
 
         parser.addArgument("-since")
                 .metavar("dd/MM/yyyy")
@@ -87,7 +80,7 @@ public class ArgsParser {
             Optional<Date> untilDate = results.get("until");
 
             Path configFilePath = Paths.get(configFile.toURI());
-            Path outputFilePath = Paths.get(outputFile.toURI());
+            Path outputFilePath = Paths.get(outputFile.toURI().toString(), DEFAULT_REPORT_NAME);
 
             verifyDatesRangeIsCorrect(sinceDate, untilDate);
             return new CliArguments(configFilePath, outputFilePath, sinceDate, untilDate);

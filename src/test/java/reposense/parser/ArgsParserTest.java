@@ -33,8 +33,9 @@ public class ArgsParserTest {
         String input = String.format("-config %s -output %s -since 01/07/2017 -until 30/11/2017",
                 CONFIG_FILE_ABSOLUTE, OUTPUT_DIRECTORY_ABSOLUTE);
         CliArguments cliArguments = ArgsParser.parse(translateCommandline(input));
-        Files.isSameFile(CONFIG_FILE_ABSOLUTE, cliArguments.getConfigFilePath());
-        Files.isSameFile(OUTPUT_DIRECTORY_ABSOLUTE, cliArguments.getOutputFilePath());
+        Assert.assertTrue(Files.isSameFile(CONFIG_FILE_ABSOLUTE, cliArguments.getConfigFilePath()));
+        Assert.assertTrue(Files.isSameFile(Paths.get(OUTPUT_DIRECTORY_ABSOLUTE.toUri().toString(),
+                ArgsParser.DEFAULT_REPORT_NAME), cliArguments.getOutputFilePath()));
 
         Date expectedSinceDate = TestUtil.getDate(2017, Calendar.JULY, 1);
         Date expectedUntilDate = TestUtil.getDate(2017, Calendar.NOVEMBER, 30);
@@ -47,8 +48,9 @@ public class ArgsParserTest {
         String input = String.format("-config %s      -output   %s   -since 01/07/2017   -until    30/11/2017   ",
                 CONFIG_FILE_ABSOLUTE, OUTPUT_DIRECTORY_ABSOLUTE);
         CliArguments cliArguments = ArgsParser.parse(translateCommandline(input));
-        Files.isSameFile(CONFIG_FILE_ABSOLUTE, cliArguments.getConfigFilePath());
-        Files.isSameFile(OUTPUT_DIRECTORY_ABSOLUTE, cliArguments.getOutputFilePath());
+        Assert.assertTrue(Files.isSameFile(CONFIG_FILE_ABSOLUTE, cliArguments.getConfigFilePath()));
+        Assert.assertTrue(Files.isSameFile(Paths.get(OUTPUT_DIRECTORY_ABSOLUTE.toUri().toString(),
+                ArgsParser.DEFAULT_REPORT_NAME), cliArguments.getOutputFilePath()));
 
         Date expectedSinceDate = TestUtil.getDate(2017, Calendar.JULY, 1);
         Date expectedUntilDate = TestUtil.getDate(2017, Calendar.NOVEMBER, 30);
@@ -57,33 +59,30 @@ public class ArgsParserTest {
     }
 
     @Test
-    public void parse_configFileOnly_success() throws ParseException, IOException, java.text.ParseException {
+    public void parse_configFileOnly_success() throws ParseException, IOException {
         Path expected = CONFIG_FILE_ABSOLUTE;
         String input = String.format("-config %s", CONFIG_FILE_ABSOLUTE);
         CliArguments cliArguments = ArgsParser.parse(translateCommandline(input));
-        Files.isSameFile(expected, cliArguments.getConfigFilePath());
+        Assert.assertTrue(Files.isSameFile(expected, cliArguments.getConfigFilePath()));
         // Optional arguments have default values
         Assert.assertEquals(Optional.empty(), cliArguments.getSinceDate());
         Assert.assertEquals(Optional.empty(), cliArguments.getUntilDate());
-        // Checks if output folder generated is in correct format
-        Assert.assertNotNull(
-                ArgsParser.DEFAULT_REPORT_NAME_FORMAT.parse(cliArguments.getOutputFilePath().getFileName().toString()));
+        Assert.assertEquals(ArgsParser.DEFAULT_REPORT_NAME, cliArguments.getOutputFilePath().getFileName().toString());
 
         input = String.format("-config %s", CONFIG_FILE_RELATIVE);
         cliArguments = ArgsParser.parse(translateCommandline(input));
-        Files.isSameFile(expected, cliArguments.getConfigFilePath());
+        Assert.assertTrue(Files.isSameFile(expected, cliArguments.getConfigFilePath()));
         // Optional arguments have default values
         Assert.assertEquals(Optional.empty(), cliArguments.getSinceDate());
         Assert.assertEquals(Optional.empty(), cliArguments.getUntilDate());
-        // Checks if output folder generated is in correct format
-        Assert.assertNotNull(
-                ArgsParser.DEFAULT_REPORT_NAME_FORMAT.parse(cliArguments.getOutputFilePath().getFileName().toString()));
+        Assert.assertEquals(ArgsParser.DEFAULT_REPORT_NAME, cliArguments.getOutputFilePath().getFileName().toString());
     }
 
     @Test
     public void parse_configFileAndOutputDirectory_success() throws ParseException, IOException {
         Path expectedConfigFilePath = CONFIG_FILE_ABSOLUTE;
-        Path expectedOutputDirectoryPath = OUTPUT_DIRECTORY_ABSOLUTE;
+        Path expectedOutputDirectoryPath =
+                Paths.get(OUTPUT_DIRECTORY_ABSOLUTE.toUri().toString(), ArgsParser.DEFAULT_REPORT_NAME);
 
         String input = String.format("-config %s -output %s", CONFIG_FILE_ABSOLUTE, OUTPUT_DIRECTORY_RELATIVE);
         CliArguments cliArguments = ArgsParser.parse(translateCommandline(input));
