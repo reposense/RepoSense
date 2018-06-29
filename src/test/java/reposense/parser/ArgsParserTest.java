@@ -84,7 +84,7 @@ public class ArgsParserTest {
         Path expectedRelativeOutputDirectoryPath =
                 Paths.get(OUTPUT_DIRECTORY_RELATIVE.toString(), ArgsParser.DEFAULT_REPORT_NAME);
         Path expectedAbsoluteOutputDirectoryPath =
-                Paths.get(OUTPUT_DIRECTORY_RELATIVE.toString(), ArgsParser.DEFAULT_REPORT_NAME);
+                Paths.get(OUTPUT_DIRECTORY_ABSOLUTE.toString(), ArgsParser.DEFAULT_REPORT_NAME);
 
         String input = String.format("-config %s -output %s", CONFIG_FILE_ABSOLUTE, OUTPUT_DIRECTORY_RELATIVE);
         CliArguments cliArguments = ArgsParser.parse(translateCommandline(input));
