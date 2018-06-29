@@ -26,7 +26,7 @@ vueMethods = {
 
         return resultContribution;
     },
-    getSliceStyle: function(index, value, intervalType, minDate, maxDate) {
+    getSliceStyle: function(index, value, intervalType, minDate, maxDate, sliceScaleLimitMap) {
         var sliceScaleLimit = sliceScaleLimitMap[intervalType];
         var spacing = 100 / getIntervalCount(intervalType, minDate, maxDate);
         var contribution = value['insertions'];
@@ -42,7 +42,7 @@ vueMethods = {
         var color = rgbacolors[index % (rgbacolors.length)];
         return "margin-left:" + (index * spacing - width + spacing) + "%;" + "width:" + width + "%;" + "background: linear-gradient(to left top, " + color + " 50%, transparent 50%);" + ";";
     },
-    getContributionBarWidths: function(value) {
+    getContributionBarWidths: function(value, totalContributionLimit) {
         var widths = [];
         for (var i = 0; i < parseInt(value / totalContributionLimit); i++) {
             widths.push("100%");
@@ -77,7 +77,8 @@ vueMethods = {
     getContributionBarTitle: function(value) {
         return "total contribution : " + value;
     },
-    sortAndFilter: function(summary, searchTerm, sortElement, sortOrder, isGroupByRepo) {
+    sortAndFilter: function(summary, searchTerm, sortElement, sortOrder, isGroupByRepo, docType) {
+        summary = summary[docType.join()];
         authorRepos = [];
         for (repo in summary) {
             newRepo = [];

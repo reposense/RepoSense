@@ -1,32 +1,66 @@
 function loadJSON(file, fn){
     var xhr = new XMLHttpRequest();
+    xhr.onreadystatechange = function() {
+        if (this.readyState == 4 && this.status == 200) {
+            fn(JSON.parse(xhr.responseText));
+        }
+    }
     xhr.open("GET", file);
-    xhr.onload = function(){
-        fn(JSON.parse(xhr.responseText));
-    };
     xhr.send(null);
 }
 
-function loadSubFile(dir){
-    loadJSON(dir+"/commits.json", obj2 => {
+function loadSubFile(dir, docType){
+    loadJSON(dir+"/commits_"+docType+".json", obj2 => {
         for(var key in obj2){
-            summaryJson[dir][key] = obj2[key];
+//            console.log("loading from "+docType);
+//            console.log("before "+dir+"/"+key);
+//            console.log(summaryJson["*.adoc"][dir][key]);
+            summaryJson[docType][dir][key] = clone(obj2[key]);
+//            console.log("after "+dir+"/"+key);
+//            console.log(summaryJson["*.adoc"][dir][key]);
+//            console.log(summaryJson["*.adoc"][dir][key] === summaryJson["*.java"][dir][key]);
         }
-
         cnt -= 1;
-        if(!cnt){ initialize(); }
+        if(!cnt){ initialize();}
     });
 }
 
-var cnt=0, summaryJson={};
-loadJSON("summary.json", res => {
-    summaryJson = {};
-    for(var i in res){
-        var repo = res[i];
-        var name = repo.organization+"_"+repo.repoName;
-        summaryJson[name] = repo;
+function clone(obj) {
+      if (obj === null || typeof(obj) !== 'object' || 'isActiveClone' in obj)
+        return obj;
+
+      if (obj instanceof Date)
+        var temp = new obj.constructor(); //or new Date(obj);
+      else
+        var temp = obj.constructor();
+
+      for (var key in obj) {
+        if (Object.prototype.hasOwnProperty.call(obj, key)) {
+          obj['isActiveClone'] = null;
+          temp[key] = clone(obj[key]);
+          delete obj['isActiveClone'];
+        }
+      }
+
+      return temp;
     }
 
-    cnt = res.length;
-    for(var dir in summaryJson){ loadSubFile(dir); }
+var cnt=0, summaryJson={}, docTypes = ["*.adoc","*.java"];
+var tempJson={};
+
+loadJSON("summary.json", res => {
+    summaryJson = {};
+    cnt = res.length * docTypes.length;
+
+    for (var idx in docTypes) {
+        summaryJson[docTypes[idx]] = {};
+        for(var i in res){
+            var repo = res[i];
+            var name = repo.organization+"_"+repo.repoName;
+            summaryJson[docTypes[idx]][name] = clone(repo);
+        }
+        for(var dir in summaryJson[docTypes[idx]]){
+            loadSubFile(dir, docTypes[idx]);
+        }
+    }
 });

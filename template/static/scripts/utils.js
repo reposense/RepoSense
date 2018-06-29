@@ -41,20 +41,21 @@ var getContribution = function(repo) {
     return count;
 }
 
-function getScaleLimitMap() {
+function getScaleLimitMap(docType) {
     var result = {};
-    result["authorWeeklyIntervalContributions"] = getScaleLimit("authorWeeklyIntervalContributions");
-    result["authorDailyIntervalContributions"] = getScaleLimit("authorDailyIntervalContributions");
+    var docType = docType.join();
+    result["authorWeeklyIntervalContributions"] = getScaleLimit("authorWeeklyIntervalContributions", docType);
+    result["authorDailyIntervalContributions"] = getScaleLimit("authorDailyIntervalContributions", docType);
     return result;
 }
 
-function getScaleLimit(intervalType) {
+function getScaleLimit(intervalType, docType) {
     var totalContribution = 0;
     var count = 0;
-    for (repo in summaryJson) {
-        for (author in summaryJson[repo][intervalType]) {
-            for (i in summaryJson[repo][intervalType][author]) {
-                currentPeriod = summaryJson[repo][intervalType][author][i];
+    for (repo in summaryJson[docType]) {
+        for (author in summaryJson[docType][repo][intervalType]) {
+            for (i in summaryJson[docType][repo][intervalType][author]) {
+                currentPeriod = summaryJson[docType][repo][intervalType][author][i];
                 if (totalContribution['insertions'] != 0) {
                     totalContribution += currentPeriod['insertions'];
                     count += 1
@@ -80,12 +81,13 @@ function getIntervalCount(intervalType, minDate, maxDate) {
     return diffDays / divisor;
 }
 
-function getTotalContributionLimit() {
+function getTotalContributionLimit(docType) {
     var totalContribution = 0;
     var count = 0;
-    for (repo in summaryJson) {
-        for (author in summaryJson[repo]['authorFinalContributionMap']) {
-            totalContribution += (summaryJson[repo]['authorFinalContributionMap'][author]);
+    var docType = docType.join();
+    for (repo in summaryJson[docType]) {
+        for (author in summaryJson[docType][repo]['authorFinalContributionMap']) {
+            totalContribution += (summaryJson[docType][repo]['authorFinalContributionMap'][author]);
             count += 1
         }
     }
@@ -187,16 +189,18 @@ function isMatch(searchTerm, currentPhrase) {
     return currentPhrase.toLowerCase().indexOf(searchTerm.toLowerCase()) != -1;
 }
 
-function getMinDate() {
-    rawDate = summaryJson[Object.keys(summaryJson)[0]]["sinceDate"];
+function getMinDate(docType) {
+    var docType = docType.join();
+    rawDate = summaryJson[docType][Object.keys(summaryJson[docType])[0]]["sinceDate"];
     if (rawDate) {
         //the sinceDate has been set
         return Date.parse(rawDate).toString("M/d/yy");
     } else {
         //find the min Date among all intervals
         var result;
-        for (var i in summaryJson) {
-            var authorContribution = summaryJson[i]["authorDailyIntervalContributions"];
+        for (var i in summaryJson[docType]) {
+            var authorContribution = summaryJson[docType][i]["authorDailyIntervalContributions"];
+            console.log(authorContribution);
             var currentRawDate = authorContribution[Object.keys(authorContribution)[0]][0]["sinceDate"];
             var currentDate = Date.parse(currentRawDate);
 
@@ -216,8 +220,9 @@ function getMinDate() {
     }
 }
 
-function getMaxDate() {
-    rawDate = summaryJson[Object.keys(summaryJson)[0]]["untilDate"];
+function getMaxDate(docType) {
+    var docType = docType.join();
+    rawDate = summaryJson[docType][Object.keys(summaryJson[docType])[0]]["untilDate"];
     if (rawDate) {
         //the untilDate has been set
         return Date.parse(rawDate).toString("M/d/yy");
@@ -225,8 +230,8 @@ function getMaxDate() {
         //find the max Date among all intervals
         var result;
 
-        for (var i in summaryJson) {
-            var authorContributions = summaryJson[i]["authorDailyIntervalContributions"];
+        for (var i in summaryJson[docType]) {
+            var authorContributions = summaryJson[docType][i]["authorDailyIntervalContributions"];
             if (Object.keys(authorContributions).length == 0) continue;
 
             var authorIntervals = authorContributions[Object.keys(authorContributions)[0]];
