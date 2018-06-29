@@ -1,0 +1,123 @@
+html
+  head
+    link(rel="stylesheet", href="https://fonts.googleapis.com/css?family=Titillium+Web")
+    link(rel="stylesheet", href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.0/normalize.min.css")
+    link(rel="stylesheet", href="https://cdnjs.cloudflare.com/ajax/libs/muicss/0.9.39/css/mui.min.css")
+    link(rel="stylesheet", href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/default.min.css")
+    link(rel="stylesheet", href="static/css/style.css")
+
+    script(src="https://use.fontawesome.com/releases/v5.0.13/js/all.js", defer=True)
+    script(src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.5.16/vue.min.js")
+    script(src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.5/jszip.min.js")
+
+    script(src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js")
+  body
+    div#app
+      #app-wrapper(v-if="userUpdated")
+        #summary-wrapper
+          .summary-status(v-if="loadedRepo<repoLength") Loading repos ... {{ loadedRepo }} / {{ repoLength }}
+          v_summary(
+            v-bind:repos="getUsers()",
+            v-on:view-authorship="updateTabAuthorship"
+          )
+
+        #tabs-wrapper(v-if="isTabActive")
+          .tab-close(v-on:click="isTabActive=false")
+            i.fas.fa-caret-right
+          ul.mui-tabs__bar
+            li(v-bind:class="{'mui--is-active':isTabAuthorship}")
+              a(v-on:click="deactivateTabs(); isTabAuthorship=true;")
+                i.fas.fa-lg.fa-code
+          .tab-content
+            .tab-panes
+              #tab-authorship.tab-pane(v-if="isTabAuthorship")
+                v_authorship(v-bind:repo="tabRepo", v-bind:author="tabAuthor", v-bind:key="tabRepo+'_'+tabAuthor")
+
+      template(v-else)
+        .empty please enter a report directory or upload a report zip
+
+        form#file-upload(onsubmit="return false;")
+          input(type="file", v-on:change="updateReportZip")
+
+    vuetemplate#v_summary
+      #summary.wrapper
+        form.summary-picker.mui-form--inline(v-on:submit.prevent="getFiltered();")
+          .mui-textfield.summary-picker__input
+            input.summary-picker__search(type="text", v-model="filterSearch")
+            label search
+          .mui-select.summary-picker__input
+            select(v-model="filterSort")
+              option(value="totalCommits") Contribution
+              option(value="variance") Variance
+              option(value="displayName") Author Name
+              option(value="searchPath") Team Name
+            label sort by
+          .mui-checkbox.summary-picker__checkboxes.summary-picker__input
+            label
+              input(type="checkbox", v-model="filterSortReverse").summary-picker__checkbox
+              span reverse
+            label
+              input(type="checkbox", v-model="filterGroupRepos").summary-picker__checkbox
+              span group by repo
+            label
+              input(type="checkbox", v-model="filterGroupWeek").summary-picker__checkbox
+              span week
+          .summary-picker__input
+            .mui-textfield.summary-picker__date
+              input(type="date", v-model="filterSinceDate")
+              label since
+            .mui-textfield.summary-picker__date
+              input(type="date", v-model="filterUntilDate")
+              label until
+        #summary-charts
+          .summary-charts(v-for="repo of filtered", v-if="repo.length>0")
+            .summary-charts--title(v-if="filterGroupRepos") {{ repo[0].repoPath }}
+            .summary-chart(v-for="(user, i) in repo", v-bind:class="{indented:filterGroupRepos}")
+              .summary-chart__title(
+                v-on:click="$emit('view-authorship', {author:user.name, repo:user.repoName})"
+              )
+                .summary-chart__title--index {{ i+1 }}
+                .summary-chart__title--repo(v-if="!filterGroupRepos") {{ user.repoPath }}
+                .summary-chart__title--name {{ user.displayName }}
+              .summary-chart__ramp
+                a.summary-chart__ramp__slice(
+                  v-for="(slice, j) in user.commits",
+                  v-if="slice.insertions>0",
+                  v-bind:title="getSliceTitle(slice)",
+                  v-bind:href="getSliceLink(user, slice)", target="_blank",
+                  v-bind:class="'summary-chart__ramp__slice--color'+j%5",
+                  v-bind:style="{
+                    borderLeftWidth: getWidth(slice)+'em',
+                    right: (sliceCount-j-1)*sliceWidth + '%'
+                  }"
+                )
+              .summary-chart__contrib(v-bind:title="'total contribution: '+user.totalCommits")
+                .summary-chart__contrib--bar(
+                  v-for="width in getContributionBars(user.totalCommits)",
+                  v-bind:style="{ width: width+'%' }"
+                )
+
+    vuetemplate#v_authorship
+      #authorship
+        .title
+          .repoName {{ repo }}
+          .author {{ author }}
+
+        .files(v-if="isLoaded")
+          .file(v-for="file in files")
+            .title(onclick="toggleNext(this)") {{ file.path }}
+            pre.hljs.java
+              code
+                template(v-for="segment in file.segments")
+                  .segment(v-bind:class="{ untouched: !segment.authored }")
+                    .closer(v-if="!segment.authored", onclick="toggleNext(this)")
+                      span untouched code (click to toggle)
+                    .code(v-if="segment.authored") {{ segment.lines.join("\n") }}
+                    .code(v-else, style="display:none;") {{ segment.lines.join("\n") }}
+
+        .empty(v-else) loading...
+
+    script(src="static/js/api.js")
+    script(src="static/js/v_summary.js")
+    script(src="static/js/v_authorship.js")
+    script(src="static/js/main.js")
