@@ -18,7 +18,7 @@ import reposense.model.CliArguments;
  * Verifies and parses a string-formatted date to a {@code CliArguments} object.
  */
 public class ArgsParser {
-    public static final String DEFAULT_REPORT_NAME = "reposense";
+    public static final String DEFAULT_REPORT_NAME = "reposense-report";
     private static final String PROGRAM_USAGE = "java -jar RepoSense.jar";
     private static final String PROGRAM_DESCRIPTION =
             "RepoSense is a contribution analysis tool for Git repositories.";
