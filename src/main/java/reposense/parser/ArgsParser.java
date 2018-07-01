@@ -46,8 +46,8 @@ public class ArgsParser {
                 .metavar("PATH")
                 .type(Arguments.fileType().verifyExists().verifyIsDirectory().verifyCanWrite())
                 .setDefault(new File("."))
-                .help("The directory to output the generated dashboard. "
-                        + "If not provided, a reposense folder will be created in the current working directory.");
+                .help("The directory to output the report folder, reposense-report. "
+                        + "If not provided, the report folder will be created in the current working directory.");
 
         parser.addArgument("-since")
                 .metavar("dd/MM/yyyy")
