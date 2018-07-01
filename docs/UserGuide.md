@@ -10,7 +10,6 @@
 ## Dependencies
 1. **JDK `1.8.0_60`** or later.
 2. **git** on the command line.
-3. **findstr** for *Windows*, **grep** for *macOS* or *Linux* on the command line.
  > Check that the tools exist on your OS terminal by typing its name on the terminal and ensure that it does not output messages such as `not found` or `not recognized`.
 
 
