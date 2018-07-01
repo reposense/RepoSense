@@ -3,9 +3,6 @@ package reposense.report;
 import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -24,20 +21,16 @@ import reposense.util.FileUtil;
 public class ReportGenerator {
     private static final Logger logger = LogsManager.getLogger(ReportGenerator.class);
 
-    private static final DateFormat REPORT_NAME_FORMAT = new SimpleDateFormat("yyyy-MM-dd-HH-mm-ss");
-
     /**
      * Generates the authorship and commits JSON file for each repo in {@code configs} at {@code outputPath}, as
      * well as the summary JSON file of all the repos.
      */
-    public static String generateReposReport(List<RepoConfiguration> configs, String outputPath) {
-        String reportName = generateReportName();
-        FileUtil.copyTemplate(outputPath, reportName);
-        Path templateLocation = Paths.get(outputPath, reportName,
-                Constants.STATIC_INDIVIDUAL_REPORT_TEMPLATE_ADDRESS);
+    public static void generateReposReport(List<RepoConfiguration> configs, String outputPath) {
+        FileUtil.copyTemplate(outputPath);
+        Path templateLocation = Paths.get(outputPath, Constants.STATIC_INDIVIDUAL_REPORT_TEMPLATE_ADDRESS);
 
         for (RepoConfiguration config : configs) {
-            Path repoReportDirectory = Paths.get(outputPath, reportName, config.getDisplayName());
+            Path repoReportDirectory = Paths.get(outputPath, config.getDisplayName());
             try {
                 GitDownloader.downloadRepo(config.getOrganization(), config.getRepoName(), config.getBranch());
                 FileUtil.copyDirectoryFiles(templateLocation, repoReportDirectory);
@@ -59,8 +52,7 @@ public class ReportGenerator {
                 logger.log(Level.WARNING, "Error deleting report directory.", ioe);
             }
         }
-        FileUtil.writeJsonFile(configs, getSummaryResultPath(reportName, outputPath));
-        return reportName;
+        FileUtil.writeJsonFile(configs, getSummaryResultPath(outputPath));
     }
 
     private static void generateIndividualRepoReport(
@@ -70,12 +62,8 @@ public class ReportGenerator {
         FileUtil.writeJsonFile(authorshipSummary.getFileResults(), getIndividualAuthorshipPath(repoReportDirectory));
     }
 
-    private static String getSummaryResultPath(String reportName, String targetFileLocation) {
-        return targetFileLocation + "/" + reportName + "/summary.json";
-    }
-
-    private static String generateReportName() {
-        return REPORT_NAME_FORMAT.format(new Date());
+    private static String getSummaryResultPath(String targetFileLocation) {
+        return targetFileLocation + "/summary.json";
     }
 
     private static String getIndividualAuthorshipPath(String repoReportDirectory) {
