@@ -64,7 +64,7 @@ Optionally, you can follow the [Using Checkstyle](UsingCheckstyle.md) document t
  * [`CsvParser`](/src/main/java/reposense/parser/CsvParser.java): Parses the the user-supplied CSV config file into a list of `RepoConfiguration` for each repository to analyze.
 
 
-### Git
+### Git(GitDownloader)
 `Git` contains the wrapper classes for respective *git* commands.
  * [`GitDownloader`](/src/main/java/reposense/git/GitDownloader.java): Wrapper class for `git clone` functionality. Clones the repository from *GitHub* into a temporary folder in order to run the analysis.
  * [`GitChecker`](/src/main/java/reposense/git/GitChecker.java): Wrapper class for `git checkout` functionality. Checks out the repository by branch name or commit hash.
@@ -87,7 +87,7 @@ Optionally, you can follow the [Using Checkstyle](UsingCheckstyle.md) document t
  5. uses [`FileResultAggregator`](/src/main/java/reposense/authorship/FileResultAggregator.java) to aggregate all `FileResult` into an `AuthorshipSummary`.
 
 
-### ReportGenerator
+### ReportGenerator(Main)
 [`ReportGenerator`](/src/main/java/reposense/report/ReportGenerator.java),
  1. uses `GitDownloader` API to download the repository from *GitHub*.
  2. copies the template files into the designated output directory.
