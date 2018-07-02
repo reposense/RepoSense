@@ -4,11 +4,16 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import reposense.util.Constants;
 
 public class CommandRunner {
+
+    private static final DateFormat GIT_LOG_SINCE_DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd'T'00:00:00+08:00");
+    private static final DateFormat GIT_LOG_UNTIL_DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd'T'23:59:59+08:00");
 
     private static boolean isWindows = isWindows();
 
@@ -39,7 +44,7 @@ public class CommandRunner {
         Path rootPath = Paths.get(root);
         String checkoutCommand;
         String substituteCommand = "git rev-list -1 --before="
-                + Constants.GIT_LOG_UNTIL_DATE_FORMAT.format(untilDate) + " " + branchName;
+                + GIT_LOG_UNTIL_DATE_FORMAT.format(untilDate) + " " + branchName;
 
         if (isWindows) {
             checkoutCommand = "for /f %g in ('" + substituteCommand + "') do git checkout %g";
@@ -138,10 +143,10 @@ public class CommandRunner {
         String gitDateRangeArgs = "";
 
         if (sinceDate != null) {
-            gitDateRangeArgs += " --since=" + addQuote(Constants.GIT_LOG_SINCE_DATE_FORMAT.format(sinceDate));
+            gitDateRangeArgs += " --since=" + addQuote(GIT_LOG_SINCE_DATE_FORMAT.format(sinceDate));
         }
         if (untilDate != null) {
-            gitDateRangeArgs += " --until=" + addQuote(Constants.GIT_LOG_UNTIL_DATE_FORMAT.format(untilDate));
+            gitDateRangeArgs += " --until=" + addQuote(GIT_LOG_UNTIL_DATE_FORMAT.format(untilDate));
         }
 
         return gitDateRangeArgs;

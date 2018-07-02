@@ -2,8 +2,8 @@ package reposense.builder;
 
 import java.util.List;
 
-import reposense.dataobject.Author;
-import reposense.dataobject.RepoConfiguration;
+import reposense.model.Author;
+import reposense.model.RepoConfiguration;
 
 
 public class ConfigurationBuilder {

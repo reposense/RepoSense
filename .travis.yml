@@ -1,16 +1,22 @@
 language: java
+
 matrix:
   include:
-    - jdk: oraclejdk9
+    - os: linux
+      jdk: oraclejdk9
+    - os: osx
 
-script: >-
-    ./config/travis/run-checks.sh &&
-    travis_retry ./gradlew clean checkstyleMain checkstyleTest test functional
+script:
+  - ./config/travis/run-checks.sh && time travis_retry ./gradlew clean checkstyleMain checkstyleTest test functional
 
 addons:
   apt:
     packages:
       - oracle-java9-installer
+
+before_install:
+  # pcre2 is needed for checkstyle to run in osx
+  - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then brew update && brew reinstall --with-pcre2 git; fi
 
 before_cache:
   - rm -f  $HOME/.gradle/caches/modules-2/modules-2.lock

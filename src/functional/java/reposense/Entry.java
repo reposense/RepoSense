@@ -1,59 +1,69 @@
 package reposense;
 
+import static org.apache.tools.ant.types.Commandline.translateCommandline;
+
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import org.junit.Assert;
-import org.junit.BeforeClass;
+import org.junit.Before;
 import org.junit.Test;
 
-import reposense.dataobject.RepoConfiguration;
-import reposense.report.RepoInfoFileGenerator;
-import reposense.system.CsvConfigurationBuilder;
+import reposense.model.CliArguments;
+import reposense.model.RepoConfiguration;
+import reposense.parser.ArgsParser;
+import reposense.parser.CsvParser;
+import reposense.parser.ParseException;
+import reposense.report.ReportGenerator;
 import reposense.util.FileUtil;
 import reposense.util.TestUtil;
-
 
 public class Entry {
     private static final String FT_TEMP_DIR = "ft_temp";
     private static final String EXPECTED_FOLDER = "expected";
 
-    @BeforeClass
-    public static void setUp() throws IOException {
+    @Before
+    public void setUp() throws IOException {
         FileUtil.deleteDirectory(FT_TEMP_DIR);
     }
 
     @Test
-    public void testNoDateRange() throws IOException, URISyntaxException {
-        String actualRelativeDir = FT_TEMP_DIR + "/" + generateReport(null, null);
+    public void testNoDateRange() throws IOException, URISyntaxException, ParseException {
+        generateReport();
         Path actualFiles = Paths.get(getClass().getClassLoader().getResource("noDateRange/expected").toURI());
-        verifyAllJson(actualFiles, actualRelativeDir);
-        FileUtil.deleteDirectory(FT_TEMP_DIR);
+        verifyAllJson(actualFiles, FT_TEMP_DIR);
     }
 
     @Test
-    public void testDateRange() throws IOException, URISyntaxException {
-        Date sinceDate = TestUtil.getDate(2017, Calendar.SEPTEMBER, 1);
-        Date untilDate = TestUtil.getDate(2017, Calendar.OCTOBER, 30);
-
-        String actualRelativeDir = FT_TEMP_DIR + "/" + generateReport(sinceDate, untilDate);
+    public void testDateRange() throws IOException, URISyntaxException, ParseException {
+        generateReport(getInputWithDates("1/9/2017", "30/10/2017"));
         Path actualFiles = Paths.get(getClass().getClassLoader().getResource("dateRange/expected").toURI());
-        verifyAllJson(actualFiles, actualRelativeDir);
-        FileUtil.deleteDirectory(FT_TEMP_DIR);
+        verifyAllJson(actualFiles, FT_TEMP_DIR);
     }
 
-    private String generateReport(Date sinceDate, Date untilDate) throws URISyntaxException {
-        Path configFilePath = Paths.get(getClass().getClassLoader().getResource("sample_full.csv").toURI());
-        List<RepoConfiguration> configs = CsvConfigurationBuilder.buildConfigs(configFilePath, sinceDate, untilDate);
-        return RepoInfoFileGenerator.generateReposReport(configs, FT_TEMP_DIR);
+    private String getInputWithDates(String sinceDate, String untilDate) {
+        return String.format("-since %s -until %s", sinceDate, untilDate);
+    }
+
+    private void generateReport() throws IOException, URISyntaxException, ParseException {
+        generateReport("");
+    }
+
+    private void generateReport(String inputDates) throws IOException, URISyntaxException, ParseException {
+        Path configFilePath = Paths.get(getClass().getClassLoader().getResource("sample.csv").toURI());
+        String input = String.format("-config %s ", configFilePath) + inputDates;
+
+        CliArguments cliArguments = ArgsParser.parse(translateCommandline(input));
+        List<RepoConfiguration> configs = CsvParser.parse(cliArguments.getConfigFilePath());
+        RepoConfiguration.setDatesToRepoConfigs(configs, cliArguments.getSinceDate(), cliArguments.getUntilDate());
+
+        ReportGenerator.generateReposReport(configs, FT_TEMP_DIR);
     }
 
     private void verifyAllJson(Path expectedDirectory, String actualRelative) {

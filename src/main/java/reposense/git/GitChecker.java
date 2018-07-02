@@ -3,10 +3,9 @@ package reposense.git;
 import java.util.Date;
 import java.util.logging.Logger;
 
-import reposense.dataobject.CommitInfo;
+import reposense.commits.model.CommitResult;
 import reposense.system.CommandRunner;
 import reposense.system.LogsManager;
-
 
 public class GitChecker {
 
@@ -20,7 +19,7 @@ public class GitChecker {
         checkout(root, branch);
     }
 
-    public static void checkOutToCommit(String root, CommitInfo commit) {
+    public static void checkOutToCommit(String root, CommitResult commit) {
         logger.info("Checking out " + commit.getHash() + "time:" + commit.getTime());
         checkout(root, commit.getHash());
     }
