@@ -1,6 +1,5 @@
 package reposense.authorship.model;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -11,10 +10,10 @@ import reposense.model.Author;
  */
 public class FileResult {
     private final String path;
-    private final ArrayList<LineInfo> lines;
+    private final List<LineInfo> lines;
     private final HashMap<Author, Integer> authorContributionMap;
 
-    public FileResult(String path, ArrayList<LineInfo> lines, HashMap<Author, Integer> authorContributionMap) {
+    public FileResult(String path, List<LineInfo> lines, HashMap<Author, Integer> authorContributionMap) {
         this.path = path;
         this.lines = lines;
         this.authorContributionMap = authorContributionMap;
@@ -30,5 +29,23 @@ public class FileResult {
 
     public HashMap<Author, Integer> getAuthorContributionMap() {
         return authorContributionMap;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        // short circuit if same object
+        if (obj == this) {
+            return true;
+        }
+
+        // instanceof handles null
+        if (!(obj instanceof FileResult)) {
+            return false;
+        }
+
+        // state check
+        FileResult other = (FileResult) obj;
+        return this.path.equals(other.path)
+                && this.getLines().equals(other.getLines());
     }
 }

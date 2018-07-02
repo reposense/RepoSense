@@ -15,6 +15,8 @@ import reposense.util.TestUtil;
 
 
 public class GitCheckerTest extends GitTestTemplate {
+    private static final String FIRST_COMMIT_HASH = "7d7584f";
+
     @Test
     public void checkoutBranchTest() {
         Path branchFile = Paths.get(TestConstants.LOCAL_TEST_REPO_ADDRESS, "inTestBranch.java");
@@ -29,7 +31,7 @@ public class GitCheckerTest extends GitTestTemplate {
         Path newFile = Paths.get(TestConstants.LOCAL_TEST_REPO_ADDRESS, "newFile.java");
         Assert.assertTrue(Files.exists(newFile));
 
-        GitChecker.checkout(TestConstants.LOCAL_TEST_REPO_ADDRESS, TestConstants.FIRST_COMMIT_HASH);
+        GitChecker.checkout(TestConstants.LOCAL_TEST_REPO_ADDRESS, FIRST_COMMIT_HASH);
         Assert.assertFalse(Files.exists(newFile));
     }
 

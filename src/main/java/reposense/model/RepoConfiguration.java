@@ -16,6 +16,7 @@ public class RepoConfiguration {
     private String repoName;
     private String branch;
     private String displayName;
+    private String lastCommitHash;
     private Date sinceDate;
     private Date untilDate;
 
@@ -189,5 +190,13 @@ public class RepoConfiguration {
         for (String alias : aliases) {
             authorAliasMap.put(alias, author);
         }
+    }
+
+    public String getLastCommitHash() {
+        return lastCommitHash;
+    }
+
+    public void setLastCommitHash(String lastCommitHash) {
+        this.lastCommitHash = lastCommitHash;
     }
 }

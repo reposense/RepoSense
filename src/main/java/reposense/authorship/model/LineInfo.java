@@ -15,9 +15,10 @@ public class LineInfo {
 
     public LineInfo(int lineNumber, String content) {
         this.lineNumber = lineNumber;
-        //V this line is commented to reduce the size of the output JSON
+        // this line is commented to reduce the size of the output JSON
         //this.issues = new ArrayList<>();
         this.content = content;
+        author = new Author(Author.UNSET_AUTHOR_GIT_ID);
     }
 
     public ArrayList<IssueInfo> getIssues() {
@@ -40,12 +41,35 @@ public class LineInfo {
         return content;
     }
 
+    public void setLineNumber(int lineNumber) {
+        this.lineNumber = lineNumber;
+    }
+
     public boolean hasIssue() {
         return !issues.isEmpty();
     }
 
     public void addNewIssue(IssueInfo issueInfo) {
         issues.add(issueInfo);
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        // short circuit if same object
+        if (obj == this) {
+            return true;
+        }
+
+        // instanceof handles null
+        if (!(obj instanceof LineInfo)) {
+            return false;
+        }
+
+        // state check
+        LineInfo other = (LineInfo) obj;
+        return this.content.equals(other.content)
+                && this.lineNumber == other.lineNumber
+                && this.author.equals(other.author);
     }
 }
 

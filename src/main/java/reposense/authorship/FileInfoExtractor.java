@@ -8,8 +8,11 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
+import java.util.TreeMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -17,6 +20,7 @@ import reposense.authorship.model.FileInfo;
 import reposense.authorship.model.LineInfo;
 import reposense.git.GitChecker;
 import reposense.model.RepoConfiguration;
+import reposense.system.CommandRunner;
 import reposense.system.LogsManager;
 
 /**
@@ -24,6 +28,22 @@ import reposense.system.LogsManager;
  */
 public class FileInfoExtractor {
     private static final Logger logger = LogsManager.getLogger(FileInfoExtractor.class);
+
+    private static final String DIFF_FILE_CHUNK_SEPARATOR = "\ndiff --git a/";
+    private static final String COMPARED_FILE_PATH_SEPARATOR = " b/";
+    private static final String LINE_CHUNKS_SEPARATOR = "\n@@ ";
+    private static final String FILE_DELETED_METADATA = "deleted file mode 100644";
+    private static final String LINE_INSERTED_SYMBOL = "+";
+    private static final String LINE_DELETED_SYMBOL = "-";
+
+    private static final int COMPARED_FILE_LINE_INDEX = 0;
+    private static final int CHUNK_HEADER_LINE_INDEX = 0;
+    private static final int FILE_COMPARED_BEFORE_INDEX = 0;
+    private static final int FILE_COMPARED_AFTER_INDEX = 1;
+    private static final int DIFF_FILE_METADATA_INDEX = 1;
+    private static final int CHUNK_STARTING_LINE_NUMBER_INDEX = 1;
+
+    private static final Pattern CHUNK_HEADER_PATTERN = Pattern.compile("-(\\d+)[,\\d]* \\+(\\d+).*");
 
     /**
      * Extracts a list of relevant files given in {@code config}.
@@ -39,6 +59,113 @@ public class FileInfoExtractor {
         fileInfos.sort(Comparator.comparing(FileInfo::getPath));
 
         return fileInfos;
+    }
+
+    /**
+     * Updates all the {@code FileInfo} content in {@code fileInfos} to correspond to the latest commit,
+     * and returns that list of updated {@code FileInfo}s.
+     */
+    public static List<FileInfo> updateFileInfos(RepoConfiguration config, List<FileInfo> fileInfos) {
+        logger.info("Updating relevant file infos...");
+
+        TreeMap<String, FileInfo> map = new TreeMap<>();
+        fileInfos.forEach(fileInfo -> map.put(fileInfo.getPath(), fileInfo));
+
+        String diffResult = CommandRunner.diffCommit(config.getRepoRoot(), config.getLastCommitHash());
+        String[] fileDiffResultList = diffResult.split(DIFF_FILE_CHUNK_SEPARATOR);
+
+        for (String fileDiffResult : fileDiffResultList) {
+            String[] fileDiffResultLines = fileDiffResult.split("\n");
+            String[] filesCompared = fileDiffResultLines[COMPARED_FILE_LINE_INDEX].split(COMPARED_FILE_PATH_SEPARATOR);
+            String filePathBefore = filesCompared[FILE_COMPARED_BEFORE_INDEX];
+            String filePathAfter = filesCompared[FILE_COMPARED_AFTER_INDEX];
+
+            if (isFileFormatInsideWhiteList(filePathBefore, config.getFileFormats())) {
+                FileInfo currentFileInfo = map.get(filePathBefore);
+
+                // new file, generate whole file info
+                if (!map.containsKey(filePathBefore)) {
+                    map.put(filePathAfter, generateFileInfo(config.getRepoRoot(), filePathAfter));
+                    continue;
+                }
+
+                // file deleted, remove file info
+                if (fileDiffResultLines[DIFF_FILE_METADATA_INDEX].equals(FILE_DELETED_METADATA)) {
+                    map.remove(filePathBefore);
+                    continue;
+                }
+
+                // file renamed, reset the file info's path
+                if (!filePathBefore.equals(filePathAfter)) {
+                    currentFileInfo.setPath(filePathAfter);
+                }
+
+                updateFileInfo(currentFileInfo, fileDiffResult);
+
+                // if file extension changed to one that is white-listed, generate the new file info
+            } else if (isFileFormatInsideWhiteList(filePathAfter, config.getFileFormats())) {
+                map.put(filePathAfter, generateFileInfo(config.getRepoRoot(), filePathAfter));
+            }
+        }
+
+        return new ArrayList<>(map.values());
+    }
+
+    /**
+     * Analyzes the {@code diffFileResult} and updates the {@code fileInfo} content to the latest commit.
+     */
+    private static void updateFileInfo(FileInfo fileInfo, String diffFileResult) {
+        String[] lineChangedChunks = diffFileResult.split(LINE_CHUNKS_SEPARATOR);
+        List<LineInfo> oldLineInfos = fileInfo.getLines();
+        List<LineInfo> updatedLineInfos = new ArrayList<>();
+        int oldFileLinePointer = 0;
+
+        for (int chunkIndex = 1; chunkIndex < lineChangedChunks.length; chunkIndex++) {
+            String lineChangedChunk = lineChangedChunks[chunkIndex];
+            String[] linesChangedInChunk = lineChangedChunk.split("\n");
+            Matcher chunkHeaderMatcher = CHUNK_HEADER_PATTERN.matcher(linesChangedInChunk[CHUNK_HEADER_LINE_INDEX]);
+
+            if (!chunkHeaderMatcher.find()) {
+                throw new AssertionError("Error while parsing git diff results.");
+            }
+
+            // add in all old line infos between chunks that were not changed between the 2 file versions
+            int chunkStartingLineNumber = Integer.parseInt(chunkHeaderMatcher.group(CHUNK_STARTING_LINE_NUMBER_INDEX));
+            while (oldFileLinePointer < chunkStartingLineNumber) {
+                updatedLineInfos.add(oldLineInfos.get(oldFileLinePointer++));
+                updatedLineInfos.get(updatedLineInfos.size() - 1).setLineNumber(updatedLineInfos.size());
+            }
+
+            boolean firstDeletedLine = true;
+            for (int lineIndex = 1; lineIndex < linesChangedInChunk.length; lineIndex++) {
+                String lineChanged = linesChangedInChunk[lineIndex];
+                if (lineChanged.startsWith(LINE_DELETED_SYMBOL)) {
+                    // first deleted line was added in previously, remove it
+                    if (firstDeletedLine) {
+                        firstDeletedLine = false;
+                        updatedLineInfos.remove(updatedLineInfos.size() - 1);
+
+                        // skip rest of the subsequent deleted lines
+                    } else {
+                        oldFileLinePointer++;
+                    }
+                }
+
+                // new line inserted, construct new line info and insert
+                if (lineChanged.startsWith(LINE_INSERTED_SYMBOL)) {
+                    String content = lineChanged.substring(1);
+                    updatedLineInfos.add(new LineInfo(updatedLineInfos.size() + 1, content));
+                }
+            }
+        }
+
+        // add in all remaining lines in the old file version
+        while (oldFileLinePointer < oldLineInfos.size()) {
+            updatedLineInfos.add(oldLineInfos.get(oldFileLinePointer++));
+            updatedLineInfos.get(updatedLineInfos.size() - 1).setLineNumber(updatedLineInfos.size());
+        }
+
+        fileInfo.setLines(updatedLineInfos);
     }
 
     /**
@@ -59,6 +186,7 @@ public class FileInfoExtractor {
                 }
 
                 if (isFileFormatInsideWhiteList(relativePath, config.getFileFormats())) {
+
                     fileInfos.add(generateFileInfo(config.getRepoRoot(), relativePath.replace('\\', '/')));
                 }
             }
