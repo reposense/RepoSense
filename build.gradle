@@ -16,6 +16,18 @@ checkstyle {
 
 test {
   testLogging.showStandardStreams = true
+
+  doFirst {
+    mkdir 'test_sandbox'
+  }
+  // Run the tests in a temporary folder
+  workingDir 'test_sandbox'
+
+  doLast {
+    delete {
+      delete 'test_sandbox'
+    }
+  }
 }
 
 dependencies {

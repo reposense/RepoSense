@@ -50,7 +50,7 @@ public class Entry {
     }
 
     private String getInputWithDates(String sinceDate, String untilDate) {
-        return String.format("-since %s -until %s", sinceDate, untilDate);
+        return String.format(" -since %s -until %s", sinceDate, untilDate);
     }
 
     private void generateReport() throws IOException, URISyntaxException, ParseException {
@@ -59,10 +59,11 @@ public class Entry {
 
     private void generateReport(String inputDates) throws IOException, URISyntaxException, ParseException {
         Path configFilePath = Paths.get(getClass().getClassLoader().getResource("sample.csv").toURI());
-        String input = String.format("-config %s ", configFilePath) + inputDates;
+        String input = configFilePath + inputDates;
 
         CliArguments cliArguments = ArgsParser.parse(translateCommandline(input));
-        List<RepoConfiguration> configs = CsvParser.parse(cliArguments.getConfigFilePath());
+
+        List<RepoConfiguration> configs = CsvParser.parse(cliArguments.getGenericInputValue());
         RepoConfiguration.setFormatsToRepoConfigs(configs, TESTING_FILE_FORMATS);
         RepoConfiguration.setDatesToRepoConfigs(configs, cliArguments.getSinceDate(), cliArguments.getUntilDate());
 
