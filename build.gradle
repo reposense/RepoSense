@@ -4,7 +4,7 @@ plugins {
     id 'com.github.johnrengelman.shadow' version '2.0.3'
     id 'application'
 }
-mainClassName = "reposense.frontend.RepoSense"
+mainClassName = "reposense.RepoSense"
 
 repositories {
     mavenCentral()
@@ -66,6 +66,13 @@ task functional(type: Test) {
     showStandardStreams = true
   }
 }
+tasks.functional.dependsOn("myZip");
+
+run {
+    //the second arguments indicates the default value associated with the property.
+    args System.getProperty("args", "").split()
+}
+tasks.compileJava.dependsOn(clean)
 
 tasks.functional.dependsOn("myZip")
 
