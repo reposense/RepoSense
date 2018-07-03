@@ -43,7 +43,7 @@ var getContribution = function(repo) {
 
 function getScaleLimitMap(docType) {
     var result = {};
-    var docType = docType.join();
+    //var docType = docType.join();
     result["authorWeeklyIntervalContributions"] = getScaleLimit("authorWeeklyIntervalContributions", docType);
     result["authorDailyIntervalContributions"] = getScaleLimit("authorDailyIntervalContributions", docType);
     return result;
@@ -52,10 +52,11 @@ function getScaleLimitMap(docType) {
 function getScaleLimit(intervalType, docType) {
     var totalContribution = 0;
     var count = 0;
-    for (repo in summaryJson[docType]) {
-        for (author in summaryJson[docType][repo][intervalType]) {
-            for (i in summaryJson[docType][repo][intervalType][author]) {
-                currentPeriod = summaryJson[docType][repo][intervalType][author][i];
+    for (var idx in docType) {
+    for (repo in summaryJson[docType[idx]]) {
+        for (author in summaryJson[docType[idx]][repo][intervalType]) {
+            for (i in summaryJson[docType[idx]][repo][intervalType][author]) {
+                currentPeriod = summaryJson[docType[idx]][repo][intervalType][author][i];
                 if (totalContribution['insertions'] != 0) {
                     totalContribution += currentPeriod['insertions'];
                     count += 1
@@ -63,6 +64,7 @@ function getScaleLimit(intervalType, docType) {
 
             }
         }
+    }
     }
     return totalContribution / count * 20;
 };
@@ -84,12 +86,13 @@ function getIntervalCount(intervalType, minDate, maxDate) {
 function getTotalContributionLimit(docType) {
     var totalContribution = 0;
     var count = 0;
-    var docType = docType.join();
-    for (repo in summaryJson[docType]) {
-        for (author in summaryJson[docType][repo]['authorFinalContributionMap']) {
-            totalContribution += (summaryJson[docType][repo]['authorFinalContributionMap'][author]);
+    for (var idx in docType) {
+    for (repo in summaryJson[docType[idx]]) {
+        for (author in summaryJson[docType[idx]][repo]['authorFinalContributionMap']) {
+            totalContribution += (summaryJson[docType[idx]][repo]['authorFinalContributionMap'][author]);
             count += 1
         }
+    }
     }
     return totalContribution / count * 10;
 };
@@ -148,20 +151,63 @@ function filterFilesBasedOnDocTypes(files, docTypes) {
     if (docTypes[0] == '') {
         return filteredFiles;
     }
-    for (var [id, file] of Object.entries(files)) {
-        if(isFileMatch(file.path, docTypes)) {
-            filteredFiles.push(file);
+    console.log(files["adoc"]);
+    console.log('outside filterFilesBasedOnDocTypes');
+    for (var key of files) {
+//        if(isDocTypeMatch(fileDocType, docTypes)) {
+//            filteredFiles.push(file);
+//        }
+        if (!files.hasOwnProperty(key)) {continue};
+        var docType = files[key];
+        console.log('FileDocType is '+fileDocType.toString());
+        if (docTypes.indexOf(fileDocType) > -1) {
+            console.log(fileDocType);
+            for (var [idx, file] in Object.entries(files[file])) {
+                filteredFiles.push(file);
+            }
         }
     }
 
     return filteredFiles;
 }
 
-function isFileMatch(file, docTypes) {
+function clone(obj) {
+      if (obj === null || typeof(obj) !== 'object' || 'isActiveClone' in obj)
+        return obj;
+
+      if (obj instanceof Date)
+        var temp = new obj.constructor(); //or new Date(obj);
+      else
+        var temp = obj.constructor();
+
+      for (var key in obj) {
+        if (Object.prototype.hasOwnProperty.call(obj, key)) {
+          obj['isActiveClone'] = null;
+          temp[key] = clone(obj[key]);
+          delete obj['isActiveClone'];
+        }
+      }
+
+      return temp;
+}
+
+function obtainRelevantFilesBasedOnDocTypes(resultJson, docTypes) {
+    var result = [];
+    for (var idx in docTypes) {
+        var temp = resultJson[docTypes[idx]];
+       // console.log(temp);
+        for (var id in temp) {
+            result.push(temp[id]);
+        }
+    }
+    return result;
+}
+
+function isDocTypeMatch(file, docTypes) {
     for (var [key, value] of Object.entries(docTypes)) {
         var type = value.split(".");
         type = type[type.length-1];
-        var exp = new RegExp("\."+type);
+        var exp = new RegExp("\\."+type);
         var result = exp.test(file);
         if(result) {
             return result;
@@ -200,7 +246,7 @@ function getMinDate(docType) {
         var result;
         for (var i in summaryJson[docType]) {
             var authorContribution = summaryJson[docType][i]["authorDailyIntervalContributions"];
-            console.log(authorContribution);
+           // console.log(authorContribution);
             var currentRawDate = authorContribution[Object.keys(authorContribution)[0]][0]["sinceDate"];
             var currentDate = Date.parse(currentRawDate);
 
@@ -258,3 +304,75 @@ function getMaxDate(docType) {
 function isNotAuthored(currentAuthor,line){
     return currentAuthor==null || line.author == null || line.author.gitID != currentAuthor;
 }
+
+function obtainSummariesForCombinedDocTypes(summary, docType) {
+        if (docType.length == 0) {return;}
+        var summariesForCombinedDocType = clone(summary[docType[0]]);
+        if (docType.length == 1) {return summariesForCombinedDocType;}
+        var dailyIntervalContributionSize = 0, totalDailyContribution = 0;
+        for (var idx in docType) {
+                var type = docType[idx];
+                var summary_temp = clone(summary[type]);
+                for (var organization in summary_temp) {
+                    for(var item in summary_temp[organization]) {
+                        if (item === "authorDailyIntervalContributions") {
+                            for (var person in summary_temp[organization][item]) {
+                                for (var commmit_idx = 0;
+                                      commmit_idx < Math.min(summary_temp[organization][item][person].length, summariesForCombinedDocType[organization][item][person].length)
+                                      ; commmit_idx++) {
+                                      var dailyIntervalContributionSize = dailyIntervalContributionSize + 1;
+                                      var totalDailyContribution = totalDailyContribution + parseInt(summary_temp[organization][item][person][commmit_idx]["insertions"]);
+                                      if (idx != 0){
+                                      var temp1 = parseInt(summariesForCombinedDocType[organization][item][person][commmit_idx]["insertions"]) +
+                                                                                                parseInt(summary_temp[organization][item][person][commmit_idx]["insertions"]);
+                                      var temp2 = parseInt(summariesForCombinedDocType[organization][item][person][commmit_idx]["deletions"]) +
+                                                                                                parseInt(summary_temp[organization][item][person][commmit_idx]["deletions"]);
+                                      summariesForCombinedDocType[organization][item][person][commmit_idx]["insertions"] = temp1;
+                                      summariesForCombinedDocType[organization][item][person][commmit_idx]["deletions"] = temp2;
+                                }
+                                }
+                            }
+                        }
+                        if (item === "authorWeeklyIntervalContributions") {
+                           if (idx != 0) {
+                           for (var person in summary_temp[organization][item]) {
+                               for (var commmit_idx = 0;
+                               commmit_idx < Math.min(summary_temp[organization][item][person].length, summariesForCombinedDocType[organization][item][person].length)
+                               ; commmit_idx++) {
+                                   var temp1 = parseInt(summariesForCombinedDocType[organization][item][person][commmit_idx]["insertions"]) +
+                                                    parseInt(summary_temp[organization][item][person][commmit_idx]["insertions"]);
+                                   var temp2 = parseInt(summariesForCombinedDocType[organization][item][person][commmit_idx]["deletions"]) +
+                                                              parseInt(summary_temp[organization][item][person][commmit_idx]["deletions"]);
+                                   summariesForCombinedDocType[organization][item][person][commmit_idx]["insertions"] = temp1;
+                                   summariesForCombinedDocType[organization][item][person][commmit_idx]["deletions"] = temp2;
+                               }
+                           }
+                           }
+                        }
+                        if (item === "authorFinalContributionMap") {
+                            if (idx != 0) {
+                            for (var person in summary_temp[organization][item]) {
+                                var total = parseInt(summariesForCombinedDocType[organization][item][person]) + parseInt(summary_temp[organization][item][person]);
+                                summariesForCombinedDocType[organization][item][person] = total;
+                            }
+                            }
+                        }
+                    }
+                }
+
+         }
+        var mean = totalDailyContribution / dailyIntervalContributionSize;
+        for (var organization in summariesForCombinedDocType) {
+            for (var person in summariesForCombinedDocType[organization]["authorDailyIntervalContributions"]) {
+                var variance = 0;
+                for (var commit in summariesForCombinedDocType[organization]["authorDailyIntervalContributions"][person]) {
+                        var insertions = parseInt(summariesForCombinedDocType[organization]["authorDailyIntervalContributions"][person][commit]["insertions"]);
+                        variance = variance + Math.pow((mean - insertions), 2);
+                 }
+                 variance /= dailyIntervalContributionSize;
+                 summariesForCombinedDocType[organization]["authorContributionVariance"][person] = variance;
+                 console.log('variance for '+person+": "+variance);
+            }
+        }
+        return summariesForCombinedDocType;
+    }

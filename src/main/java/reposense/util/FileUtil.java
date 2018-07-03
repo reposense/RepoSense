@@ -41,6 +41,7 @@ public class FileUtil {
             out.print("\n");
         } catch (FileNotFoundException e) {
             logger.log(Level.SEVERE, e.getMessage(), e);
+            e.printStackTrace();
         }
     }
 

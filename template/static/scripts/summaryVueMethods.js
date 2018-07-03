@@ -78,7 +78,9 @@ vueMethods = {
         return "total contribution : " + value;
     },
     sortAndFilter: function(summary, searchTerm, sortElement, sortOrder, isGroupByRepo, docType) {
-        summary = summary[docType.join()];
+        //summary = summary[docType.join()];
+        summary = obtainSummariesForCombinedDocTypes(summary, docType);
+     // summary = summariesForCombinedDocType;
         authorRepos = [];
         for (repo in summary) {
             newRepo = [];

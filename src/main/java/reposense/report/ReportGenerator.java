@@ -93,13 +93,13 @@ public class ReportGenerator {
     }
 
     private static String getIndividualAuthorshipPathForEachDocType(String repoReportDirectory, String docType) {
-        return repoReportDirectory + "/authorship_" + docType + ".json";
+        return repoReportDirectory + "/authorship_" + docType.split("\\.")[1] + ".json";
     }
 
     private static String getIndividualAggregateCommitsPath(String repoReportDirectory) {
         return repoReportDirectory + "/commits.json";
     }
     private static String getIndividualCommitsPathForEachDocType(String repoReportDirectory, String docType) {
-        return repoReportDirectory + "/commits_" + docType + ".json";
+        return repoReportDirectory + "/commits_" + docType.split("\\.")[1] + ".json";
     }
 }

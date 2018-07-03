@@ -45,7 +45,7 @@ function clone(obj) {
       return temp;
     }
 
-var cnt=0, summaryJson={}, docTypes = ["*.adoc","*.java"];
+var cnt=0, summaryJson={}, docTypes = ["adoc", "java"];
 var tempJson={};
 
 loadJSON("summary.json", res => {
