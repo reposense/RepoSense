@@ -22,7 +22,7 @@ public class CommandRunner {
 
         String command = "git log --no-merges ";
         command += getGitDateRangeArgs(sinceDate, untilDate);
-        command += " --pretty=format:\"%h|%aN|%ad|%s\" --date=iso --shortstat -- " + docType;
+        command += " --pretty=format:\"%h|%aN|%ad|%s\" --date=iso --shortstat -- *." + docType;
 
         return runCommand(rootPath, command);
     }

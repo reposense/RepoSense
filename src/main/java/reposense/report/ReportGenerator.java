@@ -61,6 +61,7 @@ public class ReportGenerator {
             }
         }
         FileUtil.writeJsonFile(configs, getSummaryResultPath(reportName, outputPath));
+        FileUtil.writeJsonFile(Constants.docTypes, getDocTypesPath(outputPath+"/"+reportName));
         return reportName;
     }
 
@@ -93,13 +94,14 @@ public class ReportGenerator {
     }
 
     private static String getIndividualAuthorshipPathForEachDocType(String repoReportDirectory, String docType) {
-        return repoReportDirectory + "/authorship_" + docType.split("\\.")[1] + ".json";
+        return repoReportDirectory + "/authorship_" + docType + ".json";
     }
 
-    private static String getIndividualAggregateCommitsPath(String repoReportDirectory) {
-        return repoReportDirectory + "/commits.json";
+    private static String getDocTypesPath(String outputpath) {
+        return outputpath+"/doctype.json";
     }
+
     private static String getIndividualCommitsPathForEachDocType(String repoReportDirectory, String docType) {
-        return repoReportDirectory + "/commits_" + docType.split("\\.")[1] + ".json";
+        return repoReportDirectory + "/commits_" + docType + ".json";
     }
 }

@@ -45,22 +45,31 @@ function clone(obj) {
       return temp;
     }
 
-var cnt=0, summaryJson={}, docTypes = ["adoc", "java"];
+var cnt=0, summaryJson={}, docTypesArr = [];
 var tempJson={};
+var cnt_doctype = 0;
+loadJSON("doctype.json", res => {
+    cnt_doctype = res.length;
+    for(var idx in res) {
+        docTypesArr.push(res[idx]);
+        cnt_doctype -= 1;
+        if (!cnt_doctype) {
+        loadJSON("summary.json", res => {
+                summaryJson = {};
+                cnt = res.length * docTypesArr.length;
 
-loadJSON("summary.json", res => {
-    summaryJson = {};
-    cnt = res.length * docTypes.length;
-
-    for (var idx in docTypes) {
-        summaryJson[docTypes[idx]] = {};
-        for(var i in res){
-            var repo = res[i];
-            var name = repo.organization+"_"+repo.repoName;
-            summaryJson[docTypes[idx]][name] = clone(repo);
-        }
-        for(var dir in summaryJson[docTypes[idx]]){
-            loadSubFile(dir, docTypes[idx]);
+                for (var idx in docTypesArr) {
+                    summaryJson[docTypesArr[idx]] = {};
+                    for(var i in res){
+                        var repo = res[i];
+                        var name = repo.organization+"_"+repo.repoName;
+                        summaryJson[docTypesArr[idx]][name] = clone(repo);
+                    }
+                    for(var dir in summaryJson[docTypesArr[idx]]){
+                        loadSubFile(dir, docTypesArr[idx]);
+                    }
+                }
+            });
         }
     }
 });

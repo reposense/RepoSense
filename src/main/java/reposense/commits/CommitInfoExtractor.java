@@ -11,6 +11,7 @@ import reposense.git.GitChecker;
 import reposense.model.RepoConfiguration;
 import reposense.system.CommandRunner;
 import reposense.system.LogsManager;
+import reposense.util.Constants;
 
 /**
  * Extracts commit information of a repository.
@@ -33,7 +34,7 @@ public class CommitInfoExtractor {
      * Returns the git log information for the repo for the date range in {@code config}.
      */
     private static HashMap<String, String> getGitLogResult(RepoConfiguration config) {
-        String[] docTypes = {"*.java", "*.adoc"};
+        String[] docTypes = Constants.docTypes;
         HashMap<String, String> results = new HashMap<>();
         for (String doctype: docTypes){
             String result = CommandRunner.gitLog(config.getRepoRoot(), config.getSinceDate(), config.getUntilDate(), doctype);

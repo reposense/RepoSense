@@ -18,6 +18,7 @@ import reposense.authorship.model.LineInfo;
 import reposense.git.GitChecker;
 import reposense.model.RepoConfiguration;
 import reposense.system.LogsManager;
+import reposense.util.Constants;
 
 /**
  * Extracts out all the relevant {@code FileInfo} from the repository.
@@ -58,7 +59,7 @@ public class FileInfoExtractor {
                     getAllFileInfo(config, filePath, fileInfos);
                 }
 
-                if (relativePath.endsWith(".java") || relativePath.endsWith(".adoc")) {
+                if (containsDocType(relativePath)) {
                     fileInfos.add(generateFileInfo(config.getRepoRoot(), relativePath.replace('\\', '/')));
                 }
             }
@@ -91,5 +92,14 @@ public class FileInfoExtractor {
      */
     private static boolean shouldIgnore(String name, List<String> ignoreList) {
         return ignoreList.stream().anyMatch(name::contains);
+    }
+
+    private static boolean containsDocType(String path) {
+        for(String doctype: Constants.docTypes) {
+            if(path.endsWith("."+doctype)) {
+                return true;
+            }
+        }
+        return false;
     }
 }

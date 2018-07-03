@@ -21,7 +21,7 @@ public class FileResultAggregator {
         HashMap<String, AuthorshipSummary> authorContributionSummaries = new HashMap<>();
         for (FileResult fileResult : fileResults) {
             String[] elements = fileResult.getPath().split("\\.");
-            String docType = "*." + elements[elements.length - 1];
+            String docType = elements[elements.length - 1];
             AuthorshipSummary authorContributionSummary =
                     authorContributionSummaries.get(docType) == null?
                             new AuthorshipSummary(new ArrayList<>(), authors)

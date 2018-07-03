@@ -1,5 +1,6 @@
 package reposense.parser;
 
+import java.io.Console;
 import java.io.File;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -13,6 +14,7 @@ import net.sourceforge.argparse4j.inf.ArgumentParser;
 import net.sourceforge.argparse4j.inf.ArgumentParserException;
 import net.sourceforge.argparse4j.inf.Namespace;
 import reposense.model.CliArguments;
+import reposense.util.Constants;
 
 
 /**
@@ -61,6 +63,12 @@ public class ArgsParser {
                 .setDefault(Optional.empty())
                 .help("The date to stop filtering.");
 
+        parser.addArgument("-doctype")
+                .metavar("DOCTYPE")
+                .type(String.class)
+                .setDefault("java/adoc")
+                .help("The document type to retrieve from Git commits");
+
         return parser;
     }
 
@@ -78,6 +86,8 @@ public class ArgsParser {
             File outputFile = results.get("output");
             Optional<Date> sinceDate = results.get("since");
             Optional<Date> untilDate = results.get("until");
+            String docTypeString = results.get("doctype");
+            Constants.docTypes = docTypeString.split("/");
 
             Path configFilePath = Paths.get(configFile.toURI());
             Path outputFilePath = Paths.get(outputFile.toURI());
@@ -100,4 +110,5 @@ public class ArgsParser {
             throw new ParseException(MESSAGE_SINCE_DATE_LATER_THAN_UNTIL_DATE);
         }
     }
+
 }
