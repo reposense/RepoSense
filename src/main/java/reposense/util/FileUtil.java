@@ -12,8 +12,6 @@ import java.nio.file.Paths;
 import java.util.Comparator;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
 
@@ -109,16 +107,10 @@ public class FileUtil {
     }
 
     /**
-     * Copies all the files inside {@code src} directory to {@code dest} directory.
      * Creates the {@code dest} directory if it does not exist.
      */
-    public static void copyDirectoryFiles(Path src, Path dest) throws IOException {
+    public static void createDirectory(Path dest) throws IOException {
         Files.createDirectories(dest);
-        try (Stream<Path> pathStream = Files.list(src)) {
-            for (Path filePath : pathStream.collect(Collectors.toList())) {
-                Files.copy(filePath, dest.resolve(src.relativize(filePath)));
-            }
-        }
     }
 
     private static String attachJsPrefix(String original, String prefix) {
