@@ -4,7 +4,7 @@ function comparator(fn) {
     const b1 = fn(b);
     if (a1 === b1) {
       return 0;
-    } else if (a1 < b1) {
+    } if (a1 < b1) {
       return -1;
     }
     return 1;
@@ -18,7 +18,7 @@ function getIntervalDay(a, b) {
   return diff / DAY_IN_MS;
 }
 function getDateStr(date) {
-  return (new Date(date)).toISOString().split("T")[0];
+  return (new Date(date)).toISOString().split('T')[0];
 }
 function dateRounding(datestr, roundDown) {
   // rounding up to nearest sunday
@@ -35,20 +35,20 @@ function dateRounding(datestr, roundDown) {
 }
 
 window.vSummary = {
-  props: ["repos"],
-  template: window.$("v_summary").innerHTML,
+  props: ['repos'],
+  template: window.$('v_summary').innerHTML,
   data() {
     return {
       filtered: [],
       rampScale: 0.1,
-      filterSearch: "",
-      filterSort: "totalCommits",
+      filterSearch: '',
+      filterSort: 'totalCommits',
       filterSortReverse: false,
       filterGroupRepos: true,
       filterGroupWeek: false,
-      filterSinceDate: "",
-      filterUntilDate: "",
-      filterHash: "",
+      filterSinceDate: '',
+      filterUntilDate: '',
+      filterHash: '',
     };
   },
   watch: {
@@ -126,15 +126,15 @@ window.vSummary = {
       }: ${slice.insertions} lines`;
     },
     getSliceLink(user, slice) {
-      const {REPOS} = window;
+      const { REPOS } = window;
 
       return `http://github.com/${
         REPOS[user.repoId].organization}/${
         REPOS[user.repoId].repoName}/commits/${
-        REPOS[user.repoId].branch}?` +
-                `author=${user.name}&` +
-                `since=${slice.fromDate}&` +
-                `until=${slice.toDate}`;
+        REPOS[user.repoId].branch}?`
+                + `author=${user.name}&`
+                + `since=${slice.fromDate}&`
+                + `until=${slice.toDate}`;
     },
     getContributionBars(totalContribution) {
       const res = [];
@@ -154,17 +154,17 @@ window.vSummary = {
     },
     // model funcs
     getFilterHash() {
-      const {enquery} = window;
+      const { enquery } = window;
 
       this.filterSearch = this.filterSearch.toLowerCase();
       this.filterHash = [
-        enquery("search", this.filterSearch),
-        enquery("sort", this.filterSort),
-        enquery("reverse", this.filterSortReverse),
-        enquery("repoSort", this.filterGroupRepos),
-        enquery("since", this.filterSinceDate),
-        enquery("until", this.filterUntilDate),
-      ].join("&");
+        enquery('search', this.filterSearch),
+        enquery('sort', this.filterSort),
+        enquery('reverse', this.filterSortReverse),
+        enquery('repoSort', this.filterGroupRepos),
+        enquery('since', this.filterSinceDate),
+        enquery('until', this.filterUntilDate),
+      ].join('&');
 
       window.location.hash = this.filterHash;
     },
@@ -173,11 +173,11 @@ window.vSummary = {
         return;
       }
 
-      let minDate = "";
-      let maxDate = "";
-      this.filtered.forEach(function (repo) {
-        repo.forEach(function (user) {
-          const {commits} = user;
+      let minDate = '';
+      let maxDate = '';
+      this.filtered.forEach((repo) => {
+        repo.forEach((user) => {
+          const { commits } = user;
           const date1 = commits[0].fromDate;
           const date2 = commits[commits.length - 1].fromDate;
           if (!minDate || minDate > date1) {
@@ -228,7 +228,7 @@ window.vSummary = {
       this.getDates();
     },
     splitCommitsWeek(user) {
-      const {commits} = user;
+      const { commits } = user;
       const leng = commits.length;
 
       const res = [];
@@ -237,7 +237,7 @@ window.vSummary = {
           insertions: 0,
           deletions: 0,
           fromDate: commits[weekId * 7].fromDate,
-          toDate: "",
+          toDate: '',
         };
 
         for (let dayId = 0; dayId < 7; dayId += 1) {
@@ -312,19 +312,19 @@ window.vSummary = {
 
       this.filtered.forEach((users) => {
         if (this.filterGroupRepos) {
-          users.sort(comparator((ele) => ele[this.filterSort]));
+          users.sort(comparator(ele => ele[this.filterSort]));
           full.push(users);
         } else {
-          users.forEach((user) => full[0].push(user));
+          users.forEach(user => full[0].push(user));
         }
       });
 
       if (!this.filterGroupRepos) {
-        full[0].sort(comparator((ele) => ele[this.filterSort]));
+        full[0].sort(comparator(ele => ele[this.filterSort]));
       }
 
       if (this.filterSortReverse) {
-        full.forEach((repo) => repo.reverse());
+        full.forEach(repo => repo.reverse());
       }
 
       this.filtered = full;
@@ -334,3 +334,4 @@ window.vSummary = {
     this.getFiltered();
   },
 };
+
