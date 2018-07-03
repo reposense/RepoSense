@@ -259,7 +259,7 @@ window.vSummary = {
 
       let sinceDate = this.filterSinceDate;
       if (!sinceDate) {
-        sinceDate = userFirst.sinceDate;
+        ({ sinceDate } = userFirst);
       }
 
       let untilDate = this.filterUntilDate;
