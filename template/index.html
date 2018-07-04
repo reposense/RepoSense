@@ -17,17 +17,15 @@
         var app;
         var hexcolors, rgbacolor;
         var minDateRange, maxDateRange;
-        var defaultDocTypes;
 
         var initialize = function(){
-          defaultDocTypes = ["adoc"];
 
           hexcolors = ["#E69F00", "#56B4E9", "#009E73", "#F0E442", "#0072B2", "#D55E00", "#CC79A7"];
           rgbacolors = ["rgba(230,159,0,0.6)", "rgba(86,180,233,0.6)", "rgba(0,158,115,0.6)", "rgba(240,228,66,0.6)", "rgba(0,114,178,0.6)", "rgba(213,94,0,0.6)", "rgba(204,121,167,0.6)"];
 
 
-          minDateRange = getMinDate(defaultDocTypes);
-          maxDateRange = getMaxDate(defaultDocTypes);
+          minDateRange = getMinDate(docTypesArr);
+          maxDateRange = getMaxDate(docTypesArr);
           Vue.component('date-picker', {
               template: '<input size="8"/>',
               props: ['defaultDate'],
@@ -61,7 +59,8 @@
                   isGroupByRepo: (getQueryVariable("isGroupByRepo","true")=="true"),
                   minDate: minDateRange,
                   maxDate: maxDateRange,
-                  docTypes: ["adoc"]
+                  docTypes: docTypesArr,
+                  defaultDocTypes: docTypesArr
               },
               computed: {
                   totalContributionLimit: function() {
@@ -142,9 +141,10 @@
                         aria-expanded="false" id="filterDocTypeBtn">
                     Filter <span class="caret"></span>
                 </button>
-                <ul class="dropdown-menu">
-                    <li><input type="checkbox" value="java" v-model="docTypes"/><label>java</label></li>
-                    <li><input type="checkbox" value="adoc" v-model="docTypes"/><label>adoc</label></li>
+                <ul v-for="type in docTypes" class="dropdown-menu">
+                    <li v-for="type in defaultDocTypes"><input type="checkbox" :value="type" v-model="docTypes"/>
+                        <label>{{type}}</label>
+                    </li>
                 </ul>
             </div>
             <label>Interval:</label>

@@ -6,8 +6,8 @@ import java.nio.file.Paths;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.List;
 import java.util.HashMap;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -35,7 +35,7 @@ public class ReportGenerator {
         String reportName = generateReportName();
         FileUtil.copyTemplate(outputPath, reportName);
         Path templateLocation = Paths.get(outputPath, reportName,
-                Constants.STATIC_INDIVIDUAL_REPORT_TEMPLATE_ADDRESS);
+            Constants.STATIC_INDIVIDUAL_REPORT_TEMPLATE_ADDRESS);
 
         for (RepoConfiguration config : configs) {
             Path repoReportDirectory = Paths.get(outputPath, reportName, config.getDisplayName());
@@ -61,28 +61,28 @@ public class ReportGenerator {
             }
         }
         FileUtil.writeJsonFile(configs, getSummaryResultPath(reportName, outputPath));
-        FileUtil.writeJsonFile(Constants.docTypes, getDocTypesPath(outputPath+"/"+reportName));
+        FileUtil.writeJsonFile(Constants.getDocTypes(), getDocTypesPath(outputPath + "/" + reportName));
         return reportName;
     }
 
     private static void generateIndividualRepoReport(
-            HashMap<String, CommitContributionSummary> commitSummaries,
-            HashMap<String, AuthorshipSummary> authorshipSummaries, String repoReportDirectory) {
-        for (HashMap.Entry<String, CommitContributionSummary> commitSummary: commitSummaries.entrySet()) {
+        HashMap<String, CommitContributionSummary> commitSummaries,
+        HashMap<String, AuthorshipSummary> authorshipSummaries, String repoReportDirectory) {
+        for (HashMap.Entry<String, CommitContributionSummary> commitSummary : commitSummaries.entrySet()) {
             String docType = commitSummary.getKey();
             generateIndividualCommitReportForEachDocType(docType, commitSummary.getValue(),
-                    authorshipSummaries.get(docType), repoReportDirectory);
+                authorshipSummaries.get(docType), repoReportDirectory);
         }
     }
 
     private static void generateIndividualCommitReportForEachDocType(
-            String docType, CommitContributionSummary commitSummary, AuthorshipSummary authorshipSummary,
-            String repoReportDirectory
+        String docType, CommitContributionSummary commitSummary, AuthorshipSummary authorshipSummary,
+        String repoReportDirectory
     ) {
         CommitReportJson commitReportJson = new CommitReportJson(commitSummary, authorshipSummary);
         FileUtil.writeJsonFile(commitReportJson, getIndividualCommitsPathForEachDocType(repoReportDirectory, docType));
         FileUtil.writeJsonFile(authorshipSummary.getFileResults(),
-                getIndividualAuthorshipPathForEachDocType(repoReportDirectory, docType));
+            getIndividualAuthorshipPathForEachDocType(repoReportDirectory, docType));
     }
 
     private static String getSummaryResultPath(String reportName, String targetFileLocation) {
@@ -98,7 +98,7 @@ public class ReportGenerator {
     }
 
     private static String getDocTypesPath(String outputpath) {
-        return outputpath+"/doctype.json";
+        return outputpath + "/doctype.json";
     }
 
     private static String getIndividualCommitsPathForEachDocType(String repoReportDirectory, String docType) {

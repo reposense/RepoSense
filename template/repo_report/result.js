@@ -9,16 +9,6 @@ function loadJSON(file, fn){
     xhr.send(null);
 }
 
-function loadSubFile(dir, docType){
-    loadJSON(dir+"/commits_"+docType+".json", obj2 => {
-        for(var key in obj2){
-            summaryJson[docType][dir][key] = clone(obj2[key]);
-        }
-        cnt -= 1;
-        if(!cnt){ initialize();}
-    });
-}
-
 function clone(obj) {
       if (obj === null || typeof(obj) !== 'object' || 'isActiveClone' in obj)
         return obj;
@@ -55,6 +45,14 @@ function loadFiles() {
     next();
 }
 
-var docTypes = ["java", "adoc"], cnt = docTypes.length, resultJson = {};
-
-loadFiles();
+var docTypes = [], cnt = 0, resultJson = {};
+loadJSON("../doctype.json", res => {
+   cnt = res.length;
+   for (var idx in res) {
+   docTypes.push(res[idx]);
+   cnt -= 1;
+   if (!cnt) {
+      loadFiles();
+      }
+   }
+});

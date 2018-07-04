@@ -24,28 +24,28 @@ public class CommitResultAggregator {
      * Returns the {@code CommitContributionSummary} generated from aggregating the {@code commitResults}.
      */
     public static CommitContributionSummary aggregateCommitResults(
-            RepoConfiguration config, List<CommitResult> commitResults) {
+        RepoConfiguration config, List<CommitResult> commitResults) {
         Date startDate = config.getSinceDate() == null ? getStartDate(commitResults) : config.getSinceDate();
         HashSet<Author> suspiciousAuthors = new HashSet<>();
 
         Map<Author, List<AuthorIntervalContribution>> authorDailyIntervalContributions =
-                getAuthorIntervalContributions(config, commitResults, startDate, 1, suspiciousAuthors);
+            getAuthorIntervalContributions(config, commitResults, startDate, 1, suspiciousAuthors);
 
         Map<Author, List<AuthorIntervalContribution>> authorWeeklyIntervalContributions =
-                getAuthorIntervalContributions(config, commitResults, startDate, 7, suspiciousAuthors);
+            getAuthorIntervalContributions(config, commitResults, startDate, 7, suspiciousAuthors);
 
         Map<Author, Float> authorContributionVariance =
-                calcAuthorContributionVariance(authorDailyIntervalContributions);
+            calcAuthorContributionVariance(authorDailyIntervalContributions);
 
         return new CommitContributionSummary(
-                config.getAuthorDisplayNameMap(),
-                authorDailyIntervalContributions,
-                authorWeeklyIntervalContributions,
-                authorContributionVariance);
+            config.getAuthorDisplayNameMap(),
+            authorDailyIntervalContributions,
+            authorWeeklyIntervalContributions,
+            authorContributionVariance);
     }
 
     private static Map<Author, Float> calcAuthorContributionVariance(
-            Map<Author, List<AuthorIntervalContribution>> intervalContributionMaps) {
+        Map<Author, List<AuthorIntervalContribution>> intervalContributionMaps) {
         Map<Author, Float> result = new HashMap<>();
         for (Author author : intervalContributionMaps.keySet()) {
             List<AuthorIntervalContribution> contributions = intervalContributionMaps.get(author);
@@ -72,8 +72,8 @@ public class CommitResultAggregator {
     }
 
     private static Map<Author, List<AuthorIntervalContribution>> getAuthorIntervalContributions(
-            RepoConfiguration config, List<CommitResult> commitInfos,
-            Date startDate, int intervalLength, Set<Author> suspiciousAuthors) {
+        RepoConfiguration config, List<CommitResult> commitInfos,
+        Date startDate, int intervalLength, Set<Author> suspiciousAuthors) {
         //init
         Map<Author, List<AuthorIntervalContribution>> result = new HashMap<>();
         for (Author author : config.getAuthorDisplayNameMap().keySet()) {
@@ -100,7 +100,7 @@ public class CommitResultAggregator {
     }
 
     private static void initIntervalContributionForNewDate(
-            Map<Author, List<AuthorIntervalContribution>> map, Date fromDate, Date toDate) {
+        Map<Author, List<AuthorIntervalContribution>> map, Date fromDate, Date toDate) {
         for (List<AuthorIntervalContribution> dateToInterval : map.values()) {
             //dials back one minute so that github api can include the commit on the time itself
             dateToInterval.add(new AuthorIntervalContribution(0, 0, fromDate, toDate));

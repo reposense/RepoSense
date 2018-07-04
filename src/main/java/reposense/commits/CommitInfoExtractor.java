@@ -34,19 +34,20 @@ public class CommitInfoExtractor {
      * Returns the git log information for the repo for the date range in {@code config}.
      */
     private static HashMap<String, String> getGitLogResult(RepoConfiguration config) {
-        String[] docTypes = Constants.docTypes;
+        String[] docTypes = Constants.getDocTypes();
         HashMap<String, String> results = new HashMap<>();
-        for (String doctype: docTypes){
-            String result = CommandRunner.gitLog(config.getRepoRoot(), config.getSinceDate(), config.getUntilDate(), doctype);
+        for (String doctype : docTypes) {
+            String result = CommandRunner.gitLog(config.getRepoRoot(), config.getSinceDate(), config.getUntilDate(),
+                doctype);
             results.put(doctype, result);
         }
         return results;
     }
 
     private static HashMap<String, List<CommitInfo>> parseGitLogResultsForAllDocTypes(
-            HashMap<String, String> logresults) {
+        HashMap<String, String> logresults) {
         HashMap<String, List<CommitInfo>> gitLogResultForEachDocType = new HashMap<>();
-        for(String doctype: logresults.keySet()) {
+        for (String doctype : logresults.keySet()) {
             gitLogResultForEachDocType.put(doctype, parseGitLogResults(logresults.get(doctype)));
         }
         return gitLogResultForEachDocType;

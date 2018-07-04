@@ -236,7 +236,7 @@ function isMatch(searchTerm, currentPhrase) {
 }
 
 function getMinDate(docType) {
-    var docType = docType.join();
+    var docType = docType[0];
     rawDate = summaryJson[docType][Object.keys(summaryJson[docType])[0]]["sinceDate"];
     if (rawDate) {
         //the sinceDate has been set
@@ -267,7 +267,7 @@ function getMinDate(docType) {
 }
 
 function getMaxDate(docType) {
-    var docType = docType.join();
+    var docType = docType[0];
     rawDate = summaryJson[docType][Object.keys(summaryJson[docType])[0]]["untilDate"];
     if (rawDate) {
         //the untilDate has been set

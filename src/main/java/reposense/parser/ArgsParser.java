@@ -1,6 +1,5 @@
 package reposense.parser;
 
-import java.io.Console;
 import java.io.File;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -23,51 +22,51 @@ import reposense.util.Constants;
 public class ArgsParser {
     private static final String PROGRAM_USAGE = "java -jar RepoSense.jar";
     private static final String PROGRAM_DESCRIPTION =
-            "RepoSense is a contribution analysis tool for Git repositories.";
+        "RepoSense is a contribution analysis tool for Git repositories.";
     private static final String MESSAGE_SINCE_DATE_LATER_THAN_UNTIL_DATE =
-            "\"Since Date\" cannot be later than \"Until Date\"";
+        "\"Since Date\" cannot be later than \"Until Date\"";
 
     private static ArgumentParser getArgumentParser() {
         ArgumentParser parser = ArgumentParsers
-                .newFor(PROGRAM_USAGE)
-                .addHelp(false)
-                .build()
-                .description(PROGRAM_DESCRIPTION);
+            .newFor(PROGRAM_USAGE)
+            .addHelp(false)
+            .build()
+            .description(PROGRAM_DESCRIPTION);
 
         parser.addArgument("-h", "--help")
-                .help("Show help message.")
-                .action(new HelpArgumentAction());
+            .help("Show help message.")
+            .action(new HelpArgumentAction());
 
         parser.addArgument("-config")
-                .required(true)
-                .type(Arguments.fileType().verifyExists().verifyIsFile().verifyCanRead())
-                .metavar("PATH")
-                .help("The path to the CSV config file to read.");
+            .required(true)
+            .type(Arguments.fileType().verifyExists().verifyIsFile().verifyCanRead())
+            .metavar("PATH")
+            .help("The path to the CSV config file to read.");
 
         parser.addArgument("-output")
-                .metavar("PATH")
-                .type(Arguments.fileType().verifyExists().verifyIsDirectory().verifyCanWrite())
-                .setDefault(new File("."))
-                .help("The path to the dashboard generated. "
-                        + "If not provided, it will be generated in the current directory.");
+            .metavar("PATH")
+            .type(Arguments.fileType().verifyExists().verifyIsDirectory().verifyCanWrite())
+            .setDefault(new File("."))
+            .help("The path to the dashboard generated. "
+                + "If not provided, it will be generated in the current directory.");
 
         parser.addArgument("-since")
-                .metavar("dd/MM/yyyy")
-                .type(new DateArgumentType())
-                .setDefault(Optional.empty())
-                .help("The date to start filtering.");
+            .metavar("dd/MM/yyyy")
+            .type(new DateArgumentType())
+            .setDefault(Optional.empty())
+            .help("The date to start filtering.");
 
         parser.addArgument("-until")
-                .metavar("dd/MM/yyyy")
-                .type(new DateArgumentType())
-                .setDefault(Optional.empty())
-                .help("The date to stop filtering.");
+            .metavar("dd/MM/yyyy")
+            .type(new DateArgumentType())
+            .setDefault(Optional.empty())
+            .help("The date to stop filtering.");
 
         parser.addArgument("-doctype")
-                .metavar("DOCTYPE")
-                .type(String.class)
-                .setDefault("java/adoc")
-                .help("The document type to retrieve from Git commits");
+            .metavar("DOCTYPE")
+            .type(String.class)
+            .setDefault("java/adoc")
+            .help("The document type to retrieve from Git commits");
 
         return parser;
     }
@@ -87,7 +86,7 @@ public class ArgsParser {
             Optional<Date> sinceDate = results.get("since");
             Optional<Date> untilDate = results.get("until");
             String docTypeString = results.get("doctype");
-            Constants.docTypes = docTypeString.split("/");
+            Constants.setDocTypes(docTypeString.split("/"));
 
             Path configFilePath = Paths.get(configFile.toURI());
             Path outputFilePath = Paths.get(outputFile.toURI());
@@ -105,7 +104,7 @@ public class ArgsParser {
      * @throws ParseException if {@code sinceDate} supplied is later than {@code untilDate}.
      */
     private static void verifyDatesRangeIsCorrect(Optional<Date> sinceDate, Optional<Date> untilDate)
-            throws ParseException {
+        throws ParseException {
         if (sinceDate.isPresent() && untilDate.isPresent() && sinceDate.get().getTime() > untilDate.get().getTime()) {
             throw new ParseException(MESSAGE_SINCE_DATE_LATER_THAN_UNTIL_DATE);
         }

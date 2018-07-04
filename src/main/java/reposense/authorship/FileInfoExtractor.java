@@ -47,7 +47,7 @@ public class FileInfoExtractor {
      * based on {@code config} and inserts it into {@code fileInfos}.
      */
     private static void getAllFileInfo(
-            RepoConfiguration config, Path directory, ArrayList<FileInfo> fileInfos) {
+        RepoConfiguration config, Path directory, ArrayList<FileInfo> fileInfos) {
         try (Stream<Path> pathStream = Files.list(directory)) {
             for (Path filePath : pathStream.collect(Collectors.toList())) {
                 String relativePath = filePath.toString().substring(config.getRepoRoot().length());
@@ -95,8 +95,8 @@ public class FileInfoExtractor {
     }
 
     private static boolean containsDocType(String path) {
-        for(String doctype: Constants.docTypes) {
-            if(path.endsWith("."+doctype)) {
+        for (String doctype : Constants.getDocTypes()) {
+            if (path.endsWith("." + doctype)) {
                 return true;
             }
         }
