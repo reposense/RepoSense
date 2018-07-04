@@ -31,7 +31,11 @@ html
           .tab-content
             .tab-panes
               #tab-authorship.tab-pane(v-if="isTabAuthorship")
-                v_authorship(v-bind:repo="tabRepo", v-bind:author="tabAuthor", v-bind:name="tabAuthorName")
+                v_authorship(
+                  v-bind:key="tabAuthorship.repo+'_'+tabAuthorship.author"
+                  v-bind:repo="tabAuthorship.repo", 
+                  v-bind:author="tabAuthorship.author", 
+                  v-bind:name="tabAuthorship.name")
 
       template(v-else)
         .empty please enter a report directory or upload a report zip
