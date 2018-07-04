@@ -11,10 +11,7 @@ window.app = new window.Vue({
 
     isTabActive: false,
     isTabAuthorship: false,
-    isTabIssues: false,
-
-    tabAuthor: '',
-    tabRepo: '',
+    tabAuthorship: {},
   },
   methods: {
     // model funcs
@@ -61,13 +58,11 @@ window.app = new window.Vue({
 
     deactivateTabs() {
       this.isTabAuthorship = false;
-      this.isTabIssues = false;
     },
 
     updateTabAuthorship(obj) {
       this.deactivateTabs();
-      this.tabAuthor = obj.author;
-      this.tabRepo = obj.repo;
+      this.tabAuthorship = { ...obj };
 
       this.isTabActive = true;
       this.isTabAuthorship = true;
