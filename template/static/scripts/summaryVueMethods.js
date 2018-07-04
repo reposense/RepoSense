@@ -85,6 +85,9 @@ vueMethods = {
         summary = obtainSummariesForCombinedDocTypes(summary, docType);
         var authorRepos = [];
         for (var repo in summary) {
+            if (!{}.hasOwnProperty.call(summary, repo)) {
+                continue;
+            }
             var newRepo = [];
             for (var author in summary[repo]["authorFinalContributionMap"]) {
                 if ({}.hasOwnProperty.call(summary[repo]["authorFinalContributionMap"], author)) {
@@ -108,8 +111,11 @@ vueMethods = {
             }
             authorRepos.push(newRepo);
         }
-        if (isGroupByRepo == true) {
-            for (repoIndex in authorRepos) {
+        if (isGroupByRepo === true) {
+            for (var repoIndex in authorRepos) {
+                if (!{}.hasOwnProperty.call(authorRepos, repoIndex)) {
+                    continue;
+                }
                 authorRepos[repoIndex] = sortSegment(authorRepos[repoIndex], sortElement, sortOrder);
             }
             authorRepos = flatten(authorRepos);
@@ -119,4 +125,4 @@ vueMethods = {
         }
         return authorRepos;
     }
-}
+};

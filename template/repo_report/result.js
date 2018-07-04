@@ -1,17 +1,4 @@
-var docTypes = [], cnt = 0, resultJson = {};
-
-loadJSON("../doctype.json", (res) => {
-   cnt = res.length;
-   for (var idx in res) {
-       if ({}.hasOwnProperty.call(res, idx)) {
-           docTypes.push(res[idx]);
-           cnt -= 1;
-           if (!cnt) {
-               loadFiles();
-           }
-       }
-    }
-});
+var resultJson = {}, docTypes = [], cnt = 0;
 
 function loadJSON(file, fn){
     var xhr = new XMLHttpRequest();
@@ -60,4 +47,15 @@ function loadFiles() {
     next();
 }
 
-
+loadJSON("../doctype.json", (res) => {
+   cnt = res.length;
+   for (var idx in res) {
+       if ({}.hasOwnProperty.call(res, idx)) {
+           docTypes.push(res[idx]);
+           cnt -= 1;
+           if (!cnt) {
+               loadFiles();
+           }
+       }
+    }
+});

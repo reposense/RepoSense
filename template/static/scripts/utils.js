@@ -35,8 +35,8 @@ var getLegalClassName = function(original) {
 
 var getContribution = function(repo) {
     var count = 0;
-    for (var author in repo['authorFinalContributionMap']) {
-        count += repo['authorFinalContributionMap'][author];
+    for (var author in repo["authorFinalContributionMap"]) {
+        count += repo["authorFinalContributionMap"][author];
     }
     return count;
 }
@@ -45,14 +45,20 @@ function getScaleLimit(intervalType, docType) {
     var totalContribution = 0;
     var count = 0;
     for (var idx in docType) {
+        if (!{}.hasOwnProperty.call(docType, idx)) {
+            continue;
+        }
         for (var repo in summaryJson[docType[idx]]) {
+            if (!{}.hasOwnProperty.call(summaryJson[docType[idx]], repo)) {
+                continue;
+            }
             for (var author in summaryJson[docType[idx]][repo][intervalType]) {
                 if (!{}.hasOwnProperty.call(summaryJson[docType[idx]][repo][intervalType], author)) {
-                    return;
+                    continue;
                 }
                 for (var i in summaryJson[docType[idx]][repo][intervalType][author]) {
                     if (!{}.hasOwnProperty.call(summaryJson[docType[idx]][repo][intervalType][author], i)) {
-                        return;
+                        continue;
                     }
                     var currentPeriod = summaryJson[docType[idx]][repo][intervalType][author][i];
                     if (totalContribution["insertions"] != 0) {
@@ -95,7 +101,7 @@ function getTotalContributionLimit(docType) {
         for (var repo in summaryJson[docType[idx]]) {
             for (var author in summaryJson[docType[idx]][repo]["authorFinalContributionMap"]) {
                 if (!{}.hasOwnProperty.call(summaryJson[docType[idx]][repo]["authorFinalContributionMap"], author)) {
-                    return;
+                    continue;
                 }
                 totalContribution += (summaryJson[docType[idx]][repo]["authorFinalContributionMap"][author]);
                 count += 1
@@ -113,6 +119,9 @@ function openInNewTab(url) {
 function flatten(authorRepos) {
     var result = [];
     for (var repo in authorRepos) {
+        if (!{}.hasOwnProperty.call(authorRepos, repo)) {
+            continue;
+        }
         for (var author in authorRepos[repo]) {
             result.push(authorRepos[repo][author]);
         }
@@ -150,29 +159,8 @@ function sortByLineContributed(files, currentAuthor) {
         var lhsValue = lhs.authorContributionMap[currentAuthor] ? lhs.authorContributionMap[currentAuthor] : 0;
         var rhsValue = rhs.authorContributionMap[currentAuthor] ? rhs.authorContributionMap[currentAuthor] : 0;
         return rhsValue - lhsValue;
-    })
+    });
     return files;
-}
-
-function filterFilesBasedOnDocTypes(files, docTypes) {
-    var filteredFiles = [];
-    if (docTypes[0] === "") {
-        return filteredFiles;
-    }
-    for (var key of files) {
-        if (!files.hasOwnProperty(key)) {
-            continue
-        };
-        var docType = files[key];
-        if (docTypes.indexOf(fileDocType) > -1) {
-            console.log(fileDocType);
-            for (var [idx, file] in Object.entries(files[file])) {
-                filteredFiles.push(file);
-            }
-        }
-    }
-
-    return filteredFiles;
 }
 
 function clone(obj) {
@@ -198,25 +186,18 @@ function clone(obj) {
 function obtainRelevantFilesBasedOnDocTypes(resultJson, docTypes) {
     var result = [];
     for (var idx in docTypes) {
+        if (!{}.hasOwnProperty.call(docTypes, idx)) {
+            continue;
+        }
         var files = resultJson[docTypes[idx]];
         for (var id in files) {
+            if (!{}.hasOwnProperty.call(docTypes, idx)) {
+                continue;
+            }
             result.push(files[id]);
         }
     }
     return result;
-}
-
-function isDocTypeMatch(file, docTypes) {
-    for (var [key, value] of Object.entries(docTypes)) {
-        var type = value.split(".");
-        type = type[type.length - 1];
-        var exp = new RegExp("\\." + type);
-        var result = exp.test(file);
-        if (result) {
-            return result;
-        }
-    }
-    return false;
 }
 
 function isSearchMatch(searchTerm, authorRepo) {
@@ -250,7 +231,6 @@ function getMinDate(docType) {
         var result;
         for (var i in summaryJson[docType]) {
             var authorContribution = summaryJson[docType][i]["authorDailyIntervalContributions"];
-            // console.log(authorContribution);
             var currentRawDate = authorContribution[Object.keys(authorContribution)[0]][0]["sinceDate"];
             var currentDate = Date.parse(currentRawDate);
 
