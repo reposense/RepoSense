@@ -12,7 +12,7 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import org.junit.Assert;
-import org.junit.BeforeClass;
+import org.junit.Before;
 import org.junit.Test;
 
 import reposense.model.CliArguments;
@@ -28,44 +28,42 @@ public class Entry {
     private static final String FT_TEMP_DIR = "ft_temp";
     private static final String EXPECTED_FOLDER = "expected";
 
-    @BeforeClass
-    public static void setUp() throws IOException {
+    @Before
+    public void setUp() throws IOException {
         FileUtil.deleteDirectory(FT_TEMP_DIR);
     }
 
     @Test
     public void testNoDateRange() throws IOException, URISyntaxException, ParseException {
-        String actualRelativeDir = FT_TEMP_DIR + "/" + generateReport();
+        generateReport();
         Path actualFiles = Paths.get(getClass().getClassLoader().getResource("noDateRange/expected").toURI());
-        verifyAllJson(actualFiles, actualRelativeDir);
-        FileUtil.deleteDirectory(FT_TEMP_DIR);
+        verifyAllJson(actualFiles, FT_TEMP_DIR);
     }
 
     @Test
     public void testDateRange() throws IOException, URISyntaxException, ParseException {
-        String actualRelativeDir = FT_TEMP_DIR + "/" + generateReport(getInputWithDates("1/9/2017", "30/10/2017"));
+        generateReport(getInputWithDates("1/9/2017", "30/10/2017"));
         Path actualFiles = Paths.get(getClass().getClassLoader().getResource("dateRange/expected").toURI());
-        verifyAllJson(actualFiles, actualRelativeDir);
-        FileUtil.deleteDirectory(FT_TEMP_DIR);
+        verifyAllJson(actualFiles, FT_TEMP_DIR);
     }
 
     private String getInputWithDates(String sinceDate, String untilDate) {
         return String.format("-since %s -until %s", sinceDate, untilDate);
     }
 
-    private String generateReport() throws IOException, URISyntaxException, ParseException {
-        return generateReport("");
+    private void generateReport() throws IOException, URISyntaxException, ParseException {
+        generateReport("");
     }
 
-    private String generateReport(String inputDates) throws IOException, URISyntaxException, ParseException {
-        Path configFilePath = Paths.get(getClass().getClassLoader().getResource("sample_full.csv").toURI());
+    private void generateReport(String inputDates) throws IOException, URISyntaxException, ParseException {
+        Path configFilePath = Paths.get(getClass().getClassLoader().getResource("sample.csv").toURI());
         String input = String.format("-config %s ", configFilePath) + inputDates;
 
         CliArguments cliArguments = ArgsParser.parse(translateCommandline(input));
         List<RepoConfiguration> configs = CsvParser.parse(cliArguments.getConfigFilePath());
         RepoConfiguration.setDatesToRepoConfigs(configs, cliArguments.getSinceDate(), cliArguments.getUntilDate());
 
-        return ReportGenerator.generateReposReport(configs, FT_TEMP_DIR);
+        ReportGenerator.generateReposReport(configs, FT_TEMP_DIR);
     }
 
     private void verifyAllJson(Path expectedDirectory, String actualRelative) {

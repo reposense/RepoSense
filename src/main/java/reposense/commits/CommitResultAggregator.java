@@ -100,10 +100,10 @@ public class CommitResultAggregator {
     }
 
     private static void initIntervalContributionForNewDate(
-        Map<Author, List<AuthorIntervalContribution>> map, Date fromDate, Date toDate) {
+            Map<Author, List<AuthorIntervalContribution>> map, Date sinceDate, Date untilDate) {
         for (List<AuthorIntervalContribution> dateToInterval : map.values()) {
             //dials back one minute so that github api can include the commit on the time itself
-            dateToInterval.add(new AuthorIntervalContribution(0, 0, fromDate, toDate));
+            dateToInterval.add(new AuthorIntervalContribution(0, 0, sinceDate, untilDate));
         }
     }
 

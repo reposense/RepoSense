@@ -15,11 +15,11 @@ import net.sourceforge.argparse4j.inf.Namespace;
 import reposense.model.CliArguments;
 import reposense.util.Constants;
 
-
 /**
  * Verifies and parses a string-formatted date to a {@code CliArguments} object.
  */
 public class ArgsParser {
+    public static final String DEFAULT_REPORT_NAME = "reposense-report";
     private static final String PROGRAM_USAGE = "java -jar RepoSense.jar";
     private static final String PROGRAM_DESCRIPTION =
         "RepoSense is a contribution analysis tool for Git repositories.";
@@ -44,11 +44,11 @@ public class ArgsParser {
             .help("The path to the CSV config file to read.");
 
         parser.addArgument("-output")
-            .metavar("PATH")
-            .type(Arguments.fileType().verifyExists().verifyIsDirectory().verifyCanWrite())
-            .setDefault(new File("."))
-            .help("The path to the dashboard generated. "
-                + "If not provided, it will be generated in the current directory.");
+                .metavar("PATH")
+                .type(Arguments.fileType().verifyExists().verifyIsDirectory().verifyCanWrite())
+                .setDefault(new File("."))
+                .help("The directory to output the report folder, reposense-report. "
+                        + "If not provided, the report folder will be created in the current working directory.");
 
         parser.addArgument("-since")
             .metavar("dd/MM/yyyy")
@@ -88,8 +88,8 @@ public class ArgsParser {
             String docTypeString = results.get("doctype");
             Constants.setDocTypes(docTypeString.split("/"));
 
-            Path configFilePath = Paths.get(configFile.toURI());
-            Path outputFilePath = Paths.get(outputFile.toURI());
+            Path configFilePath = configFile.toPath();
+            Path outputFilePath = Paths.get(outputFile.toString(), DEFAULT_REPORT_NAME);
 
             verifyDatesRangeIsCorrect(sinceDate, untilDate);
             return new CliArguments(configFilePath, outputFilePath, sinceDate, untilDate);

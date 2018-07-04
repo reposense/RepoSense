@@ -12,20 +12,20 @@ var getQueryVariable = function(variable, defaultValue) {
 
 function copyTextToClipboard(text) {
     var textArea = document.createElement("textarea");
-    textArea.style.position = 'fixed';
+    textArea.style.position = "fixed";
     textArea.style.top = 0;
     textArea.style.left = 0;
-    textArea.style.width = '2em';
-    textArea.style.height = '2em';
+    textArea.style.width = "2em";
+    textArea.style.height = "2em";
     textArea.style.padding = 0;
-    textArea.style.border = 'none';
+    textArea.style.border = "none";
     textArea.style.outline = 'none';
-    textArea.style.boxShadow = 'none';
-    textArea.style.background = 'transparent';
+    textArea.style.boxShadow = "none";
+    textArea.style.background = "transparent";
     textArea.value = text;
     document.body.appendChild(textArea);
     textArea.select();
-    document.execCommand('copy');
+    document.execCommand("copy");
     document.body.removeChild(textArea);
 }
 
@@ -98,6 +98,9 @@ function getTotalContributionLimit(docType) {
     var totalContribution = 0;
     var count = 0;
     for (var idx in docType) {
+        if (!{}.hasOwnProperty.call(docType, idx)) {
+            continue;
+        }
         for (var repo in summaryJson[docType[idx]]) {
             for (var author in summaryJson[docType[idx]][repo]["authorFinalContributionMap"]) {
                 if (!{}.hasOwnProperty.call(summaryJson[docType[idx]][repo]["authorFinalContributionMap"], author)) {
@@ -123,6 +126,9 @@ function flatten(authorRepos) {
             continue;
         }
         for (var author in authorRepos[repo]) {
+            if (!{}.hasOwnProperty.call(authorRepos[repo], author)) {
+                continue;
+            }
             result.push(authorRepos[repo][author]);
         }
     }
@@ -200,6 +206,10 @@ function obtainRelevantFilesBasedOnDocTypes(resultJson, docTypes) {
     return result;
 }
 
+function isMatch(searchTerm, currentPhrase) {
+    return currentPhrase.toLowerCase().indexOf(searchTerm.toLowerCase()) != -1;
+}
+
 function isSearchMatch(searchTerm, authorRepo) {
     if (searchTerm === "") {
         return true;
@@ -207,8 +217,8 @@ function isSearchMatch(searchTerm, authorRepo) {
     var terms = searchTerm.split(" ");
     for (var i = 0; i < terms.length; i++) {
         //neither author name or repo name is a match for the search term
-        if (isMatch(terms[i], authorRepo['author']) || isMatch(terms[i], authorRepo['displayName']) ||
-            isMatch(terms[i], authorRepo['authorDisplayName'])) {
+        if (isMatch(terms[i], authorRepo["author"]) || isMatch(terms[i], authorRepo["displayName"]) ||
+            isMatch(terms[i], authorRepo["authorDisplayName"])) {
             return true;
         }
     }
@@ -216,13 +226,9 @@ function isSearchMatch(searchTerm, authorRepo) {
 
 }
 
-function isMatch(searchTerm, currentPhrase) {
-    return currentPhrase.toLowerCase().indexOf(searchTerm.toLowerCase()) != -1;
-}
-
 function getMinDate(docType) {
-    var docType = docType[0];
-    rawDate = summaryJson[docType][Object.keys(summaryJson[docType])[0]]["sinceDate"];
+    docType = docType[0];
+    var rawDate = summaryJson[docType][Object.keys(summaryJson[docType])[0]]["sinceDate"];
     if (rawDate) {
         //the sinceDate has been set
         return Date.parse(rawDate).toString("M/d/yy");
@@ -251,8 +257,8 @@ function getMinDate(docType) {
 }
 
 function getMaxDate(docType) {
-    var docType = docType[0];
-    rawDate = summaryJson[docType][Object.keys(summaryJson[docType])[0]]["untilDate"];
+    docType = docType[0];
+    var rawDate = summaryJson[docType][Object.keys(summaryJson[docType])[0]]["untilDate"];
     if (rawDate) {
         //the untilDate has been set
         return Date.parse(rawDate).toString("M/d/yy");

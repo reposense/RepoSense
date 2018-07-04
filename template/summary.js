@@ -1,7 +1,3 @@
-var summaryJson={}, tempJson={};
-var docTypesArr = [];
-var cntDocType = 0, cnt=0;
-
 function loadJSON(file, fn){
     var xhr = new XMLHttpRequest();
     xhr.onreadystatechange = function() {
@@ -42,6 +38,12 @@ function clone(obj) {
     }
     return temp;
 }
+
+var summaryJson={};
+var tempJson={};
+var docTypesArr = [];
+var cntDocType = 0, cnt=0;
+
 
 loadJSON("doctype.json", (res) => {
     cntDocType = res.length;

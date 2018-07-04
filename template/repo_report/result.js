@@ -1,5 +1,3 @@
-var resultJson = {}, docTypes = [], cnt = 0;
-
 function loadJSON(file, fn){
     var xhr = new XMLHttpRequest();
     xhr.onreadystatechange = function() {
@@ -46,6 +44,10 @@ function loadFiles() {
     }
     next();
 }
+
+var resultJson = {};
+var docTypes = [];
+var cnt = 0;
 
 loadJSON("../doctype.json", (res) => {
    cnt = res.length;
