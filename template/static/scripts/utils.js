@@ -35,18 +35,10 @@ var getLegalClassName = function(original) {
 
 var getContribution = function(repo) {
     var count = 0;
-    for (author in repo['authorFinalContributionMap']) {
+    for (var author in repo['authorFinalContributionMap']) {
         count += repo['authorFinalContributionMap'][author];
     }
     return count;
-}
-
-function getScaleLimitMap(docType) {
-    var result = {};
-    //var docType = docType.join();
-    result["authorWeeklyIntervalContributions"] = getScaleLimit("authorWeeklyIntervalContributions", docType);
-    result["authorDailyIntervalContributions"] = getScaleLimit("authorDailyIntervalContributions", docType);
-    return result;
 }
 
 function getScaleLimit(intervalType, docType) {
@@ -55,11 +47,17 @@ function getScaleLimit(intervalType, docType) {
     for (var idx in docType) {
         for (var repo in summaryJson[docType[idx]]) {
             for (var author in summaryJson[docType[idx]][repo][intervalType]) {
+                if (!{}.hasOwnProperty.call(summaryJson[docType[idx]][repo][intervalType], author)) {
+                    return;
+                }
                 for (var i in summaryJson[docType[idx]][repo][intervalType][author]) {
+                    if (!{}.hasOwnProperty.call(summaryJson[docType[idx]][repo][intervalType][author], i)) {
+                        return;
+                    }
                     var currentPeriod = summaryJson[docType[idx]][repo][intervalType][author][i];
                     if (totalContribution["insertions"] != 0) {
                         totalContribution += currentPeriod["insertions"];
-                        count += 1
+                        count += 1;
                     }
 
                 }
@@ -67,6 +65,13 @@ function getScaleLimit(intervalType, docType) {
         }
     }
     return totalContribution / count * 20;
+};
+
+function getScaleLimitMap(docType) {
+    var result = {};
+    result["authorWeeklyIntervalContributions"] = getScaleLimit("authorWeeklyIntervalContributions", docType);
+    result["authorDailyIntervalContributions"] = getScaleLimit("authorDailyIntervalContributions", docType);
+    return result;
 };
 
 function getIntervalCount(intervalType, minDate, maxDate) {
@@ -89,6 +94,9 @@ function getTotalContributionLimit(docType) {
     for (var idx in docType) {
         for (var repo in summaryJson[docType[idx]]) {
             for (var author in summaryJson[docType[idx]][repo]["authorFinalContributionMap"]) {
+                if (!{}.hasOwnProperty.call(summaryJson[docType[idx]][repo]["authorFinalContributionMap"], author)) {
+                    return;
+                }
                 totalContribution += (summaryJson[docType[idx]][repo]["authorFinalContributionMap"][author]);
                 count += 1
             }
@@ -103,9 +111,9 @@ function openInNewTab(url) {
 }
 
 function flatten(authorRepos) {
-    result = [];
-    for (repo in authorRepos) {
-        for (author in authorRepos[repo]) {
+    var result = [];
+    for (var repo in authorRepos) {
+        for (var author in authorRepos[repo]) {
             result.push(authorRepos[repo][author]);
         }
     }
@@ -113,26 +121,26 @@ function flatten(authorRepos) {
 }
 
 function sortSegment(segment, sortElement, sortOrder) {
-    if (sortOrder == "high2low") {
+    if (sortOrder === "high2low") {
         segment.sort(function(a, b) {
             if (b[sortElement] > a[sortElement]) {
                 return 1;
             } else if (b[sortElement] < a[sortElement]) {
-                return -1
+                return -1;
             } else {
                 return 0;
             }
-        })
+        });
     } else {
         segment.sort(function(a, b) {
             if (a[sortElement] > b[sortElement]) {
                 return 1;
             } else if (a[sortElement] < b[sortElement]) {
-                return -1
+                return -1;
             } else {
                 return 0;
             }
-        })
+        });
     }
     return segment;
 }

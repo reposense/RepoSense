@@ -1,3 +1,39 @@
+var cnt=0, summaryJson={}, docTypesArr = [];
+var tempJson={};
+var cntDocType = 0;
+
+loadJSON("doctype.json", (res) => {
+    cntDocType = res.length;
+    for(var idx in res) {
+        docTypesArr.push(res[idx]);
+        cntDocType -= 1;
+        if (!cntDocType) {
+            loadJSON("summary.json", (res) => {
+                summaryJson = {};
+                cnt = res.length * docTypesArr.length;
+
+                for (var idx in docTypesArr) {
+                    if(!{}.hasOwnProperty.call(docTypesArr, idx)) {
+                        return;
+                    }
+                    summaryJson[docTypesArr[idx]] = {};
+                    for(var i in res){
+                        var repo = res[i];
+                        var name = repo.organization+"_"+repo.repoName;
+                        summaryJson[docTypesArr[idx]][name] = clone(repo);
+                    }
+                    for(var dir in summaryJson[docTypesArr[idx]]){
+                        if(!{}.hasOwnProperty.call(summaryJson[docTypesArr[idx]], dir)) {
+                            return;
+                        }
+                        loadSubFile(dir, docTypesArr[idx]);
+                    }
+                }
+            });
+        }
+    }
+});
+
 function loadJSON(file, fn){
     var xhr = new XMLHttpRequest();
     xhr.onreadystatechange = function() {
@@ -39,32 +75,3 @@ function clone(obj) {
     return temp;
 }
 
-var cnt=0, summaryJson={}, docTypesArr = [];
-var tempJson={};
-var cntDocType = 0;
-
-loadJSON("doctype.json", res => {
-    cntDocType = res.length;
-    for(var idx in res) {
-        docTypesArr.push(res[idx]);
-        cntDocType -= 1;
-        if (!cntDocType) {
-            loadJSON("summary.json", res => {
-                summaryJson = {};
-                cnt = res.length * docTypesArr.length;
-
-                for (var idx in docTypesArr) {
-                    summaryJson[docTypesArr[idx]] = {};
-                    for(var i in res){
-                        var repo = res[i];
-                        var name = repo.organization+"_"+repo.repoName;
-                        summaryJson[docTypesArr[idx]][name] = clone(repo);
-                    }
-                    for(var dir in summaryJson[docTypesArr[idx]]){
-                        loadSubFile(dir, docTypesArr[idx]);
-                    }
-                }
-            });
-        }
-    }
-});
