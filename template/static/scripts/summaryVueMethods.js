@@ -56,7 +56,7 @@ vueMethods = {
             return "contribution on " + value["sinceDate"] + ": " + value['insertions'] + " lines";
         } else{
             return "contribution from " + value["sinceDate"] + " to " + value["untilDate"] + ": "
-                + value['insertions'] + " lines";
+                + value["insertions"] + " lines";
         }
     },
     getSliceGithubLink: function(timeSlice, authorRepo) {
@@ -86,20 +86,20 @@ vueMethods = {
         authorRepos = [];
         for (repo in summary) {
             newRepo = [];
-            for (author in summary[repo]['authorFinalContributionMap']) {
+            for (author in summary[repo]["authorFinalContributionMap"]) {
                 authorRepo = {};
-                authorRepo['author'] = author;
-                authorRepo['authorDisplayName'] = summary[repo]['authorDisplayNameMap'][author];
-                authorRepo['displayName'] = summary[repo]['displayName'];
-                authorRepo['repo'] = summary[repo]['repoName'];
-                authorRepo['branch'] = summary[repo]['branch'];
-                authorRepo['organization'] = summary[repo]['organization'];
-                authorRepo['authorDailyIntervalContributions'] =
-                    summary[repo]['authorDailyIntervalContributions'][author];
-                authorRepo['authorWeeklyIntervalContributions'] =
-                    summary[repo]['authorWeeklyIntervalContributions'][author];
-                authorRepo['finalContribution'] = summary[repo]['authorFinalContributionMap'][author];
-                authorRepo['variance'] = summary[repo]['authorContributionVariance'][author];
+                authorRepo["author"] = author;
+                authorRepo["authorDisplayName"] = summary[repo]["authorDisplayNameMap"][author];
+                authorRepo["displayName"] = summary[repo]["displayName"];
+                authorRepo["repo"] = summary[repo]["repoName"];
+                authorRepo["branch"] = summary[repo]["branch"];
+                authorRepo["organization"] = summary[repo]["organization"];
+                authorRepo["authorDailyIntervalContributions"] =
+                    summary[repo]["authorDailyIntervalContributions"][author];
+                authorRepo["authorWeeklyIntervalContributions"] =
+                    summary[repo]["authorWeeklyIntervalContributions"][author];
+                authorRepo["finalContribution"] = summary[repo]["authorFinalContributionMap"][author];
+                authorRepo["variance"] = summary[repo]["authorContributionVariance"][author];
                 if (isSearchMatch(searchTerm, authorRepo)) {
                     newRepo.push(authorRepo);
                 }

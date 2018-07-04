@@ -53,12 +53,12 @@ function getScaleLimit(intervalType, docType) {
     var totalContribution = 0;
     var count = 0;
     for (var idx in docType) {
-        for (repo in summaryJson[docType[idx]]) {
-            for (author in summaryJson[docType[idx]][repo][intervalType]) {
-                for (i in summaryJson[docType[idx]][repo][intervalType][author]) {
-                    currentPeriod = summaryJson[docType[idx]][repo][intervalType][author][i];
-                    if (totalContribution['insertions'] != 0) {
-                        totalContribution += currentPeriod['insertions'];
+        for (var repo in summaryJson[docType[idx]]) {
+            for (var author in summaryJson[docType[idx]][repo][intervalType]) {
+                for (var i in summaryJson[docType[idx]][repo][intervalType][author]) {
+                    var currentPeriod = summaryJson[docType[idx]][repo][intervalType][author][i];
+                    if (totalContribution["insertions"] != 0) {
+                        totalContribution += currentPeriod["insertions"];
                         count += 1
                     }
 
@@ -87,9 +87,9 @@ function getTotalContributionLimit(docType) {
     var totalContribution = 0;
     var count = 0;
     for (var idx in docType) {
-        for (repo in summaryJson[docType[idx]]) {
-            for (author in summaryJson[docType[idx]][repo]['authorFinalContributionMap']) {
-                totalContribution += (summaryJson[docType[idx]][repo]['authorFinalContributionMap'][author]);
+        for (var repo in summaryJson[docType[idx]]) {
+            for (var author in summaryJson[docType[idx]][repo]["authorFinalContributionMap"]) {
+                totalContribution += (summaryJson[docType[idx]][repo]["authorFinalContributionMap"][author]);
                 count += 1
             }
         }
@@ -148,18 +148,14 @@ function sortByLineContributed(files, currentAuthor) {
 
 function filterFilesBasedOnDocTypes(files, docTypes) {
     var filteredFiles = [];
-    if (docTypes[0] == '') {
+    if (docTypes[0] === "") {
         return filteredFiles;
     }
-    console.log(files["adoc"]);
-    console.log('outside filterFilesBasedOnDocTypes');
     for (var key of files) {
-        //        if(isDocTypeMatch(fileDocType, docTypes)) {
-        //            filteredFiles.push(file);
-        //        }
-        if (!files.hasOwnProperty(key)) { continue };
+        if (!files.hasOwnProperty(key)) {
+            continue
+        };
         var docType = files[key];
-        console.log('FileDocType is ' + fileDocType.toString());
         if (docTypes.indexOf(fileDocType) > -1) {
             console.log(fileDocType);
             for (var [idx, file] in Object.entries(files[file])) {
@@ -172,32 +168,31 @@ function filterFilesBasedOnDocTypes(files, docTypes) {
 }
 
 function clone(obj) {
-    if (obj === null || typeof(obj) !== 'object' || 'isActiveClone' in obj)
+    if (obj === null || typeof(obj) !== "object" || "isActiveClone" in obj) {
         return obj;
-
-    if (obj instanceof Date)
-        var temp = new obj.constructor(); //or new Date(obj);
-    else
-        var temp = obj.constructor();
-
+    }
+    var temp;
+    if (obj instanceof Date) {
+        temp = new obj.constructor(); //or new Date(obj);
+    } else {
+        temp = obj.constructor();
+    }
     for (var key in obj) {
         if (Object.prototype.hasOwnProperty.call(obj, key)) {
-            obj['isActiveClone'] = null;
+            obj["isActiveClone"] = null;
             temp[key] = clone(obj[key]);
-            delete obj['isActiveClone'];
+            delete obj["isActiveClone"];
         }
     }
-
     return temp;
 }
 
 function obtainRelevantFilesBasedOnDocTypes(resultJson, docTypes) {
     var result = [];
     for (var idx in docTypes) {
-        var temp = resultJson[docTypes[idx]];
-        // console.log(temp);
-        for (var id in temp) {
-            result.push(temp[id]);
+        var files = resultJson[docTypes[idx]];
+        for (var id in files) {
+            result.push(files[id]);
         }
     }
     return result;
@@ -217,7 +212,7 @@ function isDocTypeMatch(file, docTypes) {
 }
 
 function isSearchMatch(searchTerm, authorRepo) {
-    if (searchTerm == "") {
+    if (searchTerm === "") {
         return true;
     }
     var terms = searchTerm.split(" ");
@@ -307,9 +302,9 @@ function isNotAuthored(currentAuthor, line) {
 }
 
 function obtainSummariesForCombinedDocTypes(summary, docType) {
-    if (docType.length == 0) { return; }
+    if (docType.length === 0) { return; }
     var summariesForCombinedDocType = clone(summary[docType[0]]);
-    if (docType.length == 1) { return summariesForCombinedDocType; }
+    if (docType.length === 1) { return summariesForCombinedDocType; }
     var dailyIntervalContributionSize = 0,
         totalDailyContribution = 0;
     for (var idx in docType) {
@@ -369,12 +364,12 @@ function obtainSummariesForAuthorWeeklyIntervalContributions(summariesForCombine
         for (var person in summary_temp[organization][item]) {
             for (var commmit_idx = 0; commmit_idx < Math.min(summary_temp[organization][item][person].length,
                 summariesForCombinedDocType[organization][item][person].length); commmit_idx++) {
-                var temp1 = parseInt(summariesForCombinedDocType[organization][item][person][commmit_idx]["insertions"])
+                var insertionsCnt = parseInt(summariesForCombinedDocType[organization][item][person][commmit_idx]["insertions"])
                 + parseInt(summary_temp[organization][item][person][commmit_idx]["insertions"]);
-                var temp2 = parseInt(summariesForCombinedDocType[organization][item][person][commmit_idx]["deletions"])
+                var deletionsCnt = parseInt(summariesForCombinedDocType[organization][item][person][commmit_idx]["deletions"])
                 + parseInt(summary_temp[organization][item][person][commmit_idx]["deletions"]);
-                summariesForCombinedDocType[organization][item][person][commmit_idx]["insertions"] = temp1;
-                summariesForCombinedDocType[organization][item][person][commmit_idx]["deletions"] = temp2;
+                summariesForCombinedDocType[organization][item][person][commmit_idx]["insertions"] = insertionsCnt;
+                summariesForCombinedDocType[organization][item][person][commmit_idx]["deletions"] = deletionsCnt;
             }
         }
     }

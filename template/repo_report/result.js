@@ -1,27 +1,29 @@
 function loadJSON(file, fn){
     var xhr = new XMLHttpRequest();
     xhr.onreadystatechange = function() {
-        if (this.readyState == 4 && this.status == 200) {
+        if (this.readyState === 4 && this.status === 200) {
             fn(JSON.parse(xhr.responseText));
         }
-    }
+    };
     xhr.open("GET", file);
     xhr.send(null);
 }
 
 function clone(obj) {
-    if (obj === null || typeof(obj) !== 'object' || 'isActiveClone' in obj) {return obj;}
-    if (obj instanceof Date) {
-        var temp = new obj.constructor(); //or new Date(obj);
+    if (obj === null || typeof(obj) !== "object" || "isActiveClone" in obj) {
+        return obj;
     }
-    else {
-        var temp = obj.constructor();
+    var temp;
+    if (obj instanceof Date) {
+        temp = new obj.constructor(); //or new Date(obj);
+    } else {
+        temp = obj.constructor();
     }
     for (var key in obj) {
         if (Object.prototype.hasOwnProperty.call(obj, key)) {
-            obj['isActiveClone'] = null;
+            obj["isActiveClone"] = null;
             temp[key] = clone(obj[key]);
-            delete obj['isActiveClone'];
+            delete obj["isActiveClone"];
         }
     }
     return temp;
@@ -45,13 +47,15 @@ function loadFiles() {
 
 var docTypes = [], cnt = 0, resultJson = {};
 
-loadJSON("../doctype.json", res => {
+loadJSON("../doctype.json", (res) => {
    cnt = res.length;
    for (var idx in res) {
-       docTypes.push(res[idx]);
-       cnt -= 1;
-       if (!cnt) {
-           loadFiles();
-        }
+       if ({}.hasOwnProperty.call(res, idx)) {
+           docTypes.push(res[idx]);
+           cnt -= 1;
+           if (!cnt) {
+               loadFiles();
+           }
+       }
     }
 });
