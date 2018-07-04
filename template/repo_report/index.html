@@ -17,7 +17,6 @@
       currentAuthor = getQueryVariable('author');
       currentAuthorDisplayName = getQueryVariable('authorDisplayName');
       docTypes = getQueryVariable('docType').split(",");
-     // resultJson = filterFilesBasedOnDocTypes(resultJson, docTypes);
       resultJson = obtainRelevantFilesBasedOnDocTypes(resultJson, docTypes);
       resultJson = sortByLineContributed(resultJson,currentAuthor);
 

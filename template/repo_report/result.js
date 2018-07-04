@@ -10,23 +10,21 @@ function loadJSON(file, fn){
 }
 
 function clone(obj) {
-      if (obj === null || typeof(obj) !== 'object' || 'isActiveClone' in obj)
-        return obj;
-
-      if (obj instanceof Date)
+    if (obj === null || typeof(obj) !== 'object' || 'isActiveClone' in obj) {return obj;}
+    if (obj instanceof Date) {
         var temp = new obj.constructor(); //or new Date(obj);
-      else
+    }
+    else {
         var temp = obj.constructor();
-
-      for (var key in obj) {
+    }
+    for (var key in obj) {
         if (Object.prototype.hasOwnProperty.call(obj, key)) {
-          obj['isActiveClone'] = null;
-          temp[key] = clone(obj[key]);
-          delete obj['isActiveClone'];
+            obj['isActiveClone'] = null;
+            temp[key] = clone(obj[key]);
+            delete obj['isActiveClone'];
         }
-      }
-
-      return temp;
+    }
+    return temp;
 }
 
 function loadFiles() {
@@ -46,13 +44,14 @@ function loadFiles() {
 }
 
 var docTypes = [], cnt = 0, resultJson = {};
+
 loadJSON("../doctype.json", res => {
    cnt = res.length;
    for (var idx in res) {
-   docTypes.push(res[idx]);
-   cnt -= 1;
-   if (!cnt) {
-      loadFiles();
-      }
-   }
+       docTypes.push(res[idx]);
+       cnt -= 1;
+       if (!cnt) {
+           loadFiles();
+        }
+    }
 });

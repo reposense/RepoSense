@@ -74,38 +74,37 @@
           });
 
           $(function() {
-          $('body').on('click', '.author_name_tag', function() {
-              console.log("author name clicked");
-              displayName = $(this).attr("displayName");
-              author = $(this).attr("author");
-              authorDisplayName = $(this).attr("authorDisplayName");
-              docTypes = $(this).attr("docTypes");
-              url = displayName + "/" + "index.html?author=" + author+"&authorDisplayName=" +authorDisplayName
+              $('body').on('click', '.author_name_tag', function() {
+                  displayName = $(this).attr("displayName");
+                  author = $(this).attr("author");
+                  authorDisplayName = $(this).attr("authorDisplayName");
+                  docTypes = $(this).attr("docTypes");
+                  url = displayName + "/" + "index.html?author=" + author+"&authorDisplayName=" +authorDisplayName
                                                              + "&docType="+docTypes.toString();;
-              $(".author_block").removeClass("highlighted_block");
-              $("#" + author).addClass("highlighted_block");
-              $(".progress-chart-box").animate({
-                  width: "30%"
-              }, 300);
-              $(".code-review-box").animate({
-                  width: "70%"
-              }, 300, function() {
-                  $(".report-frame").attr('src', url);
-              });
-          });
-          $('body').on('click', '.hide_button', function() {
-              $(".report-frame").attr('src', 'about:blank')
-              $(".author_block").removeClass("highlighted_block");
-              setTimeout((function() {
+                  $(".author_block").removeClass("highlighted_block");
+                  $("#" + author).addClass("highlighted_block");
                   $(".progress-chart-box").animate({
-                      width: "100%"
+                      width: "30%"
                   }, 300);
                   $(".code-review-box").animate({
-                      width: "0%"
-                  }, 300);
+                      width: "70%"
+                  }, 300, function() {
+                      $(".report-frame").attr('src', url);
+                  });
+               });
 
-              }), 200);
-          });
+              $('body').on('click', '.hide_button', function() {
+                  $(".report-frame").attr('src', 'about:blank')
+                  $(".author_block").removeClass("highlighted_block");
+                  setTimeout((function() {
+                      $(".progress-chart-box").animate({
+                          width: "100%"
+                      }, 300);
+                      $(".code-review-box").animate({
+                          width: "0%"
+                       }, 300);
+                  }), 200);
+              });
 
               $(document).tooltip();
               $("#minDatePicker").val(minDateRange);
@@ -141,7 +140,7 @@
                         aria-expanded="false" id="filterDocTypeBtn">
                     Filter <span class="caret"></span>
                 </button>
-                <ul v-for="type in docTypes" class="dropdown-menu">
+                <ul class="dropdown-menu">
                     <li v-for="type in defaultDocTypes"><input type="checkbox" :value="type" v-model="docTypes"/>
                         <label>{{type}}</label>
                     </li>

@@ -12,13 +12,7 @@ function loadJSON(file, fn){
 function loadSubFile(dir, docType){
     loadJSON(dir+"/commits_"+docType+".json", obj2 => {
         for(var key in obj2){
-//            console.log("loading from "+docType);
-//            console.log("before "+dir+"/"+key);
-//            console.log(summaryJson["*.adoc"][dir][key]);
             summaryJson[docType][dir][key] = clone(obj2[key]);
-//            console.log("after "+dir+"/"+key);
-//            console.log(summaryJson["*.adoc"][dir][key]);
-//            console.log(summaryJson["*.adoc"][dir][key] === summaryJson["*.java"][dir][key]);
         }
         cnt -= 1;
         if(!cnt){ initialize();}
@@ -26,35 +20,34 @@ function loadSubFile(dir, docType){
 }
 
 function clone(obj) {
-      if (obj === null || typeof(obj) !== 'object' || 'isActiveClone' in obj)
-        return obj;
-
-      if (obj instanceof Date)
+    if (obj === null || typeof(obj) !== 'object' || 'isActiveClone' in obj) {return obj;}
+    if (obj instanceof Date) {
         var temp = new obj.constructor(); //or new Date(obj);
-      else
-        var temp = obj.constructor();
-
-      for (var key in obj) {
-        if (Object.prototype.hasOwnProperty.call(obj, key)) {
-          obj['isActiveClone'] = null;
-          temp[key] = clone(obj[key]);
-          delete obj['isActiveClone'];
-        }
-      }
-
-      return temp;
     }
+    else {
+        var temp = obj.constructor();
+    }
+    for (var key in obj) {
+        if (Object.prototype.hasOwnProperty.call(obj, key)) {
+            obj['isActiveClone'] = null;
+            temp[key] = clone(obj[key]);
+            delete obj['isActiveClone'];
+        }
+    }
+    return temp;
+}
 
 var cnt=0, summaryJson={}, docTypesArr = [];
 var tempJson={};
 var cnt_doctype = 0;
+
 loadJSON("doctype.json", res => {
     cnt_doctype = res.length;
     for(var idx in res) {
         docTypesArr.push(res[idx]);
         cnt_doctype -= 1;
         if (!cnt_doctype) {
-        loadJSON("summary.json", res => {
+            loadJSON("summary.json", res => {
                 summaryJson = {};
                 cnt = res.length * docTypesArr.length;
 

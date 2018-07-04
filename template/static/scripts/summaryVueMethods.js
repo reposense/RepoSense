@@ -40,7 +40,8 @@ vueMethods = {
             }
         }
         var color = rgbacolors[index % (rgbacolors.length)];
-        return "margin-left:" + (index * spacing - width + spacing) + "%;" + "width:" + width + "%;" + "background: linear-gradient(to left top, " + color + " 50%, transparent 50%);" + ";";
+        return "margin-left:" + (index * spacing - width + spacing) + "%;" + "width:" + width + "%;"
+            + "background: linear-gradient(to left top, " + color + " 50%, transparent 50%);" + ";";
     },
     getContributionBarWidths: function(value, totalContributionLimit) {
         var widths = [];
@@ -54,7 +55,8 @@ vueMethods = {
         if (intervalType == "authorDailyIntervalContributions"){
             return "contribution on " + value["sinceDate"] + ": " + value['insertions'] + " lines";
         } else{
-            return "contribution from " + value["sinceDate"] + " to " + value["untilDate"] + ": " + value['insertions'] + " lines";
+            return "contribution from " + value["sinceDate"] + " to " + value["untilDate"] + ": "
+                + value['insertions'] + " lines";
         }
     },
     getSliceGithubLink: function(timeSlice, authorRepo) {
@@ -92,8 +94,10 @@ vueMethods = {
                 authorRepo['repo'] = summary[repo]['repoName'];
                 authorRepo['branch'] = summary[repo]['branch'];
                 authorRepo['organization'] = summary[repo]['organization'];
-                authorRepo['authorDailyIntervalContributions'] = summary[repo]['authorDailyIntervalContributions'][author];
-                authorRepo['authorWeeklyIntervalContributions'] = summary[repo]['authorWeeklyIntervalContributions'][author];
+                authorRepo['authorDailyIntervalContributions'] =
+                    summary[repo]['authorDailyIntervalContributions'][author];
+                authorRepo['authorWeeklyIntervalContributions'] =
+                    summary[repo]['authorWeeklyIntervalContributions'][author];
                 authorRepo['finalContribution'] = summary[repo]['authorFinalContributionMap'][author];
                 authorRepo['variance'] = summary[repo]['authorContributionVariance'][author];
                 if (isSearchMatch(searchTerm, authorRepo)) {
