@@ -27,18 +27,17 @@ public class ReportGenerator {
      */
     public static void generateReposReport(List<RepoConfiguration> configs, String outputPath) {
         FileUtil.copyTemplate(outputPath);
-        Path templateLocation = Paths.get(outputPath, Constants.STATIC_INDIVIDUAL_REPORT_TEMPLATE_ADDRESS);
 
         for (RepoConfiguration config : configs) {
             Path repoReportDirectory = Paths.get(outputPath, config.getDisplayName());
             try {
                 GitDownloader.downloadRepo(config.getOrganization(), config.getRepoName(), config.getBranch());
-                FileUtil.copyDirectoryFiles(templateLocation, repoReportDirectory);
+                FileUtil.createDirectory(repoReportDirectory);
             } catch (GitDownloaderException gde) {
                 logger.log(Level.WARNING, "Exception met while trying to clone the repo, will skip this one", gde);
                 continue;
             } catch (IOException ioe) {
-                logger.log(Level.WARNING, "Error while copying template files, will skip this repo.", ioe);
+                logger.log(Level.WARNING, "Error while creating repo directory, will skip this repo.", ioe);
                 continue;
             }
 
