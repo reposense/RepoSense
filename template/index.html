@@ -61,38 +61,38 @@
               },
               methods: vueMethods
           });
-          $(".author_name_tag").click(function() {
-              displayName = $(this).attr("displayName");
-              author = $(this).attr("author");
-              authorDisplayName = $(this).attr("authorDisplayName");
-              url = displayName + "/" + "index.html?author=" + author+"&authorDisplayName=" +authorDisplayName;
-              $(".author_block").removeClass("highlighted_block");
-              $("#" + author).addClass("highlighted_block");
-              $(".progress-chart-box").animate({
-                  width: "30%"
-              }, 300);
-              $(".code-review-box").animate({
-                  width: "70%"
-              }, 300, function() {
-                  $(".report-frame").attr('src', url);
-              });
-          });
-
-          $(".hide_button").click(function() {
-              $(".report-frame").attr('src', 'about:blank')
-              $(".author_block").removeClass("highlighted_block");
-              setTimeout((function() {
-                  $(".progress-chart-box").animate({
-                      width: "100%"
-                  }, 300);
-                  $(".code-review-box").animate({
-                      width: "0%"
-                  }, 300);
-
-              }), 200);
-          });
 
           $(function() {
+              $("body").on("click", ".author_name_tag", function() {
+                  displayName = $(this).attr("displayName");
+                  author = $(this).attr("author");
+                  authorDisplayName = $(this).attr("authorDisplayName");
+                  url = displayName + "/" + "index.html?author=" + author+"&authorDisplayName=" +authorDisplayName;
+                  $(".author_block").removeClass("highlighted_block");
+                  $("#" + author).addClass("highlighted_block");
+                  $(".progress-chart-box").animate({
+                      width: "30%"
+                  }, 300);
+                  $(".code-review-box").animate({
+                      width: "70%"
+                  }, 300, function() {
+                      $(".report-frame").attr('src', url);
+                  });
+              });
+
+              $("body").on("click", ".hide_button", function() {
+                  $(".report-frame").attr('src', 'about:blank')
+                  $(".author_block").removeClass("highlighted_block");
+                  setTimeout((function() {
+                      $(".progress-chart-box").animate({
+                          width: "100%"
+                      }, 300);
+                      $(".code-review-box").animate({
+                          width: "0%"
+                      }, 300);
+
+                  }), 200);
+               });
               $(document).tooltip();
               $("#minDatePicker").val(minDateRange);
               $("#maxDatePicker").val(maxDateRange);
