@@ -20,7 +20,7 @@ Thank you for your interest in contributing to RepoSense!
 ### Prerequisites
 1. **JDK `1.8.0_60`** or later.
 1. **git `2.14`** or later on the command line.
- > Type `git --version` on your OS terminal and ensure that you have the correct of **git**.
+ > Type `git --version` on your OS terminal and ensure that you have the correct version of **git**.
 
 ### Setting up the project in your computer using IntelliJ
 1. Fork this repo, and clone the fork to your computer.
