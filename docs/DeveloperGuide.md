@@ -19,31 +19,31 @@ Thank you for your interest in contributing to RepoSense!
 
 ### Prerequisites
 1. **JDK `1.8.0_60`** or later.
-2. **git `2.14`** or later on the command line.
- * Check that this tool exist on your OS terminal by typing its name on the terminal and ensure that the terminal does not output messages such as `not found` or `not recognized`.
+1. **git `2.14`** or later on the command line.
+ > Type `git --version` on your OS terminal and ensure that you have the correct of **git**.
 
 ### Setting up the project in your computer using IntelliJ
 1. Fork this repo, and clone the fork to your computer.
-2. Open *IntelliJ* (if you are not in the welcome screen, click `File` > `Close Project` to close the existing project dialog first).
-3. Set up the correct *JDK* version for *Gradle*.
-4. Click `Configure` > `Project Defaults` > `Project Structure`.
-5. Click `New…​` and find the directory of the *JDK*.
-6. Click `Import Project`.
-7. Locate the `build.gradle` file and select it. Click `OK`.
-8. Ensure that the selected version of `Gradle JVM` matches our prerequisite.
-9. Click `OK` to accept the all the other default settings.
+1. Open *IntelliJ* (if you are not in the welcome screen, click `File` > `Close Project` to close the existing project dialog first).
+1. Set up the correct *JDK* version for *Gradle*.
+    1. Click `Configure` > `Project Defaults` > `Project Structure`.
+    1. Click `New…​` and find the directory of the *JDK*.
+1. Click `Import Project`.
+1. Locate the `build.gradle` file and select it. Click `OK`.
+1. Ensure that the selected version of `Gradle JVM` matches our prerequisite.
+1. Click `OK` to accept the all the other default settings.
 
 ### Verifying the setup
-1. Ensure that *Gradle* build without error.
-2. Run the tests to ensure they all pass.
-   1. On the project root directory, run the command `gradlew clean build` first, followed by `gradlew functional` and ensure that both builds are successful.
+1. Ensure that *Gradle* builds without error by running the command `gradlew clean build`, and ensure that it finishs with a `BUILD SUCCESSFUL` message.
+1. Run the tests to ensure they all pass by running the command `gradlew functional`, and ensure that it finishs with a `BUILD SUCCESSFUL` message
+  > Ensure that you are on the project root directory when using the `gradlew` commands.
 
 ### Configuring the coding style
 This project follows [oss-generic coding standards](https://oss-generic.github.io/process/docs/CodingStandards.html). *IntelliJ’s* default style is mostly compliant with our *Java* coding convention but it uses a different import order from ours. To rectify,
 
 1. Go to `File` > `Settings…`​ (*Windows/Linux*), or `IntelliJ IDEA` > `Preferences…`​ (*macOS*).
-2. Select `Editor` > `Code Style` > `Java`.
-3. Click on the `Imports` tab to set the order
+1. Select `Editor` > `Code Style` > `Java`.
+1. Click on the `Imports` tab to set the order
    * For `Class count to use import with '*'` and `Names count to use static import with '*'`: Set to `999` to prevent IntelliJ from contracting the import statements
    * For `Import Layout`, follow this image below:
    ![import-order](images/import-order.png)
@@ -73,26 +73,26 @@ Optionally, you can follow the [Using Checkstyle](UsingCheckstyle.md) document t
 ### CommitsReporter
 [`CommitsReporter`](/src/main/java/reposense/commits/CommitsReporter.java) is responsible for analyzing the **commit** history and generating a [`CommitContributionSummary`](/src/main/java/reposense/commits/model/CommitContributionSummary.java) for each repository. `CommitContributionSummary` contains information such as each author's daily and weekly contribution and the variance of their contribution. `CommitsReporter`,
  1. uses [`CommitInfoExtractor`](/src/main/java/reposense/commits/CommitInfoExtractor.java) to run the `git log` command, which generates the statistics of each commit made within date range.
- 2. generates a [`CommitInfo`](/src/main/java/reposense/commits/model/CommitInfo.java) for each commit, which contains the `infoLine` and `statLine`.
- 3. uses [`CommitInfoAnalyzer`](/src/main/java/reposense/commits/CommitInfoAnalyzer.java) to extract the relevant data from `CommitInfo` into a [`CommitResult`](/src/main/java/reposense/commits/model/CommitResult.java), such as the number of line insertions and deletions in the commit and the author of the commit.
- 4. uses [`CommitResultAggregator`](/src/main/java/reposense/commits/CommitResultAggregator.java) to aggregate all `CommitResult` into a [`CommitContributionSummary`](/src/main/java/reposense/commits/model/CommitContributionSummary.java).
+ 1. generates a [`CommitInfo`](/src/main/java/reposense/commits/model/CommitInfo.java) for each commit, which contains the `infoLine` and `statLine`.
+ 1. uses [`CommitInfoAnalyzer`](/src/main/java/reposense/commits/CommitInfoAnalyzer.java) to extract the relevant data from `CommitInfo` into a [`CommitResult`](/src/main/java/reposense/commits/model/CommitResult.java), such as the number of line insertions and deletions in the commit and the author of the commit.
+ 1. uses [`CommitResultAggregator`](/src/main/java/reposense/commits/CommitResultAggregator.java) to aggregate all `CommitResult` into a [`CommitContributionSummary`](/src/main/java/reposense/commits/model/CommitContributionSummary.java).
 
 
 ### AuthorshipReporter
 [`AuthorshipReporter`](/src/main/java/reposense/authorship/AuthorshipReporter.java) is responsible for analyzing the white listed **files**, traces the original author for each line of text/code, and generating an [`AuthorshipSummary`](/src/main/java/reposense/authorship/model/AuthorshipSummary.java) for each repository. `AuthorshipSummary` contains the analysis results of the white listed files and the amount of line contributions each author made. `AuthorshipReporter`,
  1. uses [`FileInfoExtractor`](/src/main/java/reposense/authorship/FileInfoExtractor.java) to traverse the repository to find all relevant files.
- 2. generates a [`FileInfo`](/src/main/java/reposense/authorship/model/FileInfo.java) for each relevant file, which contains the path to the file and a list of [`LineInfo`](/src/main/java/reposense/authorship/model/LineInfo.java) representing each line of the file.
- 3. uses [`FileInfoAnalyzer`](/src/main/java/reposense/authorship/FileInfoAnalyzer.java) to analyze each file, using `git blame` or annotations, and finds the `Author` for each `LineInfo`.
- 4. generates a [`FileResult`](/src/main/java/reposense/authorship/model/FileResult.java) for each file, which consolidates the authorship results into a *Map* of each author's line contribution to the file.
- 5. uses [`FileResultAggregator`](/src/main/java/reposense/authorship/FileResultAggregator.java) to aggregate all `FileResult` into an `AuthorshipSummary`.
+ 1. generates a [`FileInfo`](/src/main/java/reposense/authorship/model/FileInfo.java) for each relevant file, which contains the path to the file and a list of [`LineInfo`](/src/main/java/reposense/authorship/model/LineInfo.java) representing each line of the file.
+ 1. uses [`FileInfoAnalyzer`](/src/main/java/reposense/authorship/FileInfoAnalyzer.java) to analyze each file, using `git blame` or annotations, and finds the `Author` for each `LineInfo`.
+ 1. generates a [`FileResult`](/src/main/java/reposense/authorship/model/FileResult.java) for each file, which consolidates the authorship results into a *Map* of each author's line contribution to the file.
+ 1. uses [`FileResultAggregator`](/src/main/java/reposense/authorship/FileResultAggregator.java) to aggregate all `FileResult` into an `AuthorshipSummary`.
 
 
 ### ReportGenerator(Main)
 [`ReportGenerator`](/src/main/java/reposense/report/ReportGenerator.java),
  1. uses `GitDownloader` API to download the repository from *GitHub*.
- 2. copies the template files into the designated output directory.
- 3. uses `CommitReporter` and `AuthorshipReporter` to produce the commit and authorship summary respectively.
- 4. generates the `JSON` files needed to generate the `HTML` dashboard.
+ 1. copies the template files into the designated output directory.
+ 1. uses `CommitReporter` and `AuthorshipReporter` to produce the commit and authorship summary respectively.
+ 1. generates the `JSON` files needed to generate the `HTML` dashboard.
 
 
 ### System
