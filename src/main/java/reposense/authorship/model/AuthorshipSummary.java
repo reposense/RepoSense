@@ -27,6 +27,10 @@ public class AuthorshipSummary {
         authorFinalContributionMap.put(author, authorFinalContributionMap.get(author) + 1);
     }
 
+    public void addFileResults(FileResult fileresult) {
+        fileResults.add(fileresult);
+    }
+
     public HashMap<Author, Integer> getAuthorFinalContributionMap() {
         return authorFinalContributionMap;
     }

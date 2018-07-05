@@ -11,4 +11,6 @@ build/
 repos/
 logs/
 out/
+outputs/
 ft_temp/
+

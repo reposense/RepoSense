@@ -7,6 +7,7 @@ public class TestConstants {
     public static final String TEST_REPO = "testrepo-Alpha";
     public static final String LOCAL_TEST_REPO_ADDRESS = Constants.REPOS_ADDRESS
             + File.separator + TEST_ORG + File.separator + TEST_REPO;
+    public static final String[] TEST_DOCTYPES = {"java"};
 
     public static final String FIRST_COMMIT_HASH = "7d7584f";
     public static final String TEST_COMMIT_HASH = "2fb6b9b";

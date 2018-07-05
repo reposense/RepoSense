@@ -13,7 +13,9 @@ vueMethods = {
         var paddingCount = getIntervalCount(intervalType, minDate, startingDate);
         if(minDateParsed < startingDate){
             for(var i=0; i<paddingCount; i++){
-                resultContribution.push({ insertions:0 });
+                resultContribution.push({
+                    insertions:0
+                });
             }
         }
         for (contribution of contributions) {
@@ -26,7 +28,7 @@ vueMethods = {
 
         return resultContribution;
     },
-    getSliceStyle: function(index, value, intervalType, minDate, maxDate) {
+    getSliceStyle(index, value, intervalType, minDate, maxDate, sliceScaleLimitMap) {
         var sliceScaleLimit = sliceScaleLimitMap[intervalType];
         var spacing = 100 / getIntervalCount(intervalType, minDate, maxDate);
         var contribution = value['insertions'];
@@ -40,9 +42,10 @@ vueMethods = {
             }
         }
         var color = rgbacolors[index % (rgbacolors.length)];
-        return "margin-left:" + (index * spacing - width + spacing) + "%;" + "width:" + width + "%;" + "background: linear-gradient(to left top, " + color + " 50%, transparent 50%);" + ";";
+        return "margin-left:" + (index * spacing - width + spacing) + "%;" + "width:" + width + "%;"
+            + "background: linear-gradient(to left top, " + color + " 50%, transparent 50%);" + ";";
     },
-    getContributionBarWidths: function(value) {
+    getContributionBarWidths(value, totalContributionLimit) {
         var widths = [];
         for (var i = 0; i < parseInt(value / totalContributionLimit); i++) {
             widths.push("100%");
@@ -54,7 +57,8 @@ vueMethods = {
         if (intervalType == "authorDailyIntervalContributions"){
             return "contribution on " + value["sinceDate"] + ": " + value['insertions'] + " lines";
         } else{
-            return "contribution from " + value["sinceDate"] + " to " + value["untilDate"] + ": " + value['insertions'] + " lines";
+            return "contribution from " + value["sinceDate"] + " to " + value["untilDate"] + ": "
+                + value["insertions"] + " lines";
         }
     },
     getSliceGithubLink: function(timeSlice, authorRepo) {
@@ -77,30 +81,41 @@ vueMethods = {
     getContributionBarTitle: function(value) {
         return "total contribution : " + value;
     },
-    sortAndFilter: function(summary, searchTerm, sortElement, sortOrder, isGroupByRepo) {
-        authorRepos = [];
-        for (repo in summary) {
-            newRepo = [];
-            for (author in summary[repo]['authorFinalContributionMap']) {
-                authorRepo = {};
-                authorRepo['author'] = author;
-                authorRepo['authorDisplayName'] = summary[repo]['authorDisplayNameMap'][author];
-                authorRepo['displayName'] = summary[repo]['displayName'];
-                authorRepo['repo'] = summary[repo]['repoName'];
-                authorRepo['branch'] = summary[repo]['branch'];
-                authorRepo['organization'] = summary[repo]['organization'];
-                authorRepo['authorDailyIntervalContributions'] = summary[repo]['authorDailyIntervalContributions'][author];
-                authorRepo['authorWeeklyIntervalContributions'] = summary[repo]['authorWeeklyIntervalContributions'][author];
-                authorRepo['finalContribution'] = summary[repo]['authorFinalContributionMap'][author];
-                authorRepo['variance'] = summary[repo]['authorContributionVariance'][author];
-                if (isSearchMatch(searchTerm, authorRepo)) {
-                    newRepo.push(authorRepo);
+    sortAndFilter(summary, searchTerm, sortElement, sortOrder, isGroupByRepo, docType) {
+        summary = obtainSummariesForCombinedDocTypes(summary, docType);
+        var authorRepos = [];
+        for (var repo in summary) {
+            if (!{}.hasOwnProperty.call(summary, repo)) {
+                continue;
+            }
+            var newRepo = [];
+            for (var author in summary[repo]["authorFinalContributionMap"]) {
+                if ({}.hasOwnProperty.call(summary[repo]["authorFinalContributionMap"], author)) {
+                    var authorRepo = {};
+                    authorRepo["author"] = author;
+                    authorRepo["authorDisplayName"] = summary[repo]["authorDisplayNameMap"][author];
+                    authorRepo["displayName"] = summary[repo]["displayName"];
+                    authorRepo["repo"] = summary[repo]["repoName"];
+                    authorRepo["branch"] = summary[repo]["branch"];
+                    authorRepo["organization"] = summary[repo]["organization"];
+                    authorRepo["authorDailyIntervalContributions"] =
+                    summary[repo]["authorDailyIntervalContributions"][author];
+                    authorRepo["authorWeeklyIntervalContributions"] =
+                    summary[repo]["authorWeeklyIntervalContributions"][author];
+                    authorRepo["finalContribution"] = summary[repo]["authorFinalContributionMap"][author];
+                    authorRepo["variance"] = summary[repo]["authorContributionVariance"][author];
+                    if (isSearchMatch(searchTerm, authorRepo)) {
+                        newRepo.push(authorRepo);
+                     }
                 }
             }
             authorRepos.push(newRepo);
         }
-        if (isGroupByRepo == true) {
-            for (repoIndex in authorRepos) {
+        if (isGroupByRepo === true) {
+            for (var repoIndex in authorRepos) {
+                if (!{}.hasOwnProperty.call(authorRepos, repoIndex)) {
+                    continue;
+                }
                 authorRepos[repoIndex] = sortSegment(authorRepos[repoIndex], sortElement, sortOrder);
             }
             authorRepos = flatten(authorRepos);
@@ -110,4 +125,4 @@ vueMethods = {
         }
         return authorRepos;
     }
-}
+};

@@ -2,6 +2,7 @@ package reposense.commits;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
 import java.util.logging.Logger;
 
@@ -10,6 +11,7 @@ import reposense.git.GitChecker;
 import reposense.model.RepoConfiguration;
 import reposense.system.CommandRunner;
 import reposense.system.LogsManager;
+import reposense.util.Constants;
 
 /**
  * Extracts commit information of a repository.
@@ -20,26 +22,42 @@ public class CommitInfoExtractor {
     /**
      * Extracts out and returns the raw information of each commit for the repo in {@code config}.
      */
-    public static List<CommitInfo> extractCommitInfos(RepoConfiguration config) {
+    public static HashMap<String, List<CommitInfo>> extractCommitInfos(RepoConfiguration config) {
         logger.info("Extracting commits info for " + config.getOrganization() + "/" + config.getRepoName() + "...");
 
         GitChecker.checkoutBranch(config.getRepoRoot(), config.getBranch());
-        String gitLogResult = getGitLogResult(config);
-        return parseGitLogResults(gitLogResult);
+        HashMap<String, String> gitLogResult = getGitLogResult(config);
+        return parseGitLogResultsForAllDocTypes(gitLogResult);
     }
 
     /**
      * Returns the git log information for the repo for the date range in {@code config}.
      */
-    private static String getGitLogResult(RepoConfiguration config) {
-        return CommandRunner.gitLog(config.getRepoRoot(), config.getSinceDate(), config.getUntilDate());
+    private static HashMap<String, String> getGitLogResult(RepoConfiguration config) {
+        String[] docTypes = Constants.getDocTypes();
+        HashMap<String, String> results = new HashMap<>();
+        for (String doctype : docTypes) {
+            String result = CommandRunner.gitLog(config.getRepoRoot(), config.getSinceDate(), config.getUntilDate(),
+                doctype);
+            results.put(doctype, result);
+        }
+        return results;
+    }
+
+    private static HashMap<String, List<CommitInfo>> parseGitLogResultsForAllDocTypes(
+        HashMap<String, String> logresults) {
+        HashMap<String, List<CommitInfo>> gitLogResultForEachDocType = new HashMap<>();
+        for (String doctype : logresults.keySet()) {
+            gitLogResultForEachDocType.put(doctype, parseGitLogResults(logresults.get(doctype)));
+        }
+        return gitLogResultForEachDocType;
     }
 
     /**
      * Parses the {@code gitLogResult} into a list of {@code CommitInfo} and returns it.
      */
-    private static ArrayList<CommitInfo> parseGitLogResults(String gitLogResult) {
-        ArrayList<CommitInfo> commitInfos = new ArrayList<>();
+    private static List<CommitInfo> parseGitLogResults(String gitLogResult) {
+        List<CommitInfo> commitInfos = new ArrayList<>();
         String[] rawLines = gitLogResult.split("\n");
 
         if (rawLines.length < 2) {

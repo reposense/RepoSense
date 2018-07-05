@@ -1,5 +1,7 @@
 package reposense.authorship;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import reposense.authorship.model.AuthorshipSummary;
@@ -15,9 +17,17 @@ public class FileResultAggregator {
     /**
      * Returns the {@code AuthorshipSummary} generated from aggregating the {@code fileResults}.
      */
-    public static AuthorshipSummary aggregateFileResult(List<FileResult> fileResults, List<Author> authors) {
-        AuthorshipSummary authorContributionSummary = new AuthorshipSummary(fileResults, authors);
+    public static HashMap<String, AuthorshipSummary> aggregateFileResult(List<FileResult> fileResults,
+                                                                         List<Author> authors) {
+        HashMap<String, AuthorshipSummary> authorContributionSummaries = new HashMap<>();
         for (FileResult fileResult : fileResults) {
+            String[] elements = fileResult.getPath().split("\\.");
+            String docType = elements[elements.length - 1];
+            AuthorshipSummary authorContributionSummary =
+                authorContributionSummaries.get(docType) == null
+                    ? new AuthorshipSummary(new ArrayList<>(), authors)
+                    : authorContributionSummaries.get(docType);
+            authorContributionSummary.addFileResults(fileResult);
             for (LineInfo lineInfo : fileResult.getLines()) {
                 Author author = lineInfo.getAuthor();
                 if (!authors.contains(author)) {
@@ -25,7 +35,8 @@ public class FileResultAggregator {
                 }
                 authorContributionSummary.addAuthorContributionCount(author);
             }
+            authorContributionSummaries.put(docType, authorContributionSummary);
         }
-        return authorContributionSummary;
+        return authorContributionSummaries;
     }
 }

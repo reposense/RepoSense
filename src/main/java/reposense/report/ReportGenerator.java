@@ -3,6 +3,7 @@ package reposense.report;
 import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.HashMap;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -26,7 +27,12 @@ public class ReportGenerator {
      * well as the summary JSON file of all the repos.
      */
     public static void generateReposReport(List<RepoConfiguration> configs, String outputPath) {
-        FileUtil.copyTemplate(outputPath);
+        try {
+            FileUtil.copyTemplate(outputPath);
+        } catch (IOException ioe) {
+            logger.log(Level.WARNING, "Error while copying template files to output directory.", ioe);
+            return;
+        }
         Path templateLocation = Paths.get(outputPath, Constants.STATIC_INDIVIDUAL_REPORT_TEMPLATE_ADDRESS);
 
         for (RepoConfiguration config : configs) {
@@ -42,8 +48,8 @@ public class ReportGenerator {
                 continue;
             }
 
-            CommitContributionSummary commitSummary = CommitsReporter.generateCommitSummary(config);
-            AuthorshipSummary authorshipSummary = AuthorshipReporter.generateAuthorshipSummary(config);
+            HashMap<String, CommitContributionSummary> commitSummary = CommitsReporter.generateCommitSummary(config);
+            HashMap<String, AuthorshipSummary> authorshipSummary = AuthorshipReporter.generateAuthorshipSummary(config);
             generateIndividualRepoReport(commitSummary, authorshipSummary, repoReportDirectory.toString());
 
             try {
@@ -53,24 +59,42 @@ public class ReportGenerator {
             }
         }
         FileUtil.writeJsonFile(configs, getSummaryResultPath(outputPath));
+        FileUtil.writeJsonFile(Constants.getDocTypes(), getDocTypesPath(outputPath));
     }
 
     private static void generateIndividualRepoReport(
-            CommitContributionSummary commitSummary, AuthorshipSummary authorshipSummary, String repoReportDirectory) {
+            HashMap<String, CommitContributionSummary> commitSummaries,
+            HashMap<String, AuthorshipSummary> authorshipSummaries, String repoReportDirectory) {
+        for (HashMap.Entry<String, CommitContributionSummary> commitSummary : commitSummaries.entrySet()) {
+            String docType = commitSummary.getKey();
+            generateIndividualCommitReportForEachDocType(docType, commitSummary.getValue(),
+                    authorshipSummaries.get(docType), repoReportDirectory);
+        }
+    }
+
+    private static void generateIndividualCommitReportForEachDocType(
+            String docType, CommitContributionSummary commitSummary, AuthorshipSummary authorshipSummary,
+            String repoReportDirectory
+    ) {
         CommitReportJson commitReportJson = new CommitReportJson(commitSummary, authorshipSummary);
-        FileUtil.writeJsonFile(commitReportJson, getIndividualCommitsPath(repoReportDirectory));
-        FileUtil.writeJsonFile(authorshipSummary.getFileResults(), getIndividualAuthorshipPath(repoReportDirectory));
+        FileUtil.writeJsonFile(commitReportJson, getIndividualCommitsPathForEachDocType(repoReportDirectory, docType));
+        FileUtil.writeJsonFile(authorshipSummary.getFileResults(),
+                getIndividualAuthorshipPathForEachDocType(repoReportDirectory, docType));
     }
 
     private static String getSummaryResultPath(String targetFileLocation) {
         return targetFileLocation + "/summary.json";
     }
 
-    private static String getIndividualAuthorshipPath(String repoReportDirectory) {
-        return repoReportDirectory + "/authorship.json";
+    private static String getIndividualAuthorshipPathForEachDocType(String repoReportDirectory, String docType) {
+        return repoReportDirectory + "/authorship_" + docType + ".json";
     }
 
-    private static String getIndividualCommitsPath(String repoReportDirectory) {
-        return repoReportDirectory + "/commits.json";
+    private static String getDocTypesPath(String outputpath) {
+        return outputpath + "/doctype.json";
+    }
+
+    private static String getIndividualCommitsPathForEachDocType(String repoReportDirectory, String docType) {
+        return repoReportDirectory + "/commits_" + docType + ".json";
     }
 }

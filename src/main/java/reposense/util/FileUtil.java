@@ -103,7 +103,8 @@ public class FileUtil {
     /**
      * Copies the template files to the {@code outputPath}.
      */
-    public static void copyTemplate(String outputPath) {
+    public static void copyTemplate(String outputPath) throws IOException {
+        FileUtil.deleteDirectory(outputPath);
         InputStream is = RepoSense.class.getResourceAsStream(Constants.TEMPLATE_ZIP_ADDRESS);
         FileUtil.unzip(new ZipInputStream(is), outputPath);
     }
@@ -126,3 +127,4 @@ public class FileUtil {
     }
 
 }
+
