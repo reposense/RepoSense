@@ -29,20 +29,20 @@ function clone(obj) {
     return temp;
 }
 
-function loadFiles() {
+function loadFiles(resultJson, docTypes) {
     var idx = 0;
-    function next() {
+    function next(docTypes) {
         if (idx < docTypes.length) {
             loadJSON("authorship_" + docTypes[idx] + ".json", (res) => {
                 resultJson[docTypes[idx]] = clone(res);
                 idx += 1;
-                next();
+                next(docTypes);
             });
         } else {
             initialize();
         }
     }
-    next();
+    next(docTypes);
 }
 
 var resultJson = {};
@@ -56,7 +56,7 @@ loadJSON("../doctype.json", (res) => {
            docTypes.push(res[idx]);
            cnt -= 1;
            if (!cnt) {
-               loadFiles();
+               loadFiles(resultJson, docTypes);
            }
        }
     }

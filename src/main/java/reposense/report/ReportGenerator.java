@@ -27,7 +27,12 @@ public class ReportGenerator {
      * well as the summary JSON file of all the repos.
      */
     public static void generateReposReport(List<RepoConfiguration> configs, String outputPath) {
-        FileUtil.copyTemplate(outputPath);
+        try {
+            FileUtil.copyTemplate(outputPath);
+        } catch (IOException ioe) {
+            logger.log(Level.WARNING, "Error while copying template files to output directory.", ioe);
+            return;
+        }
         Path templateLocation = Paths.get(outputPath, Constants.STATIC_INDIVIDUAL_REPORT_TEMPLATE_ADDRESS);
 
         for (RepoConfiguration config : configs) {

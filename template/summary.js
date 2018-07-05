@@ -9,7 +9,7 @@ function loadJSON(file, fn){
     xhr.send(null);
 }
 
-function loadSubFile(dir, docType){
+function loadSubFile(summaryJson, dir, docType){
     loadJSON(dir+"/commits_"+docType+".json", obj2 => {
         for(var key in obj2){
             summaryJson[docType][dir][key] = clone(obj2[key]);
@@ -40,7 +40,6 @@ function clone(obj) {
 }
 
 var summaryJson={};
-var tempJson={};
 var docTypesArr = [];
 var cntDocType = 0, cnt=0;
 
@@ -72,7 +71,7 @@ loadJSON("doctype.json", (res) => {
                         if(!{}.hasOwnProperty.call(summaryJson[docTypesArr[idx]], dir)) {
                             continue;
                         }
-                        loadSubFile(dir, docTypesArr[idx]);
+                        loadSubFile(summaryJson, dir, docTypesArr[idx]);
                     }
                 }
             });

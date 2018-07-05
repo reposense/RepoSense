@@ -64,10 +64,10 @@
               },
               computed: {
                   totalContributionLimit: function() {
-                      return getTotalContributionLimit(this.docTypes)
+                      return getTotalContributionLimit(this.docTypes, this.summary)
                   },
                   sliceScaleLimitMap: function() {
-                      return getScaleLimitMap(this.docTypes)
+                      return getScaleLimitMap(this.docTypes, this.summary)
                   },
               },
               methods: vueMethods

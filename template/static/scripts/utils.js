@@ -41,7 +41,7 @@ var getContribution = function(repo) {
     return count;
 }
 
-function getScaleLimit(intervalType, docType) {
+function getScaleLimit(intervalType, docType, summaryJson) {
     var totalContribution = 0;
     var count = 0;
     for (var idx in docType) {
@@ -73,10 +73,10 @@ function getScaleLimit(intervalType, docType) {
     return totalContribution / count * 20;
 };
 
-function getScaleLimitMap(docType) {
+function getScaleLimitMap(docType, summaryJson) {
     var result = {};
-    result["authorWeeklyIntervalContributions"] = getScaleLimit("authorWeeklyIntervalContributions", docType);
-    result["authorDailyIntervalContributions"] = getScaleLimit("authorDailyIntervalContributions", docType);
+    result["authorWeeklyIntervalContributions"] = getScaleLimit("authorWeeklyIntervalContributions", docType, summaryJson);
+    result["authorDailyIntervalContributions"] = getScaleLimit("authorDailyIntervalContributions", docType, summaryJson);
     return result;
 };
 
@@ -94,7 +94,7 @@ function getIntervalCount(intervalType, minDate, maxDate) {
     return diffDays / divisor;
 }
 
-function getTotalContributionLimit(docType) {
+function getTotalContributionLimit(docType, summaryJson) {
     var totalContribution = 0;
     var count = 0;
     for (var idx in docType) {
@@ -268,10 +268,14 @@ function getMaxDate(docType) {
 
         for (var i in summaryJson[docType]) {
             var authorContributions = summaryJson[docType][i]["authorDailyIntervalContributions"];
-            if (Object.keys(authorContributions).length == 0) continue;
+            if (Object.keys(authorContributions).length === 0) {
+                continue;
+            }
 
             var authorIntervals = authorContributions[Object.keys(authorContributions)[0]];
-            if (authorIntervals.length == 0) continue;
+            if (authorIntervals.length === 0) {
+                continue;
+            }
 
             var currentRawDate = authorIntervals[authorIntervals.length - 1]["untilDate"];
             var currentDate = Date.parse(currentRawDate);
