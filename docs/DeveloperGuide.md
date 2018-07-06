@@ -35,7 +35,7 @@ Thank you for your interest in contributing to RepoSense!
 
 ### Verifying the setup
 1. Ensure that *Gradle* builds without error by running the command `gradlew clean build`, and ensure that it finishs with a `BUILD SUCCESSFUL` message.
-1. Run the tests to ensure they all pass by running the command `gradlew functional`, and ensure that it finishs with a `BUILD SUCCESSFUL` message
+1. Run the tests to ensure that they all pass by running the command `gradlew functional`, and ensure that it finishs with a `BUILD SUCCESSFUL` message.
   > Ensure that you are on the project root directory when using the `gradlew` commands.
 
 ### Configuring the coding style
