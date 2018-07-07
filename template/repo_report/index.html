@@ -21,9 +21,9 @@
         },
         template:
             '<div>' +
-            '<h3> {{ file.path }} ( {{file.authorContributionMap[currentAuthor]}} lines)</h3>' +
-            '<h6 @click="collapse = !collapse">Untouched Code Chunk(Click to Expand)</h6>' +
-            '<pre v-show="collapse" v-for="(line,index) in file.lines">' +
+            '<h3 class="collapse-container"> {{ file.path }} ( {{file.authorContributionMap[currentAuthor]}} lines)</h3>' +
+            '<h6 class="collapse-container-small" @click="collapse = !collapse">Untouched Code Chunk(Click to Expand)</h6>' +
+            '<pre class="collapse-code-detail" v-show="collapse" v-for="(line,index) in file.lines">' +
             '<code v-if="isAuthor(line, currentAuthor)">{{line.content}}</code>' +
             '</pre>' +
             '</div>',
@@ -85,14 +85,16 @@
 
   <body>
     <div id="vue-app">
-      <div class="content-container">
-        <h3>current author:{{currentAuthorDisplayName==null?currentAuthor:currentAuthorDisplayName}}</h3>
-        <label>Search:</label><input type="text" v-model="searchType" size="50"/>
-        <accordion-menu v-for="(file, index) in obtainMatchedFiles(result, searchType)"
+      <div class="toolbar" style="">
+        <div class="filter-row">
+          <label>current author:{{currentAuthorDisplayName==null?currentAuthor:currentAuthorDisplayName}}</label>
+          <label>Search:</label><input type="text" v-model="searchType" size="50"/>
+        </div>
+      </div>
+      <accordion-menu v-for="(file, index) in obtainMatchedFiles(result, searchType)"
                         v-if="containAuthorLine(file, currentAuthor) || currentAuthor == null"
                         v-bind:key="file.path"
                         v-bind:file="file"></accordion-menu>
-      </div>
     </div>
   </body>
 
