@@ -5,13 +5,34 @@
         <link rel="stylesheet" href="../static/css/style.css">
 
     <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
-    <script src="../static/scripts/lib/jquery.collapsible.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/vue"></script>
     <script src="../static/scripts/lib/highlight.pack.js"></script>
     <script type="text/javascript" src="../static/scripts/utils.js"></script>
     <script>
-    // hljs.initHighlightingOnLoad();
+
     var currentAuthor, currentAuthorDisplayName, app;
+
+    Vue.component('accordion-menu', {
+        props: ['file'],
+        data: function () {
+            return {
+                collapse: false
+            }
+        },
+        template:
+            '<div>' +
+            '<h3> {{ file.path }} ( {{file.authorContributionMap[currentAuthor]}} lines)</h3>' +
+            '<h6 @click="collapse = !collapse">Untouched Code Chunk(Click to Expand)</h6>' +
+            '<pre v-show="collapse" v-for="(line,index) in file.lines">' +
+            '<code v-if="isAuthor(line, currentAuthor)">{{line.content}}</code>' +
+            '</pre>' +
+            '</div>',
+        methods: {
+            isAuthor: function (line, currentAuthor) {
+                return currentAuthor != null && line.author != null && line.author.gitId === currentAuthor;
+            },
+        }
+    });
 
     var initialize = function(){
       currentAuthor = getQueryVariable('author');
@@ -23,7 +44,7 @@
           data: {
             currentAuthor : currentAuthor,
             result : resultJson,
-
+            searchType: "",
           },
           methods: {
           getAuthorUrlQuery : function (author) {
@@ -37,83 +58,42 @@
             }
             return false;
           },
-          getAuthorClass : function(line, currentAuthor){
-            if (isNotAuthored(currentAuthor,line)){
-              return "unauthored";
-            }
-            return "";
+          isFileMatch: function (searchType, filename) {
+              var splitFilename = filename.split('.');
+              var indexOfLastMatch = splitFilename.length - 1;
+              var fileType = splitFilename[indexOfLastMatch];
+              return fileType.toLowerCase().indexOf(searchType.toLowerCase()) != -1;
           },
-          isCollapseStart : function(lines,currentIndex,currentAuthor){
-            //console.log(currentIndex);
-            if (lines.length - currentIndex < 5){
-              //console.log("not enough");
-              // less than 10 lines left
-              return false;
-            }
-            if (currentIndex != 0 && isNotAuthored(currentAuthor,lines[currentIndex - 1])){
-              //console.log("not start");
-              return false;
-            }
-            for (var i=currentIndex;i<currentIndex+5;i++){
-              if (!isNotAuthored(currentAuthor,lines[i])){
-                //console.log("breaked");
-                return false;
+          obtainMatchedFiles(result, searchType) {
+              var filteredFiles = [];
+              for (var file in result) {
+                  if (!{}.hasOwnProperty.call(result, file)) {
+                      continue;
+                  }
+                  if (this.isFileMatch(searchType, result[file].path)) {
+                      filteredFiles.push(result[file]);
+                  }
               }
-            }
-            return true;
+              return filteredFiles;
           },
-          isCollapseEnd : function(lines,currentIndex,currentAuthor){
-            if (currentIndex < 5){
-              return false;
-            }
-            if (currentIndex != lines.length - 1 && isNotAuthored(currentAuthor,lines[currentIndex + 1])){
-              return false;
-            }
-            for (var i=currentIndex;i>currentIndex-5;i--){
-              if (!isNotAuthored(currentAuthor,lines[i])){
-                return false;
-              }
-            }
-            return true;
-          },
-
           }
       });
-
-      $(".collapseStart").each(function(){
-          var $set = $(this).nextUntil("collapseEnd").andSelf();
-          $set.wrapAll("<div class='collapse-container-small'></div>");
-          var $innerSet = $(this).nextUntil("collapseEnd");
-          $innerSet.wrapAll("<div></div>");
-      });
-      $( ".collapse-container" ).collapsible({animate: false});
-      $( ".collapse-container-small" ).collapsible("default-close",{animate: false});
     };
     </script>
     <script type="text/javascript" src="result.js"></script>
   </head>
+
   <body>
     <div id="vue-app">
       <div class="content-container">
         <h3>current author:{{currentAuthorDisplayName==null?currentAuthor:currentAuthorDisplayName}}</h3>
-        <div class="collapse-container" >
-          <template v-for="file in result">
-          <template v-if="containAuthorLine(file, currentAuthor) || currentAuthor == null">
-          <h3>{{ file.path }} ( {{file.authorContributionMap[currentAuthor]}} lines)</h3>
-          <div>
-
-            <template v-for="(line,index) in file.lines">
-              <h6 class="collapseStart"  v-if="isCollapseStart(file.lines,index,currentAuthor)">Untouched Code Chunk(Click to Expand)</h6>
-              <pre><code class="java" v-bind:class="getAuthorClass(line,currentAuthor)">{{line.content}}</code></pre>
-              <template v-if="isCollapseEnd(file.lines,index,currentAuthor)">
-                    <collapseEnd></collapseEnd>
-              </template>
-            </template>
-          </div>
-          </template>
-          </template>
-        </div>
+        <label>Search:</label><input type="text" v-model="searchType" size="50"/>
+        <accordion-menu v-for="(file, index) in obtainMatchedFiles(result, searchType)"
+                        v-if="containAuthorLine(file, currentAuthor) || currentAuthor == null"
+                        v-bind:key="file.path"
+                        v-bind:file="file"></accordion-menu>
       </div>
     </div>
   </body>
+
 </html>
