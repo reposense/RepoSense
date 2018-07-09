@@ -11,7 +11,7 @@ function comparator(fn) {
   };
 }
 
-/* dates funcs */
+// date functions //
 const DAY_IN_MS = (1000 * 60 * 60 * 24);
 function getIntervalDay(a, b) {
   const diff = Date.parse(a) - Date.parse(b);
@@ -111,7 +111,7 @@ window.vSummary = {
     },
   },
   methods: {
-    // view funcs
+    // view functions
     getWidth(slice) {
       if (slice.insertions === 0) {
         return 0;
@@ -152,7 +152,8 @@ window.vSummary = {
 
       return res;
     },
-    // model funcs
+
+    // model functions //
     getFilterHash() {
       const { enquery } = window;
 
