@@ -11,8 +11,8 @@ The features of the report includes:
 * Filtering and sorting of authors
 
 ## Documentations
-* [**User Guide**](docs/user_guide.md)
-* [**Developer Guide**](docs/developer_guide.md)
+* [**User Guide**](docs/UserGuide.md)
+* [**Developer Guide**](docs/DeveloperGuide.md)
 
 ## Contributing
 We welcome pull requests. Please read the [contribution guidelines](docs/Process.md#how-to-contribute-to-the-reposense-repository) before starting work on one.
