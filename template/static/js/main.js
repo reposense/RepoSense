@@ -17,7 +17,7 @@ window.app = new window.Vue({
     tabRepo: '',
   },
   methods: {
-    // model funcs
+    // model functions //
     updateReportZip(evt) {
       this.users = [];
 

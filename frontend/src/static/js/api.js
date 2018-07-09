@@ -1,10 +1,10 @@
-/* util funcs */
+// utility functions //
 window.$ = id => document.getElementById(id);
 window.enquery = (key, val) => `${key}=${encodeURIComponent(val)}`;
 
 const REPORT_DIR = '';
 
-/* api funcs */
+// data retrieval functions //
 function loadJSON(file, fn) {
   const err = () => window.alert('unable to get file');
 
