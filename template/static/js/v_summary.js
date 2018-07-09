@@ -111,7 +111,7 @@ window.vSummary = {
     },
   },
   methods: {
-    // view functions
+    // view functions //
     getWidth(slice) {
       if (slice.insertions === 0) {
         return 0;
