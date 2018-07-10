@@ -10,8 +10,7 @@
 ## Dependencies
 1. **JDK `1.8.0_60`** or later.
 2. **git `2.14`** or later on the command line.
- * Check that this tool exist on your OS terminal by typing its name on the terminal and ensure that the terminal does not output messages such as `not found` or `not recognized`.
-
+ > Type `git --version` on your OS terminal and ensure that you have the correct version of **git**.
 
 ## How to Generate Dashboard
 1. Download the latest executable Jar on our [release](https://github.com/reposense/RepoSense/releases/latest).
