@@ -32,7 +32,8 @@ public class CommitInfoExtractor {
      * Returns the git log information for the repo for the date range in {@code config}.
      */
     private static String getGitLogResult(RepoConfiguration config) {
-        return CommandRunner.gitLog(config.getRepoRoot(), config.getSinceDate(), config.getUntilDate());
+        return CommandRunner.gitLog(
+                config.getRepoRoot(), config.getSinceDate(), config.getUntilDate(), config.getWhiteListedFileTypes());
     }
 
     /**

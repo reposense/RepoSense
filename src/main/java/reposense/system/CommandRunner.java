@@ -7,22 +7,23 @@ import java.nio.file.Paths;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 
 import reposense.util.Constants;
 
 public class CommandRunner {
-
     private static final DateFormat GIT_LOG_SINCE_DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd'T'00:00:00+08:00");
     private static final DateFormat GIT_LOG_UNTIL_DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd'T'23:59:59+08:00");
 
     private static boolean isWindows = isWindows();
 
-    public static String gitLog(String root, Date sinceDate, Date untilDate) {
+    public static String gitLog(String root, Date sinceDate, Date untilDate, List<String> whiteListedFileTypes) {
         Path rootPath = Paths.get(root);
 
         String command = "git log --no-merges ";
         command += getGitDateRangeArgs(sinceDate, untilDate);
-        command += " --pretty=format:\"%h|%aN|%ad|%s\" --date=iso --shortstat -- \"*.java\" -- \"*.adoc\"";
+        command += " --pretty=format:\"%h|%aN|%ad|%s\" --date=iso --shortstat";
+        command += getGitFileTypesArgs(whiteListedFileTypes);
 
         return runCommand(rootPath, command);
     }
@@ -151,4 +152,13 @@ public class CommandRunner {
 
         return gitDateRangeArgs;
     }
+
+    private static String getGitFileTypesArgs(List<String> fileTypeList) {
+        StringBuilder gitFileTypeArgsBuilder = new StringBuilder();
+
+        fileTypeList.forEach(fileType -> gitFileTypeArgsBuilder.append(" -- \"*").append(fileType).append("\""));
+
+        return gitFileTypeArgsBuilder.toString();
+    }
+
 }

@@ -21,7 +21,7 @@ public class FileInfoExtractorTest extends GitTestTemplate {
         config.getAuthorAliasMap().put(TestConstants.FAKE_AUTHOR_NAME, new Author(TestConstants.FAKE_AUTHOR_NAME));
         GitChecker.checkout(config.getRepoRoot(), TestConstants.TEST_COMMIT_HASH);
         List<FileInfo> files = FileInfoExtractor.extractFileInfos(config);
-        Assert.assertEquals(files.size(), 5);
+        Assert.assertEquals(files.size(), 6);
         Assert.assertTrue(isFileExistence(Paths.get("annotationTest.java"), files));
         Assert.assertTrue(isFileExistence(Paths.get("blameTest.java"), files));
         Assert.assertTrue(isFileExistence(Paths.get("newPos/movedFile.java"), files));

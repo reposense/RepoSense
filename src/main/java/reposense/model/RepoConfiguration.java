@@ -1,6 +1,7 @@
 package reposense.model;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -21,6 +22,8 @@ public class RepoConfiguration {
 
     private transient boolean needCheckStyle = false;
     private transient int commitNum = 1;
+    private transient List<String> whiteListedFileTypes = Arrays.asList(".java", ".adoc", ".js", ".md", ".css",
+            ".html", ".cs", ".json", ".xml", ".py", ".fxml", ".tag", ".jsp", ".gradle");
     private transient List<String> ignoreDirectoryList = new ArrayList<>();
     private transient List<Author> authorList = new ArrayList<>();
     private transient TreeMap<String, Author> authorAliasMap = new TreeMap<>(String.CASE_INSENSITIVE_ORDER);
@@ -40,6 +43,13 @@ public class RepoConfiguration {
             config.setSinceDate(sinceDate.orElse(null));
             config.setUntilDate(untilDate.orElse(null));
         }
+    }
+
+    /**
+     * Sets all {@code RepoConfiguration} in {@code configs} to have {@code whiteListedFileTypes} set.
+     */
+    public static void setFileTypesToRepoConfigs(List<RepoConfiguration> configs, List<String> whiteListedFileTypes) {
+        configs.forEach(config -> config.setWhiteListedFileTypes(whiteListedFileTypes));
     }
 
     @Override
@@ -167,6 +177,14 @@ public class RepoConfiguration {
 
     public void setAuthorDisplayName(Author author, String displayName) {
         authorDisplayNameMap.put(author, displayName);
+    }
+
+    public List<String> getWhiteListedFileTypes() {
+        return whiteListedFileTypes;
+    }
+
+    public void setWhiteListedFileTypes(List<String> whiteListedFileTypes) {
+        this.whiteListedFileTypes = whiteListedFileTypes;
     }
 
     public void setAuthorAliases(Author author, String... aliases) {

@@ -31,18 +31,21 @@ public class CommandRunnerTest extends GitTestTemplate {
 
     @Test
     public void logWithContentTest() {
-        String content = CommandRunner.gitLog(TestConstants.LOCAL_TEST_REPO_ADDRESS, null, null);
+        String content = CommandRunner.gitLog(
+                TestConstants.LOCAL_TEST_REPO_ADDRESS, null, null, config.getWhiteListedFileTypes());
         Assert.assertFalse(content.isEmpty());
     }
 
     @Test
     public void logWithoutContentTest() {
         Date date = TestUtil.getDate(2050, Calendar.JANUARY, 1);
-        String content = CommandRunner.gitLog(TestConstants.LOCAL_TEST_REPO_ADDRESS, date, null);
+        String content = CommandRunner.gitLog(
+                TestConstants.LOCAL_TEST_REPO_ADDRESS, date, null, config.getWhiteListedFileTypes());
         Assert.assertTrue(content.isEmpty());
 
         date = TestUtil.getDate(1950, Calendar.JANUARY, 1);
-        content = CommandRunner.gitLog(TestConstants.LOCAL_TEST_REPO_ADDRESS, null, date);
+        content = CommandRunner.gitLog(
+                TestConstants.LOCAL_TEST_REPO_ADDRESS, null, date, config.getWhiteListedFileTypes());
         Assert.assertTrue(content.isEmpty());
     }
 
