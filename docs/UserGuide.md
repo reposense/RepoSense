@@ -18,8 +18,12 @@
    * Alternatively, you can compile the executable Jar yourself by following our [build from source guide](Build.md).
 2. Execute it on the OS terminal. <br>
 Usage: `java -jar RepoSense.jar -config CSV_CONFIG_FILE_PATH [-output OUTPUT_DIRECTORY] [-since DD/MM/YYYY] [-until DD/MM/YYYY]`
-
-3. The dashboard will be generated in the designated OUTPUT_DIRECTORY, or current working directory otherwise, upon successful compilation as index.html.
+3. The dashboard will be generated in the designated OUTPUT_DIRECTORY, or current working directory otherwise, upon successful compilation as `index.html`.
+4. Start a webserver in the generated report directory to server the files
+    - [python](http://www.pythonforbeginners.com/modules-in-python/how-to-use-simplehttpserver/)
+    - [darkhttpd](https://unix4lyfe.org/darkhttpd/)
+    - [apache httpd](https://httpd.apache.org/download.cgi)
+5. If unable to complete step 4, you can also open the `index.html` locally and select the zipped file to load the content in.
 
 Sample usage:
 ```
@@ -185,11 +189,3 @@ Below is the list of features in this panel:
   - User can click on the boxes to display the hidden lines for context.
   - These lines will be highlighted in a different color, gray.
 
-## User Dashboard V2 (beta)
-Works is in progress for the second version of the dashboard. Instructions to get it up and running:
-- start a webserver serving your generated report directory
-- `python2 -m SimpleHTTPServer 8000` or `python3 -m http.server 8000`
-- go to `http://localhost:8000/v2` on your browser
-- in the data field, enter `http://localhost:8000`
-
-When this version of the dashboard is finalized, the process will be streamlined for ease of use.
