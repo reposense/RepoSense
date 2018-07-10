@@ -19,11 +19,12 @@
 2. Execute it on the OS terminal. <br>
 Usage: `java -jar RepoSense.jar -config CSV_CONFIG_FILE_PATH [-output OUTPUT_DIRECTORY] [-since DD/MM/YYYY] [-until DD/MM/YYYY]`
 3. The dashboard will be generated in the designated OUTPUT_DIRECTORY, or current working directory otherwise, upon successful compilation as `index.html`.
-4. Start a webserver in the generated report directory to server the files
+4. To visualize the report, start a webserver in the generated report directory to server the files
     - [python](http://www.pythonforbeginners.com/modules-in-python/how-to-use-simplehttpserver/)
     - [darkhttpd](https://unix4lyfe.org/darkhttpd/)
     - [apache httpd](https://httpd.apache.org/download.cgi)
-5. If unable to complete step 4, you can also open the `index.html` locally and select the zipped file to load the content in.
+5. The dashboard will be available on the port opened by your web server of choice.
+5. Alterntively, if unable to complete step 4, you can also open the `index.html` locally and select the zipped file to load the content in.
 
 Sample usage:
 ```
