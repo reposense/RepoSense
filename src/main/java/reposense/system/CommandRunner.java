@@ -21,9 +21,9 @@ public class CommandRunner {
         Path rootPath = Paths.get(root);
 
         String command = "git log --no-merges ";
-        command += getGitDateRangeArgs(sinceDate, untilDate);
+        command += convertToGitDateRangeArgs(sinceDate, untilDate);
         command += " --pretty=format:\"%h|%aN|%ad|%s\" --date=iso --shortstat";
-        command += convertToGitFileFormatssArgs(fileFormats);
+        command += convertToGitFileFormatsArgs(fileFormats);
 
         return runCommand(rootPath, command);
     }
@@ -60,7 +60,7 @@ public class CommandRunner {
         Path rootPath = Paths.get(root);
 
         String blameCommand = "git blame -w -C -C -M --line-porcelain";
-        blameCommand += getGitDateRangeArgs(sinceDate, untilDate);
+        blameCommand += convertToGitDateRangeArgs(sinceDate, untilDate);
         blameCommand += " " + addQuote(fileDirectory);
         blameCommand += getAuthorFilterCommand();
 
@@ -140,7 +140,7 @@ public class CommandRunner {
     /**
      * Returns the {@code String} command to specify the date range of commits to analyze for `git` commands.
      */
-    private static String getGitDateRangeArgs(Date sinceDate, Date untilDate) {
+    private static String convertToGitDateRangeArgs(Date sinceDate, Date untilDate) {
         String gitDateRangeArgs = "";
 
         if (sinceDate != null) {
@@ -156,7 +156,7 @@ public class CommandRunner {
     /**
      * Returns the {@code String} command to specify the file formats to analyze for `git` commands.
      */
-    private static String convertToGitFileFormatssArgs(List<String> fileFormats) {
+    private static String convertToGitFileFormatsArgs(List<String> fileFormats) {
         StringBuilder gitFileFormatsArgsBuilder = new StringBuilder();
 
         final String cmdFormat = " -- " + addQuote("*.%s");
