@@ -44,20 +44,55 @@ window.api = {
   },
 
   loadCommits(repoName, callback) {
-    loadJSON(`${REPORT_DIR}/${repoName}/commits.json`, (commits) => {
-      const res = [];
+    loadJSON(`${REPORT_DIR}/${repoName}/commits.json`, (data) => {
       const repo = window.REPOS[repoName];
 
-      Object.keys(commits.authorDisplayNameMap).forEach((author) => {
+      const commits = {};
+      const rawCommits = data.commitResults;
+
+      const msDay = 1000 * 60 * 60 * 24;
+      const getTime = txt => new Date(txt).getTime();
+      const getDate = num => new Date(num).toISOString().split('T')[0];
+
+      const sinceDate = rawCommits[0].time;
+      const untilDate = rawCommits.slice(-1)[0].time;
+      const dateRange = (getTime(untilDate) - getTime(sinceDate)) / msDay;
+      const getDiff = tstamp => (getTime(tstamp) - getTime(sinceDate)) / msDay;
+
+      const defaultCommits = [];
+      for (let day = 0; day <= dateRange; day += 1) {
+        defaultCommits.push({
+          raw: [],
+          deletions: 0,
+          insertions: 0,
+          sinceDate: getDate(getTime(sinceDate) + (day * msDay)),
+          untilDate: getDate(getTime(sinceDate) + ((day + 1) * msDay)),
+        });
+      }
+
+      data.commitResults.forEach((commit) => {
+        const uid = commit.author.gitId;
+        const { time } = commit;
+        if (!commits[uid]) {
+          commits[uid] = JSON.parse(JSON.stringify(defaultCommits));
+        }
+
+        const curr = commits[uid][getDiff(time)];
+        curr.deletions += commit.deletions;
+        curr.insertions += commit.insertions;
+        curr.raw.push(commit);
+      });
+
+      const res = [];
+      Object.keys(data.authorDisplayNameMap).forEach((author) => {
         if (author) {
           const obj = {
             name: author,
             repoId: repoName,
-            variance: commits.authorContributionVariance[author],
-            displayName: commits.authorDisplayNameMap[author],
-            weeklyCommits: commits.authorWeeklyIntervalContributions[author],
-            dailyCommits: commits.authorDailyIntervalContributions[author],
-            totalCommits: commits.authorFinalContributionMap[author],
+            variance: data.authorContributionVariance[author],
+            displayName: data.authorDisplayNameMap[author],
+            dailyCommits: commits[author],
+            totalCommits: data.authorFinalContributionMap[author],
           };
 
           const searchParams = [
