@@ -58,7 +58,7 @@ public class FileInfoExtractor {
                     getAllFileInfo(config, filePath, fileInfos);
                 }
 
-                if (isFileWhiteListed(relativePath, config.getWhiteListedFileTypes())) {
+                if (isFileFormatWhiteListed(relativePath, config.getFileFormats())) {
                     fileInfos.add(generateFileInfo(config.getRepoRoot(), relativePath.replace('\\', '/')));
                 }
             }
@@ -94,9 +94,9 @@ public class FileInfoExtractor {
     }
 
     /**
-     * Returns true if the {@code relativePath}'s file type is inside {@code whiteListedFileTypes}.
+     * Returns true if the {@code relativePath}'s file type is inside {@code fileFormatsWhiteList}.
      */
-    private static boolean isFileWhiteListed(String relativePath, List<String> whiteListedFileTypes) {
-        return whiteListedFileTypes.stream().anyMatch(relativePath::endsWith);
+    private static boolean isFileFormatWhiteListed(String relativePath, List<String> fileFormatsWhiteList) {
+        return fileFormatsWhiteList.stream().anyMatch(fileFormat -> relativePath.endsWith("." + fileFormat));
     }
 }

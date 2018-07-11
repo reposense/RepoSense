@@ -1,7 +1,6 @@
 package reposense.model;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -21,9 +20,8 @@ public class RepoConfiguration {
     private Date untilDate;
 
     private transient boolean needCheckStyle = false;
+    private transient List<String> fileFormats;
     private transient int commitNum = 1;
-    private transient List<String> whiteListedFileTypes = Arrays.asList(".java", ".adoc", ".js", ".md", ".css",
-            ".html", ".cs", ".json", ".xml", ".py", ".fxml", ".tag", ".jsp", ".gradle");
     private transient List<String> ignoreDirectoryList = new ArrayList<>();
     private transient List<Author> authorList = new ArrayList<>();
     private transient TreeMap<String, Author> authorAliasMap = new TreeMap<>(String.CASE_INSENSITIVE_ORDER);
@@ -46,10 +44,10 @@ public class RepoConfiguration {
     }
 
     /**
-     * Sets all {@code RepoConfiguration} in {@code configs} to have {@code whiteListedFileTypes} set.
+     * Sets all {@code RepoConfiguration} in {@code configs} to have {@code fileFormats} set.
      */
-    public static void setFileTypesToRepoConfigs(List<RepoConfiguration> configs, List<String> whiteListedFileTypes) {
-        configs.forEach(config -> config.setWhiteListedFileTypes(whiteListedFileTypes));
+    public static void setFormatsToRepoConfigs(List<RepoConfiguration> configs, List<String> fileFormats) {
+        configs.forEach(config -> config.setFileFormats(fileFormats));
     }
 
     @Override
@@ -175,16 +173,16 @@ public class RepoConfiguration {
         return displayName;
     }
 
+    public List<String> getFileFormats() {
+        return fileFormats;
+    }
+
+    public void setFileFormats(List<String> fileFormats) {
+        this.fileFormats = fileFormats;
+    }
+
     public void setAuthorDisplayName(Author author, String displayName) {
         authorDisplayNameMap.put(author, displayName);
-    }
-
-    public List<String> getWhiteListedFileTypes() {
-        return whiteListedFileTypes;
-    }
-
-    public void setWhiteListedFileTypes(List<String> whiteListedFileTypes) {
-        this.whiteListedFileTypes = whiteListedFileTypes;
     }
 
     public void setAuthorAliases(Author author, String... aliases) {

@@ -32,7 +32,7 @@ public class CommandRunnerTest extends GitTestTemplate {
     @Test
     public void logWithContentTest() {
         String content = CommandRunner.gitLog(
-                TestConstants.LOCAL_TEST_REPO_ADDRESS, null, null, config.getWhiteListedFileTypes());
+                TestConstants.LOCAL_TEST_REPO_ADDRESS, null, null, config.getFileFormats());
         Assert.assertFalse(content.isEmpty());
     }
 
@@ -40,12 +40,12 @@ public class CommandRunnerTest extends GitTestTemplate {
     public void logWithoutContentTest() {
         Date date = TestUtil.getDate(2050, Calendar.JANUARY, 1);
         String content = CommandRunner.gitLog(
-                TestConstants.LOCAL_TEST_REPO_ADDRESS, date, null, config.getWhiteListedFileTypes());
+                TestConstants.LOCAL_TEST_REPO_ADDRESS, date, null, config.getFileFormats());
         Assert.assertTrue(content.isEmpty());
 
         date = TestUtil.getDate(1950, Calendar.JANUARY, 1);
         content = CommandRunner.gitLog(
-                TestConstants.LOCAL_TEST_REPO_ADDRESS, null, date, config.getWhiteListedFileTypes());
+                TestConstants.LOCAL_TEST_REPO_ADDRESS, null, date, config.getFileFormats());
         Assert.assertTrue(content.isEmpty());
     }
 

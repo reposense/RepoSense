@@ -23,7 +23,7 @@ public class CommandRunner {
         String command = "git log --no-merges ";
         command += getGitDateRangeArgs(sinceDate, untilDate);
         command += " --pretty=format:\"%h|%aN|%ad|%s\" --date=iso --shortstat";
-        command += getGitFileTypesArgs(whiteListedFileTypes);
+        command += convertToGitFileTypesArgs(whiteListedFileTypes);
 
         return runCommand(rootPath, command);
     }
@@ -153,12 +153,17 @@ public class CommandRunner {
         return gitDateRangeArgs;
     }
 
-    private static String getGitFileTypesArgs(List<String> fileTypeList) {
+    /**
+     * Returns the {@code String} command to specify the file types to analyze for `git` commands.
+     */
+    private static String convertToGitFileTypesArgs(List<String> fileFormats) {
         StringBuilder gitFileTypeArgsBuilder = new StringBuilder();
 
-        fileTypeList.forEach(fileType -> gitFileTypeArgsBuilder.append(" -- \"*").append(fileType).append("\""));
+        final String cmdFormat = " -- " + addQuote("*.%s");
+        fileFormats.stream()
+                .map(format -> String.format(cmdFormat, format))
+                .forEach(gitFileTypeArgsBuilder::append);
 
         return gitFileTypeArgsBuilder.toString();
     }
-
 }

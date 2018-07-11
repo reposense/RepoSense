@@ -28,7 +28,7 @@ import reposense.util.TestUtil;
 public class Entry {
     private static final String FT_TEMP_DIR = "ft_temp";
     private static final String EXPECTED_FOLDER = "expected";
-    private static final List<String> TESTING_FILE_TYPES = Arrays.asList(".java", ".adoc");
+    private static final List<String> TESTING_FILE_TYPES = Arrays.asList("java", "adoc");
 
     @Before
     public void setUp() throws IOException {
@@ -63,7 +63,7 @@ public class Entry {
 
         CliArguments cliArguments = ArgsParser.parse(translateCommandline(input));
         List<RepoConfiguration> configs = CsvParser.parse(cliArguments.getConfigFilePath());
-        RepoConfiguration.setFileTypesToRepoConfigs(configs, TESTING_FILE_TYPES);
+        RepoConfiguration.setFormatsToRepoConfigs(configs, TESTING_FILE_TYPES);
         RepoConfiguration.setDatesToRepoConfigs(configs, cliArguments.getSinceDate(), cliArguments.getUntilDate());
 
         ReportGenerator.generateReposReport(configs, FT_TEMP_DIR);

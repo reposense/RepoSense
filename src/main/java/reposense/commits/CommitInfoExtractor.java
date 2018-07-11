@@ -33,7 +33,7 @@ public class CommitInfoExtractor {
      */
     private static String getGitLogResult(RepoConfiguration config) {
         return CommandRunner.gitLog(
-                config.getRepoRoot(), config.getSinceDate(), config.getUntilDate(), config.getWhiteListedFileTypes());
+                config.getRepoRoot(), config.getSinceDate(), config.getUntilDate(), config.getFileFormats());
     }
 
     /**
