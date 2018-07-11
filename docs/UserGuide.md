@@ -16,8 +16,9 @@
    * Alternatively, you can compile the executable Jar yourself by following our [build from source guide](Build.md).
 1. Execute it on the OS terminal. <br>
 Usage: `java -jar RepoSense.jar -config CSV_CONFIG_FILE_PATH [-output OUTPUT_DIRECTORY] [-since DD/MM/YYYY] [-until DD/MM/YYYY]`
-1. The dashboard will be generated in the designated OUTPUT_DIRECTORY, or current working directory otherwise, upon successful compilation as `index.html`.
-1. Open the `index.html` for the dashboard, and upload `archive.zip` to start loading the data.
+1. The report will be generated in the designated OUTPUT_DIRECTORY, or current working directory otherwise.
+1. To visualize the report, open `index.html`.
+1. If the dashboard was not loaded automatically, upload the `archive.zip` (generated in the output directory) manually to load the data.
 
 Sample usage:
 ```
