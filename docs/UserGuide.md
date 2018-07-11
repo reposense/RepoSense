@@ -2,24 +2,22 @@
 
 ## Quick Start
 1. Ensure that you have the necessary [dependencies](#dependencies).
-2. Read up on [How to Generate Dashboard](#how-to-generate-dashboard).
-3. Fill up the [CSV Config File](#csv-config-file).
-4. Perform the execution to generate the [dashboard](#dashboard).
-
+1. Read up on [How to Generate Dashboard](#how-to-generate-dashboard).
+1. Fill up the [CSV Config File](#csv-config-file).
+1. Perform the execution to generate the [dashboard](#dashboard).
 
 ## Dependencies
 1. **JDK `1.8.0_60`** or later.
-2. **git `2.14`** or later on the command line.
- * Check that this tool exist on your OS terminal by typing its name on the terminal and ensure that the terminal does not output messages such as `not found` or `not recognized`.
-
+1. **git `2.14`** or later on the command line.
+> Type ``git --version`` on your OS terminal and ensure that you have the correct version of **git**.
 
 ## How to Generate Dashboard
 1. Download the latest executable Jar on our [release](https://github.com/reposense/RepoSense/releases/latest).
    * Alternatively, you can compile the executable Jar yourself by following our [build from source guide](Build.md).
-2. Execute it on the OS terminal. <br>
+1. Execute it on the OS terminal. <br>
 Usage: `java -jar RepoSense.jar -config CSV_CONFIG_FILE_PATH [-output OUTPUT_DIRECTORY] [-since DD/MM/YYYY] [-until DD/MM/YYYY]`
-3. The dashboard will be generated in the designated OUTPUT_DIRECTORY, or current working directory otherwise, upon successful compilation as `index.html`.
-4. Open the `index.html` for the dashboard, and upload `archive.zip` to start loading the data.
+1. The dashboard will be generated in the designated OUTPUT_DIRECTORY, or current working directory otherwise, upon successful compilation as `index.html`.
+1. Open the `index.html` for the dashboard, and upload `archive.zip` to start loading the data.
 
 Sample usage:
 ```
@@ -38,8 +36,8 @@ The contribution calculation is based on the daily commits made within 00:00 to 
 ```
 
 ### Other option:
- 1. Clone this repository (or [download as zip](https://github.com/reposense/RepoSense/archive/master.zip))
- 2. Execute the following command on the OS terminal inside the project directory.<br>
+1. Clone this repository (or [download as zip](https://github.com/reposense/RepoSense/archive/master.zip))
+1. Execute the following command on the OS terminal inside the project directory.<br>
 Usage: `gradlew run -Dargs="-config CSV_CONFIG_FILE_PATH [-output OUTPUT_DIRECTORY] [-since DD/MM/YYYY] [-until DD/MM/YYYY]"` <br>
 
 Sample usage:
