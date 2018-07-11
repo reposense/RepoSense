@@ -2,24 +2,23 @@
 
 ## Quick Start
 1. Ensure that you have the necessary [dependencies](#dependencies).
-2. Read up on [How to Generate Dashboard](#how-to-generate-dashboard).
-3. Fill up the [CSV Config File](#csv-config-file).
-4. Perform the execution to generate the [dashboard](#dashboard).
-
+1. Read up on [How to Generate Dashboard](#how-to-generate-dashboard).
+1. Fill up the [CSV Config File](#csv-config-file).
+1. Perform the execution to generate the [dashboard](#dashboard).
 
 ## Dependencies
 1. **JDK `1.8.0_60`** or later.
-2. **git `2.14`** or later on the command line.
- * Check that this tool exist on your OS terminal by typing its name on the terminal and ensure that the terminal does not output messages such as `not found` or `not recognized`.
-
+1. **git `2.14`** or later on the command line.
+> Type ``git --version`` on your OS terminal and ensure that you have the correct version of **git**.
 
 ## How to Generate Dashboard
 1. Download the latest executable Jar on our [release](https://github.com/reposense/RepoSense/releases/latest).
    * Alternatively, you can compile the executable Jar yourself by following our [build from source guide](Build.md).
-2. Execute it on the OS terminal. <br>
+1. Execute it on the OS terminal. <br>
 Usage: `java -jar RepoSense.jar -config CSV_CONFIG_FILE_PATH [-output OUTPUT_DIRECTORY] [-since DD/MM/YYYY] [-until DD/MM/YYYY]`
-
-3. The dashboard will be generated in the designated OUTPUT_DIRECTORY, or current working directory otherwise, upon successful compilation as index.html.
+1. The report will be generated in the designated OUTPUT_DIRECTORY, or current working directory otherwise.
+1. To visualize the report, open `index.html`.
+1. If the dashboard was not loaded automatically, upload the `archive.zip` (generated in the OUTPUT_DIRECTORY) manually to load the data.
 
 Sample usage:
 ```
@@ -38,8 +37,8 @@ The contribution calculation is based on the daily commits made within 00:00 to 
 ```
 
 ### Other option:
- 1. Clone this repository (or [download as zip](https://github.com/reposense/RepoSense/archive/master.zip))
- 2. Execute the following command on the OS terminal inside the project directory.<br>
+1. Clone this repository (or [download as zip](https://github.com/reposense/RepoSense/archive/master.zip))
+1. Execute the following command on the OS terminal inside the project directory.<br>
 Usage: `gradlew run -Dargs="-config CSV_CONFIG_FILE_PATH [-output OUTPUT_DIRECTORY] [-since DD/MM/YYYY] [-until DD/MM/YYYY]"` <br>
 
 Sample usage:
@@ -185,11 +184,3 @@ Below is the list of features in this panel:
   - User can click on the boxes to display the hidden lines for context.
   - These lines will be highlighted in a different color, gray.
 
-## User Dashboard V2 (beta)
-Works is in progress for the second version of the dashboard. Instructions to get it up and running:
-- start a webserver serving your generated report directory
-- `python2 -m SimpleHTTPServer 8000` or `python3 -m http.server 8000`
-- go to `http://localhost:8000/v2` on your browser
-- in the data field, enter `http://localhost:8000`
-
-When this version of the dashboard is finalized, the process will be streamlined for ease of use.
