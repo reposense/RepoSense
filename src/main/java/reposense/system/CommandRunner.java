@@ -22,10 +22,12 @@ public class CommandRunner {
         Path rootPath = Paths.get(config.getRepoRoot());
 
         String command = "git log --no-merges ";
+
         command += convertToGitDateRangeArgs(config.getSinceDate(), config.getUntilDate());
-        command += " --pretty=format:\"%h|%aN|%ad|%s\" --date=iso --shortstat";
+        command += " --pretty=format:\"%H|%aN|%ad|%s\" --date=iso --shortstat";
         command += convertToGitFormatsArgs(config.getFormats());
         command += convertToGitExcludeGlobArgs(config.getIgnoreGlobList());
+
         return runCommand(rootPath, command);
     }
 

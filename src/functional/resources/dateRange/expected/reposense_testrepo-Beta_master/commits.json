@@ -1,1677 +1,3411 @@
 {
-  "authorWeeklyIntervalContributions": {
+  "authorDailyContributionsMap": {
     "zacharytang": [
       {
         "insertions": 0,
         "deletions": 0,
-        "sinceDate": "2017-09-01",
-        "untilDate": "2017-09-08"
+        "date": "2017-09-01",
+        "commitResults": []
       },
       {
         "insertions": 0,
         "deletions": 0,
-        "sinceDate": "2017-09-08",
-        "untilDate": "2017-09-15"
+        "date": "2017-09-02",
+        "commitResults": []
       },
       {
         "insertions": 0,
         "deletions": 0,
-        "sinceDate": "2017-09-15",
-        "untilDate": "2017-09-22"
+        "date": "2017-09-03",
+        "commitResults": []
       },
       {
         "insertions": 0,
         "deletions": 0,
-        "sinceDate": "2017-09-22",
-        "untilDate": "2017-09-29"
-      },
-      {
-        "insertions": 68,
-        "deletions": 16,
-        "sinceDate": "2017-09-29",
-        "untilDate": "2017-10-06"
-      },
-      {
-        "insertions": 1232,
-        "deletions": 271,
-        "sinceDate": "2017-10-06",
-        "untilDate": "2017-10-13"
-      },
-      {
-        "insertions": 1431,
-        "deletions": 745,
-        "sinceDate": "2017-10-13",
-        "untilDate": "2017-10-20"
-      },
-      {
-        "insertions": 204,
-        "deletions": 52,
-        "sinceDate": "2017-10-20",
-        "untilDate": "2017-10-27"
+        "date": "2017-09-04",
+        "commitResults": []
       },
       {
         "insertions": 0,
         "deletions": 0,
-        "sinceDate": "2017-10-27",
-        "untilDate": "2017-11-03"
-      }
-    ],
-    "CindyTsai1": [
-      {
-        "insertions": 0,
-        "deletions": 0,
-        "sinceDate": "2017-09-01",
-        "untilDate": "2017-09-08"
+        "date": "2017-09-05",
+        "commitResults": []
       },
       {
         "insertions": 0,
         "deletions": 0,
-        "sinceDate": "2017-09-08",
-        "untilDate": "2017-09-15"
+        "date": "2017-09-06",
+        "commitResults": []
       },
       {
         "insertions": 0,
         "deletions": 0,
-        "sinceDate": "2017-09-15",
-        "untilDate": "2017-09-22"
+        "date": "2017-09-07",
+        "commitResults": []
       },
       {
         "insertions": 0,
         "deletions": 0,
-        "sinceDate": "2017-09-22",
-        "untilDate": "2017-09-29"
-      },
-      {
-        "insertions": 11,
-        "deletions": 0,
-        "sinceDate": "2017-09-29",
-        "untilDate": "2017-10-06"
-      },
-      {
-        "insertions": 303,
-        "deletions": 64,
-        "sinceDate": "2017-10-06",
-        "untilDate": "2017-10-13"
-      },
-      {
-        "insertions": 355,
-        "deletions": 140,
-        "sinceDate": "2017-10-13",
-        "untilDate": "2017-10-20"
-      },
-      {
-        "insertions": 538,
-        "deletions": 426,
-        "sinceDate": "2017-10-20",
-        "untilDate": "2017-10-27"
-      },
-      {
-        "insertions": 69,
-        "deletions": 82,
-        "sinceDate": "2017-10-27",
-        "untilDate": "2017-11-03"
-      }
-    ],
-    "nbriannl": [
-      {
-        "insertions": 0,
-        "deletions": 0,
-        "sinceDate": "2017-09-01",
-        "untilDate": "2017-09-08"
+        "date": "2017-09-08",
+        "commitResults": []
       },
       {
         "insertions": 0,
         "deletions": 0,
-        "sinceDate": "2017-09-08",
-        "untilDate": "2017-09-15"
+        "date": "2017-09-09",
+        "commitResults": []
       },
       {
         "insertions": 0,
         "deletions": 0,
-        "sinceDate": "2017-09-15",
-        "untilDate": "2017-09-22"
+        "date": "2017-09-10",
+        "commitResults": []
       },
       {
         "insertions": 0,
         "deletions": 0,
-        "sinceDate": "2017-09-22",
-        "untilDate": "2017-09-29"
-      },
-      {
-        "insertions": 266,
-        "deletions": 36,
-        "sinceDate": "2017-09-29",
-        "untilDate": "2017-10-06"
-      },
-      {
-        "insertions": 441,
-        "deletions": 63,
-        "sinceDate": "2017-10-06",
-        "untilDate": "2017-10-13"
-      },
-      {
-        "insertions": 741,
-        "deletions": 150,
-        "sinceDate": "2017-10-13",
-        "untilDate": "2017-10-20"
-      },
-      {
-        "insertions": 871,
-        "deletions": 568,
-        "sinceDate": "2017-10-20",
-        "untilDate": "2017-10-27"
-      },
-      {
-        "insertions": 222,
-        "deletions": 18,
-        "sinceDate": "2017-10-27",
-        "untilDate": "2017-11-03"
-      }
-    ],
-    "April0616": [
-      {
-        "insertions": 0,
-        "deletions": 0,
-        "sinceDate": "2017-09-01",
-        "untilDate": "2017-09-08"
+        "date": "2017-09-11",
+        "commitResults": []
       },
       {
         "insertions": 0,
         "deletions": 0,
-        "sinceDate": "2017-09-08",
-        "untilDate": "2017-09-15"
+        "date": "2017-09-12",
+        "commitResults": []
       },
       {
         "insertions": 0,
         "deletions": 0,
-        "sinceDate": "2017-09-15",
-        "untilDate": "2017-09-22"
+        "date": "2017-09-13",
+        "commitResults": []
       },
       {
         "insertions": 0,
         "deletions": 0,
-        "sinceDate": "2017-09-22",
-        "untilDate": "2017-09-29"
-      },
-      {
-        "insertions": 51,
-        "deletions": 9,
-        "sinceDate": "2017-09-29",
-        "untilDate": "2017-10-06"
-      },
-      {
-        "insertions": 1109,
-        "deletions": 541,
-        "sinceDate": "2017-10-06",
-        "untilDate": "2017-10-13"
-      },
-      {
-        "insertions": 1174,
-        "deletions": 411,
-        "sinceDate": "2017-10-13",
-        "untilDate": "2017-10-20"
-      },
-      {
-        "insertions": 544,
-        "deletions": 241,
-        "sinceDate": "2017-10-20",
-        "untilDate": "2017-10-27"
-      },
-      {
-        "insertions": 13,
-        "deletions": 6,
-        "sinceDate": "2017-10-27",
-        "untilDate": "2017-11-03"
-      }
-    ]
-  },
-  "authorDailyIntervalContributions": {
-    "zacharytang": [
-      {
-        "insertions": 0,
-        "deletions": 0,
-        "sinceDate": "2017-09-01",
-        "untilDate": "2017-09-02"
+        "date": "2017-09-14",
+        "commitResults": []
       },
       {
         "insertions": 0,
         "deletions": 0,
-        "sinceDate": "2017-09-02",
-        "untilDate": "2017-09-03"
+        "date": "2017-09-15",
+        "commitResults": []
       },
       {
         "insertions": 0,
         "deletions": 0,
-        "sinceDate": "2017-09-03",
-        "untilDate": "2017-09-04"
+        "date": "2017-09-16",
+        "commitResults": []
       },
       {
         "insertions": 0,
         "deletions": 0,
-        "sinceDate": "2017-09-04",
-        "untilDate": "2017-09-05"
+        "date": "2017-09-17",
+        "commitResults": []
       },
       {
         "insertions": 0,
         "deletions": 0,
-        "sinceDate": "2017-09-05",
-        "untilDate": "2017-09-06"
+        "date": "2017-09-18",
+        "commitResults": []
       },
       {
         "insertions": 0,
         "deletions": 0,
-        "sinceDate": "2017-09-06",
-        "untilDate": "2017-09-07"
+        "date": "2017-09-19",
+        "commitResults": []
       },
       {
         "insertions": 0,
         "deletions": 0,
-        "sinceDate": "2017-09-07",
-        "untilDate": "2017-09-08"
+        "date": "2017-09-20",
+        "commitResults": []
       },
       {
         "insertions": 0,
         "deletions": 0,
-        "sinceDate": "2017-09-08",
-        "untilDate": "2017-09-09"
+        "date": "2017-09-21",
+        "commitResults": []
       },
       {
         "insertions": 0,
         "deletions": 0,
-        "sinceDate": "2017-09-09",
-        "untilDate": "2017-09-10"
+        "date": "2017-09-22",
+        "commitResults": []
       },
       {
         "insertions": 0,
         "deletions": 0,
-        "sinceDate": "2017-09-10",
-        "untilDate": "2017-09-11"
+        "date": "2017-09-23",
+        "commitResults": []
       },
       {
         "insertions": 0,
         "deletions": 0,
-        "sinceDate": "2017-09-11",
-        "untilDate": "2017-09-12"
+        "date": "2017-09-24",
+        "commitResults": []
       },
       {
         "insertions": 0,
         "deletions": 0,
-        "sinceDate": "2017-09-12",
-        "untilDate": "2017-09-13"
+        "date": "2017-09-25",
+        "commitResults": []
       },
       {
         "insertions": 0,
         "deletions": 0,
-        "sinceDate": "2017-09-13",
-        "untilDate": "2017-09-14"
+        "date": "2017-09-26",
+        "commitResults": []
       },
       {
         "insertions": 0,
         "deletions": 0,
-        "sinceDate": "2017-09-14",
-        "untilDate": "2017-09-15"
+        "date": "2017-09-27",
+        "commitResults": []
       },
       {
         "insertions": 0,
         "deletions": 0,
-        "sinceDate": "2017-09-15",
-        "untilDate": "2017-09-16"
+        "date": "2017-09-28",
+        "commitResults": []
       },
       {
         "insertions": 0,
         "deletions": 0,
-        "sinceDate": "2017-09-16",
-        "untilDate": "2017-09-17"
+        "date": "2017-09-29",
+        "commitResults": []
       },
       {
         "insertions": 0,
         "deletions": 0,
-        "sinceDate": "2017-09-17",
-        "untilDate": "2017-09-18"
+        "date": "2017-09-30",
+        "commitResults": []
       },
       {
         "insertions": 0,
         "deletions": 0,
-        "sinceDate": "2017-09-18",
-        "untilDate": "2017-09-19"
+        "date": "2017-10-01",
+        "commitResults": []
       },
       {
         "insertions": 0,
         "deletions": 0,
-        "sinceDate": "2017-09-19",
-        "untilDate": "2017-09-20"
+        "date": "2017-10-02",
+        "commitResults": []
       },
       {
         "insertions": 0,
         "deletions": 0,
-        "sinceDate": "2017-09-20",
-        "untilDate": "2017-09-21"
-      },
-      {
-        "insertions": 0,
-        "deletions": 0,
-        "sinceDate": "2017-09-21",
-        "untilDate": "2017-09-22"
-      },
-      {
-        "insertions": 0,
-        "deletions": 0,
-        "sinceDate": "2017-09-22",
-        "untilDate": "2017-09-23"
-      },
-      {
-        "insertions": 0,
-        "deletions": 0,
-        "sinceDate": "2017-09-23",
-        "untilDate": "2017-09-24"
-      },
-      {
-        "insertions": 0,
-        "deletions": 0,
-        "sinceDate": "2017-09-24",
-        "untilDate": "2017-09-25"
-      },
-      {
-        "insertions": 0,
-        "deletions": 0,
-        "sinceDate": "2017-09-25",
-        "untilDate": "2017-09-26"
-      },
-      {
-        "insertions": 0,
-        "deletions": 0,
-        "sinceDate": "2017-09-26",
-        "untilDate": "2017-09-27"
-      },
-      {
-        "insertions": 0,
-        "deletions": 0,
-        "sinceDate": "2017-09-27",
-        "untilDate": "2017-09-28"
-      },
-      {
-        "insertions": 0,
-        "deletions": 0,
-        "sinceDate": "2017-09-28",
-        "untilDate": "2017-09-29"
-      },
-      {
-        "insertions": 0,
-        "deletions": 0,
-        "sinceDate": "2017-09-29",
-        "untilDate": "2017-09-30"
-      },
-      {
-        "insertions": 0,
-        "deletions": 0,
-        "sinceDate": "2017-09-30",
-        "untilDate": "2017-10-01"
-      },
-      {
-        "insertions": 0,
-        "deletions": 0,
-        "sinceDate": "2017-10-01",
-        "untilDate": "2017-10-02"
-      },
-      {
-        "insertions": 0,
-        "deletions": 0,
-        "sinceDate": "2017-10-02",
-        "untilDate": "2017-10-03"
-      },
-      {
-        "insertions": 0,
-        "deletions": 0,
-        "sinceDate": "2017-10-03",
-        "untilDate": "2017-10-04"
+        "date": "2017-10-03",
+        "commitResults": []
       },
       {
         "insertions": 27,
         "deletions": 5,
-        "sinceDate": "2017-10-04",
-        "untilDate": "2017-10-05"
+        "date": "2017-10-04",
+        "commitResults": [
+          {
+            "hash": "66866e50d5e8e6f0933f9422d776ce7d2d4df9d6",
+            "message": "Added aliases for most commands",
+            "insertions": 22,
+            "deletions": 0
+          },
+          {
+            "hash": "bbccf9d6eb9913b9de59c54df34e5d49c6cc8249",
+            "message": "Replaced links for badges for README.adoc",
+            "insertions": 4,
+            "deletions": 4
+          },
+          {
+            "hash": "6021ca3cab247987ed5efaae1425189758101235",
+            "message": "Fixed link",
+            "insertions": 1,
+            "deletions": 1
+          }
+        ]
       },
       {
         "insertions": 41,
         "deletions": 11,
-        "sinceDate": "2017-10-05",
-        "untilDate": "2017-10-06"
+        "date": "2017-10-05",
+        "commitResults": [
+          {
+            "hash": "bffcc6c510d0526c1faa10d2480ece440036beeb",
+            "message": "Commands: Added secondary command keywords",
+            "insertions": 18,
+            "deletions": 0
+          },
+          {
+            "hash": "29894187323424d9d9da575f128a8c53d3fb4317",
+            "message": "UserGuide: Added documentation for alternative keywords for commands",
+            "insertions": 23,
+            "deletions": 11
+          }
+        ]
       },
       {
         "insertions": 4,
         "deletions": 4,
-        "sinceDate": "2017-10-06",
-        "untilDate": "2017-10-07"
+        "date": "2017-10-06",
+        "commitResults": [
+          {
+            "hash": "f01c1971e2b5249af8e787875ad6ab77a7d10d6d",
+            "message": "README: Updated badges",
+            "insertions": 4,
+            "deletions": 4
+          }
+        ]
       },
       {
         "insertions": 477,
         "deletions": 17,
-        "sinceDate": "2017-10-07",
-        "untilDate": "2017-10-08"
+        "date": "2017-10-07",
+        "commitResults": [
+          {
+            "hash": "095b1fcc533be0c9ec20a71962f02655c4ca2813",
+            "message": "AddressBookParserTest: Added tests for alternative keywords",
+            "insertions": 138,
+            "deletions": 0
+          },
+          {
+            "hash": "a0cc53a0f3be17dcc7e1e60ea9976fd3ab492c68",
+            "message": "Added tests for command aliases",
+            "insertions": 300,
+            "deletions": 8
+          },
+          {
+            "hash": "821d706945a0612e6b5f430e5b01b48e8241b5e4",
+            "message": "FindCommandSystemTest: Fixed code styling in imports",
+            "insertions": 6,
+            "deletions": 1
+          },
+          {
+            "hash": "9c2ae879ef78c16b45ddd49ca6a8bd38e16c28a7",
+            "message": "Footer: Added total people in address book",
+            "insertions": 11,
+            "deletions": 2
+          },
+          {
+            "hash": "47debcafccf0a2f8bd46d2b52836071716cee353",
+            "message": "Footer: Added tests",
+            "insertions": 20,
+            "deletions": 4
+          },
+          {
+            "hash": "dc02c07ba95589cd5d102ba1267201a734849fda",
+            "message": "README: Fixed badges",
+            "insertions": 2,
+            "deletions": 2
+          }
+        ]
       },
       {
         "insertions": 54,
         "deletions": 27,
-        "sinceDate": "2017-10-08",
-        "untilDate": "2017-10-09"
+        "date": "2017-10-08",
+        "commitResults": [
+          {
+            "hash": "5402c2b42b89369ff7e2027b18a73a1ce1336cd6",
+            "message": "Commands: Added keywords for edit, list commands",
+            "insertions": 52,
+            "deletions": 25
+          },
+          {
+            "hash": "892c844db8be45a8023170ca6751b4abf0c2935f",
+            "message": "README: Added documentation for new keywords",
+            "insertions": 2,
+            "deletions": 2
+          }
+        ]
       },
       {
         "insertions": 37,
         "deletions": 16,
-        "sinceDate": "2017-10-09",
-        "untilDate": "2017-10-10"
+        "date": "2017-10-09",
+        "commitResults": [
+          {
+            "hash": "9a152defcc2c958322f6bfdb4184c488f420667b",
+            "message": "AboutUs: Changed entries to reflect actual team members",
+            "insertions": 7,
+            "deletions": 16
+          },
+          {
+            "hash": "9ce6c4e26aa8f8ec300f27f22fe4dfa8f3e79d50",
+            "message": "UrlExpander: Added helper class to expand URLs",
+            "insertions": 30,
+            "deletions": 0
+          }
+        ]
       },
       {
         "insertions": 252,
         "deletions": 13,
-        "sinceDate": "2017-10-10",
-        "untilDate": "2017-10-11"
+        "date": "2017-10-10",
+        "commitResults": [
+          {
+            "hash": "1692de061ac32f8963786b79e674d076d65e8090",
+            "message": "Timetables: Able to parse urls into an array of Modules",
+            "insertions": 169,
+            "deletions": 2
+          },
+          {
+            "hash": "3021c15727b9dd89bbbdf33694d33a955de25c47",
+            "message": "Timetables: Retrieve module information using NUSMods api",
+            "insertions": 30,
+            "deletions": 5
+          },
+          {
+            "hash": "f68fd073e0e919c4d945bcc4e197a74c575fd1c0",
+            "message": "UserGuide: Updated to include delegated features",
+            "insertions": 53,
+            "deletions": 6
+          }
+        ]
       },
       {
         "insertions": 3,
         "deletions": 2,
-        "sinceDate": "2017-10-11",
-        "untilDate": "2017-10-12"
+        "date": "2017-10-11",
+        "commitResults": [
+          {
+            "hash": "d5083d15fd23f3595adc28582e44032685a7e521",
+            "message": "Prefix: Added prefix for timetable in add command",
+            "insertions": 3,
+            "deletions": 2
+          }
+        ]
       },
       {
         "insertions": 405,
         "deletions": 192,
-        "sinceDate": "2017-10-12",
-        "untilDate": "2017-10-13"
+        "date": "2017-10-12",
+        "commitResults": [
+          {
+            "hash": "95f4f4e3a168dc88c044b7f66d9577ba8997d21a",
+            "message": "Logic, Model: Added timetable field to person",
+            "insertions": 143,
+            "deletions": 71
+          },
+          {
+            "hash": "1bbf3a9692f8eb2441e0ccc58815976247b4f685",
+            "message": "Timetables: Added classes to structure parsing of URLs",
+            "insertions": 262,
+            "deletions": 121
+          }
+        ]
       },
       {
         "insertions": 518,
         "deletions": 399,
-        "sinceDate": "2017-10-13",
-        "untilDate": "2017-10-14"
+        "date": "2017-10-13",
+        "commitResults": [
+          {
+            "hash": "8db2c15fa313d77a144ce0da0814487290fe9df3",
+            "message": "Timetables: Parsing and storage of timetables",
+            "insertions": 296,
+            "deletions": 120
+          },
+          {
+            "hash": "37f0ef0ec9fa22fcaf698971eb5b753b1a47be8d",
+            "message": "TimetableParser: Removed testing main method",
+            "insertions": 0,
+            "deletions": 18
+          },
+          {
+            "hash": "c07d79d8e1f4de24d337038edc54a552bf487e8e",
+            "message": "Fixed bugs in sample data",
+            "insertions": 53,
+            "deletions": 47
+          },
+          {
+            "hash": "f3654b51ad17db6d3710c092a7c517b6e02e47f7",
+            "message": "UserGuide: Updated documentation",
+            "insertions": 3,
+            "deletions": 3
+          },
+          {
+            "hash": "82196ccc2fe04883333bd0d7e271046d674958cb",
+            "message": "Timetable: Updated current tests",
+            "insertions": 149,
+            "deletions": 57
+          },
+          {
+            "hash": "4430a9b18be496c9d0c4512928db7accb2a0cba2",
+            "message": "Updated more tests",
+            "insertions": 17,
+            "deletions": 154
+          }
+        ]
       },
       {
         "insertions": 169,
         "deletions": 92,
-        "sinceDate": "2017-10-14",
-        "untilDate": "2017-10-15"
+        "date": "2017-10-14",
+        "commitResults": [
+          {
+            "hash": "40636d2b66ad4da6f0512c3c5584bb69dfb4b1aa",
+            "message": "Timetables: Create classes for abstraction of timetable",
+            "insertions": 169,
+            "deletions": 92
+          }
+        ]
       },
       {
         "insertions": 597,
         "deletions": 205,
-        "sinceDate": "2017-10-15",
-        "untilDate": "2017-10-16"
+        "date": "2017-10-15",
+        "commitResults": [
+          {
+            "hash": "48e12549fc02613976dc7ed5cb34707956551461",
+            "message": "Fixed bugs and checkstyle errors",
+            "insertions": 21,
+            "deletions": 16
+          },
+          {
+            "hash": "3c9e61ec29ff058fdfa44e5539d22516e97f022b",
+            "message": "Timetables: Updated existing tests and added new tests",
+            "insertions": 150,
+            "deletions": 48
+          },
+          {
+            "hash": "170ea172f04cc61dc840a746d4f5012270fe12fb",
+            "message": "TimetableParserUtil: Added tests",
+            "insertions": 63,
+            "deletions": 0
+          },
+          {
+            "hash": "178a8d4aa2fb8c5c9b276039f000a361c7f4a9eb",
+            "message": "Added more tests",
+            "insertions": 27,
+            "deletions": 0
+          },
+          {
+            "hash": "75c45916d573f4bc0598e21ecac52e284003b864",
+            "message": "Refactored util class to be under commons",
+            "insertions": 7,
+            "deletions": 6
+          },
+          {
+            "hash": "4538b4f43ba9e3e0e16d2e36d5405da9dcbe031e",
+            "message": "Fixed checkstyle error",
+            "insertions": 0,
+            "deletions": 1
+          },
+          {
+            "hash": "4b9ad968c7b0130733da12298c96618e2efdaedc",
+            "message": "Added tests and minor changes",
+            "insertions": 40,
+            "deletions": 7
+          },
+          {
+            "hash": "10fafd9bb12c490df4b6331cc3ea1de0c30c836a",
+            "message": "Timetables: Refactoring and added more tests",
+            "insertions": 289,
+            "deletions": 127
+          }
+        ]
       },
       {
         "insertions": 70,
         "deletions": 48,
-        "sinceDate": "2017-10-16",
-        "untilDate": "2017-10-17"
+        "date": "2017-10-16",
+        "commitResults": [
+          {
+            "hash": "098b75f5f807a84f70d57f39b161b8abc48b3945",
+            "message": "Restructuring of classes and minor refactoring",
+            "insertions": 70,
+            "deletions": 47
+          },
+          {
+            "hash": "e2bf755ebc673fb7e4416cb9cf905cdcb4ca1f4e",
+            "message": "UserGuide: Fixed formatting bug",
+            "insertions": 0,
+            "deletions": 1
+          }
+        ]
       },
       {
         "insertions": 0,
         "deletions": 0,
-        "sinceDate": "2017-10-17",
-        "untilDate": "2017-10-18"
+        "date": "2017-10-17",
+        "commitResults": []
       },
       {
         "insertions": 0,
         "deletions": 0,
-        "sinceDate": "2017-10-18",
-        "untilDate": "2017-10-19"
+        "date": "2017-10-18",
+        "commitResults": []
       },
       {
         "insertions": 77,
         "deletions": 1,
-        "sinceDate": "2017-10-19",
-        "untilDate": "2017-10-20"
+        "date": "2017-10-19",
+        "commitResults": [
+          {
+            "hash": "985b0d77651da4ac2de4fab5f754d2bff3fc8546",
+            "message": "DevGuide: Updated implementation for storage of timetables",
+            "insertions": 64,
+            "deletions": 0
+          },
+          {
+            "hash": "7dd4af565332ddf7c3d6271ed746b15c3c8b2235",
+            "message": "Fixed formatting issue",
+            "insertions": 1,
+            "deletions": 1
+          },
+          {
+            "hash": "4ea781ec4396770a6992154744ddb320e3e6f905",
+            "message": "UserGuide: Added introduction",
+            "insertions": 12,
+            "deletions": 0
+          }
+        ]
       },
       {
         "insertions": 0,
         "deletions": 0,
-        "sinceDate": "2017-10-20",
-        "untilDate": "2017-10-21"
+        "date": "2017-10-20",
+        "commitResults": []
       },
       {
         "insertions": 0,
         "deletions": 0,
-        "sinceDate": "2017-10-21",
-        "untilDate": "2017-10-22"
+        "date": "2017-10-21",
+        "commitResults": []
       },
       {
         "insertions": 0,
         "deletions": 0,
-        "sinceDate": "2017-10-22",
-        "untilDate": "2017-10-23"
+        "date": "2017-10-22",
+        "commitResults": []
       },
       {
         "insertions": 0,
         "deletions": 0,
-        "sinceDate": "2017-10-23",
-        "untilDate": "2017-10-24"
+        "date": "2017-10-23",
+        "commitResults": []
       },
       {
         "insertions": 157,
         "deletions": 16,
-        "sinceDate": "2017-10-24",
-        "untilDate": "2017-10-25"
+        "date": "2017-10-24",
+        "commitResults": [
+          {
+            "hash": "a579dc8aa602bd733ed7ca17f970949e720ba019",
+            "message": "Added person info view",
+            "insertions": 157,
+            "deletions": 16
+          }
+        ]
       },
       {
         "insertions": 47,
         "deletions": 36,
-        "sinceDate": "2017-10-25",
-        "untilDate": "2017-10-26"
+        "date": "2017-10-25",
+        "commitResults": [
+          {
+            "hash": "23ae1fd08bc95a1f9227ecc3d401f3ca33b0f408",
+            "message": "Display info on every select command",
+            "insertions": 40,
+            "deletions": 15
+          },
+          {
+            "hash": "4ebd82fc9b74c69fdb66308b8b20b17b4c9f6379",
+            "message": "Updated checkstyle",
+            "insertions": 0,
+            "deletions": 2
+          },
+          {
+            "hash": "be752f6ffdc57ed0be0846918d00a366f81e8bd2",
+            "message": "Updated tests",
+            "insertions": 6,
+            "deletions": 18
+          },
+          {
+            "hash": "275afdd9d2a1aa5742ba6416eda8c9b660626890",
+            "message": "Update version number",
+            "insertions": 1,
+            "deletions": 1
+          }
+        ]
       },
       {
         "insertions": 0,
         "deletions": 0,
-        "sinceDate": "2017-10-26",
-        "untilDate": "2017-10-27"
+        "date": "2017-10-26",
+        "commitResults": []
       },
       {
         "insertions": 0,
         "deletions": 0,
-        "sinceDate": "2017-10-27",
-        "untilDate": "2017-10-28"
+        "date": "2017-10-27",
+        "commitResults": []
       },
       {
         "insertions": 0,
         "deletions": 0,
-        "sinceDate": "2017-10-28",
-        "untilDate": "2017-10-29"
+        "date": "2017-10-28",
+        "commitResults": []
       },
       {
         "insertions": 0,
         "deletions": 0,
-        "sinceDate": "2017-10-29",
-        "untilDate": "2017-10-30"
+        "date": "2017-10-29",
+        "commitResults": []
       },
       {
         "insertions": 0,
         "deletions": 0,
-        "sinceDate": "2017-10-30",
-        "untilDate": "2017-10-31"
+        "date": "2017-10-30",
+        "commitResults": []
       }
     ],
     "CindyTsai1": [
       {
         "insertions": 0,
         "deletions": 0,
-        "sinceDate": "2017-09-01",
-        "untilDate": "2017-09-02"
+        "date": "2017-09-01",
+        "commitResults": []
       },
       {
         "insertions": 0,
         "deletions": 0,
-        "sinceDate": "2017-09-02",
-        "untilDate": "2017-09-03"
+        "date": "2017-09-02",
+        "commitResults": []
       },
       {
         "insertions": 0,
         "deletions": 0,
-        "sinceDate": "2017-09-03",
-        "untilDate": "2017-09-04"
+        "date": "2017-09-03",
+        "commitResults": []
       },
       {
         "insertions": 0,
         "deletions": 0,
-        "sinceDate": "2017-09-04",
-        "untilDate": "2017-09-05"
+        "date": "2017-09-04",
+        "commitResults": []
       },
       {
         "insertions": 0,
         "deletions": 0,
-        "sinceDate": "2017-09-05",
-        "untilDate": "2017-09-06"
+        "date": "2017-09-05",
+        "commitResults": []
       },
       {
         "insertions": 0,
         "deletions": 0,
-        "sinceDate": "2017-09-06",
-        "untilDate": "2017-09-07"
+        "date": "2017-09-06",
+        "commitResults": []
       },
       {
         "insertions": 0,
         "deletions": 0,
-        "sinceDate": "2017-09-07",
-        "untilDate": "2017-09-08"
+        "date": "2017-09-07",
+        "commitResults": []
       },
       {
         "insertions": 0,
         "deletions": 0,
-        "sinceDate": "2017-09-08",
-        "untilDate": "2017-09-09"
+        "date": "2017-09-08",
+        "commitResults": []
       },
       {
         "insertions": 0,
         "deletions": 0,
-        "sinceDate": "2017-09-09",
-        "untilDate": "2017-09-10"
+        "date": "2017-09-09",
+        "commitResults": []
       },
       {
         "insertions": 0,
         "deletions": 0,
-        "sinceDate": "2017-09-10",
-        "untilDate": "2017-09-11"
+        "date": "2017-09-10",
+        "commitResults": []
       },
       {
         "insertions": 0,
         "deletions": 0,
-        "sinceDate": "2017-09-11",
-        "untilDate": "2017-09-12"
+        "date": "2017-09-11",
+        "commitResults": []
       },
       {
         "insertions": 0,
         "deletions": 0,
-        "sinceDate": "2017-09-12",
-        "untilDate": "2017-09-13"
+        "date": "2017-09-12",
+        "commitResults": []
       },
       {
         "insertions": 0,
         "deletions": 0,
-        "sinceDate": "2017-09-13",
-        "untilDate": "2017-09-14"
+        "date": "2017-09-13",
+        "commitResults": []
       },
       {
         "insertions": 0,
         "deletions": 0,
-        "sinceDate": "2017-09-14",
-        "untilDate": "2017-09-15"
+        "date": "2017-09-14",
+        "commitResults": []
       },
       {
         "insertions": 0,
         "deletions": 0,
-        "sinceDate": "2017-09-15",
-        "untilDate": "2017-09-16"
+        "date": "2017-09-15",
+        "commitResults": []
       },
       {
         "insertions": 0,
         "deletions": 0,
-        "sinceDate": "2017-09-16",
-        "untilDate": "2017-09-17"
+        "date": "2017-09-16",
+        "commitResults": []
       },
       {
         "insertions": 0,
         "deletions": 0,
-        "sinceDate": "2017-09-17",
-        "untilDate": "2017-09-18"
+        "date": "2017-09-17",
+        "commitResults": []
       },
       {
         "insertions": 0,
         "deletions": 0,
-        "sinceDate": "2017-09-18",
-        "untilDate": "2017-09-19"
+        "date": "2017-09-18",
+        "commitResults": []
       },
       {
         "insertions": 0,
         "deletions": 0,
-        "sinceDate": "2017-09-19",
-        "untilDate": "2017-09-20"
+        "date": "2017-09-19",
+        "commitResults": []
       },
       {
         "insertions": 0,
         "deletions": 0,
-        "sinceDate": "2017-09-20",
-        "untilDate": "2017-09-21"
+        "date": "2017-09-20",
+        "commitResults": []
       },
       {
         "insertions": 0,
         "deletions": 0,
-        "sinceDate": "2017-09-21",
-        "untilDate": "2017-09-22"
+        "date": "2017-09-21",
+        "commitResults": []
       },
       {
         "insertions": 0,
         "deletions": 0,
-        "sinceDate": "2017-09-22",
-        "untilDate": "2017-09-23"
+        "date": "2017-09-22",
+        "commitResults": []
       },
       {
         "insertions": 0,
         "deletions": 0,
-        "sinceDate": "2017-09-23",
-        "untilDate": "2017-09-24"
+        "date": "2017-09-23",
+        "commitResults": []
       },
       {
         "insertions": 0,
         "deletions": 0,
-        "sinceDate": "2017-09-24",
-        "untilDate": "2017-09-25"
+        "date": "2017-09-24",
+        "commitResults": []
       },
       {
         "insertions": 0,
         "deletions": 0,
-        "sinceDate": "2017-09-25",
-        "untilDate": "2017-09-26"
+        "date": "2017-09-25",
+        "commitResults": []
       },
       {
         "insertions": 0,
         "deletions": 0,
-        "sinceDate": "2017-09-26",
-        "untilDate": "2017-09-27"
+        "date": "2017-09-26",
+        "commitResults": []
       },
       {
         "insertions": 0,
         "deletions": 0,
-        "sinceDate": "2017-09-27",
-        "untilDate": "2017-09-28"
+        "date": "2017-09-27",
+        "commitResults": []
       },
       {
         "insertions": 0,
         "deletions": 0,
-        "sinceDate": "2017-09-28",
-        "untilDate": "2017-09-29"
+        "date": "2017-09-28",
+        "commitResults": []
       },
       {
         "insertions": 0,
         "deletions": 0,
-        "sinceDate": "2017-09-29",
-        "untilDate": "2017-09-30"
+        "date": "2017-09-29",
+        "commitResults": []
       },
       {
         "insertions": 0,
         "deletions": 0,
-        "sinceDate": "2017-09-30",
-        "untilDate": "2017-10-01"
+        "date": "2017-09-30",
+        "commitResults": []
       },
       {
         "insertions": 0,
         "deletions": 0,
-        "sinceDate": "2017-10-01",
-        "untilDate": "2017-10-02"
+        "date": "2017-10-01",
+        "commitResults": []
       },
       {
         "insertions": 0,
         "deletions": 0,
-        "sinceDate": "2017-10-02",
-        "untilDate": "2017-10-03"
+        "date": "2017-10-02",
+        "commitResults": []
       },
       {
         "insertions": 0,
         "deletions": 0,
-        "sinceDate": "2017-10-03",
-        "untilDate": "2017-10-04"
+        "date": "2017-10-03",
+        "commitResults": []
       },
       {
         "insertions": 11,
         "deletions": 0,
-        "sinceDate": "2017-10-04",
-        "untilDate": "2017-10-05"
+        "date": "2017-10-04",
+        "commitResults": [
+          {
+            "hash": "2a4d25d0d68a428189acd90bc8ffd727ed6b02d0",
+            "message": "Adding backup API",
+            "insertions": 2,
+            "deletions": 0
+          },
+          {
+            "hash": "68be4a113d210f417f62b6e502cb96d5f8e1bc93",
+            "message": "Adding backup method",
+            "insertions": 5,
+            "deletions": 0
+          },
+          {
+            "hash": "95facc3c133ff79bbe189a9b18c1f0f4ba1180d6",
+            "message": "adding overriding method",
+            "insertions": 4,
+            "deletions": 0
+          }
+        ]
       },
       {
         "insertions": 0,
         "deletions": 0,
-        "sinceDate": "2017-10-05",
-        "untilDate": "2017-10-06"
+        "date": "2017-10-05",
+        "commitResults": []
       },
       {
         "insertions": 0,
         "deletions": 0,
-        "sinceDate": "2017-10-06",
-        "untilDate": "2017-10-07"
+        "date": "2017-10-06",
+        "commitResults": []
       },
       {
         "insertions": 0,
         "deletions": 0,
-        "sinceDate": "2017-10-07",
-        "untilDate": "2017-10-08"
+        "date": "2017-10-07",
+        "commitResults": []
       },
       {
         "insertions": 0,
         "deletions": 0,
-        "sinceDate": "2017-10-08",
-        "untilDate": "2017-10-09"
+        "date": "2017-10-08",
+        "commitResults": []
       },
       {
         "insertions": 0,
         "deletions": 0,
-        "sinceDate": "2017-10-09",
-        "untilDate": "2017-10-10"
+        "date": "2017-10-09",
+        "commitResults": []
       },
       {
         "insertions": 100,
         "deletions": 23,
-        "sinceDate": "2017-10-10",
-        "untilDate": "2017-10-11"
+        "date": "2017-10-10",
+        "commitResults": [
+          {
+            "hash": "0141a4131fa7284086dc959c21f12c8fc4bbcd69",
+            "message": "Update About us",
+            "insertions": 3,
+            "deletions": 3
+          },
+          {
+            "hash": "5781c8c016eff6efdf94eff38f2587ca19afe378",
+            "message": "Minor change in about us",
+            "insertions": 1,
+            "deletions": 1
+          },
+          {
+            "hash": "7e6aff89891a4cef28e87887e1c9469a00e011a2",
+            "message": "Updating Userguide with allocated features up to v2.0",
+            "insertions": 66,
+            "deletions": 10
+          },
+          {
+            "hash": "a6de7407c12dddde194ebcf71a4d6c286b3b91b9",
+            "message": "Changed error message colour",
+            "insertions": 18,
+            "deletions": 3
+          },
+          {
+            "hash": "e3ad4a2b41e1ae4e798c06eeb809edbff140cc4d",
+            "message": "Update UserGuide.adoc",
+            "insertions": 3,
+            "deletions": 2
+          },
+          {
+            "hash": "5c2299b27aca7862300f0b167ab3e8658f306c2a",
+            "message": "Update UserGuide.adoc",
+            "insertions": 9,
+            "deletions": 4
+          }
+        ]
       },
       {
         "insertions": 203,
         "deletions": 41,
-        "sinceDate": "2017-10-11",
-        "untilDate": "2017-10-12"
+        "date": "2017-10-11",
+        "commitResults": [
+          {
+            "hash": "ff0e78dc88cf980f9fdf475e336bf17a4f50c13e",
+            "message": "Edit checkstyle errors",
+            "insertions": 13,
+            "deletions": 5
+          },
+          {
+            "hash": "56a6e6f8429f7cca6bcc0b7d4320bcea59664398",
+            "message": "minor changes in userguide",
+            "insertions": 2,
+            "deletions": 2
+          },
+          {
+            "hash": "3d88d59bb81b632ba10b0cf27f0cd84831834299",
+            "message": "Edit test",
+            "insertions": 1,
+            "deletions": 1
+          },
+          {
+            "hash": "10ba5b980417227cc8f2d28ee3a3389ddef0a2be",
+            "message": "Update UserGuide.adoc",
+            "insertions": 3,
+            "deletions": 0
+          },
+          {
+            "hash": "719ff7975cb38750eae4a20f98c4d898a37b7a90",
+            "message": "Update UserGuide.adoc",
+            "insertions": 1,
+            "deletions": 0
+          },
+          {
+            "hash": "e248a68e56fc017b5b67b1be0ec2545d14da048d",
+            "message": "Added new Prefix for birthday",
+            "insertions": 1,
+            "deletions": 0
+          },
+          {
+            "hash": "d9e75ef481f3a408d0a3510cc5e6405b4834f240",
+            "message": "Added prefix for birthday and eg",
+            "insertions": 3,
+            "deletions": 1
+          },
+          {
+            "hash": "346ba91873345c64bbce4f4e5d4e668f4d1de8a2",
+            "message": "Added parseBirthday",
+            "insertions": 11,
+            "deletions": 0
+          },
+          {
+            "hash": "ac09527d752ff7bf551eb58aaa1cf80846fa5b4c",
+            "message": "Add command parser for birthday",
+            "insertions": 6,
+            "deletions": 2
+          },
+          {
+            "hash": "1e150dd9b40f4e16ff84fe76447a3ae12323f958",
+            "message": "Created birthday attribute (on-going)",
+            "insertions": 8,
+            "deletions": 0
+          },
+          {
+            "hash": "d981749c8a83860a31602058fd16acfd4dcbac59",
+            "message": "Create birthday list(on-going)",
+            "insertions": 4,
+            "deletions": 0
+          },
+          {
+            "hash": "02f164dd9d3b1af4ca290f8b3708e4f7d337d74c",
+            "message": "Update in Birthday class",
+            "insertions": 56,
+            "deletions": 1
+          },
+          {
+            "hash": "d939051c69c2167dff66978eafd5ab702b228a71",
+            "message": "correct file name",
+            "insertions": 1,
+            "deletions": 1
+          },
+          {
+            "hash": "4f11892444f4c0c39aed1d488aa1959aa52fcfd0",
+            "message": "merge conflict",
+            "insertions": 2,
+            "deletions": 9
+          },
+          {
+            "hash": "9268a08de68984a6d00d26a515a6fc23606645f7",
+            "message": "merge conflict on userguide",
+            "insertions": 86,
+            "deletions": 14
+          },
+          {
+            "hash": "bcbfdf72d5c35e6d0594389ec32cd989b4a5bfe7",
+            "message": "correct file name",
+            "insertions": 1,
+            "deletions": 1
+          },
+          {
+            "hash": "72213afe0221a0bc354cc9ecf537c7be37cd21e1",
+            "message": "Update AboutUs.adoc",
+            "insertions": 3,
+            "deletions": 3
+          },
+          {
+            "hash": "cb259830296b8d0ca08b8b31a9ef065565a14e84",
+            "message": "Update AboutUs.adoc",
+            "insertions": 1,
+            "deletions": 1
+          }
+        ]
       },
       {
         "insertions": 0,
         "deletions": 0,
-        "sinceDate": "2017-10-12",
-        "untilDate": "2017-10-13"
+        "date": "2017-10-12",
+        "commitResults": []
       },
       {
         "insertions": 0,
         "deletions": 0,
-        "sinceDate": "2017-10-13",
-        "untilDate": "2017-10-14"
+        "date": "2017-10-13",
+        "commitResults": []
       },
       {
         "insertions": 0,
         "deletions": 0,
-        "sinceDate": "2017-10-14",
-        "untilDate": "2017-10-15"
+        "date": "2017-10-14",
+        "commitResults": []
       },
       {
         "insertions": 0,
         "deletions": 0,
-        "sinceDate": "2017-10-15",
-        "untilDate": "2017-10-16"
+        "date": "2017-10-15",
+        "commitResults": []
       },
       {
         "insertions": 0,
         "deletions": 0,
-        "sinceDate": "2017-10-16",
-        "untilDate": "2017-10-17"
+        "date": "2017-10-16",
+        "commitResults": []
       },
       {
         "insertions": 0,
         "deletions": 0,
-        "sinceDate": "2017-10-17",
-        "untilDate": "2017-10-18"
+        "date": "2017-10-17",
+        "commitResults": []
       },
       {
         "insertions": 10,
         "deletions": 8,
-        "sinceDate": "2017-10-18",
-        "untilDate": "2017-10-19"
+        "date": "2017-10-18",
+        "commitResults": [
+          {
+            "hash": "c47d142f49bf0e456fcbae31b96b498be44492cc",
+            "message": "Update userguide for birthday",
+            "insertions": 8,
+            "deletions": 8
+          },
+          {
+            "hash": "9b90e6ae3df65afce0e42b4225904ac1493ed05b",
+            "message": "Update AddCommand for birthday",
+            "insertions": 2,
+            "deletions": 0
+          }
+        ]
       },
       {
         "insertions": 345,
         "deletions": 132,
-        "sinceDate": "2017-10-19",
-        "untilDate": "2017-10-20"
+        "date": "2017-10-19",
+        "commitResults": [
+          {
+            "hash": "ab2164bc52388c68a6c432087a4cda130b96b0b5",
+            "message": "Birthday attribute: update add command parser",
+            "insertions": 3,
+            "deletions": 3
+          },
+          {
+            "hash": "8b8622205a389f33bddc3c4b6d566731ca41a03d",
+            "message": "Birthday attribute: create Birthday class",
+            "insertions": 22,
+            "deletions": 22
+          },
+          {
+            "hash": "bd0777fbc65b256d947df03e2c3654dfc1ad0822",
+            "message": "Birthday feature: update edit command parser",
+            "insertions": 6,
+            "deletions": 1
+          },
+          {
+            "hash": "65d73debf0de94eb4ffb4cbdf4ed0541ffa099d1",
+            "message": "Birthday feature: update edit command",
+            "insertions": 19,
+            "deletions": 3
+          },
+          {
+            "hash": "f45960b264a6c550d98137cebe7cea9bb78fdfcd",
+            "message": "Birthday feature: update person related files",
+            "insertions": 81,
+            "deletions": 26
+          },
+          {
+            "hash": "273325d19b74a1d9fe0f607823f217d77323ffdf",
+            "message": "Birthday feature: Update related files",
+            "insertions": 23,
+            "deletions": 3
+          },
+          {
+            "hash": "b5f19ebabccf2370833e718d31e9a0f8db1fcac6",
+            "message": "Birthday feature: Update all tests",
+            "insertions": 191,
+            "deletions": 74
+          }
+        ]
       },
       {
         "insertions": 0,
         "deletions": 2,
-        "sinceDate": "2017-10-20",
-        "untilDate": "2017-10-21"
+        "date": "2017-10-20",
+        "commitResults": [
+          {
+            "hash": "bfec5c4b4f2f660e6cbee574d01a99335c623be8",
+            "message": "Solve checkstyle",
+            "insertions": 0,
+            "deletions": 2
+          }
+        ]
       },
       {
         "insertions": 91,
         "deletions": 7,
-        "sinceDate": "2017-10-21",
-        "untilDate": "2017-10-22"
+        "date": "2017-10-21",
+        "commitResults": [
+          {
+            "hash": "579814572770f1d6cc137f524f4cb5b26d52a8df",
+            "message": "Update Dev guide for birthday",
+            "insertions": 91,
+            "deletions": 7
+          }
+        ]
       },
       {
         "insertions": 0,
         "deletions": 0,
-        "sinceDate": "2017-10-22",
-        "untilDate": "2017-10-23"
+        "date": "2017-10-22",
+        "commitResults": []
       },
       {
         "insertions": 153,
         "deletions": 390,
-        "sinceDate": "2017-10-23",
-        "untilDate": "2017-10-24"
+        "date": "2017-10-23",
+        "commitResults": [
+          {
+            "hash": "a52739432c01bbbdd651f3cdb38feff2bb8fbe10",
+            "message": "Update Dev guide",
+            "insertions": 134,
+            "deletions": 389
+          },
+          {
+            "hash": "d65028c63f9cfbccc27970c1aa6f99b91ceab78c",
+            "message": "improved the check of validity of the date inputted for birthday",
+            "insertions": 19,
+            "deletions": 1
+          }
+        ]
       },
       {
         "insertions": 294,
         "deletions": 27,
-        "sinceDate": "2017-10-24",
-        "untilDate": "2017-10-25"
+        "date": "2017-10-24",
+        "commitResults": [
+          {
+            "hash": "f4702c1aefa9ff6e471a189d2792af52356831d3",
+            "message": "Create suggestCommand to suggest the correct word or spelling",
+            "insertions": 24,
+            "deletions": 0
+          },
+          {
+            "hash": "e57b5c79e31c0e9b5ba0e70895add0fbdb3cc235",
+            "message": "Create SuggestCommand parser to parse command not recognized to check",
+            "insertions": 35,
+            "deletions": 0
+          },
+          {
+            "hash": "aba23f699d7b6010400c75fdc96756936c5091a6",
+            "message": "Create commandList and possibleCommandList from the wrong inputted command",
+            "insertions": 80,
+            "deletions": 0
+          },
+          {
+            "hash": "ec352c760b9c1c58c647dd3615509987f918e297",
+            "message": "Create tests for SuggestCommand and parser",
+            "insertions": 107,
+            "deletions": 0
+          },
+          {
+            "hash": "b1f9dd82589b6adaedd8b6b61f2fb371d8bb017c",
+            "message": "Change default to create suggestCommand not throw invalid message",
+            "insertions": 4,
+            "deletions": 3
+          },
+          {
+            "hash": "30c9839d6bed641b1069b1040ad013fd66e4b01b",
+            "message": "Added suggest command tests in other command tests (made input of command case insensitive)",
+            "insertions": 44,
+            "deletions": 18
+          },
+          {
+            "hash": "703179c8ea8249d103f6b22b8723e88a574fa9af",
+            "message": "edit checkstyle",
+            "insertions": 0,
+            "deletions": 6
+          }
+        ]
       },
       {
         "insertions": 0,
         "deletions": 0,
-        "sinceDate": "2017-10-25",
-        "untilDate": "2017-10-26"
+        "date": "2017-10-25",
+        "commitResults": []
       },
       {
         "insertions": 0,
         "deletions": 0,
-        "sinceDate": "2017-10-26",
-        "untilDate": "2017-10-27"
+        "date": "2017-10-26",
+        "commitResults": []
       },
       {
         "insertions": 0,
         "deletions": 0,
-        "sinceDate": "2017-10-27",
-        "untilDate": "2017-10-28"
+        "date": "2017-10-27",
+        "commitResults": []
       },
       {
         "insertions": 0,
         "deletions": 0,
-        "sinceDate": "2017-10-28",
-        "untilDate": "2017-10-29"
+        "date": "2017-10-28",
+        "commitResults": []
       },
       {
         "insertions": 0,
         "deletions": 0,
-        "sinceDate": "2017-10-29",
-        "untilDate": "2017-10-30"
+        "date": "2017-10-29",
+        "commitResults": []
       },
       {
         "insertions": 69,
         "deletions": 82,
-        "sinceDate": "2017-10-30",
-        "untilDate": "2017-10-31"
+        "date": "2017-10-30",
+        "commitResults": [
+          {
+            "hash": "441603fed9b7ce502cc274f4cf07dc27965b077c",
+            "message": "Update dev guide and user guide",
+            "insertions": 67,
+            "deletions": 81
+          },
+          {
+            "hash": "27c833b70c2ae986c88f437768ffd67877904a16",
+            "message": "minor update",
+            "insertions": 2,
+            "deletions": 1
+          }
+        ]
       }
     ],
     "nbriannl": [
       {
         "insertions": 0,
         "deletions": 0,
-        "sinceDate": "2017-09-01",
-        "untilDate": "2017-09-02"
+        "date": "2017-09-01",
+        "commitResults": []
       },
       {
         "insertions": 0,
         "deletions": 0,
-        "sinceDate": "2017-09-02",
-        "untilDate": "2017-09-03"
+        "date": "2017-09-02",
+        "commitResults": []
       },
       {
         "insertions": 0,
         "deletions": 0,
-        "sinceDate": "2017-09-03",
-        "untilDate": "2017-09-04"
+        "date": "2017-09-03",
+        "commitResults": []
       },
       {
         "insertions": 0,
         "deletions": 0,
-        "sinceDate": "2017-09-04",
-        "untilDate": "2017-09-05"
+        "date": "2017-09-04",
+        "commitResults": []
       },
       {
         "insertions": 0,
         "deletions": 0,
-        "sinceDate": "2017-09-05",
-        "untilDate": "2017-09-06"
+        "date": "2017-09-05",
+        "commitResults": []
       },
       {
         "insertions": 0,
         "deletions": 0,
-        "sinceDate": "2017-09-06",
-        "untilDate": "2017-09-07"
+        "date": "2017-09-06",
+        "commitResults": []
       },
       {
         "insertions": 0,
         "deletions": 0,
-        "sinceDate": "2017-09-07",
-        "untilDate": "2017-09-08"
+        "date": "2017-09-07",
+        "commitResults": []
       },
       {
         "insertions": 0,
         "deletions": 0,
-        "sinceDate": "2017-09-08",
-        "untilDate": "2017-09-09"
+        "date": "2017-09-08",
+        "commitResults": []
       },
       {
         "insertions": 0,
         "deletions": 0,
-        "sinceDate": "2017-09-09",
-        "untilDate": "2017-09-10"
+        "date": "2017-09-09",
+        "commitResults": []
       },
       {
         "insertions": 0,
         "deletions": 0,
-        "sinceDate": "2017-09-10",
-        "untilDate": "2017-09-11"
+        "date": "2017-09-10",
+        "commitResults": []
       },
       {
         "insertions": 0,
         "deletions": 0,
-        "sinceDate": "2017-09-11",
-        "untilDate": "2017-09-12"
+        "date": "2017-09-11",
+        "commitResults": []
       },
       {
         "insertions": 0,
         "deletions": 0,
-        "sinceDate": "2017-09-12",
-        "untilDate": "2017-09-13"
+        "date": "2017-09-12",
+        "commitResults": []
       },
       {
         "insertions": 0,
         "deletions": 0,
-        "sinceDate": "2017-09-13",
-        "untilDate": "2017-09-14"
+        "date": "2017-09-13",
+        "commitResults": []
       },
       {
         "insertions": 0,
         "deletions": 0,
-        "sinceDate": "2017-09-14",
-        "untilDate": "2017-09-15"
+        "date": "2017-09-14",
+        "commitResults": []
       },
       {
         "insertions": 0,
         "deletions": 0,
-        "sinceDate": "2017-09-15",
-        "untilDate": "2017-09-16"
+        "date": "2017-09-15",
+        "commitResults": []
       },
       {
         "insertions": 0,
         "deletions": 0,
-        "sinceDate": "2017-09-16",
-        "untilDate": "2017-09-17"
+        "date": "2017-09-16",
+        "commitResults": []
       },
       {
         "insertions": 0,
         "deletions": 0,
-        "sinceDate": "2017-09-17",
-        "untilDate": "2017-09-18"
+        "date": "2017-09-17",
+        "commitResults": []
       },
       {
         "insertions": 0,
         "deletions": 0,
-        "sinceDate": "2017-09-18",
-        "untilDate": "2017-09-19"
+        "date": "2017-09-18",
+        "commitResults": []
       },
       {
         "insertions": 0,
         "deletions": 0,
-        "sinceDate": "2017-09-19",
-        "untilDate": "2017-09-20"
+        "date": "2017-09-19",
+        "commitResults": []
       },
       {
         "insertions": 0,
         "deletions": 0,
-        "sinceDate": "2017-09-20",
-        "untilDate": "2017-09-21"
+        "date": "2017-09-20",
+        "commitResults": []
       },
       {
         "insertions": 0,
         "deletions": 0,
-        "sinceDate": "2017-09-21",
-        "untilDate": "2017-09-22"
+        "date": "2017-09-21",
+        "commitResults": []
       },
       {
         "insertions": 0,
         "deletions": 0,
-        "sinceDate": "2017-09-22",
-        "untilDate": "2017-09-23"
+        "date": "2017-09-22",
+        "commitResults": []
       },
       {
         "insertions": 0,
         "deletions": 0,
-        "sinceDate": "2017-09-23",
-        "untilDate": "2017-09-24"
+        "date": "2017-09-23",
+        "commitResults": []
       },
       {
         "insertions": 0,
         "deletions": 0,
-        "sinceDate": "2017-09-24",
-        "untilDate": "2017-09-25"
+        "date": "2017-09-24",
+        "commitResults": []
       },
       {
         "insertions": 0,
         "deletions": 0,
-        "sinceDate": "2017-09-25",
-        "untilDate": "2017-09-26"
+        "date": "2017-09-25",
+        "commitResults": []
       },
       {
         "insertions": 0,
         "deletions": 0,
-        "sinceDate": "2017-09-26",
-        "untilDate": "2017-09-27"
+        "date": "2017-09-26",
+        "commitResults": []
       },
       {
         "insertions": 0,
         "deletions": 0,
-        "sinceDate": "2017-09-27",
-        "untilDate": "2017-09-28"
+        "date": "2017-09-27",
+        "commitResults": []
       },
       {
         "insertions": 0,
         "deletions": 0,
-        "sinceDate": "2017-09-28",
-        "untilDate": "2017-09-29"
+        "date": "2017-09-28",
+        "commitResults": []
       },
       {
         "insertions": 0,
         "deletions": 0,
-        "sinceDate": "2017-09-29",
-        "untilDate": "2017-09-30"
+        "date": "2017-09-29",
+        "commitResults": []
       },
       {
         "insertions": 0,
         "deletions": 0,
-        "sinceDate": "2017-09-30",
-        "untilDate": "2017-10-01"
+        "date": "2017-09-30",
+        "commitResults": []
       },
       {
         "insertions": 0,
         "deletions": 0,
-        "sinceDate": "2017-10-01",
-        "untilDate": "2017-10-02"
+        "date": "2017-10-01",
+        "commitResults": []
       },
       {
         "insertions": 0,
         "deletions": 0,
-        "sinceDate": "2017-10-02",
-        "untilDate": "2017-10-03"
+        "date": "2017-10-02",
+        "commitResults": []
       },
       {
         "insertions": 0,
         "deletions": 0,
-        "sinceDate": "2017-10-03",
-        "untilDate": "2017-10-04"
+        "date": "2017-10-03",
+        "commitResults": []
       },
       {
         "insertions": 224,
         "deletions": 6,
-        "sinceDate": "2017-10-04",
-        "untilDate": "2017-10-05"
+        "date": "2017-10-04",
+        "commitResults": [
+          {
+            "hash": "ac8f206b101552a277d4bea91b11058533e7bd3a",
+            "message": "\"add deleteTag and modified related Tests \"",
+            "insertions": 34,
+            "deletions": 0
+          },
+          {
+            "hash": "989e4b5ab4f9f52a76b1d2a3e4259b037e216657",
+            "message": "\"updated repoURL in guides and updated DevGuide \"",
+            "insertions": 188,
+            "deletions": 6
+          },
+          {
+            "hash": "2a8c11f01465f2c6264351d93df94bdbc7a75cd2",
+            "message": "\"added 1 user story\"",
+            "insertions": 2,
+            "deletions": 0
+          }
+        ]
       },
       {
         "insertions": 42,
         "deletions": 30,
-        "sinceDate": "2017-10-05",
-        "untilDate": "2017-10-06"
+        "date": "2017-10-05",
+        "commitResults": [
+          {
+            "hash": "422b48d669e3bf513a7b31622b2053cdeb4fd231",
+            "message": "\"DeveloperGuide: update user stories\"",
+            "insertions": 30,
+            "deletions": 30
+          },
+          {
+            "hash": "d907fad5f095bfbe2b3924ad7c712a5a734ca47e",
+            "message": "\"DeveloperGuide: update more user stories for commands already existing in Level 4\"",
+            "insertions": 12,
+            "deletions": 0
+          }
+        ]
       },
       {
         "insertions": 141,
         "deletions": 26,
-        "sinceDate": "2017-10-06",
-        "untilDate": "2017-10-07"
+        "date": "2017-10-06",
+        "commitResults": [
+          {
+            "hash": "2dfb7a08a41d074b7c5347675460e6b9f5b1b66f",
+            "message": "\"DeveloperGuide, UserGuide: Update repoURL\"",
+            "insertions": 2,
+            "deletions": 2
+          },
+          {
+            "hash": "d3583944069f75affb8624d0e450e934f260ae79",
+            "message": "\"DeleteCommand: Implement delete tag execution\"",
+            "insertions": 58,
+            "deletions": 19
+          },
+          {
+            "hash": "312107193a39bb946a7e649d3cb68a79cc60c3b3",
+            "message": "\"ModelManager: Fix bug caused by remove() on unmodifiable Set returned by newPerson.getTags()\"",
+            "insertions": 2,
+            "deletions": 1
+          },
+          {
+            "hash": "8b15132643fd2509498a0f8480243d43bacb4c70",
+            "message": "\"DeleteCommandTest, DeleteCommand: Add test for execute() and equals(). Fixed error in equals()\"",
+            "insertions": 56,
+            "deletions": 2
+          },
+          {
+            "hash": "4548a5fc23625a6273a5f65defb27358f685ae78",
+            "message": "\"DeleteCommandTest: Compare against null with \u003d\u003d\"",
+            "insertions": 2,
+            "deletions": 2
+          },
+          {
+            "hash": "57a5b8f20f96cc35f757d931a0bdf9aff5b048b3",
+            "message": "\"DeleteCommandParse: Changed parser to accept tags as an argument\"",
+            "insertions": 21,
+            "deletions": 0
+          }
+        ]
       },
       {
         "insertions": 0,
         "deletions": 0,
-        "sinceDate": "2017-10-07",
-        "untilDate": "2017-10-08"
+        "date": "2017-10-07",
+        "commitResults": []
       },
       {
         "insertions": 69,
         "deletions": 4,
-        "sinceDate": "2017-10-08",
-        "untilDate": "2017-10-09"
+        "date": "2017-10-08",
+        "commitResults": [
+          {
+            "hash": "198c331e12610be0b78f63de841fc231c551034c",
+            "message": "\"DeleteCommandParser: Add comment\"",
+            "insertions": 1,
+            "deletions": 0
+          },
+          {
+            "hash": "f4cdcd27b6f2f9c07c0778be845158aae3c5e440",
+            "message": "\"DeleteCommand, DeleteCommandTest, Messages: Add check if tag provided does not exist. Update Test.\"",
+            "insertions": 22,
+            "deletions": 2
+          },
+          {
+            "hash": "9d5118f7b5cf2ca48c13a32f084c9273e574e37b",
+            "message": "\"DeleteCommandParser, DeleteCommandParserTest: Reorder comment and update test\"",
+            "insertions": 16,
+            "deletions": 1
+          },
+          {
+            "hash": "557ce4f9d56f6eda5cf691af85d6a9e4dcae9e0d",
+            "message": "\"DeleteCommandTest: Update test\"",
+            "insertions": 29,
+            "deletions": 0
+          },
+          {
+            "hash": "cdde075b148305812e268eb44425b19ef99bf56f",
+            "message": "\"DeleteCommand: update command message usage\"",
+            "insertions": 1,
+            "deletions": 1
+          }
+        ]
       },
       {
         "insertions": 156,
         "deletions": 11,
-        "sinceDate": "2017-10-09",
-        "untilDate": "2017-10-10"
+        "date": "2017-10-09",
+        "commitResults": [
+          {
+            "hash": "b9d5eea90863cb17977e70ed33d7630de92da160",
+            "message": "DeveloperGuide: change ??? to \u0027",
+            "insertions": 1,
+            "deletions": 1
+          },
+          {
+            "hash": "eb99e763cce9d398c4c6d843e0944383e0e73d63",
+            "message": "\"UserGuide: Update User Guide for delete Tag\"",
+            "insertions": 25,
+            "deletions": 3
+          },
+          {
+            "hash": "0feba46363b3f8983b18dcc09d3a85aa7ff38600",
+            "message": "\"DeleteCommand: Mention Tag is case-sensitive\"",
+            "insertions": 1,
+            "deletions": 1
+          },
+          {
+            "hash": "c91676ca8065aeefd5c10a29cb54b8a273cdc17b",
+            "message": "\"UserGuide: Mention Tag is case-sensitive\"",
+            "insertions": 1,
+            "deletions": 0
+          },
+          {
+            "hash": "b6c169ce27542e87ea9ba3b75aa7f3510caaeb7b",
+            "message": "\"UserGuide: update Edit Tag\"",
+            "insertions": 19,
+            "deletions": 1
+          },
+          {
+            "hash": "97234c50885b33648e8bce232e7538f421a8c59f",
+            "message": "\"UserGuide: update Delete Tag\"",
+            "insertions": 1,
+            "deletions": 1
+          },
+          {
+            "hash": "d8cb0a487a2a1a57b40cbad2b6805dc89286ab76",
+            "message": "\"UserGuide: Update UserGuide for my features delegated\"",
+            "insertions": 108,
+            "deletions": 4
+          }
+        ]
       },
       {
         "insertions": 75,
         "deletions": 22,
-        "sinceDate": "2017-10-10",
-        "untilDate": "2017-10-11"
+        "date": "2017-10-10",
+        "commitResults": [
+          {
+            "hash": "02f6c201d9b6aab0e89c8bfef9382a34be3b4474",
+            "message": "\"UserGuide: Added Tip for Delete Tag\"",
+            "insertions": 3,
+            "deletions": 0
+          },
+          {
+            "hash": "cd7571beff93edba76a7d8e9127d4233ad36881d",
+            "message": "\"UserGuide: Add (Coming in v2.0) label\"",
+            "insertions": 1,
+            "deletions": 1
+          },
+          {
+            "hash": "9506916f12e9da45b896b61cd8fbeea905876676",
+            "message": "\"UserGuide: Minor edits in formatting\"",
+            "insertions": 3,
+            "deletions": 4
+          },
+          {
+            "hash": "5c1a012a2fa10e9ac745e6f927a4847e4e083aef",
+            "message": "\"UserGuide: Minor edits in formatting\"",
+            "insertions": 2,
+            "deletions": 2
+          },
+          {
+            "hash": "d51e9490d231676df11fe232c317708a76f33c56",
+            "message": "\"README: Edited Readme for v1.1\"",
+            "insertions": 7,
+            "deletions": 6
+          },
+          {
+            "hash": "82c850e30f7514b62eedd4383bbb50ecfed3f7de",
+            "message": "\"AboutUs, nbriannl: Add my info and portfolio file\"",
+            "insertions": 56,
+            "deletions": 6
+          },
+          {
+            "hash": "bb60599531c5694c301f8687119fb8bf6abe0f1f",
+            "message": "\"UserGuide: Minor edit, fix clash for clear \u0026 center shorthand command\"",
+            "insertions": 3,
+            "deletions": 3
+          }
+        ]
       },
       {
         "insertions": 0,
         "deletions": 0,
-        "sinceDate": "2017-10-11",
-        "untilDate": "2017-10-12"
+        "date": "2017-10-11",
+        "commitResults": []
       },
       {
         "insertions": 0,
         "deletions": 0,
-        "sinceDate": "2017-10-12",
-        "untilDate": "2017-10-13"
+        "date": "2017-10-12",
+        "commitResults": []
       },
       {
         "insertions": 40,
         "deletions": 17,
-        "sinceDate": "2017-10-13",
-        "untilDate": "2017-10-14"
+        "date": "2017-10-13",
+        "commitResults": [
+          {
+            "hash": "d1d8ef358b42909bf5ace59ab6b31b1f5dc67b45",
+            "message": "\"Delete Tag: modify delete Tag parser to properly work with preamble.\"",
+            "insertions": 24,
+            "deletions": 13
+          },
+          {
+            "hash": "bf6601ebe3fe02f94e59a79ef6d4f9d10cfc017e",
+            "message": "\"Delete Tag: added Tests for Parse and modify regex to accept -ve num\"",
+            "insertions": 16,
+            "deletions": 4
+          }
+        ]
       },
       {
         "insertions": 0,
         "deletions": 0,
-        "sinceDate": "2017-10-14",
-        "untilDate": "2017-10-15"
+        "date": "2017-10-14",
+        "commitResults": []
       },
       {
         "insertions": 0,
         "deletions": 0,
-        "sinceDate": "2017-10-15",
-        "untilDate": "2017-10-16"
+        "date": "2017-10-15",
+        "commitResults": []
       },
       {
         "insertions": 363,
         "deletions": 89,
-        "sinceDate": "2017-10-16",
-        "untilDate": "2017-10-17"
+        "date": "2017-10-16",
+        "commitResults": [
+          {
+            "hash": "31fcbbe930b13daa6dcb3272b53641aad6263ef1",
+            "message": "\"Delete Tag: Method of deleting of Tag is now at aUniqueTagList class level\"",
+            "insertions": 59,
+            "deletions": 15
+          },
+          {
+            "hash": "fd99e42ae6266881f430a8f7179226a5e7b64197",
+            "message": "\"DeleteCommandTest: Fixed a bug in the tests related to test Model usage\"",
+            "insertions": 10,
+            "deletions": 11
+          },
+          {
+            "hash": "25f2f83444f38ef1914a56d525fa060e4b19b788",
+            "message": "\"Checkstyle fixes\"",
+            "insertions": 3,
+            "deletions": 1
+          },
+          {
+            "hash": "9048ff092be41da0e9878bf5dd2a5f69edfb73f8",
+            "message": "\"CliSyntax: added old and new prefixes\"",
+            "insertions": 2,
+            "deletions": 0
+          },
+          {
+            "hash": "6912f63b8c0cc7c40f45c9cc21f95f0640f458c0",
+            "message": "\"Model: Add editTag()\"",
+            "insertions": 32,
+            "deletions": 1
+          },
+          {
+            "hash": "875ddfaa6590f86f647e333ec416bd07957497c7",
+            "message": "\"Logic: Add Parse\"",
+            "insertions": 58,
+            "deletions": 21
+          },
+          {
+            "hash": "9446e2b95e5fb4873a25cd8b7f457b38c23ae321",
+            "message": "\"Logic: Add execution\"",
+            "insertions": 60,
+            "deletions": 17
+          },
+          {
+            "hash": "81bb98fe00fee981e0d4f162cef54e1b36865ec6",
+            "message": "\"Edit Tag: Add tests\"",
+            "insertions": 23,
+            "deletions": 0
+          },
+          {
+            "hash": "fc5e5cc409123f7db16ded1a2e8e7545ca5d4d6f",
+            "message": "\"Edit Tag: Add tests. Modify Exceptions in EditCommand.java\"",
+            "insertions": 107,
+            "deletions": 22
+          },
+          {
+            "hash": "40b0fa8ee41d3bc97f6582c72e36902acca87f22",
+            "message": "\"Edit Tag: Add EditCommand parser test on successful input\"",
+            "insertions": 7,
+            "deletions": 0
+          },
+          {
+            "hash": "7965b096f57880c8813e60f26859e49fc4c810c5",
+            "message": "\"Fix Checkstyle\"",
+            "insertions": 2,
+            "deletions": 1
+          }
+        ]
       },
       {
         "insertions": 36,
         "deletions": 23,
-        "sinceDate": "2017-10-17",
-        "untilDate": "2017-10-18"
+        "date": "2017-10-17",
+        "commitResults": [
+          {
+            "hash": "cc33803f19fde2d62f3e2125ad18292daf69a27f",
+            "message": "\"Minor fixes including method heading and blank lines.\"",
+            "insertions": 25,
+            "deletions": 13
+          },
+          {
+            "hash": "c775e38e0cadc56522b30d218d431760491a3379",
+            "message": "\"README: Update to be product page.\"",
+            "insertions": 11,
+            "deletions": 10
+          }
+        ]
       },
       {
         "insertions": 166,
         "deletions": 20,
-        "sinceDate": "2017-10-18",
-        "untilDate": "2017-10-19"
+        "date": "2017-10-18",
+        "commitResults": [
+          {
+            "hash": "246d8d69e62fe94285fceb2c4475418148094509",
+            "message": "\"DeveloperGuide: Implementation of DeleteCommand for Tags\"",
+            "insertions": 147,
+            "deletions": 1
+          },
+          {
+            "hash": "2d24757d4f0090ea5b74e1b43f8161ad5734fd11",
+            "message": "\"DeveloperGuide: Indentation of Code Blocks\"",
+            "insertions": 19,
+            "deletions": 19
+          }
+        ]
       },
       {
         "insertions": 136,
         "deletions": 1,
-        "sinceDate": "2017-10-19",
-        "untilDate": "2017-10-20"
+        "date": "2017-10-19",
+        "commitResults": [
+          {
+            "hash": "79de550cc2e6afc1a46f3a323eb73094ef17e1c8",
+            "message": "DeveloperGuide: Minor formatting fix",
+            "insertions": 1,
+            "deletions": 1
+          },
+          {
+            "hash": "e5da914669f7098f5e59faf0771b232cb3b72d46",
+            "message": "\"PersonAddressDisplayMapEvent: Add new Event\"",
+            "insertions": 19,
+            "deletions": 0
+          },
+          {
+            "hash": "135a89b54979943a4e7e14bd639b8f368f932ec8",
+            "message": "\"GMaps Command: Implement Command Logic and Parse\"",
+            "insertions": 91,
+            "deletions": 0
+          },
+          {
+            "hash": "11755af2c1c2318cf246ad33f7cddd43501aa52d",
+            "message": "\"Model: Add method to raise event\"",
+            "insertions": 9,
+            "deletions": 0
+          },
+          {
+            "hash": "6e804aeacc24a5ff7dd0281dd4c7c034b151f5c4",
+            "message": "\"BrowserPanel: When subscribed event is raised, load google maps\"",
+            "insertions": 11,
+            "deletions": 0
+          },
+          {
+            "hash": "805f1241ce4e77eb762078a5e00f26764ff09ef3",
+            "message": "\"Modify Existing Tests\"",
+            "insertions": 5,
+            "deletions": 0
+          }
+        ]
       },
       {
         "insertions": 0,
         "deletions": 0,
-        "sinceDate": "2017-10-20",
-        "untilDate": "2017-10-21"
+        "date": "2017-10-20",
+        "commitResults": []
       },
       {
         "insertions": 9,
         "deletions": 19,
-        "sinceDate": "2017-10-21",
-        "untilDate": "2017-10-22"
+        "date": "2017-10-21",
+        "commitResults": [
+          {
+            "hash": "a46379fceb367f32076bfae6f5fb3c2a30534031",
+            "message": "Update DevGuide",
+            "insertions": 3,
+            "deletions": 15
+          },
+          {
+            "hash": "445d0730de131aef345b299b499f65993105c329",
+            "message": "\"GMaps: Add secondary commands and update message\"",
+            "insertions": 6,
+            "deletions": 4
+          }
+        ]
       },
       {
         "insertions": 333,
         "deletions": 295,
-        "sinceDate": "2017-10-22",
-        "untilDate": "2017-10-23"
+        "date": "2017-10-22",
+        "commitResults": [
+          {
+            "hash": "b9bd9da585de74d566d4044e6c3f256fd3ad4c89",
+            "message": "\"UserGuide: Update to be audience-centric\"",
+            "insertions": 262,
+            "deletions": 220
+          },
+          {
+            "hash": "624e8f504a25ddb1cb07713777b117f5615736b4",
+            "message": "\"UserGuide: Formatting\"",
+            "insertions": 2,
+            "deletions": 0
+          },
+          {
+            "hash": "1a0a50f3b5732fccb4d28895f7038503742f200b",
+            "message": "\"UserGuide: Formatting\"",
+            "insertions": 1,
+            "deletions": 1
+          },
+          {
+            "hash": "4d1f92ffecedd5567a71d0c9f0a49cf624515871",
+            "message": "\"UserGuide: Formatting\"",
+            "insertions": 1,
+            "deletions": 1
+          },
+          {
+            "hash": "950a4dfcac8288ea655be39509d1ea013123ece6",
+            "message": "\"UserGuide: Formatting\"",
+            "insertions": 2,
+            "deletions": 1
+          },
+          {
+            "hash": "b816cb81f14807eb31f6d44d8c63091923ebeb82",
+            "message": "\"UserGuide: Formatting\"",
+            "insertions": 44,
+            "deletions": 42
+          },
+          {
+            "hash": "a46c32ddb793df5b06178589957ef8e4e1ae178a",
+            "message": "\"UserGuide: Formatting\"",
+            "insertions": 5,
+            "deletions": 4
+          },
+          {
+            "hash": "2aa2a96563c19b938c2a3440b90072dca18c023c",
+            "message": "\"UserGuide: Indexes sent to command format\"",
+            "insertions": 4,
+            "deletions": 20
+          },
+          {
+            "hash": "e89cf611f90193223046890e2101211e2407d97f",
+            "message": "\"UserGuide: Year change\"",
+            "insertions": 1,
+            "deletions": 1
+          },
+          {
+            "hash": "7ef086ac63cf505cd0df857d0af22b7a655bbde6",
+            "message": "\"UserGuide: PersonCard\"",
+            "insertions": 4,
+            "deletions": 1
+          },
+          {
+            "hash": "9fd0e2de23e48c16d423e33cb586b92c0ae3d286",
+            "message": "\"UserGuide: PersonCard\"",
+            "insertions": 3,
+            "deletions": 1
+          },
+          {
+            "hash": "a4655d59ce609e9b0e7de87d5eed48dfce963866",
+            "message": "\"UserGuide: PersonCard\"",
+            "insertions": 1,
+            "deletions": 2
+          },
+          {
+            "hash": "a2b7c90f9c643cb5d618cd4fc2d94be9ad092359",
+            "message": "\"UserGuide: PersonCard\"",
+            "insertions": 2,
+            "deletions": 0
+          },
+          {
+            "hash": "310038c499079b945eceff925c8ce22b0a241c5c",
+            "message": "\"NAME\"",
+            "insertions": 1,
+            "deletions": 1
+          }
+        ]
       },
       {
         "insertions": 512,
         "deletions": 102,
-        "sinceDate": "2017-10-23",
-        "untilDate": "2017-10-24"
+        "date": "2017-10-23",
+        "commitResults": [
+          {
+            "hash": "74fd2f201a72666689338ced2c3be0336988814e",
+            "message": "\"Dummy commit to trigger Travis CI\"",
+            "insertions": 1,
+            "deletions": 1
+          },
+          {
+            "hash": "6493863390519a2eb9336dd29e140198621eaa1a",
+            "message": "\"GMaps command: Now can find directions to given address as well\"",
+            "insertions": 95,
+            "deletions": 7
+          },
+          {
+            "hash": "72bfc61f63141697ea4db00f18f41ca2492eef01",
+            "message": "\"GMapsCommandTest: Added test\"",
+            "insertions": 176,
+            "deletions": 0
+          },
+          {
+            "hash": "defd38b94d8c52763fb7747c45795223b79831b2",
+            "message": "\"GMapsCommand: Modify equals \"",
+            "insertions": 17,
+            "deletions": 3
+          },
+          {
+            "hash": "b0ce35ab9332ac69807ba0e857687c618061eddc",
+            "message": "\"GMapsCommandTest, GMapsCommandParserTest: Add tests \"",
+            "insertions": 104,
+            "deletions": 52
+          },
+          {
+            "hash": "a6bddd14311dacefb41c549f0e8a0b436e73386a",
+            "message": "\"BrowserPanelTest: Add tests \"",
+            "insertions": 24,
+            "deletions": 1
+          },
+          {
+            "hash": "93a53cca6e7ae88244d69cde1cd54318954686b3",
+            "message": "\"GMapsCommand: Update message usage\"",
+            "insertions": 5,
+            "deletions": 2
+          },
+          {
+            "hash": "65a9f3750f5d14a428657a39694c91067a81a788",
+            "message": "\"UserGuide: Update based on peer review and add command chart\"",
+            "insertions": 67,
+            "deletions": 31
+          },
+          {
+            "hash": "72cad27d3e5badb39c55a027f3be2c9332bbdc99",
+            "message": "\"UserGuide: Update Coming in Version labels\"",
+            "insertions": 22,
+            "deletions": 4
+          },
+          {
+            "hash": "eb40c568fcd5476172c3170cd5bd2fbb59b84962",
+            "message": "\"UserGuide: Minor spelling\"",
+            "insertions": 1,
+            "deletions": 1
+          }
+        ]
       },
       {
         "insertions": 17,
         "deletions": 152,
-        "sinceDate": "2017-10-24",
-        "untilDate": "2017-10-25"
+        "date": "2017-10-24",
+        "commitResults": [
+          {
+            "hash": "6a1afcfadd75dd2bb5f9f1eddc756f9712af522a",
+            "message": "\"Added dummy prints\"",
+            "insertions": 16,
+            "deletions": 0
+          },
+          {
+            "hash": "47d71d1f0608dd050636aa84f881c698a3979506",
+            "message": "\"Remove dummy prints\"",
+            "insertions": 1,
+            "deletions": 15
+          },
+          {
+            "hash": "2f167c34c63a963301678b3feb37a80b8f051e4b",
+            "message": "\"EditCommandSystemTest: Remove test for aliases\"",
+            "insertions": 0,
+            "deletions": 137
+          }
+        ]
       },
       {
         "insertions": 0,
         "deletions": 0,
-        "sinceDate": "2017-10-25",
-        "untilDate": "2017-10-26"
+        "date": "2017-10-25",
+        "commitResults": []
       },
       {
         "insertions": 0,
         "deletions": 0,
-        "sinceDate": "2017-10-26",
-        "untilDate": "2017-10-27"
+        "date": "2017-10-26",
+        "commitResults": []
       },
       {
         "insertions": 0,
         "deletions": 0,
-        "sinceDate": "2017-10-27",
-        "untilDate": "2017-10-28"
+        "date": "2017-10-27",
+        "commitResults": []
       },
       {
         "insertions": 0,
         "deletions": 0,
-        "sinceDate": "2017-10-28",
-        "untilDate": "2017-10-29"
+        "date": "2017-10-28",
+        "commitResults": []
       },
       {
         "insertions": 221,
         "deletions": 17,
-        "sinceDate": "2017-10-29",
-        "untilDate": "2017-10-30"
+        "date": "2017-10-29",
+        "commitResults": [
+          {
+            "hash": "aaf12493373860fab8689dc19319e59bb95d5af0",
+            "message": "\"Logic: Implement getTagList in API\"",
+            "insertions": 9,
+            "deletions": 0
+          },
+          {
+            "hash": "e933821b0afb269faf27dd45845976656b622493",
+            "message": "\"UI: Add TagListPanel\"",
+            "insertions": 95,
+            "deletions": 0
+          },
+          {
+            "hash": "91ed1bf7e3ac581bcacdd4cd45f73f066d40e285",
+            "message": "\"New event to say that the master tag list has unused tags\"",
+            "insertions": 21,
+            "deletions": 0
+          },
+          {
+            "hash": "0724ce72cc06ff8809a456175e107295b1f50ccd",
+            "message": "\"Logic has new method to check if all tags in master list are used.\"",
+            "insertions": 7,
+            "deletions": 0
+          },
+          {
+            "hash": "840cced0bfc827d20e39594b704462afc5c149c1",
+            "message": "\"Model has new method to check if all tags in master list are used. Raises an event if there are unused tags. \"",
+            "insertions": 51,
+            "deletions": 0
+          },
+          {
+            "hash": "b08a656521229549e2803a29352c70255eafe5a1",
+            "message": "\"Update test to change in model\"",
+            "insertions": 4,
+            "deletions": 1
+          },
+          {
+            "hash": "87b866a5b8378acd81c540a5923b8e45258466bd",
+            "message": "\"The tag list panel now displays unused tags with a different color\"",
+            "insertions": 34,
+            "deletions": 16
+          }
+        ]
       },
       {
         "insertions": 1,
         "deletions": 1,
-        "sinceDate": "2017-10-30",
-        "untilDate": "2017-10-31"
+        "date": "2017-10-30",
+        "commitResults": [
+          {
+            "hash": "bd25f7a35aa5dc36b0bba8c51a15326a4a994c7a",
+            "message": "\"Fix trailing whitespace in UserGuide\"",
+            "insertions": 1,
+            "deletions": 1
+          }
+        ]
       }
     ],
     "April0616": [
       {
         "insertions": 0,
         "deletions": 0,
-        "sinceDate": "2017-09-01",
-        "untilDate": "2017-09-02"
+        "date": "2017-09-01",
+        "commitResults": []
       },
       {
         "insertions": 0,
         "deletions": 0,
-        "sinceDate": "2017-09-02",
-        "untilDate": "2017-09-03"
+        "date": "2017-09-02",
+        "commitResults": []
       },
       {
         "insertions": 0,
         "deletions": 0,
-        "sinceDate": "2017-09-03",
-        "untilDate": "2017-09-04"
+        "date": "2017-09-03",
+        "commitResults": []
       },
       {
         "insertions": 0,
         "deletions": 0,
-        "sinceDate": "2017-09-04",
-        "untilDate": "2017-09-05"
+        "date": "2017-09-04",
+        "commitResults": []
       },
       {
         "insertions": 0,
         "deletions": 0,
-        "sinceDate": "2017-09-05",
-        "untilDate": "2017-09-06"
+        "date": "2017-09-05",
+        "commitResults": []
       },
       {
         "insertions": 0,
         "deletions": 0,
-        "sinceDate": "2017-09-06",
-        "untilDate": "2017-09-07"
+        "date": "2017-09-06",
+        "commitResults": []
       },
       {
         "insertions": 0,
         "deletions": 0,
-        "sinceDate": "2017-09-07",
-        "untilDate": "2017-09-08"
+        "date": "2017-09-07",
+        "commitResults": []
       },
       {
         "insertions": 0,
         "deletions": 0,
-        "sinceDate": "2017-09-08",
-        "untilDate": "2017-09-09"
+        "date": "2017-09-08",
+        "commitResults": []
       },
       {
         "insertions": 0,
         "deletions": 0,
-        "sinceDate": "2017-09-09",
-        "untilDate": "2017-09-10"
+        "date": "2017-09-09",
+        "commitResults": []
       },
       {
         "insertions": 0,
         "deletions": 0,
-        "sinceDate": "2017-09-10",
-        "untilDate": "2017-09-11"
+        "date": "2017-09-10",
+        "commitResults": []
       },
       {
         "insertions": 0,
         "deletions": 0,
-        "sinceDate": "2017-09-11",
-        "untilDate": "2017-09-12"
+        "date": "2017-09-11",
+        "commitResults": []
       },
       {
         "insertions": 0,
         "deletions": 0,
-        "sinceDate": "2017-09-12",
-        "untilDate": "2017-09-13"
+        "date": "2017-09-12",
+        "commitResults": []
       },
       {
         "insertions": 0,
         "deletions": 0,
-        "sinceDate": "2017-09-13",
-        "untilDate": "2017-09-14"
+        "date": "2017-09-13",
+        "commitResults": []
       },
       {
         "insertions": 0,
         "deletions": 0,
-        "sinceDate": "2017-09-14",
-        "untilDate": "2017-09-15"
+        "date": "2017-09-14",
+        "commitResults": []
       },
       {
         "insertions": 0,
         "deletions": 0,
-        "sinceDate": "2017-09-15",
-        "untilDate": "2017-09-16"
+        "date": "2017-09-15",
+        "commitResults": []
       },
       {
         "insertions": 0,
         "deletions": 0,
-        "sinceDate": "2017-09-16",
-        "untilDate": "2017-09-17"
+        "date": "2017-09-16",
+        "commitResults": []
       },
       {
         "insertions": 0,
         "deletions": 0,
-        "sinceDate": "2017-09-17",
-        "untilDate": "2017-09-18"
+        "date": "2017-09-17",
+        "commitResults": []
       },
       {
         "insertions": 0,
         "deletions": 0,
-        "sinceDate": "2017-09-18",
-        "untilDate": "2017-09-19"
+        "date": "2017-09-18",
+        "commitResults": []
       },
       {
         "insertions": 0,
         "deletions": 0,
-        "sinceDate": "2017-09-19",
-        "untilDate": "2017-09-20"
+        "date": "2017-09-19",
+        "commitResults": []
       },
       {
         "insertions": 0,
         "deletions": 0,
-        "sinceDate": "2017-09-20",
-        "untilDate": "2017-09-21"
+        "date": "2017-09-20",
+        "commitResults": []
       },
       {
         "insertions": 0,
         "deletions": 0,
-        "sinceDate": "2017-09-21",
-        "untilDate": "2017-09-22"
+        "date": "2017-09-21",
+        "commitResults": []
       },
       {
         "insertions": 0,
         "deletions": 0,
-        "sinceDate": "2017-09-22",
-        "untilDate": "2017-09-23"
+        "date": "2017-09-22",
+        "commitResults": []
       },
       {
         "insertions": 0,
         "deletions": 0,
-        "sinceDate": "2017-09-23",
-        "untilDate": "2017-09-24"
+        "date": "2017-09-23",
+        "commitResults": []
       },
       {
         "insertions": 0,
         "deletions": 0,
-        "sinceDate": "2017-09-24",
-        "untilDate": "2017-09-25"
+        "date": "2017-09-24",
+        "commitResults": []
       },
       {
         "insertions": 0,
         "deletions": 0,
-        "sinceDate": "2017-09-25",
-        "untilDate": "2017-09-26"
+        "date": "2017-09-25",
+        "commitResults": []
       },
       {
         "insertions": 0,
         "deletions": 0,
-        "sinceDate": "2017-09-26",
-        "untilDate": "2017-09-27"
+        "date": "2017-09-26",
+        "commitResults": []
       },
       {
         "insertions": 0,
         "deletions": 0,
-        "sinceDate": "2017-09-27",
-        "untilDate": "2017-09-28"
+        "date": "2017-09-27",
+        "commitResults": []
       },
       {
         "insertions": 0,
         "deletions": 0,
-        "sinceDate": "2017-09-28",
-        "untilDate": "2017-09-29"
+        "date": "2017-09-28",
+        "commitResults": []
       },
       {
         "insertions": 0,
         "deletions": 0,
-        "sinceDate": "2017-09-29",
-        "untilDate": "2017-09-30"
+        "date": "2017-09-29",
+        "commitResults": []
       },
       {
         "insertions": 0,
         "deletions": 0,
-        "sinceDate": "2017-09-30",
-        "untilDate": "2017-10-01"
+        "date": "2017-09-30",
+        "commitResults": []
       },
       {
         "insertions": 0,
         "deletions": 0,
-        "sinceDate": "2017-10-01",
-        "untilDate": "2017-10-02"
+        "date": "2017-10-01",
+        "commitResults": []
       },
       {
         "insertions": 0,
         "deletions": 0,
-        "sinceDate": "2017-10-02",
-        "untilDate": "2017-10-03"
+        "date": "2017-10-02",
+        "commitResults": []
       },
       {
         "insertions": 0,
         "deletions": 0,
-        "sinceDate": "2017-10-03",
-        "untilDate": "2017-10-04"
+        "date": "2017-10-03",
+        "commitResults": []
       },
       {
         "insertions": 51,
         "deletions": 9,
-        "sinceDate": "2017-10-04",
-        "untilDate": "2017-10-05"
+        "date": "2017-10-04",
+        "commitResults": [
+          {
+            "hash": "55adfbea61e410a4a85656893189d9f3665a2d73",
+            "message": "Add different colors to tag labels",
+            "insertions": 39,
+            "deletions": 2
+          },
+          {
+            "hash": "5a9477555c552c8305496e39b9ef88426abfc074",
+            "message": "correct some formats",
+            "insertions": 5,
+            "deletions": 3
+          },
+          {
+            "hash": "e252aa13dcfd47e980216db395a46382bf3e0ec3",
+            "message": "correct the format2",
+            "insertions": 7,
+            "deletions": 4
+          }
+        ]
       },
       {
         "insertions": 0,
         "deletions": 0,
-        "sinceDate": "2017-10-05",
-        "untilDate": "2017-10-06"
+        "date": "2017-10-05",
+        "commitResults": []
       },
       {
         "insertions": 410,
         "deletions": 50,
-        "sinceDate": "2017-10-06",
-        "untilDate": "2017-10-07"
+        "date": "2017-10-06",
+        "commitResults": [
+          {
+            "hash": "2852dc8854f838abfe315334864ad999cf77f73e",
+            "message": "update README",
+            "insertions": 4,
+            "deletions": 4
+          },
+          {
+            "hash": "6334de868e7b988b66668585b80898518919fdf9",
+            "message": "update Yuting\u0027s info in AboutUs",
+            "insertions": 6,
+            "deletions": 6
+          },
+          {
+            "hash": "94d6c1125d45f730445c4c4dee49aba0cb46d3cc",
+            "message": "update DeveloperGuide",
+            "insertions": 17,
+            "deletions": 17
+          },
+          {
+            "hash": "7e33de2f0bcb21189994cd0a04b258795cfd1b75",
+            "message": "update DeveloperGuide",
+            "insertions": 5,
+            "deletions": 5
+          },
+          {
+            "hash": "8591d0689c263b24171f332b05ecac72d423233f",
+            "message": "add prefix_remark",
+            "insertions": 1,
+            "deletions": 0
+          },
+          {
+            "hash": "8d71207486c4598ffd068b88ad9fb9b026dfd0ed",
+            "message": "add new class RemarkCommand",
+            "insertions": 143,
+            "deletions": 0
+          },
+          {
+            "hash": "a44768e7c669ff4dc40095cdcdffd56800c7e0e5",
+            "message": "make changes to RemarkCommand class",
+            "insertions": 5,
+            "deletions": 5
+          },
+          {
+            "hash": "28166d0b58bd8f5c474670b1df0a8dadf8c56fdc",
+            "message": "Modify AddressBookParser to accept a RemarkCommand",
+            "insertions": 5,
+            "deletions": 13
+          },
+          {
+            "hash": "de5392d92a8cf58fee855ab77cb7b0173930bbf7",
+            "message": "create remarkCommandParser class",
+            "insertions": 49,
+            "deletions": 0
+          },
+          {
+            "hash": "fbc710d47f38438938c2cc9d5eaaae5a526b7ab0",
+            "message": "Add basic RemarkCommandTest class structure",
+            "insertions": 175,
+            "deletions": 0
+          }
+        ]
       },
       {
         "insertions": 0,
         "deletions": 0,
-        "sinceDate": "2017-10-07",
-        "untilDate": "2017-10-08"
+        "date": "2017-10-07",
+        "commitResults": []
       },
       {
         "insertions": 0,
         "deletions": 0,
-        "sinceDate": "2017-10-08",
-        "untilDate": "2017-10-09"
+        "date": "2017-10-08",
+        "commitResults": []
       },
       {
         "insertions": 229,
         "deletions": 70,
-        "sinceDate": "2017-10-09",
-        "untilDate": "2017-10-10"
+        "date": "2017-10-09",
+        "commitResults": [
+          {
+            "hash": "1db3b61181a0eae4e52415227bf574d47bdd1098",
+            "message": "Add new test method to AddressBookParserTest",
+            "insertions": 10,
+            "deletions": 12
+          },
+          {
+            "hash": "b4be8348d4804f0af28a12a7afbc904e6f746d57",
+            "message": "Modify RemarkCommand to take in an Index and String",
+            "insertions": 3,
+            "deletions": 3
+          },
+          {
+            "hash": "cfe74faadeb08d6f3feb4b3af85d2ae23e1daa69",
+            "message": "add parseRemark in ParserUtil",
+            "insertions": 9,
+            "deletions": 0
+          },
+          {
+            "hash": "2271045fc32a3a8a5b4e05e41b5ba5117f118f6e",
+            "message": "Add RemarkCommandParser that knows how to parse two arguments, one index and one with prefix \u0027r/\u0027.",
+            "insertions": 6,
+            "deletions": 6
+          },
+          {
+            "hash": "f6347feb11ac319479cdc4753a27d7aa2fd5c0d2",
+            "message": "Modify RemarkCommandTest to test the RemarkCommand#equals() method",
+            "insertions": 11,
+            "deletions": 12
+          },
+          {
+            "hash": "5028a4a82d7b9ec59499a00895b053bc9afd3fa2",
+            "message": "Add basic RemarkCommandParserTest",
+            "insertions": 35,
+            "deletions": 0
+          },
+          {
+            "hash": "abf77a5694aec6c2ddb7fbd14e15ddc508d93dbe",
+            "message": "Add FXML annotation in PersonCard to tie the variable to the actual label",
+            "insertions": 3,
+            "deletions": 0
+          },
+          {
+            "hash": "22176da0d09d8edaf8719d55d45435bd720ab7ad",
+            "message": "Modify PersonCardHandle",
+            "insertions": 7,
+            "deletions": 0
+          },
+          {
+            "hash": "1e5b0846d70fa878419df40694e7b9f9a06fa38d",
+            "message": "Add Remark to model component",
+            "insertions": 30,
+            "deletions": 0
+          },
+          {
+            "hash": "40d227437c14e7dc2aae29c82ddfa0955cdc31a6",
+            "message": "Modify RemarkCommand to now take in a Remark",
+            "insertions": 4,
+            "deletions": 4
+          },
+          {
+            "hash": "33d1ae312eb6ac8ae47d73b3ee015953a0b2ee9c",
+            "message": "Add test for Remark, to test the Remark#equals() method.",
+            "insertions": 36,
+            "deletions": 0
+          },
+          {
+            "hash": "4c03928e3107130c3b9b07f0aa11c043cf55b366",
+            "message": "small changes",
+            "insertions": 3,
+            "deletions": 1
+          },
+          {
+            "hash": "d1c1955f1928f7848e5b30d2df287b69c0d2a003",
+            "message": "Add three methods setRemark(Remark), getRemark() and remarkProperty()",
+            "insertions": 21,
+            "deletions": 0
+          },
+          {
+            "hash": "ecb7449064f848c04c9b0243c7356ab276b2d32c",
+            "message": "Modify SampleDataUtil to add remarks for the sample data",
+            "insertions": 30,
+            "deletions": 25
+          },
+          {
+            "hash": "1c506840b6cac45fd7c3bed55f6c01449c47cd6d",
+            "message": "modify XmlAdaptedPerson to include a Remark field",
+            "insertions": 6,
+            "deletions": 7
+          },
+          {
+            "hash": "80276bdaa6829b575cfdff9afb224e4923c20cb4",
+            "message": "modify the logic of the constructor in Person class",
+            "insertions": 15,
+            "deletions": 0
+          }
+        ]
       },
       {
         "insertions": 444,
         "deletions": 377,
-        "sinceDate": "2017-10-10",
-        "untilDate": "2017-10-11"
+        "date": "2017-10-10",
+        "commitResults": [
+          {
+            "hash": "919f732172628c4347840888d83dfccdb82943be",
+            "message": "Add test to \u0027Connect Remark field to PersonCar\u0027",
+            "insertions": 3,
+            "deletions": 0
+          },
+          {
+            "hash": "dd0218add288b2adb2af7ea2f007f66ca6d48b5c",
+            "message": "Replace the logic in RemarkCommand#execute()",
+            "insertions": 18,
+            "deletions": 14
+          },
+          {
+            "hash": "12b6c02efe298622026d7632923b685be6123f3a",
+            "message": "add basic RemarkCommandTest",
+            "insertions": 19,
+            "deletions": 108
+          },
+          {
+            "hash": "3433eeeea40e1645b36915e21e42f4b40b6f20b9",
+            "message": "update EditCommand",
+            "insertions": 3,
+            "deletions": 7
+          },
+          {
+            "hash": "06ff6e0b1e24ce22fed41d69875d34a1d3a98ee9",
+            "message": "update RemarkCommand",
+            "insertions": 23,
+            "deletions": 58
+          },
+          {
+            "hash": "2b58bcb5c0990ab9579d89bc3c303d24124b2479",
+            "message": "edit parser and parsertest",
+            "insertions": 26,
+            "deletions": 33
+          },
+          {
+            "hash": "f5089f01ac68370d44b742dec2b3619395e95b99",
+            "message": "update ui, GuiTestAssert",
+            "insertions": 1,
+            "deletions": 0
+          },
+          {
+            "hash": "18c1963da0f5c2890aeac334e5681c99a783a5f4",
+            "message": "update logic part",
+            "insertions": 64,
+            "deletions": 22
+          },
+          {
+            "hash": "9673c68dc5d18c26c00a0821f8b67c572c3e5a91",
+            "message": "update model part",
+            "insertions": 35,
+            "deletions": 47
+          },
+          {
+            "hash": "6912526923c9086b92ee7d18f232b63678d3cd58",
+            "message": "update utiltest",
+            "insertions": 13,
+            "deletions": 8
+          },
+          {
+            "hash": "ab0b8e2103c88f724f3eccfa6d64c6869dbf6f09",
+            "message": "update Developer Guide and User Guide",
+            "insertions": 26,
+            "deletions": 0
+          },
+          {
+            "hash": "ecc3fb41fb1e75907d7cd8824cfa40bc23edcc0d",
+            "message": "solve checkstyle problems",
+            "insertions": 132,
+            "deletions": 58
+          },
+          {
+            "hash": "31860acac94c49fea1fa19702fdc8fcb27bff082",
+            "message": "UserGuide: save and see the photos of the contacts",
+            "insertions": 30,
+            "deletions": 0
+          },
+          {
+            "hash": "7d1afca6d6791c5293077b1b37204d86d1af087c",
+            "message": "UserGuide: delete the contacts which I haven\u0027t edited, added photos or viewed for a certain time",
+            "insertions": 7,
+            "deletions": 0
+          },
+          {
+            "hash": "3f68c0627becca4867a7c97640ca57f493c5da99",
+            "message": "debug",
+            "insertions": 3,
+            "deletions": 0
+          },
+          {
+            "hash": "6cc12a05ddb194eef371cb3327a500759837d3b1",
+            "message": "fix checkstyle",
+            "insertions": 0,
+            "deletions": 1
+          },
+          {
+            "hash": "197b3616688b81d76f5bacc8ab21b97f37aa8240",
+            "message": "Userstory: temporary tag",
+            "insertions": 6,
+            "deletions": 1
+          },
+          {
+            "hash": "7d6fdefa5c7ee60a180c1259dcac0a3cb0c3eb5d",
+            "message": "User story: delete multiple contacts simultaneously",
+            "insertions": 11,
+            "deletions": 8
+          },
+          {
+            "hash": "b89c3c911753aedd060cc1c86da2fe2a8c535863",
+            "message": "User story: add two attributes \u0027gender\u0027 and \u0027matric no.\u0027",
+            "insertions": 4,
+            "deletions": 4
+          },
+          {
+            "hash": "a9d1b1aa5cc7d8941b616b065ed3068727a2f731",
+            "message": "User story: Show a list of all persons alphabetically",
+            "insertions": 6,
+            "deletions": 0
+          },
+          {
+            "hash": "5acddc4566e70f730102ceb0a1611831fc6ad769",
+            "message": "edit format",
+            "insertions": 5,
+            "deletions": 5
+          },
+          {
+            "hash": "58e8ebe1de9c7e280dda6117664abb6b9fcd8cfc",
+            "message": "update the format",
+            "insertions": 7,
+            "deletions": 1
+          },
+          {
+            "hash": "08011e1b27746b6c354a8f154d42ea8bbe9c71a1",
+            "message": "update yuting info in AboutUs, add a photo",
+            "insertions": 2,
+            "deletions": 2
+          }
+        ]
       },
       {
         "insertions": 24,
         "deletions": 42,
-        "sinceDate": "2017-10-11",
-        "untilDate": "2017-10-12"
+        "date": "2017-10-11",
+        "commitResults": [
+          {
+            "hash": "8c73bc76afe5975b7bc24af3acaf9a387895c8b2",
+            "message": "update UserGuide",
+            "insertions": 5,
+            "deletions": 5
+          },
+          {
+            "hash": "c0d499f5638e95748621c2eb52d00578d63d88ba",
+            "message": "improve checkstyle",
+            "insertions": 2,
+            "deletions": 2
+          },
+          {
+            "hash": "5db041cf3b2aebbe9833df8783b7c45f4ef841b0",
+            "message": "improve coverage",
+            "insertions": 1,
+            "deletions": 19
+          },
+          {
+            "hash": "17afbdd7b345a3cf5cccc57c5dae718c8efba723",
+            "message": "update the format of UserGuide",
+            "insertions": 6,
+            "deletions": 11
+          },
+          {
+            "hash": "62db76e4d04f9e7e5eeddb25bb8bb6ceafed8b28",
+            "message": "solve checkstyle",
+            "insertions": 2,
+            "deletions": 2
+          },
+          {
+            "hash": "93cad03dfacb2e4244a0f8178a2e2bfc37bfe19d",
+            "message": "update the usage msg in the RemarkCommand class",
+            "insertions": 8,
+            "deletions": 3
+          }
+        ]
       },
       {
         "insertions": 2,
         "deletions": 2,
-        "sinceDate": "2017-10-12",
-        "untilDate": "2017-10-13"
+        "date": "2017-10-12",
+        "commitResults": [
+          {
+            "hash": "f436d5e3577ec29068a6977fc39e015b6ea55bef",
+            "message": "edit the comment",
+            "insertions": 1,
+            "deletions": 1
+          },
+          {
+            "hash": "1995490ee304dee5c2acfd828addd309c483075f",
+            "message": "solve the exception in DeleteCommandSystemTest",
+            "insertions": 1,
+            "deletions": 1
+          }
+        ]
       },
       {
         "insertions": 0,
         "deletions": 0,
-        "sinceDate": "2017-10-13",
-        "untilDate": "2017-10-14"
+        "date": "2017-10-13",
+        "commitResults": []
       },
       {
         "insertions": 0,
         "deletions": 0,
-        "sinceDate": "2017-10-14",
-        "untilDate": "2017-10-15"
+        "date": "2017-10-14",
+        "commitResults": []
       },
       {
         "insertions": 0,
         "deletions": 0,
-        "sinceDate": "2017-10-15",
-        "untilDate": "2017-10-16"
+        "date": "2017-10-15",
+        "commitResults": []
       },
       {
         "insertions": 388,
         "deletions": 80,
-        "sinceDate": "2017-10-16",
-        "untilDate": "2017-10-17"
+        "date": "2017-10-16",
+        "commitResults": [
+          {
+            "hash": "99969e7a9d1c28e5bbe914912e4746bce034e19c",
+            "message": "add attributes in AddCommand and CliSyntax",
+            "insertions": 5,
+            "deletions": 5
+          },
+          {
+            "hash": "75bb934318b39325988378d911ec07c4f4237df9",
+            "message": "Logic: Modify AddCommandParser",
+            "insertions": 8,
+            "deletions": 8
+          },
+          {
+            "hash": "cca2aa7590b5bb18fb05cf284bfdd6cbd38fd352",
+            "message": "update PersonBuilder",
+            "insertions": 30,
+            "deletions": 2
+          },
+          {
+            "hash": "8fb21fd16c2dacb3701cccfa23a4c3981df72e2e",
+            "message": "Logic: update EditCommand",
+            "insertions": 31,
+            "deletions": 7
+          },
+          {
+            "hash": "88f48c76663efde8820edc7469d213c5e803cbf1",
+            "message": "Logic: update ParserUtil",
+            "insertions": 18,
+            "deletions": 0
+          },
+          {
+            "hash": "8bbc73f72cd9ec54c63484eae325fc00981a2610",
+            "message": "Model: Update Person Class",
+            "insertions": 38,
+            "deletions": 5
+          },
+          {
+            "hash": "237902e4dd6324bb216a29644cb81fca059fdcb4",
+            "message": "Model: Update ReadOnlyPerson",
+            "insertions": 10,
+            "deletions": 0
+          },
+          {
+            "hash": "9b5440985daf22eb31dcf3382a575c2eecc2e1ed",
+            "message": "Logic: update CommandTestUtil",
+            "insertions": 15,
+            "deletions": 7
+          },
+          {
+            "hash": "786865b0d97d8844f42e181e6d4172b12250f387",
+            "message": "Logic Test: Update AddCommandParserTest",
+            "insertions": 71,
+            "deletions": 45
+          },
+          {
+            "hash": "44e0205cb90f5950a30893e68a911b8d20f9e9a5",
+            "message": "Testutil: Update EditPersonDescriptorBuilder",
+            "insertions": 26,
+            "deletions": 0
+          },
+          {
+            "hash": "b4b51938c691351888e0b31646633eed30bebe14",
+            "message": "UI: update PersonCard.java",
+            "insertions": 6,
+            "deletions": 0
+          },
+          {
+            "hash": "645b40527fa877213c4d122a65b7ec0d9ee94c9a",
+            "message": "Test for UI: modify PersonCardHandle",
+            "insertions": 14,
+            "deletions": 0
+          },
+          {
+            "hash": "298ad8437f4283fbad145a84a19798df56604292",
+            "message": "Model: add Gender class",
+            "insertions": 57,
+            "deletions": 0
+          },
+          {
+            "hash": "9fb5d5d855dd211cd6b783ba02c687c4e59d1ec9",
+            "message": "Model: add MatricNo class",
+            "insertions": 59,
+            "deletions": 1
+          }
+        ]
       },
       {
         "insertions": 649,
         "deletions": 248,
-        "sinceDate": "2017-10-17",
-        "untilDate": "2017-10-18"
+        "date": "2017-10-17",
+        "commitResults": [
+          {
+            "hash": "a5397d5ae29fd3ddbfd85ba58686feb1337cb93e",
+            "message": "Model: update SampleDataUtil",
+            "insertions": 15,
+            "deletions": 6
+          },
+          {
+            "hash": "bb3d1c8c32dddd7a19ed0eea02e58a1fa6fbb396",
+            "message": "Storage: modify XmlAdaptedPerson",
+            "insertions": 10,
+            "deletions": 8
+          },
+          {
+            "hash": "cea11e0f04e5af086bb35b5e0ba4d0e27578c3b2",
+            "message": "Test: modify assertCardDisplaysPerson",
+            "insertions": 4,
+            "deletions": 0
+          },
+          {
+            "hash": "202c54565a82dce72d9c3d2ef30519cf8aaa79a0",
+            "message": "Test: modify PersonCardTest",
+            "insertions": 2,
+            "deletions": 0
+          },
+          {
+            "hash": "6d994465c41e1647139b9a1be1611048bf4fcf79",
+            "message": "Update the name of APP",
+            "insertions": 1,
+            "deletions": 1
+          },
+          {
+            "hash": "bb3a95e64ea7a027133a23adc56aa29c285b608f",
+            "message": "Format: update EditCommand",
+            "insertions": 9,
+            "deletions": 1
+          },
+          {
+            "hash": "f12624c38915f38445537bf889f6a10fac02534c",
+            "message": "update RemarkCommand class",
+            "insertions": 2,
+            "deletions": 1
+          },
+          {
+            "hash": "e78362e6c668a32bd0da70386688fe130c603212",
+            "message": "Test: model, add GenderTest, MatricNoTest",
+            "insertions": 53,
+            "deletions": 0
+          },
+          {
+            "hash": "d1971ea38945cc1324430ec338f89f5f911ed744",
+            "message": "Test: testutil files modification",
+            "insertions": 26,
+            "deletions": 32
+          },
+          {
+            "hash": "2d047e624586ed7962b6d319b4df324a387ee7ca",
+            "message": "Test: logic: Parser edit files",
+            "insertions": 100,
+            "deletions": 39
+          },
+          {
+            "hash": "424f931b82420e18383de9c14e6a0e48b70876f5",
+            "message": "test: logic : command: edit files",
+            "insertions": 14,
+            "deletions": 17
+          },
+          {
+            "hash": "a1c6bae1a610ce18183398aa4649e4928ea99cdd",
+            "message": "logic: edit Parser files",
+            "insertions": 8,
+            "deletions": 17
+          },
+          {
+            "hash": "4b46a386b0f167727e332c851313617b4550b619",
+            "message": "Test: systemtests: AddCommandSystemTest",
+            "insertions": 87,
+            "deletions": 59
+          },
+          {
+            "hash": "7b3a46fc3a96c24aa754c3d38d52fa5927715e75",
+            "message": "test: systemTest: EditCommandSystemTest",
+            "insertions": 74,
+            "deletions": 20
+          },
+          {
+            "hash": "6bc114c19ffb6a517b4d244a46de09a0d5492702",
+            "message": "Checkstyle: update testutil",
+            "insertions": 31,
+            "deletions": 3
+          },
+          {
+            "hash": "ffb7e4767a8b02ee34b40a887fe0b7188ce511f6",
+            "message": "Checkstyle: update test-parser",
+            "insertions": 81,
+            "deletions": 7
+          },
+          {
+            "hash": "e59f9317a33489747b46c2960aaeb950311f2e37",
+            "message": "Checkstyle: update test: logic \u0026 systemtest",
+            "insertions": 59,
+            "deletions": 6
+          },
+          {
+            "hash": "59baf8b4bc57f78e03a0898893d4ac5649813b27",
+            "message": "Checkstyle: update logic",
+            "insertions": 36,
+            "deletions": 5
+          },
+          {
+            "hash": "9107b171ca3a672abb2aaf127f70f84b70fac05e",
+            "message": "Checkstyle: update model \u0026 storage",
+            "insertions": 12,
+            "deletions": 2
+          },
+          {
+            "hash": "1d5cde997ef4d263079b145165b1b3d36cd68608",
+            "message": "Debug1",
+            "insertions": 5,
+            "deletions": 5
+          },
+          {
+            "hash": "55daf91d196e15df3dd2dc98578785c385a78d87",
+            "message": "debug MatricNo",
+            "insertions": 4,
+            "deletions": 3
+          },
+          {
+            "hash": "6f7fa6296b3e3b7aede379e59793daab6f2132ff",
+            "message": "debug: test",
+            "insertions": 16,
+            "deletions": 16
+          }
+        ]
       },
       {
         "insertions": 135,
         "deletions": 69,
-        "sinceDate": "2017-10-18",
-        "untilDate": "2017-10-19"
+        "date": "2017-10-18",
+        "commitResults": [
+          {
+            "hash": "875d20d2d4cc31cc048876f2189cb23fb7cae4a6",
+            "message": "Checkstyle: update style",
+            "insertions": 71,
+            "deletions": 37
+          },
+          {
+            "hash": "bbb752fe9af776afa9d59325f159bb9fd13bd82d",
+            "message": "Update function",
+            "insertions": 9,
+            "deletions": 2
+          },
+          {
+            "hash": "f22c2e94fa24aacf89fe84f77d18d3d2519840ce",
+            "message": "User Guide update",
+            "insertions": 8,
+            "deletions": 8
+          },
+          {
+            "hash": "32f7a849c062faff1ad2cce7aed6e7bfc4471a33",
+            "message": "clarify the comment",
+            "insertions": 2,
+            "deletions": 2
+          },
+          {
+            "hash": "afb41ab1e653d6aa36c96d1ee2137e49119069b1",
+            "message": "change .equals METHOD",
+            "insertions": 13,
+            "deletions": 7
+          },
+          {
+            "hash": "9668ac0ea4d8ee6b65575ee2372f67444ea6cbfb",
+            "message": "Developer Guide: add introduction",
+            "insertions": 23,
+            "deletions": 1
+          },
+          {
+            "hash": "933ae4668058f56f3ef36d369862b274f338e0ed",
+            "message": "change format",
+            "insertions": 2,
+            "deletions": 5
+          },
+          {
+            "hash": "abb51ff850d0f52723cdcaf6c669ada5c348bcb1",
+            "message": "Revert \"change format\"",
+            "insertions": 5,
+            "deletions": 2
+          },
+          {
+            "hash": "26286aea515570a83aa39b28d9402793a5d6a863",
+            "message": "update format",
+            "insertions": 2,
+            "deletions": 5
+          }
+        ]
       },
       {
         "insertions": 2,
         "deletions": 14,
-        "sinceDate": "2017-10-19",
-        "untilDate": "2017-10-20"
+        "date": "2017-10-19",
+        "commitResults": [
+          {
+            "hash": "93b26e9c740fbc002b1cb21c989a96df588c2ca5",
+            "message": "update format",
+            "insertions": 2,
+            "deletions": 14
+          }
+        ]
       },
       {
         "insertions": 0,
         "deletions": 0,
-        "sinceDate": "2017-10-20",
-        "untilDate": "2017-10-21"
+        "date": "2017-10-20",
+        "commitResults": []
       },
       {
         "insertions": 186,
         "deletions": 27,
-        "sinceDate": "2017-10-21",
-        "untilDate": "2017-10-22"
+        "date": "2017-10-21",
+        "commitResults": [
+          {
+            "hash": "85e789cae72c7089f61f37d19c65cd3460292ec6",
+            "message": "update DeveloperGuide",
+            "insertions": 114,
+            "deletions": 0
+          },
+          {
+            "hash": "a8ad9f38a5b9f9fb50b5b5968f08fdb08155bd10",
+            "message": "update UserGuide",
+            "insertions": 2,
+            "deletions": 2
+          },
+          {
+            "hash": "b3c33cbdbab3753eeadef7de91823d0294151b17",
+            "message": "update deleteCommand",
+            "insertions": 27,
+            "deletions": 22
+          },
+          {
+            "hash": "e4043950ed5e752e7289115b7ae8e17e60573884",
+            "message": "update DeleteCommandParser and test",
+            "insertions": 43,
+            "deletions": 3
+          }
+        ]
       },
       {
         "insertions": 138,
         "deletions": 52,
-        "sinceDate": "2017-10-22",
-        "untilDate": "2017-10-23"
+        "date": "2017-10-22",
+        "commitResults": [
+          {
+            "hash": "9a307f6789316030281958ea6fcd422c69781162",
+            "message": "update ParserUtil",
+            "insertions": 25,
+            "deletions": 20
+          },
+          {
+            "hash": "26c056d30fa5644c3516665c7f7c463ce53cc9e1",
+            "message": "update deletecommand",
+            "insertions": 6,
+            "deletions": 0
+          },
+          {
+            "hash": "047e96abae08dfa69be614350217d63ae17c8da9",
+            "message": "model: add removePersons method",
+            "insertions": 34,
+            "deletions": 11
+          },
+          {
+            "hash": "e0ef9a5e61a3ace9a05604de893dea065a99a1a3",
+            "message": "change format",
+            "insertions": 2,
+            "deletions": 0
+          },
+          {
+            "hash": "2ae9d63cc9be571308d973e5e104b663cb52c4a3",
+            "message": "accept multiple whitespaces in input",
+            "insertions": 18,
+            "deletions": 1
+          },
+          {
+            "hash": "a78201c1f7263c45dca18905e5ad1e85ffe2b283",
+            "message": "accept duplicated index",
+            "insertions": 5,
+            "deletions": 2
+          },
+          {
+            "hash": "c5b69035d3d88e3cf16f4fda292471e02d9c293b",
+            "message": "update parsertest",
+            "insertions": 8,
+            "deletions": 0
+          },
+          {
+            "hash": "08cd4055aaa7d67c0fe8e209c8be13370406cee1",
+            "message": "update deletecommand msg",
+            "insertions": 1,
+            "deletions": 1
+          },
+          {
+            "hash": "293f6b12cecd09d5d4c028a8e932538c0c1a283e",
+            "message": "update DeveloperGuide",
+            "insertions": 3,
+            "deletions": 3
+          },
+          {
+            "hash": "baaf4a4b27709c1afa7308554ad36a3bb4e3d6f2",
+            "message": "update UserGuide",
+            "insertions": 15,
+            "deletions": 10
+          },
+          {
+            "hash": "d4a65c0d42ec140ef7787815e571f8f36b2cb12d",
+            "message": "improve checkstyle",
+            "insertions": 16,
+            "deletions": 4
+          },
+          {
+            "hash": "1285ccff004ee8fb819ff8144a1c3c75d19c96b3",
+            "message": "edit AddCommandTest",
+            "insertions": 5,
+            "deletions": 0
+          }
+        ]
       },
       {
         "insertions": 0,
         "deletions": 0,
-        "sinceDate": "2017-10-23",
-        "untilDate": "2017-10-24"
+        "date": "2017-10-23",
+        "commitResults": []
       },
       {
         "insertions": 158,
         "deletions": 141,
-        "sinceDate": "2017-10-24",
-        "untilDate": "2017-10-25"
+        "date": "2017-10-24",
+        "commitResults": [
+          {
+            "hash": "1a119318a596480829bcaefdd4f48d59c1b529d2",
+            "message": "EditCommandSystemTest: Remove test for aliases",
+            "insertions": 0,
+            "deletions": 136
+          },
+          {
+            "hash": "31b65d446a5c6cc3ccf68e651142f93317b503cf",
+            "message": "Revert \"EditCommandSystemTest: Remove test for aliases\"",
+            "insertions": 136,
+            "deletions": 0
+          },
+          {
+            "hash": "a9e31f4dc5b8452c8ca53eff751a3347d5755136",
+            "message": "update modelManager",
+            "insertions": 2,
+            "deletions": 4
+          },
+          {
+            "hash": "8460e535df32759c4e5e8824e8b0dbf2040c8f59",
+            "message": "update checkstyle",
+            "insertions": 2,
+            "deletions": 1
+          },
+          {
+            "hash": "143cc8328546e47f6e8d588eae54b5bf1e90edee",
+            "message": "add more tests",
+            "insertions": 18,
+            "deletions": 0
+          }
+        ]
       },
       {
         "insertions": 62,
         "deletions": 21,
-        "sinceDate": "2017-10-25",
-        "untilDate": "2017-10-26"
+        "date": "2017-10-25",
+        "commitResults": [
+          {
+            "hash": "d08b5ced4e9b0fa8b11ce91190591eee7b8ad047",
+            "message": "update changes",
+            "insertions": 2,
+            "deletions": 8
+          },
+          {
+            "hash": "bd88164f285d48602fb9d69cccab305e10c0e439",
+            "message": "modify deleteCommandParserTest",
+            "insertions": 5,
+            "deletions": 2
+          },
+          {
+            "hash": "f83b892db1e0e614b151998adc552646f1e20be1",
+            "message": "update content",
+            "insertions": 55,
+            "deletions": 11
+          }
+        ]
       },
       {
         "insertions": 0,
         "deletions": 0,
-        "sinceDate": "2017-10-26",
-        "untilDate": "2017-10-27"
+        "date": "2017-10-26",
+        "commitResults": []
       },
       {
         "insertions": 0,
         "deletions": 0,
-        "sinceDate": "2017-10-27",
-        "untilDate": "2017-10-28"
+        "date": "2017-10-27",
+        "commitResults": []
       },
       {
         "insertions": 0,
         "deletions": 0,
-        "sinceDate": "2017-10-28",
-        "untilDate": "2017-10-29"
+        "date": "2017-10-28",
+        "commitResults": []
       },
       {
         "insertions": 13,
         "deletions": 6,
-        "sinceDate": "2017-10-29",
-        "untilDate": "2017-10-30"
+        "date": "2017-10-29",
+        "commitResults": [
+          {
+            "hash": "dfcae2a80f2eefcd86762e24926e60f7b3312365",
+            "message": "User Guide",
+            "insertions": 13,
+            "deletions": 6
+          }
+        ]
       },
       {
         "insertions": 0,
         "deletions": 0,
-        "sinceDate": "2017-10-30",
-        "untilDate": "2017-10-31"
+        "date": "2017-10-30",
+        "commitResults": []
       }
     ]
   },
