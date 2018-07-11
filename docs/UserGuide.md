@@ -18,7 +18,7 @@
 Usage: `java -jar RepoSense.jar -config CSV_CONFIG_FILE_PATH [-output OUTPUT_DIRECTORY] [-since DD/MM/YYYY] [-until DD/MM/YYYY]`
 1. The report will be generated in the designated OUTPUT_DIRECTORY, or current working directory otherwise.
 1. To visualize the report, open `index.html`.
-1. If the dashboard was not loaded automatically, upload the `archive.zip` (generated in the output directory) manually to load the data.
+1. If the dashboard was not loaded automatically, upload the `archive.zip` (generated in the OUTPUT_DIRECTORY) manually to load the data.
 
 Sample usage:
 ```
