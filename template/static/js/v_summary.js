@@ -155,20 +155,32 @@ window.vSummary = {
 
     // model functions //
     getFilterHash() {
-      const { enquery } = window;
+      const { addHash } = window;
 
       this.filterSearch = this.filterSearch.toLowerCase();
-      this.filterHash = [
-        enquery('search', this.filterSearch),
-        enquery('sort', this.filterSort),
-        enquery('reverse', this.filterSortReverse),
-        enquery('repoSort', this.filterGroupRepos),
-        enquery('since', this.filterSinceDate),
-        enquery('until', this.filterUntilDate),
-      ].join('&');
-
-      window.location.hash = this.filterHash;
+      addHash('search', this.filterSearch);
+      addHash('sort', this.filterSort);
+      addHash('reverse', this.filterSortReverse);
+      addHash('repoSort', this.filterGroupRepos);
+      addHash('since', this.filterSinceDate);
+      addHash('until', this.filterUntilDate);
     },
+    renderFilterHash() {
+      const params = window.location.hash.slice(1).split('&');
+      params.forEach((param) => {
+        const [key, val] = param.split('=');
+        window.hashParams[key] = decodeURIComponent(val);
+      });
+
+      const hash = window.hashParams;
+      if (hash.search) { this.filterSearch = hash.search; }
+      if (hash.sort) { this.filterSort = hash.sort; }
+      if (hash.reverse) { this.filterSortReverse = hash.reverse; }
+      if (hash.repoSort) { this.filterGroupRepos = hash.repoSort; }
+      if (hash.since) { this.filterSinceDate = hash.since; }
+      if (hash.until) { this.filterUntilDate = hash.until; }
+    },
+
     getDates() {
       if (this.filterSinceDate && this.filterUntilDate) {
         return;
@@ -332,6 +344,7 @@ window.vSummary = {
     },
   },
   created() {
+    this.renderFilterHash();
     this.getFiltered();
   },
 };
