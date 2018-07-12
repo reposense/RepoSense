@@ -7,6 +7,7 @@ import java.net.URISyntaxException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -27,6 +28,7 @@ import reposense.util.TestUtil;
 public class Entry {
     private static final String FT_TEMP_DIR = "ft_temp";
     private static final String EXPECTED_FOLDER = "expected";
+    private static final List<String> TESTING_FILE_FORMATS = Arrays.asList("java", "adoc");
 
     @Before
     public void setUp() throws IOException {
@@ -61,6 +63,7 @@ public class Entry {
 
         CliArguments cliArguments = ArgsParser.parse(translateCommandline(input));
         List<RepoConfiguration> configs = CsvParser.parse(cliArguments.getConfigFilePath());
+        RepoConfiguration.setFormatsToRepoConfigs(configs, TESTING_FILE_FORMATS);
         RepoConfiguration.setDatesToRepoConfigs(configs, cliArguments.getSinceDate(), cliArguments.getUntilDate());
 
         ReportGenerator.generateReposReport(configs, FT_TEMP_DIR);

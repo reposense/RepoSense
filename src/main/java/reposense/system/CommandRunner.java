@@ -7,22 +7,23 @@ import java.nio.file.Paths;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 
 import reposense.util.Constants;
 
 public class CommandRunner {
-
     private static final DateFormat GIT_LOG_SINCE_DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd'T'00:00:00+08:00");
     private static final DateFormat GIT_LOG_UNTIL_DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd'T'23:59:59+08:00");
 
     private static boolean isWindows = isWindows();
 
-    public static String gitLog(String root, Date sinceDate, Date untilDate) {
+    public static String gitLog(String root, Date sinceDate, Date untilDate, List<String> fileFormats) {
         Path rootPath = Paths.get(root);
 
         String command = "git log --no-merges ";
-        command += getGitDateRangeArgs(sinceDate, untilDate);
-        command += " --pretty=format:\"%h|%aN|%ad|%s\" --date=iso --shortstat -- \"*.java\" -- \"*.adoc\"";
+        command += convertToGitDateRangeArgs(sinceDate, untilDate);
+        command += " --pretty=format:\"%h|%aN|%ad|%s\" --date=iso --shortstat";
+        command += convertToGitFileFormatsArgs(fileFormats);
 
         return runCommand(rootPath, command);
     }
@@ -59,7 +60,7 @@ public class CommandRunner {
         Path rootPath = Paths.get(root);
 
         String blameCommand = "git blame -w -C -C -M --line-porcelain";
-        blameCommand += getGitDateRangeArgs(sinceDate, untilDate);
+        blameCommand += convertToGitDateRangeArgs(sinceDate, untilDate);
         blameCommand += " " + addQuote(fileDirectory);
         blameCommand += getAuthorFilterCommand();
 
@@ -139,7 +140,7 @@ public class CommandRunner {
     /**
      * Returns the {@code String} command to specify the date range of commits to analyze for `git` commands.
      */
-    private static String getGitDateRangeArgs(Date sinceDate, Date untilDate) {
+    private static String convertToGitDateRangeArgs(Date sinceDate, Date untilDate) {
         String gitDateRangeArgs = "";
 
         if (sinceDate != null) {
@@ -150,5 +151,19 @@ public class CommandRunner {
         }
 
         return gitDateRangeArgs;
+    }
+
+    /**
+     * Returns the {@code String} command to specify the file formats to analyze for `git` commands.
+     */
+    private static String convertToGitFileFormatsArgs(List<String> fileFormats) {
+        StringBuilder gitFileFormatsArgsBuilder = new StringBuilder();
+
+        final String cmdFormat = " -- " + addQuote("*.%s");
+        fileFormats.stream()
+                .map(format -> String.format(cmdFormat, format))
+                .forEach(gitFileFormatsArgsBuilder::append);
+
+        return gitFileFormatsArgsBuilder.toString();
     }
 }

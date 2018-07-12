@@ -58,7 +58,7 @@ public class FileInfoExtractor {
                     getAllFileInfo(config, filePath, fileInfos);
                 }
 
-                if (relativePath.endsWith(".java") || relativePath.endsWith(".adoc")) {
+                if (isFileFormatInsideWhiteList(relativePath, config.getFileFormats())) {
                     fileInfos.add(generateFileInfo(config.getRepoRoot(), relativePath.replace('\\', '/')));
                 }
             }
@@ -91,5 +91,12 @@ public class FileInfoExtractor {
      */
     private static boolean shouldIgnore(String name, List<String> ignoreList) {
         return ignoreList.stream().anyMatch(name::contains);
+    }
+
+    /**
+     * Returns true if the {@code relativePath}'s file type is inside {@code fileFormatsWhiteList}.
+     */
+    private static boolean isFileFormatInsideWhiteList(String relativePath, List<String> fileFormatsWhiteList) {
+        return fileFormatsWhiteList.stream().anyMatch(fileFormat -> relativePath.endsWith("." + fileFormat));
     }
 }
