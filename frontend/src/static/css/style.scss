@@ -114,10 +114,14 @@ header{
 }
 
 .summary-picker{
+    display:flex;
+    justify-content:center;
+    align-items:flex-end;
     margin-bottom:2rem;
 
     &__input{
-        margin:0.5rem;
+        margin:0 0.5rem;
+        text-align:left;
     }
 
     &__search{

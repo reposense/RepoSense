@@ -7,20 +7,14 @@ html
     link(rel="stylesheet", href="static/css/style.css")
 
     script(src="https://use.fontawesome.com/releases/v5.0.13/js/all.js", defer=True)
-    script(src="https://cdnjs.cloudflare.com/ajax/libs/muicss/0.9.39/js/mui.min.js")
     script(src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.5.16/vue.min.js")
     script(src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.5/jszip.min.js")
 
     script(src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js")
   body
     div#app
-      header.mui-appbar.wrapper
-        .content
-          .logo.mui--text-title RepoSense
-
       #app-wrapper(v-if="userUpdated")
         #summary-wrapper
-          .buffer.mui--appbar-height
           .summary-status(v-if="loadedRepo<repoLength") Loading repos ... {{ loadedRepo }} / {{ repoLength }}
           v_summary(
             v-bind:repos="getUsers()",
@@ -30,7 +24,6 @@ html
         #tabs-wrapper(v-if="isTabActive")
           .tab-close(v-on:click="isTabActive=false")
             i.fas.fa-caret-right
-          .buffer.mui--appbar-height
           ul.mui-tabs__bar
             li(v-bind:class="{'mui--is-active':isTabAuthorship}")
               a(v-on:click="deactivateTabs(); isTabAuthorship=true;")
@@ -48,7 +41,7 @@ html
 
     vuetemplate#v_summary
       #summary.wrapper
-        form.summary-picker.content.mui-form--inline(v-on:submit.prevent="getFiltered();")
+        form.summary-picker.mui-form--inline(v-on:submit.prevent="getFiltered();")
           .mui-textfield.summary-picker__input
             input.summary-picker__search(type="text", v-model="filterSearch")
             label search
