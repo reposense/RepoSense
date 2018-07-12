@@ -1,8 +1,9 @@
 package reposense.authorship;
 
 import java.io.BufferedReader;
+import java.io.FileInputStream;
 import java.io.IOException;
-import java.nio.charset.StandardCharsets;
+import java.io.InputStreamReader;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -75,7 +76,7 @@ public class FileInfoExtractor {
     public static FileInfo generateFileInfo(String repoRoot, String relativePath) {
         FileInfo fileInfo = new FileInfo(relativePath);
         Path path = Paths.get(repoRoot, relativePath);
-        try (BufferedReader br = new BufferedReader(Files.newBufferedReader(path, StandardCharsets.ISO_8859_1))) {
+        try (BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream(path.toFile())))) {
             String line;
             int lineNum = 1;
             while ((line = br.readLine()) != null) {
