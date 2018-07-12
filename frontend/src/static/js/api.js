@@ -1,7 +1,6 @@
 // utility functions //
 window.$ = id => document.getElementById(id);
 window.enquery = (key, val) => `${key}=${encodeURIComponent(val)}`;
-
 const REPORT_DIR = '.';
 
 // data retrieval functions //

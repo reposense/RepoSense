@@ -1,6 +1,20 @@
 window.REPORT_ZIP = null;
 window.REPOS = {};
 
+window.hashParams = {};
+window.addHash = function addHash(newKey, newVal) {
+  const { hashParams } = window;
+  hashParams[newKey] = newVal;
+
+  const hash = [];
+  const enquery = (key, val) => `${key}=${encodeURIComponent(val)}`;
+  Object.keys(hashParams).forEach((hashKey) => {
+    hash.push(enquery(hashKey, hashParams[hashKey]));
+  });
+
+  window.location.hash = hash.join('&');
+};
+
 window.app = new window.Vue({
   el: '#app',
   data: {
