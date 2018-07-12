@@ -31,7 +31,7 @@ html
           .tab-content
             .tab-panes
               #tab-authorship.tab-pane(v-if="isTabAuthorship")
-                v_authorship(v-bind:repo="tabRepo", v-bind:author="tabAuthor")
+                v_authorship(v-bind:repo="tabRepo", v-bind:author="tabAuthor", v-bind:name="tabAuthorName")
 
       template(v-else)
         .empty please enter a report directory or upload a report zip
@@ -74,7 +74,7 @@ html
             .summary-charts--title(v-if="filterGroupRepos") {{ repo[0].repoPath }}
             .summary-chart(v-for="(user, i) in repo", v-bind:class="{indented:filterGroupRepos}")
               .summary-chart__title(
-                v-on:click="$emit('view-authorship', {author:user.name, repo:user.repoName})"
+                v-on:click="$emit('view-authorship', {author:user.name, repo:user.repoName, name:user.displayName})"
               )
                 .summary-chart__title--index {{ i+1 }}
                 .summary-chart__title--repo(v-if="!filterGroupRepos") {{ user.repoPath }}
@@ -101,7 +101,7 @@ html
       #authorship
         .title
           .repoName {{ repo }}
-          .author {{ author }}
+          .author {{ name }} ({{ author }})
 
         .files(v-if="isLoaded")
           .file(v-for="file in files")
