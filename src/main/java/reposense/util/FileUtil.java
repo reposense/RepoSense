@@ -2,30 +2,39 @@ package reposense.util;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.PrintWriter;
+import java.nio.ByteBuffer;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.Arrays;
 import java.util.Comparator;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.stream.Collectors;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
+import java.util.zip.ZipOutputStream;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
-import reposense.RepoSense;
 import reposense.system.LogsManager;
 
 
 public class FileUtil {
-    private static Logger logger = LogsManager.getLogger(FileUtil.class);
 
+    // zip file which contains all the specified file types
+    public static final String ZIP_FILE = "archive.zip";
+
+    private static final Logger logger = LogsManager.getLogger(FileUtil.class);
     private static final String GITHUB_API_DATE_FORMAT = "yyyy-MM-dd";
+    private static final ByteBuffer buffer = ByteBuffer.allocate(1 << 11); // 2KB
 
     public static void writeJsonFile(Object object, String path) {
         Gson gson = new GsonBuilder()
@@ -55,55 +64,76 @@ public class FileUtil {
         }
     }
 
-    public static void unzip(ZipInputStream zipInput, String destinationFolder) {
-        Path directory = Paths.get(destinationFolder);
+    /**
+     * Zips all the files of {@code fileTypes} contained in {@code sourceAndOutputPath} directory into the same folder.
+     */
+    public static void zip(Path sourceAndOutputPath, String... fileTypes) {
+        FileUtil.zip(sourceAndOutputPath, sourceAndOutputPath, fileTypes);
+    }
 
-        // buffer for read and write data to file
-        byte[] buffer = new byte[2048];
+    /**
+     * Zips all the {@code fileTypes} files contained in the {@code sourcePath} and its subdirectories.
+     * Creates the zipped {@code ZIP_FILE} file in the {@code outputPath}.
+     */
+    public static void zip(Path sourcePath, Path outputPath, String... fileTypes) {
+        try (
+                FileOutputStream fos = new FileOutputStream(outputPath + File.separator + ZIP_FILE);
+                ZipOutputStream zos = new ZipOutputStream(fos)
+        ) {
+            List<Path> allFiles = getFilePaths(sourcePath, fileTypes);
+            for (Path path : allFiles) {
+                try (InputStream is = Files.newInputStream(path)) {
+                    zos.putNextEntry(new ZipEntry(sourcePath.relativize(path.toAbsolutePath()).toString()));
+                    int length;
+                    while ((length = is.read(buffer.array())) > 0) {
+                        zos.write(buffer.array(), 0, length);
+                    }
+                }
+            }
+        } catch (IOException ioe) {
+            logger.log(Level.SEVERE, ioe.getMessage(), ioe);
+        }
+    }
 
-        try {
-            Files.createDirectories(directory);
-            ZipEntry entry = zipInput.getNextEntry();
-
-            while (entry != null) {
-                String entryName = entry.getName();
-                Path path = Paths.get(destinationFolder, entryName);
+    /**
+     * Unzips the contents of the {@code zipSourcePath} into {@code outputPath}.
+     */
+    public static void unzip(Path zipSourcePath, Path outputPath) {
+        ZipEntry entry;
+        try (
+                InputStream is = Files.newInputStream(zipSourcePath);
+                ZipInputStream zis = new ZipInputStream(is)
+        ) {
+            Files.createDirectories(outputPath);
+            while ((entry = zis.getNextEntry()) != null) {
+                Path path = Paths.get(outputPath.toString(), entry.getName());
                 // create the directories of the zip directory
                 if (entry.isDirectory()) {
-                    Path newDir = Paths.get(path.toAbsolutePath().toString());
-                    Files.createDirectories(newDir);
-                } else {
-                    if (!Files.exists(path.getParent())) {
-                        Files.createDirectories(path.getParent());
-                    }
-                    OutputStream output = Files.newOutputStream(path);
-                    int count = 0;
-                    while ((count = zipInput.read(buffer)) > 0) {
-                        // write 'count' bytes to the file output stream
-                        output.write(buffer, 0, count);
-                    }
-                    output.close();
+                    Files.createDirectories(path.toAbsolutePath());
+                    zis.closeEntry();
+                    continue;
                 }
-                // close ZipEntry and take the next one
-                zipInput.closeEntry();
-                entry = zipInput.getNextEntry();
+                if (!Files.exists(path.getParent())) {
+                    Files.createDirectories(path.getParent());
+                }
+                try (OutputStream output = Files.newOutputStream(path)) {
+                    int length;
+                    while ((length = zis.read(buffer.array())) > 0) {
+                        output.write(buffer.array(), 0, length);
+                    }
+                }
+                zis.closeEntry();
             }
-
-            // close the last ZipEntry
-            zipInput.closeEntry();
-
-            zipInput.close();
         } catch (IOException e) {
             logger.log(Level.SEVERE, e.getMessage(), e);
         }
     }
 
     /**
-     * Copies the template files to the {@code outputPath}.
+     * Copies the template files from {@code sourcePath} to the {@code outputPath}.
      */
-    public static void copyTemplate(String outputPath) {
-        InputStream is = RepoSense.class.getResourceAsStream(Constants.TEMPLATE_ZIP_ADDRESS);
-        FileUtil.unzip(new ZipInputStream(is), outputPath);
+    public static void copyTemplate(String sourcePath, String outputPath) {
+        FileUtil.unzip(Paths.get(sourcePath), Paths.get(outputPath));
     }
 
     /**
@@ -113,8 +143,23 @@ public class FileUtil {
         Files.createDirectories(dest);
     }
 
+    /**
+     * Returns a list of {@code Path} of {@code fileTypes} contained in the given {@code directoryPath} directory.
+     */
+    private static List<Path> getFilePaths(Path directoryPath, String... fileTypes) throws IOException {
+        return Files.walk(directoryPath)
+                .filter(p -> FileUtil.isFileTypeInPath(p, fileTypes))
+                .collect(Collectors.toList());
+    }
+
+    /**
+     * Returns true if the {@code path} contains one of the {@code fileTypes} extension.
+     */
+    private static boolean isFileTypeInPath(Path path, String... fileTypes) {
+        return Arrays.stream(fileTypes).anyMatch(path.toString()::endsWith);
+    }
+
     private static String attachJsPrefix(String original, String prefix) {
         return "var " + prefix + " = " + original;
     }
-
 }

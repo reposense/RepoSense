@@ -5,6 +5,8 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
+import java.util.stream.Collectors;
 
 public class TestUtil {
     private static final String MESSAGE_COMPARING_FILES = "Comparing files %s & %s\n";
@@ -53,6 +55,30 @@ public class TestUtil {
             return false;
         } else if (traceCounts >= maxTraceCounts) {
             return false;
+        }
+        return true;
+    }
+
+    /**
+     * Returns true if {@code expected} directory has all files with same content as {@code actual} directory.
+     */
+    public static boolean compareDirectories(Path expected, Path actual) throws IOException {
+        List<Path> expectedPaths = Files.walk(expected)
+                .sorted()
+                .collect(Collectors.toList());
+        List<Path> actualPaths = Files.walk(actual)
+                .sorted()
+                .collect(Collectors.toList());
+
+        if (expectedPaths.size() != actualPaths.size()) {
+            return false;
+        }
+
+        for (int i = 0; i < expectedPaths.size(); i++) {
+            if (!(Files.isDirectory(expectedPaths.get(i)) || Files.isDirectory(actualPaths.get(i)))
+                    && !TestUtil.compareFileContents(expectedPaths.get(i), actualPaths.get(i))) {
+                return false;
+            }
         }
         return true;
     }
