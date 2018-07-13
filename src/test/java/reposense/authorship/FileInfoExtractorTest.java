@@ -34,7 +34,7 @@ public class FileInfoExtractorTest extends GitTestTemplate {
     @Test
     public void generateFileInfo_fileWithSpecialCharacters_success() {
         FileInfo fileInfo = FileInfoExtractor.generateFileInfo(".", FILE_WITH_SPECIAL_CHARACTER.toString());
-        Assert.assertEquals(1355, fileInfo.getLines().size());
+        Assert.assertEquals(5, fileInfo.getLines().size());
     }
 
     private boolean isFileExistence(Path filePath, List<FileInfo> files) {
