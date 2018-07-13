@@ -2,14 +2,14 @@
 window.$ = id => document.getElementById(id);
 window.enquery = (key, val) => `${key}=${encodeURIComponent(val)}`;
 
-const REPORT_DIR = '';
+const REPORT_DIR = '.';
 
 // data retrieval functions //
 function loadJSON(file, fn) {
   const err = () => window.alert('unable to get file');
 
   if (window.REPORT_ZIP) {
-    window.REPORT_ZIP.file(file.slice(1)).async('text')
+    window.REPORT_ZIP.file(file.slice(2)).async('text')
       .then(txt => fn(JSON.parse(txt)));
   } else {
     const xhr = new XMLHttpRequest();
