@@ -10,7 +10,6 @@ import java.util.Date;
 import org.junit.Assert;
 import org.junit.Test;
 
-import reposense.parser.ArgsParser;
 import reposense.template.GitTestTemplate;
 import reposense.util.TestConstants;
 import reposense.util.TestUtil;
@@ -32,15 +31,9 @@ public class CommandRunnerTest extends GitTestTemplate {
     }
 
     @Test
-<<<<<<< HEAD
-    public void logWithContentTest() {
-        String content = CommandRunner.gitLog(
-                TestConstants.LOCAL_TEST_REPO_ADDRESS, null, null, config.getFileFormats());
-=======
     public void log_existingFormats_hasContent() {
         String content =
-                CommandRunner.gitLog(TestConstants.LOCAL_TEST_REPO_ADDRESS, null, null, ArgsParser.DEFAULT_FORMATS);
->>>>>>> 8835b7d... Update tests to 3 point
+                CommandRunner.gitLog(TestConstants.LOCAL_TEST_REPO_ADDRESS, null, null, config.getFileFormats());
         Assert.assertFalse(content.isEmpty());
     }
 
@@ -54,7 +47,6 @@ public class CommandRunnerTest extends GitTestTemplate {
     @Test
     public void log_sinceDateInFuture_noContent() {
         Date date = TestUtil.getDate(2050, Calendar.JANUARY, 1);
-<<<<<<< HEAD
         String content = CommandRunner.gitLog(
                 TestConstants.LOCAL_TEST_REPO_ADDRESS, date, null, config.getFileFormats());
         Assert.assertTrue(content.isEmpty());
@@ -62,14 +54,6 @@ public class CommandRunnerTest extends GitTestTemplate {
         date = TestUtil.getDate(1950, Calendar.JANUARY, 1);
         content = CommandRunner.gitLog(
                 TestConstants.LOCAL_TEST_REPO_ADDRESS, null, date, config.getFileFormats());
-=======
-        String content =
-                CommandRunner.gitLog(TestConstants.LOCAL_TEST_REPO_ADDRESS, date, null, ArgsParser.DEFAULT_FORMATS);
-        Assert.assertTrue(content.isEmpty());
-
-        date = TestUtil.getDate(1950, Calendar.JANUARY, 1);
-        content = CommandRunner.gitLog(TestConstants.LOCAL_TEST_REPO_ADDRESS, null, date, ArgsParser.DEFAULT_FORMATS);
->>>>>>> 8835b7d... Update tests to 3 point
         Assert.assertTrue(content.isEmpty());
     }
 
