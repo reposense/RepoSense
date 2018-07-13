@@ -1,7 +1,6 @@
 package reposense;
 
 import java.io.IOException;
-import java.util.Arrays;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -16,9 +15,6 @@ import reposense.system.LogsManager;
 import reposense.util.FileUtil;
 
 public class RepoSense {
-    public static final List<String> DEFAULT_FILE_FORMATS = Arrays.asList("java", "adoc", "js", "md", "css",
-            "html", "cs", "json", "xml", "py", "fxml", "tag", "jsp", "gradle");
-
     private static final Logger logger = LogsManager.getLogger(RepoSense.class);
 
     public static void main(String[] args) {
@@ -26,9 +22,8 @@ public class RepoSense {
             CliArguments cliArguments = ArgsParser.parse(args);
 
             List<RepoConfiguration> configs = CsvParser.parse(cliArguments.getConfigFilePath());
-            RepoConfiguration.setFormatsToRepoConfigs(configs, DEFAULT_FILE_FORMATS);
             RepoConfiguration.setDatesToRepoConfigs(configs, cliArguments.getSinceDate(), cliArguments.getUntilDate());
-
+            RepoConfiguration.setFormatsToRepoConfigs(configs, cliArguments.getFormats());
             ReportGenerator.generateReposReport(
                     configs, cliArguments.getOutputFilePath().toAbsolutePath().toString());
 

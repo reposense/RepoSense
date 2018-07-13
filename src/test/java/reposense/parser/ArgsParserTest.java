@@ -7,8 +7,10 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 import java.util.Optional;
 
 import org.junit.Assert;
@@ -30,8 +32,8 @@ public class ArgsParserTest {
 
     @Test
     public void parse_allCorrectInputs_success() throws ParseException, IOException {
-        String input = String.format("-config %s -output %s -since 01/07/2017 -until 30/11/2017",
-                CONFIG_FILE_ABSOLUTE, OUTPUT_DIRECTORY_ABSOLUTE);
+        String input = String.format("-config %s -output %s -since 01/07/2017 -until 30/11/2017 "
+                        + "-formats java adoc html css js", CONFIG_FILE_ABSOLUTE, OUTPUT_DIRECTORY_ABSOLUTE);
         CliArguments cliArguments = ArgsParser.parse(translateCommandline(input));
         Assert.assertTrue(Files.isSameFile(CONFIG_FILE_ABSOLUTE, cliArguments.getConfigFilePath()));
         Assert.assertTrue(Files.isSameFile(Paths.get(OUTPUT_DIRECTORY_ABSOLUTE.toString(),
@@ -41,12 +43,15 @@ public class ArgsParserTest {
         Date expectedUntilDate = TestUtil.getDate(2017, Calendar.NOVEMBER, 30);
         Assert.assertEquals(expectedSinceDate, cliArguments.getSinceDate().get());
         Assert.assertEquals(expectedUntilDate, cliArguments.getUntilDate().get());
+
+        List<String> expectedFormats = Arrays.asList("java", "adoc", "html", "css", "js");
+        Assert.assertEquals(expectedFormats, cliArguments.getFormats());
     }
 
     @Test
     public void parse_withExtraWhitespaces_success() throws ParseException, IOException {
-        String input = String.format("-config %s      -output   %s   -since 01/07/2017   -until    30/11/2017   ",
-                CONFIG_FILE_ABSOLUTE, OUTPUT_DIRECTORY_ABSOLUTE);
+        String input = String.format("-config %s      -output   %s   -since 01/07/2017   -until    30/11/2017   "
+                        + "-formats     java   adoc     html css js ", CONFIG_FILE_ABSOLUTE, OUTPUT_DIRECTORY_ABSOLUTE);
         CliArguments cliArguments = ArgsParser.parse(translateCommandline(input));
         Assert.assertTrue(Files.isSameFile(CONFIG_FILE_ABSOLUTE, cliArguments.getConfigFilePath()));
         Assert.assertTrue(Files.isSameFile(Paths.get(OUTPUT_DIRECTORY_ABSOLUTE.toString(),
@@ -56,6 +61,9 @@ public class ArgsParserTest {
         Date expectedUntilDate = TestUtil.getDate(2017, Calendar.NOVEMBER, 30);
         Assert.assertEquals(expectedSinceDate, cliArguments.getSinceDate().get());
         Assert.assertEquals(expectedUntilDate, cliArguments.getUntilDate().get());
+
+        List<String> expectedFormats = Arrays.asList("java", "adoc", "html", "css", "js");
+        Assert.assertEquals(expectedFormats, cliArguments.getFormats());
     }
 
     @Test
@@ -67,6 +75,7 @@ public class ArgsParserTest {
         Assert.assertEquals(Optional.empty(), cliArguments.getSinceDate());
         Assert.assertEquals(Optional.empty(), cliArguments.getUntilDate());
         Assert.assertEquals(ArgsParser.DEFAULT_REPORT_NAME, cliArguments.getOutputFilePath().getFileName().toString());
+        Assert.assertEquals(ArgsParser.DEFAULT_FORMATS, cliArguments.getFormats());
 
         input = String.format("-config %s", CONFIG_FILE_RELATIVE);
         cliArguments = ArgsParser.parse(translateCommandline(input));
@@ -75,6 +84,7 @@ public class ArgsParserTest {
         Assert.assertEquals(Optional.empty(), cliArguments.getSinceDate());
         Assert.assertEquals(Optional.empty(), cliArguments.getUntilDate());
         Assert.assertEquals(ArgsParser.DEFAULT_REPORT_NAME, cliArguments.getOutputFilePath().getFileName().toString());
+        Assert.assertEquals(ArgsParser.DEFAULT_FORMATS, cliArguments.getFormats());
     }
 
     @Test
@@ -113,6 +123,16 @@ public class ArgsParserTest {
 
         Date expectedUntilDate = TestUtil.getDate(2017, Calendar.NOVEMBER, 30);
         Assert.assertEquals(expectedUntilDate, cliArguments.getUntilDate().get());
+    }
+
+    @Test
+    public void formats_inAlphanumeric_success() throws ParseException {
+        String formats = "java js css 7z";
+        String input = DEFAULT_MANDATORY_ARGS + String.format("-formats %s", formats);
+        CliArguments cliArguments = ArgsParser.parse(translateCommandline(input));
+
+        List<String> expectedFormats = Arrays.asList("java", "js", "css", "7z");
+        Assert.assertEquals(expectedFormats, cliArguments.getFormats());
     }
 
     @Test(expected = ParseException.class)
@@ -186,6 +206,13 @@ public class ArgsParserTest {
         String sinceDate = "01/12/2017";
         String untilDate = "30/11/2017";
         String input = DEFAULT_MANDATORY_ARGS + String.format("-since %s -until %s", sinceDate, untilDate);
+        ArgsParser.parse(translateCommandline(input));
+    }
+
+    @Test(expected = ParseException.class)
+    public void formats_notInAlphanumeric_throwsParseException() throws ParseException {
+        String formats = ".java";
+        String input = DEFAULT_MANDATORY_ARGS + String.format("-formats %s", formats);
         ArgsParser.parse(translateCommandline(input));
     }
 }

@@ -3,11 +3,10 @@ package reposense.parser;
 import java.io.File;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 import net.sourceforge.argparse4j.ArgumentParsers;
 import net.sourceforge.argparse4j.impl.Arguments;
@@ -22,12 +21,13 @@ import reposense.model.CliArguments;
  */
 public class ArgsParser {
     public static final String DEFAULT_REPORT_NAME = "reposense-report";
+    public static final List<String> DEFAULT_FORMATS = Arrays.asList(
+            "adoc", "cs", "css", "fxml", "gradle", "html", "java", "js", "json", "jsp", "md", "py", "tag", "xml");
     private static final String PROGRAM_USAGE = "java -jar RepoSense.jar";
     private static final String PROGRAM_DESCRIPTION =
             "RepoSense is a contribution analysis tool for Git repositories.";
     private static final String MESSAGE_SINCE_DATE_LATER_THAN_UNTIL_DATE =
             "\"Since Date\" cannot be later than \"Until Date\"";
-    private static final List<String> DEFAULT_FORMATS =  Stream.of("java", "adoc").collect(Collectors.toList());
 
     private static ArgumentParser getArgumentParser() {
         ArgumentParser parser = ArgumentParsers
@@ -68,9 +68,10 @@ public class ArgsParser {
         parser.addArgument("-formats")
                 .nargs("*")
                 .metavar("FORMAT")
+                .type(new AlphanumericArgumentType())
                 .setDefault(DEFAULT_FORMATS)
-                .help("The file formats to process. "
-                        + "If not provided, java and adoc will be used.");
+                .help("The alphanumeric file formats to process. "
+                        + "If not provided, popular programming file formats will be used.");
 
         return parser;
     }
@@ -94,10 +95,9 @@ public class ArgsParser {
             Path outputFilePath = Paths.get(outputFile.toString(), DEFAULT_REPORT_NAME);
 
             List<String> formats = results.get("formats");
-            System.out.println(formats);
 
             verifyDatesRangeIsCorrect(sinceDate, untilDate);
-            return new CliArguments(configFilePath, outputFilePath, sinceDate, untilDate);
+            return new CliArguments(configFilePath, outputFilePath, sinceDate, untilDate, formats);
         } catch (ArgumentParserException ape) {
             throw new ParseException(getArgumentParser().formatUsage() + ape.getMessage() + "\n");
         }

@@ -65,6 +65,7 @@ public class Entry {
         List<RepoConfiguration> configs = CsvParser.parse(cliArguments.getConfigFilePath());
         RepoConfiguration.setFormatsToRepoConfigs(configs, TESTING_FILE_FORMATS);
         RepoConfiguration.setDatesToRepoConfigs(configs, cliArguments.getSinceDate(), cliArguments.getUntilDate());
+        RepoConfiguration.setFormatsToRepoConfigs(configs, Arrays.asList("java", "adoc"));
 
         ReportGenerator.generateReposReport(configs, FT_TEMP_DIR);
     }

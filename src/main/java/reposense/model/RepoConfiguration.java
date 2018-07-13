@@ -19,6 +19,7 @@ public class RepoConfiguration {
     private Date sinceDate;
     private Date untilDate;
 
+    private transient List<String> formats;
     private transient boolean needCheckStyle = false;
     private transient List<String> fileFormats;
     private transient int commitNum = 1;

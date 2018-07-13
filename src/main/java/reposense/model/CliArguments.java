@@ -2,6 +2,7 @@ package reposense.model;
 
 import java.nio.file.Path;
 import java.util.Date;
+import java.util.List;
 import java.util.Optional;
 
 /**
@@ -12,12 +13,15 @@ public class CliArguments {
     private Path outputFilePath;
     private Optional<Date> sinceDate;
     private Optional<Date> untilDate;
+    private List<String> formats;
 
-    public CliArguments(Path configFilePath, Path outputFilePath, Optional<Date> sinceDate, Optional<Date> untilDate) {
+    public CliArguments(Path configFilePath, Path outputFilePath,
+                        Optional<Date> sinceDate, Optional<Date> untilDate, List<String> formats) {
         this.configFilePath = configFilePath;
         this.outputFilePath = outputFilePath;
         this.sinceDate = sinceDate;
         this.untilDate = untilDate;
+        this.formats = formats;
     }
 
     public Path getConfigFilePath() {
@@ -34,5 +38,9 @@ public class CliArguments {
 
     public Optional<Date> getUntilDate() {
         return untilDate;
+    }
+
+    public List<String> getFormats() {
+        return formats;
     }
 }

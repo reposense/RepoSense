@@ -24,7 +24,6 @@ public class CommandRunner {
         command += convertToGitDateRangeArgs(sinceDate, untilDate);
         command += " --pretty=format:\"%h|%aN|%ad|%s\" --date=iso --shortstat";
         command += convertToGitFileFormatsArgs(fileFormats);
-
         return runCommand(rootPath, command);
     }
 
@@ -158,7 +157,6 @@ public class CommandRunner {
      */
     private static String convertToGitFileFormatsArgs(List<String> fileFormats) {
         StringBuilder gitFileFormatsArgsBuilder = new StringBuilder();
-
         final String cmdFormat = " -- " + addQuote("*.%s");
         fileFormats.stream()
                 .map(format -> String.format(cmdFormat, format))
