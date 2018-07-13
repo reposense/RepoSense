@@ -33,7 +33,7 @@ public class GitTestTemplate {
     @Before
     public void before() {
         config = new RepoConfiguration(TEST_ORG, TEST_REPO, "master");
-        config.setFileFormats(ArgsParser.DEFAULT_FORMATS);
+        config.setFormats(ArgsParser.DEFAULT_FORMATS);
     }
 
     @BeforeClass
