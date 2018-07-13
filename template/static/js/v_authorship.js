@@ -11,7 +11,7 @@ window.toggleNext = function toggleNext(ele) {
 };
 
 window.vAuthorship = {
-  props: ['repo', 'author'],
+  props: ['repo', 'author', 'name'],
   template: window.$('v_authorship').innerHTML,
   data() {
     return {

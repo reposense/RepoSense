@@ -1,6 +1,20 @@
 window.REPORT_ZIP = null;
 window.REPOS = {};
 
+window.hashParams = {};
+window.addHash = function addHash(newKey, newVal) {
+  const { hashParams } = window;
+  hashParams[newKey] = newVal;
+
+  const hash = [];
+  const enquery = (key, val) => `${key}=${encodeURIComponent(val)}`;
+  Object.keys(hashParams).forEach((hashKey) => {
+    hash.push(enquery(hashKey, hashParams[hashKey]));
+  });
+
+  window.location.hash = hash.join('&');
+};
+
 window.app = new window.Vue({
   el: '#app',
   data: {
@@ -13,8 +27,9 @@ window.app = new window.Vue({
     isTabAuthorship: false,
     isTabIssues: false,
 
-    tabAuthor: '',
     tabRepo: '',
+    tabAuthor: '',
+    tabAuthorName: '',
   },
   methods: {
     // model functions //
@@ -66,8 +81,9 @@ window.app = new window.Vue({
 
     updateTabAuthorship(obj) {
       this.deactivateTabs();
-      this.tabAuthor = obj.author;
       this.tabRepo = obj.repo;
+      this.tabAuthor = obj.author;
+      this.tabAuthorName = obj.name;
 
       this.isTabActive = true;
       this.isTabAuthorship = true;
