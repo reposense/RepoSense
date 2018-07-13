@@ -5,15 +5,15 @@ window.enquery = (key, val) => `${key}=${encodeURIComponent(val)}`;
 const REPORT_DIR = '.';
 
 // data retrieval functions //
-function loadJSON(file, fn) {
+function loadJSON(fname, fn) {
   const err = () => window.alert('unable to get file');
 
   if (window.REPORT_ZIP) {
-    window.REPORT_ZIP.file(file.slice(2)).async('text')
+    window.REPORT_ZIP.file(fname.slice(2)).async('text')
       .then(txt => fn(JSON.parse(txt)));
   } else {
     const xhr = new XMLHttpRequest();
-    xhr.open('GET', file);
+    xhr.open('GET', fname);
     xhr.onload = function xhrOnload() {
       if (xhr.status === 200) {
         fn(JSON.parse(xhr.responseText));
