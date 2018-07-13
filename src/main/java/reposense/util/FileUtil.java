@@ -13,7 +13,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Arrays;
 import java.util.Comparator;
-import java.util.List;
+import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
@@ -80,9 +80,14 @@ public class FileUtil {
                 FileOutputStream fos = new FileOutputStream(outputPath + File.separator + ZIP_FILE);
                 ZipOutputStream zos = new ZipOutputStream(fos)
         ) {
-            List<Path> allFiles = getFilePaths(sourcePath, fileTypes);
+            Set<Path> allFiles = getFilePaths(sourcePath, fileTypes);
             for (Path path : allFiles) {
                 try (InputStream is = Files.newInputStream(path)) {
+                    if (Files.isDirectory(path)) {
+                        zos.putNextEntry(new ZipEntry(sourcePath.relativize(path.toAbsolutePath()).toString()
+                                + File.separator));
+                        continue;
+                    }
                     zos.putNextEntry(new ZipEntry(sourcePath.relativize(path.toAbsolutePath()).toString()));
                     int length;
                     while ((length = is.read(buffer.array())) > 0) {
@@ -146,10 +151,10 @@ public class FileUtil {
     /**
      * Returns a list of {@code Path} of {@code fileTypes} contained in the given {@code directoryPath} directory.
      */
-    private static List<Path> getFilePaths(Path directoryPath, String... fileTypes) throws IOException {
+    private static Set<Path> getFilePaths(Path directoryPath, String... fileTypes) throws IOException {
         return Files.walk(directoryPath)
-                .filter(p -> FileUtil.isFileTypeInPath(p, fileTypes))
-                .collect(Collectors.toList());
+                .filter(p -> FileUtil.isFileTypeInPath(p, fileTypes) || Files.isDirectory(p))
+                .collect(Collectors.toSet());
     }
 
     /**
