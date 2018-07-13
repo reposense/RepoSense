@@ -22,8 +22,8 @@ public class RepoSense {
             CliArguments cliArguments = ArgsParser.parse(args);
 
             List<RepoConfiguration> configs = CsvParser.parse(cliArguments.getConfigFilePath());
-            RepoConfiguration.setDatesToRepoConfigs(configs, cliArguments.getSinceDate(), cliArguments.getUntilDate());
             RepoConfiguration.setFormatsToRepoConfigs(configs, cliArguments.getFormats());
+            RepoConfiguration.setDatesToRepoConfigs(configs, cliArguments.getSinceDate(), cliArguments.getUntilDate());
             ReportGenerator.generateReposReport(
                     configs, cliArguments.getOutputFilePath().toAbsolutePath().toString());
 

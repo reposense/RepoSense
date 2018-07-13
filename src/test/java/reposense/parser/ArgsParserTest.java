@@ -33,7 +33,7 @@ public class ArgsParserTest {
     @Test
     public void parse_allCorrectInputs_success() throws ParseException, IOException {
         String input = String.format("-config %s -output %s -since 01/07/2017 -until 30/11/2017 "
-                        + "-formats java adoc html css js", CONFIG_FILE_ABSOLUTE, OUTPUT_DIRECTORY_ABSOLUTE);
+                + "-formats java adoc html css js", CONFIG_FILE_ABSOLUTE, OUTPUT_DIRECTORY_ABSOLUTE);
         CliArguments cliArguments = ArgsParser.parse(translateCommandline(input));
         Assert.assertTrue(Files.isSameFile(CONFIG_FILE_ABSOLUTE, cliArguments.getConfigFilePath()));
         Assert.assertTrue(Files.isSameFile(Paths.get(OUTPUT_DIRECTORY_ABSOLUTE.toString(),
@@ -51,7 +51,7 @@ public class ArgsParserTest {
     @Test
     public void parse_withExtraWhitespaces_success() throws ParseException, IOException {
         String input = String.format("-config %s      -output   %s   -since 01/07/2017   -until    30/11/2017   "
-                        + "-formats     java   adoc     html css js ", CONFIG_FILE_ABSOLUTE, OUTPUT_DIRECTORY_ABSOLUTE);
+                + "-formats     java   adoc     html css js ", CONFIG_FILE_ABSOLUTE, OUTPUT_DIRECTORY_ABSOLUTE);
         CliArguments cliArguments = ArgsParser.parse(translateCommandline(input));
         Assert.assertTrue(Files.isSameFile(CONFIG_FILE_ABSOLUTE, cliArguments.getConfigFilePath()));
         Assert.assertTrue(Files.isSameFile(Paths.get(OUTPUT_DIRECTORY_ABSOLUTE.toString(),
