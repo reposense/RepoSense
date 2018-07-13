@@ -258,6 +258,10 @@ window.vSummary = {
       const userFirst = user.dailyCommits[0];
       const userLast = user.dailyCommits[user.dailyCommits.length - 1];
 
+      if(!userFirst){
+        return null;
+      }
+
       let sinceDate = this.filterSinceDate;
       if (!sinceDate) {
         ({ sinceDate } = userFirst);
