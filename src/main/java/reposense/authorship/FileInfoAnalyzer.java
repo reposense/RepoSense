@@ -1,9 +1,8 @@
 package reposense.authorship;
 
 import java.io.BufferedReader;
-import java.io.FileInputStream;
+import java.io.FileReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.HashMap;
@@ -99,7 +98,7 @@ public class FileInfoAnalyzer {
      */
     private static boolean isReused(String repoRoot, String relativePath) {
         Path path = Paths.get(repoRoot, relativePath);
-        try (BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream(path.toFile())))) {
+        try (BufferedReader br = new BufferedReader(new FileReader(path.toFile()))) {
             String firstLine = br.readLine();
             if (firstLine == null || firstLine.contains(REUSED_TAG)) {
                 return true;
