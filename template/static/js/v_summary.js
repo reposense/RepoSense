@@ -258,6 +258,10 @@ window.vSummary = {
       const userFirst = user.dailyCommits[0];
       const userLast = user.dailyCommits[user.dailyCommits.length - 1];
 
+      if (!userFirst) {
+        return null;
+      }
+
       let sinceDate = this.filterSinceDate;
       if (!sinceDate) {
         ({ sinceDate } = userFirst);
@@ -304,6 +308,8 @@ window.vSummary = {
           untilDate: getDateStr(endMs + ((paddingId + 1) * DAY_IN_MS)),
         });
       }
+
+      return null;
     },
     sortFiltered() {
       const full = [];
