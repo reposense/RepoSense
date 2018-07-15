@@ -84,13 +84,16 @@ public class FileUtil {
             for (Path path : allFiles) {
                 String filePath = sourcePath.relativize(path.toAbsolutePath()).toString();
                 String zipEntry = Files.isDirectory(path) ? filePath + File.separator : filePath;
-                try (InputStream is = Files.newInputStream(path)) {
-                    zos.putNextEntry(new ZipEntry(zipEntry.replace("\\", "/")));
-                    int length;
-                    while (Files.isRegularFile(path) && (length = is.read(buffer.array())) > 0) {
-                        zos.write(buffer.array(), 0, length);
+                zos.putNextEntry(new ZipEntry(zipEntry.replace("\\", "/")));
+                if (Files.isRegularFile(path)) {
+                    try (InputStream is = Files.newInputStream(path)) {
+                        int length;
+                        while ((length = is.read(buffer.array())) > 0) {
+                            zos.write(buffer.array(), 0, length);
+                        }
                     }
                 }
+                zos.closeEntry();
             }
         } catch (IOException ioe) {
             logger.log(Level.SEVERE, ioe.getMessage(), ioe);
