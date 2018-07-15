@@ -15,9 +15,10 @@ public class LineInfo {
 
     public LineInfo(int lineNumber, String content) {
         this.lineNumber = lineNumber;
-        //V this line is commented to reduce the size of the output JSON
+        // this line is commented to reduce the size of the output JSON
         //this.issues = new ArrayList<>();
         this.content = content;
+        author = new Author(Author.UNSET_AUTHOR_GIT_ID);
     }
 
     public ArrayList<IssueInfo> getIssues() {
@@ -38,6 +39,10 @@ public class LineInfo {
 
     public String getContent() {
         return content;
+    }
+
+    public void setLineNumber(int lineNumber) {
+        this.lineNumber = lineNumber;
     }
 
     public boolean hasIssue() {

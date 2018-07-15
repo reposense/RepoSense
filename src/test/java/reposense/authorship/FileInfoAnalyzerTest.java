@@ -11,23 +11,24 @@ import reposense.template.GitTestTemplate;
 import reposense.util.TestUtil;
 
 
-public class FileAnalyzerTest extends GitTestTemplate {
+public class FileInfoAnalyzerTest extends GitTestTemplate {
+    private static final String BLAME_TEST_FILE_CREATED_COMMIT_HASH = "8d0ac2e";
+    private static final String LATEST_BLAME_TEST_FILE_COMMIT_HASH = "7680153";
 
     @Test
-    public void blameTest() {
-        FileResult fileResult = getFileResult("blameTest.java");
+    public void analyzeFile_blameTestFileNoDateRange_success() {
+        FileResult fileResult = FileInfoAnalyzer.analyzeFile(config, generateTestFileInfo("blameTest.java"));
         assertFileAnalysisCorrectness(fileResult);
     }
 
     @Test
-    public void movedFileBlameTest() {
-        FileResult fileResult = getFileResult("newPos/movedFile.java");
+    public void analyzeFile_movedFileNoDateRange_success() {
+        FileResult fileResult = FileInfoAnalyzer.analyzeFile(config, generateTestFileInfo("newPos/movedFile.java"));
         assertFileAnalysisCorrectness(fileResult);
-
     }
 
     @Test
-    public void blameTestDateRange() {
+    public void analyzeFile_blameTestFileDateRange_success() {
         Date sinceDate = TestUtil.getDate(2018, Calendar.FEBRUARY, 6);
         Date untilDate = TestUtil.getDate(2018, Calendar.FEBRUARY, 8);
 
@@ -35,12 +36,12 @@ public class FileAnalyzerTest extends GitTestTemplate {
         config.setSinceDate(sinceDate);
         config.setUntilDate(untilDate);
 
-        FileResult fileResult = getFileResult("blameTest.java");
+        FileResult fileResult = FileInfoAnalyzer.analyzeFile(config, generateTestFileInfo("blameTest.java"));
         assertFileAnalysisCorrectness(fileResult);
     }
 
     @Test
-    public void movedFileBlameTestDateRange() {
+    public void analyzeFile_movedFileDateRange_success() {
         Date sinceDate = TestUtil.getDate(2018, Calendar.FEBRUARY, 7);
         Date untilDate = TestUtil.getDate(2018, Calendar.FEBRUARY, 9);
 
@@ -48,7 +49,7 @@ public class FileAnalyzerTest extends GitTestTemplate {
         config.setSinceDate(sinceDate);
         config.setUntilDate(untilDate);
 
-        FileResult fileResult = getFileResult("newPos/movedFile.java");
+        FileResult fileResult = FileInfoAnalyzer.analyzeFile(config, generateTestFileInfo("newPos/movedFile.java"));
         assertFileAnalysisCorrectness(fileResult);
     }
 }

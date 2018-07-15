@@ -9,12 +9,16 @@ import reposense.model.Author;
  * Stores the path to the file and the list of {@code LineInfo} for each line in the file.
  */
 public class FileInfo {
-    private final String path;
-    private final ArrayList<LineInfo> lines;
+    private String path;
+    private List<LineInfo> lines;
 
     public FileInfo(String path) {
+        this(path, new ArrayList<>());
+    }
+
+    public FileInfo(String path, List<LineInfo> lines) {
         this.path = path;
-        lines = new ArrayList<>();
+        this.lines = lines;
     }
 
     /**
@@ -32,12 +36,20 @@ public class FileInfo {
         lines.add(line);
     }
 
-    public ArrayList<LineInfo> getLines() {
+    public List<LineInfo> getLines() {
         return lines;
+    }
+
+    public void setLines(List<LineInfo> lines) {
+        this.lines = lines;
     }
 
     public String getPath() {
         return path;
+    }
+
+    public void setPath(String path) {
+        this.path = path;
     }
 
     public void setLineAuthor(int lineNumber, Author author) {
