@@ -13,6 +13,7 @@ import reposense.parser.CsvParser;
 import reposense.parser.ParseException;
 import reposense.report.ReportGenerator;
 import reposense.system.LogsManager;
+import reposense.util.FileUtil;
 
 public class RepoSense {
     public static final List<String> DEFAULT_FILE_FORMATS = Arrays.asList("java", "adoc", "js", "md", "css",
@@ -30,6 +31,8 @@ public class RepoSense {
 
             ReportGenerator.generateReposReport(
                     configs, cliArguments.getOutputFilePath().toAbsolutePath().toString());
+
+            FileUtil.zip(cliArguments.getOutputFilePath().toAbsolutePath(), ".json");
         } catch (IOException ioe) {
             logger.log(Level.WARNING, ioe.getMessage(), ioe);
         } catch (ParseException pe) {
