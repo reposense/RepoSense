@@ -75,6 +75,14 @@ public class CommandRunner {
         );
     }
 
+    /**
+     * Returns the git diff result of the current commit compared to {@code lastCommitHash}, without any context.
+     */
+    public static String diffCommit(String root, String lastCommitHash) {
+        Path rootPath = Paths.get(root);
+        return runCommand(rootPath, "git diff -U0 " + lastCommitHash);
+    }
+
     public static String cloneRepo(String org, String repoName) throws IOException {
         Path rootPath = Paths.get(Constants.REPOS_ADDRESS, org);
         Files.createDirectories(rootPath);

@@ -3,6 +3,7 @@ package reposense.authorship;
 import java.util.Calendar;
 import java.util.Date;
 
+import org.junit.Assert;
 import org.junit.Test;
 
 import reposense.authorship.model.FileResult;
@@ -51,5 +52,27 @@ public class FileInfoAnalyzerTest extends GitTestTemplate {
 
         FileResult fileResult = FileInfoAnalyzer.analyzeFile(config, generateTestFileInfo("newPos/movedFile.java"));
         assertFileAnalysisCorrectness(fileResult);
+    }
+
+    @Test
+    public void analyzeFile_latestBlameTestFileCommitToLatest_sameFileResult() {
+        GitChecker.checkout(config.getRepoRoot(), LATEST_BLAME_TEST_FILE_COMMIT_HASH);
+        FileResult oldFileResult = FileInfoAnalyzer.analyzeFile(config, generateTestFileInfo("blameTest.java"));
+
+        GitChecker.checkout(config.getRepoRoot(), config.getBranch());
+        FileResult newFileResult = FileInfoAnalyzer.analyzeFile(config, generateTestFileInfo("blameTest.java"));
+
+        Assert.assertEquals(oldFileResult, newFileResult);
+    }
+
+    @Test
+    public void analyzeFile_createdBlameTestFileCommitToLatest_differentFileResult() {
+        GitChecker.checkout(config.getRepoRoot(), BLAME_TEST_FILE_CREATED_COMMIT_HASH);
+        FileResult oldFileResult = FileInfoAnalyzer.analyzeFile(config, generateTestFileInfo("blameTest.java"));
+
+        GitChecker.checkout(config.getRepoRoot(), config.getBranch());
+        FileResult newFileResult = FileInfoAnalyzer.analyzeFile(config, generateTestFileInfo("blameTest.java"));
+
+        Assert.assertNotEquals(oldFileResult, newFileResult);
     }
 }

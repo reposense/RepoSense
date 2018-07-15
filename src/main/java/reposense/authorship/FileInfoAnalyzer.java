@@ -32,6 +32,7 @@ public class FileInfoAnalyzer {
     /**
      * Analyzes the lines of the file, given in the {@code fileInfo}, that has changed in the time period provided
      * by {@code config}.
+     * Skips the analysis if the {@code fileInfo} has been analyzed before.
      * Returns null if the file contains the reused tag, or none of the {@code Author} specified in
      * {@code config} contributed to the file in {@code fileInfo}.
      */
@@ -41,17 +42,19 @@ public class FileInfoAnalyzer {
             return null;
         }
 
-        aggregateBlameAuthorInfo(config, fileInfo);
+        if (!isFileAnalyzed(fileInfo)) {
+            aggregateBlameAuthorInfo(config, fileInfo);
 
-        if (config.isNeedCheckStyle()) {
-            CheckStyleParser.aggregateStyleIssue(fileInfo, config.getRepoRoot());
-        }
-        if (config.isAnnotationOverwrite()) {
-            AnnotatorAnalyzer.aggregateAnnotationAuthorInfo(fileInfo, config.getAuthorAliasMap());
-        }
+            if (config.isNeedCheckStyle()) {
+                CheckStyleParser.aggregateStyleIssue(fileInfo, config.getRepoRoot());
+            }
+            if (config.isAnnotationOverwrite()) {
+                AnnotatorAnalyzer.aggregateAnnotationAuthorInfo(fileInfo, config.getAuthorAliasMap());
+            }
 
-        if (!config.getAuthorList().isEmpty() && fileInfo.isAllAuthorsIgnored(config.getAuthorList())) {
-            return null;
+            if (!config.getAuthorList().isEmpty() && fileInfo.isAllAuthorsIgnored(config.getAuthorList())) {
+                return null;
+            }
         }
 
         return generateFileResult(fileInfo);
@@ -107,5 +110,14 @@ public class FileInfoAnalyzer {
             logger.log(Level.WARNING, ioe.getMessage(), ioe);
         }
         return false;
+    }
+
+    /**
+     * Returns true if all {@code LineInfo} inside {@code fileInfo} has an {@code Author} set from a previous analysis.
+     */
+    private static boolean isFileAnalyzed(FileInfo fileInfo) {
+        return fileInfo.getLines()
+                .stream()
+                .noneMatch(lineInfo -> lineInfo.getAuthor().getGitId().equals(Author.UNSET_AUTHOR_GIT_ID));
     }
 }

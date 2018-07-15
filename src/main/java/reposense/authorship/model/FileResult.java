@@ -30,4 +30,22 @@ public class FileResult {
     public HashMap<Author, Integer> getAuthorContributionMap() {
         return authorContributionMap;
     }
+
+    @Override
+    public boolean equals(Object obj) {
+        // short circuit if same object
+        if (obj == this) {
+            return true;
+        }
+
+        // instanceof handles null
+        if (!(obj instanceof FileResult)) {
+            return false;
+        }
+
+        // state check
+        FileResult other = (FileResult) obj;
+        return this.path.equals(other.path)
+                && this.getLines().equals(other.getLines());
+    }
 }

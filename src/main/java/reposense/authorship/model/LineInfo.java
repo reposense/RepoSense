@@ -52,5 +52,24 @@ public class LineInfo {
     public void addNewIssue(IssueInfo issueInfo) {
         issues.add(issueInfo);
     }
+
+    @Override
+    public boolean equals(Object obj) {
+        // short circuit if same object
+        if (obj == this) {
+            return true;
+        }
+
+        // instanceof handles null
+        if (!(obj instanceof LineInfo)) {
+            return false;
+        }
+
+        // state check
+        LineInfo other = (LineInfo) obj;
+        return this.content.equals(other.content)
+                && this.lineNumber == other.lineNumber
+                && this.author.equals(other.author);
+    }
 }
 

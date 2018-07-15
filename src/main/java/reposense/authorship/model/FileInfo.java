@@ -55,4 +55,22 @@ public class FileInfo {
     public void setLineAuthor(int lineNumber, Author author) {
         lines.get(lineNumber).setAuthor(author);
     }
+
+    @Override
+    public boolean equals(Object obj) {
+        // short circuit if same object
+        if (obj == this) {
+            return true;
+        }
+
+        // instanceof handles null
+        if (!(obj instanceof FileInfo)) {
+            return false;
+        }
+
+        // state check
+        FileInfo other = (FileInfo) obj;
+        return this.path.equals(other.path)
+                && this.getLines().equals(other.getLines());
+    }
 }
