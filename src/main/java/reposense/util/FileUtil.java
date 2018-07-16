@@ -102,22 +102,21 @@ public class FileUtil {
 
     /**
      * Unzips the contents of the {@code zipSourcePath} into {@code outputPath}.
+     * @throws IOException if {@code zipSourcePath} is an invalid path.
      */
-    public static void unzip(Path zipSourcePath, Path outputPath) {
-        try (
-                InputStream is = Files.newInputStream(zipSourcePath);
-        ) {
+    public static void unzip(Path zipSourcePath, Path outputPath) throws IOException {
+        try (InputStream is = Files.newInputStream(zipSourcePath)) {
             unzip(is, outputPath);
-        } catch (IOException e) {
-            logger.log(Level.SEVERE, e.getMessage(), e);
         }
     }
 
-    public static void unzip(InputStream is, Path outputPath) {
-        ZipEntry entry;
-        try (
-                ZipInputStream zis = new ZipInputStream(is)
-        ) {
+    /**
+     * Unzips the contents of the {@code is} into {@code outputPath}.
+     * @throws IOException if {@code is} refers to an invalid path.
+     */
+    public static void unzip(InputStream is, Path outputPath) throws IOException {
+        try (ZipInputStream zis = new ZipInputStream(is)) {
+            ZipEntry entry;
             Files.createDirectories(outputPath);
             while ((entry = zis.getNextEntry()) != null) {
                 Path path = Paths.get(outputPath.toString(), entry.getName());
@@ -138,8 +137,6 @@ public class FileUtil {
                 }
                 zis.closeEntry();
             }
-        } catch (IOException e) {
-            logger.log(Level.SEVERE, e.getMessage(), e);
         }
     }
 
