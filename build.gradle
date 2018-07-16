@@ -85,6 +85,11 @@ task setupSpuild(type: Exec, dependsOn: 'getSpuild') {
 task buildTemplate(type: Exec, dependsOn: 'setupSpuild'){
     workingDir 'frontend'
     commandLine 'python2', '../build/opt/script-build/main.py', '-c'
+   	if (System.getProperty('os.name').toLowerCase(Locale.ROOT).contains('windows')) {
+        commandLine 'python', '../build/opt/script-build/main.py', '-c'
+	} else {
+        commandLine 'python2', '../build/opt/script-build/main.py', '-c'
+	}
 }
 
 run {
