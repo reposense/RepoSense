@@ -44,7 +44,7 @@ public class FileUtilTest {
     }
 
     @Test
-    public void unzip_invalidZipFile_fail() {
+    public void unzip_invalidZipFile_fail() throws IOException {
         Path invalidZipFile = Paths.get(FILE_UTIL_TEST_DIRECTORY.toString(), "test.csv");
         FileUtil.unzip(invalidZipFile, FILE_UTIL_TEST_DIRECTORY);
         Assert.assertFalse(Files.exists(Paths.get(FILE_UTIL_TEST_DIRECTORY.toString(), "test")));
