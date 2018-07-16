@@ -40,7 +40,6 @@ window.vSummary = {
   data() {
     return {
       filtered: [],
-      rampScale: 0.1,
       filterSearch: '',
       filterSort: 'totalCommits',
       filterSortReverse: false,
@@ -49,6 +48,7 @@ window.vSummary = {
       filterSinceDate: '',
       filterUntilDate: '',
       filterHash: '',
+      rampSize: 0.01,
     };
   },
   watch: {
@@ -75,12 +75,6 @@ window.vSummary = {
     },
   },
   computed: {
-    sliceCount() {
-      return this.filtered[0][0].commits.length;
-    },
-    sliceWidth() {
-      return 100 / this.sliceCount;
-    },
     avgCommitSize() {
       let totalCommits = 0;
       let totalCount = 0;
@@ -117,9 +111,8 @@ window.vSummary = {
         return 0;
       }
 
-      let size = this.sliceWidth;
-      size *= slice.insertions / this.avgCommitSize;
-      return Math.max(size * this.rampScale, 0.5);
+      const newSize = 100 * (slice.insertions / this.avgCommitSize);
+      return Math.max(newSize * this.rampSize, 0.5);
     },
     getSliceTitle(slice) {
       return `contribution on ${slice.sinceDate
@@ -225,8 +218,8 @@ window.vSummary = {
       });
       this.filtered = full;
 
-      this.sortFiltered();
       this.getDates();
+      this.sortFiltered();
     },
     splitCommitsWeek(user) {
       const { commits } = user;
