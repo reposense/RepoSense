@@ -93,9 +93,9 @@ html
                   v-bind:title="getSliceTitle(slice)",
                   v-bind:href="getSliceLink(user, slice)", target="_blank",
                   v-bind:class="'summary-chart__ramp__slice--color'+j%5",
-                  v-bind:style="{
-                    borderLeftWidth: getWidth(slice)+'em',
-                    right: (sliceCount-j-1)*sliceWidth + '%'
+                  v-bind:style="{\
+                    borderLeftWidth: getWidth(slice)+'em',\
+                    right: (sliceCount-j-1)*sliceWidth + '%'\
                   }"
                 )
               .summary-chart__contrib(v-bind:title="'total contribution: '+user.totalCommits")
