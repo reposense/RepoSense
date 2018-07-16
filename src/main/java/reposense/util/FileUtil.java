@@ -104,9 +104,18 @@ public class FileUtil {
      * Unzips the contents of the {@code zipSourcePath} into {@code outputPath}.
      */
     public static void unzip(Path zipSourcePath, Path outputPath) {
-        ZipEntry entry;
         try (
                 InputStream is = Files.newInputStream(zipSourcePath);
+        ) {
+            unzip(is, outputPath);
+        } catch (IOException e) {
+            logger.log(Level.SEVERE, e.getMessage(), e);
+        }
+    }
+
+    public static void unzip(InputStream is, Path outputPath) {
+        ZipEntry entry;
+        try (
                 ZipInputStream zis = new ZipInputStream(is)
         ) {
             Files.createDirectories(outputPath);
@@ -137,8 +146,8 @@ public class FileUtil {
     /**
      * Copies the template files from {@code sourcePath} to the {@code outputPath}.
      */
-    public static void copyTemplate(String sourcePath, String outputPath) {
-        FileUtil.unzip(Paths.get(sourcePath), Paths.get(outputPath));
+    public static void copyTemplate(InputStream is, String outputPath) {
+        FileUtil.unzip(is, Paths.get(outputPath));
     }
 
     /**

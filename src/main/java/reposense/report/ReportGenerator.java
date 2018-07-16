@@ -1,7 +1,7 @@
 package reposense.report;
 
-import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.List;
@@ -24,15 +24,15 @@ public class ReportGenerator {
     private static final Logger logger = LogsManager.getLogger(ReportGenerator.class);
 
     // zip file which contains all the dashboard template files
-    private static final String TEMPLATE_FILE = new File(RepoSense.class.getClassLoader()
-            .getResource("templateZip.zip").getFile()).toString();
+    private static final String TEMPLATE_FILE = "/templateZip.zip";
 
     /**
      * Generates the authorship and commits JSON file for each repo in {@code configs} at {@code outputPath}, as
      * well as the summary JSON file of all the repos.
      */
     public static void generateReposReport(List<RepoConfiguration> configs, String outputPath) {
-        FileUtil.copyTemplate(TEMPLATE_FILE, outputPath);
+        InputStream is = RepoSense.class.getResourceAsStream(TEMPLATE_FILE);
+        FileUtil.copyTemplate(is, outputPath);
 
         for (RepoConfiguration config : configs) {
             Path repoReportDirectory = Paths.get(outputPath, config.getDisplayName());
