@@ -70,8 +70,9 @@ public class ArgsParser {
                 .metavar("FORMAT")
                 .type(new AlphanumericArgumentType())
                 .setDefault(DEFAULT_FORMATS)
-                .help("The alphanumeric file formats to process. "
-                        + "If not provided, popular programming file formats will be used.");
+                .help("The alphanumeric file formats to process.\n"
+                        + "If not provided, default file formats will be used.\n"
+                        + "Please refer to userguide for more information.");
 
         return parser;
     }
