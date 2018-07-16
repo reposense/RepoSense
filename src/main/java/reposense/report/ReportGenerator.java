@@ -29,8 +29,10 @@ public class ReportGenerator {
     /**
      * Generates the authorship and commits JSON file for each repo in {@code configs} at {@code outputPath}, as
      * well as the summary JSON file of all the repos.
+     *
+     * @throws IOException if templateZip.zip does not exists in jar file.
      */
-    public static void generateReposReport(List<RepoConfiguration> configs, String outputPath) {
+    public static void generateReposReport(List<RepoConfiguration> configs, String outputPath) throws IOException {
         InputStream is = RepoSense.class.getResourceAsStream(TEMPLATE_FILE);
         FileUtil.copyTemplate(is, outputPath);
 
