@@ -34,8 +34,8 @@ shadowJar {
     destinationDir = file("${buildDir}/jar/")
 }
 
-task myZip(type: Zip) {
-    from 'template/'
+task myZip(dependsOn: 'buildTemplate', type: Zip) {
+    from 'frontend/build/'
     baseName = 'templateZip'
     destinationDir = file("src/main/resources")
 }
@@ -67,6 +67,25 @@ task functional(type: Test) {
   }
 }
 tasks.functional.dependsOn("myZip");
+
+task getSpuild(type: Exec) {
+    doFirst{
+        mkdir 'build/opt'
+    }
+
+    workingDir 'build/opt'
+    commandLine 'git', 'clone', 'https://github.com/ongspxm/script-build'
+}
+
+task setupSpuild(type: Exec, dependsOn: 'getSpuild') {
+    workingDir 'build/opt/script-build'
+    commandLine 'git', 'checkout', 'v1.0'
+}
+
+task buildTemplate(type: Exec, dependsOn: 'setupSpuild'){
+    workingDir 'frontend'
+    commandLine 'python2', '../build/opt/script-build/main.py', '-c'
+}
 
 run {
     //the second arguments indicates the default value associated with the property.
