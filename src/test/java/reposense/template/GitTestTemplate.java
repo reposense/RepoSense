@@ -1,8 +1,5 @@
 package reposense.template;
 
-import static reposense.util.TestConstants.TEST_ORG;
-import static reposense.util.TestConstants.TEST_REPO;
-
 import java.io.IOException;
 
 import org.junit.After;
@@ -12,7 +9,6 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 
 import reposense.RepoSense;
-import reposense.authorship.FileInfoAnalyzer;
 import reposense.authorship.FileInfoExtractor;
 import reposense.authorship.model.FileInfo;
 import reposense.authorship.model.FileResult;
@@ -24,16 +20,21 @@ import reposense.model.RepoConfiguration;
 import reposense.system.CommandRunner;
 import reposense.util.Constants;
 import reposense.util.FileUtil;
-import reposense.util.TestConstants;
 
 public class GitTestTemplate {
-
+    private static final String TEST_ORG = "reposense";
+    private static final String TEST_REPO = "testrepo-Alpha";
+    private static final String MAIN_AUTHOR_NAME = "harryggg";
+    private static final String FAKE_AUTHOR_NAME = "fakeAuthor";
+    private static final String MASTER_BRANCH = "master";
     protected RepoConfiguration config;
 
     @Before
     public void before() {
-        config = new RepoConfiguration(TEST_ORG, TEST_REPO, "master");
+        config = new RepoConfiguration(TEST_ORG, TEST_REPO, MASTER_BRANCH);
         config.setFileFormats(RepoSense.DEFAULT_FILE_FORMATS);
+        config.getAuthorAliasMap().put(MAIN_AUTHOR_NAME, new Author(MAIN_AUTHOR_NAME));
+        config.getAuthorAliasMap().put(FAKE_AUTHOR_NAME, new Author(FAKE_AUTHOR_NAME));
     }
 
     @BeforeClass
@@ -49,7 +50,7 @@ public class GitTestTemplate {
 
     @After
     public void after() {
-        CommandRunner.checkout(TestConstants.LOCAL_TEST_REPO_ADDRESS, "master");
+        CommandRunner.checkout(config.getRepoRoot(), config.getBranch());
     }
 
     private static void deleteRepos() throws IOException {
@@ -57,25 +58,15 @@ public class GitTestTemplate {
     }
 
     public FileInfo generateTestFileInfo(String relativePath) {
-        FileInfo fileInfo = FileInfoExtractor.generateFileInfo(TestConstants.LOCAL_TEST_REPO_ADDRESS, relativePath);
-
-        config.getAuthorAliasMap().put(TestConstants.MAIN_AUTHOR_NAME, new Author(TestConstants.MAIN_AUTHOR_NAME));
-        config.getAuthorAliasMap().put(TestConstants.FAKE_AUTHOR_NAME, new Author(TestConstants.FAKE_AUTHOR_NAME));
-
-        return fileInfo;
-    }
-
-    public FileResult getFileResult(String relativePath) {
-        FileInfo fileinfo = generateTestFileInfo(relativePath);
-        return FileInfoAnalyzer.analyzeFile(config, fileinfo);
+        return FileInfoExtractor.generateFileInfo(config.getRepoRoot(), relativePath);
     }
 
     public void assertFileAnalysisCorrectness(FileResult fileResult) {
         for (LineInfo line : fileResult.getLines()) {
             if (line.getContent().startsWith("fake")) {
-                Assert.assertEquals(line.getAuthor(), new Author(TestConstants.FAKE_AUTHOR_NAME));
+                Assert.assertEquals(line.getAuthor(), new Author(FAKE_AUTHOR_NAME));
             } else {
-                Assert.assertNotEquals(line.getAuthor(), new Author(TestConstants.FAKE_AUTHOR_NAME));
+                Assert.assertNotEquals(line.getAuthor(), new Author(FAKE_AUTHOR_NAME));
             }
         }
     }
