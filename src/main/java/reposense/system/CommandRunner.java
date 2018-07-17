@@ -55,11 +55,10 @@ public class CommandRunner {
         runCommand(rootPath, checkoutCommand);
     }
 
-    public static String blameRaw(String root, String fileDirectory, Date sinceDate, Date untilDate) {
+    public static String blameRaw(String root, String fileDirectory) {
         Path rootPath = Paths.get(root);
 
         String blameCommand = "git blame -w --line-porcelain";
-        blameCommand += convertToGitDateRangeArgs(sinceDate, untilDate);
         blameCommand += " " + addQuote(fileDirectory);
         blameCommand += getAuthorFilterCommand();
 
@@ -72,6 +71,29 @@ public class CommandRunner {
                 rootPath,
                 "java -jar checkstyle-7.7-all.jar -c /google_checks.xml -f xml " + absoluteDirectory
         );
+    }
+
+    /**
+     * Returns the git diff result of the current commit compared to {@code lastCommitHash}, without any context.
+     */
+    public static String diffCommit(String root, String lastCommitHash) {
+        Path rootPath = Paths.get(root);
+        return runCommand(rootPath, "git diff -U0 " + lastCommitHash);
+    }
+
+    /**
+     * Returns the latest commit hash before {@code date}.
+     * Returns an empty {@code String} if {@code date} is null, or there is no such commit.
+     */
+    public static String getCommitHashBeforeDate(String root, String branchName, Date date) {
+        if (date == null) {
+            return "";
+        }
+
+        Path rootPath = Paths.get(root);
+        String revListCommand = "git rev-list -1 --before="
+                + GIT_LOG_SINCE_DATE_FORMAT.format(date) + " " + branchName;
+        return runCommand(rootPath, revListCommand);
     }
 
     public static String cloneRepo(String org, String repoName) throws IOException {

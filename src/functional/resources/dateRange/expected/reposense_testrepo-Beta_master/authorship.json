@@ -414,14 +414,14 @@
       {
         "lineNumber": 17,
         "author": {
-          "gitId": "zacharytang"
+          "gitId": "-"
         },
         "content": "Role: Developer +"
       },
       {
         "lineNumber": 18,
         "author": {
-          "gitId": "April0616"
+          "gitId": "-"
         },
         "content": "Responsibilities: UI"
       },
@@ -477,7 +477,7 @@
       {
         "lineNumber": 26,
         "author": {
-          "gitId": "nbriannl"
+          "gitId": "-"
         },
         "content": "Role: Developer +"
       },
@@ -630,11 +630,11 @@
       }
     ],
     "authorContributionMap": {
-      "zacharytang": 5,
+      "zacharytang": 4,
       "CindyTsai1": 3,
-      "nbriannl": 6,
-      "April0616": 6,
-      "-": 27
+      "nbriannl": 5,
+      "April0616": 5,
+      "-": 30
     }
   },
   {
@@ -6873,7 +6873,7 @@
       {
         "lineNumber": 891,
         "author": {
-          "gitId": "nbriannl"
+          "gitId": "-"
         },
         "content": ""
       },
@@ -6901,7 +6901,7 @@
       {
         "lineNumber": 895,
         "author": {
-          "gitId": "nbriannl"
+          "gitId": "-"
         },
         "content": ""
       },
@@ -6915,7 +6915,7 @@
       {
         "lineNumber": 897,
         "author": {
-          "gitId": "nbriannl"
+          "gitId": "-"
         },
         "content": ""
       },
@@ -6929,7 +6929,7 @@
       {
         "lineNumber": 899,
         "author": {
-          "gitId": "nbriannl"
+          "gitId": "-"
         },
         "content": ""
       },
@@ -6943,7 +6943,7 @@
       {
         "lineNumber": 901,
         "author": {
-          "gitId": "nbriannl"
+          "gitId": "-"
         },
         "content": ""
       },
@@ -6971,7 +6971,7 @@
       {
         "lineNumber": 905,
         "author": {
-          "gitId": "April0616"
+          "gitId": "-"
         },
         "content": ""
       },
@@ -6985,7 +6985,7 @@
       {
         "lineNumber": 907,
         "author": {
-          "gitId": "nbriannl"
+          "gitId": "-"
         },
         "content": ""
       },
@@ -6999,7 +6999,7 @@
       {
         "lineNumber": 909,
         "author": {
-          "gitId": "nbriannl"
+          "gitId": "-"
         },
         "content": ""
       },
@@ -7013,7 +7013,7 @@
       {
         "lineNumber": 911,
         "author": {
-          "gitId": "nbriannl"
+          "gitId": "-"
         },
         "content": ""
       },
@@ -7027,7 +7027,7 @@
       {
         "lineNumber": 913,
         "author": {
-          "gitId": "April0616"
+          "gitId": "-"
         },
         "content": ""
       },
@@ -7041,7 +7041,7 @@
       {
         "lineNumber": 915,
         "author": {
-          "gitId": "nbriannl"
+          "gitId": "-"
         },
         "content": ""
       },
@@ -7055,7 +7055,7 @@
       {
         "lineNumber": 917,
         "author": {
-          "gitId": "nbriannl"
+          "gitId": "-"
         },
         "content": ""
       },
@@ -7069,7 +7069,7 @@
       {
         "lineNumber": 919,
         "author": {
-          "gitId": "nbriannl"
+          "gitId": "-"
         },
         "content": ""
       },
@@ -7083,7 +7083,7 @@
       {
         "lineNumber": 921,
         "author": {
-          "gitId": "nbriannl"
+          "gitId": "-"
         },
         "content": ""
       },
@@ -7097,7 +7097,7 @@
       {
         "lineNumber": 923,
         "author": {
-          "gitId": "nbriannl"
+          "gitId": "-"
         },
         "content": ""
       },
@@ -7111,7 +7111,7 @@
       {
         "lineNumber": 925,
         "author": {
-          "gitId": "nbriannl"
+          "gitId": "-"
         },
         "content": ""
       },
@@ -7125,7 +7125,7 @@
       {
         "lineNumber": 927,
         "author": {
-          "gitId": "nbriannl"
+          "gitId": "-"
         },
         "content": ""
       },
@@ -7139,7 +7139,7 @@
       {
         "lineNumber": 929,
         "author": {
-          "gitId": "nbriannl"
+          "gitId": "-"
         },
         "content": ""
       },
@@ -7153,7 +7153,7 @@
       {
         "lineNumber": 931,
         "author": {
-          "gitId": "nbriannl"
+          "gitId": "-"
         },
         "content": ""
       },
@@ -7167,7 +7167,7 @@
       {
         "lineNumber": 933,
         "author": {
-          "gitId": "nbriannl"
+          "gitId": "-"
         },
         "content": ""
       },
@@ -7181,7 +7181,7 @@
       {
         "lineNumber": 935,
         "author": {
-          "gitId": "nbriannl"
+          "gitId": "-"
         },
         "content": ""
       },
@@ -7195,7 +7195,7 @@
       {
         "lineNumber": 937,
         "author": {
-          "gitId": "nbriannl"
+          "gitId": "-"
         },
         "content": ""
       },
@@ -7209,7 +7209,7 @@
       {
         "lineNumber": 939,
         "author": {
-          "gitId": "nbriannl"
+          "gitId": "-"
         },
         "content": ""
       },
@@ -7223,7 +7223,7 @@
       {
         "lineNumber": 941,
         "author": {
-          "gitId": "nbriannl"
+          "gitId": "-"
         },
         "content": ""
       },
@@ -7237,7 +7237,7 @@
       {
         "lineNumber": 943,
         "author": {
-          "gitId": "nbriannl"
+          "gitId": "-"
         },
         "content": ""
       },
@@ -7251,7 +7251,7 @@
       {
         "lineNumber": 945,
         "author": {
-          "gitId": "nbriannl"
+          "gitId": "-"
         },
         "content": ""
       },
@@ -7265,7 +7265,7 @@
       {
         "lineNumber": 947,
         "author": {
-          "gitId": "nbriannl"
+          "gitId": "-"
         },
         "content": ""
       },
@@ -7279,7 +7279,7 @@
       {
         "lineNumber": 949,
         "author": {
-          "gitId": "nbriannl"
+          "gitId": "-"
         },
         "content": ""
       },
@@ -7293,7 +7293,7 @@
       {
         "lineNumber": 951,
         "author": {
-          "gitId": "nbriannl"
+          "gitId": "-"
         },
         "content": ""
       },
@@ -7307,7 +7307,7 @@
       {
         "lineNumber": 953,
         "author": {
-          "gitId": "nbriannl"
+          "gitId": "-"
         },
         "content": ""
       },
@@ -7321,7 +7321,7 @@
       {
         "lineNumber": 955,
         "author": {
-          "gitId": "nbriannl"
+          "gitId": "-"
         },
         "content": ""
       },
@@ -7335,7 +7335,7 @@
       {
         "lineNumber": 957,
         "author": {
-          "gitId": "nbriannl"
+          "gitId": "-"
         },
         "content": ""
       },
@@ -7349,7 +7349,7 @@
       {
         "lineNumber": 959,
         "author": {
-          "gitId": "nbriannl"
+          "gitId": "-"
         },
         "content": ""
       },
@@ -7363,7 +7363,7 @@
       {
         "lineNumber": 961,
         "author": {
-          "gitId": "nbriannl"
+          "gitId": "-"
         },
         "content": ""
       },
@@ -7377,7 +7377,7 @@
       {
         "lineNumber": 963,
         "author": {
-          "gitId": "nbriannl"
+          "gitId": "-"
         },
         "content": ""
       },
@@ -7391,7 +7391,7 @@
       {
         "lineNumber": 965,
         "author": {
-          "gitId": "nbriannl"
+          "gitId": "-"
         },
         "content": ""
       },
@@ -7405,7 +7405,7 @@
       {
         "lineNumber": 967,
         "author": {
-          "gitId": "nbriannl"
+          "gitId": "-"
         },
         "content": ""
       },
@@ -7419,7 +7419,7 @@
       {
         "lineNumber": 969,
         "author": {
-          "gitId": "nbriannl"
+          "gitId": "-"
         },
         "content": ""
       },
@@ -7433,7 +7433,7 @@
       {
         "lineNumber": 971,
         "author": {
-          "gitId": "nbriannl"
+          "gitId": "-"
         },
         "content": ""
       },
@@ -7447,14 +7447,14 @@
       {
         "lineNumber": 973,
         "author": {
-          "gitId": "nbriannl"
+          "gitId": "-"
         },
         "content": ""
       },
       {
         "lineNumber": 974,
         "author": {
-          "gitId": "nbriannl"
+          "gitId": "-"
         },
         "content": ""
       },
@@ -7713,7 +7713,7 @@
       {
         "lineNumber": 1011,
         "author": {
-          "gitId": "nbriannl"
+          "gitId": "-"
         },
         "content": ""
       },
@@ -7727,7 +7727,7 @@
       {
         "lineNumber": 1013,
         "author": {
-          "gitId": "nbriannl"
+          "gitId": "-"
         },
         "content": ""
       },
@@ -7776,7 +7776,7 @@
       {
         "lineNumber": 1020,
         "author": {
-          "gitId": "nbriannl"
+          "gitId": "-"
         },
         "content": ""
       },
@@ -7790,7 +7790,7 @@
       {
         "lineNumber": 1022,
         "author": {
-          "gitId": "nbriannl"
+          "gitId": "-"
         },
         "content": ""
       },
@@ -7825,7 +7825,7 @@
       {
         "lineNumber": 1027,
         "author": {
-          "gitId": "nbriannl"
+          "gitId": "-"
         },
         "content": ""
       },
@@ -7874,7 +7874,7 @@
       {
         "lineNumber": 1034,
         "author": {
-          "gitId": "nbriannl"
+          "gitId": "-"
         },
         "content": ""
       },
@@ -7895,7 +7895,7 @@
       {
         "lineNumber": 1037,
         "author": {
-          "gitId": "nbriannl"
+          "gitId": "-"
         },
         "content": ""
       },
@@ -7909,7 +7909,7 @@
       {
         "lineNumber": 1039,
         "author": {
-          "gitId": "nbriannl"
+          "gitId": "-"
         },
         "content": ""
       },
@@ -7951,7 +7951,7 @@
       {
         "lineNumber": 1045,
         "author": {
-          "gitId": "nbriannl"
+          "gitId": "-"
         },
         "content": ""
       },
@@ -7972,7 +7972,7 @@
       {
         "lineNumber": 1048,
         "author": {
-          "gitId": "nbriannl"
+          "gitId": "-"
         },
         "content": ""
       },
@@ -7986,7 +7986,7 @@
       {
         "lineNumber": 1050,
         "author": {
-          "gitId": "nbriannl"
+          "gitId": "-"
         },
         "content": ""
       },
@@ -8021,7 +8021,7 @@
       {
         "lineNumber": 1055,
         "author": {
-          "gitId": "nbriannl"
+          "gitId": "-"
         },
         "content": ""
       },
@@ -8042,7 +8042,7 @@
       {
         "lineNumber": 1058,
         "author": {
-          "gitId": "nbriannl"
+          "gitId": "-"
         },
         "content": ""
       },
@@ -8175,14 +8175,14 @@
       {
         "lineNumber": 1077,
         "author": {
-          "gitId": "nbriannl"
+          "gitId": "-"
         },
         "content": ""
       },
       {
         "lineNumber": 1078,
         "author": {
-          "gitId": "nbriannl"
+          "gitId": "-"
         },
         "content": "[discrete]"
       },
@@ -8196,21 +8196,21 @@
       {
         "lineNumber": 1080,
         "author": {
-          "gitId": "nbriannl"
+          "gitId": "-"
         },
         "content": ""
       },
       {
         "lineNumber": 1081,
         "author": {
-          "gitId": "nbriannl"
+          "gitId": "-"
         },
         "content": "*MSS*"
       },
       {
         "lineNumber": 1082,
         "author": {
-          "gitId": "nbriannl"
+          "gitId": "-"
         },
         "content": ""
       },
@@ -8252,21 +8252,21 @@
       {
         "lineNumber": 1088,
         "author": {
-          "gitId": "nbriannl"
+          "gitId": "-"
         },
         "content": ""
       },
       {
         "lineNumber": 1089,
         "author": {
-          "gitId": "nbriannl"
+          "gitId": "-"
         },
         "content": "*Extensions*"
       },
       {
         "lineNumber": 1090,
         "author": {
-          "gitId": "nbriannl"
+          "gitId": "-"
         },
         "content": ""
       },
@@ -8301,7 +8301,7 @@
       {
         "lineNumber": 1095,
         "author": {
-          "gitId": "nbriannl"
+          "gitId": "-"
         },
         "content": ""
       },
@@ -8350,14 +8350,14 @@
       {
         "lineNumber": 1102,
         "author": {
-          "gitId": "nbriannl"
+          "gitId": "-"
         },
         "content": ""
       },
       {
         "lineNumber": 1103,
         "author": {
-          "gitId": "nbriannl"
+          "gitId": "-"
         },
         "content": ""
       },
@@ -8637,7 +8637,7 @@
       {
         "lineNumber": 1143,
         "author": {
-          "gitId": "nbriannl"
+          "gitId": "-"
         },
         "content": ""
       },
@@ -8658,7 +8658,7 @@
       {
         "lineNumber": 1146,
         "author": {
-          "gitId": "nbriannl"
+          "gitId": "-"
         },
         "content": ""
       },
@@ -8686,7 +8686,7 @@
       {
         "lineNumber": 1150,
         "author": {
-          "gitId": "nbriannl"
+          "gitId": "-"
         },
         "content": ""
       },
@@ -8707,7 +8707,7 @@
       {
         "lineNumber": 1153,
         "author": {
-          "gitId": "nbriannl"
+          "gitId": "-"
         },
         "content": ""
       },
@@ -8735,7 +8735,7 @@
       {
         "lineNumber": 1157,
         "author": {
-          "gitId": "CindyTsai1"
+          "gitId": "-"
         },
         "content": ""
       },
@@ -8756,7 +8756,7 @@
       {
         "lineNumber": 1160,
         "author": {
-          "gitId": "CindyTsai1"
+          "gitId": "-"
         },
         "content": ""
       },
@@ -8784,10 +8784,10 @@
     ],
     "authorContributionMap": {
       "zacharytang": 55,
-      "CindyTsai1": 211,
-      "nbriannl": 320,
-      "April0616": 92,
-      "-": 485
+      "CindyTsai1": 209,
+      "nbriannl": 253,
+      "April0616": 90,
+      "-": 556
     }
   },
   {
@@ -8985,7 +8985,7 @@
       {
         "lineNumber": 28,
         "author": {
-          "gitId": "zacharytang"
+          "gitId": "-"
         },
         "content": ""
       },
@@ -9167,7 +9167,7 @@
       {
         "lineNumber": 54,
         "author": {
-          "gitId": "nbriannl"
+          "gitId": "-"
         },
         "content": ""
       },
@@ -9832,7 +9832,7 @@
       {
         "lineNumber": 149,
         "author": {
-          "gitId": "nbriannl"
+          "gitId": "-"
         },
         "content": ""
       },
@@ -9853,7 +9853,7 @@
       {
         "lineNumber": 152,
         "author": {
-          "gitId": "CindyTsai1"
+          "gitId": "-"
         },
         "content": ""
       },
@@ -9881,7 +9881,7 @@
       {
         "lineNumber": 156,
         "author": {
-          "gitId": "CindyTsai1"
+          "gitId": "-"
         },
         "content": ""
       },
@@ -9993,7 +9993,7 @@
       {
         "lineNumber": 172,
         "author": {
-          "gitId": "nbriannl"
+          "gitId": "-"
         },
         "content": "****"
       },
@@ -10021,7 +10021,7 @@
       {
         "lineNumber": 176,
         "author": {
-          "gitId": "nbriannl"
+          "gitId": "-"
         },
         "content": "****"
       },
@@ -10035,14 +10035,14 @@
       {
         "lineNumber": 178,
         "author": {
-          "gitId": "nbriannl"
+          "gitId": "-"
         },
         "content": "Examples:"
       },
       {
         "lineNumber": 179,
         "author": {
-          "gitId": "nbriannl"
+          "gitId": "-"
         },
         "content": ""
       },
@@ -10385,7 +10385,7 @@
       {
         "lineNumber": 228,
         "author": {
-          "gitId": "CindyTsai1"
+          "gitId": "-"
         },
         "content": ""
       },
@@ -10413,21 +10413,21 @@
       {
         "lineNumber": 232,
         "author": {
-          "gitId": "CindyTsai1"
+          "gitId": "-"
         },
         "content": ""
       },
       {
         "lineNumber": 233,
         "author": {
-          "gitId": "CindyTsai1"
+          "gitId": "-"
         },
         "content": "****"
       },
       {
         "lineNumber": 234,
         "author": {
-          "gitId": "CindyTsai1"
+          "gitId": "-"
         },
         "content": "* The search is case insensitive. e.g `hans` will match `Hans`"
       },
@@ -10448,7 +10448,7 @@
       {
         "lineNumber": 237,
         "author": {
-          "gitId": "CindyTsai1"
+          "gitId": "-"
         },
         "content": "* Only full words will be matched e.g. `Han` will not match `Hans`"
       },
@@ -10504,28 +10504,28 @@
       {
         "lineNumber": 245,
         "author": {
-          "gitId": "CindyTsai1"
+          "gitId": "-"
         },
         "content": "****"
       },
       {
         "lineNumber": 246,
         "author": {
-          "gitId": "CindyTsai1"
+          "gitId": "-"
         },
         "content": ""
       },
       {
         "lineNumber": 247,
         "author": {
-          "gitId": "CindyTsai1"
+          "gitId": "-"
         },
         "content": "Examples:"
       },
       {
         "lineNumber": 248,
         "author": {
-          "gitId": "CindyTsai1"
+          "gitId": "-"
         },
         "content": ""
       },
@@ -10875,7 +10875,7 @@
       {
         "lineNumber": 298,
         "author": {
-          "gitId": "nbriannl"
+          "gitId": "-"
         },
         "content": ""
       },
@@ -10903,7 +10903,7 @@
       {
         "lineNumber": 302,
         "author": {
-          "gitId": "nbriannl"
+          "gitId": "-"
         },
         "content": ""
       },
@@ -11505,7 +11505,7 @@
       {
         "lineNumber": 388,
         "author": {
-          "gitId": "nbriannl"
+          "gitId": "-"
         },
         "content": "* `find Betsy` +"
       },
@@ -11526,7 +11526,7 @@
       {
         "lineNumber": 391,
         "author": {
-          "gitId": "nbriannl"
+          "gitId": "-"
         },
         "content": ""
       },
@@ -12247,7 +12247,7 @@
       {
         "lineNumber": 494,
         "author": {
-          "gitId": "nbriannl"
+          "gitId": "-"
         },
         "content": ""
       },
@@ -12884,7 +12884,7 @@
       {
         "lineNumber": 585,
         "author": {
-          "gitId": "CindyTsai1"
+          "gitId": "-"
         },
         "content": ""
       },
@@ -13919,11 +13919,11 @@
       }
     ],
     "authorContributionMap": {
-      "zacharytang": 54,
-      "CindyTsai1": 71,
-      "nbriannl": 404,
+      "zacharytang": 53,
+      "CindyTsai1": 59,
+      "nbriannl": 393,
       "April0616": 39,
-      "-": 164
+      "-": 188
     }
   },
   {
@@ -22158,14 +22158,14 @@
       {
         "lineNumber": 43,
         "author": {
-          "gitId": "nbriannl"
+          "gitId": "-"
         },
         "content": ""
       },
       {
         "lineNumber": 44,
         "author": {
-          "gitId": "April0616"
+          "gitId": "-"
         },
         "content": "    public DeleteCommand(Index targetIndex) {"
       },
@@ -22228,14 +22228,14 @@
       {
         "lineNumber": 53,
         "author": {
-          "gitId": "nbriannl"
+          "gitId": "-"
         },
         "content": "    }"
       },
       {
         "lineNumber": 54,
         "author": {
-          "gitId": "nbriannl"
+          "gitId": "-"
         },
         "content": ""
       },
@@ -22438,7 +22438,7 @@
       {
         "lineNumber": 83,
         "author": {
-          "gitId": "April0616"
+          "gitId": "-"
         },
         "content": ""
       },
@@ -22592,7 +22592,7 @@
       {
         "lineNumber": 105,
         "author": {
-          "gitId": "nbriannl"
+          "gitId": "-"
         },
         "content": "        }"
       },
@@ -22669,7 +22669,7 @@
       {
         "lineNumber": 116,
         "author": {
-          "gitId": "April0616"
+          "gitId": "-"
         },
         "content": ""
       },
@@ -22704,14 +22704,14 @@
       {
         "lineNumber": 121,
         "author": {
-          "gitId": "April0616"
+          "gitId": "-"
         },
         "content": "        }"
       },
       {
         "lineNumber": 122,
         "author": {
-          "gitId": "April0616"
+          "gitId": "-"
         },
         "content": ""
       },
@@ -22788,14 +22788,14 @@
       {
         "lineNumber": 133,
         "author": {
-          "gitId": "April0616"
+          "gitId": "-"
         },
         "content": "    }"
       },
       {
         "lineNumber": 134,
         "author": {
-          "gitId": "April0616"
+          "gitId": "-"
         },
         "content": ""
       },
@@ -22893,9 +22893,9 @@
     ],
     "authorContributionMap": {
       "zacharytang": 2,
-      "nbriannl": 48,
-      "April0616": 56,
-      "-": 41
+      "nbriannl": 44,
+      "April0616": 49,
+      "-": 52
     }
   },
   {
@@ -23947,7 +23947,7 @@
       {
         "lineNumber": 150,
         "author": {
-          "gitId": "nbriannl"
+          "gitId": "-"
         },
         "content": "        }"
       },
@@ -25271,9 +25271,9 @@
     "authorContributionMap": {
       "zacharytang": 18,
       "CindyTsai1": 18,
-      "nbriannl": 57,
+      "nbriannl": 56,
       "April0616": 35,
-      "-": 210
+      "-": 211
     }
   },
   {
@@ -28250,7 +28250,7 @@
       {
         "lineNumber": 46,
         "author": {
-          "gitId": "zacharytang"
+          "gitId": "-"
         },
         "content": "        EventsCenter.getInstance().post(new JumpToListRequestEvent(targetIndex));"
       },
@@ -28333,8 +28333,8 @@
       }
     ],
     "authorContributionMap": {
-      "zacharytang": 6,
-      "-": 51
+      "zacharytang": 5,
+      "-": 52
     }
   },
   {
@@ -29989,49 +29989,49 @@
       {
         "lineNumber": 8,
         "author": {
-          "gitId": "April0616"
+          "gitId": "-"
         },
         "content": "import seedu.address.logic.commands.AddCommand;"
       },
       {
         "lineNumber": 9,
         "author": {
-          "gitId": "April0616"
+          "gitId": "-"
         },
         "content": "import seedu.address.logic.commands.ClearCommand;"
       },
       {
         "lineNumber": 10,
         "author": {
-          "gitId": "April0616"
+          "gitId": "-"
         },
         "content": "import seedu.address.logic.commands.Command;"
       },
       {
         "lineNumber": 11,
         "author": {
-          "gitId": "April0616"
+          "gitId": "-"
         },
         "content": "import seedu.address.logic.commands.DeleteCommand;"
       },
       {
         "lineNumber": 12,
         "author": {
-          "gitId": "April0616"
+          "gitId": "-"
         },
         "content": "import seedu.address.logic.commands.EditCommand;"
       },
       {
         "lineNumber": 13,
         "author": {
-          "gitId": "April0616"
+          "gitId": "-"
         },
         "content": "import seedu.address.logic.commands.ExitCommand;"
       },
       {
         "lineNumber": 14,
         "author": {
-          "gitId": "April0616"
+          "gitId": "-"
         },
         "content": "import seedu.address.logic.commands.FindCommand;"
       },
@@ -30045,28 +30045,28 @@
       {
         "lineNumber": 16,
         "author": {
-          "gitId": "April0616"
+          "gitId": "-"
         },
         "content": "import seedu.address.logic.commands.HelpCommand;"
       },
       {
         "lineNumber": 17,
         "author": {
-          "gitId": "April0616"
+          "gitId": "-"
         },
         "content": "import seedu.address.logic.commands.HistoryCommand;"
       },
       {
         "lineNumber": 18,
         "author": {
-          "gitId": "April0616"
+          "gitId": "-"
         },
         "content": "import seedu.address.logic.commands.ListCommand;"
       },
       {
         "lineNumber": 19,
         "author": {
-          "gitId": "April0616"
+          "gitId": "-"
         },
         "content": "import seedu.address.logic.commands.RedoCommand;"
       },
@@ -30080,14 +30080,14 @@
       {
         "lineNumber": 21,
         "author": {
-          "gitId": "April0616"
+          "gitId": "-"
         },
         "content": "import seedu.address.logic.commands.SelectCommand;"
       },
       {
         "lineNumber": 22,
         "author": {
-          "gitId": "April0616"
+          "gitId": "-"
         },
         "content": "import seedu.address.logic.commands.UndoCommand;"
       },
@@ -30831,8 +30831,8 @@
       "zacharytang": 22,
       "CindyTsai1": 4,
       "nbriannl": 7,
-      "April0616": 18,
-      "-": 76
+      "April0616": 5,
+      "-": 89
     }
   },
   {
@@ -31483,14 +31483,14 @@
       {
         "lineNumber": 69,
         "author": {
-          "gitId": "nbriannl"
+          "gitId": "-"
         },
         "content": "    }"
       },
       {
         "lineNumber": 70,
         "author": {
-          "gitId": "nbriannl"
+          "gitId": "-"
         },
         "content": ""
       },
@@ -31503,9 +31503,9 @@
       }
     ],
     "authorContributionMap": {
-      "nbriannl": 33,
+      "nbriannl": 31,
       "April0616": 11,
-      "-": 27
+      "-": 29
     }
   },
   {
@@ -32179,14 +32179,14 @@
       {
         "lineNumber": 96,
         "author": {
-          "gitId": "nbriannl"
+          "gitId": "-"
         },
         "content": "    }"
       },
       {
         "lineNumber": 97,
         "author": {
-          "gitId": "nbriannl"
+          "gitId": "-"
         },
         "content": ""
       },
@@ -32355,9 +32355,9 @@
     "authorContributionMap": {
       "zacharytang": 2,
       "CindyTsai1": 5,
-      "nbriannl": 34,
+      "nbriannl": 32,
       "April0616": 7,
-      "-": 72
+      "-": 74
     }
   },
   {
@@ -32815,28 +32815,28 @@
       {
         "lineNumber": 6,
         "author": {
-          "gitId": "April0616"
+          "gitId": "-"
         },
         "content": "import java.util.Collection;"
       },
       {
         "lineNumber": 7,
         "author": {
-          "gitId": "April0616"
+          "gitId": "-"
         },
         "content": "import java.util.HashSet;"
       },
       {
         "lineNumber": 8,
         "author": {
-          "gitId": "April0616"
+          "gitId": "-"
         },
         "content": "import java.util.Optional;"
       },
       {
         "lineNumber": 9,
         "author": {
-          "gitId": "April0616"
+          "gitId": "-"
         },
         "content": "import java.util.Set;"
       },
@@ -33949,17 +33949,17 @@
       {
         "lineNumber": 168,
         "author": {
-          "gitId": "CindyTsai1"
+          "gitId": "-"
         },
         "content": "}"
       }
     ],
     "authorContributionMap": {
       "zacharytang": 8,
-      "CindyTsai1": 12,
+      "CindyTsai1": 11,
       "nbriannl": 9,
-      "April0616": 51,
-      "-": 88
+      "April0616": 47,
+      "-": 93
     }
   },
   {
@@ -34544,42 +34544,42 @@
       {
         "lineNumber": 6,
         "author": {
-          "gitId": "April0616"
+          "gitId": "-"
         },
         "content": "import java.util.HashMap;"
       },
       {
         "lineNumber": 7,
         "author": {
-          "gitId": "April0616"
+          "gitId": "-"
         },
         "content": "import java.util.HashSet;"
       },
       {
         "lineNumber": 8,
         "author": {
-          "gitId": "April0616"
+          "gitId": "-"
         },
         "content": "import java.util.List;"
       },
       {
         "lineNumber": 9,
         "author": {
-          "gitId": "April0616"
+          "gitId": "-"
         },
         "content": "import java.util.Map;"
       },
       {
         "lineNumber": 10,
         "author": {
-          "gitId": "April0616"
+          "gitId": "-"
         },
         "content": "import java.util.Objects;"
       },
       {
         "lineNumber": 11,
         "author": {
-          "gitId": "April0616"
+          "gitId": "-"
         },
         "content": "import java.util.Set;"
       },
@@ -35846,7 +35846,7 @@
       {
         "lineNumber": 192,
         "author": {
-          "gitId": "April0616"
+          "gitId": "-"
         },
         "content": "        }"
       },
@@ -35860,14 +35860,14 @@
       {
         "lineNumber": 194,
         "author": {
-          "gitId": "April0616"
+          "gitId": "-"
         },
         "content": "    }"
       },
       {
         "lineNumber": 195,
         "author": {
-          "gitId": "April0616"
+          "gitId": "-"
         },
         "content": ""
       },
@@ -36224,8 +36224,8 @@
     ],
     "authorContributionMap": {
       "nbriannl": 41,
-      "April0616": 19,
-      "-": 185
+      "April0616": 10,
+      "-": 194
     }
   },
   {
@@ -36794,7 +36794,7 @@
       {
         "lineNumber": 81,
         "author": {
-          "gitId": "nbriannl"
+          "gitId": "-"
         },
         "content": ""
       },
@@ -36849,9 +36849,9 @@
       }
     ],
     "authorContributionMap": {
-      "nbriannl": 35,
+      "nbriannl": 34,
       "April0616": 5,
-      "-": 48
+      "-": 49
     }
   },
   {
@@ -37917,14 +37917,14 @@
       {
         "lineNumber": 152,
         "author": {
-          "gitId": "nbriannl"
+          "gitId": "-"
         },
         "content": "    }"
       },
       {
         "lineNumber": 153,
         "author": {
-          "gitId": "nbriannl"
+          "gitId": "-"
         },
         "content": ""
       },
@@ -38308,9 +38308,9 @@
       }
     ],
     "authorContributionMap": {
-      "nbriannl": 78,
+      "nbriannl": 76,
       "April0616": 10,
-      "-": 119
+      "-": 121
     }
   },
   {
@@ -49627,14 +49627,14 @@
       {
         "lineNumber": 52,
         "author": {
-          "gitId": "nbriannl"
+          "gitId": "-"
         },
         "content": "    }"
       },
       {
         "lineNumber": 53,
         "author": {
-          "gitId": "nbriannl"
+          "gitId": "-"
         },
         "content": ""
       },
@@ -49774,7 +49774,7 @@
       {
         "lineNumber": 73,
         "author": {
-          "gitId": "nbriannl"
+          "gitId": "-"
         },
         "content": "    @Subscribe"
       },
@@ -49830,7 +49830,7 @@
       {
         "lineNumber": 81,
         "author": {
-          "gitId": "nbriannl"
+          "gitId": "-"
         },
         "content": "        logger.info(LogsCenter.getEventHandlingLogMessage(event));"
       },
@@ -49844,7 +49844,7 @@
       {
         "lineNumber": 83,
         "author": {
-          "gitId": "nbriannl"
+          "gitId": "-"
         },
         "content": "    }"
       },
@@ -49857,8 +49857,8 @@
       }
     ],
     "authorContributionMap": {
-      "nbriannl": 22,
-      "-": 62
+      "nbriannl": 17,
+      "-": 67
     }
   },
   {
@@ -53100,7 +53100,7 @@
       {
         "lineNumber": 12,
         "author": {
-          "gitId": "April0616"
+          "gitId": "-"
         },
         "content": ""
       },
@@ -53205,7 +53205,7 @@
       {
         "lineNumber": 27,
         "author": {
-          "gitId": "April0616"
+          "gitId": "-"
         },
         "content": ""
       },
@@ -54032,8 +54032,8 @@
     "authorContributionMap": {
       "zacharytang": 3,
       "CindyTsai1": 3,
-      "April0616": 56,
-      "-": 82
+      "April0616": 54,
+      "-": 84
     }
   },
   {
@@ -54757,7 +54757,7 @@
       {
         "lineNumber": 16,
         "author": {
-          "gitId": "CindyTsai1"
+          "gitId": "-"
         },
         "content": ""
       },
@@ -55085,8 +55085,8 @@
       }
     ],
     "authorContributionMap": {
-      "CindyTsai1": 21,
-      "-": 41
+      "CindyTsai1": 20,
+      "-": 42
     }
   },
   {
@@ -59884,14 +59884,14 @@
       {
         "lineNumber": 131,
         "author": {
-          "gitId": "April0616"
+          "gitId": "-"
         },
         "content": "        }"
       },
       {
         "lineNumber": 132,
         "author": {
-          "gitId": "April0616"
+          "gitId": "-"
         },
         "content": ""
       },
@@ -59975,7 +59975,7 @@
       {
         "lineNumber": 144,
         "author": {
-          "gitId": "nbriannl"
+          "gitId": "-"
         },
         "content": "        @Override"
       },
@@ -60401,9 +60401,9 @@
       }
     ],
     "authorContributionMap": {
-      "nbriannl": 29,
-      "April0616": 5,
-      "-": 170
+      "nbriannl": 28,
+      "April0616": 3,
+      "-": 173
     }
   },
   {
@@ -61077,7 +61077,7 @@
       {
         "lineNumber": 96,
         "author": {
-          "gitId": "CindyTsai1"
+          "gitId": "-"
         },
         "content": "                .withTags(VALID_TAG_FRIEND).build();"
       },
@@ -61105,7 +61105,7 @@
       {
         "lineNumber": 100,
         "author": {
-          "gitId": "CindyTsai1"
+          "gitId": "-"
         },
         "content": "                .withTags(VALID_TAG_HUSBAND, VALID_TAG_FRIEND).build();"
       },
@@ -61553,9 +61553,9 @@
     ],
     "authorContributionMap": {
       "zacharytang": 7,
-      "CindyTsai1": 14,
+      "CindyTsai1": 12,
       "April0616": 20,
-      "-": 122
+      "-": 124
     }
   },
   {
@@ -62488,7 +62488,7 @@
       {
         "lineNumber": 133,
         "author": {
-          "gitId": "nbriannl"
+          "gitId": "-"
         },
         "content": "    @Test"
       },
@@ -63103,9 +63103,9 @@
       }
     ],
     "authorContributionMap": {
-      "nbriannl": 96,
+      "nbriannl": 95,
       "April0616": 9,
-      "-": 115
+      "-": 116
     }
   },
   {
@@ -69813,28 +69813,28 @@
       {
         "lineNumber": 19,
         "author": {
-          "gitId": "April0616"
+          "gitId": "-"
         },
         "content": "import seedu.address.logic.commands.AddCommand;"
       },
       {
         "lineNumber": 20,
         "author": {
-          "gitId": "April0616"
+          "gitId": "-"
         },
         "content": "import seedu.address.logic.commands.ClearCommand;"
       },
       {
         "lineNumber": 21,
         "author": {
-          "gitId": "April0616"
+          "gitId": "-"
         },
         "content": "import seedu.address.logic.commands.DeleteCommand;"
       },
       {
         "lineNumber": 22,
         "author": {
-          "gitId": "April0616"
+          "gitId": "-"
         },
         "content": "import seedu.address.logic.commands.EditCommand;"
       },
@@ -69848,42 +69848,42 @@
       {
         "lineNumber": 24,
         "author": {
-          "gitId": "April0616"
+          "gitId": "-"
         },
         "content": "import seedu.address.logic.commands.ExitCommand;"
       },
       {
         "lineNumber": 25,
         "author": {
-          "gitId": "April0616"
+          "gitId": "-"
         },
         "content": "import seedu.address.logic.commands.FindCommand;"
       },
       {
         "lineNumber": 26,
         "author": {
-          "gitId": "April0616"
+          "gitId": "-"
         },
         "content": "import seedu.address.logic.commands.HelpCommand;"
       },
       {
         "lineNumber": 27,
         "author": {
-          "gitId": "April0616"
+          "gitId": "-"
         },
         "content": "import seedu.address.logic.commands.HistoryCommand;"
       },
       {
         "lineNumber": 28,
         "author": {
-          "gitId": "April0616"
+          "gitId": "-"
         },
         "content": "import seedu.address.logic.commands.ListCommand;"
       },
       {
         "lineNumber": 29,
         "author": {
-          "gitId": "April0616"
+          "gitId": "-"
         },
         "content": "import seedu.address.logic.commands.RedoCommand;"
       },
@@ -69897,14 +69897,14 @@
       {
         "lineNumber": 31,
         "author": {
-          "gitId": "April0616"
+          "gitId": "-"
         },
         "content": "import seedu.address.logic.commands.SelectCommand;"
       },
       {
         "lineNumber": 32,
         "author": {
-          "gitId": "April0616"
+          "gitId": "-"
         },
         "content": "import seedu.address.logic.commands.UndoCommand;"
       },
@@ -70198,14 +70198,14 @@
       {
         "lineNumber": 74,
         "author": {
-          "gitId": "April0616"
+          "gitId": "-"
         },
         "content": "    }"
       },
       {
         "lineNumber": 75,
         "author": {
-          "gitId": "April0616"
+          "gitId": "-"
         },
         "content": ""
       },
@@ -71857,8 +71857,8 @@
     ],
     "authorContributionMap": {
       "zacharytang": 155,
-      "April0616": 23,
-      "-": 132
+      "April0616": 9,
+      "-": 146
     }
   },
   {
@@ -71958,7 +71958,7 @@
       {
         "lineNumber": 14,
         "author": {
-          "gitId": "nbriannl"
+          "gitId": "-"
         },
         "content": ""
       },
@@ -72560,14 +72560,14 @@
       {
         "lineNumber": 100,
         "author": {
-          "gitId": "nbriannl"
+          "gitId": "-"
         },
         "content": "    }"
       },
       {
         "lineNumber": 101,
         "author": {
-          "gitId": "nbriannl"
+          "gitId": "-"
         },
         "content": ""
       },
@@ -72727,9 +72727,9 @@
       }
     ],
     "authorContributionMap": {
-      "nbriannl": 27,
+      "nbriannl": 24,
       "April0616": 66,
-      "-": 30
+      "-": 33
     }
   },
   {
@@ -73809,14 +73809,14 @@
       {
         "lineNumber": 154,
         "author": {
-          "gitId": "nbriannl"
+          "gitId": "-"
         },
         "content": "    }"
       },
       {
         "lineNumber": 155,
         "author": {
-          "gitId": "nbriannl"
+          "gitId": "-"
         },
         "content": ""
       },
@@ -74775,9 +74775,9 @@
     ],
     "authorContributionMap": {
       "CindyTsai1": 25,
-      "nbriannl": 19,
+      "nbriannl": 17,
       "April0616": 53,
-      "-": 194
+      "-": 196
     }
   },
   {
@@ -75382,14 +75382,14 @@
       {
         "lineNumber": 21,
         "author": {
-          "gitId": "April0616"
+          "gitId": "-"
         },
         "content": "import seedu.address.model.person.Address;"
       },
       {
         "lineNumber": 22,
         "author": {
-          "gitId": "April0616"
+          "gitId": "-"
         },
         "content": "import seedu.address.model.person.Email;"
       },
@@ -75410,14 +75410,14 @@
       {
         "lineNumber": 25,
         "author": {
-          "gitId": "April0616"
+          "gitId": "-"
         },
         "content": "import seedu.address.model.person.Name;"
       },
       {
         "lineNumber": 26,
         "author": {
-          "gitId": "April0616"
+          "gitId": "-"
         },
         "content": "import seedu.address.model.person.Phone;"
       },
@@ -77160,8 +77160,8 @@
     ],
     "authorContributionMap": {
       "zacharytang": 28,
-      "April0616": 60,
-      "-": 186
+      "April0616": 56,
+      "-": 190
     }
   },
   {
@@ -82179,7 +82179,7 @@
       {
         "lineNumber": 178,
         "author": {
-          "gitId": "zacharytang"
+          "gitId": "-"
         },
         "content": ""
       },
@@ -82213,10 +82213,10 @@
       }
     ],
     "authorContributionMap": {
-      "zacharytang": 15,
+      "zacharytang": 14,
       "CindyTsai1": 15,
       "April0616": 42,
-      "-": 110
+      "-": 111
     }
   },
   {
@@ -89815,7 +89815,7 @@
       {
         "lineNumber": 12,
         "author": {
-          "gitId": "April0616"
+          "gitId": "-"
         },
         "content": ""
       },
@@ -90074,14 +90074,14 @@
       {
         "lineNumber": 49,
         "author": {
-          "gitId": "zacharytang"
+          "gitId": "-"
         },
         "content": "        assertCommandSuccess(command, expectedModel, expectedResultMessage);"
       },
       {
         "lineNumber": 50,
         "author": {
-          "gitId": "zacharytang"
+          "gitId": "-"
         },
         "content": ""
       },
@@ -91655,10 +91655,10 @@
       }
     ],
     "authorContributionMap": {
-      "zacharytang": 56,
+      "zacharytang": 54,
       "CindyTsai1": 9,
-      "April0616": 16,
-      "-": 193
+      "April0616": 15,
+      "-": 196
     }
   },
   {
@@ -94381,35 +94381,35 @@
       {
         "lineNumber": 15,
         "author": {
-          "gitId": "zacharytang"
+          "gitId": "-"
         },
         "content": "import seedu.address.logic.commands.ClearCommand;"
       },
       {
         "lineNumber": 16,
         "author": {
-          "gitId": "zacharytang"
+          "gitId": "-"
         },
         "content": "import seedu.address.logic.commands.DeleteCommand;"
       },
       {
         "lineNumber": 17,
         "author": {
-          "gitId": "zacharytang"
+          "gitId": "-"
         },
         "content": "import seedu.address.logic.commands.FindCommand;"
       },
       {
         "lineNumber": 18,
         "author": {
-          "gitId": "zacharytang"
+          "gitId": "-"
         },
         "content": "import seedu.address.logic.commands.ListCommand;"
       },
       {
         "lineNumber": 19,
         "author": {
-          "gitId": "zacharytang"
+          "gitId": "-"
         },
         "content": "import seedu.address.logic.commands.RedoCommand;"
       },
@@ -94423,7 +94423,7 @@
       {
         "lineNumber": 21,
         "author": {
-          "gitId": "zacharytang"
+          "gitId": "-"
         },
         "content": "import seedu.address.logic.commands.UndoCommand;"
       },
@@ -94654,14 +94654,14 @@
       {
         "lineNumber": 54,
         "author": {
-          "gitId": "zacharytang"
+          "gitId": "-"
         },
         "content": "        ModelHelper.setFilteredList(expectedModel, BENSON, DANIEL); // first names of Benson and Daniel are \"Meier\""
       },
       {
         "lineNumber": 55,
         "author": {
-          "gitId": "zacharytang"
+          "gitId": "-"
         },
         "content": "        assertCommandSuccess(command, expectedModel);"
       },
@@ -95829,9 +95829,9 @@
       }
     ],
     "authorContributionMap": {
-      "zacharytang": 27,
+      "zacharytang": 19,
       "CindyTsai1": 8,
-      "-": 186
+      "-": 194
     }
   },
   {
