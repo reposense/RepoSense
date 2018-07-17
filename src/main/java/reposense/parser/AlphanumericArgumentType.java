@@ -8,7 +8,7 @@ import net.sourceforge.argparse4j.inf.ArgumentParserException;
 import net.sourceforge.argparse4j.inf.ArgumentType;
 
 /**
- * Verifies a String is alphanumeric.
+ * This class represents a Alphanumeric Argument Type.
  */
 public class AlphanumericArgumentType implements ArgumentType<String> {
     private static final String PARSE_EXCEPTION_MESSAGE_NOT_IN_ALPLANUMERIC =
