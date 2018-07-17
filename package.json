@@ -8,7 +8,7 @@
   },
   "scripts": {
     "lint": "eslint",
-    "pug": "pug"
+    "spuild": "spuild frontend"
   },
   "repository": {
     "type": "git",
@@ -21,8 +21,7 @@
   },
   "homepage": "https://github.com/reposense/RepoSense#readme",
   "dependencies": {
-    "pug-cli": "^1.0.0-alpha6",
-    "sass": "^1.9.2"
+    "spuild": "^1.0.2"
   },
   "devDependencies": {
     "eslint": "^4.19.1",
