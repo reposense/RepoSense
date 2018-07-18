@@ -1,5 +1,6 @@
 package reposense.authorship;
 
+import java.io.File;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.List;
@@ -15,10 +16,10 @@ import reposense.util.TestConstants;
 
 
 public class FileInfoExtractorTest extends GitTestTemplate {
-    private static final Path TEST_DATA_FOLDER = Paths.get("src", "test", "resources", "FileInfoExtractorTest");
-    private static final Path FILE_WITH_SPECIAL_CHARACTER = TEST_DATA_FOLDER.resolve("fileWithSpecialCharacters.txt");
-    private static final Path FILE_WITHOUT_SPECIAL_CHARACTER = TEST_DATA_FOLDER
-            .resolve("fileWithoutSpecialCharacters.txt");
+    private static final Path FILE_WITH_SPECIAL_CHARACTER = new File(FileInfoExtractorTest.class.getClassLoader()
+            .getResource("FileInfoExtractorTest/fileWithSpecialCharacters.txt").getFile()).toPath();
+    private static final Path FILE_WITHOUT_SPECIAL_CHARACTER = new File(FileInfoExtractorTest.class.getClassLoader()
+            .getResource("FileInfoExtractorTest/fileWithoutSpecialCharacters.txt").getFile()).toPath();
 
     @Test
     public void extractFileInfosTest() {
@@ -35,13 +36,13 @@ public class FileInfoExtractorTest extends GitTestTemplate {
 
     @Test
     public void generateFileInfo_fileWithSpecialCharacters_correctFileInfoGenerated() {
-        FileInfo fileInfo = FileInfoExtractor.generateFileInfo(".", FILE_WITH_SPECIAL_CHARACTER.toString());
+        FileInfo fileInfo = FileInfoExtractor.generateFileInfo(FILE_WITH_SPECIAL_CHARACTER.toString(), "");
         Assert.assertEquals(5, fileInfo.getLines().size());
     }
 
     @Test
     public void generateFileInfo_fileWithoutSpecialCharacters_correctFileInfoGenerated() {
-        FileInfo fileInfo = FileInfoExtractor.generateFileInfo(".", FILE_WITHOUT_SPECIAL_CHARACTER.toString());
+        FileInfo fileInfo = FileInfoExtractor.generateFileInfo(FILE_WITHOUT_SPECIAL_CHARACTER.toString(), "");
         Assert.assertEquals(5, fileInfo.getLines().size());
     }
 
