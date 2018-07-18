@@ -11,6 +11,8 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collector;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import org.junit.Assert;
@@ -35,7 +37,7 @@ public class ArgsParserTest {
         try (Stream<Path> files = Files.list(PROJECT_DIRECTORY)) {
             if (files.count() != 0) {
                 System.out.println(PROJECT_DIRECTORY + " is not empty.");
-                System.out.println(files.toString());
+                System.out.println(files.collect(Collectors.toList()));
                 throw new AssertionError(
                         "\nWARNING!"
                         + "\nTesting environment is not in a sandbox!"
