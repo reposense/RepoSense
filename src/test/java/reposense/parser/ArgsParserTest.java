@@ -34,6 +34,8 @@ public class ArgsParserTest {
     static {
         try (Stream<Path> files = Files.list(PROJECT_DIRECTORY)) {
             if (files.count() != 0) {
+                System.out.println(PROJECT_DIRECTORY + " is not empty.");
+                System.out.println(files.toString());
                 throw new AssertionError(
                         "\nWARNING!"
                         + "\nTesting environment is not in a sandbox!"
