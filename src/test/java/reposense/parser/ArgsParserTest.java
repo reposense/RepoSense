@@ -34,10 +34,10 @@ public class ArgsParserTest {
     static {
         try {
             List<Path> files = Files.list(PROJECT_DIRECTORY).collect(Collectors.toList());
+            // Remove logs folder as it may be created as soon as the program starts
+            files.remove(Paths.get(PROJECT_DIRECTORY.toString(), "logs"));
 
             if (files.size() != 0) {
-                System.out.println(PROJECT_DIRECTORY + " is not empty.");
-                System.out.println(files);
                 throw new AssertionError(
                         "\nWARNING!"
                         + "\nTesting environment is not in a sandbox!"
