@@ -236,9 +236,11 @@ window.vSummary = {
 
         for (let dayId = 0; dayId < 7; dayId += 1) {
           const commit = commits[(weekId * 7) + dayId];
-          week.insertions += commit.insertions;
-          week.deletions += commit.deletions;
-          week.untilDate = commit.untilDate;
+          if (commit) {
+            week.insertions += commit.insertions;
+            week.deletions += commit.deletions;
+            week.untilDate = commit.untilDate;
+          }
         }
 
         res.push(week);
