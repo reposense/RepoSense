@@ -3,6 +3,7 @@ package reposense.system;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
 
@@ -30,22 +31,29 @@ public class CommandRunnerTest extends GitTestTemplate {
     }
 
     @Test
-    public void logWithContentTest() {
-        String content = CommandRunner.gitLog(
-                TestConstants.LOCAL_TEST_REPO_ADDRESS, null, null, config.getFileFormats());
+    public void log_existingFormats_hasContent() {
+        String content =
+                CommandRunner.gitLog(TestConstants.LOCAL_TEST_REPO_ADDRESS, null, null, config.getFormats());
         Assert.assertFalse(content.isEmpty());
     }
 
     @Test
-    public void logWithoutContentTest() {
+    public void log_nonExistingFormats_noContent() {
+        String content =
+                CommandRunner.gitLog(TestConstants.LOCAL_TEST_REPO_ADDRESS, null, null, Arrays.asList("py"));
+        Assert.assertTrue(content.isEmpty());
+    }
+
+    @Test
+    public void log_sinceDateInFuture_noContent() {
         Date date = TestUtil.getDate(2050, Calendar.JANUARY, 1);
         String content = CommandRunner.gitLog(
-                TestConstants.LOCAL_TEST_REPO_ADDRESS, date, null, config.getFileFormats());
+                TestConstants.LOCAL_TEST_REPO_ADDRESS, date, null, config.getFormats());
         Assert.assertTrue(content.isEmpty());
 
         date = TestUtil.getDate(1950, Calendar.JANUARY, 1);
         content = CommandRunner.gitLog(
-                TestConstants.LOCAL_TEST_REPO_ADDRESS, null, date, config.getFileFormats());
+                TestConstants.LOCAL_TEST_REPO_ADDRESS, null, date, config.getFormats());
         Assert.assertTrue(content.isEmpty());
     }
 

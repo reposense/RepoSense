@@ -20,7 +20,7 @@ public class RepoConfiguration {
     private Date untilDate;
 
     private transient boolean needCheckStyle = false;
-    private transient List<String> fileFormats;
+    private transient List<String> formats;
     private transient int commitNum = 1;
     private transient List<String> ignoreDirectoryList = new ArrayList<>();
     private transient List<Author> authorList = new ArrayList<>();
@@ -44,10 +44,10 @@ public class RepoConfiguration {
     }
 
     /**
-     * Sets all {@code RepoConfiguration} in {@code configs} to have {@code fileFormats} set.
+     * Sets all {@code RepoConfiguration} in {@code configs} to have {@code formats} set.
      */
-    public static void setFormatsToRepoConfigs(List<RepoConfiguration> configs, List<String> fileFormats) {
-        configs.forEach(config -> config.setFileFormats(fileFormats));
+    public static void setFormatsToRepoConfigs(List<RepoConfiguration> configs, List<String> formats) {
+        configs.forEach(config -> config.setFormats(formats));
     }
 
     @Override
@@ -173,12 +173,12 @@ public class RepoConfiguration {
         return displayName;
     }
 
-    public List<String> getFileFormats() {
-        return fileFormats;
+    public List<String> getFormats() {
+        return formats;
     }
 
-    public void setFileFormats(List<String> fileFormats) {
-        this.fileFormats = fileFormats;
+    public void setFormats(List<String> formats) {
+        this.formats = formats;
     }
 
     public void setAuthorDisplayName(Author author, String displayName) {

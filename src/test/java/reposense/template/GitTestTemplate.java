@@ -11,7 +11,6 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.BeforeClass;
 
-import reposense.RepoSense;
 import reposense.authorship.FileInfoAnalyzer;
 import reposense.authorship.FileInfoExtractor;
 import reposense.authorship.model.FileInfo;
@@ -21,6 +20,7 @@ import reposense.git.GitDownloader;
 import reposense.git.GitDownloaderException;
 import reposense.model.Author;
 import reposense.model.RepoConfiguration;
+import reposense.parser.ArgsParser;
 import reposense.system.CommandRunner;
 import reposense.util.Constants;
 import reposense.util.FileUtil;
@@ -33,7 +33,7 @@ public class GitTestTemplate {
     @Before
     public void before() {
         config = new RepoConfiguration(TEST_ORG, TEST_REPO, "master");
-        config.setFileFormats(RepoSense.DEFAULT_FILE_FORMATS);
+        config.setFormats(ArgsParser.DEFAULT_FORMATS);
     }
 
     @BeforeClass

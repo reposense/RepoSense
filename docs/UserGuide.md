@@ -15,21 +15,22 @@
 1. Download the latest executable Jar on our [release](https://github.com/reposense/RepoSense/releases/latest).
    * Alternatively, you can compile the executable Jar yourself by following our [build from source guide](Build.md).
 1. Execute it on the OS terminal. <br>
-Usage: `java -jar RepoSense.jar -config CSV_CONFIG_FILE_PATH [-output OUTPUT_DIRECTORY] [-since DD/MM/YYYY] [-until DD/MM/YYYY]`
+Usage: `java -jar RepoSense.jar -config CSV_CONFIG_FILE_PATH [-output OUTPUT_DIRECTORY] [-since DD/MM/YYYY] [-until DD/MM/YYYY] [-formats FORMAT...]`
 1. The report will be generated in the designated OUTPUT_DIRECTORY, or current working directory otherwise.
 1. To visualize the report, open `index.html`.
 1. If the dashboard was not loaded automatically, upload the `archive.zip` (generated in the OUTPUT_DIRECTORY) manually to load the data.
 
 Sample usage:
 ```
-$ java -jar RepoSense.jar -config CSV_path.csv -output output_path/ -since 01/10/2017 -until 01/11/2017
+$ java -jar RepoSense.jar -config CSV_path.csv -output output_path/ -since 01/10/2017 -until 01/11/2017 -formats java adoc js
 ```
 
 Argument List:
 - config : Mandatory. The path to the CSV config file.
 - output : Optional. The path to the dashboard generated. If not provided, it will be generated in the current directory.
-- since : Optional. start date of analysis. Format: `DD/MM/YYYY`
-- until : Optional. end date of analysis. Format: `DD/MM/YYYY`
+- since : Optional. The start date of analysis. Format: `DD/MM/YYYY`
+- until : Optional. The end date of analysis. Format: `DD/MM/YYYY`
+- formats : Optional. The file formats to analyse. Formats: `alphanumerical file formats`. If not provided, the following file formats will be used. `adoc, cs, css, fxml, gradle, html, java, js, json, jsp, md, py, tag, xml`
 
 ```
 Note:
@@ -39,11 +40,11 @@ The contribution calculation is based on the daily commits made within 00:00 to 
 ### Other option:
 1. Clone this repository (or [download as zip](https://github.com/reposense/RepoSense/archive/master.zip))
 1. Execute the following command on the OS terminal inside the project directory.<br>
-Usage: `gradlew run -Dargs="-config CSV_CONFIG_FILE_PATH [-output OUTPUT_DIRECTORY] [-since DD/MM/YYYY] [-until DD/MM/YYYY]"` <br>
+Usage: `gradlew run -Dargs="-config CSV_CONFIG_FILE_PATH [-output OUTPUT_DIRECTORY] [-since DD/MM/YYYY] [-until DD/MM/YYYY] [-formats FORMAT...]"` <br>
 
 Sample usage:
 ```
-$ gradlew run -Dargs="-config CSV_path.csv -output output_path/ -since 01/10/2017 -until 01/11/2017"
+$ gradlew run -Dargs="-config CSV_path.csv -output output_path/ -since 01/10/2017 -until 01/11/2017 -formats java adoc js"
 ```
 
 `-Dargs="..."` uses the same argument format as mentioned above.

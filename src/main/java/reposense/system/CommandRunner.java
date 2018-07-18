@@ -17,14 +17,13 @@ public class CommandRunner {
 
     private static boolean isWindows = isWindows();
 
-    public static String gitLog(String root, Date sinceDate, Date untilDate, List<String> fileFormats) {
+    public static String gitLog(String root, Date sinceDate, Date untilDate, List<String> formats) {
         Path rootPath = Paths.get(root);
 
         String command = "git log --no-merges ";
         command += convertToGitDateRangeArgs(sinceDate, untilDate);
         command += " --pretty=format:\"%h|%aN|%ad|%s\" --date=iso --shortstat";
-        command += convertToGitFileFormatsArgs(fileFormats);
-
+        command += convertToGitFormatsArgs(formats);
         return runCommand(rootPath, command);
     }
 
@@ -156,14 +155,13 @@ public class CommandRunner {
     /**
      * Returns the {@code String} command to specify the file formats to analyze for `git` commands.
      */
-    private static String convertToGitFileFormatsArgs(List<String> fileFormats) {
-        StringBuilder gitFileFormatsArgsBuilder = new StringBuilder();
-
+    private static String convertToGitFormatsArgs(List<String> formats) {
+        StringBuilder gitFormatsArgsBuilder = new StringBuilder();
         final String cmdFormat = " -- " + addQuote("*.%s");
-        fileFormats.stream()
+        formats.stream()
                 .map(format -> String.format(cmdFormat, format))
-                .forEach(gitFileFormatsArgsBuilder::append);
+                .forEach(gitFormatsArgsBuilder::append);
 
-        return gitFileFormatsArgsBuilder.toString();
+        return gitFormatsArgsBuilder.toString();
     }
 }
