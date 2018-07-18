@@ -33,10 +33,12 @@ public class ArgsParserTest {
     private static final String DEFAULT_MANDATORY_ARGS =  CONFIG_FILE_ABSOLUTE + " ";
 
     static {
-        try (Stream<Path> files = Files.list(PROJECT_DIRECTORY)) {
-            if (files.count() != 0) {
+        try {
+            List<Path> files = Files.list(PROJECT_DIRECTORY).collect(Collectors.toList());
+
+            if (files.size() != 0) {
                 System.out.println(PROJECT_DIRECTORY + " is not empty.");
-                System.out.println(files.collect(Collectors.toList()));
+                System.out.println(files);
                 throw new AssertionError(
                         "\nWARNING!"
                         + "\nTesting environment is not in a sandbox!"
