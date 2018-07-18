@@ -3,12 +3,10 @@ package reposense.util;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
-import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.PrintWriter;
-import java.lang.reflect.Type;
 import java.nio.ByteBuffer;
 import java.nio.file.DirectoryStream;
 import java.nio.file.Files;
@@ -17,8 +15,6 @@ import java.nio.file.PathMatcher;
 import java.nio.file.Paths;
 import java.util.Arrays;
 import java.util.Comparator;
-import java.util.List;
-import java.util.Map;
 import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -29,17 +25,7 @@ import java.util.zip.ZipOutputStream;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
-import com.google.gson.reflect.TypeToken;
-import com.google.gson.stream.JsonReader;
 
-import reposense.authorship.model.AuthorshipSummary;
-import reposense.commits.model.CommitContributionSummary;
-import reposense.model.Author;
-import reposense.model.RepoConfiguration;
-import reposense.parser.AuthorAdapter;
 import reposense.system.LogsManager;
 
 public class FileUtil {
@@ -64,29 +50,6 @@ public class FileUtil {
         } catch (FileNotFoundException e) {
             logger.log(Level.SEVERE, e.getMessage(), e);
         }
-    }
-
-    public static <T> T fromJson(Path path, Type type) throws FileNotFoundException {
-        return fromJson(new Gson(), path, type);
-    }
-
-    public static <T> T fromJson(Gson gson, Path path, Type type) throws FileNotFoundException {
-        JsonReader jsonReader = new JsonReader(new FileReader(path.toString()));
-        return gson.fromJson(jsonReader, type);
-    }
-
-    public static <T> T fromJson(Gson gson, JsonElement jsonElement, Type type) throws FileNotFoundException {
-        return gson.fromJson(jsonElement, type);
-    }
-
-    public static JsonObject fromJson(Path path) throws FileNotFoundException {
-        JsonReader jsonReader = new JsonReader(new FileReader(path.toString()));
-        JsonParser parser = new JsonParser();
-        return parser.parse(jsonReader).getAsJsonObject();
-    }
-
-    public static <T> T fromJson(JsonElement jsonElement, Type type) throws FileNotFoundException {
-        return fromJson(new Gson(), jsonElement, type);
     }
 
     public static String getRepoDirectory(String org, String repoName) {
@@ -211,46 +174,6 @@ public class FileUtil {
 
     private static String attachJsPrefix(String original, String prefix) {
         return "var " + prefix + " = " + original;
-    }
-
-    public static List<RepoConfiguration> getRepoConfigsFromJson(Path reposenseReportFolderPath)
-            throws FileNotFoundException {
-        Path summaryJsonPath = Paths.get(reposenseReportFolderPath.toString(), "summary.json");
-        Type type = new TypeToken<List<RepoConfiguration>>(){}.getType();
-        return FileUtil.fromJson(summaryJsonPath, type);
-    }
-
-    public static List<AuthorshipSummary> getAuthorshipFromJson(Path reposenseReportFolderPath, String folder)
-            throws FileNotFoundException {
-        Path authorshipJsonPath = Paths.get(reposenseReportFolderPath.toString(), folder, "authorship.json");
-        Type type = new TypeToken<List<AuthorshipSummary>>(){}.getType();
-        return FileUtil.fromJson(authorshipJsonPath, type);
-    }
-
-    public static CommitContributionSummary getCommitContributionSummaryFromJson(
-            Path reposenseReportFolderPath, String folder) throws FileNotFoundException {
-        Path commitsJsonPath = Paths.get(reposenseReportFolderPath.toString(), folder, "commits.json");
-        Type type = new TypeToken<CommitContributionSummary>(){}.getType();
-
-        GsonBuilder builder = new GsonBuilder();
-        builder.registerTypeAdapter(Author.class, new AuthorAdapter());
-        Gson gson = builder.create();
-
-        return FileUtil.fromJson(gson, commitsJsonPath, type);
-    }
-
-    public static Map<Author, Float> getAuthorContributionVarianceFromJson(
-            Path reposenseReportFolderPath, String folder) throws FileNotFoundException {
-        Path commitsJsonPath = Paths.get(reposenseReportFolderPath.toString(), folder, "commits.json");
-        JsonObject jsonObject = FileUtil.fromJson(commitsJsonPath);
-        JsonElement jsonElement = jsonObject.get("authorFinalContributionMap");
-
-        GsonBuilder builder = new GsonBuilder();
-        builder.registerTypeAdapter(Author.class, new AuthorAdapter());
-        Gson gson = builder.create();
-
-        Type type = new TypeToken<Map<Author, Float>>(){}.getType();
-        return FileUtil.fromJson(gson, jsonElement, type);
     }
 
     public static boolean isFileExists(PathMatcher matcher, Path path) {
