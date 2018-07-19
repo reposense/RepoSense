@@ -1,10 +1,12 @@
 plugins {
     id 'java'
     id 'checkstyle'
-    id 'com.github.johnrengelman.shadow' version '2.0.3'
     id 'application'
+    id 'com.github.johnrengelman.shadow' version '2.0.3'
+    id 'com.liferay.node' version '4.4.0'
 }
-mainClassName = "reposense.RepoSense"
+mainClassName = 'reposense.RepoSense'
+node.nodeVersion = '10.5.0'
 
 repositories {
     mavenCentral()
@@ -31,17 +33,17 @@ dependencies {
 
 shadowJar {
     archiveName = 'RepoSense.jar'
-    destinationDir = file("${buildDir}/jar/")
+    destinationDir = file('${buildDir}/jar/')
 }
 
-task myZip(type: Zip) {
-    from 'template/'
+task myZip(dependsOn: 'npmRunSpuild', type: Zip) {
+    from 'frontend/build/'
     baseName = 'templateZip'
-    destinationDir = file("src/main/resources")
+    destinationDir = file('src/main/resources')
 }
 
-tasks.shadowJar.dependsOn("myZip");
-tasks.run.dependsOn("myZip");
+tasks.shadowJar.dependsOn('myZip');
+tasks.run.dependsOn('myZip');
 
 configurations {
   functionalImplementation.extendsFrom testImplementation
@@ -62,19 +64,17 @@ task functional(type: Test) {
   testClassesDirs = sourceSets.functional.output.classesDirs
   classpath = sourceSets.functional.runtimeClasspath
   testLogging {
-    events "passed", "skipped", "failed"
+    events 'passed', 'skipped', 'failed'
     showStandardStreams = true
   }
 }
-tasks.functional.dependsOn("myZip");
+tasks.functional.dependsOn('myZip');
 
 run {
     //the second arguments indicates the default value associated with the property.
-    args System.getProperty("args", "").split()
+    args System.getProperty('args', '').split()
 }
 tasks.compileJava.dependsOn(clean)
-
-tasks.functional.dependsOn("myZip")
 
 tasks.withType(Copy) {
     includeEmptyDirs = true
