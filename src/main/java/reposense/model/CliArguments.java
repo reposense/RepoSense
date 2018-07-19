@@ -17,7 +17,7 @@ public class CliArguments {
     private boolean startServer;
 
     public CliArguments(Path configFilePath, Path outputFilePath, Optional<Date> sinceDate,
-                        Optional<Date> untilDate, List<String> formats, boolean startServer) {
+            Optional<Date> untilDate, List<String> formats, boolean startServer) {
         this.configFilePath = configFilePath;
         this.outputFilePath = outputFilePath;
         this.sinceDate = sinceDate;
