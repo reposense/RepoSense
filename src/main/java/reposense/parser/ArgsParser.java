@@ -1,5 +1,7 @@
 package reposense.parser;
 
+import static net.sourceforge.argparse4j.impl.Arguments.storeTrue;
+
 import java.io.File;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -74,6 +76,11 @@ public class ArgsParser {
                         + "If not provided, default file formats will be used.\n"
                         + "Please refer to userguide for more information.");
 
+        parser.addArgument("-start-server")
+                .action(storeTrue())
+                .help("Server will be started. "
+                        + "The dashboard will be displayed on the browser.");
+
         return parser;
     }
 
@@ -91,6 +98,7 @@ public class ArgsParser {
             File outputFile = results.get("output");
             Optional<Date> sinceDate = results.get("since");
             Optional<Date> untilDate = results.get("until");
+            boolean startServer = results.get("start_server");
 
             Path configFilePath = configFile.toPath();
             Path outputFilePath = Paths.get(outputFile.toString(), DEFAULT_REPORT_NAME);
@@ -98,7 +106,8 @@ public class ArgsParser {
             List<String> formats = results.get("formats");
 
             verifyDatesRangeIsCorrect(sinceDate, untilDate);
-            return new CliArguments(configFilePath, outputFilePath, sinceDate, untilDate, formats);
+
+            return new CliArguments(configFilePath, outputFilePath, sinceDate, untilDate, formats, startServer);
         } catch (ArgumentParserException ape) {
             throw new ParseException(getArgumentParser().formatUsage() + ape.getMessage() + "\n");
         }
