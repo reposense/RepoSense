@@ -9,8 +9,8 @@ import reposense.model.RepoConfiguration;
 public class ConfigurationBuilder {
     private RepoConfiguration config;
 
-    public ConfigurationBuilder(String organization, String repoName, String branch) {
-        config = new RepoConfiguration(organization, repoName, branch);
+    public ConfigurationBuilder(String location, String branch) {
+        config = new RepoConfiguration(location, branch);
     }
 
     public ConfigurationBuilder needCheckStyle(boolean value) {

@@ -51,8 +51,18 @@ public class FileUtil {
         }
     }
 
-    public static String getRepoDirectory(String org, String repoName) {
-        return Constants.REPOS_ADDRESS + File.separator + org + File.separator + repoName + File.separator;
+    public static String getRepoDirectory(String displayName) {
+        return Constants.REPOS_ADDRESS + File.separator + displayName + File.separator;
+    }
+
+    public static String getRepoDirectory(String displayName, String repoName) {
+        String path = Constants.REPOS_ADDRESS + File.separator + displayName + File.separator;
+
+        if (!repoName.isEmpty()) {
+            path += repoName + File.separator;
+        }
+
+        return path;
     }
 
     public static void deleteDirectory(String root) throws IOException {

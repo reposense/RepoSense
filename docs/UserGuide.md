@@ -75,8 +75,7 @@ The `CSV Config File` contains the list of repositories, and the corresponding t
 
 Column Name | Explanation
 ----------- | -----------
-Organization | Organization of the target repository
-Repository | Name of the target repository
+Repository's Location | The `GitHub URL` or `Disk Path` to the git repository
 Branch | The branch to analyse in the target repository
 Author's GitHub ID | GitHub ID of the target contributor in the repository
 Author's Display Name | Optional Field. The value of this field, if not empty, will be displayed in the dashboard instead of author's GitHub ID.

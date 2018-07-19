@@ -1,12 +1,12 @@
 [
   {
-    "organization": "reposense",
+    "location": "https://github.com/reposense/testrepo-Beta.git",
     "repoName": "testrepo-Beta",
     "branch": "master",
     "displayName": "reposense_testrepo-Beta_master"
   },
   {
-    "organization": "reposense",
+    "location": "https://github.com/reposense/testrepo-Charlie.git",
     "repoName": "testrepo-Charlie",
     "branch": "master",
     "displayName": "reposense_testrepo-Charlie_master"

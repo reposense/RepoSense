@@ -1,7 +1,8 @@
 package reposense.template;
 
-import static reposense.util.TestConstants.TEST_ORG;
 import static reposense.util.TestConstants.TEST_REPO;
+import static reposense.util.TestConstants.TEST_REPO_DISPLAY_NAME;
+import static reposense.util.TestConstants.TEST_REPO_GIT_LOCATION;
 
 import java.io.IOException;
 
@@ -32,14 +33,14 @@ public class GitTestTemplate {
 
     @Before
     public void before() {
-        config = new RepoConfiguration(TEST_ORG, TEST_REPO, "master");
+        config = new RepoConfiguration(TEST_REPO_GIT_LOCATION, "master");
         config.setFormats(ArgsParser.DEFAULT_FORMATS);
     }
 
     @BeforeClass
     public static void beforeClass() throws GitDownloaderException, IOException {
         deleteRepos();
-        GitDownloader.downloadRepo(TEST_ORG, TEST_REPO, "master");
+        GitDownloader.downloadRepo(TEST_REPO_GIT_LOCATION, TEST_REPO_DISPLAY_NAME, TEST_REPO, "master");
     }
 
     @AfterClass

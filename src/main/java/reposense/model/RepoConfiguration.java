@@ -1,5 +1,6 @@
 package reposense.model;
 
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -8,11 +9,16 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.TreeMap;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import reposense.util.FileUtil;
 
 public class RepoConfiguration {
-    private String organization;
+    private static final Pattern GIT_REPOSITORY_LOCATION_PATTERN =
+            Pattern.compile("^.*github.com\\/(?<org>.+?)\\/(?<repoName>.+?)\\.git$");
+
+    private String location;
     private String repoName;
     private String branch;
     private String displayName;
@@ -28,11 +34,21 @@ public class RepoConfiguration {
     private transient Map<Author, String> authorDisplayNameMap = new HashMap<>();
     private transient boolean annotationOverwrite = true;
 
-    public RepoConfiguration(String organization, String repoName, String branch) {
-        this.organization = organization;
-        this.repoName = repoName;
+    public RepoConfiguration(String location, String branch) {
+        this.location = location;
         this.branch = branch;
-        this.displayName = organization + "_" + repoName + "_" + branch;
+
+        Matcher matcher = GIT_REPOSITORY_LOCATION_PATTERN.matcher(location);
+
+        if (matcher.matches()) {
+            String organization = matcher.group("org");
+            repoName = matcher.group("repoName");
+            displayName = organization + "_" + repoName + "_" + branch;
+        } else {
+            // Location must be a Path
+            repoName = Paths.get(location).getFileName().toString();
+            displayName = repoName + "_" + branch;
+        }
     }
 
     public static void setDatesToRepoConfigs(
@@ -66,7 +82,7 @@ public class RepoConfiguration {
 
     @Override
     public int hashCode() {
-        return Objects.hash(this.organization, this.repoName, this.branch);
+        return Objects.hash(location);
     }
 
     public Map<Author, String> getAuthorDisplayNameMap() {
@@ -78,7 +94,7 @@ public class RepoConfiguration {
     }
 
     public String getRepoRoot() {
-        return FileUtil.getRepoDirectory(organization, repoName);
+        return FileUtil.getRepoDirectory(displayName, getRepoName());
     }
 
     public int getCommitNum() {
@@ -95,22 +111,6 @@ public class RepoConfiguration {
 
     public void setNeedCheckStyle(boolean needCheckStyle) {
         this.needCheckStyle = needCheckStyle;
-    }
-
-    public String getOrganization() {
-        return organization;
-    }
-
-    public void setOrganization(String organization) {
-        this.organization = organization;
-    }
-
-    public String getRepoName() {
-        return repoName;
-    }
-
-    public void setRepoName(String repoName) {
-        this.repoName = repoName;
     }
 
     public String getBranch() {
@@ -169,10 +169,6 @@ public class RepoConfiguration {
         this.untilDate = untilDate;
     }
 
-    public String getDisplayName() {
-        return displayName;
-    }
-
     public List<String> getFormats() {
         return formats;
     }
@@ -189,5 +185,17 @@ public class RepoConfiguration {
         for (String alias : aliases) {
             authorAliasMap.put(alias, author);
         }
+    }
+
+    public String getDisplayName() {
+        return displayName;
+    }
+
+    public String getLocation() {
+        return location;
+    }
+
+    public String getRepoName() {
+        return repoName;
     }
 }

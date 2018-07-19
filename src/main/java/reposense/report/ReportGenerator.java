@@ -39,7 +39,8 @@ public class ReportGenerator {
         for (RepoConfiguration config : configs) {
             Path repoReportDirectory = Paths.get(outputPath, config.getDisplayName());
             try {
-                GitDownloader.downloadRepo(config.getOrganization(), config.getRepoName(), config.getBranch());
+                GitDownloader.downloadRepo(
+                        config.getLocation(), config.getDisplayName(), config.getRepoName(), config.getBranch());
                 FileUtil.createDirectory(repoReportDirectory);
             } catch (GitDownloaderException gde) {
                 logger.log(Level.WARNING, "Exception met while trying to clone the repo, will skip this one", gde);

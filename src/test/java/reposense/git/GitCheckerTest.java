@@ -1,5 +1,6 @@
 package reposense.git;
 
+import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -10,11 +11,22 @@ import org.junit.Assert;
 import org.junit.Test;
 
 import reposense.template.GitTestTemplate;
+import reposense.util.Constants;
 import reposense.util.TestConstants;
 import reposense.util.TestUtil;
 
 
 public class GitCheckerTest extends GitTestTemplate {
+    @Test
+    public void checkoutDiskLocation() throws GitDownloaderException, IOException {
+        Path diskLocation = Paths.get(TestConstants.LOCAL_TEST_REPO_ADDRESS).toAbsolutePath();
+        GitDownloader.downloadRepo(diskLocation.toString(),
+                TestConstants.DISK_REPO_DISPLAY_NAME, TestConstants.TEST_REPO, "master");
+        Path clonedDiskLocation =
+                Paths.get(Constants.REPOS_ADDRESS, TestConstants.DISK_REPO_DISPLAY_NAME).toAbsolutePath();
+        TestUtil.compareDirectories(diskLocation, clonedDiskLocation);
+    }
+
     @Test
     public void checkoutBranchTest() {
         Path branchFile = Paths.get(TestConstants.LOCAL_TEST_REPO_ADDRESS, "inTestBranch.java");

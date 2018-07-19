@@ -15,12 +15,12 @@ public class GitDownloader {
 
     private static final Logger logger = LogsManager.getLogger(GitDownloader.class);
 
-    public static void downloadRepo(String organization, String repoName, String branchName)
+    public static void downloadRepo(String location, String displayName, String repoName, String branchName)
             throws GitDownloaderException {
         try {
-            FileUtil.deleteDirectory(FileUtil.getRepoDirectory(organization, repoName));
-            logger.info("Cloning " + organization + "/" + repoName + "...");
-            CommandRunner.cloneRepo(organization, repoName);
+            FileUtil.deleteDirectory(FileUtil.getRepoDirectory(displayName));
+            logger.info("Cloning " + location + "...");
+            CommandRunner.cloneRepo(location, displayName);
             logger.info("Cloning completed!");
         } catch (RuntimeException rte) {
             logger.log(Level.SEVERE, "Error encountered in Git Cloning, will attempt to continue analyzing", rte);
@@ -32,7 +32,7 @@ public class GitDownloader {
         }
 
         try {
-            GitChecker.checkout(FileUtil.getRepoDirectory(organization, repoName), branchName);
+            GitChecker.checkout(FileUtil.getRepoDirectory(displayName, repoName), branchName);
         } catch (RuntimeException e) {
             logger.log(Level.SEVERE, "Branch does not exist! Analyze terminated.", e);
             throw new GitDownloaderException(e);

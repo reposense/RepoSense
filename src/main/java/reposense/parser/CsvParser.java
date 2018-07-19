@@ -3,10 +3,13 @@ package reposense.parser;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 import reposense.model.Author;
@@ -27,14 +30,21 @@ public class CsvParser {
     /**
      * Positions of the elements of a line in the user-supplied CSV file
      */
-    private static final int ORGANIZATION_POSITION = 0;
-    private static final int REPOSITORY_NAME_POSITION = 1;
-    private static final int BRANCH_POSITION = 2;
-    private static final int GITHUB_ID_POSITION = 3;
-    private static final int DISPLAY_NAME_POSITION = 4;
-    private static final int ALIAS_POSITION = 5;
+    private static final int LOCATION = 0;
+    private static final int BRANCH_POSITION = 1;
+    private static final int GITHUB_ID_POSITION = 2;
+    private static final int DISPLAY_NAME_POSITION = 3;
+    private static final int ALIAS_POSITION = 4;
 
     private static final Logger logger = LogsManager.getLogger(CsvParser.class);
+
+    private static final String WINDOWS_PATH_REGEX =
+            "^(?:[a-zA-Z]\\:|\\\\\\\\[\\w\\.]+\\\\[\\w.$]+)\\\\(?:[\\w]+\\\\)*\\w([\\w.])+$";
+    private static final String UNIX_PATH_REGEX = "^(/[^/ ]*)+/?$";
+    private static final Pattern GIT_URL_PATTERN =
+            Pattern.compile("(?:git|ssh|https?|git@[-\\w.]+):(\\/\\/)?(.*?)(\\.git)(\\/?|\\#[-\\d\\w._]+?)$");
+    private static final Pattern PATH_PATTERN =
+            Pattern.compile(WINDOWS_PATH_REGEX + "|" + UNIX_PATH_REGEX);
 
     /**
      * Returns a list of {@code RepoConfiguration}, each of which corresponds to a data line in the csv file.
@@ -56,9 +66,10 @@ public class CsvParser {
                 processLine(repoConfigurations, line, lineNumber);
                 lineNumber++;
             }
-
         } catch (IOException ioe) {
             throw new IOException(MESSAGE_UNABLE_TO_READ_CSV_FILE, ioe);
+        } catch (ParseException pe) {
+            logger.log(Level.WARNING, pe.getMessage(), pe);
         }
 
         return repoConfigurations;
@@ -68,7 +79,8 @@ public class CsvParser {
      * Adds the {@code Author} to its corresponding {@code RepoConfiguration} if it exists, or creates a new
      * {@code RepoConfiguration} containing the {@code Author} and add it to the {@code repoConfigurations} otherwise.
      */
-    private static void processLine(List<RepoConfiguration> repoConfigurations, String line, int lineNumber) {
+    private static void processLine(List<RepoConfiguration> repoConfigurations, String line, int lineNumber)
+            throws ParseException {
         if (line.isEmpty()) {
             return;
         }
@@ -80,11 +92,10 @@ public class CsvParser {
             return;
         }
 
-        String organization = elements[ORGANIZATION_POSITION];
-        String repositoryName = elements[REPOSITORY_NAME_POSITION];
+        String location = elements[LOCATION];
         String branch = elements[BRANCH_POSITION];
+        RepoConfiguration config = buildRepoConfig(location, branch);
 
-        RepoConfiguration config = new RepoConfiguration(organization, repositoryName, branch);
         int index = repoConfigurations.indexOf(config);
 
         // Take existing repoConfig if exists
@@ -125,5 +136,23 @@ public class CsvParser {
             String[] aliases = elements[ALIAS_POSITION].split(AUTHOR_ALIAS_SEPARATOR);
             config.setAuthorAliases(author, aliases);
         }
+    }
+
+    private static RepoConfiguration buildRepoConfig(String location, String branch) throws ParseException {
+        if (PATH_PATTERN.matcher(location).matches()) {
+            Path pathLocation = Paths.get(location);
+
+            if (!Files.exists(pathLocation)) {
+                throw new ParseException("Repository path location does not exists");
+            }
+
+            return new RepoConfiguration(pathLocation.toString(), branch);
+        }
+
+        if (GIT_URL_PATTERN.matcher(location).matches()) {
+            return new RepoConfiguration(location, branch);
+        }
+
+        throw new ParseException("Url location to git repository is invalid");
     }
 }
