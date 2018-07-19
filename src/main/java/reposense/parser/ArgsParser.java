@@ -18,7 +18,9 @@ import reposense.model.CliArguments;
  * Verifies and parses a string-formatted date to a {@code CliArguments} object.
  */
 public class ArgsParser {
-    public static final String DEFAULT_REPORT_NAME = "reposense-report";
+    public static final String REPOSENSE_CONFIG_FOLDER = "_reposense";
+    public static final String REPOSENSE_REPORT_FOLDER = "docs";
+
     private static final String PROGRAM_USAGE = "java -jar RepoSense.jar";
     private static final String PROGRAM_DESCRIPTION =
             "RepoSense is a contribution analysis tool for Git repositories.";
@@ -32,19 +34,18 @@ public class ArgsParser {
                 .build()
                 .description(PROGRAM_DESCRIPTION);
 
-        parser.addArgument("-h", "--help")
+        parser.addArgument("-h", "-help")
                 .help("Show help message.")
                 .action(new HelpArgumentAction());
 
-        parser.addArgument("-config")
-                .required(true)
-                .type(Arguments.fileType().verifyExists().verifyIsFile().verifyCanRead())
+        parser.addArgument("genericInput")
                 .metavar("PATH")
-                .help("The path to the CSV config file to read.");
+                .type(new GenericInputArgumentType())
+                .help(GenericInput.VALID_TYPES_MESSAGE);
 
         parser.addArgument("-output")
-                .metavar("PATH")
                 .type(Arguments.fileType().verifyExists().verifyIsDirectory().verifyCanWrite())
+                .metavar("PATH")
                 .setDefault(new File("."))
                 .help("The directory to output the report folder, reposense-report. "
                         + "If not provided, the report folder will be created in the current working directory.");
@@ -71,21 +72,28 @@ public class ArgsParser {
      */
     public static CliArguments parse(String[] args) throws ParseException {
         try {
+            if (args.length == 0) {
+                return new CliArguments(GenericInputArgumentType.getDefault());
+            }
+
             ArgumentParser parser = getArgumentParser();
             Namespace results = parser.parseArgs(args);
 
-            File configFile = results.get("config");
-            File outputFile = results.get("output");
+            Optional<GenericInput> genericInput = results.get("genericInput");
             Optional<Date> sinceDate = results.get("since");
             Optional<Date> untilDate = results.get("until");
-
-            Path configFilePath = configFile.toPath();
-            Path outputFilePath = Paths.get(outputFile.toString(), DEFAULT_REPORT_NAME);
-
+            Path outputPath = Paths.get(results.get("output").toString(), REPOSENSE_REPORT_FOLDER);
             verifyDatesRangeIsCorrect(sinceDate, untilDate);
-            return new CliArguments(configFilePath, outputFilePath, sinceDate, untilDate);
+
+            return new CliArguments(genericInput, sinceDate, untilDate, outputPath);
         } catch (ArgumentParserException ape) {
-            throw new ParseException(getArgumentParser().formatUsage() + ape.getMessage() + "\n");
+            if (ape.getMessage() == "Help Screen") {
+                // ArgumentParser -h/-help will throw a ArgumentParserException and print help output to the console
+                // Use empty exception message to prevent double print of the help message
+                throw new ParseException("");
+            }
+
+            throw new ParseException(ape.getParser().formatHelp() + "\n");
         }
     }
 

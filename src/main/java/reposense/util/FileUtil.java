@@ -8,8 +8,10 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.nio.ByteBuffer;
+import java.nio.file.DirectoryStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.nio.file.PathMatcher;
 import java.nio.file.Paths;
 import java.util.Arrays;
 import java.util.Comparator;
@@ -25,7 +27,6 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
 import reposense.system.LogsManager;
-
 
 public class FileUtil {
 
@@ -173,5 +174,35 @@ public class FileUtil {
 
     private static String attachJsPrefix(String original, String prefix) {
         return "var " + prefix + " = " + original;
+    }
+
+    public static boolean isFileExists(PathMatcher matcher, Path path) {
+        return Files.exists(path) && Files.isReadable(path) && Files.isRegularFile(path)
+                && matcher.matches(path.getFileName());
+    }
+
+    public static boolean isFolderAndContainsExpectedFiles(
+            PathMatcher matcher, Path path, int expectedFileCount, boolean exactExpectedFileCount) {
+        if (!Files.exists(path) || !Files.isReadable(path) || !Files.isDirectory(path)) {
+            return false;
+        }
+
+        try (DirectoryStream<Path> files = Files.newDirectoryStream(path)) {
+            int matchCount = 0;
+
+            for (Path p : files) {
+                if (matcher.matches(p.getFileName())) {
+                    matchCount++;
+                }
+            }
+
+            if (exactExpectedFileCount) {
+                return matchCount == expectedFileCount;
+            }
+
+            return matchCount <= expectedFileCount;
+        } catch (IOException ioe) {
+            return false;
+        }
     }
 }
