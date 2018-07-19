@@ -33,7 +33,7 @@ dependencies {
 
 shadowJar {
     archiveName = 'RepoSense.jar'
-    destinationDir = file('${buildDir}/jar/')
+    destinationDir = file("${buildDir}/jar/")
 }
 
 task myZip(dependsOn: 'npmRunSpuild', type: Zip) {
