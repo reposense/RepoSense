@@ -32,7 +32,7 @@ window.api = {
     loadJSON(`${REPORT_DIR}/summary.json`, (repos) => {
       const names = [];
       repos.forEach((repo) => {
-        const repoName = `${repo.organization}_${repo.repoName}`;
+        const repoName = `${repo.displayName}`;
         window.REPOS[repoName] = repo;
         names.push(repoName);
       });
@@ -65,9 +65,9 @@ window.api = {
             obj.displayName, author,
           ];
 
-          obj.searchPath = searchParams.join('/').toLowerCase();
-          obj.repoPath = `${repo.organization}/${repo.repoName}`;
-          obj.repoName = `${repo.organization}_${repo.repoName}`;
+          obj.searchPath = searchParams.join('_').toLowerCase();
+          obj.repoPath = `${repo.displayName}`;
+          obj.repoName = `${repo.displayName}`;
 
           res.push(obj);
         }
