@@ -1,14 +1,16 @@
-
 .idea/
 *.class
 *.iml
 /target/
 .gradle/
-build/
-
-*.zip
 
 repos/
 logs/
 out/
 ft_temp/
+*.zip
+
+build/
+frontend/build
+node_modules
+package-lock.json
