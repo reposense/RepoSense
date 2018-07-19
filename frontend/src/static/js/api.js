@@ -5,47 +5,46 @@ window.enquery = (key, val) => `${key}=${encodeURIComponent(val)}`;
 const REPORT_DIR = '.';
 
 // data retrieval functions //
-function loadJSON(fname, fn) {
-  const err = () => window.alert('unable to get file');
-
+function loadJSON(fname) {
   if (window.REPORT_ZIP) {
-    window.REPORT_ZIP.file(fname.slice(2)).async('text')
-      .then(txt => fn(JSON.parse(txt)));
+    return window.REPORT_ZIP.file(fname.slice(2)).async('text')
+      .then(txt => JSON.parse(txt));
   } else {
-    const xhr = new XMLHttpRequest();
-    xhr.open('GET', fname);
-    xhr.onload = function xhrOnload() {
-      if (xhr.status === 200) {
-        fn(JSON.parse(xhr.responseText));
-      } else {
-        err();
-      }
-    };
-    xhr.send(null);
+    return new Promise((resolve) => {
+      const xhr = new XMLHttpRequest();
+      xhr.open('GET', fname);
+      xhr.onload = function xhrOnload() {
+        if (xhr.status === 200) {
+          resolve(JSON.parse(xhr.responseText));
+        } else {
+          window.alert('unable to get file');
+        }
+      };
+      xhr.send(null);
+    });
   }
 }
 
 window.api = {
-  loadSummary(callback) {
+  loadSummary() {
     window.REPOS = {};
 
-    loadJSON(`${REPORT_DIR}/summary.json`, (data) => {
-      const names = [];
-      window.app.creationDate = data.dashboardGeneratedTime;
-      data.repos.forEach((repo) => {
-        const repoName = `${repo.displayName}`;
-        window.REPOS[repoName] = repo;
-        names.push(repoName);
-      });
+    return loadJSON(`${REPORT_DIR}/summary.json`)
+      .then((data) => {
+        window.app.creationDate = data.dashboardGeneratedTime;
 
-      if (callback) {
-        callback(names);
-      }
-    });
+        const names = [];
+        data.repos.forEach((repo) => {
+          const repoName = `${repo.displayName}`;
+          window.REPOS[repoName] = repo;
+          names.push(repoName);
+        });
+        return names;
+      });
   },
 
-  loadCommits(repoName, callback) {
-    loadJSON(`${REPORT_DIR}/${repoName}/commits.json`, (commits) => {
+  loadCommits(repoName) {
+    return loadJSON(`${REPORT_DIR}/${repoName}/commits.json`).then((commits) => {
       const res = [];
       const repo = window.REPOS[repoName];
 
@@ -77,20 +76,16 @@ window.api = {
       repo.commits = commits;
       repo.users = res;
 
-      if (callback) {
-        callback(res);
-      }
+      return res;
     });
   },
 
-  loadAuthorship(repoName, callback) {
-    loadJSON(`${REPORT_DIR}/${repoName}/authorship.json`, (files) => {
-      window.REPOS[repoName].files = files;
-
-      if (callback) {
-        callback(files);
-      }
-    });
+  loadAuthorship(repoName) {
+    return loadJSON(`${REPORT_DIR}/${repoName}/authorship.json`)
+      .then((files) => {
+        window.REPOS[repoName].files = files;
+        return files;
+      });
   },
 
 };
