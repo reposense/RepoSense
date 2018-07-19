@@ -52,6 +52,13 @@ html
               option(value="displayName") Author Name
               option(value="searchPath") Team Name
             label sort by
+          .summary-picker__input
+            .mui-textfield.summary-picker__date
+              input(type="date", v-model="filterSinceDate")
+              label since
+            .mui-textfield.summary-picker__date
+              input(type="date", v-model="filterUntilDate")
+              label until
           .mui-checkbox.summary-picker__checkboxes.summary-picker__input
             label
               input(type="checkbox", v-model="filterSortReverse").summary-picker__checkbox
@@ -62,13 +69,6 @@ html
             label
               input(type="checkbox", v-model="filterGroupWeek").summary-picker__checkbox
               span week
-          .summary-picker__input
-            .mui-textfield.summary-picker__date
-              input(type="date", v-model="filterSinceDate")
-              label since
-            .mui-textfield.summary-picker__date
-              input(type="date", v-model="filterUntilDate")
-              label until
         #summary-charts
           .summary-charts(v-for="repo of filtered", v-if="repo.length>0")
             .summary-charts--title(v-if="filterGroupRepos") {{ repo[0].repoPath }}
