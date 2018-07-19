@@ -58,7 +58,7 @@ public class CommandRunner {
     public static String blameRaw(String root, String fileDirectory, Date sinceDate, Date untilDate) {
         Path rootPath = Paths.get(root);
 
-        String blameCommand = "git blame -w -C -C -M --line-porcelain";
+        String blameCommand = "git blame -w --line-porcelain";
         blameCommand += convertToGitDateRangeArgs(sinceDate, untilDate);
         blameCommand += " " + addQuote(fileDirectory);
         blameCommand += getAuthorFilterCommand();
