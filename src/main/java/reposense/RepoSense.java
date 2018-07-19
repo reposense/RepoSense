@@ -11,11 +11,13 @@ import reposense.parser.ArgsParser;
 import reposense.parser.CsvParser;
 import reposense.parser.ParseException;
 import reposense.report.ReportGenerator;
+import reposense.system.DashboardServer;
 import reposense.system.LogsManager;
 import reposense.util.FileUtil;
 
 public class RepoSense {
     private static final Logger logger = LogsManager.getLogger(RepoSense.class);
+    private static final int SERVER_PORT_NUMBER = 9000;
 
     public static void main(String[] args) {
         try {
@@ -28,6 +30,8 @@ public class RepoSense {
                     configs, cliArguments.getOutputFilePath().toAbsolutePath().toString());
 
             FileUtil.zip(cliArguments.getOutputFilePath().toAbsolutePath(), ".json");
+
+            DashboardServer.startServer(SERVER_PORT_NUMBER, cliArguments.getOutputFilePath().toAbsolutePath());
         } catch (IOException ioe) {
             logger.log(Level.WARNING, ioe.getMessage(), ioe);
         } catch (ParseException pe) {
