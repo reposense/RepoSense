@@ -32,7 +32,7 @@ public class RepoConfiguration {
         this.organization = organization;
         this.repoName = repoName;
         this.branch = branch;
-        this.displayName = organization + "_" + repoName;
+        this.displayName = organization + "_" + repoName + "_" + branch;
     }
 
     public static void setDatesToRepoConfigs(
