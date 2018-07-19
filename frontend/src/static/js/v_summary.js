@@ -295,7 +295,7 @@ window.vSummary = {
       diff = getIntervalDay(untilDate, userLast.sinceDate);
 
       const endMs = (new Date(userLast.sinceDate)).getTime();
-      for (let paddingId = 0; paddingId < diff; paddingId += 1) {
+      for (let paddingId = 1; paddingId < diff; paddingId += 1) {
         user.commits.push({
           insertions: 0,
           deletions: 0,
