@@ -32,8 +32,10 @@ public class RepoSense {
 
     private static void handleReposenseSourceFolder(CliArguments cliArguments, Path reposenseSourceFolderPath)
             throws IOException {
-        Path csvFile = Paths.get(reposenseSourceFolderPath.toString(), "config.csv");
-        handleCsvFile(cliArguments, csvFile);
+        Path repoConfigCsvFile = Paths.get(reposenseSourceFolderPath.toString(), "repo-config.csv");
+        Path authorConfigCsvFile = Paths.get(reposenseSourceFolderPath.toString(), "author-config.csv");
+
+        handleCsvFile(cliArguments, repoConfigCsvFile);
     }
 
     private static void handleReposenseReportFolder() {

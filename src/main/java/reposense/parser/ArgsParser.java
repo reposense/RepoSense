@@ -87,10 +87,9 @@ public class ArgsParser {
 
             return new CliArguments(genericInput, sinceDate, untilDate, outputPath);
         } catch (ArgumentParserException ape) {
-            System.out.println(ape.getMessage());
             if (ape.getMessage() == "Help Screen") {
-                // ArgumentParser -h/-help will print help output to the console
-                // Use empty string to indicate that we are not going to double print the help message again
+                // ArgumentParser -h/-help will throw a ArgumentParserException and print help output to the console
+                // Use empty exception message to prevent double print of the help message
                 throw new ParseException("");
             }
 

@@ -7,7 +7,6 @@ import java.nio.file.Paths;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
-import java.util.regex.Pattern;
 
 import net.sourceforge.argparse4j.inf.Argument;
 import net.sourceforge.argparse4j.inf.ArgumentParser;
@@ -16,29 +15,37 @@ import net.sourceforge.argparse4j.inf.ArgumentType;
 import reposense.util.FileUtil;
 
 public class GenericInputArgumentType implements ArgumentType<Optional<GenericInput>> {
+    public static final String REPO_CONFIG_CSV_FILENAME = "repo-config.csv";
+    public static final String AUTHOR_CONFIG_CSV_FILENAME = "author-config.csv";
+    public static final List<String> REPOSENSE_CONFIG_FOLDER_FILES =
+            Arrays.asList(REPO_CONFIG_CSV_FILENAME, AUTHOR_CONFIG_CSV_FILENAME);
     public static final List<String> REPOSENSE_REPORT_FOLDER_FILES =
             Arrays.asList("summary.json", "index.html", "summary.js");
-    public static final List<String> REPOSENSE_CONFIG_FOLDER_FILES =
-            Arrays.asList("repo-config.csv", "author-config.csv");
 
-    private static final PathMatcher REPOSENSE_REPORT_FOLDER_FILES_MATCHER =
-            FileSystems.getDefault().getPathMatcher(
-                    "glob:{summary.json,index.html,summary.js}");
-
+    private static final String GLOB_PATTERN = "glob:{%s}";
+    private static final PathMatcher CSV_MATCHER = getPathMatcher("**.csv");
     private static final PathMatcher REPOSENSE_CONFIG_FOLDER_FILES_MATCHER =
-            FileSystems.getDefault().getPathMatcher(
-                    "glob:{repo-config.csv,author-config.csv}");
-
-    private static final PathMatcher CSV_MATCHER = FileSystems.getDefault().getPathMatcher("glob:**.csv");
-
-    private static Pattern GIT_URL_PATTERN =
-            Pattern.compile("(?:git|ssh|https?|git@[-\\w.]+):(\\/\\/)?(.*?)(\\.git)(\\/?|\\#[-\\d\\w._]+?)$");
+            getPathMatcher(REPOSENSE_CONFIG_FOLDER_FILES);
+    private static final PathMatcher REPOSENSE_REPORT_FOLDER_FILES_MATCHER =
+            getPathMatcher(REPOSENSE_REPORT_FOLDER_FILES);
 
     private static final String PARSE_EXCEPTION_INVALID_TYPES =
             String.format("Unable to parse input. It has be to a %s.", GenericInput.VALID_TYPES_MESSAGE);
     private static final String PARSE_EXCEPTION_NO_REPOSENSE_FOLDER =
             String.format("Unable to find %s, %s or config csv file in current working directory.",
                     ArgsParser.REPOSENSE_CONFIG_FOLDER, ArgsParser.REPOSENSE_REPORT_FOLDER);
+
+    private static PathMatcher getPathMatcher(List<String> files) {
+        final String formattedFiles = files.toString()
+                .replace("[", "")
+                .replace("]", "")
+                .replace(" ", "");
+        return getPathMatcher(formattedFiles);
+    }
+
+    private static PathMatcher getPathMatcher(String pattern) {
+        return FileSystems.getDefault().getPathMatcher(String.format(GLOB_PATTERN, pattern));
+    }
 
     private static boolean isCsvConfigFile(Path path) {
         return FileUtil.isFileExists(CSV_MATCHER, path);
