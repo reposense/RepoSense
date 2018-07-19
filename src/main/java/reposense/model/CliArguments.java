@@ -50,4 +50,3 @@ public class CliArguments {
         return startServer;
     }
 }
-
