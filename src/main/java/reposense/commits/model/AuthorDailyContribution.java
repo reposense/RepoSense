@@ -4,7 +4,9 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-
+/**
+ * Holds the commits made and line contribution count of an {@code Author} for a single day.
+ */
 public class AuthorDailyContribution {
     private int insertions;
     private int deletions;
@@ -43,12 +45,19 @@ public class AuthorDailyContribution {
         this.deletions = deletions;
     }
 
+    /**
+     * Adds the {@code commitResult} line contribution count into the {@code Author}'s total line contribution count
+     * for the day.
+     */
     public void addCommitContribution(CommitResult commitResult) {
         insertions += commitResult.getInsertions();
         deletions += commitResult.getDeletions();
         commitResults.add(commitResult);
     }
 
+    /**
+     * Returns the total line contribution made by the {@code Author} for the day.
+     */
     public int getTotalContribution() {
         return insertions + deletions;
     }
