@@ -78,8 +78,7 @@ public class ArgsParser {
 
         parser.addArgument("-start-server")
                 .action(storeTrue())
-                .help("Server will be started. "
-                        + "The dashboard will be displayed on the browser.");
+                .help("Starts a server to display the browser.");
 
         return parser;
     }

@@ -1,7 +1,6 @@
 package reposense.system;
 
 import java.awt.Desktop;
-import java.io.File;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -10,16 +9,15 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import net.freeutils.httpserver.HTTPServer;
-import reposense.RepoSense;
 
 /**
- * Represents the RepoSense dashboard server
+ * Handles starting the dashboard for the server
  */
 public class DashboardServer {
 
     private static final String LOCAL_HOST_URL = "http://localhost:%s/";
 
-    private static final Logger logger = LogsManager.getLogger(RepoSense.class);
+    private static final Logger logger = LogsManager.getLogger(DashboardServer.class);
 
     /**
      * Starts a server at {@code port} and loads the {@code requestPath} from the local disk.
@@ -33,7 +31,7 @@ public class DashboardServer {
 
         try {
             // a handler to process the request and give the corresponding response
-            host.addContext(File.separator, new HTTPServer.FileContextHandler(requestPath.toFile()));
+            host.addContext("/", new HTTPServer.FileContextHandler(requestPath.toFile()));
             server.start();
             launchBrowser(String.format(LOCAL_HOST_URL, port));
         } catch (IOException ioe) {
@@ -42,13 +40,13 @@ public class DashboardServer {
     }
 
     /**
-     * Launches the default browser with {@code Url}.
+     * Launches the default browser with {@code url}.
      */
-    private static void launchBrowser(String Url) throws IOException {
+    private static void launchBrowser(String url) throws IOException {
         try {
             if (Desktop.isDesktopSupported()) {
-                Desktop.getDesktop().browse(new URI(Url));
-                logger.info("Loading " + Url + " on the default browser...");
+                Desktop.getDesktop().browse(new URI(url));
+                logger.info("Loading " + url + " on the default browser...");
                 logger.info("Press Ctrl + C or equivalent to exit");
             }
         } catch (URISyntaxException ue) {
