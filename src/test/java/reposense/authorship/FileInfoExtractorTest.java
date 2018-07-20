@@ -2,6 +2,8 @@ package reposense.authorship;
 
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 import org.junit.Assert;
@@ -12,6 +14,7 @@ import reposense.git.GitChecker;
 import reposense.model.Author;
 import reposense.template.GitTestTemplate;
 import reposense.util.TestConstants;
+import reposense.util.TestUtil;
 
 
 public class FileInfoExtractorTest extends GitTestTemplate {
@@ -31,6 +34,35 @@ public class FileInfoExtractorTest extends GitTestTemplate {
         Assert.assertTrue(isFileExistence(Paths.get("blameTest.java"), files));
         Assert.assertTrue(isFileExistence(Paths.get("newPos/movedFile.java"), files));
         Assert.assertTrue(isFileExistence(Paths.get("inMasterBranch.java"), files));
+    }
+
+    @Test
+    public void extractFileInfos_sinceDateFebrauaryNineToLatestCommit_success() {
+        Date date = TestUtil.getDate(2018, Calendar.FEBRUARY, 9);
+        config.setSinceDate(date);
+
+        List<FileInfo> files = FileInfoExtractor.extractFileInfos(config);
+        Assert.assertEquals(3, files.size());
+
+        // files edited within commit range
+        Assert.assertTrue(isFileExistence(Paths.get("README.md"), files));
+        Assert.assertTrue(isFileExistence(Paths.get("newPos/movedFile.java"), files));
+        Assert.assertTrue(isFileExistence(Paths.get("annotationTest.java"), files));
+
+        // files not edited within commit range
+        Assert.assertFalse(isFileExistence(Paths.get("inMasterBranch.java"), files));
+        Assert.assertFalse(isFileExistence(Paths.get("blameTest.java"), files));
+        Assert.assertFalse(isFileExistence(Paths.get("newFile.java"), files));
+    }
+
+    @Test
+    public void extractFileInfos_sinceDateAfterLatestCommit_emptyResult() {
+        Date date = TestUtil.getDate(2050, 12, 31);
+        config.setSinceDate(date);
+
+        List<FileInfo> files = FileInfoExtractor.extractFileInfos(config);
+        Assert.assertTrue(files.isEmpty());
+
     }
 
     @Test

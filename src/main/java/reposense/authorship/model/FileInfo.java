@@ -40,7 +40,17 @@ public class FileInfo {
         return path;
     }
 
+    /**
+     * Sets the {@code Author} of the {@code LineInfo} in {@code lineNumber} for this {@code FileInfo}.
+     */
     public void setLineAuthor(int lineNumber, Author author) {
         lines.get(lineNumber).setAuthor(author);
+    }
+
+    /**
+     * Returns true if the {@code LineInfo} in {@code lineNumber} index is being tracked.
+     */
+    public boolean isFileLineTracked(int lineNumber) {
+        return getLines().get(lineNumber).isTracked();
     }
 }

@@ -82,6 +82,11 @@ public class FileInfoAnalyzer {
         for (String line : blameResultLines) {
             String authorRawName = line.substring(AUTHOR_NAME_OFFSET);
             Author author = authorAliasMap.getOrDefault(authorRawName, new Author(Author.UNKNOWN_AUTHOR_GIT_ID));
+
+            if (!fileInfo.isFileLineTracked(lineCount)) {
+                author = new Author(Author.UNKNOWN_AUTHOR_GIT_ID);
+            }
+
             fileInfo.setLineAuthor(lineCount++, author);
         }
     }
@@ -90,7 +95,7 @@ public class FileInfoAnalyzer {
      * Returns the analysis result from running git blame on {@code filePath}.
      */
     private static String getGitBlameResult(RepoConfiguration config, String filePath) {
-        return CommandRunner.blameRaw(config.getRepoRoot(), filePath, config.getSinceDate(), config.getUntilDate());
+        return CommandRunner.blameRaw(config.getRepoRoot(), filePath);
     }
 
     /**
