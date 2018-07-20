@@ -11,22 +11,25 @@
 1. **git `2.14`** or later on the command line.
  > Type `git --version` on your OS terminal and ensure that you have the correct version of **git**.
 
-## How to Generate Dashboard
+## How to Generate Report
 1. Download the latest executable Jar on our [release](https://github.com/reposense/RepoSense/releases/latest).
    * Alternatively, you can compile the executable Jar yourself by following our [build from source guide](Build.md).
 1. Execute it on the OS terminal. <br>
-Usage: `java -jar RepoSense.jar (-config CSV_CONFIG_FILE_PATH | -view REPORT_DIRECTORY) [-output OUTPUT_DIRECTORY] [-since DD/MM/YYYY] [-until DD/MM/YYYY] [-formats FORMAT...]`
+Usage: `java -jar RepoSense.jar -config CSV_CONFIG_FILE_PATH [-output OUTPUT_DIRECTORY] [-since DD/MM/YYYY] [-until DD/MM/YYYY] [-formats FORMAT...]`
 1. The report will be generated in the designated OUTPUT_DIRECTORY, or current working directory otherwise.
-1. To visualize the report, open `index.html`.
-1. If the dashboard was not loaded automatically, upload the `archive.zip` (generated in the OUTPUT_DIRECTORY) manually to load the data.
-1. If a `REPORT_DIRECTORY` is entered, a server will be started to display the dashboard, and the report generation will be skipped.
 
 Sample usage to generate the report:
 ```
 $ java -jar RepoSense.jar -config CSV_path.csv -output output_path/ -since 01/10/2017 -until 01/11/2017 -formats java adoc js
 ```
 
-Sample usage to view the dashboard:
+## How to View Dashboard
+# With jar
+1. Ensure that you have generated the report.
+1. Execute it on the OS terminal. <br>
+Usage `java -jar RepoSense.jar -view REPORT_DIRECTORY`
+1. If a `REPORT_DIRECTORY` is entered, a server will be started to display the dashboard, and the report generation will be skipped.
+
 ```
 java -jar RepoSense.jar -view report_path/
 ```
@@ -39,6 +42,10 @@ Argument List:
 - view : Mandatory. If specified with path to the report directory, all the other arguments will be ignored, and the server will be started to display the dashboard.
 
 `config` and `view` are mandatory mutually exclusive arguments which means that they cannot be provided together, however, one of them compulsorily has to be present at a given time.
+# Manually
+1. Ensure that you have generated the report.
+1. To visualize the report, open `index.html`.
+1. If the dashboard was not loaded automatically, upload the `archive.zip` (generated in the OUTPUT_DIRECTORY) manually to load the data.
 ```
 Note:
 The contribution calculation is based on the daily commits made within 00:00 to 23:59 in GMT+8.
