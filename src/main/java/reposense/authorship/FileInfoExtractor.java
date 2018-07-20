@@ -34,13 +34,14 @@ public class FileInfoExtractor {
     private static final String FILE_DELETED_METADATA = "deleted file mode 100644\n";
     private static final String LINE_CHUNKS_SEPARATOR = "\n@@ ";
     private static final String LINE_INSERTED_SYMBOL = "+";
+    private static final String STARTING_LINE_NUMBER_GROUP_NAME = "startingLineNumber";
+    private static final String FILE_CHANGED_GROUP_NAME = "filePath";
 
-    private static final int CHUNK_HEADER_LINE_INDEX = 0;
-    private static final int CHUNK_STARTING_LINE_GROUP_INDEX = 2;
-    private static final int FILE_PATH_GROUP_INDEX = 2;
+    private static final int LINE_CHANGED_HEADER_INDEX = 0;
 
-    private static final Pattern CHUNK_HEADER_PATTERN = Pattern.compile("-(\\d+)[,\\d]* \\+(\\d+).*");
-    private static final Pattern FILE_PATH_PATTERN = Pattern.compile("\n(\\+\\+\\+ b/)(.*)\n");
+    private static final Pattern STARTING_LINE_NUMBER_PATTERN = Pattern.compile(
+            "-(\\d)+(,)?(\\d)* \\+(?<startingLineNumber>\\d+)(,)?(\\d)* @@");
+    private static final Pattern FILE_CHANGED_PATTERN = Pattern.compile("\n(\\+){3} b/(?<filePath>.*)\n");
 
     /**
      * Extracts a list of relevant files given in {@code config}.
@@ -73,14 +74,14 @@ public class FileInfoExtractor {
     public static List<FileInfo> getEditedFileInfos(RepoConfiguration config, String lastCommitHash) {
         List<FileInfo> fileInfos = new ArrayList<>();
 
-        String diffResult = CommandRunner.diffCommit(config.getRepoRoot(), lastCommitHash);
+        String fullDiffResult = CommandRunner.diffCommit(config.getRepoRoot(), lastCommitHash);
 
         // no diff between the 2 commits, return an empty list
-        if (diffResult.isEmpty()) {
+        if (fullDiffResult.isEmpty()) {
             return fileInfos;
         }
 
-        String[] fileDiffResultList = diffResult.split(DIFF_FILE_CHUNK_SEPARATOR);
+        String[] fileDiffResultList = fullDiffResult.split(DIFF_FILE_CHUNK_SEPARATOR);
 
         for (String fileDiffResult : fileDiffResultList) {
             // file deleted or is a binary file, skip it
@@ -104,22 +105,24 @@ public class FileInfoExtractor {
      * inserted in between the commit range.
      */
     private static void setLinesToTrack(FileInfo fileInfo, String fileDiffResult) {
-        String[] lineChangedChunks = fileDiffResult.split(LINE_CHUNKS_SEPARATOR);
+        String[] linesChangedChunk = fileDiffResult.split(LINE_CHUNKS_SEPARATOR);
         List<LineInfo> lineInfos = fileInfo.getLines();
         int fileLinePointer = 0;
 
-        for (int chunkIndex = 1; chunkIndex < lineChangedChunks.length; chunkIndex++) {
-            String lineChangedChunk = lineChangedChunks[chunkIndex];
-            String[] linesChangedInChunk = lineChangedChunk.split("\n");
-            int chunkStartingLineNumber = getChunkStartingLineNumber(linesChangedInChunk[CHUNK_HEADER_LINE_INDEX]);
+        // skips the header, index starts from 1
+        for (int sectionIndex = 1; sectionIndex < linesChangedChunk.length; sectionIndex++) {
+            String linesChangedInSection = linesChangedChunk[sectionIndex];
+            String[] linesChanged = linesChangedInSection.split("\n");
+            int startingLineNumber = getStartingLineNumber(linesChanged[LINE_CHANGED_HEADER_INDEX]);
 
-            // mark all untouched lines between chunks as untracked
-            while (fileLinePointer < chunkStartingLineNumber - 1) {
+            // mark all untouched lines between sections as untracked
+            while (fileLinePointer < startingLineNumber - 1) {
                 lineInfos.get(fileLinePointer++).setTracked(false);
             }
 
-            for (int lineIndex = 1; lineIndex < linesChangedInChunk.length; lineIndex++) {
-                String lineChanged = linesChangedInChunk[lineIndex];
+            // skips the header, index starts from 1
+            for (int lineIndex = 1; lineIndex < linesChanged.length; lineIndex++) {
+                String lineChanged = linesChanged[lineIndex];
                 // set line added to be tracked
                 if (lineChanged.startsWith(LINE_INSERTED_SYMBOL)) {
                     lineInfos.get(fileLinePointer++).setTracked(true);
@@ -196,26 +199,26 @@ public class FileInfoExtractor {
      * Returns the file path by matching the pattern inside {@code fileDiffResult}.
      */
     private static String getFilePathFromDiffPattern(String fileDiffResult) {
-        Matcher filePathMatcher = FILE_PATH_PATTERN.matcher(fileDiffResult);
+        Matcher filePathMatcher = FILE_CHANGED_PATTERN.matcher(fileDiffResult);
 
         if (!filePathMatcher.find()) {
             throw new AssertionError("Should not have error matching file path pattern inside file diff result!");
         }
 
-        return filePathMatcher.group(FILE_PATH_GROUP_INDEX);
+        return filePathMatcher.group(FILE_CHANGED_GROUP_NAME);
     }
 
     /**
-     * Returns the chunk's starting line number, within the file diff result, by matching the pattern inside
-     * {@code chunkHeader}.
+     * Returns the starting line changed number, within the file diff result, by matching the pattern inside
+     * {@code linesChanged}.
      */
-    private static int getChunkStartingLineNumber(String chunkHeader) {
-        Matcher chunkHeaderMatcher = CHUNK_HEADER_PATTERN.matcher(chunkHeader);
+    private static int getStartingLineNumber(String linesChanged) {
+        Matcher chunkHeaderMatcher = STARTING_LINE_NUMBER_PATTERN.matcher(linesChanged);
 
         if (!chunkHeaderMatcher.find()) {
             throw new AssertionError("Should not have error matching line number pattern inside chunk header!");
         }
 
-        return Integer.parseInt(chunkHeaderMatcher.group(CHUNK_STARTING_LINE_GROUP_INDEX));
+        return Integer.parseInt(chunkHeaderMatcher.group(STARTING_LINE_NUMBER_GROUP_NAME));
     }
 }
