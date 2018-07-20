@@ -67,8 +67,7 @@ public class CommandRunnerTest extends GitTestTemplate {
 
     @Test(expected = RuntimeException.class)
     public void blameRaw_nonExistentFile_throwsRunTimeException() {
-        String content = CommandRunner.blameRaw(TestConstants.LOCAL_TEST_REPO_ADDRESS, "nonExistentFile");
-        Assert.assertFalse(content.isEmpty());
+        CommandRunner.blameRaw(TestConstants.LOCAL_TEST_REPO_ADDRESS, "nonExistentFile");
     }
 
     @Test

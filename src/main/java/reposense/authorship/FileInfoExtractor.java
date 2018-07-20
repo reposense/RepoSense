@@ -199,7 +199,6 @@ public class FileInfoExtractor {
         Matcher filePathMatcher = FILE_PATH_PATTERN.matcher(fileDiffResult);
 
         if (!filePathMatcher.find()) {
-            logger.severe(fileDiffResult);
             throw new AssertionError("Should not have error matching file path pattern inside file diff result!");
         }
 
