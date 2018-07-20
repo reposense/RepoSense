@@ -15,7 +15,7 @@
 1. Download the latest executable Jar on our [release](https://github.com/reposense/RepoSense/releases/latest).
    * Alternatively, you can compile the executable Jar yourself by following our [build from source guide](Build.md).
 1. Execute it on the OS terminal. <br>
-Usage: `java -jar RepoSense.jar -config CSV_CONFIG_FILE_PATH [-output OUTPUT_DIRECTORY] [-since DD/MM/YYYY] [-until DD/MM/YYYY] [-formats FORMAT...] [-view REPORT_DIRECTORY]`
+Usage: `java -jar RepoSense.jar (-config CSV_CONFIG_FILE_PATH | -view REPORT_DIRECTORY) [-output OUTPUT_DIRECTORY] [-since DD/MM/YYYY] [-until DD/MM/YYYY] [-formats FORMAT...]`
 1. The report will be generated in the designated OUTPUT_DIRECTORY, or current working directory otherwise.
 1. To visualize the report, open `index.html`.
 1. If the dashboard was not loaded automatically, upload the `archive.zip` (generated in the OUTPUT_DIRECTORY) manually to load the data.
@@ -28,7 +28,7 @@ $ java -jar RepoSense.jar -config CSV_path.csv -output output_path/ -since 01/10
 
 Sample usage to view the dashboard:
 ```
-java -jar RepoSense.jar -config CSV_path.csv -view report_path/
+java -jar RepoSense.jar -view report_path/
 ```
 Argument List:
 - config : Mandatory. The path to the CSV config file.
@@ -36,7 +36,9 @@ Argument List:
 - since : Optional. The start date of analysis. Format: `DD/MM/YYYY`
 - until : Optional. The end date of analysis. Format: `DD/MM/YYYY`
 - formats : Optional. The file formats to analyse. Formats: `alphanumerical file formats`. If not provided, the following file formats will be used. `adoc, cs, css, fxml, gradle, html, java, js, json, jsp, md, py, tag, xml`
-- view : Optional. If specified with path to the report directory, all the other arguments will be ignored, and the server will be started to display the dashboard.
+- view : Mandatory. If specified with path to the report directory, all the other arguments will be ignored, and the server will be started to display the dashboard.
+
+`config` and `view` are mandatory mutually exclusive arguments which means that they cannot be provided together, however, one of them compulsorily has to be present at a given time.
 ```
 Note:
 The contribution calculation is based on the daily commits made within 00:00 to 23:59 in GMT+8.
@@ -45,16 +47,16 @@ The contribution calculation is based on the daily commits made within 00:00 to 
 ### Other option:
 1. Clone this repository (or [download as zip](https://github.com/reposense/RepoSense/archive/master.zip))
 1. Execute the following command on the OS terminal inside the project directory.<br>
-Usage: `gradlew run -Dargs="-config CSV_CONFIG_FILE_PATH [-output OUTPUT_DIRECTORY] [-since DD/MM/YYYY] [-until DD/MM/YYYY] [-formats FORMAT...] [-view REPORT_DIRECTORY]"` <br>
+Usage: `gradlew run -Dargs="(-config CSV_path.csv | -view report_path/) [-output OUTPUT_DIRECTORY] [-since DD/MM/YYYY] [-until DD/MM/YYYY] [-formats FORMAT...] [-view REPORT_DIRECTORY]"` <br>
 
 Sample usage to generate the report:
 ```
-$ gradlew run -Dargs="-config CSV_path.csv -output output_path/ -since 01/10/2017 -until 01/11/2017 -formats java adoc js -view report_path/"
+$ gradlew run -Dargs="-config CSV_path.csv -output output_path/ -since 01/10/2017 -until 01/11/2017 -formats java adoc js"
 ```
 
 Sample usage to view the dashboard:
 ```
-gradlew run -Dargs="-config sample.csv -view report_path/"
+gradlew run -Dargs="-view report_path/"
 ```
 `-Dargs="..."` uses the same argument format as mentioned above.
 

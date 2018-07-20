@@ -13,6 +13,7 @@ import net.sourceforge.argparse4j.impl.Arguments;
 import net.sourceforge.argparse4j.impl.action.HelpArgumentAction;
 import net.sourceforge.argparse4j.inf.ArgumentParser;
 import net.sourceforge.argparse4j.inf.ArgumentParserException;
+import net.sourceforge.argparse4j.inf.MutuallyExclusiveGroup;
 import net.sourceforge.argparse4j.inf.Namespace;
 import reposense.model.CliArguments;
 
@@ -36,15 +37,23 @@ public class ArgsParser {
                 .build()
                 .description(PROGRAM_DESCRIPTION);
 
+        MutuallyExclusiveGroup mutexParser = parser
+                .addMutuallyExclusiveGroup(PROGRAM_USAGE)
+                .required(true);
+
         parser.addArgument("-h", "--help")
                 .help("Show help message.")
                 .action(new HelpArgumentAction());
 
-        parser.addArgument("-config")
-                .required(true)
+        mutexParser.addArgument("-config")
                 .type(Arguments.fileType().verifyExists().verifyIsFile().verifyCanRead())
                 .metavar("PATH")
                 .help("The path to the CSV config file to read.");
+
+        mutexParser.addArgument("-view")
+                .metavar("PATH")
+                .type(Arguments.fileType().verifyIsDirectory().verifyExists().verifyCanRead())
+                .help("Starts a server to display the dashboard in the provided directory.");
 
         parser.addArgument("-output")
                 .metavar("PATH")
@@ -74,11 +83,6 @@ public class ArgsParser {
                         + "If not provided, default file formats will be used.\n"
                         + "Please refer to userguide for more information.");
 
-        parser.addArgument("-view")
-                .metavar("PATH")
-                .type(Arguments.fileType().verifyIsDirectory().verifyExists().verifyCanRead())
-                .help("Starts a server to display the dashboard in the provided directory.");
-
         return parser;
     }
 
@@ -98,7 +102,7 @@ public class ArgsParser {
             Optional<Date> untilDate = results.get("until");
             File reportDirectory = results.get("view");
 
-            Path configFilePath = configFile.toPath();
+            Path configFilePath = configFile != null ? configFile.toPath() : null;
             Path outputFilePath = Paths.get(outputFile.toString(), DEFAULT_REPORT_NAME);
             Path reportDirectoryPath = reportDirectory != null ? reportDirectory.toPath() : null;
 
