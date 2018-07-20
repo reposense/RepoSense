@@ -11,7 +11,7 @@ import java.util.logging.Logger;
 import net.freeutils.httpserver.HTTPServer;
 
 /**
- * Handles starting the dashboard for the server
+ * Handles starting of the server to display the dashboard.
  */
 public class DashboardServer {
 

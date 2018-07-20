@@ -76,8 +76,8 @@ public class ArgsParser {
 
         parser.addArgument("-view")
                 .metavar("PATH")
-                .type(Arguments.fileType().verifyExists().verifyCanWrite())
-                .help("Starts a server to display the browser.");
+                .type(Arguments.fileType().verifyIsDirectory().verifyExists().verifyCanRead())
+                .help("Starts a server to display the dashboard in the provided directory.");
 
         return parser;
     }

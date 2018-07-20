@@ -19,20 +19,24 @@ Usage: `java -jar RepoSense.jar -config CSV_CONFIG_FILE_PATH [-output OUTPUT_DIR
 1. The report will be generated in the designated OUTPUT_DIRECTORY, or current working directory otherwise.
 1. To visualize the report, open `index.html`.
 1. If the dashboard was not loaded automatically, upload the `archive.zip` (generated in the OUTPUT_DIRECTORY) manually to load the data.
-1. If a `REPORT_DIRECTORY` is entered, a server will be started to display the dashboard and the report generation will be skipped.
+1. If a `REPORT_DIRECTORY` is entered, a server will be started to display the dashboard, and the report generation will be skipped.
 
-Sample usage:
+Sample usage to generate the report:
 ```
-$ java -jar RepoSense.jar -config CSV_path.csv -output output_path/ -since 01/10/2017 -until 01/11/2017 -formats java adoc js -view report_path/
+$ java -jar RepoSense.jar -config CSV_path.csv -output output_path/ -since 01/10/2017 -until 01/11/2017 -formats java adoc js
 ```
 
+Sample usage to view the dashboard:
+```
+java -jar RepoSense.jar -config CSV_path.csv -view report_path/
+```
 Argument List:
 - config : Mandatory. The path to the CSV config file.
 - output : Optional. The path to the dashboard generated. If not provided, it will be generated in the current directory.
 - since : Optional. The start date of analysis. Format: `DD/MM/YYYY`
 - until : Optional. The end date of analysis. Format: `DD/MM/YYYY`
 - formats : Optional. The file formats to analyse. Formats: `alphanumerical file formats`. If not provided, the following file formats will be used. `adoc, cs, css, fxml, gradle, html, java, js, json, jsp, md, py, tag, xml`
-- start-server : Optional. The path to the report directory. The server will be started to display the dashboard.
+- view : Optional. If specified with path to the report directory, all the other arguments will be ignored, and the server will be started to display the dashboard.
 ```
 Note:
 The contribution calculation is based on the daily commits made within 00:00 to 23:59 in GMT+8.
@@ -43,11 +47,15 @@ The contribution calculation is based on the daily commits made within 00:00 to 
 1. Execute the following command on the OS terminal inside the project directory.<br>
 Usage: `gradlew run -Dargs="-config CSV_CONFIG_FILE_PATH [-output OUTPUT_DIRECTORY] [-since DD/MM/YYYY] [-until DD/MM/YYYY] [-formats FORMAT...] [-view REPORT_DIRECTORY]"` <br>
 
-Sample usage:
+Sample usage to generate the report:
 ```
 $ gradlew run -Dargs="-config CSV_path.csv -output output_path/ -since 01/10/2017 -until 01/11/2017 -formats java adoc js -view report_path/"
 ```
 
+Sample usage to view the dashboard:
+```
+gradlew run -Dargs="-config sample.csv -view report_path/"
+```
 `-Dargs="..."` uses the same argument format as mentioned above.
 
 
