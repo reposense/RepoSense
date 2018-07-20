@@ -33,7 +33,8 @@ public class ArgsParserTest {
     @Test
     public void parse_allCorrectInputs_success() throws ParseException, IOException {
         String input = String.format("-config %s -output %s -since 01/07/2017 -until 30/11/2017 "
-                + "-formats java adoc html css js -start-server", CONFIG_FILE_ABSOLUTE, OUTPUT_DIRECTORY_ABSOLUTE);
+                + "-formats java adoc html css js -start-server %s",
+                CONFIG_FILE_ABSOLUTE, OUTPUT_DIRECTORY_ABSOLUTE, OUTPUT_DIRECTORY_ABSOLUTE);
         CliArguments cliArguments = ArgsParser.parse(translateCommandline(input));
         Assert.assertTrue(Files.isSameFile(CONFIG_FILE_ABSOLUTE, cliArguments.getConfigFilePath()));
         Assert.assertTrue(Files.isSameFile(Paths.get(OUTPUT_DIRECTORY_ABSOLUTE.toString(),
@@ -46,7 +47,7 @@ public class ArgsParserTest {
 
         List<String> expectedFormats = Arrays.asList("java", "adoc", "html", "css", "js");
         Assert.assertEquals(expectedFormats, cliArguments.getFormats());
-        Assert.assertTrue(cliArguments.getStartServer());
+        Assert.assertTrue(Files.isSameFile(OUTPUT_DIRECTORY_ABSOLUTE, cliArguments.getReportDirectoryPath()));
     }
 
     @Test
@@ -77,7 +78,7 @@ public class ArgsParserTest {
         Assert.assertEquals(Optional.empty(), cliArguments.getUntilDate());
         Assert.assertEquals(ArgsParser.DEFAULT_REPORT_NAME, cliArguments.getOutputFilePath().getFileName().toString());
         Assert.assertEquals(ArgsParser.DEFAULT_FORMATS, cliArguments.getFormats());
-        Assert.assertFalse(cliArguments.getStartServer());
+        Assert.assertNull(cliArguments.getReportDirectoryPath());
 
         input = String.format("-config %s", CONFIG_FILE_RELATIVE);
         cliArguments = ArgsParser.parse(translateCommandline(input));
@@ -87,7 +88,7 @@ public class ArgsParserTest {
         Assert.assertEquals(Optional.empty(), cliArguments.getUntilDate());
         Assert.assertEquals(ArgsParser.DEFAULT_REPORT_NAME, cliArguments.getOutputFilePath().getFileName().toString());
         Assert.assertEquals(ArgsParser.DEFAULT_FORMATS, cliArguments.getFormats());
-        Assert.assertFalse(cliArguments.getStartServer());
+        Assert.assertNull(cliArguments.getReportDirectoryPath());
     }
 
     @Test

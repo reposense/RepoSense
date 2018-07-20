@@ -14,10 +14,10 @@ public class CliArguments {
     private Optional<Date> sinceDate;
     private Optional<Date> untilDate;
     private List<String> formats;
-    private boolean startServer;
+    private Path startServer;
 
     public CliArguments(Path configFilePath, Path outputFilePath, Optional<Date> sinceDate,
-            Optional<Date> untilDate, List<String> formats, boolean startServer) {
+            Optional<Date> untilDate, List<String> formats, Path startServer) {
         this.configFilePath = configFilePath;
         this.outputFilePath = outputFilePath;
         this.sinceDate = sinceDate;
@@ -46,7 +46,7 @@ public class CliArguments {
         return formats;
     }
 
-    public boolean getStartServer() {
+    public Path getReportDirectoryPath() {
         return startServer;
     }
 }

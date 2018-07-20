@@ -23,6 +23,11 @@ public class RepoSense {
         try {
             CliArguments cliArguments = ArgsParser.parse(args);
 
+            if (cliArguments.getReportDirectoryPath() != null) {
+                DashboardServer.startServer(SERVER_PORT_NUMBER, cliArguments.getReportDirectoryPath().toAbsolutePath());
+                return;
+            }
+
             List<RepoConfiguration> configs = CsvParser.parse(cliArguments.getConfigFilePath());
             RepoConfiguration.setFormatsToRepoConfigs(configs, cliArguments.getFormats());
             RepoConfiguration.setDatesToRepoConfigs(configs, cliArguments.getSinceDate(), cliArguments.getUntilDate());
@@ -30,10 +35,6 @@ public class RepoSense {
                     configs, cliArguments.getOutputFilePath().toAbsolutePath().toString());
 
             FileUtil.zip(cliArguments.getOutputFilePath().toAbsolutePath(), ".json");
-
-            if (cliArguments.getStartServer()) {
-                DashboardServer.startServer(SERVER_PORT_NUMBER, cliArguments.getOutputFilePath().toAbsolutePath());
-            }
         } catch (IOException ioe) {
             logger.log(Level.WARNING, ioe.getMessage(), ioe);
         } catch (ParseException pe) {
