@@ -74,7 +74,7 @@ public class ArgsParser {
                         + "If not provided, default file formats will be used.\n"
                         + "Please refer to userguide for more information.");
 
-        parser.addArgument("-start-server")
+        parser.addArgument("-view")
                 .metavar("PATH")
                 .type(Arguments.fileType().verifyExists().verifyCanWrite())
                 .help("Starts a server to display the browser.");
@@ -96,7 +96,7 @@ public class ArgsParser {
             File outputFile = results.get("output");
             Optional<Date> sinceDate = results.get("since");
             Optional<Date> untilDate = results.get("until");
-            File reportDirectory = results.get("start_server");
+            File reportDirectory = results.get("view");
 
             Path configFilePath = configFile.toPath();
             Path outputFilePath = Paths.get(outputFile.toString(), DEFAULT_REPORT_NAME);
