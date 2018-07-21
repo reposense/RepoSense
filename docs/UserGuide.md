@@ -41,7 +41,7 @@ java -jar RepoSense.jar -view output_path/reposense-report
 Argument List:
 - view : Mandatory.The server will be started to display the dashboard in the specified directory.
 
-`config` and `view` are mandatory mutually exclusive arguments which means that they cannot be provided together, however, one of them compulsorily has to be present at a given time.
+`config` and `view` are mandatory mutually exclusive arguments which means that they cannot be provided together, however, one of them must be present at a given time.
 ### Manually
 1. Ensure that you have generated the report.
 1. To visualize the report, open `index.html`.
