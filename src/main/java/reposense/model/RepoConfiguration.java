@@ -41,7 +41,7 @@ public class RepoConfiguration {
 
 
     /**
-     * @throws ParseException if {@code location} is not a valid .git link or {@code Path}.
+     * @throws ParseException if {@code location} cannot be represented by a {@code URL} or {@code Path}.
      */
     public RepoConfiguration(String location, String branch) throws ParseException {
         this.location = location;
@@ -208,6 +208,10 @@ public class RepoConfiguration {
         return repoName;
     }
 
+    /**
+     * Verifies {@code location} can be presented as a {@code URL} or {@code Path}.
+     * @throws ParseException if otherwise.
+     */
     private void verifyLocation(String location) throws ParseException {
         boolean isPathLocation = false;
         boolean isGitLocation = false;
