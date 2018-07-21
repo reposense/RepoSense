@@ -52,7 +52,7 @@ public class FileUtil {
     }
 
     public static String getRepoDirectory(String displayName) {
-        return Constants.REPOS_ADDRESS + File.separator + displayName + File.separator;
+        return getRepoDirectory(displayName, "");
     }
 
     public static String getRepoDirectory(String displayName, String repoName) {

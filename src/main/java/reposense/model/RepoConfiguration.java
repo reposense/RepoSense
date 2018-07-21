@@ -34,6 +34,10 @@ public class RepoConfiguration {
     private transient Map<Author, String> authorDisplayNameMap = new HashMap<>();
     private transient boolean annotationOverwrite = true;
 
+    /**
+     * Creates a {@code RepoConfiguration}.
+     * {@code location} must be a Github .git link or a {@code Path}.
+     */
     public RepoConfiguration(String location, String branch) {
         this.location = location;
         this.branch = branch;
@@ -45,7 +49,6 @@ public class RepoConfiguration {
             repoName = matcher.group("repoName");
             displayName = organization + "_" + repoName + "_" + branch;
         } else {
-            // Location must be a Path
             repoName = Paths.get(location).getFileName().toString();
             displayName = repoName + "_" + branch;
         }
