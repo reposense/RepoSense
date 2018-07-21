@@ -1,5 +1,9 @@
 package reposense.model;
 
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Date;
@@ -12,6 +16,7 @@ import java.util.TreeMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import reposense.parser.ParseException;
 import reposense.util.FileUtil;
 
 public class RepoConfiguration {
@@ -34,14 +39,16 @@ public class RepoConfiguration {
     private transient Map<Author, String> authorDisplayNameMap = new HashMap<>();
     private transient boolean annotationOverwrite = true;
 
+
     /**
      * Creates a {@code RepoConfiguration}.
      * {@code location} must be a Github .git link or a {@code Path}.
      */
-    public RepoConfiguration(String location, String branch) {
+    public RepoConfiguration(String location, String branch) throws ParseException {
         this.location = location;
         this.branch = branch;
 
+        verifyLocation(location);
         Matcher matcher = GIT_REPOSITORY_LOCATION_PATTERN.matcher(location);
 
         if (matcher.matches()) {
@@ -85,7 +92,7 @@ public class RepoConfiguration {
 
     @Override
     public int hashCode() {
-        return Objects.hash(location);
+        return location.hashCode();
     }
 
     public Map<Author, String> getAuthorDisplayNameMap() {
@@ -200,5 +207,22 @@ public class RepoConfiguration {
 
     public String getRepoName() {
         return repoName;
+    }
+
+    private void verifyLocation(String location) throws ParseException {
+        Path pathLocation = Paths.get(location);
+        boolean isPathLocation = Files.exists(pathLocation);
+        boolean isGitLocation = false;
+
+        try {
+            new URL(location);
+            isGitLocation = true;
+        } catch (MalformedURLException mue) {
+            // Ignore exception
+        }
+
+        if (!isPathLocation && !isGitLocation) {
+            throw new ParseException("Location is invalid");
+        }
     }
 }

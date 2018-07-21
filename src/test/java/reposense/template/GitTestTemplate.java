@@ -22,6 +22,7 @@ import reposense.git.GitDownloaderException;
 import reposense.model.Author;
 import reposense.model.RepoConfiguration;
 import reposense.parser.ArgsParser;
+import reposense.parser.ParseException;
 import reposense.system.CommandRunner;
 import reposense.util.Constants;
 import reposense.util.FileUtil;
@@ -32,7 +33,7 @@ public class GitTestTemplate {
     protected RepoConfiguration config;
 
     @Before
-    public void before() {
+    public void before() throws ParseException {
         config = new RepoConfiguration(TEST_REPO_GIT_LOCATION, "master");
         config.setFormats(ArgsParser.DEFAULT_FORMATS);
     }
