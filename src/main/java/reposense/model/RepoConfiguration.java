@@ -3,6 +3,7 @@ package reposense.model;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.nio.file.Files;
+import java.nio.file.InvalidPathException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
@@ -40,8 +41,7 @@ public class RepoConfiguration {
 
 
     /**
-     * Creates a {@code RepoConfiguration}.
-     * {@code location} must be a Github .git link or a {@code Path}.
+     * @throws ParseException if {@code location} is not a valid .git link or {@code Path}.
      */
     public RepoConfiguration(String location, String branch) throws ParseException {
         this.location = location;
@@ -209,9 +209,15 @@ public class RepoConfiguration {
     }
 
     private void verifyLocation(String location) throws ParseException {
-        Path pathLocation = Paths.get(location);
-        boolean isPathLocation = Files.exists(pathLocation);
+        boolean isPathLocation = false;
         boolean isGitLocation = false;
+
+        try {
+            Path pathLocation = Paths.get(location);
+            isPathLocation = Files.exists(pathLocation);
+        } catch (InvalidPathException ipe) {
+            // Ignore exception
+        }
 
         try {
             new URL(location);
