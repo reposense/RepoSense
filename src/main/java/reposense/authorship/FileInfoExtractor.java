@@ -37,7 +37,7 @@ public class FileInfoExtractor {
     private static final String LINE_INSERTED_SYMBOL = "+";
     private static final String STARTING_LINE_NUMBER_GROUP_NAME = "startingLineNumber";
     private static final String FILE_CHANGED_GROUP_NAME = "filePath";
-    private static final String MATCH_GROUP_FAIL_FORMAT = "Failed to match the %s group for:%s\n";
+    private static final String MATCH_GROUP_FAIL_MESSAGE_FORMAT = "Failed to match the %s group for:\n%s";
 
     private static final int LINE_CHANGED_HEADER_INDEX = 0;
 
@@ -208,7 +208,7 @@ public class FileInfoExtractor {
         Matcher filePathMatcher = FILE_CHANGED_PATTERN.matcher(fileDiffResult);
 
         if (!filePathMatcher.find()) {
-            logger.severe(String.format(MATCH_GROUP_FAIL_FORMAT, "file path", fileDiffResult));
+            logger.severe(String.format(MATCH_GROUP_FAIL_MESSAGE_FORMAT, "file path", fileDiffResult));
             throw new AssertionError("Should not have error matching file path pattern inside file diff result!");
         }
 
@@ -223,7 +223,7 @@ public class FileInfoExtractor {
         Matcher chunkHeaderMatcher = STARTING_LINE_NUMBER_PATTERN.matcher(linesChanged);
 
         if (!chunkHeaderMatcher.find()) {
-            logger.severe(String.format(MATCH_GROUP_FAIL_FORMAT, "line changed", linesChanged));
+            logger.severe(String.format(MATCH_GROUP_FAIL_MESSAGE_FORMAT, "line changed", linesChanged));
             throw new AssertionError("Should not have error matching line number pattern inside chunk header!");
         }
 
