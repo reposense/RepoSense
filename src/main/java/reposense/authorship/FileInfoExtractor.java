@@ -32,7 +32,6 @@ public class FileInfoExtractor {
 
     private static final String DIFF_FILE_CHUNK_SEPARATOR = "\ndiff --git a/.*\n";
     private static final String BINARY_FILE_SYMBOL = "\nBinary files ";
-    private static final String FILE_DELETED_METADATA = "deleted file mode 100644\n";
     private static final String LINE_CHUNKS_SEPARATOR = "\n@@ ";
     private static final String LINE_INSERTED_SYMBOL = "+";
     private static final String STARTING_LINE_NUMBER_GROUP_NAME = "startingLineNumber";
@@ -45,8 +44,10 @@ public class FileInfoExtractor {
             "-(\\d)+(,)?(\\d)* \\+(?<startingLineNumber>\\d+)(,)?(\\d)* @@");
     private static final Pattern FILE_CHANGED_PATTERN = Pattern.compile("\n(\\+){3} b/(?<filePath>.*)\n");
 
-    private static final Predicate<String> NEW_EMPTY_FILE_PREDICATE = Pattern.compile("^new file mode 100644\n"
-            + "index [a-zA-Z0-9]{7}\\.{2}[a-zA-Z0-9]{7}$").asPredicate();
+    private static final Predicate<String> FILE_DELETED_PREDICATE = Pattern.compile(
+            "^deleted file mode [\\d]{6}\n").asPredicate();
+    private static final Predicate<String> NEW_EMPTY_FILE_PREDICATE = Pattern.compile(
+            "^new file mode [a-zA-Z0-9\n. ]*$").asPredicate();
 
     /**
      * Extracts a list of relevant files given in {@code config}.
@@ -90,7 +91,7 @@ public class FileInfoExtractor {
 
         for (String fileDiffResult : fileDiffResultList) {
             // file deleted, is binary file or is new and empty file, skip it
-            if (fileDiffResult.startsWith(FILE_DELETED_METADATA) || fileDiffResult.contains(BINARY_FILE_SYMBOL)
+            if (FILE_DELETED_PREDICATE.test(fileDiffResult) || fileDiffResult.contains(BINARY_FILE_SYMBOL)
                     || NEW_EMPTY_FILE_PREDICATE.test(fileDiffResult)) {
                 continue;
             }
