@@ -30,19 +30,19 @@ Argument List:
 - formats : Optional. The file formats to analyse. Formats: `alphanumerical file formats`. If not provided, the following file formats will be used. `adoc, cs, css, fxml, gradle, html, java, js, json, jsp, md, py, tag, xml`
 
 ## How to View Dashboard
-# With jar
+### With jar
 1. Ensure that you have generated the report.
 1. Execute it on the OS terminal. <br>
 Usage `java -jar RepoSense.jar -view REPORT_DIRECTORY`
 
 ```
-java -jar RepoSense.jar -view report_path/
+java -jar RepoSense.jar -view output_path/reposense-report
 ```
 Argument List:
-- view : Mandatory. If specified with path to the report directory, the server will be started to display the dashboard in that directory.
+- view : Mandatory.The server will be started to display the dashboard in the specified directory.
 
 `config` and `view` are mandatory mutually exclusive arguments which means that they cannot be provided together, however, one of them compulsorily has to be present at a given time.
-# Manually
+### Manually
 1. Ensure that you have generated the report.
 1. To visualize the report, open `index.html`.
 1. If the dashboard was not loaded automatically, upload the `archive.zip` (generated in the OUTPUT_DIRECTORY) manually to load the data.
@@ -64,7 +64,7 @@ $ gradlew run -Dargs="-config CSV_path.csv -output output_path/ -since 01/10/201
 
 Sample usage to view the dashboard:
 ```
-gradlew run -Dargs="-view report_path/"
+gradlew run -Dargs="-view output_path/reposense-report"
 ```
 `-Dargs="..."` uses the same argument format as mentioned above.
 

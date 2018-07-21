@@ -99,7 +99,7 @@ Optionally, you can follow the [Using Checkstyle](UsingCheckstyle.md) document t
 `System` contains the classes that interact with the Operating System and external processes.
  * [`CommandRunner`](/src/main/java/reposense/system/CommandRunner.java) creates processes that executes commands on the terminal. It consists of many *git* commands.
  * [`LogsManager`](/src/main/java/reposense/system/LogsManager.java) uses the `java.util.logging` package for logging. The `LogsManager` class is used to manage the logging levels and logging destinations. Log messages are output through: `Console` and to a `.log` file.
- * [`DashboardServer`](/src/main/java/reposense/system/DashboardServer.java) starts a server to display the dashboard on the browser. It uses the `net.freeutils.httpserver` package for starting a server.  
+ * [`DashboardServer`](/src/main/java/reposense/system/DashboardServer.java) starts a server to display the dashboard on the browser. It depends on the `net.freeutils.httpserver` package.  
 
 
 ### Model
