@@ -34,6 +34,7 @@ public class DashboardServer {
             host.addContext("/", new HTTPServer.FileContextHandler(requestPath.toFile()));
             server.start();
             launchBrowser(String.format(LOCAL_HOST_URL, port));
+            logger.info("Press Ctrl + C or equivalent to stop the server");
         } catch (IOException ioe) {
             logger.log(Level.SEVERE, ioe.getMessage(), ioe);
         }
@@ -47,7 +48,9 @@ public class DashboardServer {
             if (Desktop.isDesktopSupported()) {
                 Desktop.getDesktop().browse(new URI(url));
                 logger.info("Loading " + url + " on the default browser...");
-                logger.info("Press Ctrl + C or equivalent to exit");
+            } else {
+                logger.severe("Browser could not be launched. Please refer to the user guide to"
+                        + " manually view the dashboard");
             }
         } catch (URISyntaxException ue) {
             logger.log(Level.SEVERE, ue.getMessage(), ue);

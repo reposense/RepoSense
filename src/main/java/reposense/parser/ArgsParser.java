@@ -52,7 +52,7 @@ public class ArgsParser {
 
         mutexParser.addArgument("-view")
                 .metavar("PATH")
-                .type(Arguments.fileType().verifyIsDirectory().verifyExists().verifyCanRead())
+                .type(Arguments.fileType().verifyExists().verifyIsDirectory().verifyCanRead())
                 .help("Starts a server to display the dashboard in the provided directory.");
 
         parser.addArgument("-output")
