@@ -18,7 +18,7 @@ import reposense.util.TestUtil;
 
 public class GitCheckerTest extends GitTestTemplate {
     @Test
-    public void checkoutDiskLocation() throws GitDownloaderException, IOException {
+    public void checkout_fromDiskLocation_success() throws GitDownloaderException, IOException {
         Path diskLocation = Paths.get(TestConstants.LOCAL_TEST_REPO_ADDRESS).toAbsolutePath();
         GitDownloader.downloadRepo(diskLocation.toString(),
                 TestConstants.DISK_REPO_DISPLAY_NAME, TestConstants.TEST_REPO, "master");
