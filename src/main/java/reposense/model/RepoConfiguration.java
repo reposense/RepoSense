@@ -20,6 +20,7 @@ import reposense.parser.ParseException;
 import reposense.util.FileUtil;
 
 public class RepoConfiguration {
+    private static final String GIT_LINK_SUFFIX = ".git";
     private static final Pattern GIT_REPOSITORY_LOCATION_PATTERN =
             Pattern.compile("^.*github.com\\/(?<org>.+?)\\/(?<repoName>.+?)\\.git$");
 
@@ -225,7 +226,7 @@ public class RepoConfiguration {
 
         try {
             new URL(location);
-            isGitLocation = true;
+            isGitLocation = location.endsWith(GIT_LINK_SUFFIX);
         } catch (MalformedURLException mue) {
             // Ignore exception
         }
