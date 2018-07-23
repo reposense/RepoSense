@@ -30,8 +30,7 @@ public class GitTestTemplate {
     protected static final String TEST_REPO_GIT_LOCATION = "https://github.com/" + TEST_ORG + "/" + TEST_REPO + ".git";
     protected static final String LOCAL_TEST_REPO_ADDRESS = FileUtil.REPOS_ADDRESS
             + File.separator + TEST_ORG + "_" + TEST_REPO + "_" + "master" + File.separator + TEST_REPO;
-    protected static final String DISK_TEST_REPO_ADDRESS = LOCAL_TEST_REPO_ADDRESS + "/.git";
-    protected static final String DISK_REPO_DISPLAY_NAME = "DISK_TEST_REPO";
+    protected static final String DISK_REPO_DISPLAY_NAME = "testrepo-Alpha_master";
     protected static RepoConfiguration config;
 
     @Before

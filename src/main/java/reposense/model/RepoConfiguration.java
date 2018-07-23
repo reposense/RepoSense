@@ -226,7 +226,7 @@ public class RepoConfiguration {
 
         try {
             Path pathLocation = Paths.get(location);
-            isValidPathLocation = Files.exists(pathLocation) && location.endsWith(GIT_LINK_SUFFIX);
+            isValidPathLocation = Files.exists(pathLocation);
         } catch (InvalidPathException ipe) {
             // Ignore exception
         }

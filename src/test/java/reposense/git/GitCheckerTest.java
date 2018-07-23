@@ -22,7 +22,7 @@ public class GitCheckerTest extends GitTestTemplate {
     @Test
     public void checkout_fromDiskLocation_success() throws GitDownloaderException, IOException,
             InvalidLocationException {
-        Path diskLocation = Paths.get(DISK_TEST_REPO_ADDRESS).toAbsolutePath();
+        Path diskLocation = Paths.get(LOCAL_TEST_REPO_ADDRESS).toAbsolutePath();
         RepoConfiguration diskConfig = new RepoConfiguration(diskLocation.toString(), "master");
         GitDownloader.downloadRepo(diskConfig);
         Path clonedDiskLocation = Paths.get(FileUtil.REPOS_ADDRESS, DISK_REPO_DISPLAY_NAME).toAbsolutePath();
