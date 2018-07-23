@@ -60,6 +60,7 @@ public class ReportGenerator {
             }
         }
         FileUtil.writeJsonFile(configs, getSummaryResultPath(outputPath));
+        logger.info("The report is generated at " + outputPath);
     }
 
     private static void generateIndividualRepoReport(

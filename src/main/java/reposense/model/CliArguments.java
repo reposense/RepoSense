@@ -14,14 +14,16 @@ public class CliArguments {
     private Optional<Date> sinceDate;
     private Optional<Date> untilDate;
     private List<String> formats;
+    private Path reportDirectoryPath;
 
-    public CliArguments(Path configFilePath, Path outputFilePath,
-            Optional<Date> sinceDate, Optional<Date> untilDate, List<String> formats) {
+    public CliArguments(Path configFilePath, Path outputFilePath, Optional<Date> sinceDate,
+            Optional<Date> untilDate, List<String> formats, Path reportDirectoryPath) {
         this.configFilePath = configFilePath;
         this.outputFilePath = outputFilePath;
         this.sinceDate = sinceDate;
         this.untilDate = untilDate;
         this.formats = formats;
+        this.reportDirectoryPath = reportDirectoryPath;
     }
 
     public Path getConfigFilePath() {
@@ -42,5 +44,9 @@ public class CliArguments {
 
     public List<String> getFormats() {
         return formats;
+    }
+
+    public Path getReportDirectoryPath() {
+        return reportDirectoryPath;
     }
 }

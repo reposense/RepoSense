@@ -33,7 +33,8 @@ public class ArgsParserTest {
     @Test
     public void parse_allCorrectInputs_success() throws ParseException, IOException {
         String input = String.format("-config %s -output %s -since 01/07/2017 -until 30/11/2017 "
-                + "-formats java adoc html css js", CONFIG_FILE_ABSOLUTE, OUTPUT_DIRECTORY_ABSOLUTE);
+                + "-formats java adoc html css js",
+                CONFIG_FILE_ABSOLUTE, OUTPUT_DIRECTORY_ABSOLUTE);
         CliArguments cliArguments = ArgsParser.parse(translateCommandline(input));
         Assert.assertTrue(Files.isSameFile(CONFIG_FILE_ABSOLUTE, cliArguments.getConfigFilePath()));
         Assert.assertTrue(Files.isSameFile(Paths.get(OUTPUT_DIRECTORY_ABSOLUTE.toString(),
@@ -76,6 +77,7 @@ public class ArgsParserTest {
         Assert.assertEquals(Optional.empty(), cliArguments.getUntilDate());
         Assert.assertEquals(ArgsParser.DEFAULT_REPORT_NAME, cliArguments.getOutputFilePath().getFileName().toString());
         Assert.assertEquals(ArgsParser.DEFAULT_FORMATS, cliArguments.getFormats());
+        Assert.assertNull(cliArguments.getReportDirectoryPath());
 
         input = String.format("-config %s", CONFIG_FILE_RELATIVE);
         cliArguments = ArgsParser.parse(translateCommandline(input));
@@ -85,6 +87,20 @@ public class ArgsParserTest {
         Assert.assertEquals(Optional.empty(), cliArguments.getUntilDate());
         Assert.assertEquals(ArgsParser.DEFAULT_REPORT_NAME, cliArguments.getOutputFilePath().getFileName().toString());
         Assert.assertEquals(ArgsParser.DEFAULT_FORMATS, cliArguments.getFormats());
+        Assert.assertNull(cliArguments.getReportDirectoryPath());
+    }
+
+    @Test
+    public void parse_viewOnly_success() throws ParseException, IOException {
+        String input = String.format("-view %s", OUTPUT_DIRECTORY_ABSOLUTE);
+        CliArguments cliArguments = ArgsParser.parse(translateCommandline(input));
+        Assert.assertTrue(Files.isSameFile(OUTPUT_DIRECTORY_ABSOLUTE, cliArguments.getReportDirectoryPath()));
+        // Optional arguments have default values
+        Assert.assertEquals(Optional.empty(), cliArguments.getSinceDate());
+        Assert.assertEquals(Optional.empty(), cliArguments.getUntilDate());
+        Assert.assertEquals(ArgsParser.DEFAULT_REPORT_NAME, cliArguments.getOutputFilePath().getFileName().toString());
+        Assert.assertEquals(ArgsParser.DEFAULT_FORMATS, cliArguments.getFormats());
+        Assert.assertNull(cliArguments.getConfigFilePath());
     }
 
     @Test
@@ -213,6 +229,18 @@ public class ArgsParserTest {
     public void formats_notInAlphanumeric_throwsParseException() throws ParseException {
         String formats = ".java";
         String input = DEFAULT_MANDATORY_ARGS + String.format("-formats %s", formats);
+        ArgsParser.parse(translateCommandline(input));
+    }
+
+    @Test(expected = ParseException.class)
+    public void parse_missingViewValue_throwsParseException() throws ParseException {
+        String input = "-view";
+        ArgsParser.parse(translateCommandline(input));
+    }
+
+    @Test(expected = ParseException.class)
+    public void parse_mutuallyExclusiveArgumentsTogether_throwsParseException() throws ParseException {
+        String input = String.format("-config %s -view %s", CONFIG_FILE_ABSOLUTE, OUTPUT_DIRECTORY_ABSOLUTE);
         ArgsParser.parse(translateCommandline(input));
     }
 }
