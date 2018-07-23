@@ -71,6 +71,10 @@ public class RepoConfiguration {
         }
     }
 
+    public static void updateRepoConfig(RepoConfiguration repoConfig, ConfigJson config) {
+        
+    }
+
     public String getRepoRoot() {
         String path = FileUtil.REPOS_ADDRESS + File.separator + displayName + File.separator;
 
