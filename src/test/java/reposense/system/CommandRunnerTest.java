@@ -10,6 +10,7 @@ import java.util.Date;
 import org.junit.Assert;
 import org.junit.Test;
 
+import reposense.model.Author;
 import reposense.template.GitTestTemplate;
 import reposense.util.TestUtil;
 
@@ -32,21 +33,21 @@ public class CommandRunnerTest extends GitTestTemplate {
 
     @Test
     public void gitLog_existingFormats_hasContent() {
-        String content = CommandRunner.gitLog(config);
+        String content = CommandRunner.gitLog(config, getNoFilterAuthor());
         Assert.assertFalse(content.isEmpty());
     }
 
     @Test
     public void gitLog_nonExistingFormats_noContent() {
         config.setFormats(Collections.singletonList("py"));
-        String content = CommandRunner.gitLog(config);
+        String content = CommandRunner.gitLog(config, getNoFilterAuthor());
         Assert.assertTrue(content.isEmpty());
     }
 
     @Test
     public void gitLog_includeAllJavaFiles_success() {
         config.setFormats(Collections.singletonList("java"));
-        String content = CommandRunner.gitLog(config);
+        String content = CommandRunner.gitLog(config, getNoFilterAuthor());
         String[] contentLines = content.split("\n");
         int expectedNumberCommits = 8;
         Assert.assertEquals(convertNumberExpectedCommitsToGitLogLines(expectedNumberCommits), contentLines.length);
@@ -55,8 +56,10 @@ public class CommandRunnerTest extends GitTestTemplate {
     @Test
     public void gitLog_includeAllJavaFilesIgnoreMovedFile_success() {
         config.setFormats(Collections.singletonList("java"));
-        config.setIgnoreGlobList(Collections.singletonList("**movedFile.java"));
-        String content = CommandRunner.gitLog(config);
+        Author ignoreMovedFileAuthor = getNoFilterAuthor();
+        ignoreMovedFileAuthor.setIgnoreGlobList(Collections.singletonList("**movedFile.java"));
+
+        String content = CommandRunner.gitLog(config, ignoreMovedFileAuthor);
         String[] contentLines = content.split("\n");
         int expectedNumberCommits = 6;
         Assert.assertEquals(convertNumberExpectedCommitsToGitLogLines(expectedNumberCommits), contentLines.length);
@@ -64,8 +67,10 @@ public class CommandRunnerTest extends GitTestTemplate {
 
     @Test
     public void gitLog_ignoreAllJavaFiles_success() {
-        config.setIgnoreGlobList(Collections.singletonList("*.java"));
-        String content = CommandRunner.gitLog(config);
+        Author ignoreAllJavaFilesAuthor = getNoFilterAuthor();
+        ignoreAllJavaFilesAuthor.setIgnoreGlobList(Collections.singletonList("*.java"));
+
+        String content = CommandRunner.gitLog(config, ignoreAllJavaFilesAuthor);
         String[] contentLines = content.split("\n");
         int expectedNumberCommits = 2;
         Assert.assertEquals(convertNumberExpectedCommitsToGitLogLines(expectedNumberCommits), contentLines.length);
@@ -75,13 +80,13 @@ public class CommandRunnerTest extends GitTestTemplate {
     public void gitLog_sinceDateInFuture_noContent() {
         Date date = TestUtil.getDate(2050, Calendar.JANUARY, 1);
         config.setSinceDate(date);
-        String content = CommandRunner.gitLog(config);
+        String content = CommandRunner.gitLog(config, getNoFilterAuthor());
         Assert.assertTrue(content.isEmpty());
 
         date = TestUtil.getDate(1950, Calendar.JANUARY, 1);
         config.setUntilDate(date);
         config.setSinceDate(null);
-        content = CommandRunner.gitLog(config);
+        content = CommandRunner.gitLog(config, getNoFilterAuthor());
         Assert.assertTrue(content.isEmpty());
     }
 
@@ -162,5 +167,12 @@ public class CommandRunnerTest extends GitTestTemplate {
     private int convertNumberExpectedCommitsToGitLogLines(int expectedNumberCommits) {
         // each commit has 2 lines of info, and a blank line in between each
         return expectedNumberCommits * 3 - 1;
+    }
+
+    /**
+     * Returns a {@code Author} that will not filter out any commits in git log command.
+     */
+    private Author getNoFilterAuthor() {
+        return new Author(".*");
     }
 }

@@ -1,5 +1,6 @@
 package reposense.commits;
 
+import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -23,6 +24,7 @@ public class CommitsReporter {
         List<CommitResult> commitResults = commitInfos.stream()
                 .map(commitInfo -> CommitInfoAnalyzer.analyzeCommit(commitInfo, config.getAuthorAliasMap()))
                 .filter(commitResult -> !commitResult.getAuthor().equals(new Author(Author.UNKNOWN_AUTHOR_GIT_ID)))
+                .sorted(Comparator.comparing(CommitResult::getTime))
                 .collect(Collectors.toList());
 
         return CommitResultAggregator.aggregateCommitResults(config, commitResults);

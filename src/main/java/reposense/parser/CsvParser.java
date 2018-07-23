@@ -97,11 +97,7 @@ public class CsvParser {
         config.getAuthorList().add(author);
         setDisplayName(elements, config, author);
         setAliases(elements, config, author);
-
-        // prevent overriding the glob list if another author in the same repo also specifies
-        if (config.getIgnoreGlobList().isEmpty()) {
-            setIgnoreGlobList(elements, config);
-        }
+        setAuthorIgnoreGlobList(elements, config, author);
     }
 
     /**
@@ -127,20 +123,21 @@ public class CsvParser {
         if (areAliasesInElements) {
             String[] aliases = elements[ALIAS_POSITION].split(AUTHOR_ALIAS_AND_GLOB_SEPARATOR);
             config.setAuthorAliases(author, aliases);
+            author.setAuthorAliases(Arrays.asList(aliases));
         }
     }
 
     /**
-     * Sets the list of globs to ignore inside {@code config} for the file analysis.
+     * Sets the list of globs to ignore inside {@code config} for the file analysis for the {@code author}.
      */
-    private static void setIgnoreGlobList(String[] elements, RepoConfiguration config) {
+    private static void setAuthorIgnoreGlobList(String[] elements, RepoConfiguration config, Author author) {
         boolean isIgnoreGlobListInElements = elements.length > IGNORE_GLOB_LIST_POSITION
                 && !elements[IGNORE_GLOB_LIST_POSITION].isEmpty();
 
         if (isIgnoreGlobListInElements) {
             List<String> ignoreGlobList = Arrays.asList(
                     elements[IGNORE_GLOB_LIST_POSITION].split(AUTHOR_ALIAS_AND_GLOB_SEPARATOR));
-            config.setIgnoreGlobList(ignoreGlobList);
+            author.setIgnoreGlobList(ignoreGlobList);
         }
     }
 }

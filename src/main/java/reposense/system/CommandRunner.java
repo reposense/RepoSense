@@ -9,6 +9,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
+import reposense.model.Author;
 import reposense.model.RepoConfiguration;
 import reposense.util.FileUtil;
 
@@ -18,14 +19,16 @@ public class CommandRunner {
 
     private static boolean isWindows = isWindows();
 
-    public static String gitLog(RepoConfiguration config) {
+    public static String gitLog(RepoConfiguration config, Author author) {
         Path rootPath = Paths.get(config.getRepoRoot());
 
         String command = "git log --no-merges ";
         command += convertToGitDateRangeArgs(config.getSinceDate(), config.getUntilDate());
         command += " --pretty=format:\"%h|%aN|%ad|%s\" --date=iso --shortstat";
+        command += convertToFilterAuthorArgs(author);
         command += convertToGitFormatsArgs(config.getFormats());
-        command += convertToGitExcludeGlobArgs(config.getIgnoreGlobList());
+        command += convertToGitExcludeGlobArgs(author.getIgnoreGlobList());
+
         return runCommand(rootPath, command);
     }
 
@@ -174,6 +177,22 @@ public class CommandRunner {
         }
 
         return gitDateRangeArgs;
+    }
+
+    /**
+     * Returns the {@code String} command to specify the authors to analyze for `git log` command.
+     */
+    private static String convertToFilterAuthorArgs(Author author) {
+        final String cmdFormat = "\\|%s <";
+        StringBuilder filterAuthorArgsBuilder = new StringBuilder();
+        filterAuthorArgsBuilder.append(" --author=\"^").append(author.getGitId()).append(" <");
+
+        author.getAuthorAliases().stream()
+                .map(authorAlias -> String.format(cmdFormat, author).replace("\\", "\\\\"))
+                .forEach(filterAuthorArgsBuilder::append);
+
+        filterAuthorArgsBuilder.append("\"");
+        return filterAuthorArgsBuilder.toString();
     }
 
     /**
