@@ -26,6 +26,7 @@ public class RepoConfiguration {
             Pattern.compile("^.*github.com\\/(?<org>.+?)\\/(?<repoName>.+?)\\.git$");
 
     private String location;
+    private String organization;
     private String repoName;
     private String branch;
     private String displayName;
@@ -53,7 +54,7 @@ public class RepoConfiguration {
         Matcher matcher = GIT_REPOSITORY_LOCATION_PATTERN.matcher(location);
 
         if (matcher.matches()) {
-            String organization = matcher.group("org");
+            organization = matcher.group("org");
             repoName = matcher.group("repoName");
             displayName = organization + "_" + repoName + "_" + branch;
         } else {
