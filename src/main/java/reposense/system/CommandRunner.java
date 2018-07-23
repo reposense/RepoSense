@@ -9,6 +9,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
+import reposense.model.RepoConfiguration;
 import reposense.util.FileUtil;
 
 public class CommandRunner {
@@ -17,13 +18,14 @@ public class CommandRunner {
 
     private static boolean isWindows = isWindows();
 
-    public static String gitLog(String root, Date sinceDate, Date untilDate, List<String> formats) {
-        Path rootPath = Paths.get(root);
+    public static String gitLog(RepoConfiguration config) {
+        Path rootPath = Paths.get(config.getRepoRoot());
 
         String command = "git log --no-merges ";
-        command += convertToGitDateRangeArgs(sinceDate, untilDate);
+        command += convertToGitDateRangeArgs(config.getSinceDate(), config.getUntilDate());
         command += " --pretty=format:\"%h|%aN|%ad|%s\" --date=iso --shortstat";
-        command += convertToGitFormatsArgs(formats);
+        command += convertToGitFormatsArgs(config.getFormats());
+        command += convertToGitExcludeGlobArgs(config.getIgnoreGlobList());
         return runCommand(rootPath, command);
     }
 
@@ -185,5 +187,18 @@ public class CommandRunner {
                 .forEach(gitFormatsArgsBuilder::append);
 
         return gitFormatsArgsBuilder.toString();
+    }
+
+    /**
+     * Returns the {@code String} command to specify the globs to exclude for `git log` command.
+     */
+    private static String convertToGitExcludeGlobArgs(List<String> ignoreGlobList) {
+        StringBuilder gitExcludeGlobArgsBuilder = new StringBuilder();
+        final String cmdFormat = " " + addQuote(":(exclude)%s");
+        ignoreGlobList.stream()
+                .map(ignoreGlob -> String.format(cmdFormat, ignoreGlob))
+                .forEach(gitExcludeGlobArgsBuilder::append);
+
+        return gitExcludeGlobArgsBuilder.toString();
     }
 }

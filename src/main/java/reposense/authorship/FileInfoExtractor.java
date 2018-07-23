@@ -3,8 +3,10 @@ package reposense.authorship;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
+import java.nio.file.FileSystems;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.nio.file.PathMatcher;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -79,7 +81,7 @@ public class FileInfoExtractor {
      */
     public static List<FileInfo> getEditedFileInfos(RepoConfiguration config, String lastCommitHash) {
         List<FileInfo> fileInfos = new ArrayList<>();
-
+        final PathMatcher ignoreGlobMatcher = getIgnoreGlobMatcher(config.getIgnoreGlobList());
         String fullDiffResult = CommandRunner.diffCommit(config.getRepoRoot(), lastCommitHash);
 
         // no diff between the 2 commits, return an empty list
@@ -97,6 +99,11 @@ public class FileInfoExtractor {
             }
 
             String filePath = getFilePathFromDiffPattern(fileDiffResult);
+
+            if (shouldIgnore(filePath, ignoreGlobMatcher)) {
+                continue;
+            }
+
             if (isFormatInsideWhiteList(filePath, config.getFormats())) {
                 FileInfo currentFileInfo = generateFileInfo(config.getRepoRoot(), filePath);
                 setLinesToTrack(currentFileInfo, fileDiffResult);
@@ -148,11 +155,12 @@ public class FileInfoExtractor {
      * based on {@code config} and inserts it into {@code fileInfos}.
      */
     private static void getAllFileInfo(RepoConfiguration config, Path directory, List<FileInfo> fileInfos) {
+        final PathMatcher ignoreGlobMatcher = getIgnoreGlobMatcher(config.getIgnoreGlobList());
         try (Stream<Path> pathStream = Files.list(directory)) {
             for (Path filePath : pathStream.collect(Collectors.toList())) {
                 String relativePath = filePath.toString().substring(config.getRepoRoot().length());
-                if (shouldIgnore(relativePath, config.getIgnoreDirectoryList())) {
-                    return;
+                if (shouldIgnore(relativePath, ignoreGlobMatcher)) {
+                    continue;
                 }
 
                 if (Files.isDirectory(filePath)) {
@@ -189,10 +197,10 @@ public class FileInfoExtractor {
     }
 
     /**
-     * Returns true if any of the {@code String} in {@code ignoreList} is contained inside {@code name}.
+     * Returns true if {@code ignoreGlobMatcher} matchers the file path at {@code name}.
      */
-    private static boolean shouldIgnore(String name, List<String> ignoreList) {
-        return ignoreList.stream().anyMatch(name::contains);
+    private static boolean shouldIgnore(String name, PathMatcher ignoreGlobMatcher) {
+        return ignoreGlobMatcher.matches(Paths.get(name));
     }
 
     /**
@@ -229,5 +237,14 @@ public class FileInfoExtractor {
         }
 
         return Integer.parseInt(chunkHeaderMatcher.group(STARTING_LINE_NUMBER_GROUP_NAME));
+    }
+
+    /**
+     * Returns a {@code PathMatcher} that matches any file paths which satisfy any one of the glob patterns in
+     * {@code ignoreGlobList}.
+     */
+    private static PathMatcher getIgnoreGlobMatcher(List<String> ignoreGlobList) {
+        String globString = "glob:{" + String.join(",", ignoreGlobList) + "}";
+        return FileSystems.getDefault().getPathMatcher(globString);
     }
 }

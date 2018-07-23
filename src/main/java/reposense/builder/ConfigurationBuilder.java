@@ -29,7 +29,7 @@ public class ConfigurationBuilder {
     }
 
     public ConfigurationBuilder ignoreDirectoryList(List<String> list) {
-        config.setIgnoreDirectoryList(list);
+        config.setIgnoreGlobList(list);
         return this;
     }
 

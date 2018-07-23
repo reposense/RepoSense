@@ -3,8 +3,8 @@ package reposense.system;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.Arrays;
 import java.util.Calendar;
+import java.util.Collections;
 import java.util.Date;
 
 import org.junit.Assert;
@@ -12,7 +12,6 @@ import org.junit.Test;
 
 import reposense.template.GitTestTemplate;
 import reposense.util.TestUtil;
-
 
 public class CommandRunnerTest extends GitTestTemplate {
     private static final String LATEST_COMMIT_HASH = "2d87a431fcbb8f73a731b6df0fcbee962c85c250";
@@ -32,29 +31,48 @@ public class CommandRunnerTest extends GitTestTemplate {
     }
 
     @Test
-    public void log_existingFormats_hasContent() {
-        String content =
-                CommandRunner.gitLog(config.getRepoRoot(), null, null, config.getFormats());
+    public void gitLog_existingFormats_hasContent() {
+        String content = CommandRunner.gitLog(config);
         Assert.assertFalse(content.isEmpty());
     }
 
     @Test
-    public void log_nonExistingFormats_noContent() {
-        String content =
-                CommandRunner.gitLog(config.getRepoRoot(), null, null, Arrays.asList("py"));
+    public void gitLog_nonExistingFormats_noContent() {
+        config.setFormats(Collections.singletonList("py"));
+        String content = CommandRunner.gitLog(config);
         Assert.assertTrue(content.isEmpty());
     }
 
     @Test
-    public void log_sinceDateInFuture_noContent() {
+    public void gitLog_includeAllJavaFilesIgnoreMovedFile_success() {
+        config.setFormats(Collections.singletonList("java"));
+        config.setIgnoreGlobList(Collections.singletonList("**movedFile.java"));
+        String content = CommandRunner.gitLog(config);
+        String[] contentLines = content.split("\n");
+        int expectedNumberCommits = 6;
+        Assert.assertEquals(convertNumberExpectedCommitsToGitLogLines(expectedNumberCommits), contentLines.length);
+    }
+
+    @Test
+    public void gitLog_ignoreAllJavaFiles_success() {
+        config.setIgnoreGlobList(Collections.singletonList("*.java"));
+        String content = CommandRunner.gitLog(config);
+        String[] contentLines = content.split("\n");
+        int expectedNumberCommits = 2;
+        Assert.assertEquals(convertNumberExpectedCommitsToGitLogLines(expectedNumberCommits), contentLines.length);
+    }
+
+    @Test
+    public void gitLog_sinceDateInFuture_noContent() {
         Date date = TestUtil.getDate(2050, Calendar.JANUARY, 1);
-        String content = CommandRunner.gitLog(
-                config.getRepoRoot(), date, null, config.getFormats());
+        config.setSinceDate(date);
+        String content = CommandRunner.gitLog(config);
         Assert.assertTrue(content.isEmpty());
 
         date = TestUtil.getDate(1950, Calendar.JANUARY, 1);
-        content = CommandRunner.gitLog(
-                config.getRepoRoot(), null, date, config.getFormats());
+        config.setUntilDate(date);
+        config.setSinceDate(null);
+        content = CommandRunner.gitLog(config);
         Assert.assertTrue(content.isEmpty());
     }
 
@@ -127,5 +145,13 @@ public class CommandRunnerTest extends GitTestTemplate {
     public void getCommitHashBeforeDate_invalidBranch_throwsRunTimeException() {
         Date date = TestUtil.getDate(2018, Calendar.FEBRUARY, 9);
         CommandRunner.getCommitHashBeforeDate(config.getRepoRoot(), "invalidBranch", date);
+    }
+
+    /**
+     * Converts the {@code expectedNumberCommits} to the number of lines will be produced by the git log command.
+     */
+    private int convertNumberExpectedCommitsToGitLogLines(int expectedNumberCommits) {
+        // each commit has 2 lines of info, and a blank line in between each
+        return expectedNumberCommits * 3 - 1;
     }
 }
