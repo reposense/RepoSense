@@ -33,8 +33,8 @@ html
               #tab-authorship.tab-pane(v-if="isTabAuthorship")
                 v_authorship(
                   v-bind:key="tabAuthorship.repo+'_'+tabAuthorship.author"
-                  v-bind:repo="tabAuthorship.repo", 
-                  v-bind:author="tabAuthorship.author", 
+                  v-bind:repo="tabAuthorship.repo",
+                  v-bind:author="tabAuthorship.author",
                   v-bind:name="tabAuthorship.name")
 
       template(v-else)
