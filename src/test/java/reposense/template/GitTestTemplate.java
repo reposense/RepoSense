@@ -1,9 +1,6 @@
 package reposense.template;
 
-import static reposense.util.TestConstants.TEST_REPO;
-import static reposense.util.TestConstants.TEST_REPO_DISPLAY_NAME;
-import static reposense.util.TestConstants.TEST_REPO_GIT_LOCATION;
-
+import java.io.File;
 import java.io.IOException;
 
 import org.junit.After;
@@ -22,26 +19,33 @@ import reposense.git.GitDownloaderException;
 import reposense.model.Author;
 import reposense.model.RepoConfiguration;
 import reposense.parser.ArgsParser;
-import reposense.parser.ParseException;
+import reposense.parser.InvalidLocationException;
 import reposense.system.CommandRunner;
-import reposense.util.Constants;
 import reposense.util.FileUtil;
 import reposense.util.TestConstants;
 
 public class GitTestTemplate {
-
-    protected RepoConfiguration config;
+    protected static final String TEST_ORG = "reposense";
+    protected static final String TEST_REPO = "testrepo-Alpha";
+    protected static final String TEST_REPO_GIT_LOCATION = "https://github.com/" + TEST_ORG + "/" + TEST_REPO + ".git";
+    protected static final String LOCAL_TEST_REPO_ADDRESS = FileUtil.REPOS_ADDRESS
+            + File.separator + TEST_ORG + "_" + TEST_REPO + "_" + "master" + File.separator + TEST_REPO;
+    protected static final String DISK_TEST_REPO_ADDRESS = LOCAL_TEST_REPO_ADDRESS + "/.git";
+    protected static final String DISK_REPO_DISPLAY_NAME = "DISK_TEST_REPO";
+    protected static RepoConfiguration config;
 
     @Before
-    public void before() throws ParseException {
+    public void before() throws InvalidLocationException {
         config = new RepoConfiguration(TEST_REPO_GIT_LOCATION, "master");
         config.setFormats(ArgsParser.DEFAULT_FORMATS);
     }
 
     @BeforeClass
-    public static void beforeClass() throws GitDownloaderException, IOException {
+    public static void beforeClass() throws GitDownloaderException, IOException, InvalidLocationException {
         deleteRepos();
-        GitDownloader.downloadRepo(TEST_REPO_GIT_LOCATION, TEST_REPO_DISPLAY_NAME, TEST_REPO, "master");
+        config = new RepoConfiguration(TEST_REPO_GIT_LOCATION, "master");
+        config.setFormats(ArgsParser.DEFAULT_FORMATS);
+        GitDownloader.downloadRepo(config);
     }
 
     @AfterClass
@@ -51,15 +55,15 @@ public class GitTestTemplate {
 
     @After
     public void after() {
-        CommandRunner.checkout(TestConstants.LOCAL_TEST_REPO_ADDRESS, "master");
+        CommandRunner.checkout(LOCAL_TEST_REPO_ADDRESS, "master");
     }
 
     private static void deleteRepos() throws IOException {
-        FileUtil.deleteDirectory(Constants.REPOS_ADDRESS);
+        FileUtil.deleteDirectory(FileUtil.REPOS_ADDRESS);
     }
 
     public FileInfo generateTestFileInfo(String relativePath) {
-        FileInfo fileInfo = FileInfoExtractor.generateFileInfo(TestConstants.LOCAL_TEST_REPO_ADDRESS, relativePath);
+        FileInfo fileInfo = FileInfoExtractor.generateFileInfo(LOCAL_TEST_REPO_ADDRESS, relativePath);
 
         config.getAuthorAliasMap().put(TestConstants.MAIN_AUTHOR_NAME, new Author(TestConstants.MAIN_AUTHOR_NAME));
         config.getAuthorAliasMap().put(TestConstants.FAKE_AUTHOR_NAME, new Author(TestConstants.FAKE_AUTHOR_NAME));

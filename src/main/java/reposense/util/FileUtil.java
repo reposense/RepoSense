@@ -28,6 +28,7 @@ import reposense.system.LogsManager;
 
 
 public class FileUtil {
+    public static final String REPOS_ADDRESS = "repos";
 
     // zip file which contains all the specified file types
     public static final String ZIP_FILE = "archive.zip";
@@ -49,20 +50,6 @@ public class FileUtil {
         } catch (FileNotFoundException e) {
             logger.log(Level.SEVERE, e.getMessage(), e);
         }
-    }
-
-    public static String getRepoDirectory(String displayName) {
-        return getRepoDirectory(displayName, "");
-    }
-
-    public static String getRepoDirectory(String displayName, String repoName) {
-        String path = Constants.REPOS_ADDRESS + File.separator + displayName + File.separator;
-
-        if (!repoName.isEmpty()) {
-            path += repoName + File.separator;
-        }
-
-        return path;
     }
 
     public static void deleteDirectory(String root) throws IOException {

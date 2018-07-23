@@ -58,8 +58,8 @@ public class CsvParser {
             }
         } catch (IOException ioe) {
             throw new IOException(MESSAGE_UNABLE_TO_READ_CSV_FILE, ioe);
-        } catch (ParseException pe) {
-            logger.log(Level.WARNING, pe.getMessage(), pe);
+        } catch (InvalidLocationException ile) {
+            logger.log(Level.WARNING, ile.getMessage(), ile);
         }
 
         return repoConfigurations;
@@ -70,7 +70,7 @@ public class CsvParser {
      * {@code RepoConfiguration} containing the {@code Author} and add it to the {@code repoConfigurations} otherwise.
      */
     private static void processLine(List<RepoConfiguration> repoConfigurations, String line, int lineNumber)
-            throws ParseException {
+            throws InvalidLocationException {
         if (line.isEmpty()) {
             return;
         }

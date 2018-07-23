@@ -1,5 +1,6 @@
 package reposense.model;
 
+import java.io.File;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.nio.file.Files;
@@ -16,7 +17,7 @@ import java.util.TreeMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import reposense.parser.ParseException;
+import reposense.parser.InvalidLocationException;
 import reposense.util.FileUtil;
 
 public class RepoConfiguration {
@@ -42,9 +43,9 @@ public class RepoConfiguration {
 
 
     /**
-     * @throws ParseException if {@code location} cannot be represented by a {@code URL} or {@code Path}.
+     * @throws InvalidLocationException if {@code location} cannot be represented by a {@code URL} or {@code Path}.
      */
-    public RepoConfiguration(String location, String branch) throws ParseException {
+    public RepoConfiguration(String location, String branch) throws InvalidLocationException {
         this.location = location;
         this.branch = branch;
 
@@ -56,7 +57,7 @@ public class RepoConfiguration {
             repoName = matcher.group("repoName");
             displayName = organization + "_" + repoName + "_" + branch;
         } else {
-            repoName = Paths.get(location).getFileName().toString();
+            repoName = Paths.get(location).getFileName().toString().replace(GIT_LINK_SUFFIX, "");
             displayName = repoName + "_" + branch;
         }
     }
@@ -67,6 +68,16 @@ public class RepoConfiguration {
             config.setSinceDate(sinceDate.orElse(null));
             config.setUntilDate(untilDate.orElse(null));
         }
+    }
+
+    public String getRepoRoot() {
+        String path = FileUtil.REPOS_ADDRESS + File.separator + displayName + File.separator;
+
+        if (!repoName.isEmpty()) {
+            path += repoName + File.separator;
+        }
+
+        return path;
     }
 
     /**
@@ -101,10 +112,6 @@ public class RepoConfiguration {
 
     public void setAuthorDisplayNameMap(Map<Author, String> authorDisplayNameMap) {
         this.authorDisplayNameMap = authorDisplayNameMap;
-    }
-
-    public String getRepoRoot() {
-        return FileUtil.getRepoDirectory(displayName, getRepoName());
     }
 
     public int getCommitNum() {
@@ -211,28 +218,28 @@ public class RepoConfiguration {
 
     /**
      * Verifies {@code location} can be presented as a {@code URL} or {@code Path}.
-     * @throws ParseException if otherwise.
+     * @throws InvalidLocationException if otherwise.
      */
-    private void verifyLocation(String location) throws ParseException {
-        boolean isPathLocation = false;
-        boolean isGitLocation = false;
+    private void verifyLocation(String location) throws InvalidLocationException {
+        boolean isValidPathLocation = false;
+        boolean isValidGitUrl = false;
 
         try {
             Path pathLocation = Paths.get(location);
-            isPathLocation = Files.exists(pathLocation);
+            isValidPathLocation = Files.exists(pathLocation) && location.endsWith(GIT_LINK_SUFFIX);
         } catch (InvalidPathException ipe) {
             // Ignore exception
         }
 
         try {
             new URL(location);
-            isGitLocation = location.endsWith(GIT_LINK_SUFFIX);
+            isValidGitUrl = location.endsWith(GIT_LINK_SUFFIX);
         } catch (MalformedURLException mue) {
             // Ignore exception
         }
 
-        if (!isPathLocation && !isGitLocation) {
-            throw new ParseException("Location is invalid");
+        if (!isValidPathLocation && !isValidGitUrl) {
+            throw new InvalidLocationException("Location is invalid");
         }
     }
 }
