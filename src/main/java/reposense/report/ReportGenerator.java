@@ -1,7 +1,9 @@
 package reposense.report;
 
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
+import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.List;
@@ -16,6 +18,7 @@ import reposense.commits.model.CommitContributionSummary;
 import reposense.git.GitDownloader;
 import reposense.git.GitDownloaderException;
 import reposense.model.RepoConfiguration;
+import reposense.model.StandaloneConfig;
 import reposense.system.LogsManager;
 import reposense.util.FileUtil;
 
@@ -47,6 +50,13 @@ public class ReportGenerator {
             } catch (IOException ioe) {
                 logger.log(Level.WARNING, "Error while creating repo directory, will skip this repo.", ioe);
                 continue;
+            }
+
+            Path configJsonPath = Paths.get(config.getRepoRoot(), "_reposense", "config.json");
+
+            if (Files.exists(configJsonPath)) {
+                StandaloneConfig standaloneConfig =  FileUtil.getStandaloneConfigFromJson(configJsonPath);
+                config.updateRepoConfig(standaloneConfig);
             }
 
             CommitContributionSummary commitSummary = CommitsReporter.generateCommitSummary(config);

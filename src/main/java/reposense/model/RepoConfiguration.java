@@ -71,8 +71,16 @@ public class RepoConfiguration {
         }
     }
 
-    public static void updateRepoConfig(RepoConfiguration repoConfig, ConfigJson config) {
-        
+    /**
+     * Sets all {@code RepoConfiguration} in {@code configs} to have {@code formats} set.
+     */
+    public static void setFormatsToRepoConfigs(List<RepoConfiguration> configs, List<String> formats) {
+        configs.forEach(config -> config.setFormats(formats));
+    }
+
+    public void updateRepoConfig(StandaloneConfig standaloneConfig) {
+        authorList.clear();
+        authorList = standaloneConfig.getAuthors();
     }
 
     public String getRepoRoot() {
@@ -83,13 +91,6 @@ public class RepoConfiguration {
         }
 
         return path;
-    }
-
-    /**
-     * Sets all {@code RepoConfiguration} in {@code configs} to have {@code formats} set.
-     */
-    public static void setFormatsToRepoConfigs(List<RepoConfiguration> configs, List<String> formats) {
-        configs.forEach(config -> config.setFormats(formats));
     }
 
     @Override
