@@ -1,6 +1,5 @@
 package reposense.template;
 
-import java.io.File;
 import java.io.IOException;
 
 import org.junit.After;
@@ -24,11 +23,7 @@ import reposense.system.CommandRunner;
 import reposense.util.FileUtil;
 
 public class GitTestTemplate {
-    protected static final String TEST_ORG = "reposense";
-    protected static final String TEST_REPO = "testrepo-Alpha";
-    protected static final String TEST_REPO_GIT_LOCATION = "https://github.com/" + TEST_ORG + "/" + TEST_REPO + ".git";
-    protected static final String LOCAL_TEST_REPO_ADDRESS = FileUtil.REPOS_ADDRESS
-            + File.separator + TEST_ORG + "_" + TEST_REPO + "_" + "master" + File.separator + TEST_REPO;
+    protected static final String TEST_REPO_GIT_LOCATION = "https://github.com/reposense/testrepo-Alpha.git";
     protected static final String DISK_REPO_DISPLAY_NAME = "testrepo-Alpha_master";
     protected static final String FIRST_COMMIT_HASH = "7d7584f";
     protected static final String TEST_COMMIT_HASH = "2fb6b9b";
@@ -58,7 +53,7 @@ public class GitTestTemplate {
 
     @After
     public void after() {
-        CommandRunner.checkout(LOCAL_TEST_REPO_ADDRESS, "master");
+        CommandRunner.checkout(config.getRepoRoot(), "master");
     }
 
     private static void deleteRepos() throws IOException {
@@ -66,7 +61,7 @@ public class GitTestTemplate {
     }
 
     public FileInfo generateTestFileInfo(String relativePath) {
-        FileInfo fileInfo = FileInfoExtractor.generateFileInfo(LOCAL_TEST_REPO_ADDRESS, relativePath);
+        FileInfo fileInfo = FileInfoExtractor.generateFileInfo(config.getRepoRoot(), relativePath);
 
         config.getAuthorAliasMap().put(MAIN_AUTHOR_NAME, new Author(MAIN_AUTHOR_NAME));
         config.getAuthorAliasMap().put(FAKE_AUTHOR_NAME, new Author(FAKE_AUTHOR_NAME));

@@ -20,28 +20,28 @@ public class CommandRunnerTest extends GitTestTemplate {
 
     @Test
     public void cloneTest() {
-        Path dir = Paths.get(LOCAL_TEST_REPO_ADDRESS);
+        Path dir = Paths.get(config.getRepoRoot());
         Assert.assertTrue(Files.exists(dir));
     }
 
     @Test
     public void checkoutTest() {
-        CommandRunner.checkout(LOCAL_TEST_REPO_ADDRESS, "test");
-        Path branchFile = Paths.get(LOCAL_TEST_REPO_ADDRESS, "inTestBranch.java");
+        CommandRunner.checkout(config.getRepoRoot(), "test");
+        Path branchFile = Paths.get(config.getRepoRoot(), "inTestBranch.java");
         Assert.assertTrue(Files.exists(branchFile));
     }
 
     @Test
     public void log_existingFormats_hasContent() {
         String content =
-                CommandRunner.gitLog(LOCAL_TEST_REPO_ADDRESS, null, null, config.getFormats());
+                CommandRunner.gitLog(config.getRepoRoot(), null, null, config.getFormats());
         Assert.assertFalse(content.isEmpty());
     }
 
     @Test
     public void log_nonExistingFormats_noContent() {
         String content =
-                CommandRunner.gitLog(LOCAL_TEST_REPO_ADDRESS, null, null, Arrays.asList("py"));
+                CommandRunner.gitLog(config.getRepoRoot(), null, null, Arrays.asList("py"));
         Assert.assertTrue(content.isEmpty());
     }
 
@@ -49,24 +49,24 @@ public class CommandRunnerTest extends GitTestTemplate {
     public void log_sinceDateInFuture_noContent() {
         Date date = TestUtil.getDate(2050, Calendar.JANUARY, 1);
         String content = CommandRunner.gitLog(
-                LOCAL_TEST_REPO_ADDRESS, date, null, config.getFormats());
+                config.getRepoRoot(), date, null, config.getFormats());
         Assert.assertTrue(content.isEmpty());
 
         date = TestUtil.getDate(1950, Calendar.JANUARY, 1);
         content = CommandRunner.gitLog(
-                LOCAL_TEST_REPO_ADDRESS, null, date, config.getFormats());
+                config.getRepoRoot(), null, date, config.getFormats());
         Assert.assertTrue(content.isEmpty());
     }
 
     @Test
     public void blameRaw_validFile_success() {
-        String content = CommandRunner.blameRaw(LOCAL_TEST_REPO_ADDRESS, "blameTest.java");
+        String content = CommandRunner.blameRaw(config.getRepoRoot(), "blameTest.java");
         Assert.assertFalse(content.isEmpty());
     }
 
     @Test(expected = RuntimeException.class)
     public void blameRaw_nonExistentFile_throwsRunTimeException() {
-        CommandRunner.blameRaw(LOCAL_TEST_REPO_ADDRESS, "nonExistentFile");
+        CommandRunner.blameRaw(config.getRepoRoot(), "nonExistentFile");
     }
 
     @Test
