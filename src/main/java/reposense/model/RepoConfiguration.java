@@ -80,7 +80,21 @@ public class RepoConfiguration {
 
     public void updateRepoConfig(StandaloneConfig standaloneConfig) {
         authorList.clear();
-        authorList = standaloneConfig.getAuthors();
+        authorAliasMap.clear();
+        authorDisplayNameMap.clear();
+
+        for (StandaloneAuthor sa : standaloneConfig.getAuthors()) {
+            Author author = new Author(sa.getGithubId());
+            authorList.add(author);
+
+            for (String alias : sa.getAuthorName()) {
+                authorAliasMap.put(alias, author);
+            }
+
+            for (String displayName : sa.getDisplayName()) {
+                authorDisplayNameMap.put(author, displayName);
+            }
+        }
     }
 
     public String getRepoRoot() {

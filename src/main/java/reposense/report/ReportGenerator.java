@@ -1,6 +1,5 @@
 package reposense.report;
 
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Files;
@@ -52,7 +51,7 @@ public class ReportGenerator {
                 continue;
             }
 
-            Path configJsonPath = Paths.get(config.getRepoRoot(), "_reposense", "config.json");
+            Path configJsonPath = Paths.get(config.getRepoRoot(), "_reposense", "config.json").toAbsolutePath();
 
             if (Files.exists(configJsonPath)) {
                 StandaloneConfig standaloneConfig =  FileUtil.getStandaloneConfigFromJson(configJsonPath);

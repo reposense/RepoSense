@@ -3,9 +3,13 @@ package reposense.model;
 import java.util.List;
 
 public class StandaloneConfig {
-    private List<Author> authors;
+    private List<StandaloneAuthor> authors;
 
-    public List<Author> getAuthors() {
+    public StandaloneConfig(List<StandaloneAuthor> authors) {
+        this.authors = authors;
+    }
+
+    public List<StandaloneAuthor> getAuthors() {
         return authors;
     }
 }
