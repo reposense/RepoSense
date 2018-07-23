@@ -26,6 +26,8 @@ public class ReportGenerator {
 
     // zip file which contains all the dashboard template files
     private static final String TEMPLATE_FILE = "/templateZip.zip";
+    private static final String REPOSENSE_CONFIG_FOLDER = "_reposense";
+    private static final String REPOSENSE_CONFIG_FILE = "config.json";
 
     /**
      * Generates the authorship and commits JSON file for each repo in {@code configs} at {@code outputPath}, as
@@ -51,7 +53,8 @@ public class ReportGenerator {
                 continue;
             }
 
-            Path configJsonPath = Paths.get(config.getRepoRoot(), "_reposense", "config.json").toAbsolutePath();
+            Path configJsonPath = Paths.get(
+                    config.getRepoRoot(), REPOSENSE_CONFIG_FOLDER, REPOSENSE_CONFIG_FILE).toAbsolutePath();
 
             if (Files.exists(configJsonPath)) {
                 StandaloneConfig standaloneConfig =  FileUtil.getStandaloneConfigFromJson(configJsonPath);
