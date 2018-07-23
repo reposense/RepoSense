@@ -22,7 +22,6 @@ import reposense.parser.ArgsParser;
 import reposense.parser.InvalidLocationException;
 import reposense.system.CommandRunner;
 import reposense.util.FileUtil;
-import reposense.util.TestConstants;
 
 public class GitTestTemplate {
     protected static final String TEST_ORG = "reposense";
@@ -31,6 +30,11 @@ public class GitTestTemplate {
     protected static final String LOCAL_TEST_REPO_ADDRESS = FileUtil.REPOS_ADDRESS
             + File.separator + TEST_ORG + "_" + TEST_REPO + "_" + "master" + File.separator + TEST_REPO;
     protected static final String DISK_REPO_DISPLAY_NAME = "testrepo-Alpha_master";
+    protected static final String FIRST_COMMIT_HASH = "7d7584f";
+    protected static final String TEST_COMMIT_HASH = "2fb6b9b";
+    protected static final String MAIN_AUTHOR_NAME = "harryggg";
+    protected static final String FAKE_AUTHOR_NAME = "fakeAuthor";
+
     protected static RepoConfiguration config;
 
     @Before
@@ -64,8 +68,8 @@ public class GitTestTemplate {
     public FileInfo generateTestFileInfo(String relativePath) {
         FileInfo fileInfo = FileInfoExtractor.generateFileInfo(LOCAL_TEST_REPO_ADDRESS, relativePath);
 
-        config.getAuthorAliasMap().put(TestConstants.MAIN_AUTHOR_NAME, new Author(TestConstants.MAIN_AUTHOR_NAME));
-        config.getAuthorAliasMap().put(TestConstants.FAKE_AUTHOR_NAME, new Author(TestConstants.FAKE_AUTHOR_NAME));
+        config.getAuthorAliasMap().put(MAIN_AUTHOR_NAME, new Author(MAIN_AUTHOR_NAME));
+        config.getAuthorAliasMap().put(FAKE_AUTHOR_NAME, new Author(FAKE_AUTHOR_NAME));
 
         return fileInfo;
     }
@@ -78,9 +82,9 @@ public class GitTestTemplate {
     public void assertFileAnalysisCorrectness(FileResult fileResult) {
         for (LineInfo line : fileResult.getLines()) {
             if (line.getContent().startsWith("fake")) {
-                Assert.assertEquals(line.getAuthor(), new Author(TestConstants.FAKE_AUTHOR_NAME));
+                Assert.assertEquals(line.getAuthor(), new Author(FAKE_AUTHOR_NAME));
             } else {
-                Assert.assertNotEquals(line.getAuthor(), new Author(TestConstants.FAKE_AUTHOR_NAME));
+                Assert.assertNotEquals(line.getAuthor(), new Author(FAKE_AUTHOR_NAME));
             }
         }
     }

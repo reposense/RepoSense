@@ -14,7 +14,6 @@ import reposense.model.RepoConfiguration;
 import reposense.parser.InvalidLocationException;
 import reposense.template.GitTestTemplate;
 import reposense.util.FileUtil;
-import reposense.util.TestConstants;
 import reposense.util.TestUtil;
 
 
@@ -43,7 +42,7 @@ public class GitCheckerTest extends GitTestTemplate {
         Path newFile = Paths.get(LOCAL_TEST_REPO_ADDRESS, "newFile.java");
         Assert.assertTrue(Files.exists(newFile));
 
-        GitChecker.checkout(LOCAL_TEST_REPO_ADDRESS, TestConstants.FIRST_COMMIT_HASH);
+        GitChecker.checkout(LOCAL_TEST_REPO_ADDRESS, FIRST_COMMIT_HASH);
         Assert.assertFalse(Files.exists(newFile));
     }
 

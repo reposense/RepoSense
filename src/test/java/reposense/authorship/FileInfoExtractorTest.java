@@ -13,7 +13,6 @@ import reposense.authorship.model.FileInfo;
 import reposense.git.GitChecker;
 import reposense.model.Author;
 import reposense.template.GitTestTemplate;
-import reposense.util.TestConstants;
 import reposense.util.TestUtil;
 
 
@@ -25,9 +24,9 @@ public class FileInfoExtractorTest extends GitTestTemplate {
 
     @Test
     public void extractFileInfosTest() {
-        config.getAuthorAliasMap().put(TestConstants.MAIN_AUTHOR_NAME, new Author(TestConstants.MAIN_AUTHOR_NAME));
-        config.getAuthorAliasMap().put(TestConstants.FAKE_AUTHOR_NAME, new Author(TestConstants.FAKE_AUTHOR_NAME));
-        GitChecker.checkout(config.getRepoRoot(), TestConstants.TEST_COMMIT_HASH);
+        config.getAuthorAliasMap().put(MAIN_AUTHOR_NAME, new Author(MAIN_AUTHOR_NAME));
+        config.getAuthorAliasMap().put(FAKE_AUTHOR_NAME, new Author(FAKE_AUTHOR_NAME));
+        GitChecker.checkout(config.getRepoRoot(), TEST_COMMIT_HASH);
         List<FileInfo> files = FileInfoExtractor.extractFileInfos(config);
         Assert.assertEquals(files.size(), 6);
         Assert.assertTrue(isFileExistence(Paths.get("annotationTest.java"), files));
