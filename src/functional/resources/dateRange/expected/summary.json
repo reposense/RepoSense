@@ -1,5 +1,6 @@
 [
   {
+    "location": "https://github.com/reposense/testrepo-Beta.git",
     "organization": "reposense",
     "repoName": "testrepo-Beta",
     "branch": "master",
@@ -8,6 +9,7 @@
     "untilDate": "2017-10-30"
   },
   {
+    "location": "https://github.com/reposense/testrepo-Charlie.git",
     "organization": "reposense",
     "repoName": "testrepo-Charlie",
     "branch": "master",

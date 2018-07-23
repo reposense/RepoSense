@@ -9,7 +9,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
-import reposense.util.Constants;
+import reposense.util.FileUtil;
 
 public class CommandRunner {
     private static final DateFormat GIT_LOG_SINCE_DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd'T'00:00:00+08:00");
@@ -96,10 +96,10 @@ public class CommandRunner {
         return runCommand(rootPath, revListCommand);
     }
 
-    public static String cloneRepo(String org, String repoName) throws IOException {
-        Path rootPath = Paths.get(Constants.REPOS_ADDRESS, org);
+    public static String cloneRepo(String location, String displayName) throws IOException {
+        Path rootPath = Paths.get(FileUtil.REPOS_ADDRESS, displayName);
         Files.createDirectories(rootPath);
-        return runCommand(rootPath, "git clone " + Constants.GITHUB_URL_ROOT + org + "/" + repoName);
+        return runCommand(rootPath, "git clone " + addQuote(location));
     }
 
     private static String runCommand(Path path, String command) {

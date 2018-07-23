@@ -6,6 +6,7 @@ import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
@@ -27,12 +28,11 @@ public class CsvParser {
     /**
      * Positions of the elements of a line in the user-supplied CSV file
      */
-    private static final int ORGANIZATION_POSITION = 0;
-    private static final int REPOSITORY_NAME_POSITION = 1;
-    private static final int BRANCH_POSITION = 2;
-    private static final int GITHUB_ID_POSITION = 3;
-    private static final int DISPLAY_NAME_POSITION = 4;
-    private static final int ALIAS_POSITION = 5;
+    private static final int LOCATION_POSITION = 0;
+    private static final int BRANCH_POSITION = 1;
+    private static final int GITHUB_ID_POSITION = 2;
+    private static final int DISPLAY_NAME_POSITION = 3;
+    private static final int ALIAS_POSITION = 4;
 
     private static final Logger logger = LogsManager.getLogger(CsvParser.class);
 
@@ -56,9 +56,10 @@ public class CsvParser {
                 processLine(repoConfigurations, line, lineNumber);
                 lineNumber++;
             }
-
         } catch (IOException ioe) {
             throw new IOException(MESSAGE_UNABLE_TO_READ_CSV_FILE, ioe);
+        } catch (InvalidLocationException ile) {
+            logger.log(Level.WARNING, ile.getMessage(), ile);
         }
 
         return repoConfigurations;
@@ -68,7 +69,8 @@ public class CsvParser {
      * Adds the {@code Author} to its corresponding {@code RepoConfiguration} if it exists, or creates a new
      * {@code RepoConfiguration} containing the {@code Author} and add it to the {@code repoConfigurations} otherwise.
      */
-    private static void processLine(List<RepoConfiguration> repoConfigurations, String line, int lineNumber) {
+    private static void processLine(List<RepoConfiguration> repoConfigurations, String line, int lineNumber)
+            throws InvalidLocationException {
         if (line.isEmpty()) {
             return;
         }
@@ -80,11 +82,10 @@ public class CsvParser {
             return;
         }
 
-        String organization = elements[ORGANIZATION_POSITION];
-        String repositoryName = elements[REPOSITORY_NAME_POSITION];
+        String location = elements[LOCATION_POSITION];
         String branch = elements[BRANCH_POSITION];
+        RepoConfiguration config = new RepoConfiguration(location, branch);
 
-        RepoConfiguration config = new RepoConfiguration(organization, repositoryName, branch);
         int index = repoConfigurations.indexOf(config);
 
         // Take existing repoConfig if exists

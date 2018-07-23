@@ -1,8 +1,5 @@
 package reposense.template;
 
-import static reposense.util.TestConstants.TEST_ORG;
-import static reposense.util.TestConstants.TEST_REPO;
-
 import java.io.IOException;
 
 import org.junit.After;
@@ -21,25 +18,32 @@ import reposense.git.GitDownloaderException;
 import reposense.model.Author;
 import reposense.model.RepoConfiguration;
 import reposense.parser.ArgsParser;
+import reposense.parser.InvalidLocationException;
 import reposense.system.CommandRunner;
-import reposense.util.Constants;
 import reposense.util.FileUtil;
-import reposense.util.TestConstants;
 
 public class GitTestTemplate {
+    protected static final String TEST_REPO_GIT_LOCATION = "https://github.com/reposense/testrepo-Alpha.git";
+    protected static final String DISK_REPO_DISPLAY_NAME = "testrepo-Alpha_master";
+    protected static final String FIRST_COMMIT_HASH = "7d7584f";
+    protected static final String TEST_COMMIT_HASH = "2fb6b9b";
+    protected static final String MAIN_AUTHOR_NAME = "harryggg";
+    protected static final String FAKE_AUTHOR_NAME = "fakeAuthor";
 
-    protected RepoConfiguration config;
+    protected static RepoConfiguration config;
 
     @Before
-    public void before() {
-        config = new RepoConfiguration(TEST_ORG, TEST_REPO, "master");
+    public void before() throws InvalidLocationException {
+        config = new RepoConfiguration(TEST_REPO_GIT_LOCATION, "master");
         config.setFormats(ArgsParser.DEFAULT_FORMATS);
     }
 
     @BeforeClass
-    public static void beforeClass() throws GitDownloaderException, IOException {
+    public static void beforeClass() throws GitDownloaderException, IOException, InvalidLocationException {
         deleteRepos();
-        GitDownloader.downloadRepo(TEST_ORG, TEST_REPO, "master");
+        config = new RepoConfiguration(TEST_REPO_GIT_LOCATION, "master");
+        config.setFormats(ArgsParser.DEFAULT_FORMATS);
+        GitDownloader.downloadRepo(config);
     }
 
     @AfterClass
@@ -49,18 +53,18 @@ public class GitTestTemplate {
 
     @After
     public void after() {
-        CommandRunner.checkout(TestConstants.LOCAL_TEST_REPO_ADDRESS, "master");
+        CommandRunner.checkout(config.getRepoRoot(), "master");
     }
 
     private static void deleteRepos() throws IOException {
-        FileUtil.deleteDirectory(Constants.REPOS_ADDRESS);
+        FileUtil.deleteDirectory(FileUtil.REPOS_ADDRESS);
     }
 
     public FileInfo generateTestFileInfo(String relativePath) {
-        FileInfo fileInfo = FileInfoExtractor.generateFileInfo(TestConstants.LOCAL_TEST_REPO_ADDRESS, relativePath);
+        FileInfo fileInfo = FileInfoExtractor.generateFileInfo(config.getRepoRoot(), relativePath);
 
-        config.getAuthorAliasMap().put(TestConstants.MAIN_AUTHOR_NAME, new Author(TestConstants.MAIN_AUTHOR_NAME));
-        config.getAuthorAliasMap().put(TestConstants.FAKE_AUTHOR_NAME, new Author(TestConstants.FAKE_AUTHOR_NAME));
+        config.getAuthorAliasMap().put(MAIN_AUTHOR_NAME, new Author(MAIN_AUTHOR_NAME));
+        config.getAuthorAliasMap().put(FAKE_AUTHOR_NAME, new Author(FAKE_AUTHOR_NAME));
 
         return fileInfo;
     }
@@ -73,9 +77,9 @@ public class GitTestTemplate {
     public void assertFileAnalysisCorrectness(FileResult fileResult) {
         for (LineInfo line : fileResult.getLines()) {
             if (line.getContent().startsWith("fake")) {
-                Assert.assertEquals(line.getAuthor(), new Author(TestConstants.FAKE_AUTHOR_NAME));
+                Assert.assertEquals(line.getAuthor(), new Author(FAKE_AUTHOR_NAME));
             } else {
-                Assert.assertNotEquals(line.getAuthor(), new Author(TestConstants.FAKE_AUTHOR_NAME));
+                Assert.assertNotEquals(line.getAuthor(), new Author(FAKE_AUTHOR_NAME));
             }
         }
     }

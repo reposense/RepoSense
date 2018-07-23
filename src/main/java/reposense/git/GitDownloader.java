@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import reposense.model.RepoConfiguration;
 import reposense.system.CommandRunner;
 import reposense.system.LogsManager;
 import reposense.util.FileUtil;
@@ -15,12 +16,12 @@ public class GitDownloader {
 
     private static final Logger logger = LogsManager.getLogger(GitDownloader.class);
 
-    public static void downloadRepo(String organization, String repoName, String branchName)
+    public static void downloadRepo(RepoConfiguration repoConfig)
             throws GitDownloaderException {
         try {
-            FileUtil.deleteDirectory(FileUtil.getRepoDirectory(organization, repoName));
-            logger.info("Cloning " + organization + "/" + repoName + "...");
-            CommandRunner.cloneRepo(organization, repoName);
+            FileUtil.deleteDirectory(repoConfig.getRepoRoot());
+            logger.info("Cloning " + repoConfig.getLocation() + "...");
+            CommandRunner.cloneRepo(repoConfig.getLocation(), repoConfig.getDisplayName());
             logger.info("Cloning completed!");
         } catch (RuntimeException rte) {
             logger.log(Level.SEVERE, "Error encountered in Git Cloning, will attempt to continue analyzing", rte);
@@ -32,7 +33,7 @@ public class GitDownloader {
         }
 
         try {
-            GitChecker.checkout(FileUtil.getRepoDirectory(organization, repoName), branchName);
+            GitChecker.checkout(repoConfig.getRepoRoot(), repoConfig.getBranch());
         } catch (RuntimeException e) {
             logger.log(Level.SEVERE, "Branch does not exist! Analyze terminated.", e);
             throw new GitDownloaderException(e);

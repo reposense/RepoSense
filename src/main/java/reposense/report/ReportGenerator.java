@@ -17,7 +17,6 @@ import reposense.git.GitDownloader;
 import reposense.git.GitDownloaderException;
 import reposense.model.RepoConfiguration;
 import reposense.system.LogsManager;
-import reposense.util.Constants;
 import reposense.util.FileUtil;
 
 public class ReportGenerator {
@@ -39,7 +38,7 @@ public class ReportGenerator {
         for (RepoConfiguration config : configs) {
             Path repoReportDirectory = Paths.get(outputPath, config.getDisplayName());
             try {
-                GitDownloader.downloadRepo(config.getOrganization(), config.getRepoName(), config.getBranch());
+                GitDownloader.downloadRepo(config);
                 FileUtil.createDirectory(repoReportDirectory);
             } catch (GitDownloaderException gde) {
                 logger.log(Level.WARNING, "Exception met while trying to clone the repo, will skip this one", gde);
@@ -54,7 +53,7 @@ public class ReportGenerator {
             generateIndividualRepoReport(commitSummary, authorshipSummary, repoReportDirectory.toString());
 
             try {
-                FileUtil.deleteDirectory(Constants.REPOS_ADDRESS);
+                FileUtil.deleteDirectory(FileUtil.REPOS_ADDRESS);
             } catch (IOException ioe) {
                 logger.log(Level.WARNING, "Error deleting report directory.", ioe);
             }

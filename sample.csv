@@ -1,9 +1,9 @@
-Organization,Repository,branch,Author's GitHub ID,Author's Display Name,Author's Git Author Name
-CS2103AUG2017-W09-B1,main,master,nbriannl,Nbr,
-CS2103AUG2017-W09-B1,main,master,zacharytang,Zac,Zachary Tang
-CS2103AUG2017-W09-B1,main,master,April0616,Fan,LAPTOP-7KFM2KSP\User;Fan Yuting
-CS2103AUG2017-W09-B1,main,master,CindyTsai1,Cin,YuHsuan
-CS2103JAN2018-F14-B1,main,master,lithiumlkid,Ahm,
-CS2103JAN2018-F14-B1,main,master,codeeong,Cod,
-CS2103JAN2018-F14-B1,main,master,jordancjq,Jor,
-CS2103JAN2018-F14-B1,main,master,lohtianwei,Loh,
+Repository's Location,Branch,Author's GitHub ID,Author's Display Name,Author's Git Author Name
+https://github.com/reposense/testrepo-Beta.git,master,nbriannl,Nbr,
+https://github.com/reposense/testrepo-Beta.git,master,zacharytang,Zac,Zachary Tang
+https://github.com/reposense/testrepo-Beta.git,master,April0616,Fan,LAPTOP-7KFM2KSP\User;Fan Yuting
+https://github.com/reposense/testrepo-Beta.git,master,CindyTsai1,Cin,YuHsuan
+https://github.com/reposense/testrepo-Delta.git,master,lithiumlkid,Ahm,
+https://github.com/reposense/testrepo-Delta.git,master,codeeong,Cod,
+https://github.com/reposense/testrepo-Delta.git,master,jordancjq,Jor,
+https://github.com/reposense/testrepo-Delta.git,master,lohtianwei,Loh,
