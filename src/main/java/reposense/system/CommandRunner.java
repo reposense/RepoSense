@@ -99,7 +99,7 @@ public class CommandRunner {
     public static String cloneRepo(String location, String displayName) throws IOException {
         Path rootPath = Paths.get(FileUtil.REPOS_ADDRESS, displayName);
         Files.createDirectories(rootPath);
-        return runCommand(rootPath, "git clone " + location);
+        return runCommand(rootPath, "git clone " + addQuote(location));
     }
 
     private static String runCommand(Path path, String command) {
