@@ -59,7 +59,7 @@ public class ReportGenerator {
                     config.getRepoRoot(), REPOSENSE_CONFIG_FOLDER, REPOSENSE_CONFIG_FILE).toAbsolutePath();
 
             if (Files.exists(configJsonPath)) {
-                StandaloneConfig standaloneConfig =  new StandaloneConfigJsonParser().parse(configJsonPath);
+                StandaloneConfig standaloneConfig = new StandaloneConfigJsonParser().parse(configJsonPath);
                 config.updateRepoConfig(standaloneConfig);
             }
 
