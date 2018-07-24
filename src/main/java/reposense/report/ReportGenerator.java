@@ -18,6 +18,7 @@ import reposense.git.GitDownloader;
 import reposense.git.GitDownloaderException;
 import reposense.model.RepoConfiguration;
 import reposense.model.StandaloneConfig;
+import reposense.parser.StandaloneConfigJsonParser;
 import reposense.system.LogsManager;
 import reposense.util.FileUtil;
 
@@ -57,7 +58,7 @@ public class ReportGenerator {
                     config.getRepoRoot(), REPOSENSE_CONFIG_FOLDER, REPOSENSE_CONFIG_FILE).toAbsolutePath();
 
             if (Files.exists(configJsonPath)) {
-                StandaloneConfig standaloneConfig =  FileUtil.getStandaloneConfigFromJson(configJsonPath);
+                StandaloneConfig standaloneConfig =  new StandaloneConfigJsonParser().parse(configJsonPath);
                 config.updateRepoConfig(standaloneConfig);
             }
 

@@ -3,12 +3,10 @@ package reposense.util;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
-import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.PrintWriter;
-import java.lang.reflect.Type;
 import java.nio.ByteBuffer;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -26,10 +24,6 @@ import java.util.zip.ZipOutputStream;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
-import com.google.gson.reflect.TypeToken;
-import com.google.gson.stream.JsonReader;
-
-import reposense.model.StandaloneConfig;
 import reposense.system.LogsManager;
 
 public class FileUtil {
@@ -55,20 +49,6 @@ public class FileUtil {
         } catch (FileNotFoundException e) {
             logger.log(Level.SEVERE, e.getMessage(), e);
         }
-    }
-
-    public static StandaloneConfig getStandaloneConfigFromJson(Path standaloneConfigPath) throws FileNotFoundException {
-        Type type = new TypeToken<StandaloneConfig>(){}.getType();
-        return FileUtil.fromJson(standaloneConfigPath, type);
-    }
-
-    public static <T> T fromJson(Path path, Type type) throws FileNotFoundException {
-        return fromJson(new Gson(), path, type);
-    }
-
-    public static <T> T fromJson(Gson gson, Path path, Type type) throws FileNotFoundException {
-        JsonReader jsonReader = new JsonReader(new FileReader(path.toString()));
-        return gson.fromJson(jsonReader, type);
     }
 
     public static void deleteDirectory(String root) throws IOException {
