@@ -85,15 +85,11 @@ public class RepoConfiguration {
 
         for (StandaloneAuthor sa : standaloneConfig.getAuthors()) {
             Author author = new Author(sa.getGithubId());
+            String displayName = !sa.getDisplayName().isEmpty() ? sa.getDisplayName() : sa.getGithubId();
+
             authorList.add(author);
-
-            for (String alias : sa.getAuthorName()) {
-                authorAliasMap.put(alias, author);
-            }
-
-            for (String displayName : sa.getDisplayName()) {
-                authorDisplayNameMap.put(author, displayName);
-            }
+            setAuthorDisplayName(author, displayName);
+            setAuthorAliases(author, sa.getAuthorNames());
         }
     }
 

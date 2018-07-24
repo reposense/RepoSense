@@ -1,27 +1,31 @@
 package reposense.model;
 
-import java.util.List;
+import java.util.Arrays;
 
 public class StandaloneAuthor {
     private String githubId;
-    private List<String> authorName;
-    private List<String> displayName;
+    private String displayName;
+    private String[] authorNames;
 
-    public StandaloneAuthor(String githubId, List<String> authorName, List<String> displayName) {
+    public StandaloneAuthor(String githubId, String displayName, String[] authorNames) {
         this.githubId = githubId;
-        this.authorName = authorName;
         this.displayName = displayName;
+        this.authorNames = authorNames;
     }
 
     public String getGithubId() {
         return githubId;
     }
 
-    public List<String> getAuthorName() {
-        return authorName;
+    public String getDisplayName() {
+        return displayName;
     }
 
-    public List<String> getDisplayName() {
-        return displayName;
+    public String[] getAuthorNames() {
+        if (authorNames == null) {
+            return new String[]{};
+        }
+
+        return authorNames;
     }
 }

@@ -43,13 +43,6 @@ public class Entry {
         verifyAllJson(actualFiles, FT_TEMP_DIR);
     }
 
-    @Test
-    public void testDateRange() throws IOException, URISyntaxException, ParseException {
-        generateReport(getInputWithDates("1/9/2017", "30/10/2017"));
-        Path actualFiles = Paths.get(getClass().getClassLoader().getResource("dateRange/expected").toURI());
-        verifyAllJson(actualFiles, FT_TEMP_DIR);
-    }
-
     private String getInputWithDates(String sinceDate, String untilDate) {
         return String.format("-since %s -until %s", sinceDate, untilDate);
     }
