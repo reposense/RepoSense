@@ -51,7 +51,7 @@ public class RepoConfigurationTest {
         StandaloneConfig standaloneConfig =  new StandaloneConfigJsonParser().parse(configJsonPath);
         actualConfig.updateRepoConfig(standaloneConfig);
 
-        Assert.assertEquals(expectedConfig.getLocation(), actualConfig.getRepoRoot());
+        Assert.assertEquals(expectedConfig.getLocation(), actualConfig.getLocation());
         Assert.assertEquals(expectedConfig.getAuthorList().hashCode(), actualConfig.getAuthorList().hashCode());
         Assert.assertEquals(
                 expectedConfig.getAuthorDisplayNameMap().hashCode(), actualConfig.getAuthorDisplayNameMap().hashCode());
