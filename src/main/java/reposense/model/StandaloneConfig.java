@@ -2,6 +2,9 @@ package reposense.model;
 
 import java.util.List;
 
+/**
+ * Represents the structure of a config.json in _reposense folder.
+ */
 public class StandaloneConfig {
     private List<StandaloneAuthor> authors;
 

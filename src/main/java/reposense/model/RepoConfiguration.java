@@ -78,6 +78,9 @@ public class RepoConfiguration {
         configs.forEach(config -> config.setFormats(formats));
     }
 
+    /**
+     * Clears authors information and use the information provided from {@code standaloneConfig}.
+     */
     public void updateRepoConfig(StandaloneConfig standaloneConfig) {
         authorList.clear();
         authorAliasMap.clear();

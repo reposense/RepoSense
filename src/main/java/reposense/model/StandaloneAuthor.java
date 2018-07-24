@@ -1,5 +1,8 @@
 package reposense.model;
 
+/**
+ * Represents an Author in StandaloneConfig.
+ */
 public class StandaloneAuthor {
     private String githubId;
     private String displayName;
