@@ -23,12 +23,13 @@ import reposense.system.LogsManager;
 import reposense.util.FileUtil;
 
 public class ReportGenerator {
+    public static final String REPOSENSE_CONFIG_FOLDER = "_reposense";
+    public static final String REPOSENSE_CONFIG_FILE = "config.json";
+
     private static final Logger logger = LogsManager.getLogger(ReportGenerator.class);
 
     // zip file which contains all the dashboard template files
     private static final String TEMPLATE_FILE = "/templateZip.zip";
-    private static final String REPOSENSE_CONFIG_FOLDER = "_reposense";
-    private static final String REPOSENSE_CONFIG_FILE = "config.json";
 
     /**
      * Generates the authorship and commits JSON file for each repo in {@code configs} at {@code outputPath}, as

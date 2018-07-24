@@ -12,6 +12,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.TreeMap;
 import java.util.regex.Matcher;
@@ -120,7 +121,8 @@ public class RepoConfiguration {
 
     @Override
     public int hashCode() {
-        return location.hashCode();
+        return Objects.hash(
+                location.hashCode(), authorList.hashCode(), authorDisplayNameMap.hashCode(), authorAliasMap.hashCode());
     }
 
     public Map<Author, String> getAuthorDisplayNameMap() {
