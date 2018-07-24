@@ -1,7 +1,5 @@
 package reposense.model;
 
-import java.util.Arrays;
-
 public class StandaloneAuthor {
     private String githubId;
     private String displayName;

@@ -89,6 +89,7 @@ public class RepoConfiguration {
 
             authorList.add(author);
             setAuthorDisplayName(author, displayName);
+            setAuthorAliases(author, sa.getGithubId());
             setAuthorAliases(author, sa.getAuthorNames());
         }
     }
