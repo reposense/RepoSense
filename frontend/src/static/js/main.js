@@ -40,6 +40,7 @@ window.app = new window.Vue({
 
         this.userUpdated = false;
         this.loadedRepo = 0;
+
         return Promise.all(names.map((name) => (
           window.api.loadCommits(name)
             .then(() => { this.loadedRepo += 1; })
