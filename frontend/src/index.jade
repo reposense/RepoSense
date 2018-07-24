@@ -62,6 +62,11 @@ html
             .mui-textfield.summary-picker__date
               input(type="date", v-model="filterUntilDate")
               label until
+          .mui-select.summary-picker__input
+            select(v-model="filterTimeFrame")
+              option(value="day") Day 
+              option(value="week") Week 
+            label details 
           .mui-checkbox.summary-picker__checkboxes.summary-picker__input
             label
               input(type="checkbox", v-model="filterSortReverse").summary-picker__checkbox
@@ -69,9 +74,6 @@ html
             label
               input(type="checkbox", v-model="filterGroupRepos").summary-picker__checkbox
               span group by repo
-            label
-              input(type="checkbox", v-model="filterGroupWeek").summary-picker__checkbox
-              span week
         #summary-charts
           .summary-charts(v-for="repo of filtered", v-if="repo.length>0")
             .summary-charts--title(v-if="filterGroupRepos") {{ repo[0].repoPath }}
