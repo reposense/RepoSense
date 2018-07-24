@@ -41,7 +41,7 @@ window.vSummary = {
     return {
       filtered: [],
       filterSearch: '',
-      filterSort: 'totalCommits',
+      filterSort: 'displayName',
       filterSortReverse: false,
       filterGroupRepos: true,
       filterGroupWeek: false,
