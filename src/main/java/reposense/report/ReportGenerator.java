@@ -16,6 +16,7 @@ import reposense.commits.model.CommitContributionSummary;
 import reposense.git.GitDownloader;
 import reposense.git.GitDownloaderException;
 import reposense.model.RepoConfiguration;
+import reposense.model.Summary;
 import reposense.system.LogsManager;
 import reposense.util.FileUtil;
 
@@ -58,7 +59,7 @@ public class ReportGenerator {
                 logger.log(Level.WARNING, "Error deleting report directory.", ioe);
             }
         }
-        FileUtil.writeJsonFile(configs, getSummaryResultPath(outputPath));
+        FileUtil.writeJsonFile(new Summary(configs), getSummaryResultPath(outputPath));
         logger.info("The report is generated at " + outputPath);
     }
 

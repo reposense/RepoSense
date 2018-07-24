@@ -20,6 +20,8 @@ html
             v-bind:repos="getUsers()",
             v-on:view-authorship="updateTabAuthorship"
           )
+          .timestamp-footer Last generated on: {{ creationDate }}
+
 
         #tabs-wrapper(v-if="isTabActive")
           .tab-close(v-on:click="isTabActive=false")

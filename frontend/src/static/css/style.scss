@@ -23,6 +23,17 @@ vuetemplate{
     text-align:center;
 }
 
+.timestamp-footer {
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    width: 23%;
+    background-color: #000000;
+    opacity: 0.6;
+    color: white;
+    text-align: left;
+}
+
 /** navigation bar **/
 header{
     z-index:100;

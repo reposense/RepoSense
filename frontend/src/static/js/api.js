@@ -29,9 +29,10 @@ window.api = {
   loadSummary(callback) {
     window.REPOS = {};
 
-    loadJSON(`${REPORT_DIR}/summary.json`, (repos) => {
+    loadJSON(`${REPORT_DIR}/summary.json`, (data) => {
       const names = [];
-      repos.forEach((repo) => {
+      app.creationDate = data.dashboardUpdateDate; 
+      data.repos.forEach((repo) => {
         const repoName = `${repo.displayName}`;
         window.REPOS[repoName] = repo;
         names.push(repoName);
