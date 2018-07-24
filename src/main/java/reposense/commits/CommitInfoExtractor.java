@@ -30,7 +30,6 @@ public class CommitInfoExtractor {
 
         for (Author author : config.getAuthorList()) {
             String gitLogResult = CommandRunner.gitLog(config, author);
-            System.out.println(gitLogResult);
             List<CommitInfo> authorCommitInfos = parseGitLogResults(gitLogResult);
             repoCommitInfos.addAll(authorCommitInfos);
         }

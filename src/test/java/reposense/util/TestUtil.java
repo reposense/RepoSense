@@ -23,7 +23,7 @@ public class TestUtil {
      * else prints out the first line of content difference (if any).
      */
     public static boolean compareFileContents(Path expected, Path actual) throws IOException {
-        return compareFileContents(expected, actual, 1);
+        return compareFileContents(expected, actual, 1000);
     }
 
     /**

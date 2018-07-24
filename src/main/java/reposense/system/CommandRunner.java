@@ -183,12 +183,12 @@ public class CommandRunner {
      * Returns the {@code String} command to specify the authors to analyze for `git log` command.
      */
     private static String convertToFilterAuthorArgs(Author author) {
-        final String cmdFormat = "\\|%s <";
+        final String cmdFormat = "\\|^%s <";
         StringBuilder filterAuthorArgsBuilder = new StringBuilder();
         filterAuthorArgsBuilder.append(" --author=\"^").append(author.getGitId()).append(" <");
 
         author.getAuthorAliases().stream()
-                .map(authorAlias -> String.format(cmdFormat, author).replace("\\", "\\\\"))
+                .map(authorAlias -> String.format(cmdFormat, authorAlias.replace("\\", "\\\\\\\\")))
                 .forEach(filterAuthorArgsBuilder::append);
 
         filterAuthorArgsBuilder.append("\"");
