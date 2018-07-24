@@ -80,7 +80,7 @@ Branch | The branch to analyse in the target repository
 Author's GitHub ID | GitHub ID of the target contributor in the repository
 Author's Display Name | Optional Field. The value of this field, if not empty, will be displayed in the dashboard instead of author's GitHub ID.
 [Optional] Author's Git Author Name | Detailed explanation below
-[Optional] Ignore Global List | The list of file path globs to ignore analyze. The glob list should be specified on the first author of the repository. More details on the Java glob standard [here](https://javapapers.com/java/glob-with-java-nio/)
+[Optional] Ignore Global List | The list of file path globs to ignore during analysis. The glob list should be specified on the first author of the repository. More details on the Java glob standard [here](https://javapapers.com/java/glob-with-java-nio/)
 
 #### Git Author Name
 `Git Author Name` refers to the customizable author's display name set in the local `.gitconfig` file.
