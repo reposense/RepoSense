@@ -3,6 +3,7 @@ package reposense.authorship;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Calendar;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
@@ -61,7 +62,30 @@ public class FileInfoExtractorTest extends GitTestTemplate {
 
         List<FileInfo> files = FileInfoExtractor.extractFileInfos(config);
         Assert.assertTrue(files.isEmpty());
+    }
 
+    @Test
+    public void extractFileInfos_ignoreAllJavaFiles_success() {
+        config.setIgnoreGlobList(Collections.singletonList("**.java"));
+
+        List<FileInfo> files = FileInfoExtractor.extractFileInfos(config);
+        Assert.assertEquals(1, files.size());
+    }
+
+    @Test
+    public void extractFileInfos_ignoreRootDirectoryJavaFiles_success() {
+        config.setIgnoreGlobList(Collections.singletonList("*.java"));
+
+        List<FileInfo> files = FileInfoExtractor.extractFileInfos(config);
+        Assert.assertEquals(2, files.size());
+    }
+
+    @Test
+    public void extractFileInfos_ignoreNewPosDirectory_success() {
+        config.setIgnoreGlobList(Collections.singletonList("newPos/**"));
+
+        List<FileInfo> files = FileInfoExtractor.extractFileInfos(config);
+        Assert.assertEquals(5, files.size());
     }
 
     @Test

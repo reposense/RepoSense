@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 import java.util.logging.Level;
@@ -19,7 +20,7 @@ import reposense.system.LogsManager;
  */
 public class CsvParser {
     private static final String ELEMENT_SEPARATOR = ",";
-    private static final String AUTHOR_ALIAS_SEPARATOR = ";";
+    private static final String AUTHOR_ALIAS_AND_GLOB_SEPARATOR = ";";
 
     private static final String MESSAGE_UNABLE_TO_READ_CSV_FILE = "Unable to read the supplied CSV file.";
     private static final String MESSAGE_MALFORMED_LINE_FORMAT = "Warning! line %d in configuration file is malformed.\n"
@@ -33,6 +34,7 @@ public class CsvParser {
     private static final int GITHUB_ID_POSITION = 2;
     private static final int DISPLAY_NAME_POSITION = 3;
     private static final int ALIAS_POSITION = 4;
+    private static final int IGNORE_GLOB_LIST_POSITION = 5;
 
     private static final Logger logger = LogsManager.getLogger(CsvParser.class);
 
@@ -100,6 +102,11 @@ public class CsvParser {
         config.getAuthorList().add(author);
         setDisplayName(elements, config, author);
         setAliases(elements, config, author);
+
+        // prevent overriding the glob list if another author in the same repo also specifies
+        if (config.getIgnoreGlobList().isEmpty()) {
+            setIgnoreGlobList(elements, config);
+        }
     }
 
     /**
@@ -123,8 +130,22 @@ public class CsvParser {
                 && !elements[ALIAS_POSITION].isEmpty();
 
         if (areAliasesInElements) {
-            String[] aliases = elements[ALIAS_POSITION].split(AUTHOR_ALIAS_SEPARATOR);
+            String[] aliases = elements[ALIAS_POSITION].split(AUTHOR_ALIAS_AND_GLOB_SEPARATOR);
             config.setAuthorAliases(author, aliases);
+        }
+    }
+
+    /**
+     * Sets the list of globs to ignore inside {@code config} for the file analysis.
+     */
+    private static void setIgnoreGlobList(String[] elements, RepoConfiguration config) {
+        boolean isIgnoreGlobListInElements = elements.length > IGNORE_GLOB_LIST_POSITION
+                && !elements[IGNORE_GLOB_LIST_POSITION].isEmpty();
+
+        if (isIgnoreGlobListInElements) {
+            List<String> ignoreGlobList = Arrays.asList(
+                    elements[IGNORE_GLOB_LIST_POSITION].split(AUTHOR_ALIAS_AND_GLOB_SEPARATOR));
+            config.setIgnoreGlobList(ignoreGlobList);
         }
     }
 }

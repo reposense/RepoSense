@@ -24,16 +24,8 @@ public class CommitInfoExtractor {
         logger.info("Extracting commits info for " + config.getLocation() + "...");
 
         GitChecker.checkoutBranch(config.getRepoRoot(), config.getBranch());
-        String gitLogResult = getGitLogResult(config);
+        String gitLogResult = CommandRunner.gitLog(config);
         return parseGitLogResults(gitLogResult);
-    }
-
-    /**
-     * Returns the git log information for the repo for the date range in {@code config}.
-     */
-    private static String getGitLogResult(RepoConfiguration config) {
-        return CommandRunner.gitLog(
-                config.getRepoRoot(), config.getSinceDate(), config.getUntilDate(), config.getFormats());
     }
 
     /**

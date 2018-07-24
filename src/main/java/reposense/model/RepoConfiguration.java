@@ -36,7 +36,7 @@ public class RepoConfiguration {
     private transient boolean needCheckStyle = false;
     private transient List<String> formats;
     private transient int commitNum = 1;
-    private transient List<String> ignoreDirectoryList = new ArrayList<>();
+    private transient List<String> ignoreGlobList = new ArrayList<>();
     private transient List<Author> authorList = new ArrayList<>();
     private transient TreeMap<String, Author> authorAliasMap = new TreeMap<>(String.CASE_INSENSITIVE_ORDER);
     private transient Map<Author, String> authorDisplayNameMap = new HashMap<>();
@@ -147,12 +147,12 @@ public class RepoConfiguration {
         this.annotationOverwrite = annotationOverwrite;
     }
 
-    public List<String> getIgnoreDirectoryList() {
-        return ignoreDirectoryList;
+    public List<String> getIgnoreGlobList() {
+        return ignoreGlobList;
     }
 
-    public void setIgnoreDirectoryList(List<String> ignoreDirectoryList) {
-        this.ignoreDirectoryList = ignoreDirectoryList;
+    public void setIgnoreGlobList(List<String> ignoreGlobList) {
+        this.ignoreGlobList = ignoreGlobList;
     }
 
     public List<Author> getAuthorList() {
