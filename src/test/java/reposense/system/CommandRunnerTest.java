@@ -44,6 +44,15 @@ public class CommandRunnerTest extends GitTestTemplate {
     }
 
     @Test
+    public void gitLog_includeAllJavaFiles_success() {
+        config.setFormats(Collections.singletonList("java"));
+        String content = CommandRunner.gitLog(config);
+        String[] contentLines = content.split("\n");
+        int expectedNumberCommits = 8;
+        Assert.assertEquals(convertNumberExpectedCommitsToGitLogLines(expectedNumberCommits), contentLines.length);
+    }
+
+    @Test
     public void gitLog_includeAllJavaFilesIgnoreMovedFile_success() {
         config.setFormats(Collections.singletonList("java"));
         config.setIgnoreGlobList(Collections.singletonList("**movedFile.java"));
