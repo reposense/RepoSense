@@ -8,6 +8,7 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
+import java.util.regex.Pattern;
 
 import reposense.model.Author;
 import reposense.model.RepoConfiguration;
@@ -16,6 +17,8 @@ import reposense.util.FileUtil;
 public class CommandRunner {
     private static final DateFormat GIT_LOG_SINCE_DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd'T'00:00:00+08:00");
     private static final DateFormat GIT_LOG_UNTIL_DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd'T'23:59:59+08:00");
+
+    private static final Pattern SPECIAL_REGEX_CHARS = Pattern.compile("[{}()\\[\\].+*?^$|]");
 
     private static boolean isWindows = isWindows();
 
@@ -188,8 +191,10 @@ public class CommandRunner {
         filterAuthorArgsBuilder.append(" --author=\"^").append(author.getGitId()).append(" <.*>$");
         final String cmdFormat = "\\|^%s <.*>$";
 
+        // local git author names may contain regex meta-characters, so we need to escape those
         author.getAuthorAliases().stream()
-                .map(authorAlias -> String.format(cmdFormat, authorAlias.replace("\\", "\\\\\\")))
+                .map(authorAlias -> String.format(
+                        cmdFormat, escapeSpecialRegexChars(authorAlias.replace("\\", "\\\\\\"))))
                 .forEach(filterAuthorArgsBuilder::append);
 
         filterAuthorArgsBuilder.append("\"");
@@ -220,5 +225,13 @@ public class CommandRunner {
                 .forEach(gitExcludeGlobArgsBuilder::append);
 
         return gitExcludeGlobArgsBuilder.toString();
+    }
+
+    /**
+     * Converts the {@code regexString} to a literal {@code String} where all regex meta-characters are escaped
+     * and returns it.
+     */
+    private static String escapeSpecialRegexChars(String regexString) {
+        return SPECIAL_REGEX_CHARS.matcher(regexString).replaceAll("\\\\$0");
     }
 }

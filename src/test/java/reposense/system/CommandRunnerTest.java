@@ -77,6 +77,15 @@ public class CommandRunnerTest extends GitTestTemplate {
     }
 
     @Test
+    public void gitLog_authorWithAllCharactersRegexAlias_emptyResult() {
+        Author authorWithAllCharactersRegexAlias = new Author("none");
+        authorWithAllCharactersRegexAlias.setAuthorAliases(Collections.singletonList(".*"));
+
+        String content = CommandRunner.gitLog(config, authorWithAllCharactersRegexAlias);
+        Assert.assertTrue(content.isEmpty());
+    }
+
+    @Test
     public void gitLog_sinceDateInFuture_noContent() {
         Date date = TestUtil.getDate(2050, Calendar.JANUARY, 1);
         config.setSinceDate(date);
