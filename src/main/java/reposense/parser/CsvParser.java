@@ -3,146 +3,121 @@ package reposense.parser;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
-import reposense.model.Author;
-import reposense.model.RepoConfiguration;
 import reposense.system.LogsManager;
 
-/**
- * Parses a CSV configuration file for repository information.
- */
-public class CsvParser {
-    public static final String REPO_CONFIG_FILENAME = "repo-config.csv";
+public abstract class CsvParser<T> {
+    protected static final String AUTHOR_ALIAS_AND_GLOB_SEPARATOR = ";";
+    protected static final Logger logger = LogsManager.getLogger(CsvParser.class);
 
     private static final String ELEMENT_SEPARATOR = ",";
-    private static final String AUTHOR_ALIAS_AND_GLOB_SEPARATOR = ";";
     private static final String MESSAGE_UNABLE_TO_READ_CSV_FILE = "Unable to read the supplied CSV file.";
+    private static final String MESSAGE_MALFORMED_LINE_FORMAT = "Warning! line %d in configuration file is malformed.\n"
+            + "Contents: %s";
+
+    private Path csvFilePath;
 
     /**
-     * Positions of the elements of a line in the user-supplied CSV file
+     * @throws IOException if {@code csvFilePath} is an invalid path.
      */
-    private static final int LOCATION_POSITION = 0;
-    private static final int BRANCH_POSITION = 1;
-    private static final int GITHUB_ID_POSITION = 2;
-    private static final int DISPLAY_NAME_POSITION = 3;
-    private static final int ALIAS_POSITION = 4;
-    private static final int IGNORE_GLOB_LIST_POSITION = 5;
+    public CsvParser(Path csvFilePath) throws IOException {
+        if (csvFilePath == null || !Files.exists(csvFilePath)) {
+            throw new IOException("Csv file does not exists in given path");
+        }
 
-    private static final Logger logger = LogsManager.getLogger(CsvParser.class);
+        this.csvFilePath = csvFilePath;
+    }
 
     /**
-     * Returns a list of {@code RepoConfiguration}, each of which corresponds to a data line in the csv file.
-     * The first line is assumed to be the header line and will be ignored.
-     *
-     * @throws IOException if user-supplied csv file does not exists or is not readable.
+     * @throws IOException if there are error accessing the given csv file.
      */
-    public static List<RepoConfiguration> parse(Path configFolderPath) throws IOException {
-        assert (configFolderPath != null);
-
-        List<RepoConfiguration> repoConfigurations = new ArrayList<RepoConfiguration>();
+    public List<T> parse() throws IOException {
+        List<T> results = new ArrayList<>();
         int lineNumber = 1;
-
-        Path repoConfigFilePath = Paths.get(configFolderPath.toString(), REPO_CONFIG_FILENAME);
 
         try {
             // Skip first line, which is the header row
-            final Collection<String> lines = Files.lines(repoConfigFilePath).skip(1).collect(Collectors.toList());
+            final Collection<String> lines = Files.lines(csvFilePath).skip(1).collect(Collectors.toList());
 
             for (final String line : lines) {
-                processLine(repoConfigurations, line, lineNumber);
+                String[] elements = line.split(ELEMENT_SEPARATOR);
+
+                if (line.isEmpty() || isLineMalformed(elements, lineNumber, line)) {
+                    continue;
+                }
+
+                processLine(results, elements);
                 lineNumber++;
             }
         } catch (IOException ioe) {
             throw new IOException(MESSAGE_UNABLE_TO_READ_CSV_FILE, ioe);
-        } catch (InvalidLocationException ile) {
-            logger.log(Level.WARNING, ile.getMessage(), ile);
+        } catch (ParseException pe) {
+            logger.log(Level.WARNING, pe.getMessage(), pe);
         }
 
-        return repoConfigurations;
+        return results;
+    }
+
+    private boolean isLineMalformed(final String[] elements, int lineNumber, String line) {
+        for (int position : mandatoryPositions()) {
+            if (!isValueInElementsAndNotEmpty(elements, position)) {
+                logger.warning(String.format(MESSAGE_MALFORMED_LINE_FORMAT, lineNumber, line));
+                return true;
+            }
+        }
+
+        return false;
     }
 
     /**
-     * Adds the {@code Author} to its corresponding {@code RepoConfiguration} if it exists, or creates a new
-     * {@code RepoConfiguration} containing the {@code Author} and add it to the {@code repoConfigurations} otherwise.
+     * Checks that {@code position} in within the range of {@code element} array and
+     * value in {@code position} is not empty.
      */
-    private static void processLine(List<RepoConfiguration> repoConfigurations, String line, int lineNumber)
-            throws InvalidLocationException {
-        if (line.isEmpty()) {
-            return;
-        }
-
-        String[] elements = line.split(ELEMENT_SEPARATOR);
-        String location = elements[LOCATION_POSITION];
-        String branch = elements[BRANCH_POSITION];
-        RepoConfiguration config = new RepoConfiguration(location, branch);
-
-        int index = repoConfigurations.indexOf(config);
-
-        // Take existing repoConfig if exists
-        if (index != -1) {
-            config = repoConfigurations.get(index);
-        } else {
-            // Add it in if it does not
-            repoConfigurations.add(config);
-        }
-
-        if (elements.length - 1 < GITHUB_ID_POSITION) {
-            return;
-        }
-
-        Author author = new Author(elements[GITHUB_ID_POSITION]);
-        config.getAuthorList().add(author);
-        setDisplayName(elements, config, author);
-        setAliases(elements, config, author);
-        setAuthorIgnoreGlobList(elements, author);
+    private boolean isValueInElementsAndNotEmpty(final String[] elements, int position) {
+        return elements.length > position && !elements[position].isEmpty();
     }
 
     /**
-     * Associates display name from {@code elements} to {@code author}, if provided.
-     * Otherwise, use github id from {@code elements}.
+     * Gets the value of {@code position} in {@code elements}.
+     * Returns the value of {@code position} if it is in {@code element} and not empty.
+     * Otherwise returns an empty string.
      */
-    private static void setDisplayName(String[] elements, RepoConfiguration config, Author author) {
-        boolean isDisplayNameInElements = elements.length > DISPLAY_NAME_POSITION
-                && !elements[DISPLAY_NAME_POSITION].isEmpty();
-
-        config.setAuthorDisplayName(author,
-                isDisplayNameInElements ? elements[DISPLAY_NAME_POSITION] : author.getGitId());
+    protected String getValueInElement(final String[] elements, int position) {
+        return (isValueInElementsAndNotEmpty(elements, position)) ? elements[position] : "";
     }
 
     /**
-     * Associates github id and additional aliases in {@code elements} to {@code author}.
+     * Gets the value of {@code position} in {@code elements}.
+     * Returns the value of {@code position} in an array, delimited by {@code AUTHOR_ALIAS_AND_GLOB_SEPARATOR}
+     * if it is in {@code element} and not empty.
+     * Otherwise returns an empty array.
      */
-    private static void setAliases(String[] elements, RepoConfiguration config, Author author) {
-        config.getAuthorAliasMap().put(elements[GITHUB_ID_POSITION], author);
-        boolean areAliasesInElements = elements.length > ALIAS_POSITION
-                && !elements[ALIAS_POSITION].isEmpty();
-
-        if (areAliasesInElements) {
-            List<String> aliases = Arrays.asList(elements[ALIAS_POSITION].split(AUTHOR_ALIAS_AND_GLOB_SEPARATOR));
-            config.addAuthorAliases(author, aliases);
-            author.setAuthorAliases(aliases);
+    protected List<String> getManyValueInElement(final String[] elements, int position) {
+        if (!isValueInElementsAndNotEmpty(elements, position)) {
+            return Collections.emptyList();
         }
+
+        String manyValue = getValueInElement(elements, position);
+        return Arrays.asList(manyValue.split(AUTHOR_ALIAS_AND_GLOB_SEPARATOR));
     }
 
     /**
-     * Sets the list of globs to ignore for the {@code author} for file analysis.
+     * Gets the list of positions that are mandatory for verification.
      */
-    private static void setAuthorIgnoreGlobList(String[] elements, Author author) {
-        boolean isIgnoreGlobListInElements = elements.length > IGNORE_GLOB_LIST_POSITION
-                && !elements[IGNORE_GLOB_LIST_POSITION].isEmpty();
+    protected abstract int[] mandatoryPositions();
 
-        if (isIgnoreGlobListInElements) {
-            List<String> ignoreGlobList = Arrays.asList(
-                    elements[IGNORE_GLOB_LIST_POSITION].split(AUTHOR_ALIAS_AND_GLOB_SEPARATOR));
-            author.setIgnoreGlobList(ignoreGlobList);
-        }
-    }
+    /**
+     * Processes the csv file line by line.
+     * All CsvParsers should use {@code getValueInElement} or {@code getManyValueInElement} to read contents in
+     * {@code elements} and add created objects into {@code results}.
+     */
+    protected abstract void processLine(List<T> results, final String[] elements) throws ParseException;
 }

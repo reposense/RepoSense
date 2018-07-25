@@ -9,7 +9,7 @@ import java.util.List;
 public class StandaloneAuthor {
     private String githubId;
     private String displayName;
-    private List<String>  authorNames;
+    private List<String> authorNames;
     private List<String> ignoreGlobList;
 
     public String getGithubId() {

@@ -19,11 +19,11 @@ public class ConfigFolderArgumentType implements ArgumentType<Path> {
         // Piggyback on library methods to do file existence checks
         Arguments.fileType().verifyExists().verifyIsDirectory().verifyCanRead().convert(parser, arg, value);
 
-        if (Files.exists(Paths.get(value).resolve(CsvParser.REPO_CONFIG_FILENAME))) {
+        if (Files.exists(Paths.get(value).resolve(RepoConfigCsvParser.REPO_CONFIG_FILENAME))) {
             return Paths.get(value);
         }
 
-        throw new ArgumentParserException(String.format(
-                PARSE_EXCEPTION_MESSAGE_MISSING_REQUIRED_CONFIG_FILES, CsvParser.REPO_CONFIG_FILENAME), parser);
+        throw new ArgumentParserException(String.format(PARSE_EXCEPTION_MESSAGE_MISSING_REQUIRED_CONFIG_FILES,
+                RepoConfigCsvParser.REPO_CONFIG_FILENAME), parser);
     }
 }
