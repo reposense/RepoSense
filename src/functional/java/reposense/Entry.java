@@ -8,7 +8,6 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Arrays;
-import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -67,7 +66,7 @@ public class Entry {
         RepoConfiguration.setFormatsToRepoConfigs(configs, TESTING_FILE_FORMATS);
         RepoConfiguration.setDatesToRepoConfigs(configs, cliArguments.getSinceDate(), cliArguments.getUntilDate());
 
-        ReportGenerator.generateReposReport(configs, FT_TEMP_DIR, new Date(1532425515000L));
+        ReportGenerator.generateReposReport(configs, FT_TEMP_DIR, "Tue Jul 24 17:45:15 SGT 2018");
     }
 
     private void verifyAllJson(Path expectedDirectory, String actualRelative) {

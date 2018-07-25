@@ -33,7 +33,7 @@ public class RepoSense {
             RepoConfiguration.setFormatsToRepoConfigs(configs, cliArguments.getFormats());
             RepoConfiguration.setDatesToRepoConfigs(configs, cliArguments.getSinceDate(), cliArguments.getUntilDate());
             ReportGenerator.generateReposReport(
-                    configs, cliArguments.getOutputFilePath().toAbsolutePath().toString(), new Date());
+                    configs, cliArguments.getOutputFilePath().toAbsolutePath().toString(), new Date().toString());
 
             FileUtil.zip(cliArguments.getOutputFilePath().toAbsolutePath(), ".json");
         } catch (IOException ioe) {

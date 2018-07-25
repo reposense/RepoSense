@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.Date;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -34,7 +33,7 @@ public class ReportGenerator {
      * @throws IOException if templateZip.zip does not exists in jar file.
      */
     public static void generateReposReport(List<RepoConfiguration> configs, String outputPath,
-                                           Date generationDate) throws IOException {
+                                           String generationDate) throws IOException {
         InputStream is = RepoSense.class.getResourceAsStream(TEMPLATE_FILE);
         FileUtil.copyTemplate(is, outputPath);
 
@@ -61,7 +60,7 @@ public class ReportGenerator {
                 logger.log(Level.WARNING, "Error deleting report directory.", ioe);
             }
         }
-        FileUtil.writeJsonFile(new Summary(configs, generationDate.toString()), getSummaryResultPath(outputPath));
+        FileUtil.writeJsonFile(new Summary(configs, generationDate), getSummaryResultPath(outputPath));
         logger.info("The report is generated at " + outputPath);
     }
 
