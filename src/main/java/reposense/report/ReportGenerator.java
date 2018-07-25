@@ -74,11 +74,9 @@ public class ReportGenerator {
     }
 
     /**
-     * Updates {@code config} author information with the information provided from config.json.
-     *
-     * @throws FileNotFoundException if the path to config.json is invalid.
+     * Update {@code config} author information with configuration provided by repository if exists.
      */
-    public static void updateRepoConfig(RepoConfiguration config) throws FileNotFoundException {
+    public static void updateRepoConfig(RepoConfiguration config) {
         Path configJsonPath =
                 Paths.get(config.getRepoRoot(), REPOSENSE_CONFIG_FOLDER, REPOSENSE_CONFIG_FILE).toAbsolutePath();
 
@@ -89,6 +87,8 @@ public class ReportGenerator {
             } catch (JsonSyntaxException jse) {
                 logger.warning(String.format("%s/%s/%s is malformed.",
                         config.getDisplayName(), REPOSENSE_CONFIG_FOLDER, REPOSENSE_CONFIG_FILE));
+            } catch (FileNotFoundException fnfe) {
+                throw new AssertionError("This should not happen.");
             }
         }
     }
