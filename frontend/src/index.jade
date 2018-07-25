@@ -31,7 +31,9 @@ html
           .tab-content
             .tab-panes
               #tab-authorship.tab-pane(v-if="isTabAuthorship")
-                v_authorship(v-bind:repo="tabRepo", v-bind:author="tabAuthor", v-bind:name="tabAuthorName")
+                v_authorship(
+                  v-bind:key="generateKey(tabInfo.tabAuthorship)",
+                  v-bind:info="tabInfo.tabAuthorship")
 
       template(v-else)
         .empty please enter a report directory or upload a report zip
@@ -100,8 +102,8 @@ html
     vuetemplate#v_authorship
       #authorship
         .title
-          .repoName {{ repo }}
-          .author {{ name }} ({{ author }})
+          .repoName {{ info.repo }}
+          .author {{ info.name }} ({{ info.author }})
 
         .files(v-if="isLoaded")
           .file(v-for="file in files")
