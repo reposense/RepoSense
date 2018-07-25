@@ -73,6 +73,11 @@ public class ReportGenerator {
         logger.info("The report is generated at " + outputPath);
     }
 
+    /**
+     * Updates {@code config} author information with the information provided from config.json.
+     *
+     * @throws FileNotFoundException if the path to config.json is invalid.
+     */
     public static void updateRepoConfig(RepoConfiguration config) throws FileNotFoundException {
         Path configJsonPath =
                 Paths.get(config.getRepoRoot(), REPOSENSE_CONFIG_FOLDER, REPOSENSE_CONFIG_FILE).toAbsolutePath();

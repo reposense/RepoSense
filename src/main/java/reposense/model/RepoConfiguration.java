@@ -182,9 +182,7 @@ public class RepoConfiguration {
         this.authorList = authorList;
 
         // Set GitHub Id as default alias
-        for (Author author : authorList) {
-            setAuthorAliases(author, author.getGitId());
-        }
+        authorList.forEach(author -> setAuthorAliases(author, author.getGitId()));
     }
 
     public TreeMap<String, Author> getAuthorAliasMap() {
