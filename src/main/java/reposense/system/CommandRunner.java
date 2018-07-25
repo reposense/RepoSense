@@ -186,12 +186,13 @@ public class CommandRunner {
      * Returns the {@code String} command to specify the authors to analyze for `git log` command.
      */
     private static String convertToFilterAuthorArgs(Author author) {
-        StringBuilder filterAuthorArgsBuilder = new StringBuilder();
-        // the author name which git log checks against will also contain the email enclosed in <> brackets
-        filterAuthorArgsBuilder.append(" --author=\"^").append(author.getGitId()).append(" <.*>$");
+        StringBuilder filterAuthorArgsBuilder = new StringBuilder(" --author=\"");
+        // ignore check against email
         final String cmdFormat = "\\|^%s <.*>$";
 
-        // local git author names may contain regex meta-characters, so we need to escape those
+        filterAuthorArgsBuilder.append(String.format(cmdFormat, author.getGitId()).substring(2));
+
+        // git author names may contain regex meta-characters, so we need to escape those
         author.getAuthorAliases().stream()
                 .map(authorAlias -> String.format(
                         cmdFormat, escapeSpecialRegexChars(authorAlias.replace("\\", "\\\\\\"))))

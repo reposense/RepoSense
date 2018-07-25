@@ -54,7 +54,17 @@ public class CommandRunnerTest extends GitTestTemplate {
     }
 
     @Test
-    public void gitLog_includeAllJavaFilesIgnoreMovedFile_success() {
+    public void gitLog_fakeAuthorNameOnly_success() {
+        Author fakeAuthorName = new Author(FAKE_AUTHOR_NAME);
+
+        String content = CommandRunner.gitLog(config, fakeAuthorName);
+        String[] contentLines = content.split("\n");
+        int expectedNumberCommits = 4;
+        Assert.assertEquals(convertNumberExpectedCommitsToGitLogLines(expectedNumberCommits), contentLines.length);
+    }
+
+    @Test
+    public void gitLog_includeAllJavaFilesAuthorIgnoreMovedFile_success() {
         config.setFormats(Collections.singletonList("java"));
         Author ignoreMovedFileAuthor = getAlphaAllAliasAuthor();
         ignoreMovedFileAuthor.setIgnoreGlobList(Collections.singletonList("**movedFile.java"));
@@ -66,7 +76,7 @@ public class CommandRunnerTest extends GitTestTemplate {
     }
 
     @Test
-    public void gitLog_ignoreAllJavaFiles_success() {
+    public void gitLog_authorIgnoreAllJavaFiles_success() {
         Author ignoreAllJavaFilesAuthor = getAlphaAllAliasAuthor();
         ignoreAllJavaFilesAuthor.setIgnoreGlobList(Collections.singletonList("*.java"));
 
