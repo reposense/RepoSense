@@ -189,7 +189,7 @@ public class CommandRunner {
         final String cmdFormat = "\\|^%s <.*>$";
 
         author.getAuthorAliases().stream()
-                .map(authorAlias -> String.format(cmdFormat, authorAlias.replace("\\", "\\\\\\\\")))
+                .map(authorAlias -> String.format(cmdFormat, authorAlias.replace("\\", "\\\\\\")))
                 .forEach(filterAuthorArgsBuilder::append);
 
         filterAuthorArgsBuilder.append("\"");
