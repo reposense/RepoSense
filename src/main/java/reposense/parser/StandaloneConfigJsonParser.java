@@ -9,7 +9,7 @@ import com.google.gson.reflect.TypeToken;
 import reposense.model.StandaloneConfig;
 
 /**
- * Parses json file from {@Path} and creates a new StandaloneConfig object.
+ * Parses json file from {@code Path} and creates a new {@code StandaloneConfig} object.
  */
 public class StandaloneConfigJsonParser extends JsonParser<StandaloneConfig> {
 
@@ -22,7 +22,7 @@ public class StandaloneConfigJsonParser extends JsonParser<StandaloneConfig> {
     }
 
     /**
-     * Converts json file from the given {@code path} and returns a StandaloneConfig object.
+     * Converts json file from the given {@code path} and returns a {@code StandaloneConfig} object.
      * @throws FileNotFoundException if {@code path} is invalid.
      */
     @Override

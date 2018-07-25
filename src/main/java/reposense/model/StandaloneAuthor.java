@@ -1,7 +1,7 @@
 package reposense.model;
 
 /**
- * Represents an Author in StandaloneConfig.
+ * Represents an {@code StandaloneAuthor} in {@code StandaloneConfig}.
  */
 public class StandaloneAuthor {
     private String githubId;

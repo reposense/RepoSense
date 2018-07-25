@@ -81,7 +81,7 @@ public class RepoConfiguration {
     /**
      * Clears authors information and use the information provided from {@code standaloneConfig}.
      */
-    public void updateRepoConfig(StandaloneConfig standaloneConfig) {
+    public void update(StandaloneConfig standaloneConfig) {
         authorList.clear();
         authorAliasMap.clear();
         authorDisplayNameMap.clear();
@@ -180,6 +180,11 @@ public class RepoConfiguration {
 
     public void setAuthorList(List<Author> authorList) {
         this.authorList = authorList;
+
+        // Set GitHub Id as default alias
+        for (Author author : authorList) {
+            setAuthorAliases(author, author.getGitId());
+        }
     }
 
     public TreeMap<String, Author> getAuthorAliasMap() {
