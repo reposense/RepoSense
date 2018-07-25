@@ -11,6 +11,7 @@ window.app = new window.Vue({
 
     isTabActive: false,
     isTabAuthorship: false,
+    tabInfo: {},
     tabAuthorship: {},
   },
   methods: {
@@ -62,10 +63,14 @@ window.app = new window.Vue({
 
     updateTabAuthorship(obj) {
       this.deactivateTabs();
-      this.tabAuthorship = { ...obj };
+      this.tabInfo.tabAuthorship = { ...obj };
 
       this.isTabActive = true;
       this.isTabAuthorship = true;
+    },
+
+    generateKey(dataObj) {
+      return JSON.stringify(dataObj);
     },
   },
   components: {

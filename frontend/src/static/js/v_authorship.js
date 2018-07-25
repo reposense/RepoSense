@@ -11,7 +11,7 @@ window.toggleNext = function toggleNext(ele) {
 };
 
 window.vAuthorship = {
-  props: ['repo', 'author', 'name'],
+  props: ['info'],
   template: window.$('v_authorship').innerHTML,
   data() {
     return {
@@ -20,24 +20,15 @@ window.vAuthorship = {
     };
   },
 
-  watch: {
-    repo() {
-      this.initiate();
-    },
-    author() {
-      this.initiate();
-    },
-  },
-
   methods: {
     initiate() {
-      const repo = window.REPOS[this.repo];
+      const repo = window.REPOS[this.info.repo];
 
       if (repo.files) {
         this.processFiles(repo.files);
       } else {
         window.api.loadAuthorship(
-          this.repo,
+          this.info.repo,
           files => this.processFiles(files),
         );
       }
@@ -50,7 +41,7 @@ window.vAuthorship = {
       const segments = [];
 
       lines.forEach((line) => {
-        const authored = (line.author && line.author.gitId === this.author);
+        const authored = (line.author && line.author.gitId === this.info.author);
 
         if (authored !== lastState || lastId === -1) {
           segments.push({
@@ -120,7 +111,7 @@ window.vAuthorship = {
       const res = [];
 
       files.forEach((file) => {
-        if (file.authorContributionMap[this.author]) {
+        if (file.authorContributionMap[this.info.author]) {
           const out = {};
           out.path = file.path;
 
