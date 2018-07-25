@@ -82,7 +82,8 @@ public class ReportGenerator {
                 StandaloneConfig standaloneConfig = new StandaloneConfigJsonParser().parse(configJsonPath);
                 config.update(standaloneConfig);
             } catch (JsonSyntaxException jse) {
-                logger.warning(config.getDisplayName() + "/_reposense/config.csv is malformed.");
+                logger.warning(String.format("%s/%s/%s is malformed.",
+                        config.getDisplayName(), REPOSENSE_CONFIG_FOLDER, REPOSENSE_CONFIG_FILE));
             }
         }
     }

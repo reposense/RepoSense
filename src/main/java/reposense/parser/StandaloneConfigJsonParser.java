@@ -14,7 +14,7 @@ import reposense.model.StandaloneConfig;
 public class StandaloneConfigJsonParser extends JsonParser<StandaloneConfig> {
 
     /**
-     * Gets the type of StandaloneConfig for json conversion.
+     * Gets the type of {@code StandaloneConfig} for json conversion.
      */
     @Override
     public Type getType() {
