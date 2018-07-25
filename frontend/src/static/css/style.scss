@@ -27,10 +27,11 @@ vuetemplate{
     position: relative;
     left: 0;
     bottom: 0;
+    font-weight: bold;
     width: 23%;
-    background-color: #000000;
-    opacity: 0.6;
-    color: white;
+    margin-left: 1em;
+    margin-bottom: 1em;
+    color: rgba(0,0,0,.87);
     text-align: left;
 }
 

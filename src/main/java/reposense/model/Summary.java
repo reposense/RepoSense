@@ -3,7 +3,7 @@ package reposense.model;
 import java.util.List;
 
 /**
- * Stores the summary.json file values.
+ * Represents the structure of summary.json file in reposense-report folder.
  */
 public class Summary {
     private final String dashboardUpdateDate;
