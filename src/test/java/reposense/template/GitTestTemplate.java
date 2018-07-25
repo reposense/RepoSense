@@ -1,6 +1,8 @@
 package reposense.template;
 
 import java.io.IOException;
+import java.util.Arrays;
+import java.util.Collections;
 
 import org.junit.After;
 import org.junit.AfterClass;
@@ -29,12 +31,14 @@ public class GitTestTemplate {
     protected static final String TEST_COMMIT_HASH = "2fb6b9b";
     protected static final String MAIN_AUTHOR_NAME = "harryggg";
     protected static final String FAKE_AUTHOR_NAME = "fakeAuthor";
+    protected static final String EUGENE_AUTHOR_NAME = "eugenepeh";
 
     protected static RepoConfiguration config;
 
     @Before
     public void before() throws InvalidLocationException {
         config = new RepoConfiguration(TEST_REPO_GIT_LOCATION, "master");
+        config.setAuthorList(Collections.singletonList(getAlphaAllAliasAuthor()));
         config.setFormats(ArgsParser.DEFAULT_FORMATS);
     }
 
@@ -82,5 +86,15 @@ public class GitTestTemplate {
                 Assert.assertNotEquals(line.getAuthor(), new Author(FAKE_AUTHOR_NAME));
             }
         }
+    }
+
+    /**
+     * Returns a {@code Author} that has git id and aliases of all authors in testrepo-Alpha, so that no commits
+     * will be filtered out in the `git log` command.
+     */
+    protected Author getAlphaAllAliasAuthor() {
+        Author author = new Author(MAIN_AUTHOR_NAME);
+        author.setAuthorAliases(Arrays.asList(FAKE_AUTHOR_NAME, EUGENE_AUTHOR_NAME));
+        return author;
     }
 }
