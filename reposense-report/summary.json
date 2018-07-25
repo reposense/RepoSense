@@ -1,0 +1,17 @@
+{
+  "dashboardUpdateDate": "Wed Jul 25 11:30:21 SGT 2018",
+  "repos": [
+    {
+      "organization": "CS2103AUG2017-W09-B1",
+      "repoName": "main",
+      "branch": "master",
+      "displayName": "CS2103AUG2017-W09-B1_main_master"
+    },
+    {
+      "organization": "CS2103JAN2018-F14-B1",
+      "repoName": "main",
+      "branch": "master",
+      "displayName": "CS2103JAN2018-F14-B1_main_master"
+    }
+  ]
+}

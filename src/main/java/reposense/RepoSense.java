@@ -1,6 +1,7 @@
 package reposense;
 
 import java.io.IOException;
+import java.util.Date;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -32,7 +33,7 @@ public class RepoSense {
             RepoConfiguration.setFormatsToRepoConfigs(configs, cliArguments.getFormats());
             RepoConfiguration.setDatesToRepoConfigs(configs, cliArguments.getSinceDate(), cliArguments.getUntilDate());
             ReportGenerator.generateReposReport(
-                    configs, cliArguments.getOutputFilePath().toAbsolutePath().toString());
+                    configs, cliArguments.getOutputFilePath().toAbsolutePath().toString(), new Date());
 
             FileUtil.zip(cliArguments.getOutputFilePath().toAbsolutePath(), ".json");
         } catch (IOException ioe) {
