@@ -18,6 +18,10 @@ public class CommandRunner {
     private static final DateFormat GIT_LOG_SINCE_DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd'T'00:00:00+08:00");
     private static final DateFormat GIT_LOG_UNTIL_DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd'T'23:59:59+08:00");
 
+    // ignore check against email
+    private static final String AUTHOR_NAME_PATTERN = "^%s <.*>$";
+    private static final String OR_OPERATOR_PATTERN = "\\|";
+
     private static final Pattern SPECIAL_REGEX_CHARS = Pattern.compile("[{}()\\[\\].+*?^$|]");
 
     private static boolean isWindows = isWindows();
@@ -187,18 +191,14 @@ public class CommandRunner {
      */
     private static String convertToFilterAuthorArgs(Author author) {
         StringBuilder filterAuthorArgsBuilder = new StringBuilder(" --author=\"");
-        // ignore check against email
-        final String cmdFormat = "\\|^%s <.*>$";
-
-        filterAuthorArgsBuilder.append(String.format(cmdFormat, author.getGitId()).substring(2));
 
         // git author names may contain regex meta-characters, so we need to escape those
         author.getAuthorAliases().stream()
                 .map(authorAlias -> String.format(
-                        cmdFormat, escapeSpecialRegexChars(authorAlias.replace("\\", "\\\\\\"))))
+                        AUTHOR_NAME_PATTERN, escapeSpecialRegexChars(authorAlias)) + OR_OPERATOR_PATTERN)
                 .forEach(filterAuthorArgsBuilder::append);
 
-        filterAuthorArgsBuilder.append("\"");
+        filterAuthorArgsBuilder.append(String.format(AUTHOR_NAME_PATTERN, author.getGitId())).append("\"");
         return filterAuthorArgsBuilder.toString();
     }
 
@@ -233,6 +233,6 @@ public class CommandRunner {
      * and returns it.
      */
     private static String escapeSpecialRegexChars(String regexString) {
-        return SPECIAL_REGEX_CHARS.matcher(regexString).replaceAll("\\\\$0");
+        return SPECIAL_REGEX_CHARS.matcher(regexString.replace("\\", "\\\\\\")).replaceAll("\\\\$0");
     }
 }
