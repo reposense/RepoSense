@@ -50,6 +50,11 @@ public class RepoConfigurationTest {
         expectedConfig.setAuthorDisplayName(THIRD_AUTHOR, "Jor");
         expectedConfig.setAuthorDisplayName(FOURTH_AUTHOR, "Loh");
 
+        expectedConfig.setAuthorAliases(FIRST_AUTHOR, "Ahmad Syafiq");
+        expectedConfig.setAuthorAliases(SECOND_AUTHOR, "Codee");
+        expectedConfig.setAuthorAliases(THIRD_AUTHOR, "Jordan Chong");
+        expectedConfig.setAuthorAliases(FOURTH_AUTHOR, "Tianwei");
+
         RepoConfiguration actualConfig = new RepoConfiguration(TEST_REPO_DELTA, "master");
         GitDownloader.downloadRepo(actualConfig);
 

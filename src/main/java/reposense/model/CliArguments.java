@@ -8,23 +8,24 @@ import java.util.Optional;
 /**
  * Represents command line arguments user supplied when running the program.
  */
-public class CliArguments {
-    private Path configFolderPath;
-    private Path outputFilePath;
-    private Optional<Date> sinceDate;
-    private Optional<Date> untilDate;
-    private List<String> formats;
-    private Path reportDirectoryPath;
+public abstract class CliArguments {
+    protected Path configFolderPath;
+    protected Path outputFilePath;
+    protected Optional<Date> sinceDate;
+    protected Optional<Date> untilDate;
+    protected List<String> formats;
+    protected Path reportDirectoryPath;
+    protected List<String> locations;
 
-    public CliArguments(Path configFolderPath, Path outputFilePath, Optional<Date> sinceDate,
-            Optional<Date> untilDate, List<String> formats, Path reportDirectoryPath) {
-        this.configFolderPath = configFolderPath;
+    public CliArguments(
+            Path outputFilePath, Optional<Date> sinceDate, Optional<Date> untilDate, List<String> formats) {
         this.outputFilePath = outputFilePath;
         this.sinceDate = sinceDate;
         this.untilDate = untilDate;
         this.formats = formats;
-        this.reportDirectoryPath = reportDirectoryPath;
     }
+
+    public CliArguments() {}
 
     public Path getConfigFolderPath() {
         return configFolderPath;
@@ -48,5 +49,9 @@ public class CliArguments {
 
     public Path getReportDirectoryPath() {
         return reportDirectoryPath;
+    }
+
+    public List<String> getLocations() {
+        return locations;
     }
 }

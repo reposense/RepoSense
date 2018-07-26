@@ -4,14 +4,18 @@ import java.io.IOException;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import reposense.model.CliArguments;
+import reposense.model.ConfigCliArguments;
+import reposense.model.LocationsCliArguments;
 import reposense.model.RepoConfiguration;
 import reposense.parser.ArgsParser;
 import reposense.parser.CsvParser;
+import reposense.parser.InvalidLocationException;
 import reposense.parser.ParseException;
 import reposense.report.ReportGenerator;
 import reposense.system.DashboardServer;
@@ -26,13 +30,22 @@ public class RepoSense {
     public static void main(String[] args) {
         try {
             CliArguments cliArguments = ArgsParser.parse(args);
+            List<RepoConfiguration> configs = null;
 
-            if (cliArguments.getReportDirectoryPath() != null) {
+            switch (cliArguments.getClass().getSimpleName()) {
+            case "ViewCliArguments":
                 DashboardServer.startServer(SERVER_PORT_NUMBER, cliArguments.getReportDirectoryPath().toAbsolutePath());
                 return;
+            case "ConfigCliArguments":
+                configs = getRepoConfigurations((ConfigCliArguments) cliArguments);
+                break;
+            case "LocationsCliArguments":
+                configs = getRepoConfigurations((LocationsCliArguments) cliArguments);
+                break;
+            default:
+                throw new AssertionError("CliArguments's subclass type is unhandled.");
             }
 
-            List<RepoConfiguration> configs = CsvParser.parse(cliArguments.getConfigFolderPath());
             RepoConfiguration.setFormatsToRepoConfigs(configs, cliArguments.getFormats());
             RepoConfiguration.setDatesToRepoConfigs(configs, cliArguments.getSinceDate(), cliArguments.getUntilDate());
             ReportGenerator.generateReposReport(configs, cliArguments.getOutputFilePath().toAbsolutePath().toString(),
@@ -44,5 +57,30 @@ public class RepoSense {
         } catch (ParseException pe) {
             logger.log(Level.WARNING, pe.getMessage(), pe);
         }
+    }
+
+    /**
+     * Constructs a list of {@code RepoConfiguration} if {@code cliArguments} is a {@code ConfigCliArguments}.
+     *
+     * @throws IOException if user-supplied csv file does not exists or is not readable.
+     */
+    public static List<RepoConfiguration> getRepoConfigurations(ConfigCliArguments cliArguments) throws IOException {
+        return CsvParser.parse(cliArguments.getConfigFilePath());
+    }
+
+    /**
+     * Constructs a list of {@code RepoConfiguration} if {@code cliArguments} is a {@code LocationsCliArguments}.
+     */
+    public static List<RepoConfiguration> getRepoConfigurations(LocationsCliArguments cliArguments) {
+        List<RepoConfiguration> configs = new ArrayList<>();
+        for (String location : cliArguments.getLocations()) {
+            try {
+                configs.add(new RepoConfiguration(location));
+            } catch (InvalidLocationException ile) {
+                logger.log(Level.WARNING, ile.getMessage(), ile);
+            }
+        }
+
+        return configs;
     }
 }
