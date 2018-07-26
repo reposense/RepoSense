@@ -1,5 +1,6 @@
 plugins {
     id 'java'
+    id 'jacoco'
     id 'checkstyle'
     id 'application'
     id 'com.github.johnrengelman.shadow' version '2.0.3'
@@ -12,12 +13,19 @@ repositories {
     mavenCentral()
 }
 
+jacocoTestReport {
+    reports {
+        xml.enabled true
+        html.enabled false
+    }
+}
+
 checkstyle {
     toolVersion = '8.1'
 }
 
 test {
-  testLogging.showStandardStreams = true
+    testLogging.showStandardStreams = true
 }
 
 dependencies {
@@ -47,27 +55,27 @@ tasks.shadowJar.dependsOn('myZip');
 tasks.run.dependsOn('myZip');
 
 configurations {
-  functionalImplementation.extendsFrom testImplementation
-  functionalRuntime.extendsFrom testRuntime
+    functionalImplementation.extendsFrom testImplementation
+    functionalRuntime.extendsFrom testRuntime
 }
 sourceSets {
-  functional {
-    compileClasspath += main.output + test.output
-    runtimeClasspath += main.output + test.output
-    java.srcDir file('src/functional/java')
-  }
-  test {
-    resources.srcDir file('src/functional/resources')
-  }
+    functional {
+        compileClasspath += main.output + test.output
+        runtimeClasspath += main.output + test.output
+        java.srcDir file('src/functional/java')
+    }
+    test {
+        resources.srcDir file('src/functional/resources')
+    }
 }
 
 task functional(type: Test) {
-  testClassesDirs = sourceSets.functional.output.classesDirs
-  classpath = sourceSets.functional.runtimeClasspath
-  testLogging {
-    events 'passed', 'skipped', 'failed'
-    showStandardStreams = true
-  }
+    testClassesDirs = sourceSets.functional.output.classesDirs
+    classpath = sourceSets.functional.runtimeClasspath
+    testLogging {
+        events 'passed', 'skipped', 'failed'
+        showStandardStreams = true
+    }
 }
 tasks.functional.dependsOn('myZip');
 
@@ -79,4 +87,9 @@ tasks.compileJava.dependsOn(clean)
 
 tasks.withType(Copy) {
     includeEmptyDirs = true
+}
+
+task jacocoReport(type: JacocoReport){
+    sourceSets sourceSets.main
+    executionData sourceSets.test, sourceSets.functional
 }

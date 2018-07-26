@@ -9,7 +9,7 @@ matrix:
 script:
   - ./config/travis/run-checks.sh
   - cd ./frontend; npm run lint src/**/*js; cd ..
-  - time travis_retry ./gradlew clean checkstyleMain checkstyleTest test functional
+  - time travis_retry ./gradlew clean checkstyleMain checkstyleTest test functional jacocoReport
 
 addons:
   apt:
@@ -29,3 +29,6 @@ cache:
   directories:
     - $HOME/.gradle/caches/
     - $HOME/.gradle/wrapper/
+
+after_success:
+  - bash <(curl -s https://codecov.io/bash)
