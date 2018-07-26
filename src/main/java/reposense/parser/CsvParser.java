@@ -97,7 +97,7 @@ public class CsvParser {
         config.getAuthorList().add(author);
         setDisplayName(elements, config, author);
         setAliases(elements, config, author);
-        setAuthorIgnoreGlobList(elements, config, author);
+        setAuthorIgnoreGlobList(elements, author);
     }
 
     /**
@@ -128,9 +128,9 @@ public class CsvParser {
     }
 
     /**
-     * Sets the list of globs to ignore inside {@code config} for the file analysis for the {@code author}.
+     * Sets the list of globs to ignore for the {@code author} for file analysis.
      */
-    private static void setAuthorIgnoreGlobList(String[] elements, RepoConfiguration config, Author author) {
+    private static void setAuthorIgnoreGlobList(String[] elements, Author author) {
         boolean isIgnoreGlobListInElements = elements.length > IGNORE_GLOB_LIST_POSITION
                 && !elements[IGNORE_GLOB_LIST_POSITION].isEmpty();
 
