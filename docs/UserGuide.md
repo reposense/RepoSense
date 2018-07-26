@@ -118,7 +118,7 @@ For example,`Alice;Bob`.
 
 ### [Optional] Preparation of Repositories
 - [Contribution Tags](#contribution-tags)
-- [Standalone Configuration](#standalone-configurations)
+- [Standalone Configuration](#standalone-configuration)
 
 #### Contribution Tags
 Although RepoSense's contribution analysis is quite accurate, authors can use annotations to ensure that RepoSense correctly recognizes their contribution.
@@ -135,10 +135,11 @@ Below are some examples (by the courtesy of Collate's User Guide):
 You can use `Start Tags` to mark the start of your contribution. The author specified in the `Start Tags` will be recognized by RepoSense as the author for all lines between a `Start Tag` and the next `End Tag`. If RepoSense cannot find a matching `End Tag` for a `Start Tag` in the same file, it will assume that all lines between the `Start Tag` to the end of the file is authored by the author specified in the `Start Tag`.
 
 #### Standalone Configuration
-Although management of authors can be done in `config.csv`, Reposense also supports a decentralized way to manage authors per repository.
+Although management of authors can be done in `config.csv`, RepoSense also supports a decentralized way to manage authors per repository.
 
-To do that, create a config.json in _reposense folder  (#config-json-file). Reposense will use the authors provided in `config.json` for anlaysis.
+To do that, create a [config.json](../_reposense/config.json) in _reposense folder. RepoSense will use the authors provided in `config.json` for analysis.
 
+See RepoSense's repository for an [example](../_reposense/).
 
 ## Dashboard
 The `Dashboard` is written in HTML and Javascript as static pages - readable by majority of web browsers, and easily deploy-able in most hosting platforms (such as [GitHub Pages](https://pages.github.com/)).
