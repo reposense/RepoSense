@@ -74,7 +74,7 @@ public class ReportGenerator {
     }
 
     /**
-     * Update {@code config} author information with configuration provided by repository if exists.
+     * Updates {@code config} author information with configuration provided by repository if exists.
      */
     public static void updateRepoConfig(RepoConfiguration config) {
         Path configJsonPath =
