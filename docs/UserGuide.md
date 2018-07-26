@@ -137,7 +137,7 @@ You can use `Start Tags` to mark the start of your contribution. The author spec
 #### Standalone Configuration
 Although management of authors can be done in `config.csv`, RepoSense also supports a decentralized way to manage authors per repository.
 
-To do that, create a [config.json](../_reposense/config.json) in _reposense folder. RepoSense will use the authors provided in `config.json` for analysis.
+To do that, create a [config.json](../_reposense/config.json) in `_reposense` folder at the root of your repository. RepoSense will use the authors provided in `config.json` for analysis.
 
 See RepoSense's repository for an [example](../_reposense/).
 
