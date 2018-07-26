@@ -42,11 +42,9 @@ public class ReportGenerator {
     public static void generateReposReport(List<RepoConfiguration> configs, String outputPath,
             String generationDate) throws IOException {
         InputStream is = RepoSense.class.getResourceAsStream(TEMPLATE_FILE);
-        System.out.println(configs.size());
         FileUtil.copyTemplate(is, outputPath);
 
         for (RepoConfiguration config : configs) {
-            System.out.println(config.getBranch());
             Path repoReportDirectory = Paths.get(outputPath, config.getDisplayName());
             try {
                 GitDownloader.downloadRepo(config);
