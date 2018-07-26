@@ -1,0 +1,30 @@
+{
+	"authors":
+	[
+		{
+			"githubId": "AdityaA1998",
+			"displayName": "Aditya",
+			"authorNames": ["AdityaA1998"]
+		},
+		{
+			"githubId": "eugenepeh",
+			"displayName": "Eugene",
+			"authorNames": ["Eugene Peh"]
+		},
+		{
+			"githubId": "ongspxm",
+			"displayName": "Metta",
+			"authorNames": ["Metta Ong"]
+		},
+		{
+			"githubId": "yamidark",
+			"displayName": "Jun An",
+			"authorNames": ["Jun An"]
+		},
+		{
+			"githubId": "yong24s",
+			"displayName": "Yong Hao",
+			"authorNames": ["Yong Hao TENG"]
+		}
+	]
+}
