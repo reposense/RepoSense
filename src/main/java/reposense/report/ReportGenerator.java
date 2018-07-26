@@ -80,16 +80,18 @@ public class ReportGenerator {
         Path configJsonPath =
                 Paths.get(config.getRepoRoot(), REPOSENSE_CONFIG_FOLDER, REPOSENSE_CONFIG_FILE).toAbsolutePath();
 
-        if (Files.exists(configJsonPath)) {
-            try {
-                StandaloneConfig standaloneConfig = new StandaloneConfigJsonParser().parse(configJsonPath);
-                config.update(standaloneConfig);
-            } catch (JsonSyntaxException jse) {
-                logger.warning(String.format("%s/%s/%s is malformed.",
-                        config.getDisplayName(), REPOSENSE_CONFIG_FOLDER, REPOSENSE_CONFIG_FILE));
-            } catch (FileNotFoundException fnfe) {
-                throw new AssertionError("This should not happen.");
-            }
+        if (!Files.exists(configJsonPath)) {
+            return;
+        }
+
+        try {
+            StandaloneConfig standaloneConfig = new StandaloneConfigJsonParser().parse(configJsonPath);
+            config.update(standaloneConfig);
+        } catch (JsonSyntaxException jse) {
+            logger.warning(String.format("%s/%s/%s is malformed.",
+                    config.getDisplayName(), REPOSENSE_CONFIG_FOLDER, REPOSENSE_CONFIG_FILE));
+        } catch (FileNotFoundException fnfe) {
+            throw new AssertionError("This should not happen.");
         }
     }
 
