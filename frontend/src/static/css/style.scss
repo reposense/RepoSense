@@ -23,6 +23,18 @@ vuetemplate{
     text-align:center;
 }
 
+.timestamp-footer {
+    position: relative;
+    left: 0;
+    bottom: 0;
+    font-weight: bold;
+    width: 25%;
+    margin-left: 1em;
+    margin-bottom: 1em;
+    color: rgba(0,0,0,.87);
+    text-align: left;
+}
+
 /** navigation bar **/
 header{
     z-index:100;

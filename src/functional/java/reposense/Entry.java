@@ -29,6 +29,7 @@ public class Entry {
     private static final String FT_TEMP_DIR = "ft_temp";
     private static final String EXPECTED_FOLDER = "expected";
     private static final List<String> TESTING_FILE_FORMATS = Arrays.asList("java", "adoc");
+    private static final String TEST_REPORT_GENERATED_TIME = "Tue Jul 24 17:45:15 SGT 2018";
 
     @Before
     public void setUp() throws IOException {
@@ -66,7 +67,7 @@ public class Entry {
         RepoConfiguration.setFormatsToRepoConfigs(configs, TESTING_FILE_FORMATS);
         RepoConfiguration.setDatesToRepoConfigs(configs, cliArguments.getSinceDate(), cliArguments.getUntilDate());
 
-        ReportGenerator.generateReposReport(configs, FT_TEMP_DIR);
+        ReportGenerator.generateReposReport(configs, FT_TEMP_DIR, TEST_REPORT_GENERATED_TIME);
     }
 
     private void verifyAllJson(Path expectedDirectory, String actualRelative) {

@@ -1,6 +1,9 @@
 package reposense;
 
 import java.io.IOException;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -18,6 +21,7 @@ import reposense.util.FileUtil;
 public class RepoSense {
     private static final Logger logger = LogsManager.getLogger(RepoSense.class);
     private static final int SERVER_PORT_NUMBER = 9000;
+    private static final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("E MMM d HH:mm:ss 'SGT' yyyy");
 
     public static void main(String[] args) {
         try {
@@ -31,8 +35,8 @@ public class RepoSense {
             List<RepoConfiguration> configs = CsvParser.parse(cliArguments.getConfigFilePath());
             RepoConfiguration.setFormatsToRepoConfigs(configs, cliArguments.getFormats());
             RepoConfiguration.setDatesToRepoConfigs(configs, cliArguments.getSinceDate(), cliArguments.getUntilDate());
-            ReportGenerator.generateReposReport(
-                    configs, cliArguments.getOutputFilePath().toAbsolutePath().toString());
+            ReportGenerator.generateReposReport(configs, cliArguments.getOutputFilePath().toAbsolutePath().toString(),
+                    formatter.format(ZonedDateTime.now(ZoneId.of("UTC+8"))));
 
             FileUtil.zip(cliArguments.getOutputFilePath().toAbsolutePath(), ".json");
         } catch (IOException ioe) {

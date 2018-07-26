@@ -31,7 +31,8 @@ public class ReportGenerator {
      *
      * @throws IOException if templateZip.zip does not exists in jar file.
      */
-    public static void generateReposReport(List<RepoConfiguration> configs, String outputPath) throws IOException {
+    public static void generateReposReport(List<RepoConfiguration> configs, String outputPath,
+            String generationDate) throws IOException {
         InputStream is = RepoSense.class.getResourceAsStream(TEMPLATE_FILE);
         FileUtil.copyTemplate(is, outputPath);
 
@@ -58,7 +59,7 @@ public class ReportGenerator {
                 logger.log(Level.WARNING, "Error deleting report directory.", ioe);
             }
         }
-        FileUtil.writeJsonFile(configs, getSummaryResultPath(outputPath));
+        FileUtil.writeJsonFile(new SummaryReportJson(configs, generationDate), getSummaryResultPath(outputPath));
         logger.info("The report is generated at " + outputPath);
     }
 
