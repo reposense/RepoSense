@@ -4,27 +4,32 @@
 		{
 			"githubId": "AdityaA1998",
 			"displayName": "Aditya",
-			"authorNames": ["AdityaA1998"]
+			"authorNames": ["AdityaA1998"],
+			"ignoreGlobList": []
 		},
 		{
 			"githubId": "eugenepeh",
 			"displayName": "Eugene",
-			"authorNames": ["Eugene Peh"]
+			"authorNames": ["Eugene Peh"],
+			"ignoreGlobList": []
 		},
 		{
 			"githubId": "ongspxm",
 			"displayName": "Metta",
-			"authorNames": ["Metta Ong"]
+			"authorNames": ["Metta Ong"],
+			"ignoreGlobList": []
 		},
 		{
 			"githubId": "yamidark",
 			"displayName": "Jun An",
-			"authorNames": ["Jun An"]
+			"authorNames": ["Jun An"],
+			"ignoreGlobList": []
 		},
 		{
 			"githubId": "yong24s",
 			"displayName": "Yong Hao",
-			"authorNames": ["Yong Hao TENG"]
+			"authorNames": ["Yong Hao TENG"],
+			"ignoreGlobList": []
 		}
 	]
 }

@@ -8,10 +8,12 @@ import java.nio.file.InvalidPathException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.TreeMap;
 import java.util.regex.Matcher;
@@ -91,6 +93,9 @@ public class RepoConfiguration {
             String displayName = !sa.getDisplayName().isEmpty() ? sa.getDisplayName() : sa.getGithubId();
 
             authorList.add(author);
+            author.setAuthorAliases(Arrays.asList(sa.getAuthorNames()));
+            author.setIgnoreGlobList(Arrays.asList(sa.getIgnoreGlobList()));
+
             setAuthorDisplayName(author, displayName);
             setAuthorAliases(author, sa.getGithubId());
             setAuthorAliases(author, sa.getAuthorNames());
@@ -123,7 +128,7 @@ public class RepoConfiguration {
 
     @Override
     public int hashCode() {
-        return location.hashCode();
+        return Objects.hash(location, branch);
     }
 
     public Map<Author, String> getAuthorDisplayNameMap() {
