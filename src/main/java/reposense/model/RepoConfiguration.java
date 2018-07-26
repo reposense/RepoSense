@@ -71,6 +71,32 @@ public class RepoConfiguration {
         }
     }
 
+    /**
+     * Sets all {@code RepoConfiguration} in {@code configs} to have {@code formats} set.
+     */
+    public static void setFormatsToRepoConfigs(List<RepoConfiguration> configs, List<String> formats) {
+        configs.forEach(config -> config.setFormats(formats));
+    }
+
+    /**
+     * Clears authors information and use the information provided from {@code standaloneConfig}.
+     */
+    public void update(StandaloneConfig standaloneConfig) {
+        authorList.clear();
+        authorAliasMap.clear();
+        authorDisplayNameMap.clear();
+
+        for (StandaloneAuthor sa : standaloneConfig.getAuthors()) {
+            Author author = new Author(sa.getGithubId());
+            String displayName = !sa.getDisplayName().isEmpty() ? sa.getDisplayName() : sa.getGithubId();
+
+            authorList.add(author);
+            setAuthorDisplayName(author, displayName);
+            setAuthorAliases(author, sa.getGithubId());
+            setAuthorAliases(author, sa.getAuthorNames());
+        }
+    }
+
     public String getRepoRoot() {
         String path = FileUtil.REPOS_ADDRESS + File.separator + displayName + File.separator;
 
@@ -79,13 +105,6 @@ public class RepoConfiguration {
         }
 
         return path;
-    }
-
-    /**
-     * Sets all {@code RepoConfiguration} in {@code configs} to have {@code formats} set.
-     */
-    public static void setFormatsToRepoConfigs(List<RepoConfiguration> configs, List<String> formats) {
-        configs.forEach(config -> config.setFormats(formats));
     }
 
     @Override
@@ -161,6 +180,9 @@ public class RepoConfiguration {
 
     public void setAuthorList(List<Author> authorList) {
         this.authorList = authorList;
+
+        // Set GitHub Id as default alias
+        authorList.forEach(author -> setAuthorAliases(author, author.getGitId()));
     }
 
     public TreeMap<String, Author> getAuthorAliasMap() {

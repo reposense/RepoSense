@@ -21,10 +21,7 @@ import reposense.system.LogsManager;
 public class CsvParser {
     private static final String ELEMENT_SEPARATOR = ",";
     private static final String AUTHOR_ALIAS_AND_GLOB_SEPARATOR = ";";
-
     private static final String MESSAGE_UNABLE_TO_READ_CSV_FILE = "Unable to read the supplied CSV file.";
-    private static final String MESSAGE_MALFORMED_LINE_FORMAT = "Warning! line %d in configuration file is malformed.\n"
-            + "Contents: %s";
 
     /**
      * Positions of the elements of a line in the user-supplied CSV file
@@ -78,12 +75,6 @@ public class CsvParser {
         }
 
         String[] elements = line.split(ELEMENT_SEPARATOR);
-
-        if (elements.length < GITHUB_ID_POSITION) {
-            logger.warning(String.format(MESSAGE_MALFORMED_LINE_FORMAT, lineNumber, line));
-            return;
-        }
-
         String location = elements[LOCATION_POSITION];
         String branch = elements[BRANCH_POSITION];
         RepoConfiguration config = new RepoConfiguration(location, branch);
@@ -96,6 +87,10 @@ public class CsvParser {
         } else {
             // Add it in if it does not
             repoConfigurations.add(config);
+        }
+
+        if (elements.length - 1 < GITHUB_ID_POSITION) {
+            return;
         }
 
         Author author = new Author(elements[GITHUB_ID_POSITION]);

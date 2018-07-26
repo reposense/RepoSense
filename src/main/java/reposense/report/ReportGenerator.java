@@ -1,12 +1,16 @@
 package reposense.report;
 
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
+import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
+import com.google.gson.JsonSyntaxException;
 
 import reposense.RepoSense;
 import reposense.authorship.AuthorshipReporter;
@@ -16,10 +20,14 @@ import reposense.commits.model.CommitContributionSummary;
 import reposense.git.GitDownloader;
 import reposense.git.GitDownloaderException;
 import reposense.model.RepoConfiguration;
+import reposense.model.StandaloneConfig;
+import reposense.parser.StandaloneConfigJsonParser;
 import reposense.system.LogsManager;
 import reposense.util.FileUtil;
 
 public class ReportGenerator {
+    private static final String REPOSENSE_CONFIG_FOLDER = "_reposense";
+    private static final String REPOSENSE_CONFIG_FILE = "config.json";
     private static final Logger logger = LogsManager.getLogger(ReportGenerator.class);
 
     // zip file which contains all the dashboard template files
@@ -49,6 +57,8 @@ public class ReportGenerator {
                 continue;
             }
 
+            updateRepoConfig(config);
+
             CommitContributionSummary commitSummary = CommitsReporter.generateCommitSummary(config);
             AuthorshipSummary authorshipSummary = AuthorshipReporter.generateAuthorshipSummary(config);
             generateIndividualRepoReport(commitSummary, authorshipSummary, repoReportDirectory.toString());
@@ -61,6 +71,28 @@ public class ReportGenerator {
         }
         FileUtil.writeJsonFile(new SummaryReportJson(configs, generationDate), getSummaryResultPath(outputPath));
         logger.info("The report is generated at " + outputPath);
+    }
+
+    /**
+     * Updates {@code config} author information with configuration provided by repository if exists.
+     */
+    public static void updateRepoConfig(RepoConfiguration config) {
+        Path configJsonPath =
+                Paths.get(config.getRepoRoot(), REPOSENSE_CONFIG_FOLDER, REPOSENSE_CONFIG_FILE).toAbsolutePath();
+
+        if (!Files.exists(configJsonPath)) {
+            return;
+        }
+
+        try {
+            StandaloneConfig standaloneConfig = new StandaloneConfigJsonParser().parse(configJsonPath);
+            config.update(standaloneConfig);
+        } catch (JsonSyntaxException jse) {
+            logger.warning(String.format("%s/%s/%s is malformed.",
+                    config.getDisplayName(), REPOSENSE_CONFIG_FOLDER, REPOSENSE_CONFIG_FILE));
+        } catch (FileNotFoundException fnfe) {
+            throw new AssertionError("This should not happen.");
+        }
     }
 
     private static void generateIndividualRepoReport(

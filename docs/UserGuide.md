@@ -117,6 +117,9 @@ In the event that the author has more than one `Git Author Name`, multiple value
 For example,`Alice;Bob`.
 
 ### [Optional] Preparation of Repositories
+- [Contribution Tags](#contribution-tags)
+- [Standalone Configuration](#standalone-configuration)
+
 #### Contribution Tags
 Although RepoSense's contribution analysis is quite accurate, authors can use annotations to ensure that RepoSense correctly recognizes their contribution.
 Special thanks to [Collate](https://github.com/se-edu/collate) for providing the inspiration for this functionality.
@@ -131,6 +134,11 @@ Below are some examples (by the courtesy of Collate's User Guide):
 
 You can use `Start Tags` to mark the start of your contribution. The author specified in the `Start Tags` will be recognized by RepoSense as the author for all lines between a `Start Tag` and the next `End Tag`. If RepoSense cannot find a matching `End Tag` for a `Start Tag` in the same file, it will assume that all lines between the `Start Tag` to the end of the file is authored by the author specified in the `Start Tag`.
 
+#### Standalone Configuration
+
+Instead of self-configuring all the repository details, you can have the repository owners include a 
+`Standalone Configuration` to maintain their own repository configuration. For more information, check out the
+[Setup Standalone Configuration](StandaloneConfiguration.md#reposense---guide-to-setup-standalone-configuration).
 
 ## Dashboard
 The `Dashboard` is written in HTML and Javascript as static pages - readable by majority of web browsers, and easily deploy-able in most hosting platforms (such as [GitHub Pages](https://pages.github.com/)).
