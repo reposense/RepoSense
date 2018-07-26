@@ -10,6 +10,7 @@ import java.util.Date;
 import org.junit.Assert;
 import org.junit.Test;
 
+import reposense.model.Author;
 import reposense.template.GitTestTemplate;
 import reposense.util.TestUtil;
 
@@ -32,56 +33,79 @@ public class CommandRunnerTest extends GitTestTemplate {
 
     @Test
     public void gitLog_existingFormats_hasContent() {
-        String content = CommandRunner.gitLog(config);
+        String content = CommandRunner.gitLog(config, getAlphaAllAliasAuthor());
         Assert.assertFalse(content.isEmpty());
     }
 
     @Test
     public void gitLog_nonExistingFormats_noContent() {
         config.setFormats(Collections.singletonList("py"));
-        String content = CommandRunner.gitLog(config);
+        String content = CommandRunner.gitLog(config, getAlphaAllAliasAuthor());
         Assert.assertTrue(content.isEmpty());
     }
 
     @Test
     public void gitLog_includeAllJavaFiles_success() {
         config.setFormats(Collections.singletonList("java"));
-        String content = CommandRunner.gitLog(config);
+        String content = CommandRunner.gitLog(config, getAlphaAllAliasAuthor());
         String[] contentLines = content.split("\n");
         int expectedNumberCommits = 8;
         Assert.assertEquals(convertNumberExpectedCommitsToGitLogLines(expectedNumberCommits), contentLines.length);
     }
 
     @Test
-    public void gitLog_includeAllJavaFilesIgnoreMovedFile_success() {
+    public void gitLog_fakeAuthorNameOnly_success() {
+        Author fakeAuthorName = new Author(FAKE_AUTHOR_NAME);
+
+        String content = CommandRunner.gitLog(config, fakeAuthorName);
+        String[] contentLines = content.split("\n");
+        int expectedNumberCommits = 4;
+        Assert.assertEquals(convertNumberExpectedCommitsToGitLogLines(expectedNumberCommits), contentLines.length);
+    }
+
+    @Test
+    public void gitLog_includeAllJavaFilesAuthorIgnoreMovedFile_success() {
         config.setFormats(Collections.singletonList("java"));
-        config.setIgnoreGlobList(Collections.singletonList("**movedFile.java"));
-        String content = CommandRunner.gitLog(config);
+        Author ignoreMovedFileAuthor = getAlphaAllAliasAuthor();
+        ignoreMovedFileAuthor.setIgnoreGlobList(Collections.singletonList("**movedFile.java"));
+
+        String content = CommandRunner.gitLog(config, ignoreMovedFileAuthor);
         String[] contentLines = content.split("\n");
         int expectedNumberCommits = 6;
         Assert.assertEquals(convertNumberExpectedCommitsToGitLogLines(expectedNumberCommits), contentLines.length);
     }
 
     @Test
-    public void gitLog_ignoreAllJavaFiles_success() {
-        config.setIgnoreGlobList(Collections.singletonList("*.java"));
-        String content = CommandRunner.gitLog(config);
+    public void gitLog_authorIgnoreAllJavaFiles_success() {
+        Author ignoreAllJavaFilesAuthor = getAlphaAllAliasAuthor();
+        ignoreAllJavaFilesAuthor.setIgnoreGlobList(Collections.singletonList("*.java"));
+
+        String content = CommandRunner.gitLog(config, ignoreAllJavaFilesAuthor);
         String[] contentLines = content.split("\n");
         int expectedNumberCommits = 2;
         Assert.assertEquals(convertNumberExpectedCommitsToGitLogLines(expectedNumberCommits), contentLines.length);
     }
 
     @Test
+    public void gitLog_authorWithAllCharactersRegexAlias_emptyResult() {
+        Author authorWithAllCharactersRegexAlias = new Author("none");
+        authorWithAllCharactersRegexAlias.setAuthorAliases(Collections.singletonList(".*"));
+
+        String content = CommandRunner.gitLog(config, authorWithAllCharactersRegexAlias);
+        Assert.assertTrue(content.isEmpty());
+    }
+
+    @Test
     public void gitLog_sinceDateInFuture_noContent() {
         Date date = TestUtil.getDate(2050, Calendar.JANUARY, 1);
         config.setSinceDate(date);
-        String content = CommandRunner.gitLog(config);
+        String content = CommandRunner.gitLog(config, getAlphaAllAliasAuthor());
         Assert.assertTrue(content.isEmpty());
 
         date = TestUtil.getDate(1950, Calendar.JANUARY, 1);
         config.setUntilDate(date);
         config.setSinceDate(null);
-        content = CommandRunner.gitLog(config);
+        content = CommandRunner.gitLog(config, getAlphaAllAliasAuthor());
         Assert.assertTrue(content.isEmpty());
     }
 

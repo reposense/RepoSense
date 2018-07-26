@@ -420,26 +420,26 @@
         "untilDate": "2017-11-05"
       },
       {
-        "insertions": 609,
-        "deletions": 290,
+        "insertions": 754,
+        "deletions": 298,
         "sinceDate": "2017-11-05",
         "untilDate": "2017-11-06"
       },
       {
-        "insertions": 248,
-        "deletions": 97,
+        "insertions": 441,
+        "deletions": 171,
         "sinceDate": "2017-11-06",
         "untilDate": "2017-11-07"
       },
       {
-        "insertions": 444,
-        "deletions": 184,
+        "insertions": 174,
+        "deletions": 182,
         "sinceDate": "2017-11-07",
         "untilDate": "2017-11-08"
       },
       {
-        "insertions": 798,
-        "deletions": 356,
+        "insertions": 730,
+        "deletions": 276,
         "sinceDate": "2017-11-08",
         "untilDate": "2017-11-09"
       },
@@ -740,14 +740,14 @@
         "untilDate": "2017-11-06"
       },
       {
-        "insertions": 0,
-        "deletions": 0,
+        "insertions": 112,
+        "deletions": 32,
         "sinceDate": "2017-11-06",
         "untilDate": "2017-11-07"
       },
       {
-        "insertions": 424,
-        "deletions": 86,
+        "insertions": 312,
+        "deletions": 54,
         "sinceDate": "2017-11-07",
         "untilDate": "2017-11-08"
       },
@@ -1060,14 +1060,14 @@
         "untilDate": "2017-11-07"
       },
       {
-        "insertions": 405,
-        "deletions": 52,
+        "insertions": 606,
+        "deletions": 81,
         "sinceDate": "2017-11-07",
         "untilDate": "2017-11-08"
       },
       {
-        "insertions": 201,
-        "deletions": 29,
+        "insertions": 0,
+        "deletions": 0,
         "sinceDate": "2017-11-08",
         "untilDate": "2017-11-09"
       },
@@ -1466,9 +1466,9 @@
     "wangyiming1019": 3489
   },
   "authorContributionVariance": {
-    "charlesgoh": 87919.17,
-    "jeffreygohkw": 72982.2,
-    "Esilocke": 409334.53,
+    "charlesgoh": 87278.68,
+    "jeffreygohkw": 70955.125,
+    "Esilocke": 413377.22,
     "wangyiming1019": 83374.83
   },
   "authorDisplayNameMap": {

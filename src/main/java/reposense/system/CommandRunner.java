@@ -8,7 +8,9 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
+import java.util.regex.Pattern;
 
+import reposense.model.Author;
 import reposense.model.RepoConfiguration;
 import reposense.util.FileUtil;
 
@@ -16,16 +18,24 @@ public class CommandRunner {
     private static final DateFormat GIT_LOG_SINCE_DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd'T'00:00:00+08:00");
     private static final DateFormat GIT_LOG_UNTIL_DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd'T'23:59:59+08:00");
 
+    // ignore check against email
+    private static final String AUTHOR_NAME_PATTERN = "^%s <.*>$";
+    private static final String OR_OPERATOR_PATTERN = "\\|";
+
+    private static final Pattern SPECIAL_REGEX_CHARS = Pattern.compile("[{}()\\[\\].+*?^$|]");
+
     private static boolean isWindows = isWindows();
 
-    public static String gitLog(RepoConfiguration config) {
+    public static String gitLog(RepoConfiguration config, Author author) {
         Path rootPath = Paths.get(config.getRepoRoot());
 
         String command = "git log --no-merges ";
         command += convertToGitDateRangeArgs(config.getSinceDate(), config.getUntilDate());
         command += " --pretty=format:\"%h|%aN|%ad|%s\" --date=iso --shortstat";
+        command += convertToFilterAuthorArgs(author);
         command += convertToGitFormatsArgs(config.getFormats());
-        command += convertToGitExcludeGlobArgs(config.getIgnoreGlobList());
+        command += convertToGitExcludeGlobArgs(author.getIgnoreGlobList());
+
         return runCommand(rootPath, command);
     }
 
@@ -177,6 +187,22 @@ public class CommandRunner {
     }
 
     /**
+     * Returns the {@code String} command to specify the authors to analyze for `git log` command.
+     */
+    private static String convertToFilterAuthorArgs(Author author) {
+        StringBuilder filterAuthorArgsBuilder = new StringBuilder(" --author=\"");
+
+        // git author names may contain regex meta-characters, so we need to escape those
+        author.getAuthorAliases().stream()
+                .map(authorAlias -> String.format(
+                        AUTHOR_NAME_PATTERN, escapeSpecialRegexChars(authorAlias)) + OR_OPERATOR_PATTERN)
+                .forEach(filterAuthorArgsBuilder::append);
+
+        filterAuthorArgsBuilder.append(String.format(AUTHOR_NAME_PATTERN, author.getGitId())).append("\"");
+        return filterAuthorArgsBuilder.toString();
+    }
+
+    /**
      * Returns the {@code String} command to specify the file formats to analyze for `git` commands.
      */
     private static String convertToGitFormatsArgs(List<String> formats) {
@@ -200,5 +226,13 @@ public class CommandRunner {
                 .forEach(gitExcludeGlobArgsBuilder::append);
 
         return gitExcludeGlobArgsBuilder.toString();
+    }
+
+    /**
+     * Converts the {@code regexString} to a literal {@code String} where all regex meta-characters are escaped
+     * and returns it.
+     */
+    private static String escapeSpecialRegexChars(String regexString) {
+        return SPECIAL_REGEX_CHARS.matcher(regexString.replace("\\", "\\\\\\")).replaceAll("\\\\$0");
     }
 }

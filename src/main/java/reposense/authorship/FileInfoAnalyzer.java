@@ -4,6 +4,7 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 import java.nio.file.Path;
+import java.nio.file.PathMatcher;
 import java.nio.file.Paths;
 import java.util.HashMap;
 import java.util.Map;
@@ -83,7 +84,7 @@ public class FileInfoAnalyzer {
             String authorRawName = line.substring(AUTHOR_NAME_OFFSET);
             Author author = authorAliasMap.getOrDefault(authorRawName, new Author(Author.UNKNOWN_AUTHOR_GIT_ID));
 
-            if (!fileInfo.isFileLineTracked(lineCount)) {
+            if (!fileInfo.isFileLineTracked(lineCount) || isAuthorIgnoringFile(author, fileInfo)) {
                 author = new Author(Author.UNKNOWN_AUTHOR_GIT_ID);
             }
 
@@ -112,5 +113,13 @@ public class FileInfoAnalyzer {
             logger.log(Level.WARNING, ioe.getMessage(), ioe);
         }
         return false;
+    }
+
+    /**
+     * Returns true if the {@code author} is ignoring the file path of {@code fileInfo} based on its ignore glob list.
+     */
+    private static boolean isAuthorIgnoringFile(Author author, FileInfo fileinfo) {
+        PathMatcher ignoreGlobMatcher = author.getIgnoreGlobMatcher();
+        return ignoreGlobMatcher.matches(Paths.get(fileinfo.getPath()));
     }
 }
