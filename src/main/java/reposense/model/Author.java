@@ -79,8 +79,8 @@ public class Author {
     }
 
     /**
-     * Called after a new ignore glob list is set.
      * Updates the {@code PathMatcher} to the new ignore glob list set.
+     * Called after a new ignore glob list is set.
      */
     private void updateIgnoreGlobMatcher() {
         String globString = "glob:{" + String.join(",", ignoreGlobList) + "}";
