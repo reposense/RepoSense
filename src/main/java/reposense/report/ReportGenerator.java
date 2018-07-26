@@ -32,7 +32,7 @@ public class ReportGenerator {
      * @throws IOException if templateZip.zip does not exists in jar file.
      */
     public static void generateReposReport(List<RepoConfiguration> configs, String outputPath,
-                                           String generationDate) throws IOException {
+            String generationDate) throws IOException {
         InputStream is = RepoSense.class.getResourceAsStream(TEMPLATE_FILE);
         FileUtil.copyTemplate(is, outputPath);
 
