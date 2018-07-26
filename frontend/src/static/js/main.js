@@ -13,7 +13,7 @@ window.app = new window.Vue({
     isTabAuthorship: false,
     tabInfo: {},
     tabAuthorship: {},
-    creationDate: '',
+    creationDate: "",
   },
   methods: {
     // model functions //

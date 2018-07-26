@@ -31,7 +31,7 @@ window.api = {
 
     loadJSON(`${REPORT_DIR}/summary.json`, (data) => {
       const names = [];
-      app.creationDate = data.dashboardGeneratedTime;
+      window.app.creationDate = data.dashboardGeneratedTime;
       data.repos.forEach((repo) => {
         const repoName = `${repo.displayName}`;
         window.REPOS[repoName] = repo;
