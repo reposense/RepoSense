@@ -21,6 +21,11 @@ public class RepoConfigurationTest {
     private static final Author THIRD_AUTHOR = new Author("jordancjq");
     private static final Author FOURTH_AUTHOR = new Author("lohtianwei");
 
+    private static final String[] FIRST_AUTHOR_ALIASES = {"Ahmad Syafiq"};
+    private static final String[] SECOND_AUTHOR_ALIASES = {"Codee"};
+    private static final String[] THIRD_AUTHOR_ALIASES = {"Jordan Chong"};
+    private static final String[] FOURTH_AUTHOR_ALIASES = {"Tianwei"};
+
 
     @Test
     public void configJson_overridesRepoConfig_success()
@@ -34,6 +39,11 @@ public class RepoConfigurationTest {
         authors.add(FOURTH_AUTHOR);
 
         expectedConfig.setAuthorList(authors);
+
+        expectedConfig.setAuthorAliases(FIRST_AUTHOR, FIRST_AUTHOR_ALIASES);
+        expectedConfig.setAuthorAliases(SECOND_AUTHOR, SECOND_AUTHOR_ALIASES);
+        expectedConfig.setAuthorAliases(THIRD_AUTHOR, THIRD_AUTHOR_ALIASES);
+        expectedConfig.setAuthorAliases(FOURTH_AUTHOR, FOURTH_AUTHOR_ALIASES);
 
         expectedConfig.setAuthorDisplayName(FIRST_AUTHOR, "Ahm");
         expectedConfig.setAuthorDisplayName(SECOND_AUTHOR, "Cod");
