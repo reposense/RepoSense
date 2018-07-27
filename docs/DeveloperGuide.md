@@ -139,9 +139,3 @@ An additional thing to note is the event handler should handle the switching of 
 
 ### Hash link
 Other than the global main vue object, another global variable we have is the `window.hashParams`. This object is reponsible for generating the relevant permalink for a specific view of the summary module for the dashboard.
-
-### Specific modules
-#### v_summary
-
-
-#### v_authorship
