@@ -10,10 +10,6 @@ public class StandaloneConfig {
     private List<StandaloneAuthor> authors;
     private List<String> ignoreGlobList;
 
-    public StandaloneConfig(List<StandaloneAuthor> authors) {
-        this.authors = authors;
-    }
-
     public List<StandaloneAuthor> getAuthors() {
         return authors;
     }

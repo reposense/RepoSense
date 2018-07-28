@@ -12,14 +12,6 @@ public class StandaloneAuthor {
     private List<String>  authorNames;
     private List<String> ignoreGlobList;
 
-    public StandaloneAuthor(
-            String githubId, String displayName, List<String> authorNames, List<String> ignoreGlobList) {
-        this.githubId = githubId;
-        this.displayName = displayName;
-        this.authorNames = authorNames;
-        this.ignoreGlobList = ignoreGlobList;
-    }
-
     public String getGithubId() {
         return githubId;
     }

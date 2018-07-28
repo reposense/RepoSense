@@ -2,6 +2,7 @@ package reposense.parser;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 import org.junit.Assert;
@@ -27,8 +28,8 @@ public class RepoConfigurationTest {
     private static final List<String> FOURTH_AUTHOR_ALIASES = Arrays.asList("Tianwei");
 
     private static final List<String> REPO_LEVEL_GLOB_LIST = Arrays.asList("*.pyc");
-    private static final List<String> FIRST_AUTHOR_GLOB_LIST = Arrays.asList("*.aa1", "*.aa2");
-    private static final List<String> SECOND_AUTHOR_GLOB_LIST = Arrays.asList("");
+    private static final List<String> FIRST_AUTHOR_GLOB_LIST = Arrays.asList("*.aa1", "**.aa2");
+    private static final List<String> SECOND_AUTHOR_GLOB_LIST = Collections.emptyList();
 
     @Test
     public void configJson_overridesRepoConfig_success() throws InvalidLocationException, GitDownloaderException {
