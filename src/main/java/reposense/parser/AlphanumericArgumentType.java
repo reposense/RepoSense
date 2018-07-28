@@ -17,7 +17,6 @@ public class AlphanumericArgumentType implements ArgumentType<String> {
 
     @Override
     public String convert(ArgumentParser parser, Argument arg, String value) throws ArgumentParserException {
-
         if (!ALPHANUMERIC_PATTERN.matcher(value).matches()) {
             throw new ArgumentParserException(
                     String.format(PARSE_EXCEPTION_MESSAGE_NOT_IN_ALPLANUMERIC, value), parser);
