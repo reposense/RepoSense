@@ -1,11 +1,12 @@
 {
+	"ignoreGlobList": ["**.css", "**.js"],
 	"authors":
 	[
 		{
 			"githubId": "AdityaA1998",
 			"displayName": "Aditya",
 			"authorNames": ["AdityaA1998"],
-			"ignoreGlobList": []
+			"ignoreGlobList": [""]
 		},
 		{
 			"githubId": "eugenepeh",
@@ -17,19 +18,19 @@
 			"githubId": "ongspxm",
 			"displayName": "Metta",
 			"authorNames": ["Metta Ong"],
-			"ignoreGlobList": []
+			"ignoreGlobList": [""]
 		},
 		{
 			"githubId": "yamidark",
 			"displayName": "Jun An",
 			"authorNames": ["Jun An"],
-			"ignoreGlobList": []
+			"ignoreGlobList": [""]
 		},
 		{
 			"githubId": "yong24s",
 			"displayName": "Yong Hao",
 			"authorNames": ["Yong Hao TENG"],
-			"ignoreGlobList": []
+			"ignoreGlobList": ["**.css", "**.js"]
 		}
 	]
 }

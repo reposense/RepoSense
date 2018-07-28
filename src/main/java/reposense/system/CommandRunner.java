@@ -8,6 +8,7 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
+import java.util.function.Predicate;
 import java.util.regex.Pattern;
 
 import reposense.model.Author;
@@ -222,6 +223,7 @@ public class CommandRunner {
         StringBuilder gitExcludeGlobArgsBuilder = new StringBuilder();
         final String cmdFormat = " " + addQuote(":(exclude)%s");
         ignoreGlobList.stream()
+                .filter(item -> !item.isEmpty())
                 .map(ignoreGlob -> String.format(cmdFormat, ignoreGlob))
                 .forEach(gitExcludeGlobArgsBuilder::append);
 
