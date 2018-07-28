@@ -109,7 +109,8 @@ public class ArgsParser {
             List<String> formats = results.get("formats");
 
             verifyDatesRangeIsCorrect(sinceDate, untilDate);
-            return new CliArguments(configFolderPath, outputFilePath, sinceDate, untilDate, formats, reportDirectoryPath);
+            return new CliArguments(
+                    configFolderPath, outputFilePath, sinceDate, untilDate, formats, reportDirectoryPath);
         } catch (ArgumentParserException ape) {
             throw new ParseException(getArgumentParser().formatUsage() + ape.getMessage() + "\n");
         }
