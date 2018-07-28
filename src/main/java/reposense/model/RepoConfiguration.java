@@ -27,6 +27,7 @@ public class RepoConfiguration {
     private static final Pattern GIT_REPOSITORY_LOCATION_PATTERN =
             Pattern.compile("^.*github.com\\/(?<org>.+?)\\/(?<repoName>.+?)\\.git$");
 
+    private transient String repoId;
     private String location;
     private String organization;
     private String repoName;

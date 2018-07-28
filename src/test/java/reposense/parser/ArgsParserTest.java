@@ -22,21 +22,23 @@ import reposense.util.TestUtil;
 public class ArgsParserTest {
 
     private static final Path PROJECT_DIRECTORY = Paths.get(System.getProperty("user.dir"));
-    private static final Path CONFIG_FILE_ABSOLUTE = new File(ArgsParserTest.class.getClassLoader()
-            .getResource("output/parser_test.csv").getFile()).toPath();
+    private static final Path CONFIG_FOLDER_ABSOLUTE = new File(ArgsParserTest.class.getClassLoader()
+            .getResource("output").getFile()).toPath();
     private static final Path OUTPUT_DIRECTORY_ABSOLUTE = new File(ArgsParserTest.class.getClassLoader()
             .getResource("output").getFile()).toPath();
-    private static final Path CONFIG_FILE_RELATIVE = PROJECT_DIRECTORY.relativize(CONFIG_FILE_ABSOLUTE);
+    private static final Path CONFIG_FOLDER_RELATIVE = PROJECT_DIRECTORY.relativize(CONFIG_FOLDER_ABSOLUTE);
     private static final Path OUTPUT_DIRECTORY_RELATIVE = PROJECT_DIRECTORY.relativize(OUTPUT_DIRECTORY_ABSOLUTE);
-    private static final String DEFAULT_MANDATORY_ARGS = "-config " + CONFIG_FILE_ABSOLUTE + " ";
+    private static final String DEFAULT_MANDATORY_ARGS = "-config " + CONFIG_FOLDER_ABSOLUTE + " ";
+    private static final Path REPO_COFIG_CSV_FILE =
+            Paths.get(CONFIG_FOLDER_ABSOLUTE.toString(), "repo-config.csv");
 
     @Test
     public void parse_allCorrectInputs_success() throws ParseException, IOException {
         String input = String.format("-config %s -output %s -since 01/07/2017 -until 30/11/2017 "
                 + "-formats java adoc html css js",
-                CONFIG_FILE_ABSOLUTE, OUTPUT_DIRECTORY_ABSOLUTE);
+                CONFIG_FOLDER_ABSOLUTE, OUTPUT_DIRECTORY_ABSOLUTE);
         CliArguments cliArguments = ArgsParser.parse(translateCommandline(input));
-        Assert.assertTrue(Files.isSameFile(CONFIG_FILE_ABSOLUTE, cliArguments.getConfigFilePath()));
+        Assert.assertTrue(Files.isSameFile(CONFIG_FOLDER_ABSOLUTE, cliArguments.getConfigFilePath()));
         Assert.assertTrue(Files.isSameFile(Paths.get(OUTPUT_DIRECTORY_ABSOLUTE.toString(),
                 ArgsParser.DEFAULT_REPORT_NAME), cliArguments.getOutputFilePath()));
 
@@ -52,9 +54,9 @@ public class ArgsParserTest {
     @Test
     public void parse_withExtraWhitespaces_success() throws ParseException, IOException {
         String input = String.format("-config %s      -output   %s   -since 01/07/2017   -until    30/11/2017   "
-                + "-formats     java   adoc     html css js ", CONFIG_FILE_ABSOLUTE, OUTPUT_DIRECTORY_ABSOLUTE);
+                + "-formats     java   adoc     html css js ", CONFIG_FOLDER_ABSOLUTE, OUTPUT_DIRECTORY_ABSOLUTE);
         CliArguments cliArguments = ArgsParser.parse(translateCommandline(input));
-        Assert.assertTrue(Files.isSameFile(CONFIG_FILE_ABSOLUTE, cliArguments.getConfigFilePath()));
+        Assert.assertTrue(Files.isSameFile(CONFIG_FOLDER_ABSOLUTE, cliArguments.getConfigFilePath()));
         Assert.assertTrue(Files.isSameFile(Paths.get(OUTPUT_DIRECTORY_ABSOLUTE.toString(),
                 ArgsParser.DEFAULT_REPORT_NAME), cliArguments.getOutputFilePath()));
 
@@ -69,9 +71,9 @@ public class ArgsParserTest {
 
     @Test
     public void parse_configFileOnly_success() throws ParseException, IOException {
-        String input = String.format("-config %s", CONFIG_FILE_ABSOLUTE);
+        String input = String.format("-config %s", CONFIG_FOLDER_ABSOLUTE);
         CliArguments cliArguments = ArgsParser.parse(translateCommandline(input));
-        Assert.assertTrue(Files.isSameFile(CONFIG_FILE_ABSOLUTE, cliArguments.getConfigFilePath()));
+        Assert.assertTrue(Files.isSameFile(CONFIG_FOLDER_ABSOLUTE, cliArguments.getConfigFilePath()));
         // Optional arguments have default values
         Assert.assertEquals(Optional.empty(), cliArguments.getSinceDate());
         Assert.assertEquals(Optional.empty(), cliArguments.getUntilDate());
@@ -79,9 +81,9 @@ public class ArgsParserTest {
         Assert.assertEquals(ArgsParser.DEFAULT_FORMATS, cliArguments.getFormats());
         Assert.assertNull(cliArguments.getReportDirectoryPath());
 
-        input = String.format("-config %s", CONFIG_FILE_RELATIVE);
+        input = String.format("-config %s", CONFIG_FOLDER_RELATIVE);
         cliArguments = ArgsParser.parse(translateCommandline(input));
-        Assert.assertTrue(Files.isSameFile(CONFIG_FILE_RELATIVE, cliArguments.getConfigFilePath()));
+        Assert.assertTrue(Files.isSameFile(CONFIG_FOLDER_RELATIVE, cliArguments.getConfigFilePath()));
         // Optional arguments have default values
         Assert.assertEquals(Optional.empty(), cliArguments.getSinceDate());
         Assert.assertEquals(Optional.empty(), cliArguments.getUntilDate());
@@ -110,14 +112,14 @@ public class ArgsParserTest {
         Path expectedAbsoluteOutputDirectoryPath =
                 Paths.get(OUTPUT_DIRECTORY_ABSOLUTE.toString(), ArgsParser.DEFAULT_REPORT_NAME);
 
-        String input = String.format("-config %s -output %s", CONFIG_FILE_ABSOLUTE, OUTPUT_DIRECTORY_RELATIVE);
+        String input = String.format("-config %s -output %s", CONFIG_FOLDER_ABSOLUTE, OUTPUT_DIRECTORY_RELATIVE);
         CliArguments cliArguments = ArgsParser.parse(translateCommandline(input));
-        Assert.assertTrue(Files.isSameFile(CONFIG_FILE_ABSOLUTE, cliArguments.getConfigFilePath()));
+        Assert.assertTrue(Files.isSameFile(CONFIG_FOLDER_ABSOLUTE, cliArguments.getConfigFilePath()));
         Assert.assertTrue(Files.isSameFile(expectedRelativeOutputDirectoryPath, cliArguments.getOutputFilePath()));
 
-        input = String.format("-config %s -output %s", CONFIG_FILE_RELATIVE, OUTPUT_DIRECTORY_ABSOLUTE);
+        input = String.format("-config %s -output %s", CONFIG_FOLDER_RELATIVE, OUTPUT_DIRECTORY_ABSOLUTE);
         cliArguments = ArgsParser.parse(translateCommandline(input));
-        Assert.assertTrue(Files.isSameFile(CONFIG_FILE_RELATIVE, cliArguments.getConfigFilePath()));
+        Assert.assertTrue(Files.isSameFile(CONFIG_FOLDER_RELATIVE, cliArguments.getConfigFilePath()));
         Assert.assertTrue(Files.isSameFile(expectedAbsoluteOutputDirectoryPath, cliArguments.getOutputFilePath()));
     }
 
@@ -163,23 +165,29 @@ public class ArgsParserTest {
     }
 
     @Test(expected = ParseException.class)
-    public void absoluteDirectory_forConfigFile_throwsParseException() throws ParseException {
+    public void absoluteConfigFolder_withoutRequiredConfigFiles_throwsParseException() throws ParseException {
         String absDirectory = PROJECT_DIRECTORY.getParent().toString();
         String input = String.format("-config %s", absDirectory);
         ArgsParser.parse(translateCommandline(input));
     }
 
     @Test(expected = ParseException.class)
-    public void relativeDirectory_forConfigFile_throwsParseException() throws ParseException {
+    public void relativeConfigFolder_withoutRequiredConfigFiles_throwsParseException() throws ParseException {
         String relDirectory = PROJECT_DIRECTORY.getParent().toString();
         String input = String.format("-config %s", relDirectory);
         ArgsParser.parse(translateCommandline(input));
     }
 
     @Test(expected = ParseException.class)
-    public void parse_absoluteConfigFileNotExists_throwsParseException() throws ParseException {
-        String absConfigFile = Paths.get(PROJECT_DIRECTORY.toString(), "somefile_not_existent.csv").toString();
+    public void parse_notExistsConfigFolder_throwsParseException() throws ParseException {
+        String absConfigFile = Paths.get(PROJECT_DIRECTORY.toString(), "non_existing_random_folder").toString();
         String input = String.format("-config %s", absConfigFile);
+        ArgsParser.parse(translateCommandline(input));
+    }
+
+    @Test(expected = ParseException.class)
+    public void parse_configCsvFileAsConfigFolder_throwsParseException() throws ParseException {
+        String input = String.format("-config %s", REPO_COFIG_CSV_FILE);
         ArgsParser.parse(translateCommandline(input));
     }
 
@@ -240,7 +248,7 @@ public class ArgsParserTest {
 
     @Test(expected = ParseException.class)
     public void parse_mutuallyExclusiveArgumentsTogether_throwsParseException() throws ParseException {
-        String input = String.format("-config %s -view %s", CONFIG_FILE_ABSOLUTE, OUTPUT_DIRECTORY_ABSOLUTE);
+        String input = String.format("-config %s -view %s", CONFIG_FOLDER_ABSOLUTE, OUTPUT_DIRECTORY_ABSOLUTE);
         ArgsParser.parse(translateCommandline(input));
     }
 }
