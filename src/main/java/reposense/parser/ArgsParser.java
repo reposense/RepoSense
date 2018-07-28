@@ -96,20 +96,20 @@ public class ArgsParser {
             ArgumentParser parser = getArgumentParser();
             Namespace results = parser.parseArgs(args);
 
-            File configFile = results.get("config");
+            File configFolder = results.get("config");
             File outputFile = results.get("output");
             Optional<Date> sinceDate = results.get("since");
             Optional<Date> untilDate = results.get("until");
             File reportDirectory = results.get("view");
 
-            Path configFilePath = configFile != null ? configFile.toPath() : null;
+            Path configFolderPath = configFolder != null ? configFolder.toPath() : null;
             Path outputFilePath = Paths.get(outputFile.toString(), DEFAULT_REPORT_NAME);
             Path reportDirectoryPath = reportDirectory != null ? reportDirectory.toPath() : null;
 
             List<String> formats = results.get("formats");
 
             verifyDatesRangeIsCorrect(sinceDate, untilDate);
-            return new CliArguments(configFilePath, outputFilePath, sinceDate, untilDate, formats, reportDirectoryPath);
+            return new CliArguments(configFolderPath, outputFilePath, sinceDate, untilDate, formats, reportDirectoryPath);
         } catch (ArgumentParserException ape) {
             throw new ParseException(getArgumentParser().formatUsage() + ape.getMessage() + "\n");
         }

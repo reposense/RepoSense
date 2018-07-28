@@ -13,10 +13,9 @@ import net.sourceforge.argparse4j.inf.ArgumentParserException;
 import net.sourceforge.argparse4j.inf.ArgumentType;
 
 public class ConfigFolderArgumentType  implements ArgumentType<File> {
-    private static final String REPO_CONFIG_FILENAME = "repo-config.csv";
     private static final String PARSE_EXCEPTION_MESSAGE_MISSING_REQUIRED_CONFIG_FILES =
-            "Unable to find " + REPO_CONFIG_FILENAME;
-    private static final List<String> REQUIRED_FILES_IN_CONFIG_FOLDER = Arrays.asList(REPO_CONFIG_FILENAME);
+            "Unable to find " + CsvParser.REPO_CONFIG_FILENAME;
+    private static final List<String> REQUIRED_FILES_IN_CONFIG_FOLDER = Arrays.asList(CsvParser.REPO_CONFIG_FILENAME);
 
     @Override
     public File convert(ArgumentParser parser, Argument arg, String value) throws ArgumentParserException {
