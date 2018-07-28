@@ -8,7 +8,6 @@ import java.nio.file.InvalidPathException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -106,7 +105,7 @@ public class RepoConfiguration {
                     !sa.getIgnoreGlobList().isEmpty() ? sa.getIgnoreGlobList() : ignoreGlobList;
 
             authorList.add(author);
-            author.setAuthorAliases(Arrays.asList(sa.getAuthorNames()));
+            author.setAuthorAliases(sa.getAuthorNames());
             author.setIgnoreGlobList(authorIgnoreGlobList);
 
             this.setAuthorDisplayName(author, displayName);
@@ -239,10 +238,14 @@ public class RepoConfiguration {
         authorDisplayNameMap.put(author, displayName);
     }
 
-    public void setAuthorAliases(Author author, String... aliases) {
+    public void setAuthorAliases(Author author, List<String> aliases) {
         for (String alias : aliases) {
-            authorAliasMap.put(alias, author);
+            setAuthorAliases(author, alias);
         }
+    }
+
+    public void setAuthorAliases(Author author, String alias) {
+        authorAliasMap.put(alias, author);
     }
 
     public String getDisplayName() {

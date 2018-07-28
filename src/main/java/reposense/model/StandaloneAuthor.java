@@ -9,10 +9,11 @@ import java.util.List;
 public class StandaloneAuthor {
     private String githubId;
     private String displayName;
-    private String[] authorNames;
+    private List<String>  authorNames;
     private List<String> ignoreGlobList;
 
-    public StandaloneAuthor(String githubId, String displayName, String[] authorNames, List<String> ignoreGlobList) {
+    public StandaloneAuthor(
+            String githubId, String displayName, List<String> authorNames, List<String> ignoreGlobList) {
         this.githubId = githubId;
         this.displayName = displayName;
         this.authorNames = authorNames;
@@ -27,9 +28,9 @@ public class StandaloneAuthor {
         return displayName;
     }
 
-    public String[] getAuthorNames() {
+    public List<String> getAuthorNames() {
         if (authorNames == null) {
-            return new String[]{};
+            return Collections.emptyList();
         }
 
         return authorNames;

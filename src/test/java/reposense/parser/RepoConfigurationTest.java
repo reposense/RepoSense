@@ -21,10 +21,10 @@ public class RepoConfigurationTest {
     private static final Author THIRD_AUTHOR = new Author("jordancjq");
     private static final Author FOURTH_AUTHOR = new Author("lohtianwei");
 
-    private static final String[] FIRST_AUTHOR_ALIASES = {"Ahmad Syafiq"};
-    private static final String[] SECOND_AUTHOR_ALIASES = {"Codee"};
-    private static final String[] THIRD_AUTHOR_ALIASES = {"Jordan Chong"};
-    private static final String[] FOURTH_AUTHOR_ALIASES = {"Tianwei"};
+    private static final List<String> FIRST_AUTHOR_ALIASES = Arrays.asList("Ahmad Syafiq");
+    private static final List<String> SECOND_AUTHOR_ALIASES = Arrays.asList("Codee");
+    private static final List<String> THIRD_AUTHOR_ALIASES = Arrays.asList("Jordan Chong");
+    private static final List<String> FOURTH_AUTHOR_ALIASES = Arrays.asList("Tianwei");
 
     private static final List<String> REPO_LEVEL_GLOB_LIST = Arrays.asList("*.pyc");
     private static final List<String> FIRST_AUTHOR_GLOB_LIST = Arrays.asList("*.aa1", "*.aa2");
@@ -72,7 +72,4 @@ public class RepoConfigurationTest {
 
         Assert.assertEquals(REPO_LEVEL_GLOB_LIST, actualConfig.getIgnoreGlobList());
     }
-
-
-
 }

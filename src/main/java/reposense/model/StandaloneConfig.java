@@ -22,7 +22,7 @@ public class StandaloneConfig {
         if (ignoreGlobList == null) {
             return Collections.emptyList();
         }
-        
+
         return ignoreGlobList;
     }
 }
