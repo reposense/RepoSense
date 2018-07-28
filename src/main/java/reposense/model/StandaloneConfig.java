@@ -1,5 +1,6 @@
 package reposense.model;
 
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -7,6 +8,7 @@ import java.util.List;
  */
 public class StandaloneConfig {
     private List<StandaloneAuthor> authors;
+    private List<String> ignoreGlobList;
 
     public StandaloneConfig(List<StandaloneAuthor> authors) {
         this.authors = authors;
@@ -14,5 +16,13 @@ public class StandaloneConfig {
 
     public List<StandaloneAuthor> getAuthors() {
         return authors;
+    }
+
+    public List<String> getIgnoreGlobList() {
+        if (ignoreGlobList == null) {
+            return Collections.emptyList();
+        }
+        
+        return ignoreGlobList;
     }
 }

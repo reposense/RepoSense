@@ -97,18 +97,21 @@ public class RepoConfiguration {
         authorList.clear();
         authorAliasMap.clear();
         authorDisplayNameMap.clear();
+        ignoreGlobList = standaloneConfig.getIgnoreGlobList();
 
         for (StandaloneAuthor sa : standaloneConfig.getAuthors()) {
             Author author = new Author(sa.getGithubId());
             String displayName = !sa.getDisplayName().isEmpty() ? sa.getDisplayName() : sa.getGithubId();
+            List<String> authorIgnoreGlobList =
+                    !sa.getIgnoreGlobList().isEmpty() ? sa.getIgnoreGlobList() : ignoreGlobList;
 
             authorList.add(author);
             author.setAuthorAliases(Arrays.asList(sa.getAuthorNames()));
-            author.setIgnoreGlobList(Arrays.asList(sa.getIgnoreGlobList()));
+            author.setIgnoreGlobList(authorIgnoreGlobList);
 
-            setAuthorDisplayName(author, displayName);
-            setAuthorAliases(author, sa.getGithubId());
-            setAuthorAliases(author, sa.getAuthorNames());
+            this.setAuthorDisplayName(author, displayName);
+            this.setAuthorAliases(author, sa.getGithubId());
+            this.setAuthorAliases(author, sa.getAuthorNames());
         }
     }
 

@@ -1,5 +1,8 @@
 package reposense.model;
 
+import java.util.Collections;
+import java.util.List;
+
 /**
  * Represents an author in {@code StandaloneConfig}.
  */
@@ -7,9 +10,9 @@ public class StandaloneAuthor {
     private String githubId;
     private String displayName;
     private String[] authorNames;
-    private String[] ignoreGlobList;
+    private List<String> ignoreGlobList;
 
-    public StandaloneAuthor(String githubId, String displayName, String[] authorNames, String[] ignoreGlobList) {
+    public StandaloneAuthor(String githubId, String displayName, String[] authorNames, List<String> ignoreGlobList) {
         this.githubId = githubId;
         this.displayName = displayName;
         this.authorNames = authorNames;
@@ -32,9 +35,9 @@ public class StandaloneAuthor {
         return authorNames;
     }
 
-    public String[] getIgnoreGlobList() {
+    public List<String> getIgnoreGlobList() {
         if (ignoreGlobList == null) {
-            return new String[]{};
+            return Collections.emptyList();
         }
 
         return ignoreGlobList;
