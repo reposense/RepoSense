@@ -9,7 +9,6 @@ import java.util.List;
 import java.util.Optional;
 
 import net.sourceforge.argparse4j.ArgumentParsers;
-import net.sourceforge.argparse4j.impl.Arguments;
 import net.sourceforge.argparse4j.impl.action.HelpArgumentAction;
 import net.sourceforge.argparse4j.inf.ArgumentParser;
 import net.sourceforge.argparse4j.inf.ArgumentParserException;
@@ -52,13 +51,13 @@ public class ArgsParser {
 
         mutexParser.addArgument("-view")
                 .metavar("PATH")
-                .type(Arguments.fileType().verifyExists().verifyIsDirectory().verifyCanRead())
+                .type(new ReportFolderArgumentType())
                 .help("Starts a server to display the dashboard in the provided directory.");
 
         parser.addArgument("-output")
                 .metavar("PATH")
-                .type(Arguments.fileType().verifyExists().verifyIsDirectory().verifyCanWrite())
-                .setDefault(new File("."))
+                .type(new OutputFolderArgumentType())
+                .setDefault(Paths.get(ArgsParser.DEFAULT_REPORT_NAME))
                 .help("The directory to output the report folder, reposense-report. "
                         + "If not provided, the report folder will be created in the current working directory.");
 
@@ -96,21 +95,16 @@ public class ArgsParser {
             ArgumentParser parser = getArgumentParser();
             Namespace results = parser.parseArgs(args);
 
-            File configFolder = results.get("config");
-            File outputFile = results.get("output");
+            Path configFolderPath = results.get("config");
+            Path reportFolderPath = results.get("view");
+            Path outputFolderPath = results.get("output");
             Optional<Date> sinceDate = results.get("since");
             Optional<Date> untilDate = results.get("until");
-            File reportDirectory = results.get("view");
-
-            Path configFolderPath = configFolder != null ? configFolder.toPath() : null;
-            Path outputFilePath = Paths.get(outputFile.toString(), DEFAULT_REPORT_NAME);
-            Path reportDirectoryPath = reportDirectory != null ? reportDirectory.toPath() : null;
-
             List<String> formats = results.get("formats");
 
             verifyDatesRangeIsCorrect(sinceDate, untilDate);
             return new CliArguments(
-                    configFolderPath, outputFilePath, sinceDate, untilDate, formats, reportDirectoryPath);
+                    configFolderPath, outputFolderPath, sinceDate, untilDate, formats, reportFolderPath);
         } catch (ArgumentParserException ape) {
             throw new ParseException(getArgumentParser().formatUsage() + ape.getMessage() + "\n");
         }

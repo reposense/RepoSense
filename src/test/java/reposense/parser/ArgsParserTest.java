@@ -29,8 +29,7 @@ public class ArgsParserTest {
     private static final Path CONFIG_FOLDER_RELATIVE = PROJECT_DIRECTORY.relativize(CONFIG_FOLDER_ABSOLUTE);
     private static final Path OUTPUT_DIRECTORY_RELATIVE = PROJECT_DIRECTORY.relativize(OUTPUT_DIRECTORY_ABSOLUTE);
     private static final String DEFAULT_MANDATORY_ARGS = "-config " + CONFIG_FOLDER_ABSOLUTE + " ";
-    private static final Path REPO_COFIG_CSV_FILE =
-            Paths.get(CONFIG_FOLDER_ABSOLUTE.toString(), CsvParser.REPO_CONFIG_FILENAME);
+    private static final Path REPO_CONFIG_CSV_FILE = CONFIG_FOLDER_ABSOLUTE.resolve(CsvParser.REPO_CONFIG_FILENAME);
 
     @Test
     public void parse_allCorrectInputs_success() throws ParseException, IOException {
@@ -39,8 +38,8 @@ public class ArgsParserTest {
                 CONFIG_FOLDER_ABSOLUTE, OUTPUT_DIRECTORY_ABSOLUTE);
         CliArguments cliArguments = ArgsParser.parse(translateCommandline(input));
         Assert.assertTrue(Files.isSameFile(CONFIG_FOLDER_ABSOLUTE, cliArguments.getConfigFolderPath()));
-        Assert.assertTrue(Files.isSameFile(Paths.get(OUTPUT_DIRECTORY_ABSOLUTE.toString(),
-                ArgsParser.DEFAULT_REPORT_NAME), cliArguments.getOutputFilePath()));
+        Assert.assertTrue(Files.isSameFile(
+                OUTPUT_DIRECTORY_ABSOLUTE.resolve(ArgsParser.DEFAULT_REPORT_NAME), cliArguments.getOutputFilePath()));
 
         Date expectedSinceDate = TestUtil.getDate(2017, Calendar.JULY, 1);
         Date expectedUntilDate = TestUtil.getDate(2017, Calendar.NOVEMBER, 30);
@@ -57,8 +56,8 @@ public class ArgsParserTest {
                 + "-formats     java   adoc     html css js ", CONFIG_FOLDER_ABSOLUTE, OUTPUT_DIRECTORY_ABSOLUTE);
         CliArguments cliArguments = ArgsParser.parse(translateCommandline(input));
         Assert.assertTrue(Files.isSameFile(CONFIG_FOLDER_ABSOLUTE, cliArguments.getConfigFolderPath()));
-        Assert.assertTrue(Files.isSameFile(Paths.get(OUTPUT_DIRECTORY_ABSOLUTE.toString(),
-                ArgsParser.DEFAULT_REPORT_NAME), cliArguments.getOutputFilePath()));
+        Assert.assertTrue(Files.isSameFile(
+                OUTPUT_DIRECTORY_ABSOLUTE.resolve(ArgsParser.DEFAULT_REPORT_NAME), cliArguments.getOutputFilePath()));
 
         Date expectedSinceDate = TestUtil.getDate(2017, Calendar.JULY, 1);
         Date expectedUntilDate = TestUtil.getDate(2017, Calendar.NOVEMBER, 30);
@@ -107,10 +106,8 @@ public class ArgsParserTest {
 
     @Test
     public void parse_configFolderAndOutputDirectory_success() throws ParseException, IOException {
-        Path expectedRelativeOutputDirectoryPath =
-                Paths.get(OUTPUT_DIRECTORY_RELATIVE.toString(), ArgsParser.DEFAULT_REPORT_NAME);
-        Path expectedAbsoluteOutputDirectoryPath =
-                Paths.get(OUTPUT_DIRECTORY_ABSOLUTE.toString(), ArgsParser.DEFAULT_REPORT_NAME);
+        Path expectedRelativeOutputDirectoryPath = OUTPUT_DIRECTORY_RELATIVE.resolve(ArgsParser.DEFAULT_REPORT_NAME);
+        Path expectedAbsoluteOutputDirectoryPath = OUTPUT_DIRECTORY_ABSOLUTE.resolve(ArgsParser.DEFAULT_REPORT_NAME);
 
         String input = String.format("-config %s -output %s", CONFIG_FOLDER_ABSOLUTE, OUTPUT_DIRECTORY_RELATIVE);
         CliArguments cliArguments = ArgsParser.parse(translateCommandline(input));
@@ -180,14 +177,14 @@ public class ArgsParserTest {
 
     @Test(expected = ParseException.class)
     public void parse_notExistsConfigFolder_throwsParseException() throws ParseException {
-        String absConfigFolder = Paths.get(PROJECT_DIRECTORY.toString(), "non_existing_random_folder").toString();
+        String absConfigFolder = PROJECT_DIRECTORY.resolve("non_existing_random_folder").toString();
         String input = String.format("-config %s", absConfigFolder);
         ArgsParser.parse(translateCommandline(input));
     }
 
     @Test(expected = ParseException.class)
     public void parse_configCsvFileAsConfigFolder_throwsParseException() throws ParseException {
-        String input = String.format("-config %s", REPO_COFIG_CSV_FILE);
+        String input = String.format("-config %s", REPO_CONFIG_CSV_FILE);
         ArgsParser.parse(translateCommandline(input));
     }
 
@@ -199,14 +196,14 @@ public class ArgsParserTest {
 
     @Test(expected = ParseException.class)
     public void file_forOutputDirectory_throwsParseException() throws ParseException {
-        String file = Paths.get(PROJECT_DIRECTORY.toString(), "parser_test.csv").toString();
+        String file = PROJECT_DIRECTORY.resolve("parser_test.csv").toString();
         String input = DEFAULT_MANDATORY_ARGS + String.format("-output %s", file);
         ArgsParser.parse(translateCommandline(input));
     }
 
     @Test(expected = ParseException.class)
     public void nonExistentDirectory_forOutputDirectory_throwsParseException() throws ParseException {
-        String nonExistentDirectory = Paths.get(PROJECT_DIRECTORY.toString(), "some_non_existent_dir/").toString();
+        String nonExistentDirectory = PROJECT_DIRECTORY.resolve("some_non_existent_dir/").toString();
         String input = DEFAULT_MANDATORY_ARGS + String.format("-output %s", nonExistentDirectory);
         ArgsParser.parse(translateCommandline(input));
     }
