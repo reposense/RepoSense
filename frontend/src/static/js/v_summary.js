@@ -44,7 +44,7 @@ window.vSummary = {
       filterSort: 'displayName',
       filterSortReverse: false,
       filterGroupRepos: true,
-      filterGroupWeek: false,
+      filterTimeFrame: 'day',
       filterSinceDate: '',
       filterUntilDate: '',
       filterHash: '',
@@ -64,7 +64,7 @@ window.vSummary = {
     filterGroupRepos() {
       this.getFiltered();
     },
-    filterGroupWeek() {
+    filterTimeFrame() {
       this.getFiltered();
     },
     filterSinceDate() {
@@ -148,20 +148,40 @@ window.vSummary = {
 
     // model functions //
     getFilterHash() {
-      const { enquery } = window;
+      const { addHash } = window;
 
       this.filterSearch = this.filterSearch.toLowerCase();
-      this.filterHash = [
-        enquery('search', this.filterSearch),
-        enquery('sort', this.filterSort),
-        enquery('reverse', this.filterSortReverse),
-        enquery('repoSort', this.filterGroupRepos),
-        enquery('since', this.filterSinceDate),
-        enquery('until', this.filterUntilDate),
-      ].join('&');
+      addHash('search', this.filterSearch);
+      addHash('sort', this.filterSort);
 
-      window.location.hash = this.filterHash;
+      addHash('since', this.filterSinceDate);
+      addHash('until', this.filterUntilDate);
+      addHash('timeframe', this.filterTimeFrame);
+
+      addHash('reverse', this.filterSortReverse);
+      addHash('repoSort', this.filterGroupRepos);
     },
+    renderFilterHash() {
+      const params = window.location.hash.slice(1).split('&');
+      params.forEach((param) => {
+        const [key, val] = param.split('=');
+        window.hashParams[key] = decodeURIComponent(val);
+      });
+
+      const convertBool = txt => (txt === 'true');
+      const hash = window.hashParams;
+
+      if (hash.search) { this.filterSearch = hash.search; }
+      if (hash.sort) { this.filterSort = hash.sort; }
+
+      if (hash.since) { this.filterSinceDate = hash.since; }
+      if (hash.until) { this.filterUntilDate = hash.until; }
+      if (hash.timeframe) { this.filterTimeFrame = hash.timeframe; }
+
+      if (hash.reverse) { this.filterSortReverse = convertBool(hash.reverse); }
+      if (hash.repoSort) { this.filterGroupRepos = convertBool(hash.repoSort); }
+    },
+
     getDates() {
       if (this.filterSinceDate && this.filterUntilDate) {
         return;
@@ -204,7 +224,7 @@ window.vSummary = {
         repo.users.forEach((user) => {
           if (user.searchPath.search(this.filterSearch) > -1) {
             this.getUserCommits(user);
-            if (this.filterGroupWeek) {
+            if (this.filterTimeFrame === 'week') {
               this.splitCommitsWeek(user);
             }
 
@@ -267,7 +287,7 @@ window.vSummary = {
         untilDate = userLast.sinceDate;
       }
 
-      if (this.filterGroupWeek) {
+      if (this.filterTimeFrame === 'week') {
         sinceDate = dateRounding(sinceDate, 1);
       }
       let diff = getIntervalDay(userFirst.sinceDate, sinceDate);
@@ -289,7 +309,7 @@ window.vSummary = {
         }
       });
 
-      if (this.filterGroupWeek) {
+      if (this.filterTimeFrame === 'week') {
         untilDate = dateRounding(untilDate);
       }
       diff = getIntervalDay(untilDate, userLast.sinceDate);
@@ -333,6 +353,7 @@ window.vSummary = {
     },
   },
   created() {
+    this.renderFilterHash();
     this.getFiltered();
   },
 };

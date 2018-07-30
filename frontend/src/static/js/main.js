@@ -1,6 +1,20 @@
 window.REPORT_ZIP = null;
 window.REPOS = {};
 
+window.hashParams = {};
+window.addHash = function addHash(newKey, newVal) {
+  const { hashParams } = window;
+  hashParams[newKey] = newVal;
+
+  const hash = [];
+  const enquery = (key, val) => `${key}=${encodeURIComponent(val)}`;
+  Object.keys(hashParams).forEach((hashKey) => {
+    hash.push(enquery(hashKey, hashParams[hashKey]));
+  });
+
+  window.location.hash = hash.join('&');
+};
+
 window.app = new window.Vue({
   el: '#app',
   data: {
@@ -13,7 +27,7 @@ window.app = new window.Vue({
     isTabAuthorship: false,
     tabInfo: {},
     tabAuthorship: {},
-    creationDate: "",
+    creationDate: '',
   },
   methods: {
     // model functions //
@@ -41,7 +55,7 @@ window.app = new window.Vue({
         this.userUpdated = false;
         this.loadedRepo = 0;
 
-        return Promise.all(names.map((name) => (
+        return Promise.all(names.map(name => (
           window.api.loadCommits(name)
             .then(() => { this.loadedRepo += 1; })
         )));
