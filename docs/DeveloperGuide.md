@@ -150,4 +150,6 @@ The summary module is activated after the information is loaded from the main Vu
 The commits information is retrieved from the corresponding project folders for each repository. These information will be will filtered and sorted before being passed into the template to be dipslayed as ramp charts.
 
 ### v_authorship module
+The authorship module retreives the relevant information from the corresponding `authorship.json` file if it is not yet loaded. If it has been loaded, the data will be written into `window.REPO` and be read from there instead.
 
+The files will be filtered, picking only files the selected author has written in. The lines are then split into chunks of "touched" and "untouched" code to be displayed in the tab view which will be popped up on the right side of the screen.
