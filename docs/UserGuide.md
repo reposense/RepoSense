@@ -16,16 +16,16 @@
    * Alternatively, you can compile the executable Jar yourself by following our [build from source guide](Build.md).
 1. Execute it on the OS terminal. <br>
 
-### Using a config csv file
-Usage: `java -jar RepoSense.jar -config CSV_CONFIG_FILE_PATH [-output OUTPUT_DIRECTORY] [-since DD/MM/YYYY] [-until DD/MM/YYYY] [-formats FORMAT...]`
+### Using repo-config.csv file
+Usage: `java -jar RepoSense.jar -config CONFIG_DIRECTORY [-output OUTPUT_DIRECTORY] [-since DD/MM/YYYY] [-until DD/MM/YYYY] [-formats FORMAT...]`
 1. The report will be generated in the designated OUTPUT_DIRECTORY, or current working directory otherwise.
 
 Sample usage to generate the report:
 ```
-$ java -jar RepoSense.jar -config CSV_path.csv -output output_path/ -since 01/10/2017 -until 01/11/2017 -formats java adoc js
+$ java -jar RepoSense.jar -config ./configs/ -output output_path/ -since 01/10/2017 -until 01/11/2017 -formats java adoc js
 ```
 Argument List:
-- config : Mandatory. The path to the CSV config file.
+- config : Mandatory. The path to the directory that contains the configuration file, repo-config.csv.
 - output : Optional. The path to the dashboard generated. If not provided, it will be generated in the current directory.
 - since : Optional. The start date of analysis. Format: `DD/MM/YYYY`
 - until : Optional. The end date of analysis. Format: `DD/MM/YYYY`
