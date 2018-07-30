@@ -129,7 +129,7 @@ The main Vue object (`window.app`) is responsible for the loading of the dashboa
 
 **overall architecture**
 
-![overall architecture](images/architecture.png)
+![overall architecture](images/dashboard-architecture.png)
 
 ### Loading of dashboard information
 When the dashboard is first loaded, the main vue object tries to retreive the `summary.json` file in order to determine the right `commits.json` files to load into memory. `api.js` handles the loading of the file, and approriately gets the relevant file information, depending on whether the network files is available or a report archive have to be used.
