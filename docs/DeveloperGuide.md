@@ -118,7 +118,7 @@ The source files for the dashboard is located in `frontend/src` and is built by 
 
 ### Javascript Files
 - **api.js** - loading and parsing of the dashboard content
-- **main.js** - main controller that starts the loading of the dashboard and handles the loading of the content into different modules
+- **main.js** - main controller that handles the loading of the content into different modules
 - **v_summary.js** - module that supports the ramp chart view
 - **v_authorship.js** - module that supports the authorship view
 
