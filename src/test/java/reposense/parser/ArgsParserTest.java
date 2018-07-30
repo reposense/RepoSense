@@ -37,6 +37,8 @@ public class ArgsParserTest {
     private static final Path REPO_CONFIG_CSV_FILE = CONFIG_FOLDER_ABSOLUTE.resolve(CsvParser.REPO_CONFIG_FILENAME);
 
     private static final String TEST_REPO_REPOSENSE = "https://github.com/reposense/RepoSense.git";
+    private static final String TEST_REPO_BETA = "https://github.com/reposense/testrepo-Beta.git";
+    private static final String TEST_REPO_CHARLIE = "https://github.com/reposense/testrepo-Charlie.git";
     private static final String TEST_REPO_DELTA = "https://github.com/reposense/testrepo-Delta.git";
 
     @Test
@@ -171,6 +173,23 @@ public class ArgsParserTest {
         Assert.assertTrue(cliArguments instanceof LocationsCliArguments);
         List<RepoConfiguration> repoConfigs = RepoSense.getRepoConfigurations((LocationsCliArguments) cliArguments);
         Assert.assertEquals(2, repoConfigs.size());
+    }
+
+    @Test
+    public void parse_configOrLocationsSimilar_success() throws ParseException, IOException {
+        String input = String.format("-config %s", CONFIG_FOLDER_ABSOLUTE);
+        CliArguments configCliArguments = ArgsParser.parse(translateCommandline(input));
+        Assert.assertTrue(configCliArguments instanceof ConfigCliArguments);
+        List<RepoConfiguration> actualRepoConfigs =
+                RepoSense.getRepoConfigurations((ConfigCliArguments) configCliArguments);
+
+        input = String.format("-repos \"%s\" %s %s", TEST_REPO_BETA, TEST_REPO_CHARLIE, TEST_REPO_DELTA);
+        CliArguments locationCliArguments = ArgsParser.parse(translateCommandline(input));
+        Assert.assertTrue(locationCliArguments instanceof LocationsCliArguments);
+        List<RepoConfiguration> expectedRepoConfigs =
+                RepoSense.getRepoConfigurations((LocationsCliArguments) locationCliArguments);
+
+        Assert.assertEquals(actualRepoConfigs, expectedRepoConfigs);
     }
 
     @Test(expected = ParseException.class)
