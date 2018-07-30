@@ -59,11 +59,11 @@ public class Entry {
     }
 
     private void generateReport(String inputDates) throws IOException, URISyntaxException, ParseException {
-        Path configFilePath = Paths.get(getClass().getClassLoader().getResource("sample.csv").toURI());
-        String input = String.format("-config %s ", configFilePath) + inputDates;
+        Path configFolder = Paths.get(getClass().getClassLoader().getResource("repo-config.csv").toURI()).getParent();
+        String input = String.format("-config %s ", configFolder) + inputDates;
 
         CliArguments cliArguments = ArgsParser.parse(translateCommandline(input));
-        List<RepoConfiguration> configs = CsvParser.parse(cliArguments.getConfigFilePath());
+        List<RepoConfiguration> configs = CsvParser.parse(cliArguments.getConfigFolderPath());
         RepoConfiguration.setFormatsToRepoConfigs(configs, TESTING_FILE_FORMATS);
         RepoConfiguration.setDatesToRepoConfigs(configs, cliArguments.getSinceDate(), cliArguments.getUntilDate());
 

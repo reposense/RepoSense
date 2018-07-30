@@ -32,7 +32,7 @@ public class RepoSense {
                 return;
             }
 
-            List<RepoConfiguration> configs = CsvParser.parse(cliArguments.getConfigFilePath());
+            List<RepoConfiguration> configs = CsvParser.parse(cliArguments.getConfigFolderPath());
             RepoConfiguration.setFormatsToRepoConfigs(configs, cliArguments.getFormats());
             RepoConfiguration.setDatesToRepoConfigs(configs, cliArguments.getSinceDate(), cliArguments.getUntilDate());
             ReportGenerator.generateReposReport(configs, cliArguments.getOutputFilePath().toAbsolutePath().toString(),

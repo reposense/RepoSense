@@ -3,6 +3,7 @@ package reposense.parser;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
@@ -19,6 +20,8 @@ import reposense.system.LogsManager;
  * Parses a CSV configuration file for repository information.
  */
 public class CsvParser {
+    public static final String REPO_CONFIG_FILENAME = "repo-config.csv";
+
     private static final String ELEMENT_SEPARATOR = ",";
     private static final String AUTHOR_ALIAS_AND_GLOB_SEPARATOR = ";";
     private static final String MESSAGE_UNABLE_TO_READ_CSV_FILE = "Unable to read the supplied CSV file.";
@@ -41,15 +44,17 @@ public class CsvParser {
      *
      * @throws IOException if user-supplied csv file does not exists or is not readable.
      */
-    public static List<RepoConfiguration> parse(Path configFilePath) throws IOException {
-        assert (configFilePath != null);
+    public static List<RepoConfiguration> parse(Path configFolderPath) throws IOException {
+        assert (configFolderPath != null);
 
         List<RepoConfiguration> repoConfigurations = new ArrayList<RepoConfiguration>();
         int lineNumber = 1;
 
+        Path repoConfigFilePath = Paths.get(configFolderPath.toString(), REPO_CONFIG_FILENAME);
+
         try {
             // Skip first line, which is the header row
-            final Collection<String> lines = Files.lines(configFilePath).skip(1).collect(Collectors.toList());
+            final Collection<String> lines = Files.lines(repoConfigFilePath).skip(1).collect(Collectors.toList());
 
             for (final String line : lines) {
                 processLine(repoConfigurations, line, lineNumber);

@@ -71,7 +71,7 @@ gradlew run -Dargs="-view output_path/reposense-report"
 
 ## CSV Config File
 The `CSV Config File` contains the list of repositories, and the corresponding target authors to track contribution of.
-[sample.csv](../sample.csv) is an example of a configuration file setup. It should contain the following columns:
+[repo-config.csv](../repo-config.csv) is an example of a configuration file setup. It should contain the following columns:
 
 Column Name | Explanation
 ----------- | -----------
