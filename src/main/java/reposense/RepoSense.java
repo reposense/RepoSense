@@ -65,7 +65,7 @@ public class RepoSense {
      * @throws IOException if user-supplied csv file does not exists or is not readable.
      */
     public static List<RepoConfiguration> getRepoConfigurations(ConfigCliArguments cliArguments) throws IOException {
-        return CsvParser.parse(cliArguments.getConfigFilePath());
+        return CsvParser.parse(cliArguments.getConfigFolderPath());
     }
 
     /**
