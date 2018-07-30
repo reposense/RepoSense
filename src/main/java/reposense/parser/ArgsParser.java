@@ -46,7 +46,7 @@ public class ArgsParser {
         mutexParser.addArgument("-config")
                 .type(new ConfigFolderArgumentType())
                 .metavar("PATH")
-                .help("The directory containing the config files.");
+                .help("The directory that contains the configuration file, repo-config.csv.");
 
         mutexParser.addArgument("-view")
                 .metavar("PATH")

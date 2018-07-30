@@ -12,8 +12,7 @@ import net.sourceforge.argparse4j.inf.ArgumentType;
 
 public class ConfigFolderArgumentType implements ArgumentType<Path> {
     private static final String PARSE_EXCEPTION_MESSAGE_MISSING_REQUIRED_CONFIG_FILES =
-            String.format("The required config file %s is not found in the specified folder.",
-                    CsvParser.REPO_CONFIG_FILENAME);
+            "The required config file %s is not found in the specified folder.";
 
     @Override
     public Path convert(ArgumentParser parser, Argument arg, String value) throws ArgumentParserException {
@@ -24,7 +23,7 @@ public class ConfigFolderArgumentType implements ArgumentType<Path> {
             return Paths.get(value);
         }
 
-        throw new ArgumentParserException(
-                String.format(PARSE_EXCEPTION_MESSAGE_MISSING_REQUIRED_CONFIG_FILES, value), parser);
+        throw new ArgumentParserException(String.format(
+                PARSE_EXCEPTION_MESSAGE_MISSING_REQUIRED_CONFIG_FILES, CsvParser.REPO_CONFIG_FILENAME), parser);
     }
 }
