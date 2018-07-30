@@ -128,25 +128,8 @@ The main Vue object (`window.app`) is responsible for the loading of the dashboa
 `window.app` is broken down into two main parts, the summary view and the tabs view. The basic design is to have a summary view (with the ramp charts) as the main dashboard, and other modules display additional information in the tabbed interface which is displayed on the right.
 
 **overall architecture**
-```
-+-----------------------------+
-| main.js (window.app)        |
-+-----------------------------+<-----------+
-|                         summary.json     |
-|  +--------------------------+            |
-+--+ v_summary.js             |            |
-|  +--------------------------+<---------+ |
-|                 prjName/commits.json   | |
-|  +--------------------------+          | |
-+--+ v_authorship.js          |          | |
-   +--------------------------+<-------+ | |
-               prjName/authorship.json | | |
-                                       | | |
-                                       | | |
-                                  +----+-+-+
-                                  | api.js |
-                                  +--------+
-```
+
+![overall architecture](images/architecture.png)
 
 ### Loading of dashboard information
 When the dashboard is first loaded, the main vue object tries to retreive the `summary.json` file in order to determine the right `commits.json` files to load into memory. `api.js` handles the loading of the file, and approriately gets the relevant file information, depending on whether the network files is available or a report archive have to be used.
