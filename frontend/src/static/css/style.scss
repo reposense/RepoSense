@@ -150,6 +150,10 @@ header{
     &__date:first-child{
         margin-right:0.5rem;
     }
+
+    label{
+        overflow-y:hidden;
+    }
 }
 
 .summary-charts{
