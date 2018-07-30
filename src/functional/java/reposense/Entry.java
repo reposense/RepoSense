@@ -17,6 +17,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import reposense.model.CliArguments;
+import reposense.model.ConfigCliArguments;
 import reposense.model.RepoConfiguration;
 import reposense.parser.ArgsParser;
 import reposense.parser.CsvParser;
@@ -63,7 +64,7 @@ public class Entry {
         String input = String.format("-config %s ", configFolder) + inputDates;
 
         CliArguments cliArguments = ArgsParser.parse(translateCommandline(input));
-        List<RepoConfiguration> configs = CsvParser.parse(cliArguments.getConfigFolderPath());
+        List<RepoConfiguration> configs = CsvParser.parse(((ConfigCliArguments) cliArguments).getConfigFolderPath());
         RepoConfiguration.setFormatsToRepoConfigs(configs, TESTING_FILE_FORMATS);
         RepoConfiguration.setDatesToRepoConfigs(configs, cliArguments.getSinceDate(), cliArguments.getUntilDate());
 

@@ -46,7 +46,8 @@ public class ArgsParserTest {
                 CONFIG_FOLDER_ABSOLUTE, OUTPUT_DIRECTORY_ABSOLUTE);
         CliArguments cliArguments = ArgsParser.parse(translateCommandline(input));
         Assert.assertTrue(cliArguments instanceof ConfigCliArguments);
-        Assert.assertTrue(Files.isSameFile(CONFIG_FOLDER_ABSOLUTE, cliArguments.getConfigFolderPath()));
+        Assert.assertTrue(Files.isSameFile(
+                CONFIG_FOLDER_ABSOLUTE, ((ConfigCliArguments) cliArguments).getConfigFolderPath()));
         Assert.assertTrue(Files.isSameFile(
                 OUTPUT_DIRECTORY_ABSOLUTE.resolve(ArgsParser.DEFAULT_REPORT_NAME), cliArguments.getOutputFilePath()));
 
@@ -65,7 +66,8 @@ public class ArgsParserTest {
                 + "-formats     java   adoc     html css js ", CONFIG_FOLDER_ABSOLUTE, OUTPUT_DIRECTORY_ABSOLUTE);
         CliArguments cliArguments = ArgsParser.parse(translateCommandline(input));
         Assert.assertTrue(cliArguments instanceof ConfigCliArguments);
-        Assert.assertTrue(Files.isSameFile(CONFIG_FOLDER_ABSOLUTE, cliArguments.getConfigFolderPath()));
+        Assert.assertTrue(Files.isSameFile(
+                CONFIG_FOLDER_ABSOLUTE, ((ConfigCliArguments) cliArguments).getConfigFolderPath()));
         Assert.assertTrue(Files.isSameFile(
                 OUTPUT_DIRECTORY_ABSOLUTE.resolve(ArgsParser.DEFAULT_REPORT_NAME), cliArguments.getOutputFilePath()));
 
@@ -83,24 +85,24 @@ public class ArgsParserTest {
         String input = String.format("-config %s", CONFIG_FOLDER_ABSOLUTE);
         CliArguments cliArguments = ArgsParser.parse(translateCommandline(input));
         Assert.assertTrue(cliArguments instanceof ConfigCliArguments);
-        Assert.assertTrue(Files.isSameFile(CONFIG_FOLDER_ABSOLUTE, cliArguments.getConfigFolderPath()));
+        Assert.assertTrue(Files.isSameFile(
+                CONFIG_FOLDER_ABSOLUTE, ((ConfigCliArguments) cliArguments).getConfigFolderPath()));
         // Optional arguments have default values
         Assert.assertEquals(Optional.empty(), cliArguments.getSinceDate());
         Assert.assertEquals(Optional.empty(), cliArguments.getUntilDate());
         Assert.assertEquals(ArgsParser.DEFAULT_REPORT_NAME, cliArguments.getOutputFilePath().getFileName().toString());
         Assert.assertEquals(ArgsParser.DEFAULT_FORMATS, cliArguments.getFormats());
-        Assert.assertNull(cliArguments.getReportDirectoryPath());
 
         input = String.format("-config %s", CONFIG_FOLDER_RELATIVE);
         cliArguments = ArgsParser.parse(translateCommandline(input));
         Assert.assertTrue(cliArguments instanceof ConfigCliArguments);
-        Assert.assertTrue(Files.isSameFile(CONFIG_FOLDER_RELATIVE, cliArguments.getConfigFolderPath()));
+        Assert.assertTrue(Files.isSameFile(
+                CONFIG_FOLDER_RELATIVE, ((ConfigCliArguments) cliArguments).getConfigFolderPath()));
         // Optional arguments have default values
         Assert.assertEquals(Optional.empty(), cliArguments.getSinceDate());
         Assert.assertEquals(Optional.empty(), cliArguments.getUntilDate());
         Assert.assertEquals(ArgsParser.DEFAULT_REPORT_NAME, cliArguments.getOutputFilePath().getFileName().toString());
         Assert.assertEquals(ArgsParser.DEFAULT_FORMATS, cliArguments.getFormats());
-        Assert.assertNull(cliArguments.getReportDirectoryPath());
     }
 
     @Test
@@ -108,7 +110,8 @@ public class ArgsParserTest {
         String input = String.format("-view %s", OUTPUT_DIRECTORY_ABSOLUTE);
         CliArguments cliArguments = ArgsParser.parse(translateCommandline(input));
         Assert.assertTrue(cliArguments instanceof ViewCliArguments);
-        Assert.assertTrue(Files.isSameFile(OUTPUT_DIRECTORY_ABSOLUTE, cliArguments.getReportDirectoryPath()));
+        Assert.assertTrue(Files.isSameFile(
+                OUTPUT_DIRECTORY_ABSOLUTE, ((ViewCliArguments) cliArguments).getReportDirectoryPath()));
     }
 
     @Test
@@ -119,13 +122,15 @@ public class ArgsParserTest {
         String input = String.format("-config %s -output %s", CONFIG_FOLDER_ABSOLUTE, OUTPUT_DIRECTORY_RELATIVE);
         CliArguments cliArguments = ArgsParser.parse(translateCommandline(input));
         Assert.assertTrue(cliArguments instanceof ConfigCliArguments);
-        Assert.assertTrue(Files.isSameFile(CONFIG_FOLDER_ABSOLUTE, cliArguments.getConfigFolderPath()));
+        Assert.assertTrue(Files.isSameFile(
+                CONFIG_FOLDER_ABSOLUTE, ((ConfigCliArguments) cliArguments).getConfigFolderPath()));
         Assert.assertTrue(Files.isSameFile(expectedRelativeOutputDirectoryPath, cliArguments.getOutputFilePath()));
 
         input = String.format("-config %s -output %s", CONFIG_FOLDER_RELATIVE, OUTPUT_DIRECTORY_ABSOLUTE);
         cliArguments = ArgsParser.parse(translateCommandline(input));
         Assert.assertTrue(cliArguments instanceof ConfigCliArguments);
-        Assert.assertTrue(Files.isSameFile(CONFIG_FOLDER_RELATIVE, cliArguments.getConfigFolderPath()));
+        Assert.assertTrue(Files.isSameFile(
+                CONFIG_FOLDER_RELATIVE, ((ConfigCliArguments) cliArguments).getConfigFolderPath()));
         Assert.assertTrue(Files.isSameFile(expectedAbsoluteOutputDirectoryPath, cliArguments.getOutputFilePath()));
     }
 

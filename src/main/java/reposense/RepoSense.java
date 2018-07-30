@@ -34,7 +34,8 @@ public class RepoSense {
             List<RepoConfiguration> configs = null;
 
             if (cliArguments instanceof ViewCliArguments) {
-                DashboardServer.startServer(SERVER_PORT_NUMBER, cliArguments.getReportDirectoryPath().toAbsolutePath());
+                DashboardServer.startServer(SERVER_PORT_NUMBER, ((
+                        ViewCliArguments) cliArguments).getReportDirectoryPath().toAbsolutePath());
                 return;
             } else if (cliArguments instanceof ConfigCliArguments) {
                 configs = getRepoConfigurations((ConfigCliArguments) cliArguments);
