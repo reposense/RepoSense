@@ -8,20 +8,19 @@ function loadJSON(fname) {
   if (window.REPORT_ZIP) {
     return window.REPORT_ZIP.file(fname.slice(2)).async('text')
       .then(txt => JSON.parse(txt));
-  } else {
-    return new Promise((resolve) => {
-      const xhr = new XMLHttpRequest();
-      xhr.open('GET', fname);
-      xhr.onload = function xhrOnload() {
-        if (xhr.status === 200) {
-          resolve(JSON.parse(xhr.responseText));
-        } else {
-          window.alert('unable to get file');
-        }
-      };
-      xhr.send(null);
-    });
   }
+  return new Promise((resolve) => {
+    const xhr = new XMLHttpRequest();
+    xhr.open('GET', fname);
+    xhr.onload = function xhrOnload() {
+      if (xhr.status === 200) {
+        resolve(JSON.parse(xhr.responseText));
+      } else {
+        window.alert('unable to get file');
+      }
+    };
+    xhr.send(null);
+  });
 }
 
 window.api = {

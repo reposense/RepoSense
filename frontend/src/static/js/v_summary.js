@@ -168,7 +168,7 @@ window.vSummary = {
         window.hashParams[key] = decodeURIComponent(val);
       });
 
-      const convertBool = txt => (txt==='true');
+      const convertBool = txt => (txt === 'true');
       const hash = window.hashParams;
 
       if (hash.search) { this.filterSearch = hash.search; }

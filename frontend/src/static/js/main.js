@@ -27,7 +27,7 @@ window.app = new window.Vue({
     isTabAuthorship: false,
     tabInfo: {},
     tabAuthorship: {},
-    creationDate: "",
+    creationDate: '',
   },
   methods: {
     // model functions //
@@ -55,7 +55,7 @@ window.app = new window.Vue({
         this.userUpdated = false;
         this.loadedRepo = 0;
 
-        return Promise.all(names.map((name) => (
+        return Promise.all(names.map(name => (
           window.api.loadCommits(name)
             .then(() => { this.loadedRepo += 1; })
         )));
