@@ -78,7 +78,7 @@ window.app = new window.Vue({
 
     updateTabAuthorship(obj) {
       this.deactivateTabs();
-      this.tabInfo.tabAuthorship = { ...obj };
+      this.tabInfo.tabAuthorship = Object.assign({}, obj);
 
       this.isTabActive = true;
       this.isTabAuthorship = true;
