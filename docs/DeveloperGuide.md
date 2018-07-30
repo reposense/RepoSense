@@ -143,3 +143,6 @@ An additional thing to note is the event handler should handle the switching of 
 
 ### Hash link
 Other than the global main vue object, another global variable we have is the `window.hashParams`. This object is reponsible for generating the relevant permalink for a specific view of the summary module for the dashboard.
+
+### v_summary module
+The summary module is activated after the information is loaded from the main Vue.JS object. At creation, the `repo` attribute is populated with the `window.REPOS` object, which contains information loaded from `summary.json`
