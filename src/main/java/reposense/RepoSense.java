@@ -13,6 +13,7 @@ import reposense.model.CliArguments;
 import reposense.model.ConfigCliArguments;
 import reposense.model.LocationsCliArguments;
 import reposense.model.RepoConfiguration;
+import reposense.model.ViewCliArguments;
 import reposense.parser.ArgsParser;
 import reposense.parser.CsvParser;
 import reposense.parser.InvalidLocationException;
@@ -32,17 +33,14 @@ public class RepoSense {
             CliArguments cliArguments = ArgsParser.parse(args);
             List<RepoConfiguration> configs = null;
 
-            switch (cliArguments.getClass().getSimpleName()) {
-            case "ViewCliArguments":
+            if (cliArguments instanceof ViewCliArguments) {
                 DashboardServer.startServer(SERVER_PORT_NUMBER, cliArguments.getReportDirectoryPath().toAbsolutePath());
                 return;
-            case "ConfigCliArguments":
+            } else if (cliArguments instanceof ConfigCliArguments) {
                 configs = getRepoConfigurations((ConfigCliArguments) cliArguments);
-                break;
-            case "LocationsCliArguments":
+            } else if (cliArguments instanceof LocationsCliArguments) {
                 configs = getRepoConfigurations((LocationsCliArguments) cliArguments);
-                break;
-            default:
+            } else {
                 throw new AssertionError("CliArguments's subclass type is unhandled.");
             }
 

@@ -165,7 +165,7 @@ public class ArgsParserTest {
         CliArguments cliArguments = ArgsParser.parse(translateCommandline(input));
         Assert.assertTrue(cliArguments instanceof LocationsCliArguments);
         List<RepoConfiguration> repoConfigs = RepoSense.getRepoConfigurations((LocationsCliArguments) cliArguments);
-        Assert.assertEquals(repoConfigs.size(), 2);
+        Assert.assertEquals(2, repoConfigs.size());
     }
 
     @Test(expected = ParseException.class)
