@@ -18,13 +18,12 @@
 			"githubId": "ongspxm",
 			"displayName": "Metta",
 			"authorNames": ["Metta Ong"],
-			"ignoreGlobList": [""]
+			"ignoreGlobList": ["**.java"]
 		},
 		{
 			"githubId": "yamidark",
 			"displayName": "Jun An",
-			"authorNames": ["Jun An"],
-			"ignoreGlobList": [""]
+			"authorNames": ["Jun An"]
 		},
 		{
 			"githubId": "yong24s",
