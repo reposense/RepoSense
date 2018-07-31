@@ -33,36 +33,36 @@ public class RepoConfigurationTest {
 
     @Test
     public void configJson_overridesRepoConfig_success() throws InvalidLocationException, GitDownloaderException {
-        RepoConfiguration expectedConfig = new RepoConfiguration(TEST_REPO_DELTA, "master");
-
         FIRST_AUTHOR.setIgnoreGlobList(FIRST_AUTHOR_GLOB_LIST);
         SECOND_AUTHOR.setIgnoreGlobList(SECOND_AUTHOR_GLOB_LIST);
         THIRD_AUTHOR.setIgnoreGlobList(REPO_LEVEL_GLOB_LIST);
         FOURTH_AUTHOR.setIgnoreGlobList(REPO_LEVEL_GLOB_LIST);
 
-        List<Author> authors = new ArrayList<Author>();
-        authors.add(FIRST_AUTHOR);
-        authors.add(SECOND_AUTHOR);
-        authors.add(THIRD_AUTHOR);
-        authors.add(FOURTH_AUTHOR);
+        List<Author> expectedAuthors = new ArrayList<Author>();
+        expectedAuthors.add(FIRST_AUTHOR);
+        expectedAuthors.add(SECOND_AUTHOR);
+        expectedAuthors.add(THIRD_AUTHOR);
+        expectedAuthors.add(FOURTH_AUTHOR);
 
-        expectedConfig.setAuthorList(authors);
-
-        expectedConfig.setAuthorAliases(FIRST_AUTHOR, FIRST_AUTHOR_ALIASES);
-        expectedConfig.setAuthorAliases(SECOND_AUTHOR, SECOND_AUTHOR_ALIASES);
-        expectedConfig.setAuthorAliases(THIRD_AUTHOR, THIRD_AUTHOR_ALIASES);
-        expectedConfig.setAuthorAliases(FOURTH_AUTHOR, FOURTH_AUTHOR_ALIASES);
-
-        expectedConfig.setAuthorDisplayName(FIRST_AUTHOR, "Ahm");
-        expectedConfig.setAuthorDisplayName(SECOND_AUTHOR, "Cod");
-        expectedConfig.setAuthorDisplayName(THIRD_AUTHOR, "Jor");
-        expectedConfig.setAuthorDisplayName(FOURTH_AUTHOR, "Loh");
+        RepoConfiguration expectedConfig = new RepoConfiguration(TEST_REPO_DELTA, "master");
+        expectedConfig.setAuthorList(expectedAuthors);
+        expectedConfig.addAuthorAliases(FIRST_AUTHOR, FIRST_AUTHOR_ALIASES);
+        expectedConfig.addAuthorAliases(SECOND_AUTHOR, SECOND_AUTHOR_ALIASES);
+        expectedConfig.addAuthorAliases(THIRD_AUTHOR, THIRD_AUTHOR_ALIASES);
+        expectedConfig.addAuthorAliases(FOURTH_AUTHOR, FOURTH_AUTHOR_ALIASES);
+        expectedConfig.addAuthorDisplayName(FIRST_AUTHOR, "Ahm");
+        expectedConfig.addAuthorDisplayName(SECOND_AUTHOR, "Cod");
+        expectedConfig.addAuthorDisplayName(THIRD_AUTHOR, "Jor");
+        expectedConfig.addAuthorDisplayName(FOURTH_AUTHOR, "Loh");
+        expectedConfig.addAuthorAliases(FIRST_AUTHOR, Arrays.asList("Ahmad Syafiq"));
+        expectedConfig.addAuthorAliases(SECOND_AUTHOR, Arrays.asList("Codee"));
+        expectedConfig.addAuthorAliases(THIRD_AUTHOR, Arrays.asList("Jordan Chong"));
+        expectedConfig.addAuthorAliases(FOURTH_AUTHOR, Arrays.asList("Tianwei"));
 
         expectedConfig.setIgnoreGlobList(REPO_LEVEL_GLOB_LIST);
 
         RepoConfiguration actualConfig = new RepoConfiguration(TEST_REPO_DELTA, "master");
         GitDownloader.downloadRepo(actualConfig);
-
         ReportGenerator.updateRepoConfig(actualConfig);
 
         Assert.assertEquals(expectedConfig.getLocation(), actualConfig.getLocation());
@@ -70,7 +70,6 @@ public class RepoConfigurationTest {
         Assert.assertEquals(
                 expectedConfig.getAuthorDisplayNameMap().hashCode(), actualConfig.getAuthorDisplayNameMap().hashCode());
         Assert.assertEquals(expectedConfig.getAuthorAliasMap().hashCode(), actualConfig.getAuthorAliasMap().hashCode());
-
         Assert.assertEquals(REPO_LEVEL_GLOB_LIST, actualConfig.getIgnoreGlobList());
     }
 }

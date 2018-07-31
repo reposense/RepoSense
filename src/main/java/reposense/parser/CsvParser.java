@@ -113,7 +113,7 @@ public class CsvParser {
         boolean isDisplayNameInElements = elements.length > DISPLAY_NAME_POSITION
                 && !elements[DISPLAY_NAME_POSITION].isEmpty();
 
-        config.setAuthorDisplayName(author,
+        config.addAuthorDisplayName(author,
                 isDisplayNameInElements ? elements[DISPLAY_NAME_POSITION] : author.getGitId());
     }
 
@@ -127,7 +127,7 @@ public class CsvParser {
 
         if (areAliasesInElements) {
             List<String> aliases = Arrays.asList(elements[ALIAS_POSITION].split(AUTHOR_ALIAS_AND_GLOB_SEPARATOR));
-            config.setAuthorAliases(author, aliases);
+            config.addAuthorAliases(author, aliases);
             author.setAuthorAliases(aliases);
         }
     }

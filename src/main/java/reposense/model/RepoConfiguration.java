@@ -8,6 +8,7 @@ import java.nio.file.InvalidPathException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -108,9 +109,9 @@ public class RepoConfiguration {
             author.setAuthorAliases(sa.getAuthorNames());
             author.setIgnoreGlobList(authorIgnoreGlobList);
 
-            this.setAuthorDisplayName(author, displayName);
-            this.setAuthorAliases(author, sa.getGithubId());
-            this.setAuthorAliases(author, sa.getAuthorNames());
+            this.addAuthorDisplayName(author, displayName);
+            this.addAuthorAliases(author, Arrays.asList(sa.getGithubId()));
+            this.addAuthorAliases(author, sa.getAuthorNames());
         }
     }
 
@@ -199,7 +200,7 @@ public class RepoConfiguration {
         this.authorList = authorList;
 
         // Set GitHub Id as default alias
-        authorList.forEach(author -> setAuthorAliases(author, author.getGitId()));
+        authorList.forEach(author -> addAuthorAliases(author, Arrays.asList(author.getGitId())));
     }
 
     public TreeMap<String, Author> getAuthorAliasMap() {
@@ -234,18 +235,12 @@ public class RepoConfiguration {
         this.formats = formats;
     }
 
-    public void setAuthorDisplayName(Author author, String displayName) {
+    public void addAuthorDisplayName(Author author, String displayName) {
         authorDisplayNameMap.put(author, displayName);
     }
 
-    public void setAuthorAliases(Author author, List<String> aliases) {
-        for (String alias : aliases) {
-            setAuthorAliases(author, alias);
-        }
-    }
-
-    public void setAuthorAliases(Author author, String alias) {
-        authorAliasMap.put(alias, author);
+    public void addAuthorAliases(Author author, List<String> aliases) {
+        aliases.forEach(alias -> authorAliasMap.put(alias, author));
     }
 
     public String getDisplayName() {
