@@ -122,27 +122,27 @@ The source files for the dashboard is located in `frontend/src` and is built by 
 - **v_summary.js** - module that supports the ramp chart view
 - **v_authorship.js** - module that supports the authorship view
 
-### Overall Structure
+Our project follows the [AirBNB Javascript Style Guide](https://github.com/airbnb/javascript), the eslint configuration file is available at the root of the project. Please run a `npm run lint -- --fix frontend/src/**/*js` from the project root directory and fix all of the eslint errors before committing your code for final review.
+
+### Dashboard Architecture
+![dashboard architecture](images/dashboard-architecture.png)
+
 The main Vue object (`window.app`) is responsible for the loading of the dashboard (through `summary.json`). Its `repos` attribute is tied to the global `window.REPOS`, and is passed into the various other modules when the information is needed.
 
 `window.app` is broken down into two main parts, the summary view and the tabs view. The basic design is to have a summary view (with the ramp charts) as the main dashboard, and other modules display additional information in the tabbed interface which is displayed on the right.
 
-**overall architecture**
-
-![overall architecture](images/dashboard-architecture.png)
-
 ### Loading of dashboard information
-When the dashboard is first loaded, the main vue object tries to retreive the `summary.json` file in order to determine the right `commits.json` files to load into memory. `api.js` handles the loading of the file, and approriately gets the relevant file information, depending on whether the network files is available or a report archive have to be used.
+When the dashboard is first loaded, the main Vue object tries to retreive the `summary.json` file in order to determine the right `commits.json` files to load into memory. `api.js` handles the loading of the file, and approriately gets the relevant file information, depending on whether the network files is available or a report archive have to be used.
 
 Once the relevant `commit.json` files hash been loaded, all the repo information will be passed into `v_summary` to be loaded in the summary view as the releveant ramp charts.
 
 ### Activating additional view modules
-Most activity or actions should happen within the module itself, but in the case where there is a need to control the tab view from the module, an event is emitted from the module to main vue object (`window.app`), which then handles the data receive and pass it along to the relevant modules.
+Most activity or actions should happen within the module itself, but in the case where there is a need to control the tab view from the module, an event is emitted from the module to the main Vue object (`window.app`), which then handles the data received and passes it along to the relevant modules.
 
 An additional thing to note is the event handler should handle the switching of the tabs as well, activating the display of the rights tabs just that the relevant tabs are being displayed at all times.
 
 ### Hash link
-Other than the global main vue object, another global variable we have is the `window.hashParams`. This object is reponsible for generating the relevant permalink for a specific view of the summary module for the dashboard.
+Other than the global main Vue object, another global variable we have is the `window.hashParams`. This object is reponsible for generating the relevant permalink for a specific view of the summary module for the dashboard.
 
 ### v_summary module
 The summary module is activated after the information is loaded from the main Vue.JS object. At creation, the `repo` attribute is populated with the `window.REPOS` object, which contains information loaded from `summary.json`.
