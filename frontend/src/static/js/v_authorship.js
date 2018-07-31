@@ -27,7 +27,7 @@ window.vAuthorship = {
       if (repo.files) {
         this.processFiles(repo.files);
       } else {
-        window.api.loadAuthorship(this.repo)
+        window.api.loadAuthorship(this.info.repo)
           .then(files => this.processFiles(files));
       }
     },
