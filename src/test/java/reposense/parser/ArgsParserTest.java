@@ -28,7 +28,7 @@ public class ArgsParserTest {
 
     private static final Path PROJECT_DIRECTORY = Paths.get(System.getProperty("user.dir"));
     private static final Path CONFIG_FOLDER_ABSOLUTE = new File(ArgsParserTest.class.getClassLoader()
-            .getResource("output").getFile()).toPath();
+            .getResource("cli_location_test").getFile()).toPath();
     private static final Path OUTPUT_DIRECTORY_ABSOLUTE = new File(ArgsParserTest.class.getClassLoader()
             .getResource("output").getFile()).toPath();
     private static final Path CONFIG_FOLDER_RELATIVE = PROJECT_DIRECTORY.relativize(CONFIG_FOLDER_ABSOLUTE);
