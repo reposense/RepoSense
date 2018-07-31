@@ -1,13 +1,19 @@
 window.toggleNext = function toggleNext(ele) {
-  // function for toggling unopened code
-  const target = ele.nextSibling.style;
+    // function for toggling unopened code
+    const target = ele.nextSibling.style;
+    const child = ele.firstChild.style;
 
-  let style = 'none';
-  if (target.display === 'none') {
-    style = '';
-  }
+    let style = 'none';
+    let childStyle = '#bfbdbd'
 
-  target.display = style;
+    if (target.display === 'none') {
+        style = '';
+        childStyle = '#000'
+    }
+
+    child.background = childStyle;
+    target.borderLeft = '4px solid #4CAF50';
+    target.display = style;
 };
 
 window.vAuthorship = {

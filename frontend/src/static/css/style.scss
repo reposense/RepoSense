@@ -252,19 +252,35 @@ header{
         }
 
         .untouched{
-            $color:mui-color("black");
-            border-style:solid;
-            border-color:$color;
-            border-width:1px 0;
             margin-top:1rem;
 
             .closer{
                 cursor:pointer;
                 padding:0.5rem 1rem;
 
-                span{
-                    color:$color;
-                    font-weight:bold;
+                svg{
+                    background-color: #bfbdbd;
+                    color: white;
+                    width: 2.5em;
+                    border-radius: 5px;
+                }
+
+                svg:hover {
+                    color: #fff;
+                    background: black !important;
+                    font-weight: bold
+                }
+            }
+            
+            .code {
+                .untouched-code {
+                    display: block;
+                    font-weight: bold;
+                    font-size: 18px;
+                    text-align: center;
+                    text-decoration: underline;
+                    font-color: black;
+                    height: 1.5em;
                 }
             }
 
