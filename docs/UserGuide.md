@@ -15,15 +15,32 @@
 1. Download the latest executable Jar on our [release](https://github.com/reposense/RepoSense/releases/latest).
    * Alternatively, you can compile the executable Jar yourself by following our [build from source guide](Build.md).
 1. Execute it on the OS terminal. <br>
-Usage: `java -jar RepoSense.jar -config CSV_CONFIG_FILE_PATH [-output OUTPUT_DIRECTORY] [-since DD/MM/YYYY] [-until DD/MM/YYYY] [-formats FORMAT...]`
+
+### Using repo-config.csv file
+Usage: `java -jar RepoSense.jar -config CONFIG_DIRECTORY [-output OUTPUT_DIRECTORY] [-since DD/MM/YYYY] [-until DD/MM/YYYY] [-formats FORMAT...]`
 1. The report will be generated in the designated OUTPUT_DIRECTORY, or current working directory otherwise.
 
 Sample usage to generate the report:
 ```
-$ java -jar RepoSense.jar -config CSV_path.csv -output output_path/ -since 01/10/2017 -until 01/11/2017 -formats java adoc js
+$ java -jar RepoSense.jar -config ./configs/ -output output_path/ -since 01/10/2017 -until 01/11/2017 -formats java adoc js
 ```
 Argument List:
-- config : Mandatory. The path to the CSV config file.
+- config : Mandatory. The path to the directory that contains the configuration file, repo-config.csv.
+- output : Optional. The path to the dashboard generated. If not provided, it will be generated in the current directory.
+- since : Optional. The start date of analysis. Format: `DD/MM/YYYY`
+- until : Optional. The end date of analysis. Format: `DD/MM/YYYY`
+- formats : Optional. The file formats to analyse. Formats: `alphanumerical file formats`. If not provided, the following file formats will be used. `adoc, cs, css, fxml, gradle, html, java, js, json, jsp, md, py, tag, xml`
+
+### Using repository location(s)
+Usage: `java -jar RepoSense.jar -repos REPO_PATH... [-output OUTPUT_DIRECTORY] [-since DD/MM/YYYY] [-until DD/MM/YYYY] [-formats FORMAT...]`
+1. The report will be generated in the designated OUTPUT_DIRECTORY, or current working directory otherwise.
+
+Sample usage to generate the report:
+```
+$ java -jar RepoSense.jar -repos https://github.com/reposense/RepoSense.git https://github.com/se-edu/collate.git -output output_path/ -since 01/10/2017 -until 01/11/2017 -formats java adoc js
+```
+Argument List:
+- repos : Mandatory. The GitHub URL or disk location of the git repositories to clone `e.g. C:\Users\user\Desktop\GitHub\RepoSense`.
 - output : Optional. The path to the dashboard generated. If not provided, it will be generated in the current directory.
 - since : Optional. The start date of analysis. Format: `DD/MM/YYYY`
 - until : Optional. The end date of analysis. Format: `DD/MM/YYYY`
@@ -55,11 +72,16 @@ Any other arguments entered with -view will be ignored.
 ### Other option:
 1. Clone this repository (or [download as zip](https://github.com/reposense/RepoSense/archive/master.zip))
 1. Execute the following command on the OS terminal inside the project directory.<br>
-Usage: `gradlew run -Dargs="(-config CSV_path.csv | -view report_path/) [-output OUTPUT_DIRECTORY] [-since DD/MM/YYYY] [-until DD/MM/YYYY] [-formats FORMAT...]"` <br>
+Usage: `gradlew run -Dargs="(-config ./configs/ | -repos https://github.com/reposense/RepoSense.git https://github.com/se-edu/collate.git | -view report_path/) [-output OUTPUT_DIRECTORY] [-since DD/MM/YYYY] [-until DD/MM/YYYY] [-formats FORMAT...]"` <br>
 
-Sample usage to generate the report:
+Sample usage to generate the report with a csv config file:
 ```
-$ gradlew run -Dargs="-config CSV_path.csv -output output_path/ -since 01/10/2017 -until 01/11/2017 -formats java adoc js"
+$ gradlew run -Dargs="-config ./configs/ -output output_path/ -since 01/10/2017 -until 01/11/2017 -formats java adoc js"
+
+```
+Sample usage to generate the report with repository locations:
+```
+$ gradlew run -Dargs="-repos https://github.com/reposense/RepoSense.git https://github.com/se-edu/collate.git -output output_path/ -since 01/10/2017 -until 01/11/2017 -formats java adoc js"
 ```
 
 Sample usage to view the dashboard:
@@ -67,7 +89,6 @@ Sample usage to view the dashboard:
 gradlew run -Dargs="-view output_path/reposense-report"
 ```
 `-Dargs="..."` uses the same argument format as mentioned above.
-
 
 ## CSV Config File
 The `CSV Config File` contains the list of repositories, and the corresponding target authors to track contribution of.

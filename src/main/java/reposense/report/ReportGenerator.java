@@ -91,7 +91,8 @@ public class ReportGenerator {
             logger.warning(String.format("%s/%s/%s is malformed.",
                     config.getDisplayName(), REPOSENSE_CONFIG_FOLDER, REPOSENSE_CONFIG_FILE));
         } catch (FileNotFoundException fnfe) {
-            throw new AssertionError("This should not happen.");
+            throw new AssertionError(
+                    "This exception should not happen as we have performed the file existence check.");
         }
     }
 

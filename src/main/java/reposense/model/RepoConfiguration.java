@@ -16,16 +16,20 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.TreeMap;
+import java.util.logging.Logger;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import reposense.parser.InvalidLocationException;
+import reposense.system.LogsManager;
 import reposense.util.FileUtil;
 
 public class RepoConfiguration {
+    private static final Logger logger = LogsManager.getLogger(RepoConfiguration.class);
     private static final String GIT_LINK_SUFFIX = ".git";
     private static final Pattern GIT_REPOSITORY_LOCATION_PATTERN =
             Pattern.compile("^.*github.com\\/(?<org>.+?)\\/(?<repoName>.+?)\\.git$");
+    private static final String DEFAULT_BRANCH = "master";
 
     private String location;
     private String organization;
@@ -44,6 +48,12 @@ public class RepoConfiguration {
     private transient Map<Author, String> authorDisplayNameMap = new HashMap<>();
     private transient boolean annotationOverwrite = true;
 
+    /**
+     * @throws InvalidLocationException if {@code location} cannot be represented by a {@code URL} or {@code Path}.
+     */
+    public RepoConfiguration(String location) throws InvalidLocationException {
+        this(location, DEFAULT_BRANCH);
+    }
 
     /**
      * @throws InvalidLocationException if {@code location} cannot be represented by a {@code URL} or {@code Path}.
@@ -267,7 +277,7 @@ public class RepoConfiguration {
         }
 
         if (!isValidPathLocation && !isValidGitUrl) {
-            throw new InvalidLocationException("Location is invalid");
+            throw new InvalidLocationException(location + " is an invalid location.");
         }
     }
 }

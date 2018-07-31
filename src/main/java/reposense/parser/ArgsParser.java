@@ -14,6 +14,9 @@ import net.sourceforge.argparse4j.inf.ArgumentParserException;
 import net.sourceforge.argparse4j.inf.MutuallyExclusiveGroup;
 import net.sourceforge.argparse4j.inf.Namespace;
 import reposense.model.CliArguments;
+import reposense.model.ConfigCliArguments;
+import reposense.model.LocationsCliArguments;
+import reposense.model.ViewCliArguments;
 
 /**
  * Verifies and parses a string-formatted date to a {@code CliArguments} object.
@@ -47,6 +50,11 @@ public class ArgsParser {
                 .type(new ConfigFolderArgumentType())
                 .metavar("PATH")
                 .help("The directory that contains the configuration file, repo-config.csv.");
+
+        mutexParser.addArgument("-repos")
+                .nargs("+")
+                .metavar("LOCATION")
+                .help("The GitHub URL or disk locations to clone repository.");
 
         mutexParser.addArgument("-view")
                 .metavar("PATH")
@@ -100,10 +108,23 @@ public class ArgsParser {
             Optional<Date> sinceDate = results.get("since");
             Optional<Date> untilDate = results.get("until");
             List<String> formats = results.get("formats");
+            List<String> locations = results.get("repos");
 
             verifyDatesRangeIsCorrect(sinceDate, untilDate);
-            return new CliArguments(
-                    configFolderPath, outputFolderPath, sinceDate, untilDate, formats, reportFolderPath);
+
+            if (configFolderPath != null) {
+                return new ConfigCliArguments(configFolderPath, outputFolderPath, sinceDate, untilDate, formats);
+            }
+
+            if (locations != null) {
+                return new LocationsCliArguments(locations, outputFolderPath, sinceDate, untilDate, formats);
+            }
+
+            if (reportFolderPath != null) {
+                return new ViewCliArguments(reportFolderPath);
+            }
+
+            throw new AssertionError("CliArguments cannot be created");
         } catch (ArgumentParserException ape) {
             throw new ParseException(getArgumentParser().formatUsage() + ape.getMessage() + "\n");
         }
