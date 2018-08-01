@@ -8,7 +8,8 @@
 #### Typical format of repo-config.json
 ```
 {
-  "ignoreGlobList": ["**.dat", "**.js"],    
+  "ignoreGlobList": ["**.dat", "**.js"],
+  "ignoreCommitList": ["12345abc", "67890def"],
   "authors":
   [
     {
@@ -26,6 +27,10 @@
 #### Line-by-line explanation
 ```
 "ignoreGlobList": ["**.dat", "**.js"]  <-- Repository level's list of file formats to ignore.
+
+"ignoreCommitList": ["12345abc", "67890def"] <-- The list of commits to ignore during analysis. For accurate
+                                           results, the commits should be provided with their full hash in and
+                                           reverse chronological order.
 
 "ignoreGlobList": ["**.css"]           <-- Author level's ignoreGlobList adds on to the Repository level's.
                                            Thus, the actual ignoreGlobList for alice would contain

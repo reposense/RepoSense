@@ -32,12 +32,22 @@ public class GitTestTemplate {
     protected static final String MAIN_AUTHOR_NAME = "harryggg";
     protected static final String FAKE_AUTHOR_NAME = "fakeAuthor";
     protected static final String EUGENE_AUTHOR_NAME = "eugenepeh";
+    protected static final String EUGENE_AUTHOR_COMMIT_HASH_07052018 = "2d87a431fcbb8f73a731b6df0fcbee962c85c250";
+    protected static final String FAKE_AUTHOR_COMMIT_HASH_08022018 = "768015345e70f06add2a8b7d1f901dc07bf70582";
+    protected static final String NONEXISTENT_COMMIT_HASH = "nonExistentCommitHash";
+    protected static final String TEMP_BRANCH = "temp";
+
 
     protected static RepoConfiguration config;
 
     @Before
     public void before() throws InvalidLocationException {
         config = new RepoConfiguration(TEST_REPO_GIT_LOCATION, "master");
+
+        // checkout a temporary copy of the master branch
+        CommandRunner.checkoutNewBranch(config.getRepoRoot(), TEMP_BRANCH);
+        config.setBranch(TEMP_BRANCH);
+
         config.setAuthorList(Collections.singletonList(getAlphaAllAliasAuthor()));
         config.setFormats(ArgsParser.DEFAULT_FORMATS);
     }
@@ -57,7 +67,9 @@ public class GitTestTemplate {
 
     @After
     public void after() {
+        // clean up the temp branch
         CommandRunner.checkout(config.getRepoRoot(), "master");
+        CommandRunner.deleteBranch(config.getRepoRoot(), TEMP_BRANCH);
     }
 
     private static void deleteRepos() throws IOException {

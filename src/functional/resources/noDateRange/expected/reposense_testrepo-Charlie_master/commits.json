@@ -32,14 +32,14 @@
         "untilDate": "2017-11-04"
       },
       {
-        "insertions": 3091,
-        "deletions": 1243,
+        "insertions": 3067,
+        "deletions": 1228,
         "sinceDate": "2017-11-04",
         "untilDate": "2017-11-11"
       },
       {
-        "insertions": 1415,
-        "deletions": 617,
+        "insertions": 1340,
+        "deletions": 576,
         "sinceDate": "2017-11-11",
         "untilDate": "2017-11-18"
       },
@@ -82,20 +82,20 @@
         "untilDate": "2017-11-04"
       },
       {
-        "insertions": 2576,
-        "deletions": 354,
+        "insertions": 2569,
+        "deletions": 346,
         "sinceDate": "2017-11-04",
         "untilDate": "2017-11-11"
       },
       {
-        "insertions": 2004,
-        "deletions": 358,
+        "insertions": 1986,
+        "deletions": 342,
         "sinceDate": "2017-11-11",
         "untilDate": "2017-11-18"
       },
       {
-        "insertions": 15,
-        "deletions": 47,
+        "insertions": 0,
+        "deletions": 0,
         "sinceDate": "2017-11-18",
         "untilDate": "2017-11-25"
       }
@@ -132,13 +132,13 @@
         "untilDate": "2017-11-04"
       },
       {
-        "insertions": 4759,
-        "deletions": 2706,
+        "insertions": 4705,
+        "deletions": 2415,
         "sinceDate": "2017-11-04",
         "untilDate": "2017-11-11"
       },
       {
-        "insertions": 2958,
+        "insertions": 1988,
         "deletions": 757,
         "sinceDate": "2017-11-11",
         "untilDate": "2017-11-18"
@@ -182,8 +182,8 @@
         "untilDate": "2017-11-04"
       },
       {
-        "insertions": 273,
-        "deletions": 41,
+        "insertions": 230,
+        "deletions": 31,
         "sinceDate": "2017-11-04",
         "untilDate": "2017-11-11"
       },
@@ -438,32 +438,32 @@
         "untilDate": "2017-11-08"
       },
       {
-        "insertions": 730,
+        "insertions": 726,
         "deletions": 276,
         "sinceDate": "2017-11-08",
         "untilDate": "2017-11-09"
       },
       {
-        "insertions": 448,
-        "deletions": 83,
+        "insertions": 437,
+        "deletions": 77,
         "sinceDate": "2017-11-09",
         "untilDate": "2017-11-10"
       },
       {
-        "insertions": 101,
-        "deletions": 113,
+        "insertions": 92,
+        "deletions": 104,
         "sinceDate": "2017-11-10",
         "untilDate": "2017-11-11"
       },
       {
-        "insertions": 812,
-        "deletions": 497,
+        "insertions": 792,
+        "deletions": 492,
         "sinceDate": "2017-11-11",
         "untilDate": "2017-11-12"
       },
       {
-        "insertions": 273,
-        "deletions": 114,
+        "insertions": 218,
+        "deletions": 78,
         "sinceDate": "2017-11-12",
         "untilDate": "2017-11-13"
       },
@@ -764,14 +764,14 @@
         "untilDate": "2017-11-10"
       },
       {
-        "insertions": 579,
-        "deletions": 92,
+        "insertions": 572,
+        "deletions": 84,
         "sinceDate": "2017-11-10",
         "untilDate": "2017-11-11"
       },
       {
-        "insertions": 528,
-        "deletions": 205,
+        "insertions": 513,
+        "deletions": 192,
         "sinceDate": "2017-11-11",
         "untilDate": "2017-11-12"
       },
@@ -782,8 +782,8 @@
         "untilDate": "2017-11-13"
       },
       {
-        "insertions": 1071,
-        "deletions": 68,
+        "insertions": 1068,
+        "deletions": 65,
         "sinceDate": "2017-11-13",
         "untilDate": "2017-11-14"
       },
@@ -818,8 +818,8 @@
         "untilDate": "2017-11-19"
       },
       {
-        "insertions": 15,
-        "deletions": 47,
+        "insertions": 0,
+        "deletions": 0,
         "sinceDate": "2017-11-19",
         "untilDate": "2017-11-20"
       },
@@ -1072,14 +1072,14 @@
         "untilDate": "2017-11-09"
       },
       {
-        "insertions": 1681,
-        "deletions": 1550,
+        "insertions": 1636,
+        "deletions": 1505,
         "sinceDate": "2017-11-09",
         "untilDate": "2017-11-10"
       },
       {
-        "insertions": 1857,
-        "deletions": 857,
+        "insertions": 1848,
+        "deletions": 611,
         "sinceDate": "2017-11-10",
         "untilDate": "2017-11-11"
       },
@@ -1090,13 +1090,13 @@
         "untilDate": "2017-11-12"
       },
       {
-        "insertions": 816,
+        "insertions": 813,
         "deletions": 297,
         "sinceDate": "2017-11-12",
         "untilDate": "2017-11-13"
       },
       {
-        "insertions": 1288,
+        "insertions": 321,
         "deletions": 329,
         "sinceDate": "2017-11-13",
         "untilDate": "2017-11-14"
@@ -1392,8 +1392,8 @@
         "untilDate": "2017-11-10"
       },
       {
-        "insertions": 59,
-        "deletions": 20,
+        "insertions": 16,
+        "deletions": 10,
         "sinceDate": "2017-11-10",
         "untilDate": "2017-11-11"
       },
@@ -1460,16 +1460,16 @@
     ]
   },
   "authorFinalContributionMap": {
-    "charlesgoh": 4274,
-    "jeffreygohkw": 5846,
-    "Esilocke": 10944,
-    "wangyiming1019": 2475
+    "charlesgoh": 4284,
+    "jeffreygohkw": 6313,
+    "Esilocke": 9571,
+    "wangyiming1019": 2495
   },
   "authorContributionVariance": {
-    "charlesgoh": 87278.68,
-    "jeffreygohkw": 70955.125,
-    "Esilocke": 413377.22,
-    "wangyiming1019": 63739.223
+    "charlesgoh": 85371.88,
+    "jeffreygohkw": 70220.44,
+    "Esilocke": 351692.62,
+    "wangyiming1019": 63797.973
   },
   "authorDisplayNameMap": {
     "charlesgoh": "Cha",

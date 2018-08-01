@@ -15,8 +15,6 @@ import reposense.template.GitTestTemplate;
 import reposense.util.TestUtil;
 
 public class CommandRunnerTest extends GitTestTemplate {
-    private static final String LATEST_COMMIT_HASH = "2d87a431fcbb8f73a731b6df0fcbee962c85c250";
-    private static final String FEBRUARY_EIGHT_COMMIT_HASH = "768015345e70f06add2a8b7d1f901dc07bf70582";
 
     @Test
     public void cloneTest() {
@@ -48,9 +46,7 @@ public class CommandRunnerTest extends GitTestTemplate {
     public void gitLog_includeAllJavaFiles_success() {
         config.setFormats(Collections.singletonList("java"));
         String content = CommandRunner.gitLog(config, getAlphaAllAliasAuthor());
-        String[] contentLines = content.split("\n");
-        int expectedNumberCommits = 8;
-        Assert.assertEquals(convertNumberExpectedCommitsToGitLogLines(expectedNumberCommits), contentLines.length);
+        Assert.assertTrue(TestUtil.compareNumberExpectedCommitsToGitLogLines(8, content));
     }
 
     @Test
@@ -58,9 +54,7 @@ public class CommandRunnerTest extends GitTestTemplate {
         Author fakeAuthorName = new Author(FAKE_AUTHOR_NAME);
 
         String content = CommandRunner.gitLog(config, fakeAuthorName);
-        String[] contentLines = content.split("\n");
-        int expectedNumberCommits = 4;
-        Assert.assertEquals(convertNumberExpectedCommitsToGitLogLines(expectedNumberCommits), contentLines.length);
+        Assert.assertTrue(TestUtil.compareNumberExpectedCommitsToGitLogLines(4, content));
     }
 
     @Test
@@ -70,9 +64,7 @@ public class CommandRunnerTest extends GitTestTemplate {
         ignoreMovedFileAuthor.setIgnoreGlobList(Collections.singletonList("**movedFile.java"));
 
         String content = CommandRunner.gitLog(config, ignoreMovedFileAuthor);
-        String[] contentLines = content.split("\n");
-        int expectedNumberCommits = 6;
-        Assert.assertEquals(convertNumberExpectedCommitsToGitLogLines(expectedNumberCommits), contentLines.length);
+        Assert.assertTrue(TestUtil.compareNumberExpectedCommitsToGitLogLines(6, content));
     }
 
     @Test
@@ -81,9 +73,7 @@ public class CommandRunnerTest extends GitTestTemplate {
         ignoreAllJavaFilesAuthor.setIgnoreGlobList(Collections.singletonList("*.java"));
 
         String content = CommandRunner.gitLog(config, ignoreAllJavaFilesAuthor);
-        String[] contentLines = content.split("\n");
-        int expectedNumberCommits = 2;
-        Assert.assertEquals(convertNumberExpectedCommitsToGitLogLines(expectedNumberCommits), contentLines.length);
+        Assert.assertTrue(TestUtil.compareNumberExpectedCommitsToGitLogLines(2, content));
     }
 
     @Test
@@ -122,13 +112,13 @@ public class CommandRunnerTest extends GitTestTemplate {
 
     @Test
     public void diffCommit_validCommitHash_success() {
-        String diffResult = CommandRunner.diffCommit(config.getRepoRoot(), FEBRUARY_EIGHT_COMMIT_HASH);
+        String diffResult = CommandRunner.diffCommit(config.getRepoRoot(), FAKE_AUTHOR_COMMIT_HASH_08022018);
         Assert.assertFalse(diffResult.isEmpty());
     }
 
     @Test
     public void diffCommit_emptyCommitHash_emptyResult() {
-        String diffResult = CommandRunner.diffCommit(config.getRepoRoot(), LATEST_COMMIT_HASH);
+        String diffResult = CommandRunner.diffCommit(config.getRepoRoot(), EUGENE_AUTHOR_COMMIT_HASH_07052018);
         Assert.assertTrue(diffResult.isEmpty());
     }
 
@@ -139,8 +129,8 @@ public class CommandRunnerTest extends GitTestTemplate {
     }
 
     @Test(expected = RuntimeException.class)
-    public void diffCommit_invalidCommitHash_throwsRunTimeException() {
-        CommandRunner.diffCommit(config.getRepoRoot(), "invalidBranch");
+    public void diffCommit_nonexistentCommitHash_throwsRunTimeException() {
+        CommandRunner.diffCommit(config.getRepoRoot(), NONEXISTENT_COMMIT_HASH);
     }
 
     @Test
@@ -156,7 +146,7 @@ public class CommandRunnerTest extends GitTestTemplate {
         String commitHash = CommandRunner.getCommitHashBeforeDate(config.getRepoRoot(), config.getBranch(), date);
 
         // result from git has a newline at the end
-        Assert.assertEquals(LATEST_COMMIT_HASH + "\n", commitHash);
+        Assert.assertEquals(EUGENE_AUTHOR_COMMIT_HASH_07052018 + "\n", commitHash);
     }
 
     @Test
@@ -165,7 +155,7 @@ public class CommandRunnerTest extends GitTestTemplate {
         String commitHash = CommandRunner.getCommitHashBeforeDate(config.getRepoRoot(), config.getBranch(), date);
 
         // result from git has a newline at the end
-        Assert.assertEquals(FEBRUARY_EIGHT_COMMIT_HASH + "\n", commitHash);
+        Assert.assertEquals(FAKE_AUTHOR_COMMIT_HASH_08022018 + "\n", commitHash);
     }
 
     @Test
@@ -180,11 +170,27 @@ public class CommandRunnerTest extends GitTestTemplate {
         CommandRunner.getCommitHashBeforeDate(config.getRepoRoot(), "invalidBranch", date);
     }
 
-    /**
-     * Converts the {@code expectedNumberCommits} to the number of lines will be produced by the git log command.
-     */
-    private int convertNumberExpectedCommitsToGitLogLines(int expectedNumberCommits) {
-        // each commit has 2 lines of info, and a blank line in between each
-        return expectedNumberCommits * 3 - 1;
+    @Test
+    public void removeCommitAuthor_singleValidCommitHash_success() {
+        CommandRunner.removeCommitAuthor(
+                config.getRepoRoot(), config.getBranch(), FAKE_AUTHOR_COMMIT_HASH_08022018);
+
+        String content = CommandRunner.gitLog(config, new Author("-"));
+        Assert.assertTrue(TestUtil.compareNumberExpectedCommitsToGitLogLines(1, content));
+    }
+
+    @Test
+    public void removeCommitAuthor_multipleValidCommitHash_success() {
+        CommandRunner.removeCommitAuthor(config.getRepoRoot(), config.getBranch(), EUGENE_AUTHOR_COMMIT_HASH_07052018);
+        CommandRunner.removeCommitAuthor(
+                config.getRepoRoot(), config.getBranch(), FAKE_AUTHOR_COMMIT_HASH_08022018);
+
+        String content = CommandRunner.gitLog(config, new Author("-"));
+        Assert.assertTrue(TestUtil.compareNumberExpectedCommitsToGitLogLines(2, content));
+    }
+
+    @Test(expected = RuntimeException.class)
+    public void removeCommitAuthor_nonexistentCommitHash_throwsRunTimeException() {
+        CommandRunner.removeCommitAuthor(config.getRepoRoot(), config.getBranch(), NONEXISTENT_COMMIT_HASH);
     }
 }

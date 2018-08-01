@@ -22,6 +22,12 @@ public class CommandRunner {
     // ignore check against email
     private static final String AUTHOR_NAME_PATTERN = "^%s <.*>$";
     private static final String OR_OPERATOR_PATTERN = "\\|";
+    private static final String REBASE_ONTO_BRANCH_FROM_TEMP_BRANCH_COMMAND_FORMAT =
+            "git rebase --onto %s HEAD %s -Xours";
+    private static final String REMOVE_COMMIT_AUTHOR_COMMAND =
+            "git commit --amend --author=\"- <->\" --no-edit";
+    private static final String DELETE_BRANCH_COMMAND_FORMAT = "git branch -D %s";
+    private static final String CHECKOUT_COMMIT_IN_NEW_BRANCH_COMMAND_FORMAT = "git checkout -b %s %s";
 
     private static final Pattern SPECIAL_REGEX_CHARS = Pattern.compile("[{}()\\[\\].+*?^$|]");
 
@@ -43,6 +49,23 @@ public class CommandRunner {
     public static void checkout(String root, String hash) {
         Path rootPath = Paths.get(root);
         runCommand(rootPath, "git checkout " + hash);
+    }
+
+    /**
+     * Creates a new branch with {@code branchName} from the current branch in the repository
+     * at {@code root} and checks out to it.
+     */
+    public static void checkoutNewBranch(String root, String branchName) {
+        checkoutNewBranch(root, branchName, "");
+    }
+
+    /**
+     * Creates a new branch with {@code branchName} with {@code hash} as the HEAD commit in the repository
+     * at {@code root} and checks out to it.
+     */
+    public static void checkoutNewBranch(String root, String branchName, String hash) {
+        Path rootPath = Paths.get(root);
+        runCommand(rootPath, String.format(CHECKOUT_COMMIT_IN_NEW_BRANCH_COMMAND_FORMAT, branchName, hash));
     }
 
     /**
@@ -86,6 +109,14 @@ public class CommandRunner {
     }
 
     /**
+     * Deletes the branch with {@code branchName} in the repository at {@code root}.
+     */
+    public static void deleteBranch(String root, String branchName) {
+        Path rootPath = Paths.get(root);
+        runCommand(rootPath, String.format(DELETE_BRANCH_COMMAND_FORMAT, branchName));
+    }
+
+    /**
      * Returns the git diff result of the current commit compared to {@code lastCommitHash}, without any context.
      */
     public static String diffCommit(String root, String lastCommitHash) {
@@ -113,6 +144,28 @@ public class CommandRunner {
         String command = "git log --pretty=short | git shortlog --summary";
 
         return runCommand(rootPath, command);
+    }
+
+    /**
+     * Removes the author for the {@code commitHash} in the {@code branch} of the repo.
+     */
+    public static void removeCommitAuthor(String root, String branch, String commitHash) {
+        Path rootPath = Paths.get(root);
+        String tempBranch = commitHash + "temp";
+
+        checkoutNewBranch(root, tempBranch, commitHash);
+
+        // remove the author for the given commit
+        runCommand(rootPath, REMOVE_COMMIT_AUTHOR_COMMAND);
+
+        // rebase temp branch onto the given branch, replacing the given commit's author on that branch
+        runCommand(rootPath, String.format(REBASE_ONTO_BRANCH_FROM_TEMP_BRANCH_COMMAND_FORMAT, tempBranch, branch));
+
+        // checkout back to original branch being analyzed
+        checkout(root, branch);
+
+        // clean up temp branch
+        deleteBranch(root, tempBranch);
     }
 
     public static String cloneRepo(String location, String displayName) throws IOException {

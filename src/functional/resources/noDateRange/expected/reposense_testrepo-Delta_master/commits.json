@@ -20,26 +20,26 @@
         "untilDate": "2018-03-22"
       },
       {
-        "insertions": 10,
-        "deletions": 9,
+        "insertions": 1,
+        "deletions": 1,
         "sinceDate": "2018-03-22",
         "untilDate": "2018-03-29"
       },
       {
-        "insertions": 2,
-        "deletions": 2,
+        "insertions": 0,
+        "deletions": 0,
         "sinceDate": "2018-03-29",
         "untilDate": "2018-04-05"
       },
       {
-        "insertions": 117,
-        "deletions": 52,
+        "insertions": 113,
+        "deletions": 48,
         "sinceDate": "2018-04-05",
         "untilDate": "2018-04-12"
       },
       {
-        "insertions": 305,
-        "deletions": 95,
+        "insertions": 263,
+        "deletions": 50,
         "sinceDate": "2018-04-12",
         "untilDate": "2018-04-19"
       }
@@ -70,20 +70,20 @@
         "untilDate": "2018-03-29"
       },
       {
-        "insertions": 647,
-        "deletions": 95,
+        "insertions": 108,
+        "deletions": 90,
         "sinceDate": "2018-03-29",
         "untilDate": "2018-04-05"
       },
       {
-        "insertions": 590,
-        "deletions": 144,
+        "insertions": 586,
+        "deletions": 136,
         "sinceDate": "2018-04-05",
         "untilDate": "2018-04-12"
       },
       {
-        "insertions": 782,
-        "deletions": 203,
+        "insertions": 671,
+        "deletions": 141,
         "sinceDate": "2018-04-12",
         "untilDate": "2018-04-19"
       }
@@ -152,26 +152,26 @@
         "untilDate": "2018-03-22"
       },
       {
-        "insertions": 1975,
-        "deletions": 708,
+        "insertions": 1879,
+        "deletions": 706,
         "sinceDate": "2018-03-22",
         "untilDate": "2018-03-29"
       },
       {
-        "insertions": 881,
-        "deletions": 451,
+        "insertions": 878,
+        "deletions": 448,
         "sinceDate": "2018-03-29",
         "untilDate": "2018-04-05"
       },
       {
-        "insertions": 1594,
-        "deletions": 424,
+        "insertions": 1419,
+        "deletions": 340,
         "sinceDate": "2018-04-05",
         "untilDate": "2018-04-12"
       },
       {
-        "insertions": 1336,
-        "deletions": 1319,
+        "insertions": 1174,
+        "deletions": 1102,
         "sinceDate": "2018-04-12",
         "untilDate": "2018-04-19"
       }
@@ -312,8 +312,8 @@
         "untilDate": "2018-03-23"
       },
       {
-        "insertions": 10,
-        "deletions": 9,
+        "insertions": 1,
+        "deletions": 1,
         "sinceDate": "2018-03-23",
         "untilDate": "2018-03-24"
       },
@@ -354,8 +354,8 @@
         "untilDate": "2018-03-30"
       },
       {
-        "insertions": 2,
-        "deletions": 2,
+        "insertions": 0,
+        "deletions": 0,
         "sinceDate": "2018-03-30",
         "untilDate": "2018-03-31"
       },
@@ -420,8 +420,8 @@
         "untilDate": "2018-04-10"
       },
       {
-        "insertions": 56,
-        "deletions": 5,
+        "insertions": 52,
+        "deletions": 1,
         "sinceDate": "2018-04-10",
         "untilDate": "2018-04-11"
       },
@@ -432,26 +432,26 @@
         "untilDate": "2018-04-12"
       },
       {
-        "insertions": 73,
-        "deletions": 16,
+        "insertions": 61,
+        "deletions": 14,
         "sinceDate": "2018-04-12",
         "untilDate": "2018-04-13"
       },
       {
-        "insertions": 76,
-        "deletions": 64,
+        "insertions": 50,
+        "deletions": 26,
         "sinceDate": "2018-04-13",
         "untilDate": "2018-04-14"
       },
       {
-        "insertions": 2,
+        "insertions": 0,
         "deletions": 0,
         "sinceDate": "2018-04-14",
         "untilDate": "2018-04-15"
       },
       {
-        "insertions": 154,
-        "deletions": 15,
+        "insertions": 152,
+        "deletions": 10,
         "sinceDate": "2018-04-15",
         "untilDate": "2018-04-16"
       }
@@ -626,8 +626,8 @@
         "untilDate": "2018-03-29"
       },
       {
-        "insertions": 539,
-        "deletions": 5,
+        "insertions": 0,
+        "deletions": 0,
         "sinceDate": "2018-03-29",
         "untilDate": "2018-03-30"
       },
@@ -669,7 +669,7 @@
       },
       {
         "insertions": 212,
-        "deletions": 61,
+        "deletions": 54,
         "sinceDate": "2018-04-05",
         "untilDate": "2018-04-06"
       },
@@ -698,8 +698,8 @@
         "untilDate": "2018-04-10"
       },
       {
-        "insertions": 330,
-        "deletions": 80,
+        "insertions": 326,
+        "deletions": 79,
         "sinceDate": "2018-04-10",
         "untilDate": "2018-04-11"
       },
@@ -710,8 +710,8 @@
         "untilDate": "2018-04-12"
       },
       {
-        "insertions": 419,
-        "deletions": 85,
+        "insertions": 314,
+        "deletions": 24,
         "sinceDate": "2018-04-12",
         "untilDate": "2018-04-13"
       },
@@ -722,14 +722,14 @@
         "untilDate": "2018-04-14"
       },
       {
-        "insertions": 357,
+        "insertions": 352,
         "deletions": 55,
         "sinceDate": "2018-04-14",
         "untilDate": "2018-04-15"
       },
       {
-        "insertions": 6,
-        "deletions": 63,
+        "insertions": 5,
+        "deletions": 62,
         "sinceDate": "2018-04-15",
         "untilDate": "2018-04-16"
       }
@@ -1176,8 +1176,8 @@
         "untilDate": "2018-03-28"
       },
       {
-        "insertions": 339,
-        "deletions": 33,
+        "insertions": 243,
+        "deletions": 31,
         "sinceDate": "2018-03-28",
         "untilDate": "2018-03-29"
       },
@@ -1188,14 +1188,14 @@
         "untilDate": "2018-03-30"
       },
       {
-        "insertions": 317,
-        "deletions": 42,
+        "insertions": 316,
+        "deletions": 41,
         "sinceDate": "2018-03-30",
         "untilDate": "2018-03-31"
       },
       {
-        "insertions": 116,
-        "deletions": 100,
+        "insertions": 115,
+        "deletions": 99,
         "sinceDate": "2018-03-31",
         "untilDate": "2018-04-01"
       },
@@ -1218,20 +1218,20 @@
         "untilDate": "2018-04-04"
       },
       {
-        "insertions": 396,
-        "deletions": 303,
+        "insertions": 395,
+        "deletions": 302,
         "sinceDate": "2018-04-04",
         "untilDate": "2018-04-05"
       },
       {
-        "insertions": 485,
+        "insertions": 484,
         "deletions": 34,
         "sinceDate": "2018-04-05",
         "untilDate": "2018-04-06"
       },
       {
-        "insertions": 395,
-        "deletions": 110,
+        "insertions": 389,
+        "deletions": 104,
         "sinceDate": "2018-04-06",
         "untilDate": "2018-04-07"
       },
@@ -1254,54 +1254,54 @@
         "untilDate": "2018-04-10"
       },
       {
-        "insertions": 123,
-        "deletions": 127,
+        "insertions": 122,
+        "deletions": 126,
         "sinceDate": "2018-04-10",
         "untilDate": "2018-04-11"
       },
       {
-        "insertions": 591,
-        "deletions": 153,
+        "insertions": 424,
+        "deletions": 76,
         "sinceDate": "2018-04-11",
         "untilDate": "2018-04-12"
       },
       {
-        "insertions": 345,
-        "deletions": 502,
+        "insertions": 343,
+        "deletions": 496,
         "sinceDate": "2018-04-12",
         "untilDate": "2018-04-13"
       },
       {
-        "insertions": 351,
-        "deletions": 378,
+        "insertions": 226,
+        "deletions": 204,
         "sinceDate": "2018-04-13",
         "untilDate": "2018-04-14"
       },
       {
-        "insertions": 404,
-        "deletions": 318,
+        "insertions": 369,
+        "deletions": 282,
         "sinceDate": "2018-04-14",
         "untilDate": "2018-04-15"
       },
       {
         "insertions": 236,
-        "deletions": 121,
+        "deletions": 120,
         "sinceDate": "2018-04-15",
         "untilDate": "2018-04-16"
       }
     ]
   },
   "authorFinalContributionMap": {
-    "lithiumlkid": 360,
-    "lohtianwei": 2187,
+    "lithiumlkid": 345,
+    "lohtianwei": 2145,
     "codeeong": 0,
-    "jordancjq": 5427
+    "jordancjq": 5226
   },
   "authorContributionVariance": {
-    "lithiumlkid": 1465.0459,
-    "lohtianwei": 20085.645,
+    "lithiumlkid": 1108.9115,
+    "lohtianwei": 12476.966,
     "codeeong": 0.0,
-    "jordancjq": 108832.89
+    "jordancjq": 97835.62
   },
   "authorDisplayNameMap": {
     "lithiumlkid": "Ahm",

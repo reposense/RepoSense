@@ -109,8 +109,9 @@ Column Name | Explanation
 ----------- | -----------
 Repository's Location | The `GitHub URL` or `Disk Path` to the git repository
 Branch | The branch to analyse in the target repository
-[Optional] Ignore Global List | The list of file path globs to ignore during analysis for each author. More details on the Java glob standard [here](https://javapapers.com/java/glob-with-java-nio/)
+[Optional] Ignore Glob List | The list of file path globs to ignore during analysis for each author. More details on the Java glob standard [here](https://javapapers.com/java/glob-with-java-nio/)
 [Optional] Ignore standalone config | Ignore the presence of standalone config in target repository. To do so, enter **`yes`** in this column. Otherwise, the configuration in the target repository will be used by default.
+[Optional] Ignore Commit List | The list of commits to ignore during analysis. For accurate results, the commits should be provided with their full hash and in reverse chronological order.
 
 #### Author configuration file [Optional]
 to configure the list of authors to analyse and the options. <br/>
@@ -186,8 +187,7 @@ You can use `Start Tags` to mark the start of your contribution. The author spec
 
 #### Standalone Configuration
 
-Instead of self-configuring all the repository details, you can have the repository owners include a 
-`Standalone Configuration` to maintain their own repository configuration. For more information, check out the
+Instead of self-configuring all the repository details, you can have the repository owners include a `Standalone Configuration` to maintain their own repository configuration. For more information, check out the
 [Setup Standalone Configuration](StandaloneConfiguration.md#reposense---guide-to-setup-standalone-configuration).
 
 ## Dashboard

@@ -9,6 +9,7 @@ import java.util.List;
 public class StandaloneConfig {
     private List<StandaloneAuthor> authors;
     private List<String> ignoreGlobList;
+    private List<String> ignoreCommitList;
 
     public List<StandaloneAuthor> getAuthors() {
         return authors;
@@ -20,5 +21,13 @@ public class StandaloneConfig {
         }
 
         return ignoreGlobList;
+    }
+
+    public List<String> getIgnoreCommitList() {
+        if (ignoreCommitList == null) {
+            return Collections.emptyList();
+        }
+
+        return ignoreCommitList;
     }
 }
