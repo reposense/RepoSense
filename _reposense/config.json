@@ -1,5 +1,5 @@
 {
-	"ignoreGlobList": ["**.adocs", "**collate"],
+	"ignoreGlobList": ["**.adoc", "collate**"],
 	"authors":
 	[
 		{
