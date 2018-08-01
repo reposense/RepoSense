@@ -23,7 +23,7 @@
 ```
 
 ### Verify your standalone configuration
-Download the latest executable Jar on our [release](https://github.com/reposense/RepoSense/releases/latest).
+Download the latest executable Jar from our [release](https://github.com/reposense/RepoSense/releases/latest).
 
 #### Using github repository url location(s)
 1. Run RepoSense using the url link to your repository i.e. `https://github.com/reposense/RepoSense.git`. RepoSense will run the analysis on the `master` branch and use the authors provided in your repository for analysis.
