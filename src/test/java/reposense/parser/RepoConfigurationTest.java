@@ -27,7 +27,8 @@ public class RepoConfigurationTest {
     private static final List<String> FOURTH_AUTHOR_ALIASES = Arrays.asList("Tianwei");
 
     private static final List<String> REPO_LEVEL_GLOB_LIST = Arrays.asList("collated**");
-    private static final List<String> FIRST_AUTHOR_GLOB_LIST = Arrays.asList("collated**", "*.aa1", "**.aa2", "**.java");
+    private static final List<String> FIRST_AUTHOR_GLOB_LIST =
+            Arrays.asList("collated**", "*.aa1", "**.aa2", "**.java");
     private static final List<String> SECOND_AUTHOR_GLOB_LIST = Arrays.asList("collated**", "**[!(.md)]");
 
     @Test
