@@ -23,10 +23,9 @@
 ```
 
 ### Verify your standalone configuration
+Download the latest executable Jar on our [release](https://github.com/reposense/RepoSense/releases/latest).
 
 #### Using github repository url location(s)
-1. Run RepoSense using the url link to the repository i.e. `https://github.com/reposense/RepoSense.git`. RepoSense will run the analysis on the `master` branch and use the authors provided in your repository for analysis.
+1. Run RepoSense using the url link to your repository i.e. `https://github.com/reposense/RepoSense.git`. RepoSense will run the analysis on the `master` branch and use the authors provided in your repository for analysis.
 
-#### Using repo-config.csv
-1. Create a [`repo-config.csv`](example.csv) and include the location and branch of the your repository. For example, `https://github.com/reposense/RepoSense.git,master`.
-1. Then, run RepoSense with the above created `repo-config.csv`. RepoSense will use the authors provided in your repository for analysis.
+> $ java -jar RepoSense.jar -repos https://github.com/reposense/RepoSense.git
