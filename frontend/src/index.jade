@@ -119,12 +119,7 @@ html
                     .closer(v-if="!segment.authored", onclick="toggleNext(this)")
                       i.fas.fa-ellipsis-h
                     .code(v-if="segment.authored") {{ segment.lines.join("\n") }}
-                    .code(v-else="v-else", style="display:none;")
-                      span.untouched-code
-                        | Untouched Code
-                        br
-                        br
-                      |  {{ segment.lines.join("\n") }}
+                    .code(v-else="v-else", style="display:none;") {{ segment.lines.join("\n") }}
         .empty(v-else) loading...
 
     script(src="static/js/api.js")

@@ -35,6 +35,11 @@ vuetemplate{
     text-align: left;
 }
 
+.code {
+  padding-left: 1em;
+  border-left: 4px #4CAF50 solid ;
+}
+
 /** navigation bar **/
 header{
     z-index:100;
@@ -83,6 +88,7 @@ header{
         flex:0 0 $tabs-width;
         position:relative;
         overflow-y:scroll;
+        background: #ececec;
 
         .tab-close{
             cursor:pointer;
@@ -258,32 +264,19 @@ header{
                 cursor:pointer;
                 padding:0.5rem 1rem;
 
-                svg{
+                .fa-ellipsis-h{
                     background-color: #bfbdbd;
                     color: white;
                     width: 2.5em;
                     border-radius: 5px;
-                }
 
-                svg:hover {
-                    color: #fff;
-                    background: black !important;
-                    font-weight: bold
-                }
-            }
-
-            .code {
-                .untouched-code {
-                    display: block;
-                    font-weight: bold;
-                    font-size: 18px;
-                    text-align: center;
-                    text-decoration: underline;
-                    font-color: black;
-                    height: 1.5em;
+                    &:hover {
+                        color: #fff;
+                        background: black !important;
+                        font-weight: bold
+                    }
                 }
             }
-
         }
     }
 
