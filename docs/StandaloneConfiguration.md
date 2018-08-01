@@ -7,14 +7,14 @@
 ```
 {
   "ignoreGlobList": ["**.dat", "**.js"],    <-- Repository level's list of file formats to ignore 
-  "authors": [                              <-- If a setting is common between Repository and Author,
-  {                                             configuration of Author level will always take precedence
-    "githubId": "alice",                        over Repository level.
+  "authors": [                              
+  {                                            
+    "githubId": "alice",                       
     "displayName": "Alice T.",
     "authorNames": ["AT", "A"],
-    "ignoreGlobList": [""]                  <-- Author level's list of file formats to ignore.
-  },                                            Use "" to override Repository level settings.
-  {
+    "ignoreGlobList": ["**.css"]            <-- Author level's is cumulative to Repository level's ignoreGlobList.
+  },                                            Thus, the actual ignoreGlobList for alice would contains
+  {                                             css, dat and js.
     "githubId": "bob"                       
                                             <-- Optional information can be left out to prevent clutter.
   }
