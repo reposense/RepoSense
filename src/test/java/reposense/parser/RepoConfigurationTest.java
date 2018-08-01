@@ -26,13 +26,14 @@ public class RepoConfigurationTest {
     private static final List<String> THIRD_AUTHOR_ALIASES = Arrays.asList("Jordan Chong");
     private static final List<String> FOURTH_AUTHOR_ALIASES = Arrays.asList("Tianwei");
 
-    private static final List<String> REPO_LEVEL_GLOB_LIST = Arrays.asList("*.pyc");
-    private static final List<String> FIRST_AUTHOR_GLOB_LIST = Arrays.asList("*.pyc, *.aa1", "**.aa2");
+    private static final List<String> REPO_LEVEL_GLOB_LIST = Arrays.asList("collated**");
+    private static final List<String> FIRST_AUTHOR_GLOB_LIST = Arrays.asList("collated**", "*.aa1", "**.aa2");
+    private static final List<String> SECOND_AUTHOR_GLOB_LIST = Arrays.asList("collated**", "**[!(.md)]");
 
     @Test
     public void configJson_overridesRepoConfig_success() throws InvalidLocationException, GitDownloaderException {
         FIRST_AUTHOR.setIgnoreGlobList(FIRST_AUTHOR_GLOB_LIST);
-        SECOND_AUTHOR.setIgnoreGlobList(REPO_LEVEL_GLOB_LIST);
+        SECOND_AUTHOR.setIgnoreGlobList(SECOND_AUTHOR_GLOB_LIST);
         THIRD_AUTHOR.setIgnoreGlobList(REPO_LEVEL_GLOB_LIST);
         FOURTH_AUTHOR.setIgnoreGlobList(REPO_LEVEL_GLOB_LIST);
 
