@@ -1,21 +1,24 @@
 window.toggleNext = function toggleNext(ele) {
   // function for toggling unopened code
   const target = ele.nextSibling;
-  const child = ele.firstChild;
+  const child = ele.childNodes;
 
   let style = 'none';
   let childStyle = '#bfbdbd';
+  let toolTipMessage = 'Show untouched code';
 
   if (target.style.display === 'none') {
     style = '';
     childStyle = '#000';
+    toolTipMessage = 'Hide untouched code';
   }
 
   target.style.display = style;
 
-  if(target.className === 'code') {
-    child.style.background = childStyle;
+  if (target.className === 'code') {
+    child[0].style.background = childStyle;
     target.style.borderLeft = '4px solid rgba(197, 206, 197, 1)';
+    child[2].innerHTML = toolTipMessage;
   }
 };
 

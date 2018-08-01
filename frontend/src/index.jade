@@ -118,6 +118,7 @@ html
                   .segment(v-bind:class="{ untouched: !segment.authored }")
                     .closer(v-if="!segment.authored", onclick="toggleNext(this)")
                       i.fas.fa-ellipsis-h
+                      span.tooltiptext Show untouched code
                     .code(v-if="segment.authored") {{ segment.lines.join("\n") }}
                     .code(v-else="v-else", style="display:none;") {{ segment.lines.join("\n") }}
         .empty(v-else) loading...

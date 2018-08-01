@@ -275,6 +275,22 @@ header{
                         background: black !important;
                         font-weight: bold
                     }
+                    
+                    &:hover ~ .tooltiptext {
+                      visibility: visible;
+                    }
+                }
+
+                .tooltiptext {
+                  visibility: hidden;
+                  width: 1em;
+                  background-color: black;
+                  color: #fff;
+                  text-align: center;
+                  border-radius: 6px;
+                  padding: 5px 6px;
+                  position: relative;
+                  margin-left: 5px;
                 }
             }
         }
