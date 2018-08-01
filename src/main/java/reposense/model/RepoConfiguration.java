@@ -109,7 +109,7 @@ public class RepoConfiguration {
             author.setAuthorAliases(sa.getAuthorNames());
             author.setIgnoreGlobList(authorIgnoreGlobList);
 
-            this.addAuthorDisplayName(author, displayName);
+            this.setAuthorDisplayName(author, displayName);
             this.addAuthorAliases(author, Arrays.asList(sa.getGithubId()));
             this.addAuthorAliases(author, sa.getAuthorNames());
         }
@@ -235,7 +235,7 @@ public class RepoConfiguration {
         this.formats = formats;
     }
 
-    public void addAuthorDisplayName(Author author, String displayName) {
+    public void setAuthorDisplayName(Author author, String displayName) {
         authorDisplayNameMap.put(author, displayName);
     }
 

@@ -2,7 +2,6 @@ package reposense.parser;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 
 import org.junit.Assert;
@@ -49,10 +48,10 @@ public class RepoConfigurationTest {
         expectedConfig.addAuthorAliases(SECOND_AUTHOR, SECOND_AUTHOR_ALIASES);
         expectedConfig.addAuthorAliases(THIRD_AUTHOR, THIRD_AUTHOR_ALIASES);
         expectedConfig.addAuthorAliases(FOURTH_AUTHOR, FOURTH_AUTHOR_ALIASES);
-        expectedConfig.addAuthorDisplayName(FIRST_AUTHOR, "Ahm");
-        expectedConfig.addAuthorDisplayName(SECOND_AUTHOR, "Cod");
-        expectedConfig.addAuthorDisplayName(THIRD_AUTHOR, "Jor");
-        expectedConfig.addAuthorDisplayName(FOURTH_AUTHOR, "Loh");
+        expectedConfig.setAuthorDisplayName(FIRST_AUTHOR, "Ahm");
+        expectedConfig.setAuthorDisplayName(SECOND_AUTHOR, "Cod");
+        expectedConfig.setAuthorDisplayName(THIRD_AUTHOR, "Jor");
+        expectedConfig.setAuthorDisplayName(FOURTH_AUTHOR, "Loh");
 
         expectedConfig.setIgnoreGlobList(REPO_LEVEL_GLOB_LIST);
 

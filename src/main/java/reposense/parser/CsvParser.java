@@ -113,7 +113,7 @@ public class CsvParser {
         boolean isDisplayNameInElements = elements.length > DISPLAY_NAME_POSITION
                 && !elements[DISPLAY_NAME_POSITION].isEmpty();
 
-        config.addAuthorDisplayName(author,
+        config.setAuthorDisplayName(author,
                 isDisplayNameInElements ? elements[DISPLAY_NAME_POSITION] : author.getGitId());
     }
 
