@@ -11,14 +11,13 @@
 		{
 			"githubId": "eugenepeh",
 			"displayName": "Eugene",
-			"authorNames": ["Eugene Peh"],
-			"ignoreGlobList": []
+			"authorNames": ["Eugene Peh"]
 		},
 		{
 			"githubId": "ongspxm",
 			"displayName": "Metta",
 			"authorNames": ["Metta Ong"],
-			"ignoreGlobList": ["**.java"]
+			"ignoreGlobList": []
 		},
 		{
 			"githubId": "yamidark",
