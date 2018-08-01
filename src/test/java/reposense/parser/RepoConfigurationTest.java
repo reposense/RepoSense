@@ -28,17 +28,16 @@ public class RepoConfigurationTest {
     private static final List<String> FOURTH_AUTHOR_ALIASES = Arrays.asList("Tianwei");
 
     private static final List<String> REPO_LEVEL_GLOB_LIST = Arrays.asList("*.pyc");
-    private static final List<String> FIRST_AUTHOR_GLOB_LIST = Arrays.asList("*.aa1", "**.aa2");
-    private static final List<String> SECOND_AUTHOR_GLOB_LIST = Collections.emptyList();
+    private static final List<String> FIRST_AUTHOR_GLOB_LIST = Arrays.asList("*.pyc, *.aa1", "**.aa2");
 
     @Test
     public void configJson_overridesRepoConfig_success() throws InvalidLocationException, GitDownloaderException {
         FIRST_AUTHOR.setIgnoreGlobList(FIRST_AUTHOR_GLOB_LIST);
-        SECOND_AUTHOR.setIgnoreGlobList(SECOND_AUTHOR_GLOB_LIST);
+        SECOND_AUTHOR.setIgnoreGlobList(REPO_LEVEL_GLOB_LIST);
         THIRD_AUTHOR.setIgnoreGlobList(REPO_LEVEL_GLOB_LIST);
         FOURTH_AUTHOR.setIgnoreGlobList(REPO_LEVEL_GLOB_LIST);
 
-        List<Author> expectedAuthors = new ArrayList<Author>();
+        List<Author> expectedAuthors = new ArrayList<>();
         expectedAuthors.add(FIRST_AUTHOR);
         expectedAuthors.add(SECOND_AUTHOR);
         expectedAuthors.add(THIRD_AUTHOR);
@@ -54,10 +53,6 @@ public class RepoConfigurationTest {
         expectedConfig.addAuthorDisplayName(SECOND_AUTHOR, "Cod");
         expectedConfig.addAuthorDisplayName(THIRD_AUTHOR, "Jor");
         expectedConfig.addAuthorDisplayName(FOURTH_AUTHOR, "Loh");
-        expectedConfig.addAuthorAliases(FIRST_AUTHOR, Arrays.asList("Ahmad Syafiq"));
-        expectedConfig.addAuthorAliases(SECOND_AUTHOR, Arrays.asList("Codee"));
-        expectedConfig.addAuthorAliases(THIRD_AUTHOR, Arrays.asList("Jordan Chong"));
-        expectedConfig.addAuthorAliases(FOURTH_AUTHOR, Arrays.asList("Tianwei"));
 
         expectedConfig.setIgnoreGlobList(REPO_LEVEL_GLOB_LIST);
 

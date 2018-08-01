@@ -102,8 +102,8 @@ public class RepoConfiguration {
         for (StandaloneAuthor sa : standaloneConfig.getAuthors()) {
             Author author = new Author(sa.getGithubId());
             String displayName = !sa.getDisplayName().isEmpty() ? sa.getDisplayName() : sa.getGithubId();
-            List<String> authorIgnoreGlobList =
-                    !sa.getIgnoreGlobList().isEmpty() ? sa.getIgnoreGlobList() : ignoreGlobList;
+            List<String> authorIgnoreGlobList = new ArrayList<>(ignoreGlobList);
+            authorIgnoreGlobList.addAll(sa.getIgnoreGlobList());
 
             authorList.add(author);
             author.setAuthorAliases(sa.getAuthorNames());
