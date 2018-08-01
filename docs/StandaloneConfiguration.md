@@ -28,4 +28,4 @@ Download the latest executable Jar on our [release](https://github.com/reposense
 #### Using github repository url location(s)
 1. Run RepoSense using the url link to your repository i.e. `https://github.com/reposense/RepoSense.git`. RepoSense will run the analysis on the `master` branch and use the authors provided in your repository for analysis.
 
-`java -jar RepoSense.jar -repos https://github.com/reposense/RepoSense.git`
+```java -jar RepoSense.jar -repos https://github.com/reposense/RepoSense.git```
