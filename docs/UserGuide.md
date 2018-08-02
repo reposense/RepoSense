@@ -93,7 +93,8 @@ gradlew run -Dargs="-view output_path/reposense-report"
 ## CSV Config Files
 #### Repository configuration file
 to configure the list of repositories to analyze and the respective repository level options.
-repo-config.csv is an example of a configuration file setup. It should contain the following columns:
+
+[repo-config.csv](../repo-config.csv) is an example of a configuration file setup. It should contain the following columns:
 
 Column Name | Explanation
 ----------- | -----------
@@ -103,7 +104,8 @@ Branch | The branch to analyse in the target repository
 
 #### Author configuration file [Optional]
 to configure the list of authors to analyse and the options.
-author-config.csv is an example of a configuration file setup. It should contain the following columns:
+
+[author-config.csv](../author-config.csv) is an example of a configuration file setup. It should contain the following columns:
 
 ```
 Note:
@@ -111,8 +113,6 @@ If author-config.csv is not used or repositories that are not in author-config.c
 please add Standalone Configuration to those repostories.
 ```
 > [Link to Standalone Configuration](#standalone-configuration)
-
-[author-config.csv](../author-config.csv) is an example of a configuration file setup. It should contain the following columns:
 
 Column Name | Explanation
 ----------- | -----------
