@@ -12,7 +12,7 @@ public class AuthorConfigCsvParser extends CsvParser<RepoConfiguration> {
     public static final String AUTHOR_CONFIG_FILENAME = "author-config.csv";
 
     /**
-     * Positions of the elements of a line in author-config.csv config file
+     * Positions of the elements of a line in author-config.csv config file.
      */
     private static final int LOCATION_POSITION = 0;
     private static final int BRANCH_POSITION = 1;
