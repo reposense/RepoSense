@@ -304,7 +304,7 @@ window.vSummary = {
 
       user.dailyCommits.forEach((commit) => {
         const date = commit.sinceDate;
-        if (date >= sinceDate && date < untilDate) {
+        if (date >= sinceDate && date <= untilDate) {
           user.commits.push(commit);
         }
       });
