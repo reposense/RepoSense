@@ -9,17 +9,18 @@
 ```
 {
   "ignoreGlobList": ["**.dat", "**.js"],    
-  "authors": [                              
-  {                                            
-    "githubId": "alice",                       
-    "displayName": "Alice T.",
-    "authorNames": ["AT", "A"],
-    "ignoreGlobList": ["**.css"]
-  },
-  {
-    "githubId": "bob"
-  }
- ]
+  "authors":
+  [
+    {
+      "githubId": "alice",
+      "displayName": "Alice T.",
+      "authorNames": ["AT", "A"],
+      "ignoreGlobList": ["**.css"]
+    },
+    {
+      "githubId": "bob"
+    }
+  ]
 }
 ```
 #### Line-by-line explanation
