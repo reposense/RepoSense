@@ -72,7 +72,8 @@ public class RepoSense {
             authorConfigs = new AuthorConfigCsvParser(cliArguments.getAuthorConfigFilePath()).parse();
             RepoConfiguration.merge(repoConfigs, authorConfigs);
         } catch (IOException ioe) {
-            // Ignore IOException thrown as author-config.csv file is optional
+            // IOException thrown as author-config.csv is not found.
+            // Ignore exception as the file is optional.
         }
 
         return repoConfigs;

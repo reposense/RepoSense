@@ -102,7 +102,8 @@ public class RepoConfiguration {
             int index = repoConfigs.indexOf(authorConfig);
 
             if (index == -1) {
-                logger.warning("Author information does not belong to any repository.");
+                logger.warning(String.format(
+                        "Repository %s is not found in repo-config.csv.", authorConfig.getLocation()));
                 continue;
             }
 
@@ -111,7 +112,6 @@ public class RepoConfiguration {
             repoConfig.setAuthorList(authorConfig.getAuthorList());
             repoConfig.setAuthorDisplayNameMap(authorConfig.getAuthorDisplayNameMap());
             repoConfig.setAuthorAliasMap(authorConfig.getAuthorAliasMap());
-            repoConfig.setIgnoreGlobList(authorConfig.getIgnoreGlobList());
         }
     }
 
@@ -139,7 +139,7 @@ public class RepoConfiguration {
 
             authorList.add(author);
             author.setAuthorAliases(sa.getAuthorNames());
-            author.setIgnoreGlobList(sa.getIgnoreGlobList());
+            author.setIgnoreGlobList(authorIgnoreGlobList);
 
             this.setAuthorDisplayName(author, displayName);
             this.addAuthorAliases(author, Arrays.asList(sa.getGithubId()));
