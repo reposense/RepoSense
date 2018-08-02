@@ -126,8 +126,8 @@ window.vSummary = {
         REPOS[user.repoId].repoName}/commits/${
         REPOS[user.repoId].branch}?`
                 + `author=${user.name}&`
-                + `since=${slice.sinceDate}&`
-                + `until=${slice.untilDate}`;
+                + `since=${slice.sinceDate}'T'00:00:00+08:00&`
+                + `until=${slice.untilDate}'T'23:59:59+08:00`;
     },
     getContributionBars(totalContribution) {
       const res = [];
