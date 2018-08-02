@@ -109,8 +109,8 @@ to configure the list of authors to analyse and the options.
 
 ```
 Note:
-If author-config.csv is not used or the repositories being analyzed are not specified by any authors in author-config.csv,
-please add Standalone Configuration to those repostories.
+If author-config.csv is not used or the repositories being analyzed are not specified by any authors
+in author-config.csv, please add Standalone Configuration to those repostories.
 ```
 > [Link to Standalone Configuration](#standalone-configuration)
 
