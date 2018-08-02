@@ -14,7 +14,7 @@
 ## How to Generate Report
 1. Download the latest executable Jar from our [release](https://github.com/reposense/RepoSense/releases/latest).
    * Alternatively, you can compile the executable Jar yourself by following our [build from source guide](Build.md).
-1. Execute it on the OS terminal. <br>
+1. Execute it on the OS terminal.  <br/>
 
 ### Using repo-config.csv file
 Usage: `java -jar RepoSense.jar -config CONFIG_DIRECTORY [-output OUTPUT_DIRECTORY] [-since DD/MM/YYYY] [-until DD/MM/YYYY] [-formats FORMAT...]`
@@ -49,7 +49,7 @@ Argument List:
 ## How to View Dashboard
 ### With jar
 1. Ensure that you have generated the report.
-1. Execute it on the OS terminal. <br>
+1. Execute it on the OS terminal. <br/>
 Usage `java -jar RepoSense.jar -view REPORT_DIRECTORY`
 
 ```
@@ -71,8 +71,8 @@ Any other arguments entered with -view will be ignored.
 
 ### Other option:
 1. Clone this repository (or [download as zip](https://github.com/reposense/RepoSense/archive/master.zip))
-1. Execute the following command on the OS terminal inside the project directory.<br>
-Usage: `gradlew run -Dargs="(-config ./configs/ | -repos https://github.com/reposense/RepoSense.git https://github.com/se-edu/collate.git | -view report_path/) [-output OUTPUT_DIRECTORY] [-since DD/MM/YYYY] [-until DD/MM/YYYY] [-formats FORMAT...]"` <br>
+1. Execute the following command on the OS terminal inside the project directory. <br/>
+Usage: `gradlew run -Dargs="(-config ./configs/ | -repos https://github.com/reposense/RepoSense.git https://github.com/se-edu/collate.git | -view report_path/) [-output OUTPUT_DIRECTORY] [-since DD/MM/YYYY] [-until DD/MM/YYYY] [-formats FORMAT...]"` <br/>
 
 Sample usage to generate the report with config files:
 ```
@@ -92,8 +92,7 @@ gradlew run -Dargs="-view output_path/reposense-report"
 
 ## CSV Config Files
 #### Repository configuration file
-to configure the list of repositories to analyze and the respective repository level options.
-
+to configure the list of repositories to analyze and the respective repository level options. <br/>
 [repo-config.csv](../repo-config.csv) is an example of a configuration file setup. It should contain the following columns:
 
 Column Name | Explanation
@@ -103,8 +102,7 @@ Branch | The branch to analyse in the target repository
 [Optional] Ignore Global List | The list of file path globs to ignore during analysis for each author. More details on the Java glob standard [here](https://javapapers.com/java/glob-with-java-nio/)
 
 #### Author configuration file [Optional]
-to configure the list of authors to analyse and the options.
-
+to configure the list of authors to analyse and the options. <br/>
 [author-config.csv](../author-config.csv) is an example of a configuration file setup. It should contain the following columns:
 
 <h5>
