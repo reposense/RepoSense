@@ -52,6 +52,10 @@ public class Author {
         return ignoreGlobMatcher;
     }
 
+    public void appendIgnoreGlobList(List<String> ignoreGlobList) {
+        this.ignoreGlobList.addAll(ignoreGlobList);
+    }
+
     @Override
     public boolean equals(Object other) {
         // short circuit if same object

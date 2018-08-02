@@ -239,8 +239,12 @@ public class RepoConfiguration {
     public void setAuthorList(List<Author> authorList) {
         this.authorList = authorList;
 
-        // Set GitHub Id as default alias
-        authorList.forEach(author -> addAuthorAliases(author, Arrays.asList(author.getGitId())));
+        authorList.forEach(author -> {
+            // Set GitHub Id as default alias
+            addAuthorAliases(author, Arrays.asList(author.getGitId()));
+            // Propagate RepoConfiguration IgnoreGlobList to Author
+            author.appendIgnoreGlobList(this.getIgnoreGlobList());
+        });
     }
 
     public TreeMap<String, Author> getAuthorAliasMap() {
