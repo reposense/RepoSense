@@ -114,9 +114,9 @@ Optionally, you can follow the [Using Checkstyle](UsingCheckstyle.md) document t
 
 
 ## HTML Dashboard
-The source files for the dashboard is located in [`frontend/src`](https://github.com/reposense/RepoSense/tree/master/frontend/src) and is built by [spuild](https://github.com/ongspxm/spuild2) before being packaged into the JAR file to be extracted as part of the report.
+The source files for the dashboard is located in [`frontend/src`](../frontend/src) and is built by [spuild](https://github.com/ongspxm/spuild2) before being packaged into the JAR file to be extracted as part of the report.
 
-If needed, the main HTML file is generated from `frontend/src/index.jade`.
+The main HTML file is generated from [`frontend/src/index.jade`](../frontend/src/index.jade).
 
 ![dashboard screenshot](images/dashboard.png)
 
@@ -126,19 +126,25 @@ If needed, the main HTML file is generated from `frontend/src/index.jade`.
 - **v_summary.js** - module that supports the ramp chart view
 - **v_authorship.js** - module that supports the authorship view
 
-Our project follows the [AirBNB Javascript Style Guide](https://github.com/airbnb/javascript), the eslint configuration file is available at the root of the project. Please run a `npm run lint -- --fix frontend/src/**/*js` from the project root directory and fix all of the eslint errors before committing your code for final review.
+### Javascript Code Quality Checker
+Our project follows the [Airbnb Javascript Style Guide](https://github.com/airbnb/javascript), the eslint configuration file is available at the root of the project. Please run a `npm run lint -- --fix frontend/src/**/*js` from the project root directory and fix all of the eslint errors before committing your code for final review.
 
 ### Dashboard Architecture
 ![dashboard architecture](images/dashboard-architecture.png)
 
 The main Vue object (`window.app`) is responsible for the loading of the dashboard (through `summary.json`). Its `repos` attribute is tied to the global `window.REPOS`, and is passed into the various other modules when the information is needed.
 
-`window.app` is broken down into two main parts, the summary view and the tabs view. The basic design is to have a summary view (with the ramp charts) as the main dashboard, and other modules display additional information in the tabbed interface which is displayed on the right.
+`window.app` is broken down into two main parts
+- the summary view
+- and the tabbed interface
+
+Summary view act as the main dashboard which shows the varies calculations.
+Tabbed interface is responsible for loading various modules such as authorship to display additional information.
 
 ### Loading of dashboard information
-When the dashboard is first loaded, the main Vue object tries to retreive the `summary.json` file in order to determine the right `commits.json` files to load into memory. `api.js` handles the loading of the file, and approriately gets the relevant file information, depending on whether the network files is available or a report archive have to be used.
+The main Vue object depends on the `summary.json` data to determine the right `commits.json` files to load into memory. This is handled by `api.js`. It loads the relevant file information from the network files, if it is available, otherwise a report archive have to be used.
 
-Once the relevant `commit.json` files hash been loaded, all the repo information will be passed into `v_summary` to be loaded in the summary view as the releveant ramp charts.
+Once the relevant `commit.json` files are loaded, all the repo information will be passed into `v_summary` to be loaded in the summary view as the relevant ramp charts.
 
 ### Activating additional view modules
 Most activity or actions should happen within the module itself, but in the case where there is a need to control the tab view from the module, an event is emitted from the module to the main Vue object (`window.app`), which then handles the data received and passes it along to the relevant modules.
