@@ -25,7 +25,7 @@ Sample usage to generate the report:
 $ java -jar RepoSense.jar -config ./configs/ -output output_path/ -since 01/10/2017 -until 01/11/2017 -formats java adoc js
 ```
 Argument List:
-- config : Mandatory. The path to the directory that contains the configuration file, repo-config.csv.
+- config : Mandatory. The path to the directory that contains the configuration file(s).
 - output : Optional. The path to the dashboard generated. If not provided, it will be generated in the current directory.
 - since : Optional. The start date of analysis. Format: `DD/MM/YYYY`
 - until : Optional. The end date of analysis. Format: `DD/MM/YYYY`
@@ -100,7 +100,14 @@ Repository's Location | The `GitHub URL` or `Disk Path` to the git repository
 Branch | The branch to analyse in the target repository
 [Optional] Ignore Global List | The list of file path globs to ignore during analysis for each author. More details on the Java glob standard [here](https://javapapers.com/java/glob-with-java-nio/)
 
-The `author-config.csv` contains the list of repositories, and the corresponding target authors to track contribution of.
+The [Optional]`author-config.csv` contains the list of repositories, and the corresponding target authors to track contribution of.
+
+```
+Note:
+If author-config.csv is not used or repositories that are not in author-config.csv,
+please add [Standalone Configuration](#standalone-configuration) to those repostories.
+```
+
 [repo-config.csv](../author-config.csv) is an example of a configuration file setup. It should contain the following columns:
 
 Column Name | Explanation
