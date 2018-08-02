@@ -65,7 +65,7 @@ Argument List:
 1. If the dashboard was not loaded automatically, upload the `archive.zip` (generated in the OUTPUT_DIRECTORY) manually to load the data.
 ```
 Note:
-The contribution calculation is based on the daily commits made within 00:00 to 23:59 in GMT+8. <br>
+The contribution calculation is based on the daily commits made within 00:00 to 23:59 in GMT+8.
 Any other arguments entered with -view will be ignored.
 ```
 
@@ -107,12 +107,11 @@ to configure the list of authors to analyse and the options.
 
 [author-config.csv](../author-config.csv) is an example of a configuration file setup. It should contain the following columns:
 
-```
+<h5>
 Note:
 If author-config.csv is not used or the repositories being analyzed are not specified by any authors
-in author-config.csv, please add Standalone Configuration to those repostories.
-```
-> [Link to Standalone Configuration](#standalone-configuration)
+in author-config.csv, please add <a href="#standalone-configuration">Standalone Configuration</a> to those repostories.
+</h5>
 
 Column Name | Explanation
 ----------- | -----------
