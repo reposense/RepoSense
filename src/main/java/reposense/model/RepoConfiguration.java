@@ -9,6 +9,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -59,8 +60,17 @@ public class RepoConfiguration {
      * @throws InvalidLocationException if {@code location} cannot be represented by a {@code URL} or {@code Path}.
      */
     public RepoConfiguration(String location, String branch) throws InvalidLocationException {
+        this(location, branch, Collections.emptyList());
+    }
+
+    /**
+     * @throws InvalidLocationException if {@code location} cannot be represented by a {@code URL} or {@code Path}.
+     */
+    public RepoConfiguration(String location, String branch, List<String> ignoreGlobList)
+            throws InvalidLocationException {
         this.location = location;
         this.branch = branch;
+        this.ignoreGlobList = ignoreGlobList;
 
         verifyLocation(location);
         Matcher matcher = GIT_REPOSITORY_LOCATION_PATTERN.matcher(location);
@@ -80,6 +90,28 @@ public class RepoConfiguration {
         for (RepoConfiguration config : configs) {
             config.setSinceDate(sinceDate.orElse(null));
             config.setUntilDate(untilDate.orElse(null));
+        }
+    }
+
+    /**
+     * Merges a {@code RepoConfiguration} from {@code repoConfigs} with another from {@code authorConfigs}
+     * if {@code location} and {@code branch} matches.
+     */
+    public static void merge(List<RepoConfiguration> repoConfigs, List<RepoConfiguration> authorConfigs) {
+        for (RepoConfiguration authorConfig : authorConfigs) {
+            int index = repoConfigs.indexOf(authorConfig);
+
+            if (index == -1) {
+                logger.warning(String.format(
+                        "Repository %s is not found in repo-config.csv.", authorConfig.getLocation()));
+                continue;
+            }
+
+            RepoConfiguration repoConfig = repoConfigs.get(index);
+
+            repoConfig.setAuthorList(authorConfig.getAuthorList());
+            repoConfig.setAuthorDisplayNameMap(authorConfig.getAuthorDisplayNameMap());
+            repoConfig.setAuthorAliasMap(authorConfig.getAuthorAliasMap());
         }
     }
 
@@ -196,11 +228,23 @@ public class RepoConfiguration {
         return authorList;
     }
 
+    public void addAuthor(Author author) {
+        authorList.add(author);
+    }
+
+    public boolean containsAuthor(Author author) {
+        return authorList.contains(author);
+    }
+
     public void setAuthorList(List<Author> authorList) {
         this.authorList = authorList;
 
-        // Set GitHub Id as default alias
-        authorList.forEach(author -> addAuthorAliases(author, Arrays.asList(author.getGitId())));
+        authorList.forEach(author -> {
+            // Set GitHub Id as default alias
+            addAuthorAliases(author, Arrays.asList(author.getGitId()));
+            // Propagate RepoConfiguration IgnoreGlobList to Author
+            author.appendIgnoreGlobList(this.getIgnoreGlobList());
+        });
     }
 
     public TreeMap<String, Author> getAuthorAliasMap() {

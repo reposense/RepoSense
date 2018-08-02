@@ -15,9 +15,10 @@ import reposense.model.LocationsCliArguments;
 import reposense.model.RepoConfiguration;
 import reposense.model.ViewCliArguments;
 import reposense.parser.ArgsParser;
-import reposense.parser.CsvParser;
+import reposense.parser.AuthorConfigCsvParser;
 import reposense.parser.InvalidLocationException;
 import reposense.parser.ParseException;
+import reposense.parser.RepoConfigCsvParser;
 import reposense.report.ReportGenerator;
 import reposense.system.DashboardServer;
 import reposense.system.LogsManager;
@@ -64,7 +65,18 @@ public class RepoSense {
      * @throws IOException if user-supplied csv file does not exists or is not readable.
      */
     public static List<RepoConfiguration> getRepoConfigurations(ConfigCliArguments cliArguments) throws IOException {
-        return CsvParser.parse(cliArguments.getConfigFolderPath());
+        List<RepoConfiguration> repoConfigs = new RepoConfigCsvParser(cliArguments.getRepoConfigFilePath()).parse();
+        List<RepoConfiguration> authorConfigs = null;
+
+        try {
+            authorConfigs = new AuthorConfigCsvParser(cliArguments.getAuthorConfigFilePath()).parse();
+            RepoConfiguration.merge(repoConfigs, authorConfigs);
+        } catch (IOException ioe) {
+            // IOException thrown as author-config.csv is not found.
+            // Ignore exception as the file is optional.
+        }
+
+        return repoConfigs;
     }
 
     /**

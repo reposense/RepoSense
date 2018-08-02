@@ -3,7 +3,7 @@
 ## Quick Start
 1. Ensure that you have the necessary [dependencies](#dependencies).
 1. Read up on [How to Generate Dashboard](#how-to-generate-dashboard).
-1. Fill up the [CSV Config File](#csv-config-file).
+1. Fill up the [CSV Config Files](#csv-config-files).
 1. Perform the execution to generate the [dashboard](#dashboard).
 
 ## Dependencies
@@ -14,7 +14,7 @@
 ## How to Generate Report
 1. Download the latest executable Jar from our [release](https://github.com/reposense/RepoSense/releases/latest).
    * Alternatively, you can compile the executable Jar yourself by following our [build from source guide](Build.md).
-1. Execute it on the OS terminal. <br>
+1. Execute it on the OS terminal.  <br/>
 
 ### Using repo-config.csv file
 Usage: `java -jar RepoSense.jar -config CONFIG_DIRECTORY [-output OUTPUT_DIRECTORY] [-since DD/MM/YYYY] [-until DD/MM/YYYY] [-formats FORMAT...]`
@@ -25,7 +25,7 @@ Sample usage to generate the report:
 $ java -jar RepoSense.jar -config ./configs/ -output output_path/ -since 01/10/2017 -until 01/11/2017 -formats java adoc js
 ```
 Argument List:
-- config : Mandatory. The path to the directory that contains the configuration file, repo-config.csv.
+- config : Mandatory. The path to the directory that contains the configuration file(s).
 - output : Optional. The path to the dashboard generated. If not provided, it will be generated in the current directory.
 - since : Optional. The start date of analysis. Format: `DD/MM/YYYY`
 - until : Optional. The end date of analysis. Format: `DD/MM/YYYY`
@@ -49,7 +49,7 @@ Argument List:
 ## How to View Dashboard
 ### With jar
 1. Ensure that you have generated the report.
-1. Execute it on the OS terminal. <br>
+1. Execute it on the OS terminal. <br/>
 Usage `java -jar RepoSense.jar -view REPORT_DIRECTORY`
 
 ```
@@ -65,16 +65,16 @@ Argument List:
 1. If the dashboard was not loaded automatically, upload the `archive.zip` (generated in the OUTPUT_DIRECTORY) manually to load the data.
 ```
 Note:
-The contribution calculation is based on the daily commits made within 00:00 to 23:59 in GMT+8. <br>
+The contribution calculation is based on the daily commits made within 00:00 to 23:59 in GMT+8.
 Any other arguments entered with -view will be ignored.
 ```
 
 ### Other option:
 1. Clone this repository (or [download as zip](https://github.com/reposense/RepoSense/archive/master.zip))
-1. Execute the following command on the OS terminal inside the project directory.<br>
-Usage: `gradlew run -Dargs="(-config ./configs/ | -repos https://github.com/reposense/RepoSense.git https://github.com/se-edu/collate.git | -view report_path/) [-output OUTPUT_DIRECTORY] [-since DD/MM/YYYY] [-until DD/MM/YYYY] [-formats FORMAT...]"` <br>
+1. Execute the following command on the OS terminal inside the project directory. <br/>
+Usage: `gradlew run -Dargs="(-config ./configs/ | -repos https://github.com/reposense/RepoSense.git https://github.com/se-edu/collate.git | -view report_path/) [-output OUTPUT_DIRECTORY] [-since DD/MM/YYYY] [-until DD/MM/YYYY] [-formats FORMAT...]"` <br/>
 
-Sample usage to generate the report with a csv config file:
+Sample usage to generate the report with config files:
 ```
 $ gradlew run -Dargs="-config ./configs/ -output output_path/ -since 01/10/2017 -until 01/11/2017 -formats java adoc js"
 
@@ -90,9 +90,26 @@ gradlew run -Dargs="-view output_path/reposense-report"
 ```
 `-Dargs="..."` uses the same argument format as mentioned above.
 
-## CSV Config File
-The `CSV Config File` contains the list of repositories, and the corresponding target authors to track contribution of.
+## CSV Config Files
+#### Repository configuration file
+to configure the list of repositories to analyze and the respective repository level options. <br/>
 [repo-config.csv](../repo-config.csv) is an example of a configuration file setup. It should contain the following columns:
+
+Column Name | Explanation
+----------- | -----------
+Repository's Location | The `GitHub URL` or `Disk Path` to the git repository
+Branch | The branch to analyse in the target repository
+[Optional] Ignore Global List | The list of file path globs to ignore during analysis for each author. More details on the Java glob standard [here](https://javapapers.com/java/glob-with-java-nio/)
+
+#### Author configuration file [Optional]
+to configure the list of authors to analyse and the options. <br/>
+[author-config.csv](../author-config.csv) is an example of a configuration file setup. It should contain the following columns:
+
+<h5>
+Note:
+If author-config.csv is not used or the repositories being analyzed are not specified by any authors
+in author-config.csv, please add <a href="#standalone-configuration">Standalone Configuration</a> to those repostories.
+</h5>
 
 Column Name | Explanation
 ----------- | -----------
@@ -101,7 +118,7 @@ Branch | The branch to analyse in the target repository
 Author's GitHub ID | GitHub ID of the target contributor in the repository
 Author's Display Name | Optional Field. The value of this field, if not empty, will be displayed in the dashboard instead of author's GitHub ID.
 [Optional] Author's Git Author Name | Detailed explanation below
-[Optional] Ignore Global List | The list of file path globs to ignore during analysis for each author. More details on the Java glob standard [here](https://javapapers.com/java/glob-with-java-nio/)
+[Optional] Ignore Global List | The list of file path globs to ignore during analysis for this author on top of what is already specified in `author-config.csv`. More details on the Java glob standard [here](https://javapapers.com/java/glob-with-java-nio/)
 
 #### Git Author Name
 `Git Author Name` refers to the customizable author's display name set in the local `.gitconfig` file.
@@ -133,7 +150,7 @@ git config --global user.name “YOUR_GITHUB_ID_HERE”
 ```
 For more information, do visit this [FAQ](https://www.git-tower.com/learn/git/faq/change-author-name-email) on changing Git Author Identity.
 
-If an author's `Git Author Name` is not the same as his `GitHub ID`, the `Git Author Name` needs to be filled into the CSV config file for accurate consolidation.
+If an author's `Git Author Name` is not the same as his `GitHub ID`, the `Git Author Name` needs to be filled into the `author-config.csv` file for accurate consolidation.
 In the event that the author has more than one `Git Author Name`, multiple values can be entered in the `Git Author Name` column by using a semicolon `;` separator.
 For example,`Alice;Bob`.
 

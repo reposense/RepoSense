@@ -20,8 +20,9 @@ import reposense.model.CliArguments;
 import reposense.model.ConfigCliArguments;
 import reposense.model.RepoConfiguration;
 import reposense.parser.ArgsParser;
-import reposense.parser.CsvParser;
+import reposense.parser.AuthorConfigCsvParser;
 import reposense.parser.ParseException;
+import reposense.parser.RepoConfigCsvParser;
 import reposense.report.ReportGenerator;
 import reposense.util.FileUtil;
 import reposense.util.TestUtil;
@@ -64,11 +65,19 @@ public class Entry {
         String input = String.format("-config %s ", configFolder) + inputDates;
 
         CliArguments cliArguments = ArgsParser.parse(translateCommandline(input));
-        List<RepoConfiguration> configs = CsvParser.parse(((ConfigCliArguments) cliArguments).getConfigFolderPath());
-        RepoConfiguration.setFormatsToRepoConfigs(configs, TESTING_FILE_FORMATS);
-        RepoConfiguration.setDatesToRepoConfigs(configs, cliArguments.getSinceDate(), cliArguments.getUntilDate());
 
-        ReportGenerator.generateReposReport(configs, FT_TEMP_DIR, TEST_REPORT_GENERATED_TIME);
+        List<RepoConfiguration> repoConfigs =
+                new RepoConfigCsvParser(((ConfigCliArguments) cliArguments).getRepoConfigFilePath()).parse();
+        List<RepoConfiguration> authorConfigs =
+                new AuthorConfigCsvParser(((ConfigCliArguments) cliArguments).getAuthorConfigFilePath()).parse();
+
+        RepoConfiguration.merge(repoConfigs, authorConfigs);
+
+        RepoConfiguration.setFormatsToRepoConfigs(repoConfigs, TESTING_FILE_FORMATS);
+        RepoConfiguration.setDatesToRepoConfigs(
+                repoConfigs, cliArguments.getSinceDate(), cliArguments.getUntilDate());
+
+        ReportGenerator.generateReposReport(repoConfigs, FT_TEMP_DIR, TEST_REPORT_GENERATED_TIME);
     }
 
     private void verifyAllJson(Path expectedDirectory, String actualRelative) {
