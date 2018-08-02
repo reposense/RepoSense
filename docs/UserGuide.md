@@ -3,7 +3,7 @@
 ## Quick Start
 1. Ensure that you have the necessary [dependencies](#dependencies).
 1. Read up on [How to Generate Dashboard](#how-to-generate-dashboard).
-1. Fill up the [CSV Config File](#csv-config-file).
+1. Fill up the [CSV Config Files](#csv-config-files).
 1. Perform the execution to generate the [dashboard](#dashboard).
 
 ## Dependencies
@@ -74,7 +74,7 @@ Any other arguments entered with -view will be ignored.
 1. Execute the following command on the OS terminal inside the project directory.<br>
 Usage: `gradlew run -Dargs="(-config ./configs/ | -repos https://github.com/reposense/RepoSense.git https://github.com/se-edu/collate.git | -view report_path/) [-output OUTPUT_DIRECTORY] [-since DD/MM/YYYY] [-until DD/MM/YYYY] [-formats FORMAT...]"` <br>
 
-Sample usage to generate the report with a csv config file:
+Sample usage to generate the report with config files:
 ```
 $ gradlew run -Dargs="-config ./configs/ -output output_path/ -since 01/10/2017 -until 01/11/2017 -formats java adoc js"
 
@@ -90,9 +90,18 @@ gradlew run -Dargs="-view output_path/reposense-report"
 ```
 `-Dargs="..."` uses the same argument format as mentioned above.
 
-## CSV Config File
-The `CSV Config File` contains the list of repositories, and the corresponding target authors to track contribution of.
+## CSV Config Files
+The `repo-config.csv` contains the location and the branch of repositories to analyze.
 [repo-config.csv](../repo-config.csv) is an example of a configuration file setup. It should contain the following columns:
+
+Column Name | Explanation
+----------- | -----------
+Repository's Location | The `GitHub URL` or `Disk Path` to the git repository
+Branch | The branch to analyse in the target repository
+[Optional] Ignore Global List | The list of file path globs to ignore during analysis for each author. More details on the Java glob standard [here](https://javapapers.com/java/glob-with-java-nio/)
+
+The `author-config.csv` contains the list of repositories, and the corresponding target authors to track contribution of.
+[repo-config.csv](../author-config.csv) is an example of a configuration file setup. It should contain the following columns:
 
 Column Name | Explanation
 ----------- | -----------
@@ -101,7 +110,7 @@ Branch | The branch to analyse in the target repository
 Author's GitHub ID | GitHub ID of the target contributor in the repository
 Author's Display Name | Optional Field. The value of this field, if not empty, will be displayed in the dashboard instead of author's GitHub ID.
 [Optional] Author's Git Author Name | Detailed explanation below
-[Optional] Ignore Global List | The list of file path globs to ignore during analysis for each author. More details on the Java glob standard [here](https://javapapers.com/java/glob-with-java-nio/)
+[Optional] Ignore Global List | The list of file path globs to ignore during analysis for this author on top of what is already specified in `repo-config.csv`. More details on the Java glob standard [here](https://javapapers.com/java/glob-with-java-nio/)
 
 #### Git Author Name
 `Git Author Name` refers to the customizable author's display name set in the local `.gitconfig` file.
@@ -133,7 +142,7 @@ git config --global user.name “YOUR_GITHUB_ID_HERE”
 ```
 For more information, do visit this [FAQ](https://www.git-tower.com/learn/git/faq/change-author-name-email) on changing Git Author Identity.
 
-If an author's `Git Author Name` is not the same as his `GitHub ID`, the `Git Author Name` needs to be filled into the CSV config file for accurate consolidation.
+If an author's `Git Author Name` is not the same as his `GitHub ID`, the `Git Author Name` needs to be filled into the `author-config.csv` file for accurate consolidation.
 In the event that the author has more than one `Git Author Name`, multiple values can be entered in the `Git Author Name` column by using a semicolon `;` separator.
 For example,`Alice;Bob`.
 
