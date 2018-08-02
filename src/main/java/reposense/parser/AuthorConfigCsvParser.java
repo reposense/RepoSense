@@ -66,8 +66,6 @@ public class AuthorConfigCsvParser extends CsvParser<RepoConfiguration> {
         setDisplayName(config, author, displayName);
         setAliases(config, author, gitHubId, aliases);
         setAuthorIgnoreGlobList(author, ignoreGlobList);
-
-        results.add(config);
     }
 
 
@@ -82,7 +80,13 @@ public class AuthorConfigCsvParser extends CsvParser<RepoConfiguration> {
         RepoConfiguration config = new RepoConfiguration(location, branch);
         int index = results.indexOf(config);
 
-        return index != -1 ? results.get(index) : config;
+        if (index != -1) {
+            config = results.get(index);
+        } else {
+            results.add(config);
+        }
+
+        return config;
     }
 
     /**
