@@ -126,9 +126,9 @@ public class CsvParser {
                 && !elements[ALIAS_POSITION].isEmpty();
 
         if (areAliasesInElements) {
-            String[] aliases = elements[ALIAS_POSITION].split(AUTHOR_ALIAS_AND_GLOB_SEPARATOR);
-            config.setAuthorAliases(author, aliases);
-            author.setAuthorAliases(Arrays.asList(aliases));
+            List<String> aliases = Arrays.asList(elements[ALIAS_POSITION].split(AUTHOR_ALIAS_AND_GLOB_SEPARATOR));
+            config.addAuthorAliases(author, aliases);
+            author.setAuthorAliases(aliases);
         }
     }
 

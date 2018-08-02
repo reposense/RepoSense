@@ -1,35 +1,33 @@
 {
+	"ignoreGlobList": ["**.adoc", "collate**"],
 	"authors":
 	[
 		{
 			"githubId": "AdityaA1998",
 			"displayName": "Aditya",
-			"authorNames": ["AdityaA1998"],
-			"ignoreGlobList": []
+			"authorNames": ["AdityaA1998"]
 		},
 		{
 			"githubId": "eugenepeh",
 			"displayName": "Eugene",
-			"authorNames": ["Eugene Peh"],
-			"ignoreGlobList": []
+			"authorNames": ["Eugene Peh"]
 		},
 		{
 			"githubId": "ongspxm",
 			"displayName": "Metta",
-			"authorNames": ["Metta Ong"],
-			"ignoreGlobList": []
+			"authorNames": ["Metta Ong"]
 		},
 		{
 			"githubId": "yamidark",
 			"displayName": "Jun An",
 			"authorNames": ["Jun An"],
-			"ignoreGlobList": []
+			"ignoreGlobList": ["**.html", "**.jade"]
 		},
 		{
 			"githubId": "yong24s",
 			"displayName": "Yong Hao",
 			"authorNames": ["Yong Hao TENG"],
-			"ignoreGlobList": []
+			"ignoreGlobList": ["**.css", "**.html", "**.jade", "**.js"]
 		}
 	]
 }

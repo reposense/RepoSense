@@ -12,7 +12,7 @@
  > Type `git --version` on your OS terminal and ensure that you have the correct version of **git**.
 
 ## How to Generate Report
-1. Download the latest executable Jar on our [release](https://github.com/reposense/RepoSense/releases/latest).
+1. Download the latest executable Jar from our [release](https://github.com/reposense/RepoSense/releases/latest).
    * Alternatively, you can compile the executable Jar yourself by following our [build from source guide](Build.md).
 1. Execute it on the OS terminal. <br>
 

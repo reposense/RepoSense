@@ -97,18 +97,21 @@ public class RepoConfiguration {
         authorList.clear();
         authorAliasMap.clear();
         authorDisplayNameMap.clear();
+        ignoreGlobList = standaloneConfig.getIgnoreGlobList();
 
         for (StandaloneAuthor sa : standaloneConfig.getAuthors()) {
             Author author = new Author(sa.getGithubId());
             String displayName = !sa.getDisplayName().isEmpty() ? sa.getDisplayName() : sa.getGithubId();
+            List<String> authorIgnoreGlobList = new ArrayList<>(ignoreGlobList);
+            authorIgnoreGlobList.addAll(sa.getIgnoreGlobList());
 
             authorList.add(author);
-            author.setAuthorAliases(Arrays.asList(sa.getAuthorNames()));
-            author.setIgnoreGlobList(Arrays.asList(sa.getIgnoreGlobList()));
+            author.setAuthorAliases(sa.getAuthorNames());
+            author.setIgnoreGlobList(authorIgnoreGlobList);
 
-            setAuthorDisplayName(author, displayName);
-            setAuthorAliases(author, sa.getGithubId());
-            setAuthorAliases(author, sa.getAuthorNames());
+            this.setAuthorDisplayName(author, displayName);
+            this.addAuthorAliases(author, Arrays.asList(sa.getGithubId()));
+            this.addAuthorAliases(author, sa.getAuthorNames());
         }
     }
 
@@ -197,7 +200,7 @@ public class RepoConfiguration {
         this.authorList = authorList;
 
         // Set GitHub Id as default alias
-        authorList.forEach(author -> setAuthorAliases(author, author.getGitId()));
+        authorList.forEach(author -> addAuthorAliases(author, Arrays.asList(author.getGitId())));
     }
 
     public TreeMap<String, Author> getAuthorAliasMap() {
@@ -236,10 +239,8 @@ public class RepoConfiguration {
         authorDisplayNameMap.put(author, displayName);
     }
 
-    public void setAuthorAliases(Author author, String... aliases) {
-        for (String alias : aliases) {
-            authorAliasMap.put(alias, author);
-        }
+    public void addAuthorAliases(Author author, List<String> aliases) {
+        aliases.forEach(alias -> authorAliasMap.put(alias, author));
     }
 
     public String getDisplayName() {
