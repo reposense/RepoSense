@@ -129,12 +129,12 @@ The main Vue object (`window.app`) is responsible for the loading of the dashboa
 - the summary view
 - and the tabbed interface
 
-Summary view act as the main dashboard which shows the varies calculations.
+Summary view act as the main dashboard which shows the varies calculations. </br>
 Tabbed interface is responsible for loading various modules such as authorship to display additional information.
 
 ### Javascript Files
+- **main.js** - main controller that pushes content into different modules
 - **api.js** - loading and parsing of the dashboard content
-- **main.js** - main controller that handles the loading of the content into different modules
 - **v_summary.js** - module that supports the ramp chart view
 - **v_authorship.js** - module that supports the authorship view
 
