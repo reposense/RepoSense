@@ -91,8 +91,9 @@ gradlew run -Dargs="-view output_path/reposense-report"
 `-Dargs="..."` uses the same argument format as mentioned above.
 
 ## CSV Config Files
-The `repo-config.csv` contains the location and the branch of repositories to analyze.
-[repo-config.csv](../repo-config.csv) is an example of a configuration file setup. It should contain the following columns:
+#### Repository configuration file
+to configure the list of repositories to analyze and the respective repository level options.
+repo-config.csv is an example of a configuration file setup. It should contain the following columns:
 
 Column Name | Explanation
 ----------- | -----------
@@ -100,15 +101,18 @@ Repository's Location | The `GitHub URL` or `Disk Path` to the git repository
 Branch | The branch to analyse in the target repository
 [Optional] Ignore Global List | The list of file path globs to ignore during analysis for each author. More details on the Java glob standard [here](https://javapapers.com/java/glob-with-java-nio/)
 
-The [Optional]`author-config.csv` contains the list of repositories, and the corresponding target authors to track contribution of.
+#### Author configuration file [Optional]
+to configure the list of authors to analyse and the options.
+author-config.csv is an example of a configuration file setup. It should contain the following columns:
 
 ```
 Note:
 If author-config.csv is not used or repositories that are not in author-config.csv,
-please add [Standalone Configuration](#standalone-configuration) to those repostories.
+please add Standalone Configuration to those repostories.
 ```
+> [Link to Standalone Configuration](#standalone-configuration)
 
-[repo-config.csv](../author-config.csv) is an example of a configuration file setup. It should contain the following columns:
+[author-config.csv](../author-config.csv) is an example of a configuration file setup. It should contain the following columns:
 
 Column Name | Explanation
 ----------- | -----------
@@ -117,7 +121,7 @@ Branch | The branch to analyse in the target repository
 Author's GitHub ID | GitHub ID of the target contributor in the repository
 Author's Display Name | Optional Field. The value of this field, if not empty, will be displayed in the dashboard instead of author's GitHub ID.
 [Optional] Author's Git Author Name | Detailed explanation below
-[Optional] Ignore Global List | The list of file path globs to ignore during analysis for this author on top of what is already specified in `repo-config.csv`. More details on the Java glob standard [here](https://javapapers.com/java/glob-with-java-nio/)
+[Optional] Ignore Global List | The list of file path globs to ignore during analysis for this author on top of what is already specified in `author-config.csv`. More details on the Java glob standard [here](https://javapapers.com/java/glob-with-java-nio/)
 
 #### Git Author Name
 `Git Author Name` refers to the customizable author's display name set in the local `.gitconfig` file.
