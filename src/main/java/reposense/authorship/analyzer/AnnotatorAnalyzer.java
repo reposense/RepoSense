@@ -1,5 +1,7 @@
 package reposense.authorship.analyzer;
 
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -22,13 +24,18 @@ public class AnnotatorAnalyzer {
      */
     public static void aggregateAnnotationAuthorInfo(FileInfo fileInfo, Map<String, Author> authorAliasMap) {
         Author currentAuthor = null;
+        Path filePath = Paths.get(fileInfo.getPath());
         for (LineInfo lineInfo : fileInfo.getLines()) {
             if (lineInfo.getContent().contains(AUTHOR_TAG)) {
                 Author newAuthor = findAuthorInLine(lineInfo.getContent(), authorAliasMap);
+
                 if (newAuthor == null) {
                     //end of an author tag should belong to this author too.
                     lineInfo.setAuthor(currentAuthor);
+                } else if (newAuthor.getIgnoreGlobMatcher().matches(filePath)) {
+                    newAuthor = null;
                 }
+
                 //set a new author
                 currentAuthor = newAuthor;
             }
