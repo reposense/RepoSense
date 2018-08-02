@@ -4,7 +4,8 @@ Thank you for your interest in contributing to RepoSense!
   - [Prerequisites](#prerequisites)
   - [Setting up the project in your computer using IntelliJ](#setting-up-the-project-in-your-computer-using-intellij)
   - [Verifying the setup](#verifying-the-setup)
-  - [Configuring the coding style](#configuring-the-coding-style)
+  - [Configuring the coding Java style](#configuring-the-java-coding-style)
+  - [Configuring the coding JavaScript style](#configuring-the-javascript-coding-style)
 - [Architecture](#architecture)
   - [Parser](#parserconfigparser)
   - [Git](#gitgitdownloader)
@@ -38,7 +39,7 @@ Thank you for your interest in contributing to RepoSense!
 1. Run the tests to ensure that they all pass by running the command `gradlew test functional`, and ensure that it finishs with a `BUILD SUCCESSFUL` message.
   > Ensure that you are on the project root directory when using the `gradlew` commands.
 
-### Configuring the coding style
+### Configuring the Java coding style
 This project follows [oss-generic coding standards](https://oss-generic.github.io/process/docs/CodingStandards.html). *IntelliJ’s* default style is mostly compliant with our *Java* coding convention but it uses a different import order from ours. To rectify,
 
 1. Go to `File` > `Settings…`​ (*Windows/Linux*), or `IntelliJ IDEA` > `Preferences…`​ (*macOS*).
@@ -49,6 +50,9 @@ This project follows [oss-generic coding standards](https://oss-generic.github.i
    ![import-order](images/import-order.png)
 
 Optionally, you can follow the [Using Checkstyle](UsingCheckstyle.md) document to configure *Intellij* to check style-compliance as you write code.
+
+### Configuring the JavaScript coding style
+Our project follows the [Airbnb Javascript Style Guide](https://github.com/airbnb/javascript), the eslint configuration file is available at the root of the project. Please run a `npm run lint -- --fix frontend/src/**/*js` from the project root directory and fix all of the eslint errors before committing your code for final review.
 
 ### Before writing code
 1. Do check out our [process guide](../docs/Process.md) before submitting any PR with your changes.
@@ -137,9 +141,6 @@ Tabbed interface is responsible for loading various modules such as authorship t
 - **api.js** - loading and parsing of the dashboard content
 - **v_summary.js** - module that supports the ramp chart view
 - **v_authorship.js** - module that supports the authorship view
-
-### Javascript Code Quality Checker
-Our project follows the [Airbnb Javascript Style Guide](https://github.com/airbnb/javascript), the eslint configuration file is available at the root of the project. Please run a `npm run lint -- --fix frontend/src/**/*js` from the project root directory and fix all of the eslint errors before committing your code for final review.
 
 ### Loading of dashboard information
 The main Vue object depends on the `summary.json` data to determine the right `commits.json` files to load into memory. This is handled by `api.js` which loads the relevant file information from the network files if it is available, otherwise a report archive have to be used.
