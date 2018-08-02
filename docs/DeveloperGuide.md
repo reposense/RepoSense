@@ -116,7 +116,7 @@ Optionally, you can follow the [Using Checkstyle](UsingCheckstyle.md) document t
 ## HTML Dashboard
 The source files for the dashboard is located in `frontend/src` and is built by [spuild](https://github.com/ongspxm/spuild2) before being packaged into the JAR file to be extracted as part of the report.
 
-![dashboard screenshot](images/html_dashboard.png)
+![dashboard screenshot](images/dashboard.png)
 
 ### Javascript Files
 - **api.js** - loading and parsing of the dashboard content
