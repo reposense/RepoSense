@@ -4,19 +4,19 @@ window.toggleNext = function toggleNext(ele) {
   const child = ele.childNodes;
 
   let style = 'none';
-  let childStyle = '#bfbdbd';
+  let childBackground = '#bfbdbd';
   let toolTipMessage = 'Show untouched code';
 
   if (target.style.display === 'none') {
     style = '';
-    childStyle = '#000';
+    childBackground = '#000';
     toolTipMessage = 'Hide untouched code';
   }
 
   target.style.display = style;
 
   if (target.className === 'code') {
-    child[0].style.background = childStyle;
+    child[0].style.background = childBackground;
     target.style.borderLeft = '4px solid rgba(197, 206, 197, 1)';
     child[2].innerHTML = toolTipMessage;
   }

@@ -265,9 +265,9 @@ header{
                 padding:0.5rem 1rem;
 
                 .fa-ellipsis-h{
+                    width: 2.2rem;
                     background-color: #bfbdbd;
                     color: white;
-                    width: 2.5em;
                     border-radius: 5px;
 
                     &:hover {
@@ -282,15 +282,14 @@ header{
                 }
 
                 .tooltiptext {
-                  visibility: hidden;
-                  width: 1em;
-                  background-color: black;
-                  color: #fff;
-                  text-align: center;
-                  border-radius: 6px;
-                  padding: 5px 6px;
                   position: relative;
+                  color: #fff;
+                  background-color: #000;
+                  text-align: center;
+                  padding: 5px 6px;
                   margin-left: 5px;
+                  visibility: hidden;
+                  border-radius: 6px;
                 }
             }
         }
