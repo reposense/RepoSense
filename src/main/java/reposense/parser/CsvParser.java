@@ -68,7 +68,7 @@ public abstract class CsvParser<T> {
 
     private boolean isLineMalformed(final String[] elements, int lineNumber, String line) {
         for (int position : mandatoryPositions()) {
-            if (!containsValueInElementsAndNotEmpty(elements, position)) {
+            if (!containsValueAtPosition(elements, position)) {
                 logger.warning(String.format(MESSAGE_MALFORMED_LINE_FORMAT, lineNumber, line));
                 return true;
             }
@@ -81,7 +81,7 @@ public abstract class CsvParser<T> {
      * Checks that {@code position} in within the range of {@code element} array and
      * value in {@code position} is not empty.
      */
-    private boolean containsValueInElementsAndNotEmpty(final String[] elements, int position) {
+    private boolean containsValueAtPosition(final String[] elements, int position) {
         return elements.length > position && !elements[position].isEmpty();
     }
 
@@ -91,7 +91,7 @@ public abstract class CsvParser<T> {
      * Otherwise returns an empty string.
      */
     protected String getValueInElement(final String[] elements, int position) {
-        return (containsValueInElementsAndNotEmpty(elements, position)) ? elements[position] : "";
+        return (containsValueAtPosition(elements, position)) ? elements[position] : "";
     }
 
     /**
@@ -101,7 +101,7 @@ public abstract class CsvParser<T> {
      * Otherwise returns an empty array.
      */
     protected List<String> getManyValueInElement(final String[] elements, int position) {
-        if (!containsValueInElementsAndNotEmpty(elements, position)) {
+        if (!containsValueAtPosition(elements, position)) {
             return Collections.emptyList();
         }
 
