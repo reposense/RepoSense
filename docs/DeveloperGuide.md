@@ -120,15 +120,6 @@ The main HTML file is generated from [`frontend/src/index.jade`](../frontend/src
 
 ![dashboard screenshot](images/dashboard.png)
 
-### Javascript Files
-- **api.js** - loading and parsing of the dashboard content
-- **main.js** - main controller that handles the loading of the content into different modules
-- **v_summary.js** - module that supports the ramp chart view
-- **v_authorship.js** - module that supports the authorship view
-
-### Javascript Code Quality Checker
-Our project follows the [Airbnb Javascript Style Guide](https://github.com/airbnb/javascript), the eslint configuration file is available at the root of the project. Please run a `npm run lint -- --fix frontend/src/**/*js` from the project root directory and fix all of the eslint errors before committing your code for final review.
-
 ### Dashboard Architecture
 ![dashboard architecture](images/dashboard-architecture.png)
 
@@ -140,6 +131,15 @@ The main Vue object (`window.app`) is responsible for the loading of the dashboa
 
 Summary view act as the main dashboard which shows the varies calculations.
 Tabbed interface is responsible for loading various modules such as authorship to display additional information.
+
+### Javascript Files
+- **api.js** - loading and parsing of the dashboard content
+- **main.js** - main controller that handles the loading of the content into different modules
+- **v_summary.js** - module that supports the ramp chart view
+- **v_authorship.js** - module that supports the authorship view
+
+### Javascript Code Quality Checker
+Our project follows the [Airbnb Javascript Style Guide](https://github.com/airbnb/javascript), the eslint configuration file is available at the root of the project. Please run a `npm run lint -- --fix frontend/src/**/*js` from the project root directory and fix all of the eslint errors before committing your code for final review.
 
 ### Loading of dashboard information
 The main Vue object depends on the `summary.json` data to determine the right `commits.json` files to load into memory. This is handled by `api.js` which loads the relevant file information from the network files if it is available, otherwise a report archive have to be used.
