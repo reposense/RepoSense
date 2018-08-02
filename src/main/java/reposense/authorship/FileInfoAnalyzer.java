@@ -78,13 +78,14 @@ public class FileInfoAnalyzer {
 
         String blameResults = getGitBlameResult(config, fileInfo.getPath());
         String[] blameResultLines = blameResults.split("\n");
+        Path filePath = Paths.get(fileInfo.getPath());
         int lineCount = 0;
 
         for (String line : blameResultLines) {
             String authorRawName = line.substring(AUTHOR_NAME_OFFSET);
             Author author = authorAliasMap.getOrDefault(authorRawName, new Author(Author.UNKNOWN_AUTHOR_GIT_ID));
 
-            if (!fileInfo.isFileLineTracked(lineCount) || isAuthorIgnoringFile(author, fileInfo)) {
+            if (!fileInfo.isFileLineTracked(lineCount) || isAuthorIgnoringFile(author, filePath)) {
                 author = new Author(Author.UNKNOWN_AUTHOR_GIT_ID);
             }
 
@@ -116,10 +117,10 @@ public class FileInfoAnalyzer {
     }
 
     /**
-     * Returns true if the {@code author} is ignoring the file path of {@code fileInfo} based on its ignore glob list.
+     * Returns true if the {@code author} is ignoring the {@code filePath} based on its ignore glob list.
      */
-    private static boolean isAuthorIgnoringFile(Author author, FileInfo fileinfo) {
+    private static boolean isAuthorIgnoringFile(Author author, Path filePath) {
         PathMatcher ignoreGlobMatcher = author.getIgnoreGlobMatcher();
-        return ignoreGlobMatcher.matches(Paths.get(fileinfo.getPath()));
+        return ignoreGlobMatcher.matches(filePath);
     }
 }

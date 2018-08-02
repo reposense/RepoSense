@@ -126,8 +126,8 @@ window.vSummary = {
         REPOS[user.repoId].repoName}/commits/${
         REPOS[user.repoId].branch}?`
                 + `author=${user.name}&`
-                + `since=${slice.sinceDate}&`
-                + `until=${slice.untilDate}`;
+                + `since=${slice.sinceDate}'T'00:00:00+08:00&`
+                + `until=${slice.sinceDate}'T'23:59:59+08:00`;
     },
     getContributionBars(totalContribution) {
       const res = [];
@@ -304,7 +304,7 @@ window.vSummary = {
 
       user.dailyCommits.forEach((commit) => {
         const date = commit.sinceDate;
-        if (date >= sinceDate && date < untilDate) {
+        if (date >= sinceDate && date <= untilDate) {
           user.commits.push(commit);
         }
       });
