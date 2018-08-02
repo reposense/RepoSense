@@ -142,7 +142,7 @@ Summary view act as the main dashboard which shows the varies calculations.
 Tabbed interface is responsible for loading various modules such as authorship to display additional information.
 
 ### Loading of dashboard information
-The main Vue object depends on the `summary.json` data to determine the right `commits.json` files to load into memory. This is handled by `api.js`. It loads the relevant file information from the network files, if it is available, otherwise a report archive have to be used.
+The main Vue object depends on the `summary.json` data to determine the right `commits.json` files to load into memory. This is handled by `api.js` which loads the relevant file information from the network files if it is available, otherwise a report archive have to be used.
 
 Once the relevant `commit.json` files are loaded, all the repo information will be passed into `v_summary` to be loaded in the summary view as the relevant ramp charts.
 
@@ -157,9 +157,9 @@ Other than the global main Vue object, another global variable we have is the `w
 ### v_summary module
 The summary module is activated after the information is loaded from the main Vue.JS object. At creation, the `repo` attribute is populated with the `window.REPOS` object, which contains information loaded from `summary.json`.
 
-The commits information is retrieved from the corresponding project folders for each repository. These information will be will filtered and sorted before being passed into the template to be dipslayed as ramp charts.
+The commits information is retrieved from the corresponding project folders for each repository. These information will be will filtered and sorted before being passed into the template to be displayed as ramp charts.
 
 ### v_authorship module
-The authorship module retreives the relevant information from the corresponding `authorship.json` file if it is not yet loaded. If it has been loaded, the data will be written into `window.REPO` and be read from there instead.
+The authorship module retrieves the relevant information from the corresponding `authorship.json` file if it is not yet loaded. If it has been loaded, the data will be written into `window.REPO` and be read from there instead.
 
 The files will be filtered, picking only files the selected author has written in. The lines are then split into chunks of "touched" and "untouched" code to be displayed in the tab view which will be popped up on the right side of the screen.
