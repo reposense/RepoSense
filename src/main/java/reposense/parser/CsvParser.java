@@ -106,7 +106,8 @@ public abstract class CsvParser<T> {
         }
 
         String manyValue = getValueInElement(elements, position);
-        return Arrays.asList(manyValue.split(AUTHOR_ALIAS_AND_GLOB_SEPARATOR));
+        // Wrap with new ArrayList<> to make the created List is mutable.
+        return new ArrayList<>(Arrays.asList(manyValue.split(AUTHOR_ALIAS_AND_GLOB_SEPARATOR)));
     }
 
     /**
