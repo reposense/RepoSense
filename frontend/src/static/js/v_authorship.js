@@ -121,9 +121,11 @@ window.vAuthorship = {
       const res = [];
 
       files.forEach((file) => {
-        if (file.authorContributionMap[this.info.author]) {
+        const lineCnt = file.authorContributionMap[this.info.author];
+        if (lineCnt) {
           const out = {};
           out.path = file.path;
+          out.lineCount = lineCnt;
 
           const segments = this.splitSegments(file.lines);
           const bigSegments = this.removeSmallUnauthored(segments);
