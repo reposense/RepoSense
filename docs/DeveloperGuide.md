@@ -171,12 +171,20 @@ As such, the API module will be handling all request for all the JSON data files
 #### Retrieving and parsing information
 After the JSON files are loaded from their respective sources, the data will be parsed as objects and included inside the global storage object, `window.REPOS`,  in the right format.
 
-#### v_summary module
+### V_summary.JS
+The `v_summary` module is in charged of loading the ramp charts from the corresponding `commits.json`.
+
+#### Initializing the data for the ramp charts
 The summary module is activated after the information is loaded from the main Vue.JS object. At creation, the `repo` attribute is populated with the `window.REPOS` object, which contains information loaded from `summary.json`.
 
+#### Filtering users and repositories
 The commits information is retrieved from the corresponding project folders for each repository. These information will be will filtered and sorted before being passed into the template to be displayed as ramp charts.
 
-#### v_authorship module
+#### Padding for dates
+For ramps between the date ranges, the slices will be selected and it will be pre and post padded with empty slices to align the ramp slice between the `sinceDate` and `untilDate`. The ramps will then be rendered with the slices in the right position.
+
+### V_authorship.JS
 The authorship module retrieves the relevant information from the corresponding `authorship.json` file if it is not yet loaded. If it has been loaded, the data will be written into `window.REPO` and be read from there instead.
 
+#### Showing relevant information by authors
 The files will be filtered, picking only files the selected author has written in. The lines are then split into chunks of "touched" and "untouched" code to be displayed in the tab view which will be popped up on the right side of the screen.
