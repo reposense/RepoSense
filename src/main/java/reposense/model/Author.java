@@ -54,6 +54,7 @@ public class Author {
 
     public void appendIgnoreGlobList(List<String> ignoreGlobList) {
         this.ignoreGlobList.addAll(ignoreGlobList);
+        updateIgnoreGlobMatcher();
     }
 
     @Override
