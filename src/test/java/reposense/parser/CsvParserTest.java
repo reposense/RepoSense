@@ -27,9 +27,6 @@ public class CsvParserTest {
     private static final Author FIRST_AUTHOR = new Author("nbriannl");
     private static final Author SECOND_AUTHOR = new Author("zacharytang");
 
-    private static final List<String> FIRST_AUTHOR_ALIASES = Arrays.asList("Nbr");
-    private static final List<String> SECOND_AUTHOR_ALIASES = Arrays.asList("Zac");
-
     private static final List<String> REPO_LEVEL_GLOB_LIST = Arrays.asList("collated**");
     private static final List<String> FIRST_AUTHOR_GLOB_LIST = Arrays.asList("collated**", "**.java");
 
@@ -44,10 +41,9 @@ public class CsvParserTest {
 
         RepoConfiguration expectedConfig = new RepoConfiguration(TEST_REPO_BETA_LOCATION, TEST_REPO_BETA_BRANCH);
         expectedConfig.setAuthorList(expectedAuthors);
-        expectedConfig.addAuthorAliases(FIRST_AUTHOR, FIRST_AUTHOR_ALIASES);
-        expectedConfig.addAuthorAliases(SECOND_AUTHOR, SECOND_AUTHOR_ALIASES);
-        expectedConfig.setAuthorDisplayName(SECOND_AUTHOR, "Zachary Tang");
-
+        expectedConfig.setAuthorDisplayName(FIRST_AUTHOR, "Nbr");
+        expectedConfig.setAuthorDisplayName(SECOND_AUTHOR, "Zac");
+        expectedConfig.addAuthorAliases(SECOND_AUTHOR,  Arrays.asList("Zachary Tang"));
         expectedConfig.setIgnoreGlobList(REPO_LEVEL_GLOB_LIST);
 
         String input = String.format("-config %s", TEST_CONFIG_FOLDER);
