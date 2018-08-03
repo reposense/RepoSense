@@ -142,25 +142,41 @@ Tabbed interface is responsible for loading various modules such as authorship t
 - **v_summary.js** - module that supports the ramp chart view
 - **v_authorship.js** - module that supports the authorship view
 
-### Loading of dashboard information
+### Main.JS
+This contains the logic for main VueJS object, `window.app`, which is responsible for passing the neccessary data into the relevant modules to be loaded.
+
+#### Loading of dashboard information
 The main Vue object depends on the `summary.json` data to determine the right `commits.json` files to load into memory. This is handled by `api.js` which loads the relevant file information from the network files if it is available, otherwise a report archive have to be used.
 
 Once the relevant `commit.json` files are loaded, all the repo information will be passed into `v_summary` to be loaded in the summary view as the relevant ramp charts.
 
-### Activating additional view modules
+#### Activating additional view modules
 Most activity or actions should happen within the module itself, but in the case where there is a need to control the tab view from the module, an event is emitted from the module to the main Vue object (`window.app`), which then handles the data received and passes it along to the relevant modules.
 
 An additional thing to note is the event handler should handle the switching of the tabs as well, activating the display of the rights tabs just that the relevant tabs are being displayed at all times.
 
-### Hash link
+#### Hash link
 Other than the global main Vue object, another global variable we have is the `window.hashParams`. This object is reponsible for generating the relevant permalink for a specific view of the summary module for the dashboard.
 
-### v_summary module
+### Api.JS
+This is the module that is in charged of loading and parsing the data files generated as part of the report.
+
+#### Loading from ZIP file
+Due security design, most modern browsers do not allow web pages to obtain local files using the directory alone. As such, a ZIP archive of the report information will be produced alongside the report generation.
+
+This archive can be used in place of the network files to load the information into the dashboard when the dashboard HTML.
+
+As such, the API module will be handling all request for all the JSON data files. If the network file is not available,
+
+#### Retrieving and parsing information
+After the JSON files are loaded from their respective sources, the data will be parsed as objects and included inside the global storage object, `window.REPOS`,  in the right format.
+
+#### v_summary module
 The summary module is activated after the information is loaded from the main Vue.JS object. At creation, the `repo` attribute is populated with the `window.REPOS` object, which contains information loaded from `summary.json`.
 
 The commits information is retrieved from the corresponding project folders for each repository. These information will be will filtered and sorted before being passed into the template to be displayed as ramp charts.
 
-### v_authorship module
+#### v_authorship module
 The authorship module retrieves the relevant information from the corresponding `authorship.json` file if it is not yet loaded. If it has been loaded, the data will be written into `window.REPO` and be read from there instead.
 
 The files will be filtered, picking only files the selected author has written in. The lines are then split into chunks of "touched" and "untouched" code to be displayed in the tab view which will be popped up on the right side of the screen.
