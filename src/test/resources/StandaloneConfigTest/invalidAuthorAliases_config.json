@@ -1,0 +1,29 @@
+{
+	"ignoreGlobList": ["collated**"],
+	"authors":
+	[
+		{
+			"githubId": "lithiumlkid",
+			"displayName": "Ahm",
+			"authorNames": ["Ahmad Syafiq"],
+			"ignoreGlobList": ["*.aa1", "**.aa2", "**.java"]
+		},
+		{
+			"githubId": "codeeong",
+			"displayName": "Cod",
+			"authorNames": ["Codee; ls"],
+			"ignoreGlobList": ["**[!(.md)]"]
+		},
+		{
+			"githubId": "jordancjq",
+			"displayName": "Jor",
+			"authorNames": ["Jordan Chong"],
+			"ignoreGlobList": [""]
+		},
+		{
+			"githubId": "lohtianwei",
+			"displayName": "Loh",
+			"authorNames": ["Tianwei"]
+		}
+	]
+}
