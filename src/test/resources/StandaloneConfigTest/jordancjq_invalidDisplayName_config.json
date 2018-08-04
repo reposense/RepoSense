@@ -10,13 +10,13 @@
 		},
 		{
 			"githubId": "codeeong",
-			"displayName": "Cod \" echo 'hello world'",
+			"displayName": "Cod",
 			"authorNames": ["Codee"],
 			"ignoreGlobList": ["**[!(.md)]"]
 		},
 		{
 			"githubId": "jordancjq",
-			"displayName": "Jor",
+			"displayName": "Jor \" echo 'hello world'",
 			"authorNames": ["Jordan Chong"],
 			"ignoreGlobList": [""]
 		},
