@@ -136,7 +136,6 @@ public class RepoConfiguration {
             author.appendIgnoreGlobList(ignoreGlobList);
 
             this.authorList.add(author);
-
             this.setAuthorDisplayName(author, author.getDisplayName());
             this.addAuthorAliases(author, Arrays.asList(author.getGitId()));
             this.addAuthorAliases(author, author.getAuthorAliases());

@@ -5,27 +5,30 @@ import java.nio.file.PathMatcher;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Represents a Git Author.
+ */
 public class Author {
+
     public static final String UNKNOWN_AUTHOR_GIT_ID = "-";
 
     private static final String MESSAGE_ILLEGAL_GIT_ID = "The provided Git ID, %s, contains illegal characters.";
     private static final String MESSAGE_ILLEGAL_DISPLAY_NAME =
             "The provided display name, %s, contains illegal characters.";
     private static final String MESSAGE_ILLEGAL_AUTHOR_ALIAS =
-            "The provided author alias, %s,  contains illegal characters.";
+            "The provided author alias, %s, contains illegal characters.";
     private static final String MESSAGE_UNCOMMON_GLOB_PATTERN =
-            "The provided ignore glob, %s,  uses uncommon pattern.";
+            "The provided ignore glob, %s, uses uncommon pattern.";
 
     private static final String COMMON_GLOB_REGEX = "^[-a-zA-Z0-9 _/\\\\*!{}\\[\\]!(),:.]*$";
     private static final String NAME_VALIDATION_REGEX = "^[-a-zA-Z0-9 _/\\\\*]+$";
 
-    private String gitId;
+    private final String gitId;
 
     private transient String displayName;
     private transient List<String> authorAliases;
     private transient List<String> ignoreGlobList;
     private transient PathMatcher ignoreGlobMatcher;
-
 
     public Author(String gitId) {
         if (!isValidName(gitId)) {
@@ -63,42 +66,38 @@ public class Author {
     }
 
     /**
-     * Returns true if a given string is a valid name.
+     * Returns true if the given {@code value} is a valid name.
      */
-    private static boolean isValidName(String name) {
-        return name.matches(NAME_VALIDATION_REGEX);
+    private static boolean isValidName(String value) {
+        return value.matches(NAME_VALIDATION_REGEX);
     }
 
     /**
-     * Returns true if all the strings in the {@code ignoreGlobList} only contains commonly used glob patterns.
+     * Checks that all the strings in the {@code ignoreGlobList} only contains commonly used glob patterns.
+     * @throws IllegalArgumentException if any of the values do not meet the criteria.
      */
-    private static boolean validateIgnoreGlobs(List<String> ignoreGlobList) {
+    private static void validateIgnoreGlobs(List<String> ignoreGlobList) throws IllegalArgumentException {
         for (String glob: ignoreGlobList) {
             if (!glob.matches(COMMON_GLOB_REGEX)) {
                 throw new IllegalArgumentException(String.format(MESSAGE_UNCOMMON_GLOB_PATTERN, glob));
             }
         }
-        return true;
     }
 
     /**
-     * Returns true if all the strings in the {@code authorAliases} are valid names.
+     * Checks that all the strings in the {@code authorAliases} are valid names.
+     * @throws IllegalArgumentException if any of the values do not meet the criteria.
      */
-    private static boolean validateAuthorAliases(List<String> authorAliases) {
+    private static void validateAuthorAliases(List<String> authorAliases) throws IllegalArgumentException {
         for (String alias: authorAliases) {
             if (!isValidName(alias)) {
                 throw new IllegalArgumentException(String.format(MESSAGE_ILLEGAL_AUTHOR_ALIAS, alias));
             }
         }
-        return true;
     }
 
     public String getGitId() {
         return gitId;
-    }
-
-    public void setGitId(String gitId) {
-        this.gitId = gitId;
     }
 
     public String getDisplayName() {
@@ -119,7 +118,7 @@ public class Author {
 
     public void setIgnoreGlobList(List<String> ignoreGlobList) {
         validateIgnoreGlobs(ignoreGlobList);
-        this.ignoreGlobList = ignoreGlobList;
+        this.ignoreGlobList = new ArrayList<>(ignoreGlobList);
         updateIgnoreGlobMatcher();
     }
 

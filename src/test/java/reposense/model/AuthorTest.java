@@ -1,7 +1,10 @@
 package reposense.model;
 
-import static org.junit.Assert.assertEquals;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
+import org.junit.Assert;
 import org.junit.Test;
 
 import reposense.util.AssertUtil;
@@ -24,10 +27,62 @@ public class AuthorTest {
     public void constructor_validGitHubId_success() {
         String gitId = "lithiumlkid";
         Author author = new Author(gitId);
-        assertEquals(author.getGitId(), gitId);
+        Assert.assertEquals(gitId, author.getGitId());
 
         gitId = "LAPTOP-7KFM2KSP\\User";
         author = new Author(gitId);
-        assertEquals(author.getGitId(), gitId);
+        Assert.assertEquals(gitId, author.getGitId());
+    }
+
+    @Test
+    public void setIgnoreGlobList_validGlobRegex_success() {
+        Author author = new Author("Tester");
+        String[] ignoreGlobs = new String[] {"**.adoc", "collated/**"};
+
+        author.setIgnoreGlobList(Arrays.asList(ignoreGlobs));
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void setIgnoreGlobList_quoteInGlobPattern_throwIllegalArgumentException() {
+        Author author = new Author("Tester");
+        String[] ignoreGlobs = new String[] {"**.adoc", "collated/**\""};
+
+        author.setIgnoreGlobList(Arrays.asList(ignoreGlobs));
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void setIgnoreGlobList_semicolonInGlobPattern_throwIllegalArgumentException() {
+        Author author = new Author("Tester");
+        String[] ignoreGlobs = new String[] {"**.adoc; echo hi", "collated/**"};
+
+        author.setIgnoreGlobList(Arrays.asList(ignoreGlobs));
+    }
+
+    @Test
+    public void appendIgnoreGlobList_validGlobRegex_success() {
+        Author author = new Author("Tester");
+        String[] ignoreGlobs = new String[] {"**.adoc", "collated/**"};
+        String[] moreIgnoreGlobs = new String[] {"**[!(.md)]", "C:\\Program Files\\**"};
+        List<String> ignoreGlobList = new ArrayList<>(Arrays.asList(ignoreGlobs));
+        ignoreGlobList.addAll(Arrays.asList(moreIgnoreGlobs));
+
+        author.setIgnoreGlobList(Arrays.asList(ignoreGlobs));
+        author.appendIgnoreGlobList(Arrays.asList(moreIgnoreGlobs));
+
+        Assert.assertEquals(4, author.getIgnoreGlobList().size());
+        Assert.assertTrue(author.getIgnoreGlobList().containsAll(ignoreGlobList));
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void appendIgnoreGlobList_appendOrOperator_throwIllegalArgumentException() {
+        Author author = new Author("Tester");
+        String[] ignoreGlobs = new String[] {"**.adoc", "collated/**"};
+        String[] moreIgnoreGlobs = new String[] {"**[!(.md)] | rm -rf /", "C:\\Program Files\\**"};
+
+        author.setIgnoreGlobList(Arrays.asList(ignoreGlobs));
+        Assert.assertEquals(2, author.getIgnoreGlobList().size());
+        Assert.assertTrue(author.getIgnoreGlobList().containsAll(Arrays.asList(ignoreGlobs)));
+
+        author.appendIgnoreGlobList(Arrays.asList(moreIgnoreGlobs));
     }
 }
