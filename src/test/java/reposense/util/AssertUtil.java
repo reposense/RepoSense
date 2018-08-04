@@ -5,7 +5,7 @@ import junit.framework.AssertionFailedError;
 /**
  * A set of assertion methods useful for writing tests.
  */
-public class Assert {
+public class AssertUtil {
 
     /**
      * Asserts that the {@code callable} throws the {@code expected} Exception.

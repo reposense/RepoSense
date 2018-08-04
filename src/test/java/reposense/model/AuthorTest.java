@@ -4,20 +4,20 @@ import static org.junit.Assert.assertEquals;
 
 import org.junit.Test;
 
-import reposense.util.Assert;
+import reposense.util.AssertUtil;
 
 public class AuthorTest {
 
     @Test
     public void constructor_empty_throwsIllegalArgumentException() {
-        Assert.assertThrows(IllegalArgumentException.class, () -> new Author(""));
+        AssertUtil.assertThrows(IllegalArgumentException.class, () -> new Author(""));
     }
 
     @Test
     public void constructor_illegalGitHubId_throwsIllegalArgumentException() {
-        Assert.assertThrows(IllegalArgumentException.class, () -> new Author("lithiumlkid & echo hi"));
-        Assert.assertThrows(IllegalArgumentException.class, () -> new Author("lithiumlkid ; echo hi"));
-        Assert.assertThrows(IllegalArgumentException.class, () -> new Author("lithiumlkid | rm -rf /"));
+        AssertUtil.assertThrows(IllegalArgumentException.class, () -> new Author("lithiumlkid & echo hi"));
+        AssertUtil.assertThrows(IllegalArgumentException.class, () -> new Author("lithiumlkid ; echo hi"));
+        AssertUtil.assertThrows(IllegalArgumentException.class, () -> new Author("lithiumlkid | rm -rf /"));
     }
 
     @Test
