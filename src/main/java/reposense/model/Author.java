@@ -8,19 +8,71 @@ import java.util.List;
 public class Author {
     public static final String UNKNOWN_AUTHOR_GIT_ID = "-";
 
+    private static final String MESSAGE_ILLEGAL_GIT_ID = "The provided Git ID, %s, contains illegal characters.";
+    private static final String MESSAGE_ILLEGAL_DISPLAY_NAME =
+            "The provided display name, %s, contains illegal characters.";
+    private static final String MESSAGE_ILLEGAL_AUTHOR_ALIAS =
+            "The provided author alias, %s,  contain illegal characters.";
+    private static final String NAME_VALIDATION_REGEX = "^[-a-zA-Z0-9 _/\\\\]+$";
+
     private String gitId;
 
+    private transient String displayName;
     private transient List<String> authorAliases;
     private transient List<String> ignoreGlobList;
     private transient PathMatcher ignoreGlobMatcher;
 
-    public Author(String gitId) {
-        this.gitId = gitId;
 
-        authorAliases = new ArrayList<>();
-        ignoreGlobList = new ArrayList<>();
+    public Author(String gitId) {
+        if (!isValidName(gitId)) {
+            throw new IllegalArgumentException(String.format(MESSAGE_ILLEGAL_GIT_ID, gitId));
+        }
+        this.gitId = gitId;
+        this.displayName = gitId;
+        this.authorAliases = new ArrayList<>();
+        this.ignoreGlobList = new ArrayList<>();
 
         updateIgnoreGlobMatcher();
+    }
+
+    public Author(StandaloneAuthor sa) {
+        String gitId = sa.getGithubId();
+        String displayName = !sa.getDisplayName().isEmpty() ? sa.getDisplayName() : sa.getGithubId();
+        List<String> authorAliases = sa.getAuthorNames();
+
+        if (!isValidName(gitId)) {
+            throw new IllegalArgumentException(String.format(MESSAGE_ILLEGAL_GIT_ID, gitId));
+        }
+        if (!isValidName(displayName)) {
+            throw new IllegalArgumentException(String.format(MESSAGE_ILLEGAL_DISPLAY_NAME, displayName));
+        }
+        validateAuthorAliases(authorAliases);
+
+        this.gitId = gitId;
+        this.displayName = displayName;
+        this.authorAliases = authorAliases;
+        this.ignoreGlobList = new ArrayList<>();
+
+        updateIgnoreGlobMatcher();
+    }
+
+    /**
+     * Returns true if a given string is a valid name.
+     */
+    public static boolean isValidName(String name) {
+        return name.matches(NAME_VALIDATION_REGEX);
+    }
+
+    /**
+     * Returns true if all the strings in the {@code authorAliases} are valid names.
+     */
+    public static boolean validateAuthorAliases(List<String> authorAliases) {
+        for (String alias: authorAliases) {
+            if (!isValidName(alias)) {
+                throw new IllegalArgumentException(String.format(MESSAGE_ILLEGAL_AUTHOR_ALIAS, alias));
+            }
+        }
+        return true;
     }
 
     public String getGitId() {
@@ -29,6 +81,10 @@ public class Author {
 
     public void setGitId(String gitId) {
         this.gitId = gitId;
+    }
+
+    public String getDisplayName() {
+        return displayName;
     }
 
     public List<String> getAuthorAliases() {
