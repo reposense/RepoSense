@@ -90,13 +90,8 @@ public class AuthorTest {
     @Test(expected = IllegalArgumentException.class)
     public void appendIgnoreGlobList_appendOrOperator_throwIllegalArgumentException() {
         Author author = new Author("Tester");
-        String[] ignoreGlobs = new String[] {"**.adoc", "collated/**"};
-        String[] moreIgnoreGlobs = new String[] {"**[!(.md)] | rm -rf /", "C:\\Program Files\\**"};
+        String[] ignoreGlobs = new String[] {"**[!(.md)] | rm -rf /", "C:\\Program Files\\**"};
 
-        author.setIgnoreGlobList(Arrays.asList(ignoreGlobs));
-        Assert.assertEquals(2, author.getIgnoreGlobList().size());
-        Assert.assertTrue(author.getIgnoreGlobList().containsAll(Arrays.asList(ignoreGlobs)));
-
-        author.appendIgnoreGlobList(Arrays.asList(moreIgnoreGlobs));
+        author.appendIgnoreGlobList(Arrays.asList(ignoreGlobs));
     }
 }
