@@ -72,7 +72,7 @@ public class AuthorTest {
         String[] testPaths = new String[] {
             "docs/UserGuide.adoc",
             "collated/codeeong.md",
-            "C:\\\\Program Files\\\\RepoSense\\\\README.md",
+            "C:\\Program Files\\RepoSense\\README.md",
             "/this/is/not/a/md/file.txt"
         };
         List<String> ignoreGlobList = new ArrayList<>(Arrays.asList(ignoreGlobs));
