@@ -70,10 +70,10 @@ public class AuthorTest {
         String[] ignoreGlobs = new String[] {"**.adoc", "collated/**"};
         String[] moreIgnoreGlobs = new String[] {"**[!(.md)]", "C:\\\\Program Files\\\\**"};
         String[] testPaths = new String[] {
-                "docs/UserGuide.adoc",
-                "collated/codeeong.md",
-                "C:\\\\Program Files\\\\RepoSense\\\\README.md",
-                "/this/is/not/a/md/file.txt"
+            "docs/UserGuide.adoc",
+            "collated/codeeong.md",
+            "C:\\\\Program Files\\\\RepoSense\\\\README.md",
+            "/this/is/not/a/md/file.txt"
         };
         List<String> ignoreGlobList = new ArrayList<>(Arrays.asList(ignoreGlobs));
         ignoreGlobList.addAll(Arrays.asList(moreIgnoreGlobs));
