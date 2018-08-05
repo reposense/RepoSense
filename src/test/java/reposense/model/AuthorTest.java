@@ -40,6 +40,8 @@ public class AuthorTest {
         String[] ignoreGlobs = new String[] {"**.adoc", "collated/**"};
 
         author.setIgnoreGlobList(Arrays.asList(ignoreGlobs));
+        Assert.assertEquals(2, author.getIgnoreGlobList().size());
+        Assert.assertTrue(author.getIgnoreGlobList().containsAll(Arrays.asList(ignoreGlobs)));
     }
 
     @Test(expected = IllegalArgumentException.class)
