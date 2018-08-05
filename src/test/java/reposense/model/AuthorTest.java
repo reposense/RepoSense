@@ -1,5 +1,6 @@
 package reposense.model;
 
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -38,10 +39,13 @@ public class AuthorTest {
     public void setIgnoreGlobList_validGlobRegex_success() {
         Author author = new Author("Tester");
         String[] ignoreGlobs = new String[] {"**.adoc", "collated/**"};
+        String[] testPaths = new String[] {"docs/UserGuide.adoc", "collated/codeeong.md"};
 
         author.setIgnoreGlobList(Arrays.asList(ignoreGlobs));
         Assert.assertEquals(2, author.getIgnoreGlobList().size());
         Assert.assertTrue(author.getIgnoreGlobList().containsAll(Arrays.asList(ignoreGlobs)));
+        Arrays.stream(testPaths).forEach(value ->
+                Assert.assertTrue(author.getIgnoreGlobMatcher().matches(Paths.get(value))));
     }
 
     @Test(expected = IllegalArgumentException.class)
@@ -64,7 +68,13 @@ public class AuthorTest {
     public void appendIgnoreGlobList_validGlobRegex_success() {
         Author author = new Author("Tester");
         String[] ignoreGlobs = new String[] {"**.adoc", "collated/**"};
-        String[] moreIgnoreGlobs = new String[] {"**[!(.md)]", "C:\\Program Files\\**"};
+        String[] moreIgnoreGlobs = new String[] {"**[!(.md)]", "C:\\\\Program Files\\\\**"};
+        String[] testPaths = new String[] {
+                "docs/UserGuide.adoc",
+                "collated/codeeong.md",
+                "C:\\\\Program Files\\\\RepoSense\\\\README.md",
+                "/this/is/not/a/md/file.txt"
+        };
         List<String> ignoreGlobList = new ArrayList<>(Arrays.asList(ignoreGlobs));
         ignoreGlobList.addAll(Arrays.asList(moreIgnoreGlobs));
 
@@ -73,6 +83,8 @@ public class AuthorTest {
 
         Assert.assertEquals(4, author.getIgnoreGlobList().size());
         Assert.assertTrue(author.getIgnoreGlobList().containsAll(ignoreGlobList));
+        Arrays.stream(testPaths).forEach(value ->
+                Assert.assertTrue(author.getIgnoreGlobMatcher().matches(Paths.get(value))));
     }
 
     @Test(expected = IllegalArgumentException.class)
