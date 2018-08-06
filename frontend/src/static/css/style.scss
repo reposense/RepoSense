@@ -135,13 +135,16 @@ header{
 
 .summary-picker{
     display:flex;
+    flex-flow:row wrap;
     justify-content:center;
     align-items:flex-end;
+
     margin-bottom:2rem;
 
     &__input{
         margin:0 0.5rem;
         text-align:left;
+        flex:0 0 auto;
     }
 
     &__search{
