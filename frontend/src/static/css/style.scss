@@ -160,6 +160,10 @@ header{
     label{
         overflow-y:hidden;
     }
+
+    input, select{
+        font-size:0.75rem;
+    }
 }
 
 .summary-charts{
