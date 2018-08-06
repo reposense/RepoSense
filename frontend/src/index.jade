@@ -84,9 +84,11 @@ html
               .summary-chart__title(
                 v-on:click="$emit('view-authorship', {author:user.name, repo:user.repoName, name:user.displayName})"
               )
+                i.summary-chart__title--tooltip.fas.fa-code
                 .summary-chart__title--index {{ i+1 }}
                 .summary-chart__title--repo(v-if="!filterGroupRepos") {{ user.repoPath }}
                 .summary-chart__title--name {{ user.displayName }}
+                .summary-chart__title--tooltip view author's code
               .summary-chart__ramp
                 a.summary-chart__ramp__slice(
                   v-for="(slice, j) in user.commits",

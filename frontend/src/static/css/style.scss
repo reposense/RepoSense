@@ -183,8 +183,9 @@ header{
         text-align:left;
         cursor:pointer;
 
-        &--index, &--repo, &--name{
+        & > * {
             display:inline;
+            padding-right:0.5rem;
         }
 
         &--index, &--repo{
@@ -194,17 +195,26 @@ header{
         &--index::after{
             content:".";
             display:inline-block;
-            padding-right:0.5rem;
         }
 
         &--repo{
             padding-right:0.25rem;
         }
+
+        &:hover &--tooltip{
+            opacity:1;
+        }
+
+        &--tooltip{
+            color:mui-color("grey");
+            opacity:0;
+        }
     }
 
     &__ramp{
-        position:relative;
         font-size:100%;
+        position:relative;
+        margin:0 1.5rem;
 
         $height:3rem;
         height:$height;
@@ -228,8 +238,8 @@ header{
     }
 
     &__contrib{
-        width:100%;
         text-align:left;
+        margin:0 1.5rem;
 
         &--bar{
             height:0.3rem;
