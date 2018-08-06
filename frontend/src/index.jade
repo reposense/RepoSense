@@ -80,7 +80,7 @@ html
               v-if="filterGroupRepos",
               v-bind:href="repo[0].location", target="_blank"
             ) {{ repo[0].repoPath }}
-            .summary-chart(v-for="(user, i) in repo", v-bind:class="{indented:filterGroupRepos}")
+            .summary-chart(v-for="(user, i) in repo")
               .summary-chart__title(
                 v-on:click="$emit('view-authorship', {author:user.name, repo:user.repoName, name:user.displayName})"
               )
