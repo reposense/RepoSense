@@ -1,2 +1,2 @@
-Repository's Location,Branch,Ignore Glob List
-https://github.com/reposense/testrepo-Beta.git,master,collated**
+Repository's Location,Branch,Ignore Glob List,Ignore standalone config.json
+https://github.com/reposense/testrepo-Beta.git,master,collated**,

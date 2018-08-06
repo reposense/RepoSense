@@ -57,7 +57,9 @@ public class ReportGenerator {
                 continue;
             }
 
-            updateRepoConfig(config);
+            if (!config.isIgnoreStandaloneConfigJson()) {
+                updateRepoConfig(config);
+            }
 
             CommitContributionSummary commitSummary = CommitsReporter.generateCommitSummary(config);
             AuthorshipSummary authorshipSummary = AuthorshipReporter.generateAuthorshipSummary(config);
