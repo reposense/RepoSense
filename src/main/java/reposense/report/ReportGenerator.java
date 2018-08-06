@@ -57,9 +57,7 @@ public class ReportGenerator {
                 continue;
             }
 
-            if (!config.isIgnoreStandaloneConfigJson()) {
-                updateRepoConfig(config);
-            }
+            updateRepoConfig(config);
 
             CommitContributionSummary commitSummary = CommitsReporter.generateCommitSummary(config);
             AuthorshipSummary authorshipSummary = AuthorshipReporter.generateAuthorshipSummary(config);
@@ -82,7 +80,7 @@ public class ReportGenerator {
         Path configJsonPath =
                 Paths.get(config.getRepoRoot(), REPOSENSE_CONFIG_FOLDER, REPOSENSE_CONFIG_FILE).toAbsolutePath();
 
-        if (!Files.exists(configJsonPath)) {
+        if (config.isIgnoreStandaloneConfigJson() || !Files.exists(configJsonPath)) {
             return;
         }
 

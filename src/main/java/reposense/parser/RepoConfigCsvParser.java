@@ -46,14 +46,15 @@ public class RepoConfigCsvParser extends CsvParser<RepoConfiguration> {
         String ignoreStandaloneConfigJson = getValueInElement(elements, IGNORE_STANDALONE_CONFIG_JSON_POSITION);
 
         if (!ignoreStandaloneConfigJson.toLowerCase().equals(IGNORE_STANDALONE_CONFIG_JSON_KEYWORD)
-                && !ignoreStandaloneConfigJson.isEmpty()){
+                && !ignoreStandaloneConfigJson.isEmpty()) {
             logger.warning("Unknown value " + ignoreStandaloneConfigJson + " used for ignore config.json");
             ignoreStandaloneConfigJson = "";
         }
 
         boolean isIgnoreStandaloneConfigJson = !ignoreStandaloneConfigJson.isEmpty();
 
-        RepoConfiguration config = new RepoConfiguration(location, branch, ignoreGlobList, isIgnoreStandaloneConfigJson);
+        RepoConfiguration config =
+                new RepoConfiguration(location, branch, ignoreGlobList, isIgnoreStandaloneConfigJson);
 
         if (results.contains(config)) {
             logger.warning("Ignoring duplicated repository " + location + " " + branch);
