@@ -133,20 +133,20 @@ The main Vue object (`window.app`) is responsible for the loading of the dashboa
 - the summary view
 - and the tabbed interface
 
-Summary view act as the main dashboard which shows the varies calculations. </br>
+Summary view act as the main dashboard which shows the various calculations. </br>
 Tabbed interface is responsible for loading various modules such as authorship to display additional information.
 
 ### Javascript Files
-- **main.js** - main controller that pushes content into different modules
-- **api.js** - loading and parsing of the dashboard content
-- **v_summary.js** - module that supports the ramp chart view
-- **v_authorship.js** - module that supports the authorship view
+- [**main.js**](../frontend/src/static/js/main.js) - main controller that pushes content into different modules
+- [**api.js**](../frontend/src/static/js/api.js)- loading and parsing of the dashboard content
+- [**v_summary.js**](../frontend/src/static/js/main.js) - module that supports the ramp chart view
+- [**v_authorship.js**](../frontend/src/static/js/main.js) - module that supports the authorship view
 
-### Main.JS
-This contains the logic for main VueJS object, `window.app`, which is responsible for passing the neccessary data into the relevant modules to be loaded.
+### Main (main.js)
+This contains the logic for main VueJS object, `window.app`, which is responsible for passing the necessary data into the relevant modules to be loaded.
 
 #### Loading of dashboard information
-The main Vue object depends on the `summary.json` data to determine the right `commits.json` files to load into memory. This is handled by `api.js` which loads the relevant file information from the network files if it is available, otherwise a report archive have to be used.
+The main Vue object depends on the `summary.json` data to determine the right `commits.json` files to load into memory. This is handled by `api.js` which loads the relevant file information from the network files if it is available, otherwise a report archive, `archive.zip`, have to be used.
 
 Once the relevant `commit.json` files are loaded, all the repo information will be passed into `v_summary` to be loaded in the summary view as the relevant ramp charts.
 
@@ -158,7 +158,7 @@ An additional thing to note is the event handler should handle the switching of 
 #### Hash link
 Other than the global main Vue object, another global variable we have is the `window.hashParams`. This object is reponsible for generating the relevant permalink for a specific view of the summary module for the dashboard.
 
-### Api.JS
+### Data loader (api.js)
 This is the module that is in charged of loading and parsing the data files generated as part of the report.
 
 #### Loading from ZIP file
@@ -166,12 +166,12 @@ Due security design, most modern browsers do not allow web pages to obtain local
 
 This archive can be used in place of the network files to load the information into the dashboard when the dashboard HTML.
 
-As such, the API module will be handling all request for all the JSON data files. If the network file is not available,
+As such, the API module will be handling all request for all the JSON data files. If the network file is not available, the files will be obtained from the zip archive provided.
 
 #### Retrieving and parsing information
 After the JSON files are loaded from their respective sources, the data will be parsed as objects and included inside the global storage object, `window.REPOS`,  in the right format.
 
-### V_summary.JS
+### Summary View (v_summary.js)
 The `v_summary` module is in charged of loading the ramp charts from the corresponding `commits.json`.
 
 #### Initializing the data for the ramp charts
@@ -183,8 +183,8 @@ The commits information is retrieved from the corresponding project folders for 
 #### Padding for dates
 For ramps between the date ranges, the slices will be selected and it will be pre and post padded with empty slices to align the ramp slice between the `sinceDate` and `untilDate`. The ramps will then be rendered with the slices in the right position.
 
-### V_authorship.JS
-The authorship module retrieves the relevant information from the corresponding `authorship.json` file if it is not yet loaded. If it has been loaded, the data will be written into `window.REPO` and be read from there instead.
+### Authorship View (v_authorship.js)
+The authorship module retrieves the relevant information from the corresponding `authorship.json` file if it is not yet loaded. If it has been loaded, the data will be written into `window.REPOS` and be read from there instead.
 
 #### Showing relevant information by authors
 The files will be filtered, picking only files the selected author has written in. The lines are then split into chunks of "touched" and "untouched" code to be displayed in the tab view which will be popped up on the right side of the screen.
