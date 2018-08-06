@@ -175,7 +175,7 @@ You can use `Start Tags` to mark the start of your contribution. The author spec
 
 #### Standalone Configuration
 
-Instead of self-configuring all the repository details, you can have the repository owners include a
+Instead of self-configuring all the repository details, you can have the repository owners include a 
 `Standalone Configuration` to maintain their own repository configuration. For more information, check out the
 [Setup Standalone Configuration](StandaloneConfiguration.md#reposense---guide-to-setup-standalone-configuration).
 
@@ -238,6 +238,7 @@ Each light blue bar represents the contribution timeline of an individual author
 The total amount of code contributed is represented by the **red bars**, and the length of these red bars is proportional to the total contribution of the corresponding author.
 Hovering over the bar shows the exact amount of contribution.
 If the author contributes **too much** compared to other authors, there will be multiple red bars in his `Chart Panel`.
+
 
 ### Code Panel
 The `Code Panel` allows users to review contributers' code, showing all the lines written by the selected author.
