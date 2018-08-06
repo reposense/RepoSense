@@ -128,7 +128,7 @@ The source files for the dashboard is located in [`frontend/src`](../frontend/sr
 
 The main HTML file is generated from [`frontend/src/index.jade`](../frontend/src/index.jade).
 
-[Vue](https://vuejs.org/v2/api/) (pronounced /vjuː/, like view) is a progressive framework for building user interfaces. It is heavily ultilized in the dashboard to dynamically update the information in the various views.
+[Vue](https://vuejs.org/v2/api/) (pronounced /vjuː/, like view) is a progressive framework for building user interfaces. It is heavily ultilized in the dashboard to dynamically update the information in the various views. (Style guide available [here](https://vuejs.org/v2/style-guide/)).
 
 ![dashboard screenshot](images/dashboard.png)
 
