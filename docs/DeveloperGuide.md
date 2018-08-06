@@ -15,6 +15,12 @@ Thank you for your interest in contributing to RepoSense!
   - [System](#system)
   - [Model](#model)
 - [HTML Dashboard](#html-dashboard)
+  - [Dashboard Architecture](#dashboard-architecture)
+  - [Javascript Files](#javascript-files)
+  - [Main](#main-mainjs)
+  - [Data loader](#data-loader-apijs)
+  - [Summary View](#summary-view-v_summaryjs)
+  - [Authorship View](#summary-view-v_authorshipjs)
 
 ## Setting up
 
@@ -170,6 +176,8 @@ As such, the API module will be handling all request for all the JSON data files
 
 #### Retrieving and parsing information
 After the JSON files are loaded from their respective sources, the data will be parsed as objects and included inside the global storage object, `window.REPOS`,  in the right format.
+
+For the basic skeleton of `window.REPOS`, refer to the generated `summary.json` file in the report for more details.
 
 ### Summary View (v_summary.js)
 The `v_summary` module is in charged of loading the ramp charts from the corresponding `commits.json`.
