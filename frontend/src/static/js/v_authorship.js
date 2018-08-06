@@ -23,8 +23,14 @@ window.toggleNext = function toggleNext(ele) {
 };
 
 window.vAuthorship = {
-  props: ['info'],
   template: window.$('v_authorship').innerHTML,
+  props: {
+    info: {
+      type: Object,
+      required: true,
+      validator: info => (info.repo || info.author),
+    }
+  },
   data() {
     return {
       isLoaded: false,

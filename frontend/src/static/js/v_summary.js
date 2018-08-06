@@ -35,7 +35,11 @@ function dateRounding(datestr, roundDown) {
 }
 
 window.vSummary = {
-  props: ['repos'],
+  props: {
+    repos: {
+      type: Array
+    }
+  },
   template: window.$('v_summary').innerHTML,
   data() {
     return {
