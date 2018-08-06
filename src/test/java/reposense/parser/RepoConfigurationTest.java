@@ -40,7 +40,7 @@ public class RepoConfigurationTest {
     private static final List<String> SECOND_AUTHOR_GLOB_LIST = Arrays.asList("collated**", "**[!(.md)]");
 
     @BeforeClass
-    public static void setup() {
+    public static void setUp() {
         FIRST_AUTHOR.setIgnoreGlobList(FIRST_AUTHOR_GLOB_LIST);
         SECOND_AUTHOR.setIgnoreGlobList(SECOND_AUTHOR_GLOB_LIST);
         THIRD_AUTHOR.setIgnoreGlobList(REPO_LEVEL_GLOB_LIST);

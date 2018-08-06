@@ -45,7 +45,7 @@ public class RepoConfigCsvParser extends CsvParser<RepoConfiguration> {
         List<String> ignoreGlobList = getManyValueInElement(elements, IGNORE_GLOB_LIST_POSITION);
         String ignoreStandaloneConfigJson = getValueInElement(elements, IGNORE_STANDALONE_CONFIG_JSON_POSITION);
 
-        if (!ignoreStandaloneConfigJson.toLowerCase().equals(IGNORE_STANDALONE_CONFIG_JSON_KEYWORD)
+        if (!ignoreStandaloneConfigJson.equalsIgnoreCase(IGNORE_STANDALONE_CONFIG_JSON_KEYWORD)
                 && !ignoreStandaloneConfigJson.isEmpty()) {
             logger.warning("Unknown value " + ignoreStandaloneConfigJson + " used for ignore config.json");
             ignoreStandaloneConfigJson = "";
