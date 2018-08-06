@@ -5,30 +5,103 @@ import java.nio.file.PathMatcher;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Represents a Git Author.
+ */
 public class Author {
+
     public static final String UNKNOWN_AUTHOR_GIT_ID = "-";
 
-    private String gitId;
+    private static final String MESSAGE_ILLEGAL_GIT_ID = "The provided Git ID, %s, contains illegal characters.";
+    private static final String MESSAGE_ILLEGAL_DISPLAY_NAME =
+            "The provided display name, %s, contains illegal characters.";
+    private static final String MESSAGE_ILLEGAL_AUTHOR_ALIAS =
+            "The provided author alias, %s, contains illegal characters.";
+    private static final String MESSAGE_UNCOMMON_GLOB_PATTERN =
+            "The provided ignore glob, %s, uses uncommon pattern.";
 
+    private static final String COMMON_GLOB_REGEX = "^[-a-zA-Z0-9 _/\\\\*!{}\\[\\]!(),:.]*$";
+    private static final String NAME_VALIDATION_REGEX = "^[-a-zA-Z0-9 _/\\\\*]+$";
+
+    private final String gitId;
+
+    private transient String displayName;
     private transient List<String> authorAliases;
     private transient List<String> ignoreGlobList;
     private transient PathMatcher ignoreGlobMatcher;
 
     public Author(String gitId) {
+        if (!isValidName(gitId)) {
+            throw new IllegalArgumentException(String.format(MESSAGE_ILLEGAL_GIT_ID, gitId));
+        }
         this.gitId = gitId;
-
-        authorAliases = new ArrayList<>();
-        ignoreGlobList = new ArrayList<>();
+        this.displayName = gitId;
+        this.authorAliases = new ArrayList<>();
+        this.ignoreGlobList = new ArrayList<>();
 
         updateIgnoreGlobMatcher();
+    }
+
+    public Author(StandaloneAuthor sa) {
+        String gitId = sa.getGithubId();
+        String displayName = !sa.getDisplayName().isEmpty() ? sa.getDisplayName() : sa.getGithubId();
+        List<String> authorAliases = sa.getAuthorNames();
+        List<String> ignoreGlobList = sa.getIgnoreGlobList();
+
+        if (!isValidName(gitId)) {
+            throw new IllegalArgumentException(String.format(MESSAGE_ILLEGAL_GIT_ID, gitId));
+        }
+        if (!isValidName(displayName)) {
+            throw new IllegalArgumentException(String.format(MESSAGE_ILLEGAL_DISPLAY_NAME, displayName));
+        }
+        validateAuthorAliases(authorAliases);
+        validateIgnoreGlobs(ignoreGlobList);
+
+        this.gitId = gitId;
+        this.displayName = displayName;
+        this.authorAliases = authorAliases;
+        this.ignoreGlobList = new ArrayList<>(ignoreGlobList);
+
+        updateIgnoreGlobMatcher();
+    }
+
+    /**
+     * Returns true if the given {@code value} is a valid name.
+     */
+    private static boolean isValidName(String value) {
+        return value.matches(NAME_VALIDATION_REGEX);
+    }
+
+    /**
+     * Checks that all the strings in the {@code ignoreGlobList} only contains commonly used glob patterns.
+     * @throws IllegalArgumentException if any of the values do not meet the criteria.
+     */
+    private static void validateIgnoreGlobs(List<String> ignoreGlobList) throws IllegalArgumentException {
+        for (String glob: ignoreGlobList) {
+            if (!glob.matches(COMMON_GLOB_REGEX)) {
+                throw new IllegalArgumentException(String.format(MESSAGE_UNCOMMON_GLOB_PATTERN, glob));
+            }
+        }
+    }
+
+    /**
+     * Checks that all the strings in the {@code authorAliases} are valid names.
+     * @throws IllegalArgumentException if any of the values do not meet the criteria.
+     */
+    private static void validateAuthorAliases(List<String> authorAliases) throws IllegalArgumentException {
+        for (String alias: authorAliases) {
+            if (!isValidName(alias)) {
+                throw new IllegalArgumentException(String.format(MESSAGE_ILLEGAL_AUTHOR_ALIAS, alias));
+            }
+        }
     }
 
     public String getGitId() {
         return gitId;
     }
 
-    public void setGitId(String gitId) {
-        this.gitId = gitId;
+    public String getDisplayName() {
+        return displayName;
     }
 
     public List<String> getAuthorAliases() {
@@ -44,7 +117,8 @@ public class Author {
     }
 
     public void setIgnoreGlobList(List<String> ignoreGlobList) {
-        this.ignoreGlobList = ignoreGlobList;
+        validateIgnoreGlobs(ignoreGlobList);
+        this.ignoreGlobList = new ArrayList<>(ignoreGlobList);
         updateIgnoreGlobMatcher();
     }
 
@@ -53,7 +127,9 @@ public class Author {
     }
 
     public void appendIgnoreGlobList(List<String> ignoreGlobList) {
+        validateIgnoreGlobs(ignoreGlobList);
         this.ignoreGlobList.addAll(ignoreGlobList);
+        updateIgnoreGlobMatcher();
     }
 
     @Override

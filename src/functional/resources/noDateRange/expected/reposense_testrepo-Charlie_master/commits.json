@@ -152,44 +152,44 @@
     ],
     "wangyiming1019": [
       {
-        "insertions": 41,
-        "deletions": 21,
+        "insertions": 21,
+        "deletions": 1,
         "sinceDate": "2017-09-30",
         "untilDate": "2017-10-07"
       },
       {
-        "insertions": 410,
-        "deletions": 141,
+        "insertions": 0,
+        "deletions": 0,
         "sinceDate": "2017-10-07",
         "untilDate": "2017-10-14"
       },
       {
-        "insertions": 820,
-        "deletions": 293,
+        "insertions": 631,
+        "deletions": 206,
         "sinceDate": "2017-10-14",
         "untilDate": "2017-10-21"
       },
       {
-        "insertions": 1735,
-        "deletions": 653,
+        "insertions": 1717,
+        "deletions": 638,
         "sinceDate": "2017-10-21",
         "untilDate": "2017-10-28"
       },
       {
-        "insertions": 914,
-        "deletions": 511,
+        "insertions": 409,
+        "deletions": 47,
         "sinceDate": "2017-10-28",
         "untilDate": "2017-11-04"
       },
       {
-        "insertions": 530,
-        "deletions": 113,
+        "insertions": 273,
+        "deletions": 41,
         "sinceDate": "2017-11-04",
         "untilDate": "2017-11-11"
       },
       {
-        "insertions": 878,
-        "deletions": 136,
+        "insertions": 245,
+        "deletions": 26,
         "sinceDate": "2017-11-11",
         "untilDate": "2017-11-18"
       },
@@ -1164,8 +1164,8 @@
         "untilDate": "2017-10-03"
       },
       {
-        "insertions": 41,
-        "deletions": 21,
+        "insertions": 21,
+        "deletions": 1,
         "sinceDate": "2017-10-03",
         "untilDate": "2017-10-04"
       },
@@ -1206,8 +1206,8 @@
         "untilDate": "2017-10-10"
       },
       {
-        "insertions": 410,
-        "deletions": 141,
+        "insertions": 0,
+        "deletions": 0,
         "sinceDate": "2017-10-10",
         "untilDate": "2017-10-11"
       },
@@ -1236,8 +1236,8 @@
         "untilDate": "2017-10-15"
       },
       {
-        "insertions": 54,
-        "deletions": 12,
+        "insertions": 0,
+        "deletions": 0,
         "sinceDate": "2017-10-15",
         "untilDate": "2017-10-16"
       },
@@ -1266,8 +1266,8 @@
         "untilDate": "2017-10-20"
       },
       {
-        "insertions": 135,
-        "deletions": 75,
+        "insertions": 0,
+        "deletions": 0,
         "sinceDate": "2017-10-20",
         "untilDate": "2017-10-21"
       },
@@ -1278,8 +1278,8 @@
         "untilDate": "2017-10-22"
       },
       {
-        "insertions": 32,
-        "deletions": 29,
+        "insertions": 14,
+        "deletions": 14,
         "sinceDate": "2017-10-22",
         "untilDate": "2017-10-23"
       },
@@ -1320,14 +1320,14 @@
         "untilDate": "2017-10-29"
       },
       {
-        "insertions": 489,
-        "deletions": 86,
+        "insertions": 323,
+        "deletions": 0,
         "sinceDate": "2017-10-29",
         "untilDate": "2017-10-30"
       },
       {
-        "insertions": 346,
-        "deletions": 378,
+        "insertions": 19,
+        "deletions": 4,
         "sinceDate": "2017-10-30",
         "untilDate": "2017-10-31"
       },
@@ -1338,8 +1338,8 @@
         "untilDate": "2017-11-01"
       },
       {
-        "insertions": 79,
-        "deletions": 47,
+        "insertions": 67,
+        "deletions": 43,
         "sinceDate": "2017-11-01",
         "untilDate": "2017-11-02"
       },
@@ -1362,7 +1362,7 @@
         "untilDate": "2017-11-05"
       },
       {
-        "insertions": 226,
+        "insertions": 214,
         "deletions": 21,
         "sinceDate": "2017-11-05",
         "untilDate": "2017-11-06"
@@ -1374,8 +1374,8 @@
         "untilDate": "2017-11-07"
       },
       {
-        "insertions": 96,
-        "deletions": 8,
+        "insertions": 0,
+        "deletions": 0,
         "sinceDate": "2017-11-07",
         "untilDate": "2017-11-08"
       },
@@ -1386,14 +1386,14 @@
         "untilDate": "2017-11-09"
       },
       {
-        "insertions": 10,
-        "deletions": 8,
+        "insertions": 0,
+        "deletions": 0,
         "sinceDate": "2017-11-09",
         "untilDate": "2017-11-10"
       },
       {
-        "insertions": 198,
-        "deletions": 76,
+        "insertions": 59,
+        "deletions": 20,
         "sinceDate": "2017-11-10",
         "untilDate": "2017-11-11"
       },
@@ -1404,14 +1404,14 @@
         "untilDate": "2017-11-12"
       },
       {
-        "insertions": 340,
-        "deletions": 102,
+        "insertions": 217,
+        "deletions": 5,
         "sinceDate": "2017-11-12",
         "untilDate": "2017-11-13"
       },
       {
-        "insertions": 538,
-        "deletions": 34,
+        "insertions": 28,
+        "deletions": 21,
         "sinceDate": "2017-11-13",
         "untilDate": "2017-11-14"
       },
@@ -1463,13 +1463,13 @@
     "charlesgoh": 4274,
     "jeffreygohkw": 5846,
     "Esilocke": 10944,
-    "wangyiming1019": 3489
+    "wangyiming1019": 2475
   },
   "authorContributionVariance": {
     "charlesgoh": 87278.68,
     "jeffreygohkw": 70955.125,
     "Esilocke": 413377.22,
-    "wangyiming1019": 83374.83
+    "wangyiming1019": 63739.223
   },
   "authorDisplayNameMap": {
     "charlesgoh": "Cha",

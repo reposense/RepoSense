@@ -612,7 +612,7 @@
       {
         "lineNumber": 1,
         "author": {
-          "gitId": "wangyiming1019"
+          "gitId": "-"
         },
         "content": "\u003d Address++ - Developer Guide"
       },
@@ -710,7 +710,7 @@
       {
         "lineNumber": 15,
         "author": {
-          "gitId": "wangyiming1019"
+          "gitId": "-"
         },
         "content": "By: `Team W09-B2`      Since: `August 2017`      Licence: `MIT`"
       },
@@ -850,7 +850,7 @@
       {
         "lineNumber": 35,
         "author": {
-          "gitId": "wangyiming1019"
+          "gitId": "-"
         },
         "content": "\u003d\u003d\u003d Setting up Address++ in your computer"
       },
@@ -1102,7 +1102,7 @@
       {
         "lineNumber": 71,
         "author": {
-          "gitId": "wangyiming1019"
+          "gitId": "-"
         },
         "content": "After forking the repo, links in the documentation will still point to the `CS2103AUG2017-W09-B2/main` repo. If you plan to develop this as a separate product (i.e. instead of contributing to the `CS2103AUG2017-W09-B2/main`) , you should replace the URL in the variable `repoURL` in `DeveloperGuide.adoc` and `UserGuide.adoc` with the URL of your fork."
       },
@@ -4301,7 +4301,7 @@
       {
         "lineNumber": 528,
         "author": {
-          "gitId": "wangyiming1019"
+          "gitId": "-"
         },
         "content": "_Figure 3.5.1 : Sequence Diagram for adding a Person with private fields_"
       },
@@ -4707,168 +4707,168 @@
       {
         "lineNumber": 586,
         "author": {
-          "gitId": "wangyiming1019"
+          "gitId": "-"
         },
         "content": "This is done through the `createEditedPerson` method in `EditCommand`."
       },
       {
         "lineNumber": 587,
         "author": {
-          "gitId": "wangyiming1019"
+          "gitId": "-"
         },
         "content": "`createEditedPerson` sets the boolean `areFieldsAllPrivate` to initially be true."
       },
       {
         "lineNumber": 588,
         "author": {
-          "gitId": "wangyiming1019"
+          "gitId": "-"
         },
         "content": ""
       },
       {
         "lineNumber": 589,
         "author": {
-          "gitId": "wangyiming1019"
+          "gitId": "-"
         },
         "content": "As the new instance of each field is being generated, if any field contains a value in the input `EditPersonDescriptor` and that field was not originally private, `areFieldsAllPrivate` is set to false."
       },
       {
         "lineNumber": 590,
         "author": {
-          "gitId": "wangyiming1019"
+          "gitId": "-"
         },
         "content": ""
       },
       {
         "lineNumber": 591,
         "author": {
-          "gitId": "wangyiming1019"
+          "gitId": "-"
         },
         "content": "This can be seen from the following code, which is used for the generation of a new `Name` object."
       },
       {
         "lineNumber": 592,
         "author": {
-          "gitId": "wangyiming1019"
+          "gitId": "-"
         },
         "content": "[source,java]"
       },
       {
         "lineNumber": 593,
         "author": {
-          "gitId": "wangyiming1019"
+          "gitId": "-"
         },
         "content": "----"
       },
       {
         "lineNumber": 594,
         "author": {
-          "gitId": "wangyiming1019"
+          "gitId": "-"
         },
         "content": "private static Name createUpdatedName(ReadOnlyPerson personToEdit, EditPersonDescriptor editPersonDescriptor) {"
       },
       {
         "lineNumber": 595,
         "author": {
-          "gitId": "wangyiming1019"
+          "gitId": "-"
         },
         "content": "        Name updatedName;"
       },
       {
         "lineNumber": 596,
         "author": {
-          "gitId": "wangyiming1019"
+          "gitId": "-"
         },
         "content": "        if (!personToEdit.getName().isPrivate()) {"
       },
       {
         "lineNumber": 597,
         "author": {
-          "gitId": "wangyiming1019"
+          "gitId": "-"
         },
         "content": "            updatedName \u003d editPersonDescriptor.getName().orElse(personToEdit.getName());"
       },
       {
         "lineNumber": 598,
         "author": {
-          "gitId": "wangyiming1019"
+          "gitId": "-"
         },
         "content": "            if (editPersonDescriptor.getName().isPresent()) {"
       },
       {
         "lineNumber": 599,
         "author": {
-          "gitId": "wangyiming1019"
+          "gitId": "-"
         },
         "content": "                areFieldsAllPrivate \u003d false;"
       },
       {
         "lineNumber": 600,
         "author": {
-          "gitId": "wangyiming1019"
+          "gitId": "-"
         },
         "content": "            }"
       },
       {
         "lineNumber": 601,
         "author": {
-          "gitId": "wangyiming1019"
+          "gitId": "-"
         },
         "content": "        } else {"
       },
       {
         "lineNumber": 602,
         "author": {
-          "gitId": "wangyiming1019"
+          "gitId": "-"
         },
         "content": "            updatedName \u003d personToEdit.getName();"
       },
       {
         "lineNumber": 603,
         "author": {
-          "gitId": "wangyiming1019"
+          "gitId": "-"
         },
         "content": "        }"
       },
       {
         "lineNumber": 604,
         "author": {
-          "gitId": "wangyiming1019"
+          "gitId": "-"
         },
         "content": "        return updatedName;"
       },
       {
         "lineNumber": 605,
         "author": {
-          "gitId": "wangyiming1019"
+          "gitId": "-"
         },
         "content": "    }"
       },
       {
         "lineNumber": 606,
         "author": {
-          "gitId": "wangyiming1019"
+          "gitId": "-"
         },
         "content": "----"
       },
       {
         "lineNumber": 607,
         "author": {
-          "gitId": "wangyiming1019"
+          "gitId": "-"
         },
         "content": ""
       },
       {
         "lineNumber": 608,
         "author": {
-          "gitId": "wangyiming1019"
+          "gitId": "-"
         },
         "content": "Upon generation of all the fields, if `areFieldsAllPrivate` is still true, `createEditedPerson` will throw an `IllegalArgumentException`, which will cause `EditCommand` to throw a `CommandException` and prevent the command from continuing."
       },
       {
         "lineNumber": 609,
         "author": {
-          "gitId": "wangyiming1019"
+          "gitId": "-"
         },
         "content": ""
       },
@@ -4896,7 +4896,7 @@
       {
         "lineNumber": 613,
         "author": {
-          "gitId": "wangyiming1019"
+          "gitId": "-"
         },
         "content": "**Alternative 1 (current choice):** Add a boolean to each field class. +"
       },
@@ -5057,7 +5057,7 @@
       {
         "lineNumber": 636,
         "author": {
-          "gitId": "wangyiming1019"
+          "gitId": "-"
         },
         "content": "_Figure 3.6.1 : Sequence Diagram for changing the privacy of a Person\u0027s fields_"
       },
@@ -5190,7 +5190,7 @@
       {
         "lineNumber": 655,
         "author": {
-          "gitId": "wangyiming1019"
+          "gitId": "-"
         },
         "content": "**Aspect:** Implementation of changing of a person\u0027s privacy. +"
       },
@@ -5218,7 +5218,7 @@
       {
         "lineNumber": 659,
         "author": {
-          "gitId": "wangyiming1019"
+          "gitId": "-"
         },
         "content": "**Alternative 2:** Enhance the functi-onality of EditCommand. +"
       },
@@ -5246,399 +5246,399 @@
       {
         "lineNumber": 663,
         "author": {
-          "gitId": "wangyiming1019"
+          "gitId": "-"
         },
         "content": "\u003d\u003d\u003d Locating a Person on Google Maps"
       },
       {
         "lineNumber": 664,
         "author": {
-          "gitId": "wangyiming1019"
+          "gitId": "-"
         },
         "content": ""
       },
       {
         "lineNumber": 665,
         "author": {
-          "gitId": "wangyiming1019"
+          "gitId": "-"
         },
         "content": "Upon calling the `locate` command, `LocateCommandParser` will parse the input string into an `Index`, and create a new `LocateCommand`. Should the arguments be a non-integer, a `ParseException` will be thrown. +"
       },
       {
         "lineNumber": 666,
         "author": {
-          "gitId": "wangyiming1019"
+          "gitId": "-"
         },
         "content": "This can be seen from the code snippet below:"
       },
       {
         "lineNumber": 667,
         "author": {
-          "gitId": "wangyiming1019"
+          "gitId": "-"
         },
         "content": ""
       },
       {
         "lineNumber": 668,
         "author": {
-          "gitId": "wangyiming1019"
+          "gitId": "-"
         },
         "content": "[source, java]"
       },
       {
         "lineNumber": 669,
         "author": {
-          "gitId": "wangyiming1019"
+          "gitId": "-"
         },
         "content": "----"
       },
       {
         "lineNumber": 670,
         "author": {
-          "gitId": "wangyiming1019"
+          "gitId": "-"
         },
         "content": " public LocateCommand parse(String args) throws ParseException {"
       },
       {
         "lineNumber": 671,
         "author": {
-          "gitId": "wangyiming1019"
+          "gitId": "-"
         },
         "content": "        try {"
       },
       {
         "lineNumber": 672,
         "author": {
-          "gitId": "wangyiming1019"
+          "gitId": "-"
         },
         "content": "            Index index \u003d ParserUtil.parseIndex(args);"
       },
       {
         "lineNumber": 673,
         "author": {
-          "gitId": "wangyiming1019"
+          "gitId": "-"
         },
         "content": "            return new LocateCommand(index);"
       },
       {
         "lineNumber": 674,
         "author": {
-          "gitId": "wangyiming1019"
+          "gitId": "-"
         },
         "content": "        } catch (IllegalValueException ive) {"
       },
       {
         "lineNumber": 675,
         "author": {
-          "gitId": "wangyiming1019"
+          "gitId": "-"
         },
         "content": "            throw new ParseException("
       },
       {
         "lineNumber": 676,
         "author": {
-          "gitId": "wangyiming1019"
+          "gitId": "-"
         },
         "content": "                    String.format(MESSAGE_INVALID_COMMAND_FORMAT, LocateCommand.MESSAGE_USAGE));"
       },
       {
         "lineNumber": 677,
         "author": {
-          "gitId": "wangyiming1019"
+          "gitId": "-"
         },
         "content": "        }"
       },
       {
         "lineNumber": 678,
         "author": {
-          "gitId": "wangyiming1019"
+          "gitId": "-"
         },
         "content": "    }"
       },
       {
         "lineNumber": 679,
         "author": {
-          "gitId": "wangyiming1019"
+          "gitId": "-"
         },
         "content": "----"
       },
       {
         "lineNumber": 680,
         "author": {
-          "gitId": "wangyiming1019"
+          "gitId": "-"
         },
         "content": ""
       },
       {
         "lineNumber": 681,
         "author": {
-          "gitId": "wangyiming1019"
+          "gitId": "-"
         },
         "content": "Upon execution of `LocateCommand`, it will search the `Model` for the `Person` at the input `Index`. If the `Index` is out of range of the list of `Person`s, a `CommandException` will be thrown."
       },
       {
         "lineNumber": 682,
         "author": {
-          "gitId": "wangyiming1019"
+          "gitId": "-"
         },
         "content": ""
       },
       {
         "lineNumber": 683,
         "author": {
-          "gitId": "wangyiming1019"
+          "gitId": "-"
         },
         "content": "Otherwise, `LocateCommand` will post a new `BrowserPanelLocateEvent` and pass in the `Person` found to that event. It will then return a `CommandResult` indicating the success of its execution."
       },
       {
         "lineNumber": 684,
         "author": {
-          "gitId": "wangyiming1019"
+          "gitId": "-"
         },
         "content": ""
       },
       {
         "lineNumber": 685,
         "author": {
-          "gitId": "wangyiming1019"
+          "gitId": "-"
         },
         "content": "This code for this can be found below:"
       },
       {
         "lineNumber": 686,
         "author": {
-          "gitId": "wangyiming1019"
+          "gitId": "-"
         },
         "content": ""
       },
       {
         "lineNumber": 687,
         "author": {
-          "gitId": "wangyiming1019"
+          "gitId": "-"
         },
         "content": "[source, java]"
       },
       {
         "lineNumber": 688,
         "author": {
-          "gitId": "wangyiming1019"
+          "gitId": "-"
         },
         "content": "----"
       },
       {
         "lineNumber": 689,
         "author": {
-          "gitId": "wangyiming1019"
+          "gitId": "-"
         },
         "content": "@Override"
       },
       {
         "lineNumber": 690,
         "author": {
-          "gitId": "wangyiming1019"
+          "gitId": "-"
         },
         "content": "    public CommandResult execute() throws CommandException {"
       },
       {
         "lineNumber": 691,
         "author": {
-          "gitId": "wangyiming1019"
+          "gitId": "-"
         },
         "content": ""
       },
       {
         "lineNumber": 692,
         "author": {
-          "gitId": "wangyiming1019"
+          "gitId": "-"
         },
         "content": "        List\u003cReadOnlyPerson\u003e lastShownList \u003d model.getFilteredPersonList();"
       },
       {
         "lineNumber": 693,
         "author": {
-          "gitId": "wangyiming1019"
+          "gitId": "-"
         },
         "content": ""
       },
       {
         "lineNumber": 694,
         "author": {
-          "gitId": "wangyiming1019"
+          "gitId": "-"
         },
         "content": "        if (targetIndex.getZeroBased() \u003e\u003d lastShownList.size()) {"
       },
       {
         "lineNumber": 695,
         "author": {
-          "gitId": "wangyiming1019"
+          "gitId": "-"
         },
         "content": "            throw new CommandException(Messages.MESSAGE_INVALID_PERSON_DISPLAYED_INDEX);"
       },
       {
         "lineNumber": 696,
         "author": {
-          "gitId": "wangyiming1019"
+          "gitId": "-"
         },
         "content": "        }"
       },
       {
         "lineNumber": 697,
         "author": {
-          "gitId": "wangyiming1019"
+          "gitId": "-"
         },
         "content": ""
       },
       {
         "lineNumber": 698,
         "author": {
-          "gitId": "wangyiming1019"
+          "gitId": "-"
         },
         "content": "        EventsCenter.getInstance().post(new BrowserPanelLocateEvent("
       },
       {
         "lineNumber": 699,
         "author": {
-          "gitId": "wangyiming1019"
+          "gitId": "-"
         },
         "content": "                model.getFilteredPersonList().get(targetIndex.getZeroBased())));"
       },
       {
         "lineNumber": 700,
         "author": {
-          "gitId": "wangyiming1019"
+          "gitId": "-"
         },
         "content": "        return new CommandResult(String.format(MESSAGE_LOCATE_PERSON_SUCCESS, targetIndex.getOneBased()));"
       },
       {
         "lineNumber": 701,
         "author": {
-          "gitId": "wangyiming1019"
+          "gitId": "-"
         },
         "content": ""
       },
       {
         "lineNumber": 702,
         "author": {
-          "gitId": "wangyiming1019"
+          "gitId": "-"
         },
         "content": "    }"
       },
       {
         "lineNumber": 703,
         "author": {
-          "gitId": "wangyiming1019"
+          "gitId": "-"
         },
         "content": "----"
       },
       {
         "lineNumber": 704,
         "author": {
-          "gitId": "wangyiming1019"
+          "gitId": "-"
         },
         "content": ""
       },
       {
         "lineNumber": 705,
         "author": {
-          "gitId": "wangyiming1019"
+          "gitId": "-"
         },
         "content": "BrowserPanel will then use `handleBrowserPanelLocationEvent` to process this newly created event. It will call `loadMapsPage`, which will check if the `Person`\u0027s `Address` is private or not. If their `Address` is public, it will launch the browser, showing the `Address` of that `Person` on Google Maps. Otherwise, an error message will be printed, as can be seen below:"
       },
       {
         "lineNumber": 706,
         "author": {
-          "gitId": "wangyiming1019"
+          "gitId": "-"
         },
         "content": ""
       },
       {
         "lineNumber": 707,
         "author": {
-          "gitId": "wangyiming1019"
+          "gitId": "-"
         },
         "content": "[source, java]"
       },
       {
         "lineNumber": 708,
         "author": {
-          "gitId": "wangyiming1019"
+          "gitId": "-"
         },
         "content": "----"
       },
       {
         "lineNumber": 709,
         "author": {
-          "gitId": "wangyiming1019"
+          "gitId": "-"
         },
         "content": " private void loadMapsPage(ReadOnlyPerson person) {"
       },
       {
         "lineNumber": 710,
         "author": {
-          "gitId": "wangyiming1019"
+          "gitId": "-"
         },
         "content": "        if (person.getAddress().isPrivate()) {"
       },
       {
         "lineNumber": 711,
         "author": {
-          "gitId": "wangyiming1019"
+          "gitId": "-"
         },
         "content": "            raise(new NewResultAvailableEvent(PRIVATE_ADDRESS_CANNOT_SEARCH));"
       },
       {
         "lineNumber": 712,
         "author": {
-          "gitId": "wangyiming1019"
+          "gitId": "-"
         },
         "content": "        } else {"
       },
       {
         "lineNumber": 713,
         "author": {
-          "gitId": "wangyiming1019"
+          "gitId": "-"
         },
         "content": "            loadPage(GOOGLE_MAPS_URL_PREFIX + person.getAddress().toString().replaceAll(\" \", \"+\")"
       },
       {
         "lineNumber": 714,
         "author": {
-          "gitId": "wangyiming1019"
+          "gitId": "-"
         },
         "content": "                + GOOGLE_MAPS_URL_SUFFIX);"
       },
       {
         "lineNumber": 715,
         "author": {
-          "gitId": "wangyiming1019"
+          "gitId": "-"
         },
         "content": "        }"
       },
       {
         "lineNumber": 716,
         "author": {
-          "gitId": "wangyiming1019"
+          "gitId": "-"
         },
         "content": "    }"
       },
       {
         "lineNumber": 717,
         "author": {
-          "gitId": "wangyiming1019"
+          "gitId": "-"
         },
         "content": "----"
       },
       {
         "lineNumber": 718,
         "author": {
-          "gitId": "wangyiming1019"
+          "gitId": "-"
         },
         "content": ""
       },
       {
         "lineNumber": 719,
         "author": {
-          "gitId": "wangyiming1019"
+          "gitId": "-"
         },
         "content": "The overall sequence of events is illustrated by the following sequence diagram:"
       },
@@ -5652,14 +5652,14 @@
       {
         "lineNumber": 721,
         "author": {
-          "gitId": "wangyiming1019"
+          "gitId": "-"
         },
         "content": "image::LocateSequenceDiagram.png[width\u003d\"800\"]"
       },
       {
         "lineNumber": 722,
         "author": {
-          "gitId": "wangyiming1019"
+          "gitId": "-"
         },
         "content": "_Figure 3.7.1 : Sequence Diagram for Locating a Person\u0027s Address_"
       },
@@ -5673,7 +5673,7 @@
       {
         "lineNumber": 724,
         "author": {
-          "gitId": "wangyiming1019"
+          "gitId": "-"
         },
         "content": "\u003d\u003d\u003d\u003d Design Considerations"
       },
@@ -5687,49 +5687,49 @@
       {
         "lineNumber": 726,
         "author": {
-          "gitId": "wangyiming1019"
+          "gitId": "-"
         },
         "content": "**Aspect:** Implementation of the Google Maps to search for a person\u0027s `Address` +"
       },
       {
         "lineNumber": 727,
         "author": {
-          "gitId": "wangyiming1019"
+          "gitId": "-"
         },
         "content": "**Alternative 1 (current choice):** Create a seperate command `locate`. +"
       },
       {
         "lineNumber": 728,
         "author": {
-          "gitId": "wangyiming1019"
+          "gitId": "-"
         },
         "content": "**Pros:** No modification needed for existing commands, which makes it clear the purpose of each command. +"
       },
       {
         "lineNumber": 729,
         "author": {
-          "gitId": "wangyiming1019"
+          "gitId": "-"
         },
         "content": "**Cons:** Additional commands will need to be learnt for both developers and users. +"
       },
       {
         "lineNumber": 730,
         "author": {
-          "gitId": "wangyiming1019"
+          "gitId": "-"
         },
         "content": "**Alternative 2:** Add the functionality into `SelectCommand`. +"
       },
       {
         "lineNumber": 731,
         "author": {
-          "gitId": "wangyiming1019"
+          "gitId": "-"
         },
         "content": "**Pros:** Expands the utility of `SelectCommand` beyond performing a Google search on their name. +"
       },
       {
         "lineNumber": 732,
         "author": {
-          "gitId": "wangyiming1019"
+          "gitId": "-"
         },
         "content": "**Cons:** Will require significant modification of existing code, and may make it more confusing for users."
       },
@@ -5743,7 +5743,7 @@
       {
         "lineNumber": 734,
         "author": {
-          "gitId": "wangyiming1019"
+          "gitId": "-"
         },
         "content": "\u003d\u003d\u003d Add/Delete Tag mechanism"
       },
@@ -5757,14 +5757,14 @@
       {
         "lineNumber": 736,
         "author": {
-          "gitId": "wangyiming1019"
+          "gitId": "-"
         },
         "content": "The add/delete tag mechanism is facilitated by `personArrayList`, which resides inside `LogicManager`. It supports add/delete"
       },
       {
         "lineNumber": 737,
         "author": {
-          "gitId": "wangyiming1019"
+          "gitId": "-"
         },
         "content": "tag for all persons in the address book. This command will inherit from `UndoableCommand`."
       },
@@ -5778,28 +5778,28 @@
       {
         "lineNumber": 739,
         "author": {
-          "gitId": "wangyiming1019"
+          "gitId": "-"
         },
         "content": "The add/delete tag command are executed by `AddTagCommand` and `DeleteTagCommand` are parsed through `AddTagCommandParser` and `DeleteTagCommandParser`."
       },
       {
         "lineNumber": 740,
         "author": {
-          "gitId": "wangyiming1019"
+          "gitId": "-"
         },
         "content": "It is different from `edit [INDEX] [TAG]` since it allows the user to perform the addition and deletion of tags for multiple people at once."
       },
       {
         "lineNumber": 741,
         "author": {
-          "gitId": "wangyiming1019"
+          "gitId": "-"
         },
         "content": "If the user wants to add the `t/friends` tag for the first 3 persons in the address book, the `AddTagCommand` (`addtag 1 2 3 t/friends`) will be executed."
       },
       {
         "lineNumber": 742,
         "author": {
-          "gitId": "wangyiming1019"
+          "gitId": "-"
         },
         "content": "The same operation will happen for `deletetag` command."
       },
@@ -5813,14 +5813,14 @@
       {
         "lineNumber": 744,
         "author": {
-          "gitId": "wangyiming1019"
+          "gitId": "-"
         },
         "content": "The `AddTagCommand` goes through all the persons in the address book and add tag to the persons with specific index. The `DeleteTagCommand` works"
       },
       {
         "lineNumber": 745,
         "author": {
-          "gitId": "wangyiming1019"
+          "gitId": "-"
         },
         "content": "in a similar way."
       },
@@ -5834,168 +5834,168 @@
       {
         "lineNumber": 747,
         "author": {
-          "gitId": "wangyiming1019"
+          "gitId": "-"
         },
         "content": "The example of how `AddTagCommand` is working:"
       },
       {
         "lineNumber": 748,
         "author": {
-          "gitId": "wangyiming1019"
+          "gitId": "-"
         },
         "content": "[source,java]"
       },
       {
         "lineNumber": 749,
         "author": {
-          "gitId": "wangyiming1019"
+          "gitId": "-"
         },
         "content": "----"
       },
       {
         "lineNumber": 750,
         "author": {
-          "gitId": "wangyiming1019"
+          "gitId": "-"
         },
         "content": "/**"
       },
       {
         "lineNumber": 751,
         "author": {
-          "gitId": "wangyiming1019"
+          "gitId": "-"
         },
         "content": " * Adds a tag to the persons in the list from the address book."
       },
       {
         "lineNumber": 752,
         "author": {
-          "gitId": "wangyiming1019"
+          "gitId": "-"
         },
         "content": " */"
       },
       {
         "lineNumber": 753,
         "author": {
-          "gitId": "wangyiming1019"
+          "gitId": "-"
         },
         "content": "public class AddTagCommand extends UndoableCommand {"
       },
       {
         "lineNumber": 754,
         "author": {
-          "gitId": "wangyiming1019"
+          "gitId": "-"
         },
         "content": "    /**"
       },
       {
         "lineNumber": 755,
         "author": {
-          "gitId": "wangyiming1019"
+          "gitId": "-"
         },
         "content": "         * Check whether the index within the range then checks whether the specific persons have the tag."
       },
       {
         "lineNumber": 756,
         "author": {
-          "gitId": "wangyiming1019"
+          "gitId": "-"
         },
         "content": "         * If not, add the tag to the person that doesn\u0027t have the given tag."
       },
       {
         "lineNumber": 757,
         "author": {
-          "gitId": "wangyiming1019"
+          "gitId": "-"
         },
         "content": "         */"
       },
       {
         "lineNumber": 758,
         "author": {
-          "gitId": "wangyiming1019"
+          "gitId": "-"
         },
         "content": "        @Override"
       },
       {
         "lineNumber": 759,
         "author": {
-          "gitId": "wangyiming1019"
+          "gitId": "-"
         },
         "content": "        public CommandResult executeUndoableCommand() throws CommandException {"
       },
       {
         "lineNumber": 760,
         "author": {
-          "gitId": "wangyiming1019"
+          "gitId": "-"
         },
         "content": ""
       },
       {
         "lineNumber": 761,
         "author": {
-          "gitId": "wangyiming1019"
+          "gitId": "-"
         },
         "content": "            for (Index targetIndex : targetIndexes) {"
       },
       {
         "lineNumber": 762,
         "author": {
-          "gitId": "wangyiming1019"
+          "gitId": "-"
         },
         "content": "                // check whether the index within the range"
       },
       {
         "lineNumber": 763,
         "author": {
-          "gitId": "wangyiming1019"
+          "gitId": "-"
         },
         "content": "            }"
       },
       {
         "lineNumber": 764,
         "author": {
-          "gitId": "wangyiming1019"
+          "gitId": "-"
         },
         "content": "            for (int i \u003d 0; i \u003c targetIndexes.size(); i++) {"
       },
       {
         "lineNumber": 765,
         "author": {
-          "gitId": "wangyiming1019"
+          "gitId": "-"
         },
         "content": "                // check whether all persons have the given tag"
       },
       {
         "lineNumber": 766,
         "author": {
-          "gitId": "wangyiming1019"
+          "gitId": "-"
         },
         "content": "            }"
       },
       {
         "lineNumber": 767,
         "author": {
-          "gitId": "wangyiming1019"
+          "gitId": "-"
         },
         "content": "            // throw exception for duplicated tag"
       },
       {
         "lineNumber": 768,
         "author": {
-          "gitId": "wangyiming1019"
+          "gitId": "-"
         },
         "content": "            return new CommandResult();"
       },
       {
         "lineNumber": 769,
         "author": {
-          "gitId": "wangyiming1019"
+          "gitId": "-"
         },
         "content": "        }"
       },
       {
         "lineNumber": 770,
         "author": {
-          "gitId": "wangyiming1019"
+          "gitId": "-"
         },
         "content": "----"
       },
@@ -6009,7 +6009,7 @@
       {
         "lineNumber": 772,
         "author": {
-          "gitId": "wangyiming1019"
+          "gitId": "-"
         },
         "content": "Suppose the user enter the `addtag 1 2 t/friends` command. The following sequence diagram shows how the add tag command works:"
       },
@@ -6023,21 +6023,21 @@
       {
         "lineNumber": 774,
         "author": {
-          "gitId": "wangyiming1019"
+          "gitId": "-"
         },
         "content": "image::AddTagSdForLogic.png[width\u003d\"800\"]"
       },
       {
         "lineNumber": 775,
         "author": {
-          "gitId": "wangyiming1019"
+          "gitId": "-"
         },
         "content": "_Figure 3.8.1 : Add Tag Sequence Diagram for Logic_ +"
       },
       {
         "lineNumber": 776,
         "author": {
-          "gitId": "wangyiming1019"
+          "gitId": "-"
         },
         "content": "The `deletetag` command works the same as `addtag` command with different name only."
       },
@@ -6051,28 +6051,28 @@
       {
         "lineNumber": 778,
         "author": {
-          "gitId": "wangyiming1019"
+          "gitId": "-"
         },
         "content": "[NOTE]"
       },
       {
         "lineNumber": 779,
         "author": {
-          "gitId": "wangyiming1019"
+          "gitId": "-"
         },
         "content": "If the input index does not exist, the `AddTagCommand` and `DeleteTagCommand` will throw an exception. +"
       },
       {
         "lineNumber": 780,
         "author": {
-          "gitId": "wangyiming1019"
+          "gitId": "-"
         },
         "content": "If the tag to be deleted does not exist, the `DeleteTagCommand` will throw an exception. +"
       },
       {
         "lineNumber": 781,
         "author": {
-          "gitId": "wangyiming1019"
+          "gitId": "-"
         },
         "content": "If the tag to be added exists in every target person in the address book, the `AddTagCommand` will throw an exception."
       },
@@ -6086,7 +6086,7 @@
       {
         "lineNumber": 783,
         "author": {
-          "gitId": "wangyiming1019"
+          "gitId": "-"
         },
         "content": "\u003d\u003d\u003d\u003d Design Considerations"
       },
@@ -6100,56 +6100,56 @@
       {
         "lineNumber": 785,
         "author": {
-          "gitId": "wangyiming1019"
+          "gitId": "-"
         },
         "content": "**Aspect:** Implementation of the `addtag` and `deletetag` +"
       },
       {
         "lineNumber": 786,
         "author": {
-          "gitId": "wangyiming1019"
+          "gitId": "-"
         },
         "content": "**Alternative 1 (current choice):** implement the methods in `ModelManager` +"
       },
       {
         "lineNumber": 787,
         "author": {
-          "gitId": "wangyiming1019"
+          "gitId": "-"
         },
         "content": "**Pros:** Easier to implement. `ModelManager` includes all the methods and variables. +"
       },
       {
         "lineNumber": 788,
         "author": {
-          "gitId": "wangyiming1019"
+          "gitId": "-"
         },
         "content": "**Cons:** Must modify `Model` also to fit the `ModelManager`. Beginner may have difficulty to understand the different functions in Model component+"
       },
       {
         "lineNumber": 789,
         "author": {
-          "gitId": "wangyiming1019"
+          "gitId": "-"
         },
         "content": "**Alternative 2:** Implement the `addtag` and `deletetag` in `AddTagCommand` and `DeleteTagCommand` respectively. +"
       },
       {
         "lineNumber": 790,
         "author": {
-          "gitId": "wangyiming1019"
+          "gitId": "-"
         },
         "content": "**Pros:** Easier to understand. +"
       },
       {
         "lineNumber": 791,
         "author": {
-          "gitId": "wangyiming1019"
+          "gitId": "-"
         },
         "content": "**Cons:** Repetitive code. Additional overload constructor needs to be implement. The `AddTagCommand` and `DeleteTagCommand` will have to update the person list."
       },
       {
         "lineNumber": 792,
         "author": {
-          "gitId": "wangyiming1019"
+          "gitId": "-"
         },
         "content": "This violates the Single Responsibility Principle."
       },
@@ -6163,56 +6163,56 @@
       {
         "lineNumber": 794,
         "author": {
-          "gitId": "wangyiming1019"
+          "gitId": "-"
         },
         "content": "---"
       },
       {
         "lineNumber": 795,
         "author": {
-          "gitId": "wangyiming1019"
+          "gitId": "-"
         },
         "content": "**Aspect:** Implementation of the `AddTagCommand` and `DeleteTagCommand` +"
       },
       {
         "lineNumber": 796,
         "author": {
-          "gitId": "wangyiming1019"
+          "gitId": "-"
         },
         "content": "**Alternative 1 (current choice):** create new command `addtag` and `deletetag` +"
       },
       {
         "lineNumber": 797,
         "author": {
-          "gitId": "wangyiming1019"
+          "gitId": "-"
         },
         "content": "**Pros:** Less modification of existing command and parser +"
       },
       {
         "lineNumber": 798,
         "author": {
-          "gitId": "wangyiming1019"
+          "gitId": "-"
         },
         "content": "**Cons:** Users have to learn how to use the additional commands +"
       },
       {
         "lineNumber": 799,
         "author": {
-          "gitId": "wangyiming1019"
+          "gitId": "-"
         },
         "content": "**Alternative 2:** Modify the existing `add` and `delete` command +"
       },
       {
         "lineNumber": 800,
         "author": {
-          "gitId": "wangyiming1019"
+          "gitId": "-"
         },
         "content": "**Pros:** Users could use the same commands to achieve different purpose +"
       },
       {
         "lineNumber": 801,
         "author": {
-          "gitId": "wangyiming1019"
+          "gitId": "-"
         },
         "content": "**Cons:** Additional override the constructor for the existing command. It might not be easy for the beginner."
       },
@@ -6226,7 +6226,7 @@
       {
         "lineNumber": 803,
         "author": {
-          "gitId": "wangyiming1019"
+          "gitId": "-"
         },
         "content": "\u003d\u003d\u003d Find Tag mechanism"
       },
@@ -6240,14 +6240,14 @@
       {
         "lineNumber": 805,
         "author": {
-          "gitId": "wangyiming1019"
+          "gitId": "-"
         },
         "content": "The find tag mechanism is facilitated by an ArrayList of Tags, which resides inside `LogicManager`. It supports finding persons by their tags in the address book."
       },
       {
         "lineNumber": 806,
         "author": {
-          "gitId": "wangyiming1019"
+          "gitId": "-"
         },
         "content": "This command will not inherit from `UndoableCommand`."
       },
@@ -6261,21 +6261,21 @@
       {
         "lineNumber": 808,
         "author": {
-          "gitId": "wangyiming1019"
+          "gitId": "-"
         },
         "content": "The `findtag` command is executed by `FindTagCommand` and is parsed through `FindTagCommandParser`."
       },
       {
         "lineNumber": 809,
         "author": {
-          "gitId": "wangyiming1019"
+          "gitId": "-"
         },
         "content": "After parsing through `FindTagCommandParser`, it does not goes to the `FindTagCommand` straightly. The list of tags input will be processed by `NameContainsTagsPredicate` first."
       },
       {
         "lineNumber": 810,
         "author": {
-          "gitId": "wangyiming1019"
+          "gitId": "-"
         },
         "content": "It is similar to the `find` command since find persons through their names and find persons through their tags are quite similar."
       },
@@ -6289,14 +6289,14 @@
       {
         "lineNumber": 812,
         "author": {
-          "gitId": "wangyiming1019"
+          "gitId": "-"
         },
         "content": "Please take not that although `FindTagCommand` is similar to `FindCommand`, there are still some differences."
       },
       {
         "lineNumber": 813,
         "author": {
-          "gitId": "wangyiming1019"
+          "gitId": "-"
         },
         "content": "`FindTagCommand` provides exclusive finding whereas `FindCommand` does not. It is achieved in the `NameContainsTagsPredicate`."
       },
@@ -6310,14 +6310,14 @@
       {
         "lineNumber": 815,
         "author": {
-          "gitId": "wangyiming1019"
+          "gitId": "-"
         },
         "content": "This is the example of how `NameContainsTagsPredicate` is working:"
       },
       {
         "lineNumber": 816,
         "author": {
-          "gitId": "wangyiming1019"
+          "gitId": "-"
         },
         "content": "Firstly, it will convert a Set of Tag to String."
       },
@@ -6331,98 +6331,98 @@
       {
         "lineNumber": 818,
         "author": {
-          "gitId": "wangyiming1019"
+          "gitId": "-"
         },
         "content": "[source,java]"
       },
       {
         "lineNumber": 819,
         "author": {
-          "gitId": "wangyiming1019"
+          "gitId": "-"
         },
         "content": "----"
       },
       {
         "lineNumber": 820,
         "author": {
-          "gitId": "wangyiming1019"
+          "gitId": "-"
         },
         "content": "private String convertTagToString(ReadOnlyPerson person) {"
       },
       {
         "lineNumber": 821,
         "author": {
-          "gitId": "wangyiming1019"
+          "gitId": "-"
         },
         "content": "        Set\u003cTag\u003e personTags \u003d person.getTags();"
       },
       {
         "lineNumber": 822,
         "author": {
-          "gitId": "wangyiming1019"
+          "gitId": "-"
         },
         "content": "        StringBuilder allTagNames \u003d new StringBuilder();"
       },
       {
         "lineNumber": 823,
         "author": {
-          "gitId": "wangyiming1019"
+          "gitId": "-"
         },
         "content": "        for (Tag tag : personTags) {"
       },
       {
         "lineNumber": 824,
         "author": {
-          "gitId": "wangyiming1019"
+          "gitId": "-"
         },
         "content": "            allTagNames.append(tag.getTagName());"
       },
       {
         "lineNumber": 825,
         "author": {
-          "gitId": "wangyiming1019"
+          "gitId": "-"
         },
         "content": "            allTagNames.append(\" \");"
       },
       {
         "lineNumber": 826,
         "author": {
-          "gitId": "wangyiming1019"
+          "gitId": "-"
         },
         "content": "        }"
       },
       {
         "lineNumber": 827,
         "author": {
-          "gitId": "wangyiming1019"
+          "gitId": "-"
         },
         "content": "        return allTagNames.toString().trim();"
       },
       {
         "lineNumber": 828,
         "author": {
-          "gitId": "wangyiming1019"
+          "gitId": "-"
         },
         "content": "    }"
       },
       {
         "lineNumber": 829,
         "author": {
-          "gitId": "wangyiming1019"
+          "gitId": "-"
         },
         "content": "----"
       },
       {
         "lineNumber": 830,
         "author": {
-          "gitId": "wangyiming1019"
+          "gitId": "-"
         },
         "content": "After having a list of string, it will then split strings into two ArrayList. One is for the tags we are looking for and another one"
       },
       {
         "lineNumber": 831,
         "author": {
-          "gitId": "wangyiming1019"
+          "gitId": "-"
         },
         "content": "is for the tags to be excluded."
       },
@@ -6436,119 +6436,119 @@
       {
         "lineNumber": 833,
         "author": {
-          "gitId": "wangyiming1019"
+          "gitId": "-"
         },
         "content": "[sourcce,java]"
       },
       {
         "lineNumber": 834,
         "author": {
-          "gitId": "wangyiming1019"
+          "gitId": "-"
         },
         "content": "----"
       },
       {
         "lineNumber": 835,
         "author": {
-          "gitId": "wangyiming1019"
+          "gitId": "-"
         },
         "content": "/**"
       },
       {
         "lineNumber": 836,
         "author": {
-          "gitId": "wangyiming1019"
+          "gitId": "-"
         },
         "content": "     * Update the wantedTag and unwantedTag list"
       },
       {
         "lineNumber": 837,
         "author": {
-          "gitId": "wangyiming1019"
+          "gitId": "-"
         },
         "content": "     * @param wantedTag list of tags to be searched"
       },
       {
         "lineNumber": 838,
         "author": {
-          "gitId": "wangyiming1019"
+          "gitId": "-"
         },
         "content": "     * @param unwantedTag list of tags to not be searched"
       },
       {
         "lineNumber": 839,
         "author": {
-          "gitId": "wangyiming1019"
+          "gitId": "-"
         },
         "content": "     */"
       },
       {
         "lineNumber": 840,
         "author": {
-          "gitId": "wangyiming1019"
+          "gitId": "-"
         },
         "content": "    private void updateWantedTagUnwantedTag(List\u003cString\u003e wantedTag, List\u003cString\u003e unwantedTag) {"
       },
       {
         "lineNumber": 841,
         "author": {
-          "gitId": "wangyiming1019"
+          "gitId": "-"
         },
         "content": "        for (String everyTag : tags) {"
       },
       {
         "lineNumber": 842,
         "author": {
-          "gitId": "wangyiming1019"
+          "gitId": "-"
         },
         "content": "            if (!everyTag.startsWith(\"/not\")) {"
       },
       {
         "lineNumber": 843,
         "author": {
-          "gitId": "wangyiming1019"
+          "gitId": "-"
         },
         "content": "                wantedTag.add(everyTag);"
       },
       {
         "lineNumber": 844,
         "author": {
-          "gitId": "wangyiming1019"
+          "gitId": "-"
         },
         "content": "            } else {"
       },
       {
         "lineNumber": 845,
         "author": {
-          "gitId": "wangyiming1019"
+          "gitId": "-"
         },
         "content": "                unwantedTag.add(everyTag.substring(4));"
       },
       {
         "lineNumber": 846,
         "author": {
-          "gitId": "wangyiming1019"
+          "gitId": "-"
         },
         "content": "            }"
       },
       {
         "lineNumber": 847,
         "author": {
-          "gitId": "wangyiming1019"
+          "gitId": "-"
         },
         "content": "        }"
       },
       {
         "lineNumber": 848,
         "author": {
-          "gitId": "wangyiming1019"
+          "gitId": "-"
         },
         "content": "    }"
       },
       {
         "lineNumber": 849,
         "author": {
-          "gitId": "wangyiming1019"
+          "gitId": "-"
         },
         "content": "----"
       },
@@ -6562,14 +6562,14 @@
       {
         "lineNumber": 851,
         "author": {
-          "gitId": "wangyiming1019"
+          "gitId": "-"
         },
         "content": "Lastly, it will return the result according to the user input. +"
       },
       {
         "lineNumber": 852,
         "author": {
-          "gitId": "wangyiming1019"
+          "gitId": "-"
         },
         "content": "Suppose the user enter `findtag friends` command. The following sequence diagram shows how the find tag command works:"
       },
@@ -6583,14 +6583,14 @@
       {
         "lineNumber": 854,
         "author": {
-          "gitId": "wangyiming1019"
+          "gitId": "-"
         },
         "content": "image::FindTagSequenceDiagram.png[width\u003d\"800\"]"
       },
       {
         "lineNumber": 855,
         "author": {
-          "gitId": "wangyiming1019"
+          "gitId": "-"
         },
         "content": "_Figure 3.9.1 : Find Tag Sequence Diagram for Logic_ +"
       },
@@ -6604,14 +6604,14 @@
       {
         "lineNumber": 857,
         "author": {
-          "gitId": "wangyiming1019"
+          "gitId": "-"
         },
         "content": "[NOTE]"
       },
       {
         "lineNumber": 858,
         "author": {
-          "gitId": "wangyiming1019"
+          "gitId": "-"
         },
         "content": "If the input index tags do not exist, the `FindTagCommand` will give a empty list."
       },
@@ -6625,7 +6625,7 @@
       {
         "lineNumber": 860,
         "author": {
-          "gitId": "wangyiming1019"
+          "gitId": "-"
         },
         "content": "\u003d\u003d\u003d\u003d Design Considerations"
       },
@@ -6639,56 +6639,56 @@
       {
         "lineNumber": 862,
         "author": {
-          "gitId": "wangyiming1019"
+          "gitId": "-"
         },
         "content": "**Aspect:** Implementation of the `findtag` +"
       },
       {
         "lineNumber": 863,
         "author": {
-          "gitId": "wangyiming1019"
+          "gitId": "-"
         },
         "content": "**Alternative 1 (current choice):** implement a new command `findtag` +"
       },
       {
         "lineNumber": 864,
         "author": {
-          "gitId": "wangyiming1019"
+          "gitId": "-"
         },
         "content": "**Pros:** Easier to implement. `findtag` command will be similar to the `find` command. +"
       },
       {
         "lineNumber": 865,
         "author": {
-          "gitId": "wangyiming1019"
+          "gitId": "-"
         },
         "content": "**Cons:** Must create `NameContainsTagsPredicate` in model. It does not fully utilize the existing `NameContainsKeywordsPredicate`. +"
       },
       {
         "lineNumber": 866,
         "author": {
-          "gitId": "wangyiming1019"
+          "gitId": "-"
         },
         "content": "**Alternative 2:** Implement the `findtag` in `FindCommand`. +"
       },
       {
         "lineNumber": 867,
         "author": {
-          "gitId": "wangyiming1019"
+          "gitId": "-"
         },
         "content": "**Pros:** Easier for user. They do not have to memorize some many commands. +"
       },
       {
         "lineNumber": 868,
         "author": {
-          "gitId": "wangyiming1019"
+          "gitId": "-"
         },
         "content": "**Cons:** The existing `FindCommand` will not only response for finding persons through names only. This Violates Single Responsibility Principle"
       },
       {
         "lineNumber": 869,
         "author": {
-          "gitId": "wangyiming1019"
+          "gitId": "-"
         },
         "content": "and Separation of Concerns as FindCommand now needs to do two different things."
       },
@@ -6807,7 +6807,7 @@
       {
         "lineNumber": 886,
         "author": {
-          "gitId": "wangyiming1019"
+          "gitId": "-"
         },
         "content": ""
       },
@@ -9378,8 +9378,7 @@
       "charlesgoh": 70,
       "jeffreygohkw": 157,
       "Esilocke": 178,
-      "wangyiming1019": 215,
-      "-": 632
+      "-": 847
     }
   },
   {
@@ -9388,7 +9387,7 @@
       {
         "lineNumber": 1,
         "author": {
-          "gitId": "wangyiming1019"
+          "gitId": "-"
         },
         "content": "\u003d Address++ - User Guide"
       },
@@ -9633,7 +9632,7 @@
       {
         "lineNumber": 36,
         "author": {
-          "gitId": "wangyiming1019"
+          "gitId": "-"
         },
         "content": ".  Copy the file to the folder you want to use as the home folder for your Address++."
       },
@@ -9717,7 +9716,7 @@
       {
         "lineNumber": 48,
         "author": {
-          "gitId": "wangyiming1019"
+          "gitId": "-"
         },
         "content": "adds a contact named `John Doe` to Address++."
       },
@@ -9857,7 +9856,7 @@
       {
         "lineNumber": 68,
         "author": {
-          "gitId": "wangyiming1019"
+          "gitId": "-"
         },
         "content": "Alternatively,  you may opt to use the keyboard shortcut kbd:[F1]."
       },
@@ -10109,14 +10108,14 @@
       {
         "lineNumber": 104,
         "author": {
-          "gitId": "wangyiming1019"
+          "gitId": "-"
         },
         "content": ""
       },
       {
         "lineNumber": 105,
         "author": {
-          "gitId": "wangyiming1019"
+          "gitId": "-"
         },
         "content": "\u003d\u003d\u003d Adding a tag to persons : `addtag` (Since V1.2)"
       },
@@ -10130,14 +10129,14 @@
       {
         "lineNumber": 107,
         "author": {
-          "gitId": "wangyiming1019"
+          "gitId": "-"
         },
         "content": "You can use the `addtag` command to add tag for multiple persons in the address book. For example, you may wish to add tag `friends` to the first two persons in the address book. +"
       },
       {
         "lineNumber": 108,
         "author": {
-          "gitId": "wangyiming1019"
+          "gitId": "-"
         },
         "content": "`addtag` can be replaced by `atag` for faster input. +"
       },
@@ -10165,42 +10164,42 @@
       {
         "lineNumber": 112,
         "author": {
-          "gitId": "wangyiming1019"
+          "gitId": "-"
         },
         "content": "****"
       },
       {
         "lineNumber": 113,
         "author": {
-          "gitId": "wangyiming1019"
+          "gitId": "-"
         },
         "content": "* You can add the tag of the person at the specific `INDEX`."
       },
       {
         "lineNumber": 114,
         "author": {
-          "gitId": "wangyiming1019"
+          "gitId": "-"
         },
         "content": "* The index refers to the index number shown in the most recent listing."
       },
       {
         "lineNumber": 115,
         "author": {
-          "gitId": "wangyiming1019"
+          "gitId": "-"
         },
         "content": "* The index you key in *must be a positive integer* 1, 2, 3, ..."
       },
       {
         "lineNumber": 116,
         "author": {
-          "gitId": "wangyiming1019"
+          "gitId": "-"
         },
         "content": "* If you don not key in any indexes, addtag will add the tag to all contacts in the address book."
       },
       {
         "lineNumber": 117,
         "author": {
-          "gitId": "wangyiming1019"
+          "gitId": "-"
         },
         "content": "****"
       },
@@ -10228,14 +10227,14 @@
       {
         "lineNumber": 121,
         "author": {
-          "gitId": "wangyiming1019"
+          "gitId": "-"
         },
         "content": "* `list` +"
       },
       {
         "lineNumber": 122,
         "author": {
-          "gitId": "wangyiming1019"
+          "gitId": "-"
         },
         "content": "`addtag 1 2 t/friends` +"
       },
@@ -10270,7 +10269,7 @@
       {
         "lineNumber": 127,
         "author": {
-          "gitId": "wangyiming1019"
+          "gitId": "-"
         },
         "content": ""
       },
@@ -10445,14 +10444,14 @@
       {
         "lineNumber": 152,
         "author": {
-          "gitId": "wangyiming1019"
+          "gitId": "-"
         },
         "content": "* An Edit command containing only private fields will result in a error message."
       },
       {
         "lineNumber": 153,
         "author": {
-          "gitId": "wangyiming1019"
+          "gitId": "-"
         },
         "content": "* An Edit command with both private and public fields will only modify the public fields."
       },
@@ -10767,7 +10766,7 @@
       {
         "lineNumber": 198,
         "author": {
-          "gitId": "wangyiming1019"
+          "gitId": "-"
         },
         "content": "\u003d\u003d\u003d Changing the Privacy of a person\u0027s details : `changeprivacy`(Since V1.3)"
       },
@@ -10795,7 +10794,7 @@
       {
         "lineNumber": 202,
         "author": {
-          "gitId": "wangyiming1019"
+          "gitId": "-"
         },
         "content": "Shorthand commands: `cp`"
       },
@@ -10858,7 +10857,7 @@
       {
         "lineNumber": 211,
         "author": {
-          "gitId": "wangyiming1019"
+          "gitId": "-"
         },
         "content": "* If you do not add a prefix for the field in the command, that field will keep its original privacy setting."
       },
@@ -10928,231 +10927,231 @@
       {
         "lineNumber": 221,
         "author": {
-          "gitId": "wangyiming1019"
+          "gitId": "-"
         },
         "content": ""
       },
       {
         "lineNumber": 222,
         "author": {
-          "gitId": "wangyiming1019"
+          "gitId": "-"
         },
         "content": "\u003d\u003d\u003d Favouriting persons : `favourite` (since V1.3)"
       },
       {
         "lineNumber": 223,
         "author": {
-          "gitId": "wangyiming1019"
+          "gitId": "-"
         },
         "content": ""
       },
       {
         "lineNumber": 224,
         "author": {
-          "gitId": "wangyiming1019"
+          "gitId": "-"
         },
         "content": "You can use `favourite` command to make persons in the address book become your favourite persons. For example, you may wish to set your girlfriend as your favourite contact. +"
       },
       {
         "lineNumber": 225,
         "author": {
-          "gitId": "wangyiming1019"
+          "gitId": "-"
         },
         "content": "`favourite` can be replaced by `fav` for faster input. +"
       },
       {
         "lineNumber": 226,
         "author": {
-          "gitId": "wangyiming1019"
+          "gitId": "-"
         },
         "content": "Format: `favourite INDEX [MORE INDEX]` +"
       },
       {
         "lineNumber": 227,
         "author": {
-          "gitId": "wangyiming1019"
+          "gitId": "-"
         },
         "content": ""
       },
       {
         "lineNumber": 228,
         "author": {
-          "gitId": "wangyiming1019"
+          "gitId": "-"
         },
         "content": "Examples:"
       },
       {
         "lineNumber": 229,
         "author": {
-          "gitId": "wangyiming1019"
+          "gitId": "-"
         },
         "content": ""
       },
       {
         "lineNumber": 230,
         "author": {
-          "gitId": "wangyiming1019"
+          "gitId": "-"
         },
         "content": "* `list` +"
       },
       {
         "lineNumber": 231,
         "author": {
-          "gitId": "wangyiming1019"
+          "gitId": "-"
         },
         "content": "`favourite 1 2` +"
       },
       {
         "lineNumber": 232,
         "author": {
-          "gitId": "wangyiming1019"
+          "gitId": "-"
         },
         "content": "Favourites the 1st and 2nd person in the address book."
       },
       {
         "lineNumber": 233,
         "author": {
-          "gitId": "wangyiming1019"
+          "gitId": "-"
         },
         "content": "* `find Betsy` +"
       },
       {
         "lineNumber": 234,
         "author": {
-          "gitId": "wangyiming1019"
+          "gitId": "-"
         },
         "content": "`favourite 1` +"
       },
       {
         "lineNumber": 235,
         "author": {
-          "gitId": "wangyiming1019"
+          "gitId": "-"
         },
         "content": "Favourite the 1st person in the results of the `find` command."
       },
       {
         "lineNumber": 236,
         "author": {
-          "gitId": "wangyiming1019"
+          "gitId": "-"
         },
         "content": ""
       },
       {
         "lineNumber": 237,
         "author": {
-          "gitId": "wangyiming1019"
+          "gitId": "-"
         },
         "content": "****"
       },
       {
         "lineNumber": 238,
         "author": {
-          "gitId": "wangyiming1019"
+          "gitId": "-"
         },
         "content": "* You can set a person to be the favourite person at the specified `INDEX`."
       },
       {
         "lineNumber": 239,
         "author": {
-          "gitId": "wangyiming1019"
+          "gitId": "-"
         },
         "content": "* The index refers to the index number shown in the most recent listing."
       },
       {
         "lineNumber": 240,
         "author": {
-          "gitId": "wangyiming1019"
+          "gitId": "-"
         },
         "content": "* The index you key in *must be a positive integer* 1, 2, 3, ..."
       },
       {
         "lineNumber": 241,
         "author": {
-          "gitId": "wangyiming1019"
+          "gitId": "-"
         },
         "content": "****"
       },
       {
         "lineNumber": 242,
         "author": {
-          "gitId": "wangyiming1019"
+          "gitId": "-"
         },
         "content": ""
       },
       {
         "lineNumber": 243,
         "author": {
-          "gitId": "wangyiming1019"
+          "gitId": "-"
         },
         "content": "\u003d\u003d\u003d Listing all favourite persons : `showfavourite` (since V1.3)"
       },
       {
         "lineNumber": 244,
         "author": {
-          "gitId": "wangyiming1019"
+          "gitId": "-"
         },
         "content": ""
       },
       {
         "lineNumber": 245,
         "author": {
-          "gitId": "wangyiming1019"
+          "gitId": "-"
         },
         "content": "You can use the `showfavourite` command to quickly show all your favourite contacts in the address book. +"
       },
       {
         "lineNumber": 246,
         "author": {
-          "gitId": "wangyiming1019"
+          "gitId": "-"
         },
         "content": "`showfavourite` can be replaced by `sfav` for faster input. +"
       },
       {
         "lineNumber": 247,
         "author": {
-          "gitId": "wangyiming1019"
+          "gitId": "-"
         },
         "content": "Format: `showfavourite` +"
       },
       {
         "lineNumber": 248,
         "author": {
-          "gitId": "wangyiming1019"
+          "gitId": "-"
         },
         "content": ""
       },
       {
         "lineNumber": 249,
         "author": {
-          "gitId": "wangyiming1019"
+          "gitId": "-"
         },
         "content": "[NOTE]"
       },
       {
         "lineNumber": 250,
         "author": {
-          "gitId": "wangyiming1019"
+          "gitId": "-"
         },
         "content": "\u003d\u003d\u003d\u003d"
       },
       {
         "lineNumber": 251,
         "author": {
-          "gitId": "wangyiming1019"
+          "gitId": "-"
         },
         "content": "`showfavourite` command: It will return an empty list if there is no favourite persons."
       },
       {
         "lineNumber": 252,
         "author": {
-          "gitId": "wangyiming1019"
+          "gitId": "-"
         },
         "content": "\u003d\u003d\u003d\u003d"
       },
       {
         "lineNumber": 253,
         "author": {
-          "gitId": "wangyiming1019"
+          "gitId": "-"
         },
         "content": ""
       },
@@ -11320,7 +11319,7 @@
       {
         "lineNumber": 277,
         "author": {
-          "gitId": "wangyiming1019"
+          "gitId": "-"
         },
         "content": "* You can only search for names in Address++"
       },
@@ -11404,7 +11403,7 @@
       {
         "lineNumber": 289,
         "author": {
-          "gitId": "wangyiming1019"
+          "gitId": "-"
         },
         "content": "\u003d\u003d\u003d Locating persons by tag : `findtag` (Since V1.4)"
       },
@@ -11418,105 +11417,105 @@
       {
         "lineNumber": 291,
         "author": {
-          "gitId": "wangyiming1019"
+          "gitId": "-"
         },
         "content": "You can use the `findtag` command to quickly filter out contacts who match your criteria. For example, you may wish to find contacts who are your `classmates`. +"
       },
       {
         "lineNumber": 292,
         "author": {
-          "gitId": "wangyiming1019"
+          "gitId": "-"
         },
         "content": "If you want to find contacts who are your `classmates` but not your `friends`, you just need to add `/not` in front of the `friends`. +"
       },
       {
         "lineNumber": 293,
         "author": {
-          "gitId": "wangyiming1019"
+          "gitId": "-"
         },
         "content": "`findtag` can be replaced by `ftag` for faster input. +"
       },
       {
         "lineNumber": 294,
         "author": {
-          "gitId": "wangyiming1019"
+          "gitId": "-"
         },
         "content": "Format: `findtag KEYWORD [MORE_KEYWORDS]` +"
       },
       {
         "lineNumber": 295,
         "author": {
-          "gitId": "wangyiming1019"
+          "gitId": "-"
         },
         "content": ""
       },
       {
         "lineNumber": 296,
         "author": {
-          "gitId": "wangyiming1019"
+          "gitId": "-"
         },
         "content": "Examples:"
       },
       {
         "lineNumber": 297,
         "author": {
-          "gitId": "wangyiming1019"
+          "gitId": "-"
         },
         "content": ""
       },
       {
         "lineNumber": 298,
         "author": {
-          "gitId": "wangyiming1019"
+          "gitId": "-"
         },
         "content": "* `findtag friends` +"
       },
       {
         "lineNumber": 299,
         "author": {
-          "gitId": "wangyiming1019"
+          "gitId": "-"
         },
         "content": "Returns any persons having tag `friends`"
       },
       {
         "lineNumber": 300,
         "author": {
-          "gitId": "wangyiming1019"
+          "gitId": "-"
         },
         "content": "* `findtag friends colleagues` +"
       },
       {
         "lineNumber": 301,
         "author": {
-          "gitId": "wangyiming1019"
+          "gitId": "-"
         },
         "content": "Returns any person having tags `friends` or `colleagues`"
       },
       {
         "lineNumber": 302,
         "author": {
-          "gitId": "wangyiming1019"
+          "gitId": "-"
         },
         "content": "* `findtag /notfriends` +"
       },
       {
         "lineNumber": 303,
         "author": {
-          "gitId": "wangyiming1019"
+          "gitId": "-"
         },
         "content": "Returns any persons not have tag `friends`"
       },
       {
         "lineNumber": 304,
         "author": {
-          "gitId": "wangyiming1019"
+          "gitId": "-"
         },
         "content": "* `findtag classmates /notfriends` +"
       },
       {
         "lineNumber": 305,
         "author": {
-          "gitId": "wangyiming1019"
+          "gitId": "-"
         },
         "content": "Returns any person have tags `classmates` but not have tag `friends`"
       },
@@ -11537,42 +11536,42 @@
       {
         "lineNumber": 308,
         "author": {
-          "gitId": "wangyiming1019"
+          "gitId": "-"
         },
         "content": "*Important note on `findtag` criteria"
       },
       {
         "lineNumber": 309,
         "author": {
-          "gitId": "wangyiming1019"
+          "gitId": "-"
         },
         "content": "* The search is not case insensitive. e.g `friends` will match `FRIENDS`"
       },
       {
         "lineNumber": 310,
         "author": {
-          "gitId": "wangyiming1019"
+          "gitId": "-"
         },
         "content": "* The order of the keywords does not matter. e.g. `friends classmates` will match `classmates friends`"
       },
       {
         "lineNumber": 311,
         "author": {
-          "gitId": "wangyiming1019"
+          "gitId": "-"
         },
         "content": "* Only the tag is searched for persons."
       },
       {
         "lineNumber": 312,
         "author": {
-          "gitId": "wangyiming1019"
+          "gitId": "-"
         },
         "content": "* Only full words will be matched e.g. `friend` will not match `friends`"
       },
       {
         "lineNumber": 313,
         "author": {
-          "gitId": "wangyiming1019"
+          "gitId": "-"
         },
         "content": "* There is no space `/not` and tag name e.g. `/not friends` will not match `/notfriends`"
       },
@@ -11824,35 +11823,35 @@
       {
         "lineNumber": 349,
         "author": {
-          "gitId": "wangyiming1019"
+          "gitId": "-"
         },
         "content": ""
       },
       {
         "lineNumber": 350,
         "author": {
-          "gitId": "wangyiming1019"
+          "gitId": "-"
         },
         "content": "\u003d\u003d\u003d Deleting a tag of persons : `deletetag` (Since V1.2)"
       },
       {
         "lineNumber": 351,
         "author": {
-          "gitId": "wangyiming1019"
+          "gitId": "-"
         },
         "content": ""
       },
       {
         "lineNumber": 352,
         "author": {
-          "gitId": "wangyiming1019"
+          "gitId": "-"
         },
         "content": "You can use `deletetag` to delete the tag of multiple persons from the address book. +"
       },
       {
         "lineNumber": 353,
         "author": {
-          "gitId": "wangyiming1019"
+          "gitId": "-"
         },
         "content": "`deletetag` can be replaced by `dtag` for faster input. +"
       },
@@ -11866,91 +11865,91 @@
       {
         "lineNumber": 355,
         "author": {
-          "gitId": "wangyiming1019"
+          "gitId": "-"
         },
         "content": ""
       },
       {
         "lineNumber": 356,
         "author": {
-          "gitId": "wangyiming1019"
+          "gitId": "-"
         },
         "content": ""
       },
       {
         "lineNumber": 357,
         "author": {
-          "gitId": "wangyiming1019"
+          "gitId": "-"
         },
         "content": "****"
       },
       {
         "lineNumber": 358,
         "author": {
-          "gitId": "wangyiming1019"
+          "gitId": "-"
         },
         "content": "* You can delete the tag of the person at the specific `INDEX`."
       },
       {
         "lineNumber": 359,
         "author": {
-          "gitId": "wangyiming1019"
+          "gitId": "-"
         },
         "content": "* The index refers to the index number shown in the most recent listing."
       },
       {
         "lineNumber": 360,
         "author": {
-          "gitId": "wangyiming1019"
+          "gitId": "-"
         },
         "content": "* The index you key in *must be a positive integer* 1, 2, 3, ..."
       },
       {
         "lineNumber": 361,
         "author": {
-          "gitId": "wangyiming1019"
+          "gitId": "-"
         },
         "content": "* If you do not key in any index, deletetag will delete the tag from all contacts in the address book."
       },
       {
         "lineNumber": 362,
         "author": {
-          "gitId": "wangyiming1019"
+          "gitId": "-"
         },
         "content": "****"
       },
       {
         "lineNumber": 363,
         "author": {
-          "gitId": "wangyiming1019"
+          "gitId": "-"
         },
         "content": ""
       },
       {
         "lineNumber": 364,
         "author": {
-          "gitId": "wangyiming1019"
+          "gitId": "-"
         },
         "content": "Examples:"
       },
       {
         "lineNumber": 365,
         "author": {
-          "gitId": "wangyiming1019"
+          "gitId": "-"
         },
         "content": ""
       },
       {
         "lineNumber": 366,
         "author": {
-          "gitId": "wangyiming1019"
+          "gitId": "-"
         },
         "content": "* `list` +"
       },
       {
         "lineNumber": 367,
         "author": {
-          "gitId": "wangyiming1019"
+          "gitId": "-"
         },
         "content": "`deletetag 1 2 t/friends` +"
       },
@@ -11985,7 +11984,7 @@
       {
         "lineNumber": 372,
         "author": {
-          "gitId": "wangyiming1019"
+          "gitId": "-"
         },
         "content": ""
       },
@@ -12013,7 +12012,7 @@
       {
         "lineNumber": 376,
         "author": {
-          "gitId": "wangyiming1019"
+          "gitId": "-"
         },
         "content": "`sort` can be replaced by `so` for faster input. +"
       },
@@ -12027,7 +12026,7 @@
       {
         "lineNumber": 378,
         "author": {
-          "gitId": "wangyiming1019"
+          "gitId": "-"
         },
         "content": ""
       },
@@ -12146,7 +12145,7 @@
       {
         "lineNumber": 395,
         "author": {
-          "gitId": "wangyiming1019"
+          "gitId": "-"
         },
         "content": "\u003d\u003d\u003d Backing up your data : `backup`"
       },
@@ -12160,14 +12159,14 @@
       {
         "lineNumber": 397,
         "author": {
-          "gitId": "wangyiming1019"
+          "gitId": "-"
         },
         "content": "You can backup your saved data on Address++ by using the `backup` command. +"
       },
       {
         "lineNumber": 398,
         "author": {
-          "gitId": "wangyiming1019"
+          "gitId": "-"
         },
         "content": "`backup` can be replaced by `bk` for faster input. +"
       },
@@ -12202,7 +12201,7 @@
       {
         "lineNumber": 403,
         "author": {
-          "gitId": "wangyiming1019"
+          "gitId": "-"
         },
         "content": "* Allows you to backup your saved data on Address++ in another file."
       },
@@ -12517,161 +12516,161 @@
       {
         "lineNumber": 448,
         "author": {
-          "gitId": "wangyiming1019"
+          "gitId": "-"
         },
         "content": "\u003d\u003d\u003d Locating a person\u0027s address : `locate` (Since V1.4)"
       },
       {
         "lineNumber": 449,
         "author": {
-          "gitId": "wangyiming1019"
+          "gitId": "-"
         },
         "content": ""
       },
       {
         "lineNumber": 450,
         "author": {
-          "gitId": "wangyiming1019"
+          "gitId": "-"
         },
         "content": "If you ever need to visit one of your contacts, you can use `locate` to choose a contact, and search for their address online using Google Maps. +"
       },
       {
         "lineNumber": 451,
         "author": {
-          "gitId": "wangyiming1019"
+          "gitId": "-"
         },
         "content": "`locate` can be replaced by `loc` for faster input. +"
       },
       {
         "lineNumber": 452,
         "author": {
-          "gitId": "wangyiming1019"
+          "gitId": "-"
         },
         "content": "Format (person): `locate INDEX` +"
       },
       {
         "lineNumber": 453,
         "author": {
-          "gitId": "wangyiming1019"
+          "gitId": "-"
         },
         "content": ""
       },
       {
         "lineNumber": 454,
         "author": {
-          "gitId": "wangyiming1019"
+          "gitId": "-"
         },
         "content": "Examples:"
       },
       {
         "lineNumber": 455,
         "author": {
-          "gitId": "wangyiming1019"
+          "gitId": "-"
         },
         "content": ""
       },
       {
         "lineNumber": 456,
         "author": {
-          "gitId": "wangyiming1019"
+          "gitId": "-"
         },
         "content": "* `list` +"
       },
       {
         "lineNumber": 457,
         "author": {
-          "gitId": "wangyiming1019"
+          "gitId": "-"
         },
         "content": "`locate 2` +"
       },
       {
         "lineNumber": 458,
         "author": {
-          "gitId": "wangyiming1019"
+          "gitId": "-"
         },
         "content": "Locates the address of the 2nd person in the address book on Google Maps."
       },
       {
         "lineNumber": 459,
         "author": {
-          "gitId": "wangyiming1019"
+          "gitId": "-"
         },
         "content": "* `find Betsy` +"
       },
       {
         "lineNumber": 460,
         "author": {
-          "gitId": "wangyiming1019"
+          "gitId": "-"
         },
         "content": "`locate 1` +"
       },
       {
         "lineNumber": 461,
         "author": {
-          "gitId": "wangyiming1019"
+          "gitId": "-"
         },
         "content": "Locates the address of the 1st person in the results of the `find` command on Google Maps."
       },
       {
         "lineNumber": 462,
         "author": {
-          "gitId": "wangyiming1019"
+          "gitId": "-"
         },
         "content": ""
       },
       {
         "lineNumber": 463,
         "author": {
-          "gitId": "wangyiming1019"
+          "gitId": "-"
         },
         "content": "****"
       },
       {
         "lineNumber": 464,
         "author": {
-          "gitId": "wangyiming1019"
+          "gitId": "-"
         },
         "content": "* Depending on the stored value of the address, Google Maps may be unable to find the correct address or may display multiple addresses of the same name. +"
       },
       {
         "lineNumber": 465,
         "author": {
-          "gitId": "wangyiming1019"
+          "gitId": "-"
         },
         "content": "** It is up to you to provide a specific and valid address."
       },
       {
         "lineNumber": 466,
         "author": {
-          "gitId": "wangyiming1019"
+          "gitId": "-"
         },
         "content": "* A person with a private address cannot be searched on Google Maps."
       },
       {
         "lineNumber": 467,
         "author": {
-          "gitId": "wangyiming1019"
+          "gitId": "-"
         },
         "content": "* The index refers to the index number shown in the most recent listing."
       },
       {
         "lineNumber": 468,
         "author": {
-          "gitId": "wangyiming1019"
+          "gitId": "-"
         },
         "content": "* The index *must be a positive integer* `1, 2, 3, ...`"
       },
       {
         "lineNumber": 469,
         "author": {
-          "gitId": "wangyiming1019"
+          "gitId": "-"
         },
         "content": "****"
       },
       {
         "lineNumber": 470,
         "author": {
-          "gitId": "wangyiming1019"
+          "gitId": "-"
         },
         "content": ""
       },
@@ -13154,7 +13153,7 @@
       {
         "lineNumber": 539,
         "author": {
-          "gitId": "wangyiming1019"
+          "gitId": "-"
         },
         "content": "You can use `dismiss` to remove assignment from tasks. You may wish to use `dismiss` when a contact is no longer in charge of a task, for example. +"
       },
@@ -13329,7 +13328,7 @@
       {
         "lineNumber": 564,
         "author": {
-          "gitId": "wangyiming1019"
+          "gitId": "-"
         },
         "content": "`history` can be replaced by `h` for faster input. +"
       },
@@ -13588,154 +13587,154 @@
       {
         "lineNumber": 601,
         "author": {
-          "gitId": "wangyiming1019"
+          "gitId": "-"
         },
         "content": "\u003d\u003d\u003d Unfavouriting persons : `unfavourite` (since V1.3)"
       },
       {
         "lineNumber": 602,
         "author": {
-          "gitId": "wangyiming1019"
+          "gitId": "-"
         },
         "content": ""
       },
       {
         "lineNumber": 603,
         "author": {
-          "gitId": "wangyiming1019"
+          "gitId": "-"
         },
         "content": "You can use `unfavourite` command to set your previous favourite persons become the normal persons. For example, +"
       },
       {
         "lineNumber": 604,
         "author": {
-          "gitId": "wangyiming1019"
+          "gitId": "-"
         },
         "content": "after you break up with your girlfriend, you may wish to set your girlfriend back to normal person. +"
       },
       {
         "lineNumber": 605,
         "author": {
-          "gitId": "wangyiming1019"
+          "gitId": "-"
         },
         "content": "`unfavourite` can be replaced by `unfav` for faster input. +"
       },
       {
         "lineNumber": 606,
         "author": {
-          "gitId": "wangyiming1019"
+          "gitId": "-"
         },
         "content": "Format: `unfavourite INDEX [MORE INDEX]` +"
       },
       {
         "lineNumber": 607,
         "author": {
-          "gitId": "wangyiming1019"
+          "gitId": "-"
         },
         "content": ""
       },
       {
         "lineNumber": 608,
         "author": {
-          "gitId": "wangyiming1019"
+          "gitId": "-"
         },
         "content": "Examples:"
       },
       {
         "lineNumber": 609,
         "author": {
-          "gitId": "wangyiming1019"
+          "gitId": "-"
         },
         "content": ""
       },
       {
         "lineNumber": 610,
         "author": {
-          "gitId": "wangyiming1019"
+          "gitId": "-"
         },
         "content": "* `list` +"
       },
       {
         "lineNumber": 611,
         "author": {
-          "gitId": "wangyiming1019"
+          "gitId": "-"
         },
         "content": "`unfavourite 1 2` +"
       },
       {
         "lineNumber": 612,
         "author": {
-          "gitId": "wangyiming1019"
+          "gitId": "-"
         },
         "content": "Unfavourites the 1st and 2nd person in the address book."
       },
       {
         "lineNumber": 613,
         "author": {
-          "gitId": "wangyiming1019"
+          "gitId": "-"
         },
         "content": "* `find Betsy` +"
       },
       {
         "lineNumber": 614,
         "author": {
-          "gitId": "wangyiming1019"
+          "gitId": "-"
         },
         "content": "`unfavourite 1` +"
       },
       {
         "lineNumber": 615,
         "author": {
-          "gitId": "wangyiming1019"
+          "gitId": "-"
         },
         "content": "Unfavourite the 1st person in the results of the `find` command."
       },
       {
         "lineNumber": 616,
         "author": {
-          "gitId": "wangyiming1019"
+          "gitId": "-"
         },
         "content": ""
       },
       {
         "lineNumber": 617,
         "author": {
-          "gitId": "wangyiming1019"
+          "gitId": "-"
         },
         "content": "****"
       },
       {
         "lineNumber": 618,
         "author": {
-          "gitId": "wangyiming1019"
+          "gitId": "-"
         },
         "content": "* You can unfavourites the person at the specified `INDEX`."
       },
       {
         "lineNumber": 619,
         "author": {
-          "gitId": "wangyiming1019"
+          "gitId": "-"
         },
         "content": "* The index refers to the index number shown in the most recent listing."
       },
       {
         "lineNumber": 620,
         "author": {
-          "gitId": "wangyiming1019"
+          "gitId": "-"
         },
         "content": "* The index you key in *must be a positive integer* 1, 2, 3, ..."
       },
       {
         "lineNumber": 621,
         "author": {
-          "gitId": "wangyiming1019"
+          "gitId": "-"
         },
         "content": "****"
       },
       {
         "lineNumber": 622,
         "author": {
-          "gitId": "wangyiming1019"
+          "gitId": "-"
         },
         "content": ""
       },
@@ -13931,14 +13930,14 @@
       {
         "lineNumber": 650,
         "author": {
-          "gitId": "wangyiming1019"
+          "gitId": "-"
         },
         "content": "`clear` can be replaced by `c` for faster input. +"
       },
       {
         "lineNumber": 651,
         "author": {
-          "gitId": "wangyiming1019"
+          "gitId": "-"
         },
         "content": "Format: `clear` +"
       },
@@ -13987,7 +13986,7 @@
       {
         "lineNumber": 658,
         "author": {
-          "gitId": "wangyiming1019"
+          "gitId": "-"
         },
         "content": "Alternatively, you may opt to use the keyboard shortcut kbd:[ALT]+kbd:[F4]."
       },
@@ -14036,7 +14035,7 @@
       {
         "lineNumber": 665,
         "author": {
-          "gitId": "wangyiming1019"
+          "gitId": "-"
         },
         "content": "If you want to change the location of the save file, click on `File -\u003e Save As` or use the keyboard shortcut kbd:[CTRL]+kbd:[S] and select the new location and file name for the save file in the pop-up window."
       },
@@ -14050,7 +14049,7 @@
       {
         "lineNumber": 667,
         "author": {
-          "gitId": "wangyiming1019"
+          "gitId": "-"
         },
         "content": "If you want to open a different save file, click on `File -\u003e Open` or use the keyboard shortcut kbd:[CTRL]+kbd:[O] and select the new save file to use from the pop-up window."
       },
@@ -14064,7 +14063,7 @@
       {
         "lineNumber": 669,
         "author": {
-          "gitId": "wangyiming1019"
+          "gitId": "-"
         },
         "content": "\u003d\u003d\u003d Using the browser"
       },
@@ -14092,7 +14091,7 @@
       {
         "lineNumber": 673,
         "author": {
-          "gitId": "wangyiming1019"
+          "gitId": "-"
         },
         "content": "* Performing a left click will allow you to perform a search on Google for the name of the contact, and is equivalent to doing a `select` on that oerson."
       },
@@ -14106,7 +14105,7 @@
       {
         "lineNumber": 675,
         "author": {
-          "gitId": "wangyiming1019"
+          "gitId": "-"
         },
         "content": "* Right clicking on the browser will allow you to go to the previous or next page, as well as reload the page."
       },
@@ -14155,7 +14154,7 @@
       {
         "lineNumber": 682,
         "author": {
-          "gitId": "wangyiming1019"
+          "gitId": "-"
         },
         "content": "To export data, click on `File -\u003e Export As...` or use the keyboard shortcut kbd:[CTRL]+kbd:[E]` and select the new location and file name for the export file in the pop-up window."
       },
@@ -14218,7 +14217,7 @@
       {
         "lineNumber": 691,
         "author": {
-          "gitId": "wangyiming1019"
+          "gitId": "-"
         },
         "content": "*A*: Install the app in the other computer and overwrite the empty data file it creates with the file that contains the data of your previous Address Book folder. The Open command kbd:[CTRL]+kbd:[O] can also be used instead of manually overwriting the file if you wish to keep the original data file or store the new data file in a seperate location."
       },
@@ -14246,14 +14245,14 @@
       {
         "lineNumber": 695,
         "author": {
-          "gitId": "wangyiming1019"
+          "gitId": "-"
         },
         "content": "* *Add* : `add n/NAME [p/PHONE_NUMBER] [e/EMAIL] [a/ADDRESS] [b/BIRTHDAY] [f/FACULTY] [c/GOOGLE CALENDAR URL] [t/TAG]...` +"
       },
       {
         "lineNumber": 696,
         "author": {
-          "gitId": "wangyiming1019"
+          "gitId": "-"
         },
         "content": "e.g. `add n/James Ho p/22224444 e/jamesho@example.com a/123, Clementi Rd, 1234665, b/29-02-1996 f/SOC c/www.enteryourcalendarurlhere.com t/friend t/colleague`"
       },
@@ -14274,7 +14273,7 @@
       {
         "lineNumber": 699,
         "author": {
-          "gitId": "wangyiming1019"
+          "gitId": "-"
         },
         "content": "* *Add task* : `add task n/NAME [d/DESCRIPTION] [t/DEADLINE] [p/PRIORITY]` +"
       },
@@ -14288,21 +14287,21 @@
       {
         "lineNumber": 701,
         "author": {
-          "gitId": "wangyiming1019"
+          "gitId": "-"
         },
         "content": "* *Add tag* : `addtag INDEX t/[TAG]` +"
       },
       {
         "lineNumber": 702,
         "author": {
-          "gitId": "wangyiming1019"
+          "gitId": "-"
         },
         "content": "e.g. `addtag 1 2 t/friends`"
       },
       {
         "lineNumber": 703,
         "author": {
-          "gitId": "wangyiming1019"
+          "gitId": "-"
         },
         "content": "* *Change a person\u0027s details\u0027 privacy* : `changeprivacy INDEX [n/TRUE or FALSE] [p/TRUE or FALSE] [e/TRUE or FALSE] [a/TRUE or FALSE]` +"
       },
@@ -14323,7 +14322,7 @@
       {
         "lineNumber": 706,
         "author": {
-          "gitId": "wangyiming1019"
+          "gitId": "-"
         },
         "content": "* *Clear tasks* : `cleartask`"
       },
@@ -14358,21 +14357,21 @@
       {
         "lineNumber": 711,
         "author": {
-          "gitId": "wangyiming1019"
+          "gitId": "-"
         },
         "content": "* *Delete tag* : `deletetag INDEX t/[TAG]` +"
       },
       {
         "lineNumber": 712,
         "author": {
-          "gitId": "wangyiming1019"
+          "gitId": "-"
         },
         "content": "e.g. `deletetag 1 2 t/friends`"
       },
       {
         "lineNumber": 713,
         "author": {
-          "gitId": "wangyiming1019"
+          "gitId": "-"
         },
         "content": "* *Edit* : `edit INDEX [n/NAME] [p/PHONE_NUMBER] [e/EMAIL] c/[GOOGLE CALENDAR URL] [a/ADDRESS] [t/TAG]...` +"
       },
@@ -14393,7 +14392,7 @@
       {
         "lineNumber": 716,
         "author": {
-          "gitId": "wangyiming1019"
+          "gitId": "-"
         },
         "content": "e.g. `edit task 2 p/veryhigh`"
       },
@@ -14463,7 +14462,7 @@
       {
         "lineNumber": 726,
         "author": {
-          "gitId": "wangyiming1019"
+          "gitId": "-"
         },
         "content": "* *Locate a person\u0027s address* : `locate`"
       },
@@ -14498,28 +14497,28 @@
       {
         "lineNumber": 731,
         "author": {
-          "gitId": "wangyiming1019"
+          "gitId": "-"
         },
         "content": "* *Set task as complete* : `setcomplete INDEX` +"
       },
       {
         "lineNumber": 732,
         "author": {
-          "gitId": "wangyiming1019"
+          "gitId": "-"
         },
         "content": "e.g. `setcomplete 4`"
       },
       {
         "lineNumber": 733,
         "author": {
-          "gitId": "wangyiming1019"
+          "gitId": "-"
         },
         "content": "* *Set task as incomplete* : `setincomplete INDEX` +"
       },
       {
         "lineNumber": 734,
         "author": {
-          "gitId": "wangyiming1019"
+          "gitId": "-"
         },
         "content": "e.g. `setincomplete 5`"
       },
@@ -14596,28 +14595,28 @@
       {
         "lineNumber": 745,
         "author": {
-          "gitId": "wangyiming1019"
+          "gitId": "-"
         },
         "content": "* *Exit* : kbd:[ALT]+kbd:[F4]"
       },
       {
         "lineNumber": 746,
         "author": {
-          "gitId": "wangyiming1019"
+          "gitId": "-"
         },
         "content": "* *Help* : kbd:[[F1]"
       },
       {
         "lineNumber": 747,
         "author": {
-          "gitId": "wangyiming1019"
+          "gitId": "-"
         },
         "content": "* *Open* : kbd:[CTRL]+kbd:[O]"
       },
       {
         "lineNumber": 748,
         "author": {
-          "gitId": "wangyiming1019"
+          "gitId": "-"
         },
         "content": "* *Save As* : kbd:[CTRL]+kbd:[S]"
       }
@@ -14626,8 +14625,7 @@
       "charlesgoh": 32,
       "jeffreygohkw": 47,
       "Esilocke": 255,
-      "wangyiming1019": 180,
-      "-": 234
+      "-": 414
     }
   },
   {
