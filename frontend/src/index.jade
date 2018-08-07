@@ -111,7 +111,7 @@ html
 
         .files(v-if="isLoaded")
           .file(v-for="file in files")
-            .title(onclick="toggleNext(this)") {{ file.path }} ({{ file.lineCount }} LOC)
+            .title(onclick="toggleNext(this)") {{ file.path }} ({{ file.lineCount }} lines)
             pre.hljs.java
               code
                 template(v-for="segment in file.segments")
