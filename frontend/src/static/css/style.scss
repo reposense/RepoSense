@@ -197,20 +197,14 @@ header{
             padding-right:0.25rem;
         }
 
-        &:hover &--tooltip{
-            opacity:1;
-        }
-
         &--tooltip{
             color:mui-color("grey");
-            opacity:0;
         }
     }
 
     &__ramp{
         font-size:100%;
         position:relative;
-        margin:0 1.5rem;
 
         $height:3rem;
         height:$height;
@@ -235,7 +229,6 @@ header{
 
     &__contrib{
         text-align:left;
-        margin:0 1.5rem;
 
         &--bar{
             height:0.3rem;
