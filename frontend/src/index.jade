@@ -111,8 +111,8 @@ html
 
         .files(v-if="isLoaded")
           .file(v-for="file in files")
-            .title(onclick="toggleNext(this)") 
-              span {{ file.path }} 
+            .title(onclick="toggleNext(this)")
+              span {{ file.path }}
               span.loc ({{ file.lineCount }} lines)
             pre.hljs.java
               code
