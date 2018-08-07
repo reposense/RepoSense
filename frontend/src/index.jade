@@ -78,7 +78,7 @@ html
                 v-bind:href="repo[0].location", target="_blank"
               ) {{ repo[0].repoPath }}
               .summary-chart(
-                v-for="(user, userId) in repo", 
+                v-for="(user, userId) in repo",
                 v-bind:key="user.repoPath + userId",
                 v-bind:class="{indented:filterGroupRepos}"
               )
