@@ -17,6 +17,7 @@ Thank you for your interest in contributing to RepoSense!
 - [HTML Dashboard](#html-dashboard)
   - [Dashboard Architecture](#dashboard-architecture)
   - [Javascript Files](#javascript-files)
+  - [JSON Report Files](#json-report-files)
   - [Main](#main-mainjs)
   - [Data loader](#data-loader-apijs)
   - [Summary View](#summary-view-v_summaryjs)
@@ -151,6 +152,11 @@ Tabbed interface is responsible for loading various modules such as authorship t
 - [**api.js**](../frontend/src/static/js/api.js)- loading and parsing of the dashboard content
 - [**v_summary.js**](../frontend/src/static/js/v_summary.js) - module that supports the ramp chart view
 - [**v_authorship.js**](../frontend/src/static/js/v_authorship.js) - module that supports the authorship view
+
+### JSON report files
+- **summary.json** - a list of all the repositories and their respective details
+- **projName/commits.json** - contains information of the users' commits information (e.g. line deletion, insertion, etc), grouped by date
+- **projName/authorship.json** - contains information from git blame, detailing the author of each line for all the processed files
 
 ### Main (main.js)
 This contains the logic for main VueJS object, `window.app`, which is responsible for passing the necessary data into the relevant modules to be loaded.
