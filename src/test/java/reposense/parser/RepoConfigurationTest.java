@@ -41,12 +41,33 @@ public class RepoConfigurationTest {
             Arrays.asList("collated**", "*.aa1", "**.aa2", "**.java");
     private static final List<String> SECOND_AUTHOR_GLOB_LIST = Arrays.asList("collated**", "**[!(.md)]");
 
+    private static RepoConfiguration REPO_DELTA_STANDLONE_CONFIG;
+
     @BeforeClass
-    public static void setUp() {
+    public static void setUp() throws InvalidLocationException {
         FIRST_AUTHOR.setIgnoreGlobList(FIRST_AUTHOR_GLOB_LIST);
         SECOND_AUTHOR.setIgnoreGlobList(SECOND_AUTHOR_GLOB_LIST);
         THIRD_AUTHOR.setIgnoreGlobList(REPO_LEVEL_GLOB_LIST);
         FOURTH_AUTHOR.setIgnoreGlobList(REPO_LEVEL_GLOB_LIST);
+
+        List<Author> expectedAuthors = new ArrayList<>();
+        expectedAuthors.add(FIRST_AUTHOR);
+        expectedAuthors.add(SECOND_AUTHOR);
+        expectedAuthors.add(THIRD_AUTHOR);
+        expectedAuthors.add(FOURTH_AUTHOR);
+
+        REPO_DELTA_STANDLONE_CONFIG = new RepoConfiguration(TEST_REPO_DELTA, "master");
+        REPO_DELTA_STANDLONE_CONFIG.setAuthorList(expectedAuthors);
+        REPO_DELTA_STANDLONE_CONFIG.addAuthorAliases(FIRST_AUTHOR, FIRST_AUTHOR_ALIASES);
+        REPO_DELTA_STANDLONE_CONFIG.addAuthorAliases(SECOND_AUTHOR, SECOND_AUTHOR_ALIASES);
+        REPO_DELTA_STANDLONE_CONFIG.addAuthorAliases(THIRD_AUTHOR, THIRD_AUTHOR_ALIASES);
+        REPO_DELTA_STANDLONE_CONFIG.addAuthorAliases(FOURTH_AUTHOR, FOURTH_AUTHOR_ALIASES);
+        REPO_DELTA_STANDLONE_CONFIG.setAuthorDisplayName(FIRST_AUTHOR, "Ahm");
+        REPO_DELTA_STANDLONE_CONFIG.setAuthorDisplayName(SECOND_AUTHOR, "Cod");
+        REPO_DELTA_STANDLONE_CONFIG.setAuthorDisplayName(THIRD_AUTHOR, "Jor");
+        REPO_DELTA_STANDLONE_CONFIG.setAuthorDisplayName(FOURTH_AUTHOR, "Loh");
+
+        REPO_DELTA_STANDLONE_CONFIG.setIgnoreGlobList(REPO_LEVEL_GLOB_LIST);
     }
 
     @Before
@@ -55,31 +76,12 @@ public class RepoConfigurationTest {
     }
 
     @Test
-    public void repoConfig_usesStandaloneConfig_success() throws InvalidLocationException, GitDownloaderException, IOException {
-        List<Author> expectedAuthors = new ArrayList<>();
-        expectedAuthors.add(FIRST_AUTHOR);
-        expectedAuthors.add(SECOND_AUTHOR);
-        expectedAuthors.add(THIRD_AUTHOR);
-        expectedAuthors.add(FOURTH_AUTHOR);
-
-        RepoConfiguration expectedConfig = new RepoConfiguration(TEST_REPO_DELTA, "master");
-        expectedConfig.setAuthorList(expectedAuthors);
-        expectedConfig.addAuthorAliases(FIRST_AUTHOR, FIRST_AUTHOR_ALIASES);
-        expectedConfig.addAuthorAliases(SECOND_AUTHOR, SECOND_AUTHOR_ALIASES);
-        expectedConfig.addAuthorAliases(THIRD_AUTHOR, THIRD_AUTHOR_ALIASES);
-        expectedConfig.addAuthorAliases(FOURTH_AUTHOR, FOURTH_AUTHOR_ALIASES);
-        expectedConfig.setAuthorDisplayName(FIRST_AUTHOR, "Ahm");
-        expectedConfig.setAuthorDisplayName(SECOND_AUTHOR, "Cod");
-        expectedConfig.setAuthorDisplayName(THIRD_AUTHOR, "Jor");
-        expectedConfig.setAuthorDisplayName(FOURTH_AUTHOR, "Loh");
-
-        expectedConfig.setIgnoreGlobList(REPO_LEVEL_GLOB_LIST);
-
+    public void repoConfig_usesStandaloneConfig_success() throws InvalidLocationException, GitDownloaderException {
         RepoConfiguration actualConfig = new RepoConfiguration(TEST_REPO_DELTA, "master");
         GitDownloader.downloadRepo(actualConfig);
         ReportGenerator.updateRepoConfig(actualConfig);
 
-        TestUtil.compareRepoConfig(expectedConfig, actualConfig);
+        TestUtil.compareRepoConfig(REPO_DELTA_STANDLONE_CONFIG, actualConfig);
     }
 
     @Test
@@ -96,7 +98,7 @@ public class RepoConfigurationTest {
         expectedConfig.setIgnoreGlobList(REPO_LEVEL_GLOB_LIST);
 
         Path testFolderPath = new File(CsvParserTest.class.getClassLoader()
-                .getResource("repoconfig_ignore_test").getFile()).toPath();
+                .getResource("RepoConfigurationTest/repoconfig_ignore_test").getFile()).toPath();
 
         String input = String.format("-config %s", testFolderPath);
         CliArguments cliArguments = ArgsParser.parse(translateCommandline(input));
@@ -112,5 +114,27 @@ public class RepoConfigurationTest {
         ReportGenerator.updateRepoConfig(actualConfig);
 
         TestUtil.compareRepoConfig(expectedConfig, actualConfig);
+    }
+
+    @Test
+    public void repoConfig_wrongKeywordUseStandaloneConfig_success()
+            throws ParseException, GitDownloaderException, IOException {
+        Path testFolderPath = new File(CsvParserTest.class.getClassLoader()
+                .getResource("RepoConfigurationTest/repoconfig_keyword_test").getFile()).toPath();
+
+        String input = String.format("-config %s", testFolderPath);
+        CliArguments cliArguments = ArgsParser.parse(translateCommandline(input));
+
+        List<RepoConfiguration> actualConfigs =
+                new RepoConfigCsvParser(((ConfigCliArguments) cliArguments).getRepoConfigFilePath()).parse();
+        List<RepoConfiguration> authorConfigs =
+                new AuthorConfigCsvParser(((ConfigCliArguments) cliArguments).getAuthorConfigFilePath()).parse();
+        RepoConfiguration.merge(actualConfigs, authorConfigs);
+
+        RepoConfiguration actualConfig = actualConfigs.get(0);
+        GitDownloader.downloadRepo(actualConfig);
+        ReportGenerator.updateRepoConfig(actualConfig);
+
+        TestUtil.compareRepoConfig(REPO_DELTA_STANDLONE_CONFIG, actualConfig);
     }
 }
