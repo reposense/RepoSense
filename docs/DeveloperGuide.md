@@ -153,7 +153,7 @@ Tabbed interface is responsible for loading various modules such as authorship t
 - [**v_summary.js**](../frontend/src/static/js/v_summary.js) - module that supports the ramp chart view
 - [**v_authorship.js**](../frontend/src/static/js/v_authorship.js) - module that supports the authorship view
 
-### JSON report files
+### JSON Report Files
 - **summary.json** - a list of all the repositories and their respective details
 - **projName/commits.json** - contains information of the users' commits information (e.g. line deletion, insertion, etc), grouped by date
 - **projName/authorship.json** - contains information from git blame, detailing the author of each line for all the processed files
