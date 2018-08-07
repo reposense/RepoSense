@@ -20,7 +20,7 @@ Thank you for your interest in contributing to RepoSense!
   - [Main](#main-mainjs)
   - [Data loader](#data-loader-apijs)
   - [Summary View](#summary-view-v_summaryjs)
-  - [Authorship View](#summary-view-v_authorshipjs)
+  - [Authorship View](#authorship-view-v_authorshipjs)
 
 ## Setting up
 
@@ -59,6 +59,8 @@ Optionally, you can follow the [Using Checkstyle](UsingCheckstyle.md) document t
 
 ### Configuring the JavaScript coding style
 Our project follows the [Airbnb Javascript Style Guide](https://github.com/airbnb/javascript), the eslint configuration file is available at the root of the project. Please run a `npm run lint -- --fix frontend/src/**/*js` from the project root directory and fix all of the eslint errors before committing your code for final review.
+
+Eslint and its accompaning modules can be installed through NPM, so do ensure that you got it [installed](https://www.npmjs.com/get-npm) if you are working on the dashboard.
 
 ### Before writing code
 1. Do check out our [process guide](../docs/Process.md) before submitting any PR with your changes.
@@ -147,8 +149,8 @@ Tabbed interface is responsible for loading various modules such as authorship t
 ### Javascript Files
 - [**main.js**](../frontend/src/static/js/main.js) - main controller that pushes content into different modules
 - [**api.js**](../frontend/src/static/js/api.js)- loading and parsing of the dashboard content
-- [**v_summary.js**](../frontend/src/static/js/main.js) - module that supports the ramp chart view
-- [**v_authorship.js**](../frontend/src/static/js/main.js) - module that supports the authorship view
+- [**v_summary.js**](../frontend/src/static/js/v_summary.js) - module that supports the ramp chart view
+- [**v_authorship.js**](../frontend/src/static/js/v_authorship.js) - module that supports the authorship view
 
 ### Main (main.js)
 This contains the logic for main VueJS object, `window.app`, which is responsible for passing the necessary data into the relevant modules to be loaded.
@@ -188,7 +190,7 @@ The `v_summary` module is in charged of loading the ramp charts from the corresp
 The summary module is activated after the information is loaded from the main Vue.JS object. At creation, the `repo` attribute is populated with the `window.REPOS` object, which contains information loaded from `summary.json`.
 
 #### Filtering users and repositories
-The commits information is retrieved from the corresponding project folders for each repository. These information will be will filtered and sorted before being passed into the template to be displayed as ramp charts.
+The commits information is retrieved from the corresponding project folders for each repository. These information will be filtered and sorted before passed into the template to be displayed as ramp charts.
 
 #### Padding for dates
 For ramps between the date ranges, the slices will be selected and it will be pre and post padded with empty slices to align the ramp slice between the `sinceDate` and `untilDate`. The ramps will then be rendered with the slices in the right position.
