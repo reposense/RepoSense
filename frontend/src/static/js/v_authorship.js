@@ -137,6 +137,8 @@ window.vAuthorship = {
         }
       });
 
+      res.sort((a, b) => b.lineCount - a.lineCount);
+
       this.files = res;
       this.isLoaded = true;
     },
