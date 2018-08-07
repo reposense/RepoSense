@@ -178,11 +178,11 @@ Other than the global main Vue object, another global variable we have is the `w
 This is the module that is in charged of loading and parsing the data files generated as part of the report.
 
 #### Loading from ZIP file
-Due security design, most modern browsers do not allow web pages to obtain local files using the directory alone. As such, a ZIP archive of the report information will be produced alongside the report generation.
+Due to security design, most modern browsers (e.g. Chrome) do not allow web pages to obtain local files using the directory alone. As such, a ZIP archive of the report information will be produced alongside the report generation.
 
-This archive can be used in place of the network files to load the information into the dashboard when the dashboard HTML.
+This archive will be used in place of the network files to load information into the dashboard, in the case when the network files are unavailable.
 
-As such, the API module will be handling all request for all the JSON data files. If the network file is not available, the files will be obtained from the zip archive provided.
+The API module will be handling all request for all the JSON data files. If the network file is not available, the files will be obtained from the zip archive provided.
 
 #### Retrieving and parsing information
 After the JSON files are loaded from their respective sources, the data will be parsed as objects and included inside the global storage object, `window.REPOS`,  in the right format.
@@ -190,7 +190,7 @@ After the JSON files are loaded from their respective sources, the data will be 
 For the basic skeleton of `window.REPOS`, refer to the generated `summary.json` file in the report for more details.
 
 ### Summary View (v_summary.js)
-The `v_summary` module is in charged of loading the ramp charts from the corresponding `commits.json`.
+The `v_summary` module is in charge of loading the ramp charts from the corresponding `commits.json`.
 
 #### Initializing the data for the ramp charts
 The summary module is activated after the information is loaded from the main Vue.JS object. At creation, the `repo` attribute is populated with the `window.REPOS` object, which contains information loaded from `summary.json`.
