@@ -161,6 +161,8 @@ Tabbed interface is responsible for loading various modules such as authorship t
 ### Main (main.js)
 This contains the logic for main VueJS object, `window.app`, which is responsible for passing the necessary data into the relevant modules to be loaded.
 
+`v_summary` and `v_authorship` are components which will be embedded into dashboard and will render the corresponding content based on the data passed into it from the main `window.app`.
+
 #### Loading of dashboard information
 The main Vue object depends on the `summary.json` data to determine the right `commits.json` files to load into memory. This is handled by `api.js` which loads the relevant file information from the network files if it is available, otherwise a report archive, `archive.zip`, have to be used.
 
