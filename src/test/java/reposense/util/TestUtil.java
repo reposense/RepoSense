@@ -8,6 +8,10 @@ import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import org.junit.Assert;
+
+import reposense.model.RepoConfiguration;
+
 public class TestUtil {
     private static final String MESSAGE_COMPARING_FILES = "Comparing files %s & %s\n";
 
@@ -93,5 +97,21 @@ public class TestUtil {
                 .setTimeOfDay(0, 0, 0)
                 .build()
                 .getTime();
+    }
+
+    /**
+     * Compares attributes of {@code expectedRepoConfig} and {@code actualRepoConfig}.
+     *
+     * @throws AssertionError if any attributes fail equality check.
+     */
+    public static void compareRepoConfig(RepoConfiguration expectedRepoConfig, RepoConfiguration actualRepoConfig) {
+        Assert.assertEquals(expectedRepoConfig.getLocation(), actualRepoConfig.getLocation());
+        Assert.assertEquals(
+                expectedRepoConfig.getAuthorList().hashCode(), actualRepoConfig.getAuthorList().hashCode());
+        Assert.assertEquals(expectedRepoConfig.getAuthorDisplayNameMap().hashCode(),
+                actualRepoConfig.getAuthorDisplayNameMap().hashCode());
+        Assert.assertEquals(
+                expectedRepoConfig.getAuthorAliasMap().hashCode(), actualRepoConfig.getAuthorAliasMap().hashCode());
+        Assert.assertEquals(expectedRepoConfig.getIgnoreGlobList(), actualRepoConfig.getIgnoreGlobList());
     }
 }

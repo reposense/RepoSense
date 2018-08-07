@@ -1,6 +1,7 @@
 package reposense.parser;
 
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.lang.reflect.Type;
 import java.nio.file.Path;
 
@@ -23,10 +24,10 @@ public class StandaloneConfigJsonParser extends JsonParser<StandaloneConfig> {
 
     /**
      * Converts json file from the given {@code path} and returns a {@code StandaloneConfig} object.
-     * @throws FileNotFoundException if {@code path} is invalid.
+     * @throws IOException if {@code path} is invalid.
      */
     @Override
-    public StandaloneConfig parse(Path path) throws FileNotFoundException {
+    public StandaloneConfig parse(Path path) throws IOException {
         return fromJson(path);
     }
 }

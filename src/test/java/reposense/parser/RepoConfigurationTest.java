@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import org.junit.Assert;
+import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
@@ -20,6 +20,8 @@ import reposense.model.CliArguments;
 import reposense.model.ConfigCliArguments;
 import reposense.model.RepoConfiguration;
 import reposense.report.ReportGenerator;
+import reposense.util.FileUtil;
+import reposense.util.TestUtil;
 
 public class RepoConfigurationTest {
 
@@ -47,8 +49,13 @@ public class RepoConfigurationTest {
         FOURTH_AUTHOR.setIgnoreGlobList(REPO_LEVEL_GLOB_LIST);
     }
 
+    @Before
+    public void cleanRepoDirectory() throws IOException {
+        FileUtil.deleteDirectory(FileUtil.REPOS_ADDRESS);
+    }
+
     @Test
-    public void repoConfig_usesStandaloneConfig_success() throws InvalidLocationException, GitDownloaderException {
+    public void repoConfig_usesStandaloneConfig_success() throws InvalidLocationException, GitDownloaderException, IOException {
         List<Author> expectedAuthors = new ArrayList<>();
         expectedAuthors.add(FIRST_AUTHOR);
         expectedAuthors.add(SECOND_AUTHOR);
@@ -72,12 +79,7 @@ public class RepoConfigurationTest {
         GitDownloader.downloadRepo(actualConfig);
         ReportGenerator.updateRepoConfig(actualConfig);
 
-        Assert.assertEquals(expectedConfig.getLocation(), actualConfig.getLocation());
-        Assert.assertEquals(expectedConfig.getAuthorList().hashCode(), actualConfig.getAuthorList().hashCode());
-        Assert.assertEquals(
-                expectedConfig.getAuthorDisplayNameMap().hashCode(), actualConfig.getAuthorDisplayNameMap().hashCode());
-        Assert.assertEquals(expectedConfig.getAuthorAliasMap().hashCode(), actualConfig.getAuthorAliasMap().hashCode());
-        Assert.assertEquals(REPO_LEVEL_GLOB_LIST, actualConfig.getIgnoreGlobList());
+        TestUtil.compareRepoConfig(expectedConfig, actualConfig);
     }
 
     @Test
@@ -109,11 +111,6 @@ public class RepoConfigurationTest {
         GitDownloader.downloadRepo(actualConfig);
         ReportGenerator.updateRepoConfig(actualConfig);
 
-        Assert.assertEquals(expectedConfig.getLocation(), actualConfig.getLocation());
-        Assert.assertEquals(expectedConfig.getAuthorList().hashCode(), actualConfig.getAuthorList().hashCode());
-        Assert.assertEquals(
-                expectedConfig.getAuthorDisplayNameMap().hashCode(), actualConfig.getAuthorDisplayNameMap().hashCode());
-        Assert.assertEquals(expectedConfig.getAuthorAliasMap().hashCode(), actualConfig.getAuthorAliasMap().hashCode());
-        Assert.assertEquals(REPO_LEVEL_GLOB_LIST, actualConfig.getIgnoreGlobList());
+        TestUtil.compareRepoConfig(expectedConfig, actualConfig);
     }
 }
