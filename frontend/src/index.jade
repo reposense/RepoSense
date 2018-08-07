@@ -55,6 +55,11 @@ html
               option(value="displayName") Author Name
               option(value="searchPath") Team Name
             label sort by
+          .mui-select.summary-picker__input
+            select(v-model="filterTimeFrame")
+              option(value="day") Day
+              option(value="week") Week
+            label granularity
           .summary-picker__input
             .mui-textfield.summary-picker__date
               input(type="date", v-model="filterSinceDate")
@@ -62,11 +67,6 @@ html
             .mui-textfield.summary-picker__date
               input(type="date", v-model="filterUntilDate")
               label until
-          .mui-select.summary-picker__input
-            select(v-model="filterTimeFrame")
-              option(value="day") Day
-              option(value="week") Week
-            label granularity
           .mui-checkbox.summary-picker__checkboxes.summary-picker__input
             label
               input(type="checkbox", v-model="filterSortReverse").summary-picker__checkbox
