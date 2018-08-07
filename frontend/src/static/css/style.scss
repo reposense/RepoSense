@@ -255,6 +255,10 @@ header{
             cursor:pointer;
             font-size:1.25rem;
             font-weight:bold;
+
+            .loc{
+                color:mui-color('grey');
+            }
         }
 
         .untouched{
