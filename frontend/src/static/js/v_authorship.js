@@ -1,25 +1,18 @@
-window.toggleNext = function toggleNext(ele) {
+function toggleNext(ele) {
   // function for toggling unopened code
-  const target = ele.nextSibling;
-  const child = ele.childNodes;
+  const targetClass = 'active';
 
-  let style = 'none';
-  let childBackground = '#bfbdbd';
-  let toolTipMessage = 'Show untouched code';
+  const parent = ele.parentNode;
+  const classes = parent.className.split(' ');
+  const idx = classes.indexOf(targetClass);
 
-  if (target.style.display === 'none') {
-    style = '';
-    childBackground = '#000';
-    toolTipMessage = 'Hide untouched code';
+  if (idx === -1) {
+    classes.push(targetClass);
+  } else {
+    classes.splice(idx, 1);
   }
 
-  target.style.display = style;
-
-  if (target.className === 'code') {
-    child[0].style.background = childBackground;
-    target.style.borderLeft = '4px solid rgba(197, 206, 197, 1)';
-    child[2].innerHTML = toolTipMessage;
-  }
+  parent.className = classes.join(' ');
 };
 
 const repoCache = [];
