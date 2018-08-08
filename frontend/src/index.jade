@@ -120,9 +120,9 @@ html
             pre.hljs.java
               code
                 template(v-for="segment in file.segments")
-                  .segment(v-bind:class="{ untouched: !segment.authored }")
+                  .segment(v-bind:class="{ untouched: !segment.authored, active: segment.lines.length<5 }")
                     .closer(v-if="!segment.authored", onclick="toggleNext(this)")
-                      i.fas.fa-ellipsis-h
+                      i.fas.fa-ellipsis-h.icon
                       span.tooltiptext.tooltiptext--close Show untouched code
                       span.tooltiptext.tooltiptext--open Hide untouched code
                     .code {{ segment.lines.join("\n") }}
