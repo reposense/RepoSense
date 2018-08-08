@@ -126,24 +126,19 @@ public class RepoConfiguration {
      * Clears authors information and use the information provided from {@code standaloneConfig}.
      */
     public void update(StandaloneConfig standaloneConfig) {
-        authorList.clear();
+        authorList = new ArrayList<>();
         authorAliasMap.clear();
         authorDisplayNameMap.clear();
         ignoreGlobList = standaloneConfig.getIgnoreGlobList();
 
         for (StandaloneAuthor sa : standaloneConfig.getAuthors()) {
-            Author author = new Author(sa.getGithubId());
-            String displayName = !sa.getDisplayName().isEmpty() ? sa.getDisplayName() : sa.getGithubId();
-            List<String> authorIgnoreGlobList = new ArrayList<>(ignoreGlobList);
-            authorIgnoreGlobList.addAll(sa.getIgnoreGlobList());
+            Author author = new Author(sa);
+            author.appendIgnoreGlobList(ignoreGlobList);
 
-            authorList.add(author);
-            author.setAuthorAliases(sa.getAuthorNames());
-            author.setIgnoreGlobList(authorIgnoreGlobList);
-
-            this.setAuthorDisplayName(author, displayName);
-            this.addAuthorAliases(author, Arrays.asList(sa.getGithubId()));
-            this.addAuthorAliases(author, sa.getAuthorNames());
+            this.authorList.add(author);
+            this.setAuthorDisplayName(author, author.getDisplayName());
+            this.addAuthorAliases(author, Arrays.asList(author.getGitId()));
+            this.addAuthorAliases(author, author.getAuthorAliases());
         }
     }
 

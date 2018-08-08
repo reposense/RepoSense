@@ -106,7 +106,7 @@ public abstract class CsvParser<T> {
         }
 
         String manyValue = getValueInElement(elements, position);
-        // Wrap with new ArrayList<> to make the created List is mutable.
+        // Wrap with new ArrayList<> to support all list functionalities.
         return new ArrayList<>(Arrays.asList(manyValue.split(AUTHOR_ALIAS_AND_GLOB_SEPARATOR)));
     }
 

@@ -59,13 +59,14 @@ window.api = {
           };
 
           const searchParams = [
-            repo.organization, repo.repoName,
+            repo.displayName,
             obj.displayName, author,
           ];
 
           obj.searchPath = searchParams.join('_').toLowerCase();
           obj.repoPath = `${repo.displayName}`;
           obj.repoName = `${repo.displayName}`;
+          obj.location = `${repo.location}`;
 
           res.push(obj);
         }

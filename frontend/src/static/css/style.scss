@@ -165,7 +165,8 @@ header{
 .summary-charts{
     margin-bottom:3rem;
 
-    &--title{
+    &__title{
+        display:block;
         text-align:left;
         font-weight:bold;
     }
