@@ -84,7 +84,7 @@ header{
         flex:0 0 $tabs-width;
         position:relative;
         overflow-y:scroll;
-        background: #ececec;
+        background:mui-color('grey', '200');
 
         .tab-close{
             cursor:pointer;
@@ -92,8 +92,8 @@ header{
             top:calc(50vh - 3rem);
 
             svg{
-                color:#fff;
-                background-color:#333;
+                color:mui-color('white');
+                background-color:mui-color('grey', '900');
                 padding:3rem 0.25rem;
             }
         }
@@ -265,9 +265,15 @@ header{
                     display:block;
                 }
 
-                .closer .tooltiptext{
-                    &--open{ display:inline-block; }
-                    &--close{ display:none; }
+                .closer{
+                    .icon{
+                        background-color:mui-color('black');
+                    }
+
+                    .tooltiptext{
+                        &--open{ display:inline-block; }
+                        &--close{ display:none; }
+                    }
                 }
             }
 
@@ -280,7 +286,7 @@ header{
                 cursor:pointer;
                 padding:0.5rem 1rem;
 
-                .fa-ellipsis-h{
+                .icon{
                     background-color:$gray;
                     color:mui-color('white');
 
