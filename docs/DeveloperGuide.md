@@ -194,6 +194,8 @@ For the basic skeleton of `window.REPOS`, refer to the generated `summary.json` 
 ### Summary View (v_summary.js)
 The `v_summary` module is in charge of loading the ramp charts from the corresponding `commits.json`.
 
+![summary architecture](images/dashboard-architecture-summary.png)
+
 #### Initializing the data for the ramp charts
 The summary module is activated after the information is loaded from the main Vue.JS object. At creation, the `repo` attribute is populated with the `window.REPOS` object, which contains information loaded from `summary.json`.
 
