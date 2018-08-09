@@ -48,7 +48,7 @@ public class RepoConfiguration {
     private transient List<Author> authorList = new ArrayList<>();
     private transient TreeMap<String, Author> authorAliasMap = new TreeMap<>(String.CASE_INSENSITIVE_ORDER);
     private transient Map<Author, String> authorDisplayNameMap = new HashMap<>();
-    private transient boolean isIgnoreStandaloneConfigJson;
+    private transient boolean isStandaloneConfigDisabled;
 
     /**
      * @throws InvalidLocationException if {@code location} cannot be represented by a {@code URL} or {@code Path}.
@@ -72,7 +72,7 @@ public class RepoConfiguration {
         this.location = location;
         this.branch = branch;
         this.ignoreGlobList = ignoreGlobList;
-        this.isIgnoreStandaloneConfigJson = isIgnoreStandaloneConfigJson;
+        this.isStandaloneConfigDisabled = isIgnoreStandaloneConfigJson;
 
         verifyLocation(location);
         Matcher matcher = GIT_REPOSITORY_LOCATION_PATTERN.matcher(location);
@@ -296,8 +296,8 @@ public class RepoConfiguration {
         return repoName;
     }
 
-    public boolean isIgnoreStandaloneConfigJson() {
-        return isIgnoreStandaloneConfigJson;
+    public boolean isStandaloneConfigDisabled() {
+        return isStandaloneConfigDisabled;
     }
 
     /**

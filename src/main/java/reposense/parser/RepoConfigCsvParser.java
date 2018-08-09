@@ -8,7 +8,7 @@ import reposense.model.RepoConfiguration;
 
 public class RepoConfigCsvParser extends CsvParser<RepoConfiguration> {
     public static final String REPO_CONFIG_FILENAME = "repo-config.csv";
-    private static final String IGNORE_STANDALONE_CONFIG_JSON_KEYWORD = "overrule";
+    private static final String IGNORE_STANDALONE_CONFIG_JSON_KEYWORD = "yes";
 
     /**
      * Positions of the elements of a line in repo-config.csv config file

@@ -24,7 +24,10 @@ import reposense.util.FileUtil;
 import reposense.util.TestUtil;
 
 public class RepoConfigurationTest {
-
+    private static final Path IGNORE_STANDALONE_TEST_CONFIG_FILES = new File(CsvParserTest.class.getClassLoader()
+            .getResource("RepoConfigurationTest/repoconfig_ignore_test").getFile()).toPath();
+    private static final Path KEYWORD_TEST_CONFIG_FILES = new File(CsvParserTest.class.getClassLoader()
+            .getResource("RepoConfigurationTest/repoconfig_keyword_test").getFile()).toPath();
     private static final String TEST_REPO_DELTA = "https://github.com/reposense/testrepo-Delta.git";
     private static final Author FIRST_AUTHOR = new Author("lithiumlkid");
     private static final Author SECOND_AUTHOR = new Author("codeeong");
@@ -97,10 +100,7 @@ public class RepoConfigurationTest {
 
         expectedConfig.setIgnoreGlobList(REPO_LEVEL_GLOB_LIST);
 
-        Path testFolderPath = new File(CsvParserTest.class.getClassLoader()
-                .getResource("RepoConfigurationTest/repoconfig_ignore_test").getFile()).toPath();
-
-        String input = String.format("-config %s", testFolderPath);
+        String input = String.format("-config %s", IGNORE_STANDALONE_TEST_CONFIG_FILES);
         CliArguments cliArguments = ArgsParser.parse(translateCommandline(input));
 
         List<RepoConfiguration> actualConfigs =
@@ -119,10 +119,7 @@ public class RepoConfigurationTest {
     @Test
     public void repoConfig_wrongKeywordUseStandaloneConfig_success()
             throws ParseException, GitDownloaderException, IOException {
-        Path testFolderPath = new File(CsvParserTest.class.getClassLoader()
-                .getResource("RepoConfigurationTest/repoconfig_keyword_test").getFile()).toPath();
-
-        String input = String.format("-config %s", testFolderPath);
+        String input = String.format("-config %s", KEYWORD_TEST_CONFIG_FILES);
         CliArguments cliArguments = ArgsParser.parse(translateCommandline(input));
 
         List<RepoConfiguration> actualConfigs =
