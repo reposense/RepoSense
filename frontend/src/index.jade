@@ -121,7 +121,7 @@ html
               code
                 template(v-for="segment in file.segments")
                   .segment(v-bind:class="{ untouched: !segment.authored, active: segment.lines.length<5 }")
-                    .closer(v-if="!segment.authored", onclick="toggleNext(this)")
+                    .closer(v-if="!segment.authored && segment.lines.length>4", onclick="toggleNext(this)")
                       i.fas.fa-ellipsis-h.icon
                       span.tooltiptext.tooltiptext--close Show untouched code
                       span.tooltiptext.tooltiptext--open Hide untouched code
