@@ -25,10 +25,6 @@ html
         #tabs-wrapper(v-if="isTabActive")
           .tab-close(v-on:click="isTabActive=false")
             i.fas.fa-caret-right
-          ul.mui-tabs__bar
-            li(v-bind:class="{'mui--is-active':isTabAuthorship}")
-              a(v-on:click="deactivateTabs(); isTabAuthorship=true;")
-                i.fas.fa-lg.fa-code
           .tab-content
             .tab-panes
               #tab-authorship.tab-pane(v-if="isTabAuthorship")

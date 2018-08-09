@@ -102,19 +102,6 @@ header{
             }
         }
 
-        .mui-tabs__bar{
-            background-color:#fff;
-            width:$tabs-width;
-            position:fixed;
-            right:0;
-
-            a{
-                display:inline;
-                cursor:pointer;
-                vertical-align:middle;
-            }
-        }
-
         .tab-content{
             display:flex;
             padding:1rem 1.5rem;
