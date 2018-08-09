@@ -111,6 +111,7 @@ html
           .author {{ info.name }} ({{ info.author }})
 
         .files(v-if="isLoaded")
+          .empty(v-if="files.length===0") nothing to see here :(
           .file(v-for="file in files")
             .title(onclick="toggleNext(this)")
               span {{ file.path }}&nbsp;
