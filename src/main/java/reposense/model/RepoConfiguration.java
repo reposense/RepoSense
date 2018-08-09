@@ -68,11 +68,11 @@ public class RepoConfiguration {
      * @throws InvalidLocationException if {@code location} cannot be represented by a {@code URL} or {@code Path}.
      */
     public RepoConfiguration(String location, String branch, List<String> ignoreGlobList,
-            boolean isIgnoreStandaloneConfigJson) throws InvalidLocationException {
+            boolean isStandaloneConfigDisabled) throws InvalidLocationException {
         this.location = location;
         this.branch = branch;
         this.ignoreGlobList = ignoreGlobList;
-        this.isStandaloneConfigDisabled = isIgnoreStandaloneConfigJson;
+        this.isStandaloneConfigDisabled = isStandaloneConfigDisabled;
 
         verifyLocation(location);
         Matcher matcher = GIT_REPOSITORY_LOCATION_PATTERN.matcher(location);

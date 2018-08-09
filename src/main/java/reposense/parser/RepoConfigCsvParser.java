@@ -8,7 +8,7 @@ import reposense.model.RepoConfiguration;
 
 public class RepoConfigCsvParser extends CsvParser<RepoConfiguration> {
     public static final String REPO_CONFIG_FILENAME = "repo-config.csv";
-    private static final String IGNORE_STANDALONE_CONFIG_JSON_KEYWORD = "yes";
+    private static final String DISABLE_STANDLONE_CONFIG_KEYWORD = "yes";
 
     /**
      * Positions of the elements of a line in repo-config.csv config file
@@ -16,7 +16,7 @@ public class RepoConfigCsvParser extends CsvParser<RepoConfiguration> {
     private static final int LOCATION_POSITION = 0;
     private static final int BRANCH_POSITION = 1;
     private static final int IGNORE_GLOB_LIST_POSITION = 2;
-    private static final int IGNORE_STANDALONE_CONFIG_JSON_POSITION = 3;
+    private static final int DISABLE_STANDLONE_CONFIG_POSITION = 3;
 
     public RepoConfigCsvParser(Path csvFilePath) throws IOException {
         super(csvFilePath);
@@ -43,11 +43,12 @@ public class RepoConfigCsvParser extends CsvParser<RepoConfiguration> {
         String location = getValueInElement(elements, LOCATION_POSITION);
         String branch = getValueInElement(elements, BRANCH_POSITION);
         List<String> ignoreGlobList = getManyValueInElement(elements, IGNORE_GLOB_LIST_POSITION);
-        String ignoreStandaloneConfigJson = getValueInElement(elements, IGNORE_STANDALONE_CONFIG_JSON_POSITION);
+        String ignoreStandaloneConfigJson = getValueInElement(elements, DISABLE_STANDLONE_CONFIG_POSITION);
 
-        if (!ignoreStandaloneConfigJson.equalsIgnoreCase(IGNORE_STANDALONE_CONFIG_JSON_KEYWORD)
+        if (!ignoreStandaloneConfigJson.equalsIgnoreCase(DISABLE_STANDLONE_CONFIG_KEYWORD)
                 && !ignoreStandaloneConfigJson.isEmpty()) {
-            logger.warning("Unknown value " + ignoreStandaloneConfigJson + " used for ignore config.json");
+            logger.warning(
+                    "Ignoring unknown value " + ignoreStandaloneConfigJson + " used to disable standalone config.");
             ignoreStandaloneConfigJson = "";
         }
 
