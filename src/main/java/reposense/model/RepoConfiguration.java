@@ -179,20 +179,8 @@ public class RepoConfiguration {
         this.authorDisplayNameMap = authorDisplayNameMap;
     }
 
-    public int getCommitNum() {
-        return commitNum;
-    }
-
-    public void setCommitNum(int commitNum) {
-        this.commitNum = commitNum;
-    }
-
     public boolean isNeedCheckStyle() {
         return needCheckStyle;
-    }
-
-    public void setNeedCheckStyle(boolean needCheckStyle) {
-        this.needCheckStyle = needCheckStyle;
     }
 
     public String getBranch() {
@@ -246,10 +234,6 @@ public class RepoConfiguration {
         return authorAliasMap;
     }
 
-    public void setAuthorAliasMap(TreeMap<String, Author> authorAliasMap) {
-        this.authorAliasMap = authorAliasMap;
-    }
-
     public Date getSinceDate() {
         return sinceDate;
     }
@@ -288,10 +272,6 @@ public class RepoConfiguration {
 
     public String getLocation() {
         return location;
-    }
-
-    public String getRepoName() {
-        return repoName;
     }
 
     /**
