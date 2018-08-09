@@ -59,7 +59,7 @@ window.api = {
           };
 
           const searchParams = [
-            repo.organization, repo.repoName,
+            repo.displayName,
             obj.displayName, author,
           ];
 
