@@ -162,16 +162,13 @@ header{
 .summary-chart{
     margin-bottom:1rem;
 
-    &.indented{
-        padding-left:1.5rem;
-    }
-
     &__title{
         text-align:left;
         cursor:pointer;
 
-        &--index, &--repo, &--name{
+        & > * {
             display:inline;
+            padding-right:0.5rem;
         }
 
         &--index, &--repo{
@@ -181,17 +178,20 @@ header{
         &--index::after{
             content:".";
             display:inline-block;
-            padding-right:0.5rem;
         }
 
         &--repo{
             padding-right:0.25rem;
         }
+
+        &--tooltip{
+            color:mui-color("grey");
+        }
     }
 
     &__ramp{
-        position:relative;
         font-size:100%;
+        position:relative;
 
         $height:3rem;
         height:$height;
@@ -215,7 +215,6 @@ header{
     }
 
     &__contrib{
-        width:100%;
         text-align:left;
 
         &--bar{
