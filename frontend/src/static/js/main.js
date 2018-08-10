@@ -23,10 +23,10 @@ window.app = new window.Vue({
     loadedRepo: 0,
     userUpdated: false,
 
+    tabInfo: {},
     isTabActive: false,
     isTabAuthorship: false,
-    tabInfo: {},
-    tabAuthorship: {},
+
     creationDate: '',
   },
   methods: {
@@ -40,12 +40,14 @@ window.app = new window.Vue({
         })
         .then(() => this.updateReportView());
     },
+
     updateReportDir() {
       window.REPORT_ZIP = null;
 
       this.users = [];
       this.updateReportView();
     },
+
     updateReportView() {
       window.api.loadSummary().then((names) => {
         this.repos = window.REPOS;
@@ -63,6 +65,7 @@ window.app = new window.Vue({
         this.userUpdated = true;
       });
     },
+
     getUsers() {
       const full = [];
       Object.keys(this.repos).forEach((repo) => {
@@ -72,6 +75,7 @@ window.app = new window.Vue({
       });
       return full;
     },
+
     deactivateTabs() {
       this.isTabAuthorship = false;
     },
