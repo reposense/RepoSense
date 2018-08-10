@@ -85,7 +85,7 @@ html
                 .summary-chart__title(
                   v-on:click="$emit('view-authorship', {author:user.name, repo:user.repoName, name:user.displayName})"
                 )
-                  .summary-chart__title--index {{ userId+1 }}
+                  .summary-chart__title--index {{ userId + 1 }}
                   .summary-chart__title--repo(v-if="!filterGroupRepos") {{ user.repoPath }}
                   .summary-chart__title--name {{ user.displayName }}
                   i.summary-chart__title--tooltip.fas.fa-code
@@ -95,11 +95,11 @@ html
                       v-if="slice.insertions>0",
                       v-bind:title="getSliceTitle(slice)",
                       v-bind:href="getSliceLink(user, slice)", target="_blank",
-                      v-bind:class="'summary-chart__ramp__slice--color' + sliceId%5",
+                      v-bind:class="'summary-chart__ramp__slice--color' + (sliceId % 5)",
                       v-bind:style="{\
                         zIndex: user.commits.length - sliceId,\
                         borderLeftWidth: getWidth(slice) + 'em',\
-                        right: (((user.commits.length-sliceId-1)/user.commits.length) * 100) + '%'\
+                        right: (((user.commits.length - sliceId - 1) / user.commits.length) * 100) + '%'\
                       }"
                       k
                     )
@@ -107,7 +107,7 @@ html
                   .summary-chart__contrib--bar(
                     v-for="(width, barId) in getContributionBars(user.totalCommits)",
                     v-bind:key="barId",
-                    v-bind:style="{ width: width+'%' }"
+                    v-bind:style="{ width: width + '%' }"
                   )
 
     vuetemplate#v_authorship
