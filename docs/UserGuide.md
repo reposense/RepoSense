@@ -100,7 +100,7 @@ Column Name | Explanation
 Repository's Location | The `GitHub URL` or `Disk Path` to the git repository
 Branch | The branch to analyse in the target repository
 [Optional] Ignore Global List | The list of file path globs to ignore during analysis for each author. More details on the Java glob standard [here](https://javapapers.com/java/glob-with-java-nio/)
-[Optional] Disable standalone config | Overrule the usage of standalone config in repositories. Leaving it as blank or any values other than `yes` will be interpreted as `no`.
+[Optional] Disable standalone config | Disable the usage of standalone config in repository. To disable the usage of standalone config in target repository, please enter yes in this column. Otherwise, the configuration in the target repository will be used by default.
 
 #### Author configuration file [Optional]
 to configure the list of authors to analyse and the options. <br/>
