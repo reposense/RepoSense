@@ -8,7 +8,7 @@ import reposense.model.RepoConfiguration;
 
 public class RepoConfigCsvParser extends CsvParser<RepoConfiguration> {
     public static final String REPO_CONFIG_FILENAME = "repo-config.csv";
-    private static final String DISABLE_STANDLONE_CONFIG_KEYWORD = "yes";
+    private static final String IGNORE_STANDALONE_CONFIG_KEYWORD = "yes";
 
     /**
      * Positions of the elements of a line in repo-config.csv config file
@@ -16,7 +16,7 @@ public class RepoConfigCsvParser extends CsvParser<RepoConfiguration> {
     private static final int LOCATION_POSITION = 0;
     private static final int BRANCH_POSITION = 1;
     private static final int IGNORE_GLOB_LIST_POSITION = 2;
-    private static final int DISABLE_STANDLONE_CONFIG_POSITION = 3;
+    private static final int IGNORE_STANDALONE_CONFIG_POSITION = 3;
 
     public RepoConfigCsvParser(Path csvFilePath) throws IOException {
         super(csvFilePath);
@@ -43,19 +43,19 @@ public class RepoConfigCsvParser extends CsvParser<RepoConfiguration> {
         String location = getValueInElement(elements, LOCATION_POSITION);
         String branch = getValueInElement(elements, BRANCH_POSITION);
         List<String> ignoreGlobList = getManyValueInElement(elements, IGNORE_GLOB_LIST_POSITION);
-        String disableStandaloneConfig = getValueInElement(elements, DISABLE_STANDLONE_CONFIG_POSITION);
+        String ignoreStandaloneConfig = getValueInElement(elements, IGNORE_STANDALONE_CONFIG_POSITION);
 
-        if (!disableStandaloneConfig.equalsIgnoreCase(DISABLE_STANDLONE_CONFIG_KEYWORD)
-                && !disableStandaloneConfig.isEmpty()) {
+        if (!ignoreStandaloneConfig.equalsIgnoreCase(IGNORE_STANDALONE_CONFIG_KEYWORD)
+                && !ignoreStandaloneConfig.isEmpty()) {
             logger.warning(
-                    "Ignoring unknown value " + disableStandaloneConfig + " used to disable standalone config.");
-            disableStandaloneConfig = "";
+                    "Ignoring unknown value " + ignoreStandaloneConfig + " used to ignore standalone config.");
+            ignoreStandaloneConfig = "";
         }
 
-        boolean isStandaloneConfigDisabled = !disableStandaloneConfig.isEmpty();
+        boolean isStandaloneConfigIgnored = !ignoreStandaloneConfig.isEmpty();
 
         RepoConfiguration config =
-                new RepoConfiguration(location, branch, ignoreGlobList, isStandaloneConfigDisabled);
+                new RepoConfiguration(location, branch, ignoreGlobList, isStandaloneConfigIgnored);
 
         if (results.contains(config)) {
             logger.warning("Ignoring duplicated repository " + location + " " + branch);

@@ -44,7 +44,7 @@ public class RepoConfigurationTest {
             Arrays.asList("collated**", "*.aa1", "**.aa2", "**.java");
     private static final List<String> SECOND_AUTHOR_GLOB_LIST = Arrays.asList("collated**", "**[!(.md)]");
 
-    private static RepoConfiguration REPO_DELTA_STANDLONE_CONFIG;
+    private static RepoConfiguration REPO_DELTA_STANDALONE_CONFIG;
 
     @BeforeClass
     public static void setUp() throws InvalidLocationException {
@@ -59,18 +59,18 @@ public class RepoConfigurationTest {
         expectedAuthors.add(THIRD_AUTHOR);
         expectedAuthors.add(FOURTH_AUTHOR);
 
-        REPO_DELTA_STANDLONE_CONFIG = new RepoConfiguration(TEST_REPO_DELTA, "master");
-        REPO_DELTA_STANDLONE_CONFIG.setAuthorList(expectedAuthors);
-        REPO_DELTA_STANDLONE_CONFIG.addAuthorAliases(FIRST_AUTHOR, FIRST_AUTHOR_ALIASES);
-        REPO_DELTA_STANDLONE_CONFIG.addAuthorAliases(SECOND_AUTHOR, SECOND_AUTHOR_ALIASES);
-        REPO_DELTA_STANDLONE_CONFIG.addAuthorAliases(THIRD_AUTHOR, THIRD_AUTHOR_ALIASES);
-        REPO_DELTA_STANDLONE_CONFIG.addAuthorAliases(FOURTH_AUTHOR, FOURTH_AUTHOR_ALIASES);
-        REPO_DELTA_STANDLONE_CONFIG.setAuthorDisplayName(FIRST_AUTHOR, "Ahm");
-        REPO_DELTA_STANDLONE_CONFIG.setAuthorDisplayName(SECOND_AUTHOR, "Cod");
-        REPO_DELTA_STANDLONE_CONFIG.setAuthorDisplayName(THIRD_AUTHOR, "Jor");
-        REPO_DELTA_STANDLONE_CONFIG.setAuthorDisplayName(FOURTH_AUTHOR, "Loh");
+        REPO_DELTA_STANDALONE_CONFIG = new RepoConfiguration(TEST_REPO_DELTA, "master");
+        REPO_DELTA_STANDALONE_CONFIG.setAuthorList(expectedAuthors);
+        REPO_DELTA_STANDALONE_CONFIG.addAuthorAliases(FIRST_AUTHOR, FIRST_AUTHOR_ALIASES);
+        REPO_DELTA_STANDALONE_CONFIG.addAuthorAliases(SECOND_AUTHOR, SECOND_AUTHOR_ALIASES);
+        REPO_DELTA_STANDALONE_CONFIG.addAuthorAliases(THIRD_AUTHOR, THIRD_AUTHOR_ALIASES);
+        REPO_DELTA_STANDALONE_CONFIG.addAuthorAliases(FOURTH_AUTHOR, FOURTH_AUTHOR_ALIASES);
+        REPO_DELTA_STANDALONE_CONFIG.setAuthorDisplayName(FIRST_AUTHOR, "Ahm");
+        REPO_DELTA_STANDALONE_CONFIG.setAuthorDisplayName(SECOND_AUTHOR, "Cod");
+        REPO_DELTA_STANDALONE_CONFIG.setAuthorDisplayName(THIRD_AUTHOR, "Jor");
+        REPO_DELTA_STANDALONE_CONFIG.setAuthorDisplayName(FOURTH_AUTHOR, "Loh");
 
-        REPO_DELTA_STANDLONE_CONFIG.setIgnoreGlobList(REPO_LEVEL_GLOB_LIST);
+        REPO_DELTA_STANDALONE_CONFIG.setIgnoreGlobList(REPO_LEVEL_GLOB_LIST);
     }
 
     @Before
@@ -84,7 +84,7 @@ public class RepoConfigurationTest {
         GitDownloader.downloadRepo(actualConfig);
         ReportGenerator.updateRepoConfig(actualConfig);
 
-        TestUtil.compareRepoConfig(REPO_DELTA_STANDLONE_CONFIG, actualConfig);
+        TestUtil.compareRepoConfig(REPO_DELTA_STANDALONE_CONFIG, actualConfig);
     }
 
     @Test
@@ -132,6 +132,6 @@ public class RepoConfigurationTest {
         GitDownloader.downloadRepo(actualConfig);
         ReportGenerator.updateRepoConfig(actualConfig);
 
-        TestUtil.compareRepoConfig(REPO_DELTA_STANDLONE_CONFIG, actualConfig);
+        TestUtil.compareRepoConfig(REPO_DELTA_STANDALONE_CONFIG, actualConfig);
     }
 }

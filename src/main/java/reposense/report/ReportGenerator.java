@@ -79,7 +79,7 @@ public class ReportGenerator {
         Path configJsonPath =
                 Paths.get(config.getRepoRoot(), REPOSENSE_CONFIG_FOLDER, REPOSENSE_CONFIG_FILE).toAbsolutePath();
 
-        if (config.isStandaloneConfigDisabled() || !Files.exists(configJsonPath)) {
+        if (config.isStandaloneConfigIgnored() || !Files.exists(configJsonPath)) {
             return;
         }
 
