@@ -208,5 +208,7 @@ For ramps between the date ranges, the slices will be selected and it will be pr
 ### Authorship View (v_authorship.js)
 The authorship module retrieves the relevant information from the corresponding `authorship.json` file if it is not yet loaded. If it has been loaded, the data will be written into `window.REPOS` and be read from there instead.
 
+![authorship architecture](images/dashboard-architecture-authorship.png)
+
 #### Showing relevant information by authors
 The files will be filtered, picking only files the selected author has written in. The lines are then split into chunks of "touched" and "untouched" code to be displayed in the tab view which will be popped up on the right side of the screen.
