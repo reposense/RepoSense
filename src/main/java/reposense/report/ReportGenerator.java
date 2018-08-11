@@ -1,6 +1,5 @@
 package reposense.report;
 
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Files;
@@ -80,7 +79,7 @@ public class ReportGenerator {
         Path configJsonPath =
                 Paths.get(config.getRepoRoot(), REPOSENSE_CONFIG_FOLDER, REPOSENSE_CONFIG_FILE).toAbsolutePath();
 
-        if (!Files.exists(configJsonPath)) {
+        if (config.isStandaloneConfigIgnored() || !Files.exists(configJsonPath)) {
             return;
         }
 
@@ -90,7 +89,7 @@ public class ReportGenerator {
         } catch (JsonSyntaxException jse) {
             logger.warning(String.format("%s/%s/%s is malformed.",
                     config.getDisplayName(), REPOSENSE_CONFIG_FOLDER, REPOSENSE_CONFIG_FILE));
-        } catch (FileNotFoundException fnfe) {
+        } catch (IOException ioe) {
             throw new AssertionError(
                     "This exception should not happen as we have performed the file existence check.");
         }
