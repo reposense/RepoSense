@@ -130,9 +130,11 @@ window.vAuthorship = {
       const res = [];
 
       files.forEach((file) => {
-        if (file.authorContributionMap[this.info.author]) {
+        const lineCnt = file.authorContributionMap[this.info.author];
+        if (lineCnt) {
           const out = {};
           out.path = file.path;
+          out.lineCount = lineCnt;
 
           const segments = this.splitSegments(file.lines);
           const bigSegments = this.removeSmallUnauthored(segments);
@@ -143,6 +145,8 @@ window.vAuthorship = {
           res.push(out);
         }
       });
+
+      res.sort((a, b) => b.lineCount - a.lineCount);
 
       this.files = res;
       this.isLoaded = true;

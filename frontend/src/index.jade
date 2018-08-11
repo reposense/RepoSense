@@ -25,10 +25,6 @@ html
         #tabs-wrapper(v-if="isTabActive")
           .tab-close(v-on:click="isTabActive=false")
             i.fas.fa-caret-right
-          ul.mui-tabs__bar
-            li(v-bind:class="{'mui--is-active':isTabAuthorship}")
-              a(v-on:click="deactivateTabs(); isTabAuthorship=true;")
-                i.fas.fa-lg.fa-code
           .tab-content
             .tab-panes
               #tab-authorship.tab-pane(v-if="isTabAuthorship")
@@ -80,13 +76,15 @@ html
               v-if="filterGroupRepos",
               v-bind:href="repo[0].location", target="_blank"
             ) {{ repo[0].repoPath }}
-            .summary-chart(v-for="(user, i) in repo", v-bind:class="{indented:filterGroupRepos}")
+            .summary-chart(v-for="(user, i) in repo")
               .summary-chart__title(
+                title="click to view author's code",
                 v-on:click="$emit('view-authorship', {author:user.name, repo:user.repoName, name:user.displayName})"
               )
                 .summary-chart__title--index {{ i+1 }}
                 .summary-chart__title--repo(v-if="!filterGroupRepos") {{ user.repoPath }}
                 .summary-chart__title--name {{ user.displayName }}
+                i.summary-chart__title--tooltip.fas.fa-code
               .summary-chart__ramp
                 a.summary-chart__ramp__slice(
                   v-for="(slice, j) in user.commits",
@@ -113,8 +111,11 @@ html
           .author {{ info.name }} ({{ info.author }})
 
         .files(v-if="isLoaded")
+          .empty(v-if="files.length===0") nothing to see here :(
           .file(v-for="file in files")
-            .title(onclick="toggleNext(this)") {{ file.path }}
+            .title(onclick="toggleNext(this)")
+              span {{ file.path }}&nbsp;
+              span.loc ({{ file.lineCount }} lines)
             pre.hljs.java
               code
                 template(v-for="segment in file.segments")

@@ -115,8 +115,7 @@ window.vSummary = {
       return Math.max(newSize * this.rampSize, 0.5);
     },
     getSliceTitle(slice) {
-      return `contribution on ${slice.sinceDate
-      }: ${slice.insertions} lines`;
+      return `contribution on ${slice.sinceDate}: ${slice.insertions} lines`;
     },
     getSliceLink(user, slice) {
       const { REPOS } = window;
@@ -222,7 +221,12 @@ window.vSummary = {
 
         // filtering
         repo.users.forEach((user) => {
-          if (user.searchPath.search(this.filterSearch) > -1) {
+          const toDisplay = this.filterSearch
+            .split(' ').filter(param => param)
+            .map(param => user.searchPath.search(param) > -1)
+            .reduce((curr, bool) => curr || bool, false);
+
+          if (!this.filterSearch || toDisplay) {
             this.getUserCommits(user);
             if (this.filterTimeFrame === 'week') {
               this.splitCommitsWeek(user);
