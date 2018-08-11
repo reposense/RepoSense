@@ -45,14 +45,12 @@ public class RepoConfigCsvParser extends CsvParser<RepoConfiguration> {
         List<String> ignoreGlobList = getManyValueInElement(elements, IGNORE_GLOB_LIST_POSITION);
         String ignoreStandaloneConfig = getValueInElement(elements, IGNORE_STANDALONE_CONFIG_POSITION);
 
-        if (!ignoreStandaloneConfig.equalsIgnoreCase(IGNORE_STANDALONE_CONFIG_KEYWORD)
-                && !ignoreStandaloneConfig.isEmpty()) {
-            logger.warning(
-                    "Ignoring unknown value " + ignoreStandaloneConfig + " used to ignore standalone config.");
-            ignoreStandaloneConfig = "";
-        }
+        boolean isStandaloneConfigIgnored = ignoreStandaloneConfig.equalsIgnoreCase(IGNORE_STANDALONE_CONFIG_KEYWORD);
 
-        boolean isStandaloneConfigIgnored = !ignoreStandaloneConfig.isEmpty();
+        if (!isStandaloneConfigIgnored && !ignoreStandaloneConfig.isEmpty()) {
+            logger.warning(
+                    "Ignoring unknown value " + ignoreStandaloneConfig + " in ignore standalone config column.");
+        }
 
         RepoConfiguration config =
                 new RepoConfiguration(location, branch, ignoreGlobList, isStandaloneConfigIgnored);
