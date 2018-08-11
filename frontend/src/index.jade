@@ -41,34 +41,35 @@ html
     vuetemplate#v_summary
       #summary.wrapper
         form.summary-picker.mui-form--inline(v-on:submit.prevent="getFiltered();")
-          .mui-textfield.summary-picker__input
-            input.summary-picker__search(type="text", v-model="filterSearch")
-            label search
-          .mui-select.summary-picker__input
-            select(v-model="filterSort")
-              option(value="totalCommits") Contribution
-              option(value="variance") Variance
-              option(value="displayName") Author Name
-              option(value="searchPath") Team Name
-            label sort by
-          .summary-picker__input
+          .summary-picker__section
+            .mui-textfield
+              input.summary-picker__search(type="text", v-model="filterSearch")
+              label search
+            .mui-select
+              select(v-model="filterSort")
+                option(value="totalCommits") Contribution
+                option(value="variance") Variance
+                option(value="displayName") Author Name
+                option(value="searchPath") Team Name
+              label sort by
+            .mui-select
+              select(v-model="filterTimeFrame")
+                option(value="day") Day
+                option(value="week") Week
+              label granularity
+          .summary-picker__section
             .mui-textfield.summary-picker__date
               input(type="date", v-model="filterSinceDate")
               label since
             .mui-textfield.summary-picker__date
               input(type="date", v-model="filterUntilDate")
               label until
-          .mui-select.summary-picker__input
-            select(v-model="filterTimeFrame")
-              option(value="day") Day
-              option(value="week") Week
-            label granularity
-          .mui-checkbox.summary-picker__checkboxes.summary-picker__input
+          .summary-picker__checkboxes.summary-picker__section
             label
-              input(type="checkbox", v-model="filterSortReverse").summary-picker__checkbox
+              input(type="checkbox", v-model="filterSortReverse").mui-checkbox.summary-picker__checkbox
               span reverse
             label
-              input(type="checkbox", v-model="filterGroupRepos").summary-picker__checkbox
+              input(type="checkbox", v-model="filterGroupRepos").mui-checkbox.summary-picker__checkbox
               span group by repo
         #summary-charts
           .summary-charts(v-for="repo of filtered", v-if="repo.length>0")
