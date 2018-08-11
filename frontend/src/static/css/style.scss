@@ -102,19 +102,6 @@ header{
             }
         }
 
-        .mui-tabs__bar{
-            background-color:#fff;
-            width:$tabs-width;
-            position:fixed;
-            right:0;
-
-            a{
-                display:inline;
-                cursor:pointer;
-                vertical-align:middle;
-            }
-        }
-
         .tab-content{
             display:flex;
             padding:1rem 1.5rem;
@@ -182,16 +169,13 @@ header{
 .summary-chart{
     margin-bottom:1rem;
 
-    &.indented{
-        padding-left:1.5rem;
-    }
-
     &__title{
         text-align:left;
         cursor:pointer;
 
-        &--index, &--repo, &--name{
+        & > * {
             display:inline;
+            padding-right:0.5rem;
         }
 
         &--index, &--repo{
@@ -201,17 +185,20 @@ header{
         &--index::after{
             content:".";
             display:inline-block;
-            padding-right:0.5rem;
         }
 
         &--repo{
             padding-right:0.25rem;
         }
+
+        &--tooltip{
+            color:mui-color("grey");
+        }
     }
 
     &__ramp{
-        position:relative;
         font-size:100%;
+        position:relative;
 
         $height:3rem;
         height:$height;
@@ -235,7 +222,6 @@ header{
     }
 
     &__contrib{
-        width:100%;
         text-align:left;
 
         &--bar{
@@ -263,6 +249,10 @@ header{
             cursor:pointer;
             font-size:1.25rem;
             font-weight:bold;
+
+            .loc{
+                color:mui-color('grey');
+            }
         }
 
         .untouched{
