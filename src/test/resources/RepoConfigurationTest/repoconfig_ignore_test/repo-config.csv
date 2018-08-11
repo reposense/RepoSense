@@ -1,2 +1,2 @@
-Repository's Location,Branch,Ignore Glob List,Ignore standalone config
-https://github.com/reposense/testrepo-Delta.git,master,collated**,yes
+Repository's Location,Branch,File formats,Ignore Glob List,Ignore standalone config
+https://github.com/reposense/testrepo-Delta.git,master,,collated**,yes
