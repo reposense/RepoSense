@@ -37,7 +37,7 @@ window.vAuthorship = {
     initiate() {
       const repo = window.REPOS[this.info.repo];
 
-      if (repoCache.length === 5) {
+      if (repoCache.length === 3) {
         const toRemove = repoCache.shift();
         if (toRemove !== this.info.repo) {
           delete window.REPOS[toRemove].files;
