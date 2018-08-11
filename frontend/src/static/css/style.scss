@@ -122,13 +122,15 @@ header{
 
 .summary-picker{
     display:flex;
+    flex-flow:row wrap;
     justify-content:center;
-    align-items:flex-end;
+    align-items:center;
+
     margin-bottom:2rem;
 
-    &__input{
-        margin:0 0.5rem;
-        text-align:left;
+    &__section{
+        display:flex;
+        flex:0 0 auto;
     }
 
     &__search{
@@ -140,12 +142,17 @@ header{
         span{ margin-left:0.25rem; }
     }
 
-    &__date:first-child{
-        margin-right:0.5rem;
+    .mui-textfield, .mui-select{
+        margin:0.5rem;
     }
 
     label{
+        text-align:left;
         overflow-y:hidden;
+    }
+
+    input, select{
+        font-size:0.75rem;
     }
 }
 
