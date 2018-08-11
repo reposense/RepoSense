@@ -41,13 +41,14 @@ public class RepoConfiguration {
     private Date untilDate;
 
     private transient boolean needCheckStyle = false;
+    private transient boolean annotationOverwrite = true;
     private transient List<String> formats;
     private transient int commitNum = 1;
     private transient List<String> ignoreGlobList = new ArrayList<>();
     private transient List<Author> authorList = new ArrayList<>();
     private transient TreeMap<String, Author> authorAliasMap = new TreeMap<>(String.CASE_INSENSITIVE_ORDER);
     private transient Map<Author, String> authorDisplayNameMap = new HashMap<>();
-    private transient boolean annotationOverwrite = true;
+    private transient boolean isStandaloneConfigIgnored;
 
     /**
      * @throws InvalidLocationException if {@code location} cannot be represented by a {@code URL} or {@code Path}.
@@ -60,17 +61,18 @@ public class RepoConfiguration {
      * @throws InvalidLocationException if {@code location} cannot be represented by a {@code URL} or {@code Path}.
      */
     public RepoConfiguration(String location, String branch) throws InvalidLocationException {
-        this(location, branch, Collections.emptyList());
+        this(location, branch, Collections.emptyList(), false);
     }
 
     /**
      * @throws InvalidLocationException if {@code location} cannot be represented by a {@code URL} or {@code Path}.
      */
-    public RepoConfiguration(String location, String branch, List<String> ignoreGlobList)
-            throws InvalidLocationException {
+    public RepoConfiguration(String location, String branch, List<String> ignoreGlobList,
+            boolean isStandaloneConfigIgnored) throws InvalidLocationException {
         this.location = location;
         this.branch = branch;
         this.ignoreGlobList = ignoreGlobList;
+        this.isStandaloneConfigIgnored = isStandaloneConfigIgnored;
 
         verifyLocation(location);
         Matcher matcher = GIT_REPOSITORY_LOCATION_PATTERN.matcher(location);
@@ -292,6 +294,10 @@ public class RepoConfiguration {
 
     public String getRepoName() {
         return repoName;
+    }
+
+    public boolean isStandaloneConfigIgnored() {
+        return isStandaloneConfigIgnored;
     }
 
     /**
