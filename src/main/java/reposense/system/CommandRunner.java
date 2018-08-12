@@ -54,16 +54,12 @@ public class CommandRunner {
         }
 
         Path rootPath = Paths.get(root);
-        String checkoutCommand;
+
         String substituteCommand = "git rev-list -1 --before="
                 + GIT_LOG_UNTIL_DATE_FORMAT.format(untilDate) + " " + branchName;
+        String hash = runCommand(rootPath, substituteCommand);
 
-        if (isWindows) {
-            checkoutCommand = "for /f %g in ('" + substituteCommand + "') do git checkout %g";
-        } else {
-            checkoutCommand = "git checkout `" + substituteCommand + "`";
-        }
-
+        String checkoutCommand = "git checkout " + hash;
         runCommand(rootPath, checkoutCommand);
     }
 
