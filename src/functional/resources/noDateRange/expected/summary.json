@@ -2,6 +2,13 @@
   "dashboardGeneratedTime": "Tue Jul 24 17:45:15 SGT 2018",
   "repos": [
     {
+      "location": "https://github.com/reposense/testrepo-Alpha.git",
+      "organization": "reposense",
+      "repoName": "testrepo-Alpha",
+      "branch": "master",
+      "displayName": "reposense_testrepo-Alpha_master"
+    },
+    {
       "location": "https://github.com/reposense/testrepo-Beta.git",
       "organization": "reposense",
       "repoName": "testrepo-Beta",

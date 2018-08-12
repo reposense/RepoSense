@@ -21,7 +21,7 @@ public class Author {
             "The provided ignore glob, %s, uses uncommon pattern.";
 
     private static final String COMMON_GLOB_REGEX = "^[-a-zA-Z0-9 _/\\\\*!{}\\[\\]!(),:.]*$";
-    private static final String NAME_VALIDATION_REGEX = "^[-a-zA-Z0-9 _/\\\\*]+$";
+    private static final String NAME_VALIDATION_REGEX = "^[-a-zA-Z0-9. _/\\\\*]+$";
 
     private final String gitId;
 
