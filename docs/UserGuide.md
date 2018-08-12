@@ -4,7 +4,8 @@
 1. Ensure that you have the necessary [dependencies](#dependencies).
 1. Download the latest executable Jar from our [release](https://github.com/reposense/RepoSense/releases/latest).
    * Alternatively, you can compile the executable Jar yourself by following our [build from source guide](Build.md).
-1. Generate the report by providing your repository url as input. For example:
+1. Generate the report by executing the jar with the terminal using your repository url as input. <br/>
+   For example:
    ```
    java -jar RepoSense.jar -repos https://github.com/reposense/RepoSense.git
    ```
