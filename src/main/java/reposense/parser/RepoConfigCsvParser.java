@@ -15,8 +15,9 @@ public class RepoConfigCsvParser extends CsvParser<RepoConfiguration> {
      */
     private static final int LOCATION_POSITION = 0;
     private static final int BRANCH_POSITION = 1;
-    private static final int IGNORE_GLOB_LIST_POSITION = 2;
-    private static final int IGNORE_STANDALONE_CONFIG_POSITION = 3;
+    private static final int FILE_FORMATS_POSITION = 2;
+    private static final int IGNORE_GLOB_LIST_POSITION = 3;
+    private static final int IGNORE_STANDALONE_CONFIG_POSITION = 4;
 
     public RepoConfigCsvParser(Path csvFilePath) throws IOException {
         super(csvFilePath);
@@ -42,6 +43,7 @@ public class RepoConfigCsvParser extends CsvParser<RepoConfiguration> {
     protected void processLine(List<RepoConfiguration> results, String[] elements) throws InvalidLocationException {
         String location = getValueInElement(elements, LOCATION_POSITION);
         String branch = getValueInElement(elements, BRANCH_POSITION);
+        List<String> formats = getManyValueInElement(elements, FILE_FORMATS_POSITION);
         List<String> ignoreGlobList = getManyValueInElement(elements, IGNORE_GLOB_LIST_POSITION);
         String ignoreStandaloneConfig = getValueInElement(elements, IGNORE_STANDALONE_CONFIG_POSITION);
 
@@ -54,6 +56,8 @@ public class RepoConfigCsvParser extends CsvParser<RepoConfiguration> {
 
         RepoConfiguration config =
                 new RepoConfiguration(location, branch, ignoreGlobList, isStandaloneConfigIgnored);
+
+        config.setFormats(formats);
 
         if (results.contains(config)) {
             logger.warning("Ignoring duplicated repository " + location + " " + branch);

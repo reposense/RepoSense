@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -28,7 +29,13 @@ public class RepoConfigurationTest {
             .getResource("RepoConfigurationTest/repoconfig_ignore_test").getFile()).toPath();
     private static final Path KEYWORD_TEST_CONFIG_FILES = new File(CsvParserTest.class.getClassLoader()
             .getResource("RepoConfigurationTest/repoconfig_keyword_test").getFile()).toPath();
+    private static final Path FORMATS_TEST_CONFIG_FILES = new File(CsvParserTest.class.getClassLoader()
+            .getResource("RepoConfigurationTest/repoconfig_formats_test").getFile()).toPath();
+    private static final Path WITHOUT_FORMATS_TEST_CONFIG_FILES = new File(CsvParserTest.class.getClassLoader()
+            .getResource("RepoConfigurationTest/repoconfig_withoutformats_test").getFile()).toPath();
+
     private static final String TEST_REPO_DELTA = "https://github.com/reposense/testrepo-Delta.git";
+
     private static final Author FIRST_AUTHOR = new Author("lithiumlkid");
     private static final Author SECOND_AUTHOR = new Author("codeeong");
     private static final Author THIRD_AUTHOR = new Author("jordancjq");
@@ -43,6 +50,9 @@ public class RepoConfigurationTest {
     private static final List<String> FIRST_AUTHOR_GLOB_LIST =
             Arrays.asList("collated**", "*.aa1", "**.aa2", "**.java");
     private static final List<String> SECOND_AUTHOR_GLOB_LIST = Arrays.asList("collated**", "**[!(.md)]");
+
+    private static final List<String> CONFIG_FORMATS = Arrays.asList("java", "adoc");
+    private static final List<String> CLI_FORMATS = Arrays.asList("css", "html");
 
     private static RepoConfiguration REPO_DELTA_STANDALONE_CONFIG;
 
@@ -133,5 +143,33 @@ public class RepoConfigurationTest {
         ReportGenerator.updateRepoConfig(actualConfig);
 
         TestUtil.compareRepoConfig(REPO_DELTA_STANDALONE_CONFIG, actualConfig);
+    }
+
+    @Test
+    public void repoConfigWithFormats_doesNotUseGlobalFormats_success() throws ParseException, IOException {
+        String formats = String.join(" ", CLI_FORMATS);
+        String input = String.format("-config %s -formats %s", FORMATS_TEST_CONFIG_FILES, formats);
+        CliArguments cliArguments = ArgsParser.parse(translateCommandline(input));
+
+        List<RepoConfiguration> actualConfigs =
+                new RepoConfigCsvParser(((ConfigCliArguments) cliArguments).getRepoConfigFilePath()).parse();
+        RepoConfiguration.setFormatsToRepoConfigs(actualConfigs, cliArguments.getFormats());
+
+        Assert.assertEquals(1, actualConfigs.size());
+        Assert.assertEquals(CONFIG_FORMATS, actualConfigs.get(0).getFormats());
+    }
+
+    @Test
+    public void repoConfigWithoutFormats_useGlobalFormats_success() throws ParseException, IOException {
+        String formats = String.join(" ", CLI_FORMATS);
+        String input = String.format("-config %s -formats %s", WITHOUT_FORMATS_TEST_CONFIG_FILES, formats);
+        CliArguments cliArguments = ArgsParser.parse(translateCommandline(input));
+
+        List<RepoConfiguration> actualConfigs =
+                new RepoConfigCsvParser(((ConfigCliArguments) cliArguments).getRepoConfigFilePath()).parse();
+        RepoConfiguration.setFormatsToRepoConfigs(actualConfigs, cliArguments.getFormats());
+
+        Assert.assertEquals(1, actualConfigs.size());
+        Assert.assertEquals(CLI_FORMATS, actualConfigs.get(0).getFormats());
     }
 }

@@ -73,6 +73,7 @@ public class RepoConfiguration {
         this.branch = branch;
         this.ignoreGlobList = ignoreGlobList;
         this.isStandaloneConfigIgnored = isStandaloneConfigIgnored;
+        this.formats = Collections.emptyList();
 
         verifyLocation(location);
         Matcher matcher = GIT_REPOSITORY_LOCATION_PATTERN.matcher(location);
@@ -118,10 +119,11 @@ public class RepoConfiguration {
     }
 
     /**
-     * Sets all {@code RepoConfiguration} in {@code configs} to have {@code formats} set.
+     * Sets {@code formats} to {@code RepoConfiguration} in {@code configs} if {@code formats} is empty.
      */
     public static void setFormatsToRepoConfigs(List<RepoConfiguration> configs, List<String> formats) {
-        configs.forEach(config -> config.setFormats(formats));
+        configs.stream().filter(config -> config.getFormats().isEmpty())
+                        .forEach(config -> config.setFormats(formats));
     }
 
     /**

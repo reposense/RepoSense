@@ -15,7 +15,7 @@ import java.util.stream.Collectors;
 import reposense.system.LogsManager;
 
 public abstract class CsvParser<T> {
-    protected static final String AUTHOR_ALIAS_AND_GLOB_SEPARATOR = ";";
+    protected static final String MANY_VALUES_SEPARATOR = ";";
     protected static final Logger logger = LogsManager.getLogger(CsvParser.class);
 
     private static final String ELEMENT_SEPARATOR = ",";
@@ -96,7 +96,7 @@ public abstract class CsvParser<T> {
 
     /**
      * Gets the value of {@code position} in {@code elements}.
-     * Returns the value of {@code position} in an array, delimited by {@code AUTHOR_ALIAS_AND_GLOB_SEPARATOR}
+     * Returns the value of {@code position} in an array, delimited by {@code MANY_VALUES_SEPARATOR}
      * if it is in {@code element} and not empty.
      * Otherwise returns an empty array.
      */
@@ -106,8 +106,7 @@ public abstract class CsvParser<T> {
         }
 
         String manyValue = getValueInElement(elements, position);
-        // Wrap with new ArrayList<> to support all list functionalities.
-        return new ArrayList<>(Arrays.asList(manyValue.split(AUTHOR_ALIAS_AND_GLOB_SEPARATOR)));
+        return Arrays.stream(manyValue.split(MANY_VALUES_SEPARATOR)).map(String::trim).collect(Collectors.toList());
     }
 
     /**
