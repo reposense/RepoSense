@@ -146,7 +146,7 @@ public class RepoConfigurationTest {
     }
 
     @Test
-    public void repoConfigWithFormats_doesNotUseGlobalFormats_success() throws ParseException, IOException {
+    public void repoConfigWithFormats_doesNotUseCliFormats_success() throws ParseException, IOException {
         String formats = String.join(" ", CLI_FORMATS);
         String input = String.format("-config %s -formats %s", FORMATS_TEST_CONFIG_FILES, formats);
         CliArguments cliArguments = ArgsParser.parse(translateCommandline(input));
@@ -160,7 +160,7 @@ public class RepoConfigurationTest {
     }
 
     @Test
-    public void repoConfigWithoutFormats_useGlobalFormats_success() throws ParseException, IOException {
+    public void repoConfigWithoutFormats_useCliFormats_success() throws ParseException, IOException {
         String formats = String.join(" ", CLI_FORMATS);
         String input = String.format("-config %s -formats %s", WITHOUT_FORMATS_TEST_CONFIG_FILES, formats);
         CliArguments cliArguments = ArgsParser.parse(translateCommandline(input));
@@ -171,5 +171,18 @@ public class RepoConfigurationTest {
 
         Assert.assertEquals(1, actualConfigs.size());
         Assert.assertEquals(CLI_FORMATS, actualConfigs.get(0).getFormats());
+    }
+
+    @Test
+    public void repoConfigWithoutFormatsAndNoCliFormats_useDefaultFormats_success() throws ParseException, IOException {
+        String input = String.format("-config %s", WITHOUT_FORMATS_TEST_CONFIG_FILES);
+        CliArguments cliArguments = ArgsParser.parse(translateCommandline(input));
+
+        List<RepoConfiguration> actualConfigs =
+                new RepoConfigCsvParser(((ConfigCliArguments) cliArguments).getRepoConfigFilePath()).parse();
+        RepoConfiguration.setFormatsToRepoConfigs(actualConfigs, cliArguments.getFormats());
+
+        Assert.assertEquals(1, actualConfigs.size());
+        Assert.assertEquals(ArgsParser.DEFAULT_FORMATS, actualConfigs.get(0).getFormats());
     }
 }
