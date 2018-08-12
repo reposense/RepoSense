@@ -2,9 +2,18 @@
 
 ## Quick Start
 1. Ensure that you have the necessary [dependencies](#dependencies).
-1. Read up on [How to Generate Dashboard](#how-to-generate-dashboard).
-1. Fill up the [CSV Config Files](#csv-config-files).
-1. Perform the execution to generate the [dashboard](#dashboard).
+1. Download the latest executable Jar from our [release](https://github.com/reposense/RepoSense/releases/latest).
+   * Alternatively, you can compile the executable Jar yourself by following our [build from source guide](Build.md).
+1. Generate the report by providing your repository url as input. For example:
+   ```
+   $ java -jar RepoSense.jar -repos https://github.com/reposense/RepoSense.git
+   ```
+
+For more information or to customise your own report, do read up on the followings:
+1. [How to Generate Report](#how-to-generate-report).
+1. [How to View Report](#how-to-view-report).
+1. Using the [CSV Config Files](#csv-config-files).
+1. How to use the [Dashboard](#dashboard).
 
 ## Dependencies
 1. **JDK `1.8.0_60`** or later.
@@ -46,7 +55,7 @@ Argument List:
 - until : Optional. The end date of analysis. Format: `DD/MM/YYYY`
 - formats : Optional. The file formats to analyse. Formats: `alphanumerical file formats`. If not provided, the following file formats will be used. `adoc, cs, css, fxml, gradle, html, java, js, json, jsp, md, py, tag, xml`
 
-## How to View Dashboard
+## How to View Report
 ### With jar
 1. Ensure that you have generated the report.
 1. Execute it on the OS terminal. <br/>
@@ -110,6 +119,7 @@ to configure the list of authors to analyse and the options. <br/>
 Note:
 If author-config.csv is not used or the repositories being analyzed are not specified by any authors
 in author-config.csv, add <a href="#standalone-configuration">Standalone Configuration</a> to those repostories.
+Otherwise, all the authors of the repositories will be added into the report by default.
 </h5>
 
 Column Name | Explanation
