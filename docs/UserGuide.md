@@ -6,7 +6,7 @@
    * Alternatively, you can compile the executable Jar yourself by following our [build from source guide](Build.md).
 1. Generate the report by providing your repository url as input. For example:
    ```
-   $ java -jar RepoSense.jar -repos https://github.com/reposense/RepoSense.git
+   java -jar RepoSense.jar -repos https://github.com/reposense/RepoSense.git
    ```
 
 For more information or to customise your own report, do read up on the followings:
@@ -31,7 +31,7 @@ Usage: `java -jar RepoSense.jar -config CONFIG_DIRECTORY [-output OUTPUT_DIRECTO
 
 Sample usage to generate the report:
 ```
-$ java -jar RepoSense.jar -config ./configs/ -output output_path/ -since 01/10/2017 -until 01/11/2017 -formats java adoc js
+java -jar RepoSense.jar -config ./configs/ -output output_path/ -since 01/10/2017 -until 01/11/2017 -formats java adoc js
 ```
 Argument List:
 - config : Mandatory. The path to the directory that contains the configuration file(s).
@@ -46,7 +46,7 @@ Usage: `java -jar RepoSense.jar -repos REPO_PATH... [-output OUTPUT_DIRECTORY] [
 
 Sample usage to generate the report:
 ```
-$ java -jar RepoSense.jar -repos https://github.com/reposense/RepoSense.git https://github.com/se-edu/collate.git -output output_path/ -since 01/10/2017 -until 01/11/2017 -formats java adoc js
+java -jar RepoSense.jar -repos https://github.com/reposense/RepoSense.git https://github.com/se-edu/collate.git -output output_path/ -since 01/10/2017 -until 01/11/2017 -formats java adoc js
 ```
 Argument List:
 - repos : Mandatory. The GitHub URL or disk location of the git repositories to clone `e.g. C:\Users\user\Desktop\GitHub\RepoSense`.
@@ -85,12 +85,12 @@ Usage: `gradlew run -Dargs="(-config ./configs/ | -repos https://github.com/repo
 
 Sample usage to generate the report with config files:
 ```
-$ gradlew run -Dargs="-config ./configs/ -output output_path/ -since 01/10/2017 -until 01/11/2017 -formats java adoc js"
+gradlew run -Dargs="-config ./configs/ -output output_path/ -since 01/10/2017 -until 01/11/2017 -formats java adoc js"
 
 ```
 Sample usage to generate the report with repository locations:
 ```
-$ gradlew run -Dargs="-repos https://github.com/reposense/RepoSense.git https://github.com/se-edu/collate.git -output output_path/ -since 01/10/2017 -until 01/11/2017 -formats java adoc js"
+gradlew run -Dargs="-repos https://github.com/reposense/RepoSense.git https://github.com/se-edu/collate.git -output output_path/ -since 01/10/2017 -until 01/11/2017 -formats java adoc js"
 ```
 
 Sample usage to view the dashboard:
