@@ -1,5 +1,7 @@
 package reposense.report;
 
+import static reposense.git.GitShortlog.extractAuthorsFromLog;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Files;
@@ -18,6 +20,7 @@ import reposense.commits.CommitsReporter;
 import reposense.commits.model.CommitContributionSummary;
 import reposense.git.GitDownloader;
 import reposense.git.GitDownloaderException;
+import reposense.model.Author;
 import reposense.model.RepoConfiguration;
 import reposense.model.StandaloneConfig;
 import reposense.parser.StandaloneConfigJsonParser;
@@ -57,6 +60,7 @@ public class ReportGenerator {
             }
 
             updateRepoConfig(config);
+            updateAuthorList(config);
 
             CommitContributionSummary commitSummary = CommitsReporter.generateCommitSummary(config);
             AuthorshipSummary authorshipSummary = AuthorshipReporter.generateAuthorshipSummary(config);
@@ -73,7 +77,7 @@ public class ReportGenerator {
     }
 
     /**
-     * Updates {@code config} author information with configuration provided by repository if exists.
+     * Updates {@code config} with configuration provided by repository if exists.
      */
     public static void updateRepoConfig(RepoConfiguration config) {
         Path configJsonPath =
@@ -92,6 +96,18 @@ public class ReportGenerator {
         } catch (IOException ioe) {
             throw new AssertionError(
                     "This exception should not happen as we have performed the file existence check.");
+        }
+    }
+
+    /**
+     * Find and update {@code config} with all the author identities if author list is empty.
+     */
+    private static void updateAuthorList(RepoConfiguration config) {
+        if (config.getAuthorList().isEmpty()) {
+            logger.info(String.format(
+                    "%s has no authors specified, using all authors by default.", config.getDisplayName()));
+            List<Author> authorList = extractAuthorsFromLog(config);
+            config.setAuthorList(authorList);
         }
     }
 

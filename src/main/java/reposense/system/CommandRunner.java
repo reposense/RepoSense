@@ -108,6 +108,13 @@ public class CommandRunner {
         return runCommand(rootPath, revListCommand);
     }
 
+    public static String getShortlogSummary(RepoConfiguration config) {
+        Path rootPath = Paths.get(config.getRepoRoot());
+        String command = "git log --pretty=short | git shortlog --summary";
+
+        return runCommand(rootPath, command);
+    }
+
     public static String cloneRepo(String location, String displayName) throws IOException {
         Path rootPath = Paths.get(FileUtil.REPOS_ADDRESS, displayName);
         Files.createDirectories(rootPath);
