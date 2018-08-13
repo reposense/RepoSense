@@ -113,5 +113,6 @@ public class TestUtil {
         Assert.assertEquals(
                 expectedRepoConfig.getAuthorAliasMap().hashCode(), actualRepoConfig.getAuthorAliasMap().hashCode());
         Assert.assertEquals(expectedRepoConfig.getIgnoreGlobList(), actualRepoConfig.getIgnoreGlobList());
+        Assert.assertEquals(expectedRepoConfig.getFormats(), actualRepoConfig.getFormats());
     }
 }

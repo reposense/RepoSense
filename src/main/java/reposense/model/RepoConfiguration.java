@@ -135,6 +135,10 @@ public class RepoConfiguration {
         authorDisplayNameMap.clear();
         ignoreGlobList = standaloneConfig.getIgnoreGlobList();
 
+        if (!standaloneConfig.getFormats().isEmpty()) {
+            this.setFormats(standaloneConfig.getFormats());
+        }
+
         for (StandaloneAuthor sa : standaloneConfig.getAuthors()) {
             Author author = new Author(sa);
             author.appendIgnoreGlobList(ignoreGlobList);

@@ -1,2 +1,2 @@
 Repository's Location,Branch,File formats,Ignore Glob List,Ignore standalone config
-https://github.com/reposense/testrepo-Beta.git,master,    java   ;     adoc,docs**,yes
+https://github.com/reposense/testrepo-Beta.git,master,    java   ;     adoc;md   ,docs**,yes

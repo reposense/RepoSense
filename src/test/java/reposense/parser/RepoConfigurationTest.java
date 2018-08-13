@@ -51,7 +51,7 @@ public class RepoConfigurationTest {
             Arrays.asList("collated**", "*.aa1", "**.aa2", "**.java");
     private static final List<String> SECOND_AUTHOR_GLOB_LIST = Arrays.asList("collated**", "**[!(.md)]");
 
-    private static final List<String> CONFIG_FORMATS = Arrays.asList("java", "adoc");
+    private static final List<String> CONFIG_FORMATS = Arrays.asList("java", "adoc", "md");
     private static final List<String> CLI_FORMATS = Arrays.asList("css", "html");
 
     private static RepoConfiguration REPO_DELTA_STANDALONE_CONFIG;
@@ -81,6 +81,7 @@ public class RepoConfigurationTest {
         REPO_DELTA_STANDALONE_CONFIG.setAuthorDisplayName(FOURTH_AUTHOR, "Loh");
 
         REPO_DELTA_STANDALONE_CONFIG.setIgnoreGlobList(REPO_LEVEL_GLOB_LIST);
+        REPO_DELTA_STANDALONE_CONFIG.setFormats(CONFIG_FORMATS);
     }
 
     @Before
@@ -109,8 +110,10 @@ public class RepoConfigurationTest {
         expectedConfig.setAuthorDisplayName(FIRST_AUTHOR, "Ahm");
 
         expectedConfig.setIgnoreGlobList(REPO_LEVEL_GLOB_LIST);
+        expectedConfig.setFormats(CONFIG_FORMATS);
 
-        String input = String.format("-config %s", IGNORE_STANDALONE_TEST_CONFIG_FILES);
+        String formats = String.join(" ", CLI_FORMATS);
+        String input = String.format("-config %s -formats %s", IGNORE_STANDALONE_TEST_CONFIG_FILES, formats);
         CliArguments cliArguments = ArgsParser.parse(translateCommandline(input));
 
         List<RepoConfiguration> actualConfigs =
@@ -129,7 +132,8 @@ public class RepoConfigurationTest {
     @Test
     public void repoConfig_wrongKeywordUseStandaloneConfig_success()
             throws ParseException, GitDownloaderException, IOException {
-        String input = String.format("-config %s", KEYWORD_TEST_CONFIG_FILES);
+        String formats = String.join(" ", CLI_FORMATS);
+        String input = String.format("-config %s -formats %s", KEYWORD_TEST_CONFIG_FILES, formats);
         CliArguments cliArguments = ArgsParser.parse(translateCommandline(input));
 
         List<RepoConfiguration> actualConfigs =
