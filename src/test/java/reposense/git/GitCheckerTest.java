@@ -47,12 +47,18 @@ public class GitCheckerTest extends GitTestTemplate {
     }
 
     @Test
-    public void checkoutToDateTest() throws EmptyCommitException {
+    public void checkoutToDate_validDate_success() throws EmptyCommitException {
         Path newFile = Paths.get(config.getRepoRoot(), "newFile.java");
         Assert.assertTrue(Files.exists(newFile));
 
         Date untilDate = TestUtil.getDate(2018, Calendar.FEBRUARY, 6);
         GitChecker.checkoutToDate(config.getRepoRoot(), config.getBranch(), untilDate);
         Assert.assertFalse(Files.exists(newFile));
+    }
+
+    @Test(expected = EmptyCommitException.class)
+    public void checkoutToDate_invalidDate_throwsEmptyCommitException() throws EmptyCommitException {
+        Date untilDate = TestUtil.getDate(2015, Calendar.FEBRUARY, 6);
+        GitChecker.checkoutToDate(config.getRepoRoot(), config.getBranch(), untilDate);
     }
 }

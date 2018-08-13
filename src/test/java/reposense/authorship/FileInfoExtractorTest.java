@@ -64,6 +64,15 @@ public class FileInfoExtractorTest extends GitTestTemplate {
     }
 
     @Test
+    public void extractFileInfos_untilDateBeforeFirstCommit_emptyResult() {
+        Date date = TestUtil.getDate(2015, 12, 31);
+        config.setUntilDate(date);
+
+        List<FileInfo> files = FileInfoExtractor.extractFileInfos(config);
+        Assert.assertTrue(files.isEmpty());
+    }
+
+    @Test
     public void generateFileInfo_fileWithSpecialCharacters_correctFileInfoGenerated() {
         FileInfo fileInfo = FileInfoExtractor.generateFileInfo(".", FILE_WITH_SPECIAL_CHARACTER.toString());
         Assert.assertEquals(5, fileInfo.getLines().size());
