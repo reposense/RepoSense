@@ -202,13 +202,13 @@
      borderopacity="1.0"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="0.5"
-     inkscape:cx="-2617.9027"
-     inkscape:cy="-1902.1682"
+     inkscape:zoom="0.35355339"
+     inkscape:cx="881.0249"
+     inkscape:cy="777.16497"
      inkscape:document-units="mm"
-     inkscape:current-layer="g6642"
+     inkscape:current-layer="g5875"
      showgrid="false"
-     inkscape:window-width="1246"
+     inkscape:window-width="1054"
      inkscape:window-height="1053"
      inkscape:window-x="0"
      inkscape:window-y="25"
@@ -236,7 +236,7 @@
       <g
          id="g3126-4"
          transform="translate(-47.201258,8.9381599)"
-         inkscape:export-filename="/home/ongspxm/tmp/reposense/docs/images/dashboard-architecture-architecture.png"
+         inkscape:export-filename="/home/ongspxm/tmp/reposense/docs/images/dashboard-architecture-authorship.png"
          inkscape:export-xdpi="96"
          inkscape:export-ydpi="96">
         <path
@@ -264,7 +264,7 @@
       <g
          inkscape:export-ydpi="96"
          inkscape:export-xdpi="96"
-         inkscape:export-filename="/home/ongspxm/tmp/reposense/docs/images/dashboard-architecture-architecture.png"
+         inkscape:export-filename="/home/ongspxm/tmp/reposense/docs/images/dashboard-architecture-authorship.png"
          transform="translate(51.752913,50.69635)"
          id="g5783">
         <path
@@ -294,18 +294,24 @@
            style="fill:none;stroke:#000000;stroke-width:1;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
            d="m 149.28515,42.412178 h 83.62868"
            id="path5869"
-           inkscape:connector-curvature="0" />
+           inkscape:connector-curvature="0"
+           inkscape:export-filename="/home/ongspxm/tmp/reposense/docs/images/dashboard-architecture-authorship.png"
+           inkscape:export-xdpi="96"
+           inkscape:export-ydpi="96" />
         <text
            xml:space="preserve"
            style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:5.64444447px;line-height:1.25;font-family:'Droid Sans Mono';-inkscape-font-specification:'Droid Sans Mono, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:center;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:middle;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.26458332"
            x="190.32774"
            y="32.905319"
-           id="text5873"><tspan
+           id="text5873"
+           inkscape:export-filename="/home/ongspxm/tmp/reposense/docs/images/dashboard-architecture-authorship.png"
+           inkscape:export-xdpi="96"
+           inkscape:export-ydpi="96"><tspan
              sodipodi:role="line"
              x="190.32774"
              y="32.905319"
              style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:5.64444447px;font-family:'Droid Sans Mono';-inkscape-font-specification:'Droid Sans Mono, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:center;writing-mode:lr-tb;text-anchor:middle;stroke-width:0.26458332"
-             id="tspan5871">3.1 files in cache?</tspan><tspan
+             id="tspan5871">3.1 check files in cache</tspan><tspan
              sodipodi:role="line"
              x="190.32774"
              y="39.960876"
@@ -315,7 +321,7 @@
       <g
          inkscape:export-ydpi="96"
          inkscape:export-xdpi="96"
-         inkscape:export-filename="/home/ongspxm/tmp/reposense/docs/images/dashboard-architecture-architecture.png"
+         inkscape:export-filename="/home/ongspxm/tmp/reposense/docs/images/dashboard-architecture-authorship.png"
          transform="translate(51.752913,93.891433)"
          id="g6510">
         <path
@@ -338,7 +344,7 @@
       <g
          id="g6532"
          transform="translate(51.752913,114.21667)"
-         inkscape:export-filename="/home/ongspxm/tmp/reposense/docs/images/dashboard-architecture-architecture.png"
+         inkscape:export-filename="/home/ongspxm/tmp/reposense/docs/images/dashboard-architecture-authorship.png"
          inkscape:export-xdpi="96"
          inkscape:export-ydpi="96">
         <path
@@ -361,7 +367,7 @@
       <g
          inkscape:export-ydpi="96"
          inkscape:export-xdpi="96"
-         inkscape:export-filename="/home/ongspxm/tmp/reposense/docs/images/dashboard-architecture-summary.png"
+         inkscape:export-filename="/home/ongspxm/tmp/reposense/docs/images/dashboard-architecture-authorship.png"
          transform="translate(51.752913,142.20633)"
          id="g6642">
         <path
@@ -395,7 +401,7 @@
       <g
          id="g6660"
          transform="translate(51.752913,168.10749)"
-         inkscape:export-filename="/home/ongspxm/tmp/reposense/docs/images/dashboard-architecture-architecture.png"
+         inkscape:export-filename="/home/ongspxm/tmp/reposense/docs/images/dashboard-architecture-authorship.png"
          inkscape:export-xdpi="96"
          inkscape:export-ydpi="96">
         <path
@@ -423,7 +429,7 @@
       <g
          inkscape:export-ydpi="96"
          inkscape:export-xdpi="96"
-         inkscape:export-filename="/home/ongspxm/tmp/reposense/docs/images/dashboard-architecture-architecture.png"
+         inkscape:export-filename="/home/ongspxm/tmp/reposense/docs/images/dashboard-architecture-authorship.png"
          transform="translate(51.752913,186.92278)"
          id="g6680">
         <path
@@ -446,7 +452,7 @@
       <g
          id="g6758"
          transform="translate(51.752913,29.792564)"
-         inkscape:export-filename="/home/ongspxm/tmp/reposense/docs/images/dashboard-architecture-architecture.png"
+         inkscape:export-filename="/home/ongspxm/tmp/reposense/docs/images/dashboard-architecture-authorship.png"
          inkscape:export-xdpi="96"
          inkscape:export-ydpi="96">
         <path
@@ -471,7 +477,7 @@
        id="g884"
        inkscape:label="api"
        transform="translate(-31.750001)"
-       inkscape:export-filename="/home/ongspxm/tmp/reposense/docs/images/dashboard-architecture-architecture.png"
+       inkscape:export-filename="/home/ongspxm/tmp/reposense/docs/images/dashboard-architecture-authorship.png"
        inkscape:export-xdpi="96"
        inkscape:export-ydpi="96">
       <rect
@@ -497,7 +503,7 @@
        id="g889"
        transform="matrix(1,0,0,0.89967932,-27.245037,3.3600251)"
        inkscape:label="main"
-       inkscape:export-filename="/home/ongspxm/tmp/reposense/docs/images/dashboard-architecture-architecture.png"
+       inkscape:export-filename="/home/ongspxm/tmp/reposense/docs/images/dashboard-architecture-authorship.png"
        inkscape:export-xdpi="96"
        inkscape:export-ydpi="96">
       <rect
@@ -534,7 +540,7 @@
        transform="translate(60.595193,1.2697665)"
        id="g917"
        inkscape:label="summary"
-       inkscape:export-filename="/home/ongspxm/tmp/reposense/docs/images/dashboard-architecture-architecture.png"
+       inkscape:export-filename="/home/ongspxm/tmp/reposense/docs/images/dashboard-architecture-authorship.png"
        inkscape:export-xdpi="96"
        inkscape:export-ydpi="96">
       <rect
@@ -559,7 +565,7 @@
     <g
        inkscape:export-ydpi="96"
        inkscape:export-xdpi="96"
-       inkscape:export-filename="/home/ongspxm/tmp/reposense/docs/images/dashboard-architecture-architecture.png"
+       inkscape:export-filename="/home/ongspxm/tmp/reposense/docs/images/dashboard-architecture-authorship.png"
        inkscape:label="authorship"
        id="g4669"
        transform="translate(158.75004,1.2697665)">

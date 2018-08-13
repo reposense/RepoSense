@@ -189,11 +189,11 @@
      borderopacity="1.0"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="0.35355339"
-     inkscape:cx="439.52542"
+     inkscape:zoom="0.5"
+     inkscape:cx="320.93339"
      inkscape:cy="500.26236"
      inkscape:document-units="mm"
-     inkscape:current-layer="layer1"
+     inkscape:current-layer="g957"
      showgrid="false"
      inkscape:window-width="1054"
      inkscape:window-height="1053"
@@ -287,7 +287,7 @@
              y="38.448467"
              x="188.54376"
              sodipodi:role="line"
-             id="tspan1003">3. filter params?</tspan></text>
+             id="tspan1003">3. get filter params</tspan></text>
         <path
            inkscape:connector-curvature="0"
            id="path4542"
@@ -410,7 +410,7 @@
              id="tspan953"
              x="190.55098"
              y="38.448467"
-             style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:5.64444447px;font-family:'Droid Sans Mono';-inkscape-font-specification:'Droid Sans Mono, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:center;writing-mode:lr-tb;text-anchor:middle;stroke-width:0.26458332">6. Ramp charts drawn</tspan></text>
+             style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:5.64444447px;font-family:'Droid Sans Mono';-inkscape-font-specification:'Droid Sans Mono, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:center;writing-mode:lr-tb;text-anchor:middle;stroke-width:0.26458332">6. Draw ramp charts</tspan></text>
       </g>
     </g>
     <g
