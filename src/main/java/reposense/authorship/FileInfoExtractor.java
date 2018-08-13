@@ -20,7 +20,7 @@ import java.util.stream.Stream;
 
 import reposense.authorship.model.FileInfo;
 import reposense.authorship.model.LineInfo;
-import reposense.git.EmptyCommitException;
+import reposense.git.CommitNotFoundException;
 import reposense.git.GitChecker;
 import reposense.model.RepoConfiguration;
 import reposense.system.CommandRunner;
@@ -63,7 +63,7 @@ public class FileInfoExtractor {
         // git blame file analyze output
         try {
             GitChecker.checkoutToDate(config.getRepoRoot(), config.getBranch(), config.getUntilDate());
-        } catch (EmptyCommitException ece) {
+        } catch (CommitNotFoundException cnfe) {
             return fileInfos;
         }
         String lastCommitHash = CommandRunner.getCommitHashBeforeDate(
