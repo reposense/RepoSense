@@ -27,6 +27,9 @@ import reposense.util.FileUtil;
 
 public class RepoConfiguration {
     private static final Logger logger = LogsManager.getLogger(RepoConfiguration.class);
+    private static final String MESSAGE_ILLEGAL_FORMATS = "The provided formats, %s, contains illegal characters.";
+    private static final String FORMAT_VALIDATION_REGEX = "[A-Za-z0-9]+";
+
     private static final String GIT_LINK_SUFFIX = ".git";
     private static final Pattern GIT_REPOSITORY_LOCATION_PATTERN =
             Pattern.compile("^.*github.com\\/(?<org>.+?)\\/(?<repoName>.+?)\\.git$");
@@ -282,6 +285,7 @@ public class RepoConfiguration {
     }
 
     public void setFormats(List<String> formats) {
+        validateFormats(formats);
         this.formats = formats;
     }
 
@@ -333,6 +337,25 @@ public class RepoConfiguration {
 
         if (!isValidPathLocation && !isValidGitUrl) {
             throw new InvalidLocationException(location + " is an invalid location.");
+        }
+    }
+
+    /**
+     * Returns true if the given {@code value} is a valid format.
+     */
+    private static boolean isValidFormat(String value) {
+        return value.matches(FORMAT_VALIDATION_REGEX);
+    }
+
+    /**
+     * Checks that all the strings in the {@code formats} are alphanumeric.
+     * @throws IllegalArgumentException if any of the values do not meet the criteria.
+     */
+    private void validateFormats(List<String> formats) {
+        for (String format: formats) {
+            if (!isValidFormat(format)) {
+                throw new IllegalArgumentException(String.format(MESSAGE_ILLEGAL_FORMATS, format));
+            }
         }
     }
 }

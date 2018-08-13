@@ -90,6 +90,20 @@ public class RepoConfigurationTest {
     }
 
     @Test
+    public void setFormats_alphaNumeric_success() throws InvalidLocationException {
+        RepoConfiguration actualConfig = new RepoConfiguration(TEST_REPO_DELTA, "master");
+        String[] formats = new String[] {"java", "7z"};
+        actualConfig.setFormats(Arrays.asList(formats));
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void setFormats_nonAlphaNumeric_throwIllegalArgumentException() throws InvalidLocationException {
+        RepoConfiguration actualConfig = new RepoConfiguration(TEST_REPO_DELTA, "master");
+        String[] formats = new String[] {".java"};
+        actualConfig.setFormats(Arrays.asList(formats));
+    }
+
+    @Test
     public void repoConfig_usesStandaloneConfig_success() throws InvalidLocationException, GitDownloaderException {
         RepoConfiguration actualConfig = new RepoConfiguration(TEST_REPO_DELTA, "master");
         GitDownloader.downloadRepo(actualConfig);
