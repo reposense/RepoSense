@@ -169,9 +169,7 @@ The main Vue object depends on the `summary.json` data to determine the right `c
 Once the relevant `commit.json` files are loaded, all the repo information will be passed into `v_summary` to be loaded in the summary view as the relevant ramp charts.
 
 #### Activating additional view modules
-Most activity or actions should happen within the module itself, but in the case where there is a need to control the tab view from the module, an event is emitted from the module to the main Vue object (`window.app`), which then handles the data received and passes it along to the relevant modules.
-
-An additional thing to note is the event handler should handle the switching of the tabs as well, activating the display of the rights tabs just that the relevant tabs are being displayed at all times.
+Most activity or actions should happen within the module itself, but in the case where there is a need to spawn or alter the view of another module, an event is emitted from the first module to the main Vue object (`window.app`), which then handles the data received and passes it along to the relevant modules.
 
 #### Hash link
 Other than the global main Vue object, another global variable we have is the `window.hashParams`. This object is reponsible for generating the relevant permalink for a specific view of the summary module for the dashboard.
