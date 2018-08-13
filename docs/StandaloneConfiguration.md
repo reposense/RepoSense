@@ -9,6 +9,7 @@
 ```
 {
   "ignoreGlobList": ["**.dat", "**.js"],    
+  "formats": ["html", "css"],
   "authors":
   [
     {
@@ -26,6 +27,11 @@
 #### Line-by-line explanation
 ```
 "ignoreGlobList": ["**.dat", "**.js"]  <-- Repository level's list of file formats to ignore.
+
+"formats": ["html", "css"]             <-- Repository level's file formats to analyse. If not provided,       
+                                           the following file formats will be used.
+                                           adoc, cs, css, fxml, gradle, html, java, js, json, jsp, md, py,
+                                           tag, xml.
 
 "ignoreGlobList": ["**.css"]           <-- Author level's ignoreGlobList adds on to the Repository level's.
                                            Thus, the actual ignoreGlobList for alice would contain
