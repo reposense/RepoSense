@@ -48,6 +48,7 @@ public class CommandRunner {
     /**
      * Checks out to the latest commit before {@code untilDate} in {@code branchName} branch
      * if {@code untilDate} is not null.
+     * @throws EmptyCommitException if commits before {@code untilDate} cannot be found.
      */
     public static void checkoutToDate(String root, String branchName, Date untilDate) throws EmptyCommitException {
         if (untilDate == null) {
