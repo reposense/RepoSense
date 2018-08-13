@@ -164,7 +164,7 @@ public class RepoConfigurationTest {
     }
 
     @Test
-    public void repoConfigWithFormats_doesNotUseCliFormats_success() throws ParseException, IOException {
+    public void repoConfig_withFormats_ignoreCliFormats() throws ParseException, IOException {
         String formats = String.join(" ", CLI_FORMATS);
         String input = String.format("-config %s -formats %s", FORMATS_TEST_CONFIG_FILES, formats);
         CliArguments cliArguments = ArgsParser.parse(translateCommandline(input));
@@ -178,7 +178,7 @@ public class RepoConfigurationTest {
     }
 
     @Test
-    public void repoConfigWithoutFormats_useCliFormats_success() throws ParseException, IOException {
+    public void repoConfig_withoutFormats_ignoreCliFormats() throws ParseException, IOException {
         String formats = String.join(" ", CLI_FORMATS);
         String input = String.format("-config %s -formats %s", WITHOUT_FORMATS_TEST_CONFIG_FILES, formats);
         CliArguments cliArguments = ArgsParser.parse(translateCommandline(input));
@@ -192,7 +192,7 @@ public class RepoConfigurationTest {
     }
 
     @Test
-    public void repoConfigWithoutFormatsAndNoCliFormats_useDefaultFormats_success() throws ParseException, IOException {
+    public void repoConfig_withoutFormatsAndCliFormats_useDefaultFormats() throws ParseException, IOException {
         String input = String.format("-config %s", WITHOUT_FORMATS_TEST_CONFIG_FILES);
         CliArguments cliArguments = ArgsParser.parse(translateCommandline(input));
 
