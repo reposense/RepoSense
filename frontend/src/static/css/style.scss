@@ -240,6 +240,18 @@ header{
     .files{
         margin-top:2rem;
 
+        .file{
+            pre{
+                display:none;
+            }
+
+            &.active{
+                pre{
+                    display:block;
+                }
+            }
+        }
+
         .title{
             margin-top:1rem;
             cursor:pointer;
