@@ -47,7 +47,7 @@ public class GitCheckerTest extends GitTestTemplate {
     }
 
     @Test
-    public void checkoutToDateTest() {
+    public void checkoutToDateTest() throws EmptyCommitException {
         Path newFile = Paths.get(config.getRepoRoot(), "newFile.java");
         Assert.assertTrue(Files.exists(newFile));
 

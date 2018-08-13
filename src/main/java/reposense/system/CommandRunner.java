@@ -10,6 +10,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.regex.Pattern;
 
+import reposense.git.EmptyCommitException;
 import reposense.model.Author;
 import reposense.model.RepoConfiguration;
 import reposense.util.FileUtil;
@@ -48,7 +49,7 @@ public class CommandRunner {
      * Checks out to the latest commit before {@code untilDate} in {@code branchName} branch
      * if {@code untilDate} is not null.
      */
-    public static void checkoutToDate(String root, String branchName, Date untilDate) {
+    public static void checkoutToDate(String root, String branchName, Date untilDate) throws EmptyCommitException {
         if (untilDate == null) {
             return;
         }
@@ -58,7 +59,9 @@ public class CommandRunner {
         String substituteCommand = "git rev-list -1 --before="
                 + GIT_LOG_UNTIL_DATE_FORMAT.format(untilDate) + " " + branchName;
         String hash = runCommand(rootPath, substituteCommand);
-
+        if (hash.isEmpty()) {
+            throw new EmptyCommitException("Commit before until date is not found.");
+        }
         String checkoutCommand = "git checkout " + hash;
         runCommand(rootPath, checkoutCommand);
     }

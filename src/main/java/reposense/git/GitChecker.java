@@ -32,7 +32,7 @@ public class GitChecker {
      * Checks out to the latest commit before {@code untilDate} in {@code branchName} branch
      * if {@code untilDate} is not null.
      */
-    public static void checkoutToDate(String root, String branchName, Date untilDate) {
+    public static void checkoutToDate(String root, String branchName, Date untilDate) throws EmptyCommitException {
         CommandRunner.checkoutToDate(root, branchName, untilDate);
     }
 }

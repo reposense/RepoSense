@@ -20,6 +20,7 @@ import java.util.stream.Stream;
 
 import reposense.authorship.model.FileInfo;
 import reposense.authorship.model.LineInfo;
+import reposense.git.EmptyCommitException;
 import reposense.git.GitChecker;
 import reposense.model.RepoConfiguration;
 import reposense.system.CommandRunner;
@@ -56,10 +57,15 @@ public class FileInfoExtractor {
     public static List<FileInfo> extractFileInfos(RepoConfiguration config) {
         logger.info("Extracting relevant file infos " + config.getLocation() + "...");
 
+        List<FileInfo> fileInfos = new ArrayList<>();
+
         // checks out to the latest commit of the date range to ensure the FileInfo generated correspond to the
         // git blame file analyze output
-        GitChecker.checkoutToDate(config.getRepoRoot(), config.getBranch(), config.getUntilDate());
-        List<FileInfo> fileInfos = new ArrayList<>();
+        try {
+            GitChecker.checkoutToDate(config.getRepoRoot(), config.getBranch(), config.getUntilDate());
+        } catch (EmptyCommitException ece) {
+            return fileInfos;
+        }
         String lastCommitHash = CommandRunner.getCommitHashBeforeDate(
                 config.getRepoRoot(), config.getBranch(), config.getSinceDate());
 

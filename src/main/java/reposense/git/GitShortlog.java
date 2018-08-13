@@ -15,7 +15,7 @@ import reposense.system.CommandRunner;
 public class GitShortlog {
 
     /**
-     * Extracts all the author identities from the repository given in {@config}.
+     * Extracts all the author identities from the repository given in {@code config}.
      */
     public static List<Author> extractAuthorsFromLog(RepoConfiguration config) {
         String summary = CommandRunner.getShortlogSummary(config);
