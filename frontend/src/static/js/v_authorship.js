@@ -64,7 +64,9 @@ window.vAuthorship = {
           lastId += 1;
           lastState = authored;
         }
-        segments[lastId].lines.push(line.content);
+
+        const content = line.content || ' ';
+        segments[lastId].lines.push(content);
       });
 
       return segments;
