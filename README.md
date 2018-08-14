@@ -17,7 +17,7 @@ The features of the report includes:
 ## About Us
 RepoSense is a project based in the [National University of Singapore, School of Computing](http://www.comp.nus.edu.sg/), and is funded by a grant from [NUS Center for Development of Teaching and Learning](http://www.cdtl.nus.edu.sg/).
 
-* [**Aditya Agarwal**](https://github.com/yong24s): _Project Member_ since May 2018
+* [**Aditya Agarwal**](https://github.com/adityaa1998): _Project Member_ since May 2018
 * [**Damith C. Rajapakse**](https://github.com/damithc): _Project Mentor_ since Aug 2017
 * [**Ma Tanghao**](https://github.com/harryggg): _Team Lead_ for May 2017 - May 2018
 * [**Ong Shu Peng**](https://github.com/ongspxm): _Project Member_ since May 2018
