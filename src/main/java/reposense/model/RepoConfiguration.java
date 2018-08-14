@@ -239,6 +239,9 @@ public class RepoConfiguration {
         authorList.forEach(author -> {
             // Set GitHub Id as default alias
             addAuthorAliases(author, Arrays.asList(author.getGitId()));
+
+            setAuthorDisplayName(author, author.getDisplayName());
+
             // Propagate RepoConfiguration IgnoreGlobList to Author
             author.appendIgnoreGlobList(this.getIgnoreGlobList());
         });
