@@ -1,0 +1,27 @@
+{
+  "authorWeeklyIntervalContributions": {
+    "fakeAuthor": [],
+    "harryggg": [],
+    "eugenepeh": []
+  },
+  "authorDailyIntervalContributions": {
+    "fakeAuthor": [],
+    "harryggg": [],
+    "eugenepeh": []
+  },
+  "authorFinalContributionMap": {
+    "fakeAuthor": 0,
+    "harryggg": 0,
+    "eugenepeh": 0
+  },
+  "authorContributionVariance": {
+    "fakeAuthor": 0.0,
+    "harryggg": 0.0,
+    "eugenepeh": 0.0
+  },
+  "authorDisplayNameMap": {
+    "fakeAuthor": "fakeAuthor",
+    "harryggg": "harryggg",
+    "eugenepeh": "eugenepeh"
+  }
+}

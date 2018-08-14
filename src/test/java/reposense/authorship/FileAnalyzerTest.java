@@ -6,6 +6,7 @@ import java.util.Date;
 import org.junit.Test;
 
 import reposense.authorship.model.FileResult;
+import reposense.git.CommitNotFoundException;
 import reposense.git.GitChecker;
 import reposense.template.GitTestTemplate;
 import reposense.util.TestUtil;
@@ -27,7 +28,7 @@ public class FileAnalyzerTest extends GitTestTemplate {
     }
 
     @Test
-    public void blameTestDateRange() {
+    public void blameTestDateRange() throws CommitNotFoundException {
         Date sinceDate = TestUtil.getDate(2018, Calendar.FEBRUARY, 6);
         Date untilDate = TestUtil.getDate(2018, Calendar.FEBRUARY, 8);
 
@@ -40,7 +41,7 @@ public class FileAnalyzerTest extends GitTestTemplate {
     }
 
     @Test
-    public void movedFileBlameTestDateRange() {
+    public void movedFileBlameTestDateRange() throws CommitNotFoundException {
         Date sinceDate = TestUtil.getDate(2018, Calendar.FEBRUARY, 7);
         Date untilDate = TestUtil.getDate(2018, Calendar.FEBRUARY, 9);
 

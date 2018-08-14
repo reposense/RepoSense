@@ -1,0 +1,123 @@
+{
+  "authorWeeklyIntervalContributions": {
+    "fakeAuthor": [
+      {
+        "insertions": 15,
+        "deletions": 3,
+        "sinceDate": "2018-02-06",
+        "untilDate": "2018-02-13"
+      }
+    ],
+    "harryggg": [
+      {
+        "insertions": 9,
+        "deletions": 0,
+        "sinceDate": "2018-02-06",
+        "untilDate": "2018-02-13"
+      }
+    ],
+    "eugenepeh": [
+      {
+        "insertions": 0,
+        "deletions": 0,
+        "sinceDate": "2018-02-06",
+        "untilDate": "2018-02-13"
+      }
+    ]
+  },
+  "authorDailyIntervalContributions": {
+    "fakeAuthor": [
+      {
+        "insertions": 0,
+        "deletions": 0,
+        "sinceDate": "2018-02-06",
+        "untilDate": "2018-02-07"
+      },
+      {
+        "insertions": 0,
+        "deletions": 0,
+        "sinceDate": "2018-02-07",
+        "untilDate": "2018-02-08"
+      },
+      {
+        "insertions": 2,
+        "deletions": 1,
+        "sinceDate": "2018-02-08",
+        "untilDate": "2018-02-09"
+      },
+      {
+        "insertions": 13,
+        "deletions": 2,
+        "sinceDate": "2018-02-09",
+        "untilDate": "2018-02-10"
+      }
+    ],
+    "harryggg": [
+      {
+        "insertions": 3,
+        "deletions": 0,
+        "sinceDate": "2018-02-06",
+        "untilDate": "2018-02-07"
+      },
+      {
+        "insertions": 2,
+        "deletions": 0,
+        "sinceDate": "2018-02-07",
+        "untilDate": "2018-02-08"
+      },
+      {
+        "insertions": 0,
+        "deletions": 0,
+        "sinceDate": "2018-02-08",
+        "untilDate": "2018-02-09"
+      },
+      {
+        "insertions": 4,
+        "deletions": 0,
+        "sinceDate": "2018-02-09",
+        "untilDate": "2018-02-10"
+      }
+    ],
+    "eugenepeh": [
+      {
+        "insertions": 0,
+        "deletions": 0,
+        "sinceDate": "2018-02-06",
+        "untilDate": "2018-02-07"
+      },
+      {
+        "insertions": 0,
+        "deletions": 0,
+        "sinceDate": "2018-02-07",
+        "untilDate": "2018-02-08"
+      },
+      {
+        "insertions": 0,
+        "deletions": 0,
+        "sinceDate": "2018-02-08",
+        "untilDate": "2018-02-09"
+      },
+      {
+        "insertions": 0,
+        "deletions": 0,
+        "sinceDate": "2018-02-09",
+        "untilDate": "2018-02-10"
+      }
+    ]
+  },
+  "authorFinalContributionMap": {
+    "fakeAuthor": 7,
+    "harryggg": 14,
+    "eugenepeh": 0
+  },
+  "authorContributionVariance": {
+    "fakeAuthor": 38.25,
+    "harryggg": 2.1875,
+    "eugenepeh": 0.0
+  },
+  "authorDisplayNameMap": {
+    "fakeAuthor": "fakeAuthor",
+    "harryggg": "harryggg",
+    "eugenepeh": "eugenepeh"
+  }
+}
