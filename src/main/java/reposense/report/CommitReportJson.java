@@ -1,6 +1,7 @@
 package reposense.report;
 
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -24,11 +25,20 @@ public class CommitReportJson {
      */
     public CommitReportJson() {
         Author emptyAuthor = new Author(Author.UNKNOWN_AUTHOR_GIT_ID);
-        authorWeeklyIntervalContributions = Map.of(emptyAuthor, Collections.emptyList());
-        authorDailyIntervalContributions = Map.of(emptyAuthor, Collections.emptyList());
-        authorFinalContributionMap = Map.of(emptyAuthor, 0);
-        authorContributionVariance = Map.of(emptyAuthor, (float) 0.0);
-        authorDisplayNameMap = Map.of(emptyAuthor, "NON EXISTENT REPOSITORY");
+        authorWeeklyIntervalContributions = new HashMap<>();
+        authorWeeklyIntervalContributions.put(emptyAuthor, Collections.emptyList());
+
+        authorDailyIntervalContributions = new HashMap<>();
+        authorWeeklyIntervalContributions.put(emptyAuthor, Collections.emptyList());
+
+        authorFinalContributionMap = new HashMap<>();
+        authorFinalContributionMap.put(emptyAuthor, 0);
+
+        authorContributionVariance = new HashMap<>();
+        authorContributionVariance.put(emptyAuthor, (float) 0.0);
+
+        authorDisplayNameMap = new HashMap<>();
+        authorDisplayNameMap.put(emptyAuthor, "NON EXISTENT REPOSITORY");
     }
 
     public CommitReportJson(CommitContributionSummary commitSummary, AuthorshipSummary authorshipSummary) {
