@@ -12,6 +12,6 @@
     "-": 0.0
   },
   "authorDisplayNameMap": {
-    "-": "NON EXISTENT REPOSITORY"
+    "-": "FAILED TO CLONE OR CHECKOUT THIS REPOSITORY"
   }
 }

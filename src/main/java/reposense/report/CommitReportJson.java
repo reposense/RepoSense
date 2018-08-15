@@ -38,7 +38,7 @@ public class CommitReportJson {
         authorContributionVariance.put(emptyAuthor, (float) 0.0);
 
         authorDisplayNameMap = new HashMap<>();
-        authorDisplayNameMap.put(emptyAuthor, "NON EXISTENT REPOSITORY");
+        authorDisplayNameMap.put(emptyAuthor, "FAILED TO CLONE OR CHECKOUT THIS REPOSITORY");
     }
 
     public CommitReportJson(CommitContributionSummary commitSummary, AuthorshipSummary authorshipSummary) {
