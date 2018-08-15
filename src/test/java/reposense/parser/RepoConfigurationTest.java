@@ -37,12 +37,12 @@ public class RepoConfigurationTest {
 
     private static final String TEST_REPO_DELTA = "https://github.com/reposense/testrepo-Delta.git";
 
-    private static final Author FIRST_AUTHOR = new Author("a-syafiq");
+    private static final Author FIRST_AUTHOR = new Author("lithiumlkid");
     private static final Author SECOND_AUTHOR = new Author("codeeong");
     private static final Author THIRD_AUTHOR = new Author("jordancjq");
     private static final Author FOURTH_AUTHOR = new Author("lohtianwei");
 
-    private static final List<String> FIRST_AUTHOR_ALIASES = Arrays.asList("lithiumlkid", "Ahmad Syafiq");
+    private static final List<String> FIRST_AUTHOR_ALIASES = Arrays.asList("Ahmad Syafiq");
     private static final List<String> SECOND_AUTHOR_ALIASES = Arrays.asList("Codee");
     private static final List<String> THIRD_AUTHOR_ALIASES = Arrays.asList("Jordan Chong");
     private static final List<String> FOURTH_AUTHOR_ALIASES = Arrays.asList("Tianwei");
