@@ -7,6 +7,7 @@ import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.Collections;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -49,10 +50,11 @@ public class ReportGenerator {
         for (RepoConfiguration config : configs) {
             Path repoReportDirectory = Paths.get(outputPath, config.getDisplayName());
             try {
-                GitDownloader.downloadRepo(config);
                 FileUtil.createDirectory(repoReportDirectory);
+                GitDownloader.downloadRepo(config);
             } catch (GitDownloaderException gde) {
                 logger.log(Level.WARNING, "Exception met while trying to clone the repo, will skip this one", gde);
+                generateEmptyRepoReport(repoReportDirectory.toString());
                 continue;
             } catch (IOException ioe) {
                 logger.log(Level.WARNING, "Error while creating repo directory, will skip this repo.", ioe);
@@ -116,6 +118,12 @@ public class ReportGenerator {
         CommitReportJson commitReportJson = new CommitReportJson(commitSummary, authorshipSummary);
         FileUtil.writeJsonFile(commitReportJson, getIndividualCommitsPath(repoReportDirectory));
         FileUtil.writeJsonFile(authorshipSummary.getFileResults(), getIndividualAuthorshipPath(repoReportDirectory));
+    }
+
+    private static void generateEmptyRepoReport(String repoReportDirectory) {
+        CommitReportJson emptyCommitReportJson = new CommitReportJson();
+        FileUtil.writeJsonFile(emptyCommitReportJson, getIndividualCommitsPath(repoReportDirectory));
+        FileUtil.writeJsonFile(Collections.emptyList(), getIndividualAuthorshipPath(repoReportDirectory));
     }
 
     private static String getSummaryResultPath(String targetFileLocation) {

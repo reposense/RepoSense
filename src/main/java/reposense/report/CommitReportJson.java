@@ -1,5 +1,6 @@
 package reposense.report;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
@@ -17,6 +18,18 @@ public class CommitReportJson {
     private final Map<Author, Integer> authorFinalContributionMap;
     private final Map<Author, Float> authorContributionVariance;
     private final Map<Author, String> authorDisplayNameMap;
+
+    /**
+     * Empty constructor to construct an empty commit report.
+     */
+    public CommitReportJson() {
+        Author emptyAuthor = new Author(Author.UNKNOWN_AUTHOR_GIT_ID);
+        authorWeeklyIntervalContributions = Map.of(emptyAuthor, Collections.emptyList());
+        authorDailyIntervalContributions = Map.of(emptyAuthor, Collections.emptyList());
+        authorFinalContributionMap = Map.of(emptyAuthor, 0);
+        authorContributionVariance = Map.of(emptyAuthor, (float) 0.0);
+        authorDisplayNameMap = Map.of(emptyAuthor, "EMPTY REPOSITORY");
+    }
 
     public CommitReportJson(CommitContributionSummary commitSummary, AuthorshipSummary authorshipSummary) {
         authorWeeklyIntervalContributions = commitSummary.getAuthorWeeklyIntervalContributions();
