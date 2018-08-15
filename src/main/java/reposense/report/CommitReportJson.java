@@ -29,7 +29,7 @@ public class CommitReportJson {
         authorWeeklyIntervalContributions.put(emptyAuthor, Collections.emptyList());
 
         authorDailyIntervalContributions = new HashMap<>();
-        authorWeeklyIntervalContributions.put(emptyAuthor, Collections.emptyList());
+        authorDailyIntervalContributions.put(emptyAuthor, Collections.emptyList());
 
         authorFinalContributionMap = new HashMap<>();
         authorFinalContributionMap.put(emptyAuthor, 0);
