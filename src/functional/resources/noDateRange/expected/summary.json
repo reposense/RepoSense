@@ -28,6 +28,13 @@
       "repoName": "testrepo-Delta",
       "branch": "master",
       "displayName": "reposense_testrepo-Delta_master"
+    },
+    {
+      "location": "https://github.com/reposense/testrepo-Delta.git",
+      "organization": "reposense",
+      "repoName": "testrepo-Delta",
+      "branch": "nonExistentBranch",
+      "displayName": "reposense_testrepo-Delta_nonExistentBranch"
     }
   ]
 }

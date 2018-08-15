@@ -28,7 +28,7 @@ public class CommitReportJson {
         authorDailyIntervalContributions = Map.of(emptyAuthor, Collections.emptyList());
         authorFinalContributionMap = Map.of(emptyAuthor, 0);
         authorContributionVariance = Map.of(emptyAuthor, (float) 0.0);
-        authorDisplayNameMap = Map.of(emptyAuthor, "EMPTY REPOSITORY");
+        authorDisplayNameMap = Map.of(emptyAuthor, "NON EXISTENT REPOSITORY");
     }
 
     public CommitReportJson(CommitContributionSummary commitSummary, AuthorshipSummary authorshipSummary) {
