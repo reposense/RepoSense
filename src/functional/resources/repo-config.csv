@@ -1,7 +1,7 @@
 Repository's Location,Branch,File formats,Ignore Glob List,Ignore standalone config
 https://github.com/reposense/testrepo-Alpha.git,master,,,
 https://github.com/reposense/testrepo-Beta.git,master,,docs**,yes
-https://github.com/reposense/testrepo-Charlie.git,master,,
+https://github.com/reposense/testrepo-Charlie.git,master,,,
 https://github.com/reposense/testrepo-Delta.git,master,,,
 https://github.com/reposense/testrepo-Delta.git,nonExistentBranch,,,
 https://github.com/reposense/RepoSense.git,master,java;adoc,,
