@@ -30,7 +30,6 @@ import reposense.util.TestUtil;
 public class Entry {
     private static final String FT_TEMP_DIR = "ft_temp";
     private static final String EXPECTED_FOLDER = "expected";
-    private static final List<String> TESTING_FILE_FORMATS = Arrays.asList("java", "adoc");
     private static final String TEST_REPORT_GENERATED_TIME = "Tue Jul 24 17:45:15 SGT 2018";
 
     @Before
@@ -73,7 +72,7 @@ public class Entry {
 
         RepoConfiguration.merge(repoConfigs, authorConfigs);
 
-        RepoConfiguration.setFormatsToRepoConfigs(repoConfigs, TESTING_FILE_FORMATS);
+        RepoConfiguration.setFormatsToRepoConfigs(repoConfigs, ArgsParser.DEFAULT_FORMATS);
         RepoConfiguration.setDatesToRepoConfigs(
                 repoConfigs, cliArguments.getSinceDate(), cliArguments.getUntilDate());
 
