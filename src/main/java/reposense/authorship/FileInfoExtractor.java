@@ -34,6 +34,7 @@ public class FileInfoExtractor {
 
     private static final String DIFF_FILE_CHUNK_SEPARATOR = "\ndiff --git a/.*\n";
     private static final String BINARY_FILE_SYMBOL = "\nBinary files ";
+    private static final String SIMILAR_FILE_RENAMED_SYMBOL = "similarity index 100%\n";
     private static final String LINE_CHUNKS_SEPARATOR = "\n@@ ";
     private static final String LINE_INSERTED_SYMBOL = "+";
     private static final String STARTING_LINE_NUMBER_GROUP_NAME = "startingLineNumber";
@@ -96,9 +97,9 @@ public class FileInfoExtractor {
         String[] fileDiffResultList = fullDiffResult.split(DIFF_FILE_CHUNK_SEPARATOR);
 
         for (String fileDiffResult : fileDiffResultList) {
-            // file deleted, is binary file or is new and empty file, skip it
-            if (FILE_DELETED_PREDICATE.test(fileDiffResult) || fileDiffResult.contains(BINARY_FILE_SYMBOL)
-                    || NEW_EMPTY_FILE_PREDICATE.test(fileDiffResult)) {
+            // file deleted, renamed, is binary file or is new and empty file, skip it
+            if (fileDiffResult.contains(SIMILAR_FILE_RENAMED_SYMBOL) || fileDiffResult.contains(BINARY_FILE_SYMBOL)
+                    || FILE_DELETED_PREDICATE.test(fileDiffResult) || NEW_EMPTY_FILE_PREDICATE.test(fileDiffResult)) {
                 continue;
             }
 
