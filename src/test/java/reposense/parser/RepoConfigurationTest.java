@@ -26,9 +26,10 @@ import reposense.util.TestUtil;
 
 public class RepoConfigurationTest {
     private static final Path IGNORE_STANDALONE_TEST_CONFIG_FILES = new File(CsvParserTest.class.getClassLoader()
-            .getResource("RepoConfigurationTest/repoconfig_ignore_test").getFile()).toPath();
-    private static final Path KEYWORD_TEST_CONFIG_FILES = new File(CsvParserTest.class.getClassLoader()
-            .getResource("RepoConfigurationTest/repoconfig_keyword_test").getFile()).toPath();
+            .getResource("RepoConfigurationTest/repoconfig_ignoreStandAlone_test").getFile()).toPath();
+    private static final Path IGNORE_STANDALONE_KEYWORD_TEST_CONFIG_FILES =
+            new File(CsvParserTest.class.getClassLoader()
+                    .getResource("RepoConfigurationTest/repoconfig_ignoreStandAloneKeyword_test").getFile()).toPath();
     private static final Path FORMATS_TEST_CONFIG_FILES = new File(CsvParserTest.class.getClassLoader()
             .getResource("RepoConfigurationTest/repoconfig_formats_test").getFile()).toPath();
     private static final Path WITHOUT_FORMATS_TEST_CONFIG_FILES = new File(CsvParserTest.class.getClassLoader()
@@ -36,12 +37,12 @@ public class RepoConfigurationTest {
 
     private static final String TEST_REPO_DELTA = "https://github.com/reposense/testrepo-Delta.git";
 
-    private static final Author FIRST_AUTHOR = new Author("lithiumlkid");
+    private static final Author FIRST_AUTHOR = new Author("a-syafiq");
     private static final Author SECOND_AUTHOR = new Author("codeeong");
     private static final Author THIRD_AUTHOR = new Author("jordancjq");
     private static final Author FOURTH_AUTHOR = new Author("lohtianwei");
 
-    private static final List<String> FIRST_AUTHOR_ALIASES = Arrays.asList("Ahmad Syafiq");
+    private static final List<String> FIRST_AUTHOR_ALIASES = Arrays.asList("lithiumlkid", "Ahmad Syafiq");
     private static final List<String> SECOND_AUTHOR_ALIASES = Arrays.asList("Codee");
     private static final List<String> THIRD_AUTHOR_ALIASES = Arrays.asList("Jordan Chong");
     private static final List<String> FOURTH_AUTHOR_ALIASES = Arrays.asList("Tianwei");
@@ -147,14 +148,11 @@ public class RepoConfigurationTest {
     public void repoConfig_wrongKeywordUseStandaloneConfig_success()
             throws ParseException, GitDownloaderException, IOException {
         String formats = String.join(" ", CLI_FORMATS);
-        String input = String.format("-config %s -formats %s", KEYWORD_TEST_CONFIG_FILES, formats);
+        String input = String.format("-config %s -formats %s", IGNORE_STANDALONE_KEYWORD_TEST_CONFIG_FILES, formats);
         CliArguments cliArguments = ArgsParser.parse(translateCommandline(input));
 
         List<RepoConfiguration> actualConfigs =
                 new RepoConfigCsvParser(((ConfigCliArguments) cliArguments).getRepoConfigFilePath()).parse();
-        List<RepoConfiguration> authorConfigs =
-                new AuthorConfigCsvParser(((ConfigCliArguments) cliArguments).getAuthorConfigFilePath()).parse();
-        RepoConfiguration.merge(actualConfigs, authorConfigs);
 
         RepoConfiguration actualConfig = actualConfigs.get(0);
         GitDownloader.downloadRepo(actualConfig);

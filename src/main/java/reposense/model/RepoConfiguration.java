@@ -64,19 +64,19 @@ public class RepoConfiguration {
      * @throws InvalidLocationException if {@code location} cannot be represented by a {@code URL} or {@code Path}.
      */
     public RepoConfiguration(String location, String branch) throws InvalidLocationException {
-        this(location, branch, Collections.emptyList(), false);
+        this(location, branch, Collections.emptyList(), false, Collections.emptyList());
     }
 
     /**
      * @throws InvalidLocationException if {@code location} cannot be represented by a {@code URL} or {@code Path}.
      */
     public RepoConfiguration(String location, String branch, List<String> ignoreGlobList,
-            boolean isStandaloneConfigIgnored) throws InvalidLocationException {
+            boolean isStandaloneConfigIgnored, List<String> formats) throws InvalidLocationException {
         this.location = location;
         this.branch = branch;
         this.ignoreGlobList = ignoreGlobList;
         this.isStandaloneConfigIgnored = isStandaloneConfigIgnored;
-        this.formats = Collections.emptyList();
+        this.formats = formats;
 
         verifyLocation(location);
         Matcher matcher = GIT_REPOSITORY_LOCATION_PATTERN.matcher(location);
@@ -138,9 +138,7 @@ public class RepoConfiguration {
         authorDisplayNameMap.clear();
         ignoreGlobList = standaloneConfig.getIgnoreGlobList();
 
-        if (!standaloneConfig.getFormats().isEmpty()) {
-            this.setFormats(standaloneConfig.getFormats());
-        }
+        this.setFormats(standaloneConfig.getFormats());
 
         for (StandaloneAuthor sa : standaloneConfig.getAuthors()) {
             Author author = new Author(sa);
@@ -348,10 +346,10 @@ public class RepoConfiguration {
     }
 
     /**
-     * Checks that all the strings in the {@code formats} are alphanumeric.
+     * Checks that all the strings in the {@code formats} are in valid formats.
      * @throws IllegalArgumentException if any of the values do not meet the criteria.
      */
-    private void validateFormats(List<String> formats) {
+    private static void validateFormats(List<String> formats) {
         for (String format: formats) {
             if (!isValidFormat(format)) {
                 throw new IllegalArgumentException(String.format(MESSAGE_ILLEGAL_FORMATS, format));
