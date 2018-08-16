@@ -36,6 +36,15 @@
       "displayName": "reposense_testrepo-Delta_master",
       "sinceDate": "2017-09-01",
       "untilDate": "2017-10-30"
+    },
+    {
+      "location": "https://github.com/reposense/testrepo-Delta.git",
+      "organization": "reposense",
+      "repoName": "testrepo-Delta",
+      "branch": "nonExistentBranch",
+      "displayName": "reposense_testrepo-Delta_nonExistentBranch",
+      "sinceDate": "2017-09-01",
+      "untilDate": "2017-10-30"
     }
   ]
 }
