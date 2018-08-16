@@ -8,7 +8,7 @@
 #### Typical format of repo-config.json
 ```
 {
-  "ignoreGlobList": ["generated", "**prettify.css"],    
+  "ignoreGlobList": ["about-us/**", "**index.html"],    
   "formats": ["html", "css"],
   "authors":
   [
@@ -26,7 +26,7 @@
 ```
 #### Line-by-line explanation
 ```
-"ignoreGlobList": ["generated", "**prettify.css"]  <-- Repository level's list of folder or file formats to
+"ignoreGlobList": ["about-us/**", "**index.html"]  <-- Repository level's list of folder or file formats to
                                                        ignore.
 
 "formats": ["html", "css"]                         <-- Repository level's file formats to analyse.      
