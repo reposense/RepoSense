@@ -36,7 +36,7 @@
 
 "ignoreGlobList": ["**.css"]                       <-- Author level's ignoreGlobList adds on to the Repository
                                                        level's. Thus, the actual ignoreGlobList for alice would
-                                                       contain css, dat and js.
+                                                       contain css, index.html and about-us.
 
 "githubId": "bob"                                  <-- Only githubId is mandatory.
                                                        Optional information can be left out to prevent clutter.
