@@ -176,7 +176,7 @@ public class RepoConfigurationTest {
     }
 
     @Test
-    public void repoConfig_withoutFormats_ignoreCliFormats() throws ParseException, IOException {
+    public void repoConfig_withoutFormats_useCliFormats() throws ParseException, IOException {
         String formats = String.join(" ", CLI_FORMATS);
         String input = String.format("-config %s -formats %s", WITHOUT_FORMATS_TEST_CONFIG_FILES, formats);
         CliArguments cliArguments = ArgsParser.parse(translateCommandline(input));
