@@ -8,7 +8,7 @@
 #### Typical format of repo-config.json
 ```
 {
-  "ignoreGlobList": [".gradle", "**prettify.css"],    
+  "ignoreGlobList": ["generated", "**prettify.css"],    
   "formats": ["html", "css"],
   "authors":
   [
@@ -26,19 +26,20 @@
 ```
 #### Line-by-line explanation
 ```
-"ignoreGlobList": [".gradle", "**prettify.css"]  <-- Repository level's list of folder or file formats to ignore.
+"ignoreGlobList": ["generated", "**prettify.css"]  <-- Repository level's list of folder or file formats to
+                                                       ignore.
 
-"formats": ["html", "css"]                       <-- Repository level's file formats to analyse. If not provided,       
-                                                     the following file formats will be used.
-                                                     adoc, cs, css, fxml, gradle, html, java, js, json, jsp, md,
-                                                     py, tag, xml.
+"formats": ["html", "css"]                         <-- Repository level's file formats to analyse.      
+                                                       If not provided, the following file formats will be used.
+                                                       adoc, cs, css, fxml, gradle, html, java, js, json, jsp,
+                                                       md, py, tag, xml.
 
-"ignoreGlobList": ["**.css"]                     <-- Author level's ignoreGlobList adds on to the Repository
-                                                     level's. Thus, the actual ignoreGlobList for alice would
-                                                     contain css, dat and js.
+"ignoreGlobList": ["**.css"]                       <-- Author level's ignoreGlobList adds on to the Repository
+                                                       level's. Thus, the actual ignoreGlobList for alice would
+                                                       contain css, dat and js.
 
-"githubId": "bob"                                <-- Only githubId is mandatory.
-                                                     Optional information can be left out to prevent clutter.
+"githubId": "bob"                                  <-- Only githubId is mandatory.
+                                                       Optional information can be left out to prevent clutter.
 ```
 ### Verify your standalone configuration
 Download the latest executable Jar from our [release](https://github.com/reposense/RepoSense/releases/latest).
