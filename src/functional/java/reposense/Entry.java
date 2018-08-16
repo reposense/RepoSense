@@ -7,6 +7,7 @@ import java.net.URISyntaxException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -29,6 +30,7 @@ import reposense.util.TestUtil;
 public class Entry {
     private static final String FT_TEMP_DIR = "ft_temp";
     private static final String EXPECTED_FOLDER = "expected";
+    private static final List<String> TESTING_FILE_FORMATS = Arrays.asList("java", "adoc");
     private static final String TEST_REPORT_GENERATED_TIME = "Tue Jul 24 17:45:15 SGT 2018";
 
     @Before
@@ -60,7 +62,9 @@ public class Entry {
 
     private void generateReport(String inputDates) throws IOException, URISyntaxException, ParseException {
         Path configFolder = Paths.get(getClass().getClassLoader().getResource("repo-config.csv").toURI()).getParent();
-        String input = String.format("-config %s ", configFolder) + inputDates;
+
+        String formats = String.join(" ", TESTING_FILE_FORMATS);
+        String input = String.format("-config %s -formats %s ", configFolder, formats) + inputDates;
 
         CliArguments cliArguments = ArgsParser.parse(translateCommandline(input));
 
@@ -71,7 +75,7 @@ public class Entry {
 
         RepoConfiguration.merge(repoConfigs, authorConfigs);
 
-        RepoConfiguration.setFormatsToRepoConfigs(repoConfigs, ArgsParser.DEFAULT_FORMATS);
+        RepoConfiguration.setFormatsToRepoConfigs(repoConfigs, cliArguments.getFormats());
         RepoConfiguration.setDatesToRepoConfigs(
                 repoConfigs, cliArguments.getSinceDate(), cliArguments.getUntilDate());
 
