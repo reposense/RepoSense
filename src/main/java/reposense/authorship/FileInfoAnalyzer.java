@@ -29,6 +29,7 @@ public class FileInfoAnalyzer {
 
     private static final String REUSED_TAG = "//@reused";
     private static final int AUTHOR_NAME_OFFSET = "author ".length();
+    private static final int FULL_COMMIT_HASH_LENGTH = 40;
 
     /**
      * Analyzes the lines of the file, given in the {@code fileInfo}, that has changed in the time period provided
@@ -79,17 +80,18 @@ public class FileInfoAnalyzer {
         String blameResults = getGitBlameResult(config, fileInfo.getPath());
         String[] blameResultLines = blameResults.split("\n");
         Path filePath = Paths.get(fileInfo.getPath());
-        int lineCount = 0;
 
-        for (String line : blameResultLines) {
-            String authorRawName = line.substring(AUTHOR_NAME_OFFSET);
+        for (int lineCount = 0; lineCount < blameResultLines.length; lineCount += 2) {
+            String commitHash = blameResultLines[lineCount].substring(FULL_COMMIT_HASH_LENGTH);
+            String authorRawName = blameResultLines[lineCount + 1].substring(AUTHOR_NAME_OFFSET);
             Author author = authorAliasMap.getOrDefault(authorRawName, new Author(Author.UNKNOWN_AUTHOR_GIT_ID));
 
-            if (!fileInfo.isFileLineTracked(lineCount) || isAuthorIgnoringFile(author, filePath)) {
+            if (!fileInfo.isFileLineTracked(lineCount / 2) || isAuthorIgnoringFile(author, filePath)
+                    || config.getIgnoreCommitList().contains(commitHash)) {
                 author = new Author(Author.UNKNOWN_AUTHOR_GIT_ID);
             }
 
-            fileInfo.setLineAuthor(lineCount++, author);
+            fileInfo.setLineAuthor(lineCount / 2, author);
         }
     }
 

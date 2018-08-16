@@ -227,7 +227,9 @@ public class CommandRunner {
      * name for each line.
      */
     private static String getAuthorFilterCommand() {
-        return isWindows ? "| findstr /B /C:" + addQuote("author ") : "| grep " + addQuote("^author .*");
+        return isWindows
+                ? "| findstr /B /C:" + addQuote("author ")
+                : "| grep " + addQuote("^\\(author\\|[0-9a-f]\\{40\\}\\) .*");
     }
 
     /**
