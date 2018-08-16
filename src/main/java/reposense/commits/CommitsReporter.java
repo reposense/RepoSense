@@ -23,7 +23,8 @@ public class CommitsReporter {
 
         List<CommitResult> commitResults = commitInfos.stream()
                 .map(commitInfo -> CommitInfoAnalyzer.analyzeCommit(commitInfo, config.getAuthorAliasMap()))
-                .filter(commitResult -> !commitResult.getAuthor().equals(new Author(Author.UNKNOWN_AUTHOR_GIT_ID)))
+                .filter(commitResult -> !commitResult.getAuthor().equals(new Author(Author.UNKNOWN_AUTHOR_GIT_ID))
+                        && !config.getIgnoreCommitList().contains(commitResult.getHash()))
                 .sorted(Comparator.comparing(CommitResult::getTime))
                 .collect(Collectors.toList());
 

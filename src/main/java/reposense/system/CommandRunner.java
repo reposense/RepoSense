@@ -38,7 +38,7 @@ public class CommandRunner {
 
         String command = "git log --no-merges ";
         command += convertToGitDateRangeArgs(config.getSinceDate(), config.getUntilDate());
-        command += " --pretty=format:\"%h|%aN|%ad|%s\" --date=iso --shortstat";
+        command += " --pretty=format:\"%H|%aN|%ad|%s\" --date=iso --shortstat";
         command += convertToFilterAuthorArgs(author);
         command += convertToGitFormatsArgs(config.getFormats());
         command += convertToGitExcludeGlobArgs(author.getIgnoreGlobList());

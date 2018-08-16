@@ -82,7 +82,7 @@ public class FileInfoAnalyzer {
         Path filePath = Paths.get(fileInfo.getPath());
 
         for (int lineCount = 0; lineCount < blameResultLines.length; lineCount += 2) {
-            String commitHash = blameResultLines[lineCount].substring(FULL_COMMIT_HASH_LENGTH);
+            String commitHash = blameResultLines[lineCount].substring(0, FULL_COMMIT_HASH_LENGTH);
             String authorRawName = blameResultLines[lineCount + 1].substring(AUTHOR_NAME_OFFSET);
             Author author = authorAliasMap.getOrDefault(authorRawName, new Author(Author.UNKNOWN_AUTHOR_GIT_ID));
 

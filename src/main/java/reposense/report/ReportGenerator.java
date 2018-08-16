@@ -19,7 +19,6 @@ import reposense.authorship.AuthorshipReporter;
 import reposense.authorship.model.AuthorshipSummary;
 import reposense.commits.CommitsReporter;
 import reposense.commits.model.CommitContributionSummary;
-import reposense.git.GitCommitEditer;
 import reposense.git.GitDownloader;
 import reposense.git.GitDownloaderException;
 import reposense.model.Author;
@@ -65,7 +64,6 @@ public class ReportGenerator {
             // preprocess the config and repo
             updateRepoConfig(config);
             updateAuthorList(config);
-            GitCommitEditer.removeAuthorFromIgnoredCommits(config);
 
             CommitContributionSummary commitSummary = CommitsReporter.generateCommitSummary(config);
             AuthorshipSummary authorshipSummary = AuthorshipReporter.generateAuthorshipSummary(config);
