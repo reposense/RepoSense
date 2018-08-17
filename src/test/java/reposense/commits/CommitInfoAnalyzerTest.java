@@ -54,12 +54,16 @@ public class CommitInfoAnalyzerTest extends GitTestTemplate {
         config.getAuthorAliasMap().put(MAIN_AUTHOR_NAME, new Author(MAIN_AUTHOR_NAME));
         config.getAuthorAliasMap().put(FAKE_AUTHOR_NAME, new Author(FAKE_AUTHOR_NAME));
         config.getAuthorAliasMap().put(EUGENE_AUTHOR_NAME, new Author(EUGENE_AUTHOR_NAME));
-        config.setIgnoreCommitList(Collections.singletonList(FAKE_AUTHOR_BLAME_TEST_FILE_COMMIT_08022018));
-
         List<CommitInfo> commitInfos = CommitInfoExtractor.extractCommitInfos(config);
-        List<CommitResult> commitResults = CommitInfoAnalyzer.analyzeCommits(commitInfos, config);
 
-        Assert.assertEquals(commitInfos.size() - 1, commitResults.size());
+        config.setIgnoreCommitList(Collections.singletonList(FAKE_AUTHOR_BLAME_TEST_FILE_COMMIT_08022018));
+        List<CommitResult> commitResultsFull = CommitInfoAnalyzer.analyzeCommits(commitInfos, config);
+        config.setIgnoreCommitList(
+                Collections.singletonList(FAKE_AUTHOR_BLAME_TEST_FILE_COMMIT_08022018.substring(0, 8)));
+        List<CommitResult> commitResultsShort = CommitInfoAnalyzer.analyzeCommits(commitInfos, config);
+
+        Assert.assertEquals(commitResultsShort, commitResultsFull);
+        Assert.assertEquals(commitInfos.size() - 1, commitResultsFull.size());
     }
 
     @Test
@@ -67,12 +71,16 @@ public class CommitInfoAnalyzerTest extends GitTestTemplate {
         config.getAuthorAliasMap().put(MAIN_AUTHOR_NAME, new Author(MAIN_AUTHOR_NAME));
         config.getAuthorAliasMap().put(FAKE_AUTHOR_NAME, new Author(FAKE_AUTHOR_NAME));
         config.getAuthorAliasMap().put(EUGENE_AUTHOR_NAME, new Author(EUGENE_AUTHOR_NAME));
+        List<CommitInfo> commitInfos = CommitInfoExtractor.extractCommitInfos(config);
+
         config.setIgnoreCommitList(
                 Arrays.asList(FAKE_AUTHOR_BLAME_TEST_FILE_COMMIT_08022018, EUGENE_AUTHOR_README_FILE_COMMIT_07052018));
+        List<CommitResult> commitResultsFull = CommitInfoAnalyzer.analyzeCommits(commitInfos, config);
+        config.setIgnoreCommitList(Arrays.asList(FAKE_AUTHOR_BLAME_TEST_FILE_COMMIT_08022018.substring(0, 8),
+                EUGENE_AUTHOR_README_FILE_COMMIT_07052018.substring(0, 8)));
+        List<CommitResult> commitResultsShort = CommitInfoAnalyzer.analyzeCommits(commitInfos, config);
 
-        List<CommitInfo> commitInfos = CommitInfoExtractor.extractCommitInfos(config);
-        List<CommitResult> commitResults = CommitInfoAnalyzer.analyzeCommits(commitInfos, config);
-
-        Assert.assertEquals(commitInfos.size() - 2, commitResults.size());
+        Assert.assertEquals(commitResultsShort, commitResultsFull);
+        Assert.assertEquals(commitInfos.size() - 2, commitResultsFull.size());
     }
 }
