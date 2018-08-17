@@ -26,17 +26,16 @@
 ```
 #### Line-by-line explanation
 ```
-"ignoreGlobList": ["**.dat", "**.js"]  <-- Repository level's list of file formats to ignore.
+"ignoreGlobList": ["**.dat", "**.js"]        <-- Repository level's list of file formats to ignore.
 
 "ignoreCommitList": ["12345abc", "67890def"] <-- The list of commits to ignore during analysis. For accurate
-                                           results, the commits should be provided with their full hash in and
-                                           reverse chronological order.
+                                           results, the commits should be provided with their full hash.
 
-"ignoreGlobList": ["**.css"]           <-- Author level's ignoreGlobList adds on to the Repository level's.
+"ignoreGlobList": ["**.css"]                 <-- Author level's ignoreGlobList adds on to the Repository level's.
                                            Thus, the actual ignoreGlobList for alice would contain
                                            css, dat and js.
 
-"githubId": "bob"                      <-- Only githubId is mandatory.
+"githubId": "bob"                            <-- Only githubId is mandatory.
                                            Optional information can be left out to prevent clutter.
 ```
 ### Verify your standalone configuration
