@@ -21,12 +21,7 @@ public class CommitsReporter {
     public static CommitContributionSummary generateCommitSummary(RepoConfiguration config) {
         List<CommitInfo> commitInfos = CommitInfoExtractor.extractCommitInfos(config);
 
-        List<CommitResult> commitResults = commitInfos.stream()
-                .map(commitInfo -> CommitInfoAnalyzer.analyzeCommit(commitInfo, config.getAuthorAliasMap()))
-                .filter(commitResult -> !commitResult.getAuthor().equals(new Author(Author.UNKNOWN_AUTHOR_GIT_ID))
-                        && !config.getIgnoreCommitList().contains(commitResult.getHash()))
-                .sorted(Comparator.comparing(CommitResult::getTime))
-                .collect(Collectors.toList());
+        List<CommitResult> commitResults = CommitInfoAnalyzer.analyzeCommits(commitInfos, config);
 
         return CommitResultAggregator.aggregateCommitResults(config, commitResults);
     }
