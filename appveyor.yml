@@ -5,9 +5,7 @@
 # --no-daemon: Prevent the daemon from launching to prevent file-in-use errors
 #     when we cache the ~/.gradle directory
 build_script:
-    - git config --global user.email "-" &&
-      git config --global user.name "-" &&
-      gradlew.bat --no-daemon clean checkstyleMain checkstyleTest
+    - gradlew.bat --no-daemon clean checkstyleMain checkstyleTest
 
 test_script:
     - appveyor-retry gradlew.bat --no-daemon test functional
