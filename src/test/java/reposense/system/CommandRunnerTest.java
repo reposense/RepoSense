@@ -112,13 +112,13 @@ public class CommandRunnerTest extends GitTestTemplate {
 
     @Test
     public void diffCommit_validCommitHash_success() {
-        String diffResult = CommandRunner.diffCommit(config.getRepoRoot(), FAKE_AUTHOR_COMMIT_HASH_08022018);
+        String diffResult = CommandRunner.diffCommit(config.getRepoRoot(), FAKE_AUTHOR_BLAME_TEST_FILE_COMMIT_08022018);
         Assert.assertFalse(diffResult.isEmpty());
     }
 
     @Test
     public void diffCommit_emptyCommitHash_emptyResult() {
-        String diffResult = CommandRunner.diffCommit(config.getRepoRoot(), EUGENE_AUTHOR_COMMIT_HASH_07052018);
+        String diffResult = CommandRunner.diffCommit(config.getRepoRoot(), EUGENE_AUTHOR_README_FILE_COMMIT_07052018);
         Assert.assertTrue(diffResult.isEmpty());
     }
 
@@ -146,7 +146,7 @@ public class CommandRunnerTest extends GitTestTemplate {
         String commitHash = CommandRunner.getCommitHashBeforeDate(config.getRepoRoot(), config.getBranch(), date);
 
         // result from git has a newline at the end
-        Assert.assertEquals(EUGENE_AUTHOR_COMMIT_HASH_07052018 + "\n", commitHash);
+        Assert.assertEquals(EUGENE_AUTHOR_README_FILE_COMMIT_07052018 + "\n", commitHash);
     }
 
     @Test
@@ -155,7 +155,7 @@ public class CommandRunnerTest extends GitTestTemplate {
         String commitHash = CommandRunner.getCommitHashBeforeDate(config.getRepoRoot(), config.getBranch(), date);
 
         // result from git has a newline at the end
-        Assert.assertEquals(FAKE_AUTHOR_COMMIT_HASH_08022018 + "\n", commitHash);
+        Assert.assertEquals(FAKE_AUTHOR_BLAME_TEST_FILE_COMMIT_08022018 + "\n", commitHash);
     }
 
     @Test
