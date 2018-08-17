@@ -43,11 +43,6 @@ public class GitTestTemplate {
     @Before
     public void before() throws InvalidLocationException {
         config = new RepoConfiguration(TEST_REPO_GIT_LOCATION, "master");
-
-        // checkout a temporary copy of the master branch
-        CommandRunner.checkoutNewBranch(config.getRepoRoot(), TEMP_BRANCH);
-        config.setBranch(TEMP_BRANCH);
-
         config.setAuthorList(Collections.singletonList(getAlphaAllAliasAuthor()));
         config.setFormats(ArgsParser.DEFAULT_FORMATS);
     }
@@ -67,9 +62,7 @@ public class GitTestTemplate {
 
     @After
     public void after() {
-        // clean up the temp branch
         CommandRunner.checkout(config.getRepoRoot(), "master");
-        CommandRunner.deleteBranch(config.getRepoRoot(), TEMP_BRANCH);
     }
 
     private static void deleteRepos() throws IOException {

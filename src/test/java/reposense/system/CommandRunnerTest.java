@@ -169,28 +169,4 @@ public class CommandRunnerTest extends GitTestTemplate {
         Date date = TestUtil.getDate(2018, Calendar.FEBRUARY, 9);
         CommandRunner.getCommitHashBeforeDate(config.getRepoRoot(), "invalidBranch", date);
     }
-
-    @Test
-    public void removeCommitAuthor_singleValidCommitHash_success() {
-        CommandRunner.removeCommitAuthor(
-                config.getRepoRoot(), config.getBranch(), FAKE_AUTHOR_COMMIT_HASH_08022018);
-
-        String content = CommandRunner.gitLog(config, new Author("-"));
-        Assert.assertTrue(TestUtil.compareNumberExpectedCommitsToGitLogLines(1, content));
-    }
-
-    @Test
-    public void removeCommitAuthor_multipleValidCommitHash_success() {
-        CommandRunner.removeCommitAuthor(config.getRepoRoot(), config.getBranch(), EUGENE_AUTHOR_COMMIT_HASH_07052018);
-        CommandRunner.removeCommitAuthor(
-                config.getRepoRoot(), config.getBranch(), FAKE_AUTHOR_COMMIT_HASH_08022018);
-
-        String content = CommandRunner.gitLog(config, new Author("-"));
-        Assert.assertTrue(TestUtil.compareNumberExpectedCommitsToGitLogLines(2, content));
-    }
-
-    @Test(expected = RuntimeException.class)
-    public void removeCommitAuthor_nonexistentCommitHash_throwsRunTimeException() {
-        CommandRunner.removeCommitAuthor(config.getRepoRoot(), config.getBranch(), NONEXISTENT_COMMIT_HASH);
-    }
 }
