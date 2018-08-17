@@ -26,9 +26,11 @@
 ```
 #### Line-by-line explanation
 ```
+// Repository level configuration
 "ignoreGlobList": ["about-us/**", "**index.html"]  <-- Repository level's list of folder or file formats to
                                                        ignore.
 
+// First Author
 "formats": ["html", "css"]                         <-- Repository level's file formats to analyse.      
                                                        If not provided, the following file formats will be used.
                                                        adoc, cs, css, fxml, gradle, html, java, js, json, jsp,
@@ -38,6 +40,7 @@
                                                        level's. Thus, the actual ignoreGlobList for alice would
                                                        contain css, index.html and about-us.
 
+// Second Author
 "githubId": "bob"                                  <-- Only githubId is mandatory.
                                                        Optional information can be left out to prevent clutter.
 ```
