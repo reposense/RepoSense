@@ -18,7 +18,7 @@ function toggleNext(ele) {
 function collapseAll() {
   const targetClass = 'file active';
   const renameValue = 'file';
-  
+
   var files = document.getElementsByClassName(targetClass);
   while (files.length) {
     files[0].className = renameValue;
@@ -28,7 +28,7 @@ function collapseAll() {
 function expandAll() {
   const targetClass = 'file';
   const renameValue = 'file active';
-  
+
   var files = document.getElementsByClassName(targetClass);
   for (var i = 0; i < files.length; i++) {
     if (files[i].className === targetClass) {
