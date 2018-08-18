@@ -122,7 +122,7 @@ public class RepoConfiguration {
     }
 
     /**
-     * Sets {@code formats} to {@code RepoConfiguration} in {@code configs} if {@code formats} is empty.
+     * Sets {@code formats} to {@code RepoConfiguration} in {@code configs} if its format list is empty.
      */
     public static void setFormatsToRepoConfigs(List<RepoConfiguration> configs, List<String> formats) {
         configs.stream().filter(config -> config.getFormats().isEmpty())
