@@ -31,7 +31,7 @@ function expandAll() {
   
   var files = document.getElementsByClassName(targetClass);
   for (var i = 0; i < files.length; i++) {
-    if (files[i].className == targetClass) {
+    if (files[i].className === targetClass) {
       files[i].className = renameValue;
     }
   }
