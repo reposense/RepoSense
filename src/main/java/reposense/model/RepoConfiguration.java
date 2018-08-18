@@ -31,7 +31,7 @@ public class RepoConfiguration {
     private static final Pattern GIT_REPOSITORY_LOCATION_PATTERN =
             Pattern.compile("^.*github.com\\/(?<org>.+?)\\/(?<repoName>.+?)\\.git$");
     private static final String DEFAULT_BRANCH = "master";
-    private static final String COMMIT_HASH_REGEX = "^[0-9a-f]*$";
+    private static final String COMMIT_HASH_REGEX = "^[0-9a-f]+$";
     private static final String INVALID_COMMIT_HASH_MESSAGE =
             "The provided commit hash, %s, contains illegal characters.";
 
