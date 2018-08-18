@@ -256,11 +256,11 @@ header{
             color: 	#7CFC00;
         }
 
-        li.dropdown {
+        li.dropdown{
             display: inline-block;
         }
 
-        .dropdown-content {
+        .dropdown-content{
             display: none;
             background-color: #333;
             min-width: 160px;
@@ -268,19 +268,20 @@ header{
             z-index: 1;
         }
 
-        .dropdown-content a {
+        .dropdown-content a{
             color: white;
             padding: 12px 16px;
             text-decoration: none;
             display: block;
             text-align: left;
+            cursor: pointer;
         }
 
-        .dropdown-content a:hover {
+        .dropdown-content a:hover{
             color: 	#7CFC00;
         }
 
-        .dropdown:hover .dropdown-content {
+        .dropdown:hover .dropdown-content{
             display: block;
         }
     }
