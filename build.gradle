@@ -34,17 +34,17 @@ test {
 }
 
 sourceSets {
-  functional {
+  systemtest {
     compileClasspath += main.output + test.output
     runtimeClasspath += main.output + test.output
-    java.srcDir file('src/functional/java')
-    resources.srcDir file('src/functional/resources')
+    java.srcDir file('src/systemtest/java')
+    resources.srcDir file('src/systemtest/resources')
   }
 }
 
 configurations {
-  functionalImplementation.extendsFrom testImplementation
-  functionalRuntime.extendsFrom testRuntime
+  systemtestImplementation.extendsFrom testImplementation
+  systemtestRuntime.extendsFrom testRuntime
 }
 
 dependencies {
@@ -70,9 +70,9 @@ task zipReport(dependsOn: 'npmRunSpuild', type: Zip) {
 tasks.shadowJar.dependsOn('zipReport');
 tasks.run.dependsOn('zipReport');
 
-task functional(dependsOn: 'zipReport', type: Test) {
-  testClassesDirs = sourceSets.functional.output.classesDirs
-  classpath = sourceSets.functional.runtimeClasspath
+task systemtest(dependsOn: 'zipReport', type: Test) {
+  testClassesDirs = sourceSets.systemtest.output.classesDirs
+  classpath = sourceSets.systemtest.runtimeClasspath
   testLogging {
     events 'passed', 'skipped', 'failed'
     showStandardStreams = true
@@ -81,7 +81,7 @@ task functional(dependsOn: 'zipReport', type: Test) {
 
 idea {
     module {
-        sourceSets.functional.allSource.srcDirs.each { srcDir -> module.testSourceDirs += srcDir }
+        sourceSets.systemtest.allSource.srcDirs.each { srcDir -> module.testSourceDirs += srcDir }
     }
 }
 
@@ -94,4 +94,4 @@ tasks.withType(Copy) {
     includeEmptyDirs = true
 }
 
-defaultTasks 'clean', 'build', 'functional'
+defaultTasks 'clean', 'build', 'systemtest'
