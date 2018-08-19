@@ -115,7 +115,7 @@ Branch | The branch to analyse in the target repository
 
 #### Author configuration file [Optional]
 to configure the list of authors to analyse and the options. <br/>
-[author-config.csv](../author-config.csv) is an example of a configuration file setup. It should contain the following columns:
+[author-config.csv](author-config.csv) is an example of a configuration file setup. It should contain the following columns:
 
 <h5>
 Note:
