@@ -187,7 +187,7 @@ You can use `Start Tags` to mark the start of your contribution. The author spec
 
 #### Standalone Configuration
 
-Instead of self-configuring all the repository details, you can have the repository owners include a `Standalone Configuration` to maintain their own repository configuration. For more information, check out the
+Instead of self-configuring all the repository details, you can have the repository owners include a *Standalone Configuration* to maintain their own repository configuration. For more information, check out the
 [Setup Standalone Configuration](StandaloneConfiguration.md#reposense---guide-to-setup-standalone-configuration).
 
 ## Dashboard
