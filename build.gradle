@@ -2,14 +2,23 @@ plugins {
     id 'java'
     id 'checkstyle'
     id 'application'
-    id 'com.github.johnrengelman.shadow' version '2.0.3'
+    id 'com.github.johnrengelman.shadow' version '2.0.4'
     id 'com.liferay.node' version '4.4.0'
 }
+
 mainClassName = 'reposense.RepoSense'
+
 node.nodeVersion = '10.5.0'
+
+sourceCompatibility = JavaVersion.VERSION_1_8
+targetCompatibility = JavaVersion.VERSION_1_8
 
 repositories {
     mavenCentral()
+}
+
+wrapper {
+  gradleVersion = '4.9'
 }
 
 checkstyle {
@@ -17,16 +26,17 @@ checkstyle {
 }
 
 test {
-  testLogging.showStandardStreams = true
+  testLogging {
+    events 'passed', 'skipped', 'failed'
+    showStandardStreams = true
+  }
 }
 
 dependencies {
-    implementation  group: 'commons-collections', name: 'commons-collections', version: '3.2'
-    implementation  'com.github.javaparser:javaparser-core:3.0.1'
-    implementation  'com.google.code.gson:gson:2.6.2'
-    implementation  group: 'org.json', name: 'json', version: '20180130'
-    implementation  group: 'net.sourceforge.argparse4j', name: 'argparse4j', version: '0.8.1'
+    implementation  group: 'com.github.javaparser', name: 'javaparser-core', version: '3.0.1'
+    implementation  group: 'com.google.code.gson' ,name: 'gson', version:'2.6.2'
     implementation  group: 'org.apache.ant', name: 'ant', version: '1.10.3'
+    implementation  group: 'net.sourceforge.argparse4j', name: 'argparse4j', version: '0.8.1'
     implementation  group: 'net.freeutils', name: 'jlhttp', version: '2.4'
 
     testImplementation group: 'junit', name: 'junit', version: '4.12'
@@ -50,18 +60,17 @@ configurations {
   functionalImplementation.extendsFrom testImplementation
   functionalRuntime.extendsFrom testRuntime
 }
+
 sourceSets {
   functional {
     compileClasspath += main.output + test.output
     runtimeClasspath += main.output + test.output
     java.srcDir file('src/functional/java')
-  }
-  test {
     resources.srcDir file('src/functional/resources')
   }
 }
 
-task functional(type: Test) {
+task functional(dependsOn: 'myZip', type: Test) {
   testClassesDirs = sourceSets.functional.output.classesDirs
   classpath = sourceSets.functional.runtimeClasspath
   testLogging {
@@ -69,14 +78,14 @@ task functional(type: Test) {
     showStandardStreams = true
   }
 }
-tasks.functional.dependsOn('myZip');
 
 run {
     //the second arguments indicates the default value associated with the property.
     args System.getProperty('args', '').split()
 }
-tasks.compileJava.dependsOn(clean)
 
 tasks.withType(Copy) {
     includeEmptyDirs = true
 }
+
+defaultTasks 'clean', 'build', 'functional'
