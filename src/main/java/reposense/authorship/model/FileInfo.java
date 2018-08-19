@@ -53,4 +53,19 @@ public class FileInfo {
     public boolean isFileLineTracked(int lineNumber) {
         return getLines().get(lineNumber).isTracked();
     }
+
+    @Override
+    public boolean equals(Object other) {
+        if (this == other) {
+            return true;
+        }
+
+        if (!(other instanceof FileInfo)) {
+            return false;
+        }
+
+        FileInfo otherFileInfo = (FileInfo) other;
+        return path.equals(otherFileInfo.path)
+                && lines.equals(otherFileInfo.lines);
+    }
 }

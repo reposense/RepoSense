@@ -32,7 +32,7 @@ public class CommandRunner {
 
         String command = "git log --no-merges ";
         command += convertToGitDateRangeArgs(config.getSinceDate(), config.getUntilDate());
-        command += " --pretty=format:\"%h|%aN|%ad|%s\" --date=iso --shortstat";
+        command += " --pretty=format:\"%H|%aN|%ad|%s\" --date=iso --shortstat";
         command += convertToFilterAuthorArgs(author);
         command += convertToGitFormatsArgs(config.getFormats());
         command += convertToGitExcludeGlobArgs(author.getIgnoreGlobList());
@@ -174,7 +174,9 @@ public class CommandRunner {
      * name for each line.
      */
     private static String getAuthorFilterCommand() {
-        return isWindows ? "| findstr /B /C:" + addQuote("author ") : "| grep " + addQuote("^author .*");
+        return isWindows
+                ? "| findstr /B /R /C:" + addQuote("author ") + " /C:" + addQuote("[0-9a-f][0-9a-f]")
+                : "| grep " + addQuote("^\\(author\\|[0-9a-f]\\{40\\}\\) .*");
     }
 
     /**

@@ -1,6 +1,7 @@
 package reposense.authorship.model;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 import reposense.model.Author;
 
@@ -59,6 +60,24 @@ public class LineInfo {
 
     public void addNewIssue(IssueInfo issueInfo) {
         issues.add(issueInfo);
+    }
+
+    @Override
+    public boolean equals(Object other) {
+        if (this == other) {
+            return true;
+        }
+
+        if (!(other instanceof LineInfo)) {
+            return false;
+        }
+
+        LineInfo otherLineInfo = (LineInfo) other;
+        return lineNumber == otherLineInfo.lineNumber
+                && Objects.equals(author, otherLineInfo.author)
+                && content.equals(otherLineInfo.content)
+                && Objects.equals(issues, otherLineInfo.issues)
+                && isTracked == otherLineInfo.isTracked;
     }
 }
 

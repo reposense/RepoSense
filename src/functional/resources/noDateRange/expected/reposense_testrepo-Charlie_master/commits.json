@@ -38,8 +38,8 @@
         "untilDate": "2017-11-11"
       },
       {
-        "insertions": 1415,
-        "deletions": 617,
+        "insertions": 1361,
+        "deletions": 591,
         "sinceDate": "2017-11-11",
         "untilDate": "2017-11-18"
       },
@@ -94,8 +94,8 @@
         "untilDate": "2017-11-18"
       },
       {
-        "insertions": 15,
-        "deletions": 47,
+        "insertions": 0,
+        "deletions": 0,
         "sinceDate": "2017-11-18",
         "untilDate": "2017-11-25"
       }
@@ -182,8 +182,8 @@
         "untilDate": "2017-11-04"
       },
       {
-        "insertions": 273,
-        "deletions": 41,
+        "insertions": 230,
+        "deletions": 31,
         "sinceDate": "2017-11-04",
         "untilDate": "2017-11-11"
       },
@@ -462,8 +462,8 @@
         "untilDate": "2017-11-12"
       },
       {
-        "insertions": 273,
-        "deletions": 114,
+        "insertions": 219,
+        "deletions": 88,
         "sinceDate": "2017-11-12",
         "untilDate": "2017-11-13"
       },
@@ -818,8 +818,8 @@
         "untilDate": "2017-11-19"
       },
       {
-        "insertions": 15,
-        "deletions": 47,
+        "insertions": 0,
+        "deletions": 0,
         "sinceDate": "2017-11-19",
         "untilDate": "2017-11-20"
       },
@@ -1392,8 +1392,8 @@
         "untilDate": "2017-11-10"
       },
       {
-        "insertions": 59,
-        "deletions": 20,
+        "insertions": 16,
+        "deletions": 10,
         "sinceDate": "2017-11-10",
         "untilDate": "2017-11-11"
       },
@@ -1460,16 +1460,16 @@
     ]
   },
   "authorFinalContributionMap": {
-    "charlesgoh": 4274,
-    "jeffreygohkw": 5846,
+    "charlesgoh": 4228,
+    "jeffreygohkw": 5840,
     "Esilocke": 10944,
-    "wangyiming1019": 2475
+    "wangyiming1019": 2469
   },
   "authorContributionVariance": {
-    "charlesgoh": 87278.68,
-    "jeffreygohkw": 70955.125,
+    "charlesgoh": 86818.71,
+    "jeffreygohkw": 71305.99,
     "Esilocke": 413377.22,
-    "wangyiming1019": 63739.223
+    "wangyiming1019": 63797.973
   },
   "authorDisplayNameMap": {
     "charlesgoh": "Cha",

@@ -23632,14 +23632,14 @@
       {
         "lineNumber": 1078,
         "author": {
-          "gitId": "jordancjq"
+          "gitId": "-"
         },
         "content": "|assign [TEAM_NAME] i/INDEX [INDEX]..."
       },
       {
         "lineNumber": 1079,
         "author": {
-          "gitId": "jordancjq"
+          "gitId": "-"
         },
         "content": "|assign Barcelona i/1 2 3"
       },
@@ -23885,8 +23885,8 @@
     "authorContributionMap": {
       "lithiumlkid": 106,
       "lohtianwei": 26,
-      "jordancjq": 833,
-      "-": 148
+      "jordancjq": 831,
+      "-": 150
     }
   },
   {
@@ -30289,7 +30289,7 @@
       {
         "lineNumber": 143,
         "author": {
-          "gitId": "lohtianwei"
+          "gitId": "-"
         },
         "content": "     * NOTE: Private fields will not be edited."
       },
@@ -30331,56 +30331,56 @@
       {
         "lineNumber": 149,
         "author": {
-          "gitId": "lohtianwei"
+          "gitId": "-"
         },
         "content": "        Phone updatedPhone \u003d (personToEdit.getPhone().isPrivate())"
       },
       {
         "lineNumber": 150,
         "author": {
-          "gitId": "lohtianwei"
+          "gitId": "-"
         },
         "content": "                ? personToEdit.getPhone() : editPersonDescriptor.getPhone().orElse(personToEdit.getPhone());"
       },
       {
         "lineNumber": 151,
         "author": {
-          "gitId": "lohtianwei"
+          "gitId": "-"
         },
         "content": "        Email updatedEmail \u003d (personToEdit.getEmail().isPrivate())"
       },
       {
         "lineNumber": 152,
         "author": {
-          "gitId": "lohtianwei"
+          "gitId": "-"
         },
         "content": "                ? personToEdit.getEmail() : editPersonDescriptor.getEmail().orElse(personToEdit.getEmail());"
       },
       {
         "lineNumber": 153,
         "author": {
-          "gitId": "lohtianwei"
+          "gitId": "-"
         },
         "content": "        Address updatedAddress \u003d (personToEdit.getAddress().isPrivate())"
       },
       {
         "lineNumber": 154,
         "author": {
-          "gitId": "lohtianwei"
+          "gitId": "-"
         },
         "content": "                ? personToEdit.getAddress() : editPersonDescriptor.getAddress().orElse(personToEdit.getAddress());"
       },
       {
         "lineNumber": 155,
         "author": {
-          "gitId": "lohtianwei"
+          "gitId": "-"
         },
         "content": "        Remark updatedRemark \u003d (personToEdit.getRemark().isPrivate())"
       },
       {
         "lineNumber": 156,
         "author": {
-          "gitId": "lohtianwei"
+          "gitId": "-"
         },
         "content": "                ? personToEdit.getRemark() : personToEdit.getRemark();"
       },
@@ -31654,9 +31654,9 @@
     ],
     "authorContributionMap": {
       "null": 1,
-      "lohtianwei": 10,
+      "lohtianwei": 1,
       "jordancjq": 7,
-      "-": 319
+      "-": 328
     }
   },
   {
@@ -35998,14 +35998,14 @@
       {
         "lineNumber": 1,
         "author": {
-          "gitId": "lohtianwei"
+          "gitId": "-"
         },
         "content": "package seedu.address.logic.commands;"
       },
       {
         "lineNumber": 2,
         "author": {
-          "gitId": "lohtianwei"
+          "gitId": "-"
         },
         "content": ""
       },
@@ -38769,7 +38769,8 @@
       }
     ],
     "authorContributionMap": {
-      "lohtianwei": 396
+      "lohtianwei": 394,
+      "-": 2
     }
   },
   {
@@ -40329,7 +40330,7 @@
       {
         "lineNumber": 30,
         "author": {
-          "gitId": "lohtianwei"
+          "gitId": "-"
         },
         "content": "import seedu.address.logic.commands.TogglePrivacyCommand;"
       },
@@ -41036,28 +41037,28 @@
       {
         "lineNumber": 131,
         "author": {
-          "gitId": "lohtianwei"
+          "gitId": "-"
         },
         "content": "        case TogglePrivacyCommand.COMMAND_WORD:"
       },
       {
         "lineNumber": 132,
         "author": {
-          "gitId": "lohtianwei"
+          "gitId": "-"
         },
         "content": "        case TogglePrivacyCommand.COMMAND_ALIAS:"
       },
       {
         "lineNumber": 133,
         "author": {
-          "gitId": "lohtianwei"
+          "gitId": "-"
         },
         "content": "            return new TogglePrivacyCommandParser().parse(arguments);"
       },
       {
         "lineNumber": 134,
         "author": {
-          "gitId": "lohtianwei"
+          "gitId": "-"
         },
         "content": ""
       },
@@ -41406,9 +41407,9 @@
       }
     ],
     "authorContributionMap": {
-      "lohtianwei": 87,
+      "lohtianwei": 82,
       "jordancjq": 26,
-      "-": 70
+      "-": 75
     }
   },
   {
@@ -41452,7 +41453,7 @@
       {
         "lineNumber": 6,
         "author": {
-          "gitId": "jordancjq"
+          "gitId": "-"
         },
         "content": "import static seedu.address.logic.parser.ParserUtil.UNSPECIFIED_FIELD;"
       },
@@ -41759,7 +41760,8 @@
       }
     ],
     "authorContributionMap": {
-      "jordancjq": 49
+      "jordancjq": 48,
+      "-": 1
     }
   },
   {
@@ -41974,21 +41976,21 @@
       {
         "lineNumber": 6,
         "author": {
-          "gitId": "jordancjq"
+          "gitId": "-"
         },
         "content": "import java.util.Optional;"
       },
       {
         "lineNumber": 7,
         "author": {
-          "gitId": "jordancjq"
+          "gitId": "-"
         },
         "content": ""
       },
       {
         "lineNumber": 8,
         "author": {
-          "gitId": "jordancjq"
+          "gitId": "-"
         },
         "content": "import seedu.address.commons.exceptions.IllegalValueException;"
       },
@@ -42232,7 +42234,8 @@
       }
     ],
     "authorContributionMap": {
-      "jordancjq": 42
+      "jordancjq": 39,
+      "-": 3
     }
   },
   {
@@ -46189,14 +46192,14 @@
       {
         "lineNumber": 1,
         "author": {
-          "gitId": "lohtianwei"
+          "gitId": "-"
         },
         "content": "package seedu.address.logic.parser;"
       },
       {
         "lineNumber": 2,
         "author": {
-          "gitId": "lohtianwei"
+          "gitId": "-"
         },
         "content": ""
       },
@@ -46671,7 +46674,8 @@
       }
     ],
     "authorContributionMap": {
-      "lohtianwei": 69
+      "lohtianwei": 67,
+      "-": 2
     }
   },
   {
@@ -50721,14 +50725,14 @@
       {
         "lineNumber": 87,
         "author": {
-          "gitId": "jordancjq"
+          "gitId": "-"
         },
         "content": "    /** Unassign person from team */"
       },
       {
         "lineNumber": 88,
         "author": {
-          "gitId": "jordancjq"
+          "gitId": "-"
         },
         "content": "    void unassignPersonFromTeam(Person person) throws TeamNotFoundException;"
       },
@@ -50826,8 +50830,8 @@
     ],
     "authorContributionMap": {
       "lohtianwei": 18,
-      "jordancjq": 30,
-      "-": 53
+      "jordancjq": 28,
+      "-": 55
     }
   },
   {
@@ -53667,7 +53671,7 @@
       {
         "lineNumber": 23,
         "author": {
-          "gitId": "lohtianwei"
+          "gitId": "-"
         },
         "content": "    private boolean isPrivate;"
       },
@@ -53744,7 +53748,7 @@
       {
         "lineNumber": 34,
         "author": {
-          "gitId": "lohtianwei"
+          "gitId": "-"
         },
         "content": "        this.isPrivate \u003d false;"
       },
@@ -53863,21 +53867,21 @@
       {
         "lineNumber": 51,
         "author": {
-          "gitId": "lohtianwei"
+          "gitId": "-"
         },
         "content": "        if (isPrivate) {"
       },
       {
         "lineNumber": 52,
         "author": {
-          "gitId": "lohtianwei"
+          "gitId": "-"
         },
         "content": "            return \"\u003cPrivate Address\u003e\";"
       },
       {
         "lineNumber": 53,
         "author": {
-          "gitId": "lohtianwei"
+          "gitId": "-"
         },
         "content": "        }"
       },
@@ -53926,63 +53930,63 @@
       {
         "lineNumber": 60,
         "author": {
-          "gitId": "lohtianwei"
+          "gitId": "-"
         },
         "content": ""
       },
       {
         "lineNumber": 61,
         "author": {
-          "gitId": "lohtianwei"
+          "gitId": "-"
         },
         "content": "    public void togglePrivacy() {"
       },
       {
         "lineNumber": 62,
         "author": {
-          "gitId": "lohtianwei"
+          "gitId": "-"
         },
         "content": "        this.isPrivate \u003d isPrivate ? false : true;"
       },
       {
         "lineNumber": 63,
         "author": {
-          "gitId": "lohtianwei"
+          "gitId": "-"
         },
         "content": "    }"
       },
       {
         "lineNumber": 64,
         "author": {
-          "gitId": "lohtianwei"
+          "gitId": "-"
         },
         "content": ""
       },
       {
         "lineNumber": 65,
         "author": {
-          "gitId": "lohtianwei"
+          "gitId": "-"
         },
         "content": "    public void setPrivate(boolean isPrivate) {"
       },
       {
         "lineNumber": 66,
         "author": {
-          "gitId": "lohtianwei"
+          "gitId": "-"
         },
         "content": "        this.isPrivate \u003d isPrivate;"
       },
       {
         "lineNumber": 67,
         "author": {
-          "gitId": "lohtianwei"
+          "gitId": "-"
         },
         "content": "    }"
       },
       {
         "lineNumber": 68,
         "author": {
-          "gitId": "lohtianwei"
+          "gitId": "-"
         },
         "content": ""
       },
@@ -54079,9 +54083,9 @@
       }
     ],
     "authorContributionMap": {
-      "lohtianwei": 22,
+      "lohtianwei": 8,
       "jordancjq": 2,
-      "-": 57
+      "-": 71
     }
   },
   {
@@ -54300,7 +54304,7 @@
       {
         "lineNumber": 31,
         "author": {
-          "gitId": "lohtianwei"
+          "gitId": "-"
         },
         "content": "    private boolean isPrivate;"
       },
@@ -54377,7 +54381,7 @@
       {
         "lineNumber": 42,
         "author": {
-          "gitId": "lohtianwei"
+          "gitId": "-"
         },
         "content": "        this.isPrivate \u003d false;"
       },
@@ -54496,21 +54500,21 @@
       {
         "lineNumber": 59,
         "author": {
-          "gitId": "lohtianwei"
+          "gitId": "-"
         },
         "content": "        if (isPrivate) {"
       },
       {
         "lineNumber": 60,
         "author": {
-          "gitId": "lohtianwei"
+          "gitId": "-"
         },
         "content": "            return \"\u003cPrivate Email\u003e\";"
       },
       {
         "lineNumber": 61,
         "author": {
-          "gitId": "lohtianwei"
+          "gitId": "-"
         },
         "content": "        }"
       },
@@ -54559,63 +54563,63 @@
       {
         "lineNumber": 68,
         "author": {
-          "gitId": "lohtianwei"
+          "gitId": "-"
         },
         "content": ""
       },
       {
         "lineNumber": 69,
         "author": {
-          "gitId": "lohtianwei"
+          "gitId": "-"
         },
         "content": "    public void togglePrivacy() {"
       },
       {
         "lineNumber": 70,
         "author": {
-          "gitId": "lohtianwei"
+          "gitId": "-"
         },
         "content": "        this.isPrivate \u003d isPrivate ? false : true;"
       },
       {
         "lineNumber": 71,
         "author": {
-          "gitId": "lohtianwei"
+          "gitId": "-"
         },
         "content": "    }"
       },
       {
         "lineNumber": 72,
         "author": {
-          "gitId": "lohtianwei"
+          "gitId": "-"
         },
         "content": ""
       },
       {
         "lineNumber": 73,
         "author": {
-          "gitId": "lohtianwei"
+          "gitId": "-"
         },
         "content": "    public void setPrivate(boolean isPrivate) {"
       },
       {
         "lineNumber": 74,
         "author": {
-          "gitId": "lohtianwei"
+          "gitId": "-"
         },
         "content": "        this.isPrivate \u003d isPrivate;"
       },
       {
         "lineNumber": 75,
         "author": {
-          "gitId": "lohtianwei"
+          "gitId": "-"
         },
         "content": "    }"
       },
       {
         "lineNumber": 76,
         "author": {
-          "gitId": "lohtianwei"
+          "gitId": "-"
         },
         "content": ""
       },
@@ -54712,8 +54716,8 @@
       }
     ],
     "authorContributionMap": {
-      "lohtianwei": 22,
-      "-": 67
+      "lohtianwei": 8,
+      "-": 81
     }
   },
   {
@@ -55907,7 +55911,7 @@
       {
         "lineNumber": 18,
         "author": {
-          "gitId": "lohtianwei"
+          "gitId": "-"
         },
         "content": "    private boolean isPrivate;"
       },
@@ -55984,7 +55988,7 @@
       {
         "lineNumber": 29,
         "author": {
-          "gitId": "lohtianwei"
+          "gitId": "-"
         },
         "content": "        this.isPrivate \u003d false;"
       },
@@ -56103,21 +56107,21 @@
       {
         "lineNumber": 46,
         "author": {
-          "gitId": "lohtianwei"
+          "gitId": "-"
         },
         "content": "        if (isPrivate) {"
       },
       {
         "lineNumber": 47,
         "author": {
-          "gitId": "lohtianwei"
+          "gitId": "-"
         },
         "content": "            return \"\u003cPrivate Phone\u003e\";"
       },
       {
         "lineNumber": 48,
         "author": {
-          "gitId": "lohtianwei"
+          "gitId": "-"
         },
         "content": "        }"
       },
@@ -56166,63 +56170,63 @@
       {
         "lineNumber": 55,
         "author": {
-          "gitId": "lohtianwei"
+          "gitId": "-"
         },
         "content": ""
       },
       {
         "lineNumber": 56,
         "author": {
-          "gitId": "lohtianwei"
+          "gitId": "-"
         },
         "content": "    public void togglePrivacy() {"
       },
       {
         "lineNumber": 57,
         "author": {
-          "gitId": "lohtianwei"
+          "gitId": "-"
         },
         "content": "        this.isPrivate \u003d isPrivate ? false : true;"
       },
       {
         "lineNumber": 58,
         "author": {
-          "gitId": "lohtianwei"
+          "gitId": "-"
         },
         "content": "    }"
       },
       {
         "lineNumber": 59,
         "author": {
-          "gitId": "lohtianwei"
+          "gitId": "-"
         },
         "content": ""
       },
       {
         "lineNumber": 60,
         "author": {
-          "gitId": "lohtianwei"
+          "gitId": "-"
         },
         "content": "    public void setPrivate(boolean isPrivate) {"
       },
       {
         "lineNumber": 61,
         "author": {
-          "gitId": "lohtianwei"
+          "gitId": "-"
         },
         "content": "        this.isPrivate \u003d isPrivate;"
       },
       {
         "lineNumber": 62,
         "author": {
-          "gitId": "lohtianwei"
+          "gitId": "-"
         },
         "content": "    }"
       },
       {
         "lineNumber": 63,
         "author": {
-          "gitId": "lohtianwei"
+          "gitId": "-"
         },
         "content": ""
       },
@@ -56319,9 +56323,9 @@
       }
     ],
     "authorContributionMap": {
-      "lohtianwei": 22,
+      "lohtianwei": 8,
       "jordancjq": 2,
-      "-": 52
+      "-": 66
     }
   },
   {
@@ -62857,14 +62861,14 @@
       {
         "lineNumber": 37,
         "author": {
-          "gitId": "lohtianwei"
+          "gitId": "-"
         },
         "content": "    private Boolean phonePrivacy;"
       },
       {
         "lineNumber": 38,
         "author": {
-          "gitId": "lohtianwei"
+          "gitId": "-"
         },
         "content": "    @XmlElement(required \u003d true)"
       },
@@ -62885,14 +62889,14 @@
       {
         "lineNumber": 41,
         "author": {
-          "gitId": "lohtianwei"
+          "gitId": "-"
         },
         "content": "    private Boolean emailPrivacy;"
       },
       {
         "lineNumber": 42,
         "author": {
-          "gitId": "lohtianwei"
+          "gitId": "-"
         },
         "content": "    @XmlElement(required \u003d true)"
       },
@@ -62913,14 +62917,14 @@
       {
         "lineNumber": 45,
         "author": {
-          "gitId": "lohtianwei"
+          "gitId": "-"
         },
         "content": "    private Boolean addressPrivacy;"
       },
       {
         "lineNumber": 46,
         "author": {
-          "gitId": "lohtianwei"
+          "gitId": "-"
         },
         "content": "    @XmlElement(required \u003d true)"
       },
@@ -62941,14 +62945,14 @@
       {
         "lineNumber": 49,
         "author": {
-          "gitId": "lohtianwei"
+          "gitId": "-"
         },
         "content": "    private Boolean remarkPrivacy;"
       },
       {
         "lineNumber": 50,
         "author": {
-          "gitId": "lohtianwei"
+          "gitId": "-"
         },
         "content": "    @XmlElement(required \u003d true)"
       },
@@ -63319,35 +63323,35 @@
       {
         "lineNumber": 103,
         "author": {
-          "gitId": "lohtianwei"
+          "gitId": "-"
         },
         "content": ""
       },
       {
         "lineNumber": 104,
         "author": {
-          "gitId": "lohtianwei"
+          "gitId": "-"
         },
         "content": "        phonePrivacy \u003d source.getPhone().isPrivate();"
       },
       {
         "lineNumber": 105,
         "author": {
-          "gitId": "lohtianwei"
+          "gitId": "-"
         },
         "content": "        emailPrivacy \u003d source.getEmail().isPrivate();"
       },
       {
         "lineNumber": 106,
         "author": {
-          "gitId": "lohtianwei"
+          "gitId": "-"
         },
         "content": "        addressPrivacy \u003d source.getAddress().isPrivate();"
       },
       {
         "lineNumber": 107,
         "author": {
-          "gitId": "lohtianwei"
+          "gitId": "-"
         },
         "content": "        remarkPrivacy \u003d source.getRemark().isPrivate();"
       },
@@ -63361,7 +63365,7 @@
       {
         "lineNumber": 109,
         "author": {
-          "gitId": "lohtianwei"
+          "gitId": "-"
         },
         "content": ""
       },
@@ -64305,9 +64309,9 @@
       }
     ],
     "authorContributionMap": {
-      "lohtianwei": 48,
+      "lohtianwei": 34,
       "jordancjq": 11,
-      "-": 184
+      "-": 198
     }
   },
   {
@@ -70486,7 +70490,7 @@
       {
         "lineNumber": 197,
         "author": {
-          "gitId": "jordancjq"
+          "gitId": "-"
         },
         "content": "        public void unassignPersonFromTeam(Person person) throws TeamNotFoundException {"
       },
@@ -70913,8 +70917,8 @@
     ],
     "authorContributionMap": {
       "lohtianwei": 29,
-      "jordancjq": 45,
-      "-": 183
+      "jordancjq": 44,
+      "-": 184
     }
   },
   {
@@ -70965,7 +70969,7 @@
       {
         "lineNumber": 7,
         "author": {
-          "gitId": "jordancjq"
+          "gitId": "-"
         },
         "content": "import static seedu.address.logic.commands.AssignCommand.MESSAGE_UNASSIGN_TEAM_SUCCESS;"
       },
@@ -72483,7 +72487,8 @@
       }
     ],
     "authorContributionMap": {
-      "jordancjq": 223
+      "jordancjq": 222,
+      "-": 1
     }
   },
   {
@@ -73178,21 +73183,21 @@
       {
         "lineNumber": 99,
         "author": {
-          "gitId": "jordancjq"
+          "gitId": "-"
         },
         "content": "    public static final String INVALID_TEAM_NAME_DESC \u003d \" \" + PREFIX_TEAM_NAME"
       },
       {
         "lineNumber": 100,
         "author": {
-          "gitId": "jordancjq"
+          "gitId": "-"
         },
         "content": "            + \"\u0026-Team-\u0026\"; // \u0027\u0026\u0027 not allowed in team names"
       },
       {
         "lineNumber": 101,
         "author": {
-          "gitId": "jordancjq"
+          "gitId": "-"
         },
         "content": "    public static final String INVALID_TEAM_NAME \u003d \"\u0026-Team-\u0026\"; // without prefix and \u0027\u0026\u0027 not allowed in team names"
       },
@@ -73912,8 +73917,8 @@
       }
     ],
     "authorContributionMap": {
-      "jordancjq": 17,
-      "-": 186
+      "jordancjq": 14,
+      "-": 189
     }
   },
   {
@@ -84602,7 +84607,7 @@
       {
         "lineNumber": 4,
         "author": {
-          "gitId": "jordancjq"
+          "gitId": "-"
         },
         "content": "import static seedu.address.logic.commands.CommandTestUtil.INVALID_TEAM_NAME_DESC;"
       },
@@ -84881,7 +84886,8 @@
       }
     ],
     "authorContributionMap": {
-      "jordancjq": 43
+      "jordancjq": 42,
+      "-": 1
     }
   },
   {
@@ -87785,7 +87791,7 @@
       {
         "lineNumber": 4,
         "author": {
-          "gitId": "jordancjq"
+          "gitId": "-"
         },
         "content": "import static seedu.address.logic.commands.CommandTestUtil.INVALID_TEAM_NAME_DESC;"
       },
@@ -88239,7 +88245,8 @@
       }
     ],
     "authorContributionMap": {
-      "jordancjq": 68
+      "jordancjq": 67,
+      "-": 1
     }
   },
   {
@@ -89524,7 +89531,7 @@
       {
         "lineNumber": 4,
         "author": {
-          "gitId": "jordancjq"
+          "gitId": "-"
         },
         "content": "import static seedu.address.logic.commands.CommandTestUtil.INVALID_TEAM_NAME_DESC;"
       },
@@ -89824,7 +89831,8 @@
       }
     ],
     "authorContributionMap": {
-      "jordancjq": 46
+      "jordancjq": 45,
+      "-": 1
     }
   },
   {
@@ -92444,14 +92452,14 @@
       {
         "lineNumber": 1,
         "author": {
-          "gitId": "lohtianwei"
+          "gitId": "-"
         },
         "content": "package seedu.address.testutil;"
       },
       {
         "lineNumber": 2,
         "author": {
-          "gitId": "lohtianwei"
+          "gitId": "-"
         },
         "content": ""
       },
@@ -93080,7 +93088,8 @@
       }
     ],
     "authorContributionMap": {
-      "lohtianwei": 91
+      "lohtianwei": 89,
+      "-": 2
     }
   },
   {
