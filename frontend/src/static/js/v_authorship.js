@@ -15,26 +15,13 @@ function toggleNext(ele) {
   parent.className = classes.join(' ');
 };
 
-function collapseAll() {
-  const targetClass = 'file active';
-  const renameValue = 'file';
+function expandAll(isActive) {
+  const renameValue = isActive ? 'file active' : 'file';
 
-  var files = document.getElementsByClassName(targetClass);
-  while (files.length) {
-    files[0].className = renameValue;
-  }
-}
-
-function expandAll() {
-  const targetClass = 'file';
-  const renameValue = 'file active';
-
-  var files = document.getElementsByClassName(targetClass);
-  for (var i = 0; i < files.length; i++) {
-    if (files[i].className === targetClass) {
-      files[i].className = renameValue;
-    }
-  }
+  const files = document.getElementsByClassName('file');
+  Array.from(files).forEach((file) => {
+    file.className = renameValue;
+  });
 }
 
 const repoCache = [];
