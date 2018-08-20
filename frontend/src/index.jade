@@ -28,13 +28,10 @@ html
           .tab-content
             .tab-panes
               #tab-authorship.tab-pane(v-if="isTabAuthorship")
-                ul.authorship__toolbar
-                  li.dropdown
-                    a.dropdown-button
-                      i.fas.fa-lg.fa-bars
-                    .dropdown-content
-                      a(onclick="expandAll()") Expand all
-                      a(onclick="collapseAll()") Collapse all
+                .toolbar
+                  a(onclick="expandAll()") Expand all
+                  label &nbsp;/&nbsp;
+                  a(onclick="collapseAll()") Collapse all
                 v_authorship(
                   v-bind:key="generateKey(tabInfo.tabAuthorship)",
                   v-bind:info="tabInfo.tabAuthorship")
