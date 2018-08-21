@@ -30,7 +30,7 @@ html
               #tab-authorship.tab-pane(v-if="isTabAuthorship")
                 .toolbar
                   a(onclick="expandAll(true)") Expand all
-                  label &nbsp;/&nbsp;
+                  span &nbsp;/&nbsp;
                   a(onclick="expandAll(false)") Collapse all
                 v_authorship(
                   v-bind:key="generateKey(tabInfo.tabAuthorship)",
