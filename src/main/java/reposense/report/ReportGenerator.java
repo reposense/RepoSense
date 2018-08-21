@@ -61,6 +61,7 @@ public class ReportGenerator {
                 continue;
             }
 
+            // preprocess the config and repo
             updateRepoConfig(config);
             updateAuthorList(config);
 

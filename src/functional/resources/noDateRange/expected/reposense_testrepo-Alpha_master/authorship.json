@@ -5,28 +5,28 @@
       {
         "lineNumber": 1,
         "author": {
-          "gitId": "fakeAuthor"
+          "gitId": "-"
         },
         "content": "fake all the lines in this file is writtened by fakeAuthor"
       },
       {
         "lineNumber": 2,
         "author": {
-          "gitId": "fakeAuthor"
+          "gitId": "-"
         },
         "content": "fake"
       },
       {
         "lineNumber": 3,
         "author": {
-          "gitId": "fakeAuthor"
+          "gitId": "-"
         },
         "content": "fake"
       },
       {
         "lineNumber": 4,
         "author": {
-          "gitId": "fakeAuthor"
+          "gitId": "-"
         },
         "content": "fake"
       },
@@ -68,21 +68,21 @@
       {
         "lineNumber": 10,
         "author": {
-          "gitId": "fakeAuthor"
+          "gitId": "-"
         },
         "content": "fake"
       },
       {
         "lineNumber": 11,
         "author": {
-          "gitId": "fakeAuthor"
+          "gitId": "-"
         },
         "content": "fake"
       }
     ],
     "authorContributionMap": {
-      "fakeAuthor": 6,
-      "harryggg": 5
+      "harryggg": 5,
+      "-": 6
     }
   },
   {
@@ -105,7 +105,7 @@
       {
         "lineNumber": 3,
         "author": {
-          "gitId": "fakeAuthor"
+          "gitId": "-"
         },
         "content": "fake"
       },
@@ -118,8 +118,8 @@
       }
     ],
     "authorContributionMap": {
-      "fakeAuthor": 1,
-      "harryggg": 3
+      "harryggg": 3,
+      "-": 1
     }
   },
   {
