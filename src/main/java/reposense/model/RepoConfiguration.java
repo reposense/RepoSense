@@ -372,6 +372,9 @@ public class RepoConfiguration {
         for (String format: formats) {
             if (!isValidFormat(format)) {
                 throw new IllegalArgumentException(String.format(MESSAGE_ILLEGAL_FORMATS, format));
+            }
+        }
+    }
 
     private void validateIgnoreCommits(List<String> ignoreCommitList) {
         for (String commitHash : ignoreCommitList) {
