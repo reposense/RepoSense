@@ -191,13 +191,15 @@ window.vSummary = {
       this.filtered.forEach((repo) => {
         repo.forEach((user) => {
           const { commits } = user;
-          const date1 = commits[0].sinceDate;
-          const date2 = commits[commits.length - 1].sinceDate;
-          if (!minDate || minDate > date1) {
-            minDate = date1;
-          }
-          if (!maxDate || maxDate < date2) {
-            maxDate = date2;
+          if (commits.length) {
+            const date1 = commits[0].sinceDate;
+            const date2 = commits[commits.length - 1].sinceDate;
+            if (!minDate || minDate > date1) {
+              minDate = date1;
+            }
+            if (!maxDate || maxDate < date2) {
+              maxDate = date2;
+            }
           }
         });
       });

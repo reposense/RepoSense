@@ -10,6 +10,7 @@
 {
   "ignoreGlobList": ["about-us/**", "**index.html"],    
   "formats": ["html", "css"],
+  "ignoreCommitList": ["12345abc", "67890def"],
   "authors":
   [
     {
@@ -35,6 +36,8 @@
                                                        If not provided, the following file formats will be used.
                                                        adoc, cs, css, fxml, gradle, html, java, js, json, jsp,
                                                        md, py, tag, xml.
+"ignoreCommitList": ["12345abc", "67890def"]       <-- The list of commits to ignore during analysis. For accurate
+                                                       results, the commits should be provided with their full hash.
 
 "ignoreGlobList": ["**.css"]                       <-- Author level's ignoreGlobList adds on to the Repository
                                                        level's. Thus, the actual ignoreGlobList for alice would

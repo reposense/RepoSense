@@ -2,8 +2,8 @@
   "authorWeeklyIntervalContributions": {
     "fakeAuthor": [
       {
-        "insertions": 15,
-        "deletions": 3,
+        "insertions": 0,
+        "deletions": 0,
         "sinceDate": "2018-02-06",
         "untilDate": "2018-02-13"
       }
@@ -40,14 +40,14 @@
         "untilDate": "2018-02-08"
       },
       {
-        "insertions": 2,
-        "deletions": 1,
+        "insertions": 0,
+        "deletions": 0,
         "sinceDate": "2018-02-08",
         "untilDate": "2018-02-09"
       },
       {
-        "insertions": 13,
-        "deletions": 2,
+        "insertions": 0,
+        "deletions": 0,
         "sinceDate": "2018-02-09",
         "untilDate": "2018-02-10"
       }
@@ -106,12 +106,12 @@
     ]
   },
   "authorFinalContributionMap": {
-    "fakeAuthor": 7,
+    "fakeAuthor": 0,
     "harryggg": 14,
     "eugenepeh": 0
   },
   "authorContributionVariance": {
-    "fakeAuthor": 38.25,
+    "fakeAuthor": 0.0,
     "harryggg": 2.1875,
     "eugenepeh": 0.0
   },

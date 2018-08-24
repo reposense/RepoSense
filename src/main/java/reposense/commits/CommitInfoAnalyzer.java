@@ -3,16 +3,20 @@ package reposense.commits;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Comparator;
 import java.util.Date;
+import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
 import reposense.commits.model.CommitInfo;
 import reposense.commits.model.CommitResult;
 import reposense.model.Author;
+import reposense.model.RepoConfiguration;
 import reposense.system.LogsManager;
 
 /**
@@ -31,6 +35,19 @@ public class CommitInfoAnalyzer {
 
     private static final Pattern INSERTION_PATTERN = Pattern.compile("([0-9]+) insertion");
     private static final Pattern DELETION_PATTERN = Pattern.compile("([0-9]+) deletion");
+
+    /**
+     * Analyzes each {@code CommitInfo} in {@code commitInfos} and returns a list of {@code CommitResult} that is not
+     * specified to be ignored or the author is inside {@code config}.
+     */
+    public static List<CommitResult> analyzeCommits(List<CommitInfo> commitInfos, RepoConfiguration config) {
+        return commitInfos.stream()
+                .map(commitInfo -> analyzeCommit(commitInfo, config.getAuthorAliasMap()))
+                .filter(commitResult -> !commitResult.getAuthor().equals(new Author(Author.UNKNOWN_AUTHOR_GIT_ID))
+                        && !isCommitHashWithinIgnoredCommitList(commitResult.getHash(), config.getIgnoreCommitList()))
+                .sorted(Comparator.comparing(CommitResult::getTime))
+                .collect(Collectors.toList());
+    }
 
     /**
      * Extracts the relevant data from {@code commitInfo} into a {@code CommitResult}.
@@ -54,6 +71,10 @@ public class CommitInfoAnalyzer {
         int insertion = getInsertion(statLine);
         int deletion = getDeletion(statLine);
         return new CommitResult(author, hash, date, message, insertion, deletion);
+    }
+
+    private static boolean isCommitHashWithinIgnoredCommitList(String commitHash, List<String> ignoreCommitList) {
+        return ignoreCommitList.stream().anyMatch(commitHash::startsWith);
     }
 
     private static int getInsertion(String raw) {

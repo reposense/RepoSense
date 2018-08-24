@@ -70,8 +70,8 @@
         "untilDate": "2018-03-29"
       },
       {
-        "insertions": 647,
-        "deletions": 95,
+        "insertions": 108,
+        "deletions": 90,
         "sinceDate": "2018-03-29",
         "untilDate": "2018-04-05"
       },
@@ -164,8 +164,8 @@
         "untilDate": "2018-04-05"
       },
       {
-        "insertions": 1594,
-        "deletions": 424,
+        "insertions": 1428,
+        "deletions": 348,
         "sinceDate": "2018-04-05",
         "untilDate": "2018-04-12"
       },
@@ -626,8 +626,8 @@
         "untilDate": "2018-03-29"
       },
       {
-        "insertions": 539,
-        "deletions": 5,
+        "insertions": 0,
+        "deletions": 0,
         "sinceDate": "2018-03-29",
         "untilDate": "2018-03-30"
       },
@@ -1260,8 +1260,8 @@
         "untilDate": "2018-04-11"
       },
       {
-        "insertions": 591,
-        "deletions": 153,
+        "insertions": 425,
+        "deletions": 77,
         "sinceDate": "2018-04-11",
         "untilDate": "2018-04-12"
       },
@@ -1293,15 +1293,15 @@
   },
   "authorFinalContributionMap": {
     "lithiumlkid": 360,
-    "lohtianwei": 2187,
+    "lohtianwei": 2111,
     "codeeong": 0,
-    "jordancjq": 5427
+    "jordancjq": 5411
   },
   "authorContributionVariance": {
     "lithiumlkid": 1465.0459,
-    "lohtianwei": 20085.645,
+    "lohtianwei": 15288.368,
     "codeeong": 0.0,
-    "jordancjq": 108832.89
+    "jordancjq": 104733.53
   },
   "authorDisplayNameMap": {
     "lithiumlkid": "Ahm",

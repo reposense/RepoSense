@@ -18,6 +18,7 @@ public class RepoConfigCsvParser extends CsvParser<RepoConfiguration> {
     private static final int FILE_FORMATS_POSITION = 2;
     private static final int IGNORE_GLOB_LIST_POSITION = 3;
     private static final int IGNORE_STANDALONE_CONFIG_POSITION = 4;
+    private static final int IGNORE_COMMIT_LIST_CONFIG_POSITION = 5;
 
     public RepoConfigCsvParser(Path csvFilePath) throws IOException {
         super(csvFilePath);
@@ -46,6 +47,7 @@ public class RepoConfigCsvParser extends CsvParser<RepoConfiguration> {
         List<String> formats = getManyValueInElement(elements, FILE_FORMATS_POSITION);
         List<String> ignoreGlobList = getManyValueInElement(elements, IGNORE_GLOB_LIST_POSITION);
         String ignoreStandaloneConfig = getValueInElement(elements, IGNORE_STANDALONE_CONFIG_POSITION);
+        List<String> ignoreCommitList = getManyValueInElement(elements, IGNORE_COMMIT_LIST_CONFIG_POSITION);
 
         boolean isStandaloneConfigIgnored = ignoreStandaloneConfig.equalsIgnoreCase(IGNORE_STANDALONE_CONFIG_KEYWORD);
 
@@ -55,7 +57,7 @@ public class RepoConfigCsvParser extends CsvParser<RepoConfiguration> {
         }
 
         RepoConfiguration config =
-                new RepoConfiguration(location, branch, ignoreGlobList, isStandaloneConfigIgnored, formats);
+                new RepoConfiguration(location, branch, ignoreGlobList, isStandaloneConfigIgnored, formats, ignoreCommitList);
 
         if (results.contains(config)) {
             logger.warning("Ignoring duplicated repository " + location + " " + branch);
