@@ -1,7 +1,7 @@
 # RepoSense
 [![Build Status](https://travis-ci.org/reposense/RepoSense.svg?branch=master)](https://travis-ci.org/reposense/RepoSense)
 [![Build status](https://ci.appveyor.com/api/projects/status/gsbkj5qby3pjd6nw/branch/master?svg=true)](https://ci.appveyor.com/project/eugenepeh/reposense/branch/master)
-[![Codacy Badge](https://api.codacy.com/project/badge/Grade/08a3527378464ed4a5ad62e27f590d6a)](https://www.codacy.com/app/eugenepeh/RepoSense?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=reposense/RepoSense&amp;utm_campaign=Badge_Grade)
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/08a3527378464ed4a5ad62e27f590d6a)](https://www.codacy.com/app/reposense/RepoSense?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=reposense/RepoSense&amp;utm_campaign=Badge_Grade)
 [![deploy on_netlify](https://img.shields.io/badge/deploy-on_netlify-blue.svg)](https://reposense.netlify.com/)
 
 RepoSense is a contribution analysis tool for Git repositories. It generates a static HTML dashboard including contribution information for each author in the repository.
