@@ -69,7 +69,7 @@ public class RepoConfiguration {
      * @throws InvalidLocationException if {@code location} cannot be represented by a {@code URL} or {@code Path}.
      */
     public RepoConfiguration(String location, String branch) throws InvalidLocationException {
-        this(location, branch, Collections.emptyList(), false, Collections.emptyList());
+        this(location, branch, Collections.emptyList(), false, Collections.emptyList(), Collections.emptyList());
     }
 
     /**
