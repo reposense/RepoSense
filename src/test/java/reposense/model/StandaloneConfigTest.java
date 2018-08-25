@@ -61,7 +61,7 @@ public class StandaloneConfigTest extends GitTestTemplate {
         StandaloneConfig standaloneConfig = new StandaloneConfigJsonParser().parse(INVALID_FORMATS_CONFIG);
         config.update(standaloneConfig);
     }
-  
+
     @Test(expected = IllegalArgumentException.class)
     public void standaloneConfig_invalidIgnoreCommit_throwIllegalArgumentException() throws IOException {
         StandaloneConfig standaloneConfig = new StandaloneConfigJsonParser().parse(INVALID_IGNORECOMMIT_CONFIG);

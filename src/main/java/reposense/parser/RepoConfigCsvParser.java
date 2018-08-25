@@ -56,8 +56,8 @@ public class RepoConfigCsvParser extends CsvParser<RepoConfiguration> {
                     "Ignoring unknown value " + ignoreStandaloneConfig + " in ignore standalone config column.");
         }
 
-        RepoConfiguration config =
-                new RepoConfiguration(location, branch, ignoreGlobList, isStandaloneConfigIgnored, formats, ignoreCommitList);
+        RepoConfiguration config = new RepoConfiguration(
+                location, branch, ignoreGlobList, isStandaloneConfigIgnored, formats, ignoreCommitList);
 
         if (results.contains(config)) {
             logger.warning("Ignoring duplicated repository " + location + " " + branch);

@@ -76,7 +76,8 @@ public class RepoConfiguration {
      * @throws InvalidLocationException if {@code location} cannot be represented by a {@code URL} or {@code Path}.
      */
     public RepoConfiguration(String location, String branch, List<String> ignoreGlobList,
-            boolean isStandaloneConfigIgnored, List<String> formats, List<String> ignoreCommitList) throws InvalidLocationException {
+        boolean isStandaloneConfigIgnored, List<String> formats, List<String> ignoreCommitList)
+            throws InvalidLocationException {
         this.location = location;
         this.branch = branch;
         this.ignoreGlobList = ignoreGlobList;

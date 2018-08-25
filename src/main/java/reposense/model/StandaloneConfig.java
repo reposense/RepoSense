@@ -31,7 +31,7 @@ public class StandaloneConfig {
 
         return formats;
     }
-  
+
     public List<String> getIgnoreCommitList() {
         if (ignoreCommitList == null) {
             return Collections.emptyList();
