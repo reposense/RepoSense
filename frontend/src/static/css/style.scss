@@ -230,6 +230,11 @@ header{
 
 /* Authorship */
 #tab-authorship{
+    .toolbar{
+        float: right;
+        cursor: pointer;
+    }
+
     .title{
         .repoName{
             font-size:1.5rem;
