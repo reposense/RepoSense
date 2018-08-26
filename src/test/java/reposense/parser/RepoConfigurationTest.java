@@ -93,15 +93,13 @@ public class RepoConfigurationTest {
     @Test
     public void setFormats_alphaNumeric_success() throws InvalidLocationException {
         RepoConfiguration actualConfig = new RepoConfiguration(TEST_REPO_DELTA, "master");
-        String[] formats = new String[] {"java", "7z"};
-        actualConfig.setFormats(Arrays.asList(formats));
+        actualConfig.setFormats(Arrays.asList("java", "7z"));
     }
 
     @Test(expected = IllegalArgumentException.class)
     public void setFormats_nonAlphaNumeric_throwIllegalArgumentException() throws InvalidLocationException {
         RepoConfiguration actualConfig = new RepoConfiguration(TEST_REPO_DELTA, "master");
-        String[] formats = new String[] {".java"};
-        actualConfig.setFormats(Arrays.asList(formats));
+        actualConfig.setFormats(Arrays.asList(".java"));
     }
 
     @Test

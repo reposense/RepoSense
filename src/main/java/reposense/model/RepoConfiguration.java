@@ -69,15 +69,14 @@ public class RepoConfiguration {
      * @throws InvalidLocationException if {@code location} cannot be represented by a {@code URL} or {@code Path}.
      */
     public RepoConfiguration(String location, String branch) throws InvalidLocationException {
-        this(location, branch, Collections.emptyList(), false, Collections.emptyList(), Collections.emptyList());
+        this(location, branch, Collections.emptyList(), Collections.emptyList(), false, Collections.emptyList());
     }
 
     /**
      * @throws InvalidLocationException if {@code location} cannot be represented by a {@code URL} or {@code Path}.
      */
-    public RepoConfiguration(String location, String branch, List<String> ignoreGlobList,
-        boolean isStandaloneConfigIgnored, List<String> formats, List<String> ignoreCommitList)
-            throws InvalidLocationException {
+    public RepoConfiguration(String location, String branch, List<String> formats, List<String> ignoreGlobList,
+            boolean isStandaloneConfigIgnored, List<String> ignoreCommitList) throws InvalidLocationException {
         this.location = location;
         this.branch = branch;
         this.ignoreGlobList = ignoreGlobList;

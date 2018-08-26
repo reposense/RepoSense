@@ -3,6 +3,8 @@ package reposense.model;
 import java.util.Collections;
 import java.util.List;
 
+import reposense.parser.ArgsParser;
+
 /**
  * Represents the structure of a config.json in _reposense folder.
  */
@@ -26,7 +28,7 @@ public class StandaloneConfig {
 
     public List<String> getFormats() {
         if (formats == null) {
-            return Collections.emptyList();
+            return ArgsParser.DEFAULT_FORMATS;
         }
 
         return formats;

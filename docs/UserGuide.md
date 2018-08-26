@@ -110,7 +110,7 @@ Column Name | Explanation
 Repository's Location | The `GitHub URL` or `Disk Path` to the git repository
 Branch | The branch to analyse in the target repository
 [Optional] File formats | The file formats to analyse in `alphanumerical`. If not provided, the following file formats will be used. `adoc, cs, css, fxml, gradle, html, java, js, json, jsp, md, py, tag, xml`
-[Optional] Ignore Global List | The list of file path globs to ignore during analysis for each author. More details on the Java glob standard [here](https://javapapers.com/java/glob-with-java-nio/)
+[Optional] Ignore Glob List | The list of file path globs to ignore during analysis for each author. More details on the Java glob standard [here](https://javapapers.com/java/glob-with-java-nio/)
 [Optional] Ignore standalone config | Ignore the presence of standalone config in target repository. To do so, enter **`yes`** in this column. Otherwise, the configuration in the target repository will be used by default.
 [Optional] Ignore Commit List | The list of commits to ignore during analysis. For accurate results, the commits should be provided with their full hash.
 
