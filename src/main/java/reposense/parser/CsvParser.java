@@ -96,8 +96,8 @@ public abstract class CsvParser<T> {
 
     /**
      * Gets the value of {@code position} in {@code elements}.
-     * Returns the value of {@code position} in a {@code List}, delimited by {@code COLUMN_VALUES_SEPARATOR}
-     * if it is in {@code element} and not empty.
+     * Returns the value of {@code element} at {@code position} as a {@code List},
+     * delimited by {@code COLUMN_VALUES_SEPARATOR} if it is in {@code element} and not empty.
      * Otherwise returns an empty {@code List}.
      */
     protected List<String> getManyValueInElement(final String[] elements, int position) {
