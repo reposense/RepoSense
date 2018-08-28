@@ -51,7 +51,7 @@ public class ArgsParser {
                 .metavar("PATH")
                 .help("The directory containing the config files.");
 
-        mutexParser.addArgument("-repos")
+        mutexParser.addArgument("-repo", "-repos")
                 .nargs("+")
                 .metavar("LOCATION")
                 .help("The GitHub URL or disk locations to clone repository.");
