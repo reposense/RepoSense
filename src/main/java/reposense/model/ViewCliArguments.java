@@ -15,4 +15,21 @@ public class ViewCliArguments extends CliArguments {
     public Path getReportDirectoryPath() {
         return reportDirectoryPath;
     }
+
+    public boolean equals(Object other) {
+        // short circuit if same object
+        if (this == other) {
+            return true;
+        }
+
+        // instanceof handles null
+        if (!(other instanceof ViewCliArguments)) {
+            return false;
+        }
+
+        ViewCliArguments otherViewCliArguments = (ViewCliArguments) other;
+
+        return super.equals(other)
+                && this.reportDirectoryPath.equals(otherViewCliArguments.reportDirectoryPath);
+    }
 }

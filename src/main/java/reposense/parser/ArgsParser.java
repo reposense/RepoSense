@@ -53,6 +53,7 @@ public class ArgsParser {
 
         mutexParser.addArgument("-repo", "-repos")
                 .nargs("+")
+                .dest("repos")
                 .metavar("LOCATION")
                 .help("The GitHub URL or disk locations to clone repository.");
 
