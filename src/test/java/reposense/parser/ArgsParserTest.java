@@ -208,6 +208,13 @@ public class ArgsParserTest {
     }
 
     @Test
+    public void emptyArgs_defaultConfigFolderPath() throws ParseException, IOException {
+        CliArguments cliArguments = ArgsParser.parse(new String[]{});
+        Assert.assertTrue(cliArguments instanceof ConfigCliArguments);
+        Assert.assertEquals(PROJECT_DIRECTORY.toString(), cliArguments.getConfigFolderPath().toString());
+    }
+
+    @Test
     public void parse_invalidRepoLocation_emptyRepoConfigurationList() throws ParseException, IOException {
         String input = String.format("-repos %s", "https://githubaaaa.com/asdasdasdasd/RepoSense");
         CliArguments cliArguments = ArgsParser.parse(translateCommandline(input));
