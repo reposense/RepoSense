@@ -15,6 +15,15 @@ function toggleNext(ele) {
   parent.className = classes.join(' ');
 };
 
+function expandAll(isActive) {
+  const renameValue = isActive ? 'file active' : 'file';
+
+  const files = document.getElementsByClassName('file');
+  Array.from(files).forEach((file) => {
+    file.className = renameValue;
+  });
+}
+
 const repoCache = [];
 window.vAuthorship = {
   props: ['info'],
