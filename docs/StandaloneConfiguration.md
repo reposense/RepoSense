@@ -8,7 +8,8 @@
 #### Typical format of repo-config.json
 ```
 {
-  "ignoreGlobList": ["**.dat", "**.js"],
+  "ignoreGlobList": ["about-us/**", "**index.html"],    
+  "formats": ["html", "css"],
   "ignoreCommitList": ["12345abc", "67890def"],
   "authors":
   [
@@ -26,17 +27,26 @@
 ```
 #### Line-by-line explanation
 ```
-"ignoreGlobList": ["**.dat", "**.js"]        <-- Repository level's list of file formats to ignore.
+// Repository level configuration
+"ignoreGlobList": ["about-us/**", "**index.html"]  <-- Repository level's list of folder or file formats to
+                                                       ignore.
 
-"ignoreCommitList": ["12345abc", "67890def"] <-- The list of commits to ignore during analysis. For accurate
-                                           results, the commits should be provided with their full hash.
+// First Author
+"formats": ["html", "css"]                         <-- Repository level's file formats to analyse.      
+                                                       If not provided, the following file formats will be used.
+                                                       adoc, cs, css, fxml, gradle, html, java, js, json, jsp,
+                                                       md, py, tag, xml.
+                                                       
+"ignoreCommitList": ["12345abc", "67890def"]       <-- The list of commits to ignore during analysis. For accurate
+                                                       results, the commits should be provided with their full hash.
 
-"ignoreGlobList": ["**.css"]                 <-- Author level's ignoreGlobList adds on to the Repository level's.
-                                           Thus, the actual ignoreGlobList for alice would contain
-                                           css, dat and js.
+"ignoreGlobList": ["**.css"]                       <-- Author level's ignoreGlobList adds on to the Repository
+                                                       level's. Thus, the actual ignoreGlobList for alice would
+                                                       contain css, index.html and about-us.
 
-"githubId": "bob"                            <-- Only githubId is mandatory.
-                                           Optional information can be left out to prevent clutter.
+// Second Author
+"githubId": "bob"                                  <-- Only githubId is mandatory.
+                                                       Optional information can be left out to prevent clutter.
 ```
 ### Verify your standalone configuration
 Download the latest executable Jar from our [release](https://github.com/reposense/RepoSense/releases/latest).

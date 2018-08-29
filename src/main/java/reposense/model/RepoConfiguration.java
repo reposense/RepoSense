@@ -27,6 +27,9 @@ import reposense.util.FileUtil;
 
 public class RepoConfiguration {
     private static final Logger logger = LogsManager.getLogger(RepoConfiguration.class);
+    private static final String MESSAGE_ILLEGAL_FORMATS = "The provided formats, %s, contains illegal characters.";
+    private static final String FORMAT_VALIDATION_REGEX = "[A-Za-z0-9]+";
+
     private static final String GIT_LINK_SUFFIX = ".git";
     private static final Pattern GIT_REPOSITORY_LOCATION_PATTERN =
             Pattern.compile("^.*github.com\\/(?<org>.+?)\\/(?<repoName>.+?)\\.git$");
@@ -66,18 +69,19 @@ public class RepoConfiguration {
      * @throws InvalidLocationException if {@code location} cannot be represented by a {@code URL} or {@code Path}.
      */
     public RepoConfiguration(String location, String branch) throws InvalidLocationException {
-        this(location, branch, Collections.emptyList(), false, Collections.emptyList());
+        this(location, branch, Collections.emptyList(), Collections.emptyList(), false, Collections.emptyList());
     }
 
     /**
      * @throws InvalidLocationException if {@code location} cannot be represented by a {@code URL} or {@code Path}.
      */
-    public RepoConfiguration(String location, String branch, List<String> ignoreGlobList,
+    public RepoConfiguration(String location, String branch, List<String> formats, List<String> ignoreGlobList,
             boolean isStandaloneConfigIgnored, List<String> ignoreCommitList) throws InvalidLocationException {
         this.location = location;
         this.branch = branch;
         this.ignoreGlobList = ignoreGlobList;
         this.isStandaloneConfigIgnored = isStandaloneConfigIgnored;
+        this.formats = formats;
 
         validateIgnoreCommits(ignoreCommitList);
         this.ignoreCommitList = ignoreCommitList;
@@ -126,10 +130,11 @@ public class RepoConfiguration {
     }
 
     /**
-     * Sets all {@code RepoConfiguration} in {@code configs} to have {@code formats} set.
+     * Sets {@code formats} to {@code RepoConfiguration} in {@code configs} if its format list is empty.
      */
     public static void setFormatsToRepoConfigs(List<RepoConfiguration> configs, List<String> formats) {
-        configs.forEach(config -> config.setFormats(formats));
+        configs.stream().filter(config -> config.getFormats().isEmpty())
+                        .forEach(config -> config.setFormats(formats));
     }
 
     /**
@@ -140,6 +145,8 @@ public class RepoConfiguration {
         authorAliasMap.clear();
         authorDisplayNameMap.clear();
         ignoreGlobList = standaloneConfig.getIgnoreGlobList();
+
+        this.setFormats(standaloneConfig.getFormats());
 
         for (StandaloneAuthor sa : standaloneConfig.getAuthors()) {
             Author author = new Author(sa);
@@ -295,6 +302,7 @@ public class RepoConfiguration {
     }
 
     public void setFormats(List<String> formats) {
+        validateFormats(formats);
         this.formats = formats;
     }
 
@@ -346,6 +354,25 @@ public class RepoConfiguration {
 
         if (!isValidPathLocation && !isValidGitUrl) {
             throw new InvalidLocationException(location + " is an invalid location.");
+        }
+    }
+
+    /**
+     * Returns true if the given {@code value} is a valid format.
+     */
+    private static boolean isValidFormat(String value) {
+        return value.matches(FORMAT_VALIDATION_REGEX);
+    }
+
+    /**
+     * Checks that all the strings in the {@code formats} are in valid formats.
+     * @throws IllegalArgumentException if any of the values do not meet the criteria.
+     */
+    private static void validateFormats(List<String> formats) {
+        for (String format: formats) {
+            if (!isValidFormat(format)) {
+                throw new IllegalArgumentException(String.format(MESSAGE_ILLEGAL_FORMATS, format));
+            }
         }
     }
 
