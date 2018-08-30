@@ -1,0 +1,13 @@
+d8a264aa4bb443a4526d8ae6ed11667e1b86c8ff 1 1 3
+author eugenepeh
+author-mail <e0012835@u.nus.edu>
+author-time 1525603161
+author-tz +0800
+committer eugenepeh
+committer-mail <e0012835@u.nus.edu>
+committer-time 1525607190
+committer-tz +0800
+summary Travis: add checkstyle to CI test
+previous 3f8aedddd19a1de1ea7abbfb26c9df15fe7bac2e build.gradle
+filename build.gradle
+        plugins {
