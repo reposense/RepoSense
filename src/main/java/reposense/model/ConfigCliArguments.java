@@ -12,6 +12,7 @@ import reposense.parser.RepoConfigCsvParser;
  * Represents command line arguments user supplied when running the program with mandatory field -config.
  */
 public class ConfigCliArguments extends CliArguments {
+    private Path configFolderPath;
     private Path repoConfigFilePath;
     private Path authorConfigFilePath;
 
@@ -24,6 +25,10 @@ public class ConfigCliArguments extends CliArguments {
         this.sinceDate = sinceDate;
         this.untilDate = untilDate;
         this.formats = formats;
+    }
+
+    public Path getConfigFolderPath() {
+        return configFolderPath;
     }
 
     public Path getRepoConfigFilePath() {

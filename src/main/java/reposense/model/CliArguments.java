@@ -9,13 +9,10 @@ import java.util.Optional;
  * Represents command line arguments user supplied when running the program.
  */
 public abstract class CliArguments {
-    protected Path configFolderPath;
     protected Path outputFilePath;
     protected Optional<Date> sinceDate;
     protected Optional<Date> untilDate;
     protected List<String> formats;
-
-    public Path getConfigFolderPath() { return configFolderPath; }
 
     public Path getOutputFilePath() {
         return outputFilePath;
