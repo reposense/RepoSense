@@ -211,7 +211,8 @@ public class ArgsParserTest {
     public void emptyArgs_defaultConfigFolderPath() throws ParseException, IOException {
         CliArguments cliArguments = ArgsParser.parse(new String[]{});
         Assert.assertTrue(cliArguments instanceof ConfigCliArguments);
-        Assert.assertEquals(PROJECT_DIRECTORY.toString(), cliArguments.getConfigFolderPath().toString());
+        Assert.assertEquals(PROJECT_DIRECTORY.toString(), (
+                (ConfigCliArguments) cliArguments).getConfigFolderPath().toString());
     }
 
     @Test
