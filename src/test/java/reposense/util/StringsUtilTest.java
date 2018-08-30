@@ -16,9 +16,9 @@ public class StringsUtilTest {
 
     @Test
     public void filterText_standardInput_success() throws IOException {
-        Path gitBlameStandardInputFile =
+        Path gitBlameStandardOutputFile =
                 Paths.get(STRINGS_UTIL_TEST_DIRECTORY.toString(), "standardBlameOutput.txt");
-        List<String> lines = Files.readAllLines(gitBlameStandardInputFile);
+        List<String> lines = Files.readAllLines(gitBlameStandardOutputFile);
         String text = String.join("\n", lines);
 
         String expected = "d8a264aa4bb443a4526d8ae6ed11667e1b86c8ff 1 1 3\n"
