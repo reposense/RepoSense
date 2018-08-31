@@ -21,8 +21,8 @@ public class StringsUtilTest {
         List<String> lines = Files.readAllLines(gitBlameStandardOutputFile);
         String text = String.join("\n", lines);
 
-        String expected = "d8a264aa4bb443a4526d8ae6ed11667e1b86c8ff 1 1 3\n"
-                + "author eugenepeh\n";
+        String expected = "a79711ed676fd3a27af2f466be6d5b48177580e0 4 4\n"
+                + "author example\n";
 
         String filteredText = StringsUtil.filterText(text, "(^author .*)|(^[0-9a-f]{40} .*)");
 
