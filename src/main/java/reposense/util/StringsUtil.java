@@ -6,7 +6,7 @@ package reposense.util;
 public class StringsUtil {
 
     /**
-     * Filter the {@code text}, returning only the lines that matches the given {@code regex}.
+     * Filters the {@code text}, returning only the lines that matches the given {@code regex}.
      */
     public static String filterText(String text, String regex) {
         String[] split = text.split("\n");
