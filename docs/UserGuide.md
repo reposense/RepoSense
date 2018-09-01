@@ -35,7 +35,7 @@ Sample usage to generate the report:
 java -jar RepoSense.jar -config ./configs/ -output output_path/ -since 01/10/2017 -until 01/11/2017 -formats java adoc js
 ```
 Argument List:
-- config : Mandatory. The path to the directory that contains the configuration file(s).
+- config : Optional. The path to the directory that contains the configuration file(s). If not provided, it will be obtained from the current directory.
 - output : Optional. The path to the dashboard generated. If not provided, it will be generated in the current directory.
 - since : Optional. The start date of analysis. Format: `DD/MM/YYYY`
 - until : Optional. The end date of analysis. Format: `DD/MM/YYYY`
@@ -68,7 +68,8 @@ java -jar RepoSense.jar -view output_path/reposense-report
 Argument List:
 - view : Mandatory.The server will be started to display the dashboard in the specified directory.
 
-`config` and `view` are mandatory mutually exclusive arguments which means that they cannot be provided together, however, one of them must be present at a given time.
+`config` and `view` are mutually exclusive arguments which means that they cannot be provided together.
+
 ### Manually
 1. Ensure that you have generated the report.
 1. To visualize the report, open `index.html`.
