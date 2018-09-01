@@ -27,7 +27,7 @@ import reposense.report.ReportGenerator;
 import reposense.util.FileUtil;
 import reposense.util.TestUtil;
 
-public class Entry {
+public class ConfigSystemTest {
     private static final String FT_TEMP_DIR = "ft_temp";
     private static final String EXPECTED_FOLDER = "expected";
     private static final List<String> TESTING_FILE_FORMATS = Arrays.asList("java", "adoc");

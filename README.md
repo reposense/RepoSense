@@ -13,7 +13,7 @@ The features of the report includes:
 * Filtering and sorting of authors
 
 ## Documentations
-* [**User Guide**](docs/UserGuide.md)
+* [**User Guide**](https://github.com/reposense/RepoSense/blob/release/docs/UserGuide.md)
 * [**Developer Guide**](docs/DeveloperGuide.md)
 
 ## About Us
