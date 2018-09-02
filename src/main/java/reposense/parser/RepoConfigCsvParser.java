@@ -31,7 +31,6 @@ public class RepoConfigCsvParser extends CsvParser<RepoConfiguration> {
     protected int[] mandatoryPositions() {
         return new int[] {
             LOCATION_POSITION,
-            BRANCH_POSITION
         };
     }
 
