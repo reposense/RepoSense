@@ -29,4 +29,24 @@ public abstract class CliArguments {
     public List<String> getFormats() {
         return formats;
     }
+
+    @Override
+    public boolean equals(Object other) {
+        // short circuit if same object
+        if (this == other) {
+            return true;
+        }
+
+        // instanceof handles null
+        if (!(other instanceof CliArguments)) {
+            return false;
+        }
+
+        CliArguments otherCliArguments = (CliArguments) other;
+
+        return this.outputFilePath.equals(otherCliArguments.outputFilePath)
+                && this.sinceDate.equals(otherCliArguments.sinceDate)
+                && this.untilDate.equals(otherCliArguments.untilDate)
+                && this.formats.equals(otherCliArguments.formats);
+    }
 }

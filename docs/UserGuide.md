@@ -50,7 +50,7 @@ Sample usage to generate the report:
 java -jar RepoSense.jar -repos https://github.com/reposense/RepoSense.git https://github.com/se-edu/collate.git -output output_path/ -since 01/10/2017 -until 01/11/2017 -formats java adoc js
 ```
 Argument List:
-- repos : Mandatory. The GitHub URL or disk location of the git repositories to clone `e.g. C:\Users\user\Desktop\GitHub\RepoSense`.
+- repo/repos : Mandatory. The GitHub URL or disk location of the git repositories to clone `e.g. C:\Users\user\Desktop\GitHub\RepoSense`.
 - output : Optional. The path to the dashboard generated. If not provided, it will be generated in the current directory.
 - since : Optional. The start date of analysis. Format: `DD/MM/YYYY`
 - until : Optional. The end date of analysis. Format: `DD/MM/YYYY`

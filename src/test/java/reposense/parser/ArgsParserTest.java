@@ -207,6 +207,17 @@ public class ArgsParserTest {
         Assert.assertEquals(actualRepoConfigs, expectedRepoConfigs);
     }
 
+    @Test
+    public void parse_repoAliases_sameResult() throws ParseException, IOException {
+        String input = String.format("-repos %s", TEST_REPO_BETA);
+        CliArguments repoAliasCliArguments = ArgsParser.parse(translateCommandline(input));
+
+        input = String.format("-repo %s", TEST_REPO_BETA);
+        CliArguments reposAliasCliArguments = ArgsParser.parse(translateCommandline(input));
+
+        Assert.assertEquals(repoAliasCliArguments, reposAliasCliArguments);
+    }
+
     @Test(expected = ParseException.class)
     public void emptyArgs_throwsParseException() throws ParseException {
         ArgsParser.parse(new String[]{});
