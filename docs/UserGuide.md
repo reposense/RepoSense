@@ -10,7 +10,7 @@
    java -jar RepoSense.jar -repos https://github.com/reposense/RepoSense.git
    ```
 
-For more information or to customise your own report, do read up on the followings:
+For more information or to customize your own report, do read up on the following:
 1. [How to Generate Report](#how-to-generate-report).
 1. [How to View Report](#how-to-view-report).
 1. Using the [CSV Config Files](#csv-config-files).
@@ -36,12 +36,15 @@ java -jar RepoSense.jar -config ./configs/ -output output_path/ -since 01/10/201
 ```
 Argument List:
 - config : Mandatory. The path to the directory that contains the configuration file(s).
-- output : Optional. The path to the dashboard generated. If not provided, it will be generated in the current directory.
+- output : Optional. The path to the dashboard generated. <br/>
+  If not provided, it will be generated in the current directory.
 - since : Optional. The start date of analysis. Format: `DD/MM/YYYY`
 - until : Optional. The end date of analysis. Format: `DD/MM/YYYY`
-- formats* : Optional. The file formats to analyse. Formats: `alphanumerical file formats`. If not provided, the following file formats will be used. `adoc, cs, css, fxml, gradle, html, java, js, json, jsp, md, py, tag, xml`
+- formats<sup>*</sup> : Optional. The file formats to analyze. Formats: `alphanumerical file formats`. <br/>
+  If not provided, the following file formats will be used: <br/>
+  `adoc cs css fxml gradle html java js json jsp md py tag xml`
 
-\* **Multi-value field**: multiple values can be entered in this field by separating them with a space, ` `.
+<sup>* **Multi-value field**: multiple values can be entered in this field by separating them with a space, ` `.</sup>
 
 ### Using repository location(s)
 Usage: `java -jar RepoSense.jar -repos REPO_PATH... [-output OUTPUT_DIRECTORY] [-since DD/MM/YYYY] [-until DD/MM/YYYY] [-formats FORMAT...]`
@@ -52,13 +55,17 @@ Sample usage to generate the report:
 java -jar RepoSense.jar -repos https://github.com/reposense/RepoSense.git https://github.com/se-edu/collate.git -output output_path/ -since 01/10/2017 -until 01/11/2017 -formats java adoc js
 ```
 Argument List:
-- repo/repos* : Mandatory. The GitHub URL or disk location of the git repositories to clone `e.g. C:\Users\user\Desktop\GitHub\RepoSense`.
-- output : Optional. The path to the dashboard generated. If not provided, it will be generated in the current directory.
+- repo/repos<sup>*</sup> : Mandatory. The GitHub URL or disk location of the git repositories to clone. <br/>
+  For example, `C:\Users\user\Desktop\GitHub\RepoSense`
+- output : Optional. The path to the dashboard generated. <br/>
+  If not provided, it will be generated in the current directory.
 - since : Optional. The start date of analysis. Format: `DD/MM/YYYY`
 - until : Optional. The end date of analysis. Format: `DD/MM/YYYY`
-- formats* : Optional. The file formats to analyse. Formats: `alphanumerical file formats`. If not provided, the following file formats will be used. `adoc, cs, css, fxml, gradle, html, java, js, json, jsp, md, py, tag, xml`
+- formats<sup>*</sup> : Optional. The file formats to analyze. Formats: `alphanumerical file formats`. <br/>
+  If not provided, the following file formats will be used: <br/>
+  `adoc cs css fxml gradle html java js json jsp md py tag xml`
 
-\* **Multi-value field**: multiple values can be entered in this field by separating them with a space, ` `.
+<sup>* **Multi-value field**: multiple values can be entered in this field by separating them with a space, ` `.</sup>
 
 ## How to View Report
 ### With jar
@@ -112,16 +119,16 @@ to configure the list of repositories to analyze and the respective repository l
 Column Name | Explanation
 ----------- | -----------
 Repository's Location | The `GitHub URL` or `Disk Path` to the git repository
-Branch | The branch to analyse in the target repository
-[Optional] File formats* | The file formats to analyse in `alphanumerical`. If not provided, the following file formats will be used. `adoc, cs, css, fxml, gradle, html, java, js, json, jsp, md, py, tag, xml`
-[Optional] Ignore Glob List* | The list of file path globs to ignore during analysis for each author. More details on the Java glob standard [here](https://javapapers.com/java/glob-with-java-nio/)
-[Optional] Ignore standalone config* | Ignore the presence of standalone config in target repository. To do so, enter **`yes`** in this column. Otherwise, the configuration in the target repository will be used by default.
-[Optional] Ignore Commit List* | The list of commits to ignore during analysis. For accurate results, the commits should be provided with their full hash.
+Branch | The branch to analyze in the target repository
+[Optional] File formats<sup>*</sup> | The file formats to analyze in `alphanumerical`. If not provided, the following file formats will be used. `adoc; cs; css; fxml; gradle; html; java; js; json; jsp; md; py; tag; xml`
+[Optional] Ignore Glob List<sup>*</sup> | The list of file path globs to ignore during analysis for each author. More details on the Java glob standard [here](https://javapapers.com/java/glob-with-java-nio/)
+[Optional] Ignore standalone config<sup>*</sup> | Ignore the presence of standalone config in target repository. To do so, enter **`yes`** in this column. Otherwise, the configuration in the target repository will be used by default.
+[Optional] Ignore Commit List<sup>*</sup> | The list of commits to ignore during analysis. For accurate results, the commits should be provided with their full hash.
 
-\* **Multi-value column**: multiple values can be entered in this column using a semicolon, `;`, separator.
+<sup>* **Multi-value column**: multiple values can be entered in this column using a semicolon, `;`, separator.</sup>
 
 #### Author configuration file [Optional]
-to configure the list of authors to analyse and the options. <br/>
+to configure the list of authors to analyze and the options. <br/>
 [author-config.csv](author-config.csv) is an example of a configuration file setup. It should contain the following columns:
 
 <h5>
@@ -134,13 +141,13 @@ Otherwise, all the authors of the repositories will be added into the report by 
 Column Name | Explanation
 ----------- | -----------
 Repository's Location | The `GitHub URL` or `Disk Path` to the git repository
-Branch | The branch to analyse in the target repository
+Branch | The branch to analyze in the target repository
 Author's GitHub ID | GitHub ID of the target contributor in the repository
 Author's Display Name | Optional Field. The value of this field, if not empty, will be displayed in the dashboard instead of author's GitHub ID.
-[Optional] Author's Git Author Name* | Detailed explanation below
-[Optional] Ignore Global List* | The list of file path globs to ignore during analysis for this author on top of what is already specified in `author-config.csv`. More details on the Java glob standard [here](https://javapapers.com/java/glob-with-java-nio/)
+[Optional] Author's Git Author Name<sup>*</sup> | Detailed explanation below
+[Optional] Ignore Global List<sup>*</sup> | The list of file path globs to ignore during analysis for this author on top of what is already specified in `author-config.csv`. More details on the Java glob standard [here](https://javapapers.com/java/glob-with-java-nio/)
 
-\* **Multi-value column**: multiple values can be entered in this column using a semicolon, `;`, separator.
+<sup>* **Multi-value column**: multiple values can be entered in this column using a semicolon, `;`, separator.</sup>
 
 #### Git Author Name
 `Git Author Name` refers to the customizable author's display name set in the local `.gitconfig` file.
