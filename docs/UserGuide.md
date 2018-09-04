@@ -27,20 +27,13 @@ For more information or to customise your own report, do read up on the followin
 1. Execute it on the OS terminal.  <br/>
 
 ### Using repo-config.csv file
-Usage: `java -jar RepoSense.jar [-config CONFIG_DIRECTORY...] [-output OUTPUT_DIRECTORY] [-since DD/MM/YYYY] [-until DD/MM/YYYY] [-formats FORMAT...]`
+Usage: `java -jar RepoSense.jar [-config CONFIG_DIRECTORY] [-output OUTPUT_DIRECTORY] [-since DD/MM/YYYY] [-until DD/MM/YYYY] [-formats FORMAT...]`
 1. The report will be generated in the designated OUTPUT_DIRECTORY, or current working directory otherwise.
 
 Sample usage to generate the report (with -config):
 ```
 java -jar RepoSense.jar -config ./configs/ -output output_path/ -since 01/10/2017 -until 01/11/2017 -formats java adoc js
 ```
-
-Sample usage to generate the report (without -config):
-```
-java -jar RepoSense.jar -output output_path/ -since 03/11/2017 -until 04/11/2017 -formats css js
-```
-1. The report will be generated using config files located in the current working directory. 
-
 Argument List:
 - config : Optional. The path to the directory that contains the configuration file(s). If not provided, it will be obtained from the current directory.
 - output : Optional. The path to the dashboard generated. If not provided, it will be generated in the current directory.
@@ -90,17 +83,17 @@ Any other arguments entered with -view will be ignored.
 ### Other option:
 1. Clone this repository (or [download as zip](https://github.com/reposense/RepoSense/archive/master.zip))
 1. Execute the following command on the OS terminal inside the project directory. <br/>
-Usage: `gradlew run -Dargs="([-config ./configs/...] | -repos https://github.com/reposense/RepoSense.git https://github.com/se-edu/collate.git | -view report_path/) [-output OUTPUT_DIRECTORY] [-since DD/MM/YYYY] [-until DD/MM/YYYY] [-formats FORMAT...]"` <br/>
+Usage: `gradlew run -Dargs="([-config CONFIG_FOLDER] | -repos REPO_PATH_OR_URL... | -view REPORT_FOLDER) [-output OUTPUT_DIRECTORY] [-since DD/MM/YYYY] [-until DD/MM/YYYY] [-formats FORMAT...]"` <br/>
+
+Sample usage to generate the report with no specify arguments: (find and use config files in current working directory) 
+```
+gradlew run
+
+```
 
 Sample usage to generate the report with config files:
 ```
 gradlew run -Dargs="-config ./configs/ -output output_path/ -since 01/10/2017 -until 01/11/2017 -formats java adoc js"
-
-```
-
-Sample usage to generate the report using config files in current working directory: 
-```
-gradlew run -Dargs="-output output_path/ -since 03/11/2017 -until 04/11/2017 -formats css js"
 
 ```
 
