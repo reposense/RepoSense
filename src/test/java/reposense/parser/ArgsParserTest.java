@@ -224,7 +224,7 @@ public class ArgsParserTest {
 
         Assert.assertEquals(repoAliasCliArguments, reposAliasCliArguments);
     }
-      
+
     @Test
     public void parse_invalidRepoLocation_emptyRepoConfigurationList() throws ParseException, IOException {
         String input = String.format("-repos %s", "https://githubaaaa.com/asdasdasdasd/RepoSense");
