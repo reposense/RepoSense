@@ -38,4 +38,22 @@ public class ConfigCliArguments extends CliArguments {
     public Path getAuthorConfigFilePath() {
         return authorConfigFilePath;
     }
+
+    public boolean equals(Object other) {
+        // short circuit if same object
+        if (this == other) {
+            return true;
+        }
+
+        // instanceof handles null
+        if (!(other instanceof ConfigCliArguments)) {
+            return false;
+        }
+
+        ConfigCliArguments otherConfigCliArguments = (ConfigCliArguments) other;
+
+        return super.equals(other)
+                && this.repoConfigFilePath.equals(otherConfigCliArguments.repoConfigFilePath)
+                && this.authorConfigFilePath.equals(otherConfigCliArguments.authorConfigFilePath);
+    }
 }

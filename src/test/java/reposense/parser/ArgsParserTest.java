@@ -215,6 +215,16 @@ public class ArgsParserTest {
                 (ConfigCliArguments) cliArguments).getConfigFolderPath().toString());
     }
 
+    public void parse_repoAliases_sameResult() throws ParseException, IOException {
+        String input = String.format("-repos %s", TEST_REPO_BETA);
+        CliArguments repoAliasCliArguments = ArgsParser.parse(translateCommandline(input));
+
+        input = String.format("-repo %s", TEST_REPO_BETA);
+        CliArguments reposAliasCliArguments = ArgsParser.parse(translateCommandline(input));
+
+        Assert.assertEquals(repoAliasCliArguments, reposAliasCliArguments);
+    }
+      
     @Test
     public void parse_invalidRepoLocation_emptyRepoConfigurationList() throws ParseException, IOException {
         String input = String.format("-repos %s", "https://githubaaaa.com/asdasdasdasd/RepoSense");

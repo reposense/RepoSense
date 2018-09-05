@@ -27,7 +27,7 @@ import reposense.report.ReportGenerator;
 import reposense.util.FileUtil;
 import reposense.util.TestUtil;
 
-public class Entry {
+public class ConfigSystemTest {
     private static final String FT_TEMP_DIR = "ft_temp";
     private static final String EXPECTED_FOLDER = "expected";
     private static final List<String> TESTING_FILE_FORMATS = Arrays.asList("java", "adoc");
@@ -62,7 +62,9 @@ public class Entry {
 
     private void generateReport(String inputDates) throws IOException, URISyntaxException, ParseException {
         Path configFolder = Paths.get(getClass().getClassLoader().getResource("repo-config.csv").toURI()).getParent();
-        String input = String.format("-config %s ", configFolder) + inputDates;
+
+        String formats = String.join(" ", TESTING_FILE_FORMATS);
+        String input = String.format("-config %s -formats %s ", configFolder, formats) + inputDates;
 
         CliArguments cliArguments = ArgsParser.parse(translateCommandline(input));
 
@@ -73,7 +75,7 @@ public class Entry {
 
         RepoConfiguration.merge(repoConfigs, authorConfigs);
 
-        RepoConfiguration.setFormatsToRepoConfigs(repoConfigs, TESTING_FILE_FORMATS);
+        RepoConfiguration.setFormatsToRepoConfigs(repoConfigs, cliArguments.getFormats());
         RepoConfiguration.setDatesToRepoConfigs(
                 repoConfigs, cliArguments.getSinceDate(), cliArguments.getUntilDate());
 
