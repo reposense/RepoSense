@@ -223,6 +223,11 @@ header{
 
 /* Authorship */
 #tab-authorship{
+    .toolbar{
+        float: right;
+        cursor: pointer;
+    }
+
     .title{
         .repoName{
             font-size:1.5rem;
@@ -240,7 +245,11 @@ header{
 
             &.active{
                 pre{
-                    display:block;
+                    display:grid;
+                    .hljs{
+                        // overwrite hljs library
+                        display:inherit;
+                    }
                 }
             }
         }
@@ -259,14 +268,16 @@ header{
         .code{
             padding-left:1rem;
             border-left:0.25rem solid mui-color('green');
+            background-color:mui-color('green', '50');
         }
 
         .untouched{
-            $gray: mui-color('grey', '400');
+            $grey:mui-color('grey', '400');
 
             &.active{
                 .code{
-                    display:block;
+                    display:inherit;
+                    background-color:mui-color('white');
                 }
 
                 .closer{
@@ -283,7 +294,8 @@ header{
 
             .code{
                 display:none;
-                border-left:0.25rem solid $gray;
+                border-left:0.25rem solid $grey;
+                background-color:mui-color('white');
             }
 
             .closer{
@@ -291,7 +303,7 @@ header{
                 padding:0.5rem 1rem;
 
                 .icon{
-                    background-color:$gray;
+                    background-color:$grey;
                     color:mui-color('white');
 
                     width:2.2rem;

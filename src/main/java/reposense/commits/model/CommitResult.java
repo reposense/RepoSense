@@ -47,4 +47,23 @@ public class CommitResult {
     public int getDeletions() {
         return deletions;
     }
+
+    @Override
+    public boolean equals(Object other) {
+        if (this == other) {
+            return true;
+        }
+
+        if (!(other instanceof CommitResult)) {
+            return false;
+        }
+
+        CommitResult otherCommitResult = (CommitResult) other;
+        return author.equals(otherCommitResult.author)
+                && hash.equals(otherCommitResult.hash)
+                && time.equals(otherCommitResult.time)
+                && message.equals(otherCommitResult.message)
+                && insertions == otherCommitResult.insertions
+                && deletions == otherCommitResult.deletions;
+    }
 }

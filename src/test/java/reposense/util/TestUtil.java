@@ -113,5 +113,20 @@ public class TestUtil {
         Assert.assertEquals(
                 expectedRepoConfig.getAuthorAliasMap().hashCode(), actualRepoConfig.getAuthorAliasMap().hashCode());
         Assert.assertEquals(expectedRepoConfig.getIgnoreGlobList(), actualRepoConfig.getIgnoreGlobList());
+        Assert.assertEquals(expectedRepoConfig.getFormats(), actualRepoConfig.getFormats());
+    }
+
+    /**
+     * Returns true if the {@code expectedNumberCommits} is equal to the expected number of lines in
+     * {@code gitLogResult}.
+     */
+    public static boolean compareNumberExpectedCommitsToGitLogLines(int expectedNumberCommits, String gitLogResult) {
+        // if git log result is empty, then there are no commits
+        if (gitLogResult.isEmpty()) {
+            return expectedNumberCommits == 0;
+        }
+
+        // each commit has 2 lines of info, and a blank line in between each
+        return expectedNumberCommits * 3 - 1 == gitLogResult.split("\n").length;
     }
 }

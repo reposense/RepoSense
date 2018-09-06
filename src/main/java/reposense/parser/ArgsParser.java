@@ -40,7 +40,7 @@ public class ArgsParser {
 
         MutuallyExclusiveGroup mutexParser = parser
                 .addMutuallyExclusiveGroup(PROGRAM_USAGE)
-                .required(true);
+                .required(false);
 
         parser.addArgument("-h", "--help")
                 .help("Show help message.")
@@ -49,10 +49,13 @@ public class ArgsParser {
         mutexParser.addArgument("-config")
                 .type(new ConfigFolderArgumentType())
                 .metavar("PATH")
-                .help("The directory containing the config files.");
+                .setDefault(Paths.get("").toAbsolutePath())
+                .help("The directory containing the config files."
+                        + "If not provided, the config files will be obtained from the current working directory.");
 
-        mutexParser.addArgument("-repos")
+        mutexParser.addArgument("-repo", "-repos")
                 .nargs("+")
+                .dest("repos")
                 .metavar("LOCATION")
                 .help("The GitHub URL or disk locations to clone repository.");
 
@@ -112,10 +115,6 @@ public class ArgsParser {
 
             verifyDatesRangeIsCorrect(sinceDate, untilDate);
 
-            if (configFolderPath != null) {
-                return new ConfigCliArguments(configFolderPath, outputFolderPath, sinceDate, untilDate, formats);
-            }
-
             if (locations != null) {
                 return new LocationsCliArguments(locations, outputFolderPath, sinceDate, untilDate, formats);
             }
@@ -124,7 +123,7 @@ public class ArgsParser {
                 return new ViewCliArguments(reportFolderPath);
             }
 
-            throw new AssertionError("CliArguments cannot be created");
+            return new ConfigCliArguments(configFolderPath, outputFolderPath, sinceDate, untilDate, formats);
         } catch (ArgumentParserException ape) {
             throw new ParseException(getArgumentParser().formatUsage() + ape.getMessage() + "\n");
         }

@@ -207,9 +207,22 @@ public class ArgsParserTest {
         Assert.assertEquals(actualRepoConfigs, expectedRepoConfigs);
     }
 
-    @Test(expected = ParseException.class)
-    public void emptyArgs_throwsParseException() throws ParseException {
-        ArgsParser.parse(new String[]{});
+    @Test
+    public void emptyArgs_defaultConfigFolderPath() throws ParseException, IOException {
+        CliArguments cliArguments = ArgsParser.parse(new String[]{});
+        Assert.assertTrue(cliArguments instanceof ConfigCliArguments);
+        Assert.assertEquals(PROJECT_DIRECTORY.toString(), (
+                (ConfigCliArguments) cliArguments).getConfigFolderPath().toString());
+    }
+
+    public void parse_repoAliases_sameResult() throws ParseException, IOException {
+        String input = String.format("-repos %s", TEST_REPO_BETA);
+        CliArguments repoAliasCliArguments = ArgsParser.parse(translateCommandline(input));
+
+        input = String.format("-repo %s", TEST_REPO_BETA);
+        CliArguments reposAliasCliArguments = ArgsParser.parse(translateCommandline(input));
+
+        Assert.assertEquals(repoAliasCliArguments, reposAliasCliArguments);
     }
 
     @Test
@@ -219,12 +232,6 @@ public class ArgsParserTest {
         Assert.assertTrue(cliArguments instanceof LocationsCliArguments);
         List<RepoConfiguration> repoConfigs = RepoSense.getRepoConfigurations((LocationsCliArguments) cliArguments);
         Assert.assertTrue(repoConfigs.isEmpty());
-    }
-
-    @Test(expected = ParseException.class)
-    public void missingMandatoryConfigArg_throwsParseException() throws ParseException {
-        String input = String.format("-output %s -since 01/07/2017 -until 30/11/2017", OUTPUT_DIRECTORY_ABSOLUTE);
-        ArgsParser.parse(translateCommandline(input));
     }
 
     @Test(expected = ParseException.class)

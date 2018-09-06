@@ -14,6 +14,7 @@ import reposense.git.CommitNotFoundException;
 import reposense.model.Author;
 import reposense.model.RepoConfiguration;
 import reposense.util.FileUtil;
+import reposense.util.StringsUtil;
 
 public class CommandRunner {
     private static final DateFormat GIT_LOG_SINCE_DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd'T'00:00:00+08:00");
@@ -32,7 +33,7 @@ public class CommandRunner {
 
         String command = "git log --no-merges ";
         command += convertToGitDateRangeArgs(config.getSinceDate(), config.getUntilDate());
-        command += " --pretty=format:\"%h|%aN|%ad|%s\" --date=iso --shortstat";
+        command += " --pretty=format:\"%H|%aN|%ad|%s\" --date=iso --shortstat";
         command += convertToFilterAuthorArgs(author);
         command += convertToGitFormatsArgs(config.getFormats());
         command += convertToGitExcludeGlobArgs(author.getIgnoreGlobList());
@@ -72,9 +73,8 @@ public class CommandRunner {
 
         String blameCommand = "git blame -w --line-porcelain";
         blameCommand += " " + addQuote(fileDirectory);
-        blameCommand += getAuthorFilterCommand();
 
-        return runCommand(rootPath, blameCommand);
+        return StringsUtil.filterText(runCommand(rootPath, blameCommand), "(^author .*)|(^[0-9a-f]{40} .*)");
     }
 
     public static String checkStyleRaw(String absoluteDirectory) {
@@ -167,14 +167,6 @@ public class CommandRunner {
 
     private static boolean isWindows() {
         return (System.getProperty("os.name").toLowerCase().indexOf("win") >= 0);
-    }
-
-    /**
-     * Returns the {@code String} command which filters the git blame output to produce only the necessary author
-     * name for each line.
-     */
-    private static String getAuthorFilterCommand() {
-        return isWindows ? "| findstr /B /C:" + addQuote("author ") : "| grep " + addQuote("^author .*");
     }
 
     /**

@@ -15,7 +15,7 @@ import java.util.stream.Collectors;
 import reposense.system.LogsManager;
 
 public abstract class CsvParser<T> {
-    protected static final String AUTHOR_ALIAS_AND_GLOB_SEPARATOR = ";";
+    protected static final String COLUMN_VALUES_SEPARATOR = ";";
     protected static final Logger logger = LogsManager.getLogger(CsvParser.class);
 
     private static final String ELEMENT_SEPARATOR = ",";
@@ -30,7 +30,8 @@ public abstract class CsvParser<T> {
      */
     public CsvParser(Path csvFilePath) throws IOException {
         if (csvFilePath == null || !Files.exists(csvFilePath)) {
-            throw new IOException("Csv file does not exists in given path");
+            throw new IOException("Csv file does not exists in given path.\n"
+                    + "Use '-help' to list all the available subcommands and some concept guides.");
         }
 
         this.csvFilePath = csvFilePath;
@@ -96,9 +97,9 @@ public abstract class CsvParser<T> {
 
     /**
      * Gets the value of {@code position} in {@code elements}.
-     * Returns the value of {@code position} in an array, delimited by {@code AUTHOR_ALIAS_AND_GLOB_SEPARATOR}
-     * if it is in {@code element} and not empty.
-     * Otherwise returns an empty array.
+     * Returns the value of {@code element} at {@code position} as a {@code List},
+     * delimited by {@code COLUMN_VALUES_SEPARATOR} if it is in {@code element} and not empty.
+     * Otherwise returns an empty {@code List}.
      */
     protected List<String> getManyValueInElement(final String[] elements, int position) {
         if (!containsValueAtPosition(elements, position)) {
@@ -106,8 +107,7 @@ public abstract class CsvParser<T> {
         }
 
         String manyValue = getValueInElement(elements, position);
-        // Wrap with new ArrayList<> to support all list functionalities.
-        return new ArrayList<>(Arrays.asList(manyValue.split(AUTHOR_ALIAS_AND_GLOB_SEPARATOR)));
+        return Arrays.stream(manyValue.split(COLUMN_VALUES_SEPARATOR)).map(String::trim).collect(Collectors.toList());
     }
 
     /**

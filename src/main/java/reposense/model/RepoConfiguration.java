@@ -27,10 +27,17 @@ import reposense.util.FileUtil;
 
 public class RepoConfiguration {
     private static final Logger logger = LogsManager.getLogger(RepoConfiguration.class);
+    private static final String MESSAGE_ILLEGAL_FORMATS = "The provided formats, %s, contains illegal characters.";
+    private static final String FORMAT_VALIDATION_REGEX = "[A-Za-z0-9]+";
+
     private static final String GIT_LINK_SUFFIX = ".git";
     private static final Pattern GIT_REPOSITORY_LOCATION_PATTERN =
             Pattern.compile("^.*github.com\\/(?<org>.+?)\\/(?<repoName>.+?)\\.git$");
     private static final String DEFAULT_BRANCH = "master";
+    private static final String COMMIT_HASH_REGEX = "^[0-9a-f]+$";
+    private static final String INVALID_COMMIT_HASH_MESSAGE =
+            "The provided commit hash, %s, contains illegal characters.";
+
 
     private String location;
     private String organization;
@@ -49,6 +56,7 @@ public class RepoConfiguration {
     private transient TreeMap<String, Author> authorAliasMap = new TreeMap<>(String.CASE_INSENSITIVE_ORDER);
     private transient Map<Author, String> authorDisplayNameMap = new HashMap<>();
     private transient boolean isStandaloneConfigIgnored;
+    private transient List<String> ignoreCommitList;
 
     /**
      * @throws InvalidLocationException if {@code location} cannot be represented by a {@code URL} or {@code Path}.
@@ -61,18 +69,22 @@ public class RepoConfiguration {
      * @throws InvalidLocationException if {@code location} cannot be represented by a {@code URL} or {@code Path}.
      */
     public RepoConfiguration(String location, String branch) throws InvalidLocationException {
-        this(location, branch, Collections.emptyList(), false);
+        this(location, branch, Collections.emptyList(), Collections.emptyList(), false, Collections.emptyList());
     }
 
     /**
      * @throws InvalidLocationException if {@code location} cannot be represented by a {@code URL} or {@code Path}.
      */
-    public RepoConfiguration(String location, String branch, List<String> ignoreGlobList,
-            boolean isStandaloneConfigIgnored) throws InvalidLocationException {
+    public RepoConfiguration(String location, String branch, List<String> formats, List<String> ignoreGlobList,
+            boolean isStandaloneConfigIgnored, List<String> ignoreCommitList) throws InvalidLocationException {
         this.location = location;
         this.branch = branch;
         this.ignoreGlobList = ignoreGlobList;
         this.isStandaloneConfigIgnored = isStandaloneConfigIgnored;
+        this.formats = formats;
+
+        validateIgnoreCommits(ignoreCommitList);
+        this.ignoreCommitList = ignoreCommitList;
 
         verifyLocation(location);
         Matcher matcher = GIT_REPOSITORY_LOCATION_PATTERN.matcher(location);
@@ -118,10 +130,11 @@ public class RepoConfiguration {
     }
 
     /**
-     * Sets all {@code RepoConfiguration} in {@code configs} to have {@code formats} set.
+     * Sets {@code formats} to {@code RepoConfiguration} in {@code configs} if its format list is empty.
      */
     public static void setFormatsToRepoConfigs(List<RepoConfiguration> configs, List<String> formats) {
-        configs.forEach(config -> config.setFormats(formats));
+        configs.stream().filter(config -> config.getFormats().isEmpty())
+                        .forEach(config -> config.setFormats(formats));
     }
 
     /**
@@ -133,6 +146,8 @@ public class RepoConfiguration {
         authorDisplayNameMap.clear();
         ignoreGlobList = standaloneConfig.getIgnoreGlobList();
 
+        this.setFormats(standaloneConfig.getFormats());
+
         for (StandaloneAuthor sa : standaloneConfig.getAuthors()) {
             Author author = new Author(sa);
             author.appendIgnoreGlobList(ignoreGlobList);
@@ -142,6 +157,8 @@ public class RepoConfiguration {
             this.addAuthorAliases(author, Arrays.asList(author.getGitId()));
             this.addAuthorAliases(author, author.getAuthorAliases());
         }
+
+        setIgnoreCommitList(standaloneConfig.getIgnoreCommitList());
     }
 
     public String getRepoRoot() {
@@ -221,6 +238,15 @@ public class RepoConfiguration {
         this.ignoreGlobList = ignoreGlobList;
     }
 
+    public List<String> getIgnoreCommitList() {
+        return ignoreCommitList;
+    }
+
+    public void setIgnoreCommitList(List<String> ignoreCommitList) {
+        validateIgnoreCommits(ignoreCommitList);
+        this.ignoreCommitList = ignoreCommitList;
+    }
+
     public List<Author> getAuthorList() {
         return authorList;
     }
@@ -276,6 +302,7 @@ public class RepoConfiguration {
     }
 
     public void setFormats(List<String> formats) {
+        validateFormats(formats);
         this.formats = formats;
     }
 
@@ -327,6 +354,33 @@ public class RepoConfiguration {
 
         if (!isValidPathLocation && !isValidGitUrl) {
             throw new InvalidLocationException(location + " is an invalid location.");
+        }
+    }
+
+    /**
+     * Returns true if the given {@code value} is a valid format.
+     */
+    private static boolean isValidFormat(String value) {
+        return value.matches(FORMAT_VALIDATION_REGEX);
+    }
+
+    /**
+     * Checks that all the strings in the {@code formats} are in valid formats.
+     * @throws IllegalArgumentException if any of the values do not meet the criteria.
+     */
+    private static void validateFormats(List<String> formats) {
+        for (String format: formats) {
+            if (!isValidFormat(format)) {
+                throw new IllegalArgumentException(String.format(MESSAGE_ILLEGAL_FORMATS, format));
+            }
+        }
+    }
+
+    private void validateIgnoreCommits(List<String> ignoreCommitList) {
+        for (String commitHash : ignoreCommitList) {
+            if (!commitHash.matches(COMMIT_HASH_REGEX)) {
+                throw new IllegalArgumentException(String.format(INVALID_COMMIT_HASH_MESSAGE, commitHash));
+            }
         }
     }
 }
