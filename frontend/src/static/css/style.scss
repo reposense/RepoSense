@@ -65,16 +65,9 @@ header{
         text-align:center;
 
         .timestamp-footer {
-            margin-left: 1em;
-            margin-bottom: 1em;
-
-            position: relative;
-            left: 0;
-            bottom: 0;
-
-            text-align: left;
-            font-weight: bold;
-            color: rgba(0, 0, 0, 0.87);
+            margin-left:1em;
+            margin-bottom:1em;
+            color:mui-color('grey', '700');
         }
     }
 
