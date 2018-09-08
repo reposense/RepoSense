@@ -11,50 +11,48 @@
    ```
 
 For more information or to customize your own report, do read up on the following:
-1. [How to Generate Report](#how-to-generate-report).
-1. [How to View Report](#how-to-view-report).
+1. The full [Getting Started](#getting-started) guide.
 1. Using the [CSV Config Files](#csv-config-files).
-1. How to use the [Dashboard](#dashboard).
+1. How to operate the [Dashboard](#dashboard).
 
 ## Dependencies
 1. **JDK `1.8.0_60`** or later.
 1. **git `2.14`** or later on the command line.
- > Type `git --version` on your OS terminal and ensure that you have the correct version of **git**.
+> Type `git --version` on your OS terminal and ensure that you have the correct version of **git**.
 
-## How to Generate Report
+## Getting Started
 1. Download the latest executable Jar from our [release](https://github.com/reposense/RepoSense/releases/latest).
    * Alternatively, you can compile the executable Jar yourself by following our [build from source guide](Build.md).
-1. Execute it on the OS terminal.  <br/>
+1. To generate the report, please refer to one of the following:
+   * [Using repo-config.csv file](#using-repo-configcsv-file).
+   * [Using repository location(s)](#using-repository-locations).
+1. To view the generated report, please refer to [How to View Report](#how-to-view-report).
+1. Otherwise, you can also refer to [Other option](#other-option) on how to execute the program using source code.
 
-### Using repo-config.csv file
+### How to Generate Report
+
+#### Using repo-config.csv file
 Usage: `java -jar RepoSense.jar [-config CONFIG_DIRECTORY] [-output OUTPUT_DIRECTORY] [-since DD/MM/YYYY] [-until DD/MM/YYYY] [-formats FORMAT...]`
-1. The report will be generated in the designated OUTPUT_DIRECTORY, or current working directory otherwise.
 
 Sample usage to generate the report (with -config):
 ```
 java -jar RepoSense.jar -config ./configs/ -output output_path/ -since 01/10/2017 -until 01/11/2017 -formats java adoc js
 ```
-Argument List:
-- config : Optional. The path to the directory that contains the configuration file(s). If not provided, it will be obtained from the current directory.
-- output : Optional. The path to the dashboard generated. If not provided, it will be generated in the current directory.
-- since : Optional. The start date of analysis. Format: `DD/MM/YYYY`
-- until : Optional. The end date of analysis. Format: `DD/MM/YYYY`
-- formats<sup>*</sup> : Optional. The file formats to analyze. Formats: `alphanumerical file formats`. <br/>
-  If not provided, the following file formats will be used: <br/>
-  `adoc cs css fxml gradle html java js json jsp md py tag xml`
 
-<sup>* **Multi-value field**: multiple values can be entered in this field by separating them with a space, ` `.</sup>
-
-### Using repository location(s)
+#### Using repository location(s)
 Usage: `java -jar RepoSense.jar -repos REPO_PATH... [-output OUTPUT_DIRECTORY] [-since DD/MM/YYYY] [-until DD/MM/YYYY] [-formats FORMAT...]`
-1. The report will be generated in the designated OUTPUT_DIRECTORY, or current working directory otherwise.
 
 Sample usage to generate the report:
 ```
 java -jar RepoSense.jar -repos https://github.com/reposense/RepoSense.git https://github.com/se-edu/collate.git -output output_path/ -since 01/10/2017 -until 01/11/2017 -formats java adoc js
 ```
+
+> Note: The report will be generated in the designated OUTPUT_DIRECTORY, or current working directory otherwise.
+
 Argument List:
-- repo/repos<sup>*</sup> : Mandatory. The GitHub URL or disk location of the git repositories to clone. <br/>
+- config<sup>^</sup> : Optional. The path to the directory that contains the configuration file(s). <br/>
+  If not provided, it will be obtained from the current directory.
+- repo/repos<sup>*^</sup> : Mandatory. The GitHub URL or disk location of the git repositories to clone. <br/>
   For example, `C:\Users\user\Desktop\GitHub\RepoSense`
 - output : Optional. The path to the dashboard generated. <br/>
   If not provided, it will be generated in the current directory.
@@ -64,10 +62,11 @@ Argument List:
   If not provided, the following file formats will be used: <br/>
   `adoc cs css fxml gradle html java js json jsp md py tag xml`
 
-<sup>* **Multi-value field**: multiple values can be entered in this field by separating them with a space, ` `.</sup>
+<sup>* **Multi-value field**: multiple values can be entered in this field by separating them with a space, ` `.</sup><br/>
+<sup>^ **Mutual exclusive**: only one of the arguments, in the mutually exclusive group, can be present at one time.</sup>
 
-## How to View Report
-### With jar
+### How to View Report
+#### With jar
 1. Ensure that you have generated the report.
 1. Execute it on the OS terminal. <br/>
 Usage `java -jar RepoSense.jar -view REPORT_DIRECTORY`
@@ -76,14 +75,14 @@ Usage `java -jar RepoSense.jar -view REPORT_DIRECTORY`
 java -jar RepoSense.jar -view output_path/reposense-report
 ```
 Argument List:
-- view : Mandatory.The server will be started to display the dashboard in the specified directory.
+- view<sup>^</sup> : Mandatory. The server will be started to display the dashboard in the specified directory.
 
-`config` and `view` are mutually exclusive arguments which means that they cannot be provided together.
+<sup>^ **Mutual exclusive**: only one of the arguments, in the mutually exclusive group, can be present at one time.</sup>
 
-### Manually
-1. Ensure that you have generated the report.
-1. To visualize the report, open `index.html`.
-1. If the dashboard was not loaded automatically, upload the `archive.zip` (generated in the OUTPUT_DIRECTORY) manually to load the data.
+#### Manually
+1. Ensure that you have [generated the report](#how-to-generate-report).
+1. To visualize the report, open `index.html` (generated in the OUTPUT_DIRECTORY).
+1. If the dashboard was not loaded automatically, upload the `archive.zip` (in the same directory) manually to load the data.
 ```
 Note:
 The contribution calculation is based on the daily commits made within 00:00 to 23:59 in GMT+8.
@@ -98,13 +97,11 @@ Usage: `gradlew run -Dargs="([-config CONFIG_FOLDER] | -repos REPO_PATH_OR_URL..
 Sample usage to generate the report with no specify arguments: (find and use config files in current working directory) 
 ```
 gradlew run
-
 ```
 
 Sample usage to generate the report with config files:
 ```
 gradlew run -Dargs="-config ./configs/ -output output_path/ -since 01/10/2017 -until 01/11/2017 -formats java adoc js"
-
 ```
 
 Sample usage to generate the report with repository locations:
