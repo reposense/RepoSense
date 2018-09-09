@@ -318,7 +318,7 @@ Clicking on the name of the author, in the `Chart Panel`, will display the `Code
 Below is the list of features in this panel:
 - Files that contain author's contribution will be shown in this panel, sorted by the number of lines written.
 - Clicking the file title will show/hide the file content.
-- The lines that are **NOT** written by the selected author are hidden in collapsable boxes.
+- Huge changes that are **NOT** written by the selected author are hidden in collapsable boxes.
   - User can click on the boxes to display the hidden lines for context.
-  - These lines will be highlighted in a different color, gray.
+- Code written by the author will be highlighted in green.
 
