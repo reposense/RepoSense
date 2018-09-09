@@ -271,7 +271,7 @@ The `Tool Bar` at the top provides a set of filters that control the chart panel
     - You can choose between two time period:
         - Day
         - Week
-- Period : The time period that the ramp charts display.
+- Since & Until : The date range for the ramp charts display.
 - Group : Checkbox.
     - If checked, authors that have contributed to the same repository will be displayed next to each other.
     - This overrides the sort function.
