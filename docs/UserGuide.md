@@ -145,13 +145,6 @@ Branch | The branch to analyze in the target repository
 to configure the list of authors to analyze and the options. <br/>
 [author-config.csv](author-config.csv) is an example of a configuration file setup. It should contain the following columns:
 
-<h5>
-Note:
-If author-config.csv is not used or the repositories being analyzed are not specified by any authors
-in author-config.csv, add <a href="#standalone-configuration">Standalone Configuration</a> to those repostories.
-Otherwise, all the authors of the repositories will be added into the report by default.
-</h5>
-
 Column Name | Explanation
 ----------- | -----------
 Repository's Location | The `GitHub URL` or `Disk Path` to the git repository
@@ -162,6 +155,13 @@ Author's Display Name | Optional Field. The value of this field, if not empty, w
 [Optional] Ignore Global List<sup>*</sup> | The list of file path globs to ignore during analysis for this author on top of what is already specified in `author-config.csv`. More details on the Java glob standard [here](https://javapapers.com/java/glob-with-java-nio/)
 
 <sup>* **Multi-value column**: multiple values can be entered in this column using a semicolon, `;`, separator.</sup>
+
+<h5>
+Note:
+If author-config.csv is not used or the repositories being analyzed are not specified by any authors
+in author-config.csv, add <a href="#standalone-configuration">Standalone Configuration</a> to those repostories.
+Otherwise, all the authors of the repositories will be added into the report by default.
+</h5>
 
 #### Git Author Name
 `Git Author Name` refers to the customizable author's display name set in the local `.gitconfig` file.
