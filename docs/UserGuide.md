@@ -260,29 +260,29 @@ It consists of three main parts:
 ### Tool Bar
 The `Tool Bar` at the top provides a set of filters that control the chart panel.
 - Search : Filters the author and repository by keywords.
-    - Multiple keywords can be used, separated by spaces.
-    - The keywords are logically connected with OR operators.
+  - Multiple keywords can be used, separated by spaces.
+  - The keywords are logically connected with OR operators.
 - Sort : Users can sort by:
-    - Total Contribution : The amount of lines, written by the author, in the repository.
-    - Variance : The variance of contribution of all commits.
-        - It indicates the code consistency of an author.
-        - It helps to determine whether the author has been contributing regularly or procrastinating.
-        - This can be useful for instructors of student projects, e.g. [Addressbook](https://github.com/se-edu/addressbook-level4).
-    - Author Name : The Author's GitHub ID or Display Name configured in the `CSV Config File`.
-    - Team Name : The name of the organization of the repository.
+  - Total Contribution : The amount of lines, written by the author, in the repository.
+  - Variance : The variance of contribution of all commits.
+    - It indicates the code consistency of an author.     
+    - It helps to determine whether the author has been contributing regularly or procrastinating.
+    - This can be useful for instructors of student projects, e.g. [Addressbook](https://github.com/se-edu/addressbook-level4).
+  - Author Name : The Author's GitHub ID or Display Name configured in the `CSV Config File`.
+  - Team Name : The name of the organization of the repository.
 - Granularity : The period of time each ramp represents.
-    - You can choose between two time period:
-        - Day
-        - Week
+  - You can choose between two time period:
+    - Day
+    - Week
 - Since & Until : The date range for the ramp charts display.
 - Reverse: Checkbox.
-    - Reverse the order of ramp charts display.
+  - Reverse the order of ramp charts display.
 - Group : Checkbox.
-    - If checked, authors that have contributed to the same repository and branch will be displayed next to each other.
-    - This overrides the sort function.
+  - If checked, authors that have contributed to the same repository and branch will be displayed next to each other.
+  - This overrides the sort function.
 - Bookmark :
-    - The URL changes according to the toolbar configuration.
-    - You can restore your settings by bookmarking the url (using browser functionality) for revisiting later.
+  - The URL changes according to the toolbar configuration.
+  - You can restore your settings by bookmarking the url (using browser functionality) for revisiting later.
 
 ### Chart Panel
 The `Chart Panel` contains two type of indicators:
