@@ -1,5 +1,29 @@
 # RepoSense - User Guide
 
+* [Prerequisites](#prerequisites)
+* [Getting Started](#getting-started)
+* [Generating the Report](#generating-the-report)
+  * [How to Generate Report](#how-to-generate-report)
+    * [Using repo-config.csv file](#using-repo-configcsv-file)
+    * [Using repository location(s)](#using-repository-locations)
+  * [How to View Report](#how-to-view-report)
+    * [With jar](#with-jar)
+    * [Manually](#manually)
+  * [Other option](#other-option)
+* [Configuring Report Options](#configuring-report-options)
+  * [Repository configuration file](#repository-configuration-file)
+  * [[Optional] Author configuration file](#optional-author-configuration-file)
+    * [Git Author Name](#git-author-name)
+  * [[Optional] Preparation of Repositories](#optional-preparation-of-repositories)
+    * [Contribution Tags](#contribution-tags)
+    * [Standalone Configuration](#standalone-configuration)
+* [Interpreting the Report](#interpreting-the-report)
+  * [Tool Bar](#tool-bar)
+  * [Chart Panel](#chart-panel)
+    * [Ramp Chart](#ramp-chart)
+    * [Total Contribution Bars](#total-contribution-bars)
+  * [Code Panel](#code-panel)
+
 ## Prerequisites
 1. **JDK `1.8.0_60`** or later.
 1. **git `2.14`** or later on the command line.
@@ -126,7 +150,7 @@ There are 2 CSV file(s) that can be used to customize your report:
 Do also read up on [Preparation of Repositories](#optional-preparation-of-repositories) on how to further enhance the 
 accuracy of RepoSense analysis.
 
-#### Repository configuration file
+### Repository configuration file
 to configure the list of repositories to analyze and the respective repository level options. <br/>
 [repo-config.csv](repo-config.csv) is an example of a configuration file setup. It should contain the following columns:
 
@@ -141,7 +165,7 @@ Branch | The branch to analyze in the target repository
 
 <sup>* **Multi-value column**: multiple values can be entered in this column using a semicolon, `;`, separator.</sup>
 
-#### [Optional] Author configuration file
+### [Optional] Author configuration file
 to configure the list of authors to analyze and the options. <br/>
 [author-config.csv](author-config.csv) is an example of a configuration file setup. It should contain the following columns:
 
@@ -228,7 +252,10 @@ Below is an example of how the report looks like:
 
 ![report](images/report.png)
 
-It consists of three main parts: [Tool Bar](#tool-bar), [Chart Panel](#chart-panel) and [Code Panel](#code-panel).
+It consists of three main parts: 
+* [Tool Bar](#tool-bar)
+* [Chart Panel](#chart-panel)
+* [Code Panel](#code-panel)
 
 ### Tool Bar
 The `Tool Bar` at the top provides a set of filters that control the chart panel. From right to left, the filters are:
