@@ -267,10 +267,10 @@ The `Tool Bar` at the top provides a set of filters that control the chart panel
         - This can be useful for instructors of student projects, e.g. [Addressbook](https://github.com/se-edu/addressbook-level4).
     - Author Name : The Author's GitHub ID or Display Name configured in the `CSV Config File`.
     - Team Name : The name of the organization of the repository.
-- Interval : Interval refers to amount of time one single ramp represents.
-    - Users can choose two modes of time intervals:
-        - daily
-        - weekly
+- Granularity : The period of time each ramp represents.
+    - You can choose between two time period:
+        - Day
+        - Week
 - Period : The time period that the ramp charts display.
 - Group : Checkbox.
     - If checked, authors that have contributed to the same repository will be displayed next to each other.
