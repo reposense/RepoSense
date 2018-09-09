@@ -259,25 +259,25 @@ It consists of three main parts:
 
 ### Tool Bar
 The `Tool Bar` at the top provides a set of filters that control the chart panel.
-- Search : Filters the author and repository by keywords.
+- Search : filters the author and repository by keywords.
   - Multiple keywords can be used, separated by spaces.
   - The keywords are logically connected with OR operators.
-- Sort : Users can sort by:
-  - Total Contribution : The amount of lines, written by the author, in the repository.
-  - Variance : The variance of contribution of all commits.
+- Sort : users can sort by:
+  - Total Contribution : the amount of lines, written by the author, in the repository.
+  - Variance : the variance of contribution of all commits.
     - It indicates the code consistency of an author.     
     - It helps to determine whether the author has been contributing regularly or procrastinating.
     - This can be useful for instructors of student projects, e.g. [Addressbook](https://github.com/se-edu/addressbook-level4).
-  - Author Name : The Author's GitHub ID or Display Name configured in the `CSV Config File`.
-  - Team Name : The name of the organization of the repository.
-- Granularity : The period of time each ramp represents.
+  - Author Name : the author's GitHub ID or Display Name configured in the `CSV Config File`.
+  - Team Name : the name of the organization of the repository.
+- Granularity : the period of time each ramp represents.
   - You can choose between two time period:
     - Day
     - Week
-- Since & Until : The date range for the ramp charts display.
-- Reverse: Checkbox.
+- Since & Until : the date range for the ramp charts display.
+- Reverse : checkbox.
   - Reverse the order of ramp charts display.
-- Group : Checkbox.
+- Group : checkbox.
   - If checked, authors that have contributed to the same repository and branch will be displayed next to each other.
   - This overrides the sort function.
 - Bookmark :
