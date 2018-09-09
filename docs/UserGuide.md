@@ -13,7 +13,7 @@
 For more information or to customize your own report, do read up on the following:
 1. The full guide on [Generating the Report](#generating-the-report).
 1. [Configuring Report Options](#configuring-report-options) using CSV file(s).
-1. [Interpreting the Dashboard](#interpreting-the-dashboard).
+1. [Interpreting the Report](#interpreting-the-report).
 
 ## Dependencies
 1. **JDK `1.8.0_60`** or later.
@@ -54,7 +54,7 @@ Argument List:
   If not provided, it will be obtained from the current directory.
 - repo/repos<sup>*^</sup> : Mandatory. The GitHub URL or disk location of the git repositories to clone. <br/>
   For example, `C:\Users\user\Desktop\GitHub\RepoSense`
-- output : Optional. The path to the dashboard generated. <br/>
+- output : Optional. The path to the report generated. <br/>
   If not provided, it will be generated in the current directory.
 - since : Optional. The start date of analysis. Format: `DD/MM/YYYY`
 - until : Optional. The end date of analysis. Format: `DD/MM/YYYY`
@@ -78,14 +78,14 @@ Usage `java -jar RepoSense.jar -view REPORT_DIRECTORY`
 java -jar RepoSense.jar -view output_path/reposense-report
 ```
 Argument List:
-- view<sup>^</sup> : Mandatory. The server will be started to display the dashboard in the specified directory.
+- view<sup>^</sup> : Mandatory. The server will be started to display the report in the specified directory.
 
 <sup>^ **Mutual exclusive**: only one of the arguments, in the mutually exclusive group, can be present at one time.</sup>
 
 #### Manually
 1. Ensure that you have [generated the report](#how-to-generate-report).
 1. To visualize the report, open `index.html` (generated in the OUTPUT_DIRECTORY).
-1. If the dashboard was not loaded automatically, upload the `archive.zip` (in the same directory) manually to load the data.
+1. If the report was not loaded automatically, upload the `archive.zip` (in the same directory) manually to load the data.
 ```
 Note:
 The contribution calculation is based on the daily commits made within 00:00 to 23:59 in GMT+8.
@@ -112,7 +112,7 @@ Sample usage to generate the report with repository locations:
 gradlew run -Dargs="-repos https://github.com/reposense/RepoSense.git https://github.com/se-edu/collate.git -output output_path/ -since 01/10/2017 -until 01/11/2017 -formats java adoc js"
 ```
 
-Sample usage to view the dashboard:
+Sample usage to view the report:
 ```
 gradlew run -Dargs="-view output_path/reposense-report"
 ```
@@ -150,7 +150,7 @@ Column Name | Explanation
 Repository's Location | The `GitHub URL` or `Disk Path` to the git repository
 Branch | The branch to analyze in the target repository
 Author's GitHub ID | GitHub ID of the target contributor in the repository
-Author's Display Name | Optional Field. The value of this field, if not empty, will be displayed in the dashboard instead of author's GitHub ID.
+Author's Display Name | Optional Field. The value of this field, if not empty, will be displayed in the report instead of author's GitHub ID.
 [Optional] Author's Git Author Name<sup>*</sup> | Detailed explanation below
 [Optional] Ignore Global List<sup>*</sup> | The list of file path globs to ignore during analysis for this author on top of what is already specified in `author-config.csv`. More details on the Java glob standard [here](https://javapapers.com/java/glob-with-java-nio/)
 
@@ -220,12 +220,13 @@ You can use `Start Tags` to mark the start of your contribution. The author spec
 Instead of self-configuring all the repository details, you can have the repository owners include a *Standalone Configuration* to maintain their own repository configuration. For more information, check out the
 [Setup Standalone Configuration](StandaloneConfiguration.md#reposense---guide-to-setup-standalone-configuration).
 
-## Interpreting the Dashboard
-The `Dashboard` is written in HTML and Javascript as static pages - readable by majority of web browsers, and easily deploy-able in most hosting platforms (such as [GitHub Pages](https://pages.github.com/)).
+## Interpreting the Report
+The report is written in HTML and Javascript as static pages - readable by majority of web browsers, 
+and easily deploy-able in most hosting platforms (such as [GitHub Pages](https://pages.github.com/)).
 
-Below is an example of how the Dashboard looks like:
+Below is an example of how the report looks like:
 
-![dashboard](images/dashboard.png)
+![report](images/report.png)
 
 It consists of three main parts: [Tool Bar](#tool-bar), [Chart Panel](#chart-panel) and [Code Panel](#code-panel).
 
