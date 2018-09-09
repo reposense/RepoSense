@@ -11,16 +11,16 @@
    ```
 
 For more information or to customize your own report, do read up on the following:
-1. The full [Getting Started](#getting-started) guide.
-1. Using the [CSV Config Files](#csv-config-files).
-1. How to operate the [Dashboard](#dashboard).
+1. [Generating the Report](#generating-the-report).
+1. [Configuring Report Options](#configuring-report-options).
+1. [Interpreting the Dashboard](#interpreting-the-dashboard).
 
 ## Dependencies
 1. **JDK `1.8.0_60`** or later.
 1. **git `2.14`** or later on the command line.
 > Type `git --version` on your OS terminal and ensure that you have the correct version of **git**.
 
-## Getting Started
+## Generating the Report
 1. Download the latest executable Jar from our [release](https://github.com/reposense/RepoSense/releases/latest).
    * Alternatively, you can compile the executable Jar yourself by following our [build from source guide](Build.md).
 1. To generate the report, please refer to one of the following:
@@ -115,7 +115,7 @@ gradlew run -Dargs="-view output_path/reposense-report"
 ```
 `-Dargs="..."` uses the same argument format as mentioned above.
 
-## CSV Config Files
+## Configuring Report Options
 #### Repository configuration file
 to configure the list of repositories to analyze and the respective repository level options. <br/>
 [repo-config.csv](repo-config.csv) is an example of a configuration file setup. It should contain the following columns:
@@ -210,7 +210,7 @@ You can use `Start Tags` to mark the start of your contribution. The author spec
 Instead of self-configuring all the repository details, you can have the repository owners include a *Standalone Configuration* to maintain their own repository configuration. For more information, check out the
 [Setup Standalone Configuration](StandaloneConfiguration.md#reposense---guide-to-setup-standalone-configuration).
 
-## Dashboard
+## Interpreting the Dashboard
 The `Dashboard` is written in HTML and Javascript as static pages - readable by majority of web browsers, and easily deploy-able in most hosting platforms (such as [GitHub Pages](https://pages.github.com/)).
 
 Below is an example of how the Dashboard looks like:
