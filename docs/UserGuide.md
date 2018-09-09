@@ -273,7 +273,7 @@ The `Tool Bar` at the top provides a set of filters that control the chart panel
         - Week
 - Since & Until : The date range for the ramp charts display.
 - Group : Checkbox.
-    - If checked, authors that have contributed to the same repository will be displayed next to each other.
+    - If checked, authors that have contributed to the same repository and branch will be displayed next to each other.
     - This overrides the sort function.
 - Search : Filters the author and repository by keywords.
     - Multiple keywords can be used, separated by spaces.
