@@ -1,7 +1,12 @@
 # RepoSense - User Guide
 
+## Prerequisites
+1. **JDK `1.8.0_60`** or later.
+1. **git `2.14`** or later on the command line.
+> Type `git --version` on your OS terminal and ensure that you have the correct version of **git**.
+
 ## Getting Started
-1. Ensure that you have the necessary [dependencies](#dependencies).
+1. Ensure that you have the necessary [prerequisites](#prerequisites).
 1. Download the latest executable Jar from our [release](https://github.com/reposense/RepoSense/releases/latest).
    * Alternatively, you can compile the executable Jar yourself by following our [build from source guide](Build.md).
 1. Generate the report by executing the jar with the terminal using your repository url as input. <br/>
@@ -14,11 +19,6 @@ For more information or to customize your own report, do read up on the followin
 1. The full guide on [Generating the Report](#generating-the-report).
 1. [Configuring Report Options](#configuring-report-options) using CSV file(s).
 1. [Interpreting the Report](#interpreting-the-report).
-
-## Dependencies
-1. **JDK `1.8.0_60`** or later.
-1. **git `2.14`** or later on the command line.
-> Type `git --version` on your OS terminal and ensure that you have the correct version of **git**.
 
 ## Generating the Report
 1. Download the latest executable Jar from our [release](https://github.com/reposense/RepoSense/releases/latest).
