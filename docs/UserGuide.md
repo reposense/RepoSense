@@ -11,8 +11,8 @@
    ```
 
 For more information or to customize your own report, do read up on the following:
-1. [Generating the Report](#generating-the-report).
-1. [Configuring Report Options](#configuring-report-options).
+1. The full guide on [Generating the Report](#generating-the-report).
+1. [Configuring Report Options](#configuring-report-options) using CSV file(s).
 1. [Interpreting the Dashboard](#interpreting-the-dashboard).
 
 ## Dependencies
@@ -23,13 +23,13 @@ For more information or to customize your own report, do read up on the followin
 ## Generating the Report
 1. Download the latest executable Jar from our [release](https://github.com/reposense/RepoSense/releases/latest).
    * Alternatively, you can compile the executable Jar yourself by following our [build from source guide](Build.md).
-1. To generate the report, please refer to one of the following:
-   * [Using repo-config.csv file](#using-repo-configcsv-file).
-   * [Using repository location(s)](#using-repository-locations).
+1. To generate the report, please refer to [How to Generate Report](#how-to-generate-report).
 1. To view the generated report, please refer to [How to View Report](#how-to-view-report).
 1. Otherwise, you can also refer to [Other option](#other-option) on how to execute the program using source code.
 
 ### How to Generate Report
+* [Using repo-config.csv file](#using-repo-configcsv-file).
+* [Using repository location(s)](#using-repository-locations).
 
 #### Using repo-config.csv file
 Usage: `java -jar RepoSense.jar [-config CONFIG_DIRECTORY] [-output OUTPUT_DIRECTORY] [-since DD/MM/YYYY] [-until DD/MM/YYYY] [-formats FORMAT...]`
@@ -66,6 +66,9 @@ Argument List:
 <sup>^ **Mutual exclusive**: only one of the arguments, in the mutually exclusive group, can be present at one time.</sup>
 
 ### How to View Report
+* [With jar](#with-jar).
+* [Manually](#manually).
+
 #### With jar
 1. Ensure that you have generated the report.
 1. Execute it on the OS terminal. <br/>
@@ -116,6 +119,13 @@ gradlew run -Dargs="-view output_path/reposense-report"
 `-Dargs="..."` uses the same argument format as mentioned above.
 
 ## Configuring Report Options
+There are 2 CSV file(s) that can be used to customize your report:
+1. [Repository configuration file](#repository-configuration-file)
+1. [[Optional] Author configuration file](#optional-author-configuration-file)
+
+Do also read up on [Preparation of Repositories](#optional-preparation-of-repositories) on how to further enhance the 
+accuracy of RepoSense analysis.
+
 #### Repository configuration file
 to configure the list of repositories to analyze and the respective repository level options. <br/>
 [repo-config.csv](repo-config.csv) is an example of a configuration file setup. It should contain the following columns:
@@ -131,7 +141,7 @@ Branch | The branch to analyze in the target repository
 
 <sup>* **Multi-value column**: multiple values can be entered in this column using a semicolon, `;`, separator.</sup>
 
-#### Author configuration file [Optional]
+#### [Optional] Author configuration file
 to configure the list of authors to analyze and the options. <br/>
 [author-config.csv](author-config.csv) is an example of a configuration file setup. It should contain the following columns:
 
