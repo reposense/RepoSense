@@ -258,7 +258,10 @@ It consists of three main parts:
 * [Code Panel](#code-panel)
 
 ### Tool Bar
-The `Tool Bar` at the top provides a set of filters that control the chart panel. From right to left, the filters are:
+The `Tool Bar` at the top provides a set of filters that control the chart panel.
+- Search : Filters the author and repository by keywords.
+    - Multiple keywords can be used, separated by spaces.
+    - The keywords are logically connected with OR operators.
 - Sort : Users can sort by:
     - Total Contribution : The amount of lines, written by the author, in the repository.
     - Variance : The variance of contribution of all commits.
@@ -275,9 +278,6 @@ The `Tool Bar` at the top provides a set of filters that control the chart panel
 - Group : Checkbox.
     - If checked, authors that have contributed to the same repository and branch will be displayed next to each other.
     - This overrides the sort function.
-- Search : Filters the author and repository by keywords.
-    - Multiple keywords can be used, separated by spaces.
-    - The keywords are logically connected with OR operators.
 - Bookmark :
     - The URL changes according to the toolbar configuration.
     - You can restore your settings by bookmarking the url (using browser functionality) for revisiting later.
