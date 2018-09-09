@@ -1,6 +1,6 @@
 # RepoSense - User Guide
 
-## Quick Start
+## Getting Started
 1. Ensure that you have the necessary [dependencies](#dependencies).
 1. Download the latest executable Jar from our [release](https://github.com/reposense/RepoSense/releases/latest).
    * Alternatively, you can compile the executable Jar yourself by following our [build from source guide](Build.md).
