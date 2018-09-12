@@ -262,7 +262,7 @@ The `Tool Bar` at the top provides a set of filters that control the chart panel
 - Search : filters the author and repository by keywords.
   - Multiple keywords can be used, separated by spaces.
   - The keywords are logically connected with OR operators.
-- Sort : users can sort by:
+- Sort by :
   - Total Contribution : the amount of lines, written by the author, in the repository.
   - Variance : the variance of contribution of all commits.
     - It indicates the code consistency of an author.     
@@ -276,13 +276,16 @@ The `Tool Bar` at the top provides a set of filters that control the chart panel
     - Week
 - Since & Until : the date range for the ramp charts display.
 - Reverse : checkbox.
-  - Reverse the order of ramp charts display.
+  - If checked, the display order of the authors will be reversed.
 - Group : checkbox.
-  - If checked, authors that have contributed to the same repository and branch will be displayed next to each other.
-  - This overrides the sort function.
+  - If checked, authors from the same team<sup>1</sup> will be grouped together.
+  - This has precedence over the `sort by` filter; the `sort by` filter will only change display order of the authors under the same team<sup>1</sup>.
 - Bookmark :
   - The URL changes according to the toolbar configuration.
   - You can restore your settings by bookmarking the url (using browser functionality) for revisiting later.
+
+<sup>1 Team: authors in the same organization, repository and branch. The team name will correspondingly be in the format: *ORGANIZATION_REPOSITORY_BRANCH*</sup>
+
 
 ### Chart Panel
 The `Chart Panel` contains two type of indicators:
