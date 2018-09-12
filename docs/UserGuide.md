@@ -174,9 +174,9 @@ Column Name | Explanation
 Repository's Location | The `GitHub URL` or `Disk Path` to the git repository
 Branch | The branch to analyze in the target repository
 Author's GitHub ID | GitHub ID of the target contributor in the repository
-Author's Display Name | Optional Field. The value of this field, if not empty, will be displayed in the report instead of author's GitHub ID.
+[Optional] Author's Display Name | The value of this field, if not empty, will be displayed in the report instead of author's GitHub ID.
 [Optional] Author's Git Author Name<sup>*</sup> | Detailed explanation below
-[Optional] Ignore Global List<sup>*</sup> | The list of file path globs to ignore during analysis for this author on top of what is already specified in `author-config.csv`. More details on the Java glob standard [here](https://javapapers.com/java/glob-with-java-nio/)
+[Optional] Ignore Glob List<sup>*</sup> | The list of file path globs to ignore during analysis for this author on top of what is already specified in `author-config.csv`. More details on the Java glob standard [here](https://javapapers.com/java/glob-with-java-nio/)
 
 <sup>* **Multi-value column**: multiple values can be entered in this column using a semicolon, `;`, separator.</sup>
 
