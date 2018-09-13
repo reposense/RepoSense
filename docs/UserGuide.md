@@ -21,7 +21,7 @@
   * [Tool Bar](#tool-bar)
   * [Chart Panel](#chart-panel)
     * [Ramp Chart](#ramp-chart)
-    * [Total Contribution Bars](#total-contribution-bars)
+    * [Contribution Bar](#contribution-bar)
   * [Code Panel](#code-panel)
 
 ## Prerequisites
@@ -290,7 +290,7 @@ The `Tool Bar` at the top provides a set of filters that control the chart panel
 ### Chart Panel
 The `Chart Panel` contains two type of indicators:
 - [Ramp Chart](#ramp-chart)
-- [Total Contribution Bar](#total-contribution-bars)
+- [Contribution Bar](#contribution-bar)
 
 #### Ramp Chart
 To illustrate frequency and amount of contribution in the same graph, and to allow easy comparison between each entry, we implemented a new type of visualization.
@@ -308,7 +308,7 @@ Each light blue bar represents the contribution timeline of an individual author
 - When user hovers the pointer over a ramp, as shown in the above Figure, total amount of contribution over the time period will be shown.
 - Clicking on the ramp will redirect user to the GitHub page, which contains all the commits within the fixed time period.
 
-#### Total Contribution Bars
+#### Contribution Bar
 The total amount of code contributed is represented by the **red bars**, and the length of these red bars is proportional to the total contribution of the corresponding author.
 Hovering over the bar shows the exact amount of contribution.
 If the author contributes **too much** compared to other authors, there will be multiple red bars in his `Chart Panel`.
