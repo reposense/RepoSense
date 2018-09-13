@@ -269,7 +269,7 @@ The `Tool Bar` at the top provides a set of filters that control the chart panel
     - It helps to determine whether the author has been contributing regularly or procrastinating.
     - This can be useful for instructors of student projects, e.g. [Addressbook](https://github.com/se-edu/addressbook-level4).
   - Author Name : the author's GitHub ID or Display Name configured in the `CSV Config File`.
-  - Team Name : the name of the organization of the repository.
+  - Team Name : see below<sup>1</sup>.
 - Granularity : the period of time each ramp represents.
   - You can choose between two time period:
     - Day
