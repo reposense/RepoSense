@@ -264,12 +264,10 @@ The `Tool Bar` at the top provides a set of filters that control the chart panel
   - The keywords are logically connected with OR operators.
 - Sort by :
   - Total Contribution : the amount of lines, written by the author, in the repository.
-  - Variance : the variance of contribution of all commits.
-    - It indicates the code consistency of an author.     
-    - It helps to determine whether the author has been contributing regularly or procrastinating.
-    - This can be useful for instructors of student projects, e.g. [Addressbook](https://github.com/se-edu/addressbook-level4).
+  - Variance : based on the number of lines that the author has contributed to the repository on each interval.
+    - It indicates the consistency on the number of lines that user has contributed towards the repository over the time.
   - Author Name : the author's GitHub ID or Display Name configured in the `CSV Config File`.
-  - Team Name : see below<sup>1</sup>.
+  - Team Name : see below<sup>1</sup>. 
 - Granularity : the period of time each ramp represents.
   - You can choose between two time period:
     - Day
