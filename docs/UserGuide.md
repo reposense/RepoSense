@@ -260,8 +260,8 @@ It consists of three main parts:
 ### Tool Bar
 The `Tool Bar` at the top provides a set of filters that control the chart panel.
 - Search : filters the author and repository by keywords.
-  - Multiple keywords can be used, separated by spaces.
-  - The keywords are logically connected with OR operators.
+  - Multiple keywords/terms can be used, separated by spaces.
+  - Only entries that contain _any_ (not necessarily _all_) of the search terms will be displayed.
 - Sort by :
   - Total Contribution : the amount of lines, written by the author, in the repository.
   - Variance : based on the number of lines that the author has contributed to the repository on each interval.
