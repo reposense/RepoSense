@@ -266,7 +266,7 @@ The `Tool Bar` at the top provides a set of filters that control the chart panel
   - `Total Contribution` : the amount of lines, written by the author, in the repository.
   - `Variance` : based on the number of lines that the author has contributed to the repository on each interval.
     - It indicates the consistency on the number of lines that user has contributed towards the repository over the time.
-  - `Author Name` : the author's GitHub ID or Display Name configured in the `CSV Config File`.
+  - `Author Name` : the Author's Display Name configured in the [Author configuration file](#optional-author-configuration-file).
   - `Team Name` : see below<sup>1</sup>. 
 - `Granularity` : the period of time each ramp represents.
   - You can choose between two time period:
