@@ -273,10 +273,8 @@ The `Tool Bar` at the top provides a set of filters that control the chart panel
     - `Day`
     - `Week`
 - `Since` & `Until` : the date range for the ramp charts display.
-- `Reverse` : checkbox.
-  - If checked, the display order of the authors will be reversed.
-- `Group` : checkbox.
-  - If checked, authors from the same team<sup>1</sup> will be grouped together.
+- `Reverse` (checkbox) : if checked, the sorting will be done in the reverse order of the default sorting order
+- `Group` (checkbox) : if checked, authors from the same team<sup>1</sup> will be grouped together.
   - This has precedence over the `sort by` filter; the `sort by` filter will only change display order of the authors under the same team<sup>1</sup>.
 - Bookmark :
   - The URL changes according to the toolbar configuration.
