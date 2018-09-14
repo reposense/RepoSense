@@ -258,7 +258,7 @@ It consists of three main parts:
 * [Code Panel](#code-panel)
 
 ### Tool Bar
-The `Tool Bar` at the top provides a set of filters that control the chart panel.
+The `Tool Bar` at the top provides a set of filters that control the `chart panel`.
 - `Search` : filters the author and repository by keywords.
   - Multiple keywords/terms can be used, separated by spaces.
   - Only entries that contain _any_ (not necessarily _all_) of the search terms will be displayed.
@@ -268,11 +268,11 @@ The `Tool Bar` at the top provides a set of filters that control the chart panel
     - It indicates the consistency on the number of lines that user has contributed towards the repository over the time.
   - `Author Name` : the Author's Display Name configured in the [Author configuration file](#optional-author-configuration-file).
   - `Team Name` : see below<sup>1</sup>. 
-- `Granularity` : the period of time each ramp represents.
+- `Granularity` : the period of time each `ramp` represents.
   - You can choose between two time period:
     - `Day`
     - `Week`
-- `Since` & `Until` : the date range for the ramp charts display.
+- `Since` & `Until` : the date range for the `ramp charts` display.
 - `Reverse` (checkbox) : if checked, the sorting will be done in the reverse order of the default sorting order
 - `Group` (checkbox) : if checked, authors from the same team<sup>1</sup> will be grouped together.
   - This has precedence over the `sort by` filter; the `sort by` filter will only change display order of the authors under the same team<sup>1</sup>.
