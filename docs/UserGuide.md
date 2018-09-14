@@ -264,9 +264,7 @@ The `Tool Bar` at the top provides a set of filters that control the `chart pane
   - Only entries that contain _any_ (not necessarily _all_) of the search terms will be displayed.
 - `Sort by` :
   - `Total Contribution` : the amount of lines, written by the author, in the repository.
-  - `Variance` : calculated based on the number of lines that the author has contributed to the repository daily.
-    - Sorts the authors in the order of from low to high variance value.
-    - A low variance value indicates that the number of lines that an author has contributed daily are consistent.
+  - `Variance` : the [variance](https://en.wikipedia.org/wiki/Variance) of the number of lines that the author has contributed to the repository daily, sorted from low to high.
   - `Author Name` : the Author's Display Name configured in the [Author configuration file](#optional-author-configuration-file).
   - `Team Name` : see below<sup>1</sup>. 
 - `Granularity` : the period of time each `ramp` represents.
