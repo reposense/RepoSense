@@ -21,7 +21,7 @@
   * [Tool Bar](#tool-bar)
   * [Chart Panel](#chart-panel)
     * [Ramp Chart](#ramp-chart)
-    * [Total Contribution Bars](#total-contribution-bars)
+    * [Contribution Bar](#contribution-bar)
   * [Code Panel](#code-panel)
 
 ## Prerequisites
@@ -174,9 +174,9 @@ Column Name | Explanation
 Repository's Location | The `GitHub URL` or `Disk Path` to the git repository
 Branch | The branch to analyze in the target repository
 Author's GitHub ID | GitHub ID of the target contributor in the repository
-Author's Display Name | Optional Field. The value of this field, if not empty, will be displayed in the report instead of author's GitHub ID.
+[Optional] Author's Display Name | The value of this field, if not empty, will be displayed in the report instead of author's GitHub ID.
 [Optional] Author's Git Author Name<sup>*</sup> | Detailed explanation below
-[Optional] Ignore Global List<sup>*</sup> | The list of file path globs to ignore during analysis for this author on top of what is already specified in `author-config.csv`. More details on the Java glob standard [here](https://javapapers.com/java/glob-with-java-nio/)
+[Optional] Ignore Glob List<sup>*</sup> | The list of file path globs to ignore during analysis for this author on top of what is already specified in `author-config.csv`. More details on the Java glob standard [here](https://javapapers.com/java/glob-with-java-nio/)
 
 <sup>* **Multi-value column**: multiple values can be entered in this column using a semicolon, `;`, separator.</sup>
 
@@ -258,34 +258,34 @@ It consists of three main parts:
 * [Code Panel](#code-panel)
 
 ### Tool Bar
-The `Tool Bar` at the top provides a set of filters that control the chart panel. From right to left, the filters are:
-- Sort : Users can sort by:
-    - Total Contribution : The amount of lines, written by the author, in the repository.
-    - Variance : The variance of contribution of all commits.
-        - It indicates the code consistency of an author.
-        - It helps to determine whether the author has been contributing regularly or procrastinating.
-        - This can be useful for instructors of student projects, e.g. [Addressbook](https://github.com/se-edu/addressbook-level4).
-    - Author Name : The Author's GitHub ID or Display Name configured in the `CSV Config File`.
-    - Team Name : The name of the organization of the repository.
-- Interval : Interval refers to amount of time one single ramp represents.
-    - Users can choose two modes of time intervals:
-        - daily
-        - weekly
-- Period : The time period that the ramp charts display.
-- Group : Checkbox.
-    - If checked, authors that have contributed to the same repository will be displayed next to each other.
-    - This overrides the sort function.
-- Search : Filters the author and repository by keywords.
-    - Multiple keywords can be used, separated by spaces.
-    - The keywords are logically connected with OR operators.
-- Bookmark : The star icon at the top right corner.
-    - Clicking on it will generates a link to the report with all the tooltip settings.
-    - This link will be copied to user’s clipboard.
+The `Tool Bar` at the top provides a set of filters that control the `chart panel`.
+- `Search` : filters the author and repository by keywords.
+  - Multiple keywords/terms can be used, separated by spaces.
+  - Only entries that contain _any_ (not necessarily _all_) of the search terms will be displayed.
+- `Sort by` :
+  - `Total Contribution` : the amount of lines, written by the author, in the repository.
+  - `Variance` : the [variance](https://en.wikipedia.org/wiki/Variance) of the number of lines that the author has contributed to the repository daily, sorted from low to high.
+  - `Author Name` : the Author's Display Name configured in the [Author configuration file](#optional-author-configuration-file).
+  - `Team Name` : see below<sup>1</sup>. 
+- `Granularity` : the period of time each `ramp` represents.
+  - You can choose between two time period:
+    - `Day`
+    - `Week`
+- `Since` & `Until` : the date range for the `ramp charts` display.
+- `Reverse` (checkbox) : if checked, the sorting will be done in the reverse order of the default sorting order
+- `Group` (checkbox) : if checked, authors from the same team<sup>1</sup> will be grouped together.
+  - This has precedence over the `sort by` filter; the `sort by` filter will only change display order of the authors under the same team<sup>1</sup>.
+- Bookmark :
+  - The URL changes according to the toolbar configuration.
+  - You can restore your settings by bookmarking the url (using browser functionality) for revisiting later.
+
+<sup>1 Team: authors in the same organization, repository and branch. The team name will correspondingly be in the format: *ORGANIZATION_REPOSITORY_BRANCH*</sup>
+
 
 ### Chart Panel
 The `Chart Panel` contains two type of indicators:
 - [Ramp Chart](#ramp-chart)
-- [Total Contribution Bar](#total-contribution-bars)
+- [Contribution Bar](#contribution-bar)
 
 #### Ramp Chart
 To illustrate frequency and amount of contribution in the same graph, and to allow easy comparison between each entry, we implemented a new type of visualization.
@@ -303,7 +303,7 @@ Each light blue bar represents the contribution timeline of an individual author
 - When user hovers the pointer over a ramp, as shown in the above Figure, total amount of contribution over the time period will be shown.
 - Clicking on the ramp will redirect user to the GitHub page, which contains all the commits within the fixed time period.
 
-#### Total Contribution Bars
+#### Contribution Bar
 The total amount of code contributed is represented by the **red bars**, and the length of these red bars is proportional to the total contribution of the corresponding author.
 Hovering over the bar shows the exact amount of contribution.
 If the author contributes **too much** compared to other authors, there will be multiple red bars in his `Chart Panel`.
@@ -316,7 +316,7 @@ Clicking on the name of the author, in the `Chart Panel`, will display the `Code
 Below is the list of features in this panel:
 - Files that contain author's contribution will be shown in this panel, sorted by the number of lines written.
 - Clicking the file title will show/hide the file content.
-- The lines that are **NOT** written by the selected author are hidden in collapsable boxes.
+- Huge changes that are **NOT** written by the selected author are hidden in collapsable boxes.
   - User can click on the boxes to display the hidden lines for context.
-  - These lines will be highlighted in a different color, gray.
+- Code written by the author will be highlighted in green.
 
