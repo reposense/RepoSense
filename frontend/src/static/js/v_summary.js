@@ -11,6 +11,10 @@ function comparator(fn) {
   };
 }
 
+// global date range //
+window.minDate = '';
+window.maxDate = '';
+
 // date functions //
 const DAY_IN_MS = (1000 * 60 * 60 * 24);
 function getIntervalDay(a, b) {
@@ -68,9 +72,17 @@ window.vSummary = {
       this.getFiltered();
     },
     filterSinceDate() {
+      if (this.filterSinceDate < window.minDate) {
+        this.filterSinceDate = window.minDate;
+      }
+
       this.getFiltered();
     },
     filterUntilDate() {
+      if (this.filterUtilDate < window.maxDate) {
+        this.filterUtilDate = window.maxDate;
+      }
+
       this.getFiltered();
     },
   },
@@ -206,10 +218,12 @@ window.vSummary = {
 
       if (!this.filterSinceDate) {
         this.filterSinceDate = minDate;
+        window.minDate = minDate;
       }
 
       if (!this.filterUntilDate) {
         this.filterUntilDate = maxDate;
+        window.maxDate = maxDate;
       }
     },
     getFiltered() {
