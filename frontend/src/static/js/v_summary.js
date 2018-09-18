@@ -79,7 +79,7 @@ window.vSummary = {
       this.getFiltered();
     },
     filterUntilDate() {
-      if (this.filterUtilDate < window.maxDate) {
+      if (this.filterUtilDate > window.maxDate) {
         this.filterUtilDate = window.maxDate;
       }
 
