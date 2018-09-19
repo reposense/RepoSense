@@ -20,6 +20,7 @@ import java.util.stream.Stream;
 
 import reposense.authorship.model.FileInfo;
 import reposense.authorship.model.LineInfo;
+import reposense.git.CommitNotFoundException;
 import reposense.git.GitChecker;
 import reposense.model.RepoConfiguration;
 import reposense.system.CommandRunner;
@@ -33,6 +34,7 @@ public class FileInfoExtractor {
 
     private static final String DIFF_FILE_CHUNK_SEPARATOR = "\ndiff --git a/.*\n";
     private static final String BINARY_FILE_SYMBOL = "\nBinary files ";
+    private static final String SIMILAR_FILE_RENAMED_SYMBOL = "similarity index 100%\n";
     private static final String LINE_CHUNKS_SEPARATOR = "\n@@ ";
     private static final String LINE_INSERTED_SYMBOL = "+";
     private static final String STARTING_LINE_NUMBER_GROUP_NAME = "startingLineNumber";
@@ -56,10 +58,15 @@ public class FileInfoExtractor {
     public static List<FileInfo> extractFileInfos(RepoConfiguration config) {
         logger.info("Extracting relevant file infos " + config.getLocation() + "...");
 
+        List<FileInfo> fileInfos = new ArrayList<>();
+
         // checks out to the latest commit of the date range to ensure the FileInfo generated correspond to the
         // git blame file analyze output
-        GitChecker.checkoutToDate(config.getRepoRoot(), config.getBranch(), config.getUntilDate());
-        List<FileInfo> fileInfos = new ArrayList<>();
+        try {
+            GitChecker.checkoutToDate(config.getRepoRoot(), config.getBranch(), config.getUntilDate());
+        } catch (CommitNotFoundException cnfe) {
+            return fileInfos;
+        }
         String lastCommitHash = CommandRunner.getCommitHashBeforeDate(
                 config.getRepoRoot(), config.getBranch(), config.getSinceDate());
 
@@ -90,9 +97,9 @@ public class FileInfoExtractor {
         String[] fileDiffResultList = fullDiffResult.split(DIFF_FILE_CHUNK_SEPARATOR);
 
         for (String fileDiffResult : fileDiffResultList) {
-            // file deleted, is binary file or is new and empty file, skip it
-            if (FILE_DELETED_PREDICATE.test(fileDiffResult) || fileDiffResult.contains(BINARY_FILE_SYMBOL)
-                    || NEW_EMPTY_FILE_PREDICATE.test(fileDiffResult)) {
+            // file deleted, renamed, is binary file or is new and empty file, skip it
+            if (fileDiffResult.contains(SIMILAR_FILE_RENAMED_SYMBOL) || fileDiffResult.contains(BINARY_FILE_SYMBOL)
+                    || FILE_DELETED_PREDICATE.test(fileDiffResult) || NEW_EMPTY_FILE_PREDICATE.test(fileDiffResult)) {
                 continue;
             }
 

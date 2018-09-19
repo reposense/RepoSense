@@ -21,6 +21,9 @@ public class FileInfoExtractorTest extends GitTestTemplate {
     private static final Path FILE_WITH_SPECIAL_CHARACTER = TEST_DATA_FOLDER.resolve("fileWithSpecialCharacters.txt");
     private static final Path FILE_WITHOUT_SPECIAL_CHARACTER = TEST_DATA_FOLDER
             .resolve("fileWithoutSpecialCharacters.txt");
+    private static final String EDITED_FILE_INFO_BRANCH = "getEditedFileInfos-test";
+    private static final String FEBRUARY_EIGHT_COMMIT_HASH = "768015345e70f06add2a8b7d1f901dc07bf70582";
+
 
     @Test
     public void extractFileInfosTest() {
@@ -28,11 +31,13 @@ public class FileInfoExtractorTest extends GitTestTemplate {
         config.getAuthorAliasMap().put(FAKE_AUTHOR_NAME, new Author(FAKE_AUTHOR_NAME));
         GitChecker.checkout(config.getRepoRoot(), TEST_COMMIT_HASH);
         List<FileInfo> files = FileInfoExtractor.extractFileInfos(config);
-        Assert.assertEquals(files.size(), 6);
+        Assert.assertEquals(6, files.size());
+        Assert.assertTrue(isFileExistence(Paths.get("README.md"), files));
         Assert.assertTrue(isFileExistence(Paths.get("annotationTest.java"), files));
         Assert.assertTrue(isFileExistence(Paths.get("blameTest.java"), files));
         Assert.assertTrue(isFileExistence(Paths.get("newPos/movedFile.java"), files));
         Assert.assertTrue(isFileExistence(Paths.get("inMasterBranch.java"), files));
+        Assert.assertTrue(isFileExistence(Paths.get("newFile.java"), files));
     }
 
     @Test
@@ -61,6 +66,40 @@ public class FileInfoExtractorTest extends GitTestTemplate {
 
         List<FileInfo> files = FileInfoExtractor.extractFileInfos(config);
         Assert.assertTrue(files.isEmpty());
+    }
+
+    @Test
+    public void extractFileInfos_untilDateBeforeFirstCommit_emptyResult() {
+        Date date = TestUtil.getDate(2015, 12, 31);
+        config.setUntilDate(date);
+
+        List<FileInfo> files = FileInfoExtractor.extractFileInfos(config);
+        Assert.assertTrue(files.isEmpty());
+    }
+
+    @Test
+    public void getEditedFileInfos_editFileInfoBranchSinceFebrauryEight_success() {
+        GitChecker.checkout(config.getRepoRoot(), EDITED_FILE_INFO_BRANCH);
+        List<FileInfo> files = FileInfoExtractor.getEditedFileInfos(config, FEBRUARY_EIGHT_COMMIT_HASH);
+
+        Assert.assertEquals(3, files.size());
+        Assert.assertTrue(isFileExistence(Paths.get("README.md"), files));
+        Assert.assertTrue(isFileExistence(Paths.get("annotationTest.java"), files));
+        Assert.assertTrue(isFileExistence(Paths.get("newPos/movedFile.java"), files));
+
+        // file renamed without changing content, not included
+        Assert.assertFalse(isFileExistence(Paths.get("renamedFile.java"), files));
+    }
+
+    @Test
+    public void getEditedFileInfos_editFileInfoBranchSinceFirstCommit_success() {
+        GitChecker.checkout(config.getRepoRoot(), EDITED_FILE_INFO_BRANCH);
+        List<FileInfo> files = FileInfoExtractor.getEditedFileInfos(config, FIRST_COMMIT_HASH);
+
+        Assert.assertEquals(5, files.size());
+
+        // empty file created, not included
+        Assert.assertFalse(isFileExistence(Paths.get("inMasterBranch.java"), files));
     }
 
     @Test

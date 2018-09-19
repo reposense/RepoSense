@@ -1,10 +1,13 @@
 package reposense.report;
 
+import static reposense.git.GitShortlog.extractAuthorsFromLog;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.Collections;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -18,6 +21,7 @@ import reposense.commits.CommitsReporter;
 import reposense.commits.model.CommitContributionSummary;
 import reposense.git.GitDownloader;
 import reposense.git.GitDownloaderException;
+import reposense.model.Author;
 import reposense.model.RepoConfiguration;
 import reposense.model.StandaloneConfig;
 import reposense.parser.StandaloneConfigJsonParser;
@@ -46,17 +50,20 @@ public class ReportGenerator {
         for (RepoConfiguration config : configs) {
             Path repoReportDirectory = Paths.get(outputPath, config.getDisplayName());
             try {
-                GitDownloader.downloadRepo(config);
                 FileUtil.createDirectory(repoReportDirectory);
+                GitDownloader.downloadRepo(config);
             } catch (GitDownloaderException gde) {
                 logger.log(Level.WARNING, "Exception met while trying to clone the repo, will skip this one", gde);
+                generateEmptyRepoReport(repoReportDirectory.toString());
                 continue;
             } catch (IOException ioe) {
                 logger.log(Level.WARNING, "Error while creating repo directory, will skip this repo.", ioe);
                 continue;
             }
 
+            // preprocess the config and repo
             updateRepoConfig(config);
+            updateAuthorList(config);
 
             CommitContributionSummary commitSummary = CommitsReporter.generateCommitSummary(config);
             AuthorshipSummary authorshipSummary = AuthorshipReporter.generateAuthorshipSummary(config);
@@ -73,7 +80,7 @@ public class ReportGenerator {
     }
 
     /**
-     * Updates {@code config} author information with configuration provided by repository if exists.
+     * Updates {@code config} with configuration provided by repository if exists.
      */
     public static void updateRepoConfig(RepoConfiguration config) {
         Path configJsonPath =
@@ -95,11 +102,29 @@ public class ReportGenerator {
         }
     }
 
+    /**
+     * Find and update {@code config} with all the author identities if author list is empty.
+     */
+    private static void updateAuthorList(RepoConfiguration config) {
+        if (config.getAuthorList().isEmpty()) {
+            logger.info(String.format(
+                    "%s has no authors specified, using all authors by default.", config.getDisplayName()));
+            List<Author> authorList = extractAuthorsFromLog(config);
+            config.setAuthorList(authorList);
+        }
+    }
+
     private static void generateIndividualRepoReport(
             CommitContributionSummary commitSummary, AuthorshipSummary authorshipSummary, String repoReportDirectory) {
         CommitReportJson commitReportJson = new CommitReportJson(commitSummary, authorshipSummary);
         FileUtil.writeJsonFile(commitReportJson, getIndividualCommitsPath(repoReportDirectory));
         FileUtil.writeJsonFile(authorshipSummary.getFileResults(), getIndividualAuthorshipPath(repoReportDirectory));
+    }
+
+    private static void generateEmptyRepoReport(String repoReportDirectory) {
+        CommitReportJson emptyCommitReportJson = new CommitReportJson();
+        FileUtil.writeJsonFile(emptyCommitReportJson, getIndividualCommitsPath(repoReportDirectory));
+        FileUtil.writeJsonFile(Collections.emptyList(), getIndividualAuthorshipPath(repoReportDirectory));
     }
 
     private static String getSummaryResultPath(String targetFileLocation) {

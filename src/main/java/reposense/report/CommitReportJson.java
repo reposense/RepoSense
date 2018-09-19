@@ -1,5 +1,7 @@
 package reposense.report;
 
+import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -17,6 +19,27 @@ public class CommitReportJson {
     private final Map<Author, Integer> authorFinalContributionMap;
     private final Map<Author, Float> authorContributionVariance;
     private final Map<Author, String> authorDisplayNameMap;
+
+    /**
+     * Empty constructor to construct an empty commit report.
+     */
+    public CommitReportJson() {
+        Author emptyAuthor = new Author(Author.UNKNOWN_AUTHOR_GIT_ID);
+        authorWeeklyIntervalContributions = new HashMap<>();
+        authorWeeklyIntervalContributions.put(emptyAuthor, Collections.emptyList());
+
+        authorDailyIntervalContributions = new HashMap<>();
+        authorDailyIntervalContributions.put(emptyAuthor, Collections.emptyList());
+
+        authorFinalContributionMap = new HashMap<>();
+        authorFinalContributionMap.put(emptyAuthor, 0);
+
+        authorContributionVariance = new HashMap<>();
+        authorContributionVariance.put(emptyAuthor, (float) 0.0);
+
+        authorDisplayNameMap = new HashMap<>();
+        authorDisplayNameMap.put(emptyAuthor, "FAILED TO CLONE OR CHECKOUT THIS REPOSITORY");
+    }
 
     public CommitReportJson(CommitContributionSummary commitSummary, AuthorshipSummary authorshipSummary) {
         authorWeeklyIntervalContributions = commitSummary.getAuthorWeeklyIntervalContributions();

@@ -23,23 +23,6 @@ vuetemplate{
     text-align:center;
 }
 
-.timestamp-footer {
-    position: relative;
-    left: 0;
-    bottom: 0;
-    font-weight: bold;
-    width: 25%;
-    margin-left: 1em;
-    margin-bottom: 1em;
-    color: rgba(0,0,0,.87);
-    text-align: left;
-}
-
-.code {
-  padding-left: 1em;
-  border-left: 4px #4CAF50 solid ;
-}
-
 /** navigation bar **/
 header{
     z-index:100;
@@ -80,6 +63,12 @@ header{
         flex-grow:1;
 
         text-align:center;
+
+        .timestamp-footer {
+            margin-left:1em;
+            margin-bottom:1em;
+            color:mui-color('grey', '700');
+        }
     }
 
     #tabs-wrapper{
@@ -88,7 +77,7 @@ header{
         flex:0 0 $tabs-width;
         position:relative;
         overflow-y:scroll;
-        background: #ececec;
+        background:mui-color('grey', '200');
 
         .tab-close{
             cursor:pointer;
@@ -96,8 +85,8 @@ header{
             top:calc(50vh - 3rem);
 
             svg{
-                color:#fff;
-                background-color:#333;
+                color:mui-color('white');
+                background-color:mui-color('grey', '900');
                 padding:3rem 0.25rem;
             }
         }
@@ -234,6 +223,11 @@ header{
 
 /* Authorship */
 #tab-authorship{
+    .toolbar{
+        float: right;
+        cursor: pointer;
+    }
+
     .title{
         .repoName{
             font-size:1.5rem;
@@ -243,6 +237,22 @@ header{
 
     .files{
         margin-top:2rem;
+
+        .file{
+            pre{
+                display:none;
+            }
+
+            &.active{
+                pre{
+                    display:grid;
+                    .hljs{
+                        // overwrite hljs library
+                        display:inherit;
+                    }
+                }
+            }
+        }
 
         .title{
             margin-top:1rem;
@@ -255,39 +265,72 @@ header{
             }
         }
 
+        .code{
+            padding-left:1rem;
+            border-left:0.25rem solid mui-color('green');
+            background-color:mui-color('green', '50');
+        }
+
         .untouched{
-            margin-top:1rem;
+            $grey:mui-color('grey', '400');
+
+            &.active{
+                .code{
+                    display:inherit;
+                    background-color:mui-color('white');
+                }
+
+                .closer{
+                    .icon{
+                        background-color:mui-color('black');
+                    }
+
+                    .tooltiptext{
+                        &--open{ display:inline-block; }
+                        &--close{ display:none; }
+                    }
+                }
+            }
+
+            .code{
+                display:none;
+                border-left:0.25rem solid $grey;
+                background-color:mui-color('white');
+            }
 
             .closer{
                 cursor:pointer;
                 padding:0.5rem 1rem;
 
-                .fa-ellipsis-h{
-                    width: 2.2rem;
-                    background-color: #bfbdbd;
-                    color: white;
-                    border-radius: 5px;
+                .icon{
+                    background-color:$grey;
+                    color:mui-color('white');
 
-                    &:hover {
-                        color: #fff;
-                        background: black !important;
-                        font-weight: bold
+                    width:2.2rem;
+                    border-radius:0.25rem;
+
+                    &:hover{
+                        background:black;
                     }
 
-                    &:hover ~ .tooltiptext {
-                      visibility: visible;
+                    &:hover ~ .tooltiptext{
+                        visibility:visible;
                     }
                 }
 
-                .tooltiptext {
-                  position: relative;
-                  color: #fff;
-                  background-color: #000;
-                  text-align: center;
-                  padding: 5px 6px;
-                  margin-left: 5px;
-                  visibility: hidden;
-                  border-radius: 6px;
+                .tooltiptext{
+                    padding:0.5rem;
+                    margin-left:0.5rem;
+                    border-radius:0.25rem;
+
+                    color:mui-color('white');
+                    background-color:mui-color('black');
+
+                    text-align:center;
+                    visibility:hidden;
+
+                    &--open{ display:none; }
+                    &--close{ display:inline-block; }
                 }
             }
         }

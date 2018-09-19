@@ -23,4 +23,21 @@ public class LocationsCliArguments extends CliArguments {
     public List<String> getLocations() {
         return locations;
     }
+
+    public boolean equals(Object other) {
+        // short circuit if same object
+        if (this == other) {
+            return true;
+        }
+
+        // instanceof handles null
+        if (!(other instanceof LocationsCliArguments)) {
+            return false;
+        }
+
+        LocationsCliArguments otherLocationsCliArguments = (LocationsCliArguments) other;
+
+        return super.equals(other)
+                && this.locations.equals(otherLocationsCliArguments.locations);
+    }
 }

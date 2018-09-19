@@ -21,6 +21,10 @@ public class StandaloneConfigTest extends GitTestTemplate {
             .getResource("StandaloneConfigTest/codeeong_invalidAuthorAliases_config.json").getFile()).toPath();
     private static final Path INVALID_IGNOREGLOB_CONFIG = new File(StandaloneConfigTest.class.getClassLoader()
             .getResource("StandaloneConfigTest/lithiumlkid_invalidIgnoreGlob_config.json").getFile()).toPath();
+    private static final Path INVALID_FORMATS_CONFIG = new File(StandaloneConfigTest.class.getClassLoader()
+            .getResource("StandaloneConfigTest/invalidFormats_config.json").getFile()).toPath();
+    private static final Path INVALID_IGNORECOMMIT_CONFIG = new File(StandaloneConfigTest.class.getClassLoader()
+            .getResource("StandaloneConfigTest/invalidIgnoreCommit_config.json").getFile()).toPath();
 
     @Test
     public void standaloneConfig_validJson_success() throws IOException {
@@ -49,6 +53,18 @@ public class StandaloneConfigTest extends GitTestTemplate {
     @Test(expected = IllegalArgumentException.class)
     public void standaloneConfig_invalidIgnoreGlob_throwIllegalArgumentException() throws IOException {
         StandaloneConfig standaloneConfig = new StandaloneConfigJsonParser().parse(INVALID_IGNOREGLOB_CONFIG);
+        config.update(standaloneConfig);
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void standaloneConfig_invalidFormats_throwIllegalArgumentException() throws IOException {
+        StandaloneConfig standaloneConfig = new StandaloneConfigJsonParser().parse(INVALID_FORMATS_CONFIG);
+        config.update(standaloneConfig);
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void standaloneConfig_invalidIgnoreCommit_throwIllegalArgumentException() throws IOException {
+        StandaloneConfig standaloneConfig = new StandaloneConfigJsonParser().parse(INVALID_IGNORECOMMIT_CONFIG);
         config.update(standaloneConfig);
     }
 }

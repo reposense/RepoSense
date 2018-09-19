@@ -10,9 +10,11 @@ import java.util.Date;
 import java.util.List;
 import java.util.regex.Pattern;
 
+import reposense.git.CommitNotFoundException;
 import reposense.model.Author;
 import reposense.model.RepoConfiguration;
 import reposense.util.FileUtil;
+import reposense.util.StringsUtil;
 
 public class CommandRunner {
     private static final DateFormat GIT_LOG_SINCE_DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd'T'00:00:00+08:00");
@@ -31,7 +33,7 @@ public class CommandRunner {
 
         String command = "git log --no-merges ";
         command += convertToGitDateRangeArgs(config.getSinceDate(), config.getUntilDate());
-        command += " --pretty=format:\"%h|%aN|%ad|%s\" --date=iso --shortstat";
+        command += " --pretty=format:\"%H|%aN|%ad|%s\" --date=iso --shortstat";
         command += convertToFilterAuthorArgs(author);
         command += convertToGitFormatsArgs(config.getFormats());
         command += convertToGitExcludeGlobArgs(author.getIgnoreGlobList());
@@ -47,23 +49,22 @@ public class CommandRunner {
     /**
      * Checks out to the latest commit before {@code untilDate} in {@code branchName} branch
      * if {@code untilDate} is not null.
+     * @throws CommitNotFoundException if commits before {@code untilDate} cannot be found.
      */
-    public static void checkoutToDate(String root, String branchName, Date untilDate) {
+    public static void checkoutToDate(String root, String branchName, Date untilDate) throws CommitNotFoundException {
         if (untilDate == null) {
             return;
         }
 
         Path rootPath = Paths.get(root);
-        String checkoutCommand;
+
         String substituteCommand = "git rev-list -1 --before="
                 + GIT_LOG_UNTIL_DATE_FORMAT.format(untilDate) + " " + branchName;
-
-        if (isWindows) {
-            checkoutCommand = "for /f %g in ('" + substituteCommand + "') do git checkout %g";
-        } else {
-            checkoutCommand = "git checkout `" + substituteCommand + "`";
+        String hash = runCommand(rootPath, substituteCommand);
+        if (hash.isEmpty()) {
+            throw new CommitNotFoundException("Commit before until date is not found.");
         }
-
+        String checkoutCommand = "git checkout " + hash;
         runCommand(rootPath, checkoutCommand);
     }
 
@@ -72,9 +73,8 @@ public class CommandRunner {
 
         String blameCommand = "git blame -w --line-porcelain";
         blameCommand += " " + addQuote(fileDirectory);
-        blameCommand += getAuthorFilterCommand();
 
-        return runCommand(rootPath, blameCommand);
+        return StringsUtil.filterText(runCommand(rootPath, blameCommand), "(^author .*)|(^[0-9a-f]{40} .*)");
     }
 
     public static String checkStyleRaw(String absoluteDirectory) {
@@ -106,6 +106,13 @@ public class CommandRunner {
         String revListCommand = "git rev-list -1 --before="
                 + GIT_LOG_SINCE_DATE_FORMAT.format(date) + " " + branchName;
         return runCommand(rootPath, revListCommand);
+    }
+
+    public static String getShortlogSummary(RepoConfiguration config) {
+        Path rootPath = Paths.get(config.getRepoRoot());
+        String command = "git log --pretty=short | git shortlog --summary";
+
+        return runCommand(rootPath, command);
     }
 
     public static String cloneRepo(String location, String displayName) throws IOException {
@@ -160,14 +167,6 @@ public class CommandRunner {
 
     private static boolean isWindows() {
         return (System.getProperty("os.name").toLowerCase().indexOf("win") >= 0);
-    }
-
-    /**
-     * Returns the {@code String} command which filters the git blame output to produce only the necessary author
-     * name for each line.
-     */
-    private static String getAuthorFilterCommand() {
-        return isWindows ? "| findstr /B /C:" + addQuote("author ") : "| grep " + addQuote("^author .*");
     }
 
     /**
