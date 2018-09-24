@@ -20,7 +20,7 @@
 
 First, ensure that you have the necessary prerequisites:
 * **JDK `1.8.0_60`** or later
-* **git `2.14`** or later on the command line (run `git --version` in your OS terminal to confirm )
+* **git `2.14`** or later on the command line (run `git --version` in your OS terminal to confirm)
 
 Next, download the latest executable Jar from our [releases](https://github.com/reposense/RepoSense/releases/latest).
 
@@ -36,7 +36,7 @@ The simplest use case for RepoSense is to generate a report for the entire histo
 ## Interpreting the Report
 
 
-As the report consist of static pages, it can be viewed using a Web Browser, and can be deployed on most Web hosting platforms (such as [GitHub Pages](https://pages.github.com/)). Assuming the report has been generated already, herer are the two options to load the report onto a Browser:
+As the report consist of static pages, it can be viewed using a Web Browser, and can be deployed on most Web hosting platforms (such as [GitHub Pages](https://pages.github.com/)). Assuming the report has been generated already, here are the two options to load the report onto a Browser:
 * Run RepoSense with the `-view` option:<br>
   Format: `java -jar RepoSense.jar -view REPORT_FOLDER`<br>
   Example: `java -jar RepoSense.jar -view ./myReport/reposense-report`
@@ -93,7 +93,7 @@ The `Tool Bar` at the top provides a set of configuration options that control t
   * `Team Name` : see note [1] below.
 * `Granularity` : the period of time for which commits are aggregated in the Ramp Chart.
     * `Day`: commits within a day (commits made within 00:00 to 23:59 in **GMT+8**) are shown as one ramp
-    * `Week` commits within a week are shown as one ramp
+    * `Week`:  commits within a week are shown as one ramp
 * `Since`, `Until` : the date range for the Ramp Chart (not applied to the Contribution Bars).
 * `Reverse` : if checked, the sorting will be done in the reverse order of the default sorting order
 * `Group` : if checked, authors from the same team<sup>[1]</sup> will be grouped together. This has precedence over the `sort by` feature; the `sort by` feature will only change display order of the authors under the same team<sup>[1]</sup>.
@@ -107,7 +107,7 @@ Notes:<br>
 
 ## Configuring a Repo to Provide Additional Data to RepoSense
 
-When a repo is being anlalyzed by RepoSense, there are **two ways repo owners can provide additional details to RepoSense**: using a config file, or annotating code using `@@author` tags. The two approaches are explained in the sections below.
+When a repo is being analyzed by RepoSense, there are **two ways repo owners can provide additional details to RepoSense**: using a config file, or annotating code using `@@author` tags. The two approaches are explained in the sections below.
 
 ### Using a Config File
 
@@ -178,7 +178,7 @@ Date:   Fri Feb 9 19:13:13 2018 +0800
 ```
 git config --global user.name "YOUR_AUTHOR_NAME”
 ```
-Reponsese expects the Git Author Name to be the same as author's GitHub username. If an author's `Git Author Name` is different from her `GitHub ID`, the `Git Author Name` needs to be specified in the standalone config file. If the author has more than one `Git Author Name`, multiple values can be entered too.
+RepoSense expects the Git Author Name to be the same as author's GitHub username. If an author's `Git Author Name` is different from her `GitHub ID`, the `Git Author Name` needs to be specified in the standalone config file. If the author has more than one `Git Author Name`, multiple values can be entered too.
 
 ### Using `@@author` Tags
 
@@ -250,7 +250,7 @@ Repository's Location|Branch|File formats|Ignore Glob List|Ignore standalone con
 Column Name | Explanation
 ----------- | -----------
 Repository's Location | The `GitHub URL` or `Disk Path` to the git repository e.g., `https://github.com/foo/bar.git` or `C:\Users\user\Desktop\GitHub\foo\bar`
-Branch | The branch to analyze in the target repository e.g., `master` Default: the default branch of the repo
+Branch | The branch to analyze in the target repository e.g., `master`. Default: the default branch of the repo
 [Optional] File formats<sup>*</sup> | The file extensions to analyze. Default: `adoc;cs;css;fxml;gradle;html;java;js;json;jsp;md;py;tag;xml`
 [Optional] Ignore Glob List<sup>*</sup> | The list of file path globs to ignore during analysis for each author. e.g., `test/**;temp/**`
 [Optional] Ignore standalone config | To ignore the standalone config file (if any) in target repository, enter **`yes`**. If the cell is empty, the standalone config file in the repo will take precedence over configurations provided in the csv files.
