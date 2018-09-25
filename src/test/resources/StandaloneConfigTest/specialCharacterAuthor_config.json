@@ -1,0 +1,22 @@
+{
+	"ignoreGlobList": ["collated**"],
+	"ignoreCommitList": ["12345abc", "67890def"],
+	"authors":
+	[
+		{
+			"githubId": "Darío Hereñú",
+			"displayName": "Darío Hereñú",
+			"authorNames": ["Darío Hereñú"]
+		},
+		{
+			"githubId": "Aiden Low (Yew Woei)",
+			"displayName": "Aiden Low (Yew Woei)",
+			"authorNames": ["Aiden Low (Yew Woei)"]
+		},
+		{
+			"githubId": ":Jun\"An;",
+			"displayName": ":Jun\"An;",
+			"authorNames": [":Jun\"An;"]
+		}
+	]
+}
