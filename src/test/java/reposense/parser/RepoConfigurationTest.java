@@ -26,7 +26,8 @@ import reposense.util.TestUtil;
 
 public class RepoConfigurationTest {
     private static final Path IGNORE_STANDALONE_TEST_CONFIG_FILES = new File(CsvParserTest.class.getClassLoader()
-            .getResource("RepoConfigurationTest/repoconfig_ignoreStandAlone_test").getFile()).toPath();
+            .getResource("RepoConfigurationTest/repoconfig_authorSpecialCharacter_test").getFile()).toPath();
+
     private static final Path IGNORE_STANDALONE_KEYWORD_TEST_CONFIG_FILES =
             new File(CsvParserTest.class.getClassLoader()
                     .getResource("RepoConfigurationTest/repoconfig_ignoreStandAloneKeyword_test").getFile()).toPath();

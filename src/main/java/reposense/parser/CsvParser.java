@@ -45,7 +45,7 @@ public abstract class CsvParser<T> {
         List<T> results = new ArrayList<>();
         int lineNumber = 1;
 
-        try (BufferedReader br = new BufferedReader(new FileReader(csvFilePath.toFile()))){
+        try (BufferedReader br = new BufferedReader(new FileReader(csvFilePath.toFile()))) {
             // Skip first line, which is the header row
             br.readLine();
 

@@ -20,15 +20,56 @@ import reposense.model.RepoConfiguration;
 public class CsvParserTest {
     private static final Path TEST_CONFIG_FOLDER = new File(CsvParserTest.class.getClassLoader()
             .getResource("repoconfig_merge_test").getFile()).toPath();
+    private static final Path REPO_NO_SPECIAL_CHARACTER_CONFIG_FILE = new File(CsvParserTest.class.getClassLoader()
+            .getResource("CsvParserTest/repoconfig_noSpecialCharacter_test.csv").getFile()).toPath();
+    private static final Path AUTHOR_NO_SPECIAAL_CHARACTER_CONFIG_FILE = new File(CsvParserTest.class.getClassLoader()
+            .getResource("CsvParserTest/authorconfig_noSpecialCharacter_test.csv").getFile()).toPath();
+    private static final Path AUTHOR_SPECIAL_CHARACTER_CONFIG_FILE = new File(CsvParserTest.class.getClassLoader()
+            .getResource("CsvParserTest/authorconfig_specialCharacter_test.csv").getFile()).toPath();
 
     private static final String TEST_REPO_BETA_LOCATION = "https://github.com/reposense/testrepo-Beta.git";
     private static final String TEST_REPO_BETA_BRANCH = "master";
+
+    private static final List<String> TEST_REPO_BETA_CONFIG_FORMATS = Arrays.asList("java", "adoc", "md");
+    private static final List<String> TEST_REPO_BETA_CONFIG_IGNORED_COMMITS =
+            Arrays.asList("abcde12345", "67890fdecba");
 
     private static final Author FIRST_AUTHOR = new Author("nbriannl");
     private static final Author SECOND_AUTHOR = new Author("zacharytang");
 
     private static final List<String> REPO_LEVEL_GLOB_LIST = Arrays.asList("collated**");
     private static final List<String> FIRST_AUTHOR_GLOB_LIST = Arrays.asList("collated**", "**.java");
+
+    @Test
+    public void repoConfig_noSpecialCharacter_success() throws IOException {
+        RepoConfigCsvParser repoConfigCsvParser = new RepoConfigCsvParser(REPO_NO_SPECIAL_CHARACTER_CONFIG_FILE);
+        List<RepoConfiguration> configs = repoConfigCsvParser.parse();
+
+        Assert.assertEquals(1, configs.size());
+
+        RepoConfiguration config = configs.get(0);
+
+        Assert.assertEquals(TEST_REPO_BETA_LOCATION, config.getLocation());
+        Assert.assertEquals(TEST_REPO_BETA_BRANCH, config.getBranch());
+
+        Assert.assertEquals(TEST_REPO_BETA_CONFIG_FORMATS.size(), config.getFormats().size());
+        Assert.assertTrue(config.getFormats().containsAll(TEST_REPO_BETA_CONFIG_FORMATS));
+
+        Assert.assertTrue(config.isStandaloneConfigIgnored());
+
+        Assert.assertEquals(TEST_REPO_BETA_CONFIG_IGNORED_COMMITS.size(), config.getIgnoreCommitList().size());
+        Assert.assertTrue(config.getIgnoreCommitList().containsAll(TEST_REPO_BETA_CONFIG_IGNORED_COMMITS));
+    }
+
+    @Test
+    public void authorConfig_noSpecialCharacter_success() {
+
+    }
+
+    @Test
+    public void authorConfig_specialCharacter_success() {
+
+    }
 
     @Test
     public void merge_twoRepoConfigs_success() throws ParseException, IOException {

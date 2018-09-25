@@ -8,8 +8,6 @@ import java.util.List;
 import org.junit.Assert;
 import org.junit.Test;
 
-import reposense.util.AssertUtil;
-
 public class AuthorTest {
 
     @Test
