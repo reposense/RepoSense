@@ -20,11 +20,11 @@ import reposense.model.RepoConfiguration;
 public class CsvParserTest {
     private static final Path TEST_CONFIG_FOLDER = new File(CsvParserTest.class.getClassLoader()
             .getResource("repoconfig_merge_test").getFile()).toPath();
-    private static final Path REPO_NO_SPECIAL_CHARACTER_CONFIG_FILE = new File(CsvParserTest.class.getClassLoader()
+    private static final Path REPO_CONFIG_NO_SPECIAL_CHARACTER_FILE = new File(CsvParserTest.class.getClassLoader()
             .getResource("CsvParserTest/repoconfig_noSpecialCharacter_test.csv").getFile()).toPath();
-    private static final Path AUTHOR_NO_SPECIAAL_CHARACTER_CONFIG_FILE = new File(CsvParserTest.class.getClassLoader()
+    private static final Path AUTHOR_CONFIG_NO_SPECIAL_CHARACTER_FILE = new File(CsvParserTest.class.getClassLoader()
             .getResource("CsvParserTest/authorconfig_noSpecialCharacter_test.csv").getFile()).toPath();
-    private static final Path AUTHOR_SPECIAL_CHARACTER_CONFIG_FILE = new File(CsvParserTest.class.getClassLoader()
+    private static final Path AUTHOR_CONFIG_SPECIAL_CHARACTER_FILE = new File(CsvParserTest.class.getClassLoader()
             .getResource("CsvParserTest/authorconfig_specialCharacter_test.csv").getFile()).toPath();
 
     private static final String TEST_REPO_BETA_LOCATION = "https://github.com/reposense/testrepo-Beta.git";
@@ -36,13 +36,20 @@ public class CsvParserTest {
 
     private static final Author FIRST_AUTHOR = new Author("nbriannl");
     private static final Author SECOND_AUTHOR = new Author("zacharytang");
+    private static final List<Author> AUTHOR_CONFIG_NO_SPECIAL_CHARACTER_AUTHORS = Arrays.asList(FIRST_AUTHOR, SECOND_AUTHOR);
+
+    private static final Author FIRST_SPECIAL_CHARACTER_AUTHOR = new Author("Darío Hereñú");
+    private static final Author SECOND_SPECIAL_CHARACTER_AUTHOR = new Author("Aiden Low (Yew Woei)");
+    private static final Author THIRD_SPECIAL_CHARACTER_AUTHOR = new Author(":Jun\"An;");
+    private static final List<Author> AUTHOR_CONFIG_SPECIAL_CHARACTER_AUTHORS = Arrays.asList(
+            FIRST_SPECIAL_CHARACTER_AUTHOR, SECOND_SPECIAL_CHARACTER_AUTHOR, THIRD_SPECIAL_CHARACTER_AUTHOR);
 
     private static final List<String> REPO_LEVEL_GLOB_LIST = Arrays.asList("collated**");
     private static final List<String> FIRST_AUTHOR_GLOB_LIST = Arrays.asList("collated**", "**.java");
 
     @Test
     public void repoConfig_noSpecialCharacter_success() throws IOException {
-        RepoConfigCsvParser repoConfigCsvParser = new RepoConfigCsvParser(REPO_NO_SPECIAL_CHARACTER_CONFIG_FILE);
+        RepoConfigCsvParser repoConfigCsvParser = new RepoConfigCsvParser(REPO_CONFIG_NO_SPECIAL_CHARACTER_FILE);
         List<RepoConfiguration> configs = repoConfigCsvParser.parse();
 
         Assert.assertEquals(1, configs.size());
@@ -52,23 +59,41 @@ public class CsvParserTest {
         Assert.assertEquals(TEST_REPO_BETA_LOCATION, config.getLocation());
         Assert.assertEquals(TEST_REPO_BETA_BRANCH, config.getBranch());
 
-        Assert.assertEquals(TEST_REPO_BETA_CONFIG_FORMATS.size(), config.getFormats().size());
-        Assert.assertTrue(config.getFormats().containsAll(TEST_REPO_BETA_CONFIG_FORMATS));
+        Assert.assertEquals(TEST_REPO_BETA_CONFIG_FORMATS, TEST_REPO_BETA_CONFIG_FORMATS);
 
         Assert.assertTrue(config.isStandaloneConfigIgnored());
 
-        Assert.assertEquals(TEST_REPO_BETA_CONFIG_IGNORED_COMMITS.size(), config.getIgnoreCommitList().size());
-        Assert.assertTrue(config.getIgnoreCommitList().containsAll(TEST_REPO_BETA_CONFIG_IGNORED_COMMITS));
+        Assert.assertEquals(config.getIgnoreCommitList(), TEST_REPO_BETA_CONFIG_IGNORED_COMMITS);
     }
 
     @Test
-    public void authorConfig_noSpecialCharacter_success() {
+    public void authorConfig_noSpecialCharacter_success() throws IOException {
+        AuthorConfigCsvParser authorConfigCsvParser = new AuthorConfigCsvParser(AUTHOR_CONFIG_NO_SPECIAL_CHARACTER_FILE);
+        List<RepoConfiguration> configs = authorConfigCsvParser.parse();
 
+        Assert.assertEquals(1, configs.size());
+
+        RepoConfiguration config = configs.get(0);
+
+        Assert.assertEquals(TEST_REPO_BETA_LOCATION, config.getLocation());
+        Assert.assertEquals(TEST_REPO_BETA_BRANCH, config.getBranch());
+
+        Assert.assertEquals(AUTHOR_CONFIG_NO_SPECIAL_CHARACTER_AUTHORS, config.getAuthorList());
     }
 
     @Test
-    public void authorConfig_specialCharacter_success() {
+    public void authorConfig_specialCharacter_success() throws IOException {
+        AuthorConfigCsvParser authorConfigCsvParser = new AuthorConfigCsvParser(AUTHOR_CONFIG_SPECIAL_CHARACTER_FILE);
+        List<RepoConfiguration> configs = authorConfigCsvParser.parse();
 
+        Assert.assertEquals(1, configs.size());
+
+        RepoConfiguration config = configs.get(0);
+
+        Assert.assertEquals(TEST_REPO_BETA_LOCATION, config.getLocation());
+        Assert.assertEquals(TEST_REPO_BETA_BRANCH, config.getBranch());
+
+        Assert.assertEquals(AUTHOR_CONFIG_SPECIAL_CHARACTER_AUTHORS, config.getAuthorList());
     }
 
     @Test
