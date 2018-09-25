@@ -6,11 +6,11 @@
   * [Code Panel](#code-panel)
   * [Tool Bar](#tool-bar)
 * [Configuring a Repo to Provide Additional Data to RepoSense](#configuring-a-repo-to-provide-additional-data-to-reposense)
-  * [Using a Config File](#using-a-config-file)
-  * [Using `@@author` Tags](#using-author-tags)
+  * [Option 1: Using a json Config File](#option-1-using-a-json-config-file)
+  * [Option 2: Using `@@author` Tags](#option-2-using-author-tags)
 * [Customizing the Analysis](#customizing-the-analysis)
-  * [Using Command Line Parameters](#using-command-line-parameters)
-  * [Using Config Files](#using-config-files)
+  * [Option 1: Using Command Line Parameters](#option-1-using-command-line-parameters)
+  * [Option 2: Using csv Config Files](#option-2-using-csv-config-files)
     * [`repo-config.csv`](#repo-configcsv)
     * [`author-config.csv`](#author-configcsv)
 * [Analyzing Multiple Repos](#analyzing-multiple-repos)
@@ -109,7 +109,7 @@ Notes:<br>
 
 When a repo is being analyzed by RepoSense, there are **two ways repo owners can provide additional details to RepoSense**: using a config file, or annotating code using `@@author` tags. The two approaches are explained in the sections below.
 
-### Using a Config File
+### Option 1: Using a json Config File
 
 Repo owners can provide the following additional information to RepoSense using a config file that we call the **_standalone config file_**:
 * which files/authors/commits to analyze/omit
@@ -148,7 +148,7 @@ Note: all fields are optional unless specified otherwise.
 Note: `authors` field should contain _all_ authors that should be captured in the analysis.
 * `githubId`: Github username of the author. :exclamation: Mandatory field.
 * `displayName`: Name to display on the report for this author.
-* `authorNames`: Git Author Name(s) used in the author's commits. By default RepoSense assumes an author would use her GitHub username as the Git username too. See [A Note About Git Author Name](#a-note-about-git-author-name) for more info.
+* `authorNames`: Git Author Name(s) used in the author's commits. By default RepoSense assumes an author would use her GitHub username as the Git username too. The meaning of _Git Author Name_ is explained in [_A Note About Git Author Name_](#a-note-about-git-author-name).
 * `ignoreGlobList`: _Additional_ (i.e. on top of the repo-level `ignoreGlobList`) folders/files to ignore for a specific author . In the example above, the actual `ignoreGlobList` for `alice` would be `["about-us/**", "**index.html", "**.css"]`
 
 To verify your standalone configuration is as intended, add the `_reposense/config.json` to your local copy of repo and run RepoSense against it as follows:<br>
@@ -180,7 +180,7 @@ git config --global user.name "YOUR_AUTHOR_NAME”
 ```
 RepoSense expects the Git Author Name to be the same as author's GitHub username. If an author's `Git Author Name` is different from her `GitHub ID`, the `Git Author Name` needs to be specified in the standalone config file. If the author has more than one `Git Author Name`, multiple values can be entered too.
 
-### Using `@@author` Tags
+### Option 2: Using `@@author` Tags
 
 If you want to override the code authorships deduced by RepoSense (which is based on Git blame/log data), you can use `@@author` tags to specify certain code segments should be credited to a certain author irrespective of git history. An example scenario where this is useful is when a method was originally written by one author but a second author did some minor refactoring to it; in this case RepoSense might attribute the code to the second author while you may want to attribute the code to the first author.
 
@@ -200,7 +200,7 @@ Special thanks to [Collate](https://github.com/se-edu/collate) for providing the
 
 The analysis can be customized using additional command line parameters or using config files. The two approaches are explained in the sections below.
 
-### Using Command Line Parameters
+### Option 1: Using Command Line Parameters
 
 As you know, `java -jar RepoSense.jar` takes the following parameter:
 
@@ -223,7 +223,7 @@ In addition, there are some _optional_ extra parameters you can use to customize
 Here's an example of a command using all parameters:<br>
 `java -jar RepoSense.jar -repo https://github.com/reposense/RepoSense.git -output ./report_folder -since 01/10/2017 -until 01/11/2017 -formats java adoc js`
 
-### Using Config Files
+### Option 2: Using csv Config Files
 
 Another, more powerful, way to customize the analysis is by using dedicated config files. In this case you need to use the `-config` parameter instead of the `-repo` parameter when running RepoSense, as follows:
 
@@ -253,7 +253,7 @@ Repository's Location | The `GitHub URL` or `Disk Path` to the git repository e.
 Branch | The branch to analyze in the target repository e.g., `master`. Default: the default branch of the repo
 [Optional] File formats<sup>*</sup> | The file extensions to analyze. Default: `adoc;cs;css;fxml;gradle;html;java;js;json;jsp;md;py;tag;xml`
 [Optional] Ignore Glob List<sup>*</sup> | The list of file path globs to ignore during analysis for each author. e.g., `test/**;temp/**`
-[Optional] Ignore standalone config | To ignore the standalone config file (if any) in target repository, enter **`yes`**. If the cell is empty, the standalone config file in the repo will take precedence over configurations provided in the csv files.
+[Optional] Ignore standalone config | To ignore the standalone config file (if any) in target repository, enter **`yes`**. If the cell is empty, the standalone config file in the repo (if any) will take precedence over configurations provided in the csv files.
 [Optional] Ignore Commit List<sup>*</sup> | The list of commits to ignore during analysis. For accurate results, the commits should be provided with their full hash.
 
 <sup>* **Multi-value column**: multiple values can be entered in this column using a semicolon `;` as the separator.</sup>
@@ -268,7 +268,7 @@ Repository's Location | Same as `repo-config.csv`
 Branch | The branch to analyze for this author
 Author's GitHub ID | GitHub username of the target author e.g., `JohnDoe`
 [Optional] Author's Display Name | The name to display for the author. Default: author's GitHub username.
-[Optional] Author's Git Author Name<sup>*</sup> | Detailed explanation below
+[Optional] Author's Git Author Name<sup>*</sup> | The meaning of _Git Author Name_ is explained in [_A Note About Git Author Name_](#a-note-about-git-author-name).
 [Optional] Ignore Glob List<sup>*</sup> | Files to ignore for this author, in addition to files ignored by the patterns specified in `repo-config.csv`
 
 <sup>* **Multi-value column**: multiple values can be entered in this column using a semicolon `;` as the separator.</sup>
