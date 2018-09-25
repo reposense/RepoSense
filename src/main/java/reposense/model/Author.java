@@ -21,7 +21,6 @@ public class Author {
             "The provided ignore glob, %s, uses uncommon pattern.";
 
     private static final String COMMON_GLOB_REGEX = "^[-a-zA-Z0-9 _/\\\\*!{}\\[\\]!(),:.]*$";
-    private static final String NAME_VALIDATION_REGEX = "^[-a-zA-Z0-9. _/\\\\*]+$";
 
     private final String gitId;
 
@@ -69,7 +68,7 @@ public class Author {
      * Returns true if the given {@code value} is a valid name.
      */
     private static boolean isValidName(String value) {
-        return value.matches(NAME_VALIDATION_REGEX);
+        return !value.contains("\"");
     }
 
     /**

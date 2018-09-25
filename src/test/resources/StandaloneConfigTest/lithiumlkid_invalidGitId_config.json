@@ -4,7 +4,7 @@
 	"authors":
 	[
 		{
-			"githubId": "lithiumlkid & echo hi",
+			"githubId": "lithiumlkid \"& echo hi",
 			"displayName": "Ahm",
 			"authorNames": ["Ahmad Syafiq"],
 			"ignoreGlobList": ["*.aa1", "**.aa2", "**.java"]

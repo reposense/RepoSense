@@ -197,7 +197,8 @@ public class CommandRunner {
                         AUTHOR_NAME_PATTERN, escapeSpecialRegexChars(authorAlias)) + OR_OPERATOR_PATTERN)
                 .forEach(filterAuthorArgsBuilder::append);
 
-        filterAuthorArgsBuilder.append(String.format(AUTHOR_NAME_PATTERN, author.getGitId())).append("\"");
+        filterAuthorArgsBuilder.append(
+                String.format(AUTHOR_NAME_PATTERN, escapeSpecialRegexChars(author.getGitId()))).append("\"");
         return filterAuthorArgsBuilder.toString();
     }
 

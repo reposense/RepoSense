@@ -14,9 +14,9 @@
 			"authorNames": ["Aiden Low (Yew Woei)"]
 		},
 		{
-			"githubId": ":Jun\"An;",
-			"displayName": ":Jun\"An;",
-			"authorNames": [":Jun\"An;"]
+			"githubId": "^:Jun An;$",
+			"displayName": "^:Jun An;$",
+			"authorNames": ["^:Jun An;$"]
 		}
 	]
 }

@@ -87,7 +87,7 @@ public class CommandRunnerTest extends GitTestTemplate {
 
     @Test
     public void gitLog_authorSpecialCharacter_success() {
-        Author authorWithSpecialCharacter = new Author("grDarío Hereñú; echo haha");
+        Author authorWithSpecialCharacter = new Author("Darío Hereñú; echo hello");
 
         String content = CommandRunner.gitLog(config, authorWithSpecialCharacter);
         Assert.assertTrue(content.isEmpty());
