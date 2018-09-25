@@ -86,6 +86,14 @@ public class CommandRunnerTest extends GitTestTemplate {
     }
 
     @Test
+    public void gitLog_authorSpecialCharacter_success() {
+        Author authorWithSpecialCharacter = new Author("grDarío Hereñú; echo haha");
+
+        String content = CommandRunner.gitLog(config, authorWithSpecialCharacter);
+        Assert.assertTrue(content.isEmpty());
+    }
+
+    @Test
     public void gitLog_sinceDateInFuture_noContent() {
         Date date = TestUtil.getDate(2050, Calendar.JANUARY, 1);
         config.setSinceDate(date);

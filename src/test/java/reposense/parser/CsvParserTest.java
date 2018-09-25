@@ -36,7 +36,8 @@ public class CsvParserTest {
 
     private static final Author FIRST_AUTHOR = new Author("nbriannl");
     private static final Author SECOND_AUTHOR = new Author("zacharytang");
-    private static final List<Author> AUTHOR_CONFIG_NO_SPECIAL_CHARACTER_AUTHORS = Arrays.asList(FIRST_AUTHOR, SECOND_AUTHOR);
+    private static final List<Author> AUTHOR_CONFIG_NO_SPECIAL_CHARACTER_AUTHORS =
+            Arrays.asList(FIRST_AUTHOR, SECOND_AUTHOR);
 
     private static final Author FIRST_SPECIAL_CHARACTER_AUTHOR = new Author("Darío Hereñú");
     private static final Author SECOND_SPECIAL_CHARACTER_AUTHOR = new Author("Aiden Low (Yew Woei)");
@@ -68,7 +69,8 @@ public class CsvParserTest {
 
     @Test
     public void authorConfig_noSpecialCharacter_success() throws IOException {
-        AuthorConfigCsvParser authorConfigCsvParser = new AuthorConfigCsvParser(AUTHOR_CONFIG_NO_SPECIAL_CHARACTER_FILE);
+        AuthorConfigCsvParser authorConfigCsvParser =
+                new AuthorConfigCsvParser(AUTHOR_CONFIG_NO_SPECIAL_CHARACTER_FILE);
         List<RepoConfiguration> configs = authorConfigCsvParser.parse();
 
         Assert.assertEquals(1, configs.size());

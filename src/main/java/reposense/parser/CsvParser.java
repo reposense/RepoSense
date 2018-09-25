@@ -1,12 +1,11 @@
 package reposense.parser;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 import java.util.logging.Level;
@@ -45,12 +44,12 @@ public abstract class CsvParser<T> {
         List<T> results = new ArrayList<>();
         int lineNumber = 1;
 
-        try (BufferedReader br = new BufferedReader(new FileReader(csvFilePath.toFile()))) {
+        try {
             // Skip first line, which is the header row
-            br.readLine();
 
-            String line;
-            while ((line = br.readLine()) != null) {
+            final Collection<String> lines = Files.lines(csvFilePath).skip(1).collect(Collectors.toList());
+
+            for (final String line : lines) {
                 String[] elements = line.split(ELEMENT_SEPARATOR);
 
                 if (line.isEmpty() || isLineMalformed(elements, lineNumber, line)) {
