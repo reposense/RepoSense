@@ -31,7 +31,7 @@ public class StandaloneConfigTest extends GitTestTemplate {
     private static final Path SPECIAL_CHARACTER_AUTHOR_CONFIG = new File(StandaloneConfigTest.class.getClassLoader()
             .getResource("StandaloneConfigTest/specialCharacterAuthor_config.json").getFile()).toPath();
 
-    private static final Author FIRST_SPECIAL_CHARACTER_AUTHOR = new Author("Darío Hereñú");
+    private static final Author FIRST_SPECIAL_CHARACTER_AUTHOR = new Author("‘Processed�‘Cooked�");
     private static final Author SECOND_SPECIAL_CHARACTER_AUTHOR = new Author("Aiden Low (Yew Woei)");
     private static final Author THIRD_SPECIAL_CHARACTER_AUTHOR = new Author("^:Jun An;$");
     private static final List<Author> AUTHOR_CONFIG_SPECIAL_CHARACTER_AUTHORS = Arrays.asList(
@@ -48,7 +48,7 @@ public class StandaloneConfigTest extends GitTestTemplate {
         StandaloneConfig standaloneConfig = new StandaloneConfigJsonParser().parse(SPECIAL_CHARACTER_AUTHOR_CONFIG);
         config.update(standaloneConfig);
 
-        Assert.assertEquals(config.getAuthorList(), AUTHOR_CONFIG_SPECIAL_CHARACTER_AUTHORS);
+        Assert.assertEquals(AUTHOR_CONFIG_SPECIAL_CHARACTER_AUTHORS, config.getAuthorList());
     }
 
     @Test(expected = IllegalArgumentException.class)

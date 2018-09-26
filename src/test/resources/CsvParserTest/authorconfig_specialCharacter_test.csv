@@ -1,4 +1,4 @@
 Repository's Location,Branch,Author's GitHub ID,Author's Display Name,Author's Git Author Name,Ignore Glob List
-https://github.com/reposense/testrepo-Beta.git,master,Darío Hereñú,Darío Hereñú,Darío Hereñú,
-https://github.com/reposense/testrepo-Beta.git,master,Aiden Low (Yew Woei),Aiden Low (Yew Woei),Aiden Low (Yew Woei),
-https://github.com/reposense/testrepo-Beta.git,master,^:Jun An;$,^:Jun An;$,^:Jun An;$,
+https://github.com/reposense/testrepo-Beta.git,master,‘Processed�‘Cooked�,,,
+https://github.com/reposense/testrepo-Beta.git,master,Aiden Low (Yew Woei),,,
+https://github.com/reposense/testrepo-Beta.git,master,^:Jun An;$,,,
