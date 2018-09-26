@@ -16,12 +16,6 @@ public class StandaloneConfigTest extends GitTestTemplate {
 
     private static final Path VALID_CONFIG = new File(StandaloneConfigTest.class.getClassLoader()
             .getResource("StandaloneConfigTest/valid_config.json").getFile()).toPath();
-    private static final Path INVALID_GITID_CONFIG = new File(StandaloneConfigTest.class.getClassLoader()
-            .getResource("StandaloneConfigTest/lithiumlkid_invalidGitId_config.json").getFile()).toPath();
-    private static final Path INVALID_DISPLAYNAME_CONFIG = new File(StandaloneConfigTest.class.getClassLoader()
-            .getResource("StandaloneConfigTest/jordancjq_invalidDisplayName_config.json").getFile()).toPath();
-    private static final Path INVALID_ALIASES_CONFIG = new File(StandaloneConfigTest.class.getClassLoader()
-            .getResource("StandaloneConfigTest/codeeong_invalidAuthorAliases_config.json").getFile()).toPath();
     private static final Path INVALID_IGNOREGLOB_CONFIG = new File(StandaloneConfigTest.class.getClassLoader()
             .getResource("StandaloneConfigTest/lithiumlkid_invalidIgnoreGlob_config.json").getFile()).toPath();
     private static final Path INVALID_FORMATS_CONFIG = new File(StandaloneConfigTest.class.getClassLoader()
@@ -49,24 +43,6 @@ public class StandaloneConfigTest extends GitTestTemplate {
         config.update(standaloneConfig);
 
         Assert.assertEquals(AUTHOR_CONFIG_SPECIAL_CHARACTER_AUTHORS, config.getAuthorList());
-    }
-
-    @Test(expected = IllegalArgumentException.class)
-    public void standaloneConfig_invalidGitIdJson_throwIllegalArgumentException() throws IOException {
-        StandaloneConfig standaloneConfig = new StandaloneConfigJsonParser().parse(INVALID_GITID_CONFIG);
-        config.update(standaloneConfig);
-    }
-
-    @Test(expected = IllegalArgumentException.class)
-    public void standaloneConfig_invalidDisplayNameJson_throwIllegalArgumentException() throws IOException {
-        StandaloneConfig standaloneConfig = new StandaloneConfigJsonParser().parse(INVALID_DISPLAYNAME_CONFIG);
-        config.update(standaloneConfig);
-    }
-
-    @Test(expected = IllegalArgumentException.class)
-    public void standaloneConfig_invalidAuthorAliases_throwIllegalArgumentException() throws IOException {
-        StandaloneConfig standaloneConfig = new StandaloneConfigJsonParser().parse(INVALID_ALIASES_CONFIG);
-        config.update(standaloneConfig);
     }
 
     @Test(expected = IllegalArgumentException.class)

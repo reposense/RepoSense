@@ -24,7 +24,7 @@ public class CommandRunner {
     private static final String AUTHOR_NAME_PATTERN = "^%s <.*>$";
     private static final String OR_OPERATOR_PATTERN = "\\|";
 
-    private static final Pattern SPECIAL_REGEX_CHARS = Pattern.compile("[{}()\\[\\].+*?^$|]");
+    private static final Pattern SPECIAL_SYMBOLS = Pattern.compile("[\\\\!<>{}%#\"\\-='()\\[\\].+*?^$|]");
 
     private static boolean isWindows = isWindows();
 
@@ -230,10 +230,9 @@ public class CommandRunner {
     }
 
     /**
-     * Converts the {@code regexString} to a literal {@code String} where all regex meta-characters are escaped
-     * and returns it.
+     * Converts all special symbol characters inside {@code regexString} to the '.' character.
      */
     private static String escapeSpecialRegexChars(String regexString) {
-        return SPECIAL_REGEX_CHARS.matcher(regexString.replace("\\", "\\\\\\")).replaceAll("\\\\$0");
+        return SPECIAL_SYMBOLS.matcher(regexString).replaceAll(".");
     }
 }
