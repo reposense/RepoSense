@@ -6,11 +6,11 @@
   * [Code Panel](#code-panel)
   * [Tool Bar](#tool-bar)
 * [Configuring a Repo to Provide Additional Data to RepoSense](#configuring-a-repo-to-provide-additional-data-to-reposense)
-  * [Option 1: Using a json Config File](#option-1-using-a-json-config-file)
-  * [Option 2: Using `@@author` Tags](#option-2-using-author-tags)
+  * [Provide Data Using a json Config File](#provide-data-using-a-json-config-file)
+  * [Provide Data Using `@@author` Tags](#provide-data-using-author-tags)
 * [Customizing the Analysis](#customizing-the-analysis)
-  * [Option 1: Using Command Line Parameters](#option-1-using-command-line-parameters)
-  * [Option 2: Using csv Config Files](#option-2-using-csv-config-files)
+  * [Customize Using Command Line Parameters](#customize-using-command-line-parameters)
+  * [Customize Using csv Config Files](#customize-using-csv-config-files)
     * [`repo-config.csv`](#repo-configcsv)
     * [`author-config.csv`](#author-configcsv)
 * [Analyzing Multiple Repos](#analyzing-multiple-repos)
@@ -109,7 +109,7 @@ Notes:<br>
 
 When a repo is being analyzed by RepoSense, there are **two ways repo owners can provide additional details to RepoSense**: using a config file, or annotating code using `@@author` tags. The two approaches are explained in the sections below.
 
-### Option 1: Using a json Config File
+### Provide Data Using a json Config File
 
 Repo owners can provide the following additional information to RepoSense using a config file that we call the **_standalone config file_**:
 * which files/authors/commits to analyze/omit
@@ -180,7 +180,7 @@ git config --global user.name "YOUR_AUTHOR_NAME”
 ```
 RepoSense expects the Git Author Name to be the same as author's GitHub username. If an author's `Git Author Name` is different from her `GitHub ID`, the `Git Author Name` needs to be specified in the standalone config file. If the author has more than one `Git Author Name`, multiple values can be entered too.
 
-### Option 2: Using `@@author` Tags
+### Provide Data Using `@@author` Tags
 
 If you want to override the code authorships deduced by RepoSense (which is based on Git blame/log data), you can use `@@author` tags to specify certain code segments should be credited to a certain author irrespective of git history. An example scenario where this is useful is when a method was originally written by one author but a second author did some minor refactoring to it; in this case RepoSense might attribute the code to the second author while you may want to attribute the code to the first author.
 
@@ -200,7 +200,7 @@ Special thanks to [Collate](https://github.com/se-edu/collate) for providing the
 
 The analysis can be customized using additional command line parameters or using config files. The two approaches are explained in the sections below.
 
-### Option 1: Using Command Line Parameters
+### Customize Using Command Line Parameters
 
 As you know, `java -jar RepoSense.jar` takes the following parameter:
 
@@ -223,7 +223,7 @@ In addition, there are some _optional_ extra parameters you can use to customize
 Here's an example of a command using all parameters:<br>
 `java -jar RepoSense.jar -repo https://github.com/reposense/RepoSense.git -output ./report_folder -since 01/10/2017 -until 01/11/2017 -formats java adoc js`
 
-### Option 2: Using csv Config Files
+### Customize Using csv Config Files
 
 Another, more powerful, way to customize the analysis is by using dedicated config files. In this case you need to use the `-config` parameter instead of the `-repo` parameter when running RepoSense, as follows:
 
