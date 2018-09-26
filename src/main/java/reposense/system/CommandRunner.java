@@ -24,7 +24,7 @@ public class CommandRunner {
     private static final String AUTHOR_NAME_PATTERN = "^%s <.*>$";
     private static final String OR_OPERATOR_PATTERN = "\\|";
 
-    private static final Pattern SPECIAL_SYMBOLS = Pattern.compile("[\\\\!<>{}%#\"\\-='()\\[\\].+*?^$|]");
+    private static final Pattern SPECIAL_SYMBOLS = Pattern.compile("[;:&/\\\\!<>{}%#\"\\-='()\\[\\].+*?^$|]");
 
     private static boolean isWindows = isWindows();
 
@@ -194,11 +194,11 @@ public class CommandRunner {
         // git author names may contain regex meta-characters, so we need to escape those
         author.getAuthorAliases().stream()
                 .map(authorAlias -> String.format(
-                        AUTHOR_NAME_PATTERN, escapeSpecialRegexChars(authorAlias)) + OR_OPERATOR_PATTERN)
+                        AUTHOR_NAME_PATTERN, replaceSpecialSymbols(authorAlias)) + OR_OPERATOR_PATTERN)
                 .forEach(filterAuthorArgsBuilder::append);
 
         filterAuthorArgsBuilder.append(
-                String.format(AUTHOR_NAME_PATTERN, escapeSpecialRegexChars(author.getGitId()))).append("\"");
+                String.format(AUTHOR_NAME_PATTERN, replaceSpecialSymbols(author.getGitId()))).append("\"");
         return filterAuthorArgsBuilder.toString();
     }
 
@@ -232,7 +232,7 @@ public class CommandRunner {
     /**
      * Converts all special symbol characters inside {@code regexString} to the '.' character.
      */
-    private static String escapeSpecialRegexChars(String regexString) {
+    private static String replaceSpecialSymbols(String regexString) {
         return SPECIAL_SYMBOLS.matcher(regexString).replaceAll(".");
     }
 }

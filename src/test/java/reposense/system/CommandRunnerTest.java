@@ -58,6 +58,14 @@ public class CommandRunnerTest extends GitTestTemplate {
     }
 
     @Test
+    public void gitLog_fakeAuthorNameWithSpecialCharacter_success() {
+        Author fakeAuthorWithSpecialCharacter = new Author(FAKE_AUTHOR_NAME.replace("fake", "#()!"));
+
+        String content = CommandRunner.gitLog(config, fakeAuthorWithSpecialCharacter);
+        Assert.assertTrue(TestUtil.compareNumberExpectedCommitsToGitLogLines(4, content));
+    }
+
+    @Test
     public void gitLog_includeAllJavaFilesAuthorIgnoreMovedFile_success() {
         config.setFormats(Collections.singletonList("java"));
         Author ignoreMovedFileAuthor = getAlphaAllAliasAuthor();
@@ -82,14 +90,6 @@ public class CommandRunnerTest extends GitTestTemplate {
         authorWithAllCharactersRegexAlias.setAuthorAliases(Collections.singletonList(".*"));
 
         String content = CommandRunner.gitLog(config, authorWithAllCharactersRegexAlias);
-        Assert.assertTrue(content.isEmpty());
-    }
-
-    @Test
-    public void gitLog_authorSpecialCharacter_success() {
-        Author authorWithSpecialCharacter = new Author("Darío Hereñú; echo hello");
-
-        String content = CommandRunner.gitLog(config, authorWithSpecialCharacter);
         Assert.assertTrue(content.isEmpty());
     }
 
