@@ -1,9 +1,13 @@
 package reposense.util;
 
+import java.util.regex.Pattern;
+
 /**
  * Contains strings related utilities.
  */
 public class StringsUtil {
+
+    private static final Pattern SPECIAL_SYMBOLS = Pattern.compile("[@;:&/\\\\!<>{}%#\"\\-='()\\[\\].+*?^$|]");
 
     /**
      * Filters the {@code text}, returning only the lines that matches the given {@code regex}.
@@ -18,5 +22,12 @@ public class StringsUtil {
         }
 
         return sb.toString();
+    }
+
+    /**
+     * Converts all special symbol characters inside {@code regexString} to the {@code replacementCharacter}.
+     */
+    public static String replaceSpecialSymbols(String regexString, String replacementCharacter) {
+        return SPECIAL_SYMBOLS.matcher(regexString).replaceAll(replacementCharacter);
     }
 }
