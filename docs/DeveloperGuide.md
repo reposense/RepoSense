@@ -53,6 +53,32 @@ Optionally, you can follow the [Using Checkstyle](UsingCheckstyle.md) document t
 ### Before writing code
 1. Do check out our [process guide](../docs/Process.md) before submitting any PR with your changes.
 
+### Building and running RepoSense from code
+
+1. Execute the following command on the OS terminal inside the project directory. <br/>
+Usage: `gradlew run -Dargs="([-config CONFIG_FOLDER] | -repos REPO_PATH_OR_URL... | -view REPORT_FOLDER) [-output OUTPUT_DIRECTORY] [-since DD/MM/YYYY] [-until DD/MM/YYYY] [-formats FORMAT...]"` <br/>
+
+Sample usage to generate the report with no specify arguments: (find and use config files in current working directory)
+```
+gradlew run
+```
+
+Sample usage to generate the report with config files:
+```
+gradlew run -Dargs="-config ./configs/ -output output_path/ -since 01/10/2017 -until 01/11/2017 -formats java adoc js"
+```
+
+Sample usage to generate the report with repository locations:
+```
+gradlew run -Dargs="-repos https://github.com/reposense/RepoSense.git https://github.com/se-edu/collate.git -output output_path/ -since 01/10/2017 -until 01/11/2017 -formats java adoc js"
+```
+
+Sample usage to view the report:
+```
+gradlew run -Dargs="-view output_path/reposense-report"
+```
+`-Dargs="..."` uses the same argument format as mentioned above.
+
 ## Architecture
 
  ![architecture](images/architecture.png)
