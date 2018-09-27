@@ -41,4 +41,14 @@ public class GitShortlogTest extends GitTestTemplate {
         Assert.assertEquals(expectedAuthorList.size(), actualAuthorList.size());
         Assert.assertEquals(expectedAuthorList, actualAuthorList);
     }
+
+    @Test
+    public void extractAuthorsFromLog_validRepoDateOutOfRange_success() {
+        config.setSinceDate(TestUtil.getDate(2018, Calendar.JUNE, 1));
+        config.setUntilDate(TestUtil.getDate(2018, Calendar.JUNE, 20));
+
+        List<Author> actualAuthorList = extractAuthorsFromLog(config);
+
+        Assert.assertTrue(actualAuthorList.isEmpty());
+    }
 }

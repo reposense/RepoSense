@@ -111,7 +111,6 @@ public class CommandRunner {
         command += convertToGitDateRangeArgs(sinceDate, untilDate);
         command += " | git shortlog --summary";
 
-        System.out.println(command);
         return runCommand(rootPath, command);
     }
 
