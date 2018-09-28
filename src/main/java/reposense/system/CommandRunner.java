@@ -105,9 +105,11 @@ public class CommandRunner {
         return runCommand(rootPath, revListCommand);
     }
 
-    public static String getShortlogSummary(RepoConfiguration config) {
-        Path rootPath = Paths.get(config.getRepoRoot());
-        String command = "git log --pretty=short | git shortlog --summary";
+    public static String getShortlogSummary(String root, Date sinceDate, Date untilDate) {
+        Path rootPath = Paths.get(root);
+        String command = "git log --pretty=short";
+        command += convertToGitDateRangeArgs(sinceDate, untilDate);
+        command += " | git shortlog --summary";
 
         return runCommand(rootPath, command);
     }
