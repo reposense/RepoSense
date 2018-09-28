@@ -275,7 +275,7 @@ Author's GitHub ID | GitHub username of the target author e.g., `JohnDoe`
 
 <sup>* **Multi-value column**: multiple values can be entered in this column using a semicolon `;` as the separator.</sup>
 
-If `author-config.csv` is not given and the repo has not provide author details in a standalone config file, all the authors of the repositories will be analyzed.
+If `author-config.csv` is not given and the repo has not provide author details in a standalone config file, all the authors of the repositories within the date range specified (if any) will be analyzed.
 
 <hr>
 
