@@ -267,18 +267,16 @@ public class ArgsParserTest {
         ArgsParser.parse(translateCommandline(input));
     }
 
-    @Test(expected = ParseException.class)
-    public void file_forOutputDirectory_throwsParseException() throws ParseException {
-        String file = PROJECT_DIRECTORY.resolve("parser_test.csv").toString();
-        String input = DEFAULT_MANDATORY_ARGS + String.format("-output %s", file);
-        ArgsParser.parse(translateCommandline(input));
-    }
-
-    @Test(expected = ParseException.class)
-    public void nonExistentDirectory_forOutputDirectory_throwsParseException() throws ParseException {
+    @Test
+    public void outputPath_nonExistentDirectory_success() throws ParseException, IOException {
         String nonExistentDirectory = PROJECT_DIRECTORY.resolve("some_non_existent_dir/").toString();
+        Path expectedRelativeOutputDirectoryPath = Paths.get(nonExistentDirectory)
+                .resolve(ArgsParser.DEFAULT_REPORT_NAME);
         String input = DEFAULT_MANDATORY_ARGS + String.format("-output %s", nonExistentDirectory);
-        ArgsParser.parse(translateCommandline(input));
+        CliArguments cliArguments = ArgsParser.parse(translateCommandline(input));
+        Assert.assertTrue(cliArguments instanceof ConfigCliArguments);
+        Assert.assertTrue(Files.isSameFile(
+                expectedRelativeOutputDirectoryPath, cliArguments.getOutputFilePath()));
     }
 
     @Test(expected = ParseException.class)
