@@ -45,6 +45,8 @@ window.vSummary = {
       filterSortReverse: false,
       filterGroupRepos: true,
       filterTimeFrame: 'day',
+      tmpFilterSinceDate: '',
+      tmpFilterUntilDate: '',
       filterSinceDate: '',
       filterUntilDate: '',
       filterHash: '',
@@ -69,19 +71,17 @@ window.vSummary = {
     filterTimeFrame() {
       this.getFiltered();
     },
-    filterSinceDate() {
-      if (this.filterSinceDate < this.minDate) {
-        this.filterSinceDate = this.minDate;
+    tmpFilterSinceDate() {
+      if (this.tmpFilterSinceDate >= this.minDate) {
+        this.filterSinceDate = this.tmpFilterSinceDate;
+        this.getFiltered();
       }
-
-      this.getFiltered();
     },
-    filterUntilDate() {
-      if (this.filterUntilDate > this.maxDate) {
-        this.filterUntilDate = this.maxDate;
+    tmpFilterUntilDate() {
+      if (this.tmpFilterUntilDate <= this.maxDate) {
+        this.filterUntilDate = this.tmpFilterUntilDate;
+        this.getFiltered();
       }
-
-      this.getFiltered();
     },
   },
   computed: {
