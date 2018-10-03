@@ -67,10 +67,10 @@ html
               label granularity
           .summary-picker__section
             .mui-textfield.summary-picker__date
-              input(type="date", v-model="filterSinceDate")
+              input(type="date", v-model="tmpFilterSinceDate", v-bind:min="minDate", v-bind:max="filterUntilDate")
               label since
             .mui-textfield.summary-picker__date
-              input(type="date", v-model="filterUntilDate")
+              input(type="date", v-model="tmpFilterUntilDate", v-bind:min="filterSinceDate", v-bind:max="maxDate")
               label until
           .summary-picker__checkboxes.summary-picker__section
             label

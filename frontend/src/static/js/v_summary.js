@@ -45,10 +45,14 @@ window.vSummary = {
       filterSortReverse: false,
       filterGroupRepos: true,
       filterTimeFrame: 'day',
+      tmpFilterSinceDate: '',
+      tmpFilterUntilDate: '',
       filterSinceDate: '',
       filterUntilDate: '',
       filterHash: '',
       rampSize: 0.01,
+      minDate: '',
+      maxDate: '',
     };
   },
   watch: {
@@ -67,11 +71,17 @@ window.vSummary = {
     filterTimeFrame() {
       this.getFiltered();
     },
-    filterSinceDate() {
-      this.getFiltered();
+    tmpFilterSinceDate() {
+      if (this.tmpFilterSinceDate >= this.minDate) {
+        this.filterSinceDate = this.tmpFilterSinceDate;
+        this.getFiltered();
+      }
     },
-    filterUntilDate() {
-      this.getFiltered();
+    tmpFilterUntilDate() {
+      if (this.tmpFilterUntilDate <= this.maxDate) {
+        this.filterUntilDate = this.tmpFilterUntilDate;
+        this.getFiltered();
+      }
     },
   },
   computed: {
@@ -209,10 +219,12 @@ window.vSummary = {
 
       if (!this.filterSinceDate) {
         this.filterSinceDate = minDate;
+        this.minDate = minDate;
       }
 
       if (!this.filterUntilDate) {
         this.filterUntilDate = maxDate;
+        this.maxDate = maxDate;
       }
     },
     getFiltered() {
