@@ -11,6 +11,7 @@ import org.junit.Assert;
 import org.junit.Test;
 
 public class StringsUtilTest {
+
     private static final Path STRINGS_UTIL_TEST_DIRECTORY = new File(FileUtilTest.class.getClassLoader()
             .getResource("StringsUtilTest").getFile()).toPath().toAbsolutePath();
 
@@ -27,5 +28,22 @@ public class StringsUtilTest {
         String filteredText = StringsUtil.filterText(text, "(^author .*)|(^[0-9a-f]{40} .*)");
 
         Assert.assertEquals(expected, filteredText);
+    }
+
+    @Test
+    public void replaceSpecialSymbols_noSpecialSymbols_noChange() {
+        String noSpecialSymbolString = "Just A Normal String";
+        String convertedString = StringsUtil.replaceSpecialSymbols(noSpecialSymbolString, ".");
+
+        Assert.assertEquals(noSpecialSymbolString, convertedString);
+    }
+
+    @Test
+    public void replaceSpecialSymbols_stringWithSpecialSymbolsToPeriod_success() {
+        String noSpecialSymbolString = "($t^!ng W!th $pec!@l Symbols)";
+        String convertedString = StringsUtil.replaceSpecialSymbols(noSpecialSymbolString, ".");
+        String expectedConvertedString = "..t..ng W.th .pec..l Symbols.";
+
+        Assert.assertEquals(expectedConvertedString, convertedString);
     }
 }

@@ -101,17 +101,20 @@ window.vSummary = {
       return totalCommits / totalCount;
     },
     avgContributionSize() {
-      let totalLines = 0;
-      let totalCount = 0;
-      this.filtered.forEach((repo) => {
-        repo.forEach((user) => {
-          if (user.totalCommits > 0) {
-            totalCount += 1;
-            totalLines += user.totalCommits;
-          }
+      if (typeof meanContributionSize === 'undefined') {
+        let totalLines = 0;
+        let totalCount = 0;
+        this.repos.forEach((repo) => {
+          repo.users.forEach((user) => {
+            if (user.totalCommits > 0) {
+              totalCount += 1;
+              totalLines += user.totalCommits;
+            }
+          });
         });
-      });
-      return totalLines / totalCount;
+        meanContributionSize = totalLines / totalCount;
+      }
+      return meanContributionSize;
     },
   },
   methods: {

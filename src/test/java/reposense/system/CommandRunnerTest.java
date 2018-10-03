@@ -58,6 +58,14 @@ public class CommandRunnerTest extends GitTestTemplate {
     }
 
     @Test
+    public void gitLog_fakeAuthorNameWithSpecialCharacter_success() {
+        Author fakeAuthorWithSpecialCharacter = new Author(FAKE_AUTHOR_NAME.replace("fake", "#()!"));
+
+        String content = CommandRunner.gitLog(config, fakeAuthorWithSpecialCharacter);
+        Assert.assertTrue(TestUtil.compareNumberExpectedCommitsToGitLogLines(4, content));
+    }
+
+    @Test
     public void gitLog_includeAllJavaFilesAuthorIgnoreMovedFile_success() {
         config.setFormats(Collections.singletonList("java"));
         Author ignoreMovedFileAuthor = getAlphaAllAliasAuthor();
@@ -168,5 +176,35 @@ public class CommandRunnerTest extends GitTestTemplate {
     public void getCommitHashBeforeDate_invalidBranch_throwsRunTimeException() {
         Date date = TestUtil.getDate(2018, Calendar.FEBRUARY, 9);
         CommandRunner.getCommitHashBeforeDate(config.getRepoRoot(), "invalidBranch", date);
+    }
+
+    @Test
+    public void getShortlogSummary_noDateRange_success() {
+        String result = CommandRunner.getShortlogSummary(config.getRepoRoot(), null, null);
+
+        Assert.assertTrue(result.contains(EUGENE_AUTHOR_NAME));
+        Assert.assertTrue(result.contains(FAKE_AUTHOR_NAME));
+        Assert.assertTrue(result.contains(MAIN_AUTHOR_NAME));
+    }
+
+
+    @Test
+    public void getShortlogSummary_dateRange_success() {
+        Date sinceDate = TestUtil.getDate(2018, Calendar.MAY, 5);
+        Date untilDate = TestUtil.getDate(2018, Calendar.MAY, 10);
+
+        String result = CommandRunner.getShortlogSummary(config.getRepoRoot(), sinceDate, untilDate);
+
+        Assert.assertTrue(result.contains(EUGENE_AUTHOR_NAME));
+    }
+
+    @Test
+    public void getShortlogSummary_dateOutOfRange_emptyResult() {
+        Date sinceDate = TestUtil.getDate(2018, Calendar.JUNE, 1);
+        Date untilDate = TestUtil.getDate(2018, Calendar.JUNE, 10);
+
+        String result = CommandRunner.getShortlogSummary(config.getRepoRoot(), sinceDate, untilDate);
+
+        Assert.assertTrue(result.isEmpty());
     }
 }
