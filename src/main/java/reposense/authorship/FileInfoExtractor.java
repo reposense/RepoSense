@@ -51,6 +51,8 @@ public class FileInfoExtractor {
             "^deleted file mode [\\d]{6}\n").asPredicate();
     private static final Predicate<String> NEW_EMPTY_FILE_PREDICATE = Pattern.compile(
             "^new file mode [a-zA-Z0-9\n. ]*$").asPredicate();
+    private static final Predicate<String> FILE_PERMISSION_CHANGED_PREDICATE = Pattern.compile(
+            "^old mode [a-zA-Z0-9\n. ]*$").asPredicate();
 
     /**
      * Extracts a list of relevant files given in {@code config}.
@@ -97,9 +99,7 @@ public class FileInfoExtractor {
         String[] fileDiffResultList = fullDiffResult.split(DIFF_FILE_CHUNK_SEPARATOR);
 
         for (String fileDiffResult : fileDiffResultList) {
-            // file deleted, renamed, is binary file or is new and empty file, skip it
-            if (fileDiffResult.contains(SIMILAR_FILE_RENAMED_SYMBOL) || fileDiffResult.contains(BINARY_FILE_SYMBOL)
-                    || FILE_DELETED_PREDICATE.test(fileDiffResult) || NEW_EMPTY_FILE_PREDICATE.test(fileDiffResult)) {
+            if (!isValidFileDiff(fileDiffResult)) {
                 continue;
             }
 
@@ -113,6 +113,22 @@ public class FileInfoExtractor {
         }
 
         return fileInfos;
+    }
+
+    /**
+     * Returns false if the {@code fileDiffResult} contains either of the following:
+     * - file delete
+     * - file rename
+     * - file permission change
+     * - binary file
+     * - empty new file
+     */
+    private static boolean isValidFileDiff(String fileDiffResult) {
+        return !(fileDiffResult.contains(SIMILAR_FILE_RENAMED_SYMBOL)
+                || fileDiffResult.contains(BINARY_FILE_SYMBOL)
+                || FILE_DELETED_PREDICATE.test(fileDiffResult)
+                || NEW_EMPTY_FILE_PREDICATE.test(fileDiffResult)
+                || FILE_PERMISSION_CHANGED_PREDICATE.test(fileDiffResult));
     }
 
     /**
