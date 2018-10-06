@@ -192,9 +192,15 @@ window.vSummary = {
       if (hash.search) { this.filterSearch = hash.search; }
       if (hash.sort) { this.filterSort = hash.sort; }
 
-      if (hash.since) { this.filterSinceDate = hash.since; }
-      if (hash.until) { this.filterUntilDate = hash.until; }
       if (hash.timeframe) { this.filterTimeFrame = hash.timeframe; }
+      if (hash.since) {
+        this.tmpFilterSinceDate = hash.since;
+        this.filterSinceDate = hash.since;
+      }
+      if (hash.until) {
+        this.tmpFilterUntilDate = hash.until;
+        this.filterUntilDate = hash.until;
+      }
 
       if (hash.reverse) { this.filterSortReverse = convertBool(hash.reverse); }
       if (hash.repoSort) { this.filterGroupRepos = convertBool(hash.repoSort); }
