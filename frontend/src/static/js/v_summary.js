@@ -224,11 +224,13 @@ window.vSummary = {
       });
 
       if (!this.filterSinceDate) {
+        this.tmpFilterSinceDate = minDate;
         this.filterSinceDate = minDate;
         this.minDate = minDate;
       }
 
       if (!this.filterUntilDate) {
+        this.tmpFilterUntilDate = maxDate;
         this.filterUntilDate = maxDate;
         this.maxDate = maxDate;
       }
