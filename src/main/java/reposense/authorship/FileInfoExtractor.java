@@ -36,13 +36,14 @@ public class FileInfoExtractor {
     private static final String LINE_INSERTED_SYMBOL = "+";
     private static final String STARTING_LINE_NUMBER_GROUP_NAME = "startingLineNumber";
     private static final String FILE_CHANGED_GROUP_NAME = "filePath";
+    private static final String FILE_DELETE_SYMBOL = "/dev/null";
     private static final String MATCH_GROUP_FAIL_MESSAGE_FORMAT = "Failed to match the %s group for:\n%s";
 
     private static final int LINE_CHANGED_HEADER_INDEX = 0;
 
     private static final Pattern STARTING_LINE_NUMBER_PATTERN = Pattern.compile(
             "-(\\d)+(,)?(\\d)* \\+(?<startingLineNumber>\\d+)(,)?(\\d)* @@");
-    private static final Pattern FILE_CHANGED_PATTERN = Pattern.compile("\n(\\+){3} (b/)?(?<filePath>.*)\n");
+    private static final Pattern FILE_CHANGED_PATTERN = Pattern.compile("\n(\\+){3} b?/(?<filePath>.*)\n");
 
     /**
      * Extracts a list of relevant files given in {@code config}.
@@ -95,7 +96,7 @@ public class FileInfoExtractor {
 
             String filePath = getFilePathFromDiffPattern(fileDiffResult);
 
-            if (filePath.equals("/dev/null")) {
+            if (filePath.equals(FILE_DELETE_SYMBOL)) {
                 continue;
             }
 
