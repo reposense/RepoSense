@@ -10,7 +10,6 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
-import java.util.function.Predicate;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.regex.Matcher;
@@ -33,8 +32,6 @@ public class FileInfoExtractor {
     private static final Logger logger = LogsManager.getLogger(FileInfoExtractor.class);
 
     private static final String DIFF_FILE_CHUNK_SEPARATOR = "\ndiff --git a/.*\n";
-    private static final String BINARY_FILE_SYMBOL = "\nBinary files ";
-    private static final String SIMILAR_FILE_RENAMED_SYMBOL = "similarity index 100%\n";
     private static final String LINE_CHUNKS_SEPARATOR = "\n@@ ";
     private static final String LINE_INSERTED_SYMBOL = "+";
     private static final String STARTING_LINE_NUMBER_GROUP_NAME = "startingLineNumber";
@@ -45,14 +42,7 @@ public class FileInfoExtractor {
 
     private static final Pattern STARTING_LINE_NUMBER_PATTERN = Pattern.compile(
             "-(\\d)+(,)?(\\d)* \\+(?<startingLineNumber>\\d+)(,)?(\\d)* @@");
-    private static final Pattern FILE_CHANGED_PATTERN = Pattern.compile("\n(\\+){3} b/(?<filePath>.*)\n");
-
-    private static final Predicate<String> FILE_DELETED_PREDICATE = Pattern.compile(
-            "^deleted file mode [\\d]{6}\n").asPredicate();
-    private static final Predicate<String> NEW_EMPTY_FILE_PREDICATE = Pattern.compile(
-            "^new file mode [a-zA-Z0-9\n. ]*$").asPredicate();
-    private static final Predicate<String> FILE_PERMISSION_CHANGED_PREDICATE = Pattern.compile(
-            "^old mode [a-zA-Z0-9\n. ]*$").asPredicate();
+    private static final Pattern FILE_CHANGED_PATTERN = Pattern.compile("\n(\\+){3} (b/)?(?<filePath>.*)\n");
 
     /**
      * Extracts a list of relevant files given in {@code config}.
@@ -105,6 +95,10 @@ public class FileInfoExtractor {
 
             String filePath = getFilePathFromDiffPattern(fileDiffResult);
 
+            if (filePath.equals("/dev/null")) {
+                continue;
+            }
+
             if (isFormatInsideWhiteList(filePath, config.getFormats())) {
                 FileInfo currentFileInfo = generateFileInfo(config.getRepoRoot(), filePath);
                 setLinesToTrack(currentFileInfo, fileDiffResult);
@@ -116,19 +110,10 @@ public class FileInfoExtractor {
     }
 
     /**
-     * Returns false if the {@code fileDiffResult} contains either of the following:
-     * - file delete
-     * - file rename
-     * - file permission change
-     * - binary file
-     * - empty new file
+     * Returns true if the {@code fileDiffResult} contains any line changed chunk group.
      */
     private static boolean isValidFileDiff(String fileDiffResult) {
-        return !(fileDiffResult.contains(SIMILAR_FILE_RENAMED_SYMBOL)
-                || fileDiffResult.contains(BINARY_FILE_SYMBOL)
-                || FILE_DELETED_PREDICATE.test(fileDiffResult)
-                || NEW_EMPTY_FILE_PREDICATE.test(fileDiffResult)
-                || FILE_PERMISSION_CHANGED_PREDICATE.test(fileDiffResult));
+        return fileDiffResult.contains(LINE_CHUNKS_SEPARATOR);
     }
 
     /**
