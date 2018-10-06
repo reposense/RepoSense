@@ -5,7 +5,6 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.nio.file.PathMatcher;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -36,7 +35,7 @@ public class FileInfoExtractor {
     private static final String LINE_INSERTED_SYMBOL = "+";
     private static final String STARTING_LINE_NUMBER_GROUP_NAME = "startingLineNumber";
     private static final String FILE_CHANGED_GROUP_NAME = "filePath";
-    private static final String FILE_DELETE_SYMBOL = "/dev/null";
+    private static final String FILE_DELETED_SYMBOL = "/dev/null";
     private static final String MATCH_GROUP_FAIL_MESSAGE_FORMAT = "Failed to match the %s group for:\n%s";
 
     private static final int LINE_CHANGED_HEADER_INDEX = 0;
@@ -90,13 +89,17 @@ public class FileInfoExtractor {
         String[] fileDiffResultList = fullDiffResult.split(DIFF_FILE_CHUNK_SEPARATOR);
 
         for (String fileDiffResult : fileDiffResultList) {
-            if (!isValidFileDiff(fileDiffResult)) {
+            Matcher filePathMatcher = FILE_CHANGED_PATTERN.matcher(fileDiffResult);
+
+            // diff result does not have the markers to indicate that file has any line changes, skip it
+            if (!filePathMatcher.find()) {
                 continue;
             }
 
-            String filePath = getFilePathFromDiffPattern(fileDiffResult);
+            String filePath = filePathMatcher.group(FILE_CHANGED_GROUP_NAME);
 
-            if (filePath.equals(FILE_DELETE_SYMBOL)) {
+            // file is deleted, skip it as well
+            if (filePath.equals(FILE_DELETED_SYMBOL)) {
                 continue;
             }
 
@@ -108,13 +111,6 @@ public class FileInfoExtractor {
         }
 
         return fileInfos;
-    }
-
-    /**
-     * Returns true if the {@code fileDiffResult} contains any line changed chunk group.
-     */
-    private static boolean isValidFileDiff(String fileDiffResult) {
-        return fileDiffResult.contains(LINE_CHUNKS_SEPARATOR);
     }
 
     /**
@@ -195,31 +191,10 @@ public class FileInfoExtractor {
     }
 
     /**
-     * Returns true if {@code ignoreGlobMatcher} matchers the file path at {@code name}.
-     */
-    private static boolean shouldIgnore(String name, PathMatcher ignoreGlobMatcher) {
-        return ignoreGlobMatcher.matches(Paths.get(name));
-    }
-
-    /**
      * Returns true if the {@code relativePath}'s file type is inside {@code formatsWhiteList}.
      */
     private static boolean isFormatInsideWhiteList(String relativePath, List<String> formatsWhiteList) {
         return formatsWhiteList.stream().anyMatch(format -> relativePath.endsWith("." + format));
-    }
-
-    /**
-     * Returns the file path by matching the pattern inside {@code fileDiffResult}.
-     */
-    private static String getFilePathFromDiffPattern(String fileDiffResult) {
-        Matcher filePathMatcher = FILE_CHANGED_PATTERN.matcher(fileDiffResult);
-
-        if (!filePathMatcher.find()) {
-            logger.severe(String.format(MATCH_GROUP_FAIL_MESSAGE_FORMAT, "file path", fileDiffResult));
-            throw new AssertionError("Should not have error matching file path pattern inside file diff result!");
-        }
-
-        return filePathMatcher.group(FILE_CHANGED_GROUP_NAME);
     }
 
     /**
