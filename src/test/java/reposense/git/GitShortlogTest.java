@@ -18,6 +18,7 @@ public class GitShortlogTest extends GitTestTemplate {
     @Test
     public void extractAuthorsFromLog_validRepoNoDateRange_success() {
         List<Author> expectedAuthorList = new ArrayList<>();
+        expectedAuthorList.add(new Author("Eugene Peh"));
         expectedAuthorList.add(new Author("eugenepeh"));
         expectedAuthorList.add(new Author("fakeAuthor"));
         expectedAuthorList.add(new Author("harryggg"));
