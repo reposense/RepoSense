@@ -195,11 +195,9 @@ window.vSummary = {
       if (hash.timeframe) { this.filterTimeFrame = hash.timeframe; }
       if (hash.since) {
         this.tmpFilterSinceDate = hash.since;
-        this.filterSinceDate = hash.since;
       }
       if (hash.until) {
         this.tmpFilterUntilDate = hash.until;
-        this.filterUntilDate = hash.until;
       }
 
       if (hash.reverse) { this.filterSortReverse = convertBool(hash.reverse); }
@@ -207,7 +205,7 @@ window.vSummary = {
     },
 
     getDates() {
-      if (this.filterSinceDate && this.filterUntilDate) {
+      if (this.minDate && this.maxDate) {
         return;
       }
 
