@@ -126,7 +126,7 @@ public class CommandRunnerTest extends GitTestTemplate {
 
     @Test
     public void diffCommit_emptyCommitHash_emptyResult() {
-        String diffResult = CommandRunner.diffCommit(config.getRepoRoot(), EUGENE_AUTHOR_README_FILE_COMMIT_07052018);
+        String diffResult = CommandRunner.diffCommit(config.getRepoRoot(), LATEST_COMMIT_HASH);
         Assert.assertTrue(diffResult.isEmpty());
     }
 
