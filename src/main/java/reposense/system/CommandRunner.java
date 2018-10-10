@@ -28,7 +28,7 @@ public class CommandRunner {
     public static String gitLog(RepoConfiguration config, Author author) {
         Path rootPath = Paths.get(config.getRepoRoot());
 
-        String command = "git log --no-merges ";
+        String command = "git log --no-merges -i ";
         command += convertToGitDateRangeArgs(config.getSinceDate(), config.getUntilDate());
         command += " --pretty=format:\"%H|%aN|%ad|%s\" --date=iso --shortstat";
         command += convertToFilterAuthorArgs(author);
