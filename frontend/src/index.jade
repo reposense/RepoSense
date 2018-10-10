@@ -71,7 +71,7 @@ html
                 v-bind:min="minDate", v-bind:max="filterUntilDate")
               label since
             .mui-textfield.summary-picker__date
-              input(type="date", v-model="tmpFilterUntilDate", onkeydown="return false", 
+              input(type="date", v-model="tmpFilterUntilDate", onkeydown="return false",
                 v-bind:min="filterSinceDate", v-bind:max="maxDate")
               label until
           .summary-picker__checkboxes.summary-picker__section
