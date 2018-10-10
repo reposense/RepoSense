@@ -8,7 +8,6 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
-import java.util.regex.Pattern;
 
 import reposense.git.CommitNotFoundException;
 import reposense.model.Author;
@@ -23,8 +22,6 @@ public class CommandRunner {
     // ignore check against email
     private static final String AUTHOR_NAME_PATTERN = "^%s <.*>$";
     private static final String OR_OPERATOR_PATTERN = "\\|";
-
-    private static final Pattern SPECIAL_REGEX_CHARS = Pattern.compile("[{}()\\[\\].+*?^$|]");
 
     private static boolean isWindows = isWindows();
 
@@ -108,9 +105,11 @@ public class CommandRunner {
         return runCommand(rootPath, revListCommand);
     }
 
-    public static String getShortlogSummary(RepoConfiguration config) {
-        Path rootPath = Paths.get(config.getRepoRoot());
-        String command = "git log --pretty=short | git shortlog --summary";
+    public static String getShortlogSummary(String root, Date sinceDate, Date untilDate) {
+        Path rootPath = Paths.get(root);
+        String command = "git log --pretty=short";
+        command += convertToGitDateRangeArgs(sinceDate, untilDate);
+        command += " | git shortlog --summary";
 
         return runCommand(rootPath, command);
     }
@@ -193,11 +192,13 @@ public class CommandRunner {
 
         // git author names may contain regex meta-characters, so we need to escape those
         author.getAuthorAliases().stream()
-                .map(authorAlias -> String.format(
-                        AUTHOR_NAME_PATTERN, escapeSpecialRegexChars(authorAlias)) + OR_OPERATOR_PATTERN)
+                .map(authorAlias -> String.format(AUTHOR_NAME_PATTERN,
+                        StringsUtil.replaceSpecialSymbols(authorAlias, ".")) + OR_OPERATOR_PATTERN)
                 .forEach(filterAuthorArgsBuilder::append);
 
-        filterAuthorArgsBuilder.append(String.format(AUTHOR_NAME_PATTERN, author.getGitId())).append("\"");
+        filterAuthorArgsBuilder.append(
+                String.format(AUTHOR_NAME_PATTERN,
+                        StringsUtil.replaceSpecialSymbols(author.getGitId(), "."))).append("\"");
         return filterAuthorArgsBuilder.toString();
     }
 
@@ -226,13 +227,5 @@ public class CommandRunner {
                 .forEach(gitExcludeGlobArgsBuilder::append);
 
         return gitExcludeGlobArgsBuilder.toString();
-    }
-
-    /**
-     * Converts the {@code regexString} to a literal {@code String} where all regex meta-characters are escaped
-     * and returns it.
-     */
-    private static String escapeSpecialRegexChars(String regexString) {
-        return SPECIAL_REGEX_CHARS.matcher(regexString.replace("\\", "\\\\\\")).replaceAll("\\\\$0");
     }
 }

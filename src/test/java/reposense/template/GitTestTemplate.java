@@ -32,6 +32,7 @@ public class GitTestTemplate {
     protected static final String MAIN_AUTHOR_NAME = "harryggg";
     protected static final String FAKE_AUTHOR_NAME = "fakeAuthor";
     protected static final String EUGENE_AUTHOR_NAME = "eugenepeh";
+    protected static final String LATEST_COMMIT_HASH = "b28dfac5bd449825c1a372e58485833b35fdbd50";
     protected static final String EUGENE_AUTHOR_README_FILE_COMMIT_07052018 =
             "2d87a431fcbb8f73a731b6df0fcbee962c85c250";
     protected static final String FAKE_AUTHOR_BLAME_TEST_FILE_COMMIT_08022018 =

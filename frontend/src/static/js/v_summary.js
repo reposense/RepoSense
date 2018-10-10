@@ -34,6 +34,11 @@ function dateRounding(datestr, roundDown) {
   return getDateStr(datems);
 }
 
+function addDays(dateStr, numDays) {
+  const date = new Date(dateStr);
+  return getDateStr(date.getTime() + numDays * DAY_IN_MS);
+}
+
 window.vSummary = {
   props: ['repos'],
   template: window.$('v_summary').innerHTML,
@@ -45,10 +50,14 @@ window.vSummary = {
       filterSortReverse: false,
       filterGroupRepos: true,
       filterTimeFrame: 'day',
+      tmpFilterSinceDate: '',
+      tmpFilterUntilDate: '',
       filterSinceDate: '',
       filterUntilDate: '',
       filterHash: '',
       rampSize: 0.01,
+      minDate: '',
+      maxDate: '',
     };
   },
   watch: {
@@ -67,11 +76,17 @@ window.vSummary = {
     filterTimeFrame() {
       this.getFiltered();
     },
-    filterSinceDate() {
-      this.getFiltered();
+    tmpFilterSinceDate() {
+      if (this.tmpFilterSinceDate >= this.minDate) {
+        this.filterSinceDate = this.tmpFilterSinceDate;
+        this.getFiltered();
+      }
     },
-    filterUntilDate() {
-      this.getFiltered();
+    tmpFilterUntilDate() {
+      if (this.tmpFilterUntilDate <= this.maxDate) {
+        this.filterUntilDate = this.tmpFilterUntilDate;
+        this.getFiltered();
+      }
     },
   },
   computed: {
@@ -91,17 +106,20 @@ window.vSummary = {
       return totalCommits / totalCount;
     },
     avgContributionSize() {
-      let totalLines = 0;
-      let totalCount = 0;
-      this.filtered.forEach((repo) => {
-        repo.forEach((user) => {
-          if (user.totalCommits > 0) {
-            totalCount += 1;
-            totalLines += user.totalCommits;
-          }
+      if (typeof meanContributionSize === 'undefined') {
+        let totalLines = 0;
+        let totalCount = 0;
+        this.repos.forEach((repo) => {
+          repo.users.forEach((user) => {
+            if (user.totalCommits > 0) {
+              totalCount += 1;
+              totalLines += user.totalCommits;
+            }
+          });
         });
-      });
-      return totalLines / totalCount;
+        meanContributionSize = totalLines / totalCount;
+      }
+      return meanContributionSize;
     },
   },
   methods: {
@@ -119,6 +137,7 @@ window.vSummary = {
     },
     getSliceLink(user, slice) {
       const { REPOS } = window;
+      const untilDate = this.filterTimeFrame === 'week' ? addDays(slice.sinceDate, 6): slice.sinceDate;
 
       return `http://github.com/${
         REPOS[user.repoId].organization}/${
@@ -126,7 +145,7 @@ window.vSummary = {
         REPOS[user.repoId].branch}?`
                 + `author=${user.name}&`
                 + `since=${slice.sinceDate}'T'00:00:00+08:00&`
-                + `until=${slice.sinceDate}'T'23:59:59+08:00`;
+                + `until=${untilDate}'T'23:59:59+08:00`;
     },
     getContributionBars(totalContribution) {
       const res = [];
@@ -206,10 +225,12 @@ window.vSummary = {
 
       if (!this.filterSinceDate) {
         this.filterSinceDate = minDate;
+        this.minDate = minDate;
       }
 
       if (!this.filterUntilDate) {
         this.filterUntilDate = maxDate;
+        this.maxDate = maxDate;
       }
     },
     getFiltered() {
