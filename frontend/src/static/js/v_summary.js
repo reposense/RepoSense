@@ -228,13 +228,19 @@ window.vSummary = {
       });
 
       if (!this.filterSinceDate) {
-        this.tmpFilterSinceDate = minDate;
+        if(!this.tmpFilterSinceDate || this.tmpFilterSinceDate < minDate){
+          this.tmpFilterSinceDate = minDate;
+        }
+
         this.filterSinceDate = minDate;
         this.minDate = minDate;
       }
 
       if (!this.filterUntilDate) {
-        this.tmpFilterUntilDate = maxDate;
+        if(!this.tmpFilterUntilDate || this.tmpFilterUntilDate > maxDate){
+          this.tmpFilterUntilDate = maxDate;
+        }
+
         this.filterUntilDate = maxDate;
         this.maxDate = maxDate;
       }
