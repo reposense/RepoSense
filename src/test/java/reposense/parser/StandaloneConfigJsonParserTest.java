@@ -10,7 +10,7 @@ import org.junit.Assert;
 import org.junit.Test;
 
 import com.google.gson.JsonSyntaxException;
-
+    
 import reposense.model.StandaloneAuthor;
 import reposense.model.StandaloneConfig;
 
