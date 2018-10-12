@@ -4,15 +4,16 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Path;
 import java.util.Arrays;
-import java.util.Collections;
 
-import org.junit.Assert;
+import org.junit.BeforeClass;
 import org.junit.Test;
 
 import com.google.gson.JsonSyntaxException;
 
-import reposense.model.StandaloneAuthor;
+import reposense.model.Author;
+import reposense.model.RepoConfiguration;
 import reposense.model.StandaloneConfig;
+import reposense.util.TestUtil;
 
 public class StandaloneConfigJsonParserTest {
 
@@ -23,7 +24,6 @@ public class StandaloneConfigJsonParserTest {
     private static final Path STANDALONE_UNKNOWN_PROPERTY_CONFIG = new File(
             StandaloneConfigJsonParserTest.class.getClassLoader().getResource(
                     "StandaloneConfigJsonParserTest/standaloneConfig_unknownPropertyInJson.json").getFile()).toPath();
-
 
     private static final Path STANDALONE_CONFIG_FULL = new File(
             StandaloneConfigJsonParserTest.class.getClassLoader().getResource(
@@ -41,6 +41,30 @@ public class StandaloneConfigJsonParserTest {
             StandaloneConfigJsonParserTest.class.getClassLoader().getResource(
                     "StandaloneConfigJsonParserTest/standaloneConfig_githubId_only.json").getFile()).toPath();
 
+    private static final String TEST_DUMMY_LOCATION = "https://github.com/reposense/RepoSense.git";
+
+    private static RepoConfiguration EXPECTED_GITHUBID_ONLY_REPOCONFIG;
+    private static RepoConfiguration EXPECTED_FULL_REPOCONFIG;
+
+    @BeforeClass
+    public static void setUp() throws InvalidLocationException {
+        Author author = new Author("yong24s");
+        author.setAuthorAliases(Arrays.asList("Yong Hao TENG"));
+        author.setIgnoreGlobList(Arrays.asList("**.css", "**.html", "**.jade", "**.js"));
+
+        EXPECTED_GITHUBID_ONLY_REPOCONFIG = new RepoConfiguration(TEST_DUMMY_LOCATION);
+        EXPECTED_GITHUBID_ONLY_REPOCONFIG.setFormats(ArgsParser.DEFAULT_FORMATS);
+        EXPECTED_GITHUBID_ONLY_REPOCONFIG.setAuthorList(Arrays.asList(new Author("yong24s")));
+
+        EXPECTED_FULL_REPOCONFIG = new RepoConfiguration(TEST_DUMMY_LOCATION);
+        EXPECTED_FULL_REPOCONFIG.setFormats(Arrays.asList("gradle", "jade", "java", "js", "md", "scss", "yml"));
+        EXPECTED_FULL_REPOCONFIG.setIgnoreCommitList(Arrays.asList("7b96c563eb2d3612aa5275364333664a18f01491"));
+        EXPECTED_FULL_REPOCONFIG.setIgnoreGlobList(Arrays.asList("**.adoc", "collate**"));
+        EXPECTED_FULL_REPOCONFIG.setAuthorList(Arrays.asList(author));
+        EXPECTED_FULL_REPOCONFIG.setAuthorDisplayName(author, "Yong Hao");
+        EXPECTED_FULL_REPOCONFIG.addAuthorAliases(author, Arrays.asList(author.getGitId()));
+        EXPECTED_FULL_REPOCONFIG.addAuthorAliases(author, author.getAuthorAliases());
+    }
 
     @Test
     public void standaloneConfig_parseEmptyTextFile_success() throws IOException {
@@ -58,39 +82,26 @@ public class StandaloneConfigJsonParserTest {
     }
 
     @Test
-    public void standaloneConfig_correctConfig_success() throws IOException {
+    public void standaloneConfig_correctConfig_success() throws IOException, InvalidLocationException {
         StandaloneConfig config = new StandaloneConfigJsonParser().parse(STANDALONE_CONFIG_FULL);
-
-        Assert.assertEquals(Arrays.asList("**.adoc", "collate**"), config.getIgnoreGlobList());
-        Assert.assertEquals(Arrays.asList("gradle", "jade", "java", "js", "md", "scss", "yml"), config.getFormats());
-        Assert.assertEquals(Arrays.asList("7b96c563eb2d3612aa5275364333664a18f01491"), config.getIgnoreCommitList());
-        Assert.assertEquals(1, config.getAuthors().size());
-
-        StandaloneAuthor author = config.getAuthors().get(0);
-        Assert.assertEquals("yong24s", author.getGithubId());
-        Assert.assertEquals("Yong Hao", author.getDisplayName());
-        Assert.assertEquals(Arrays.asList("Yong Hao TENG"), author.getAuthorNames());
-        Assert.assertEquals(Arrays.asList("**.css", "**.html", "**.jade", "**.js"), author.getIgnoreGlobList());
+        isExact(EXPECTED_FULL_REPOCONFIG, config);
     }
 
     @Test
-    public void standaloneConfig_githubIdOnlyConfig_success() throws IOException {
+    public void standaloneConfig_githubIdOnlyConfig_success() throws IOException, InvalidLocationException {
         StandaloneConfig config = new StandaloneConfigJsonParser().parse(STANDALONE_CONFIG_GITHUBID_ONLY);
-
-        Assert.assertEquals(Collections.emptyList(), config.getIgnoreGlobList());
-        Assert.assertEquals(Collections.emptyList(), config.getIgnoreCommitList());
-        Assert.assertEquals(ArgsParser.DEFAULT_FORMATS, config.getFormats());
-        Assert.assertEquals(1, config.getAuthors().size());
-
-        StandaloneAuthor author = config.getAuthors().get(0);
-        Assert.assertEquals("yong24s", author.getGithubId());
-        Assert.assertEquals("", author.getDisplayName());
-        Assert.assertEquals(Collections.emptyList(), author.getAuthorNames());
-        Assert.assertEquals(Collections.emptyList(), author.getIgnoreGlobList());
+        isExact(EXPECTED_GITHUBID_ONLY_REPOCONFIG, config);
     }
 
     @Test(expected = JsonSyntaxException.class)
     public void standaloneConfig_malformedJsonFile_throwsIoException() throws IOException {
         new StandaloneConfigJsonParser().parse(STANDALONE_MALFORMED_CONFIG);
+    }
+
+    private void isExact(RepoConfiguration expectedRepoConfig, StandaloneConfig actualStandaloneConfig)
+            throws InvalidLocationException {
+        RepoConfiguration actualRepoConfig = new RepoConfiguration(TEST_DUMMY_LOCATION);
+        actualRepoConfig.update(actualStandaloneConfig);
+        TestUtil.compareRepoConfig(expectedRepoConfig, actualRepoConfig);
     }
 }
