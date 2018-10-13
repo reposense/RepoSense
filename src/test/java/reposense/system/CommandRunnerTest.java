@@ -58,6 +58,14 @@ public class CommandRunnerTest extends GitTestTemplate {
     }
 
     @Test
+    public void gitLog_authorNameIncorrectCase_success() {
+        Author fakeAuthorName = new Author(FAKE_AUTHOR_NAME.toUpperCase());
+
+        String content = CommandRunner.gitLog(config, fakeAuthorName);
+        Assert.assertTrue(TestUtil.compareNumberExpectedCommitsToGitLogLines(4, content));
+    }
+
+    @Test
     public void gitLog_fakeAuthorNameWithSpecialCharacter_success() {
         Author fakeAuthorWithSpecialCharacter = new Author(FAKE_AUTHOR_NAME.replace("fake", "#()!"));
 
