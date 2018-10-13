@@ -84,21 +84,21 @@ public class StandaloneConfigJsonParserTest {
     @Test
     public void standaloneConfig_correctConfig_success() throws IOException, InvalidLocationException {
         StandaloneConfig config = new StandaloneConfigJsonParser().parse(STANDALONE_CONFIG_FULL);
-        assertSame(EXPECTED_FULL_REPOCONFIG, config);
+        assertSameConfig(EXPECTED_FULL_REPOCONFIG, config);
     }
 
     @Test
     public void standaloneConfig_githubIdOnlyConfig_success() throws IOException, InvalidLocationException {
         StandaloneConfig config = new StandaloneConfigJsonParser().parse(STANDALONE_CONFIG_GITHUBID_ONLY);
-        assertSame(EXPECTED_GITHUBID_ONLY_REPOCONFIG, config);
+        assertSameConfig(EXPECTED_GITHUBID_ONLY_REPOCONFIG, config);
     }
 
     @Test(expected = JsonSyntaxException.class)
-    public void standaloneConfig_malformedJsonFile_throwsIoException() throws IOException {
+    public void standaloneConfig_malformedJsonFile_throwsJsonSyntaxException() throws IOException {
         new StandaloneConfigJsonParser().parse(STANDALONE_MALFORMED_CONFIG);
     }
 
-    private void assertSame(RepoConfiguration expectedRepoConfig, StandaloneConfig actualStandaloneConfig)
+    private void assertSameConfig(RepoConfiguration expectedRepoConfig, StandaloneConfig actualStandaloneConfig)
             throws InvalidLocationException {
         RepoConfiguration actualRepoConfig = new RepoConfiguration(TEST_DUMMY_LOCATION);
         actualRepoConfig.update(actualStandaloneConfig);
