@@ -7,6 +7,7 @@ import java.util.Date;
 import java.util.List;
 
 import org.junit.Assert;
+import org.junit.Assume;
 import org.junit.Test;
 
 import reposense.authorship.model.FileInfo;
@@ -21,9 +22,10 @@ public class FileInfoExtractorTest extends GitTestTemplate {
     private static final Path FILE_WITH_SPECIAL_CHARACTER = TEST_DATA_FOLDER.resolve("fileWithSpecialCharacters.txt");
     private static final Path FILE_WITHOUT_SPECIAL_CHARACTER = TEST_DATA_FOLDER
             .resolve("fileWithoutSpecialCharacters.txt");
+    private static final String FILE_NAME_WITH_ILLEGAL_WINDOW_CHARACTER = "windows:Illegal?Characters!File(Name).txt";
+
     private static final String EDITED_FILE_INFO_BRANCH = "getEditedFileInfos-test";
     private static final String FEBRUARY_EIGHT_COMMIT_HASH = "768015345e70f06add2a8b7d1f901dc07bf70582";
-
 
     @Test
     public void extractFileInfosTest() {
@@ -114,7 +116,17 @@ public class FileInfoExtractorTest extends GitTestTemplate {
         Assert.assertEquals(5, fileInfo.getLines().size());
     }
 
+    @Test
+    public void generateFileInfoOnNonWindows_fileNameWithIllegalCharactersForWindows_correctFileInfoGenerated() {
+        Assume.assumeFalse(TestUtil.isWindows());
+        Path testPath = TEST_DATA_FOLDER.resolve(FILE_NAME_WITH_ILLEGAL_WINDOW_CHARACTER);
+        FileInfo fileInfo = FileInfoExtractor.generateFileInfo(".", testPath.toString());
+        Assert.assertEquals(4, fileInfo.getLines().size());
+    }
+
     private boolean isFileExistence(Path filePath, List<FileInfo> files) {
         return files.stream().anyMatch(file -> Paths.get(file.getPath()).equals(filePath));
     }
+
+
 }
