@@ -38,8 +38,7 @@ public class FileInfoExtractor {
     private static final String FILE_CHANGED_GROUP_NAME = "filePath";
     private static final String FILE_DELETED_SYMBOL = "/dev/null";
     private static final String MATCH_GROUP_FAIL_MESSAGE_FORMAT = "Failed to match the %s group for:\n%s";
-    private static final String INVALID_FILE_PATH_MESSAGE_FORMAT =
-            "Invalid file path %s provided, skipping this file.";
+    private static final String INVALID_FILE_PATH_MESSAGE_FORMAT = "Invalid file path %s provided, skipping this file.";
 
     private static final int LINE_CHANGED_HEADER_INDEX = 0;
 

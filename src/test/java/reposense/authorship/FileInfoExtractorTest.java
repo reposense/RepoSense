@@ -145,6 +145,4 @@ public class FileInfoExtractorTest extends GitTestTemplate {
     private boolean isFileExistence(Path filePath, List<FileInfo> files) {
         return files.stream().anyMatch(file -> Paths.get(file.getPath()).equals(filePath));
     }
-
-
 }
