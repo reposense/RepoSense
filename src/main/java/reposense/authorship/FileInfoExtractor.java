@@ -106,17 +106,13 @@ public class FileInfoExtractor {
             }
 
             if (isFormatInsideWhiteList(filePath, config.getFormats())) {
-                FileInfo currentFileInfo;
-
                 try {
-                    currentFileInfo = generateFileInfo(config.getRepoRoot(), filePath);
+                    FileInfo currentFileInfo = generateFileInfo(config.getRepoRoot(), filePath);
+                    setLinesToTrack(currentFileInfo, fileDiffResult);
+                    fileInfos.add(currentFileInfo);
                 } catch (InvalidPathException ipe) {
                     logger.warning(String.format(INVALID_FILE_PATH_MESSAGE_FORMAT, filePath));
-                    continue;
                 }
-
-                setLinesToTrack(currentFileInfo, fileDiffResult);
-                fileInfos.add(currentFileInfo);
             }
         }
 
