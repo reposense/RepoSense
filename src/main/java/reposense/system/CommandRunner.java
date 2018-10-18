@@ -105,6 +105,16 @@ public class CommandRunner {
         return runCommand(rootPath, revListCommand);
     }
 
+    /**
+     * Returns the current working branch.
+     */
+    public static String getCurrentBranch(String root) {
+        Path rootPath = Paths.get(root);
+        String gitBranchCommand = "git branch";
+
+        return StringsUtil.filterText(runCommand(rootPath, gitBranchCommand), "\\* (.*)").split("\\*")[1].trim();
+    }
+
     public static String getShortlogSummary(String root, Date sinceDate, Date untilDate) {
         Path rootPath = Paths.get(root);
         String command = "git log --pretty=short";

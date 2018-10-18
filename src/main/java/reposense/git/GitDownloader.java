@@ -33,6 +33,10 @@ public class GitDownloader {
         }
 
         try {
+            if (repoConfig.getBranch().equals(RepoConfiguration.DEFAULT_BRANCH)) {
+                String currentBranch = CommandRunner.getCurrentBranch(repoConfig.getRepoRoot());
+                repoConfig.setBranch(currentBranch);
+            }
             GitChecker.checkout(repoConfig.getRepoRoot(), repoConfig.getBranch());
         } catch (RuntimeException e) {
             logger.log(Level.SEVERE, "Branch does not exist! Analyze terminated.", e);
