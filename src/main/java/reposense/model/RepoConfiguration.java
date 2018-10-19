@@ -162,7 +162,7 @@ public class RepoConfiguration {
     }
 
     public String getRepoRoot() {
-        String path = FileUtil.REPOS_ADDRESS + File.separator + displayName + File.separator;
+        String path = FileUtil.REPOS_ADDRESS + File.separator + repoName + File.separator;
 
         if (!repoName.isEmpty()) {
             path += repoName + File.separator;
@@ -219,7 +219,12 @@ public class RepoConfiguration {
     }
 
     public void setBranch(String branch) {
+        updateDisplayName(branch);
         this.branch = branch;
+    }
+
+    public void updateDisplayName(String branch) {
+        this.displayName = displayName.substring(0, displayName.lastIndexOf('_') + 1) + branch;
     }
 
     public boolean isAnnotationOverwrite() {

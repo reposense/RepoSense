@@ -124,8 +124,8 @@ public class CommandRunner {
         return runCommand(rootPath, command);
     }
 
-    public static String cloneRepo(String location, String displayName) throws IOException {
-        Path rootPath = Paths.get(FileUtil.REPOS_ADDRESS, displayName);
+    public static String cloneRepo(String location, String repoName) throws IOException {
+        Path rootPath = Paths.get(FileUtil.REPOS_ADDRESS, repoName);
         Files.createDirectories(rootPath);
         return runCommand(rootPath, "git clone " + addQuote(location));
     }

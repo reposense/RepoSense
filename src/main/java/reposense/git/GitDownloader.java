@@ -21,7 +21,7 @@ public class GitDownloader {
         try {
             FileUtil.deleteDirectory(repoConfig.getRepoRoot());
             logger.info("Cloning " + repoConfig.getLocation() + "...");
-            CommandRunner.cloneRepo(repoConfig.getLocation(), repoConfig.getDisplayName());
+            CommandRunner.cloneRepo(repoConfig.getLocation(), repoConfig.getRepoName());
             logger.info("Cloning completed!");
         } catch (RuntimeException rte) {
             logger.log(Level.SEVERE, "Error encountered in Git Cloning, will attempt to continue analyzing", rte);
