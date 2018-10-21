@@ -116,7 +116,7 @@ Repo owners can provide the following additional information to RepoSense using 
 * which git and github usernames belong to which authors
 * the display of an author
 
-To use this feature, add a `_reposense/config.json`  to the root of your repo using the format in the example below ([another example](../_reposense/config.json)):
+To use this feature, add a `_reposense/config.json`  to the root of your repo using the format in the example below ([another example](../_reposense/config.json)) and **commit it** (reason: RepoSense can see committed code only):
 ```json
 {
   "ignoreGlobList": ["about-us/**", "**index.html"],
@@ -196,6 +196,7 @@ The `@@author` tags should be enclosed within a comment, using the comment synta
 
 Special thanks to [Collate](https://github.com/se-edu/collate) for providing the inspiration for this functionality.
 
+Note: Remember to **commit** the files after the changes. (reason: RepoSense can see committed code only)
 <hr>
 
 ## Customizing the Analysis
