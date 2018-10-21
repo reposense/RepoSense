@@ -26,6 +26,7 @@ import reposense.system.LogsManager;
 import reposense.util.FileUtil;
 
 public class RepoConfiguration {
+    public static final String DEFAULT_BRANCH = "HEAD";
     private static final Logger logger = LogsManager.getLogger(RepoConfiguration.class);
     private static final String MESSAGE_ILLEGAL_FORMATS = "The provided formats, %s, contains illegal characters.";
     private static final String FORMAT_VALIDATION_REGEX = "[A-Za-z0-9]+";
@@ -33,7 +34,6 @@ public class RepoConfiguration {
     private static final String GIT_LINK_SUFFIX = ".git";
     private static final Pattern GIT_REPOSITORY_LOCATION_PATTERN =
             Pattern.compile("^.*github.com\\/(?<org>.+?)\\/(?<repoName>.+?)\\.git$");
-    private static final String DEFAULT_BRANCH = "master";
     private static final String COMMIT_HASH_REGEX = "^[0-9a-f]+$";
     private static final String INVALID_COMMIT_HASH_MESSAGE =
             "The provided commit hash, %s, contains illegal characters.";
@@ -162,7 +162,7 @@ public class RepoConfiguration {
     }
 
     public String getRepoRoot() {
-        String path = FileUtil.REPOS_ADDRESS + File.separator + displayName + File.separator;
+        String path = FileUtil.REPOS_ADDRESS + File.separator + repoName + File.separator;
 
         if (!repoName.isEmpty()) {
             path += repoName + File.separator;
@@ -219,7 +219,12 @@ public class RepoConfiguration {
     }
 
     public void setBranch(String branch) {
+        updateDisplayName(branch);
         this.branch = branch;
+    }
+
+    public void updateDisplayName(String branch) {
+        this.displayName = displayName.substring(0, displayName.lastIndexOf('_') + 1) + branch;
     }
 
     public boolean isAnnotationOverwrite() {

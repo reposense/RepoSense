@@ -32,7 +32,6 @@ public class AuthorConfigCsvParser extends CsvParser<RepoConfiguration> {
     protected int[] mandatoryPositions() {
         return new int[] {
             LOCATION_POSITION,
-            BRANCH_POSITION,
             GITHUB_ID_POSITION,
         };
     }
@@ -46,7 +45,7 @@ public class AuthorConfigCsvParser extends CsvParser<RepoConfiguration> {
     protected void processLine(List<RepoConfiguration> results, String[] elements)
             throws ParseException {
         String location = getValueInElement(elements, LOCATION_POSITION);
-        String branch = getValueInElement(elements, BRANCH_POSITION);
+        String branch = getValueInElement(elements, BRANCH_POSITION, RepoConfiguration.DEFAULT_BRANCH);
         String gitHubId = getValueInElement(elements, GITHUB_ID_POSITION);
         String displayName = getValueInElement(elements, DISPLAY_NAME_POSITION);
         List<String> aliases = getManyValueInElement(elements, ALIAS_POSITION);
