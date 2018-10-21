@@ -116,7 +116,7 @@ Repo owners can provide the following additional information to RepoSense using 
 * which git and github usernames belong to which authors
 * the display of an author
 
-To use this feature, add a `_reposense/config.json`  to the root of your repo using the format in the example below ([another example](../_reposense/config.json)) and **commit it**:
+To use this feature, add a `_reposense/config.json`  to the root of your repo using the format in the example below ([another example](../_reposense/config.json)) and **commit it** (reason: RepoSense can see committed code only):
 ```json
 {
   "ignoreGlobList": ["about-us/**", "**index.html"],
