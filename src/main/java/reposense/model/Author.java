@@ -46,6 +46,14 @@ public class Author {
         updateIgnoreGlobMatcher();
     }
 
+    public Author(Author another) {
+        this.gitId = another.gitId;
+        this.displayName = another.gitId;
+        this.authorAliases = another.authorAliases;
+        this.ignoreGlobList = another.authorAliases;
+        this.ignoreGlobMatcher = another.ignoreGlobMatcher;
+    }
+
     /**
      * Checks that all the strings in the {@code ignoreGlobList} only contains commonly used glob patterns.
      * @throws IllegalArgumentException if any of the values do not meet the criteria.

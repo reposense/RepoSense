@@ -58,6 +58,14 @@ public class CommandRunnerTest extends GitTestTemplate {
     }
 
     @Test
+    public void gitLog_authorNameIncorrectCase_success() {
+        Author fakeAuthorName = new Author(FAKE_AUTHOR_NAME.toUpperCase());
+
+        String content = CommandRunner.gitLog(config, fakeAuthorName);
+        Assert.assertTrue(TestUtil.compareNumberExpectedCommitsToGitLogLines(4, content));
+    }
+
+    @Test
     public void gitLog_fakeAuthorNameWithSpecialCharacter_success() {
         Author fakeAuthorWithSpecialCharacter = new Author(FAKE_AUTHOR_NAME.replace("fake", "#()!"));
 
@@ -126,7 +134,7 @@ public class CommandRunnerTest extends GitTestTemplate {
 
     @Test
     public void diffCommit_emptyCommitHash_emptyResult() {
-        String diffResult = CommandRunner.diffCommit(config.getRepoRoot(), EUGENE_AUTHOR_README_FILE_COMMIT_07052018);
+        String diffResult = CommandRunner.diffCommit(config.getRepoRoot(), LATEST_COMMIT_HASH);
         Assert.assertTrue(diffResult.isEmpty());
     }
 
