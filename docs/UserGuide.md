@@ -116,7 +116,7 @@ Repo owners can provide the following additional information to RepoSense using 
 * which git and github usernames belong to which authors
 * the display of an author
 
-To use this feature, add a `_reposense/config.json`  to the root of your repo using the format in the example below ([another example](../_reposense/config.json)):
+To use this feature, add a `_reposense/config.json`  to the root of your repo using the format in the example below ([another example](../_reposense/config.json)) and **commit it** (reason: RepoSense can see committed code only):
 ```json
 {
   "ignoreGlobList": ["about-us/**", "**index.html"],
@@ -196,6 +196,7 @@ The `@@author` tags should be enclosed within a comment, using the comment synta
 
 Special thanks to [Collate](https://github.com/se-edu/collate) for providing the inspiration for this functionality.
 
+Note: Remember to **commit** the files after the changes. (reason: RepoSense can see committed code only)
 <hr>
 
 ## Customizing the Analysis
@@ -252,7 +253,7 @@ Repository's Location|Branch|File formats|Ignore Glob List|Ignore standalone con
 Column Name | Explanation
 ----------- | -----------
 Repository's Location | The `GitHub URL` or `Disk Path` to the git repository e.g., `https://github.com/foo/bar.git` or `C:\Users\user\Desktop\GitHub\foo\bar`
-Branch | The branch to analyze in the target repository e.g., `master`. Default: the default branch of the repo
+[Optional] Branch | The branch to analyze in the target repository e.g., `master`. Default: the default branch of the repo
 [Optional] File formats<sup>*</sup> | The file extensions to analyze. Default: `adoc;cs;css;fxml;gradle;html;java;js;json;jsp;md;py;tag;xml`
 [Optional] Ignore Glob List<sup>*</sup> | The list of file path globs to ignore during analysis for each author. e.g., `test/**;temp/**`
 [Optional] Ignore standalone config | To ignore the standalone config file (if any) in target repository, enter **`yes`**. If the cell is empty, the standalone config file in the repo (if any) will take precedence over configurations provided in the csv files.
@@ -267,7 +268,7 @@ Optionally, you can use a `author-config.csv` (which should be in the same direc
 Column Name | Explanation
 ----------- | -----------
 Repository's Location | Same as `repo-config.csv`
-Branch | The branch to analyze for this author
+[Optional] Branch | The branch to analyze for this author e.g., `master`. Default: the default branch of the repo
 Author's GitHub ID | GitHub username of the target author e.g., `JohnDoe`
 [Optional] Author's Display Name | The name to display for the author. Default: author's GitHub username.
 [Optional] Author's Git Author Name<sup>*</sup> | The meaning of _Git Author Name_ is explained in [_A Note About Git Author Name_](#a-note-about-git-author-name).

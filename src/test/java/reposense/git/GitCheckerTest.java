@@ -1,6 +1,5 @@
 package reposense.git;
 
-import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -10,24 +9,11 @@ import java.util.Date;
 import org.junit.Assert;
 import org.junit.Test;
 
-import reposense.model.RepoConfiguration;
-import reposense.parser.InvalidLocationException;
 import reposense.template.GitTestTemplate;
-import reposense.util.FileUtil;
 import reposense.util.TestUtil;
 
 
 public class GitCheckerTest extends GitTestTemplate {
-    @Test
-    public void checkout_fromDiskLocation_success() throws GitDownloaderException, IOException,
-            InvalidLocationException {
-        Path diskLocation = Paths.get(config.getRepoRoot()).toAbsolutePath();
-        RepoConfiguration diskConfig = new RepoConfiguration(diskLocation.toString(), "master");
-        GitDownloader.downloadRepo(diskConfig);
-        Path clonedDiskLocation = Paths.get(FileUtil.REPOS_ADDRESS, DISK_REPO_DISPLAY_NAME).toAbsolutePath();
-        TestUtil.compareDirectories(diskLocation, clonedDiskLocation);
-    }
-
     @Test
     public void checkoutBranchTest() {
         Path branchFile = Paths.get(config.getRepoRoot(), "inTestBranch.java");
