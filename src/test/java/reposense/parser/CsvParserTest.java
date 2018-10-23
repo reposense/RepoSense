@@ -20,6 +20,8 @@ import reposense.model.RepoConfiguration;
 public class CsvParserTest {
     private static final Path TEST_CONFIG_FOLDER = new File(CsvParserTest.class.getClassLoader()
             .getResource("repoconfig_merge_test").getFile()).toPath();
+    private static final Path TEST_EMPTY_BRANCH_CONFIG_FOLDER = new File(CsvParserTest.class.getClassLoader()
+            .getResource("repoconfig_empty_branch_test").getFile()).toPath();
     private static final Path REPO_CONFIG_NO_SPECIAL_CHARACTER_FILE = new File(CsvParserTest.class.getClassLoader()
             .getResource("CsvParserTest/repoconfig_noSpecialCharacter_test.csv").getFile()).toPath();
     private static final Path AUTHOR_CONFIG_NO_SPECIAL_CHARACTER_FILE = new File(CsvParserTest.class.getClassLoader()
@@ -131,5 +133,24 @@ public class CsvParserTest {
         Assert.assertEquals(expectedConfig.getAuthorAliasMap().hashCode(),
                 actualConfigs.get(0).getAuthorAliasMap().hashCode());
         Assert.assertEquals(REPO_LEVEL_GLOB_LIST, actualConfigs.get(0).getIgnoreGlobList());
+    }
+
+    @Test
+    public void repoConfig_defaultBranch_success() throws ParseException, IOException {
+        RepoConfiguration expectedConfig = new RepoConfiguration(TEST_REPO_BETA_LOCATION,
+                RepoConfiguration.DEFAULT_BRANCH);
+
+        String input = String.format("-config %s", TEST_EMPTY_BRANCH_CONFIG_FOLDER);
+        CliArguments cliArguments = ArgsParser.parse(translateCommandline(input));
+
+        List<RepoConfiguration> actualConfigs =
+                new RepoConfigCsvParser(((ConfigCliArguments) cliArguments).getRepoConfigFilePath()).parse();
+        List<RepoConfiguration> authorConfigs =
+                new AuthorConfigCsvParser(((ConfigCliArguments) cliArguments).getAuthorConfigFilePath()).parse();
+        RepoConfiguration.merge(actualConfigs, authorConfigs);
+
+        Assert.assertEquals(1, actualConfigs.size());
+        Assert.assertEquals(expectedConfig.getBranch(), actualConfigs.get(0).getBranch());
+        Assert.assertEquals(expectedConfig.getBranch(), authorConfigs.get(0).getBranch());
     }
 }

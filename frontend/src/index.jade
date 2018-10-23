@@ -123,6 +123,7 @@ html
         .title
           .repoName {{ info.repo }}
           .author {{ info.name }} ({{ info.author }})
+          .contribution(v-if="isLoaded") Total contribution: {{ totalLineCount }} lines
 
         .files(v-if="isLoaded")
           .empty(v-if="files.length===0") nothing to see here :(

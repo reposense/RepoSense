@@ -31,7 +31,6 @@ public class RepoConfigCsvParser extends CsvParser<RepoConfiguration> {
     protected int[] mandatoryPositions() {
         return new int[] {
             LOCATION_POSITION,
-            BRANCH_POSITION
         };
     }
 
@@ -43,7 +42,7 @@ public class RepoConfigCsvParser extends CsvParser<RepoConfiguration> {
     @Override
     protected void processLine(List<RepoConfiguration> results, String[] elements) throws InvalidLocationException {
         String location = getValueInElement(elements, LOCATION_POSITION);
-        String branch = getValueInElement(elements, BRANCH_POSITION);
+        String branch = getValueInElement(elements, BRANCH_POSITION, RepoConfiguration.DEFAULT_BRANCH);
         List<String> formats = getManyValueInElement(elements, FILE_FORMATS_POSITION);
         List<String> ignoreGlobList = getManyValueInElement(elements, IGNORE_GLOB_LIST_POSITION);
         String ignoreStandaloneConfig = getValueInElement(elements, IGNORE_STANDALONE_CONFIG_POSITION);
