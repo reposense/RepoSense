@@ -109,7 +109,10 @@ html
                     right: (((user.commits.length-j-1)/user.commits.length) * 100) + '%'\
                   }"
                 )
-              .summary-chart__contrib(v-bind:title="'total contribution: '+user.totalCommits")
+              .summary-chart__contrib(
+                v-bind:title=
+                    "'Total contribution from ' + minDate + ' to ' + maxDate + ': ' + user.totalCommits + ' lines'"
+               )
                 .summary-chart__contrib--bar(
                   v-for="width in getContributionBars(user.totalCommits)",
                   v-bind:style="{ width: width+'%' }"
