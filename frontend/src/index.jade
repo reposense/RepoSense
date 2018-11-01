@@ -90,7 +90,8 @@ html
             .summary-chart(v-for="(user, i) in repo")
               .summary-chart__title(
                 title="click to view author's code",
-                v-on:click="$emit('view-authorship', {author:user.name, repo:user.repoName, name:user.displayName})"
+                v-on:click="$emit('view-authorship', "
+                    + "{author:user.name, repo:user.repoName, name:user.displayName, minDate:minDate, maxDate:maxDate})"
               )
                 .summary-chart__title--index {{ i+1 }}
                 .summary-chart__title--repo(v-if="!filterGroupRepos") {{ user.repoPath }}
@@ -122,7 +123,7 @@ html
       #authorship
         .title
           .repoName {{ info.repo }}
-          .author {{ info.name }} ({{ info.author }})
+          .author {{ info.name }} ({{ info.author }}) contribution from {{ info.minDate }} to {{ info.maxDate }}
           .contribution(v-if="isLoaded") Total contribution: {{ totalLineCount }} lines
 
         .files(v-if="isLoaded")
