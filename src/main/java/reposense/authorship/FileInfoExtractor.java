@@ -5,12 +5,10 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.nio.file.PathMatcher;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
-import java.util.function.Predicate;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.regex.Matcher;
@@ -33,24 +31,18 @@ public class FileInfoExtractor {
     private static final Logger logger = LogsManager.getLogger(FileInfoExtractor.class);
 
     private static final String DIFF_FILE_CHUNK_SEPARATOR = "\ndiff --git a/.*\n";
-    private static final String BINARY_FILE_SYMBOL = "\nBinary files ";
-    private static final String SIMILAR_FILE_RENAMED_SYMBOL = "similarity index 100%\n";
     private static final String LINE_CHUNKS_SEPARATOR = "\n@@ ";
     private static final String LINE_INSERTED_SYMBOL = "+";
     private static final String STARTING_LINE_NUMBER_GROUP_NAME = "startingLineNumber";
     private static final String FILE_CHANGED_GROUP_NAME = "filePath";
+    private static final String FILE_DELETED_SYMBOL = "/dev/null";
     private static final String MATCH_GROUP_FAIL_MESSAGE_FORMAT = "Failed to match the %s group for:\n%s";
 
     private static final int LINE_CHANGED_HEADER_INDEX = 0;
 
     private static final Pattern STARTING_LINE_NUMBER_PATTERN = Pattern.compile(
             "-(\\d)+(,)?(\\d)* \\+(?<startingLineNumber>\\d+)(,)?(\\d)* @@");
-    private static final Pattern FILE_CHANGED_PATTERN = Pattern.compile("\n(\\+){3} b/(?<filePath>.*)\n");
-
-    private static final Predicate<String> FILE_DELETED_PREDICATE = Pattern.compile(
-            "^deleted file mode [\\d]{6}\n").asPredicate();
-    private static final Predicate<String> NEW_EMPTY_FILE_PREDICATE = Pattern.compile(
-            "^new file mode [a-zA-Z0-9\n. ]*$").asPredicate();
+    private static final Pattern FILE_CHANGED_PATTERN = Pattern.compile("\n(\\+){3} b?/(?<filePath>.*)\n");
 
     /**
      * Extracts a list of relevant files given in {@code config}.
@@ -97,13 +89,19 @@ public class FileInfoExtractor {
         String[] fileDiffResultList = fullDiffResult.split(DIFF_FILE_CHUNK_SEPARATOR);
 
         for (String fileDiffResult : fileDiffResultList) {
-            // file deleted, renamed, is binary file or is new and empty file, skip it
-            if (fileDiffResult.contains(SIMILAR_FILE_RENAMED_SYMBOL) || fileDiffResult.contains(BINARY_FILE_SYMBOL)
-                    || FILE_DELETED_PREDICATE.test(fileDiffResult) || NEW_EMPTY_FILE_PREDICATE.test(fileDiffResult)) {
+            Matcher filePathMatcher = FILE_CHANGED_PATTERN.matcher(fileDiffResult);
+
+            // diff result does not have the markers to indicate that file has any line changes, skip it
+            if (!filePathMatcher.find()) {
                 continue;
             }
 
-            String filePath = getFilePathFromDiffPattern(fileDiffResult);
+            String filePath = filePathMatcher.group(FILE_CHANGED_GROUP_NAME);
+
+            // file is deleted, skip it as well
+            if (filePath.equals(FILE_DELETED_SYMBOL)) {
+                continue;
+            }
 
             if (isFormatInsideWhiteList(filePath, config.getFormats())) {
                 FileInfo currentFileInfo = generateFileInfo(config.getRepoRoot(), filePath);
@@ -193,31 +191,10 @@ public class FileInfoExtractor {
     }
 
     /**
-     * Returns true if {@code ignoreGlobMatcher} matchers the file path at {@code name}.
-     */
-    private static boolean shouldIgnore(String name, PathMatcher ignoreGlobMatcher) {
-        return ignoreGlobMatcher.matches(Paths.get(name));
-    }
-
-    /**
      * Returns true if the {@code relativePath}'s file type is inside {@code formatsWhiteList}.
      */
     private static boolean isFormatInsideWhiteList(String relativePath, List<String> formatsWhiteList) {
         return formatsWhiteList.stream().anyMatch(format -> relativePath.endsWith("." + format));
-    }
-
-    /**
-     * Returns the file path by matching the pattern inside {@code fileDiffResult}.
-     */
-    private static String getFilePathFromDiffPattern(String fileDiffResult) {
-        Matcher filePathMatcher = FILE_CHANGED_PATTERN.matcher(fileDiffResult);
-
-        if (!filePathMatcher.find()) {
-            logger.severe(String.format(MATCH_GROUP_FAIL_MESSAGE_FORMAT, "file path", fileDiffResult));
-            throw new AssertionError("Should not have error matching file path pattern inside file diff result!");
-        }
-
-        return filePathMatcher.group(FILE_CHANGED_GROUP_NAME);
     }
 
     /**
