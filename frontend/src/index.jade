@@ -32,10 +32,9 @@ html
           .tab-content
             .tab-panes
               #tab-authorship.tab-pane(v-if="isTabAuthorship")
-                .toolbar
-                  a(onclick="expandAll(true)") Expand all
-                  span &nbsp;/&nbsp;
-                  a(onclick="expandAll(false)") Collapse all
+                .toolbar(v-if="tabInfo.tabAuthorship.totalCommits > 0")
+                    a(v-if="isCollapsed", v-on:click="expand(true)") Expand all
+                    a(v-else, v-on:click="expand(false)") Collapse all
                 v_authorship(
                   v-bind:key="generateKey(tabInfo.tabAuthorship)",
                   v-bind:info="tabInfo.tabAuthorship")
@@ -90,8 +89,9 @@ html
             .summary-chart(v-for="(user, i) in repo")
               .summary-chart__title(
                 title="click to view author's code",
-                v-on:click="$emit('view-authorship', "
-                    + "{author:user.name, repo:user.repoName, name:user.displayName, minDate:minDate, maxDate:maxDate})"
+                v-on:click="$emit('view-authorship', \
+                    {author:user.name, repo:user.repoName, name:user.displayName, \
+                        minDate:minDate, maxDate:maxDate, totalCommits:user.totalCommits})"
               )
                 .summary-chart__title--index {{ i+1 }}
                 .summary-chart__title--repo(v-if="!filterGroupRepos") {{ user.repoPath }}
