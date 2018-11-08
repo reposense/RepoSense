@@ -159,6 +159,7 @@ public class RepoConfiguration {
         validateFormats(standaloneConfig.getFormats());
         validateIgnoreCommits(standaloneConfig.getIgnoreCommitList());
 
+        // only assign the new values when all the fields in {@code standaloneConfig} pass the validations.
         authorList = newAuthorList;
         authorAliasMap = newAuthorAliasMap;
         authorDisplayNameMap = newAuthorDisplayNameMap;
