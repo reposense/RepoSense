@@ -377,7 +377,7 @@ public class RepoConfiguration {
      * Checks that all the strings in the {@code formats} are in valid formats.
      * @throws IllegalArgumentException if any of the values do not meet the criteria.
      */
-    private static void validateFormats(List<String> formats) {
+    private static void validateFormats(List<String> formats) throws IllegalArgumentException {
         for (String format: formats) {
             if (!isValidFormat(format)) {
                 throw new IllegalArgumentException(String.format(MESSAGE_ILLEGAL_FORMATS, format));
@@ -389,7 +389,7 @@ public class RepoConfiguration {
      * Checks that all the strings in the {@code ignoreCommitList} are in valid formats.
      * @throws IllegalArgumentException if any of the values do not meet the criteria.
      */
-    private static void validateIgnoreCommits(List<String> ignoreCommitList) {
+    private static void validateIgnoreCommits(List<String> ignoreCommitList) throws IllegalArgumentException {
         for (String commitHash : ignoreCommitList) {
             if (!commitHash.matches(COMMIT_HASH_REGEX)) {
                 throw new IllegalArgumentException(String.format(INVALID_COMMIT_HASH_MESSAGE, commitHash));
