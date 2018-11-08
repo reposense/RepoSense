@@ -4,6 +4,8 @@ import static org.apache.tools.ant.types.Commandline.translateCommandline;
 
 import java.io.File;
 import java.io.IOException;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -97,15 +99,22 @@ public class RepoConfigurationTest {
     }
 
     @Test
-    public void setFormats_alphaNumeric_success() throws InvalidLocationException {
-        RepoConfiguration actualConfig = new RepoConfiguration(TEST_REPO_DELTA, "master");
-        actualConfig.setFormats(Arrays.asList("java", "7z"));
+    public void validateFormats_alphaNumeric_success()
+            throws InvalidLocationException, NoSuchMethodException, InvocationTargetException, IllegalAccessException {
+        Method m = RepoConfiguration.class.getDeclaredMethod("validateFormats", List.class);
+        m.setAccessible(true);
+        m.invoke(null, Arrays.asList("java", "7z"));
     }
 
     @Test(expected = IllegalArgumentException.class)
-    public void setFormats_nonAlphaNumeric_throwIllegalArgumentException() throws InvalidLocationException {
-        RepoConfiguration actualConfig = new RepoConfiguration(TEST_REPO_DELTA, "master");
-        actualConfig.setFormats(Arrays.asList(".java"));
+    public void validateFormats_nonAlphaNumeric_throwIllegalArgumentException() throws Throwable {
+        try {
+            Method m = RepoConfiguration.class.getDeclaredMethod("validateFormats", List.class);
+            m.setAccessible(true);
+            m.invoke(null, Arrays.asList(".java"));
+        } catch (InvocationTargetException ite) {
+            throw ite.getCause();
+        }
     }
 
     @Test
