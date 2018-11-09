@@ -141,24 +141,31 @@ public class RepoConfiguration {
      * Clears authors information and use the information provided from {@code standaloneConfig}.
      */
     public void update(StandaloneConfig standaloneConfig) {
-        authorList = new ArrayList<>();
-        authorAliasMap.clear();
-        authorDisplayNameMap.clear();
-        ignoreGlobList = standaloneConfig.getIgnoreGlobList();
-
-        this.setFormats(standaloneConfig.getFormats());
+        List<Author> newAuthorList = new ArrayList<>();
+        TreeMap<String, Author> newAuthorAliasMap = new TreeMap<>(String.CASE_INSENSITIVE_ORDER);
+        Map<Author, String> newAuthorDisplayNameMap = new HashMap<>();
+        List<String> newIgnoreGlobList = standaloneConfig.getIgnoreGlobList();
 
         for (StandaloneAuthor sa : standaloneConfig.getAuthors()) {
             Author author = new Author(sa);
-            author.appendIgnoreGlobList(ignoreGlobList);
+            author.appendIgnoreGlobList(newIgnoreGlobList);
 
-            this.authorList.add(author);
-            this.setAuthorDisplayName(author, author.getDisplayName());
-            this.addAuthorAliases(author, Arrays.asList(author.getGitId()));
-            this.addAuthorAliases(author, author.getAuthorAliases());
+            newAuthorList.add(author);
+            newAuthorDisplayNameMap.put(author, author.getDisplayName());
+            List<String> aliases = new ArrayList<>(author.getAuthorAliases());
+            aliases.add(author.getGitId());
+            aliases.forEach(alias -> newAuthorAliasMap.put(alias, author));
         }
+        validateFormats(standaloneConfig.getFormats());
+        validateIgnoreCommits(standaloneConfig.getIgnoreCommitList());
 
-        setIgnoreCommitList(standaloneConfig.getIgnoreCommitList());
+        // only assign the new values when all the fields in {@code standaloneConfig} pass the validations.
+        authorList = newAuthorList;
+        authorAliasMap = newAuthorAliasMap;
+        authorDisplayNameMap = newAuthorDisplayNameMap;
+        ignoreGlobList = newIgnoreGlobList;
+        formats = standaloneConfig.getFormats();
+        ignoreCommitList = standaloneConfig.getIgnoreCommitList();
     }
 
     public String getRepoRoot() {
@@ -248,7 +255,6 @@ public class RepoConfiguration {
     }
 
     public void setIgnoreCommitList(List<String> ignoreCommitList) {
-        validateIgnoreCommits(ignoreCommitList);
         this.ignoreCommitList = ignoreCommitList;
     }
 
@@ -307,7 +313,6 @@ public class RepoConfiguration {
     }
 
     public void setFormats(List<String> formats) {
-        validateFormats(formats);
         this.formats = formats;
     }
 
@@ -373,7 +378,7 @@ public class RepoConfiguration {
      * Checks that all the strings in the {@code formats} are in valid formats.
      * @throws IllegalArgumentException if any of the values do not meet the criteria.
      */
-    private static void validateFormats(List<String> formats) {
+    private static void validateFormats(List<String> formats) throws IllegalArgumentException {
         for (String format: formats) {
             if (!isValidFormat(format)) {
                 throw new IllegalArgumentException(String.format(MESSAGE_ILLEGAL_FORMATS, format));
@@ -381,7 +386,11 @@ public class RepoConfiguration {
         }
     }
 
-    private void validateIgnoreCommits(List<String> ignoreCommitList) {
+    /**
+     * Checks that all the strings in the {@code ignoreCommitList} are in valid formats.
+     * @throws IllegalArgumentException if any of the values do not meet the criteria.
+     */
+    private static void validateIgnoreCommits(List<String> ignoreCommitList) throws IllegalArgumentException {
         for (String commitHash : ignoreCommitList) {
             if (!commitHash.matches(COMMIT_HASH_REGEX)) {
                 throw new IllegalArgumentException(String.format(INVALID_COMMIT_HASH_MESSAGE, commitHash));

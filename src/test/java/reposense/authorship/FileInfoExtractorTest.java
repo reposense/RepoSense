@@ -48,7 +48,7 @@ public class FileInfoExtractorTest extends GitTestTemplate {
         config.setSinceDate(date);
 
         List<FileInfo> files = FileInfoExtractor.extractFileInfos(config);
-        Assert.assertEquals(3, files.size());
+        Assert.assertEquals(4, files.size());
 
         // files edited within commit range
         Assert.assertTrue(isFileExistence(Paths.get("README.md"), files));
