@@ -48,12 +48,15 @@ public class ReportGenerator {
         FileUtil.copyTemplate(is, outputPath);
 
         for (RepoConfiguration config : configs) {
-            Path repoReportDirectory = Paths.get(outputPath, config.getDisplayName());
+            Path repoReportDirectory;
             try {
-                FileUtil.createDirectory(repoReportDirectory);
                 GitDownloader.downloadRepo(config);
+                repoReportDirectory = Paths.get(outputPath, config.getDisplayName());
+                FileUtil.createDirectory(repoReportDirectory);
             } catch (GitDownloaderException gde) {
                 logger.log(Level.WARNING, "Exception met while trying to clone the repo, will skip this one", gde);
+                repoReportDirectory = Paths.get(outputPath, config.getDisplayName());
+                FileUtil.createDirectory(repoReportDirectory);
                 generateEmptyRepoReport(repoReportDirectory.toString());
                 continue;
             } catch (IOException ioe) {

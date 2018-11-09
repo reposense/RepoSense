@@ -99,6 +99,15 @@ public abstract class CsvParser<T> {
 
     /**
      * Gets the value of {@code position} in {@code elements}.
+     * Returns the value of {@code position} if it is in {@code element} and not empty.
+     * Otherwise returns the {@code defaultValue}.
+     */
+    protected String getValueInElement(final String[] elements, int position, String defaultValue) {
+        return (containsValueAtPosition(elements, position)) ? elements[position] : defaultValue;
+    }
+
+    /**
+     * Gets the value of {@code position} in {@code elements}.
      * Returns the value of {@code element} at {@code position} as a {@code List},
      * delimited by {@code COLUMN_VALUES_SEPARATOR} if it is in {@code element} and not empty.
      * Otherwise returns an empty {@code List}.

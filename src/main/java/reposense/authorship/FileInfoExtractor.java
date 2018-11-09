@@ -4,6 +4,7 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 import java.nio.file.Files;
+import java.nio.file.InvalidPathException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
@@ -37,6 +38,7 @@ public class FileInfoExtractor {
     private static final String FILE_CHANGED_GROUP_NAME = "filePath";
     private static final String FILE_DELETED_SYMBOL = "/dev/null";
     private static final String MATCH_GROUP_FAIL_MESSAGE_FORMAT = "Failed to match the %s group for:\n%s";
+    private static final String INVALID_FILE_PATH_MESSAGE_FORMAT = "Invalid file path %s provided, skipping this file.";
 
     private static final int LINE_CHANGED_HEADER_INDEX = 0;
 
@@ -104,9 +106,13 @@ public class FileInfoExtractor {
             }
 
             if (isFormatInsideWhiteList(filePath, config.getFormats())) {
-                FileInfo currentFileInfo = generateFileInfo(config.getRepoRoot(), filePath);
-                setLinesToTrack(currentFileInfo, fileDiffResult);
-                fileInfos.add(currentFileInfo);
+                try {
+                    FileInfo currentFileInfo = generateFileInfo(config.getRepoRoot(), filePath);
+                    setLinesToTrack(currentFileInfo, fileDiffResult);
+                    fileInfos.add(currentFileInfo);
+                } catch (InvalidPathException ipe) {
+                    logger.warning(String.format(INVALID_FILE_PATH_MESSAGE_FORMAT, filePath));
+                }
             }
         }
 
@@ -162,7 +168,11 @@ public class FileInfoExtractor {
                 }
 
                 if (isFormatInsideWhiteList(relativePath, config.getFormats())) {
-                    fileInfos.add(generateFileInfo(config.getRepoRoot(), relativePath));
+                    try {
+                        fileInfos.add(generateFileInfo(config.getRepoRoot(), relativePath));
+                    } catch (InvalidPathException ipe) {
+                        logger.warning(String.format(INVALID_FILE_PATH_MESSAGE_FORMAT, filePath));
+                    }
                 }
             }
         } catch (IOException ioe) {

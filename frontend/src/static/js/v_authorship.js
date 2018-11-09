@@ -32,6 +32,7 @@ window.vAuthorship = {
     return {
       isLoaded: false,
       files: [],
+      totalLineCount: "",
     };
   },
 
@@ -83,10 +84,12 @@ window.vAuthorship = {
 
     processFiles(files) {
       const res = [];
+      let totalLineCount = 0;
 
       files.forEach((file) => {
         const lineCnt = file.authorContributionMap[this.info.author];
         if (lineCnt) {
+          totalLineCount += lineCnt;
           const out = {};
           out.path = file.path;
           out.lineCount = lineCnt;
@@ -97,6 +100,7 @@ window.vAuthorship = {
         }
       });
 
+      this.totalLineCount = totalLineCount;
       res.sort((a, b) => b.lineCount - a.lineCount);
 
       this.files = res;

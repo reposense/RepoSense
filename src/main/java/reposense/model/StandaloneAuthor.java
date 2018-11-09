@@ -17,6 +17,10 @@ public class StandaloneAuthor {
     }
 
     public String getDisplayName() {
+        if (displayName == null) {
+            return "";
+        }
+
         return displayName;
     }
 

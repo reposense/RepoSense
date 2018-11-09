@@ -192,16 +192,20 @@ window.vSummary = {
       if (hash.search) { this.filterSearch = hash.search; }
       if (hash.sort) { this.filterSort = hash.sort; }
 
-      if (hash.since) { this.filterSinceDate = hash.since; }
-      if (hash.until) { this.filterUntilDate = hash.until; }
       if (hash.timeframe) { this.filterTimeFrame = hash.timeframe; }
+      if (hash.since) {
+        this.tmpFilterSinceDate = hash.since;
+      }
+      if (hash.until) {
+        this.tmpFilterUntilDate = hash.until;
+      }
 
       if (hash.reverse) { this.filterSortReverse = convertBool(hash.reverse); }
       if (hash.repoSort) { this.filterGroupRepos = convertBool(hash.repoSort); }
     },
 
     getDates() {
-      if (this.filterSinceDate && this.filterUntilDate) {
+      if (this.minDate && this.maxDate) {
         return;
       }
 
@@ -224,11 +228,19 @@ window.vSummary = {
       });
 
       if (!this.filterSinceDate) {
+        if(!this.tmpFilterSinceDate || this.tmpFilterSinceDate < minDate){
+          this.tmpFilterSinceDate = minDate;
+        }
+
         this.filterSinceDate = minDate;
         this.minDate = minDate;
       }
 
       if (!this.filterUntilDate) {
+        if(!this.tmpFilterUntilDate || this.tmpFilterUntilDate > maxDate){
+          this.tmpFilterUntilDate = maxDate;
+        }
+
         this.filterUntilDate = maxDate;
         this.maxDate = maxDate;
       }

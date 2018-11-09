@@ -32,10 +32,9 @@ html
           .tab-content
             .tab-panes
               #tab-authorship.tab-pane(v-if="isTabAuthorship")
-                .toolbar
-                  a(onclick="expandAll(true)") Expand all
-                  span &nbsp;/&nbsp;
-                  a(onclick="expandAll(false)") Collapse all
+                .toolbar(v-if="tabInfo.tabAuthorship.totalCommits > 0")
+                    a(v-if="isCollapsed", v-on:click="expand(true)") Expand all
+                    a(v-else, v-on:click="expand(false)") Collapse all
                 v_authorship(
                   v-bind:key="generateKey(tabInfo.tabAuthorship)",
                   v-bind:info="tabInfo.tabAuthorship")
@@ -67,10 +66,12 @@ html
               label granularity
           .summary-picker__section
             .mui-textfield.summary-picker__date
-              input(type="date", v-model="tmpFilterSinceDate", v-bind:min="minDate", v-bind:max="filterUntilDate")
+              input(type="date", v-model="tmpFilterSinceDate", onkeydown="return false",
+                v-bind:min="minDate", v-bind:max="filterUntilDate")
               label since
             .mui-textfield.summary-picker__date
-              input(type="date", v-model="tmpFilterUntilDate", v-bind:min="filterSinceDate", v-bind:max="maxDate")
+              input(type="date", v-model="tmpFilterUntilDate", onkeydown="return false",
+                v-bind:min="filterSinceDate", v-bind:max="maxDate")
               label until
           .summary-picker__checkboxes.summary-picker__section
             label
@@ -88,7 +89,9 @@ html
             .summary-chart(v-for="(user, i) in repo")
               .summary-chart__title(
                 title="click to view author's code",
-                v-on:click="$emit('view-authorship', {author:user.name, repo:user.repoName, name:user.displayName})"
+                v-on:click="$emit('view-authorship', \
+                    {author:user.name, repo:user.repoName, name:user.displayName, \
+                        minDate:minDate, maxDate:maxDate, totalCommits:user.totalCommits})"
               )
                 .summary-chart__title--index {{ i+1 }}
                 .summary-chart__title--repo(v-if="!filterGroupRepos") {{ user.repoPath }}
@@ -107,7 +110,10 @@ html
                     right: (((user.commits.length-j-1)/user.commits.length) * 100) + '%'\
                   }"
                 )
-              .summary-chart__contrib(v-bind:title="'total contribution: '+user.totalCommits")
+              .summary-chart__contrib(
+                v-bind:title=
+                    "'Total contribution from ' + minDate + ' to ' + maxDate + ': ' + user.totalCommits + ' lines'"
+               )
                 .summary-chart__contrib--bar(
                   v-for="width in getContributionBars(user.totalCommits)",
                   v-bind:style="{ width: width+'%' }"
@@ -117,7 +123,8 @@ html
       #authorship
         .title
           .repoName {{ info.repo }}
-          .author {{ info.name }} ({{ info.author }})
+          .author {{ info.name }} ({{ info.author }}) contribution from {{ info.minDate }} to {{ info.maxDate }}
+          .contribution(v-if="isLoaded") Total contribution: {{ totalLineCount }} lines
 
         .files(v-if="isLoaded")
           .empty(v-if="files.length===0") nothing to see here :(

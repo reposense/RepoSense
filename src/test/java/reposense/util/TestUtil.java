@@ -10,6 +10,7 @@ import java.util.stream.Collectors;
 
 import org.junit.Assert;
 
+import reposense.model.Author;
 import reposense.model.RepoConfiguration;
 
 public class TestUtil {
@@ -114,6 +115,24 @@ public class TestUtil {
                 expectedRepoConfig.getAuthorAliasMap().hashCode(), actualRepoConfig.getAuthorAliasMap().hashCode());
         Assert.assertEquals(expectedRepoConfig.getIgnoreGlobList(), actualRepoConfig.getIgnoreGlobList());
         Assert.assertEquals(expectedRepoConfig.getFormats(), actualRepoConfig.getFormats());
+
+        for (int i = 0; i < expectedRepoConfig.getAuthorList().size(); i++) {
+            compareAuthor(expectedRepoConfig.getAuthorList().get(i), actualRepoConfig.getAuthorList().get(i));
+        }
+    }
+
+    /**
+     * Compares attributes of {@code expectedAuthor} and {@code actualAuthor}, with exception of it's display name.
+     *
+     * The display name is not compared as it varies with object construction.
+     * It is a transient value and it is not needed for object matching.
+     *
+     * @throws AssertionError if any attributes fail equality check.
+     */
+    public static void compareAuthor(Author expectedAuthor, Author actualAuthor) {
+        Assert.assertEquals(expectedAuthor.getGitId(), actualAuthor.getGitId());
+        Assert.assertEquals(expectedAuthor.getIgnoreGlobList(), actualAuthor.getIgnoreGlobList());
+        Assert.assertEquals(expectedAuthor.getAuthorAliases(), actualAuthor.getAuthorAliases());
     }
 
     /**
@@ -129,4 +148,12 @@ public class TestUtil {
         // each commit has 2 lines of info, and a blank line in between each
         return expectedNumberCommits * 3 - 1 == gitLogResult.split("\n").length;
     }
+
+    /**
+     * Returns true if the test environment is on Windows OS.
+     */
+    public static boolean isWindows() {
+        return System.getProperty("os.name").toLowerCase().contains("win");
+    }
+
 }

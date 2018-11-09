@@ -49,8 +49,9 @@ public class RepoConfigurationTest {
 
     private static final List<String> REPO_LEVEL_GLOB_LIST = Arrays.asList("collated**");
     private static final List<String> FIRST_AUTHOR_GLOB_LIST =
-            Arrays.asList("collated**", "*.aa1", "**.aa2", "**.java");
-    private static final List<String> SECOND_AUTHOR_GLOB_LIST = Arrays.asList("collated**", "**[!(.md)]");
+            Arrays.asList("*.aa1", "**.aa2", "**.java", "collated**");
+    private static final List<String> SECOND_AUTHOR_GLOB_LIST = Arrays.asList("**[!(.md)]", "collated**");
+    private static final List<String> THIRD_AUTHOR_GLOB_LIST = Arrays.asList("", "collated**");
 
     private static final List<String> CONFIG_FORMATS = Arrays.asList("java", "adoc", "md");
     private static final List<String> CLI_FORMATS = Arrays.asList("css", "html");
@@ -59,9 +60,14 @@ public class RepoConfigurationTest {
 
     @BeforeClass
     public static void setUp() throws InvalidLocationException {
+        FIRST_AUTHOR.setAuthorAliases(FIRST_AUTHOR_ALIASES);
+        SECOND_AUTHOR.setAuthorAliases(SECOND_AUTHOR_ALIASES);
+        THIRD_AUTHOR.setAuthorAliases(THIRD_AUTHOR_ALIASES);
+        FOURTH_AUTHOR.setAuthorAliases(FOURTH_AUTHOR_ALIASES);
+
         FIRST_AUTHOR.setIgnoreGlobList(FIRST_AUTHOR_GLOB_LIST);
         SECOND_AUTHOR.setIgnoreGlobList(SECOND_AUTHOR_GLOB_LIST);
-        THIRD_AUTHOR.setIgnoreGlobList(REPO_LEVEL_GLOB_LIST);
+        THIRD_AUTHOR.setIgnoreGlobList(THIRD_AUTHOR_GLOB_LIST);
         FOURTH_AUTHOR.setIgnoreGlobList(REPO_LEVEL_GLOB_LIST);
 
         List<Author> expectedAuthors = new ArrayList<>();
@@ -115,12 +121,14 @@ public class RepoConfigurationTest {
     public void repoConfig_ignoresStandaloneConfig_success()
             throws ParseException, GitDownloaderException, IOException {
         List<Author> expectedAuthors = new ArrayList<>();
-        expectedAuthors.add(FIRST_AUTHOR);
+        Author author = new Author(FIRST_AUTHOR);
+        author.setIgnoreGlobList(REPO_LEVEL_GLOB_LIST);
+        expectedAuthors.add(author);
 
         RepoConfiguration expectedConfig = new RepoConfiguration(TEST_REPO_DELTA, "master");
         expectedConfig.setAuthorList(expectedAuthors);
-        expectedConfig.addAuthorAliases(FIRST_AUTHOR, FIRST_AUTHOR_ALIASES);
-        expectedConfig.setAuthorDisplayName(FIRST_AUTHOR, "Ahm");
+        expectedConfig.addAuthorAliases(author, FIRST_AUTHOR_ALIASES);
+        expectedConfig.setAuthorDisplayName(author, "Ahm");
 
         expectedConfig.setIgnoreGlobList(REPO_LEVEL_GLOB_LIST);
         expectedConfig.setFormats(CONFIG_FORMATS);
