@@ -36,6 +36,8 @@ public class ReportGenerator {
     // zip file which contains all the dashboard template files
     private static final String TEMPLATE_FILE = "/templateZip.zip";
 
+    private static final String MESSAGE_INVALID_CONFIG_JSON = "%s Ignoring the config provided by this repository.";
+
     /**
      * Generates the authorship and commits JSON file for each repo in {@code configs} at {@code outputPath}, as
      * well as the summary JSON file of all the repos.
@@ -99,6 +101,8 @@ public class ReportGenerator {
         } catch (JsonSyntaxException jse) {
             logger.warning(String.format("%s/%s/%s is malformed.",
                     config.getDisplayName(), REPOSENSE_CONFIG_FOLDER, REPOSENSE_CONFIG_FILE));
+        } catch (IllegalArgumentException iae) {
+            logger.warning(String.format(MESSAGE_INVALID_CONFIG_JSON, iae.getMessage()));
         } catch (IOException ioe) {
             throw new AssertionError(
                     "This exception should not happen as we have performed the file existence check.");
