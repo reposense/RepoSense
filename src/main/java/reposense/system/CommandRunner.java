@@ -230,7 +230,7 @@ public class CommandRunner {
      */
     private static String convertToGitExcludeGlobArgs(List<String> ignoreGlobList) {
         StringBuilder gitExcludeGlobArgsBuilder = new StringBuilder();
-        final String cmdFormat = " " + addQuote(":(exclude)%s");
+        final String cmdFormat = " " + addQuote(":!%s");
         ignoreGlobList.stream()
                 .filter(item -> !item.isEmpty())
                 .map(ignoreGlob -> String.format(cmdFormat, ignoreGlob))
