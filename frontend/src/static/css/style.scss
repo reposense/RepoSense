@@ -237,7 +237,20 @@ header{
             margin-top:0.1rem;
             font-size:1.0rem;
             color:mui-color("red");
-            font-weight:bold;
+
+            .loc {
+              font-weight:bolder;
+            }
+
+            span.fileType {
+                span::after {
+                  content: ', ';
+                }
+
+                span:last-child::after {
+                  content:'';
+                }
+            }
         }
     }
 

@@ -124,7 +124,13 @@ html
         .title
           .repoName {{ info.repo }}
           .author {{ info.name }} ({{ info.author }}) contribution from {{ info.minDate }} to {{ info.maxDate }}
-          .contribution(v-if="isLoaded") Total contribution: {{ totalLineCount }} lines
+          .contribution(v-if="isLoaded")
+            span Total LoC contributed:&nbsp;
+            span.loc {{ totalLineCount }}
+            br
+            span.fileType(v-if="totalLineCount > 0") &rarr; &nbsp;
+                template(v-for="type in Object.keys(filesLinesObj)")
+                    span {{ type }}: {{ filesLinesObj[type] }}
 
         .files(v-if="isLoaded")
           .empty(v-if="files.length===0") nothing to see here :(
