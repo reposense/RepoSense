@@ -56,13 +56,18 @@ public class ReportGenerator {
                 repoReportDirectory = Paths.get(outputPath, config.getDisplayName());
                 FileUtil.createDirectory(repoReportDirectory);
             } catch (GitDownloaderException gde) {
-                logger.log(Level.WARNING, "Exception met while trying to clone the repo, will skip this one", gde);
+                logger.log(Level.WARNING,
+                        "Exception met while trying to clone the repo, will skip this repo.", gde);
                 repoReportDirectory = Paths.get(outputPath, config.getDisplayName());
                 FileUtil.createDirectory(repoReportDirectory);
                 generateEmptyRepoReport(repoReportDirectory.toString());
                 continue;
             } catch (IOException ioe) {
-                logger.log(Level.WARNING, "Error while creating repo directory, will skip this repo.", ioe);
+                logger.log(Level.WARNING,
+                        "Error has occurred while creating repo directory, will skip this repo.", ioe);
+                continue;
+            } catch (RuntimeException rte) {
+                logger.log(Level.SEVERE, "Error has occurred during analysis, will skip this repo.", rte);
                 continue;
             }
 
