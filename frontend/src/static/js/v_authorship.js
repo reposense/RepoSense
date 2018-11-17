@@ -32,6 +32,7 @@ window.vAuthorship = {
     return {
       isLoaded: false,
       files: [],
+      filesLinesObj: {},
       totalLineCount: "",
     };
   },
@@ -84,6 +85,7 @@ window.vAuthorship = {
 
     processFiles(files) {
       const res = [];
+      let filesInfoObj = {};
       let totalLineCount = 0;
 
       files.forEach((file) => {
@@ -93,6 +95,7 @@ window.vAuthorship = {
           const out = {};
           out.path = file.path;
           out.lineCount = lineCnt;
+          this.addLineCountToFileType(file.path, lineCnt, filesInfoObj);
 
           const segments = this.splitSegments(file.lines);
           out.segments = segments;
@@ -103,8 +106,28 @@ window.vAuthorship = {
       this.totalLineCount = totalLineCount;
       res.sort((a, b) => b.lineCount - a.lineCount);
 
+      this.filesLinesObj = this.sortFileTypeAlphabetically(filesInfoObj);
       this.files = res;
       this.isLoaded = true;
+    },
+
+    addLineCountToFileType(path, lineCount, filesInfoObj) {
+      var fileType = path.split(".").pop();
+      fileType = (fileType.length === 0) ? "others" : fileType;
+
+      if (!filesInfoObj[fileType]) {
+        filesInfoObj[fileType] = 0;
+      }
+
+      filesInfoObj[fileType] += lineCount;
+    },
+
+    sortFileTypeAlphabetically(unsortedFilesInfoObj) {
+      return Object.keys(unsortedFilesInfoObj)
+          .sort()
+          .reduce((acc, key) => ({
+              ...acc, [key]: unsortedFilesInfoObj[key]
+          }), {});
     },
   },
 
