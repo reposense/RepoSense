@@ -7,9 +7,9 @@ import java.util.logging.Logger;
 
 import reposense.commits.model.CommitInfo;
 import reposense.git.GitChecker;
+import reposense.git.GitLog;
 import reposense.model.Author;
 import reposense.model.RepoConfiguration;
-import reposense.system.CommandRunner;
 import reposense.system.LogsManager;
 
 /**
@@ -29,7 +29,7 @@ public class CommitInfoExtractor {
         List<CommitInfo> repoCommitInfos = new ArrayList<>();
 
         for (Author author : config.getAuthorList()) {
-            String gitLogResult = CommandRunner.gitLog(config, author);
+            String gitLogResult = GitLog.get(config, author);
             List<CommitInfo> authorCommitInfos = parseGitLogResults(gitLogResult);
             repoCommitInfos.addAll(authorCommitInfos);
         }
