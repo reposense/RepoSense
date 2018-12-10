@@ -1,8 +1,9 @@
 package reposense.parser;
 
-import java.io.FileReader;
 import java.io.IOException;
+import java.io.StringReader;
 import java.lang.reflect.Type;
+import java.nio.file.Files;
 import java.nio.file.Path;
 
 import com.google.gson.Gson;
@@ -12,6 +13,9 @@ import com.google.gson.stream.JsonReader;
  * Represents a {@code JsonParser} that is able to parse json file from a {@code Path} into an object of type {@code T}.
  */
 public abstract class JsonParser<T> {
+
+    private static final String TRAILING_COMMAS_REGEX = "\\,(?=\\s*?[\\}\\]])";
+
 
     /**
      * Gets the type of {@code T} for json conversion.
@@ -29,8 +33,14 @@ public abstract class JsonParser<T> {
     }
 
     protected T fromJson(Gson gson, Path path, Type type) throws IOException {
-        try (JsonReader jsonReader = new JsonReader(new FileReader(path.toString()))) {
+        String json = removeTrailingCommas(new String(Files.readAllBytes(path)));
+
+        try (JsonReader jsonReader = new JsonReader(new StringReader(json))) {
             return gson.fromJson(jsonReader, type);
         }
+    }
+
+    private String removeTrailingCommas(String rawJson) {
+        return rawJson.replaceAll(TRAILING_COMMAS_REGEX, "");
     }
 }

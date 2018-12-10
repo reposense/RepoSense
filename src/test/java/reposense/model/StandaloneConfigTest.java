@@ -24,6 +24,10 @@ public class StandaloneConfigTest extends GitTestTemplate {
             .getResource("StandaloneConfigTest/invalidIgnoreCommit_config.json").getFile()).toPath();
     private static final Path SPECIAL_CHARACTER_AUTHOR_CONFIG = new File(StandaloneConfigTest.class.getClassLoader()
             .getResource("StandaloneConfigTest/specialCharacterAuthor_config.json").getFile()).toPath();
+    private static final Path AUTHORS_TRAILING_COMMAS_CONFIG = new File(StandaloneConfigTest.class.getClassLoader()
+            .getResource("StandaloneConfigTest/authors_trailingCommas_config.json").getFile()).toPath();
+    private static final Path LITHIUMLKID_TRAILING_COMMAS_CONFIG = new File(StandaloneConfigTest.class.getClassLoader()
+            .getResource("StandaloneConfigTest/lithiumlkid_trailingCommas_config.json").getFile()).toPath();
 
     private static final Author FIRST_SPECIAL_CHARACTER_AUTHOR = new Author("‘Processed�‘Cooked�");
     private static final Author SECOND_SPECIAL_CHARACTER_AUTHOR = new Author("(codeeong)");
@@ -43,6 +47,20 @@ public class StandaloneConfigTest extends GitTestTemplate {
         config.update(standaloneConfig);
 
         Assert.assertEquals(AUTHOR_CONFIG_SPECIAL_CHARACTER_AUTHORS, config.getAuthorList());
+    }
+
+    @Test
+    public void standaloneConfig_ingoresTrailingCommasInAuthorAttributes_success() throws IOException {
+        StandaloneConfig standaloneConfig = new StandaloneConfigJsonParser().parse(LITHIUMLKID_TRAILING_COMMAS_CONFIG);
+        config.update(standaloneConfig);
+    }
+
+    @Test
+    public void standaloneConfig_ingoresTrailingCommasInAuthors_success() throws IOException {
+        StandaloneConfig standaloneConfig = new StandaloneConfigJsonParser().parse(AUTHORS_TRAILING_COMMAS_CONFIG);
+        config.update(standaloneConfig);
+
+        Assert.assertEquals(4, config.getAuthorList().size());
     }
 
     @Test(expected = IllegalArgumentException.class)
