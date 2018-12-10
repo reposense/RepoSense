@@ -24,6 +24,8 @@ import reposense.system.DashboardServer;
 import reposense.system.LogsManager;
 import reposense.util.FileUtil;
 
+import reposense.authorship.analyzer.AnnotatorAnalyzer;
+
 public class RepoSense {
     private static final Logger logger = LogsManager.getLogger(RepoSense.class);
     private static final int SERVER_PORT_NUMBER = 9000;
