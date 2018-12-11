@@ -43,7 +43,6 @@ public class StandaloneConfigTest extends GitTestTemplate {
     @BeforeClass
     public static void setUp() throws IOException {
         VALID_STANDALONE_CONFIG = new StandaloneConfigJsonParser().parse(VALID_CONFIG);
-        config.update(VALID_STANDALONE_CONFIG);
     }
 
     @Test
