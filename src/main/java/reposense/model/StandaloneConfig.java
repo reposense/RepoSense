@@ -41,4 +41,21 @@ public class StandaloneConfig {
 
         return ignoreCommitList;
     }
+
+    @Override
+    public boolean equals(Object other) {
+        if (this == other) {
+            return true;
+        }
+
+        if (!(other instanceof StandaloneConfig)) {
+            return false;
+        }
+
+        StandaloneConfig otherStandaloneConfig = (StandaloneConfig) other;
+        return authors.equals(otherStandaloneConfig.authors)
+                && getIgnoreGlobList().equals(otherStandaloneConfig.getIgnoreGlobList())
+                && getFormats().equals(otherStandaloneConfig.getFormats())
+                && getIgnoreCommitList().equals(otherStandaloneConfig.getIgnoreCommitList());
+    }
 }
