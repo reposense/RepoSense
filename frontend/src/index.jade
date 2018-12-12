@@ -90,7 +90,7 @@ html
               .summary-chart__title(
                 title="click to view author's code",
                 v-on:click="$emit('view-authorship', \
-                    {author:user.name, repo:user.repoName, name:user.displayName, \
+                    {author:user.name, repo:user.repoName, name:user.displayName, location:repo[0].location, \
                         minDate:minDate, maxDate:maxDate, totalCommits:user.totalCommits})"
               )
                 .summary-chart__title--index {{ i+1 }}
@@ -122,7 +122,10 @@ html
     vuetemplate#v_authorship
       #authorship
         .title
-          .repoName {{ info.repo }}
+          a.repoName(
+            v-bind:href="info.location", target="_blank",
+            v-bind:title="'Click to open the repo'"
+          ) {{ info.repo }}
           .author {{ info.name }} ({{ info.author }}) contribution from {{ info.minDate }} to {{ info.maxDate }}
           .contribution(v-if="isLoaded")
             span Total LoC contributed:&nbsp;
