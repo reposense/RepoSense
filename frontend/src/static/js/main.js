@@ -29,6 +29,9 @@ window.app = new window.Vue({
     tabInfo: {},
     tabAuthorship: {},
     creationDate: '',
+
+    flexWidth: '50%',
+    mouseMove: () => {},
   },
   methods: {
     // model functions //
@@ -90,6 +93,19 @@ window.app = new window.Vue({
     expand(isActive) {
       this.isCollapsed = !isActive;
       expandAll(isActive);
+    },
+
+    registerMouseMove(event) {
+      const _mouseMove = (event) => {
+        const calculatedWidth = (window.innerWidth - event.clientX + (13.250 / 2)) / window.innerWidth * 100;
+        // 13.250 is the width of the close tab button
+        this.flexWidth = calculatedWidth + '%';
+      };
+      this.mouseMove = _mouseMove;
+    },
+
+    deregisterMouseMove() {
+      this.mouseMove = () => {};
     },
 
     generateKey(dataObj) {

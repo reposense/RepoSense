@@ -85,8 +85,8 @@ header{
             top:calc(50vh - 3rem);
 
             svg{
-                color:mui-color('white');
-                background-color:mui-color('grey', '900');
+                color:mui-color('black');
+                background-color:mui-color('white');
                 padding:3rem 0.25rem;
             }
         }
@@ -100,6 +100,14 @@ header{
                 width:100%;
                 text-align:left;
             }
+        }
+
+        .tab-resize{
+            position: absolute;
+            width: 13.250px;
+            height: 100%;
+            background-color: mui-color('black');
+            cursor:col-resize;
         }
     }
 }

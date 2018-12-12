@@ -26,7 +26,9 @@ html
               strong RepoSense
             span &nbsp; on {{ creationDate }}
 
-        #tabs-wrapper(v-if="isTabActive")
+        #tabs-wrapper(v-if="isTabActive", v-bind:style="{ flex: '0 0 ' + flexWidth }")
+          .tab-resize(v-on:mousedown="registerMouseMove", v-on:mousemove="mouseMove",
+            v-on:mouseleave="deregisterMouseMove", v-on:mouseup="deregisterMouseMove")
           .tab-close(v-on:click="isTabActive=false")
             i.fas.fa-caret-right
           .tab-content
