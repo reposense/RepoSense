@@ -11,6 +11,7 @@ import java.util.List;
 
 import reposense.git.CommitNotFoundException;
 import reposense.model.Author;
+import reposense.model.Location;
 import reposense.model.RepoConfiguration;
 import reposense.util.FileUtil;
 import reposense.util.StringsUtil;
@@ -124,10 +125,10 @@ public class CommandRunner {
         return runCommand(rootPath, command);
     }
 
-    public static String cloneRepo(String location, String repoName) throws IOException {
+    public static String cloneRepo(Location location, String repoName) throws IOException {
         Path rootPath = Paths.get(FileUtil.REPOS_ADDRESS, repoName);
         Files.createDirectories(rootPath);
-        return runCommand(rootPath, "git clone " + addQuote(location));
+        return runCommand(rootPath, "git clone " + addQuote(location.toString()));
     }
 
     private static String runCommand(Path path, String command) {

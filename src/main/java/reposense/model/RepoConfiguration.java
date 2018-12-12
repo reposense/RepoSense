@@ -1,11 +1,6 @@
 package reposense.model;
 
 import java.io.File;
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.nio.file.Files;
-import java.nio.file.InvalidPathException;
-import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -27,19 +22,18 @@ import reposense.util.FileUtil;
 
 public class RepoConfiguration {
     public static final String DEFAULT_BRANCH = "HEAD";
+    public static final String GIT_LINK_SUFFIX = ".git";
     private static final Logger logger = LogsManager.getLogger(RepoConfiguration.class);
     private static final String MESSAGE_ILLEGAL_FORMATS = "The provided formats, %s, contains illegal characters.";
     private static final String FORMAT_VALIDATION_REGEX = "[A-Za-z0-9]+";
 
-    private static final String GIT_LINK_SUFFIX = ".git";
     private static final Pattern GIT_REPOSITORY_LOCATION_PATTERN =
             Pattern.compile("^.*github.com\\/(?<org>.+?)\\/(?<repoName>.+?)\\.git$");
     private static final String COMMIT_HASH_REGEX = "^[0-9a-f]+$";
     private static final String INVALID_COMMIT_HASH_MESSAGE =
             "The provided commit hash, %s, contains illegal characters.";
 
-
-    private String location;
+    private Location location;
     private String organization;
     private String repoName;
     private String branch;
@@ -77,7 +71,7 @@ public class RepoConfiguration {
      */
     public RepoConfiguration(String location, String branch, List<String> formats, List<String> ignoreGlobList,
             boolean isStandaloneConfigIgnored, List<String> ignoreCommitList) throws InvalidLocationException {
-        this.location = location;
+        this.location = new Location(location);
         this.branch = branch;
         this.ignoreGlobList = ignoreGlobList;
         this.isStandaloneConfigIgnored = isStandaloneConfigIgnored;
@@ -86,7 +80,6 @@ public class RepoConfiguration {
         validateIgnoreCommits(ignoreCommitList);
         this.ignoreCommitList = ignoreCommitList;
 
-        verifyLocation(location);
         Matcher matcher = GIT_REPOSITORY_LOCATION_PATTERN.matcher(location);
 
         if (matcher.matches()) {
@@ -328,43 +321,20 @@ public class RepoConfiguration {
         return displayName;
     }
 
-    public String getLocation() {
-        return location;
-    }
-
     public String getRepoName() {
         return repoName;
     }
 
-    public boolean isStandaloneConfigIgnored() {
-        return isStandaloneConfigIgnored;
+    public Location getLocation() {
+        return location;
     }
 
-    /**
-     * Verifies {@code location} can be presented as a {@code URL} or {@code Path}.
-     * @throws InvalidLocationException if otherwise.
-     */
-    private void verifyLocation(String location) throws InvalidLocationException {
-        boolean isValidPathLocation = false;
-        boolean isValidGitUrl = false;
+    public String getOrganization() {
+        return organization;
+    }
 
-        try {
-            Path pathLocation = Paths.get(location);
-            isValidPathLocation = Files.exists(pathLocation);
-        } catch (InvalidPathException ipe) {
-            // Ignore exception
-        }
-
-        try {
-            new URL(location);
-            isValidGitUrl = location.endsWith(GIT_LINK_SUFFIX);
-        } catch (MalformedURLException mue) {
-            // Ignore exception
-        }
-
-        if (!isValidPathLocation && !isValidGitUrl) {
-            throw new InvalidLocationException(location + " is an invalid location.");
-        }
+    public boolean isStandaloneConfigIgnored() {
+        return isStandaloneConfigIgnored;
     }
 
     /**

@@ -1,6 +1,7 @@
 package reposense.report;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import reposense.model.RepoConfiguration;
 
@@ -9,10 +10,12 @@ import reposense.model.RepoConfiguration;
  */
 public class SummaryReportJson {
     private final String dashboardGeneratedTime;
-    private final List<RepoConfiguration> repos;
+    private final List<RepoConfigurationJson> repos;
 
     public SummaryReportJson(List<RepoConfiguration> repos, String dashboardGeneratedTime) {
-        this.repos = repos;
+        this.repos = repos.stream()
+                .map(RepoConfigurationJson::new)
+                .collect(Collectors.toList());
         this.dashboardGeneratedTime = dashboardGeneratedTime;
     }
 }
