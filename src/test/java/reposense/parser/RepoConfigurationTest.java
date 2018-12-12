@@ -22,6 +22,7 @@ import reposense.model.Author;
 import reposense.model.CliArguments;
 import reposense.model.ConfigCliArguments;
 import reposense.model.RepoConfiguration;
+import reposense.model.RepoLocation;
 import reposense.report.ReportGenerator;
 import reposense.util.FileUtil;
 import reposense.util.TestUtil;
@@ -78,7 +79,7 @@ public class RepoConfigurationTest {
         expectedAuthors.add(THIRD_AUTHOR);
         expectedAuthors.add(FOURTH_AUTHOR);
 
-        REPO_DELTA_STANDALONE_CONFIG = new RepoConfiguration(TEST_REPO_DELTA, "master");
+        REPO_DELTA_STANDALONE_CONFIG = new RepoConfiguration(new RepoLocation(TEST_REPO_DELTA), "master");
         REPO_DELTA_STANDALONE_CONFIG.setAuthorList(expectedAuthors);
         REPO_DELTA_STANDALONE_CONFIG.addAuthorAliases(FIRST_AUTHOR, FIRST_AUTHOR_ALIASES);
         REPO_DELTA_STANDALONE_CONFIG.addAuthorAliases(SECOND_AUTHOR, SECOND_AUTHOR_ALIASES);
@@ -118,8 +119,8 @@ public class RepoConfigurationTest {
     }
 
     @Test
-    public void repoConfig_usesStandaloneConfig_success() throws InvalidLocationException, GitCloneException {
-        RepoConfiguration actualConfig = new RepoConfiguration(TEST_REPO_DELTA, "master");
+    public void repoConfig_usesStandaloneConfig_success() throws GitCloneException, InvalidLocationException {
+        RepoConfiguration actualConfig = new RepoConfiguration(new RepoLocation(TEST_REPO_DELTA), "master");
         GitClone.clone(actualConfig);
         ReportGenerator.updateRepoConfig(actualConfig);
 
@@ -134,7 +135,7 @@ public class RepoConfigurationTest {
         author.setIgnoreGlobList(REPO_LEVEL_GLOB_LIST);
         expectedAuthors.add(author);
 
-        RepoConfiguration expectedConfig = new RepoConfiguration(TEST_REPO_DELTA, "master");
+        RepoConfiguration expectedConfig = new RepoConfiguration(new RepoLocation(TEST_REPO_DELTA), "master");
         expectedConfig.setAuthorList(expectedAuthors);
         expectedConfig.addAuthorAliases(author, FIRST_AUTHOR_ALIASES);
         expectedConfig.setAuthorDisplayName(author, "Ahm");

@@ -5,6 +5,7 @@ import java.nio.file.Path;
 import java.util.List;
 
 import reposense.model.RepoConfiguration;
+import reposense.model.RepoLocation;
 
 public class RepoConfigCsvParser extends CsvParser<RepoConfiguration> {
     public static final String REPO_CONFIG_FILENAME = "repo-config.csv";
@@ -41,7 +42,7 @@ public class RepoConfigCsvParser extends CsvParser<RepoConfiguration> {
      */
     @Override
     protected void processLine(List<RepoConfiguration> results, String[] elements) throws InvalidLocationException {
-        String location = getValueInElement(elements, LOCATION_POSITION);
+        RepoLocation location = new RepoLocation(getValueInElement(elements, LOCATION_POSITION));
         String branch = getValueInElement(elements, BRANCH_POSITION, RepoConfiguration.DEFAULT_BRANCH);
         List<String> formats = getManyValueInElement(elements, FILE_FORMATS_POSITION);
         List<String> ignoreGlobList = getManyValueInElement(elements, IGNORE_GLOB_LIST_POSITION);

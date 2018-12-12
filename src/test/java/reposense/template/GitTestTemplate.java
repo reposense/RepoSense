@@ -20,6 +20,7 @@ import reposense.git.GitClone;
 import reposense.git.GitCloneException;
 import reposense.model.Author;
 import reposense.model.RepoConfiguration;
+import reposense.model.RepoLocation;
 import reposense.parser.ArgsParser;
 import reposense.parser.InvalidLocationException;
 import reposense.util.FileUtil;
@@ -46,7 +47,7 @@ public class GitTestTemplate {
 
     @Before
     public void before() throws InvalidLocationException {
-        config = new RepoConfiguration(TEST_REPO_GIT_LOCATION, "master");
+        config = new RepoConfiguration(new RepoLocation(TEST_REPO_GIT_LOCATION), "master");
         config.setAuthorList(Collections.singletonList(getAlphaAllAliasAuthor()));
         config.setFormats(ArgsParser.DEFAULT_FORMATS);
     }
@@ -54,7 +55,7 @@ public class GitTestTemplate {
     @BeforeClass
     public static void beforeClass() throws GitCloneException, IOException, InvalidLocationException {
         deleteRepos();
-        config = new RepoConfiguration(TEST_REPO_GIT_LOCATION, "master");
+        config = new RepoConfiguration(new RepoLocation(TEST_REPO_GIT_LOCATION), "master");
         config.setFormats(ArgsParser.DEFAULT_FORMATS);
         GitClone.clone(config);
     }

@@ -16,6 +16,7 @@ import reposense.model.Author;
 import reposense.model.CliArguments;
 import reposense.model.ConfigCliArguments;
 import reposense.model.RepoConfiguration;
+import reposense.model.RepoLocation;
 
 public class CsvParserTest {
     private static final Path TEST_CONFIG_FOLDER = new File(CsvParserTest.class.getClassLoader()
@@ -51,7 +52,7 @@ public class CsvParserTest {
     private static final List<String> FIRST_AUTHOR_GLOB_LIST = Arrays.asList("collated**", "**.java");
 
     @Test
-    public void repoConfig_noSpecialCharacter_success() throws IOException {
+    public void repoConfig_noSpecialCharacter_success() throws IOException, InvalidLocationException {
         RepoConfigCsvParser repoConfigCsvParser = new RepoConfigCsvParser(REPO_CONFIG_NO_SPECIAL_CHARACTER_FILE);
         List<RepoConfiguration> configs = repoConfigCsvParser.parse();
 
@@ -59,7 +60,7 @@ public class CsvParserTest {
 
         RepoConfiguration config = configs.get(0);
 
-        Assert.assertEquals(TEST_REPO_BETA_LOCATION, config.getLocation());
+        Assert.assertEquals(new RepoLocation(TEST_REPO_BETA_LOCATION), config.getLocation());
         Assert.assertEquals(TEST_REPO_BETA_BRANCH, config.getBranch());
 
         Assert.assertEquals(TEST_REPO_BETA_CONFIG_FORMATS, TEST_REPO_BETA_CONFIG_FORMATS);
@@ -70,7 +71,7 @@ public class CsvParserTest {
     }
 
     @Test
-    public void authorConfig_noSpecialCharacter_success() throws IOException {
+    public void authorConfig_noSpecialCharacter_success() throws IOException, InvalidLocationException {
         AuthorConfigCsvParser authorConfigCsvParser =
                 new AuthorConfigCsvParser(AUTHOR_CONFIG_NO_SPECIAL_CHARACTER_FILE);
         List<RepoConfiguration> configs = authorConfigCsvParser.parse();
@@ -79,14 +80,14 @@ public class CsvParserTest {
 
         RepoConfiguration config = configs.get(0);
 
-        Assert.assertEquals(TEST_REPO_BETA_LOCATION, config.getLocation());
+        Assert.assertEquals(new RepoLocation(TEST_REPO_BETA_LOCATION), config.getLocation());
         Assert.assertEquals(TEST_REPO_BETA_BRANCH, config.getBranch());
 
         Assert.assertEquals(AUTHOR_CONFIG_NO_SPECIAL_CHARACTER_AUTHORS, config.getAuthorList());
     }
 
     @Test
-    public void authorConfig_specialCharacter_success() throws IOException {
+    public void authorConfig_specialCharacter_success() throws IOException, InvalidLocationException {
         AuthorConfigCsvParser authorConfigCsvParser = new AuthorConfigCsvParser(AUTHOR_CONFIG_SPECIAL_CHARACTER_FILE);
         List<RepoConfiguration> configs = authorConfigCsvParser.parse();
 
@@ -94,7 +95,7 @@ public class CsvParserTest {
 
         RepoConfiguration config = configs.get(0);
 
-        Assert.assertEquals(TEST_REPO_BETA_LOCATION, config.getLocation());
+        Assert.assertEquals(new RepoLocation(TEST_REPO_BETA_LOCATION), config.getLocation());
         Assert.assertEquals(TEST_REPO_BETA_BRANCH, config.getBranch());
 
         Assert.assertEquals(AUTHOR_CONFIG_SPECIAL_CHARACTER_AUTHORS, config.getAuthorList());
@@ -109,7 +110,8 @@ public class CsvParserTest {
         expectedAuthors.add(FIRST_AUTHOR);
         expectedAuthors.add(SECOND_AUTHOR);
 
-        RepoConfiguration expectedConfig = new RepoConfiguration(TEST_REPO_BETA_LOCATION, TEST_REPO_BETA_BRANCH);
+        RepoConfiguration expectedConfig = new RepoConfiguration(new RepoLocation(TEST_REPO_BETA_LOCATION),
+                TEST_REPO_BETA_BRANCH);
         expectedConfig.setAuthorList(expectedAuthors);
         expectedConfig.setAuthorDisplayName(FIRST_AUTHOR, "Nbr");
         expectedConfig.setAuthorDisplayName(SECOND_AUTHOR, "Zac");
@@ -137,7 +139,7 @@ public class CsvParserTest {
 
     @Test
     public void repoConfig_defaultBranch_success() throws ParseException, IOException {
-        RepoConfiguration expectedConfig = new RepoConfiguration(TEST_REPO_BETA_LOCATION,
+        RepoConfiguration expectedConfig = new RepoConfiguration(new RepoLocation(TEST_REPO_BETA_LOCATION),
                 RepoConfiguration.DEFAULT_BRANCH);
 
         String input = String.format("-config %s", TEST_EMPTY_BRANCH_CONFIG_FOLDER);

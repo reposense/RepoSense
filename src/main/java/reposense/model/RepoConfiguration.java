@@ -1,12 +1,6 @@
 package reposense.model;
 
 import java.io.File;
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.nio.file.Files;
-import java.nio.file.InvalidPathException;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -18,10 +12,7 @@ import java.util.Objects;
 import java.util.Optional;
 import java.util.TreeMap;
 import java.util.logging.Logger;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
-import reposense.parser.InvalidLocationException;
 import reposense.system.LogsManager;
 import reposense.util.FileUtil;
 
@@ -31,17 +22,11 @@ public class RepoConfiguration {
     private static final String MESSAGE_ILLEGAL_FORMATS = "The provided formats, %s, contains illegal characters.";
     private static final String FORMAT_VALIDATION_REGEX = "[A-Za-z0-9]+";
 
-    private static final String GIT_LINK_SUFFIX = ".git";
-    private static final Pattern GIT_REPOSITORY_LOCATION_PATTERN =
-            Pattern.compile("^.*github.com\\/(?<org>.+?)\\/(?<repoName>.+?)\\.git$");
     private static final String COMMIT_HASH_REGEX = "^[0-9a-f]+$";
     private static final String INVALID_COMMIT_HASH_MESSAGE =
             "The provided commit hash, %s, contains illegal characters.";
 
-
-    private String location;
-    private String organization;
-    private String repoName;
+    private RepoLocation location;
     private String branch;
     private String displayName;
     private Date sinceDate;
@@ -58,25 +43,16 @@ public class RepoConfiguration {
     private transient boolean isStandaloneConfigIgnored;
     private transient List<String> ignoreCommitList;
 
-    /**
-     * @throws InvalidLocationException if {@code location} cannot be represented by a {@code URL} or {@code Path}.
-     */
-    public RepoConfiguration(String location) throws InvalidLocationException {
+    public RepoConfiguration(RepoLocation location) {
         this(location, DEFAULT_BRANCH);
     }
 
-    /**
-     * @throws InvalidLocationException if {@code location} cannot be represented by a {@code URL} or {@code Path}.
-     */
-    public RepoConfiguration(String location, String branch) throws InvalidLocationException {
+    public RepoConfiguration(RepoLocation location, String branch) {
         this(location, branch, Collections.emptyList(), Collections.emptyList(), false, Collections.emptyList());
     }
 
-    /**
-     * @throws InvalidLocationException if {@code location} cannot be represented by a {@code URL} or {@code Path}.
-     */
-    public RepoConfiguration(String location, String branch, List<String> formats, List<String> ignoreGlobList,
-            boolean isStandaloneConfigIgnored, List<String> ignoreCommitList) throws InvalidLocationException {
+    public RepoConfiguration(RepoLocation location, String branch, List<String> formats, List<String> ignoreGlobList,
+            boolean isStandaloneConfigIgnored, List<String> ignoreCommitList) {
         this.location = location;
         this.branch = branch;
         this.ignoreGlobList = ignoreGlobList;
@@ -86,15 +62,12 @@ public class RepoConfiguration {
         validateIgnoreCommits(ignoreCommitList);
         this.ignoreCommitList = ignoreCommitList;
 
-        verifyLocation(location);
-        Matcher matcher = GIT_REPOSITORY_LOCATION_PATTERN.matcher(location);
+        String organization = location.getOrganization();
+        String repoName = location.getRepoName();
 
-        if (matcher.matches()) {
-            organization = matcher.group("org");
-            repoName = matcher.group("repoName");
+        if (organization != null) {
             displayName = organization + "_" + repoName + "_" + branch;
         } else {
-            repoName = Paths.get(location).getFileName().toString().replace(GIT_LINK_SUFFIX, "");
             displayName = repoName + "_" + branch;
         }
     }
@@ -169,10 +142,10 @@ public class RepoConfiguration {
     }
 
     public String getRepoRoot() {
-        String path = FileUtil.REPOS_ADDRESS + File.separator + repoName + File.separator;
+        String path = FileUtil.REPOS_ADDRESS + File.separator + getRepoName() + File.separator;
 
-        if (!repoName.isEmpty()) {
-            path += repoName + File.separator;
+        if (!getRepoName().isEmpty()) {
+            path += getRepoName() + File.separator;
         }
 
         return path;
@@ -328,43 +301,20 @@ public class RepoConfiguration {
         return displayName;
     }
 
-    public String getLocation() {
+    public String getRepoName() {
+        return location.getRepoName();
+    }
+
+    public RepoLocation getLocation() {
         return location;
     }
 
-    public String getRepoName() {
-        return repoName;
+    public String getOrganization() {
+        return location.getOrganization();
     }
 
     public boolean isStandaloneConfigIgnored() {
         return isStandaloneConfigIgnored;
-    }
-
-    /**
-     * Verifies {@code location} can be presented as a {@code URL} or {@code Path}.
-     * @throws InvalidLocationException if otherwise.
-     */
-    private void verifyLocation(String location) throws InvalidLocationException {
-        boolean isValidPathLocation = false;
-        boolean isValidGitUrl = false;
-
-        try {
-            Path pathLocation = Paths.get(location);
-            isValidPathLocation = Files.exists(pathLocation);
-        } catch (InvalidPathException ipe) {
-            // Ignore exception
-        }
-
-        try {
-            new URL(location);
-            isValidGitUrl = location.endsWith(GIT_LINK_SUFFIX);
-        } catch (MalformedURLException mue) {
-            // Ignore exception
-        }
-
-        if (!isValidPathLocation && !isValidGitUrl) {
-            throw new InvalidLocationException(location + " is an invalid location.");
-        }
     }
 
     /**
