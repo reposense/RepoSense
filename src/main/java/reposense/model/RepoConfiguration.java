@@ -25,7 +25,6 @@ public class RepoConfiguration {
     public static final String GIT_LINK_SUFFIX = ".git";
     private static final Logger logger = LogsManager.getLogger(RepoConfiguration.class);
     private static final String MESSAGE_ILLEGAL_FORMATS = "The provided formats, %s, contains illegal characters.";
-    private static final String FORMAT_VALIDATION_REGEX = "[A-Za-z0-9]+";
 
     private static final Pattern GIT_REPOSITORY_LOCATION_PATTERN =
             Pattern.compile("^.*github.com\\/(?<org>.+?)\\/(?<repoName>.+?)\\.git$");
@@ -43,7 +42,7 @@ public class RepoConfiguration {
 
     private transient boolean needCheckStyle = false;
     private transient boolean annotationOverwrite = true;
-    private transient List<String> formats;
+    private final transient FormatList formats = new FormatList();
     private transient int commitNum = 1;
     private transient List<String> ignoreGlobList = new ArrayList<>();
     private transient List<Author> authorList = new ArrayList<>();
@@ -75,8 +74,8 @@ public class RepoConfiguration {
         this.branch = branch;
         this.ignoreGlobList = ignoreGlobList;
         this.isStandaloneConfigIgnored = isStandaloneConfigIgnored;
-        this.formats = formats;
 
+        this.formats.setFormats(formats);
         validateIgnoreCommits(ignoreCommitList);
         this.ignoreCommitList = ignoreCommitList;
 
@@ -149,7 +148,7 @@ public class RepoConfiguration {
             aliases.add(author.getGitId());
             aliases.forEach(alias -> newAuthorAliasMap.put(alias, author));
         }
-        validateFormats(standaloneConfig.getFormats());
+        FormatList.validateFormats(standaloneConfig.getFormats());
         validateIgnoreCommits(standaloneConfig.getIgnoreCommitList());
 
         // only assign the new values when all the fields in {@code standaloneConfig} pass the validations.
@@ -157,7 +156,7 @@ public class RepoConfiguration {
         authorAliasMap = newAuthorAliasMap;
         authorDisplayNameMap = newAuthorDisplayNameMap;
         ignoreGlobList = newIgnoreGlobList;
-        formats = standaloneConfig.getFormats();
+        formats.setFormats(standaloneConfig.getFormats());
         ignoreCommitList = standaloneConfig.getIgnoreCommitList();
     }
 
@@ -302,11 +301,11 @@ public class RepoConfiguration {
     }
 
     public List<String> getFormats() {
-        return formats;
+        return formats.getFormats();
     }
 
     public void setFormats(List<String> formats) {
-        this.formats = formats;
+        this.formats.setFormats(formats);
     }
 
     public void setAuthorDisplayName(Author author, String displayName) {
@@ -331,25 +330,6 @@ public class RepoConfiguration {
 
     public boolean isStandaloneConfigIgnored() {
         return isStandaloneConfigIgnored;
-    }
-
-    /**
-     * Returns true if the given {@code value} is a valid format.
-     */
-    private static boolean isValidFormat(String value) {
-        return value.matches(FORMAT_VALIDATION_REGEX);
-    }
-
-    /**
-     * Checks that all the strings in the {@code formats} are in valid formats.
-     * @throws IllegalArgumentException if any of the values do not meet the criteria.
-     */
-    private static void validateFormats(List<String> formats) throws IllegalArgumentException {
-        for (String format: formats) {
-            if (!isValidFormat(format)) {
-                throw new IllegalArgumentException(String.format(MESSAGE_ILLEGAL_FORMATS, format));
-            }
-        }
     }
 
     /**

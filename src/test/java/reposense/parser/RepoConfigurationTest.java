@@ -4,8 +4,6 @@ import static org.apache.tools.ant.types.Commandline.translateCommandline;
 
 import java.io.File;
 import java.io.IOException;
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -96,25 +94,6 @@ public class RepoConfigurationTest {
     @Before
     public void cleanRepoDirectory() throws IOException {
         FileUtil.deleteDirectory(FileUtil.REPOS_ADDRESS);
-    }
-
-    @Test
-    public void validateFormats_alphaNumeric_success()
-            throws InvalidLocationException, NoSuchMethodException, InvocationTargetException, IllegalAccessException {
-        Method m = RepoConfiguration.class.getDeclaredMethod("validateFormats", List.class);
-        m.setAccessible(true);
-        m.invoke(null, Arrays.asList("java", "7z"));
-    }
-
-    @Test(expected = IllegalArgumentException.class)
-    public void validateFormats_nonAlphaNumeric_throwIllegalArgumentException() throws Throwable {
-        try {
-            Method m = RepoConfiguration.class.getDeclaredMethod("validateFormats", List.class);
-            m.setAccessible(true);
-            m.invoke(null, Arrays.asList(".java"));
-        } catch (InvocationTargetException ite) {
-            throw ite.getCause();
-        }
     }
 
     @Test
