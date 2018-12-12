@@ -24,13 +24,9 @@ public class RepoConfiguration {
     public static final String DEFAULT_BRANCH = "HEAD";
     public static final String GIT_LINK_SUFFIX = ".git";
     private static final Logger logger = LogsManager.getLogger(RepoConfiguration.class);
-    private static final String MESSAGE_ILLEGAL_FORMATS = "The provided formats, %s, contains illegal characters.";
 
     private static final Pattern GIT_REPOSITORY_LOCATION_PATTERN =
             Pattern.compile("^.*github.com\\/(?<org>.+?)\\/(?<repoName>.+?)\\.git$");
-    private static final String COMMIT_HASH_REGEX = "^[0-9a-f]+$";
-    private static final String INVALID_COMMIT_HASH_MESSAGE =
-            "The provided commit hash, %s, contains illegal characters.";
 
     private Location location;
     private String organization;
@@ -49,7 +45,7 @@ public class RepoConfiguration {
     private transient TreeMap<String, Author> authorAliasMap = new TreeMap<>(String.CASE_INSENSITIVE_ORDER);
     private transient Map<Author, String> authorDisplayNameMap = new HashMap<>();
     private transient boolean isStandaloneConfigIgnored;
-    private transient List<String> ignoreCommitList;
+    private final transient IgnoreCommitsList ignoreCommitList = new IgnoreCommitsList();
 
     /**
      * @throws InvalidLocationException if {@code location} cannot be represented by a {@code URL} or {@code Path}.
@@ -76,8 +72,7 @@ public class RepoConfiguration {
         this.isStandaloneConfigIgnored = isStandaloneConfigIgnored;
 
         this.formats.setFormats(formats);
-        validateIgnoreCommits(ignoreCommitList);
-        this.ignoreCommitList = ignoreCommitList;
+        this.ignoreCommitList.setIgnoreCommitsList(ignoreCommitList);
 
         Matcher matcher = GIT_REPOSITORY_LOCATION_PATTERN.matcher(location);
 
@@ -149,7 +144,7 @@ public class RepoConfiguration {
             aliases.forEach(alias -> newAuthorAliasMap.put(alias, author));
         }
         FormatList.validateFormats(standaloneConfig.getFormats());
-        validateIgnoreCommits(standaloneConfig.getIgnoreCommitList());
+        IgnoreCommitsList.validateIgnoreCommits(standaloneConfig.getIgnoreCommitList());
 
         // only assign the new values when all the fields in {@code standaloneConfig} pass the validations.
         authorList = newAuthorList;
@@ -157,7 +152,7 @@ public class RepoConfiguration {
         authorDisplayNameMap = newAuthorDisplayNameMap;
         ignoreGlobList = newIgnoreGlobList;
         formats.setFormats(standaloneConfig.getFormats());
-        ignoreCommitList = standaloneConfig.getIgnoreCommitList();
+        ignoreCommitList.setIgnoreCommitsList(standaloneConfig.getIgnoreCommitList());
     }
 
     public String getRepoRoot() {
@@ -243,11 +238,11 @@ public class RepoConfiguration {
     }
 
     public List<String> getIgnoreCommitList() {
-        return ignoreCommitList;
+        return ignoreCommitList.getIgnoreCommitsList();
     }
 
     public void setIgnoreCommitList(List<String> ignoreCommitList) {
-        this.ignoreCommitList = ignoreCommitList;
+        this.ignoreCommitList.setIgnoreCommitsList(ignoreCommitList);
     }
 
     public List<Author> getAuthorList() {
@@ -330,17 +325,5 @@ public class RepoConfiguration {
 
     public boolean isStandaloneConfigIgnored() {
         return isStandaloneConfigIgnored;
-    }
-
-    /**
-     * Checks that all the strings in the {@code ignoreCommitList} are in valid formats.
-     * @throws IllegalArgumentException if any of the values do not meet the criteria.
-     */
-    private static void validateIgnoreCommits(List<String> ignoreCommitList) throws IllegalArgumentException {
-        for (String commitHash : ignoreCommitList) {
-            if (!commitHash.matches(COMMIT_HASH_REGEX)) {
-                throw new IllegalArgumentException(String.format(INVALID_COMMIT_HASH_MESSAGE, commitHash));
-            }
-        }
     }
 }
