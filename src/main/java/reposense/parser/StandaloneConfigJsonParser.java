@@ -27,6 +27,13 @@ public class StandaloneConfigJsonParser extends JsonParser<StandaloneConfig> {
      */
     @Override
     public StandaloneConfig parse(Path path) throws IOException {
-        return fromJson(path);
+        StandaloneConfig config = fromJson(path);
+
+        // Checks that config is properly parsed
+        if (config != null) {
+            config.initialize();
+        }
+
+        return config;
     }
 }

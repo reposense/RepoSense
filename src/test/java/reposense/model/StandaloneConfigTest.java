@@ -10,6 +10,8 @@ import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
+import com.google.gson.JsonSyntaxException;
+
 import reposense.parser.StandaloneConfigJsonParser;
 import reposense.template.GitTestTemplate;
 
@@ -29,8 +31,6 @@ public class StandaloneConfigTest extends GitTestTemplate {
             .getResource("StandaloneConfigTest/authors_trailingCommas_config.json").getFile()).toPath();
     private static final Path LITHIUMLKID_TRAILING_COMMAS_CONFIG = new File(StandaloneConfigTest.class.getClassLoader()
             .getResource("StandaloneConfigTest/lithiumlkid_trailingCommas_config.json").getFile()).toPath();
-    private static final Path TRAILING_COMMAS_CONFIG = new File(StandaloneConfigTest.class.getClassLoader()
-            .getResource("StandaloneConfigTest/trailingCommas_config.json").getFile()).toPath();
 
     private static final Author FIRST_SPECIAL_CHARACTER_AUTHOR = new Author("‘Processed�‘Cooked�");
     private static final Author SECOND_SPECIAL_CHARACTER_AUTHOR = new Author("(codeeong)");
@@ -60,27 +60,17 @@ public class StandaloneConfigTest extends GitTestTemplate {
     }
 
     @Test
-    public void standaloneConfig_ingoresTrailingCommasInAuthorAttributes_success() throws IOException {
-        StandaloneConfig standaloneConfig = new StandaloneConfigJsonParser().parse(LITHIUMLKID_TRAILING_COMMAS_CONFIG);
-        config.update(standaloneConfig);
-
-        Assert.assertEquals(VALID_STANDALONE_CONFIG, standaloneConfig);
-    }
-
-    @Test
-    public void standaloneConfig_ingoresTrailingCommasInAuthors_success() throws IOException {
+    public void standaloneConfig_trailingCommasInList_success() throws IOException {
         StandaloneConfig standaloneConfig = new StandaloneConfigJsonParser().parse(AUTHORS_TRAILING_COMMAS_CONFIG);
         config.update(standaloneConfig);
 
         Assert.assertEquals(VALID_STANDALONE_CONFIG, standaloneConfig);
     }
 
-    @Test
-    public void standaloneConfig_ingoresTrailingCommas_success() throws IOException {
-        StandaloneConfig standaloneConfig = new StandaloneConfigJsonParser().parse(TRAILING_COMMAS_CONFIG);
+    @Test(expected = JsonSyntaxException.class)
+    public void standaloneConfig_trailingCommasInMaps_throwsJsonSyntaxException() throws IOException {
+        StandaloneConfig standaloneConfig = new StandaloneConfigJsonParser().parse(LITHIUMLKID_TRAILING_COMMAS_CONFIG);
         config.update(standaloneConfig);
-
-        Assert.assertEquals(VALID_STANDALONE_CONFIG, standaloneConfig);
     }
 
     @Test(expected = IllegalArgumentException.class)

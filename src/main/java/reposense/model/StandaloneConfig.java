@@ -2,6 +2,7 @@ package reposense.model;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 
 import reposense.parser.ArgsParser;
 
@@ -14,31 +15,46 @@ public class StandaloneConfig {
     private List<String> formats;
     private List<String> ignoreCommitList;
 
+    /**
+     * Sets default values to fields, if they are not provided.
+     * Also, removes null elements from given lists.
+     */
+    public void initialize() {
+        if (authors == null) {
+            authors = Collections.emptyList();
+        }
+
+        if (ignoreGlobList == null) {
+            ignoreGlobList = Collections.emptyList();
+        }
+
+        if (formats == null) {
+            formats = ArgsParser.DEFAULT_FORMATS;
+        }
+
+        if (ignoreCommitList == null) {
+            ignoreCommitList = Collections.emptyList();
+        }
+
+        authors.removeIf(Objects::isNull);
+        ignoreGlobList.removeIf(Objects::isNull);
+        formats.removeIf(Objects::isNull);
+        ignoreCommitList.removeIf(Objects::isNull);
+    }
+
     public List<StandaloneAuthor> getAuthors() {
         return authors;
     }
 
     public List<String> getIgnoreGlobList() {
-        if (ignoreGlobList == null) {
-            return Collections.emptyList();
-        }
-
         return ignoreGlobList;
     }
 
     public List<String> getFormats() {
-        if (formats == null) {
-            return ArgsParser.DEFAULT_FORMATS;
-        }
-
         return formats;
     }
 
     public List<String> getIgnoreCommitList() {
-        if (ignoreCommitList == null) {
-            return Collections.emptyList();
-        }
-
         return ignoreCommitList;
     }
 
