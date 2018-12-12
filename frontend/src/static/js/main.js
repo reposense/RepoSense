@@ -30,7 +30,7 @@ window.app = new window.Vue({
     tabAuthorship: {},
     creationDate: '',
 
-    flexWidth: '50%',
+    flexWidth: "50%",
     mouseMove: () => {},
   },
   methods: {
@@ -99,7 +99,7 @@ window.app = new window.Vue({
       const _mouseMove = (event) => {
         const calculatedWidth = (window.innerWidth - event.clientX + (13.250 / 2)) / window.innerWidth * 100;
         // 13.250 is the width of the close tab button
-        this.flexWidth = calculatedWidth + '%';
+        this.flexWidth = calculatedWidth + "%";
       };
       this.mouseMove = _mouseMove;
     },
