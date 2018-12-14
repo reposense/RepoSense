@@ -138,6 +138,14 @@ public class RepoConfiguration {
     }
 
     /**
+     * Sets {@code isStandaloneConfigIgnored} to all {@code RepoConfiguration} in {@code configs}.
+     */
+    public static void setStandaloneConfigIgnoredToRepoConfigs(
+            List<RepoConfiguration> configs, boolean isStandaloneConfigIgnored) {
+        configs.stream().forEach(config -> config.setStandaloneConfigIgnored(isStandaloneConfigIgnored));
+    }
+
+    /**
      * Clears authors information and use the information provided from {@code standaloneConfig}.
      */
     public void update(StandaloneConfig standaloneConfig) {
@@ -338,6 +346,10 @@ public class RepoConfiguration {
 
     public boolean isStandaloneConfigIgnored() {
         return isStandaloneConfigIgnored;
+    }
+
+    public void setStandaloneConfigIgnored(boolean isStandaloneConfigIgnored) {
+        this.isStandaloneConfigIgnored = isStandaloneConfigIgnored;
     }
 
     /**

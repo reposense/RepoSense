@@ -9,6 +9,7 @@ import java.util.Optional;
 
 import net.sourceforge.argparse4j.ArgumentParsers;
 import net.sourceforge.argparse4j.impl.action.HelpArgumentAction;
+import net.sourceforge.argparse4j.impl.type.BooleanArgumentType;
 import net.sourceforge.argparse4j.inf.ArgumentParser;
 import net.sourceforge.argparse4j.inf.ArgumentParserException;
 import net.sourceforge.argparse4j.inf.MutuallyExclusiveGroup;
@@ -92,6 +93,12 @@ public class ArgsParser {
                         + "If not provided, default file formats will be used.\n"
                         + "Please refer to userguide for more information.");
 
+        parser.addArgument("-ignore")
+                .metavar("BOOLEAN")
+                .type(new BooleanArgumentType())
+                .setDefault(false)
+                .help("The choice to ignore standalone config.");
+
         return parser;
     }
 
@@ -112,11 +119,13 @@ public class ArgsParser {
             Optional<Date> untilDate = results.get("until");
             List<String> formats = results.get("formats");
             List<String> locations = results.get("repos");
+            Boolean isStandaloneConfigIgnored = results.get("ignore");
 
             verifyDatesRangeIsCorrect(sinceDate, untilDate);
 
             if (locations != null) {
-                return new LocationsCliArguments(locations, outputFolderPath, sinceDate, untilDate, formats);
+                return new LocationsCliArguments(locations, outputFolderPath,
+                        sinceDate, untilDate, formats, isStandaloneConfigIgnored);
             }
 
             if (reportFolderPath != null) {
