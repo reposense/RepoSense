@@ -15,46 +15,39 @@ public class StandaloneConfig {
     private List<String> formats;
     private List<String> ignoreCommitList;
 
-    /**
-     * Sets default values to fields, if they are not provided.
-     * Also, removes null elements from given lists.
-     */
-    public void initialize() {
+    public List<StandaloneAuthor> getAuthors() {
         if (authors == null) {
             authors = Collections.emptyList();
         }
 
-        if (ignoreGlobList == null) {
-            ignoreGlobList = Collections.emptyList();
-        }
-
-        if (formats == null) {
-            formats = ArgsParser.DEFAULT_FORMATS;
-        }
-
-        if (ignoreCommitList == null) {
-            ignoreCommitList = Collections.emptyList();
-        }
-
         authors.removeIf(Objects::isNull);
-        ignoreGlobList.removeIf(Objects::isNull);
-        formats.removeIf(Objects::isNull);
-        ignoreCommitList.removeIf(Objects::isNull);
-    }
-
-    public List<StandaloneAuthor> getAuthors() {
         return authors;
     }
 
     public List<String> getIgnoreGlobList() {
+        if (ignoreGlobList == null) {
+            ignoreGlobList = Collections.emptyList();
+        }
+
+        ignoreGlobList.removeIf(Objects::isNull);
         return ignoreGlobList;
     }
 
     public List<String> getFormats() {
+        if (formats == null) {
+            formats = ArgsParser.DEFAULT_FORMATS;
+        }
+
+        formats.removeIf(Objects::isNull);
         return formats;
     }
 
     public List<String> getIgnoreCommitList() {
+        if (ignoreCommitList == null) {
+            ignoreCommitList = Collections.emptyList();
+        }
+
+        ignoreCommitList.removeIf(Objects::isNull);
         return ignoreCommitList;
     }
 
