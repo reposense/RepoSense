@@ -4,7 +4,8 @@ Thank you for your interest in contributing to RepoSense!
   - [Prerequisites](#prerequisites)
   - [Setting up the project in your computer using IntelliJ](#setting-up-the-project-in-your-computer-using-intellij)
   - [Verifying the setup](#verifying-the-setup)
-  - [Configuring the coding style](#configuring-the-coding-style)
+  - [Configuring the Java coding style](#configuring-the-java-coding-style)
+  - [Configuring the JavaScript coding style](#configuring-the-javascript-coding-style)
 - [Architecture](#architecture)
   - [Parser](#parserconfigparser)
   - [Git](#gitgitdownloader)
@@ -14,6 +15,13 @@ Thank you for your interest in contributing to RepoSense!
   - [System](#system)
   - [Model](#model)
 - [HTML Dashboard](#html-dashboard)
+  - [Dashboard Architecture](#dashboard-architecture)
+  - [Javascript Files](#javascript-files)
+  - [JSON Report Files](#json-report-files)
+  - [Main](#main-mainjs)
+  - [Data loader](#data-loader-apijs)
+  - [Summary View](#summary-view-v_summaryjs)
+  - [Authorship View](#authorship-view-v_authorshipjs)
 
 ## Setting up
 
@@ -38,7 +46,7 @@ Thank you for your interest in contributing to RepoSense!
 1. Run the tests to ensure that they all pass by running the command `gradlew test functional`, and ensure that it finishs with a `BUILD SUCCESSFUL` message.
   > Ensure that you are on the project root directory when using the `gradlew` commands.
 
-### Configuring the coding style
+### Configuring the Java coding style
 This project follows [oss-generic coding standards](https://oss-generic.github.io/process/docs/CodingStandards.html). *IntelliJ’s* default style is mostly compliant with our *Java* coding convention but it uses a different import order from ours. To rectify,
 
 1. Go to `File` > `Settings…`​ (*Windows/Linux*), or `IntelliJ IDEA` > `Preferences…`​ (*macOS*).
@@ -49,6 +57,11 @@ This project follows [oss-generic coding standards](https://oss-generic.github.i
    ![import-order](images/import-order.png)
 
 Optionally, you can follow the [Using Checkstyle](UsingCheckstyle.md) document to configure *Intellij* to check style-compliance as you write code.
+
+### Configuring the JavaScript coding style
+Our project follows the [Airbnb Javascript Style Guide](https://github.com/airbnb/javascript), the eslint configuration file is available at the root of the project. Please run a `npm run lint -- --fix frontend/src/**/*js` from the project root directory and fix all of the eslint errors before committing your code for final review.
+
+Eslint and its accompaning modules can be installed through NPM, so do ensure that you got it [installed](https://www.npmjs.com/get-npm) if you are working on the dashboard.
 
 ### Before writing code
 1. Do check out our [process guide](../docs/Process.md) before submitting any PR with your changes.
@@ -125,14 +138,14 @@ gradlew run -Dargs="-view output_path/reposense-report"
 `System` contains the classes that interact with the Operating System and external processes.
  * [`CommandRunner`](/src/main/java/reposense/system/CommandRunner.java) creates processes that executes commands on the terminal. It consists of many *git* commands.
  * [`LogsManager`](/src/main/java/reposense/system/LogsManager.java) uses the `java.util.logging` package for logging. The `LogsManager` class is used to manage the logging levels and logging destinations. Log messages are output through: `Console` and to a `.log` file.
- * [`DashboardServer`](/src/main/java/reposense/system/DashboardServer.java) starts a server to display the dashboard on the browser. It depends on the `net.freeutils.httpserver` package.  
+ * [`DashboardServer`](/src/main/java/reposense/system/DashboardServer.java) starts a server to display the dashboard on the browser. It depends on the `net.freeutils.httpserver` package.
 
 
 ### Model
 `Model` holds the data structures that are commonly used by the different aspects of *RepoSense*.
  * [`Author`](/src/main/java/reposense/model/Author.java) stores the `GitHub ID` of an author. Any contributions or commits made by the author, using his/her `GitHub ID` or aliases, will be attributed to the same `Author` object. It is used by `AuthorshipReporter` and `CommitsReporter` to attribute the commit and file contributions to the respective authors.
  * [`CliArguments`](/src/main/java/reposense/model/CliArguments.java) stores the parsed command line arguments supplied by the user. It contains the configuration settings such as the CSV config file to read from, the directory to output the report to, and date range of commits to analyze. These configuration settings are passed into `RepoConfiguration`.
- * [`RepoConfiguration`](/src/main/java/reposense/model/RepoConfiguration.java) stores the configuration information from the CSV config file for a single repository, which are the repository's orgarization, name, branch, list of authors to analyse, date range to analyze commits and files from `CliArguments`. 
+ * [`RepoConfiguration`](/src/main/java/reposense/model/RepoConfiguration.java) stores the configuration information from the CSV config file for a single repository, which are the repository's orgarization, name, branch, list of authors to analyse, date range to analyze commits and files from `CliArguments`.
  These configuration information are used by:
     - `GitDownloader` to determine which repository to download from and which branch to check out to.
     - `AuthorshipReporter` and `CommitsReporter` to determine the range of commits and files to analyze.
@@ -140,13 +153,86 @@ gradlew run -Dargs="-view output_path/reposense-report"
 
 
 ## HTML Dashboard
+The source files for the dashboard is located in [`frontend/src`](../frontend/src) and is built by [spuild](https://github.com/ongspxm/spuild2) before being packaged into the JAR file to be extracted as part of the report.
 
- ![Dashboard](images/dashboard-architecture.png)
+The main HTML file is generated from [`frontend/src/index.jade`](../frontend/src/index.jade).
 
-The dashboard contains two main parts: data `JSONs`(generated by `ReportGenerator`), and the static Dashboard template. Refer to [here](Build.md) for instructions on how to build the project and dashboard.
+[Vue](https://vuejs.org/v2/api/) (pronounced /vjuː/, like view) is a progressive framework for building user interfaces. It is heavily ultilized in the dashboard to dynamically update the information in the various views. (Style guide available [here](https://vuejs.org/v2/style-guide/)).
 
- * As shown in the graph above, there will be one summary `JSON`(`summary.json`) containing the summary information of all repositories, and one set of repo detail `JSON`(`commits.json` and `authorship.json`) for each repository, containing the contribution information of each specified author to that repository.
+![dashboard screenshot](images/dashboard.png)
 
-  * The dashboard template is a set of `HTML` + `CSS` + `Javascript`, which is located in `template/`. It is used to interpret the `JSON` information and display the dashboard on a web browser. <br>
-  Whenever *RepoSense* is built using *Gradle*, the current dashboard template's content will be zipped into `templateZip.zip` file for easier retrieval, and packaging into the generated `.jar` file.<br>
-  The dashboard template will then be unzipped to the target location along with the generated `JSON` data files in order to produce the dashboard whenever *RepoSense* generates a new report.
+### Dashboard Architecture
+![dashboard architecture](images/dashboard-architecture.png)
+
+The main Vue object (`window.app`) is responsible for the loading of the dashboard (through `summary.json`). Its `repos` attribute is tied to the global `window.REPOS`, and is passed into the various other modules when the information is needed.
+
+`window.app` is broken down into two main parts
+- the summary view
+- and the tabbed interface
+
+Summary view act as the main dashboard which shows the various calculations. </br>
+Tabbed interface is responsible for loading various modules such as authorship to display additional information.
+
+### Javascript Files
+- [**main.js**](../frontend/src/static/js/main.js) - main controller that pushes content into different modules
+- [**api.js**](../frontend/src/static/js/api.js)- loading and parsing of the dashboard content
+- [**v_summary.js**](../frontend/src/static/js/v_summary.js) - module that supports the ramp chart view
+- [**v_authorship.js**](../frontend/src/static/js/v_authorship.js) - module that supports the authorship view
+
+### JSON Report Files
+- **summary.json** - a list of all the repositories and their respective details
+- **projName/commits.json** - contains information of the users' commits information (e.g. line deletion, insertion, etc), grouped by date
+- **projName/authorship.json** - contains information from git blame, detailing the author of each line for all the processed files
+
+### Main (main.js)
+This contains the logic for main VueJS object, `window.app`, which is responsible for passing the necessary data into the relevant modules to be loaded.
+
+`v_summary` and `v_authorship` are components which will be embedded into dashboard and will render the corresponding content based on the data passed into it from the main `window.app`.
+
+#### Loading of dashboard information
+The main Vue object depends on the `summary.json` data to determine the right `commits.json` files to load into memory. This is handled by `api.js` which loads the relevant file information from the network files if it is available, otherwise a report archive, `archive.zip`, have to be used.
+
+Once the relevant `commit.json` files are loaded, all the repo information will be passed into `v_summary` to be loaded in the summary view as the relevant ramp charts.
+
+#### Activating additional view modules
+Most activity or actions should happen within the module itself, but in the case where there is a need to spawn or alter the view of another module, an event is emitted from the first module to the main Vue object (`window.app`), which then handles the data received and passes it along to the relevant modules.
+
+#### Hash link
+Other than the global main Vue object, another global variable we have is the `window.hashParams`. This object is reponsible for generating the relevant permalink for a specific view of the summary module for the dashboard.
+
+### Data loader (api.js)
+This is the module that is in charged of loading and parsing the data files generated as part of the report.
+
+#### Loading from ZIP file
+Due to security design, most modern browsers (e.g. Chrome) do not allow web pages to obtain local files using the directory alone. As such, a ZIP archive of the report information will be produced alongside the report generation.
+
+This archive will be used in place of the network files to load information into the dashboard, in the case when the network files are unavailable.
+
+The API module will be handling all request for all the JSON data files. If the network file is not available, the files will be obtained from the zip archive provided.
+
+#### Retrieving and parsing information
+After the JSON files are loaded from their respective sources, the data will be parsed as objects and included inside the global storage object, `window.REPOS`,  in the right format.
+
+For the basic skeleton of `window.REPOS`, refer to the generated `summary.json` file in the report for more details.
+
+### Summary View (v_summary.js)
+The `v_summary` module is in charge of loading the ramp charts from the corresponding `commits.json`.
+
+![summary architecture](images/dashboard-architecture-summary.png)
+
+#### Initializing the data for the ramp charts
+The summary module is activated after the information is loaded from the main Vue.JS object. At creation, the `repo` attribute is populated with the `window.REPOS` object, which contains information loaded from `summary.json`.
+
+#### Filtering users and repositories
+The commits information is retrieved from the corresponding project folders for each repository. These information will be filtered and sorted before passed into the template to be displayed as ramp charts.
+
+#### Padding for dates
+For ramps between the date ranges, the slices will be selected and it will be pre and post padded with empty slices to align the ramp slice between the `sinceDate` and `untilDate`. The ramps will then be rendered with the slices in the right position.
+
+### Authorship View (v_authorship.js)
+The authorship module retrieves the relevant information from the corresponding `authorship.json` file if it is not yet loaded. If it has been loaded, the data will be written into `window.REPOS` and be read from there instead.
+
+![authorship architecture](images/dashboard-architecture-authorship.png)
+
+#### Showing relevant information by authors
+The files will be filtered, picking only files the selected author has written in. The lines are then split into chunks of "touched" and "untouched" code to be displayed in the tab view which will be popped up on the right side of the screen.
