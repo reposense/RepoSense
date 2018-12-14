@@ -168,7 +168,8 @@ window.vSummary = {
     getFilterHash() {
       const { addHash } = window;
 
-      this.filterSearch = this.filterSearch.toLowerCase();
+
+      this.filterSearch = this.filterSearch;
       addHash('search', this.filterSearch);
       addHash('sort', this.filterSort);
 
@@ -256,12 +257,12 @@ window.vSummary = {
 
         // filtering
         repo.users.forEach((user) => {
-          const toDisplay = this.filterSearch
+          const toDisplay = this.filterSearch.toLowerCase()
             .split(' ').filter(param => param)
             .map(param => user.searchPath.search(param) > -1)
             .reduce((curr, bool) => curr || bool, false);
 
-          if (!this.filterSearch || toDisplay) {
+          if (!this.filterSearch.toLowerCase() || toDisplay) {
             this.getUserCommits(user);
             if (this.filterTimeFrame === 'week') {
               this.splitCommitsWeek(user);
