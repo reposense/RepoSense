@@ -8,8 +8,8 @@ import java.util.List;
 import java.util.Optional;
 
 import net.sourceforge.argparse4j.ArgumentParsers;
+import net.sourceforge.argparse4j.impl.Arguments;
 import net.sourceforge.argparse4j.impl.action.HelpArgumentAction;
-import net.sourceforge.argparse4j.impl.type.BooleanArgumentType;
 import net.sourceforge.argparse4j.inf.ArgumentParser;
 import net.sourceforge.argparse4j.inf.ArgumentParserException;
 import net.sourceforge.argparse4j.inf.MutuallyExclusiveGroup;
@@ -94,9 +94,8 @@ public class ArgsParser {
                         + "Please refer to userguide for more information.");
 
         parser.addArgument("-ignore")
-                .metavar("BOOLEAN")
-                .type(new BooleanArgumentType())
-                .setDefault(false)
+                .action(Arguments.storeConst())
+                .setConst(true)
                 .help("The choice to ignore standalone config.");
 
         return parser;
