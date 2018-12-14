@@ -219,7 +219,7 @@ In addition, there are some _optional_ extra parameters you can use to customize
 * **`-since START_DATE`**: The start date of analysis. Format: `DD/MM/YYYY`<br>
   Example:`-since 01/10/2017`
 * **`-until END_DATE`**: The end date of analysis. The analysis excludes the end date. Format: `DD/MM/YYYY`<br>
-  Example:`-since 01/10/2017`
+  Example:`-until 01/10/2017`
 * **`-formats LIST_OF_FORMATS`**: A space-separated list of file extensions that should be included in the analysis. Default: `adoc cs css fxml gradle html java js json jsp md py tag xml`<br>
   Example:`-formats css fxml gradle`
 
