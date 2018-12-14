@@ -17,7 +17,7 @@ public class StandaloneConfig {
 
     public List<StandaloneAuthor> getAuthors() {
         if (authors == null) {
-            authors = Collections.emptyList();
+            return Collections.emptyList();
         }
 
         authors.removeIf(Objects::isNull);
@@ -26,7 +26,7 @@ public class StandaloneConfig {
 
     public List<String> getIgnoreGlobList() {
         if (ignoreGlobList == null) {
-            ignoreGlobList = Collections.emptyList();
+            return Collections.emptyList();
         }
 
         ignoreGlobList.removeIf(Objects::isNull);
@@ -35,7 +35,7 @@ public class StandaloneConfig {
 
     public List<String> getFormats() {
         if (formats == null) {
-            formats = ArgsParser.DEFAULT_FORMATS;
+            return ArgsParser.DEFAULT_FORMATS;
         }
 
         formats.removeIf(Objects::isNull);
@@ -44,7 +44,7 @@ public class StandaloneConfig {
 
     public List<String> getIgnoreCommitList() {
         if (ignoreCommitList == null) {
-            ignoreCommitList = Collections.emptyList();
+            return Collections.emptyList();
         }
 
         ignoreCommitList.removeIf(Objects::isNull);
