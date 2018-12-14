@@ -101,7 +101,7 @@ html
                 v-bind:href="repo[0].location", target="_blank",
                 title="click to view author's repo"
               )
-                i.summary-chart__title--octocat.fab.fa-github
+                i.summary-chart__title--repo-url-button.fab.fa-github
               .summary-chart__ramp
                 a.summary-chart__ramp__slice(
                   v-for="(slice, j) in user.commits",
