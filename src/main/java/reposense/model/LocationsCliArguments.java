@@ -20,7 +20,6 @@ public class LocationsCliArguments extends CliArguments {
         this.untilDate = untilDate;
         this.formats = formats;
         this.isStandaloneConfigIgnored = isStandaloneConfigIgnored;
-
     }
 
     public List<String> getLocations() {

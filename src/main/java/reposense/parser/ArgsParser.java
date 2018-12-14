@@ -94,8 +94,8 @@ public class ArgsParser {
                         + "Please refer to userguide for more information.");
 
         parser.addArgument("-ignore")
-                .action(Arguments.storeConst())
-                .setConst(true)
+                .setDefault(false)
+                .action(Arguments.storeTrue())
                 .help("The choice to ignore standalone config.");
 
         return parser;
