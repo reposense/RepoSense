@@ -21,7 +21,7 @@
   },
   "homepage": "https://github.com/reposense/RepoSense#readme",
   "dependencies": {
-    "spuild": "^1.0.2"
+    "spuild": "1.0.2"
   },
   "devDependencies": {
     "eslint": "^4.19.1",

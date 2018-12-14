@@ -17,8 +17,6 @@ addons:
       - oracle-java9-installer
 
 before_install:
-  # pcre2 is needed for checkstyle to run in osx
-  - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then brew update; brew reinstall --with-pcre2 git; fi
   - cd ./frontend; npm install --only=dev; cd ..
 
 before_cache:
