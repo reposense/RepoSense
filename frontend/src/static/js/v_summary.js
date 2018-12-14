@@ -168,8 +168,6 @@ window.vSummary = {
     getFilterHash() {
       const { addHash } = window;
 
-
-      this.filterSearch = this.filterSearch;
       addHash('search', this.filterSearch);
       addHash('sort', this.filterSort);
 
@@ -262,7 +260,7 @@ window.vSummary = {
             .map(param => user.searchPath.search(param) > -1)
             .reduce((curr, bool) => curr || bool, false);
 
-          if (!this.filterSearch.toLowerCase() || toDisplay) {
+          if (!this.filterSearch || toDisplay) {
             this.getUserCommits(user);
             if (this.filterTimeFrame === 'week') {
               this.splitCommitsWeek(user);
