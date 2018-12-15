@@ -96,7 +96,7 @@ public class ArgsParser {
         parser.addArgument("-ignore")
                 .setDefault(false)
                 .action(Arguments.storeTrue())
-                .help("The choice to ignore standalone config.");
+                .help("An indication to ignore the standalone config file in the repo.");
 
         return parser;
     }
