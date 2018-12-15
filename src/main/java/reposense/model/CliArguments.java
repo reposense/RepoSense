@@ -13,6 +13,7 @@ public abstract class CliArguments {
     protected Optional<Date> sinceDate;
     protected Optional<Date> untilDate;
     protected List<String> formats;
+    protected boolean isStandaloneConfigIgnored;
 
     public Path getOutputFilePath() {
         return outputFilePath;
