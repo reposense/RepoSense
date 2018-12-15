@@ -44,6 +44,8 @@ html
 
         form#file-upload(onsubmit="return false;")
           input(type="file", v-on:change="updateReportZip")
+          .loader(v-if="isLoading")
+            .loading Loading zip file...
 
     vuetemplate#v_summary
       #summary.wrapper
