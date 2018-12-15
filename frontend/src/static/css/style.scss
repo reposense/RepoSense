@@ -160,8 +160,6 @@ header{
     text-align:left;
 
     &__title{
-        cursor:pointer;
-        display:inline;
 
         & > * {
             display:inline;
@@ -181,11 +179,8 @@ header{
             padding-right:0.25rem;
         }
 
-        &--tooltip{
-            color:mui-color("grey");
-        }
-
-        &--repo-url-button{
+        &--tooltip, &--repo-url-button{
+            cursor:pointer;
             color:mui-color("grey");
             text-decoration:none;
         }
