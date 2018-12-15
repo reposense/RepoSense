@@ -69,8 +69,7 @@ public class StandaloneConfigTest extends GitTestTemplate {
 
     @Test(expected = JsonSyntaxException.class)
     public void standaloneConfig_trailingCommasInMaps_throwsJsonSyntaxException() throws IOException {
-        StandaloneConfig standaloneConfig = new StandaloneConfigJsonParser().parse(LITHIUMLKID_TRAILING_COMMAS_CONFIG);
-        config.update(standaloneConfig);
+        new StandaloneConfigJsonParser().parse(LITHIUMLKID_TRAILING_COMMAS_CONFIG);
     }
 
     @Test(expected = IllegalArgumentException.class)
