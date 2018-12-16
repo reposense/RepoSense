@@ -19,8 +19,6 @@ import reposense.util.FileUtil;
 public class RepoConfiguration {
     public static final String DEFAULT_BRANCH = "HEAD";
     private static final Logger logger = LogsManager.getLogger(RepoConfiguration.class);
-    private static final String MESSAGE_ILLEGAL_FORMATS = "The provided formats, %s, contains illegal characters.";
-    private static final String FORMAT_VALIDATION_REGEX = "[A-Za-z0-9]+";
 
     private static final String COMMIT_HASH_REGEX = "^[0-9a-f]+$";
     private static final String INVALID_COMMIT_HASH_MESSAGE =
@@ -34,7 +32,7 @@ public class RepoConfiguration {
 
     private transient boolean needCheckStyle = false;
     private transient boolean annotationOverwrite = true;
-    private transient List<String> formats;
+    private transient List<Format> formats;
     private transient int commitNum = 1;
     private transient List<String> ignoreGlobList = new ArrayList<>();
     private transient List<Author> authorList = new ArrayList<>();
@@ -51,7 +49,7 @@ public class RepoConfiguration {
         this(location, branch, Collections.emptyList(), Collections.emptyList(), false, Collections.emptyList());
     }
 
-    public RepoConfiguration(RepoLocation location, String branch, List<String> formats, List<String> ignoreGlobList,
+    public RepoConfiguration(RepoLocation location, String branch, List<Format> formats, List<String> ignoreGlobList,
             boolean isStandaloneConfigIgnored, List<String> ignoreCommitList) {
         this.location = location;
         this.branch = branch;
@@ -105,7 +103,7 @@ public class RepoConfiguration {
     /**
      * Sets {@code formats} to {@code RepoConfiguration} in {@code configs} if its format list is empty.
      */
-    public static void setFormatsToRepoConfigs(List<RepoConfiguration> configs, List<String> formats) {
+    public static void setFormatsToRepoConfigs(List<RepoConfiguration> configs, List<Format> formats) {
         configs.stream().filter(config -> config.getFormats().isEmpty())
                         .forEach(config -> config.setFormats(formats));
     }
@@ -129,7 +127,7 @@ public class RepoConfiguration {
             aliases.add(author.getGitId());
             aliases.forEach(alias -> newAuthorAliasMap.put(alias, author));
         }
-        validateFormats(standaloneConfig.getFormats());
+        Format.validateFormats(standaloneConfig.getFormats());
         validateIgnoreCommits(standaloneConfig.getIgnoreCommitList());
 
         // only assign the new values when all the fields in {@code standaloneConfig} pass the validations.
@@ -137,7 +135,7 @@ public class RepoConfiguration {
         authorAliasMap = newAuthorAliasMap;
         authorDisplayNameMap = newAuthorDisplayNameMap;
         ignoreGlobList = newIgnoreGlobList;
-        formats = standaloneConfig.getFormats();
+        formats = Format.convertStringsToFormats(standaloneConfig.getFormats());
         ignoreCommitList = standaloneConfig.getIgnoreCommitList();
     }
 
@@ -281,11 +279,11 @@ public class RepoConfiguration {
         this.untilDate = untilDate;
     }
 
-    public List<String> getFormats() {
+    public List<Format> getFormats() {
         return formats;
     }
 
-    public void setFormats(List<String> formats) {
+    public void setFormats(List<Format> formats) {
         this.formats = formats;
     }
 
@@ -315,25 +313,6 @@ public class RepoConfiguration {
 
     public boolean isStandaloneConfigIgnored() {
         return isStandaloneConfigIgnored;
-    }
-
-    /**
-     * Returns true if the given {@code value} is a valid format.
-     */
-    private static boolean isValidFormat(String value) {
-        return value.matches(FORMAT_VALIDATION_REGEX);
-    }
-
-    /**
-     * Checks that all the strings in the {@code formats} are in valid formats.
-     * @throws IllegalArgumentException if any of the values do not meet the criteria.
-     */
-    private static void validateFormats(List<String> formats) throws IllegalArgumentException {
-        for (String format: formats) {
-            if (!isValidFormat(format)) {
-                throw new IllegalArgumentException(String.format(MESSAGE_ILLEGAL_FORMATS, format));
-            }
-        }
     }
 
     /**

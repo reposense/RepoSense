@@ -8,6 +8,7 @@ import java.util.Date;
 import java.util.List;
 
 import reposense.model.Author;
+import reposense.model.Format;
 import reposense.util.StringsUtil;
 
 /**
@@ -58,11 +59,11 @@ class GitUtil {
     /**
      * Returns the {@code String} command to specify the file formats to analyze for `git` commands.
      */
-    static String convertToGitFormatsArgs(List<String> formats) {
+    static String convertToGitFormatsArgs(List<Format> formats) {
         StringBuilder gitFormatsArgsBuilder = new StringBuilder();
         final String cmdFormat = " -- " + addQuote("*.%s");
         formats.stream()
-                .map(format -> String.format(cmdFormat, format))
+                .map(format -> String.format(cmdFormat, format.toString()))
                 .forEach(gitFormatsArgsBuilder::append);
 
         return gitFormatsArgsBuilder.toString();

@@ -19,9 +19,9 @@ import reposense.git.GitCheckout;
 import reposense.git.GitClone;
 import reposense.git.GitCloneException;
 import reposense.model.Author;
+import reposense.model.Format;
 import reposense.model.RepoConfiguration;
 import reposense.model.RepoLocation;
-import reposense.parser.ArgsParser;
 import reposense.parser.InvalidLocationException;
 import reposense.util.FileUtil;
 
@@ -49,14 +49,14 @@ public class GitTestTemplate {
     public void before() throws InvalidLocationException {
         config = new RepoConfiguration(new RepoLocation(TEST_REPO_GIT_LOCATION), "master");
         config.setAuthorList(Collections.singletonList(getAlphaAllAliasAuthor()));
-        config.setFormats(ArgsParser.DEFAULT_FORMATS);
+        config.setFormats(Format.DEFAULT_FORMATS);
     }
 
     @BeforeClass
     public static void beforeClass() throws GitCloneException, IOException, InvalidLocationException {
         deleteRepos();
         config = new RepoConfiguration(new RepoLocation(TEST_REPO_GIT_LOCATION), "master");
-        config.setFormats(ArgsParser.DEFAULT_FORMATS);
+        config.setFormats(Format.DEFAULT_FORMATS);
         GitClone.clone(config);
     }
 

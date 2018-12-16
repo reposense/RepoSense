@@ -3,9 +3,9 @@ package reposense.git;
 import org.junit.Assert;
 import org.junit.Test;
 
+import reposense.model.Format;
 import reposense.model.RepoConfiguration;
 import reposense.model.RepoLocation;
-import reposense.parser.ArgsParser;
 import reposense.parser.InvalidLocationException;
 import reposense.template.GitTestTemplate;
 
@@ -25,7 +25,7 @@ public class GitBranchTest extends GitTestTemplate {
     public void getCurrentBranch_uncommonDefaultBranch_success() throws GitCloneException, InvalidLocationException {
         RepoConfiguration uncommonDefaultConfig = new RepoConfiguration(
                 new RepoLocation(TEST_REPO_UNCOMMON_DEFAULT_GIT_LOCATION), RepoConfiguration.DEFAULT_BRANCH);
-        uncommonDefaultConfig.setFormats(ArgsParser.DEFAULT_FORMATS);
+        uncommonDefaultConfig.setFormats(Format.DEFAULT_FORMATS);
 
         GitClone.clone(uncommonDefaultConfig);
         String currentBranch = GitBranch.getCurrentBranch(uncommonDefaultConfig.getRepoRoot());

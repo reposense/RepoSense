@@ -4,8 +4,6 @@ import static org.apache.tools.ant.types.Commandline.translateCommandline;
 
 import java.io.File;
 import java.io.IOException;
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -21,6 +19,7 @@ import reposense.git.GitCloneException;
 import reposense.model.Author;
 import reposense.model.CliArguments;
 import reposense.model.ConfigCliArguments;
+import reposense.model.Format;
 import reposense.model.RepoConfiguration;
 import reposense.model.RepoLocation;
 import reposense.report.ReportGenerator;
@@ -56,7 +55,8 @@ public class RepoConfigurationTest {
     private static final List<String> SECOND_AUTHOR_GLOB_LIST = Arrays.asList("**[!(.md)]", "collated**");
     private static final List<String> THIRD_AUTHOR_GLOB_LIST = Arrays.asList("", "collated**");
 
-    private static final List<String> CONFIG_FORMATS = Arrays.asList("java", "adoc", "md");
+    private static final List<Format> CONFIG_FORMATS = Format.convertStringsToFormats(Arrays.asList(
+            "java", "adoc", "md"));
     private static final List<String> CLI_FORMATS = Arrays.asList("css", "html");
 
     private static RepoConfiguration REPO_DELTA_STANDALONE_CONFIG;
@@ -97,25 +97,6 @@ public class RepoConfigurationTest {
     @Before
     public void cleanRepoDirectory() throws IOException {
         FileUtil.deleteDirectory(FileUtil.REPOS_ADDRESS);
-    }
-
-    @Test
-    public void validateFormats_alphaNumeric_success()
-            throws InvalidLocationException, NoSuchMethodException, InvocationTargetException, IllegalAccessException {
-        Method m = RepoConfiguration.class.getDeclaredMethod("validateFormats", List.class);
-        m.setAccessible(true);
-        m.invoke(null, Arrays.asList("java", "7z"));
-    }
-
-    @Test(expected = IllegalArgumentException.class)
-    public void validateFormats_nonAlphaNumeric_throwIllegalArgumentException() throws Throwable {
-        try {
-            Method m = RepoConfiguration.class.getDeclaredMethod("validateFormats", List.class);
-            m.setAccessible(true);
-            m.invoke(null, Arrays.asList(".java"));
-        } catch (InvocationTargetException ite) {
-            throw ite.getCause();
-        }
     }
 
     @Test
@@ -202,7 +183,7 @@ public class RepoConfigurationTest {
         RepoConfiguration.setFormatsToRepoConfigs(actualConfigs, cliArguments.getFormats());
 
         Assert.assertEquals(1, actualConfigs.size());
-        Assert.assertEquals(CLI_FORMATS, actualConfigs.get(0).getFormats());
+        Assert.assertEquals(Format.convertStringsToFormats(CLI_FORMATS), actualConfigs.get(0).getFormats());
     }
 
     @Test
@@ -215,6 +196,6 @@ public class RepoConfigurationTest {
         RepoConfiguration.setFormatsToRepoConfigs(actualConfigs, cliArguments.getFormats());
 
         Assert.assertEquals(1, actualConfigs.size());
-        Assert.assertEquals(ArgsParser.DEFAULT_FORMATS, actualConfigs.get(0).getFormats());
+        Assert.assertEquals(Format.DEFAULT_FORMATS, actualConfigs.get(0).getFormats());
     }
 }
