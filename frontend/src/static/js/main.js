@@ -32,6 +32,7 @@ window.app = new window.Vue({
 
     flexWidth: "50%",
     mouseMove: () => {},
+    appWrapperUserSelect: "auto",
   },
   methods: {
     // model functions //
@@ -101,11 +102,13 @@ window.app = new window.Vue({
         // 13.250 is the width of the close tab button
         this.flexWidth = calculatedWidth + "%";
       };
+      this.appWrapperUserSelect = "none";
       this.mouseMove = _mouseMove;
     },
 
     deregisterMouseMove() {
       this.mouseMove = () => {};
+      this.appWrapperUserSelect = "auto";
     },
 
     generateKey(dataObj) {
