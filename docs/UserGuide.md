@@ -99,7 +99,7 @@ The `Tool Bar` at the top provides a set of configuration options that control t
 * `Group` : if checked, authors from the same repo/branch<sup>[1]</sup> will be grouped together. This has precedence over the `sort by` feature; the `sort by` feature will only change display order of the authors under the same repo/branch<sup>[1]</sup>.
 
 Notes:<br>
-[1] **`Repo/Branch`**: the repo name is constructed as `ORGANIZATION_REPOSITORY_BRANCH` e.g., `resposense_reposense_master`
+[1] **`Repo/Branch`**: the repo/branch name is constructed as `ORGANIZATION_REPOSITORY_BRANCH` e.g., `resposense_reposense_master`
 
 **Bookmarking a specific toolbar setting**: The URL changes according to the toolbar configuration. You can save a specific configuration of the report by bookmarking the url (using browser functionality).
 
