@@ -96,7 +96,7 @@ html
                       {author:user.name, repo:user.repoName, name:user.displayName, location:repo[0].location, \
                           minDate:minDate, maxDate:maxDate, totalCommits:user.totalCommits})"
                 )
-                  i.summary-chart__title--tooltip.fas.fa-code
+                  i.summary-chart__title--code-view-button.fas.fa-code
                 a(
                   v-bind:href="repo[0].location", target="_blank",
                   title="click to view author's repo"
