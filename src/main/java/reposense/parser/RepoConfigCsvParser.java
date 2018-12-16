@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.nio.file.Path;
 import java.util.List;
 
+import reposense.model.CommitHash;
 import reposense.model.Format;
 import reposense.model.RepoConfiguration;
 import reposense.model.RepoLocation;
@@ -48,7 +49,8 @@ public class RepoConfigCsvParser extends CsvParser<RepoConfiguration> {
         List<Format> formats = Format.convertStringsToFormats(getManyValueInElement(elements, FILE_FORMATS_POSITION));
         List<String> ignoreGlobList = getManyValueInElement(elements, IGNORE_GLOB_LIST_POSITION);
         String ignoreStandaloneConfig = getValueInElement(elements, IGNORE_STANDALONE_CONFIG_POSITION);
-        List<String> ignoreCommitList = getManyValueInElement(elements, IGNORE_COMMIT_LIST_CONFIG_POSITION);
+        List<CommitHash> ignoreCommitList = CommitHash.convertStringsToCommits(
+                getManyValueInElement(elements, IGNORE_COMMIT_LIST_CONFIG_POSITION));
 
         boolean isStandaloneConfigIgnored = ignoreStandaloneConfig.equalsIgnoreCase(IGNORE_STANDALONE_CONFIG_KEYWORD);
 

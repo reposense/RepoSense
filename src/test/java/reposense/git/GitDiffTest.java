@@ -10,7 +10,8 @@ public class GitDiffTest extends GitTestTemplate {
 
     @Test
     public void diffCommit_validCommitHash_success() {
-        String diffResult = GitDiff.diffCommit(config.getRepoRoot(), FAKE_AUTHOR_BLAME_TEST_FILE_COMMIT_08022018);
+        String diffResult = GitDiff.diffCommit(config.getRepoRoot(),
+                FAKE_AUTHOR_BLAME_TEST_FILE_COMMIT_08022018.toString());
         Assert.assertFalse(diffResult.isEmpty());
     }
 

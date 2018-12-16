@@ -14,6 +14,7 @@ import org.junit.Test;
 
 import reposense.model.Author;
 import reposense.model.CliArguments;
+import reposense.model.CommitHash;
 import reposense.model.ConfigCliArguments;
 import reposense.model.RepoConfiguration;
 import reposense.model.RepoLocation;
@@ -67,7 +68,8 @@ public class CsvParserTest {
 
         Assert.assertTrue(config.isStandaloneConfigIgnored());
 
-        Assert.assertEquals(config.getIgnoreCommitList(), TEST_REPO_BETA_CONFIG_IGNORED_COMMITS);
+        Assert.assertEquals(config.getIgnoreCommitList(),
+                CommitHash.convertStringsToCommits(TEST_REPO_BETA_CONFIG_IGNORED_COMMITS));
     }
 
     @Test

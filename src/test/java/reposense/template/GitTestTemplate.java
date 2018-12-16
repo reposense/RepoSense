@@ -19,6 +19,7 @@ import reposense.git.GitCheckout;
 import reposense.git.GitClone;
 import reposense.git.GitCloneException;
 import reposense.model.Author;
+import reposense.model.CommitHash;
 import reposense.model.Format;
 import reposense.model.RepoConfiguration;
 import reposense.model.RepoLocation;
@@ -34,12 +35,18 @@ public class GitTestTemplate {
     protected static final String FAKE_AUTHOR_NAME = "fakeAuthor";
     protected static final String EUGENE_AUTHOR_NAME = "eugenepeh";
     protected static final String LATEST_COMMIT_HASH = "136c6713fc00cfe79a1598e8ce83c6ef3b878660";
-    protected static final String EUGENE_AUTHOR_README_FILE_COMMIT_07052018 =
+    protected static final String EUGENE_AUTHOR_README_FILE_COMMIT_07052018_STRING =
             "2d87a431fcbb8f73a731b6df0fcbee962c85c250";
-    protected static final String FAKE_AUTHOR_BLAME_TEST_FILE_COMMIT_08022018 =
+    protected static final CommitHash EUGENE_AUTHOR_README_FILE_COMMIT_07052018 =
+            new CommitHash(EUGENE_AUTHOR_README_FILE_COMMIT_07052018_STRING);
+    protected static final String FAKE_AUTHOR_BLAME_TEST_FILE_COMMIT_08022018_STRING =
             "768015345e70f06add2a8b7d1f901dc07bf70582";
-    protected static final String MAIN_AUTHOR_BLAME_TEST_FILE_COMMIT_06022018 =
+    protected static final CommitHash FAKE_AUTHOR_BLAME_TEST_FILE_COMMIT_08022018 =
+            new CommitHash(FAKE_AUTHOR_BLAME_TEST_FILE_COMMIT_08022018_STRING);
+    protected static final String MAIN_AUTHOR_BLAME_TEST_FILE_COMMIT_06022018_STRING =
             "8d0ac2ee20f04dce8df0591caed460bffacb65a4";
+    protected static final CommitHash MAIN_AUTHOR_BLAME_TEST_FILE_COMMIT_06022018 =
+            new CommitHash(MAIN_AUTHOR_BLAME_TEST_FILE_COMMIT_06022018_STRING);
     protected static final String NONEXISTENT_COMMIT_HASH = "nonExistentCommitHash";
 
 

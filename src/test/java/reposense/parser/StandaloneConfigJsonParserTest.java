@@ -11,6 +11,7 @@ import org.junit.Test;
 import com.google.gson.JsonSyntaxException;
 
 import reposense.model.Author;
+import reposense.model.CommitHash;
 import reposense.model.Format;
 import reposense.model.RepoConfiguration;
 import reposense.model.RepoLocation;
@@ -61,7 +62,8 @@ public class StandaloneConfigJsonParserTest {
         EXPECTED_FULL_REPOCONFIG = new RepoConfiguration(new RepoLocation(TEST_DUMMY_LOCATION));
         EXPECTED_FULL_REPOCONFIG.setFormats(Format.convertStringsToFormats(
                 Arrays.asList("gradle", "jade", "java", "js", "md", "scss", "yml")));
-        EXPECTED_FULL_REPOCONFIG.setIgnoreCommitList(Arrays.asList("7b96c563eb2d3612aa5275364333664a18f01491"));
+        EXPECTED_FULL_REPOCONFIG.setIgnoreCommitList(Arrays.asList(new CommitHash(
+                "7b96c563eb2d3612aa5275364333664a18f01491")));
         EXPECTED_FULL_REPOCONFIG.setIgnoreGlobList(Arrays.asList("**.adoc", "collate**"));
         EXPECTED_FULL_REPOCONFIG.setAuthorList(Arrays.asList(author));
         EXPECTED_FULL_REPOCONFIG.setAuthorDisplayName(author, "Yong Hao");
