@@ -66,7 +66,6 @@ public class ArgsParserTest {
         List<String> expectedFormats = Arrays.asList("java", "adoc", "html", "css", "js");
         Assert.assertEquals(expectedFormats, cliArguments.getFormats());
 
-        Assert.assertEquals(true, cliArguments.isStandaloneConfigIgnored());
     }
 
     @Test
@@ -91,7 +90,6 @@ public class ArgsParserTest {
         List<String> expectedFormats = Arrays.asList("java", "adoc", "html", "css", "js");
         Assert.assertEquals(expectedFormats, cliArguments.getFormats());
 
-        Assert.assertEquals(true, cliArguments.isStandaloneConfigIgnored());
     }
 
     @Test
@@ -108,7 +106,6 @@ public class ArgsParserTest {
         Assert.assertEquals(Optional.empty(), cliArguments.getUntilDate());
         Assert.assertEquals(ArgsParser.DEFAULT_REPORT_NAME, cliArguments.getOutputFilePath().getFileName().toString());
         Assert.assertEquals(ArgsParser.DEFAULT_FORMATS, cliArguments.getFormats());
-        Assert.assertEquals(false, cliArguments.isStandaloneConfigIgnored());
 
         input = String.format("-config %s", CONFIG_FOLDER_RELATIVE);
         cliArguments = ArgsParser.parse(translateCommandline(input));
@@ -122,7 +119,6 @@ public class ArgsParserTest {
         Assert.assertEquals(Optional.empty(), cliArguments.getUntilDate());
         Assert.assertEquals(ArgsParser.DEFAULT_REPORT_NAME, cliArguments.getOutputFilePath().getFileName().toString());
         Assert.assertEquals(ArgsParser.DEFAULT_FORMATS, cliArguments.getFormats());
-        Assert.assertEquals(false, cliArguments.isStandaloneConfigIgnored());
     }
 
     @Test
@@ -136,18 +132,18 @@ public class ArgsParserTest {
 
     @Test
     public void parse_withIgnore_success() throws ParseException {
-        String input = String.format("-config %s -ignore", CONFIG_FOLDER_ABSOLUTE);
+        String input = String.format("-repos \"%s\" %s -ignore", TEST_REPO_REPOSENSE, TEST_REPO_DELTA);
         CliArguments cliArguments = ArgsParser.parse(translateCommandline(input));
-        Assert.assertTrue(cliArguments instanceof ConfigCliArguments);
-        Assert.assertEquals(true, cliArguments.isStandaloneConfigIgnored());
+        Assert.assertTrue(cliArguments instanceof LocationsCliArguments);
+        Assert.assertEquals(true, ((LocationsCliArguments)cliArguments).isStandaloneConfigIgnored());
     }
 
     @Test
     public void parse_withoutIgnore_success() throws ParseException {
-        String input = String.format("-config %s", CONFIG_FOLDER_ABSOLUTE);
+        String input = String.format("-repos \"%s\" %s", TEST_REPO_REPOSENSE, TEST_REPO_DELTA);
         CliArguments cliArguments = ArgsParser.parse(translateCommandline(input));
-        Assert.assertTrue(cliArguments instanceof ConfigCliArguments);
-        Assert.assertEquals(false, cliArguments.isStandaloneConfigIgnored());
+        Assert.assertTrue(cliArguments instanceof LocationsCliArguments);
+        Assert.assertEquals(false, ((LocationsCliArguments)cliArguments).isStandaloneConfigIgnored());
     }
 
     @Test
