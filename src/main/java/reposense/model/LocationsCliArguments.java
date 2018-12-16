@@ -10,6 +10,7 @@ import java.util.Optional;
  */
 public class LocationsCliArguments extends CliArguments {
     private List<String> locations;
+    private boolean isStandaloneConfigIgnored;
 
     public LocationsCliArguments(List<String> locations, Path outputFilePath, Optional<Date> sinceDate,
             Optional<Date> untilDate, List<String> formats, boolean isStandaloneConfigIgnored) {

@@ -131,8 +131,7 @@ public class ArgsParser {
                 return new ViewCliArguments(reportFolderPath);
             }
 
-            return new ConfigCliArguments(configFolderPath, outputFolderPath,
-                    sinceDate, untilDate, formats, isStandaloneConfigIgnored);
+            return new ConfigCliArguments(configFolderPath, outputFolderPath, sinceDate, untilDate, formats);
         } catch (ArgumentParserException ape) {
             throw new ParseException(getArgumentParser().formatUsage() + ape.getMessage() + "\n");
         }
