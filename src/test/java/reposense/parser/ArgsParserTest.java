@@ -135,7 +135,7 @@ public class ArgsParserTest {
         String input = String.format("-repos \"%s\" %s -ignore", TEST_REPO_REPOSENSE, TEST_REPO_DELTA);
         CliArguments cliArguments = ArgsParser.parse(translateCommandline(input));
         Assert.assertTrue(cliArguments instanceof LocationsCliArguments);
-        Assert.assertEquals(true, ((LocationsCliArguments)cliArguments).isStandaloneConfigIgnored());
+        Assert.assertEquals(true, ((LocationsCliArguments) cliArguments).isStandaloneConfigIgnored());
     }
 
     @Test
@@ -143,7 +143,7 @@ public class ArgsParserTest {
         String input = String.format("-repos \"%s\" %s", TEST_REPO_REPOSENSE, TEST_REPO_DELTA);
         CliArguments cliArguments = ArgsParser.parse(translateCommandline(input));
         Assert.assertTrue(cliArguments instanceof LocationsCliArguments);
-        Assert.assertEquals(false, ((LocationsCliArguments)cliArguments).isStandaloneConfigIgnored());
+        Assert.assertEquals(false, ((LocationsCliArguments) cliArguments).isStandaloneConfigIgnored());
     }
 
     @Test
