@@ -29,7 +29,7 @@ html
         #tabs-wrapper(v-if="isTabActive")
           .tab-close(v-on:click="isTabActive=false")
             i.fas.fa-caret-right
-          .tab-content
+          #tab-content
             .tab-panes
               #tab-authorship.tab-pane(v-if="isTabAuthorship")
                 .toolbar(v-if="tabInfo.tabAuthorship.totalCommits > 0")
@@ -87,8 +87,9 @@ html
               v-bind:href="repo[0].location", target="_blank"
             ) {{ repo[0].repoPath }}
             .summary-chart(v-for="(user, i) in repo")
-              .summary-chart__title(
+              a.summary-chart__title(
                 title="click to view author's code",
+                href="#tab-content",
                 v-on:click="$emit('view-authorship', \
                     {author:user.name, repo:user.repoName, name:user.displayName, \
                         minDate:minDate, maxDate:maxDate, totalCommits:user.totalCommits})"

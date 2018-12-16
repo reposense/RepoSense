@@ -91,7 +91,7 @@ header{
             }
         }
 
-        .tab-content{
+        #tab-content{
             display:flex;
             padding:1rem 1.5rem;
             padding-top:4rem;
@@ -157,10 +157,14 @@ header{
 
 .summary-chart{
     margin-bottom:1rem;
+    text-align:left;
+    a:hover{text-decoration:none;};
 
     &__title{
         text-align:left;
         cursor:pointer;
+        color:inherit;
+        text-decoration:none;
 
         & > * {
             display:inline;
