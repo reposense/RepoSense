@@ -31,10 +31,6 @@ public abstract class CliArguments {
         return formats;
     }
 
-    public boolean isStandaloneConfigIgnored() {
-        return isStandaloneConfigIgnored;
-    }
-
     @Override
     public boolean equals(Object other) {
         // short circuit if same object

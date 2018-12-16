@@ -25,6 +25,10 @@ public class LocationsCliArguments extends CliArguments {
         return locations;
     }
 
+    public boolean isStandaloneConfigIgnored() {
+        return isStandaloneConfigIgnored;
+    }
+
     public boolean equals(Object other) {
         // short circuit if same object
         if (this == other) {
