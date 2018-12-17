@@ -52,6 +52,10 @@ public class RepoSense {
                     formatter.format(ZonedDateTime.now(ZoneId.of("UTC+8"))));
 
             FileUtil.zip(cliArguments.getOutputFilePath().toAbsolutePath(), ".json");
+
+            if (cliArguments.isAutomaticallyLaunching()) {
+                DashboardServer.startServer(SERVER_PORT_NUMBER, (cliArguments.getOutputFilePath().toAbsolutePath()));
+            }
         } catch (IOException ioe) {
             logger.log(Level.WARNING, ioe.getMessage(), ioe);
         } catch (ParseException pe) {

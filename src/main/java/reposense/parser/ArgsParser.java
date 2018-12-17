@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.Optional;
 
 import net.sourceforge.argparse4j.ArgumentParsers;
+import net.sourceforge.argparse4j.impl.Arguments;
 import net.sourceforge.argparse4j.impl.action.HelpArgumentAction;
 import net.sourceforge.argparse4j.inf.ArgumentParser;
 import net.sourceforge.argparse4j.inf.ArgumentParserException;
@@ -92,6 +93,11 @@ public class ArgsParser {
                         + "If not provided, default file formats will be used.\n"
                         + "Please refer to userguide for more information.");
 
+        parser.addArgument("-launch")
+                .setDefault(false)
+                .action(Arguments.storeTrue())
+                .help("A flag to launch the report automatically after processing.");
+
         return parser;
     }
 
@@ -112,11 +118,13 @@ public class ArgsParser {
             Optional<Date> untilDate = results.get("until");
             List<String> formats = results.get("formats");
             List<String> locations = results.get("repos");
+            Boolean isLaunchingAutomatically = results.get("launch");
 
             verifyDatesRangeIsCorrect(sinceDate, untilDate);
 
             if (locations != null) {
-                return new LocationsCliArguments(locations, outputFolderPath, sinceDate, untilDate, formats);
+                return new LocationsCliArguments(locations, outputFolderPath, sinceDate, untilDate, formats,
+                        isLaunchingAutomatically);
             }
 
             if (reportFolderPath != null) {
