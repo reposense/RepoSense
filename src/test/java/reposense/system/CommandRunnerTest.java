@@ -20,17 +20,6 @@ public class CommandRunnerTest extends GitTestTemplate {
     protected static RepoConfiguration uncommonDefaultConfig;
 
     @Test
-    public void blameRaw_validFile_success() {
-        String content = CommandRunner.blameRaw(config.getRepoRoot(), "blameTest.java");
-        Assert.assertFalse(content.isEmpty());
-    }
-
-    @Test(expected = RuntimeException.class)
-    public void blameRaw_nonExistentFile_throwsRunTimeException() {
-        CommandRunner.blameRaw(config.getRepoRoot(), "nonExistentFile");
-    }
-
-    @Test
     public void diffCommit_validCommitHash_success() {
         String diffResult = CommandRunner.diffCommit(config.getRepoRoot(), FAKE_AUTHOR_BLAME_TEST_FILE_COMMIT_08022018);
         Assert.assertFalse(diffResult.isEmpty());

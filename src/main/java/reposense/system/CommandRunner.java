@@ -1,7 +1,5 @@
 package reposense.system;
 
-import static reposense.util.StringsUtil.addQuote;
-
 import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -13,15 +11,6 @@ import reposense.util.StringsUtil;
 public class CommandRunner {
 
     private static boolean isWindows = isWindows();
-
-    public static String blameRaw(String root, String fileDirectory) {
-        Path rootPath = Paths.get(root);
-
-        String blameCommand = "git blame -w --line-porcelain";
-        blameCommand += " " + addQuote(fileDirectory);
-
-        return StringsUtil.filterText(runCommand(rootPath, blameCommand), "(^author .*)|(^[0-9a-f]{40} .*)");
-    }
 
     public static String checkStyleRaw(String absoluteDirectory) {
         Path rootPath = Paths.get(absoluteDirectory);

@@ -1,5 +1,7 @@
 package reposense.authorship;
 
+import static reposense.git.GitBlame.blame;
+
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
@@ -19,7 +21,6 @@ import reposense.authorship.model.FileResult;
 import reposense.authorship.model.LineInfo;
 import reposense.model.Author;
 import reposense.model.RepoConfiguration;
-import reposense.system.CommandRunner;
 import reposense.system.LogsManager;
 
 /**
@@ -100,7 +101,7 @@ public class FileInfoAnalyzer {
      * Returns the analysis result from running git blame on {@code filePath}.
      */
     private static String getGitBlameResult(RepoConfiguration config, String filePath) {
-        return CommandRunner.blameRaw(config.getRepoRoot(), filePath);
+        return blame(config.getRepoRoot(), filePath);
     }
 
     /**
