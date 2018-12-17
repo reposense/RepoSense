@@ -1,6 +1,6 @@
 package reposense.report;
 
-import static reposense.git.GitShortlog.extractAuthorsFromLog;
+import static reposense.git.GitShortlog.getAuthors;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -121,7 +121,7 @@ public class ReportGenerator {
         if (config.getAuthorList().isEmpty()) {
             logger.info(String.format(
                     "%s has no authors specified, using all authors by default.", config.getDisplayName()));
-            List<Author> authorList = extractAuthorsFromLog(config);
+            List<Author> authorList = getAuthors(config);
             config.setAuthorList(authorList);
         }
     }

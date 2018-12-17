@@ -93,15 +93,6 @@ public class CommandRunner {
         return StringsUtil.filterText(runCommand(rootPath, gitBranchCommand), "\\* (.*)").split("\\*")[1].trim();
     }
 
-    public static String getShortlogSummary(String root, Date sinceDate, Date untilDate) {
-        Path rootPath = Paths.get(root);
-        String command = "git log --pretty=short";
-        command += Util.convertToGitDateRangeArgs(sinceDate, untilDate);
-        command += " | git shortlog --summary";
-
-        return runCommand(rootPath, command);
-    }
-
     public static String cloneRepo(String location, String repoName) throws IOException {
         Path rootPath = Paths.get(FileUtil.REPOS_ADDRESS, repoName);
         Files.createDirectories(rootPath);
