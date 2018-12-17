@@ -21,6 +21,7 @@ import reposense.authorship.model.FileInfo;
 import reposense.authorship.model.LineInfo;
 import reposense.git.CommitNotFoundException;
 import reposense.git.GitChecker;
+import reposense.git.GitDiff;
 import reposense.model.RepoConfiguration;
 import reposense.system.CommandRunner;
 import reposense.system.LogsManager;
@@ -81,7 +82,7 @@ public class FileInfoExtractor {
      */
     public static List<FileInfo> getEditedFileInfos(RepoConfiguration config, String lastCommitHash) {
         List<FileInfo> fileInfos = new ArrayList<>();
-        String fullDiffResult = CommandRunner.diffCommit(config.getRepoRoot(), lastCommitHash);
+        String fullDiffResult = GitDiff.diffCommit(config.getRepoRoot(), lastCommitHash);
 
         // no diff between the 2 commits, return an empty list
         if (fullDiffResult.isEmpty()) {

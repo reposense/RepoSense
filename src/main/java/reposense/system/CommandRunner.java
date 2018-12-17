@@ -20,14 +20,6 @@ public class CommandRunner {
     }
 
     /**
-     * Returns the git diff result of the current commit compared to {@code lastCommitHash}, without any context.
-     */
-    public static String diffCommit(String root, String lastCommitHash) {
-        Path rootPath = Paths.get(root);
-        return runCommand(rootPath, "git diff -U0 " + lastCommitHash);
-    }
-
-    /**
      * Returns the latest commit hash before {@code date}.
      * Returns an empty {@code String} if {@code date} is null, or there is no such commit.
      */

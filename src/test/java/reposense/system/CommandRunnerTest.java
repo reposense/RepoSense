@@ -12,29 +12,6 @@ import reposense.util.TestUtil;
 public class CommandRunnerTest extends GitTestTemplate {
 
     @Test
-    public void diffCommit_validCommitHash_success() {
-        String diffResult = CommandRunner.diffCommit(config.getRepoRoot(), FAKE_AUTHOR_BLAME_TEST_FILE_COMMIT_08022018);
-        Assert.assertFalse(diffResult.isEmpty());
-    }
-
-    @Test
-    public void diffCommit_emptyCommitHash_emptyResult() {
-        String diffResult = CommandRunner.diffCommit(config.getRepoRoot(), LATEST_COMMIT_HASH);
-        Assert.assertTrue(diffResult.isEmpty());
-    }
-
-    @Test
-    public void diffCommit_latestCommitHash_emptyResult() {
-        String diffResult = CommandRunner.diffCommit(config.getRepoRoot(), "");
-        Assert.assertTrue(diffResult.isEmpty());
-    }
-
-    @Test(expected = RuntimeException.class)
-    public void diffCommit_nonexistentCommitHash_throwsRunTimeException() {
-        CommandRunner.diffCommit(config.getRepoRoot(), NONEXISTENT_COMMIT_HASH);
-    }
-
-    @Test
     public void getCommitHashBeforeDate_beforeInitialCommitDate_emptyResult() {
         Date date = TestUtil.getDate(2018, Calendar.FEBRUARY, 4);
         String commitHash = CommandRunner.getCommitHashBeforeDate(config.getRepoRoot(), config.getBranch(), date);
