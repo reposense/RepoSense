@@ -23,12 +23,6 @@ public class CommandRunnerTest extends GitTestTemplate {
     protected static RepoConfiguration uncommonDefaultConfig;
 
     @Test
-    public void cloneTest() {
-        Path dir = Paths.get(config.getRepoRoot());
-        Assert.assertTrue(Files.exists(dir));
-    }
-
-    @Test
     public void checkoutTest() {
         CommandRunner.checkout(config.getRepoRoot(), "test");
         Path branchFile = Paths.get(config.getRepoRoot(), "inTestBranch.java");

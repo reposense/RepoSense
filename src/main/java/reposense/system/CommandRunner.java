@@ -3,14 +3,12 @@ package reposense.system;
 import static reposense.util.StringsUtil.addQuote;
 
 import java.io.IOException;
-import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Date;
 
 import reposense.git.CommitNotFoundException;
 import reposense.git.Util;
-import reposense.util.FileUtil;
 import reposense.util.StringsUtil;
 
 public class CommandRunner {
@@ -91,12 +89,6 @@ public class CommandRunner {
         String gitBranchCommand = "git branch";
 
         return StringsUtil.filterText(runCommand(rootPath, gitBranchCommand), "\\* (.*)").split("\\*")[1].trim();
-    }
-
-    public static String cloneRepo(String location, String repoName) throws IOException {
-        Path rootPath = Paths.get(FileUtil.REPOS_ADDRESS, repoName);
-        Files.createDirectories(rootPath);
-        return runCommand(rootPath, "git clone " + addQuote(location));
     }
 
     public static String runCommand(Path path, String command) {

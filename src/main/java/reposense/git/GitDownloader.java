@@ -1,6 +1,12 @@
 package reposense.git;
 
+import static reposense.system.CommandRunner.runCommand;
+import static reposense.util.StringsUtil.addQuote;
+
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -21,7 +27,7 @@ public class GitDownloader {
         try {
             FileUtil.deleteDirectory(repoConfig.getRepoRoot());
             logger.info("Cloning " + repoConfig.getLocation() + "...");
-            CommandRunner.cloneRepo(repoConfig.getLocation(), repoConfig.getRepoName());
+            cloneRepo(repoConfig.getLocation(), repoConfig.getRepoName());
             logger.info("Cloning completed!");
         } catch (RuntimeException rte) {
             logger.log(Level.SEVERE, "Error encountered in Git Cloning, will attempt to continue analyzing", rte);
@@ -42,6 +48,11 @@ public class GitDownloader {
             logger.log(Level.SEVERE, "Branch does not exist! Analyze terminated.", e);
             throw new GitDownloaderException(e);
         }
+    }
 
+    private static void cloneRepo(String location, String repoName) throws IOException {
+        Path rootPath = Paths.get(FileUtil.REPOS_ADDRESS, repoName);
+        Files.createDirectories(rootPath);
+        runCommand(rootPath, "git clone " + addQuote(location));
     }
 }
