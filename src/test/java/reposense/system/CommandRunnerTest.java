@@ -1,8 +1,5 @@
 package reposense.system;
 
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.Calendar;
 import java.util.Date;
 
@@ -21,13 +18,6 @@ public class CommandRunnerTest extends GitTestTemplate {
     protected static final String TEST_REPO_UNCOMMON_DEFAULT_GIT_LOCATION =
             "https://github.com/reposense/testrepo-UncommonDefaultBranch.git";
     protected static RepoConfiguration uncommonDefaultConfig;
-
-    @Test
-    public void checkoutTest() {
-        CommandRunner.checkout(config.getRepoRoot(), "test");
-        Path branchFile = Paths.get(config.getRepoRoot(), "inTestBranch.java");
-        Assert.assertTrue(Files.exists(branchFile));
-    }
 
     @Test
     public void blameRaw_validFile_success() {

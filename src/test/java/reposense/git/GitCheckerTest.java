@@ -1,5 +1,8 @@
 package reposense.git;
 
+import static reposense.git.GitChecker.checkout;
+import static reposense.git.GitChecker.checkoutBranch;
+
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -14,12 +17,20 @@ import reposense.util.TestUtil;
 
 
 public class GitCheckerTest extends GitTestTemplate {
+
+    @Test
+    public void checkout_validBranch_success() {
+        checkout(config.getRepoRoot(), "test");
+        Path branchFile = Paths.get(config.getRepoRoot(), "inTestBranch.java");
+        Assert.assertTrue(Files.exists(branchFile));
+    }
+
     @Test
     public void checkoutBranchTest() {
         Path branchFile = Paths.get(config.getRepoRoot(), "inTestBranch.java");
         Assert.assertFalse(Files.exists(branchFile));
 
-        GitChecker.checkoutBranch(config.getRepoRoot(), "test");
+        checkoutBranch(config.getRepoRoot(), "test");
         Assert.assertTrue(Files.exists(branchFile));
     }
 
@@ -28,7 +39,7 @@ public class GitCheckerTest extends GitTestTemplate {
         Path newFile = Paths.get(config.getRepoRoot(), "newFile.java");
         Assert.assertTrue(Files.exists(newFile));
 
-        GitChecker.checkout(config.getRepoRoot(), FIRST_COMMIT_HASH);
+        checkout(config.getRepoRoot(), FIRST_COMMIT_HASH);
         Assert.assertFalse(Files.exists(newFile));
     }
 

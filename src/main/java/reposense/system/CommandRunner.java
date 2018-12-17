@@ -7,39 +7,12 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Date;
 
-import reposense.git.CommitNotFoundException;
 import reposense.git.Util;
 import reposense.util.StringsUtil;
 
 public class CommandRunner {
 
     private static boolean isWindows = isWindows();
-    public static void checkout(String root, String hash) {
-        Path rootPath = Paths.get(root);
-        runCommand(rootPath, "git checkout " + hash);
-    }
-
-    /**
-     * Checks out to the latest commit before {@code untilDate} in {@code branchName} branch
-     * if {@code untilDate} is not null.
-     * @throws CommitNotFoundException if commits before {@code untilDate} cannot be found.
-     */
-    public static void checkoutToDate(String root, String branchName, Date untilDate) throws CommitNotFoundException {
-        if (untilDate == null) {
-            return;
-        }
-
-        Path rootPath = Paths.get(root);
-
-        String substituteCommand = "git rev-list -1 --before="
-                + Util.GIT_LOG_UNTIL_DATE_FORMAT.format(untilDate) + " " + branchName;
-        String hash = runCommand(rootPath, substituteCommand);
-        if (hash.isEmpty()) {
-            throw new CommitNotFoundException("Commit before until date is not found.");
-        }
-        String checkoutCommand = "git checkout " + hash;
-        runCommand(rootPath, checkoutCommand);
-    }
 
     public static String blameRaw(String root, String fileDirectory) {
         Path rootPath = Paths.get(root);
