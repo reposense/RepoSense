@@ -78,7 +78,11 @@ public class RepoConfiguration {
     public RepoConfiguration(String location, String branch, List<String> formats, List<String> ignoreGlobList,
             boolean isStandaloneConfigIgnored, List<String> ignoreCommitList) throws InvalidLocationException {
         this.location = location;
-        this.branch = branch;
+        if (!location.isEmpty()) {
+            this.branch = branch;
+        } else {
+            this.branch = "";
+        }
         this.ignoreGlobList = ignoreGlobList;
         this.isStandaloneConfigIgnored = isStandaloneConfigIgnored;
         this.formats = formats;
@@ -113,19 +117,35 @@ public class RepoConfiguration {
      */
     public static void merge(List<RepoConfiguration> repoConfigs, List<RepoConfiguration> authorConfigs) {
         for (RepoConfiguration authorConfig : authorConfigs) {
-            int index = repoConfigs.indexOf(authorConfig);
+            List<RepoConfiguration> repoConfigsToAdd = new ArrayList<>();
 
-            if (index == -1) {
-                logger.warning(String.format(
-                        "Repository %s is not found in repo-config.csv.", authorConfig.getLocation()));
-                continue;
+            if (authorConfig.location.isEmpty()) {
+                repoConfigsToAdd = repoConfigs;
+            } else {
+                int index = repoConfigs.indexOf(authorConfig);
+
+                if (index == -1) {
+                    logger.warning(String.format(
+                            "Repository %s is not found in repo-config.csv.", authorConfig.getLocation()));
+                    continue;
+                }
+
+                repoConfigsToAdd.add(repoConfigs.get(index));
             }
 
-            RepoConfiguration repoConfig = repoConfigs.get(index);
-
-            repoConfig.setAuthorList(authorConfig.getAuthorList());
-            repoConfig.setAuthorDisplayNameMap(authorConfig.getAuthorDisplayNameMap());
-            repoConfig.setAuthorAliasMap(authorConfig.getAuthorAliasMap());
+            for (RepoConfiguration repoConfigToAdd : repoConfigsToAdd) {
+                for(Author author: authorConfig.getAuthorList()) {
+                    if (repoConfigToAdd.containsAuthor(author)) {
+                        logger.warning(String.format(
+                                "Skipping author as %s already in repository %s",
+                                author.getGitId(), repoConfigToAdd.getDisplayName()));
+                        continue;
+                    }
+                    repoConfigToAdd.addAuthor(author);
+                    repoConfigToAdd.setAuthorDisplayNameMap(authorConfig.getAuthorDisplayNameMap());
+                    repoConfigToAdd.setAuthorAliasMap(authorConfig.getAuthorAliasMap());
+                }
+            }
         }
     }
 

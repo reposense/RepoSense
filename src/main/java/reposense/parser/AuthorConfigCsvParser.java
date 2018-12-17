@@ -31,7 +31,6 @@ public class AuthorConfigCsvParser extends CsvParser<RepoConfiguration> {
     @Override
     protected int[] mandatoryPositions() {
         return new int[] {
-            LOCATION_POSITION,
             GITHUB_ID_POSITION,
         };
     }
