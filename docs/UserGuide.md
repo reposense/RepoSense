@@ -86,6 +86,7 @@ The `Tool Bar` at the top provides a set of configuration options that control t
 * `Search` : filters the author and repository by keywords.
   * Multiple keywords/terms can be used, separated by spaces.
   * Entries that contain _any_ (not necessarily _all_) of the search terms will be displayed.
+  * The keywords used to filter author and repository are case-insensitive.
 * `Sort by` : sorting criteria for the Chart Panel
   * `Total Contribution` : the amount of lines, written by the author, in the repository.
   * `Variance` : the [variance](https://en.wikipedia.org/wiki/Variance) of the number of lines that the author has contributed to the repository daily, sorted from low to high.
