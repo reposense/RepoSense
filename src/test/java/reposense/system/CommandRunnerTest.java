@@ -6,18 +6,10 @@ import java.util.Date;
 import org.junit.Assert;
 import org.junit.Test;
 
-import reposense.git.GitDownloader;
-import reposense.git.GitDownloaderException;
-import reposense.model.RepoConfiguration;
-import reposense.parser.ArgsParser;
-import reposense.parser.InvalidLocationException;
 import reposense.template.GitTestTemplate;
 import reposense.util.TestUtil;
 
 public class CommandRunnerTest extends GitTestTemplate {
-    protected static final String TEST_REPO_UNCOMMON_DEFAULT_GIT_LOCATION =
-            "https://github.com/reposense/testrepo-UncommonDefaultBranch.git";
-    protected static RepoConfiguration uncommonDefaultConfig;
 
     @Test
     public void diffCommit_validCommitHash_success() {
@@ -77,23 +69,5 @@ public class CommandRunnerTest extends GitTestTemplate {
     public void getCommitHashBeforeDate_invalidBranch_throwsRunTimeException() {
         Date date = TestUtil.getDate(2018, Calendar.FEBRUARY, 9);
         CommandRunner.getCommitHashBeforeDate(config.getRepoRoot(), "invalidBranch", date);
-    }
-
-    @Test
-    public void getCurrentBranch_masterBranch_success() {
-        String currentBranch = CommandRunner.getCurrentBranch(config.getRepoRoot());
-        Assert.assertEquals("master", currentBranch);
-    }
-
-    @Test
-    public void getCurrentBranch_uncommonDefaultBranch_success() throws GitDownloaderException,
-            InvalidLocationException {
-        uncommonDefaultConfig = new RepoConfiguration(TEST_REPO_UNCOMMON_DEFAULT_GIT_LOCATION,
-                RepoConfiguration.DEFAULT_BRANCH);
-        uncommonDefaultConfig.setFormats(ArgsParser.DEFAULT_FORMATS);
-
-        GitDownloader.downloadRepo(uncommonDefaultConfig);
-        String currentBranch = CommandRunner.getCurrentBranch(uncommonDefaultConfig.getRepoRoot());
-        Assert.assertEquals("uncommon", currentBranch);
     }
 }

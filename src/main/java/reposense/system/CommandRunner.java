@@ -6,7 +6,6 @@ import java.nio.file.Paths;
 import java.util.Date;
 
 import reposense.git.Util;
-import reposense.util.StringsUtil;
 
 public class CommandRunner {
 
@@ -41,16 +40,6 @@ public class CommandRunner {
         String revListCommand = "git rev-list -1 --before="
                 + Util.GIT_LOG_SINCE_DATE_FORMAT.format(date) + " " + branchName;
         return runCommand(rootPath, revListCommand);
-    }
-
-    /**
-     * Returns the current working branch.
-     */
-    public static String getCurrentBranch(String root) {
-        Path rootPath = Paths.get(root);
-        String gitBranchCommand = "git branch";
-
-        return StringsUtil.filterText(runCommand(rootPath, gitBranchCommand), "\\* (.*)").split("\\*")[1].trim();
     }
 
     public static String runCommand(Path path, String command) {

@@ -11,7 +11,6 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import reposense.model.RepoConfiguration;
-import reposense.system.CommandRunner;
 import reposense.system.LogsManager;
 import reposense.util.FileUtil;
 
@@ -40,7 +39,7 @@ public class GitDownloader {
 
         try {
             if (repoConfig.getBranch().equals(RepoConfiguration.DEFAULT_BRANCH)) {
-                String currentBranch = CommandRunner.getCurrentBranch(repoConfig.getRepoRoot());
+                String currentBranch = GitBranch.getCurrentBranch(repoConfig.getRepoRoot());
                 repoConfig.setBranch(currentBranch);
             }
             GitChecker.checkout(repoConfig.getRepoRoot(), repoConfig.getBranch());
