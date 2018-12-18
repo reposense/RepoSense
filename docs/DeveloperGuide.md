@@ -86,6 +86,11 @@ Sample usage to generate the report with repository locations:
 gradlew run -Dargs="-repos https://github.com/reposense/RepoSense.git https://github.com/se-edu/collate.git -output output_path/ -since 01/10/2017 -until 01/11/2017 -formats java adoc js"
 ```
 
+Sample usage to generate the report with repository locations but ignore the standalone config file:
+```
+gradlew run -Dargs="-repos https://github.com/reposense/RepoSense.git https://github.com/se-edu/collate.git -ignorejson"
+```
+
 Sample usage to view the report:
 ```
 gradlew run -Dargs="-view output_path/reposense-report"
