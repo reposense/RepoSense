@@ -96,12 +96,12 @@ html
                       {author:user.name, repo:user.repoName, name:user.displayName, location:repo[0].location, \
                           minDate:minDate, maxDate:maxDate, totalCommits:user.totalCommits})"
                 )
-                  i.summary-chart__title--code-view-button.fas.fa-code
+                  i.summary-chart__title--button.fas.fa-code
                 a(
                   v-bind:href="repo[0].location", target="_blank",
                   title="click to view author's repo"
                 )
-                  i.summary-chart__title--repo-url-button.fab.fa-github
+                  i.summary-chart__title--button.fab.fa-github
               .summary-chart__ramp
                 a.summary-chart__ramp__slice(
                   v-for="(slice, j) in user.commits",
