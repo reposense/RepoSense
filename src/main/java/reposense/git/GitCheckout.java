@@ -11,9 +11,9 @@ import reposense.commits.model.CommitResult;
 import reposense.system.LogsManager;
 
 
-public class GitChecker {
+public class GitCheckout {
 
-    private static final Logger logger = LogsManager.getLogger(GitChecker.class);
+    private static final Logger logger = LogsManager.getLogger(GitCheckout.class);
 
     public static void checkOutToRecentBranch(String root) {
         checkout(root, "-");

@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.logging.Logger;
 
 import reposense.commits.model.CommitInfo;
-import reposense.git.GitChecker;
+import reposense.git.GitCheckout;
 import reposense.git.GitLog;
 import reposense.model.Author;
 import reposense.model.RepoConfiguration;
@@ -24,7 +24,7 @@ public class CommitInfoExtractor {
     public static List<CommitInfo> extractCommitInfos(RepoConfiguration config) {
         logger.info("Extracting commits info for " + config.getLocation() + "...");
 
-        GitChecker.checkoutBranch(config.getRepoRoot(), config.getBranch());
+        GitCheckout.checkoutBranch(config.getRepoRoot(), config.getBranch());
 
         List<CommitInfo> repoCommitInfos = new ArrayList<>();
 

@@ -15,7 +15,7 @@ import reposense.authorship.FileInfoExtractor;
 import reposense.authorship.model.FileInfo;
 import reposense.authorship.model.FileResult;
 import reposense.authorship.model.LineInfo;
-import reposense.git.GitChecker;
+import reposense.git.GitCheckout;
 import reposense.git.GitDownloader;
 import reposense.git.GitDownloaderException;
 import reposense.model.Author;
@@ -66,7 +66,7 @@ public class GitTestTemplate {
 
     @After
     public void after() {
-        GitChecker.checkout(config.getRepoRoot(), "master");
+        GitCheckout.checkout(config.getRepoRoot(), "master");
     }
 
     private static void deleteRepos() throws IOException {

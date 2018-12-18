@@ -20,7 +20,7 @@ import java.util.stream.Stream;
 import reposense.authorship.model.FileInfo;
 import reposense.authorship.model.LineInfo;
 import reposense.git.CommitNotFoundException;
-import reposense.git.GitChecker;
+import reposense.git.GitCheckout;
 import reposense.git.GitDiff;
 import reposense.git.GitRevList;
 import reposense.model.RepoConfiguration;
@@ -58,7 +58,7 @@ public class FileInfoExtractor {
         // checks out to the latest commit of the date range to ensure the FileInfo generated correspond to the
         // git blame file analyze output
         try {
-            GitChecker.checkoutToDate(config.getRepoRoot(), config.getBranch(), config.getUntilDate());
+            GitCheckout.checkoutToDate(config.getRepoRoot(), config.getBranch(), config.getUntilDate());
         } catch (CommitNotFoundException cnfe) {
             return fileInfos;
         }

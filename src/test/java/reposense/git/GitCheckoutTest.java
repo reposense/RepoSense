@@ -1,7 +1,7 @@
 package reposense.git;
 
-import static reposense.git.GitChecker.checkout;
-import static reposense.git.GitChecker.checkoutBranch;
+import static reposense.git.GitCheckout.checkout;
+import static reposense.git.GitCheckout.checkoutBranch;
 
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -16,7 +16,7 @@ import reposense.template.GitTestTemplate;
 import reposense.util.TestUtil;
 
 
-public class GitCheckerTest extends GitTestTemplate {
+public class GitCheckoutTest extends GitTestTemplate {
 
     @Test
     public void checkout_validBranch_success() {
@@ -49,13 +49,13 @@ public class GitCheckerTest extends GitTestTemplate {
         Assert.assertTrue(Files.exists(newFile));
 
         Date untilDate = TestUtil.getDate(2018, Calendar.FEBRUARY, 6);
-        GitChecker.checkoutToDate(config.getRepoRoot(), config.getBranch(), untilDate);
+        GitCheckout.checkoutToDate(config.getRepoRoot(), config.getBranch(), untilDate);
         Assert.assertFalse(Files.exists(newFile));
     }
 
     @Test(expected = CommitNotFoundException.class)
     public void checkoutToDate_invalidDate_throwsEmptyCommitException() throws CommitNotFoundException {
         Date untilDate = TestUtil.getDate(2015, Calendar.FEBRUARY, 6);
-        GitChecker.checkoutToDate(config.getRepoRoot(), config.getBranch(), untilDate);
+        GitCheckout.checkoutToDate(config.getRepoRoot(), config.getBranch(), untilDate);
     }
 }

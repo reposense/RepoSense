@@ -42,7 +42,7 @@ public class GitDownloader {
                 String currentBranch = GitBranch.getCurrentBranch(repoConfig.getRepoRoot());
                 repoConfig.setBranch(currentBranch);
             }
-            GitChecker.checkout(repoConfig.getRepoRoot(), repoConfig.getBranch());
+            GitCheckout.checkout(repoConfig.getRepoRoot(), repoConfig.getBranch());
         } catch (RuntimeException e) {
             logger.log(Level.SEVERE, "Branch does not exist! Analyze terminated.", e);
             throw new GitDownloaderException(e);

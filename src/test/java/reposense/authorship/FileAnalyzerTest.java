@@ -11,7 +11,7 @@ import org.junit.Test;
 import reposense.authorship.model.FileInfo;
 import reposense.authorship.model.FileResult;
 import reposense.git.CommitNotFoundException;
-import reposense.git.GitChecker;
+import reposense.git.GitCheckout;
 import reposense.model.Author;
 import reposense.template.GitTestTemplate;
 import reposense.util.TestUtil;
@@ -37,7 +37,7 @@ public class FileAnalyzerTest extends GitTestTemplate {
         Date sinceDate = TestUtil.getDate(2018, Calendar.FEBRUARY, 6);
         Date untilDate = TestUtil.getDate(2018, Calendar.FEBRUARY, 8);
 
-        GitChecker.checkoutToDate(config.getRepoRoot(), config.getBranch(), untilDate);
+        GitCheckout.checkoutToDate(config.getRepoRoot(), config.getBranch(), untilDate);
         config.setSinceDate(sinceDate);
         config.setUntilDate(untilDate);
 
@@ -50,7 +50,7 @@ public class FileAnalyzerTest extends GitTestTemplate {
         Date sinceDate = TestUtil.getDate(2018, Calendar.FEBRUARY, 7);
         Date untilDate = TestUtil.getDate(2018, Calendar.FEBRUARY, 9);
 
-        GitChecker.checkoutToDate(config.getRepoRoot(), config.getBranch(), untilDate);
+        GitCheckout.checkoutToDate(config.getRepoRoot(), config.getBranch(), untilDate);
         config.setSinceDate(sinceDate);
         config.setUntilDate(untilDate);
 
