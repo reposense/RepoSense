@@ -218,14 +218,14 @@ In addition, there are some _optional_ extra parameters you can use to customize
 * **`-output OUTPUT_DIRECTORY`**: Indicates where to save the report generated. Default: current directory.<br>
   Example: `-output ./foo` (in this case, the report will be in the `./foo/reposense-report` folder)
 * **`-since START_DATE`**: The start date of analysis. Format: `DD/MM/YYYY`<br>
-  Example:`-since 01/10/2017`
+  Example:`-since 21/10/2017`
 * **`-until END_DATE`**: The end date of analysis. The analysis excludes the end date. Format: `DD/MM/YYYY`<br>
-  Example:`-since 01/10/2017`
+  Example:`-since 21/10/2017`
 * **`-formats LIST_OF_FORMATS`**: A space-separated list of file extensions that should be included in the analysis. Default: `adoc cs css fxml gradle html java js json jsp md py tag xml`<br>
   Example:`-formats css fxml gradle`
 
 Here's an example of a command using all parameters:<br>
-`java -jar RepoSense.jar -repo https://github.com/reposense/RepoSense.git -output ./report_folder -since 01/10/2017 -until 01/11/2017 -formats java adoc js`
+`java -jar RepoSense.jar -repo https://github.com/reposense/RepoSense.git -output ./report_folder -since 21/10/2017 -until 21/11/2017 -formats java adoc js`
 
 ### Customize Using csv Config Files
 
