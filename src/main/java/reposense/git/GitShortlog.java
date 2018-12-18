@@ -39,7 +39,7 @@ public class GitShortlog {
     private static String getShortlogSummary(String root, Date sinceDate, Date untilDate) {
         Path rootPath = Paths.get(root);
         String command = "git log --pretty=short";
-        command += Util.convertToGitDateRangeArgs(sinceDate, untilDate);
+        command += GitUtil.convertToGitDateRangeArgs(sinceDate, untilDate);
         command += " | git shortlog --summary";
 
         return runCommand(rootPath, command);

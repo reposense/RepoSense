@@ -23,7 +23,7 @@ public class GitRevList {
 
         Path rootPath = Paths.get(root);
         String revListCommand = "git rev-list -1 --before="
-                + Util.GIT_LOG_SINCE_DATE_FORMAT.format(date) + " " + branchName;
+                + GitUtil.GIT_LOG_SINCE_DATE_FORMAT.format(date) + " " + branchName;
         return runCommand(rootPath, revListCommand);
     }
 }

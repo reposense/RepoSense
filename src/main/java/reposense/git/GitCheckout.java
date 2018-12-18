@@ -55,7 +55,7 @@ public class GitCheckout {
         Path rootPath = Paths.get(root);
 
         String substituteCommand = "git rev-list -1 --before="
-                + Util.GIT_LOG_UNTIL_DATE_FORMAT.format(untilDate) + " " + branchName;
+                + GitUtil.GIT_LOG_UNTIL_DATE_FORMAT.format(untilDate) + " " + branchName;
         String hash = runCommand(rootPath, substituteCommand);
         if (hash.isEmpty()) {
             throw new CommitNotFoundException("Commit before until date is not found.");

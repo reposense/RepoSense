@@ -13,7 +13,7 @@ import reposense.util.StringsUtil;
 /**
  * Contains Git related utilities.
  */
-class Util {
+class GitUtil {
     static final DateFormat GIT_LOG_SINCE_DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd'T'00:00:00+08:00");
     static final DateFormat GIT_LOG_UNTIL_DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd'T'23:59:59+08:00");
 

@@ -18,11 +18,11 @@ public class GitLog {
         Path rootPath = Paths.get(config.getRepoRoot());
 
         String command = "git log --no-merges -i ";
-        command += Util.convertToGitDateRangeArgs(config.getSinceDate(), config.getUntilDate());
+        command += GitUtil.convertToGitDateRangeArgs(config.getSinceDate(), config.getUntilDate());
         command += " --pretty=format:\"%H|%aN|%ad|%s\" --date=iso --shortstat";
-        command += Util.convertToFilterAuthorArgs(author);
-        command += Util.convertToGitFormatsArgs(config.getFormats());
-        command += Util.convertToGitExcludeGlobArgs(author.getIgnoreGlobList());
+        command += GitUtil.convertToFilterAuthorArgs(author);
+        command += GitUtil.convertToGitFormatsArgs(config.getFormats());
+        command += GitUtil.convertToGitExcludeGlobArgs(author.getIgnoreGlobList());
 
         return runCommand(rootPath, command);
     }
