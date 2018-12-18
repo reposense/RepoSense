@@ -16,7 +16,7 @@ import reposense.authorship.model.FileInfo;
 import reposense.authorship.model.FileResult;
 import reposense.authorship.model.LineInfo;
 import reposense.git.GitCheckout;
-import reposense.git.GitDownloader;
+import reposense.git.GitClone;
 import reposense.git.GitDownloaderException;
 import reposense.model.Author;
 import reposense.model.RepoConfiguration;
@@ -56,7 +56,7 @@ public class GitTestTemplate {
         deleteRepos();
         config = new RepoConfiguration(TEST_REPO_GIT_LOCATION, "master");
         config.setFormats(ArgsParser.DEFAULT_FORMATS);
-        GitDownloader.downloadRepo(config);
+        GitClone.downloadRepo(config);
     }
 
     @AfterClass

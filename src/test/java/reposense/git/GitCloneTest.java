@@ -9,7 +9,7 @@ import org.junit.Test;
 
 import reposense.template.GitTestTemplate;
 
-public class GitDownloaderTest extends GitTestTemplate {
+public class GitCloneTest extends GitTestTemplate {
 
     @Test
     public void cloneTest_validRepo_success() {

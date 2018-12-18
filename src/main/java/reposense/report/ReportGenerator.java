@@ -19,7 +19,7 @@ import reposense.authorship.AuthorshipReporter;
 import reposense.authorship.model.AuthorshipSummary;
 import reposense.commits.CommitsReporter;
 import reposense.commits.model.CommitContributionSummary;
-import reposense.git.GitDownloader;
+import reposense.git.GitClone;
 import reposense.git.GitDownloaderException;
 import reposense.model.Author;
 import reposense.model.RepoConfiguration;
@@ -52,7 +52,7 @@ public class ReportGenerator {
         for (RepoConfiguration config : configs) {
             Path repoReportDirectory;
             try {
-                GitDownloader.downloadRepo(config);
+                GitClone.downloadRepo(config);
                 repoReportDirectory = Paths.get(outputPath, config.getDisplayName());
                 FileUtil.createDirectory(repoReportDirectory);
             } catch (GitDownloaderException gde) {

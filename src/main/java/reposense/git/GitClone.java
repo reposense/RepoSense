@@ -17,9 +17,9 @@ import reposense.util.FileUtil;
 /**
  * Clones the repository from GitHub.
  */
-public class GitDownloader {
+public class GitClone {
 
-    private static final Logger logger = LogsManager.getLogger(GitDownloader.class);
+    private static final Logger logger = LogsManager.getLogger(GitClone.class);
 
     public static void downloadRepo(RepoConfiguration repoConfig)
             throws GitDownloaderException {

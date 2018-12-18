@@ -16,7 +16,7 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import reposense.git.GitDownloader;
+import reposense.git.GitClone;
 import reposense.git.GitDownloaderException;
 import reposense.model.Author;
 import reposense.model.CliArguments;
@@ -120,7 +120,7 @@ public class RepoConfigurationTest {
     @Test
     public void repoConfig_usesStandaloneConfig_success() throws InvalidLocationException, GitDownloaderException {
         RepoConfiguration actualConfig = new RepoConfiguration(TEST_REPO_DELTA, "master");
-        GitDownloader.downloadRepo(actualConfig);
+        GitClone.downloadRepo(actualConfig);
         ReportGenerator.updateRepoConfig(actualConfig);
 
         TestUtil.compareRepoConfig(REPO_DELTA_STANDALONE_CONFIG, actualConfig);
@@ -153,7 +153,7 @@ public class RepoConfigurationTest {
         RepoConfiguration.merge(actualConfigs, authorConfigs);
 
         RepoConfiguration actualConfig = actualConfigs.get(0);
-        GitDownloader.downloadRepo(actualConfig);
+        GitClone.downloadRepo(actualConfig);
         ReportGenerator.updateRepoConfig(actualConfig);
 
         TestUtil.compareRepoConfig(expectedConfig, actualConfig);
@@ -170,7 +170,7 @@ public class RepoConfigurationTest {
                 new RepoConfigCsvParser(((ConfigCliArguments) cliArguments).getRepoConfigFilePath()).parse();
 
         RepoConfiguration actualConfig = actualConfigs.get(0);
-        GitDownloader.downloadRepo(actualConfig);
+        GitClone.downloadRepo(actualConfig);
         ReportGenerator.updateRepoConfig(actualConfig);
 
         TestUtil.compareRepoConfig(REPO_DELTA_STANDALONE_CONFIG, actualConfig);
