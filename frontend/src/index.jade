@@ -57,7 +57,7 @@ html
                 option(value="totalCommits") Contribution
                 option(value="variance") Variance
                 option(value="displayName") Author Name
-                option(value="searchPath") Team Name
+                option(value="searchPath") Repo/Branch Name
               label sort by
             .mui-select
               select(v-model="filterTimeFrame")
@@ -79,7 +79,7 @@ html
               span reverse
             label
               input(type="checkbox", v-model="filterGroupRepos").mui-checkbox.summary-picker__checkbox
-              span group by repo
+              span group by repo/branch
         #summary-charts
           .summary-charts(v-for="repo of filtered", v-if="repo.length>0")
             a.summary-charts__title(
