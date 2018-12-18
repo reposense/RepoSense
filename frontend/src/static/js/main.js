@@ -15,6 +15,9 @@ window.addHash = function addHash(newKey, newVal) {
   window.location.hash = hash.join('&');
 };
 
+const DRAG_BAR_WIDTH = 13.25;
+const SCROLL_BAR_WIDTH = 17;
+
 window.app = new window.Vue({
   el: '#app',
   data: {
@@ -30,9 +33,9 @@ window.app = new window.Vue({
     tabAuthorship: {},
     creationDate: '',
 
-    flexWidth: "50%",
+    flexWidth: 0.5,
     mouseMove: () => {},
-    appWrapperUserSelect: "auto",
+    appWrapperUserSelect: 'auto',
   },
   methods: {
     // model functions //
@@ -98,17 +101,24 @@ window.app = new window.Vue({
 
     registerMouseMove(event) {
       const _mouseMove = (event) => {
-        const calculatedWidth = (window.innerWidth - event.clientX + (13.250 / 2)) / window.innerWidth * 100;
-        // 13.250 is the width of the close tab button
-        this.flexWidth = calculatedWidth + "%";
+        const calculatedWidth =
+          Math.min(
+            Math.max(
+              window.innerWidth - event.clientX + (DRAG_BAR_WIDTH / 2),
+              SCROLL_BAR_WIDTH + (DRAG_BAR_WIDTH / 2)
+            ),
+            window.innerWidth - (DRAG_BAR_WIDTH / 2)
+          ) / window.innerWidth;
+
+        this.flexWidth = calculatedWidth;
       };
-      this.appWrapperUserSelect = "none";
+      this.appWrapperUserSelect = 'none';
       this.mouseMove = _mouseMove;
     },
 
     deregisterMouseMove() {
       this.mouseMove = () => {};
-      this.appWrapperUserSelect = "auto";
+      this.appWrapperUserSelect = 'auto';
     },
 
     generateKey(dataObj) {
