@@ -134,7 +134,7 @@ public class RepoConfiguration {
             }
 
             for (RepoConfiguration repoConfigToAdd : repoConfigsToAdd) {
-                for(Author author: authorConfig.getAuthorList()) {
+                for (Author author: authorConfig.getAuthorList()) {
                     if (repoConfigToAdd.containsAuthor(author)) {
                         logger.warning(String.format(
                                 "Skipping author as %s already in repository %s",
