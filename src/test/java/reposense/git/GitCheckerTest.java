@@ -15,7 +15,7 @@ import reposense.util.TestUtil;
 
 public class GitCheckerTest extends GitTestTemplate {
     @Test
-    public void checkoutBranchTest() {
+    public void checkoutBranchTest() throws GitCheckerException {
         Path branchFile = Paths.get(config.getRepoRoot(), "inTestBranch.java");
         Assert.assertFalse(Files.exists(branchFile));
 
@@ -24,7 +24,7 @@ public class GitCheckerTest extends GitTestTemplate {
     }
 
     @Test
-    public void checkoutHashTest() {
+    public void checkoutHashTest() throws GitCheckerException {
         Path newFile = Paths.get(config.getRepoRoot(), "newFile.java");
         Assert.assertTrue(Files.exists(newFile));
 
@@ -33,7 +33,7 @@ public class GitCheckerTest extends GitTestTemplate {
     }
 
     @Test
-    public void checkoutToDate_validDate_success() throws CommitNotFoundException {
+    public void checkoutToDate_validDate_success() throws CommitNotFoundException, GitCheckerException {
         Path newFile = Paths.get(config.getRepoRoot(), "newFile.java");
         Assert.assertTrue(Files.exists(newFile));
 
@@ -43,7 +43,7 @@ public class GitCheckerTest extends GitTestTemplate {
     }
 
     @Test(expected = CommitNotFoundException.class)
-    public void checkoutToDate_invalidDate_throwsEmptyCommitException() throws CommitNotFoundException {
+    public void checkoutToDate_invalidDate_throwsEmptyCommitException() throws CommitNotFoundException, GitCheckerException {
         Date untilDate = TestUtil.getDate(2015, Calendar.FEBRUARY, 6);
         GitChecker.checkoutToDate(config.getRepoRoot(), config.getBranch(), untilDate);
     }

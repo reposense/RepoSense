@@ -41,6 +41,9 @@ public class GitDownloader {
         } catch (RuntimeException e) {
             logger.log(Level.SEVERE, "Branch does not exist! Analyze terminated.", e);
             throw new GitDownloaderException(e);
+        } catch (GitCheckerException e) {
+            logger.log(Level.SEVERE, "Failed to checkout to current branch.", e);
+            throw new GitDownloaderException(e);
         }
 
     }

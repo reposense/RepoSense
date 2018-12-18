@@ -11,6 +11,7 @@ import org.junit.Test;
 
 import reposense.authorship.model.FileInfo;
 import reposense.git.GitChecker;
+import reposense.git.GitCheckerException;
 import reposense.model.Author;
 import reposense.template.GitTestTemplate;
 import reposense.util.TestUtil;
@@ -28,7 +29,7 @@ public class FileInfoExtractorTest extends GitTestTemplate {
     private static final String OCTOBER_SEVENTH_COMMIT_HASH = "b28dfac5bd449825c1a372e58485833b35fdbd50";
 
     @Test
-    public void extractFileInfosTest() {
+    public void extractFileInfosTest() throws GitCheckerException {
         config.getAuthorAliasMap().put(MAIN_AUTHOR_NAME, new Author(MAIN_AUTHOR_NAME));
         config.getAuthorAliasMap().put(FAKE_AUTHOR_NAME, new Author(FAKE_AUTHOR_NAME));
         GitChecker.checkout(config.getRepoRoot(), TEST_COMMIT_HASH);
@@ -62,7 +63,7 @@ public class FileInfoExtractorTest extends GitTestTemplate {
     }
 
     @Test
-    public void extractFileInfos_windowsIllegalFileNameBranch_success() {
+    public void extractFileInfos_windowsIllegalFileNameBranch_success() throws GitCheckerException {
         GitChecker.checkout(config.getRepoRoot(), WINDOWS_ILLEGAL_FILE_NAME_BRANCH);
         List<FileInfo> files = FileInfoExtractor.extractFileInfos(config);
 
@@ -93,7 +94,7 @@ public class FileInfoExtractorTest extends GitTestTemplate {
     }
 
     @Test
-    public void getEditedFileInfos_editFileInfoBranchSinceFebrauryEight_success() {
+    public void getEditedFileInfos_editFileInfoBranchSinceFebrauryEight_success() throws GitCheckerException {
         GitChecker.checkout(config.getRepoRoot(), EDITED_FILE_INFO_BRANCH);
         List<FileInfo> files = FileInfoExtractor.getEditedFileInfos(config, FEBRUARY_EIGHT_COMMIT_HASH);
 
@@ -107,7 +108,7 @@ public class FileInfoExtractorTest extends GitTestTemplate {
     }
 
     @Test
-    public void getEditedFileInfos_editFileInfoBranchSinceFirstCommit_success() {
+    public void getEditedFileInfos_editFileInfoBranchSinceFirstCommit_success() throws GitCheckerException {
         GitChecker.checkout(config.getRepoRoot(), EDITED_FILE_INFO_BRANCH);
         List<FileInfo> files = FileInfoExtractor.getEditedFileInfos(config, FIRST_COMMIT_HASH);
 
@@ -118,7 +119,7 @@ public class FileInfoExtractorTest extends GitTestTemplate {
     }
 
     @Test
-    public void getEditedFileInfos_windowsIllegalFileNameBranchSinceOctoberFifteen_success() {
+    public void getEditedFileInfos_windowsIllegalFileNameBranchSinceOctoberFifteen_success() throws GitCheckerException {
         GitChecker.checkout(config.getRepoRoot(), WINDOWS_ILLEGAL_FILE_NAME_BRANCH);
         List<FileInfo> files = FileInfoExtractor.getEditedFileInfos(config, OCTOBER_SEVENTH_COMMIT_HASH);
 

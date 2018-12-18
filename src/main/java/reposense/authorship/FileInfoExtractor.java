@@ -21,6 +21,7 @@ import reposense.authorship.model.FileInfo;
 import reposense.authorship.model.LineInfo;
 import reposense.git.CommitNotFoundException;
 import reposense.git.GitChecker;
+import reposense.git.GitCheckerException;
 import reposense.model.RepoConfiguration;
 import reposense.system.CommandRunner;
 import reposense.system.LogsManager;
@@ -59,6 +60,8 @@ public class FileInfoExtractor {
         try {
             GitChecker.checkoutToDate(config.getRepoRoot(), config.getBranch(), config.getUntilDate());
         } catch (CommitNotFoundException cnfe) {
+            return fileInfos;
+        } catch (GitCheckerException e) {
             return fileInfos;
         }
         String lastCommitHash = CommandRunner.getCommitHashBeforeDate(

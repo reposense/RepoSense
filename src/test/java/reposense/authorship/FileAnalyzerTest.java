@@ -12,6 +12,7 @@ import reposense.authorship.model.FileInfo;
 import reposense.authorship.model.FileResult;
 import reposense.git.CommitNotFoundException;
 import reposense.git.GitChecker;
+import reposense.git.GitCheckerException;
 import reposense.model.Author;
 import reposense.template.GitTestTemplate;
 import reposense.util.TestUtil;
@@ -33,7 +34,7 @@ public class FileAnalyzerTest extends GitTestTemplate {
     }
 
     @Test
-    public void blameTestDateRange() throws CommitNotFoundException {
+    public void blameTestDateRange() throws CommitNotFoundException, GitCheckerException {
         Date sinceDate = TestUtil.getDate(2018, Calendar.FEBRUARY, 6);
         Date untilDate = TestUtil.getDate(2018, Calendar.FEBRUARY, 8);
 
@@ -46,7 +47,7 @@ public class FileAnalyzerTest extends GitTestTemplate {
     }
 
     @Test
-    public void movedFileBlameTestDateRange() throws CommitNotFoundException {
+    public void movedFileBlameTestDateRange() throws CommitNotFoundException, GitCheckerException {
         Date sinceDate = TestUtil.getDate(2018, Calendar.FEBRUARY, 7);
         Date untilDate = TestUtil.getDate(2018, Calendar.FEBRUARY, 9);
 
