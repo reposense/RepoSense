@@ -13,9 +13,9 @@ import reposense.util.StringsUtil;
 /**
  * Contains Git related utilities.
  */
-public class Util {
-    public static final DateFormat GIT_LOG_SINCE_DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd'T'00:00:00+08:00");
-    public static final DateFormat GIT_LOG_UNTIL_DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd'T'23:59:59+08:00");
+class Util {
+    static final DateFormat GIT_LOG_SINCE_DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd'T'00:00:00+08:00");
+    static final DateFormat GIT_LOG_UNTIL_DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd'T'23:59:59+08:00");
 
     // ignore check against email
     private static final String AUTHOR_NAME_PATTERN = "^%s <.*>$";
@@ -24,7 +24,7 @@ public class Util {
     /**
      * Returns the {@code String} command to specify the date range of commits to analyze for `git` commands.
      */
-    public static String convertToGitDateRangeArgs(Date sinceDate, Date untilDate) {
+    static String convertToGitDateRangeArgs(Date sinceDate, Date untilDate) {
         String gitDateRangeArgs = "";
 
         if (sinceDate != null) {
@@ -40,7 +40,7 @@ public class Util {
     /**
      * Returns the {@code String} command to specify the authors to analyze for `git log` command.
      */
-    public static String convertToFilterAuthorArgs(Author author) {
+    static String convertToFilterAuthorArgs(Author author) {
         StringBuilder filterAuthorArgsBuilder = new StringBuilder(" --author=\"");
 
         // git author names may contain regex meta-characters, so we need to escape those
@@ -58,7 +58,7 @@ public class Util {
     /**
      * Returns the {@code String} command to specify the file formats to analyze for `git` commands.
      */
-    public static String convertToGitFormatsArgs(List<String> formats) {
+    static String convertToGitFormatsArgs(List<String> formats) {
         StringBuilder gitFormatsArgsBuilder = new StringBuilder();
         final String cmdFormat = " -- " + addQuote("*.%s");
         formats.stream()
@@ -71,7 +71,7 @@ public class Util {
     /**
      * Returns the {@code String} command to specify the globs to exclude for `git log` command.
      */
-    public static String convertToGitExcludeGlobArgs(List<String> ignoreGlobList) {
+    static String convertToGitExcludeGlobArgs(List<String> ignoreGlobList) {
         StringBuilder gitExcludeGlobArgsBuilder = new StringBuilder();
         final String cmdFormat = " " + addQuote(":(exclude)%s");
         ignoreGlobList.stream()
