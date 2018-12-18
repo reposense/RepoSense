@@ -95,7 +95,7 @@ public class ArgsParser {
 
         parser.addArgument("-ignorejson")
                 .action(Arguments.storeTrue())
-                .help("An flag to ignore the standalone config file in the repo.");
+                .help("A flag to ignore the standalone config file in the repo.");
 
         return parser;
     }

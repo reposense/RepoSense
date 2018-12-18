@@ -65,7 +65,6 @@ public class ArgsParserTest {
 
         List<String> expectedFormats = Arrays.asList("java", "adoc", "html", "css", "js");
         Assert.assertEquals(expectedFormats, cliArguments.getFormats());
-
     }
 
     @Test

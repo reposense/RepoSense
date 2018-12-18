@@ -162,13 +162,12 @@ public class RepoConfigurationTest {
     }
 
     @Test
-    public void repoConfig_ignoresStandaloneConfigInCli_success()
-            throws ParseException, GitDownloaderException, IOException {
+    public void repoConfig_ignoresStandaloneConfigInCli_success() throws ParseException, GitDownloaderException {
         RepoConfiguration expectedConfig = new RepoConfiguration(TEST_REPO_DELTA, "master");
         expectedConfig.setFormats(CLI_FORMATS);
 
         String formats = String.join(" ", CLI_FORMATS);
-        String input = String.format("-repo %s -formats %s -ignore", TEST_REPO_DELTA, formats);
+        String input = String.format("-repo %s -formats %s -ignorejson", TEST_REPO_DELTA, formats);
         CliArguments cliArguments = ArgsParser.parse(translateCommandline(input));
         List<RepoConfiguration> actualConfigs = RepoSense.getRepoConfigurations((LocationsCliArguments) cliArguments);
         RepoConfiguration.setFormatsToRepoConfigs(actualConfigs, cliArguments.getFormats());
