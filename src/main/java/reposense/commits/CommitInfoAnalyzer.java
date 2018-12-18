@@ -67,7 +67,13 @@ public class CommitInfoAnalyzer {
             logger.log(Level.WARNING, "Unable to parse the date from git log result for commit.", pe);
         }
 
-        String message = elements[MESSAGE_INDEX];
+        String message = "";
+        try {
+            message = elements[MESSAGE_INDEX];
+        } catch (ArrayIndexOutOfBoundsException ex) {
+            logger.log(Level.WARNING, "Encounter empty commit message.", ex);
+        }
+        
         int insertion = getInsertion(statLine);
         int deletion = getDeletion(statLine);
         return new CommitResult(author, hash, date, message, insertion, deletion);
