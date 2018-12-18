@@ -284,6 +284,13 @@ public class RepoConfiguration {
 
     public void addAuthor(Author author) {
         authorList.add(author);
+        // Set GitHub Id as default alias
+        addAuthorAliases(author, Arrays.asList(author.getGitId()));
+
+        setAuthorDisplayName(author, author.getDisplayName());
+
+        // Propagate RepoConfiguration IgnoreGlobList to Author
+        author.appendIgnoreGlobList(this.getIgnoreGlobList());
     }
 
     public boolean containsAuthor(Author author) {
