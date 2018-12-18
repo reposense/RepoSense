@@ -15,12 +15,16 @@ import reposense.system.LogsManager;
 import reposense.util.FileUtil;
 
 /**
- * Clones the repository from GitHub.
+ * Contains git clone related functionalities.
+ * Git clone is responsible for cloning a local/remote repository into a new directory.
  */
 public class GitClone {
 
     private static final Logger logger = LogsManager.getLogger(GitClone.class);
 
+    /**
+     * Downloads repo specified in the {@code repoConfig} and updates it with the branch info.
+     */
     public static void downloadRepo(RepoConfiguration repoConfig)
             throws GitDownloaderException {
         try {

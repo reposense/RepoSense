@@ -7,6 +7,10 @@ import java.nio.file.Paths;
 
 import reposense.util.StringsUtil;
 
+/**
+ * Contains git branch related functionalities.
+ * Git branch is responsible for list, create, or delete branches.
+ */
 public class GitBranch {
 
     /**

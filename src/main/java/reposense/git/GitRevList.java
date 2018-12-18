@@ -6,6 +6,10 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Date;
 
+/**
+ * Contains git rev list related functionalities.
+ * Git rev list is capable of showing commit objects in reverse chronological order.
+ */
 public class GitRevList {
 
     /**

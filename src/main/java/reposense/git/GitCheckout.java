@@ -10,7 +10,10 @@ import java.util.logging.Logger;
 import reposense.commits.model.CommitResult;
 import reposense.system.LogsManager;
 
-
+/**
+ * Contains git checkout related functionalities.
+ * Git branch is responsible for switch branches, revision or restore working tree files.
+ */
 public class GitCheckout {
 
     private static final Logger logger = LogsManager.getLogger(GitCheckout.class);
@@ -23,11 +26,17 @@ public class GitCheckout {
         checkout(root, branch);
     }
 
+    /**
+     * Checkouts to the hash revision given in the {@code commit}.
+     */
     public static void checkOutToCommit(String root, CommitResult commit) {
         logger.info("Checking out " + commit.getHash() + "time:" + commit.getTime());
         checkout(root, commit.getHash());
     }
 
+    /**
+     * Checkouts to the given {@code hash} revision.
+     */
     public static void checkout(String root, String hash) {
         Path rootPath = Paths.get(root);
         runCommand(rootPath, "git checkout " + hash);

@@ -8,6 +8,10 @@ import java.nio.file.Paths;
 
 import reposense.util.StringsUtil;
 
+/**
+ * Contains git blame related functionalities.
+ * Git blame is responsible to show what revision and author last modified each line of a file.
+ */
 public class GitBlame {
 
     /**

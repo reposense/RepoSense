@@ -8,6 +8,10 @@ import java.nio.file.Paths;
 import reposense.model.Author;
 import reposense.model.RepoConfiguration;
 
+/**
+ * Contains git log related functionalities.
+ * Git log is responsible to obtain the commit logs and the authors' info.
+ */
 public class GitLog {
 
     public static String get(RepoConfiguration config, Author author) {

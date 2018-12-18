@@ -14,7 +14,8 @@ import reposense.model.Author;
 import reposense.model.RepoConfiguration;
 
 /**
- * Executes and extracts information from git-shortlog related commands.
+ * Contains git shortlog related functionalities.
+ * Git shortlog provides a summary of git log output.
  */
 public class GitShortlog {
 
