@@ -143,7 +143,7 @@ public class RepoConfiguration {
                     }
                     repoConfigToAdd.addAuthor(author);
                     repoConfigToAdd.addAuthorAliases(author, author.getAuthorAliases());
-                    repoConfigToAdd.setAuthorDisplayName(author, author.getDisplayName());
+                    repoConfigToAdd.setAuthorDisplayName(author, authorConfig.getAuthorDisplayNameMap().get(author));
                 }
             }
         }
