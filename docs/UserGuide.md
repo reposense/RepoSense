@@ -268,7 +268,7 @@ Optionally, you can use a `author-config.csv` (which should be in the same direc
 
 Column Name | Explanation
 ----------- | -----------
-Repository's Location | Same as `repo-config.csv`
+[Optional] Repository's Location | Same as `repo-config.csv`. Default: all the repos in `repo-config.csv`
 [Optional] Branch | The branch to analyze for this author e.g., `master`. Default: the default branch of the repo
 Author's GitHub ID | GitHub username of the target author e.g., `JohnDoe`
 [Optional] Author's Display Name | The name to display for the author. Default: author's GitHub username.
