@@ -78,12 +78,12 @@ gradlew run
 
 Sample usage to generate the report with config files:
 ```
-gradlew run -Dargs="-config ./configs/ -output output_path/ -since 01/10/2017 -until 01/11/2017 -formats java adoc js"
+gradlew run -Dargs="-config ./configs/ -output output_path/ -since 21/10/2017 -until 21/11/2017 -formats java adoc js"
 ```
 
 Sample usage to generate the report with repository locations:
 ```
-gradlew run -Dargs="-repos https://github.com/reposense/RepoSense.git https://github.com/se-edu/collate.git -output output_path/ -since 01/10/2017 -until 01/11/2017 -formats java adoc js"
+gradlew run -Dargs="-repos https://github.com/reposense/RepoSense.git https://github.com/se-edu/collate.git -output output_path/ -since 21/10/2017 -until 21/11/2017 -formats java adoc js"
 ```
 
 Sample usage to generate the report with repository locations but ignore the standalone config file:

@@ -91,16 +91,16 @@ The `Tool Bar` at the top provides a set of configuration options that control t
   * `Total Contribution` : the amount of lines, written by the author, in the repository.
   * `Variance` : the [variance](https://en.wikipedia.org/wiki/Variance) of the number of lines that the author has contributed to the repository daily, sorted from low to high.
   * `Author Name` : the author's display name.
-  * `Team Name` : see note [1] below.
+  * `Repo/Branch Name` : see note [1] below.
 * `Granularity` : the period of time for which commits are aggregated in the Ramp Chart.
     * `Day`: commits within a day (commits made within 00:00 to 23:59 in **GMT+8**) are shown as one ramp
     * `Week`:  commits within a week are shown as one ramp
 * `Since`, `Until` : the date range for the Ramp Chart (not applied to the Contribution Bars).
 * `Reverse` : if checked, the sorting will be done in the reverse order of the default sorting order
-* `Group` : if checked, authors from the same team<sup>[1]</sup> will be grouped together. This has precedence over the `sort by` feature; the `sort by` feature will only change display order of the authors under the same team<sup>[1]</sup>.
+* `Group` : if checked, authors from the same repo/branch<sup>[1]</sup> will be grouped together. This has precedence over the `sort by` feature; the `sort by` feature will only change display order of the authors under the same repo/branch<sup>[1]</sup>.
 
 Notes:<br>
-[1] **`Team `**: the team name is constructed as `ORGANIZATION_REPOSITORY_BRANCH` e.g., `resposense_reposense_master`
+[1] **`Repo/Branch`**: the repo/branch name is constructed as `ORGANIZATION_REPOSITORY_BRANCH` e.g., `resposense_reposense_master`
 
 **Bookmarking a specific toolbar setting**: The URL changes according to the toolbar configuration. You can save a specific configuration of the report by bookmarking the url (using browser functionality).
 
@@ -218,16 +218,16 @@ In addition, there are some _optional_ extra parameters you can use to customize
 * **`-output OUTPUT_DIRECTORY`**: Indicates where to save the report generated. Default: current directory.<br>
   Example: `-output ./foo` (in this case, the report will be in the `./foo/reposense-report` folder)
 * **`-since START_DATE`**: The start date of analysis. Format: `DD/MM/YYYY`<br>
-  Example:`-since 01/10/2017`
+  Example:`-since 21/10/2017`
 * **`-until END_DATE`**: The end date of analysis. The analysis excludes the end date. Format: `DD/MM/YYYY`<br>
-  Example:`-since 01/10/2017`
+  Example:`-since 21/10/2017`
 * **`-formats LIST_OF_FORMATS`**: A space-separated list of file extensions that should be included in the analysis. Default: `adoc cs css fxml gradle html java js json jsp md py tag xml`<br>
   Example:`-formats css fxml gradle`
 * **`-ignorejson`**: A flag to ignore the standalone config file in the repo. This flag will not overwrite the `Ignore standalone config` field in the csv config file. Default: the standalone config file is not ignored.<br>
   Example:`-ignorejson`
 
 Here's an example of a command using all parameters:<br>
-`java -jar RepoSense.jar -repo https://github.com/reposense/RepoSense.git -output ./report_folder -since 01/10/2017 -until 01/11/2017 -formats java adoc js -ignorejson`
+`java -jar RepoSense.jar -repo https://github.com/reposense/RepoSense.git -output ./report_folder -since 21/10/2017 -until 21/11/2017 -formats java adoc js -ignorejson`
 
 ### Customize Using csv Config Files
 
