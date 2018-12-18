@@ -182,7 +182,9 @@ window.vSummary = {
       const params = window.location.hash.slice(1).split('&');
       params.forEach((param) => {
         const [key, val] = param.split('=');
-        window.hashParams[key] = decodeURIComponent(val);
+        if (key) {
+          window.hashParams[key] = decodeURIComponent(val);
+        }
       });
 
       const convertBool = txt => (txt === 'true');
