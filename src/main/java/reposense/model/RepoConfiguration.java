@@ -142,8 +142,8 @@ public class RepoConfiguration {
                         continue;
                     }
                     repoConfigToAdd.addAuthor(author);
-                    repoConfigToAdd.setAuthorDisplayNameMap(authorConfig.getAuthorDisplayNameMap());
-                    repoConfigToAdd.setAuthorAliasMap(authorConfig.getAuthorAliasMap());
+                    repoConfigToAdd.addAuthorAliases(author, author.getAuthorAliases());
+                    repoConfigToAdd.setAuthorDisplayName(author, author.getDisplayName());
                 }
             }
         }
