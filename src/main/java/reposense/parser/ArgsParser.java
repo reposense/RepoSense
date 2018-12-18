@@ -93,7 +93,7 @@ public class ArgsParser {
                         + "If not provided, default file formats will be used.\n"
                         + "Please refer to userguide for more information.");
 
-        parser.addArgument("-ignore")
+        parser.addArgument("-ignorejson")
                 .setDefault(false)
                 .action(Arguments.storeTrue())
                 .help("An indication to ignore the standalone config file in the repo.");
@@ -118,7 +118,7 @@ public class ArgsParser {
             Optional<Date> untilDate = results.get("until");
             List<String> formats = results.get("formats");
             List<String> locations = results.get("repos");
-            Boolean isStandaloneConfigIgnored = results.get("ignore");
+            Boolean isStandaloneConfigIgnored = results.get("ignorejson");
 
             verifyDatesRangeIsCorrect(sinceDate, untilDate);
 

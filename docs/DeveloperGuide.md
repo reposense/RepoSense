@@ -69,7 +69,7 @@ Eslint and its accompaning modules can be installed through NPM, so do ensure th
 ### Building and running RepoSense from code
 
 1. Execute the following command on the OS terminal inside the project directory. <br/>
-Usage: `gradlew run -Dargs="([-config CONFIG_FOLDER] | -repos REPO_PATH_OR_URL... | -view REPORT_FOLDER) [-output OUTPUT_DIRECTORY] [-since DD/MM/YYYY] [-until DD/MM/YYYY] [-formats FORMAT...] [-ignore]"` <br/>
+Usage: `gradlew run -Dargs="([-config CONFIG_FOLDER] | -repos REPO_PATH_OR_URL... | -view REPORT_FOLDER) [-output OUTPUT_DIRECTORY] [-since DD/MM/YYYY] [-until DD/MM/YYYY] [-formats FORMAT...] [-ignorejson]"` <br/>
 
 Sample usage to generate the report with no specify arguments: (find and use config files in current working directory)
 ```
