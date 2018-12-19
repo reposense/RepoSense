@@ -26,5 +26,4 @@ public class GitLog {
 
         return runCommand(rootPath, command);
     }
-
 }

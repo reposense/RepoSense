@@ -60,6 +60,7 @@ public class GitCheckout {
         if (hash.isEmpty()) {
             throw new CommitNotFoundException("Commit before until date is not found.");
         }
+
         String checkoutCommand = "git checkout " + hash;
         runCommand(rootPath, checkoutCommand);
     }
