@@ -216,4 +216,22 @@ public class RepoConfigurationTest {
         Assert.assertEquals(1, actualConfigs.size());
         Assert.assertEquals(ArgsParser.DEFAULT_FORMATS, actualConfigs.get(0).getFormats());
     }
+
+    @Test
+    public void equal() throws InvalidLocationException {
+        RepoConfiguration emptyLocationEmptyBranchRepoConfig = new RepoConfiguration("", "");
+        RepoConfiguration emptyLocationDefaultBranchRepoConfig = new RepoConfiguration("");
+        RepoConfiguration emptyLocationWithBranchRepoConfig = new RepoConfiguration("", "master");
+
+        Assert.assertEquals(emptyLocationDefaultBranchRepoConfig, emptyLocationEmptyBranchRepoConfig);
+        Assert.assertEquals(emptyLocationWithBranchRepoConfig, emptyLocationEmptyBranchRepoConfig);
+
+        RepoConfiguration validLocationValidBranchRepoConfig = new RepoConfiguration(TEST_REPO_DELTA, "master");
+
+        Assert.assertNotEquals(emptyLocationEmptyBranchRepoConfig, validLocationValidBranchRepoConfig);
+
+        RepoConfiguration validLocationDefaultBranchRepoConfig = new RepoConfiguration(TEST_REPO_DELTA);
+
+        Assert.assertNotEquals(validLocationDefaultBranchRepoConfig, validLocationValidBranchRepoConfig);
+    }
 }
