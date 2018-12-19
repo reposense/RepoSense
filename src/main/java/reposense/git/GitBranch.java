@@ -14,7 +14,7 @@ import reposense.util.StringsUtil;
 public class GitBranch {
 
     /**
-     * Returns the current working branch.
+     * Returns the current working branch of the repository at {@code root}.
      */
     public static String getCurrentBranch(String root) {
         Path rootPath = Paths.get(root);

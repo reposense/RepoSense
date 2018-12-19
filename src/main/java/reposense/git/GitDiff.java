@@ -7,7 +7,7 @@ import java.nio.file.Paths;
 
 /**
  * Contains git diff related functionalities.
- * Git diff is responsible to obtain the changes between commits, commit and working tree, etc.
+ * Git diff is responsible for obtaining the changes between commits, commit and working tree, etc.
  */
 public class GitDiff {
 
