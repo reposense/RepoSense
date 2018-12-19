@@ -13,7 +13,8 @@ html
     script(src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js")
   body
     div#app
-      #app-wrapper(v-if="userUpdated", v-on:mousemove="mouseMove", v-on:mouseup="deregisterMouseMove", v-bind:style="{ 'user-select': appWrapperUserSelect }")
+      #app-wrapper(v-if="userUpdated", v-on:mousemove="mouseMove",
+        v-on:mouseup="deregisterMouseMove", v-bind:style="{ 'user-select': appWrapperUserSelect }")
         #summary-wrapper
           .summary-status(v-if="loadedRepo<repoLength") Loading repos ... {{ loadedRepo }} / {{ repoLength }}
           v_summary(
@@ -27,7 +28,7 @@ html
             span &nbsp; on {{ creationDate }}
 
         #tabs-wrapper(v-if="isTabActive", v-bind:style="{ flex: `0 0 ${flexWidth * 100}%` }")
-          .tab-resize(v-on:mousedown="registerMouseMove", v-on:mousemove="mouseMove", v-on:mouseup="deregisterMouseMove")
+          .tab-resize(v-on:mousedown="registerMouseMove")
           .tab-close(v-on:click="isTabActive=false")
             i.fas.fa-caret-right
           .tab-content
