@@ -2,6 +2,7 @@ package reposense.model;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 
 import reposense.parser.ArgsParser;
 
@@ -15,6 +16,11 @@ public class StandaloneConfig {
     private List<String> ignoreCommitList;
 
     public List<StandaloneAuthor> getAuthors() {
+        if (authors == null) {
+            return Collections.emptyList();
+        }
+
+        authors.removeIf(Objects::isNull);
         return authors;
     }
 
@@ -23,6 +29,7 @@ public class StandaloneConfig {
             return Collections.emptyList();
         }
 
+        ignoreGlobList.removeIf(Objects::isNull);
         return ignoreGlobList;
     }
 
@@ -31,6 +38,7 @@ public class StandaloneConfig {
             return ArgsParser.DEFAULT_FORMATS;
         }
 
+        formats.removeIf(Objects::isNull);
         return formats;
     }
 
@@ -39,6 +47,24 @@ public class StandaloneConfig {
             return Collections.emptyList();
         }
 
+        ignoreCommitList.removeIf(Objects::isNull);
         return ignoreCommitList;
+    }
+
+    @Override
+    public boolean equals(Object other) {
+        if (this == other) {
+            return true;
+        }
+
+        if (!(other instanceof StandaloneConfig)) {
+            return false;
+        }
+
+        StandaloneConfig otherStandaloneConfig = (StandaloneConfig) other;
+        return authors.equals(otherStandaloneConfig.authors)
+                && getIgnoreGlobList().equals(otherStandaloneConfig.getIgnoreGlobList())
+                && getFormats().equals(otherStandaloneConfig.getFormats())
+                && getIgnoreCommitList().equals(otherStandaloneConfig.getIgnoreCommitList());
     }
 }

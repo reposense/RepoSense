@@ -168,7 +168,6 @@ window.vSummary = {
     getFilterHash() {
       const { addHash } = window;
 
-      this.filterSearch = this.filterSearch.toLowerCase();
       addHash('search', this.filterSearch);
       addHash('sort', this.filterSort);
 
@@ -183,7 +182,9 @@ window.vSummary = {
       const params = window.location.hash.slice(1).split('&');
       params.forEach((param) => {
         const [key, val] = param.split('=');
-        window.hashParams[key] = decodeURIComponent(val);
+        if (key) {
+          window.hashParams[key] = decodeURIComponent(val);
+        }
       });
 
       const convertBool = txt => (txt === 'true');
@@ -256,7 +257,7 @@ window.vSummary = {
 
         // filtering
         repo.users.forEach((user) => {
-          const toDisplay = this.filterSearch
+          const toDisplay = this.filterSearch.toLowerCase()
             .split(' ').filter(param => param)
             .map(param => user.searchPath.search(param) > -1)
             .reduce((curr, bool) => curr || bool, false);
