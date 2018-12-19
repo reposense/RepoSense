@@ -51,7 +51,7 @@ public class ReportGenerator {
         for (RepoConfiguration config : configs) {
             Path repoReportDirectory;
             try {
-                GitClone.downloadRepo(config);
+                GitClone.clone(config);
                 repoReportDirectory = Paths.get(outputPath, config.getDisplayName());
                 FileUtil.createDirectory(repoReportDirectory);
             } catch (GitCloneException gde) {

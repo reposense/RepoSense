@@ -120,7 +120,7 @@ public class RepoConfigurationTest {
     @Test
     public void repoConfig_usesStandaloneConfig_success() throws InvalidLocationException, GitCloneException {
         RepoConfiguration actualConfig = new RepoConfiguration(TEST_REPO_DELTA, "master");
-        GitClone.downloadRepo(actualConfig);
+        GitClone.clone(actualConfig);
         ReportGenerator.updateRepoConfig(actualConfig);
 
         TestUtil.compareRepoConfig(REPO_DELTA_STANDALONE_CONFIG, actualConfig);
@@ -153,7 +153,7 @@ public class RepoConfigurationTest {
         RepoConfiguration.merge(actualConfigs, authorConfigs);
 
         RepoConfiguration actualConfig = actualConfigs.get(0);
-        GitClone.downloadRepo(actualConfig);
+        GitClone.clone(actualConfig);
         ReportGenerator.updateRepoConfig(actualConfig);
 
         TestUtil.compareRepoConfig(expectedConfig, actualConfig);
@@ -170,7 +170,7 @@ public class RepoConfigurationTest {
                 new RepoConfigCsvParser(((ConfigCliArguments) cliArguments).getRepoConfigFilePath()).parse();
 
         RepoConfiguration actualConfig = actualConfigs.get(0);
-        GitClone.downloadRepo(actualConfig);
+        GitClone.clone(actualConfig);
         ReportGenerator.updateRepoConfig(actualConfig);
 
         TestUtil.compareRepoConfig(REPO_DELTA_STANDALONE_CONFIG, actualConfig);

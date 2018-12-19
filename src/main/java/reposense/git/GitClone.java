@@ -23,14 +23,14 @@ public class GitClone {
     private static final Logger logger = LogsManager.getLogger(GitClone.class);
 
     /**
-     * Downloads repo specified in the {@code repoConfig} and updates it with the branch info.
+     * Clones repo specified in the {@code repoConfig} and updates it with the branch info.
      */
-    public static void downloadRepo(RepoConfiguration repoConfig)
+    public static void clone(RepoConfiguration repoConfig)
             throws GitCloneException {
         try {
             FileUtil.deleteDirectory(repoConfig.getRepoRoot());
             logger.info("Cloning " + repoConfig.getLocation() + "...");
-            cloneRepo(repoConfig.getLocation(), repoConfig.getRepoName());
+            clone(repoConfig.getLocation(), repoConfig.getRepoName());
             logger.info("Cloning completed!");
         } catch (RuntimeException rte) {
             logger.log(Level.SEVERE, "Error encountered in Git Cloning, will attempt to continue analyzing", rte);
@@ -53,7 +53,7 @@ public class GitClone {
         }
     }
 
-    private static void cloneRepo(String location, String repoName) throws IOException {
+    private static void clone(String location, String repoName) throws IOException {
         Path rootPath = Paths.get(FileUtil.REPOS_ADDRESS, repoName);
         Files.createDirectories(rootPath);
         runCommand(rootPath, "git clone " + addQuote(location));

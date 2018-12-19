@@ -56,7 +56,7 @@ public class GitTestTemplate {
         deleteRepos();
         config = new RepoConfiguration(TEST_REPO_GIT_LOCATION, "master");
         config.setFormats(ArgsParser.DEFAULT_FORMATS);
-        GitClone.downloadRepo(config);
+        GitClone.clone(config);
     }
 
     @AfterClass
