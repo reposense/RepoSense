@@ -58,7 +58,7 @@ public class FileInfoExtractor {
         // checks out to the latest commit of the date range to ensure the FileInfo generated correspond to the
         // git blame file analyze output
         try {
-            GitCheckout.checkoutToDate(config.getRepoRoot(), config.getBranch(), config.getUntilDate());
+            GitCheckout.checkoutDate(config.getRepoRoot(), config.getBranch(), config.getUntilDate());
         } catch (CommitNotFoundException cnfe) {
             return fileInfos;
         }

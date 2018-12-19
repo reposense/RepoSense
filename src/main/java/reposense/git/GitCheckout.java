@@ -18,7 +18,7 @@ public class GitCheckout {
 
     private static final Logger logger = LogsManager.getLogger(GitCheckout.class);
 
-    public static void checkOutToRecentBranch(String root) {
+    public static void checkoutRecentBranch(String root) {
         checkout(root, "-");
     }
 
@@ -29,7 +29,7 @@ public class GitCheckout {
     /**
      * Checkouts to the hash revision given in the {@code commit}.
      */
-    public static void checkOutToCommit(String root, CommitResult commit) {
+    public static void checkoutCommit(String root, CommitResult commit) {
         logger.info("Checking out " + commit.getHash() + "time:" + commit.getTime());
         checkout(root, commit.getHash());
     }
@@ -47,7 +47,7 @@ public class GitCheckout {
      * if {@code untilDate} is not null.
      * @throws CommitNotFoundException if commits before {@code untilDate} cannot be found.
      */
-    public static void checkoutToDate(String root, String branchName, Date untilDate) throws CommitNotFoundException {
+    public static void checkoutDate(String root, String branchName, Date untilDate) throws CommitNotFoundException {
         if (untilDate == null) {
             return;
         }

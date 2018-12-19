@@ -37,7 +37,7 @@ public class FileAnalyzerTest extends GitTestTemplate {
         Date sinceDate = TestUtil.getDate(2018, Calendar.FEBRUARY, 6);
         Date untilDate = TestUtil.getDate(2018, Calendar.FEBRUARY, 8);
 
-        GitCheckout.checkoutToDate(config.getRepoRoot(), config.getBranch(), untilDate);
+        GitCheckout.checkoutDate(config.getRepoRoot(), config.getBranch(), untilDate);
         config.setSinceDate(sinceDate);
         config.setUntilDate(untilDate);
 
@@ -50,7 +50,7 @@ public class FileAnalyzerTest extends GitTestTemplate {
         Date sinceDate = TestUtil.getDate(2018, Calendar.FEBRUARY, 7);
         Date untilDate = TestUtil.getDate(2018, Calendar.FEBRUARY, 9);
 
-        GitCheckout.checkoutToDate(config.getRepoRoot(), config.getBranch(), untilDate);
+        GitCheckout.checkoutDate(config.getRepoRoot(), config.getBranch(), untilDate);
         config.setSinceDate(sinceDate);
         config.setUntilDate(untilDate);
 

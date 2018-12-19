@@ -49,13 +49,13 @@ public class GitCheckoutTest extends GitTestTemplate {
         Assert.assertTrue(Files.exists(newFile));
 
         Date untilDate = TestUtil.getDate(2018, Calendar.FEBRUARY, 6);
-        GitCheckout.checkoutToDate(config.getRepoRoot(), config.getBranch(), untilDate);
+        GitCheckout.checkoutDate(config.getRepoRoot(), config.getBranch(), untilDate);
         Assert.assertFalse(Files.exists(newFile));
     }
 
     @Test(expected = CommitNotFoundException.class)
     public void checkoutToDate_invalidDate_throwsEmptyCommitException() throws CommitNotFoundException {
         Date untilDate = TestUtil.getDate(2015, Calendar.FEBRUARY, 6);
-        GitCheckout.checkoutToDate(config.getRepoRoot(), config.getBranch(), untilDate);
+        GitCheckout.checkoutDate(config.getRepoRoot(), config.getBranch(), untilDate);
     }
 }
