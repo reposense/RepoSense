@@ -52,17 +52,13 @@ public class GitCheckout {
             return;
         }
 
-        Path rootPath = Paths.get(root);
-
-        String substituteCommand = "git rev-list -1 --before="
-                + GitUtil.GIT_LOG_UNTIL_DATE_FORMAT.format(untilDate) + " " + branchName;
-        String hash = runCommand(rootPath, substituteCommand);
+        String hash = GitRevList.getCommitHashUntilDate(root, branchName, untilDate);
         if (hash.isEmpty()) {
             throw new CommitNotFoundException("Commit before until date is not found.");
         }
 
+        Path rootPath = Paths.get(root);
         String checkoutCommand = "git checkout " + hash;
         runCommand(rootPath, checkoutCommand);
     }
 }
-
