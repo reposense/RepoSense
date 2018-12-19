@@ -39,4 +39,21 @@ public class StandaloneAuthor {
 
         return ignoreGlobList;
     }
+
+    @Override
+    public boolean equals(Object other) {
+        if (this == other) {
+            return true;
+        }
+
+        if (!(other instanceof StandaloneAuthor)) {
+            return false;
+        }
+
+        StandaloneAuthor otherStandaloneAuthor = (StandaloneAuthor) other;
+        return githubId.equals(otherStandaloneAuthor.githubId)
+                && getDisplayName().equals(otherStandaloneAuthor.getDisplayName())
+                && getAuthorNames().equals(otherStandaloneAuthor.getAuthorNames())
+                && getIgnoreGlobList().equals(otherStandaloneAuthor.getIgnoreGlobList());
+    }
 }
