@@ -26,7 +26,7 @@ public class GitClone {
      * Downloads repo specified in the {@code repoConfig} and updates it with the branch info.
      */
     public static void downloadRepo(RepoConfiguration repoConfig)
-            throws GitDownloaderException {
+            throws GitCloneException {
         try {
             FileUtil.deleteDirectory(repoConfig.getRepoRoot());
             logger.info("Cloning " + repoConfig.getLocation() + "...");
@@ -34,11 +34,11 @@ public class GitClone {
             logger.info("Cloning completed!");
         } catch (RuntimeException rte) {
             logger.log(Level.SEVERE, "Error encountered in Git Cloning, will attempt to continue analyzing", rte);
-            throw new GitDownloaderException(rte);
+            throw new GitCloneException(rte);
             //Due to an unsolved bug on Windows Git, for some repository, Git Clone will return an error even
             // though the repo is cloned properly.
         } catch (IOException ioe) {
-            throw new GitDownloaderException(ioe);
+            throw new GitCloneException(ioe);
         }
 
         try {
@@ -49,7 +49,7 @@ public class GitClone {
             GitCheckout.checkout(repoConfig.getRepoRoot(), repoConfig.getBranch());
         } catch (RuntimeException e) {
             logger.log(Level.SEVERE, "Branch does not exist! Analyze terminated.", e);
-            throw new GitDownloaderException(e);
+            throw new GitCloneException(e);
         }
     }
 

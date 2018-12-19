@@ -17,7 +17,7 @@ import reposense.authorship.model.FileResult;
 import reposense.authorship.model.LineInfo;
 import reposense.git.GitCheckout;
 import reposense.git.GitClone;
-import reposense.git.GitDownloaderException;
+import reposense.git.GitCloneException;
 import reposense.model.Author;
 import reposense.model.RepoConfiguration;
 import reposense.parser.ArgsParser;
@@ -52,7 +52,7 @@ public class GitTestTemplate {
     }
 
     @BeforeClass
-    public static void beforeClass() throws GitDownloaderException, IOException, InvalidLocationException {
+    public static void beforeClass() throws GitCloneException, IOException, InvalidLocationException {
         deleteRepos();
         config = new RepoConfiguration(TEST_REPO_GIT_LOCATION, "master");
         config.setFormats(ArgsParser.DEFAULT_FORMATS);

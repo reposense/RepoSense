@@ -21,7 +21,7 @@ public class GitBranchTest extends GitTestTemplate {
     }
 
     @Test
-    public void getCurrentBranch_uncommonDefaultBranch_success() throws GitDownloaderException,
+    public void getCurrentBranch_uncommonDefaultBranch_success() throws GitCloneException,
             InvalidLocationException {
         RepoConfiguration uncommonDefaultConfig = new RepoConfiguration(TEST_REPO_UNCOMMON_DEFAULT_GIT_LOCATION,
                 RepoConfiguration.DEFAULT_BRANCH);

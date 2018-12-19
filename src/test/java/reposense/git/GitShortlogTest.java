@@ -1,7 +1,5 @@
 package reposense.git;
 
-import static reposense.git.GitShortlog.getAuthors;
-
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
@@ -64,7 +62,7 @@ public class GitShortlogTest extends GitTestTemplate {
         expectedAuthorList.add(new Author("fakeAuthor"));
         expectedAuthorList.add(new Author("harryggg"));
 
-        List<Author> actualAuthorList = getAuthors(config);
+        List<Author> actualAuthorList = GitShortlog.getAuthors(config);
 
         Assert.assertEquals(expectedAuthorList.size(), actualAuthorList.size());
         Assert.assertEquals(expectedAuthorList, actualAuthorList);
@@ -78,7 +76,7 @@ public class GitShortlogTest extends GitTestTemplate {
         config.setSinceDate(TestUtil.getDate(2018, Calendar.MAY, 5));
         config.setUntilDate(TestUtil.getDate(2018, Calendar.MAY, 10));
 
-        List<Author> actualAuthorList = getAuthors(config);
+        List<Author> actualAuthorList = GitShortlog.getAuthors(config);
 
         Assert.assertEquals(expectedAuthorList.size(), actualAuthorList.size());
         Assert.assertEquals(expectedAuthorList, actualAuthorList);
@@ -89,7 +87,7 @@ public class GitShortlogTest extends GitTestTemplate {
         config.setSinceDate(TestUtil.getDate(2018, Calendar.JUNE, 1));
         config.setUntilDate(TestUtil.getDate(2018, Calendar.JUNE, 20));
 
-        List<Author> actualAuthorList = getAuthors(config);
+        List<Author> actualAuthorList = GitShortlog.getAuthors(config);
 
         Assert.assertTrue(actualAuthorList.isEmpty());
     }
