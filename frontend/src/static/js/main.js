@@ -101,7 +101,7 @@ window.app = new window.Vue({
 
     registerMouseMove(event) {
       const _mouseMove = (event) => {
-        const calculatedWidth =
+        this.flexWidth =
           Math.min(
             Math.max(
               window.innerWidth - event.clientX + (DRAG_BAR_WIDTH / 2),
@@ -109,8 +109,6 @@ window.app = new window.Vue({
             ),
             window.innerWidth - (DRAG_BAR_WIDTH / 2)
           ) / window.innerWidth;
-
-        this.flexWidth = calculatedWidth;
       };
       this.appWrapperUserSelect = 'none';
       this.mouseMove = _mouseMove;
