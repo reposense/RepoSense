@@ -20,7 +20,7 @@ public class GitDownloader {
             throws GitDownloaderException {
         try {
             FileUtil.deleteDirectory(repoConfig.getRepoRoot());
-            logger.info("Cloning " + repoConfig.getLocation() + "...");
+            logger.info("Cloning from " + repoConfig.getLocation() + "...");
             CommandRunner.cloneRepo(repoConfig.getLocation(), repoConfig.getRepoName());
             logger.info("Cloning completed!");
         } catch (RuntimeException rte) {
