@@ -32,6 +32,7 @@ public class CommitInfoAnalyzer {
     private static final int AUTHOR_INDEX = 1;
     private static final int DATE_INDEX = 2;
     private static final int MESSAGE_INDEX = 3;
+    private static final int ELEMENTS_LENGTH_IF_EMPTY_MESSAGE = 3;
 
     private static final Pattern INSERTION_PATTERN = Pattern.compile("([0-9]+) insertion");
     private static final Pattern DELETION_PATTERN = Pattern.compile("([0-9]+) deletion");
@@ -68,10 +69,8 @@ public class CommitInfoAnalyzer {
         }
 
         String message = "";
-        try {
+        if(elements.length > ELEMENTS_LENGTH_IF_EMPTY_MESSAGE) {
             message = elements[MESSAGE_INDEX];
-        } catch (ArrayIndexOutOfBoundsException ex) {
-            logger.log(Level.WARNING, "Encounter empty commit message.", ex);
         }
         
         int insertion = getInsertion(statLine);
