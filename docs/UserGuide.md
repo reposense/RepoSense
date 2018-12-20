@@ -32,7 +32,7 @@ The simplest use case for RepoSense is to generate a report for the entire histo
    `java -jar RepoSense.jar -view reposense-report`
 
 Alternatively, you can combine the 2 steps by running the following command to generate the report and automatically open it afterwards:<br>
-    `java -jar RepoSense.jar -repo FULL_REPO_URL -view`<br>
+    `java -jar RepoSense.jar -repo FULL_REPO_URL -view`
 
 <hr>
 
