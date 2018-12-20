@@ -5,8 +5,8 @@ import org.junit.Test;
 
 import reposense.template.GitTestTemplate;
 
-public class GitDiffTest extends GitTestTemplate {
 
+public class GitDiffTest extends GitTestTemplate {
 
     @Test
     public void diffCommit_validCommitHash_success() {

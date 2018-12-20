@@ -17,5 +17,4 @@ public class GitBlameTest extends GitTestTemplate {
     public void blameRaw_nonExistentFile_throwsRunTimeException() {
         GitBlame.blame(config.getRepoRoot(), "nonExistentFile");
     }
-
 }
