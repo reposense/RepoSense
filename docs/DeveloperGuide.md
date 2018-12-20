@@ -103,10 +103,16 @@ gradlew run -Dargs="-view output_path/reposense-report"
  * [`CsvParser`](/src/main/java/reposense/parser/CsvParser.java): Parses the the user-supplied CSV config file into a list of `RepoConfiguration` for each repository to analyze.
 
 
-### Git(GitDownloader)
-`Git` contains the wrapper classes for respective *git* commands.
- * [`GitDownloader`](/src/main/java/reposense/git/GitDownloader.java): Wrapper class for `git clone` functionality. Clones the repository from *GitHub* into a temporary folder in order to run the analysis.
- * [`GitChecker`](/src/main/java/reposense/git/GitChecker.java): Wrapper class for `git checkout` functionality. Checks out the repository by branch name or commit hash.
+### Git
+`Git` package contains the wrapper classes for respective *git* commands.
+ * [`GitBlame`](/src/main/java/reposense/git/GitBlame.java): Wrapper class for `git blame` functionality. Traces the revision and author last modified each line of a file.
+ * [`GitBranch`](/src/main/java/reposense/git/GitBranch.java): Wrapper class for `git branch` functionality. Gets the name of the working branch of the target repo.
+ * [`GitCheckout`](/src/main/java/reposense/git/GitCheckout.java): Wrapper class for `git checkout` functionality. Checks out the repository by branch name or commit hash.
+ * [`GitClone`](/src/main/java/reposense/git/GitClone.java): Wrapper class for `git clone` functionality. Clones the repository from *GitHub* into a temporary folder in order to run the analysis.
+ * [`GitDiff`](/src/main/java/reposense/git/GitDiff.java): Wrapper class for `git diff` functionality. Obtains the changes between commits.
+ * [`GitLog`](/src/main/java/reposense/git/GitLog.java): Wrapper class for `git log` functionality. Obtains the commit logs and the authors' info.
+ * [`GitRevList`](/src/main/java/reposense/git/GitRevList.java): Wrapper class for `git rev-list` functionality. Retrieves the commit objects in reverse chronological order.
+ * [`GitShortLog`](/src/main/java/reposense/git/GitShortLog.java): Wrapper class for `git shortlog` functionality. Obtains the list of authors who have contributed to the target repo.
 
 
 ### CommitsReporter
