@@ -1,10 +1,7 @@
 package reposense.git;
 
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 
 import org.junit.Assert;
@@ -15,44 +12,6 @@ import reposense.template.GitTestTemplate;
 import reposense.util.TestUtil;
 
 public class GitShortlogTest extends GitTestTemplate {
-
-    @Test
-    public void getShortlogSummary_noDateRange_success()
-            throws NoSuchMethodException, InvocationTargetException, IllegalAccessException {
-        Method m = GitShortlog.class.getDeclaredMethod("getShortlogSummary", String.class, Date.class, Date.class);
-        m.setAccessible(true);
-        String result = (String) m.invoke(null, config.getRepoRoot(), null, null);
-
-        Assert.assertTrue(result.contains(EUGENE_AUTHOR_NAME));
-        Assert.assertTrue(result.contains(FAKE_AUTHOR_NAME));
-        Assert.assertTrue(result.contains(MAIN_AUTHOR_NAME));
-    }
-
-    @Test
-    public void getShortlogSummary_dateRange_success()
-            throws NoSuchMethodException, InvocationTargetException, IllegalAccessException {
-        Date sinceDate = TestUtil.getDate(2018, Calendar.MAY, 5);
-        Date untilDate = TestUtil.getDate(2018, Calendar.MAY, 10);
-
-        Method m = GitShortlog.class.getDeclaredMethod("getShortlogSummary", String.class, Date.class, Date.class);
-        m.setAccessible(true);
-        String result = (String) m.invoke(null, config.getRepoRoot(), sinceDate, untilDate);
-
-        Assert.assertTrue(result.contains(EUGENE_AUTHOR_NAME));
-    }
-
-    @Test
-    public void getShortlogSummary_dateOutOfRange_emptyResult()
-            throws NoSuchMethodException, InvocationTargetException, IllegalAccessException {
-        Date sinceDate = TestUtil.getDate(2018, Calendar.JUNE, 1);
-        Date untilDate = TestUtil.getDate(2018, Calendar.JUNE, 10);
-
-        Method m = GitShortlog.class.getDeclaredMethod("getShortlogSummary", String.class, Date.class, Date.class);
-        m.setAccessible(true);
-        String result = (String) m.invoke(null, config.getRepoRoot(), sinceDate, untilDate);
-
-        Assert.assertTrue(result.isEmpty());
-    }
 
     @Test
     public void getAuthors_validRepoNoDateRange_success() {
