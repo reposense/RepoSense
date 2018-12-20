@@ -132,6 +132,10 @@ html
                 template(v-for="type in Object.keys(filesLinesObj)")
                     span {{ type }}: {{ filesLinesObj[type] }}
 
+        .sorting
+          a(v-on:click="sortByPath()") Sort by path
+          a(v-on:click="sortByLineCount()") Sort by LoC
+
         .files(v-if="isLoaded")
           .empty(v-if="files.length===0") nothing to see here :(
           .file.active(v-for="file in files")

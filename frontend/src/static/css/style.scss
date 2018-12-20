@@ -254,6 +254,15 @@ header{
         }
     }
 
+    .sorting{
+        a {
+            cursor: pointer;
+            + a {
+                margin-left: 5px;
+            }
+        }
+    }
+
     .files{
         margin-top:2rem;
 

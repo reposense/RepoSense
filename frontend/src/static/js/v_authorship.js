@@ -34,6 +34,9 @@ window.vAuthorship = {
       files: [],
       filesLinesObj: {},
       totalLineCount: "",
+
+      sortByPathAscendingly: false,
+      sortByLineCountAscendingly: false,
     };
   },
 
@@ -128,6 +131,18 @@ window.vAuthorship = {
           .reduce((acc, key) => ({
               ...acc, [key]: unsortedFilesInfoObj[key]
           }), {});
+    },
+
+    sortByPath() {
+      this.sortByPathAscendingly = !this.sortByPathAscendingly;
+      this.files = this.files.sort((a, b) =>
+        (this.sortByPathAscendingly ? 1 : -1) * a.path.localeCompare(b.path));
+    },
+
+    sortByLineCount() {
+      this.sortByLineCountAscendingly = !this.sortByLineCountAscendingly;
+      this.files = this.files.sort((a, b) =>
+        (this.sortByLineCountAscendingly ? 1 : -1) * (a.lineCount - b.lineCount));
     },
   },
 
