@@ -265,6 +265,7 @@ public class ArgsParserTest {
         CliArguments cliArguments = ArgsParser.parse(translateCommandline(input));
 
         Assert.assertTrue(cliArguments instanceof LocationsCliArguments);
+        Assert.assertFalse(cliArguments.isAutomaticallyLaunching());
     }
 
     @Test
