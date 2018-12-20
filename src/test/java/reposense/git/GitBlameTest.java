@@ -1,7 +1,5 @@
 package reposense.git;
 
-import static reposense.git.GitBlame.blame;
-
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -11,13 +9,13 @@ public class GitBlameTest extends GitTestTemplate {
 
     @Test
     public void blameRaw_validFile_success() {
-        String content = blame(config.getRepoRoot(), "blameTest.java");
+        String content = GitBlame.blame(config.getRepoRoot(), "blameTest.java");
         Assert.assertFalse(content.isEmpty());
     }
 
     @Test(expected = RuntimeException.class)
     public void blameRaw_nonExistentFile_throwsRunTimeException() {
-        blame(config.getRepoRoot(), "nonExistentFile");
+        GitBlame.blame(config.getRepoRoot(), "nonExistentFile");
     }
 
 }
