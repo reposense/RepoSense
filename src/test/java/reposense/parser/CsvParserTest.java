@@ -22,6 +22,8 @@ public class CsvParserTest {
             .getResource("repoconfig_merge_test").getFile()).toPath();
     private static final Path TEST_EMPTY_BRANCH_CONFIG_FOLDER = new File(CsvParserTest.class.getClassLoader()
             .getResource("repoconfig_empty_branch_test").getFile()).toPath();
+    private static final Path TEST_EMPTY_LOCATION_CONFIG_FOLDER = new File(CsvParserTest.class.getClassLoader()
+            .getResource("repoconfig_empty_location_test").getFile()).toPath();
     private static final Path REPO_CONFIG_NO_SPECIAL_CHARACTER_FILE = new File(CsvParserTest.class.getClassLoader()
             .getResource("CsvParserTest/repoconfig_noSpecialCharacter_test.csv").getFile()).toPath();
     private static final Path AUTHOR_CONFIG_NO_SPECIAL_CHARACTER_FILE = new File(CsvParserTest.class.getClassLoader()
@@ -83,6 +85,22 @@ public class CsvParserTest {
         Assert.assertEquals(TEST_REPO_BETA_BRANCH, config.getBranch());
 
         Assert.assertEquals(AUTHOR_CONFIG_NO_SPECIAL_CHARACTER_AUTHORS, config.getAuthorList());
+    }
+
+    @Test
+    public void authorConfig_emptyLocation_success() throws ParseException, IOException {
+        RepoConfiguration expectedConfig = new RepoConfiguration("");
+
+        String input = String.format("-config %s", TEST_EMPTY_LOCATION_CONFIG_FOLDER);
+        CliArguments cliArguments = ArgsParser.parse(translateCommandline(input));
+
+        List<RepoConfiguration> authorConfigs =
+                new AuthorConfigCsvParser(((ConfigCliArguments) cliArguments).getAuthorConfigFilePath()).parse();
+
+        Assert.assertEquals(1, authorConfigs.size());
+        Assert.assertEquals(expectedConfig, authorConfigs.get(0));
+        Assert.assertEquals(expectedConfig.getLocation(), authorConfigs.get(0).getLocation());
+        Assert.assertEquals(expectedConfig.getBranch(), authorConfigs.get(0).getBranch());
     }
 
     @Test
