@@ -59,7 +59,8 @@ public class ArgsParser {
                 .metavar("LOCATION")
                 .help("The GitHub URL or disk locations to clone repository.");
 
-        mutexParser.addArgument("-view")
+        parser.addArgument("-view")
+                .nargs("*")
                 .metavar("PATH")
                 .type(new ReportFolderArgumentType())
                 .help("Starts a server to display the dashboard in the provided directory.");
@@ -106,7 +107,7 @@ public class ArgsParser {
             Namespace results = parser.parseArgs(args);
 
             Path configFolderPath = results.get("config");
-            Path reportFolderPath = results.get("view");
+            List<Path> reportFolderPath = results.get("view");
             Path outputFolderPath = results.get("output");
             Optional<Date> sinceDate = results.get("since");
             Optional<Date> untilDate = results.get("until");
@@ -115,15 +116,17 @@ public class ArgsParser {
 
             verifyDatesRangeIsCorrect(sinceDate, untilDate);
 
+            if (reportFolderPath != null && !reportFolderPath.isEmpty()) {
+                return new ViewCliArguments(reportFolderPath.get(0));
+            }
+
             if (locations != null) {
-                return new LocationsCliArguments(locations, outputFolderPath, sinceDate, untilDate, formats);
+                return new LocationsCliArguments(locations, outputFolderPath, sinceDate, untilDate, formats,
+                        reportFolderPath != null);
             }
 
-            if (reportFolderPath != null) {
-                return new ViewCliArguments(reportFolderPath);
-            }
-
-            return new ConfigCliArguments(configFolderPath, outputFolderPath, sinceDate, untilDate, formats);
+            return new ConfigCliArguments(configFolderPath, outputFolderPath, sinceDate, untilDate, formats,
+                    reportFolderPath != null);
         } catch (ArgumentParserException ape) {
             throw new ParseException(getArgumentParser().formatUsage() + ape.getMessage() + "\n");
         }

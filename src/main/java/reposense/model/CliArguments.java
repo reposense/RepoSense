@@ -13,6 +13,7 @@ public abstract class CliArguments {
     protected Optional<Date> sinceDate;
     protected Optional<Date> untilDate;
     protected List<String> formats;
+    protected boolean isAutomaticallyLaunching;
 
     public Path getOutputFilePath() {
         return outputFilePath;
@@ -28,6 +29,10 @@ public abstract class CliArguments {
 
     public List<String> getFormats() {
         return formats;
+    }
+
+    public boolean isAutomaticallyLaunching() {
+        return isAutomaticallyLaunching;
     }
 
     @Override
