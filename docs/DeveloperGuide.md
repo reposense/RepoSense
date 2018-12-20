@@ -8,7 +8,7 @@ Thank you for your interest in contributing to RepoSense!
   - [Configuring the JavaScript coding style](#configuring-the-javascript-coding-style)
 - [Architecture](#architecture)
   - [Parser](#parserconfigparser)
-  - [Git](#gitgitdownloader)
+  - [Git](#git)
   - [CommitsReporter](#commitsreporter)
   - [AuthorshipReporter](#authorshipreporter)
   - [ReportGenerator](#reportgeneratormain)
@@ -112,7 +112,7 @@ gradlew run -Dargs="-view output_path/reposense-report"
  * [`GitDiff`](/src/main/java/reposense/git/GitDiff.java): Wrapper class for `git diff` functionality. Obtains the changes between commits.
  * [`GitLog`](/src/main/java/reposense/git/GitLog.java): Wrapper class for `git log` functionality. Obtains the commit logs and the authors' info.
  * [`GitRevList`](/src/main/java/reposense/git/GitRevList.java): Wrapper class for `git rev-list` functionality. Retrieves the commit objects in reverse chronological order.
- * [`GitShortLog`](/src/main/java/reposense/git/GitShortLog.java): Wrapper class for `git shortlog` functionality. Obtains the list of authors who have contributed to the target repo.
+ * [`GitShortlog`](/src/main/java/reposense/git/GitShortlog.java): Wrapper class for `git shortlog` functionality. Obtains the list of authors who have contributed to the target repo.
 
 
 ### CommitsReporter
