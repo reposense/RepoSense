@@ -69,7 +69,7 @@ public class CommitInfoAnalyzer {
         }
 
         String message = "";
-        if(elements.length > ELEMENTS_LENGTH_IF_EMPTY_MESSAGE) {
+        if (elements.length > ELEMENTS_LENGTH_IF_EMPTY_MESSAGE) {
             message = elements[MESSAGE_INDEX];
         }
         
