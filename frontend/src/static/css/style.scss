@@ -238,12 +238,16 @@ header{
               font-weight:bolder;
             }
 
+            .bloc {
+              color:mui-color("grey");
+            }
+
             span.fileType {
-                span::after {
+                span.bloc::after {
                   content: ', ';
                 }
 
-                span:last-child::after {
+                span.bloc:last-child::after {
                   content:'';
                 }
             }
