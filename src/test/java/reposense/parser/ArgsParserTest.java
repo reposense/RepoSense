@@ -152,6 +152,7 @@ public class ArgsParserTest {
         Assert.assertTrue(cliArguments instanceof ConfigCliArguments);
         Assert.assertEquals(PROJECT_DIRECTORY.toString(), (
                 (ConfigCliArguments) cliArguments).getConfigFolderPath().toString());
+        Assert.assertTrue(cliArguments.isAutomaticallyLaunching());
     }
 
     @Test
