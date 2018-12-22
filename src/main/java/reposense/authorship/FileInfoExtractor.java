@@ -20,9 +20,10 @@ import java.util.stream.Stream;
 import reposense.authorship.model.FileInfo;
 import reposense.authorship.model.LineInfo;
 import reposense.git.CommitNotFoundException;
-import reposense.git.GitChecker;
+import reposense.git.GitCheckout;
+import reposense.git.GitDiff;
+import reposense.git.GitRevList;
 import reposense.model.RepoConfiguration;
-import reposense.system.CommandRunner;
 import reposense.system.LogsManager;
 
 /**
@@ -57,11 +58,11 @@ public class FileInfoExtractor {
         // checks out to the latest commit of the date range to ensure the FileInfo generated correspond to the
         // git blame file analyze output
         try {
-            GitChecker.checkoutToDate(config.getRepoRoot(), config.getBranch(), config.getUntilDate());
+            GitCheckout.checkoutDate(config.getRepoRoot(), config.getBranch(), config.getUntilDate());
         } catch (CommitNotFoundException cnfe) {
             return fileInfos;
         }
-        String lastCommitHash = CommandRunner.getCommitHashBeforeDate(
+        String lastCommitHash = GitRevList.getCommitHashBeforeDate(
                 config.getRepoRoot(), config.getBranch(), config.getSinceDate());
 
         if (!lastCommitHash.isEmpty()) {
@@ -81,7 +82,7 @@ public class FileInfoExtractor {
      */
     public static List<FileInfo> getEditedFileInfos(RepoConfiguration config, String lastCommitHash) {
         List<FileInfo> fileInfos = new ArrayList<>();
-        String fullDiffResult = CommandRunner.diffCommit(config.getRepoRoot(), lastCommitHash);
+        String fullDiffResult = GitDiff.diffCommit(config.getRepoRoot(), lastCommitHash);
 
         // no diff between the 2 commits, return an empty list
         if (fullDiffResult.isEmpty()) {
