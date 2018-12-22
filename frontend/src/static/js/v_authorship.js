@@ -131,7 +131,7 @@ window.vAuthorship = {
           }), {});
     },
 
-    fileExists(file) {
+    fileSelect(file) {
       var fileType = file.path.split('.').pop();
       return this.filesShown.includes(fileType);
     }
