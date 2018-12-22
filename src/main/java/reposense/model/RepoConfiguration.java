@@ -78,11 +78,7 @@ public class RepoConfiguration {
     public RepoConfiguration(String location, String branch, List<String> formats, List<String> ignoreGlobList,
             boolean isStandaloneConfigIgnored, List<String> ignoreCommitList) throws InvalidLocationException {
         this.location = location;
-        if (!location.isEmpty()) {
-            this.branch = branch;
-        } else {
-            this.branch = "";
-        }
+        this.branch = location.isEmpty() ? "" : branch;
         this.ignoreGlobList = ignoreGlobList;
         this.isStandaloneConfigIgnored = isStandaloneConfigIgnored;
         this.formats = formats;
