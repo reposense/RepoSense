@@ -230,10 +230,14 @@ header{
     }
 
     .selectFiles  {
-        label {
-          font-size:1.3rem;
+        label, input {
+            font-size:1.3rem;
+            padding: 10px;
         }
-        padding: 10px;
+        span {
+            padding:5px;
+
+        }
         display: flex;
         justify-content: flex-end;
     }
@@ -244,7 +248,7 @@ header{
         color:mui-color("red");
 
         .loc {
-          font-weight:bolder;
+            font-weight:bolder;
         }
 
         span.fileType {
