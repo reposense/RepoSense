@@ -124,17 +124,21 @@ html
         .title
           .repoName {{ info.repo }}
           .author {{ info.name }} ({{ info.author }}) contribution from {{ info.minDate }} to {{ info.maxDate }}
-          .contribution(v-if="isLoaded")
-            span Total LoC contributed:&nbsp;
-            span.loc {{ totalLineCount }}
-            br
-            span.fileType(v-if="totalLineCount > 0") &rarr; &nbsp;
-                template(v-for="type in Object.keys(filesLinesObj)")
-                    span {{ type }}: {{ filesLinesObj[type] }}
+        .selectFiles
+           span(v-for="type in Object.keys(filesLinesObj)")
+             label {{ type }}
+             input(type="checkbox" :value="type" v-model="filesShown")
+        .contribution(v-if="isLoaded")
+          span Total LoC contributed:&nbsp;
+          span.loc {{ totalLineCount }}
+          br
+          span.fileType(v-if="totalLineCount > 0") &rarr; &nbsp;
+              template(v-for="type in Object.keys(filesLinesObj)")
+                  span {{ type }}: {{ filesLinesObj[type] }}
 
         .files(v-if="isLoaded")
           .empty(v-if="files.length===0") nothing to see here :(
-          .file.active(v-for="file in files")
+          .file.active(v-for="file in files", v-if="fileExists(file)")
             .title(onclick="toggleNext(this)")
               span {{ file.path }}&nbsp;
               span.loc ({{ file.lineCount }} lines)

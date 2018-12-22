@@ -224,28 +224,36 @@ header{
         cursor: pointer;
     }
 
-    .title{
-        .repoName{
-            font-size:1.5rem;
-            font-weight:bold;
-        }
-        .contribution{
-            margin-top:0.1rem;
-            font-size:1.0rem;
-            color:mui-color("red");
+    .title .repoName {
+        font-size:1.5rem;
+        font-weight:bold;
+    }
 
-            .loc {
-              font-weight:bolder;
+    .selectFiles  {
+        label {
+          font-size:1.3rem;
+        }
+        padding: 10px;
+        display: flex;
+        justify-content: flex-end;
+    }
+
+    .contribution{
+        margin-top:0.1rem;
+        font-size:1.0rem;
+        color:mui-color("red");
+
+        .loc {
+          font-weight:bolder;
+        }
+
+        span.fileType {
+            span::after {
+              content: ', ';
             }
 
-            span.fileType {
-                span::after {
-                  content: ', ';
-                }
-
-                span:last-child::after {
-                  content:'';
-                }
+            span:last-child::after {
+              content:'';
             }
         }
     }

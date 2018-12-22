@@ -32,6 +32,7 @@ window.vAuthorship = {
     return {
       isLoaded: false,
       files: [],
+      filesShown: [],
       filesLinesObj: {},
       totalLineCount: "",
     };
@@ -129,6 +130,11 @@ window.vAuthorship = {
               ...acc, [key]: unsortedFilesInfoObj[key]
           }), {});
     },
+
+    fileExists(file) {
+      var fileType = file.path.split('.').pop();
+      return this.filesShown.includes(fileType);
+    }
   },
 
   created() {
