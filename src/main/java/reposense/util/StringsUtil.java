@@ -30,4 +30,8 @@ public class StringsUtil {
     public static String replaceSpecialSymbols(String regexString, String replacementCharacter) {
         return SPECIAL_SYMBOLS.matcher(regexString).replaceAll(replacementCharacter);
     }
+
+    public static String addQuote(String original) {
+        return "\"" + original + "\"";
+    }
 }

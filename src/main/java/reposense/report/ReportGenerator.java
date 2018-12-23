@@ -1,7 +1,5 @@
 package reposense.report;
 
-import static reposense.git.GitShortlog.extractAuthorsFromLog;
-
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Files;
@@ -19,8 +17,9 @@ import reposense.authorship.AuthorshipReporter;
 import reposense.authorship.model.AuthorshipSummary;
 import reposense.commits.CommitsReporter;
 import reposense.commits.model.CommitContributionSummary;
-import reposense.git.GitDownloader;
-import reposense.git.GitDownloaderException;
+import reposense.git.GitClone;
+import reposense.git.GitCloneException;
+import reposense.git.GitShortlog;
 import reposense.model.Author;
 import reposense.model.RepoConfiguration;
 import reposense.model.StandaloneConfig;
@@ -52,10 +51,10 @@ public class ReportGenerator {
         for (RepoConfiguration config : configs) {
             Path repoReportDirectory;
             try {
-                GitDownloader.downloadRepo(config);
+                GitClone.clone(config);
                 repoReportDirectory = Paths.get(outputPath, config.getDisplayName());
                 FileUtil.createDirectory(repoReportDirectory);
-            } catch (GitDownloaderException gde) {
+            } catch (GitCloneException gde) {
                 logger.log(Level.WARNING,
                         "Exception met while trying to clone the repo, will skip this repo.", gde);
                 repoReportDirectory = Paths.get(outputPath, config.getDisplayName());
@@ -127,7 +126,7 @@ public class ReportGenerator {
         if (config.getAuthorList().isEmpty()) {
             logger.info(String.format(
                     "%s has no authors specified, using all authors by default.", config.getDisplayName()));
-            List<Author> authorList = extractAuthorsFromLog(config);
+            List<Author> authorList = GitShortlog.getAuthors(config);
             config.setAuthorList(authorList);
         }
     }
