@@ -30,6 +30,7 @@ public class ArgsParser {
             "RepoSense is a contribution analysis tool for Git repositories.";
     private static final String MESSAGE_SINCE_DATE_LATER_THAN_UNTIL_DATE =
             "\"Since Date\" cannot be later than \"Until Date\"";
+    private static final Path EMPTY_PATH = Paths.get("");
 
     private static ArgumentParser getArgumentParser() {
         ArgumentParser parser = ArgumentParsers
@@ -49,7 +50,7 @@ public class ArgsParser {
         mutexParser.addArgument("-config")
                 .type(new ConfigFolderArgumentType())
                 .metavar("PATH")
-                .setDefault(Paths.get("").toAbsolutePath())
+                .setDefault(EMPTY_PATH.toAbsolutePath())
                 .help("The directory containing the config files."
                         + "If not provided, the config files will be obtained from the current working directory.");
 
@@ -63,7 +64,7 @@ public class ArgsParser {
                 .nargs("?")
                 .metavar("PATH")
                 .type(new ReportFolderArgumentType())
-                .setConst(Paths.get(""))
+                .setConst(EMPTY_PATH)
                 .help("Starts a server to display the dashboard in the provided directory."
                         + "If used as a flag (with no argument), "
                         + "generates a report and automatically displays the dashboard.");
@@ -119,7 +120,7 @@ public class ArgsParser {
 
             verifyDatesRangeIsCorrect(sinceDate, untilDate);
 
-            if (reportFolderPath != null && !reportFolderPath.equals(Paths.get(""))) {
+            if (reportFolderPath != null && !reportFolderPath.equals(EMPTY_PATH)) {
                 return new ViewCliArguments(reportFolderPath);
             }
 
