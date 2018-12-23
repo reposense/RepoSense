@@ -125,12 +125,12 @@ public class ArgsParser {
             boolean isAutomaticallyLaunching = reportFolderPath != null;
 
             if (locations != null) {
-                return new LocationsCliArguments(locations, outputFolderPath, sinceDate, untilDate, formats,
-                        isAutomaticallyLaunching);
+                return new LocationsCliArguments(
+                        locations, outputFolderPath, sinceDate, untilDate, formats, isAutomaticallyLaunching);
             }
 
-            return new ConfigCliArguments(configFolderPath, outputFolderPath, sinceDate, untilDate, formats,
-                    isAutomaticallyLaunching);
+            return new ConfigCliArguments(
+                    configFolderPath, outputFolderPath, sinceDate, untilDate, formats, isAutomaticallyLaunching);
         } catch (ArgumentParserException ape) {
             throw new ParseException(getArgumentParser().formatUsage() + ape.getMessage() + "\n");
         }

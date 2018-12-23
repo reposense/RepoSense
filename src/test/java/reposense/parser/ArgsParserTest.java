@@ -203,7 +203,7 @@ public class ArgsParserTest {
     }
 
     @Test
-    public void parse_configFolderAndViewWithArgs_resultsInViewCliArguments() throws ParseException, IOException {
+    public void parse_configFolderAndViewWithArgs_returnsViewCliArguments() throws ParseException, IOException {
         String input = String.format("-config %s -view %s", CONFIG_FOLDER_ABSOLUTE, OUTPUT_DIRECTORY_ABSOLUTE);
         CliArguments cliArguments = ArgsParser.parse(translateCommandline(input));
 
