@@ -63,7 +63,9 @@ public class ArgsParser {
                 .nargs("*")
                 .metavar("PATH")
                 .type(new ReportFolderArgumentType())
-                .help("Starts a server to display the dashboard in the provided directory.");
+                .help("Starts a server to display the dashboard in the provided directory."
+                        + "If used as a flag (with no argument), "
+                        + "generates a report and automatically displays the dashboard.");
 
         parser.addArgument("-output")
                 .metavar("PATH")
