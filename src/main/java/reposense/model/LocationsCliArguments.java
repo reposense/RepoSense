@@ -12,7 +12,7 @@ public class LocationsCliArguments extends CliArguments {
     private List<String> locations;
 
     public LocationsCliArguments(List<String> locations, Path outputFilePath, Optional<Date> sinceDate,
-                                 Optional<Date> untilDate, List<String> formats, boolean isAutomaticallyLaunching) {
+            Optional<Date> untilDate, List<String> formats, boolean isAutomaticallyLaunching) {
         this.locations = locations;
         this.outputFilePath = outputFilePath;
         this.sinceDate = sinceDate;
