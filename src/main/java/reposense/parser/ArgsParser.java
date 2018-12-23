@@ -120,13 +120,15 @@ public class ArgsParser {
                 return new ViewCliArguments(reportFolderPath.get(0));
             }
 
+            boolean isAutomaticallyLaunching = reportFolderPath != null;
+
             if (locations != null) {
                 return new LocationsCliArguments(locations, outputFolderPath, sinceDate, untilDate, formats,
-                        reportFolderPath != null);
+                        isAutomaticallyLaunching);
             }
 
             return new ConfigCliArguments(configFolderPath, outputFolderPath, sinceDate, untilDate, formats,
-                    reportFolderPath != null);
+                    isAutomaticallyLaunching);
         } catch (ArgumentParserException ape) {
             throw new ParseException(getArgumentParser().formatUsage() + ape.getMessage() + "\n");
         }

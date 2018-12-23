@@ -145,7 +145,7 @@ public class ArgsParserTest {
     }
 
     @Test
-    public void parse_viewOnlyWithoutArgs_resultsInConfigCliArguments() throws ParseException {
+    public void parse_viewOnlyWithoutArgs_returnsConfigCliArguments() throws ParseException {
         String input = "-view";
         CliArguments cliArguments = ArgsParser.parse(translateCommandline(input));
 
@@ -180,7 +180,7 @@ public class ArgsParserTest {
     }
 
     @Test
-    public void parse_configFolderAndLaunchAutomatically_success() throws ParseException, IOException {
+    public void parse_configFolderandViewWithouthArgs_returnsConfigCliArguments() throws ParseException, IOException {
         String input = String.format("-config %s -view", CONFIG_FOLDER_ABSOLUTE);
         CliArguments cliArguments = ArgsParser.parse(translateCommandline(input));
 
@@ -252,7 +252,7 @@ public class ArgsParserTest {
     }
 
     @Test
-    public void parse_repoLocationsAndLaunchAutomatically_success() throws ParseException {
+    public void parse_repoLocationsAndView_returnsLocationCliArguments() throws ParseException {
         String input = String.format("-repos \"%s\" %s -view", TEST_REPO_REPOSENSE, TEST_REPO_DELTA);
         CliArguments cliArguments = ArgsParser.parse(translateCommandline(input));
 
@@ -261,7 +261,7 @@ public class ArgsParserTest {
     }
 
     @Test
-    public void parse_repoLocationsAndNoLaunchAutomatically_success() throws ParseException {
+    public void parse_repoLocationsOnly_success() throws ParseException {
         String input = String.format("-repos \"%s\" %s", TEST_REPO_REPOSENSE, TEST_REPO_DELTA);
         CliArguments cliArguments = ArgsParser.parse(translateCommandline(input));
 
@@ -270,7 +270,7 @@ public class ArgsParserTest {
     }
 
     @Test
-    public void parse_repoLocationsAndViewWithArgs_resultsInViewCliArguments() throws ParseException, IOException {
+    public void parse_repoLocationsAndViewWithArgs_returnsViewCliArguments() throws ParseException, IOException {
         String input = String.format("-repos \"%s\" %s -view %s",
                 TEST_REPO_REPOSENSE, TEST_REPO_DELTA, OUTPUT_DIRECTORY_ABSOLUTE);
         CliArguments cliArguments = ArgsParser.parse(translateCommandline(input));
