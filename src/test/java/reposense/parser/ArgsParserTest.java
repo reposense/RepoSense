@@ -135,16 +135,6 @@ public class ArgsParserTest {
     }
 
     @Test
-    public void parse_viewOnlyMultipleArgs_usesFirstArg() throws ParseException, IOException {
-        String input = String.format("-view %s %s", OUTPUT_DIRECTORY_ABSOLUTE, CONFIG_FOLDER_ABSOLUTE);
-        CliArguments cliArguments = ArgsParser.parse(translateCommandline(input));
-
-        Assert.assertTrue(cliArguments instanceof ViewCliArguments);
-        Assert.assertTrue(Files.isSameFile(
-                OUTPUT_DIRECTORY_ABSOLUTE, ((ViewCliArguments) cliArguments).getReportDirectoryPath()));
-    }
-
-    @Test
     public void parse_viewOnlyWithoutArgs_returnsConfigCliArguments() throws ParseException {
         String input = "-view";
         CliArguments cliArguments = ArgsParser.parse(translateCommandline(input));

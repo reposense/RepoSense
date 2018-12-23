@@ -60,9 +60,10 @@ public class ArgsParser {
                 .help("The GitHub URL or disk locations to clone repository.");
 
         parser.addArgument("-view")
-                .nargs("*")
+                .nargs("?")
                 .metavar("PATH")
                 .type(new ReportFolderArgumentType())
+                .setConst(Paths.get(""))
                 .help("Starts a server to display the dashboard in the provided directory."
                         + "If used as a flag (with no argument), "
                         + "generates a report and automatically displays the dashboard.");
@@ -109,7 +110,7 @@ public class ArgsParser {
             Namespace results = parser.parseArgs(args);
 
             Path configFolderPath = results.get("config");
-            List<Path> reportFolderPath = results.get("view");
+            Path reportFolderPath = results.get("view");
             Path outputFolderPath = results.get("output");
             Optional<Date> sinceDate = results.get("since");
             Optional<Date> untilDate = results.get("until");
@@ -118,8 +119,8 @@ public class ArgsParser {
 
             verifyDatesRangeIsCorrect(sinceDate, untilDate);
 
-            if (reportFolderPath != null && !reportFolderPath.isEmpty()) {
-                return new ViewCliArguments(reportFolderPath.get(0));
+            if (reportFolderPath != null && !reportFolderPath.equals(Paths.get(""))) {
+                return new ViewCliArguments(reportFolderPath);
             }
 
             boolean isAutomaticallyLaunching = reportFolderPath != null;
