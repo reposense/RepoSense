@@ -50,16 +50,20 @@ public class ReportGenerator {
         FileUtil.copyTemplate(is, outputPath);
 
         for (RepoConfiguration config : configs) {
-            Path repoReportDirectory;
+            Path repoReportDirectory, saveCollateDirectory;
             try {
                 GitDownloader.downloadRepo(config);
                 repoReportDirectory = Paths.get(outputPath, config.getDisplayName());
+                saveCollateDirectory = Paths.get(outputPath, "collated");
                 FileUtil.createDirectory(repoReportDirectory);
+                FileUtil.createDirectory(saveCollateDirectory);
             } catch (GitDownloaderException gde) {
                 logger.log(Level.WARNING,
                         "Exception met while trying to clone the repo, will skip this repo.", gde);
                 repoReportDirectory = Paths.get(outputPath, config.getDisplayName());
+                saveCollateDirectory = Paths.get(outputPath, "collated");
                 FileUtil.createDirectory(repoReportDirectory);
+                FileUtil.createDirectory(saveCollateDirectory);
                 generateEmptyRepoReport(repoReportDirectory.toString());
                 continue;
             } catch (IOException ioe) {
@@ -78,6 +82,8 @@ public class ReportGenerator {
             CommitContributionSummary commitSummary = CommitsReporter.generateCommitSummary(config);
             AuthorshipSummary authorshipSummary = AuthorshipReporter.generateAuthorshipSummary(config);
             generateIndividualRepoReport(commitSummary, authorshipSummary, repoReportDirectory.toString());
+            Collate collator = new Collate(config.getAuthorList(), authorshipSummary.getFileResults(), saveCollateDirectory);
+            collator.generateIndividualCollateFiles();
 
             try {
                 FileUtil.deleteDirectory(FileUtil.REPOS_ADDRESS);

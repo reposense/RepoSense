@@ -13,6 +13,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Arrays;
 import java.util.Comparator;
+import java.util.List;
 import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -37,6 +38,9 @@ public class FileUtil {
     private static final String GITHUB_API_DATE_FORMAT = "yyyy-MM-dd";
     private static final ByteBuffer buffer = ByteBuffer.allocate(1 << 11); // 2KB
 
+    private static final String COLLATED_FILE_PATH_FORMAT = "%s" + File.separator + "%s.md";
+    private static final String ERROR_FILE_NOT_FOUND = "File was not found: %s";
+
     public static void writeJsonFile(Object object, String path) {
         Gson gson = new GsonBuilder()
                 .setDateFormat(GITHUB_API_DATE_FORMAT)
@@ -50,6 +54,18 @@ public class FileUtil {
         } catch (FileNotFoundException e) {
             logger.log(Level.SEVERE, e.getMessage(), e);
         }
+    }
+
+    public static void writeToCollateFile(String authorName, List<String>code, Path directory) {
+        File file = new File(String.format(COLLATED_FILE_PATH_FORMAT, directory, authorName));
+        try (PrintWriter writer = new PrintWriter(file)) {
+            for (String line : code) {
+                writer.println(line);
+            }
+        } catch (FileNotFoundException e) {
+            System.out.println(String.format(ERROR_FILE_NOT_FOUND, authorName));
+        }
+
     }
 
     public static void deleteDirectory(String root) throws IOException {
