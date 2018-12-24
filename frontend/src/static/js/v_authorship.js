@@ -32,6 +32,8 @@ window.vAuthorship = {
     return {
       isLoaded: false,
       files: [],
+      allSelected: true,
+      lineSelected: 0,
       filesShown: [],
       filesLinesObj: {},
       totalLineCount: "",
@@ -88,6 +90,7 @@ window.vAuthorship = {
       const res = [];
       let filesInfoObj = {};
       let totalLineCount = 0;
+      let lineSelected = 0;
 
       files.forEach((file) => {
         const lineCnt = file.authorContributionMap[this.info.author];
@@ -105,6 +108,7 @@ window.vAuthorship = {
       });
 
       this.totalLineCount = totalLineCount;
+      this.lineSelected = totalLineCount;
       res.sort((a, b) => b.lineCount - a.lineCount);
 
       this.filesLinesObj = this.sortFileTypeAlphabetically(filesInfoObj);
@@ -141,12 +145,8 @@ window.vAuthorship = {
       return this.filesShown.includes(fileType);
     },
 
-    allSelected() {
-      return Object.keys(this.filesLinesObj).length === this.filesShown.length;
-    },
-
-    selectAll(value) {
-      if (value) {
+    selectAll() {
+      if (!this.allSelected) {
         var filesSelected = [];
         for (var file in this.filesLinesObj) {
           if (this.filesLinesObj.hasOwnProperty(file)) {
@@ -170,5 +170,20 @@ window.vAuthorship = {
         window.hljs.highlightBlock(ele);
       });
     });
+    // Updates the line count displayed
+    let lines = 0;
+    if (this.filesShown.length !== 0) {
+      this.filesShown.forEach((file) => {
+        lines += this.filesLinesObj[file];
+      });
+    }
+    this.lineSelected = lines;
+
+    // Updates the select-all checkbox if all boxes are ticked manually by the user
+    if (Object.keys(this.filesLinesObj).length === this.filesShown.length) {
+      this.allSelected = true;
+    } else if (this.filesShown.length === 0){
+      this.allSelected = false;
+    }
   },
 };
