@@ -69,7 +69,7 @@ Eslint and its accompaning modules can be installed through NPM, so do ensure th
 ### Building and running RepoSense from code
 
 1. Execute the following command on the OS terminal inside the project directory. <br/>
-Usage: `gradlew run -Dargs="([-config CONFIG_FOLDER] | -repos REPO_PATH_OR_URL... | -view REPORT_FOLDER) [-output OUTPUT_DIRECTORY] [-since DD/MM/YYYY] [-until DD/MM/YYYY] [-formats FORMAT...] [-ignorejson]"` <br/>
+Usage: `gradlew run -Dargs="([-config CONFIG_FOLDER] | -repos REPO_PATH_OR_URL... | -view REPORT_FOLDER) [-output OUTPUT_DIRECTORY] [-since DD/MM/YYYY] [-until DD/MM/YYYY] [-formats FORMAT...] [--ignore-standalone-config]"` <br/>
 
 Sample usage to generate the report with no specify arguments: (find and use config files in current working directory)
 ```
@@ -88,7 +88,7 @@ gradlew run -Dargs="-repos https://github.com/reposense/RepoSense.git https://gi
 
 Sample usage to generate the report with repository locations but ignore the standalone config file:
 ```
-gradlew run -Dargs="-repos https://github.com/reposense/RepoSense.git https://github.com/se-edu/collate.git -ignorejson"
+gradlew run -Dargs="-repos https://github.com/reposense/RepoSense.git https://github.com/se-edu/collate.git --ignore-standalone-config"
 ```
 
 Sample usage to view the report:

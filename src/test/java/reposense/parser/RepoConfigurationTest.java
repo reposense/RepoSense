@@ -167,7 +167,7 @@ public class RepoConfigurationTest {
         expectedConfig.setFormats(CLI_FORMATS);
 
         String formats = String.join(" ", CLI_FORMATS);
-        String input = String.format("-repo %s -formats %s -ignorejson", TEST_REPO_DELTA, formats);
+        String input = String.format("-repo %s -formats %s --ignore-standalone-config", TEST_REPO_DELTA, formats);
         CliArguments cliArguments = ArgsParser.parse(translateCommandline(input));
         List<RepoConfiguration> actualConfigs = RepoSense.getRepoConfigurations((LocationsCliArguments) cliArguments);
         RepoConfiguration.setFormatsToRepoConfigs(actualConfigs, cliArguments.getFormats());

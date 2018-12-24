@@ -47,7 +47,7 @@ public class ArgsParserTest {
     @Test
     public void parse_allCorrectInputs_success() throws ParseException, IOException {
         String input = String.format("-config %s -output %s -since 01/07/2017 -until 30/11/2017 "
-                + "-formats java adoc html css js -ignorejson",
+                + "-formats java adoc html css js --ignore-standalone-config",
                 CONFIG_FOLDER_ABSOLUTE, OUTPUT_DIRECTORY_ABSOLUTE);
         CliArguments cliArguments = ArgsParser.parse(translateCommandline(input));
         Assert.assertTrue(cliArguments instanceof ConfigCliArguments);
@@ -70,7 +70,7 @@ public class ArgsParserTest {
     @Test
     public void parse_withExtraWhitespaces_success() throws ParseException, IOException {
         String input = String.format("-config %s      -output   %s   -since 01/07/2017   -until    30/11/2017   "
-                + "-formats     java   adoc     html css js    -ignorejson",
+                + "-formats     java   adoc     html css js    -isac",
                 CONFIG_FOLDER_ABSOLUTE, OUTPUT_DIRECTORY_ABSOLUTE);
         CliArguments cliArguments = ArgsParser.parse(translateCommandline(input));
         Assert.assertTrue(cliArguments instanceof ConfigCliArguments);
@@ -130,7 +130,18 @@ public class ArgsParserTest {
 
     @Test
     public void parse_withIgnore_success() throws ParseException {
-        String input = String.format("-repos \"%s\" %s -ignorejson", TEST_REPO_REPOSENSE, TEST_REPO_DELTA);
+        String input = String.format("-repos \"%s\" %s --ignore-standalone-config",
+                TEST_REPO_REPOSENSE, TEST_REPO_DELTA);
+        CliArguments cliArguments = ArgsParser.parse(translateCommandline(input));
+
+        Assert.assertTrue(cliArguments instanceof LocationsCliArguments);
+        Assert.assertTrue(((LocationsCliArguments) cliArguments).isStandaloneConfigIgnored());
+    }
+
+    @Test
+    public void parse_withIgnoreAlias_success() throws ParseException {
+        String input = String.format("-repos \"%s\" %s -isac",
+                TEST_REPO_REPOSENSE, TEST_REPO_DELTA);
         CliArguments cliArguments = ArgsParser.parse(translateCommandline(input));
 
         Assert.assertTrue(cliArguments instanceof LocationsCliArguments);
@@ -354,7 +365,7 @@ public class ArgsParserTest {
 
     @Test(expected = ParseException.class)
     public void parse_extraArgumentForIgnore_throwsParseException() throws ParseException {
-        String input = String.format("-config %s -ignorejson true", CONFIG_FOLDER_ABSOLUTE);
+        String input = String.format("-config %s --ignore-standalone-config true", CONFIG_FOLDER_ABSOLUTE);
         ArgsParser.parse(translateCommandline(input));
     }
 }

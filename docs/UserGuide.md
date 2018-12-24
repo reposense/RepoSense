@@ -223,11 +223,11 @@ In addition, there are some _optional_ extra parameters you can use to customize
   Example:`-since 21/10/2017`
 * **`-formats LIST_OF_FORMATS`**: A space-separated list of file extensions that should be included in the analysis. Default: `adoc cs css fxml gradle html java js json jsp md py tag xml`<br>
   Example:`-formats css fxml gradle`
-* **`-ignorejson`**: A flag to ignore the standalone config file in the repo. This flag will not overwrite the `Ignore standalone config` field in the csv config file. Default: the standalone config file is not ignored.<br>
-  Example:`-ignorejson`
+* **`--ignore-standalone-config`**: A flag to ignore the standalone config file in the repo (`-isac` as alias). This flag will not overwrite the `Ignore standalone config` field in the csv config file. Default: the standalone config file is not ignored.<br>
+  Example:`--ignore-standalone-config` or `-isac`
 
 Here's an example of a command using all parameters:<br>
-`java -jar RepoSense.jar -repo https://github.com/reposense/RepoSense.git -output ./report_folder -since 21/10/2017 -until 21/11/2017 -formats java adoc js -ignorejson`
+`java -jar RepoSense.jar -repo https://github.com/reposense/RepoSense.git -output ./report_folder -since 21/10/2017 -until 21/11/2017 -formats java adoc js -isac`
 
 ### Customize Using csv Config Files
 
