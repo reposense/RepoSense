@@ -248,6 +248,8 @@ public class ArgsParserTest {
 
         Assert.assertTrue(cliArguments instanceof LocationsCliArguments);
         Assert.assertTrue(cliArguments.isAutomaticallyLaunching());
+        List<String> expectedLocations = Arrays.asList(TEST_REPO_REPOSENSE, TEST_REPO_DELTA);
+        Assert.assertEquals(expectedLocations, ((LocationsCliArguments) cliArguments).getLocations());
     }
 
     @Test
@@ -257,6 +259,8 @@ public class ArgsParserTest {
 
         Assert.assertTrue(cliArguments instanceof LocationsCliArguments);
         Assert.assertFalse(cliArguments.isAutomaticallyLaunching());
+        List<String> expectedLocations = Arrays.asList(TEST_REPO_REPOSENSE, TEST_REPO_DELTA);
+        Assert.assertEquals(expectedLocations, ((LocationsCliArguments) cliArguments).getLocations());
     }
 
     @Test
