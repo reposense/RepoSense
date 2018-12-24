@@ -229,22 +229,8 @@ header{
         font-weight:bold;
     }
 
-    .selectFiles  {
-        label, input {
-            font-size:1.3rem;
-            padding: 10px;
-        }
-        span {
-            padding:5px;
-
-        }
-        display: flex;
-        justify-content: flex-end;
-    }
-
     .contribution{
         margin-top:0.1rem;
-        font-size:1.0rem;
         color:mui-color("red");
 
         .loc {
@@ -260,6 +246,21 @@ header{
               content:'';
             }
         }
+    }
+
+    .checkboxes label {
+        display: block;
+        float: right;
+        padding-right: 10px;
+        white-space: nowrap;
+    }
+
+    .checkboxes input {
+        vertical-align: middle;
+    }
+
+    .checkboxes label span {
+        vertical-align: middle;
     }
 
     .files{

@@ -124,13 +124,16 @@ html
         .title
           .repoName {{ info.repo }}
           .author {{ info.name }} ({{ info.author }}) contribution from {{ info.minDate }} to {{ info.maxDate }}
-        .selectFiles
-           span(v-for="type in Object.keys(filesLinesObj)")
-             label {{ type }} : {{ filesLinesObj[type] }}
-             input(type="checkbox" :value="type" v-model="filesShown")
         .contribution(v-if="isLoaded")
           span Total LoC contributed:&nbsp;
           span.loc {{ totalLineCount }}
+        div.checkboxes(v-if="files.length>0")
+          button(v-if="allSelected()", v-on:click="selectAll(false)") Unselect all
+          button(v-else, v-on:click="selectAll(true)") Select all
+          template(v-for="type in Object.keys(filesLinesObj)")
+            label
+              input(type="checkbox" :value="type" v-model="filesShown")
+              span {{ type }} : {{ filesLinesObj[type] }}
 
         .files(v-if="isLoaded")
           .empty(v-if="files.length===0") nothing to see here :(

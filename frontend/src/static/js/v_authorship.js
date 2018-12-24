@@ -108,6 +108,9 @@ window.vAuthorship = {
       res.sort((a, b) => b.lineCount - a.lineCount);
 
       this.filesLinesObj = this.sortFileTypeAlphabetically(filesInfoObj);
+      for (var file in filesInfoObj) {
+        this.filesShown.push(file);
+      }
       this.files = res;
       this.isLoaded = true;
     },
@@ -134,6 +137,22 @@ window.vAuthorship = {
     fileSelect(file) {
       var fileType = file.path.split('.').pop();
       return this.filesShown.includes(fileType);
+    },
+
+    allSelected() {
+      return Object.keys(this.filesLinesObj).length === this.filesShown.length;
+    },
+
+    selectAll(value) {
+      if (value) {
+        filesSelected = []
+        for (var file in this.filesLinesObj) {
+          filesSelected.push(file);
+        }
+        this.filesShown = filesSelected;
+      } else {
+        this.filesShown = []
+      }
     }
   },
 
