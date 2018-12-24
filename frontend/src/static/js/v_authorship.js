@@ -109,7 +109,9 @@ window.vAuthorship = {
 
       this.filesLinesObj = this.sortFileTypeAlphabetically(filesInfoObj);
       for (var file in filesInfoObj) {
-        this.filesShown.push(file);
+        if (filesInfoObj.hasOwnProperty(file)) {
+          this.filesShown.push(file);
+        }
       }
       this.files = res;
       this.isLoaded = true;
@@ -145,13 +147,15 @@ window.vAuthorship = {
 
     selectAll(value) {
       if (value) {
-        filesSelected = []
+        var filesSelected = [];
         for (var file in this.filesLinesObj) {
-          filesSelected.push(file);
+          if (this.filesLinesObj.hasOwnProperty(file)) {
+            filesSelected.push(file);
+          }
         }
         this.filesShown = filesSelected;
       } else {
-        this.filesShown = []
+        this.filesShown = [];
       }
     }
   },
