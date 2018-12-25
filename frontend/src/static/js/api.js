@@ -87,4 +87,8 @@ window.api = {
       });
   },
 
+  downloadFile() {
+    return `${REPORT_DIR}/collated/`
+  }
+
 };

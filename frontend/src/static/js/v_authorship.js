@@ -26,7 +26,7 @@ function expandAll(isActive) {
 
 const repoCache = [];
 window.vAuthorship = {
-  props: ['info'],
+  props: ['info', 'path'],
   template: window.$('v_authorship').innerHTML,
   data() {
     return {
@@ -34,6 +34,7 @@ window.vAuthorship = {
       files: [],
       filesLinesObj: {},
       totalLineCount: "",
+      link: "",
     };
   },
 
@@ -55,6 +56,7 @@ window.vAuthorship = {
         window.api.loadAuthorship(this.info.repo)
           .then(files => this.processFiles(files));
       }
+      this.link = this.path + this.info.author + ".md";
     },
 
     splitSegments(lines) {
