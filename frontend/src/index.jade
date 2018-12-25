@@ -124,9 +124,9 @@ html
       #authorship
         .title
           .repoName {{ info.repo }}
-          span
+          #downloadLink
             a(v-bind:href="link")
-              download Collated-file
+              i.fas.fa-download
           .author {{ info.name }} ({{ info.author }}) contribution from {{ info.minDate }} to {{ info.maxDate }}
           .contribution(v-if="isLoaded")
             span Total LoC contributed:&nbsp;
