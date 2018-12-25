@@ -16,8 +16,8 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import reposense.git.GitDownloader;
-import reposense.git.GitDownloaderException;
+import reposense.git.GitClone;
+import reposense.git.GitCloneException;
 import reposense.model.Author;
 import reposense.model.CliArguments;
 import reposense.model.ConfigCliArguments;
@@ -118,9 +118,9 @@ public class RepoConfigurationTest {
     }
 
     @Test
-    public void repoConfig_usesStandaloneConfig_success() throws InvalidLocationException, GitDownloaderException {
+    public void repoConfig_usesStandaloneConfig_success() throws InvalidLocationException, GitCloneException {
         RepoConfiguration actualConfig = new RepoConfiguration(TEST_REPO_DELTA, "master");
-        GitDownloader.downloadRepo(actualConfig);
+        GitClone.clone(actualConfig);
         ReportGenerator.updateRepoConfig(actualConfig);
 
         TestUtil.compareRepoConfig(REPO_DELTA_STANDALONE_CONFIG, actualConfig);
@@ -128,7 +128,7 @@ public class RepoConfigurationTest {
 
     @Test
     public void repoConfig_ignoresStandaloneConfig_success()
-            throws ParseException, GitDownloaderException, IOException {
+            throws ParseException, GitCloneException, IOException {
         List<Author> expectedAuthors = new ArrayList<>();
         Author author = new Author(FIRST_AUTHOR);
         author.setIgnoreGlobList(REPO_LEVEL_GLOB_LIST);
@@ -153,7 +153,7 @@ public class RepoConfigurationTest {
         RepoConfiguration.merge(actualConfigs, authorConfigs);
 
         RepoConfiguration actualConfig = actualConfigs.get(0);
-        GitDownloader.downloadRepo(actualConfig);
+        GitClone.clone(actualConfig);
         ReportGenerator.updateRepoConfig(actualConfig);
 
         TestUtil.compareRepoConfig(expectedConfig, actualConfig);
@@ -161,7 +161,7 @@ public class RepoConfigurationTest {
 
     @Test
     public void repoConfig_wrongKeywordUseStandaloneConfig_success()
-            throws ParseException, GitDownloaderException, IOException {
+            throws ParseException, GitCloneException, IOException {
         String formats = String.join(" ", CLI_FORMATS);
         String input = String.format("-config %s -formats %s", IGNORE_STANDALONE_KEYWORD_TEST_CONFIG_FILES, formats);
         CliArguments cliArguments = ArgsParser.parse(translateCommandline(input));
@@ -170,7 +170,7 @@ public class RepoConfigurationTest {
                 new RepoConfigCsvParser(((ConfigCliArguments) cliArguments).getRepoConfigFilePath()).parse();
 
         RepoConfiguration actualConfig = actualConfigs.get(0);
-        GitDownloader.downloadRepo(actualConfig);
+        GitClone.clone(actualConfig);
         ReportGenerator.updateRepoConfig(actualConfig);
 
         TestUtil.compareRepoConfig(REPO_DELTA_STANDALONE_CONFIG, actualConfig);

@@ -58,6 +58,7 @@ The `Chart Panel` (an example is shown above) contains _Ramp Charts_ and _Contri
 
 **Ramp Chart**: This is a visualization of frequency and quantity of contributions of an author for a specific repository.
 
+* **Title**: Each title consists of the **index**, the **name** of the author, a button to view author's **code** and a button to view author's **repo**.
 * **Rows**: Each _row_ (i.e., light blue rectangle) represents the contribution timeline of an author for a specific repository.
 * **Ramp**: Each row contains **ramps** -- the pointy saw-tooth shapes you see in the screenshot above. A ramp represents the contributions of an author possibly aggregated over a period (e.g., a day or a week).
   * The area of the ramp is proportional to the amount of contribution the author did at that time period.
