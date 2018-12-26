@@ -203,7 +203,7 @@ window.vAuthorship = {
     if (this.filesShown.length !== 0) {
       this.filesShown.forEach((file) => {
         lines += this.filesLinesObj[file];
-        blankLines += this.filesBlankLinesObj[file]
+        blankLines += this.filesBlankLinesObj[file];
       });
     }
     this.lineSelected = lines;
