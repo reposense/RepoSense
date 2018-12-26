@@ -153,10 +153,9 @@ header{
 
 .summary-chart{
     margin-bottom:1rem;
+    text-align:left;
 
     &__title{
-        text-align:left;
-        cursor:pointer;
 
         & > * {
             display:inline;
@@ -176,8 +175,10 @@ header{
             padding-right:0.25rem;
         }
 
-        &--tooltip{
+        &--button{
+            cursor:pointer;
             color:mui-color("grey");
+            text-decoration:none;
         }
     }
 
@@ -224,28 +225,36 @@ header{
         cursor: pointer;
     }
 
-    .title .repoName {
-        font-size:1.5rem;
-        font-weight:bold;
-    }
-
-    .contribution{
-        margin-top:0.1rem;
-        color:mui-color("red");
-
-        .loc {
-            font-weight:bolder;
+    .title{
+        .repoName{
+            font-size:1.5rem;
+            font-weight:bold;
+            cursor:pointer;
         }
 
-        span.fileType {
-            span::after {
-              content: ', ';
+        .contribution{
+            margin-top:0.1rem;
+            font-size:1.0rem;
+            color:mui-color("red");
+
+            .loc {
+              font-weight:bolder;
             }
 
-            span:last-child::after {
-              content:'';
+            .bloc {
+              color:mui-color("grey");
             }
-        }
+
+            span.fileType {
+                span.bloc::after {
+                  content: ', ';
+                }
+
+                span.bloc:last-child::after {
+                  content:'';
+                }
+            }
+}
     }
 
     .checkboxes label {

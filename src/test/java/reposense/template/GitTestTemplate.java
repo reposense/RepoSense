@@ -15,13 +15,13 @@ import reposense.authorship.FileInfoExtractor;
 import reposense.authorship.model.FileInfo;
 import reposense.authorship.model.FileResult;
 import reposense.authorship.model.LineInfo;
-import reposense.git.GitDownloader;
-import reposense.git.GitDownloaderException;
+import reposense.git.GitCheckout;
+import reposense.git.GitClone;
+import reposense.git.GitCloneException;
 import reposense.model.Author;
 import reposense.model.RepoConfiguration;
 import reposense.parser.ArgsParser;
 import reposense.parser.InvalidLocationException;
-import reposense.system.CommandRunner;
 import reposense.util.FileUtil;
 
 public class GitTestTemplate {
@@ -52,11 +52,11 @@ public class GitTestTemplate {
     }
 
     @BeforeClass
-    public static void beforeClass() throws GitDownloaderException, IOException, InvalidLocationException {
+    public static void beforeClass() throws GitCloneException, IOException, InvalidLocationException {
         deleteRepos();
         config = new RepoConfiguration(TEST_REPO_GIT_LOCATION, "master");
         config.setFormats(ArgsParser.DEFAULT_FORMATS);
-        GitDownloader.downloadRepo(config);
+        GitClone.clone(config);
     }
 
     @AfterClass
@@ -66,7 +66,7 @@ public class GitTestTemplate {
 
     @After
     public void after() {
-        CommandRunner.checkout(config.getRepoRoot(), "master");
+        GitCheckout.checkout(config.getRepoRoot(), "master");
     }
 
     private static void deleteRepos() throws IOException {
