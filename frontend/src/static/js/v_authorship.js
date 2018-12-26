@@ -38,7 +38,7 @@ window.vAuthorship = {
       filesLinesObj: {},
       filesBlankLinesObj: {},
       totalLineCount: "",
-      totalBlankLineCount: '',
+      blankLineSelected: '',
     };
   },
 
@@ -103,7 +103,7 @@ window.vAuthorship = {
       let filesBlanksInfoObj = {};
       let totalLineCount = 0;
       let lineSelected = 0;
-      let totalBlankLineCount = 0;
+      let blankLineSelected = 0;
 
       files.forEach((file) => {
         const lineCnt = file.authorContributionMap[this.info.author];
@@ -116,7 +116,7 @@ window.vAuthorship = {
 
           const segmentInfo = this.splitSegments(file.lines);
           out.segments = segmentInfo.segments;
-          totalBlankLineCount += segmentInfo.blankLineCount;
+          blankLineSelected += segmentInfo.blankLineCount;
           this.addLineCountToFileType(file.path, segmentInfo.blankLineCount, filesBlanksInfoObj);
           res.push(out);
         }
@@ -132,7 +132,7 @@ window.vAuthorship = {
           this.filesShown.push(file);
         }
       }
-      this.totalBlankLineCount = totalBlankLineCount;
+      this.blankLineSelected = blankLineSelected;
       this.filesBlankLinesObj = filesBlanksInfoObj;
       this.files = res;
       this.isLoaded = true;
@@ -182,8 +182,8 @@ window.vAuthorship = {
     },
 
     getTotalFileBlankLineInfo() {
-      return 'Total: Blank: ' + this.totalBlankLineCount + ', Non-Blank: '
-          + (this.totalLineCount - this.totalBlankLineCount);
+      return 'Total: Blank: ' + this.blankLineSelected + ', Non-Blank: '
+          + (this.lineSelected - this.blankLineSelected);
     },
   },
 
@@ -199,12 +199,15 @@ window.vAuthorship = {
     });
     // Updates the line count displayed
     let lines = 0;
+    let blankLines = 0;
     if (this.filesShown.length !== 0) {
       this.filesShown.forEach((file) => {
         lines += this.filesLinesObj[file];
+        blankLines += this.filesBlankLinesObj[file]
       });
     }
     this.lineSelected = lines;
+    this.blankLineSelected = blankLines;
 
     // Updates the select-all checkbox if all boxes are ticked manually by the user
     if (Object.keys(this.filesLinesObj).length === this.filesShown.length) {

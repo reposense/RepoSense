@@ -134,8 +134,8 @@ html
           .author {{ info.name }} ({{ info.author }}) contribution from {{ info.minDate }} to {{ info.maxDate }}
           .contribution(v-if="isLoaded")
             span(v-bind:title="getTotalFileBlankLineInfo()") Total LoC contributed:&nbsp;
-            span.loc(v-bind:title="getTotalFileBlankLineInfo()") {{ totalLineCount }}&nbsp;
-            span.bloc(v-bind:title="getTotalFileBlankLineInfo()") ({{ totalBlankLineCount }})
+            span.loc(v-bind:title="getTotalFileBlankLineInfo()") {{ lineSelected }}&nbsp;
+            span.bloc(v-bind:title="getTotalFileBlankLineInfo()") ({{ blankLineSelected }})
 
             div.checkboxes(v-if="files.length>0")
               label
