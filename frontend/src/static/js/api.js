@@ -87,8 +87,8 @@ window.api = {
       });
   },
 
-  downloadFile() {
-    return `${REPORT_DIR}/collated/`
+  downloadFile(repoName) {
+    return `${REPORT_DIR}/${repoName}/collated/`
   }
 
 };

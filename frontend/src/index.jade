@@ -37,8 +37,7 @@ html
                     a(v-else, v-on:click="expand(false)") Collapse all
                 v_authorship(
                   v-bind:key="generateKey(tabInfo.tabAuthorship)",
-                  v-bind:info="tabInfo.tabAuthorship",
-                  v-bind:path="getLink()")
+                  v-bind:info="tabInfo.tabAuthorship")
 
       template(v-else)
         .empty please enter a report directory or upload a report zip

@@ -64,9 +64,6 @@ window.app = new window.Vue({
         this.userUpdated = true;
       });
     },
-    getLink() {
-      return window.api.downloadFile();
-    },
     getUsers() {
       const full = [];
       Object.keys(this.repos).forEach((repo) => {

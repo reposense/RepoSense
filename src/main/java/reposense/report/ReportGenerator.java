@@ -54,14 +54,14 @@ public class ReportGenerator {
             try {
                 GitDownloader.downloadRepo(config);
                 repoReportDirectory = Paths.get(outputPath, config.getDisplayName());
-                saveCollateDirectory = Paths.get(outputPath, "collated");
+                saveCollateDirectory = Paths.get(repoReportDirectory.toString(), "collated");
                 FileUtil.createDirectory(repoReportDirectory);
                 FileUtil.createDirectory(saveCollateDirectory);
             } catch (GitDownloaderException gde) {
                 logger.log(Level.WARNING,
                         "Exception met while trying to clone the repo, will skip this repo.", gde);
                 repoReportDirectory = Paths.get(outputPath, config.getDisplayName());
-                saveCollateDirectory = Paths.get(outputPath, "collated");
+                saveCollateDirectory = Paths.get(repoReportDirectory.toString(), "collated");
                 FileUtil.createDirectory(repoReportDirectory);
                 FileUtil.createDirectory(saveCollateDirectory);
                 generateEmptyRepoReport(repoReportDirectory.toString());
