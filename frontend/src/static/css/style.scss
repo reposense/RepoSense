@@ -254,26 +254,24 @@ header{
                   content:'';
                 }
             }
-}
+            .checkboxes {
+
+                label{
+                    float: left;
+                    padding-right: 10px;
+                    white-space: nowrap;
+                }
+                span{
+                    margin-left:0.25rem;
+                    vertical-align: middle;
+                }
+            }
+        }
     }
 
-    .checkboxes label {
-        display: block;
-        float: left;
-        padding-right: 10px;
-        white-space: nowrap;
-    }
-
-    .checkboxes input {
-        vertical-align: middle;
-    }
-
-    .checkboxes label span {
-        vertical-align: middle;
-        margin-right:2px;
-    }
 
     .files{
+        clear: left;
         margin-top:2rem;
 
         .file{
