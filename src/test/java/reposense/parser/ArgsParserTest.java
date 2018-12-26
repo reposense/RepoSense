@@ -275,6 +275,14 @@ public class ArgsParserTest {
     }
 
     @Test
+    public void parse_repoLocationsAndViewWithArgCwd_returnsViewCliArguments() throws ParseException {
+        String input = String.format("-repos \"%s\" %s -view .", TEST_REPO_REPOSENSE, TEST_REPO_DELTA);
+        CliArguments cliArguments = ArgsParser.parse(translateCommandline(input));
+
+        Assert.assertTrue(cliArguments instanceof ViewCliArguments);
+    }
+
+    @Test
     public void parse_configOrLocationsSimilar_success() throws ParseException, IOException {
         String input = String.format("-config %s", CONFIG_FOLDER_ABSOLUTE);
         CliArguments configCliArguments = ArgsParser.parse(translateCommandline(input));

@@ -227,7 +227,7 @@ In addition, there are some _optional_ extra parameters you can use to customize
   Example:`-since 21/10/2017`
 * **`-formats LIST_OF_FORMATS`**: A space-separated list of file extensions that should be included in the analysis. Default: `adoc cs css fxml gradle html java js json jsp md py tag xml`<br>
   Example:`-formats css fxml gradle`
-* **`-view`**: A flag to launch the report automatically after processing. Note that if an argument is given to this parameter, no analysis will be performed and the report specified by the argument will be opened.<br>
+* **`-view [REPORT_FOLDER]`**: A flag to launch the report automatically after processing. Note that if the `REPORT_FOLDER` argument is given, no analysis will be performed and the report specified by the argument will be opened.<br>
 Example:`-view`
 
 Here's an example of a command using all parameters:<br>
