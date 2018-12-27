@@ -179,7 +179,7 @@ window.vAuthorship = {
         this.filesSelected = [];
         this.allSelected = false;
       } else {
-        this.filesSelected = this.files.filter(file => this.filesShown.includes(file.path.split(".").pop()));
+        this.filesSelected = this.files.filter((file) => this.filesShown.includes(file.path.split('.').pop()));
       }
     },
 
