@@ -33,7 +33,9 @@ window.vAuthorship = {
       isLoaded: false,
       files: [],
       filesLinesObj: {},
+      filesBlankLinesObj: {},
       totalLineCount: "",
+      totalBlankLineCount: '',
     };
   },
 
@@ -62,6 +64,7 @@ window.vAuthorship = {
       let lastState;
       let lastId = -1;
       const segments = [];
+      let blankLineCount = 0;
 
       lines.forEach((line) => {
         const authored = (line.author && line.author.gitId === this.info.author);
@@ -78,15 +81,25 @@ window.vAuthorship = {
 
         const content = line.content || ' ';
         segments[lastId].lines.push(content);
+
+        if (line.content === '' && authored) {
+          blankLineCount += 1;
+        }
+
       });
 
-      return segments;
+      return {
+        segments,
+        blankLineCount
+      };
     },
 
     processFiles(files) {
       const res = [];
       let filesInfoObj = {};
+      let filesBlanksInfoObj = {};
       let totalLineCount = 0;
+      let totalBlankLineCount = 0;
 
       files.forEach((file) => {
         const lineCnt = file.authorContributionMap[this.info.author];
@@ -97,16 +110,20 @@ window.vAuthorship = {
           out.lineCount = lineCnt;
           this.addLineCountToFileType(file.path, lineCnt, filesInfoObj);
 
-          const segments = this.splitSegments(file.lines);
-          out.segments = segments;
+          const segmentInfo = this.splitSegments(file.lines);
+          out.segments = segmentInfo.segments;
+          totalBlankLineCount += segmentInfo.blankLineCount;
+          this.addLineCountToFileType(file.path, segmentInfo.blankLineCount, filesBlanksInfoObj);
           res.push(out);
         }
       });
 
       this.totalLineCount = totalLineCount;
+      this.totalBlankLineCount = totalBlankLineCount;
       res.sort((a, b) => b.lineCount - a.lineCount);
 
       this.filesLinesObj = this.sortFileTypeAlphabetically(filesInfoObj);
+      this.filesBlankLinesObj = filesBlanksInfoObj;
       this.files = res;
       this.isLoaded = true;
     },
@@ -128,6 +145,16 @@ window.vAuthorship = {
           .reduce((acc, key) => ({
               ...acc, [key]: unsortedFilesInfoObj[key]
           }), {});
+    },
+
+    getFileBlankLineInfo(fileType) {
+      return fileType + ': ' + 'Blank: ' + this.filesBlankLinesObj[fileType]
+          + ', Non-Blank: ' + (this.filesLinesObj[fileType] - this.filesBlankLinesObj[fileType]);
+    },
+
+    getTotalFileBlankLineInfo() {
+      return 'Total: Blank: ' + this.totalBlankLineCount + ', Non-Blank: '
+          + (this.totalLineCount - this.totalBlankLineCount);
     },
   },
 
