@@ -36,6 +36,7 @@ window.vAuthorship = {
       lineSelected: 0,
       filesShown: [],
       fileTypes: [],
+      filesSelected: [],
       filesLinesObj: {},
       filesBlankLinesObj: {},
       totalLineCount: "",
@@ -137,6 +138,7 @@ window.vAuthorship = {
       this.totalBlankLineCount = totalBlankLineCount;
       this.filesBlankLinesObj = filesBlanksInfoObj;
       this.files = res;
+      this.filesSelected = res;
       this.isLoaded = true;
     },
 
@@ -159,16 +161,25 @@ window.vAuthorship = {
           }), {});
     },
 
-    fileSelect(file) {
-      var fileType = file.path.split(".").pop();
-      return this.filesShown.includes(fileType);
-    },
-
     selectAll() {
       if (!this.allSelected) {
         this.filesShown = this.fileTypes;
+        this.filesSelected = this.files;
       } else {
         this.filesShown = [];
+        this.filesSelected = [];
+      }
+    },
+
+    getSelected() {
+      if (this.fileTypes.length === this.filesShown.length) {
+        this.filesSelected = this.files;
+        this.allSelected = true;
+      } else if (this.filesShown.length === 0) {
+        this.filesSelected = [];
+        this.allSelected = false;
+      } else {
+        this.filesSelected = this.files.filter(file => this.filesShown.includes(file.path.split(".").pop()));
       }
     },
 
@@ -181,6 +192,7 @@ window.vAuthorship = {
       return 'Total: Blank: ' + this.totalBlankLineCount + ', Non-Blank: '
           + (this.totalLineCount - this.totalBlankLineCount);
     },
+
   },
 
   created() {
@@ -193,11 +205,5 @@ window.vAuthorship = {
         window.hljs.highlightBlock(ele);
       });
     });
-    // Updates the select-all checkbox if all boxes are ticked manually by the user
-    if (this.fileTypes.length === this.filesShown.length) {
-      this.allSelected = true;
-    } else if (this.filesShown.length === 0) {
-      this.allSelected = false;
-    }
   },
 };
