@@ -35,10 +35,11 @@ window.vAuthorship = {
       allSelected: true,
       lineSelected: 0,
       filesShown: [],
+      fileTypes: [],
       filesLinesObj: {},
       filesBlankLinesObj: {},
       totalLineCount: "",
-      blankLineSelected: '',
+      totalBlankLineCount: '',
     };
   },
 
@@ -103,7 +104,7 @@ window.vAuthorship = {
       let filesBlanksInfoObj = {};
       let totalLineCount = 0;
       let lineSelected = 0;
-      let blankLineSelected = 0;
+      let totalBlankLineCount = 0;
 
       files.forEach((file) => {
         const lineCnt = file.authorContributionMap[this.info.author];
@@ -116,7 +117,7 @@ window.vAuthorship = {
 
           const segmentInfo = this.splitSegments(file.lines);
           out.segments = segmentInfo.segments;
-          blankLineSelected += segmentInfo.blankLineCount;
+          totalBlankLineCount += segmentInfo.blankLineCount;
           this.addLineCountToFileType(file.path, segmentInfo.blankLineCount, filesBlanksInfoObj);
           res.push(out);
         }
@@ -130,9 +131,10 @@ window.vAuthorship = {
       for (var file in filesInfoObj) {
         if (filesInfoObj.hasOwnProperty(file)) {
           this.filesShown.push(file);
+          this.fileTypes.push(file);
         }
       }
-      this.blankLineSelected = blankLineSelected;
+      this.totalBlankLineCount = totalBlankLineCount;
       this.filesBlankLinesObj = filesBlanksInfoObj;
       this.files = res;
       this.isLoaded = true;
@@ -158,19 +160,13 @@ window.vAuthorship = {
     },
 
     fileSelect(file) {
-      var fileType = file.path.split('.').pop();
+      var fileType = file.path.split(".").pop();
       return this.filesShown.includes(fileType);
     },
 
     selectAll() {
       if (!this.allSelected) {
-        var filesSelected = [];
-        for (var file in this.filesLinesObj) {
-          if (this.filesLinesObj.hasOwnProperty(file)) {
-            filesSelected.push(file);
-          }
-        }
-        this.filesShown = filesSelected;
+        this.filesShown = this.fileTypes;
       } else {
         this.filesShown = [];
       }
@@ -182,8 +178,8 @@ window.vAuthorship = {
     },
 
     getTotalFileBlankLineInfo() {
-      return 'Total: Blank: ' + this.blankLineSelected + ', Non-Blank: '
-          + (this.lineSelected - this.blankLineSelected);
+      return 'Total: Blank: ' + this.totalBlankLineCount + ', Non-Blank: '
+          + (this.totalLineCount - this.totalBlankLineCount);
     },
   },
 
@@ -197,22 +193,10 @@ window.vAuthorship = {
         window.hljs.highlightBlock(ele);
       });
     });
-    // Updates the line count displayed
-    let lines = 0;
-    let blankLines = 0;
-    if (this.filesShown.length !== 0) {
-      this.filesShown.forEach((file) => {
-        lines += this.filesLinesObj[file];
-        blankLines += this.filesBlankLinesObj[file];
-      });
-    }
-    this.lineSelected = lines;
-    this.blankLineSelected = blankLines;
-
     // Updates the select-all checkbox if all boxes are ticked manually by the user
-    if (Object.keys(this.filesLinesObj).length === this.filesShown.length) {
+    if (this.fileTypes.length === this.filesShown.length) {
       this.allSelected = true;
-    } else if (this.filesShown.length === 0){
+    } else if (this.filesShown.length === 0) {
       this.allSelected = false;
     }
   },
