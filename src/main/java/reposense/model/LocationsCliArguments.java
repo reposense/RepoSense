@@ -3,6 +3,7 @@ package reposense.model;
 import java.nio.file.Path;
 import java.util.Date;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 /**
@@ -44,6 +45,7 @@ public class LocationsCliArguments extends CliArguments {
         LocationsCliArguments otherLocationsCliArguments = (LocationsCliArguments) other;
 
         return super.equals(other)
-                && this.locations.equals(otherLocationsCliArguments.locations);
+                && this.locations.equals(otherLocationsCliArguments.locations)
+                && Objects.equals(this.isStandaloneConfigIgnored, otherLocationsCliArguments.isStandaloneConfigIgnored);
     }
 }

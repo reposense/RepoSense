@@ -134,18 +134,16 @@ public class ArgsParserTest {
                 TEST_REPO_REPOSENSE, TEST_REPO_DELTA);
         CliArguments cliArguments = ArgsParser.parse(translateCommandline(input));
 
-        Assert.assertTrue(cliArguments instanceof LocationsCliArguments);
-        Assert.assertTrue(((LocationsCliArguments) cliArguments).isStandaloneConfigIgnored());
-    }
-
-    @Test
-    public void parse_withIgnoreAlias_success() throws ParseException {
-        String input = String.format("-repos \"%s\" %s -isac",
-                TEST_REPO_REPOSENSE, TEST_REPO_DELTA);
-        CliArguments cliArguments = ArgsParser.parse(translateCommandline(input));
+        String inputWithAlias = String.format("-repos \"%s\" %s -isac", TEST_REPO_REPOSENSE, TEST_REPO_DELTA);
+        CliArguments cliArgumentsWithAlias = ArgsParser.parse(translateCommandline(inputWithAlias));
 
         Assert.assertTrue(cliArguments instanceof LocationsCliArguments);
+        Assert.assertTrue(cliArgumentsWithAlias instanceof LocationsCliArguments);
+
         Assert.assertTrue(((LocationsCliArguments) cliArguments).isStandaloneConfigIgnored());
+        Assert.assertTrue(((LocationsCliArguments) cliArgumentsWithAlias).isStandaloneConfigIgnored());
+
+        Assert.assertEquals(cliArguments, cliArgumentsWithAlias);
     }
 
     @Test
