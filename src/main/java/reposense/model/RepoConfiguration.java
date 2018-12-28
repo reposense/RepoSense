@@ -113,10 +113,11 @@ public class RepoConfiguration {
      */
     public static void merge(List<RepoConfiguration> repoConfigs, List<RepoConfiguration> authorConfigs) {
         for (RepoConfiguration authorConfig : authorConfigs) {
-            List<RepoConfiguration> repoConfigsToAdd = new ArrayList<>();
 
             if (authorConfig.location.isEmpty()) {
-                repoConfigsToAdd = repoConfigs;
+                for (RepoConfiguration repoConfig : repoConfigs) {
+                    repoConfig.addAuthorList(authorConfig.getAuthorList());
+                }
             } else {
                 int index = repoConfigs.indexOf(authorConfig);
 
@@ -126,21 +127,8 @@ public class RepoConfiguration {
                     continue;
                 }
 
-                repoConfigsToAdd.add(repoConfigs.get(index));
-            }
-
-            for (RepoConfiguration repoConfigToAdd : repoConfigsToAdd) {
-                for (Author author: authorConfig.getAuthorList()) {
-                    if (repoConfigToAdd.containsAuthor(author)) {
-                        logger.warning(String.format(
-                                "Skipping author as %s already in repository %s",
-                                author.getGitId(), repoConfigToAdd.getDisplayName()));
-                        continue;
-                    }
-                    repoConfigToAdd.addAuthor(author);
-                    repoConfigToAdd.addAuthorAliases(author, author.getAuthorAliases());
-                    repoConfigToAdd.setAuthorDisplayName(author, authorConfig.getAuthorDisplayNameMap().get(author));
-                }
+                RepoConfiguration repoConfigToAdd = repoConfigs.get(index);
+                repoConfigToAdd.addAuthorList(authorConfig.getAuthorList());
             }
         }
     }
@@ -283,6 +271,8 @@ public class RepoConfiguration {
         // Set GitHub Id as default alias
         addAuthorAliases(author, Arrays.asList(author.getGitId()));
 
+        addAuthorAliases(author, author.getAuthorAliases());
+
         setAuthorDisplayName(author, author.getDisplayName());
 
         // Propagate RepoConfiguration IgnoreGlobList to Author
@@ -305,6 +295,18 @@ public class RepoConfiguration {
             // Propagate RepoConfiguration IgnoreGlobList to Author
             author.appendIgnoreGlobList(this.getIgnoreGlobList());
         });
+    }
+
+    public void addAuthorList(List<Author> authorList) {
+        for (Author author: authorList) {
+            if (this.containsAuthor(author)) {
+                logger.warning(String.format(
+                        "Skipping author as %s already in repository %s",
+                        author.getGitId(), this.getDisplayName()));
+                continue;
+            }
+            this.addAuthor(author);
+        }
     }
 
     public TreeMap<String, Author> getAuthorAliasMap() {
