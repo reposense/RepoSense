@@ -218,18 +218,18 @@ public class RepoConfigurationTest {
     }
 
     @Test
-    public void equal() throws InvalidLocationException {
+    public void repoConfig_emptyLocation_equal() throws InvalidLocationException {
         RepoConfiguration emptyLocationEmptyBranchRepoConfig = new RepoConfiguration("", "");
         RepoConfiguration emptyLocationDefaultBranchRepoConfig = new RepoConfiguration("");
         RepoConfiguration emptyLocationWithBranchRepoConfig = new RepoConfiguration("", "master");
 
         Assert.assertEquals(emptyLocationDefaultBranchRepoConfig, emptyLocationEmptyBranchRepoConfig);
         Assert.assertEquals(emptyLocationWithBranchRepoConfig, emptyLocationEmptyBranchRepoConfig);
+    }
 
+    @Test
+    public void repoConfig_differentBranch_notEqual() throws InvalidLocationException {
         RepoConfiguration validLocationValidBranchRepoConfig = new RepoConfiguration(TEST_REPO_DELTA, "master");
-
-        Assert.assertNotEquals(emptyLocationEmptyBranchRepoConfig, validLocationValidBranchRepoConfig);
-
         RepoConfiguration validLocationDefaultBranchRepoConfig = new RepoConfiguration(TEST_REPO_DELTA);
 
         Assert.assertNotEquals(validLocationDefaultBranchRepoConfig, validLocationValidBranchRepoConfig);
