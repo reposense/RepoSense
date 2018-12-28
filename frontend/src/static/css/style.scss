@@ -231,6 +231,11 @@ header{
             font-weight:bold;
             cursor:pointer;
         }
+
+        .downloadLink {
+            cursor: pointer;
+            float: right;
+        }
         .contribution{
             margin-top:0.1rem;
             font-size:1.0rem;
@@ -254,6 +259,10 @@ header{
                 }
             }
         }
+    }
+
+    #downloadCheckbox {
+        float: right;
     }
 
     .files{

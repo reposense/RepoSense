@@ -131,6 +131,11 @@ html
             v-bind:href="info.location", target="_blank",
             v-bind:title="'Click to open the repo'"
           ) {{ info.repo }}
+          a.downloadLink(
+            v-on:click="downloadAll()"
+            title="download the selected files"
+          )
+            i.fas.fa-download
           .author {{ info.name }} ({{ info.author }}) contribution from {{ info.minDate }} to {{ info.maxDate }}
           .contribution(v-if="isLoaded")
             span(v-bind:title="getTotalFileBlankLineInfo()") Total LoC contributed:&nbsp;
@@ -148,6 +153,8 @@ html
             .title(onclick="toggleNext(this)")
               span {{ file.path }}&nbsp;
               span.loc ({{ file.lineCount }} lines)
+            #downloadCheckbox
+              input(type="checkbox", v-on:click="downloadFile(file)")
             pre.hljs.java
               code
                 template(v-for="segment in file.segments")

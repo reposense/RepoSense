@@ -32,6 +32,7 @@ window.vAuthorship = {
     return {
       isLoaded: false,
       files: [],
+      filesDownloaded: {},
       filesLinesObj: {},
       filesBlankLinesObj: {},
       totalLineCount: "",
@@ -156,6 +157,50 @@ window.vAuthorship = {
       return 'Total: Blank: ' + this.totalBlankLineCount + ', Non-Blank: '
           + (this.totalLineCount - this.totalBlankLineCount);
     },
+
+    downloadFile(file) {
+      if (file.path in this.filesDownloaded) {
+        this.filesDownloaded[file.path] = !this.filesDownloaded[file.path];
+      } else {
+        this.filesDownloaded[file.path] = true;
+      }
+      //console.log(Object.entries(this.filesDownloaded));
+    },
+
+    injectText(text, file) {
+      //console.log(file.path);
+      text += `########################################## ${file.path}\n`;
+      for (var seg in file.segments) {
+        //console.log(file.segments[seg]);
+        text += file.segments[seg].lines.join('\n');
+        text += '\n'
+      }
+      return text;
+    },
+
+
+    downloadAll() {
+      let text = "";
+      for (var file in this.files) {
+        if (this.filesDownloaded[this.files[file].path]) {
+          text = this.injectText(text, this.files[file]);
+          text += "\n\n";
+        }
+      }
+      if (text === "") {
+        alert("No files selected!");
+        return;
+      }
+      var filename = "Compiled-code"
+      var element = document.createElement('a');
+      element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(text));
+      element.setAttribute('download', filename);
+
+      element.style.display = 'none';
+      document.body.appendChild(element);
+      element.click();
+      document.body.removeChild(element);
+    }
   },
 
   created() {
