@@ -52,6 +52,7 @@ public abstract class CliArguments {
         return this.outputFilePath.equals(otherCliArguments.outputFilePath)
                 && this.sinceDate.equals(otherCliArguments.sinceDate)
                 && this.untilDate.equals(otherCliArguments.untilDate)
-                && this.formats.equals(otherCliArguments.formats);
+                && this.formats.equals(otherCliArguments.formats)
+                && this.isAutomaticallyLaunching == otherCliArguments.isAutomaticallyLaunching;
     }
 }
