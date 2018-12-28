@@ -171,6 +171,12 @@ window.vAuthorship = {
       }
     },
 
+    selectFile() {
+      // var startTime = window.performance.now();
+      setTimeout(this.getSelected, 0);
+      // console.log(window.performance.now() - startTime);
+    },
+
     getSelected() {
       if (this.fileTypes.length === this.filesShown.length) {
         this.filesSelected = this.files;

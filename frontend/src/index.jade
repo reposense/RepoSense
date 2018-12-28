@@ -141,7 +141,7 @@ html
                 span.bloc(v-bind:title="getTotalFileBlankLineInfo()") ({{ totalBlankLineCount }})
               template(v-for="type in Object.keys(filesLinesObj)")
                 label
-                  input(type="checkbox" :value="type" v-model="filesShown" v-on:change="getSelected")
+                  input(type="checkbox" :value="type" v-model="filesShown" v-on:change="selectFile")
                   span(v-bind:title="getFileBlankLineInfo(type)") {{ type }}: {{ filesLinesObj[type] }}&nbsp;
                   span.bloc(v-bind:title="getFileBlankLineInfo(type)") ({{ filesBlankLinesObj[type] }})
 
