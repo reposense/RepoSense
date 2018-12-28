@@ -46,6 +46,6 @@ public class LocationsCliArguments extends CliArguments {
 
         return super.equals(other)
                 && this.locations.equals(otherLocationsCliArguments.locations)
-                && Objects.equals(this.isStandaloneConfigIgnored, otherLocationsCliArguments.isStandaloneConfigIgnored);
+                && this.isStandaloneConfigIgnored == otherLocationsCliArguments.isStandaloneConfigIgnored;
     }
 }
