@@ -160,10 +160,10 @@ window.vAuthorship = {
 
     injectText(text, file) {
       text += `########################################## ${file.path}\n`;
-      for (var seg in file.segments) {
-        text += file.segments[seg].lines.join('\n');
-        text += '\n'
-      }
+      file.segments.forEach((seg) => {
+        text += seg.lines.join('\n');
+        text += '\n';
+      });
       return text;
     },
 
@@ -171,12 +171,13 @@ window.vAuthorship = {
       if (this.filesDownloaded.length === 0) {
         return;
       }
-      let text = "";
-      for (var file in this.filesDownloaded) {
-        text = this.injectText(text, this.filesDownloaded[file]);
-        text += "\n\n";
-      }
-      var filename = "Compiled-code"
+      let text = '';
+      this.filesDownloaded.forEach((file) => {
+        text = this.injectText(text, file);
+        text += '\n\n';
+
+      });
+      var filename = 'Compiled-code';
       var element = document.createElement('a');
       element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(text));
       element.setAttribute('download', filename);
