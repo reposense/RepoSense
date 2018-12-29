@@ -236,6 +236,12 @@ header{
             cursor: pointer;
             float: right;
         }
+
+        .disabled {
+          cursor: not-allowed;
+          color: gray
+        }
+
         .contribution{
             margin-top:0.1rem;
             font-size:1.0rem;

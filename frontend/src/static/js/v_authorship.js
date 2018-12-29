@@ -167,16 +167,14 @@ window.vAuthorship = {
       return text;
     },
 
-
     downloadAll() {
+      if (this.filesDownloaded.length === 0) {
+        return;
+      }
       let text = "";
       for (var file in this.filesDownloaded) {
         text = this.injectText(text, this.filesDownloaded[file]);
         text += "\n\n";
-      }
-      if (text === "") {
-        alert("No files selected!");
-        return;
       }
       var filename = "Compiled-code"
       var element = document.createElement('a');
