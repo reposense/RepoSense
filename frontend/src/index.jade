@@ -154,7 +154,7 @@ html
               span {{ file.path }}&nbsp;
               span.loc ({{ file.lineCount }} lines)
             #downloadCheckbox
-              input(type="checkbox", v-on:click="downloadFile(file)")
+              input(type="checkbox", :value="file", v-model="filesDownloaded")
             pre.hljs.java
               code
                 template(v-for="segment in file.segments")

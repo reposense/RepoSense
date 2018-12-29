@@ -32,7 +32,7 @@ window.vAuthorship = {
     return {
       isLoaded: false,
       files: [],
-      filesDownloaded: {},
+      filesDownloaded: [],
       filesLinesObj: {},
       filesBlankLinesObj: {},
       totalLineCount: "",
@@ -158,20 +158,9 @@ window.vAuthorship = {
           + (this.totalLineCount - this.totalBlankLineCount);
     },
 
-    downloadFile(file) {
-      if (file.path in this.filesDownloaded) {
-        this.filesDownloaded[file.path] = !this.filesDownloaded[file.path];
-      } else {
-        this.filesDownloaded[file.path] = true;
-      }
-      //console.log(Object.entries(this.filesDownloaded));
-    },
-
     injectText(text, file) {
-      //console.log(file.path);
       text += `########################################## ${file.path}\n`;
       for (var seg in file.segments) {
-        //console.log(file.segments[seg]);
         text += file.segments[seg].lines.join('\n');
         text += '\n'
       }
@@ -181,11 +170,9 @@ window.vAuthorship = {
 
     downloadAll() {
       let text = "";
-      for (var file in this.files) {
-        if (this.filesDownloaded[this.files[file].path]) {
-          text = this.injectText(text, this.files[file]);
-          text += "\n\n";
-        }
+      for (var file in this.filesDownloaded) {
+        text = this.injectText(text, this.filesDownloaded[file]);
+        text += "\n\n";
       }
       if (text === "") {
         alert("No files selected!");
