@@ -19,6 +19,7 @@ import org.junit.Test;
 import reposense.RepoSense;
 import reposense.model.CliArguments;
 import reposense.model.ConfigCliArguments;
+import reposense.model.Format;
 import reposense.model.LocationsCliArguments;
 import reposense.model.RepoConfiguration;
 import reposense.model.ViewCliArguments;
@@ -63,7 +64,8 @@ public class ArgsParserTest {
         Assert.assertEquals(expectedSinceDate, cliArguments.getSinceDate().get());
         Assert.assertEquals(expectedUntilDate, cliArguments.getUntilDate().get());
 
-        List<String> expectedFormats = Arrays.asList("java", "adoc", "html", "css", "js");
+        List<Format> expectedFormats = Format.convertStringsToFormats(
+                Arrays.asList("java", "adoc", "html", "css", "js"));
         Assert.assertEquals(expectedFormats, cliArguments.getFormats());
     }
 
@@ -86,7 +88,8 @@ public class ArgsParserTest {
         Assert.assertEquals(expectedSinceDate, cliArguments.getSinceDate().get());
         Assert.assertEquals(expectedUntilDate, cliArguments.getUntilDate().get());
 
-        List<String> expectedFormats = Arrays.asList("java", "adoc", "html", "css", "js");
+        List<Format> expectedFormats = Format.convertStringsToFormats(Arrays.asList(
+                "java", "adoc", "html", "css", "js"));
         Assert.assertEquals(expectedFormats, cliArguments.getFormats());
     }
 
@@ -103,7 +106,7 @@ public class ArgsParserTest {
         Assert.assertEquals(Optional.empty(), cliArguments.getSinceDate());
         Assert.assertEquals(Optional.empty(), cliArguments.getUntilDate());
         Assert.assertEquals(ArgsParser.DEFAULT_REPORT_NAME, cliArguments.getOutputFilePath().getFileName().toString());
-        Assert.assertEquals(ArgsParser.DEFAULT_FORMATS, cliArguments.getFormats());
+        Assert.assertEquals(Format.DEFAULT_FORMATS, cliArguments.getFormats());
 
         input = String.format("-config %s", CONFIG_FOLDER_RELATIVE);
         cliArguments = ArgsParser.parse(translateCommandline(input));
@@ -116,7 +119,7 @@ public class ArgsParserTest {
         Assert.assertEquals(Optional.empty(), cliArguments.getSinceDate());
         Assert.assertEquals(Optional.empty(), cliArguments.getUntilDate());
         Assert.assertEquals(ArgsParser.DEFAULT_REPORT_NAME, cliArguments.getOutputFilePath().getFileName().toString());
-        Assert.assertEquals(ArgsParser.DEFAULT_FORMATS, cliArguments.getFormats());
+        Assert.assertEquals(Format.DEFAULT_FORMATS, cliArguments.getFormats());
     }
 
     @Test
@@ -205,7 +208,7 @@ public class ArgsParserTest {
         String input = DEFAULT_MANDATORY_ARGS + String.format("-formats %s", formats);
         CliArguments cliArguments = ArgsParser.parse(translateCommandline(input));
         Assert.assertTrue(cliArguments instanceof ConfigCliArguments);
-        List<String> expectedFormats = Arrays.asList("java", "js", "css", "7z");
+        List<Format> expectedFormats = Format.convertStringsToFormats(Arrays.asList("java", "js", "css", "7z"));
         Assert.assertEquals(expectedFormats, cliArguments.getFormats());
     }
 

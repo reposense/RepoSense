@@ -7,7 +7,6 @@ import java.nio.file.Path;
 import java.nio.file.PathMatcher;
 import java.nio.file.Paths;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -19,6 +18,7 @@ import reposense.authorship.model.FileResult;
 import reposense.authorship.model.LineInfo;
 import reposense.git.GitBlame;
 import reposense.model.Author;
+import reposense.model.CommitHash;
 import reposense.model.RepoConfiguration;
 import reposense.system.LogsManager;
 
@@ -88,7 +88,7 @@ public class FileInfoAnalyzer {
             Author author = authorAliasMap.getOrDefault(authorRawName, new Author(Author.UNKNOWN_AUTHOR_GIT_ID));
 
             if (!fileInfo.isFileLineTracked(lineCount / 2) || isAuthorIgnoringFile(author, filePath)
-                    || isCommitHashWithinIgnoredCommitList(commitHash, config.getIgnoreCommitList())) {
+                    || CommitHash.isInsideCommitList(commitHash, config.getIgnoreCommitList())) {
                 author = new Author(Author.UNKNOWN_AUTHOR_GIT_ID);
             }
 
@@ -125,9 +125,5 @@ public class FileInfoAnalyzer {
     private static boolean isAuthorIgnoringFile(Author author, Path filePath) {
         PathMatcher ignoreGlobMatcher = author.getIgnoreGlobMatcher();
         return ignoreGlobMatcher.matches(filePath);
-    }
-
-    private static boolean isCommitHashWithinIgnoredCommitList(String commitHash, List<String> ignoreCommitList) {
-        return ignoreCommitList.stream().anyMatch(commitHash::startsWith);
     }
 }
