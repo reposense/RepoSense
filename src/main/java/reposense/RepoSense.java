@@ -13,6 +13,7 @@ import reposense.model.CliArguments;
 import reposense.model.ConfigCliArguments;
 import reposense.model.LocationsCliArguments;
 import reposense.model.RepoConfiguration;
+import reposense.model.RepoLocation;
 import reposense.model.ViewCliArguments;
 import reposense.parser.ArgsParser;
 import reposense.parser.AuthorConfigCsvParser;
@@ -84,9 +85,9 @@ public class RepoSense {
      */
     public static List<RepoConfiguration> getRepoConfigurations(LocationsCliArguments cliArguments) {
         List<RepoConfiguration> configs = new ArrayList<>();
-        for (String location : cliArguments.getLocations()) {
+        for (String locationString : cliArguments.getLocations()) {
             try {
-                configs.add(new RepoConfiguration(location));
+                configs.add(new RepoConfiguration(new RepoLocation(locationString)));
             } catch (InvalidLocationException ile) {
                 logger.log(Level.WARNING, ile.getMessage(), ile);
             }
