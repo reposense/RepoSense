@@ -2,7 +2,6 @@ package reposense.parser;
 
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
@@ -15,6 +14,7 @@ import net.sourceforge.argparse4j.inf.MutuallyExclusiveGroup;
 import net.sourceforge.argparse4j.inf.Namespace;
 import reposense.model.CliArguments;
 import reposense.model.ConfigCliArguments;
+import reposense.model.Format;
 import reposense.model.LocationsCliArguments;
 import reposense.model.ViewCliArguments;
 
@@ -23,8 +23,6 @@ import reposense.model.ViewCliArguments;
  */
 public class ArgsParser {
     public static final String DEFAULT_REPORT_NAME = "reposense-report";
-    public static final List<String> DEFAULT_FORMATS = Arrays.asList(
-            "adoc", "cs", "css", "fxml", "gradle", "html", "java", "js", "json", "jsp", "md", "py", "tag", "xml");
     private static final String PROGRAM_USAGE = "java -jar RepoSense.jar";
     private static final String PROGRAM_DESCRIPTION =
             "RepoSense is a contribution analysis tool for Git repositories.";
@@ -92,7 +90,7 @@ public class ArgsParser {
                 .nargs("*")
                 .metavar("FORMAT")
                 .type(new AlphanumericArgumentType())
-                .setDefault(DEFAULT_FORMATS)
+                .setDefault(Format.DEFAULT_FORMAT_STRINGS)
                 .help("The alphanumeric file formats to process.\n"
                         + "If not provided, default file formats will be used.\n"
                         + "Please refer to userguide for more information.");
@@ -115,8 +113,8 @@ public class ArgsParser {
             Path outputFolderPath = results.get("output");
             Optional<Date> sinceDate = results.get("since");
             Optional<Date> untilDate = results.get("until");
-            List<String> formats = results.get("formats");
             List<String> locations = results.get("repos");
+            List<Format> formats = Format.convertStringsToFormats(results.get("formats"));
 
             verifyDatesRangeIsCorrect(sinceDate, untilDate);
 
