@@ -4,13 +4,14 @@ import java.util.List;
 
 import reposense.model.Author;
 import reposense.model.RepoConfiguration;
+import reposense.model.RepoLocation;
 import reposense.parser.InvalidLocationException;
 
 public class ConfigurationBuilder {
     private RepoConfiguration config;
 
     public ConfigurationBuilder(String location, String branch) throws InvalidLocationException {
-        config = new RepoConfiguration(location, branch);
+        config = new RepoConfiguration(new RepoLocation(location), branch);
     }
 
     public ConfigurationBuilder needCheckStyle(boolean value) {

@@ -7,6 +7,7 @@ import java.util.List;
 
 import reposense.model.Author;
 import reposense.model.RepoConfiguration;
+import reposense.model.RepoLocation;
 
 public class AuthorConfigCsvParser extends CsvParser<RepoConfiguration> {
     public static final String AUTHOR_CONFIG_FILENAME = "author-config.csv";
@@ -75,7 +76,7 @@ public class AuthorConfigCsvParser extends CsvParser<RepoConfiguration> {
      */
     private static RepoConfiguration getRepoConfiguration(
             List<RepoConfiguration> results, String location, String branch) throws InvalidLocationException {
-        RepoConfiguration config = new RepoConfiguration(location, branch);
+        RepoConfiguration config = new RepoConfiguration(new RepoLocation(location), branch);
         int index = results.indexOf(config);
 
         if (index != -1) {

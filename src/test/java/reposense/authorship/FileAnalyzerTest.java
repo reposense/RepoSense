@@ -13,6 +13,7 @@ import reposense.authorship.model.FileResult;
 import reposense.git.CommitNotFoundException;
 import reposense.git.GitCheckout;
 import reposense.model.Author;
+import reposense.model.CommitHash;
 import reposense.template.GitTestTemplate;
 import reposense.util.TestUtil;
 
@@ -66,7 +67,8 @@ public class FileAnalyzerTest extends GitTestTemplate {
 
         FileInfo fileInfoShort = generateTestFileInfo("blameTest.java");
         config.setIgnoreCommitList(
-                Collections.singletonList(FAKE_AUTHOR_BLAME_TEST_FILE_COMMIT_08022018.substring(0, 8)));
+                Collections.singletonList(
+                        new CommitHash(FAKE_AUTHOR_BLAME_TEST_FILE_COMMIT_08022018_STRING.substring(0, 8))));
         FileInfoAnalyzer.analyzeFile(config, fileInfoShort);
 
         Assert.assertEquals(fileInfoFull, fileInfoShort);
@@ -87,8 +89,9 @@ public class FileAnalyzerTest extends GitTestTemplate {
         FileInfoAnalyzer.analyzeFile(config, fileInfoFull);
 
         FileInfo fileInfoShort = generateTestFileInfo("blameTest.java");
-        config.setIgnoreCommitList(Arrays.asList(FAKE_AUTHOR_BLAME_TEST_FILE_COMMIT_08022018.substring(0, 8),
-                MAIN_AUTHOR_BLAME_TEST_FILE_COMMIT_06022018.substring(0, 8)));
+        config.setIgnoreCommitList(CommitHash.convertStringsToCommits(
+                Arrays.asList(FAKE_AUTHOR_BLAME_TEST_FILE_COMMIT_08022018_STRING.substring(0, 8),
+                        MAIN_AUTHOR_BLAME_TEST_FILE_COMMIT_06022018_STRING.substring(0, 8))));
         FileInfoAnalyzer.analyzeFile(config, fileInfoShort);
 
         Assert.assertEquals(fileInfoFull, fileInfoShort);

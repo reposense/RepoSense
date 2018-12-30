@@ -4,8 +4,6 @@ import static org.apache.tools.ant.types.Commandline.translateCommandline;
 
 import java.io.File;
 import java.io.IOException;
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -21,7 +19,9 @@ import reposense.git.GitCloneException;
 import reposense.model.Author;
 import reposense.model.CliArguments;
 import reposense.model.ConfigCliArguments;
+import reposense.model.Format;
 import reposense.model.RepoConfiguration;
+import reposense.model.RepoLocation;
 import reposense.report.ReportGenerator;
 import reposense.util.FileUtil;
 import reposense.util.TestUtil;
@@ -55,7 +55,8 @@ public class RepoConfigurationTest {
     private static final List<String> SECOND_AUTHOR_GLOB_LIST = Arrays.asList("**[!(.md)]", "collated**");
     private static final List<String> THIRD_AUTHOR_GLOB_LIST = Arrays.asList("", "collated**");
 
-    private static final List<String> CONFIG_FORMATS = Arrays.asList("java", "adoc", "md");
+    private static final List<Format> CONFIG_FORMATS = Format.convertStringsToFormats(Arrays.asList(
+            "java", "adoc", "md"));
     private static final List<String> CLI_FORMATS = Arrays.asList("css", "html");
 
     private static RepoConfiguration REPO_DELTA_STANDALONE_CONFIG;
@@ -78,7 +79,7 @@ public class RepoConfigurationTest {
         expectedAuthors.add(THIRD_AUTHOR);
         expectedAuthors.add(FOURTH_AUTHOR);
 
-        REPO_DELTA_STANDALONE_CONFIG = new RepoConfiguration(TEST_REPO_DELTA, "master");
+        REPO_DELTA_STANDALONE_CONFIG = new RepoConfiguration(new RepoLocation(TEST_REPO_DELTA), "master");
         REPO_DELTA_STANDALONE_CONFIG.setAuthorList(expectedAuthors);
         REPO_DELTA_STANDALONE_CONFIG.addAuthorAliases(FIRST_AUTHOR, FIRST_AUTHOR_ALIASES);
         REPO_DELTA_STANDALONE_CONFIG.addAuthorAliases(SECOND_AUTHOR, SECOND_AUTHOR_ALIASES);
@@ -99,27 +100,8 @@ public class RepoConfigurationTest {
     }
 
     @Test
-    public void validateFormats_alphaNumeric_success()
-            throws InvalidLocationException, NoSuchMethodException, InvocationTargetException, IllegalAccessException {
-        Method m = RepoConfiguration.class.getDeclaredMethod("validateFormats", List.class);
-        m.setAccessible(true);
-        m.invoke(null, Arrays.asList("java", "7z"));
-    }
-
-    @Test(expected = IllegalArgumentException.class)
-    public void validateFormats_nonAlphaNumeric_throwIllegalArgumentException() throws Throwable {
-        try {
-            Method m = RepoConfiguration.class.getDeclaredMethod("validateFormats", List.class);
-            m.setAccessible(true);
-            m.invoke(null, Arrays.asList(".java"));
-        } catch (InvocationTargetException ite) {
-            throw ite.getCause();
-        }
-    }
-
-    @Test
-    public void repoConfig_usesStandaloneConfig_success() throws InvalidLocationException, GitCloneException {
-        RepoConfiguration actualConfig = new RepoConfiguration(TEST_REPO_DELTA, "master");
+    public void repoConfig_usesStandaloneConfig_success() throws GitCloneException, InvalidLocationException {
+        RepoConfiguration actualConfig = new RepoConfiguration(new RepoLocation(TEST_REPO_DELTA), "master");
         GitClone.clone(actualConfig);
         ReportGenerator.updateRepoConfig(actualConfig);
 
@@ -134,7 +116,7 @@ public class RepoConfigurationTest {
         author.setIgnoreGlobList(REPO_LEVEL_GLOB_LIST);
         expectedAuthors.add(author);
 
-        RepoConfiguration expectedConfig = new RepoConfiguration(TEST_REPO_DELTA, "master");
+        RepoConfiguration expectedConfig = new RepoConfiguration(new RepoLocation(TEST_REPO_DELTA), "master");
         expectedConfig.setAuthorList(expectedAuthors);
         expectedConfig.addAuthorAliases(author, FIRST_AUTHOR_ALIASES);
         expectedConfig.setAuthorDisplayName(author, "Ahm");
@@ -201,7 +183,7 @@ public class RepoConfigurationTest {
         RepoConfiguration.setFormatsToRepoConfigs(actualConfigs, cliArguments.getFormats());
 
         Assert.assertEquals(1, actualConfigs.size());
-        Assert.assertEquals(CLI_FORMATS, actualConfigs.get(0).getFormats());
+        Assert.assertEquals(Format.convertStringsToFormats(CLI_FORMATS), actualConfigs.get(0).getFormats());
     }
 
     @Test
@@ -214,14 +196,14 @@ public class RepoConfigurationTest {
         RepoConfiguration.setFormatsToRepoConfigs(actualConfigs, cliArguments.getFormats());
 
         Assert.assertEquals(1, actualConfigs.size());
-        Assert.assertEquals(ArgsParser.DEFAULT_FORMATS, actualConfigs.get(0).getFormats());
+        Assert.assertEquals(Format.DEFAULT_FORMATS, actualConfigs.get(0).getFormats());
     }
 
     @Test
     public void repoConfig_emptyLocation_equal() throws InvalidLocationException {
-        RepoConfiguration emptyLocationEmptyBranchRepoConfig = new RepoConfiguration("", "");
-        RepoConfiguration emptyLocationDefaultBranchRepoConfig = new RepoConfiguration("");
-        RepoConfiguration emptyLocationWithBranchRepoConfig = new RepoConfiguration("", "master");
+        RepoConfiguration emptyLocationEmptyBranchRepoConfig = new RepoConfiguration(new RepoLocation(""), "");
+        RepoConfiguration emptyLocationDefaultBranchRepoConfig = new RepoConfiguration(new RepoLocation(""));
+        RepoConfiguration emptyLocationWithBranchRepoConfig = new RepoConfiguration(new RepoLocation(""), "master");
 
         Assert.assertEquals(emptyLocationDefaultBranchRepoConfig, emptyLocationEmptyBranchRepoConfig);
         Assert.assertEquals(emptyLocationWithBranchRepoConfig, emptyLocationEmptyBranchRepoConfig);
@@ -229,8 +211,10 @@ public class RepoConfigurationTest {
 
     @Test
     public void repoConfig_differentBranch_notEqual() throws InvalidLocationException {
-        RepoConfiguration validLocationValidBranchRepoConfig = new RepoConfiguration(TEST_REPO_DELTA, "master");
-        RepoConfiguration validLocationDefaultBranchRepoConfig = new RepoConfiguration(TEST_REPO_DELTA);
+        RepoConfiguration validLocationValidBranchRepoConfig =
+                new RepoConfiguration(new RepoLocation(TEST_REPO_DELTA), "master");
+        RepoConfiguration validLocationDefaultBranchRepoConfig =
+                new RepoConfiguration(new RepoLocation(TEST_REPO_DELTA));
 
         Assert.assertNotEquals(validLocationDefaultBranchRepoConfig, validLocationValidBranchRepoConfig);
     }

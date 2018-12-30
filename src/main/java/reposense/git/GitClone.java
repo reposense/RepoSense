@@ -11,6 +11,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import reposense.model.RepoConfiguration;
+import reposense.model.RepoLocation;
 import reposense.system.LogsManager;
 import reposense.util.FileUtil;
 
@@ -53,9 +54,9 @@ public class GitClone {
         }
     }
 
-    private static void clone(String location, String repoName) throws IOException {
+    private static void clone(RepoLocation location, String repoName) throws IOException {
         Path rootPath = Paths.get(FileUtil.REPOS_ADDRESS, repoName);
         Files.createDirectories(rootPath);
-        runCommand(rootPath, "git clone " + addQuote(location));
+        runCommand(rootPath, "git clone " + addQuote(location.toString()));
     }
 }

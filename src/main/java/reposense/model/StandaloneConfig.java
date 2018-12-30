@@ -4,8 +4,6 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 
-import reposense.parser.ArgsParser;
-
 /**
  * Represents the structure of a config.json in _reposense folder.
  */
@@ -35,7 +33,7 @@ public class StandaloneConfig {
 
     public List<String> getFormats() {
         if (formats == null) {
-            return ArgsParser.DEFAULT_FORMATS;
+            return Format.DEFAULT_FORMAT_STRINGS;
         }
 
         formats.removeIf(Objects::isNull);
