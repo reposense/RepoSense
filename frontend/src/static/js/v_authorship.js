@@ -158,13 +158,13 @@ window.vAuthorship = {
           + (this.totalLineCount - this.totalBlankLineCount);
     },
 
-    injectText(text, file) {
-      text += `########################################## ${file.path}\n`;
+    renderFile(file) {
+      let content = `########################################## ${file.path}\n`;
       file.segments.forEach((seg) => {
-        text += seg.lines.join('\n');
-        text += '\n';
+        content += seg.lines.join('\n');
+        content += '\n';
       });
-      return text;
+      return content;
     },
 
     downloadAll() {
@@ -173,7 +173,7 @@ window.vAuthorship = {
       }
       let text = '';
       this.filesDownloaded.forEach((file) => {
-        text = this.injectText(text, file);
+        text += this.renderFile(file);
         text += '\n\n';
 
       });
