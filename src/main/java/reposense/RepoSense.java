@@ -55,7 +55,7 @@ public class RepoSense {
             FileUtil.zip(cliArguments.getOutputFilePath().toAbsolutePath(), ".json");
 
             if (cliArguments.isAutomaticallyLaunching()) {
-                DashboardServer.startServer(SERVER_PORT_NUMBER, (cliArguments.getOutputFilePath().toAbsolutePath()));
+                DashboardServer.startServer(SERVER_PORT_NUMBER, cliArguments.getOutputFilePath().toAbsolutePath());
             }
         } catch (IOException ioe) {
             logger.log(Level.WARNING, ioe.getMessage(), ioe);
