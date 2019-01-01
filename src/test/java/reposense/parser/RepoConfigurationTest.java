@@ -200,7 +200,7 @@ public class RepoConfigurationTest {
     }
 
     @Test
-    public void repoConfig_emptyLocation_equal() throws InvalidLocationException {
+    public void repoConfig_emptyLocationDifferentBranch_equal() throws InvalidLocationException {
         RepoConfiguration emptyLocationEmptyBranchRepoConfig = new RepoConfiguration(new RepoLocation(""), "");
         RepoConfiguration emptyLocationDefaultBranchRepoConfig = new RepoConfiguration(new RepoLocation(""));
         RepoConfiguration emptyLocationWithBranchRepoConfig = new RepoConfiguration(new RepoLocation(""), "master");
@@ -210,7 +210,7 @@ public class RepoConfigurationTest {
     }
 
     @Test
-    public void repoConfig_differentBranch_notEqual() throws InvalidLocationException {
+    public void repoConfig_sameLocationDifferentBranch_notEquals() throws InvalidLocationException {
         RepoConfiguration validLocationValidBranchRepoConfig =
                 new RepoConfiguration(new RepoLocation(TEST_REPO_DELTA), "master");
         RepoConfiguration validLocationDefaultBranchRepoConfig =

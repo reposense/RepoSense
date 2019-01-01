@@ -78,10 +78,9 @@ public class RepoConfiguration {
      */
     public static void merge(List<RepoConfiguration> repoConfigs, List<RepoConfiguration> authorConfigs) {
         for (RepoConfiguration authorConfig : authorConfigs) {
-
             if (authorConfig.location.isEmpty()) {
                 for (RepoConfiguration repoConfig : repoConfigs) {
-                    repoConfig.addAuthorList(authorConfig.getAuthorList());
+                    repoConfig.addAuthors(authorConfig.getAuthorList());
                 }
             } else {
                 int index = repoConfigs.indexOf(authorConfig);
@@ -93,7 +92,7 @@ public class RepoConfiguration {
                 }
 
                 RepoConfiguration repoConfigToAdd = repoConfigs.get(index);
-                repoConfigToAdd.addAuthorList(authorConfig.getAuthorList());
+                repoConfigToAdd.addAuthors(authorConfig.getAuthorList());
             }
         }
     }
@@ -232,8 +231,7 @@ public class RepoConfiguration {
         return authorList;
     }
 
-    public void addAuthor(Author author) {
-        authorList.add(author);
+    public void setAuthorDetails(Author author) {
         // Set GitHub Id as default alias
         addAuthorAliases(author, Arrays.asList(author.getGitId()));
 
@@ -245,6 +243,11 @@ public class RepoConfiguration {
         author.appendIgnoreGlobList(this.getIgnoreGlobList());
     }
 
+    public void addAuthor(Author author) {
+        authorList.add(author);
+        setAuthorDetails(author);
+    }
+
     public boolean containsAuthor(Author author) {
         return authorList.contains(author);
     }
@@ -253,25 +256,18 @@ public class RepoConfiguration {
         this.authorList = authorList;
 
         authorList.forEach(author -> {
-            // Set GitHub Id as default alias
-            addAuthorAliases(author, Arrays.asList(author.getGitId()));
-
-            setAuthorDisplayName(author, author.getDisplayName());
-
-            // Propagate RepoConfiguration IgnoreGlobList to Author
-            author.appendIgnoreGlobList(this.getIgnoreGlobList());
+            setAuthorDetails(author);
         });
     }
 
-    public void addAuthorList(List<Author> authorList) {
+    public void addAuthors(List<Author> authorList) {
         for (Author author: authorList) {
-            if (this.containsAuthor(author)) {
-                logger.warning(String.format(
-                        "Skipping author as %s already in repository %s",
-                        author.getGitId(), this.getDisplayName()));
+            if (containsAuthor(author)) {
+                logger.warning(String.format("Skipping author as %s already in repository %s",
+                        author.getGitId(), getDisplayName()));
                 continue;
             }
-            this.addAuthor(author);
+            addAuthor(author);
         }
     }
 
