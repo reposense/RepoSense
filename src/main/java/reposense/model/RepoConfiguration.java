@@ -82,18 +82,19 @@ public class RepoConfiguration {
                 for (RepoConfiguration repoConfig : repoConfigs) {
                     repoConfig.addAuthors(authorConfig.getAuthorList());
                 }
-            } else {
-                int index = repoConfigs.indexOf(authorConfig);
-
-                if (index == -1) {
-                    logger.warning(String.format(
-                            "Repository %s is not found in repo-config.csv.", authorConfig.getLocation()));
-                    continue;
-                }
-
-                RepoConfiguration repoConfigToAdd = repoConfigs.get(index);
-                repoConfigToAdd.addAuthors(authorConfig.getAuthorList());
+                continue;
             }
+
+            int index = repoConfigs.indexOf(authorConfig);
+
+            if (index == -1) {
+                logger.warning(String.format(
+                        "Repository %s is not found in repo-config.csv.", authorConfig.getLocation()));
+                continue;
+            }
+
+            RepoConfiguration repoConfig = repoConfigs.get(index);
+            repoConfig.addAuthors(authorConfig.getAuthorList());
         }
     }
 
@@ -254,6 +255,8 @@ public class RepoConfiguration {
 
     public void setAuthorList(List<Author> authorList) {
         this.authorList = authorList;
+        authorAliasMap.clear();
+        authorDisplayNameMap.clear();
 
         authorList.forEach(author -> {
             setAuthorDetails(author);

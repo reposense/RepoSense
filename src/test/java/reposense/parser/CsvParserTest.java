@@ -169,29 +169,29 @@ public class CsvParserTest {
         FIRST_AUTHOR.setIgnoreGlobList(FIRST_AUTHOR_GLOB_LIST);
         SECOND_AUTHOR.setIgnoreGlobList(REPO_LEVEL_GLOB_LIST);
 
-        List<Author> expectedAuthorsBeta = new ArrayList<>();
-        expectedAuthorsBeta.add(FIRST_AUTHOR);
-        expectedAuthorsBeta.add(SECOND_AUTHOR);
+        List<Author> expectedBetaAuthors = new ArrayList<>();
+        expectedBetaAuthors.add(FIRST_AUTHOR);
+        expectedBetaAuthors.add(SECOND_AUTHOR);
 
-        List<Author> expectedAuthorsDelta = new ArrayList<>();
-        expectedAuthorsDelta.add(FIRST_AUTHOR);
+        List<Author> expectedDeltaAuthors = new ArrayList<>();
+        expectedDeltaAuthors.add(FIRST_AUTHOR);
 
-        RepoConfiguration expectedConfigBeta =
+        RepoConfiguration expectedBetaConfig =
                 new RepoConfiguration(new RepoLocation(TEST_REPO_BETA_LOCATION), TEST_REPO_BETA_BRANCH);
-        expectedConfigBeta.setAuthorList(expectedAuthorsBeta);
-        expectedConfigBeta.setAuthorDisplayName(FIRST_AUTHOR, "Nbr");
-        expectedConfigBeta.setAuthorDisplayName(SECOND_AUTHOR, "Zac");
-        expectedConfigBeta.addAuthorAliases(SECOND_AUTHOR,  Arrays.asList("Zachary Tang"));
-        expectedConfigBeta.setIgnoreGlobList(REPO_LEVEL_GLOB_LIST);
+        expectedBetaConfig.setAuthorList(expectedBetaAuthors);
+        expectedBetaConfig.setAuthorDisplayName(FIRST_AUTHOR, "Nbr");
+        expectedBetaConfig.setAuthorDisplayName(SECOND_AUTHOR, "Zac");
+        expectedBetaConfig.addAuthorAliases(SECOND_AUTHOR,  Arrays.asList("Zachary Tang"));
+        expectedBetaConfig.setIgnoreGlobList(REPO_LEVEL_GLOB_LIST);
 
-        RepoConfiguration expectedConfigDelta =
+        RepoConfiguration expectedDeltaConfig =
                 new RepoConfiguration(new RepoLocation(TEST_REPO_DELTA_LOCATION), TEST_REPO_DELTA_BRANCH);
-        expectedConfigDelta.setAuthorList(expectedAuthorsDelta);
-        expectedConfigDelta.setAuthorDisplayName(FIRST_AUTHOR, "Nbr");
+        expectedDeltaConfig.setAuthorList(expectedDeltaAuthors);
+        expectedDeltaConfig.setAuthorDisplayName(FIRST_AUTHOR, "Nbr");
 
         List<RepoConfiguration> expectedConfigs = new ArrayList<>();
-        expectedConfigs.add(expectedConfigBeta);
-        expectedConfigs.add(expectedConfigDelta);
+        expectedConfigs.add(expectedBetaConfig);
+        expectedConfigs.add(expectedDeltaConfig);
 
         String input = String.format("-config %s", MERGE_EMPTY_LOCATION_FOLDER);
         CliArguments cliArguments = ArgsParser.parse(translateCommandline(input));

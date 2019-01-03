@@ -42,7 +42,7 @@ public class RepoLocation {
     }
 
     public boolean isEmpty() {
-        return repoName.isEmpty();
+        return location.isEmpty();
     }
 
     public String getRepoName() {
