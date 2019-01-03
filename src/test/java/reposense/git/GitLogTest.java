@@ -96,9 +96,9 @@ public class GitLogTest extends GitTestTemplate {
 
     @Test
     public void gitLog_untilDateBeforeAnyCommit_noContent() {
-        Date date = TestUtil.getDate(1950, Calendar.JANUARY, 1);
-        config.setSinceDate(date);
-        config.setUntilDate(null);
+        Date date = TestUtil.getDate(1970, Calendar.JANUARY, 1);
+        config.setSinceDate(null);
+        config.setUntilDate(date);
         String content = GitLog.get(config, getAlphaAllAliasAuthor());
         Assert.assertTrue(content.isEmpty());
     }
