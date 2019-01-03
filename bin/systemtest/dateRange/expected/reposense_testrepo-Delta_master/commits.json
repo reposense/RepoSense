@@ -1,0 +1,32 @@
+{
+  "authorWeeklyIntervalContributions": {
+    "lithiumlkid": [],
+    "lohtianwei": [],
+    "codeeong": [],
+    "jordancjq": []
+  },
+  "authorDailyIntervalContributions": {
+    "lithiumlkid": [],
+    "lohtianwei": [],
+    "codeeong": [],
+    "jordancjq": []
+  },
+  "authorFinalContributionMap": {
+    "lithiumlkid": 0,
+    "lohtianwei": 0,
+    "codeeong": 0,
+    "jordancjq": 0
+  },
+  "authorContributionVariance": {
+    "lithiumlkid": 0.0,
+    "lohtianwei": 0.0,
+    "codeeong": 0.0,
+    "jordancjq": 0.0
+  },
+  "authorDisplayNameMap": {
+    "lithiumlkid": "Ahm",
+    "lohtianwei": "Loh",
+    "codeeong": "Cod",
+    "jordancjq": "Jor"
+  }
+}

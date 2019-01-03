@@ -13,7 +13,7 @@ function toggleNext(ele) {
   }
 
   parent.className = classes.join(' ');
-};
+}
 
 function expandAll(isActive) {
   const renameValue = isActive ? 'file active' : 'file';
@@ -34,7 +34,7 @@ window.vAuthorship = {
       files: [],
       filesLinesObj: {},
       filesBlankLinesObj: {},
-      totalLineCount: "",
+      totalLineCount: '',
       totalBlankLineCount: '',
     };
   },
@@ -85,19 +85,18 @@ window.vAuthorship = {
         if (line.content === '' && authored) {
           blankLineCount += 1;
         }
-
       });
 
       return {
         segments,
-        blankLineCount
+        blankLineCount,
       };
     },
 
     processFiles(files) {
       const res = [];
-      let filesInfoObj = {};
-      let filesBlanksInfoObj = {};
+      const filesInfoObj = {};
+      const filesBlanksInfoObj = {};
       let totalLineCount = 0;
       let totalBlankLineCount = 0;
 
@@ -129,8 +128,8 @@ window.vAuthorship = {
     },
 
     addLineCountToFileType(path, lineCount, filesInfoObj) {
-      var fileType = path.split(".").pop();
-      fileType = (fileType.length === 0) ? "others" : fileType;
+      let fileType = path.split('.').pop();
+      fileType = (fileType.length === 0) ? 'others' : fileType;
 
       if (!filesInfoObj[fileType]) {
         filesInfoObj[fileType] = 0;
@@ -141,20 +140,20 @@ window.vAuthorship = {
 
     sortFileTypeAlphabetically(unsortedFilesInfoObj) {
       return Object.keys(unsortedFilesInfoObj)
-          .sort()
-          .reduce((acc, key) => ({
-              ...acc, [key]: unsortedFilesInfoObj[key]
-          }), {});
+        .sort()
+        .reduce((acc, key) => ({
+          ...acc, [key]: unsortedFilesInfoObj[key],
+        }), {});
     },
 
     getFileBlankLineInfo(fileType) {
-      return fileType + ': ' + 'Blank: ' + this.filesBlankLinesObj[fileType]
-          + ', Non-Blank: ' + (this.filesLinesObj[fileType] - this.filesBlankLinesObj[fileType]);
+      return `${fileType}: ` + `Blank: ${this.filesBlankLinesObj[fileType]
+      }, Non-Blank: ${this.filesLinesObj[fileType] - this.filesBlankLinesObj[fileType]}`;
     },
 
     getTotalFileBlankLineInfo() {
-      return 'Total: Blank: ' + this.totalBlankLineCount + ', Non-Blank: '
-          + (this.totalLineCount - this.totalBlankLineCount);
+      return `Total: Blank: ${this.totalBlankLineCount}, Non-Blank: ${
+        this.totalLineCount - this.totalBlankLineCount}`;
     },
   },
 
