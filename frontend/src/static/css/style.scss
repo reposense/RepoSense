@@ -161,10 +161,9 @@ header{
 
 .summary-chart{
     margin-bottom:1rem;
+    text-align:left;
 
     &__title{
-        text-align:left;
-        cursor:pointer;
 
         & > * {
             display:inline;
@@ -184,8 +183,10 @@ header{
             padding-right:0.25rem;
         }
 
-        &--tooltip{
+        &--button{
+            cursor:pointer;
             color:mui-color("grey");
+            text-decoration:none;
         }
     }
 
@@ -236,6 +237,7 @@ header{
         .repoName{
             font-size:1.5rem;
             font-weight:bold;
+            cursor:pointer;
         }
         .contribution{
             margin-top:0.1rem;
@@ -246,12 +248,16 @@ header{
               font-weight:bolder;
             }
 
+            .bloc {
+              color:mui-color("grey");
+            }
+
             span.fileType {
-                span::after {
+                span.bloc::after {
                   content: ', ';
                 }
 
-                span:last-child::after {
+                span.bloc:last-child::after {
                   content:'';
                 }
             }

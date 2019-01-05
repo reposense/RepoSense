@@ -13,6 +13,7 @@ import reposense.model.CliArguments;
 import reposense.model.ConfigCliArguments;
 import reposense.model.LocationsCliArguments;
 import reposense.model.RepoConfiguration;
+import reposense.model.RepoLocation;
 import reposense.model.ViewCliArguments;
 import reposense.parser.ArgsParser;
 import reposense.parser.AuthorConfigCsvParser;
@@ -52,6 +53,10 @@ public class RepoSense {
                     formatter.format(ZonedDateTime.now(ZoneId.of("UTC+8"))));
 
             FileUtil.zip(cliArguments.getOutputFilePath().toAbsolutePath(), ".json");
+
+            if (cliArguments.isAutomaticallyLaunching()) {
+                DashboardServer.startServer(SERVER_PORT_NUMBER, cliArguments.getOutputFilePath().toAbsolutePath());
+            }
         } catch (IOException ioe) {
             logger.log(Level.WARNING, ioe.getMessage(), ioe);
         } catch (ParseException pe) {
@@ -84,9 +89,9 @@ public class RepoSense {
      */
     public static List<RepoConfiguration> getRepoConfigurations(LocationsCliArguments cliArguments) {
         List<RepoConfiguration> configs = new ArrayList<>();
-        for (String location : cliArguments.getLocations()) {
+        for (String locationString : cliArguments.getLocations()) {
             try {
-                configs.add(new RepoConfiguration(location));
+                configs.add(new RepoConfiguration(new RepoLocation(locationString)));
             } catch (InvalidLocationException ile) {
                 logger.log(Level.WARNING, ile.getMessage(), ile);
             }

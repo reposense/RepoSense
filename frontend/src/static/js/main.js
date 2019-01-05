@@ -91,6 +91,9 @@ window.app = new window.Vue({
       this.isTabActive = true;
       this.isTabAuthorship = true;
       this.isCollapsed = false;
+      if (document.getElementById("tabs-wrapper")) {
+        document.getElementById("tabs-wrapper").scrollTop = 0;
+      }
     },
 
     /*global expandAll*/
