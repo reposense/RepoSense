@@ -29,6 +29,7 @@ public class ArgsParser {
             "RepoSense is a contribution analysis tool for Git repositories.";
     private static final String MESSAGE_SINCE_DATE_LATER_THAN_UNTIL_DATE =
             "\"Since Date\" cannot be later than \"Until Date\"";
+    private static final Path EMPTY_PATH = Paths.get("");
 
     private static ArgumentParser getArgumentParser() {
         ArgumentParser parser = ArgumentParsers
@@ -48,7 +49,7 @@ public class ArgsParser {
         mutexParser.addArgument("-config")
                 .type(new ConfigFolderArgumentType())
                 .metavar("PATH")
-                .setDefault(Paths.get("").toAbsolutePath())
+                .setDefault(EMPTY_PATH.toAbsolutePath())
                 .help("The directory containing the config files."
                         + "If not provided, the config files will be obtained from the current working directory.");
 
@@ -58,10 +59,14 @@ public class ArgsParser {
                 .metavar("LOCATION")
                 .help("The GitHub URL or disk locations to clone repository.");
 
-        mutexParser.addArgument("-view")
+        parser.addArgument("-view")
+                .nargs("?")
                 .metavar("PATH")
                 .type(new ReportFolderArgumentType())
-                .help("Starts a server to display the dashboard in the provided directory.");
+                .setConst(EMPTY_PATH)
+                .help("Starts a server to display the dashboard in the provided directory."
+                        + "If used as a flag (with no argument), "
+                        + "generates a report and automatically displays the dashboard.");
 
         parser.addArgument("-output")
                 .metavar("PATH")
@@ -119,16 +124,19 @@ public class ArgsParser {
 
             verifyDatesRangeIsCorrect(sinceDate, untilDate);
 
-            if (locations != null) {
-                return new LocationsCliArguments(locations, outputFolderPath,
-                        sinceDate, untilDate, formats, isStandaloneConfigIgnored);
-            }
-
-            if (reportFolderPath != null) {
+            if (reportFolderPath != null && !reportFolderPath.equals(EMPTY_PATH)) {
                 return new ViewCliArguments(reportFolderPath);
             }
 
-            return new ConfigCliArguments(configFolderPath, outputFolderPath, sinceDate, untilDate, formats);
+            boolean isAutomaticallyLaunching = reportFolderPath != null;
+
+            if (locations != null) {
+                return new LocationsCliArguments(locations, outputFolderPath, sinceDate, untilDate, formats,
+                        isAutomaticallyLaunching, isStandaloneConfigIgnored);
+            }
+
+            return new ConfigCliArguments(
+                    configFolderPath, outputFolderPath, sinceDate, untilDate, formats, isAutomaticallyLaunching);
         } catch (ArgumentParserException ape) {
             throw new ParseException(getArgumentParser().formatUsage() + ape.getMessage() + "\n");
         }

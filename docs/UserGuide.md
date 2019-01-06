@@ -31,6 +31,9 @@ The simplest use case for RepoSense is to generate a report for the entire histo
 1. The previous step analyzes the default branch of the repo and creates the report in a directory named `reposense-report`. Run the following command to view the report (it will open up in your default Browser):<br/>
    `java -jar RepoSense.jar -view reposense-report`
 
+Alternatively, you can combine the 2 steps by running the following command to generate the report and automatically open it afterwards:<br>
+    `java -jar RepoSense.jar -repo FULL_REPO_URL -view`
+
 <hr>
 
 ## Interpreting the Report
@@ -226,9 +229,11 @@ In addition, there are some _optional_ extra parameters you can use to customize
   Example:`-formats css fxml gradle`
 * **`-isac, --ignore-standalone-config`**: A flag to ignore the standalone config file in the repo (`-isac` as alias). This flag will not overwrite the `Ignore standalone config` field in the csv config file. Default: the standalone config file is not ignored.<br>
   Example:`--ignore-standalone-config` or `-isac`
+* **`-view [REPORT_FOLDER]`**: A flag to launch the report automatically after processing. Note that if the `REPORT_FOLDER` argument is given, no analysis will be performed and the report specified by the argument will be opened.<br>
+Example:`-view`
 
 Here's an example of a command using all parameters:<br>
-`java -jar RepoSense.jar -repo https://github.com/reposense/RepoSense.git -output ./report_folder -since 21/10/2017 -until 21/11/2017 -formats java adoc js -isac`
+`java -jar RepoSense.jar -repo https://github.com/reposense/RepoSense.git -output ./report_folder -since 21/10/2017 -until 21/11/2017 -formats java adoc js -view -isac`
 
 ### Customize Using csv Config Files
 
