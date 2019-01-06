@@ -11,13 +11,14 @@ import java.util.Optional;
 public class LocationsCliArguments extends CliArguments {
     private List<String> locations;
 
-    public LocationsCliArguments(List<String> locations,
-            Path outputFilePath, Optional<Date> sinceDate, Optional<Date> untilDate, List<Format> formats) {
+    public LocationsCliArguments(List<String> locations, Path outputFilePath, Optional<Date> sinceDate,
+            Optional<Date> untilDate, List<Format> formats, boolean isAutomaticallyLaunching) {
         this.locations = locations;
         this.outputFilePath = outputFilePath;
         this.sinceDate = sinceDate;
         this.untilDate = untilDate;
         this.formats = formats;
+        this.isAutomaticallyLaunching = isAutomaticallyLaunching;
     }
 
     public List<String> getLocations() {

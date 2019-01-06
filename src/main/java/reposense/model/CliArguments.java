@@ -13,6 +13,7 @@ public abstract class CliArguments {
     protected Optional<Date> sinceDate;
     protected Optional<Date> untilDate;
     protected List<Format> formats;
+    protected boolean isAutomaticallyLaunching;
 
     public Path getOutputFilePath() {
         return outputFilePath;
@@ -28,6 +29,10 @@ public abstract class CliArguments {
 
     public List<Format> getFormats() {
         return formats;
+    }
+
+    public boolean isAutomaticallyLaunching() {
+        return isAutomaticallyLaunching;
     }
 
     @Override
@@ -47,6 +52,7 @@ public abstract class CliArguments {
         return this.outputFilePath.equals(otherCliArguments.outputFilePath)
                 && this.sinceDate.equals(otherCliArguments.sinceDate)
                 && this.untilDate.equals(otherCliArguments.untilDate)
-                && this.formats.equals(otherCliArguments.formats);
+                && this.formats.equals(otherCliArguments.formats)
+                && this.isAutomaticallyLaunching == otherCliArguments.isAutomaticallyLaunching;
     }
 }
