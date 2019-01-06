@@ -24,10 +24,10 @@ public class CsvParserTest {
             .getResource("repoconfig_merge_test").getFile()).toPath();
     private static final Path TEST_EMPTY_BRANCH_CONFIG_FOLDER = new File(CsvParserTest.class.getClassLoader()
             .getResource("repoconfig_empty_branch_test").getFile()).toPath();
-    private static final Path TEST_EMPTY_LOCATION_CONFIG_FOLDER = new File(CsvParserTest.class.getClassLoader()
-            .getResource("repoconfig_empty_location_test").getFile()).toPath();
     private static final Path REPO_CONFIG_NO_SPECIAL_CHARACTER_FILE = new File(CsvParserTest.class.getClassLoader()
             .getResource("CsvParserTest/repoconfig_noSpecialCharacter_test.csv").getFile()).toPath();
+    private static final Path AUTHOR_CONFIG_EMPTY_LOCATION_FILE = new File(CsvParserTest.class.getClassLoader()
+            .getResource("CsvParserTest/authorconfig_emptyLocation_test.csv").getFile()).toPath();
     private static final Path AUTHOR_CONFIG_NO_SPECIAL_CHARACTER_FILE = new File(CsvParserTest.class.getClassLoader()
             .getResource("CsvParserTest/authorconfig_noSpecialCharacter_test.csv").getFile()).toPath();
     private static final Path AUTHOR_CONFIG_SPECIAL_CHARACTER_FILE = new File(CsvParserTest.class.getClassLoader()
@@ -99,11 +99,9 @@ public class CsvParserTest {
     public void authorConfig_emptyLocation_success() throws ParseException, IOException {
         RepoConfiguration expectedConfig = new RepoConfiguration(new RepoLocation(""));
 
-        String input = String.format("-config %s", TEST_EMPTY_LOCATION_CONFIG_FOLDER);
-        CliArguments cliArguments = ArgsParser.parse(translateCommandline(input));
-
-        List<RepoConfiguration> authorConfigs =
-                new AuthorConfigCsvParser(((ConfigCliArguments) cliArguments).getAuthorConfigFilePath()).parse();
+        AuthorConfigCsvParser authorConfigCsvParser =
+                new AuthorConfigCsvParser(AUTHOR_CONFIG_EMPTY_LOCATION_FILE);
+        List<RepoConfiguration> authorConfigs = authorConfigCsvParser.parse();
         RepoConfiguration authorConfig = authorConfigs.get(0);
 
         Assert.assertEquals(1, authorConfigs.size());
@@ -205,22 +203,28 @@ public class CsvParserTest {
         Assert.assertEquals(2, actualConfigs.size());
         Assert.assertEquals(expectedConfigs, actualConfigs);
 
-        Assert.assertEquals(expectedConfigs.get(0).getLocation(), actualConfigs.get(0).getLocation());
-        Assert.assertEquals(expectedConfigs.get(0).getAuthorList().hashCode(),
-                actualConfigs.get(0).getAuthorList().hashCode());
-        Assert.assertEquals(expectedConfigs.get(0).getAuthorDisplayNameMap().hashCode(),
-                actualConfigs.get(0).getAuthorDisplayNameMap().hashCode());
-        Assert.assertEquals(expectedConfigs.get(0).getAuthorAliasMap().hashCode(),
-                actualConfigs.get(0).getAuthorAliasMap().hashCode());
-        Assert.assertEquals(REPO_LEVEL_GLOB_LIST, actualConfigs.get(0).getIgnoreGlobList());
+        RepoConfiguration firstExpectedConfig = expectedConfigs.get(0);
+        RepoConfiguration secondExpectedConfig = expectedConfigs.get(1);
+        RepoConfiguration firstActualConfig = actualConfigs.get(0);
+        RepoConfiguration secondActualConfig = actualConfigs.get(1);
 
-        Assert.assertEquals(expectedConfigs.get(1).getLocation(), actualConfigs.get(1).getLocation());
-        Assert.assertEquals(expectedConfigs.get(1).getAuthorList().hashCode(),
-                actualConfigs.get(1).getAuthorList().hashCode());
-        Assert.assertEquals(expectedConfigs.get(1).getAuthorDisplayNameMap().hashCode(),
-                actualConfigs.get(1).getAuthorDisplayNameMap().hashCode());
-        Assert.assertEquals(expectedConfigs.get(1).getAuthorAliasMap().hashCode(),
-                actualConfigs.get(1).getAuthorAliasMap().hashCode());
+        Assert.assertEquals(firstExpectedConfig.getLocation(), firstActualConfig.getLocation());
+        Assert.assertEquals(firstExpectedConfig.getAuthorList().hashCode(),
+                firstActualConfig.getAuthorList().hashCode());
+        Assert.assertEquals(firstExpectedConfig.getAuthorDisplayNameMap().hashCode(),
+                firstActualConfig.getAuthorDisplayNameMap().hashCode());
+        Assert.assertEquals(firstExpectedConfig.getAuthorAliasMap().hashCode(),
+                firstActualConfig.getAuthorAliasMap().hashCode());
+        Assert.assertEquals(REPO_LEVEL_GLOB_LIST, firstActualConfig.getIgnoreGlobList());
+
+        Assert.assertEquals(secondExpectedConfig.getLocation(), secondActualConfig.getLocation());
+        Assert.assertEquals(secondExpectedConfig.getAuthorList().hashCode(),
+                secondActualConfig.getAuthorList().hashCode());
+        Assert.assertEquals(secondExpectedConfig.getAuthorDisplayNameMap().hashCode(),
+                secondActualConfig.getAuthorDisplayNameMap().hashCode());
+        Assert.assertEquals(secondExpectedConfig.getAuthorAliasMap().hashCode(),
+                secondActualConfig.getAuthorAliasMap().hashCode());
+        Assert.assertEquals(new ArrayList<>(), secondActualConfig.getIgnoreGlobList());
     }
 
     @Test

@@ -258,9 +258,7 @@ public class RepoConfiguration {
         authorAliasMap.clear();
         authorDisplayNameMap.clear();
 
-        authorList.forEach(author -> {
-            setAuthorDetails(author);
-        });
+        authorList.forEach(author -> setAuthorDetails(author));
     }
 
     public void addAuthors(List<Author> authorList) {
