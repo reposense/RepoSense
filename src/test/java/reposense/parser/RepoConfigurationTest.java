@@ -210,7 +210,7 @@ public class RepoConfigurationTest {
     }
 
     @Test
-    public void repoConfig_sameLocationDifferentBranch_notEquals() throws InvalidLocationException {
+    public void repoConfig_sameLocationDifferentBranch_notEqual() throws InvalidLocationException {
         RepoConfiguration validLocationValidBranchRepoConfig =
                 new RepoConfiguration(new RepoLocation(TEST_REPO_DELTA), "master");
         RepoConfiguration validLocationDefaultBranchRepoConfig =
