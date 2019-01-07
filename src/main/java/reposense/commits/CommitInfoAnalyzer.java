@@ -67,8 +67,7 @@ public class CommitInfoAnalyzer {
             logger.log(Level.WARNING, "Unable to parse the date from git log result for commit.", pe);
         }
 
-
-        boolean containsMessage =  elements.length > MESSAGE_INDEX;
+        boolean containsMessage = elements.length > MESSAGE_INDEX;
         String message = (containsMessage) ? elements[MESSAGE_INDEX] : "";
         
         int insertion = getInsertion(statLine);
