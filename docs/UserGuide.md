@@ -79,8 +79,8 @@ The `Chart Panel` (an example is shown above) contains _Ramp Charts_ and _Contri
 ### Code Panel
 
 The `Code Panel` allows users to see the code attributed to a specific author. Click on the name of the author in the `Chart Panel` to display the `Code Panel` on the right.
-* To view code from certain language, click on the checkboxes to choose.
 * The Code Panel shows the files that contain author's contributions, sorted by the number of lines written.
+* To view code from certain language, click on the checkboxes to choose.
 * Clicking the file title toggles the file content.
 * Code attributed to the author is highlighted in green.
 * Non-trivial code segments that are not written by the selected author are hidden by default, but you can toggle them by clicking on the `...` icon.

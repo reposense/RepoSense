@@ -34,7 +34,7 @@ window.vAuthorship = {
       files: [],
       allSelected: true,
       lineSelected: 0,
-      filesShown: [],
+      fileTypesSelected: [],
       fileTypes: [],
       filesSelected: [],
       filesLinesObj: {},
@@ -125,17 +125,17 @@ window.vAuthorship = {
       });
 
       this.totalLineCount = totalLineCount;
+      this.totalBlankLineCount = totalBlankLineCount;
       this.lineSelected = totalLineCount;
       res.sort((a, b) => b.lineCount - a.lineCount);
 
       this.filesLinesObj = this.sortFileTypeAlphabetically(filesInfoObj);
       for (var file in filesInfoObj) {
         if (filesInfoObj.hasOwnProperty(file)) {
-          this.filesShown.push(file);
+          this.fileTypesSelected.push(file);
           this.fileTypes.push(file);
         }
       }
-      this.totalBlankLineCount = totalBlankLineCount;
       this.filesBlankLinesObj = filesBlanksInfoObj;
       this.files = res;
       this.filesSelected = res;
@@ -163,29 +163,27 @@ window.vAuthorship = {
 
     selectAll() {
       if (!this.allSelected) {
-        this.filesShown = this.fileTypes;
+        this.fileTypesSelected = this.fileTypes;
         this.filesSelected = this.files;
       } else {
-        this.filesShown = [];
+        this.fileTypesSelected = [];
         this.filesSelected = [];
       }
     },
 
     selectFile() {
-      // var startTime = window.performance.now();
       setTimeout(this.getSelected, 0);
-      // console.log(window.performance.now() - startTime);
     },
 
     getSelected() {
-      if (this.fileTypes.length === this.filesShown.length) {
+      if (this.fileTypes.length === this.fileTypesSelected.length) {
         this.filesSelected = this.files;
         this.allSelected = true;
-      } else if (this.filesShown.length === 0) {
+      } else if (this.fileTypesSelected.length === 0) {
         this.filesSelected = [];
         this.allSelected = false;
       } else {
-        this.filesSelected = this.files.filter((file) => this.filesShown.includes(file.path.split('.').pop()));
+        this.filesSelected = this.files.filter((file) => this.fileTypesSelected.includes(file.path.split('.').pop()));
       }
     },
 
@@ -200,7 +198,6 @@ window.vAuthorship = {
     },
 
   },
-
   created() {
     this.initiate();
   },
