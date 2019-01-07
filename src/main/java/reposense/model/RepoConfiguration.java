@@ -232,6 +232,10 @@ public class RepoConfiguration {
         return authorList;
     }
 
+    /**
+     * Sets the details of {@code author} to {@code RepoConfiguration} including the default alias, alias
+     * and display name.
+     */
     public void setAuthorDetails(Author author) {
         // Set GitHub Id as default alias
         addAuthorAliases(author, Arrays.asList(author.getGitId()));
@@ -239,26 +243,37 @@ public class RepoConfiguration {
         addAuthorAliases(author, author.getAuthorAliases());
 
         setAuthorDisplayName(author, author.getDisplayName());
+    }
 
-        // Propagate RepoConfiguration IgnoreGlobList to Author
+    /**
+     * Propagate the {@code IgnoreGlobList} of {@code RepoConfiguration} to {@code author}.
+     */
+    public void propagateIgnoreGlobList(Author author) {
         author.appendIgnoreGlobList(this.getIgnoreGlobList());
     }
 
     public void addAuthor(Author author) {
         authorList.add(author);
         setAuthorDetails(author);
+        propagateIgnoreGlobList(author);
     }
 
     public boolean containsAuthor(Author author) {
         return authorList.contains(author);
     }
 
+    /**
+     * Clears authors information and sets the {@code authorList} to {@code RepoConfiguration}.
+     */
     public void setAuthorList(List<Author> authorList) {
         this.authorList = authorList;
         authorAliasMap.clear();
         authorDisplayNameMap.clear();
 
-        authorList.forEach(author -> setAuthorDetails(author));
+        authorList.forEach(author -> {
+            setAuthorDetails(author);
+            propagateIgnoreGlobList(author);
+        });
     }
 
     public void addAuthors(List<Author> authorList) {
