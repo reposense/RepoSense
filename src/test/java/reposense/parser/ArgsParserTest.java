@@ -48,7 +48,7 @@ public class ArgsParserTest {
     @Test
     public void parse_allCorrectInputs_success() throws ParseException, IOException {
         String input = String.format("-config %s -output %s -since 01/07/2017 -until 30/11/2017 "
-                + "-formats java adoc html css js -view",
+                + "-formats java adoc html css js --ignore-standalone-config -view",
                 CONFIG_FOLDER_ABSOLUTE, OUTPUT_DIRECTORY_ABSOLUTE);
         CliArguments cliArguments = ArgsParser.parse(translateCommandline(input));
         Assert.assertTrue(cliArguments instanceof ConfigCliArguments);
@@ -74,7 +74,7 @@ public class ArgsParserTest {
     @Test
     public void parse_withExtraWhitespaces_success() throws ParseException, IOException {
         String input = String.format("-config %s      -output   %s   -since 01/07/2017   -until    30/11/2017   "
-                + "-formats     java   adoc     html css js    -view  ",
+                + "-formats     java   adoc     html css js    -view    -isac  ",
                 CONFIG_FOLDER_ABSOLUTE, OUTPUT_DIRECTORY_ABSOLUTE);
         CliArguments cliArguments = ArgsParser.parse(translateCommandline(input));
         Assert.assertTrue(cliArguments instanceof ConfigCliArguments);
@@ -135,6 +135,33 @@ public class ArgsParserTest {
         Assert.assertTrue(cliArguments instanceof ViewCliArguments);
         Assert.assertTrue(Files.isSameFile(
                 OUTPUT_DIRECTORY_ABSOLUTE, ((ViewCliArguments) cliArguments).getReportDirectoryPath()));
+    }
+
+    @Test
+    public void parse_withIgnore_success() throws ParseException {
+        String input = String.format("-repos \"%s\" %s --ignore-standalone-config",
+                TEST_REPO_REPOSENSE, TEST_REPO_DELTA);
+        CliArguments cliArguments = ArgsParser.parse(translateCommandline(input));
+
+        String inputWithAlias = String.format("-repos \"%s\" %s -isac", TEST_REPO_REPOSENSE, TEST_REPO_DELTA);
+        CliArguments cliArgumentsWithAlias = ArgsParser.parse(translateCommandline(inputWithAlias));
+
+        Assert.assertTrue(cliArguments instanceof LocationsCliArguments);
+        Assert.assertTrue(cliArgumentsWithAlias instanceof LocationsCliArguments);
+
+        Assert.assertTrue(((LocationsCliArguments) cliArguments).isStandaloneConfigIgnored());
+        Assert.assertTrue(((LocationsCliArguments) cliArgumentsWithAlias).isStandaloneConfigIgnored());
+
+        Assert.assertEquals(cliArguments, cliArgumentsWithAlias);
+    }
+
+    @Test
+    public void parse_withoutIgnore_success() throws ParseException {
+        String input = String.format("-repos \"%s\" %s", TEST_REPO_REPOSENSE, TEST_REPO_DELTA);
+        CliArguments cliArguments = ArgsParser.parse(translateCommandline(input));
+
+        Assert.assertTrue(cliArguments instanceof LocationsCliArguments);
+        Assert.assertFalse(((LocationsCliArguments) cliArguments).isStandaloneConfigIgnored());
     }
 
     @Test
@@ -310,6 +337,7 @@ public class ArgsParserTest {
                 (ConfigCliArguments) cliArguments).getConfigFolderPath().toString());
     }
 
+    @Test
     public void parse_repoAliases_sameResult() throws ParseException, IOException {
         String input = String.format("-repos %s", TEST_REPO_BETA);
         CliArguments repoAliasCliArguments = ArgsParser.parse(translateCommandline(input));
@@ -406,6 +434,12 @@ public class ArgsParserTest {
     @Test(expected = ParseException.class)
     public void parse_mutuallyExclusiveArgumentsConfigAndReposTogether_throwsParseException() throws ParseException {
         String input = String.format("-config %s -repos %s", CONFIG_FOLDER_ABSOLUTE, TEST_REPO_REPOSENSE);
+        ArgsParser.parse(translateCommandline(input));
+    }
+
+    @Test(expected = ParseException.class)
+    public void parse_extraArgumentForIgnore_throwsParseException() throws ParseException {
+        String input = String.format("-config %s --ignore-standalone-config true", CONFIG_FOLDER_ABSOLUTE);
         ArgsParser.parse(translateCommandline(input));
     }
 }

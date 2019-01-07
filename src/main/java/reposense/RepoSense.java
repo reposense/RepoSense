@@ -97,6 +97,8 @@ public class RepoSense {
             }
         }
 
+        RepoConfiguration.setStandaloneConfigIgnoredToRepoConfigs(configs, cliArguments.isStandaloneConfigIgnored());
+
         return configs;
     }
 }

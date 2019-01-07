@@ -95,7 +95,13 @@ public class ReportGenerator {
         Path configJsonPath =
                 Paths.get(config.getRepoRoot(), REPOSENSE_CONFIG_FOLDER, REPOSENSE_CONFIG_FILE).toAbsolutePath();
 
-        if (config.isStandaloneConfigIgnored() || !Files.exists(configJsonPath)) {
+        if (!Files.exists(configJsonPath)) {
+            logger.info(String.format("%s does not contain a standalone config file.", config.getLocation()));
+            return;
+        }
+
+        if (config.isStandaloneConfigIgnored()) {
+            logger.info(String.format("Ignoring standalone config file in %s.", config.getLocation()));
             return;
         }
 
