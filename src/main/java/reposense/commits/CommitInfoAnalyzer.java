@@ -69,7 +69,6 @@ public class CommitInfoAnalyzer {
 
         boolean containsMessage = elements.length > MESSAGE_INDEX;
         String message = (containsMessage) ? elements[MESSAGE_INDEX] : "";
-        
         int insertion = getInsertion(statLine);
         int deletion = getDeletion(statLine);
         return new CommitResult(author, hash, date, message, insertion, deletion);
