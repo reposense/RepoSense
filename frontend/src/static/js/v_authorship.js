@@ -161,8 +161,10 @@ window.vAuthorship = {
     renderFile(file) {
       let content = `########################################## ${file.path}\n`;
       file.segments.forEach((seg) => {
-        content += seg.lines.join('\n');
-        content += '\n';
+        if (seg.authored) {
+          content += seg.lines.join('\n');
+          content += '\n';
+        }
       });
       return content;
     },
@@ -177,7 +179,7 @@ window.vAuthorship = {
         text += '\n\n';
 
       });
-      var filename = 'Compiled-code';
+      var filename = this.info.repo + "_" + this.info.author;
       var element = document.createElement('a');
       element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(text));
       element.setAttribute('download', filename);
