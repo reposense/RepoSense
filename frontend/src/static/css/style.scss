@@ -236,6 +236,9 @@ header{
             margin-top:0.1rem;
             color:mui-color("red");
 
+            .select {
+              font-weight:bold;
+            }
             .loc {
               font-weight:bolder;
             }
@@ -254,7 +257,6 @@ header{
                 }
             }
             .checkboxes {
-
                 label{
                     float: left;
                     padding-right: 10px;
