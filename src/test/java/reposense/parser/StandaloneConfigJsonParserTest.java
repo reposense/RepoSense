@@ -11,7 +11,10 @@ import org.junit.Test;
 import com.google.gson.JsonSyntaxException;
 
 import reposense.model.Author;
+import reposense.model.CommitHash;
+import reposense.model.Format;
 import reposense.model.RepoConfiguration;
+import reposense.model.RepoLocation;
 import reposense.model.StandaloneConfig;
 import reposense.util.TestUtil;
 
@@ -52,13 +55,15 @@ public class StandaloneConfigJsonParserTest {
         author.setAuthorAliases(Arrays.asList("Yong Hao TENG"));
         author.setIgnoreGlobList(Arrays.asList("**.css", "**.html", "**.jade", "**.js"));
 
-        EXPECTED_GITHUBID_ONLY_REPOCONFIG = new RepoConfiguration(TEST_DUMMY_LOCATION);
-        EXPECTED_GITHUBID_ONLY_REPOCONFIG.setFormats(ArgsParser.DEFAULT_FORMATS);
+        EXPECTED_GITHUBID_ONLY_REPOCONFIG = new RepoConfiguration(new RepoLocation(TEST_DUMMY_LOCATION));
+        EXPECTED_GITHUBID_ONLY_REPOCONFIG.setFormats(Format.DEFAULT_FORMATS);
         EXPECTED_GITHUBID_ONLY_REPOCONFIG.setAuthorList(Arrays.asList(new Author("yong24s")));
 
-        EXPECTED_FULL_REPOCONFIG = new RepoConfiguration(TEST_DUMMY_LOCATION);
-        EXPECTED_FULL_REPOCONFIG.setFormats(Arrays.asList("gradle", "jade", "java", "js", "md", "scss", "yml"));
-        EXPECTED_FULL_REPOCONFIG.setIgnoreCommitList(Arrays.asList("7b96c563eb2d3612aa5275364333664a18f01491"));
+        EXPECTED_FULL_REPOCONFIG = new RepoConfiguration(new RepoLocation(TEST_DUMMY_LOCATION));
+        EXPECTED_FULL_REPOCONFIG.setFormats(Format.convertStringsToFormats(
+                Arrays.asList("gradle", "jade", "java", "js", "md", "scss", "yml")));
+        EXPECTED_FULL_REPOCONFIG.setIgnoreCommitList(Arrays.asList(new CommitHash(
+                "7b96c563eb2d3612aa5275364333664a18f01491")));
         EXPECTED_FULL_REPOCONFIG.setIgnoreGlobList(Arrays.asList("**.adoc", "collate**"));
         EXPECTED_FULL_REPOCONFIG.setAuthorList(Arrays.asList(author));
         EXPECTED_FULL_REPOCONFIG.setAuthorDisplayName(author, "Yong Hao");
@@ -100,7 +105,7 @@ public class StandaloneConfigJsonParserTest {
 
     private void assertSameConfig(RepoConfiguration expectedRepoConfig, StandaloneConfig actualStandaloneConfig)
             throws InvalidLocationException {
-        RepoConfiguration actualRepoConfig = new RepoConfiguration(TEST_DUMMY_LOCATION);
+        RepoConfiguration actualRepoConfig = new RepoConfiguration(new RepoLocation(TEST_DUMMY_LOCATION));
         actualRepoConfig.update(actualStandaloneConfig);
         TestUtil.compareRepoConfig(expectedRepoConfig, actualRepoConfig);
     }

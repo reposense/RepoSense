@@ -8,6 +8,7 @@ import org.junit.Assert;
 import org.junit.Test;
 
 import reposense.model.Author;
+import reposense.model.Format;
 import reposense.template.GitTestTemplate;
 import reposense.util.TestUtil;
 
@@ -21,14 +22,14 @@ public class GitLogTest extends GitTestTemplate {
 
     @Test
     public void gitLog_nonExistingFormats_noContent() {
-        config.setFormats(Collections.singletonList("py"));
+        config.setFormats(Collections.singletonList(new Format("py")));
         String content = GitLog.get(config, getAlphaAllAliasAuthor());
         Assert.assertTrue(content.isEmpty());
     }
 
     @Test
     public void gitLog_includeAllJavaFiles_success() {
-        config.setFormats(Collections.singletonList("java"));
+        config.setFormats(Collections.singletonList(new Format("java")));
         String content = GitLog.get(config, getAlphaAllAliasAuthor());
         Assert.assertTrue(TestUtil.compareNumberExpectedCommitsToGitLogLines(8, content));
     }
@@ -59,7 +60,7 @@ public class GitLogTest extends GitTestTemplate {
 
     @Test
     public void gitLog_includeAllJavaFilesAuthorIgnoreMovedFile_success() {
-        config.setFormats(Collections.singletonList("java"));
+        config.setFormats(Collections.singletonList(new Format("java")));
         Author ignoreMovedFileAuthor = getAlphaAllAliasAuthor();
         ignoreMovedFileAuthor.setIgnoreGlobList(Collections.singletonList("**movedFile.java"));
 
@@ -91,11 +92,14 @@ public class GitLogTest extends GitTestTemplate {
         config.setSinceDate(date);
         String content = GitLog.get(config, getAlphaAllAliasAuthor());
         Assert.assertTrue(content.isEmpty());
+    }
 
-        date = TestUtil.getDate(1950, Calendar.JANUARY, 1);
+    @Test
+    public void gitLog_untilDateBeforeAnyCommit_noContent() {
+        Date date = TestUtil.getDate(2010, Calendar.JANUARY, 1);
         config.setUntilDate(date);
         config.setSinceDate(null);
-        content = GitLog.get(config, getAlphaAllAliasAuthor());
+        String content = GitLog.get(config, getAlphaAllAliasAuthor());
         Assert.assertTrue(content.isEmpty());
     }
 }
