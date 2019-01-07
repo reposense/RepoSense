@@ -179,7 +179,7 @@ window.vAuthorship = {
         text += '\n\n';
 
       });
-      var filename = this.info.repo + "_" + this.info.author;
+      var filename = this.info.repo + '_' + this.info.author;
       var element = document.createElement('a');
       element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(text));
       element.setAttribute('download', filename);
