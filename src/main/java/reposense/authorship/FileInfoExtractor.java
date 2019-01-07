@@ -23,6 +23,7 @@ import reposense.git.CommitNotFoundException;
 import reposense.git.GitCheckout;
 import reposense.git.GitDiff;
 import reposense.git.GitRevList;
+import reposense.model.Format;
 import reposense.model.RepoConfiguration;
 import reposense.system.LogsManager;
 
@@ -106,7 +107,7 @@ public class FileInfoExtractor {
                 continue;
             }
 
-            if (isFormatInsideWhiteList(filePath, config.getFormats())) {
+            if (Format.isInsideWhiteList(filePath, config.getFormats())) {
                 try {
                     FileInfo currentFileInfo = generateFileInfo(config.getRepoRoot(), filePath);
                     setLinesToTrack(currentFileInfo, fileDiffResult);
@@ -168,7 +169,7 @@ public class FileInfoExtractor {
                     getAllFileInfo(config, filePath, fileInfos);
                 }
 
-                if (isFormatInsideWhiteList(relativePath, config.getFormats())) {
+                if (Format.isInsideWhiteList(relativePath, config.getFormats())) {
                     try {
                         fileInfos.add(generateFileInfo(config.getRepoRoot(), relativePath));
                     } catch (InvalidPathException ipe) {
@@ -199,13 +200,6 @@ public class FileInfoExtractor {
             logger.log(Level.SEVERE, ioe.getMessage(), ioe);
         }
         return fileInfo;
-    }
-
-    /**
-     * Returns true if the {@code relativePath}'s file type is inside {@code formatsWhiteList}.
-     */
-    private static boolean isFormatInsideWhiteList(String relativePath, List<String> formatsWhiteList) {
-        return formatsWhiteList.stream().anyMatch(format -> relativePath.endsWith("." + format));
     }
 
     /**
