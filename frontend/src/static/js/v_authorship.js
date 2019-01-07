@@ -194,6 +194,7 @@ window.vAuthorship = {
           + (this.totalLineCount - this.totalBlankLineCount);
     },
   },
+
   created() {
     this.initiate();
   },
