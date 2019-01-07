@@ -33,7 +33,6 @@ window.vAuthorship = {
       isLoaded: false,
       files: [],
       allSelected: true,
-      lineSelected: 0,
       fileTypesSelected: [],
       fileTypes: [],
       filesSelected: [],
@@ -104,7 +103,6 @@ window.vAuthorship = {
       let filesInfoObj = {};
       let filesBlanksInfoObj = {};
       let totalLineCount = 0;
-      let lineSelected = 0;
       let totalBlankLineCount = 0;
 
       files.forEach((file) => {
@@ -126,7 +124,6 @@ window.vAuthorship = {
 
       this.totalLineCount = totalLineCount;
       this.totalBlankLineCount = totalBlankLineCount;
-      this.lineSelected = totalLineCount;
       res.sort((a, b) => b.lineCount - a.lineCount);
 
       this.filesLinesObj = this.sortFileTypeAlphabetically(filesInfoObj);
