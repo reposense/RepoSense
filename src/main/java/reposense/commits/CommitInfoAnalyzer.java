@@ -16,6 +16,7 @@ import java.util.stream.Collectors;
 import reposense.commits.model.CommitInfo;
 import reposense.commits.model.CommitResult;
 import reposense.model.Author;
+import reposense.model.CommitHash;
 import reposense.model.RepoConfiguration;
 import reposense.system.LogsManager;
 
@@ -44,7 +45,7 @@ public class CommitInfoAnalyzer {
         return commitInfos.stream()
                 .map(commitInfo -> analyzeCommit(commitInfo, config.getAuthorAliasMap()))
                 .filter(commitResult -> !commitResult.getAuthor().equals(new Author(Author.UNKNOWN_AUTHOR_GIT_ID))
-                        && !isCommitHashWithinIgnoredCommitList(commitResult.getHash(), config.getIgnoreCommitList()))
+                        && !CommitHash.isInsideCommitList(commitResult.getHash(), config.getIgnoreCommitList()))
                 .sorted(Comparator.comparing(CommitResult::getTime))
                 .collect(Collectors.toList());
     }
@@ -72,10 +73,6 @@ public class CommitInfoAnalyzer {
         int insertion = getInsertion(statLine);
         int deletion = getDeletion(statLine);
         return new CommitResult(author, hash, date, message, insertion, deletion);
-    }
-
-    private static boolean isCommitHashWithinIgnoredCommitList(String commitHash, List<String> ignoreCommitList) {
-        return ignoreCommitList.stream().anyMatch(commitHash::startsWith);
     }
 
     private static int getInsertion(String raw) {

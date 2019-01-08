@@ -20,9 +20,11 @@ import java.util.stream.Stream;
 import reposense.authorship.model.FileInfo;
 import reposense.authorship.model.LineInfo;
 import reposense.git.CommitNotFoundException;
-import reposense.git.GitChecker;
+import reposense.git.GitCheckout;
+import reposense.git.GitDiff;
+import reposense.git.GitRevList;
+import reposense.model.Format;
 import reposense.model.RepoConfiguration;
-import reposense.system.CommandRunner;
 import reposense.system.LogsManager;
 
 /**
@@ -50,18 +52,18 @@ public class FileInfoExtractor {
      * Extracts a list of relevant files given in {@code config}.
      */
     public static List<FileInfo> extractFileInfos(RepoConfiguration config) {
-        logger.info("Extracting relevant file infos " + config.getLocation() + "...");
+        logger.info("Extracting relevant file info from " + config.getLocation() + "...");
 
         List<FileInfo> fileInfos = new ArrayList<>();
 
         // checks out to the latest commit of the date range to ensure the FileInfo generated correspond to the
         // git blame file analyze output
         try {
-            GitChecker.checkoutToDate(config.getRepoRoot(), config.getBranch(), config.getUntilDate());
+            GitCheckout.checkoutDate(config.getRepoRoot(), config.getBranch(), config.getUntilDate());
         } catch (CommitNotFoundException cnfe) {
             return fileInfos;
         }
-        String lastCommitHash = CommandRunner.getCommitHashBeforeDate(
+        String lastCommitHash = GitRevList.getCommitHashBeforeDate(
                 config.getRepoRoot(), config.getBranch(), config.getSinceDate());
 
         if (!lastCommitHash.isEmpty()) {
@@ -81,7 +83,7 @@ public class FileInfoExtractor {
      */
     public static List<FileInfo> getEditedFileInfos(RepoConfiguration config, String lastCommitHash) {
         List<FileInfo> fileInfos = new ArrayList<>();
-        String fullDiffResult = CommandRunner.diffCommit(config.getRepoRoot(), lastCommitHash);
+        String fullDiffResult = GitDiff.diffCommit(config.getRepoRoot(), lastCommitHash);
 
         // no diff between the 2 commits, return an empty list
         if (fullDiffResult.isEmpty()) {
@@ -105,7 +107,7 @@ public class FileInfoExtractor {
                 continue;
             }
 
-            if (isFormatInsideWhiteList(filePath, config.getFormats())) {
+            if (Format.isInsideWhiteList(filePath, config.getFormats())) {
                 try {
                     FileInfo currentFileInfo = generateFileInfo(config.getRepoRoot(), filePath);
                     setLinesToTrack(currentFileInfo, fileDiffResult);
@@ -167,7 +169,7 @@ public class FileInfoExtractor {
                     getAllFileInfo(config, filePath, fileInfos);
                 }
 
-                if (isFormatInsideWhiteList(relativePath, config.getFormats())) {
+                if (Format.isInsideWhiteList(relativePath, config.getFormats())) {
                     try {
                         fileInfos.add(generateFileInfo(config.getRepoRoot(), relativePath));
                     } catch (InvalidPathException ipe) {
@@ -198,13 +200,6 @@ public class FileInfoExtractor {
             logger.log(Level.SEVERE, ioe.getMessage(), ioe);
         }
         return fileInfo;
-    }
-
-    /**
-     * Returns true if the {@code relativePath}'s file type is inside {@code formatsWhiteList}.
-     */
-    private static boolean isFormatInsideWhiteList(String relativePath, List<String> formatsWhiteList) {
-        return formatsWhiteList.stream().anyMatch(format -> relativePath.endsWith("." + format));
     }
 
     /**

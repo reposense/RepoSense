@@ -64,6 +64,8 @@ public abstract class CsvParser<T> {
             throw new IOException(MESSAGE_UNABLE_TO_READ_CSV_FILE, ioe);
         } catch (ParseException pe) {
             logger.log(Level.WARNING, pe.getMessage(), pe);
+        } catch (IllegalArgumentException iae) {
+            logger.log(Level.WARNING, iae.getMessage(), iae);
         }
 
         return results;

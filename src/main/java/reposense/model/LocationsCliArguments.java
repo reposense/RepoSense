@@ -10,18 +10,26 @@ import java.util.Optional;
  */
 public class LocationsCliArguments extends CliArguments {
     private List<String> locations;
+    private boolean isStandaloneConfigIgnored;
 
-    public LocationsCliArguments(List<String> locations,
-            Path outputFilePath, Optional<Date> sinceDate, Optional<Date> untilDate, List<String> formats) {
+    public LocationsCliArguments(List<String> locations, Path outputFilePath, Optional<Date> sinceDate,
+            Optional<Date> untilDate, List<Format> formats, boolean isAutomaticallyLaunching,
+            boolean isStandaloneConfigIgnored) {
         this.locations = locations;
         this.outputFilePath = outputFilePath;
         this.sinceDate = sinceDate;
         this.untilDate = untilDate;
         this.formats = formats;
+        this.isAutomaticallyLaunching = isAutomaticallyLaunching;
+        this.isStandaloneConfigIgnored = isStandaloneConfigIgnored;
     }
 
     public List<String> getLocations() {
         return locations;
+    }
+
+    public boolean isStandaloneConfigIgnored() {
+        return isStandaloneConfigIgnored;
     }
 
     public boolean equals(Object other) {
@@ -38,6 +46,7 @@ public class LocationsCliArguments extends CliArguments {
         LocationsCliArguments otherLocationsCliArguments = (LocationsCliArguments) other;
 
         return super.equals(other)
-                && this.locations.equals(otherLocationsCliArguments.locations);
+                && this.locations.equals(otherLocationsCliArguments.locations)
+                && this.isStandaloneConfigIgnored == otherLocationsCliArguments.isStandaloneConfigIgnored;
     }
 }

@@ -15,13 +15,15 @@ import reposense.authorship.FileInfoExtractor;
 import reposense.authorship.model.FileInfo;
 import reposense.authorship.model.FileResult;
 import reposense.authorship.model.LineInfo;
-import reposense.git.GitDownloader;
-import reposense.git.GitDownloaderException;
+import reposense.git.GitCheckout;
+import reposense.git.GitClone;
+import reposense.git.GitCloneException;
 import reposense.model.Author;
+import reposense.model.CommitHash;
+import reposense.model.Format;
 import reposense.model.RepoConfiguration;
-import reposense.parser.ArgsParser;
+import reposense.model.RepoLocation;
 import reposense.parser.InvalidLocationException;
-import reposense.system.CommandRunner;
 import reposense.util.FileUtil;
 
 public class GitTestTemplate {
@@ -34,12 +36,18 @@ public class GitTestTemplate {
     protected static final String EUGENE_AUTHOR_NAME = "eugenepeh";
     protected static final String YONG_AUTHOR_NAME = "Yong Hao TENG";
     protected static final String LATEST_COMMIT_HASH = "136c6713fc00cfe79a1598e8ce83c6ef3b878660";
-    protected static final String EUGENE_AUTHOR_README_FILE_COMMIT_07052018 =
+    protected static final String EUGENE_AUTHOR_README_FILE_COMMIT_07052018_STRING =
             "2d87a431fcbb8f73a731b6df0fcbee962c85c250";
-    protected static final String FAKE_AUTHOR_BLAME_TEST_FILE_COMMIT_08022018 =
+    protected static final CommitHash EUGENE_AUTHOR_README_FILE_COMMIT_07052018 =
+            new CommitHash(EUGENE_AUTHOR_README_FILE_COMMIT_07052018_STRING);
+    protected static final String FAKE_AUTHOR_BLAME_TEST_FILE_COMMIT_08022018_STRING =
             "768015345e70f06add2a8b7d1f901dc07bf70582";
-    protected static final String MAIN_AUTHOR_BLAME_TEST_FILE_COMMIT_06022018 =
+    protected static final CommitHash FAKE_AUTHOR_BLAME_TEST_FILE_COMMIT_08022018 =
+            new CommitHash(FAKE_AUTHOR_BLAME_TEST_FILE_COMMIT_08022018_STRING);
+    protected static final String MAIN_AUTHOR_BLAME_TEST_FILE_COMMIT_06022018_STRING =
             "8d0ac2ee20f04dce8df0591caed460bffacb65a4";
+    protected static final CommitHash MAIN_AUTHOR_BLAME_TEST_FILE_COMMIT_06022018 =
+            new CommitHash(MAIN_AUTHOR_BLAME_TEST_FILE_COMMIT_06022018_STRING);
     protected static final String NONEXISTENT_COMMIT_HASH = "nonExistentCommitHash";
 
 
@@ -47,17 +55,17 @@ public class GitTestTemplate {
 
     @Before
     public void before() throws InvalidLocationException {
-        config = new RepoConfiguration(TEST_REPO_GIT_LOCATION, "master");
+        config = new RepoConfiguration(new RepoLocation(TEST_REPO_GIT_LOCATION), "master");
         config.setAuthorList(Collections.singletonList(getAlphaAllAliasAuthor()));
-        config.setFormats(ArgsParser.DEFAULT_FORMATS);
+        config.setFormats(Format.DEFAULT_FORMATS);
     }
 
     @BeforeClass
-    public static void beforeClass() throws GitDownloaderException, IOException, InvalidLocationException {
+    public static void beforeClass() throws GitCloneException, IOException, InvalidLocationException {
         deleteRepos();
-        config = new RepoConfiguration(TEST_REPO_GIT_LOCATION, "master");
-        config.setFormats(ArgsParser.DEFAULT_FORMATS);
-        GitDownloader.downloadRepo(config);
+        config = new RepoConfiguration(new RepoLocation(TEST_REPO_GIT_LOCATION), "master");
+        config.setFormats(Format.DEFAULT_FORMATS);
+        GitClone.clone(config);
     }
 
     @AfterClass
@@ -67,7 +75,7 @@ public class GitTestTemplate {
 
     @After
     public void after() {
-        CommandRunner.checkout(config.getRepoRoot(), "master");
+        GitCheckout.checkout(config.getRepoRoot(), "master");
     }
 
     private static void deleteRepos() throws IOException {

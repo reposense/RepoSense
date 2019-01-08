@@ -10,6 +10,7 @@ import org.junit.Test;
 import reposense.commits.model.CommitInfo;
 import reposense.commits.model.CommitResult;
 import reposense.model.Author;
+import reposense.model.CommitHash;
 import reposense.template.GitTestTemplate;
 
 public class CommitInfoAnalyzerTest extends GitTestTemplate {
@@ -59,7 +60,8 @@ public class CommitInfoAnalyzerTest extends GitTestTemplate {
         config.setIgnoreCommitList(Collections.singletonList(FAKE_AUTHOR_BLAME_TEST_FILE_COMMIT_08022018));
         List<CommitResult> commitResultsFull = CommitInfoAnalyzer.analyzeCommits(commitInfos, config);
         config.setIgnoreCommitList(
-                Collections.singletonList(FAKE_AUTHOR_BLAME_TEST_FILE_COMMIT_08022018.substring(0, 8)));
+                Collections.singletonList(
+                        new CommitHash(FAKE_AUTHOR_BLAME_TEST_FILE_COMMIT_08022018_STRING.substring(0, 8))));
         List<CommitResult> commitResultsShort = CommitInfoAnalyzer.analyzeCommits(commitInfos, config);
 
         Assert.assertEquals(commitResultsShort, commitResultsFull);
@@ -75,8 +77,9 @@ public class CommitInfoAnalyzerTest extends GitTestTemplate {
         config.setIgnoreCommitList(
                 Arrays.asList(FAKE_AUTHOR_BLAME_TEST_FILE_COMMIT_08022018, EUGENE_AUTHOR_README_FILE_COMMIT_07052018));
         List<CommitResult> commitResultsFull = CommitInfoAnalyzer.analyzeCommits(commitInfos, config);
-        config.setIgnoreCommitList(Arrays.asList(FAKE_AUTHOR_BLAME_TEST_FILE_COMMIT_08022018.substring(0, 8),
-                EUGENE_AUTHOR_README_FILE_COMMIT_07052018.substring(0, 8)));
+        config.setIgnoreCommitList(CommitHash.convertStringsToCommits(Arrays.asList(
+                FAKE_AUTHOR_BLAME_TEST_FILE_COMMIT_08022018_STRING.substring(0, 8),
+                EUGENE_AUTHOR_README_FILE_COMMIT_07052018_STRING.substring(0, 8))));
         List<CommitResult> commitResultsShort = CommitInfoAnalyzer.analyzeCommits(commitInfos, config);
 
         Assert.assertEquals(commitResultsShort, commitResultsFull);

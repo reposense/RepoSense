@@ -13,13 +13,21 @@ import reposense.template.GitTestTemplate;
 import reposense.util.TestUtil;
 
 
-public class GitCheckerTest extends GitTestTemplate {
+public class GitCheckoutTest extends GitTestTemplate {
+
+    @Test
+    public void checkout_validBranch_success() {
+        GitCheckout.checkout(config.getRepoRoot(), "test");
+        Path branchFile = Paths.get(config.getRepoRoot(), "inTestBranch.java");
+        Assert.assertTrue(Files.exists(branchFile));
+    }
+
     @Test
     public void checkoutBranchTest() {
         Path branchFile = Paths.get(config.getRepoRoot(), "inTestBranch.java");
         Assert.assertFalse(Files.exists(branchFile));
 
-        GitChecker.checkoutBranch(config.getRepoRoot(), "test");
+        GitCheckout.checkoutBranch(config.getRepoRoot(), "test");
         Assert.assertTrue(Files.exists(branchFile));
     }
 
@@ -28,7 +36,7 @@ public class GitCheckerTest extends GitTestTemplate {
         Path newFile = Paths.get(config.getRepoRoot(), "newFile.java");
         Assert.assertTrue(Files.exists(newFile));
 
-        GitChecker.checkout(config.getRepoRoot(), FIRST_COMMIT_HASH);
+        GitCheckout.checkout(config.getRepoRoot(), FIRST_COMMIT_HASH);
         Assert.assertFalse(Files.exists(newFile));
     }
 
@@ -38,13 +46,13 @@ public class GitCheckerTest extends GitTestTemplate {
         Assert.assertTrue(Files.exists(newFile));
 
         Date untilDate = TestUtil.getDate(2018, Calendar.FEBRUARY, 6);
-        GitChecker.checkoutToDate(config.getRepoRoot(), config.getBranch(), untilDate);
+        GitCheckout.checkoutDate(config.getRepoRoot(), config.getBranch(), untilDate);
         Assert.assertFalse(Files.exists(newFile));
     }
 
     @Test(expected = CommitNotFoundException.class)
     public void checkoutToDate_invalidDate_throwsEmptyCommitException() throws CommitNotFoundException {
         Date untilDate = TestUtil.getDate(2015, Calendar.FEBRUARY, 6);
-        GitChecker.checkoutToDate(config.getRepoRoot(), config.getBranch(), untilDate);
+        GitCheckout.checkoutDate(config.getRepoRoot(), config.getBranch(), untilDate);
     }
 }

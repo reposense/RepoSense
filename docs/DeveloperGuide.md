@@ -8,7 +8,7 @@ Thank you for your interest in contributing to RepoSense!
   - [Configuring the JavaScript coding style](#configuring-the-javascript-coding-style)
 - [Architecture](#architecture)
   - [Parser](#parserconfigparser)
-  - [Git](#gitgitdownloader)
+  - [Git](#git)
   - [CommitsReporter](#commitsreporter)
   - [AuthorshipReporter](#authorshipreporter)
   - [ReportGenerator](#reportgeneratormain)
@@ -69,21 +69,26 @@ Eslint and its accompaning modules can be installed through NPM, so do ensure th
 ### Building and running RepoSense from code
 
 1. Execute the following command on the OS terminal inside the project directory. <br/>
-Usage: `gradlew run -Dargs="([-config CONFIG_FOLDER] | -repos REPO_PATH_OR_URL... | -view REPORT_FOLDER) [-output OUTPUT_DIRECTORY] [-since DD/MM/YYYY] [-until DD/MM/YYYY] [-formats FORMAT...]"` <br/>
+Usage: `gradlew run -Dargs="([-config CONFIG_FOLDER] | [-repos REPO_PATH_OR_URL...]) [-view [REPORT_FOLDER]] [-output OUTPUT_DIRECTORY] [-since DD/MM/YYYY] [-until DD/MM/YYYY] [-formats FORMAT...] [-isac | --ignore-standalone-config]"` <br/>
 
 Sample usage to generate the report with no specify arguments: (find and use config files in current working directory)
 ```
 gradlew run
 ```
 
-Sample usage to generate the report with config files:
+Sample usage to generate the report with config files and automatically open the report:
 ```
-gradlew run -Dargs="-config ./configs/ -output output_path/ -since 01/10/2017 -until 01/11/2017 -formats java adoc js"
+gradlew run -Dargs="-config ./configs/ -output output_path/ -since 21/10/2017 -until 21/11/2017 -formats java adoc js -view"
 ```
 
-Sample usage to generate the report with repository locations:
+Sample usage to generate the report with repository locations and automatically open the report:
 ```
-gradlew run -Dargs="-repos https://github.com/reposense/RepoSense.git https://github.com/se-edu/collate.git -output output_path/ -since 01/10/2017 -until 01/11/2017 -formats java adoc js"
+gradlew run -Dargs="-repos https://github.com/reposense/RepoSense.git https://github.com/se-edu/collate.git -output output_path/ -since 21/10/2017 -until 21/11/2017 -formats java adoc js -view"
+```
+
+Sample usage to generate the report with repository locations but ignore the standalone config file:
+```
+gradlew run -Dargs="-repos https://github.com/reposense/RepoSense.git https://github.com/se-edu/collate.git --ignore-standalone-config"
 ```
 
 Sample usage to view the report:
@@ -103,10 +108,16 @@ gradlew run -Dargs="-view output_path/reposense-report"
  * [`CsvParser`](/src/main/java/reposense/parser/CsvParser.java): Parses the the user-supplied CSV config file into a list of `RepoConfiguration` for each repository to analyze.
 
 
-### Git(GitDownloader)
-`Git` contains the wrapper classes for respective *git* commands.
- * [`GitDownloader`](/src/main/java/reposense/git/GitDownloader.java): Wrapper class for `git clone` functionality. Clones the repository from *GitHub* into a temporary folder in order to run the analysis.
- * [`GitChecker`](/src/main/java/reposense/git/GitChecker.java): Wrapper class for `git checkout` functionality. Checks out the repository by branch name or commit hash.
+### Git
+`Git` package contains the wrapper classes for respective *git* commands.
+ * [`GitBlame`](/src/main/java/reposense/git/GitBlame.java): Wrapper class for `git blame` functionality. Traces the revision and author last modified each line of a file.
+ * [`GitBranch`](/src/main/java/reposense/git/GitBranch.java): Wrapper class for `git branch` functionality. Gets the name of the working branch of the target repo.
+ * [`GitCheckout`](/src/main/java/reposense/git/GitCheckout.java): Wrapper class for `git checkout` functionality. Checks out the repository by branch name or commit hash.
+ * [`GitClone`](/src/main/java/reposense/git/GitClone.java): Wrapper class for `git clone` functionality. Clones the repository from *GitHub* into a temporary folder in order to run the analysis.
+ * [`GitDiff`](/src/main/java/reposense/git/GitDiff.java): Wrapper class for `git diff` functionality. Obtains the changes between commits.
+ * [`GitLog`](/src/main/java/reposense/git/GitLog.java): Wrapper class for `git log` functionality. Obtains the commit logs and the authors' info.
+ * [`GitRevList`](/src/main/java/reposense/git/GitRevList.java): Wrapper class for `git rev-list` functionality. Retrieves the commit objects in reverse chronological order.
+ * [`GitShortlog`](/src/main/java/reposense/git/GitShortlog.java): Wrapper class for `git shortlog` functionality. Obtains the list of authors who have contributed to the target repo.
 
 
 ### CommitsReporter
