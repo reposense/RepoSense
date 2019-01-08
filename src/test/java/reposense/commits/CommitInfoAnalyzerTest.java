@@ -14,6 +14,7 @@ import reposense.template.GitTestTemplate;
 
 public class CommitInfoAnalyzerTest extends GitTestTemplate {
     private static final int NUMBER_EUGENE_COMMIT = 1;
+    private static final int NUMBER_EMPTY_MESSAGE_COMMIT = 1;
 
     @Test
     public void analyzeCommits_allAuthorNoIgnoredCommitsNoDateRange_success() {
@@ -80,5 +81,18 @@ public class CommitInfoAnalyzerTest extends GitTestTemplate {
 
         Assert.assertEquals(commitResultsShort, commitResultsFull);
         Assert.assertEquals(commitInfos.size() - 2, commitResultsFull.size());
+    }
+
+    @Test
+    public void analyzeCommits_yongAuthorNoCommitIgnoredNoDateRangeEmptyMessage_success() {
+        config.setBranch("empty-commit-message");
+        config.getAuthorAliasMap().clear();
+        config.getAuthorAliasMap().put(YONG_AUTHOR_NAME, new Author(YONG_AUTHOR_NAME));
+
+        List<CommitInfo> commitInfos = CommitInfoExtractor.extractCommitInfos(config);
+        List<CommitResult> commitResults = CommitInfoAnalyzer.analyzeCommits(commitInfos, config);
+        commitResults.removeIf(s -> !s.getMessage().isEmpty());
+
+        Assert.assertEquals(NUMBER_EMPTY_MESSAGE_COMMIT, commitResults.size());
     }
 }

@@ -24,7 +24,8 @@ import reposense.model.ViewCliArguments;
 public class ArgsParser {
     public static final String DEFAULT_REPORT_NAME = "reposense-report";
     public static final List<String> DEFAULT_FORMATS = Arrays.asList(
-            "adoc", "cs", "css", "fxml", "gradle", "html", "java", "js", "json", "jsp", "md", "py", "tag", "xml");
+            "adoc", "cs", "css", "fxml", "gradle", "html", "java", "js",
+            "json", "jsp", "md", "py", "tag", "xml", "txt");
     private static final String PROGRAM_USAGE = "java -jar RepoSense.jar";
     private static final String PROGRAM_DESCRIPTION =
             "RepoSense is a contribution analysis tool for Git repositories.";
