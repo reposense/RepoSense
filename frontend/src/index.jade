@@ -135,6 +135,7 @@ html
           a.downloadLink(
             v-on:click="downloadAll()"
             v-bind:class="{ disabled: filesDownloaded.length === 0 }"
+            v-bind:title="'download selected files'"
           )
             i.fas.fa-download
           .contribution(v-if="isLoaded")
@@ -154,7 +155,7 @@ html
               span {{ file.path }}&nbsp;
               span.loc ({{ file.lineCount }} lines)
             #downloadCheckbox
-              input(type="checkbox", :value="file", v-model="filesDownloaded")
+              input(type="checkbox", :value="file", v-model="filesDownloaded" :title="'select file to download'")
             pre.hljs.java
               code
                 template(v-for="segment in file.segments")
