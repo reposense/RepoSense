@@ -6,10 +6,10 @@ import java.util.List;
 import java.util.logging.Logger;
 
 import reposense.commits.model.CommitInfo;
-import reposense.git.GitChecker;
+import reposense.git.GitCheckout;
+import reposense.git.GitLog;
 import reposense.model.Author;
 import reposense.model.RepoConfiguration;
-import reposense.system.CommandRunner;
 import reposense.system.LogsManager;
 
 /**
@@ -24,12 +24,12 @@ public class CommitInfoExtractor {
     public static List<CommitInfo> extractCommitInfos(RepoConfiguration config) {
         logger.info("Extracting commits info for " + config.getLocation() + "...");
 
-        GitChecker.checkoutBranch(config.getRepoRoot(), config.getBranch());
+        GitCheckout.checkoutBranch(config.getRepoRoot(), config.getBranch());
 
         List<CommitInfo> repoCommitInfos = new ArrayList<>();
 
         for (Author author : config.getAuthorList()) {
-            String gitLogResult = CommandRunner.gitLog(config, author);
+            String gitLogResult = GitLog.get(config, author);
             List<CommitInfo> authorCommitInfos = parseGitLogResults(gitLogResult);
             repoCommitInfos.addAll(authorCommitInfos);
         }

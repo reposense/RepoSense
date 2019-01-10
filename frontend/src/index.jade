@@ -82,21 +82,26 @@ html
               span group by repo/branch
         #summary-charts
           .summary-charts(v-for="repo of filtered", v-if="repo.length>0")
-            a.summary-charts__title(
+            .summary-charts__title(
               v-if="filterGroupRepos",
-              v-bind:href="repo[0].location", target="_blank"
             ) {{ repo[0].repoPath }}
             .summary-chart(v-for="(user, i) in repo")
-              .summary-chart__title(
-                title="click to view author's code",
-                v-on:click="$emit('view-authorship', \
-                    {author:user.name, repo:user.repoName, name:user.displayName, \
-                        minDate:minDate, maxDate:maxDate, totalCommits:user.totalCommits})"
-              )
+              .summary-chart__title
                 .summary-chart__title--index {{ i+1 }}
                 .summary-chart__title--repo(v-if="!filterGroupRepos") {{ user.repoPath }}
                 .summary-chart__title--name {{ user.displayName }}
-                i.summary-chart__title--tooltip.fas.fa-code
+                a(
+                  title="click to view author's code",
+                  v-on:click="$emit('view-authorship', \
+                      {author:user.name, repo:user.repoName, name:user.displayName, location:repo[0].location, \
+                          minDate:minDate, maxDate:maxDate, totalCommits:user.totalCommits})"
+                )
+                  i.summary-chart__title--button.fas.fa-code
+                a(
+                  v-bind:href="repo[0].location", target="_blank",
+                  title="click to view author's repo"
+                )
+                  i.summary-chart__title--button.fab.fa-github
               .summary-chart__ramp
                 a.summary-chart__ramp__slice(
                   v-for="(slice, j) in user.commits",
@@ -122,15 +127,20 @@ html
     vuetemplate#v_authorship
       #authorship
         .title
-          .repoName {{ info.repo }}
+          a.repoName(
+            v-bind:href="info.location", target="_blank",
+            v-bind:title="'Click to open the repo'"
+          ) {{ info.repo }}
           .author {{ info.name }} ({{ info.author }}) contribution from {{ info.minDate }} to {{ info.maxDate }}
           .contribution(v-if="isLoaded")
-            span Total LoC contributed:&nbsp;
-            span.loc {{ totalLineCount }}
+            span(v-bind:title="getTotalFileBlankLineInfo()") Total LoC contributed:&nbsp;
+            span.loc(v-bind:title="getTotalFileBlankLineInfo()") {{ totalLineCount }}&nbsp;
+            span.bloc(v-bind:title="getTotalFileBlankLineInfo()") ({{ totalBlankLineCount }})
             br
             span.fileType(v-if="totalLineCount > 0") &rarr; &nbsp;
                 template(v-for="type in Object.keys(filesLinesObj)")
-                    span {{ type }}: {{ filesLinesObj[type] }}
+                    span(v-bind:title="getFileBlankLineInfo(type)") {{ type }}: {{ filesLinesObj[type] }}&nbsp;
+                    span.bloc(v-bind:title="getFileBlankLineInfo(type)") ({{ filesBlankLinesObj[type] }})
 
         .files(v-if="isLoaded")
           .empty(v-if="files.length===0") nothing to see here :(

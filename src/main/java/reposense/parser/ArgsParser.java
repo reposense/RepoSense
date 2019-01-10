@@ -2,12 +2,12 @@ package reposense.parser;
 
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
 import net.sourceforge.argparse4j.ArgumentParsers;
+import net.sourceforge.argparse4j.impl.Arguments;
 import net.sourceforge.argparse4j.impl.action.HelpArgumentAction;
 import net.sourceforge.argparse4j.inf.ArgumentParser;
 import net.sourceforge.argparse4j.inf.ArgumentParserException;
@@ -15,6 +15,7 @@ import net.sourceforge.argparse4j.inf.MutuallyExclusiveGroup;
 import net.sourceforge.argparse4j.inf.Namespace;
 import reposense.model.CliArguments;
 import reposense.model.ConfigCliArguments;
+import reposense.model.Format;
 import reposense.model.LocationsCliArguments;
 import reposense.model.ViewCliArguments;
 
@@ -23,13 +24,12 @@ import reposense.model.ViewCliArguments;
  */
 public class ArgsParser {
     public static final String DEFAULT_REPORT_NAME = "reposense-report";
-    public static final List<String> DEFAULT_FORMATS = Arrays.asList(
-            "adoc", "cs", "css", "fxml", "gradle", "html", "java", "js", "json", "jsp", "md", "py", "tag", "xml");
     private static final String PROGRAM_USAGE = "java -jar RepoSense.jar";
     private static final String PROGRAM_DESCRIPTION =
             "RepoSense is a contribution analysis tool for Git repositories.";
     private static final String MESSAGE_SINCE_DATE_LATER_THAN_UNTIL_DATE =
             "\"Since Date\" cannot be later than \"Until Date\"";
+    private static final Path EMPTY_PATH = Paths.get("");
 
     private static ArgumentParser getArgumentParser() {
         ArgumentParser parser = ArgumentParsers
@@ -49,7 +49,7 @@ public class ArgsParser {
         mutexParser.addArgument("-config")
                 .type(new ConfigFolderArgumentType())
                 .metavar("PATH")
-                .setDefault(Paths.get("").toAbsolutePath())
+                .setDefault(EMPTY_PATH.toAbsolutePath())
                 .help("The directory containing the config files."
                         + "If not provided, the config files will be obtained from the current working directory.");
 
@@ -59,10 +59,14 @@ public class ArgsParser {
                 .metavar("LOCATION")
                 .help("The GitHub URL or disk locations to clone repository.");
 
-        mutexParser.addArgument("-view")
+        parser.addArgument("-view")
+                .nargs("?")
                 .metavar("PATH")
                 .type(new ReportFolderArgumentType())
-                .help("Starts a server to display the dashboard in the provided directory.");
+                .setConst(EMPTY_PATH)
+                .help("Starts a server to display the dashboard in the provided directory."
+                        + "If used as a flag (with no argument), "
+                        + "generates a report and automatically displays the dashboard.");
 
         parser.addArgument("-output")
                 .metavar("PATH")
@@ -87,10 +91,14 @@ public class ArgsParser {
                 .nargs("*")
                 .metavar("FORMAT")
                 .type(new AlphanumericArgumentType())
-                .setDefault(DEFAULT_FORMATS)
+                .setDefault(Format.DEFAULT_FORMAT_STRINGS)
                 .help("The alphanumeric file formats to process.\n"
                         + "If not provided, default file formats will be used.\n"
                         + "Please refer to userguide for more information.");
+
+        parser.addArgument("--ignore-standalone-config", "-isac")
+                .action(Arguments.storeTrue())
+                .help("A flag to ignore the standalone config file in the repo.");
 
         return parser;
     }
@@ -110,20 +118,25 @@ public class ArgsParser {
             Path outputFolderPath = results.get("output");
             Optional<Date> sinceDate = results.get("since");
             Optional<Date> untilDate = results.get("until");
-            List<String> formats = results.get("formats");
             List<String> locations = results.get("repos");
+            List<Format> formats = Format.convertStringsToFormats(results.get("formats"));
+            boolean isStandaloneConfigIgnored = results.get("ignore_standalone_config");
 
             verifyDatesRangeIsCorrect(sinceDate, untilDate);
 
-            if (locations != null) {
-                return new LocationsCliArguments(locations, outputFolderPath, sinceDate, untilDate, formats);
-            }
-
-            if (reportFolderPath != null) {
+            if (reportFolderPath != null && !reportFolderPath.equals(EMPTY_PATH)) {
                 return new ViewCliArguments(reportFolderPath);
             }
 
-            return new ConfigCliArguments(configFolderPath, outputFolderPath, sinceDate, untilDate, formats);
+            boolean isAutomaticallyLaunching = reportFolderPath != null;
+
+            if (locations != null) {
+                return new LocationsCliArguments(locations, outputFolderPath, sinceDate, untilDate, formats,
+                        isAutomaticallyLaunching, isStandaloneConfigIgnored);
+            }
+
+            return new ConfigCliArguments(
+                    configFolderPath, outputFolderPath, sinceDate, untilDate, formats, isAutomaticallyLaunching);
         } catch (ArgumentParserException ape) {
             throw new ParseException(getArgumentParser().formatUsage() + ape.getMessage() + "\n");
         }
