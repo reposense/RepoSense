@@ -233,13 +233,13 @@ header{
         }
 
         .downloadLink {
-            cursor: pointer;
-            float: right;
+            cursor:pointer;
+            float:right;
         }
 
         .disabled {
-          cursor: not-allowed;
-          color: gray
+          cursor:not-allowed;
+          color:gray
         }
 
         .contribution{
@@ -268,7 +268,7 @@ header{
     }
 
     #downloadCheckbox {
-        float: right;
+        float:right;
     }
 
     .files{
