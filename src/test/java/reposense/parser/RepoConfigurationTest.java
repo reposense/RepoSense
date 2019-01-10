@@ -14,12 +14,14 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
+import reposense.RepoSense;
 import reposense.git.GitClone;
 import reposense.git.GitCloneException;
 import reposense.model.Author;
 import reposense.model.CliArguments;
 import reposense.model.ConfigCliArguments;
 import reposense.model.Format;
+import reposense.model.LocationsCliArguments;
 import reposense.model.RepoConfiguration;
 import reposense.model.RepoLocation;
 import reposense.report.ReportGenerator;
@@ -134,6 +136,23 @@ public class RepoConfigurationTest {
                 new AuthorConfigCsvParser(((ConfigCliArguments) cliArguments).getAuthorConfigFilePath()).parse();
         RepoConfiguration.merge(actualConfigs, authorConfigs);
 
+        RepoConfiguration actualConfig = actualConfigs.get(0);
+        GitClone.clone(actualConfig);
+        ReportGenerator.updateRepoConfig(actualConfig);
+
+        TestUtil.compareRepoConfig(expectedConfig, actualConfig);
+    }
+
+    @Test
+    public void repoConfig_ignoresStandaloneConfigInCli_success() throws ParseException, GitCloneException {
+        RepoConfiguration expectedConfig = new RepoConfiguration(new RepoLocation(TEST_REPO_DELTA), "master");
+        expectedConfig.setFormats(Format.convertStringsToFormats(CLI_FORMATS));
+
+        String formats = String.join(" ", CLI_FORMATS);
+        String input = String.format("-repo %s -formats %s --ignore-standalone-config", TEST_REPO_DELTA, formats);
+        CliArguments cliArguments = ArgsParser.parse(translateCommandline(input));
+        List<RepoConfiguration> actualConfigs = RepoSense.getRepoConfigurations((LocationsCliArguments) cliArguments);
+        RepoConfiguration.setFormatsToRepoConfigs(actualConfigs, cliArguments.getFormats());
         RepoConfiguration actualConfig = actualConfigs.get(0);
         GitClone.clone(actualConfig);
         ReportGenerator.updateRepoConfig(actualConfig);
