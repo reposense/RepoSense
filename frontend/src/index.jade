@@ -141,13 +141,13 @@ html
                 span.bloc(v-bind:title="getTotalFileBlankLineInfo()") ({{ totalBlankLineCount }})
               template(v-for="type in Object.keys(filesLinesObj)")
                 label
-                  input(type="checkbox" :value="type" v-model="fileTypesSelected" v-on:change="selectFile").mui-checkbox
+                  input(type="checkbox" :value="type" v-model="selectedFileTypes" v-on:change="selectFile").mui-checkbox
                   span(v-bind:title="getFileBlankLineInfo(type)") {{ type }}: {{ filesLinesObj[type] }}&nbsp;
                   span.bloc(v-bind:title="getFileBlankLineInfo(type)") ({{ filesBlankLinesObj[type] }})
 
         .files(v-if="isLoaded")
           .empty(v-if="files.length===0") nothing to see here :(
-          .file.active(v-for="file in filesSelected")
+          .file.active(v-for="file in selectedFiles")
             .title(onclick="toggleNext(this)")
               span {{ file.path }}&nbsp;
               span.loc ({{ file.lineCount }} lines)

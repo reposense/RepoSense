@@ -33,9 +33,9 @@ window.vAuthorship = {
       isLoaded: false,
       files: [],
       isSelectAllChecked: true,
-      fileTypesSelected: [],
+      selectedFileTypes: [],
       fileTypes: [],
-      filesSelected: [],
+      selectedFiles: [],
       filesLinesObj: {},
       filesBlankLinesObj: {},
       totalLineCount: "",
@@ -129,13 +129,13 @@ window.vAuthorship = {
       this.filesLinesObj = this.sortFileTypeAlphabetically(filesInfoObj);
       for (var file in filesInfoObj) {
         if (filesInfoObj.hasOwnProperty(file)) {
-          this.fileTypesSelected.push(file);
+          this.selectedFileTypes.push(file);
           this.fileTypes.push(file);
         }
       }
       this.filesBlankLinesObj = filesBlanksInfoObj;
       this.files = res;
-      this.filesSelected = res;
+      this.selectedFiles = res;
       this.isLoaded = true;
     },
 
@@ -160,27 +160,27 @@ window.vAuthorship = {
 
     selectAll() {
       if (!this.isSelectAllChecked) {
-        this.fileTypesSelected = this.fileTypes;
-        this.filesSelected = this.files;
+        this.selectedFileTypes = this.fileTypes;
+        this.selectedFiles = this.files;
       } else {
-        this.fileTypesSelected = [];
-        this.filesSelected = [];
+        this.selectedFileTypes = [];
+        this.selectedFiles = [];
       }
     },
 
     selectFile() {
-      setTimeout(this.getSelected, 0);
+      setTimeout(this.getSelectedFiles, 0);
     },
 
-    getSelected() {
-      if (this.fileTypes.length === this.fileTypesSelected.length) {
-        this.filesSelected = this.files;
+    getSelectedFiles() {
+      if (this.fileTypes.length === this.selectedFileTypes.length) {
+        this.selectedFiles = this.files;
         this.isSelectAllChecked = true;
-      } else if (this.fileTypesSelected.length === 0) {
-        this.filesSelected = [];
+      } else if (this.selectedFileTypes.length === 0) {
+        this.selectedFiles = [];
         this.isSelectAllChecked = false;
       } else {
-        this.filesSelected = this.files.filter((file) => this.fileTypesSelected.includes(file.path.split('.').pop()));
+        this.selectedFiles = this.files.filter((file) => this.selectedFileTypes.includes(file.path.split('.').pop()));
       }
     },
 
