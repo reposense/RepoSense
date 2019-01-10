@@ -32,7 +32,7 @@ window.vAuthorship = {
     return {
       isLoaded: false,
       files: [],
-      filesDownloaded: [],
+      filesSelected: [],
       filesLinesObj: {},
       filesBlankLinesObj: {},
       totalLineCount: "",
@@ -170,11 +170,11 @@ window.vAuthorship = {
     },
 
     downloadAll() {
-      if (this.filesDownloaded.length === 0) {
+      if (this.filesSelected.length === 0) {
         return;
       }
       let text = '';
-      this.filesDownloaded.forEach((file) => {
+      this.filesSelected.forEach((file) => {
         text += this.renderFile(file);
         text += '\n\n';
 
