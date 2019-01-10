@@ -258,13 +258,13 @@ header{
             }
             .checkboxes {
                 label{
-                    float: left;
-                    padding-right: 10px;
-                    white-space: nowrap;
+                    float:left;
+                    padding-right:10px;
+                    white-space:nowrap;
                 }
                 span{
                     margin-left:0.25rem;
-                    vertical-align: middle;
+                    vertical-align:middle;
                 }
             }
         }
@@ -272,7 +272,7 @@ header{
 
 
     .files{
-        clear: left;
+        clear:left;
         margin-top:2rem;
 
         .file{

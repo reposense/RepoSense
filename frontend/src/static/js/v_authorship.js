@@ -32,7 +32,7 @@ window.vAuthorship = {
     return {
       isLoaded: false,
       files: [],
-      allSelected: true,
+      isSelectAllChecked: true,
       fileTypesSelected: [],
       fileTypes: [],
       filesSelected: [],
@@ -159,7 +159,7 @@ window.vAuthorship = {
     },
 
     selectAll() {
-      if (!this.allSelected) {
+      if (!this.isSelectAllChecked) {
         this.fileTypesSelected = this.fileTypes;
         this.filesSelected = this.files;
       } else {
@@ -175,10 +175,10 @@ window.vAuthorship = {
     getSelected() {
       if (this.fileTypes.length === this.fileTypesSelected.length) {
         this.filesSelected = this.files;
-        this.allSelected = true;
+        this.isSelectAllChecked = true;
       } else if (this.fileTypesSelected.length === 0) {
         this.filesSelected = [];
-        this.allSelected = false;
+        this.isSelectAllChecked = false;
       } else {
         this.filesSelected = this.files.filter((file) => this.fileTypesSelected.includes(file.path.split('.').pop()));
       }

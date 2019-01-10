@@ -133,7 +133,7 @@ html
           ) {{ info.repo }}
           .author {{ info.name }} ({{ info.author }}) contribution from {{ info.minDate }} to {{ info.maxDate }}
           .contribution(v-if="isLoaded")
-            div.checkboxes.mui-form--inline(v-if="files.length>0")
+            div.checkboxes.mui-form--inline(v-if="files.length > 0")
               label
                 input(type="checkbox" v-on:click="selectAll" v-model="allSelected").mui-checkbox
                 span.select(v-bind:title="getTotalFileBlankLineInfo()") All:&nbsp;
