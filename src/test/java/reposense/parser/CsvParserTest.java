@@ -106,8 +106,6 @@ public class CsvParserTest {
 
         Assert.assertEquals(1, authorConfigs.size());
         Assert.assertEquals(expectedConfig, authorConfig);
-        Assert.assertEquals(expectedConfig.getLocation(), authorConfig.getLocation());
-        Assert.assertEquals(expectedConfig.getBranch(), authorConfig.getBranch());
         Assert.assertEquals(AUTHOR_CONFIG_NO_SPECIAL_CHARACTER_AUTHORS, authorConfig.getAuthorList());
     }
 
@@ -209,21 +207,16 @@ public class CsvParserTest {
         RepoConfiguration secondActualConfig = actualConfigs.get(1);
 
         Assert.assertEquals(firstExpectedConfig.getLocation(), firstActualConfig.getLocation());
-        Assert.assertEquals(firstExpectedConfig.getAuthorList().hashCode(),
-                firstActualConfig.getAuthorList().hashCode());
-        Assert.assertEquals(firstExpectedConfig.getAuthorDisplayNameMap().hashCode(),
-                firstActualConfig.getAuthorDisplayNameMap().hashCode());
-        Assert.assertEquals(firstExpectedConfig.getAuthorAliasMap().hashCode(),
-                firstActualConfig.getAuthorAliasMap().hashCode());
+        Assert.assertEquals(firstExpectedConfig.getAuthorList(), firstActualConfig.getAuthorList());
+        Assert.assertEquals(firstExpectedConfig.getAuthorDisplayNameMap(), firstActualConfig.getAuthorDisplayNameMap());
+        Assert.assertEquals(firstExpectedConfig.getAuthorAliasMap(), firstActualConfig.getAuthorAliasMap());
         Assert.assertEquals(REPO_LEVEL_GLOB_LIST, firstActualConfig.getIgnoreGlobList());
 
         Assert.assertEquals(secondExpectedConfig.getLocation(), secondActualConfig.getLocation());
-        Assert.assertEquals(secondExpectedConfig.getAuthorList().hashCode(),
-                secondActualConfig.getAuthorList().hashCode());
-        Assert.assertEquals(secondExpectedConfig.getAuthorDisplayNameMap().hashCode(),
-                secondActualConfig.getAuthorDisplayNameMap().hashCode());
-        Assert.assertEquals(secondExpectedConfig.getAuthorAliasMap().hashCode(),
-                secondActualConfig.getAuthorAliasMap().hashCode());
+        Assert.assertEquals(secondExpectedConfig.getAuthorList(), secondActualConfig.getAuthorList());
+        Assert.assertEquals(secondExpectedConfig.getAuthorDisplayNameMap(),
+                secondActualConfig.getAuthorDisplayNameMap());
+        Assert.assertEquals(secondExpectedConfig.getAuthorAliasMap(), secondActualConfig.getAuthorAliasMap());
         Assert.assertEquals(new ArrayList<>(), secondActualConfig.getIgnoreGlobList());
     }
 

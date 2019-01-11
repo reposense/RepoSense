@@ -266,6 +266,18 @@ public class RepoConfiguration {
         propagateIgnoreGlobList(author);
     }
 
+    public void addAuthors(List<Author> authorList) {
+        for (Author author : authorList) {
+            if (containsAuthor(author)) {
+                logger.warning(String.format("Skipping author as %s already in repository %s",
+                        author.getGitId(), getDisplayName()));
+                continue;
+            }
+
+            addAuthor(author);
+        }
+    }
+
     public boolean containsAuthor(Author author) {
         return authorList.contains(author);
     }
@@ -282,17 +294,6 @@ public class RepoConfiguration {
             setAuthorDetails(author);
             propagateIgnoreGlobList(author);
         });
-    }
-
-    public void addAuthors(List<Author> authorList) {
-        for (Author author: authorList) {
-            if (containsAuthor(author)) {
-                logger.warning(String.format("Skipping author as %s already in repository %s",
-                        author.getGitId(), getDisplayName()));
-                continue;
-            }
-            addAuthor(author);
-        }
     }
 
     public TreeMap<String, Author> getAuthorAliasMap() {
