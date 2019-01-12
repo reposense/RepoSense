@@ -11,6 +11,7 @@ import reposense.commits.model.CommitInfo;
 import reposense.commits.model.CommitResult;
 import reposense.model.Author;
 import reposense.model.CommitHash;
+import reposense.model.Format;
 import reposense.template.GitTestTemplate;
 
 public class CommitInfoAnalyzerTest extends GitTestTemplate {
@@ -89,6 +90,7 @@ public class CommitInfoAnalyzerTest extends GitTestTemplate {
     @Test
     public void analyzeCommits_noCommitMessage_success() {
         config.setBranch("empty-commit-message");
+        config.setFormats(Format.convertStringsToFormats(Arrays.asList("txt")));
         config.getAuthorAliasMap().clear();
         config.getAuthorAliasMap().put(YONG_AUTHOR_NAME, new Author(YONG_AUTHOR_NAME));
 
