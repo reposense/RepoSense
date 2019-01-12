@@ -87,7 +87,7 @@ public class CommitInfoAnalyzerTest extends GitTestTemplate {
     }
 
     @Test
-    public void analyzeCommits_yongAuthorNoCommitIgnoredNoDateRangeEmptyMessage_success() {
+    public void analyzeCommits_noCommitMessage_success() {
         config.setBranch("empty-commit-message");
         config.getAuthorAliasMap().clear();
         config.getAuthorAliasMap().put(YONG_AUTHOR_NAME, new Author(YONG_AUTHOR_NAME));
