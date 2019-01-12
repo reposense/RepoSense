@@ -9,8 +9,7 @@ import java.util.stream.Collectors;
  */
 public class Format {
     public static final List<String> DEFAULT_FORMAT_STRINGS = Arrays.asList(
-            "adoc", "cs", "css", "fxml", "gradle", "html", "java", "js", "json",
-            "jsp", "md", "py", "tag", "xml", "txt");
+            "adoc", "cs", "css", "fxml", "gradle", "html", "java", "js", "json", "jsp", "md", "py", "tag", "xml");
     public static final List<Format> DEFAULT_FORMATS = convertStringsToFormats(DEFAULT_FORMAT_STRINGS);
     private static final String FORMAT_VALIDATION_REGEX = "[A-Za-z0-9]+";
     private static final String MESSAGE_ILLEGAL_FORMATS = "The provided format, %s, contains illegal characters.";
