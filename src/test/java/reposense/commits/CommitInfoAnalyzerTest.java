@@ -5,16 +5,24 @@ import java.util.Collections;
 import java.util.List;
 
 import org.junit.Assert;
+import org.junit.Before;
 import org.junit.Test;
 
 import reposense.commits.model.CommitInfo;
 import reposense.commits.model.CommitResult;
 import reposense.model.Author;
 import reposense.model.CommitHash;
+import reposense.parser.InvalidLocationException;
 import reposense.template.GitTestTemplate;
 
 public class CommitInfoAnalyzerTest extends GitTestTemplate {
     private static final int NUMBER_EUGENE_COMMIT = 1;
+
+    @Before
+    public void before() throws InvalidLocationException {
+        super.before();
+        config.getAuthorAliasMap().clear();
+    }
 
     @Test
     public void analyzeCommits_allAuthorNoIgnoredCommitsNoDateRange_success() {
@@ -32,7 +40,6 @@ public class CommitInfoAnalyzerTest extends GitTestTemplate {
     public void analyzeCommits_fakeMainAuthorNoIgnoredCommitsNoDateRange_success() {
         config.getAuthorAliasMap().put(MAIN_AUTHOR_NAME, new Author(MAIN_AUTHOR_NAME));
         config.getAuthorAliasMap().put(FAKE_AUTHOR_NAME, new Author(FAKE_AUTHOR_NAME));
-        config.getAuthorAliasMap().remove(EUGENE_AUTHOR_NAME);
 
         List<CommitInfo> commitInfos = CommitInfoExtractor.extractCommitInfos(config);
         List<CommitResult> commitResults = CommitInfoAnalyzer.analyzeCommits(commitInfos, config);
@@ -42,8 +49,6 @@ public class CommitInfoAnalyzerTest extends GitTestTemplate {
 
     @Test
     public void analyzeCommits_eugeneAuthorNoIgnoredCommitsNoDateRange_success() {
-        config.getAuthorAliasMap().remove(MAIN_AUTHOR_NAME);
-        config.getAuthorAliasMap().remove(FAKE_AUTHOR_NAME);
         config.getAuthorAliasMap().put(EUGENE_AUTHOR_NAME, new Author(EUGENE_AUTHOR_NAME));
 
         List<CommitInfo> commitInfos = CommitInfoExtractor.extractCommitInfos(config);
