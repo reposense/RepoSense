@@ -231,11 +231,14 @@ header{
             font-weight:bold;
             cursor:pointer;
         }
+
         .contribution{
             margin-top:0.1rem;
-            font-size:1.0rem;
             color:mui-color("red");
 
+            .select {
+              font-weight:bold;
+            }
             .loc {
               font-weight:bolder;
             }
@@ -253,10 +256,22 @@ header{
                   content:'';
                 }
             }
+            .checkboxes {
+                label{
+                    float:left;
+                    padding-right:10px;
+                    white-space:nowrap;
+                }
+                span{
+                    margin-left:0.25rem;
+                    vertical-align:middle;
+                }
+            }
         }
     }
 
     .files{
+        clear:left;
         margin-top:2rem;
 
         .file{
