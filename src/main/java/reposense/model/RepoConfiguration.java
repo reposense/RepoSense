@@ -269,8 +269,8 @@ public class RepoConfiguration {
     public void addAuthors(List<Author> authorList) {
         for (Author author : authorList) {
             if (containsAuthor(author)) {
-                logger.warning(String.format("Skipping author as %s already in repository %s",
-                        author.getGitId(), getDisplayName()));
+                logger.warning(String.format(
+                        "Skipping author as %s already in repository %s", author.getGitId(), getDisplayName()));
                 continue;
             }
 
