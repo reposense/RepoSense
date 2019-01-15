@@ -97,8 +97,8 @@ window.app = new window.Vue({
       this.isTabActive = true;
       this.isTabAuthorship = true;
       this.isCollapsed = false;
-      if (document.getElementById("tabs-wrapper")) {
-        document.getElementById("tabs-wrapper").scrollTop = 0;
+      if (document.getElementById('tabs-wrapper')) {
+        document.getElementById('tabs-wrapper').scrollTop = 0;
       }
     },
 
@@ -108,20 +108,19 @@ window.app = new window.Vue({
       expandAll(isActive);
     },
 
-    registerMouseMove(event) {
-      const _mouseMove = (event) => {
-        this.guideWidth =
-          Math.min(
-            Math.max(
-              window.innerWidth - event.clientX + (DRAG_BAR_WIDTH / 2),
-              SCROLL_BAR_WIDTH + (DRAG_BAR_WIDTH / 2)
-            ),
-            window.innerWidth - (DRAG_BAR_WIDTH / 2)
-          ) / window.innerWidth;
+    registerMouseMove() {
+      const mouseMove = (event) => {
+        this.guideWidth = Math.min(
+          Math.max(
+            window.innerWidth - event.clientX + (DRAG_BAR_WIDTH / 2),
+            SCROLL_BAR_WIDTH + (DRAG_BAR_WIDTH / 2),
+          ),
+          window.innerWidth - (DRAG_BAR_WIDTH / 2),
+        ) / window.innerWidth;
       };
       this.showResizeGuide = true;
       this.appWrapperUserSelect = 'none';
-      this.mouseMove = _mouseMove;
+      this.mouseMove = mouseMove;
     },
 
     deregisterMouseMove() {
