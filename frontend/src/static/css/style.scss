@@ -103,7 +103,7 @@ header{
         }
 
         .tab-resize{
-            position: absolute;
+            position: fixed;
             width: 13.250px;
             height: 100%;
             background-color: mui-color('black');
