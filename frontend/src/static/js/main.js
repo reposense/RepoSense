@@ -17,6 +17,7 @@ window.addHash = function addHash(newKey, newVal) {
 
 const DRAG_BAR_WIDTH = 13.25;
 const SCROLL_BAR_WIDTH = 17;
+const GUIDE_BAR_WIDTH = 3;
 
 window.app = new window.Vue({
   el: '#app',
@@ -33,9 +34,14 @@ window.app = new window.Vue({
     tabAuthorship: {},
     creationDate: '',
 
+    showResizeGuide: false,
+    guideWidth: 0.5,
     flexWidth: 0.5,
     mouseMove: () => {},
     appWrapperUserSelect: 'auto',
+
+    DRAG_BAR_WIDTH,
+    GUIDE_BAR_WIDTH,
   },
   methods: {
     // model functions //
@@ -104,7 +110,7 @@ window.app = new window.Vue({
 
     registerMouseMove(event) {
       const _mouseMove = (event) => {
-        this.flexWidth =
+        this.guideWidth =
           Math.min(
             Math.max(
               window.innerWidth - event.clientX + (DRAG_BAR_WIDTH / 2),
@@ -113,11 +119,14 @@ window.app = new window.Vue({
             window.innerWidth - (DRAG_BAR_WIDTH / 2)
           ) / window.innerWidth;
       };
+      this.showResizeGuide = true;
       this.appWrapperUserSelect = 'none';
       this.mouseMove = _mouseMove;
     },
 
     deregisterMouseMove() {
+      this.flexWidth = this.guideWidth;
+      this.showResizeGuide = false;
       this.mouseMove = () => {};
       this.appWrapperUserSelect = 'auto';
     },
