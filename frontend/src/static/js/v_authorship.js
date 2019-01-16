@@ -32,7 +32,7 @@ window.vAuthorship = {
     return {
       isLoaded: false,
       files: [],
-      filesSelected: [],
+      filesSelectedForDownload: [],
       isSelectAllChecked: true,
       selectedFileTypes: [],
       fileTypes: [],
@@ -207,11 +207,11 @@ window.vAuthorship = {
     },
 
     downloadAll() {
-      if (this.filesSelected.length === 0) {
+      if (this.filesSelectedForDownload.length === 0) {
         return;
       }
       let text = '';
-      this.filesSelected.forEach((file) => {
+      this.filesSelectedForDownload.forEach((file) => {
         text += this.renderFile(file);
         text += '\n\n';
 

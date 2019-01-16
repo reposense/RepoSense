@@ -134,7 +134,7 @@ html
           .author {{ info.name }} ({{ info.author }}) contribution from {{ info.minDate }} to {{ info.maxDate }}
           a.downloadLink(
             v-on:click="downloadAll()"
-            v-bind:class="{ disabled: filesSelected.length === 0 }"
+            v-bind:class="{ disabled: filesSelectedForDownload.length === 0 }"
             v-bind:title="'download selected files'"
           )
             i.fas.fa-download
@@ -158,7 +158,7 @@ html
               span {{ file.path }}&nbsp;
               span.loc ({{ file.lineCount }} lines)
             #downloadCheckbox
-              input(type="checkbox", :value="file", v-model="filesSelected" :title="'select file to download'")
+              input(type="checkbox", :value="file", v-model="filesSelectedForDownload" :title="'select file to download'")
             pre.hljs.java
               code
                 template(v-for="segment in file.segments")
