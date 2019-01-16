@@ -256,7 +256,7 @@ public class RepoConfiguration {
     /**
      * Propagate the {@code IgnoreGlobList} of {@code RepoConfiguration} to {@code author}.
      */
-    public void propagateIgnoreGlobList(Author author) {
+    private void propagateIgnoreGlobList(Author author) {
         author.appendIgnoreGlobList(this.getIgnoreGlobList());
     }
 
