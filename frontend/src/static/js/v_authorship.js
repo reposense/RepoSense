@@ -33,6 +33,10 @@ window.vAuthorship = {
       isLoaded: false,
       files: [],
       filesSelected: [],
+      isSelectAllChecked: true,
+      selectedFileTypes: [],
+      fileTypes: [],
+      selectedFiles: [],
       filesLinesObj: {},
       filesBlankLinesObj: {},
       totalLineCount: "",
@@ -124,8 +128,15 @@ window.vAuthorship = {
       res.sort((a, b) => b.lineCount - a.lineCount);
 
       this.filesLinesObj = this.sortFileTypeAlphabetically(filesInfoObj);
+      for (var file in filesInfoObj) {
+        if (filesInfoObj.hasOwnProperty(file)) {
+          this.selectedFileTypes.push(file);
+          this.fileTypes.push(file);
+        }
+      }
       this.filesBlankLinesObj = filesBlanksInfoObj;
       this.files = res;
+      this.selectedFiles = res;
       this.isLoaded = true;
     },
 
@@ -146,6 +157,32 @@ window.vAuthorship = {
           .reduce((acc, key) => ({
               ...acc, [key]: unsortedFilesInfoObj[key]
           }), {});
+    },
+
+    selectAll() {
+      if (!this.isSelectAllChecked) {
+        this.selectedFileTypes = this.fileTypes;
+        this.selectedFiles = this.files;
+      } else {
+        this.selectedFileTypes = [];
+        this.selectedFiles = [];
+      }
+    },
+
+    selectFile() {
+      setTimeout(this.getSelectedFiles, 0);
+    },
+
+    getSelectedFiles() {
+      if (this.fileTypes.length === this.selectedFileTypes.length) {
+        this.selectedFiles = this.files;
+        this.isSelectAllChecked = true;
+      } else if (this.selectedFileTypes.length === 0) {
+        this.selectedFiles = [];
+        this.isSelectAllChecked = false;
+      } else {
+        this.selectedFiles = this.files.filter((file) => this.selectedFileTypes.includes(file.path.split('.').pop()));
+      }
     },
 
     getFileBlankLineInfo(fileType) {

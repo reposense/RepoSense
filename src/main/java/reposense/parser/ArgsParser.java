@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Optional;
 
 import net.sourceforge.argparse4j.ArgumentParsers;
+import net.sourceforge.argparse4j.impl.Arguments;
 import net.sourceforge.argparse4j.impl.action.HelpArgumentAction;
 import net.sourceforge.argparse4j.inf.ArgumentParser;
 import net.sourceforge.argparse4j.inf.ArgumentParserException;
@@ -95,6 +96,10 @@ public class ArgsParser {
                         + "If not provided, default file formats will be used.\n"
                         + "Please refer to userguide for more information.");
 
+        parser.addArgument("--ignore-standalone-config", "-isac")
+                .action(Arguments.storeTrue())
+                .help("A flag to ignore the standalone config file in the repo.");
+
         return parser;
     }
 
@@ -115,6 +120,7 @@ public class ArgsParser {
             Optional<Date> untilDate = results.get("until");
             List<String> locations = results.get("repos");
             List<Format> formats = Format.convertStringsToFormats(results.get("formats"));
+            boolean isStandaloneConfigIgnored = results.get("ignore_standalone_config");
 
             verifyDatesRangeIsCorrect(sinceDate, untilDate);
 
@@ -125,8 +131,8 @@ public class ArgsParser {
             boolean isAutomaticallyLaunching = reportFolderPath != null;
 
             if (locations != null) {
-                return new LocationsCliArguments(
-                        locations, outputFolderPath, sinceDate, untilDate, formats, isAutomaticallyLaunching);
+                return new LocationsCliArguments(locations, outputFolderPath, sinceDate, untilDate, formats,
+                        isAutomaticallyLaunching, isStandaloneConfigIgnored);
             }
 
             return new ConfigCliArguments(
