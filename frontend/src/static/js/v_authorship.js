@@ -197,13 +197,35 @@ window.vAuthorship = {
 
     renderFile(file) {
       let content = `########################################## ${file.path}\n`;
+      var prevSegmentNotAuthored = false;
+      var minLineNum = 1;
+      var maxLineNum = 1;
       file.segments.forEach((seg) => {
         if (seg.authored) {
+          if (prevSegmentNotAuthored) {
+            prevSegmentNotAuthored = false;
+            content += this.generateLineNumbers(minLineNum, maxLineNum - 1);
+          }
           content += seg.lines.join('\n');
           content += '\n';
+          minLineNum = maxLineNum + seg.lines.length;
+        } else {
+          prevSegmentNotAuthored = true;
+          maxLineNum = minLineNum + seg.lines.length;
         }
       });
+      if (prevSegmentNotAuthored) {
+        content += this.generateLineNumbers(minLineNum, maxLineNum - 1);
+      }
       return content;
+    },
+
+    generateLineNumbers(minLineNum, maxLineNum) {
+      if (minLineNum === maxLineNum) {
+        return `\n                    Non-authored: < Line ${minLineNum} >\n\n`;
+      } else {
+        return `\n                    Non-authored: < Lines ${minLineNum}-${maxLineNum} >\n\n`;
+      }
     },
 
     downloadAll() {
