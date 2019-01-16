@@ -222,9 +222,9 @@ window.vAuthorship = {
 
     generateLineNumbers(minLineNum, maxLineNum) {
       if (minLineNum === maxLineNum) {
-        return `\n                    Non-authored: < Line ${minLineNum} >\n\n`;
+        return `################# ${minLineNum}\n`;
       } else {
-        return `\n                    Non-authored: < Lines ${minLineNum}-${maxLineNum} >\n\n`;
+        return `################# ${minLineNum}-${maxLineNum}\n`;
       }
     },
 
