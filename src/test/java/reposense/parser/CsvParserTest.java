@@ -154,7 +154,7 @@ public class CsvParserTest {
         RepoConfiguration.merge(actualConfigs, authorConfigs);
 
         Assert.assertEquals(1, actualConfigs.size());
-        Assert.assertEquals(expectedConfig.getBranch(), actualConfigs.get(0).getBranch());
+        Assert.assertEquals(expectedConfig.getLocation(), actualConfigs.get(0).getLocation());
         Assert.assertEquals(expectedConfig.getBranch(), authorConfigs.get(0).getBranch());
     }
 }
