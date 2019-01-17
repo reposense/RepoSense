@@ -140,8 +140,8 @@ window.vSummary = {
       const untilDate = this.filterTimeFrame === 'week' ? addDays(slice.sinceDate, 6): slice.sinceDate;
 
       return `http://github.com/${
-        REPOS[user.repoId].organization}/${
-        REPOS[user.repoId].repoName}/commits/${
+        REPOS[user.repoId].location.organization}/${
+        REPOS[user.repoId].location.repoName}/commits/${
         REPOS[user.repoId].branch}?`
                 + `author=${user.name}&`
                 + `since=${slice.sinceDate}'T'00:00:00+08:00&`

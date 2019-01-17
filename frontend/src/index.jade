@@ -133,18 +133,21 @@ html
           ) {{ info.repo }}
           .author {{ info.name }} ({{ info.author }}) contribution from {{ info.minDate }} to {{ info.maxDate }}
           .contribution(v-if="isLoaded")
-            span(v-bind:title="getTotalFileBlankLineInfo()") Total LoC contributed:&nbsp;
-            span.loc(v-bind:title="getTotalFileBlankLineInfo()") {{ totalLineCount }}&nbsp;
-            span.bloc(v-bind:title="getTotalFileBlankLineInfo()") ({{ totalBlankLineCount }})
-            br
-            span.fileType(v-if="totalLineCount > 0") &rarr; &nbsp;
-                template(v-for="type in Object.keys(filesLinesObj)")
-                    span(v-bind:title="getFileBlankLineInfo(type)") {{ type }}: {{ filesLinesObj[type] }}&nbsp;
-                    span.bloc(v-bind:title="getFileBlankLineInfo(type)") ({{ filesBlankLinesObj[type] }})
+            div.checkboxes.mui-form--inline(v-if="files.length > 0")
+              label
+                input(type="checkbox" v-on:click="selectAll" v-model="isSelectAllChecked").mui-checkbox
+                span.select(v-bind:title="getTotalFileBlankLineInfo()") All:&nbsp;
+                span.loc(v-bind:title="getTotalFileBlankLineInfo()") {{ totalLineCount }}&nbsp;
+                span.bloc(v-bind:title="getTotalFileBlankLineInfo()") ({{ totalBlankLineCount }})
+              template(v-for="type in Object.keys(filesLinesObj)")
+                label
+                  input(type="checkbox" :value="type" v-model="selectedFileTypes" v-on:change="selectFile").mui-checkbox
+                  span(v-bind:title="getFileBlankLineInfo(type)") {{ type }}: {{ filesLinesObj[type] }}&nbsp;
+                  span.bloc(v-bind:title="getFileBlankLineInfo(type)") ({{ filesBlankLinesObj[type] }})
 
         .files(v-if="isLoaded")
           .empty(v-if="files.length===0") nothing to see here :(
-          .file.active(v-for="file in files")
+          .file.active(v-for="file in selectedFiles", v-bind:key="file.path")
             .title(onclick="toggleNext(this)")
               span {{ file.path }}&nbsp;
               span.loc ({{ file.lineCount }} lines)
