@@ -19,6 +19,16 @@ const DRAG_BAR_WIDTH = 13.25;
 const SCROLL_BAR_WIDTH = 17;
 const GUIDE_BAR_WIDTH = 2;
 
+const throttledEvent = (delay, handler) => {
+  let lastCalled = 0;
+  return (...args) => {
+    if (Date.now() - lastCalled > delay) {
+      lastCalled = Date.now();
+      handler(...args);
+    }
+  };
+};
+
 window.app = new window.Vue({
   el: '#app',
   data: {
@@ -120,7 +130,7 @@ window.app = new window.Vue({
       };
       this.showResizeGuide = true;
       this.appWrapperUserSelect = 'none';
-      this.mouseMove = mouseMove;
+      this.mouseMove = throttledEvent(50, mouseMove);
     },
 
     deregisterMouseMove() {
