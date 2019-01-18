@@ -367,27 +367,47 @@ window.vSummary = {
       return null;
     },
     sortFiltered() {
-      const full = [];
-      if (!this.filterGroupRepos) {
-        full.push([]);
-      }
-
-      this.filtered.forEach((users) => {
-        if (this.filterGroupRepos) {
-          users.sort(comparator(ele => ele[this.filterSort]));
+      let full = [];
+      if (this.filterSort === 'repoTotalCommits') {
+        this.filtered.sort(comparator(repo => repo[0]['repoTotalCommits']));
+        this.filtered.forEach((users) => {
+          users.sort(comparator(ele => ele['totalCommits']));
           full.push(users);
-        } else {
-          users.forEach(user => full[0].push(user));
+        });
+        if (this.filterSortReverse) {
+          full.forEach((repo) => {
+            repo.reverse();
+          });
+          full.reverse();
         }
-      });
-
-      if (!this.filterGroupRepos) {
-        full[0].sort(comparator(ele => ele[this.filterSort]));
+        if (!this.filterGroupRepos) {
+          full.unshift([]);
+          full.forEach((users) => {
+            users.forEach(user => full[0].push(user));
+          });
+          full.splice(0, 1);
+        }
       }
 
-      if (this.filterSortReverse) {
-        full.forEach(repo => repo.reverse());
-      }
+      else {
+        if (!this.filterGroupRepos) {
+          full.push([]);
+          this.filtered.forEach((users) => {
+            users.forEach(user => full[0].push(user));
+          });
+          full[0].sort(comparator(ele => ele[this.filterSort]));
+
+        } else {
+          this.filtered.forEach((users) => {
+            users.sort(comparator(ele => ele[this.filterSort]));
+            full.push(users);
+
+          });
+        }
+        if (this.filterSortReverse) {
+          full.forEach(repo => repo.reverse());
+        }
+       }
 
       this.filtered = full;
     },

@@ -43,8 +43,10 @@ window.api = {
 
   loadCommits(repoName) {
     return loadJSON(`${REPORT_DIR}/${repoName}/commits.json`).then((commits) => {
-      const res = [];
+      let res = [];
       const repo = window.REPOS[repoName];
+      let temp = [];
+      let repoTotalCommits = 0;
 
       Object.keys(commits.authorDisplayNameMap).forEach((author) => {
         if (author) {
@@ -67,11 +69,14 @@ window.api = {
           obj.repoPath = `${repo.displayName}`;
           obj.repoName = `${repo.displayName}`;
           obj.location = `${repo.location.location}`;
-
-          res.push(obj);
+          repoTotalCommits += obj.totalCommits;
+          temp.push(obj);
         }
       });
-
+      temp.forEach((author) => {
+        author.repoTotalCommits = repoTotalCommits;
+      });
+      res = temp;
       repo.commits = commits;
       repo.users = res;
 
