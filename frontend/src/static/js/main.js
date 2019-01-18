@@ -17,7 +17,7 @@ window.addHash = function addHash(newKey, newVal) {
 
 const DRAG_BAR_WIDTH = 13.25;
 const SCROLL_BAR_WIDTH = 17;
-const GUIDE_BAR_WIDTH = 3;
+const GUIDE_BAR_WIDTH = 2;
 
 window.app = new window.Vue({
   el: '#app',
@@ -39,9 +39,6 @@ window.app = new window.Vue({
     flexWidth: 0.5,
     mouseMove: () => {},
     appWrapperUserSelect: 'auto',
-
-    DRAG_BAR_WIDTH,
-    GUIDE_BAR_WIDTH,
   },
   methods: {
     // model functions //
@@ -110,13 +107,16 @@ window.app = new window.Vue({
 
     registerMouseMove() {
       const mouseMove = (event) => {
-        this.guideWidth = Math.min(
-          Math.max(
-            window.innerWidth - event.clientX + (DRAG_BAR_WIDTH / 2),
-            SCROLL_BAR_WIDTH + (DRAG_BAR_WIDTH / 2),
-          ),
-          window.innerWidth - (DRAG_BAR_WIDTH / 2),
-        ) / window.innerWidth;
+        this.guideWidth = (
+          Math.min(
+            Math.max(
+              window.innerWidth - event.clientX,
+              SCROLL_BAR_WIDTH + DRAG_BAR_WIDTH,
+            ),
+            window.innerWidth - SCROLL_BAR_WIDTH,
+          )
+          - (GUIDE_BAR_WIDTH / 2))
+          / window.innerWidth;
       };
       this.showResizeGuide = true;
       this.appWrapperUserSelect = 'none';
@@ -124,7 +124,8 @@ window.app = new window.Vue({
     },
 
     deregisterMouseMove() {
-      this.flexWidth = this.guideWidth;
+      this.flexWidth = (this.guideWidth * window.innerWidth + (GUIDE_BAR_WIDTH / 2))
+        / window.innerWidth;
       this.showResizeGuide = false;
       this.mouseMove = () => {};
       this.appWrapperUserSelect = 'auto';
