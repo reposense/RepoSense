@@ -14,7 +14,8 @@ html
   body
     div#app
       #app-wrapper(v-if="userUpdated", v-on:mousemove="mouseMove",
-        v-on:mouseup="deregisterMouseMove", v-bind:style="{ 'user-select': appWrapperUserSelect }")
+        v-on:mouseup="deregisterMouseMove", v-on:mouseleave="deregisterMouseMove",
+        v-bind:style="{ 'user-select': appWrapperUserSelect }")
         #tab-resize-guide(v-if="showResizeGuide", v-bind:style="{ right: `${guideWidth * 100}%` }")
         #summary-wrapper
           .summary-status(v-if="loadedRepo<repoLength") Loading repos ... {{ loadedRepo }} / {{ repoLength }}
