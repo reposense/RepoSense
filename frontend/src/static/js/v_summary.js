@@ -369,9 +369,9 @@ window.vSummary = {
     sortFiltered() {
       let full = [];
       if (this.filterSort === 'repoTotalCommits') {
-        this.filtered.sort(comparator(repo => repo[0]['repoTotalCommits']));
+        this.filtered.sort(comparator((repo) => repo[0]['repoTotalCommits']));
         this.filtered.forEach((users) => {
-          users.sort(comparator(ele => ele['totalCommits']));
+          users.sort(comparator((ele) => ele['totalCommits']));
           full.push(users);
         });
         if (this.filterSortReverse) {
