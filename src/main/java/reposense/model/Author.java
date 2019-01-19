@@ -11,7 +11,9 @@ import java.util.List;
 public class Author {
 
     public static final String UNKNOWN_AUTHOR_GIT_ID = "-";
+    private static final String MESSAGE_UNCOMMON_EMAIL_PATTERN = "The provided email, %s, uses uncommon pattern.";
     private static final String MESSAGE_UNCOMMON_GLOB_PATTERN = "The provided ignore glob, %s, uses uncommon pattern.";
+    private static final String COMMON_EMAIL_REGEX = "^([a-zA-Z0-9_\\-\\.]+)@([a-zA-Z0-9_\\-\\.]+)\\.([a-zA-Z]{2,5})$";
     private static final String COMMON_GLOB_REGEX = "^[-a-zA-Z0-9 _/\\\\*!{}\\[\\]!(),:.]*$";
 
     private final String gitId;
@@ -57,6 +59,18 @@ public class Author {
     }
 
     /**
+     * Checks that all the strings in the {@code emails} only contains commonly used email patterns.
+     * @throws IllegalArgumentException if any of the values do not meet the criteria.
+     */
+    private static void validateEmails(List<String> emails) throws IllegalArgumentException {
+        for (String email: emails) {
+            if (!email.matches(COMMON_EMAIL_REGEX)) {
+                throw new IllegalArgumentException(String.format(MESSAGE_UNCOMMON_EMAIL_PATTERN, email));
+            }
+        }
+    }
+
+    /**
      * Checks that all the strings in the {@code ignoreGlobList} only contains commonly used glob patterns.
      * @throws IllegalArgumentException if any of the values do not meet the criteria.
      */
@@ -77,6 +91,7 @@ public class Author {
     }
 
     public void setEmails(List<String> emails) {
+        validateEmails(emails);
         this.emails = emails;
     }
 

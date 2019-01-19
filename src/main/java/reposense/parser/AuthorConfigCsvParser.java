@@ -97,7 +97,9 @@ public class AuthorConfigCsvParser extends CsvParser<RepoConfiguration> {
      * Adds the default github privacy email to {@code author}'s list of emails.
      */
     private static void setEmails(Author author, List<String> emails) {
-        author.setEmails(new ArrayList<>(emails));
+        if (!emails.isEmpty()) {
+            author.setEmails(new ArrayList<>(emails));
+        }
 
         String defaultEmail = author.getGitId() + "@users.noreply.github.com";
         if (!author.getEmails().contains(defaultEmail)) {

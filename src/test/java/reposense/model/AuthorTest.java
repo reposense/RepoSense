@@ -11,6 +11,24 @@ import org.junit.Test;
 public class AuthorTest {
 
     @Test
+    public void setEmail_validEmails_success() {
+        Author author = new Author("Tester");
+        String[] emails = new String[] {"tester@test.net", "developer@example.com"};
+
+        author.setEmails(Arrays.asList(emails));
+        Assert.assertEquals(2, author.getEmails().size());
+        Assert.assertTrue(author.getEmails().containsAll(Arrays.asList(emails)));
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void setEmail_invalidEmails_throwIllegalArgumentException() {
+        Author author = new Author("Tester");
+        String[] emails = new String[] {"this.”is\\ invalid”@example.com", "developer@example.com"};
+
+        author.setEmails(Arrays.asList(emails));
+    }
+
+    @Test
     public void setIgnoreGlobList_validGlobRegex_success() {
         Author author = new Author("Tester");
         String[] ignoreGlobs = new String[] {"**.adoc", "collated/**"};
