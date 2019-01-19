@@ -153,9 +153,15 @@ html
               span.loc ({{ file.lineCount }} lines)&nbsp;
               a(
                 v-bind:href="getFileHistoryLink(file)", target="_blank",
-                title="click to view the history of file"
+                title="click to view the history view of file"
               )
                 i.button.fas.fa-history
+              span &nbsp;
+              a(
+                v-bind:href="getFileBlameLink(file)", target="_blank",
+                title="click to view the blame view of file"
+              )
+                i.button.fas.fa-list-ul
             pre.hljs.java
               code
                 template(v-for="segment in file.segments")
