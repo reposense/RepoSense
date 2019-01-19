@@ -184,6 +184,26 @@ window.vAuthorship = {
       }
     },
 
+    getFileBlameLink(file) {
+      const repo = window.REPOS[this.info.repo];
+
+      return `http://github.com/${
+        repo.location.organization}/${
+        repo.location.repoName}/blame/${
+        repo.branch}/${
+        file.path}`
+    },
+
+    getFileHistoryLink(file) {
+      const repo = window.REPOS[this.info.repo];
+
+      return `http://github.com/${
+        repo.location.organization}/${
+        repo.location.repoName}/commits/${
+        repo.branch}/${
+        file.path}`
+    },
+
     getFileBlankLineInfo(fileType) {
       return fileType + ': ' + 'Blank: ' + this.filesBlankLinesObj[fileType]
           + ', Non-Blank: ' + (this.filesLinesObj[fileType] - this.filesBlankLinesObj[fileType]);

@@ -150,7 +150,12 @@ html
           .file.active(v-for="file in selectedFiles", v-bind:key="file.path")
             .title
               span.path(onclick="toggleNext(this)") {{ file.path }}&nbsp;
-              span.loc ({{ file.lineCount }} lines)
+              span.loc ({{ file.lineCount }} lines)&nbsp;
+              a(
+                v-bind:href="getFileHistoryLink(file)", target="_blank",
+                title="click to view the history of file"
+              )
+                i.button.fas.fa-history
             pre.hljs.java
               code
                 template(v-for="segment in file.segments")
