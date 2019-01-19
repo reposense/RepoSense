@@ -191,7 +191,7 @@ window.vAuthorship = {
         repo.location.organization}/${
         repo.location.repoName}/blame/${
         repo.branch}/${
-        file.path}`
+        file.path}`;
     },
 
     getFileHistoryLink(file) {
@@ -201,7 +201,7 @@ window.vAuthorship = {
         repo.location.organization}/${
         repo.location.repoName}/commits/${
         repo.branch}/${
-        file.path}`
+        file.path}`;
     },
 
     getFileBlankLineInfo(fileType) {
