@@ -4,8 +4,6 @@ import static org.apache.tools.ant.types.Commandline.translateCommandline;
 
 import java.io.File;
 import java.io.IOException;
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -16,12 +14,16 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import reposense.git.GitDownloader;
-import reposense.git.GitDownloaderException;
+import reposense.RepoSense;
+import reposense.git.GitClone;
+import reposense.git.GitCloneException;
 import reposense.model.Author;
 import reposense.model.CliArguments;
 import reposense.model.ConfigCliArguments;
+import reposense.model.Format;
+import reposense.model.LocationsCliArguments;
 import reposense.model.RepoConfiguration;
+import reposense.model.RepoLocation;
 import reposense.report.ReportGenerator;
 import reposense.util.FileUtil;
 import reposense.util.TestUtil;
@@ -55,7 +57,8 @@ public class RepoConfigurationTest {
     private static final List<String> SECOND_AUTHOR_GLOB_LIST = Arrays.asList("**[!(.md)]", "collated**");
     private static final List<String> THIRD_AUTHOR_GLOB_LIST = Arrays.asList("", "collated**");
 
-    private static final List<String> CONFIG_FORMATS = Arrays.asList("java", "adoc", "md");
+    private static final List<Format> CONFIG_FORMATS = Format.convertStringsToFormats(Arrays.asList(
+            "java", "adoc", "md"));
     private static final List<String> CLI_FORMATS = Arrays.asList("css", "html");
 
     private static RepoConfiguration REPO_DELTA_STANDALONE_CONFIG;
@@ -78,7 +81,7 @@ public class RepoConfigurationTest {
         expectedAuthors.add(THIRD_AUTHOR);
         expectedAuthors.add(FOURTH_AUTHOR);
 
-        REPO_DELTA_STANDALONE_CONFIG = new RepoConfiguration(TEST_REPO_DELTA, "master");
+        REPO_DELTA_STANDALONE_CONFIG = new RepoConfiguration(new RepoLocation(TEST_REPO_DELTA), "master");
         REPO_DELTA_STANDALONE_CONFIG.setAuthorList(expectedAuthors);
         REPO_DELTA_STANDALONE_CONFIG.addAuthorAliases(FIRST_AUTHOR, FIRST_AUTHOR_ALIASES);
         REPO_DELTA_STANDALONE_CONFIG.addAuthorAliases(SECOND_AUTHOR, SECOND_AUTHOR_ALIASES);
@@ -99,28 +102,9 @@ public class RepoConfigurationTest {
     }
 
     @Test
-    public void validateFormats_alphaNumeric_success()
-            throws InvalidLocationException, NoSuchMethodException, InvocationTargetException, IllegalAccessException {
-        Method m = RepoConfiguration.class.getDeclaredMethod("validateFormats", List.class);
-        m.setAccessible(true);
-        m.invoke(null, Arrays.asList("java", "7z"));
-    }
-
-    @Test(expected = IllegalArgumentException.class)
-    public void validateFormats_nonAlphaNumeric_throwIllegalArgumentException() throws Throwable {
-        try {
-            Method m = RepoConfiguration.class.getDeclaredMethod("validateFormats", List.class);
-            m.setAccessible(true);
-            m.invoke(null, Arrays.asList(".java"));
-        } catch (InvocationTargetException ite) {
-            throw ite.getCause();
-        }
-    }
-
-    @Test
-    public void repoConfig_usesStandaloneConfig_success() throws InvalidLocationException, GitDownloaderException {
-        RepoConfiguration actualConfig = new RepoConfiguration(TEST_REPO_DELTA, "master");
-        GitDownloader.downloadRepo(actualConfig);
+    public void repoConfig_usesStandaloneConfig_success() throws GitCloneException, InvalidLocationException {
+        RepoConfiguration actualConfig = new RepoConfiguration(new RepoLocation(TEST_REPO_DELTA), "master");
+        GitClone.clone(actualConfig);
         ReportGenerator.updateRepoConfig(actualConfig);
 
         TestUtil.compareRepoConfig(REPO_DELTA_STANDALONE_CONFIG, actualConfig);
@@ -128,19 +112,20 @@ public class RepoConfigurationTest {
 
     @Test
     public void repoConfig_ignoresStandaloneConfig_success()
-            throws ParseException, GitDownloaderException, IOException {
+            throws ParseException, GitCloneException, IOException {
         List<Author> expectedAuthors = new ArrayList<>();
         Author author = new Author(FIRST_AUTHOR);
         author.setIgnoreGlobList(REPO_LEVEL_GLOB_LIST);
         expectedAuthors.add(author);
 
-        RepoConfiguration expectedConfig = new RepoConfiguration(TEST_REPO_DELTA, "master");
+        RepoConfiguration expectedConfig = new RepoConfiguration(new RepoLocation(TEST_REPO_DELTA), "master");
         expectedConfig.setAuthorList(expectedAuthors);
         expectedConfig.addAuthorAliases(author, FIRST_AUTHOR_ALIASES);
         expectedConfig.setAuthorDisplayName(author, "Ahm");
 
         expectedConfig.setIgnoreGlobList(REPO_LEVEL_GLOB_LIST);
         expectedConfig.setFormats(CONFIG_FORMATS);
+        expectedConfig.setStandaloneConfigIgnored(true);
 
         String formats = String.join(" ", CLI_FORMATS);
         String input = String.format("-config %s -formats %s", IGNORE_STANDALONE_TEST_CONFIG_FILES, formats);
@@ -153,7 +138,25 @@ public class RepoConfigurationTest {
         RepoConfiguration.merge(actualConfigs, authorConfigs);
 
         RepoConfiguration actualConfig = actualConfigs.get(0);
-        GitDownloader.downloadRepo(actualConfig);
+        GitClone.clone(actualConfig);
+        ReportGenerator.updateRepoConfig(actualConfig);
+
+        TestUtil.compareRepoConfig(expectedConfig, actualConfig);
+    }
+
+    @Test
+    public void repoConfig_ignoresStandaloneConfigInCli_success() throws ParseException, GitCloneException {
+        RepoConfiguration expectedConfig = new RepoConfiguration(new RepoLocation(TEST_REPO_DELTA), "master");
+        expectedConfig.setFormats(Format.convertStringsToFormats(CLI_FORMATS));
+        expectedConfig.setStandaloneConfigIgnored(true);
+
+        String formats = String.join(" ", CLI_FORMATS);
+        String input = String.format("-repo %s -formats %s --ignore-standalone-config", TEST_REPO_DELTA, formats);
+        CliArguments cliArguments = ArgsParser.parse(translateCommandline(input));
+        List<RepoConfiguration> actualConfigs = RepoSense.getRepoConfigurations((LocationsCliArguments) cliArguments);
+        RepoConfiguration.setFormatsToRepoConfigs(actualConfigs, cliArguments.getFormats());
+        RepoConfiguration actualConfig = actualConfigs.get(0);
+        GitClone.clone(actualConfig);
         ReportGenerator.updateRepoConfig(actualConfig);
 
         TestUtil.compareRepoConfig(expectedConfig, actualConfig);
@@ -161,7 +164,7 @@ public class RepoConfigurationTest {
 
     @Test
     public void repoConfig_wrongKeywordUseStandaloneConfig_success()
-            throws ParseException, GitDownloaderException, IOException {
+            throws ParseException, GitCloneException, IOException {
         String formats = String.join(" ", CLI_FORMATS);
         String input = String.format("-config %s -formats %s", IGNORE_STANDALONE_KEYWORD_TEST_CONFIG_FILES, formats);
         CliArguments cliArguments = ArgsParser.parse(translateCommandline(input));
@@ -170,7 +173,7 @@ public class RepoConfigurationTest {
                 new RepoConfigCsvParser(((ConfigCliArguments) cliArguments).getRepoConfigFilePath()).parse();
 
         RepoConfiguration actualConfig = actualConfigs.get(0);
-        GitDownloader.downloadRepo(actualConfig);
+        GitClone.clone(actualConfig);
         ReportGenerator.updateRepoConfig(actualConfig);
 
         TestUtil.compareRepoConfig(REPO_DELTA_STANDALONE_CONFIG, actualConfig);
@@ -201,7 +204,7 @@ public class RepoConfigurationTest {
         RepoConfiguration.setFormatsToRepoConfigs(actualConfigs, cliArguments.getFormats());
 
         Assert.assertEquals(1, actualConfigs.size());
-        Assert.assertEquals(CLI_FORMATS, actualConfigs.get(0).getFormats());
+        Assert.assertEquals(Format.convertStringsToFormats(CLI_FORMATS), actualConfigs.get(0).getFormats());
     }
 
     @Test
@@ -214,6 +217,26 @@ public class RepoConfigurationTest {
         RepoConfiguration.setFormatsToRepoConfigs(actualConfigs, cliArguments.getFormats());
 
         Assert.assertEquals(1, actualConfigs.size());
-        Assert.assertEquals(ArgsParser.DEFAULT_FORMATS, actualConfigs.get(0).getFormats());
+        Assert.assertEquals(Format.DEFAULT_FORMATS, actualConfigs.get(0).getFormats());
+    }
+
+    @Test
+    public void repoConfig_emptyLocationDifferentBranch_equal() throws InvalidLocationException {
+        RepoConfiguration emptyLocationEmptyBranchRepoConfig = new RepoConfiguration(new RepoLocation(""), "");
+        RepoConfiguration emptyLocationDefaultBranchRepoConfig = new RepoConfiguration(new RepoLocation(""));
+        RepoConfiguration emptyLocationWithBranchRepoConfig = new RepoConfiguration(new RepoLocation(""), "master");
+
+        Assert.assertEquals(emptyLocationDefaultBranchRepoConfig, emptyLocationEmptyBranchRepoConfig);
+        Assert.assertEquals(emptyLocationWithBranchRepoConfig, emptyLocationEmptyBranchRepoConfig);
+    }
+
+    @Test
+    public void repoConfig_sameLocationDifferentBranch_notEqual() throws InvalidLocationException {
+        RepoConfiguration validLocationValidBranchRepoConfig =
+                new RepoConfiguration(new RepoLocation(TEST_REPO_DELTA), "master");
+        RepoConfiguration validLocationDefaultBranchRepoConfig =
+                new RepoConfiguration(new RepoLocation(TEST_REPO_DELTA));
+
+        Assert.assertNotEquals(validLocationDefaultBranchRepoConfig, validLocationValidBranchRepoConfig);
     }
 }

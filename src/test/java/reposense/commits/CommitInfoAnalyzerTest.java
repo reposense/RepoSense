@@ -5,15 +5,24 @@ import java.util.Collections;
 import java.util.List;
 
 import org.junit.Assert;
+import org.junit.Before;
 import org.junit.Test;
 
 import reposense.commits.model.CommitInfo;
 import reposense.commits.model.CommitResult;
 import reposense.model.Author;
+import reposense.model.CommitHash;
+import reposense.parser.InvalidLocationException;
 import reposense.template.GitTestTemplate;
 
 public class CommitInfoAnalyzerTest extends GitTestTemplate {
     private static final int NUMBER_EUGENE_COMMIT = 1;
+
+    @Before
+    public void before() throws InvalidLocationException {
+        super.before();
+        config.getAuthorAliasMap().clear();
+    }
 
     @Test
     public void analyzeCommits_allAuthorNoIgnoredCommitsNoDateRange_success() {
@@ -40,7 +49,6 @@ public class CommitInfoAnalyzerTest extends GitTestTemplate {
 
     @Test
     public void analyzeCommits_eugeneAuthorNoIgnoredCommitsNoDateRange_success() {
-        config.getAuthorAliasMap().clear();
         config.getAuthorAliasMap().put(EUGENE_AUTHOR_NAME, new Author(EUGENE_AUTHOR_NAME));
 
         List<CommitInfo> commitInfos = CommitInfoExtractor.extractCommitInfos(config);
@@ -58,7 +66,8 @@ public class CommitInfoAnalyzerTest extends GitTestTemplate {
         config.setIgnoreCommitList(Collections.singletonList(FAKE_AUTHOR_BLAME_TEST_FILE_COMMIT_08022018));
         List<CommitResult> commitResultsFull = CommitInfoAnalyzer.analyzeCommits(commitInfos, config);
         config.setIgnoreCommitList(
-                Collections.singletonList(FAKE_AUTHOR_BLAME_TEST_FILE_COMMIT_08022018.substring(0, 8)));
+                Collections.singletonList(
+                        new CommitHash(FAKE_AUTHOR_BLAME_TEST_FILE_COMMIT_08022018_STRING.substring(0, 8))));
         List<CommitResult> commitResultsShort = CommitInfoAnalyzer.analyzeCommits(commitInfos, config);
 
         Assert.assertEquals(commitResultsShort, commitResultsFull);
@@ -74,8 +83,9 @@ public class CommitInfoAnalyzerTest extends GitTestTemplate {
         config.setIgnoreCommitList(
                 Arrays.asList(FAKE_AUTHOR_BLAME_TEST_FILE_COMMIT_08022018, EUGENE_AUTHOR_README_FILE_COMMIT_07052018));
         List<CommitResult> commitResultsFull = CommitInfoAnalyzer.analyzeCommits(commitInfos, config);
-        config.setIgnoreCommitList(Arrays.asList(FAKE_AUTHOR_BLAME_TEST_FILE_COMMIT_08022018.substring(0, 8),
-                EUGENE_AUTHOR_README_FILE_COMMIT_07052018.substring(0, 8)));
+        config.setIgnoreCommitList(CommitHash.convertStringsToCommits(Arrays.asList(
+                FAKE_AUTHOR_BLAME_TEST_FILE_COMMIT_08022018_STRING.substring(0, 8),
+                EUGENE_AUTHOR_README_FILE_COMMIT_07052018_STRING.substring(0, 8))));
         List<CommitResult> commitResultsShort = CommitInfoAnalyzer.analyzeCommits(commitInfos, config);
 
         Assert.assertEquals(commitResultsShort, commitResultsFull);
