@@ -308,12 +308,19 @@ Alternatively, you can use csv config files to customize the analysis as before 
 
 ## FAQ
 
-**Q:** RepoSense is unable to analyze my private repository.<br>
-**A:** RepoSense will first clone the git repository for analysis, thus if you do not have access to the repository, we are unable to run the analysis.
-To ensure you have access to your private repository to run the analysis, ensure that you have saved your credentials in your git terminal.
+**Q:** Does RepoSense work on private repositories?<br>
+**A:** RepoSense will first clone the git repository to be analyzed, thus if you do not have access to the repository, we are unable to run the analysis.
+To enable RepoSense to work on private repositories, ensure that you have enabled access to your private repository in your git terminal first, before running the analysis.
 
-**Q:** My commit contributions does not appear in the ramp chart.<br>
-**A:** This is probably a case of incorrect author names in your `author-config.csv` file. Please refer to [A Note About Git Author Name](#a-note-about-git-author-name) above on how to find out the correct author name you are using, and how to change it.
+**Q:** How does formats work?
+**A:** Formats are the [file extensions](https://techterms.com/definition/fileextension), which is the suffix at the end of a filename that indicates what type of file it is, that RepoSense should analyze. The formats/file extensions to be analyzed can be specified through the [standalone config file](#provide-data-using-a-json-config-file), [repo-config file](#repo-configcsv) and [command line](#customize-using-command-line-parameters).
 
-**Q:** I have added/edited the standalone config file in my repository, but RepoSense is not using it when running a local analysis.<br>
+**Q:** How does ignore glob list work?
+**A:** Glob(https://en.wikipedia.org/wiki/Glob_(programming) is the pattern to specify a set of filenames with [wildcard characters](https://www.computerhope.com/jargon/w/wildcard.htm). Ignore glob list is the list of patterns to specify all the files in the repository which should be ignored from analysis. The ignore glob list can be specified through the [standalone config file](#provide-data-using-a-json-config-file), [`repo-config` file](#repo-configcsv) and [`author-config` file](#author-configcsv).
+
+**Q:** My commit contributions does not appear in the ramp chart(despite appearing in the contribution bar and code panel)?<br>
+**A:** This is probably a case of giving an incorrect author name alias in your `author-config.csv` file. Please refer to [A Note About Git Author Name](#a-note-about-git-author-name) above on how to find out the correct author name you are using, and how to change it.
+Also ensure that you have added all author name aliases that you may be using.
+
+**Q:** I have added/edited the standalone config file in my local repository, but RepoSense is not using it when running the analysis?<br>
 **A:** Ensure that you have committed the changes to your standalone config file first before running the analysis, as RepoSense is unable to detect uncommitted changes to your local repository.
