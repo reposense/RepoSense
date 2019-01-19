@@ -50,7 +50,7 @@ public class FileInfoAnalyzer {
             CheckStyleParser.aggregateStyleIssue(fileInfo, config.getRepoRoot());
         }
         if (config.isAnnotationOverwrite()) {
-            AnnotatorAnalyzer.aggregateAnnotationAuthorInfo(fileInfo, config.getAuthorAliasMap());
+            AnnotatorAnalyzer.aggregateAnnotationAuthorInfo(fileInfo, config.getAuthorEmailsAndAliasesMap());
         }
 
         if (!config.getAuthorList().isEmpty() && fileInfo.isAllAuthorsIgnored(config.getAuthorList())) {
@@ -76,7 +76,7 @@ public class FileInfoAnalyzer {
      * Sets the {@code Author} for each line in {@code fileInfo} based on the git blame analysis on the file.
      */
     private static void aggregateBlameAuthorInfo(RepoConfiguration config, FileInfo fileInfo) {
-        Map<String, Author> authorAliasMap = config.getAuthorAliasMap();
+        Map<String, Author> authorAliasMap = config.getAuthorEmailsAndAliasesMap();
 
         String blameResults = getGitBlameResult(config, fileInfo.getPath());
         String[] blameResultLines = blameResults.split("\n");

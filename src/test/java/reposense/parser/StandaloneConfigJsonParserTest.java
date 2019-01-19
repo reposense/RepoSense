@@ -67,8 +67,8 @@ public class StandaloneConfigJsonParserTest {
         EXPECTED_FULL_REPOCONFIG.setIgnoreGlobList(Arrays.asList("**.adoc", "collate**"));
         EXPECTED_FULL_REPOCONFIG.setAuthorList(Arrays.asList(author));
         EXPECTED_FULL_REPOCONFIG.setAuthorDisplayName(author, "Yong Hao");
-        EXPECTED_FULL_REPOCONFIG.addAuthorAliases(author, Arrays.asList(author.getGitId()));
-        EXPECTED_FULL_REPOCONFIG.addAuthorAliases(author, author.getAuthorAliases());
+        EXPECTED_FULL_REPOCONFIG.addAuthorEmailsAndAliases(author, Arrays.asList(author.getGitId()));
+        EXPECTED_FULL_REPOCONFIG.addAuthorEmailsAndAliases(author, author.getAuthorAliases());
     }
 
     @Test

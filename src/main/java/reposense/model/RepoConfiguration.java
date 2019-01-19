@@ -32,7 +32,7 @@ public class RepoConfiguration {
     private transient int commitNum = 1;
     private transient List<String> ignoreGlobList = new ArrayList<>();
     private transient List<Author> authorList = new ArrayList<>();
-    private transient TreeMap<String, Author> authorAliasMap = new TreeMap<>(String.CASE_INSENSITIVE_ORDER);
+    private transient TreeMap<String, Author> authorEmailsAndAliasesMap = new TreeMap<>(String.CASE_INSENSITIVE_ORDER);
     private transient Map<Author, String> authorDisplayNameMap = new HashMap<>();
     private transient boolean isStandaloneConfigIgnored;
     private transient List<CommitHash> ignoreCommitList;
@@ -139,7 +139,7 @@ public class RepoConfiguration {
 
         // only assign the new values when all the fields in {@code standaloneConfig} pass the validations.
         authorList = newAuthorList;
-        authorAliasMap = newAuthorAliasMap;
+        authorEmailsAndAliasesMap = newAuthorAliasMap;
         authorDisplayNameMap = newAuthorDisplayNameMap;
         ignoreGlobList = newIgnoreGlobList;
         formats = Format.convertStringsToFormats(standaloneConfig.getFormats());
@@ -246,9 +246,9 @@ public class RepoConfiguration {
      */
     public void setAuthorDetails(Author author) {
         // Set GitHub Id as default alias
-        addAuthorAliases(author, Arrays.asList(author.getGitId()));
+        addAuthorEmailsAndAliases(author, Arrays.asList(author.getGitId()));
 
-        addAuthorAliases(author, author.getAuthorAliases());
+        addAuthorEmailsAndAliases(author, author.getAuthorAliases());
 
         setAuthorDisplayName(author, author.getDisplayName());
     }
@@ -287,7 +287,7 @@ public class RepoConfiguration {
      */
     public void setAuthorList(List<Author> authorList) {
         this.authorList = authorList;
-        authorAliasMap.clear();
+        authorEmailsAndAliasesMap.clear();
         authorDisplayNameMap.clear();
 
         authorList.forEach(author -> {
@@ -296,12 +296,12 @@ public class RepoConfiguration {
         });
     }
 
-    public TreeMap<String, Author> getAuthorAliasMap() {
-        return authorAliasMap;
+    public TreeMap<String, Author> getAuthorEmailsAndAliasesMap() {
+        return authorEmailsAndAliasesMap;
     }
 
-    public void setAuthorAliasMap(TreeMap<String, Author> authorAliasMap) {
-        this.authorAliasMap = authorAliasMap;
+    public void setAuthorEmailsAndAliasesMap(TreeMap<String, Author> authorEmailsAndAliasesMap) {
+        this.authorEmailsAndAliasesMap = authorEmailsAndAliasesMap;
     }
 
     public Date getSinceDate() {
@@ -332,8 +332,8 @@ public class RepoConfiguration {
         authorDisplayNameMap.put(author, displayName);
     }
 
-    public void addAuthorAliases(Author author, List<String> aliases) {
-        aliases.forEach(alias -> authorAliasMap.put(alias, author));
+    public void addAuthorEmailsAndAliases(Author author, List<String> aliases) {
+        aliases.forEach(alias -> authorEmailsAndAliasesMap.put(alias, author));
     }
 
     public String getDisplayName() {

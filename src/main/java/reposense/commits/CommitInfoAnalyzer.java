@@ -43,7 +43,7 @@ public class CommitInfoAnalyzer {
      */
     public static List<CommitResult> analyzeCommits(List<CommitInfo> commitInfos, RepoConfiguration config) {
         return commitInfos.stream()
-                .map(commitInfo -> analyzeCommit(commitInfo, config.getAuthorAliasMap()))
+                .map(commitInfo -> analyzeCommit(commitInfo, config.getAuthorEmailsAndAliasesMap()))
                 .filter(commitResult -> !commitResult.getAuthor().equals(new Author(Author.UNKNOWN_AUTHOR_GIT_ID))
                         && !CommitHash.isInsideCommitList(commitResult.getHash(), config.getIgnoreCommitList()))
                 .sorted(Comparator.comparing(CommitResult::getTime))

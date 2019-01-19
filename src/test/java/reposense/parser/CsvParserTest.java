@@ -143,7 +143,7 @@ public class CsvParserTest {
         expectedConfig.setAuthorList(expectedAuthors);
         expectedConfig.setAuthorDisplayName(FIRST_AUTHOR, "Nbr");
         expectedConfig.setAuthorDisplayName(SECOND_AUTHOR, "Zac");
-        expectedConfig.addAuthorAliases(SECOND_AUTHOR,  Arrays.asList("Zachary Tang"));
+        expectedConfig.addAuthorEmailsAndAliases(SECOND_AUTHOR,  Arrays.asList("Zachary Tang"));
         expectedConfig.setIgnoreGlobList(REPO_LEVEL_GLOB_LIST);
 
         String input = String.format("-config %s", TEST_CONFIG_FOLDER);
@@ -177,7 +177,7 @@ public class CsvParserTest {
         expectedBetaConfig.setAuthorList(expectedBetaAuthors);
         expectedBetaConfig.setAuthorDisplayName(FIRST_AUTHOR, "Nbr");
         expectedBetaConfig.setAuthorDisplayName(SECOND_AUTHOR, "Zac");
-        expectedBetaConfig.addAuthorAliases(SECOND_AUTHOR,  Arrays.asList("Zachary Tang"));
+        expectedBetaConfig.addAuthorEmailsAndAliases(SECOND_AUTHOR,  Arrays.asList("Zachary Tang"));
         expectedBetaConfig.setIgnoreGlobList(REPO_LEVEL_GLOB_LIST);
 
         RepoConfiguration expectedDeltaConfig =

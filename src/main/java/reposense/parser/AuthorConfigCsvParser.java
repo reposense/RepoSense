@@ -67,7 +67,7 @@ public class AuthorConfigCsvParser extends CsvParser<RepoConfiguration> {
         config.addAuthor(author);
         setEmails(author, emails);
         setDisplayName(config, author, displayName);
-        setAliases(config, author, gitHubId, aliases);
+        setEmailsAndAliases(config, author, gitHubId, aliases, emails);
         setAuthorIgnoreGlobList(author, ignoreGlobList);
     }
 
@@ -117,14 +117,16 @@ public class AuthorConfigCsvParser extends CsvParser<RepoConfiguration> {
     /**
      * Associates {@code gitHubId} and additional {@code aliases} to {@code author}.
      */
-    private static void setAliases(RepoConfiguration config, Author author, String gitHubId, List<String> aliases) {
-        config.addAuthorAliases(author, Arrays.asList(gitHubId));
+    private static void setEmailsAndAliases(RepoConfiguration config, Author author, String gitHubId,
+            List<String> aliases, List<String> emails) {
+        config.addAuthorEmailsAndAliases(author, Arrays.asList(gitHubId));
 
         if (aliases.isEmpty()) {
             return;
         }
 
-        config.addAuthorAliases(author, aliases);
+        config.addAuthorEmailsAndAliases(author, aliases);
+        config.addAuthorEmailsAndAliases(author, emails);
         author.setAuthorAliases(aliases);
     }
 
