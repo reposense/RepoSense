@@ -135,6 +135,9 @@ window.vSummary = {
     getSliceTitle(slice) {
       return `contribution on ${slice.date}: ${slice.insertions} lines`;
     },
+    getSlicePos(i, total){
+      return (total-i-1) / total;
+    },
     getSliceLink(user, slice) {
       const { REPOS } = window;
       const untilDate = this.filterTimeFrame === 'week' ? addDays(slice.date, 6): slice.date;
@@ -151,10 +154,12 @@ window.vSummary = {
       const res = [];
       const contributionLimit = (this.avgContributionSize * 2);
 
+      const curr = 0;
+/*
       const cnt = parseInt(totalContribution / contributionLimit, 10);
       for (let cntId = 0; cntId < cnt; cntId += 1) {
         res.push(100);
-      }
+      }*/
 
       const last = (totalContribution % contributionLimit) / contributionLimit;
       if (last !== 0) {
