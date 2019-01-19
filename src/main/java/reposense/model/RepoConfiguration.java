@@ -119,7 +119,7 @@ public class RepoConfiguration {
      */
     public void update(StandaloneConfig standaloneConfig) {
         List<Author> newAuthorList = new ArrayList<>();
-        TreeMap<String, Author> newAuthorAliasMap = new TreeMap<>(String.CASE_INSENSITIVE_ORDER);
+        TreeMap<String, Author> newAuthorEmailsAndAliasesMap = new TreeMap<>(String.CASE_INSENSITIVE_ORDER);
         Map<Author, String> newAuthorDisplayNameMap = new HashMap<>();
         List<String> newIgnoreGlobList = standaloneConfig.getIgnoreGlobList();
 
@@ -130,8 +130,11 @@ public class RepoConfiguration {
             newAuthorList.add(author);
             newAuthorDisplayNameMap.put(author, author.getDisplayName());
             List<String> aliases = new ArrayList<>(author.getAuthorAliases());
+            List<String> emails = new ArrayList<>(author.getEmails());
             aliases.add(author.getGitId());
-            aliases.forEach(alias -> newAuthorAliasMap.put(alias, author));
+            aliases.forEach(alias -> newAuthorEmailsAndAliasesMap.put(alias, author));
+            emails.add(author.getGitId() + "@users.noreply.github.com");
+            emails.forEach(email -> newAuthorEmailsAndAliasesMap.put(email, author));
         }
 
         Format.validateFormats(standaloneConfig.getFormats());
@@ -139,7 +142,7 @@ public class RepoConfiguration {
 
         // only assign the new values when all the fields in {@code standaloneConfig} pass the validations.
         authorList = newAuthorList;
-        authorEmailsAndAliasesMap = newAuthorAliasMap;
+        authorEmailsAndAliasesMap = newAuthorEmailsAndAliasesMap;
         authorDisplayNameMap = newAuthorDisplayNameMap;
         ignoreGlobList = newIgnoreGlobList;
         formats = Format.convertStringsToFormats(standaloneConfig.getFormats());

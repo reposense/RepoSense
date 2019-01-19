@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 import org.junit.Assert;
@@ -91,6 +92,11 @@ public class RepoConfigurationTest {
         REPO_DELTA_STANDALONE_CONFIG.setAuthorDisplayName(SECOND_AUTHOR, "Cod");
         REPO_DELTA_STANDALONE_CONFIG.setAuthorDisplayName(THIRD_AUTHOR, "Jor");
         REPO_DELTA_STANDALONE_CONFIG.setAuthorDisplayName(FOURTH_AUTHOR, "Loh");
+
+        for (Author author : expectedAuthors) {
+            REPO_DELTA_STANDALONE_CONFIG.addAuthorEmailsAndAliases(
+                    author, Collections.singletonList(author.getGitId() + "@users.noreply.github.com"));
+        }
 
         REPO_DELTA_STANDALONE_CONFIG.setIgnoreGlobList(REPO_LEVEL_GLOB_LIST);
         REPO_DELTA_STANDALONE_CONFIG.setFormats(CONFIG_FORMATS);

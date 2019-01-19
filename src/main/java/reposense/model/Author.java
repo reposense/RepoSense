@@ -36,13 +36,16 @@ public class Author {
 
     public Author(StandaloneAuthor sa) {
         String gitId = sa.getGithubId();
+        List<String> emails = sa.getEmails();
         String displayName = !sa.getDisplayName().isEmpty() ? sa.getDisplayName() : sa.getGithubId();
         List<String> authorAliases = sa.getAuthorNames();
         List<String> ignoreGlobList = sa.getIgnoreGlobList();
 
         validateIgnoreGlobs(ignoreGlobList);
+        validateEmails(emails);
 
         this.gitId = gitId;
+        this.emails = emails;
         this.displayName = displayName;
         this.authorAliases = authorAliases;
         this.ignoreGlobList = new ArrayList<>(ignoreGlobList);
@@ -52,6 +55,7 @@ public class Author {
 
     public Author(Author another) {
         this.gitId = another.gitId;
+        this.emails = another.emails;
         this.displayName = another.gitId;
         this.authorAliases = another.authorAliases;
         this.ignoreGlobList = another.authorAliases;

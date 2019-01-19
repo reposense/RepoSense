@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Path;
 import java.util.Arrays;
+import java.util.Collections;
 
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -58,6 +59,8 @@ public class StandaloneConfigJsonParserTest {
         EXPECTED_GITHUBID_ONLY_REPOCONFIG = new RepoConfiguration(new RepoLocation(TEST_DUMMY_LOCATION));
         EXPECTED_GITHUBID_ONLY_REPOCONFIG.setFormats(Format.DEFAULT_FORMATS);
         EXPECTED_GITHUBID_ONLY_REPOCONFIG.setAuthorList(Arrays.asList(new Author("yong24s")));
+        EXPECTED_GITHUBID_ONLY_REPOCONFIG.addAuthorEmailsAndAliases(
+                author, Collections.singletonList(author.getGitId() + "@users.noreply.github.com"));
 
         EXPECTED_FULL_REPOCONFIG = new RepoConfiguration(new RepoLocation(TEST_DUMMY_LOCATION));
         EXPECTED_FULL_REPOCONFIG.setFormats(Format.convertStringsToFormats(
@@ -69,6 +72,8 @@ public class StandaloneConfigJsonParserTest {
         EXPECTED_FULL_REPOCONFIG.setAuthorDisplayName(author, "Yong Hao");
         EXPECTED_FULL_REPOCONFIG.addAuthorEmailsAndAliases(author, Arrays.asList(author.getGitId()));
         EXPECTED_FULL_REPOCONFIG.addAuthorEmailsAndAliases(author, author.getAuthorAliases());
+        EXPECTED_FULL_REPOCONFIG.addAuthorEmailsAndAliases(
+                author, Collections.singletonList(author.getGitId() + "@users.noreply.github.com"));
     }
 
     @Test
