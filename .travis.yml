@@ -8,7 +8,7 @@ deploy:
   provider: script
   script: ./config/travis/deploy_github_pages.sh
   on:
-    branch: master
+    branch: test
 
 addons:
   apt:
