@@ -74,6 +74,10 @@ public class Author {
         return displayName;
     }
 
+    public void setDisplayName(String displayName) {
+        this.displayName = displayName;
+    }
+
     public List<String> getAuthorAliases() {
         return authorAliases;
     }
