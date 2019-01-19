@@ -34,6 +34,8 @@ public class CsvParserTest {
             .getResource("CsvParserTest/authorconfig_noSpecialCharacter_test.csv").getFile()).toPath();
     private static final Path AUTHOR_CONFIG_SPECIAL_CHARACTER_FILE = new File(CsvParserTest.class.getClassLoader()
             .getResource("CsvParserTest/authorconfig_specialCharacter_test.csv").getFile()).toPath();
+    private static final Path AUTHOR_CONFIG_MULTIPLE_EMAILS_FILE = new File(CsvParserTest.class.getClassLoader()
+            .getResource("CsvParserTest/authorconfig_multipleEmails_test.csv").getFile()).toPath();
     private static final Path MERGE_EMPTY_LOCATION_FOLDER = new File(CsvParserTest.class.getClassLoader()
             .getResource("CsvParserTest/repoconfig_merge_empty_location_test").getFile()).toPath();
 
@@ -63,6 +65,8 @@ public class CsvParserTest {
 
     private static final List<String> REPO_LEVEL_GLOB_LIST = Arrays.asList("collated**");
     private static final List<String> FIRST_AUTHOR_GLOB_LIST = Arrays.asList("**.java", "collated**");
+    private static final List<String> FIRST_AUTHOR_EMAIL_LIST =
+            Arrays.asList("nbr@example.com", "nbriannl@test.net", "nbriannl@users.noreply.github.com");
 
     @Test
     public void repoConfig_noSpecialCharacter_success() throws IOException, InvalidLocationException {
@@ -126,6 +130,20 @@ public class CsvParserTest {
         Assert.assertEquals(TEST_REPO_BETA_BRANCH, config.getBranch());
 
         Assert.assertEquals(AUTHOR_CONFIG_SPECIAL_CHARACTER_AUTHORS, config.getAuthorList());
+    }
+
+    @Test
+    public void authorConfig_multipleEmails_success() throws IOException, InvalidLocationException {
+        AuthorConfigCsvParser authorConfigCsvParser = new AuthorConfigCsvParser(AUTHOR_CONFIG_MULTIPLE_EMAILS_FILE);
+        List<RepoConfiguration> configs = authorConfigCsvParser.parse();
+
+        Assert.assertEquals(1, configs.size());
+
+        RepoConfiguration config = configs.get(0);
+
+        Author actualAuthor = config.getAuthorList().get(0);
+        Assert.assertEquals(FIRST_AUTHOR_EMAIL_LIST.size(), actualAuthor.getEmails().size());
+        Assert.assertTrue(actualAuthor.getEmails().containsAll(FIRST_AUTHOR_EMAIL_LIST));
     }
 
     @Test
