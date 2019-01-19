@@ -19,7 +19,7 @@ addons:
 deploy:
   skip_cleanup: true
   provider: script
-  script: ./gradlew run -Dargs="-config ./resources/dashboard-configs" && ./config/travis/deploy_github_pages.sh
+  script: ./gradlew run -Dargs="-config ./config/github-pages" && ./config/travis/deploy_github_pages.sh
   on:
     branch: master
 
