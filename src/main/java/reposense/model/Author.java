@@ -16,6 +16,7 @@ public class Author {
 
     private final String gitId;
 
+    private transient List<String> emails;
     private transient String displayName;
     private transient List<String> authorAliases;
     private transient List<String> ignoreGlobList;
@@ -23,6 +24,7 @@ public class Author {
 
     public Author(String gitId) {
         this.gitId = gitId;
+        this.emails = new ArrayList<>();
         this.displayName = gitId;
         this.authorAliases = new ArrayList<>();
         this.ignoreGlobList = new ArrayList<>();
@@ -68,6 +70,14 @@ public class Author {
 
     public String getGitId() {
         return gitId;
+    }
+
+    public List<String> getEmails() {
+        return emails;
+    }
+
+    public void setEmails(List<String> emails) {
+        this.emails = emails;
     }
 
     public String getDisplayName() {
