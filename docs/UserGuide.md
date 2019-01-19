@@ -308,11 +308,12 @@ Alternatively, you can use csv config files to customize the analysis as before 
 
 ## FAQ
 
-**Q:** RepoSense is unable to analyze my private repository.
+**Q:** RepoSense is unable to analyze my private repository.<br>
 **A:** RepoSense will first clone the git repository for analysis, thus if you do not have access to the repository, we are unable to run the analysis.
-To ensure you hvae access to your private repository, ensure that you have saved your credentials in your git terminal.
+To ensure you have access to your private repository to run the analysis, ensure that you have saved your credentials in your git terminal.
 
-**Q:** My commit contributions does not appear in the ramp chart.
+**Q:** My commit contributions does not appear in the ramp chart.<br>
 **A:** This is probably a case of incorrect author names in your `author-config.csv` file. Please refer to [A Note About Git Author Name](#a-note-about-git-author-name) above on how to find out the correct author name you are using, and how to change it.
 
-
+**Q:** I have added/edited the standalone config file in my repository, but RepoSense is not using it when running a local analysis.<br>
+**A:** Ensure that you have committed the changes to your standalone config file first before running the analysis, as RepoSense is unable to detect uncommitted changes to your local repository.
