@@ -3,6 +3,13 @@ language: java
 script:
   - time ./gradlew run -Dargs="-repos https://github.com/yong24s/toolbox.git"
 
+deploy:
+  skip_cleanup: true
+  provider: script
+  script: ./config/travis/deploy_github_pages.sh
+  on:
+    branch: master
+
 addons:
   apt:
     packages:
