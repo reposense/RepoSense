@@ -290,8 +290,7 @@ window.vSummary = {
         const week = {
           insertions: 0,
           deletions: 0,
-          sinceDate: commits[weekId * 7].date,
-          untilDate: '',
+          date: commits[weekId * 7].date,
         };
 
         for (let dayId = 0; dayId < 7; dayId += 1) {
@@ -299,7 +298,6 @@ window.vSummary = {
           if (commit) {
             week.insertions += commit.insertions;
             week.deletions += commit.deletions;
-            week.untilDate = commit.untilDate;
           }
         }
 
@@ -337,6 +335,7 @@ window.vSummary = {
         user.commits.push({
           insertions: 0,
           deletions: 0,
+          commitResults: [],
           date: getDateStr(startMs + (dayId * DAY_IN_MS)),
         });
       }
@@ -358,6 +357,7 @@ window.vSummary = {
         user.commits.push({
           insertions: 0,
           deletions: 0,
+          commitResults: [],
           date: getDateStr(endMs + (paddingId * DAY_IN_MS)),
         });
       }
