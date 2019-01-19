@@ -327,7 +327,7 @@ window.vSummary = {
 
       let untilDate = this.filterUntilDate;
       if (!untilDate) {
-        untilDate = userLast.date
+        untilDate = userLast.date;
       }
 
       if (this.filterTimeFrame === 'week') {
