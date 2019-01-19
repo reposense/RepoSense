@@ -2,6 +2,7 @@ package reposense.parser;
 
 import java.io.IOException;
 import java.nio.file.Path;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -92,11 +93,11 @@ public class AuthorConfigCsvParser extends CsvParser<RepoConfiguration> {
     }
 
     /**
-     * Associates {@code displayName} to {@code author}, if provided and not empty.
-     * Otherwise, use github id from {@code author}.
+     * Associates {@code emails} to {@code author}, if provided and not empty.
+     * Adds the default github privacy email to {@code author}'s list of emails.
      */
     private static void setEmails(Author author, List<String> emails) {
-        author.setEmails(emails);
+        author.setEmails(new ArrayList<>(emails));
 
         String defaultEmail = author.getGitId() + "@users.noreply.github.com";
         if (!author.getEmails().contains(defaultEmail)) {
