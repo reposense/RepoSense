@@ -382,7 +382,7 @@ window.vSummary = {
       });
 
       if (!this.filterGroupRepos) {
-        full[0].sort(comparator(ele => {
+        full[0].sort(comparator((ele) => {
           if (typeof ele[this.filterSort] === 'string') {
             return ele[this.filterSort].toLowerCase();
           }
