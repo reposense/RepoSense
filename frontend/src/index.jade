@@ -148,8 +148,8 @@ html
         .files(v-if="isLoaded")
           .empty(v-if="files.length===0") nothing to see here :(
           .file.active(v-for="file in selectedFiles", v-bind:key="file.path")
-            .title(onclick="toggleNext(this)")
-              span {{ file.path }}&nbsp;
+            .title
+              span.path(onclick="toggleNext(this)") {{ file.path }}&nbsp;
               span.loc ({{ file.lineCount }} lines)
             pre.hljs.java
               code

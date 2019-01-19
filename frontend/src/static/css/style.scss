@@ -292,9 +292,12 @@ header{
 
         .title{
             margin-top:1rem;
-            cursor:pointer;
             font-size:1.25rem;
             font-weight:bold;
+
+            .path{
+                cursor:pointer;
+            }
 
             .loc{
                 color:mui-color('grey');
