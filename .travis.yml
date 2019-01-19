@@ -1,19 +1,32 @@
 language: java
 
-script:
-  - time ./gradlew run -Dargs="-repos https://github.com/yong24s/toolbox.git"
+matrix:
+  include:
+    - os: linux
+      jdk: oraclejdk9
+    - os: osx
 
-deploy:
-  skip_cleanup: true
-  provider: script
-  script: ./config/travis/deploy_github_pages.sh
-  on:
-    branch: test
+script:
+  - ./config/travis/run-checks.sh
+  - cd ./frontend; npm run lint src/**/*js; cd ..
+  - time travis_retry ./gradlew clean checkstyleMain checkstyleTest test systemTest
 
 addons:
   apt:
     packages:
       - oracle-java9-installer
+
+deploy:
+  skip_cleanup: true
+  provider: script
+  script: 
+    - ./gradlew run -Dargs='-config ./resources/dashboard-configs'
+    - ./config/travis/deploy_github_pages.sh
+  on:
+    branch: master
+
+before_install:
+  - cd ./frontend; npm install --only=dev; cd ..
 
 before_cache:
   - rm -f  $HOME/.gradle/caches/modules-2/modules-2.lock
