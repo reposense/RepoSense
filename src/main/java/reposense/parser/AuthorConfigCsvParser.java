@@ -32,7 +32,6 @@ public class AuthorConfigCsvParser extends CsvParser<RepoConfiguration> {
     @Override
     protected int[] mandatoryPositions() {
         return new int[] {
-            LOCATION_POSITION,
             GITHUB_ID_POSITION,
         };
     }
@@ -94,6 +93,7 @@ public class AuthorConfigCsvParser extends CsvParser<RepoConfiguration> {
      * Otherwise, use github id from {@code author}.
      */
     private static void setDisplayName(RepoConfiguration config, Author author, String displayName) {
+        author.setDisplayName(!displayName.isEmpty() ? displayName : author.getGitId());
         config.setAuthorDisplayName(author, !displayName.isEmpty() ? displayName : author.getGitId());
     }
 
