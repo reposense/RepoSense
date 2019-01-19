@@ -5,6 +5,7 @@ import java.util.Collections;
 import java.util.List;
 
 import org.junit.Assert;
+import org.junit.Before;
 import org.junit.Test;
 
 import reposense.commits.model.CommitInfo;
@@ -12,11 +13,18 @@ import reposense.commits.model.CommitResult;
 import reposense.model.Author;
 import reposense.model.CommitHash;
 import reposense.model.Format;
+import reposense.parser.InvalidLocationException;
 import reposense.template.GitTestTemplate;
 
 public class CommitInfoAnalyzerTest extends GitTestTemplate {
     private static final int NUMBER_EUGENE_COMMIT = 1;
     private static final int NUMBER_EMPTY_MESSAGE_COMMIT = 1;
+
+    @Before
+    public void before() throws InvalidLocationException {
+        super.before();
+        config.getAuthorAliasMap().clear();
+    }
 
     @Test
     public void analyzeCommits_allAuthorNoIgnoredCommitsNoDateRange_success() {
@@ -43,7 +51,6 @@ public class CommitInfoAnalyzerTest extends GitTestTemplate {
 
     @Test
     public void analyzeCommits_eugeneAuthorNoIgnoredCommitsNoDateRange_success() {
-        config.getAuthorAliasMap().clear();
         config.getAuthorAliasMap().put(EUGENE_AUTHOR_NAME, new Author(EUGENE_AUTHOR_NAME));
 
         List<CommitInfo> commitInfos = CommitInfoExtractor.extractCommitInfos(config);
