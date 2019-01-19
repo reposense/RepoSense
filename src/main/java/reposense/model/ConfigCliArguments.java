@@ -16,8 +16,8 @@ public class ConfigCliArguments extends CliArguments {
     private Path repoConfigFilePath;
     private Path authorConfigFilePath;
 
-    public ConfigCliArguments(Path configFolderPath,
-            Path outputFilePath, Optional<Date> sinceDate, Optional<Date> untilDate, List<String> formats) {
+    public ConfigCliArguments(Path configFolderPath, Path outputFilePath, Optional<Date> sinceDate,
+            Optional<Date> untilDate, List<Format> formats, boolean isAutomaticallyLaunching) {
         this.configFolderPath = configFolderPath;
         this.repoConfigFilePath = configFolderPath.resolve(RepoConfigCsvParser.REPO_CONFIG_FILENAME);
         this.authorConfigFilePath = configFolderPath.resolve(AuthorConfigCsvParser.AUTHOR_CONFIG_FILENAME);
@@ -25,6 +25,7 @@ public class ConfigCliArguments extends CliArguments {
         this.sinceDate = sinceDate;
         this.untilDate = untilDate;
         this.formats = formats;
+        this.isAutomaticallyLaunching = isAutomaticallyLaunching;
     }
 
     public Path getConfigFolderPath() {

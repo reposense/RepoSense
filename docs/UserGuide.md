@@ -31,6 +31,9 @@ The simplest use case for RepoSense is to generate a report for the entire histo
 1. The previous step analyzes the default branch of the repo and creates the report in a directory named `reposense-report`. Run the following command to view the report (it will open up in your default Browser):<br/>
    `java -jar RepoSense.jar -view reposense-report`
 
+Alternatively, you can combine the 2 steps by running the following command to generate the report and automatically open it afterwards:<br>
+    `java -jar RepoSense.jar -repo FULL_REPO_URL -view`
+
 <hr>
 
 ## Interpreting the Report
@@ -58,6 +61,7 @@ The `Chart Panel` (an example is shown above) contains _Ramp Charts_ and _Contri
 
 **Ramp Chart**: This is a visualization of frequency and quantity of contributions of an author for a specific repository.
 
+* **Title**: Each title consists of the **index**, the **name** of the author, a button to view author's **code** and a button to view author's **repo**.
 * **Rows**: Each _row_ (i.e., light blue rectangle) represents the contribution timeline of an author for a specific repository.
 * **Ramp**: Each row contains **ramps** -- the pointy saw-tooth shapes you see in the screenshot above. A ramp represents the contributions of an author possibly aggregated over a period (e.g., a day or a week).
   * The area of the ramp is proportional to the amount of contribution the author did at that time period.
@@ -76,6 +80,7 @@ The `Chart Panel` (an example is shown above) contains _Ramp Charts_ and _Contri
 
 The `Code Panel` allows users to see the code attributed to a specific author. Click on the name of the author in the `Chart Panel` to display the `Code Panel` on the right.
 * The Code Panel shows the files that contain author's contributions, sorted by the number of lines written.
+* Select the checkboxes to include files of preferred file extensions.
 * Clicking the file title toggles the file content.
 * Code attributed to the author is highlighted in green.
 * Non-trivial code segments that are not written by the selected author are hidden by default, but you can toggle them by clicking on the `...` icon.
@@ -86,20 +91,21 @@ The `Tool Bar` at the top provides a set of configuration options that control t
 * `Search` : filters the author and repository by keywords.
   * Multiple keywords/terms can be used, separated by spaces.
   * Entries that contain _any_ (not necessarily _all_) of the search terms will be displayed.
+  * The keywords used to filter author and repository are case-insensitive.
 * `Sort by` : sorting criteria for the Chart Panel
   * `Total Contribution` : the amount of lines, written by the author, in the repository.
   * `Variance` : the [variance](https://en.wikipedia.org/wiki/Variance) of the number of lines that the author has contributed to the repository daily, sorted from low to high.
   * `Author Name` : the author's display name.
-  * `Team Name` : see note [1] below.
+  * `Repo/Branch Name` : see note [1] below.
 * `Granularity` : the period of time for which commits are aggregated in the Ramp Chart.
     * `Day`: commits within a day (commits made within 00:00 to 23:59 in **GMT+8**) are shown as one ramp
     * `Week`:  commits within a week are shown as one ramp
 * `Since`, `Until` : the date range for the Ramp Chart (not applied to the Contribution Bars).
 * `Reverse` : if checked, the sorting will be done in the reverse order of the default sorting order
-* `Group` : if checked, authors from the same team<sup>[1]</sup> will be grouped together. This has precedence over the `sort by` feature; the `sort by` feature will only change display order of the authors under the same team<sup>[1]</sup>.
+* `Group` : if checked, authors from the same repo/branch<sup>[1]</sup> will be grouped together. This has precedence over the `sort by` feature; the `sort by` feature will only change display order of the authors under the same repo/branch<sup>[1]</sup>.
 
 Notes:<br>
-[1] **`Team `**: the team name is constructed as `ORGANIZATION_REPOSITORY_BRANCH` e.g., `resposense_reposense_master`
+[1] **`Repo/Branch`**: the repo/branch name is constructed as `ORGANIZATION_REPOSITORY_BRANCH` e.g., `resposense_reposense_master`
 
 **Bookmarking a specific toolbar setting**: The URL changes according to the toolbar configuration. You can save a specific configuration of the report by bookmarking the url (using browser functionality).
 
@@ -217,14 +223,18 @@ In addition, there are some _optional_ extra parameters you can use to customize
 * **`-output OUTPUT_DIRECTORY`**: Indicates where to save the report generated. Default: current directory.<br>
   Example: `-output ./foo` (in this case, the report will be in the `./foo/reposense-report` folder)
 * **`-since START_DATE`**: The start date of analysis. Format: `DD/MM/YYYY`<br>
-  Example:`-since 01/10/2017`
+  Example:`-since 21/10/2017`
 * **`-until END_DATE`**: The end date of analysis. The analysis excludes the end date. Format: `DD/MM/YYYY`<br>
-  Example:`-since 01/10/2017`
+  Example:`-until 21/10/2017`
 * **`-formats LIST_OF_FORMATS`**: A space-separated list of file extensions that should be included in the analysis. Default: `adoc cs css fxml gradle html java js json jsp md py tag xml`<br>
   Example:`-formats css fxml gradle`
+* **`-isac, --ignore-standalone-config`**: A flag to ignore the standalone config file in the repo (`-isac` as alias). This flag will not overwrite the `Ignore standalone config` field in the csv config file. Default: the standalone config file is not ignored.<br>
+  Example:`--ignore-standalone-config` or `-isac`
+* **`-view [REPORT_FOLDER]`**: A flag to launch the report automatically after processing. Note that if the `REPORT_FOLDER` argument is given, no analysis will be performed and the report specified by the argument will be opened.<br>
+Example:`-view`
 
 Here's an example of a command using all parameters:<br>
-`java -jar RepoSense.jar -repo https://github.com/reposense/RepoSense.git -output ./report_folder -since 01/10/2017 -until 01/11/2017 -formats java adoc js`
+`java -jar RepoSense.jar -repo https://github.com/reposense/RepoSense.git -output ./report_folder -since 21/10/2017 -until 21/11/2017 -formats java adoc js -view -isac`
 
 ### Customize Using csv Config Files
 
@@ -267,7 +277,7 @@ Optionally, you can use a `author-config.csv` (which should be in the same direc
 
 Column Name | Explanation
 ----------- | -----------
-Repository's Location | Same as `repo-config.csv`
+[Optional] Repository's Location | Same as `repo-config.csv`. Default: all the repos in `repo-config.csv`
 [Optional] Branch | The branch to analyze for this author e.g., `master`. Default: the default branch of the repo
 Author's GitHub ID | GitHub username of the target author e.g., `JohnDoe`
 [Optional] Author's Display Name | The name to display for the author. Default: author's GitHub username.
