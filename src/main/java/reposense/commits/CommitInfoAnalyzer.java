@@ -31,8 +31,9 @@ public class CommitInfoAnalyzer {
 
     private static final int COMMIT_HASH_INDEX = 0;
     private static final int AUTHOR_INDEX = 1;
-    private static final int DATE_INDEX = 2;
-    private static final int MESSAGE_INDEX = 3;
+    private static final int EMAIL_INDEX = 2;
+    private static final int DATE_INDEX = 3;
+    private static final int MESSAGE_INDEX = 4;
 
     private static final Pattern INSERTION_PATTERN = Pattern.compile("([0-9]+) insertion");
     private static final Pattern DELETION_PATTERN = Pattern.compile("([0-9]+) deletion");
@@ -59,7 +60,8 @@ public class CommitInfoAnalyzer {
 
         String[] elements = infoLine.split(LOG_SPLITTER);
         String hash = elements[COMMIT_HASH_INDEX];
-        Author author = authorAliasMap.getOrDefault(elements[AUTHOR_INDEX], new Author(Author.UNKNOWN_AUTHOR_GIT_ID));
+        Author author = authorAliasMap.getOrDefault(elements[AUTHOR_INDEX],
+                authorAliasMap.getOrDefault(elements[EMAIL_INDEX], new Author(Author.UNKNOWN_AUTHOR_GIT_ID)));
 
         Date date = null;
         try {

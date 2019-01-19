@@ -20,6 +20,10 @@ class GitUtil {
 
     // ignore check against email
     private static final String AUTHOR_NAME_PATTERN = "^%s <.*>$";
+
+    // ignore check against author name
+    private static final String AUTHOR_EMAIL_PATTERN = "^.* <%s>$";
+
     private static final String OR_OPERATOR_PATTERN = "\\|";
 
     /**
@@ -44,9 +48,13 @@ class GitUtil {
     static String convertToFilterAuthorArgs(Author author) {
         StringBuilder filterAuthorArgsBuilder = new StringBuilder(" --author=\"");
 
-        // git author names may contain regex meta-characters, so we need to escape those
+        // git author names and emails may contain regex meta-characters, so we need to escape those
         author.getAuthorAliases().stream()
                 .map(authorAlias -> String.format(AUTHOR_NAME_PATTERN,
+                        StringsUtil.replaceSpecialSymbols(authorAlias, ".")) + OR_OPERATOR_PATTERN)
+                .forEach(filterAuthorArgsBuilder::append);
+        author.getEmails().stream()
+                .map(authorAlias -> String.format(AUTHOR_EMAIL_PATTERN,
                         StringsUtil.replaceSpecialSymbols(authorAlias, ".")) + OR_OPERATOR_PATTERN)
                 .forEach(filterAuthorArgsBuilder::append);
 

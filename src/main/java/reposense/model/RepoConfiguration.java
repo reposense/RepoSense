@@ -248,10 +248,12 @@ public class RepoConfiguration {
      * and display name.
      */
     public void setAuthorDetails(Author author) {
-        // Set GitHub Id as default alias
-        addAuthorEmailsAndAliases(author, Arrays.asList(author.getGitId()));
+        // Set GitHub Id and its corresponding email as default
+        addAuthorEmailsAndAliases(
+                author, Arrays.asList(author.getGitId(), author.getGitId() + "@users.noreply.github.com"));
 
         addAuthorEmailsAndAliases(author, author.getAuthorAliases());
+        addAuthorEmailsAndAliases(author, author.getEmails());
 
         setAuthorDisplayName(author, author.getDisplayName());
     }
