@@ -23,6 +23,7 @@ public class GitBlame {
         String blameCommand = "git blame -w --line-porcelain";
         blameCommand += " " + addQuote(fileDirectory);
 
-        return StringsUtil.filterText(runCommand(rootPath, blameCommand), "(^author .*)|(^[0-9a-f]{40} .*)");
+        return StringsUtil.filterText(
+                runCommand(rootPath, blameCommand), "(^[0-9a-f]{40} .*)|(^author .*)|(^author-mail .*)");
     }
 }
