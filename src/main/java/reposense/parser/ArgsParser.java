@@ -2,6 +2,7 @@ package reposense.parser;
 
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.time.ZoneId;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
@@ -100,6 +101,11 @@ public class ArgsParser {
                 .action(Arguments.storeTrue())
                 .help("A flag to ignore the standalone config file in the repo.");
 
+        parser.addArgument("-timezone")
+                .metavar("UTC+/-HH")
+                .setDefault(ZoneId.systemDefault().getId())
+                .help("The timezone to use for the generated report.");
+
         return parser;
     }
 
@@ -121,6 +127,7 @@ public class ArgsParser {
             List<String> locations = results.get("repos");
             List<Format> formats = Format.convertStringsToFormats(results.get("formats"));
             boolean isStandaloneConfigIgnored = results.get("ignore_standalone_config");
+            ZoneId zoneId = ZoneId.of(results.get("timezone"));
 
             verifyDatesRangeIsCorrect(sinceDate, untilDate);
 
@@ -132,11 +139,11 @@ public class ArgsParser {
 
             if (locations != null) {
                 return new LocationsCliArguments(locations, outputFolderPath, sinceDate, untilDate, formats,
-                        isAutomaticallyLaunching, isStandaloneConfigIgnored);
+                        isAutomaticallyLaunching, isStandaloneConfigIgnored, zoneId);
             }
 
-            return new ConfigCliArguments(
-                    configFolderPath, outputFolderPath, sinceDate, untilDate, formats, isAutomaticallyLaunching);
+            return new ConfigCliArguments(configFolderPath, outputFolderPath, sinceDate, untilDate, formats,
+                    isAutomaticallyLaunching, zoneId);
         } catch (ArgumentParserException ape) {
             throw new ParseException(getArgumentParser().formatUsage() + ape.getMessage() + "\n");
         }
