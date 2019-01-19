@@ -1,1293 +1,3564 @@
 {
-  "authorWeeklyIntervalContributions": {
-    "lithiumlkid": [
-      {
-        "insertions": 5,
-        "deletions": 6,
-        "sinceDate": "2018-03-01",
-        "untilDate": "2018-03-08"
-      },
-      {
-        "insertions": 68,
-        "deletions": 2,
-        "sinceDate": "2018-03-08",
-        "untilDate": "2018-03-15"
-      },
-      {
-        "insertions": 46,
-        "deletions": 2,
-        "sinceDate": "2018-03-15",
-        "untilDate": "2018-03-22"
-      },
-      {
-        "insertions": 10,
-        "deletions": 9,
-        "sinceDate": "2018-03-22",
-        "untilDate": "2018-03-29"
-      },
-      {
-        "insertions": 2,
-        "deletions": 2,
-        "sinceDate": "2018-03-29",
-        "untilDate": "2018-04-05"
-      },
-      {
-        "insertions": 117,
-        "deletions": 52,
-        "sinceDate": "2018-04-05",
-        "untilDate": "2018-04-12"
-      },
-      {
-        "insertions": 305,
-        "deletions": 95,
-        "sinceDate": "2018-04-12",
-        "untilDate": "2018-04-19"
-      }
-    ],
-    "lohtianwei": [
-      {
-        "insertions": 0,
-        "deletions": 0,
-        "sinceDate": "2018-03-01",
-        "untilDate": "2018-03-08"
-      },
-      {
-        "insertions": 102,
-        "deletions": 1,
-        "sinceDate": "2018-03-08",
-        "untilDate": "2018-03-15"
-      },
-      {
-        "insertions": 521,
-        "deletions": 31,
-        "sinceDate": "2018-03-15",
-        "untilDate": "2018-03-22"
-      },
-      {
-        "insertions": 241,
-        "deletions": 97,
-        "sinceDate": "2018-03-22",
-        "untilDate": "2018-03-29"
-      },
-      {
-        "insertions": 108,
-        "deletions": 90,
-        "sinceDate": "2018-03-29",
-        "untilDate": "2018-04-05"
-      },
-      {
-        "insertions": 590,
-        "deletions": 144,
-        "sinceDate": "2018-04-05",
-        "untilDate": "2018-04-12"
-      },
-      {
-        "insertions": 782,
-        "deletions": 203,
-        "sinceDate": "2018-04-12",
-        "untilDate": "2018-04-19"
-      }
-    ],
-    "codeeong": [
-      {
-        "insertions": 0,
-        "deletions": 0,
-        "sinceDate": "2018-03-01",
-        "untilDate": "2018-03-08"
-      },
-      {
-        "insertions": 0,
-        "deletions": 0,
-        "sinceDate": "2018-03-08",
-        "untilDate": "2018-03-15"
-      },
-      {
-        "insertions": 0,
-        "deletions": 0,
-        "sinceDate": "2018-03-15",
-        "untilDate": "2018-03-22"
-      },
-      {
-        "insertions": 0,
-        "deletions": 0,
-        "sinceDate": "2018-03-22",
-        "untilDate": "2018-03-29"
-      },
-      {
-        "insertions": 0,
-        "deletions": 0,
-        "sinceDate": "2018-03-29",
-        "untilDate": "2018-04-05"
-      },
-      {
-        "insertions": 0,
-        "deletions": 0,
-        "sinceDate": "2018-04-05",
-        "untilDate": "2018-04-12"
-      },
-      {
-        "insertions": 0,
-        "deletions": 0,
-        "sinceDate": "2018-04-12",
-        "untilDate": "2018-04-19"
-      }
-    ],
-    "jordancjq": [
-      {
-        "insertions": 123,
-        "deletions": 11,
-        "sinceDate": "2018-03-01",
-        "untilDate": "2018-03-08"
-      },
-      {
-        "insertions": 242,
-        "deletions": 78,
-        "sinceDate": "2018-03-08",
-        "untilDate": "2018-03-15"
-      },
-      {
-        "insertions": 1463,
-        "deletions": 252,
-        "sinceDate": "2018-03-15",
-        "untilDate": "2018-03-22"
-      },
-      {
-        "insertions": 1975,
-        "deletions": 708,
-        "sinceDate": "2018-03-22",
-        "untilDate": "2018-03-29"
-      },
-      {
-        "insertions": 881,
-        "deletions": 451,
-        "sinceDate": "2018-03-29",
-        "untilDate": "2018-04-05"
-      },
-      {
-        "insertions": 1428,
-        "deletions": 348,
-        "sinceDate": "2018-04-05",
-        "untilDate": "2018-04-12"
-      },
-      {
-        "insertions": 1336,
-        "deletions": 1319,
-        "sinceDate": "2018-04-12",
-        "untilDate": "2018-04-19"
-      }
-    ]
-  },
-  "authorDailyIntervalContributions": {
+  "authorDailyContributionsMap": {
     "lithiumlkid": [
       {
         "insertions": 2,
         "deletions": 2,
-        "sinceDate": "2018-03-01",
-        "untilDate": "2018-03-02"
+        "date": "2018-03-01",
+        "commitResults": [
+          {
+            "hash": "5c1caec2ee5611a938becb727933e30156fdbc38",
+            "message": "Updated repoUrl",
+            "insertions": 2,
+            "deletions": 2
+          }
+        ]
       },
       {
         "insertions": 3,
         "deletions": 4,
-        "sinceDate": "2018-03-02",
-        "untilDate": "2018-03-03"
+        "date": "2018-03-02",
+        "commitResults": [
+          {
+            "hash": "4cada5456502cbba544ea56ac4ff38f0944345b4",
+            "message": "Updated travis url and removed codacy badge",
+            "insertions": 1,
+            "deletions": 2
+          },
+          {
+            "hash": "78e045559e69a4326071fea9522e9d99da3522d4",
+            "message": "Updated coveralls Url",
+            "insertions": 1,
+            "deletions": 1
+          },
+          {
+            "hash": "8e7f50654fab252b5e0badafae25e2b80a490b89",
+            "message": "Updated appveyor url",
+            "insertions": 1,
+            "deletions": 1
+          }
+        ]
       },
       {
         "insertions": 0,
         "deletions": 0,
-        "sinceDate": "2018-03-03",
-        "untilDate": "2018-03-04"
+        "date": "2018-03-03",
+        "commitResults": []
       },
       {
         "insertions": 0,
         "deletions": 0,
-        "sinceDate": "2018-03-04",
-        "untilDate": "2018-03-05"
+        "date": "2018-03-04",
+        "commitResults": []
       },
       {
         "insertions": 0,
         "deletions": 0,
-        "sinceDate": "2018-03-05",
-        "untilDate": "2018-03-06"
+        "date": "2018-03-05",
+        "commitResults": []
       },
       {
         "insertions": 0,
         "deletions": 0,
-        "sinceDate": "2018-03-06",
-        "untilDate": "2018-03-07"
+        "date": "2018-03-06",
+        "commitResults": []
       },
       {
         "insertions": 0,
         "deletions": 0,
-        "sinceDate": "2018-03-07",
-        "untilDate": "2018-03-08"
+        "date": "2018-03-07",
+        "commitResults": []
       },
       {
         "insertions": 0,
         "deletions": 0,
-        "sinceDate": "2018-03-08",
-        "untilDate": "2018-03-09"
+        "date": "2018-03-08",
+        "commitResults": []
       },
       {
         "insertions": 68,
         "deletions": 2,
-        "sinceDate": "2018-03-09",
-        "untilDate": "2018-03-10"
+        "date": "2018-03-09",
+        "commitResults": [
+          {
+            "hash": "0821b695403037f7d809269543c12a16321e5665",
+            "message": "Added user stories to developer guide.",
+            "insertions": 68,
+            "deletions": 2
+          }
+        ]
       },
       {
         "insertions": 0,
         "deletions": 0,
-        "sinceDate": "2018-03-10",
-        "untilDate": "2018-03-11"
+        "date": "2018-03-10",
+        "commitResults": []
       },
       {
         "insertions": 0,
         "deletions": 0,
-        "sinceDate": "2018-03-11",
-        "untilDate": "2018-03-12"
+        "date": "2018-03-11",
+        "commitResults": []
       },
       {
         "insertions": 0,
         "deletions": 0,
-        "sinceDate": "2018-03-12",
-        "untilDate": "2018-03-13"
+        "date": "2018-03-12",
+        "commitResults": []
       },
       {
         "insertions": 0,
         "deletions": 0,
-        "sinceDate": "2018-03-13",
-        "untilDate": "2018-03-14"
+        "date": "2018-03-13",
+        "commitResults": []
       },
       {
         "insertions": 0,
         "deletions": 0,
-        "sinceDate": "2018-03-14",
-        "untilDate": "2018-03-15"
+        "date": "2018-03-14",
+        "commitResults": []
       },
       {
         "insertions": 46,
         "deletions": 2,
-        "sinceDate": "2018-03-15",
-        "untilDate": "2018-03-16"
+        "date": "2018-03-15",
+        "commitResults": [
+          {
+            "hash": "1ed8b502950c3b5d41e2917b13f0d2a9b67c80e3",
+            "message": "Updated userguide for v2.0",
+            "insertions": 13,
+            "deletions": 2
+          },
+          {
+            "hash": "313506e09f3aab63544d2d2757d26aa774ebaa74",
+            "message": "Updated developer guide for v2.0",
+            "insertions": 33,
+            "deletions": 0
+          }
+        ]
       },
       {
         "insertions": 0,
         "deletions": 0,
-        "sinceDate": "2018-03-16",
-        "untilDate": "2018-03-17"
+        "date": "2018-03-16",
+        "commitResults": []
       },
       {
         "insertions": 0,
         "deletions": 0,
-        "sinceDate": "2018-03-17",
-        "untilDate": "2018-03-18"
+        "date": "2018-03-17",
+        "commitResults": []
       },
       {
         "insertions": 0,
         "deletions": 0,
-        "sinceDate": "2018-03-18",
-        "untilDate": "2018-03-19"
+        "date": "2018-03-18",
+        "commitResults": []
       },
       {
         "insertions": 0,
         "deletions": 0,
-        "sinceDate": "2018-03-19",
-        "untilDate": "2018-03-20"
+        "date": "2018-03-19",
+        "commitResults": []
       },
       {
         "insertions": 0,
         "deletions": 0,
-        "sinceDate": "2018-03-20",
-        "untilDate": "2018-03-21"
+        "date": "2018-03-20",
+        "commitResults": []
       },
       {
         "insertions": 0,
         "deletions": 0,
-        "sinceDate": "2018-03-21",
-        "untilDate": "2018-03-22"
+        "date": "2018-03-21",
+        "commitResults": []
       },
       {
         "insertions": 0,
         "deletions": 0,
-        "sinceDate": "2018-03-22",
-        "untilDate": "2018-03-23"
+        "date": "2018-03-22",
+        "commitResults": []
       },
       {
         "insertions": 10,
         "deletions": 9,
-        "sinceDate": "2018-03-23",
-        "untilDate": "2018-03-24"
+        "date": "2018-03-23",
+        "commitResults": [
+          {
+            "hash": "6f6c76023def0eafc2fa90e9e2a393d9990b4166",
+            "message": "update user guide",
+            "insertions": 8,
+            "deletions": 7
+          },
+          {
+            "hash": "937bfbba3665e7dc5dbff682e8539cf870055246",
+            "message": "-Added new command strings to autocomplete -Fix correct use of []",
+            "insertions": 2,
+            "deletions": 2
+          }
+        ]
       },
       {
         "insertions": 0,
         "deletions": 0,
-        "sinceDate": "2018-03-24",
-        "untilDate": "2018-03-25"
+        "date": "2018-03-24",
+        "commitResults": []
       },
       {
         "insertions": 0,
         "deletions": 0,
-        "sinceDate": "2018-03-25",
-        "untilDate": "2018-03-26"
+        "date": "2018-03-25",
+        "commitResults": []
       },
       {
         "insertions": 0,
         "deletions": 0,
-        "sinceDate": "2018-03-26",
-        "untilDate": "2018-03-27"
+        "date": "2018-03-26",
+        "commitResults": []
       },
       {
         "insertions": 0,
         "deletions": 0,
-        "sinceDate": "2018-03-27",
-        "untilDate": "2018-03-28"
+        "date": "2018-03-27",
+        "commitResults": []
       },
       {
         "insertions": 0,
         "deletions": 0,
-        "sinceDate": "2018-03-28",
-        "untilDate": "2018-03-29"
+        "date": "2018-03-28",
+        "commitResults": []
       },
       {
         "insertions": 0,
         "deletions": 0,
-        "sinceDate": "2018-03-29",
-        "untilDate": "2018-03-30"
+        "date": "2018-03-29",
+        "commitResults": []
       },
       {
         "insertions": 2,
         "deletions": 2,
-        "sinceDate": "2018-03-30",
-        "untilDate": "2018-03-31"
+        "date": "2018-03-30",
+        "commitResults": [
+          {
+            "hash": "34ed7be74295dcd48520c40e1254de526057b1e8",
+            "message": "update userguide",
+            "insertions": 2,
+            "deletions": 2
+          }
+        ]
       },
       {
         "insertions": 0,
         "deletions": 0,
-        "sinceDate": "2018-03-31",
-        "untilDate": "2018-04-01"
+        "date": "2018-03-31",
+        "commitResults": []
       },
       {
         "insertions": 0,
         "deletions": 0,
-        "sinceDate": "2018-04-01",
-        "untilDate": "2018-04-02"
+        "date": "2018-04-01",
+        "commitResults": []
       },
       {
         "insertions": 0,
         "deletions": 0,
-        "sinceDate": "2018-04-02",
-        "untilDate": "2018-04-03"
+        "date": "2018-04-02",
+        "commitResults": []
       },
       {
         "insertions": 0,
         "deletions": 0,
-        "sinceDate": "2018-04-03",
-        "untilDate": "2018-04-04"
+        "date": "2018-04-03",
+        "commitResults": []
       },
       {
         "insertions": 0,
         "deletions": 0,
-        "sinceDate": "2018-04-04",
-        "untilDate": "2018-04-05"
+        "date": "2018-04-04",
+        "commitResults": []
       },
       {
         "insertions": 0,
         "deletions": 0,
-        "sinceDate": "2018-04-05",
-        "untilDate": "2018-04-06"
+        "date": "2018-04-05",
+        "commitResults": []
       },
       {
         "insertions": 0,
         "deletions": 0,
-        "sinceDate": "2018-04-06",
-        "untilDate": "2018-04-07"
+        "date": "2018-04-06",
+        "commitResults": []
       },
       {
         "insertions": 0,
         "deletions": 0,
-        "sinceDate": "2018-04-07",
-        "untilDate": "2018-04-08"
+        "date": "2018-04-07",
+        "commitResults": []
       },
       {
         "insertions": 0,
         "deletions": 0,
-        "sinceDate": "2018-04-08",
-        "untilDate": "2018-04-09"
+        "date": "2018-04-08",
+        "commitResults": []
       },
       {
         "insertions": 1,
         "deletions": 1,
-        "sinceDate": "2018-04-09",
-        "untilDate": "2018-04-10"
+        "date": "2018-04-09",
+        "commitResults": [
+          {
+            "hash": "dacdd3a631a8690b1dea18fd59bcfe2aeb25cabd",
+            "message": "fix help multiple windows bug fix After clicking on tab after entering list command it doesn\u0027t turn red even tho it has no extra parameters fix export command in uder guide",
+            "insertions": 1,
+            "deletions": 1
+          }
+        ]
       },
       {
         "insertions": 56,
         "deletions": 5,
-        "sinceDate": "2018-04-10",
-        "untilDate": "2018-04-11"
+        "date": "2018-04-10",
+        "commitResults": [
+          {
+            "hash": "845a4384071fe901cd40c84ae322f846a6b346d1",
+            "message": "Added PPP and change prefix for avatar",
+            "insertions": 55,
+            "deletions": 4
+          },
+          {
+            "hash": "53058c48ce9f286ad865abf5763f8e6063cdffb3",
+            "message": "add newline",
+            "insertions": 1,
+            "deletions": 1
+          }
+        ]
       },
       {
         "insertions": 60,
         "deletions": 46,
-        "sinceDate": "2018-04-11",
-        "untilDate": "2018-04-12"
+        "date": "2018-04-11",
+        "commitResults": [
+          {
+            "hash": "5741509ed275ebe2bb1488f3ca618f72110b8648",
+            "message": "Update ppp and some collate tags",
+            "insertions": 42,
+            "deletions": 28
+          },
+          {
+            "hash": "90bd6deffdd8b267090dca12f645d8f373db06c7",
+            "message": "Added circleci status badge",
+            "insertions": 1,
+            "deletions": 0
+          },
+          {
+            "hash": "500d7017b4a498f3dd95a80901a6487306f156f5",
+            "message": "fix circle ci badge",
+            "insertions": 1,
+            "deletions": 1
+          },
+          {
+            "hash": "dfa7bbde76b65cefc9b991127d1a387e4fc2f8ca",
+            "message": "Update userguide and collate",
+            "insertions": 16,
+            "deletions": 17
+          }
+        ]
       },
       {
         "insertions": 73,
         "deletions": 16,
-        "sinceDate": "2018-04-12",
-        "untilDate": "2018-04-13"
+        "date": "2018-04-12",
+        "commitResults": [
+          {
+            "hash": "ecd417c0c1fcb111114f7a7ba34ad85af8d6295c",
+            "message": "Update quick start",
+            "insertions": 72,
+            "deletions": 14
+          },
+          {
+            "hash": "c3a7e736cbb9d65a02ac2be1a6742bf196177ac7",
+            "message": "Fix checkstyle",
+            "insertions": 1,
+            "deletions": 2
+          }
+        ]
       },
       {
         "insertions": 76,
         "deletions": 64,
-        "sinceDate": "2018-04-13",
-        "untilDate": "2018-04-14"
+        "date": "2018-04-13",
+        "commitResults": [
+          {
+            "hash": "7d8ed3452ba2152ee2e792e969cfddcf32516f35",
+            "message": "Update quick start",
+            "insertions": 74,
+            "deletions": 62
+          },
+          {
+            "hash": "d918b5597f82b7c4b1be70b762bbbacdd34080f0",
+            "message": "Fix Ui guide",
+            "insertions": 1,
+            "deletions": 1
+          },
+          {
+            "hash": "85ce9496dcee768ed1a6900dd420dcddfc427403",
+            "message": "fix create image",
+            "insertions": 1,
+            "deletions": 1
+          }
+        ]
       },
       {
         "insertions": 2,
         "deletions": 0,
-        "sinceDate": "2018-04-14",
-        "untilDate": "2018-04-15"
+        "date": "2018-04-14",
+        "commitResults": [
+          {
+            "hash": "6bed3ffa42dba02927f8d2878e6b423cdee2fd89",
+            "message": "no message",
+            "insertions": 2,
+            "deletions": 0
+          }
+        ]
       },
       {
         "insertions": 154,
         "deletions": 15,
-        "sinceDate": "2018-04-15",
-        "untilDate": "2018-04-16"
+        "date": "2018-04-15",
+        "commitResults": [
+          {
+            "hash": "eda516d6ffde5c58ea12e7b4585487cde1e686ee",
+            "message": "Remove line",
+            "insertions": 0,
+            "deletions": 2
+          },
+          {
+            "hash": "ae85e47558d4b6493b8b5f6e0593ebf569535e5b",
+            "message": "Change privacy and key information in fundamentals",
+            "insertions": 5,
+            "deletions": 3
+          },
+          {
+            "hash": "3bb5fe1e8e7fa021d3d435aef1fbe6fb8f9916a1",
+            "message": "Changed Readme",
+            "insertions": 1,
+            "deletions": 1
+          },
+          {
+            "hash": "2a843e7afc0419c8e709005a57533fb81f90e972",
+            "message": "Added player component to dg",
+            "insertions": 129,
+            "deletions": 2
+          },
+          {
+            "hash": "892f1cc40539f189fd837ca2c0062a91a742e92c",
+            "message": "Updated dev guide",
+            "insertions": 18,
+            "deletions": 4
+          },
+          {
+            "hash": "fbe8d0d5160127af3a276b0997892dc98db2de65",
+            "message": "Fix end tag",
+            "insertions": 1,
+            "deletions": 1
+          },
+          {
+            "hash": "7ee7a7e700fbb6cec77e80128bdb0e000da6d8ca",
+            "message": "Removed introduction",
+            "insertions": 0,
+            "deletions": 2
+          }
+        ]
       }
     ],
     "lohtianwei": [
       {
         "insertions": 0,
         "deletions": 0,
-        "sinceDate": "2018-03-01",
-        "untilDate": "2018-03-02"
+        "date": "2018-03-01",
+        "commitResults": []
       },
       {
         "insertions": 0,
         "deletions": 0,
-        "sinceDate": "2018-03-02",
-        "untilDate": "2018-03-03"
+        "date": "2018-03-02",
+        "commitResults": []
       },
       {
         "insertions": 0,
         "deletions": 0,
-        "sinceDate": "2018-03-03",
-        "untilDate": "2018-03-04"
+        "date": "2018-03-03",
+        "commitResults": []
       },
       {
         "insertions": 0,
         "deletions": 0,
-        "sinceDate": "2018-03-04",
-        "untilDate": "2018-03-05"
+        "date": "2018-03-04",
+        "commitResults": []
       },
       {
         "insertions": 0,
         "deletions": 0,
-        "sinceDate": "2018-03-05",
-        "untilDate": "2018-03-06"
+        "date": "2018-03-05",
+        "commitResults": []
       },
       {
         "insertions": 0,
         "deletions": 0,
-        "sinceDate": "2018-03-06",
-        "untilDate": "2018-03-07"
+        "date": "2018-03-06",
+        "commitResults": []
       },
       {
         "insertions": 0,
         "deletions": 0,
-        "sinceDate": "2018-03-07",
-        "untilDate": "2018-03-08"
+        "date": "2018-03-07",
+        "commitResults": []
       },
       {
         "insertions": 0,
         "deletions": 0,
-        "sinceDate": "2018-03-08",
-        "untilDate": "2018-03-09"
+        "date": "2018-03-08",
+        "commitResults": []
       },
       {
         "insertions": 102,
         "deletions": 1,
-        "sinceDate": "2018-03-09",
-        "untilDate": "2018-03-10"
+        "date": "2018-03-09",
+        "commitResults": [
+          {
+            "hash": "e4ef52408f20318ae565f40886d938aed329086f",
+            "message": "Minor edits to target user profile and value proposition in DEV GUIDE",
+            "insertions": 3,
+            "deletions": 1
+          },
+          {
+            "hash": "15470f7ade79e0147d032e15c4895b4938702e4f",
+            "message": "AddressBookParser:Add alias for Addcommand",
+            "insertions": 9,
+            "deletions": 0
+          },
+          {
+            "hash": "95abeede889a31caf076b6377b327e43d6bc2cee",
+            "message": "AddressBookParser: Add alias for EditCommand",
+            "insertions": 11,
+            "deletions": 0
+          },
+          {
+            "hash": "bacc0b716fb216f2d21bc347410985e30161347b",
+            "message": "AdressBookParser: Add alias for selectCommand",
+            "insertions": 9,
+            "deletions": 0
+          },
+          {
+            "hash": "ef2dd3f68b07ece04005fd5c4c45f4967cc70963",
+            "message": "AddressBookParser: Add alias for DeleteCommand",
+            "insertions": 9,
+            "deletions": 0
+          },
+          {
+            "hash": "f7e839f0a73bfec04117a2264cfc8d94a927d514",
+            "message": "AddressBookParser: Add alias for clearCommand",
+            "insertions": 8,
+            "deletions": 0
+          },
+          {
+            "hash": "b4c2ecca4c0ce629b0aeba75e4b3b972fbe85e0b",
+            "message": "AdressBookParser: Add alias for FindCommand",
+            "insertions": 10,
+            "deletions": 0
+          },
+          {
+            "hash": "65ab45d0a89ba38567c095b10db894747f603a2e",
+            "message": "AddressBookParser: Add alias for listCommand",
+            "insertions": 8,
+            "deletions": 0
+          },
+          {
+            "hash": "b086d334c5db73294b7c76436af46e3e4879102c",
+            "message": "AddressBookParser: Add alias for historyCommand",
+            "insertions": 8,
+            "deletions": 0
+          },
+          {
+            "hash": "486b9ca9ff65ac3b45d43d43451e20bf03b9ed04",
+            "message": "AddressBookParser: Add alias for undoCommand",
+            "insertions": 8,
+            "deletions": 0
+          },
+          {
+            "hash": "dd853a209df4b4810ac5f669b5babb8743cb7a5a",
+            "message": "AddressBookParser: Add alias for redoCommand",
+            "insertions": 8,
+            "deletions": 0
+          },
+          {
+            "hash": "e044c7f70e49fac1fbd33b402be5ba201838a9b0",
+            "message": "UserGuide: Add command aliases",
+            "insertions": 11,
+            "deletions": 0
+          }
+        ]
       },
       {
         "insertions": 0,
         "deletions": 0,
-        "sinceDate": "2018-03-10",
-        "untilDate": "2018-03-11"
+        "date": "2018-03-10",
+        "commitResults": []
       },
       {
         "insertions": 0,
         "deletions": 0,
-        "sinceDate": "2018-03-11",
-        "untilDate": "2018-03-12"
+        "date": "2018-03-11",
+        "commitResults": []
       },
       {
         "insertions": 0,
         "deletions": 0,
-        "sinceDate": "2018-03-12",
-        "untilDate": "2018-03-13"
+        "date": "2018-03-12",
+        "commitResults": []
       },
       {
         "insertions": 0,
         "deletions": 0,
-        "sinceDate": "2018-03-13",
-        "untilDate": "2018-03-14"
+        "date": "2018-03-13",
+        "commitResults": []
       },
       {
         "insertions": 0,
         "deletions": 0,
-        "sinceDate": "2018-03-14",
-        "untilDate": "2018-03-15"
+        "date": "2018-03-14",
+        "commitResults": []
       },
       {
         "insertions": 196,
         "deletions": 13,
-        "sinceDate": "2018-03-15",
-        "untilDate": "2018-03-16"
+        "date": "2018-03-15",
+        "commitResults": [
+          {
+            "hash": "55842f5443086411149c45f58388868e2e4ea376",
+            "message": "Added sort function",
+            "insertions": 196,
+            "deletions": 13
+          }
+        ]
       },
       {
         "insertions": 7,
         "deletions": 7,
-        "sinceDate": "2018-03-16",
-        "untilDate": "2018-03-17"
+        "date": "2018-03-16",
+        "commitResults": [
+          {
+            "hash": "56fe3371acccdb958b83fb14c02b5eb8d8020d3a",
+            "message": "Edited userguide features portion 3.4-3.6",
+            "insertions": 7,
+            "deletions": 7
+          }
+        ]
       },
       {
         "insertions": 0,
         "deletions": 0,
-        "sinceDate": "2018-03-17",
-        "untilDate": "2018-03-18"
+        "date": "2018-03-17",
+        "commitResults": []
       },
       {
         "insertions": 0,
         "deletions": 0,
-        "sinceDate": "2018-03-18",
-        "untilDate": "2018-03-19"
+        "date": "2018-03-18",
+        "commitResults": []
       },
       {
         "insertions": 51,
         "deletions": 7,
-        "sinceDate": "2018-03-19",
-        "untilDate": "2018-03-20"
+        "date": "2018-03-19",
+        "commitResults": [
+          {
+            "hash": "379a1949e354fdbc3636172db5130558cc7afc8a",
+            "message": "Edits done to sort function based on Jordan\u0027s comments",
+            "insertions": 1,
+            "deletions": 2
+          },
+          {
+            "hash": "933235a2f8c458c4b57beac44ac1ff4fd853ea8f",
+            "message": "Updated user guide for feature sort. Added user guide for feature bestXI and set fields to private",
+            "insertions": 29,
+            "deletions": 5
+          },
+          {
+            "hash": "6b264039b2138bd5a99455d162c11f9a94f68c39",
+            "message": "DevGuide: Implementation",
+            "insertions": 14,
+            "deletions": 0
+          },
+          {
+            "hash": "a070b6117343c78d4444e0824e38b536427c8e55",
+            "message": "DevGuide:Implementation for showBest added",
+            "insertions": 7,
+            "deletions": 0
+          }
+        ]
       },
       {
         "insertions": 9,
         "deletions": 4,
-        "sinceDate": "2018-03-20",
-        "untilDate": "2018-03-21"
+        "date": "2018-03-20",
+        "commitResults": [
+          {
+            "hash": "342022a12e1b296dbde96a0d6c171f93c9ed06a6",
+            "message": "Minor edit to sortCommand: Change usage example.",
+            "insertions": 8,
+            "deletions": 2
+          },
+          {
+            "hash": "6f19ba6513957b5e27312970fbf933707db57985",
+            "message": "Removed additional line break in sort command",
+            "insertions": 1,
+            "deletions": 2
+          }
+        ]
       },
       {
         "insertions": 258,
         "deletions": 0,
-        "sinceDate": "2018-03-21",
-        "untilDate": "2018-03-22"
+        "date": "2018-03-21",
+        "commitResults": [
+          {
+            "hash": "806daf429c576f8f53d2cdc602bc06b4c4600a1e",
+            "message": "Added test cases for Sort function.",
+            "insertions": 258,
+            "deletions": 0
+          }
+        ]
       },
       {
         "insertions": 134,
         "deletions": 97,
-        "sinceDate": "2018-03-22",
-        "untilDate": "2018-03-23"
+        "date": "2018-03-22",
+        "commitResults": [
+          {
+            "hash": "e1a2f9fc13f0f7de5732559e8ef9f380a2ebcca8",
+            "message": "Fixed checkstyle error for Travis",
+            "insertions": 40,
+            "deletions": 29
+          },
+          {
+            "hash": "867396b5927cf33a62d9af0d8cf2b7f264c34555",
+            "message": "Removed trailing whitespaces according to Travis checks",
+            "insertions": 4,
+            "deletions": 4
+          },
+          {
+            "hash": "fc35bc155ae60091d188b456d22fa94f031adee8",
+            "message": "Edited sort tests to appease Travis",
+            "insertions": 25,
+            "deletions": 26
+          },
+          {
+            "hash": "71266a9804ed611124ab958045d7595d289a339a",
+            "message": "edit test files for travis testing",
+            "insertions": 15,
+            "deletions": 15
+          },
+          {
+            "hash": "e6466a174901bc27886887b897cd0afcb76a521a",
+            "message": "Made minor changes to sort command and it\u0027s parser to throw appropriate exceptions to allow test cases to pass.",
+            "insertions": 25,
+            "deletions": 0
+          },
+          {
+            "hash": "a334ec531a61061a28a9de2c6982f0a77214d7c5",
+            "message": "SortCommandParserTest: Removed redundant whitespaces",
+            "insertions": 13,
+            "deletions": 13
+          },
+          {
+            "hash": "fe087b9ecf042ce5aaa256d27ff879641968fbfa",
+            "message": "Travis checkstyle edit",
+            "insertions": 2,
+            "deletions": 1
+          },
+          {
+            "hash": "87888d4c9579336198e1c2f49272b7c3bd5bc4ab",
+            "message": "Removed 1 test case temporarily for sortCommand",
+            "insertions": 3,
+            "deletions": 3
+          },
+          {
+            "hash": "fd406f4169c0b5ceb89374862ca6c0fa9a7fc728",
+            "message": "Minor checkstyle edit for sort command parser test",
+            "insertions": 7,
+            "deletions": 6
+          }
+        ]
       },
       {
         "insertions": 107,
         "deletions": 0,
-        "sinceDate": "2018-03-23",
-        "untilDate": "2018-03-24"
+        "date": "2018-03-23",
+        "commitResults": [
+          {
+            "hash": "7fd47b674bffbf2f8c0d42b23e70c50aa6d5a24d",
+            "message": "DevGuide: Updated implementation for Sort Command",
+            "insertions": 107,
+            "deletions": 0
+          }
+        ]
       },
       {
         "insertions": 0,
         "deletions": 0,
-        "sinceDate": "2018-03-24",
-        "untilDate": "2018-03-25"
+        "date": "2018-03-24",
+        "commitResults": []
       },
       {
         "insertions": 0,
         "deletions": 0,
-        "sinceDate": "2018-03-25",
-        "untilDate": "2018-03-26"
+        "date": "2018-03-25",
+        "commitResults": []
       },
       {
         "insertions": 0,
         "deletions": 0,
-        "sinceDate": "2018-03-26",
-        "untilDate": "2018-03-27"
+        "date": "2018-03-26",
+        "commitResults": []
       },
       {
         "insertions": 0,
         "deletions": 0,
-        "sinceDate": "2018-03-27",
-        "untilDate": "2018-03-28"
+        "date": "2018-03-27",
+        "commitResults": []
       },
       {
         "insertions": 0,
         "deletions": 0,
-        "sinceDate": "2018-03-28",
-        "untilDate": "2018-03-29"
+        "date": "2018-03-28",
+        "commitResults": []
       },
       {
         "insertions": 0,
         "deletions": 0,
-        "sinceDate": "2018-03-29",
-        "untilDate": "2018-03-30"
+        "date": "2018-03-29",
+        "commitResults": []
       },
       {
         "insertions": 65,
         "deletions": 82,
-        "sinceDate": "2018-03-30",
-        "untilDate": "2018-03-31"
+        "date": "2018-03-30",
+        "commitResults": [
+          {
+            "hash": "4526e0910ebb486fe690b4e417bfbccd3092a85d",
+            "message": "Minor updates to Toggleprivacy. Privacy toggles and changes in addressbook.xml but display still shows plaintext",
+            "insertions": 45,
+            "deletions": 61
+          },
+          {
+            "hash": "eac0df1a1d0fafb28f4828ee204790350756848b",
+            "message": "Minor change to xmladapated person for toggle privacy function to save permanently",
+            "insertions": 20,
+            "deletions": 21
+          }
+        ]
       },
       {
         "insertions": 43,
         "deletions": 8,
-        "sinceDate": "2018-03-31",
-        "untilDate": "2018-04-01"
+        "date": "2018-03-31",
+        "commitResults": [
+          {
+            "hash": "f3e6adc221749d6819b8602f6ea46320771933cc",
+            "message": "Minor update to UI portion Person Card to ensure private fields do not show plaintext in panel list",
+            "insertions": 25,
+            "deletions": 4
+          },
+          {
+            "hash": "12f95796f6a7b2e04e7d13652ffd768e01204c12",
+            "message": "Minor update to UI portion PlayerDetails to ensure private fields are not displayed in side panel",
+            "insertions": 18,
+            "deletions": 4
+          }
+        ]
       },
       {
         "insertions": 0,
         "deletions": 0,
-        "sinceDate": "2018-04-01",
-        "untilDate": "2018-04-02"
+        "date": "2018-04-01",
+        "commitResults": []
       },
       {
         "insertions": 0,
         "deletions": 0,
-        "sinceDate": "2018-04-02",
-        "untilDate": "2018-04-03"
+        "date": "2018-04-02",
+        "commitResults": []
       },
       {
         "insertions": 0,
         "deletions": 0,
-        "sinceDate": "2018-04-03",
-        "untilDate": "2018-04-04"
+        "date": "2018-04-03",
+        "commitResults": []
       },
       {
         "insertions": 0,
         "deletions": 0,
-        "sinceDate": "2018-04-04",
-        "untilDate": "2018-04-05"
+        "date": "2018-04-04",
+        "commitResults": []
       },
       {
         "insertions": 212,
         "deletions": 61,
-        "sinceDate": "2018-04-05",
-        "untilDate": "2018-04-06"
+        "date": "2018-04-05",
+        "commitResults": [
+          {
+            "hash": "07ad8a7cb4a0da747a853e37001d2e1b0bc7046a",
+            "message": "Updated TogglePrivacyCommand to include new fields added. PersonCard updated to ensure privated fields cannot be seen. XMLAdaptedPerson updated to save Rating privacy Changes made to Rating Class to allow privacy setting",
+            "insertions": 81,
+            "deletions": 5
+          },
+          {
+            "hash": "e78b54c2e63826714795cc9b31d1cc02368aa427",
+            "message": "no message",
+            "insertions": 0,
+            "deletions": 3
+          },
+          {
+            "hash": "0652617c03d5bf99ef04b79346ea23b7ecee15df",
+            "message": "Resolve conflicts",
+            "insertions": 0,
+            "deletions": 4
+          },
+          {
+            "hash": "6be5cc5d0d0995d2905f3d3081822018ca64e440",
+            "message": "Minor update to command usage",
+            "insertions": 4,
+            "deletions": 0
+          },
+          {
+            "hash": "27b85087afcf2000bd8f4cece8d6f445c2b5f7ee",
+            "message": "Fix Checkstyle errors",
+            "insertions": 44,
+            "deletions": 18
+          },
+          {
+            "hash": "4550d779031456ab2cdc0488d7f907ee8492f152",
+            "message": "Fix checkstyle",
+            "insertions": 3,
+            "deletions": 1
+          },
+          {
+            "hash": "6ffe0468a6f61777ba70aa594fada6a92148e4a6",
+            "message": "Checkstyle",
+            "insertions": 5,
+            "deletions": 3
+          },
+          {
+            "hash": "3debb89f556207d50fbede51b22b2dae534d29ed",
+            "message": "Checkstyle yet again",
+            "insertions": 7,
+            "deletions": 0
+          },
+          {
+            "hash": "3a28cab3f00ed710d0d2aa17302c5c68f3c8fc9c",
+            "message": "Updated sort command to include fields: JerseyNum, Position and Rating. Updated sort command to exclude field: Phone",
+            "insertions": 28,
+            "deletions": 5
+          },
+          {
+            "hash": "368b06813203f6397e61216683271efe50da7b63",
+            "message": "Removed outdated test case",
+            "insertions": 2,
+            "deletions": 18
+          },
+          {
+            "hash": "f8a1fdf20370da4d03c39ad19481ad435609f4aa",
+            "message": "Anotonate for collate",
+            "insertions": 15,
+            "deletions": 2
+          },
+          {
+            "hash": "a75099d80a5ebf195c93a9f9f3edf78d999790a5",
+            "message": "Userguide: Updated Sort feature and Toggle Privacy Feature",
+            "insertions": 23,
+            "deletions": 2
+          }
+        ]
       },
       {
         "insertions": 0,
         "deletions": 0,
-        "sinceDate": "2018-04-06",
-        "untilDate": "2018-04-07"
+        "date": "2018-04-06",
+        "commitResults": []
       },
       {
         "insertions": 0,
         "deletions": 0,
-        "sinceDate": "2018-04-07",
-        "untilDate": "2018-04-08"
+        "date": "2018-04-07",
+        "commitResults": []
       },
       {
         "insertions": 0,
         "deletions": 0,
-        "sinceDate": "2018-04-08",
-        "untilDate": "2018-04-09"
+        "date": "2018-04-08",
+        "commitResults": []
       },
       {
         "insertions": 0,
         "deletions": 0,
-        "sinceDate": "2018-04-09",
-        "untilDate": "2018-04-10"
+        "date": "2018-04-09",
+        "commitResults": []
       },
       {
         "insertions": 330,
         "deletions": 80,
-        "sinceDate": "2018-04-10",
-        "untilDate": "2018-04-11"
+        "date": "2018-04-10",
+        "commitResults": [
+          {
+            "hash": "4fe9716a6d09ec1794c7d5e93e7c32e506e88fbe",
+            "message": "Added Key Command. Toggles between locking and unlocking of the MTM. In a locked state, MTM has limited functionality: Change Theme, Find, List, Key, View, Exit, Help, Sort. Unlocked state has full functionality.",
+            "insertions": 286,
+            "deletions": 72
+          },
+          {
+            "hash": "d3561646c124d32f19bf68f052279407767fc25a",
+            "message": "Edited Key command to show current lock state when no password is entered",
+            "insertions": 14,
+            "deletions": 3
+          },
+          {
+            "hash": "c4e606b177e85be9207aa8e5085aa08308aa0ca2",
+            "message": "Checkstyles",
+            "insertions": 4,
+            "deletions": 5
+          },
+          {
+            "hash": "2d8d475bee1404af52c0572422a7cdb32bec0b8b",
+            "message": "Checkstyle again",
+            "insertions": 3,
+            "deletions": 0
+          },
+          {
+            "hash": "a10d1066dc3de1db7cd8d3dd1798b6c6584de9a6",
+            "message": "Checkstyle luvit",
+            "insertions": 23,
+            "deletions": 0
+          }
+        ]
       },
       {
         "insertions": 48,
         "deletions": 3,
-        "sinceDate": "2018-04-11",
-        "untilDate": "2018-04-12"
+        "date": "2018-04-11",
+        "commitResults": [
+          {
+            "hash": "6df9792246dd7e46d4dbc81f38f0f95311af5a24",
+            "message": "Minor edits to UG features portion",
+            "insertions": 48,
+            "deletions": 3
+          }
+        ]
       },
       {
         "insertions": 419,
         "deletions": 85,
-        "sinceDate": "2018-04-12",
-        "untilDate": "2018-04-13"
+        "date": "2018-04-12",
+        "commitResults": [
+          {
+            "hash": "741c2631fca2f084d0d083d5607e985483a69381",
+            "message": "DevGuide: Updated sort, toggle privacy and lock MTM",
+            "insertions": 253,
+            "deletions": 23
+          },
+          {
+            "hash": "547828b327324784581897b933e477227a972789",
+            "message": "Collate, PPP",
+            "insertions": 166,
+            "deletions": 62
+          }
+        ]
       },
       {
         "insertions": 0,
         "deletions": 0,
-        "sinceDate": "2018-04-13",
-        "untilDate": "2018-04-14"
+        "date": "2018-04-13",
+        "commitResults": []
       },
       {
         "insertions": 357,
         "deletions": 55,
-        "sinceDate": "2018-04-14",
-        "untilDate": "2018-04-15"
+        "date": "2018-04-14",
+        "commitResults": [
+          {
+            "hash": "f377bc7b5ff27a0bc1c11177d2cb7ecffaa2ffa2",
+            "message": "Added Sort Sequence Diagram and Key activity diagram to DevGuide",
+            "insertions": 17,
+            "deletions": 10
+          },
+          {
+            "hash": "e194b3980139cd66cd9bb22d5934cd74a75fc07f",
+            "message": "Minor edit to Key command message success to show current lock state",
+            "insertions": 2,
+            "deletions": 1
+          },
+          {
+            "hash": "2a14f88387cb3da57541084f9a8ddec8817e0b4a",
+            "message": "Minor edit to sort function: When sorting, private fields will all be place together",
+            "insertions": 3,
+            "deletions": 3
+          },
+          {
+            "hash": "dff0632ae1549a66179874d42537461349ae19db",
+            "message": "Minor edit to sort command to show correct usage for sorting in descending order",
+            "insertions": 1,
+            "deletions": 0
+          },
+          {
+            "hash": "ee8271bfde66db3aeb3eca84f14768a22e2dedcd",
+            "message": "Edit to DG sort portion, update code snippet",
+            "insertions": 40,
+            "deletions": 40
+          },
+          {
+            "hash": "08603d466ab8eff0f2f62b10558210e1372cf7a6",
+            "message": "Edit toggle privacy command to handle no prefix input",
+            "insertions": 12,
+            "deletions": 0
+          },
+          {
+            "hash": "1392332abce54868138114b632f72e213db45f52",
+            "message": "Test cases for Key and Toggle Privacy and their respective command parsers",
+            "insertions": 272,
+            "deletions": 0
+          },
+          {
+            "hash": "d3342cf9fcdcb0770215f09665a695885caf5e0c",
+            "message": "Added javadoc to a method in Toggle Privacy",
+            "insertions": 4,
+            "deletions": 0
+          },
+          {
+            "hash": "b07411fb021c74750f37ea8a2b6a9e2e821b0d77",
+            "message": "Checkstyle",
+            "insertions": 6,
+            "deletions": 1
+          }
+        ]
       },
       {
         "insertions": 6,
         "deletions": 63,
-        "sinceDate": "2018-04-15",
-        "untilDate": "2018-04-16"
+        "date": "2018-04-15",
+        "commitResults": [
+          {
+            "hash": "8774826cf0ee7922c349cdcb3ee207586f9d1e18",
+            "message": "no message",
+            "insertions": 0,
+            "deletions": 4
+          },
+          {
+            "hash": "625da21556a1ec353ffa7a887e4057b9807a4fba",
+            "message": "no message",
+            "insertions": 2,
+            "deletions": 55
+          },
+          {
+            "hash": "6f172199f88aca5d079a3b83a00c3a8eac257960",
+            "message": "no message",
+            "insertions": 4,
+            "deletions": 4
+          }
+        ]
       }
     ],
     "codeeong": [
       {
         "insertions": 0,
         "deletions": 0,
-        "sinceDate": "2018-03-01",
-        "untilDate": "2018-03-02"
+        "date": "2018-03-01",
+        "commitResults": []
       },
       {
         "insertions": 0,
         "deletions": 0,
-        "sinceDate": "2018-03-02",
-        "untilDate": "2018-03-03"
+        "date": "2018-03-02",
+        "commitResults": []
       },
       {
         "insertions": 0,
         "deletions": 0,
-        "sinceDate": "2018-03-03",
-        "untilDate": "2018-03-04"
+        "date": "2018-03-03",
+        "commitResults": []
       },
       {
         "insertions": 0,
         "deletions": 0,
-        "sinceDate": "2018-03-04",
-        "untilDate": "2018-03-05"
+        "date": "2018-03-04",
+        "commitResults": []
       },
       {
         "insertions": 0,
         "deletions": 0,
-        "sinceDate": "2018-03-05",
-        "untilDate": "2018-03-06"
+        "date": "2018-03-05",
+        "commitResults": []
       },
       {
         "insertions": 0,
         "deletions": 0,
-        "sinceDate": "2018-03-06",
-        "untilDate": "2018-03-07"
+        "date": "2018-03-06",
+        "commitResults": []
       },
       {
         "insertions": 0,
         "deletions": 0,
-        "sinceDate": "2018-03-07",
-        "untilDate": "2018-03-08"
+        "date": "2018-03-07",
+        "commitResults": []
       },
       {
         "insertions": 0,
         "deletions": 0,
-        "sinceDate": "2018-03-08",
-        "untilDate": "2018-03-09"
+        "date": "2018-03-08",
+        "commitResults": []
       },
       {
         "insertions": 0,
         "deletions": 0,
-        "sinceDate": "2018-03-09",
-        "untilDate": "2018-03-10"
+        "date": "2018-03-09",
+        "commitResults": []
       },
       {
         "insertions": 0,
         "deletions": 0,
-        "sinceDate": "2018-03-10",
-        "untilDate": "2018-03-11"
+        "date": "2018-03-10",
+        "commitResults": []
       },
       {
         "insertions": 0,
         "deletions": 0,
-        "sinceDate": "2018-03-11",
-        "untilDate": "2018-03-12"
+        "date": "2018-03-11",
+        "commitResults": []
       },
       {
         "insertions": 0,
         "deletions": 0,
-        "sinceDate": "2018-03-12",
-        "untilDate": "2018-03-13"
+        "date": "2018-03-12",
+        "commitResults": []
       },
       {
         "insertions": 0,
         "deletions": 0,
-        "sinceDate": "2018-03-13",
-        "untilDate": "2018-03-14"
+        "date": "2018-03-13",
+        "commitResults": []
       },
       {
         "insertions": 0,
         "deletions": 0,
-        "sinceDate": "2018-03-14",
-        "untilDate": "2018-03-15"
+        "date": "2018-03-14",
+        "commitResults": []
       },
       {
         "insertions": 0,
         "deletions": 0,
-        "sinceDate": "2018-03-15",
-        "untilDate": "2018-03-16"
+        "date": "2018-03-15",
+        "commitResults": []
       },
       {
         "insertions": 0,
         "deletions": 0,
-        "sinceDate": "2018-03-16",
-        "untilDate": "2018-03-17"
+        "date": "2018-03-16",
+        "commitResults": []
       },
       {
         "insertions": 0,
         "deletions": 0,
-        "sinceDate": "2018-03-17",
-        "untilDate": "2018-03-18"
+        "date": "2018-03-17",
+        "commitResults": []
       },
       {
         "insertions": 0,
         "deletions": 0,
-        "sinceDate": "2018-03-18",
-        "untilDate": "2018-03-19"
+        "date": "2018-03-18",
+        "commitResults": []
       },
       {
         "insertions": 0,
         "deletions": 0,
-        "sinceDate": "2018-03-19",
-        "untilDate": "2018-03-20"
+        "date": "2018-03-19",
+        "commitResults": []
       },
       {
         "insertions": 0,
         "deletions": 0,
-        "sinceDate": "2018-03-20",
-        "untilDate": "2018-03-21"
+        "date": "2018-03-20",
+        "commitResults": []
       },
       {
         "insertions": 0,
         "deletions": 0,
-        "sinceDate": "2018-03-21",
-        "untilDate": "2018-03-22"
+        "date": "2018-03-21",
+        "commitResults": []
       },
       {
         "insertions": 0,
         "deletions": 0,
-        "sinceDate": "2018-03-22",
-        "untilDate": "2018-03-23"
+        "date": "2018-03-22",
+        "commitResults": []
       },
       {
         "insertions": 0,
         "deletions": 0,
-        "sinceDate": "2018-03-23",
-        "untilDate": "2018-03-24"
+        "date": "2018-03-23",
+        "commitResults": []
       },
       {
         "insertions": 0,
         "deletions": 0,
-        "sinceDate": "2018-03-24",
-        "untilDate": "2018-03-25"
+        "date": "2018-03-24",
+        "commitResults": []
       },
       {
         "insertions": 0,
         "deletions": 0,
-        "sinceDate": "2018-03-25",
-        "untilDate": "2018-03-26"
+        "date": "2018-03-25",
+        "commitResults": []
       },
       {
         "insertions": 0,
         "deletions": 0,
-        "sinceDate": "2018-03-26",
-        "untilDate": "2018-03-27"
+        "date": "2018-03-26",
+        "commitResults": []
       },
       {
         "insertions": 0,
         "deletions": 0,
-        "sinceDate": "2018-03-27",
-        "untilDate": "2018-03-28"
+        "date": "2018-03-27",
+        "commitResults": []
       },
       {
         "insertions": 0,
         "deletions": 0,
-        "sinceDate": "2018-03-28",
-        "untilDate": "2018-03-29"
+        "date": "2018-03-28",
+        "commitResults": []
       },
       {
         "insertions": 0,
         "deletions": 0,
-        "sinceDate": "2018-03-29",
-        "untilDate": "2018-03-30"
+        "date": "2018-03-29",
+        "commitResults": []
       },
       {
         "insertions": 0,
         "deletions": 0,
-        "sinceDate": "2018-03-30",
-        "untilDate": "2018-03-31"
+        "date": "2018-03-30",
+        "commitResults": []
       },
       {
         "insertions": 0,
         "deletions": 0,
-        "sinceDate": "2018-03-31",
-        "untilDate": "2018-04-01"
+        "date": "2018-03-31",
+        "commitResults": []
       },
       {
         "insertions": 0,
         "deletions": 0,
-        "sinceDate": "2018-04-01",
-        "untilDate": "2018-04-02"
+        "date": "2018-04-01",
+        "commitResults": []
       },
       {
         "insertions": 0,
         "deletions": 0,
-        "sinceDate": "2018-04-02",
-        "untilDate": "2018-04-03"
+        "date": "2018-04-02",
+        "commitResults": []
       },
       {
         "insertions": 0,
         "deletions": 0,
-        "sinceDate": "2018-04-03",
-        "untilDate": "2018-04-04"
+        "date": "2018-04-03",
+        "commitResults": []
       },
       {
         "insertions": 0,
         "deletions": 0,
-        "sinceDate": "2018-04-04",
-        "untilDate": "2018-04-05"
+        "date": "2018-04-04",
+        "commitResults": []
       },
       {
         "insertions": 0,
         "deletions": 0,
-        "sinceDate": "2018-04-05",
-        "untilDate": "2018-04-06"
+        "date": "2018-04-05",
+        "commitResults": []
       },
       {
         "insertions": 0,
         "deletions": 0,
-        "sinceDate": "2018-04-06",
-        "untilDate": "2018-04-07"
+        "date": "2018-04-06",
+        "commitResults": []
       },
       {
         "insertions": 0,
         "deletions": 0,
-        "sinceDate": "2018-04-07",
-        "untilDate": "2018-04-08"
+        "date": "2018-04-07",
+        "commitResults": []
       },
       {
         "insertions": 0,
         "deletions": 0,
-        "sinceDate": "2018-04-08",
-        "untilDate": "2018-04-09"
+        "date": "2018-04-08",
+        "commitResults": []
       },
       {
         "insertions": 0,
         "deletions": 0,
-        "sinceDate": "2018-04-09",
-        "untilDate": "2018-04-10"
+        "date": "2018-04-09",
+        "commitResults": []
       },
       {
         "insertions": 0,
         "deletions": 0,
-        "sinceDate": "2018-04-10",
-        "untilDate": "2018-04-11"
+        "date": "2018-04-10",
+        "commitResults": []
       },
       {
         "insertions": 0,
         "deletions": 0,
-        "sinceDate": "2018-04-11",
-        "untilDate": "2018-04-12"
+        "date": "2018-04-11",
+        "commitResults": []
       },
       {
         "insertions": 0,
         "deletions": 0,
-        "sinceDate": "2018-04-12",
-        "untilDate": "2018-04-13"
+        "date": "2018-04-12",
+        "commitResults": []
       },
       {
         "insertions": 0,
         "deletions": 0,
-        "sinceDate": "2018-04-13",
-        "untilDate": "2018-04-14"
+        "date": "2018-04-13",
+        "commitResults": []
       },
       {
         "insertions": 0,
         "deletions": 0,
-        "sinceDate": "2018-04-14",
-        "untilDate": "2018-04-15"
+        "date": "2018-04-14",
+        "commitResults": []
       },
       {
         "insertions": 0,
         "deletions": 0,
-        "sinceDate": "2018-04-15",
-        "untilDate": "2018-04-16"
+        "date": "2018-04-15",
+        "commitResults": []
       }
     ],
     "jordancjq": [
       {
         "insertions": 0,
         "deletions": 0,
-        "sinceDate": "2018-03-01",
-        "untilDate": "2018-03-02"
+        "date": "2018-03-01",
+        "commitResults": []
       },
       {
         "insertions": 0,
         "deletions": 0,
-        "sinceDate": "2018-03-02",
-        "untilDate": "2018-03-03"
+        "date": "2018-03-02",
+        "commitResults": []
       },
       {
         "insertions": 0,
         "deletions": 0,
-        "sinceDate": "2018-03-03",
-        "untilDate": "2018-03-04"
+        "date": "2018-03-03",
+        "commitResults": []
       },
       {
         "insertions": 0,
         "deletions": 0,
-        "sinceDate": "2018-03-04",
-        "untilDate": "2018-03-05"
+        "date": "2018-03-04",
+        "commitResults": []
       },
       {
         "insertions": 0,
         "deletions": 0,
-        "sinceDate": "2018-03-05",
-        "untilDate": "2018-03-06"
+        "date": "2018-03-05",
+        "commitResults": []
       },
       {
         "insertions": 0,
         "deletions": 0,
-        "sinceDate": "2018-03-06",
-        "untilDate": "2018-03-07"
+        "date": "2018-03-06",
+        "commitResults": []
       },
       {
         "insertions": 123,
         "deletions": 11,
-        "sinceDate": "2018-03-07",
-        "untilDate": "2018-03-08"
+        "date": "2018-03-07",
+        "commitResults": [
+          {
+            "hash": "b60421bc7860628a54fac14a15ae399e00cb7f35",
+            "message": "add brief resume",
+            "insertions": 62,
+            "deletions": 0
+          },
+          {
+            "hash": "4edaa8336b88d7cfb70be87e329aa2b0067c29e7",
+            "message": "remove irrelevant information",
+            "insertions": 0,
+            "deletions": 7
+          },
+          {
+            "hash": "643419a5ff12f531d821f417453559cd4172ef28",
+            "message": "AddressBook: add removeTag method",
+            "insertions": 8,
+            "deletions": 0
+          },
+          {
+            "hash": "e6a87656385347c7735a46ea2c4d40637eb8c869",
+            "message": "AddressBook: implement method to removeTag from all person",
+            "insertions": 31,
+            "deletions": 3
+          },
+          {
+            "hash": "71438fe06dd1bcdca91ac781b3a8dbbd81e4740b",
+            "message": "AddressBook: add removeUnusedTags method",
+            "insertions": 11,
+            "deletions": 0
+          },
+          {
+            "hash": "e15cdd9c39a7eb36d6ecabc5a65b3b2c191510be",
+            "message": "AddressBook: implement removal of unused tags when updating person",
+            "insertions": 1,
+            "deletions": 0
+          },
+          {
+            "hash": "9896bcec4eee4ccee5310c74ffd68aa3769ba745",
+            "message": "Model: Add deleteTag(Tag)",
+            "insertions": 9,
+            "deletions": 0
+          },
+          {
+            "hash": "aee33b0db4fae7995a43b1253526a5c3f1bb3167",
+            "message": "AddressBook: Fix missing colon",
+            "insertions": 1,
+            "deletions": 1
+          }
+        ]
       },
       {
         "insertions": 89,
         "deletions": 10,
-        "sinceDate": "2018-03-08",
-        "untilDate": "2018-03-09"
+        "date": "2018-03-08",
+        "commitResults": [
+          {
+            "hash": "ee41b1a2c7e758f7fdbd8227eff24e74866c6e55",
+            "message": "Add Use Case, Glossary",
+            "insertions": 89,
+            "deletions": 10
+          }
+        ]
       },
       {
         "insertions": 89,
         "deletions": 5,
-        "sinceDate": "2018-03-09",
-        "untilDate": "2018-03-10"
+        "date": "2018-03-09",
+        "commitResults": [
+          {
+            "hash": "11de631cf12c3cea7e1dd03bc113e692d45a87d2",
+            "message": "AddressBook: Fix checkstyle errors",
+            "insertions": 3,
+            "deletions": 3
+          },
+          {
+            "hash": "6b22dd80880616a0f820bfc279290740b82052c1",
+            "message": "AddCommandTest: add test for deleteTag(tag)",
+            "insertions": 6,
+            "deletions": 0
+          },
+          {
+            "hash": "90a5101db36d1d4eb19d1505267dffcee14fe2ea",
+            "message": "AddressBookTest: add test for removeTag",
+            "insertions": 41,
+            "deletions": 0
+          },
+          {
+            "hash": "11e85b331637e98ac722dc8d4405dda1b5d7fe29",
+            "message": "ModelManagerTest: add test for deleteTag(tag)",
+            "insertions": 36,
+            "deletions": 0
+          },
+          {
+            "hash": "799aa8dd3cf27a7714bf2ef3f73bd949e52d6a30",
+            "message": "AddressBookParserTest: Fix checkstyle error",
+            "insertions": 3,
+            "deletions": 2
+          }
+        ]
       },
       {
         "insertions": 0,
         "deletions": 0,
-        "sinceDate": "2018-03-10",
-        "untilDate": "2018-03-11"
+        "date": "2018-03-10",
+        "commitResults": []
       },
       {
         "insertions": 0,
         "deletions": 0,
-        "sinceDate": "2018-03-11",
-        "untilDate": "2018-03-12"
+        "date": "2018-03-11",
+        "commitResults": []
       },
       {
         "insertions": 0,
         "deletions": 0,
-        "sinceDate": "2018-03-12",
-        "untilDate": "2018-03-13"
+        "date": "2018-03-12",
+        "commitResults": []
       },
       {
         "insertions": 50,
         "deletions": 58,
-        "sinceDate": "2018-03-13",
-        "untilDate": "2018-03-14"
+        "date": "2018-03-13",
+        "commitResults": [
+          {
+            "hash": "b54b51aaf9542b1242c6ce753bddd583ca101516",
+            "message": "DeveloperGuide: Update name of application to MTM",
+            "insertions": 12,
+            "deletions": 15
+          },
+          {
+            "hash": "fc0b32661c25afd6c76e27894556658ba218b1e7",
+            "message": "DeveloperGuide: Update team name",
+            "insertions": 1,
+            "deletions": 1
+          },
+          {
+            "hash": "0e9075419efd49e32a38a197817510add1b36b72",
+            "message": "UserGuide: Update team name",
+            "insertions": 1,
+            "deletions": 1
+          },
+          {
+            "hash": "a848b1a278a165bd3d98a782e8868cefee3d4e7a",
+            "message": "DeveloperGuide: Update naming scheme to players and team managing app",
+            "insertions": 4,
+            "deletions": 4
+          },
+          {
+            "hash": "ca60c48ec64b16c27b0560e7daabb8899c2535d3",
+            "message": "DevGuide: Add overview",
+            "insertions": 4,
+            "deletions": 0
+          },
+          {
+            "hash": "f89e724c652f5eb5295f7de8656b431ca106b1ef",
+            "message": "UserGuide: Update name to MTM",
+            "insertions": 2,
+            "deletions": 2
+          },
+          {
+            "hash": "0d4c504e54e1a70535d42bb5cbb800e3772bd5c1",
+            "message": "AboutUs: Update initial information on About Us",
+            "insertions": 19,
+            "deletions": 26
+          },
+          {
+            "hash": "37a6dec9e94e59d273249e850389e65465214920",
+            "message": "AboutUs: Update team member\u0027s information",
+            "insertions": 3,
+            "deletions": 3
+          },
+          {
+            "hash": "072971c755a282138a77db2168efc3e159c56edd",
+            "message": "ReadMe: Update with initial information",
+            "insertions": 4,
+            "deletions": 6
+          }
+        ]
       },
       {
         "insertions": 14,
         "deletions": 5,
-        "sinceDate": "2018-03-14",
-        "untilDate": "2018-03-15"
+        "date": "2018-03-14",
+        "commitResults": [
+          {
+            "hash": "b1ec92421645f569b9388e66721c8b46172d423b",
+            "message": "Enhance add without phone and address parameter",
+            "insertions": 14,
+            "deletions": 5
+          }
+        ]
       },
       {
         "insertions": 692,
         "deletions": 201,
-        "sinceDate": "2018-03-15",
-        "untilDate": "2018-03-16"
+        "date": "2018-03-15",
+        "commitResults": [
+          {
+            "hash": "87fd1d402b73e529e47829364f7334f9a31511fb",
+            "message": "Add team member\u0027s profile picture",
+            "insertions": 6,
+            "deletions": 6
+          },
+          {
+            "hash": "39264d42e4794358ad25906a9ca60e953656b19c",
+            "message": "Format summary into table form",
+            "insertions": 52,
+            "deletions": 16
+          },
+          {
+            "hash": "db9844933967eebd5e80ce8490d8f7530b83c971",
+            "message": "Update format of table and include examples",
+            "insertions": 21,
+            "deletions": 22
+          },
+          {
+            "hash": "789c86ee52a8a077ae8a0abc6dd006f74dfbb781",
+            "message": "Change format of example with sentences",
+            "insertions": 6,
+            "deletions": 6
+          },
+          {
+            "hash": "cd1c8d3190563fb110371d49bf6ad6c699cff144",
+            "message": "Remove double monospace",
+            "insertions": 16,
+            "deletions": 16
+          },
+          {
+            "hash": "4b7528def6ae2f6c381bcb7da80f2b84bc138059",
+            "message": "UserGuide: Format feature 3.7",
+            "insertions": 25,
+            "deletions": 16
+          },
+          {
+            "hash": "057c34e4d86140ebb9e4cf5b112b9642d5ace70f",
+            "message": "UserGuide: Change outcome to bold, move alias after format",
+            "insertions": 2,
+            "deletions": 2
+          },
+          {
+            "hash": "dec933ee69495f0e46eaf5ca0757bb6233ad4eea",
+            "message": "UserGuide: Fix line break",
+            "insertions": 2,
+            "deletions": 2
+          },
+          {
+            "hash": "2f4fc264e9f9c9b08db3fa43c0883fcc5aa919d4",
+            "message": "UserGuide: Remove bullet point",
+            "insertions": 2,
+            "deletions": 4
+          },
+          {
+            "hash": "410dfb9c2601dbcfe1285b4856719ec7882d7026",
+            "message": "UserGuide: Update example",
+            "insertions": 3,
+            "deletions": 3
+          },
+          {
+            "hash": "7d1889538b0526830071ea963477fdeaffeb4401",
+            "message": "UserGuide: Update history command",
+            "insertions": 12,
+            "deletions": 3
+          },
+          {
+            "hash": "fa84625ba11737bbba0e35d5114eaae75b733dae",
+            "message": "UserGuide: Update history command",
+            "insertions": 1,
+            "deletions": 1
+          },
+          {
+            "hash": "dca196b1bd1931e3306ddccef00627809088040c",
+            "message": "UserGuide: Update undo command",
+            "insertions": 19,
+            "deletions": 10
+          },
+          {
+            "hash": "aa02be6b74dae64a5a46f0f3c1736684ea5b0c30",
+            "message": "UserGuide: Update redo command",
+            "insertions": 20,
+            "deletions": 10
+          },
+          {
+            "hash": "242ff6b8660b69e50f8a02fcfd9abad7f2d1db23",
+            "message": "UserGuide: Format first column of table to right align",
+            "insertions": 11,
+            "deletions": 11
+          },
+          {
+            "hash": "ab95a3b798c2e681daf870cb5b888e0a6318a6d1",
+            "message": "UserGuide: Rename person to player",
+            "insertions": 4,
+            "deletions": 4
+          },
+          {
+            "hash": "5e31fd6ee7e8b7839d3b3d6ede00fd4401095892",
+            "message": "UserGuide: Fix Travis no newline at EOF",
+            "insertions": 1,
+            "deletions": 1
+          },
+          {
+            "hash": "1afe1afb022d16e3b8ffbc1315b07bb71b44cd8c",
+            "message": "JavaTest: Update enhance add command for optional parameters",
+            "insertions": 37,
+            "deletions": 21
+          },
+          {
+            "hash": "7aa1524381c9f02d47eb7d39af343cd897a3f980",
+            "message": "Fix checkstyle issue",
+            "insertions": 0,
+            "deletions": 1
+          },
+          {
+            "hash": "20866426cd4dcb4c0f80706d854d5a9bb1c2b1b3",
+            "message": "UserGuide: Update add in summary for enhanced add",
+            "insertions": 2,
+            "deletions": 2
+          },
+          {
+            "hash": "3f6e95aab66fdb91915daa1f6f8eba05400ca721",
+            "message": "Logic: Add a RemarkCommand class",
+            "insertions": 4,
+            "deletions": 0
+          },
+          {
+            "hash": "5286839b3de55643c32bfddec0099439637a6ae9",
+            "message": "Logic: Add remark prefix",
+            "insertions": 1,
+            "deletions": 0
+          },
+          {
+            "hash": "4f49b6bb73be49f679b2dd877ee047a869006e24",
+            "message": "Logic: Update RemarkCommand to throw an exception",
+            "insertions": 23,
+            "deletions": 1
+          },
+          {
+            "hash": "95f1eb45c79003fbc9b4786ffd93cc354c2712cb",
+            "message": "Test: Add RemarkCommandTest file that test RemarkCommand",
+            "insertions": 4,
+            "deletions": 0
+          },
+          {
+            "hash": "33482e866c1bc0440351b51ce2d2818e381d9c3b",
+            "message": "Logic: Update javadoc header for RemarkCommand",
+            "insertions": 3,
+            "deletions": 0
+          },
+          {
+            "hash": "651e7ed7ab04a5e148bcb7e3179d8db550867fc9",
+            "message": "Logic: Update test for RemarkCommand",
+            "insertions": 32,
+            "deletions": 0
+          },
+          {
+            "hash": "fab5c1172db4e0328ad0b2f8e1c4c26b46d35067",
+            "message": "Logic: Modify AddressBookParser to accept a RemarkCommand",
+            "insertions": 5,
+            "deletions": 0
+          },
+          {
+            "hash": "2ca6315403a94049342060b4ef0cc17661d587b0",
+            "message": "Test: Add RemarkCommand test to AddressBookParserTest",
+            "insertions": 11,
+            "deletions": 0
+          },
+          {
+            "hash": "81006157cfa5d62d3067201234e95b9a45d73523",
+            "message": "Logic: Modify RemarkCommand to take in Index and String for remark",
+            "insertions": 35,
+            "deletions": 2
+          },
+          {
+            "hash": "66cb732dce9793d1f746d6f4557feda15aca4ac7",
+            "message": "Logic: Remove unwanted import from RemarkCommand",
+            "insertions": 0,
+            "deletions": 2
+          },
+          {
+            "hash": "52db52462da27d7dcf7339a7c8d55f9402dab6c5",
+            "message": "Test: Modify RemarkCommandTest to test equals method",
+            "insertions": 42,
+            "deletions": 6
+          },
+          {
+            "hash": "26df1d206d42732e9c9c1ca9707003132e5032c0",
+            "message": "Logic: Add RemarkCommandParser to parse remark arguments",
+            "insertions": 14,
+            "deletions": 0
+          },
+          {
+            "hash": "0897d74b9eb0033512037fdc506c22b41347e441",
+            "message": "Logic: Update RemarkCommandParser to parse arguments",
+            "insertions": 25,
+            "deletions": 1
+          },
+          {
+            "hash": "81753027752cca8a0e37fe2e89402ba20ba3dcb1",
+            "message": "Logic: Update AddressBookParser to use RemarkCommandParser",
+            "insertions": 1,
+            "deletions": 1
+          },
+          {
+            "hash": "0d14b1cee6bdccc2940be3b18d3d89d54c812351",
+            "message": "Test: Update AddressBookParserTest to test generated user input",
+            "insertions": 9,
+            "deletions": 2
+          },
+          {
+            "hash": "1a21eebec264b99109f008c0bdb64295fc9abd19",
+            "message": "Test: Add RemarkCommandParserTest to test boundary values",
+            "insertions": 4,
+            "deletions": 0
+          },
+          {
+            "hash": "7da7ce052cf5d1b10e3c5b63b285a6b842855777",
+            "message": "Test: Update RemarkCommandParserTest with test cases",
+            "insertions": 40,
+            "deletions": 0
+          },
+          {
+            "hash": "d77a9bce37b1a7bf33966f35648e917e84d6e53a",
+            "message": "UI: Add FXML annotation in PersonCard to tie variable to actual label",
+            "insertions": 2,
+            "deletions": 0
+          },
+          {
+            "hash": "d4cab017ea0acb587d9d9f6ea2713a37a700b321",
+            "message": "Test: Update PersonCardHandle for future tests to read remark in card",
+            "insertions": 5,
+            "deletions": 0
+          },
+          {
+            "hash": "7e7f80162120e0f16b4b95b6bcd79d36b99ebb11",
+            "message": "AboutUs: Update reponsibilities",
+            "insertions": 2,
+            "deletions": 0
+          },
+          {
+            "hash": "8aafcc4a3524917e7537dc61af90d4e976120732",
+            "message": "Model: Add Remark Class",
+            "insertions": 8,
+            "deletions": 0
+          },
+          {
+            "hash": "17c4d00446ed5a617eab196c91902c16869883b7",
+            "message": "Model: Update Remark class similar to Phone",
+            "insertions": 34,
+            "deletions": 0
+          },
+          {
+            "hash": "35ad16369690c3346bf66deb4adf7c15f2808e34",
+            "message": "Logic: Update RemarkCommand to use Remark object",
+            "insertions": 3,
+            "deletions": 2
+          },
+          {
+            "hash": "e7e2f660ceb50d96cc476aed2b83262630101853",
+            "message": "Logic: Update RemarkCommandParser to use Remark class",
+            "insertions": 2,
+            "deletions": 1
+          },
+          {
+            "hash": "9c34faf61583c65ba1aaf20136f884902e7b4408",
+            "message": "Logic: Fix RemarkCommand equal comparison",
+            "insertions": 1,
+            "deletions": 1
+          },
+          {
+            "hash": "61b0c527ce745cadd450f413825ebc33c4d28008",
+            "message": "Test: Add test for Remark class implementation",
+            "insertions": 42,
+            "deletions": 7
+          },
+          {
+            "hash": "47a8d30b8c705a06cea0adfb6b24d388ef12eace",
+            "message": "Model: Implement Remark into Person",
+            "insertions": 7,
+            "deletions": 1
+          },
+          {
+            "hash": "1650369e6f4c16420d4fc02ee8d24b0859215b0c",
+            "message": "Model: Implement Remark in AddressBook",
+            "insertions": 1,
+            "deletions": 1
+          },
+          {
+            "hash": "51588d6aa35db2706d64ee6b596465d195806b21",
+            "message": "Model: Update AddressBook to reflect Remark parameter",
+            "insertions": 4,
+            "deletions": 2
+          },
+          {
+            "hash": "be04ff94cec40361293ef4b5dc978417fd1df8ab",
+            "message": "Logic: Update Add and Edit command to include Remark in Person",
+            "insertions": 6,
+            "deletions": 2
+          },
+          {
+            "hash": "9971b0f4b639da729447bcb5f9e58e975acfc9e4",
+            "message": "Storage: Update XmlAdaptedPerson to reflect Remark field",
+            "insertions": 7,
+            "deletions": 1
+          },
+          {
+            "hash": "828842f12bdd2f7728a63901d69b705d0172fe02",
+            "message": "Model: Update SampleDataUtil sample data to include remark",
+            "insertions": 8,
+            "deletions": 6
+          },
+          {
+            "hash": "3964516ed15e77a34d4163c04afa60fce5e0186e",
+            "message": "Test: Update PersonBuilder to build with Remark",
+            "insertions": 15,
+            "deletions": 1
+          },
+          {
+            "hash": "c3965482b3682ea058eb86c4a4902a1fbf1f43a9",
+            "message": "Test: Usage of withRemark() from PersonBuilder",
+            "insertions": 1,
+            "deletions": 1
+          },
+          {
+            "hash": "129a2a83f292d2b43fc61d3be0610a0ff1cbb380",
+            "message": "UI: Update PersonCard to reflect Remark field",
+            "insertions": 1,
+            "deletions": 0
+          },
+          {
+            "hash": "1c57d4591cb5e2539e326ef20835cb2f4c575d14",
+            "message": "Test: Update UI test to consider Remark field",
+            "insertions": 1,
+            "deletions": 0
+          },
+          {
+            "hash": "aab8f0cdd434c4b8ff46af749ebde7188f302e96",
+            "message": "Logic: Implement RemarkCommand logic",
+            "insertions": 47,
+            "deletions": 3
+          }
+        ]
       },
       {
         "insertions": 233,
         "deletions": 39,
-        "sinceDate": "2018-03-16",
-        "untilDate": "2018-03-17"
+        "date": "2018-03-16",
+        "commitResults": [
+          {
+            "hash": "47fa3c72e862c08828c07935760b8bc562c9b19f",
+            "message": "Test: Update RemarkCommandTest to test logic",
+            "insertions": 153,
+            "deletions": 6
+          },
+          {
+            "hash": "8939ee75de8694f19e3ae021c9ea9753175e7531",
+            "message": "Fix: Checkstyle errors",
+            "insertions": 4,
+            "deletions": 2
+          },
+          {
+            "hash": "9a8d2d54e955e5fec65c7c44b6853d3cec74e326",
+            "message": "UserGuide: Add remark command section writeup",
+            "insertions": 26,
+            "deletions": 0
+          },
+          {
+            "hash": "6970228ba32d1fc7ac6179a417609af8fc06e12d",
+            "message": "UserGuide: Rearrange summary table, add remark command",
+            "insertions": 18,
+            "deletions": 14
+          },
+          {
+            "hash": "c8e7b5e5e8cc617d217a816cd873724b5c2b877b",
+            "message": "UserGuide: Add enhancement to be included in future milestone",
+            "insertions": 13,
+            "deletions": 0
+          },
+          {
+            "hash": "13d72bc2b90a3c2a780a7fbcdad5728e8c050890",
+            "message": "UserGuide: Fix formatting of header",
+            "insertions": 6,
+            "deletions": 6
+          },
+          {
+            "hash": "8fdb54983ff82e2a6836fb04219a94ac63e3cc4b",
+            "message": "ReadMe: Remove Learning Outcomes",
+            "insertions": 0,
+            "deletions": 1
+          },
+          {
+            "hash": "32f2e6dbbdde5f01b72e700dd518a9d6311b22d0",
+            "message": "ReadMe: Update introduction",
+            "insertions": 7,
+            "deletions": 5
+          },
+          {
+            "hash": "27456820dd8363cbf18e2f5893cb2b097f8cf789",
+            "message": "ReadMe: Update responsibilties",
+            "insertions": 6,
+            "deletions": 5
+          }
+        ]
       },
       {
         "insertions": 0,
         "deletions": 0,
-        "sinceDate": "2018-03-17",
-        "untilDate": "2018-03-18"
+        "date": "2018-03-17",
+        "commitResults": []
       },
       {
         "insertions": 0,
         "deletions": 0,
-        "sinceDate": "2018-03-18",
-        "untilDate": "2018-03-19"
+        "date": "2018-03-18",
+        "commitResults": []
       },
       {
         "insertions": 368,
         "deletions": 9,
-        "sinceDate": "2018-03-19",
-        "untilDate": "2018-03-20"
+        "date": "2018-03-19",
+        "commitResults": [
+          {
+            "hash": "74e9ceabac4a0d11291992d55ef04152e63fd13d",
+            "message": "DevGuide: Update Overview",
+            "insertions": 13,
+            "deletions": 2
+          },
+          {
+            "hash": "2be976d502b78ac8c972f65f68eedcc3feac9dab",
+            "message": "DevGuide: Add new implementation remark and enhanced add",
+            "insertions": 13,
+            "deletions": 0
+          },
+          {
+            "hash": "c08d7e39045e3a16b7f67090a097b914cc557735",
+            "message": "DevGuide: Add preface to Setting Up",
+            "insertions": 16,
+            "deletions": 1
+          },
+          {
+            "hash": "114a463280b5ea9def7722e5fe0769114a16b87f",
+            "message": "UserGuide: Add new commands and how to use",
+            "insertions": 99,
+            "deletions": 1
+          },
+          {
+            "hash": "5d52a283b590e54ba808225799d0e4b7a0cd2f37",
+            "message": "Logic: Add CreateCommand",
+            "insertions": 49,
+            "deletions": 0
+          },
+          {
+            "hash": "00c70e56b85263753e0d162ef56bc6195a9425af",
+            "message": "Logic: Add case to call CreateCommand in AddressBookParser",
+            "insertions": 4,
+            "deletions": 0
+          },
+          {
+            "hash": "dcd399ec8edc1c5ea883880220799651c56bc7a3",
+            "message": "Logic: Include missing import in AddressBookParser",
+            "insertions": 1,
+            "deletions": 0
+          },
+          {
+            "hash": "b37a2cbf28019ae5342f265b542db553f7af1174",
+            "message": "Logic: Update CreateCommand to take in parameter",
+            "insertions": 28,
+            "deletions": 1
+          },
+          {
+            "hash": "6d5589841d8a5fd525e18692da48fe8b4c604ee5",
+            "message": "Logic: Update the output of CreateCommand",
+            "insertions": 1,
+            "deletions": 1
+          },
+          {
+            "hash": "02b9cc76b72685bc0f901e6d4662d008f20c5b90",
+            "message": "Model: Add Team and TeamName classes",
+            "insertions": 124,
+            "deletions": 0
+          },
+          {
+            "hash": "e2d49fcdca7f82e4beb5cb77dc267fab0052533d",
+            "message": "Logic: Update CreateCommand to use Team class",
+            "insertions": 8,
+            "deletions": 3
+          },
+          {
+            "hash": "d7a5f3ead1e7e21bb97e73a238ce60ed2a1b6be8",
+            "message": "Model: Add new model abstract method API createTeam",
+            "insertions": 4,
+            "deletions": 0
+          },
+          {
+            "hash": "28704891ebaec220ba0de3c5ed90bff847245704",
+            "message": "Logic: Change logic of CreateCommand execute",
+            "insertions": 8,
+            "deletions": 0
+          }
+        ]
       },
       {
         "insertions": 170,
         "deletions": 3,
-        "sinceDate": "2018-03-20",
-        "untilDate": "2018-03-21"
+        "date": "2018-03-20",
+        "commitResults": [
+          {
+            "hash": "ec7a3f31bb4ed6485c3f9153314570e955436368",
+            "message": "Model: Create UniqueTeamList",
+            "insertions": 120,
+            "deletions": 0
+          },
+          {
+            "hash": "9f8db8e4dabcfbfba0835c9ea1cac61dd42f0073",
+            "message": "Model: Add method to ModelManager to createTeam in addressbook",
+            "insertions": 7,
+            "deletions": 0
+          },
+          {
+            "hash": "5a233452eac3966aa5feb1e2bb31480e319615fe",
+            "message": "Model: Add uniqueTeamList and createTeam to AddressBook",
+            "insertions": 14,
+            "deletions": 0
+          },
+          {
+            "hash": "c6c459dd8138432fc3548af18654113eea2daefa",
+            "message": "Logic: Update CreateCommand return value",
+            "insertions": 3,
+            "deletions": 2
+          },
+          {
+            "hash": "a5658f1a5924b034c6e08c4c04b27c91a382ab43",
+            "message": "Model: Update implementation to allow clear command to reset team",
+            "insertions": 19,
+            "deletions": 0
+          },
+          {
+            "hash": "d453e0917dc26e573790e9c7cd97fbfe5281326e",
+            "message": "Model: Update toString method of Team",
+            "insertions": 7,
+            "deletions": 1
+          }
+        ]
       },
       {
         "insertions": 0,
         "deletions": 0,
-        "sinceDate": "2018-03-21",
-        "untilDate": "2018-03-22"
+        "date": "2018-03-21",
+        "commitResults": []
       },
       {
         "insertions": 517,
         "deletions": 22,
-        "sinceDate": "2018-03-22",
-        "untilDate": "2018-03-23"
+        "date": "2018-03-22",
+        "commitResults": [
+          {
+            "hash": "5dba5becc0594f37adcda76d5ca6204472cb4d59",
+            "message": "Logic: Add header comment for parseValue",
+            "insertions": 3,
+            "deletions": 0
+          },
+          {
+            "hash": "518adbccce6126250513c3ceb562fbfe19ce0232",
+            "message": "Fix merge conflict typo",
+            "insertions": 1,
+            "deletions": 0
+          },
+          {
+            "hash": "165ae43de244798be17f50eaa4a7313ad00626b3",
+            "message": "Fix checkstyle error",
+            "insertions": 1,
+            "deletions": 1
+          },
+          {
+            "hash": "5ff1c60e418d78bde2af5fbfb493ca6ff0dfb94a",
+            "message": "DevGuide: Update implementation on enhanced add and remark",
+            "insertions": 187,
+            "deletions": 6
+          },
+          {
+            "hash": "8d95f1f95aa213cc1e17f769b2e79b396335334e",
+            "message": "Test: Add create team method to test files",
+            "insertions": 15,
+            "deletions": 1
+          },
+          {
+            "hash": "48aa8fc79222207a497a1d4c58cc0ac36fb40622",
+            "message": "Test: Add test for CreateCommandTest",
+            "insertions": 166,
+            "deletions": 1
+          },
+          {
+            "hash": "ae37a33a333a991d9cd7fda28bacbf13b0b14262",
+            "message": "Fix: Typo error",
+            "insertions": 3,
+            "deletions": 3
+          },
+          {
+            "hash": "baf7ce88eaa597d89f80c490e38a26d3bc978271",
+            "message": "Fix another typo error",
+            "insertions": 2,
+            "deletions": 2
+          },
+          {
+            "hash": "e182acca2d51fcf3f619c5c521810ac51f68519a",
+            "message": "Test: Add CreateCommandParserTest",
+            "insertions": 35,
+            "deletions": 0
+          },
+          {
+            "hash": "152d2badba4b9b611a5bb7bdb5f09fa296a48ad2",
+            "message": "Test: Add TeamNameTest",
+            "insertions": 41,
+            "deletions": 0
+          },
+          {
+            "hash": "005b33aff23b9802e52a2982e03b7599c8cae127",
+            "message": "Test: Add UniqueTeamListTest",
+            "insertions": 19,
+            "deletions": 0
+          },
+          {
+            "hash": "94407c49620ab7cbc11391e5fb9bf429123bb017",
+            "message": "Fix: Checkstyle error",
+            "insertions": 2,
+            "deletions": 4
+          },
+          {
+            "hash": "4672d47c9f9803b8b2a4d827b848ccfe38f097f2",
+            "message": "Model: Change UniquePersonList in Team as static",
+            "insertions": 2,
+            "deletions": 2
+          },
+          {
+            "hash": "323228436db3b458c584b00e1bd6789ea0a04392",
+            "message": "Test: Update AddressBookParserTest with CreateCommand test",
+            "insertions": 20,
+            "deletions": 0
+          },
+          {
+            "hash": "63778ac80c72969889ec7e5db996b41144270b07",
+            "message": "Test: Update AddressBookTest for coverage",
+            "insertions": 19,
+            "deletions": 0
+          },
+          {
+            "hash": "2cdcd8fa6537b33fae284ff76573d800311419f7",
+            "message": "Model: Change class variable back to object variable UniquePersonList",
+            "insertions": 1,
+            "deletions": 2
+          }
+        ]
       },
       {
         "insertions": 105,
         "deletions": 29,
-        "sinceDate": "2018-03-23",
-        "untilDate": "2018-03-24"
+        "date": "2018-03-23",
+        "commitResults": [
+          {
+            "hash": "cef1263d542a3a699d377220a64a55702da4ea13",
+            "message": "Add teamName display for Person",
+            "insertions": 70,
+            "deletions": 18
+          },
+          {
+            "hash": "d1c2d73c90ed1b4be0a76c0f3cf0e0dcd6fb2639",
+            "message": "Fix: Checkstyle error",
+            "insertions": 4,
+            "deletions": 4
+          },
+          {
+            "hash": "9bc68769b8207ab98f2dc664c96639e03f0469ac",
+            "message": "Logic: Update valid input for team name",
+            "insertions": 8,
+            "deletions": 0
+          },
+          {
+            "hash": "0b6226111a5560af225d489b8e4c4cf9f17fc123",
+            "message": "Test: Update test data",
+            "insertions": 15,
+            "deletions": 1
+          },
+          {
+            "hash": "a4469809a0ce152a7f3007fa347ae68e15e177c6",
+            "message": "Common: Add MESSAGE_TEAM_NOT_FOUND",
+            "insertions": 1,
+            "deletions": 0
+          },
+          {
+            "hash": "52a5e0ff27cc71649a0e80e7f18c806154400a3e",
+            "message": "Logic: Update ParserUtil to not allow UNSPECIFIED",
+            "insertions": 6,
+            "deletions": 5
+          },
+          {
+            "hash": "9137bd57419fab94d7a118ccd397f8fe8036f14c",
+            "message": "DevGuide: Fix merge conflict layout",
+            "insertions": 1,
+            "deletions": 1
+          }
+        ]
       },
       {
         "insertions": 0,
         "deletions": 0,
-        "sinceDate": "2018-03-24",
-        "untilDate": "2018-03-25"
+        "date": "2018-03-24",
+        "commitResults": []
       },
       {
         "insertions": 0,
         "deletions": 0,
-        "sinceDate": "2018-03-25",
-        "untilDate": "2018-03-26"
+        "date": "2018-03-25",
+        "commitResults": []
       },
       {
         "insertions": 108,
         "deletions": 10,
-        "sinceDate": "2018-03-26",
-        "untilDate": "2018-03-27"
+        "date": "2018-03-26",
+        "commitResults": [
+          {
+            "hash": "56a8a63b87b7edd0204e22d17faca0eb22baa333",
+            "message": "Update team not found display message",
+            "insertions": 1,
+            "deletions": 1
+          },
+          {
+            "hash": "4af38c3291b32facf928638b0c4f6f6eb229dfdb",
+            "message": "Model: Update equals method, add new method to return UniquePlayerList",
+            "insertions": 5,
+            "deletions": 2
+          },
+          {
+            "hash": "e0e5a9c51cfa2f7d3ca3f2fb6af96d443e0bfb6f",
+            "message": "Model: Add assignPersonToTeam method",
+            "insertions": 45,
+            "deletions": 1
+          },
+          {
+            "hash": "2a824eac7c08c1041fced10af675945b77ea8071",
+            "message": "Logic: Update add command to assign player to team when stated",
+            "insertions": 7,
+            "deletions": 1
+          },
+          {
+            "hash": "6ab121c8ed145a004165829b91559da2c7b9efcf",
+            "message": "Model: Add check mechanism for add command when team not found",
+            "insertions": 24,
+            "deletions": 0
+          },
+          {
+            "hash": "feb7baad36bf4f8cf6c3efb4cce58135ca02304a",
+            "message": "Test: Update test cases briefly",
+            "insertions": 23,
+            "deletions": 3
+          },
+          {
+            "hash": "0b937cb51b009db9714ae620a74b533e9ead7520",
+            "message": "Check input for \u003cUNSPECIFIED\u003e and display invalid input",
+            "insertions": 2,
+            "deletions": 1
+          },
+          {
+            "hash": "6095410a7df9abd8e6e77e7594d58164bebd3568",
+            "message": "Fix: Add missing semi-colon",
+            "insertions": 1,
+            "deletions": 1
+          }
+        ]
       },
       {
         "insertions": 906,
         "deletions": 614,
-        "sinceDate": "2018-03-27",
-        "untilDate": "2018-03-28"
+        "date": "2018-03-27",
+        "commitResults": [
+          {
+            "hash": "818b6d7a51105679fb5febf471ba7d482010ceb2",
+            "message": "DevGuide: Update for v1.3",
+            "insertions": 662,
+            "deletions": 518
+          },
+          {
+            "hash": "df051507b468bd9f9d92a44a23d1589f628d2109",
+            "message": "UserGuide: Update for v1.3",
+            "insertions": 244,
+            "deletions": 96
+          }
+        ]
       },
       {
         "insertions": 339,
         "deletions": 33,
-        "sinceDate": "2018-03-28",
-        "untilDate": "2018-03-29"
+        "date": "2018-03-28",
+        "commitResults": [
+          {
+            "hash": "c202d079763c1867690b00472ea7d3338bf56b7d",
+            "message": "Logic: Add AssignCommand that assigns player to team",
+            "insertions": 157,
+            "deletions": 0
+          },
+          {
+            "hash": "ca1e9ccad07d773eb4687b2ec404fe24f6b63a01",
+            "message": "Logic: Add parser for AssignCommand",
+            "insertions": 33,
+            "deletions": 3
+          },
+          {
+            "hash": "e6ef48bbc8ba60855118232ce40bf4facc9f4c18",
+            "message": "Logic: Update add command to assign to team",
+            "insertions": 13,
+            "deletions": 8
+          },
+          {
+            "hash": "59be2f14a54b4b79d1864700ff9725e5f73d06fd",
+            "message": "Model: Add assign functionality",
+            "insertions": 17,
+            "deletions": 14
+          },
+          {
+            "hash": "9bab0d4c24e4c90d4d46c378524fa47c863c4ff9",
+            "message": "Fix: Checkstyle error",
+            "insertions": 2,
+            "deletions": 1
+          },
+          {
+            "hash": "bac89000a55a22c5cbf79ae2be6421301f8d3566",
+            "message": "Model: Update Team and UniqueTeamList classes",
+            "insertions": 17,
+            "deletions": 6
+          },
+          {
+            "hash": "285abc58ebc93cf452ca90476b855de364f4dc2b",
+            "message": "Storage: Add capability to store teams into xml",
+            "insertions": 100,
+            "deletions": 1
+          }
+        ]
       },
       {
         "insertions": 0,
         "deletions": 0,
-        "sinceDate": "2018-03-29",
-        "untilDate": "2018-03-30"
+        "date": "2018-03-29",
+        "commitResults": []
       },
       {
         "insertions": 317,
         "deletions": 42,
-        "sinceDate": "2018-03-30",
-        "untilDate": "2018-03-31"
+        "date": "2018-03-30",
+        "commitResults": [
+          {
+            "hash": "929528b5e2ee0e412f91ea8accad00946ef6214f",
+            "message": "Update AssignCommand: moves player from current to assigned team",
+            "insertions": 62,
+            "deletions": 18
+          },
+          {
+            "hash": "8960a40f572b6554ba51050934d8331743398c1f",
+            "message": "Add RemoveCommand to remove team from MTM without test",
+            "insertions": 133,
+            "deletions": 0
+          },
+          {
+            "hash": "e9bdca04abbe11fa077dbb8f006b974de83980df",
+            "message": "Logic: Fix logic flaw in assign team to person when adding",
+            "insertions": 10,
+            "deletions": 3
+          },
+          {
+            "hash": "b4453480d404c901af3d64cdb2e1fa59598363c1",
+            "message": "Test: Update existing test cases",
+            "insertions": 17,
+            "deletions": 10
+          },
+          {
+            "hash": "e9097828eb87081f7c8a74d5835ebcb66748b0dc",
+            "message": "Fix: Checkstyle errors",
+            "insertions": 0,
+            "deletions": 3
+          },
+          {
+            "hash": "a861a6e186657ea2a0d35e01163221340a131eb6",
+            "message": "Update assign/remove person with new fields",
+            "insertions": 10,
+            "deletions": 7
+          },
+          {
+            "hash": "d7b243ab3fb66069c752c8f462ad18e78dcf52f6",
+            "message": "Fix: RemoveCommand equals method",
+            "insertions": 1,
+            "deletions": 1
+          },
+          {
+            "hash": "9ef81332e89c3b2df722a4de264c05789ad3bd43",
+            "message": "Add ViewCommand without logic",
+            "insertions": 84,
+            "deletions": 0
+          }
+        ]
       },
       {
         "insertions": 116,
         "deletions": 100,
-        "sinceDate": "2018-03-31",
-        "untilDate": "2018-04-01"
+        "date": "2018-03-31",
+        "commitResults": [
+          {
+            "hash": "f93b1179978e0477ad1cb385f02a66398937d188",
+            "message": "Fix: Checkstyle error",
+            "insertions": 0,
+            "deletions": 3
+          },
+          {
+            "hash": "d9ae99ad58df45fc6135a54bb93566b04a8edafb",
+            "message": "DevGuide: Fix errors from v1.2",
+            "insertions": 57,
+            "deletions": 67
+          },
+          {
+            "hash": "3c3f53aaf4791de7503ec50d65ed97269b281c4d",
+            "message": "UserGuide: Fix errors from v1.2",
+            "insertions": 26,
+            "deletions": 25
+          },
+          {
+            "hash": "ec728bc45cc343baa16e9860b66fc8f12188fa2f",
+            "message": "Implement logic and model to view players in team",
+            "insertions": 27,
+            "deletions": 3
+          },
+          {
+            "hash": "6d2a5bd0499e1126d4bd86b97d57527e0e025904",
+            "message": "Fix: Implement abstract method in Model Stub",
+            "insertions": 5,
+            "deletions": 0
+          },
+          {
+            "hash": "3cd44230f9f7773aa62601830a96f97333e1f291",
+            "message": "Update files as per review",
+            "insertions": 1,
+            "deletions": 2
+          }
+        ]
       },
       {
         "insertions": 0,
         "deletions": 0,
-        "sinceDate": "2018-04-01",
-        "untilDate": "2018-04-02"
+        "date": "2018-04-01",
+        "commitResults": []
       },
       {
         "insertions": 0,
         "deletions": 0,
-        "sinceDate": "2018-04-02",
-        "untilDate": "2018-04-03"
+        "date": "2018-04-02",
+        "commitResults": []
       },
       {
         "insertions": 52,
         "deletions": 6,
-        "sinceDate": "2018-04-03",
-        "untilDate": "2018-04-04"
+        "date": "2018-04-03",
+        "commitResults": [
+          {
+            "hash": "11df09ca9c47f7e8351b167a92c408eb75a042cd",
+            "message": "Update display to remove team when command called",
+            "insertions": 47,
+            "deletions": 5
+          },
+          {
+            "hash": "82f86c1af4a9c921e61388e429a9ed6df056a389",
+            "message": "Update logic of remove: show all player after remove team",
+            "insertions": 5,
+            "deletions": 1
+          }
+        ]
       },
       {
         "insertions": 396,
         "deletions": 303,
-        "sinceDate": "2018-04-04",
-        "untilDate": "2018-04-05"
+        "date": "2018-04-04",
+        "commitResults": [
+          {
+            "hash": "28421887cf20ce29ece7a66d8cc4723a12d35d0d",
+            "message": "Add MTM Logo",
+            "insertions": 8,
+            "deletions": 0
+          },
+          {
+            "hash": "d034fbfcfc26c47e1a4420ed22e2b1523f6ef869",
+            "message": "Update with header for intro and align center image",
+            "insertions": 5,
+            "deletions": 4
+          },
+          {
+            "hash": "f340d5da7f7bd96e97d7005a94be271e1c3da0cf",
+            "message": "Update acknowledgement for Logo",
+            "insertions": 1,
+            "deletions": 0
+          },
+          {
+            "hash": "d62e9f9ac22b42b92323284b6dda29a35f0ecf96",
+            "message": "Update UserGuide and format",
+            "insertions": 277,
+            "deletions": 253
+          },
+          {
+            "hash": "b44e5305bfcb44624c5950ca74dffd9fb468d9b2",
+            "message": "Include preface of command summary",
+            "insertions": 2,
+            "deletions": 0
+          },
+          {
+            "hash": "9169b8baeb0b180cd2283a780fa6a5fdbb78ebc0",
+            "message": "Include preface for coming soon features",
+            "insertions": 2,
+            "deletions": 0
+          },
+          {
+            "hash": "c92c60dd8a0c0a73a78c344d114afa70420c3b7c",
+            "message": "AboutUs: Update with latest feature contribution",
+            "insertions": 32,
+            "deletions": 6
+          },
+          {
+            "hash": "011584886c8fd0e4c735a6d6430914e0368ad446",
+            "message": "Update feature contribution",
+            "insertions": 4,
+            "deletions": 5
+          },
+          {
+            "hash": "530baf12990439f18bdad82e91aebd657b63b6c7",
+            "message": "Remove product survey",
+            "insertions": 16,
+            "deletions": 16
+          },
+          {
+            "hash": "c5571f38623986e35dc7e94b583478f66c3e94fb",
+            "message": "Update team name prefix",
+            "insertions": 14,
+            "deletions": 14
+          },
+          {
+            "hash": "6ad7eb72844a3768ac6a9db90bb8189dcf6ed5a5",
+            "message": "Add rename command files",
+            "insertions": 8,
+            "deletions": 0
+          },
+          {
+            "hash": "9cb4a608b4d76e498985dbe9bbaf3f63fca3846d",
+            "message": "Add rename command use guide, update prefix for team",
+            "insertions": 27,
+            "deletions": 5
+          }
+        ]
       },
       {
         "insertions": 485,
         "deletions": 34,
-        "sinceDate": "2018-04-05",
-        "untilDate": "2018-04-06"
+        "date": "2018-04-05",
+        "commitResults": [
+          {
+            "hash": "ad0be4e024c1bdf464bee7eab7342ed9ea31c1c7",
+            "message": "Add rename team command, update team deselection for add and edit",
+            "insertions": 206,
+            "deletions": 7
+          },
+          {
+            "hash": "ac2a969815950eeeb4e0154d5777f51b2a82317b",
+            "message": "Test: Update model stub in AddCommandTest",
+            "insertions": 5,
+            "deletions": 0
+          },
+          {
+            "hash": "7cefbdccb94599d8f2634e1529328de3f1cf3671",
+            "message": "Add collate signature",
+            "insertions": 35,
+            "deletions": 0
+          },
+          {
+            "hash": "f8558a00d742959ff84ea0ca24ee5d5f5478b599",
+            "message": "Add end of author tag",
+            "insertions": 5,
+            "deletions": 1
+          },
+          {
+            "hash": "9ff3bc4967bfcf4a9e41785529e6980a4f988c0f",
+            "message": "Add reused tag to remark component",
+            "insertions": 5,
+            "deletions": 3
+          },
+          {
+            "hash": "8f4eaff3879aee43823da05b265e6f1e0f119d6d",
+            "message": "Test: Add RemoveCommandTest",
+            "insertions": 82,
+            "deletions": 1
+          },
+          {
+            "hash": "46b96c68fe46650022e5816445db90d90680d743",
+            "message": "Update RemoveCommandTest to remove non existing team",
+            "insertions": 15,
+            "deletions": 1
+          },
+          {
+            "hash": "d9e48ceb4452e42936af4bfd15f49707768569ee",
+            "message": "Test: Add RenameCommandTest",
+            "insertions": 92,
+            "deletions": 3
+          },
+          {
+            "hash": "b42c0cca3c14d5c49a1908d278e57694dce83479",
+            "message": "Test: Update RenameCommandTest to test renaming into an existing team",
+            "insertions": 20,
+            "deletions": 4
+          },
+          {
+            "hash": "c1e957de343d5cb2c261ba100855cbba9b1278b7",
+            "message": "Update logic of rename command",
+            "insertions": 20,
+            "deletions": 13
+          },
+          {
+            "hash": "4e22e36364caec000c2b3f92225a546130903c97",
+            "message": "Fix: Checkstyle error",
+            "insertions": 0,
+            "deletions": 1
+          }
+        ]
       },
       {
         "insertions": 395,
         "deletions": 110,
-        "sinceDate": "2018-04-06",
-        "untilDate": "2018-04-07"
+        "date": "2018-04-06",
+        "commitResults": [
+          {
+            "hash": "89d159c54794bcf8811f39c186efed5edb3ace67",
+            "message": "Fix: unreported exception DuplicateTeamException for renameTeam",
+            "insertions": 1,
+            "deletions": 1
+          },
+          {
+            "hash": "c54dcd6fd8c97cc56a66f78e5db96f38a635ede8",
+            "message": "Test: Add ViewCommand test",
+            "insertions": 120,
+            "deletions": 7
+          },
+          {
+            "hash": "f9a01a4915fa2220af99b5aecdd500123ee82dce",
+            "message": "Test: Add AssignCommandTest",
+            "insertions": 185,
+            "deletions": 3
+          },
+          {
+            "hash": "35561e36be8274154e7fc2dfc2db76de147cda70",
+            "message": "Update: removeTeam test case",
+            "insertions": 1,
+            "deletions": 1
+          },
+          {
+            "hash": "edac9ffd2adcb778bc483f9c1f440a31b2559b7f",
+            "message": "Format and add information to UserGuide and ReadMe",
+            "insertions": 16,
+            "deletions": 15
+          },
+          {
+            "hash": "014f36a76e54647e705663e07e979c35f2139564",
+            "message": "UserGuide: Update according for v1.4",
+            "insertions": 47,
+            "deletions": 74
+          },
+          {
+            "hash": "d58710aba867991ee3eedb7634e416ad79fb96bc",
+            "message": "Update Github view of 3.Features",
+            "insertions": 6,
+            "deletions": 2
+          },
+          {
+            "hash": "e1b5a316c22b9f5c6742f7f366968699e14df99f",
+            "message": "Update format",
+            "insertions": 3,
+            "deletions": 1
+          },
+          {
+            "hash": "b0e22d2101594af0feedab7b580c9c187d943bcd",
+            "message": "Fix: SampledataUtil and Assign command",
+            "insertions": 16,
+            "deletions": 4
+          },
+          {
+            "hash": "7c5b73642671ea0fad5a8e7fe3231b6512442dee",
+            "message": "Fix: Checkstyle error",
+            "insertions": 0,
+            "deletions": 2
+          }
+        ]
       },
       {
         "insertions": 0,
         "deletions": 0,
-        "sinceDate": "2018-04-07",
-        "untilDate": "2018-04-08"
+        "date": "2018-04-07",
+        "commitResults": []
       },
       {
         "insertions": 0,
         "deletions": 0,
-        "sinceDate": "2018-04-08",
-        "untilDate": "2018-04-09"
+        "date": "2018-04-08",
+        "commitResults": []
       },
       {
         "insertions": 0,
         "deletions": 0,
-        "sinceDate": "2018-04-09",
-        "untilDate": "2018-04-10"
+        "date": "2018-04-09",
+        "commitResults": []
       },
       {
         "insertions": 123,
         "deletions": 127,
-        "sinceDate": "2018-04-10",
-        "untilDate": "2018-04-11"
+        "date": "2018-04-10",
+        "commitResults": [
+          {
+            "hash": "833efd737ebfa9f2bb47af041d099eaffcd28f03",
+            "message": "Fix #139: Add result display when assigning players to team",
+            "insertions": 33,
+            "deletions": 6
+          },
+          {
+            "hash": "cb9ffffe2be63376a40a705702308d8ee626e678",
+            "message": "Fix #149: Change prefix of team to tm/",
+            "insertions": 11,
+            "deletions": 11
+          },
+          {
+            "hash": "f78cacd38779852872339841f68c488c96305026",
+            "message": "UserGuide: Update to reflect correct usage of add and edit command",
+            "insertions": 22,
+            "deletions": 13
+          },
+          {
+            "hash": "782730a87ebebe727fa4136fb3cc217ca21d56f1",
+            "message": "Update correct alias for view command",
+            "insertions": 1,
+            "deletions": 1
+          },
+          {
+            "hash": "4aa4dc553558b914d9e613d5019d1dc16b3dddb7",
+            "message": "UserGuide: Update correct alias for view command",
+            "insertions": 1,
+            "deletions": 1
+          },
+          {
+            "hash": "cc851768b1c9e2e5bc9a1e276496f3340387cc96",
+            "message": "Update collate information",
+            "insertions": 6,
+            "deletions": 6
+          },
+          {
+            "hash": "fbc9d78486bf27d325f1b89b06a8f37a82dbc6f5",
+            "message": "PPP: Update with major/minor enhancement, other contributions",
+            "insertions": 48,
+            "deletions": 16
+          },
+          {
+            "hash": "aa69dcfa9adc9539ec7704eb555b2fc167d9408c",
+            "message": "ReadMe: remove logo acknowledgement",
+            "insertions": 0,
+            "deletions": 1
+          },
+          {
+            "hash": "00f9b6288414a63b454bd3d0b7eb85bfafc2b9d0",
+            "message": "remove johndoe from team",
+            "insertions": 0,
+            "deletions": 71
+          },
+          {
+            "hash": "81465064875557c47dc05740303da4cde706b32c",
+            "message": "Fix: Checkstyle error, missing newline in UserGuide",
+            "insertions": 1,
+            "deletions": 1
+          }
+        ]
       },
       {
         "insertions": 425,
         "deletions": 77,
-        "sinceDate": "2018-04-11",
-        "untilDate": "2018-04-12"
+        "date": "2018-04-11",
+        "commitResults": [
+          {
+            "hash": "068e167ac2fbec48f258e17e8af7a5f61eaf1f5f",
+            "message": "UserGuide: Change prefix for avatar",
+            "insertions": 1,
+            "deletions": 1
+          },
+          {
+            "hash": "0590b5b5d8042214ab6c215922dd51c770ffee07",
+            "message": "Test: Add ViewCommandParserTest",
+            "insertions": 53,
+            "deletions": 1
+          },
+          {
+            "hash": "81a363afa9047172105df32584a0bb4b915440ea",
+            "message": "Add author for ViewCommandParserTest",
+            "insertions": 1,
+            "deletions": 0
+          },
+          {
+            "hash": "d1166a4a8d8732bb6929f7998fcbda437b6dafe0",
+            "message": "UserGuide: Format upcoming enhancement for view for v2.0",
+            "insertions": 3,
+            "deletions": 6
+          },
+          {
+            "hash": "074ff147b4bf8078610be23fc35884a45edd2f35",
+            "message": "Remove redundant code from Team.java",
+            "insertions": 0,
+            "deletions": 2
+          },
+          {
+            "hash": "4bca2bd604c0d356bef4c2c698430a4720d1859a",
+            "message": "Fix typo error in TeamName",
+            "insertions": 2,
+            "deletions": 1
+          },
+          {
+            "hash": "d38bde4aa4e2826712829de5100ccbe43b8821ab",
+            "message": "Test: Add AssignCommandParserTest",
+            "insertions": 78,
+            "deletions": 2
+          },
+          {
+            "hash": "326d8792b545d486354010d92b27ade7a854bf6f",
+            "message": "Test: Add RemoveCommandParserTest",
+            "insertions": 53,
+            "deletions": 3
+          },
+          {
+            "hash": "20907fad676a4bb6c3e00f01d27cc50b31661b49",
+            "message": "Test: Update ParserUtilTest with parseValue, parseIndexes, parseTeamName",
+            "insertions": 37,
+            "deletions": 0
+          },
+          {
+            "hash": "0764659c6e689c624bc0d35b7369e589c130ef3b",
+            "message": "Test: Add ParseTeamName in ParserUtilTest",
+            "insertions": 34,
+            "deletions": 1
+          },
+          {
+            "hash": "41d890c597e660c59c6174f0f1c6c21aab3c0f1b",
+            "message": "Add author for collate",
+            "insertions": 2,
+            "deletions": 1
+          },
+          {
+            "hash": "c5c23fad338126598a54ae4e65fbb48fd8eb7cfc",
+            "message": "Test: Add RenameCommandParserTest",
+            "insertions": 70,
+            "deletions": 0
+          },
+          {
+            "hash": "76ad203ed483f5a98ff78dea146ba6bc39f737ca",
+            "message": "Fix: Checkstyle error",
+            "insertions": 0,
+            "deletions": 1
+          },
+          {
+            "hash": "b9278a36f92048aec666582723889f235331223c",
+            "message": "Test: Update CreateCommandParserTest for invalid team name",
+            "insertions": 7,
+            "deletions": 0
+          },
+          {
+            "hash": "022380c3480f859efd7bcb812a7201e4fb39bd2d",
+            "message": "Test: Update RenameCommandTest",
+            "insertions": 21,
+            "deletions": 0
+          },
+          {
+            "hash": "27d9bda5a1e5762c3d34c24c137f3e94030dbe68",
+            "message": "Test: Update TeamBuilder and related files",
+            "insertions": 30,
+            "deletions": 26
+          },
+          {
+            "hash": "4fcf246d0914d1da2ce984443a6e6ea0578b9a36",
+            "message": "Test: Update method name change for TypicalTeam getTypicalAdressBookWithPersonsAndTeams",
+            "insertions": 2,
+            "deletions": 2
+          },
+          {
+            "hash": "d7fe23fda5a6875ba302aa31e2e7880d145165db",
+            "message": "Test: Update AssignCommandTest",
+            "insertions": 29,
+            "deletions": 22
+          },
+          {
+            "hash": "ecda52a0912b2bf48e12f2c1021f9c1c2ce47a34",
+            "message": "Fix: Checkstyle errors",
+            "insertions": 0,
+            "deletions": 7
+          },
+          {
+            "hash": "93ba545d4e4fae0fb6facb4224f436e69a55d507",
+            "message": "Fix: Checkstyle error",
+            "insertions": 2,
+            "deletions": 1
+          }
+        ]
       },
       {
         "insertions": 345,
         "deletions": 502,
-        "sinceDate": "2018-04-12",
-        "untilDate": "2018-04-13"
+        "date": "2018-04-12",
+        "commitResults": [
+          {
+            "hash": "dedc8f364cd9d1108cec7f705850497d691590cd",
+            "message": "PPP: Update overview, summary of contribution (linked PRs), remove commandsummary",
+            "insertions": 17,
+            "deletions": 14
+          },
+          {
+            "hash": "548619953c06608562027ba391c995fc3b4776f4",
+            "message": "Update components as per review",
+            "insertions": 8,
+            "deletions": 8
+          },
+          {
+            "hash": "497ba676baa83115ff3fbdc60ddcfa65ce9ce625",
+            "message": "Fix: Checkstyle unused import error",
+            "insertions": 0,
+            "deletions": 1
+          },
+          {
+            "hash": "9bee819eb132c7bae2d61374b9c5a0698143ad08",
+            "message": "Fix: User Guide link in Intro",
+            "insertions": 1,
+            "deletions": 1
+          },
+          {
+            "hash": "6be47a6d7225b4b42e441fef17072b26cdeea3ff",
+            "message": "DevGuide: remove GetStartedProgramming, add milestone to enhancement, touch up enhancedadd",
+            "insertions": 39,
+            "deletions": 313
+          },
+          {
+            "hash": "2c0efc81fff04b9d3c1e27931fb2a5cce7a921d9",
+            "message": "UserGuide: update command summary",
+            "insertions": 121,
+            "deletions": 77
+          },
+          {
+            "hash": "c7611a353b242b7657105153f3173b4f20e86efb",
+            "message": "UserGuide: Typo error",
+            "insertions": 1,
+            "deletions": 1
+          },
+          {
+            "hash": "be8479a0fa717af90ee7275d0532184f04346a0b",
+            "message": "AboutUs: Update name and PPP link",
+            "insertions": 2,
+            "deletions": 2
+          },
+          {
+            "hash": "fe7ca61238e563357c599079146456f6a4e00b22",
+            "message": "DevGuide: Update remark, team component",
+            "insertions": 64,
+            "deletions": 49
+          },
+          {
+            "hash": "bba94adaafd60ab7317dab9df5efdeb6a44460f8",
+            "message": "AddressBook: Fix logic of assignPersonToTeam and updatePerson to update player in teams",
+            "insertions": 12,
+            "deletions": 8
+          },
+          {
+            "hash": "621cadc7b0afded5311afd2b7a8f3d1ecfca3318",
+            "message": "Fix: Logic of updating person",
+            "insertions": 1,
+            "deletions": 1
+          },
+          {
+            "hash": "ae08f4ecdbc2f552ae354ab4bfec5830f99c4c6c",
+            "message": "DevGuide: update team component, minor edit team function",
+            "insertions": 77,
+            "deletions": 12
+          },
+          {
+            "hash": "fa0f63526a49d0d4cb27d6115a6f53acdd260ea8",
+            "message": "PPP: Remove portion to hit page limit",
+            "insertions": 2,
+            "deletions": 15
+          }
+        ]
       },
       {
         "insertions": 351,
         "deletions": 378,
-        "sinceDate": "2018-04-13",
-        "untilDate": "2018-04-14"
+        "date": "2018-04-13",
+        "commitResults": [
+          {
+            "hash": "27b279add80fa25aee5735b4458ed501d6c36741",
+            "message": "UserGuide: Include callout box information",
+            "insertions": 12,
+            "deletions": 0
+          },
+          {
+            "hash": "aac3efdbccb136fbf98e4163594db4370deda52a",
+            "message": "UserGuide: rephrased IMPT call out box",
+            "insertions": 1,
+            "deletions": 1
+          },
+          {
+            "hash": "1bfb57a6511541ce0b433e51e20b89c2f377ddbc",
+            "message": "PPP: Include all individual tags first",
+            "insertions": 8,
+            "deletions": 0
+          },
+          {
+            "hash": "4929ddea00ec02ee619e5941ea68e9dda1dfe67c",
+            "message": "DevGuide: add exception to teamComp",
+            "insertions": 26,
+            "deletions": 17
+          },
+          {
+            "hash": "2138dbe36f6d82c64d00873ee371df4a004b8b1e",
+            "message": "UserGuide: Fix commandsummary autocomplete description format",
+            "insertions": 1,
+            "deletions": 1
+          },
+          {
+            "hash": "2f5b3480c23a45420b3a1f34da5811a16f873ddb",
+            "message": "DevGuide: Format code snippets, update team function",
+            "insertions": 98,
+            "deletions": 43
+          },
+          {
+            "hash": "e370e4f4d48649f3c404a44608983dd5eed95f68",
+            "message": "Collate: Update author for create tests",
+            "insertions": 2,
+            "deletions": 0
+          },
+          {
+            "hash": "5baf079c2c60c111b75d945adc96f264127980e8",
+            "message": "DevGuide: complete teamfunctions, left with diagrams todo",
+            "insertions": 31,
+            "deletions": 9
+          },
+          {
+            "hash": "b9ec59f3e4e1071b5945947d27ea865bc19b07d3",
+            "message": "UserGuide: Update help keyboard shortcut",
+            "insertions": 3,
+            "deletions": 2
+          },
+          {
+            "hash": "7f96c79e7c5d57e0854acc7e0ec95c3bb66ace17",
+            "message": "UserGuide: rearrange autocomplete alias commandsummary",
+            "insertions": 1,
+            "deletions": 1
+          },
+          {
+            "hash": "1961179147c2693e348eea3a1470dc8b57721793",
+            "message": "Collate: Update author tags, group jordan together",
+            "insertions": 6,
+            "deletions": 18
+          },
+          {
+            "hash": "67258fefdcd26bdd0322721469cbb890937ca413",
+            "message": "Collate: Include author in createcommand",
+            "insertions": 1,
+            "deletions": 0
+          },
+          {
+            "hash": "f066aa85b8cce3fe34f218e0915c87306e150706",
+            "message": "DevGuide: update since format",
+            "insertions": 4,
+            "deletions": 4
+          },
+          {
+            "hash": "ff97b2df3dc8c50cf8a02ddb696bbae4ae28ea77",
+            "message": "collate and ppp update",
+            "insertions": 4,
+            "deletions": 13
+          },
+          {
+            "hash": "821e67c9cc87de496205d2c9668c802c7112ce4e",
+            "message": "format command summary table width",
+            "insertions": 4,
+            "deletions": 4
+          },
+          {
+            "hash": "4e8367c04ab8805e9b7f22a92313681382a6b6c1",
+            "message": "fix segment error in UG",
+            "insertions": 1,
+            "deletions": 0
+          },
+          {
+            "hash": "834e8ca3efebea48ef3fdcd5d217b20c6b55e165",
+            "message": "Fix DevGuide Conflict",
+            "insertions": 0,
+            "deletions": 64
+          },
+          {
+            "hash": "0d5b82a2f03fab518b7d6521502c32fe447361cc",
+            "message": "Fix devguide formatting",
+            "insertions": 107,
+            "deletions": 106
+          },
+          {
+            "hash": "0ebec70c33c3c38b390b7246da4b00154880c8ca",
+            "message": "change commandsummary changetheme example",
+            "insertions": 1,
+            "deletions": 1
+          },
+          {
+            "hash": "e123f4e1cf9f4c6195a2935519391ab304335846",
+            "message": "update aboutus with new features",
+            "insertions": 6,
+            "deletions": 4
+          },
+          {
+            "hash": "7892ce3e76fdb0eacf529aa6b4db394af1bb478c",
+            "message": "Remove merge conflict from ahmadsyafiq.adoc",
+            "insertions": 0,
+            "deletions": 52
+          },
+          {
+            "hash": "b254e5f6039c6868f858051a0d90c563a7dea68c",
+            "message": "Update UserGuide.adoc",
+            "insertions": 6,
+            "deletions": 9
+          },
+          {
+            "hash": "a70cae1e1c3f300cc2cf7457ea7b4ea9e685a220",
+            "message": "Update UserGuide.adoc",
+            "insertions": 8,
+            "deletions": 8
+          },
+          {
+            "hash": "5a1f70b1e8cbcaeacff86eb57f8e39881faf3291",
+            "message": "Update UserGuide.adoc",
+            "insertions": 2,
+            "deletions": 2
+          },
+          {
+            "hash": "a3b7140037392f16eca294a05222cc4c4d0cebeb",
+            "message": "Update UserGuide.adoc",
+            "insertions": 3,
+            "deletions": 3
+          },
+          {
+            "hash": "50f565a3fa0cd811f9178daa6322bb76171d7878",
+            "message": "Update UserGuide.adoc",
+            "insertions": 2,
+            "deletions": 2
+          },
+          {
+            "hash": "8e20b76bf0fa0e54df184d50f30085466af8fdef",
+            "message": "Update UserGuide.adoc",
+            "insertions": 2,
+            "deletions": 2
+          },
+          {
+            "hash": "7a322248291852d048336903d01c10af1c1ada54",
+            "message": "Update UserGuide.adoc",
+            "insertions": 1,
+            "deletions": 1
+          },
+          {
+            "hash": "12163172c87a9d2598dab54d6255edc09030bee9",
+            "message": "fix UiNew UIGuide",
+            "insertions": 2,
+            "deletions": 2
+          },
+          {
+            "hash": "8945fc6111f0440adb2c0c883097190942b15170",
+            "message": "fix ui name",
+            "insertions": 3,
+            "deletions": 2
+          },
+          {
+            "hash": "1836f8479231465eea45e62d037edbc2aae3ba71",
+            "message": "fix logic of rename so that it can be undoable",
+            "insertions": 5,
+            "deletions": 7
+          }
+        ]
       },
       {
         "insertions": 404,
         "deletions": 318,
-        "sinceDate": "2018-04-14",
-        "untilDate": "2018-04-15"
+        "date": "2018-04-14",
+        "commitResults": [
+          {
+            "hash": "dd28a3467997e7957400554ee765e402f32443b9",
+            "message": "include image and reformat team function to sequential",
+            "insertions": 95,
+            "deletions": 63
+          },
+          {
+            "hash": "e6e06b279a1901d63460eab489a3bb627c2e663a",
+            "message": "fix add command with team prefix logic",
+            "insertions": 26,
+            "deletions": 17
+          },
+          {
+            "hash": "6934465666d244e25845ae19c8b366425576a97b",
+            "message": "UG: include screenshots for team examples,",
+            "insertions": 115,
+            "deletions": 88
+          },
+          {
+            "hash": "c4f4563ed0775b07f263315e97fbe91ba102f63f",
+            "message": "Overhaul minor mistakes in UG",
+            "insertions": 118,
+            "deletions": 98
+          },
+          {
+            "hash": "b3b11475c13bb09308c3ab4215979af76b54c118",
+            "message": "minor edits to UG: tp, rm, s, at, e commands",
+            "insertions": 13,
+            "deletions": 13
+          },
+          {
+            "hash": "7ad431ed95b033bfe197ecb33c8d10aebb210632",
+            "message": "DG: format feature contrib. add header to manual testing",
+            "insertions": 28,
+            "deletions": 37
+          },
+          {
+            "hash": "e9bfa4b3c8b6498b4c5889e4f44d44cbf7b63452",
+            "message": "DG: Update with class diagram for Team Component",
+            "insertions": 9,
+            "deletions": 2
+          }
+        ]
       },
       {
         "insertions": 236,
         "deletions": 121,
-        "sinceDate": "2018-04-15",
-        "untilDate": "2018-04-16"
+        "date": "2018-04-15",
+        "commitResults": [
+          {
+            "hash": "5ab7c65dd690e725374bdcd0a9917a41e26fa3d6",
+            "message": "DG: include caption for figures",
+            "insertions": 2,
+            "deletions": 5
+          },
+          {
+            "hash": "f4e9b39d78fd47f3f2a5f7c0576c123a1047268e",
+            "message": "refactor RenameCommand",
+            "insertions": 5,
+            "deletions": 8
+          },
+          {
+            "hash": "eeffd64ad7e7e4942049fa38c90371a1a5bb7b00",
+            "message": "DG: update with diagrams",
+            "insertions": 26,
+            "deletions": 12
+          },
+          {
+            "hash": "03a091a1f056d86b15c29ee07470d5aa7992e733",
+            "message": "update width of diagrams",
+            "insertions": 9,
+            "deletions": 9
+          },
+          {
+            "hash": "2dd90437e6737f1cf521eaa3909965991e105d99",
+            "message": "ppp: update to fit page limit",
+            "insertions": 14,
+            "deletions": 14
+          },
+          {
+            "hash": "7707254973a47081478a76049b83296488813418",
+            "message": "PPP: update links to collate",
+            "insertions": 2,
+            "deletions": 2
+          },
+          {
+            "hash": "2b989dafe4df6f3dde32eef3bf6f0248a767d6b0",
+            "message": "aboutUs: update to full name",
+            "insertions": 3,
+            "deletions": 3
+          },
+          {
+            "hash": "66dbe8702b7ceb8402e08cd04844e56588805a15",
+            "message": "increase section level of config and logging",
+            "insertions": 8,
+            "deletions": 8
+          },
+          {
+            "hash": "6e65abc13007c51688e115a1c4d669a08593444d",
+            "message": "DG: add test cases",
+            "insertions": 108,
+            "deletions": 2
+          },
+          {
+            "hash": "f448922e9405899fdbbb06fe7bdc148c8b86add6",
+            "message": "update tab keyboard shortcut",
+            "insertions": 1,
+            "deletions": 1
+          },
+          {
+            "hash": "116273ea14dbd918e39cbb23013735c96a51cd28",
+            "message": "remove listed sections from features arrangement",
+            "insertions": 1,
+            "deletions": 1
+          },
+          {
+            "hash": "7e4c86939a360a1f6e2623e184c231fb18a2137c",
+            "message": "update ppp with formatting",
+            "insertions": 12,
+            "deletions": 11
+          },
+          {
+            "hash": "9c3a25f76e4118ce33a4eb274307790914148f12",
+            "message": "Update AboutUs.adoc",
+            "insertions": 21,
+            "deletions": 21
+          },
+          {
+            "hash": "b01428aeb228979205171fd1a25eaba391835985",
+            "message": "update links to collate",
+            "insertions": 1,
+            "deletions": 1
+          },
+          {
+            "hash": "e6824607bd0dd4306eb5146c4ed89852e0dfa573",
+            "message": "update links to collate",
+            "insertions": 1,
+            "deletions": 1
+          },
+          {
+            "hash": "2c0d2dfafe817b563261a9343d9cdd8b9006d97f",
+            "message": "add link from team class diagram to main design",
+            "insertions": 1,
+            "deletions": 1
+          },
+          {
+            "hash": "7933c55550783f70b201a5b4f0b8dd8d52be6c36",
+            "message": "UG: update find description - find from all player",
+            "insertions": 1,
+            "deletions": 1
+          },
+          {
+            "hash": "c705eaeb3b94267f563efda4244709414916d47f",
+            "message": "ReadMe: add acknowledgement to AB4",
+            "insertions": 1,
+            "deletions": 0
+          },
+          {
+            "hash": "735b1f22dab03d150ccd55f17194baf1288f4986",
+            "message": "update UG screenshots",
+            "insertions": 1,
+            "deletions": 1
+          },
+          {
+            "hash": "6533fefd4e593fddcfd9a615192a2e3c21423450",
+            "message": "fix test case failing",
+            "insertions": 1,
+            "deletions": 1
+          },
+          {
+            "hash": "d0a8bf7b442c9a5b8920f54fd328a9221c8f5758",
+            "message": "ReadMe: remove not implemented feature",
+            "insertions": 0,
+            "deletions": 1
+          },
+          {
+            "hash": "eae05c242844780061975c3119cb559ea4633c21",
+            "message": "rearrange AboutUs to senpai infront",
+            "insertions": 16,
+            "deletions": 16
+          },
+          {
+            "hash": "85e47c400ccfeef9c5a2233e2b6fdd4d431df783",
+            "message": "remove trailing *",
+            "insertions": 1,
+            "deletions": 1
+          }
+        ]
       }
     ]
   },
