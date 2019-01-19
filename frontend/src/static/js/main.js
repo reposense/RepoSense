@@ -118,15 +118,15 @@ window.app = new window.Vue({
     registerMouseMove() {
       const mouseMove = (event) => {
         this.guideWidth = (
-          Math.min(
-            Math.max(
-              window.innerWidth - event.clientX,
-              SCROLL_BAR_WIDTH + DRAG_BAR_WIDTH,
-            ),
-            window.innerWidth - SCROLL_BAR_WIDTH,
-          )
-          - (GUIDE_BAR_WIDTH / 2))
-          / window.innerWidth;
+            Math.min(
+                Math.max(
+                    window.innerWidth - event.clientX,
+                    SCROLL_BAR_WIDTH + DRAG_BAR_WIDTH,
+                ),
+                window.innerWidth - SCROLL_BAR_WIDTH,
+            )
+            - (GUIDE_BAR_WIDTH / 2)
+        ) / window.innerWidth;
       };
       this.showResizeGuide = true;
       this.appWrapperUserSelect = 'none';
@@ -135,7 +135,7 @@ window.app = new window.Vue({
 
     deregisterMouseMove() {
       this.flexWidth = (this.guideWidth * window.innerWidth + (GUIDE_BAR_WIDTH / 2))
-        / window.innerWidth;
+          / window.innerWidth;
       this.showResizeGuide = false;
       this.mouseMove = () => {};
       this.appWrapperUserSelect = 'auto';
