@@ -41,6 +41,10 @@ public class RepoLocation {
         }
     }
 
+    public boolean isEmpty() {
+        return location.isEmpty();
+    }
+
     public String getRepoName() {
         return repoName;
     }
