@@ -14,6 +14,7 @@
     * [`repo-config.csv`](#repo-configcsv)
     * [`author-config.csv`](#author-configcsv)
 * [Analyzing Multiple Repos](#analyzing-multiple-repos)
+* [FAQ](#faq)
 
 
 ## Getting Started
@@ -305,5 +306,8 @@ Alternatively, you can use csv config files to customize the analysis as before 
 * `repo-config.csv`: Add additional rows for the extra repos ([example](repo-config.csv))
 * `author-config.csv`: Add one row for each author in each repo you want to analyze
 
+## FAQ
 
+** Q:** 
+** A:**
 
