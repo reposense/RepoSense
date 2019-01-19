@@ -89,11 +89,11 @@ public class FileInfoAnalyzer {
             String authorEmail = blameResultLines[lineCount + 2]
                     .substring(AUTHOR_EMAIL_OFFSET).replaceAll("<|>", "");
             Author author = authorEmailsAndAliasesMap.getOrDefault(authorName,
-                    authorEmailsAndAliasesMap.getOrDefault(authorEmail, new Author(Author.UNKNOWN_AUTHOR_GIT_ID)));
+                    authorEmailsAndAliasesMap.getOrDefault(authorEmail, Author.UNKNOWN_AUTHOR));
 
             if (!fileInfo.isFileLineTracked(lineCount / 3) || isAuthorIgnoringFile(author, filePath)
                     || CommitHash.isInsideCommitList(commitHash, config.getIgnoreCommitList())) {
-                author = new Author(Author.UNKNOWN_AUTHOR_GIT_ID);
+                author = Author.UNKNOWN_AUTHOR;
             }
 
             fileInfo.setLineAuthor(lineCount / 3, author);

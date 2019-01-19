@@ -10,11 +10,13 @@ import java.util.List;
  */
 public class Author {
 
-    public static final String UNKNOWN_AUTHOR_GIT_ID = "-";
+    private static final String UNKNOWN_AUTHOR_GIT_ID = "-";
     private static final String MESSAGE_UNCOMMON_EMAIL_PATTERN = "The provided email, %s, uses uncommon pattern.";
     private static final String MESSAGE_UNCOMMON_GLOB_PATTERN = "The provided ignore glob, %s, uses uncommon pattern.";
     private static final String COMMON_EMAIL_REGEX = "^([a-zA-Z0-9_\\-\\.]+)@([a-zA-Z0-9_\\-\\.]+)\\.([a-zA-Z]{2,5})$";
     private static final String COMMON_GLOB_REGEX = "^[-a-zA-Z0-9 _/\\\\*!{}\\[\\]!(),:.]*$";
+
+    public static final Author UNKNOWN_AUTHOR = new Author(UNKNOWN_AUTHOR_GIT_ID);
 
     private final String gitId;
 
@@ -23,6 +25,7 @@ public class Author {
     private transient List<String> authorAliases;
     private transient List<String> ignoreGlobList;
     private transient PathMatcher ignoreGlobMatcher;
+
 
     public Author(String gitId) {
         this.gitId = gitId;

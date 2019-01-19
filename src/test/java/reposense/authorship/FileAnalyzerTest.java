@@ -78,7 +78,7 @@ public class FileAnalyzerTest extends GitTestTemplate {
         Assert.assertEquals(new Author(MAIN_AUTHOR_NAME), fileInfoFull.getLine(4).getAuthor());
 
         // line added in commit that was ignored
-        Assert.assertEquals(new Author(Author.UNKNOWN_AUTHOR_GIT_ID), fileInfoFull.getLine(3).getAuthor());
+        Assert.assertEquals(Author.UNKNOWN_AUTHOR, fileInfoFull.getLine(3).getAuthor());
     }
 
     @Test
@@ -96,6 +96,6 @@ public class FileAnalyzerTest extends GitTestTemplate {
 
         Assert.assertEquals(fileInfoFull, fileInfoShort);
         fileInfoFull.getLines().forEach(lineInfo ->
-                Assert.assertEquals(new Author(Author.UNKNOWN_AUTHOR_GIT_ID), lineInfo.getAuthor()));
+                Assert.assertEquals(Author.UNKNOWN_AUTHOR, lineInfo.getAuthor()));
     }
 }

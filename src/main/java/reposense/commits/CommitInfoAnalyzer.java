@@ -45,7 +45,7 @@ public class CommitInfoAnalyzer {
     public static List<CommitResult> analyzeCommits(List<CommitInfo> commitInfos, RepoConfiguration config) {
         return commitInfos.stream()
                 .map(commitInfo -> analyzeCommit(commitInfo, config.getAuthorEmailsAndAliasesMap()))
-                .filter(commitResult -> !commitResult.getAuthor().equals(new Author(Author.UNKNOWN_AUTHOR_GIT_ID))
+                .filter(commitResult -> !commitResult.getAuthor().equals(Author.UNKNOWN_AUTHOR)
                         && !CommitHash.isInsideCommitList(commitResult.getHash(), config.getIgnoreCommitList()))
                 .sorted(Comparator.comparing(CommitResult::getTime))
                 .collect(Collectors.toList());
@@ -61,7 +61,7 @@ public class CommitInfoAnalyzer {
         String[] elements = infoLine.split(LOG_SPLITTER);
         String hash = elements[COMMIT_HASH_INDEX];
         Author author = authorAliasMap.getOrDefault(elements[AUTHOR_INDEX],
-                authorAliasMap.getOrDefault(elements[EMAIL_INDEX], new Author(Author.UNKNOWN_AUTHOR_GIT_ID)));
+                authorAliasMap.getOrDefault(elements[EMAIL_INDEX], Author.UNKNOWN_AUTHOR));
 
         Date date = null;
         try {
