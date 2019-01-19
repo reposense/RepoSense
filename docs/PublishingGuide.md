@@ -22,3 +22,6 @@
 1. Under **Cron Jobs**, choose **master** for `Branch`, **Always run** for `Options` and pick an `Interval` of your choice; then click Add
 
 ### Keeping your fork updated with our developments
+
+1. [Use this link](../../../compare/master...reposense:master), which creates a pull request to pull our code into your fork
+1. Merge the changes into your fork
