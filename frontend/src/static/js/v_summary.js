@@ -155,11 +155,10 @@ window.vSummary = {
       const contributionLimit = (this.avgContributionSize * 2);
 
       const curr = 0;
-/*
       const cnt = parseInt(totalContribution / contributionLimit, 10);
       for (let cntId = 0; cntId < cnt; cntId += 1) {
         res.push(100);
-      }*/
+      }
 
       const last = (totalContribution % contributionLimit) / contributionLimit;
       if (last !== 0) {
