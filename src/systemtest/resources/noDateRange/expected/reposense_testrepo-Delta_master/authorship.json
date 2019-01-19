@@ -28334,6 +28334,9 @@
       },
       {
         "lineNumber": 25,
+        "author": {
+          "gitId": "-"
+        },
         "content": "        // @@author"
       },
       {
@@ -28359,9 +28362,8 @@
       }
     ],
     "authorContributionMap": {
-      "null": 1,
       "lohtianwei": 1,
-      "-": 26
+      "-": 27
     }
   },
   {
@@ -30144,6 +30146,9 @@
       },
       {
         "lineNumber": 122,
+        "author": {
+          "gitId": "-"
+        },
         "content": "        //@@author"
       },
       {
@@ -31653,10 +31658,9 @@
       }
     ],
     "authorContributionMap": {
-      "null": 1,
       "lohtianwei": 1,
       "jordancjq": 7,
-      "-": 328
+      "-": 329
     }
   },
   {
@@ -33176,6 +33180,9 @@
       },
       {
         "lineNumber": 35,
+        "author": {
+          "gitId": "-"
+        },
         "content": "        // @@author"
       },
       {
@@ -33243,9 +33250,8 @@
       }
     ],
     "authorContributionMap": {
-      "null": 1,
       "lohtianwei": 1,
-      "-": 42
+      "-": 43
     }
   },
   {
@@ -39016,6 +39022,9 @@
       },
       {
         "lineNumber": 35,
+        "author": {
+          "gitId": "-"
+        },
         "content": "        // @@author"
       },
       {
@@ -39083,9 +39092,8 @@
       }
     ],
     "authorContributionMap": {
-      "null": 1,
       "lohtianwei": 1,
-      "-": 42
+      "-": 43
     }
   },
   {
@@ -48343,6 +48351,9 @@
       },
       {
         "lineNumber": 199,
+        "author": {
+          "gitId": "-"
+        },
         "content": "    //@@author"
       },
       {
@@ -50111,10 +50122,9 @@
       }
     ],
     "authorContributionMap": {
-      "null": 1,
       "lohtianwei": 7,
       "jordancjq": 240,
-      "-": 203
+      "-": 204
     }
   },
   {
@@ -52071,6 +52081,9 @@
       },
       {
         "lineNumber": 177,
+        "author": {
+          "gitId": "-"
+        },
         "content": "    //@@author"
       },
       {
@@ -52460,10 +52473,9 @@
       }
     ],
     "authorContributionMap": {
-      "null": 1,
       "lohtianwei": 28,
       "jordancjq": 60,
-      "-": 143
+      "-": 144
     }
   },
   {
@@ -53222,6 +53234,9 @@
       },
       {
         "lineNumber": 77,
+        "author": {
+          "gitId": "-"
+        },
         "content": "    //@@author"
       },
       {
@@ -53506,9 +53521,8 @@
       }
     ],
     "authorContributionMap": {
-      "null": 1,
       "lohtianwei": 28,
-      "-": 88
+      "-": 89
     }
   },
   {
@@ -62359,6 +62373,9 @@
       },
       {
         "lineNumber": 135,
+        "author": {
+          "gitId": "-"
+        },
         "content": "    //@@author"
       },
       {
@@ -62419,6 +62436,9 @@
       },
       {
         "lineNumber": 144,
+        "author": {
+          "gitId": "-"
+        },
         "content": "            //@@author"
       },
       {
@@ -62598,9 +62618,8 @@
       }
     ],
     "authorContributionMap": {
-      "null": 2,
       "jordancjq": 9,
-      "-": 158
+      "-": 160
     }
   },
   {
@@ -65154,6 +65173,9 @@
       },
       {
         "lineNumber": 26,
+        "author": {
+          "gitId": "-"
+        },
         "content": "    //@@author"
       },
       {
@@ -65459,6 +65481,9 @@
       },
       {
         "lineNumber": 70,
+        "author": {
+          "gitId": "-"
+        },
         "content": "    //@@author"
       },
       {
@@ -65568,9 +65593,8 @@
       }
     ],
     "authorContributionMap": {
-      "null": 2,
       "jordancjq": 6,
-      "-": 77
+      "-": 79
     }
   },
   {
@@ -84051,6 +84075,9 @@
       },
       {
         "lineNumber": 320,
+        "author": {
+          "gitId": "-"
+        },
         "content": "    //@@author"
       },
       {
@@ -84062,10 +84089,9 @@
       }
     ],
     "authorContributionMap": {
-      "null": 1,
       "lohtianwei": 150,
       "jordancjq": 36,
-      "-": 134
+      "-": 135
     }
   },
   {
