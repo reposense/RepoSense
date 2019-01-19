@@ -25,3 +25,21 @@
 
 1. [Use this link](../../../compare/master...reposense:master), which creates a pull request to pull our code into your fork
 1. Merge the changes into your fork
+
+### Reducing the time taken by report generation
+
+1. The [travis configuration file](../.travis.yml) in our repository include tests, which is not required in your use case
+1. [Use this link](../../../edit/master/.travis.yml) to edit the file
+1. You can remove the following line 3 to line 12 in the file
+```
+3  matrix:
+4    include:
+5      - os: linux
+6        jdk: oraclejdk9
+7      - os: osx
+8
+9  script:
+10   - ./config/travis/run-checks.sh
+11   - cd ./frontend; npm run lint src/**/*js; cd ..
+12   - time travis_retry ./gradlew clean checkstyleMain checkstyleTest test systemTest
+```
