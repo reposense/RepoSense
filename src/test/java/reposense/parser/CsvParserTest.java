@@ -16,8 +16,10 @@ import reposense.model.Author;
 import reposense.model.CliArguments;
 import reposense.model.CommitHash;
 import reposense.model.ConfigCliArguments;
+import reposense.model.Format;
 import reposense.model.RepoConfiguration;
 import reposense.model.RepoLocation;
+import reposense.util.TestUtil;
 
 public class CsvParserTest {
     private static final Path TEST_CONFIG_FOLDER = new File(CsvParserTest.class.getClassLoader()
@@ -40,6 +42,8 @@ public class CsvParserTest {
 
     private static final String TEST_REPO_DELTA_LOCATION = "https://github.com/reposense/testrepo-Delta.git";
     private static final String TEST_REPO_DELTA_BRANCH = "HEAD";
+    private static final List<Format> TEST_REPO_DELTA_FORMATS =
+            Format.convertStringsToFormats(Arrays.asList("java", "fxml"));
 
     private static final List<String> TEST_REPO_BETA_CONFIG_FORMATS = Arrays.asList("java", "adoc", "md");
     private static final List<String> TEST_REPO_BETA_CONFIG_IGNORED_COMMITS =
@@ -47,6 +51,7 @@ public class CsvParserTest {
 
     private static final Author FIRST_AUTHOR = new Author("nbriannl");
     private static final Author SECOND_AUTHOR = new Author("zacharytang");
+    private static final List<String> SECOND_AUTHOR_ALIASES = Arrays.asList("Zachary Tang");
     private static final List<Author> AUTHOR_CONFIG_NO_SPECIAL_CHARACTER_AUTHORS =
             Arrays.asList(FIRST_AUTHOR, SECOND_AUTHOR);
 
@@ -57,7 +62,7 @@ public class CsvParserTest {
             FIRST_SPECIAL_CHARACTER_AUTHOR, SECOND_SPECIAL_CHARACTER_AUTHOR, THIRD_SPECIAL_CHARACTER_AUTHOR);
 
     private static final List<String> REPO_LEVEL_GLOB_LIST = Arrays.asList("collated**");
-    private static final List<String> FIRST_AUTHOR_GLOB_LIST = Arrays.asList("collated**", "**.java");
+    private static final List<String> FIRST_AUTHOR_GLOB_LIST = Arrays.asList("**.java", "collated**");
 
     @Test
     public void repoConfig_noSpecialCharacter_success() throws IOException, InvalidLocationException {
@@ -127,6 +132,7 @@ public class CsvParserTest {
     public void merge_twoRepoConfigs_success() throws ParseException, IOException {
         FIRST_AUTHOR.setIgnoreGlobList(FIRST_AUTHOR_GLOB_LIST);
         SECOND_AUTHOR.setIgnoreGlobList(REPO_LEVEL_GLOB_LIST);
+        SECOND_AUTHOR.setAuthorAliases(SECOND_AUTHOR_ALIASES);
 
         List<Author> expectedAuthors = new ArrayList<>();
         expectedAuthors.add(FIRST_AUTHOR);
@@ -150,17 +156,14 @@ public class CsvParserTest {
         RepoConfiguration.merge(actualConfigs, authorConfigs);
 
         Assert.assertEquals(1, actualConfigs.size());
-        Assert.assertEquals(expectedConfig.getLocation(), actualConfigs.get(0).getLocation());
-        Assert.assertEquals(expectedConfig.getAuthorList(), actualConfigs.get(0).getAuthorList());
-        Assert.assertEquals(expectedConfig.getAuthorDisplayNameMap(), actualConfigs.get(0).getAuthorDisplayNameMap());
-        Assert.assertEquals(expectedConfig.getAuthorAliasMap(), actualConfigs.get(0).getAuthorAliasMap());
-        Assert.assertEquals(REPO_LEVEL_GLOB_LIST, actualConfigs.get(0).getIgnoreGlobList());
+        TestUtil.compareRepoConfig(expectedConfig, actualConfigs.get(0));
     }
 
     @Test
     public void merge_emptyLocation_success() throws ParseException, IOException {
         FIRST_AUTHOR.setIgnoreGlobList(FIRST_AUTHOR_GLOB_LIST);
         SECOND_AUTHOR.setIgnoreGlobList(REPO_LEVEL_GLOB_LIST);
+        SECOND_AUTHOR.setAuthorAliases(SECOND_AUTHOR_ALIASES);
 
         List<Author> expectedBetaAuthors = new ArrayList<>();
         expectedBetaAuthors.add(FIRST_AUTHOR);
@@ -181,6 +184,8 @@ public class CsvParserTest {
                 new RepoConfiguration(new RepoLocation(TEST_REPO_DELTA_LOCATION), TEST_REPO_DELTA_BRANCH);
         expectedDeltaConfig.setAuthorList(expectedDeltaAuthors);
         expectedDeltaConfig.setAuthorDisplayName(FIRST_AUTHOR, "Nbr");
+        expectedDeltaConfig.setStandaloneConfigIgnored(true);
+        expectedDeltaConfig.setFormats(TEST_REPO_DELTA_FORMATS);
 
         List<RepoConfiguration> expectedConfigs = new ArrayList<>();
         expectedConfigs.add(expectedBetaConfig);
@@ -198,23 +203,8 @@ public class CsvParserTest {
         Assert.assertEquals(2, actualConfigs.size());
         Assert.assertEquals(expectedConfigs, actualConfigs);
 
-        RepoConfiguration firstExpectedConfig = expectedConfigs.get(0);
-        RepoConfiguration secondExpectedConfig = expectedConfigs.get(1);
-        RepoConfiguration firstActualConfig = actualConfigs.get(0);
-        RepoConfiguration secondActualConfig = actualConfigs.get(1);
-
-        Assert.assertEquals(firstExpectedConfig.getLocation(), firstActualConfig.getLocation());
-        Assert.assertEquals(firstExpectedConfig.getAuthorList(), firstActualConfig.getAuthorList());
-        Assert.assertEquals(firstExpectedConfig.getAuthorDisplayNameMap(), firstActualConfig.getAuthorDisplayNameMap());
-        Assert.assertEquals(firstExpectedConfig.getAuthorAliasMap(), firstActualConfig.getAuthorAliasMap());
-        Assert.assertEquals(REPO_LEVEL_GLOB_LIST, firstActualConfig.getIgnoreGlobList());
-
-        Assert.assertEquals(secondExpectedConfig.getLocation(), secondActualConfig.getLocation());
-        Assert.assertEquals(secondExpectedConfig.getAuthorList(), secondActualConfig.getAuthorList());
-        Assert.assertEquals(
-                secondExpectedConfig.getAuthorDisplayNameMap(), secondActualConfig.getAuthorDisplayNameMap());
-        Assert.assertEquals(secondExpectedConfig.getAuthorAliasMap(), secondActualConfig.getAuthorAliasMap());
-        Assert.assertEquals(new ArrayList<>(), secondActualConfig.getIgnoreGlobList());
+        TestUtil.compareRepoConfig(expectedConfigs.get(0), actualConfigs.get(0));
+        TestUtil.compareRepoConfig(expectedConfigs.get(1), actualConfigs.get(1));
     }
 
     @Test

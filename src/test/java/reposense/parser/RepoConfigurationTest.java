@@ -125,6 +125,7 @@ public class RepoConfigurationTest {
 
         expectedConfig.setIgnoreGlobList(REPO_LEVEL_GLOB_LIST);
         expectedConfig.setFormats(CONFIG_FORMATS);
+        expectedConfig.setStandaloneConfigIgnored(true);
 
         String formats = String.join(" ", CLI_FORMATS);
         String input = String.format("-config %s -formats %s", IGNORE_STANDALONE_TEST_CONFIG_FILES, formats);
@@ -147,6 +148,7 @@ public class RepoConfigurationTest {
     public void repoConfig_ignoresStandaloneConfigInCli_success() throws ParseException, GitCloneException {
         RepoConfiguration expectedConfig = new RepoConfiguration(new RepoLocation(TEST_REPO_DELTA), "master");
         expectedConfig.setFormats(Format.convertStringsToFormats(CLI_FORMATS));
+        expectedConfig.setStandaloneConfigIgnored(true);
 
         String formats = String.join(" ", CLI_FORMATS);
         String input = String.format("-repo %s -formats %s --ignore-standalone-config", TEST_REPO_DELTA, formats);
