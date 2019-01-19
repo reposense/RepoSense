@@ -130,7 +130,7 @@ window.app = new window.Vue({
       };
       this.showResizeGuide = true;
       this.appWrapperUserSelect = 'none';
-      this.mouseMove = throttledEvent(50, mouseMove);
+      this.mouseMove = throttledEvent(100, mouseMove);
     },
 
     deregisterMouseMove() {
