@@ -150,15 +150,14 @@ html
           .file.active(v-for="file in selectedFiles", v-bind:key="file.path")
             .title
               span.path(onclick="toggleNext(this)") {{ file.path }}&nbsp;
-              span.loc ({{ file.lineCount }} lines)&nbsp;
+              span.loc ({{ file.lineCount }} lines)
               a(
-                v-bind:href="getFileHistoryLink(file)", target="_blank",
+                v-bind:href="getFileLink(file, 'commits')", target="_blank",
                 title="click to view the history view of file"
               )
                 i.button.fas.fa-history
-              span &nbsp;
               a(
-                v-bind:href="getFileBlameLink(file)", target="_blank",
+                v-bind:href="getFileLink(file, 'blame')", target="_blank",
                 title="click to view the blame view of file"
               )
                 i.button.fas.fa-user-edit

@@ -184,24 +184,11 @@ window.vAuthorship = {
       }
     },
 
-    getFileBlameLink(file) {
+    getFileLink(file, path) {
       const repo = window.REPOS[this.info.repo];
 
       return `http://github.com/${
-        repo.location.organization}/${
-        repo.location.repoName}/blame/${
-        repo.branch}/${
-        file.path}`;
-    },
-
-    getFileHistoryLink(file) {
-      const repo = window.REPOS[this.info.repo];
-
-      return `http://github.com/${
-        repo.location.organization}/${
-        repo.location.repoName}/commits/${
-        repo.branch}/${
-        file.path}`;
+        repo.location.organization}/${repo.location.repoName}/${path}/${repo.branch}/${file.path}`;
     },
 
     getFileBlankLineInfo(fileType) {
