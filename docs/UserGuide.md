@@ -325,3 +325,6 @@ Also ensure that you have added all author name aliases that you may be using.
 
 **Q:** I have added/edited the standalone config file in my local repository, but RepoSense is not using it when running the analysis?<br>
 **A:** Ensure that you have committed the changes to your standalone config file first before running the analysis, as RepoSense is unable to detect uncommitted changes to your local repository.
+
+**Q:** I am able to run RepoSense on my repository on a Linux/Mac OS, but it fails on a Windows OS?
+**A:** It is possible you may have some file names with [special characters](https://docs.microsoft.com/en-us/windows/desktop/FileIO/naming-a-file#naming-conventions) in them, which is disallowed in Windows OS. As such, RepoSense is unable to fully clone your repository, thus failing the analysis. 
