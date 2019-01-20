@@ -308,23 +308,23 @@ Alternatively, you can use csv config files to customize the analysis as before 
 
 ## FAQ
 
-**Q:** Does RepoSense work on private repositories?<br>
+#### Q: Does RepoSense work on private repositories?<br>
 **A:** RepoSense will first clone the git repository to be analyzed, thus if you do not have access to the repository, we are unable to run the analysis.
 To enable RepoSense to work on private repositories, ensure that you have enabled access to your private repository in your git terminal first, before running the analysis.
 
-**Q:** How does formats work?<br>
+#### Q: How does formats work?<br>
 **A:** Formats are the [file extensions](https://techterms.com/definition/fileextension), which is the suffix at the end of a filename that indicates what type of file it is, that RepoSense should analyze. The formats/file extensions to be analyzed can be specified through the [standalone config file](#provide-data-using-a-json-config-file), [repo-config file](#repo-configcsv) and [command line](#customize-using-command-line-parameters).
 
-**Q:** How does ignore glob list work?<br>
+#### Q: How does ignore glob list work?<br>
 **A:** [Glob](https://en.wikipedia.org/wiki/Glob_(programming)) is the pattern to specify a set of filenames with [wildcard characters](https://www.computerhope.com/jargon/w/wildcard.htm). Ignore glob list is the list of patterns to specify all the files in the repository which should be ignored from analysis. The ignore glob list can be specified through the [standalone config file](#provide-data-using-a-json-config-file), [`repo-config` file](#repo-configcsv) and [`author-config` file](#author-configcsv).
 
-**Q:** My commit contributions does not appear in the ramp chart (despite appearing in the contribution bar and code panel)?<br>
+#### Q: My commit contributions does not appear in the ramp chart (despite appearing in the contribution bar and code panel)?<br>
 **A:** This is probably a case of giving an incorrect author name alias in your `author-config.csv` file.
 Please refer to [A Note About Git Author Name](#a-note-about-git-author-name) above on how to find out the correct author name you are using, and how to change it.
 Also ensure that you have added all author name aliases that you may be using.
 
-**Q:** I have added/edited the standalone config file in my local repository, but RepoSense is not using it when running the analysis?<br>
+#### Q: I have added/edited the standalone config file in my local repository, but RepoSense is not using it when running the analysis?<br>
 **A:** Ensure that you have committed the changes to your standalone config file first before running the analysis, as RepoSense is unable to detect uncommitted changes to your local repository.
 
-**Q:** I am able to run RepoSense on my repository on a Linux/Mac OS, but it fails on a Windows OS?
-**A:** It is possible you may have some file names with [special characters](https://docs.microsoft.com/en-us/windows/desktop/FileIO/naming-a-file#naming-conventions) in them, which is disallowed in Windows OS. As such, RepoSense is unable to fully clone your repository, thus failing the analysis. 
+#### Q: I am able to run RepoSense on my repository on a Linux/Mac OS, but it fails on a Windows OS?<br>
+**A:** It is possible you may have some file names with [special characters](https://docs.microsoft.com/en-us/windows/desktop/FileIO/naming-a-file#naming-conventions) in them, which is disallowed in Windows OS. As such, RepoSense is unable to fully clone your repository, thus failing the analysis.
