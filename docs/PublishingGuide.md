@@ -56,8 +56,11 @@ Alternatively, you can manually trigger an update
 ### Use a standard release instead of rolling release
 
 As RepoSense is being actively developed, its master branch is frequently updated with new features and fixes. <br/>
-For stablility or familiarity, you may want to use a standard release. <br/>
-In this case, you can use the `Release` branch in your fork. <br/>
+For stablility or familiarity, you may want to use a standard release. In this case, you can use the `Release` branch in your fork. <br/>
+
+#### Use our latest release
+
+You can find the changelog of latest release [here](https://github.com/reposense/RepoSense/releases/latest)
 
 1. [Use this link](../../../edit/master/.travis.yml) to edit the travis configuration file, under deploy change the branch to **release**
 ```
@@ -67,4 +70,22 @@ deploy:
     branch: release <-- change this line
 ```
 2. If you use `Cron Jobs`, edit it to use **release** for `Branch`
+3. [Use this link](../../../compare/release...reposense:release) to sync your release branch with ours
 
+#### Use a specific version of release
+
+You can find the changelog of all releases [here](https://github.com/reposense/RepoSense/releases) <br/>
+
+This section requires you to be familiar with command line git
+
+> Ensure you have backup your changes in release branch, as it will be **deleted**.
+> Be sure to note the breaking changes and bugs before proceeding.
+
+1. Open terminal and `cd` to reposense project directory
+1. Run `git fetch --tags`, which update --tags of your local copy
+1. Run `git tag`, which lists all the valid tags you can use to checkout
+1. Run `git branch -D release` to delete release branch
+1. Run `git checkout tags/v1.5.5 -b release`
+1. Run `git push -u origin release -f' to update the release branch on github
+
+> If you intend to use a release `v1.6.1` and earlier, you need to download a updated copy of `.travis.yml` as the deploy feature was added after. 
