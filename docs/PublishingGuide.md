@@ -14,8 +14,7 @@
 1. Edit [repo-config.csv](../../../edit/master/config/github-pages/repo-config.csv) and [author-config.csv](../../../edit/master/config/github-pages/author-config.csv) to include repositories you wish to analyse
 1. To access your site, go to [the setting of your fork](../../../settings), under **GitHub Pages** look for `Your site is published at [LINK]`
 
-> It takes a few minutes for Travis-CI to generate your report. <br/>
-  Meanwhile, you can monitor the progress live at [Travis-CI's Dashboard](https://travis-ci.org/dashboard). <br/>
+> It takes a few minutes for Travis-CI to generate your report. Meanwhile, you can monitor the progress live at [Travis-CI's Dashboard](https://travis-ci.org/dashboard). <br/>
   Try accessing your site again when a green tick appears beside your fork.  
   
 ### Keeping your site updated
@@ -26,13 +25,13 @@
 1. Go to [Travis-CI's Dashboard](https://travis-ci.org/dashboard) and the click on the icon on the right to access its setting
 1. Under **Cron Jobs**, choose **master** for `Branch`, **Always run** for `Options` and pick an `Interval` of your choice; then click Add
 
-Alternatively, you can manually trigger an update
+Alternatively, you can manually trigger an update.
 
 1. Go to [Travis-CI's Dashboard](https://travis-ci.org/dashboard), find your fork under **Active repositories** and the click on the icon on the right and click on **Trigger a build**
 
 ### Keeping your fork updated with our developments
 
-1. [Use this link](../../../compare/master...reposense:master), which creates a pull request to pull our code into your fork
+1. [Use this link](../../../compare/master...reposense:master) to create a pull request to pull our code into your fork
 1. Merge the changes into your fork
 
 ### Reducing the time taken by report generation
