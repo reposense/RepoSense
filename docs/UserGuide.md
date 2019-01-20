@@ -14,7 +14,7 @@
     * [`repo-config.csv`](#repo-configcsv)
     * [`author-config.csv`](#author-configcsv)
 * [Analyzing Multiple Repos](#analyzing-multiple-repos)
-
+* [Publishing report to GitHub Pages](#publishing-report-to-github-pages)
 
 ## Getting Started
 
@@ -302,5 +302,6 @@ Alternatively, you can use csv config files to customize the analysis as before 
 * `repo-config.csv`: Add additional rows for the extra repos ([example](repo-config.csv))
 * `author-config.csv`: Add one row for each author in each repo you want to analyze
 
+## Publishing report to GitHub Pages
 
-
+Follow this [guide](PublishingGuide.md) to publish your report to GitHub Pages.
