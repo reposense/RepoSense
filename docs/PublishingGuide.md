@@ -52,3 +52,19 @@ Alternatively, you can manually trigger an update
 11   - cd ./frontend; npm run lint src/**/*js; cd ..
 12   - time travis_retry ./gradlew clean checkstyleMain checkstyleTest test systemTest
 ```
+
+### Use a standard release instead of rolling release
+
+As RepoSense is being actively developed, its master branch is frequently updated with new features and fixes. <br/>
+For stablility or familiarity, you may want to use a standard release. <br/>
+In this case, you can use the `Release` branch in your fork. <br/>
+
+1. [Use this link](../../../edit/master/.travis.yml) to edit the travis configuration file, under deploy change the branch to **release**
+```
+deploy:
+  ...
+  on:
+    branch: release <-- change this line
+```
+2. If you use `Cron Jobs`, edit it to use **release** for Branch
+
