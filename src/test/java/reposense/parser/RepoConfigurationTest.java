@@ -97,6 +97,8 @@ public class RepoConfigurationTest {
             REPO_DELTA_STANDALONE_CONFIG.addAuthorEmailsAndAliases(
                     author, Collections.singletonList(author.getGitId() + "@users.noreply.github.com"));
         }
+        REPO_DELTA_STANDALONE_CONFIG.addAuthorEmailsAndAliases(SECOND_AUTHOR,
+                Arrays.asList("codeeong@gmail.com", "33129797+codeeong@users.noreply.github.com"));
 
         REPO_DELTA_STANDALONE_CONFIG.setIgnoreGlobList(REPO_LEVEL_GLOB_LIST);
         REPO_DELTA_STANDALONE_CONFIG.setFormats(CONFIG_FORMATS);
