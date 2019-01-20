@@ -81,10 +81,10 @@ This section requires you to be familiar with command line git.
 
 1. Open terminal and `cd` to reposense project directory
 1. Run `git remote add upstream https://github.com/reposense/RepoSense.git`
-1. Run `git fetch --all --tags`, which update --tags of your local copy
-1. Run `git tag`, which lists all the valid tags you can use to checkout
+1. Run `git fetch --all --tags` to get all new tags
+1. Run `git tag` to list all the valid tags you can use to checkout
 1. Run `git branch -D release` to delete release branch
-1. Run `git checkout tags/v1.5.5 -b release`
+1. Run `git checkout tags/v1.5.5 -b release`, assuming tag `v1.5.5` was used
 1. Run `git push -u origin release -f` to update the release branch on github
 
 > If you intend to use a release `v1.6.1` and earlier, you need to download a updated copy of `.travis.yml` as the deploy feature was added after. <br/>
