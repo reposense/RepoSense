@@ -12,7 +12,6 @@ import reposense.commits.model.CommitInfo;
 import reposense.commits.model.CommitResult;
 import reposense.model.Author;
 import reposense.model.CommitHash;
-import reposense.model.Format;
 import reposense.parser.InvalidLocationException;
 import reposense.template.GitTestTemplate;
 
