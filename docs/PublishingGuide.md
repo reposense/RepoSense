@@ -74,18 +74,20 @@ deploy:
 
 #### Use a specific version of release
 
-You can find the changelog of all releases [here](https://github.com/reposense/RepoSense/releases) <br/>
+This section requires you to be familiar with command line git.
 
-This section requires you to be familiar with command line git
-
-> Ensure you have backup your changes in release branch, as it will be **deleted**.
-> Be sure to note the breaking changes and bugs before proceeding.
+> Ensure you have backup your changes in release branch, as it will be **deleted**. <br/>
+> Be sure to read [all breaking changes and bugs](https://github.com/reposense/RepoSense/releases) <br/>
+ before proceeding.
 
 1. Open terminal and `cd` to reposense project directory
-1. Run `git fetch --tags`, which update --tags of your local copy
+1. Run `git remote add upstream https://github.com/reposense/RepoSense.git`
+1. Run `git fetch --all --tags`, which update --tags of your local copy
 1. Run `git tag`, which lists all the valid tags you can use to checkout
 1. Run `git branch -D release` to delete release branch
 1. Run `git checkout tags/v1.5.5 -b release`
-1. Run `git push -u origin release -f' to update the release branch on github
+1. Run `git push -u origin release -f` to update the release branch on github
 
-> If you intend to use a release `v1.6.1` and earlier, you need to download a updated copy of `.travis.yml` as the deploy feature was added after. 
+> If you intend to use a release `v1.6.1` and earlier, you need to download a updated copy of `.travis.yml` as the deploy feature was added after. <br/>
+You can do so by `git checkout upstream/master .travis.yml`
+
