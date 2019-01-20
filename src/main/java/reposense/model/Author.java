@@ -13,7 +13,7 @@ public class Author {
     private static final String UNKNOWN_AUTHOR_GIT_ID = "-";
     private static final String MESSAGE_UNCOMMON_EMAIL_PATTERN = "The provided email, %s, uses uncommon pattern.";
     private static final String MESSAGE_UNCOMMON_GLOB_PATTERN = "The provided ignore glob, %s, uses uncommon pattern.";
-    private static final String COMMON_EMAIL_REGEX = "^([a-zA-Z0-9_\\-\\.]+)@([a-zA-Z0-9_\\-\\.]+)\\.([a-zA-Z]{2,5})$";
+    private static final String COMMON_EMAIL_REGEX = "^([a-zA-Z0-9_\\-\\.\\+]+)@([a-zA-Z0-9_\\-\\.]+)\\.([a-zA-Z]{2,5})$";
     private static final String COMMON_GLOB_REGEX = "^[-a-zA-Z0-9 _/\\\\*!{}\\[\\]!(),:.]*$";
 
     public static final Author UNKNOWN_AUTHOR = new Author(UNKNOWN_AUTHOR_GIT_ID);
