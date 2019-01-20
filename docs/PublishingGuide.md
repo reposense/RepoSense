@@ -11,8 +11,13 @@
 1. Under **Environment Variables**, name a variable as `GITHUB_TOKEN` and paste the `Personal access token` to the value field <br/>
 *Ensure that the `Display value in build log` is* **switched off**
 ![Travis Enivronment Variable](images/publishingguide-githubtoken.jpg "Travis Enivronment Variable")
-1. Edit [repo-config.csv](config/github-pages/repo-config.csv) and [author-config.csv](config/github-pages/author-config.csv) to include the repository for analysis
+1. Edit [repo-config.csv](../../../edit/master/config/github-pages/repo-config.csv) and [author-config.csv](../../../edit/master/config/github-pages/author-config.csv) to include the repository for analysis
+1. To access your site, go to [the setting of your fork](../../../settings), under **GitHub Pages** look for `Your site is published at [LINK]`
 
+> It takes a few minutes for Travis-CI to generate your report. <br/>
+  Meanwhile, you can monitor the progress live at [Travis-CI's Dashboard](https://travis-ci.org/dashboard). <br/>
+  Try accessing your site again when a green tick appears beside your fork.  
+  
 ### Keeping the published report updated
 
 [Travis-CI](https://travis-ci.org/) offers `Cron Jobs` in intervals of daily, weekly or monthly.
