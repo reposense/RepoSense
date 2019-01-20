@@ -77,8 +77,7 @@ deploy:
 This section requires you to be familiar with command line git.
 
 > Ensure you have backup your changes in release branch, as it will be **deleted**. <br/>
-> Be sure to read [all breaking changes and bugs](https://github.com/reposense/RepoSense/releases) <br/>
- before proceeding.
+> Be sure to read [all breaking changes and bugs](https://github.com/reposense/RepoSense/releases) before proceeding.
 
 1. Open terminal and `cd` to reposense project directory
 1. Run `git remote add upstream https://github.com/reposense/RepoSense.git`
@@ -90,4 +89,3 @@ This section requires you to be familiar with command line git.
 
 > If you intend to use a release `v1.6.1` and earlier, you need to download a updated copy of `.travis.yml` as the deploy feature was added after. <br/>
 You can do so by `git checkout upstream/master .travis.yml`
-
