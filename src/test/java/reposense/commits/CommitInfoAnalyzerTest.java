@@ -96,8 +96,8 @@ public class CommitInfoAnalyzerTest extends GitTestTemplate {
     @Test
     public void analyzeCommits_noCommitMessage_success() {
         config.setBranch("empty-commit-message");
-        config.getAuthorAliasMap().clear();
-        config.getAuthorAliasMap().put(YONG_AUTHOR_NAME, new Author(YONG_AUTHOR_NAME));
+        config.getAuthorEmailsAndAliasesMap().clear();
+        config.getAuthorEmailsAndAliasesMap().put(YONG_AUTHOR_NAME, new Author(YONG_AUTHOR_NAME));
 
         List<CommitInfo> commitInfos = CommitInfoExtractor.extractCommitInfos(config);
         List<CommitResult> commitResults = CommitInfoAnalyzer.analyzeCommits(commitInfos, config);
