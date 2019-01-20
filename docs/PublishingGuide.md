@@ -36,7 +36,7 @@ Alternatively, you can manually trigger an update.
 
 ### Reducing the time taken by report generation
 
-1. The [travis configuration file](../.travis.yml) in our repository include tests, which is not required in your use case
+1. The [travis configuration file](../.travis.yml) in our repository include tests, which is not required in your usage
 1. [Use this link](../../../edit/master/.travis.yml) to edit the file
 1. You can remove the following line 3 to line 12 in the file
 ```
@@ -69,22 +69,23 @@ deploy:
     branch: release <-- change this line
 ```
 2. If you use `Cron Jobs`, edit it to use **release** for `Branch`
-3. [Use this link](../../../compare/release...reposense:release) to sync your release branch with ours
+3. [Use this link](../../../compare/release...reposense:release) to keep your release branch updated with ours
 
 #### Use a specific version of release
 
 This section requires you to be familiar with command line git.
 
-> Ensure you have backup your changes in release branch, as it will be **deleted**. <br/>
+> Ensure you have backup your changes in the release branch, as it will be **deleted**. <br/>
 > Be sure to read [all breaking changes and bugs](https://github.com/reposense/RepoSense/releases) before proceeding.
 
 1. Open terminal and `cd` to reposense project directory
 1. Run `git remote add upstream https://github.com/reposense/RepoSense.git`
 1. Run `git fetch --all --tags` to get all new tags
 1. Run `git tag` to list all the valid tags you can use to checkout
-1. Run `git branch -D release` to delete release branch
-1. Run `git checkout tags/v1.5.5 -b release`, assuming tag `v1.5.5` was used
+1. Run `git branch -D release` to delete the release branch
+1. Run `git checkout tags/v1.5.5 -b release`, assuming the tag `v1.5.5` was used
 1. Run `git push -u origin release -f` to update the release branch on github
+1. Follow the steps in [above section](PublishingGuide.md#use-our-latest-release) to finish the setup
 
-> If you intend to use a release `v1.6.1` and earlier, you need to download a updated copy of `.travis.yml` as the deploy feature was added after. <br/>
+> If you intend to use a release that is `v1.6.1` and earlier, you need to download an updated copy of `.travis.yml` as the deploy feature was added after. <br/>
 You can do so by `git checkout upstream/master .travis.yml`
