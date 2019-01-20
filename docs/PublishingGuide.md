@@ -66,5 +66,5 @@ deploy:
   on:
     branch: release <-- change this line
 ```
-2. If you use `Cron Jobs`, edit it to use **release** for Branch
+2. If you use `Cron Jobs`, edit it to use **release** for `Branch`
 
