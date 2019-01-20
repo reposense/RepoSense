@@ -147,7 +147,7 @@ Note: all fields are optional unless specified otherwise.
 **Fields to provide _repository-level_ info**:
 
 * `ignoreGlobList`: Folders/files to ignore, specified using the [_glob format_](https://docs.oracle.com/javase/tutorial/essential/io/fileOps.html#glob).
-* `formats`: File formats to analyze. Default: `adoc cs css fxml gradle html java js json jsp md py tag xml`
+* `formats`: File formats to analyze. Default: `adoc cs css fxml gradle html java js json jsp md py tag txt xml`
 * `ignoreCommitList`: The list of commits to ignore during analysis. For accurate results, the commits should be provided with their full hash.
 
 **Fields to provide _author-level_ info**:<br>
@@ -226,7 +226,7 @@ In addition, there are some _optional_ extra parameters you can use to customize
   Example:`-since 21/10/2017`
 * **`-until END_DATE`**: The end date of analysis. The analysis excludes the end date. Format: `DD/MM/YYYY`<br>
   Example:`-until 21/10/2017`
-* **`-formats LIST_OF_FORMATS`**: A space-separated list of file extensions that should be included in the analysis. Default: `adoc cs css fxml gradle html java js json jsp md py tag xml`<br>
+* **`-formats LIST_OF_FORMATS`**: A space-separated list of file extensions that should be included in the analysis. Default: `adoc cs css fxml gradle html java js json jsp md py tag txt xml`<br>
   Example:`-formats css fxml gradle`
 * **`-isac, --ignore-standalone-config`**: A flag to ignore the standalone config file in the repo (`-isac` as alias). This flag will not overwrite the `Ignore standalone config` field in the csv config file. Default: the standalone config file is not ignored.<br>
   Example:`--ignore-standalone-config` or `-isac`
@@ -264,7 +264,7 @@ Column Name | Explanation
 ----------- | -----------
 Repository's Location | The `GitHub URL` or `Disk Path` to the git repository e.g., `https://github.com/foo/bar.git` or `C:\Users\user\Desktop\GitHub\foo\bar`
 [Optional] Branch | The branch to analyze in the target repository e.g., `master`. Default: the default branch of the repo
-[Optional] File formats<sup>*</sup> | The file extensions to analyze. Default: `adoc;cs;css;fxml;gradle;html;java;js;json;jsp;md;py;tag;xml`
+[Optional] File formats<sup>*</sup> | The file extensions to analyze. Default: `adoc;cs;css;fxml;gradle;html;java;js;json;jsp;md;py;tag;txt;xml`
 [Optional] Ignore Glob List<sup>*</sup> | The list of file path globs to ignore during analysis for each author. e.g., `test/**;temp/**`
 [Optional] Ignore standalone config | To ignore the standalone config file (if any) in target repository, enter **`yes`**. If the cell is empty, the standalone config file in the repo (if any) will take precedence over configurations provided in the csv files.
 [Optional] Ignore Commit List<sup>*</sup> | The list of commits to ignore during analysis. For accurate results, the commits should be provided with their full hash.

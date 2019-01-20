@@ -70,7 +70,7 @@ public class CommitInfoAnalyzer {
             logger.log(Level.WARNING, "Unable to parse the date from git log result for commit.", pe);
         }
 
-        String message = elements[MESSAGE_INDEX];
+        String message = (elements.length > MESSAGE_INDEX) ? elements[MESSAGE_INDEX] : "";
         int insertion = getInsertion(statLine);
         int deletion = getDeletion(statLine);
         return new CommitResult(author, hash, date, message, insertion, deletion);
