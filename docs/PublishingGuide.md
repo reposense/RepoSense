@@ -7,10 +7,10 @@
 *Remember to **copy it** and you would **only require** `public_repo` permission*
 1. Sign up and login to [Travis-CI](https://travis-ci.org/)
 1. Go to [Travis-CI's Dashboard](https://travis-ci.org/dashboard), find your fork under **Active repositories** and the click on the icon on the right to access its setting
-![Travis Dashboard](images/publishingguide-travissetting.jpg "Travis Dashboard")
+![Travis-CI Dashboard](images/publishingguide-travissetting.jpg "Travis-CI Dashboard")
 1. Under **Environment Variables**, name a variable as `GITHUB_TOKEN` and paste the `Personal access token` to its value field <br/>
 *Ensure that the `Display value in build log` is* **switched off** for security reasons
-![Travis Environment Variable](images/publishingguide-githubtoken.jpg "Travis Environment Variable")
+![Travis-CI Environment Variable](images/publishingguide-githubtoken.jpg "Travis-CI Environment Variable")
 1. Edit [repo-config.csv](../../../edit/master/config/github-pages/repo-config.csv) and [author-config.csv](../../../edit/master/config/github-pages/author-config.csv) to include repositories you wish to analyse
 1. To access your site, go to [the setting of your fork](../../../settings), under **GitHub Pages** look for `Your site is published at [LINK]`
 
@@ -36,9 +36,8 @@ Alternatively, you can manually trigger an update.
 
 ### Reducing the time taken by report generation
 
-1. The [travis configuration file](../.travis.yml) in our repository include tests, which is not required in your usage
-1. [Use this link](../../../edit/master/.travis.yml) to edit the file
-1. You can remove the following line 3 to line 12 in the file
+1. The [Travis-CI configuration file](../.travis.yml) in our repository include tests, which is not required in your usage
+1. [Use this link](../../../edit/master/.travis.yml) to edit the file and remove the following line 3 to line 12
 ```
 3  matrix:
 4    include:
@@ -61,7 +60,7 @@ For stablility or familiarity, you may want to use a standard release. In this c
 
 You can find the changelog of latest release [here](https://github.com/reposense/RepoSense/releases/latest)
 
-1. [Use this link](../../../edit/master/.travis.yml) to edit the travis configuration file, under deploy change the branch to **release**
+1. [Use this link](../../../edit/master/.travis.yml) to edit the Travis-CI configuration file, under deploy change the branch to **release**
 ```
 deploy:
   ...
