@@ -308,26 +308,29 @@ Alternatively, you can use csv config files to customize the analysis as before 
 
 ## FAQ
 
-#### Q: Does RepoSense work on private repositories?<br>
-**A:** *RepoSense* will first clone the git repository to be analyzed, thus if you do not have access to the repository, we are unable to run the analysis.
+#### Q: Does RepoSense work on private repositories?
+**A:** *RepoSense* will first clone the git repository to be analyzed, thus if you do not have access to the repository, we are unable to run the analysis.<br>
 To enable *RepoSense* to work on private repositories, ensure that you have enabled access to your private repository in your git terminal first, before running the analysis.
 
-#### Q: How does formats work?<br>
-**A:** **Formats** are the [file extensions](https://techterms.com/definition/fileextension), which is the **suffix** at the end of a filename that indicates what type of file it is, that *RepoSense* should analyze. The formats/file extensions to be analyzed can be specified through the [standalone config file](#provide-data-using-a-json-config-file), [repo-config file](#repo-configcsv) and [command line](#customize-using-command-line-parameters).
+#### Q: How does formats work?
+**A:** **Formats** are the [file extensions](https://techterms.com/definition/fileextension), which is the **suffix** at the end of a filename that indicates what type of file it is.<br>
+The formats/file extensions to be analyzed by *RepoSense* can be specified through the [standalone config file](#provide-data-using-a-json-config-file), [repo-config file](#repo-configcsv) and [command line](#customize-using-command-line-parameters).
 
-#### Q: How does ignore glob list work?<br>
-**A:** [Glob](https://en.wikipedia.org/wiki/Glob_(programming)) is the pattern to specify a set of filenames with [wildcard characters](https://www.computerhope.com/jargon/w/wildcard.htm). Ignore glob list is the list of patterns to specify all the files in the repository which should be ignored from analysis. The ignore glob list can be specified through the [standalone config file](#provide-data-using-a-json-config-file), [`repo-config` file](#repo-configcsv) and [`author-config` file](#author-configcsv).
+#### Q: How does ignore glob list work?
+**A:** [Glob](https://en.wikipedia.org/wiki/Glob_(programming)) is the pattern to specify a set of filenames with [wildcard characters](https://www.computerhope.com/jargon/w/wildcard.htm). **Ignore glob list** is the list of patterns to specify all the files in the repository which should be ignored from analysis.<br>
+The ignore glob list can be specified through the [standalone config file](#provide-data-using-a-json-config-file), [repo-config file](#repo-configcsv) and [author-config file](#author-configcsv).
 
-#### Q: My commit contributions does not appear in the ramp chart (despite appearing in the contribution bar and code panel)?<br>
-**A:** This is probably a case of giving an incorrect author name alias in your `author-config.csv` file.
-Please refer to [A Note About Git Author Name](#a-note-about-git-author-name) above on how to find out the correct author name you are using, and how to change it.
-Also ensure that you have added all author name aliases that you may be using.
+#### Q: My commit contributions does not appear in the ramp chart (despite appearing in the contribution bar and code panel)?
+**A:** This is probably a case of giving an incorrect author name alias (or github ID) in your [author-config file](#author-configcsv).<br>
+Please refer to [A Note About Git Author Name](#a-note-about-git-author-name) above on how to find out the correct author name you are using, and how to change it.<br>
+Also ensure that you have added all author name aliases that you may be using (if you are using multiple computers or have previously changed your author name).
 
-#### Q: My contribution bar and code panel is empty (despite having lots of commit contributions in the ramp chart)?<br>
-**A:** The contribution bar and code panel records the lines you have authored to the **latest** commit of the repository and branch you are analyzing. As such, it is possible that while you have lots of commit contributions, your final authorship contribution is low if you have only deleted lines, someone else have overwritten your code and taken authorship for it (currently, *RepoSense* does not have functionality to track overwritten lines). It is also possible that another user has overriden the authorship of your lines using the [@@author tags](#provide-data-using-author-tags).
+#### Q: My contribution bar and code panel is empty (despite having lots of commit contributions in the ramp chart)?
+**A:** The contribution bar and code panel records the lines you have authored to the **latest** commit of the repository and branch you are analyzing. As such, it is possible that while you have lots of commit contributions, your final authorship contribution is low if you have only deleted lines, someone else have overwritten your code and taken authorship for it (currently, *RepoSense* does not have functionality to track overwritten lines).<br>
+It is also possible that another user has overriden the authorship of your lines using the [@@author tags](#provide-data-using-author-tags).
 
-#### Q: I have added/edited the standalone config file in my local repository, but RepoSense is not using it when running the analysis?<br>
+#### Q: I have added/edited the standalone config file in my local repository, but RepoSense is not using it when running the analysis?
 **A:** Ensure that you have committed the changes to your standalone config file first before running the analysis, as *RepoSense* is unable to detect uncommitted changes to your local repository.
 
-#### Q: I am able to run RepoSense on my repository on a Linux/Mac OS, but it fails on a Windows OS?<br>
+#### Q: I am able to run RepoSense on my repository on a Linux/Mac OS, but it fails on a Windows OS?
 **A:** It is possible you may have some file names with [special characters](https://docs.microsoft.com/en-us/windows/desktop/FileIO/naming-a-file#naming-conventions) in them, which is disallowed in Windows OS. As such, *RepoSense* is unable to fully clone your repository, thus failing the analysis.
