@@ -27,7 +27,6 @@ public class Author {
     private transient List<String> ignoreGlobList;
     private transient PathMatcher ignoreGlobMatcher;
 
-
     public Author(String gitId) {
         this.gitId = gitId;
         this.emails = new ArrayList<>();
