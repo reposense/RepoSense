@@ -172,7 +172,7 @@ window.vAuthorship = {
       this.files = this.files.sort((a, b) =>
         (this.sortByLineCountAscendingly ? 1 : -1) * (a.lineCount - b.lineCount));
     },
-    
+
     selectAll() {
       if (!this.isSelectAllChecked) {
         this.selectedFileTypes = this.fileTypes;
