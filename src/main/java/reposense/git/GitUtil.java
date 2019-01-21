@@ -54,8 +54,8 @@ class GitUtil {
                         StringsUtil.replaceSpecialSymbols(authorAlias, ".")) + OR_OPERATOR_PATTERN)
                 .forEach(filterAuthorArgsBuilder::append);
         author.getEmails().stream()
-                .map(authorAlias -> String.format(AUTHOR_EMAIL_PATTERN,
-                        StringsUtil.replaceSpecialSymbols(authorAlias, ".")) + OR_OPERATOR_PATTERN)
+                .map(email -> String.format(AUTHOR_EMAIL_PATTERN,
+                        StringsUtil.replaceSpecialSymbols(email, ".")) + OR_OPERATOR_PATTERN)
                 .forEach(filterAuthorArgsBuilder::append);
 
         filterAuthorArgsBuilder.append(
