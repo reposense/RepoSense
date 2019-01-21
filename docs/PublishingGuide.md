@@ -20,7 +20,7 @@
 > It takes a few minutes for Travis-CI to generate your report. Meanwhile, you can monitor the progress live at [Travis-CI's Builds](https://travis-ci.org/dashboard/builds). <br/>
   Try accessing your site again when a green tick appears beside your fork.  
   
-### Keeping your site updated
+### Keeping your site up-to-date with your code contribution
 
 [Travis-CI](https://travis-ci.org/) offers `Cron Jobs` in intervals of daily, weekly or monthly.
 
@@ -34,3 +34,34 @@ Alternatively, you can manually trigger an update.
 
 1. Go to [your fork in Travis-CI](https://travis-ci.org/search/publish-RepoSense/), click on **More options** on the right then **Trigger build**
 1. In the pop up, click **Trigger custom build**
+
+### Specifying which version of RepoSense to use
+
+As RepoSense is being actively developed, its master branch is frequently updated with new features and fixes. <br/>
+For stablility or familiarity, you may want to use the release. <br/>
+
+#### Use our latest release (Stable)
+
+You can find the changelog of latest release [here](https://github.com/reposense/RepoSense/releases/latest).
+
+Edit line 10 of [run.sh](../../../../publish-RepoSense/edit/master/run.sh) to use `--release`. <br />
+```
+10   ./get-reposense.py --release
+```
+
+#### Use our master branch (Beta)
+
+You can find the list of commits to master branch [here](https://github.com/reposense/RepoSense/commits/master) and planned features/fixes [here](https://github.com/reposense/RepoSense/milestones).
+
+Edit line 10 of [run.sh](../../../../publish-RepoSense/edit/master/run.sh) to use `--master`. <br />
+```
+10   ./get-reposense.py --master
+```
+#### Use a specific version of release
+
+Be sure to read and understand [all breaking changes and bugs](https://github.com/reposense/RepoSense/releases) before proceeding.
+
+Edit line 10 of [run.sh](../../../../publish-RepoSense/edit/master/run.sh) to use `--tag TAG`. <br />
+```
+10   ./get-reposense.py --tag v1.6.1
+```
