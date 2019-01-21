@@ -8,7 +8,7 @@ function loadJSON(fname) {
   if (window.REPORT_ZIP) {
     const zipObject = window.REPORT_ZIP.file(fname.slice(2));
     if (zipObject) {
-      return zipObject.async('text').then(txt => JSON.parse(txt));
+      return zipObject.async('text').then((txt) => JSON.parse(txt));
     }
     return Promise.reject(new Error('Zip file does not exist'));
   }
