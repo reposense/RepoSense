@@ -49,15 +49,13 @@ public class Author {
         List<String> ignoreGlobList = sa.getIgnoreGlobList();
 
         validateIgnoreGlobs(ignoreGlobList);
-        validateEmails(emails);
+        setEmails(emails);
 
         this.gitId = gitId;
-        this.emails = emails;
         this.displayName = displayName;
         this.authorAliases = authorAliases;
         this.ignoreGlobList = new ArrayList<>(ignoreGlobList);
 
-        addStandardGitHubEmail(this.emails);
         updateIgnoreGlobMatcher();
     }
 
