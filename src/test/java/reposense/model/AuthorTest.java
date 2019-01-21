@@ -3,10 +3,13 @@ package reposense.model;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 import org.junit.Assert;
 import org.junit.Test;
+
+import reposense.util.AssertUtil;
 
 public class AuthorTest {
 
@@ -20,12 +23,13 @@ public class AuthorTest {
         Assert.assertTrue(author.getEmails().containsAll(Arrays.asList(emails)));
     }
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test
     public void setEmail_invalidEmails_throwIllegalArgumentException() {
         Author author = new Author("Tester");
         String[] emails = new String[] {"this.”is\\ invalid”@example.com", "developer@example.com"};
 
-        author.setEmails(Arrays.asList(emails));
+        AssertUtil.assertThrows(IllegalArgumentException.class, () -> author.setEmails(Arrays.asList(emails)));
+        AssertUtil.assertThrows(IllegalArgumentException.class, () -> author.setEmails(Collections.singletonList("")));
     }
 
     @Test
