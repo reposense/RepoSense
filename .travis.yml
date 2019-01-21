@@ -16,15 +16,6 @@ addons:
     packages:
       - oracle-java9-installer
 
-deploy:
-  skip_cleanup: true
-  provider: script
-  script:
-      ./gradlew run -Dargs="-config ./config/github-pages" && ./config/travis/deploy_github_pages.sh
-  on:
-    branch: master
-    condition: $TRAVIS_OS_NAME = linux
-
 before_install:
   - cd ./frontend; npm install --only=dev; cd ..
 
