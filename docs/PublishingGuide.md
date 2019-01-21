@@ -2,7 +2,7 @@
 
 [GitHub Pages](https://pages.github.com/) enables you to publish your report online for free.
 
-1. Fork this repository using this [link](https://github.com/RepoSense/publish-RepoSense/fork)
+1. Fork publish-RepoSense repository using this [link](https://github.com/RepoSense/publish-RepoSense/fork)
 1. Follow this [guide](https://help.github.com/articles/creating-a-personal-access-token-for-the-command-line/) to generate a `Personal access token` on GitHub for report publishing <br/>
 *Remember to **copy it** and you would **only require** `public_repo` permission*
 1. Sign up and login to [Travis-CI](https://travis-ci.org/)
