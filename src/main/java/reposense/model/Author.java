@@ -3,6 +3,8 @@ package reposense.model;
 import java.nio.file.FileSystems;
 import java.nio.file.PathMatcher;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -11,6 +13,7 @@ import java.util.List;
 public class Author {
 
     private static final String UNKNOWN_AUTHOR_GIT_ID = "-";
+    private static final String STANDARD_GITHUB_EMAIL_DOMAIN = "@users.noreply.github.com";
     private static final String MESSAGE_UNCOMMON_EMAIL_PATTERN = "The provided email, %s, uses uncommon pattern.";
     private static final String MESSAGE_UNCOMMON_GLOB_PATTERN = "The provided ignore glob, %s, uses uncommon pattern.";
     private static final String COMMON_EMAIL_REGEX =
@@ -34,6 +37,7 @@ public class Author {
         this.authorAliases = new ArrayList<>();
         this.ignoreGlobList = new ArrayList<>();
 
+        addStandardGitHubEmail(this.emails);
         updateIgnoreGlobMatcher();
     }
 
@@ -53,6 +57,7 @@ public class Author {
         this.authorAliases = authorAliases;
         this.ignoreGlobList = new ArrayList<>(ignoreGlobList);
 
+        addStandardGitHubEmail(this.emails);
         updateIgnoreGlobMatcher();
     }
 
@@ -99,7 +104,8 @@ public class Author {
 
     public void setEmails(List<String> emails) {
         validateEmails(emails);
-        this.emails = emails;
+        this.emails = new ArrayList<>(emails);
+        addStandardGitHubEmail(emails);
     }
 
     public String getDisplayName() {
@@ -171,6 +177,16 @@ public class Author {
     private void updateIgnoreGlobMatcher() {
         String globString = "glob:{" + String.join(",", ignoreGlobList) + "}";
         ignoreGlobMatcher = FileSystems.getDefault().getPathMatcher(globString);
+    }
+
+    /**
+     * Adds the standard github email to {@code emails} if doesn't exist.
+     */
+    private void addStandardGitHubEmail(List<String> emails) {
+        String standardGitHubEmail = getGitId() + STANDARD_GITHUB_EMAIL_DOMAIN;
+        if (!emails.contains(standardGitHubEmail)) {
+            emails.add(standardGitHubEmail);
+        }
     }
 }
 

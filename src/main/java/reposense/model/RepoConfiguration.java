@@ -133,7 +133,6 @@ public class RepoConfiguration {
             List<String> emails = new ArrayList<>(author.getEmails());
             aliases.add(author.getGitId());
             aliases.forEach(alias -> newAuthorEmailsAndAliasesMap.put(alias, author));
-            emails.add(author.getGitId() + "@users.noreply.github.com");
             emails.forEach(email -> newAuthorEmailsAndAliasesMap.put(email, author));
         }
 
@@ -249,11 +248,10 @@ public class RepoConfiguration {
      */
     public void setAuthorDetails(Author author) {
         // Set GitHub Id and its corresponding email as default
-        addAuthorEmailsAndAliases(
-                author, Arrays.asList(author.getGitId(), author.getGitId() + "@users.noreply.github.com"));
+        addAuthorEmailsAndAliasesMapEntry(author, Arrays.asList(author.getGitId()));
 
-        addAuthorEmailsAndAliases(author, author.getAuthorAliases());
-        addAuthorEmailsAndAliases(author, author.getEmails());
+        addAuthorEmailsAndAliasesMapEntry(author, author.getAuthorAliases());
+        addAuthorEmailsAndAliasesMapEntry(author, author.getEmails());
 
         setAuthorDisplayName(author, author.getDisplayName());
     }
@@ -337,8 +335,8 @@ public class RepoConfiguration {
         authorDisplayNameMap.put(author, displayName);
     }
 
-    public void addAuthorEmailsAndAliases(Author author, List<String> aliases) {
-        aliases.forEach(alias -> authorEmailsAndAliasesMap.put(alias, author));
+    public void addAuthorEmailsAndAliasesMapEntry(Author author, List<String> values) {
+        values.forEach(value -> authorEmailsAndAliasesMap.put(value, author));
     }
 
     public String getDisplayName() {

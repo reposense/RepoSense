@@ -7,7 +7,6 @@ import java.io.IOException;
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 
 import org.junit.Assert;
@@ -84,21 +83,19 @@ public class RepoConfigurationTest {
 
         REPO_DELTA_STANDALONE_CONFIG = new RepoConfiguration(new RepoLocation(TEST_REPO_DELTA), "master");
         REPO_DELTA_STANDALONE_CONFIG.setAuthorList(expectedAuthors);
-        REPO_DELTA_STANDALONE_CONFIG.addAuthorEmailsAndAliases(FIRST_AUTHOR, FIRST_AUTHOR_ALIASES);
-        REPO_DELTA_STANDALONE_CONFIG.addAuthorEmailsAndAliases(SECOND_AUTHOR, SECOND_AUTHOR_ALIASES);
-        REPO_DELTA_STANDALONE_CONFIG.addAuthorEmailsAndAliases(THIRD_AUTHOR, THIRD_AUTHOR_ALIASES);
-        REPO_DELTA_STANDALONE_CONFIG.addAuthorEmailsAndAliases(FOURTH_AUTHOR, FOURTH_AUTHOR_ALIASES);
+        REPO_DELTA_STANDALONE_CONFIG.addAuthorEmailsAndAliasesMapEntry(FIRST_AUTHOR, FIRST_AUTHOR_ALIASES);
+        REPO_DELTA_STANDALONE_CONFIG.addAuthorEmailsAndAliasesMapEntry(SECOND_AUTHOR, SECOND_AUTHOR_ALIASES);
+        REPO_DELTA_STANDALONE_CONFIG.addAuthorEmailsAndAliasesMapEntry(THIRD_AUTHOR, THIRD_AUTHOR_ALIASES);
+        REPO_DELTA_STANDALONE_CONFIG.addAuthorEmailsAndAliasesMapEntry(FOURTH_AUTHOR, FOURTH_AUTHOR_ALIASES);
         REPO_DELTA_STANDALONE_CONFIG.setAuthorDisplayName(FIRST_AUTHOR, "Ahm");
         REPO_DELTA_STANDALONE_CONFIG.setAuthorDisplayName(SECOND_AUTHOR, "Cod");
         REPO_DELTA_STANDALONE_CONFIG.setAuthorDisplayName(THIRD_AUTHOR, "Jor");
         REPO_DELTA_STANDALONE_CONFIG.setAuthorDisplayName(FOURTH_AUTHOR, "Loh");
 
+        SECOND_AUTHOR.setEmails(Arrays.asList("codeeong@gmail.com", "33129797+codeeong@users.noreply.github.com"));
         for (Author author : expectedAuthors) {
-            REPO_DELTA_STANDALONE_CONFIG.addAuthorEmailsAndAliases(
-                    author, Collections.singletonList(author.getGitId() + "@users.noreply.github.com"));
+            REPO_DELTA_STANDALONE_CONFIG.addAuthorEmailsAndAliasesMapEntry(author, author.getEmails());
         }
-        REPO_DELTA_STANDALONE_CONFIG.addAuthorEmailsAndAliases(SECOND_AUTHOR,
-                Arrays.asList("codeeong@gmail.com", "33129797+codeeong@users.noreply.github.com"));
 
         REPO_DELTA_STANDALONE_CONFIG.setIgnoreGlobList(REPO_LEVEL_GLOB_LIST);
         REPO_DELTA_STANDALONE_CONFIG.setFormats(CONFIG_FORMATS);
@@ -128,7 +125,7 @@ public class RepoConfigurationTest {
 
         RepoConfiguration expectedConfig = new RepoConfiguration(new RepoLocation(TEST_REPO_DELTA), "master");
         expectedConfig.setAuthorList(expectedAuthors);
-        expectedConfig.addAuthorEmailsAndAliases(author, FIRST_AUTHOR_ALIASES);
+        expectedConfig.addAuthorEmailsAndAliasesMapEntry(author, FIRST_AUTHOR_ALIASES);
         expectedConfig.setAuthorDisplayName(author, "Ahm");
 
         expectedConfig.setIgnoreGlobList(REPO_LEVEL_GLOB_LIST);

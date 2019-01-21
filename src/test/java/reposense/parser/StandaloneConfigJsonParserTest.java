@@ -59,8 +59,7 @@ public class StandaloneConfigJsonParserTest {
         EXPECTED_GITHUBID_ONLY_REPOCONFIG = new RepoConfiguration(new RepoLocation(TEST_DUMMY_LOCATION));
         EXPECTED_GITHUBID_ONLY_REPOCONFIG.setFormats(Format.DEFAULT_FORMATS);
         EXPECTED_GITHUBID_ONLY_REPOCONFIG.setAuthorList(Arrays.asList(new Author("yong24s")));
-        EXPECTED_GITHUBID_ONLY_REPOCONFIG.addAuthorEmailsAndAliases(
-                author, Collections.singletonList(author.getGitId() + "@users.noreply.github.com"));
+        EXPECTED_GITHUBID_ONLY_REPOCONFIG.addAuthorEmailsAndAliasesMapEntry(author, author.getEmails());
 
         EXPECTED_FULL_REPOCONFIG = new RepoConfiguration(new RepoLocation(TEST_DUMMY_LOCATION));
         EXPECTED_FULL_REPOCONFIG.setFormats(Format.convertStringsToFormats(
@@ -70,10 +69,9 @@ public class StandaloneConfigJsonParserTest {
         EXPECTED_FULL_REPOCONFIG.setIgnoreGlobList(Arrays.asList("**.adoc", "collate**"));
         EXPECTED_FULL_REPOCONFIG.setAuthorList(Arrays.asList(author));
         EXPECTED_FULL_REPOCONFIG.setAuthorDisplayName(author, "Yong Hao");
-        EXPECTED_FULL_REPOCONFIG.addAuthorEmailsAndAliases(author, Arrays.asList(author.getGitId()));
-        EXPECTED_FULL_REPOCONFIG.addAuthorEmailsAndAliases(author, author.getAuthorAliases());
-        EXPECTED_FULL_REPOCONFIG.addAuthorEmailsAndAliases(
-                author, Collections.singletonList(author.getGitId() + "@users.noreply.github.com"));
+        EXPECTED_FULL_REPOCONFIG.addAuthorEmailsAndAliasesMapEntry(author, Arrays.asList(author.getGitId()));
+        EXPECTED_FULL_REPOCONFIG.addAuthorEmailsAndAliasesMapEntry(author, author.getAuthorAliases());
+        EXPECTED_FULL_REPOCONFIG.addAuthorEmailsAndAliasesMapEntry(author, author.getEmails());
     }
 
     @Test

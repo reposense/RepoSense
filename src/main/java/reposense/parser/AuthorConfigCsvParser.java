@@ -65,9 +65,9 @@ public class AuthorConfigCsvParser extends CsvParser<RepoConfiguration> {
         }
 
         config.addAuthor(author);
-        setEmails(author, emails);
+        setEmails(config, author, emails);
         setDisplayName(config, author, displayName);
-        setEmailsAndAliases(config, author, gitHubId, aliases, emails);
+        setAliases(config, author, gitHubId, aliases);
         setAuthorIgnoreGlobList(author, ignoreGlobList);
     }
 
@@ -94,17 +94,10 @@ public class AuthorConfigCsvParser extends CsvParser<RepoConfiguration> {
 
     /**
      * Associates {@code emails} to {@code author}, if provided and not empty.
-     * Adds the default github privacy email to {@code author}'s list of emails.
      */
-    private static void setEmails(Author author, List<String> emails) {
-        if (!emails.isEmpty()) {
-            author.setEmails(new ArrayList<>(emails));
-        }
-
-        String defaultEmail = author.getGitId() + "@users.noreply.github.com";
-        if (!author.getEmails().contains(defaultEmail)) {
-            author.getEmails().add(defaultEmail);
-        }
+    private static void setEmails(RepoConfiguration config, Author author, List<String> emails) {
+        author.setEmails(new ArrayList<>(emails));
+        config.addAuthorEmailsAndAliasesMapEntry(author, author.getEmails());
     }
 
     /**
@@ -119,16 +112,14 @@ public class AuthorConfigCsvParser extends CsvParser<RepoConfiguration> {
     /**
      * Associates {@code gitHubId} and additional {@code aliases} to {@code author}.
      */
-    private static void setEmailsAndAliases(RepoConfiguration config, Author author, String gitHubId,
-            List<String> aliases, List<String> emails) {
-        config.addAuthorEmailsAndAliases(author, Arrays.asList(gitHubId));
+    private static void setAliases(RepoConfiguration config, Author author, String gitHubId, List<String> aliases) {
+        config.addAuthorEmailsAndAliasesMapEntry(author, Arrays.asList(gitHubId));
 
         if (aliases.isEmpty()) {
             return;
         }
 
-        config.addAuthorEmailsAndAliases(author, aliases);
-        config.addAuthorEmailsAndAliases(author, emails);
+        config.addAuthorEmailsAndAliasesMapEntry(author, aliases);
         author.setAuthorAliases(aliases);
     }
 
