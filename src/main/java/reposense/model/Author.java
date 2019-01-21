@@ -3,8 +3,6 @@ package reposense.model;
 import java.nio.file.FileSystems;
 import java.nio.file.PathMatcher;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 
 /**
@@ -99,7 +97,7 @@ public class Author {
     public void setEmails(List<String> emails) {
         validateEmails(emails);
         this.emails = new ArrayList<>(emails);
-        addStandardGitHubEmail(emails);
+        addStandardGitHubEmail(this.emails);
     }
 
     public String getDisplayName() {

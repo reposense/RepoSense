@@ -47,15 +47,14 @@ public class RepoConfigurationTest {
     private static final Author FOURTH_AUTHOR = new Author("lohtianwei");
 
     private static final List<String> FIRST_AUTHOR_ALIASES = Arrays.asList("Ahmad Syafiq");
-    private static final List<String> SECOND_AUTHOR_ALIASES = Arrays.asList("Codee");
     private static final List<String> THIRD_AUTHOR_ALIASES = Arrays.asList("Jordan Chong");
     private static final List<String> FOURTH_AUTHOR_ALIASES = Arrays.asList("Tianwei");
 
     private static final List<String> REPO_LEVEL_GLOB_LIST = Arrays.asList("collated**");
     private static final List<String> FIRST_AUTHOR_GLOB_LIST =
             Arrays.asList("*.aa1", "**.aa2", "**.java", "collated**");
-    private static final List<String> SECOND_AUTHOR_GLOB_LIST = Arrays.asList("**[!(.md)]", "collated**");
-    private static final List<String> THIRD_AUTHOR_GLOB_LIST = Arrays.asList("", "collated**");
+    private static final List<String> SECOND_AUTHOR_GLOB_LIST = Arrays.asList("", "collated**");
+    private static final List<String> THIRD_AUTHOR_GLOB_LIST = Arrays.asList("**[!(.md)]", "collated**");
 
     private static final List<Format> CONFIG_FORMATS = Format.convertStringsToFormats(Arrays.asList(
             "java", "adoc", "md"));
@@ -66,7 +65,6 @@ public class RepoConfigurationTest {
     @BeforeClass
     public static void setUp() throws InvalidLocationException {
         FIRST_AUTHOR.setAuthorAliases(FIRST_AUTHOR_ALIASES);
-        SECOND_AUTHOR.setAuthorAliases(SECOND_AUTHOR_ALIASES);
         THIRD_AUTHOR.setAuthorAliases(THIRD_AUTHOR_ALIASES);
         FOURTH_AUTHOR.setAuthorAliases(FOURTH_AUTHOR_ALIASES);
 
@@ -84,8 +82,6 @@ public class RepoConfigurationTest {
         REPO_DELTA_STANDALONE_CONFIG = new RepoConfiguration(new RepoLocation(TEST_REPO_DELTA), "master");
         REPO_DELTA_STANDALONE_CONFIG.setAuthorList(expectedAuthors);
         REPO_DELTA_STANDALONE_CONFIG.addAuthorEmailsAndAliasesMapEntry(FIRST_AUTHOR, FIRST_AUTHOR_ALIASES);
-        REPO_DELTA_STANDALONE_CONFIG.addAuthorEmailsAndAliasesMapEntry(SECOND_AUTHOR, SECOND_AUTHOR_ALIASES);
-        REPO_DELTA_STANDALONE_CONFIG.addAuthorEmailsAndAliasesMapEntry(THIRD_AUTHOR, THIRD_AUTHOR_ALIASES);
         REPO_DELTA_STANDALONE_CONFIG.addAuthorEmailsAndAliasesMapEntry(FOURTH_AUTHOR, FOURTH_AUTHOR_ALIASES);
         REPO_DELTA_STANDALONE_CONFIG.setAuthorDisplayName(FIRST_AUTHOR, "Ahm");
         REPO_DELTA_STANDALONE_CONFIG.setAuthorDisplayName(SECOND_AUTHOR, "Cod");

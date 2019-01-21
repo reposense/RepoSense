@@ -19,7 +19,7 @@ public class AuthorTest {
         String[] emails = new String[] {"tester@test.net", "developer@example.com"};
 
         author.setEmails(Arrays.asList(emails));
-        Assert.assertEquals(2, author.getEmails().size());
+        Assert.assertEquals(3, author.getEmails().size());
         Assert.assertTrue(author.getEmails().containsAll(Arrays.asList(emails)));
     }
 
