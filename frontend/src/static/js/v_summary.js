@@ -374,12 +374,6 @@ window.vSummary = {
           users.sort(comparator((ele) => ele['totalCommits']));
           full.push(users);
         });
-        if (this.filterSortReverse) {
-          full.forEach((repo) => {
-            repo.reverse();
-          });
-          full.reverse();
-        }
         if (!this.filterGroupRepos) {
           full.unshift([]);
           full.forEach((users) => {
@@ -404,10 +398,11 @@ window.vSummary = {
 
           });
         }
-        if (this.filterSortReverse) {
-          full.forEach(repo => repo.reverse());
-        }
-       }
+      }
+      if (this.filterSortReverse) {
+        full.forEach(repo => repo.reverse());
+        full.reverse();
+      }
 
       this.filtered = full;
     },
