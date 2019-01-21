@@ -30,4 +30,5 @@
 
 Alternatively, you can manually trigger an update.
 
-1. Go to [your fork in Travis-CI](https://travis-ci.org/search/publish-RepoSense/), click on **More options** on the right then **Trigger a build**
+1. Go to [your fork in Travis-CI](https://travis-ci.org/search/publish-RepoSense/), click on **More options** on the right then **Trigger build**
+1. In the pop up, click **Trigger custom build**
