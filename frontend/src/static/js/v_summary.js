@@ -132,9 +132,6 @@ window.vSummary = {
       const newSize = 100 * (slice.insertions / this.avgCommitSize);
       return Math.max(newSize * this.rampSize, 0.5);
     },
-    getSliceTitle(slice) {
-      return `contribution on ${slice.date}: ${slice.insertions} lines`;
-    },
     getSlicePos(i, total){
       return (total-i-1) / total;
     },
