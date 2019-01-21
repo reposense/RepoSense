@@ -26,7 +26,9 @@
 
 1. Login to [Travis-CI](https://travis-ci.org/)
 1. Go to [your fork in Travis-CI](https://travis-ci.org/search/publish-RepoSense/), click on **More options** on the right then access **Settings**
-1. Under **Cron Jobs**, choose **master** for `Branch`, **Always run** for `Options` and pick an `Interval` of your choice; then click Add
+1. Under **Cron Jobs**, choose **master** for `Branch`, **Always run** for `Options` and pick an `Interval` of your choice; <br/>
+then click Add
+![Travis-CI Cron](images/publishingguide-cronsetting.jpg "Travis-CI Cron")
 
 Alternatively, you can manually trigger an update.
 
