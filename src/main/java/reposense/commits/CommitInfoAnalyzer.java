@@ -31,8 +31,9 @@ public class CommitInfoAnalyzer {
 
     private static final int COMMIT_HASH_INDEX = 0;
     private static final int AUTHOR_INDEX = 1;
-    private static final int DATE_INDEX = 2;
-    private static final int MESSAGE_INDEX = 3;
+    private static final int EMAIL_INDEX = 2;
+    private static final int DATE_INDEX = 3;
+    private static final int MESSAGE_INDEX = 4;
 
     private static final Pattern INSERTION_PATTERN = Pattern.compile("([0-9]+) insertion");
     private static final Pattern DELETION_PATTERN = Pattern.compile("([0-9]+) deletion");
@@ -43,8 +44,8 @@ public class CommitInfoAnalyzer {
      */
     public static List<CommitResult> analyzeCommits(List<CommitInfo> commitInfos, RepoConfiguration config) {
         return commitInfos.stream()
-                .map(commitInfo -> analyzeCommit(commitInfo, config.getAuthorAliasMap()))
-                .filter(commitResult -> !commitResult.getAuthor().equals(new Author(Author.UNKNOWN_AUTHOR_GIT_ID))
+                .map(commitInfo -> analyzeCommit(commitInfo, config.getAuthorEmailsAndAliasesMap()))
+                .filter(commitResult -> !commitResult.getAuthor().equals(Author.UNKNOWN_AUTHOR)
                         && !CommitHash.isInsideCommitList(commitResult.getHash(), config.getIgnoreCommitList()))
                 .sorted(Comparator.comparing(CommitResult::getTime))
                 .collect(Collectors.toList());
@@ -59,7 +60,8 @@ public class CommitInfoAnalyzer {
 
         String[] elements = infoLine.split(LOG_SPLITTER);
         String hash = elements[COMMIT_HASH_INDEX];
-        Author author = authorAliasMap.getOrDefault(elements[AUTHOR_INDEX], new Author(Author.UNKNOWN_AUTHOR_GIT_ID));
+        Author author = authorAliasMap.getOrDefault(elements[AUTHOR_INDEX],
+                authorAliasMap.getOrDefault(elements[EMAIL_INDEX], Author.UNKNOWN_AUTHOR));
 
         Date date = null;
         try {

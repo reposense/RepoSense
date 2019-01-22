@@ -14,6 +14,12 @@ import reposense.util.StringsUtil;
  */
 public class GitBlame {
 
+    private static final String COMMIT_HASH_REGEX = "(^[0-9a-f]{40} .*)";
+    private static final String AUTHOR_NAME_REGEX = "(^author .*)";
+    private static final String AUTHOR_EMAIL_REGEX = "(^author-mail .*)";
+    private static final String COMBINATION_REGEX =
+            COMMIT_HASH_REGEX + "|" + AUTHOR_NAME_REGEX + "|" + AUTHOR_EMAIL_REGEX;
+
     /**
      * Returns the raw git blame result for the {@code fileDirectory}, performed at the {@code root} directory.
      */
@@ -23,6 +29,6 @@ public class GitBlame {
         String blameCommand = "git blame -w --line-porcelain";
         blameCommand += " " + addQuote(fileDirectory);
 
-        return StringsUtil.filterText(runCommand(rootPath, blameCommand), "(^author .*)|(^[0-9a-f]{40} .*)");
+        return StringsUtil.filterText(runCommand(rootPath, blameCommand), COMBINATION_REGEX);
     }
 }
