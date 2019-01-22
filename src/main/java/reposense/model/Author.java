@@ -49,6 +49,7 @@ public class Author {
         this.gitId = gitId;
         this.displayName = displayName;
         this.authorAliases = authorAliases;
+
         setEmails(emails);
         setIgnoreGlobList(ignoreGlobList);
     }
@@ -67,7 +68,7 @@ public class Author {
      * @throws IllegalArgumentException if any of the values do not meet the criteria.
      */
     private static void validateEmails(List<String> emails) throws IllegalArgumentException {
-        for (String email: emails) {
+        for (String email : emails) {
             if (!email.matches(COMMON_EMAIL_REGEX)) {
                 throw new IllegalArgumentException(String.format(MESSAGE_UNCOMMON_EMAIL_PATTERN, email));
             }
@@ -79,7 +80,7 @@ public class Author {
      * @throws IllegalArgumentException if any of the values do not meet the criteria.
      */
     private static void validateIgnoreGlobs(List<String> ignoreGlobList) throws IllegalArgumentException {
-        for (String glob: ignoreGlobList) {
+        for (String glob : ignoreGlobList) {
             if (!glob.matches(COMMON_GLOB_REGEX)) {
                 throw new IllegalArgumentException(String.format(MESSAGE_UNCOMMON_GLOB_PATTERN, glob));
             }
