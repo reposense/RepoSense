@@ -22,14 +22,14 @@ public class CommitInfoAnalyzerTest extends GitTestTemplate {
     @Before
     public void before() throws InvalidLocationException {
         super.before();
-        config.getAuthorAliasMap().clear();
+        config.getAuthorEmailsAndAliasesMap().clear();
     }
 
     @Test
     public void analyzeCommits_allAuthorNoIgnoredCommitsNoDateRange_success() {
-        config.getAuthorAliasMap().put(MAIN_AUTHOR_NAME, new Author(MAIN_AUTHOR_NAME));
-        config.getAuthorAliasMap().put(FAKE_AUTHOR_NAME, new Author(FAKE_AUTHOR_NAME));
-        config.getAuthorAliasMap().put(EUGENE_AUTHOR_NAME, new Author(EUGENE_AUTHOR_NAME));
+        config.getAuthorEmailsAndAliasesMap().put(MAIN_AUTHOR_NAME, new Author(MAIN_AUTHOR_NAME));
+        config.getAuthorEmailsAndAliasesMap().put(FAKE_AUTHOR_NAME, new Author(FAKE_AUTHOR_NAME));
+        config.getAuthorEmailsAndAliasesMap().put(EUGENE_AUTHOR_NAME, new Author(EUGENE_AUTHOR_NAME));
 
         List<CommitInfo> commitInfos = CommitInfoExtractor.extractCommitInfos(config);
         List<CommitResult> commitResults = CommitInfoAnalyzer.analyzeCommits(commitInfos, config);
@@ -39,8 +39,8 @@ public class CommitInfoAnalyzerTest extends GitTestTemplate {
 
     @Test
     public void analyzeCommits_fakeMainAuthorNoIgnoredCommitsNoDateRange_success() {
-        config.getAuthorAliasMap().put(MAIN_AUTHOR_NAME, new Author(MAIN_AUTHOR_NAME));
-        config.getAuthorAliasMap().put(FAKE_AUTHOR_NAME, new Author(FAKE_AUTHOR_NAME));
+        config.getAuthorEmailsAndAliasesMap().put(MAIN_AUTHOR_NAME, new Author(MAIN_AUTHOR_NAME));
+        config.getAuthorEmailsAndAliasesMap().put(FAKE_AUTHOR_NAME, new Author(FAKE_AUTHOR_NAME));
 
         List<CommitInfo> commitInfos = CommitInfoExtractor.extractCommitInfos(config);
         List<CommitResult> commitResults = CommitInfoAnalyzer.analyzeCommits(commitInfos, config);
@@ -50,7 +50,7 @@ public class CommitInfoAnalyzerTest extends GitTestTemplate {
 
     @Test
     public void analyzeCommits_eugeneAuthorNoIgnoredCommitsNoDateRange_success() {
-        config.getAuthorAliasMap().put(EUGENE_AUTHOR_NAME, new Author(EUGENE_AUTHOR_NAME));
+        config.getAuthorEmailsAndAliasesMap().put(EUGENE_AUTHOR_NAME, new Author(EUGENE_AUTHOR_NAME));
 
         List<CommitInfo> commitInfos = CommitInfoExtractor.extractCommitInfos(config);
         List<CommitResult> commitResults = CommitInfoAnalyzer.analyzeCommits(commitInfos, config);
@@ -60,9 +60,9 @@ public class CommitInfoAnalyzerTest extends GitTestTemplate {
 
     @Test
     public void analyzeCommits_allAuthorSingleCommitIgnoredNoDateRange_success() {
-        config.getAuthorAliasMap().put(MAIN_AUTHOR_NAME, new Author(MAIN_AUTHOR_NAME));
-        config.getAuthorAliasMap().put(FAKE_AUTHOR_NAME, new Author(FAKE_AUTHOR_NAME));
-        config.getAuthorAliasMap().put(EUGENE_AUTHOR_NAME, new Author(EUGENE_AUTHOR_NAME));
+        config.getAuthorEmailsAndAliasesMap().put(MAIN_AUTHOR_NAME, new Author(MAIN_AUTHOR_NAME));
+        config.getAuthorEmailsAndAliasesMap().put(FAKE_AUTHOR_NAME, new Author(FAKE_AUTHOR_NAME));
+        config.getAuthorEmailsAndAliasesMap().put(EUGENE_AUTHOR_NAME, new Author(EUGENE_AUTHOR_NAME));
         List<CommitInfo> commitInfos = CommitInfoExtractor.extractCommitInfos(config);
         config.setIgnoreCommitList(Collections.singletonList(FAKE_AUTHOR_BLAME_TEST_FILE_COMMIT_08022018));
         List<CommitResult> commitResultsFull = CommitInfoAnalyzer.analyzeCommits(commitInfos, config);
@@ -77,9 +77,9 @@ public class CommitInfoAnalyzerTest extends GitTestTemplate {
 
     @Test
     public void analyzeCommits_allAuthorMultipleCommitIgnoredNoDateRange_success() {
-        config.getAuthorAliasMap().put(MAIN_AUTHOR_NAME, new Author(MAIN_AUTHOR_NAME));
-        config.getAuthorAliasMap().put(FAKE_AUTHOR_NAME, new Author(FAKE_AUTHOR_NAME));
-        config.getAuthorAliasMap().put(EUGENE_AUTHOR_NAME, new Author(EUGENE_AUTHOR_NAME));
+        config.getAuthorEmailsAndAliasesMap().put(MAIN_AUTHOR_NAME, new Author(MAIN_AUTHOR_NAME));
+        config.getAuthorEmailsAndAliasesMap().put(FAKE_AUTHOR_NAME, new Author(FAKE_AUTHOR_NAME));
+        config.getAuthorEmailsAndAliasesMap().put(EUGENE_AUTHOR_NAME, new Author(EUGENE_AUTHOR_NAME));
         List<CommitInfo> commitInfos = CommitInfoExtractor.extractCommitInfos(config);
         config.setIgnoreCommitList(
                 Arrays.asList(FAKE_AUTHOR_BLAME_TEST_FILE_COMMIT_08022018, EUGENE_AUTHOR_README_FILE_COMMIT_07052018));
@@ -96,8 +96,8 @@ public class CommitInfoAnalyzerTest extends GitTestTemplate {
     @Test
     public void analyzeCommits_noCommitMessage_success() {
         config.setBranch("empty-commit-message");
-        config.getAuthorAliasMap().clear();
-        config.getAuthorAliasMap().put(YONG_AUTHOR_NAME, new Author(YONG_AUTHOR_NAME));
+        config.getAuthorEmailsAndAliasesMap().clear();
+        config.getAuthorEmailsAndAliasesMap().put(YONG_AUTHOR_NAME, new Author(YONG_AUTHOR_NAME));
 
         List<CommitInfo> commitInfos = CommitInfoExtractor.extractCommitInfos(config);
         List<CommitResult> commitResults = CommitInfoAnalyzer.analyzeCommits(commitInfos, config);
