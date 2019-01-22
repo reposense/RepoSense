@@ -19,7 +19,10 @@ public class AuthorTest {
         String[] emails = new String[] {"tester@test.net", "developer@example.com"};
 
         author.setEmails(Arrays.asList(emails));
-        Assert.assertEquals(3, author.getEmails().size());
+
+        // The additional 1 email comes from the Standard GitHub Email.
+        Assert.assertEquals(emails.length + 1, author.getEmails().size());
+
         Assert.assertTrue(author.getEmails().containsAll(Arrays.asList(emails)));
     }
 
