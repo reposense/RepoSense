@@ -30,6 +30,7 @@ public class FileInfoAnalyzer {
 
     private static final String REUSED_TAG = "//@reused";
     private static final int AUTHOR_NAME_OFFSET = "author ".length();
+    private static final int AUTHOR_EMAIL_OFFSET = "author-mail ".length();
     private static final int FULL_COMMIT_HASH_LENGTH = 40;
 
     /**
@@ -50,7 +51,7 @@ public class FileInfoAnalyzer {
             CheckStyleParser.aggregateStyleIssue(fileInfo, config.getRepoRoot());
         }
         if (config.isAnnotationOverwrite()) {
-            AnnotatorAnalyzer.aggregateAnnotationAuthorInfo(fileInfo, config.getAuthorAliasMap());
+            AnnotatorAnalyzer.aggregateAnnotationAuthorInfo(fileInfo, config.getAuthorEmailsAndAliasesMap());
         }
 
         if (!config.getAuthorList().isEmpty() && fileInfo.isAllAuthorsIgnored(config.getAuthorList())) {
@@ -76,23 +77,26 @@ public class FileInfoAnalyzer {
      * Sets the {@code Author} for each line in {@code fileInfo} based on the git blame analysis on the file.
      */
     private static void aggregateBlameAuthorInfo(RepoConfiguration config, FileInfo fileInfo) {
-        Map<String, Author> authorAliasMap = config.getAuthorAliasMap();
+        Map<String, Author> authorEmailsAndAliasesMap = config.getAuthorEmailsAndAliasesMap();
 
         String blameResults = getGitBlameResult(config, fileInfo.getPath());
         String[] blameResultLines = blameResults.split("\n");
         Path filePath = Paths.get(fileInfo.getPath());
 
-        for (int lineCount = 0; lineCount < blameResultLines.length; lineCount += 2) {
+        for (int lineCount = 0; lineCount < blameResultLines.length; lineCount += 3) {
             String commitHash = blameResultLines[lineCount].substring(0, FULL_COMMIT_HASH_LENGTH);
-            String authorRawName = blameResultLines[lineCount + 1].substring(AUTHOR_NAME_OFFSET);
-            Author author = authorAliasMap.getOrDefault(authorRawName, new Author(Author.UNKNOWN_AUTHOR_GIT_ID));
+            String authorName = blameResultLines[lineCount + 1].substring(AUTHOR_NAME_OFFSET);
+            String authorEmail = blameResultLines[lineCount + 2]
+                    .substring(AUTHOR_EMAIL_OFFSET).replaceAll("<|>", "");
+            Author author = authorEmailsAndAliasesMap.getOrDefault(authorName,
+                    authorEmailsAndAliasesMap.getOrDefault(authorEmail, Author.UNKNOWN_AUTHOR));
 
-            if (!fileInfo.isFileLineTracked(lineCount / 2) || isAuthorIgnoringFile(author, filePath)
+            if (!fileInfo.isFileLineTracked(lineCount / 3) || isAuthorIgnoringFile(author, filePath)
                     || CommitHash.isInsideCommitList(commitHash, config.getIgnoreCommitList())) {
-                author = new Author(Author.UNKNOWN_AUTHOR_GIT_ID);
+                author = Author.UNKNOWN_AUTHOR;
             }
 
-            fileInfo.setLineAuthor(lineCount / 2, author);
+            fileInfo.setLineAuthor(lineCount / 3, author);
         }
     }
 

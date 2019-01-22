@@ -117,7 +117,7 @@ public class RepoConfiguration {
      */
     public void update(StandaloneConfig standaloneConfig) {
         List<Author> newAuthorList = new ArrayList<>();
-        TreeMap<String, Author> newAuthorAliasMap = new TreeMap<>(String.CASE_INSENSITIVE_ORDER);
+        TreeMap<String, Author> newAuthorEmailsAndAliasesMap = new TreeMap<>(String.CASE_INSENSITIVE_ORDER);
         Map<Author, String> newAuthorDisplayNameMap = new HashMap<>();
         List<String> newIgnoreGlobList = standaloneConfig.getIgnoreGlobList();
 
@@ -128,8 +128,10 @@ public class RepoConfiguration {
             newAuthorList.add(author);
             newAuthorDisplayNameMap.put(author, author.getDisplayName());
             List<String> aliases = new ArrayList<>(author.getAuthorAliases());
+            List<String> emails = new ArrayList<>(author.getEmails());
             aliases.add(author.getGitId());
-            aliases.forEach(alias -> newAuthorAliasMap.put(alias, author));
+            aliases.forEach(alias -> newAuthorEmailsAndAliasesMap.put(alias, author));
+            emails.forEach(email -> newAuthorEmailsAndAliasesMap.put(email, author));
         }
 
         Format.validateFormats(standaloneConfig.getFormats());
@@ -137,7 +139,7 @@ public class RepoConfiguration {
 
         // only assign the new values when all the fields in {@code standaloneConfig} pass the validations.
         authorConfig.setAuthorList(newAuthorList);
-        authorConfig.setAuthorAliasMap(newAuthorAliasMap);
+        authorConfig.setAuthorEmailsAndAliasesMap(newAuthorEmailsAndAliasesMap);
         authorConfig.setAuthorDisplayNameMap(newAuthorDisplayNameMap);
         ignoreGlobList = newIgnoreGlobList;
         formats = Format.convertStringsToFormats(standaloneConfig.getFormats());
@@ -266,12 +268,12 @@ public class RepoConfiguration {
         authorConfig.resetAuthorInformation(this.getIgnoreGlobList());
     }
 
-    public TreeMap<String, Author> getAuthorAliasMap() {
-        return authorConfig.getAuthorAliasMap();
+    public TreeMap<String, Author> getAuthorEmailsAndAliasesMap() {
+        return authorConfig.getAuthorEmailsAndAliasesMap();
     }
 
-    public void setAuthorAliasMap(TreeMap<String, Author> authorAliasMap) {
-        authorConfig.setAuthorAliasMap(authorAliasMap);
+    public void setAuthorEmailsAndAliasesMap(TreeMap<String, Author> authorEmailsAndAliasesMap) {
+        authorConfig.setAuthorEmailsAndAliasesMap(authorEmailsAndAliasesMap);
     }
 
     public Date getSinceDate() {
@@ -302,8 +304,8 @@ public class RepoConfiguration {
         authorConfig.setAuthorDisplayName(author, displayName);
     }
 
-    public void addAuthorAliases(Author author, List<String> aliases) {
-        authorConfig.addAuthorAliases(author, aliases);
+    public void addAuthorEmailsAndAliasesMapEntry(Author author, List<String> values) {
+        authorConfig.addAuthorEmailsAndAliasesMapEntry(author, values);
     }
 
     public String getDisplayName() {

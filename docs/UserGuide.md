@@ -119,7 +119,7 @@ When a repo is being analyzed by RepoSense, there are **two ways repo owners can
 
 Repo owners can provide the following additional information to RepoSense using a config file that we call the **_standalone config file_**:
 * which files/authors/commits to analyze/omit
-* which git and github usernames belong to which authors
+* which git and GitHub usernames belong to which authors
 * the display of an author
 
 To use this feature, add a `_reposense/config.json`  to the root of your repo using the format in the example below ([another example](../_reposense/config.json)) and **commit it** (reason: RepoSense can see committed code only):
@@ -132,6 +132,7 @@ To use this feature, add a `_reposense/config.json`  to the root of your repo us
   [
     {
       "githubId": "alice",
+      "emails": ["alice@example.com", "alicet@example.com"],
       "displayName": "Alice T.",
       "authorNames": ["AT", "A"],
       "ignoreGlobList": ["**.css"]
@@ -152,7 +153,8 @@ Note: all fields are optional unless specified otherwise.
 
 **Fields to provide _author-level_ info**:<br>
 Note: `authors` field should contain _all_ authors that should be captured in the analysis.
-* `githubId`: Github username of the author. :exclamation: Mandatory field.
+* `githubId`: GitHub username of the author. :exclamation: Mandatory field.
+* `emails`: Associated GitHub emails of the author. This can be found in your [GitHub settings](https://github.com/settings/emails).
 * `displayName`: Name to display on the report for this author.
 * `authorNames`: Git Author Name(s) used in the author's commits. By default RepoSense assumes an author would use her GitHub username as the Git username too. The meaning of _Git Author Name_ is explained in [_A Note About Git Author Name_](#a-note-about-git-author-name).
 * `ignoreGlobList`: _Additional_ (i.e. on top of the repo-level `ignoreGlobList`) folders/files to ignore for a specific author . In the example above, the actual `ignoreGlobList` for `alice` would be `["about-us/**", "**index.html", "**.css"]`
@@ -280,6 +282,7 @@ Column Name | Explanation
 [Optional] Repository's Location | Same as `repo-config.csv`. Default: all the repos in `repo-config.csv`
 [Optional] Branch | The branch to analyze for this author e.g., `master`. Default: the default branch of the repo
 Author's GitHub ID | GitHub username of the target author e.g., `JohnDoe`
+[Optional] Author's Emails<sup>*</sup> | Associated Github emails of the author. This can be found in your [GitHub settings](https://github.com/settings/emails).
 [Optional] Author's Display Name | The name to display for the author. Default: author's GitHub username.
 [Optional] Author's Git Author Name<sup>*</sup> | The meaning of _Git Author Name_ is explained in [_A Note About Git Author Name_](#a-note-about-git-author-name).
 [Optional] Ignore Glob List<sup>*</sup> | Files to ignore for this author, in addition to files ignored by the patterns specified in `repo-config.csv`

@@ -26,7 +26,7 @@
       {
         "lineNumber": 4,
         "author": {
-          "gitId": "nbriannl"
+          "gitId": "nbr"
         },
         "content": "\u003c?import javafx.scene.layout.StackPane?\u003e"
       },
@@ -60,8 +60,8 @@
       }
     ],
     "authorContributionMap": {
-      "nbriannl": 1,
-      "-": 7
+      "-": 7,
+      "nbr": 1
     }
   },
   {
@@ -350,63 +350,63 @@
       {
         "lineNumber": 41,
         "author": {
-          "gitId": "nbriannl"
+          "gitId": "April0616"
         },
         "content": "                        \u003c!-- @@author nbriannl --\u003e"
       },
       {
         "lineNumber": 42,
         "author": {
-          "gitId": "nbriannl"
+          "gitId": "nbr"
         },
         "content": "                        \u003cStackPane fx:id\u003d\"tagListPanelPlaceholder\" alignment\u003d\"TOP_CENTER\" styleClass\u003d\"pane-with-border\"\u003e"
       },
       {
         "lineNumber": 43,
         "author": {
-          "gitId": "nbriannl"
+          "gitId": "nbr"
         },
         "content": "                     \u003cpadding\u003e"
       },
       {
         "lineNumber": 44,
         "author": {
-          "gitId": "nbriannl"
+          "gitId": "nbr"
         },
         "content": "                        \u003cInsets bottom\u003d\"10.0\" left\u003d\"10.0\" right\u003d\"10.0\" /\u003e"
       },
       {
         "lineNumber": 45,
         "author": {
-          "gitId": "nbriannl"
+          "gitId": "-"
         },
         "content": "                     \u003c/padding\u003e"
       },
       {
         "lineNumber": 46,
         "author": {
-          "gitId": "nbriannl"
+          "gitId": "-"
         },
         "content": "                        \u003c/StackPane\u003e"
       },
       {
         "lineNumber": 47,
         "author": {
-          "gitId": "nbriannl"
+          "gitId": "nbr"
         },
         "content": "                        \u003cStackPane fx:id\u003d\"personInfoPlaceholder\" VBox.vgrow\u003d\"ALWAYS\" /\u003e"
       },
       {
         "lineNumber": 48,
         "author": {
-          "gitId": "nbriannl"
+          "gitId": "-"
         },
         "content": ""
       },
       {
         "lineNumber": 49,
         "author": {
-          "gitId": "nbriannl"
+          "gitId": "April0616"
         },
         "content": "                    \u003c/VBox\u003e"
       },
@@ -539,7 +539,7 @@
       {
         "lineNumber": 68,
         "author": {
-          "gitId": "nbriannl"
+          "gitId": "nbr"
         },
         "content": "                        \u003cInsets bottom\u003d\"10\" left\u003d\"10\" right\u003d\"10\" top\u003d\"10\" /\u003e"
       },
@@ -594,9 +594,9 @@
       }
     ],
     "authorContributionMap": {
-      "nbriannl": 10,
-      "April0616": 54,
-      "-": 11
+      "April0616": 56,
+      "-": 14,
+      "nbr": 5
     }
   },
   {
@@ -1250,7 +1250,7 @@
       {
         "lineNumber": 10,
         "author": {
-          "gitId": "nbriannl"
+          "gitId": "nbr"
         },
         "content": "\u003c?import javafx.scene.layout.RowConstraints?\u003e"
       },
@@ -1264,7 +1264,7 @@
       {
         "lineNumber": 12,
         "author": {
-          "gitId": "nbriannl"
+          "gitId": "nbr"
         },
         "content": "\u003cHBox id\u003d\"cardPane\" fx:id\u003d\"cardPane\" xmlns\u003d\"http://javafx.com/javafx/8.0.141\" xmlns:fx\u003d\"http://javafx.com/fxml/1\"\u003e"
       },
@@ -1313,7 +1313,7 @@
       {
         "lineNumber": 19,
         "author": {
-          "gitId": "nbriannl"
+          "gitId": "nbr"
         },
         "content": "        \u003cInsets bottom\u003d\"5\" left\u003d\"15\" right\u003d\"5\" top\u003d\"5\" /\u003e"
       },
@@ -1327,7 +1327,7 @@
       {
         "lineNumber": 21,
         "author": {
-          "gitId": "nbriannl"
+          "gitId": "nbr"
         },
         "content": "      \u003cHBox alignment\u003d\"CENTER_LEFT\" spacing\u003d\"5\"\u003e"
       },
@@ -1376,7 +1376,7 @@
       {
         "lineNumber": 28,
         "author": {
-          "gitId": "nbriannl"
+          "gitId": "nbr"
         },
         "content": "        \u003cLabel fx:id\u003d\"name\" styleClass\u003d\"cell_big_label\" text\u003d\"\\$first\" /\u003e"
       },
@@ -1390,28 +1390,28 @@
       {
         "lineNumber": 30,
         "author": {
-          "gitId": "nbriannl"
+          "gitId": "nbr"
         },
         "content": "      \u003cFlowPane fx:id\u003d\"tags\"\u003e"
       },
       {
         "lineNumber": 31,
         "author": {
-          "gitId": "nbriannl"
+          "gitId": "nbr"
         },
         "content": "            \u003cVBox.margin\u003e"
       },
       {
         "lineNumber": 32,
         "author": {
-          "gitId": "nbriannl"
+          "gitId": "nbr"
         },
         "content": "               \u003cInsets bottom\u003d\"5.0\" /\u003e"
       },
       {
         "lineNumber": 33,
         "author": {
-          "gitId": "nbriannl"
+          "gitId": "nbr"
         },
         "content": "            \u003c/VBox.margin\u003e\u003c/FlowPane\u003e"
       },
@@ -1439,21 +1439,21 @@
       {
         "lineNumber": 37,
         "author": {
-          "gitId": "nbriannl"
+          "gitId": "nbr"
         },
         "content": "      \u003crowConstraints\u003e"
       },
       {
         "lineNumber": 38,
         "author": {
-          "gitId": "nbriannl"
+          "gitId": "nbr"
         },
         "content": "         \u003cRowConstraints /\u003e"
       },
       {
         "lineNumber": 39,
         "author": {
-          "gitId": "nbriannl"
+          "gitId": "nbr"
         },
         "content": "      \u003c/rowConstraints\u003e"
       },
@@ -1473,8 +1473,8 @@
       }
     ],
     "authorContributionMap": {
-      "nbriannl": 12,
-      "-": 29
+      "-": 29,
+      "nbr": 12
     }
   },
   {
@@ -1511,7 +1511,7 @@
       {
         "lineNumber": 5,
         "author": {
-          "gitId": "nbriannl"
+          "gitId": "nbr"
         },
         "content": "\u003cVBox styleClass\u003d\"personListBox\" xmlns\u003d\"http://javafx.com/javafx/8.0.141\" xmlns:fx\u003d\"http://javafx.com/fxml/1\"\u003e"
       },
@@ -1531,8 +1531,8 @@
       }
     ],
     "authorContributionMap": {
-      "nbriannl": 1,
-      "-": 6
+      "-": 6,
+      "nbr": 1
     }
   },
   {
@@ -1541,195 +1541,196 @@
       {
         "lineNumber": 1,
         "author": {
-          "gitId": "nbriannl"
+          "gitId": "nbr"
         },
         "content": "\u003c?xml version\u003d\"1.0\" encoding\u003d\"UTF-8\"?\u003e"
       },
       {
         "lineNumber": 2,
         "author": {
-          "gitId": "nbriannl"
+          "gitId": "nbr"
         },
         "content": ""
       },
       {
         "lineNumber": 3,
         "author": {
-          "gitId": "nbriannl"
+          "gitId": "-"
         },
         "content": "\u003c!-- @@author nbriannl --\u003e"
       },
       {
         "lineNumber": 4,
         "author": {
-          "gitId": "nbriannl"
+          "gitId": "nbr"
         },
         "content": ""
       },
       {
         "lineNumber": 5,
         "author": {
-          "gitId": "nbriannl"
+          "gitId": "nbr"
         },
         "content": "\u003c?import javafx.geometry.Insets?\u003e"
       },
       {
         "lineNumber": 6,
         "author": {
-          "gitId": "nbriannl"
+          "gitId": "nbr"
         },
         "content": "\u003c?import javafx.scene.layout.ColumnConstraints?\u003e"
       },
       {
         "lineNumber": 7,
         "author": {
-          "gitId": "nbriannl"
+          "gitId": "nbr"
         },
         "content": "\u003c?import javafx.scene.layout.FlowPane?\u003e"
       },
       {
         "lineNumber": 8,
         "author": {
-          "gitId": "nbriannl"
+          "gitId": "nbr"
         },
         "content": "\u003c?import javafx.scene.layout.GridPane?\u003e"
       },
       {
         "lineNumber": 9,
         "author": {
-          "gitId": "nbriannl"
+          "gitId": "nbr"
         },
         "content": "\u003c?import javafx.scene.layout.HBox?\u003e"
       },
       {
         "lineNumber": 10,
         "author": {
-          "gitId": "nbriannl"
+          "gitId": "nbr"
         },
         "content": "\u003c?import javafx.scene.layout.RowConstraints?\u003e"
       },
       {
         "lineNumber": 11,
         "author": {
-          "gitId": "nbriannl"
+          "gitId": "nbr"
         },
         "content": "\u003c?import javafx.scene.layout.VBox?\u003e"
       },
       {
         "lineNumber": 12,
         "author": {
-          "gitId": "nbriannl"
+          "gitId": "nbr"
         },
         "content": "\u003cHBox id\u003d\"cardPane\" fx:id\u003d\"cardPane\" xmlns\u003d\"http://javafx.com/javafx/8.0.141\" xmlns:fx\u003d\"http://javafx.com/fxml/1\"\u003e"
       },
       {
         "lineNumber": 13,
         "author": {
-          "gitId": "nbriannl"
+          "gitId": "nbr"
         },
         "content": "  \u003cGridPane HBox.hgrow\u003d\"ALWAYS\"\u003e"
       },
       {
         "lineNumber": 14,
         "author": {
-          "gitId": "nbriannl"
+          "gitId": "nbr"
         },
         "content": "    \u003ccolumnConstraints\u003e"
       },
       {
         "lineNumber": 15,
         "author": {
-          "gitId": "nbriannl"
+          "gitId": "nbr"
         },
         "content": "      \u003cColumnConstraints hgrow\u003d\"SOMETIMES\" minWidth\u003d\"10\" prefWidth\u003d\"150\" /\u003e"
       },
       {
         "lineNumber": 16,
         "author": {
-          "gitId": "nbriannl"
+          "gitId": "nbr"
         },
         "content": "    \u003c/columnConstraints\u003e"
       },
       {
         "lineNumber": 17,
         "author": {
-          "gitId": "nbriannl"
+          "gitId": "nbr"
         },
         "content": "    \u003cVBox alignment\u003d\"CENTER_LEFT\" GridPane.columnIndex\u003d\"0\"\u003e"
       },
       {
         "lineNumber": 18,
         "author": {
-          "gitId": "nbriannl"
+          "gitId": "nbr"
         },
         "content": "      \u003cpadding\u003e"
       },
       {
         "lineNumber": 19,
         "author": {
-          "gitId": "nbriannl"
+          "gitId": "nbr"
         },
         "content": "        \u003cInsets bottom\u003d\"5\" left\u003d\"15\" right\u003d\"5\" top\u003d\"5\" /\u003e"
       },
       {
         "lineNumber": 20,
         "author": {
-          "gitId": "nbriannl"
+          "gitId": "nbr"
         },
         "content": "      \u003c/padding\u003e"
       },
       {
         "lineNumber": 21,
         "author": {
-          "gitId": "nbriannl"
+          "gitId": "nbr"
         },
         "content": "      \u003cFlowPane fx:id\u003d\"tags\" /\u003e"
       },
       {
         "lineNumber": 22,
         "author": {
-          "gitId": "nbriannl"
+          "gitId": "nbr"
         },
         "content": "    \u003c/VBox\u003e"
       },
       {
         "lineNumber": 23,
         "author": {
-          "gitId": "nbriannl"
+          "gitId": "nbr"
         },
         "content": "      \u003crowConstraints\u003e"
       },
       {
         "lineNumber": 24,
         "author": {
-          "gitId": "nbriannl"
+          "gitId": "nbr"
         },
         "content": "         \u003cRowConstraints /\u003e"
       },
       {
         "lineNumber": 25,
         "author": {
-          "gitId": "nbriannl"
+          "gitId": "nbr"
         },
         "content": "      \u003c/rowConstraints\u003e"
       },
       {
         "lineNumber": 26,
         "author": {
-          "gitId": "nbriannl"
+          "gitId": "nbr"
         },
         "content": "  \u003c/GridPane\u003e"
       },
       {
         "lineNumber": 27,
         "author": {
-          "gitId": "nbriannl"
+          "gitId": "nbr"
         },
         "content": "\u003c/HBox\u003e"
       }
     ],
     "authorContributionMap": {
-      "nbriannl": 27
+      "-": 1,
+      "nbr": 26
     }
   },
   {
@@ -1751,6 +1752,9 @@
       },
       {
         "lineNumber": 3,
+        "author": {
+          "gitId": "-"
+        },
         "content": "\u003c!-- @@author zacharytang-unused --\u003e"
       },
       {
@@ -2070,8 +2074,8 @@
       }
     ],
     "authorContributionMap": {
-      "null": 1,
-      "zacharytang": 47
+      "zacharytang": 47,
+      "-": 1
     }
   },
   {
@@ -2149,6 +2153,9 @@
       },
       {
         "lineNumber": 11,
+        "author": {
+          "gitId": "-"
+        },
         "content": "\u003c!-- @@author zacharytang-unused --\u003e"
       },
       {
@@ -2161,14 +2168,14 @@
       {
         "lineNumber": 13,
         "author": {
-          "gitId": "nbriannl"
+          "gitId": "nbr"
         },
         "content": "    \u003c!--Edit dividerPositions below to adjust vertical divider position between the person info and the timetable area --\u003e"
       },
       {
         "lineNumber": 14,
         "author": {
-          "gitId": "nbriannl"
+          "gitId": "nbr"
         },
         "content": "    \u003cSplitPane dividerPositions\u003d\"0.3\" orientation\u003d\"VERTICAL\"\u003e"
       },
@@ -2182,7 +2189,7 @@
       {
         "lineNumber": 16,
         "author": {
-          "gitId": "nbriannl"
+          "gitId": "nbr"
         },
         "content": "            \u003c!--Edit dividerPositions below to adjust the divider position between the person photo and the person details--\u003e"
       },
@@ -2531,10 +2538,10 @@
       }
     ],
     "authorContributionMap": {
-      "null": 1,
       "zacharytang": 45,
-      "nbriannl": 3,
-      "April0616": 16
+      "April0616": 16,
+      "-": 1,
+      "nbr": 3
     }
   }
 ]

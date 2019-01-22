@@ -9,7 +9,7 @@ import java.util.TreeMap;
 
 public class AuthorConfiguration {
     private transient List<Author> authorList = new ArrayList<>();
-    private transient TreeMap<String, Author> authorAliasMap = new TreeMap<>(String.CASE_INSENSITIVE_ORDER);
+    private transient TreeMap<String, Author> authorEmailsAndAliasesMap = new TreeMap<>(String.CASE_INSENSITIVE_ORDER);
     private transient Map<Author, String> authorDisplayNameMap = new HashMap<>();
 
     public Map<Author, String> getAuthorDisplayNameMap() {
@@ -28,11 +28,12 @@ public class AuthorConfiguration {
      * Sets the details of {@code author} to {@code RepoConfiguration} including the default alias, alias
      * and display name.
      */
-    private void setAuthorDetails(Author author) {
-        // Set GitHub Id as default alias
-        addAuthorAliases(author, Arrays.asList(author.getGitId()));
+    public void setAuthorDetails(Author author) {
+        // Set GitHub Id and its corresponding email as default
+        addAuthorEmailsAndAliasesMapEntry(author, Arrays.asList(author.getGitId()));
 
-        addAuthorAliases(author, author.getAuthorAliases());
+        addAuthorEmailsAndAliasesMapEntry(author, author.getAuthorAliases());
+        addAuthorEmailsAndAliasesMapEntry(author, author.getEmails());
 
         setAuthorDisplayName(author, author.getDisplayName());
     }
@@ -59,7 +60,7 @@ public class AuthorConfiguration {
     }
 
     public void resetAuthorInformation(List<String> ignoreGlobList) {
-        authorAliasMap.clear();
+        authorEmailsAndAliasesMap.clear();
         authorDisplayNameMap.clear();
 
         authorList.forEach(author -> {
@@ -68,19 +69,19 @@ public class AuthorConfiguration {
         });
     }
 
-    public TreeMap<String, Author> getAuthorAliasMap() {
-        return authorAliasMap;
+    public TreeMap<String, Author> getAuthorEmailsAndAliasesMap() {
+        return authorEmailsAndAliasesMap;
     }
 
-    public void setAuthorAliasMap(TreeMap<String, Author> authorAliasMap) {
-        this.authorAliasMap = authorAliasMap;
+    public void setAuthorEmailsAndAliasesMap(TreeMap<String, Author> authorEmailsAndAliasesMap) {
+        this.authorEmailsAndAliasesMap = authorEmailsAndAliasesMap;
     }
 
     public void setAuthorDisplayName(Author author, String displayName) {
         authorDisplayNameMap.put(author, displayName);
     }
 
-    public void addAuthorAliases(Author author, List<String> aliases) {
-        aliases.forEach(alias -> authorAliasMap.put(alias, author));
+    public void addAuthorEmailsAndAliasesMapEntry(Author author, List<String> values) {
+        values.forEach(value -> authorEmailsAndAliasesMap.put(value, author));
     }
 }
