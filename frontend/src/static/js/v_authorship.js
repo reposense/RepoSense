@@ -61,6 +61,17 @@ window.vAuthorship = {
         window.api.loadAuthorship(this.info.repo)
           .then(files => this.processFiles(files));
       }
+
+      this.getInfoHash();
+    },
+
+    getInfoHash() {
+      const { addHash } = window;
+      addHash('info', this.serialize(this.info));
+    },
+
+    serialize(info) {
+      return Object.keys(info).map((k) => `${encodeURIComponent(k)}=${encodeURIComponent(info[k])}`).join('&');
     },
 
     splitSegments(lines) {

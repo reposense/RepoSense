@@ -89,6 +89,33 @@ window.app = new window.Vue({
       }
     },
 
+    renderAuthorShipTab() {
+      const encodedInfo = window.location.hash.slice(1).split('&');
+      this.deserialize(encodedInfo);
+      const hash = window.hashParams;
+      if (hash.info) {
+        this.updateTabAuthorship(hash.info);
+      }
+    },
+
+    deserialize(obj) {
+      info = {}
+      obj.forEach((param) => {
+        const [key, val] = param.split('=');
+        if (key == 'info') {
+          let decoded = decodeURIComponent(val);
+          let properties = decoded.split('&');
+          properties.forEach((prop) => {
+            const [key, val] = prop.split('=');
+            info[key] = decodeURIComponent(val);
+          });
+        }
+      });
+      if (Object.keys(info).length > 0) {
+        window.hashParams['info'] = info;
+      }
+    },
+
     /*global expandAll*/
     expand(isActive) {
       this.isCollapsed = !isActive;
@@ -105,5 +132,6 @@ window.app = new window.Vue({
   },
   created() {
     this.updateReportDir();
+    this.renderAuthorShipTab();
   },
 });
