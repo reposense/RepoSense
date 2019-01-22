@@ -28,7 +28,7 @@ public class AuthorConfiguration {
      * Sets the details of {@code author} to {@code RepoConfiguration} including the default alias, alias
      * and display name.
      */
-    public void setAuthorDetails(Author author) {
+    private void setAuthorDetails(Author author) {
         // Set GitHub Id and its corresponding email as default
         addAuthorEmailsAndAliasesMapEntry(author, Arrays.asList(author.getGitId()));
 
