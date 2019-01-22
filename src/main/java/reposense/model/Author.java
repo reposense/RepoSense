@@ -41,7 +41,7 @@ public class Author {
 
     public Author(StandaloneAuthor sa) {
         String gitId = sa.getGithubId();
-        List<String> emails = new ArrayList<>(sa.getEmails());;
+        List<String> emails = new ArrayList<>(sa.getEmails());
         String displayName = !sa.getDisplayName().isEmpty() ? sa.getDisplayName() : sa.getGithubId();
         List<String> authorAliases = sa.getAuthorNames();
         List<String> ignoreGlobList = sa.getIgnoreGlobList();
