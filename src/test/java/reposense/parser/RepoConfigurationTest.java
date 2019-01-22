@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 import org.junit.Assert;
@@ -46,15 +47,17 @@ public class RepoConfigurationTest {
     private static final Author THIRD_AUTHOR = new Author("jordancjq");
     private static final Author FOURTH_AUTHOR = new Author("lohtianwei");
 
-    private static final List<String> FIRST_AUTHOR_ALIASES = Arrays.asList("Ahmad Syafiq");
-    private static final List<String> THIRD_AUTHOR_ALIASES = Arrays.asList("Jordan Chong");
-    private static final List<String> FOURTH_AUTHOR_ALIASES = Arrays.asList("Tianwei");
+    private static final List<String> FIRST_AUTHOR_ALIASES = Collections.singletonList("Ahmad Syafiq");
+    private static final List<String> SECOND_AUTHOR_ALIASES = Collections.emptyList();
+    private static final List<String> THIRD_AUTHOR_ALIASES = Collections.singletonList("Jordan Chong");
+    private static final List<String> FOURTH_AUTHOR_ALIASES = Collections.singletonList("Tianwei");
 
-    private static final List<String> REPO_LEVEL_GLOB_LIST = Arrays.asList("collated**");
+    private static final List<String> REPO_LEVEL_GLOB_LIST = Collections.singletonList("collated**");
     private static final List<String> FIRST_AUTHOR_GLOB_LIST =
             Arrays.asList("*.aa1", "**.aa2", "**.java", "collated**");
     private static final List<String> SECOND_AUTHOR_GLOB_LIST = Arrays.asList("", "collated**");
     private static final List<String> THIRD_AUTHOR_GLOB_LIST = Arrays.asList("**[!(.md)]", "collated**");
+    private static final List<String> FOURTH_AUTHOR_GLOB_LIST = Collections.singletonList("collated**");
 
     private static final List<Format> CONFIG_FORMATS = Format.convertStringsToFormats(Arrays.asList(
             "java", "adoc", "md"));
@@ -65,13 +68,14 @@ public class RepoConfigurationTest {
     @BeforeClass
     public static void setUp() throws InvalidLocationException {
         FIRST_AUTHOR.setAuthorAliases(FIRST_AUTHOR_ALIASES);
+        SECOND_AUTHOR.setAuthorAliases(SECOND_AUTHOR_ALIASES);
         THIRD_AUTHOR.setAuthorAliases(THIRD_AUTHOR_ALIASES);
         FOURTH_AUTHOR.setAuthorAliases(FOURTH_AUTHOR_ALIASES);
 
         FIRST_AUTHOR.setIgnoreGlobList(FIRST_AUTHOR_GLOB_LIST);
         SECOND_AUTHOR.setIgnoreGlobList(SECOND_AUTHOR_GLOB_LIST);
         THIRD_AUTHOR.setIgnoreGlobList(THIRD_AUTHOR_GLOB_LIST);
-        FOURTH_AUTHOR.setIgnoreGlobList(REPO_LEVEL_GLOB_LIST);
+        FOURTH_AUTHOR.setIgnoreGlobList(FOURTH_AUTHOR_GLOB_LIST);
 
         List<Author> expectedAuthors = new ArrayList<>();
         expectedAuthors.add(FIRST_AUTHOR);
