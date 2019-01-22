@@ -119,7 +119,7 @@ When a repo is being analyzed by RepoSense, there are **two ways repo owners can
 
 Repo owners can provide the following additional information to RepoSense using a config file that we call the **_standalone config file_**:
 * which files/authors/commits to analyze/omit
-* which git and github usernames belong to which authors
+* which git and GitHub usernames belong to which authors
 * the display of an author
 
 To use this feature, add a `_reposense/config.json`  to the root of your repo using the format in the example below ([another example](../_reposense/config.json)) and **commit it** (reason: RepoSense can see committed code only):
@@ -132,6 +132,7 @@ To use this feature, add a `_reposense/config.json`  to the root of your repo us
   [
     {
       "githubId": "alice",
+      "emails": ["alice@example.com", "alicet@example.com"],
       "displayName": "Alice T.",
       "authorNames": ["AT", "A"],
       "ignoreGlobList": ["**.css"]
@@ -147,12 +148,13 @@ Note: all fields are optional unless specified otherwise.
 **Fields to provide _repository-level_ info**:
 
 * `ignoreGlobList`: Folders/files to ignore, specified using the [_glob format_](https://docs.oracle.com/javase/tutorial/essential/io/fileOps.html#glob).
-* `formats`: File formats to analyze. Default: `adoc cs css fxml gradle html java js json jsp md py tag xml`
+* `formats`: File formats to analyze. Default: `adoc cs css fxml gradle html java js json jsp md py tag txt xml`
 * `ignoreCommitList`: The list of commits to ignore during analysis. For accurate results, the commits should be provided with their full hash.
 
 **Fields to provide _author-level_ info**:<br>
 Note: `authors` field should contain _all_ authors that should be captured in the analysis.
-* `githubId`: Github username of the author. :exclamation: Mandatory field.
+* `githubId`: GitHub username of the author. :exclamation: Mandatory field.
+* `emails`: Associated GitHub emails of the author. This can be found in your [GitHub settings](https://github.com/settings/emails).
 * `displayName`: Name to display on the report for this author.
 * `authorNames`: Git Author Name(s) used in the author's commits. By default RepoSense assumes an author would use her GitHub username as the Git username too. The meaning of _Git Author Name_ is explained in [_A Note About Git Author Name_](#a-note-about-git-author-name).
 * `ignoreGlobList`: _Additional_ (i.e. on top of the repo-level `ignoreGlobList`) folders/files to ignore for a specific author . In the example above, the actual `ignoreGlobList` for `alice` would be `["about-us/**", "**index.html", "**.css"]`
@@ -226,7 +228,7 @@ In addition, there are some _optional_ extra parameters you can use to customize
   Example:`-since 21/10/2017`
 * **`-until END_DATE`**: The end date of analysis. The analysis excludes the end date. Format: `DD/MM/YYYY`<br>
   Example:`-until 21/10/2017`
-* **`-formats LIST_OF_FORMATS`**: A space-separated list of file extensions that should be included in the analysis. Default: `adoc cs css fxml gradle html java js json jsp md py tag xml`<br>
+* **`-formats LIST_OF_FORMATS`**: A space-separated list of file extensions that should be included in the analysis. Default: `adoc cs css fxml gradle html java js json jsp md py tag txt xml`<br>
   Example:`-formats css fxml gradle`
 * **`-isac, --ignore-standalone-config`**: A flag to ignore the standalone config file in the repo (`-isac` as alias). This flag will not overwrite the `Ignore standalone config` field in the csv config file. Default: the standalone config file is not ignored.<br>
   Example:`--ignore-standalone-config` or `-isac`
@@ -264,7 +266,7 @@ Column Name | Explanation
 ----------- | -----------
 Repository's Location | The `GitHub URL` or `Disk Path` to the git repository e.g., `https://github.com/foo/bar.git` or `C:\Users\user\Desktop\GitHub\foo\bar`
 [Optional] Branch | The branch to analyze in the target repository e.g., `master`. Default: the default branch of the repo
-[Optional] File formats<sup>*</sup> | The file extensions to analyze. Default: `adoc;cs;css;fxml;gradle;html;java;js;json;jsp;md;py;tag;xml`
+[Optional] File formats<sup>*</sup> | The file extensions to analyze. Default: `adoc;cs;css;fxml;gradle;html;java;js;json;jsp;md;py;tag;txt;xml`
 [Optional] Ignore Glob List<sup>*</sup> | The list of file path globs to ignore during analysis for each author. e.g., `test/**;temp/**`
 [Optional] Ignore standalone config | To ignore the standalone config file (if any) in target repository, enter **`yes`**. If the cell is empty, the standalone config file in the repo (if any) will take precedence over configurations provided in the csv files.
 [Optional] Ignore Commit List<sup>*</sup> | The list of commits to ignore during analysis. For accurate results, the commits should be provided with their full hash.
@@ -277,9 +279,10 @@ Optionally, you can use a `author-config.csv` (which should be in the same direc
 
 Column Name | Explanation
 ----------- | -----------
-Repository's Location | Same as `repo-config.csv`
+[Optional] Repository's Location | Same as `repo-config.csv`. Default: all the repos in `repo-config.csv`
 [Optional] Branch | The branch to analyze for this author e.g., `master`. Default: the default branch of the repo
 Author's GitHub ID | GitHub username of the target author e.g., `JohnDoe`
+[Optional] Author's Emails<sup>*</sup> | Associated Github emails of the author. This can be found in your [GitHub settings](https://github.com/settings/emails).
 [Optional] Author's Display Name | The name to display for the author. Default: author's GitHub username.
 [Optional] Author's Git Author Name<sup>*</sup> | The meaning of _Git Author Name_ is explained in [_A Note About Git Author Name_](#a-note-about-git-author-name).
 [Optional] Ignore Glob List<sup>*</sup> | Files to ignore for this author, in addition to files ignored by the patterns specified in `repo-config.csv`
