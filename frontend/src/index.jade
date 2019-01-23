@@ -133,7 +133,7 @@ html
           ) {{ info.repo }}
           .author {{ info.name }} ({{ info.author }}) contribution from {{ info.minDate }} to {{ info.maxDate }}
           .contribution(v-if="isLoaded")
-            div.checkboxes.mui-form--inline(v-if="files.length > 0")
+            .checkboxes.mui-form--inline(v-if="files.length > 0")
               label
                 input(type="checkbox" v-on:click="selectAll" v-model="isSelectAllChecked").mui-checkbox
                 span.select(v-bind:title="getTotalFileBlankLineInfo()") All:&nbsp;
@@ -144,10 +144,17 @@ html
                   input(type="checkbox" :value="type" v-model="selectedFileTypes" v-on:change="selectFile").mui-checkbox
                   span(v-bind:title="getFileBlankLineInfo(type)") {{ type }}: {{ filesLinesObj[type] }}&nbsp;
                   span.bloc(v-bind:title="getFileBlankLineInfo(type)") ({{ filesBlankLinesObj[type] }})
-
-        .sorting
-          a(v-on:click="sortByPath()") Sort by path
-          a(v-on:click="sortByLineCount()") Sort by LoC
+            .sorting.mui-form--inline
+              .mui-select
+                select(v-model="filesSortType")
+                  option(value="lineOfCode") LoC
+                  option(value="path") Path
+                  option(value="fileName") File Name
+                  option(value="fileType") File Type
+                label sort by
+              label
+                input(type="checkbox", v-model="filesSortReverse").mui-checkbox
+                span reverse
 
         .files(v-if="isLoaded")
           .empty(v-if="files.length===0") nothing to see here :(

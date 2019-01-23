@@ -39,11 +39,20 @@ window.vAuthorship = {
       filesLinesObj: {},
       filesBlankLinesObj: {},
       totalLineCount: "",
-
-      sortByPathAscendingly: false,
-      sortByLineCountAscendingly: false,
       totalBlankLineCount: '',
+
+      filesSortType: 'lineOfCode',
+      filesSortReverse: true,
     };
+  },
+
+  watch: {
+    filesSortType() {
+      this.filesSort();
+    },
+    filesSortReverse() {
+      this.filesSort();
+    }
   },
 
   methods: {
@@ -171,6 +180,32 @@ window.vAuthorship = {
       this.sortByLineCountAscendingly = !this.sortByLineCountAscendingly;
       this.files = this.files.sort((a, b) =>
         (this.sortByLineCountAscendingly ? 1 : -1) * (a.lineCount - b.lineCount));
+    },
+
+    filesSort() {
+      const comparator = (transformFn) => {
+        this.files.sort((a, b) => {
+          const transformedA = transformFn(a);
+          const transformedB = transformFn(b);
+          if (transformedA === transformedB) {
+            return 0;
+          }
+          if (transformedA < transformedB) {
+            return -1;
+          }
+          return 1;
+        });
+      };
+      const filesSortDict = {
+        lineOfCode: (file) => file.lineCount,
+        path: (file) => file.path,
+        fileName: (file) => file.path.split(/[\/]+/).pop(),
+        fileType: (file) => file.path.split(/[\/]+/).pop().split(/[.]+/).pop(),
+      };
+      comparator(filesSortDict[this.filesSortType]);
+      if (this.filesSortReverse) {
+        this.files.reverse();
+      }
     },
 
     selectAll() {
