@@ -23,7 +23,7 @@ public class CommitReportJson {
      * Empty constructor to construct an empty commit report.
      */
     public CommitReportJson() {
-        Author emptyAuthor = new Author(Author.UNKNOWN_AUTHOR_GIT_ID);
+        Author emptyAuthor = Author.UNKNOWN_AUTHOR;
 
         authorDailyContributionsMap = new HashMap<>();
         authorDailyContributionsMap.put(emptyAuthor, Collections.emptyList());
