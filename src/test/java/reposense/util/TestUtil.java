@@ -110,7 +110,8 @@ public class TestUtil {
         Assert.assertEquals(expectedRepoConfig.getBranch(), actualRepoConfig.getBranch());
         Assert.assertEquals(expectedRepoConfig.getAuthorList(), actualRepoConfig.getAuthorList());
         Assert.assertEquals(expectedRepoConfig.getAuthorDisplayNameMap(), actualRepoConfig.getAuthorDisplayNameMap());
-        Assert.assertEquals(expectedRepoConfig.getAuthorAliasMap(), actualRepoConfig.getAuthorAliasMap());
+        Assert.assertEquals(
+                expectedRepoConfig.getAuthorEmailsAndAliasesMap(), actualRepoConfig.getAuthorEmailsAndAliasesMap());
         Assert.assertEquals(expectedRepoConfig.getIgnoreGlobList(), actualRepoConfig.getIgnoreGlobList());
         Assert.assertEquals(
                 expectedRepoConfig.isStandaloneConfigIgnored(), actualRepoConfig.isStandaloneConfigIgnored());
