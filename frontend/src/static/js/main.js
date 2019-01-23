@@ -65,9 +65,10 @@ window.app = new window.Vue({
       }).then(() => {
         this.userUpdated = true;
         this.isLoading = false;
-      }).catch(() => {
+      }).catch((error) => {
         this.userUpdated = false;
         this.isLoading = false;
+        window.alert(error);
       });
     },
     getUsers() {

@@ -10,7 +10,7 @@ function loadJSON(fname) {
     if (zipObject) {
       return zipObject.async('text').then((txt) => JSON.parse(txt));
     }
-    return Promise.reject(new Error('Zip file does not exist'));
+    return Promise.reject(new Error('Zip file is invalid.'));
   }
   return new Promise((resolve, reject) => {
     const xhr = new XMLHttpRequest();
@@ -19,8 +19,7 @@ function loadJSON(fname) {
       if (xhr.status === 200) {
         resolve(JSON.parse(xhr.responseText));
       } else {
-        reject(new Error('Unable to get file'));
-        window.alert('unable to get file');
+        reject(new Error('Unable to get file.'));
       }
     };
     xhr.send(null);
