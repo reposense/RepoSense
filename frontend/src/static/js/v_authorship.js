@@ -1,16 +1,3 @@
-// inspired from v_summary.js comparator
-const comparator = (transformFn) => ((a, b) => {
-  const transformedA = transformFn(a);
-  const transformedB = transformFn(b);
-  if (transformedA === transformedB) {
-    return 0;
-  }
-  if (transformedA < transformedB) {
-    return -1;
-  }
-  return 1;
-});
-
 const filesSortDict = {
   lineOfCode: (file) => file.lineCount,
   path: (file) => file.path,
