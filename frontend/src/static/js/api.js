@@ -8,7 +8,15 @@ function loadJSON(fname) {
   if (window.REPORT_ZIP) {
     const zipObject = window.REPORT_ZIP.file(fname.slice(2));
     if (zipObject) {
-      return zipObject.async('text').then((txt) => JSON.parse(txt));
+      return zipObject
+          .async('text')
+          .then((txt) => {
+            try {
+              return JSON.parse(txt);
+            } catch (err) {
+              return Promise.reject(new Error('JSON file is invalid.'));
+            }
+          });
     }
     return Promise.reject(new Error('Zip file is invalid.'));
   }
