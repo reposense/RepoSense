@@ -1,3 +1,23 @@
+// inspired from v_summary.js#comparator
+const comparator = (transformFn) => ((a, b) => {
+  const transformedA = transformFn(a);
+  const transformedB = transformFn(b);
+  if (transformedA === transformedB) {
+    return 0;
+  }
+  if (transformedA < transformedB) {
+    return -1;
+  }
+  return 1;
+});
+
+const filesSortDict = {
+  lineOfCode: (file) => file.lineCount,
+  path: (file) => file.path,
+  fileName: (file) => file.path.split(/[\/]+/).pop(),
+  fileType: (file) => file.path.split(/[\/]+/).pop().split(/[.]+/).pop(),
+};
+
 function toggleNext(ele) {
   // function for toggling unopened code
   const targetClass = 'active';
@@ -170,39 +190,9 @@ window.vAuthorship = {
           }), {});
     },
 
-    sortByPath() {
-      this.sortByPathAscendingly = !this.sortByPathAscendingly;
-      this.files = this.files.sort((a, b) =>
-        (this.sortByPathAscendingly ? 1 : -1) * a.path.localeCompare(b.path));
-    },
-
-    sortByLineCount() {
-      this.sortByLineCountAscendingly = !this.sortByLineCountAscendingly;
-      this.files = this.files.sort((a, b) =>
-        (this.sortByLineCountAscendingly ? 1 : -1) * (a.lineCount - b.lineCount));
-    },
-
     filesSort() {
-      const comparator = (transformFn) => {
-        this.files.sort((a, b) => {
-          const transformedA = transformFn(a);
-          const transformedB = transformFn(b);
-          if (transformedA === transformedB) {
-            return 0;
-          }
-          if (transformedA < transformedB) {
-            return -1;
-          }
-          return 1;
-        });
-      };
-      const filesSortDict = {
-        lineOfCode: (file) => file.lineCount,
-        path: (file) => file.path,
-        fileName: (file) => file.path.split(/[\/]+/).pop(),
-        fileType: (file) => file.path.split(/[\/]+/).pop().split(/[.]+/).pop(),
-      };
-      comparator(filesSortDict[this.filesSortType]);
+      this.files.sort(comparator(filesSortDict[this.filesSortType]));
+
       if (this.filesSortReverse) {
         this.files.reverse();
       }
