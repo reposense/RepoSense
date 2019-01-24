@@ -1,6 +1,6 @@
 ## Using Travis to automate publishing of your report to GitHub Pages
 
-[GitHub Pages](https://pages.github.com/) enables you to publish your report online for free.
+[Travis-CI](https://travis-ci.org/) enables you to automate RepoSense report generation and publish the report online to [GitHub Pages](https://pages.github.com/) for free.
 
 1. Fork publish-RepoSense repository using this [link](https://github.com/RepoSense/publish-RepoSense/fork)
 1. Follow this [guide](https://help.github.com/articles/creating-a-personal-access-token-for-the-command-line/) to generate a `Personal access token` on GitHub for report publishing <br/>
@@ -61,7 +61,7 @@ Edit line 10 of [run.sh](../../../../publish-RepoSense/edit/master/run.sh) to us
 
 Be sure to read and understand [all breaking changes and bugs](https://github.com/reposense/RepoSense/releases) before proceeding.
 
-Edit line 10 of [run.sh](../../../../publish-RepoSense/edit/master/run.sh) to use `--tag TAG`. <br />
+Edit line 10 of [run.sh](../../../../publish-RepoSense/edit/master/run.sh) to use `--tag TAG`, where `TAG` is the [target version of release](https://github.com/reposense/RepoSense/tags). <br />
 ```
 10   ./get-reposense.py --tag v1.6.1
 ```
