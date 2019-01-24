@@ -1,4 +1,4 @@
-## Publishing your report to GitHub Pages
+## Using Travis to automate publishing and updating of your report to GitHub Pages
 
 [GitHub Pages](https://pages.github.com/) enables you to publish your report online for free.
 
@@ -13,11 +13,11 @@
 1. Under **Environment Variables**, name a variable as `GITHUB_TOKEN` and paste the `Personal access token` to its value field; then click Add <br/>
 *Ensure that the `Display value in build log` is* **switched off** for security reasons
 ![Travis-CI Environment Variable](images/publishingguide-githubtoken.jpg "Travis-CI Environment Variable")
-1. Edit [run.sh](../../../../publish-RepoSense/edit/master/run.sh), [repo-config.csv](../../../../publish-RepoSense/edit/master/configs/repo-config.csv) and [author-config.csv](../../../../publish-RepoSense/edit/master/configs/author-config.csv) according to your preferences, such as which repositories to be analyzed. <br/>
+1. Edit [run.sh](../../../../publish-RepoSense/edit/master/run.sh), [repo-config.csv](../../../../publish-RepoSense/edit/master/configs/repo-config.csv) and [author-config.csv](../../../../publish-RepoSense/edit/master/configs/author-config.csv) to customize the command line parameters or repositories to be analyzed <br/>
 *Read our [User Guide](UserGuide.md#customizing-the-analysis) for more information*
-1. To access your site, go to [the settings of your fork in GitHub, under **GitHub Pages** section](../../../../publish-RepoSense/settings), look for `Your site is published at [LINK]`
-
-> It takes a few minutes for Travis-CI to generate your report. Meanwhile, you can monitor the progress live at [Travis-CI's Builds](https://travis-ci.org/dashboard/builds). <br/>
+1. To access your site, go to [the settings of your fork in GitHub, under **GitHub Pages** section](../../../../publish-RepoSense/settings), look for `Your site is published at [LINK]` <br/>
+*The changes made to the configuration files should trigger Travis-CI to generate your report. Otherwise, you follow the next section to manually trigger a build*
+> It takes a few minutes for report generation. Meanwhile, you can monitor the progress live at [Travis-CI's Builds](https://travis-ci.org/dashboard/builds). <br/>
   Try accessing your site again when a green tick appears beside your fork.  
   
 ### Keeping your site up-to-date with your code contribution
