@@ -14,7 +14,7 @@
     * [`repo-config.csv`](#repo-configcsv)
     * [`author-config.csv`](#author-configcsv)
 * [Analyzing Multiple Repos](#analyzing-multiple-repos)
-* [Publishing report to GitHub Pages](#publishing-report-to-github-pages)
+* [Using Travis to automate publishing and updating of the report to GitHub Pages](#using-travis-to-automate-publishing-and-updating-of-the-report-to-github-pages)
 * [FAQ](#faq)
 
 
