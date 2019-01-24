@@ -1,4 +1,4 @@
-## Using Travis to automate publishing and updating of your report to GitHub Pages
+## Using Travis to automate publishing of your report to GitHub Pages
 
 [GitHub Pages](https://pages.github.com/) enables you to publish your report online for free.
 
