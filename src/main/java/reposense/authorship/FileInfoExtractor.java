@@ -167,13 +167,13 @@ public class FileInfoExtractor {
                 String relativePath = filePath.toString().substring(config.getRepoRoot().length());
                 if (Files.isDirectory(filePath)) {
                     getAllFileInfo(config, filePath, fileInfos);
-                } else {
-                    if (Format.isInsideWhiteList(relativePath, config.getFormats())) {
-                        try {
-                            fileInfos.add(generateFileInfo(config.getRepoRoot(), relativePath));
-                        } catch (InvalidPathException ipe) {
-                            logger.warning(String.format(INVALID_FILE_PATH_MESSAGE_FORMAT, filePath));
-                        }
+                    continue;
+                }
+                if (Format.isInsideWhiteList(relativePath, config.getFormats())) {
+                    try {
+                        fileInfos.add(generateFileInfo(config.getRepoRoot(), relativePath));
+                    } catch (InvalidPathException ipe) {
+                        logger.warning(String.format(INVALID_FILE_PATH_MESSAGE_FORMAT, filePath));
                     }
                 }
             }
