@@ -8,12 +8,21 @@ import java.util.List;
  */
 public class StandaloneAuthor {
     private String githubId;
+    private List<String> emails;
     private String displayName;
     private List<String> authorNames;
     private List<String> ignoreGlobList;
 
     public String getGithubId() {
         return githubId;
+    }
+
+    public List<String> getEmails() {
+        if (emails == null) {
+            return Collections.emptyList();
+        }
+
+        return emails;
     }
 
     public String getDisplayName() {
@@ -52,6 +61,7 @@ public class StandaloneAuthor {
 
         StandaloneAuthor otherStandaloneAuthor = (StandaloneAuthor) other;
         return githubId.equals(otherStandaloneAuthor.githubId)
+                && getEmails().equals(otherStandaloneAuthor.getEmails())
                 && getDisplayName().equals(otherStandaloneAuthor.getDisplayName())
                 && getAuthorNames().equals(otherStandaloneAuthor.getAuthorNames())
                 && getIgnoreGlobList().equals(otherStandaloneAuthor.getIgnoreGlobList());
