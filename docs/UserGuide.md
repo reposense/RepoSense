@@ -308,9 +308,9 @@ Alternatively, you can use csv config files to customize the analysis as before 
 * `author-config.csv`: Add one row for each author in each repo you want to analyze
 
 
-## Publishing report to GitHub Pages
+## Using Travis to automate publishing and updating of the report to GitHub Pages
 
-Follow this [guide](PublishingGuide.md) to publish your report to GitHub Pages.
+Follow this [guide](PublishingGuide.md) to automate publishing and updating of your report to GitHub Pages.
 
 ## FAQ
 
