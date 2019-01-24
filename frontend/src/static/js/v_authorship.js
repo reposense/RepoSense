@@ -1,4 +1,4 @@
-// inspired from v_summary.js#comparator
+// inspired from v_summary.js comparator
 const comparator = (transformFn) => ((a, b) => {
   const transformedA = transformFn(a);
   const transformedB = transformFn(b);
