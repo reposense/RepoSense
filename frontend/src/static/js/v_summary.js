@@ -165,6 +165,9 @@ window.vSummary = {
     },
 
     // model functions //
+    updateFilterSearch(evt) {
+      this.filterSearch = evt.target.value;
+    },
     getFilterHash() {
       const { addHash } = window;
 
