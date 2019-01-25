@@ -2,6 +2,7 @@ package reposense.parser;
 
 import java.io.IOException;
 import java.nio.file.Path;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -18,9 +19,10 @@ public class AuthorConfigCsvParser extends CsvParser<RepoConfiguration> {
     private static final int LOCATION_POSITION = 0;
     private static final int BRANCH_POSITION = 1;
     private static final int GITHUB_ID_POSITION = 2;
-    private static final int DISPLAY_NAME_POSITION = 3;
-    private static final int ALIAS_POSITION = 4;
-    private static final int IGNORE_GLOB_LIST_POSITION = 5;
+    private static final int EMAIL_POSITION = 3;
+    private static final int DISPLAY_NAME_POSITION = 4;
+    private static final int ALIAS_POSITION = 5;
+    private static final int IGNORE_GLOB_LIST_POSITION = 6;
 
     public AuthorConfigCsvParser(Path csvFilePath) throws IOException {
         super(csvFilePath);
@@ -32,7 +34,6 @@ public class AuthorConfigCsvParser extends CsvParser<RepoConfiguration> {
     @Override
     protected int[] mandatoryPositions() {
         return new int[] {
-            LOCATION_POSITION,
             GITHUB_ID_POSITION,
         };
     }
@@ -48,6 +49,7 @@ public class AuthorConfigCsvParser extends CsvParser<RepoConfiguration> {
         String location = getValueInElement(elements, LOCATION_POSITION);
         String branch = getValueInElement(elements, BRANCH_POSITION, RepoConfiguration.DEFAULT_BRANCH);
         String gitHubId = getValueInElement(elements, GITHUB_ID_POSITION);
+        List<String> emails = getManyValueInElement(elements, EMAIL_POSITION);
         String displayName = getValueInElement(elements, DISPLAY_NAME_POSITION);
         List<String> aliases = getManyValueInElement(elements, ALIAS_POSITION);
         List<String> ignoreGlobList = getManyValueInElement(elements, IGNORE_GLOB_LIST_POSITION);
@@ -63,6 +65,7 @@ public class AuthorConfigCsvParser extends CsvParser<RepoConfiguration> {
         }
 
         config.addAuthor(author);
+        setEmails(config, author, emails);
         setDisplayName(config, author, displayName);
         setAliases(config, author, gitHubId, aliases);
         setAuthorIgnoreGlobList(author, ignoreGlobList);
@@ -90,10 +93,19 @@ public class AuthorConfigCsvParser extends CsvParser<RepoConfiguration> {
     }
 
     /**
+     * Associates {@code emails} to {@code author}, if provided and not empty.
+     */
+    private static void setEmails(RepoConfiguration config, Author author, List<String> emails) {
+        author.setEmails(new ArrayList<>(emails));
+        config.addAuthorEmailsAndAliasesMapEntry(author, author.getEmails());
+    }
+
+    /**
      * Associates {@code displayName} to {@code author}, if provided and not empty.
      * Otherwise, use github id from {@code author}.
      */
     private static void setDisplayName(RepoConfiguration config, Author author, String displayName) {
+        author.setDisplayName(!displayName.isEmpty() ? displayName : author.getGitId());
         config.setAuthorDisplayName(author, !displayName.isEmpty() ? displayName : author.getGitId());
     }
 
@@ -101,13 +113,13 @@ public class AuthorConfigCsvParser extends CsvParser<RepoConfiguration> {
      * Associates {@code gitHubId} and additional {@code aliases} to {@code author}.
      */
     private static void setAliases(RepoConfiguration config, Author author, String gitHubId, List<String> aliases) {
-        config.addAuthorAliases(author, Arrays.asList(gitHubId));
+        config.addAuthorEmailsAndAliasesMapEntry(author, Arrays.asList(gitHubId));
 
         if (aliases.isEmpty()) {
             return;
         }
 
-        config.addAuthorAliases(author, aliases);
+        config.addAuthorEmailsAndAliasesMapEntry(author, aliases);
         author.setAuthorAliases(aliases);
     }
 

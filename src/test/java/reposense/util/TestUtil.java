@@ -107,12 +107,14 @@ public class TestUtil {
      */
     public static void compareRepoConfig(RepoConfiguration expectedRepoConfig, RepoConfiguration actualRepoConfig) {
         Assert.assertEquals(expectedRepoConfig.getLocation(), actualRepoConfig.getLocation());
+        Assert.assertEquals(expectedRepoConfig.getBranch(), actualRepoConfig.getBranch());
+        Assert.assertEquals(expectedRepoConfig.getAuthorList(), actualRepoConfig.getAuthorList());
+        Assert.assertEquals(expectedRepoConfig.getAuthorDisplayNameMap(), actualRepoConfig.getAuthorDisplayNameMap());
         Assert.assertEquals(
-                expectedRepoConfig.getAuthorList().hashCode(), actualRepoConfig.getAuthorList().hashCode());
-        Assert.assertEquals(expectedRepoConfig.getAuthorDisplayNameMap().hashCode(),
-                actualRepoConfig.getAuthorDisplayNameMap().hashCode());
+                expectedRepoConfig.getAuthorEmailsAndAliasesMap(), actualRepoConfig.getAuthorEmailsAndAliasesMap());
+        Assert.assertEquals(expectedRepoConfig.getIgnoreGlobList(), actualRepoConfig.getIgnoreGlobList());
         Assert.assertEquals(
-                expectedRepoConfig.getAuthorAliasMap().hashCode(), actualRepoConfig.getAuthorAliasMap().hashCode());
+                expectedRepoConfig.isStandaloneConfigIgnored(), actualRepoConfig.isStandaloneConfigIgnored());
         Assert.assertEquals(expectedRepoConfig.getIgnoreGlobList(), actualRepoConfig.getIgnoreGlobList());
         Assert.assertEquals(expectedRepoConfig.getFormats(), actualRepoConfig.getFormats());
 
