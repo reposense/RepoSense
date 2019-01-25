@@ -40,28 +40,212 @@
       {
         "insertions": 0,
         "deletions": 0,
+<<<<<<< HEAD
         "date": "2017-10-15",
         "commitResults": []
+||||||| merged common ancestors
+        "sinceDate": "2017-11-06",
+        "untilDate": "2017-11-13"
       },
       {
+        "insertions": 0,
+        "deletions": 0,
+        "sinceDate": "2017-11-13",
+        "untilDate": "2017-11-20"
+      }
+    ],
+    "nbriannl": [
+      {
+        "insertions": 0,
+        "deletions": 0,
+        "sinceDate": "2017-10-09",
+        "untilDate": "2017-10-16"
+=======
+        "sinceDate": "2017-11-06",
+        "untilDate": "2017-11-13"
+      },
+      {
+        "insertions": 0,
+        "deletions": 0,
+        "sinceDate": "2017-11-13",
+        "untilDate": "2017-11-20"
+      }
+    ],
+    "April0616": [
+      {
+        "insertions": 1,
+        "deletions": 0,
+        "sinceDate": "2017-10-09",
+        "untilDate": "2017-10-16"
+>>>>>>> master
+      },
+      {
+<<<<<<< HEAD
         "insertions": 0,
         "deletions": 0,
         "date": "2017-10-16",
         "commitResults": []
+||||||| merged common ancestors
+        "insertions": 0,
+        "deletions": 0,
+        "sinceDate": "2017-10-16",
+        "untilDate": "2017-10-23"
       },
       {
+        "insertions": 42,
+        "deletions": 13,
+        "sinceDate": "2017-10-23",
+        "untilDate": "2017-10-30"
+      },
+      {
+        "insertions": 11,
+        "deletions": 13,
+        "sinceDate": "2017-10-30",
+        "untilDate": "2017-11-06"
+      },
+      {
+        "insertions": 88,
+        "deletions": 101,
+        "sinceDate": "2017-11-06",
+        "untilDate": "2017-11-13"
+=======
+        "insertions": 3,
+        "deletions": 1,
+        "sinceDate": "2017-10-16",
+        "untilDate": "2017-10-23"
+      },
+      {
+        "insertions": 0,
+        "deletions": 0,
+        "sinceDate": "2017-10-23",
+        "untilDate": "2017-10-30"
+      },
+      {
+        "insertions": 233,
+        "deletions": 102,
+        "sinceDate": "2017-10-30",
+        "untilDate": "2017-11-06"
+      },
+      {
+        "insertions": 10,
+        "deletions": 7,
+        "sinceDate": "2017-11-06",
+        "untilDate": "2017-11-13"
+>>>>>>> master
+      },
+      {
+<<<<<<< HEAD
         "insertions": 0,
         "deletions": 0,
         "date": "2017-10-17",
         "commitResults": []
+||||||| merged common ancestors
+        "insertions": 0,
+        "deletions": 0,
+        "sinceDate": "2017-11-13",
+        "untilDate": "2017-11-20"
+      }
+    ],
+    "April0616": [
+      {
+        "insertions": 1,
+        "deletions": 0,
+        "sinceDate": "2017-10-09",
+        "untilDate": "2017-10-16"
+      },
+      {
+        "insertions": 3,
+        "deletions": 1,
+        "sinceDate": "2017-10-16",
+        "untilDate": "2017-10-23"
+=======
+        "insertions": 1,
+        "deletions": 1,
+        "sinceDate": "2017-11-13",
+        "untilDate": "2017-11-20"
+      }
+    ],
+    "nbr": [
+      {
+        "insertions": 0,
+        "deletions": 0,
+        "sinceDate": "2017-10-09",
+        "untilDate": "2017-10-16"
       },
       {
         "insertions": 0,
         "deletions": 0,
-        "date": "2017-10-18",
-        "commitResults": []
+        "sinceDate": "2017-10-16",
+        "untilDate": "2017-10-23"
+>>>>>>> master
       },
       {
+<<<<<<< HEAD
+        "insertions": 0,
+        "deletions": 0,
+        "date": "2017-10-18",
+        "commitResults": []
+||||||| merged common ancestors
+        "insertions": 0,
+        "deletions": 0,
+        "sinceDate": "2017-10-23",
+        "untilDate": "2017-10-30"
+=======
+        "insertions": 42,
+        "deletions": 13,
+        "sinceDate": "2017-10-23",
+        "untilDate": "2017-10-30"
+>>>>>>> master
+      },
+      {
+<<<<<<< HEAD
+||||||| merged common ancestors
+        "insertions": 233,
+        "deletions": 102,
+        "sinceDate": "2017-10-30",
+        "untilDate": "2017-11-06"
+      },
+      {
+        "insertions": 10,
+        "deletions": 7,
+        "sinceDate": "2017-11-06",
+        "untilDate": "2017-11-13"
+      },
+      {
+        "insertions": 1,
+        "deletions": 1,
+        "sinceDate": "2017-11-13",
+        "untilDate": "2017-11-20"
+      }
+    ]
+  },
+  "authorDailyIntervalContributions": {
+    "zacharytang": [
+      {
+=======
+        "insertions": 11,
+        "deletions": 13,
+        "sinceDate": "2017-10-30",
+        "untilDate": "2017-11-06"
+      },
+      {
+        "insertions": 88,
+        "deletions": 101,
+        "sinceDate": "2017-11-06",
+        "untilDate": "2017-11-13"
+      },
+      {
+        "insertions": 0,
+        "deletions": 0,
+        "sinceDate": "2017-11-13",
+        "untilDate": "2017-11-20"
+      }
+    ]
+  },
+  "authorDailyIntervalContributions": {
+    "zacharytang": [
+      {
+>>>>>>> master
         "insertions": 0,
         "deletions": 0,
         "date": "2017-10-19",
@@ -497,8 +681,32 @@
       {
         "insertions": 0,
         "deletions": 0,
+<<<<<<< HEAD
         "date": "2017-10-15",
         "commitResults": []
+||||||| merged common ancestors
+        "sinceDate": "2017-11-13",
+        "untilDate": "2017-11-14"
+      }
+    ],
+    "nbriannl": [
+      {
+        "insertions": 0,
+        "deletions": 0,
+        "sinceDate": "2017-10-09",
+        "untilDate": "2017-10-10"
+=======
+        "sinceDate": "2017-11-13",
+        "untilDate": "2017-11-14"
+      }
+    ],
+    "April0616": [
+      {
+        "insertions": 1,
+        "deletions": 0,
+        "sinceDate": "2017-10-09",
+        "untilDate": "2017-10-10"
+>>>>>>> master
       },
       {
         "insertions": 3,
@@ -550,10 +758,22 @@
         "commitResults": []
       },
       {
+<<<<<<< HEAD
         "insertions": 0,
         "deletions": 0,
         "date": "2017-10-22",
         "commitResults": []
+||||||| merged common ancestors
+        "insertions": 0,
+        "deletions": 0,
+        "sinceDate": "2017-10-16",
+        "untilDate": "2017-10-17"
+=======
+        "insertions": 3,
+        "deletions": 1,
+        "sinceDate": "2017-10-16",
+        "untilDate": "2017-10-17"
+>>>>>>> master
       },
       {
         "insertions": 0,
@@ -647,6 +867,7 @@
         "commitResults": []
       },
       {
+<<<<<<< HEAD
         "insertions": 64,
         "deletions": 35,
         "date": "2017-11-04",
@@ -658,8 +879,20 @@
             "deletions": 35
           }
         ]
+||||||| merged common ancestors
+        "insertions": 42,
+        "deletions": 13,
+        "sinceDate": "2017-10-29",
+        "untilDate": "2017-10-30"
+=======
+        "insertions": 0,
+        "deletions": 0,
+        "sinceDate": "2017-10-29",
+        "untilDate": "2017-10-30"
+>>>>>>> master
       },
       {
+<<<<<<< HEAD
         "insertions": 151,
         "deletions": 60,
         "date": "2017-11-05",
@@ -707,8 +940,20 @@
         "deletions": 0,
         "date": "2017-11-06",
         "commitResults": []
+||||||| merged common ancestors
+        "insertions": 4,
+        "deletions": 3,
+        "sinceDate": "2017-10-30",
+        "untilDate": "2017-10-31"
+=======
+        "insertions": 0,
+        "deletions": 0,
+        "sinceDate": "2017-10-30",
+        "untilDate": "2017-10-31"
+>>>>>>> master
       },
       {
+<<<<<<< HEAD
         "insertions": 1,
         "deletions": 1,
         "date": "2017-11-07",
@@ -720,6 +965,17 @@
             "deletions": 1
           }
         ]
+||||||| merged common ancestors
+        "insertions": 3,
+        "deletions": 0,
+        "sinceDate": "2017-10-31",
+        "untilDate": "2017-11-01"
+=======
+        "insertions": 18,
+        "deletions": 7,
+        "sinceDate": "2017-10-31",
+        "untilDate": "2017-11-01"
+>>>>>>> master
       },
       {
         "insertions": 0,
@@ -740,6 +996,7 @@
         "commitResults": []
       },
       {
+<<<<<<< HEAD
         "insertions": 9,
         "deletions": 6,
         "date": "2017-11-11",
@@ -751,6 +1008,29 @@
             "deletions": 6
           }
         ]
+||||||| merged common ancestors
+        "insertions": 2,
+        "deletions": 6,
+        "sinceDate": "2017-11-04",
+        "untilDate": "2017-11-05"
+      },
+      {
+        "insertions": 2,
+        "deletions": 4,
+        "sinceDate": "2017-11-05",
+        "untilDate": "2017-11-06"
+=======
+        "insertions": 64,
+        "deletions": 35,
+        "sinceDate": "2017-11-04",
+        "untilDate": "2017-11-05"
+      },
+      {
+        "insertions": 151,
+        "deletions": 60,
+        "sinceDate": "2017-11-05",
+        "untilDate": "2017-11-06"
+>>>>>>> master
       },
       {
         "insertions": 0,
@@ -759,6 +1039,7 @@
         "commitResults": []
       },
       {
+<<<<<<< HEAD
         "insertions": 1,
         "deletions": 1,
         "date": "2017-11-13",
@@ -773,6 +1054,19 @@
       }
     ],
     "nbr": [
+||||||| merged common ancestors
+        "insertions": 0,
+        "deletions": 0,
+        "sinceDate": "2017-11-07",
+        "untilDate": "2017-11-08"
+      },
+=======
+        "insertions": 1,
+        "deletions": 1,
+        "sinceDate": "2017-11-07",
+        "untilDate": "2017-11-08"
+      },
+>>>>>>> master
       {
         "insertions": 0,
         "deletions": 0,
@@ -782,14 +1076,86 @@
       {
         "insertions": 0,
         "deletions": 0,
+<<<<<<< HEAD
         "date": "2017-10-10",
         "commitResults": []
+||||||| merged common ancestors
+        "sinceDate": "2017-11-09",
+        "untilDate": "2017-11-10"
+      },
+      {
+        "insertions": 31,
+        "deletions": 42,
+        "sinceDate": "2017-11-10",
+        "untilDate": "2017-11-11"
+      },
+      {
+        "insertions": 52,
+        "deletions": 54,
+        "sinceDate": "2017-11-11",
+        "untilDate": "2017-11-12"
+      },
+      {
+        "insertions": 5,
+        "deletions": 5,
+        "sinceDate": "2017-11-12",
+        "untilDate": "2017-11-13"
+=======
+        "sinceDate": "2017-11-09",
+        "untilDate": "2017-11-10"
       },
       {
         "insertions": 0,
         "deletions": 0,
+        "sinceDate": "2017-11-10",
+        "untilDate": "2017-11-11"
+      },
+      {
+        "insertions": 9,
+        "deletions": 6,
+        "sinceDate": "2017-11-11",
+        "untilDate": "2017-11-12"
+      },
+      {
+        "insertions": 0,
+        "deletions": 0,
+        "sinceDate": "2017-11-12",
+        "untilDate": "2017-11-13"
+>>>>>>> master
+      },
+      {
+<<<<<<< HEAD
+        "insertions": 0,
+        "deletions": 0,
         "date": "2017-10-11",
         "commitResults": []
+||||||| merged common ancestors
+        "insertions": 0,
+        "deletions": 0,
+        "sinceDate": "2017-11-13",
+        "untilDate": "2017-11-14"
+      }
+    ],
+    "April0616": [
+      {
+        "insertions": 1,
+        "deletions": 0,
+        "sinceDate": "2017-10-09",
+        "untilDate": "2017-10-10"
+=======
+        "insertions": 1,
+        "deletions": 1,
+        "sinceDate": "2017-11-13",
+        "untilDate": "2017-11-14"
+      }
+    ],
+    "nbr": [
+      {
+        "insertions": 0,
+        "deletions": 0,
+        "sinceDate": "2017-10-09",
+        "untilDate": "2017-10-10"
+>>>>>>> master
       },
       {
         "insertions": 0,
@@ -824,8 +1190,28 @@
       {
         "insertions": 0,
         "deletions": 0,
+<<<<<<< HEAD
         "date": "2017-10-17",
         "commitResults": []
+||||||| merged common ancestors
+        "sinceDate": "2017-10-15",
+        "untilDate": "2017-10-16"
+      },
+      {
+        "insertions": 3,
+        "deletions": 1,
+        "sinceDate": "2017-10-16",
+        "untilDate": "2017-10-17"
+=======
+        "sinceDate": "2017-10-15",
+        "untilDate": "2017-10-16"
+      },
+      {
+        "insertions": 0,
+        "deletions": 0,
+        "sinceDate": "2017-10-16",
+        "untilDate": "2017-10-17"
+>>>>>>> master
       },
       {
         "insertions": 0,
@@ -913,6 +1299,7 @@
         ]
       },
       {
+<<<<<<< HEAD
         "insertions": 4,
         "deletions": 3,
         "date": "2017-10-30",
@@ -924,8 +1311,20 @@
             "deletions": 3
           }
         ]
+||||||| merged common ancestors
+        "insertions": 0,
+        "deletions": 0,
+        "sinceDate": "2017-10-29",
+        "untilDate": "2017-10-30"
+=======
+        "insertions": 42,
+        "deletions": 13,
+        "sinceDate": "2017-10-29",
+        "untilDate": "2017-10-30"
+>>>>>>> master
       },
       {
+<<<<<<< HEAD
         "insertions": 3,
         "deletions": 0,
         "date": "2017-10-31",
@@ -937,6 +1336,29 @@
             "deletions": 0
           }
         ]
+||||||| merged common ancestors
+        "insertions": 0,
+        "deletions": 0,
+        "sinceDate": "2017-10-30",
+        "untilDate": "2017-10-31"
+      },
+      {
+        "insertions": 18,
+        "deletions": 7,
+        "sinceDate": "2017-10-31",
+        "untilDate": "2017-11-01"
+=======
+        "insertions": 4,
+        "deletions": 3,
+        "sinceDate": "2017-10-30",
+        "untilDate": "2017-10-31"
+      },
+      {
+        "insertions": 3,
+        "deletions": 0,
+        "sinceDate": "2017-10-31",
+        "untilDate": "2017-11-01"
+>>>>>>> master
       },
       {
         "insertions": 0,
@@ -957,6 +1379,7 @@
         "commitResults": []
       },
       {
+<<<<<<< HEAD
         "insertions": 2,
         "deletions": 6,
         "date": "2017-11-04",
@@ -974,8 +1397,20 @@
             "deletions": 1
           }
         ]
+||||||| merged common ancestors
+        "insertions": 64,
+        "deletions": 35,
+        "sinceDate": "2017-11-04",
+        "untilDate": "2017-11-05"
+=======
+        "insertions": 2,
+        "deletions": 6,
+        "sinceDate": "2017-11-04",
+        "untilDate": "2017-11-05"
+>>>>>>> master
       },
       {
+<<<<<<< HEAD
         "insertions": 2,
         "deletions": 4,
         "date": "2017-11-05",
@@ -987,12 +1422,43 @@
             "deletions": 4
           }
         ]
+||||||| merged common ancestors
+        "insertions": 151,
+        "deletions": 60,
+        "sinceDate": "2017-11-05",
+        "untilDate": "2017-11-06"
+=======
+        "insertions": 2,
+        "deletions": 4,
+        "sinceDate": "2017-11-05",
+        "untilDate": "2017-11-06"
+>>>>>>> master
       },
       {
         "insertions": 0,
         "deletions": 0,
+<<<<<<< HEAD
         "date": "2017-11-06",
         "commitResults": []
+||||||| merged common ancestors
+        "sinceDate": "2017-11-06",
+        "untilDate": "2017-11-07"
+      },
+      {
+        "insertions": 1,
+        "deletions": 1,
+        "sinceDate": "2017-11-07",
+        "untilDate": "2017-11-08"
+=======
+        "sinceDate": "2017-11-06",
+        "untilDate": "2017-11-07"
+      },
+      {
+        "insertions": 0,
+        "deletions": 0,
+        "sinceDate": "2017-11-07",
+        "untilDate": "2017-11-08"
+>>>>>>> master
       },
       {
         "insertions": 0,
@@ -1007,12 +1473,25 @@
         "commitResults": []
       },
       {
+<<<<<<< HEAD
         "insertions": 0,
         "deletions": 0,
         "date": "2017-11-09",
         "commitResults": []
+||||||| merged common ancestors
+        "insertions": 0,
+        "deletions": 0,
+        "sinceDate": "2017-11-10",
+        "untilDate": "2017-11-11"
+=======
+        "insertions": 31,
+        "deletions": 42,
+        "sinceDate": "2017-11-10",
+        "untilDate": "2017-11-11"
+>>>>>>> master
       },
       {
+<<<<<<< HEAD
         "insertions": 31,
         "deletions": 42,
         "date": "2017-11-10",
@@ -1024,8 +1503,20 @@
             "deletions": 42
           }
         ]
+||||||| merged common ancestors
+        "insertions": 9,
+        "deletions": 6,
+        "sinceDate": "2017-11-11",
+        "untilDate": "2017-11-12"
+=======
+        "insertions": 52,
+        "deletions": 54,
+        "sinceDate": "2017-11-11",
+        "untilDate": "2017-11-12"
+>>>>>>> master
       },
       {
+<<<<<<< HEAD
         "insertions": 52,
         "deletions": 54,
         "date": "2017-11-11",
@@ -1067,8 +1558,20 @@
             "deletions": 1
           }
         ]
+||||||| merged common ancestors
+        "insertions": 0,
+        "deletions": 0,
+        "sinceDate": "2017-11-12",
+        "untilDate": "2017-11-13"
+=======
+        "insertions": 5,
+        "deletions": 5,
+        "sinceDate": "2017-11-12",
+        "untilDate": "2017-11-13"
+>>>>>>> master
       },
       {
+<<<<<<< HEAD
         "insertions": 5,
         "deletions": 5,
         "date": "2017-11-12",
@@ -1098,6 +1601,17 @@
         "deletions": 0,
         "date": "2017-11-13",
         "commitResults": []
+||||||| merged common ancestors
+        "insertions": 1,
+        "deletions": 1,
+        "sinceDate": "2017-11-13",
+        "untilDate": "2017-11-14"
+=======
+        "insertions": 0,
+        "deletions": 0,
+        "sinceDate": "2017-11-13",
+        "untilDate": "2017-11-14"
+>>>>>>> master
       }
     ]
   },

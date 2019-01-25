@@ -2,7 +2,7 @@ function toggleNext(ele) {
   // function for toggling unopened code
   const targetClass = 'active';
 
-  const parent = ele.parentNode;
+  const parent = ele.parentNode.parentNode;
   const classes = parent.className.split(' ');
   const idx = classes.indexOf(targetClass);
 
@@ -182,6 +182,13 @@ window.vAuthorship = {
       } else {
         this.selectedFiles = this.files.filter((file) => this.selectedFileTypes.includes(file.path.split('.').pop()));
       }
+    },
+
+    getFileLink(file, path) {
+      const repo = window.REPOS[this.info.repo];
+
+      return `http://github.com/${
+        repo.location.organization}/${repo.location.repoName}/${path}/${repo.branch}/${file.path}`;
     },
 
     getFileBlankLineInfo(fileType) {
