@@ -10,13 +10,13 @@
 1. Go to [your publish-RepoSense fork in Travis-CI](https://travis-ci.org/search/publish-RepoSense/), under **Current** tab click on **Activate repository**
 1. In the same page, click on **More options** on the right then access **Settings**
 ![Travis-CI Dashboard](images/publishingguide-travissetting.jpg "Travis-CI Dashboard")
-1. Under **Environment Variables**, name a variable as `GITHUB_TOKEN` and paste the `Personal access token` to its value field; then click Add <br/>
+1. Under **Environment Variables**, name a variable as `GITHUB_TOKEN` and paste the `Personal access token` to its value field; then click **Add** <br/>
 *Ensure that the `Display value in build log` is* **switched off** for security reasons
 ![Travis-CI Environment Variable](images/publishingguide-githubtoken.jpg "Travis-CI Environment Variable")
 1. Edit [run.sh](../../../../publish-RepoSense/edit/master/run.sh), [repo-config.csv](../../../../publish-RepoSense/edit/master/configs/repo-config.csv) and [author-config.csv](../../../../publish-RepoSense/edit/master/configs/author-config.csv) to customize the command line parameters or repositories to be analyzed <br/>
 *Read our [User Guide](UserGuide.md#customizing-the-analysis) for more information*
 1. To access your site, go to [the settings of your fork in GitHub, under **GitHub Pages** section](../../../../publish-RepoSense/settings), look for `Your site is published at [LINK]` <br/>
-*The changes made to the configuration files should trigger Travis-CI to generate your report. Otherwise, you follow the [next section](#keeping-your-site-up-to-date-with-your-code-contribution) to manually trigger a build*
+*The changes made to the configuration files should trigger Travis-CI to generate your report. Otherwise, follow the [next section](#keeping-your-site-up-to-date-with-your-code-contribution) to manually trigger a build*
 > It takes a few minutes for report generation. Meanwhile, you can monitor the progress live at [Travis-CI's Builds](https://travis-ci.org/dashboard/builds). <br/>
   Try accessing your site again when a green tick appears beside your fork.  
   
@@ -27,7 +27,7 @@
 1. Login to [Travis-CI](https://travis-ci.org/)
 1. Go to [your fork in Travis-CI](https://travis-ci.org/search/publish-RepoSense/), click on **More options** on the right then access **Settings**
 1. Under **Cron Jobs**, choose **master** for `Branch`, **Always run** for `Options` and pick an `Interval` of your choice; <br/>
-then click Add
+then click **Add**
 ![Travis-CI Cron](images/publishingguide-cronsetting.jpg "Travis-CI Cron")
 
 Alternatively, you can manually trigger an update.
