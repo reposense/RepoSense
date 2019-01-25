@@ -168,8 +168,7 @@ window.vAuthorship = {
       if (this.selectedFileTypes.includes(type)) {
         let index = this.selectedFileTypes.indexOf(type);
         this.selectedFileTypes.splice(index, 1);
-      }
-      else {
+      } else {
         this.selectedFileTypes.push(type);
       }
 
