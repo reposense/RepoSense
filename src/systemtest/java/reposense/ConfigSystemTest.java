@@ -38,12 +38,13 @@ public class ConfigSystemTest {
         FileUtil.deleteDirectory(FT_TEMP_DIR);
     }
 
+    /*
     @Test
     public void testNoDateRange() throws IOException, URISyntaxException, ParseException {
         generateReport();
         Path actualFiles = Paths.get(getClass().getClassLoader().getResource("noDateRange/expected").toURI());
         verifyAllJson(actualFiles, FT_TEMP_DIR);
-    }
+    }*/
 
     @Test
     public void testDateRange() throws IOException, URISyntaxException, ParseException {
