@@ -217,8 +217,8 @@ header{
             width:0;
             height:0;
 
-            border-left-color:rgba(0,0,0,0);
-            border-left-style:solid;
+            border-left-color: rgba(0,0,0,0);
+            border-left-style: solid;
 
             &--color0{ border-bottom:$height rgba(mui-color("orange"), 0.5) solid;  }
             &--color1{ border-bottom:$height rgba(mui-color("light-blue"), 0.5) solid;  }
@@ -242,8 +242,8 @@ header{
 /* Authorship */
 #tab-authorship{
     .toolbar{
-        float:right;
-        cursor:pointer;
+        float: right;
+        cursor: pointer;
     }
 
     .title{
@@ -270,7 +270,7 @@ header{
 
             span.fileType {
                 span.bloc::after {
-                  content:', ';
+                  content: ', ';
                 }
 
                 span.bloc:last-child::after {
