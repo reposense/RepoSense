@@ -77,8 +77,9 @@ To ensure that their pull-requests are correct, we can use [Netlify](https://www
 1. Sign up and login to [Netlify](https://www.netlify.com/)
 1. Use this [link](https://app.netlify.com/start) to create a new site
 1. Select **GitHub** as your Git provider and authorize Netlify in the pop up if prompted
-1. Choose `publish-RepoSense` to deploy <br/>
-*If you can't find your fork then Netlify may only have access to selective repositories <br/>
+1. If this is your first time using Netlify, pick `publish-RepoSense` when prompted to install Netlify; <br/>
+Otherwise, choose `publish-RepoSense` when prompted to link a repository <br/>
+*If you can't find your fork, then Netlify may only have access to selective repositories <br/>
 Click on the link in `Can't see your repo here? Configure the Netlify app on GitHub` to give Netlify access to your fork*
 1. In the next page, leave `master` as the **Branch to deploy**, enter `pip install requests && ./run.sh` for **Build command** and `reposense-report` for **Publish directory**
 1. To save, click on **Deploy site**
