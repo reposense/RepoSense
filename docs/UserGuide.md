@@ -84,6 +84,8 @@ The `Code Panel` allows users to see the code attributed to a specific author. C
 * The Code Panel shows the files that contain author's contributions, sorted by the number of lines written.
 * Select the checkboxes to include files of preferred file extensions.
 * Clicking the file title toggles the file content.
+* Clicking the first icon beside the file title opens the history view of the file on github.
+* Clicking the second icon beside the file title opens the blame view of the file on github.
 * Code attributed to the author is highlighted in green.
 * Non-trivial code segments that are not written by the selected author are hidden by default, but you can toggle them by clicking on the `...` icon.
 
