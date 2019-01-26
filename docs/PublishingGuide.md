@@ -80,7 +80,7 @@ To ensure that their pull-requests are correct, we can use use Netlify to previe
 1. Choose `publish-RepoSense` to deploy <br/>
 *If you can't find your fork then Netlify may only have access to selective repositories <br/>
 Click on the link in `Can't see your repo here? Configure the Netlify app on GitHub` to give Netlify access to your fork*
-1. In the next page, leave `master` as the **Branch to deploy**, enter `pip install requests && ./run.sh && rm -rf RepoSense/` for **Build command** and `reposense-report` for **Publish directory**
+1. In the next page, leave `master` as the **Branch to deploy**, enter `pip install requests && ./run.sh` for **Build command** and `reposense-report` for **Publish directory**
 1. To save click on **Deploy site**
 1. To test, go to an open pull-request, scroll down and in `All checks have passed` click on **Details** beside `deploy/netlify — Deploy preview ready!`, the report should open in a new tab
 ![Netlify Preview](images/publishingguide-netlifypreview.png "Netlify Preview")
