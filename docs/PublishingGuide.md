@@ -15,11 +15,13 @@
 ![Travis-CI Environment Variable](images/publishingguide-githubtoken.jpg "Travis-CI Environment Variable")
 1. Edit [run.sh](../../../../publish-RepoSense/edit/master/run.sh), [repo-config.csv](../../../../publish-RepoSense/edit/master/configs/repo-config.csv) and [author-config.csv](../../../../publish-RepoSense/edit/master/configs/author-config.csv) to customize the command line parameters or repositories to be analyzed <br/>
 *Read our [User Guide](UserGuide.md#customizing-the-analysis) for more information*
-1. To access your site, go to [the settings of your fork in GitHub, under **GitHub Pages** section](../../../../publish-RepoSense/settings), look for `Your site is published at [LINK]` <br/>
-*The changes made to the configuration files should trigger Travis-CI to generate your report. Otherwise, follow the [next section](#keeping-your-site-up-to-date-with-your-code-contribution) to manually trigger a build*
-> It takes a few minutes for report generation. Meanwhile, you can monitor the progress live at [Travis-CI's Builds](https://travis-ci.org/dashboard/builds). <br/>
-  Try accessing your site again when a green tick appears beside your fork.  
-  
+1. To access your site, go to the settings of your fork in GitHub, under **GitHub Pages** section, look for `Your site is published at [LINK]` <br/>
+*It should look something like `https://[YOUR_GITHUB_ID].github.io/publish-RepoSense`* <br/>
+
+> The changes made to the configuration files should trigger Travis-CI to generate your report. Otherwise, follow the [next section](#keeping-your-site-up-to-date-with-your-code-contribution) to manually trigger a build. <br/><br/>
+It takes a few minutes for report generation. Meanwhile, you can monitor the progress live at [Travis-CI's Builds](https://travis-ci.org/dashboard/builds). <br/>
+Try accessing your site again when a green tick appears beside your fork.
+
 ### Keeping your site up-to-date with your code contribution
 
 [Travis-CI](https://travis-ci.org/) offers `Cron Jobs` in intervals of daily, weekly or monthly.
