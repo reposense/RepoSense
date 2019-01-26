@@ -52,456 +52,8 @@
       {
         "insertions": 0,
         "deletions": 0,
-<<<<<<< HEAD
         "date": "2017-09-09",
         "commitResults": []
-||||||| merged common ancestors
-        "sinceDate": "2017-10-27",
-        "untilDate": "2017-11-03"
-      }
-    ],
-    "CindyTsai1": [
-      {
-        "insertions": 0,
-        "deletions": 0,
-        "sinceDate": "2017-09-01",
-        "untilDate": "2017-09-08"
-      },
-      {
-        "insertions": 0,
-        "deletions": 0,
-        "sinceDate": "2017-09-08",
-        "untilDate": "2017-09-15"
-      },
-      {
-        "insertions": 0,
-        "deletions": 0,
-        "sinceDate": "2017-09-15",
-        "untilDate": "2017-09-22"
-      },
-      {
-        "insertions": 0,
-        "deletions": 0,
-        "sinceDate": "2017-09-22",
-        "untilDate": "2017-09-29"
-      },
-      {
-        "insertions": 0,
-        "deletions": 0,
-        "sinceDate": "2017-09-29",
-        "untilDate": "2017-10-06"
-      },
-      {
-        "insertions": 0,
-        "deletions": 0,
-        "sinceDate": "2017-10-06",
-        "untilDate": "2017-10-13"
-      },
-      {
-        "insertions": 1,
-        "deletions": 0,
-        "sinceDate": "2017-10-13",
-        "untilDate": "2017-10-20"
-      },
-      {
-        "insertions": 0,
-        "deletions": 0,
-        "sinceDate": "2017-10-20",
-        "untilDate": "2017-10-27"
-      },
-      {
-        "insertions": 0,
-        "deletions": 0,
-        "sinceDate": "2017-10-27",
-        "untilDate": "2017-11-03"
-      }
-    ],
-    "nbriannl": [
-      {
-        "insertions": 0,
-        "deletions": 0,
-        "sinceDate": "2017-09-01",
-        "untilDate": "2017-09-08"
-      },
-      {
-        "insertions": 0,
-        "deletions": 0,
-        "sinceDate": "2017-09-08",
-        "untilDate": "2017-09-15"
-      },
-      {
-        "insertions": 0,
-        "deletions": 0,
-        "sinceDate": "2017-09-15",
-        "untilDate": "2017-09-22"
-      },
-      {
-        "insertions": 0,
-        "deletions": 0,
-        "sinceDate": "2017-09-22",
-        "untilDate": "2017-09-29"
-      },
-      {
-        "insertions": 0,
-        "deletions": 0,
-        "sinceDate": "2017-09-29",
-        "untilDate": "2017-10-06"
-      },
-      {
-        "insertions": 0,
-        "deletions": 0,
-        "sinceDate": "2017-10-06",
-        "untilDate": "2017-10-13"
-      },
-      {
-        "insertions": 0,
-        "deletions": 0,
-        "sinceDate": "2017-10-13",
-        "untilDate": "2017-10-20"
-      },
-      {
-        "insertions": 0,
-        "deletions": 0,
-        "sinceDate": "2017-10-20",
-        "untilDate": "2017-10-27"
-      },
-      {
-        "insertions": 46,
-        "deletions": 16,
-        "sinceDate": "2017-10-27",
-        "untilDate": "2017-11-03"
-      }
-    ],
-    "April0616": [
-      {
-        "insertions": 0,
-        "deletions": 0,
-        "sinceDate": "2017-09-01",
-        "untilDate": "2017-09-08"
-      },
-      {
-        "insertions": 0,
-        "deletions": 0,
-        "sinceDate": "2017-09-08",
-        "untilDate": "2017-09-15"
-      },
-      {
-        "insertions": 0,
-        "deletions": 0,
-        "sinceDate": "2017-09-15",
-        "untilDate": "2017-09-22"
-      },
-      {
-        "insertions": 0,
-        "deletions": 0,
-        "sinceDate": "2017-09-22",
-        "untilDate": "2017-09-29"
-      },
-      {
-        "insertions": 0,
-        "deletions": 0,
-        "sinceDate": "2017-09-29",
-        "untilDate": "2017-10-06"
-      },
-      {
-        "insertions": 1,
-        "deletions": 0,
-        "sinceDate": "2017-10-06",
-        "untilDate": "2017-10-13"
-      },
-      {
-        "insertions": 3,
-        "deletions": 1,
-        "sinceDate": "2017-10-13",
-        "untilDate": "2017-10-20"
-      },
-      {
-        "insertions": 0,
-        "deletions": 0,
-        "sinceDate": "2017-10-20",
-        "untilDate": "2017-10-27"
-      },
-      {
-        "insertions": 0,
-        "deletions": 0,
-        "sinceDate": "2017-10-27",
-        "untilDate": "2017-11-03"
-      }
-    ]
-  },
-  "authorDailyIntervalContributions": {
-    "zacharytang": [
-      {
-        "insertions": 0,
-        "deletions": 0,
-        "sinceDate": "2017-09-01",
-        "untilDate": "2017-09-02"
-      },
-      {
-        "insertions": 0,
-        "deletions": 0,
-        "sinceDate": "2017-09-02",
-        "untilDate": "2017-09-03"
-      },
-      {
-        "insertions": 0,
-        "deletions": 0,
-        "sinceDate": "2017-09-03",
-        "untilDate": "2017-09-04"
-      },
-      {
-        "insertions": 0,
-        "deletions": 0,
-        "sinceDate": "2017-09-04",
-        "untilDate": "2017-09-05"
-      },
-      {
-        "insertions": 0,
-        "deletions": 0,
-        "sinceDate": "2017-09-05",
-        "untilDate": "2017-09-06"
-      },
-      {
-        "insertions": 0,
-        "deletions": 0,
-        "sinceDate": "2017-09-06",
-        "untilDate": "2017-09-07"
-      },
-      {
-        "insertions": 0,
-        "deletions": 0,
-        "sinceDate": "2017-09-07",
-        "untilDate": "2017-09-08"
-      },
-      {
-        "insertions": 0,
-        "deletions": 0,
-        "sinceDate": "2017-09-08",
-        "untilDate": "2017-09-09"
-=======
-        "sinceDate": "2017-10-27",
-        "untilDate": "2017-11-03"
-      }
-    ],
-    "CindyTsai1": [
-      {
-        "insertions": 0,
-        "deletions": 0,
-        "sinceDate": "2017-09-01",
-        "untilDate": "2017-09-08"
-      },
-      {
-        "insertions": 0,
-        "deletions": 0,
-        "sinceDate": "2017-09-08",
-        "untilDate": "2017-09-15"
-      },
-      {
-        "insertions": 0,
-        "deletions": 0,
-        "sinceDate": "2017-09-15",
-        "untilDate": "2017-09-22"
-      },
-      {
-        "insertions": 0,
-        "deletions": 0,
-        "sinceDate": "2017-09-22",
-        "untilDate": "2017-09-29"
-      },
-      {
-        "insertions": 0,
-        "deletions": 0,
-        "sinceDate": "2017-09-29",
-        "untilDate": "2017-10-06"
-      },
-      {
-        "insertions": 0,
-        "deletions": 0,
-        "sinceDate": "2017-10-06",
-        "untilDate": "2017-10-13"
-      },
-      {
-        "insertions": 1,
-        "deletions": 0,
-        "sinceDate": "2017-10-13",
-        "untilDate": "2017-10-20"
-      },
-      {
-        "insertions": 0,
-        "deletions": 0,
-        "sinceDate": "2017-10-20",
-        "untilDate": "2017-10-27"
-      },
-      {
-        "insertions": 0,
-        "deletions": 0,
-        "sinceDate": "2017-10-27",
-        "untilDate": "2017-11-03"
-      }
-    ],
-    "April0616": [
-      {
-        "insertions": 0,
-        "deletions": 0,
-        "sinceDate": "2017-09-01",
-        "untilDate": "2017-09-08"
-      },
-      {
-        "insertions": 0,
-        "deletions": 0,
-        "sinceDate": "2017-09-08",
-        "untilDate": "2017-09-15"
-      },
-      {
-        "insertions": 0,
-        "deletions": 0,
-        "sinceDate": "2017-09-15",
-        "untilDate": "2017-09-22"
-      },
-      {
-        "insertions": 0,
-        "deletions": 0,
-        "sinceDate": "2017-09-22",
-        "untilDate": "2017-09-29"
-      },
-      {
-        "insertions": 0,
-        "deletions": 0,
-        "sinceDate": "2017-09-29",
-        "untilDate": "2017-10-06"
-      },
-      {
-        "insertions": 1,
-        "deletions": 0,
-        "sinceDate": "2017-10-06",
-        "untilDate": "2017-10-13"
-      },
-      {
-        "insertions": 3,
-        "deletions": 1,
-        "sinceDate": "2017-10-13",
-        "untilDate": "2017-10-20"
-      },
-      {
-        "insertions": 0,
-        "deletions": 0,
-        "sinceDate": "2017-10-20",
-        "untilDate": "2017-10-27"
-      },
-      {
-        "insertions": 0,
-        "deletions": 0,
-        "sinceDate": "2017-10-27",
-        "untilDate": "2017-11-03"
-      }
-    ],
-    "nbr": [
-      {
-        "insertions": 0,
-        "deletions": 0,
-        "sinceDate": "2017-09-01",
-        "untilDate": "2017-09-08"
-      },
-      {
-        "insertions": 0,
-        "deletions": 0,
-        "sinceDate": "2017-09-08",
-        "untilDate": "2017-09-15"
-      },
-      {
-        "insertions": 0,
-        "deletions": 0,
-        "sinceDate": "2017-09-15",
-        "untilDate": "2017-09-22"
-      },
-      {
-        "insertions": 0,
-        "deletions": 0,
-        "sinceDate": "2017-09-22",
-        "untilDate": "2017-09-29"
-      },
-      {
-        "insertions": 0,
-        "deletions": 0,
-        "sinceDate": "2017-09-29",
-        "untilDate": "2017-10-06"
-      },
-      {
-        "insertions": 0,
-        "deletions": 0,
-        "sinceDate": "2017-10-06",
-        "untilDate": "2017-10-13"
-      },
-      {
-        "insertions": 0,
-        "deletions": 0,
-        "sinceDate": "2017-10-13",
-        "untilDate": "2017-10-20"
-      },
-      {
-        "insertions": 0,
-        "deletions": 0,
-        "sinceDate": "2017-10-20",
-        "untilDate": "2017-10-27"
-      },
-      {
-        "insertions": 46,
-        "deletions": 16,
-        "sinceDate": "2017-10-27",
-        "untilDate": "2017-11-03"
-      }
-    ]
-  },
-  "authorDailyIntervalContributions": {
-    "zacharytang": [
-      {
-        "insertions": 0,
-        "deletions": 0,
-        "sinceDate": "2017-09-01",
-        "untilDate": "2017-09-02"
-      },
-      {
-        "insertions": 0,
-        "deletions": 0,
-        "sinceDate": "2017-09-02",
-        "untilDate": "2017-09-03"
-      },
-      {
-        "insertions": 0,
-        "deletions": 0,
-        "sinceDate": "2017-09-03",
-        "untilDate": "2017-09-04"
-      },
-      {
-        "insertions": 0,
-        "deletions": 0,
-        "sinceDate": "2017-09-04",
-        "untilDate": "2017-09-05"
-      },
-      {
-        "insertions": 0,
-        "deletions": 0,
-        "sinceDate": "2017-09-05",
-        "untilDate": "2017-09-06"
-      },
-      {
-        "insertions": 0,
-        "deletions": 0,
-        "sinceDate": "2017-09-06",
-        "untilDate": "2017-09-07"
-      },
-      {
-        "insertions": 0,
-        "deletions": 0,
-        "sinceDate": "2017-09-07",
-        "untilDate": "2017-09-08"
-      },
-      {
-        "insertions": 0,
-        "deletions": 0,
-        "sinceDate": "2017-09-08",
-        "untilDate": "2017-09-09"
->>>>>>> master
       },
       {
         "insertions": 0,
@@ -1458,7 +1010,6 @@
         "commitResults": []
       },
       {
-<<<<<<< HEAD
         "insertions": 3,
         "deletions": 1,
         "date": "2017-10-16",
@@ -1476,17 +1027,6 @@
             "deletions": 1
           }
         ]
-||||||| merged common ancestors
-        "insertions": 0,
-        "deletions": 0,
-        "sinceDate": "2017-10-16",
-        "untilDate": "2017-10-17"
-=======
-        "insertions": 3,
-        "deletions": 1,
-        "sinceDate": "2017-10-16",
-        "untilDate": "2017-10-17"
->>>>>>> master
       },
       {
         "insertions": 0,
@@ -1561,40 +1101,16 @@
         "commitResults": []
       },
       {
-<<<<<<< HEAD
         "insertions": 0,
         "deletions": 0,
         "date": "2017-10-29",
         "commitResults": []
-||||||| merged common ancestors
-        "insertions": 42,
-        "deletions": 13,
-        "sinceDate": "2017-10-29",
-        "untilDate": "2017-10-30"
-=======
-        "insertions": 0,
-        "deletions": 0,
-        "sinceDate": "2017-10-29",
-        "untilDate": "2017-10-30"
->>>>>>> master
       },
       {
-<<<<<<< HEAD
         "insertions": 0,
         "deletions": 0,
         "date": "2017-10-30",
         "commitResults": []
-||||||| merged common ancestors
-        "insertions": 4,
-        "deletions": 3,
-        "sinceDate": "2017-10-30",
-        "untilDate": "2017-10-31"
-=======
-        "insertions": 0,
-        "deletions": 0,
-        "sinceDate": "2017-10-30",
-        "untilDate": "2017-10-31"
->>>>>>> master
       }
     ],
     "nbr": [
@@ -1865,28 +1381,8 @@
       {
         "insertions": 0,
         "deletions": 0,
-<<<<<<< HEAD
         "date": "2017-10-15",
         "commitResults": []
-||||||| merged common ancestors
-        "sinceDate": "2017-10-15",
-        "untilDate": "2017-10-16"
-      },
-      {
-        "insertions": 3,
-        "deletions": 1,
-        "sinceDate": "2017-10-16",
-        "untilDate": "2017-10-17"
-=======
-        "sinceDate": "2017-10-15",
-        "untilDate": "2017-10-16"
-      },
-      {
-        "insertions": 0,
-        "deletions": 0,
-        "sinceDate": "2017-10-16",
-        "untilDate": "2017-10-17"
->>>>>>> master
       },
       {
         "insertions": 0,
@@ -1961,25 +1457,12 @@
         "commitResults": []
       },
       {
-<<<<<<< HEAD
         "insertions": 0,
         "deletions": 0,
         "date": "2017-10-28",
         "commitResults": []
-||||||| merged common ancestors
-        "insertions": 0,
-        "deletions": 0,
-        "sinceDate": "2017-10-29",
-        "untilDate": "2017-10-30"
-=======
-        "insertions": 42,
-        "deletions": 13,
-        "sinceDate": "2017-10-29",
-        "untilDate": "2017-10-30"
->>>>>>> master
       },
       {
-<<<<<<< HEAD
         "insertions": 42,
         "deletions": 13,
         "date": "2017-10-29",
@@ -2010,17 +1493,6 @@
             "deletions": 3
           }
         ]
-||||||| merged common ancestors
-        "insertions": 0,
-        "deletions": 0,
-        "sinceDate": "2017-10-30",
-        "untilDate": "2017-10-31"
-=======
-        "insertions": 4,
-        "deletions": 3,
-        "sinceDate": "2017-10-30",
-        "untilDate": "2017-10-31"
->>>>>>> master
       }
     ]
   },
