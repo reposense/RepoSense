@@ -164,9 +164,19 @@ html
         .files(v-if="isLoaded")
           .empty(v-if="files.length===0") nothing to see here :(
           .file.active(v-for="file in selectedFiles", v-bind:key="file.path")
-            .title(onclick="toggleNext(this)")
-              span {{ file.path }}&nbsp;
+            .title
+              span.path(onclick="toggleNext(this)") {{ file.path }}&nbsp;
               span.loc ({{ file.lineCount }} lines)
+              a(
+                v-bind:href="getFileLink(file, 'commits')", target="_blank",
+                title="click to view the history view of file"
+              )
+                i.button.fas.fa-history
+              a(
+                v-bind:href="getFileLink(file, 'blame')", target="_blank",
+                title="click to view the blame view of file"
+              )
+                i.button.fas.fa-user-edit
             pre.hljs.java
               code
                 template(v-for="segment in file.segments")
