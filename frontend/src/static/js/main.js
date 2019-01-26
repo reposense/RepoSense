@@ -29,6 +29,39 @@ const throttledEvent = (delay, handler) => {
   };
 };
 
+let mouseMove = () => {};
+let guideWidth = 0;
+
+const registerMouseMove = () => {
+  const innerMouseMove = (event) => {
+    guideWidth = (
+        Math.min(
+            Math.max(
+                window.innerWidth - event.clientX,
+                SCROLL_BAR_WIDTH + DRAG_BAR_WIDTH,
+            ),
+            window.innerWidth - SCROLL_BAR_WIDTH,
+        )
+        - (GUIDE_BAR_WIDTH / 2)
+    ) / window.innerWidth;
+    window.$('tab-resize-guide').style.right = `${guideWidth * 100}%`;
+  };
+  window.$('tab-resize-guide').style.display = 'block';
+  window.$('app-wrapper').style['user-select'] = 'none';
+  mouseMove = throttledEvent(30, innerMouseMove);
+};
+
+const deregisterMouseMove = () => {
+  const flexWidth = (guideWidth * window.innerWidth + (GUIDE_BAR_WIDTH / 2))
+        / window.innerWidth;
+  mouseMove = () => {};
+  if (window.$('tabs-wrapper')) {
+    window.$('tabs-wrapper').style.flex = `0 0 ${flexWidth * 100}%`;
+  }
+  window.$('tab-resize-guide').style.display = 'none';
+  window.$('app-wrapper').style['user-select'] = 'auto';
+};
+
 window.app = new window.Vue({
   el: '#app',
   data: {
@@ -43,12 +76,6 @@ window.app = new window.Vue({
     tabInfo: {},
     tabAuthorship: {},
     creationDate: '',
-
-    showResizeGuide: false,
-    guideWidth: 0.5,
-    flexWidth: 0.5,
-    mouseMove: () => {},
-    appWrapperUserSelect: 'auto',
   },
   methods: {
     // model functions //
@@ -113,32 +140,6 @@ window.app = new window.Vue({
     expand(isActive) {
       this.isCollapsed = !isActive;
       expandAll(isActive);
-    },
-
-    registerMouseMove() {
-      const mouseMove = (event) => {
-        this.guideWidth = (
-            Math.min(
-                Math.max(
-                    window.innerWidth - event.clientX,
-                    SCROLL_BAR_WIDTH + DRAG_BAR_WIDTH,
-                ),
-                window.innerWidth - SCROLL_BAR_WIDTH,
-            )
-            - (GUIDE_BAR_WIDTH / 2)
-        ) / window.innerWidth;
-      };
-      this.showResizeGuide = true;
-      this.appWrapperUserSelect = 'none';
-      this.mouseMove = throttledEvent(100, mouseMove);
-    },
-
-    deregisterMouseMove() {
-      this.flexWidth = (this.guideWidth * window.innerWidth + (GUIDE_BAR_WIDTH / 2))
-          / window.innerWidth;
-      this.showResizeGuide = false;
-      this.mouseMove = () => {};
-      this.appWrapperUserSelect = 'auto';
     },
 
     generateKey(dataObj) {

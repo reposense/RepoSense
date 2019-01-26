@@ -60,6 +60,7 @@ header{
     #tab-resize-guide{
         $tabs-width:50%;
 
+        display:none;
         position:fixed;
         z-index:100;
         right:$tabs-width;
@@ -114,7 +115,7 @@ header{
             }
         }
 
-        .tab-resize{
+        #tab-resize{
             position:fixed;
             width:13.250px;
             height:100%;

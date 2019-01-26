@@ -13,10 +13,9 @@ html
     script(src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js")
   body
     div#app
-      #app-wrapper(v-if="userUpdated", v-on:mousemove="mouseMove",
-        v-on:mouseup="deregisterMouseMove", v-on:mouseleave="deregisterMouseMove",
-        v-bind:style="{ 'user-select': appWrapperUserSelect }")
-        #tab-resize-guide(v-if="showResizeGuide", v-bind:style="{ right: `${guideWidth * 100}%` }")
+      #app-wrapper(v-if="userUpdated", onmousemove="mouseMove(event)",
+        onmouseup="deregisterMouseMove()", onmouseleave="deregisterMouseMove()")
+        #tab-resize-guide
         #summary-wrapper
           .summary-status(v-if="loadedRepo<repoLength") Loading repos ... {{ loadedRepo }} / {{ repoLength }}
           v_summary(
@@ -29,8 +28,8 @@ html
               strong RepoSense
             span &nbsp; on {{ creationDate }}
 
-        #tabs-wrapper(v-if="isTabActive", v-bind:style="{ flex: `0 0 ${flexWidth * 100}%` }")
-          .tab-resize(v-on:mousedown="registerMouseMove")
+        #tabs-wrapper(v-if="isTabActive")
+          #tab-resize(onmousedown="registerMouseMove()")
           .tab-close(v-on:click="isTabActive=false")
             i.fas.fa-caret-right
           .tab-content
