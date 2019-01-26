@@ -72,7 +72,7 @@ Edit line 10 of [run.sh](../../../../publish-RepoSense/edit/master/run.sh) to us
 
 If you use RepoSense to monitor a large number of collaborators, it may be more systematic to have them update their git configurations into your fork using pull-requests.
 
-To ensure that their pull-requests are correct, we can use use Netlify to preview how the changes would look like in production, before deploying them into GitHub Pages.
+To ensure that their pull-requests are correct, we can use [Netlify](https://www.netlify.com/) to preview how the changes would look like in production, before deploying them into GitHub Pages.
 
 1. Sign up and login to [Netlify](https://www.netlify.com/)
 1. Use this [link](https://app.netlify.com/start) to create a new site
@@ -81,6 +81,6 @@ To ensure that their pull-requests are correct, we can use use Netlify to previe
 *If you can't find your fork then Netlify may only have access to selective repositories <br/>
 Click on the link in `Can't see your repo here? Configure the Netlify app on GitHub` to give Netlify access to your fork*
 1. In the next page, leave `master` as the **Branch to deploy**, enter `pip install requests && ./run.sh` for **Build command** and `reposense-report` for **Publish directory**
-1. To save click on **Deploy site**
-1. To test, go to an open pull-request, scroll down and in `All checks have passed` click on **Details** beside `deploy/netlify — Deploy preview ready!`, the report should open in a new tab
+1. To save, click on **Deploy site**
+1. To test, go to an open pull-request, scroll down and in `All checks have passed`, click on **Details** beside `deploy/netlify — Deploy preview ready!`, and the report should open in a new tab
 ![Netlify Preview](images/publishingguide-netlifypreview.png "Netlify Preview")
