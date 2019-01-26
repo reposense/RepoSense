@@ -17,6 +17,7 @@
 *Read our [User Guide](UserGuide.md#customizing-the-analysis) for more information*
 1. To access your site, go to the settings of your fork in GitHub, under **GitHub Pages** section, look for `Your site is published at [LINK]` <br/>
 *It should look something like `https://[YOUR_GITHUB_ID].github.io/publish-RepoSense`* <br/>
+![GitHub Setting](images/publishingguide-githubsetting.jpg "GitHub Setting")
 
 > The changes made to the configuration files should trigger Travis-CI to generate your report. Otherwise, follow the [next section](#keeping-your-site-up-to-date-with-your-code-contribution) to manually trigger a build. <br/><br/>
 It takes a few minutes for report generation. Meanwhile, you can monitor the progress live at [Travis-CI's Builds](https://travis-ci.org/dashboard/builds). <br/>
