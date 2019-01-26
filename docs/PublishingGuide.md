@@ -68,13 +68,13 @@ Edit line 10 of [run.sh](../../../../publish-RepoSense/edit/master/run.sh) to us
 ```
 10   ./get-reposense.py --tag v1.6.1
 ```
-### Managing your configuration files the help of collaborators
+### Managing your configuration files with the help of collaborators
 
-If you use RepoSense to monitor a large number of collaborators, it may be more systematic if you have them update their git configurations into your fork with a pull-request.
+If you use RepoSense to monitor a large number of collaborators, it may be more systematic to have them update their git configurations into your fork using pull-requests.
 
 To ensure that their pull-requests are correct, we can use use Netlify to preview how the changes would look like in production, before deploying them into GitHub Pages.
 
-1. Sign up and login to [Travis-CI](https://www.netlify.com/)
+1. Sign up and login to [Netlify](https://www.netlify.com/)
 1. Use this [link](https://app.netlify.com/start) to create a new site
 1. Select **GitHub** as your Git provider and authorize Netlify in the pop up if prompted
 1. Choose `publish-RepoSense` to deploy <br/>
