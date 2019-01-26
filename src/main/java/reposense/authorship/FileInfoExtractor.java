@@ -169,6 +169,7 @@ public class FileInfoExtractor {
                     getAllFileInfo(config, filePath, fileInfos);
                     continue;
                 }
+
                 if (Format.isInsideWhiteList(relativePath, config.getFormats())) {
                     try {
                         fileInfos.add(generateFileInfo(config.getRepoRoot(), relativePath));
