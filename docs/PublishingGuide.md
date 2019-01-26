@@ -68,3 +68,17 @@ Edit line 10 of [run.sh](../../../../publish-RepoSense/edit/master/run.sh) to us
 ```
 10   ./get-reposense.py --tag v1.6.1
 ```
+### Managing your configuration files the help of collaborators
+
+If you use RepoSense to monitor large number of collaborators, it may be more systematic to let them PR in their git configurations into your fork.
+
+To ensure that their pull-requests are valid and working, we can use Netlify Previews. This will allow you and your team to see what changes will look like in production, without having to deploy them in your existing site.
+
+1. Sign up and login to [Travis-CI](https://www.netlify.com/)
+1. Use this [link](https://app.netlify.com/start) to create a new site
+1. Select **GitHub** as your Git provider and authorize Netlify in the pop up if prompted
+1. Choose `publish-RepoSense` to deploy <br/>
+*If you can't find your fork then Netlify may only have access to selective repositories <br/>
+Click on the link in `Can't see your repo here? Configure the Netlify app on GitHub` to give Netlify access to your fork*
+1. In the next page, leave **master** as the `Branch to deploy`, enter `pip install requests && ./run.sh && rm -rf RepoSense/` for **Build command** and `reposense-report` for **Publish directory**
+1. To save click on **Deploy site**
