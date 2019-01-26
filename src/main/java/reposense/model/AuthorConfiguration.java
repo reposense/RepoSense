@@ -7,6 +7,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 
+/**
+ * Represents author configuration information from CSV config file for a single repository.
+ */
 public class AuthorConfiguration {
     private transient List<Author> authorList = new ArrayList<>();
     private transient TreeMap<String, Author> authorEmailsAndAliasesMap = new TreeMap<>(String.CASE_INSENSITIVE_ORDER);
@@ -39,7 +42,7 @@ public class AuthorConfiguration {
     }
 
     /**
-     * Propagate the {@code IgnoreGlobList} of {@code RepoConfiguration} to {@code author}.
+     * Propagates the {@code IgnoreGlobList} of {@code RepoConfiguration} to {@code author}.
      */
     private void propagateIgnoreGlobList(Author author, List<String> ignoreGlobList) {
         author.appendIgnoreGlobList(ignoreGlobList);

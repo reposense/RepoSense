@@ -15,6 +15,9 @@ import java.util.logging.Logger;
 import reposense.system.LogsManager;
 import reposense.util.FileUtil;
 
+/**
+ * Represents configuration information from CSV config file for a single repository.
+ */
 public class RepoConfiguration {
     public static final String DEFAULT_BRANCH = "HEAD";
     private static final Logger logger = LogsManager.getLogger(RepoConfiguration.class);
