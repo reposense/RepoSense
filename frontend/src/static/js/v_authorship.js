@@ -202,6 +202,14 @@ window.vAuthorship = {
     },
   },
 
+  computed: {
+    selectedFiles: function() {
+      return this.files.filter((file) => {
+        return this.isSelected(file.path);
+      });
+    }
+  },
+
   created() {
     this.initiate();
   },
