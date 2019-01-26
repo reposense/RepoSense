@@ -76,44 +76,6 @@
         "untilDate": "2017-11-20"
       }
     ],
-    "nbriannl": [
-      {
-        "insertions": 0,
-        "deletions": 0,
-        "sinceDate": "2017-10-09",
-        "untilDate": "2017-10-16"
-      },
-      {
-        "insertions": 0,
-        "deletions": 0,
-        "sinceDate": "2017-10-16",
-        "untilDate": "2017-10-23"
-      },
-      {
-        "insertions": 42,
-        "deletions": 13,
-        "sinceDate": "2017-10-23",
-        "untilDate": "2017-10-30"
-      },
-      {
-        "insertions": 11,
-        "deletions": 13,
-        "sinceDate": "2017-10-30",
-        "untilDate": "2017-11-06"
-      },
-      {
-        "insertions": 88,
-        "deletions": 101,
-        "sinceDate": "2017-11-06",
-        "untilDate": "2017-11-13"
-      },
-      {
-        "insertions": 0,
-        "deletions": 0,
-        "sinceDate": "2017-11-13",
-        "untilDate": "2017-11-20"
-      }
-    ],
     "April0616": [
       {
         "insertions": 1,
@@ -148,6 +110,44 @@
       {
         "insertions": 1,
         "deletions": 1,
+        "sinceDate": "2017-11-13",
+        "untilDate": "2017-11-20"
+      }
+    ],
+    "nbr": [
+      {
+        "insertions": 0,
+        "deletions": 0,
+        "sinceDate": "2017-10-09",
+        "untilDate": "2017-10-16"
+      },
+      {
+        "insertions": 0,
+        "deletions": 0,
+        "sinceDate": "2017-10-16",
+        "untilDate": "2017-10-23"
+      },
+      {
+        "insertions": 42,
+        "deletions": 13,
+        "sinceDate": "2017-10-23",
+        "untilDate": "2017-10-30"
+      },
+      {
+        "insertions": 11,
+        "deletions": 13,
+        "sinceDate": "2017-10-30",
+        "untilDate": "2017-11-06"
+      },
+      {
+        "insertions": 88,
+        "deletions": 101,
+        "sinceDate": "2017-11-06",
+        "untilDate": "2017-11-13"
+      },
+      {
+        "insertions": 0,
+        "deletions": 0,
         "sinceDate": "2017-11-13",
         "untilDate": "2017-11-20"
       }
@@ -590,224 +590,6 @@
         "untilDate": "2017-11-14"
       }
     ],
-    "nbriannl": [
-      {
-        "insertions": 0,
-        "deletions": 0,
-        "sinceDate": "2017-10-09",
-        "untilDate": "2017-10-10"
-      },
-      {
-        "insertions": 0,
-        "deletions": 0,
-        "sinceDate": "2017-10-10",
-        "untilDate": "2017-10-11"
-      },
-      {
-        "insertions": 0,
-        "deletions": 0,
-        "sinceDate": "2017-10-11",
-        "untilDate": "2017-10-12"
-      },
-      {
-        "insertions": 0,
-        "deletions": 0,
-        "sinceDate": "2017-10-12",
-        "untilDate": "2017-10-13"
-      },
-      {
-        "insertions": 0,
-        "deletions": 0,
-        "sinceDate": "2017-10-13",
-        "untilDate": "2017-10-14"
-      },
-      {
-        "insertions": 0,
-        "deletions": 0,
-        "sinceDate": "2017-10-14",
-        "untilDate": "2017-10-15"
-      },
-      {
-        "insertions": 0,
-        "deletions": 0,
-        "sinceDate": "2017-10-15",
-        "untilDate": "2017-10-16"
-      },
-      {
-        "insertions": 0,
-        "deletions": 0,
-        "sinceDate": "2017-10-16",
-        "untilDate": "2017-10-17"
-      },
-      {
-        "insertions": 0,
-        "deletions": 0,
-        "sinceDate": "2017-10-17",
-        "untilDate": "2017-10-18"
-      },
-      {
-        "insertions": 0,
-        "deletions": 0,
-        "sinceDate": "2017-10-18",
-        "untilDate": "2017-10-19"
-      },
-      {
-        "insertions": 0,
-        "deletions": 0,
-        "sinceDate": "2017-10-19",
-        "untilDate": "2017-10-20"
-      },
-      {
-        "insertions": 0,
-        "deletions": 0,
-        "sinceDate": "2017-10-20",
-        "untilDate": "2017-10-21"
-      },
-      {
-        "insertions": 0,
-        "deletions": 0,
-        "sinceDate": "2017-10-21",
-        "untilDate": "2017-10-22"
-      },
-      {
-        "insertions": 0,
-        "deletions": 0,
-        "sinceDate": "2017-10-22",
-        "untilDate": "2017-10-23"
-      },
-      {
-        "insertions": 0,
-        "deletions": 0,
-        "sinceDate": "2017-10-23",
-        "untilDate": "2017-10-24"
-      },
-      {
-        "insertions": 0,
-        "deletions": 0,
-        "sinceDate": "2017-10-24",
-        "untilDate": "2017-10-25"
-      },
-      {
-        "insertions": 0,
-        "deletions": 0,
-        "sinceDate": "2017-10-25",
-        "untilDate": "2017-10-26"
-      },
-      {
-        "insertions": 0,
-        "deletions": 0,
-        "sinceDate": "2017-10-26",
-        "untilDate": "2017-10-27"
-      },
-      {
-        "insertions": 0,
-        "deletions": 0,
-        "sinceDate": "2017-10-27",
-        "untilDate": "2017-10-28"
-      },
-      {
-        "insertions": 0,
-        "deletions": 0,
-        "sinceDate": "2017-10-28",
-        "untilDate": "2017-10-29"
-      },
-      {
-        "insertions": 42,
-        "deletions": 13,
-        "sinceDate": "2017-10-29",
-        "untilDate": "2017-10-30"
-      },
-      {
-        "insertions": 4,
-        "deletions": 3,
-        "sinceDate": "2017-10-30",
-        "untilDate": "2017-10-31"
-      },
-      {
-        "insertions": 3,
-        "deletions": 0,
-        "sinceDate": "2017-10-31",
-        "untilDate": "2017-11-01"
-      },
-      {
-        "insertions": 0,
-        "deletions": 0,
-        "sinceDate": "2017-11-01",
-        "untilDate": "2017-11-02"
-      },
-      {
-        "insertions": 0,
-        "deletions": 0,
-        "sinceDate": "2017-11-02",
-        "untilDate": "2017-11-03"
-      },
-      {
-        "insertions": 0,
-        "deletions": 0,
-        "sinceDate": "2017-11-03",
-        "untilDate": "2017-11-04"
-      },
-      {
-        "insertions": 2,
-        "deletions": 6,
-        "sinceDate": "2017-11-04",
-        "untilDate": "2017-11-05"
-      },
-      {
-        "insertions": 2,
-        "deletions": 4,
-        "sinceDate": "2017-11-05",
-        "untilDate": "2017-11-06"
-      },
-      {
-        "insertions": 0,
-        "deletions": 0,
-        "sinceDate": "2017-11-06",
-        "untilDate": "2017-11-07"
-      },
-      {
-        "insertions": 0,
-        "deletions": 0,
-        "sinceDate": "2017-11-07",
-        "untilDate": "2017-11-08"
-      },
-      {
-        "insertions": 0,
-        "deletions": 0,
-        "sinceDate": "2017-11-08",
-        "untilDate": "2017-11-09"
-      },
-      {
-        "insertions": 0,
-        "deletions": 0,
-        "sinceDate": "2017-11-09",
-        "untilDate": "2017-11-10"
-      },
-      {
-        "insertions": 31,
-        "deletions": 42,
-        "sinceDate": "2017-11-10",
-        "untilDate": "2017-11-11"
-      },
-      {
-        "insertions": 52,
-        "deletions": 54,
-        "sinceDate": "2017-11-11",
-        "untilDate": "2017-11-12"
-      },
-      {
-        "insertions": 5,
-        "deletions": 5,
-        "sinceDate": "2017-11-12",
-        "untilDate": "2017-11-13"
-      },
-      {
-        "insertions": 0,
-        "deletions": 0,
-        "sinceDate": "2017-11-13",
-        "untilDate": "2017-11-14"
-      }
-    ],
     "April0616": [
       {
         "insertions": 1,
@@ -1025,24 +807,242 @@
         "sinceDate": "2017-11-13",
         "untilDate": "2017-11-14"
       }
+    ],
+    "nbr": [
+      {
+        "insertions": 0,
+        "deletions": 0,
+        "sinceDate": "2017-10-09",
+        "untilDate": "2017-10-10"
+      },
+      {
+        "insertions": 0,
+        "deletions": 0,
+        "sinceDate": "2017-10-10",
+        "untilDate": "2017-10-11"
+      },
+      {
+        "insertions": 0,
+        "deletions": 0,
+        "sinceDate": "2017-10-11",
+        "untilDate": "2017-10-12"
+      },
+      {
+        "insertions": 0,
+        "deletions": 0,
+        "sinceDate": "2017-10-12",
+        "untilDate": "2017-10-13"
+      },
+      {
+        "insertions": 0,
+        "deletions": 0,
+        "sinceDate": "2017-10-13",
+        "untilDate": "2017-10-14"
+      },
+      {
+        "insertions": 0,
+        "deletions": 0,
+        "sinceDate": "2017-10-14",
+        "untilDate": "2017-10-15"
+      },
+      {
+        "insertions": 0,
+        "deletions": 0,
+        "sinceDate": "2017-10-15",
+        "untilDate": "2017-10-16"
+      },
+      {
+        "insertions": 0,
+        "deletions": 0,
+        "sinceDate": "2017-10-16",
+        "untilDate": "2017-10-17"
+      },
+      {
+        "insertions": 0,
+        "deletions": 0,
+        "sinceDate": "2017-10-17",
+        "untilDate": "2017-10-18"
+      },
+      {
+        "insertions": 0,
+        "deletions": 0,
+        "sinceDate": "2017-10-18",
+        "untilDate": "2017-10-19"
+      },
+      {
+        "insertions": 0,
+        "deletions": 0,
+        "sinceDate": "2017-10-19",
+        "untilDate": "2017-10-20"
+      },
+      {
+        "insertions": 0,
+        "deletions": 0,
+        "sinceDate": "2017-10-20",
+        "untilDate": "2017-10-21"
+      },
+      {
+        "insertions": 0,
+        "deletions": 0,
+        "sinceDate": "2017-10-21",
+        "untilDate": "2017-10-22"
+      },
+      {
+        "insertions": 0,
+        "deletions": 0,
+        "sinceDate": "2017-10-22",
+        "untilDate": "2017-10-23"
+      },
+      {
+        "insertions": 0,
+        "deletions": 0,
+        "sinceDate": "2017-10-23",
+        "untilDate": "2017-10-24"
+      },
+      {
+        "insertions": 0,
+        "deletions": 0,
+        "sinceDate": "2017-10-24",
+        "untilDate": "2017-10-25"
+      },
+      {
+        "insertions": 0,
+        "deletions": 0,
+        "sinceDate": "2017-10-25",
+        "untilDate": "2017-10-26"
+      },
+      {
+        "insertions": 0,
+        "deletions": 0,
+        "sinceDate": "2017-10-26",
+        "untilDate": "2017-10-27"
+      },
+      {
+        "insertions": 0,
+        "deletions": 0,
+        "sinceDate": "2017-10-27",
+        "untilDate": "2017-10-28"
+      },
+      {
+        "insertions": 0,
+        "deletions": 0,
+        "sinceDate": "2017-10-28",
+        "untilDate": "2017-10-29"
+      },
+      {
+        "insertions": 42,
+        "deletions": 13,
+        "sinceDate": "2017-10-29",
+        "untilDate": "2017-10-30"
+      },
+      {
+        "insertions": 4,
+        "deletions": 3,
+        "sinceDate": "2017-10-30",
+        "untilDate": "2017-10-31"
+      },
+      {
+        "insertions": 3,
+        "deletions": 0,
+        "sinceDate": "2017-10-31",
+        "untilDate": "2017-11-01"
+      },
+      {
+        "insertions": 0,
+        "deletions": 0,
+        "sinceDate": "2017-11-01",
+        "untilDate": "2017-11-02"
+      },
+      {
+        "insertions": 0,
+        "deletions": 0,
+        "sinceDate": "2017-11-02",
+        "untilDate": "2017-11-03"
+      },
+      {
+        "insertions": 0,
+        "deletions": 0,
+        "sinceDate": "2017-11-03",
+        "untilDate": "2017-11-04"
+      },
+      {
+        "insertions": 2,
+        "deletions": 6,
+        "sinceDate": "2017-11-04",
+        "untilDate": "2017-11-05"
+      },
+      {
+        "insertions": 2,
+        "deletions": 4,
+        "sinceDate": "2017-11-05",
+        "untilDate": "2017-11-06"
+      },
+      {
+        "insertions": 0,
+        "deletions": 0,
+        "sinceDate": "2017-11-06",
+        "untilDate": "2017-11-07"
+      },
+      {
+        "insertions": 0,
+        "deletions": 0,
+        "sinceDate": "2017-11-07",
+        "untilDate": "2017-11-08"
+      },
+      {
+        "insertions": 0,
+        "deletions": 0,
+        "sinceDate": "2017-11-08",
+        "untilDate": "2017-11-09"
+      },
+      {
+        "insertions": 0,
+        "deletions": 0,
+        "sinceDate": "2017-11-09",
+        "untilDate": "2017-11-10"
+      },
+      {
+        "insertions": 31,
+        "deletions": 42,
+        "sinceDate": "2017-11-10",
+        "untilDate": "2017-11-11"
+      },
+      {
+        "insertions": 52,
+        "deletions": 54,
+        "sinceDate": "2017-11-11",
+        "untilDate": "2017-11-12"
+      },
+      {
+        "insertions": 5,
+        "deletions": 5,
+        "sinceDate": "2017-11-12",
+        "untilDate": "2017-11-13"
+      },
+      {
+        "insertions": 0,
+        "deletions": 0,
+        "sinceDate": "2017-11-13",
+        "untilDate": "2017-11-14"
+      }
     ]
   },
   "authorFinalContributionMap": {
     "zacharytang": 92,
     "CindyTsai1": 0,
-    "nbriannl": 54,
-    "April0616": 152
+    "April0616": 154,
+    "nbr": 48
   },
   "authorContributionVariance": {
     "zacharytang": 344.84183,
     "CindyTsai1": 0.027006157,
-    "nbriannl": 495.91364,
-    "April0616": 1433.8046
+    "April0616": 1433.8046,
+    "nbr": 495.91364
   },
   "authorDisplayNameMap": {
     "zacharytang": "Zac",
     "CindyTsai1": "Cin",
-    "nbriannl": "Nbr",
-    "April0616": "Fan"
+    "April0616": "Fan",
+    "nbr": "Nbr"
   }
 }

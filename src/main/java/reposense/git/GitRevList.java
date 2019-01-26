@@ -12,6 +12,8 @@ import java.util.Date;
  */
 public class GitRevList {
 
+    private static final String REVISION_PATH_SEPARATOR = " -- ";
+
     /**
      * Returns the latest commit hash before {@code date}.
      * Returns an empty {@code String} if {@code date} is null, or there is no such commit.
@@ -23,7 +25,7 @@ public class GitRevList {
 
         Path rootPath = Paths.get(root);
         String revListCommand = "git rev-list -1 --before="
-                + GitUtil.GIT_LOG_SINCE_DATE_FORMAT.format(date) + " " + branchName;
+                + GitUtil.GIT_LOG_SINCE_DATE_FORMAT.format(date) + " " + branchName + REVISION_PATH_SEPARATOR;
         return runCommand(rootPath, revListCommand);
     }
 
@@ -38,7 +40,7 @@ public class GitRevList {
 
         Path rootPath = Paths.get(root);
         String revListCommand = "git rev-list -1 --before="
-                + GitUtil.GIT_LOG_UNTIL_DATE_FORMAT.format(date) + " " + branchName;
+                + GitUtil.GIT_LOG_UNTIL_DATE_FORMAT.format(date) + " " + branchName + REVISION_PATH_SEPARATOR;
         return runCommand(rootPath, revListCommand);
     }
 }
