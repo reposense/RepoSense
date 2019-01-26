@@ -38,6 +38,15 @@ html
                 v_authorship(
                   v-bind:key="generateKey(tabInfo.tabAuthorship)",
                   v-bind:info="tabInfo.tabAuthorship")
+              #tab-empty.tab-pane(v-else)
+                .title
+                  span To view the code attributed to a specific author, click the &nbsp;
+                  i.fas.fa-code
+                  span &nbsp; icon next to that author's name.
+                  br
+                  span To hide the code view, click the &nbsp;
+                  i.fas.fa-caret-right
+                  span &nbsp; icon on the left.
 
       template(v-else)
         .empty please enter a report directory or upload a report zip
