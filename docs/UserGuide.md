@@ -14,6 +14,7 @@
     * [`repo-config.csv`](#repo-configcsv)
     * [`author-config.csv`](#author-configcsv)
 * [Analyzing Multiple Repos](#analyzing-multiple-repos)
+* [FAQ](#faq)
 
 
 ## Getting Started
@@ -82,6 +83,8 @@ The `Code Panel` allows users to see the code attributed to a specific author. C
 * The Code Panel shows the files that contain author's contributions, sorted by the number of lines written.
 * Select the checkboxes to include files of preferred file extensions.
 * Clicking the file title toggles the file content.
+* Clicking the first icon beside the file title opens the history view of the file on github.
+* Clicking the second icon beside the file title opens the blame view of the file on github.
 * Code attributed to the author is highlighted in green.
 * Non-trivial code segments that are not written by the selected author are hidden by default, but you can toggle them by clicking on the `...` icon.
 
@@ -119,7 +122,7 @@ When a repo is being analyzed by RepoSense, there are **two ways repo owners can
 
 Repo owners can provide the following additional information to RepoSense using a config file that we call the **_standalone config file_**:
 * which files/authors/commits to analyze/omit
-* which git and github usernames belong to which authors
+* which git and GitHub usernames belong to which authors
 * the display of an author
 
 To use this feature, add a `_reposense/config.json`  to the root of your repo using the format in the example below ([another example](../_reposense/config.json)) and **commit it** (reason: RepoSense can see committed code only):
@@ -132,6 +135,7 @@ To use this feature, add a `_reposense/config.json`  to the root of your repo us
   [
     {
       "githubId": "alice",
+      "emails": ["alice@example.com", "alicet@example.com"],
       "displayName": "Alice T.",
       "authorNames": ["AT", "A"],
       "ignoreGlobList": ["**.css"]
@@ -147,12 +151,13 @@ Note: all fields are optional unless specified otherwise.
 **Fields to provide _repository-level_ info**:
 
 * `ignoreGlobList`: Folders/files to ignore, specified using the [_glob format_](https://docs.oracle.com/javase/tutorial/essential/io/fileOps.html#glob).
-* `formats`: File formats to analyze. Default: `adoc cs css fxml gradle html java js json jsp md py tag xml`
+* `formats`: File formats to analyze. Default: `adoc cs css fxml gradle html java js json jsp md py tag txt xml`
 * `ignoreCommitList`: The list of commits to ignore during analysis. For accurate results, the commits should be provided with their full hash.
 
 **Fields to provide _author-level_ info**:<br>
 Note: `authors` field should contain _all_ authors that should be captured in the analysis.
-* `githubId`: Github username of the author. :exclamation: Mandatory field.
+* `githubId`: GitHub username of the author. :exclamation: Mandatory field.
+* `emails`: Associated GitHub emails of the author. This can be found in your [GitHub settings](https://github.com/settings/emails).
 * `displayName`: Name to display on the report for this author.
 * `authorNames`: Git Author Name(s) used in the author's commits. By default RepoSense assumes an author would use her GitHub username as the Git username too. The meaning of _Git Author Name_ is explained in [_A Note About Git Author Name_](#a-note-about-git-author-name).
 * `ignoreGlobList`: _Additional_ (i.e. on top of the repo-level `ignoreGlobList`) folders/files to ignore for a specific author . In the example above, the actual `ignoreGlobList` for `alice` would be `["about-us/**", "**index.html", "**.css"]`
@@ -226,7 +231,7 @@ In addition, there are some _optional_ extra parameters you can use to customize
   Example:`-since 21/10/2017`
 * **`-until END_DATE`**: The end date of analysis. The analysis excludes the end date. Format: `DD/MM/YYYY`<br>
   Example:`-until 21/10/2017`
-* **`-formats LIST_OF_FORMATS`**: A space-separated list of file extensions that should be included in the analysis. Default: `adoc cs css fxml gradle html java js json jsp md py tag xml`<br>
+* **`-formats LIST_OF_FORMATS`**: A space-separated list of file extensions that should be included in the analysis. Default: `adoc cs css fxml gradle html java js json jsp md py tag txt xml`<br>
   Example:`-formats css fxml gradle`
 * **`-isac, --ignore-standalone-config`**: A flag to ignore the standalone config file in the repo (`-isac` as alias). This flag will not overwrite the `Ignore standalone config` field in the csv config file. Default: the standalone config file is not ignored.<br>
   Example:`--ignore-standalone-config` or `-isac`
@@ -264,7 +269,7 @@ Column Name | Explanation
 ----------- | -----------
 Repository's Location | The `GitHub URL` or `Disk Path` to the git repository e.g., `https://github.com/foo/bar.git` or `C:\Users\user\Desktop\GitHub\foo\bar`
 [Optional] Branch | The branch to analyze in the target repository e.g., `master`. Default: the default branch of the repo
-[Optional] File formats<sup>*</sup> | The file extensions to analyze. Default: `adoc;cs;css;fxml;gradle;html;java;js;json;jsp;md;py;tag;xml`
+[Optional] File formats<sup>*</sup> | The file extensions to analyze. Default: `adoc;cs;css;fxml;gradle;html;java;js;json;jsp;md;py;tag;txt;xml`
 [Optional] Ignore Glob List<sup>*</sup> | The list of file path globs to ignore during analysis for each author. e.g., `test/**;temp/**`
 [Optional] Ignore standalone config | To ignore the standalone config file (if any) in target repository, enter **`yes`**. If the cell is empty, the standalone config file in the repo (if any) will take precedence over configurations provided in the csv files.
 [Optional] Ignore Commit List<sup>*</sup> | The list of commits to ignore during analysis. For accurate results, the commits should be provided with their full hash.
@@ -280,6 +285,7 @@ Column Name | Explanation
 [Optional] Repository's Location | Same as `repo-config.csv`. Default: all the repos in `repo-config.csv`
 [Optional] Branch | The branch to analyze for this author e.g., `master`. Default: the default branch of the repo
 Author's GitHub ID | GitHub username of the target author e.g., `JohnDoe`
+[Optional] Author's Emails<sup>*</sup> | Associated Github emails of the author. This can be found in your [GitHub settings](https://github.com/settings/emails).
 [Optional] Author's Display Name | The name to display for the author. Default: author's GitHub username.
 [Optional] Author's Git Author Name<sup>*</sup> | The meaning of _Git Author Name_ is explained in [_A Note About Git Author Name_](#a-note-about-git-author-name).
 [Optional] Ignore Glob List<sup>*</sup> | Files to ignore for this author, in addition to files ignored by the patterns specified in `repo-config.csv`
@@ -302,5 +308,31 @@ Alternatively, you can use csv config files to customize the analysis as before 
 * `repo-config.csv`: Add additional rows for the extra repos ([example](repo-config.csv))
 * `author-config.csv`: Add one row for each author in each repo you want to analyze
 
+## FAQ
 
+#### Q: Does RepoSense work on private repositories?
+**A:** *RepoSense* will first clone the git repository to be analyzed, thus if you do not have access to the repository, we are unable to run the analysis.<br>
+To enable *RepoSense* to work on private repositories, ensure that you have enabled access to your private repository in your git terminal first, before running the analysis.
 
+#### Q: How does formats work?
+**A:** **Formats** are the [file extensions](https://techterms.com/definition/fileextension), which is the **suffix** at the end of a filename that indicates what type of file it is.<br>
+The formats/file extensions to be analyzed by *RepoSense* can be specified through the [standalone config file](#provide-data-using-a-json-config-file), [repo-config file](#repo-configcsv) and [command line](#customize-using-command-line-parameters).
+
+#### Q: How does ignore glob list work?
+**A:** [Glob](https://en.wikipedia.org/wiki/Glob_(programming)) is the pattern to specify a set of filenames with [wildcard characters](https://www.computerhope.com/jargon/w/wildcard.htm). **Ignore glob list** is the list of patterns to specify all the files in the repository which should be ignored from analysis.<br>
+The ignore glob list can be specified through the [standalone config file](#provide-data-using-a-json-config-file), [repo-config file](#repo-configcsv) and [author-config file](#author-configcsv).
+
+#### Q: My commit contributions does not appear in the ramp chart (despite appearing in the contribution bar and code panel)?
+**A:** This is probably a case of giving an incorrect author name alias (or github ID) in your [author-config file](#author-configcsv).<br>
+Please refer to [A Note About Git Author Name](#a-note-about-git-author-name) above on how to find out the correct author name you are using, and how to change it.<br>
+Also ensure that you have added all author name aliases that you may be using (if you are using multiple computers or have previously changed your author name).
+
+#### Q: My contribution bar and code panel is empty (despite having lots of commit contributions in the ramp chart)?
+**A:** The contribution bar and code panel records the lines you have authored to the **latest** commit of the repository and branch you are analyzing. As such, it is possible that while you have lots of commit contributions, your final authorship contribution is low if you have only deleted lines, someone else have overwritten your code and taken authorship for it (currently, *RepoSense* does not have functionality to track overwritten lines).<br>
+It is also possible that another user has overriden the authorship of your lines using the [@@author tags](#provide-data-using-author-tags).
+
+#### Q: I have added/edited the standalone config file in my local repository, but RepoSense is not using it when running the analysis?
+**A:** Ensure that you have committed the changes to your standalone config file first before running the analysis, as *RepoSense* is unable to detect uncommitted changes to your local repository.
+
+#### Q: I am able to run RepoSense on my repository on a Linux/Mac OS, but it fails on a Windows OS?
+**A:** It is possible you may have some file names with [special characters](https://docs.microsoft.com/en-us/windows/desktop/FileIO/naming-a-file#naming-conventions) in them, which is disallowed in Windows OS. As such, *RepoSense* is unable to fully clone your repository, thus failing the analysis.

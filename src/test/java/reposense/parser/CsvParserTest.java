@@ -34,6 +34,8 @@ public class CsvParserTest {
             .getResource("CsvParserTest/authorconfig_noSpecialCharacter_test.csv").getFile()).toPath();
     private static final Path AUTHOR_CONFIG_SPECIAL_CHARACTER_FILE = new File(CsvParserTest.class.getClassLoader()
             .getResource("CsvParserTest/authorconfig_specialCharacter_test.csv").getFile()).toPath();
+    private static final Path AUTHOR_CONFIG_MULTIPLE_EMAILS_FILE = new File(CsvParserTest.class.getClassLoader()
+            .getResource("CsvParserTest/authorconfig_multipleEmails_test.csv").getFile()).toPath();
     private static final Path MERGE_EMPTY_LOCATION_FOLDER = new File(CsvParserTest.class.getClassLoader()
             .getResource("CsvParserTest/repoconfig_merge_empty_location_test").getFile()).toPath();
 
@@ -63,6 +65,8 @@ public class CsvParserTest {
 
     private static final List<String> REPO_LEVEL_GLOB_LIST = Arrays.asList("collated**");
     private static final List<String> FIRST_AUTHOR_GLOB_LIST = Arrays.asList("**.java", "collated**");
+    private static final List<String> FIRST_AUTHOR_EMAIL_LIST =
+            Arrays.asList("nbr@example.com", "nbriannl@test.net", "nbriannl@users.noreply.github.com");
 
     @Test
     public void repoConfig_noSpecialCharacter_success() throws IOException, InvalidLocationException {
@@ -129,6 +133,20 @@ public class CsvParserTest {
     }
 
     @Test
+    public void authorConfig_multipleEmails_success() throws IOException, InvalidLocationException {
+        AuthorConfigCsvParser authorConfigCsvParser = new AuthorConfigCsvParser(AUTHOR_CONFIG_MULTIPLE_EMAILS_FILE);
+        List<RepoConfiguration> configs = authorConfigCsvParser.parse();
+
+        Assert.assertEquals(1, configs.size());
+
+        RepoConfiguration config = configs.get(0);
+
+        Author actualAuthor = config.getAuthorList().get(0);
+        Assert.assertEquals(FIRST_AUTHOR_EMAIL_LIST.size(), actualAuthor.getEmails().size());
+        Assert.assertTrue(actualAuthor.getEmails().containsAll(FIRST_AUTHOR_EMAIL_LIST));
+    }
+
+    @Test
     public void merge_twoRepoConfigs_success() throws ParseException, IOException {
         FIRST_AUTHOR.setIgnoreGlobList(FIRST_AUTHOR_GLOB_LIST);
         SECOND_AUTHOR.setIgnoreGlobList(REPO_LEVEL_GLOB_LIST);
@@ -143,7 +161,7 @@ public class CsvParserTest {
         expectedConfig.setAuthorList(expectedAuthors);
         expectedConfig.setAuthorDisplayName(FIRST_AUTHOR, "Nbr");
         expectedConfig.setAuthorDisplayName(SECOND_AUTHOR, "Zac");
-        expectedConfig.addAuthorAliases(SECOND_AUTHOR,  Arrays.asList("Zachary Tang"));
+        expectedConfig.addAuthorEmailsAndAliasesMapEntry(SECOND_AUTHOR,  Arrays.asList("Zachary Tang"));
         expectedConfig.setIgnoreGlobList(REPO_LEVEL_GLOB_LIST);
 
         String input = String.format("-config %s", TEST_CONFIG_FOLDER);
@@ -177,7 +195,7 @@ public class CsvParserTest {
         expectedBetaConfig.setAuthorList(expectedBetaAuthors);
         expectedBetaConfig.setAuthorDisplayName(FIRST_AUTHOR, "Nbr");
         expectedBetaConfig.setAuthorDisplayName(SECOND_AUTHOR, "Zac");
-        expectedBetaConfig.addAuthorAliases(SECOND_AUTHOR,  Arrays.asList("Zachary Tang"));
+        expectedBetaConfig.addAuthorEmailsAndAliasesMapEntry(SECOND_AUTHOR,  Arrays.asList("Zachary Tang"));
         expectedBetaConfig.setIgnoreGlobList(REPO_LEVEL_GLOB_LIST);
 
         RepoConfiguration expectedDeltaConfig =
