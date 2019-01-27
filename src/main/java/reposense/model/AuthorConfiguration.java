@@ -5,15 +5,94 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.TreeMap;
+import java.util.logging.Logger;
+
+import reposense.system.LogsManager;
 
 /**
  * Represents author configuration information from CSV config file for a single repository.
  */
 public class AuthorConfiguration {
+    public static final String DEFAULT_BRANCH = "HEAD";
+    private static final Logger logger = LogsManager.getLogger(AuthorConfiguration.class);
+
+    private RepoLocation location;
+    private String branch;
+    private String displayName;
+
     private transient List<Author> authorList = new ArrayList<>();
     private transient TreeMap<String, Author> authorEmailsAndAliasesMap = new TreeMap<>(String.CASE_INSENSITIVE_ORDER);
     private transient Map<Author, String> authorDisplayNameMap = new HashMap<>();
+
+    public AuthorConfiguration(RepoLocation location) {
+        this(location, DEFAULT_BRANCH);
+    }
+
+    public AuthorConfiguration(RepoLocation location, String branch) {
+        this.location = location;
+        this.branch = location.isEmpty() ? DEFAULT_BRANCH : branch;
+
+        String organization = location.getOrganization();
+        String repoName = location.getRepoName();
+
+        if (organization != null) {
+            displayName = organization + "_" + repoName + "_" + branch;
+        } else {
+            displayName = repoName + "_" + branch;
+        }
+    }
+
+    /**
+     * Clears authors information and use the information provided from {@code standaloneConfig}.
+     */
+    public void update(StandaloneConfig standaloneConfig) {
+        List<Author> newAuthorList = new ArrayList<>();
+        TreeMap<String, Author> newAuthorEmailsAndAliasesMap = new TreeMap<>(String.CASE_INSENSITIVE_ORDER);
+        Map<Author, String> newAuthorDisplayNameMap = new HashMap<>();
+        List<String> newIgnoreGlobList = standaloneConfig.getIgnoreGlobList();
+
+        for (StandaloneAuthor sa : standaloneConfig.getAuthors()) {
+            Author author = new Author(sa);
+            author.appendIgnoreGlobList(newIgnoreGlobList);
+
+            newAuthorList.add(author);
+            newAuthorDisplayNameMap.put(author, author.getDisplayName());
+            List<String> aliases = new ArrayList<>(author.getAuthorAliases());
+            List<String> emails = new ArrayList<>(author.getEmails());
+            aliases.add(author.getGitId());
+            aliases.forEach(alias -> newAuthorEmailsAndAliasesMap.put(alias, author));
+            emails.forEach(email -> newAuthorEmailsAndAliasesMap.put(email, author));
+        }
+
+        Format.validateFormats(standaloneConfig.getFormats());
+        CommitHash.validateCommits(standaloneConfig.getIgnoreCommitList());
+
+        // only assign the new values when all the fields in {@code standaloneConfig} pass the validations.
+        setAuthorList(newAuthorList);
+        setAuthorEmailsAndAliasesMap(newAuthorEmailsAndAliasesMap);
+        setAuthorDisplayNameMap(newAuthorDisplayNameMap);
+    }
+
+    @Override
+    public boolean equals(Object other) {
+
+        if (other == this) {
+            return true;
+        }
+
+        if (!(other instanceof AuthorConfiguration)) {
+            return false;
+        }
+
+        return hashCode() == ((AuthorConfiguration) other).hashCode();
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(location, branch);
+    }
 
     public Map<Author, String> getAuthorDisplayNameMap() {
         return authorDisplayNameMap;
@@ -21,6 +100,14 @@ public class AuthorConfiguration {
 
     public void setAuthorDisplayNameMap(Map<Author, String> authorDisplayNameMap) {
         this.authorDisplayNameMap = authorDisplayNameMap;
+    }
+
+    public String getBranch() {
+        return branch;
+    }
+
+    public void setBranch(String branch) {
+        this.branch = branch;
     }
 
     public List<Author> getAuthorList() {
@@ -42,16 +129,32 @@ public class AuthorConfiguration {
     }
 
     /**
-     * Propagates the {@code IgnoreGlobList} of {@code RepoConfiguration} to {@code author}.
+     * Propagates {@code IgnoreGlobList} to {@code author}.
      */
     private void propagateIgnoreGlobList(Author author, List<String> ignoreGlobList) {
         author.appendIgnoreGlobList(ignoreGlobList);
     }
 
-    public void addAuthor(Author author, List<String> ignoreGlobList) {
+    public void addAuthor(Author author) {
         authorList.add(author);
         setAuthorDetails(author);
+    }
+
+    public void addAuthor(Author author, List<String> ignoreGlobList) {
+        addAuthor(author);
         propagateIgnoreGlobList(author, ignoreGlobList);
+    }
+
+    public void addAuthors(List<Author> authorList, List<String> ignoreGlobList) {
+        for (Author author : authorList) {
+            if (containsAuthor(author)) {
+                logger.warning(String.format(
+                        "Skipping author as %s already in repository %s", author.getGitId(), getDisplayName()));
+                continue;
+            }
+
+            addAuthor(author, ignoreGlobList);
+        }
     }
 
     public boolean containsAuthor(Author author) {
@@ -86,5 +189,17 @@ public class AuthorConfiguration {
 
     public void addAuthorEmailsAndAliasesMapEntry(Author author, List<String> values) {
         values.forEach(value -> authorEmailsAndAliasesMap.put(value, author));
+    }
+
+    public String getDisplayName() {
+        return displayName;
+    }
+
+    public void setDisplayName(String displayName) {
+        this.displayName = displayName;
+    }
+
+    public RepoLocation getLocation() {
+        return location;
     }
 }

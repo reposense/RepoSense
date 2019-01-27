@@ -4,7 +4,6 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -47,7 +46,7 @@ public class RepoConfiguration {
 
     public RepoConfiguration(RepoLocation location, String branch, List<Format> formats, List<String> ignoreGlobList,
             boolean isStandaloneConfigIgnored, List<CommitHash> ignoreCommitList) {
-        this.authorConfig = new AuthorConfiguration();
+        this.authorConfig = new AuthorConfiguration(location, branch);
         this.location = location;
         this.branch = location.isEmpty() ? DEFAULT_BRANCH : branch;
         this.ignoreGlobList = ignoreGlobList;
@@ -77,25 +76,32 @@ public class RepoConfiguration {
      * Merges a {@code RepoConfiguration} from {@code repoConfigs} with another from {@code authorConfigs}
      * if {@code location} and {@code branch} matches.
      */
-    public static void merge(List<RepoConfiguration> repoConfigs, List<RepoConfiguration> authorConfigs) {
-        for (RepoConfiguration authorConfig : authorConfigs) {
-            if (authorConfig.location.isEmpty()) {
+    public static void merge(List<RepoConfiguration> repoConfigs, List<AuthorConfiguration> authorConfigs) {
+        for (AuthorConfiguration authorConfig : authorConfigs) {
+            if (authorConfig.getLocation().isEmpty()) {
                 for (RepoConfiguration repoConfig : repoConfigs) {
                     repoConfig.addAuthors(authorConfig.getAuthorList());
                 }
                 continue;
             }
 
-            int index = repoConfigs.indexOf(authorConfig);
+            RepoConfiguration matchingRepoConfig = null;
 
-            if (index == -1) {
+            for (RepoConfiguration repoConfig: repoConfigs) {
+                if (repoConfig.getLocation().equals(authorConfig.getLocation())
+                        && repoConfig.getBranch().equals(authorConfig.getBranch())) {
+                    matchingRepoConfig = repoConfig;
+                    break;
+                }
+            }
+
+            if (matchingRepoConfig == null) {
                 logger.warning(String.format(
                         "Repository %s is not found in repo-config.csv.", authorConfig.getLocation()));
                 continue;
             }
 
-            RepoConfiguration repoConfig = repoConfigs.get(index);
-            repoConfig.addAuthors(authorConfig.getAuthorList());
+            matchingRepoConfig.addAuthors(authorConfig.getAuthorList());
         }
     }
 
@@ -119,32 +125,8 @@ public class RepoConfiguration {
      * Clears authors information and use the information provided from {@code standaloneConfig}.
      */
     public void update(StandaloneConfig standaloneConfig) {
-        List<Author> newAuthorList = new ArrayList<>();
-        TreeMap<String, Author> newAuthorEmailsAndAliasesMap = new TreeMap<>(String.CASE_INSENSITIVE_ORDER);
-        Map<Author, String> newAuthorDisplayNameMap = new HashMap<>();
-        List<String> newIgnoreGlobList = standaloneConfig.getIgnoreGlobList();
-
-        for (StandaloneAuthor sa : standaloneConfig.getAuthors()) {
-            Author author = new Author(sa);
-            author.appendIgnoreGlobList(newIgnoreGlobList);
-
-            newAuthorList.add(author);
-            newAuthorDisplayNameMap.put(author, author.getDisplayName());
-            List<String> aliases = new ArrayList<>(author.getAuthorAliases());
-            List<String> emails = new ArrayList<>(author.getEmails());
-            aliases.add(author.getGitId());
-            aliases.forEach(alias -> newAuthorEmailsAndAliasesMap.put(alias, author));
-            emails.forEach(email -> newAuthorEmailsAndAliasesMap.put(email, author));
-        }
-
-        Format.validateFormats(standaloneConfig.getFormats());
-        CommitHash.validateCommits(standaloneConfig.getIgnoreCommitList());
-
-        // only assign the new values when all the fields in {@code standaloneConfig} pass the validations.
-        authorConfig.setAuthorList(newAuthorList);
-        authorConfig.setAuthorEmailsAndAliasesMap(newAuthorEmailsAndAliasesMap);
-        authorConfig.setAuthorDisplayNameMap(newAuthorDisplayNameMap);
-        ignoreGlobList = newIgnoreGlobList;
+        authorConfig.update(standaloneConfig);
+        ignoreGlobList = standaloneConfig.getIgnoreGlobList();
         formats = Format.convertStringsToFormats(standaloneConfig.getFormats());
         ignoreCommitList = CommitHash.convertStringsToCommits(standaloneConfig.getIgnoreCommitList());
     }
@@ -209,10 +191,12 @@ public class RepoConfiguration {
     public void setBranch(String branch) {
         updateDisplayName(branch);
         this.branch = branch;
+        authorConfig.setBranch(branch);
     }
 
     public void updateDisplayName(String branch) {
         this.displayName = displayName.substring(0, displayName.lastIndexOf('_') + 1) + branch;
+        authorConfig.setDisplayName(this.displayName);
     }
 
     public boolean isAnnotationOverwrite() {
@@ -248,15 +232,7 @@ public class RepoConfiguration {
     }
 
     public void addAuthors(List<Author> authorList) {
-        for (Author author : authorList) {
-            if (containsAuthor(author)) {
-                logger.warning(String.format(
-                        "Skipping author as %s already in repository %s", author.getGitId(), getDisplayName()));
-                continue;
-            }
-
-            addAuthor(author);
-        }
+        authorConfig.addAuthors(authorList, this.getIgnoreGlobList());
     }
 
     public boolean containsAuthor(Author author) {

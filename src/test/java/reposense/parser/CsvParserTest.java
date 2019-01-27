@@ -13,6 +13,7 @@ import org.junit.Assert;
 import org.junit.Test;
 
 import reposense.model.Author;
+import reposense.model.AuthorConfiguration;
 import reposense.model.CliArguments;
 import reposense.model.CommitHash;
 import reposense.model.ConfigCliArguments;
@@ -92,11 +93,11 @@ public class CsvParserTest {
     public void authorConfig_noSpecialCharacter_success() throws IOException, InvalidLocationException {
         AuthorConfigCsvParser authorConfigCsvParser =
                 new AuthorConfigCsvParser(AUTHOR_CONFIG_NO_SPECIAL_CHARACTER_FILE);
-        List<RepoConfiguration> configs = authorConfigCsvParser.parse();
+        List<AuthorConfiguration> configs = authorConfigCsvParser.parse();
 
         Assert.assertEquals(1, configs.size());
 
-        RepoConfiguration config = configs.get(0);
+        AuthorConfiguration config = configs.get(0);
 
         Assert.assertEquals(new RepoLocation(TEST_REPO_BETA_LOCATION), config.getLocation());
         Assert.assertEquals(TEST_REPO_BETA_BRANCH, config.getBranch());
@@ -106,11 +107,11 @@ public class CsvParserTest {
 
     @Test
     public void authorConfig_emptyLocation_success() throws ParseException, IOException {
-        RepoConfiguration expectedConfig = new RepoConfiguration(new RepoLocation(""));
+        AuthorConfiguration expectedConfig = new AuthorConfiguration(new RepoLocation(""));
 
         AuthorConfigCsvParser authorConfigCsvParser = new AuthorConfigCsvParser(AUTHOR_CONFIG_EMPTY_LOCATION_FILE);
-        List<RepoConfiguration> authorConfigs = authorConfigCsvParser.parse();
-        RepoConfiguration authorConfig = authorConfigs.get(0);
+        List<AuthorConfiguration> authorConfigs = authorConfigCsvParser.parse();
+        AuthorConfiguration authorConfig = authorConfigs.get(0);
 
         Assert.assertEquals(1, authorConfigs.size());
         Assert.assertEquals(expectedConfig, authorConfig);
@@ -120,11 +121,11 @@ public class CsvParserTest {
     @Test
     public void authorConfig_specialCharacter_success() throws IOException, InvalidLocationException {
         AuthorConfigCsvParser authorConfigCsvParser = new AuthorConfigCsvParser(AUTHOR_CONFIG_SPECIAL_CHARACTER_FILE);
-        List<RepoConfiguration> configs = authorConfigCsvParser.parse();
+        List<AuthorConfiguration> configs = authorConfigCsvParser.parse();
 
         Assert.assertEquals(1, configs.size());
 
-        RepoConfiguration config = configs.get(0);
+        AuthorConfiguration config = configs.get(0);
 
         Assert.assertEquals(new RepoLocation(TEST_REPO_BETA_LOCATION), config.getLocation());
         Assert.assertEquals(TEST_REPO_BETA_BRANCH, config.getBranch());
@@ -135,11 +136,11 @@ public class CsvParserTest {
     @Test
     public void authorConfig_multipleEmails_success() throws IOException, InvalidLocationException {
         AuthorConfigCsvParser authorConfigCsvParser = new AuthorConfigCsvParser(AUTHOR_CONFIG_MULTIPLE_EMAILS_FILE);
-        List<RepoConfiguration> configs = authorConfigCsvParser.parse();
+        List<AuthorConfiguration> configs = authorConfigCsvParser.parse();
 
         Assert.assertEquals(1, configs.size());
 
-        RepoConfiguration config = configs.get(0);
+        AuthorConfiguration config = configs.get(0);
 
         Author actualAuthor = config.getAuthorList().get(0);
         Assert.assertEquals(FIRST_AUTHOR_EMAIL_LIST.size(), actualAuthor.getEmails().size());
@@ -169,7 +170,7 @@ public class CsvParserTest {
 
         List<RepoConfiguration> actualConfigs =
                 new RepoConfigCsvParser(((ConfigCliArguments) cliArguments).getRepoConfigFilePath()).parse();
-        List<RepoConfiguration> authorConfigs =
+        List<AuthorConfiguration> authorConfigs =
                 new AuthorConfigCsvParser(((ConfigCliArguments) cliArguments).getAuthorConfigFilePath()).parse();
         RepoConfiguration.merge(actualConfigs, authorConfigs);
 
@@ -214,7 +215,7 @@ public class CsvParserTest {
 
         List<RepoConfiguration> actualConfigs =
                 new RepoConfigCsvParser(((ConfigCliArguments) cliArguments).getRepoConfigFilePath()).parse();
-        List<RepoConfiguration> authorConfigs =
+        List<AuthorConfiguration> authorConfigs =
                 new AuthorConfigCsvParser(((ConfigCliArguments) cliArguments).getAuthorConfigFilePath()).parse();
         RepoConfiguration.merge(actualConfigs, authorConfigs);
 
@@ -235,7 +236,7 @@ public class CsvParserTest {
 
         List<RepoConfiguration> actualConfigs =
                 new RepoConfigCsvParser(((ConfigCliArguments) cliArguments).getRepoConfigFilePath()).parse();
-        List<RepoConfiguration> authorConfigs =
+        List<AuthorConfiguration> authorConfigs =
                 new AuthorConfigCsvParser(((ConfigCliArguments) cliArguments).getAuthorConfigFilePath()).parse();
         RepoConfiguration.merge(actualConfigs, authorConfigs);
 
