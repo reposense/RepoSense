@@ -84,12 +84,12 @@ window.app = new window.Vue({
       this.isTabActive = true;
       this.isTabAuthorship = true;
       this.isCollapsed = false;
-      if (document.getElementById("tabs-wrapper")) {
-        document.getElementById("tabs-wrapper").scrollTop = 0;
+      if (document.getElementById('tabs-wrapper')) {
+        document.getElementById('tabs-wrapper').scrollTop = 0;
       }
     },
 
-    /*global expandAll*/
+    /* global expandAll */
     expand(isActive) {
       this.isCollapsed = !isActive;
       expandAll(isActive);

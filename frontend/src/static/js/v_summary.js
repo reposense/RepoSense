@@ -106,20 +106,18 @@ window.vSummary = {
       return totalCommits / totalCount;
     },
     avgContributionSize() {
-      if (typeof meanContributionSize === 'undefined') {
-        let totalLines = 0;
-        let totalCount = 0;
-        this.repos.forEach((repo) => {
-          repo.users.forEach((user) => {
-            if (user.totalCommits > 0) {
-              totalCount += 1;
-              totalLines += user.totalCommits;
-            }
-          });
+      let totalLines = 0;
+      let totalCount = 0;
+      this.repos.forEach((repo) => {
+        repo.users.forEach((user) => {
+          if (user.totalCommits > 0) {
+            totalCount += 1;
+            totalLines += user.totalCommits;
+          }
         });
-        meanContributionSize = totalLines / totalCount;
-      }
-      return meanContributionSize;
+      });
+
+      return totalLines / totalCount;
     },
   },
   methods: {
@@ -137,7 +135,7 @@ window.vSummary = {
     },
     getSliceLink(user, slice) {
       const { REPOS } = window;
-      const untilDate = this.filterTimeFrame === 'week' ? addDays(slice.sinceDate, 6): slice.sinceDate;
+      const untilDate = this.filterTimeFrame === 'week' ? addDays(slice.sinceDate, 6) : slice.sinceDate;
 
       return `http://github.com/${
         REPOS[user.repoId].location.organization}/${
@@ -232,7 +230,7 @@ window.vSummary = {
       });
 
       if (!this.filterSinceDate) {
-        if(!this.tmpFilterSinceDate || this.tmpFilterSinceDate < minDate){
+        if (!this.tmpFilterSinceDate || this.tmpFilterSinceDate < minDate) {
           this.tmpFilterSinceDate = minDate;
         }
 
@@ -241,7 +239,7 @@ window.vSummary = {
       }
 
       if (!this.filterUntilDate) {
-        if(!this.tmpFilterUntilDate || this.tmpFilterUntilDate > maxDate){
+        if (!this.tmpFilterUntilDate || this.tmpFilterUntilDate > maxDate) {
           this.tmpFilterUntilDate = maxDate;
         }
 
