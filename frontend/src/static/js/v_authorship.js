@@ -178,7 +178,8 @@ window.vAuthorship = {
         this.selectedFiles = [];
         this.isSelectAllChecked = false;
       } else {
-        this.selectedFiles = this.files.filter(file => this.selectedFileTypes.includes(file.path.split('.').pop()));
+        this.selectedFiles = this.files.filter((file) =>
+          this.selectedFileTypes.includes(file.path.split('.').pop()));
       }
     },
 
