@@ -30,7 +30,9 @@ const throttledEvent = (delay, handler) => {
 };
 
 let mouseMove = () => {};
-let guideWidth = 0;
+let guideWidth = (0.5 * window.innerWidth - (GUIDE_BAR_WIDTH / 2))
+    / window.innerWidth;
+let flexWidth = 0.5;
 
 const registerMouseMove = () => {
   const innerMouseMove = (event) => {
@@ -52,7 +54,7 @@ const registerMouseMove = () => {
 };
 
 const deregisterMouseMove = () => {
-  const flexWidth = (guideWidth * window.innerWidth + (GUIDE_BAR_WIDTH / 2))
+  flexWidth = (guideWidth * window.innerWidth + (GUIDE_BAR_WIDTH / 2))
         / window.innerWidth;
   mouseMove = () => {};
   if (window.$('tabs-wrapper')) {
@@ -152,5 +154,12 @@ window.app = new window.Vue({
   },
   created() {
     this.updateReportDir();
+  },
+  updated() {
+    this.$nextTick(() => {
+      if (window.$('tabs-wrapper')) {
+        window.$('tabs-wrapper').style.flex = `0 0 ${flexWidth * 100}%`;
+      }
+    });
   },
 });
