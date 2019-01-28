@@ -36,10 +36,10 @@ window.app = new window.Vue({
       this.users = [];
 
       window.JSZip.loadAsync(evt.target.files[0])
-        .then((zip) => {
-          window.REPORT_ZIP = zip;
-        })
-        .then(() => this.updateReportView());
+          .then((zip) => {
+            window.REPORT_ZIP = zip;
+          })
+          .then(() => this.updateReportView());
     },
     updateReportDir() {
       window.REPORT_ZIP = null;
@@ -56,9 +56,9 @@ window.app = new window.Vue({
         this.userUpdated = false;
         this.loadedRepo = 0;
 
-        return Promise.all(names.map(name => (
+        return Promise.all(names.map((name) => (
           window.api.loadCommits(name)
-            .then(() => { this.loadedRepo += 1; })
+              .then(() => { this.loadedRepo += 1; })
         )));
       }).then(() => {
         this.userUpdated = true;

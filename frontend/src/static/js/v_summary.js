@@ -188,7 +188,7 @@ window.vSummary = {
         }
       });
 
-      const convertBool = txt => (txt === 'true');
+      const convertBool = (txt) => (txt === 'true');
       const hash = window.hashParams;
 
       if (hash.search) { this.filterSearch = hash.search; }
@@ -259,9 +259,9 @@ window.vSummary = {
         // filtering
         repo.users.forEach((user) => {
           const toDisplay = this.filterSearch.toLowerCase()
-            .split(' ').filter(param => param)
-            .map(param => user.searchPath.search(param) > -1)
-            .reduce((curr, bool) => curr || bool, false);
+              .split(' ').filter((param) => param)
+              .map((param) => user.searchPath.search(param) > -1)
+              .reduce((curr, bool) => curr || bool, false);
 
           if (!this.filterSearch || toDisplay) {
             this.getUserCommits(user);
@@ -375,19 +375,19 @@ window.vSummary = {
 
       this.filtered.forEach((users) => {
         if (this.filterGroupRepos) {
-          users.sort(comparator(ele => ele[this.filterSort]));
+          users.sort(comparator((ele) => ele[this.filterSort]));
           full.push(users);
         } else {
-          users.forEach(user => full[0].push(user));
+          users.forEach((user) => full[0].push(user));
         }
       });
 
       if (!this.filterGroupRepos) {
-        full[0].sort(comparator(ele => ele[this.filterSort]));
+        full[0].sort(comparator((ele) => ele[this.filterSort]));
       }
 
       if (this.filterSortReverse) {
-        full.forEach(repo => repo.reverse());
+        full.forEach((repo) => repo.reverse());
       }
 
       this.filtered = full;

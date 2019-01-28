@@ -59,7 +59,7 @@ window.vAuthorship = {
         this.processFiles(repo.files);
       } else {
         window.api.loadAuthorship(this.info.repo)
-          .then(files => this.processFiles(files));
+            .then((files) => this.processFiles(files));
       }
     },
 
@@ -150,10 +150,10 @@ window.vAuthorship = {
 
     sortFileTypeAlphabetically(unsortedFilesInfoObj) {
       return Object.keys(unsortedFilesInfoObj)
-        .sort()
-        .reduce((acc, key) => ({
-          ...acc, [key]: unsortedFilesInfoObj[key],
-        }), {});
+          .sort()
+          .reduce((acc, key) => ({
+            ...acc, [key]: unsortedFilesInfoObj[key],
+          }), {});
     },
 
     selectAll() {
@@ -178,7 +178,7 @@ window.vAuthorship = {
         this.selectedFiles = [];
         this.isSelectAllChecked = false;
       } else {
-        this.selectedFiles = this.files.filter(file => this.selectedFileTypes.includes((file.path.split('.').pop())));
+        this.selectedFiles = this.files.filter((file) => this.selectedFileTypes.includes((file.path.split('.').pop())));
       }
     },
 
