@@ -25,7 +25,7 @@ window.app = new window.Vue({
 
     isLoading: false,
     isCollapsed: false,
-    isTabActive: false,
+    isTabActive: true,
     isTabAuthorship: false,
     tabInfo: {},
     tabAuthorship: {},
