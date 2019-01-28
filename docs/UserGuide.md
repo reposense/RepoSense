@@ -14,6 +14,7 @@
     * [`repo-config.csv`](#repo-configcsv)
     * [`author-config.csv`](#author-configcsv)
 * [Analyzing Multiple Repos](#analyzing-multiple-repos)
+* [Using Travis-CI to automate publishing of the report to GitHub Pages](#using-travis-ci-to-automate-publishing-of-the-report-to-github-pages)
 * [FAQ](#faq)
 
 
@@ -307,6 +308,11 @@ The simplest way to analyze multiple repos in one go is to use the `-repos` para
 Alternatively, you can use csv config files to customize the analysis as before while specifying multiple repos to analyze.
 * `repo-config.csv`: Add additional rows for the extra repos ([example](repo-config.csv))
 * `author-config.csv`: Add one row for each author in each repo you want to analyze
+
+
+## Using Travis-CI to automate publishing of the report to GitHub Pages
+
+Follow this [guide](PublishingGuide.md) to automate publishing of your report to GitHub Pages.
 
 ## FAQ
 
