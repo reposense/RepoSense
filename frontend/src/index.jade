@@ -38,6 +38,15 @@ html
                 v_authorship(
                   v-bind:key="generateKey(tabInfo.tabAuthorship)",
                   v-bind:info="tabInfo.tabAuthorship")
+              #tab-empty.tab-pane(v-else)
+                .title
+                  span To view the code attributed to a specific author, click the &nbsp;
+                  i.fas.fa-code
+                  span &nbsp; icon next to that author's name.
+                  br
+                  span To hide the code view, click the &nbsp;
+                  i.fas.fa-caret-right
+                  span &nbsp; icon on the left.
 
       template(v-else)
         .empty please enter a report directory or upload a report zip
@@ -148,9 +157,19 @@ html
         .files(v-if="isLoaded")
           .empty(v-if="files.length===0") nothing to see here :(
           .file.active(v-for="file in selectedFiles", v-bind:key="file.path")
-            .title(onclick="toggleNext(this)")
-              span {{ file.path }}&nbsp;
+            .title
+              span.path(onclick="toggleNext(this)") {{ file.path }}&nbsp;
               span.loc ({{ file.lineCount }} lines)
+              a(
+                v-bind:href="getFileLink(file, 'commits')", target="_blank",
+                title="click to view the history view of file"
+              )
+                i.button.fas.fa-history
+              a(
+                v-bind:href="getFileLink(file, 'blame')", target="_blank",
+                title="click to view the blame view of file"
+              )
+                i.button.fas.fa-user-edit
             pre.hljs.java
               code
                 template(v-for="segment in file.segments")
