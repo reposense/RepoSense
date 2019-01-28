@@ -29,12 +29,12 @@ const throttledEvent = (delay, handler) => {
   };
 };
 
-let mouseMove = () => {};
 let guideWidth = (0.5 * window.innerWidth - (GUIDE_BAR_WIDTH / 2))
     / window.innerWidth;
 let flexWidth = 0.5;
 
-const registerMouseMove = () => {
+window.mouseMove = () => {};
+window.registerMouseMove = () => {
   const innerMouseMove = (event) => {
     guideWidth = (
         Math.min(
@@ -50,13 +50,13 @@ const registerMouseMove = () => {
   };
   window.$('tab-resize-guide').style.display = 'block';
   window.$('app-wrapper').style['user-select'] = 'none';
-  mouseMove = throttledEvent(30, innerMouseMove);
+  window.mouseMove = throttledEvent(30, innerMouseMove);
 };
 
-const deregisterMouseMove = () => {
+window.deregisterMouseMove = () => {
   flexWidth = (guideWidth * window.innerWidth + (GUIDE_BAR_WIDTH / 2))
         / window.innerWidth;
-  mouseMove = () => {};
+  window.mouseMove = () => {};
   if (window.$('tabs-wrapper')) {
     window.$('tabs-wrapper').style.flex = `0 0 ${flexWidth * 100}%`;
   }
