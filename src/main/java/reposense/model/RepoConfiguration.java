@@ -85,15 +85,7 @@ public class RepoConfiguration {
                 continue;
             }
 
-            RepoConfiguration matchingRepoConfig = null;
-
-            for (RepoConfiguration repoConfig: repoConfigs) {
-                if (repoConfig.getLocation().equals(authorConfig.getLocation())
-                        && repoConfig.getBranch().equals(authorConfig.getBranch())) {
-                    matchingRepoConfig = repoConfig;
-                    break;
-                }
-            }
+            RepoConfiguration matchingRepoConfig = getMatchingRepoConfig(repoConfigs, authorConfig);
 
             if (matchingRepoConfig == null) {
                 logger.warning(String.format(
@@ -103,6 +95,17 @@ public class RepoConfiguration {
 
             matchingRepoConfig.addAuthors(authorConfig.getAuthorList());
         }
+    }
+
+    private static RepoConfiguration getMatchingRepoConfig(
+            List<RepoConfiguration> repoConfigs, AuthorConfiguration authorConfig) {
+        for (RepoConfiguration repoConfig: repoConfigs) {
+            if (repoConfig.getLocation().equals(authorConfig.getLocation())
+                    && repoConfig.getBranch().equals(authorConfig.getBranch())) {
+                return repoConfig;
+            }
+        }
+        return null;
     }
 
     /**
