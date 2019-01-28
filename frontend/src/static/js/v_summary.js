@@ -1,4 +1,4 @@
-function comparator(fn) {
+window.comparator = (fn) => {
   return function compare(a, b) {
     const a1 = fn(a);
     const b1 = fn(b);
@@ -377,7 +377,7 @@ window.vSummary = {
 
       this.filtered.forEach((users) => {
         if (this.filterGroupRepos) {
-          users.sort(comparator(ele => ele[this.filterSort]));
+          users.sort(window.comparator(ele => ele[this.filterSort]));
           full.push(users);
         } else {
           users.forEach(user => full[0].push(user));
@@ -385,7 +385,7 @@ window.vSummary = {
       });
 
       if (!this.filterGroupRepos) {
-        full[0].sort(comparator((ele) => {
+        full[0].sort(window.comparator((ele) => {
           const field = ele[this.filterSort];
           return field.toLowerCase ? field.toLowerCase() : field;
         }));
