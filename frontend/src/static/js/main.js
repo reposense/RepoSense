@@ -72,6 +72,7 @@ window.app = new window.Vue({
     loadedRepo: 0,
     userUpdated: false,
 
+    isLoading: false,
     isCollapsed: false,
     isTabActive: true,
     isTabAuthorship: false,
@@ -103,6 +104,7 @@ window.app = new window.Vue({
         this.loadedRepo = 0;
 
         this.userUpdated = false;
+        this.isLoading = true;
         this.loadedRepo = 0;
 
         return Promise.all(names.map(name => (
@@ -111,6 +113,11 @@ window.app = new window.Vue({
         )));
       }).then(() => {
         this.userUpdated = true;
+        this.isLoading = false;
+      }).catch((error) => {
+        this.userUpdated = false;
+        this.isLoading = false;
+        window.alert(error);
       });
     },
     getUsers() {
@@ -151,6 +158,7 @@ window.app = new window.Vue({
   components: {
     v_summary: window.vSummary,
     v_authorship: window.vAuthorship,
+    CircleSpinner: window.VueLoadingSpinner.Circle,
   },
   created() {
     this.updateReportDir();

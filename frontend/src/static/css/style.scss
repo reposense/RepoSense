@@ -23,6 +23,24 @@ vuetemplate{
     text-align:center;
 }
 
+.loader{
+    background:#FFF;
+    opacity:1;
+    position:fixed;
+    z-index:10;
+    top:0px;
+    width:100%;
+    height:100%;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+
+    .loading{
+        margin-top:12px;
+    }
+}
+
 /** navigation bar **/
 header{
     z-index:100;
