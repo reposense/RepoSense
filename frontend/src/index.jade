@@ -15,7 +15,9 @@ html
     script(src="https://unpkg.com/vue-loading-spinner@1.0.11/dist/vue-loading-spinner.js")
   body
     div#app
-      #app-wrapper(v-if="userUpdated")
+      #app-wrapper(v-if="userUpdated", onmousemove="mouseMove(event)",
+        onmouseup="deregisterMouseMove()", onmouseleave="deregisterMouseMove()")
+        #tab-resize-guide
         #summary-wrapper
           .summary-status(v-if="loadedRepo<repoLength") Loading repos ... {{ loadedRepo }} / {{ repoLength }}
           v_summary(
@@ -29,6 +31,7 @@ html
             span &nbsp; on {{ creationDate }}
 
         #tabs-wrapper(v-if="isTabActive")
+          #tab-resize(onmousedown="registerMouseMove()")
           .tab-close(v-on:click="isTabActive=false")
             i.fas.fa-caret-right
           .tab-content

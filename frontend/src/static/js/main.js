@@ -15,6 +15,55 @@ window.addHash = function addHash(newKey, newVal) {
   window.location.hash = hash.join('&');
 };
 
+const DRAG_BAR_WIDTH = 13.25;
+const SCROLL_BAR_WIDTH = 17;
+const GUIDE_BAR_WIDTH = 2;
+
+const throttledEvent = (delay, handler) => {
+  let lastCalled = 0;
+  return (...args) => {
+    if (Date.now() - lastCalled > delay) {
+      lastCalled = Date.now();
+      handler(...args);
+    }
+  };
+};
+
+let guideWidth = (0.5 * window.innerWidth - (GUIDE_BAR_WIDTH / 2))
+    / window.innerWidth;
+let flexWidth = 0.5;
+
+window.mouseMove = () => {};
+window.registerMouseMove = () => {
+  const innerMouseMove = (event) => {
+    guideWidth = (
+        Math.min(
+            Math.max(
+                window.innerWidth - event.clientX,
+                SCROLL_BAR_WIDTH + DRAG_BAR_WIDTH,
+            ),
+            window.innerWidth - SCROLL_BAR_WIDTH,
+        )
+        - (GUIDE_BAR_WIDTH / 2)
+    ) / window.innerWidth;
+    window.$('tab-resize-guide').style.right = `${guideWidth * 100}%`;
+  };
+  window.$('tab-resize-guide').style.display = 'block';
+  window.$('app-wrapper').style['user-select'] = 'none';
+  window.mouseMove = throttledEvent(30, innerMouseMove);
+};
+
+window.deregisterMouseMove = () => {
+  flexWidth = (guideWidth * window.innerWidth + (GUIDE_BAR_WIDTH / 2))
+        / window.innerWidth;
+  window.mouseMove = () => {};
+  if (window.$('tabs-wrapper')) {
+    window.$('tabs-wrapper').style.flex = `0 0 ${flexWidth * 100}%`;
+  }
+  window.$('tab-resize-guide').style.display = 'none';
+  window.$('app-wrapper').style['user-select'] = 'auto';
+};
+
 window.app = new window.Vue({
   el: '#app',
   data: {
@@ -91,8 +140,8 @@ window.app = new window.Vue({
       this.isTabActive = true;
       this.isTabAuthorship = true;
       this.isCollapsed = false;
-      if (document.getElementById("tabs-wrapper")) {
-        document.getElementById("tabs-wrapper").scrollTop = 0;
+      if (document.getElementById('tabs-wrapper')) {
+        document.getElementById('tabs-wrapper').scrollTop = 0;
       }
     },
 
@@ -113,5 +162,12 @@ window.app = new window.Vue({
   },
   created() {
     this.updateReportDir();
+  },
+  updated() {
+    this.$nextTick(() => {
+      if (window.$('tabs-wrapper')) {
+        window.$('tabs-wrapper').style.flex = `0 0 ${flexWidth * 100}%`;
+      }
+    });
   },
 });
