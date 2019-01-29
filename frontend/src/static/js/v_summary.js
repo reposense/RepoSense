@@ -132,7 +132,7 @@ window.vSummary = {
       const newSize = 100 * (slice.insertions / this.avgCommitSize);
       return Math.max(newSize * this.rampSize, 0.5);
     },
-    getSlicePos(i, total){
+    getSlicePos(i, total) {
       return (total-i-1) / total;
     },
     getSliceLink(user, slice) {
