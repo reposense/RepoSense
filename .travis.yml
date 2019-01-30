@@ -8,7 +8,7 @@ matrix:
 
 script:
   - ./config/travis/run-checks.sh
-  - cd ./frontend; npm run lint src/**/*js; cd ..
+  - npm run lint frontend/src/**/*.js
   - time travis_retry ./gradlew clean checkstyleMain checkstyleTest test systemTest
 
 addons:
