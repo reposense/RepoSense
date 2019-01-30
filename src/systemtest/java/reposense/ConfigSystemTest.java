@@ -53,7 +53,7 @@ public class ConfigSystemTest {
     }
 
     private String getInputWithDates(String sinceDate, String untilDate) {
-        return String.format("-since %s -until %s", sinceDate, untilDate);
+        return String.format("--since %s --until %s", sinceDate, untilDate);
     }
 
     private void generateReport() throws IOException, URISyntaxException, ParseException {
@@ -64,7 +64,7 @@ public class ConfigSystemTest {
         Path configFolder = Paths.get(getClass().getClassLoader().getResource("repo-config.csv").toURI()).getParent();
 
         String formats = String.join(" ", TESTING_FILE_FORMATS);
-        String input = String.format("-config %s -formats %s ", configFolder, formats) + inputDates;
+        String input = String.format("--config %s --formats %s ", configFolder, formats) + inputDates;
 
         CliArguments cliArguments = ArgsParser.parse(translateCommandline(input));
 
