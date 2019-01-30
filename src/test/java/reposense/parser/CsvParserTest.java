@@ -164,7 +164,7 @@ public class CsvParserTest {
         expectedConfig.addAuthorEmailsAndAliasesMapEntry(SECOND_AUTHOR,  Arrays.asList("Zachary Tang"));
         expectedConfig.setIgnoreGlobList(REPO_LEVEL_GLOB_LIST);
 
-        String input = String.format("-config %s", TEST_CONFIG_FOLDER);
+        String input = String.format("--config %s", TEST_CONFIG_FOLDER);
         CliArguments cliArguments = ArgsParser.parse(translateCommandline(input));
 
         List<RepoConfiguration> actualConfigs =
@@ -209,7 +209,7 @@ public class CsvParserTest {
         expectedConfigs.add(expectedBetaConfig);
         expectedConfigs.add(expectedDeltaConfig);
 
-        String input = String.format("-config %s", MERGE_EMPTY_LOCATION_FOLDER);
+        String input = String.format("--config %s", MERGE_EMPTY_LOCATION_FOLDER);
         CliArguments cliArguments = ArgsParser.parse(translateCommandline(input));
 
         List<RepoConfiguration> actualConfigs =
@@ -230,7 +230,7 @@ public class CsvParserTest {
         RepoConfiguration expectedConfig = new RepoConfiguration(new RepoLocation(TEST_REPO_BETA_LOCATION),
                 RepoConfiguration.DEFAULT_BRANCH);
 
-        String input = String.format("-config %s", TEST_EMPTY_BRANCH_CONFIG_FOLDER);
+        String input = String.format("--config %s", TEST_EMPTY_BRANCH_CONFIG_FOLDER);
         CliArguments cliArguments = ArgsParser.parse(translateCommandline(input));
 
         List<RepoConfiguration> actualConfigs =

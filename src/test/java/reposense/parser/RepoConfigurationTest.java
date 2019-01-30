@@ -133,7 +133,7 @@ public class RepoConfigurationTest {
         expectedConfig.setStandaloneConfigIgnored(true);
 
         String formats = String.join(" ", CLI_FORMATS);
-        String input = String.format("-config %s -formats %s", IGNORE_STANDALONE_TEST_CONFIG_FILES, formats);
+        String input = String.format("--config %s --formats %s", IGNORE_STANDALONE_TEST_CONFIG_FILES, formats);
         CliArguments cliArguments = ArgsParser.parse(translateCommandline(input));
 
         List<RepoConfiguration> actualConfigs =
@@ -156,7 +156,7 @@ public class RepoConfigurationTest {
         expectedConfig.setStandaloneConfigIgnored(true);
 
         String formats = String.join(" ", CLI_FORMATS);
-        String input = String.format("-repo %s -formats %s --ignore-standalone-config", TEST_REPO_DELTA, formats);
+        String input = String.format("--repo %s --formats %s --ignore-standalone-config", TEST_REPO_DELTA, formats);
         CliArguments cliArguments = ArgsParser.parse(translateCommandline(input));
         List<RepoConfiguration> actualConfigs = RepoSense.getRepoConfigurations((LocationsCliArguments) cliArguments);
         RepoConfiguration.setFormatsToRepoConfigs(actualConfigs, cliArguments.getFormats());
@@ -171,7 +171,7 @@ public class RepoConfigurationTest {
     public void repoConfig_wrongKeywordUseStandaloneConfig_success()
             throws ParseException, GitCloneException, IOException {
         String formats = String.join(" ", CLI_FORMATS);
-        String input = String.format("-config %s -formats %s", IGNORE_STANDALONE_KEYWORD_TEST_CONFIG_FILES, formats);
+        String input = String.format("--config %s --formats %s", IGNORE_STANDALONE_KEYWORD_TEST_CONFIG_FILES, formats);
         CliArguments cliArguments = ArgsParser.parse(translateCommandline(input));
 
         List<RepoConfiguration> actualConfigs =
@@ -187,7 +187,7 @@ public class RepoConfigurationTest {
     @Test
     public void repoConfig_withFormats_ignoreCliFormats() throws ParseException, IOException {
         String formats = String.join(" ", CLI_FORMATS);
-        String input = String.format("-config %s -formats %s", FORMATS_TEST_CONFIG_FILES, formats);
+        String input = String.format("--config %s --formats %s", FORMATS_TEST_CONFIG_FILES, formats);
         CliArguments cliArguments = ArgsParser.parse(translateCommandline(input));
 
         List<RepoConfiguration> actualConfigs =
@@ -201,7 +201,7 @@ public class RepoConfigurationTest {
     @Test
     public void repoConfig_withoutFormats_useCliFormats() throws ParseException, IOException {
         String formats = String.join(" ", CLI_FORMATS);
-        String input = String.format("-config %s -formats %s", WITHOUT_FORMATS_TEST_CONFIG_FILES, formats);
+        String input = String.format("--config %s --formats %s", WITHOUT_FORMATS_TEST_CONFIG_FILES, formats);
         CliArguments cliArguments = ArgsParser.parse(translateCommandline(input));
 
         List<RepoConfiguration> actualConfigs =
@@ -214,7 +214,7 @@ public class RepoConfigurationTest {
 
     @Test
     public void repoConfig_withoutFormatsAndCliFormats_useDefaultFormats() throws ParseException, IOException {
-        String input = String.format("-config %s", WITHOUT_FORMATS_TEST_CONFIG_FILES);
+        String input = String.format("--config %s", WITHOUT_FORMATS_TEST_CONFIG_FILES);
         CliArguments cliArguments = ArgsParser.parse(translateCommandline(input));
 
         List<RepoConfiguration> actualConfigs =
