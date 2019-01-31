@@ -23,7 +23,7 @@ public class AuthorConfiguration {
     private String displayName;
 
     private transient List<Author> authorList = new ArrayList<>();
-    private transient TreeMap<String, Author> authorEmailsAndAliasesMap = new TreeMap<>(String.CASE_INSENSITIVE_ORDER);
+    private transient Map<String, Author> authorEmailsAndAliasesMap = new TreeMap<>(String.CASE_INSENSITIVE_ORDER);
     private transient Map<Author, String> authorDisplayNameMap = new HashMap<>();
 
     public AuthorConfiguration(RepoLocation location) {
@@ -49,7 +49,7 @@ public class AuthorConfiguration {
      */
     public void update(StandaloneConfig standaloneConfig) {
         List<Author> newAuthorList = new ArrayList<>();
-        TreeMap<String, Author> newAuthorEmailsAndAliasesMap = new TreeMap<>(String.CASE_INSENSITIVE_ORDER);
+        Map<String, Author> newAuthorEmailsAndAliasesMap = new TreeMap<>(String.CASE_INSENSITIVE_ORDER);
         Map<Author, String> newAuthorDisplayNameMap = new HashMap<>();
         List<String> newIgnoreGlobList = standaloneConfig.getIgnoreGlobList();
 
@@ -175,11 +175,11 @@ public class AuthorConfiguration {
         });
     }
 
-    public TreeMap<String, Author> getAuthorEmailsAndAliasesMap() {
+    public Map<String, Author> getAuthorEmailsAndAliasesMap() {
         return authorEmailsAndAliasesMap;
     }
 
-    public void setAuthorEmailsAndAliasesMap(TreeMap<String, Author> authorEmailsAndAliasesMap) {
+    public void setAuthorEmailsAndAliasesMap(Map<String, Author> authorEmailsAndAliasesMap) {
         this.authorEmailsAndAliasesMap = authorEmailsAndAliasesMap;
     }
 

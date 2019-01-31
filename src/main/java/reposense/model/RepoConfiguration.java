@@ -8,7 +8,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
-import java.util.TreeMap;
 import java.util.logging.Logger;
 
 import reposense.system.LogsManager;
@@ -250,11 +249,11 @@ public class RepoConfiguration {
         authorConfig.resetAuthorInformation(this.getIgnoreGlobList());
     }
 
-    public TreeMap<String, Author> getAuthorEmailsAndAliasesMap() {
+    public Map<String, Author> getAuthorEmailsAndAliasesMap() {
         return authorConfig.getAuthorEmailsAndAliasesMap();
     }
 
-    public void setAuthorEmailsAndAliasesMap(TreeMap<String, Author> authorEmailsAndAliasesMap) {
+    public void setAuthorEmailsAndAliasesMap(Map<String, Author> authorEmailsAndAliasesMap) {
         authorConfig.setAuthorEmailsAndAliasesMap(authorEmailsAndAliasesMap);
     }
 
