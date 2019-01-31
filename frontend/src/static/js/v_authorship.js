@@ -164,6 +164,7 @@ window.vAuthorship = {
         this.selectedFileTypes = [];
         this.selectedFiles = [];
       }
+      window.app.isCollapsed = false;
     },
 
     selectFile() {
