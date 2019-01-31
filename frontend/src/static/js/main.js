@@ -24,7 +24,7 @@ window.removeHash = function removeHash(deleteKey) {
       params.splice(index, 1);
     }
   });
-  newHash = "#" + params.join('&');
+  let newHash = '#' + params.join('&');
   location.href = location.href.replace(location.hash, newHash);
 };
 
@@ -211,7 +211,7 @@ window.app = new window.Vue({
       }
     });
     if (!this.isTabActive) {
-      removeHash('info');
+      window.removeHash('info');
     }
   },
 });
