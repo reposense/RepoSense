@@ -72,8 +72,8 @@ public class RepoConfiguration {
     }
 
     /**
-     * Merges a {@code RepoConfiguration} from {@code repoConfigs} with another from {@code authorConfigs}
-     * if {@code location} and {@code branch} matches.
+     * Merges a {@code RepoConfiguration} from {@code repoConfigs} with an {@code AuthorConfiguration} from
+     * {@code authorConfigs} if their {@code RepoLocation} and branch matches
      */
     public static void merge(List<RepoConfiguration> repoConfigs, List<AuthorConfiguration> authorConfigs) {
         for (AuthorConfiguration authorConfig : authorConfigs) {
@@ -96,6 +96,10 @@ public class RepoConfiguration {
         }
     }
 
+    /**
+     * Iterates through {@code repoConfigs} to find a {@code RepoConfiguration} with {@code RepoLocation} and branch
+     * that matches {@code authorConfig}. Returns {@code null} if no match is found.
+     */
     private static RepoConfiguration getMatchingRepoConfig(
             List<RepoConfiguration> repoConfigs, AuthorConfiguration authorConfig) {
         for (RepoConfiguration repoConfig: repoConfigs) {
