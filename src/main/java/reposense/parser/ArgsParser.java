@@ -39,6 +39,7 @@ public class ArgsParser {
     private static final String CONFIG_FLAG = "config";
     private static final String CONFIG_FLAG_ALIAS = "c";
     private static final String REPO_FLAG = "repos";
+    private static final String REPO_FLAG_ALT = "repo";
     private static final String REPO_FLAG_ALIAS = "r";
     private static final String VIEW_FLAG = "view";
     private static final String VIEW_FLAG_ALIAS = "v";
@@ -76,7 +77,7 @@ public class ArgsParser {
                 .help("The directory containing the config files."
                         + "If not provided, the config files will be obtained from the current working directory.");
 
-        mutexParser.addArgument(FULL_PREFIX + REPO_FLAG, ALIAS_PREFIX + REPO_FLAG_ALIAS)
+        mutexParser.addArgument(FULL_PREFIX + REPO_FLAG, ALIAS_PREFIX + REPO_FLAG_ALIAS, FULL_PREFIX + REPO_FLAG_ALT)
                 .nargs("+")
                 .dest("repos")
                 .metavar("LOCATION")
