@@ -175,9 +175,11 @@ window.vAuthorship = {
       if (this.fileTypes.length === this.selectedFileTypes.length) {
         this.selectedFiles = this.files;
         this.isSelectAllChecked = true;
+        window.app.isCollapsed = false;
       } else if (this.selectedFileTypes.length === 0) {
         this.selectedFiles = [];
         this.isSelectAllChecked = false;
+        window.app.isCollapsed = false;
       } else {
         this.selectedFiles = this.files.filter((file) => this.selectedFileTypes.includes((file.path.split('.').pop())));
       }
