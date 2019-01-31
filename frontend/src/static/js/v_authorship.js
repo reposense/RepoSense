@@ -176,10 +176,10 @@ window.vAuthorship = {
     },
 
     filesSort() {
-      this.files.sort(window.comparator(filesSortDict[this.filesSortType]));
+      this.selectedFiles.sort(window.comparator(filesSortDict[this.filesSortType]));
 
       if (this.filesSortReverse) {
-        this.files.reverse();
+        this.selectedFiles.reverse();
       }
     },
 
