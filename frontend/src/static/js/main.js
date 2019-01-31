@@ -15,6 +15,19 @@ window.addHash = function addHash(newKey, newVal) {
   window.location.hash = hash.join('&');
 };
 
+window.removeHash = function removeHash(deleteKey) {
+  const params = window.location.hash.slice(1).split('&');
+  params.forEach((param) => {
+    const [key, val] = param.split('=');
+    if (key === deleteKey) {
+      const index = params.indexOf(key);
+      params.splice(index, 1);
+    }
+  });
+  newHash = "#" + params.join('&');
+  location.href = location.href.replace(location.hash, newHash);
+};
+
 const DRAG_BAR_WIDTH = 13.25;
 const SCROLL_BAR_WIDTH = 17;
 const GUIDE_BAR_WIDTH = 2;
@@ -197,5 +210,8 @@ window.app = new window.Vue({
         window.$('tabs-wrapper').style.flex = `0 0 ${flexWidth * 100}%`;
       }
     });
+    if (!this.isTabActive) {
+      removeHash('info');
+    }
   },
 });
