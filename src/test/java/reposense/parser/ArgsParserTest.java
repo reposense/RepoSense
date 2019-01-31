@@ -72,6 +72,31 @@ public class ArgsParserTest {
     }
 
     @Test
+    public void parse_allCorrectInputsAlias_success() throws ParseException, IOException {
+        String input = String.format("-c %s -o %s -s 01/07/2017 -u 30/11/2017 -f java adoc html css js -isac -v",
+                CONFIG_FOLDER_ABSOLUTE, OUTPUT_DIRECTORY_ABSOLUTE);
+        CliArguments cliArguments = ArgsParser.parse(translateCommandline(input));
+        Assert.assertTrue(cliArguments instanceof ConfigCliArguments);
+        Assert.assertTrue(Files.isSameFile(
+                REPO_CONFIG_CSV_FILE, ((ConfigCliArguments) cliArguments).getRepoConfigFilePath()));
+        Assert.assertTrue(Files.isSameFile(
+                AUTHOR_CONFIG_CSV_FILE, ((ConfigCliArguments) cliArguments).getAuthorConfigFilePath()));
+        Assert.assertTrue(Files.isSameFile(
+                OUTPUT_DIRECTORY_ABSOLUTE.resolve(ArgsParser.DEFAULT_REPORT_NAME), cliArguments.getOutputFilePath()));
+
+        Date expectedSinceDate = TestUtil.getDate(2017, Calendar.JULY, 1);
+        Date expectedUntilDate = TestUtil.getDate(2017, Calendar.NOVEMBER, 30);
+        Assert.assertEquals(expectedSinceDate, cliArguments.getSinceDate().get());
+        Assert.assertEquals(expectedUntilDate, cliArguments.getUntilDate().get());
+
+        List<Format> expectedFormats = Format.convertStringsToFormats(
+                Arrays.asList("java", "adoc", "html", "css", "js"));
+        Assert.assertEquals(expectedFormats, cliArguments.getFormats());
+
+        Assert.assertTrue(cliArguments.isAutomaticallyLaunching());
+    }
+
+    @Test
     public void parse_withExtraWhitespaces_success() throws ParseException, IOException {
         String input = String.format("--config %s      --output   %s   --since 01/07/2017   --until    30/11/2017   "
                 + "--formats     java   adoc     html css js    --view    -isac  ",
@@ -264,7 +289,7 @@ public class ArgsParserTest {
 
     @Test
     public void parse_validGitRepoLocations_repoConfigurationListCorrectSize() throws ParseException, IOException {
-        String input = String.format("--repos \"%s\" %s", TEST_REPO_REPOSENSE, TEST_REPO_DELTA);
+        String input = String.format("-r \"%s\" %s", TEST_REPO_REPOSENSE, TEST_REPO_DELTA);
         CliArguments cliArguments = ArgsParser.parse(translateCommandline(input));
         Assert.assertTrue(cliArguments instanceof LocationsCliArguments);
         List<RepoConfiguration> repoConfigs = RepoSense.getRepoConfigurations((LocationsCliArguments) cliArguments);
