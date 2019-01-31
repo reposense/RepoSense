@@ -18,14 +18,13 @@ window.addHash = function addHash(newKey, newVal) {
 window.removeHash = function removeHash(deleteKey) {
   const params = window.location.hash.slice(1).split('&');
   params.forEach((param) => {
-    const [key, val] = param.split('=');
+    const key = param.split('=')[0];
     if (key === deleteKey) {
       const index = params.indexOf(key);
       params.splice(index, 1);
     }
   });
-  let newHash = '#' + params.join('&');
-  location.href = location.href.replace(location.hash, newHash);
+  window.location.href = window.location.href.replace(window.location.hash, `#${params.join('&')}`);
 };
 
 const DRAG_BAR_WIDTH = 13.25;
@@ -181,11 +180,11 @@ window.app = new window.Vue({
         }
       });
       if (Object.keys(info).length > 0) {
-        window.hashParams['info'] = info;
+        window.hashParams.info = info;
       }
     },
 
-    /*global expandAll */
+    /* global expandAll */
     expand(isActive) {
       this.isCollapsed = !isActive;
       expandAll(isActive);
