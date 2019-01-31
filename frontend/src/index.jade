@@ -4,6 +4,7 @@ html
     link(rel="stylesheet", href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.0/normalize.min.css")
     link(rel="stylesheet", href="https://cdnjs.cloudflare.com/ajax/libs/muicss/0.9.39/css/mui.min.css")
     link(rel="stylesheet", href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/color-brewer.min.css")
+    link(rel="stylesheet", href="https://unpkg.com/vue-loading-spinner@1.0.11/dist/vue-loading-spinner.css")
     link(rel="stylesheet", href="static/css/style.css")
 
     script(src="https://use.fontawesome.com/releases/v5.0.13/js/all.js", defer=True)
@@ -11,9 +12,12 @@ html
     script(src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.5/jszip.min.js")
 
     script(src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js")
+    script(src="https://unpkg.com/vue-loading-spinner@1.0.11/dist/vue-loading-spinner.js")
   body
     div#app
-      #app-wrapper(v-if="userUpdated")
+      #app-wrapper(v-if="userUpdated", onmousemove="mouseMove(event)",
+        onmouseup="deregisterMouseMove()", onmouseleave="deregisterMouseMove()")
+        #tab-resize-guide
         #summary-wrapper
           .summary-status(v-if="loadedRepo<repoLength") Loading repos ... {{ loadedRepo }} / {{ repoLength }}
           v_summary(
@@ -27,6 +31,7 @@ html
             span &nbsp; on {{ creationDate }}
 
         #tabs-wrapper(v-if="isTabActive")
+          #tab-resize(onmousedown="registerMouseMove()")
           .tab-close(v-on:click="isTabActive=false")
             i.fas.fa-caret-right
           .tab-content
@@ -53,6 +58,9 @@ html
 
         form#file-upload(onsubmit="return false;")
           input(type="file", v-on:change="updateReportZip")
+          .loader(v-if="isLoading")
+            circle-spinner
+            .loading Loading resources...
 
     vuetemplate#v_summary
       #summary.wrapper
