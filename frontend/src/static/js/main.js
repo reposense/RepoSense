@@ -155,10 +155,10 @@ window.app = new window.Vue({
     },
 
     deserialize(obj) {
-      info = {}
+      let info = {};
       obj.forEach((param) => {
         const [key, val] = param.split('=');
-        if (key == 'info') {
+        if (key === 'info') {
           let decoded = decodeURIComponent(val);
           let properties = decoded.split('&');
           properties.forEach((prop) => {
