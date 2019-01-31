@@ -23,23 +23,23 @@ public class AnnotatorAnalyzer {
      * Overrides the authorship information in {@code fileInfo} based on annotations given on the file.
      */
     public static void aggregateAnnotationAuthorInfo(FileInfo fileInfo, Map<String, Author> authorAliasMap) {
-        Author currentAuthor = null;
+        Author currentAuthor = Author.UNKNOWN_AUTHOR;
         Path filePath = Paths.get(fileInfo.getPath());
         for (LineInfo lineInfo : fileInfo.getLines()) {
             if (lineInfo.getContent().contains(AUTHOR_TAG)) {
                 Author newAuthor = findAuthorInLine(lineInfo.getContent(), authorAliasMap);
 
-                if (newAuthor == null) {
+                if (newAuthor.equals(Author.UNKNOWN_AUTHOR)) {
                     //end of an author tag should belong to this author too.
                     lineInfo.setAuthor(currentAuthor);
                 } else if (newAuthor.getIgnoreGlobMatcher().matches(filePath)) {
-                    newAuthor = null;
+                    newAuthor = Author.UNKNOWN_AUTHOR;
                 }
 
                 //set a new author
                 currentAuthor = newAuthor;
             }
-            if (currentAuthor != null) {
+            if (!currentAuthor.equals(Author.UNKNOWN_AUTHOR)) {
                 lineInfo.setAuthor(currentAuthor);
             }
         }
@@ -50,11 +50,11 @@ public class AnnotatorAnalyzer {
             String[] split = line.split(AUTHOR_TAG);
             String name = extractAuthorName(split[1]);
             if (name == null) {
-                return null;
+                return Author.UNKNOWN_AUTHOR;
             }
-            return authorAliasMap.get(name);
+            return authorAliasMap.getOrDefault(name, Author.UNKNOWN_AUTHOR);
         } catch (ArrayIndexOutOfBoundsException e) {
-            return null;
+            return Author.UNKNOWN_AUTHOR;
         }
     }
 
