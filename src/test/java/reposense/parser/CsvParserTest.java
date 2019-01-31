@@ -114,7 +114,8 @@ public class CsvParserTest {
         AuthorConfiguration authorConfig = authorConfigs.get(0);
 
         Assert.assertEquals(1, authorConfigs.size());
-        Assert.assertEquals(expectedConfig, authorConfig);
+        Assert.assertEquals(expectedConfig.getLocation(), authorConfig.getLocation());
+        Assert.assertEquals(expectedConfig.getBranch(), authorConfig.getBranch());
         Assert.assertEquals(AUTHOR_CONFIG_NO_SPECIAL_CHARACTER_AUTHORS, authorConfig.getAuthorList());
     }
 

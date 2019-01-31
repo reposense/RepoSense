@@ -5,7 +5,6 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Objects;
 import java.util.TreeMap;
 import java.util.logging.Logger;
 
@@ -76,12 +75,13 @@ public class AuthorConfiguration {
             return false;
         }
 
-        return hashCode() == ((AuthorConfiguration) other).hashCode();
-    }
+        AuthorConfiguration otherAuthorConfig = (AuthorConfiguration) other;
 
-    @Override
-    public int hashCode() {
-        return Objects.hash(location, branch);
+        return location.equals(otherAuthorConfig.getLocation())
+                && branch.equals(otherAuthorConfig.getBranch())
+                && authorList.equals(otherAuthorConfig.getAuthorList())
+                && authorEmailsAndAliasesMap.equals(otherAuthorConfig.getAuthorEmailsAndAliasesMap())
+                && authorDisplayNameMap.equals(otherAuthorConfig.getAuthorDisplayNameMap());
     }
 
     public Map<Author, String> getAuthorDisplayNameMap() {

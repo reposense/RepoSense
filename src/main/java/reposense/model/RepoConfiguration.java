@@ -158,7 +158,8 @@ public class RepoConfiguration {
             return false;
         }
 
-        return hashCode() == ((RepoConfiguration) other).hashCode();
+        return hashCode() == ((RepoConfiguration) other).hashCode()
+                && authorConfig.equals(((RepoConfiguration) other).authorConfig);
     }
 
     @Override
