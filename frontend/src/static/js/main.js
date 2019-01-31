@@ -37,13 +37,13 @@ window.mouseMove = () => {};
 window.registerMouseMove = () => {
   const innerMouseMove = (event) => {
     guideWidth = (
-        Math.min(
-            Math.max(
-                window.innerWidth - event.clientX,
-                SCROLL_BAR_WIDTH + DRAG_BAR_WIDTH,
-            ),
-            window.innerWidth - SCROLL_BAR_WIDTH,
-        )
+      Math.min(
+        Math.max(
+          window.innerWidth - event.clientX,
+          SCROLL_BAR_WIDTH + DRAG_BAR_WIDTH,
+        ),
+        window.innerWidth - SCROLL_BAR_WIDTH,
+      )
         - (GUIDE_BAR_WIDTH / 2)
     ) / window.innerWidth;
     window.$('tab-resize-guide').style.right = `${guideWidth * 100}%`;
@@ -86,10 +86,10 @@ window.app = new window.Vue({
       this.users = [];
 
       window.JSZip.loadAsync(evt.target.files[0])
-        .then((zip) => {
-          window.REPORT_ZIP = zip;
-        })
-        .then(() => this.updateReportView());
+          .then((zip) => {
+            window.REPORT_ZIP = zip;
+          })
+          .then(() => this.updateReportView());
     },
     updateReportDir() {
       window.REPORT_ZIP = null;
@@ -107,9 +107,9 @@ window.app = new window.Vue({
         this.isLoading = true;
         this.loadedRepo = 0;
 
-        return Promise.all(names.map(name => (
+        return Promise.all(names.map((name) => (
           window.api.loadCommits(name)
-            .then(() => { this.loadedRepo += 1; })
+              .then(() => { this.loadedRepo += 1; })
         )));
       }).then(() => {
         this.userUpdated = true;
@@ -145,7 +145,7 @@ window.app = new window.Vue({
       }
     },
 
-    /*global expandAll*/
+    /* global expandAll */
     expand(isActive) {
       this.isCollapsed = !isActive;
       expandAll(isActive);
