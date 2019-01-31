@@ -1,8 +1,8 @@
 const filesSortDict = {
   lineOfCode: (file) => file.lineCount,
   path: (file) => file.path,
-  fileName: (file) => file.path.split(/[\/]+/).pop(),
-  fileType: (file) => file.path.split(/[\/]+/).pop().split(/[.]+/).pop(),
+  fileName: (file) => file.path.split(/[/]+/).pop(),
+  fileType: (file) => file.path.split(/[/]+/).pop().split(/[.]+/).pop(),
 };
 
 window.toggleNext = function toggleNext(ele) {
@@ -59,7 +59,7 @@ window.vAuthorship = {
     },
     filesSortReverse() {
       this.filesSort();
-    }
+    },
   },
 
   methods: {
