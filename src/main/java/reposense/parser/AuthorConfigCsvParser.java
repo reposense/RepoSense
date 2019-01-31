@@ -60,7 +60,8 @@ public class AuthorConfigCsvParser extends CsvParser<AuthorConfiguration> {
 
         if (config.containsAuthor(author)) {
             logger.warning(String.format(
-                    "Skipping author as %s already in repository %s", author.getGitId(), config.getDisplayName()));
+                    "Skipping author as %s already in repository %s %s",
+                    author.getGitId(), config.getLocation(), config.getBranch()));
             return;
         }
 

@@ -20,7 +20,6 @@ public class AuthorConfiguration {
 
     private RepoLocation location;
     private String branch;
-    private String displayName;
 
     private transient List<Author> authorList = new ArrayList<>();
     private transient Map<String, Author> authorEmailsAndAliasesMap = new TreeMap<>(String.CASE_INSENSITIVE_ORDER);
@@ -33,15 +32,6 @@ public class AuthorConfiguration {
     public AuthorConfiguration(RepoLocation location, String branch) {
         this.location = location;
         this.branch = location.isEmpty() ? DEFAULT_BRANCH : branch;
-
-        String organization = location.getOrganization();
-        String repoName = location.getRepoName();
-
-        if (organization != null) {
-            displayName = organization + "_" + repoName + "_" + branch;
-        } else {
-            displayName = repoName + "_" + branch;
-        }
     }
 
     /**
@@ -149,7 +139,7 @@ public class AuthorConfiguration {
         for (Author author : authorList) {
             if (containsAuthor(author)) {
                 logger.warning(String.format(
-                        "Skipping author as %s already in repository %s", author.getGitId(), getDisplayName()));
+                        "Skipping author as %s already in repository %s %s", author.getGitId(), location, branch));
                 continue;
             }
 
@@ -189,14 +179,6 @@ public class AuthorConfiguration {
 
     public void addAuthorEmailsAndAliasesMapEntry(Author author, List<String> values) {
         values.forEach(value -> authorEmailsAndAliasesMap.put(value, author));
-    }
-
-    public String getDisplayName() {
-        return displayName;
-    }
-
-    public void setDisplayName(String displayName) {
-        this.displayName = displayName;
     }
 
     public RepoLocation getLocation() {

@@ -202,7 +202,6 @@ public class RepoConfiguration {
 
     public void updateDisplayName(String branch) {
         this.displayName = displayName.substring(0, displayName.lastIndexOf('_') + 1) + branch;
-        authorConfig.setDisplayName(this.displayName);
     }
 
     public boolean isAnnotationOverwrite() {
