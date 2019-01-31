@@ -66,7 +66,7 @@ window.vAuthorship = {
     },
 
     getInfoHash() {
-      const { addHash } = window;
+      const {addHash} = window;
       addHash('info', this.serialize(this.info));
     },
 
