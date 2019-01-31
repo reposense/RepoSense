@@ -83,7 +83,7 @@ public class AuthorConfigCsvParser extends CsvParser<AuthorConfiguration> {
             List<AuthorConfiguration> results, String location, String branch) throws InvalidLocationException {
         AuthorConfiguration config = new AuthorConfiguration(new RepoLocation(location), branch);
 
-        for (AuthorConfiguration authorConfig: results) {
+        for (AuthorConfiguration authorConfig : results) {
             if (authorConfig.getLocation().equals(config.getLocation())
                     && authorConfig.getBranch().equals(config.getBranch())) {
                 return authorConfig;

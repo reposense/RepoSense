@@ -102,7 +102,7 @@ public class RepoConfiguration {
      */
     private static RepoConfiguration getMatchingRepoConfig(
             List<RepoConfiguration> repoConfigs, AuthorConfiguration authorConfig) {
-        for (RepoConfiguration repoConfig: repoConfigs) {
+        for (RepoConfiguration repoConfig : repoConfigs) {
             if (repoConfig.getLocation().equals(authorConfig.getLocation())
                     && repoConfig.getBranch().equals(authorConfig.getBranch())) {
                 return repoConfig;
