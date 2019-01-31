@@ -186,8 +186,8 @@ public class CsvParserTest {
         SECOND_AUTHOR.setAuthorAliases(SECOND_AUTHOR_ALIASES);
 
         List<Author> expectedBetaAuthors = new ArrayList<>();
-        expectedBetaAuthors.add(FIRST_AUTHOR);
         expectedBetaAuthors.add(SECOND_AUTHOR);
+        expectedBetaAuthors.add(FIRST_AUTHOR);
 
         List<Author> expectedDeltaAuthors = new ArrayList<>();
         expectedDeltaAuthors.add(FIRST_AUTHOR);

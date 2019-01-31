@@ -78,9 +78,6 @@ public class RepoConfiguration {
     public static void merge(List<RepoConfiguration> repoConfigs, List<AuthorConfiguration> authorConfigs) {
         for (AuthorConfiguration authorConfig : authorConfigs) {
             if (authorConfig.getLocation().isEmpty()) {
-                for (RepoConfiguration repoConfig : repoConfigs) {
-                    repoConfig.addAuthors(authorConfig.getAuthorList());
-                }
                 continue;
             }
 
@@ -92,7 +89,15 @@ public class RepoConfiguration {
                 continue;
             }
 
-            matchingRepoConfig.addAuthors(authorConfig.getAuthorList());
+            matchingRepoConfig.setAuthorConfiguration(authorConfig);
+        }
+
+        for (AuthorConfiguration authorConfig : authorConfigs) {
+            if (authorConfig.getLocation().isEmpty()) {
+                for (RepoConfiguration repoConfig : repoConfigs) {
+                    repoConfig.addAuthors(authorConfig.getAuthorList());
+                }
+            }
         }
     }
 
@@ -239,6 +244,13 @@ public class RepoConfiguration {
 
     public void addAuthors(List<Author> authorList) {
         authorConfig.addAuthors(authorList, this.getIgnoreGlobList());
+    }
+
+    public void setAuthorConfiguration(AuthorConfiguration authorConfig) {
+        this.authorConfig = authorConfig;
+        for (Author author : authorConfig.getAuthorList()) {
+            AuthorConfiguration.propagateIgnoreGlobList(author, ignoreGlobList);
+        }
     }
 
     public boolean containsAuthor(Author author) {
