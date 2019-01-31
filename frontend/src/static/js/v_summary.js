@@ -106,20 +106,18 @@ window.vSummary = {
       return totalCommits / totalCount;
     },
     avgContributionSize() {
-      if (typeof meanContributionSize === 'undefined') {
-        let totalLines = 0;
-        let totalCount = 0;
-        this.repos.forEach((repo) => {
-          repo.users.forEach((user) => {
-            if (user.totalCommits > 0) {
-              totalCount += 1;
-              totalLines += user.totalCommits;
-            }
-          });
+      let totalLines = 0;
+      let totalCount = 0;
+      this.repos.forEach((repo) => {
+        repo.users.forEach((user) => {
+          if (user.totalCommits > 0) {
+            totalCount += 1;
+            totalLines += user.totalCommits;
+          }
         });
-        meanContributionSize = totalLines / totalCount;
-      }
-      return meanContributionSize;
+      });
+
+      return totalLines / totalCount;
     },
   },
   methods: {
@@ -137,7 +135,7 @@ window.vSummary = {
     },
     getSliceLink(user, slice) {
       const { REPOS } = window;
-      const untilDate = this.filterTimeFrame === 'week' ? addDays(slice.date, 6): slice.date;
+      const untilDate = this.filterTimeFrame === 'week' ? addDays(slice.date, 6) : slice.date;
 
       return `http://github.com/${
         REPOS[user.repoId].location.organization}/${
@@ -191,7 +189,7 @@ window.vSummary = {
         }
       });
 
-      const convertBool = txt => (txt === 'true');
+      const convertBool = (txt) => (txt === 'true');
       const hash = window.hashParams;
 
       if (hash.search) { this.filterSearch = hash.search; }
@@ -233,7 +231,7 @@ window.vSummary = {
       });
 
       if (!this.filterSinceDate) {
-        if(!this.tmpFilterSinceDate || this.tmpFilterSinceDate < minDate){
+        if (!this.tmpFilterSinceDate || this.tmpFilterSinceDate < minDate) {
           this.tmpFilterSinceDate = minDate;
         }
 
@@ -242,7 +240,7 @@ window.vSummary = {
       }
 
       if (!this.filterUntilDate) {
-        if(!this.tmpFilterUntilDate || this.tmpFilterUntilDate > maxDate){
+        if (!this.tmpFilterUntilDate || this.tmpFilterUntilDate > maxDate) {
           this.tmpFilterUntilDate = maxDate;
         }
 
@@ -262,9 +260,9 @@ window.vSummary = {
         // filtering
         repo.users.forEach((user) => {
           const toDisplay = this.filterSearch.toLowerCase()
-            .split(' ').filter(param => param)
-            .map(param => user.searchPath.search(param) > -1)
-            .reduce((curr, bool) => curr || bool, false);
+              .split(' ').filter((param) => param)
+              .map((param) => user.searchPath.search(param) > -1)
+              .reduce((curr, bool) => curr || bool, false);
 
           if (!this.filterSearch || toDisplay) {
             this.getUserCommits(user);
@@ -376,10 +374,10 @@ window.vSummary = {
 
       this.filtered.forEach((users) => {
         if (this.filterGroupRepos) {
-          users.sort(comparator(ele => ele[this.filterSort]));
+          users.sort(comparator((ele) => ele[this.filterSort]));
           full.push(users);
         } else {
-          users.forEach(user => full[0].push(user));
+          users.forEach((user) => full[0].push(user));
         }
       });
 
@@ -391,7 +389,7 @@ window.vSummary = {
       }
 
       if (this.filterSortReverse) {
-        full.forEach(repo => repo.reverse());
+        full.forEach((repo) => repo.reverse());
       }
 
       this.filtered = full;
