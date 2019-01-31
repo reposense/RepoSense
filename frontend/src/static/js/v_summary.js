@@ -133,7 +133,7 @@ window.vSummary = {
       return Math.max(newSize * this.rampSize, 0.5);
     },
     getSlicePos(i, total) {
-      return (total-i-1) / total;
+      return (total - i - 1) / total;
     },
     getSliceLink(user, slice) {
       const { REPOS } = window;
