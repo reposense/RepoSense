@@ -143,6 +143,10 @@ html
 
     vuetemplate#v_authorship
       #authorship
+        form.file-picker.mui-form--inline(v-on:submit.prevent="getFilteredFiles()")
+          .file-picker__section
+            .mui-textfield
+              input.file-picker__search(type="search", placeholder="Search by glob", v-on:change="updateFilterSearch")
         .title
           a.repoName(
             v-bind:href="info.location", target="_blank",
@@ -191,5 +195,5 @@ html
 
     script(src="static/js/api.js")
     script(src="static/js/v_summary.js")
-    script(src="static/js/v_authorship.js")
+    script(src="build/v_authorship.js")
     script(src="static/js/main.js")

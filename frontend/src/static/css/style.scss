@@ -264,6 +264,17 @@ header{
         cursor: pointer;
     }
 
+    .file-picker{
+        .mui-textfield{
+            background-color:white;
+            border:1px solid grey;
+            text-align:left;
+            padding:0.5rem 0.5rem 0rem 0.5rem;
+            float:right;
+            margin-right:1.0rem;
+        }
+    }
+
     .title{
         .repoName{
             font-size:1.5rem;

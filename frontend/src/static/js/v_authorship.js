@@ -40,6 +40,7 @@ window.vAuthorship = {
       filesBlankLinesObj: {},
       totalLineCount: '',
       totalBlankLineCount: '',
+      filterSearch: '*',
     };
   },
 
@@ -180,6 +181,15 @@ window.vAuthorship = {
       } else {
         this.selectedFiles = this.files.filter((file) => this.selectedFileTypes.includes((file.path.split('.').pop())));
       }
+    },
+
+    updateFilterSearch(evt) {
+      this.filterSearch = (evt.target.value.length !== 0) ? evt.target.value : '*';
+    },
+
+    getFilteredFiles() {
+      var minimatch = require('minimatch');
+      this.selectedFiles = this.files.filter((file) => minimatch(file.path, this.filterSearch, { matchBase:true }));
     },
 
     getFileLink(file, path) {
