@@ -15,17 +15,6 @@ window.addHash = function addHash(newKey, newVal) {
   window.location.hash = hash.join('&');
 };
 
-window.removeHash = function removeHash(deleteKey) {
-  const params = window.location.hash.slice(1).split('&');
-  params.forEach((param) => {
-    const key = param.split('=')[0];
-    if (key === deleteKey) {
-      const index = params.indexOf(key);
-      params.splice(index, 1);
-    }
-  });
-  window.location.href = window.location.href.replace(window.location.hash, `#${params.join('&')}`);
-};
 
 const DRAG_BAR_WIDTH = 13.25;
 const SCROLL_BAR_WIDTH = 17;
@@ -163,6 +152,8 @@ window.app = new window.Vue({
       const hash = window.hashParams;
       if (hash.info) {
         this.updateTabAuthorship(hash.info);
+      } else if (hash.isTabOpen === false) {
+        this.isTabActive = false;
       }
     },
 
@@ -177,6 +168,8 @@ window.app = new window.Vue({
             const [innerKey, innerVal] = prop.split('=');
             info[innerKey] = decodeURIComponent(innerVal);
           });
+        } else if (key === 'isTabOpen') {
+          window.hashParams[key] = (val === 'true');
         }
       });
       if (Object.keys(info).length > 0) {
@@ -192,6 +185,25 @@ window.app = new window.Vue({
 
     generateKey(dataObj) {
       return JSON.stringify(dataObj);
+    },
+
+    removeKeyFromHash(params, deleteKey) {
+      params.forEach((param) => {
+        const key = param.split('=')[0];
+        if (key === deleteKey) {
+          const index = params.indexOf(param);
+          params.splice(index, 1);
+        }
+      });
+      return params;
+    },
+
+    addKeyToHash(params, key, val) {
+      let param = `${key}=${val}`;
+      if (!params.includes(param)) {
+        params.push(param);
+      }
+      return params;
     },
   },
   components: {
@@ -210,7 +222,10 @@ window.app = new window.Vue({
       }
     });
     if (!this.isTabActive) {
-      window.removeHash('info');
+      const hashObj = window.location.hash.slice(1).split('&');
+      let newHash = this.removeKeyFromHash(hashObj, 'info');
+      newHash = this.addKeyToHash(newHash, 'isTabOpen', this.isTabActive);
+      window.location.hash = `#${newHash.join('&')}`;
     }
   },
 });
