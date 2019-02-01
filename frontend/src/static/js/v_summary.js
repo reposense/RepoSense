@@ -130,12 +130,12 @@ window.vSummary = {
       const newSize = 100 * (slice.insertions / this.avgCommitSize);
       return Math.max(newSize * this.rampSize, 0.5);
     },
-    getSlicePos(i, total){
-      return (total-i-1) / total;
+    getSlicePos(i, total) {
+      return (total - i - 1) / total;
     },
     getSliceLink(user, slice) {
       const { REPOS } = window;
-      const untilDate = this.filterTimeFrame === 'week' ? addDays(slice.date, 6): slice.date;
+      const untilDate = this.filterTimeFrame === 'week' ? addDays(slice.date, 6) : slice.date;
 
       return `http://github.com/${
         REPOS[user.repoId].location.organization}/${
@@ -149,7 +149,6 @@ window.vSummary = {
       const res = [];
       const contributionLimit = (this.avgContributionSize * 2);
 
-      const curr = 0;
       const cnt = parseInt(totalContribution / contributionLimit, 10);
       for (let cntId = 0; cntId < cnt; cntId += 1) {
         res.push(100);
@@ -343,7 +342,7 @@ window.vSummary = {
       }
 
       user.dailyCommits.forEach((commit) => {
-        const date = commit.date;
+        const { date } = commit;
         if (date >= sinceDate && date <= untilDate) {
           user.commits.push(commit);
         }
