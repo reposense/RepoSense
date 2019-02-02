@@ -1681,6 +1681,24 @@
     "Esilocke": 3348,
     "wangyiming1019": 1966
   },
+  "authorFileTypeContributionMap": {
+    "charlesgoh": {
+      "java": 856,
+      "adoc": 124
+    },
+    "jeffreygohkw": {
+      "java": 1911,
+      "adoc": 211
+    },
+    "Esilocke": {
+      "java": 2915,
+      "adoc": 433
+    },
+    "wangyiming1019": {
+      "java": 1966,
+      "adoc": 0
+    }
+  },
   "authorContributionVariance": {
     "charlesgoh": 9899.015,
     "jeffreygohkw": 17592.416,

@@ -1033,6 +1033,20 @@
     "April0616": 154,
     "nbr": 48
   },
+  "authorFileTypeContributionMap": {
+    "zacharytang": {
+      "fxml": 92
+    },
+    "CindyTsai1": {
+      "fxml": 0
+    },
+    "April0616": {
+      "fxml": 154
+    },
+    "nbr": {
+      "fxml": 48
+    }
+  },
   "authorContributionVariance": {
     "zacharytang": 344.84183,
     "CindyTsai1": 0.027006157,

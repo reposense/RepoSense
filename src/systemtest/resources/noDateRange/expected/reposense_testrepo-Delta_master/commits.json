@@ -1297,6 +1297,28 @@
     "codeeong": 2090,
     "jordancjq": 0
   },
+  "authorFileTypeContributionMap": {
+    "lithiumlkid": {
+      "java": 0,
+      "md": 0,
+      "adoc": 360
+    },
+    "lohtianwei": {
+      "java": 1817,
+      "md": 0,
+      "adoc": 304
+    },
+    "codeeong": {
+      "java": 1685,
+      "md": 0,
+      "adoc": 405
+    },
+    "jordancjq": {
+      "java": 0,
+      "md": 0,
+      "adoc": 0
+    }
+  },
   "authorContributionVariance": {
     "lithiumlkid": 1465.0459,
     "lohtianwei": 15288.368,
