@@ -58,6 +58,7 @@ window.vSummary = {
       rampSize: 0.01,
       minDate: '',
       maxDate: '',
+      contributionBarColors: {},
     };
   },
   watch: {
@@ -145,21 +146,40 @@ window.vSummary = {
                 + `since=${slice.sinceDate}'T'00:00:00+08:00&`
                 + `until=${untilDate}'T'23:59:59+08:00`;
     },
-    getContributionBars(totalContribution) {
-      const res = [];
+    getContributionBars(fileTypeContribution) {
+      let totalWidth = 0;
       const contributionLimit = (this.avgContributionSize * 2);
+      const totalBars = {};
+      const maxLength = 100;
 
-      const cnt = parseInt(totalContribution / contributionLimit, 10);
-      for (let cntId = 0; cntId < cnt; cntId += 1) {
-        res.push(100);
-      }
+      Object.keys(fileTypeContribution).forEach((fileType) => {
+        const contribution = fileTypeContribution[fileType];
+        const res = [];
+        let fileTypeWidth = 0;
 
-      const last = (totalContribution % contributionLimit) / contributionLimit;
-      if (last !== 0) {
-        res.push(last * 100);
-      }
+        const cnt = parseInt(contribution / contributionLimit, 10);
+        for (let cntId = 0; cntId < cnt; cntId += 1) {
+          res.push(maxLength);
+          fileTypeWidth += maxLength;
+          totalWidth += maxLength;
+        }
 
-      return res;
+        const last = (contribution % contributionLimit) / contributionLimit;
+        if (last !== 0) {
+          res.push(last * maxLength);
+          fileTypeWidth += last * maxLength;
+          totalWidth += last * maxLength;
+        }
+
+        if (totalWidth > maxLength) {
+          res.unshift(maxLength - (totalWidth - fileTypeWidth));
+          res[res.length - 1] = res[res.length - 1] - (maxLength - (totalWidth - fileTypeWidth));
+          totalWidth = res[res.length - 1];
+        }
+        totalBars[fileType] = res;
+      });
+
+      return totalBars;
     },
 
     // model functions //
@@ -282,6 +302,43 @@ window.vSummary = {
       this.getDates();
       this.sortFiltered();
     },
+    processFileTypes() {
+      const selectedColors = ['#e6194b', '#3cb44b', '#ffe119', '#4363d8', '#f58231', '#911eb4', '#46f0f0', '#f032e6',
+        '#bcf60c', '#fabebe', '#008080', '#e6beff', '#9a6324', '#fffac8', '#800000', '#aaffc3', '#808000', '#ffd8b1',
+        '#000075', '#808080'];
+
+      this.repos.forEach((repo) => {
+        const user = repo.users[0];
+        const colors = {};
+        let i = 0;
+        if (this.isDefaultFileFormats(Object.keys(user.fileTypeContribution))) {
+          user.fileTypeContribution = this.sortKeysAlphabetically(user.fileTypeContribution);
+        }
+        Object.keys(user.fileTypeContribution).forEach((fileType) => {
+          colors[fileType] = selectedColors[i];
+          i = (i + 1) % selectedColors.length;
+        });
+        this.contributionBarColors[user.repoPath] = colors;
+      });
+    },
+    isDefaultFileFormats(fileFormats) {
+      const defaultFileFormats = ['adoc', 'cs', 'css', 'fxml', 'gradle', 'html', 'java', 'js', 'json', 'jsp', 'md',
+        'py', 'tag', 'txt', 'xml'];
+      if (fileFormats.length === defaultFileFormats.length) {
+        fileFormats.sort();
+        if (fileFormats.toString() === defaultFileFormats.toString()) {
+          return true;
+        }
+      }
+      return false;
+    },
+    sortKeysAlphabetically(fileTypeContribution) {
+      return Object.keys(fileTypeContribution)
+          .sort()
+          .reduce((acc, key) => ({
+            ...acc, [key]: fileTypeContribution[key],
+          }), {});
+    },
     splitCommitsWeek(user) {
       const { commits } = user;
       const leng = commits.length;
@@ -399,5 +456,6 @@ window.vSummary = {
   created() {
     this.renderFilterHash();
     this.getFiltered();
+    this.processFileTypes();
   },
 };
