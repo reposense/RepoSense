@@ -66,7 +66,6 @@ public class AuthorConfiguration {
 
     @Override
     public boolean equals(Object other) {
-
         if (other == this) {
             return true;
         }
@@ -77,11 +76,11 @@ public class AuthorConfiguration {
 
         AuthorConfiguration otherAuthorConfig = (AuthorConfiguration) other;
 
-        return location.equals(otherAuthorConfig.getLocation())
-                && branch.equals(otherAuthorConfig.getBranch())
-                && authorList.equals(otherAuthorConfig.getAuthorList())
-                && authorEmailsAndAliasesMap.equals(otherAuthorConfig.getAuthorEmailsAndAliasesMap())
-                && authorDisplayNameMap.equals(otherAuthorConfig.getAuthorDisplayNameMap());
+        return location.equals(otherAuthorConfig.location)
+                && branch.equals(otherAuthorConfig.branch)
+                && authorList.equals(otherAuthorConfig.authorList)
+                && authorEmailsAndAliasesMap.equals(otherAuthorConfig.authorEmailsAndAliasesMap)
+                && authorDisplayNameMap.equals(otherAuthorConfig.authorDisplayNameMap);
     }
 
     public Map<Author, String> getAuthorDisplayNameMap() {
@@ -105,7 +104,7 @@ public class AuthorConfiguration {
     }
 
     /**
-     * Sets the details of {@code author} to {@code RepoConfiguration} including the default alias, alias
+     * Sets the details of {@code author} to {@code RepoConfiguration} including the default alias, aliases
      * and display name.
      */
     private void setAuthorDetails(Author author) {
@@ -119,7 +118,7 @@ public class AuthorConfiguration {
     }
 
     /**
-     * Propagates {@code IgnoreGlobList} to {@code author}.
+     * Propagates {@code ignoreGlobList} to {@code author}.
      */
     public static void propagateIgnoreGlobList(Author author, List<String> ignoreGlobList) {
         author.appendIgnoreGlobList(ignoreGlobList);

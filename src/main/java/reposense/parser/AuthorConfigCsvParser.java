@@ -54,7 +54,7 @@ public class AuthorConfigCsvParser extends CsvParser<AuthorConfiguration> {
         List<String> aliases = getManyValueInElement(elements, ALIAS_POSITION);
         List<String> ignoreGlobList = getManyValueInElement(elements, IGNORE_GLOB_LIST_POSITION);
 
-        AuthorConfiguration config = getAuthorConfiguration(results, location, branch);
+        AuthorConfiguration config = findMatchingAuthorConfiguration(results, location, branch);
 
         Author author = new Author(gitHubId);
 
@@ -79,7 +79,7 @@ public class AuthorConfigCsvParser extends CsvParser<AuthorConfiguration> {
      *
      * @throws InvalidLocationException if {@code location} is invalid.
      */
-    private static AuthorConfiguration getAuthorConfiguration(
+    private static AuthorConfiguration findMatchingAuthorConfiguration(
             List<AuthorConfiguration> results, String location, String branch) throws InvalidLocationException {
         AuthorConfiguration config = new AuthorConfiguration(new RepoLocation(location), branch);
 
