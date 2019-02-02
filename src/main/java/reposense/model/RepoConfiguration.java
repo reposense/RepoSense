@@ -6,7 +6,6 @@ import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
-import java.util.Objects;
 import java.util.Optional;
 import java.util.logging.Logger;
 
@@ -163,13 +162,14 @@ public class RepoConfiguration {
             return false;
         }
 
-        return hashCode() == ((RepoConfiguration) other).hashCode()
-                && authorConfig.equals(((RepoConfiguration) other).authorConfig);
-    }
+        RepoConfiguration otherRepoConfig = (RepoConfiguration) other;
 
-    @Override
-    public int hashCode() {
-        return Objects.hash(location, branch);
+        return location.equals(otherRepoConfig.location)
+                && branch.equals(otherRepoConfig.branch)
+                && authorConfig.equals(otherRepoConfig.authorConfig)
+                && ignoreGlobList.equals(otherRepoConfig.ignoreGlobList)
+                && isStandaloneConfigIgnored == otherRepoConfig.isStandaloneConfigIgnored
+                && formats.equals(otherRepoConfig.formats);
     }
 
     public Map<Author, String> getAuthorDisplayNameMap() {
