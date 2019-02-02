@@ -111,7 +111,8 @@ html
                   title="click to view author's code",
                   v-on:click="$emit('view-authorship', \
                       {author:user.name, repo:user.repoName, name:user.displayName, location:repo[0].location, \
-                          minDate:minDate, maxDate:maxDate, totalCommits:user.totalCommits})"
+                          minDate:minDate, maxDate:maxDate, totalCommits:user.totalCommits, \
+                              filesLinesObj:user.fileTypeContribution})"
                 )
                   i.summary-chart__title--button.fas.fa-code
                 a(
@@ -156,10 +157,10 @@ html
                 span.select(v-bind:title="getTotalFileBlankLineInfo()") All:&nbsp;
                 span.loc(v-bind:title="getTotalFileBlankLineInfo()") {{ totalLineCount }}&nbsp;
                 span.bloc(v-bind:title="getTotalFileBlankLineInfo()") ({{ totalBlankLineCount }})
-              template(v-for="type in Object.keys(filesLinesObj)")
+              template(v-for="type in Object.keys(filesExistingLinesObj)", v-bind:key="type")
                 label
                   input(type="checkbox" :value="type" v-model="selectedFileTypes" v-on:change="selectFile").mui-checkbox
-                  span(v-bind:title="getFileBlankLineInfo(type)") {{ type }}: {{ filesLinesObj[type] }}&nbsp;
+                  span(v-bind:title="getFileBlankLineInfo(type)") {{ type }}: {{ filesExistingLinesObj[type] }}&nbsp;
                   span.bloc(v-bind:title="getFileBlankLineInfo(type)") ({{ filesBlankLinesObj[type] }})
 
         .files(v-if="isLoaded")

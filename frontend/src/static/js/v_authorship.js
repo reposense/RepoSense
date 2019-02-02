@@ -36,13 +36,21 @@ window.vAuthorship = {
       selectedFileTypes: [],
       fileTypes: [],
       selectedFiles: [],
-      filesLinesObj: {},
       filesBlankLinesObj: {},
       totalLineCount: '',
       totalBlankLineCount: '',
     };
   },
 
+  computed: {
+    filesExistingLinesObj() {
+      return Object.keys(this.info.filesLinesObj)
+          .filter((type) => this.info.filesLinesObj[type] > 0)
+          .reduce((acc, key) => ({
+            ...acc, [key]: this.info.filesLinesObj[key],
+          }), {});
+    },
+  },
   methods: {
     initiate() {
       const repo = window.REPOS[this.info.repo];
@@ -99,7 +107,6 @@ window.vAuthorship = {
 
     processFiles(files) {
       const res = [];
-      const filesInfoObj = {};
       const filesBlanksInfoObj = {};
       let totalLineCount = 0;
       let totalBlankLineCount = 0;
@@ -111,12 +118,12 @@ window.vAuthorship = {
           const out = {};
           out.path = file.path;
           out.lineCount = lineCnt;
-          this.addLineCountToFileType(file.path, lineCnt, filesInfoObj);
 
           const segmentInfo = this.splitSegments(file.lines);
           out.segments = segmentInfo.segments;
           totalBlankLineCount += segmentInfo.blankLineCount;
-          this.addLineCountToFileType(file.path, segmentInfo.blankLineCount, filesBlanksInfoObj);
+          this.addBlankLineCountToFileType(file.path, segmentInfo.blankLineCount,
+              filesBlanksInfoObj);
           res.push(out);
         }
       });
@@ -125,8 +132,7 @@ window.vAuthorship = {
       this.totalBlankLineCount = totalBlankLineCount;
       res.sort((a, b) => b.lineCount - a.lineCount);
 
-      this.filesLinesObj = this.sortFileTypeAlphabetically(filesInfoObj);
-      Object.keys(filesInfoObj).forEach((file) => {
+      Object.keys(this.info.filesLinesObj).forEach((file) => {
         this.selectedFileTypes.push(file);
         this.fileTypes.push(file);
       });
@@ -137,7 +143,7 @@ window.vAuthorship = {
       this.isLoaded = true;
     },
 
-    addLineCountToFileType(path, lineCount, filesInfoObj) {
+    addBlankLineCountToFileType(path, lineCount, filesInfoObj) {
       let fileType = path.split('.').pop();
       fileType = (fileType.length === 0) ? 'others' : fileType;
 
@@ -146,14 +152,6 @@ window.vAuthorship = {
       }
 
       filesInfoObj[fileType] += lineCount;
-    },
-
-    sortFileTypeAlphabetically(unsortedFilesInfoObj) {
-      return Object.keys(unsortedFilesInfoObj)
-          .sort()
-          .reduce((acc, key) => ({
-            ...acc, [key]: unsortedFilesInfoObj[key],
-          }), {});
     },
 
     selectAll() {
@@ -192,7 +190,7 @@ window.vAuthorship = {
     getFileBlankLineInfo(fileType) {
       return `${fileType}: Blank: ${
         this.filesBlankLinesObj[fileType]}, Non-Blank: ${
-        this.filesLinesObj[fileType] - this.filesBlankLinesObj[fileType]}`;
+        this.info.filesLinesObj[fileType] - this.filesBlankLinesObj[fileType]}`;
     },
 
     getTotalFileBlankLineInfo() {
