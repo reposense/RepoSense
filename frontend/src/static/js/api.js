@@ -59,6 +59,7 @@ window.api = {
             weeklyCommits: commits.authorWeeklyIntervalContributions[author],
             dailyCommits: commits.authorDailyIntervalContributions[author],
             totalCommits: commits.authorFinalContributionMap[author],
+            fileTypeContribution: commits.authorFileTypeContributionMap[author],
           };
 
           const searchParams = [

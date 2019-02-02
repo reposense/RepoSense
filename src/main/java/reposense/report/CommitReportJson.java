@@ -17,6 +17,7 @@ public class CommitReportJson {
     private final Map<Author, List<AuthorIntervalContribution>> authorWeeklyIntervalContributions;
     private final Map<Author, List<AuthorIntervalContribution>> authorDailyIntervalContributions;
     private final Map<Author, Integer> authorFinalContributionMap;
+    private final Map<Author, HashMap<String, Integer>> authorFileTypeContributionMap;
     private final Map<Author, Float> authorContributionVariance;
     private final Map<Author, String> authorDisplayNameMap;
 
@@ -34,6 +35,9 @@ public class CommitReportJson {
         authorFinalContributionMap = new HashMap<>();
         authorFinalContributionMap.put(emptyAuthor, 0);
 
+        authorFileTypeContributionMap = new HashMap<>();
+        authorFileTypeContributionMap.put(emptyAuthor, new HashMap<>());
+
         authorContributionVariance = new HashMap<>();
         authorContributionVariance.put(emptyAuthor, (float) 0.0);
 
@@ -45,6 +49,7 @@ public class CommitReportJson {
         authorWeeklyIntervalContributions = commitSummary.getAuthorWeeklyIntervalContributions();
         authorDailyIntervalContributions = commitSummary.getAuthorDailyIntervalContributions();
         authorFinalContributionMap = authorshipSummary.getAuthorFinalContributionMap();
+        authorFileTypeContributionMap = authorshipSummary.getAuthorFileTypeContributionMap();
         authorContributionVariance = commitSummary.getAuthorContributionVariance();
         authorDisplayNameMap = commitSummary.getAuthorDisplayNameMap();
     }
