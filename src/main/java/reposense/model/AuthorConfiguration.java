@@ -104,7 +104,7 @@ public class AuthorConfiguration {
     }
 
     /**
-     * Sets the details of {@code author} to {@code RepoConfiguration} including the default alias, aliases
+     * Sets the details of {@code author} to {@code AuthorConfiguration} including the default alias, aliases
      * and display name.
      */
     private void setAuthorDetails(Author author) {
@@ -134,6 +134,10 @@ public class AuthorConfiguration {
         propagateIgnoreGlobList(author, ignoreGlobList);
     }
 
+    /**
+     * Adds new authors from {@code authorList} and sets the default alias, aliases, emails and display name
+     * of the new authors. Skips authors that have already been added previously.
+     */
     public void addAuthors(List<Author> authorList, List<String> ignoreGlobList) {
         for (Author author : authorList) {
             if (containsAuthor(author)) {
@@ -154,6 +158,10 @@ public class AuthorConfiguration {
         this.authorList = authorList;
     }
 
+    /**
+     * Clears {@code authorEmailsAndAliasesMap} and {@code authorDisplayNameMap} and resets them with the details
+     * of authors in {@code authorList}
+     */
     public void resetAuthorInformation(List<String> ignoreGlobList) {
         authorEmailsAndAliasesMap.clear();
         authorDisplayNameMap.clear();
