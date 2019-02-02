@@ -64,6 +64,12 @@ window.deregisterMouseMove = () => {
   window.$('app-wrapper').style['user-select'] = 'auto';
 };
 
+Vue.directive('hljs', {
+  inserted: function(ele) {
+    hljs.highlightBlock(ele);
+  },
+});
+
 window.app = new window.Vue({
   el: '#app',
   data: {
