@@ -41,6 +41,7 @@ public class FileInfoExtractor {
     private static final String FILE_DELETED_SYMBOL = "/dev/null";
     private static final String MATCH_GROUP_FAIL_MESSAGE_FORMAT = "Failed to match the %s group for:\n%s";
     private static final String INVALID_FILE_PATH_MESSAGE_FORMAT = "Invalid file path %s provided, skipping this file.";
+    private static final String GIT_DIRECTORY = ".git";
 
     private static final int LINE_CHANGED_HEADER_INDEX = 0;
 
@@ -165,7 +166,7 @@ public class FileInfoExtractor {
         try (Stream<Path> pathStream = Files.list(directory)) {
             for (Path filePath : pathStream.collect(Collectors.toList())) {
                 String relativePath = filePath.toString().substring(config.getRepoRoot().length());
-                if (Files.isDirectory(filePath)) {
+                if (Files.isDirectory(filePath) && !relativePath.equals(GIT_DIRECTORY)) {
                     getAllFileInfo(config, filePath, fileInfos);
                     continue;
                 }
