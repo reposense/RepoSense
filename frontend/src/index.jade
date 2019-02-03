@@ -166,7 +166,7 @@ html
           .empty(v-if="files.length===0") nothing to see here :(
           .file.active(v-for="file in selectedFiles", v-bind:key="file.path")
             .title
-              span.path(onclick="toggleNext(this)") {{ file.path }}&nbsp;
+              span.path(onclick="toggleNext(this.parentNode)") {{ file.path }}&nbsp;
               span.loc ({{ file.lineCount }} lines)
               a(
                 v-bind:href="getFileLink(file, 'commits')", target="_blank",
