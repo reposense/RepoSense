@@ -65,9 +65,11 @@ window.deregisterMouseMove = () => {
 };
 
 Vue.directive('hljs', {
-  inserted: function(ele) {
+  inserted (ele, binding) {
+    file_extension = binding.value.split('.').pop();
+    ele.className = file_extension
     hljs.highlightBlock(ele);
-  },
+  }
 });
 
 window.app = new window.Vue({
