@@ -212,7 +212,6 @@ window.vSummary = {
       }
 
       let minDate = '';
-      let maxDate = '';
       this.filtered.forEach((repo) => {
         repo.forEach((user) => {
           const { commits } = user;
@@ -222,12 +221,15 @@ window.vSummary = {
             if (!minDate || minDate > date1) {
               minDate = date1;
             }
-            if (!maxDate || maxDate < date2) {
-              maxDate = date2;
-            }
           }
         });
       });
+      const creationDateArray = window.app.creationDate.split(' ');
+      const year = creationDateArray.pop();
+      creationDateArray.pop();
+      const maxDate = window
+          .moment(`${creationDateArray.join(' ')} ${year}`, 'ddd MMM D HH:mm:ss YYYY')
+          .format('YYYY-MM-DD');
 
       if (!this.filterSinceDate) {
         if (!this.tmpFilterSinceDate || this.tmpFilterSinceDate < minDate) {
