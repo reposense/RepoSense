@@ -64,12 +64,15 @@ window.deregisterMouseMove = () => {
   window.$('app-wrapper').style['user-select'] = 'auto';
 };
 
+/* global Vue hljs */
 Vue.directive('hljs', {
-  inserted (ele, binding) {
-    file_extension = binding.value.split('.').pop();
-    ele.className = file_extension
-    hljs.highlightBlock(ele);
-  }
+  inserted(ele, binding) {
+    const element = ele;
+    const fileExtension = binding.value.split('.').pop();
+
+    element.className = fileExtension;
+    hljs.highlightBlock(element);
+  },
 });
 
 window.app = new window.Vue({
