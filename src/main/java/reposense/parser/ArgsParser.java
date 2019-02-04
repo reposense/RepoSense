@@ -49,7 +49,7 @@ public class ArgsParser {
         mutexParser.addArgument("-config")
                 .type(new ConfigFolderArgumentType())
                 .metavar("PATH")
-                .setDefault(EMPTY_PATH.toAbsolutePath())
+                .setDefault(EMPTY_PATH)
                 .help("The directory containing the config files."
                         + "If not provided, the config files will be obtained from the current working directory.");
 
@@ -124,7 +124,8 @@ public class ArgsParser {
 
             verifyDatesRangeIsCorrect(sinceDate, untilDate);
 
-            if (reportFolderPath != null && !reportFolderPath.equals(EMPTY_PATH)) {
+            if (reportFolderPath != null && !reportFolderPath.equals(EMPTY_PATH) && configFolderPath.equals(EMPTY_PATH)
+                && locations == null) {
                 return new ViewCliArguments(reportFolderPath);
             }
 

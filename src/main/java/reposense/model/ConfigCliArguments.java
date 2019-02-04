@@ -1,6 +1,7 @@
 package reposense.model;
 
 import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
@@ -12,13 +13,19 @@ import reposense.parser.RepoConfigCsvParser;
  * Represents command line arguments user supplied when running the program with mandatory field -config.
  */
 public class ConfigCliArguments extends CliArguments {
+    private static final Path EMPTY_PATH = Paths.get("");
+
     private Path configFolderPath;
     private Path repoConfigFilePath;
     private Path authorConfigFilePath;
 
     public ConfigCliArguments(Path configFolderPath, Path outputFilePath, Optional<Date> sinceDate,
             Optional<Date> untilDate, List<Format> formats, boolean isAutomaticallyLaunching) {
-        this.configFolderPath = configFolderPath;
+        if (configFolderPath.equals(EMPTY_PATH)) {
+            this.configFolderPath = configFolderPath.toAbsolutePath();
+        } else {
+            this.configFolderPath = configFolderPath;
+        }
         this.repoConfigFilePath = configFolderPath.resolve(RepoConfigCsvParser.REPO_CONFIG_FILENAME);
         this.authorConfigFilePath = configFolderPath.resolve(AuthorConfigCsvParser.AUTHOR_CONFIG_FILENAME);
         this.outputFilePath = outputFilePath;
