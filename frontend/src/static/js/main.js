@@ -209,7 +209,7 @@ window.app = new window.Vue({
     },
 
     addKeyToHash(params, key, val) {
-      let param = `${key}=${val}`;
+      const param = `${key}=${val}`;
       if (!params.includes(param)) {
         params.push(param);
       }
