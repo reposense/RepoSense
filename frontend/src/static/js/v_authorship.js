@@ -215,12 +215,4 @@ window.vAuthorship = {
   created() {
     this.initiate();
   },
-
-  updated() {
-    this.$nextTick(() => {
-      document.querySelectorAll('pre.hljs code').forEach((ele) => {
-        window.hljs.highlightBlock(ele);
-      });
-    });
-  },
 };
