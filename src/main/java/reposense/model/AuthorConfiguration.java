@@ -159,8 +159,7 @@ public class AuthorConfiguration {
     }
 
     /**
-     * Clears {@code authorEmailsAndAliasesMap} and {@code authorDisplayNameMap} and resets them with the details
-     * of authors in {@code authorList}
+     * Clears author mapping information and resets it with the details of current author list.
      */
     public void resetAuthorInformation(List<String> ignoreGlobList) {
         authorEmailsAndAliasesMap.clear();
