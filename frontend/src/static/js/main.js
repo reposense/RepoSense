@@ -64,6 +64,16 @@ window.deregisterMouseMove = () => {
   window.$('app-wrapper').style['user-select'] = 'auto';
 };
 
+/* global Vue hljs */
+Vue.directive('hljs', {
+  inserted(ele, binding) {
+    const element = ele;
+    element.className = binding.value.split('.').pop();
+
+    hljs.highlightBlock(element);
+  },
+});
+
 window.app = new window.Vue({
   el: '#app',
   data: {
