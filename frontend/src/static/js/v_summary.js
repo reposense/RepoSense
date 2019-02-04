@@ -217,7 +217,6 @@ window.vSummary = {
           const { commits } = user;
           if (commits.length) {
             const date1 = commits[0].sinceDate;
-            const date2 = commits[commits.length - 1].sinceDate;
             if (!minDate || minDate > date1) {
               minDate = date1;
             }
