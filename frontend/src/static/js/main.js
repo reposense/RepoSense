@@ -68,9 +68,8 @@ window.deregisterMouseMove = () => {
 Vue.directive('hljs', {
   inserted(ele, binding) {
     const element = ele;
-    const fileExtension = binding.value.split('.').pop();
+    element.className = binding.value.split('.').pop();
 
-    element.className = fileExtension;
     hljs.highlightBlock(element);
   },
 });
