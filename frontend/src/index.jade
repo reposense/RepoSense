@@ -4,6 +4,7 @@ html
     link(rel="stylesheet", href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.0/normalize.min.css")
     link(rel="stylesheet", href="https://cdnjs.cloudflare.com/ajax/libs/muicss/0.9.39/css/mui.min.css")
     link(rel="stylesheet", href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/color-brewer.min.css")
+    link(rel="stylesheet", href="https://unpkg.com/vue-loading-spinner@1.0.11/dist/vue-loading-spinner.css")
     link(rel="stylesheet", href="static/css/style.css")
 
     script(src="https://use.fontawesome.com/releases/v5.0.13/js/all.js", defer=True)
@@ -11,9 +12,12 @@ html
     script(src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.5/jszip.min.js")
 
     script(src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js")
+    script(src="https://unpkg.com/vue-loading-spinner@1.0.11/dist/vue-loading-spinner.js")
   body
     div#app
-      #app-wrapper(v-if="userUpdated")
+      #app-wrapper(v-if="userUpdated", onmousemove="mouseMove(event)",
+        onmouseup="deregisterMouseMove()", onmouseleave="deregisterMouseMove()")
+        #tab-resize-guide
         #summary-wrapper
           .summary-status(v-if="loadedRepo<repoLength") Loading repos ... {{ loadedRepo }} / {{ repoLength }}
           v_summary(
@@ -27,6 +31,7 @@ html
             span &nbsp; on {{ creationDate }}
 
         #tabs-wrapper(v-if="isTabActive")
+          #tab-resize(onmousedown="registerMouseMove()")
           .tab-close(v-on:click="isTabActive=false")
             i.fas.fa-caret-right
           .tab-content
@@ -38,12 +43,24 @@ html
                 v_authorship(
                   v-bind:key="generateKey(tabInfo.tabAuthorship)",
                   v-bind:info="tabInfo.tabAuthorship")
+              #tab-empty.tab-pane(v-else)
+                .title
+                  span To view the code attributed to a specific author, click the &nbsp;
+                  i.fas.fa-code
+                  span &nbsp; icon next to that author's name.
+                  br
+                  span To hide the code view, click the &nbsp;
+                  i.fas.fa-caret-right
+                  span &nbsp; icon on the left.
 
       template(v-else)
         .empty please enter a report directory or upload a report zip
 
         form#file-upload(onsubmit="return false;")
           input(type="file", v-on:change="updateReportZip")
+          .loader(v-if="isLoading")
+            circle-spinner
+            .loading Loading resources...
 
     vuetemplate#v_summary
       #summary.wrapper
@@ -148,11 +165,21 @@ html
         .files(v-if="isLoaded")
           .empty(v-if="files.length===0") nothing to see here :(
           .file.active(v-for="file in selectedFiles", v-bind:key="file.path")
-            .title(onclick="toggleNext(this)")
-              span {{ file.path }}&nbsp;
+            .title
+              span.path(onclick="toggleNext(this.parentNode)") {{ file.path }}&nbsp;
               span.loc ({{ file.lineCount }} lines)
-            pre.hljs.java
-              code
+              a(
+                v-bind:href="getFileLink(file, 'commits')", target="_blank",
+                title="click to view the history view of file"
+              )
+                i.button.fas.fa-history
+              a(
+                v-bind:href="getFileLink(file, 'blame')", target="_blank",
+                title="click to view the blame view of file"
+              )
+                i.button.fas.fa-user-edit
+            pre.hljs
+              div(v-hljs="file.path")
                 template(v-for="segment in file.segments")
                   .segment(v-bind:class="{ untouched: !segment.authored, active: segment.lines.length<5 }")
                     .closer(v-if="!segment.authored && segment.lines.length>4", onclick="toggleNext(this)")
