@@ -1300,23 +1300,23 @@
   "authorFileTypeContributionMap": {
     "lithiumlkid": {
       "java": 0,
-      "md": 0,
-      "adoc": 360
+      "adoc": 360,
+      "md": 0
     },
     "lohtianwei": {
       "java": 1817,
-      "md": 0,
-      "adoc": 304
+      "adoc": 304,
+      "md": 0
     },
     "codeeong": {
       "java": 1685,
-      "md": 0,
-      "adoc": 405
+      "adoc": 405,
+      "md": 0
     },
     "jordancjq": {
       "java": 0,
-      "md": 0,
-      "adoc": 0
+      "adoc": 0,
+      "md": 0
     }
   },
   "authorContributionVariance": {
