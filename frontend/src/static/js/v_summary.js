@@ -311,33 +311,12 @@ window.vSummary = {
         const user = repo.users[0];
         const colors = {};
         let i = 0;
-        if (this.isDefaultFileFormats(Object.keys(user.fileTypeContribution))) {
-          user.fileTypeContribution = this.sortKeysAlphabetically(user.fileTypeContribution);
-        }
         Object.keys(user.fileTypeContribution).forEach((fileType) => {
           colors[fileType] = selectedColors[i];
           i = (i + 1) % selectedColors.length;
         });
         this.contributionBarColors[user.repoPath] = colors;
       });
-    },
-    isDefaultFileFormats(fileFormats) {
-      const defaultFileFormats = ['adoc', 'cs', 'css', 'fxml', 'gradle', 'html', 'java', 'js', 'json', 'jsp', 'md',
-        'py', 'tag', 'txt', 'xml'];
-      if (fileFormats.length === defaultFileFormats.length) {
-        fileFormats.sort();
-        if (fileFormats.toString() === defaultFileFormats.toString()) {
-          return true;
-        }
-      }
-      return false;
-    },
-    sortKeysAlphabetically(fileTypeContribution) {
-      return Object.keys(fileTypeContribution)
-          .sort()
-          .reduce((acc, key) => ({
-            ...acc, [key]: fileTypeContribution[key],
-          }), {});
     },
     splitCommitsWeek(user) {
       const { commits } = user;

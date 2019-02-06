@@ -1,6 +1,7 @@
 package reposense.authorship.model;
 
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 
 import reposense.model.Author;
@@ -12,7 +13,7 @@ import reposense.model.Format;
 public class AuthorshipSummary {
     private final List<FileResult> fileResults;
     private final HashMap<Author, Integer> authorFinalContributionMap;
-    private final HashMap<Author, HashMap<String, Integer>> authorFileTypeContributionMap;
+    private final HashMap<Author, LinkedHashMap<String, Integer>> authorFileTypeContributionMap;
 
     public AuthorshipSummary(List<FileResult> fileResults, List<Author> authors, List<Format> formats) {
         this.fileResults = fileResults;
@@ -22,7 +23,7 @@ public class AuthorshipSummary {
         // initialise each author contribution to be 0
         authors.forEach((author) -> authorFinalContributionMap.put(author, 0));
         authors.forEach((author) -> {
-            HashMap<String, Integer> defaultFileTypeContribution = new HashMap<>();
+            LinkedHashMap<String, Integer> defaultFileTypeContribution = new LinkedHashMap<>();
             for (Format format : formats) {
                 defaultFileTypeContribution.put(format.toString(), 0);
             }
@@ -36,7 +37,7 @@ public class AuthorshipSummary {
     public void addAuthorContributionCount(Author author, String filePath) {
         authorFinalContributionMap.put(author, authorFinalContributionMap.get(author) + 1);
 
-        HashMap<String, Integer> fileTypeContributionMap = authorFileTypeContributionMap.get(author);
+        LinkedHashMap<String, Integer> fileTypeContributionMap = authorFileTypeContributionMap.get(author);
         String fileType = filePath.substring(filePath.lastIndexOf('.') + 1);
         fileType = (fileType.isEmpty()) ? "others" : fileType;
         fileTypeContributionMap.put(fileType, fileTypeContributionMap.getOrDefault(fileType, 0) + 1);
@@ -46,7 +47,7 @@ public class AuthorshipSummary {
         return authorFinalContributionMap;
     }
 
-    public HashMap<Author, HashMap<String, Integer>> getAuthorFileTypeContributionMap() {
+    public HashMap<Author, LinkedHashMap<String, Integer>> getAuthorFileTypeContributionMap() {
         return authorFileTypeContributionMap;
     }
 
