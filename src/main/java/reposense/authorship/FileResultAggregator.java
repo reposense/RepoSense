@@ -16,7 +16,7 @@ public class FileResultAggregator {
     /**
      * Returns the {@code AuthorshipSummary} generated from aggregating the {@code fileResults}.
      */
-    public static AuthorshipSummary aggregateFileResult(List<FileResult> fileResults, List<Author> authors, 
+    public static AuthorshipSummary aggregateFileResult(List<FileResult> fileResults, List<Author> authors,
         List<Format> formats) {
         AuthorshipSummary authorContributionSummary = new AuthorshipSummary(fileResults, authors, formats);
         for (FileResult fileResult : fileResults) {
