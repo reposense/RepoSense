@@ -166,7 +166,7 @@ html
           .empty(v-if="files.length===0") nothing to see here :(
           .file.active(v-for="file in selectedFiles", v-bind:key="file.path")
             .title
-              span.path(onclick="toggleNext(this)") {{ file.path }}&nbsp;
+              span.path(onclick="toggleNext(this.parentNode)") {{ file.path }}&nbsp;
               span.loc ({{ file.lineCount }} lines)
               a(
                 v-bind:href="getFileLink(file, 'commits')", target="_blank",
@@ -178,8 +178,8 @@ html
                 title="click to view the blame view of file"
               )
                 i.button.fas.fa-user-edit
-            pre.hljs.java
-              code
+            pre.hljs
+              div(v-hljs="file.path")
                 template(v-for="segment in file.segments")
                   .segment(v-bind:class="{ untouched: !segment.authored, active: segment.lines.length<5 }")
                     .closer(v-if="!segment.authored && segment.lines.length>4", onclick="toggleNext(this)")
