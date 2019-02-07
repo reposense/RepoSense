@@ -203,7 +203,7 @@ window.vAuthorship = {
 
     renderFile(file) {
       let content = `########################################## ${file.path}\n`;
-      var lineNum = 1;
+      let lineNum = 1;
       file.segments.forEach((seg) => {
         if (seg.authored) {
           content += this.generateLineNumbers(lineNum, lineNum + seg.lines.length - 1);
@@ -228,21 +228,20 @@ window.vAuthorship = {
         return;
       }
       let text = '';
+      let filename = `${this.info.repo}_${this.info.author}`;
+      let element = document.createElement('a');
       this.filesSelectedForDownload.forEach((file) => {
         text += this.renderFile(file);
         text += '\n\n';
-
       });
-      var filename = this.info.repo + '_' + this.info.author;
-      var element = document.createElement('a');
-      element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(text));
+      element.setAttribute('href', `data:text/plain;charset=utf-8${encodeURIComponent(text)}`);
       element.setAttribute('download', filename);
 
       element.style.display = 'none';
       document.body.appendChild(element);
       element.click();
       document.body.removeChild(element);
-    }
+    },
   },
 
   created() {
