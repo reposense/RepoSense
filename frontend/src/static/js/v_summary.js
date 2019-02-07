@@ -11,6 +11,34 @@ function comparator(fn) {
   };
 }
 
+// ui funcs //
+function getMainChart(div){
+  return (div.className === 'summary-chart__ramp')
+    ? div : getMainChart(div.parentElement);
+}
+
+function dragViewDown(event){
+  const target = getMainChart(event.target);
+  target.drags = [event.clientX];
+}
+
+function dragViewUp(event){
+  const target = getMainChart(event.target);
+  const base = target.offsetWidth;
+
+  const drags = target.drags;
+  drags.push(event.layerX);
+  drags.sort();
+
+  console.log(target);
+  window.target = target;
+
+  const overlay = event.target.getElementsByClassName('overlay')[0];
+  overlay.style.marginLeft = drags[0]*100/base + '%';
+  overlay.style.width = (drags[1]-drags[0])*100/base + '%';
+  console.log(overlay);
+}
+
 // date functions //
 const DAY_IN_MS = (1000 * 60 * 60 * 24);
 function getIntervalDay(a, b) {

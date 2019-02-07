@@ -119,7 +119,7 @@ html
                   title="click to view author's repo"
                 )
                   i.summary-chart__title--button.fab.fa-github
-              .summary-chart__ramp
+              .summary-chart__ramp(onmouseup="dragViewUp(event)", onmousedown="dragViewDown(event)")
                 a.summary-chart__ramp__slice(
                   v-for="(slice, j) in user.commits",
                   v-if="slice.insertions>0",
@@ -132,6 +132,7 @@ html
                     right: (((user.commits.length-j-1)/user.commits.length) * 100) + '%'\
                   }"
                 )
+                .overlay
               .summary-chart__contrib(
                 v-bind:title=
                     "'Total contribution from ' + minDate + ' to ' + maxDate + ': ' + user.totalCommits + ' lines'"

@@ -191,8 +191,15 @@ header{
 }
 
 .summary-chart{
+    position:relative;
     margin-bottom:1rem;
     text-align:left;
+
+    .overlay{
+      height:100%;
+      position:absolute;
+      background-color:#fffa;
+    }
 
     &__title{
 
