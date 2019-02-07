@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.time.ZoneId;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
@@ -48,7 +49,7 @@ public class ArgsParserTest {
     @Test
     public void parse_allCorrectInputs_success() throws ParseException, IOException {
         String input = String.format("-config %s -output %s -since 01/07/2017 -until 30/11/2017 "
-                + "-formats java adoc html css js --ignore-standalone-config -view",
+                + "-formats java adoc html css js --ignore-standalone-config -view -timezone UTC+08",
                 CONFIG_FOLDER_ABSOLUTE, OUTPUT_DIRECTORY_ABSOLUTE);
         CliArguments cliArguments = ArgsParser.parse(translateCommandline(input));
         Assert.assertTrue(cliArguments instanceof ConfigCliArguments);
@@ -69,12 +70,14 @@ public class ArgsParserTest {
         Assert.assertEquals(expectedFormats, cliArguments.getFormats());
 
         Assert.assertTrue(cliArguments.isAutomaticallyLaunching());
+
+        Assert.assertEquals(ZoneId.of("UTC+8"), cliArguments.getZoneId());
     }
 
     @Test
     public void parse_withExtraWhitespaces_success() throws ParseException, IOException {
         String input = String.format("-config %s      -output   %s   -since 01/07/2017   -until    30/11/2017   "
-                + "-formats     java   adoc     html css js    -view    -isac  ",
+                + "-formats     java   adoc     html css js    -view    -isac  -timezone   UTC+08",
                 CONFIG_FOLDER_ABSOLUTE, OUTPUT_DIRECTORY_ABSOLUTE);
         CliArguments cliArguments = ArgsParser.parse(translateCommandline(input));
         Assert.assertTrue(cliArguments instanceof ConfigCliArguments);
@@ -95,6 +98,8 @@ public class ArgsParserTest {
         Assert.assertEquals(expectedFormats, cliArguments.getFormats());
 
         Assert.assertTrue(cliArguments.isAutomaticallyLaunching());
+
+        Assert.assertEquals(ZoneId.of("UTC+8"), cliArguments.getZoneId());
     }
 
     @Test
@@ -440,6 +445,42 @@ public class ArgsParserTest {
     @Test(expected = ParseException.class)
     public void parse_extraArgumentForIgnore_throwsParseException() throws ParseException {
         String input = String.format("-config %s --ignore-standalone-config true", CONFIG_FOLDER_ABSOLUTE);
+        ArgsParser.parse(translateCommandline(input));
+    }
+
+    @Test
+    public void parse_withTimezone_success() throws ParseException {
+        String input = String.format("-repos \"%s\" %s -timezone UTC+11", TEST_REPO_REPOSENSE, TEST_REPO_DELTA);
+        CliArguments cliArguments = ArgsParser.parse(translateCommandline(input));
+
+        Assert.assertTrue(cliArguments instanceof LocationsCliArguments);
+        Assert.assertEquals(ZoneId.of("UTC+11"), cliArguments.getZoneId());
+
+        input = String.format("-repos \"%s\" %s -timezone UTC-10", TEST_REPO_REPOSENSE, TEST_REPO_DELTA);
+        cliArguments = ArgsParser.parse(translateCommandline(input));
+
+        Assert.assertTrue(cliArguments instanceof LocationsCliArguments);
+        Assert.assertEquals(ZoneId.of("UTC-10"), cliArguments.getZoneId());
+
+        input = String.format("-repos \"%s\" %s -timezone UTC+00", TEST_REPO_REPOSENSE, TEST_REPO_DELTA);
+        cliArguments = ArgsParser.parse(translateCommandline(input));
+
+        Assert.assertTrue(cliArguments instanceof LocationsCliArguments);
+        Assert.assertEquals(ZoneId.of("UTC"), cliArguments.getZoneId());
+    }
+
+    @Test
+    public void parse_withoutTimezone_success() throws ParseException {
+        String input = String.format("-repos \"%s\" %s", TEST_REPO_REPOSENSE, TEST_REPO_DELTA);
+        CliArguments cliArguments = ArgsParser.parse(translateCommandline(input));
+
+        Assert.assertTrue(cliArguments instanceof LocationsCliArguments);
+        Assert.assertEquals(ZoneId.systemDefault(), cliArguments.getZoneId());
+    }
+
+    @Test(expected = ParseException.class)
+    public void parse_incorrectTimezone_throwsParseException() throws ParseException {
+        String input = String.format("-config %s -timezone UTC+", CONFIG_FOLDER_ABSOLUTE);
         ArgsParser.parse(translateCommandline(input));
     }
 }
