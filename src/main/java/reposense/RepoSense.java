@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import reposense.model.AuthorConfiguration;
 import reposense.model.CliArguments;
 import reposense.model.ConfigCliArguments;
 import reposense.model.LocationsCliArguments;
@@ -70,7 +71,7 @@ public class RepoSense {
      */
     public static List<RepoConfiguration> getRepoConfigurations(ConfigCliArguments cliArguments) throws IOException {
         List<RepoConfiguration> repoConfigs = new RepoConfigCsvParser(cliArguments.getRepoConfigFilePath()).parse();
-        List<RepoConfiguration> authorConfigs = null;
+        List<AuthorConfiguration> authorConfigs = null;
 
         try {
             authorConfigs = new AuthorConfigCsvParser(cliArguments.getAuthorConfigFilePath()).parse();
