@@ -237,10 +237,12 @@ In addition, there are some _optional_ extra parameters you can use to customize
 * **`-isac, --ignore-standalone-config`**: A flag to ignore the standalone config file in the repo (`-isac` as alias). This flag will not overwrite the `Ignore standalone config` field in the csv config file. Default: the standalone config file is not ignored.<br>
   Example:`--ignore-standalone-config` or `-isac`
 * **`-view [REPORT_FOLDER]`**: A flag to launch the report automatically after processing. Note that if the `REPORT_FOLDER` argument is given, no analysis will be performed and the report specified by the argument will be opened.<br>
-Example:`-view`
+  Example:`-view`
+* **`-timezone`**: Indicates the timezone to be used for the generated report relative to UTC. Format: `UTC+/-HH` Default: system's default timezone.<br>
+  Example:`-timezone UTC+08`, `-timezone UTC-10`
 
 Here's an example of a command using all parameters:<br>
-`java -jar RepoSense.jar -repo https://github.com/reposense/RepoSense.git -output ./report_folder -since 21/10/2017 -until 21/11/2017 -formats java adoc js -view -isac`
+`java -jar RepoSense.jar -repo https://github.com/reposense/RepoSense.git -output ./report_folder -since 21/10/2017 -until 21/11/2017 -formats java adoc js -view -isac -timezone UTC+08`
 
 ### Customize Using csv Config Files
 
