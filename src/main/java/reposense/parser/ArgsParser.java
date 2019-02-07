@@ -31,29 +31,15 @@ public class ArgsParser {
             "\"Since Date\" cannot be later than \"Until Date\"";
     private static final Path EMPTY_PATH = Paths.get("");
 
-    private static final String FULL_PREFIX = "--";
-    private static final String ALIAS_PREFIX = "-";
-
-    private static final String HELP_FLAG = "help";
-    private static final String HELP_FLAG_ALIAS = "h";
-    private static final String CONFIG_FLAG = "config";
-    private static final String CONFIG_FLAG_ALIAS = "c";
-    private static final String REPO_FLAG = "repos";
-    private static final String REPO_FLAG_ALT = "repo";
-    private static final String REPO_FLAG_ALIAS = "r";
-    private static final String VIEW_FLAG = "view";
-    private static final String VIEW_FLAG_ALIAS = "v";
-    private static final String OUTPUT_FLAG = "output";
-    private static final String OUTPUT_FLAG_ALIAS = "o";
-    private static final String SINCE_FLAG = "since";
-    private static final String SINCE_FLAG_ALIAS = "s";
-    private static final String UNTIL_FLAG = "until";
-    private static final String UNTIL_FLAG_ALIAS = "u";
-    private static final String FORMAT_FLAG = "formats";
-    private static final String FORMAT_FLAG_ALIAS = "f";
-    private static final String IGNORE_FLAG = "ignore-standalone-config";
-    private static final String IGNORE_FLAG_ALIAS = "isac";
-
+    private static final String[] HELP_FLAGS = new String[]{"--help", "-h"};
+    private static final String[] CONFIG_FLAGS = new String[]{"--config", "-c"};
+    private static final String[] REPO_FLAGS = new String[]{"--repo", "--repos", "-r"};
+    private static final String[] VIEW_FLAGS = new String[]{"--view", "-v"};
+    private static final String[] OUTPUT_FLAGS = new String[]{"--output", "-o"};
+    private static final String[] SINCE_FLAGS = new String[]{"--since", "-s"};
+    private static final String[] UNTIL_FLAGS = new String[]{"--until", "-u"};
+    private static final String[] FORMAT_FLAGS = new String[]{"--formats", "-f"};
+    private static final String[] IGNORE_FLAGS = new String[]{"--ignore-standalone-config", "-i"};
 
     private static ArgumentParser getArgumentParser() {
         ArgumentParser parser = ArgumentParsers
@@ -66,24 +52,27 @@ public class ArgsParser {
                 .addMutuallyExclusiveGroup(PROGRAM_USAGE)
                 .required(false);
 
-        parser.addArgument(FULL_PREFIX + HELP_FLAG, ALIAS_PREFIX + HELP_FLAG_ALIAS)
+        parser.addArgument(HELP_FLAGS)
+                .dest(HELP_FLAGS[0])
                 .help("Show help message.")
                 .action(new HelpArgumentAction());
 
-        mutexParser.addArgument(FULL_PREFIX + CONFIG_FLAG, ALIAS_PREFIX + CONFIG_FLAG_ALIAS)
+        mutexParser.addArgument(CONFIG_FLAGS)
+                .dest(CONFIG_FLAGS[0])
                 .type(new ConfigFolderArgumentType())
                 .metavar("PATH")
                 .setDefault(EMPTY_PATH.toAbsolutePath())
                 .help("The directory containing the config files."
                         + "If not provided, the config files will be obtained from the current working directory.");
 
-        mutexParser.addArgument(FULL_PREFIX + REPO_FLAG, ALIAS_PREFIX + REPO_FLAG_ALIAS, FULL_PREFIX + REPO_FLAG_ALT)
+        mutexParser.addArgument(REPO_FLAGS)
                 .nargs("+")
-                .dest("repos")
+                .dest(REPO_FLAGS[0])
                 .metavar("LOCATION")
                 .help("The GitHub URL or disk locations to clone repository.");
 
-        parser.addArgument(FULL_PREFIX + VIEW_FLAG, ALIAS_PREFIX + VIEW_FLAG_ALIAS)
+        parser.addArgument(VIEW_FLAGS)
+                .dest(VIEW_FLAGS[0])
                 .nargs("?")
                 .metavar("PATH")
                 .type(new ReportFolderArgumentType())
@@ -92,26 +81,30 @@ public class ArgsParser {
                         + "If used as a flag (with no argument), "
                         + "generates a report and automatically displays the dashboard.");
 
-        parser.addArgument(FULL_PREFIX + OUTPUT_FLAG, ALIAS_PREFIX + OUTPUT_FLAG_ALIAS)
+        parser.addArgument(OUTPUT_FLAGS)
+                .dest(OUTPUT_FLAGS[0])
                 .metavar("PATH")
                 .type(new OutputFolderArgumentType())
                 .setDefault(Paths.get(ArgsParser.DEFAULT_REPORT_NAME))
                 .help("The directory to output the report folder, reposense-report. "
                         + "If not provided, the report folder will be created in the current working directory.");
 
-        parser.addArgument(FULL_PREFIX + SINCE_FLAG, ALIAS_PREFIX + SINCE_FLAG_ALIAS)
+        parser.addArgument(SINCE_FLAGS)
+                .dest(SINCE_FLAGS[0])
                 .metavar("dd/MM/yyyy")
                 .type(new DateArgumentType())
                 .setDefault(Optional.empty())
                 .help("The date to start filtering.");
 
-        parser.addArgument(FULL_PREFIX + UNTIL_FLAG, ALIAS_PREFIX + UNTIL_FLAG_ALIAS)
+        parser.addArgument(UNTIL_FLAGS)
+                .dest(UNTIL_FLAGS[0])
                 .metavar("dd/MM/yyyy")
                 .type(new DateArgumentType())
                 .setDefault(Optional.empty())
                 .help("The date to stop filtering.");
 
-        parser.addArgument(FULL_PREFIX + FORMAT_FLAG, ALIAS_PREFIX + FORMAT_FLAG_ALIAS)
+        parser.addArgument(FORMAT_FLAGS)
+                .dest(FORMAT_FLAGS[0])
                 .nargs("*")
                 .metavar("FORMAT")
                 .type(new AlphanumericArgumentType())
@@ -120,7 +113,8 @@ public class ArgsParser {
                         + "If not provided, default file formats will be used.\n"
                         + "Please refer to userguide for more information.");
 
-        parser.addArgument(FULL_PREFIX + IGNORE_FLAG, ALIAS_PREFIX + IGNORE_FLAG_ALIAS)
+        parser.addArgument(IGNORE_FLAGS)
+                .dest(IGNORE_FLAGS[0])
                 .action(Arguments.storeTrue())
                 .help("A flag to ignore the standalone config file in the repo.");
 
@@ -137,14 +131,14 @@ public class ArgsParser {
             ArgumentParser parser = getArgumentParser();
             Namespace results = parser.parseArgs(args);
 
-            Path configFolderPath = results.get(CONFIG_FLAG);
-            Path reportFolderPath = results.get(VIEW_FLAG);
-            Path outputFolderPath = results.get(OUTPUT_FLAG);
-            Optional<Date> sinceDate = results.get(SINCE_FLAG);
-            Optional<Date> untilDate = results.get(UNTIL_FLAG);
-            List<String> locations = results.get(REPO_FLAG);
-            List<Format> formats = Format.convertStringsToFormats(results.get(FORMAT_FLAG));
-            boolean isStandaloneConfigIgnored = results.get(IGNORE_FLAG.replace("-", "_"));
+            Path configFolderPath = results.get(CONFIG_FLAGS[0]);
+            Path reportFolderPath = results.get(VIEW_FLAGS[0]);
+            Path outputFolderPath = results.get(OUTPUT_FLAGS[0]);
+            Optional<Date> sinceDate = results.get(SINCE_FLAGS[0]);
+            Optional<Date> untilDate = results.get(UNTIL_FLAGS[0]);
+            List<String> locations = results.get(REPO_FLAGS[0]);
+            List<Format> formats = Format.convertStringsToFormats(results.get(FORMAT_FLAGS[0]));
+            boolean isStandaloneConfigIgnored = results.get(IGNORE_FLAGS[0]);
 
             verifyDatesRangeIsCorrect(sinceDate, untilDate);
 

@@ -70,7 +70,40 @@ Eslint and its accompaning modules can be installed through NPM, so do ensure th
 
 1. Execute the following command on the OS terminal inside the project directory. <br/>
 Usage: `gradlew run -Dargs="([--config CONFIG_FOLDER] | [--repos REPO_PATH_OR_URL...]) [--view [REPORT_FOLDER]] [--output OUTPUT_DIRECTORY] [--since DD/MM/YYYY] [--until DD/MM/YYYY] [--formats FORMAT...] [--ignore-standalone-config]"` <br/>
-Usage using alias: `gradlew run -Dargs="([-c CONFIG_FOLDER] | [-r REPO_PATH_OR_URL...]) [-v [REPORT_FOLDER]] [-o OUTPUT_DIRECTORY] [-s DD/MM/YYYY] [-u DD/MM/YYYY] [-f FORMAT...] [-isac]"` <br/>
+Named Arguments: 
+```
+--help, -h           Show help message.
+--view [PATH], -v [PATH]
+                     Starts a server to  display  the  dashboard in the
+                     provided directory.If  used  as  a  flag  (with no
+                     argument), generates  a  report  and automatically
+                     displays the dashboard.
+--output PATH, -o PATH
+                     The  directory  to   output   the  report  folder,
+                     reposense-report.  If  not  provided,  the  report
+                     folder will  be  created  in  the  current working
+                     directory.
+--since dd/MM/yyyy, -s dd/MM/yyyy
+                     The date to start filtering.
+--until dd/MM/yyyy, -u dd/MM/yyyy
+                     The date to stop filtering.
+--formats [FORMAT [FORMAT ...]], -f [FORMAT [FORMAT ...]]
+                     The alphanumeric file formats to process.
+                     If not  provided,  default  file  formats  will be
+                     used.
+                     Please refer to userguide for more information.
+--ignore-standalone-config, -i
+                     A flag to  ignore  the  standalone  config file in
+                     the repo.
+--config PATH, -c PATH
+                     The directory containing  the  config files.If not
+                     provided, the config files  will  be obtained from
+                     the current working directory.
+--repo LOCATION [LOCATION ...], --repos LOCATION [LOCATION ...], -r LOCATION [LOCATION ...]
+                     The  GitHub  URL  or   disk   locations  to  clone
+                     repository.
+```
+
 
 Sample usage to generate the report with no specify arguments: (find and use config files in current working directory)
 ```

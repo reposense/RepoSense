@@ -235,8 +235,8 @@ In addition, there are some _optional_ extra parameters you can use to customize
   Example:`--until 21/10/2017` or `-u 21/10/2017`
 * **`--formats, -f LIST_OF_FORMATS`**: A space-separated list of file extensions that should be included in the analysis (`-f` as alias). Default: `adoc cs css fxml gradle html java js json jsp md py tag txt xml`<br>
   Example:`--formats css fxml gradle` or `-f css fxml gradle`
-* **`--ignore-standalone-config, -isac`**: A flag to ignore the standalone config file in the repo (`-isac` as alias). This flag will not overwrite the `Ignore standalone config` field in the csv config file. Default: the standalone config file is not ignored.<br>
-  Example:`--ignore-standalone-config` or `-isac`
+* **`--ignore-standalone-config, -i`**: A flag to ignore the standalone config file in the repo (`-i` as alias). This flag will not overwrite the `Ignore standalone config` field in the csv config file. Default: the standalone config file is not ignored.<br>
+  Example:`--ignore-standalone-config` or `-i`
 * **`--view, -v [REPORT_FOLDER]`**: A flag to launch the report automatically after processing (`-v` as alias). Note that if the `REPORT_FOLDER` argument is given, no analysis will be performed and the report specified by the argument will be opened.<br>
 Example:`--view` or `-v`
 
@@ -244,7 +244,7 @@ Here's an example of a command using all parameters:<br>
 `java -jar RepoSense.jar --repo https://github.com/reposense/RepoSense.git --output ./report_folder --since 21/10/2017 --until 21/11/2017 --formats java adoc js --view --ignore-standalone-config`
 
 Here's an example of a command using all alias of parameters:<br>
-`java -jar RepoSense.jar -r https://github.com/reposense/RepoSense.git -o ./report_folder -s 21/10/2017 -u 21/11/2017 -f java adoc js -v -isac`
+`java -jar RepoSense.jar -r https://github.com/reposense/RepoSense.git -o ./report_folder -s 21/10/2017 -u 21/11/2017 -f java adoc js -v -i`
 
 ### Customize Using csv Config Files
 

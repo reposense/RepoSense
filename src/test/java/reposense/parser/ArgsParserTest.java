@@ -73,7 +73,7 @@ public class ArgsParserTest {
 
     @Test
     public void parse_allCorrectInputsAlias_success() throws ParseException, IOException {
-        String input = String.format("-c %s -o %s -s 01/07/2017 -u 30/11/2017 -f java adoc html css js -isac -v",
+        String input = String.format("-c %s -o %s -s 01/07/2017 -u 30/11/2017 -f java adoc html css js -i -v",
                 CONFIG_FOLDER_ABSOLUTE, OUTPUT_DIRECTORY_ABSOLUTE);
         CliArguments cliArguments = ArgsParser.parse(translateCommandline(input));
         Assert.assertTrue(cliArguments instanceof ConfigCliArguments);
@@ -99,7 +99,7 @@ public class ArgsParserTest {
     @Test
     public void parse_withExtraWhitespaces_success() throws ParseException, IOException {
         String input = String.format("--config %s      --output   %s   --since 01/07/2017   --until    30/11/2017   "
-                + "--formats     java   adoc     html css js    --view    -isac  ",
+                + "--formats     java   adoc     html css js    --view    -i  ",
                 CONFIG_FOLDER_ABSOLUTE, OUTPUT_DIRECTORY_ABSOLUTE);
         CliArguments cliArguments = ArgsParser.parse(translateCommandline(input));
         Assert.assertTrue(cliArguments instanceof ConfigCliArguments);
@@ -168,7 +168,7 @@ public class ArgsParserTest {
                 TEST_REPO_REPOSENSE, TEST_REPO_DELTA);
         CliArguments cliArguments = ArgsParser.parse(translateCommandline(input));
 
-        String inputWithAlias = String.format("--repos \"%s\" %s -isac", TEST_REPO_REPOSENSE, TEST_REPO_DELTA);
+        String inputWithAlias = String.format("--repos \"%s\" %s -i", TEST_REPO_REPOSENSE, TEST_REPO_DELTA);
         CliArguments cliArgumentsWithAlias = ArgsParser.parse(translateCommandline(inputWithAlias));
 
         Assert.assertTrue(cliArguments instanceof LocationsCliArguments);
