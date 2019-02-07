@@ -111,9 +111,9 @@ gradlew run
 ```
 
 Sample usage to generate the report with config files and automatically open the report:
-   ```
-   gradlew run -Dargs="--config ./configs/ --output output_path/ --since 21/10/2017 --until 21/11/2017 --formats java adoc js --view"
-   ```
+```
+gradlew run -Dargs="--config ./configs/ --output output_path/ --since 21/10/2017 --until 21/11/2017 --formats java adoc js --view"
+```
 
 Sample usage to generate the report with repository locations and automatically open the report:
 ```
