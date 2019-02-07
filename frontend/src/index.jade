@@ -174,8 +174,6 @@ html
             .title
               span.path(onclick="toggleNext(this.parentNode)") {{ file.path }}&nbsp;
               span.loc ({{ file.lineCount }} lines)
-            #downloadCheckbox
-              input(type="checkbox", :value="file", v-model="filesSelectedForDownload" :title="'select file to download'")
               a(
                 v-bind:href="getFileLink(file, 'commits')", target="_blank",
                 title="click to view the history view of file"
@@ -186,6 +184,8 @@ html
                 title="click to view the blame view of file"
               )
                 i.button.fas.fa-user-edit
+            #downloadCheckbox
+              input(type="checkbox", :value="file", v-model="filesSelectedForDownload" :title="'select file to download'")
             pre.hljs
               div(v-hljs="file.path")
                 template(v-for="segment in file.segments")
