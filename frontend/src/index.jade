@@ -126,6 +126,7 @@ html
                       a.summary-chart__ramp__slice(
                         v-for="(commit, k) in slice.commitResults",
                         v-if="commit.insertions>0",
+                        v-bind:href="getSliceLink(user, slice)", target="_blank",
                         v-bind:title="`[${slice.date}] ${commit.message}: ${commit.insertions} lines`",
                         v-bind:class="'summary-chart__ramp__slice--color' + j % 5",
                         v-bind:style="{\
