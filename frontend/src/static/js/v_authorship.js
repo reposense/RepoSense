@@ -1,4 +1,4 @@
-function toggleNext(ele) {
+window.toggleNext = function toggleNext(ele) {
   // function for toggling unopened code
   const targetClass = 'active';
 
@@ -15,14 +15,14 @@ function toggleNext(ele) {
   parent.className = classes.join(' ');
 };
 
-function expandAll(isActive) {
+window.expandAll = function expandAll(isActive) {
   const renameValue = isActive ? 'file active' : 'file';
 
   const files = document.getElementsByClassName('file');
   Array.from(files).forEach((file) => {
     file.className = renameValue;
   });
-}
+};
 
 const repoCache = [];
 window.vAuthorship = {
@@ -39,7 +39,7 @@ window.vAuthorship = {
       selectedFiles: [],
       filesLinesObj: {},
       filesBlankLinesObj: {},
-      totalLineCount: "",
+      totalLineCount: '',
       totalBlankLineCount: '',
     };
   },
@@ -60,7 +60,7 @@ window.vAuthorship = {
         this.processFiles(repo.files);
       } else {
         window.api.loadAuthorship(this.info.repo)
-          .then(files => this.processFiles(files));
+            .then((files) => this.processFiles(files));
       }
     },
 
@@ -90,19 +90,18 @@ window.vAuthorship = {
         if (line.content === '' && authored) {
           blankLineCount += 1;
         }
-
       });
 
       return {
         segments,
-        blankLineCount
+        blankLineCount,
       };
     },
 
     processFiles(files) {
       const res = [];
-      let filesInfoObj = {};
-      let filesBlanksInfoObj = {};
+      const filesInfoObj = {};
+      const filesBlanksInfoObj = {};
       let totalLineCount = 0;
       let totalBlankLineCount = 0;
 
@@ -128,12 +127,11 @@ window.vAuthorship = {
       res.sort((a, b) => b.lineCount - a.lineCount);
 
       this.filesLinesObj = this.sortFileTypeAlphabetically(filesInfoObj);
-      for (var file in filesInfoObj) {
-        if (filesInfoObj.hasOwnProperty(file)) {
-          this.selectedFileTypes.push(file);
-          this.fileTypes.push(file);
-        }
-      }
+      Object.keys(filesInfoObj).forEach((file) => {
+        this.selectedFileTypes.push(file);
+        this.fileTypes.push(file);
+      });
+
       this.filesBlankLinesObj = filesBlanksInfoObj;
       this.files = res;
       this.selectedFiles = res;
@@ -141,8 +139,8 @@ window.vAuthorship = {
     },
 
     addLineCountToFileType(path, lineCount, filesInfoObj) {
-      var fileType = path.split(".").pop();
-      fileType = (fileType.length === 0) ? "others" : fileType;
+      let fileType = path.split('.').pop();
+      fileType = (fileType.length === 0) ? 'others' : fileType;
 
       if (!filesInfoObj[fileType]) {
         filesInfoObj[fileType] = 0;
@@ -155,7 +153,7 @@ window.vAuthorship = {
       return Object.keys(unsortedFilesInfoObj)
           .sort()
           .reduce((acc, key) => ({
-              ...acc, [key]: unsortedFilesInfoObj[key]
+            ...acc, [key]: unsortedFilesInfoObj[key],
           }), {});
     },
 
@@ -181,18 +179,26 @@ window.vAuthorship = {
         this.selectedFiles = [];
         this.isSelectAllChecked = false;
       } else {
-        this.selectedFiles = this.files.filter((file) => this.selectedFileTypes.includes(file.path.split('.').pop()));
+        this.selectedFiles = this.files.filter((file) => this.selectedFileTypes.includes((file.path.split('.').pop())));
       }
     },
 
+    getFileLink(file, path) {
+      const repo = window.REPOS[this.info.repo];
+
+      return `http://github.com/${
+        repo.location.organization}/${repo.location.repoName}/${path}/${repo.branch}/${file.path}`;
+    },
+
     getFileBlankLineInfo(fileType) {
-      return fileType + ': ' + 'Blank: ' + this.filesBlankLinesObj[fileType]
-          + ', Non-Blank: ' + (this.filesLinesObj[fileType] - this.filesBlankLinesObj[fileType]);
+      return `${fileType}: Blank: ${
+        this.filesBlankLinesObj[fileType]}, Non-Blank: ${
+        this.filesLinesObj[fileType] - this.filesBlankLinesObj[fileType]}`;
     },
 
     getTotalFileBlankLineInfo() {
-      return 'Total: Blank: ' + this.totalBlankLineCount + ', Non-Blank: '
-          + (this.totalLineCount - this.totalBlankLineCount);
+      return `Total: Blank: ${this.totalBlankLineCount}, Non-Blank: ${
+        this.totalLineCount - this.totalBlankLineCount}`;
     },
 
     renderFile(file) {
@@ -241,13 +247,5 @@ window.vAuthorship = {
 
   created() {
     this.initiate();
-  },
-
-  updated() {
-    this.$nextTick(() => {
-      document.querySelectorAll('pre.hljs code').forEach((ele) => {
-        window.hljs.highlightBlock(ele);
-      });
-    });
   },
 };

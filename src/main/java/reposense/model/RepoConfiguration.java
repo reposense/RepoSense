@@ -2,20 +2,19 @@ package reposense.model;
 
 import java.io.File;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Objects;
 import java.util.Optional;
-import java.util.TreeMap;
 import java.util.logging.Logger;
 
 import reposense.system.LogsManager;
 import reposense.util.FileUtil;
 
+/**
+ * Represents configuration information from CSV config file for a single repository.
+ */
 public class RepoConfiguration {
     public static final String DEFAULT_BRANCH = "HEAD";
     private static final Logger logger = LogsManager.getLogger(RepoConfiguration.class);
@@ -31,9 +30,7 @@ public class RepoConfiguration {
     private transient List<Format> formats;
     private transient int commitNum = 1;
     private transient List<String> ignoreGlobList = new ArrayList<>();
-    private transient List<Author> authorList = new ArrayList<>();
-    private transient TreeMap<String, Author> authorAliasMap = new TreeMap<>(String.CASE_INSENSITIVE_ORDER);
-    private transient Map<Author, String> authorDisplayNameMap = new HashMap<>();
+    private transient AuthorConfiguration authorConfig;
     private transient boolean isStandaloneConfigIgnored;
     private transient List<CommitHash> ignoreCommitList;
 
@@ -47,8 +44,9 @@ public class RepoConfiguration {
 
     public RepoConfiguration(RepoLocation location, String branch, List<Format> formats, List<String> ignoreGlobList,
             boolean isStandaloneConfigIgnored, List<CommitHash> ignoreCommitList) {
+        this.authorConfig = new AuthorConfiguration(location, branch);
         this.location = location;
-        this.branch = branch;
+        this.branch = location.isEmpty() ? DEFAULT_BRANCH : branch;
         this.ignoreGlobList = ignoreGlobList;
         this.isStandaloneConfigIgnored = isStandaloneConfigIgnored;
         this.formats = formats;
@@ -73,25 +71,48 @@ public class RepoConfiguration {
     }
 
     /**
-     * Merges a {@code RepoConfiguration} from {@code repoConfigs} with another from {@code authorConfigs}
-     * if {@code location} and {@code branch} matches.
+     * Merges a {@code RepoConfiguration} from {@code repoConfigs} with an {@code AuthorConfiguration} from
+     * {@code authorConfigs} if their {@code RepoLocation} and branch matches
      */
-    public static void merge(List<RepoConfiguration> repoConfigs, List<RepoConfiguration> authorConfigs) {
-        for (RepoConfiguration authorConfig : authorConfigs) {
-            int index = repoConfigs.indexOf(authorConfig);
+    public static void merge(List<RepoConfiguration> repoConfigs, List<AuthorConfiguration> authorConfigs) {
+        for (AuthorConfiguration authorConfig : authorConfigs) {
+            if (authorConfig.getLocation().isEmpty()) {
+                continue;
+            }
 
-            if (index == -1) {
+            RepoConfiguration matchingRepoConfig = getMatchingRepoConfig(repoConfigs, authorConfig);
+
+            if (matchingRepoConfig == null) {
                 logger.warning(String.format(
                         "Repository %s is not found in repo-config.csv.", authorConfig.getLocation()));
                 continue;
             }
 
-            RepoConfiguration repoConfig = repoConfigs.get(index);
-
-            repoConfig.setAuthorList(authorConfig.getAuthorList());
-            repoConfig.setAuthorDisplayNameMap(authorConfig.getAuthorDisplayNameMap());
-            repoConfig.setAuthorAliasMap(authorConfig.getAuthorAliasMap());
+            matchingRepoConfig.setAuthorConfiguration(authorConfig);
         }
+
+        for (AuthorConfiguration authorConfig : authorConfigs) {
+            if (authorConfig.getLocation().isEmpty()) {
+                for (RepoConfiguration repoConfig : repoConfigs) {
+                    repoConfig.addAuthors(authorConfig.getAuthorList());
+                }
+            }
+        }
+    }
+
+    /**
+     * Iterates through {@code repoConfigs} to find a {@code RepoConfiguration} with {@code RepoLocation} and branch
+     * that matches {@code authorConfig}. Returns {@code null} if no match is found.
+     */
+    private static RepoConfiguration getMatchingRepoConfig(
+            List<RepoConfiguration> repoConfigs, AuthorConfiguration authorConfig) {
+        for (RepoConfiguration repoConfig : repoConfigs) {
+            if (repoConfig.getLocation().equals(authorConfig.getLocation())
+                    && repoConfig.getBranch().equals(authorConfig.getBranch())) {
+                return repoConfig;
+            }
+        }
+        return null;
     }
 
     /**
@@ -114,30 +135,8 @@ public class RepoConfiguration {
      * Clears authors information and use the information provided from {@code standaloneConfig}.
      */
     public void update(StandaloneConfig standaloneConfig) {
-        List<Author> newAuthorList = new ArrayList<>();
-        TreeMap<String, Author> newAuthorAliasMap = new TreeMap<>(String.CASE_INSENSITIVE_ORDER);
-        Map<Author, String> newAuthorDisplayNameMap = new HashMap<>();
-        List<String> newIgnoreGlobList = standaloneConfig.getIgnoreGlobList();
-
-        for (StandaloneAuthor sa : standaloneConfig.getAuthors()) {
-            Author author = new Author(sa);
-            author.appendIgnoreGlobList(newIgnoreGlobList);
-
-            newAuthorList.add(author);
-            newAuthorDisplayNameMap.put(author, author.getDisplayName());
-            List<String> aliases = new ArrayList<>(author.getAuthorAliases());
-            aliases.add(author.getGitId());
-            aliases.forEach(alias -> newAuthorAliasMap.put(alias, author));
-        }
-
-        Format.validateFormats(standaloneConfig.getFormats());
-        CommitHash.validateCommits(standaloneConfig.getIgnoreCommitList());
-
-        // only assign the new values when all the fields in {@code standaloneConfig} pass the validations.
-        authorList = newAuthorList;
-        authorAliasMap = newAuthorAliasMap;
-        authorDisplayNameMap = newAuthorDisplayNameMap;
-        ignoreGlobList = newIgnoreGlobList;
+        authorConfig.update(standaloneConfig);
+        ignoreGlobList = standaloneConfig.getIgnoreGlobList();
         formats = Format.convertStringsToFormats(standaloneConfig.getFormats());
         ignoreCommitList = CommitHash.convertStringsToCommits(standaloneConfig.getIgnoreCommitList());
     }
@@ -163,20 +162,22 @@ public class RepoConfiguration {
             return false;
         }
 
-        return hashCode() == ((RepoConfiguration) other).hashCode();
-    }
+        RepoConfiguration otherRepoConfig = (RepoConfiguration) other;
 
-    @Override
-    public int hashCode() {
-        return Objects.hash(location, branch);
+        return location.equals(otherRepoConfig.location)
+                && branch.equals(otherRepoConfig.branch)
+                && authorConfig.equals(otherRepoConfig.authorConfig)
+                && ignoreGlobList.equals(otherRepoConfig.ignoreGlobList)
+                && isStandaloneConfigIgnored == otherRepoConfig.isStandaloneConfigIgnored
+                && formats.equals(otherRepoConfig.formats);
     }
 
     public Map<Author, String> getAuthorDisplayNameMap() {
-        return authorDisplayNameMap;
+        return authorConfig.getAuthorDisplayNameMap();
     }
 
     public void setAuthorDisplayNameMap(Map<Author, String> authorDisplayNameMap) {
-        this.authorDisplayNameMap = authorDisplayNameMap;
+        authorConfig.setAuthorDisplayNameMap(authorDisplayNameMap);
     }
 
     public int getCommitNum() {
@@ -202,6 +203,7 @@ public class RepoConfiguration {
     public void setBranch(String branch) {
         updateDisplayName(branch);
         this.branch = branch;
+        authorConfig.setBranch(branch);
     }
 
     public void updateDisplayName(String branch) {
@@ -233,37 +235,42 @@ public class RepoConfiguration {
     }
 
     public List<Author> getAuthorList() {
-        return authorList;
+        return authorConfig.getAuthorList();
     }
 
     public void addAuthor(Author author) {
-        authorList.add(author);
+        authorConfig.addAuthor(author, this.getIgnoreGlobList());
+    }
+
+    public void addAuthors(List<Author> authorList) {
+        authorConfig.addAuthors(authorList, this.getIgnoreGlobList());
+    }
+
+    public void setAuthorConfiguration(AuthorConfiguration authorConfig) {
+        this.authorConfig = authorConfig;
+        for (Author author : authorConfig.getAuthorList()) {
+            AuthorConfiguration.propagateIgnoreGlobList(author, ignoreGlobList);
+        }
     }
 
     public boolean containsAuthor(Author author) {
-        return authorList.contains(author);
+        return authorConfig.containsAuthor(author);
     }
 
+    /**
+     * Clears authors information and sets the {@code authorList} to {@code RepoConfiguration}.
+     */
     public void setAuthorList(List<Author> authorList) {
-        this.authorList = authorList;
-
-        authorList.forEach(author -> {
-            // Set GitHub Id as default alias
-            addAuthorAliases(author, Arrays.asList(author.getGitId()));
-
-            setAuthorDisplayName(author, author.getDisplayName());
-
-            // Propagate RepoConfiguration IgnoreGlobList to Author
-            author.appendIgnoreGlobList(this.getIgnoreGlobList());
-        });
+        authorConfig.setAuthorList(authorList);
+        authorConfig.resetAuthorInformation(this.getIgnoreGlobList());
     }
 
-    public TreeMap<String, Author> getAuthorAliasMap() {
-        return authorAliasMap;
+    public Map<String, Author> getAuthorEmailsAndAliasesMap() {
+        return authorConfig.getAuthorEmailsAndAliasesMap();
     }
 
-    public void setAuthorAliasMap(TreeMap<String, Author> authorAliasMap) {
-        this.authorAliasMap = authorAliasMap;
+    public void setAuthorEmailsAndAliasesMap(Map<String, Author> authorEmailsAndAliasesMap) {
+        authorConfig.setAuthorEmailsAndAliasesMap(authorEmailsAndAliasesMap);
     }
 
     public Date getSinceDate() {
@@ -291,11 +298,11 @@ public class RepoConfiguration {
     }
 
     public void setAuthorDisplayName(Author author, String displayName) {
-        authorDisplayNameMap.put(author, displayName);
+        authorConfig.setAuthorDisplayName(author, displayName);
     }
 
-    public void addAuthorAliases(Author author, List<String> aliases) {
-        aliases.forEach(alias -> authorAliasMap.put(alias, author));
+    public void addAuthorEmailsAndAliasesMapEntry(Author author, List<String> values) {
+        authorConfig.addAuthorEmailsAndAliasesMapEntry(author, values);
     }
 
     public String getDisplayName() {

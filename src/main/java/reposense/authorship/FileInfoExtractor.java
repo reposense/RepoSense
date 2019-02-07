@@ -167,6 +167,7 @@ public class FileInfoExtractor {
                 String relativePath = filePath.toString().substring(config.getRepoRoot().length());
                 if (Files.isDirectory(filePath)) {
                     getAllFileInfo(config, filePath, fileInfos);
+                    continue;
                 }
 
                 if (Format.isInsideWhiteList(relativePath, config.getFormats())) {
