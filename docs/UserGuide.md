@@ -277,6 +277,15 @@ Repository's Location | The `GitHub URL` or `Disk Path` to the git repository e.
 
 <sup>* **Multi-value column**: multiple values can be entered in this column using a semicolon `;` as the separator.</sup>
 
+#### `groups-config.csv`
+
+Optionally, you can provide a `groups-config.csv`(which should be in the same directory as `repo-config.csv` file) to provide more details about any groupings of files in the repository. It should contain the following columns:
+
+Column Name | Explanation
+----------- | -----------
+Group Name | Name of the group e.g.,`test`
+Globs | The list of file path globs to include for specified group. e.g.,`**/test/*;**.java`
+
 #### `author-config.csv`
 
 Optionally, you can use a `author-config.csv` (which should be in the same directory as `repo-config.csv` file) to provide more details about the authors to analyze ([example](author-config.csv)). It should contain the following columns:
@@ -290,6 +299,7 @@ Author's GitHub ID | GitHub username of the target author e.g., `JohnDoe`
 [Optional] Author's Display Name | The name to display for the author. Default: author's GitHub username.
 [Optional] Author's Git Author Name<sup>*</sup> | The meaning of _Git Author Name_ is explained in [_A Note About Git Author Name_](#a-note-about-git-author-name).
 [Optional] Ignore Glob List<sup>*</sup> | Files to ignore for this author, in addition to files ignored by the patterns specified in `repo-config.csv`
+[Optional] Groups config file<sup>*</sup> | Custom grouping(s) of files specified in a config file `e.g. groups-config.csv`
 
 <sup>* **Multi-value column**: multiple values can be entered in this column using a semicolon `;` as the separator.</sup>
 
