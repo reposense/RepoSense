@@ -189,7 +189,8 @@ window.vAuthorship = {
 
     getFilteredFiles() {
       var minimatch = require('minimatch');
-      this.selectedFiles = this.files.filter((file) => minimatch(file.path, this.filterSearch, { matchBase:true }));
+      this.selectedFiles = this.files.filter((file) => minimatch(file.path, this.filterSearch, { matchBase:true })
+          && this.selectedFileTypes.includes((file.path.split('.').pop())));
     },
 
     getFileLink(file, path) {
