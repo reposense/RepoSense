@@ -30,8 +30,10 @@ public class AuthorshipSummary {
     public void addAuthorContributionCount(Author author, String group) {
         authorFinalContributionMap.put(author, authorFinalContributionMap.get(author) + 1);
 
-        LinkedHashMap<String, Integer> groupContributionMap = authorGroupContributionMap.get(author);
-        groupContributionMap.put(group, groupContributionMap.getOrDefault(group, 0) + 1);
+        if (!group.equals("none")) {
+            LinkedHashMap<String, Integer> groupContributionMap = authorGroupContributionMap.get(author);
+            groupContributionMap.put(group, groupContributionMap.getOrDefault(group, 0) + 1);
+        }
     }
 
     public HashMap<Author, Integer> getAuthorFinalContributionMap() {
