@@ -180,14 +180,6 @@ window.vSummary = {
       addHash('repoSort', this.filterGroupRepos);
     },
     renderFilterHash() {
-      const params = window.location.hash.slice(1).split('&');
-      params.forEach((param) => {
-        const [key, val] = param.split('=');
-        if (key) {
-          window.hashParams[key] = decodeURIComponent(val);
-        }
-      });
-
       const convertBool = (txt) => (txt === 'true');
       const hash = window.hashParams;
 

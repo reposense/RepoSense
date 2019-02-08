@@ -62,16 +62,17 @@ window.vAuthorship = {
             .then((files) => this.processFiles(files));
       }
 
-      this.getInfoHash();
     },
 
     getInfoHash() {
       const { addHash } = window;
-      addHash('info', this.serialize(this.info));
-    },
-
-    serialize(info) {
-      return Object.keys(info).map((k) => `${encodeURIComponent(k)}=${encodeURIComponent(info[k])}`).join('&');
+      addHash('tabAuthor', this.info.author);
+      addHash('tabRepo', this.info.repo);
+      addHash('tabName', this.info.name);
+      addHash('tabLocation', this.info.location);
+      addHash('tabMinDate', this.info.minDate);
+      addHash('tabMaxDate', this.info.maxDate);
+      addHash('tabTotalCommits', this.info.totalCommits);
     },
 
     splitSegments(lines) {
@@ -214,5 +215,6 @@ window.vAuthorship = {
 
   created() {
     this.initiate();
+    this.getInfoHash();
   },
 };

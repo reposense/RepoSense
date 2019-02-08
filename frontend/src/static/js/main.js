@@ -65,6 +65,16 @@ window.deregisterMouseMove = () => {
   window.$('app-wrapper').style['user-select'] = 'auto';
 };
 
+window.decodeHash = () => {
+  const params = window.location.hash.slice(1).split('&');
+  params.forEach((param) => {
+    const [key, val] = param.split('=');
+    if (key) {
+      window.hashParams[key] = decodeURIComponent(val);
+    }
+  });
+};
+
 /* global Vue hljs */
 Vue.directive('hljs', {
   inserted(ele, binding) {
@@ -156,34 +166,20 @@ window.app = new window.Vue({
       }
     },
 
-    renderAuthorShipTab() {
-      const encodedInfo = window.location.hash.slice(1).split('&');
-      this.deserialize(encodedInfo);
+    renderAuthorShipTabHash() {
       const hash = window.hashParams;
-      if (hash.info) {
-        this.updateTabAuthorship(hash.info);
-      } else if (hash.isTabOpen === false) {
-        this.isTabActive = false;
-      }
-    },
-
-    deserialize(obj) {
-      const info = {};
-      obj.forEach((param) => {
-        const [key, val] = param.split('=');
-        if (key === 'info') {
-          const decodedKey = decodeURIComponent(val);
-          const properties = decodedKey.split('&');
-          properties.forEach((prop) => {
-            const [innerKey, innerVal] = prop.split('=');
-            info[innerKey] = decodeURIComponent(innerVal);
-          });
-        } else if (key === 'isTabOpen') {
-          window.hashParams[key] = (val === 'true');
+      let info = {};
+      const tabKeys = ['tabAuthor', 'tabRepo', 'tabName', 'tabLocation', 'tabMinDate', 'tabMaxDate', 'tabTotalCommits'];
+      tabKeys.forEach((key) => {
+        if (hash[key]) {
+          const slicedName = key.charAt(3).toLowerCase() + key.slice(4);
+          info[slicedName] = hash[key];
         }
       });
       if (Object.keys(info).length > 0) {
-        window.hashParams.info = info;
+        this.updateTabAuthorship(info);
+      } else if (hash.tabOpen === 'false') {
+        this.isTabActive = false;
       }
     },
 
@@ -197,15 +193,12 @@ window.app = new window.Vue({
       return JSON.stringify(dataObj);
     },
 
-    removeKeyFromHash(params, deleteKey) {
-      params.forEach((param) => {
-        const key = param.split('=')[0];
-        if (key === deleteKey) {
-          const index = params.indexOf(param);
-          params.splice(index, 1);
-        }
+    removeInfoHash(hashObj) {
+      const tabKeys = ['tabAuthor', 'tabRepo', 'tabName', 'tabLocation', 'tabMinDate', 'tabMaxDate', 'tabTotalCommits'];
+      return hashObj.filter((value) => {
+        const key = value.split('=')[0];
+        return !tabKeys.includes(key);
       });
-      return params;
     },
 
     addKeyToHash(params, key, val) {
@@ -223,7 +216,8 @@ window.app = new window.Vue({
   },
   created() {
     this.updateReportDir();
-    this.renderAuthorShipTab();
+    decodeHash();
+    this.renderAuthorShipTabHash();
   },
   updated() {
     this.$nextTick(() => {
@@ -233,8 +227,8 @@ window.app = new window.Vue({
     });
     if (!this.isTabActive) {
       const hashObj = window.location.hash.slice(1).split('&');
-      let newHash = this.removeKeyFromHash(hashObj, 'info');
-      newHash = this.addKeyToHash(newHash, 'isTabOpen', this.isTabActive);
+      let newHash = this.removeInfoHash(hashObj);
+      newHash = this.addKeyToHash(newHash, 'tabOpen', this.isTabActive);
       window.location.hash = `#${newHash.join('&')}`;
     }
   },
