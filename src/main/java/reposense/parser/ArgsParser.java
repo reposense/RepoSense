@@ -102,7 +102,7 @@ public class ArgsParser {
                 .help("A flag to ignore the standalone config file in the repo.");
 
         parser.addArgument("-timezone")
-                .metavar("UTC±[hh]")
+                .metavar("UTC[±hh[mm]]")
                 .type(new ZoneIdArgumentType())
                 .setDefault(ZoneId.systemDefault())
                 .help("The timezone to use for the generated report.\n"

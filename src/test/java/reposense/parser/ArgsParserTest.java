@@ -456,11 +456,11 @@ public class ArgsParserTest {
         Assert.assertTrue(cliArguments instanceof LocationsCliArguments);
         Assert.assertEquals(ZoneId.of("UTC+11"), cliArguments.getZoneId());
 
-        input = String.format("-repos \"%s\" %s -timezone UTC-10", TEST_REPO_REPOSENSE, TEST_REPO_DELTA);
+        input = String.format("-repos \"%s\" %s -timezone UTC-1030", TEST_REPO_REPOSENSE, TEST_REPO_DELTA);
         cliArguments = ArgsParser.parse(translateCommandline(input));
 
         Assert.assertTrue(cliArguments instanceof LocationsCliArguments);
-        Assert.assertEquals(ZoneId.of("UTC-10"), cliArguments.getZoneId());
+        Assert.assertEquals(ZoneId.of("UTC-1030"), cliArguments.getZoneId());
 
         input = String.format("-repos \"%s\" %s -timezone UTC+00", TEST_REPO_REPOSENSE, TEST_REPO_DELTA);
         cliArguments = ArgsParser.parse(translateCommandline(input));
