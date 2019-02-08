@@ -28,6 +28,7 @@ public class RepoConfiguration {
     private transient boolean needCheckStyle = false;
     private transient boolean annotationOverwrite = true;
     private transient List<Format> formats;
+    private transient List<Group> groups;
     private transient int commitNum = 1;
     private transient List<String> ignoreGlobList = new ArrayList<>();
     private transient AuthorConfiguration authorConfig;
@@ -39,11 +40,12 @@ public class RepoConfiguration {
     }
 
     public RepoConfiguration(RepoLocation location, String branch) {
-        this(location, branch, Collections.emptyList(), Collections.emptyList(), false, Collections.emptyList());
+        this(location, branch, Collections.emptyList(), Collections.emptyList(), false,
+            Collections.emptyList(), Collections.emptyList());
     }
 
     public RepoConfiguration(RepoLocation location, String branch, List<Format> formats, List<String> ignoreGlobList,
-            boolean isStandaloneConfigIgnored, List<CommitHash> ignoreCommitList) {
+            boolean isStandaloneConfigIgnored, List<CommitHash> ignoreCommitList, List<Group> groups) {
         this.authorConfig = new AuthorConfiguration(location, branch);
         this.location = location;
         this.branch = location.isEmpty() ? DEFAULT_BRANCH : branch;
@@ -51,6 +53,7 @@ public class RepoConfiguration {
         this.isStandaloneConfigIgnored = isStandaloneConfigIgnored;
         this.formats = formats;
         this.ignoreCommitList = ignoreCommitList;
+        this.groups = groups;
 
         String organization = location.getOrganization();
         String repoName = location.getRepoName();
@@ -169,7 +172,8 @@ public class RepoConfiguration {
                 && authorConfig.equals(otherRepoConfig.authorConfig)
                 && ignoreGlobList.equals(otherRepoConfig.ignoreGlobList)
                 && isStandaloneConfigIgnored == otherRepoConfig.isStandaloneConfigIgnored
-                && formats.equals(otherRepoConfig.formats);
+                && formats.equals(otherRepoConfig.formats)
+                && groups.equals(otherRepoConfig.groups);
     }
 
     public Map<Author, String> getAuthorDisplayNameMap() {
@@ -295,6 +299,14 @@ public class RepoConfiguration {
 
     public void setFormats(List<Format> formats) {
         this.formats = formats;
+    }
+
+    public List<Group> getGroups() {
+        return groups;
+    }
+
+    public void setGroups(List<Group> groups) {
+        this.groups = groups;
     }
 
     public void setAuthorDisplayName(Author author, String displayName) {
