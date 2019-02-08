@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import reposense.model.Author;
+import reposense.model.Group;
 
 /**
  * Stores the path to the file and the list of {@code LineInfo} for each line in the file.
@@ -12,8 +13,11 @@ public class FileInfo {
     private final String path;
     private final ArrayList<LineInfo> lines;
 
+    private String group;
+
     public FileInfo(String path) {
         this.path = path;
+        this.group = Group.DEFAULT_GROUP;
         lines = new ArrayList<>();
     }
 
@@ -38,6 +42,14 @@ public class FileInfo {
 
     public String getPath() {
         return path;
+    }
+
+    public String getGroup() {
+        return group;
+    }
+
+    public void setGroup(String group) {
+        this.group = group;
     }
 
     /**

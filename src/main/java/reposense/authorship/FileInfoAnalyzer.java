@@ -7,6 +7,7 @@ import java.nio.file.Path;
 import java.nio.file.PathMatcher;
 import java.nio.file.Paths;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -19,6 +20,7 @@ import reposense.authorship.model.LineInfo;
 import reposense.git.GitBlame;
 import reposense.model.Author;
 import reposense.model.CommitHash;
+import reposense.model.Group;
 import reposense.model.RepoConfiguration;
 import reposense.system.LogsManager;
 
@@ -46,6 +48,7 @@ public class FileInfoAnalyzer {
         }
 
         aggregateBlameAuthorInfo(config, fileInfo);
+        setGroup(config, fileInfo);
 
         if (config.isNeedCheckStyle()) {
             CheckStyleParser.aggregateStyleIssue(fileInfo, config.getRepoRoot());
@@ -70,7 +73,7 @@ public class FileInfoAnalyzer {
             Author author = line.getAuthor();
             authorContributionMap.put(author, authorContributionMap.getOrDefault(author, 0) + 1);
         }
-        return new FileResult(fileInfo.getPath(), fileInfo.getLines(), authorContributionMap);
+        return new FileResult(fileInfo.getPath(), fileInfo.getGroup(), fileInfo.getLines(), authorContributionMap);
     }
 
     /**
@@ -97,6 +100,20 @@ public class FileInfoAnalyzer {
             }
 
             fileInfo.setLineAuthor(lineCount / 3, author);
+        }
+    }
+
+    /**
+     * Sets specified {@code Group} for {@code fileInfo}
+     */
+    private static void setGroup(RepoConfiguration config, FileInfo fileInfo) {
+        List<Group> groups = config.getGroups();
+        Path filePath = Paths.get(fileInfo.getPath());
+        for (Group group : groups) {
+            PathMatcher groupGlobMatcher = group.getGroupGlobMatcher();
+            if (groupGlobMatcher.matches(filePath)) {
+                fileInfo.setGroup(group.toString());
+            }
         }
     }
 

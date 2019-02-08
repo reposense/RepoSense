@@ -11,11 +11,14 @@ import reposense.model.Author;
  */
 public class FileResult {
     private final String path;
+    private final String group;
     private final ArrayList<LineInfo> lines;
     private final HashMap<Author, Integer> authorContributionMap;
 
-    public FileResult(String path, ArrayList<LineInfo> lines, HashMap<Author, Integer> authorContributionMap) {
+    public FileResult(String path, String group, ArrayList<LineInfo> lines,
+        HashMap<Author, Integer> authorContributionMap) {
         this.path = path;
+        this.group = group;
         this.lines = lines;
         this.authorContributionMap = authorContributionMap;
     }
@@ -26,6 +29,10 @@ public class FileResult {
 
     public String getPath() {
         return path;
+    }
+
+    public String getGroup() {
+        return group;
     }
 
     public HashMap<Author, Integer> getAuthorContributionMap() {

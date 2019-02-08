@@ -2,6 +2,7 @@ package reposense.report;
 
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -17,6 +18,7 @@ public class CommitReportJson {
     private final Map<Author, List<AuthorIntervalContribution>> authorWeeklyIntervalContributions;
     private final Map<Author, List<AuthorIntervalContribution>> authorDailyIntervalContributions;
     private final Map<Author, Integer> authorFinalContributionMap;
+    private final Map<Author, LinkedHashMap<String, Integer>> authorGroupContributionMap;
     private final Map<Author, Float> authorContributionVariance;
     private final Map<Author, String> authorDisplayNameMap;
 
@@ -34,6 +36,9 @@ public class CommitReportJson {
         authorFinalContributionMap = new HashMap<>();
         authorFinalContributionMap.put(emptyAuthor, 0);
 
+        authorGroupContributionMap = new HashMap<>();
+        authorGroupContributionMap.put(emptyAuthor, new LinkedHashMap<>());
+
         authorContributionVariance = new HashMap<>();
         authorContributionVariance.put(emptyAuthor, (float) 0.0);
 
@@ -45,6 +50,7 @@ public class CommitReportJson {
         authorWeeklyIntervalContributions = commitSummary.getAuthorWeeklyIntervalContributions();
         authorDailyIntervalContributions = commitSummary.getAuthorDailyIntervalContributions();
         authorFinalContributionMap = authorshipSummary.getAuthorFinalContributionMap();
+        authorGroupContributionMap = authorshipSummary.getAuthorGroupContributionMap();
         authorContributionVariance = commitSummary.getAuthorContributionVariance();
         authorDisplayNameMap = commitSummary.getAuthorDisplayNameMap();
     }
