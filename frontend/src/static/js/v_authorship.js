@@ -61,7 +61,6 @@ window.vAuthorship = {
         window.api.loadAuthorship(this.info.repo)
             .then((files) => this.processFiles(files));
       }
-
     },
 
     getInfoHash() {

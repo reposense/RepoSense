@@ -168,7 +168,7 @@ window.app = new window.Vue({
 
     renderAuthorShipTabHash() {
       const hash = window.hashParams;
-      let info = {};
+      const info = {};
       const tabKeys = ['tabAuthor', 'tabRepo', 'tabName', 'tabLocation', 'tabMinDate', 'tabMaxDate', 'tabTotalCommits'];
       tabKeys.forEach((key) => {
         if (hash[key]) {
@@ -216,7 +216,7 @@ window.app = new window.Vue({
   },
   created() {
     this.updateReportDir();
-    decodeHash();
+    window.decodeHash();
     this.renderAuthorShipTabHash();
   },
   updated() {
