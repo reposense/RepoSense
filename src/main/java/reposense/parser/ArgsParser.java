@@ -2,7 +2,6 @@ package reposense.parser;
 
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.time.DateTimeException;
 import java.time.ZoneId;
 import java.util.Date;
 import java.util.List;
@@ -31,8 +30,6 @@ public class ArgsParser {
             "RepoSense is a contribution analysis tool for Git repositories.";
     private static final String MESSAGE_SINCE_DATE_LATER_THAN_UNTIL_DATE =
             "\"Since Date\" cannot be later than \"Until Date\"";
-    private static final String MESSAGE_TIMEZONE_INVALID =
-            "The timezone provided is invalid, please use the format of UTC+/-HH";
     private static final Path EMPTY_PATH = Paths.get("");
 
     private static ArgumentParser getArgumentParser() {
@@ -105,8 +102,9 @@ public class ArgsParser {
                 .help("A flag to ignore the standalone config file in the repo.");
 
         parser.addArgument("-timezone")
-                .metavar("UTC+/-HH")
-                .setDefault(ZoneId.systemDefault().getId())
+                .metavar("UTC±[hh]")
+                .type(new ZoneIdArgumentType())
+                .setDefault(ZoneId.systemDefault())
                 .help("The timezone to use for the generated report.\n"
                         + "Please refer to userguide for more information.");
 
@@ -131,10 +129,7 @@ public class ArgsParser {
             List<String> locations = results.get("repos");
             List<Format> formats = Format.convertStringsToFormats(results.get("formats"));
             boolean isStandaloneConfigIgnored = results.get("ignore_standalone_config");
-            String timezone = results.get("timezone");
-
-            verifyTimezoneValid(timezone);
-            ZoneId zoneId = ZoneId.of(timezone);
+            ZoneId zoneId = results.get("timezone");
 
             verifyDatesRangeIsCorrect(sinceDate, untilDate);
 
@@ -165,19 +160,6 @@ public class ArgsParser {
             throws ParseException {
         if (sinceDate.isPresent() && untilDate.isPresent() && sinceDate.get().getTime() > untilDate.get().getTime()) {
             throw new ParseException(MESSAGE_SINCE_DATE_LATER_THAN_UNTIL_DATE);
-        }
-    }
-
-    /**
-     * Verifies that {@code timezone} is a valid timezone id.
-     *
-     * @throws ParseException if {@code timezone} is invalid.
-     */
-    private static void verifyTimezoneValid(String timezone) throws ParseException {
-        try {
-            ZoneId.of(timezone);
-        } catch (DateTimeException dte) {
-            throw new ParseException(MESSAGE_TIMEZONE_INVALID);
         }
     }
 }
