@@ -5,6 +5,7 @@ import java.nio.file.Paths;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
+import java.util.logging.Logger;
 
 import net.sourceforge.argparse4j.ArgumentParsers;
 import net.sourceforge.argparse4j.impl.Arguments;
@@ -18,12 +19,14 @@ import reposense.model.ConfigCliArguments;
 import reposense.model.Format;
 import reposense.model.LocationsCliArguments;
 import reposense.model.ViewCliArguments;
+import reposense.system.LogsManager;
 
 /**
  * Verifies and parses a string-formatted date to a {@code CliArguments} object.
  */
 public class ArgsParser {
     public static final String DEFAULT_REPORT_NAME = "reposense-report";
+    private static final Logger logger = LogsManager.getLogger(ArgsParser.class);
     private static final String PROGRAM_USAGE = "java -jar RepoSense.jar";
     private static final String PROGRAM_DESCRIPTION =
             "RepoSense is a contribution analysis tool for Git repositories.";
@@ -130,6 +133,10 @@ public class ArgsParser {
             }
 
             boolean isAutomaticallyLaunching = reportFolderPath != null;
+
+            if (isAutomaticallyLaunching && !reportFolderPath.equals(EMPTY_PATH)) {
+                logger.info(String.format("Ignoring argument '%s' for -view.", reportFolderPath.toString()));
+            }
 
             if (locations != null) {
                 return new LocationsCliArguments(locations, outputFolderPath, sinceDate, untilDate, formats,
