@@ -1465,6 +1465,27 @@
     "Esilocke": 10944,
     "wangyiming1019": 2469
   },
+  "authorGroupContributionMap": {
+    "charlesgoh": {
+      "docs": 610,
+      "code": 1825,
+      "test": 1757
+    },
+    "jeffreygohkw": {
+      "docs": 1012,
+      "code": 2914,
+      "test": 1914
+    },
+    "Esilocke": {
+      "docs": 1078,
+      "code": 4308,
+      "test": 5558
+    },
+    "wangyiming1019": {
+      "code": 1142,
+      "test": 1327
+    }
+  },
   "authorContributionVariance": {
     "charlesgoh": 86818.71,
     "jeffreygohkw": 71305.99,

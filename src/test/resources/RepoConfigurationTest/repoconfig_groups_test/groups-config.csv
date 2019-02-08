@@ -1,4 +1,4 @@
 Group Name,Globs
-test,**/test/*
-code,**/*.java;**/*.fxml
-docs,**/docs/*
+test,src/test**
+code,**.java
+docs,docs**
