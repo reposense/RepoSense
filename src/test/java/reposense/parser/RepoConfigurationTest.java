@@ -23,6 +23,7 @@ import reposense.model.AuthorConfiguration;
 import reposense.model.CliArguments;
 import reposense.model.ConfigCliArguments;
 import reposense.model.Format;
+import reposense.model.Group;
 import reposense.model.LocationsCliArguments;
 import reposense.model.RepoConfiguration;
 import reposense.model.RepoLocation;
@@ -40,6 +41,8 @@ public class RepoConfigurationTest {
             .getResource("RepoConfigurationTest/repoconfig_formats_test").getFile()).toPath();
     private static final Path WITHOUT_FORMATS_TEST_CONFIG_FILES = new File(CsvParserTest.class.getClassLoader()
             .getResource("RepoConfigurationTest/repoconfig_withoutformats_test").getFile()).toPath();
+    private static final Path GROUPS_TEST_CONFIG_FILES = new File(CsvParserTest.class.getClassLoader()
+        .getResource("RepoConfigurationTest/repoconfig_groups_test").getFile()).toPath();
 
     private static final String TEST_REPO_DELTA = "https://github.com/reposense/testrepo-Delta.git";
 
@@ -62,6 +65,8 @@ public class RepoConfigurationTest {
 
     private static final List<Format> CONFIG_FORMATS = Format.convertStringsToFormats(Arrays.asList(
             "java", "adoc", "md"));
+    private static final List<Group> CONFIG_GROUPS = Group.convertStringsToGroups(Arrays.asList("test: **/test/*",
+        "code: **/*.java", "docs: **/docs/*"));
     private static final List<String> CLI_FORMATS = Arrays.asList("css", "html");
 
     private static RepoConfiguration REPO_DELTA_STANDALONE_CONFIG;
@@ -211,6 +216,19 @@ public class RepoConfigurationTest {
 
         Assert.assertEquals(1, actualConfigs.size());
         Assert.assertEquals(Format.convertStringsToFormats(CLI_FORMATS), actualConfigs.get(0).getFormats());
+    }
+
+    @Test
+    public void repoConfig_withGroups() throws ParseException, IOException {
+        String formats = String.join(" ", CLI_FORMATS);
+        String input = String.format("-config %s", GROUPS_TEST_CONFIG_FILES);
+        CliArguments cliArguments = ArgsParser.parse(translateCommandline(input));
+
+        List<RepoConfiguration> actualConfigs =
+            new RepoConfigCsvParser(((ConfigCliArguments) cliArguments).getRepoConfigFilePath()).parse();
+
+        Assert.assertEquals(1, actualConfigs.size());
+        Assert.assertEquals(CONFIG_GROUPS, actualConfigs.get(0).getGroups());
     }
 
     @Test

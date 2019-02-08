@@ -1,0 +1,4 @@
+Group Name,Globs
+test,**/test/*
+code,**/*.java;**/*.fxml
+docs,**/docs/*

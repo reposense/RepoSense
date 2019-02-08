@@ -1,0 +1,2 @@
+Repository's Location,Branch,File formats,Ignore Glob List,Ignore standalone config,Ignore Commits List,Groups config file
+https://github.com/reposense/testrepo-Beta.git,master,,,yes,,groups-config.csv
