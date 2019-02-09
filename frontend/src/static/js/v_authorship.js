@@ -176,6 +176,7 @@ window.vAuthorship = {
     },
 
     filesSort() {
+      this.getSelectedFiles();
       this.selectedFiles.sort(window.comparator(filesSortDict[this.filesSortType]));
 
       if (this.filesSortReverse) {
