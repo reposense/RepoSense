@@ -2,7 +2,7 @@ window.toggleNext = function toggleNext(ele) {
   // function for toggling unopened code
   const targetClass = 'active';
 
-  const parent = ele.parentNode.parentNode;
+  const parent = ele.parentNode;
   const classes = parent.className.split(' ');
   const idx = classes.indexOf(targetClass);
 
@@ -203,13 +203,5 @@ window.vAuthorship = {
 
   created() {
     this.initiate();
-  },
-
-  updated() {
-    this.$nextTick(() => {
-      document.querySelectorAll('pre.hljs code').forEach((ele) => {
-        window.hljs.highlightBlock(ele);
-      });
-    });
   },
 };
