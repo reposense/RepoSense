@@ -74,14 +74,14 @@ Named Arguments:
 ```
 --help, -h           Show help message.
 --view [PATH], -v [PATH]
-                     Starts a server to  display  the  dashboard in the
-                     provided directory.If  used  as  a  flag  (with no
-                     argument), generates  a  report  and automatically
+                     Starts a server to display the dashboard in the
+                     provided directory. If used as a flag (with no
+                     argument), generates a report and automatically
                      displays the dashboard.
 --output PATH, -o PATH
-                     The  directory  to   output   the  report  folder,
-                     reposense-report.  If  not  provided,  the  report
-                     folder will  be  created  in  the  current working
+                     The directory to output the report folder,
+                     reposense-report. If not provided, the report
+                     folder will be created in the current working
                      directory.
 --since dd/MM/yyyy, -s dd/MM/yyyy
                      The date to start filtering.
@@ -89,19 +89,18 @@ Named Arguments:
                      The date to stop filtering.
 --formats [FORMAT [FORMAT ...]], -f [FORMAT [FORMAT ...]]
                      The alphanumeric file formats to process.
-                     If not  provided,  default  file  formats  will be
+                     If not provided, default file formats will be
                      used.
                      Please refer to userguide for more information.
 --ignore-standalone-config, -i
-                     A flag to  ignore  the  standalone  config file in
+                     A flag to ignore the standalone config file in
                      the repo.
 --config PATH, -c PATH
-                     The directory containing  the  config files.If not
-                     provided, the config files  will  be obtained from
+                     The directory containing the config files. If not
+                     provided, the config files will be obtained from
                      the current working directory.
 --repo LOCATION [LOCATION ...], --repos LOCATION [LOCATION ...], -r LOCATION [LOCATION ...]
-                     The  GitHub  URL  or   disk   locations  to  clone
-                     repository.
+                     The GitHub URL or disk locations to clone repository.
 ```
 
 

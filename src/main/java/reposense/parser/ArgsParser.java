@@ -62,7 +62,7 @@ public class ArgsParser {
                 .type(new ConfigFolderArgumentType())
                 .metavar("PATH")
                 .setDefault(EMPTY_PATH.toAbsolutePath())
-                .help("The directory containing the config files."
+                .help("The directory containing the config files. "
                         + "If not provided, the config files will be obtained from the current working directory.");
 
         mutexParser.addArgument(REPO_FLAGS)
@@ -77,7 +77,7 @@ public class ArgsParser {
                 .metavar("PATH")
                 .type(new ReportFolderArgumentType())
                 .setConst(EMPTY_PATH)
-                .help("Starts a server to display the dashboard in the provided directory."
+                .help("Starts a server to display the dashboard in the provided directory. "
                         + "If used as a flag (with no argument), "
                         + "generates a report and automatically displays the dashboard.");
 
