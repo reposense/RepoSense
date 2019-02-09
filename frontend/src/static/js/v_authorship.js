@@ -69,8 +69,6 @@ window.vAuthorship = {
       addHash('tabRepo', this.info.repo);
       addHash('tabName', this.info.name);
       addHash('tabLocation', this.info.location);
-      addHash('tabMinDate', this.info.minDate);
-      addHash('tabMaxDate', this.info.maxDate);
       addHash('tabTotalCommits', this.info.totalCommits);
     },
 

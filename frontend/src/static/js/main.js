@@ -169,14 +169,20 @@ window.app = new window.Vue({
     renderAuthorShipTabHash() {
       const hash = window.hashParams;
       const info = {};
-      const tabKeys = ['tabAuthor', 'tabRepo', 'tabName', 'tabLocation', 'tabMinDate', 'tabMaxDate', 'tabTotalCommits'];
+      const tabKeys = ['tabAuthor', 'tabRepo', 'tabName', 'tabLocation', 'tabTotalCommits'];
       tabKeys.forEach((key) => {
         if (hash[key]) {
           const slicedName = key.charAt(3).toLowerCase() + key.slice(4);
           info[slicedName] = hash[key];
         }
       });
-      if (Object.keys(info).length > 0) {
+      if (hash.since) {
+        info.minDate = hash.since;
+      }
+      if (hash.until) {
+        info.maxDate = hash.until;
+      }
+      if (Object.keys(info).length === 7) {
         this.updateTabAuthorship(info);
       } else if (hash.tabOpen === 'false') {
         this.isTabActive = false;
@@ -194,7 +200,7 @@ window.app = new window.Vue({
     },
 
     removeInfoHash(hashObj) {
-      const tabKeys = ['tabAuthor', 'tabRepo', 'tabName', 'tabLocation', 'tabMinDate', 'tabMaxDate', 'tabTotalCommits'];
+      const tabKeys = ['tabAuthor', 'tabRepo', 'tabName', 'tabLocation', 'tabTotalCommits'];
       return hashObj.filter((value) => {
         const key = value.split('=')[0];
         return !tabKeys.includes(key);
