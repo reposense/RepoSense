@@ -37,7 +37,7 @@ html
           .tab-content
             .tab-panes
               #tab-authorship.tab-pane(v-if="isTabAuthorship")
-                .toolbar(v-if="tabInfo.tabAuthorship.totalCommits > 0")
+                .toolbar(v-if="hasCommits(tabInfo.tabAuthorship)")
                     a(v-if="isCollapsed", v-on:click="expand(true)") Expand all
                     a(v-else, v-on:click="expand(false)") Collapse all
                 v_authorship(

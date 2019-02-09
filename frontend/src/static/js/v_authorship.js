@@ -68,7 +68,6 @@ window.vAuthorship = {
       addHash('tabAuthor', this.info.author);
       addHash('tabName', this.info.name);
       addHash('tabLocation', this.info.location);
-      addHash('tabTotalCommits', this.info.totalCommits);
     },
 
     splitSegments(lines) {

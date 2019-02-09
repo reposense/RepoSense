@@ -169,7 +169,7 @@ window.app = new window.Vue({
     renderAuthorShipTabHash() {
       const hash = window.hashParams;
       const info = {};
-      const tabKeys = ['tabAuthor', 'tabName', 'tabLocation', 'tabTotalCommits'];
+      const tabKeys = ['tabAuthor', 'tabName', 'tabLocation'];
       tabKeys.forEach((key) => {
         if (hash[key]) {
           const slicedName = key.charAt(3).toLowerCase() + key.slice(4);
@@ -191,7 +191,7 @@ window.app = new window.Vue({
           info.repo = repoName.join('_');
         }
       }
-      if (Object.keys(info).length === 7) {
+      if (Object.keys(info).length === 6) {
         this.updateTabAuthorship(info);
       } else if (hash.tabOpen === 'false') {
         this.isTabActive = false;
@@ -208,8 +208,12 @@ window.app = new window.Vue({
       return JSON.stringify(dataObj);
     },
 
+    hasCommits(info) {
+      return window.REPOS[info.repo].commits.authorFinalContributionMap[info.author] > 0;
+    },
+
     removeInfoHash(hashObj) {
-      const tabKeys = ['tabAuthor', 'tabRepo', 'tabName', 'tabLocation', 'tabTotalCommits'];
+      const tabKeys = ['tabAuthor', 'tabRepo', 'tabName', 'tabLocation'];
       return hashObj.filter((value) => {
         const key = value.split('=')[0];
         return !tabKeys.includes(key);
