@@ -169,7 +169,7 @@ window.app = new window.Vue({
     renderAuthorShipTabHash() {
       const hash = window.hashParams;
       const info = {};
-      const tabKeys = ['tabAuthor', 'tabName', 'tabLocation'];
+      const tabKeys = ['tabAuthor', 'tabLocation'];
       tabKeys.forEach((key) => {
         if (hash[key]) {
           const slicedName = key.charAt(3).toLowerCase() + key.slice(4);
@@ -191,7 +191,7 @@ window.app = new window.Vue({
           info.repo = repoName.join('_');
         }
       }
-      if (Object.keys(info).length === 6) {
+      if (Object.keys(info).length === 5) {
         this.updateTabAuthorship(info);
       } else if (hash.tabOpen === 'false') {
         this.isTabActive = false;
@@ -213,7 +213,7 @@ window.app = new window.Vue({
     },
 
     removeInfoHash(hashObj) {
-      const tabKeys = ['tabAuthor', 'tabRepo', 'tabName', 'tabLocation'];
+      const tabKeys = ['tabAuthor', 'tabLocation'];
       return hashObj.filter((value) => {
         const key = value.split('=')[0];
         return !tabKeys.includes(key);
