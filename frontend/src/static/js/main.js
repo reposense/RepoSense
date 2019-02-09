@@ -176,16 +176,12 @@ window.app = new window.Vue({
           info[slicedName] = hash[key];
         }
       });
-      if (hash.since) {
-        info.minDate = hash.since;
-      }
-      if (hash.until) {
-        info.maxDate = hash.until;
-      }
+      if (hash.since) { info.minDate = hash.since; }
+      if (hash.until) { info.maxDate = hash.until; }
       if (info.location) {
         const repoName = info.location.split('github.com/')[1].split('/');
         if (repoName.length === 2) {
-          info.repo = repoName.join('_').slice(0, -4) + '_master';
+          info.repo = `${repoName.join('_').slice(0, -4)}_master`;
         } else {
           repoName.splice(2, 1);
           info.repo = repoName.join('_');
