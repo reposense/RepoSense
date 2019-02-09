@@ -169,7 +169,7 @@ window.app = new window.Vue({
     renderAuthorShipTabHash() {
       const hash = window.hashParams;
       const info = {};
-      const tabKeys = ['tabAuthor', 'tabRepo', 'tabName', 'tabLocation', 'tabTotalCommits'];
+      const tabKeys = ['tabAuthor', 'tabName', 'tabLocation', 'tabTotalCommits'];
       tabKeys.forEach((key) => {
         if (hash[key]) {
           const slicedName = key.charAt(3).toLowerCase() + key.slice(4);
@@ -181,6 +181,15 @@ window.app = new window.Vue({
       }
       if (hash.until) {
         info.maxDate = hash.until;
+      }
+      if (info.location) {
+        const repoName = info.location.split('github.com/')[1].split('/');
+        if (repoName.length === 2) {
+          info.repo = repoName.join('_').slice(0, -4) + '_master';
+        } else {
+          repoName.splice(2, 1);
+          info.repo = repoName.join('_');
+        }
       }
       if (Object.keys(info).length === 7) {
         this.updateTabAuthorship(info);

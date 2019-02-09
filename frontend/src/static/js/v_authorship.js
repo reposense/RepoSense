@@ -66,7 +66,6 @@ window.vAuthorship = {
     getInfoHash() {
       const { addHash } = window;
       addHash('tabAuthor', this.info.author);
-      addHash('tabRepo', this.info.repo);
       addHash('tabName', this.info.name);
       addHash('tabLocation', this.info.location);
       addHash('tabTotalCommits', this.info.totalCommits);
