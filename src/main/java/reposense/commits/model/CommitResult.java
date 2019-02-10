@@ -8,12 +8,13 @@ import reposense.model.Author;
  * Stores the result from analyzing a {@code CommitInfo}.
  */
 public class CommitResult {
-    private final Author author;
     private final String hash;
-    private final Date time;
     private final String message;
     private final int insertions;
     private final int deletions;
+
+    private final transient Author author;
+    private final transient Date time;
 
     public CommitResult(Author author, String hash, Date time, String message, int insertions, int deletions) {
         this.author = author;

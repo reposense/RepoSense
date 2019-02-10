@@ -4,12 +4,11 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import reposense.commits.model.AuthorIntervalContribution;
+import reposense.commits.model.AuthorDailyContribution;
 import reposense.commits.model.CommitContributionSummary;
 import reposense.commits.model.CommitResult;
 import reposense.model.Author;
@@ -26,85 +25,74 @@ public class CommitResultAggregator {
     public static CommitContributionSummary aggregateCommitResults(
             RepoConfiguration config, List<CommitResult> commitResults) {
         Date startDate = config.getSinceDate() == null ? getStartDate(commitResults) : config.getSinceDate();
-        HashSet<Author> suspiciousAuthors = new HashSet<>();
 
-        Map<Author, List<AuthorIntervalContribution>> authorDailyIntervalContributions =
-                getAuthorIntervalContributions(config, commitResults, startDate, 1, suspiciousAuthors);
-
-        Map<Author, List<AuthorIntervalContribution>> authorWeeklyIntervalContributions =
-                getAuthorIntervalContributions(config, commitResults, startDate, 7, suspiciousAuthors);
+        Map<Author, List<AuthorDailyContribution>> authorDailyContributionsMap =
+                getAuthorDailyContributionsMap(config.getAuthorDisplayNameMap().keySet(), commitResults, startDate);
 
         Map<Author, Float> authorContributionVariance =
-                calcAuthorContributionVariance(authorDailyIntervalContributions);
+                calcAuthorContributionVariance(authorDailyContributionsMap);
 
         return new CommitContributionSummary(
                 config.getAuthorDisplayNameMap(),
-                authorDailyIntervalContributions,
-                authorWeeklyIntervalContributions,
+                authorDailyContributionsMap,
                 authorContributionVariance);
     }
 
     private static Map<Author, Float> calcAuthorContributionVariance(
-            Map<Author, List<AuthorIntervalContribution>> intervalContributionMaps) {
+            Map<Author, List<AuthorDailyContribution>> intervalContributionMaps) {
         Map<Author, Float> result = new HashMap<>();
         for (Author author : intervalContributionMaps.keySet()) {
-            List<AuthorIntervalContribution> contributions = intervalContributionMaps.get(author);
+            List<AuthorDailyContribution> contributions = intervalContributionMaps.get(author);
             result.put(author, getContributionVariance(contributions));
         }
         return result;
     }
 
-    private static float getContributionVariance(List<AuthorIntervalContribution> contributions) {
+    private static float getContributionVariance(List<AuthorDailyContribution> contributions) {
         if (contributions.size() == 0) {
             return 0;
         }
         //get mean
         float total = 0;
-        for (AuthorIntervalContribution contribution : contributions) {
+        for (AuthorDailyContribution contribution : contributions) {
             total += contribution.getTotalContribution();
         }
         float mean = total / contributions.size();
         float variance = 0;
-        for (AuthorIntervalContribution contribution : contributions) {
+        for (AuthorDailyContribution contribution : contributions) {
             variance += Math.pow((mean - contribution.getTotalContribution()), 2);
         }
         return variance / contributions.size();
     }
 
-    private static Map<Author, List<AuthorIntervalContribution>> getAuthorIntervalContributions(
-            RepoConfiguration config, List<CommitResult> commitInfos,
-            Date startDate, int intervalLength, Set<Author> suspiciousAuthors) {
-        //init
-        Map<Author, List<AuthorIntervalContribution>> result = new HashMap<>();
-        for (Author author : config.getAuthorDisplayNameMap().keySet()) {
-            result.put(author, new ArrayList<>());
-        }
-        if (!commitInfos.isEmpty()) {
-            Date currentDate = getStartOfDate(startDate);
-            Date nextDate = getNextCutoffDate(currentDate, intervalLength);
-            initIntervalContributionForNewDate(result, currentDate, nextDate);
+    private static Map<Author, List<AuthorDailyContribution>> getAuthorDailyContributionsMap(
+            Set<Author> authorSet, List<CommitResult> commitResults, Date startDate) {
+        Map<Author, List<AuthorDailyContribution>> authorDailyContributionsMap = new HashMap<>();
+        authorSet.forEach(author -> authorDailyContributionsMap.put(author, new ArrayList<>()));
 
-            for (CommitResult commit : commitInfos) {
-                while (nextDate.before(commit.getTime())) {
-                    currentDate = new Date(nextDate.getTime());
-                    nextDate = getNextCutoffDate(nextDate, intervalLength);
-                    initIntervalContributionForNewDate(result, currentDate, nextDate);
-                }
-                List<AuthorIntervalContribution> tempList = result.get(commit.getAuthor());
-                if (tempList != null) {
-                    tempList.get(tempList.size() - 1).updateForCommit(commit);
-                }
+        Date currentDate = getStartOfDate(startDate);
+        Date nextDate = getNextDayDate(currentDate);
+        addDailyContributionForNewDate(authorDailyContributionsMap, currentDate);
+
+        for (CommitResult commitResult : commitResults) {
+            while (nextDate.before(commitResult.getTime())) {
+                currentDate = new Date(nextDate.getTime());
+                nextDate = getNextDayDate(nextDate);
+                addDailyContributionForNewDate(authorDailyContributionsMap, currentDate);
             }
+
+            List<AuthorDailyContribution> authorContributions =
+                    authorDailyContributionsMap.get(commitResult.getAuthor());
+            authorContributions.get(authorContributions.size() - 1).addCommitContribution(commitResult);
         }
-        return result;
+
+        return authorDailyContributionsMap;
     }
 
-    private static void initIntervalContributionForNewDate(
-            Map<Author, List<AuthorIntervalContribution>> map, Date sinceDate, Date untilDate) {
-        for (List<AuthorIntervalContribution> dateToInterval : map.values()) {
-            //dials back one minute so that github api can include the commit on the time itself
-            dateToInterval.add(new AuthorIntervalContribution(0, 0, sinceDate, untilDate));
-        }
+    private static void addDailyContributionForNewDate(
+            Map<Author, List<AuthorDailyContribution>> authorDailyContributionsMap, Date date) {
+        authorDailyContributionsMap.values().forEach(authorDailyContributions ->
+                authorDailyContributions.add(new AuthorDailyContribution(date)));
     }
 
     private static Date getStartOfDate(Date current) {
@@ -117,10 +105,10 @@ public class CommitResultAggregator {
         return cal.getTime();
     }
 
-    private static Date getNextCutoffDate(Date current, int intervalLength) {
+    private static Date getNextDayDate(Date current) {
         Calendar c = Calendar.getInstance();
         c.setTime(current);
-        c.add(Calendar.DATE, intervalLength);
+        c.add(Calendar.DATE, 1);
         return c.getTime();
     }
 
