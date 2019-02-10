@@ -24,6 +24,26 @@ window.expandAll = function expandAll(isActive) {
   });
 };
 
+window.enableSearchBar = function enableSearchBar(evt) {
+  document.getElementById('search').disabled = false;
+  document.getElementById('submit-button').disabled = false;
+  const checkboxes = document.getElementsByClassName('mui-checkbox--filetype');
+  Array.from(checkboxes).forEach((checkbox) => {
+    checkbox.disabled = true;
+  });
+};
+
+window.enableCheckBoxes = function enableCheckBoxes(evt) {
+   document.getElementById('search').disabled = true;
+   document.getElementById('search').value = "";
+   document.getElementById('submit-button').disabled = true;
+   const checkboxes = document.getElementsByClassName('mui-checkbox--filetype');
+   Array.from(checkboxes).forEach((checkbox) => {
+     checkbox.disabled = false;
+     checkbox.checked = true;
+   });
+};
+
 const repoCache = [];
 window.vAuthorship = {
   props: ['info'],
@@ -189,8 +209,7 @@ window.vAuthorship = {
 
     getFilteredFiles() {
       var minimatch = require('minimatch');
-      this.selectedFiles = this.files.filter((file) => minimatch(file.path, this.filterSearch, { matchBase:true })
-          && this.selectedFileTypes.includes((file.path.split('.').pop())));
+      this.selectedFiles = this.files.filter((file) => minimatch(file.path, this.filterSearch, { matchBase:true }));
     },
 
     getFileLink(file, path) {
