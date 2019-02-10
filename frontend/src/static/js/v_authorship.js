@@ -15,10 +15,10 @@ window.toggleNext = function toggleNext(ele) {
   parent.className = classes.join(' ');
 
   // Update expand/collapse all button
-  if (document.getElementsByClassName('file active').length === 1) {
-    window.app.isCollapsed = true;
-  } else if (document.getElementsByClassName('file active').length === document.getElementsByClassName('file').length) {
+  if (document.getElementsByClassName('file active').length + 1 === document.getElementsByClassName('file').length) {
     window.app.isCollapsed = false;
+  } else if (document.getElementsByClassName('file active').length === 0) {
+    window.app.isCollapsed = true;
   }
 };
 
