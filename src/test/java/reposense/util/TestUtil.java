@@ -106,17 +106,7 @@ public class TestUtil {
      * @throws AssertionError if any attributes fail equality check.
      */
     public static void compareRepoConfig(RepoConfiguration expectedRepoConfig, RepoConfiguration actualRepoConfig) {
-        Assert.assertEquals(expectedRepoConfig.getLocation(), actualRepoConfig.getLocation());
-        Assert.assertEquals(expectedRepoConfig.getBranch(), actualRepoConfig.getBranch());
-        Assert.assertEquals(expectedRepoConfig.getAuthorList(), actualRepoConfig.getAuthorList());
-        Assert.assertEquals(expectedRepoConfig.getAuthorDisplayNameMap(), actualRepoConfig.getAuthorDisplayNameMap());
-        Assert.assertEquals(
-                expectedRepoConfig.getAuthorEmailsAndAliasesMap(), actualRepoConfig.getAuthorEmailsAndAliasesMap());
-        Assert.assertEquals(expectedRepoConfig.getIgnoreGlobList(), actualRepoConfig.getIgnoreGlobList());
-        Assert.assertEquals(
-                expectedRepoConfig.isStandaloneConfigIgnored(), actualRepoConfig.isStandaloneConfigIgnored());
-        Assert.assertEquals(expectedRepoConfig.getIgnoreGlobList(), actualRepoConfig.getIgnoreGlobList());
-        Assert.assertEquals(expectedRepoConfig.getFormats(), actualRepoConfig.getFormats());
+        Assert.assertEquals(expectedRepoConfig, actualRepoConfig);
 
         for (int i = 0; i < expectedRepoConfig.getAuthorList().size(); i++) {
             compareAuthor(expectedRepoConfig.getAuthorList().get(i), actualRepoConfig.getAuthorList().get(i));

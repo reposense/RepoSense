@@ -130,19 +130,19 @@ window.vSummary = {
       const newSize = 100 * (slice.insertions / this.avgCommitSize);
       return Math.max(newSize * this.rampSize, 0.5);
     },
-    getSliceTitle(slice) {
-      return `contribution on ${slice.sinceDate}: ${slice.insertions} lines`;
+    getSlicePos(i, total) {
+      return (total - i - 1) / total;
     },
     getSliceLink(user, slice) {
       const { REPOS } = window;
-      const untilDate = this.filterTimeFrame === 'week' ? addDays(slice.sinceDate, 6) : slice.sinceDate;
+      const untilDate = this.filterTimeFrame === 'week' ? addDays(slice.date, 6) : slice.date;
 
       return `http://github.com/${
         REPOS[user.repoId].location.organization}/${
         REPOS[user.repoId].location.repoName}/commits/${
         REPOS[user.repoId].branch}?`
                 + `author=${user.name}&`
-                + `since=${slice.sinceDate}'T'00:00:00+08:00&`
+                + `since=${slice.date}'T'00:00:00+08:00&`
                 + `until=${untilDate}'T'23:59:59+08:00`;
     },
     getContributionBars(totalContribution) {
@@ -292,8 +292,7 @@ window.vSummary = {
         const week = {
           insertions: 0,
           deletions: 0,
-          sinceDate: commits[weekId * 7].sinceDate,
-          untilDate: '',
+          date: commits[weekId * 7].date,
         };
 
         for (let dayId = 0; dayId < 7; dayId += 1) {
@@ -301,7 +300,6 @@ window.vSummary = {
           if (commit) {
             week.insertions += commit.insertions;
             week.deletions += commit.deletions;
-            week.untilDate = commit.untilDate;
           }
         }
 
@@ -320,32 +318,32 @@ window.vSummary = {
       }
 
       let sinceDate = this.filterSinceDate;
-      if (!sinceDate) {
-        ({ sinceDate } = userFirst);
+      if (!sinceDate || sinceDate === 'undefined') {
+        sinceDate = userFirst.date;
       }
 
       let untilDate = this.filterUntilDate;
       if (!untilDate) {
-        untilDate = userLast.sinceDate;
+        untilDate = userLast.date;
       }
 
       if (this.filterTimeFrame === 'week') {
         sinceDate = dateRounding(sinceDate, 1);
       }
-      let diff = getIntervalDay(userFirst.sinceDate, sinceDate);
+      let diff = getIntervalDay(userFirst.date, sinceDate);
 
       const startMs = (new Date(sinceDate)).getTime();
       for (let dayId = 0; dayId < diff; dayId += 1) {
         user.commits.push({
           insertions: 0,
           deletions: 0,
-          sinceDate: getDateStr(startMs + (dayId * DAY_IN_MS)),
-          untilDate: getDateStr(startMs + ((dayId + 1) * DAY_IN_MS)),
+          commitResults: [],
+          date: getDateStr(startMs + (dayId * DAY_IN_MS)),
         });
       }
 
       user.dailyCommits.forEach((commit) => {
-        const date = commit.sinceDate;
+        const { date } = commit;
         if (date >= sinceDate && date <= untilDate) {
           user.commits.push(commit);
         }
@@ -354,15 +352,15 @@ window.vSummary = {
       if (this.filterTimeFrame === 'week') {
         untilDate = dateRounding(untilDate);
       }
-      diff = getIntervalDay(untilDate, userLast.sinceDate);
+      diff = getIntervalDay(untilDate, userLast.date);
 
-      const endMs = (new Date(userLast.sinceDate)).getTime();
+      const endMs = (new Date(userLast.date)).getTime();
       for (let paddingId = 1; paddingId < diff; paddingId += 1) {
         user.commits.push({
           insertions: 0,
           deletions: 0,
-          sinceDate: getDateStr(endMs + (paddingId * DAY_IN_MS)),
-          untilDate: getDateStr(endMs + ((paddingId + 1) * DAY_IN_MS)),
+          commitResults: [],
+          date: getDateStr(endMs + (paddingId * DAY_IN_MS)),
         });
       }
 
