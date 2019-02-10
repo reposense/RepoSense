@@ -1,0 +1,9 @@
+{
+  "scripts": {
+    "headless-tests": "cypress run",
+    "interactive-tests": "cypress open"
+  },
+  "devDependencies": {
+    "cypress": "^3.1.5"
+  }
+}

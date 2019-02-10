@@ -1,0 +1,8 @@
+{
+  "baseUrl": "http://localhost:9000",
+  "testFiles": "**/*.js",
+  "integrationFolder": "tests",
+  "fixturesFolder": false,
+  "pluginsFile": false,
+  "video": false
+}
