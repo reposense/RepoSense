@@ -35,7 +35,7 @@ window.enableSearchBar = function enableSearchBar(evt) {
 
 window.enableCheckBoxes = function enableCheckBoxes(evt) {
    document.getElementById('search').disabled = true;
-   document.getElementById('search').value = "";
+   document.getElementById('search').value = '';
    document.getElementById('submit-button').disabled = true;
    const checkboxes = document.getElementsByClassName('mui-checkbox--filetype');
    Array.from(checkboxes).forEach((checkbox) => {
