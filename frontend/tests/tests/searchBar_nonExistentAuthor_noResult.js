@@ -5,7 +5,7 @@ describe('search non-existent author', function () {
     cy.get('#summary-wrapper input[type=text]')
       .type('abcdef')
       .type('{enter}');
-    
+
     // Enter does not work, let's manually submit form
     cy.get('#summary-wrapper form.summary-picker')
       .submit();

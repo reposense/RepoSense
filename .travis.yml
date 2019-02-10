@@ -5,23 +5,47 @@ matrix:
     - name: Ubuntu 14.04 JDK 9
       os: linux
       jdk: oraclejdk9
+      install:
+        - npm install --only=dev
+      script:
+        - ./config/travis/run-checks.sh
+        - npm run lint frontend/src/**/*.js
+        - time travis_retry ./gradlew clean checkstyleMain checkstyleTest test systemTest
 
     - name: macOS 10.13 JDK 10
       os: osx
+      install:
+        - npm install --only=dev
+      script:
+        - ./config/travis/run-checks.sh
+        - npm run lint frontend/src/**/*.js
+        - time travis_retry ./gradlew clean checkstyleMain checkstyleTest test systemTest
 
-script:
-  - ./config/travis/run-checks.sh
-  - npm run lint frontend/src/**/*.js
-  - time travis_retry ./gradlew clean checkstyleMain checkstyleTest test systemTest
-
-before_install:
-  - npm install --only=dev
+    - name: "Cypress frontend tests"
+      os: linux
+      dist: xenial
+      addons:
+        chrome: stable
+      services:
+        - xvfb
+      before_install:
+        - sudo apt-get install -y libgtk2.0-0 libnotify-dev libgconf-2-4 libnss3 libxss1 libasound2
+      install:
+        - (cd ./frontend/tests && npm ci)
+      script:
+        - ./gradlew zipreport && ./gradlew run -Dargs="-repos https://github.com/yong24s/toolbox.git"
+        - (cd reposense-report && python -m SimpleHTTPServer 9000 > /dev/null 2>&1 & disown)
+        - sleep 3
+        - (cd ./frontend/tests && npm run-script headless-tests)
+        - pkill -f SimpleHTTPServer
 
 before_cache:
   - rm -f  $HOME/.gradle/caches/modules-2/modules-2.lock
   - rm -fr $HOME/.gradle/caches/*/plugin-resolution/
 
 cache:
+  npm: true,
   directories:
     - $HOME/.gradle/caches/
     - $HOME/.gradle/wrapper/
+    - $HOME/.cache

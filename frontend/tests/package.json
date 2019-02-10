@@ -1,6 +1,6 @@
 {
   "scripts": {
-    "headless-tests": "cypress run",
+    "headless-tests": "cypress run --browser chrome",
     "interactive-tests": "cypress open"
   },
   "devDependencies": {
