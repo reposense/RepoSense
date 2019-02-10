@@ -2,28 +2,23 @@ language: java
 
 matrix:
   include:
-    - os: linux
+    - name: Linux Ubuntu 14.04 JDK 9
+      os: linux
       jdk: oraclejdk9
-    - os: osx
+    - name: MacOS 10.13 JDK 9
+      os: osx
 
 script:
   - ./config/travis/run-checks.sh
   - npm run lint frontend/src/**/*.js
   - time travis_retry ./gradlew clean checkstyleMain checkstyleTest test systemTest
 
-addons:
-  apt:
-    packages:
-      - oracle-java9-installer
-
-before_install:
-  - cd ./frontend; npm install --only=dev; cd ..
-
 before_cache:
   - rm -f  $HOME/.gradle/caches/modules-2/modules-2.lock
   - rm -fr $HOME/.gradle/caches/*/plugin-resolution/
 
 cache:
+  npm: true,
   directories:
     - $HOME/.gradle/caches/
     - $HOME/.gradle/wrapper/
