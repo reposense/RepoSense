@@ -74,7 +74,7 @@ window.vAuthorship = {
       }
     },
 
-    getInfoHash() {
+    setInfoHash() {
       const { addHash } = window;
       addHash('tabAuthor', this.info.author);
       addHash('tabLocation', this.info.location);
@@ -220,6 +220,6 @@ window.vAuthorship = {
 
   created() {
     this.initiate();
-    this.getInfoHash();
+    this.setInfoHash();
   },
 };
