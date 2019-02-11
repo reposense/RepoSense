@@ -29,8 +29,7 @@ window.enableSearchBar = function enableSearchBar() {
   document.getElementById('submit-button').disabled = false;
   const checkboxes = document.getElementsByClassName('mui-checkbox--filetype');
   Array.from(checkboxes).forEach((checkbox) => {
-    var isDisabled = checkbox.disabled;
-    isDisabled = true;
+    checkbox.disabled = true;
   });
 };
 
@@ -40,10 +39,8 @@ window.enableCheckBoxes = function enableCheckBoxes() {
   document.getElementById('submit-button').disabled = true;
   const checkboxes = document.getElementsByClassName('mui-checkbox--filetype');
   Array.from(checkboxes).forEach((checkbox) => {
-    var isChecked = checkbox.checked;
-    var isDisabled = checkbox.disabled;
-    isDisabled = false;
-    isChecked = true;
+    checkbox.checked = true;
+    checkbox.disabled = false;
   });
 };
 
