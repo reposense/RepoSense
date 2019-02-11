@@ -8,7 +8,7 @@
   },
   "scripts": {
     "lint": "eslint",
-    "spuild": "spuild frontend",
+    "spuild": "npm run build; spuild frontend",
     "build": "browserify -t vueify -e frontend/src/static/js/v_authorship.js -o frontend/src/build/v_authorship.js"
   },
   "repository": {
