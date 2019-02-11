@@ -148,7 +148,7 @@ html
             v-bind:href="info.location", target="_blank",
             v-bind:title="'Click to open the repo'"
           ) {{ info.repo }}
-          .author {{ info.author }}'s contribution from {{ info.minDate }} to {{ info.maxDate }}
+          .author {{ info.name }} ({{ info.author }}) contribution from {{ info.minDate }} to {{ info.maxDate }}
           .contribution(v-if="isLoaded")
             div.checkboxes.mui-form--inline(v-if="files.length > 0")
               label

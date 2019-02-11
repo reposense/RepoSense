@@ -46,6 +46,7 @@ window.vAuthorship = {
   methods: {
     initiate() {
       const repo = window.REPOS[this.info.repo];
+      this.getAuthorName(repo);
 
       if (repoCache.length === 2) {
         const toRemove = repoCache.shift();
@@ -60,6 +61,16 @@ window.vAuthorship = {
       } else {
         window.api.loadAuthorship(this.info.repo)
             .then((files) => this.processFiles(files));
+      }
+    },
+
+    getAuthorName(repo) {
+      if (!this.info.name) {
+        repo.users.forEach((user) => {
+          if (user.name === this.info.author) {
+            this.info.name = user.name;
+          }
+        });
       }
     },
 
