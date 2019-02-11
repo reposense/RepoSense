@@ -70,6 +70,8 @@ task zipReport(dependsOn: 'npmRunSpuild', type: Zip) {
 tasks.shadowJar.dependsOn('zipReport');
 tasks.run.dependsOn('zipReport');
 
+tasks.run.shouldRunAfter('zipReport');
+
 task systemtest(dependsOn: 'zipReport', type: Test) {
   testClassesDirs = sourceSets.systemtest.output.classesDirs
   classpath = sourceSets.systemtest.runtimeClasspath
