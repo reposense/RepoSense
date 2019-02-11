@@ -12,31 +12,30 @@ function comparator(fn) {
 }
 
 // ui funcs //
-function getMainChart(div){
-  return (div.className === 'summary-chart__ramp')
-    ? div : getMainChart(div.parentElement);
+function getBaseTarget(target){
+  return (target.className === 'summary-chart__ramp')
+    ? target : getBaseTarget(target.parentElement);
 }
 
-function dragViewDown(event){
-  const target = getMainChart(event.target);
-  target.drags = [event.clientX];
+function dragViewDown(evt){
+  document.querySelectorAll('.summary-chart__ramp .overlay')
+    .forEach(x => { x.style.width='0'; });
+  getBaseTarget(evt.target).drags = [evt.clientX];
 }
 
-function dragViewUp(event){
-  const target = getMainChart(event.target);
-  const base = target.offsetWidth;
+function dragViewUp(evt){
+  const ramp = getBaseTarget(evt.target);
 
-  const drags = target.drags;
-  drags.push(event.layerX);
+  const base = ramp.offsetWidth;
+  const drags = ramp.drags;
+  drags.push(evt.clientX);
   drags.sort();
 
-  console.log(target);
-  window.target = target;
+  const offset = ramp.parentElement.offsetLeft;
+  const overlay = ramp.getElementsByClassName('overlay')[0];
 
-  const overlay = event.target.getElementsByClassName('overlay')[0];
-  overlay.style.marginLeft = drags[0]*100/base + '%';
+  overlay.style.marginLeft = (drags[0]-offset)*100/base + '%';
   overlay.style.width = (drags[1]-drags[0])*100/base + '%';
-  console.log(overlay);
 }
 
 // date functions //

@@ -231,6 +231,7 @@ header{
     &__ramp{
         font-size:100%;
         position:relative;
+        cursor:crosshair;
 
         $height:3rem;
         height:$height;
