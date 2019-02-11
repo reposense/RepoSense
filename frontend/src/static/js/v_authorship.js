@@ -24,27 +24,31 @@ window.expandAll = function expandAll(isActive) {
   });
 };
 
-window.enableSearchBar = function enableSearchBar(evt) {
+window.enableSearchBar = function enableSearchBar() {
   document.getElementById('search').disabled = false;
   document.getElementById('submit-button').disabled = false;
   const checkboxes = document.getElementsByClassName('mui-checkbox--filetype');
   Array.from(checkboxes).forEach((checkbox) => {
-    checkbox.disabled = true;
+    var isDisabled = checkbox.disabled;
+    isDisabled = true;
   });
 };
 
-window.enableCheckBoxes = function enableCheckBoxes(evt) {
-   document.getElementById('search').disabled = true;
-   document.getElementById('search').value = '';
-   document.getElementById('submit-button').disabled = true;
-   const checkboxes = document.getElementsByClassName('mui-checkbox--filetype');
-   Array.from(checkboxes).forEach((checkbox) => {
-     checkbox.disabled = false;
-     checkbox.checked = true;
-   });
+window.enableCheckBoxes = function enableCheckBoxes() {
+  document.getElementById('search').disabled = true;
+  document.getElementById('search').value = '';
+  document.getElementById('submit-button').disabled = true;
+  const checkboxes = document.getElementsByClassName('mui-checkbox--filetype');
+  Array.from(checkboxes).forEach((checkbox) => {
+    var isChecked = checkbox.checked;
+    var isDisabled = checkbox.disabled;
+    isDisabled = false;
+    isChecked = true;
+  });
 };
 
 const repoCache = [];
+const minimatch = require('minimatch');
 window.vAuthorship = {
   props: ['info'],
   template: window.$('v_authorship').innerHTML,
@@ -208,8 +212,8 @@ window.vAuthorship = {
     },
 
     getFilteredFiles() {
-      var minimatch = require('minimatch');
-      this.selectedFiles = this.files.filter((file) => minimatch(file.path, this.filterSearch, { matchBase:true }));
+      this.selectedFiles = this.files.filter((file) =>
+          minimatch(file.path, this.filterSearch, { matchBase: true }));
     },
 
     getFileLink(file, path) {
