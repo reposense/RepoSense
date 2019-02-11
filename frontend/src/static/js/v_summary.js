@@ -216,7 +216,7 @@ window.vSummary = {
         repo.forEach((user) => {
           const { commits } = user;
           if (commits.length) {
-            const date1 = commits[0].sinceDate;
+            const date1 = commits[0].date;
             if (!minDate || minDate > date1) {
               minDate = date1;
             }
