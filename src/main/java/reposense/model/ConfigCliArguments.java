@@ -21,11 +21,9 @@ public class ConfigCliArguments extends CliArguments {
 
     public ConfigCliArguments(Path configFolderPath, Path outputFilePath, Optional<Date> sinceDate,
             Optional<Date> untilDate, List<Format> formats, boolean isAutomaticallyLaunching) {
-        if (configFolderPath.equals(EMPTY_PATH)) {
-            this.configFolderPath = configFolderPath.toAbsolutePath();
-        } else {
-            this.configFolderPath = configFolderPath;
-        }
+        this.configFolderPath = configFolderPath.equals(EMPTY_PATH)
+                ? configFolderPath.toAbsolutePath()
+                : configFolderPath;
         this.repoConfigFilePath = configFolderPath.resolve(RepoConfigCsvParser.REPO_CONFIG_FILENAME);
         this.authorConfigFilePath = configFolderPath.resolve(AuthorConfigCsvParser.AUTHOR_CONFIG_FILENAME);
         this.outputFilePath = outputFilePath;

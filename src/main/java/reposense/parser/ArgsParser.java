@@ -26,6 +26,7 @@ import reposense.system.LogsManager;
  */
 public class ArgsParser {
     public static final String DEFAULT_REPORT_NAME = "reposense-report";
+
     private static final Logger logger = LogsManager.getLogger(ArgsParser.class);
     private static final String PROGRAM_USAGE = "java -jar RepoSense.jar";
     private static final String PROGRAM_DESCRIPTION =
