@@ -24,22 +24,23 @@ import reposense.model.ViewCliArguments;
  */
 public class ArgsParser {
     public static final String DEFAULT_REPORT_NAME = "reposense-report";
+
+    public static final String[] HELP_FLAGS = new String[]{"--help", "-h"};
+    public static final String[] CONFIG_FLAGS = new String[]{"--config", "-c"};
+    public static final String[] REPO_FLAGS = new String[]{"--repo", "--repos", "-r"};
+    public static final String[] VIEW_FLAGS = new String[]{"--view", "-v"};
+    public static final String[] OUTPUT_FLAGS = new String[]{"--output", "-o"};
+    public static final String[] SINCE_FLAGS = new String[]{"--since", "-s"};
+    public static final String[] UNTIL_FLAGS = new String[]{"--until", "-u"};
+    public static final String[] FORMAT_FLAGS = new String[]{"--formats", "-f"};
+    public static final String[] IGNORE_FLAGS = new String[]{"--ignore-standalone-config", "-i"};
+
     private static final String PROGRAM_USAGE = "java -jar RepoSense.jar";
     private static final String PROGRAM_DESCRIPTION =
             "RepoSense is a contribution analysis tool for Git repositories.";
     private static final String MESSAGE_SINCE_DATE_LATER_THAN_UNTIL_DATE =
             "\"Since Date\" cannot be later than \"Until Date\"";
     private static final Path EMPTY_PATH = Paths.get("");
-
-    private static final String[] HELP_FLAGS = new String[]{"--help", "-h"};
-    private static final String[] CONFIG_FLAGS = new String[]{"--config", "-c"};
-    private static final String[] REPO_FLAGS = new String[]{"--repo", "--repos", "-r"};
-    private static final String[] VIEW_FLAGS = new String[]{"--view", "-v"};
-    private static final String[] OUTPUT_FLAGS = new String[]{"--output", "-o"};
-    private static final String[] SINCE_FLAGS = new String[]{"--since", "-s"};
-    private static final String[] UNTIL_FLAGS = new String[]{"--until", "-u"};
-    private static final String[] FORMAT_FLAGS = new String[]{"--formats", "-f"};
-    private static final String[] IGNORE_FLAGS = new String[]{"--ignore-standalone-config", "-i"};
 
     private static ArgumentParser getArgumentParser() {
         ArgumentParser parser = ArgumentParsers
