@@ -106,9 +106,11 @@ public class ArgsParserTest {
 
     @Test
     public void parse_withExtraWhitespaces_success() throws ParseException, IOException {
-        String input = String.format("--config %s      --output   %s   --since 01/07/2017   --until    30/11/2017   "
-                + "--formats     java   adoc     html css js    --view    -i  ",
-                CONFIG_FOLDER_ABSOLUTE, OUTPUT_DIRECTORY_ABSOLUTE);
+        String input = new InputBuilder().addConfig(CONFIG_FOLDER_ABSOLUTE).addWhiteSpace(5)
+                .addOutput(OUTPUT_DIRECTORY_ABSOLUTE).addWhiteSpace(4)
+                .addSince("01/07/2017").addWhiteSpace(3).addUntil("30/11/2017").addWhiteSpace(6)
+                .addFormats("java   adoc  html      css js   ")
+                .addIgnore().addWhiteSpace(1).addView().addWhiteSpace(4).build();
         CliArguments cliArguments = ArgsParser.parse(translateCommandline(input));
         Assert.assertTrue(cliArguments instanceof ConfigCliArguments);
         Assert.assertTrue(Files.isSameFile(

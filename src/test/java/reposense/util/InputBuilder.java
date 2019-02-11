@@ -63,14 +63,6 @@ public class InputBuilder {
         return this;
     }
 
-    public InputBuilder addFormats(String... formats) {
-        input += ArgsParser.FORMAT_FLAGS[0] + WHITESPACE;
-        for (String format : formats) {
-            input += format + WHITESPACE;
-        }
-        return this;
-    }
-
     public InputBuilder addFormats(String formats) {
         input += ArgsParser.FORMAT_FLAGS[0] + WHITESPACE + formats + WHITESPACE;
         return this;
@@ -83,6 +75,13 @@ public class InputBuilder {
 
     public InputBuilder add(String content) {
         input += content + WHITESPACE;
+        return this;
+    }
+
+    public InputBuilder addWhiteSpace(int num) {
+        for (int i = 0; i < num; i++) {
+            input += WHITESPACE;
+        }
         return this;
     }
 
