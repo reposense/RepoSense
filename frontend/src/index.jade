@@ -164,8 +164,8 @@ html
 
         .files(v-if="isLoaded")
           .empty(v-if="files.length===0") nothing to see here :(
-          template(v-for="file in selectedFiles", v-bind:key="file.path")
-            .file.active
+          template(v-for="file in selectedFiles")
+            .file.active(v-bind:key="file.path")
               .title
                 span.path(onclick="toggleNext(this.parentNode)") {{ file.path }}&nbsp;
                 span.loc ({{ file.lineCount }} lines)
