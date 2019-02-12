@@ -8,7 +8,7 @@
         "arrow-parens": ["error", "always"],
         "indent": ["error", 2, {
             "MemberExpression": 2,
-            "CallExpression": {"arguments": 2}
+            "CallExpression": { "arguments": 2 }
         }]
     }
 }
