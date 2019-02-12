@@ -25,8 +25,13 @@ window.expandAll = function expandAll(isActive) {
 };
 
 window.enableSearchBar = function enableSearchBar() {
-  document.getElementById('search').disabled = false;
-  document.getElementById('submit-button').disabled = false;
+  const searchBar = document.getElementById('search');
+  const submitButton = document.getElementById('submit-button');
+  searchBar.disabled = false;
+  submitButton.disabled = false;
+  searchBar.value = '';
+  submitButton.click();
+
   const checkboxes = document.getElementsByClassName('mui-checkbox--filetype');
   Array.from(checkboxes).forEach((checkbox) => {
     checkbox.disabled = true;
@@ -34,13 +39,17 @@ window.enableSearchBar = function enableSearchBar() {
 };
 
 window.enableCheckBoxes = function enableCheckBoxes() {
-  document.getElementById('search').disabled = true;
-  document.getElementById('search').value = '';
-  document.getElementById('submit-button').disabled = true;
+  const searchBar = document.getElementById('search');
+  const submitButton = document.getElementById('submit-button');
+  searchBar.disabled = true;
+  searchBar.value = '';
+  submitButton.disabled = true;
+
   const checkboxes = document.getElementsByClassName('mui-checkbox--filetype');
   Array.from(checkboxes).forEach((checkbox) => {
     checkbox.disabled = false;
-    checkbox.checked = true;
+    checkbox.checked = false;
+    checkbox.click();
   });
 };
 
