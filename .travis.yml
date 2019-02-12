@@ -15,6 +15,9 @@ script:
   - time travis_retry ./gradlew clean checkstyleMain checkstyleTest test systemTest
 
 before_install:
+  - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then
+      brew update; brew upgrade git;
+    fi
   - npm install --only=dev
 
 before_cache:
