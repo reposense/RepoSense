@@ -1,5 +1,5 @@
-describe('code view', function () {
-  it('collapsable', function () {
+describe('code view', () => {
+  it('collapsable', () => {
     cy.visit('/');
 
     cy.get('#tabs-wrapper')

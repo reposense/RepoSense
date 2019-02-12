@@ -10,6 +10,7 @@ matrix:
       script:
         - ./config/travis/run-checks.sh
         - npm run lint frontend/src/**/*.js
+        - npm run lint frontend/cypress/**.js
         - time travis_retry ./gradlew clean checkstyleMain checkstyleTest test systemTest
 
     - name: macOS 10.13 JDK 10
@@ -19,6 +20,7 @@ matrix:
       script:
         - ./config/travis/run-checks.sh
         - npm run lint frontend/src/**/*.js
+        - npm run lint frontend/cypress/**.js
         - time travis_retry ./gradlew clean checkstyleMain checkstyleTest test systemTest
 
     - name: "Cypress frontend tests"

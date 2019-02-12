@@ -1,5 +1,5 @@
-describe('search non-existent author', function () {
-  it('shows no result', function () {
+describe('search non-existent author', () => {
+  it('shows no result', () => {
     cy.visit('/');
 
     cy.get('#summary-wrapper input[type=text]')
@@ -11,12 +11,12 @@ describe('search non-existent author', function () {
       .submit();
 
     cy.get('#summary-wrapper #summary-charts').then(($ele) => {
-        // $ele is a JQuery object
-        const content = $ele.html();
+      // $ele is a JQuery object
+      const content = $ele.html();
 
-        // debugger // Can insert breakpoint like this and debug using Chrome DevTools
+      // debugger // Can insert breakpoint like this and debug using Chrome DevTools
 
-        expect(content).to.be.empty;
+      expect(content).to.be.empty;
     });
   });
 });

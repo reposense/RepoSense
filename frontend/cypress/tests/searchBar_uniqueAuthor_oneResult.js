@@ -1,5 +1,5 @@
-describe('search unique author', function () {
-  it('shows one result', function () {
+describe('search unique author', () => {
+  it('shows one result', () => {
     cy.visit('/');
 
     cy.get('#summary-wrapper input[type=text]')
@@ -11,8 +11,8 @@ describe('search unique author', function () {
       .submit();
 
     cy.get('#summary-wrapper #summary-charts').then(($ele) => {
-        const children = $ele.children().length;
-        expect(children).to.equal(1);
+      const children = $ele.children().length;
+      expect(children).to.equal(1);
     });
   });
 });
