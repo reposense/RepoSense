@@ -169,13 +169,8 @@ window.app = new window.Vue({
     renderAuthorShipTabHash() {
       const hash = window.hashParams;
       const info = {};
-      const tabKeys = ['tabAuthor', 'tabLocation'];
-      tabKeys.forEach((key) => {
-        if (hash[key]) {
-          const slicedName = key.charAt(3).toLowerCase() + key.slice(4);
-          info[slicedName] = hash[key];
-        }
-      });
+      if (hash.tabAuthor) { info.author = hash.tabAuthor; }
+      if (hash.tabLocation) { info.location = hash.tabLocation; }
       if (hash.since) { info.minDate = hash.since; }
       if (hash.until) { info.maxDate = hash.until; }
       if (info.location) {
