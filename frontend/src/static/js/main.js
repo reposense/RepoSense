@@ -38,11 +38,11 @@ window.registerMouseMove = () => {
   const innerMouseMove = (event) => {
     guideWidth = (
       Math.min(
-        Math.max(
-          window.innerWidth - event.clientX,
-          SCROLL_BAR_WIDTH + DRAG_BAR_WIDTH,
-        ),
-        window.innerWidth - SCROLL_BAR_WIDTH,
+          Math.max(
+              window.innerWidth - event.clientX,
+              SCROLL_BAR_WIDTH + DRAG_BAR_WIDTH,
+          ),
+          window.innerWidth - SCROLL_BAR_WIDTH,
       )
         - (GUIDE_BAR_WIDTH / 2)
     ) / window.innerWidth;
