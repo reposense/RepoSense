@@ -15,12 +15,16 @@ window.toggleNext = function toggleNext(ele) {
   parent.className = classes.join(' ');
 
   // Update expand/collapse all button
+  updateToggleButton();
+};
+
+window.updateToggleButton = function updateToggleButton() {
   if (document.getElementsByClassName('file active').length === document.getElementsByClassName('file').length) {
     window.app.isCollapsed = false;
   } else if (document.getElementsByClassName('file active').length === 0) {
     window.app.isCollapsed = true;
   }
-};
+}
 
 window.expandAll = function expandAll(isActive) {
   const renameValue = isActive ? 'file active' : 'file';
@@ -207,13 +211,6 @@ window.vAuthorship = {
         this.totalLineCount - this.totalBlankLineCount}`;
     },
 
-    updateToggleButton() {
-      if (document.getElementsByClassName('file active').length === document.getElementsByClassName('file').length) {
-        window.app.isCollapsed = false;
-      } else if (document.getElementsByClassName('file active').length === 0) {
-        window.app.isCollapsed = true;
-      }
-    },
   },
 
   created() {
@@ -221,6 +218,6 @@ window.vAuthorship = {
   },
 
   updated() {
-    this.updateToggleButton();
+    updateToggleButton();
   },
 };
