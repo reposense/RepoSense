@@ -55,9 +55,14 @@ public class ArgsParserTest {
 
     @Test
     public void parse_allCorrectInputs_success() throws ParseException, IOException {
-        String input = new InputBuilder().addConfig(CONFIG_FOLDER_ABSOLUTE).addOutput(OUTPUT_DIRECTORY_ABSOLUTE)
-                .addSince("01/07/2017").addUntil("30/11/2017").addFormats("java adoc html css js")
-                .addIgnore().addView().build();
+        String input = new InputBuilder().addConfig(CONFIG_FOLDER_ABSOLUTE)
+                .addOutput(OUTPUT_DIRECTORY_ABSOLUTE)
+                .addSinceDate("01/07/2017")
+                .addUntilDate("30/11/2017")
+                .addFormats("java adoc html css js")
+                .addIgnoreStandaloneConfig()
+                .addView()
+                .build();
         CliArguments cliArguments = ArgsParser.parse(translateCommandline(input));
         Assert.assertTrue(cliArguments instanceof ConfigCliArguments);
         Assert.assertTrue(Files.isSameFile(
@@ -108,9 +113,12 @@ public class ArgsParserTest {
     public void parse_withExtraWhitespaces_success() throws ParseException, IOException {
         String input = new InputBuilder().addConfig(CONFIG_FOLDER_ABSOLUTE).addWhiteSpace(5)
                 .addOutput(OUTPUT_DIRECTORY_ABSOLUTE).addWhiteSpace(4)
-                .addSince("01/07/2017").addWhiteSpace(3).addUntil("30/11/2017").addWhiteSpace(6)
+                .addSinceDate("01/07/2017").addWhiteSpace(3)
+                .addUntilDate("30/11/2017").addWhiteSpace(6)
                 .addFormats("java   adoc  html      css js   ")
-                .addIgnore().addWhiteSpace(1).addView().addWhiteSpace(4).build();
+                .addIgnoreStandaloneConfig().addWhiteSpace(1)
+                .addView().addWhiteSpace(4)
+                .build();
         CliArguments cliArguments = ArgsParser.parse(translateCommandline(input));
         Assert.assertTrue(cliArguments instanceof ConfigCliArguments);
         Assert.assertTrue(Files.isSameFile(
@@ -174,10 +182,14 @@ public class ArgsParserTest {
 
     @Test
     public void parse_withIgnore_success() throws ParseException {
-        String input = new InputBuilder().addRepos(TEST_REPO_REPOSENSE, TEST_REPO_DELTA).addIgnore().build();
+        String input = new InputBuilder().addRepos(TEST_REPO_REPOSENSE, TEST_REPO_DELTA)
+                .addIgnoreStandaloneConfig()
+                .build();
         CliArguments cliArguments = ArgsParser.parse(translateCommandline(input));
 
-        String inputWithAlias = String.format("--repos \"%s\" %s -i", TEST_REPO_REPOSENSE, TEST_REPO_DELTA);
+        String inputWithAlias = new InputBuilder().addRepos(TEST_REPO_REPOSENSE, TEST_REPO_DELTA)
+                .add("-i")
+                .build();
         CliArguments cliArgumentsWithAlias = ArgsParser.parse(translateCommandline(inputWithAlias));
 
         Assert.assertTrue(cliArguments instanceof LocationsCliArguments);
@@ -214,8 +226,9 @@ public class ArgsParserTest {
         Path expectedRelativeOutputDirectoryPath = OUTPUT_DIRECTORY_RELATIVE.resolve(ArgsParser.DEFAULT_REPORT_NAME);
         Path expectedAbsoluteOutputDirectoryPath = OUTPUT_DIRECTORY_ABSOLUTE.resolve(ArgsParser.DEFAULT_REPORT_NAME);
 
-        String input =
-                new InputBuilder().addConfig(CONFIG_FOLDER_ABSOLUTE).addOutput(OUTPUT_DIRECTORY_RELATIVE).build();
+        String input = new InputBuilder().addConfig(CONFIG_FOLDER_ABSOLUTE)
+                .addOutput(OUTPUT_DIRECTORY_RELATIVE)
+                .build();
         CliArguments cliArguments = ArgsParser.parse(translateCommandline(input));
         Assert.assertTrue(cliArguments instanceof ConfigCliArguments);
         Assert.assertTrue(Files.isSameFile(
@@ -224,7 +237,9 @@ public class ArgsParserTest {
                 AUTHOR_CONFIG_CSV_FILE, ((ConfigCliArguments) cliArguments).getAuthorConfigFilePath()));
         Assert.assertTrue(Files.isSameFile(expectedRelativeOutputDirectoryPath, cliArguments.getOutputFilePath()));
 
-        input = new InputBuilder().addConfig(CONFIG_FOLDER_RELATIVE).addOutput(OUTPUT_DIRECTORY_ABSOLUTE).build();
+        input = new InputBuilder().addConfig(CONFIG_FOLDER_RELATIVE)
+                .addOutput(OUTPUT_DIRECTORY_ABSOLUTE)
+                .build();
         cliArguments = ArgsParser.parse(translateCommandline(input));
         Assert.assertTrue(cliArguments instanceof ConfigCliArguments);
         Assert.assertTrue(Files.isSameFile(
@@ -236,7 +251,9 @@ public class ArgsParserTest {
 
     @Test
     public void parse_configFolderandViewWithouthArgs_returnsConfigCliArguments() throws ParseException, IOException {
-        String input = new InputBuilder().addConfig(CONFIG_FOLDER_ABSOLUTE).addView().build();
+        String input = new InputBuilder().addConfig(CONFIG_FOLDER_ABSOLUTE)
+                .addView()
+                .build();
         CliArguments cliArguments = ArgsParser.parse(translateCommandline(input));
 
         Assert.assertTrue(cliArguments instanceof ConfigCliArguments);
@@ -246,7 +263,9 @@ public class ArgsParserTest {
                 AUTHOR_CONFIG_CSV_FILE, ((ConfigCliArguments) cliArguments).getAuthorConfigFilePath()));
         Assert.assertTrue(cliArguments.isAutomaticallyLaunching());
 
-        input = new InputBuilder().addConfig(CONFIG_FOLDER_RELATIVE).addView().build();
+        input = new InputBuilder().addConfig(CONFIG_FOLDER_RELATIVE)
+                .addView()
+                .build();
         cliArguments = ArgsParser.parse(translateCommandline(input));
 
         Assert.assertTrue(cliArguments instanceof ConfigCliArguments);
@@ -259,7 +278,9 @@ public class ArgsParserTest {
 
     @Test
     public void parse_configFolderAndViewWithArgs_returnsViewCliArguments() throws ParseException, IOException {
-        String input = new InputBuilder().addConfig(CONFIG_FOLDER_ABSOLUTE).addView(OUTPUT_DIRECTORY_ABSOLUTE).build();
+        String input = new InputBuilder().addConfig(CONFIG_FOLDER_ABSOLUTE)
+                .addView(OUTPUT_DIRECTORY_ABSOLUTE)
+                .build();
         CliArguments cliArguments = ArgsParser.parse(translateCommandline(input));
 
         Assert.assertTrue(cliArguments instanceof ViewCliArguments);
@@ -269,8 +290,7 @@ public class ArgsParserTest {
 
     @Test
     public void sinceDate_correctFormat_success() throws ParseException {
-        String sinceDate = "01/07/2017";
-        String input = DEFAULT_INPUT_BUILDER.addSince("01/07/2017").build();
+        String input = DEFAULT_INPUT_BUILDER.addSinceDate("01/07/2017").build();
         CliArguments cliArguments = ArgsParser.parse(translateCommandline(input));
         Assert.assertTrue(cliArguments instanceof ConfigCliArguments);
         Date expectedSinceDate = TestUtil.getDate(2017, Calendar.JULY, 1);
@@ -279,7 +299,7 @@ public class ArgsParserTest {
 
     @Test
     public void untilDate_correctFormat_success() throws ParseException {
-        String input = DEFAULT_INPUT_BUILDER.addUntil("30/11/2017").build();
+        String input = DEFAULT_INPUT_BUILDER.addUntilDate("30/11/2017").build();
         CliArguments cliArguments = ArgsParser.parse(translateCommandline(input));
         Assert.assertTrue(cliArguments instanceof ConfigCliArguments);
         Date expectedUntilDate = TestUtil.getDate(2017, Calendar.NOVEMBER, 30);
@@ -306,7 +326,9 @@ public class ArgsParserTest {
 
     @Test
     public void parse_repoLocationsAndView_returnsLocationCliArguments() throws ParseException {
-        String input = new InputBuilder().addRepos(TEST_REPO_REPOSENSE, TEST_REPO_DELTA).addView().build();
+        String input = new InputBuilder().addRepos(TEST_REPO_REPOSENSE, TEST_REPO_DELTA)
+                .addView()
+                .build();
         CliArguments cliArguments = ArgsParser.parse(translateCommandline(input));
 
         Assert.assertTrue(cliArguments instanceof LocationsCliArguments);
@@ -328,8 +350,9 @@ public class ArgsParserTest {
 
     @Test
     public void parse_repoLocationsAndViewWithArgs_returnsViewCliArguments() throws ParseException, IOException {
-        String input = new InputBuilder()
-                .addRepos(TEST_REPO_REPOSENSE, TEST_REPO_DELTA).addView(OUTPUT_DIRECTORY_ABSOLUTE).build();
+        String input = new InputBuilder().addRepos(TEST_REPO_REPOSENSE, TEST_REPO_DELTA)
+                .addView(OUTPUT_DIRECTORY_ABSOLUTE)
+                .build();
         CliArguments cliArguments = ArgsParser.parse(translateCommandline(input));
 
         Assert.assertTrue(cliArguments instanceof ViewCliArguments);
@@ -339,8 +362,9 @@ public class ArgsParserTest {
 
     @Test
     public void parse_repoLocationsAndViewWithArgCwd_returnsViewCliArguments() throws ParseException {
-        String input = new InputBuilder()
-                .addRepos(TEST_REPO_REPOSENSE, TEST_REPO_DELTA).addView(new File(".").toPath()).build();
+        String input = new InputBuilder().addRepos(TEST_REPO_REPOSENSE, TEST_REPO_DELTA)
+                .addView(new File(".").toPath())
+                .build();
         CliArguments cliArguments = ArgsParser.parse(translateCommandline(input));
 
         Assert.assertTrue(cliArguments instanceof ViewCliArguments);
@@ -373,10 +397,10 @@ public class ArgsParserTest {
 
     @Test
     public void parse_repoAliases_sameResult() throws ParseException, IOException {
-        String input = String.format("--repos %s", TEST_REPO_BETA);
+        String input = new InputBuilder().addRepos(TEST_REPO_BETA).build();
         CliArguments repoAliasCliArguments = ArgsParser.parse(translateCommandline(input));
 
-        input = new InputBuilder().addRepos(TEST_REPO_BETA).build();
+        input = new InputBuilder().add(String.format("--repos %s", TEST_REPO_BETA)).build();
         CliArguments reposAliasCliArguments = ArgsParser.parse(translateCommandline(input));
 
         Assert.assertEquals(repoAliasCliArguments, reposAliasCliArguments);
@@ -437,19 +461,21 @@ public class ArgsParserTest {
 
     @Test(expected = ParseException.class)
     public void sinceDate_unsupportedFormats_throwsParseException() throws ParseException {
-        String input = DEFAULT_INPUT_BUILDER.addSince("01 July 17").build();
+        String input = DEFAULT_INPUT_BUILDER.addSinceDate("01 July 17").build();
         ArgsParser.parse(translateCommandline(input));
     }
 
     @Test(expected = ParseException.class)
     public void untilDate_unsupportedFormats_throwsParseException() throws ParseException {
-        String input = DEFAULT_INPUT_BUILDER.addUntil("11/31/2017").build();
+        String input = DEFAULT_INPUT_BUILDER.addUntilDate("11/31/2017").build();
         ArgsParser.parse(translateCommandline(input));
     }
 
     @Test(expected = ParseException.class)
     public void sinceDate_laterThanUntilDate_throwsParseException() throws ParseException {
-        String input = DEFAULT_INPUT_BUILDER.addSince("01/12/2017").addUntil("30/11/2017").build();
+        String input = DEFAULT_INPUT_BUILDER.addSinceDate("01/12/2017")
+                .addUntilDate("30/11/2017")
+                .build();
         ArgsParser.parse(translateCommandline(input));
     }
 
@@ -461,13 +487,15 @@ public class ArgsParserTest {
 
     @Test(expected = ParseException.class)
     public void parse_mutuallyExclusiveArgumentsConfigAndReposTogether_throwsParseException() throws ParseException {
-        String input = new InputBuilder().addConfig(CONFIG_FOLDER_ABSOLUTE).addRepos(TEST_REPO_REPOSENSE).build();
+        String input = new InputBuilder().addConfig(CONFIG_FOLDER_ABSOLUTE)
+                .addRepos(TEST_REPO_REPOSENSE)
+                .build();
         ArgsParser.parse(translateCommandline(input));
     }
 
     @Test(expected = ParseException.class)
     public void parse_extraArgumentForIgnore_throwsParseException() throws ParseException {
-        String input = DEFAULT_INPUT_BUILDER.addIgnore().add("true").build();
+        String input = DEFAULT_INPUT_BUILDER.addIgnoreStandaloneConfig().add("true").build();
         ArgsParser.parse(translateCommandline(input));
     }
 }

@@ -66,7 +66,10 @@ public class ConfigSystemTest {
         Path configFolder = Paths.get(getClass().getClassLoader().getResource("repo-config.csv").toURI()).getParent();
 
         String formats = String.join(" ", TESTING_FILE_FORMATS);
-        String input = new InputBuilder().addConfig(configFolder).addFormats(formats).add(inputDates).build();
+        String input = new InputBuilder().addConfig(configFolder)
+                .addFormats(formats)
+                .add(inputDates)
+                .build();
 
         CliArguments cliArguments = ArgsParser.parse(translateCommandline(input));
 
