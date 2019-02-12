@@ -210,7 +210,6 @@ window.vAuthorship = {
       return `Total: Blank: ${this.totalBlankLineCount}, Non-Blank: ${
         this.totalLineCount - this.totalBlankLineCount}`;
     },
-
   },
 
   created() {
