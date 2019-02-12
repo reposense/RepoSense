@@ -5,6 +5,7 @@ import java.nio.file.Paths;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
+import java.util.logging.Logger;
 
 import net.sourceforge.argparse4j.ArgumentParsers;
 import net.sourceforge.argparse4j.impl.Arguments;
@@ -18,6 +19,7 @@ import reposense.model.ConfigCliArguments;
 import reposense.model.Format;
 import reposense.model.LocationsCliArguments;
 import reposense.model.ViewCliArguments;
+import reposense.system.LogsManager;
 
 /**
  * Verifies and parses a string-formatted date to a {@code CliArguments} object.
@@ -34,6 +36,8 @@ public class ArgsParser {
     public static final String[] UNTIL_FLAGS = new String[]{"--until", "-u"};
     public static final String[] FORMAT_FLAGS = new String[]{"--formats", "-f"};
     public static final String[] IGNORE_FLAGS = new String[]{"--ignore-standalone-config", "-i"};
+
+    private static final Logger logger = LogsManager.getLogger(ArgsParser.class);
 
     private static final String PROGRAM_USAGE = "java -jar RepoSense.jar";
     private static final String PROGRAM_DESCRIPTION =
@@ -63,7 +67,7 @@ public class ArgsParser {
                 .type(new ConfigFolderArgumentType())
                 .metavar("PATH")
                 .setDefault(EMPTY_PATH.toAbsolutePath())
-                .help("The directory containing the config files. "
+                .help("The directory containing the config files."
                         + "If not provided, the config files will be obtained from the current working directory.");
 
         mutexParser.addArgument(REPO_FLAGS)
@@ -143,11 +147,16 @@ public class ArgsParser {
 
             verifyDatesRangeIsCorrect(sinceDate, untilDate);
 
-            if (reportFolderPath != null && !reportFolderPath.equals(EMPTY_PATH)) {
+            if (reportFolderPath != null && !reportFolderPath.equals(EMPTY_PATH) && configFolderPath.equals(EMPTY_PATH)
+                && locations == null) {
                 return new ViewCliArguments(reportFolderPath);
             }
 
             boolean isAutomaticallyLaunching = reportFolderPath != null;
+
+            if (isAutomaticallyLaunching && !reportFolderPath.equals(EMPTY_PATH)) {
+                logger.info(String.format("Ignoring argument '%s' for -view.", reportFolderPath.toString()));
+            }
 
             if (locations != null) {
                 return new LocationsCliArguments(locations, outputFolderPath, sinceDate, untilDate, formats,
