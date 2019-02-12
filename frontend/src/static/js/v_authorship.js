@@ -39,8 +39,8 @@ window.enableCheckBoxes = function enableCheckBoxes() {
   document.getElementById('submit-button').disabled = true;
   const checkboxes = document.getElementsByClassName('mui-checkbox--filetype');
   Array.from(checkboxes).forEach((checkbox) => {
-    checkbox.checked = true;
     checkbox.disabled = false;
+    checkbox.checked = true;
   });
 };
 
