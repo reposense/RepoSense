@@ -31,12 +31,12 @@ matrix:
       before_install:
         - sudo apt-get install -y libgtk2.0-0 libnotify-dev libgconf-2-4 libnss3 libxss1 libasound2
       install:
-        - (cd ./frontend/tests && npm ci)
+        - (cd ./frontend/cypress && npm ci)
       script:
         - ./gradlew zipreport && ./gradlew run -Dargs="-repos https://github.com/yong24s/toolbox.git"
         - (cd reposense-report && python -m SimpleHTTPServer 9000 > /dev/null 2>&1 & disown)
         - sleep 3
-        - (cd ./frontend/tests && npm run-script headless-tests)
+        - (cd ./frontend/cypress && npm run-script headless-tests)
         - pkill -f SimpleHTTPServer
 
 before_cache:
