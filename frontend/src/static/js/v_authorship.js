@@ -15,7 +15,7 @@ window.toggleNext = function toggleNext(ele) {
   parent.className = classes.join(' ');
 
   // Update expand/collapse all button
-  updateToggleButton();
+  window.updateToggleButton();
 };
 
 window.updateToggleButton = function updateToggleButton() {
@@ -217,6 +217,6 @@ window.vAuthorship = {
   },
 
   updated() {
-    updateToggleButton();
+    window.updateToggleButton();
   },
 };
