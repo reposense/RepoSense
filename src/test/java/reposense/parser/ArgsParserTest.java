@@ -366,9 +366,7 @@ public class ArgsParserTest {
 
     @Test
     public void parse_viewWithArgCwd_returnsViewCliArguments() throws ParseException {
-        String input = new InputBuilder().addRepos(TEST_REPO_REPOSENSE, TEST_REPO_DELTA)
-                .addView(new File(".").toPath())
-                .build();
+        String input = new InputBuilder().addView(new File(".").toPath()).build();
         CliArguments cliArguments = ArgsParser.parse(translateCommandline(input));
 
         Assert.assertTrue(cliArguments instanceof ViewCliArguments);

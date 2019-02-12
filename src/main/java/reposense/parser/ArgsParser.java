@@ -66,7 +66,7 @@ public class ArgsParser {
                 .dest(CONFIG_FLAGS[0])
                 .type(new ConfigFolderArgumentType())
                 .metavar("PATH")
-                .setDefault(EMPTY_PATH.toAbsolutePath())
+                .setDefault(EMPTY_PATH)
                 .help("The directory containing the config files."
                         + "If not provided, the config files will be obtained from the current working directory.");
 
@@ -155,7 +155,7 @@ public class ArgsParser {
             boolean isAutomaticallyLaunching = reportFolderPath != null;
 
             if (isAutomaticallyLaunching && !reportFolderPath.equals(EMPTY_PATH)) {
-                logger.info(String.format("Ignoring argument '%s' for -view.", reportFolderPath.toString()));
+                logger.info(String.format("Ignoring argument '%s' for --view.", reportFolderPath.toString()));
             }
 
             if (locations != null) {
