@@ -24,7 +24,7 @@ window.updateToggleButton = function updateToggleButton() {
   } else if (document.getElementsByClassName('file active').length === 0) {
     window.app.isCollapsed = true;
   }
-}
+};
 
 window.expandAll = function expandAll(isActive) {
   const renameValue = isActive ? 'file active' : 'file';
