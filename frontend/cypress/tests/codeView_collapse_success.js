@@ -3,12 +3,12 @@ describe('code view', () => {
     cy.visit('/');
 
     cy.get('#tabs-wrapper')
-      .should('be.visible');
+        .should('be.visible');
 
     cy.get('div.tab-close')
-      .click();
+        .click();
 
     cy.get('#tabs-wrapper')
-      .should('not.exist');
+        .should('not.exist');
   });
 });

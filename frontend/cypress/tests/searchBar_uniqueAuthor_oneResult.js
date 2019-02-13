@@ -3,12 +3,12 @@ describe('search unique author', () => {
     cy.visit('/');
 
     cy.get('#summary-wrapper input[type=text]')
-      .type('Yong Hao TENG')
-      .type('{enter}');
+        .type('Yong Hao TENG')
+        .type('{enter}');
 
     // Enter does not work, let's manually submit form
     cy.get('#summary-wrapper form.summary-picker')
-      .submit();
+        .submit();
 
     cy.get('#summary-wrapper #summary-charts').then(($ele) => {
       const children = $ele.children().length;

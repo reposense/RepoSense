@@ -3,12 +3,12 @@ describe('search non-existent author', () => {
     cy.visit('/');
 
     cy.get('#summary-wrapper input[type=text]')
-      .type('abcdef')
-      .type('{enter}');
+        .type('abcdef')
+        .type('{enter}');
 
     // Enter does not work, let's manually submit form
     cy.get('#summary-wrapper form.summary-picker')
-      .submit();
+        .submit();
 
     cy.get('#summary-wrapper #summary-charts').then(($ele) => {
       // $ele is a JQuery object

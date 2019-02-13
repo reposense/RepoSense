@@ -72,13 +72,13 @@ We use [Cypress](https://www.cypress.io/) for automated end-to-end front-end tes
 
 #### To write tests
 1. Create a new test file in `./frontend/cypress/tests`
-1. At project root, start a local server at port 9000. For example, `./gradew run -Dargs="-repo https://github.com/reposense/RepoSense.git -view"`
+1. At project root, start a local server at port 9000. For example, `./gradlew run -Dargs="-repo https://github.com/reposense/RepoSense.git -view"`
 1. Start Cypress Test Runner with `npm run-script debug`
 1. Click on the newly created test file under **Integration Testing**
 > Read [Cypress's Documentation](https://docs.cypress.io/api/commands/document.html#Syntax) to familiarize yourself with its syntax and [Cypress's debugging guide](https://docs.cypress.io/guides/guides/debugging.html#Log-Cypress-events) to tackle problems with your tests.
 
 #### To run all tests locally
-1. At project root, start a local server at port 9000. For example, `./gradew run -Dargs="-repo https://github.com/reposense/RepoSense.git -view"`
+1. At project root, start a local server at port 9000. For example, `./gradlew run -Dargs="-repo https://github.com/reposense/RepoSense.git -view"`
 1. Then `cd ./frontend/cypress`
 1. `npm run-script tests`
 

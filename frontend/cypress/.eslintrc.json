@@ -10,9 +10,6 @@
         "it": false
     },
     "rules": {
-        "indent": ["error", 2, {
-            "MemberExpression": 1
-        }],
         "no-unused-expressions": "off"
     }
 }
