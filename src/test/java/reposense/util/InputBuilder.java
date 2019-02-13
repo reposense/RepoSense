@@ -7,7 +7,7 @@ import reposense.parser.ArgsParser;
 /**
  * A utility class to help with building command line input.
  * Example usage: <br>
- *     {@code String input = new InputBuilder().addSinceDate("27/01/2017").build();}
+ *     {@code String input = new InputBuilder().setSinceDate("27/01/2017").build();}
  */
 public class InputBuilder {
     private static final String WHITESPACE = " ";
@@ -50,17 +50,17 @@ public class InputBuilder {
                 .concat(extraString);
     }
 
-    public InputBuilder addHelp() {
+    public InputBuilder setHelp() {
         help = ArgsParser.HELP_FLAGS[0] + WHITESPACE;
         return this;
     }
 
-    public InputBuilder addConfig(Path path) {
+    public InputBuilder setConfig(Path path) {
         config = ArgsParser.CONFIG_FLAGS[0] + WHITESPACE + path + WHITESPACE;
         return this;
     }
 
-    public InputBuilder addRepos(String... paths) {
+    public InputBuilder setRepos(String... paths) {
         repos = ArgsParser.REPO_FLAGS[0] + WHITESPACE;
         for (String path : paths) {
             repos += path + WHITESPACE;
@@ -68,7 +68,7 @@ public class InputBuilder {
         return this;
     }
 
-    public InputBuilder addView(Path... paths) {
+    public InputBuilder setView(Path... paths) {
         view = ArgsParser.VIEW_FLAGS[0] + WHITESPACE;
         for (Path path : paths) {
             view += path + WHITESPACE;
@@ -76,32 +76,32 @@ public class InputBuilder {
         return this;
     }
 
-    public InputBuilder addOutput(Path path) {
+    public InputBuilder setOutput(Path path) {
         output = ArgsParser.OUTPUT_FLAGS[0] + WHITESPACE + path + WHITESPACE;
         return this;
     }
 
-    public InputBuilder addSinceDate(String date) {
+    public InputBuilder setSinceDate(String date) {
         sinceDate = ArgsParser.SINCE_FLAGS[0] + WHITESPACE + date + WHITESPACE;
         return this;
     }
 
-    public InputBuilder addUntilDate(String date) {
+    public InputBuilder setUntilDate(String date) {
         untilDate = ArgsParser.UNTIL_FLAGS[0] + WHITESPACE + date + WHITESPACE;
         return this;
     }
 
-    public InputBuilder addFormats(String formats) {
+    public InputBuilder setFormats(String formats) {
         this.formats = ArgsParser.FORMAT_FLAGS[0] + WHITESPACE + formats + WHITESPACE;
         return this;
     }
 
-    public InputBuilder addIgnoreStandaloneConfig() {
+    public InputBuilder setIgnoreStandaloneConfig() {
         ignoreStandaloneConfig = ArgsParser.IGNORE_FLAGS[0] + WHITESPACE;
         return this;
     }
 
-    public InputBuilder add(String content) {
+    public InputBuilder addExtraString(String content) {
         extraString += content + WHITESPACE;
         return this;
     }
