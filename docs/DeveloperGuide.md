@@ -65,21 +65,22 @@ Our project follows the [Airbnb Javascript Style Guide](https://github.com/airbn
 Eslint and its accompaning modules can be installed through NPM, so do ensure that you got it [installed](https://www.npmjs.com/get-npm) if you are working on the dashboard.
 
 ### Configuring Cypress for automated front-end testing
-We use [Cypress](https://www.cypress.io/) for an automated end-to-end testing. <br/>
-Read [Cypress's Documentation](https://docs.cypress.io/api/commands/document.html#Syntax) to familiarize yourself with its syntax.
+We use [Cypress](https://www.cypress.io/) for automated end-to-end front-end testing. <br/>
 
 #### To install the Cypress
-1. `cd ./frontend/cypress && npm i`
+1. At project root, run `cd ./frontend/cypress && npm i`
+
 #### To write tests
-1. Create a new test file with **.js** extension in `./frontend/cypress/tests`
-1. At project root, run a local server at port 9000. For example, `./gradew run -Dargs="-repo https://github.com/reposense/RepoSense.git -view"`
-1. Run Cypress in headed mode with `npm run-script headed-tests`
-1. Click on the newly created test file
-> Read [Cypress's debugging guide](https://docs.cypress.io/guides/guides/debugging.html#Log-Cypress-events) to tackle problems with your tests.
+1. Create a new test file in `./frontend/cypress/tests`
+1. At project root, start a local server at port 9000. For example, `./gradew run -Dargs="-repo https://github.com/reposense/RepoSense.git -view"`
+1. Start Cypress Test Runner with `npm run-script debug`
+1. Click on the newly created test file under **Integration Testing**
+> Read [Cypress's Documentation](https://docs.cypress.io/api/commands/document.html#Syntax) to familiarize yourself with its syntax and [Cypress's debugging guide](https://docs.cypress.io/guides/guides/debugging.html#Log-Cypress-events) to tackle problems with your tests.
+
 #### To run all tests locally
-Running Cypress in headless mode enables you to run all tests quickly.
-1. `cd ./frontend/cypress`
-1. `npm run-script headless-tests`
+1. At project root, start a local server at port 9000. For example, `./gradew run -Dargs="-repo https://github.com/reposense/RepoSense.git -view"`
+1. Then `cd ./frontend/cypress`
+1. `npm run-script tests`
 
 ### Before writing code
 1. Do check out our [process guide](../docs/Process.md) before submitting any PR with your changes.
