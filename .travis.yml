@@ -33,7 +33,7 @@ matrix:
 
 install:
   - if [ "${SYSTEM_TEST}" == "1" ]; then
-      npm install --only=dev
+      npm install --only=dev;
     fi
 
 script:
@@ -41,7 +41,7 @@ script:
       ./config/travis/run-checks.sh;
       npm run lint frontend/src/**/*.js;
       npm run lint frontend/cypress/**.js;
-      time travis_retry ./gradlew clean checkstyleMain checkstyleTest test systemTest
+      time travis_retry ./gradlew clean checkstyleMain checkstyleTest test systemTest;
     fi
 
 before_cache:
