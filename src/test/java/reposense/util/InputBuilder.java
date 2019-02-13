@@ -12,81 +12,111 @@ import reposense.parser.ArgsParser;
 public class InputBuilder {
     private static final String WHITESPACE = " ";
 
-    private String input;
+    private String help;
+    private String config;
+    private String repos;
+    private String view;
+    private String output;
+    private String sinceDate;
+    private String untilDate;
+    private String formats;
+    private String ignoreStandaloneConfig;
+    private String extraString;
 
     public InputBuilder() {
-        this.input = "";
+        this.help = "";
+        this.config = "";
+        this.repos = "";
+        this.view = "";
+        this.output = "";
+        this.sinceDate = "";
+        this.untilDate = "";
+        this.formats = "";
+        this.ignoreStandaloneConfig = "";
+        this.extraString = "";
     }
 
     public String build() {
-        return input;
+        String input = "";
+        return input.concat(help)
+                .concat(config)
+                .concat(repos)
+                .concat(view)
+                .concat(output)
+                .concat(sinceDate)
+                .concat(untilDate)
+                .concat(formats)
+                .concat(ignoreStandaloneConfig)
+                .concat(extraString);
     }
 
     public InputBuilder addHelp() {
-        input += ArgsParser.HELP_FLAGS[0] + WHITESPACE;
+        help = ArgsParser.HELP_FLAGS[0] + WHITESPACE;
         return this;
     }
 
     public InputBuilder addConfig(Path path) {
-        input += ArgsParser.CONFIG_FLAGS[0] + WHITESPACE + path + WHITESPACE;
+        config = ArgsParser.CONFIG_FLAGS[0] + WHITESPACE + path + WHITESPACE;
         return this;
     }
 
     public InputBuilder addRepos(String... paths) {
-        input += ArgsParser.REPO_FLAGS[0] + WHITESPACE;
+        repos = ArgsParser.REPO_FLAGS[0] + WHITESPACE;
         for (String path : paths) {
-            input += path + WHITESPACE;
+            repos += path + WHITESPACE;
         }
         return this;
     }
 
     public InputBuilder addView(Path... paths) {
-        input += ArgsParser.VIEW_FLAGS[0] + WHITESPACE;
+        view = ArgsParser.VIEW_FLAGS[0] + WHITESPACE;
         for (Path path : paths) {
-            input += path + WHITESPACE;
+            view += path + WHITESPACE;
         }
         return this;
     }
 
     public InputBuilder addOutput(Path path) {
-        input += ArgsParser.OUTPUT_FLAGS[0] + WHITESPACE + path + WHITESPACE;
+        output = ArgsParser.OUTPUT_FLAGS[0] + WHITESPACE + path + WHITESPACE;
         return this;
     }
 
     public InputBuilder addSinceDate(String date) {
-        input += ArgsParser.SINCE_FLAGS[0] + WHITESPACE + date + WHITESPACE;
+        sinceDate = ArgsParser.SINCE_FLAGS[0] + WHITESPACE + date + WHITESPACE;
         return this;
     }
 
     public InputBuilder addUntilDate(String date) {
-        input += ArgsParser.UNTIL_FLAGS[0] + WHITESPACE + date + WHITESPACE;
+        untilDate = ArgsParser.UNTIL_FLAGS[0] + WHITESPACE + date + WHITESPACE;
         return this;
     }
 
     public InputBuilder addFormats(String formats) {
-        input += ArgsParser.FORMAT_FLAGS[0] + WHITESPACE + formats + WHITESPACE;
+        this.formats = ArgsParser.FORMAT_FLAGS[0] + WHITESPACE + formats + WHITESPACE;
         return this;
     }
 
     public InputBuilder addIgnoreStandaloneConfig() {
-        input += ArgsParser.IGNORE_FLAGS[0] + WHITESPACE;
+        ignoreStandaloneConfig = ArgsParser.IGNORE_FLAGS[0] + WHITESPACE;
         return this;
     }
 
     public InputBuilder add(String content) {
-        input += content + WHITESPACE;
-        return this;
-    }
-
-    public InputBuilder addWhiteSpace(int num) {
-        for (int i = 0; i < num; i++) {
-            input += WHITESPACE;
-        }
+        extraString += content + WHITESPACE;
         return this;
     }
 
     public InputBuilder reset() {
-        input = "";
+        this.help = "";
+        this.config = "";
+        this.repos = "";
+        this.view = "";
+        this.output = "";
+        this.sinceDate = "";
+        this.untilDate = "";
+        this.formats = "";
+        this.ignoreStandaloneConfig = "";
+        this.extraString = "";
         return this;
     }
 }
