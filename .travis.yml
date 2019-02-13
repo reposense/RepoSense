@@ -2,9 +2,9 @@ language: java
 
 matrix:
   include:
-    - name: Ubuntu 14.04 JDK 9
+    - name: Ubuntu 14.04 JDK 8
       os: linux
-      jdk: oraclejdk9
+      jdk: oraclejdk8
 
     - name: macOS 10.13.6 JDK 11.01
       os: osx
