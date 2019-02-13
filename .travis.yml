@@ -5,13 +5,9 @@ matrix:
     - name: Ubuntu 14.04 JDK 9
       os: linux
       jdk: oraclejdk9
-      env:
-        - SYSTEM_TEST=1
 
     - name: macOS 10.13 JDK 10
       os: osx
-      env:
-        - SYSTEM_TEST=1
 
     - name: "Cypress frontend tests"
       os: linux
@@ -32,17 +28,13 @@ matrix:
         - pkill -f SimpleHTTPServer
 
 install:
-  - if [ "${SYSTEM_TEST}" == "1" ]; then
-      npm install --only=dev;
-    fi
+  - npm install --only=dev
 
 script:
-  - if [ "${SYSTEM_TEST}" == "1" ]; then
-      ./config/travis/run-checks.sh;
-      npm run lint frontend/src/**/*.js;
-      npm run lint frontend/cypress/**.js;
-      time travis_retry ./gradlew clean checkstyleMain checkstyleTest test systemTest;
-    fi
+  - ./config/travis/run-checks.sh
+  - npm run lint frontend/src/**/*.js
+  - npm run lint frontend/cypress/**.js
+  - time travis_retry ./gradlew clean checkstyleMain checkstyleTest test systemTest
 
 before_cache:
   - rm -f  $HOME/.gradle/caches/modules-2/modules-2.lock
