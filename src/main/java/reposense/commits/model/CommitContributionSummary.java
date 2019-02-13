@@ -9,19 +9,16 @@ import reposense.model.Author;
  * Stores the consolidated results of commit analysis.
  */
 public class CommitContributionSummary {
-    private final Map<Author, List<AuthorIntervalContribution>> authorWeeklyIntervalContributions;
-    private final Map<Author, List<AuthorIntervalContribution>> authorDailyIntervalContributions;
+    private final Map<Author, List<AuthorDailyContribution>> authorDailyContributionsMap;
     private final Map<Author, Float> authorContributionVariance;
     private final Map<Author, String> authorDisplayNameMap;
 
     public CommitContributionSummary(
             Map<Author, String> authorDisplayNameMap,
-            Map<Author, List<AuthorIntervalContribution>> authorDailyIntervalContributions,
-            Map<Author, List<AuthorIntervalContribution>> authorWeeklyIntervalContributions,
+            Map<Author, List<AuthorDailyContribution>> authorDailyContributionsMap,
             Map<Author, Float> authorContributionVariance) {
         this.authorDisplayNameMap = authorDisplayNameMap;
-        this.authorDailyIntervalContributions = authorDailyIntervalContributions;
-        this.authorWeeklyIntervalContributions = authorWeeklyIntervalContributions;
+        this.authorDailyContributionsMap = authorDailyContributionsMap;
         this.authorContributionVariance = authorContributionVariance;
     }
 
@@ -29,12 +26,8 @@ public class CommitContributionSummary {
         return authorDisplayNameMap;
     }
 
-    public Map<Author, List<AuthorIntervalContribution>> getAuthorWeeklyIntervalContributions() {
-        return authorWeeklyIntervalContributions;
-    }
-
-    public Map<Author, List<AuthorIntervalContribution>> getAuthorDailyIntervalContributions() {
-        return authorDailyIntervalContributions;
+    public Map<Author, List<AuthorDailyContribution>> getAuthorDailyContributionsMap() {
+        return authorDailyContributionsMap;
     }
 
     public Map<Author, Float> getAuthorContributionVariance() {
