@@ -200,7 +200,7 @@ public class ArgsParserTest {
     }
 
     @Test
-    public void parse_configFolderandViewWithouthArgs_returnsConfigCliArguments() throws ParseException, IOException {
+    public void parse_configFolderAndViewWithoutArgs_returnsConfigCliArguments() throws ParseException, IOException {
         String input = String.format("-config %s -view", CONFIG_FOLDER_ABSOLUTE);
         CliArguments cliArguments = ArgsParser.parse(translateCommandline(input));
 
@@ -223,13 +223,16 @@ public class ArgsParserTest {
     }
 
     @Test
-    public void parse_configFolderAndViewWithArgs_returnsViewCliArguments() throws ParseException, IOException {
+    public void parse_configFolderAndViewWithArgs_returnsConfigCliArguments() throws ParseException, IOException {
         String input = String.format("-config %s -view %s", CONFIG_FOLDER_ABSOLUTE, OUTPUT_DIRECTORY_ABSOLUTE);
         CliArguments cliArguments = ArgsParser.parse(translateCommandline(input));
 
-        Assert.assertTrue(cliArguments instanceof ViewCliArguments);
+        Assert.assertTrue(cliArguments instanceof ConfigCliArguments);
         Assert.assertTrue(Files.isSameFile(
-                OUTPUT_DIRECTORY_ABSOLUTE, ((ViewCliArguments) cliArguments).getReportDirectoryPath()));
+                REPO_CONFIG_CSV_FILE, ((ConfigCliArguments) cliArguments).getRepoConfigFilePath()));
+        Assert.assertTrue(Files.isSameFile(
+                AUTHOR_CONFIG_CSV_FILE, ((ConfigCliArguments) cliArguments).getAuthorConfigFilePath()));
+        Assert.assertTrue(cliArguments.isAutomaticallyLaunching());
     }
 
     @Test
@@ -294,19 +297,20 @@ public class ArgsParserTest {
     }
 
     @Test
-    public void parse_repoLocationsAndViewWithArgs_returnsViewCliArguments() throws ParseException, IOException {
+    public void parse_repoLocationsAndViewWithArgs_returnsLocationsCliArguments() throws ParseException {
         String input = String.format("-repos \"%s\" %s -view %s",
                 TEST_REPO_REPOSENSE, TEST_REPO_DELTA, OUTPUT_DIRECTORY_ABSOLUTE);
         CliArguments cliArguments = ArgsParser.parse(translateCommandline(input));
 
-        Assert.assertTrue(cliArguments instanceof ViewCliArguments);
-        Assert.assertTrue(Files.isSameFile(
-                OUTPUT_DIRECTORY_ABSOLUTE, ((ViewCliArguments) cliArguments).getReportDirectoryPath()));
+        Assert.assertTrue(cliArguments instanceof LocationsCliArguments);
+        Assert.assertTrue(cliArguments.isAutomaticallyLaunching());
+        List<String> expectedLocations = Arrays.asList(TEST_REPO_REPOSENSE, TEST_REPO_DELTA);
+        Assert.assertEquals(expectedLocations, ((LocationsCliArguments) cliArguments).getLocations());
     }
 
     @Test
-    public void parse_repoLocationsAndViewWithArgCwd_returnsViewCliArguments() throws ParseException {
-        String input = String.format("-repos \"%s\" %s -view .", TEST_REPO_REPOSENSE, TEST_REPO_DELTA);
+    public void parse_viewWithArgCwd_returnsViewCliArguments() throws ParseException {
+        String input = "-view .";
         CliArguments cliArguments = ArgsParser.parse(translateCommandline(input));
 
         Assert.assertTrue(cliArguments instanceof ViewCliArguments);
