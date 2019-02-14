@@ -1,6 +1,8 @@
 package reposense.git;
 
+import static reposense.system.CommandRunner.joinCommand;
 import static reposense.system.CommandRunner.runCommand;
+import static reposense.system.CommandRunner.startCommand;
 import static reposense.util.StringsUtil.addQuote;
 
 import java.io.IOException;
@@ -12,6 +14,7 @@ import java.util.logging.Logger;
 
 import reposense.model.RepoConfiguration;
 import reposense.model.RepoLocation;
+import reposense.system.CommandRunnerProcess;
 import reposense.system.LogsManager;
 import reposense.util.FileUtil;
 
@@ -58,5 +61,32 @@ public class GitClone {
         Path rootPath = Paths.get(FileUtil.REPOS_ADDRESS, repoName);
         Files.createDirectories(rootPath);
         runCommand(rootPath, "git clone " + addQuote(location.toString()));
+    }
+
+    public static CommandRunnerProcess startParallelClone(RepoConfiguration repoConfig) throws GitCloneException {
+        try {
+            FileUtil.deleteDirectory(repoConfig.getRepoRoot());
+            logger.info("Cloning in parallel from " + repoConfig.getLocation() + "...");
+            Path rootPath = Paths.get(FileUtil.REPOS_ADDRESS, repoConfig.getRepoName());
+            Files.createDirectories(rootPath);
+            return startCommand(rootPath, "git clone " + addQuote(repoConfig.getLocation().toString()));
+        } catch (RuntimeException rte) {
+            logger.log(Level.SEVERE, "Error encountered in Git Cloning, will attempt to continue analyzing", rte);
+            throw new GitCloneException(rte);
+        } catch (IOException ioe) {
+            throw new GitCloneException(ioe);
+        }
+    }
+
+    public static void joinParallelClone(
+            RepoConfiguration repoConfig, CommandRunnerProcess crp) throws GitCloneException {
+        try {
+            Path rootPath = Paths.get(FileUtil.REPOS_ADDRESS, repoConfig.getRepoName());
+            joinCommand(rootPath, "git clone " + addQuote(repoConfig.getLocation().toString()), crp);
+            logger.info("Cloning of " + repoConfig.getLocation() + " completed!");
+        } catch (RuntimeException rte) {
+            logger.log(Level.SEVERE, "Error encountered in Git Cloning, will attempt to continue analyzing", rte);
+            throw new GitCloneException(rte);
+        }
     }
 }
