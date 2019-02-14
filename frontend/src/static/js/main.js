@@ -3,16 +3,13 @@ window.REPOS = {};
 
 window.hashParams = {};
 window.addHash = function addHash(newKey, newVal) {
-  const { hashParams } = window;
-  hashParams[newKey] = newVal;
+  window.hashParams[newKey] = newVal;
+};
 
-  const hash = [];
-  const enquery = (key, val) => `${key}=${encodeURIComponent(val)}`;
-  Object.keys(hashParams).forEach((hashKey) => {
-    hash.push(enquery(hashKey, hashParams[hashKey]));
-  });
-
-  window.location.hash = hash.join('&');
+window.updateHash = function updateHash(){
+  window.location.hash = Object.keys(window.hashParams)
+    .map(hashKey => `${key}=${encodeURIComponent(val)}`)
+    .join('&');
 };
 
 const DRAG_BAR_WIDTH = 13.25;
