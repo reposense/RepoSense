@@ -22,6 +22,7 @@ import reposense.git.GitCloneException;
 import reposense.git.GitShortlog;
 import reposense.model.Author;
 import reposense.model.RepoConfiguration;
+import reposense.model.RepoLocation;
 import reposense.model.StandaloneConfig;
 import reposense.parser.StandaloneConfigJsonParser;
 import reposense.system.CommandRunnerProcess;
@@ -59,29 +60,39 @@ public class ReportGenerator {
     private static void cloneAndAnalyzeRepos(List<RepoConfiguration> configs, String outputPath) throws IOException {
         boolean isPreviousRepoCloned = false;
         Path previousRepoReportDirectory = null;
+        RepoLocation previousRepoLocation = null;
 
         for (int i = 0; i < configs.size(); i++) {
             RepoConfiguration config = configs.get(i);
             CommandRunnerProcess crp = null;
             boolean isCurrentRepoCloned = false;
-            try {
-                crp = GitClone.startParallelClone(config);
+            boolean isCurrentRepoSameAsPreviousRepo =
+                    previousRepoLocation != null && previousRepoLocation.equals(config.getLocation());
+            if (isCurrentRepoSameAsPreviousRepo) {
                 isCurrentRepoCloned = true;
-            } catch (GitCloneException gde) {
-                logger.log(Level.WARNING,
-                        "Exception met while trying to clone the repo, will skip this repo.", gde);
-                handleGitCloneException(outputPath, config);
+            } else {
+                try {
+                    crp = GitClone.startParallelClone(config);
+                    isCurrentRepoCloned = true;
+                } catch (GitCloneException gde) {
+                    logger.log(Level.WARNING,
+                            "Exception met while trying to clone the repo, will skip this repo.", gde);
+                    handleGitCloneException(outputPath, config);
+                }
             }
             if (isPreviousRepoCloned && previousRepoReportDirectory != null) {
-                analyzeRepo(configs.get(i - 1), previousRepoReportDirectory);
+                RepoConfiguration previousConfig = configs.get(i - 1);
+                boolean isSameLocationAsCurrentConfig = config.getLocation().equals(previousConfig.getLocation());
+                analyzeRepo(previousConfig, previousRepoReportDirectory, !isSameLocationAsCurrentConfig);
             }
-            if (isCurrentRepoCloned) {
+            if (isCurrentRepoCloned && !isCurrentRepoSameAsPreviousRepo) {
                 isCurrentRepoCloned = false;
                 try {
                     GitClone.joinParallelClone(config, crp);
                     previousRepoReportDirectory = Paths.get(outputPath, config.getDisplayName());
                     FileUtil.createDirectory(previousRepoReportDirectory);
                     isCurrentRepoCloned = true;
+                    previousRepoLocation = config.getLocation();
                 } catch (GitCloneException gde) {
                     logger.log(Level.WARNING,
                             "Exception met while trying to clone the repo, will skip this repo.", gde);
@@ -96,11 +107,11 @@ public class ReportGenerator {
             isPreviousRepoCloned = isCurrentRepoCloned;
         }
         if (isPreviousRepoCloned && previousRepoReportDirectory != null) {
-            analyzeRepo(configs.get(configs.size() - 1), previousRepoReportDirectory);
+            analyzeRepo(configs.get(configs.size() - 1), previousRepoReportDirectory, true);
         }
     }
 
-    private static void analyzeRepo(RepoConfiguration config, Path repoReportDirectory) {
+    private static void analyzeRepo(RepoConfiguration config, Path repoReportDirectory, boolean shouldDeleteDirectory) {
         // preprocess the config and repo
         updateRepoConfig(config);
         updateAuthorList(config);
@@ -109,10 +120,12 @@ public class ReportGenerator {
         AuthorshipSummary authorshipSummary = AuthorshipReporter.generateAuthorshipSummary(config);
         generateIndividualRepoReport(commitSummary, authorshipSummary, repoReportDirectory.toString());
 
-        try {
-            FileUtil.deleteDirectory(config.getRepoRoot());
-        } catch (IOException ioe) {
-            logger.log(Level.WARNING, "Error deleting report directory.", ioe);
+        if (shouldDeleteDirectory) {
+            try {
+                FileUtil.deleteDirectory(config.getRepoRoot());
+            } catch (IOException ioe) {
+                logger.log(Level.WARNING, "Error deleting report directory.", ioe);
+            }
         }
     }
 
