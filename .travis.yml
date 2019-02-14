@@ -16,7 +16,7 @@ script:
 
 before_install:
   - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then
-      brew update; brew upgrade git;
+      brew upgrade git;
     fi
   - npm install --only=dev
 
