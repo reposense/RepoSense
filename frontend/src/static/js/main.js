@@ -5,11 +5,17 @@ window.hashParams = {};
 window.addHash = function addHash(newKey, newVal) {
   window.hashParams[newKey] = newVal;
 };
+window.rmHash = function rmHash(key) {
+  window.hashParams[key] = null;
+};
 
 window.updateHash = function updateHash(){
-  window.location.hash = Object.keys(window.hashParams)
-    .map(hashKey => `${key}=${encodeURIComponent(val)}`)
-    .join('&');
+  const { hashParams } = window;
+
+  window.location.hash = Object.keys(hashParams)
+    .map(key => hashParams[key]
+      ? `${key}=${encodeURIComponent(hashParams[key])}` : '')
+    .filter(x => x).join('&');
 };
 
 const DRAG_BAR_WIDTH = 13.25;
