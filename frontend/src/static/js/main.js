@@ -9,25 +9,25 @@ window.rmHash = function rmHash(key) {
   window.hashParams[key] = null;
 };
 
-window.encodeHash = function encodeHash(){
+window.encodeHash = function encodeHash() {
   const { hashParams } = window;
 
   window.location.hash = Object.keys(hashParams)
-    .map(key => hashParams[key]
-      ? `${key}=${encodeURIComponent(hashParams[key])}` : '')
-    .filter(x => x).join('&');
+      .map((key) => (hashParams[key]
+        ? `${key}=${encodeURIComponent(hashParams[key])}` : ''))
+      .filter((x) => x).join('&');
 };
 
 window.decodeHash = function decodeHash() {
   const hashParams = {};
 
   window.location.hash.slice(1).split('&')
-    .forEach((param) => {
-      const [key, val] = param.split('=');
-      if (key) {
-        hashParams[key] = decodeURIComponent(val);
-      }
-    });
+      .forEach((param) => {
+        const [key, val] = param.split('=');
+        if (key) {
+          hashParams[key] = decodeURIComponent(val);
+        }
+      });
   window.hashParams = hashParams;
 };
 
