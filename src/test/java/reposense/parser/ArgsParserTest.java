@@ -111,13 +111,13 @@ public class ArgsParserTest {
 
     @Test
     public void parse_withExtraWhitespaces_success() throws ParseException, IOException {
-        String input = new InputBuilder().addConfig(CONFIG_FOLDER_ABSOLUTE)
-                .addOutput(OUTPUT_DIRECTORY_ABSOLUTE)
-                .addSinceDate("   01/07/2017   ")
-                .addUntilDate(" 30/11/2017      ")
-                .addFormats("   java   adoc  html      css js   ")
-                .addIgnoreStandaloneConfig()
-                .addView()
+        String input = new InputBuilder().addConfig(CONFIG_FOLDER_ABSOLUTE).addWhiteSpace(5)
+                .addOutput(OUTPUT_DIRECTORY_ABSOLUTE).addWhiteSpace(4)
+                .addSinceDate("01/07/2017").addWhiteSpace(3)
+                .addUntilDate("30/11/2017").addWhiteSpace(6)
+                .addFormats("java   adoc  html      css js   ")
+                .addIgnoreStandaloneConfig().addWhiteSpace(1)
+                .addView().addWhiteSpace(4)
                 .build();
         CliArguments cliArguments = ArgsParser.parse(translateCommandline(input));
         Assert.assertTrue(cliArguments instanceof ConfigCliArguments);
