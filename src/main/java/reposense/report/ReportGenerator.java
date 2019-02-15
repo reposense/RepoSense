@@ -61,33 +61,27 @@ public class ReportGenerator {
     }
 
     private static void cloneAndAnalyzeRepos(List<RepoConfiguration> configs, String outputPath) throws IOException {
-        CommandRunnerProcess crp = null;
         boolean isPreviousRepoCloned = false;
 
         for (int i = 0; i < configs.size(); i++) {
             RepoConfiguration config = configs.get(i);
             boolean isCurrentRepoCloned = false;
-            boolean isCurrentRepoSameAsPreviousRepo =
-                    i > 0 && configs.get(i - 1).getLocation().equals(config.getLocation());
 
-            if (isCurrentRepoSameAsPreviousRepo) {
+            try {
+                GitClone.spawnCloneProcess(config);
                 isCurrentRepoCloned = true;
-            } else {
-                try {
-                    crp = GitClone.spawnCloneProcess(config);
-                    isCurrentRepoCloned = true;
-                } catch (GitCloneException gde) {
-                    logger.log(Level.WARNING,
-                            "Exception met while trying to clone the repo, will skip this repo.", gde);
-                    handleGitCloneException(outputPath, config);
-                }
+            } catch (GitCloneException gde) {
+                logger.log(Level.WARNING,
+                        "Exception met while trying to clone the repo, will skip this repo.", gde);
+                handleGitCloneException(outputPath, config);
             }
             if (isPreviousRepoCloned) {
                 RepoConfiguration previousConfig = configs.get(i - 1);
+                boolean isCurrentRepoSameAsPreviousRepo = config.getLocation().equals(previousConfig.getLocation());
                 analyzeRepo(previousConfig, outputPath, !isCurrentRepoSameAsPreviousRepo);
             }
-            if (isCurrentRepoCloned && !isCurrentRepoSameAsPreviousRepo) {
-                isCurrentRepoCloned = waitForCloneProcess(outputPath, config, crp);
+            if (isCurrentRepoCloned) {
+                isCurrentRepoCloned = waitForCloneProcess(outputPath, config);
             }
             isPreviousRepoCloned = isCurrentRepoCloned;
         }
@@ -96,10 +90,9 @@ public class ReportGenerator {
         }
     }
 
-    private static boolean waitForCloneProcess(
-            String outputPath, RepoConfiguration config, CommandRunnerProcess crp) throws IOException {
+    private static boolean waitForCloneProcess(String outputPath, RepoConfiguration config) throws IOException {
         try {
-            GitClone.waitForCloneProcess(config, crp);
+            GitClone.waitForCloneProcess(config);
             return true;
         } catch (GitCloneException gde) {
             logger.log(Level.WARNING,
