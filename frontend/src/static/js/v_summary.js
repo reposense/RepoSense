@@ -50,6 +50,7 @@ window.vSummary = {
       filterSortReverse: false,
       filterGroupRepos: true,
       filterTimeFrame: 'day',
+      filterBreakdown: false,
       tmpFilterSinceDate: '',
       tmpFilterUntilDate: '',
       filterSinceDate: '',
@@ -75,6 +76,9 @@ window.vSummary = {
       this.getFiltered();
     },
     filterTimeFrame() {
+      this.getFiltered();
+    },
+    filterBreakdown() {
       this.getFiltered();
     },
     tmpFilterSinceDate() {
@@ -146,7 +150,7 @@ window.vSummary = {
                 + `since=${slice.date}'T'00:00:00+08:00&`
                 + `until=${untilDate}'T'23:59:59+08:00`;
     },
-    getContributionBars(fileTypeContribution) {
+    getFileTypeContributionBars(fileTypeContribution) {
       let totalWidth = 0;
       const contributionLimit = (this.avgContributionSize * 2);
       const totalBars = {};
@@ -182,6 +186,23 @@ window.vSummary = {
       return totalBars;
     },
 
+    getContributionBars(totalContribution) {
+      const res = [];
+      const contributionLimit = (this.avgContributionSize * 2);
+
+      const cnt = parseInt(totalContribution / contributionLimit, 10);
+      for (let cntId = 0; cntId < cnt; cntId += 1) {
+        res.push(100);
+      }
+
+      const last = (totalContribution % contributionLimit) / contributionLimit;
+      if (last !== 0) {
+        res.push(last * 100);
+      }
+
+      return res;
+    },
+
     // model functions //
     updateFilterSearch(evt) {
       this.filterSearch = evt.target.value;
@@ -198,6 +219,7 @@ window.vSummary = {
 
       addHash('reverse', this.filterSortReverse);
       addHash('repoSort', this.filterGroupRepos);
+      addHash('breakdown', this.filterBreakdown);
     },
     renderFilterHash() {
       const params = window.location.hash.slice(1).split('&');
@@ -224,6 +246,7 @@ window.vSummary = {
 
       if (hash.reverse) { this.filterSortReverse = convertBool(hash.reverse); }
       if (hash.repoSort) { this.filterGroupRepos = convertBool(hash.repoSort); }
+      if (hash.breakdown) { this.filterBreakdown = convertBool(hash.breakdown); }
     },
 
     getDates() {

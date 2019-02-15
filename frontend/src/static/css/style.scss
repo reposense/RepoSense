@@ -267,12 +267,22 @@ header{
         }
     }
 
-    &__contrib--bar{
+    &__contrib{
         text-align:left;
-        height:0.3rem;
-        margin-top:0.1rem;
-        float:left;
-        display: inline-block;
+
+        &--bar{
+            height:0.3rem;
+            margin-top:0.1rem;
+            background-color:mui-color("red");
+        }
+
+        &--bar--filetype{
+            text-align:left;
+            height:0.3rem;
+            margin-top:0.1rem;
+            float:left;
+            display: inline-block;
+        }
     }
 }
 
