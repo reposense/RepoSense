@@ -5,6 +5,7 @@ plugins {
     id 'application'
     id 'com.github.johnrengelman.shadow' version '2.0.4'
     id 'com.liferay.node' version '4.4.0'
+    id 'com.github.psxpaul.execfork' version '0.1.8'
 }
 
 mainClassName = 'reposense.RepoSense'
@@ -81,17 +82,25 @@ task systemtest(dependsOn: 'zipReport', type: Test) {
   }
 }
 
-task startServer(type: JavaExec) {
+task startServerInBackground(type: com.github.psxpaul.task.JavaExecFork) {
   main = mainClassName
   classpath = sourceSets.main.runtimeClasspath
   args = ['-repo', 'https://github.com/reposense/RepoSense.git', '-view']
+  waitForPort = 9000
 }
 
 task installCypress(type: com.liferay.gradle.plugins.node.tasks.NpmInstallTask) {
   workingDir = file('frontend/cypress/')
 }
 
-task uat(dependsOn: 'installCypress', type: com.liferay.gradle.plugins.node.tasks.ExecuteNpmTask) {
+task cypress(dependsOn: 'installCypress', type: com.liferay.gradle.plugins.node.tasks.ExecuteNpmTask) {
+  workingDir = file('frontend/cypress/')
+  args = ["run-script", "debug"]
+}
+
+task uat(dependsOn: ['installCypress', 'startServerInBackground'], type: com.liferay.gradle.plugins.node.tasks.ExecuteNpmTask) {
+  tasks.findByName('startServerInBackground').mustRunAfter 'installCypress'
+
   workingDir = file('frontend/cypress/')
   args = ["run-script", "tests"]
 }
@@ -111,4 +120,4 @@ tasks.withType(Copy) {
     includeEmptyDirs = true
 }
 
-defaultTasks 'clean', 'build', 'systemtest', 'uat'
+defaultTasks 'clean', 'build', 'systemtest', 'uat', 'cypress'
