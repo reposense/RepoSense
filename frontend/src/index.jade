@@ -187,29 +187,30 @@ html
 
         .files(v-if="isLoaded")
           .empty(v-if="files.length===0") nothing to see here :(
-          .file.active(v-for="file in selectedFiles", v-bind:key="file.path")
-            .title
-              span.path(onclick="toggleNext(this.parentNode)") {{ file.path }}&nbsp;
-              span.loc ({{ file.lineCount }} lines)
-              a(
-                v-bind:href="getFileLink(file, 'commits')", target="_blank",
-                title="click to view the history view of file"
-              )
-                i.button.fas.fa-history
-              a(
-                v-bind:href="getFileLink(file, 'blame')", target="_blank",
-                title="click to view the blame view of file"
-              )
-                i.button.fas.fa-user-edit
-            pre.hljs
-              div(v-hljs="file.path")
-                template(v-for="segment in file.segments")
-                  .segment(v-bind:class="{ untouched: !segment.authored, active: segment.lines.length<5 }")
-                    .closer(v-if="!segment.authored && segment.lines.length>4", onclick="toggleNext(this)")
-                      i.fas.fa-ellipsis-h.icon
-                      span.tooltiptext.tooltiptext--close Show untouched code
-                      span.tooltiptext.tooltiptext--open Hide untouched code
-                    .code {{ segment.lines.join("\n") }}
+          template(v-for="file in selectedFiles")
+            .file.active(v-bind:key="file.path")
+              .title
+                span.path(onclick="toggleNext(this.parentNode)") {{ file.path }}&nbsp;
+                span.loc ({{ file.lineCount }} lines)
+                a(
+                  v-bind:href="getFileLink(file, 'commits')", target="_blank",
+                  title="click to view the history view of file"
+                )
+                  i.button.fas.fa-history
+                a(
+                  v-bind:href="getFileLink(file, 'blame')", target="_blank",
+                  title="click to view the blame view of file"
+                )
+                  i.button.fas.fa-user-edit
+              pre.hljs
+                div(v-hljs="file.path")
+                  template(v-for="segment in file.segments")
+                    .segment(v-bind:class="{ untouched: !segment.authored, active: segment.lines.length<5 }")
+                      .closer(v-if="!segment.authored && segment.lines.length>4", onclick="toggleNext(this)")
+                        i.fas.fa-ellipsis-h.icon
+                        span.tooltiptext.tooltiptext--close Show untouched code
+                        span.tooltiptext.tooltiptext--open Hide untouched code
+                      .code {{ segment.lines.join("\n") }}
         .empty(v-else) loading...
 
     script(src="static/js/api.js")
