@@ -24,7 +24,6 @@ import reposense.model.Author;
 import reposense.model.RepoConfiguration;
 import reposense.model.StandaloneConfig;
 import reposense.parser.StandaloneConfigJsonParser;
-import reposense.system.CommandRunnerProcess;
 import reposense.system.LogsManager;
 import reposense.util.FileUtil;
 
@@ -65,20 +64,12 @@ public class ReportGenerator {
 
         for (int i = 0; i < configs.size(); i++) {
             RepoConfiguration config = configs.get(i);
-            boolean isCurrentRepoCloned = false;
+            boolean isCurrentRepoCloned = spawnCloneProcess(outputPath, config);
 
-            try {
-                GitClone.spawnCloneProcess(config);
-                isCurrentRepoCloned = true;
-            } catch (GitCloneException gde) {
-                logger.log(Level.WARNING,
-                        "Exception met while trying to clone the repo, will skip this repo.", gde);
-                handleGitCloneException(outputPath, config);
-            }
             if (isPreviousRepoCloned) {
                 RepoConfiguration previousConfig = configs.get(i - 1);
                 boolean isCurrentRepoSameAsPreviousRepo = config.getLocation().equals(previousConfig.getLocation());
-                analyzeRepo(previousConfig, outputPath, !isCurrentRepoSameAsPreviousRepo);
+                analyzeRepo(outputPath, previousConfig, !isCurrentRepoSameAsPreviousRepo);
             }
             if (isCurrentRepoCloned) {
                 isCurrentRepoCloned = waitForCloneProcess(outputPath, config);
@@ -86,8 +77,20 @@ public class ReportGenerator {
             isPreviousRepoCloned = isCurrentRepoCloned;
         }
         if (isPreviousRepoCloned) {
-            analyzeRepo(configs.get(configs.size() - 1), outputPath, true);
+            analyzeRepo(outputPath, configs.get(configs.size() - 1), true);
         }
+    }
+
+    private static boolean spawnCloneProcess(String outputPath, RepoConfiguration config) throws IOException {
+        try {
+            GitClone.spawnCloneProcess(config);
+            return true;
+        } catch (GitCloneException gde) {
+            logger.log(Level.WARNING,
+                    "Exception met while trying to clone the repo, will skip this repo.", gde);
+            handleGitCloneException(outputPath, config);
+        }
+        return false;
     }
 
     private static boolean waitForCloneProcess(String outputPath, RepoConfiguration config) throws IOException {
@@ -105,7 +108,7 @@ public class ReportGenerator {
     }
 
     private static void analyzeRepo(
-            RepoConfiguration config, String outputPath, boolean shouldDeleteDirectory) throws IOException {
+            String outputPath, RepoConfiguration config, boolean shouldDeleteDirectory) throws IOException {
         try {
             Path repoReportDirectory = Paths.get(outputPath, config.getDisplayName());
             FileUtil.createDirectory(repoReportDirectory);
