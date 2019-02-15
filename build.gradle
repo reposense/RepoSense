@@ -81,6 +81,21 @@ task systemtest(dependsOn: 'zipReport', type: Test) {
   }
 }
 
+task startServer(type: JavaExec) {
+  main = mainClassName
+  classpath = sourceSets.main.runtimeClasspath
+  args = ['-repo', 'https://github.com/reposense/RepoSense.git', '-view']
+}
+
+task installCypress(type: com.liferay.gradle.plugins.node.tasks.NpmInstallTask) {
+  workingDir = file('frontend/cypress/')
+}
+
+task uat(dependsOn: 'installCypress', type: com.liferay.gradle.plugins.node.tasks.ExecuteNpmTask) {
+  workingDir = file('frontend/cypress/')
+  args = ["run-script", "tests"]
+}
+
 idea {
     module {
         sourceSets.systemtest.allSource.srcDirs.each { srcDir -> module.testSourceDirs += srcDir }
@@ -96,4 +111,4 @@ tasks.withType(Copy) {
     includeEmptyDirs = true
 }
 
-defaultTasks 'clean', 'build', 'systemtest'
+defaultTasks 'clean', 'build', 'systemtest', 'uat'
