@@ -6,16 +6,15 @@ window.addHash = function addHash(newKey, newVal) {
   window.hashParams[newKey] = newVal;
 };
 window.rmHash = function rmHash(key) {
-  window.hashParams[key] = null;
+  delete window.hashParams[key];
 };
 
 window.encodeHash = function encodeHash() {
   const { hashParams } = window;
 
   window.location.hash = Object.keys(hashParams)
-      .map((key) => (hashParams[key]
-        ? `${key}=${encodeURIComponent(hashParams[key])}` : ''))
-      .filter((x) => x).join('&');
+      .map((key) => `${key}=${encodeURIComponent(hashParams[key])}`)
+      .join('&');
 };
 
 window.decodeHash = function decodeHash() {
