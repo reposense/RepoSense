@@ -166,29 +166,6 @@ window.app = new window.Vue({
       }
     },
 
-    renderAuthorShipTabHash() {
-      const hash = window.hashParams;
-      const info = {};
-      if (hash.tabAuthor) { info.author = hash.tabAuthor; }
-      if (hash.tabLocation) { info.location = hash.tabLocation; }
-      if (hash.since) { info.minDate = hash.since; }
-      if (hash.until) { info.maxDate = hash.until; }
-      if (info.location) {
-        const repoName = info.location.split('github.com/')[1].split('/');
-        if (repoName.length === 2) {
-          info.repo = `${repoName.join('_').slice(0, -4)}_master`;
-        } else {
-          repoName.splice(2, 1);
-          info.repo = repoName.join('_');
-        }
-      }
-      if (Object.keys(info).length === 5) {
-        this.updateTabAuthorship(info);
-      } else if (hash.tabOpen === 'false') {
-        this.isTabActive = false;
-      }
-    },
-
     /* global expandAll */
     expand(isActive) {
       this.isCollapsed = !isActive;
@@ -227,7 +204,6 @@ window.app = new window.Vue({
   created() {
     this.updateReportDir();
     window.decodeHash();
-    this.renderAuthorShipTabHash();
   },
   updated() {
     this.$nextTick(() => {
