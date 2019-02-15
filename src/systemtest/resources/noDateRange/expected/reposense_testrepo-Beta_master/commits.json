@@ -1,1029 +1,1103 @@
 {
-  "authorWeeklyIntervalContributions": {
+  "authorDailyContributionsMap": {
     "zacharytang": [
       {
         "insertions": 0,
         "deletions": 0,
-        "sinceDate": "2017-10-09",
-        "untilDate": "2017-10-16"
+        "date": "2017-10-09",
+        "commitResults": []
       },
       {
         "insertions": 0,
         "deletions": 0,
-        "sinceDate": "2017-10-16",
-        "untilDate": "2017-10-23"
+        "date": "2017-10-10",
+        "commitResults": []
       },
       {
         "insertions": 0,
         "deletions": 0,
-        "sinceDate": "2017-10-23",
-        "untilDate": "2017-10-30"
+        "date": "2017-10-11",
+        "commitResults": []
       },
       {
         "insertions": 0,
         "deletions": 0,
-        "sinceDate": "2017-10-30",
-        "untilDate": "2017-11-06"
+        "date": "2017-10-12",
+        "commitResults": []
+      },
+      {
+        "insertions": 0,
+        "deletions": 0,
+        "date": "2017-10-13",
+        "commitResults": []
+      },
+      {
+        "insertions": 0,
+        "deletions": 0,
+        "date": "2017-10-14",
+        "commitResults": []
+      },
+      {
+        "insertions": 0,
+        "deletions": 0,
+        "date": "2017-10-15",
+        "commitResults": []
+      },
+      {
+        "insertions": 0,
+        "deletions": 0,
+        "date": "2017-10-16",
+        "commitResults": []
+      },
+      {
+        "insertions": 0,
+        "deletions": 0,
+        "date": "2017-10-17",
+        "commitResults": []
+      },
+      {
+        "insertions": 0,
+        "deletions": 0,
+        "date": "2017-10-18",
+        "commitResults": []
+      },
+      {
+        "insertions": 0,
+        "deletions": 0,
+        "date": "2017-10-19",
+        "commitResults": []
+      },
+      {
+        "insertions": 0,
+        "deletions": 0,
+        "date": "2017-10-20",
+        "commitResults": []
+      },
+      {
+        "insertions": 0,
+        "deletions": 0,
+        "date": "2017-10-21",
+        "commitResults": []
+      },
+      {
+        "insertions": 0,
+        "deletions": 0,
+        "date": "2017-10-22",
+        "commitResults": []
+      },
+      {
+        "insertions": 0,
+        "deletions": 0,
+        "date": "2017-10-23",
+        "commitResults": []
+      },
+      {
+        "insertions": 0,
+        "deletions": 0,
+        "date": "2017-10-24",
+        "commitResults": []
+      },
+      {
+        "insertions": 0,
+        "deletions": 0,
+        "date": "2017-10-25",
+        "commitResults": []
+      },
+      {
+        "insertions": 0,
+        "deletions": 0,
+        "date": "2017-10-26",
+        "commitResults": []
+      },
+      {
+        "insertions": 0,
+        "deletions": 0,
+        "date": "2017-10-27",
+        "commitResults": []
+      },
+      {
+        "insertions": 0,
+        "deletions": 0,
+        "date": "2017-10-28",
+        "commitResults": []
+      },
+      {
+        "insertions": 0,
+        "deletions": 0,
+        "date": "2017-10-29",
+        "commitResults": []
+      },
+      {
+        "insertions": 0,
+        "deletions": 0,
+        "date": "2017-10-30",
+        "commitResults": []
+      },
+      {
+        "insertions": 0,
+        "deletions": 0,
+        "date": "2017-10-31",
+        "commitResults": []
+      },
+      {
+        "insertions": 0,
+        "deletions": 0,
+        "date": "2017-11-01",
+        "commitResults": []
+      },
+      {
+        "insertions": 0,
+        "deletions": 0,
+        "date": "2017-11-02",
+        "commitResults": []
+      },
+      {
+        "insertions": 0,
+        "deletions": 0,
+        "date": "2017-11-03",
+        "commitResults": []
+      },
+      {
+        "insertions": 0,
+        "deletions": 0,
+        "date": "2017-11-04",
+        "commitResults": []
+      },
+      {
+        "insertions": 0,
+        "deletions": 0,
+        "date": "2017-11-05",
+        "commitResults": []
+      },
+      {
+        "insertions": 0,
+        "deletions": 0,
+        "date": "2017-11-06",
+        "commitResults": []
+      },
+      {
+        "insertions": 0,
+        "deletions": 0,
+        "date": "2017-11-07",
+        "commitResults": []
+      },
+      {
+        "insertions": 0,
+        "deletions": 0,
+        "date": "2017-11-08",
+        "commitResults": []
       },
       {
         "insertions": 113,
         "deletions": 0,
-        "sinceDate": "2017-11-06",
-        "untilDate": "2017-11-13"
+        "date": "2017-11-09",
+        "commitResults": [
+          {
+            "hash": "76a4ddb9f4d139620361a1a8de613b3e46d8a269",
+            "message": "Updated collated code",
+            "insertions": 113,
+            "deletions": 0
+          }
+        ]
       },
       {
         "insertions": 0,
         "deletions": 0,
-        "sinceDate": "2017-11-13",
-        "untilDate": "2017-11-20"
+        "date": "2017-11-10",
+        "commitResults": []
+      },
+      {
+        "insertions": 0,
+        "deletions": 0,
+        "date": "2017-11-11",
+        "commitResults": []
+      },
+      {
+        "insertions": 0,
+        "deletions": 0,
+        "date": "2017-11-12",
+        "commitResults": []
+      },
+      {
+        "insertions": 0,
+        "deletions": 0,
+        "date": "2017-11-13",
+        "commitResults": []
       }
     ],
     "CindyTsai1": [
       {
         "insertions": 0,
         "deletions": 0,
-        "sinceDate": "2017-10-09",
-        "untilDate": "2017-10-16"
+        "date": "2017-10-09",
+        "commitResults": []
+      },
+      {
+        "insertions": 0,
+        "deletions": 0,
+        "date": "2017-10-10",
+        "commitResults": []
+      },
+      {
+        "insertions": 0,
+        "deletions": 0,
+        "date": "2017-10-11",
+        "commitResults": []
+      },
+      {
+        "insertions": 0,
+        "deletions": 0,
+        "date": "2017-10-12",
+        "commitResults": []
+      },
+      {
+        "insertions": 0,
+        "deletions": 0,
+        "date": "2017-10-13",
+        "commitResults": []
+      },
+      {
+        "insertions": 0,
+        "deletions": 0,
+        "date": "2017-10-14",
+        "commitResults": []
+      },
+      {
+        "insertions": 0,
+        "deletions": 0,
+        "date": "2017-10-15",
+        "commitResults": []
+      },
+      {
+        "insertions": 0,
+        "deletions": 0,
+        "date": "2017-10-16",
+        "commitResults": []
+      },
+      {
+        "insertions": 0,
+        "deletions": 0,
+        "date": "2017-10-17",
+        "commitResults": []
+      },
+      {
+        "insertions": 0,
+        "deletions": 0,
+        "date": "2017-10-18",
+        "commitResults": []
       },
       {
         "insertions": 1,
         "deletions": 0,
-        "sinceDate": "2017-10-16",
-        "untilDate": "2017-10-23"
+        "date": "2017-10-19",
+        "commitResults": [
+          {
+            "hash": "f45960b264a6c550d98137cebe7cea9bb78fdfcd",
+            "message": "Birthday feature: update person related files",
+            "insertions": 1,
+            "deletions": 0
+          }
+        ]
       },
       {
         "insertions": 0,
         "deletions": 0,
-        "sinceDate": "2017-10-23",
-        "untilDate": "2017-10-30"
+        "date": "2017-10-20",
+        "commitResults": []
       },
       {
         "insertions": 0,
         "deletions": 0,
-        "sinceDate": "2017-10-30",
-        "untilDate": "2017-11-06"
+        "date": "2017-10-21",
+        "commitResults": []
       },
       {
         "insertions": 0,
         "deletions": 0,
-        "sinceDate": "2017-11-06",
-        "untilDate": "2017-11-13"
+        "date": "2017-10-22",
+        "commitResults": []
       },
       {
         "insertions": 0,
         "deletions": 0,
-        "sinceDate": "2017-11-13",
-        "untilDate": "2017-11-20"
+        "date": "2017-10-23",
+        "commitResults": []
+      },
+      {
+        "insertions": 0,
+        "deletions": 0,
+        "date": "2017-10-24",
+        "commitResults": []
+      },
+      {
+        "insertions": 0,
+        "deletions": 0,
+        "date": "2017-10-25",
+        "commitResults": []
+      },
+      {
+        "insertions": 0,
+        "deletions": 0,
+        "date": "2017-10-26",
+        "commitResults": []
+      },
+      {
+        "insertions": 0,
+        "deletions": 0,
+        "date": "2017-10-27",
+        "commitResults": []
+      },
+      {
+        "insertions": 0,
+        "deletions": 0,
+        "date": "2017-10-28",
+        "commitResults": []
+      },
+      {
+        "insertions": 0,
+        "deletions": 0,
+        "date": "2017-10-29",
+        "commitResults": []
+      },
+      {
+        "insertions": 0,
+        "deletions": 0,
+        "date": "2017-10-30",
+        "commitResults": []
+      },
+      {
+        "insertions": 0,
+        "deletions": 0,
+        "date": "2017-10-31",
+        "commitResults": []
+      },
+      {
+        "insertions": 0,
+        "deletions": 0,
+        "date": "2017-11-01",
+        "commitResults": []
+      },
+      {
+        "insertions": 0,
+        "deletions": 0,
+        "date": "2017-11-02",
+        "commitResults": []
+      },
+      {
+        "insertions": 0,
+        "deletions": 0,
+        "date": "2017-11-03",
+        "commitResults": []
+      },
+      {
+        "insertions": 0,
+        "deletions": 0,
+        "date": "2017-11-04",
+        "commitResults": []
+      },
+      {
+        "insertions": 0,
+        "deletions": 0,
+        "date": "2017-11-05",
+        "commitResults": []
+      },
+      {
+        "insertions": 0,
+        "deletions": 0,
+        "date": "2017-11-06",
+        "commitResults": []
+      },
+      {
+        "insertions": 0,
+        "deletions": 0,
+        "date": "2017-11-07",
+        "commitResults": []
+      },
+      {
+        "insertions": 0,
+        "deletions": 0,
+        "date": "2017-11-08",
+        "commitResults": []
+      },
+      {
+        "insertions": 0,
+        "deletions": 0,
+        "date": "2017-11-09",
+        "commitResults": []
+      },
+      {
+        "insertions": 0,
+        "deletions": 0,
+        "date": "2017-11-10",
+        "commitResults": []
+      },
+      {
+        "insertions": 0,
+        "deletions": 0,
+        "date": "2017-11-11",
+        "commitResults": []
+      },
+      {
+        "insertions": 0,
+        "deletions": 0,
+        "date": "2017-11-12",
+        "commitResults": []
+      },
+      {
+        "insertions": 0,
+        "deletions": 0,
+        "date": "2017-11-13",
+        "commitResults": []
       }
     ],
     "April0616": [
       {
         "insertions": 1,
         "deletions": 0,
-        "sinceDate": "2017-10-09",
-        "untilDate": "2017-10-16"
+        "date": "2017-10-09",
+        "commitResults": [
+          {
+            "hash": "38c72663ef5e8cca0485d44f7462605c162dea00",
+            "message": "Add a remark Label inside PersonListCard.fxml",
+            "insertions": 1,
+            "deletions": 0
+          }
+        ]
+      },
+      {
+        "insertions": 0,
+        "deletions": 0,
+        "date": "2017-10-10",
+        "commitResults": []
+      },
+      {
+        "insertions": 0,
+        "deletions": 0,
+        "date": "2017-10-11",
+        "commitResults": []
+      },
+      {
+        "insertions": 0,
+        "deletions": 0,
+        "date": "2017-10-12",
+        "commitResults": []
+      },
+      {
+        "insertions": 0,
+        "deletions": 0,
+        "date": "2017-10-13",
+        "commitResults": []
+      },
+      {
+        "insertions": 0,
+        "deletions": 0,
+        "date": "2017-10-14",
+        "commitResults": []
+      },
+      {
+        "insertions": 0,
+        "deletions": 0,
+        "date": "2017-10-15",
+        "commitResults": []
       },
       {
         "insertions": 3,
         "deletions": 1,
-        "sinceDate": "2017-10-16",
-        "untilDate": "2017-10-23"
+        "date": "2017-10-16",
+        "commitResults": [
+          {
+            "hash": "a460e24bc1b94d009cb572dc920f35cd73c4ee11",
+            "message": "UI: update PersonListCard.fxml",
+            "insertions": 2,
+            "deletions": 0
+          },
+          {
+            "hash": "b4b51938c691351888e0b31646633eed30bebe14",
+            "message": "UI: update PersonCard.java",
+            "insertions": 1,
+            "deletions": 1
+          }
+        ]
       },
       {
         "insertions": 0,
         "deletions": 0,
-        "sinceDate": "2017-10-23",
-        "untilDate": "2017-10-30"
+        "date": "2017-10-17",
+        "commitResults": []
       },
       {
-        "insertions": 233,
-        "deletions": 102,
-        "sinceDate": "2017-10-30",
-        "untilDate": "2017-11-06"
-      },
-      {
-        "insertions": 10,
-        "deletions": 7,
-        "sinceDate": "2017-11-06",
-        "untilDate": "2017-11-13"
-      },
-      {
-        "insertions": 1,
-        "deletions": 1,
-        "sinceDate": "2017-11-13",
-        "untilDate": "2017-11-20"
-      }
-    ],
-    "nbr": [
-      {
-        "insertions": 0,
-        "deletions": 0,
-        "sinceDate": "2017-10-09",
-        "untilDate": "2017-10-16"
-      },
-      {
-        "insertions": 0,
-        "deletions": 0,
-        "sinceDate": "2017-10-16",
-        "untilDate": "2017-10-23"
-      },
-      {
-        "insertions": 42,
-        "deletions": 13,
-        "sinceDate": "2017-10-23",
-        "untilDate": "2017-10-30"
-      },
-      {
-        "insertions": 11,
-        "deletions": 13,
-        "sinceDate": "2017-10-30",
-        "untilDate": "2017-11-06"
-      },
-      {
-        "insertions": 88,
-        "deletions": 101,
-        "sinceDate": "2017-11-06",
-        "untilDate": "2017-11-13"
-      },
-      {
-        "insertions": 0,
-        "deletions": 0,
-        "sinceDate": "2017-11-13",
-        "untilDate": "2017-11-20"
-      }
-    ]
-  },
-  "authorDailyIntervalContributions": {
-    "zacharytang": [
-      {
-        "insertions": 0,
-        "deletions": 0,
-        "sinceDate": "2017-10-09",
-        "untilDate": "2017-10-10"
-      },
-      {
-        "insertions": 0,
-        "deletions": 0,
-        "sinceDate": "2017-10-10",
-        "untilDate": "2017-10-11"
-      },
-      {
-        "insertions": 0,
-        "deletions": 0,
-        "sinceDate": "2017-10-11",
-        "untilDate": "2017-10-12"
-      },
-      {
-        "insertions": 0,
-        "deletions": 0,
-        "sinceDate": "2017-10-12",
-        "untilDate": "2017-10-13"
-      },
-      {
-        "insertions": 0,
-        "deletions": 0,
-        "sinceDate": "2017-10-13",
-        "untilDate": "2017-10-14"
-      },
-      {
-        "insertions": 0,
-        "deletions": 0,
-        "sinceDate": "2017-10-14",
-        "untilDate": "2017-10-15"
-      },
-      {
-        "insertions": 0,
-        "deletions": 0,
-        "sinceDate": "2017-10-15",
-        "untilDate": "2017-10-16"
-      },
-      {
-        "insertions": 0,
-        "deletions": 0,
-        "sinceDate": "2017-10-16",
-        "untilDate": "2017-10-17"
-      },
-      {
-        "insertions": 0,
-        "deletions": 0,
-        "sinceDate": "2017-10-17",
-        "untilDate": "2017-10-18"
-      },
-      {
-        "insertions": 0,
-        "deletions": 0,
-        "sinceDate": "2017-10-18",
-        "untilDate": "2017-10-19"
-      },
-      {
-        "insertions": 0,
-        "deletions": 0,
-        "sinceDate": "2017-10-19",
-        "untilDate": "2017-10-20"
-      },
-      {
-        "insertions": 0,
-        "deletions": 0,
-        "sinceDate": "2017-10-20",
-        "untilDate": "2017-10-21"
-      },
-      {
-        "insertions": 0,
-        "deletions": 0,
-        "sinceDate": "2017-10-21",
-        "untilDate": "2017-10-22"
-      },
-      {
-        "insertions": 0,
-        "deletions": 0,
-        "sinceDate": "2017-10-22",
-        "untilDate": "2017-10-23"
-      },
-      {
-        "insertions": 0,
-        "deletions": 0,
-        "sinceDate": "2017-10-23",
-        "untilDate": "2017-10-24"
-      },
-      {
-        "insertions": 0,
-        "deletions": 0,
-        "sinceDate": "2017-10-24",
-        "untilDate": "2017-10-25"
-      },
-      {
-        "insertions": 0,
-        "deletions": 0,
-        "sinceDate": "2017-10-25",
-        "untilDate": "2017-10-26"
-      },
-      {
-        "insertions": 0,
-        "deletions": 0,
-        "sinceDate": "2017-10-26",
-        "untilDate": "2017-10-27"
-      },
-      {
-        "insertions": 0,
-        "deletions": 0,
-        "sinceDate": "2017-10-27",
-        "untilDate": "2017-10-28"
-      },
-      {
-        "insertions": 0,
-        "deletions": 0,
-        "sinceDate": "2017-10-28",
-        "untilDate": "2017-10-29"
-      },
-      {
-        "insertions": 0,
-        "deletions": 0,
-        "sinceDate": "2017-10-29",
-        "untilDate": "2017-10-30"
-      },
-      {
-        "insertions": 0,
-        "deletions": 0,
-        "sinceDate": "2017-10-30",
-        "untilDate": "2017-10-31"
-      },
-      {
-        "insertions": 0,
-        "deletions": 0,
-        "sinceDate": "2017-10-31",
-        "untilDate": "2017-11-01"
-      },
-      {
-        "insertions": 0,
-        "deletions": 0,
-        "sinceDate": "2017-11-01",
-        "untilDate": "2017-11-02"
-      },
-      {
-        "insertions": 0,
-        "deletions": 0,
-        "sinceDate": "2017-11-02",
-        "untilDate": "2017-11-03"
-      },
-      {
-        "insertions": 0,
-        "deletions": 0,
-        "sinceDate": "2017-11-03",
-        "untilDate": "2017-11-04"
-      },
-      {
-        "insertions": 0,
-        "deletions": 0,
-        "sinceDate": "2017-11-04",
-        "untilDate": "2017-11-05"
-      },
-      {
-        "insertions": 0,
-        "deletions": 0,
-        "sinceDate": "2017-11-05",
-        "untilDate": "2017-11-06"
-      },
-      {
-        "insertions": 0,
-        "deletions": 0,
-        "sinceDate": "2017-11-06",
-        "untilDate": "2017-11-07"
-      },
-      {
-        "insertions": 0,
-        "deletions": 0,
-        "sinceDate": "2017-11-07",
-        "untilDate": "2017-11-08"
-      },
-      {
-        "insertions": 0,
-        "deletions": 0,
-        "sinceDate": "2017-11-08",
-        "untilDate": "2017-11-09"
-      },
-      {
-        "insertions": 113,
-        "deletions": 0,
-        "sinceDate": "2017-11-09",
-        "untilDate": "2017-11-10"
-      },
-      {
-        "insertions": 0,
-        "deletions": 0,
-        "sinceDate": "2017-11-10",
-        "untilDate": "2017-11-11"
-      },
-      {
-        "insertions": 0,
-        "deletions": 0,
-        "sinceDate": "2017-11-11",
-        "untilDate": "2017-11-12"
-      },
-      {
-        "insertions": 0,
-        "deletions": 0,
-        "sinceDate": "2017-11-12",
-        "untilDate": "2017-11-13"
-      },
-      {
-        "insertions": 0,
-        "deletions": 0,
-        "sinceDate": "2017-11-13",
-        "untilDate": "2017-11-14"
-      }
-    ],
-    "CindyTsai1": [
-      {
-        "insertions": 0,
-        "deletions": 0,
-        "sinceDate": "2017-10-09",
-        "untilDate": "2017-10-10"
-      },
-      {
-        "insertions": 0,
-        "deletions": 0,
-        "sinceDate": "2017-10-10",
-        "untilDate": "2017-10-11"
-      },
-      {
-        "insertions": 0,
-        "deletions": 0,
-        "sinceDate": "2017-10-11",
-        "untilDate": "2017-10-12"
-      },
-      {
-        "insertions": 0,
-        "deletions": 0,
-        "sinceDate": "2017-10-12",
-        "untilDate": "2017-10-13"
-      },
-      {
-        "insertions": 0,
-        "deletions": 0,
-        "sinceDate": "2017-10-13",
-        "untilDate": "2017-10-14"
-      },
-      {
-        "insertions": 0,
-        "deletions": 0,
-        "sinceDate": "2017-10-14",
-        "untilDate": "2017-10-15"
-      },
-      {
-        "insertions": 0,
-        "deletions": 0,
-        "sinceDate": "2017-10-15",
-        "untilDate": "2017-10-16"
-      },
-      {
-        "insertions": 0,
-        "deletions": 0,
-        "sinceDate": "2017-10-16",
-        "untilDate": "2017-10-17"
-      },
-      {
-        "insertions": 0,
-        "deletions": 0,
-        "sinceDate": "2017-10-17",
-        "untilDate": "2017-10-18"
-      },
-      {
-        "insertions": 0,
-        "deletions": 0,
-        "sinceDate": "2017-10-18",
-        "untilDate": "2017-10-19"
-      },
-      {
-        "insertions": 1,
-        "deletions": 0,
-        "sinceDate": "2017-10-19",
-        "untilDate": "2017-10-20"
-      },
-      {
-        "insertions": 0,
-        "deletions": 0,
-        "sinceDate": "2017-10-20",
-        "untilDate": "2017-10-21"
-      },
-      {
-        "insertions": 0,
-        "deletions": 0,
-        "sinceDate": "2017-10-21",
-        "untilDate": "2017-10-22"
-      },
-      {
-        "insertions": 0,
-        "deletions": 0,
-        "sinceDate": "2017-10-22",
-        "untilDate": "2017-10-23"
-      },
-      {
-        "insertions": 0,
-        "deletions": 0,
-        "sinceDate": "2017-10-23",
-        "untilDate": "2017-10-24"
-      },
-      {
-        "insertions": 0,
-        "deletions": 0,
-        "sinceDate": "2017-10-24",
-        "untilDate": "2017-10-25"
-      },
-      {
-        "insertions": 0,
-        "deletions": 0,
-        "sinceDate": "2017-10-25",
-        "untilDate": "2017-10-26"
-      },
-      {
-        "insertions": 0,
-        "deletions": 0,
-        "sinceDate": "2017-10-26",
-        "untilDate": "2017-10-27"
-      },
-      {
-        "insertions": 0,
-        "deletions": 0,
-        "sinceDate": "2017-10-27",
-        "untilDate": "2017-10-28"
-      },
-      {
-        "insertions": 0,
-        "deletions": 0,
-        "sinceDate": "2017-10-28",
-        "untilDate": "2017-10-29"
-      },
-      {
-        "insertions": 0,
-        "deletions": 0,
-        "sinceDate": "2017-10-29",
-        "untilDate": "2017-10-30"
-      },
-      {
-        "insertions": 0,
-        "deletions": 0,
-        "sinceDate": "2017-10-30",
-        "untilDate": "2017-10-31"
-      },
-      {
-        "insertions": 0,
-        "deletions": 0,
-        "sinceDate": "2017-10-31",
-        "untilDate": "2017-11-01"
-      },
-      {
-        "insertions": 0,
-        "deletions": 0,
-        "sinceDate": "2017-11-01",
-        "untilDate": "2017-11-02"
-      },
-      {
-        "insertions": 0,
-        "deletions": 0,
-        "sinceDate": "2017-11-02",
-        "untilDate": "2017-11-03"
-      },
-      {
-        "insertions": 0,
-        "deletions": 0,
-        "sinceDate": "2017-11-03",
-        "untilDate": "2017-11-04"
-      },
-      {
-        "insertions": 0,
-        "deletions": 0,
-        "sinceDate": "2017-11-04",
-        "untilDate": "2017-11-05"
-      },
-      {
-        "insertions": 0,
-        "deletions": 0,
-        "sinceDate": "2017-11-05",
-        "untilDate": "2017-11-06"
-      },
-      {
-        "insertions": 0,
-        "deletions": 0,
-        "sinceDate": "2017-11-06",
-        "untilDate": "2017-11-07"
-      },
-      {
-        "insertions": 0,
-        "deletions": 0,
-        "sinceDate": "2017-11-07",
-        "untilDate": "2017-11-08"
-      },
-      {
-        "insertions": 0,
-        "deletions": 0,
-        "sinceDate": "2017-11-08",
-        "untilDate": "2017-11-09"
-      },
-      {
-        "insertions": 0,
-        "deletions": 0,
-        "sinceDate": "2017-11-09",
-        "untilDate": "2017-11-10"
-      },
-      {
-        "insertions": 0,
-        "deletions": 0,
-        "sinceDate": "2017-11-10",
-        "untilDate": "2017-11-11"
-      },
-      {
-        "insertions": 0,
-        "deletions": 0,
-        "sinceDate": "2017-11-11",
-        "untilDate": "2017-11-12"
-      },
-      {
-        "insertions": 0,
-        "deletions": 0,
-        "sinceDate": "2017-11-12",
-        "untilDate": "2017-11-13"
-      },
-      {
-        "insertions": 0,
-        "deletions": 0,
-        "sinceDate": "2017-11-13",
-        "untilDate": "2017-11-14"
-      }
-    ],
-    "April0616": [
-      {
-        "insertions": 1,
-        "deletions": 0,
-        "sinceDate": "2017-10-09",
-        "untilDate": "2017-10-10"
-      },
-      {
-        "insertions": 0,
-        "deletions": 0,
-        "sinceDate": "2017-10-10",
-        "untilDate": "2017-10-11"
-      },
-      {
-        "insertions": 0,
-        "deletions": 0,
-        "sinceDate": "2017-10-11",
-        "untilDate": "2017-10-12"
-      },
-      {
-        "insertions": 0,
-        "deletions": 0,
-        "sinceDate": "2017-10-12",
-        "untilDate": "2017-10-13"
-      },
-      {
-        "insertions": 0,
-        "deletions": 0,
-        "sinceDate": "2017-10-13",
-        "untilDate": "2017-10-14"
-      },
-      {
-        "insertions": 0,
-        "deletions": 0,
-        "sinceDate": "2017-10-14",
-        "untilDate": "2017-10-15"
-      },
-      {
-        "insertions": 0,
-        "deletions": 0,
-        "sinceDate": "2017-10-15",
-        "untilDate": "2017-10-16"
-      },
-      {
-        "insertions": 3,
-        "deletions": 1,
-        "sinceDate": "2017-10-16",
-        "untilDate": "2017-10-17"
-      },
-      {
-        "insertions": 0,
-        "deletions": 0,
-        "sinceDate": "2017-10-17",
-        "untilDate": "2017-10-18"
-      },
-      {
         "insertions": 0,
         "deletions": 0,
-        "sinceDate": "2017-10-18",
-        "untilDate": "2017-10-19"
+        "date": "2017-10-18",
+        "commitResults": []
       },
       {
         "insertions": 0,
         "deletions": 0,
-        "sinceDate": "2017-10-19",
-        "untilDate": "2017-10-20"
+        "date": "2017-10-19",
+        "commitResults": []
       },
       {
         "insertions": 0,
         "deletions": 0,
-        "sinceDate": "2017-10-20",
-        "untilDate": "2017-10-21"
+        "date": "2017-10-20",
+        "commitResults": []
       },
       {
         "insertions": 0,
         "deletions": 0,
-        "sinceDate": "2017-10-21",
-        "untilDate": "2017-10-22"
+        "date": "2017-10-21",
+        "commitResults": []
       },
       {
         "insertions": 0,
         "deletions": 0,
-        "sinceDate": "2017-10-22",
-        "untilDate": "2017-10-23"
+        "date": "2017-10-22",
+        "commitResults": []
       },
       {
         "insertions": 0,
         "deletions": 0,
-        "sinceDate": "2017-10-23",
-        "untilDate": "2017-10-24"
+        "date": "2017-10-23",
+        "commitResults": []
       },
       {
         "insertions": 0,
         "deletions": 0,
-        "sinceDate": "2017-10-24",
-        "untilDate": "2017-10-25"
+        "date": "2017-10-24",
+        "commitResults": []
       },
       {
         "insertions": 0,
         "deletions": 0,
-        "sinceDate": "2017-10-25",
-        "untilDate": "2017-10-26"
+        "date": "2017-10-25",
+        "commitResults": []
       },
       {
         "insertions": 0,
         "deletions": 0,
-        "sinceDate": "2017-10-26",
-        "untilDate": "2017-10-27"
+        "date": "2017-10-26",
+        "commitResults": []
       },
       {
         "insertions": 0,
         "deletions": 0,
-        "sinceDate": "2017-10-27",
-        "untilDate": "2017-10-28"
+        "date": "2017-10-27",
+        "commitResults": []
       },
       {
         "insertions": 0,
         "deletions": 0,
-        "sinceDate": "2017-10-28",
-        "untilDate": "2017-10-29"
+        "date": "2017-10-28",
+        "commitResults": []
       },
       {
         "insertions": 0,
         "deletions": 0,
-        "sinceDate": "2017-10-29",
-        "untilDate": "2017-10-30"
+        "date": "2017-10-29",
+        "commitResults": []
       },
       {
         "insertions": 0,
         "deletions": 0,
-        "sinceDate": "2017-10-30",
-        "untilDate": "2017-10-31"
+        "date": "2017-10-30",
+        "commitResults": []
       },
       {
         "insertions": 18,
         "deletions": 7,
-        "sinceDate": "2017-10-31",
-        "untilDate": "2017-11-01"
+        "date": "2017-10-31",
+        "commitResults": [
+          {
+            "hash": "92c52cb47919fa380702819b1beab5a61487802e",
+            "message": "update ui",
+            "insertions": 1,
+            "deletions": 0
+          },
+          {
+            "hash": "502d5209fb64385e737f9c6e3bcb3977a280b1ae",
+            "message": "display contactPhotos",
+            "insertions": 11,
+            "deletions": 3
+          },
+          {
+            "hash": "9df7233b80e05dd29b0af9a8635a83797714bce0",
+            "message": "adjust UI settings",
+            "insertions": 6,
+            "deletions": 4
+          }
+        ]
       },
       {
         "insertions": 0,
         "deletions": 0,
-        "sinceDate": "2017-11-01",
-        "untilDate": "2017-11-02"
+        "date": "2017-11-01",
+        "commitResults": []
       },
       {
         "insertions": 0,
         "deletions": 0,
-        "sinceDate": "2017-11-02",
-        "untilDate": "2017-11-03"
+        "date": "2017-11-02",
+        "commitResults": []
       },
       {
         "insertions": 0,
         "deletions": 0,
-        "sinceDate": "2017-11-03",
-        "untilDate": "2017-11-04"
+        "date": "2017-11-03",
+        "commitResults": []
       },
       {
         "insertions": 64,
         "deletions": 35,
-        "sinceDate": "2017-11-04",
-        "untilDate": "2017-11-05"
+        "date": "2017-11-04",
+        "commitResults": [
+          {
+            "hash": "54ac0478a202a29b8bfc267d8a082f853ac4c5ae",
+            "message": "change fxml format",
+            "insertions": 64,
+            "deletions": 35
+          }
+        ]
       },
       {
         "insertions": 151,
         "deletions": 60,
-        "sinceDate": "2017-11-05",
-        "untilDate": "2017-11-06"
+        "date": "2017-11-05",
+        "commitResults": [
+          {
+            "hash": "85f717ffd3de04abe764d0df529dda4bc0fe6d17",
+            "message": "update personInfoPanel",
+            "insertions": 81,
+            "deletions": 0
+          },
+          {
+            "hash": "51e7dbf6f2d72be0a3fb166a03cdcbf8fa49743d",
+            "message": "update format",
+            "insertions": 55,
+            "deletions": 48
+          },
+          {
+            "hash": "7948859cec2dd3f1b1749f56144ffeb32eff7be8",
+            "message": "update tags",
+            "insertions": 3,
+            "deletions": 3
+          },
+          {
+            "hash": "600e13b9eca72354c7f83b047826af4c8b3d33e2",
+            "message": "update tag center",
+            "insertions": 9,
+            "deletions": 6
+          },
+          {
+            "hash": "d4231120b703481514abc705db6d9b408c9abe08",
+            "message": "update collocate headers",
+            "insertions": 1,
+            "deletions": 1
+          },
+          {
+            "hash": "fd3ea8062bd62066c57b7ce85183714b201a14f4",
+            "message": "wrap text",
+            "insertions": 2,
+            "deletions": 2
+          }
+        ]
       },
       {
         "insertions": 0,
         "deletions": 0,
-        "sinceDate": "2017-11-06",
-        "untilDate": "2017-11-07"
+        "date": "2017-11-06",
+        "commitResults": []
       },
       {
         "insertions": 1,
         "deletions": 1,
-        "sinceDate": "2017-11-07",
-        "untilDate": "2017-11-08"
+        "date": "2017-11-07",
+        "commitResults": [
+          {
+            "hash": "83072636f6d2e3a860f2be996396dc78f9fe98a0",
+            "message": "collate codes",
+            "insertions": 1,
+            "deletions": 1
+          }
+        ]
       },
       {
         "insertions": 0,
         "deletions": 0,
-        "sinceDate": "2017-11-08",
-        "untilDate": "2017-11-09"
+        "date": "2017-11-08",
+        "commitResults": []
       },
       {
         "insertions": 0,
         "deletions": 0,
-        "sinceDate": "2017-11-09",
-        "untilDate": "2017-11-10"
+        "date": "2017-11-09",
+        "commitResults": []
       },
       {
         "insertions": 0,
         "deletions": 0,
-        "sinceDate": "2017-11-10",
-        "untilDate": "2017-11-11"
+        "date": "2017-11-10",
+        "commitResults": []
       },
       {
         "insertions": 9,
         "deletions": 6,
-        "sinceDate": "2017-11-11",
-        "untilDate": "2017-11-12"
+        "date": "2017-11-11",
+        "commitResults": [
+          {
+            "hash": "a5c9b3443ec0f1d2f03d8857627e4d03c0f21221",
+            "message": "some change",
+            "insertions": 9,
+            "deletions": 6
+          }
+        ]
       },
       {
         "insertions": 0,
         "deletions": 0,
-        "sinceDate": "2017-11-12",
-        "untilDate": "2017-11-13"
+        "date": "2017-11-12",
+        "commitResults": []
       },
       {
         "insertions": 1,
         "deletions": 1,
-        "sinceDate": "2017-11-13",
-        "untilDate": "2017-11-14"
+        "date": "2017-11-13",
+        "commitResults": [
+          {
+            "hash": "c02d02475f877f4a52c49d7d2a4549bdb58a3149",
+            "message": "update UI",
+            "insertions": 1,
+            "deletions": 1
+          }
+        ]
       }
     ],
     "nbr": [
       {
         "insertions": 0,
         "deletions": 0,
-        "sinceDate": "2017-10-09",
-        "untilDate": "2017-10-10"
+        "date": "2017-10-09",
+        "commitResults": []
       },
       {
         "insertions": 0,
         "deletions": 0,
-        "sinceDate": "2017-10-10",
-        "untilDate": "2017-10-11"
+        "date": "2017-10-10",
+        "commitResults": []
       },
       {
         "insertions": 0,
         "deletions": 0,
-        "sinceDate": "2017-10-11",
-        "untilDate": "2017-10-12"
+        "date": "2017-10-11",
+        "commitResults": []
       },
       {
         "insertions": 0,
         "deletions": 0,
-        "sinceDate": "2017-10-12",
-        "untilDate": "2017-10-13"
+        "date": "2017-10-12",
+        "commitResults": []
       },
       {
         "insertions": 0,
         "deletions": 0,
-        "sinceDate": "2017-10-13",
-        "untilDate": "2017-10-14"
+        "date": "2017-10-13",
+        "commitResults": []
       },
       {
         "insertions": 0,
         "deletions": 0,
-        "sinceDate": "2017-10-14",
-        "untilDate": "2017-10-15"
+        "date": "2017-10-14",
+        "commitResults": []
       },
       {
         "insertions": 0,
         "deletions": 0,
-        "sinceDate": "2017-10-15",
-        "untilDate": "2017-10-16"
+        "date": "2017-10-15",
+        "commitResults": []
       },
       {
         "insertions": 0,
         "deletions": 0,
-        "sinceDate": "2017-10-16",
-        "untilDate": "2017-10-17"
+        "date": "2017-10-16",
+        "commitResults": []
       },
       {
         "insertions": 0,
         "deletions": 0,
-        "sinceDate": "2017-10-17",
-        "untilDate": "2017-10-18"
+        "date": "2017-10-17",
+        "commitResults": []
       },
       {
         "insertions": 0,
         "deletions": 0,
-        "sinceDate": "2017-10-18",
-        "untilDate": "2017-10-19"
+        "date": "2017-10-18",
+        "commitResults": []
       },
       {
         "insertions": 0,
         "deletions": 0,
-        "sinceDate": "2017-10-19",
-        "untilDate": "2017-10-20"
+        "date": "2017-10-19",
+        "commitResults": []
       },
       {
         "insertions": 0,
         "deletions": 0,
-        "sinceDate": "2017-10-20",
-        "untilDate": "2017-10-21"
+        "date": "2017-10-20",
+        "commitResults": []
       },
       {
         "insertions": 0,
         "deletions": 0,
-        "sinceDate": "2017-10-21",
-        "untilDate": "2017-10-22"
+        "date": "2017-10-21",
+        "commitResults": []
       },
       {
         "insertions": 0,
         "deletions": 0,
-        "sinceDate": "2017-10-22",
-        "untilDate": "2017-10-23"
+        "date": "2017-10-22",
+        "commitResults": []
       },
       {
         "insertions": 0,
         "deletions": 0,
-        "sinceDate": "2017-10-23",
-        "untilDate": "2017-10-24"
+        "date": "2017-10-23",
+        "commitResults": []
       },
       {
         "insertions": 0,
         "deletions": 0,
-        "sinceDate": "2017-10-24",
-        "untilDate": "2017-10-25"
+        "date": "2017-10-24",
+        "commitResults": []
       },
       {
         "insertions": 0,
         "deletions": 0,
-        "sinceDate": "2017-10-25",
-        "untilDate": "2017-10-26"
+        "date": "2017-10-25",
+        "commitResults": []
       },
       {
         "insertions": 0,
         "deletions": 0,
-        "sinceDate": "2017-10-26",
-        "untilDate": "2017-10-27"
+        "date": "2017-10-26",
+        "commitResults": []
       },
       {
         "insertions": 0,
         "deletions": 0,
-        "sinceDate": "2017-10-27",
-        "untilDate": "2017-10-28"
+        "date": "2017-10-27",
+        "commitResults": []
       },
       {
         "insertions": 0,
         "deletions": 0,
-        "sinceDate": "2017-10-28",
-        "untilDate": "2017-10-29"
+        "date": "2017-10-28",
+        "commitResults": []
       },
       {
         "insertions": 42,
         "deletions": 13,
-        "sinceDate": "2017-10-29",
-        "untilDate": "2017-10-30"
+        "date": "2017-10-29",
+        "commitResults": [
+          {
+            "hash": "e933821b0afb269faf27dd45845976656b622493",
+            "message": "\"UI: Add TagListPanel\"",
+            "insertions": 40,
+            "deletions": 11
+          },
+          {
+            "hash": "f5c11947217f64965da86531f9dd67dd3e62f29d",
+            "message": "\"Modified panel dimensions\"",
+            "insertions": 2,
+            "deletions": 2
+          }
+        ]
       },
       {
         "insertions": 4,
         "deletions": 3,
-        "sinceDate": "2017-10-30",
-        "untilDate": "2017-10-31"
+        "date": "2017-10-30",
+        "commitResults": [
+          {
+            "hash": "93191db48eb5aa2f97d765cdf736c68c85fc0ae4",
+            "message": "\"Added comments to indicate which values to change to modify UI\"",
+            "insertions": 4,
+            "deletions": 3
+          }
+        ]
       },
       {
         "insertions": 3,
         "deletions": 0,
-        "sinceDate": "2017-10-31",
-        "untilDate": "2017-11-01"
+        "date": "2017-10-31",
+        "commitResults": [
+          {
+            "hash": "053319c3d8cd5d26424b6ac69d51f3c03e262215",
+            "message": "Collate code for v1.4",
+            "insertions": 3,
+            "deletions": 0
+          }
+        ]
       },
       {
         "insertions": 0,
         "deletions": 0,
-        "sinceDate": "2017-11-01",
-        "untilDate": "2017-11-02"
+        "date": "2017-11-01",
+        "commitResults": []
       },
       {
         "insertions": 0,
         "deletions": 0,
-        "sinceDate": "2017-11-02",
-        "untilDate": "2017-11-03"
+        "date": "2017-11-02",
+        "commitResults": []
       },
       {
         "insertions": 0,
         "deletions": 0,
-        "sinceDate": "2017-11-03",
-        "untilDate": "2017-11-04"
+        "date": "2017-11-03",
+        "commitResults": []
       },
       {
         "insertions": 2,
         "deletions": 6,
-        "sinceDate": "2017-11-04",
-        "untilDate": "2017-11-05"
+        "date": "2017-11-04",
+        "commitResults": [
+          {
+            "hash": "3f12f5d82f214b3a64f9709b0a06982a6751929c",
+            "message": "Merge branch \u0027master\u0027 into ThemeSwitch",
+            "insertions": 2,
+            "deletions": 5
+          },
+          {
+            "hash": "07c3d30af4b3700b2b2118646d84bf58029a5cc1",
+            "message": "Fix bug: Remove default theme in the app. An empty user pref now dictates the default stylesheet.",
+            "insertions": 0,
+            "deletions": 1
+          }
+        ]
       },
       {
         "insertions": 2,
         "deletions": 4,
-        "sinceDate": "2017-11-05",
-        "untilDate": "2017-11-06"
+        "date": "2017-11-05",
+        "commitResults": [
+          {
+            "hash": "850273a65b83b567b1d7ea6cb6ba20a029c8eeaf",
+            "message": "Merge master to ThemeSwitchForMerge",
+            "insertions": 2,
+            "deletions": 4
+          }
+        ]
       },
       {
         "insertions": 0,
         "deletions": 0,
-        "sinceDate": "2017-11-06",
-        "untilDate": "2017-11-07"
+        "date": "2017-11-06",
+        "commitResults": []
       },
       {
         "insertions": 0,
         "deletions": 0,
-        "sinceDate": "2017-11-07",
-        "untilDate": "2017-11-08"
+        "date": "2017-11-07",
+        "commitResults": []
       },
       {
         "insertions": 0,
         "deletions": 0,
-        "sinceDate": "2017-11-08",
-        "untilDate": "2017-11-09"
+        "date": "2017-11-08",
+        "commitResults": []
       },
       {
         "insertions": 0,
         "deletions": 0,
-        "sinceDate": "2017-11-09",
-        "untilDate": "2017-11-10"
+        "date": "2017-11-09",
+        "commitResults": []
       },
       {
         "insertions": 31,
         "deletions": 42,
-        "sinceDate": "2017-11-10",
-        "untilDate": "2017-11-11"
+        "date": "2017-11-10",
+        "commitResults": [
+          {
+            "hash": "3a5d01cefeb7d546b4d662f3057d46994e6fdaa8",
+            "message": "Adjust Person Info Panel to show full address",
+            "insertions": 31,
+            "deletions": 42
+          }
+        ]
       },
       {
         "insertions": 52,
         "deletions": 54,
-        "sinceDate": "2017-11-11",
-        "untilDate": "2017-11-12"
+        "date": "2017-11-11",
+        "commitResults": [
+          {
+            "hash": "851523a1b0de2a1f55896bd4cde92f55ccf77fd7",
+            "message": "PersonListPanel fix size. Added Color borders",
+            "insertions": 22,
+            "deletions": 28
+          },
+          {
+            "hash": "dc58462947e8e03e3b627f1d49cac01e08fcc18f",
+            "message": "Checkpoint",
+            "insertions": 10,
+            "deletions": 13
+          },
+          {
+            "hash": "57b8bc8fe014c960d24e9ac064ac453e750dde24",
+            "message": "Checkpoint2",
+            "insertions": 1,
+            "deletions": 1
+          },
+          {
+            "hash": "e1400bba9cb3107c97b755ae90ea09df352757b5",
+            "message": "Elements dynamically shift with tags",
+            "insertions": 17,
+            "deletions": 10
+          },
+          {
+            "hash": "96666b7a79a8a66fa8096e77f79103f92695e384",
+            "message": "Person Card Looks like a card and added a divider",
+            "insertions": 1,
+            "deletions": 1
+          },
+          {
+            "hash": "6ad945335710f32195f6d5b5bbd0aff049c239b0",
+            "message": "Remark now can dynamically render",
+            "insertions": 1,
+            "deletions": 1
+          }
+        ]
       },
       {
         "insertions": 5,
         "deletions": 5,
-        "sinceDate": "2017-11-12",
-        "untilDate": "2017-11-13"
+        "date": "2017-11-12",
+        "commitResults": [
+          {
+            "hash": "a0a1db047c8badbc69b55cb2472c806a856488bd",
+            "message": "Person info panel details no shift",
+            "insertions": 1,
+            "deletions": 1
+          },
+          {
+            "hash": "6d063a6095d85db37b74956a98de886fa4ae6535",
+            "message": "Horizontal boundaries settled",
+            "insertions": 2,
+            "deletions": 2
+          },
+          {
+            "hash": "2d9292764c7813c6c11ed9e19acd7971725054d9",
+            "message": "All boundaries settled",
+            "insertions": 2,
+            "deletions": 2
+          }
+        ]
       },
       {
         "insertions": 0,
         "deletions": 0,
-        "sinceDate": "2017-11-13",
-        "untilDate": "2017-11-14"
+        "date": "2017-11-13",
+        "commitResults": []
       }
     ]
   },
