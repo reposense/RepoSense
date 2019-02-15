@@ -390,6 +390,7 @@ window.vSummary = {
     renderAuthorShipTabHash() {
       const hash = window.hashParams;
       const info = {};
+      const tabInfoLength = 5;
       if (hash.tabAuthor) { info.author = hash.tabAuthor; }
       if (hash.tabLocation) { info.location = hash.tabLocation; }
       info.minDate = this.minDate;
@@ -403,7 +404,7 @@ window.vSummary = {
           info.repo = repoName.join('_');
         }
       }
-      if (Object.keys(info).length === 5) {
+      if (Object.keys(info).length === tabInfoLength) {
         window.app.updateTabAuthorship(info);
       } else if (hash.tabOpen === 'false') {
         window.app.isTabActive = false;
