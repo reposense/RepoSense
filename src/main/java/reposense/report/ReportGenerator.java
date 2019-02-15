@@ -22,7 +22,6 @@ import reposense.git.GitCloneException;
 import reposense.git.GitShortlog;
 import reposense.model.Author;
 import reposense.model.RepoConfiguration;
-import reposense.model.RepoLocation;
 import reposense.model.StandaloneConfig;
 import reposense.parser.StandaloneConfigJsonParser;
 import reposense.system.CommandRunnerProcess;
@@ -52,27 +51,30 @@ public class ReportGenerator {
 
         cloneAndAnalyzeRepos(configs, outputPath);
 
-        FileUtil.deleteDirectory(FileUtil.REPOS_ADDRESS);
+        try {
+            FileUtil.deleteDirectory(FileUtil.REPOS_ADDRESS);
+        } catch (IOException ioe) {
+            logger.log(Level.WARNING, "Error deleting report directory.", ioe);
+        }
         FileUtil.writeJsonFile(new SummaryReportJson(configs, generationDate), getSummaryResultPath(outputPath));
         logger.info("The report is generated at " + outputPath);
     }
 
     private static void cloneAndAnalyzeRepos(List<RepoConfiguration> configs, String outputPath) throws IOException {
+        CommandRunnerProcess crp = null;
         boolean isPreviousRepoCloned = false;
-        Path previousRepoReportDirectory = null;
-        RepoLocation previousRepoLocation = null;
 
         for (int i = 0; i < configs.size(); i++) {
             RepoConfiguration config = configs.get(i);
-            CommandRunnerProcess crp = null;
             boolean isCurrentRepoCloned = false;
             boolean isCurrentRepoSameAsPreviousRepo =
-                    previousRepoLocation != null && previousRepoLocation.equals(config.getLocation());
+                    i > 0 && configs.get(i - 1).getLocation().equals(config.getLocation());
+
             if (isCurrentRepoSameAsPreviousRepo) {
                 isCurrentRepoCloned = true;
             } else {
                 try {
-                    crp = GitClone.startParallelClone(config);
+                    crp = GitClone.spawnCloneProcess(config);
                     isCurrentRepoCloned = true;
                 } catch (GitCloneException gde) {
                     logger.log(Level.WARNING,
@@ -80,67 +82,58 @@ public class ReportGenerator {
                     handleGitCloneException(outputPath, config);
                 }
             }
-            if (isPreviousRepoCloned && previousRepoReportDirectory != null) {
+            if (isPreviousRepoCloned) {
                 RepoConfiguration previousConfig = configs.get(i - 1);
-                try {
-                    GitClone.checkOutBranch(previousConfig);
-                    boolean isSameLocationAsCurrentConfig = config.getLocation().equals(previousConfig.getLocation());
-                    analyzeRepo(previousConfig, previousRepoReportDirectory, !isSameLocationAsCurrentConfig);
-                } catch (GitCloneException gde) {
-                    logger.log(Level.WARNING,
-                            "Exception met while trying to clone the repo, will skip this repo.", gde);
-                    handleGitCloneException(outputPath, config);
-                }
+                analyzeRepo(previousConfig, outputPath, !isCurrentRepoSameAsPreviousRepo);
             }
             if (isCurrentRepoCloned && !isCurrentRepoSameAsPreviousRepo) {
-                isCurrentRepoCloned = false;
-                try {
-                    GitClone.joinParallelClone(config, crp);
-                    previousRepoReportDirectory = Paths.get(outputPath, config.getDisplayName());
-                    FileUtil.createDirectory(previousRepoReportDirectory);
-                    isCurrentRepoCloned = true;
-                    previousRepoLocation = config.getLocation();
-                } catch (GitCloneException gde) {
-                    logger.log(Level.WARNING,
-                            "Exception met while trying to clone the repo, will skip this repo.", gde);
-                    handleGitCloneException(outputPath, config);
-                } catch (IOException ioe) {
-                    logger.log(Level.WARNING,
-                            "Error has occurred while creating repo directory, will skip this repo.", ioe);
-                } catch (RuntimeException rte) {
-                    logger.log(Level.SEVERE, "Error has occurred during analysis, will skip this repo.", rte);
-                }
+                isCurrentRepoCloned = waitForCloneProcess(outputPath, config, crp);
             }
             isPreviousRepoCloned = isCurrentRepoCloned;
         }
-        if (isPreviousRepoCloned && previousRepoReportDirectory != null) {
-            RepoConfiguration lastConfig = configs.get(configs.size() - 1);
-            try {
-                GitClone.checkOutBranch(lastConfig);
-                analyzeRepo(lastConfig, previousRepoReportDirectory, true);
-            } catch (GitCloneException gde) {
-                logger.log(Level.WARNING,
-                        "Exception met while trying to clone the repo, will skip this repo.", gde);
-                handleGitCloneException(outputPath, lastConfig);
-            }
+        if (isPreviousRepoCloned) {
+            analyzeRepo(configs.get(configs.size() - 1), outputPath, true);
         }
     }
 
-    private static void analyzeRepo(RepoConfiguration config, Path repoReportDirectory, boolean shouldDeleteDirectory) {
-        // preprocess the config and repo
-        updateRepoConfig(config);
-        updateAuthorList(config);
+    private static boolean waitForCloneProcess(
+            String outputPath, RepoConfiguration config, CommandRunnerProcess crp) throws IOException {
+        try {
+            GitClone.waitForCloneProcess(config, crp);
+            return true;
+        } catch (GitCloneException gde) {
+            logger.log(Level.WARNING,
+                    "Exception met while trying to clone the repo, will skip this repo.", gde);
+            handleGitCloneException(outputPath, config);
+        } catch (RuntimeException rte) {
+            logger.log(Level.SEVERE, "Error has occurred during analysis, will skip this repo.", rte);
+        }
+        return false;
+    }
 
-        CommitContributionSummary commitSummary = CommitsReporter.generateCommitSummary(config);
-        AuthorshipSummary authorshipSummary = AuthorshipReporter.generateAuthorshipSummary(config);
-        generateIndividualRepoReport(commitSummary, authorshipSummary, repoReportDirectory.toString());
+    private static void analyzeRepo(
+            RepoConfiguration config, String outputPath, boolean shouldDeleteDirectory) throws IOException {
+        try {
+            Path repoReportDirectory = Paths.get(outputPath, config.getDisplayName());
+            FileUtil.createDirectory(repoReportDirectory);
+            GitClone.checkOutBranch(config);
+            // preprocess the config and repo
+            updateRepoConfig(config);
+            updateAuthorList(config);
 
-        if (shouldDeleteDirectory) {
-            try {
+            CommitContributionSummary commitSummary = CommitsReporter.generateCommitSummary(config);
+            AuthorshipSummary authorshipSummary = AuthorshipReporter.generateAuthorshipSummary(config);
+            generateIndividualRepoReport(commitSummary, authorshipSummary, repoReportDirectory.toString());
+
+            if (shouldDeleteDirectory) {
                 FileUtil.deleteDirectory(config.getRepoRoot());
-            } catch (IOException ioe) {
-                logger.log(Level.WARNING, "Error deleting report directory.", ioe);
             }
+        } catch (GitCloneException gde) {
+            logger.log(Level.WARNING,
+                    "Exception met while trying to clone the repo, will skip this repo.", gde);
+            handleGitCloneException(outputPath, config);
+        } catch (IOException ioe) {
+            logger.log(Level.WARNING, "Error deleting report directory.", ioe);
         }
     }
 

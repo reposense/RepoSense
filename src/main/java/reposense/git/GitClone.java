@@ -1,8 +1,8 @@
 package reposense.git;
 
-import static reposense.system.CommandRunner.joinCommand;
 import static reposense.system.CommandRunner.runCommand;
-import static reposense.system.CommandRunner.startCommand;
+import static reposense.system.CommandRunner.spawnCommandProcess;
+import static reposense.system.CommandRunner.waitForCommandProcess;
 import static reposense.util.StringsUtil.addQuote;
 
 import java.io.IOException;
@@ -54,13 +54,13 @@ public class GitClone {
         runCommand(rootPath, "git clone " + addQuote(location.toString()));
     }
 
-    public static CommandRunnerProcess startParallelClone(RepoConfiguration repoConfig) throws GitCloneException {
+    public static CommandRunnerProcess spawnCloneProcess(RepoConfiguration repoConfig) throws GitCloneException {
         try {
             FileUtil.deleteDirectory(repoConfig.getRepoRoot());
             logger.info("Cloning in parallel from " + repoConfig.getLocation() + "...");
             Path rootPath = Paths.get(FileUtil.REPOS_ADDRESS, repoConfig.getRepoName());
             Files.createDirectories(rootPath);
-            return startCommand(rootPath, "git clone " + addQuote(repoConfig.getLocation().toString()));
+            return spawnCommandProcess(rootPath, "git clone " + addQuote(repoConfig.getLocation().toString()));
         } catch (RuntimeException rte) {
             logger.log(Level.SEVERE, "Error encountered in Git Cloning, will attempt to continue analyzing", rte);
             throw new GitCloneException(rte);
@@ -69,16 +69,23 @@ public class GitClone {
         }
     }
 
-    public static void joinParallelClone(
+    public static void waitForCloneProcess(
             RepoConfiguration repoConfig, CommandRunnerProcess crp) throws GitCloneException {
         try {
             Path rootPath = Paths.get(FileUtil.REPOS_ADDRESS, repoConfig.getRepoName());
-            joinCommand(rootPath, "git clone " + addQuote(repoConfig.getLocation().toString()), crp);
+            waitForCommandProcess(rootPath, "git clone " + addQuote(repoConfig.getLocation().toString()), crp);
             logger.info("Cloning of " + repoConfig.getLocation() + " completed!");
             setRepoConfigBranch(repoConfig);
         } catch (RuntimeException rte) {
             logger.log(Level.SEVERE, "Error encountered in Git Cloning, will attempt to continue analyzing", rte);
             throw new GitCloneException(rte);
+        }
+    }
+
+    private static void setRepoConfigBranch(RepoConfiguration repoConfig) {
+        if (repoConfig.getBranch().equals(RepoConfiguration.DEFAULT_BRANCH)) {
+            String currentBranch = GitBranch.getCurrentBranch(repoConfig.getRepoRoot());
+            repoConfig.setBranch(currentBranch);
         }
     }
 
@@ -88,13 +95,6 @@ public class GitClone {
         } catch (RuntimeException e) {
             logger.log(Level.SEVERE, "Branch does not exist! Analyze terminated.", e);
             throw new GitCloneException(e);
-        }
-    }
-
-    private static void setRepoConfigBranch(RepoConfiguration repoConfig) {
-        if (repoConfig.getBranch().equals(RepoConfiguration.DEFAULT_BRANCH)) {
-            String currentBranch = GitBranch.getCurrentBranch(repoConfig.getRepoRoot());
-            repoConfig.setBranch(currentBranch);
         }
     }
 }

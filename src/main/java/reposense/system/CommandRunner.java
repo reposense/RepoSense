@@ -17,11 +17,11 @@ public class CommandRunner {
     }
 
     public static String runCommand(Path path, String command) {
-        CommandRunnerProcess crp = startCommand(path, command);
-        return joinCommand(path, command, crp);
+        CommandRunnerProcess crp = spawnCommandProcess(path, command);
+        return waitForCommandProcess(path, command, crp);
     }
 
-    public static CommandRunnerProcess startCommand(Path path, String command) {
+    public static CommandRunnerProcess spawnCommandProcess(Path path, String command) {
         ProcessBuilder pb = null;
         if (isWindows) {
             pb = new ProcessBuilder()
@@ -45,7 +45,7 @@ public class CommandRunner {
         return new CommandRunnerProcess(p, outputGobbler, errorGobbler);
     }
 
-    public static String joinCommand(Path path, String command, CommandRunnerProcess crp) {
+    public static String waitForCommandProcess(Path path, String command, CommandRunnerProcess crp) {
         Process p = crp.getProcess();
         StreamGobbler outputGobbler = crp.getOutputGobbler();
         StreamGobbler errorGobbler = crp.getErrorGobbler();
