@@ -286,6 +286,8 @@ Column Name | Explanation
 Group Name | Name of the group e.g.,`test`
 Globs | The list of file path globs to include for specified group. e.g.,`**/test/*;**.java`
 
+Note that each file can only have 1 group. If more than 1 group is specified for a given file, the latter group is set for the file.
+
 #### `author-config.csv`
 
 Optionally, you can use a `author-config.csv` (which should be in the same directory as `repo-config.csv` file) to provide more details about the authors to analyze ([example](author-config.csv)). It should contain the following columns:
