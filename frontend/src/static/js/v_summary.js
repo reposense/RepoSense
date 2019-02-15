@@ -406,7 +406,7 @@ window.vSummary = {
       if (Object.keys(info).length === 5) {
         window.app.updateTabAuthorship(info);
       } else if (hash.tabOpen === 'false') {
-        this.isTabActive = false;
+        window.app.isTabActive = false;
       }
     },
   },
