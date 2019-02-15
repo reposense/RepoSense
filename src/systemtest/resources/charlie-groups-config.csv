@@ -1,4 +1,4 @@
 Group Name, Globs
 code,**.java
 test,src/test**
-docs,docs**;**.txt
+docs,docs**;**.txt;**.adoc;**.md

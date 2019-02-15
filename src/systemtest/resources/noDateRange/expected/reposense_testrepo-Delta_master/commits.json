@@ -1292,17 +1292,12 @@
     ]
   },
   "authorFinalContributionMap": {
-    "lithiumlkid": 360,
-    "lohtianwei": 2121,
-    "codeeong": 2090,
+    "lithiumlkid": 0,
+    "lohtianwei": 0,
+    "codeeong": 0,
     "jordancjq": 0
   },
-  "authorGroupContributionMap": {
-    "lithiumlkid": {},
-    "lohtianwei": {},
-    "codeeong": {},
-    "jordancjq": {}
-  },
+  "authorGroupContributionMap": {},
   "authorContributionVariance": {
     "lithiumlkid": 1465.0459,
     "lohtianwei": 15288.368,

@@ -1677,16 +1677,11 @@
   },
   "authorFinalContributionMap": {
     "zacharytang": 0,
-    "CindyTsai1": 1,
-    "April0616": 3,
-    "nbr": 42
+    "CindyTsai1": 0,
+    "April0616": 0,
+    "nbr": 0
   },
-  "authorGroupContributionMap": {
-    "zacharytang": {},
-    "CindyTsai1": {},
-    "April0616": {},
-    "nbr": {}
-  },
+  "authorGroupContributionMap": {},
   "authorContributionVariance": {
     "zacharytang": 0.0,
     "CindyTsai1": 0.016388886,

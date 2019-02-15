@@ -1,7 +1,6 @@
 [
   {
     "path": "README.adoc",
-    "group": "none",
     "lines": [
       {
         "lineNumber": 1,
@@ -446,7 +445,6 @@
   },
   {
     "path": "docs/DeveloperGuide.adoc",
-    "group": "none",
     "lines": [
       {
         "lineNumber": 1,
@@ -15529,7 +15527,6 @@
   },
   {
     "path": "docs/UserGuide.adoc",
-    "group": "none",
     "lines": [
       {
         "lineNumber": 1,
@@ -23332,7 +23329,6 @@
   },
   {
     "path": "docs/team/ahmadsyafiq.adoc",
-    "group": "none",
     "lines": [
       {
         "lineNumber": 1,
@@ -23769,7 +23765,6 @@
   },
   {
     "path": "docs/team/codeeong.adoc",
-    "group": "none",
     "lines": [
       {
         "lineNumber": 1,
@@ -24282,7 +24277,6 @@
   },
   {
     "path": "docs/team/lohtianwei.adoc",
-    "group": "none",
     "lines": [
       {
         "lineNumber": 1,
@@ -24775,7 +24769,6 @@
   },
   {
     "path": "src/main/java/seedu/address/MainApp.java",
-    "group": "none",
     "lines": [
       {
         "lineNumber": 1,
@@ -26269,7 +26262,6 @@
   },
   {
     "path": "src/main/java/seedu/address/commons/core/Config.java",
-    "group": "none",
     "lines": [
       {
         "lineNumber": 1,
@@ -26783,7 +26775,6 @@
   },
   {
     "path": "src/main/java/seedu/address/commons/core/Messages.java",
-    "group": "none",
     "lines": [
       {
         "lineNumber": 1,
@@ -26905,7 +26896,6 @@
   },
   {
     "path": "src/main/java/seedu/address/commons/events/ui/ChangeTagColourEvent.java",
-    "group": "none",
     "lines": [
       {
         "lineNumber": 1,
@@ -27076,7 +27066,6 @@
   },
   {
     "path": "src/main/java/seedu/address/commons/events/ui/ChangeThemeEvent.java",
-    "group": "none",
     "lines": [
       {
         "lineNumber": 1,
@@ -27233,7 +27222,6 @@
   },
   {
     "path": "src/main/java/seedu/address/commons/events/ui/ClearTeamsEvent.java",
-    "group": "none",
     "lines": [
       {
         "lineNumber": 1,
@@ -27383,7 +27371,6 @@
   },
   {
     "path": "src/main/java/seedu/address/commons/events/ui/DeselectTeamEvent.java",
-    "group": "none",
     "lines": [
       {
         "lineNumber": 1,
@@ -27511,7 +27498,6 @@
   },
   {
     "path": "src/main/java/seedu/address/commons/events/ui/HighlightSelectedTeamEvent.java",
-    "group": "none",
     "lines": [
       {
         "lineNumber": 1,
@@ -27668,7 +27654,6 @@
   },
   {
     "path": "src/main/java/seedu/address/commons/events/ui/PersonDetailsChangedEvent.java",
-    "group": "none",
     "lines": [
       {
         "lineNumber": 1,
@@ -27916,7 +27901,6 @@
   },
   {
     "path": "src/main/java/seedu/address/commons/events/ui/PersonDetailsChangedNoParamEvent.java",
-    "group": "none",
     "lines": [
       {
         "lineNumber": 1,
@@ -28045,7 +28029,6 @@
   },
   {
     "path": "src/main/java/seedu/address/commons/events/ui/ShowNewTeamNameEvent.java",
-    "group": "none",
     "lines": [
       {
         "lineNumber": 1,
@@ -28209,7 +28192,6 @@
   },
   {
     "path": "src/main/java/seedu/address/commons/events/ui/UndoTeamsEvent.java",
-    "group": "none",
     "lines": [
       {
         "lineNumber": 1,
@@ -28345,7 +28327,6 @@
   },
   {
     "path": "src/main/java/seedu/address/logic/Logic.java",
-    "group": "none",
     "lines": [
       {
         "lineNumber": 1,
@@ -28607,7 +28588,6 @@
   },
   {
     "path": "src/main/java/seedu/address/logic/LogicManager.java",
-    "group": "none",
     "lines": [
       {
         "lineNumber": 1,
@@ -29115,7 +29095,6 @@
   },
   {
     "path": "src/main/java/seedu/address/logic/commands/AddCommand.java",
-    "group": "none",
     "lines": [
       {
         "lineNumber": 1,
@@ -29994,7 +29973,6 @@
   },
   {
     "path": "src/main/java/seedu/address/logic/commands/ChangeThemeCommand.java",
-    "group": "none",
     "lines": [
       {
         "lineNumber": 1,
@@ -30382,7 +30360,6 @@
   },
   {
     "path": "src/main/java/seedu/address/logic/commands/ClearCommand.java",
-    "group": "none",
     "lines": [
       {
         "lineNumber": 1,
@@ -30589,7 +30566,6 @@
   },
   {
     "path": "src/main/java/seedu/address/logic/commands/CreateCommand.java",
-    "group": "none",
     "lines": [
       {
         "lineNumber": 1,
@@ -31019,7 +30995,6 @@
   },
   {
     "path": "src/main/java/seedu/address/logic/commands/DeleteCommand.java",
-    "group": "none",
     "lines": [
       {
         "lineNumber": 1,
@@ -31519,7 +31494,6 @@
   },
   {
     "path": "src/main/java/seedu/address/logic/commands/EditCommand.java",
-    "group": "none",
     "lines": [
       {
         "lineNumber": 1,
@@ -33889,7 +33863,6 @@
   },
   {
     "path": "src/main/java/seedu/address/logic/commands/FindCommand.java",
-    "group": "none",
     "lines": [
       {
         "lineNumber": 1,
@@ -34172,7 +34145,6 @@
   },
   {
     "path": "src/main/java/seedu/address/logic/commands/HistoryCommand.java",
-    "group": "none",
     "lines": [
       {
         "lineNumber": 1,
@@ -34455,7 +34427,6 @@
   },
   {
     "path": "src/main/java/seedu/address/logic/commands/KeyCommand.java",
-    "group": "none",
     "lines": [
       {
         "lineNumber": 1,
@@ -34982,7 +34953,6 @@
   },
   {
     "path": "src/main/java/seedu/address/logic/commands/ListCommand.java",
-    "group": "none",
     "lines": [
       {
         "lineNumber": 1,
@@ -35168,7 +35138,6 @@
   },
   {
     "path": "src/main/java/seedu/address/logic/commands/RedoCommand.java",
-    "group": "none",
     "lines": [
       {
         "lineNumber": 1,
@@ -35487,7 +35456,6 @@
   },
   {
     "path": "src/main/java/seedu/address/logic/commands/RemarkCommand.java",
-    "group": "none",
     "lines": [
       {
         "lineNumber": 1,
@@ -36274,7 +36242,6 @@
   },
   {
     "path": "src/main/java/seedu/address/logic/commands/SelectCommand.java",
-    "group": "none",
     "lines": [
       {
         "lineNumber": 1,
@@ -36669,7 +36636,6 @@
   },
   {
     "path": "src/main/java/seedu/address/logic/commands/SetCommand.java",
-    "group": "none",
     "lines": [
       {
         "lineNumber": 1,
@@ -37162,7 +37128,6 @@
   },
   {
     "path": "src/main/java/seedu/address/logic/commands/SortCommand.java",
-    "group": "none",
     "lines": [
       {
         "lineNumber": 1,
@@ -37605,7 +37570,6 @@
   },
   {
     "path": "src/main/java/seedu/address/logic/commands/TogglePrivacyCommand.java",
-    "group": "none",
     "lines": [
       {
         "lineNumber": 1,
@@ -40387,7 +40351,6 @@
   },
   {
     "path": "src/main/java/seedu/address/logic/commands/UndoCommand.java",
-    "group": "none",
     "lines": [
       {
         "lineNumber": 1,
@@ -40706,7 +40669,6 @@
   },
   {
     "path": "src/main/java/seedu/address/logic/commands/ViewCommand.java",
-    "group": "none",
     "lines": [
       {
         "lineNumber": 1,
@@ -41087,7 +41049,6 @@
   },
   {
     "path": "src/main/java/seedu/address/logic/parser/AddressBookParser.java",
-    "group": "none",
     "lines": [
       {
         "lineNumber": 1,
@@ -42379,7 +42340,6 @@
   },
   {
     "path": "src/main/java/seedu/address/logic/parser/ChangeThemeCommandParser.java",
-    "group": "none",
     "lines": [
       {
         "lineNumber": 1,
@@ -42571,7 +42531,6 @@
   },
   {
     "path": "src/main/java/seedu/address/logic/parser/CliSyntax.java",
-    "group": "none",
     "lines": [
       {
         "lineNumber": 1,
@@ -42743,7 +42702,6 @@
   },
   {
     "path": "src/main/java/seedu/address/logic/parser/KeyCommandParser.java",
-    "group": "none",
     "lines": [
       {
         "lineNumber": 1,
@@ -42969,7 +42927,6 @@
   },
   {
     "path": "src/main/java/seedu/address/logic/parser/ParserUtil.java",
-    "group": "none",
     "lines": [
       {
         "lineNumber": 1,
@@ -45436,7 +45393,6 @@
   },
   {
     "path": "src/main/java/seedu/address/logic/parser/SetCommandParser.java",
-    "group": "none",
     "lines": [
       {
         "lineNumber": 1,
@@ -45838,7 +45794,6 @@
   },
   {
     "path": "src/main/java/seedu/address/logic/parser/SortCommandParser.java",
-    "group": "none",
     "lines": [
       {
         "lineNumber": 1,
@@ -46204,7 +46159,6 @@
   },
   {
     "path": "src/main/java/seedu/address/logic/parser/TogglePrivacyCommandParser.java",
-    "group": "none",
     "lines": [
       {
         "lineNumber": 1,
@@ -46697,7 +46651,6 @@
   },
   {
     "path": "src/main/java/seedu/address/model/AddressBook.java",
-    "group": "none",
     "lines": [
       {
         "lineNumber": 1,
@@ -49865,7 +49818,6 @@
   },
   {
     "path": "src/main/java/seedu/address/model/Model.java",
-    "group": "none",
     "lines": [
       {
         "lineNumber": 1,
@@ -50583,7 +50535,6 @@
   },
   {
     "path": "src/main/java/seedu/address/model/ModelManager.java",
-    "group": "none",
     "lines": [
       {
         "lineNumber": 1,
@@ -52218,7 +52169,6 @@
   },
   {
     "path": "src/main/java/seedu/address/model/UserPrefs.java",
-    "group": "none",
     "lines": [
       {
         "lineNumber": 1,
@@ -53048,7 +52998,6 @@
   },
   {
     "path": "src/main/java/seedu/address/model/person/Address.java",
-    "group": "none",
     "lines": [
       {
         "lineNumber": 1,
@@ -53625,7 +53574,6 @@
   },
   {
     "path": "src/main/java/seedu/address/model/person/Avatar.java",
-    "group": "none",
     "lines": [
       {
         "lineNumber": 1,
@@ -54405,7 +54353,6 @@
   },
   {
     "path": "src/main/java/seedu/address/model/person/Email.java",
-    "group": "none",
     "lines": [
       {
         "lineNumber": 1,
@@ -55038,7 +54985,6 @@
   },
   {
     "path": "src/main/java/seedu/address/model/person/Phone.java",
-    "group": "none",
     "lines": [
       {
         "lineNumber": 1,
@@ -55580,7 +55526,6 @@
   },
   {
     "path": "src/main/java/seedu/address/model/person/Rating.java",
-    "group": "none",
     "lines": [
       {
         "lineNumber": 1,
@@ -56129,7 +56074,6 @@
   },
   {
     "path": "src/main/java/seedu/address/model/person/Remark.java",
-    "group": "none",
     "lines": [
       {
         "lineNumber": 1,
@@ -56594,7 +56538,6 @@
   },
   {
     "path": "src/main/java/seedu/address/model/person/UniquePersonList.java",
-    "group": "none",
     "lines": [
       {
         "lineNumber": 1,
@@ -58165,7 +58108,6 @@
   },
   {
     "path": "src/main/java/seedu/address/model/person/exceptions/NoPlayerException.java",
-    "group": "none",
     "lines": [
       {
         "lineNumber": 1,
@@ -58223,7 +58165,6 @@
   },
   {
     "path": "src/main/java/seedu/address/model/tag/Tag.java",
-    "group": "none",
     "lines": [
       {
         "lineNumber": 1,
@@ -58954,7 +58895,6 @@
   },
   {
     "path": "src/main/java/seedu/address/model/util/SampleDataUtil.java",
-    "group": "none",
     "lines": [
       {
         "lineNumber": 1,
@@ -60147,7 +60087,6 @@
   },
   {
     "path": "src/main/java/seedu/address/storage/XmlAdaptedPerson.java",
-    "group": "none",
     "lines": [
       {
         "lineNumber": 1,
@@ -61858,7 +61797,6 @@
   },
   {
     "path": "src/main/java/seedu/address/storage/XmlAdaptedTag.java",
-    "group": "none",
     "lines": [
       {
         "lineNumber": 1,
@@ -62435,7 +62373,6 @@
   },
   {
     "path": "src/main/java/seedu/address/storage/XmlAdaptedTeam.java",
-    "group": "none",
     "lines": [
       {
         "lineNumber": 1,
@@ -63096,7 +63033,6 @@
   },
   {
     "path": "src/main/java/seedu/address/storage/XmlSerializableAddressBook.java",
-    "group": "none",
     "lines": [
       {
         "lineNumber": 1,
@@ -63701,7 +63637,6 @@
   },
   {
     "path": "src/main/java/seedu/address/ui/MainWindow.java",
-    "group": "none",
     "lines": [
       {
         "lineNumber": 1,
@@ -65363,7 +65298,6 @@
   },
   {
     "path": "src/main/java/seedu/address/ui/PersonCard.java",
-    "group": "none",
     "lines": [
       {
         "lineNumber": 1,
@@ -66382,7 +66316,6 @@
   },
   {
     "path": "src/main/java/seedu/address/ui/PersonListPanel.java",
-    "group": "none",
     "lines": [
       {
         "lineNumber": 1,
@@ -67162,7 +67095,6 @@
   },
   {
     "path": "src/main/java/seedu/address/ui/PlayerDetails.java",
-    "group": "none",
     "lines": [
       {
         "lineNumber": 1,
@@ -67831,7 +67763,6 @@
   },
   {
     "path": "src/main/java/seedu/address/ui/TeamDisplay.java",
-    "group": "none",
     "lines": [
       {
         "lineNumber": 1,
@@ -68709,7 +68640,6 @@
   },
   {
     "path": "src/main/java/seedu/address/ui/UiManager.java",
-    "group": "none",
     "lines": [
       {
         "lineNumber": 1,
@@ -69552,7 +69482,6 @@
   },
   {
     "path": "src/test/java/guitests/guihandles/MainWindowHandle.java",
-    "group": "none",
     "lines": [
       {
         "lineNumber": 1,
@@ -69898,7 +69827,6 @@
   },
   {
     "path": "src/test/java/guitests/guihandles/PersonCardHandle.java",
-    "group": "none",
     "lines": [
       {
         "lineNumber": 1,
@@ -70475,7 +70403,6 @@
   },
   {
     "path": "src/test/java/guitests/guihandles/PlayerDetailsHandle.java",
-    "group": "none",
     "lines": [
       {
         "lineNumber": 1,
@@ -70933,7 +70860,6 @@
   },
   {
     "path": "src/test/java/guitests/guihandles/TeamDisplayHandle.java",
-    "group": "none",
     "lines": [
       {
         "lineNumber": 1,
@@ -71202,7 +71128,6 @@
   },
   {
     "path": "src/test/java/seedu/address/commons/core/ConfigTest.java",
-    "group": "none",
     "lines": [
       {
         "lineNumber": 1,
@@ -71436,7 +71361,6 @@
   },
   {
     "path": "src/test/java/seedu/address/commons/util/XmlUtilTest.java",
-    "group": "none",
     "lines": [
       {
         "lineNumber": 1,
@@ -72468,7 +72392,6 @@
   },
   {
     "path": "src/test/java/seedu/address/logic/commands/AddCommandTest.java",
-    "group": "none",
     "lines": [
       {
         "lineNumber": 1,
@@ -74278,7 +74201,6 @@
   },
   {
     "path": "src/test/java/seedu/address/logic/commands/ChangeThemeCommandTest.java",
-    "group": "none",
     "lines": [
       {
         "lineNumber": 1,
@@ -74911,7 +74833,6 @@
   },
   {
     "path": "src/test/java/seedu/address/logic/commands/KeyCommandTest.java",
-    "group": "none",
     "lines": [
       {
         "lineNumber": 1,
@@ -75228,7 +75149,6 @@
   },
   {
     "path": "src/test/java/seedu/address/logic/commands/RemarkCommandTest.java",
-    "group": "none",
     "lines": [
       {
         "lineNumber": 1,
@@ -76778,7 +76698,6 @@
   },
   {
     "path": "src/test/java/seedu/address/logic/commands/SetCommandTest.java",
-    "group": "none",
     "lines": [
       {
         "lineNumber": 1,
@@ -77488,7 +77407,6 @@
   },
   {
     "path": "src/test/java/seedu/address/logic/commands/SortCommandTest.java",
-    "group": "none",
     "lines": [
       {
         "lineNumber": 1,
@@ -78253,7 +78171,6 @@
   },
   {
     "path": "src/test/java/seedu/address/logic/commands/TogglePrivacyCommandTest.java",
-    "group": "none",
     "lines": [
       {
         "lineNumber": 1,
@@ -78731,7 +78648,6 @@
   },
   {
     "path": "src/test/java/seedu/address/logic/parser/AddressBookParserTest.java",
-    "group": "none",
     "lines": [
       {
         "lineNumber": 1,
@@ -80989,7 +80905,6 @@
   },
   {
     "path": "src/test/java/seedu/address/logic/parser/ChangeThemeCommandParserTest.java",
-    "group": "none",
     "lines": [
       {
         "lineNumber": 1,
@@ -81209,7 +81124,6 @@
   },
   {
     "path": "src/test/java/seedu/address/logic/parser/SetCommandParserTest.java",
-    "group": "none",
     "lines": [
       {
         "lineNumber": 1,
@@ -81380,7 +81294,6 @@
   },
   {
     "path": "src/test/java/seedu/address/logic/parser/SortCommandParserTest.java",
-    "group": "none",
     "lines": [
       {
         "lineNumber": 1,
@@ -81963,7 +81876,6 @@
   },
   {
     "path": "src/test/java/seedu/address/logic/parser/TogglePrivacyCommandParserTest.java",
-    "group": "none",
     "lines": [
       {
         "lineNumber": 1,
@@ -82637,7 +82549,6 @@
   },
   {
     "path": "src/test/java/seedu/address/model/tag/TagTest.java",
-    "group": "none",
     "lines": [
       {
         "lineNumber": 1,
@@ -82913,7 +82824,6 @@
   },
   {
     "path": "src/test/java/seedu/address/storage/JsonUserPrefsStorageTest.java",
-    "group": "none",
     "lines": [
       {
         "lineNumber": 1,
@@ -83868,7 +83778,6 @@
   },
   {
     "path": "src/test/java/seedu/address/testutil/EditPersonPrivacyBuilder.java",
-    "group": "none",
     "lines": [
       {
         "lineNumber": 1,
@@ -84515,7 +84424,6 @@
   },
   {
     "path": "src/test/java/seedu/address/testutil/TeamBuilder.java",
-    "group": "none",
     "lines": [
       {
         "lineNumber": 1,
@@ -84798,7 +84706,6 @@
   },
   {
     "path": "src/test/java/seedu/address/testutil/TypicalPersons.java",
-    "group": "none",
     "lines": [
       {
         "lineNumber": 1,
@@ -85858,7 +85765,6 @@
   },
   {
     "path": "src/test/java/seedu/address/testutil/TypicalTags.java",
-    "group": "none",
     "lines": [
       {
         "lineNumber": 1,
@@ -86169,7 +86075,6 @@
   },
   {
     "path": "src/test/java/seedu/address/ui/PlayerDetailsTest.java",
-    "group": "none",
     "lines": [
       {
         "lineNumber": 1,
@@ -86578,7 +86483,6 @@
   },
   {
     "path": "src/test/java/seedu/address/ui/TeamDisplayTest.java",
-    "group": "none",
     "lines": [
       {
         "lineNumber": 1,
@@ -87071,7 +86975,6 @@
   },
   {
     "path": "src/test/java/seedu/address/ui/UiPartTest.java",
-    "group": "none",
     "lines": [
       {
         "lineNumber": 1,
@@ -87914,7 +87817,6 @@
   },
   {
     "path": "src/test/java/seedu/address/ui/testutil/GuiTestAssert.java",
-    "group": "none",
     "lines": [
       {
         "lineNumber": 1,
@@ -88981,7 +88883,6 @@
   },
   {
     "path": "src/test/java/systemtests/AddCommandSystemTest.java",
-    "group": "none",
     "lines": [
       {
         "lineNumber": 1,
@@ -91539,7 +91440,6 @@
   },
   {
     "path": "src/test/java/systemtests/AddressBookSystemTest.java",
-    "group": "none",
     "lines": [
       {
         "lineNumber": 1,
@@ -93411,7 +93311,6 @@
   },
   {
     "path": "src/test/java/systemtests/EditCommandSystemTest.java",
-    "group": "none",
     "lines": [
       {
         "lineNumber": 1,
@@ -95577,7 +95476,6 @@
   },
   {
     "path": "src/test/java/systemtests/HelpCommandSystemTest.java",
-    "group": "none",
     "lines": [
       {
         "lineNumber": 1,

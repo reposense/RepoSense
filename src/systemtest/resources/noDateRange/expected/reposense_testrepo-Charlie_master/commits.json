@@ -1467,23 +1467,28 @@
   },
   "authorGroupContributionMap": {
     "charlesgoh": {
-      "docs": 610,
       "code": 1825,
-      "test": 1757
+      "test": 1433,
+      "docs": 970,
+      "other": 0
     },
     "jeffreygohkw": {
-      "docs": 1012,
       "code": 2914,
-      "test": 1914
+      "test": 1728,
+      "docs": 1198,
+      "other": 0
     },
     "Esilocke": {
-      "docs": 1078,
       "code": 4308,
-      "test": 5558
+      "test": 4058,
+      "docs": 2578,
+      "other": 0
     },
     "wangyiming1019": {
       "code": 1142,
-      "test": 1327
+      "test": 1327,
+      "docs": 0,
+      "other": 0
     }
   },
   "authorContributionVariance": {

@@ -146,12 +146,22 @@
     "eugenepeh": 0
   },
   "authorGroupContributionMap": {
-    "fakeAuthor": {},
-    "harryggg": {
-      "code": 14
+    "fakeAuthor": {
+      "code": 0,
+      "other": 0
     },
-    "Eugene Peh": {},
-    "eugenepeh": {}
+    "harryggg": {
+      "code": 14,
+      "other": 0
+    },
+    "Eugene Peh": {
+      "code": 0,
+      "other": 0
+    },
+    "eugenepeh": {
+      "code": 0,
+      "other": 0
+    }
   },
   "authorContributionVariance": {
     "fakeAuthor": 0.0,

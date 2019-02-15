@@ -1,7 +1,7 @@
 [
   {
     "path": "README.adoc",
-    "group": "none",
+    "group": "docs",
     "lines": [
       {
         "lineNumber": 1,
