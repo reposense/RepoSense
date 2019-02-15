@@ -44,17 +44,8 @@ public class GitClone {
         } catch (IOException ioe) {
             throw new GitCloneException(ioe);
         }
-
-        try {
-            if (repoConfig.getBranch().equals(RepoConfiguration.DEFAULT_BRANCH)) {
-                String currentBranch = GitBranch.getCurrentBranch(repoConfig.getRepoRoot());
-                repoConfig.setBranch(currentBranch);
-            }
-            GitCheckout.checkout(repoConfig.getRepoRoot(), repoConfig.getBranch());
-        } catch (RuntimeException e) {
-            logger.log(Level.SEVERE, "Branch does not exist! Analyze terminated.", e);
-            throw new GitCloneException(e);
-        }
+        setRepoConfigBranch(repoConfig);
+        checkOutBranch(repoConfig);
     }
 
     private static void clone(RepoLocation location, String repoName) throws IOException {
@@ -84,9 +75,26 @@ public class GitClone {
             Path rootPath = Paths.get(FileUtil.REPOS_ADDRESS, repoConfig.getRepoName());
             joinCommand(rootPath, "git clone " + addQuote(repoConfig.getLocation().toString()), crp);
             logger.info("Cloning of " + repoConfig.getLocation() + " completed!");
+            setRepoConfigBranch(repoConfig);
         } catch (RuntimeException rte) {
             logger.log(Level.SEVERE, "Error encountered in Git Cloning, will attempt to continue analyzing", rte);
             throw new GitCloneException(rte);
+        }
+    }
+
+    public static void checkOutBranch(RepoConfiguration repoConfig) throws GitCloneException {
+        try {
+            GitCheckout.checkout(repoConfig.getRepoRoot(), repoConfig.getBranch());
+        } catch (RuntimeException e) {
+            logger.log(Level.SEVERE, "Branch does not exist! Analyze terminated.", e);
+            throw new GitCloneException(e);
+        }
+    }
+
+    private static void setRepoConfigBranch(RepoConfiguration repoConfig) {
+        if (repoConfig.getBranch().equals(RepoConfiguration.DEFAULT_BRANCH)) {
+            String currentBranch = GitBranch.getCurrentBranch(repoConfig.getRepoRoot());
+            repoConfig.setBranch(currentBranch);
         }
     }
 }

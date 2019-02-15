@@ -82,8 +82,15 @@ public class ReportGenerator {
             }
             if (isPreviousRepoCloned && previousRepoReportDirectory != null) {
                 RepoConfiguration previousConfig = configs.get(i - 1);
-                boolean isSameLocationAsCurrentConfig = config.getLocation().equals(previousConfig.getLocation());
-                analyzeRepo(previousConfig, previousRepoReportDirectory, !isSameLocationAsCurrentConfig);
+                try {
+                    GitClone.checkOutBranch(previousConfig);
+                    boolean isSameLocationAsCurrentConfig = config.getLocation().equals(previousConfig.getLocation());
+                    analyzeRepo(previousConfig, previousRepoReportDirectory, !isSameLocationAsCurrentConfig);
+                } catch (GitCloneException gde) {
+                    logger.log(Level.WARNING,
+                            "Exception met while trying to clone the repo, will skip this repo.", gde);
+                    handleGitCloneException(outputPath, config);
+                }
             }
             if (isCurrentRepoCloned && !isCurrentRepoSameAsPreviousRepo) {
                 isCurrentRepoCloned = false;
@@ -107,7 +114,15 @@ public class ReportGenerator {
             isPreviousRepoCloned = isCurrentRepoCloned;
         }
         if (isPreviousRepoCloned && previousRepoReportDirectory != null) {
-            analyzeRepo(configs.get(configs.size() - 1), previousRepoReportDirectory, true);
+            RepoConfiguration lastConfig = configs.get(configs.size() - 1);
+            try {
+                GitClone.checkOutBranch(lastConfig);
+                analyzeRepo(lastConfig, previousRepoReportDirectory, true);
+            } catch (GitCloneException gde) {
+                logger.log(Level.WARNING,
+                        "Exception met while trying to clone the repo, will skip this repo.", gde);
+                handleGitCloneException(outputPath, lastConfig);
+            }
         }
     }
 
