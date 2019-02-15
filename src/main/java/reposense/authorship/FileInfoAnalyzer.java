@@ -108,11 +108,15 @@ public class FileInfoAnalyzer {
      */
     private static void setGroup(RepoConfiguration config, FileInfo fileInfo) {
         List<Group> groups = config.getGroups();
-        Path filePath = Paths.get(fileInfo.getPath());
-        for (Group group : groups) {
-            PathMatcher groupGlobMatcher = group.getGroupGlobMatcher();
-            if (groupGlobMatcher.matches(filePath)) {
-                fileInfo.setGroup(group.toString());
+        if (groups.isEmpty()) {
+            fileInfo.setGroup("none");
+        } else {
+            Path filePath = Paths.get(fileInfo.getPath());
+            for (Group group : groups) {
+                PathMatcher groupGlobMatcher = group.getGroupGlobMatcher();
+                if (groupGlobMatcher.matches(filePath)) {
+                    fileInfo.setGroup(group.toString());
+                }
             }
         }
     }

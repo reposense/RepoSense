@@ -10,7 +10,7 @@ import java.util.stream.Collectors;
  * Represents a group in {@code RepoConfiguration}.
  */
 public class Group {
-    public static final String DEFAULT_GROUP = "none";
+    public static final String DEFAULT_GROUP = "other";
     private static final String GROUP_VALIDATION_REGEX = "[A-Za-z0-9]+";
     private static final String MESSAGE_ILLEGAL_GROUPS = "The provided group, %s, contains illegal characters.";
 
