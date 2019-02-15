@@ -29,11 +29,11 @@ window.enableSearchBar = function enableSearchBar() {
   const submitButton = document.getElementById('submit-button');
   searchBar.disabled = false;
   submitButton.disabled = false;
-  searchBar.value = '';
-  submitButton.click();
 
   const checkboxes = document.getElementsByClassName('mui-checkbox--filetype');
   Array.from(checkboxes).forEach((checkbox) => {
+    checkbox.checked = false;
+    checkbox.click();
     checkbox.disabled = true;
   });
 };
@@ -41,15 +41,14 @@ window.enableSearchBar = function enableSearchBar() {
 window.enableCheckBoxes = function enableCheckBoxes() {
   const searchBar = document.getElementById('search');
   const submitButton = document.getElementById('submit-button');
-  searchBar.disabled = true;
   searchBar.value = '';
+  submitButton.click();
+  searchBar.disabled = true;
   submitButton.disabled = true;
 
   const checkboxes = document.getElementsByClassName('mui-checkbox--filetype');
   Array.from(checkboxes).forEach((checkbox) => {
     checkbox.disabled = false;
-    checkbox.checked = false;
-    checkbox.click();
   });
 };
 
