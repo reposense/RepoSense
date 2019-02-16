@@ -18,7 +18,7 @@ public class FileResult {
     public FileResult(String path, String group, ArrayList<LineInfo> lines,
         HashMap<Author, Integer> authorContributionMap) {
         this.path = path;
-        if (!group.equals("none")) {
+        if (!"none".equals(group)) {
             this.group = group;
         }
         this.lines = lines;

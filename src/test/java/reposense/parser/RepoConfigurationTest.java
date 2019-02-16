@@ -220,7 +220,6 @@ public class RepoConfigurationTest {
 
     @Test
     public void repoConfig_withGroups() throws ParseException, IOException {
-        String formats = String.join(" ", CLI_FORMATS);
         String input = String.format("-config %s", GROUPS_TEST_CONFIG_FILES);
         CliArguments cliArguments = ArgsParser.parse(translateCommandline(input));
 
