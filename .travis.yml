@@ -14,12 +14,13 @@ script:
   - npm run lint frontend/src/**/*.js
   - time travis_retry ./gradlew clean checkstyleMain checkstyleTest test systemTest
 
+addons:
+  homebrew:
+    packages:
+    - git
+    update: true
+
 before_install:
-  - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then
-      export HOMEBREW_NO_AUTO_UPDATE=1;
-      export USE_LIBPCRE=YesPlease;
-      brew reinstall git;
-    fi
   - npm install --only=dev
 
 before_cache:
