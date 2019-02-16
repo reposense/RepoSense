@@ -176,7 +176,6 @@ window.vAuthorship = {
     },
 
     filesSort() {
-      this.getSelectedFiles();
       this.selectedFiles.sort(window.comparator(filesSortDict[this.filesSortType]));
 
       if (this.filesSortReverse) {
@@ -192,6 +191,7 @@ window.vAuthorship = {
         this.selectedFileTypes = [];
         this.selectedFiles = [];
       }
+      this.filesSort();
     },
 
     selectFile() {
@@ -208,6 +208,7 @@ window.vAuthorship = {
       } else {
         this.selectedFiles = this.files.filter((file) => this.selectedFileTypes.includes((file.path.split('.').pop())));
       }
+      this.filesSort();
     },
 
     getFileLink(file, path) {
