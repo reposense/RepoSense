@@ -68,7 +68,7 @@ public class GitClone {
         try {
             FileUtil.deleteDirectory(repoConfig.getRepoRoot());
             logger.info("Cloning in parallel from " + repoConfig.getLocation() + "...");
-            Path rootPath = Paths.get(FileUtil.REPOS_ADDRESS, repoConfig.getRepoName());
+            Path rootPath = Paths.get(FileUtil.REPOS_ADDRESS, repoConfig.getDisplayName());
             Files.createDirectories(rootPath);
             crp = spawnCommandProcess(rootPath, "git clone " + addQuote(repoConfig.getLocation().toString()));
         } catch (RuntimeException rte) {
