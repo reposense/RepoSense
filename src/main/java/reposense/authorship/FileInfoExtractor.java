@@ -166,7 +166,11 @@ public class FileInfoExtractor {
         try (Stream<Path> pathStream = Files.list(directory)) {
             for (Path filePath : pathStream.collect(Collectors.toList())) {
                 String relativePath = filePath.toString().substring(config.getRepoRoot().length());
-                if (Files.isDirectory(filePath) && !relativePath.equals(GIT_DIRECTORY)) {
+                if (Files.isDirectory(filePath) && relativePath.equals(GIT_DIRECTORY)) {
+                    continue;
+                }
+
+                if (Files.isDirectory(filePath)) {
                     getAllFileInfo(config, filePath, fileInfos);
                     continue;
                 }
