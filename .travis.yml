@@ -6,8 +6,9 @@ matrix:
       os: linux
       jdk: oraclejdk9
 
-    - name: macOS 10.13 JDK 10
+    - name: macOS
       os: osx
+      osx_image: xcode10.1
 
 script:
   - ./config/travis/run-checks.sh
@@ -15,9 +16,6 @@ script:
   - time travis_retry ./gradlew clean checkstyleMain checkstyleTest test systemTest
 
 before_install:
-  - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then
-      brew reinstall --with-pcre2 git;
-    fi
   - npm install --only=dev
 
 before_cache:
@@ -28,4 +26,3 @@ cache:
   directories:
     - $HOME/.gradle/caches/
     - $HOME/.gradle/wrapper/
-    - $HOME/Library/Caches/Homebrew
