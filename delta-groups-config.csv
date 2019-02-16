@@ -1,6 +1,4 @@
 Group Name, Globs
 code,**.java
-frontend,**.css;**.fxml;**.html
-test,**/test/*
-docs,**/docs/*
-images,**.png
+tests,test**
+docs,docs**;**.adoc;**.md
