@@ -36,7 +36,7 @@ public class GitClone {
         try {
             FileUtil.deleteDirectory(repoConfig.getRepoRoot());
             logger.info("Cloning from " + repoConfig.getLocation() + "...");
-            clone(repoConfig.getLocation(), repoConfig.getRepoName());
+            clone(repoConfig.getLocation(), repoConfig.getRepoFolderName());
             logger.info("Cloning completed!");
         } catch (RuntimeException rte) {
             logger.log(Level.SEVERE, "Error encountered in Git Cloning, will attempt to continue analyzing", rte);
@@ -68,7 +68,7 @@ public class GitClone {
         try {
             FileUtil.deleteDirectory(repoConfig.getRepoRoot());
             logger.info("Cloning in parallel from " + repoConfig.getLocation() + "...");
-            Path rootPath = Paths.get(FileUtil.REPOS_ADDRESS, repoConfig.getDisplayName());
+            Path rootPath = Paths.get(FileUtil.REPOS_ADDRESS, repoConfig.getRepoFolderName());
             Files.createDirectories(rootPath);
             crp = spawnCommandProcess(rootPath, "git clone " + addQuote(repoConfig.getLocation().toString()));
         } catch (RuntimeException rte) {
@@ -88,7 +88,7 @@ public class GitClone {
             return;
         }
         try {
-            Path rootPath = Paths.get(FileUtil.REPOS_ADDRESS, repoConfig.getRepoName());
+            Path rootPath = Paths.get(FileUtil.REPOS_ADDRESS, repoConfig.getRepoFolderName());
             waitForCommandProcess(rootPath, "git clone " + addQuote(repoConfig.getLocation().toString()), crp);
             logger.info("Cloning of " + repoConfig.getLocation() + " completed!");
             updateRepoConfigBranch(repoConfig);

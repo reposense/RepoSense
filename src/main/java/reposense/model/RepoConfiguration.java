@@ -142,13 +142,22 @@ public class RepoConfiguration {
     }
 
     public String getRepoRoot() {
-        String path = FileUtil.REPOS_ADDRESS + File.separator + getDisplayName() + File.separator;
+        String path = FileUtil.REPOS_ADDRESS + File.separator + getRepoFolderName() + File.separator;
 
         if (!getRepoName().isEmpty()) {
             path += getRepoName() + File.separator;
         }
 
         return path;
+    }
+
+    public String getRepoFolderName() {
+        String organization = location.getOrganization();
+        if (organization != null) {
+            return organization + "_" + getRepoName();
+        } else {
+            return getRepoName();
+        }
     }
 
     @Override
