@@ -59,6 +59,10 @@ public class ReportGenerator {
         logger.info("The report is generated at " + outputPath);
     }
 
+    /**
+     * Clones and analyzes repositories in {@code configs}.
+     * Performs analysis of each repository in parallel with the cloning of the next repository.
+     */
     private static void cloneAndAnalyzeRepos(List<RepoConfiguration> configs, String outputPath) throws IOException {
         boolean isPreviousRepoCloned = false;
 
@@ -81,6 +85,10 @@ public class ReportGenerator {
         }
     }
 
+    /**
+     * Spawns a process to clone the repository specified by {@code config}.
+     * Does not wait for process to finish executing.
+     */
     private static boolean spawnCloneProcess(String outputPath, RepoConfiguration config) throws IOException {
         try {
             GitClone.spawnCloneProcess(config);
@@ -88,11 +96,14 @@ public class ReportGenerator {
         } catch (GitCloneException gde) {
             logger.log(Level.WARNING,
                     "Exception met while trying to clone the repo, will skip this repo.", gde);
-            handleGitCloneException(outputPath, config);
+            generateEmptyRepoReport(outputPath, config);
         }
         return false;
     }
 
+    /**
+     * Waits for current clone process to finish executing.
+     */
     private static boolean waitForCloneProcess(String outputPath, RepoConfiguration config) throws IOException {
         try {
             GitClone.waitForCloneProcess(config);
@@ -100,13 +111,16 @@ public class ReportGenerator {
         } catch (GitCloneException gde) {
             logger.log(Level.WARNING,
                     "Exception met while trying to clone the repo, will skip this repo.", gde);
-            handleGitCloneException(outputPath, config);
+            generateEmptyRepoReport(outputPath, config);
         } catch (RuntimeException rte) {
             logger.log(Level.SEVERE, "Error has occurred during analysis, will skip this repo.", rte);
         }
         return false;
     }
 
+    /**
+     * Analyzes repo specified by {@code config} and generates the report for this repo.
+     */
     private static void analyzeRepo(
             String outputPath, RepoConfiguration config, boolean shouldDeleteDirectory) throws IOException {
         try {
@@ -127,16 +141,10 @@ public class ReportGenerator {
         } catch (GitCloneException gde) {
             logger.log(Level.WARNING,
                     "Exception met while trying to clone the repo, will skip this repo.", gde);
-            handleGitCloneException(outputPath, config);
+            generateEmptyRepoReport(outputPath, config);
         } catch (IOException ioe) {
             logger.log(Level.WARNING, "Error deleting report directory.", ioe);
         }
-    }
-
-    private static void handleGitCloneException(String outputPath, RepoConfiguration config) throws IOException {
-        Path repoReportDirectory = Paths.get(outputPath, config.getDisplayName());
-        FileUtil.createDirectory(repoReportDirectory);
-        generateEmptyRepoReport(repoReportDirectory.toString());
     }
 
     /**
@@ -189,10 +197,12 @@ public class ReportGenerator {
         FileUtil.writeJsonFile(authorshipSummary.getFileResults(), getIndividualAuthorshipPath(repoReportDirectory));
     }
 
-    private static void generateEmptyRepoReport(String repoReportDirectory) {
+    private static void generateEmptyRepoReport(String outputPath, RepoConfiguration config) throws IOException {
+        Path repoReportDirectory = Paths.get(outputPath, config.getDisplayName());
+        FileUtil.createDirectory(repoReportDirectory);
         CommitReportJson emptyCommitReportJson = new CommitReportJson();
-        FileUtil.writeJsonFile(emptyCommitReportJson, getIndividualCommitsPath(repoReportDirectory));
-        FileUtil.writeJsonFile(Collections.emptyList(), getIndividualAuthorshipPath(repoReportDirectory));
+        FileUtil.writeJsonFile(emptyCommitReportJson, getIndividualCommitsPath(repoReportDirectory.toString()));
+        FileUtil.writeJsonFile(Collections.emptyList(), getIndividualAuthorshipPath(repoReportDirectory.toString()));
     }
 
     private static String getSummaryResultPath(String targetFileLocation) {

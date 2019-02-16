@@ -21,6 +21,9 @@ public class CommandRunner {
         return waitForCommandProcess(path, command, crp);
     }
 
+    /**
+     * Spawns a {@code CommandRunnerProcess} to execute {@code command}. Does not wait for process to finish executing.
+     */
     public static CommandRunnerProcess spawnCommandProcess(Path path, String command) {
         ProcessBuilder pb = null;
         if (isWindows) {
@@ -32,38 +35,33 @@ public class CommandRunner {
                     .command(new String[]{"bash", "-c", command})
                     .directory(path.toFile());
         }
-        Process p = null;
+        CommandRunnerProcess crp = new CommandRunnerProcess(pb);
+
         try {
-            p = pb.start();
+            crp.spawnProcess();
         } catch (IOException e) {
             throw new RuntimeException("Error Creating Thread:" + e.getMessage());
         }
-        StreamGobbler errorGobbler = new StreamGobbler(p.getErrorStream());
-        StreamGobbler outputGobbler = new StreamGobbler(p.getInputStream());
-        outputGobbler.start();
-        errorGobbler.start();
-        return new CommandRunnerProcess(p, outputGobbler, errorGobbler);
+        return crp;
     }
 
+    /**
+     * Waits for {@code crp} to finish executing and returns the output from the execution.
+     */
     public static String waitForCommandProcess(Path path, String command, CommandRunnerProcess crp) {
-        Process p = crp.getProcess();
-        StreamGobbler outputGobbler = crp.getOutputGobbler();
-        StreamGobbler errorGobbler = crp.getErrorGobbler();
         int exit = 0;
         try {
-            exit = p.waitFor();
-            outputGobbler.join();
-            errorGobbler.join();
+            exit = crp.waitForProcess();
         } catch (InterruptedException e) {
             throw new RuntimeException("Error Handling Thread.");
         }
 
         if (exit == 0) {
-            return outputGobbler.getValue();
+            return crp.getOutputGobbler().getValue();
         } else {
             String errorMessage = "Error returned from command ";
             errorMessage += command + "on path ";
-            errorMessage += path.toString() + " :\n" + errorGobbler.getValue();
+            errorMessage += path.toString() + " :\n" + crp.getErrorGobbler().getValue();
             throw new RuntimeException(errorMessage);
         }
     }

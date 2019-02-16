@@ -46,7 +46,7 @@ public class GitClone {
         } catch (IOException ioe) {
             throw new GitCloneException(ioe);
         }
-        setRepoConfigBranch(repoConfig);
+        updateRepoConfigBranch(repoConfig);
         checkOutBranch(repoConfig);
     }
 
@@ -56,8 +56,13 @@ public class GitClone {
         runCommand(rootPath, "git clone " + addQuote(location.toString()));
     }
 
+    /**
+     * Spawns a process to clone repo specified in {@code repoConfig}. Does not wait for process to finish executing.
+     * Can only handle a maximum of one spawned process at any time and subsequent calls are ignored if current process
+     * is still running.
+     */
     public static void spawnCloneProcess(RepoConfiguration repoConfig) throws GitCloneException {
-        if (isRepoPreviouslyCloned(repoConfig)) {
+        if (isRepoPreviouslyCloned(repoConfig) || crp != null) {
             return;
         }
         try {
@@ -74,6 +79,10 @@ public class GitClone {
         }
     }
 
+    /**
+     * Waits for previously spawned clone process to finish executing.
+     * Should only be called after {@code spawnCloneProcess} has been called.
+     */
     public static void waitForCloneProcess(RepoConfiguration repoConfig) throws GitCloneException {
         if (isRepoPreviouslyCloned(repoConfig)) {
             return;
@@ -82,7 +91,8 @@ public class GitClone {
             Path rootPath = Paths.get(FileUtil.REPOS_ADDRESS, repoConfig.getRepoName());
             waitForCommandProcess(rootPath, "git clone " + addQuote(repoConfig.getLocation().toString()), crp);
             logger.info("Cloning of " + repoConfig.getLocation() + " completed!");
-            setRepoConfigBranch(repoConfig);
+            updateRepoConfigBranch(repoConfig);
+            crp = null;
             lastClonedRepoLocation = repoConfig.getLocation();
         } catch (RuntimeException rte) {
             logger.log(Level.SEVERE, "Error encountered in Git Cloning, will attempt to continue analyzing", rte);
@@ -90,22 +100,31 @@ public class GitClone {
         }
     }
 
-    private static void setRepoConfigBranch(RepoConfiguration repoConfig) {
+    /**
+     * Updates the branch of {@code repoConfig} to the current branch if default branch is specified.
+     */
+    private static void updateRepoConfigBranch(RepoConfiguration repoConfig) {
         if (repoConfig.getBranch().equals(RepoConfiguration.DEFAULT_BRANCH)) {
             String currentBranch = GitBranch.getCurrentBranch(repoConfig.getRepoRoot());
             repoConfig.setBranch(currentBranch);
         }
     }
 
+    /**
+     * Checks out the branch specified in {@code repoConfig}.
+     */
     public static void checkOutBranch(RepoConfiguration repoConfig) throws GitCloneException {
         try {
             GitCheckout.checkout(repoConfig.getRepoRoot(), repoConfig.getBranch());
         } catch (RuntimeException e) {
-            logger.log(Level.SEVERE, "Branch does not exist! Analyze terminated.", e);
+            logger.log(Level.SEVERE, "Branch does not exist! Analysis terminated.", e);
             throw new GitCloneException(e);
         }
     }
 
+    /**
+     * Returns true if {@code repoConfig} matches the previously cloned repo.
+     */
     private static boolean isRepoPreviouslyCloned(RepoConfiguration repoConfig) {
         return lastClonedRepoLocation != null && lastClonedRepoLocation.equals(repoConfig.getLocation());
     }
