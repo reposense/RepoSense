@@ -17,7 +17,8 @@ script:
 before_install:
   - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then
       export HOMEBREW_NO_AUTO_UPDATE=1;
-      brew upgrade git;
+      export USE_LIBPCRE=YesPlease;
+      brew reinstall git;
     fi
   - npm install --only=dev
 
