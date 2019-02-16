@@ -175,7 +175,7 @@ window.vSummary = {
           totalWidth += last * maxLength;
         }
 
-        if ((totalWidth > maxLength) && (totalWidth != fileTypeWidth)) {
+        if ((totalWidth > maxLength) && (totalWidth !== fileTypeWidth)) {
           res.unshift(maxLength - (totalWidth - fileTypeWidth));
           res[res.length - 1] = res[res.length - 1] - (maxLength - (totalWidth - fileTypeWidth));
           totalWidth = res[res.length - 1];
