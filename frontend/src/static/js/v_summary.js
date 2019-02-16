@@ -225,16 +225,7 @@ window.vSummary = {
         });
       });
 
-      if (window.app.untilDate) {
-        maxDate = window.app.untilDate;
-      } else {
-        const creationDateArray = window.app.creationDate.split(' ');
-        const year = creationDateArray.pop();
-        creationDateArray.pop();
-        maxDate = window
-            .moment(`${creationDateArray.join(' ')} ${year}`, 'ddd MMM D HH:mm:ss YYYY')
-            .format('YYYY-MM-DD');
-      }
+      maxDate = window.app.untilDate;
 
       if (!this.filterSinceDate) {
         if (!this.tmpFilterSinceDate || this.tmpFilterSinceDate < minDate) {
