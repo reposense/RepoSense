@@ -38,9 +38,8 @@ public class AuthorshipSummary {
      * Increments the contribution count of {@code author} by one.
      */
     public void addAuthorContributionCount(Author author, String group) {
+        authorFinalContributionMap.put(author, authorFinalContributionMap.get(author) + 1);
         if (group != null) {
-            authorFinalContributionMap.put(author, authorFinalContributionMap.get(author) + 1);
-
             LinkedHashMap<String, Integer> groupContributionMap = authorGroupContributionMap.get(author);
             groupContributionMap.put(group, groupContributionMap.getOrDefault(group, 0) + 1);
         }

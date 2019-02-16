@@ -30,7 +30,11 @@ public class RepoConfigCsvParser extends CsvParser<RepoConfiguration> {
 
     public RepoConfigCsvParser(Path csvFilePath) throws IOException {
         super(csvFilePath);
-        this.CONFIG_FOLDER_PATH = csvFilePath.getParent().toString() + '/';
+        if (csvFilePath.getParent() != null) {
+            this.CONFIG_FOLDER_PATH = csvFilePath.getParent().toString() + '/';
+        } else {
+            this.CONFIG_FOLDER_PATH = "./";
+        }
     }
 
     /**
