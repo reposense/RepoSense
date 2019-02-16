@@ -33,6 +33,7 @@ window.api = {
     return loadJSON(`${REPORT_DIR}/summary.json`)
         .then((data) => {
           window.app.creationDate = data.dashboardGeneratedTime;
+          window.app.untilDate = data.repos[0].untilDate;
 
           const names = [];
           data.repos.forEach((repo) => {
