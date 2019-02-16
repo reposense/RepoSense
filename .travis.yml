@@ -9,17 +9,22 @@ matrix:
     - name: macOS 10.13.6 JDK 11.01
       os: osx
       osx_image: xcode10.1
+      before_install:
+        - export HOMEBREW_NO_AUTO_UPDATE=1; # Prevent time-consuming updating
+        - brew install cask;
+      install:
+        - brew cask install caskroom/versions/java8
+        - java -version
 
 script:
   - ./config/travis/run-checks.sh
   - npm run lint frontend/src/**/*.js
   - time travis_retry ./gradlew clean checkstyleMain checkstyleTest test systemTest
 
-# Use latest version of JDK 8
 addons:
   apt:
     packages:
-      - oracle-java8-installer
+      - oracle-java8-installer # Use the latest version of JDK 8
 
 before_install:
   - npm install --only=dev
@@ -32,3 +37,4 @@ cache:
   directories:
     - $HOME/.gradle/caches/
     - $HOME/.gradle/wrapper/
+    - $HOME/Library/Caches/Homebrew
