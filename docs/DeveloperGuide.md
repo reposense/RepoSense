@@ -67,23 +67,15 @@ Eslint and its accompaning modules can be installed through NPM, so do ensure th
 ### Configuring Cypress for automated front-end testing
 We use [Cypress](https://www.cypress.io/) for automated end-to-end front-end testing. <br/>
 
-#### To install the Cypress
-1. At project root, run `cd ./frontend/cypress && npm i`
-
 #### To write tests
 1. Create a new test file in `./frontend/cypress/tests`
-1. At project root, start a local web server at port 9000 to serve RepoSense generated report.<br/>
-For example, `./gradlew run -Dargs="-repo https://github.com/reposense/RepoSense.git -view"`
-1. Start Cypress Test Runner with `npm run-script debug`
+1. At project root start *Cypress Test Runner* by running `./gradlew cypress`
 1. Click on the newly created test file under **Integration Testing**
 > Read [Cypress's Documentation](https://docs.cypress.io/api/commands/document.html#Syntax) to familiarize yourself with its syntax and [Cypress's debugging guide](https://docs.cypress.io/guides/guides/debugging.html#Log-Cypress-events) to tackle problems with your tests.
 
 #### To run all tests locally
-1. At project root, start a local web server at port 9000 to serve RepoSense generated report.<br/>
-For example, `./gradlew run -Dargs="-repo https://github.com/reposense/RepoSense.git -view"`
-1. Then `cd ./frontend/cypress`
-1. `npm run-script tests`
-> If you are unable to run `npm run-script tests`, please ensure that you have `chrome` installed in the default installation directory. Otherwise, follow the instructions [here](https://docs.cypress.io/guides/guides/debugging.html#Launching-browsers) to create symbolic links so Cypress can locate chrome in your system.
+1.  At project root, run `./gradlew uat`
+> If you encountered an invalid browser error, please ensure that you have `chrome` installed in the default installation directory. Otherwise, follow the instructions [here](https://docs.cypress.io/guides/guides/debugging.html#Launching-browsers) to create symbolic links so Cypress can locate `chrome` in your system.
 
 ### Before writing code
 1. Do check out our [process guide](../docs/Process.md) before submitting any PR with your changes.
