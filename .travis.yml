@@ -15,6 +15,12 @@ script:
   - npm run lint frontend/src/**/*.js
   - time travis_retry ./gradlew clean checkstyleMain checkstyleTest test systemTest
 
+# Use latest version of JDK 8
+addons:
+  apt:
+    packages:
+      - oracle-java8-installer
+
 before_install:
   - npm install --only=dev
 
