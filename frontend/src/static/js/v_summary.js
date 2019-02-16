@@ -246,7 +246,9 @@ window.vSummary = {
 
       if (hash.reverse) { this.filterSortReverse = convertBool(hash.reverse); }
       if (hash.repoSort) { this.filterGroupRepos = convertBool(hash.repoSort); }
-      if (hash.breakdown) { this.filterBreakdown = convertBool(hash.breakdown); }
+      if (hash.breakdown) {
+        this.filterBreakdown = convertBool(hash.breakdown);
+      }
     },
 
     getDates() {
