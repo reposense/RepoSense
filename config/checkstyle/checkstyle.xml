@@ -26,15 +26,12 @@
   </module>
 
   <module name="SuppressionFilter">
-    <property name="file" value="config/checkstyle/suppressions.xml"/>
+    <property name="file" value="${config_loc}/suppressions.xml"/>
   </module>
 
 
   <!-- All Java AST specific tests live under TreeWalker module. -->
   <module name="TreeWalker">
-
-    <!-- Required for SuppressionCommentFilter to work -->
-    <module name="FileContentsHolder"/>
 
     <!-- Required to allow exceptions in code style -->
     <module name="SuppressionCommentFilter">
