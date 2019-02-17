@@ -69,7 +69,8 @@ task zipReport(dependsOn: 'npmRunSpuild', type: Zip) {
     destinationDir = file('src/main/resources')
 }
 tasks.shadowJar.dependsOn('zipReport');
-tasks.run.dependsOn('zipReport');
+tasks.classes.dependsOn('zipReport');
+tasks.run.dependsOn('classes');
 
 task systemtest(dependsOn: 'zipReport', type: Test) {
   testClassesDirs = sourceSets.systemtest.output.classesDirs
