@@ -18,6 +18,9 @@ public class InputBuilder {
         this.input = new StringBuilder();
     }
 
+    /**
+     * Returns the {@code input} generated from this {@code InputBuilder}
+     */
     public String build() {
         return input.toString();
     }
@@ -32,7 +35,7 @@ public class InputBuilder {
     }
 
     /**
-     * Add a config flag with the config folder path to the input.
+     * Adds the config flag with the {@code path} as argument to the input.
      * This method should only be called once in one build.
      *
      * @param path The config folder path.
@@ -43,7 +46,7 @@ public class InputBuilder {
     }
 
     /**
-     * Add a repo flag with the several repo paths to the input.
+     * Adds the repo flag with the {@code paths} as arguments to the input.
      * This method should only be called once in one build.
      *
      * @param paths The repo paths.
@@ -57,7 +60,7 @@ public class InputBuilder {
     }
 
     /**
-     * Add a view flag with the view folder path to the input.
+     * Adds the view flag with the {@code path} as argument to the input.
      * This method should only be called once in one build.
      *
      * @param path The view folder path.
@@ -68,7 +71,7 @@ public class InputBuilder {
     }
 
     /**
-     * Add a view flag only to the input.
+     * Adds the view flag only to the input.
      * This method should only be called once in one build.
      */
     public InputBuilder addView() {
@@ -77,7 +80,7 @@ public class InputBuilder {
     }
 
     /**
-     * Add a output flag with the output folder path to the input.
+     * Adds the output flag with the {@code path} as argument to the input.
      * This method should only be called once in one build.
      *
      * @param path The output folder path.
@@ -88,7 +91,7 @@ public class InputBuilder {
     }
 
     /**
-     * Add a since flag with the since date to the input.
+     * Adds the since flag with the {@code date} as argument to the input.
      * This method should only be called once in one build.
      *
      * @param date The since date.
@@ -99,7 +102,7 @@ public class InputBuilder {
     }
 
     /**
-     * Add a until flag with the until date to the input.
+     * Adds the until flag with the {@code date} as argument to the input.
      * This method should only be called once in one build.
      *
      * @param date The until date.
@@ -110,7 +113,7 @@ public class InputBuilder {
     }
 
     /**
-     * Add a format flag with the formats to the input.
+     * Adds the format flag with the {@code formats} as argument to the input.
      * This method should only be called once in one build.
      *
      * @param formats The formats that need to be evaluated.
@@ -121,7 +124,7 @@ public class InputBuilder {
     }
 
     /**
-     * Add a ignoreStandaloneConfig flag to the input.
+     * Adds the ignoreStandaloneConfig flag to the input.
      * This method should only be called once in one build.
      */
     public InputBuilder addIgnoreStandaloneConfig() {
@@ -130,7 +133,7 @@ public class InputBuilder {
     }
 
     /**
-     * Add extra content to the input.
+     * Adds {@code content} to the input.
      */
     public InputBuilder add(String content) {
         input.append(content + WHITESPACE);
@@ -138,7 +141,7 @@ public class InputBuilder {
     }
 
     /**
-     * Add {@code num} white spaces to the input.
+     * Adds {@code num} of white spaces to the input.
      *
      * @param num The number of white spaces to add.
      */
@@ -150,7 +153,7 @@ public class InputBuilder {
     }
 
     /**
-     * Reset the {@code InputBuilder}.
+     * Clears all input and flags given.
      */
     public InputBuilder reset() {
         input = new StringBuilder();
