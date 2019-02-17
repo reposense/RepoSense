@@ -53,13 +53,14 @@ window.enableCheckBoxes = function enableCheckBoxes() {
   const searchBar = document.getElementById('search');
   const submitButton = document.getElementById('submit-button');
   searchBar.value = '';
-  submitButton.click();
   searchBar.disabled = true;
   submitButton.disabled = true;
 
   const checkboxes = document.getElementsByClassName('mui-checkbox--filetype');
   Array.from(checkboxes).forEach((checkbox) => {
     checkbox.disabled = false;
+    checkbox.checked = false;
+    checkbox.click();
   });
 };
 
