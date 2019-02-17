@@ -24,6 +24,7 @@ wrapper {
 
 checkstyle {
     toolVersion = '8.1'
+    configDir = file("$rootProject.projectDir/config/checkstyle")
 }
 
 test {
