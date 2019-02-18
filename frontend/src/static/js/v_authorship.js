@@ -46,12 +46,24 @@ window.vAuthorship = {
       isSelectAllChecked: true,
       selectedFileTypes: [],
       fileTypes: [],
+      selectedGroups: [],
+      groups: [],
       selectedFiles: [],
       filesLinesObj: {},
       filesBlankLinesObj: {},
       totalLineCount: '',
       totalBlankLineCount: '',
     };
+  },
+
+  computed: {
+    filesGroupsExistingLinesObj() {
+      return Object.keys(this.info.filesGroupsObj)
+          .filter((type) => this.info.filesGroupsObj[type] > 0)
+          .reduce((acc, key) => ({
+            ...acc, [key]: this.info.filesGroupsObj[key],
+          }), {});
+    },
   },
 
   methods: {
@@ -115,6 +127,12 @@ window.vAuthorship = {
       let totalLineCount = 0;
       let totalBlankLineCount = 0;
 
+      if (files[0].hasOwnProperty("group")) {
+        this.containsGroups = true;
+      } else {
+        this.containsGroups = false;
+      }
+
       files.forEach((file) => {
         const lineCnt = file.authorContributionMap[this.info.author];
         if (lineCnt) {
@@ -122,6 +140,7 @@ window.vAuthorship = {
           const out = {};
           out.path = file.path;
           out.lineCount = lineCnt;
+          out.group = file.group;
           this.addLineCountToFileType(file.path, lineCnt, filesInfoObj);
 
           const segmentInfo = this.splitSegments(file.lines);
@@ -141,6 +160,13 @@ window.vAuthorship = {
         this.selectedFileTypes.push(file);
         this.fileTypes.push(file);
       });
+
+      if (this.containsGroups) {
+        Object.keys(this.info.filesGroupsObj).forEach((file) => {
+          this.selectedGroups.push(file);
+          this.groups.push(file);
+        });
+      }
 
       this.filesBlankLinesObj = filesBlanksInfoObj;
       this.files = res;
@@ -167,29 +193,46 @@ window.vAuthorship = {
           }), {});
     },
 
-    selectAll() {
+    selectAll(containsGroups) {
       if (!this.isSelectAllChecked) {
-        this.selectedFileTypes = this.fileTypes;
+        if (containsGroups) {
+          this.selectedGroups = this.groups;
+        } else {
+          this.selectedFileTypes = this.fileTypes;
+        }
         this.selectedFiles = this.files;
       } else {
         this.selectedFileTypes = [];
+        this.selectedGroups = [];
         this.selectedFiles = [];
       }
     },
 
-    selectFile() {
-      setTimeout(this.getSelectedFiles, 0);
+    selectFile(containsGroups) {
+      setTimeout(this.getSelectedFiles(containsGroups), 0);
     },
 
-    getSelectedFiles() {
-      if (this.fileTypes.length === this.selectedFileTypes.length) {
-        this.selectedFiles = this.files;
-        this.isSelectAllChecked = true;
-      } else if (this.selectedFileTypes.length === 0) {
-        this.selectedFiles = [];
-        this.isSelectAllChecked = false;
+    getSelectedFiles(containsGroups) {
+      if (containsGroups) {
+        if (this.groups.length === this.selectedGroups.length) {
+          this.selectedFiles = this.files;
+          this.isSelectAllChecked = true;
+        } else if (this.selectedGroups.length === 0) {
+          this.selectedFiles = [];
+          this.isSelectAllChecked = false;
+        } else {
+          this.selectedFiles = this.files.filter((file) => this.selectedGroups.includes(file.group));
+        }
       } else {
-        this.selectedFiles = this.files.filter((file) => this.selectedFileTypes.includes((file.path.split('.').pop())));
+        if (this.fileTypes.length === this.selectedFileTypes.length) {
+          this.selectedFiles = this.files;
+          this.isSelectAllChecked = true;
+        } else if (this.selectedFileTypes.length === 0) {
+          this.selectedFiles = [];
+          this.isSelectAllChecked = false;
+        } else {
+          this.selectedFiles = this.files.filter((file) => this.selectedFileTypes.includes((file.path.split('.').pop())));
+        }
       }
     },
 
@@ -204,6 +247,10 @@ window.vAuthorship = {
       return `${fileType}: Blank: ${
         this.filesBlankLinesObj[fileType]}, Non-Blank: ${
         this.filesLinesObj[fileType] - this.filesBlankLinesObj[fileType]}`;
+    },
+
+    getGroupLineInfo(group) {
+      return `${group}: ${this.info.filesGroupsObj[group]}`;
     },
 
     getTotalFileBlankLineInfo() {
