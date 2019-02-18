@@ -332,10 +332,10 @@ window.vSummary = {
         '#bcf60c', '#fabebe', '#008080', '#e6beff', '#9a6324', '#fffac8', '#800000', '#aaffc3', '#808000', '#ffd8b1',
         '#000075', '#808080'];
       const colors = {};
+      let i = 0;
 
       this.repos.forEach((repo) => {
         const user = repo.users[0];
-        let i = 0;
         Object.keys(user.fileTypeContribution).forEach((fileType) => {
           if (!colors.hasOwnProperty(fileType)) {
             colors[fileType] = selectedColors[i];
