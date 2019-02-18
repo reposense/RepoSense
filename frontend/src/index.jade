@@ -174,24 +174,18 @@ html
           ) {{ info.repo }}
           .author {{ info.name }} ({{ info.author }}) contribution from {{ info.minDate }} to {{ info.maxDate }}
           .contribution(v-if="isLoaded")
-            template(v-if="containsGroups")
-              div.checkboxes.mui-form--inline(v-if="files.length > 0")
-                label
-                  input(type="checkbox" v-on:click="selectAll(containsGroups)" v-model="isSelectAllChecked").mui-checkbox
-                  span.select(v-bind:title="getTotalFileBlankLineInfo()") All:&nbsp;
-                  span.loc(v-bind:title="getTotalFileBlankLineInfo()") {{ totalLineCount }}&nbsp;
-                  span.bloc(v-bind:title="getTotalFileBlankLineInfo()") ({{ totalBlankLineCount }})
+            div.checkboxes.mui-form--inline(v-if="files.length > 0")
+              label
+                input(type="checkbox" v-on:click="selectAll()" v-model="isSelectAllChecked").mui-checkbox
+                span.select(v-bind:title="getTotalFileBlankLineInfo()") All:&nbsp;
+                span.loc(v-bind:title="getTotalFileBlankLineInfo()") {{ totalLineCount }}&nbsp;
+                span.bloc(v-bind:title="getTotalFileBlankLineInfo()") ({{ totalBlankLineCount }})
+              template(v-if="containsGroups")
                 template(v-for="group in Object.keys(filesGroupsExistingLinesObj)", v-bind:key="group")
                   label
                     input(type="checkbox" :value="group" v-model="selectedGroups" v-on:change="selectFile(containsGroups)").mui-checkbox
                     span(v-bind:title="getGroupLineInfo(group)") {{ group }}: {{ filesGroupsExistingLinesObj[group] }}&nbsp;
-            template(v-else)
-              div.checkboxes.mui-form--inline(v-if="files.length > 0")
-                label
-                  input(type="checkbox" v-on:click="selectAll(!containsGroups)" v-model="isSelectAllChecked").mui-checkbox
-                  span.select(v-bind:title="getTotalFileBlankLineInfo()") All:&nbsp;
-                  span.loc(v-bind:title="getTotalFileBlankLineInfo()") {{ totalLineCount }}&nbsp;
-                  span.bloc(v-bind:title="getTotalFileBlankLineInfo()") ({{ totalBlankLineCount }})
+              template(v-else)
                 template(v-for="type in Object.keys(filesLinesObj)")
                   label
                     input(type="checkbox" :value="type" v-model="selectedFileTypes" v-on:change="selectFile(!containsGroups)").mui-checkbox

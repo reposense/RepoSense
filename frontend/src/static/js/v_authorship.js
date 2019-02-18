@@ -127,12 +127,7 @@ window.vAuthorship = {
       let totalLineCount = 0;
       let totalBlankLineCount = 0;
 
-      if (files[0].hasOwnProperty("group")) {
-        this.containsGroups = true;
-      } else {
-        this.containsGroups = false;
-      }
-
+      this.setContainsGroups(files[0]);
       files.forEach((file) => {
         const lineCnt = file.authorContributionMap[this.info.author];
         if (lineCnt) {
@@ -174,6 +169,14 @@ window.vAuthorship = {
       this.isLoaded = true;
     },
 
+    setContainsGroups(file) {
+      if (file.hasOwnProperty("group")) {
+        this.containsGroups = true;
+      } else {
+        this.containsGroups = false;
+      }
+    },
+
     addLineCountToFileType(path, lineCount, filesInfoObj) {
       let fileType = path.split('.').pop();
       fileType = (fileType.length === 0) ? 'others' : fileType;
@@ -193,13 +196,10 @@ window.vAuthorship = {
           }), {});
     },
 
-    selectAll(containsGroups) {
+    selectAll() {
       if (!this.isSelectAllChecked) {
-        if (containsGroups) {
-          this.selectedGroups = this.groups;
-        } else {
-          this.selectedFileTypes = this.fileTypes;
-        }
+        this.selectedGroups = this.groups;
+        this.selectedFileTypes = this.fileTypes;
         this.selectedFiles = this.files;
       } else {
         this.selectedFileTypes = [];
