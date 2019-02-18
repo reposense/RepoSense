@@ -24,6 +24,7 @@ wrapper {
 
 checkstyle {
     toolVersion = '8.1'
+    configDir = file("$rootProject.projectDir/config/checkstyle")
 }
 
 test {
@@ -68,7 +69,8 @@ task zipReport(dependsOn: 'npmRunSpuild', type: Zip) {
     destinationDir = file('src/main/resources')
 }
 tasks.shadowJar.dependsOn('zipReport');
-tasks.run.dependsOn('zipReport');
+tasks.compileJava.dependsOn('zipReport');
+tasks.run.dependsOn('compileJava');
 
 task systemtest(dependsOn: 'zipReport', type: Test) {
   testClassesDirs = sourceSets.systemtest.output.classesDirs
