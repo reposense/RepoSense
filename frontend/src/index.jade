@@ -112,14 +112,25 @@ html
               v-if="filterGroupRepos",
             ) {{ repo[0].repoPath }}
             template(v-if="filterBreakdown")
-              .summary-charts__filetype-breakdown(
-                  v-for="fileType in Object.keys(contributionBarColors[repo[0].repoPath])")
-                .summary-charts__filetype--breakdown__title
-                  .summary-charts__filetype--breakdown__title__filled--circle(
-                      v-bind:style="{ 'background-color' : contributionBarColors[repo[0].repoPath][fileType] }"
-                  )
-                  .summary-charts__filetype--breakdown__title__name {{ fileType }}
-              br
+              template(v-if="filterGroupRepos")
+                .summary-charts__filetype-breakdown(
+                    v-for="fileType in Object.keys(repo[0].fileTypeContribution)")
+                  .summary-charts__filetype--breakdown__title
+                    .summary-charts__filetype--breakdown__title__filled--circle(
+                        v-bind:style="{ 'background-color' : contributionBarColors[fileType] }"
+                    )
+                    .summary-charts__filetype--breakdown__title__name {{ fileType }}
+                br
+              template(v-else)
+                .summary-charts__filetype-breakdown(
+                    v-for="fileType in Object.keys(contributionBarColors)")
+                  .summary-charts__filetype--breakdown__title
+                    .summary-charts__filetype--breakdown__title__filled--circle(
+                        v-bind:style="{ 'background-color' : contributionBarColors[fileType] }"
+                    )
+                    .summary-charts__filetype--breakdown__title__name {{ fileType }}
+                br
+                br
             .summary-chart(v-for="(user, i) in repo")
               .summary-chart__title
                 .summary-chart__title--index {{ i+1 }}
@@ -176,7 +187,7 @@ html
                     .summary-chart__contrib--bar--filetype(
                         v-for="width in widths",
                         v-bind:style="{ width: width + '%',\
-                            'background-color': contributionBarColors[user.repoPath][fileType] }",
+                            'background-color': contributionBarColors[fileType] }",
                         v-bind:title="fileType + ': ' + user.fileTypeContribution[fileType] + ' lines, '\
                             + 'total: ' + user.totalCommits + ' lines ' + '(contribution from ' + minDate + ' to '\
                             + maxDate + ')'"

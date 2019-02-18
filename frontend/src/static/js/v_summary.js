@@ -328,19 +328,21 @@ window.vSummary = {
       this.sortFiltered();
     },
     processFileTypes() {
-      const selectedColors = ['#e6194b', '#3cb44b', '#ffe119', '#4363d8', '#f58231', '#911eb4', '#46f0f0', '#f032e6',
+      const selectedColors = ['#e6194b', '#ffe119', '#4363d8', '#3cb44b', '#f58231', '#911eb4', '#46f0f0', '#f032e6',
         '#bcf60c', '#fabebe', '#008080', '#e6beff', '#9a6324', '#fffac8', '#800000', '#aaffc3', '#808000', '#ffd8b1',
         '#000075', '#808080'];
+      const colors = {};
 
       this.repos.forEach((repo) => {
         const user = repo.users[0];
-        const colors = {};
         let i = 0;
         Object.keys(user.fileTypeContribution).forEach((fileType) => {
-          colors[fileType] = selectedColors[i];
-          i = (i + 1) % selectedColors.length;
+          if (!colors.hasOwnProperty(fileType)) {
+            colors[fileType] = selectedColors[i];
+            i = (i + 1) % selectedColors.length;
+          }
         });
-        this.contributionBarColors[user.repoPath] = colors;
+        this.contributionBarColors = colors;
       });
     },
     splitCommitsWeek(user) {
