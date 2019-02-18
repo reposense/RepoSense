@@ -22,7 +22,16 @@ import reposense.util.FileUtil;
  */
 public class GitClone {
 
+    public static final String GIT_CLONE_BARE_OPTION = "--bare";
     private static final Logger logger = LogsManager.getLogger(GitClone.class);
+
+    /**
+     * Clones a bare repo specified in the {@code repoConfig}.
+     */
+    public static void cloneBare(RepoConfiguration repoConfig, Path rootPath) throws IOException {
+        FileUtil.deleteDirectory(rootPath.toString());
+        clone(repoConfig.getLocation(), repoConfig.getRepoName(), GIT_CLONE_BARE_OPTION);
+    }
 
     /**
      * Clones repo specified in the {@code repoConfig} and updates it with the branch info.
@@ -32,7 +41,7 @@ public class GitClone {
         try {
             FileUtil.deleteDirectory(repoConfig.getRepoRoot());
             logger.info("Cloning from " + repoConfig.getLocation() + "...");
-            clone(repoConfig.getLocation(), repoConfig.getRepoFolderName());
+            clone(repoConfig.getLocation(), repoConfig.getRepoFolderName(), "");
             logger.info("Cloning completed!");
         } catch (RuntimeException rte) {
             logger.log(Level.SEVERE, "Error encountered in Git Cloning, will attempt to continue analyzing", rte);
@@ -52,9 +61,10 @@ public class GitClone {
         }
     }
 
-    private static void clone(RepoLocation location, String repoName) throws IOException {
+    private static void clone(RepoLocation location, String repoName, String additionalCommand) throws IOException {
         Path rootPath = Paths.get(FileUtil.REPOS_ADDRESS, repoName);
         Files.createDirectories(rootPath);
-        runCommand(rootPath, "git clone " + addQuote(location.toString()));
+        String command = String.format("git clone %s %s", additionalCommand, addQuote(location.toString()));
+        runCommand(rootPath, command);
     }
 }

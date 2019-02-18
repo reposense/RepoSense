@@ -140,12 +140,4 @@ public class TestUtil {
         // each commit has 2 lines of info, and a blank line in between each
         return expectedNumberCommits * 3 - 1 == gitLogResult.split("\n").length;
     }
-
-    /**
-     * Returns true if the test environment is on Windows OS.
-     */
-    public static boolean isWindows() {
-        return System.getProperty("os.name").toLowerCase().contains("win");
-    }
-
 }

@@ -12,6 +12,9 @@ import java.util.logging.Logger;
 
 import reposense.git.GitBranch;
 import reposense.git.GitCheckout;
+import reposense.git.GitLsTree;
+import reposense.git.exception.GitCloneException;
+import reposense.git.exception.InvalidFilePathException;
 import reposense.model.RepoConfiguration;
 import reposense.system.CommandRunnerProcess;
 import reposense.system.CommandRunnerProcessException;
@@ -99,6 +102,8 @@ public class RepoCloner {
         assert(crp == null);
 
         try {
+            GitLsTree.validateFilePaths(config);
+
             FileUtil.deleteDirectory(config.getRepoRoot());
             logger.info("Cloning in parallel from " + config.getLocation() + "...");
             Path rootPath = Paths.get(FileUtil.REPOS_ADDRESS, config.getRepoFolderName());
@@ -108,6 +113,11 @@ public class RepoCloner {
             logger.log(Level.WARNING,
                     "Exception met while trying to clone the repo, will skip this repo.", e);
             handleCloningFailed(outputPath, config);
+            return false;
+        } catch (GitCloneException e) {
+            e.printStackTrace();
+        } catch (InvalidFilePathException e) {
+            e.printStackTrace();
             return false;
         }
         return true;
