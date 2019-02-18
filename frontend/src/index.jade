@@ -184,7 +184,8 @@ html
                 template(v-for="group in Object.keys(filesGroupsExistingLinesObj)", v-bind:key="group")
                   label
                     input(type="checkbox" :value="group" v-model="selectedGroups" v-on:change="selectFile(containsGroups)").mui-checkbox
-                    span(v-bind:title="getGroupLineInfo(group)") {{ group }}: {{ filesGroupsExistingLinesObj[group] }}&nbsp;
+                    span(v-bind:title="getGroupBlankLineInfo(group)") {{ group }}: {{ filesGroupsExistingLinesObj[group] }}&nbsp;
+                    span.bloc(v-bind:title="getGroupBlankLineInfo(group)") ({{ filesGroupsBlankLinesObj[group] }})
               template(v-else)
                 template(v-for="type in Object.keys(filesLinesObj)")
                   label

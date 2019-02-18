@@ -51,6 +51,7 @@ window.vAuthorship = {
       selectedFiles: [],
       filesLinesObj: {},
       filesBlankLinesObj: {},
+      filesGroupsBlankLinesObj: {},
       totalLineCount: '',
       totalBlankLineCount: '',
     };
@@ -124,6 +125,7 @@ window.vAuthorship = {
       const res = [];
       const filesInfoObj = {};
       const filesBlanksInfoObj = {};
+      const filesGroupsBlanksInfoObj = {};
       let totalLineCount = 0;
       let totalBlankLineCount = 0;
 
@@ -136,12 +138,16 @@ window.vAuthorship = {
           out.path = file.path;
           out.lineCount = lineCnt;
           out.group = file.group;
-          this.addLineCountToFileType(file.path, lineCnt, filesInfoObj);
+
+          let fileType = file.path.split('.').pop();
+          fileType = (fileType.length === 0) ? 'others' : fileType;
+          this.addLineCountToFile(fileType, lineCnt, filesInfoObj);
 
           const segmentInfo = this.splitSegments(file.lines);
           out.segments = segmentInfo.segments;
           totalBlankLineCount += segmentInfo.blankLineCount;
-          this.addLineCountToFileType(file.path, segmentInfo.blankLineCount, filesBlanksInfoObj);
+          this.addLineCountToFile(fileType, segmentInfo.blankLineCount, filesBlanksInfoObj);
+          this.addLineCountToFile(file.group, segmentInfo.blankLineCount, filesGroupsBlanksInfoObj);
           res.push(out);
         }
       });
@@ -164,6 +170,7 @@ window.vAuthorship = {
       }
 
       this.filesBlankLinesObj = filesBlanksInfoObj;
+      this.filesGroupsBlankLinesObj = filesGroupsBlanksInfoObj;
       this.files = res;
       this.selectedFiles = res;
       this.isLoaded = true;
@@ -177,15 +184,12 @@ window.vAuthorship = {
       }
     },
 
-    addLineCountToFileType(path, lineCount, filesInfoObj) {
-      let fileType = path.split('.').pop();
-      fileType = (fileType.length === 0) ? 'others' : fileType;
-
-      if (!filesInfoObj[fileType]) {
-        filesInfoObj[fileType] = 0;
+    addLineCountToFile(type, lineCount, filesInfoObj) {
+      if (!filesInfoObj[type]) {
+        filesInfoObj[type] = 0;
       }
 
-      filesInfoObj[fileType] += lineCount;
+      filesInfoObj[type] += lineCount;
     },
 
     sortFileTypeAlphabetically(unsortedFilesInfoObj) {
@@ -249,8 +253,10 @@ window.vAuthorship = {
         this.filesLinesObj[fileType] - this.filesBlankLinesObj[fileType]}`;
     },
 
-    getGroupLineInfo(group) {
-      return `${group}: ${this.info.filesGroupsObj[group]}`;
+    getGroupBlankLineInfo(group) {
+      return `${group}: Blank: ${
+        this.filesGroupsBlankLinesObj[group]}, Non-Blank: ${
+        this.info.filesGroupsObj[group] - this.filesGroupsBlankLinesObj[group]}`;
     },
 
     getTotalFileBlankLineInfo() {
