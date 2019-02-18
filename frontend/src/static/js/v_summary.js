@@ -337,7 +337,7 @@ window.vSummary = {
       this.repos.forEach((repo) => {
         const user = repo.users[0];
         Object.keys(user.fileTypeContribution).forEach((fileType) => {
-          if (!Object.prototype.hasOwnProperty(colors, fileType)) {
+          if (!Object.prototype.hasOwnProperty.call(colors, fileType)) {
             colors[fileType] = selectedColors[i];
             i = (i + 1) % selectedColors.length;
           }
