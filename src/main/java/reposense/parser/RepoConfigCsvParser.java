@@ -15,7 +15,6 @@ import reposense.model.RepoLocation;
 public class RepoConfigCsvParser extends CsvParser<RepoConfiguration> {
     public static final String REPO_CONFIG_FILENAME = "repo-config.csv";
     private static final String IGNORE_STANDALONE_CONFIG_KEYWORD = "yes";
-    private String CONFIG_FOLDER_PATH;
 
     /**
      * Positions of the elements of a line in repo-config.csv config file
@@ -28,12 +27,14 @@ public class RepoConfigCsvParser extends CsvParser<RepoConfiguration> {
     private static final int IGNORE_COMMIT_LIST_CONFIG_POSITION = 5;
     private static final int GROUPS_CONFIG_POSITION = 6;
 
+    private static String configFolderPath;
+
     public RepoConfigCsvParser(Path csvFilePath) throws IOException {
         super(csvFilePath);
         if (csvFilePath.getParent() != null) {
-            this.CONFIG_FOLDER_PATH = csvFilePath.getParent().toString() + '/';
+            this.configFolderPath = csvFilePath.getParent().toString() + '/';
         } else {
-            this.CONFIG_FOLDER_PATH = "./";
+            this.configFolderPath = "./";
         }
     }
 
@@ -63,7 +64,7 @@ public class RepoConfigCsvParser extends CsvParser<RepoConfiguration> {
                 getManyValueInElement(elements, IGNORE_COMMIT_LIST_CONFIG_POSITION));
         List<Group> groups = Collections.emptyList();
         try {
-            groups = new GroupConfigCsvParser(Paths.get(CONFIG_FOLDER_PATH
+            groups = new GroupConfigCsvParser(Paths.get(configFolderPath
                 + getValueInElement(elements, GROUPS_CONFIG_POSITION))).parse();
         } catch (IOException e) {
             // IOException thrown as config file for groups is not found.
