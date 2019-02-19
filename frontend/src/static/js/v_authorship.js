@@ -177,7 +177,7 @@ window.vAuthorship = {
     },
 
     setContainsGroups(file) {
-      if (file.hasOwnProperty("group")) {
+      if (!Object.prototype.hasOwnProperty.call(file, 'group')) {
         this.containsGroups = true;
       } else {
         this.containsGroups = false;
@@ -217,27 +217,21 @@ window.vAuthorship = {
     },
 
     getSelectedFiles(containsGroups) {
-      if (containsGroups) {
-        if (this.groups.length === this.selectedGroups.length) {
+        if ((containsGroups && this.groups.length === this.selectedGroups.length)
+            || (!containsGroups && this.fileTypes.length === this.selectedFileTypes.length)) {
           this.selectedFiles = this.files;
           this.isSelectAllChecked = true;
-        } else if (this.selectedGroups.length === 0) {
+        } else if ((containsGroups && this.selectedGroups.length === 0)
+            || (!containsGroups && this.selectedFileTypes.length === 0)) {
           this.selectedFiles = [];
           this.isSelectAllChecked = false;
+        } else if (containsGroups) {
+          this.selectedFiles = this.files.filter((file) =>
+              this.selectedGroups.includes(file.group));
         } else {
-          this.selectedFiles = this.files.filter((file) => this.selectedGroups.includes(file.group));
+          this.selectedFiles = this.files.filter((file) =>
+              this.selectedFileTypes.includes((file.path.split('.').pop())));
         }
-      } else {
-        if (this.fileTypes.length === this.selectedFileTypes.length) {
-          this.selectedFiles = this.files;
-          this.isSelectAllChecked = true;
-        } else if (this.selectedFileTypes.length === 0) {
-          this.selectedFiles = [];
-          this.isSelectAllChecked = false;
-        } else {
-          this.selectedFiles = this.files.filter((file) => this.selectedFileTypes.includes((file.path.split('.').pop())));
-        }
-      }
     },
 
     getFileLink(file, path) {
