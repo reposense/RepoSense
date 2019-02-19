@@ -6,7 +6,7 @@ matrix:
       os: linux
       jdk: oraclejdk9
 
-    - name: macOS
+    - name: macOS 10.13.6 JDK 11.01
       os: osx
       osx_image: xcode10.1
 
