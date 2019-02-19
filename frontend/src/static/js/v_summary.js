@@ -50,6 +50,7 @@ window.vSummary = {
       filterSortReverse: false,
       filterGroupRepos: true,
       filterTimeFrame: 'day',
+      filterBreakdown: false,
       tmpFilterSinceDate: '',
       tmpFilterUntilDate: '',
       filterSinceDate: '',
@@ -76,6 +77,9 @@ window.vSummary = {
       this.getFiltered();
     },
     filterTimeFrame() {
+      this.getFiltered();
+    },
+    filterBreakdown() {
       this.getFiltered();
     },
     tmpFilterSinceDate() {
@@ -215,6 +219,7 @@ window.vSummary = {
 
       addHash('reverse', this.filterSortReverse);
       addHash('repoSort', this.filterGroupRepos);
+      addHash('breakdown', this.filterBreakdown);
     },
     renderFilterHash() {
       const params = window.location.hash.slice(1).split('&');
@@ -241,6 +246,9 @@ window.vSummary = {
 
       if (hash.reverse) { this.filterSortReverse = convertBool(hash.reverse); }
       if (hash.repoSort) { this.filterGroupRepos = convertBool(hash.repoSort); }
+      if (hash.breakdown) {
+        this.filterBreakdown = convertBool(hash.breakdown);
+      }
     },
 
     getDates() {
@@ -320,7 +328,7 @@ window.vSummary = {
       this.sortFiltered();
     },
     processGroups() {
-      const selectedColors = ['#e6194b', '#ffe119', '#4363d8', '#3cb44b', '#f58231', '#911eb4', '#46f0f0', '#f032e6',
+      const selectedColors = ['#ffe119', '#4363d8', '#3cb44b', '#f58231', '#911eb4', '#46f0f0', '#f032e6',
         '#bcf60c', '#fabebe', '#008080', '#e6beff', '#9a6324', '#fffac8', '#800000', '#aaffc3', '#808000', '#ffd8b1',
         '#000075', '#808080'];
       const colors = {};

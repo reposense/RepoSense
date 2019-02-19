@@ -103,6 +103,9 @@ html
             label
               input(type="checkbox", v-model="filterGroupRepos").mui-checkbox.summary-picker__checkbox
               span group by repo/branch
+            label
+              input(type="checkbox", v-model="filterBreakdown").mui-checkbox.summary-picker__checkbox
+              span breakdown by filetype/group
         #summary-charts
           .summary-charts(v-for="repo of filtered", v-if="repo.length>0")
             .summary-charts__title(
@@ -157,7 +160,7 @@ html
                     }"
                   )
               .summary-chart__contribution
-                template(v-if="repoContainsGroups[user.repoPath]")
+                template(v-if="repoContainsGroups[user.repoPath] && filterBreakdown")
                   .summary-chart__contrib(
                       v-for="(widths, group) in getGroupContributionBars(user.groupContribution)"
                   )
