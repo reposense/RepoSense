@@ -111,6 +111,25 @@ html
             .summary-charts__title(
               v-if="filterGroupRepos",
             ) {{ repo[0].repoPath }}
+            template(v-if="filterBreakdown")
+              template(v-if="filterGroupRepos")
+                .summary-charts__group-breakdown(
+                    v-for="group in Object.keys(repo[0].groupContribution)")
+                  .summary-charts__group--breakdown__title
+                    .summary-charts__group--breakdown__title__filled--circle(
+                        v-bind:style="{ 'background-color' : contributionBarGroupColors[group] }"
+                    )
+                    .summary-charts__group--breakdown__title__name {{ group }}
+                br
+              template(v-else)
+                .summary-charts__group-breakdown(
+                    v-for="group in Object.keys(contributionBarGroupColors)")
+                  .summary-charts__group--breakdown__title
+                    .summary-charts__group--breakdown__title__filled--circle(
+                        v-bind:style="{ 'background-color' : contributionBarGroupColors[group] }"
+                    )
+                    .summary-charts__group--breakdown__title__name {{ group }}
+                br
             .summary-chart(v-for="(user, i) in repo")
               .summary-chart__title
                 .summary-chart__title--index {{ i+1 }}

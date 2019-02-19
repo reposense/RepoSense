@@ -188,6 +188,26 @@ header{
         text-align:left;
         font-weight:bold;
     }
+
+    &__group--breakdown{
+        &__title{
+            &__name{
+                float:left;
+                display:inline-block;
+            }
+
+            &__filled--circle{
+                float:left;
+                display:inline-block;
+                height: 13px;
+                width: 13px;
+                border-radius: 50%;
+                margin-top:0.25rem;
+                margin-left:0.25rem;
+                margin-right:0.25rem;
+            }
+        }
+    }
 }
 
 .summary-chart{
