@@ -120,4 +120,4 @@ tasks.withType(Copy) {
     includeEmptyDirs = true
 }
 
-defaultTasks 'clean', 'build', 'systemtest', 'uat', 'cypress'
+defaultTasks 'clean', 'build', 'systemtest', 'uat'
