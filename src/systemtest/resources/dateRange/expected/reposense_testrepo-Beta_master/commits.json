@@ -1502,7 +1502,12 @@
     "April0616": 3,
     "nbr": 42
   },
-  "authorGroupContributionMap": {},
+  "authorGroupContributionMap": {
+    "zacharytang": {},
+    "CindyTsai1": {},
+    "April0616": {},
+    "nbr": {}
+  },
   "authorContributionVariance": {
     "zacharytang": 0.0,
     "CindyTsai1": 0.016388886,
