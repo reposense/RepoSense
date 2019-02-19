@@ -31,6 +31,8 @@ public class AuthorshipSummary {
                 defaultGroupContribution.put(Group.DEFAULT_GROUP, 0);
                 authorGroupContributionMap.put(author, defaultGroupContribution);
             });
+        } else {
+            authors.forEach((author) -> authorGroupContributionMap.put(author, new LinkedHashMap<>()));
         }
     }
 
