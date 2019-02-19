@@ -96,8 +96,9 @@ Named Arguments:
                      A flag to ignore the standalone config file in
                      the repo.
 --timezone UTC[±hh[mm]], -t UTC[±hh[mm]]
-                     The timezone to use for the generated report.
-                     Please refer to userguide for more information.
+                     The timezone to use for the generated report. 
+                     The timezone should be relative to UTC. 
+                     If not provided, system default timezone will be used.
 --config PATH, -c PATH
                      The directory containing the config files. If not
                      provided, the config files will be obtained from

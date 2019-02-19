@@ -130,8 +130,9 @@ public class ArgsParser {
                 .metavar("UTC[±hh[mm]]")
                 .type(new ZoneIdArgumentType())
                 .setDefault(ZoneId.systemDefault())
-                .help("The timezone to use for the generated report.\n"
-                        + "Please refer to userguide for more information.");
+                .help("The timezone to use for the generated report. "
+                        + "The timezone should be relative to UTC. \n"
+                        + "If not provided, system default timezone will be used.");
 
         return parser;
     }
