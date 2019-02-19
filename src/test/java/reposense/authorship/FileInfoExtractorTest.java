@@ -25,7 +25,7 @@ public class FileInfoExtractorTest extends GitTestTemplate {
     private static final String WINDOWS_ILLEGAL_FILE_NAME_BRANCH = "windows-illegal-filename";
     private static final String EDITED_FILE_INFO_BRANCH = "getEditedFileInfos-test";
     private static final String DIRECTORY_WITH_VALID_WHITELISTED_NAME_BRANCH = "directory-with-valid-whitelisted-name";
-    private static final String BRANCH_WITH_VALID_WHITELISTED_FORMAT_NAME_BRANCH = "whitelisted-format.txt";
+    private static final String BRANCH_WITH_VALID_WHITELISTED_FILE_NAME_BRANCH = "535-FileInfoExtractorTest-branchWithValidWhitelistedFileName.txt";
     private static final String FEBRUARY_EIGHT_COMMIT_HASH = "768015345e70f06add2a8b7d1f901dc07bf70582";
     private static final String OCTOBER_SEVENTH_COMMIT_HASH = "b28dfac5bd449825c1a372e58485833b35fdbd50";
 
@@ -86,8 +86,8 @@ public class FileInfoExtractorTest extends GitTestTemplate {
     }
 
     @Test
-    public void extractFileInfos_branchWithValidWhitelistedFormatName_success() {
-        GitCheckout.checkout(config.getRepoRoot(), BRANCH_WITH_VALID_WHITELISTED_FORMAT_NAME_BRANCH);
+    public void extractFileInfos_branchWithValidWhitelistedFileName_success() {
+        GitCheckout.checkout(config.getRepoRoot(), BRANCH_WITH_VALID_WHITELISTED_FILE_NAME_BRANCH);
         List<FileInfo> files = FileInfoExtractor.extractFileInfos(config);
 
         Assert.assertTrue(isFileExistence(Paths.get("whitelisted-format.txt"), files));
