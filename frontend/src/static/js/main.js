@@ -5,7 +5,7 @@ window.hashParams = {};
 window.addHash = function addHash(newKey, newVal) {
   window.hashParams[newKey] = newVal;
 };
-window.rmHash = function rmHash(key) {
+window.removeHash = function removeHash(key) {
   delete window.hashParams[key];
 };
 
