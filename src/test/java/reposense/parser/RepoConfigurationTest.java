@@ -232,7 +232,7 @@ public class RepoConfigurationTest {
 
     @Test
     public void repoConfig_withGroups() throws ParseException, IOException {
-        String input = String.format("-config %s", GROUPS_TEST_CONFIG_FILES);
+        String input = new InputBuilder().addConfig(GROUPS_TEST_CONFIG_FILES).build();
         CliArguments cliArguments = ArgsParser.parse(translateCommandline(input));
 
         List<RepoConfiguration> actualConfigs =
