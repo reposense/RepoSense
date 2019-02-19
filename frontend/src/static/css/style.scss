@@ -254,6 +254,14 @@ header{
             margin-top:0.1rem;
             background-color:mui-color("red");
         }
+
+        &--bar--group{
+            text-align:left;
+            height:0.3rem;
+            margin-top:0.1rem;
+            float:left;
+            display: inline-block;
+        }
     }
 }
 

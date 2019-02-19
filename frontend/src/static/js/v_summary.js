@@ -58,6 +58,8 @@ window.vSummary = {
       rampSize: 0.01,
       minDate: '',
       maxDate: '',
+      contributionBarGroupColors: {},
+      repoContainsGroups: {},
     };
   },
   watch: {
@@ -144,6 +146,41 @@ window.vSummary = {
                 + `author=${user.name}&`
                 + `since=${slice.date}'T'00:00:00+08:00&`
                 + `until=${untilDate}'T'23:59:59+08:00`;
+    },
+    getGroupContributionBars(groupContribution) {
+      let totalWidth = 0;
+      const contributionLimit = (this.avgContributionSize * 2);
+      const totalBars = {};
+      const maxLength = 100;
+
+      Object.keys(groupContribution).forEach((group) => {
+        const contribution = groupContribution[group];
+        const res = [];
+        let groupWidth = 0;
+
+        const cnt = parseInt(contribution / contributionLimit, 10);
+        for (let cntId = 0; cntId < cnt; cntId += 1) {
+          res.push(maxLength);
+          groupWidth += maxLength;
+          totalWidth += maxLength;
+        }
+
+        const last = (contribution % contributionLimit) / contributionLimit;
+        if (last !== 0) {
+          res.push(last * maxLength);
+          groupWidth += last * maxLength;
+          totalWidth += last * maxLength;
+        }
+
+        if ((totalWidth > maxLength) && (totalWidth !== groupWidth)) {
+          res.unshift(maxLength - (totalWidth - groupWidth));
+          res[res.length - 1] = res[res.length - 1] - (maxLength - (totalWidth - groupWidth));
+          totalWidth = res[res.length - 1];
+        }
+        totalBars[group] = res;
+      });
+
+      return totalBars;
     },
     getContributionBars(totalContribution) {
       const res = [];
@@ -282,6 +319,31 @@ window.vSummary = {
       this.getDates();
       this.sortFiltered();
     },
+    processGroups() {
+      const selectedColors = ['#e6194b', '#ffe119', '#4363d8', '#3cb44b', '#f58231', '#911eb4', '#46f0f0', '#f032e6',
+        '#bcf60c', '#fabebe', '#008080', '#e6beff', '#9a6324', '#fffac8', '#800000', '#aaffc3', '#808000', '#ffd8b1',
+        '#000075', '#808080'];
+      const colors = {};
+      const containsGroup = {};
+      let i = 0;
+
+      this.repos.forEach((repo) => {
+        const user = repo.users[0];
+        if (Object.keys(user.groupContribution).length !== 0) {
+          containsGroup[user.repoPath] = true;
+          Object.keys(user.groupContribution).forEach((group) => {
+            if (!Object.prototype.hasOwnProperty.call(colors, group)) {
+              colors[group] = selectedColors[i];
+              i = (i + 1) % selectedColors.length;
+            }
+          });
+        } else {
+          containsGroup[user.repoPath] = false;
+        }
+      });
+      this.contributionBarGroupColors = colors;
+      this.repoContainsGroups = containsGroup;
+    },
     splitCommitsWeek(user) {
       const { commits } = user;
       const leng = commits.length;
@@ -397,5 +459,6 @@ window.vSummary = {
   created() {
     this.renderFilterHash();
     this.getFiltered();
+    this.processGroups();
   },
 };

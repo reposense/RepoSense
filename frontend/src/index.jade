@@ -156,14 +156,29 @@ html
                       right: (getSlicePos(j, user.commits.length) * 100) + '%'\
                     }"
                   )
-              .summary-chart__contrib(
-                v-bind:title=
-                    "'Total contribution from ' + minDate + ' to ' + maxDate + ': ' + user.totalCommits + ' lines'"
-               )
-                .summary-chart__contrib--bar(
-                  v-for="width in getContributionBars(user.totalCommits)",
-                  v-bind:style="{ width: width+'%' }"
-                )
+              .summary-chart__contribution
+                template(v-if="repoContainsGroups[user.repoPath]")
+                  .summary-chart__contrib(
+                      v-for="(widths, group) in getGroupContributionBars(user.groupContribution)"
+                  )
+                    .summary-chart__contrib--bar--group(
+                        v-for="width in widths",
+                        v-bind:style="{ width: width + '%',\
+                            'background-color': contributionBarGroupColors[group] }",
+                        v-bind:title="group + ': ' + user.groupContribution[group] + ' lines, '\
+                            + 'total: ' + user.totalCommits + ' lines ' + '(contribution from ' + minDate + ' to '\
+                            + maxDate + ')'"
+                     )
+                template(v-else)
+                  .summary-chart__contrib(
+                      v-bind:title=
+                          "'Total contribution from ' + minDate + ' to ' + maxDate + ': ' + user.totalCommits\
+                          + ' lines'"
+                  )
+                    .summary-chart__contrib--bar(
+                        v-for="width in getContributionBars(user.totalCommits)",
+                        v-bind:style="{ width: width+'%' }"
+                    )
 
     vuetemplate#v_authorship
       #authorship
