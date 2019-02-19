@@ -54,6 +54,7 @@ window.vAuthorship = {
       filesGroupsBlankLinesObj: {},
       totalLineCount: '',
       totalBlankLineCount: '',
+      containsGroups: false,
     };
   },
 
@@ -177,7 +178,7 @@ window.vAuthorship = {
     },
 
     setContainsGroups(file) {
-      if (!Object.prototype.hasOwnProperty.call(file, 'group')) {
+      if (Object.prototype.hasOwnProperty.call(file, 'group')) {
         this.containsGroups = true;
       } else {
         this.containsGroups = false;
@@ -217,21 +218,19 @@ window.vAuthorship = {
     },
 
     getSelectedFiles(containsGroups) {
-        if ((containsGroups && this.groups.length === this.selectedGroups.length)
-            || (!containsGroups && this.fileTypes.length === this.selectedFileTypes.length)) {
-          this.selectedFiles = this.files;
-          this.isSelectAllChecked = true;
-        } else if ((containsGroups && this.selectedGroups.length === 0)
-            || (!containsGroups && this.selectedFileTypes.length === 0)) {
-          this.selectedFiles = [];
-          this.isSelectAllChecked = false;
-        } else if (containsGroups) {
-          this.selectedFiles = this.files.filter((file) =>
-              this.selectedGroups.includes(file.group));
-        } else {
-          this.selectedFiles = this.files.filter((file) =>
-              this.selectedFileTypes.includes((file.path.split('.').pop())));
-        }
+      if ((containsGroups && this.groups.length === this.selectedGroups.length)
+          || (!containsGroups && this.fileTypes.length === this.selectedFileTypes.length)) {
+        this.selectedFiles = this.files;
+        this.isSelectAllChecked = true;
+      } else if ((containsGroups && this.selectedGroups.length === 0)
+          || (!containsGroups && this.selectedFileTypes.length === 0)) {
+        this.selectedFiles = [];
+        this.isSelectAllChecked = false;
+      } else if (containsGroups) {
+        this.selectedFiles = this.files.filter((file) => this.selectedGroups.includes(file.group));
+      } else {
+        this.selectedFiles = this.files.filter((file) => this.selectedFileTypes.includes((file.path.split('.').pop())));
+      }
     },
 
     getFileLink(file, path) {
