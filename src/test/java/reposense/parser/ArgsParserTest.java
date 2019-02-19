@@ -84,6 +84,8 @@ public class ArgsParserTest {
         Assert.assertEquals(expectedFormats, cliArguments.getFormats());
 
         Assert.assertTrue(cliArguments.isAutomaticallyLaunching());
+
+        Assert.assertEquals(ZoneId.of("UTC+08"), cliArguments.getZoneId());
     }
 
     @Test
@@ -110,7 +112,7 @@ public class ArgsParserTest {
 
         Assert.assertTrue(cliArguments.isAutomaticallyLaunching());
 
-        Assert.assertEquals(ZoneId.of("UTC+8"), cliArguments.getZoneId());
+        Assert.assertEquals(ZoneId.of("UTC+08"), cliArguments.getZoneId());
     }
 
     @Test
@@ -122,7 +124,7 @@ public class ArgsParserTest {
                 .addFormats("java   adoc  html      css js   ")
                 .addIgnoreStandaloneConfig().addWhiteSpace(1)
                 .addView().addWhiteSpace(4)
-                .addTimezone("UTC+08").addWhiteSpace(5)
+                .addTimezone("UTC-10").addWhiteSpace(5)
                 .build();
         CliArguments cliArguments = ArgsParser.parse(translateCommandline(input));
         Assert.assertTrue(cliArguments instanceof ConfigCliArguments);
@@ -144,7 +146,7 @@ public class ArgsParserTest {
 
         Assert.assertTrue(cliArguments.isAutomaticallyLaunching());
 
-        Assert.assertEquals(ZoneId.of("UTC+8"), cliArguments.getZoneId());
+        Assert.assertEquals(ZoneId.of("UTC-10"), cliArguments.getZoneId());
     }
 
     @Test
@@ -176,6 +178,7 @@ public class ArgsParserTest {
         Assert.assertEquals(ArgsParser.DEFAULT_REPORT_NAME, cliArguments.getOutputFilePath().getFileName().toString());
         Assert.assertEquals(Format.DEFAULT_FORMATS, cliArguments.getFormats());
         Assert.assertFalse(cliArguments.isAutomaticallyLaunching());
+        Assert.assertEquals(ZoneId.systemDefault(), cliArguments.getZoneId());
     }
 
     @Test
@@ -510,37 +513,36 @@ public class ArgsParserTest {
 
     @Test
     public void parse_withTimezone_success() throws ParseException {
-        String input = String.format("-repos \"%s\" %s -timezone UTC+11", TEST_REPO_REPOSENSE, TEST_REPO_DELTA);
+        String zoneId = "UTC+11";
+        String input = DEFAULT_INPUT_BUILDER.addTimezone(zoneId).build();
         CliArguments cliArguments = ArgsParser.parse(translateCommandline(input));
 
-        Assert.assertTrue(cliArguments instanceof LocationsCliArguments);
-        Assert.assertEquals(ZoneId.of("UTC+11"), cliArguments.getZoneId());
+        Assert.assertTrue(cliArguments instanceof ConfigCliArguments);
+        Assert.assertEquals(ZoneId.of(zoneId), cliArguments.getZoneId());
 
-        input = String.format("-repos \"%s\" %s -timezone UTC-1030", TEST_REPO_REPOSENSE, TEST_REPO_DELTA);
+        zoneId = "UTC-1030";
+        input = DEFAULT_INPUT_BUILDER.addTimezone(zoneId).build();
         cliArguments = ArgsParser.parse(translateCommandline(input));
 
-        Assert.assertTrue(cliArguments instanceof LocationsCliArguments);
-        Assert.assertEquals(ZoneId.of("UTC-1030"), cliArguments.getZoneId());
+        Assert.assertTrue(cliArguments instanceof ConfigCliArguments);
+        Assert.assertEquals(ZoneId.of(zoneId), cliArguments.getZoneId());
 
-        input = String.format("-repos \"%s\" %s -timezone UTC+00", TEST_REPO_REPOSENSE, TEST_REPO_DELTA);
+        input = DEFAULT_INPUT_BUILDER.addTimezone("UTC+00").build();
         cliArguments = ArgsParser.parse(translateCommandline(input));
 
-        Assert.assertTrue(cliArguments instanceof LocationsCliArguments);
+        Assert.assertTrue(cliArguments instanceof ConfigCliArguments);
         Assert.assertEquals(ZoneId.of("UTC"), cliArguments.getZoneId());
-    }
-
-    @Test
-    public void parse_withoutTimezone_success() throws ParseException {
-        String input = String.format("-repos \"%s\" %s", TEST_REPO_REPOSENSE, TEST_REPO_DELTA);
-        CliArguments cliArguments = ArgsParser.parse(translateCommandline(input));
-
-        Assert.assertTrue(cliArguments instanceof LocationsCliArguments);
-        Assert.assertEquals(ZoneId.systemDefault(), cliArguments.getZoneId());
     }
 
     @Test(expected = ParseException.class)
     public void parse_incorrectTimezone_throwsParseException() throws ParseException {
-        String input = String.format("-config %s -timezone UTC+", CONFIG_FOLDER_ABSOLUTE);
+        String input = DEFAULT_INPUT_BUILDER.addTimezone("UTC+").build();
+        ArgsParser.parse(translateCommandline(input));
+    }
+
+    @Test(expected = ParseException.class)
+    public void parse_timezoneWithoutArgument_throwsParseException() throws ParseException {
+        String input = DEFAULT_INPUT_BUILDER.addTimezone("").build();
         ArgsParser.parse(translateCommandline(input));
     }
 }
