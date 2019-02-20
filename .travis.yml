@@ -13,13 +13,14 @@ matrix:
     - name: macOS 10.13.6 JDK 8
       os: osx
       osx_image: xcode10.1
+      env:
+        - HOMEBREW_NO_AUTO_UPDATE=1 # Prevent time-consuming brew update
       before_install:
         - *common_before_install
-        - export HOMEBREW_NO_AUTO_UPDATE=1 # Prevent time-consuming updating
         - brew install cask
         - brew cask install caskroom/versions/java8 # Update to the latest version of JDK 8
         - export JAVA_HOME=`/usr/libexec/java_home -v 1.8`
-        - echo "Updated JDK to:"; java -version
+        - echo "Downgraded JDK to:"; java -version
 
 script:
   - ./config/travis/run-checks.sh
