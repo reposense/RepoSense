@@ -6,7 +6,8 @@ describe('search unique author', () => {
         .type('Yong Hao TENG')
         .type('{enter}');
 
-    // Enter does not work, let's manually submit form
+    // Enter does not work. Related issue: https://github.com/cypress-io/cypress/issues/3405
+    // Let's manually submit form
     cy.get('#summary-wrapper form.summary-picker')
         .submit();
 
