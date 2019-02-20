@@ -1,18 +1,23 @@
 html
   head
     link(rel="stylesheet", href="https://fonts.googleapis.com/css?family=Titillium+Web")
-    link(rel="stylesheet", href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.0/normalize.min.css")
-    link(rel="stylesheet", href="https://cdnjs.cloudflare.com/ajax/libs/muicss/0.9.39/css/mui.min.css")
-    link(rel="stylesheet", href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/color-brewer.min.css")
-    link(rel="stylesheet", href="https://unpkg.com/vue-loading-spinner@1.0.11/dist/vue-loading-spinner.css")
+    link(rel="stylesheet", href="https://cdn.jsdelivr.net/npm/normalize.css@8.0/normalize.min.css")
+    link(rel="stylesheet", href="https://cdn.jsdelivr.net/npm/muicss@0.9/dist/css/mui.min.css")
+    link(rel="stylesheet", href="https://cdn.jsdelivr.net/npm/highlight.js@9.14/styles/color-brewer.min.css")
+    link(rel="stylesheet", href="https://cdn.jsdelivr.net/npm/vue-loading-spinner@1.0/dist/vue-loading-spinner.css")
     link(rel="stylesheet", href="static/css/style.css")
 
     script(src="https://use.fontawesome.com/releases/v5.0.13/js/all.js", defer=True)
-    script(src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.5.16/vue.min.js")
-    script(src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.5/jszip.min.js")
+    script(src="https://cdn.jsdelivr.net/npm/vue@2.5/dist/vue.min.js")
+    script(src="https://cdn.jsdelivr.net/npm/jszip@3.1/dist/jszip.min.js")
 
-    script(src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js")
-    script(src="https://unpkg.com/vue-loading-spinner@1.0.11/dist/vue-loading-spinner.js")
+    script(src="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.14/build/highlight.min.js")
+    script(src="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.14/build/languages/asciidoc.min.js")
+    script(src="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.14/build/languages/gradle.min.js")
+    script(src="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.14/build/languages/plaintext.min.js")
+    script(src="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.14/build/languages/scss.min.js")
+    script(src="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.14/build/languages/yaml.min.js")
+    script(src="https://cdn.jsdelivr.net/npm/vue-loading-spinner@1.0/dist/vue-loading-spinner.js")
   body
     div#app
       #app-wrapper(v-if="userUpdated", onmousemove="mouseMove(event)",
@@ -78,6 +83,7 @@ html
               label sort by
             .mui-select
               select(v-model="filterTimeFrame")
+                option(value="commit") Commit
                 option(value="day") Day
                 option(value="week") Week
               label granularity
@@ -120,18 +126,35 @@ html
                 )
                   i.summary-chart__title--button.fab.fa-github
               .summary-chart__ramp
-                a.summary-chart__ramp__slice(
-                  v-for="(slice, j) in user.commits",
-                  v-if="slice.insertions>0",
-                  v-bind:title="getSliceTitle(slice)",
-                  v-bind:href="getSliceLink(user, slice)", target="_blank",
-                  v-bind:class="'summary-chart__ramp__slice--color'+j%5",
-                  v-bind:style="{\
-                    zIndex: user.commits.length - j,\
-                    borderLeftWidth: getWidth(slice) + 'em',\
-                    right: (((user.commits.length-j-1)/user.commits.length) * 100) + '%'\
-                  }"
-                )
+                template(v-if="filterTimeFrame === 'commit'")
+                    template(v-for="(slice, j) in user.commits")
+                      a.summary-chart__ramp__slice(
+                        v-for="(commit, k) in slice.commitResults",
+                        v-if="commit.insertions>0",
+                        v-bind:href="getSliceLink(user, slice)", target="_blank",
+                        v-bind:title="`[${slice.date}] ${commit.message}: ${commit.insertions} lines`",
+                        v-bind:class="'summary-chart__ramp__slice--color' + j % 5",
+                        v-bind:style="{\
+                            zIndex: user.commits.length - j,\
+                            borderLeftWidth: getWidth(commit) + 'em',\
+                            right: ((getSlicePos(j, user.commits.length)\
+                                + (getSlicePos(k, slice.commitResults.length) / user.commits.length)) * 100) + '%'\
+                        }"
+                      )
+
+                template(v-else)
+                  a.summary-chart__ramp__slice(
+                    v-for="(slice, j) in user.commits",
+                    v-if="slice.insertions > 0",
+                    v-bind:title="`[${slice.date}] ${filterTimeFrame === 'day' ? 'Daily' : 'Weekly'} contribution: ${slice.insertions} lines`",
+                    v-bind:href="getSliceLink(user, slice)", target="_blank",
+                    v-bind:class="'summary-chart__ramp__slice--color' + j % 5",
+                    v-bind:style="{\
+                      zIndex: user.commits.length - j,\
+                      borderLeftWidth: getWidth(slice) + 'em',\
+                      right: (getSlicePos(j, user.commits.length) * 100) + '%'\
+                    }"
+                  )
               .summary-chart__contrib(
                 v-bind:title=
                     "'Total contribution from ' + minDate + ' to ' + maxDate + ': ' + user.totalCommits + ' lines'"
@@ -164,29 +187,30 @@ html
 
         .files(v-if="isLoaded")
           .empty(v-if="files.length===0") nothing to see here :(
-          .file.active(v-for="file in selectedFiles", v-bind:key="file.path")
-            .title
-              span.path(onclick="toggleNext(this.parentNode)") {{ file.path }}&nbsp;
-              span.loc ({{ file.lineCount }} lines)
-              a(
-                v-bind:href="getFileLink(file, 'commits')", target="_blank",
-                title="click to view the history view of file"
-              )
-                i.button.fas.fa-history
-              a(
-                v-bind:href="getFileLink(file, 'blame')", target="_blank",
-                title="click to view the blame view of file"
-              )
-                i.button.fas.fa-user-edit
-            pre.hljs
-              div(v-hljs="file.path")
-                template(v-for="segment in file.segments")
-                  .segment(v-bind:class="{ untouched: !segment.authored, active: segment.lines.length<5 }")
-                    .closer(v-if="!segment.authored && segment.lines.length>4", onclick="toggleNext(this)")
-                      i.fas.fa-ellipsis-h.icon
-                      span.tooltiptext.tooltiptext--close Show untouched code
-                      span.tooltiptext.tooltiptext--open Hide untouched code
-                    .code {{ segment.lines.join("\n") }}
+          template(v-for="file in selectedFiles")
+            .file.active(v-bind:key="file.path")
+              .title
+                span.path(onclick="toggleNext(this.parentNode)") {{ file.path }}&nbsp;
+                span.loc ({{ file.lineCount }} lines)
+                a(
+                  v-bind:href="getFileLink(file, 'commits')", target="_blank",
+                  title="click to view the history view of file"
+                )
+                  i.button.fas.fa-history
+                a(
+                  v-bind:href="getFileLink(file, 'blame')", target="_blank",
+                  title="click to view the blame view of file"
+                )
+                  i.button.fas.fa-user-edit
+              pre.hljs
+                div(v-hljs="file.path")
+                  template(v-for="segment in file.segments")
+                    .segment(v-bind:class="{ untouched: !segment.authored, active: segment.lines.length<5 }")
+                      .closer(v-if="!segment.authored && segment.lines.length>4", onclick="toggleNext(this)")
+                        i.fas.fa-ellipsis-h.icon
+                        span.tooltiptext.tooltiptext--close Show untouched code
+                        span.tooltiptext.tooltiptext--open Hide untouched code
+                      .code {{ segment.lines.join("\n") }}
         .empty(v-else) loading...
 
     script(src="static/js/api.js")
