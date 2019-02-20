@@ -14,7 +14,7 @@ matrix:
       os: osx
       osx_image: xcode10.1
       before_install:
-        - <<: *common_before_install
+        - *common_before_install
         - export HOMEBREW_NO_AUTO_UPDATE=1 # Prevent time-consuming updating
         - brew install cask
         - brew cask install caskroom/versions/java8 # Update to the latest version of JDK 8
