@@ -26,7 +26,6 @@ public class GitClone {
 
     private static final Logger logger = LogsManager.getLogger(GitClone.class);
     private static CommandRunnerProcess crp;
-    private static RepoLocation lastClonedRepoLocation;
 
     /**
      * Clones repo specified in the {@code repoConfig} and updates it with the branch info.
@@ -62,7 +61,7 @@ public class GitClone {
      * is still running.
      */
     public static void spawnCloneProcess(RepoConfiguration repoConfig) throws GitCloneException {
-        if (isRepoPreviouslyCloned(repoConfig) || crp != null) {
+        if (crp != null) {
             return;
         }
         try {
@@ -84,16 +83,12 @@ public class GitClone {
      * Should only be called after {@code spawnCloneProcess} has been called.
      */
     public static void waitForCloneProcess(RepoConfiguration repoConfig) throws GitCloneException {
-        if (isRepoPreviouslyCloned(repoConfig)) {
-            return;
-        }
         try {
             Path rootPath = Paths.get(FileUtil.REPOS_ADDRESS, repoConfig.getRepoFolderName());
             waitForCommandProcess(rootPath, "git clone " + addQuote(repoConfig.getLocation().toString()), crp);
             logger.info("Cloning of " + repoConfig.getLocation() + " completed!");
             updateRepoConfigBranch(repoConfig);
             crp = null;
-            lastClonedRepoLocation = repoConfig.getLocation();
         } catch (RuntimeException rte) {
             logger.log(Level.SEVERE, "Error encountered in Git Cloning, will attempt to continue analyzing", rte);
             throw new GitCloneException(rte);
@@ -120,12 +115,5 @@ public class GitClone {
             logger.log(Level.SEVERE, "Branch does not exist! Analysis terminated.", e);
             throw new GitCloneException(e);
         }
-    }
-
-    /**
-     * Returns true if {@code repoConfig} matches the previously cloned repo.
-     */
-    private static boolean isRepoPreviouslyCloned(RepoConfiguration repoConfig) {
-        return lastClonedRepoLocation != null && lastClonedRepoLocation.equals(repoConfig.getLocation());
     }
 }

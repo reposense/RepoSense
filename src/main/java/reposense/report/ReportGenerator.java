@@ -64,58 +64,21 @@ public class ReportGenerator {
      * Performs analysis of each repository in parallel with the cloning of the next repository.
      */
     private static void cloneAndAnalyzeRepos(List<RepoConfiguration> configs, String outputPath) throws IOException {
-        boolean isPreviousRepoCloned = false;
+        RepoConfiguration clonedRepo = null;
 
         for (int i = 0; i < configs.size(); i++) {
             RepoConfiguration config = configs.get(i);
-            boolean isCurrentRepoCloned = spawnCloneProcess(outputPath, config);
+            RepoCloner.clone(outputPath, config);
 
-            if (isPreviousRepoCloned) {
-                RepoConfiguration previousConfig = configs.get(i - 1);
-                boolean isCurrentRepoSameAsPreviousRepo = config.getLocation().equals(previousConfig.getLocation());
-                analyzeRepo(outputPath, previousConfig, !isCurrentRepoSameAsPreviousRepo);
+            if (clonedRepo != null) {
+                boolean isCurrentRepoSameAsPreviousRepo = config.getLocation().equals(clonedRepo.getLocation());
+                analyzeRepo(outputPath, clonedRepo, !isCurrentRepoSameAsPreviousRepo);
             }
-            if (isCurrentRepoCloned) {
-                isCurrentRepoCloned = waitForCloneProcess(outputPath, config);
-            }
-            isPreviousRepoCloned = isCurrentRepoCloned;
+            clonedRepo = RepoCloner.getClonedRepo(outputPath);
         }
-        if (isPreviousRepoCloned) {
-            analyzeRepo(outputPath, configs.get(configs.size() - 1), true);
+        if (clonedRepo != null) {
+            analyzeRepo(outputPath, clonedRepo, true);
         }
-    }
-
-    /**
-     * Spawns a process to clone the repository specified by {@code config}.
-     * Does not wait for process to finish executing.
-     */
-    private static boolean spawnCloneProcess(String outputPath, RepoConfiguration config) throws IOException {
-        try {
-            GitClone.spawnCloneProcess(config);
-            return true;
-        } catch (GitCloneException gde) {
-            logger.log(Level.WARNING,
-                    "Exception met while trying to clone the repo, will skip this repo.", gde);
-            generateEmptyRepoReport(outputPath, config);
-        }
-        return false;
-    }
-
-    /**
-     * Waits for current clone process to finish executing.
-     */
-    private static boolean waitForCloneProcess(String outputPath, RepoConfiguration config) throws IOException {
-        try {
-            GitClone.waitForCloneProcess(config);
-            return true;
-        } catch (GitCloneException gde) {
-            logger.log(Level.WARNING,
-                    "Exception met while trying to clone the repo, will skip this repo.", gde);
-            generateEmptyRepoReport(outputPath, config);
-        } catch (RuntimeException rte) {
-            logger.log(Level.SEVERE, "Error has occurred during analysis, will skip this repo.", rte);
-        }
-        return false;
     }
 
     /**
@@ -197,7 +160,7 @@ public class ReportGenerator {
         FileUtil.writeJsonFile(authorshipSummary.getFileResults(), getIndividualAuthorshipPath(repoReportDirectory));
     }
 
-    private static void generateEmptyRepoReport(String outputPath, RepoConfiguration config) throws IOException {
+    public static void generateEmptyRepoReport(String outputPath, RepoConfiguration config) throws IOException {
         Path repoReportDirectory = Paths.get(outputPath, config.getDisplayName());
         FileUtil.createDirectory(repoReportDirectory);
         CommitReportJson emptyCommitReportJson = new CommitReportJson();
