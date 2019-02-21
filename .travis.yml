@@ -2,22 +2,33 @@ language: java
 
 matrix:
   include:
-    - os: linux
-      jdk: oraclejdk9
-    - os: osx
+    - name: Ubuntu 14.04 JDK 8
+      os: linux
+      jdk: oraclejdk8
+      addons:
+        apt:
+          packages:
+            - oracle-java8-installer # Update to the latest version of JDK 8
+
+    - name: macOS 10.13.6 JDK 8
+      os: osx
+      osx_image: xcode10.1
+      env:
+        - HOMEBREW_NO_AUTO_UPDATE=1 # Prevent time-consuming brew update
+      before_install:
+        - *common_before_install
+        - brew install cask
+        - brew cask install caskroom/versions/java8 # Update to the latest version of JDK 8
+        - export JAVA_HOME=`/usr/libexec/java_home -v 1.8`
+        - echo "Downgraded JDK to:"; java -version
 
 script:
   - ./config/travis/run-checks.sh
   - npm run lint frontend/src/**/*.js
   - time travis_retry ./gradlew clean checkstyleMain checkstyleTest test systemTest
 
-addons:
-  apt:
-    packages:
-      - oracle-java9-installer
-
-before_install:
-  - cd ./frontend; npm install --only=dev; cd ..
+before_install: &common_before_install
+  - npm install --only=dev
 
 before_cache:
   - rm -f  $HOME/.gradle/caches/modules-2/modules-2.lock
@@ -27,3 +38,4 @@ cache:
   directories:
     - $HOME/.gradle/caches/
     - $HOME/.gradle/wrapper/
+    - $HOME/Library/Caches/Homebrew

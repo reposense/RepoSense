@@ -13,6 +13,17 @@ window.toggleNext = function toggleNext(ele) {
   }
 
   parent.className = classes.join(' ');
+
+  // Update expand/collapse all button
+  window.updateToggleButton();
+};
+
+window.updateToggleButton = function updateToggleButton() {
+  if (document.getElementsByClassName('file active').length === document.getElementsByClassName('file').length) {
+    window.app.isCollapsed = false;
+  } else if (document.getElementsByClassName('file active').length === 0) {
+    window.app.isCollapsed = true;
+  }
 };
 
 window.expandAll = function expandAll(isActive) {
@@ -221,5 +232,9 @@ window.vAuthorship = {
   created() {
     this.initiate();
     this.setInfoHash();
+  },
+
+  updated() {
+    window.updateToggleButton();
   },
 };

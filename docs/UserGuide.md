@@ -28,13 +28,13 @@ Next, download the latest executable Jar from our [releases](https://github.com/
 
 The simplest use case for RepoSense is to generate a report for the entire history of a repo. Here are the steps:
 1. Generate the report for the repo by executing the following command in a terminal:<br/>
-   Format : `java -jar RepoSense.jar -repo FULL_REPO_URL` (note the `.git` at the end)<br>
-   Example: `java -jar RepoSense.jar -repo https://github.com/reposense/RepoSense.git`
+   Format : `java -jar RepoSense.jar --repo FULL_REPO_URL` (note the `.git` at the end)<br>
+   Example: `java -jar RepoSense.jar --repo https://github.com/reposense/RepoSense.git`
 1. The previous step analyzes the default branch of the repo and creates the report in a directory named `reposense-report`. Run the following command to view the report (it will open up in your default Browser):<br/>
-   `java -jar RepoSense.jar -view reposense-report`
+   `java -jar RepoSense.jar --view reposense-report`
 
 Alternatively, you can combine the 2 steps by running the following command to generate the report and automatically open it afterwards:<br>
-    `java -jar RepoSense.jar -repo FULL_REPO_URL -view`
+    `java -jar RepoSense.jar --repo FULL_REPO_URL --view`
 
 <hr>
 
@@ -42,9 +42,9 @@ Alternatively, you can combine the 2 steps by running the following command to g
 
 
 As the report consist of static pages, it can be viewed using a Web Browser, and can be deployed on most Web hosting platforms (such as [GitHub Pages](https://pages.github.com/)). Assuming the report has been generated already, here are the two options to load the report onto a Browser:
-* Run RepoSense with the `-view` option:<br>
-  Format: `java -jar RepoSense.jar -view REPORT_FOLDER`<br>
-  Example: `java -jar RepoSense.jar -view ./myReport/reposense-report`
+* Run RepoSense with the `--view` option:<br>
+  Format: `java -jar RepoSense.jar --view REPORT_FOLDER`<br>
+  Example: `java -jar RepoSense.jar --view ./myReport/reposense-report`
 * Open the `index.html` (in the report directory) using a Browser and if the report was not loaded automatically, upload the `archive.zip` (in the same directory) manually.
 
 
@@ -164,8 +164,8 @@ Note: `authors` field should contain _all_ authors that should be captured in th
 * `ignoreGlobList`: _Additional_ (i.e. on top of the repo-level `ignoreGlobList`) folders/files to ignore for a specific author . In the example above, the actual `ignoreGlobList` for `alice` would be `["about-us/**", "**index.html", "**.css"]`
 
 To verify your standalone configuration is as intended, add the `_reposense/config.json` to your local copy of repo and run RepoSense against it as follows:<br>
-* Format : `java -jar RepoSense.jar -repo LOCAL_REPO_LOCATION` <br>
-* Example: `java -jar RepoSense.jar -repo c:/myRepose/foo/bar`<br>
+* Format : `java -jar RepoSense.jar --repo LOCAL_REPO_LOCATION` <br>
+* Example: `java -jar RepoSense.jar --repo c:/myRepose/foo/bar`<br>
 After that, view the report to see if the configuration you specified in the config file is being reflected correctly in the report.
 
 ##### **A Note About Git Author Name**
@@ -219,37 +219,41 @@ The analysis can be customized using additional command line parameters or using
 
 As you know, `java -jar RepoSense.jar` takes the following parameter:
 
-* **`-repo REPO_LOCATION`**: The URL or the disk location of the git repositories to analyze.<br>
-  Example using URL: `-repo https://github.com/reposense/RepoSense.git`<br>
-  Example using disk location: `-repo C:\Users\user\Desktop\GitHub\RepoSense`
+* **`--repo, -r REPO_LOCATION`**: The URL or the disk location of the git repositories to analyze (`-r` as alias).<br>
+  Example using URL: `--repo https://github.com/reposense/RepoSense.git`<br>
+  Example using disk location: `--repo C:\Users\user\Desktop\GitHub\RepoSense`<br>
+  Example using alias: `-r https://github.com/reposense/RepoSense.git`
 
 
 In addition, there are some _optional_ extra parameters you can use to customize the analysis further:
 
-* **`-output OUTPUT_DIRECTORY`**: Indicates where to save the report generated. Default: current directory.<br>
-  Example: `-output ./foo` (in this case, the report will be in the `./foo/reposense-report` folder)
-* **`-since START_DATE`**: The start date of analysis. Format: `DD/MM/YYYY`<br>
-  Example:`-since 21/10/2017`
-* **`-until END_DATE`**: The end date of analysis. The analysis excludes the end date. Format: `DD/MM/YYYY`<br>
-  Example:`-until 21/10/2017`
-* **`-formats LIST_OF_FORMATS`**: A space-separated list of file extensions that should be included in the analysis. Default: `adoc cs css fxml gradle html java js json jsp md py tag txt xml`<br>
-  Example:`-formats css fxml gradle`
-* **`-isac, --ignore-standalone-config`**: A flag to ignore the standalone config file in the repo (`-isac` as alias). This flag will not overwrite the `Ignore standalone config` field in the csv config file. Default: the standalone config file is not ignored.<br>
-  Example:`--ignore-standalone-config` or `-isac`
-* **`-view [REPORT_FOLDER]`**: A flag to launch the report automatically after processing. Note that if the `REPORT_FOLDER` argument is given, no analysis will be performed and the report specified by the argument will be opened.<br>
-Example:`-view`
+* **`--output, -o OUTPUT_DIRECTORY`**: Indicates where to save the report generated (`-o` as alias). Default: current directory.<br>
+  Example: `--output ./foo` or `-o ./foo` (in this case, the report will be in the `./foo/reposense-report` folder)
+* **`--since, -s START_DATE`**: The start date of analysis (`-s` as alias). Format: `DD/MM/YYYY`<br>
+  Example:`--since 21/10/2017` or `-s 21/10/2017`
+* **`--until, -u END_DATE`**: The end date of analysis (`-u` as alias). The analysis excludes the end date. Format: `DD/MM/YYYY`<br>
+  Example:`--until 21/10/2017` or `-u 21/10/2017`
+* **`--formats, -f LIST_OF_FORMATS`**: A space-separated list of file extensions that should be included in the analysis (`-f` as alias). Default: `adoc cs css fxml gradle html java js json jsp md py tag txt xml`<br>
+  Example:`--formats css fxml gradle` or `-f css fxml gradle`
+* **`--ignore-standalone-config, -i`**: A flag to ignore the standalone config file in the repo (`-i` as alias). This flag will not overwrite the `Ignore standalone config` field in the csv config file. Default: the standalone config file is not ignored.<br>
+  Example:`--ignore-standalone-config` or `-i`
+* **`--view, -v [REPORT_FOLDER]`**: A flag to launch the report automatically after processing (`-v` as alias). Note that if the `REPORT_FOLDER` argument is given, no analysis will be performed and the report specified by the argument will be opened.<br>
+Example:`--view` or `-v`
 
 Here's an example of a command using all parameters:<br>
-`java -jar RepoSense.jar -repo https://github.com/reposense/RepoSense.git -output ./report_folder -since 21/10/2017 -until 21/11/2017 -formats java adoc js -view -isac`
+`java -jar RepoSense.jar --repo https://github.com/reposense/RepoSense.git --output ./report_folder --since 21/10/2017 --until 21/11/2017 --formats java adoc js --view --ignore-standalone-config`
+
+Here's an example of a command using all alias of parameters:<br>
+`java -jar RepoSense.jar -r https://github.com/reposense/RepoSense.git -o ./report_folder -s 21/10/2017 -u 21/11/2017 -f java adoc js -v -i`
 
 ### Customize Using csv Config Files
 
-Another, more powerful, way to customize the analysis is by using dedicated config files. In this case you need to use the `-config` parameter instead of the `-repo` parameter when running RepoSense, as follows:
+Another, more powerful, way to customize the analysis is by using dedicated config files. In this case you need to use the `--config` parameter instead of the `--repo` parameter when running RepoSense, as follows:
 
-* **`-config CONFIG_DIRECTORY`**: The directory in which you have the config files.<br>
-  Example:`java -jar RepoSense.jar -config  ./my_configs`
+* **`--config, -c CONFIG_DIRECTORY`**: The directory in which you have the config files (`-c` as alias).<br>
+  Example:`java -jar RepoSense.jar --config  ./my_configs` or `java -jar RepoSense.jar -c  ./my_configs`
 
-The directory used with the `-config` parameter should contain a `repo-config.csv` file and, optionally, an `author-config.csv` file, both of which are described in the sections below.
+The directory used with the `--config` parameter should contain a `repo-config.csv` file and, optionally, an `author-config.csv` file, both of which are described in the sections below.
 
 #### `repo-config.csv`
 
@@ -301,9 +305,9 @@ If `author-config.csv` is not given and the repo has not provide author details 
 
 This section assumes that you have read the earlier sections of the user guide.
 
-The simplest way to analyze multiple repos in one go is to use the `-repos` parameter in place of the `-repo` parameter when running RepoSense.
-* Format : `java -jar RepoSense.jar -repos REPO_LIST` <br>
-* Example: `java -jar RepoSense.jar -repos https://github.com/reposense/RepoSense.git c:/myRepose/foo/bar` analyzes the two specified repos (one remote, one local) and generates one report containing details of both.
+The simplest way to analyze multiple repos in one go is to use the `--repos` parameter in place of the `--repo` parameter when running RepoSense.
+* Format : `java -jar RepoSense.jar --repos REPO_LIST` <br>
+* Example: `java -jar RepoSense.jar --repos https://github.com/reposense/RepoSense.git c:/myRepose/foo/bar` analyzes the two specified repos (one remote, one local) and generates one report containing details of both.
 
 Alternatively, you can use csv config files to customize the analysis as before while specifying multiple repos to analyze.
 * `repo-config.csv`: Add additional rows for the extra repos ([example](repo-config.csv))

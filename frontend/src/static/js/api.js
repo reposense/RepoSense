@@ -56,8 +56,7 @@ window.api = {
             repoId: repoName,
             variance: commits.authorContributionVariance[author],
             displayName: commits.authorDisplayNameMap[author],
-            weeklyCommits: commits.authorWeeklyIntervalContributions[author],
-            dailyCommits: commits.authorDailyIntervalContributions[author],
+            dailyCommits: commits.authorDailyContributionsMap[author],
             totalCommits: commits.authorFinalContributionMap[author],
           };
 

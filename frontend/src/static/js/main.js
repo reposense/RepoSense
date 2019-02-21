@@ -3,16 +3,31 @@ window.REPOS = {};
 
 window.hashParams = {};
 window.addHash = function addHash(newKey, newVal) {
+  window.hashParams[newKey] = newVal;
+};
+window.removeHash = function removeHash(key) {
+  delete window.hashParams[key];
+};
+
+window.encodeHash = function encodeHash() {
   const { hashParams } = window;
-  hashParams[newKey] = newVal;
 
-  const hash = [];
-  const enquery = (key, val) => `${key}=${encodeURIComponent(val)}`;
-  Object.keys(hashParams).forEach((hashKey) => {
-    hash.push(enquery(hashKey, hashParams[hashKey]));
-  });
+  window.location.hash = Object.keys(hashParams)
+      .map((key) => `${key}=${encodeURIComponent(hashParams[key])}`)
+      .join('&');
+};
 
-  window.location.hash = hash.join('&');
+window.decodeHash = function decodeHash() {
+  const hashParams = {};
+
+  window.location.hash.slice(1).split('&')
+      .forEach((param) => {
+        const [key, val] = param.split('=');
+        if (key) {
+          hashParams[key] = decodeURIComponent(val);
+        }
+      });
+  window.hashParams = hashParams;
 };
 
 
@@ -39,11 +54,11 @@ window.registerMouseMove = () => {
   const innerMouseMove = (event) => {
     guideWidth = (
       Math.min(
-        Math.max(
-          window.innerWidth - event.clientX,
-          SCROLL_BAR_WIDTH + DRAG_BAR_WIDTH,
-        ),
-        window.innerWidth - SCROLL_BAR_WIDTH,
+          Math.max(
+              window.innerWidth - event.clientX,
+              SCROLL_BAR_WIDTH + DRAG_BAR_WIDTH,
+          ),
+          window.innerWidth - SCROLL_BAR_WIDTH,
       )
         - (GUIDE_BAR_WIDTH / 2)
     ) / window.innerWidth;
