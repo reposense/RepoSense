@@ -35,13 +35,13 @@ html
               strong RepoSense
             span &nbsp; on {{ creationDate }}
 
-        #tabs-wrapper(v-if="isTabActive")
+        #tabs-wrapper(v-if="tabActive")
           #tab-resize(onmousedown="registerMouseMove()")
-          .tab-close(v-on:click="isTabActive=false")
+          .tab-close(v-on:click="tabActive='';")
             i.fas.fa-caret-right
           .tab-content
             .tab-panes
-              #tab-authorship.tab-pane(v-if="isTabAuthorship")
+              #tab-authorship.tab-pane(v-if="tabActive=='authorship'")
                 .toolbar(v-if="tabInfo.tabAuthorship.totalCommits > 0")
                     a(v-if="isCollapsed", v-on:click="expand(true)") Expand all
                     a(v-else, v-on:click="expand(false)") Collapse all

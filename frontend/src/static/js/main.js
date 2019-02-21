@@ -84,8 +84,7 @@ window.app = new window.Vue({
 
     isLoading: false,
     isCollapsed: false,
-    isTabActive: true,
-    isTabAuthorship: false,
+    tabActive: 'empty',
     tabInfo: {},
     tabAuthorship: {},
     creationDate: '',
@@ -139,16 +138,12 @@ window.app = new window.Vue({
       });
       return full;
     },
-    deactivateTabs() {
-      this.isTabAuthorship = false;
-    },
 
     updateTabAuthorship(obj) {
       this.deactivateTabs();
       this.tabInfo.tabAuthorship = Object.assign({}, obj);
 
-      this.isTabActive = true;
-      this.isTabAuthorship = true;
+      this.tabActive = 'authorship';
       this.isCollapsed = false;
       if (document.getElementById('tabs-wrapper')) {
         document.getElementById('tabs-wrapper').scrollTop = 0;
