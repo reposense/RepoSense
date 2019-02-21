@@ -98,7 +98,13 @@ public class GitClone {
     /**
      * Updates the branch of {@code repoConfig} to the current branch if default branch is specified.
      */
-    private static void updateRepoConfigBranch(RepoConfiguration repoConfig) {
+    public static void updateRepoConfigBranch(RepoConfiguration repoConfig, String currentBranch) {
+        if (repoConfig.getBranch().equals(RepoConfiguration.DEFAULT_BRANCH)) {
+            repoConfig.setBranch(currentBranch);
+        }
+    }
+
+    public static void updateRepoConfigBranch(RepoConfiguration repoConfig) {
         if (repoConfig.getBranch().equals(RepoConfiguration.DEFAULT_BRANCH)) {
             String currentBranch = GitBranch.getCurrentBranch(repoConfig.getRepoRoot());
             repoConfig.setBranch(currentBranch);

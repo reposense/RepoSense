@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import reposense.git.GitBranch;
 import reposense.git.GitClone;
 import reposense.git.GitCloneException;
 import reposense.model.RepoConfiguration;
@@ -16,6 +17,7 @@ public class RepoCloner {
     private static int index = 0;
     private static int prevIndex = 0;
     private static boolean isCurrentRepoCloned = false;
+    private static String prevRepoDefaultBranch;
 
     /**
      * Spawns a process to clone the repository specified by {@code config}.
@@ -36,9 +38,17 @@ public class RepoCloner {
         if (isCurrentRepoCloned && isPreviousRepoDifferent()) {
             isCurrentRepoCloned = waitForCloneProcess(outputPath, configs[index]);
         }
+        if (!isCurrentRepoCloned) {
+            return null;
+        }
+        if (!isPreviousRepoDifferent()) {
+            GitClone.updateRepoConfigBranch(configs[index], prevRepoDefaultBranch);
+        } else {
+            prevRepoDefaultBranch = GitBranch.getCurrentBranch(configs[index].getRepoRoot());
+        }
         prevIndex = index;
         index = (index + 1) % configs.length;
-        return isCurrentRepoCloned ? configs[prevIndex] : null;
+        return configs[prevIndex];
     }
 
     /**
