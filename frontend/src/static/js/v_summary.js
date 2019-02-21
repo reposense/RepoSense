@@ -396,21 +396,22 @@ window.vSummary = {
         maxDate: this.maxDate,
       };
       const tabInfoLength = 5;
-      let repoName = [];
-      if (info.location) {
-        repoName = info.location.split('github.com/')[1].split('/');
-      }
-      if (repoName.length === 2) {
-        info.repo = `${repoName.join('_').slice(0, -4)}_master`;
-      } else if (repoName.length > 2) {
-        repoName.splice(2, 1);
-        info.repo = repoName.join('_');
-      }
-
+      this.updateInfoRepoName(info);
       if (Object.keys(info).length === tabInfoLength) {
         window.app.updateTabAuthorship(info);
       } else if (hash.tabOpen === 'false') {
         window.app.isTabActive = false;
+      }
+    },
+    updateInfoRepoName(info) {
+      if (info.location) {
+        const repoName = info.location.split('github.com/')[1].split('/');
+        if (repoName.length === 2) {
+          info.repo = `${repoName.join('_').slice(0, -4)}_master`;
+        } else {
+          repoName.splice(2, 1);
+          info.repo = repoName.join('_');
+        }
       }
     },
   },
