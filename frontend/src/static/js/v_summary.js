@@ -46,8 +46,9 @@ function dragViewUp(evt){
   const offset = ramp.parentElement.offsetLeft;
   const overlay = ramp.getElementsByClassName('overlay')[0];
 
-  overlay.style.marginLeft = (drags[0]-offset)*100/base + '%';
-  overlay.style.width = (drags[1]-drags[0])*100/base + '%';
+  const pos = drags.map(x => (x-offset)*100/base);
+  overlay.style.marginLeft = pos[0] + '%';
+  overlay.style.width = (pos[1]-pos[0]) + '%';
 
   const edge = ramp.getElementsByClassName('overlay-edge')[0];
   edge.className = 'overlay-edge';
