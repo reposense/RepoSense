@@ -41,10 +41,10 @@ html
             i.fas.fa-caret-right
           .tab-content
             .tab-panes
-              #tab-authorship.tab-pane(v-if="isTabActive && tabActive=='authorship'")
-                v_authorship(
-                  v-bind:key="generateKey(tabInfo.tabAuthorship)",
-                  v-bind:info="tabInfo.tabAuthorship")
+              v_authorship#tab-authorship.tab-pane(
+                v-if="isTabActive && tabActive=='authorship'"
+                v-bind:key="generateKey(tabInfo.tabAuthorship)",
+                v-bind:info="tabInfo.tabAuthorship")
               #tab-empty.tab-pane(v-else)
                 .title
                   span To view the code attributed to a specific author, click the &nbsp;
