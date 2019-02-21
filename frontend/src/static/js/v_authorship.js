@@ -64,6 +64,11 @@ window.vAuthorship = {
       }
     },
 
+    expand(isActive) {
+      this.activeFiles = isActive ? this.selectedFiles.length : 0;
+      expandAll(isActive);
+    },
+
     splitSegments(lines) {
       // split into segments separated by authored
       let lastState;
@@ -136,6 +141,8 @@ window.vAuthorship = {
       this.files = res;
       this.selectedFiles = res;
       this.isLoaded = true;
+
+      this.activeFiles = this.selectedFiles.length;
     },
 
     addLineCountToFileType(path, lineCount, filesInfoObj) {

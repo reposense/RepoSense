@@ -158,12 +158,6 @@ window.app = new window.Vue({
       this.tabActive = 'authorship';
     },
 
-    /* global expandAll */
-    expand(isActive) {
-      this.isCollapsed = !isActive;
-      expandAll(isActive);
-    },
-
     generateKey(dataObj) {
       return JSON.stringify(dataObj);
     },
