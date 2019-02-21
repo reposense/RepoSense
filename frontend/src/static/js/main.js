@@ -183,22 +183,6 @@ window.app = new window.Vue({
     hasCommits(info) {
       return window.REPOS[info.repo].commits.authorFinalContributionMap[info.author] > 0;
     },
-
-    removeInfoHash(hashObj) {
-      const tabKeys = ['tabAuthor', 'tabLocation'];
-      return hashObj.filter((value) => {
-        const key = value.split('=')[0];
-        return !tabKeys.includes(key);
-      });
-    },
-
-    addKeyToHash(params, key, val) {
-      const param = `${key}=${val}`;
-      if (!params.includes(param)) {
-        params.push(param);
-      }
-      return params;
-    },
   },
   components: {
     v_summary: window.vSummary,
