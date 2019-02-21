@@ -4,6 +4,11 @@
     },
     "extends": "airbnb-base",
     "rules": {
-        "no-param-reassign": "warn"
+        "no-param-reassign": "warn",
+        "arrow-parens": ["error", "always"],
+        "indent": ["error", 2, {
+            "MemberExpression": 2,
+            "CallExpression": { "arguments": 2 }
+        }]
     }
 }

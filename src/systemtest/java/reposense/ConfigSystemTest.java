@@ -16,6 +16,7 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
+import reposense.model.AuthorConfiguration;
 import reposense.model.CliArguments;
 import reposense.model.ConfigCliArguments;
 import reposense.model.RepoConfiguration;
@@ -25,6 +26,7 @@ import reposense.parser.ParseException;
 import reposense.parser.RepoConfigCsvParser;
 import reposense.report.ReportGenerator;
 import reposense.util.FileUtil;
+import reposense.util.InputBuilder;
 import reposense.util.TestUtil;
 
 public class ConfigSystemTest {
@@ -53,7 +55,7 @@ public class ConfigSystemTest {
     }
 
     private String getInputWithDates(String sinceDate, String untilDate) {
-        return String.format("-since %s -until %s", sinceDate, untilDate);
+        return String.format("--since %s --until %s", sinceDate, untilDate);
     }
 
     private void generateReport() throws IOException, URISyntaxException, ParseException {
@@ -64,13 +66,16 @@ public class ConfigSystemTest {
         Path configFolder = Paths.get(getClass().getClassLoader().getResource("repo-config.csv").toURI()).getParent();
 
         String formats = String.join(" ", TESTING_FILE_FORMATS);
-        String input = String.format("-config %s -formats %s ", configFolder, formats) + inputDates;
+        String input = new InputBuilder().addConfig(configFolder)
+                .addFormats(formats)
+                .add(inputDates)
+                .build();
 
         CliArguments cliArguments = ArgsParser.parse(translateCommandline(input));
 
         List<RepoConfiguration> repoConfigs =
                 new RepoConfigCsvParser(((ConfigCliArguments) cliArguments).getRepoConfigFilePath()).parse();
-        List<RepoConfiguration> authorConfigs =
+        List<AuthorConfiguration> authorConfigs =
                 new AuthorConfigCsvParser(((ConfigCliArguments) cliArguments).getAuthorConfigFilePath()).parse();
 
         RepoConfiguration.merge(repoConfigs, authorConfigs);

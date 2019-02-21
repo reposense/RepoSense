@@ -1,8 +1,8 @@
-function toggleNext(ele) {
+window.toggleNext = function toggleNext(ele) {
   // function for toggling unopened code
   const targetClass = 'active';
 
-  const parent = ele.parentNode.parentNode;
+  const parent = ele.parentNode;
   const classes = parent.className.split(' ');
   const idx = classes.indexOf(targetClass);
 
@@ -13,16 +13,27 @@ function toggleNext(ele) {
   }
 
   parent.className = classes.join(' ');
+
+  // Update expand/collapse all button
+  window.updateToggleButton();
 };
 
-function expandAll(isActive) {
+window.updateToggleButton = function updateToggleButton() {
+  if (document.getElementsByClassName('file active').length === document.getElementsByClassName('file').length) {
+    window.app.isCollapsed = false;
+  } else if (document.getElementsByClassName('file active').length === 0) {
+    window.app.isCollapsed = true;
+  }
+};
+
+window.expandAll = function expandAll(isActive) {
   const renameValue = isActive ? 'file active' : 'file';
 
   const files = document.getElementsByClassName('file');
   Array.from(files).forEach((file) => {
     file.className = renameValue;
   });
-}
+};
 
 const repoCache = [];
 window.vAuthorship = {
@@ -37,7 +48,7 @@ window.vAuthorship = {
       fileTypes: [],
       filesLinesObj: {},
       filesBlankLinesObj: {},
-      totalLineCount: "",
+      totalLineCount: '',
       totalBlankLineCount: '',
     };
   },
@@ -58,7 +69,7 @@ window.vAuthorship = {
         this.processFiles(repo.files);
       } else {
         window.api.loadAuthorship(this.info.repo)
-          .then(files => this.processFiles(files));
+            .then((files) => this.processFiles(files));
       }
     },
 
@@ -88,19 +99,18 @@ window.vAuthorship = {
         if (line.content === '' && authored) {
           blankLineCount += 1;
         }
-
       });
 
       return {
         segments,
-        blankLineCount
+        blankLineCount,
       };
     },
 
     processFiles(files) {
       const res = [];
-      let filesInfoObj = {};
-      let filesBlanksInfoObj = {};
+      const filesInfoObj = {};
+      const filesBlanksInfoObj = {};
       let totalLineCount = 0;
       let totalBlankLineCount = 0;
 
@@ -126,20 +136,19 @@ window.vAuthorship = {
       res.sort((a, b) => b.lineCount - a.lineCount);
 
       this.filesLinesObj = this.sortFileTypeAlphabetically(filesInfoObj);
-      for (var file in filesInfoObj) {
-        if (filesInfoObj.hasOwnProperty(file)) {
-          this.selectedFileTypes.push(file);
-          this.fileTypes.push(file);
-        }
-      }
+      Object.keys(filesInfoObj).forEach((file) => {
+        this.selectedFileTypes.push(file);
+        this.fileTypes.push(file);
+      });
+
       this.filesBlankLinesObj = filesBlanksInfoObj;
       this.files = res;
       this.isLoaded = true;
     },
 
     addLineCountToFileType(path, lineCount, filesInfoObj) {
-      var fileType = path.split(".").pop();
-      fileType = (fileType.length === 0) ? "others" : fileType;
+      let fileType = path.split('.').pop();
+      fileType = (fileType.length === 0) ? 'others' : fileType;
 
       if (!filesInfoObj[fileType]) {
         filesInfoObj[fileType] = 0;
@@ -152,7 +161,7 @@ window.vAuthorship = {
       return Object.keys(unsortedFilesInfoObj)
           .sort()
           .reduce((acc, key) => ({
-              ...acc, [key]: unsortedFilesInfoObj[key]
+            ...acc, [key]: unsortedFilesInfoObj[key],
           }), {});
     },
 
@@ -192,13 +201,14 @@ window.vAuthorship = {
     },
 
     getFileBlankLineInfo(fileType) {
-      return fileType + ': ' + 'Blank: ' + this.filesBlankLinesObj[fileType]
-          + ', Non-Blank: ' + (this.filesLinesObj[fileType] - this.filesBlankLinesObj[fileType]);
+      return `${fileType}: Blank: ${
+        this.filesBlankLinesObj[fileType]}, Non-Blank: ${
+        this.filesLinesObj[fileType] - this.filesBlankLinesObj[fileType]}`;
     },
 
     getTotalFileBlankLineInfo() {
-      return 'Total: Blank: ' + this.totalBlankLineCount + ', Non-Blank: '
-          + (this.totalLineCount - this.totalBlankLineCount);
+      return `Total: Blank: ${this.totalBlankLineCount}, Non-Blank: ${
+        this.totalLineCount - this.totalBlankLineCount}`;
     },
   },
 
@@ -215,10 +225,6 @@ window.vAuthorship = {
   },
 
   updated() {
-    this.$nextTick(() => {
-      document.querySelectorAll('pre.hljs code').forEach((ele) => {
-        window.hljs.highlightBlock(ele);
-      });
-    });
+    window.updateToggleButton();
   },
 };
