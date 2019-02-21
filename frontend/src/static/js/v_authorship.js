@@ -213,7 +213,7 @@ window.vAuthorship = {
   },
 
   computed: {
-    selectedFiles: function() {
+    selectedFiles() {
       return this.files.filter((file) => {
         return this.isSelected(file.path);
       });
