@@ -389,13 +389,14 @@ window.vSummary = {
     },
     renderAuthorShipTabHash() {
       const hash = window.hashParams;
-      const info = {};
+      const info = {
+        author: hash.tabAuthor,
+        location: hash.tabLocation,
+        minDate: this.minDate,
+        maxDate: this.maxDate
+      };
       const tabInfoLength = 5;
       let repoName = [];
-      if (hash.tabAuthor) { info.author = hash.tabAuthor; }
-      if (hash.tabLocation) { info.location = hash.tabLocation; }
-      info.minDate = this.minDate;
-      info.maxDate = this.maxDate;
       if (info.location) {
         repoName = info.location.split('github.com/')[1].split('/');
       }
