@@ -391,19 +391,21 @@ window.vSummary = {
       const hash = window.hashParams;
       const info = {};
       const tabInfoLength = 5;
+      const repoName = [];
       if (hash.tabAuthor) { info.author = hash.tabAuthor; }
       if (hash.tabLocation) { info.location = hash.tabLocation; }
       info.minDate = this.minDate;
       info.maxDate = this.maxDate;
       if (info.location) {
-        const repoName = info.location.split('github.com/')[1].split('/');
-        if (repoName.length === 2) {
-          info.repo = `${repoName.join('_').slice(0, -4)}_master`;
-        } else {
-          repoName.splice(2, 1);
-          info.repo = repoName.join('_');
-        }
+        repoName = info.location.split('github.com/')[1].split('/');
       }
+      if (repoName.length === 2) {
+        info.repo = `${repoName.join('_').slice(0, -4)}_master`;
+      } else if (repoName.length > 2) {
+        repoName.splice(2, 1);
+        info.repo = repoName.join('_');
+      }
+
       if (Object.keys(info).length === tabInfoLength) {
         window.app.updateTabAuthorship(info);
       } else if (hash.tabOpen === 'false') {
