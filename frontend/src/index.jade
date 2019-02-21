@@ -42,9 +42,6 @@ html
           .tab-content
             .tab-panes
               #tab-authorship.tab-pane(v-if="isTabActive && tabActive=='authorship'")
-                .toolbar(v-if="tabInfo.tabAuthorship.totalCommits > 0")
-                    a(v-if="isCollapsed", v-on:click="expand(true)") Expand all
-                    a(v-else, v-on:click="expand(false)") Collapse all
                 v_authorship(
                   v-bind:key="generateKey(tabInfo.tabAuthorship)",
                   v-bind:info="tabInfo.tabAuthorship")
@@ -166,6 +163,9 @@ html
 
     vuetemplate#v_authorship
       #authorship
+        .toolbar(v-if="info.totalCommits > 0")
+            a(v-if="activeFiles==0", v-on:click="expand(true)") Expand all
+            a(v-else, v-on:click="expand(false)") Collapse all
         .title
           a.repoName(
             v-bind:href="info.location", target="_blank",

@@ -13,17 +13,6 @@ window.toggleNext = function toggleNext(ele) {
   }
 
   parent.className = classes.join(' ');
-
-  // Update expand/collapse all button
-  window.updateToggleButton();
-};
-
-window.updateToggleButton = function updateToggleButton() {
-  if (document.getElementsByClassName('file active').length === document.getElementsByClassName('file').length) {
-    window.app.isCollapsed = false;
-  } else if (document.getElementsByClassName('file active').length === 0) {
-    window.app.isCollapsed = true;
-  }
 };
 
 window.expandAll = function expandAll(isActive) {
@@ -51,6 +40,7 @@ window.vAuthorship = {
       filesBlankLinesObj: {},
       totalLineCount: '',
       totalBlankLineCount: '',
+      activeFiles: 0,
     };
   },
 
@@ -191,6 +181,8 @@ window.vAuthorship = {
       } else {
         this.selectedFiles = this.files.filter((file) => this.selectedFileTypes.includes((file.path.split('.').pop())));
       }
+
+      this.activeFiles = this.selectedFiles.length;
     },
 
     getFileLink(file, path) {
@@ -214,9 +206,5 @@ window.vAuthorship = {
 
   created() {
     this.initiate();
-  },
-
-  updated() {
-    window.updateToggleButton();
   },
 };
