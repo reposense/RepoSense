@@ -199,6 +199,15 @@ header{
       height:100%;
       position:absolute;
       background-color:#fffa;
+
+      &-edge{
+        height:100%;
+        position:absolute;
+
+        &.show{
+          border-right:.1rem dashed #000;
+        }
+      }
     }
 
     &__title{

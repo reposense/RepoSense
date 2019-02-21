@@ -20,7 +20,19 @@ function getBaseTarget(target){
 function dragViewDown(evt){
   document.querySelectorAll('.summary-chart__ramp .overlay')
     .forEach(x => { x.style.width='0'; });
-  getBaseTarget(evt.target).drags = [evt.clientX];
+  document.querySelectorAll('.summary-chart__ramp .overlay-edge')
+    .forEach(x => { x.className='overlay-edge'; });
+
+  const pos = evt.clientX;
+  const ramp = getBaseTarget(evt.target);
+  ramp.drags = [pos];
+
+  const base = ramp.offsetWidth;
+  const offset = ramp.parentElement.offsetLeft;
+
+  const edge = ramp.getElementsByClassName('overlay-edge')[0];
+  edge.style.width = (pos-offset)*100/base + '%';
+  edge.className += ' show';
 }
 
 function dragViewUp(evt){
@@ -36,6 +48,9 @@ function dragViewUp(evt){
 
   overlay.style.marginLeft = (drags[0]-offset)*100/base + '%';
   overlay.style.width = (drags[1]-drags[0])*100/base + '%';
+
+  const edge = ramp.getElementsByClassName('overlay-edge')[0];
+  edge.className = 'overlay-edge';
 }
 
 // date functions //
