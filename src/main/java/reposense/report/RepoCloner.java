@@ -41,10 +41,10 @@ public class RepoCloner {
         if (!isCurrentRepoCloned) {
             return null;
         }
-        if (!isPreviousRepoDifferent()) {
-            GitClone.updateRepoConfigBranch(configs[index], prevRepoDefaultBranch);
-        } else {
+        if (isPreviousRepoDifferent()) {
             prevRepoDefaultBranch = GitBranch.getCurrentBranch(configs[index].getRepoRoot());
+        } else {
+            GitClone.updateRepoConfigBranch(configs[index], prevRepoDefaultBranch);
         }
         prevIndex = index;
         index = (index + 1) % configs.length;

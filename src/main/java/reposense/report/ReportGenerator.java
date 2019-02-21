@@ -71,8 +71,8 @@ public class ReportGenerator {
             RepoCloner.clone(outputPath, config);
 
             if (clonedRepo != null) {
-                boolean isCurrentRepoSameAsPreviousRepo = config.getLocation().equals(clonedRepo.getLocation());
-                analyzeRepo(outputPath, clonedRepo, !isCurrentRepoSameAsPreviousRepo);
+                boolean isCurrentRepoSameAsClonedRepo = config.getLocation().equals(clonedRepo.getLocation());
+                analyzeRepo(outputPath, clonedRepo, !isCurrentRepoSameAsClonedRepo);
             }
             clonedRepo = RepoCloner.getClonedRepo(outputPath);
         }
