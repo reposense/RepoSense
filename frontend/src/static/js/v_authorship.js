@@ -175,7 +175,7 @@ window.vAuthorship = {
 
     selectFileType(type) {
       if (this.selectedFileTypes.includes(type)) {
-        let index = this.selectedFileTypes.indexOf(type);
+        const index = this.selectedFileTypes.indexOf(type);
         this.selectedFileTypes.splice(index, 1);
       } else {
         this.selectedFileTypes.push(type);
@@ -189,7 +189,7 @@ window.vAuthorship = {
     },
 
     isSelected(filePath) {
-      let fileExt = filePath.split('.').pop();
+      const fileExt = filePath.split('.').pop();
       return this.selectedFileTypes.includes(fileExt);
     },
 
@@ -214,10 +214,8 @@ window.vAuthorship = {
 
   computed: {
     selectedFiles() {
-      return this.files.filter((file) => {
-        return this.isSelected(file.path);
-      });
-    }
+      return this.files.filter((file) => this.isSelected(file.path));
+    },
   },
 
   created() {
