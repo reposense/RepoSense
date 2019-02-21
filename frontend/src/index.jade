@@ -41,7 +41,7 @@ html
             i.fas.fa-caret-right
           .tab-content
             .tab-panes
-              #tab-authorship.tab-pane(v-if="tabActive=='authorship'")
+              #tab-authorship.tab-pane(v-if="isTabActive && tabActive=='authorship'")
                 .toolbar(v-if="tabInfo.tabAuthorship.totalCommits > 0")
                     a(v-if="isCollapsed", v-on:click="expand(true)") Expand all
                     a(v-else, v-on:click="expand(false)") Collapse all
