@@ -69,6 +69,10 @@ window.vAuthorship = {
       expandAll(isActive);
     },
 
+    updateCount() {
+      this.activeFiles = document.getElementsByClassName('file active').length;
+    },
+
     splitSegments(lines) {
       // split into segments separated by authored
       let lastState;
