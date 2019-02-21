@@ -74,7 +74,7 @@ We use [Cypress](https://www.cypress.io/) for automated end-to-end front-end tes
 > Read [Cypress's Documentation](https://docs.cypress.io/api/commands/document.html#Syntax) to familiarize yourself with its syntax and [Cypress's debugging guide](https://docs.cypress.io/guides/guides/debugging.html#Log-Cypress-events) to tackle problems with your tests.
 
 #### To run all tests locally
-1.  At project root, run `gradlew uat`
+1.  At project root, run `gradlew frontendTest`
 > If you encountered an invalid browser error, please ensure that you have `chrome` installed in the default installation directory. Otherwise, follow the instructions [here](https://docs.cypress.io/guides/guides/debugging.html#Launching-browsers) to create symbolic links so Cypress can locate `chrome` in your system.
 
 ### Before writing code
