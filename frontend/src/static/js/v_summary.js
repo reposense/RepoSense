@@ -200,6 +200,8 @@ window.vSummary = {
 
       if (hash.reverse) { this.filterSortReverse = convertBool(hash.reverse); }
       if (hash.repoSort) { this.filterGroupRepos = convertBool(hash.repoSort); }
+
+      window.decodeHash();
     },
 
     getDates() {

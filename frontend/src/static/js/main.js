@@ -80,16 +80,6 @@ window.deregisterMouseMove = () => {
   window.$('app-wrapper').style['user-select'] = 'auto';
 };
 
-window.decodeHash = () => {
-  const params = window.location.hash.slice(1).split('&');
-  params.forEach((param) => {
-    const [key, val] = param.split('=');
-    if (key) {
-      window.hashParams[key] = decodeURIComponent(val);
-    }
-  });
-};
-
 /* global Vue hljs */
 Vue.directive('hljs', {
   inserted(ele, binding) {
@@ -227,10 +217,10 @@ window.app = new window.Vue({
       }
     });
     if (!this.isTabActive) {
-      const hashObj = window.location.hash.slice(1).split('&');
-      let newHash = this.removeInfoHash(hashObj);
-      newHash = this.addKeyToHash(newHash, 'tabOpen', this.isTabActive);
-      window.location.hash = `#${newHash.join('&')}`;
+      window.removeHash('tabAuthor');
+      window.removeHash('tabLocation');
+      window.addHash('tabOpen', this.isTabActive);
+      window.encodeHash();
     }
   },
 });
