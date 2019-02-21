@@ -15,15 +15,6 @@ window.toggleNext = function toggleNext(ele) {
   parent.className = classes.join(' ');
 };
 
-window.expandAll = function expandAll(isActive) {
-  const renameValue = isActive ? 'file active' : 'file';
-
-  const files = document.getElementsByClassName('file');
-  Array.from(files).forEach((file) => {
-    file.className = renameValue;
-  });
-};
-
 const repoCache = [];
 window.vAuthorship = {
   props: ['info'],
@@ -64,9 +55,15 @@ window.vAuthorship = {
       }
     },
 
-    expand(isActive) {
+    expandAll(isActive) {
+      const renameValue = isActive ? 'file active' : 'file';
+
+      const files = document.getElementsByClassName('file');
+      Array.from(files).forEach((file) => {
+        file.className = renameValue;
+      });
+
       this.activeFiles = isActive ? this.selectedFiles.length : 0;
-      expandAll(isActive);
     },
 
     updateCount() {
