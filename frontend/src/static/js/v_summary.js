@@ -393,7 +393,7 @@ window.vSummary = {
         author: hash.tabAuthor,
         location: hash.tabLocation,
         minDate: this.minDate,
-        maxDate: this.maxDate
+        maxDate: this.maxDate,
       };
       const tabInfoLength = 5;
       let repoName = [];
