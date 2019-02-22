@@ -186,7 +186,12 @@ Date:   Fri Feb 9 19:13:13 2018 +0800
     Initial commit
  ...
 ```
-`ActualGitHubId` and `ConfiguredAuthorName` are both `Git Author Name` of the same author. To set the author name to the value you want (e.g., to set it to your GitHub username), you can use the following command ([more info](https://www.git-tower.com/learn/git/faq/change-author-name-email)):
+`ActualGitHubId` and `ConfiguredAuthorName` are both `Git Author Name` of the same author.
+To find the author name that you have set in your local machine, run the following command:
+```
+git config user.name
+```
+To set the author name to the value you want (e.g., to set it to your GitHub username), you can use the following command ([more info](https://www.git-tower.com/learn/git/faq/change-author-name-email)):
 ```
 git config --global user.name "YOUR_AUTHOR_NAME”
 ```
