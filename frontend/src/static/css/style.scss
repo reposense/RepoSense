@@ -189,7 +189,7 @@ header{
         font-weight:bold;
     }
 
-    &__filetype--breakdown{
+    &__fileformat--breakdown{
         &__title{
             &__name{
                 float:left;
@@ -276,7 +276,7 @@ header{
             background-color:mui-color("red");
         }
 
-        &--bar--filetype{
+        &--bar--fileformat{
             text-align:left;
             height:0.3rem;
             margin-top:0.1rem;
@@ -315,7 +315,7 @@ header{
               color:mui-color("grey");
             }
 
-            span.fileType {
+            span.fileFormat {
                 span.bloc::after {
                   content: ', ';
                 }

@@ -105,7 +105,7 @@ html
               span group by repo/branch
             label
               input(type="checkbox", v-model="filterBreakdown").mui-checkbox.summary-picker__checkbox
-              span breakdown by filetype
+              span breakdown by file format
         #summary-charts
           .summary-charts(v-for="repo of filtered", v-if="repo.length>0")
             .summary-charts__title(
@@ -113,22 +113,22 @@ html
             ) {{ repo[0].repoPath }}
             template(v-if="filterBreakdown")
               template(v-if="filterGroupRepos")
-                .summary-charts__filetype-breakdown(
-                    v-for="fileType in Object.keys(repo[0].fileTypeContribution)")
-                  .summary-charts__filetype--breakdown__title
-                    .summary-charts__filetype--breakdown__title__filled--circle(
-                        v-bind:style="{ 'background-color' : contributionBarColors[fileType] }"
+                .summary-charts__fileformat-breakdown(
+                    v-for="fileFormat in Object.keys(repo[0].fileFormatContribution)")
+                  .summary-charts__fileformat--breakdown__title
+                    .summary-charts__fileformat--breakdown__title__filled--circle(
+                        v-bind:style="{ 'background-color' : contributionBarColors[fileFormat] }"
                     )
-                    .summary-charts__filetype--breakdown__title__name {{ fileType }}
+                    .summary-charts__fileFormat--breakdown__title__name {{ fileFormat }}
                 br
               template(v-else)
-                .summary-charts__filetype-breakdown(
-                    v-for="fileType in Object.keys(contributionBarColors)")
-                  .summary-charts__filetype--breakdown__title
-                    .summary-charts__filetype--breakdown__title__filled--circle(
-                        v-bind:style="{ 'background-color' : contributionBarColors[fileType] }"
+                .summary-charts__fileformat-breakdown(
+                    v-for="fileFormat in Object.keys(contributionBarColors)")
+                  .summary-charts__fileformat--breakdown__title
+                    .summary-charts__fileformat--breakdown__title__filled--circle(
+                        v-bind:style="{ 'background-color' : contributionBarColors[fileFormat] }"
                     )
-                    .summary-charts__filetype--breakdown__title__name {{ fileType }}
+                    .summary-charts__fileformat--breakdown__title__name {{ fileFormat }}
                 br
                 br
             .summary-chart(v-for="(user, i) in repo")
@@ -141,7 +141,7 @@ html
                   v-on:click="$emit('view-authorship', \
                       {author:user.name, repo:user.repoName, name:user.displayName, location:repo[0].location, \
                           minDate:minDate, maxDate:maxDate, totalCommits:user.totalCommits, \
-                              filesLinesObj:user.fileTypeContribution})"
+                              filesLinesObj:user.fileFormatContribution})"
                 )
                   i.summary-chart__title--button.fas.fa-code
                 a(
@@ -182,13 +182,13 @@ html
               .summary-chart__contribution
                 template(v-if="filterBreakdown")
                   .summary-chart__contrib(
-                      v-for="(widths, fileType) in getFileTypeContributionBars(user.fileTypeContribution)"
+                      v-for="(widths, fileFormat) in getFileFormatContributionBars(user.fileFormatContribution)"
                   )
-                    .summary-chart__contrib--bar--filetype(
+                    .summary-chart__contrib--bar--fileformat(
                         v-for="width in widths",
                         v-bind:style="{ width: width + '%',\
-                            'background-color': contributionBarColors[fileType] }",
-                        v-bind:title="fileType + ': ' + user.fileTypeContribution[fileType] + ' lines, '\
+                            'background-color': contributionBarColors[fileFormat] }",
+                        v-bind:title="fileFormat + ': ' + user.fileFormatContribution[fileFormat] + ' lines, '\
                             + 'total: ' + user.totalCommits + ' lines ' + '(contribution from ' + minDate + ' to '\
                             + maxDate + ')'"
                     )
@@ -220,7 +220,7 @@ html
                 span.bloc(v-bind:title="getTotalFileBlankLineInfo()") ({{ totalBlankLineCount }})
               template(v-for="type in Object.keys(filesExistingLinesObj)", v-bind:key="type")
                 label
-                  input(type="checkbox" :value="type" v-model="selectedFileTypes" v-on:change="selectFile").mui-checkbox
+                  input(type="checkbox" :value="type" v-model="selectedFileFormats" v-on:change="selectFile").mui-checkbox
                   span(v-bind:title="getFileBlankLineInfo(type)") {{ type }}: {{ filesExistingLinesObj[type] }}&nbsp;
                   span.bloc(v-bind:title="getFileBlankLineInfo(type)") ({{ filesBlankLinesObj[type] }})
 
