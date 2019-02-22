@@ -125,36 +125,15 @@ html
                   title="click to view author's repo"
                 )
                   i.summary-chart__title--button.fab.fa-github
-              .summary-chart__ramp
-                template(v-if="filterTimeFrame === 'commit'")
-                    template(v-for="(slice, j) in user.commits")
-                      a.summary-chart__ramp__slice(
-                        v-for="(commit, k) in slice.commitResults",
-                        v-if="commit.insertions>0",
-                        v-bind:href="getSliceLink(user, slice)", target="_blank",
-                        v-bind:title="`[${slice.date}] ${commit.message}: ${commit.insertions} lines`",
-                        v-bind:class="'summary-chart__ramp__slice--color' + j % 5",
-                        v-bind:style="{\
-                            zIndex: user.commits.length - j,\
-                            borderLeftWidth: getWidth(commit) + 'em',\
-                            right: ((getSlicePos(j, user.commits.length)\
-                                + (getSlicePos(k, slice.commitResults.length) / user.commits.length)) * 100) + '%'\
-                        }"
-                      )
 
-                template(v-else)
-                  a.summary-chart__ramp__slice(
-                    v-for="(slice, j) in user.commits",
-                    v-if="slice.insertions > 0",
-                    v-bind:title="`[${slice.date}] ${filterTimeFrame === 'day' ? 'Daily' : 'Weekly'} contribution: ${slice.insertions} lines`",
-                    v-bind:href="getSliceLink(user, slice)", target="_blank",
-                    v-bind:class="'summary-chart__ramp__slice--color' + j % 5",
-                    v-bind:style="{\
-                      zIndex: user.commits.length - j,\
-                      borderLeftWidth: getWidth(slice) + 'em',\
-                      right: (getSlicePos(j, user.commits.length) * 100) + '%'\
-                    }"
-                  )
+              .summary-chart__ramp
+                .overlay
+
+                v_ramp(
+                  v-bind:user="user",
+                  v-bind:tframe="filterTimeFrame", 
+                  v-bind:avgsize="avgCommitSize")
+
               .summary-chart__contrib(
                 v-bind:title=
                     "'Total contribution from ' + minDate + ' to ' + maxDate + ': ' + user.totalCommits + ' lines'"
@@ -163,6 +142,9 @@ html
                   v-for="width in getContributionBars(user.totalCommits)",
                   v-bind:style="{ width: width+'%' }"
                 )
+
+    vuetemplate#v_ramp
+      include ramp.jade
 
     vuetemplate#v_authorship
       #authorship
@@ -214,6 +196,7 @@ html
         .empty(v-else) loading...
 
     script(src="static/js/api.js")
+    script(src="static/js/v_ramp.js")
     script(src="static/js/v_summary.js")
     script(src="static/js/v_authorship.js")
     script(src="static/js/main.js")

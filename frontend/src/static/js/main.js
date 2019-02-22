@@ -182,6 +182,7 @@ window.app = new window.Vue({
   },
   components: {
     v_summary: window.vSummary,
+
     v_authorship: window.vAuthorship,
     CircleSpinner: window.VueLoadingSpinner.Circle,
   },

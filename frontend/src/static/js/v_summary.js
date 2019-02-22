@@ -34,11 +34,6 @@ function dateRounding(datestr, roundDown) {
   return getDateStr(datems);
 }
 
-function addDays(dateStr, numDays) {
-  const date = new Date(dateStr);
-  return getDateStr(date.getTime() + numDays * DAY_IN_MS);
-}
-
 window.vSummary = {
   props: ['repos'],
   template: window.$('v_summary').innerHTML,
@@ -55,7 +50,6 @@ window.vSummary = {
       filterSinceDate: '',
       filterUntilDate: '',
       filterHash: '',
-      rampSize: 0.01,
       minDate: '',
       maxDate: '',
     };
@@ -122,29 +116,6 @@ window.vSummary = {
   },
   methods: {
     // view functions //
-    getWidth(slice) {
-      if (slice.insertions === 0) {
-        return 0;
-      }
-
-      const newSize = 100 * (slice.insertions / this.avgCommitSize);
-      return Math.max(newSize * this.rampSize, 0.5);
-    },
-    getSlicePos(i, total) {
-      return (total - i - 1) / total;
-    },
-    getSliceLink(user, slice) {
-      const { REPOS } = window;
-      const untilDate = this.filterTimeFrame === 'week' ? addDays(slice.date, 6) : slice.date;
-
-      return `http://github.com/${
-        REPOS[user.repoId].location.organization}/${
-        REPOS[user.repoId].location.repoName}/commits/${
-        REPOS[user.repoId].branch}?`
-                + `author=${user.name}&`
-                + `since=${slice.date}'T'00:00:00+08:00&`
-                + `until=${untilDate}'T'23:59:59+08:00`;
-    },
     getContributionBars(totalContribution) {
       const res = [];
       const contributionLimit = (this.avgContributionSize * 2);
@@ -394,4 +365,7 @@ window.vSummary = {
     this.renderFilterHash();
     this.getFiltered();
   },
+  components: {
+    v_ramp: window.vRamp,
+  }
 };
