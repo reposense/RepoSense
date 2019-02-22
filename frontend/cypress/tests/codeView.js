@@ -1,7 +1,5 @@
-describe('code view at first start', () => {
-  it('shows tutorial message', () => {
-    cy.visit('/');
-
+describe('code view', () => {
+  it('at first start shows tutorial message', () => {
     cy.get('#tabs-wrapper')
         .should('be.visible');
 
@@ -11,5 +9,16 @@ describe('code view at first start', () => {
 
       expect(expected).to.equal(message);
     });
+  });
+
+  it('can be closed', () => {
+    cy.get('#tabs-wrapper')
+        .should('be.visible');
+
+    cy.get('div.tab-close')
+        .click();
+
+    cy.get('#tabs-wrapper')
+        .should('not.exist');
   });
 });

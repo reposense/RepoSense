@@ -4,3 +4,7 @@
 Cypress.Screenshot.defaults({
   screenshotOnRunFailure: false,
 });
+
+beforeEach(function () {
+  cy.visit('/');
+})
