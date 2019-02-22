@@ -9,9 +9,12 @@ beforeEach(() => {
   cy.visit('/');
 });
 
-Cypress.slowMotion = (() => {
-  if (Cypress.env('local') === true) {
-    cy.log('Slowing down test...');
-    cy.wait(1250);
+// Slows down test execution on non-CI environment.
+Cypress.wait = (() => {
+  if (Cypress.env('ci') === true) {
+  	return;
   }
+
+  cy.log('Slowing down test...');
+  cy.wait(1500);
 });
