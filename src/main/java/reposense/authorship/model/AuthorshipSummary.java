@@ -3,6 +3,7 @@ package reposense.authorship.model;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
 import reposense.model.Author;
 import reposense.model.Format;
@@ -12,8 +13,8 @@ import reposense.model.Format;
  */
 public class AuthorshipSummary {
     private final List<FileResult> fileResults;
-    private final HashMap<Author, Integer> authorFinalContributionMap;
-    private final HashMap<Author, LinkedHashMap<String, Integer>> authorFileTypeContributionMap;
+    private final Map<Author, Integer> authorFinalContributionMap;
+    private final Map<Author, Map<String, Integer>> authorFileTypeContributionMap;
 
     public AuthorshipSummary(List<FileResult> fileResults, List<Author> authors, List<Format> formats) {
         this.fileResults = fileResults;
@@ -23,7 +24,7 @@ public class AuthorshipSummary {
         // initialise each author contribution to be 0
         authors.forEach((author) -> authorFinalContributionMap.put(author, 0));
         authors.forEach((author) -> {
-            LinkedHashMap<String, Integer> defaultFileTypeContribution = new LinkedHashMap<>();
+            Map<String, Integer> defaultFileTypeContribution = new LinkedHashMap<>();
             for (Format format : formats) {
                 defaultFileTypeContribution.put(format.toString(), 0);
             }
@@ -37,17 +38,17 @@ public class AuthorshipSummary {
     public void addAuthorContributionCount(Author author, String filePath) {
         authorFinalContributionMap.put(author, authorFinalContributionMap.get(author) + 1);
 
-        LinkedHashMap<String, Integer> fileTypeContributionMap = authorFileTypeContributionMap.get(author);
+        Map<String, Integer> fileTypeContributionMap = authorFileTypeContributionMap.get(author);
         String fileType = filePath.substring(filePath.lastIndexOf('.') + 1);
-        fileType = (fileType.isEmpty()) ? "others" : fileType;
+        fileType = fileType.isEmpty() ? "others" : fileType;
         fileTypeContributionMap.put(fileType, fileTypeContributionMap.getOrDefault(fileType, 0) + 1);
     }
 
-    public HashMap<Author, Integer> getAuthorFinalContributionMap() {
+    public Map<Author, Integer> getAuthorFinalContributionMap() {
         return authorFinalContributionMap;
     }
 
-    public HashMap<Author, LinkedHashMap<String, Integer>> getAuthorFileTypeContributionMap() {
+    public Map<Author, Map<String, Integer>> getAuthorFileTypeContributionMap() {
         return authorFileTypeContributionMap;
     }
 

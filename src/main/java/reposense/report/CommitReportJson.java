@@ -17,7 +17,7 @@ import reposense.model.Author;
 public class CommitReportJson {
     private final Map<Author, List<AuthorDailyContribution>> authorDailyContributionsMap;
     private final Map<Author, Integer> authorFinalContributionMap;
-    private final Map<Author, LinkedHashMap<String, Integer>> authorFileTypeContributionMap;
+    private final Map<Author, Map<String, Integer>> authorFileTypeContributionMap;
     private final Map<Author, Float> authorContributionVariance;
     private final Map<Author, String> authorDisplayNameMap;
 
