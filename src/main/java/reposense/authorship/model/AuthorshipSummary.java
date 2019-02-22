@@ -3,6 +3,7 @@ package reposense.authorship.model;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
 import reposense.model.Author;
 import reposense.model.Group;
@@ -12,8 +13,8 @@ import reposense.model.Group;
  */
 public class AuthorshipSummary {
     private final List<FileResult> fileResults;
-    private final HashMap<Author, Integer> authorFinalContributionMap;
-    private final HashMap<Author, LinkedHashMap<String, Integer>> authorGroupContributionMap;
+    private final Map<Author, Integer> authorFinalContributionMap;
+    private final Map<Author, Map<String, Integer>> authorGroupContributionMap;
 
     public AuthorshipSummary(List<FileResult> fileResults, List<Author> authors, List<Group> groups) {
         this.fileResults = fileResults;
@@ -24,7 +25,7 @@ public class AuthorshipSummary {
         authors.forEach((author) -> authorFinalContributionMap.put(author, 0));
         if (!groups.isEmpty()) {
             authors.forEach((author) -> {
-                LinkedHashMap<String, Integer> defaultGroupContribution = new LinkedHashMap<>();
+                Map<String, Integer> defaultGroupContribution = new LinkedHashMap<>();
                 for (Group group : groups) {
                     defaultGroupContribution.put(group.toString(), 0);
                 }
@@ -42,16 +43,16 @@ public class AuthorshipSummary {
     public void addAuthorContributionCount(Author author, String group) {
         authorFinalContributionMap.put(author, authorFinalContributionMap.get(author) + 1);
         if (group != null) {
-            LinkedHashMap<String, Integer> groupContributionMap = authorGroupContributionMap.get(author);
+            Map<String, Integer> groupContributionMap = authorGroupContributionMap.get(author);
             groupContributionMap.put(group, groupContributionMap.getOrDefault(group, 0) + 1);
         }
     }
 
-    public HashMap<Author, Integer> getAuthorFinalContributionMap() {
+    public Map<Author, Integer> getAuthorFinalContributionMap() {
         return authorFinalContributionMap;
     }
 
-    public HashMap<Author, LinkedHashMap<String, Integer>> getAuthorGroupContributionMap() {
+    public Map<Author, Map<String, Integer>> getAuthorGroupContributionMap() {
         return authorGroupContributionMap;
     }
 
