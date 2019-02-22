@@ -35,14 +35,14 @@ html
               strong RepoSense
             span &nbsp; on {{ creationDate }}
 
-        #tabs-wrapper(v-if="tabActive")
+        #tabs-wrapper(v-if="isTabActive")
           #tab-resize(onmousedown="registerMouseMove()")
-          .tab-close(v-on:click="tabActive='';")
+          .tab-close(v-on:click="isTabActive=false;")
             i.fas.fa-caret-right
           .tab-content
             .tab-panes
               v_authorship#tab-authorship.tab-pane(
-                v-if="isTabActive && tabActive=='authorship'"
+                v-if="tabActive=='authorship'"
                 v-bind:key="generateKey(tabInfo.tabAuthorship)",
                 v-bind:info="tabInfo.tabAuthorship")
               #tab-empty.tab-pane(v-else)
