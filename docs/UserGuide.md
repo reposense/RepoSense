@@ -191,11 +191,11 @@ To find the author name that you are currently using for your current git reposi
 ```
 git config user.name
 ```
-To set the author name to the value you want (e.g., to set it to your GitHub username) for the current git repository, you can use the following command ([more info](https://www.git-tower.com/learn/git/faq/change-author-name-email)):
+To set the author name to the value you want (e.g., to set it to your GitHub username) for your current git repository, you can use the following command ([more info](https://www.git-tower.com/learn/git/faq/change-author-name-email)):
 ```
 git config user.name "YOUR_AUTHOR_NAME”
 ```
-To set the author name to the value you want for the future git repository, you can use the following command:
+To set the author name to use a default value you want for the future git repositories, you can use the following command:
 ```
 git config --global user.name "YOUR_AUTHOR_NAME”
 ```
