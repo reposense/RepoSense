@@ -195,7 +195,7 @@ To set the author name to the value you want (e.g., to set it to your GitHub use
 ```
 git config user.name "YOUR_AUTHOR_NAME”
 ```
-To set the author name to use a default value you want for the future git repositories, you can use the following command:
+To set the author name to use a default value you want for future git repositories, you can use the following command:
 ```
 git config --global user.name "YOUR_AUTHOR_NAME”
 ```
