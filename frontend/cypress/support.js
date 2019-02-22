@@ -12,7 +12,7 @@ beforeEach(() => {
 // Slows down test execution on non-CI environment.
 Cypress.wait = (() => {
   if (Cypress.env('ci') === true) {
-  	return;
+    return;
   }
 
   cy.log('Slowing down test...');
