@@ -186,14 +186,14 @@ Date:   Fri Feb 9 19:13:13 2018 +0800
     Initial commit
  ...
 ```
-`ActualGitHubId` and `ConfiguredAuthorName` are both `Git Author Name` of the same author.
-To find the author name that you have set in your local machine, run the following command:
+`ActualGitHubId` and `ConfiguredAuthorName` are both `Git Author Name` of the same author.<br>
+To find the author name that you are currently using, run the following command at your analyzed git repository:
 ```
 git config user.name
 ```
-To set the author name to the value you want (e.g., to set it to your GitHub username), you can use the following command ([more info](https://www.git-tower.com/learn/git/faq/change-author-name-email)):
+To set the author name to the value you want (e.g., to set it to your GitHub username) for the analyzed git repository, you can use the following command ([more info](https://www.git-tower.com/learn/git/faq/change-author-name-email)):
 ```
-git config --global user.name "YOUR_AUTHOR_NAME”
+git config user.name "YOUR_AUTHOR_NAME”
 ```
 RepoSense expects the Git Author Name to be the same as author's GitHub username. If an author's `Git Author Name` is different from her `GitHub ID`, the `Git Author Name` needs to be specified in the standalone config file. If the author has more than one `Git Author Name`, multiple values can be entered too.
 
