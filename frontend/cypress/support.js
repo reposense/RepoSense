@@ -11,7 +11,7 @@ beforeEach(() => {
 
 Cypress.slowMotion = (() => {
   if (Cypress.env('local') === true) {
-  	cy.log('Slowing down test...')
-  	cy.wait(1250);
+    cy.log('Slowing down test...');
+    cy.wait(1250);
   }
 });

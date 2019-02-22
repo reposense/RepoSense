@@ -19,7 +19,7 @@ describe('code view', () => {
 
     cy.get('div.tab-close')
         .click();
-        
+
     Cypress.slowMotion();
 
     cy.get('#tabs-wrapper')
