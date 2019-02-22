@@ -103,6 +103,11 @@ task frontendTest(dependsOn: ['installCypress', 'startServerInBackground'], type
 
   workingDir = file('frontend/cypress/')
   args = ["run-script", "tests"]
+
+  // Run tests in CI without slow motion
+  if (project.hasProperty('ci')) {
+    args = ["run-script", "ci"]
+  }
 }
 
 idea {

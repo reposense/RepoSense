@@ -5,6 +5,13 @@ Cypress.Screenshot.defaults({
   screenshotOnRunFailure: false,
 });
 
-beforeEach(function () {
+beforeEach(() => {
   cy.visit('/');
-})
+});
+
+Cypress.slowMotion = (() => {
+  if (Cypress.env('local') === true) {
+  	cy.log('Slowing down test...')
+  	cy.wait(1250);
+  }
+});

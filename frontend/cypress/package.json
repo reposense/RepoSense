@@ -1,7 +1,8 @@
 {
   "scripts": {
-    "tests": "cypress run --browser chrome",
-    "debug": "cypress open"
+    "tests": "cypress run --env local=true --browser chrome",
+    "debug": "cypress open --env local=true",
+    "ci": "cypress run --browser chrome"
   },
   "devDependencies": {
     "cypress": "^3.1.5"

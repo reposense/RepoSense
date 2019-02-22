@@ -15,8 +15,12 @@ describe('code view', () => {
     cy.get('#tabs-wrapper')
         .should('be.visible');
 
+    Cypress.slowMotion();
+
     cy.get('div.tab-close')
         .click();
+        
+    Cypress.slowMotion();
 
     cy.get('#tabs-wrapper')
         .should('not.exist');
