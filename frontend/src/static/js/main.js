@@ -196,7 +196,11 @@ window.app = new window.Vue({
     },
     updateInfoRepoName(info) {
       if (info.location && this.isValidUrl(info.location)) {
-        const repoName = info.location.split('github.com/')[1].split('/');
+        const urlSegments = info.location.split('github.com/');
+        if (urlSegments.length < 2) {
+          return;
+        }
+        const repoName = urlSegments[1].split('/');
         if (repoName.length === 2) {
           info.repo = `${repoName.join('_').slice(0, -4)}_master`;
         } else {
