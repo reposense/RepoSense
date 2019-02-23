@@ -176,7 +176,6 @@ window.app = new window.Vue({
     },
     renderAuthorShipTabHash() {
       const hash = window.hashParams;
-      //const [minDate, maxDate] = minMaxDate;
       const info = {
         author: hash.tabAuthor,
         location: hash.tabLocation,
@@ -184,7 +183,6 @@ window.app = new window.Vue({
         maxDate: this.maxDate,
       };
       const tabInfoLength = 5;
-      // const tabInfoLength = 3;
       this.updateInfoRepoName(info);
       if (Object.keys(info).length === tabInfoLength) {
         this.updateTabAuthorship(info);
