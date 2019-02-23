@@ -220,6 +220,7 @@ window.app = new window.Vue({
       if (window.REPOS[info.repo]) {
         return window.REPOS[info.repo].commits.authorFinalContributionMap[info.author] > 0;
       }
+      return false;
     },
   },
   components: {
