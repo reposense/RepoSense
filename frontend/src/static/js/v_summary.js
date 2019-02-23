@@ -391,37 +391,9 @@ window.vSummary = {
 
       this.filtered = full;
     },
-    renderAuthorShipTabHash() {
-      const hash = window.hashParams;
-      const info = {
-        author: hash.tabAuthor,
-        location: hash.tabLocation,
-        minDate: this.minDate,
-        maxDate: this.maxDate,
-      };
-      const tabInfoLength = 5;
-      this.updateInfoRepoName(info);
-      if (Object.keys(info).length === tabInfoLength) {
-        window.app.updateTabAuthorship(info);
-      } else if (hash.tabOpen === 'false') {
-        window.app.isTabActive = false;
-      }
-    },
-    updateInfoRepoName(info) {
-      if (info.location) {
-        const repoName = info.location.split('github.com/')[1].split('/');
-        if (repoName.length === 2) {
-          info.repo = `${repoName.join('_').slice(0, -4)}_master`;
-        } else {
-          repoName.splice(2, 1);
-          info.repo = repoName.join('_');
-        }
-      }
-    },
   },
   created() {
     this.renderFilterHash();
     this.getFiltered();
-    this.renderAuthorShipTabHash();
   },
 };

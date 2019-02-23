@@ -169,6 +169,35 @@ window.app = new window.Vue({
         document.getElementById('tabs-wrapper').scrollTop = 0;
       }
     },
+    renderAuthorShipTabHash() {
+      const hash = window.hashParams;
+      //const [minDate, maxDate] = minMaxDate;
+      const info = {
+        author: hash.tabAuthor,
+        location: hash.tabLocation,
+        minDate: this.minDate,
+        maxDate: this.maxDate,
+      };
+      const tabInfoLength = 5;
+      // const tabInfoLength = 3;
+      this.updateInfoRepoName(info);
+      if (Object.keys(info).length === tabInfoLength) {
+        this.updateTabAuthorship(info);
+      } else if (hash.tabOpen === 'false') {
+        window.app.isTabActive = false;
+      }
+    },
+    updateInfoRepoName(info) {
+      if (info.location) {
+        const repoName = info.location.split('github.com/')[1].split('/');
+        if (repoName.length === 2) {
+          info.repo = `${repoName.join('_').slice(0, -4)}_master`;
+        } else {
+          repoName.splice(2, 1);
+          info.repo = repoName.join('_');
+        }
+      }
+    },
 
     /* global expandAll */
     expand(isActive) {
@@ -192,6 +221,7 @@ window.app = new window.Vue({
   created() {
     this.updateReportDir();
     window.decodeHash();
+    this.renderAuthorShipTabHash();
   },
   updated() {
     this.$nextTick(() => {
