@@ -190,23 +190,16 @@ window.app = new window.Vue({
         window.app.isTabActive = false;
       }
     },
-    isValidUrl(url) {
-      const regex = /^(http[s]?:\/\/){0,1}(www\.){0,1}[a-zA-Z0-9\.\-]+\.[a-zA-Z]{2,5}[\.]{0,1}/;
-      return regex.test(url);
-    },
     updateInfoRepoName(info) {
-      const urlSegments = info.location.split('github.com/');
-      if (!info.location || !this.isValidUrl(info.location) || urlSegments.length < 2) {
+      if (!info.location || info.location.split('github.com/').length < 2) {
         return;
       }
-
-      const repoName = urlSegments[1].split('/');
+      const repoName = info.location.split('github.com/')[1].split('/');
       if (repoName.length === 2) {
         info.repo = `${repoName.join('_').slice(0, -4)}_master`;
       } else {
         repoName.splice(2, 1);
         info.repo = repoName.join('_');
-      }
       }
     },
 
