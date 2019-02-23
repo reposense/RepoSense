@@ -194,9 +194,8 @@ html
                     )
                 template(v-else)
                   .summary-chart__contrib(
-                      v-bind:title=
-                          "'Total contribution from ' + minDate + ' to ' + maxDate + ': ' + user.totalCommits\
-                          + ' lines'"
+                      v-bind:title="'Total contribution from ' + minDate + ' to ' + maxDate + ': '\
+                          + user.totalCommits + ' lines'"
                   )
                     .summary-chart__contrib--bar(
                         v-for="width in getContributionBars(user.totalCommits)",

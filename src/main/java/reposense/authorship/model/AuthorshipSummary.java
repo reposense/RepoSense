@@ -14,7 +14,7 @@ import reposense.model.Format;
 public class AuthorshipSummary {
     private final List<FileResult> fileResults;
     private final Map<Author, Integer> authorFinalContributionMap;
-    private final Map<Author, Map<String, Integer>> authorFileFormatContributionMap;
+    private final Map<Author, LinkedHashMap<String, Integer>> authorFileFormatContributionMap;
 
     public AuthorshipSummary(List<FileResult> fileResults, List<Author> authors, List<Format> formats) {
         this.fileResults = fileResults;
@@ -24,7 +24,7 @@ public class AuthorshipSummary {
         // initialise each author contribution to be 0
         authors.forEach((author) -> authorFinalContributionMap.put(author, 0));
         authors.forEach((author) -> {
-            Map<String, Integer> defaultFileFormatContribution = new LinkedHashMap<>();
+            LinkedHashMap<String, Integer> defaultFileFormatContribution = new LinkedHashMap<>();
             for (Format format : formats) {
                 defaultFileFormatContribution.put(format.toString(), 0);
             }
@@ -33,7 +33,8 @@ public class AuthorshipSummary {
     }
 
     /**
-     * Increments the contribution count of {@code author} and of a specific fileFormat by one.
+     * Increments the contribution count of {@code author} and the corresponding file format specified by
+     * {@code filePath} by one.
      */
     public void addAuthorContributionCount(Author author, String filePath) {
         authorFinalContributionMap.put(author, authorFinalContributionMap.get(author) + 1);
@@ -48,7 +49,7 @@ public class AuthorshipSummary {
         return authorFinalContributionMap;
     }
 
-    public Map<Author, Map<String, Integer>> getAuthorFileFormatContributionMap() {
+    public Map<Author, LinkedHashMap<String, Integer>> getAuthorFileFormatContributionMap() {
         return authorFileFormatContributionMap;
     }
 

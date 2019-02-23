@@ -161,6 +161,7 @@ window.vSummary = {
         const res = [];
         let fileFormatWidth = 0;
 
+        //compute 100% width bars
         const cnt = parseInt(contribution / contributionLimit, 10);
         for (let cntId = 0; cntId < cnt; cntId += 1) {
           res.push(maxLength);
@@ -168,6 +169,7 @@ window.vSummary = {
           totalWidth += maxLength;
         }
 
+        //compute < 100% width bars
         const last = (contribution % contributionLimit) / contributionLimit;
         if (last !== 0) {
           res.push(last * maxLength);
@@ -175,6 +177,7 @@ window.vSummary = {
           totalWidth += last * maxLength;
         }
 
+        //split > 100% width bars into smaller bars
         if ((totalWidth > maxLength) && (totalWidth !== fileFormatWidth)) {
           res.unshift(maxLength - (totalWidth - fileFormatWidth));
           res[res.length - 1] = res[res.length - 1] - (maxLength - (totalWidth - fileFormatWidth));
@@ -325,8 +328,8 @@ window.vSummary = {
     },
     processFileFormats() {
       const selectedColors = ['#ffe119', '#4363d8', '#3cb44b', '#f58231', '#911eb4', '#46f0f0', '#f032e6',
-        '#bcf60c', '#fabebe', '#008080', '#e6beff', '#9a6324', '#fffac8', '#800000', '#aaffc3', '#808000', '#ffd8b1',
-        '#000075', '#808080'];
+          '#bcf60c', '#fabebe', '#008080', '#e6beff', '#9a6324', '#fffac8', '#800000', '#aaffc3', '#808000', '#ffd8b1',
+          '#000075', '#808080'];
       const colors = {};
       let i = 0;
 
