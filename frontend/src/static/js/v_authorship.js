@@ -57,6 +57,9 @@ window.vAuthorship = {
   methods: {
     initiate() {
       const repo = window.REPOS[this.info.repo];
+      if (!repo) {
+        return;
+      }
       this.getAuthorName(repo);
 
       if (repoCache.length === 2) {
