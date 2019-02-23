@@ -196,14 +196,17 @@ window.app = new window.Vue({
     },
     updateInfoRepoName(info) {
       const urlSegments = info.location.split('github.com/');
-      if (info.location && this.isValidUrl(info.location) && urlSegments.length > 1) {
-        const repoName = urlSegments[1].split('/');
-        if (repoName.length === 2) {
-          info.repo = `${repoName.join('_').slice(0, -4)}_master`;
-        } else {
-          repoName.splice(2, 1);
-          info.repo = repoName.join('_');
-        }
+      if (!info.location || !this.isValidUrl(info.location) || urlSegments.length < 2) {
+        return;
+      }
+
+      const repoName = urlSegments[1].split('/');
+      if (repoName.length === 2) {
+        info.repo = `${repoName.join('_').slice(0, -4)}_master`;
+      } else {
+        repoName.splice(2, 1);
+        info.repo = repoName.join('_');
+      }
       }
     },
 
