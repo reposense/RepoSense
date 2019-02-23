@@ -191,7 +191,7 @@ window.app = new window.Vue({
       }
     },
     isValidUrl(url) {
-      const regex = /(ftp|http|https):\/\/(\w+:{0,1}\w*@)?(\S+)(:[0-9]+)?(\/|\/([\w#!:.?+=&%@!\-\/]))?/;
+      const regex = /^(http[s]?:\/\/){0,1}(www\.){0,1}[a-zA-Z0-9\.\-]+\.[a-zA-Z]{2,5}[\.]{0,1}/;
       return regex.test(url);
     },
     updateInfoRepoName(info) {
