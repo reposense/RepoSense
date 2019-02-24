@@ -48,7 +48,6 @@ window.vSummary = {
       filterSearch: '',
       filterSort: 'displayName',
       filterSortReverse: false,
-      filterGroupRepos: true,
       filterGroupSelection: 'groupByRepos',
       filterTimeFrame: 'day',
       tmpFilterSinceDate: '',
@@ -175,7 +174,7 @@ window.vSummary = {
       addHash('timeframe', this.filterTimeFrame);
 
       addHash('reverse', this.filterSortReverse);
-      addHash('repoSort', this.filterGroupRepos);
+      addHash('groupSelect', this.filterGroupSelection);
 
       encodeHash();
     },
@@ -197,7 +196,7 @@ window.vSummary = {
       }
 
       if (hash.reverse) { this.filterSortReverse = convertBool(hash.reverse); }
-      if (hash.repoSort) { this.filterGroupRepos = convertBool(hash.repoSort); }
+      if (hash.groupSelect) { this.filterGroupSelection = hash.groupSelect; }
     },
 
     getDates() {
