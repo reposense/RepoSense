@@ -200,8 +200,22 @@ header{
 }
 
 .summary-chart{
+    position:relative;
     margin-bottom:1rem;
     text-align:left;
+
+    .overlay{
+      height:100%;
+      position:absolute;
+
+      &.show{
+        background-color:#fffa;
+      }
+
+      &.edge{
+        border-right:.1rem dashed #000;
+      }
+    }
 
     &__title{
 
@@ -233,6 +247,7 @@ header{
     &__ramp{
         font-size:100%;
         position:relative;
+        cursor:crosshair;
 
         $height:3rem;
         height:$height;
