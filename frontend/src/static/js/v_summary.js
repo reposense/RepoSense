@@ -398,13 +398,21 @@ window.vSummary = {
     },
     filterByAuthors(repos) {
       const authorMap = {};
+      const authorData = {};
       const filtered = [];
       repos.forEach((users) => {
         users.forEach((user) => {
           if (Object.keys(authorMap).includes(user.name)) {
             authorMap[user.name].push(user);
+            if (authorData[user.name] && Object.keys(authorData[user.name]).includes(this.filterSort)) {
+              authorData[user.name][this.filterSort] += user[this.filterSort];
+            }
           } else {
-            authorMap[user.name] = [user]
+            authorMap[user.name] = [user];
+            if (!isNaN(user[this.filterSort])) {
+              authorData[user.name] = {};
+              authorData[user.name][this.filterSort] = user[this.filterSort];
+            }
           }
         });
       });
