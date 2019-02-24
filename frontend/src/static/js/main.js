@@ -99,10 +99,11 @@ window.app = new window.Vue({
 
     isLoading: false,
     isCollapsed: false,
+
+    // isTabActive used to force tab wrapper to load
     isTabActive: true,
-    isTabAuthorship: false,
+    tabActive: 'empty',
     tabInfo: {},
-    tabAuthorship: {},
     creationDate: '',
   },
   methods: {
@@ -154,26 +155,22 @@ window.app = new window.Vue({
       });
       return full;
     },
-    deactivateTabs() {
-      this.isTabAuthorship = false;
-    },
 
-    updateTabAuthorship(obj) {
-      this.deactivateTabs();
-      this.tabInfo.tabAuthorship = Object.assign({}, obj);
-
-      this.isTabActive = true;
-      this.isTabAuthorship = true;
-      this.isCollapsed = false;
+    deactivateTab() {
+      this.isTabActive = false;
       if (document.getElementById('tabs-wrapper')) {
         document.getElementById('tabs-wrapper').scrollTop = 0;
       }
     },
 
-    /* global expandAll */
-    expand(isActive) {
-      this.isCollapsed = !isActive;
-      expandAll(isActive);
+    updateTabAuthorship(obj) {
+      this.deactivateTab();
+      this.tabInfo.tabAuthorship = Object.assign({}, obj);
+
+      this.isTabActive = true;
+      this.isCollapsed = false;
+
+      this.tabActive = 'authorship';
     },
 
     generateKey(dataObj) {

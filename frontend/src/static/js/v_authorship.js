@@ -13,26 +13,6 @@ window.toggleNext = function toggleNext(ele) {
   }
 
   parent.className = classes.join(' ');
-
-  // Update expand/collapse all button
-  window.updateToggleButton();
-};
-
-window.updateToggleButton = function updateToggleButton() {
-  if (document.getElementsByClassName('file active').length === document.getElementsByClassName('file').length) {
-    window.app.isCollapsed = false;
-  } else if (document.getElementsByClassName('file active').length === 0) {
-    window.app.isCollapsed = true;
-  }
-};
-
-window.expandAll = function expandAll(isActive) {
-  const renameValue = isActive ? 'file active' : 'file';
-
-  const files = document.getElementsByClassName('file');
-  Array.from(files).forEach((file) => {
-    file.className = renameValue;
-  });
 };
 
 const repoCache = [];
@@ -51,6 +31,7 @@ window.vAuthorship = {
       filesBlankLinesObj: {},
       totalLineCount: '',
       totalBlankLineCount: '',
+      activeFiles: 0,
     };
   },
 
@@ -72,6 +53,21 @@ window.vAuthorship = {
         window.api.loadAuthorship(this.info.repo)
             .then((files) => this.processFiles(files));
       }
+    },
+
+    expandAll(isActive) {
+      const renameValue = isActive ? 'file active' : 'file';
+
+      const files = document.getElementsByClassName('file');
+      Array.from(files).forEach((file) => {
+        file.className = renameValue;
+      });
+
+      this.activeFiles = isActive ? this.selectedFiles.length : 0;
+    },
+
+    updateCount() {
+      this.activeFiles = document.getElementsByClassName('file active').length;
     },
 
     splitSegments(lines) {
@@ -146,6 +142,8 @@ window.vAuthorship = {
       this.files = res;
       this.selectedFiles = res;
       this.isLoaded = true;
+
+      this.activeFiles = this.selectedFiles.length;
     },
 
     addLineCountToFileType(path, lineCount, filesInfoObj) {
@@ -191,6 +189,8 @@ window.vAuthorship = {
       } else {
         this.selectedFiles = this.files.filter((file) => this.selectedFileTypes.includes((file.path.split('.').pop())));
       }
+
+      this.activeFiles = this.selectedFiles.length;
     },
 
     getFileLink(file, path) {
@@ -214,9 +214,5 @@ window.vAuthorship = {
 
   created() {
     this.initiate();
-  },
-
-  updated() {
-    window.updateToggleButton();
   },
 };
