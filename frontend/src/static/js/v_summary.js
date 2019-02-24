@@ -407,7 +407,7 @@ window.vSummary = {
       const filtered = [];
       repos.forEach((users) => {
         users.forEach((user) => {
-          if (authorMap.hasOwnProperty(user.name)) {
+          if (Object.keys(authorMap).includes(user.name)) {
             authorMap[user.name].push(user);
           } else {
             authorMap[user.name] = [user];
@@ -415,10 +415,10 @@ window.vSummary = {
         });
       });
       // If filterSort is related to variance & contribution, sum them up
-      if (!isNaN(repos[0][0][this.filterSort])) {
+      if (repos[0] && !Number.isNaN(repos[0][0][this.filterSort])) {
         Object.keys(authorMap).forEach((author) => {
           authorData[author] = {};
-          authorData[author][this.filterSort] = [0,0];
+          authorData[author][this.filterSort] = [0, 0];
           authorMap[author].forEach((repo) => {
             authorData[author][this.filterSort][0] += 1;
             authorData[author][this.filterSort][1] += repo[this.filterSort];
@@ -433,9 +433,7 @@ window.vSummary = {
         });
       }
 
-      Object.keys(authorMap).map((author) => {
-        filtered.push(authorMap[author]);
-      });
+      Object.keys(authorMap).forEach((author) => filtered.push(authorMap[author]));
       filtered.sort(comparator((ele) => {
         if (this.filterSort === 'totalCommits' || this.filterSort === 'variance') {
           return authorData[ele[0].name][this.filterSort].average;
