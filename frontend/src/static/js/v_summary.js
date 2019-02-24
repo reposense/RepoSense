@@ -405,27 +405,31 @@ window.vSummary = {
       const filtered = [];
       repos.forEach((users) => {
         users.forEach((user) => {
-          if (Object.keys(authorMap).includes(user.name)) {
+          if (authorMap.hasOwnProperty(user.name)) {
             authorMap[user.name].push(user);
-            if (authorData[user.name] && Object.keys(authorData[user.name]).includes(this.filterSort)) {
-              authorData[user.name][this.filterSort][0] += 1;
-              authorData[user.name][this.filterSort][1] += user[this.filterSort];
-            }
           } else {
             authorMap[user.name] = [user];
-            if (!isNaN(user[this.filterSort])) {
-              authorData[user.name] = {};
-              authorData[user.name][this.filterSort] = [1, user[this.filterSort]];
-            }
           }
         });
       });
-      Object.keys(authorData).forEach((author) => {
-        Object.keys(authorData[author]).forEach((filterProp) => {
-          const [totalNum, totalValue] = authorData[author][filterProp];
-          authorData[author][filterProp].average = totalValue / totalNum;
+      // If filterSort is related to variance & contribution, sum them up
+      if (!isNaN(user[this.filterSort])) {
+        Object.keys(authorMap).forEach((author) => {
+          authorData[author][this.filterSort] = [0,0];
+          authorMap[author].forEach((repo) => {
+            authorData[author][this.filterSort][0] += 1
+            authorData[author][this.filterSort][1] += repo[this.filterSort];
+          });
         });
-      });
+        // Calculate average
+        Object.keys(authorData).forEach((author) => {
+          Object.keys(authorData[author]).forEach((filterProp) => {
+            const [totalNum, totalValue] = authorData[author][filterProp];
+            authorData[author][filterProp].average = totalValue / totalNum;
+          });
+        });
+      }
+
       Object.keys(authorMap).map((author) => {
         filtered.push(authorMap[author]);
       });
