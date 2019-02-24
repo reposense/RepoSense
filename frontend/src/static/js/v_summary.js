@@ -387,7 +387,7 @@ window.vSummary = {
       return sortedRepos;
     },
     filterByNone(repos) {
-      const sortedRepos = []
+      const sortedRepos = [];
       repos.forEach((users) => {
         users.forEach((user) => {
           sortedRepos.push(user);
