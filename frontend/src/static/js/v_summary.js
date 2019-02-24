@@ -21,10 +21,10 @@ function getBaseTarget(target) {
 
 function deactivateAllOverlays() {
   document.querySelectorAll('.summary-chart__ramp .overlay')
-    .forEach(x => { x.className = 'overlay'; });
+      .forEach((x) => { x.className = 'overlay'; });
 }
 
-function dragViewDown(evt) {
+window.dragViewDown = function dragViewDown(evt) {
   deactivateAllOverlays();
 
   const pos = evt.clientX;
@@ -36,26 +36,26 @@ function dragViewDown(evt) {
 
   const overlay = ramp.getElementsByClassName('overlay')[0];
   overlay.style.marginLeft = '0';
-  overlay.style.width = (pos-offset)*100/base + '%';
+  overlay.style.width = `${(pos - offset) * 100 / base}%`;
   overlay.className += ' edge';
-}
+};
 
-function dragViewUp(evt){
+window.dragViewUp = function dragViewUp(evt) {
   deactivateAllOverlays();
   const ramp = getBaseTarget(evt.target);
 
   const base = ramp.offsetWidth;
   drags.push(evt.clientX);
-  drags.sort((a,b) => a-b);
+  drags.sort((a, b) => a - b);
 
   const offset = ramp.parentElement.offsetLeft;
-  drags = drags.map(x => (x-offset)*100/base);
+  drags = drags.map((x) => (x - offset) * 100 / base);
 
   const overlay = ramp.getElementsByClassName('overlay')[0];
-  overlay.style.marginLeft = drags[0] + '%';
-  overlay.style.width = (drags[1]-drags[0]) + '%';
+  overlay.style.marginLeft = `${drags[0]}%`;
+  overlay.style.width = `${drags[1] - drags[0]}%`;
   overlay.className += ' show';
-}
+};
 
 // date functions //
 const DAY_IN_MS = (1000 * 60 * 60 * 24);
