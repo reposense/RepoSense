@@ -103,16 +103,18 @@ html
             label
               input(type="checkbox", v-model="filterGroupRepos").mui-checkbox.summary-picker__checkbox
               span group by repo/branch
+            label
+              input(type="checkbox", v-model="filterGroupAuthors").mui-checkbox.summary-picker__checkbox
+              span group by author
         #summary-charts
           .summary-charts(v-for="repo of filtered", v-if="repo.length>0")
-            .summary-charts__title(
-              v-if="filterGroupRepos",
-            ) {{ repo[0].repoPath }}
+            .summary-charts__title(v-if="filterGroupRepos") {{ repo[0].repoPath }}
+            .summary-charts__title(v-if="filterGroupAuthors") {{ repo[0].displayName }}
             .summary-chart(v-for="(user, i) in repo")
               .summary-chart__title
                 .summary-chart__title--index {{ i+1 }}
                 .summary-chart__title--repo(v-if="!filterGroupRepos") {{ user.repoPath }}
-                .summary-chart__title--name {{ user.displayName }}
+                .summary-chart__title--name(v-if="!filterGroupAuthors") {{ user.displayName }}
                 a(
                   title="click to view author's code",
                   v-on:click="$emit('view-authorship', \

@@ -49,6 +49,7 @@ window.vSummary = {
       filterSort: 'displayName',
       filterSortReverse: false,
       filterGroupRepos: true,
+      filterGroupAuthors: false,
       filterTimeFrame: 'day',
       tmpFilterSinceDate: '',
       tmpFilterUntilDate: '',
@@ -74,6 +75,9 @@ window.vSummary = {
       this.getFiltered();
     },
     filterTimeFrame() {
+      this.getFiltered();
+    },
+    filterGroupAuthors() {
       this.getFiltered();
     },
     tmpFilterSinceDate() {
@@ -362,7 +366,7 @@ window.vSummary = {
       return null;
     },
     sortFiltered() {
-      const full = [];
+      let full = [];
       if (!this.filterGroupRepos) {
         full.push([]);
       }
@@ -375,12 +379,14 @@ window.vSummary = {
           users.forEach((user) => full[0].push(user));
         }
       });
-
       if (!this.filterGroupRepos) {
         full[0].sort(comparator((ele) => {
           const field = ele[this.filterSort];
           return field.toLowerCase ? field.toLowerCase() : field;
         }));
+      }
+      if (this.filterGroupAuthors) {
+        full = this.filterByAuthors(full[0]);
       }
 
       if (this.filterSortReverse) {
@@ -388,6 +394,23 @@ window.vSummary = {
       }
 
       this.filtered = full;
+    },
+
+    filterByAuthors(repos) {
+      // Split into authors
+      const result = {};
+      repos.forEach((repo) => {
+        if (Object.keys(result).includes(repo.name)) {
+          result[repo.name].push(repo);
+        } else {
+          result[repo.name] = [repo]
+        }
+      });
+      const result2 = [];
+      Object.keys(result).map((key) => {
+        result2.push(result[key]);
+      });
+      return result2;
     },
   },
   created() {
