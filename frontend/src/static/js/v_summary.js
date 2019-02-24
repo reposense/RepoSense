@@ -405,21 +405,31 @@ window.vSummary = {
           if (Object.keys(authorMap).includes(user.name)) {
             authorMap[user.name].push(user);
             if (authorData[user.name] && Object.keys(authorData[user.name]).includes(this.filterSort)) {
-              authorData[user.name][this.filterSort] += user[this.filterSort];
+              authorData[user.name][this.filterSort][0] += 1;
+              authorData[user.name][this.filterSort][1] += user[this.filterSort];
             }
           } else {
             authorMap[user.name] = [user];
             if (!isNaN(user[this.filterSort])) {
               authorData[user.name] = {};
-              authorData[user.name][this.filterSort] = user[this.filterSort];
+              authorData[user.name][this.filterSort] = [1, user[this.filterSort]];
             }
           }
+        });
+      });
+      Object.keys(authorData).forEach((author) => {
+        Object.keys(authorData[author]).forEach((filterProp) => {
+          const [totalNum, totalValue] = authorData[author][filterProp];
+          authorData[author][filterProp].average = totalValue / totalNum;
         });
       });
       Object.keys(authorMap).map((author) => {
         filtered.push(authorMap[author]);
       });
       filtered.sort(comparator((ele) => {
+        if (this.filterSort === 'totalCommits' || this.filterSort === 'variance') {
+          return authorData[ele[0].name][this.filterSort].average;
+        }
         const field = ele[0][this.filterSort];
         return field.toLowerCase ? field.toLowerCase() : field;
       }));
