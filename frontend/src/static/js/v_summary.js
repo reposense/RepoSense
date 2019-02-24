@@ -11,6 +11,52 @@ function comparator(fn) {
   };
 }
 
+// ui funcs, only allow one ramp to be highlighted //
+let drags = [];
+
+function getBaseTarget(target) {
+  return (target.className === 'summary-chart__ramp')
+    ? target : getBaseTarget(target.parentElement);
+}
+
+function deactivateAllOverlays() {
+  document.querySelectorAll('.summary-chart__ramp .overlay')
+      .forEach((x) => { x.className = 'overlay'; });
+}
+
+window.dragViewDown = function dragViewDown(evt) {
+  deactivateAllOverlays();
+
+  const pos = evt.clientX;
+  const ramp = getBaseTarget(evt.target);
+  drags = [pos];
+
+  const base = ramp.offsetWidth;
+  const offset = ramp.parentElement.offsetLeft;
+
+  const overlay = ramp.getElementsByClassName('overlay')[0];
+  overlay.style.marginLeft = '0';
+  overlay.style.width = `${(pos - offset) * 100 / base}%`;
+  overlay.className += ' edge';
+};
+
+window.dragViewUp = function dragViewUp(evt) {
+  deactivateAllOverlays();
+  const ramp = getBaseTarget(evt.target);
+
+  const base = ramp.offsetWidth;
+  drags.push(evt.clientX);
+  drags.sort((a, b) => a - b);
+
+  const offset = ramp.parentElement.offsetLeft;
+  drags = drags.map((x) => (x - offset) * 100 / base);
+
+  const overlay = ramp.getElementsByClassName('overlay')[0];
+  overlay.style.marginLeft = `${drags[0]}%`;
+  overlay.style.width = `${drags[1] - drags[0]}%`;
+  overlay.className += ' show';
+};
+
 // date functions //
 const DAY_IN_MS = (1000 * 60 * 60 * 24);
 function getIntervalDay(a, b) {

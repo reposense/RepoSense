@@ -126,7 +126,9 @@ html
                 )
                   i.summary-chart__title--button.fab.fa-github
 
-              .summary-chart__ramp
+              .summary-chart__ramp(onmouseup="dragViewUp(event)", onmousedown="dragViewDown(event)")
+                .overlay
+
                 v_ramp(
                   v-bind:user="user",
                   v-bind:tframe="filterTimeFrame",
