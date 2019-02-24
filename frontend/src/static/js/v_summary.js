@@ -360,26 +360,12 @@ window.vSummary = {
     },
     sortFiltered() {
       let full = [];
-      if (this.filterGroupSelection !== 'groupByRepos') {
-        full.push([]);
-      }
-
-      this.filtered.forEach((users) => {
-        if (this.filterGroupSelection === 'groupByRepos') {
-          users.sort(comparator((ele) => ele[this.filterSort]));
-          full.push(users);
-        } else {
-          users.forEach((user) => full[0].push(user));
-        }
-      });
-      if (this.filterGroupSelection !== 'groupByRepos') {
-        full[0].sort(comparator((ele) => {
-          const field = ele[this.filterSort];
-          return field.toLowerCase ? field.toLowerCase() : field;
-        }));
-      }
-      if (this.filterGroupSelection === 'groupByAuthors') {
-        full = this.filterByAuthors(full[0]);
+      if (this.filterGroupSelection === 'groupByNone') {
+        full[0] = this.filterByNone(this.filtered);
+      } else if (this.filterGroupSelection === 'groupByAuthors') {
+        full = this.filterByAuthors(this.filtered);
+      } else {
+        full = this.filterByRepos(this.filtered);
       }
 
       if (this.filterSortReverse) {
@@ -389,21 +375,47 @@ window.vSummary = {
       this.filtered = full;
     },
 
+    filterByRepos(repos) {
+      const sortedRepos = []
+      repos.forEach((users) => {
+        users.sort(comparator((ele) => ele[this.filterSort]));
+        sortedRepos.push(users);
+      });
+      return sortedRepos;
+    },
+    filterByNone(repos) {
+      const sortedRepos = []
+      repos.forEach((users) => {
+        users.forEach((user) => {
+          sortedRepos.push(user);
+        });
+      });
+      sortedRepos.sort(comparator((ele) => {
+        const field = ele[this.filterSort];
+        return field.toLowerCase ? field.toLowerCase() : field;
+      }));
+      return sortedRepos;
+    },
     filterByAuthors(repos) {
-      // Split into authors
-      const result = {};
-      repos.forEach((repo) => {
-        if (Object.keys(result).includes(repo.name)) {
-          result[repo.name].push(repo);
-        } else {
-          result[repo.name] = [repo]
-        }
+      const authorMap = {};
+      const filtered = [];
+      repos.forEach((users) => {
+        users.forEach((user) => {
+          if (Object.keys(authorMap).includes(user.name)) {
+            authorMap[user.name].push(user);
+          } else {
+            authorMap[user.name] = [user]
+          }
+        });
       });
-      const result2 = [];
-      Object.keys(result).map((key) => {
-        result2.push(result[key]);
+      Object.keys(authorMap).map((author) => {
+        filtered.push(authorMap[author]);
       });
-      return result2;
+      filtered.sort(comparator((ele) => {
+        const field = ele[0][this.filterSort];
+        return field.toLowerCase ? field.toLowerCase() : field;
+      }));
+      return filtered;
     },
   },
   created() {
