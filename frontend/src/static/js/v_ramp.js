@@ -38,8 +38,4 @@ window.vRamp = {
       return Math.max(newSize * this.rampSize, 0.5);
     },
   },
-
-  create() {
-    console.log(this.user, this.tframe);
-  },
 };
