@@ -1,3 +1,4 @@
+const { DAY_IN_MS, getDateStr } = window;
 function addDays(dateStr, numDays) {
   const date = new Date(dateStr);
   return getDateStr(date.getTime() + numDays * DAY_IN_MS);
@@ -6,9 +7,11 @@ function addDays(dateStr, numDays) {
 window.vRamp = {
   props: ['user', 'tframe', 'avgsize'],
   template: window.$('v_ramp').innerHTML,
-  data() {return {
-    rampSize: 0.01,
-  };},
+  data() {
+    return {
+      rampSize: 0.01,
+    };
+  },
 
   methods: {
     getPos(i, total) {
@@ -36,7 +39,7 @@ window.vRamp = {
     },
   },
 
-  create(){
+  create() {
     console.log(this.user, this.tframe);
-  }
+  },
 };

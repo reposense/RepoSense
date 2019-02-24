@@ -367,5 +367,5 @@ window.vSummary = {
   },
   components: {
     v_ramp: window.vRamp,
-  }
+  },
 };
