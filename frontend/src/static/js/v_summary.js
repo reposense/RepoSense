@@ -11,47 +11,50 @@ function comparator(fn) {
   };
 }
 
-// ui funcs //
-function getBaseTarget(target){
+// ui funcs, only allow one ramp to be highlighted //
+let drags = [];
+
+function getBaseTarget(target) {
   return (target.className === 'summary-chart__ramp')
     ? target : getBaseTarget(target.parentElement);
 }
 
-function dragViewDown(evt){
+function deactivateAllOverlays() {
   document.querySelectorAll('.summary-chart__ramp .overlay')
-    .forEach(x => { x.style.width='0'; });
-  document.querySelectorAll('.summary-chart__ramp .overlay-edge')
-    .forEach(x => { x.className='overlay-edge'; });
+    .forEach(x => { x.className = 'overlay'; });
+}
+
+function dragViewDown(evt) {
+  deactivateAllOverlays();
 
   const pos = evt.clientX;
   const ramp = getBaseTarget(evt.target);
-  ramp.drags = [pos];
+  drags = [pos];
 
   const base = ramp.offsetWidth;
   const offset = ramp.parentElement.offsetLeft;
 
-  const edge = ramp.getElementsByClassName('overlay-edge')[0];
-  edge.style.width = (pos-offset)*100/base + '%';
-  edge.className += ' show';
+  const overlay = ramp.getElementsByClassName('overlay')[0];
+  overlay.style.marginLeft = '0';
+  overlay.style.width = (pos-offset)*100/base + '%';
+  overlay.className += ' edge';
 }
 
 function dragViewUp(evt){
+  deactivateAllOverlays();
   const ramp = getBaseTarget(evt.target);
 
   const base = ramp.offsetWidth;
-  const drags = ramp.drags;
   drags.push(evt.clientX);
-  drags.sort();
+  drags.sort((a,b) => a-b);
 
   const offset = ramp.parentElement.offsetLeft;
+  drags = drags.map(x => (x-offset)*100/base);
+
   const overlay = ramp.getElementsByClassName('overlay')[0];
-
-  const pos = drags.map(x => (x-offset)*100/base);
-  overlay.style.marginLeft = pos[0] + '%';
-  overlay.style.width = (pos[1]-pos[0]) + '%';
-
-  const edge = ramp.getElementsByClassName('overlay-edge')[0];
-  edge.className = 'overlay-edge';
+  overlay.style.marginLeft = drags[0] + '%';
+  overlay.style.width = (drags[1]-drags[0]) + '%';
+  overlay.className += ' show';
 }
 
 // date functions //

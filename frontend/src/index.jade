@@ -127,7 +127,6 @@ html
                   i.summary-chart__title--button.fab.fa-github
               .summary-chart__ramp(onmouseup="dragViewUp(event)", onmousedown="dragViewDown(event)")
                 .overlay
-                .overlay-edge
 
                 template(v-if="filterTimeFrame === 'commit'")
                     template(v-for="(slice, j) in user.commits")

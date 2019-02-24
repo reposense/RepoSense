@@ -198,15 +198,13 @@ header{
     .overlay{
       height:100%;
       position:absolute;
-      background-color:#fffa;
 
-      &-edge{
-        height:100%;
-        position:absolute;
+      &.show{
+        background-color:#fffa;
+      }
 
-        &.show{
-          border-right:.1rem dashed #000;
-        }
+      &.edge{
+        border-right:.1rem dashed #000;
       }
     }
 
