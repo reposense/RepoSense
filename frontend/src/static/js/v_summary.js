@@ -435,6 +435,17 @@ window.vSummary = {
 
       this.filtered = full;
     },
+
+    // triggering opening of tabs //
+    openTabAuthorship(user, repo) {
+      this.$emit('view-authorship', {
+        author:user.name,
+        repo:user.repoName,
+        name:user.displayName,
+        location:repo[0].location, \
+        totalCommits:user.totalCommits
+      });
+    },
   },
   created() {
     this.renderFilterHash();
