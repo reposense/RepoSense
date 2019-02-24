@@ -442,7 +442,7 @@ window.vSummary = {
         author:user.name,
         repo:user.repoName,
         name:user.displayName,
-        location:repo[0].location, \
+        location:repo[0].location,
         totalCommits:user.totalCommits
       });
     },

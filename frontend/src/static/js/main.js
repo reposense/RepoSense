@@ -156,21 +156,27 @@ window.app = new window.Vue({
       return full;
     },
 
-    deactivateTab() {
+    // handle opening of sidebar //
+    activateTab(tabName) {
+      // changing isTabActive to trigger redrawing of component
       this.isTabActive = false;
       if (document.getElementById('tabs-wrapper')) {
         document.getElementById('tabs-wrapper').scrollTop = 0;
       }
-    },
-
-    updateTabAuthorship(obj) {
-      this.deactivateTab();
-      this.tabInfo.tabAuthorship = Object.assign({}, obj);
 
       this.isTabActive = true;
       this.isCollapsed = false;
+      this.tabActive = tabName;
+    },
 
-      this.tabActive = 'authorship';
+    updateTabAuthorship(obj) {
+      this.tabInfo.tabAuthorship = Object.assign({}, obj);
+      this.activateTab('authorship');
+    },
+
+    updateTabZoomin(obj) {
+      this.tabInfo.tabZoomin = Object.assign({}, obj);
+      this.activateTab('zoomin');
     },
 
     generateKey(dataObj) {
