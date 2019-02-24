@@ -164,8 +164,8 @@ window.vSummary = {
     updateFilterSearch(evt) {
       this.filterSearch = evt.target.value;
     },
-    getFilterHash() {
-      const { addHash } = window;
+    setSummaryHash() {
+      const { addHash, encodeHash } = window;
 
       addHash('search', this.filterSearch);
       addHash('sort', this.filterSort);
@@ -176,15 +176,11 @@ window.vSummary = {
 
       addHash('reverse', this.filterSortReverse);
       addHash('repoSort', this.filterGroupRepos);
+
+      encodeHash();
     },
     renderFilterHash() {
-      const params = window.location.hash.slice(1).split('&');
-      params.forEach((param) => {
-        const [key, val] = param.split('=');
-        if (key) {
-          window.hashParams[key] = decodeURIComponent(val);
-        }
-      });
+      window.decodeHash();
 
       const convertBool = (txt) => (txt === 'true');
       const hash = window.hashParams;
@@ -246,7 +242,7 @@ window.vSummary = {
       }
     },
     getFiltered() {
-      this.getFilterHash();
+      this.setSummaryHash();
 
       // array of array, sorted by repo
       const full = [];
