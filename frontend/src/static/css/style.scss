@@ -229,6 +229,7 @@ header{
       .overlay{
         height:100%;
         position:absolute;
+        top:0;
 
         &.show{
           background-color:#fffa;

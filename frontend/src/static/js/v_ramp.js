@@ -1,7 +1,6 @@
-const { DAY_IN_MS, getDateStr } = window;
 function addDays(dateStr, numDays) {
   const date = new Date(dateStr);
-  return getDateStr(date.getTime() + numDays * DAY_IN_MS);
+  return window.getDateStr(date.getTime() + numDays * window.DAY_IN_MS);
 }
 
 window.vRamp = {
