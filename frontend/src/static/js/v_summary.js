@@ -196,7 +196,9 @@ window.vSummary = {
       }
 
       if (hash.reverse) { this.filterSortReverse = convertBool(hash.reverse); }
-      if (hash.groupSelect) { this.filterGroupSelection = hash.groupSelect; }
+      if (hash.groupSelect) {
+        this.filterGroupSelection = hash.groupSelect;
+      }
     },
 
     getDates() {
@@ -379,7 +381,7 @@ window.vSummary = {
     },
 
     filterByRepos(repos) {
-      const sortedRepos = []
+      const sortedRepos = [];
       repos.forEach((users) => {
         users.sort(comparator((ele) => ele[this.filterSort]));
         sortedRepos.push(users);
@@ -413,11 +415,12 @@ window.vSummary = {
         });
       });
       // If filterSort is related to variance & contribution, sum them up
-      if (!isNaN(user[this.filterSort])) {
+      if (!isNaN(repos[0][0][this.filterSort])) {
         Object.keys(authorMap).forEach((author) => {
+          authorData[author] = {};
           authorData[author][this.filterSort] = [0,0];
           authorMap[author].forEach((repo) => {
-            authorData[author][this.filterSort][0] += 1
+            authorData[author][this.filterSort][0] += 1;
             authorData[author][this.filterSort][1] += repo[this.filterSort];
           });
         });
