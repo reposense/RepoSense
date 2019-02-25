@@ -363,11 +363,11 @@ window.vSummary = {
     sortFiltered() {
       let full = [];
       if (this.filterGroupSelection === 'groupByNone') {
-        full[0] = this.groupedByNone(this.filtered);
+        full[0] = this.groupByNone(this.filtered);
       } else if (this.filterGroupSelection === 'groupByAuthors') {
-        full = this.groupedByAuthors(this.filtered);
+        full = this.groupByAuthors(this.filtered);
       } else {
-        full = this.groupedByRepos(this.filtered);
+        full = this.groupByRepos(this.filtered);
       }
 
       if (this.filterSortReverse) {
@@ -380,7 +380,7 @@ window.vSummary = {
       this.filtered = full;
     },
 
-    groupedByRepos(repos) {
+    groupByRepos(repos) {
       const sortedRepos = [];
       repos.forEach((users) => {
         users.sort(comparator((ele) => ele[this.filterSort]));
@@ -388,7 +388,7 @@ window.vSummary = {
       });
       return sortedRepos;
     },
-    groupedByNone(repos) {
+    groupByNone(repos) {
       const sortedRepos = [];
       repos.forEach((users) => {
         users.forEach((user) => {
@@ -401,7 +401,7 @@ window.vSummary = {
       }));
       return sortedRepos;
     },
-    groupedByAuthors(repos) {
+    groupByAuthors(repos) {
       const authorMap = {};
       const filtered = [];
       repos.forEach((users) => {
