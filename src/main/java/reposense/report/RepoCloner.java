@@ -13,17 +13,17 @@ import reposense.system.LogsManager;
 public class RepoCloner {
     private static final Logger logger = LogsManager.getLogger(RepoCloner.class);
 
-    private static RepoConfiguration[] configs = new RepoConfiguration[2];
-    private static int index = 0;
-    private static int prevIndex = 0;
-    private static boolean isCurrentRepoCloned = false;
-    private static String prevRepoDefaultBranch;
+    private RepoConfiguration[] configs = new RepoConfiguration[2];
+    private int index = 0;
+    private int prevIndex = 0;
+    private boolean isCurrentRepoCloned = false;
+    private String prevRepoDefaultBranch;
 
     /**
      * Spawns a process to clone the repository specified by {@code config}.
      * Does not wait for process to finish executing.
      */
-    public static void clone(String outputPath, RepoConfiguration config) throws IOException {
+    public void clone(String outputPath, RepoConfiguration config) throws IOException {
         configs[index] = config;
         isCurrentRepoCloned = true;
         if (isPreviousRepoDifferent()) {
@@ -34,7 +34,7 @@ public class RepoCloner {
     /**
      * Waits for current clone process to finish executing and returns the corresponding {@code RepoConfiguration}.
      */
-    public static RepoConfiguration getClonedRepo(String outputPath) throws IOException {
+    public RepoConfiguration getClonedRepo(String outputPath) throws IOException {
         if (isCurrentRepoCloned && isPreviousRepoDifferent()) {
             isCurrentRepoCloned = waitForCloneProcess(outputPath, configs[index]);
         }
@@ -54,11 +54,11 @@ public class RepoCloner {
     /**
      * Returns true if current repo is different from the previously cloned repo.
      */
-    private static boolean isPreviousRepoDifferent() {
+    private boolean isPreviousRepoDifferent() {
         return prevIndex == index || !configs[prevIndex].getLocation().equals(configs[index].getLocation());
     }
 
-    private static boolean spawnCloneProcess(String outputPath, RepoConfiguration config) throws IOException {
+    private boolean spawnCloneProcess(String outputPath, RepoConfiguration config) throws IOException {
         try {
             GitClone.spawnCloneProcess(config);
             return true;
@@ -70,7 +70,7 @@ public class RepoCloner {
         return false;
     }
 
-    private static boolean waitForCloneProcess(String outputPath, RepoConfiguration config) throws IOException {
+    private boolean waitForCloneProcess(String outputPath, RepoConfiguration config) throws IOException {
         try {
             GitClone.waitForCloneProcess(config);
             return true;

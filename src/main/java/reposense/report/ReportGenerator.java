@@ -64,17 +64,18 @@ public class ReportGenerator {
      * Performs analysis of each repository in parallel with the cloning of the next repository.
      */
     private static void cloneAndAnalyzeRepos(List<RepoConfiguration> configs, String outputPath) throws IOException {
+        RepoCloner repoCloner = new RepoCloner();
         RepoConfiguration clonedRepo = null;
 
         for (int i = 0; i < configs.size(); i++) {
             RepoConfiguration config = configs.get(i);
-            RepoCloner.clone(outputPath, config);
+            repoCloner.clone(outputPath, config);
 
             if (clonedRepo != null) {
                 boolean isCurrentRepoSameAsClonedRepo = config.getLocation().equals(clonedRepo.getLocation());
                 analyzeRepo(outputPath, clonedRepo, !isCurrentRepoSameAsClonedRepo);
             }
-            clonedRepo = RepoCloner.getClonedRepo(outputPath);
+            clonedRepo = repoCloner.getClonedRepo(outputPath);
         }
         if (clonedRepo != null) {
             analyzeRepo(outputPath, clonedRepo, true);
