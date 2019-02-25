@@ -363,11 +363,11 @@ window.vSummary = {
     sortFiltered() {
       let full = [];
       if (this.filterGroupSelection === 'groupByNone') {
-        full[0] = this.filterByNone(this.filtered);
+        full[0] = this.groupedByNone(this.filtered);
       } else if (this.filterGroupSelection === 'groupByAuthors') {
-        full = this.filterByAuthors(this.filtered);
+        full = this.groupedByAuthors(this.filtered);
       } else {
-        full = this.filterByRepos(this.filtered);
+        full = this.groupedByRepos(this.filtered);
       }
 
       if (this.filterSortReverse) {
@@ -380,7 +380,7 @@ window.vSummary = {
       this.filtered = full;
     },
 
-    filterByRepos(repos) {
+    groupedByRepos(repos) {
       const sortedRepos = [];
       repos.forEach((users) => {
         users.sort(comparator((ele) => ele[this.filterSort]));
@@ -388,7 +388,7 @@ window.vSummary = {
       });
       return sortedRepos;
     },
-    filterByNone(repos) {
+    groupedByNone(repos) {
       const sortedRepos = [];
       repos.forEach((users) => {
         users.forEach((user) => {
@@ -401,9 +401,8 @@ window.vSummary = {
       }));
       return sortedRepos;
     },
-    filterByAuthors(repos) {
+    groupedByAuthors(repos) {
       const authorMap = {};
-      const authorData = {};
       const filtered = [];
       repos.forEach((users) => {
         users.forEach((user) => {
@@ -414,10 +413,12 @@ window.vSummary = {
           }
         });
       });
+      const authorData = {};
       // If filterSort is related to variance & contribution, sum them up
       if (repos[0] && !Number.isNaN(repos[0][0][this.filterSort])) {
         Object.keys(authorMap).forEach((author) => {
           authorData[author] = {};
+          // [no of repos, total count]
           authorData[author][this.filterSort] = [0, 0];
           authorMap[author].forEach((repo) => {
             authorData[author][this.filterSort][0] += 1;
