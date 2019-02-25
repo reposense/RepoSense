@@ -161,7 +161,7 @@ window.vSummary = {
         const res = [];
         let fileFormatWidth = 0;
 
-        //compute 100% width bars
+        // compute 100% width bars
         const cnt = parseInt(contribution / contributionLimit, 10);
         for (let cntId = 0; cntId < cnt; cntId += 1) {
           res.push(maxLength);
@@ -169,7 +169,7 @@ window.vSummary = {
           totalWidth += maxLength;
         }
 
-        //compute < 100% width bars
+        // compute < 100% width bars
         const last = (contribution % contributionLimit) / contributionLimit;
         if (last !== 0) {
           res.push(last * maxLength);
@@ -177,7 +177,7 @@ window.vSummary = {
           totalWidth += last * maxLength;
         }
 
-        //split > 100% width bars into smaller bars
+        // split > 100% width bars into smaller bars
         if ((totalWidth > maxLength) && (totalWidth !== fileFormatWidth)) {
           res.unshift(maxLength - (totalWidth - fileFormatWidth));
           res[res.length - 1] = res[res.length - 1] - (maxLength - (totalWidth - fileFormatWidth));
