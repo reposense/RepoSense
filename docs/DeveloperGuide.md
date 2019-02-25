@@ -70,12 +70,14 @@ We use [Cypress](https://www.cypress.io/) for automated end-to-end front-end tes
 #### To write tests
 1. Create a new test file in `frontend/cypress/tests`
 1. At project root start *Cypress Test Runner* by running `gradlew cypress`
-1. Click on the newly created test file under **Integration Testing**
+1. On the top right hand corner, set `Chrome` as the default browser
+![Cypress Test Runner](images/cypress-test-runner.jpg "Cypress Test Runner")
+1. Under **Integration Testing**, click on the newly created test file to run it
 > Read [Cypress's Documentation](https://docs.cypress.io/api/commands/document.html#Syntax) to familiarize yourself with its syntax and [Cypress's debugging guide](https://docs.cypress.io/guides/guides/debugging.html#Log-Cypress-events) to tackle problems with your tests.
 
 #### To run all tests locally
 1.  At project root, run `gradlew frontendTest`
-> If you encountered an invalid browser error, please ensure that you have `chrome` installed in the default installation directory. Otherwise, follow the instructions [here](https://docs.cypress.io/guides/guides/debugging.html#Launching-browsers) to create symbolic links so Cypress can locate `chrome` in your system.
+> If you encountered an invalid browser error, please ensure that you have `Chrome` installed in the default installation directory. Otherwise, follow the instructions [here](https://docs.cypress.io/guides/guides/debugging.html#Launching-browsers) to create symbolic links so Cypress can locate `Chrome` in your system.
 
 ### Before writing code
 1. Do check out our [process guide](../docs/Process.md) before submitting any PR with your changes.
