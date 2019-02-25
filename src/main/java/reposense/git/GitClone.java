@@ -46,7 +46,7 @@ public class GitClone {
             throw new GitCloneException(ioe);
         }
         updateRepoConfigBranch(repoConfig);
-        checkOutBranch(repoConfig);
+        checkoutBranch(repoConfig);
     }
 
     private static void clone(RepoLocation location, String repoName) throws IOException {
@@ -104,7 +104,7 @@ public class GitClone {
         }
     }
 
-    public static void updateRepoConfigBranch(RepoConfiguration repoConfig) {
+    private static void updateRepoConfigBranch(RepoConfiguration repoConfig) {
         if (repoConfig.getBranch().equals(RepoConfiguration.DEFAULT_BRANCH)) {
             String currentBranch = GitBranch.getCurrentBranch(repoConfig.getRepoRoot());
             repoConfig.setBranch(currentBranch);
@@ -114,7 +114,7 @@ public class GitClone {
     /**
      * Checks out the branch specified in {@code repoConfig}.
      */
-    public static void checkOutBranch(RepoConfiguration repoConfig) throws GitCloneException {
+    public static void checkoutBranch(RepoConfiguration repoConfig) throws GitCloneException {
         try {
             GitCheckout.checkout(repoConfig.getRepoRoot(), repoConfig.getBranch());
         } catch (RuntimeException e) {

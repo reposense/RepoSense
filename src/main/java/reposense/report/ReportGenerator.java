@@ -89,7 +89,7 @@ public class ReportGenerator {
         try {
             Path repoReportDirectory = Paths.get(outputPath, config.getDisplayName());
             FileUtil.createDirectory(repoReportDirectory);
-            GitClone.checkOutBranch(config);
+            GitClone.checkoutBranch(config);
             // preprocess the config and repo
             updateRepoConfig(config);
             updateAuthorList(config);
