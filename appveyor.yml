@@ -11,7 +11,7 @@ test_script:
     - appveyor-retry gradlew.bat --no-daemon test systemTest
 
 environment:
-    JAVA_HOME: C:\Program Files\Java\jdk9  # Use 64-bit Java
+    JAVA_HOME: C:\Program Files\Java\jdk1.8.0  # Use 64-bit Java
 
 # Files/folders to preserve between builds to speed them up
 cache:
