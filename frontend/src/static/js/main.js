@@ -179,8 +179,8 @@ window.app = new window.Vue({
       const info = {
         author: hash.tabAuthor,
         location: hash.tabLocation,
-        minDate: minDate,
-        maxDate: maxDate,
+        minDate,
+        maxDate,
       };
       const tabInfoLength = 5;
       this.updateInfoRepoName(info);
