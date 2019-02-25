@@ -71,8 +71,9 @@ We use [Cypress](https://www.cypress.io/) for automated end-to-end front-end tes
 1. Create a new test file in `frontend/cypress/tests`
 1. At project root start *Cypress Test Runner* by running `gradlew cypress`
 1. On the top right hand corner, set `Chrome` as the default browser
+1. Under **Integration Tests**, click on the newly created test file to run it
 ![Cypress Test Runner](images/cypress-test-runner.jpg "Cypress Test Runner")
-1. Under **Integration Testing**, click on the newly created test file to run it
+
 > Read [Cypress's Documentation](https://docs.cypress.io/api/commands/document.html#Syntax) to familiarize yourself with its syntax and [Cypress's debugging guide](https://docs.cypress.io/guides/guides/debugging.html#Log-Cypress-events) to tackle problems with your tests.
 
 #### To run all tests locally
