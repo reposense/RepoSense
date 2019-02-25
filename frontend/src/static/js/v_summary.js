@@ -244,6 +244,7 @@ window.vSummary = {
         this.filterUntilDate = maxDate;
         this.maxDate = maxDate;
       }
+      this.$emit('get-dates', [this.minDate, this.maxDate]);
     },
     getFiltered() {
       this.setSummaryHash();

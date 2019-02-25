@@ -174,13 +174,13 @@ window.app = new window.Vue({
         document.getElementById('tabs-wrapper').scrollTop = 0;
       }
     },
-    renderAuthorShipTabHash() {
+    renderAuthorShipTabHash(minDate, maxDate) {
       const hash = window.hashParams;
       const info = {
         author: hash.tabAuthor,
         location: hash.tabLocation,
-        minDate: this.minDate,
-        maxDate: this.maxDate,
+        minDate: minDate,
+        maxDate: maxDate,
       };
       const tabInfoLength = 5;
       this.updateInfoRepoName(info);
@@ -219,6 +219,11 @@ window.app = new window.Vue({
       }
       return false;
     },
+
+    receiveDates(dates) {
+      const [minDate, maxDate] = dates;
+      this.renderAuthorShipTabHash(minDate, maxDate);
+    },
   },
   components: {
     v_summary: window.vSummary,
@@ -228,7 +233,6 @@ window.app = new window.Vue({
   created() {
     this.updateReportDir();
     window.decodeHash();
-    this.renderAuthorShipTabHash();
   },
   updated() {
     this.$nextTick(() => {
