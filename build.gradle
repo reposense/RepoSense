@@ -93,13 +93,14 @@ task installCypress(type: com.liferay.gradle.plugins.node.tasks.NpmInstallTask) 
   workingDir = file('frontend/cypress/')
 }
 
-task cypress(dependsOn: 'installCypress', type: com.liferay.gradle.plugins.node.tasks.ExecuteNpmTask) {
+task cypress(dependsOn: ['installCypress', 'startServerInBackground'], type: com.liferay.gradle.plugins.node.tasks.ExecuteNpmTask) {
+  tasks.startServerInBackground.mustRunAfter('installCypress')
   workingDir = file('frontend/cypress/')
   args = ["run-script", "debug"]
 }
 
 task frontendTest(dependsOn: ['installCypress', 'startServerInBackground'], type: com.liferay.gradle.plugins.node.tasks.ExecuteNpmTask) {
-  tasks.findByName('startServerInBackground').mustRunAfter 'installCypress'
+  tasks.startServerInBackground.mustRunAfter('installCypress')
 
   workingDir = file('frontend/cypress/')
   args = ["run-script", "tests"]
