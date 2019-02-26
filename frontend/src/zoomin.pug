@@ -1,6 +1,8 @@
 #zoomin
-  h1 testing
+  h1 {{ info.user.displayName }} ({{ info.user.name }})
   a(v-on:click="openSummary") Update summary view
+
+  h2 {{ info.user.repoName }}
   v_ramp(
     v-bind:user="info.user",
     v-bind:tframe="'commit'",
