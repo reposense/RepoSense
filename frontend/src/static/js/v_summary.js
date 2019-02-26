@@ -409,7 +409,10 @@ window.vSummary = {
 
     // triggering opening of tabs //
     openTabAuthorship(user, repo) {
+      const { minDate, maxDate } = this;
+
       this.$emit('view-authorship', {
+        minDate, maxDate,
         author: user.name,
         repo: user.repoName,
         name: user.displayName,
