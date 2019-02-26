@@ -424,11 +424,9 @@ window.vSummary = {
         parseInt(idxs[0]),
         parseInt(idxs[1]+1));
 
-      const user = {...userOrig, commits}
-
+      const user = {...userOrig, commits};
       this.$emit('view-zoomin', {
         user,
-        avgCommitSize: this.avgCommitSize,
       });
     },
   },
