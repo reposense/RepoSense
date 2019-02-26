@@ -64,6 +64,8 @@ window.dragViewUp = function dragViewUp(evt) {
 
 // date functions //
 const DAY_IN_MS = (1000 * 60 * 60 * 24);
+window.DAY_IN_MS = DAY_IN_MS;
+
 function getIntervalDay(a, b) {
   const diff = Date.parse(a) - Date.parse(b);
   return diff / DAY_IN_MS;
