@@ -169,9 +169,11 @@ window.vAuthorship = {
       if (!this.isSelectAllChecked) {
         this.selectedFileTypes = this.fileTypes;
         this.selectedFiles = this.files;
+        this.activeFiles = this.files.length;
       } else {
         this.selectedFileTypes = [];
         this.selectedFiles = [];
+        this.activeFiles = 0;
       }
     },
 
