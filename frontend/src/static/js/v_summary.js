@@ -51,10 +51,15 @@ window.dragViewUp = function dragViewUp(evt) {
   const offset = ramp.parentElement.offsetLeft;
   drags = drags.map((x) => (x - offset) * 100 / base);
 
-  const overlay = ramp.getElementsByClassName('overlay')[0];
-  overlay.style.marginLeft = `${drags[0]}%`;
-  overlay.style.width = `${drags[1] - drags[0]}%`;
-  overlay.className += ' show';
+  if (drags[1] - drags[0] < 3) {
+    // if less than 3% of ramp charts selected, treat as accidental click
+    drags[1] = drags[0];
+  } else {
+    const overlay = ramp.getElementsByClassName('overlay')[0];
+    overlay.style.marginLeft = `${drags[0]}%`;
+    overlay.style.width = `${drags[1] - drags[0]}%`;
+    overlay.className += ' show';
+  }
 };
 
 // date functions //
@@ -419,15 +424,18 @@ window.vSummary = {
     },
 
     openTabZoomin(userOrig) {
-      const idxs = drags.map(x => x*userOrig.commits.length/100);
-      const commits = userOrig.commits.slice(
-        parseInt(idxs[0]),
-        parseInt(idxs[1]+1));
+      // skip if accidentally clicked on ramp chart
+      if (drags[1] - drags[0]) {
+        const idxs = drags.map(x => x*userOrig.commits.length/100);
+        const commits = userOrig.commits.slice(
+          parseInt(idxs[0]),
+          parseInt(idxs[1]+1));
 
-      const user = {...userOrig, commits};
-      this.$emit('view-zoomin', {
-        user,
-      });
+        const user = {...userOrig, commits};
+        this.$emit('view-zoomin', {
+          user,
+        });
+      }
     },
   },
   created() {
