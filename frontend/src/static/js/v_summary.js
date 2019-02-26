@@ -418,11 +418,16 @@ window.vSummary = {
       });
     },
 
-    openTabZoomin(user) {
-      console.log(user);
-      console.log(drags);
+    openTabZoomin(userOrig) {
+      const idxs = drags.map(x => x*userOrig.commits.length/100);
+      const commits = userOrig.commits.slice(
+        parseInt(idxs[0]),
+        parseInt(idxs[1]+1));
+
+      const user = {...userOrig, commits}
 
       this.$emit('view-zoomin', {
+        user,
         avgCommitSize: this.avgCommitSize,
       });
     },
