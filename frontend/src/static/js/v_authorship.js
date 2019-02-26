@@ -81,7 +81,9 @@ window.vAuthorship = {
     getAuthorName(repo) {
       if (!this.info.name) {
         const author = repo.users.filter((user) => user.name === this.info.author);
-        this.info.name = author[0].name;
+        if (author) {
+          this.info.name = author[0].name;
+        }
       }
     },
 
