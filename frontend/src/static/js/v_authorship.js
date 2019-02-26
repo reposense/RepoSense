@@ -192,7 +192,7 @@ window.vAuthorship = {
         this.selectedFiles = this.files.filter((file) => this.selectedFileTypes.includes((file.path.split('.').pop())));
       }
 
-      this.activeFiles = this.selectedFiles.length;
+      setTimeout(this.updateCount, 0);
     },
 
     getFileLink(file, path) {
