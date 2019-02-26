@@ -414,6 +414,18 @@ window.vSummary = {
       this.filtered = full;
     },
 
+    updateRange() {
+      const since = new Date(this.filterSinceDate).getTime();
+      const until = new Date(this.filterUntilDate).getTime();
+      const range = until - since;
+
+      const getStr = time => getDateStr(new Date(time));
+      this.tmpFilterSinceDate = getStr(since + range*drags[0]/100);
+      this.tmpFilterUntilDate = getStr(since + range*drags[1]/100);
+
+      deactivateAllOverlays();
+    },
+
     // triggering opening of tabs //
     openTabAuthorship(user, repo) {
       this.$emit('view-authorship', {
@@ -433,9 +445,10 @@ window.vSummary = {
           parseInt(idxs[0]),
           parseInt(idxs[1]+1));
 
+        const { avgCommitSize } = this;
         const user = {...userOrig, commits};
         this.$emit('view-zoomin', {
-          user,
+          user, avgCommitSize
         });
       }
     },

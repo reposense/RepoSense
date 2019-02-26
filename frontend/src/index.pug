@@ -26,6 +26,7 @@ html
         #summary-wrapper
           .summary-status(v-if="loadedRepo<repoLength") Loading repos ... {{ loadedRepo }} / {{ repoLength }}
           v_summary(
+            ref="summary",
             v-bind:repos="getUsers()",
             v-on:view-zoomin="updateTabZoomin",
             v-on:view-authorship="updateTabAuthorship"
@@ -49,7 +50,8 @@ html
               v_zoomin#tab-zoomin.tab-pane(
                 v-else-if="tabActive=='zoomin'",
                 v-bind:key="generateKey(tabInfo.tabZoomin)",
-                v-bind:info="tabInfo.tabZoomin")
+                v-bind:info="tabInfo.tabZoomin",
+                v-on:view-summary="updateSummaryDates")
               #tab-empty.tab-pane(v-else)
                 .title
                   span To view the code attributed to a specific author, click the &nbsp;

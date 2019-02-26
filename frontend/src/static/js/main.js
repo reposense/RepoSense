@@ -179,6 +179,10 @@ window.app = new window.Vue({
       this.activateTab('zoomin');
     },
 
+    updateSummaryDates() {
+      this.$refs.summary.updateRange();
+    },
+
     generateKey(dataObj) {
       return JSON.stringify(dataObj);
     },

@@ -1,6 +1,7 @@
 #zoomin
   h1 testing
+  a(v-on:click="openSummary") Update summary view
   v_ramp(
     v-bind:user="info.user",
     v-bind:tframe="'commit'",
-    v-bind:avgsize="avgSize")
+    v-bind:avgsize="info.avgCommitSize")
