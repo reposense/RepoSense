@@ -200,7 +200,7 @@ window.app = new window.Vue({
       const repo = repoName[1].split('.git')[0];
       if (info.branch) {
         info.repo = `${[organization, repo].join('_')}_${info.branch}`;
-      } else if (repoName.length === 2) { // without branch name
+      } else { // without branch name
         info.repo = `${[organization, repo].join('_')}_master`;
       }
     },

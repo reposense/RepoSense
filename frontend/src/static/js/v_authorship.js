@@ -58,7 +58,7 @@ window.vAuthorship = {
     initiate() {
       const repo = window.REPOS[this.info.repo];
       if (!repo) {
-        this.info.name = "FAILED TO CLONE OR CHECKOUT THIS REPOSITORY";
+        this.info.name = 'FAILED TO CLONE OR CHECKOUT THIS REPOSITORY';
         this.isLoaded = true;
         return;
       }
@@ -94,7 +94,7 @@ window.vAuthorship = {
       addHash('tabAuthor', this.info.author);
       addHash('tabLocation', this.info.location);
       if (this.info.repo) {
-        addHash('tabBranch', this.info.repo.split('_').pop())
+        addHash('tabBranch', this.info.repo.split('_').pop());
       }
     },
 
