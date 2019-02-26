@@ -41,15 +41,12 @@ public class RepoCloner {
         if (isCurrentRepoCloned && isPreviousRepoDifferent()) {
             isCurrentRepoCloned = waitForCloneProcess(outputPath, configs[index]);
         }
+        cleanupDirectories();
+
         if (!isCurrentRepoCloned) {
-            FileUtil.deleteDirectory(configs[index].getRepoRoot());
             return null;
-        }
-        if (isPreviousRepoDifferent()) {
+        } else if (isPreviousRepoDifferent()) {
             prevRepoDefaultBranch = GitBranch.getCurrentBranch(configs[index].getRepoRoot());
-            if (prevIndex != index) {
-                FileUtil.deleteDirectory(configs[prevIndex].getRepoRoot());
-            }
         } else {
             GitClone.updateRepoConfigBranch(configs[index], prevRepoDefaultBranch);
         }
@@ -73,6 +70,8 @@ public class RepoCloner {
             logger.log(Level.WARNING,
                     "Exception met while trying to clone the repo, will skip this repo.", gde);
             generateEmptyRepoReport(outputPath, config);
+        } catch (RuntimeException rte) {
+            logger.log(Level.SEVERE, "Error has occurred during analysis, will skip this repo.", rte);
         }
         return false;
     }
@@ -95,5 +94,24 @@ public class RepoCloner {
         Path repoReportDirectory = Paths.get(outputPath, config.getDisplayName());
         FileUtil.createDirectory(repoReportDirectory);
         ReportGenerator.generateEmptyRepoReport(repoReportDirectory.toString());
+    }
+
+    /**
+     * Deletes cloned repo directories that are not in use anymore.
+     */
+    private void cleanupDirectories() {
+        if (!isCurrentRepoCloned) {
+            deleteDirectory(configs[index].getRepoRoot());
+        } else if (isPreviousRepoDifferent() && prevIndex != index) {
+            deleteDirectory(configs[prevIndex].getRepoRoot());
+        }
+    }
+
+    private void deleteDirectory(String root) {
+        try {
+            FileUtil.deleteDirectory(root);
+        } catch (IOException ioe) {
+            logger.log(Level.WARNING, "Error deleting report directory.", ioe);
+        }
     }
 }

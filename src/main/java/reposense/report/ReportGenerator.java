@@ -83,13 +83,12 @@ public class ReportGenerator {
     /**
      * Analyzes repo specified by {@code config} and generates the report for this repo.
      */
-    private static void analyzeRepo(
-            String outputPath, RepoConfiguration config) throws IOException {
+    private static void analyzeRepo(String outputPath, RepoConfiguration config) throws IOException {
         Path repoReportDirectory;
         try {
+            GitClone.checkoutBranch(config);
             repoReportDirectory = Paths.get(outputPath, config.getDisplayName());
             FileUtil.createDirectory(repoReportDirectory);
-            GitClone.checkoutBranch(config);
         } catch (GitCloneException gde) {
             logger.log(Level.WARNING,
                     "Exception met while trying to clone the repo, will skip this repo.", gde);
