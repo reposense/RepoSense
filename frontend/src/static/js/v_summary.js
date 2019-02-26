@@ -442,19 +442,19 @@ window.vSummary = {
     openTabZoomin(userOrig) {
       // skip if accidentally clicked on ramp chart
       if (drags[1] - drags[0]) {
-        const rawCommits = [];
-        userOrig.commits.forEach(commit => {
-          if (this.filterTimeFrame === 'week') {
-            commit.dayCommits.forEach(dayCommit => rawCommits.push(dayCommit));
-          } else {
-            rawCommits.push(commit);
-          }
-        });
-
-        const idxs = drags.map(x => x*rawCommits.length/100);
-        const commits = rawCommits.slice(
+        const idxs = drags.map(x => x*userOrig.commits.length/100);
+        const rawCommits = userOrig.commits.slice(
           parseInt(idxs[0]),
           parseInt(idxs[1]+1));
+
+        const commits = [];
+        rawCommits.forEach(commit => {
+          if (this.filterTimeFrame === 'week') {
+            commit.dayCommits.forEach(dayCommit => commits.push(dayCommit));
+          } else {
+            commits.push(commit);
+          }
+        });
 
         const { avgCommitSize } = this;
         const user = {...userOrig, commits};
