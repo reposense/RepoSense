@@ -27,6 +27,7 @@ html
           .summary-status(v-if="loadedRepo<repoLength") Loading repos ... {{ loadedRepo }} / {{ repoLength }}
           v_summary(
             v-bind:repos="getUsers()",
+            v-on:view-zoomin="updateTabZoomin",
             v-on:view-authorship="updateTabAuthorship"
           )
           .timestamp-footer
@@ -45,6 +46,10 @@ html
                 v-if="tabActive=='authorship'"
                 v-bind:key="generateKey(tabInfo.tabAuthorship)",
                 v-bind:info="tabInfo.tabAuthorship")
+              v_zoomin#tab-zoomin.tab-pane(
+                v-else-if="tabActive=='zoomin'",
+                v-bind:key="generateKey(tabInfo.tabZoomin)",
+                v-bind:info="tabInfo.tabZoomin")
               #tab-empty.tab-pane(v-else)
                 .title
                   span To view the code attributed to a specific author, click the &nbsp;
@@ -121,7 +126,11 @@ html
                 )
                   i.summary-chart__title--button.fab.fa-github
 
-              .summary-chart__ramp(onmouseup="dragViewUp(event)", onmousedown="dragViewDown(event)")
+              .summary-chart__ramp(
+                onmouseup="dragViewUp(event)", 
+                onmousedown="dragViewDown(event)",
+                v-on:mouseup="openTabZoomin(user)"
+              )
                 v_ramp(
                   v-bind:user="user",
                   v-bind:tframe="filterTimeFrame",

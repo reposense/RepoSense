@@ -417,6 +417,15 @@ window.vSummary = {
         totalCommits: user.totalCommits,
       });
     },
+
+    openTabZoomin(user) {
+      console.log(user);
+      console.log(drags);
+
+      this.$emit('view-zoomin', {
+        avgCommitSize: this.avgCommitSize,
+      });
+    },
   },
   created() {
     this.renderFilterHash();
