@@ -58,6 +58,8 @@ window.vAuthorship = {
     initiate() {
       const repo = window.REPOS[this.info.repo];
       if (!repo) {
+        this.info.name = "FAILED TO CLONE OR CHECKOUT THIS REPOSITORY";
+        this.isLoaded = true;
         return;
       }
       this.getAuthorName(repo);
@@ -82,7 +84,7 @@ window.vAuthorship = {
       if (!this.info.name) {
         const author = repo.users.filter((user) => user.name === this.info.author);
         if (author) {
-          this.info.name = author[0].name;
+          this.info.name = author[0].displayName;
         }
       }
     },
@@ -91,6 +93,9 @@ window.vAuthorship = {
       const { addHash } = window;
       addHash('tabAuthor', this.info.author);
       addHash('tabLocation', this.info.location);
+      if (this.info.repo) {
+        addHash('tabBranch', this.info.repo.split('_').pop())
+      }
     },
 
     splitSegments(lines) {

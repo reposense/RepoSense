@@ -181,8 +181,9 @@ window.app = new window.Vue({
         location: hash.tabLocation,
         minDate,
         maxDate,
+        branch: hash.tabBranch,
       };
-      const tabInfoLength = 5;
+      const tabInfoLength = 6;
       this.updateInfoRepoName(info);
       if (Object.keys(info).length === tabInfoLength) {
         this.updateTabAuthorship(info);
@@ -195,7 +196,9 @@ window.app = new window.Vue({
         return;
       }
       const repoName = info.location.split('github.com/')[1].split('/');
-      if (repoName.length === 2) {
+      if (info.branch) {
+        info.repo = `${repoName.join('_').slice(0, -4)}_${info.branch}`;
+      } else if (repoName.length === 2) {
         info.repo = `${repoName.join('_').slice(0, -4)}_master`;
       } else {
         repoName.splice(2, 1);
@@ -243,6 +246,7 @@ window.app = new window.Vue({
     if (!this.isTabActive) {
       window.removeHash('tabAuthor');
       window.removeHash('tabLocation');
+      window.removeHash('tabBranch');
       window.addHash('tabOpen', this.isTabActive);
       window.encodeHash();
     }
