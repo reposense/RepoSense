@@ -196,13 +196,12 @@ window.app = new window.Vue({
         return;
       }
       const repoName = info.location.split('github.com/')[1].split('/');
+      const organization = repoName[0];
+      const repo = repoName[1].split('.git')[0];
       if (info.branch) {
-        info.repo = `${repoName.join('_').slice(0, -4)}_${info.branch}`;
-      } else if (repoName.length === 2) {
-        info.repo = `${repoName.join('_').slice(0, -4)}_master`;
-      } else {
-        repoName.splice(2, 1);
-        info.repo = repoName.join('_');
+        info.repo = `${[organization, repo].join('_')}_${info.branch}`;
+      } else if (repoName.length === 2) { // without branch name
+        info.repo = `${[organization, repo].join('_')}_master`;
       }
     },
 
