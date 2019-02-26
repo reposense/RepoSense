@@ -67,8 +67,7 @@ public class ReportGenerator {
         RepoCloner repoCloner = new RepoCloner();
         RepoConfiguration clonedRepo = null;
 
-        for (int i = 0; i < configs.size(); i++) {
-            RepoConfiguration config = configs.get(i);
+        for (RepoConfiguration config : configs) {
             repoCloner.clone(outputPath, config);
 
             if (clonedRepo != null) {
@@ -86,24 +85,33 @@ public class ReportGenerator {
      */
     private static void analyzeRepo(
             String outputPath, RepoConfiguration config) throws IOException {
+        Path repoReportDirectory;
         try {
-            Path repoReportDirectory = Paths.get(outputPath, config.getDisplayName());
+            repoReportDirectory = Paths.get(outputPath, config.getDisplayName());
             FileUtil.createDirectory(repoReportDirectory);
             GitClone.checkoutBranch(config);
-            // preprocess the config and repo
-            updateRepoConfig(config);
-            updateAuthorList(config);
-
-            CommitContributionSummary commitSummary = CommitsReporter.generateCommitSummary(config);
-            AuthorshipSummary authorshipSummary = AuthorshipReporter.generateAuthorshipSummary(config);
-            generateIndividualRepoReport(commitSummary, authorshipSummary, repoReportDirectory.toString());
         } catch (GitCloneException gde) {
             logger.log(Level.WARNING,
                     "Exception met while trying to clone the repo, will skip this repo.", gde);
-            generateEmptyRepoReport(outputPath, config);
+            repoReportDirectory = Paths.get(outputPath, config.getDisplayName());
+            FileUtil.createDirectory(repoReportDirectory);
+            generateEmptyRepoReport(repoReportDirectory.toString());
+            return;
         } catch (IOException ioe) {
-            logger.log(Level.WARNING, "Error deleting report directory.", ioe);
+            logger.log(Level.WARNING,
+                    "Error has occurred while creating repo directory, will skip this repo.", ioe);
+            return;
+        } catch (RuntimeException rte) {
+            logger.log(Level.SEVERE, "Error has occurred during analysis, will skip this repo.", rte);
+            return;
         }
+        // preprocess the config and repo
+        updateRepoConfig(config);
+        updateAuthorList(config);
+
+        CommitContributionSummary commitSummary = CommitsReporter.generateCommitSummary(config);
+        AuthorshipSummary authorshipSummary = AuthorshipReporter.generateAuthorshipSummary(config);
+        generateIndividualRepoReport(commitSummary, authorshipSummary, repoReportDirectory.toString());
     }
 
     /**
@@ -156,12 +164,10 @@ public class ReportGenerator {
         FileUtil.writeJsonFile(authorshipSummary.getFileResults(), getIndividualAuthorshipPath(repoReportDirectory));
     }
 
-    public static void generateEmptyRepoReport(String outputPath, RepoConfiguration config) throws IOException {
-        Path repoReportDirectory = Paths.get(outputPath, config.getDisplayName());
-        FileUtil.createDirectory(repoReportDirectory);
+    public static void generateEmptyRepoReport(String repoReportDirectory) {
         CommitReportJson emptyCommitReportJson = new CommitReportJson();
-        FileUtil.writeJsonFile(emptyCommitReportJson, getIndividualCommitsPath(repoReportDirectory.toString()));
-        FileUtil.writeJsonFile(Collections.emptyList(), getIndividualAuthorshipPath(repoReportDirectory.toString()));
+        FileUtil.writeJsonFile(emptyCommitReportJson, getIndividualCommitsPath(repoReportDirectory));
+        FileUtil.writeJsonFile(Collections.emptyList(), getIndividualAuthorshipPath(repoReportDirectory));
     }
 
     private static String getSummaryResultPath(String targetFileLocation) {

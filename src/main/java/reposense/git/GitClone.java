@@ -87,12 +87,13 @@ public class GitClone {
             Path rootPath = Paths.get(FileUtil.REPOS_ADDRESS, repoConfig.getRepoFolderName());
             waitForCommandProcess(rootPath, "git clone " + addQuote(repoConfig.getLocation().toString()), crp);
             logger.info("Cloning of " + repoConfig.getLocation() + " completed!");
-            updateRepoConfigBranch(repoConfig);
-            crp = null;
         } catch (RuntimeException rte) {
+            crp = null;
             logger.log(Level.SEVERE, "Error encountered in Git Cloning, will attempt to continue analyzing", rte);
             throw new GitCloneException(rte);
         }
+        crp = null;
+        updateRepoConfigBranch(repoConfig);
     }
 
     /**
@@ -104,10 +105,15 @@ public class GitClone {
         }
     }
 
-    private static void updateRepoConfigBranch(RepoConfiguration repoConfig) {
-        if (repoConfig.getBranch().equals(RepoConfiguration.DEFAULT_BRANCH)) {
-            String currentBranch = GitBranch.getCurrentBranch(repoConfig.getRepoRoot());
-            repoConfig.setBranch(currentBranch);
+    private static void updateRepoConfigBranch(RepoConfiguration repoConfig) throws GitCloneException {
+        try {
+            if (repoConfig.getBranch().equals(RepoConfiguration.DEFAULT_BRANCH)) {
+                String currentBranch = GitBranch.getCurrentBranch(repoConfig.getRepoRoot());
+                repoConfig.setBranch(currentBranch);
+            }
+        } catch (RuntimeException e) {
+            logger.log(Level.SEVERE, "Branch does not exist! Analysis terminated.", e);
+            throw new GitCloneException(e);
         }
     }
 

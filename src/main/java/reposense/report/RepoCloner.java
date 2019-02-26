@@ -1,6 +1,8 @@
 package reposense.report;
 
 import java.io.IOException;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -45,7 +47,9 @@ public class RepoCloner {
         }
         if (isPreviousRepoDifferent()) {
             prevRepoDefaultBranch = GitBranch.getCurrentBranch(configs[index].getRepoRoot());
-            FileUtil.deleteDirectory(configs[prevIndex].getRepoRoot());
+            if (prevIndex != index) {
+                FileUtil.deleteDirectory(configs[prevIndex].getRepoRoot());
+            }
         } else {
             GitClone.updateRepoConfigBranch(configs[index], prevRepoDefaultBranch);
         }
@@ -68,7 +72,7 @@ public class RepoCloner {
         } catch (GitCloneException gde) {
             logger.log(Level.WARNING,
                     "Exception met while trying to clone the repo, will skip this repo.", gde);
-            ReportGenerator.generateEmptyRepoReport(outputPath, config);
+            generateEmptyRepoReport(outputPath, config);
         }
         return false;
     }
@@ -80,10 +84,16 @@ public class RepoCloner {
         } catch (GitCloneException gde) {
             logger.log(Level.WARNING,
                     "Exception met while trying to clone the repo, will skip this repo.", gde);
-            ReportGenerator.generateEmptyRepoReport(outputPath, config);
+            generateEmptyRepoReport(outputPath, config);
         } catch (RuntimeException rte) {
             logger.log(Level.SEVERE, "Error has occurred during analysis, will skip this repo.", rte);
         }
         return false;
+    }
+
+    private void generateEmptyRepoReport(String outputPath, RepoConfiguration config) throws IOException {
+        Path repoReportDirectory = Paths.get(outputPath, config.getDisplayName());
+        FileUtil.createDirectory(repoReportDirectory);
+        ReportGenerator.generateEmptyRepoReport(repoReportDirectory.toString());
     }
 }
