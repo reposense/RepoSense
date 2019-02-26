@@ -195,19 +195,6 @@ header{
     margin-bottom:1rem;
     text-align:left;
 
-    .overlay{
-      height:100%;
-      position:absolute;
-
-      &.show{
-        background-color:#fffa;
-      }
-
-      &.edge{
-        border-right:.1rem dashed #000;
-      }
-    }
-
     &__title{
 
         & > * {
@@ -236,29 +223,22 @@ header{
     }
 
     &__ramp{
-        font-size:100%;
-        position:relative;
-        cursor:crosshair;
+      position:relative;
+      cursor:crosshair;
 
-        $height:3rem;
-        height:$height;
-        background-color:mui-color("blue", "50");
+      .overlay{
+        height:100%;
+        position:absolute;
+        top:0;
 
-        &__slice{
-            display:block;
-            position:absolute;
-            width:0;
-            height:0;
-
-            border-left-color: rgba(0,0,0,0);
-            border-left-style: solid;
-
-            &--color0{ border-bottom:$height rgba(mui-color("orange"), 0.5) solid;  }
-            &--color1{ border-bottom:$height rgba(mui-color("light-blue"), 0.5) solid;  }
-            &--color2{ border-bottom:$height rgba(mui-color("green"), 0.5) solid;  }
-            &--color3{ border-bottom:$height rgba(mui-color("indigo"), 0.5) solid;  }
-            &--color4{ border-bottom:$height rgba(mui-color("pink"), 0.5) solid;  }
+        &.show{
+          background-color:#fffa;
         }
+
+        &.edge{
+          border-right:.1rem dashed #000;
+        }
+      }
     }
 
     &__contrib{
@@ -269,6 +249,32 @@ header{
             margin-top:0.1rem;
             background-color:mui-color("red");
         }
+    }
+}
+
+/* Ramp */
+.ramp{
+    font-size:100%;
+    position:relative;
+
+    $height:3rem;
+    height:$height;
+    background-color:mui-color("blue", "50");
+
+    &__slice{
+        display:block;
+        position:absolute;
+        width:0;
+        height:0;
+
+        border-left-color: rgba(0,0,0,0);
+        border-left-style: solid;
+
+        &--color0{ border-bottom:$height rgba(mui-color("orange"), 0.5) solid;  }
+        &--color1{ border-bottom:$height rgba(mui-color("light-blue"), 0.5) solid;  }
+        &--color2{ border-bottom:$height rgba(mui-color("green"), 0.5) solid;  }
+        &--color3{ border-bottom:$height rgba(mui-color("indigo"), 0.5) solid;  }
+        &--color4{ border-bottom:$height rgba(mui-color("pink"), 0.5) solid;  }
     }
 }
 
