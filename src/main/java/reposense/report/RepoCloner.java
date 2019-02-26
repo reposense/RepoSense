@@ -9,6 +9,7 @@ import reposense.git.GitClone;
 import reposense.git.GitCloneException;
 import reposense.model.RepoConfiguration;
 import reposense.system.LogsManager;
+import reposense.util.FileUtil;
 
 public class RepoCloner {
     private static final Logger logger = LogsManager.getLogger(RepoCloner.class);
@@ -39,10 +40,12 @@ public class RepoCloner {
             isCurrentRepoCloned = waitForCloneProcess(outputPath, configs[index]);
         }
         if (!isCurrentRepoCloned) {
+            FileUtil.deleteDirectory(configs[index].getRepoRoot());
             return null;
         }
         if (isPreviousRepoDifferent()) {
             prevRepoDefaultBranch = GitBranch.getCurrentBranch(configs[index].getRepoRoot());
+            FileUtil.deleteDirectory(configs[prevIndex].getRepoRoot());
         } else {
             GitClone.updateRepoConfigBranch(configs[index], prevRepoDefaultBranch);
         }

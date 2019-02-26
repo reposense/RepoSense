@@ -72,13 +72,12 @@ public class ReportGenerator {
             repoCloner.clone(outputPath, config);
 
             if (clonedRepo != null) {
-                boolean isCurrentRepoSameAsClonedRepo = config.getLocation().equals(clonedRepo.getLocation());
-                analyzeRepo(outputPath, clonedRepo, !isCurrentRepoSameAsClonedRepo);
+                analyzeRepo(outputPath, clonedRepo);
             }
             clonedRepo = repoCloner.getClonedRepo(outputPath);
         }
         if (clonedRepo != null) {
-            analyzeRepo(outputPath, clonedRepo, true);
+            analyzeRepo(outputPath, clonedRepo);
         }
     }
 
@@ -86,7 +85,7 @@ public class ReportGenerator {
      * Analyzes repo specified by {@code config} and generates the report for this repo.
      */
     private static void analyzeRepo(
-            String outputPath, RepoConfiguration config, boolean shouldDeleteDirectory) throws IOException {
+            String outputPath, RepoConfiguration config) throws IOException {
         try {
             Path repoReportDirectory = Paths.get(outputPath, config.getDisplayName());
             FileUtil.createDirectory(repoReportDirectory);
@@ -98,10 +97,6 @@ public class ReportGenerator {
             CommitContributionSummary commitSummary = CommitsReporter.generateCommitSummary(config);
             AuthorshipSummary authorshipSummary = AuthorshipReporter.generateAuthorshipSummary(config);
             generateIndividualRepoReport(commitSummary, authorshipSummary, repoReportDirectory.toString());
-
-            if (shouldDeleteDirectory) {
-                FileUtil.deleteDirectory(config.getRepoRoot());
-            }
         } catch (GitCloneException gde) {
             logger.log(Level.WARNING,
                     "Exception met while trying to clone the repo, will skip this repo.", gde);
