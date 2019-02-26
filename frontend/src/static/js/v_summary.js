@@ -312,14 +312,16 @@ window.vSummary = {
           insertions: 0,
           deletions: 0,
           date: commits[weekId * 7].date,
+          dayCommits: [],
         };
 
         for (let dayId = 0; dayId < 7; dayId += 1) {
-          const commit = commits[(weekId * 7) + dayId];
+          const commit = commits[(weekId * 7) + dayId] || {};
           if (commit) {
             week.insertions += commit.insertions;
             week.deletions += commit.deletions;
           }
+          week.dayCommits.push(commit);
         }
 
         res.push(week);
@@ -440,8 +442,17 @@ window.vSummary = {
     openTabZoomin(userOrig) {
       // skip if accidentally clicked on ramp chart
       if (drags[1] - drags[0]) {
-        const idxs = drags.map(x => x*userOrig.commits.length/100);
-        const commits = userOrig.commits.slice(
+        const rawCommits = [];
+        userOrig.commits.forEach(commit => {
+          if (this.filterTimeFrame === 'week') {
+            commit.dayCommits.forEach(dayCommit => rawCommits.push(dayCommit));
+          } else {
+            rawCommits.push(commit);
+          }
+        });
+
+        const idxs = drags.map(x => x*rawCommits.length/100);
+        const commits = rawCommits.slice(
           parseInt(idxs[0]),
           parseInt(idxs[1]+1));
 
