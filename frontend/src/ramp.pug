@@ -4,7 +4,7 @@
         a.ramp__slice(
           v-for="(commit, k) in slice.commitResults",
           v-if="commit.insertions>0",
-          v-bind:href="getLink(user, slice)", target="_blank",
+          v-bind:href="getLink(user, commit)", target="_blank",
           v-bind:title="`[${slice.date}] ${commit.message}: ${commit.insertions} lines`",
           v-bind:class="'ramp__slice--color' + j % 5",
           v-bind:style="{\

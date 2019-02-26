@@ -3,6 +3,13 @@ function addDays(dateStr, numDays) {
   return window.getDateStr(date.getTime() + numDays * window.DAY_IN_MS);
 }
 
+function getBaseLink(repoId) {
+  return `http://github.com/${
+    REPOS[repoId].location.organization}/${
+    REPOS[repoId].location.repoName}`;
+}
+window.getBaseLink = getBaseLink;
+
 window.vRamp = {
   props: ['user', 'tframe', 'avgsize'],
   template: window.$('v_ramp').innerHTML,
@@ -20,13 +27,14 @@ window.vRamp = {
       const { REPOS } = window;
       const untilDate = this.tframe === 'week' ? addDays(slice.date, 6) : slice.date;
 
-      return `http://github.com/${
-        REPOS[user.repoId].location.organization}/${
-        REPOS[user.repoId].location.repoName}/commits/${
-        REPOS[user.repoId].branch}?`
-                + `author=${user.name}&`
-                + `since=${slice.date}'T'00:00:00+08:00&`
-                + `until=${untilDate}'T'23:59:59+08:00`;
+      if (this.tframe === 'commit') {
+        return `${getBaseLink(user.repoId)}/commit/${slice.hash}`;
+      } else {
+        return `${getBaseLink(user.repoId)}/commits/${REPOS[user.repoId].branch}?`
+                  + `author=${user.name}&`
+                  + `since=${slice.date}'T'00:00:00+08:00&`
+                  + `until=${untilDate}'T'23:59:59+08:00`;
+      }
     },
     getWidth(slice) {
       if (slice.insertions === 0) {
