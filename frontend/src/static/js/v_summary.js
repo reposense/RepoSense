@@ -416,7 +416,13 @@ window.vSummary = {
       this.filtered = full;
     },
 
-    updateRange() {
+    // updating filters programically //
+    resetDateRange() {
+      this.tmpFilterSinceDate = this.minDate;
+      this.tmpFilterUntilDate = this.maxDate;
+    },
+
+    updateDateRange() {
       const since = new Date(this.filterSinceDate).getTime();
       const until = new Date(this.filterUntilDate).getTime();
       const range = until - since;

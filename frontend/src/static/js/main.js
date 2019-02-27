@@ -180,7 +180,7 @@ window.app = new window.Vue({
     },
 
     updateSummaryDates() {
-      this.$refs.summary.updateRange();
+      this.$refs.summary.updateDateRange();
     },
 
     generateKey(dataObj) {
