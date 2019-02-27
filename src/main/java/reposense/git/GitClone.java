@@ -13,8 +13,8 @@ import java.util.logging.Logger;
 
 import reposense.model.RepoConfiguration;
 import reposense.model.RepoLocation;
-import reposense.system.CommandRunnerProcessException;
 import reposense.system.CommandRunnerProcess;
+import reposense.system.CommandRunnerProcessException;
 import reposense.system.LogsManager;
 import reposense.util.FileUtil;
 
