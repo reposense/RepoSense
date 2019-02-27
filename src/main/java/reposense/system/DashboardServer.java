@@ -50,7 +50,7 @@ public class DashboardServer {
                 logger.info("Loading " + url + " on the default browser...");
             } else {
                 logger.severe("Browser could not be launched. Please refer to the user guide to"
-                        + " manually view the dashboard");
+                        + " manually view the report");
             }
         } catch (URISyntaxException ue) {
             logger.log(Level.SEVERE, ue.getMessage(), ue);
