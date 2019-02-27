@@ -57,13 +57,11 @@ window.vAuthorship = {
   methods: {
     initiate() {
       const repo = window.REPOS[this.info.repo];
-      if (!repo) {
-        this.info.name = 'FAILED TO CLONE OR CHECKOUT THIS REPOSITORY';
-        this.isLoaded = true;
+      this.getAuthorName(repo);
+      if (!repo || !this.info.name) {
+        window.app.isTabActive = false;
         return;
       }
-      this.getAuthorName(repo);
-
       if (repoCache.length === 2) {
         const toRemove = repoCache.shift();
         if (toRemove !== this.info.repo) {
@@ -81,7 +79,7 @@ window.vAuthorship = {
     },
 
     getAuthorName(repo) {
-      if (!this.info.name) {
+      if (!this.info.name && repo) {
         const author = repo.users.filter((user) => user.name === this.info.author);
         if (author.length > 0) {
           this.info.name = author[0].displayName;

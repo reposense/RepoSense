@@ -179,20 +179,21 @@ window.app = new window.Vue({
       const info = {
         author: hash.tabAuthor,
         location: hash.tabLocation,
+        branch: hash.tabBranch,
         minDate,
         maxDate,
-        branch: hash.tabBranch,
       };
-      const tabInfoLength = 6;
       this.updateInfoRepoName(info);
+      const tabInfoLength = Object.values(info).filter((x) => x).length;
       if (Object.keys(info).length === tabInfoLength) {
         this.updateTabAuthorship(info);
-      } else if (hash.tabOpen === 'false') {
+      } else if (hash.tabOpen === 'false' || tabInfoLength > 2) {
         window.app.isTabActive = false;
       }
     },
     updateInfoRepoName(info) {
       if (!info.location || info.location.split('github.com/').length < 2) {
+        info.repo = '';
         return;
       }
       const repoName = info.location.split('github.com/')[1].split('/');
