@@ -41,15 +41,16 @@ public class RepoCloner {
         if (isCurrentRepoCloned && isPreviousRepoDifferent()) {
             isCurrentRepoCloned = waitForCloneProcess(outputPath, configs[index]);
         }
-        cleanupDirectories();
 
         if (!isCurrentRepoCloned) {
+            deleteDirectory(configs[index].getRepoRoot());
             return null;
         } else if (isPreviousRepoDifferent()) {
             prevRepoDefaultBranch = GitBranch.getCurrentBranch(configs[index].getRepoRoot());
         } else {
             GitClone.updateRepoConfigBranch(configs[index], prevRepoDefaultBranch);
         }
+        cleanupPrevRepoFolder();
         prevIndex = index;
         index = (index + 1) % configs.length;
         return configs[prevIndex];
@@ -97,12 +98,10 @@ public class RepoCloner {
     }
 
     /**
-     * Deletes cloned repo directories that are not in use anymore.
+     * Deletes previously cloned repo directories that are not in use anymore.
      */
-    private void cleanupDirectories() {
-        if (!isCurrentRepoCloned) {
-            deleteDirectory(configs[index].getRepoRoot());
-        } else if (isPreviousRepoDifferent() && prevIndex != index) {
+    private void cleanupPrevRepoFolder() {
+        if (isPreviousRepoDifferent() && prevIndex != index) {
             deleteDirectory(configs[prevIndex].getRepoRoot());
         }
     }
