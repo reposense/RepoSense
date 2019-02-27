@@ -18,13 +18,17 @@ public class CommandRunner {
 
     public static String runCommand(Path path, String command) {
         CommandRunnerProcess crp = spawnCommandProcess(path, command);
-        return waitForCommandProcess(path, command, crp);
+        return crp.waitForProcess();
+    }
+
+    public static CommandRunnerProcess runCommandAsync(Path path, String command) {
+        return spawnCommandProcess(path, command);
     }
 
     /**
      * Spawns a {@code CommandRunnerProcess} to execute {@code command}. Does not wait for process to finish executing.
      */
-    public static CommandRunnerProcess spawnCommandProcess(Path path, String command) {
+    private static CommandRunnerProcess spawnCommandProcess(Path path, String command) {
         ProcessBuilder pb = null;
         if (isWindows) {
             pb = new ProcessBuilder()
@@ -35,35 +39,17 @@ public class CommandRunner {
                     .command(new String[]{"bash", "-c", command})
                     .directory(path.toFile());
         }
-        CommandRunnerProcess crp = new CommandRunnerProcess(pb);
-
+        Process p = null;
         try {
-            crp.spawnProcess();
+            p = pb.start();
         } catch (IOException e) {
             throw new RuntimeException("Error Creating Thread:" + e.getMessage());
         }
-        return crp;
-    }
-
-    /**
-     * Waits for {@code crp} to finish executing and returns the output from the execution.
-     */
-    public static String waitForCommandProcess(Path path, String command, CommandRunnerProcess crp) {
-        int exit = 0;
-        try {
-            exit = crp.waitForProcess();
-        } catch (InterruptedException e) {
-            throw new RuntimeException("Error Handling Thread.");
-        }
-
-        if (exit == 0) {
-            return crp.getOutputGobbler().getValue();
-        } else {
-            String errorMessage = "Error returned from command ";
-            errorMessage += command + "on path ";
-            errorMessage += path.toString() + " :\n" + crp.getErrorGobbler().getValue();
-            throw new RuntimeException(errorMessage);
-        }
+        StreamGobbler errorGobbler = new StreamGobbler(p.getErrorStream());
+        StreamGobbler outputGobbler = new StreamGobbler(p.getInputStream());
+        outputGobbler.start();
+        errorGobbler.start();
+        return new CommandRunnerProcess(path, command, p, outputGobbler, errorGobbler);
     }
 
     private static boolean isWindows() {

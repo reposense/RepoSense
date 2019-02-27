@@ -1,8 +1,7 @@
 package reposense.git;
 
 import static reposense.system.CommandRunner.runCommand;
-import static reposense.system.CommandRunner.spawnCommandProcess;
-import static reposense.system.CommandRunner.waitForCommandProcess;
+import static reposense.system.CommandRunner.runCommandAsync;
 import static reposense.util.StringsUtil.addQuote;
 
 import java.io.IOException;
@@ -69,7 +68,7 @@ public class GitClone {
             logger.info("Cloning in parallel from " + repoConfig.getLocation() + "...");
             Path rootPath = Paths.get(FileUtil.REPOS_ADDRESS, repoConfig.getRepoFolderName());
             Files.createDirectories(rootPath);
-            crp = spawnCommandProcess(rootPath, "git clone " + addQuote(repoConfig.getLocation().toString()));
+            crp = runCommandAsync(rootPath, "git clone " + addQuote(repoConfig.getLocation().toString()));
         } catch (RuntimeException rte) {
             logger.log(Level.SEVERE, "Error encountered in Git Cloning, will attempt to continue analyzing", rte);
             throw new GitCloneException(rte);
@@ -84,8 +83,7 @@ public class GitClone {
      */
     public static void waitForCloneProcess(RepoConfiguration repoConfig) throws GitCloneException {
         try {
-            Path rootPath = Paths.get(FileUtil.REPOS_ADDRESS, repoConfig.getRepoFolderName());
-            waitForCommandProcess(rootPath, "git clone " + addQuote(repoConfig.getLocation().toString()), crp);
+            crp.waitForProcess();
             logger.info("Cloning of " + repoConfig.getLocation() + " completed!");
         } catch (RuntimeException rte) {
             crp = null;

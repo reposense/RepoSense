@@ -1,55 +1,47 @@
 package reposense.system;
 
-import java.io.IOException;
+import java.nio.file.Path;
 
 /**
  * Represents a process created by {@code CommandRunner}.
  */
 public class CommandRunnerProcess {
 
-    private ProcessBuilder processBuilder;
+    private Path path;
+    private String command;
     private Process process;
     private StreamGobbler outputGobbler;
     private StreamGobbler errorGobbler;
 
-    public CommandRunnerProcess(ProcessBuilder processBuilder) {
-        this.processBuilder = processBuilder;
+    public CommandRunnerProcess(
+            Path path, String command, Process process, StreamGobbler outputGobbler, StreamGobbler errorGobbler) {
+        this.path = path;
+        this.command = command;
+        this.process = process;
+        this.outputGobbler = outputGobbler;
+        this.errorGobbler = errorGobbler;
     }
 
     /**
-     * Starts executing the process and the output and error gobblers. Does not wait for process to finish executing.
+     * Waits for process to finish executing and returns the output from the execution.
      */
-    public void spawnProcess() throws IOException {
-        if (process != null) {
-            return;
+    public String waitForProcess() {
+        int exit = 0;
+        try {
+            exit = process.waitFor();
+            outputGobbler.join();
+            errorGobbler.join();
+        } catch (InterruptedException e) {
+            throw new RuntimeException("Error Handling Thread.");
         }
-        process = processBuilder.start();
-        outputGobbler = new StreamGobbler(process.getInputStream());
-        errorGobbler = new StreamGobbler(process.getErrorStream());
-        outputGobbler.start();
-        errorGobbler.start();
-    }
 
-    /**
-     * Waits for the previously spawned process to finish executing before returning the exit value.
-     * Should only be called after {@code spawnProcess} has been called.
-     */
-    public int waitForProcess() throws InterruptedException {
-        int exit = process.waitFor();
-        outputGobbler.join();
-        errorGobbler.join();
-        return exit;
-    }
-
-    public Process getProcess() {
-        return process;
-    }
-
-    public StreamGobbler getOutputGobbler() {
-        return outputGobbler;
-    }
-
-    public StreamGobbler getErrorGobbler() {
-        return errorGobbler;
+        if (exit == 0) {
+            return outputGobbler.getValue();
+        } else {
+            String errorMessage = "Error returned from command ";
+            errorMessage += command + "on path ";
+            errorMessage += path.toString() + " :\n" + errorGobbler.getValue();
+            throw new RuntimeException(errorMessage);
+        }
     }
 }
