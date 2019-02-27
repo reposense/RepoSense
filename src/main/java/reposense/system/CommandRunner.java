@@ -18,7 +18,11 @@ public class CommandRunner {
 
     public static String runCommand(Path path, String command) {
         CommandRunnerProcess crp = spawnCommandProcess(path, command);
-        return crp.waitForProcess();
+        try {
+            return crp.waitForProcess();
+        } catch (CommandRunnerException cre) {
+            throw new RuntimeException(cre);
+        }
     }
 
     public static CommandRunnerProcess runCommandAsync(Path path, String command) {

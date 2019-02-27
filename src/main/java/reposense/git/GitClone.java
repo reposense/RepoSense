@@ -13,6 +13,7 @@ import java.util.logging.Logger;
 
 import reposense.model.RepoConfiguration;
 import reposense.model.RepoLocation;
+import reposense.system.CommandRunnerException;
 import reposense.system.CommandRunnerProcess;
 import reposense.system.LogsManager;
 import reposense.util.FileUtil;
@@ -85,10 +86,10 @@ public class GitClone {
         try {
             crp.waitForProcess();
             logger.info("Cloning of " + repoConfig.getLocation() + " completed!");
-        } catch (RuntimeException rte) {
+        } catch (RuntimeException | CommandRunnerException e) {
             crp = null;
-            logger.log(Level.SEVERE, "Error encountered in Git Cloning, will attempt to continue analyzing", rte);
-            throw new GitCloneException(rte);
+            logger.log(Level.SEVERE, "Error encountered in Git Cloning, will attempt to continue analyzing", e);
+            throw new GitCloneException(e);
         }
         crp = null;
         updateRepoConfigBranch(repoConfig);
