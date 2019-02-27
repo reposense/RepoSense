@@ -25,14 +25,14 @@ public class CommandRunnerProcess {
     /**
      * Waits for process to finish executing and returns the output from the execution.
      */
-    public String waitForProcess() throws CommandRunnerException {
+    public String waitForProcess() throws CommandRunnerProcessException {
         int exit = 0;
         try {
             exit = process.waitFor();
             outputGobbler.join();
             errorGobbler.join();
         } catch (InterruptedException e) {
-            throw new CommandRunnerException("Error Handling Thread.");
+            throw new CommandRunnerProcessException("Error Handling Thread.");
         }
 
         if (exit == 0) {
@@ -41,7 +41,7 @@ public class CommandRunnerProcess {
             String errorMessage = "Error returned from command ";
             errorMessage += command + "on path ";
             errorMessage += path.toString() + " :\n" + errorGobbler.getValue();
-            throw new CommandRunnerException(errorMessage);
+            throw new CommandRunnerProcessException(errorMessage);
         }
     }
 }

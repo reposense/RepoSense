@@ -20,7 +20,7 @@ public class CommandRunner {
         CommandRunnerProcess crp = spawnCommandProcess(path, command);
         try {
             return crp.waitForProcess();
-        } catch (CommandRunnerException cre) {
+        } catch (CommandRunnerProcessException cre) {
             throw new RuntimeException(cre);
         }
     }
