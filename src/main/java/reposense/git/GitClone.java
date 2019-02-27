@@ -46,7 +46,13 @@ public class GitClone {
             throw new GitCloneException(ioe);
         }
         updateRepoConfigBranch(repoConfig);
-        checkoutBranch(repoConfig);
+
+        try {
+            GitCheckout.checkout(repoConfig.getRepoRoot(), repoConfig.getBranch());
+        } catch (RuntimeException e) {
+            logger.log(Level.SEVERE, "Branch does not exist! Analysis terminated.", e);
+            throw new GitCloneException(e);
+        }
     }
 
     private static void clone(RepoLocation location, String repoName) throws IOException {
@@ -110,18 +116,6 @@ public class GitClone {
                 String currentBranch = GitBranch.getCurrentBranch(repoConfig.getRepoRoot());
                 repoConfig.setBranch(currentBranch);
             }
-        } catch (RuntimeException e) {
-            logger.log(Level.SEVERE, "Branch does not exist! Analysis terminated.", e);
-            throw new GitCloneException(e);
-        }
-    }
-
-    /**
-     * Checks out the branch specified in {@code repoConfig}.
-     */
-    public static void checkoutBranch(RepoConfiguration repoConfig) throws GitCloneException {
-        try {
-            GitCheckout.checkout(repoConfig.getRepoRoot(), repoConfig.getBranch());
         } catch (RuntimeException e) {
             logger.log(Level.SEVERE, "Branch does not exist! Analysis terminated.", e);
             throw new GitCloneException(e);

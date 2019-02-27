@@ -86,16 +86,8 @@ public class ReportGenerator {
     private static void analyzeRepo(String outputPath, RepoConfiguration config) throws IOException {
         Path repoReportDirectory;
         try {
-            GitClone.checkoutBranch(config);
             repoReportDirectory = Paths.get(outputPath, config.getDisplayName());
             FileUtil.createDirectory(repoReportDirectory);
-        } catch (GitCloneException gde) {
-            logger.log(Level.WARNING,
-                    "Exception met while trying to clone the repo, will skip this repo.", gde);
-            repoReportDirectory = Paths.get(outputPath, config.getDisplayName());
-            FileUtil.createDirectory(repoReportDirectory);
-            generateEmptyRepoReport(repoReportDirectory.toString());
-            return;
         } catch (IOException ioe) {
             logger.log(Level.WARNING,
                     "Error has occurred while creating repo directory, will skip this repo.", ioe);

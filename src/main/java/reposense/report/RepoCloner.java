@@ -7,6 +7,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import reposense.git.GitBranch;
+import reposense.git.GitCheckout;
 import reposense.git.GitClone;
 import reposense.git.GitCloneException;
 import reposense.model.RepoConfiguration;
@@ -51,6 +52,14 @@ public class RepoCloner {
             GitClone.updateRepoConfigBranch(configs[index], prevRepoDefaultBranch);
         }
         cleanupPrevRepoFolder();
+
+        try {
+            GitCheckout.checkout(configs[index].getRepoRoot(), configs[index].getBranch());
+        } catch (RuntimeException e) {
+            logger.log(Level.SEVERE, "Branch does not exist! Analysis terminated.", e);
+            generateEmptyRepoReport(outputPath, configs[index]);
+            return null;
+        }
         prevIndex = index;
         index = (index + 1) % configs.length;
         return configs[prevIndex];
