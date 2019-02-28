@@ -191,12 +191,15 @@ window.app = new window.Vue({
         window.app.isTabActive = false;
       }
     },
+    isValidInfo(info) {
+      return info.location && info.branch && info.location.split('github.com/').length >= 2;
+    },
     updateInfoRepoName(info) {
-      if (!info.location || !info.branch) {
+      if (!this.isValidInfo(info)) {
         info.repo = '';
         return;
       }
-      const repoName = info.location.split('github.com/').length >= 2 ? info.location.split('github.com/')[1].split('/'): [];
+      const repoName = info.location.split('github.com/')[1].split('/');
       if (repoName.length < 2) {
         info.repo = '';
         return;
