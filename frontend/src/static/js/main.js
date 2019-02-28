@@ -192,7 +192,7 @@ window.app = new window.Vue({
       }
     },
     updateInfoRepoName(info) {
-      if (!info.location || info.location.split('github.com/').length < 2) {
+      if (!info.location || !info.branch || info.location.split('github.com/').length < 2) {
         info.repo = '';
         return;
       }
@@ -203,9 +203,7 @@ window.app = new window.Vue({
       }
       const organization = repoName[0];
       const repo = repoName[1].split('.git')[0];
-      if (info.branch) {
-        info.repo = `${[organization, repo].join('_')}_${info.branch}`;
-      }
+      info.repo = `${[organization, repo].join('_')}_${info.branch}`;
     },
 
     /* global expandAll */
