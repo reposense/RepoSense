@@ -31,7 +31,7 @@ window.vAuthorship = {
       filesBlankLinesObj: {},
       totalLineCount: '',
       totalBlankLineCount: '',
-      activeFiles: 0,
+      activeFileCount: 0,
     };
   },
 
@@ -63,11 +63,11 @@ window.vAuthorship = {
         file.className = renameValue;
       });
 
-      this.activeFiles = isActive ? this.selectedFiles.length : 0;
+      this.activeFileCount = isActive ? this.selectedFiles.length : 0;
     },
 
     updateCount() {
-      this.activeFiles = document.getElementsByClassName('file active').length;
+      this.activeFileCount = document.getElementsByClassName('file active').length;
     },
 
     splitSegments(lines) {
@@ -143,7 +143,7 @@ window.vAuthorship = {
       this.selectedFiles = res;
       this.isLoaded = true;
 
-      this.activeFiles = this.selectedFiles.length;
+      this.activeFileCount = this.selectedFiles.length;
     },
 
     addLineCountToFileType(path, lineCount, filesInfoObj) {
@@ -169,11 +169,11 @@ window.vAuthorship = {
       if (!this.isSelectAllChecked) {
         this.selectedFileTypes = this.fileTypes;
         this.selectedFiles = this.files;
-        this.activeFiles = this.files.length;
+        this.activeFileCount = this.files.length;
       } else {
         this.selectedFileTypes = [];
         this.selectedFiles = [];
-        this.activeFiles = 0;
+        this.activeFileCount = 0;
       }
     },
 
