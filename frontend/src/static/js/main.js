@@ -193,8 +193,7 @@ window.app = new window.Vue({
     },
     isValidInfo(info) {
       const tabInfoLength = Object.values(info).filter((x) => x).length;
-      return Object.keys(info).length === tabInfoLength &&
-        info.location && info.branch && info.location.split('github.com/').length >= 2;
+      return Object.keys(info).length === tabInfoLength && info.location && info.branch && info.location.split('github.com/').length >= 2;
     },
     updateInfoRepoName(info) {
       if (!this.isValidInfo(info)) {
