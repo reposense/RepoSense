@@ -185,14 +185,16 @@ window.app = new window.Vue({
       };
       this.updateInfoRepoName(info);
       const tabInfoLength = Object.values(info).filter((x) => x).length;
-      if (Object.keys(info).length === tabInfoLength) {
+      if (this.isValidInfo(info)) {
         this.updateTabAuthorship(info);
       } else if (hash.tabOpen === 'false' || tabInfoLength > 2) {
         window.app.isTabActive = false;
       }
     },
     isValidInfo(info) {
-      return info.location && info.branch && info.location.split('github.com/').length >= 2;
+      const tabInfoLength = Object.values(info).filter((x) => x).length;
+      return Object.keys(info).length === tabInfoLength &&
+        info.location && info.branch && info.location.split('github.com/').length >= 2;
     },
     updateInfoRepoName(info) {
       if (!this.isValidInfo(info)) {
