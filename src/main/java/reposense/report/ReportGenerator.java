@@ -58,8 +58,8 @@ public class ReportGenerator {
     }
 
     /**
-     * Clones and analyzes repositories in {@code configs}.
-     * Performs analysis of each repository in parallel with the cloning of the next repository.
+     * Clones and then performs analysis and report generation for repositories in {@code configs}.
+     * Performs analysis and report generation of each repository in parallel with the cloning of the next repository.
      */
     private static void cloneAndAnalyzeRepos(List<RepoConfiguration> configs, String outputPath) throws IOException {
         RepoCloner repoCloner = new RepoCloner();
@@ -81,7 +81,7 @@ public class ReportGenerator {
     /**
      * Analyzes repo specified by {@code config} and generates the report for this repo.
      */
-    private static void analyzeRepo(String outputPath, RepoConfiguration config) throws IOException {
+    private static void analyzeRepo(String outputPath, RepoConfiguration config) {
         Path repoReportDirectory;
         try {
             repoReportDirectory = Paths.get(outputPath, config.getDisplayName());
