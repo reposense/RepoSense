@@ -107,7 +107,7 @@ html
               input(type="checkbox", v-model="filterSortReverse").mui-checkbox.summary-picker__checkbox
               span reverse
         #summary-charts
-          .summary-charts(v-for="repo of filtered", v-if="repo.length>0")
+          .summary-charts(v-for="repo of filteredRepos", v-if="repo.length>0")
             .summary-charts__title(v-if="filterGroupSelection === 'groupByRepos'") {{ repo[0].repoPath }}
             .summary-charts__title(v-if="filterGroupSelection === 'groupByAuthors'") {{ repo[0].displayName }}
             .summary-chart(v-for="(user, i) in repo")
@@ -183,7 +183,7 @@ html
                 span.bloc(v-bind:title="getTotalFileBlankLineInfo()") ({{ totalBlankLineCount }})
               template(v-for="type in Object.keys(filesLinesObj)")
                 label
-                  input(type="checkbox" :value="type" v-model="selectedFileTypes" v-on:change="selectFile").mui-checkbox
+                  input(type="checkbox" :checked="selectedFileTypes.includes(type)" v-on:change="selectFileType(type)").mui-checkbox
                   span(v-bind:title="getFileBlankLineInfo(type)") {{ type }}: {{ filesLinesObj[type] }}&nbsp;
                   span.bloc(v-bind:title="getFileBlankLineInfo(type)") ({{ filesBlankLinesObj[type] }})
 

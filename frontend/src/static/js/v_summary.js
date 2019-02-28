@@ -116,6 +116,9 @@ window.vSummary = {
 
       return totalLines / totalCount;
     },
+    filteredRepos() {
+      return this.filtered.filter((repo) => repo.length > 0);
+    },
   },
   methods: {
     // view functions //
