@@ -96,20 +96,16 @@ html
               input(type="date", v-model="tmpFilterUntilDate", onkeydown="return false",
                 v-bind:min="filterSinceDate", v-bind:max="maxDate")
               label until
+            .mui-select.grouping
+              select(v-model="filterGroupSelection")
+                option(value="groupByNone") None
+                option(value="groupByRepos") Repo/Branch
+                option(value="groupByAuthors") Author
+              label group by
           .summary-picker__checkboxes.summary-picker__section
             label
               input(type="checkbox", v-model="filterSortReverse").mui-checkbox.summary-picker__checkbox
               span reverse
-            .grouping
-              label
-                input(type="radio", v-model="filterGroupSelection", value="groupByNone").mui-radio.summary-picker__radio
-                span no grouping
-              label
-                input(type="radio", v-model="filterGroupSelection", value="groupByRepos").mui-radio.summary-picker__radio
-                span group by repo/branch
-              label
-                input(type="radio", v-model="filterGroupSelection", value="groupByAuthors").mui-radio.summary-picker__radio
-                span group by author
         #summary-charts
           .summary-charts(v-for="repo of filtered", v-if="repo.length>0")
             .summary-charts__title(v-if="filterGroupSelection === 'groupByRepos'") {{ repo[0].repoPath }}
