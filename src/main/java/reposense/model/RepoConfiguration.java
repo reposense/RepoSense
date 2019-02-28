@@ -141,6 +141,15 @@ public class RepoConfiguration {
         ignoreCommitList = CommitHash.convertStringsToCommits(standaloneConfig.getIgnoreCommitList());
     }
 
+    /**
+     * Updates branch if default branch is specified.
+     */
+    public void updateBranch(String defaultBranch) {
+        if (branch.equals(RepoConfiguration.DEFAULT_BRANCH)) {
+            setBranch(defaultBranch);
+        }
+    }
+
     public String getRepoRoot() {
         String path = FileUtil.REPOS_ADDRESS + File.separator + getRepoFolderName() + File.separator;
 

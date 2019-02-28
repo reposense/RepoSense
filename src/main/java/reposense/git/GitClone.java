@@ -45,9 +45,12 @@ public class GitClone {
         } catch (IOException ioe) {
             throw new GitCloneException(ioe);
         }
-        updateRepoConfigBranch(repoConfig);
 
         try {
+            if (repoConfig.getBranch().equals(RepoConfiguration.DEFAULT_BRANCH)) {
+                String currentBranch = GitBranch.getCurrentBranch(repoConfig.getRepoRoot());
+                repoConfig.setBranch(currentBranch);
+            }
             GitCheckout.checkout(repoConfig.getRepoRoot(), repoConfig.getBranch());
         } catch (RuntimeException e) {
             logger.log(Level.SEVERE, "Branch does not exist! Analysis terminated.", e);
@@ -98,19 +101,7 @@ public class GitClone {
             throw new GitCloneException(e);
         }
         crp = null;
-        updateRepoConfigBranch(repoConfig);
-    }
 
-    /**
-     * Updates the branch of {@code repoConfig} to the current branch if default branch is specified.
-     */
-    public static void updateRepoConfigBranch(RepoConfiguration repoConfig, String currentBranch) {
-        if (repoConfig.getBranch().equals(RepoConfiguration.DEFAULT_BRANCH)) {
-            repoConfig.setBranch(currentBranch);
-        }
-    }
-
-    private static void updateRepoConfigBranch(RepoConfiguration repoConfig) throws GitCloneException {
         try {
             if (repoConfig.getBranch().equals(RepoConfiguration.DEFAULT_BRANCH)) {
                 String currentBranch = GitBranch.getCurrentBranch(repoConfig.getRepoRoot());

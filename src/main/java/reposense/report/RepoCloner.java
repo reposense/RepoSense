@@ -49,7 +49,7 @@ public class RepoCloner {
         } else if (isPreviousRepoDifferent()) {
             prevRepoDefaultBranch = GitBranch.getCurrentBranch(configs[index].getRepoRoot());
         } else {
-            GitClone.updateRepoConfigBranch(configs[index], prevRepoDefaultBranch);
+            configs[index].updateBranch(prevRepoDefaultBranch);
         }
         cleanupPrevRepoFolder();
 
