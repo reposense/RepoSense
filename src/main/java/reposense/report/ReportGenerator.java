@@ -58,7 +58,7 @@ public class ReportGenerator {
     }
 
     /**
-     * Clones and then performs analysis and report generation for repositories in {@code configs}.
+     * Clone, analyze and generate the report for repositories in {@code configs}.
      * Performs analysis and report generation of each repository in parallel with the cloning of the next repository.
      */
     private static void cloneAndAnalyzeRepos(List<RepoConfiguration> configs, String outputPath) throws IOException {
@@ -79,7 +79,7 @@ public class ReportGenerator {
     }
 
     /**
-     * Analyzes repo specified by {@code config} and generates the report for this repo.
+     * Analyzes repo specified by {@code config} and generates the report.
      */
     private static void analyzeRepo(String outputPath, RepoConfiguration config) {
         Path repoReportDirectory;
