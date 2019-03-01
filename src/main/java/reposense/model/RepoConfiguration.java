@@ -9,6 +9,7 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.logging.Logger;
 
+import reposense.git.GitBranch;
 import reposense.system.LogsManager;
 import reposense.util.FileUtil;
 
@@ -147,6 +148,13 @@ public class RepoConfiguration {
     public void updateBranch(String defaultBranch) {
         if (branch.equals(RepoConfiguration.DEFAULT_BRANCH)) {
             setBranch(defaultBranch);
+        }
+    }
+
+    public void updateBranch() {
+        if (branch.equals(RepoConfiguration.DEFAULT_BRANCH)) {
+            String currentBranch = GitBranch.getCurrentBranch(getRepoRoot());
+            setBranch(currentBranch);
         }
     }
 

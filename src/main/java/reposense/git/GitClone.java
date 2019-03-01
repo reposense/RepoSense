@@ -47,10 +47,7 @@ public class GitClone {
         }
 
         try {
-            if (repoConfig.getBranch().equals(RepoConfiguration.DEFAULT_BRANCH)) {
-                String currentBranch = GitBranch.getCurrentBranch(repoConfig.getRepoRoot());
-                repoConfig.setBranch(currentBranch);
-            }
+            repoConfig.updateBranch();
             GitCheckout.checkout(repoConfig.getRepoRoot(), repoConfig.getBranch());
         } catch (RuntimeException e) {
             logger.log(Level.SEVERE, "Branch does not exist! Analysis terminated.", e);
@@ -103,10 +100,7 @@ public class GitClone {
         crp = null;
 
         try {
-            if (repoConfig.getBranch().equals(RepoConfiguration.DEFAULT_BRANCH)) {
-                String currentBranch = GitBranch.getCurrentBranch(repoConfig.getRepoRoot());
-                repoConfig.setBranch(currentBranch);
-            }
+            repoConfig.updateBranch();
         } catch (RuntimeException e) {
             logger.log(Level.SEVERE, "Branch does not exist! Analysis terminated.", e);
             throw new GitCloneException(e);
