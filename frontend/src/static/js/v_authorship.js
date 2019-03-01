@@ -76,7 +76,6 @@ window.vAuthorship = {
       isSelectAllChecked: true,
       selectedFileTypes: [],
       fileTypes: [],
-      selectedFiles: [],
       filesLinesObj: {},
       filesBlankLinesObj: {},
       totalLineCount: '',
@@ -175,7 +174,6 @@ window.vAuthorship = {
 
       this.filesBlankLinesObj = filesBlanksInfoObj;
       this.files = res;
-      this.selectedFiles = res;
       this.isLoaded = true;
     },
 
@@ -200,27 +198,24 @@ window.vAuthorship = {
 
     selectAll() {
       if (!this.isSelectAllChecked) {
-        this.selectedFileTypes = this.fileTypes;
-        this.selectedFiles = this.files;
+        this.selectedFileTypes = this.fileTypes.slice();
       } else {
         this.selectedFileTypes = [];
-        this.selectedFiles = [];
       }
     },
 
-    selectFile() {
-      setTimeout(this.getSelectedFiles, 0);
-    },
+    selectFileType(type) {
+      if (this.selectedFileTypes.includes(type)) {
+        const index = this.selectedFileTypes.indexOf(type);
+        this.selectedFileTypes.splice(index, 1);
+      } else {
+        this.selectedFileTypes.push(type);
+      }
 
-    getSelectedFiles() {
       if (this.fileTypes.length === this.selectedFileTypes.length) {
-        this.selectedFiles = this.files;
         this.isSelectAllChecked = true;
       } else if (this.selectedFileTypes.length === 0) {
-        this.selectedFiles = [];
         this.isSelectAllChecked = false;
-      } else {
-        this.selectedFiles = this.files.filter((file) => this.selectedFileTypes.includes((file.path.split('.').pop())));
       }
     },
 
@@ -231,6 +226,11 @@ window.vAuthorship = {
     getFilteredFiles() {
       this.selectedFiles = this.files.filter((file) =>
           minimatch(file.path, this.filterSearch, { matchBase: true }));
+    },
+
+    isSelected(filePath) {
+      const fileExt = filePath.split('.').pop();
+      return this.selectedFileTypes.includes(fileExt);
     },
 
     getFileLink(file, path) {
@@ -249,6 +249,12 @@ window.vAuthorship = {
     getTotalFileBlankLineInfo() {
       return `Total: Blank: ${this.totalBlankLineCount}, Non-Blank: ${
         this.totalLineCount - this.totalBlankLineCount}`;
+    },
+  },
+
+  computed: {
+    selectedFiles() {
+      return this.files.filter((file) => this.isSelected(file.path));
     },
   },
 

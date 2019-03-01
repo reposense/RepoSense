@@ -61,8 +61,8 @@ window.api = {
           };
 
           const searchParams = [
-            repo.displayName,
-            obj.displayName, author,
+              repo.displayName,
+              obj.displayName, author,
           ];
 
           obj.searchPath = searchParams.join('_').toLowerCase();
