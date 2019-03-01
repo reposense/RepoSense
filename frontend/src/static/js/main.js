@@ -102,7 +102,7 @@ window.app = new window.Vue({
 
     // isTabActive used to force tab wrapper to load
     isTabActive: true,
-    tabActive: 'empty',
+    tabType: 'empty',
     tabInfo: {},
     creationDate: '',
   },
@@ -170,7 +170,7 @@ window.app = new window.Vue({
       this.isTabActive = true;
       this.isCollapsed = false;
 
-      this.tabActive = 'authorship';
+      this.tabType = 'authorship';
     },
 
     generateKey(dataObj) {

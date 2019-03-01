@@ -42,7 +42,7 @@ html
           .tab-content
             .tab-panes
               v_authorship#tab-authorship.tab-pane(
-                v-if="tabActive=='authorship'"
+                v-if="tabType=='authorship'"
                 v-bind:key="generateKey(tabInfo.tabAuthorship)",
                 v-bind:info="tabInfo.tabAuthorship")
               #tab-empty.tab-pane(v-else)
