@@ -41,10 +41,11 @@ window.enableSearchBar = function enableSearchBar() {
   searchBar.disabled = false;
   submitButton.disabled = false;
 
+  window.vAuthorship.selectedFileTypes = window.vAuthorship.fileTypes.slice();
+  window.vAuthorship.isSelectAllChecked = true;
+
   const checkboxes = document.getElementsByClassName('mui-checkbox--filetype');
   Array.from(checkboxes).forEach((checkbox) => {
-    checkbox.checked = false;
-    checkbox.click();
     checkbox.disabled = true;
   });
 };
@@ -56,11 +57,13 @@ window.enableCheckBoxes = function enableCheckBoxes() {
   searchBar.disabled = true;
   submitButton.disabled = true;
 
+  window.vAuthorship.filterSearch = '*';
+  window.vAuthorship.selectedFileTypes = window.vAuthorship.fileTypes.slice();
+  window.vAuthorship.isSelectAllChecked = true;
+
   const checkboxes = document.getElementsByClassName('mui-checkbox--filetype');
   Array.from(checkboxes).forEach((checkbox) => {
     checkbox.disabled = false;
-    checkbox.checked = false;
-    checkbox.click();
   });
 };
 
@@ -224,8 +227,6 @@ window.vAuthorship = {
     },
 
     getFilteredFiles() {
-      this.selectedFiles = this.files.filter((file) =>
-          minimatch(file.path, this.filterSearch, { matchBase: true }));
     },
 
     isSelected(filePath) {
@@ -254,7 +255,8 @@ window.vAuthorship = {
 
   computed: {
     selectedFiles() {
-      return this.files.filter((file) => this.isSelected(file.path));
+      return this.files.filter((file) => this.isSelected(file.path)
+          && minimatch(file.path, this.filterSearch, { matchBase: true }));
     },
   },
 
