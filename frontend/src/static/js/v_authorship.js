@@ -69,6 +69,7 @@ window.enableCheckBoxes = function enableCheckBoxes() {
 
 const repoCache = [];
 const minimatch = require('minimatch');
+
 window.vAuthorship = {
   props: ['info'],
   template: window.$('v_authorship').innerHTML,
