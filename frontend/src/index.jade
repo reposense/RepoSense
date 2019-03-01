@@ -107,7 +107,7 @@ html
               input(type="checkbox", v-model="filterBreakdown").mui-checkbox.summary-picker__checkbox
               span breakdown by file format
         #summary-charts
-          .summary-charts(v-for="repo of filtered", v-if="repo.length>0")
+          .summary-charts(v-for="repo of filteredRepos")
             .summary-charts__title(
               v-if="filterGroupRepos",
             ) {{ repo[0].repoPath }}
@@ -217,11 +217,11 @@ html
                 span.select(v-bind:title="getTotalFileBlankLineInfo()") All:&nbsp;
                 span.loc(v-bind:title="getTotalFileBlankLineInfo()") {{ totalLineCount }}&nbsp;
                 span.bloc(v-bind:title="getTotalFileBlankLineInfo()") ({{ totalBlankLineCount }})
-              template(v-for="type in Object.keys(filesExistingLinesObj)", v-bind:key="type")
+              template(v-for="format in Object.keys(filesExistingLinesObj)", v-bind:key="format")
                 label
-                  input(type="checkbox" :value="type" v-model="selectedFileFormats" v-on:change="selectFile").mui-checkbox
-                  span(v-bind:title="getFileBlankLineInfo(type)") {{ type }}: {{ filesExistingLinesObj[type] }}&nbsp;
-                  span.bloc(v-bind:title="getFileBlankLineInfo(type)") ({{ filesBlankLinesObj[type] }})
+                  input(type="checkbox" :checked="selectedFileFormats.includes(format)" v-on:change="selectFileFormat(format)").mui-checkbox
+                  span(v-bind:title="getFileBlankLineInfo(format)") {{ format }}: {{ filesExistingLinesObj[format] }}&nbsp;
+                  span.bloc(v-bind:title="getFileBlankLineInfo(format)") ({{ filesBlankLinesObj[format] }})
 
         .files(v-if="isLoaded")
           .empty(v-if="files.length===0") nothing to see here :(

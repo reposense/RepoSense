@@ -46,22 +46,12 @@ window.vAuthorship = {
       isSelectAllChecked: true,
       selectedFileFormats: [],
       fileFormats: [],
-      selectedFiles: [],
       filesBlankLinesObj: {},
       totalLineCount: '',
       totalBlankLineCount: '',
     };
   },
 
-  computed: {
-    filesExistingLinesObj() {
-      return Object.keys(this.info.filesLinesObj)
-          .filter((type) => this.info.filesLinesObj[type] > 0)
-          .reduce((acc, key) => ({
-            ...acc, [key]: this.info.filesLinesObj[key],
-          }), {});
-    },
-  },
   methods: {
     initiate() {
       const repo = window.REPOS[this.info.repo];
@@ -150,7 +140,6 @@ window.vAuthorship = {
 
       this.filesBlankLinesObj = filesBlanksInfoObj;
       this.files = res;
-      this.selectedFiles = res;
       this.isLoaded = true;
     },
 
@@ -167,28 +156,32 @@ window.vAuthorship = {
 
     selectAll() {
       if (!this.isSelectAllChecked) {
-        this.selectedFileFormats = this.fileFormats;
-        this.selectedFiles = this.files;
+        this.selectedFileFormats = this.fileFormats.slice();
       } else {
         this.selectedFileFormats = [];
-        this.selectedFiles = [];
       }
     },
 
-    selectFile() {
-      setTimeout(this.getSelectedFiles, 0);
+    selectFileFormat(format) {
+      if (this.selectedFileFormats.includes(format)) {
+        const index = this.selectedFileFormats.indexOf(format);
+        this.selectedFileFormats.splice(index, 1);
+      } else {
+        this.selectedFileFormats.push(format);
+      }
     },
 
     getSelectedFiles() {
       if (this.fileFormats.length === this.selectedFileFormats.length) {
-        this.selectedFiles = this.files;
         this.isSelectAllChecked = true;
       } else if (this.selectedFileFormats.length === 0) {
-        this.selectedFiles = [];
         this.isSelectAllChecked = false;
-      } else {
-        this.selectedFiles = this.files.filter((file) => this.selectedFileFormats.includes((file.path.split('.').pop())));
       }
+    },
+
+    isSelected(filePath) {
+      const fileExt = filePath.split('.').pop();
+      return this.selectedFileFormats.includes(fileExt);
     },
 
     getFileLink(file, path) {
@@ -207,6 +200,19 @@ window.vAuthorship = {
     getTotalFileBlankLineInfo() {
       return `Total: Blank: ${this.totalBlankLineCount}, Non-Blank: ${
         this.totalLineCount - this.totalBlankLineCount}`;
+    },
+  },
+
+  computed: {
+    selectedFiles() {
+      return this.files.filter((file) => this.isSelected(file.path));
+    },
+    filesExistingLinesObj() {
+      return Object.keys(this.info.filesLinesObj)
+          .filter((type) => this.info.filesLinesObj[type] > 0)
+          .reduce((acc, key) => ({
+            ...acc, [key]: this.info.filesLinesObj[key],
+          }), {});
     },
   },
 
