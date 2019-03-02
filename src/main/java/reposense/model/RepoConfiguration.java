@@ -161,7 +161,6 @@ public class RepoConfiguration {
         } catch (RuntimeException rte) {
             throw new BranchNotFoundException(rte);
         }
-
     }
 
     public String getRepoRoot() {
