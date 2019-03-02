@@ -74,6 +74,12 @@ html
             .mui-textfield
               input.summary-picker__search(type="text", v-on:change="updateFilterSearch")
               label search
+            .mui-select.grouping
+              select(v-model="filterGroupSelection")
+                option(value="groupByNone") None
+                option(value="groupByRepos") Repo/Branch
+                option(value="groupByAuthors") Author
+              label group by
             .mui-select
               select(v-model="filterSort")
                 option(value="totalCommits") Contribution
@@ -96,12 +102,6 @@ html
               input(type="date", v-model="tmpFilterUntilDate", onkeydown="return false",
                 v-bind:min="filterSinceDate", v-bind:max="maxDate")
               label until
-            .mui-select.grouping
-              select(v-model="filterGroupSelection")
-                option(value="groupByNone") None
-                option(value="groupByRepos") Repo/Branch
-                option(value="groupByAuthors") Author
-              label group by
           .summary-picker__checkboxes.summary-picker__section
             label
               input(type="checkbox", v-model="filterSortReverse").mui-checkbox.summary-picker__checkbox
