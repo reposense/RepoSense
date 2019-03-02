@@ -186,7 +186,16 @@ Date:   Fri Feb 9 19:13:13 2018 +0800
     Initial commit
  ...
 ```
-`ActualGitHubId` and `ConfiguredAuthorName` are both `Git Author Name` of the same author. To set the author name to the value you want (e.g., to set it to your GitHub username), you can use the following command ([more info](https://www.git-tower.com/learn/git/faq/change-author-name-email)):
+`ActualGitHubId` and `ConfiguredAuthorName` are both `Git Author Name` of the same author.<br>
+To find the author name that you are currently using for your current git repository, run the following command within your git repository:
+```
+git config user.name
+```
+To set the author name to the value you want (e.g., to set it to your GitHub username) for your current git repository, you can use the following command ([more info](https://www.git-tower.com/learn/git/faq/change-author-name-email)):
+```
+git config user.name "YOUR_AUTHOR_NAME”
+```
+To set the author name to use a default value you want for future git repositories, you can use the following command:
 ```
 git config --global user.name "YOUR_AUTHOR_NAME”
 ```
@@ -335,7 +344,8 @@ The ignore glob list can be specified through the [standalone config file](#prov
 #### Q: My commit contributions does not appear in the ramp chart (despite appearing in the contribution bar and code panel)?
 **A:** This is probably a case of giving an incorrect author name alias (or github ID) in your [author-config file](#author-configcsv).<br>
 Please refer to [A Note About Git Author Name](#a-note-about-git-author-name) above on how to find out the correct author name you are using, and how to change it.<br>
-Also ensure that you have added all author name aliases that you may be using (if you are using multiple computers or have previously changed your author name).
+Also ensure that you have added all author name aliases that you may be using (if you are using multiple computers or have previously changed your author name).<br>
+Alternatively, you may choose to configure RepoSense to track using your GitHub email instead in your [standalone config file](#provide-data-using-a-json-config-file) or [author-config file](#author-configcsv), which is more accurate compared to author name aliases. The associated GitHub email you are using can be found in your [GitHub settings](https://github.com/settings/emails).
 
 #### Q: My contribution bar and code panel is empty (despite having lots of commit contributions in the ramp chart)?
 **A:** The contribution bar and code panel records the lines you have authored to the **latest** commit of the repository and branch you are analyzing. As such, it is possible that while you have lots of commit contributions, your final authorship contribution is low if you have only deleted lines, someone else have overwritten your code and taken authorship for it (currently, *RepoSense* does not have functionality to track overwritten lines).<br>
