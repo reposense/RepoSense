@@ -9,6 +9,7 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.logging.Logger;
 
+import reposense.git.BranchNotFoundException;
 import reposense.git.GitBranch;
 import reposense.system.LogsManager;
 import reposense.util.FileUtil;
@@ -151,11 +152,16 @@ public class RepoConfiguration {
         }
     }
 
-    public void updateBranch() {
-        if (branch.equals(RepoConfiguration.DEFAULT_BRANCH)) {
-            String currentBranch = GitBranch.getCurrentBranch(getRepoRoot());
-            setBranch(currentBranch);
+    public void updateBranch() throws BranchNotFoundException {
+        try {
+            if (branch.equals(RepoConfiguration.DEFAULT_BRANCH)) {
+                String currentBranch = GitBranch.getCurrentBranch(getRepoRoot());
+                setBranch(currentBranch);
+            }
+        } catch (RuntimeException rte) {
+            throw new BranchNotFoundException(rte);
         }
+
     }
 
     public String getRepoRoot() {

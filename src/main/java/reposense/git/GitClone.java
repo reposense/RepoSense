@@ -49,7 +49,7 @@ public class GitClone {
         try {
             repoConfig.updateBranch();
             GitCheckout.checkout(repoConfig.getRepoRoot(), repoConfig.getBranch());
-        } catch (RuntimeException e) {
+        } catch (RuntimeException | BranchNotFoundException e) {
             logger.log(Level.SEVERE, "Branch does not exist! Analysis terminated.", e);
             throw new GitCloneException(e);
         }
@@ -101,7 +101,7 @@ public class GitClone {
 
         try {
             repoConfig.updateBranch();
-        } catch (RuntimeException e) {
+        } catch (RuntimeException | BranchNotFoundException e) {
             logger.log(Level.SEVERE, "Branch does not exist! Analysis terminated.", e);
             throw new GitCloneException(e);
         }
