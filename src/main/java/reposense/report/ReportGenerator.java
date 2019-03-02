@@ -48,11 +48,6 @@ public class ReportGenerator {
 
         cloneAndAnalyzeRepos(configs, outputPath);
 
-        try {
-            FileUtil.deleteDirectory(FileUtil.REPOS_ADDRESS);
-        } catch (IOException ioe) {
-            logger.log(Level.WARNING, "Error deleting report directory.", ioe);
-        }
         FileUtil.writeJsonFile(new SummaryReportJson(configs, generationDate), getSummaryResultPath(outputPath));
         logger.info("The report is generated at " + outputPath);
     }
@@ -76,6 +71,7 @@ public class ReportGenerator {
         if (clonedRepo != null) {
             analyzeRepo(outputPath, clonedRepo);
         }
+        repoCloner.deleteDirectory(FileUtil.REPOS_ADDRESS);
     }
 
     /**

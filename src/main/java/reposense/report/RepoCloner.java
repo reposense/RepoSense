@@ -115,7 +115,7 @@ public class RepoCloner {
         }
     }
 
-    private void deleteDirectory(String root) {
+    public void deleteDirectory(String root) {
         try {
             FileUtil.deleteDirectory(root);
         } catch (IOException ioe) {
