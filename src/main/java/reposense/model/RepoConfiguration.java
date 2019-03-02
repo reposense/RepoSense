@@ -66,6 +66,7 @@ public class RepoConfiguration {
             List<RepoConfiguration> configs, Optional<Date> sinceDate, Optional<Date> untilDate) {
         for (RepoConfiguration config : configs) {
             config.setSinceDate(sinceDate.orElse(null));
+            // set untilDate in summary.json to the current date of generation if it is not provided
             config.setUntilDate(untilDate.orElse(new Date()));
         }
     }

@@ -13,6 +13,8 @@ matrix:
 script:
   - ./config/travis/run-checks.sh
   - npm run lint frontend/src/**/*.js
+  - sudo service ntp stop
+  - sudo date --set="01 March 2019 00:00:00"
   - time travis_retry ./gradlew clean checkstyleMain checkstyleTest test systemTest
 
 before_install:
