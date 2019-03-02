@@ -40,7 +40,7 @@ script:
   - npm run lint frontend/src/**/*.js
   - npm run lint frontend/cypress/**.js
   - sudo service ntp stop
-  - sudo date --set="01 March 2019 00:00:00"
+  - sudo date --set="02 March 2019 00:00:00"
   - time travis_retry ./gradlew clean checkstyleMain checkstyleTest test systemTest
 
 before_install: &common_before_install
