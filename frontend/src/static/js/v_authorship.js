@@ -35,38 +35,6 @@ window.expandAll = function expandAll(isActive) {
   });
 };
 
-window.enableSearchBar = function enableSearchBar() {
-  const searchBar = document.getElementById('search');
-  const submitButton = document.getElementById('submit-button');
-  searchBar.disabled = false;
-  submitButton.disabled = false;
-
-  window.vAuthorship.selectedFileTypes = window.vAuthorship.fileTypes.slice();
-  window.vAuthorship.isSelectAllChecked = true;
-
-  const checkboxes = document.getElementsByClassName('mui-checkbox--filetype');
-  Array.from(checkboxes).forEach((checkbox) => {
-    checkbox.disabled = true;
-  });
-};
-
-window.enableCheckBoxes = function enableCheckBoxes() {
-  const searchBar = document.getElementById('search');
-  const submitButton = document.getElementById('submit-button');
-  searchBar.value = '';
-  searchBar.disabled = true;
-  submitButton.disabled = true;
-
-  window.vAuthorship.filterSearch = '*';
-  window.vAuthorship.selectedFileTypes = window.vAuthorship.fileTypes.slice();
-  window.vAuthorship.isSelectAllChecked = true;
-
-  const checkboxes = document.getElementsByClassName('mui-checkbox--filetype');
-  Array.from(checkboxes).forEach((checkbox) => {
-    checkbox.disabled = false;
-  });
-};
-
 const repoCache = [];
 const minimatch = require('minimatch');
 
@@ -228,6 +196,39 @@ window.vAuthorship = {
     },
 
     getFilteredFiles() {
+    },
+
+    tickAllCheckboxes() {
+      this.selectedFileTypes = this.fileTypes.slice();
+      this.isSelectAllChecked = true;
+      this.filterSearch = '*';
+    },
+
+    enableSearchBar() {
+      const searchBar = document.getElementById('search');
+      const submitButton = document.getElementById('submit-button');
+      searchBar.disabled = false;
+      submitButton.disabled = false;
+
+      this.tickAllCheckboxes();
+      const checkboxes = document.getElementsByClassName('mui-checkbox--filetype');
+      Array.from(checkboxes).forEach((checkbox) => {
+        checkbox.disabled = true;
+      });
+    },
+
+    enableCheckBoxes() {
+      const searchBar = document.getElementById('search');
+      const submitButton = document.getElementById('submit-button');
+      searchBar.value = '';
+      searchBar.disabled = true;
+      submitButton.disabled = true;
+
+      this.tickAllCheckboxes();
+      const checkboxes = document.getElementsByClassName('mui-checkbox--filetype');
+      Array.from(checkboxes).forEach((checkbox) => {
+        checkbox.disabled = false;
+      });
     },
 
     isSelected(filePath) {
