@@ -111,26 +111,19 @@ html
             .summary-charts__title(
               v-if="filterGroupRepos",
             ) {{ repo[0].repoPath }}
-            .summary-charts__fileformat--legend
-              template(v-if="filterBreakdown")
-                template(v-if="filterGroupRepos")
-                  .summary-charts__fileformat-breakdown(
-                      v-for="fileFormat in Object.keys(repo[0].fileFormatContribution)")
-                    .summary-charts__fileformat--breakdown__title
-                      .summary-charts__fileformat--breakdown__title__filled--circle(
-                          v-bind:style="{ 'background-color' : contributionBarColors[fileFormat] }"
-                      )
-                      .summary-charts__fileFormat--breakdown__title__name {{ fileFormat }}
-                  br
-                template(v-else)
-                  .summary-charts__fileformat-breakdown(
-                      v-for="fileFormat in Object.keys(contributionBarColors)")
-                    .summary-charts__fileformat--breakdown__title
-                      .summary-charts__fileformat--breakdown__title__filled--circle(
-                          v-bind:style="{ 'background-color' : contributionBarColors[fileFormat] }"
-                      )
-                      .summary-charts__fileformat--breakdown__title__name {{ fileFormat }}
-                  br
+            .summary-charts__fileformat--breakdown(v-if="filterBreakdown")
+              .summary-charts__fileformat--breakdown__legend(v-if="filterGroupRepos",
+                  v-for="fileFormat in Object.keys(repo[0].fileFormatContribution)")
+                .summary-charts__fileformat--breakdown__legend__filled--circle(
+                    v-bind:style="{ 'background-color' : contributionBarColors[fileFormat] }"
+                )
+                .summary-charts__fileformat--breakdown__legend__name {{ fileFormat }}
+              .summary-charts__fileformat--breakdown__legend(v-else,
+                  v-for="fileFormat in Object.keys(contributionBarColors)")
+                .summary-charts__fileformat--breakdown__legend__filled--circle(
+                    v-bind:style="{ 'background-color' : contributionBarColors[fileFormat] }"
+                )
+                .summary-charts__fileformat--breakdown__legend__name {{ fileFormat }}
             .summary-chart(v-for="(user, i) in repo")
               .summary-chart__title
                 .summary-chart__title--index {{ i+1 }}

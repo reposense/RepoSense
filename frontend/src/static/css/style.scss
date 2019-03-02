@@ -190,7 +190,9 @@ header{
     }
 
     &__fileformat--breakdown{
-        &__title{
+        overflow:auto;
+
+        &__legend{
             &__name{
                 float:left;
                 display:inline-block;
