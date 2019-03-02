@@ -115,17 +115,17 @@ html
               template(v-if="filterGroupRepos")
                 .summary-charts__fileformat--breakdown__legend(
                     v-for="fileFormat in Object.keys(repo[0].fileFormatContribution)")
-                  .summary-charts__fileformat--breakdown__legend__filled--circle(
-                      v-bind:style="{ 'background-color' : contributionBarColors[fileFormat] }"
+                  i.fas.fa-circle(
+                      v-bind:style="{ 'color' : contributionBarColors[fileFormat] }"
                   )
-                  .summary-charts__fileformat--breakdown__legend__name {{ fileFormat }}
+                  span &nbsp; {{ fileFormat }} &nbsp;
               template(v-else)
                 .summary-charts__fileformat--breakdown__legend(
                     v-for="fileFormat in Object.keys(contributionBarColors)")
-                  .summary-charts__fileformat--breakdown__legend__filled--circle(
-                      v-bind:style="{ 'background-color' : contributionBarColors[fileFormat] }"
+                  i.fas.fa-circle(
+                      v-bind:style="{ 'color' : contributionBarColors[fileFormat] }"
                   )
-                  .summary-charts__fileformat--breakdown__legend__name {{ fileFormat }}
+                  span &nbsp; {{ fileFormat }} &nbsp;
             .summary-chart(v-for="(user, i) in repo")
               .summary-chart__title
                 .summary-chart__title--index {{ i+1 }}

@@ -190,24 +190,11 @@ header{
     }
 
     &__fileformat--breakdown{
-        overflow:auto;
+        overflow-y:hidden;
 
         &__legend{
-            &__name{
-                float:left;
-                display:inline-block;
-            }
-
-            &__filled--circle{
-                float:left;
-                display:inline-block;
-                height: 13px;
-                width: 13px;
-                border-radius: 50%;
-                margin-top:0.25rem;
-                margin-left:0.25rem;
-                margin-right:0.25rem;
-            }
+            float:left;
+            display:inline;
         }
     }
 }
