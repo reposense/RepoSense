@@ -9,6 +9,10 @@ matrix:
         apt:
           packages:
             - oracle-java8-installer # Update to the latest version of JDK 8
+      script:
+        - sudo service ntp stop
+        - sudo date --set="02 March 2019 00:00:00"
+
 
     - name: macOS 10.13.6 JDK 8
       os: osx
@@ -21,6 +25,8 @@ matrix:
         - brew cask install caskroom/versions/java8 # Update to the latest version of JDK 8
         - export JAVA_HOME=`/usr/libexec/java_home -v 1.8`
         - echo "Downgraded JDK to:"; java -version
+      script:
+        - date 0302000019
 
     - name: "Cypress frontend tests"
       os: linux
@@ -39,8 +45,6 @@ script:
   - ./config/travis/run-checks.sh
   - npm run lint frontend/src/**/*.js
   - npm run lint frontend/cypress/**.js
-  - sudo service ntp stop
-  - sudo date --set="02 March 2019 00:00:00"
   - time travis_retry ./gradlew clean checkstyleMain checkstyleTest test systemTest
 
 before_install: &common_before_install
