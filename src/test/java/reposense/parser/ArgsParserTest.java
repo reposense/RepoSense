@@ -541,6 +541,12 @@ public class ArgsParserTest {
     }
 
     @Test(expected = ParseException.class)
+    public void parse_unacceptedValidTimezone_throwsParseException() throws ParseException {
+        String input = DEFAULT_INPUT_BUILDER.addTimezone("Asia/Shanghai").build();
+        ArgsParser.parse(translateCommandline(input));
+    }
+
+    @Test(expected = ParseException.class)
     public void parse_timezoneWithoutArgument_throwsParseException() throws ParseException {
         String input = DEFAULT_INPUT_BUILDER.addTimezone("").build();
         ArgsParser.parse(translateCommandline(input));

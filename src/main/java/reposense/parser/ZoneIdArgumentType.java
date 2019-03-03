@@ -18,6 +18,9 @@ public class ZoneIdArgumentType implements ArgumentType<ZoneId> {
     @Override
     public ZoneId convert(ArgumentParser parser, Argument arg, String value) throws ArgumentParserException {
         try {
+            if (!value.contains("UTC")) {
+                throw new DateTimeException(MESSAGE_TIMEZONE_INVALID);
+            }
             return ZoneId.of(value);
         } catch (DateTimeException dte) {
             throw new ArgumentParserException(MESSAGE_TIMEZONE_INVALID, parser);
