@@ -4,11 +4,11 @@
 # Call on gradle to build and run tests
 # --no-daemon: Prevent the daemon from launching to prevent file-in-use errors
 #     when we cache the ~/.gradle directory
-before_build:
-    - date 02-03-2019
-
 build_script:
     - gradlew.bat --no-daemon clean checkstyleMain checkstyleTest
+
+before_test:
+    cmd: date 02-03-2019
 
 test_script:
     - appveyor-retry gradlew.bat --no-daemon test systemTest
