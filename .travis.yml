@@ -26,7 +26,7 @@ matrix:
         - export JAVA_HOME=`/usr/libexec/java_home -v 1.8`
         - echo "Downgraded JDK to:"; java -version
       script:
-        - date 0302000019
+        - sudo date 0302000019
 
     - name: "Cypress frontend tests"
       os: linux
