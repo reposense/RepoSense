@@ -6,6 +6,7 @@ Thank you for your interest in contributing to RepoSense!
   - [Verifying the setup](#verifying-the-setup)
   - [Configuring the Java coding style](#configuring-the-java-coding-style)
   - [Configuring the JavaScript coding style](#configuring-the-javascript-coding-style)
+  - [Configuring Cypress for automated front-end testing](#configuring-cypress-for-automated-front-end-testing)
 - [Architecture](#architecture)
   - [Parser](#parserconfigparser)
   - [Git](#git)
@@ -62,6 +63,22 @@ Optionally, you can follow the [Using Checkstyle](UsingCheckstyle.md) document t
 Our project follows the [Airbnb Javascript Style Guide](https://github.com/airbnb/javascript), the eslint configuration file is available at the root of the project. Please run a `npm run lint -- --fix frontend/src/**/*js` from the project root directory and fix all of the eslint errors before committing your code for final review.
 
 Eslint and its accompaning modules can be installed through NPM, so do ensure that you got it [installed](https://www.npmjs.com/get-npm) if you are working on the dashboard.
+
+### Configuring Cypress for automated front-end testing
+We use [Cypress](https://www.cypress.io/) for automated end-to-end front-end testing. <br/>
+
+#### To write tests
+1. Create a new test file in `frontend/cypress/tests`
+1. At project root start *Cypress Test Runner* by running `gradlew cypress`
+1. On the top right hand corner, set `Chrome` as the default browser
+1. Under **Integration Tests**, click on the newly created test file to run it
+![Cypress Test Runner](images/cypress-test-runner.jpg "Cypress Test Runner")
+
+> Read [Cypress's Documentation](https://docs.cypress.io/api/commands/document.html#Syntax) to familiarize yourself with its syntax and [Cypress's debugging guide](https://docs.cypress.io/guides/guides/debugging.html#Log-Cypress-events) to tackle problems with your tests.
+
+#### To run all tests locally
+1.  At project root, run `gradlew frontendTest`
+> If you encountered an invalid browser error, please ensure that you have `Chrome` installed in the default installation directory. Otherwise, follow the instructions [here](https://docs.cypress.io/guides/guides/debugging.html#Launching-browsers) to create symbolic links so Cypress can locate `Chrome` in your system.
 
 ### Before writing code
 1. Do check out our [process guide](../docs/Process.md) before submitting any PR with your changes.
