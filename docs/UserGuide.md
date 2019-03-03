@@ -111,7 +111,7 @@ The `Tool Bar` at the top provides a set of configuration options that control t
 Notes:<br>
 [1] **`Repo/Branch`**: the repo/branch name is constructed as `ORGANIZATION_REPOSITORY_BRANCH` e.g., `resposense_reposense_master`
 
-**Bookmarking a specific toolbar setting and code panel**: The URL changes according to the toolbar configuration and code panel viewed. You can save a specific configuration of the report by bookmarking the url (using browser functionality).
+**Bookmarking a specific toolbar setting and the opened code panel**: The URL changes according to the toolbar configuration and opened code panel viewed. You can save a specific configuration of the report by bookmarking the url (using browser functionality).
 
 <hr>
 
