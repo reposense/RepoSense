@@ -248,8 +248,8 @@ In addition, there are some _optional_ extra parameters you can use to customize
   Example:`--ignore-standalone-config` or `-i`
 * **`--view, -v [REPORT_FOLDER]`**: A flag to launch the report automatically after processing (`-v` as alias). Note that if the `REPORT_FOLDER` argument is given, no analysis will be performed and the report specified by the argument will be opened.<br>
 Example:`--view` or `-v`
-* **`--timezone, -t ZONE_ID`**: Indicates the timezone to be used for the generated report relative to UTC. Format: `UTC[±hh[mm]]` Default: system's default timezone.<br>
-  Example:`-timezone UTC+08`, `-timezone UTC-1030`
+* **`--timezone, -t ZONE_ID`**: Indicates the timezone relative to UTC which will be used for the generated report. Format: `UTC[±hh[mm]]` Default: system's default timezone.<br>
+  Example:`--timezone UTC+08` or `-t UTC-1030`
 
 Here's an example of a command using all parameters:<br>
 `java -jar RepoSense.jar --repo https://github.com/reposense/RepoSense.git --output ./report_folder --since 21/10/2017 --until 21/11/2017 --formats java adoc js --view --ignore-standalone-config --timezone UTC+08`
