@@ -59,16 +59,16 @@ window.vAuthorship = {
       totalBlankLineCount: '',
 
       filesSortType: 'lineOfCode',
-      filesSortReverse: true,
+      toReverseSortFiles: true,
     };
   },
 
   watch: {
     filesSortType() {
-      this.filesSort();
+      this.sortFiles();
     },
-    filesSortReverse() {
-      this.filesSort();
+    toReverseSortFiles() {
+      this.sortFiles();
     },
   },
 
@@ -184,10 +184,10 @@ window.vAuthorship = {
           }), {});
     },
 
-    filesSort() {
+    sortFiles() {
       this.selectedFiles.sort(window.comparator(filesSortDict[this.filesSortType]));
 
-      if (this.filesSortReverse) {
+      if (this.toReverseSortFiles) {
         this.selectedFiles.reverse();
       }
     },
@@ -198,7 +198,7 @@ window.vAuthorship = {
       } else {
         this.selectedFileTypes = [];
       }
-      this.filesSort();
+      this.sortFiles();
     },
 
     selectFileType(type) {
@@ -214,7 +214,7 @@ window.vAuthorship = {
       } else if (this.selectedFileTypes.length === 0) {
         this.isSelectAllChecked = false;
       }
-      this.filesSort();
+      this.sortFiles();
     },
 
     isSelected(filePath) {
