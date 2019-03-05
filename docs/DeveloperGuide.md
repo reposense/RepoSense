@@ -188,7 +188,7 @@ gradlew run -Dargs="-c ./configs/ -o output_path/ -s 21/10/2017 -u 21/11/2017 -f
 `System` contains the classes that interact with the Operating System and external processes.
  * [`CommandRunner`](/src/main/java/reposense/system/CommandRunner.java) creates processes that executes commands on the terminal. It consists of many *git* commands.
  * [`LogsManager`](/src/main/java/reposense/system/LogsManager.java) uses the `java.util.logging` package for logging. The `LogsManager` class is used to manage the logging levels and logging destinations. Log messages are output through: `Console` and to a `.log` file.
- * [`ReportServer`](/src/main/java/reposense/system/DashboardServer.java) starts a server to display the report on the browser. It depends on the `net.freeutils.httpserver` package.
+ * [`ReportServer`](/src/main/java/reposense/system/ReportServer.java) starts a server to display the report on the browser. It depends on the `net.freeutils.httpserver` package.
 
 
 ### Model
