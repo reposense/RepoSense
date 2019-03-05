@@ -183,15 +183,11 @@ window.app = new window.Vue({
         maxDate,
       };
       const tabInfoLength = Object.values(info).filter((x) => x).length;
-      if (this.isValidInfo(info)) {
+      if (Object.keys(info).length === tabInfoLength) {
         this.updateTabAuthorship(info);
       } else if (hash.tabOpen === 'false' || tabInfoLength > 2) {
         window.app.isTabActive = false;
       }
-    },
-    isValidInfo(info) {
-      const tabInfoLength = Object.values(info).filter((x) => x).length;
-      return Object.keys(info).length === tabInfoLength;
     },
 
     /* global expandAll */

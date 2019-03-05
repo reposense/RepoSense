@@ -56,6 +56,7 @@ window.vAuthorship = {
   methods: {
     initiate() {
       const repo = window.REPOS[this.info.repo];
+
       this.getRepoProps(repo);
       if (!repo || !this.info.name) {
         window.app.isTabActive = false;
