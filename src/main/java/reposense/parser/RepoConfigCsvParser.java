@@ -6,10 +6,10 @@ import java.util.List;
 
 import reposense.model.CommitHash;
 import reposense.model.Format;
-import reposense.model.RepoConfiguration;
+import reposense.model.RepoCsvConfiguration;
 import reposense.model.RepoLocation;
 
-public class RepoConfigCsvParser extends CsvParser<RepoConfiguration> {
+public class RepoConfigCsvParser extends CsvParser<RepoCsvConfiguration> {
     public static final String REPO_CONFIG_FILENAME = "repo-config.csv";
     private static final String IGNORE_STANDALONE_CONFIG_KEYWORD = "yes";
 
@@ -43,9 +43,9 @@ public class RepoConfigCsvParser extends CsvParser<RepoConfiguration> {
      * {@code branch}.
      */
     @Override
-    protected void processLine(List<RepoConfiguration> results, String[] elements) throws InvalidLocationException {
+    protected void processLine(List<RepoCsvConfiguration> results, String[] elements) throws InvalidLocationException {
         RepoLocation location = new RepoLocation(getValueInElement(elements, LOCATION_POSITION));
-        String branch = getValueInElement(elements, BRANCH_POSITION, RepoConfiguration.DEFAULT_BRANCH);
+        String branch = getValueInElement(elements, BRANCH_POSITION, RepoCsvConfiguration.DEFAULT_BRANCH);
         List<Format> formats = Format.convertStringsToFormats(getManyValueInElement(elements, FILE_FORMATS_POSITION));
         List<String> ignoreGlobList = getManyValueInElement(elements, IGNORE_GLOB_LIST_POSITION);
         String ignoreStandaloneConfig = getValueInElement(elements, IGNORE_STANDALONE_CONFIG_POSITION);
@@ -59,7 +59,7 @@ public class RepoConfigCsvParser extends CsvParser<RepoConfiguration> {
                     "Ignoring unknown value " + ignoreStandaloneConfig + " in ignore standalone config column.");
         }
 
-        RepoConfiguration config = new RepoConfiguration(
+        RepoCsvConfiguration config = new RepoCsvConfiguration(
                 location, branch, formats, ignoreGlobList, isStandaloneConfigIgnored, ignoreCommitList);
 
         if (results.contains(config)) {

@@ -25,6 +25,7 @@ import reposense.model.ConfigCliArguments;
 import reposense.model.Format;
 import reposense.model.LocationsCliArguments;
 import reposense.model.RepoConfiguration;
+import reposense.model.RepoCsvConfiguration;
 import reposense.model.RepoLocation;
 import reposense.report.ReportGenerator;
 import reposense.util.FileUtil;
@@ -140,10 +141,11 @@ public class RepoConfigurationTest {
                 .build();
         CliArguments cliArguments = ArgsParser.parse(translateCommandline(input));
 
-        List<RepoConfiguration> actualConfigs =
+        List<RepoCsvConfiguration> repoCsvConfigs =
                 new RepoConfigCsvParser(((ConfigCliArguments) cliArguments).getRepoConfigFilePath()).parse();
         List<AuthorConfiguration> authorConfigs =
                 new AuthorConfigCsvParser(((ConfigCliArguments) cliArguments).getAuthorConfigFilePath()).parse();
+        List<RepoConfiguration> actualConfigs = RepoConfiguration.getRepoConfigurationList(repoCsvConfigs);
         RepoConfiguration.merge(actualConfigs, authorConfigs);
 
         RepoConfiguration actualConfig = actualConfigs.get(0);
@@ -183,8 +185,9 @@ public class RepoConfigurationTest {
                 .build();
         CliArguments cliArguments = ArgsParser.parse(translateCommandline(input));
 
-        List<RepoConfiguration> actualConfigs =
+        List<RepoCsvConfiguration> repoCsvConfigs =
                 new RepoConfigCsvParser(((ConfigCliArguments) cliArguments).getRepoConfigFilePath()).parse();
+        List<RepoConfiguration> actualConfigs = RepoConfiguration.getRepoConfigurationList(repoCsvConfigs);
 
         RepoConfiguration actualConfig = actualConfigs.get(0);
         GitClone.clone(actualConfig);
@@ -201,8 +204,9 @@ public class RepoConfigurationTest {
                 .build();
         CliArguments cliArguments = ArgsParser.parse(translateCommandline(input));
 
-        List<RepoConfiguration> actualConfigs =
+        List<RepoCsvConfiguration> repoCsvConfigs =
                 new RepoConfigCsvParser(((ConfigCliArguments) cliArguments).getRepoConfigFilePath()).parse();
+        List<RepoConfiguration> actualConfigs = RepoConfiguration.getRepoConfigurationList(repoCsvConfigs);
         RepoConfiguration.setFormatsToRepoConfigs(actualConfigs, cliArguments.getFormats());
 
         Assert.assertEquals(1, actualConfigs.size());
@@ -217,8 +221,9 @@ public class RepoConfigurationTest {
                 .build();
         CliArguments cliArguments = ArgsParser.parse(translateCommandline(input));
 
-        List<RepoConfiguration> actualConfigs =
+        List<RepoCsvConfiguration> repoCsvConfigs =
                 new RepoConfigCsvParser(((ConfigCliArguments) cliArguments).getRepoConfigFilePath()).parse();
+        List<RepoConfiguration> actualConfigs = RepoConfiguration.getRepoConfigurationList(repoCsvConfigs);
         RepoConfiguration.setFormatsToRepoConfigs(actualConfigs, cliArguments.getFormats());
 
         Assert.assertEquals(1, actualConfigs.size());
@@ -230,8 +235,9 @@ public class RepoConfigurationTest {
         String input = new InputBuilder().addConfig(WITHOUT_FORMATS_TEST_CONFIG_FILES).build();
         CliArguments cliArguments = ArgsParser.parse(translateCommandline(input));
 
-        List<RepoConfiguration> actualConfigs =
+        List<RepoCsvConfiguration> repoCsvConfigs =
                 new RepoConfigCsvParser(((ConfigCliArguments) cliArguments).getRepoConfigFilePath()).parse();
+        List<RepoConfiguration> actualConfigs = RepoConfiguration.getRepoConfigurationList(repoCsvConfigs);
         RepoConfiguration.setFormatsToRepoConfigs(actualConfigs, cliArguments.getFormats());
 
         Assert.assertEquals(1, actualConfigs.size());

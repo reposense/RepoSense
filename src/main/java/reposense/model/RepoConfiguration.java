@@ -2,7 +2,6 @@ package reposense.model;
 
 import java.io.File;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -13,7 +12,7 @@ import reposense.system.LogsManager;
 import reposense.util.FileUtil;
 
 /**
- * Represents configuration information from CSV config file for a single repository.
+ * Represents configuration information for a single repository.
  */
 public class RepoConfiguration {
     public static final String DEFAULT_BRANCH = "HEAD";
@@ -27,30 +26,23 @@ public class RepoConfiguration {
 
     private transient boolean needCheckStyle = false;
     private transient boolean annotationOverwrite = true;
-    private transient List<Format> formats;
     private transient int commitNum = 1;
-    private transient List<String> ignoreGlobList = new ArrayList<>();
+    private transient RepoCsvConfiguration repoCsvConfig;
     private transient AuthorConfiguration authorConfig;
-    private transient boolean isStandaloneConfigIgnored;
-    private transient List<CommitHash> ignoreCommitList;
 
     public RepoConfiguration(RepoLocation location) {
         this(location, DEFAULT_BRANCH);
     }
 
     public RepoConfiguration(RepoLocation location, String branch) {
-        this(location, branch, Collections.emptyList(), Collections.emptyList(), false, Collections.emptyList());
+        this(location, branch, new RepoCsvConfiguration(location, branch));
     }
 
-    public RepoConfiguration(RepoLocation location, String branch, List<Format> formats, List<String> ignoreGlobList,
-            boolean isStandaloneConfigIgnored, List<CommitHash> ignoreCommitList) {
+    public RepoConfiguration(RepoLocation location, String branch, RepoCsvConfiguration repoCsvConfig) {
         this.authorConfig = new AuthorConfiguration(location, branch);
+        this.repoCsvConfig = repoCsvConfig;
         this.location = location;
         this.branch = location.isEmpty() ? DEFAULT_BRANCH : branch;
-        this.ignoreGlobList = ignoreGlobList;
-        this.isStandaloneConfigIgnored = isStandaloneConfigIgnored;
-        this.formats = formats;
-        this.ignoreCommitList = ignoreCommitList;
 
         String organization = location.getOrganization();
         String repoName = location.getRepoName();
@@ -100,6 +92,16 @@ public class RepoConfiguration {
         }
     }
 
+    public static List<RepoConfiguration> getRepoConfigurationList(List<RepoCsvConfiguration> repoCsvConfigs) {
+        List<RepoConfiguration> repoConfigs = new ArrayList<>();
+        for (RepoCsvConfiguration repoCsvConfig : repoCsvConfigs) {
+            RepoLocation location = repoCsvConfig.getLocation();
+            String branch = repoCsvConfig.getBranch();
+            repoConfigs.add(new RepoConfiguration(location, branch, repoCsvConfig));
+        }
+        return repoConfigs;
+    }
+
     /**
      * Iterates through {@code repoConfigs} to find a {@code RepoConfiguration} with {@code RepoLocation} and branch
      * that matches {@code authorConfig}. Returns {@code null} if no match is found.
@@ -136,9 +138,7 @@ public class RepoConfiguration {
      */
     public void update(StandaloneConfig standaloneConfig) {
         authorConfig.update(standaloneConfig);
-        ignoreGlobList = standaloneConfig.getIgnoreGlobList();
-        formats = Format.convertStringsToFormats(standaloneConfig.getFormats());
-        ignoreCommitList = CommitHash.convertStringsToCommits(standaloneConfig.getIgnoreCommitList());
+        repoCsvConfig.update(standaloneConfig);
     }
 
     public String getRepoRoot() {
@@ -167,9 +167,7 @@ public class RepoConfiguration {
         return location.equals(otherRepoConfig.location)
                 && branch.equals(otherRepoConfig.branch)
                 && authorConfig.equals(otherRepoConfig.authorConfig)
-                && ignoreGlobList.equals(otherRepoConfig.ignoreGlobList)
-                && isStandaloneConfigIgnored == otherRepoConfig.isStandaloneConfigIgnored
-                && formats.equals(otherRepoConfig.formats);
+                && repoCsvConfig.equals(otherRepoConfig.repoCsvConfig);
     }
 
     public Map<Author, String> getAuthorDisplayNameMap() {
@@ -204,6 +202,7 @@ public class RepoConfiguration {
         updateDisplayName(branch);
         this.branch = branch;
         authorConfig.setBranch(branch);
+        repoCsvConfig.setBranch(branch);
     }
 
     public void updateDisplayName(String branch) {
@@ -219,19 +218,19 @@ public class RepoConfiguration {
     }
 
     public List<String> getIgnoreGlobList() {
-        return ignoreGlobList;
+        return repoCsvConfig.getIgnoreGlobList();
     }
 
     public void setIgnoreGlobList(List<String> ignoreGlobList) {
-        this.ignoreGlobList = ignoreGlobList;
+        repoCsvConfig.setIgnoreGlobList(ignoreGlobList);
     }
 
     public List<CommitHash> getIgnoreCommitList() {
-        return ignoreCommitList;
+        return repoCsvConfig.getIgnoreCommitList();
     }
 
     public void setIgnoreCommitList(List<CommitHash> ignoreCommitList) {
-        this.ignoreCommitList = ignoreCommitList;
+        repoCsvConfig.setIgnoreCommitList(ignoreCommitList);
     }
 
     public List<Author> getAuthorList() {
@@ -248,6 +247,7 @@ public class RepoConfiguration {
 
     public void setAuthorConfiguration(AuthorConfiguration authorConfig) {
         this.authorConfig = authorConfig;
+        List<String> ignoreGlobList = getIgnoreGlobList();
         for (Author author : authorConfig.getAuthorList()) {
             AuthorConfiguration.propagateIgnoreGlobList(author, ignoreGlobList);
         }
@@ -290,11 +290,11 @@ public class RepoConfiguration {
     }
 
     public List<Format> getFormats() {
-        return formats;
+        return repoCsvConfig.getFormats();
     }
 
     public void setFormats(List<Format> formats) {
-        this.formats = formats;
+        repoCsvConfig.setFormats(formats);
     }
 
     public void setAuthorDisplayName(Author author, String displayName) {
@@ -314,7 +314,7 @@ public class RepoConfiguration {
     }
 
     public void setStandaloneConfigIgnored(boolean isStandaloneConfigIgnored) {
-        this.isStandaloneConfigIgnored = isStandaloneConfigIgnored;
+        repoCsvConfig.setStandaloneConfigIgnored(isStandaloneConfigIgnored);
     }
 
     public RepoLocation getLocation() {
@@ -326,6 +326,6 @@ public class RepoConfiguration {
     }
 
     public boolean isStandaloneConfigIgnored() {
-        return isStandaloneConfigIgnored;
+        return repoCsvConfig.isStandaloneConfigIgnored();
     }
 }

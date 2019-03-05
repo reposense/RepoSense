@@ -19,6 +19,7 @@ import reposense.model.CommitHash;
 import reposense.model.ConfigCliArguments;
 import reposense.model.Format;
 import reposense.model.RepoConfiguration;
+import reposense.model.RepoCsvConfiguration;
 import reposense.model.RepoLocation;
 import reposense.util.InputBuilder;
 import reposense.util.TestUtil;
@@ -73,7 +74,9 @@ public class CsvParserTest {
     @Test
     public void repoConfig_noSpecialCharacter_success() throws IOException, InvalidLocationException {
         RepoConfigCsvParser repoConfigCsvParser = new RepoConfigCsvParser(REPO_CONFIG_NO_SPECIAL_CHARACTER_FILE);
-        List<RepoConfiguration> configs = repoConfigCsvParser.parse();
+        List<RepoCsvConfiguration> repoCsvConfigs = repoConfigCsvParser.parse();
+        List<RepoConfiguration> configs = RepoConfiguration.getRepoConfigurationList(repoCsvConfigs);
+
 
         Assert.assertEquals(1, configs.size());
 
@@ -170,10 +173,11 @@ public class CsvParserTest {
         String input = new InputBuilder().addConfig(TEST_CONFIG_FOLDER).build();
         CliArguments cliArguments = ArgsParser.parse(translateCommandline(input));
 
-        List<RepoConfiguration> actualConfigs =
+        List<RepoCsvConfiguration> repoCsvConfigs =
                 new RepoConfigCsvParser(((ConfigCliArguments) cliArguments).getRepoConfigFilePath()).parse();
         List<AuthorConfiguration> authorConfigs =
                 new AuthorConfigCsvParser(((ConfigCliArguments) cliArguments).getAuthorConfigFilePath()).parse();
+        List<RepoConfiguration> actualConfigs = RepoConfiguration.getRepoConfigurationList(repoCsvConfigs);
         RepoConfiguration.merge(actualConfigs, authorConfigs);
 
         Assert.assertEquals(1, actualConfigs.size());
@@ -215,10 +219,11 @@ public class CsvParserTest {
         String input = new InputBuilder().addConfig(MERGE_EMPTY_LOCATION_FOLDER).build();
         CliArguments cliArguments = ArgsParser.parse(translateCommandline(input));
 
-        List<RepoConfiguration> actualConfigs =
+        List<RepoCsvConfiguration> repoCsvConfigs =
                 new RepoConfigCsvParser(((ConfigCliArguments) cliArguments).getRepoConfigFilePath()).parse();
         List<AuthorConfiguration> authorConfigs =
                 new AuthorConfigCsvParser(((ConfigCliArguments) cliArguments).getAuthorConfigFilePath()).parse();
+        List<RepoConfiguration> actualConfigs = RepoConfiguration.getRepoConfigurationList(repoCsvConfigs);
         RepoConfiguration.merge(actualConfigs, authorConfigs);
 
         Assert.assertEquals(2, actualConfigs.size());
@@ -236,10 +241,11 @@ public class CsvParserTest {
         String input = new InputBuilder().addConfig(TEST_EMPTY_BRANCH_CONFIG_FOLDER).build();
         CliArguments cliArguments = ArgsParser.parse(translateCommandline(input));
 
-        List<RepoConfiguration> actualConfigs =
+        List<RepoCsvConfiguration> repoCsvConfigs =
                 new RepoConfigCsvParser(((ConfigCliArguments) cliArguments).getRepoConfigFilePath()).parse();
         List<AuthorConfiguration> authorConfigs =
                 new AuthorConfigCsvParser(((ConfigCliArguments) cliArguments).getAuthorConfigFilePath()).parse();
+        List<RepoConfiguration> actualConfigs = RepoConfiguration.getRepoConfigurationList(repoCsvConfigs);
         RepoConfiguration.merge(actualConfigs, authorConfigs);
 
         Assert.assertEquals(1, actualConfigs.size());

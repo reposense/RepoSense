@@ -14,6 +14,7 @@ import reposense.model.CliArguments;
 import reposense.model.ConfigCliArguments;
 import reposense.model.LocationsCliArguments;
 import reposense.model.RepoConfiguration;
+import reposense.model.RepoCsvConfiguration;
 import reposense.model.RepoLocation;
 import reposense.model.ViewCliArguments;
 import reposense.parser.ArgsParser;
@@ -71,8 +72,11 @@ public class RepoSense {
      * @throws IOException if user-supplied csv file does not exists or is not readable.
      */
     public static List<RepoConfiguration> getRepoConfigurations(ConfigCliArguments cliArguments) throws IOException {
-        List<RepoConfiguration> repoConfigs = new RepoConfigCsvParser(cliArguments.getRepoConfigFilePath()).parse();
+        List<RepoCsvConfiguration> repoCsvConfigs =
+                new RepoConfigCsvParser(cliArguments.getRepoConfigFilePath()).parse();
         List<AuthorConfiguration> authorConfigs = null;
+
+        List<RepoConfiguration> repoConfigs = RepoConfiguration.getRepoConfigurationList(repoCsvConfigs);
 
         try {
             authorConfigs = new AuthorConfigCsvParser(cliArguments.getAuthorConfigFilePath()).parse();

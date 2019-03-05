@@ -20,6 +20,7 @@ import reposense.model.AuthorConfiguration;
 import reposense.model.CliArguments;
 import reposense.model.ConfigCliArguments;
 import reposense.model.RepoConfiguration;
+import reposense.model.RepoCsvConfiguration;
 import reposense.parser.ArgsParser;
 import reposense.parser.AuthorConfigCsvParser;
 import reposense.parser.ParseException;
@@ -73,10 +74,11 @@ public class ConfigSystemTest {
 
         CliArguments cliArguments = ArgsParser.parse(translateCommandline(input));
 
-        List<RepoConfiguration> repoConfigs =
+        List<RepoCsvConfiguration> repoCsvConfigs =
                 new RepoConfigCsvParser(((ConfigCliArguments) cliArguments).getRepoConfigFilePath()).parse();
         List<AuthorConfiguration> authorConfigs =
                 new AuthorConfigCsvParser(((ConfigCliArguments) cliArguments).getAuthorConfigFilePath()).parse();
+        List<RepoConfiguration> repoConfigs = RepoConfiguration.getRepoConfigurationList(repoCsvConfigs);
 
         RepoConfiguration.merge(repoConfigs, authorConfigs);
 
