@@ -105,9 +105,9 @@ html
               span group by repo/branch
             label
               input(type="checkbox", v-model="filterBreakdown").mui-checkbox.summary-picker__checkbox
-              span breakdown by filetype/group
+              span breakdown by file format/group
         #summary-charts
-          .summary-charts(v-for="repo of filtered", v-if="repo.length>0")
+          .summary-charts(v-for="repo of filteredRepos")
             .summary-charts__title(
               v-if="filterGroupRepos",
             ) {{ repo[0].repoPath }}
@@ -218,15 +218,15 @@ html
                 span.loc(v-bind:title="getTotalFileBlankLineInfo()") {{ totalLineCount }}&nbsp;
                 span.bloc(v-bind:title="getTotalFileBlankLineInfo()") ({{ totalBlankLineCount }})
               template(v-if="containsGroups")
-                template(v-for="group in Object.keys(filesGroupsExistingLinesObj)", v-bind:key="group")
+                template(v-for="group in Object.keys(filesGroupsExistingLinesObj)")
                   label
-                    input(type="checkbox" :value="group" v-model="selectedGroups" v-on:change="selectFile(containsGroups)").mui-checkbox
+                    input(type="checkbox" :checked="selectedGroups.includes(group)" v-on:change="selectGroup(group)").mui-checkbox
                     span(v-bind:title="getGroupBlankLineInfo(group)") {{ group }}: {{ filesGroupsExistingLinesObj[group] }}&nbsp;
                     span.bloc(v-bind:title="getGroupBlankLineInfo(group)") ({{ filesGroupsBlankLinesObj[group] }})
               template(v-else)
                 template(v-for="type in Object.keys(filesLinesObj)")
                   label
-                    input(type="checkbox" :value="type" v-model="selectedFileTypes" v-on:change="selectFile(!containsGroups)").mui-checkbox
+                    input(type="checkbox" :checked="selectedFileTypes.includes(type)" v-on:change="selectFileType(type)").mui-checkbox
                     span(v-bind:title="getFileBlankLineInfo(type)") {{ type }}: {{ filesLinesObj[type] }}&nbsp;
                     span.bloc(v-bind:title="getFileBlankLineInfo(type)") ({{ filesBlankLinesObj[type] }})
 

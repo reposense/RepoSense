@@ -48,7 +48,6 @@ window.vAuthorship = {
       fileTypes: [],
       selectedGroups: [],
       groups: [],
-      selectedFiles: [],
       filesLinesObj: {},
       filesBlankLinesObj: {},
       filesGroupsBlankLinesObj: {},
@@ -56,16 +55,6 @@ window.vAuthorship = {
       totalBlankLineCount: '',
       containsGroups: false,
     };
-  },
-
-  computed: {
-    filesGroupsExistingLinesObj() {
-      return Object.keys(this.info.filesGroupsObj)
-          .filter((type) => this.info.filesGroupsObj[type] > 0)
-          .reduce((acc, key) => ({
-            ...acc, [key]: this.info.filesGroupsObj[key],
-          }), {});
-    },
   },
 
   methods: {
@@ -173,7 +162,6 @@ window.vAuthorship = {
       this.filesBlankLinesObj = filesBlanksInfoObj;
       this.filesGroupsBlankLinesObj = filesGroupsBlanksInfoObj;
       this.files = res;
-      this.selectedFiles = res;
       this.isLoaded = true;
     },
 
@@ -203,34 +191,51 @@ window.vAuthorship = {
 
     selectAll() {
       if (!this.isSelectAllChecked) {
-        this.selectedGroups = this.groups;
-        this.selectedFileTypes = this.fileTypes;
-        this.selectedFiles = this.files;
+        this.selectedFileTypes = this.fileTypes.slice();
+        this.selectedGroups = this.groups.slice();
       } else {
         this.selectedFileTypes = [];
         this.selectedGroups = [];
-        this.selectedFiles = [];
       }
     },
 
-    selectFile(containsGroups) {
-      setTimeout(this.getSelectedFiles(containsGroups), 0);
-    },
-
-    getSelectedFiles(containsGroups) {
-      if ((containsGroups && this.groups.length === this.selectedGroups.length)
-          || (!containsGroups && this.fileTypes.length === this.selectedFileTypes.length)) {
-        this.selectedFiles = this.files;
-        this.isSelectAllChecked = true;
-      } else if ((containsGroups && this.selectedGroups.length === 0)
-          || (!containsGroups && this.selectedFileTypes.length === 0)) {
-        this.selectedFiles = [];
-        this.isSelectAllChecked = false;
-      } else if (containsGroups) {
-        this.selectedFiles = this.files.filter((file) => this.selectedGroups.includes(file.group));
+    selectFileType(type) {
+      if (this.selectedFileTypes.includes(type)) {
+        const index = this.selectedFileTypes.indexOf(type);
+        this.selectedFileTypes.splice(index, 1);
       } else {
-        this.selectedFiles = this.files.filter((file) => this.selectedFileTypes.includes((file.path.split('.').pop())));
+        this.selectedFileTypes.push(type);
       }
+
+      if (this.fileTypes.length === this.selectedFileTypes.length) {
+        this.isSelectAllChecked = true;
+      } else if (this.selectedFileTypes.length === 0) {
+        this.isSelectAllChecked = false;
+      }
+    },
+
+    selectGroup(group) {
+      if (this.selectedGroups.includes(group)) {
+        const index = this.selectedGroups.indexOf(group);
+        this.selectedGroups.splice(index, 1);
+      } else {
+        this.selectedGroups.push(group);
+      }
+
+      if (this.groups.length === this.selectedGroups.length) {
+        this.isSelectAllChecked = true;
+      } else if (this.selectedGroups.length === 0) {
+        this.isSelectAllChecked = false;
+      }
+    },
+
+    isSelectedFileTypes(filePath) {
+      const fileExt = filePath.split('.').pop();
+      return this.selectedFileTypes.includes(fileExt);
+    },
+
+    isSelectedGroups(group) {
+      return this.selectedGroups.includes(group);
     },
 
     getFileLink(file, path) {
@@ -255,6 +260,23 @@ window.vAuthorship = {
     getTotalFileBlankLineInfo() {
       return `Total: Blank: ${this.totalBlankLineCount}, Non-Blank: ${
         this.totalLineCount - this.totalBlankLineCount}`;
+    },
+  },
+
+  computed: {
+    filesGroupsExistingLinesObj() {
+      return Object.keys(this.info.filesGroupsObj)
+          .filter((type) => this.info.filesGroupsObj[type] > 0)
+          .reduce((acc, key) => ({
+            ...acc, [key]: this.info.filesGroupsObj[key],
+          }), {});
+    },
+    selectedFiles() {
+      if (!this.containsGroups) {
+        return this.files.filter((file) => this.isSelectedFileTypes(file.path));
+      } else {
+        return this.files.filter((file) => this.isSelectedGroups(file.group));
+      }
     },
   },
 
