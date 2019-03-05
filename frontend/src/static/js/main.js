@@ -179,7 +179,6 @@ window.app = new window.Vue({
       const info = {
         author: hash.tabAuthor,
         repo: hash.tabRepo,
-        branch: hash.tabBranch,
         minDate,
         maxDate,
       };
@@ -234,8 +233,7 @@ window.app = new window.Vue({
     });
     if (!this.isTabActive) {
       window.removeHash('tabAuthor');
-      window.removeHash('tabLocation');
-      window.removeHash('tabBranch');
+      window.removeHash('tabRepo');
       window.addHash('tabOpen', this.isTabActive);
       window.encodeHash();
     }

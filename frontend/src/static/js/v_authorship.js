@@ -83,17 +83,14 @@ window.vAuthorship = {
         if (author.length > 0) {
           this.info.name = author[0].displayName;
         }
+        this.info.location = repo.location.location;
       }
-      this.info.location = repo.location.location;
     },
 
     setInfoHash() {
       const { addHash } = window;
       addHash('tabAuthor', this.info.author);
       addHash('tabRepo', this.info.repo);
-      if (this.info.repo) {
-        addHash('tabBranch', this.info.repo.split('_').pop());
-      }
     },
 
     splitSegments(lines) {
