@@ -20,6 +20,7 @@ The features of the report includes:
 RepoSense is a project based in the [National University of Singapore, School of Computing](http://www.comp.nus.edu.sg/), and is funded by a grant from [NUS Center for Development of Teaching and Learning](http://www.cdtl.nus.edu.sg/).
 
 * [**Aditya Agarwal**](https://github.com/adityaa1998): _Project Member_ since May 2018
+* [**Apoorva Ullas**](https://github.com/apoorva17): _Project Member_ since Jan 2019
 * [**Chelsey Ong Hee**](https://github.com/chelseyong): _Project Member_ since Jan 2019
 * [**Damith C. Rajapakse**](https://github.com/damithc): _Project Mentor_ since Aug 2017
 * [**Gilbert Emerson**](https://github.com/emer7): _Project Member_ since Jan 2019
@@ -28,6 +29,7 @@ RepoSense is a project based in the [National University of Singapore, School of
 * [**Peh Xian Bin, Eugene**](https://github.com/eugenepeh): _Team Lead_ since May 2018
 * [**Tan Jun An**](https://github.com/yamidark): _Project Member_ since May 2018
 * [**Teng Yong Hao**](https://github.com/yong24s): _Project Member_ since May 2018
+* [**Teo Ming Yi**](https://github.com/myteo): _Project Member_ since Jan 2019
 * [**Wang Chao**](https://github.com/fzdy1914): _Project Member_ since Jan 2019
 
 ## Contributing
