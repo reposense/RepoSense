@@ -178,12 +178,11 @@ window.app = new window.Vue({
       const hash = window.hashParams;
       const info = {
         author: hash.tabAuthor,
-        location: hash.tabLocation,
+        repo: hash.tabRepo,
         branch: hash.tabBranch,
         minDate,
         maxDate,
       };
-      this.updateInfoRepoName(info);
       const tabInfoLength = Object.values(info).filter((x) => x).length;
       if (this.isValidInfo(info)) {
         this.updateTabAuthorship(info);
@@ -193,21 +192,7 @@ window.app = new window.Vue({
     },
     isValidInfo(info) {
       const tabInfoLength = Object.values(info).filter((x) => x).length;
-      return Object.keys(info).length === tabInfoLength && info.location && info.branch && info.location.split('github.com/').length >= 2;
-    },
-    updateInfoRepoName(info) {
-      if (!this.isValidInfo(info)) {
-        info.repo = '';
-        return;
-      }
-      const repoName = info.location.split('github.com/')[1].split('/');
-      if (repoName.length < 2) {
-        info.repo = '';
-        return;
-      }
-      const organization = repoName[0];
-      const repo = repoName[1].split('.git')[0];
-      info.repo = `${[organization, repo].join('_')}_${info.branch}`;
+      return Object.keys(info).length === tabInfoLength;
     },
 
     /* global expandAll */

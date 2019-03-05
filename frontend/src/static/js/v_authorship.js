@@ -56,7 +56,7 @@ window.vAuthorship = {
   methods: {
     initiate() {
       const repo = window.REPOS[this.info.repo];
-      this.getAuthorName(repo);
+      this.getRepoProps(repo);
       if (!repo || !this.info.name) {
         window.app.isTabActive = false;
         return;
@@ -77,19 +77,20 @@ window.vAuthorship = {
       }
     },
 
-    getAuthorName(repo) {
+    getRepoProps(repo) {
       if (!this.info.name && repo) {
         const author = repo.users.filter((user) => user.name === this.info.author);
         if (author.length > 0) {
           this.info.name = author[0].displayName;
         }
       }
+      this.info.location = repo.location.location;
     },
 
     setInfoHash() {
       const { addHash } = window;
       addHash('tabAuthor', this.info.author);
-      addHash('tabLocation', this.info.location);
+      addHash('tabRepo', this.info.repo);
       if (this.info.repo) {
         addHash('tabBranch', this.info.repo.split('_').pop());
       }
