@@ -303,25 +303,30 @@ header{
             }
 
             .select {
-              font-weight:bold;
+                font-weight:bold;
             }
             .loc {
-              font-weight:bolder;
+                font-weight:bolder;
             }
 
             .bloc {
-              color:mui-color("grey");
+                color:mui-color("grey");
             }
 
             span.fileType {
                 span.bloc::after {
-                  content: ', ';
+                    content: ', ';
                 }
 
                 span.bloc:last-child::after {
-                  content:'';
+                    content:'';
                 }
             }
+
+            .mui-checkbox--filetype {
+                vertical-align:middle;
+            }
+
             .checkboxes {
                 label{
                     float:left;
