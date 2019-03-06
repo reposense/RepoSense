@@ -195,9 +195,6 @@ window.vAuthorship = {
       this.filterSearch = (evt.target.value.length !== 0) ? evt.target.value : '*';
     },
 
-    getFilteredFiles() {
-    },
-
     tickAllCheckboxes() {
       this.selectedFileTypes = this.fileTypes.slice();
       this.isSelectAllChecked = true;
