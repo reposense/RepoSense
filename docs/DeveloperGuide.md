@@ -209,10 +209,10 @@ The main HTML file is generated from [`frontend/src/index.jade`](../frontend/src
 
 [Vue](https://vuejs.org/v2/api/) (pronounced /vjuː/, like view) is a progressive framework for building user interfaces. It is heavily utilized in the report to dynamically update the information in the various views. (Style guide available [here](https://vuejs.org/v2/style-guide/)).
 
-![dashboard screenshot](images/dashboard.png)
+![report screenshot](images/report-summary.png)
 
 ### Report Architecture
-![dashboard architecture](images/dashboard-architecture.png)
+![report architecture](images/report-architecture.png)
 
 The main Vue object (`window.app`) is responsible for the loading of the report (through `summary.json`). Its `repos` attribute is tied to the global `window.REPOS`, and is passed into the various other modules when the information is needed.
 
@@ -268,7 +268,7 @@ For the basic skeleton of `window.REPOS`, refer to the generated `summary.json` 
 ### Summary View (v_summary.js)
 The `v_summary` module is in charge of loading the ramp charts from the corresponding `commits.json`.
 
-![summary architecture](images/dashboard-architecture-summary.png)
+![summary architecture](images/report-architecture-summary.png)
 
 #### Initializing the data for the ramp charts
 The summary module is activated after the information is loaded from the main Vue.JS object. At creation, the `repo` attribute is populated with the `window.REPOS` object, which contains information loaded from `summary.json`.
@@ -282,7 +282,7 @@ For ramps between the date ranges, the slices will be selected and it will be pr
 ### Authorship View (v_authorship.js)
 The authorship module retrieves the relevant information from the corresponding `authorship.json` file if it is not yet loaded. If it has been loaded, the data will be written into `window.REPOS` and be read from there instead.
 
-![authorship architecture](images/dashboard-architecture-authorship.png)
+![authorship architecture](images/report-architecture-authorship.png)
 
 #### Showing relevant information by authors
 The files will be filtered, picking only files the selected author has written in. The lines are then split into chunks of "touched" and "untouched" code to be displayed in the tab view which will be popped up on the right side of the screen.
