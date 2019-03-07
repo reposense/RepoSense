@@ -205,16 +205,23 @@ html
             v-bind:title="'Click to open the repo'"
           ) {{ info.repo }}
           .author {{ info.name }} ({{ info.author }}) contribution from {{ info.minDate }} to {{ info.maxDate }}
-          .contribution(v-if="isLoaded")
+          .contribution(v-if="isLoaded && files.length!=0")
+            input.radio-button--search(type="radio", name="filter", value="search", v-on:click="enableSearchBar()")
+            form.file-picker.mui-form--inline(onsubmit="return false")
+              input#search(type="search", placeholder="Filter by glob", v-on:change="updateFilterSearch", disabled)
+              button#submit-button(type="submit", disabled) Filter
+            input.radio-button--checkbox(type="radio", name="filter", value="checkboxes", v-on:click="enableCheckBoxes()",
+                checked)
             div.checkboxes.mui-form--inline(v-if="files.length > 0")
               label
-                input(type="checkbox" v-on:click="selectAll" v-model="isSelectAllChecked").mui-checkbox
+                input.mui-checkbox--fileformat(type="checkbox" v-on:click="selectAll" v-model="isSelectAllChecked")
                 span.select(v-bind:title="getTotalFileBlankLineInfo()") All:&nbsp;
                 span.loc(v-bind:title="getTotalFileBlankLineInfo()") {{ totalLineCount }}&nbsp;
                 span.bloc(v-bind:title="getTotalFileBlankLineInfo()") ({{ totalBlankLineCount }})
               template(v-for="format in Object.keys(filesExistingLinesObj)", v-bind:key="format")
                 label
-                  input(type="checkbox" :checked="selectedFileFormats.includes(format)" v-on:change="selectFileFormat(format)").mui-checkbox
+                  input.mui-checkbox--fileformat(type="checkbox" :checked="selectedFileFormats.includes(format)"
+                      v-on:change="selectFileFormat(format)")
                   span(v-bind:title="getFileBlankLineInfo(format)") {{ format }}: {{ filesExistingLinesObj[format] }}&nbsp;
                   span.bloc(v-bind:title="getFileBlankLineInfo(format)") ({{ filesBlankLinesObj[format] }})
 
