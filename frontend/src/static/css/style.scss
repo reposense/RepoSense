@@ -275,6 +275,33 @@ header{
             margin-top:0.1rem;
             color:mui-color("red");
 
+            .radio-button--search{
+                float:left;
+                margin:1.5rem 2.0rem 0rem 0rem;
+            }
+
+            .radio-button--checkbox{
+                float:left;
+                margin:0.25rem 2.0rem 0rem 0rem;
+            }
+
+            #search{
+                padding:0.5rem 1.0rem 0.25rem 1.0rem;
+                margin-top:1.0rem;
+                width: 30%;
+            }
+
+            #submit-button{
+                background-color:mui-color("blue");
+                color:mui-color("white");
+                margin:1.0rem 0rem 0rem 0.25rem;
+                padding:0.5rem 1.0rem 0.25rem 1.0rem;
+            }
+
+            #submit-button[disabled]{
+                background-color:mui-color("grey");
+            }
+
             .select {
               font-weight:bold;
             }

@@ -43,6 +43,8 @@ window.expandAll = function expandAll(isActive) {
 };
 
 const repoCache = [];
+const minimatch = require('minimatch');
+
 window.vAuthorship = {
   props: ['info'],
   template: window.$('v_authorship').innerHTML,
@@ -60,6 +62,7 @@ window.vAuthorship = {
 
       filesSortType: 'lineOfCode',
       toReverseSortFiles: true,
+      filterSearch: '*',
     };
   },
 
@@ -217,6 +220,43 @@ window.vAuthorship = {
       this.sortFiles();
     },
 
+    updateFilterSearch(evt) {
+      this.filterSearch = (evt.target.value.length !== 0) ? evt.target.value : '*';
+    },
+
+    tickAllCheckboxes() {
+      this.selectedFileTypes = this.fileTypes.slice();
+      this.isSelectAllChecked = true;
+      this.filterSearch = '*';
+    },
+
+    enableSearchBar() {
+      const searchBar = document.getElementById('search');
+      const submitButton = document.getElementById('submit-button');
+      searchBar.disabled = false;
+      submitButton.disabled = false;
+
+      this.tickAllCheckboxes();
+      const checkboxes = document.getElementsByClassName('mui-checkbox--filetype');
+      Array.from(checkboxes).forEach((checkbox) => {
+        checkbox.disabled = true;
+      });
+    },
+
+    enableCheckBoxes() {
+      const searchBar = document.getElementById('search');
+      const submitButton = document.getElementById('submit-button');
+      searchBar.value = '';
+      searchBar.disabled = true;
+      submitButton.disabled = true;
+
+      this.tickAllCheckboxes();
+      const checkboxes = document.getElementsByClassName('mui-checkbox--filetype');
+      Array.from(checkboxes).forEach((checkbox) => {
+        checkbox.disabled = false;
+      });
+    },
+
     isSelected(filePath) {
       const fileExt = filePath.split('.').pop();
       return this.selectedFileTypes.includes(fileExt);
@@ -243,7 +283,8 @@ window.vAuthorship = {
 
   computed: {
     selectedFiles() {
-      return this.files.filter((file) => this.isSelected(file.path));
+      return this.files.filter((file) => this.isSelected(file.path)
+          && minimatch(file.path, this.filterSearch, { matchBase: true }));
     },
   },
 
