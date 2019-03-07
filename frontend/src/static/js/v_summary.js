@@ -426,15 +426,18 @@ window.vSummary = {
     },
 
     updateDateRange() {
-      const since = new Date(this.filterSinceDate).getTime();
-      const until = new Date(this.filterUntilDate).getTime();
-      const range = until - since;
+      if (drags.length > 0) {
+        const since = new Date(this.filterSinceDate).getTime();
+        const until = new Date(this.filterUntilDate).getTime();
+        const range = until - since;
 
-      const getStr = time => getDateStr(new Date(time));
-      this.tmpFilterSinceDate = getStr(since + range*drags[0]/100);
-      this.tmpFilterUntilDate = getStr(since + range*drags[1]/100);
+        const getStr = time => getDateStr(new Date(time));
+        this.tmpFilterSinceDate = getStr(since + range*drags[0]/100);
+        this.tmpFilterUntilDate = getStr(since + range*drags[1]/100);
 
-      deactivateAllOverlays();
+        drags = [];
+        deactivateAllOverlays();
+      }
     },
 
     // triggering opening of tabs //
