@@ -13,5 +13,5 @@
       h3 {{ day.date }}
       ul
         li(v-for="slice in day.commitResults")
-          a(v-bind:href="getSliceLink(slice)") {{ slice.message }}
+          a(v-bind:href="getSliceLink(slice)", target="_blank") {{ slice.message }}
           span &nbsp; ({{ slice.insertions }} lines)
