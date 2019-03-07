@@ -5,8 +5,8 @@ function addDays(dateStr, numDays) {
 
 function getBaseLink(repoId) {
   return `http://github.com/${
-    REPOS[repoId].location.organization}/${
-    REPOS[repoId].location.repoName}`;
+    window.REPOS[repoId].location.organization}/${
+    window.REPOS[repoId].location.repoName}`;
 }
 window.getBaseLink = getBaseLink;
 
@@ -29,12 +29,11 @@ window.vRamp = {
 
       if (this.tframe === 'commit') {
         return `${getBaseLink(user.repoId)}/commit/${slice.hash}`;
-      } else {
-        return `${getBaseLink(user.repoId)}/commits/${REPOS[user.repoId].branch}?`
+      }
+      return `${getBaseLink(user.repoId)}/commits/${REPOS[user.repoId].branch}?`
                   + `author=${user.name}&`
                   + `since=${slice.date}'T'00:00:00+08:00&`
                   + `until=${untilDate}'T'23:59:59+08:00`;
-      }
     },
     getWidth(slice) {
       if (slice.insertions === 0) {

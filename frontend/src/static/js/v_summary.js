@@ -53,7 +53,8 @@ window.dragViewUp = function dragViewUp(evt) {
 
   if (drags[1] - drags[0] < 3) {
     // if less than 3% of ramp charts selected, treat as accidental click
-    drags[1] = drags[0];
+    const value = drags[0];
+    drags = [value, value];
   } else {
     const overlay = ramp.getElementsByClassName('overlay')[0];
     overlay.style.marginLeft = `${drags[0]}%`;
@@ -431,9 +432,9 @@ window.vSummary = {
         const until = new Date(this.filterUntilDate).getTime();
         const range = until - since;
 
-        const getStr = time => getDateStr(new Date(time));
-        this.tmpFilterSinceDate = getStr(since + range*drags[0]/100);
-        this.tmpFilterUntilDate = getStr(since + range*drags[1]/100);
+        const getStr = (time) => getDateStr(new Date(time));
+        this.tmpFilterSinceDate = getStr(since + range * drags[0] / 100);
+        this.tmpFilterUntilDate = getStr(since + range * drags[1] / 100);
 
         drags = [];
         deactivateAllOverlays();
@@ -454,24 +455,25 @@ window.vSummary = {
     openTabZoomin(userOrig) {
       // skip if accidentally clicked on ramp chart
       if (drags[1] - drags[0]) {
-        const idxs = drags.map(x => x*userOrig.commits.length/100);
+        const idxs = drags.map((x) => x * userOrig.commits.length / 100);
         const rawCommits = userOrig.commits.slice(
-          parseInt(idxs[0]),
-          parseInt(idxs[1]+1));
+            parseInt(idxs[0], 10),
+            parseInt(idxs[1] + 1, 10),
+        );
 
         const commits = [];
-        rawCommits.forEach(commit => {
+        rawCommits.forEach((commit) => {
           if (this.filterTimeFrame === 'week') {
-            commit.dayCommits.forEach(dayCommit => commits.push(dayCommit));
+            commit.dayCommits.forEach((dayCommit) => commits.push(dayCommit));
           } else {
             commits.push(commit);
           }
         });
 
         const { avgCommitSize } = this;
-        const user = {...userOrig, commits};
+        const user = { ...userOrig, commits };
         this.$emit('view-zoomin', {
-          user, avgCommitSize
+          user, avgCommitSize,
         });
       }
     },
