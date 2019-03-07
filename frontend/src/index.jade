@@ -177,20 +177,21 @@ html
             form.file-picker.mui-form--inline(onsubmit="return false")
               input#search(type="search", placeholder="Filter by glob", v-on:change="updateFilterSearch", disabled)
               button#submit-button(type="submit", disabled) Filter
-            input.radio-button--checkbox(type="radio", name="filter", value="checkboxes", v-on:click="enableCheckBoxes()",
-                checked)
-            div.checkboxes.mui-form--inline(v-if="files.length > 0")
-              label
-                input.mui-checkbox--filetype(type="checkbox" v-on:click="selectAll" v-model="isSelectAllChecked")
-                span.select(v-bind:title="getTotalFileBlankLineInfo()") All:&nbsp;
-                span.loc(v-bind:title="getTotalFileBlankLineInfo()") {{ totalLineCount }}&nbsp;
-                span.bloc(v-bind:title="getTotalFileBlankLineInfo()") ({{ totalBlankLineCount }})
-              template(v-for="type in Object.keys(filesLinesObj)")
+            .filetype
+              input.radio-button--checkbox(type="radio", name="filter", value="checkboxes", v-on:click="enableCheckBoxes()",
+                  checked)
+              div.checkboxes.mui-form--inline(v-if="files.length > 0")
                 label
-                  input.mui-checkbox--filetype(type="checkbox" :checked="selectedFileTypes.includes(type)"
-                      v-on:change="selectFileType(type)")
-                  span(v-bind:title="getFileBlankLineInfo(type)") {{ type }}: {{ filesLinesObj[type] }}&nbsp;
-                  span.bloc(v-bind:title="getFileBlankLineInfo(type)") ({{ filesBlankLinesObj[type] }})
+                  input.mui-checkbox--filetype(type="checkbox" v-on:click="selectAll" v-model="isSelectAllChecked")
+                  span.select(v-bind:title="getTotalFileBlankLineInfo()") All:&nbsp;
+                  span.loc(v-bind:title="getTotalFileBlankLineInfo()") {{ totalLineCount }}&nbsp;
+                  span.bloc(v-bind:title="getTotalFileBlankLineInfo()") ({{ totalBlankLineCount }})
+                template(v-for="type in Object.keys(filesLinesObj)")
+                  label
+                    input.mui-checkbox--filetype(type="checkbox" :checked="selectedFileTypes.includes(type)"
+                        v-on:change="selectFileType(type)")
+                    span(v-bind:title="getFileBlankLineInfo(type)") {{ type }}: {{ filesLinesObj[type] }}&nbsp;
+                    span.bloc(v-bind:title="getFileBlankLineInfo(type)") ({{ filesBlankLinesObj[type] }})
 
         .files(v-if="isLoaded")
           .empty(v-if="files.length===0") nothing to see here :(

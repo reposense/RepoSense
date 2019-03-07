@@ -275,6 +275,10 @@ header{
             margin-top:0.1rem;
             color:mui-color("red");
 
+            .filetype {
+                margin-left:3rem;
+            }
+
             .radio-button--search{
                 float:left;
                 margin:1.5rem 2.0rem 0rem 0rem;
@@ -282,7 +286,7 @@ header{
 
             .radio-button--checkbox{
                 float:left;
-                margin:0.25rem 2.0rem 0rem 0rem;
+                margin:0.25rem 2.0rem 0rem -3rem;
             }
 
             #search{
@@ -315,7 +319,7 @@ header{
 
             span.fileType {
                 span.bloc::after {
-                    content: ', ';
+                    content:', ';
                 }
 
                 span.bloc:last-child::after {
