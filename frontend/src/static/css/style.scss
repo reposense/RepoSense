@@ -227,22 +227,23 @@ header{
     }
 
     &__ramp{
-      position:relative;
-      cursor:crosshair;
+        position:relative;
+        cursor:crosshair;
 
-      .overlay{
-        height:100%;
-        position:absolute;
-        top:0;
+        .overlay{
+            height:100%;
+            position:absolute;
+            top:0;
 
-        &.show{
-          background-color:#fffa;
+            &.show{
+                background-color:#fffa;
+                border:.1rem dashed #000;
+            }
+
+            &.edge{
+                border-right:.1rem dashed #000;
+            }
         }
-
-        &.edge{
-          border-right:.1rem dashed #000;
-        }
-      }
     }
 
     &__contrib{
