@@ -3,10 +3,8 @@ package reposense.git;
 import static reposense.util.StringsUtil.addQuote;
 
 import java.io.File;
-import java.nio.file.Path;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -87,14 +85,14 @@ class GitUtil {
         StringBuilder gitExcludeGlobArgsBuilder = new StringBuilder();
         final String cmdFormat = " " + addQuote(":(exclude)%s");
         ignoreGlobList.stream()
-                .filter(item -> !item.isEmpty() && fileExistsInRepo(root, item))
+                .filter(item -> !item.isEmpty() && pathExistsInRepo(root, item))
                 .map(ignoreGlob -> String.format(cmdFormat, ignoreGlob))
                 .forEach(gitExcludeGlobArgsBuilder::append);
 
         return gitExcludeGlobArgsBuilder.toString();
     }
 
-    static boolean fileExistsInRepo (File repoRoot, String file) {
+    static boolean pathExistsInRepo(File repoRoot, String file) {
         File pathFile = new File(repoRoot, file);
         return pathFile.exists();
     }
