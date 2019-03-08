@@ -78,6 +78,26 @@ public class GitLogTest extends GitTestTemplate {
     }
 
     @Test
+    public void gitLog_authorIgnoreInvalidFilePath_success() {
+        config.setFormats(Collections.singletonList(new Format("java")));
+        Author ignoreInvalidFileAuthor = getAlphaAllAliasAuthor();
+        ignoreInvalidFileAuthor.setIgnoreGlobList(Collections.singletonList("**collate"));
+
+        String content = GitLog.get(config, ignoreInvalidFileAuthor);
+        Assert.assertTrue(TestUtil.compareNumberExpectedCommitsToGitLogLines(8, content));
+    }
+
+    @Test
+    public void gitLog_authorIgnoreValidFilePath_success() {
+        config.setFormats(Collections.singletonList(new Format("java")));
+        Author ignoreInvalidFileAuthor = getAlphaAllAliasAuthor();
+        ignoreInvalidFileAuthor.setIgnoreGlobList(Collections.singletonList("../*.java"));
+
+        String content = GitLog.get(config, ignoreInvalidFileAuthor);
+        Assert.assertTrue(TestUtil.compareNumberExpectedCommitsToGitLogLines(8, content));
+    }
+
+    @Test
     public void gitLog_authorWithAllCharactersRegexAlias_emptyResult() {
         Author authorWithAllCharactersRegexAlias = new Author("none");
         authorWithAllCharactersRegexAlias.setAuthorAliases(Collections.singletonList(".*"));

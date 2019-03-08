@@ -3,13 +3,18 @@ package reposense.git;
 import static reposense.util.StringsUtil.addQuote;
 
 import java.io.File;
+import java.io.IOException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import reposense.model.Author;
 import reposense.model.Format;
+
+import reposense.system.LogsManager;
 import reposense.util.StringsUtil;
 
 /**
@@ -18,6 +23,7 @@ import reposense.util.StringsUtil;
 class GitUtil {
     static final DateFormat GIT_LOG_SINCE_DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd'T'00:00:00+08:00");
     static final DateFormat GIT_LOG_UNTIL_DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd'T'23:59:59+08:00");
+    static final Logger logger = LogsManager.getLogger(GitUtil.class);
 
     // ignore check against email
     private static final String AUTHOR_NAME_PATTERN = "^%s <.*>$";
@@ -96,7 +102,35 @@ class GitUtil {
      * Returns true if the {@code String} path is inside the current repository
      */
     static boolean pathExistsInRepo(File repoRoot, String path) {
-        File fileInPath = new File(repoRoot, path);
-        return fileInPath.exists();
+        try {
+            if (path.contains("/*")) {
+                path = path.substring(0, path.indexOf(("/*")));
+            } else if (path.contains("*")) {
+                return true;
+            }
+            return !childIsOutsideRepo(repoRoot, new File(repoRoot, path));
+        } catch (IOException ex) {
+            logger.log(Level.WARNING,
+                    "File in ignore glob list cannot be accessed.", ex);
+            return false;
+        }
+    }
+
+    /**
+     * Returns true if the child path is outside repository folder
+     * @throws IOException if file system queries are needed
+     */
+    static boolean childIsOutsideRepo(File repoRoot, File child) throws IOException {
+        repoRoot = repoRoot.getCanonicalFile();
+        child = child.getCanonicalFile();
+
+        File parentFile = repoRoot;
+        while (parentFile != null) {
+            if (child.equals(parentFile)) {
+                return true;
+            }
+            parentFile = parentFile.getParentFile();
+        }
+        return false;
     }
 }
