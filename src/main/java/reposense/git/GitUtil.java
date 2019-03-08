@@ -92,8 +92,8 @@ class GitUtil {
         return gitExcludeGlobArgsBuilder.toString();
     }
 
-    static boolean pathExistsInRepo(File repoRoot, String file) {
-        File pathFile = new File(repoRoot, file);
-        return pathFile.exists();
+    static boolean pathExistsInRepo(File repoRoot, String path) {
+        File fileInPath = new File(repoRoot, path);
+        return fileInPath.exists();
     }
 }
