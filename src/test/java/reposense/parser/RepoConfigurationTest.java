@@ -155,7 +155,8 @@ public class RepoConfigurationTest {
     }
 
     @Test
-    public void repoConfig_ignoresStandaloneConfigInCli_success() throws ParseException, GitCloneException, HelpScreenException {
+    public void repoConfig_ignoresStandaloneConfigInCli_success()
+            throws ParseException, GitCloneException, HelpScreenException {
         RepoConfiguration expectedConfig = new RepoConfiguration(new RepoLocation(TEST_REPO_DELTA), "master");
         expectedConfig.setFormats(Format.convertStringsToFormats(CLI_FORMATS));
         expectedConfig.setStandaloneConfigIgnored(true);
@@ -227,7 +228,8 @@ public class RepoConfigurationTest {
     }
 
     @Test
-    public void repoConfig_withoutFormatsAndCliFormats_useDefaultFormats() throws ParseException, IOException, HelpScreenException {
+    public void repoConfig_withoutFormatsAndCliFormats_useDefaultFormats()
+            throws ParseException, IOException, HelpScreenException {
         String input = new InputBuilder().addConfig(WITHOUT_FORMATS_TEST_CONFIG_FILES).build();
         CliArguments cliArguments = ArgsParser.parse(translateCommandline(input));
 

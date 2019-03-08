@@ -257,7 +257,8 @@ public class ArgsParserTest {
     }
 
     @Test
-    public void parse_configFolderAndViewWithouthArgs_returnsConfigCliArguments() throws ParseException, IOException, HelpScreenException {
+    public void parse_configFolderAndViewWithouthArgs_returnsConfigCliArguments()
+            throws ParseException, IOException, HelpScreenException {
         String input = new InputBuilder().addConfig(CONFIG_FOLDER_ABSOLUTE)
                 .addView()
                 .build();
@@ -284,7 +285,8 @@ public class ArgsParserTest {
     }
 
     @Test
-    public void parse_configFolderAndViewWithArgs_returnsConfigCliArguments() throws ParseException, IOException, HelpScreenException {
+    public void parse_configFolderAndViewWithArgs_returnsConfigCliArguments()
+            throws ParseException, IOException, HelpScreenException {
         String input = new InputBuilder().addConfig(CONFIG_FOLDER_ABSOLUTE)
                 .addView(OUTPUT_DIRECTORY_ABSOLUTE)
                 .build();
@@ -326,7 +328,8 @@ public class ArgsParserTest {
     }
 
     @Test
-    public void parse_validGitRepoLocations_repoConfigurationListCorrectSize() throws ParseException, IOException, HelpScreenException {
+    public void parse_validGitRepoLocations_repoConfigurationListCorrectSize()
+            throws ParseException, HelpScreenException {
         String input = new InputBuilder().addRepos(TEST_REPO_REPOSENSE, TEST_REPO_DELTA).build();
         CliArguments cliArguments = ArgsParser.parse(translateCommandline(input));
         Assert.assertTrue(cliArguments instanceof LocationsCliArguments);
@@ -359,7 +362,8 @@ public class ArgsParserTest {
     }
 
     @Test
-    public void parse_repoLocationsAndViewWithArgs_returnsLocationsCliArguments() throws ParseException, HelpScreenException {
+    public void parse_repoLocationsAndViewWithArgs_returnsLocationsCliArguments()
+            throws ParseException, HelpScreenException {
         String input = new InputBuilder().addRepos(TEST_REPO_REPOSENSE, TEST_REPO_DELTA)
                 .addView(OUTPUT_DIRECTORY_ABSOLUTE)
                 .build();
@@ -416,7 +420,8 @@ public class ArgsParserTest {
     }
 
     @Test
-    public void parse_invalidRepoLocation_emptyRepoConfigurationList() throws ParseException, IOException, HelpScreenException {
+    public void parse_invalidRepoLocation_emptyRepoConfigurationList()
+            throws ParseException, HelpScreenException {
         String input = new InputBuilder().addRepos("https://githubaaaa.com/asdasdasdasd/RepoSense").build();
         CliArguments cliArguments = ArgsParser.parse(translateCommandline(input));
         Assert.assertTrue(cliArguments instanceof LocationsCliArguments);
@@ -425,14 +430,16 @@ public class ArgsParserTest {
     }
 
     @Test(expected = ParseException.class)
-    public void absoluteConfigFolder_withoutRequiredConfigFiles_throwsParseException() throws ParseException, HelpScreenException {
+    public void absoluteConfigFolder_withoutRequiredConfigFiles_throwsParseException()
+            throws ParseException, HelpScreenException {
         Path absDirectory = PROJECT_DIRECTORY.getParent().toAbsolutePath();
         String input = new InputBuilder().addConfig(absDirectory).build();
         ArgsParser.parse(translateCommandline(input));
     }
 
     @Test(expected = ParseException.class)
-    public void relativeConfigFolder_withoutRequiredConfigFiles_throwsParseException() throws ParseException, HelpScreenException {
+    public void relativeConfigFolder_withoutRequiredConfigFiles_throwsParseException()
+            throws ParseException, HelpScreenException {
         Path relDirectory = PROJECT_DIRECTORY.getParent();
         String input = new InputBuilder().addConfig(relDirectory).build();
         ArgsParser.parse(translateCommandline(input));
@@ -495,7 +502,8 @@ public class ArgsParserTest {
     }
 
     @Test(expected = ParseException.class)
-    public void parse_mutuallyExclusiveArgumentsConfigAndReposTogether_throwsParseException() throws ParseException, HelpScreenException {
+    public void parse_mutuallyExclusiveArgumentsConfigAndReposTogether_throwsParseException()
+            throws ParseException, HelpScreenException {
         String input = new InputBuilder().addConfig(CONFIG_FOLDER_ABSOLUTE)
                 .addRepos(TEST_REPO_REPOSENSE)
                 .build();
