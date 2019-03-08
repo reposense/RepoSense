@@ -2,8 +2,11 @@ package reposense.git;
 
 import static reposense.util.StringsUtil.addQuote;
 
+import java.io.File;
+import java.nio.file.Path;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -80,14 +83,19 @@ class GitUtil {
     /**
      * Returns the {@code String} command to specify the globs to exclude for `git log` command.
      */
-    static String convertToGitExcludeGlobArgs(List<String> ignoreGlobList) {
+    static String convertToGitExcludeGlobArgs(File root, List<String> ignoreGlobList) {
         StringBuilder gitExcludeGlobArgsBuilder = new StringBuilder();
         final String cmdFormat = " " + addQuote(":(exclude)%s");
         ignoreGlobList.stream()
-                .filter(item -> !item.isEmpty())
+                .filter(item -> !item.isEmpty() && fileExistsInRepo(root, item))
                 .map(ignoreGlob -> String.format(cmdFormat, ignoreGlob))
                 .forEach(gitExcludeGlobArgsBuilder::append);
 
         return gitExcludeGlobArgsBuilder.toString();
+    }
+
+    static boolean fileExistsInRepo (File repoRoot, String file) {
+        File pathFile = new File(repoRoot, file);
+        return pathFile.exists();
     }
 }

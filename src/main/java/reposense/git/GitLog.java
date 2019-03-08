@@ -22,7 +22,7 @@ public class GitLog {
         command += " --pretty=format:\"%H|%aN|%aE|%ad|%s\" --date=iso --shortstat";
         command += GitUtil.convertToFilterAuthorArgs(author);
         command += GitUtil.convertToGitFormatsArgs(config.getFormats());
-        command += GitUtil.convertToGitExcludeGlobArgs(author.getIgnoreGlobList());
+        command += GitUtil.convertToGitExcludeGlobArgs(rootPath.toFile(), author.getIgnoreGlobList());
 
         return runCommand(rootPath, command);
     }
