@@ -11,6 +11,8 @@ import java.nio.file.Paths;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import reposense.git.exception.BranchNotFoundException;
+import reposense.git.exception.GitCloneException;
 import reposense.model.RepoConfiguration;
 import reposense.model.RepoLocation;
 import reposense.system.CommandRunnerProcess;

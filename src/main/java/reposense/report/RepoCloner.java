@@ -9,7 +9,7 @@ import java.util.logging.Logger;
 import reposense.git.GitBranch;
 import reposense.git.GitCheckout;
 import reposense.git.GitClone;
-import reposense.git.GitCloneException;
+import reposense.git.exception.GitCloneException;
 import reposense.model.RepoConfiguration;
 import reposense.system.LogsManager;
 import reposense.util.FileUtil;

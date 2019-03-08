@@ -17,7 +17,7 @@ import org.junit.Test;
 
 import reposense.RepoSense;
 import reposense.git.GitClone;
-import reposense.git.GitCloneException;
+import reposense.git.exception.GitCloneException;
 import reposense.model.Author;
 import reposense.model.AuthorConfiguration;
 import reposense.model.CliArguments;
