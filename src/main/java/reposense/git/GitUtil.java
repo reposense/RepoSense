@@ -92,6 +92,9 @@ class GitUtil {
         return gitExcludeGlobArgsBuilder.toString();
     }
 
+    /**
+     * Returns true if the {@code String} path is inside the current repository
+     */
     static boolean pathExistsInRepo(File repoRoot, String path) {
         File fileInPath = new File(repoRoot, path);
         return fileInPath.exists();
