@@ -13,7 +13,6 @@ import java.util.logging.Logger;
 
 import reposense.model.Author;
 import reposense.model.Format;
-
 import reposense.system.LogsManager;
 import reposense.util.StringsUtil;
 
