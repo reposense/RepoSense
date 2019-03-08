@@ -43,6 +43,7 @@ public class ArgsParser {
     private static final String PROGRAM_USAGE = "java -jar RepoSense.jar";
     private static final String PROGRAM_DESCRIPTION =
             "RepoSense is a contribution analysis tool for Git repositories.";
+    private static final String MESSAGE_HEADER_MUTEX = "mutual exclusive arguments";
     private static final String MESSAGE_SINCE_DATE_LATER_THAN_UNTIL_DATE =
             "\"Since Date\" cannot be later than \"Until Date\"";
     private static final String MESSAGE_USING_DEFAULT_CONFIG_PATH =
@@ -57,27 +58,18 @@ public class ArgsParser {
                 .description(PROGRAM_DESCRIPTION);
 
         MutuallyExclusiveGroup mutexParser = parser
-                .addMutuallyExclusiveGroup(PROGRAM_USAGE)
+                .addMutuallyExclusiveGroup(MESSAGE_HEADER_MUTEX)
                 .required(false);
 
+        // Boolean flags
         parser.addArgument(HELP_FLAGS)
                 .dest(HELP_FLAGS[0])
                 .help("Show help message.")
                 .action(new HelpArgumentAction());
-
-        mutexParser.addArgument(CONFIG_FLAGS)
-                .dest(CONFIG_FLAGS[0])
-                .type(new ConfigFolderArgumentType())
-                .metavar("PATH")
-                .setDefault(EMPTY_PATH)
-                .help("The directory containing the config files."
-                        + "If not provided, the config files will be obtained from the current working directory.");
-
-        mutexParser.addArgument(REPO_FLAGS)
-                .nargs("+")
-                .dest(REPO_FLAGS[0])
-                .metavar("LOCATION")
-                .help("The GitHub URL or disk locations to clone repository.");
+        parser.addArgument(IGNORE_FLAGS)
+                .dest(IGNORE_FLAGS[0])
+                .action(Arguments.storeTrue())
+                .help("A flag to ignore the standalone config file in the repo.");
 
         parser.addArgument(VIEW_FLAGS)
                 .dest(VIEW_FLAGS[0])
@@ -121,10 +113,19 @@ public class ArgsParser {
                         + "If not provided, default file formats will be used.\n"
                         + "Please refer to userguide for more information.");
 
-        parser.addArgument(IGNORE_FLAGS)
-                .dest(IGNORE_FLAGS[0])
-                .action(Arguments.storeTrue())
-                .help("A flag to ignore the standalone config file in the repo.");
+        // Mutex flags - these will always be the last parameters in help message.
+        mutexParser.addArgument(CONFIG_FLAGS)
+                .dest(CONFIG_FLAGS[0])
+                .type(new ConfigFolderArgumentType())
+                .metavar("PATH")
+                .setDefault(EMPTY_PATH)
+                .help("The directory containing the config files."
+                        + "If not provided, the config files will be obtained from the current working directory.");
+        mutexParser.addArgument(REPO_FLAGS)
+                .nargs("+")
+                .dest(REPO_FLAGS[0])
+                .metavar("LOCATION")
+                .help("The GitHub URL or disk locations to clone repository.");
 
         return parser;
     }

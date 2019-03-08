@@ -64,7 +64,7 @@ public class RepoSense {
         } catch (ParseException pe) {
             logger.log(Level.WARNING, pe.getMessage(), pe);
         } catch (HelpScreenException e) {
-            // help message was printed by the ArgumentParser and it is safe to exit.
+            // help message was printed by the ArgumentParser; it is safe to exit.
         }
     }
 
