@@ -1,6 +1,10 @@
 package reposense.report;
 
+import static reposense.system.CommandRunner.runCommandAsync;
+import static reposense.util.StringsUtil.addQuote;
+
 import java.io.IOException;
+import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.logging.Level;
@@ -8,9 +12,10 @@ import java.util.logging.Logger;
 
 import reposense.git.GitBranch;
 import reposense.git.GitCheckout;
-import reposense.git.GitClone;
-import reposense.git.exception.GitCloneException;
+import reposense.git.exception.BranchNotFoundException;
 import reposense.model.RepoConfiguration;
+import reposense.system.CommandRunnerProcess;
+import reposense.system.CommandRunnerProcessException;
 import reposense.system.LogsManager;
 import reposense.util.FileUtil;
 
@@ -22,6 +27,7 @@ public class RepoCloner {
     private int prevIndex = 0;
     private boolean isCurrentRepoCloned = false;
     private String prevRepoDefaultBranch;
+    private CommandRunnerProcess crp;
 
     /**
      * Spawns a process to clone the repository specified by {@code config}.
@@ -79,32 +85,54 @@ public class RepoCloner {
         return prevIndex == index || !configs[prevIndex].getLocation().equals(configs[index].getLocation());
     }
 
+    /**
+     * Spawns a process to clone repo specified in {@code repoConfig}. Does not wait for process to finish executing.
+     * Can only handle a maximum of one spawned process at any time and subsequent calls are ignored if current process
+     * is still running.
+     */
     private boolean spawnCloneProcess(String outputPath, RepoConfiguration config) throws IOException {
+        assert(crp == null);
+
         try {
-            GitClone.spawnCloneProcess(config);
-            return true;
-        } catch (GitCloneException gde) {
+            FileUtil.deleteDirectory(config.getRepoRoot());
+            logger.info("Cloning in parallel from " + config.getLocation() + "...");
+            Path rootPath = Paths.get(FileUtil.REPOS_ADDRESS, config.getRepoFolderName());
+            Files.createDirectories(rootPath);
+            crp = runCommandAsync(rootPath, "git clone " + addQuote(config.getLocation().toString()));
+        } catch (RuntimeException | IOException e) {
             logger.log(Level.WARNING,
-                    "Exception met while trying to clone the repo, will skip this repo.", gde);
+                    "Exception met while trying to clone the repo, will skip this repo.", e);
             generateEmptyRepoReport(outputPath, config);
-        } catch (RuntimeException rte) {
-            logger.log(Level.SEVERE, "Error has occurred during analysis, will skip this repo.", rte);
+            return false;
         }
-        return false;
+        return true;
     }
 
+    /**
+     * Waits for previously spawned clone process to finish executing.
+     * Should only be called after {@code spawnCloneProcess} has been called.
+     */
     private boolean waitForCloneProcess(String outputPath, RepoConfiguration config) throws IOException {
         try {
-            GitClone.waitForCloneProcess(config);
-            return true;
-        } catch (GitCloneException gde) {
+            crp.waitForProcess();
+            logger.info("Cloning of " + config.getLocation() + " completed!");
+        } catch (RuntimeException | CommandRunnerProcessException e) {
+            crp = null;
             logger.log(Level.WARNING,
-                    "Exception met while trying to clone the repo, will skip this repo.", gde);
+                    "Exception met while trying to clone the repo, will skip this repo.", e);
             generateEmptyRepoReport(outputPath, config);
-        } catch (RuntimeException rte) {
-            logger.log(Level.SEVERE, "Error has occurred during analysis, will skip this repo.", rte);
+            return false;
         }
-        return false;
+        crp = null;
+
+        try {
+            config.updateBranch();
+        } catch (BranchNotFoundException e) {
+            logger.log(Level.SEVERE, "Branch does not exist! Analysis terminated.", e);
+            generateEmptyRepoReport(outputPath, config);
+            return false;
+        }
+        return true;
     }
 
     private void generateEmptyRepoReport(String outputPath, RepoConfiguration config) throws IOException {
