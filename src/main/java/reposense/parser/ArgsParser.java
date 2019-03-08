@@ -44,6 +44,8 @@ public class ArgsParser {
             "RepoSense is a contribution analysis tool for Git repositories.";
     private static final String MESSAGE_SINCE_DATE_LATER_THAN_UNTIL_DATE =
             "\"Since Date\" cannot be later than \"Until Date\"";
+    private static final String MESSAGE_USING_DEFAULT_CONFIG_PATH =
+            "Config path not provided, using current working directory as default.";
     private static final Path EMPTY_PATH = Paths.get("");
 
     private static ArgumentParser getArgumentParser() {
@@ -163,6 +165,9 @@ public class ArgsParser {
                         isAutomaticallyLaunching, isStandaloneConfigIgnored);
             }
 
+            if (configFolderPath.equals(EMPTY_PATH)) {
+                logger.info(MESSAGE_USING_DEFAULT_CONFIG_PATH);
+            }
             return new ConfigCliArguments(
                     configFolderPath, outputFolderPath, sinceDate, untilDate, formats, isAutomaticallyLaunching);
         } catch (ArgumentParserException ape) {
