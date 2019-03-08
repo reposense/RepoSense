@@ -150,6 +150,7 @@ public class ArgsParser {
             List<String> locations = results.get(REPO_FLAGS[0]);
             List<Format> formats = Format.convertStringsToFormats(results.get(FORMAT_FLAGS[0]));
             boolean isStandaloneConfigIgnored = results.get(IGNORE_FLAGS[0]);
+
             verifyDatesRangeIsCorrect(sinceDate, untilDate);
 
             if (reportFolderPath != null && !reportFolderPath.equals(EMPTY_PATH) && configFolderPath.equals(EMPTY_PATH)
