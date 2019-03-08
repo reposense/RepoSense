@@ -10,8 +10,8 @@ import org.junit.Test;
 
 import reposense.authorship.model.FileInfo;
 import reposense.authorship.model.FileResult;
-import reposense.git.exception.CommitNotFoundException;
 import reposense.git.GitCheckout;
+import reposense.git.exception.CommitNotFoundException;
 import reposense.model.Author;
 import reposense.model.CommitHash;
 import reposense.template.GitTestTemplate;

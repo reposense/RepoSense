@@ -9,8 +9,8 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.logging.Logger;
 
-import reposense.git.exception.BranchNotFoundException;
 import reposense.git.GitBranch;
+import reposense.git.exception.BranchNotFoundException;
 import reposense.system.LogsManager;
 import reposense.util.FileUtil;
 
