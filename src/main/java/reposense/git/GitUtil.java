@@ -101,34 +101,34 @@ class GitUtil {
      * Returns true if the {@code String} path is inside the current repository
      */
     static boolean pathExistsInRepo(File repoRoot, String path) {
-        try {
-            if (path.contains("/*")) {
-                path = path.substring(0, path.indexOf(("/*")));
-            } else if (path.contains("*")) {
-                return true;
-            }
-            return !childIsOutsideRepo(repoRoot, new File(repoRoot, path));
-        } catch (IOException ex) {
-            logger.log(Level.WARNING,
-                    "File in ignore glob list cannot be accessed.", ex);
-            return false;
+        if (path.contains("/*")) {
+            path = path.substring(0, path.indexOf(("/*")));
+        } else if (path.contains("*")) { // not in directories
+            return true;
         }
+        return !childIsOutsideRepo(repoRoot, new File(repoRoot, path));
     }
 
     /**
      * Returns true if the child path is outside repository folder
      * @throws IOException if file system queries are needed
      */
-    static boolean childIsOutsideRepo(File repoRoot, File child) throws IOException {
-        repoRoot = repoRoot.getCanonicalFile();
-        child = child.getCanonicalFile();
+    static boolean childIsOutsideRepo(File repoRoot, File child) {
+        try {
+            repoRoot = repoRoot.getCanonicalFile();
+            child = child.getCanonicalFile();
 
-        File parentFile = repoRoot;
-        while (parentFile != null) {
-            if (child.equals(parentFile)) {
-                return true;
+            File parentFile = repoRoot;
+            while (parentFile != null) {
+                if (child.equals(parentFile)) {
+                    return true;
+                }
+                parentFile = parentFile.getParentFile();
             }
-            parentFile = parentFile.getParentFile();
+        } catch (IOException ex) {
+            logger.log(Level.WARNING,
+                    "File/Directory in ignore glob list cannot be accessed.", ex);
+            return true;
         }
         return false;
     }
