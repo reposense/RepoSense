@@ -66,6 +66,13 @@ public class RepoCloner {
     }
 
     /**
+     * Cleans up after all repos have been cloned and analyzed
+     */
+    public void cleanup() {
+        deleteDirectory(FileUtil.REPOS_ADDRESS);
+    }
+
+    /**
      * Returns true if current repo is different from the previously cloned repo.
      */
     private boolean isPreviousRepoDifferent() {
@@ -115,7 +122,7 @@ public class RepoCloner {
         }
     }
 
-    public void deleteDirectory(String root) {
+    private void deleteDirectory(String root) {
         try {
             FileUtil.deleteDirectory(root);
         } catch (IOException ioe) {

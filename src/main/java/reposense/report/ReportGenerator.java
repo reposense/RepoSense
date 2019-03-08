@@ -71,7 +71,7 @@ public class ReportGenerator {
         if (clonedRepo != null) {
             analyzeRepo(outputPath, clonedRepo);
         }
-        repoCloner.deleteDirectory(FileUtil.REPOS_ADDRESS);
+        repoCloner.cleanup();
     }
 
     /**
