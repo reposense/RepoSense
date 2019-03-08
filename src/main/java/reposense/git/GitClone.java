@@ -103,7 +103,7 @@ public class GitClone {
 
         try {
             repoConfig.updateBranch();
-        } catch (RuntimeException | BranchNotFoundException e) {
+        } catch (BranchNotFoundException e) {
             logger.log(Level.SEVERE, "Branch does not exist! Analysis terminated.", e);
             throw new GitCloneException(e);
         }
