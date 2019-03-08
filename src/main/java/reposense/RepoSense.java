@@ -9,6 +9,7 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import net.sourceforge.argparse4j.helper.HelpScreenException;
 import reposense.model.AuthorConfiguration;
 import reposense.model.CliArguments;
 import reposense.model.ConfigCliArguments;
@@ -62,6 +63,8 @@ public class RepoSense {
             logger.log(Level.WARNING, ioe.getMessage(), ioe);
         } catch (ParseException pe) {
             logger.log(Level.WARNING, pe.getMessage(), pe);
+        } catch (HelpScreenException e) {
+            // help message was printed by the ArgumentParser and it is safe to exit.
         }
     }
 

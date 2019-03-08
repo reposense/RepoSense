@@ -8,6 +8,7 @@ import java.util.Optional;
 import java.util.logging.Logger;
 
 import net.sourceforge.argparse4j.ArgumentParsers;
+import net.sourceforge.argparse4j.helper.HelpScreenException;
 import net.sourceforge.argparse4j.impl.Arguments;
 import net.sourceforge.argparse4j.impl.action.HelpArgumentAction;
 import net.sourceforge.argparse4j.inf.ArgumentParser;
@@ -131,9 +132,11 @@ public class ArgsParser {
     /**
      * Parses the given string arguments to a {@code CliArguments} object.
      *
+     * @throws HelpScreenException if given args contain the --help flag. Help message will be printed out
+     * by the {@code ArgumentParser} hence this is to signal to the caller that the program is safe to exit.
      * @throws ParseException if the given string arguments fails to parse to a {@code CliArguments} object.
      */
-    public static CliArguments parse(String[] args) throws ParseException {
+    public static CliArguments parse(String[] args) throws HelpScreenException, ParseException {
         try {
             ArgumentParser parser = getArgumentParser();
             Namespace results = parser.parseArgs(args);
@@ -146,7 +149,6 @@ public class ArgsParser {
             List<String> locations = results.get(REPO_FLAGS[0]);
             List<Format> formats = Format.convertStringsToFormats(results.get(FORMAT_FLAGS[0]));
             boolean isStandaloneConfigIgnored = results.get(IGNORE_FLAGS[0]);
-
             verifyDatesRangeIsCorrect(sinceDate, untilDate);
 
             if (reportFolderPath != null && !reportFolderPath.equals(EMPTY_PATH) && configFolderPath.equals(EMPTY_PATH)
@@ -170,7 +172,10 @@ public class ArgsParser {
             }
             return new ConfigCliArguments(
                     configFolderPath, outputFolderPath, sinceDate, untilDate, formats, isAutomaticallyLaunching);
-        } catch (ArgumentParserException ape) {
+        } catch (HelpScreenException hse) {
+            throw hse;
+        }
+        catch (ArgumentParserException ape) {
             throw new ParseException(getArgumentParser().formatUsage() + ape.getMessage() + "\n");
         }
     }
