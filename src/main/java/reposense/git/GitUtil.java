@@ -101,12 +101,13 @@ class GitUtil {
      * Returns true if the {@code String} path is inside the current repository
      */
     static boolean pathExistsInRepo(File repoRoot, String path) {
+        String validPath = path;
         if (path.contains("/*")) {
-            path = path.substring(0, path.indexOf(("/*")));
+            validPath = path.substring(0, path.indexOf(("/*")));
         } else if (path.contains("*")) { // not in directories
             return true;
         }
-        return !childIsOutsideRepo(repoRoot, new File(repoRoot, path));
+        return !childIsOutsideRepo(repoRoot, new File(repoRoot, validPath));
     }
 
     /**
