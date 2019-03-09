@@ -9,10 +9,6 @@ matrix:
         apt:
           packages:
             - oracle-java8-installer # Update to the latest version of JDK 8
-      script:
-        - sudo service ntp stop
-        - sudo date --set="02 March 2019 00:00:00"
-
 
     - name: macOS 10.13.6 JDK 8
       os: osx
@@ -25,8 +21,6 @@ matrix:
         - brew cask install caskroom/versions/java8 # Update to the latest version of JDK 8
         - export JAVA_HOME=`/usr/libexec/java_home -v 1.8`
         - echo "Downgraded JDK to:"; java -version
-      script:
-        - sudo date 0302000019
 
     - name: "Cypress frontend tests"
       os: linux

@@ -7,9 +7,6 @@
 build_script:
     - gradlew.bat --no-daemon clean checkstyleMain checkstyleTest
 
-before_test:
-    ps: set-date "03/02/2019 00:00:00 AM"
-
 test_script:
     - appveyor-retry gradlew.bat --no-daemon test systemTest
 

@@ -59,7 +59,7 @@ public class ConfigSystemTest {
     }
 
     private void generateReport() throws IOException, URISyntaxException, ParseException {
-        generateReport("");
+        generateReport("--until 02/03/2019");
     }
 
     private void generateReport(String inputDates) throws IOException, URISyntaxException, ParseException {
