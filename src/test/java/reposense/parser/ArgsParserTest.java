@@ -17,6 +17,7 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
+import net.sourceforge.argparse4j.helper.HelpScreenException;
 import reposense.RepoSense;
 import reposense.model.CliArguments;
 import reposense.model.ConfigCliArguments;
@@ -54,7 +55,7 @@ public class ArgsParserTest {
     }
 
     @Test
-    public void parse_allCorrectInputs_success() throws ParseException, IOException {
+    public void parse_allCorrectInputs_success() throws ParseException, IOException, HelpScreenException {
         String input = new InputBuilder().addConfig(CONFIG_FOLDER_ABSOLUTE)
                 .addOutput(OUTPUT_DIRECTORY_ABSOLUTE)
                 .addSinceDate("01/07/2017")
@@ -84,8 +85,14 @@ public class ArgsParserTest {
         Assert.assertTrue(cliArguments.isAutomaticallyLaunching());
     }
 
+    @Test(expected = HelpScreenException.class)
+    public void parse_help_throwsHelpScreenException() throws HelpScreenException, ParseException {
+        String input = "--help";
+        ArgsParser.parse(translateCommandline(input));
+    }
+
     @Test
-    public void parse_allCorrectInputsAlias_success() throws ParseException, IOException {
+    public void parse_allCorrectInputsAlias_success() throws ParseException, IOException, HelpScreenException {
         String input = String.format("-c %s -o %s -s 01/07/2017 -u 30/11/2017 -f java adoc html css js -i -v",
                 CONFIG_FOLDER_ABSOLUTE, OUTPUT_DIRECTORY_ABSOLUTE);
         CliArguments cliArguments = ArgsParser.parse(translateCommandline(input));
@@ -110,7 +117,7 @@ public class ArgsParserTest {
     }
 
     @Test
-    public void parse_withExtraWhitespaces_success() throws ParseException, IOException {
+    public void parse_withExtraWhitespaces_success() throws ParseException, IOException, HelpScreenException {
         String input = new InputBuilder().addConfig(CONFIG_FOLDER_ABSOLUTE).addWhiteSpace(5)
                 .addOutput(OUTPUT_DIRECTORY_ABSOLUTE).addWhiteSpace(4)
                 .addSinceDate("01/07/2017").addWhiteSpace(3)
@@ -141,7 +148,7 @@ public class ArgsParserTest {
     }
 
     @Test
-    public void parse_configFolderOnly_success() throws ParseException, IOException {
+    public void parse_configFolderOnly_success() throws ParseException, IOException, HelpScreenException {
         String input = new InputBuilder().addConfig(CONFIG_FOLDER_ABSOLUTE).build();
         CliArguments cliArguments = ArgsParser.parse(translateCommandline(input));
         Assert.assertTrue(cliArguments instanceof ConfigCliArguments);
@@ -172,7 +179,7 @@ public class ArgsParserTest {
     }
 
     @Test
-    public void parse_viewOnly_success() throws ParseException, IOException {
+    public void parse_viewOnly_success() throws ParseException, IOException, HelpScreenException {
         String input = new InputBuilder().addView(OUTPUT_DIRECTORY_ABSOLUTE).build();
         CliArguments cliArguments = ArgsParser.parse(translateCommandline(input));
         Assert.assertTrue(cliArguments instanceof ViewCliArguments);
@@ -181,7 +188,7 @@ public class ArgsParserTest {
     }
 
     @Test
-    public void parse_withIgnore_success() throws ParseException {
+    public void parse_withIgnore_success() throws ParseException, HelpScreenException {
         String input = new InputBuilder().addRepos(TEST_REPO_REPOSENSE, TEST_REPO_DELTA)
                 .addIgnoreStandaloneConfig()
                 .build();
@@ -202,7 +209,7 @@ public class ArgsParserTest {
     }
 
     @Test
-    public void parse_withoutIgnore_success() throws ParseException {
+    public void parse_withoutIgnore_success() throws ParseException, HelpScreenException {
         String input = new InputBuilder().addRepos(TEST_REPO_REPOSENSE, TEST_REPO_DELTA).build();
         CliArguments cliArguments = ArgsParser.parse(translateCommandline(input));
 
@@ -211,7 +218,7 @@ public class ArgsParserTest {
     }
 
     @Test
-    public void parse_viewOnlyWithoutArgs_returnsConfigCliArguments() throws ParseException {
+    public void parse_viewOnlyWithoutArgs_returnsConfigCliArguments() throws ParseException, HelpScreenException {
         String input = new InputBuilder().addView().build();
         CliArguments cliArguments = ArgsParser.parse(translateCommandline(input));
 
@@ -222,7 +229,7 @@ public class ArgsParserTest {
     }
 
     @Test
-    public void parse_configFolderAndOutputDirectory_success() throws ParseException, IOException {
+    public void parse_configFolderAndOutputDirectory_success() throws ParseException, IOException, HelpScreenException {
         Path expectedRelativeOutputDirectoryPath = OUTPUT_DIRECTORY_RELATIVE.resolve(ArgsParser.DEFAULT_REPORT_NAME);
         Path expectedAbsoluteOutputDirectoryPath = OUTPUT_DIRECTORY_ABSOLUTE.resolve(ArgsParser.DEFAULT_REPORT_NAME);
 
@@ -250,7 +257,8 @@ public class ArgsParserTest {
     }
 
     @Test
-    public void parse_configFolderAndViewWithouthArgs_returnsConfigCliArguments() throws ParseException, IOException {
+    public void parse_configFolderAndViewWithouthArgs_returnsConfigCliArguments()
+            throws ParseException, IOException, HelpScreenException {
         String input = new InputBuilder().addConfig(CONFIG_FOLDER_ABSOLUTE)
                 .addView()
                 .build();
@@ -277,7 +285,8 @@ public class ArgsParserTest {
     }
 
     @Test
-    public void parse_configFolderAndViewWithArgs_returnsConfigCliArguments() throws ParseException, IOException {
+    public void parse_configFolderAndViewWithArgs_returnsConfigCliArguments()
+            throws ParseException, IOException, HelpScreenException {
         String input = new InputBuilder().addConfig(CONFIG_FOLDER_ABSOLUTE)
                 .addView(OUTPUT_DIRECTORY_ABSOLUTE)
                 .build();
@@ -292,7 +301,7 @@ public class ArgsParserTest {
     }
 
     @Test
-    public void sinceDate_correctFormat_success() throws ParseException {
+    public void sinceDate_correctFormat_success() throws ParseException, HelpScreenException {
         String input = DEFAULT_INPUT_BUILDER.addSinceDate("01/07/2017").build();
         CliArguments cliArguments = ArgsParser.parse(translateCommandline(input));
         Assert.assertTrue(cliArguments instanceof ConfigCliArguments);
@@ -301,7 +310,7 @@ public class ArgsParserTest {
     }
 
     @Test
-    public void untilDate_correctFormat_success() throws ParseException {
+    public void untilDate_correctFormat_success() throws ParseException, HelpScreenException {
         String input = DEFAULT_INPUT_BUILDER.addUntilDate("30/11/2017").build();
         CliArguments cliArguments = ArgsParser.parse(translateCommandline(input));
         Assert.assertTrue(cliArguments instanceof ConfigCliArguments);
@@ -310,7 +319,7 @@ public class ArgsParserTest {
     }
 
     @Test
-    public void formats_inAlphanumeric_success() throws ParseException {
+    public void formats_inAlphanumeric_success() throws ParseException, HelpScreenException {
         String input = DEFAULT_INPUT_BUILDER.addFormats("java js css 7z").build();
         CliArguments cliArguments = ArgsParser.parse(translateCommandline(input));
         Assert.assertTrue(cliArguments instanceof ConfigCliArguments);
@@ -319,7 +328,8 @@ public class ArgsParserTest {
     }
 
     @Test
-    public void parse_validGitRepoLocations_repoConfigurationListCorrectSize() throws ParseException, IOException {
+    public void parse_validGitRepoLocations_repoConfigurationListCorrectSize()
+            throws ParseException, HelpScreenException {
         String input = new InputBuilder().addRepos(TEST_REPO_REPOSENSE, TEST_REPO_DELTA).build();
         CliArguments cliArguments = ArgsParser.parse(translateCommandline(input));
         Assert.assertTrue(cliArguments instanceof LocationsCliArguments);
@@ -328,7 +338,7 @@ public class ArgsParserTest {
     }
 
     @Test
-    public void parse_repoLocationsAndView_returnsLocationCliArguments() throws ParseException {
+    public void parse_repoLocationsAndView_returnsLocationCliArguments() throws ParseException, HelpScreenException {
         String input = new InputBuilder().addRepos(TEST_REPO_REPOSENSE, TEST_REPO_DELTA)
                 .addView()
                 .build();
@@ -341,7 +351,7 @@ public class ArgsParserTest {
     }
 
     @Test
-    public void parse_repoLocationsOnly_success() throws ParseException {
+    public void parse_repoLocationsOnly_success() throws ParseException, HelpScreenException {
         String input = new InputBuilder().addRepos(TEST_REPO_REPOSENSE, TEST_REPO_DELTA).build();
         CliArguments cliArguments = ArgsParser.parse(translateCommandline(input));
 
@@ -352,7 +362,8 @@ public class ArgsParserTest {
     }
 
     @Test
-    public void parse_repoLocationsAndViewWithArgs_returnsLocationsCliArguments() throws ParseException {
+    public void parse_repoLocationsAndViewWithArgs_returnsLocationsCliArguments()
+            throws ParseException, HelpScreenException {
         String input = new InputBuilder().addRepos(TEST_REPO_REPOSENSE, TEST_REPO_DELTA)
                 .addView(OUTPUT_DIRECTORY_ABSOLUTE)
                 .build();
@@ -365,7 +376,7 @@ public class ArgsParserTest {
     }
 
     @Test
-    public void parse_viewWithArgCwd_returnsViewCliArguments() throws ParseException {
+    public void parse_viewWithArgCwd_returnsViewCliArguments() throws ParseException, HelpScreenException {
         String input = new InputBuilder().addView(new File(".").toPath()).build();
         CliArguments cliArguments = ArgsParser.parse(translateCommandline(input));
 
@@ -373,7 +384,7 @@ public class ArgsParserTest {
     }
 
     @Test
-    public void parse_configOrLocationsSimilar_success() throws ParseException, IOException {
+    public void parse_configOrLocationsSimilar_success() throws ParseException, IOException, HelpScreenException {
         String input = new InputBuilder().addConfig(CONFIG_FOLDER_ABSOLUTE).build();
         CliArguments configCliArguments = ArgsParser.parse(translateCommandline(input));
         Assert.assertTrue(configCliArguments instanceof ConfigCliArguments);
@@ -390,7 +401,7 @@ public class ArgsParserTest {
     }
 
     @Test
-    public void emptyArgs_defaultConfigFolderPath() throws ParseException, IOException {
+    public void emptyArgs_defaultConfigFolderPath() throws ParseException, HelpScreenException {
         CliArguments cliArguments = ArgsParser.parse(new String[]{});
         Assert.assertTrue(cliArguments instanceof ConfigCliArguments);
         Assert.assertEquals(PROJECT_DIRECTORY.toString(), (
@@ -398,7 +409,7 @@ public class ArgsParserTest {
     }
 
     @Test
-    public void parse_repoAliases_sameResult() throws ParseException, IOException {
+    public void parse_repoAliases_sameResult() throws ParseException, HelpScreenException {
         String input = new InputBuilder().addRepos(TEST_REPO_BETA).build();
         CliArguments repoAliasCliArguments = ArgsParser.parse(translateCommandline(input));
 
@@ -409,7 +420,8 @@ public class ArgsParserTest {
     }
 
     @Test
-    public void parse_invalidRepoLocation_emptyRepoConfigurationList() throws ParseException, IOException {
+    public void parse_invalidRepoLocation_emptyRepoConfigurationList()
+            throws ParseException, HelpScreenException {
         String input = new InputBuilder().addRepos("https://githubaaaa.com/asdasdasdasd/RepoSense").build();
         CliArguments cliArguments = ArgsParser.parse(translateCommandline(input));
         Assert.assertTrue(cliArguments instanceof LocationsCliArguments);
@@ -418,40 +430,42 @@ public class ArgsParserTest {
     }
 
     @Test(expected = ParseException.class)
-    public void absoluteConfigFolder_withoutRequiredConfigFiles_throwsParseException() throws ParseException {
+    public void absoluteConfigFolder_withoutRequiredConfigFiles_throwsParseException()
+            throws ParseException, HelpScreenException {
         Path absDirectory = PROJECT_DIRECTORY.getParent().toAbsolutePath();
         String input = new InputBuilder().addConfig(absDirectory).build();
         ArgsParser.parse(translateCommandline(input));
     }
 
     @Test(expected = ParseException.class)
-    public void relativeConfigFolder_withoutRequiredConfigFiles_throwsParseException() throws ParseException {
+    public void relativeConfigFolder_withoutRequiredConfigFiles_throwsParseException()
+            throws ParseException, HelpScreenException {
         Path relDirectory = PROJECT_DIRECTORY.getParent();
         String input = new InputBuilder().addConfig(relDirectory).build();
         ArgsParser.parse(translateCommandline(input));
     }
 
     @Test(expected = ParseException.class)
-    public void parse_notExistsConfigFolder_throwsParseException() throws ParseException {
+    public void parse_notExistsConfigFolder_throwsParseException() throws ParseException, HelpScreenException {
         Path absConfigFolder = PROJECT_DIRECTORY.resolve("non_existing_random_folder");
         String input = new InputBuilder().addConfig(absConfigFolder).build();
         ArgsParser.parse(translateCommandline(input));
     }
 
     @Test(expected = ParseException.class)
-    public void parse_configCsvFileAsConfigFolder_throwsParseException() throws ParseException {
+    public void parse_configCsvFileAsConfigFolder_throwsParseException() throws ParseException, HelpScreenException {
         String input = new InputBuilder().addConfig(REPO_CONFIG_CSV_FILE).build();
         ArgsParser.parse(translateCommandline(input));
     }
 
     @Test(expected = ParseException.class)
-    public void parse_missingConfigValue_throwsParseException() throws ParseException {
+    public void parse_missingConfigValue_throwsParseException() throws ParseException, HelpScreenException {
         String input = new InputBuilder().addConfig(new File("").toPath()).build();
         ArgsParser.parse(translateCommandline(input));
     }
 
     @Test
-    public void outputPath_nonExistentDirectory_success() throws ParseException, IOException {
+    public void outputPath_nonExistentDirectory_success() throws ParseException, IOException, HelpScreenException {
         Path nonExistentDirectory = PROJECT_DIRECTORY.resolve("some_non_existent_dir/");
         Path expectedRelativeOutputDirectoryPath = nonExistentDirectory.resolve(ArgsParser.DEFAULT_REPORT_NAME);
         String input = new InputBuilder().addOutput(nonExistentDirectory).build();
@@ -462,19 +476,19 @@ public class ArgsParserTest {
     }
 
     @Test(expected = ParseException.class)
-    public void sinceDate_unsupportedFormats_throwsParseException() throws ParseException {
+    public void sinceDate_unsupportedFormats_throwsParseException() throws ParseException, HelpScreenException {
         String input = DEFAULT_INPUT_BUILDER.addSinceDate("01 July 17").build();
         ArgsParser.parse(translateCommandline(input));
     }
 
     @Test(expected = ParseException.class)
-    public void untilDate_unsupportedFormats_throwsParseException() throws ParseException {
+    public void untilDate_unsupportedFormats_throwsParseException() throws ParseException, HelpScreenException {
         String input = DEFAULT_INPUT_BUILDER.addUntilDate("11/31/2017").build();
         ArgsParser.parse(translateCommandline(input));
     }
 
     @Test(expected = ParseException.class)
-    public void sinceDate_laterThanUntilDate_throwsParseException() throws ParseException {
+    public void sinceDate_laterThanUntilDate_throwsParseException() throws ParseException, HelpScreenException {
         String input = DEFAULT_INPUT_BUILDER.addSinceDate("01/12/2017")
                 .addUntilDate("30/11/2017")
                 .build();
@@ -482,13 +496,14 @@ public class ArgsParserTest {
     }
 
     @Test(expected = ParseException.class)
-    public void formats_notInAlphanumeric_throwsParseException() throws ParseException {
+    public void formats_notInAlphanumeric_throwsParseException() throws ParseException, HelpScreenException {
         String input = DEFAULT_INPUT_BUILDER.addFormats(".java").build();
         ArgsParser.parse(translateCommandline(input));
     }
 
     @Test(expected = ParseException.class)
-    public void parse_mutuallyExclusiveArgumentsConfigAndReposTogether_throwsParseException() throws ParseException {
+    public void parse_mutuallyExclusiveArgumentsConfigAndReposTogether_throwsParseException()
+            throws ParseException, HelpScreenException {
         String input = new InputBuilder().addConfig(CONFIG_FOLDER_ABSOLUTE)
                 .addRepos(TEST_REPO_REPOSENSE)
                 .build();
@@ -496,7 +511,7 @@ public class ArgsParserTest {
     }
 
     @Test(expected = ParseException.class)
-    public void parse_extraArgumentForIgnore_throwsParseException() throws ParseException {
+    public void parse_extraArgumentForIgnore_throwsParseException() throws ParseException, HelpScreenException {
         String input = DEFAULT_INPUT_BUILDER.addIgnoreStandaloneConfig().add("true").build();
         ArgsParser.parse(translateCommandline(input));
     }

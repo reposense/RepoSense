@@ -45,7 +45,7 @@ public class ReportServer {
      */
     private static void launchBrowser(String url) throws IOException {
         try {
-            if (Desktop.isDesktopSupported()) {
+            if (Desktop.isDesktopSupported() && Desktop.getDesktop().isSupported(Desktop.Action.BROWSE)) {
                 Desktop.getDesktop().browse(new URI(url));
                 logger.info("Loading " + url + " on the default browser...");
             } else {

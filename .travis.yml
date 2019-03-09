@@ -2,20 +2,46 @@ language: java
 
 matrix:
   include:
-    - name: Ubuntu 14.04 JDK 9
+    - name: Ubuntu 14.04 JDK 8
       os: linux
-      jdk: oraclejdk9
+      jdk: oraclejdk8
+      addons:
+        apt:
+          packages:
+            - oracle-java8-installer # Update to the latest version of JDK 8
 
-    - name: macOS 10.13.6 JDK 11.01
+    - name: macOS 10.13.6 JDK 8
       os: osx
       osx_image: xcode10.1
+      env:
+        - HOMEBREW_NO_AUTO_UPDATE=1 # Prevent time-consuming brew update
+      before_install:
+        - *common_before_install
+        - brew install cask
+        - brew cask install caskroom/versions/java8 # Update to the latest version of JDK 8
+        - export JAVA_HOME=`/usr/libexec/java_home -v 1.8`
+        - echo "Downgraded JDK to:"; java -version
+
+    - name: "Cypress frontend tests"
+      os: linux
+      dist: xenial
+      addons:
+        chrome: stable
+      services:
+        - xvfb
+      before_install:
+        - *common_before_install
+        - sudo apt-get install -y libgtk2.0-0 libnotify-dev libgconf-2-4 libnss3 libxss1 libasound2
+      script:
+        - ./gradlew frontendTest -Pci
 
 script:
   - ./config/travis/run-checks.sh
   - npm run lint frontend/src/**/*.js
+  - npm run lint frontend/cypress/**.js
   - time travis_retry ./gradlew clean checkstyleMain checkstyleTest test systemTest
 
-before_install:
+before_install: &common_before_install
   - npm install --only=dev
 
 before_cache:
@@ -23,6 +49,9 @@ before_cache:
   - rm -fr $HOME/.gradle/caches/*/plugin-resolution/
 
 cache:
+  npm: true,
   directories:
     - $HOME/.gradle/caches/
     - $HOME/.gradle/wrapper/
+    - $HOME/Library/Caches/Homebrew
+    - $HOME/.cache

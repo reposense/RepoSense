@@ -77,13 +77,13 @@ window.vSummary = {
       this.getFiltered();
     },
     tmpFilterSinceDate() {
-      if (this.tmpFilterSinceDate >= this.minDate) {
+      if (this.tmpFilterSinceDate && this.tmpFilterSinceDate >= this.minDate) {
         this.filterSinceDate = this.tmpFilterSinceDate;
         this.getFiltered();
       }
     },
     tmpFilterUntilDate() {
-      if (this.tmpFilterUntilDate <= this.maxDate) {
+      if (this.tmpFilterUntilDate && this.tmpFilterUntilDate <= this.maxDate) {
         this.filterUntilDate = this.tmpFilterUntilDate;
         this.getFiltered();
       }
@@ -118,6 +118,9 @@ window.vSummary = {
       });
 
       return totalLines / totalCount;
+    },
+    filteredRepos() {
+      return this.filtered.filter((repo) => repo.length > 0);
     },
   },
   methods: {
@@ -166,8 +169,8 @@ window.vSummary = {
     updateFilterSearch(evt) {
       this.filterSearch = evt.target.value;
     },
-    getFilterHash() {
-      const { addHash } = window;
+    setSummaryHash() {
+      const { addHash, encodeHash } = window;
 
       addHash('search', this.filterSearch);
       addHash('sort', this.filterSort);
@@ -178,15 +181,11 @@ window.vSummary = {
 
       addHash('reverse', this.filterSortReverse);
       addHash('repoSort', this.filterGroupRepos);
+
+      encodeHash();
     },
     renderFilterHash() {
-      const params = window.location.hash.slice(1).split('&');
-      params.forEach((param) => {
-        const [key, val] = param.split('=');
-        if (key) {
-          window.hashParams[key] = decodeURIComponent(val);
-        }
-      });
+      window.decodeHash();
 
       const convertBool = (txt) => (txt === 'true');
       const hash = window.hashParams;
@@ -248,7 +247,7 @@ window.vSummary = {
       }
     },
     getFiltered() {
-      this.getFilterHash();
+      this.setSummaryHash();
 
       // array of array, sorted by repo
       const full = [];
