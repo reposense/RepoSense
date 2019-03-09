@@ -115,12 +115,12 @@ class GitUtil {
      */
     static boolean childIsOutsideRepo(File repoRoot, File child) {
         try {
-            repoRoot = repoRoot.getCanonicalFile();
-            child = child.getCanonicalFile();
+            File canonicalRoot = repoRoot.getCanonicalFile();
+            File canonicalChild = child.getCanonicalFile();
 
-            File parentFile = repoRoot;
+            File parentFile = canonicalRoot;
             while (parentFile != null) {
-                if (child.equals(parentFile)) {
+                if (canonicalChild.equals(parentFile)) {
                     return true;
                 }
                 parentFile = parentFile.getParentFile();
