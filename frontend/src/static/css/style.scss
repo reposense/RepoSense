@@ -286,7 +286,8 @@ header{
 
             .radio-button--checkbox{
                 float:left;
-                margin:0.25rem 2.0rem 0rem -3rem;
+                margin:0.3rem 2.0rem 0rem -3rem;
+                vertical-align:middle;
             }
 
             #search{
@@ -328,6 +329,7 @@ header{
             }
 
             .mui-checkbox--filetype {
+                margin-top:0.1rem;
                 vertical-align:middle;
             }
 
