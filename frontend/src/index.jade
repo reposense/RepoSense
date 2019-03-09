@@ -137,8 +137,8 @@ html
                         v-bind:style="{\
                             zIndex: user.commits.length - j,\
                             borderLeftWidth: getWidth(commit) + 'em',\
-                            right: ((getSlicePos(j, user.commits.length)\
-                                + (getSlicePos(k, slice.commitResults.length) / user.commits.length)) * 100) + '%'\
+                            right: ((getSlicePos(slice.date, filterSinceDate, filterUntilDate)\
+                                + (getCommitPos(k, slice.commitResults.length) / getTotalForPos(filterSinceDate, filterUntilDate))) * 100) + '%'\
                         }"
                       )
 
@@ -152,7 +152,7 @@ html
                     v-bind:style="{\
                       zIndex: user.commits.length - j,\
                       borderLeftWidth: getWidth(slice) + 'em',\
-                      right: (getSlicePos(j, user.commits.length) * 100) + '%'\
+                      right: (getSlicePos(slice.date, filterSinceDate, filterUntilDate) * 100) + '%'\
                     }"
                   )
               .summary-chart__contrib(

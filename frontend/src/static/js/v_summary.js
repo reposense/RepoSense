@@ -133,8 +133,20 @@ window.vSummary = {
       const newSize = 100 * (slice.insertions / this.avgCommitSize);
       return Math.max(newSize * this.rampSize, 0.5);
     },
-    getSlicePos(i, total) {
+    getCommitPos(i, total) {
       return (total - i - 1) / total;
+    },
+    getSlicePos(date, sinceDate, untilDate) {
+      const timeMS = (new Date(date)).getTime();
+      const untilMS = (new Date(untilDate)).getTime();
+      const total = this.getTotalForPos(sinceDate, untilDate);
+      return (untilMS - timeMS - 86400000) / total; // A day has 86400000 MS
+    },
+    getTotalForPos(sinceDate, untilDate) {
+      const sinceMS = (new Date(sinceDate)).getTime();
+      const untilMS = (new Date(untilDate)).getTime();
+      const total = untilMS - sinceMS;
+      return total;
     },
     getSliceLink(user, slice) {
       const { REPOS } = window;
