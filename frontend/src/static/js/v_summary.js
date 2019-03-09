@@ -77,13 +77,13 @@ window.vSummary = {
       this.getFiltered();
     },
     tmpFilterSinceDate() {
-      if (this.tmpFilterSinceDate >= this.minDate) {
+      if (this.tmpFilterSinceDate && this.tmpFilterSinceDate >= this.minDate) {
         this.filterSinceDate = this.tmpFilterSinceDate;
         this.getFiltered();
       }
     },
     tmpFilterUntilDate() {
-      if (this.tmpFilterUntilDate <= this.maxDate) {
+      if (this.tmpFilterUntilDate && this.tmpFilterUntilDate <= this.maxDate) {
         this.filterUntilDate = this.tmpFilterUntilDate;
         this.getFiltered();
       }
