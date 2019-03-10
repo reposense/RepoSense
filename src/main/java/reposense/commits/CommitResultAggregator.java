@@ -70,15 +70,13 @@ public class CommitResultAggregator {
         Map<Author, List<AuthorDailyContribution>> authorDailyContributionsMap = new HashMap<>();
         authorSet.forEach(author -> authorDailyContributionsMap.put(author, new ArrayList<>()));
 
-        Date currentDate = getStartOfDate(startDate);
-        Date nextDate = getNextDayDate(currentDate);
-        addDailyContributionForNewDate(authorDailyContributionsMap, currentDate);
-
+        Date previousDate = null;
         for (CommitResult commitResult : commitResults) {
-            while (nextDate.before(commitResult.getTime())) {
-                currentDate = new Date(nextDate.getTime());
-                nextDate = getNextDayDate(nextDate);
-                addDailyContributionForNewDate(authorDailyContributionsMap, currentDate);
+            Date commitDateByMidnight = getCommitDateAtMidnight(commitResult.getTime());
+
+            if (!commitDateByMidnight.equals(previousDate)) {
+                previousDate = new Date(commitDateByMidnight.getTime());
+                addDailyContributionForNewDate(authorDailyContributionsMap, commitDateByMidnight);
             }
 
             List<AuthorDailyContribution> authorContributions =
@@ -105,10 +103,12 @@ public class CommitResultAggregator {
         return cal.getTime();
     }
 
-    private static Date getNextDayDate(Date current) {
+    private static Date getCommitDateAtMidnight(Date commitDate) {
         Calendar c = Calendar.getInstance();
-        c.setTime(current);
-        c.add(Calendar.DATE, 1);
+        c.setTime(commitDate);
+        c.set(Calendar.HOUR_OF_DAY, 0);
+        c.set(Calendar.MINUTE, 0);
+        c.set(Calendar.SECOND, 0);
         return c.getTime();
     }
 
