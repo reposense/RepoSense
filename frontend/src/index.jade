@@ -173,10 +173,11 @@ html
           ) {{ info.repo }}
           .author {{ info.name }} ({{ info.author }}) contribution from {{ info.minDate }} to {{ info.maxDate }}
           .contribution(v-if="isLoaded && files.length!=0")
-            input.radio-button--search(type="radio", name="filter", value="search", v-on:click="enableSearchBar()")
-            form.file-picker.mui-form--inline(onsubmit="return false")
-              input#search(type="search", placeholder="Filter by glob", v-on:change="updateFilterSearch", disabled)
-              button#submit-button(type="submit", disabled) Filter
+            .searchbox
+              input.radio-button--search(type="radio", name="filter", value="search", v-on:click="enableSearchBar()")
+              form.file-picker.mui-form--inline(onsubmit="return false")
+                input#search(type="search", placeholder="Filter by glob", v-on:change="updateFilterSearch", disabled)
+                button#submit-button(type="submit", disabled) Filter
             .filetype
               input.radio-button--checkbox(type="radio", name="filter", value="checkboxes", v-on:click="enableCheckBoxes()",
                   checked)
