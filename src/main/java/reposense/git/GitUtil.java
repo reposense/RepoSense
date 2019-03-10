@@ -113,22 +113,24 @@ class GitUtil {
     /**
      * Returns true if the child path is outside repository folder
      * @throws IOException if file system queries are needed
+     * @throws SecurityException if file permission rights are needed
      */
     static boolean childIsOutsideRepo(File repoRoot, File child) {
         try {
-            File canonicalRoot = repoRoot.getCanonicalFile();
-            File canonicalChild = child.getCanonicalFile();
+            File rootFile = repoRoot.getCanonicalFile();
+            File childFile = child.getCanonicalFile();
 
-            File parentFile = canonicalRoot;
-            while (parentFile != null) {
-                if (canonicalChild.equals(parentFile)) {
+            while (rootFile != null) {
+                if (childFile.equals(rootFile)) {
                     return true;
                 }
-                parentFile = parentFile.getParentFile();
+                rootFile = rootFile.getParentFile();
             }
         } catch (IOException ex) {
-            logger.log(Level.WARNING,
-                    "File/Directory in ignore glob list cannot be accessed.", ex);
+            logger.log(Level.WARNING, "File system queries are needed.", ex);
+            return true;
+        } catch (SecurityException ex) {
+            logger.log(Level.WARNING, "File cannot be accessed.", ex);
             return true;
         }
         return false;
