@@ -99,8 +99,8 @@ window.app = new window.Vue({
 
     isLoading: false,
     isCollapsed: false,
-
     isTabActive: true, // to force tab wrapper to load
+
     tabType: 'empty',
     tabInfo: {},
     creationDate: '',
