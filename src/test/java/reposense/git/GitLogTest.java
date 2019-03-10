@@ -78,22 +78,42 @@ public class GitLogTest extends GitTestTemplate {
     }
 
     @Test
-    public void gitLog_authorIgnoreInvalidFilePath_success() {
+    public void gitLog_authorIgnoreValidFilePath_success() {
         config.setFormats(Collections.singletonList(new Format("java")));
-        Author ignoreInvalidFileAuthor = getAlphaAllAliasAuthor();
-        ignoreInvalidFileAuthor.setIgnoreGlobList(Collections.singletonList("**collate"));
+        Author ignoreValidFileAuthor = getAlphaAllAliasAuthor();
 
-        String content = GitLog.get(config, ignoreInvalidFileAuthor);
+        ignoreValidFileAuthor.setIgnoreGlobList(Collections.singletonList("**collate"));
+        String content = GitLog.get(config, ignoreValidFileAuthor);
+        Assert.assertTrue(TestUtil.compareNumberExpectedCommitsToGitLogLines(8, content));
+
+        ignoreValidFileAuthor.setIgnoreGlobList(Collections.singletonList("collate*"));
+        content = GitLog.get(config, ignoreValidFileAuthor);
+        Assert.assertTrue(TestUtil.compareNumberExpectedCommitsToGitLogLines(8, content));
+
+        ignoreValidFileAuthor.setIgnoreGlobList(Collections.singletonList("collate.md"));
+        content = GitLog.get(config, ignoreValidFileAuthor);
         Assert.assertTrue(TestUtil.compareNumberExpectedCommitsToGitLogLines(8, content));
     }
 
     @Test
-    public void gitLog_authorIgnoreValidFilePath_success() {
+    public void gitLog_authorIgnoreInvalidFilePath_success() {
         config.setFormats(Collections.singletonList(new Format("java")));
-        Author ignoreValidFileAuthor = getAlphaAllAliasAuthor();
-        ignoreValidFileAuthor.setIgnoreGlobList(Collections.singletonList("../*.java"));
+        Author ignoreInvalidFileAuthor = getAlphaAllAliasAuthor();
 
-        String content = GitLog.get(config, ignoreValidFileAuthor);
+        ignoreInvalidFileAuthor.setIgnoreGlobList(Collections.singletonList("../bin"));
+        String content = GitLog.get(config, ignoreInvalidFileAuthor);
+        Assert.assertTrue(TestUtil.compareNumberExpectedCommitsToGitLogLines(8, content));
+
+        ignoreInvalidFileAuthor.setIgnoreGlobList(Collections.singletonList("../*.java"));
+        content = GitLog.get(config, ignoreInvalidFileAuthor);
+        Assert.assertTrue(TestUtil.compareNumberExpectedCommitsToGitLogLines(8, content));
+
+        ignoreInvalidFileAuthor.setIgnoreGlobList(Collections.singletonList("./java"));
+        content = GitLog.get(config, ignoreInvalidFileAuthor);
+        Assert.assertTrue(TestUtil.compareNumberExpectedCommitsToGitLogLines(8, content));
+
+        ignoreInvalidFileAuthor.setIgnoreGlobList(Collections.singletonList("/collate"));
+        content = GitLog.get(config, ignoreInvalidFileAuthor);
         Assert.assertTrue(TestUtil.compareNumberExpectedCommitsToGitLogLines(8, content));
     }
 
