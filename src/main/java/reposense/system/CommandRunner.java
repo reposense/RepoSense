@@ -50,7 +50,7 @@ public class CommandRunner {
             return outputGobbler.getValue();
         } else {
             String errorMessage = "Error returned from command ";
-            errorMessage += command + "on path ";
+            errorMessage += command + " on path ";
             errorMessage += path.toString() + " :\n" + errorGobbler.getValue();
             throw new RuntimeException(errorMessage);
         }

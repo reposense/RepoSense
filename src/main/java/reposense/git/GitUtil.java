@@ -90,7 +90,7 @@ class GitUtil {
         StringBuilder gitExcludeGlobArgsBuilder = new StringBuilder();
         final String cmdFormat = " " + addQuote(":(exclude)%s");
         ignoreGlobList.stream()
-                .filter(item -> !item.isEmpty() && pathExistsInRepo(root, item))
+                .filter(item -> !item.isEmpty() && isValidPath(root, item))
                 .map(ignoreGlob -> String.format(cmdFormat, ignoreGlob))
                 .forEach(gitExcludeGlobArgsBuilder::append);
 
@@ -100,9 +100,11 @@ class GitUtil {
     /**
      * Returns true if the {@code String} path is inside the current repository
      */
-    static boolean pathExistsInRepo(File repoRoot, String path) {
+    static boolean isValidPath(File repoRoot, String path) {
         String validPath = path;
-        if (path.contains("/*")) {
+        if (path.startsWith("/") || path.startsWith("\\")) {
+            return false;
+        } else if (path.contains("/*")) {
             validPath = path.substring(0, path.indexOf(("/*")));
         } else if (path.contains("*")) { // not in directories
             return true;
