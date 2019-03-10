@@ -107,32 +107,31 @@ class GitUtil {
         } else if (path.contains("*")) { // not in directories
             return true;
         }
-        return !childIsOutsideRepo(repoRoot, new File(repoRoot, validPath));
+        return childIsInsideRepo(repoRoot, new File(repoRoot, validPath));
     }
 
     /**
-     * Returns true if the child path is outside repository folder
+     * Returns true if the child path is inside repository folder
      * @throws IOException if file system queries are needed
      * @throws SecurityException if file permission rights are needed
      */
-    static boolean childIsOutsideRepo(File repoRoot, File child) {
+    static boolean childIsInsideRepo(File repoRoot, File child) {
         try {
             File rootFile = repoRoot.getCanonicalFile();
             File childFile = child.getCanonicalFile();
 
-            while (rootFile != null) {
+            while (childFile != null) {
                 if (childFile.equals(rootFile)) {
                     return true;
                 }
-                rootFile = rootFile.getParentFile();
+                childFile = childFile.getParentFile();
             }
         } catch (IOException ex) {
             logger.log(Level.WARNING, "File system queries are needed.", ex);
-            return true;
         } catch (SecurityException ex) {
             logger.log(Level.WARNING, "File cannot be accessed.", ex);
-            return true;
         }
+
         return false;
     }
 }
