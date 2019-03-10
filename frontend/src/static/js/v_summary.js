@@ -13,10 +13,7 @@ function comparator(fn) {
 
 // date functions //
 const DAY_IN_MS = (1000 * 60 * 60 * 24);
-function getIntervalDay(a, b) {
-  const diff = Date.parse(a) - Date.parse(b);
-  return diff / DAY_IN_MS;
-}
+const WEEK_IN_MS = DAY_IN_MS * 7;
 function getDateStr(date) {
   return (new Date(date)).toISOString().split('T')[0];
 }
@@ -133,14 +130,15 @@ window.vSummary = {
       const newSize = 100 * (slice.insertions / this.avgCommitSize);
       return Math.max(newSize * this.rampSize, 0.5);
     },
-    getCommitPos(i, total) {
-      return (total - i - 1) / total;
+    getCommitPos(i, total, sinceDate, untilDate) {
+      return (total - i - 1) / total * DAY_IN_MS /
+          (this.getTotalForPos(sinceDate, untilDate) + DAY_IN_MS);
     },
     getSlicePos(date, sinceDate, untilDate) {
       const timeMS = (new Date(date)).getTime();
       const untilMS = (new Date(untilDate)).getTime();
       const total = this.getTotalForPos(sinceDate, untilDate);
-      return (untilMS - timeMS - 86400000) / total; // A day has 86400000 MS
+      return (untilMS - timeMS) / (total + DAY_IN_MS);
     },
     getTotalForPos(sinceDate, untilDate) {
       const sinceMS = (new Date(sinceDate)).getTime();
@@ -291,22 +289,31 @@ window.vSummary = {
     },
     splitCommitsWeek(user) {
       const { commits } = user;
-      const leng = commits.length;
 
       const res = [];
-      for (let weekId = 0; weekId < (leng - 1) / 7; weekId += 1) {
+
+      const sinceDate = dateRounding(this.filterSinceDate, 1);
+      const untilDate = this.filterUntilDate;
+
+      const sinceMs = (new Date(sinceDate)).getTime();
+      const untilMs = (new Date(untilDate)).getTime();
+
+      const diff = Math.round(Math.abs((untilMs - sinceMs) / DAY_IN_MS));
+
+      for (let weekId = 0; weekId < diff / 7; weekId += 1) {
+        const startOfWeekMs = sinceMs + (weekId * WEEK_IN_MS);
+
         const week = {
           insertions: 0,
           deletions: 0,
-          date: commits[weekId * 7].date,
+          date: getDateStr(startOfWeekMs),
         };
 
-        for (let dayId = 0; dayId < 7; dayId += 1) {
-          const commit = commits[(weekId * 7) + dayId];
-          if (commit) {
-            week.insertions += commit.insertions;
-            week.deletions += commit.deletions;
-          }
+        while (commits.length > 0
+            && (new Date(commits[0].date)).getTime() < startOfWeekMs + WEEK_IN_MS) {
+          const commit = commits.shift();
+          week.insertions += commit.insertions;
+          week.deletions += commit.deletions;
         }
 
         res.push(week);
@@ -333,42 +340,12 @@ window.vSummary = {
         untilDate = userLast.date;
       }
 
-      if (this.filterTimeFrame === 'week') {
-        sinceDate = dateRounding(sinceDate, 1);
-      }
-      let diff = getIntervalDay(userFirst.date, sinceDate);
-
-      const startMs = (new Date(sinceDate)).getTime();
-      for (let dayId = 0; dayId < diff; dayId += 1) {
-        user.commits.push({
-          insertions: 0,
-          deletions: 0,
-          commitResults: [],
-          date: getDateStr(startMs + (dayId * DAY_IN_MS)),
-        });
-      }
-
       user.dailyCommits.forEach((commit) => {
         const { date } = commit;
         if (date >= sinceDate && date <= untilDate) {
           user.commits.push(commit);
         }
       });
-
-      if (this.filterTimeFrame === 'week') {
-        untilDate = dateRounding(untilDate);
-      }
-      diff = getIntervalDay(untilDate, userLast.date);
-
-      const endMs = (new Date(userLast.date)).getTime();
-      for (let paddingId = 1; paddingId < diff; paddingId += 1) {
-        user.commits.push({
-          insertions: 0,
-          deletions: 0,
-          commitResults: [],
-          date: getDateStr(endMs + (paddingId * DAY_IN_MS)),
-        });
-      }
 
       return null;
     },

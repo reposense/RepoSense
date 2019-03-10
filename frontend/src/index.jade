@@ -138,7 +138,7 @@ html
                             zIndex: user.commits.length - j,\
                             borderLeftWidth: getWidth(commit) + 'em',\
                             right: ((getSlicePos(slice.date, filterSinceDate, filterUntilDate)\
-                                + (getCommitPos(k, slice.commitResults.length) / getTotalForPos(filterSinceDate, filterUntilDate))) * 100) + '%'\
+                                + (getCommitPos(k, slice.commitResults.length, filterSinceDate, filterUntilDate))) * 100) + '%'\
                         }"
                       )
 
