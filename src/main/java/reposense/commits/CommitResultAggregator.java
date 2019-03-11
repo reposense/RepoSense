@@ -27,10 +27,10 @@ public class CommitResultAggregator {
         Date startDate = config.getSinceDate() == null ? getStartDate(commitResults) : config.getSinceDate();
 
         Map<Author, List<AuthorDailyContribution>> authorDailyContributionsMap =
-                getAuthorDailyContributionsMap(config.getAuthorDisplayNameMap().keySet(), commitResults, startDate);
+                getAuthorDailyContributionsMap(config.getAuthorDisplayNameMap().keySet(), commitResults);
 
         Map<Author, Float> authorContributionVariance =
-                calcAuthorContributionVariance(authorDailyContributionsMap);
+                calcAuthorContributionVariance(authorDailyContributionsMap, startDate);
 
         return new CommitContributionSummary(
                 config.getAuthorDisplayNameMap(),
@@ -39,44 +39,51 @@ public class CommitResultAggregator {
     }
 
     private static Map<Author, Float> calcAuthorContributionVariance(
-            Map<Author, List<AuthorDailyContribution>> intervalContributionMaps) {
+            Map<Author, List<AuthorDailyContribution>> intervalContributionMaps, Date startDate) {
         Map<Author, Float> result = new HashMap<>();
         for (Author author : intervalContributionMaps.keySet()) {
             List<AuthorDailyContribution> contributions = intervalContributionMaps.get(author);
-            result.put(author, getContributionVariance(contributions));
+            result.put(author, getContributionVariance(contributions, startDate));
         }
         return result;
     }
 
-    private static float getContributionVariance(List<AuthorDailyContribution> contributions) {
+    private static float getContributionVariance(List<AuthorDailyContribution> contributions, Date startDate) {
         if (contributions.size() == 0) {
             return 0;
         }
         //get mean
         float total = 0;
+        long totalDays = ((contributions.get(contributions.size() - 1).getDate().getTime() - startDate.getTime())
+                / (24 * 60 * 60 * 1000)) + 1; // days in milisecond
+
         for (AuthorDailyContribution contribution : contributions) {
             total += contribution.getTotalContribution();
         }
-        float mean = total / contributions.size();
+        float mean = total / totalDays;
+
         float variance = 0;
         for (AuthorDailyContribution contribution : contributions) {
             variance += Math.pow((mean - contribution.getTotalContribution()), 2);
         }
-        return variance / contributions.size();
+        for (int i = 0; i < totalDays - contributions.size(); i += 1) {
+            variance += Math.pow(mean, 2);
+        }
+        return variance / totalDays;
     }
 
     private static Map<Author, List<AuthorDailyContribution>> getAuthorDailyContributionsMap(
-            Set<Author> authorSet, List<CommitResult> commitResults, Date startDate) {
+            Set<Author> authorSet, List<CommitResult> commitResults) {
         Map<Author, List<AuthorDailyContribution>> authorDailyContributionsMap = new HashMap<>();
         authorSet.forEach(author -> authorDailyContributionsMap.put(author, new ArrayList<>()));
 
         Date previousDate = null;
         for (CommitResult commitResult : commitResults) {
-            Date commitDateByMidnight = getCommitDateAtMidnight(commitResult.getTime());
+            Date commitStartDate = getStartOfDate(commitResult.getTime());
 
-            if (!commitDateByMidnight.equals(previousDate)) {
-                previousDate = new Date(commitDateByMidnight.getTime());
-                addDailyContributionForNewDate(authorDailyContributionsMap, commitDateByMidnight);
+            if (!commitStartDate.equals(previousDate)) {
+                previousDate = new Date(commitStartDate.getTime());
+                addDailyContributionForNewDate(authorDailyContributionsMap, commitStartDate);
             }
 
             List<AuthorDailyContribution> authorContributions =
@@ -101,15 +108,6 @@ public class CommitResultAggregator {
         cal.set(Calendar.SECOND, 0);
         cal.set(Calendar.MILLISECOND, 0);
         return cal.getTime();
-    }
-
-    private static Date getCommitDateAtMidnight(Date commitDate) {
-        Calendar c = Calendar.getInstance();
-        c.setTime(commitDate);
-        c.set(Calendar.HOUR_OF_DAY, 0);
-        c.set(Calendar.MINUTE, 0);
-        c.set(Calendar.SECOND, 0);
-        return c.getTime();
     }
 
     private static Date getStartDate(List<CommitResult> commitInfos) {
