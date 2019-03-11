@@ -16,12 +16,6 @@
       {
         "insertions": 0,
         "deletions": 0,
-        "date": "2018-02-08",
-        "commitResults": []
-      },
-      {
-        "insertions": 0,
-        "deletions": 0,
         "date": "2018-02-09",
         "commitResults": []
       }
@@ -60,12 +54,6 @@
         ]
       },
       {
-        "insertions": 0,
-        "deletions": 0,
-        "date": "2018-02-08",
-        "commitResults": []
-      },
-      {
         "insertions": 4,
         "deletions": 0,
         "date": "2018-02-09",
@@ -95,12 +83,6 @@
       {
         "insertions": 0,
         "deletions": 0,
-        "date": "2018-02-08",
-        "commitResults": []
-      },
-      {
-        "insertions": 0,
-        "deletions": 0,
         "date": "2018-02-09",
         "commitResults": []
       }
@@ -121,12 +103,6 @@
       {
         "insertions": 0,
         "deletions": 0,
-        "date": "2018-02-08",
-        "commitResults": []
-      },
-      {
-        "insertions": 0,
-        "deletions": 0,
         "date": "2018-02-09",
         "commitResults": []
       }
@@ -140,7 +116,7 @@
   },
   "authorContributionVariance": {
     "fakeAuthor": 0.0,
-    "harryggg": 2.1875,
+    "harryggg": 0.6666667,
     "Eugene Peh": 0.0,
     "eugenepeh": 0.0
   },
