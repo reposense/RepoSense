@@ -5,5 +5,5 @@
   "fixturesFolder": false,
   "pluginsFile": false,
   "video": false,
-  "defaultCommandTimeout": 60000
+  "defaultCommandTimeout": 30000
 }
