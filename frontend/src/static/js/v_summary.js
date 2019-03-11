@@ -131,8 +131,8 @@ window.vSummary = {
       return Math.max(newSize * this.rampSize, 0.5);
     },
     getCommitPos(i, total, sinceDate, untilDate) {
-      return (total - i - 1) / total * DAY_IN_MS /
-          (this.getTotalForPos(sinceDate, untilDate) + DAY_IN_MS);
+      return (total - i - 1) / total * DAY_IN_MS
+          / (this.getTotalForPos(sinceDate, untilDate) + DAY_IN_MS);
     },
     getSlicePos(date, sinceDate, untilDate) {
       const timeMS = (new Date(date)).getTime();
