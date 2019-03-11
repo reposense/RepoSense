@@ -218,11 +218,11 @@ html
                 span.select(v-bind:title="getTotalFileBlankLineInfo()") All:&nbsp;
                 span.loc(v-bind:title="getTotalFileBlankLineInfo()") {{ totalLineCount }}&nbsp;
                 span.bloc(v-bind:title="getTotalFileBlankLineInfo()") ({{ totalBlankLineCount }})
-              template(v-for="format in Object.keys(filesExistingLinesObj)", v-bind:key="format")
+              template(v-for="format in Object.keys(getExistingLinesObj)", v-bind:key="format")
                 label
                   input.mui-checkbox--fileformat(type="checkbox" :checked="selectedFileFormats.includes(format)"
                       v-on:change="selectFileFormat(format)")
-                  span(v-bind:title="getFileBlankLineInfo(format)") {{ format }}: {{ filesExistingLinesObj[format] }}&nbsp;
+                  span(v-bind:title="getFileBlankLineInfo(format)") {{ format }}: {{ getExistingLinesObj[format] }}&nbsp;
                   span.bloc(v-bind:title="getFileBlankLineInfo(format)") ({{ filesBlankLinesObj[format] }})
 
         .files(v-if="isLoaded")

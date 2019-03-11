@@ -248,7 +248,7 @@ window.vAuthorship = {
       return this.files.filter((file) => this.isSelected(file.path)
           && minimatch(file.path, this.filterSearch, { matchBase: true }));
     },
-    filesExistingLinesObj() {
+    getExistingLinesObj() {
       return Object.keys(this.info.filesLinesObj)
           .filter((type) => this.info.filesLinesObj[type] > 0)
           .reduce((acc, key) => ({
