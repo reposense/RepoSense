@@ -82,7 +82,9 @@ The `Chart Panel` (an example is shown above) contains _Ramp Charts_ and _Contri
 
 The `Code Panel` allows users to see the code attributed to a specific author. Click on the name of the author in the `Chart Panel` to display the `Code Panel` on the right.
 * The Code Panel shows the files that contain author's contributions, sorted by the number of lines written.
-* Select the checkboxes to include files of preferred file extensions.
+* Select the radio button to enable one of the following 2 filters. Note that only 1 of the 2 filters is active at any time.
+    * Type file path glob in glob filter to include files matching the glob expression.
+    * Select the checkboxes to include files of preferred file extensions.
 * Clicking the file title toggles the file content.
 * Clicking the first icon beside the file title opens the history view of the file on github.
 * Clicking the second icon beside the file title opens the blame view of the file on github.
