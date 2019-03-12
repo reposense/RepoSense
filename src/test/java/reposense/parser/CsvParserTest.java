@@ -12,6 +12,7 @@ import java.util.List;
 import org.junit.Assert;
 import org.junit.Test;
 
+import net.sourceforge.argparse4j.helper.HelpScreenException;
 import reposense.model.Author;
 import reposense.model.AuthorConfiguration;
 import reposense.model.CliArguments;
@@ -150,7 +151,7 @@ public class CsvParserTest {
     }
 
     @Test
-    public void merge_twoRepoConfigs_success() throws ParseException, IOException {
+    public void merge_twoRepoConfigs_success() throws ParseException, IOException, HelpScreenException {
         FIRST_AUTHOR.setIgnoreGlobList(FIRST_AUTHOR_GLOB_LIST);
         SECOND_AUTHOR.setIgnoreGlobList(REPO_LEVEL_GLOB_LIST);
         SECOND_AUTHOR.setAuthorAliases(SECOND_AUTHOR_ALIASES);
@@ -181,7 +182,7 @@ public class CsvParserTest {
     }
 
     @Test
-    public void merge_emptyLocation_success() throws ParseException, IOException {
+    public void merge_emptyLocation_success() throws ParseException, IOException, HelpScreenException {
         FIRST_AUTHOR.setIgnoreGlobList(FIRST_AUTHOR_GLOB_LIST);
         SECOND_AUTHOR.setIgnoreGlobList(REPO_LEVEL_GLOB_LIST);
         SECOND_AUTHOR.setAuthorAliases(SECOND_AUTHOR_ALIASES);
@@ -229,7 +230,7 @@ public class CsvParserTest {
     }
 
     @Test
-    public void repoConfig_defaultBranch_success() throws ParseException, IOException {
+    public void repoConfig_defaultBranch_success() throws ParseException, IOException, HelpScreenException {
         RepoConfiguration expectedConfig = new RepoConfiguration(new RepoLocation(TEST_REPO_BETA_LOCATION),
                 RepoConfiguration.DEFAULT_BRANCH);
 
