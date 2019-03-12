@@ -22,7 +22,7 @@ import reposense.util.StringsUtil;
 class GitUtil {
     static final DateFormat GIT_LOG_SINCE_DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd'T'00:00:00+08:00");
     static final DateFormat GIT_LOG_UNTIL_DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd'T'23:59:59+08:00");
-    static final Logger logger = LogsManager.getLogger(GitUtil.class);
+    private static final Logger logger = LogsManager.getLogger(GitUtil.class);
 
     // ignore check against email
     private static final String AUTHOR_NAME_PATTERN = "^%s <.*>$";
@@ -86,7 +86,7 @@ class GitUtil {
     /**
      * Returns the {@code String} command to specify the globs to exclude for `git log` command.
      */
-    static String convertToGitExcludeGlobArgs(File root, List<String> ignoreGlobList) {
+    public static String convertToGitExcludeGlobArgs(File root, List<String> ignoreGlobList) {
         StringBuilder gitExcludeGlobArgsBuilder = new StringBuilder();
         final String cmdFormat = " " + addQuote(":(exclude)%s");
         ignoreGlobList.stream()
@@ -100,7 +100,7 @@ class GitUtil {
     /**
      * Returns true if the {@code String} path is inside the current repository
      */
-    static boolean isValidPath(File repoRoot, String path) {
+    public static boolean isValidPath(File repoRoot, String path) {
         String validPath = path;
         if (path.startsWith("/") || path.startsWith("\\")) {
             return false;
@@ -117,7 +117,7 @@ class GitUtil {
      * @throws IOException if file system queries are needed
      * @throws SecurityException if file permission rights are needed
      */
-    static boolean childIsInsideRepo(File repoRoot, File child) {
+    private static boolean childIsInsideRepo(File repoRoot, File child) {
         try {
             File rootFile = repoRoot.getCanonicalFile();
             File childFile = child.getCanonicalFile();
