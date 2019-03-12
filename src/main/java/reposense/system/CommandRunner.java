@@ -8,14 +8,6 @@ public class CommandRunner {
 
     private static boolean isWindows = isWindows();
 
-    public static String checkStyleRaw(String absoluteDirectory) {
-        Path rootPath = Paths.get(absoluteDirectory);
-        return runCommand(
-                rootPath,
-                "java -jar checkstyle-7.7-all.jar -c /google_checks.xml -f xml " + absoluteDirectory
-        );
-    }
-
     public static String runCommand(Path path, String command) {
         ProcessBuilder pb = null;
         if (isWindows) {
