@@ -188,6 +188,15 @@ header{
         text-align:left;
         font-weight:bold;
     }
+
+    &__fileformat--breakdown{
+        overflow-y:hidden;
+
+        &__legend{
+            float:left;
+            display:inline;
+        }
+    }
 }
 
 .summary-chart{
@@ -254,6 +263,14 @@ header{
             margin-top:0.1rem;
             background-color:mui-color("red");
         }
+
+        &--bar--fileformat{
+            text-align:left;
+            height:0.3rem;
+            margin-top:0.1rem;
+            float:left;
+            display: inline-block;
+        }
     }
 }
 
@@ -275,7 +292,7 @@ header{
             margin-top:0.1rem;
             color:mui-color("red");
 
-            .filetype {
+            .fileformat {
                 margin-left:3rem;
             }
 
@@ -318,7 +335,7 @@ header{
                 color:mui-color("grey");
             }
 
-            span.fileType {
+            span.fileFormat {
                 span.bloc::after {
                     content:', ';
                 }
