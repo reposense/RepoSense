@@ -138,6 +138,24 @@
     "Eugene Peh": 0,
     "eugenepeh": 0
   },
+  "authorFileFormatContributionMap": {
+    "fakeAuthor": {
+      "java": 0,
+      "adoc": 0
+    },
+    "harryggg": {
+      "java": 14,
+      "adoc": 0
+    },
+    "Eugene Peh": {
+      "java": 0,
+      "adoc": 0
+    },
+    "eugenepeh": {
+      "java": 0,
+      "adoc": 0
+    }
+  },
   "authorContributionVariance": {
     "fakeAuthor": 0.0,
     "harryggg": 2.1875,
