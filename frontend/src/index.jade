@@ -222,10 +222,10 @@ html
                   span.bloc(v-bind:title="getTotalFileBlankLineInfo()") ({{ totalBlankLineCount }})
                 template(v-for="format in Object.keys(getExistingLinesObj)", v-bind:key="format")
                   label
-                    input.mui-checkbox--filetype(type="checkbox" :checked="selectedFileTypes.includes(type)"
-                        v-on:change="selectFileType(type)")
-                    span(v-bind:title="getFileBlankLineInfo(type)") {{ type }}: {{ filesLinesObj[type] }}&nbsp;
-                    span.bloc(v-bind:title="getFileBlankLineInfo(type)") ({{ filesBlankLinesObj[type] }})
+                    input.mui-checkbox--fileformat(type="checkbox" :checked="selectedFileFormats.includes(format)"
+                    v-on:change="selectFileFormat(format)")
+                    span(v-bind:title="getFileBlankLineInfo(format)") {{ format }}: {{ getExistingLinesObj[format] }}&nbsp;
+                    span.bloc(v-bind:title="getFileBlankLineInfo(format)") ({{ filesBlankLinesObj[format] }})
 
         .files(v-if="isLoaded")
           .empty(v-if="files.length===0") nothing to see here :(
