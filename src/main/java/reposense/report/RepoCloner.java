@@ -19,6 +19,9 @@ import reposense.system.CommandRunnerProcessException;
 import reposense.system.LogsManager;
 import reposense.util.FileUtil;
 
+/**
+ * Handles asynchronous cloning of repos to allow multiple repos to be cloned and analyzed concurrently.
+ */
 public class RepoCloner {
     private static final int MAX_NO_OF_REPOS = 2;
     private static final Logger logger = LogsManager.getLogger(RepoCloner.class);
@@ -85,7 +88,8 @@ public class RepoCloner {
      * Returns true if current repo is different from the previously cloned repo.
      */
     private boolean isPreviousRepoDifferent() {
-        return previousIndex == currentIndex || !configs[previousIndex].getLocation().equals(configs[currentIndex].getLocation());
+        return previousIndex == currentIndex
+                || !configs[previousIndex].getLocation().equals(configs[currentIndex].getLocation());
     }
 
     /**
