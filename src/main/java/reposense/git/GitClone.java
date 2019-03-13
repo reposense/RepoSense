@@ -10,7 +10,6 @@ import java.nio.file.Paths;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import reposense.git.exception.BranchNotFoundException;
 import reposense.git.exception.GitCloneException;
 import reposense.model.RepoConfiguration;
 import reposense.model.RepoLocation;
@@ -47,9 +46,9 @@ public class GitClone {
         try {
             repoConfig.updateBranch();
             GitCheckout.checkout(repoConfig.getRepoRoot(), repoConfig.getBranch());
-        } catch (RuntimeException | BranchNotFoundException e) {
-            logger.log(Level.SEVERE, "Branch does not exist! Analysis terminated.", e);
-            throw new GitCloneException(e);
+        } catch (RuntimeException rte) {
+            logger.log(Level.SEVERE, "Branch does not exist! Analysis terminated.", rte);
+            throw new GitCloneException(rte);
         }
     }
 

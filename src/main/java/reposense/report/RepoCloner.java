@@ -12,7 +12,6 @@ import java.util.logging.Logger;
 
 import reposense.git.GitBranch;
 import reposense.git.GitCheckout;
-import reposense.git.exception.BranchNotFoundException;
 import reposense.model.RepoConfiguration;
 import reposense.system.CommandRunnerProcess;
 import reposense.system.CommandRunnerProcessException;
@@ -30,7 +29,7 @@ public class RepoCloner {
     private int currentIndex = 0;
     private int previousIndex = 0;
     private boolean isCurrentRepoCloned = false;
-    private String previousRepoDefaultBranch;
+    private String currentRepoDefaultBranch;
     private CommandRunnerProcess crp;
 
     /**
@@ -59,10 +58,10 @@ public class RepoCloner {
         }
 
         if (isPreviousRepoDifferent()) {
-            previousRepoDefaultBranch = GitBranch.getCurrentBranch(configs[currentIndex].getRepoRoot());
-        } else {
-            configs[currentIndex].updateBranch(previousRepoDefaultBranch);
+            currentRepoDefaultBranch = GitBranch.getCurrentBranch(configs[currentIndex].getRepoRoot());
         }
+        configs[currentIndex].updateBranch(currentRepoDefaultBranch);
+
         cleanupPrevRepoFolder();
 
         try {
@@ -130,14 +129,6 @@ public class RepoCloner {
             return false;
         }
         crp = null;
-
-        try {
-            config.updateBranch();
-        } catch (BranchNotFoundException e) {
-            logger.log(Level.SEVERE, "Branch does not exist! Analysis terminated.", e);
-            handleCloningFailed(outputPath, config);
-            return false;
-        }
         return true;
     }
 

@@ -10,7 +10,6 @@ import java.util.Optional;
 import java.util.logging.Logger;
 
 import reposense.git.GitBranch;
-import reposense.git.exception.BranchNotFoundException;
 import reposense.system.LogsManager;
 import reposense.util.FileUtil;
 
@@ -144,22 +143,21 @@ public class RepoConfiguration {
     }
 
     /**
-     * Updates branch if default branch is specified.
+     * Updates branch with {@code currentBranch} if default branch is specified.
      */
-    public void updateBranch(String defaultBranch) {
-        if (branch.equals(RepoConfiguration.DEFAULT_BRANCH)) {
-            setBranch(defaultBranch);
+    public void updateBranch(String currentBranch) {
+        if (branch.equals(DEFAULT_BRANCH)) {
+            setBranch(currentBranch);
         }
     }
 
-    public void updateBranch() throws BranchNotFoundException {
-        try {
-            if (branch.equals(RepoConfiguration.DEFAULT_BRANCH)) {
-                String currentBranch = GitBranch.getCurrentBranch(getRepoRoot());
-                setBranch(currentBranch);
-            }
-        } catch (RuntimeException rte) {
-            throw new BranchNotFoundException(rte);
+    /**
+     * Gets the current branch and updates branch with current branch if default branch is specified.
+     */
+    public void updateBranch() {
+        if (branch.equals(DEFAULT_BRANCH)) {
+            String currentBranch = GitBranch.getCurrentBranch(getRepoRoot());
+            setBranch(currentBranch);
         }
     }
 
