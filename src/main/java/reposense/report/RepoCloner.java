@@ -20,9 +20,10 @@ import reposense.system.LogsManager;
 import reposense.util.FileUtil;
 
 public class RepoCloner {
+    private static final int MAX_NO_OF_REPOS = 2;
     private static final Logger logger = LogsManager.getLogger(RepoCloner.class);
 
-    private RepoConfiguration[] configs = new RepoConfiguration[2];
+    private RepoConfiguration[] configs = new RepoConfiguration[MAX_NO_OF_REPOS];
     private int index = 0;
     private int prevIndex = 0;
     private boolean isCurrentRepoCloned = false;
@@ -52,7 +53,9 @@ public class RepoCloner {
         if (!isCurrentRepoCloned) {
             deleteDirectory(configs[index].getRepoRoot());
             return null;
-        } else if (isPreviousRepoDifferent()) {
+        }
+
+        if (isPreviousRepoDifferent()) {
             prevRepoDefaultBranch = GitBranch.getCurrentBranch(configs[index].getRepoRoot());
         } else {
             configs[index].updateBranch(prevRepoDefaultBranch);
