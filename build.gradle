@@ -5,6 +5,7 @@ plugins {
     id 'application'
     id 'com.github.johnrengelman.shadow' version '2.0.4'
     id 'com.liferay.node' version '4.4.0'
+    id 'com.github.psxpaul.execfork' version '0.1.8'
 }
 
 mainClassName = 'reposense.RepoSense'
@@ -63,11 +64,13 @@ shadowJar {
     destinationDir = file("${buildDir}/jar/")
 }
 
-task zipReport(dependsOn: 'npmRunSpuild', type: Zip) {
+task zipReport(dependsOn: 'npmRunBrowserify', type: Zip) {
     from 'frontend/build/'
     baseName = 'templateZip'
     destinationDir = file('src/main/resources')
 }
+
+tasks.npmRunBrowserify.dependsOn('npmRunSpuild');
 tasks.shadowJar.dependsOn('zipReport');
 tasks.compileJava.dependsOn('zipReport');
 tasks.run.dependsOn('compileJava');
@@ -78,6 +81,36 @@ task systemtest(dependsOn: 'zipReport', type: Test) {
   testLogging {
     events 'passed', 'skipped', 'failed'
     showStandardStreams = true
+  }
+}
+
+task startServerInBackground(dependsOn: 'classes', type: com.github.psxpaul.task.JavaExecFork) {
+  main = mainClassName
+  classpath = sourceSets.main.runtimeClasspath
+  args = ['--repo', 'https://github.com/reposense/RepoSense.git', '--view']
+  waitForPort = 9000
+}
+
+task installCypress(type: com.liferay.gradle.plugins.node.tasks.NpmInstallTask) {
+  workingDir = file('frontend/cypress/')
+}
+
+task cypress(dependsOn: ['installCypress', 'startServerInBackground'], type: com.liferay.gradle.plugins.node.tasks.ExecuteNpmTask) {
+  tasks.startServerInBackground.mustRunAfter('installCypress')
+
+  workingDir = file('frontend/cypress/')
+  args = ["run-script", "debug"]
+}
+
+task frontendTest(dependsOn: ['installCypress', 'startServerInBackground'], type: com.liferay.gradle.plugins.node.tasks.ExecuteNpmTask) {
+  tasks.startServerInBackground.mustRunAfter('installCypress')
+
+  workingDir = file('frontend/cypress/')
+  args = ["run-script", "tests"]
+
+  // Run tests in CI without slow motion
+  if (project.hasProperty('ci')) {
+    args = ["run-script", "ci"]
   }
 }
 
@@ -96,4 +129,4 @@ tasks.withType(Copy) {
     includeEmptyDirs = true
 }
 
-defaultTasks 'clean', 'build', 'systemtest'
+defaultTasks 'clean', 'build', 'systemtest', 'frontendTest'

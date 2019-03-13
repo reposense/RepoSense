@@ -58,11 +58,12 @@ window.api = {
             displayName: commits.authorDisplayNameMap[author],
             dailyCommits: commits.authorDailyContributionsMap[author],
             totalCommits: commits.authorFinalContributionMap[author],
+            fileFormatContribution: commits.authorFileFormatContributionMap[author],
           };
 
           const searchParams = [
-            repo.displayName,
-            obj.displayName, author,
+              repo.displayName,
+              obj.displayName, author,
           ];
 
           obj.searchPath = searchParams.join('_').toLowerCase();

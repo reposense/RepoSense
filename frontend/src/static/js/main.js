@@ -99,10 +99,9 @@ window.app = new window.Vue({
 
     isLoading: false,
     isCollapsed: false,
+    isTabActive: true, // to force tab wrapper to load
 
-    // isTabActive used to force tab wrapper to load
-    isTabActive: true,
-    tabActive: 'empty',
+    tabType: 'empty',
     tabInfo: {},
     creationDate: '',
   },
@@ -156,6 +155,13 @@ window.app = new window.Vue({
       return full;
     },
 
+    deactivateTab() {
+      this.isTabActive = false;
+      if (document.getElementById('tabs-wrapper')) {
+        document.getElementById('tabs-wrapper').scrollTop = 0;
+      }
+    },
+
     // handle opening of sidebar //
     activateTab(tabName) {
       // changing isTabActive to trigger redrawing of component
@@ -170,8 +176,11 @@ window.app = new window.Vue({
     },
 
     updateTabAuthorship(obj) {
+      this.deactivateTab();
       this.tabInfo.tabAuthorship = Object.assign({}, obj);
-      this.activateTab('authorship');
+
+      this.isTabActive = true;
+      this.isCollapsed = false;
     },
 
     updateTabZoomin(obj) {

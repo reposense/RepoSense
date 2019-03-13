@@ -1,0 +1,9 @@
+{
+  "baseUrl": "http://localhost:9000",
+  "integrationFolder": "tests",
+  "supportFile": "support.js",
+  "fixturesFolder": false,
+  "pluginsFile": false,
+  "video": false,
+  "defaultCommandTimeout": 30000
+}

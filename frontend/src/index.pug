@@ -42,7 +42,7 @@ html
           .tab-content
             .tab-panes
               v_authorship#tab-authorship.tab-pane(
-                v-if="tabActive=='authorship'"
+                v-if="tabType === 'authorship'"
                 v-bind:key="generateKey(tabInfo.tabAuthorship)",
                 v-bind:info="tabInfo.tabAuthorship")
               #tab-empty.tab-pane(v-else)
@@ -100,11 +100,29 @@ html
             label
               input(type="checkbox", v-model="filterGroupRepos").mui-checkbox.summary-picker__checkbox
               span group by repo/branch
+            label
+              input(type="checkbox", v-model="filterBreakdown").mui-checkbox.summary-picker__checkbox
+              span breakdown by file format
         #summary-charts
-          .summary-charts(v-for="repo of filtered", v-if="repo.length>0")
+          .summary-charts(v-for="repo of filteredRepos")
             .summary-charts__title(
               v-if="filterGroupRepos",
             ) {{ repo[0].repoPath }}
+            .summary-charts__fileformat--breakdown(v-if="filterBreakdown")
+              template(v-if="filterGroupRepos")
+                .summary-charts__fileformat--breakdown__legend(
+                    v-for="fileFormat in Object.keys(repo[0].fileFormatContribution)")
+                  i.fas.fa-circle(
+                      v-bind:style="{ 'color' : contributionBarColors[fileFormat] }"
+                  )
+                  span &nbsp; {{ fileFormat }} &nbsp;
+              template(v-else)
+                .summary-charts__fileformat--breakdown__legend(
+                    v-for="fileFormat in Object.keys(contributionBarColors)")
+                  i.fas.fa-circle(
+                      v-bind:style="{ 'color' : contributionBarColors[fileFormat] }"
+                  )
+                  span &nbsp; {{ fileFormat }} &nbsp;
             .summary-chart(v-for="(user, i) in repo")
               .summary-chart__title
                 .summary-chart__title--index {{ i+1 }}
@@ -128,14 +146,28 @@ html
                   v-bind:avgsize="avgCommitSize")
                 .overlay
 
-              .summary-chart__contrib(
-                v-bind:title=
-                    "'Total contribution from ' + minDate + ' to ' + maxDate + ': ' + user.totalCommits + ' lines'"
-               )
-                .summary-chart__contrib--bar(
-                  v-for="width in getContributionBars(user.totalCommits)",
-                  v-bind:style="{ width: width+'%' }"
-                )
+              .summary-chart__contribution
+                template(v-if="filterBreakdown")
+                  .summary-chart__contrib(
+                      v-for="(widths, fileFormat) in getFileFormatContributionBars(user.fileFormatContribution)"
+                  )
+                    .summary-chart__contrib--bar--fileformat(
+                        v-for="width in widths",
+                        v-bind:style="{ width: width + '%',\
+                            'background-color': contributionBarColors[fileFormat] }",
+                        v-bind:title="fileFormat + ': ' + user.fileFormatContribution[fileFormat] + ' lines, '\
+                            + 'total: ' + user.totalCommits + ' lines ' + '(contribution from ' + minDate + ' to '\
+                            + maxDate + ')'"
+                    )
+                template(v-else)
+                  .summary-chart__contrib(
+                      v-bind:title="'Total contribution from ' + minDate + ' to ' + maxDate + ': '\
+                          + user.totalCommits + ' lines'"
+                  )
+                    .summary-chart__contrib--bar(
+                        v-for="width in getContributionBars(user.totalCommits)",
+                        v-bind:style="{ width: width+'%' }"
+                    )
 
     vuetemplate#v_ramp
       include ramp.pug
@@ -144,7 +176,7 @@ html
       #authorship
         // TODO: remove in #524
         .toolbar(v-if="info.totalCommits > 0")
-            a(v-if="activeFiles==0", v-on:click="expandAll(true)") Expand all
+            a(v-if="activeFilesCount === 0", v-on:click="expandAll(true)") Expand all
             a(v-else, v-on:click="expandAll(false)") Collapse all
         .title
           a.repoName(
@@ -152,21 +184,28 @@ html
             v-bind:title="'Click to open the repo'"
           ) {{ info.repo }}
           .author {{ info.name }} ({{ info.author }}) contribution from {{ info.minDate }} to {{ info.maxDate }}
-          .contribution(v-if="isLoaded")
+          .contribution(v-if="isLoaded && files.length!=0")
+            input.radio-button--search(type="radio", name="filter", value="search", v-on:click="enableSearchBar()")
+            form.file-picker.mui-form--inline(onsubmit="return false")
+              input#search(type="search", placeholder="Filter by glob", v-on:change="updateFilterSearch", disabled)
+              button#submit-button(type="submit", disabled) Filter
+            input.radio-button--checkbox(type="radio", name="filter", value="checkboxes", v-on:click="enableCheckBoxes()",
+                checked)
             div.checkboxes.mui-form--inline(v-if="files.length > 0")
               label
-                input(type="checkbox" v-on:click="selectAll" v-model="isSelectAllChecked").mui-checkbox
+                input.mui-checkbox--fileformat(type="checkbox" v-on:click="selectAll" v-model="isSelectAllChecked")
                 span.select(v-bind:title="getTotalFileBlankLineInfo()") All:&nbsp;
                 span.loc(v-bind:title="getTotalFileBlankLineInfo()") {{ totalLineCount }}&nbsp;
                 span.bloc(v-bind:title="getTotalFileBlankLineInfo()") ({{ totalBlankLineCount }})
-              template(v-for="type in Object.keys(filesLinesObj)")
+              template(v-for="format in Object.keys(getExistingLinesObj)", v-bind:key="format")
                 label
-                  input(type="checkbox" :value="type" v-model="selectedFileTypes" v-on:change="selectFile").mui-checkbox
-                  span(v-bind:title="getFileBlankLineInfo(type)") {{ type }}: {{ filesLinesObj[type] }}&nbsp;
-                  span.bloc(v-bind:title="getFileBlankLineInfo(type)") ({{ filesBlankLinesObj[type] }})
+                  input.mui-checkbox--fileformat(type="checkbox" :checked="selectedFileFormats.includes(format)"
+                      v-on:change="selectFileFormat(format)")
+                  span(v-bind:title="getFileBlankLineInfo(format)") {{ format }}: {{ getExistingLinesObj[format] }}&nbsp;
+                  span.bloc(v-bind:title="getFileBlankLineInfo(format)") ({{ filesBlankLinesObj[format] }})
 
         .files(v-if="isLoaded")
-          .empty(v-if="files.length===0") nothing to see here :(
+          .empty(v-if="files.length === 0") nothing to see here :(
           template(v-for="file in selectedFiles")
             .file.active(v-bind:key="file.path")
               .title
