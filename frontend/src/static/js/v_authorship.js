@@ -13,26 +13,6 @@ window.toggleNext = function toggleNext(ele) {
   }
 
   parent.className = classes.join(' ');
-
-  // Update expand/collapse all button
-  window.updateToggleButton();
-};
-
-window.updateToggleButton = function updateToggleButton() {
-  if (document.getElementsByClassName('file active').length === document.getElementsByClassName('file').length) {
-    window.app.isCollapsed = false;
-  } else if (document.getElementsByClassName('file active').length === 0) {
-    window.app.isCollapsed = true;
-  }
-};
-
-window.expandAll = function expandAll(isActive) {
-  const renameValue = isActive ? 'file active' : 'file';
-
-  const files = document.getElementsByClassName('file');
-  Array.from(files).forEach((file) => {
-    file.className = renameValue;
-  });
 };
 
 const repoCache = [];
@@ -51,6 +31,7 @@ window.vAuthorship = {
       filesBlankLinesObj: {},
       totalLineCount: '',
       totalBlankLineCount: '',
+      activeFilesCount: 0,
       filterSearch: '*',
     };
   },
@@ -73,6 +54,21 @@ window.vAuthorship = {
         window.api.loadAuthorship(this.info.repo)
             .then((files) => this.processFiles(files));
       }
+    },
+
+    expandAll(isActive) {
+      const renameValue = isActive ? 'file active' : 'file';
+
+      const files = document.getElementsByClassName('file');
+      Array.from(files).forEach((file) => {
+        file.className = renameValue;
+      });
+
+      this.activeFilesCount = isActive ? this.selectedFiles.length : 0;
+    },
+
+    updateCount() {
+      this.activeFilesCount = document.getElementsByClassName('file active').length;
     },
 
     splitSegments(lines) {
@@ -144,6 +140,8 @@ window.vAuthorship = {
       this.filesBlankLinesObj = filesBlanksInfoObj;
       this.files = res;
       this.isLoaded = true;
+
+      this.activeFilesCount = this.selectedFiles.length;
     },
 
     addBlankLineCountToFileFormat(path, lineCount, filesInfoObj) {
@@ -160,8 +158,10 @@ window.vAuthorship = {
     selectAll() {
       if (!this.isSelectAllChecked) {
         this.selectedFileFormats = this.fileFormats.slice();
+        this.activeFilesCount = this.files.length;
       } else {
         this.selectedFileFormats = [];
+        this.activeFilesCount = 0;
       }
     },
 
@@ -180,6 +180,8 @@ window.vAuthorship = {
       } else if (this.selectedFileFormats.length === 0) {
         this.isSelectAllChecked = false;
       }
+
+      setTimeout(this.updateCount, 0);
     },
 
     updateFilterSearch(evt) {
@@ -259,9 +261,5 @@ window.vAuthorship = {
 
   created() {
     this.initiate();
-  },
-
-  updated() {
-    window.updateToggleButton();
   },
 };
