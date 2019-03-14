@@ -41,13 +41,10 @@ html
             i.fas.fa-caret-right
           .tab-content
             .tab-panes
-              #tab-authorship.tab-pane(v-if="isTabAuthorship")
-                .toolbar(v-if="tabInfo.tabAuthorship.totalCommits > 0")
-                    a(v-if="isCollapsed", v-on:click="expand(true)") Expand all
-                    a(v-else, v-on:click="expand(false)") Collapse all
-                v_authorship(
-                  v-bind:key="generateKey(tabInfo.tabAuthorship)",
-                  v-bind:info="tabInfo.tabAuthorship")
+              v_authorship#tab-authorship.tab-pane(
+                v-if="tabType === 'authorship'"
+                v-bind:key="generateKey(tabInfo.tabAuthorship)",
+                v-bind:info="tabInfo.tabAuthorship")
               #tab-empty.tab-pane(v-else)
                 .title
                   span To view the code attributed to a specific author, click the &nbsp;
@@ -103,11 +100,29 @@ html
             label
               input(type="checkbox", v-model="filterGroupRepos").mui-checkbox.summary-picker__checkbox
               span group by repo/branch
+            label
+              input(type="checkbox", v-model="filterBreakdown").mui-checkbox.summary-picker__checkbox
+              span breakdown by file format
         #summary-charts
           .summary-charts(v-for="repo of filteredRepos")
             .summary-charts__title(
               v-if="filterGroupRepos",
             ) {{ repo[0].repoPath }}
+            .summary-charts__fileformat--breakdown(v-if="filterBreakdown")
+              template(v-if="filterGroupRepos")
+                .summary-charts__fileformat--breakdown__legend(
+                    v-for="fileFormat in Object.keys(repo[0].fileFormatContribution)")
+                  i.fas.fa-circle(
+                      v-bind:style="{ 'color' : contributionBarColors[fileFormat] }"
+                  )
+                  span &nbsp; {{ fileFormat }} &nbsp;
+              template(v-else)
+                .summary-charts__fileformat--breakdown__legend(
+                    v-for="fileFormat in Object.keys(contributionBarColors)")
+                  i.fas.fa-circle(
+                      v-bind:style="{ 'color' : contributionBarColors[fileFormat] }"
+                  )
+                  span &nbsp; {{ fileFormat }} &nbsp;
             .summary-chart(v-for="(user, i) in repo")
               .summary-chart__title
                 .summary-chart__title--index {{ i+1 }}
@@ -117,7 +132,8 @@ html
                   title="click to view author's code",
                   v-on:click="$emit('view-authorship', \
                       {author:user.name, repo:user.repoName, name:user.displayName, location:repo[0].location, \
-                          minDate:minDate, maxDate:maxDate, totalCommits:user.totalCommits})"
+                          minDate:minDate, maxDate:maxDate, totalCommits:user.totalCommits, \
+                              filesLinesObj:user.fileFormatContribution})"
                 )
                   i.summary-chart__title--button.fas.fa-code
                 a(
@@ -155,17 +171,35 @@ html
                       right: (getSlicePos(slice.date, filterSinceDate, filterUntilDate) * 100) + '%'\
                     }"
                   )
-              .summary-chart__contrib(
-                v-bind:title=
-                    "'Total contribution from ' + minDate + ' to ' + maxDate + ': ' + user.totalCommits + ' lines'"
-               )
-                .summary-chart__contrib--bar(
-                  v-for="width in getContributionBars(user.totalCommits)",
-                  v-bind:style="{ width: width+'%' }"
-                )
+              .summary-chart__contribution
+                template(v-if="filterBreakdown")
+                  .summary-chart__contrib(
+                      v-for="(widths, fileFormat) in getFileFormatContributionBars(user.fileFormatContribution)"
+                  )
+                    .summary-chart__contrib--bar--fileformat(
+                        v-for="width in widths",
+                        v-bind:style="{ width: width + '%',\
+                            'background-color': contributionBarColors[fileFormat] }",
+                        v-bind:title="fileFormat + ': ' + user.fileFormatContribution[fileFormat] + ' lines, '\
+                            + 'total: ' + user.totalCommits + ' lines ' + '(contribution from ' + minDate + ' to '\
+                            + maxDate + ')'"
+                    )
+                template(v-else)
+                  .summary-chart__contrib(
+                      v-bind:title="'Total contribution from ' + minDate + ' to ' + maxDate + ': '\
+                          + user.totalCommits + ' lines'"
+                  )
+                    .summary-chart__contrib--bar(
+                        v-for="width in getContributionBars(user.totalCommits)",
+                        v-bind:style="{ width: width+'%' }"
+                    )
 
     vuetemplate#v_authorship
       #authorship
+        // TODO: remove in #524
+        .toolbar(v-if="info.totalCommits > 0")
+            a(v-if="activeFilesCount === 0", v-on:click="expandAll(true)") Expand all
+            a(v-else, v-on:click="expandAll(false)") Collapse all
         .title
           a.repoName(
             v-bind:href="info.location", target="_blank",
@@ -181,23 +215,23 @@ html
                 checked)
             div.checkboxes.mui-form--inline(v-if="files.length > 0")
               label
-                input.mui-checkbox--filetype(type="checkbox" v-on:click="selectAll" v-model="isSelectAllChecked")
+                input.mui-checkbox--fileformat(type="checkbox" v-on:click="selectAll" v-model="isSelectAllChecked")
                 span.select(v-bind:title="getTotalFileBlankLineInfo()") All:&nbsp;
                 span.loc(v-bind:title="getTotalFileBlankLineInfo()") {{ totalLineCount }}&nbsp;
                 span.bloc(v-bind:title="getTotalFileBlankLineInfo()") ({{ totalBlankLineCount }})
-              template(v-for="type in Object.keys(filesLinesObj)")
+              template(v-for="format in Object.keys(getExistingLinesObj)", v-bind:key="format")
                 label
-                  input.mui-checkbox--filetype(type="checkbox" :checked="selectedFileTypes.includes(type)"
-                      v-on:change="selectFileType(type)")
-                  span(v-bind:title="getFileBlankLineInfo(type)") {{ type }}: {{ filesLinesObj[type] }}&nbsp;
-                  span.bloc(v-bind:title="getFileBlankLineInfo(type)") ({{ filesBlankLinesObj[type] }})
+                  input.mui-checkbox--fileformat(type="checkbox" :checked="selectedFileFormats.includes(format)"
+                      v-on:change="selectFileFormat(format)")
+                  span(v-bind:title="getFileBlankLineInfo(format)") {{ format }}: {{ getExistingLinesObj[format] }}&nbsp;
+                  span.bloc(v-bind:title="getFileBlankLineInfo(format)") ({{ filesBlankLinesObj[format] }})
 
         .files(v-if="isLoaded")
-          .empty(v-if="files.length===0") nothing to see here :(
+          .empty(v-if="files.length === 0") nothing to see here :(
           template(v-for="file in selectedFiles")
             .file.active(v-bind:key="file.path")
               .title
-                span.path(onclick="toggleNext(this.parentNode)") {{ file.path }}&nbsp;
+                span.path(onclick="toggleNext(this.parentNode)", v-on:click="updateCount") {{ file.path }}&nbsp;
                 span.loc ({{ file.lineCount }} lines)
                 a(
                   v-bind:href="getFileLink(file, 'commits')", target="_blank",

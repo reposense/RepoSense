@@ -182,6 +182,20 @@
     "April0616": 3,
     "nbr": 42
   },
+  "authorFileFormatContributionMap": {
+    "zacharytang": {
+      "fxml": 0
+    },
+    "CindyTsai1": {
+      "fxml": 1
+    },
+    "April0616": {
+      "fxml": 3
+    },
+    "nbr": {
+      "fxml": 42
+    }
+  },
   "authorContributionVariance": {
     "zacharytang": 0.0,
     "CindyTsai1": 0.01638887,

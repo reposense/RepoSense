@@ -4,5 +4,6 @@
   "supportFile": "support.js",
   "fixturesFolder": false,
   "pluginsFile": false,
-  "video": false
+  "video": false,
+  "defaultCommandTimeout": 30000
 }
