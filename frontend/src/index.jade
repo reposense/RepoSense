@@ -197,8 +197,7 @@ html
 
     vuetemplate#v_authorship
       #authorship
-        // TODO: remove in #524
-        .toolbar(v-if="info.totalCommits > 0")
+        .toolbar(v-if="hasCommits(tabInfo.tabAuthorship)")
             a(v-if="activeFilesCount === 0", v-on:click="expandAll(true)") Expand all
             a(v-else, v-on:click="expandAll(false)") Collapse all
         .title
