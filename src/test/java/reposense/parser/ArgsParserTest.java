@@ -50,6 +50,8 @@ public class ArgsParserTest {
     private static final String TEST_REPO_CHARLIE = "https://github.com/reposense/testrepo-Charlie.git";
     private static final String TEST_REPO_DELTA = "https://github.com/reposense/testrepo-Delta.git";
 
+    private static final String DEFAULT_TIMEZONE = "UTC+08";
+
     @Before
     public void before() {
         DEFAULT_INPUT_BUILDER.reset().addConfig(CONFIG_FOLDER_ABSOLUTE);
@@ -64,7 +66,7 @@ public class ArgsParserTest {
                 .addFormats("java adoc html css js")
                 .addIgnoreStandaloneConfig()
                 .addView()
-                .addTimezone("UTC+08")
+                .addTimezone(DEFAULT_TIMEZONE)
                 .build();
         CliArguments cliArguments = ArgsParser.parse(translateCommandline(input));
         Assert.assertTrue(cliArguments instanceof ConfigCliArguments);
@@ -86,7 +88,7 @@ public class ArgsParserTest {
 
         Assert.assertTrue(cliArguments.isAutomaticallyLaunching());
 
-        Assert.assertEquals(ZoneId.of("UTC+08"), cliArguments.getZoneId());
+        Assert.assertEquals(ZoneId.of(DEFAULT_TIMEZONE), cliArguments.getZoneId());
     }
 
     @Test(expected = HelpScreenException.class)
@@ -97,8 +99,8 @@ public class ArgsParserTest {
 
     @Test
     public void parse_allCorrectInputsAlias_success() throws ParseException, IOException, HelpScreenException {
-        String input = String.format("-c %s -o %s -s 01/07/2017 -u 30/11/2017 -f java adoc html css js -i -v -t UTC+08",
-                CONFIG_FOLDER_ABSOLUTE, OUTPUT_DIRECTORY_ABSOLUTE);
+        String input = String.format("-c %s -o %s -s 01/07/2017 -u 30/11/2017 -f java adoc html css js -i -v -t %s",
+                CONFIG_FOLDER_ABSOLUTE, OUTPUT_DIRECTORY_ABSOLUTE, DEFAULT_TIMEZONE);
         CliArguments cliArguments = ArgsParser.parse(translateCommandline(input));
         Assert.assertTrue(cliArguments instanceof ConfigCliArguments);
         Assert.assertTrue(Files.isSameFile(
@@ -119,7 +121,7 @@ public class ArgsParserTest {
 
         Assert.assertTrue(cliArguments.isAutomaticallyLaunching());
 
-        Assert.assertEquals(ZoneId.of("UTC+08"), cliArguments.getZoneId());
+        Assert.assertEquals(ZoneId.of(DEFAULT_TIMEZONE), cliArguments.getZoneId());
     }
 
     @Test
@@ -131,7 +133,7 @@ public class ArgsParserTest {
                 .addFormats("java   adoc  html      css js   ")
                 .addIgnoreStandaloneConfig().addWhiteSpace(1)
                 .addView().addWhiteSpace(4)
-                .addTimezone("UTC-10").addWhiteSpace(5)
+                .addTimezone(DEFAULT_TIMEZONE).addWhiteSpace(5)
                 .build();
         CliArguments cliArguments = ArgsParser.parse(translateCommandline(input));
         Assert.assertTrue(cliArguments instanceof ConfigCliArguments);
@@ -153,7 +155,7 @@ public class ArgsParserTest {
 
         Assert.assertTrue(cliArguments.isAutomaticallyLaunching());
 
-        Assert.assertEquals(ZoneId.of("UTC-10"), cliArguments.getZoneId());
+        Assert.assertEquals(ZoneId.of(DEFAULT_TIMEZONE), cliArguments.getZoneId());
     }
 
     @Test

@@ -13,7 +13,7 @@ import net.sourceforge.argparse4j.inf.ArgumentType;
  */
 public class ZoneIdArgumentType implements ArgumentType<ZoneId> {
     private static final String MESSAGE_TIMEZONE_INVALID =
-            "The timezone provided is invalid, please use the format of UTC±[hh[mm]]";
+            "The timezone provided is invalid, please use a more widely accepted format. E.g. UTC[±hh[mm]]";
 
     @Override
     public ZoneId convert(ArgumentParser parser, Argument arg, String value) throws ArgumentParserException {
