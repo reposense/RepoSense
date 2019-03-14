@@ -103,13 +103,18 @@ class GitUtil {
     public static boolean isValidPath(File repoRoot, String path) {
         String validPath = path;
         if (path.startsWith("/") || path.startsWith("\\")) {
+            logger.log(Level.WARNING, path + " will be skipped as this file cannot be read.");
             return false;
         } else if (path.contains("/*")) {
             validPath = path.substring(0, path.indexOf(("/*")));
         } else if (path.contains("*")) { // not in directories
             return true;
         }
-        return childIsInsideRepo(repoRoot, new File(repoRoot, validPath));
+        boolean isChildInsideRepo =  childIsInsideRepo(repoRoot, new File(repoRoot, validPath));
+        if (!isChildInsideRepo) {
+            logger.log(Level.WARNING, path + " will be skipped as this file is outside the repo.");
+        }
+        return isChildInsideRepo;
     }
 
     /**
