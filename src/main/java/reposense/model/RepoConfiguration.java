@@ -143,6 +143,10 @@ public class RepoConfiguration {
      * Clears authors information and use the information provided from {@code standaloneConfig}.
      */
     public void update(StandaloneConfig standaloneConfig) {
+        // only assign the new values when all the fields in {@code standaloneConfig} pass the validations.
+        Format.validateFormats(standaloneConfig.getFormats());
+        CommitHash.validateCommits(standaloneConfig.getIgnoreCommitList());
+
         if (!isIgnoreGlobListOverriding) {
             ignoreGlobList = standaloneConfig.getIgnoreGlobList();
         }

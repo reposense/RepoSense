@@ -54,10 +54,6 @@ public class AuthorConfiguration {
             emails.forEach(email -> newAuthorEmailsAndAliasesMap.put(email, author));
         }
 
-        Format.validateFormats(standaloneConfig.getFormats());
-        CommitHash.validateCommits(standaloneConfig.getIgnoreCommitList());
-
-        // only assign the new values when all the fields in {@code standaloneConfig} pass the validations.
         setAuthorList(newAuthorList);
         setAuthorEmailsAndAliasesMap(newAuthorEmailsAndAliasesMap);
         setAuthorDisplayNameMap(newAuthorDisplayNameMap);
