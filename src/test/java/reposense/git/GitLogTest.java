@@ -93,6 +93,11 @@ public class GitLogTest extends GitTestTemplate {
         ignoreValidFileAuthor.setIgnoreGlobList(Collections.singletonList("collate.md"));
         content = GitLog.get(config, ignoreValidFileAuthor);
         Assert.assertTrue(TestUtil.compareNumberExpectedCommitsToGitLogLines(8, content));
+
+        ignoreValidFileAuthor.setIgnoreGlobList(Collections.singletonList("./java"));
+        content = GitLog.get(config, ignoreValidFileAuthor);
+        Assert.assertTrue(TestUtil.compareNumberExpectedCommitsToGitLogLines(8, content));
+
     }
 
     @Test
@@ -105,10 +110,6 @@ public class GitLogTest extends GitTestTemplate {
         Assert.assertTrue(TestUtil.compareNumberExpectedCommitsToGitLogLines(8, content));
 
         ignoreInvalidFileAuthor.setIgnoreGlobList(Collections.singletonList("../*.java"));
-        content = GitLog.get(config, ignoreInvalidFileAuthor);
-        Assert.assertTrue(TestUtil.compareNumberExpectedCommitsToGitLogLines(8, content));
-
-        ignoreInvalidFileAuthor.setIgnoreGlobList(Collections.singletonList("./java"));
         content = GitLog.get(config, ignoreInvalidFileAuthor);
         Assert.assertTrue(TestUtil.compareNumberExpectedCommitsToGitLogLines(8, content));
 
