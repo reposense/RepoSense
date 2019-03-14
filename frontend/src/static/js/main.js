@@ -195,13 +195,6 @@ window.app = new window.Vue({
       return JSON.stringify(dataObj);
     },
 
-    hasCommits(info) {
-      if (window.REPOS[info.repo]) {
-        return window.REPOS[info.repo].commits.authorFinalContributionMap[info.author] > 0;
-      }
-      return false;
-    },
-
     receiveDates(dates) {
       const [minDate, maxDate] = dates;
       this.renderAuthorShipTabHash(minDate, maxDate);

@@ -93,6 +93,13 @@ window.vAuthorship = {
       this.activeFilesCount = document.getElementsByClassName('file active').length;
     },
 
+    hasCommits(info) {
+      if (window.REPOS[info.repo]) {
+        return window.REPOS[info.repo].commits.authorFinalContributionMap[info.author] > 0;
+      }
+      return false;
+    },
+
     splitSegments(lines) {
       // split into segments separated by authored
       let lastState;
