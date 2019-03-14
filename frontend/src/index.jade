@@ -133,8 +133,7 @@ html
                   title="click to view author's code",
                   v-on:click="$emit('view-authorship', \
                       {author:user.name, repo:user.repoName, name:user.displayName, location:repo[0].location, \
-                          minDate:minDate, maxDate:maxDate, \
-                              filesLinesObj:user.fileFormatContribution})"
+                          minDate:minDate, maxDate:maxDate})"
                 )
                   i.summary-chart__title--button.fas.fa-code
                 a(

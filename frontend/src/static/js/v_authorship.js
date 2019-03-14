@@ -62,10 +62,11 @@ window.vAuthorship = {
     },
 
     getRepoProps(repo) {
-      if (!this.info.name && repo) {
+      if (repo) {
         const author = repo.users.filter((user) => user.name === this.info.author);
         if (author.length > 0) {
           this.info.name = author[0].displayName;
+          this.filesLinesObj = author[0].fileFormatContribution;
         }
         this.info.location = repo.location.location;
       }
@@ -161,7 +162,7 @@ window.vAuthorship = {
       this.totalBlankLineCount = totalBlankLineCount;
       res.sort((a, b) => b.lineCount - a.lineCount);
 
-      Object.keys(this.info.filesLinesObj).forEach((file) => {
+      Object.keys(this.filesLinesObj).forEach((file) => {
         this.selectedFileFormats.push(file);
         this.fileFormats.push(file);
       });
@@ -265,7 +266,7 @@ window.vAuthorship = {
     getFileBlankLineInfo(fileFormat) {
       return `${fileFormat}: Blank: ${
         this.filesBlankLinesObj[fileFormat]}, Non-Blank: ${
-        this.info.filesLinesObj[fileFormat] - this.filesBlankLinesObj[fileFormat]}`;
+        this.filesLinesObj[fileFormat] - this.filesBlankLinesObj[fileFormat]}`;
     },
 
     getTotalFileBlankLineInfo() {
@@ -280,10 +281,10 @@ window.vAuthorship = {
           && minimatch(file.path, this.filterSearch, { matchBase: true }));
     },
     getExistingLinesObj() {
-      return Object.keys(this.info.filesLinesObj)
-          .filter((type) => this.info.filesLinesObj[type] > 0)
+      return Object.keys(this.filesLinesObj)
+          .filter((type) => this.filesLinesObj[type] > 0)
           .reduce((acc, key) => ({
-            ...acc, [key]: this.info.filesLinesObj[key],
+            ...acc, [key]: this.filesLinesObj[key],
           }), {});
     },
   },
