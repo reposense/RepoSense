@@ -104,9 +104,6 @@ html
               input(type="checkbox", v-model="filterSortReverse").mui-checkbox.summary-picker__checkbox
               span reverse
             label
-              input(type="checkbox", v-model="filterGroupRepos").mui-checkbox.summary-picker__checkbox
-              span group by repo/branch
-            label
               input(type="checkbox", v-model="filterBreakdown").mui-checkbox.summary-picker__checkbox
               span breakdown by file format
         #summary-charts
@@ -114,7 +111,7 @@ html
             .summary-charts__title(v-if="filterGroupSelection === 'groupByRepos'") {{ repo[0].repoPath }}
             .summary-charts__title(v-if="filterGroupSelection === 'groupByAuthors'") {{ repo[0].displayName }}
             .summary-charts__fileformat--breakdown(v-if="filterBreakdown")
-              template(v-if="filterGroupRepos")
+              template(v-if="filterGroupSelection === 'groupByRepos'")
                 .summary-charts__fileformat--breakdown__legend(
                     v-for="fileFormat in Object.keys(repo[0].fileFormatContribution)")
                   i.fas.fa-circle(
