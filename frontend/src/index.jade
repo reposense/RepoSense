@@ -42,13 +42,10 @@ html
             i.fas.fa-caret-right
           .tab-content
             .tab-panes
-              #tab-authorship.tab-pane(v-if="isTabAuthorship")
-                .toolbar(v-if="hasCommits(tabInfo.tabAuthorship)")
-                    a(v-if="isCollapsed", v-on:click="expand(true)") Expand all
-                    a(v-else, v-on:click="expand(false)") Collapse all
-                v_authorship(
-                  v-bind:key="generateKey(tabInfo.tabAuthorship)",
-                  v-bind:info="tabInfo.tabAuthorship")
+              v_authorship#tab-authorship.tab-pane(
+                v-if="tabType === 'authorship'"
+                v-bind:key="generateKey(tabInfo.tabAuthorship)",
+                v-bind:info="tabInfo.tabAuthorship")
               #tab-empty.tab-pane(v-else)
                 .title
                   span To view the code attributed to a specific author, click the &nbsp;
@@ -200,6 +197,10 @@ html
 
     vuetemplate#v_authorship
       #authorship
+        // TODO: remove in #524
+        .toolbar(v-if="info.totalCommits > 0")
+            a(v-if="activeFilesCount === 0", v-on:click="expandAll(true)") Expand all
+            a(v-else, v-on:click="expandAll(false)") Collapse all
         .title
           a.repoName(
             v-bind:href="info.location", target="_blank",
@@ -227,11 +228,11 @@ html
                   span.bloc(v-bind:title="getFileBlankLineInfo(format)") ({{ filesBlankLinesObj[format] }})
 
         .files(v-if="isLoaded")
-          .empty(v-if="files.length===0") nothing to see here :(
+          .empty(v-if="files.length === 0") nothing to see here :(
           template(v-for="file in selectedFiles")
             .file.active(v-bind:key="file.path")
               .title
-                span.path(onclick="toggleNext(this.parentNode)") {{ file.path }}&nbsp;
+                span.path(onclick="toggleNext(this.parentNode)", v-on:click="updateCount") {{ file.path }}&nbsp;
                 span.loc ({{ file.lineCount }} lines)
                 a(
                   v-bind:href="getFileLink(file, 'commits')", target="_blank",
