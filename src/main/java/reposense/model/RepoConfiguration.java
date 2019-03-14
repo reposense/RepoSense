@@ -19,6 +19,7 @@ import reposense.util.FileUtil;
 public class RepoConfiguration {
     public static final String DEFAULT_BRANCH = "HEAD";
     private static final Logger logger = LogsManager.getLogger(RepoConfiguration.class);
+    private final String repoFolderName;
 
     private RepoLocation location;
     private String branch;
@@ -58,8 +59,10 @@ public class RepoConfiguration {
 
         if (organization != null) {
             displayName = organization + "_" + repoName + "_" + branch;
+            repoFolderName = organization + "_" + repoName;
         } else {
             displayName = repoName + "_" + branch;
+            repoFolderName = repoName;
         }
     }
 
@@ -172,12 +175,7 @@ public class RepoConfiguration {
     }
 
     public String getRepoFolderName() {
-        String organization = location.getOrganization();
-        if (organization != null) {
-            return organization + "_" + getRepoName();
-        } else {
-            return getRepoName();
-        }
+        return repoFolderName;
     }
 
     @Override
