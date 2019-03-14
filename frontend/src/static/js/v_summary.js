@@ -50,6 +50,7 @@ window.vSummary = {
       filterSortReverse: false,
       filterGroupSelection: 'groupByRepos',
       filterTimeFrame: 'day',
+      filterBreakdown: false,
       tmpFilterSinceDate: '',
       tmpFilterUntilDate: '',
       filterSinceDate: '',
@@ -58,6 +59,7 @@ window.vSummary = {
       rampSize: 0.01,
       minDate: '',
       maxDate: '',
+      contributionBarColors: {},
     };
   },
   watch: {
@@ -73,14 +75,17 @@ window.vSummary = {
     filterGroupSelection() {
       this.getFiltered();
     },
+    filterBreakdown() {
+      this.getFiltered();
+    },
     tmpFilterSinceDate() {
-      if (this.tmpFilterSinceDate >= this.minDate) {
+      if (this.tmpFilterSinceDate && this.tmpFilterSinceDate >= this.minDate) {
         this.filterSinceDate = this.tmpFilterSinceDate;
         this.getFiltered();
       }
     },
     tmpFilterUntilDate() {
-      if (this.tmpFilterUntilDate <= this.maxDate) {
+      if (this.tmpFilterUntilDate && this.tmpFilterUntilDate <= this.maxDate) {
         this.filterUntilDate = this.tmpFilterUntilDate;
         this.getFiltered();
       }
@@ -145,6 +150,45 @@ window.vSummary = {
                 + `since=${slice.date}'T'00:00:00+08:00&`
                 + `until=${untilDate}'T'23:59:59+08:00`;
     },
+    getFileFormatContributionBars(fileFormatContribution) {
+      let totalWidth = 0;
+      const contributionLimit = (this.avgContributionSize * 2);
+      const totalBars = {};
+      const maxLength = 100;
+
+      Object.keys(fileFormatContribution).forEach((fileFormat) => {
+        const contribution = fileFormatContribution[fileFormat];
+        const res = [];
+        let fileFormatWidth = 0;
+
+        // compute 100% width bars
+        const cnt = parseInt(contribution / contributionLimit, 10);
+        for (let cntId = 0; cntId < cnt; cntId += 1) {
+          res.push(maxLength);
+          fileFormatWidth += maxLength;
+          totalWidth += maxLength;
+        }
+
+        // compute < 100% width bars
+        const last = (contribution % contributionLimit) / contributionLimit;
+        if (last !== 0) {
+          res.push(last * maxLength);
+          fileFormatWidth += last * maxLength;
+          totalWidth += last * maxLength;
+        }
+
+        // split > 100% width bars into smaller bars
+        if ((totalWidth > maxLength) && (totalWidth !== fileFormatWidth)) {
+          res.unshift(maxLength - (totalWidth - fileFormatWidth));
+          res[res.length - 1] = res[res.length - 1] - (maxLength - (totalWidth - fileFormatWidth));
+          totalWidth = res[res.length - 1];
+        }
+        totalBars[fileFormat] = res;
+      });
+
+      return totalBars;
+    },
+
     getContributionBars(totalContribution) {
       const res = [];
       const contributionLimit = (this.avgContributionSize * 2);
@@ -178,6 +222,7 @@ window.vSummary = {
 
       addHash('reverse', this.filterSortReverse);
       addHash('groupSelect', this.filterGroupSelection);
+      addHash('breakdown', this.filterBreakdown);
 
       encodeHash();
     },
@@ -201,6 +246,9 @@ window.vSummary = {
       if (hash.reverse) { this.filterSortReverse = convertBool(hash.reverse); }
       if (hash.groupSelect) {
         this.filterGroupSelection = hash.groupSelect;
+      }
+      if (hash.breakdown) {
+        this.filterBreakdown = convertBool(hash.breakdown);
       }
     },
 
@@ -279,6 +327,24 @@ window.vSummary = {
 
       this.getDates();
       this.sortFiltered();
+    },
+    processFileFormats() {
+      const selectedColors = ['#ffe119', '#4363d8', '#3cb44b', '#f58231', '#911eb4', '#46f0f0', '#f032e6',
+          '#bcf60c', '#fabebe', '#008080', '#e6beff', '#9a6324', '#fffac8', '#800000', '#aaffc3', '#808000', '#ffd8b1',
+          '#000075', '#808080'];
+      const colors = {};
+      let i = 0;
+
+      this.repos.forEach((repo) => {
+        const user = repo.users[0];
+        Object.keys(user.fileFormatContribution).forEach((fileFormat) => {
+          if (!Object.prototype.hasOwnProperty.call(colors, fileFormat)) {
+            colors[fileFormat] = selectedColors[i];
+            i = (i + 1) % selectedColors.length;
+          }
+        });
+        this.contributionBarColors = colors;
+      });
     },
     splitCommitsWeek(user) {
       const { commits } = user;
@@ -451,5 +517,6 @@ window.vSummary = {
   created() {
     this.renderFilterHash();
     this.getFiltered();
+    this.processFileFormats();
   },
 };
