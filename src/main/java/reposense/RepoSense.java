@@ -23,8 +23,8 @@ import reposense.parser.InvalidLocationException;
 import reposense.parser.ParseException;
 import reposense.parser.RepoConfigCsvParser;
 import reposense.report.ReportGenerator;
-import reposense.system.DashboardServer;
 import reposense.system.LogsManager;
+import reposense.system.ReportServer;
 import reposense.util.FileUtil;
 
 public class RepoSense {
@@ -38,7 +38,7 @@ public class RepoSense {
             List<RepoConfiguration> configs = null;
 
             if (cliArguments instanceof ViewCliArguments) {
-                DashboardServer.startServer(SERVER_PORT_NUMBER, ((
+                ReportServer.startServer(SERVER_PORT_NUMBER, ((
                         ViewCliArguments) cliArguments).getReportDirectoryPath().toAbsolutePath());
                 return;
             } else if (cliArguments instanceof ConfigCliArguments) {
@@ -57,7 +57,7 @@ public class RepoSense {
             FileUtil.zip(cliArguments.getOutputFilePath().toAbsolutePath(), ".json");
 
             if (cliArguments.isAutomaticallyLaunching()) {
-                DashboardServer.startServer(SERVER_PORT_NUMBER, cliArguments.getOutputFilePath().toAbsolutePath());
+                ReportServer.startServer(SERVER_PORT_NUMBER, cliArguments.getOutputFilePath().toAbsolutePath());
             }
         } catch (IOException ioe) {
             logger.log(Level.WARNING, ioe.getMessage(), ioe);

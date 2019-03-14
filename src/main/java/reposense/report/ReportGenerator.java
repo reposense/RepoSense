@@ -30,7 +30,7 @@ public class ReportGenerator {
     private static final String REPOSENSE_CONFIG_FILE = "config.json";
     private static final Logger logger = LogsManager.getLogger(ReportGenerator.class);
 
-    // zip file which contains all the dashboard template files
+    // zip file which contains all the report template files
     private static final String TEMPLATE_FILE = "/templateZip.zip";
 
     private static final String MESSAGE_INVALID_CONFIG_JSON = "%s Ignoring the config provided by this repository.";
