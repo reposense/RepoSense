@@ -134,9 +134,9 @@ class GitUtil {
                 childFile = childFile.getParentFile();
             }
         } catch (IOException ex) {
-            logger.log(Level.WARNING, "File is invalid and needs system queries.", ex);
+            return false;
         } catch (SecurityException ex) {
-            logger.log(Level.WARNING, "Invalid file cannot be accessed.", ex);
+            return false;
         }
 
         return false;
