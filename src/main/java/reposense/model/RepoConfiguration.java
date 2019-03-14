@@ -19,7 +19,7 @@ import reposense.util.FileUtil;
 public class RepoConfiguration {
     public static final String DEFAULT_BRANCH = "HEAD";
     private static final Logger logger = LogsManager.getLogger(RepoConfiguration.class);
-    private final String repoFolderName;
+    private final transient String repoFolderName;
 
     private RepoLocation location;
     private String branch;
