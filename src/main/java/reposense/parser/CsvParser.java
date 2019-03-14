@@ -20,6 +20,7 @@ public abstract class CsvParser<T> {
     protected static final Logger logger = LogsManager.getLogger(CsvParser.class);
 
     private static final String ELEMENT_SEPARATOR = ",";
+    private static final String OVERRIDE_KEYWORD = "override:";
     private static final String MESSAGE_UNABLE_TO_READ_CSV_FILE = "Unable to read the supplied CSV file.";
     private static final String MESSAGE_MALFORMED_LINE_FORMAT = "Warning! line %d in configuration file is malformed.\n"
             + "Contents: %s";
@@ -91,11 +92,21 @@ public abstract class CsvParser<T> {
     }
 
     /**
+     * Removes the override keyword for {@code position} in {@code elements}.
+     */
+    private void removeOverrideKeywordFromElement(final String[] elements, int position) {
+        if (isElementOverridingStandaloneConfig(elements, position)) {
+            elements[position] = elements[position].replaceFirst(OVERRIDE_KEYWORD, "");
+        }
+    }
+
+    /**
      * Gets the value of {@code position} in {@code elements}.
      * Returns the value of {@code position} if it is in {@code element} and not empty.
      * Otherwise returns an empty string.
      */
     protected String getValueInElement(final String[] elements, int position) {
+        removeOverrideKeywordFromElement(elements, position);
         return (containsValueAtPosition(elements, position)) ? elements[position] : "";
     }
 
@@ -105,6 +116,7 @@ public abstract class CsvParser<T> {
      * Otherwise returns the {@code defaultValue}.
      */
     protected String getValueInElement(final String[] elements, int position, String defaultValue) {
+        removeOverrideKeywordFromElement(elements, position);
         return (containsValueAtPosition(elements, position)) ? elements[position] : defaultValue;
     }
 
@@ -121,6 +133,13 @@ public abstract class CsvParser<T> {
 
         String manyValue = getValueInElement(elements, position);
         return Arrays.stream(manyValue.split(COLUMN_VALUES_SEPARATOR)).map(String::trim).collect(Collectors.toList());
+    }
+
+    /**
+     * Checks if {@code position} in {@code element} is prefixed with the override keyword.
+     */
+    protected boolean isElementOverridingStandaloneConfig(final String[] elements, int position) {
+        return (containsValueAtPosition(elements, position)) && elements[position].startsWith(OVERRIDE_KEYWORD);
     }
 
     /**
