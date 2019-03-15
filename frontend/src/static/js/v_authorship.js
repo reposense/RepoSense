@@ -274,9 +274,8 @@ window.vAuthorship = {
     selectedFiles() {
       if (!this.containsGroups) {
         return this.files.filter((file) => this.isSelectedFileTypes(file.path));
-      } else {
-        return this.files.filter((file) => this.isSelectedGroups(file.group));
       }
+      return this.files.filter((file) => this.isSelectedGroups(file.group));
     },
   },
 
