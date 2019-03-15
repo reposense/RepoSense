@@ -232,6 +232,7 @@ window.vAuthorship = {
 
     tickAllCheckboxes() {
       this.selectedFileFormats = this.fileFormats.slice();
+      this.selectedGroups = this.groups.slice();
       this.isSelectAllChecked = true;
       this.filterSearch = '*';
     },
@@ -243,7 +244,15 @@ window.vAuthorship = {
       submitButton.disabled = false;
 
       this.tickAllCheckboxes();
-      const checkboxes = document.getElementsByClassName('mui-checkbox--fileformat');
+      document.getElementsByClassName('mui-checkbox--all')[0].disabled = true;
+      let checkboxes = [];
+
+      if (!this.containsGroups) {
+        checkboxes = document.getElementsByClassName('mui-checkbox--fileformat');
+      } else {
+        checkboxes = document.getElementsByClassName('mui-checkbox--group');
+      }
+
       Array.from(checkboxes).forEach((checkbox) => {
         checkbox.disabled = true;
       });
@@ -257,7 +266,15 @@ window.vAuthorship = {
       submitButton.disabled = true;
 
       this.tickAllCheckboxes();
-      const checkboxes = document.getElementsByClassName('mui-checkbox--fileformat');
+      document.getElementsByClassName('mui-checkbox--all')[0].disabled = false;
+      let checkboxes = [];
+
+      if (!this.containsGroups) {
+        checkboxes = document.getElementsByClassName('mui-checkbox--fileformat');
+      } else {
+        checkboxes = document.getElementsByClassName('mui-checkbox--group');
+      }
+
       Array.from(checkboxes).forEach((checkbox) => {
         checkbox.disabled = false;
       });
