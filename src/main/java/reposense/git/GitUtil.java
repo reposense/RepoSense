@@ -85,6 +85,7 @@ class GitUtil {
 
     /**
      * Returns the {@code String} command to specify the globs to exclude for `git log` command.
+     * Also checks that every file in {@code String} file is within the given repository {@code File} root
      */
     public static String convertToGitExcludeGlobArgs(File root, List<String> ignoreGlobList) {
         StringBuilder gitExcludeGlobArgsBuilder = new StringBuilder();
@@ -99,6 +100,7 @@ class GitUtil {
 
     /**
      * Returns true if the {@code String} path is inside the current repository
+     * Produces log messages when the invalid file path is skipped
      */
     public static boolean isValidPath(File repoRoot, String path) {
         String validPath = path;
@@ -119,8 +121,6 @@ class GitUtil {
 
     /**
      * Returns true if the child path is inside repository folder
-     * @throws IOException if file system queries are needed
-     * @throws SecurityException if file permission rights are needed
      */
     private static boolean childIsInsideRepo(File repoRoot, File child) {
         try {
