@@ -189,16 +189,7 @@ header{
         font-weight:bold;
     }
 
-    &__group--breakdown{
-        overflow-y:hidden;
-
-        &__legend{
-            float:left;
-            display:inline;
-        }
-    }
-
-    &__fileformat--breakdown{
+    &__group--breakdown, &__fileformat--breakdown{
         overflow-y:hidden;
 
         &__legend{
@@ -273,15 +264,7 @@ header{
             background-color:mui-color("red");
         }
 
-        &--bar--group{
-            text-align:left;
-            height:0.3rem;
-            margin-top:0.1rem;
-            float:left;
-            display: inline-block;
-        }
-
-        &--bar--fileformat{
+        &--bar--group, &--bar--fileformat{
             text-align:left;
             height:0.3rem;
             margin-top:0.1rem;

@@ -30,8 +30,8 @@ window.vAuthorship = {
       fileFormats: [],
       selectedGroups: [],
       groups: [],
-      filesBlankLinesObj: {},
-      filesGroupsBlankLinesObj: {},
+      fileFormatBlankLinesObj: {},
+      groupBlankLinesObj: {},
       totalLineCount: '',
       totalBlankLineCount: '',
       containsGroups: false,
@@ -111,8 +111,8 @@ window.vAuthorship = {
 
     processFiles(files) {
       const res = [];
-      const filesBlanksInfoObj = {};
-      const filesGroupsBlanksInfoObj = {};
+      const fileFormatBlanksInfoObj = {};
+      const groupBlanksInfoObj = {};
       let totalLineCount = 0;
       let totalBlankLineCount = 0;
 
@@ -133,9 +133,9 @@ window.vAuthorship = {
           let fileFormat = file.path.split('.').pop();
           fileFormat = (fileFormat.length === 0) ? 'others' : fileFormat;
           this.addBlankLineCount(fileFormat, segmentInfo.blankLineCount,
-              filesBlanksInfoObj);
+              fileFormatBlanksInfoObj);
           this.addBlankLineCount(file.group, segmentInfo.blankLineCount,
-              filesGroupsBlanksInfoObj);
+              groupBlanksInfoObj);
           res.push(out);
         }
       });
@@ -156,8 +156,8 @@ window.vAuthorship = {
         });
       }
 
-      this.filesBlankLinesObj = filesBlanksInfoObj;
-      this.filesGroupsBlankLinesObj = filesGroupsBlanksInfoObj;
+      this.fileFormatBlankLinesObj = fileFormatBlanksInfoObj;
+      this.groupBlankLinesObj = groupBlanksInfoObj;
       this.files = res;
       this.isLoaded = true;
 
@@ -207,12 +207,6 @@ window.vAuthorship = {
         this.selectedGroups.splice(index, 1);
       } else {
         this.selectedGroups.push(group);
-      }
-
-      if (this.groups.length === this.selectedGroups.length) {
-        this.isSelectAllChecked = true;
-      } else if (this.selectedGroups.length === 0) {
-        this.isSelectAllChecked = false;
       }
     },
 
@@ -296,16 +290,16 @@ window.vAuthorship = {
         repo.location.organization}/${repo.location.repoName}/${path}/${repo.branch}/${file.path}`;
     },
 
-    getFileBlankLineInfo(fileFormat) {
+    getFileFormatBlankLineInfo(fileFormat) {
       return `${fileFormat}: Blank: ${
-        this.filesBlankLinesObj[fileFormat]}, Non-Blank: ${
-        this.info.filesLinesObj[fileFormat] - this.filesBlankLinesObj[fileFormat]}`;
+        this.fileFormatBlankLinesObj[fileFormat]}, Non-Blank: ${
+        this.info.filesLinesObj[fileFormat] - this.fileFormatBlankLinesObj[fileFormat]}`;
     },
 
     getGroupBlankLineInfo(group) {
       return `${group}: Blank: ${
-        this.filesGroupsBlankLinesObj[group]}, Non-Blank: ${
-        this.info.filesGroupsObj[group] - this.filesGroupsBlankLinesObj[group]}`;
+        this.groupBlankLinesObj[group]}, Non-Blank: ${
+        this.info.filesGroupsObj[group] - this.groupBlankLinesObj[group]}`;
     },
 
     getTotalFileBlankLineInfo() {
@@ -323,14 +317,14 @@ window.vAuthorship = {
       return this.files.filter((file) => this.isSelectedGroups(file.group)
           && minimatch(file.path, this.filterSearch, { matchBase: true }));
     },
-    getExistingLinesObj() {
+    getFileFormatExistingLinesObj() {
       return Object.keys(this.info.filesLinesObj)
           .filter((type) => this.info.filesLinesObj[type] > 0)
           .reduce((acc, key) => ({
             ...acc, [key]: this.info.filesLinesObj[key],
           }), {});
     },
-    getGroupsExistingLinesObj() {
+    getGroupExistingLinesObj() {
       return Object.keys(this.info.filesGroupsObj)
           .filter((type) => this.info.filesGroupsObj[type] > 0)
           .reduce((acc, key) => ({

@@ -108,36 +108,38 @@ html
             .summary-charts__title(
               v-if="filterGroupRepos",
             ) {{ repo[0].repoPath }}
-            .summary-charts__fileformat--breakdown(v-if="filterBreakdown && !repoContainsGroups[repo[0].repoPath]")
-              template(v-if="filterGroupRepos")
-                .summary-charts__fileformat--breakdown__legend(
-                    v-for="fileFormat in Object.keys(repo[0].fileFormatContribution)")
-                  i.fas.fa-circle(
-                      v-bind:style="{ 'color' : contributionBarColors[fileFormat] }"
-                  )
-                  span &nbsp; {{ fileFormat }} &nbsp;
-              template(v-else)
-                .summary-charts__fileformat--breakdown__legend(
-                    v-for="fileFormat in Object.keys(contributionBarColors)")
-                  i.fas.fa-circle(
-                      v-bind:style="{ 'color' : contributionBarColors[fileFormat] }"
-                  )
-                  span &nbsp; {{ fileFormat }} &nbsp;
-            .summary-charts__group--breakdown(v-if="filterBreakdown && repoContainsGroups[repo[0].repoPath]")
-              template(v-if="filterGroupRepos")
-                .summary-charts__group--breakdown__legend(
-                    v-for="group in Object.keys(repo[0].groupContribution)")
-                  i.fas.fa-circle(
-                      v-bind:style="{ 'color' : contributionBarGroupColors[group] }"
-                  )
-                  span &nbsp; {{ group }} &nbsp;
-              template(v-else)
-                .summary-charts__group--breakdown__legend(
-                    v-for="group in Object.keys(contributionBarGroupColors)")
-                  i.fas.fa-circle(
-                      v-bind:style="{ 'color' : contributionBarGroupColors[group] }"
-                  )
-                  span &nbsp; {{ group }} &nbsp;
+            template(v-if="!repoContainsGroups[repo[0].repoPath]")
+              .summary-charts__fileformat--breakdown(v-if="filterBreakdown")
+                template(v-if="filterGroupRepos")
+                  .summary-charts__fileformat--breakdown__legend(
+                      v-for="fileFormat in Object.keys(repo[0].fileFormatContribution)")
+                    i.fas.fa-circle(
+                        v-bind:style="{ 'color' : contributionBarFileFormatColors[fileFormat] }"
+                    )
+                    span &nbsp; {{ fileFormat }} &nbsp;
+                template(v-else)
+                  .summary-charts__fileformat--breakdown__legend(
+                      v-for="fileFormat in Object.keys(contributionBarFileFormatColors)")
+                    i.fas.fa-circle(
+                        v-bind:style="{ 'color' : contributionBarFileFormatColors[fileFormat] }"
+                    )
+                    span &nbsp; {{ fileFormat }} &nbsp;
+            template(v-else)
+              .summary-charts__group--breakdown(v-if="filterBreakdown")
+                template(v-if="filterGroupRepos")
+                  .summary-charts__group--breakdown__legend(
+                      v-for="group in Object.keys(repo[0].groupContribution)")
+                    i.fas.fa-circle(
+                        v-bind:style="{ 'color' : contributionBarGroupColors[group] }"
+                    )
+                    span &nbsp; {{ group }} &nbsp;
+                template(v-else)
+                  .summary-charts__group--breakdown__legend(
+                      v-for="group in Object.keys(contributionBarGroupColors)")
+                    i.fas.fa-circle(
+                        v-bind:style="{ 'color' : contributionBarGroupColors[group] }"
+                    )
+                    span &nbsp; {{ group }} &nbsp;
             .summary-chart(v-for="(user, i) in repo")
               .summary-chart__title
                 .summary-chart__title--index {{ i+1 }}
@@ -187,31 +189,32 @@ html
                     }"
                   )
               .summary-chart__contribution
-                template(v-if="repoContainsGroups[user.repoPath] && filterBreakdown")
-                  .summary-chart__contrib(
-                      v-for="(widths, group) in getGroupContributionBars(user.groupContribution)"
-                  )
-                    .summary-chart__contrib--bar--group(
-                        v-for="width in widths",
-                        v-bind:style="{ width: width + '%',\
-                            'background-color': contributionBarGroupColors[group] }",
-                        v-bind:title="group + ': ' + user.groupContribution[group] + ' lines, '\
-                            + 'total: ' + user.totalCommits + ' lines ' + '(contribution from ' + minDate + ' to '\
-                            + maxDate + ')'"
-                     )
-                template(v-if="!repoContainsGroups[user.repoPath] && filterBreakdown")
-                  .summary-chart__contrib(
-                      v-for="(widths, fileFormat) in getFileFormatContributionBars(user.fileFormatContribution)"
-                  )
-                    .summary-chart__contrib--bar--fileformat(
-                        v-for="width in widths",
-                        v-bind:style="{ width: width + '%',\
-                            'background-color': contributionBarColors[fileFormat] }",
-                        v-bind:title="fileFormat + ': ' + user.fileFormatContribution[fileFormat] + ' lines, '\
-                            + 'total: ' + user.totalCommits + ' lines ' + '(contribution from ' + minDate + ' to '\
-                            + maxDate + ')'"
+                template(v-if="filterBreakdown")
+                  template(v-if="repoContainsGroups[user.repoPath]")
+                    .summary-chart__contrib(
+                        v-for="(widths, group) in getBreakdownContributionBars(user.groupContribution)"
                     )
-                template(v-if="!filterBreakdown")
+                      .summary-chart__contrib--bar--group(
+                          v-for="width in widths",
+                          v-bind:style="{ width: width + '%',\
+                              'background-color': contributionBarGroupColors[group] }",
+                          v-bind:title="group + ': ' + user.groupContribution[group] + ' lines, '\
+                              + 'total: ' + user.totalCommits + ' lines ' + '(contribution from ' + minDate + ' to '\
+                              + maxDate + ')'"
+                       )
+                  template(v-else)
+                    .summary-chart__contrib(
+                        v-for="(widths, fileFormat) in getBreakdownContributionBars(user.fileFormatContribution)"
+                    )
+                      .summary-chart__contrib--bar--fileformat(
+                          v-for="width in widths",
+                          v-bind:style="{ width: width + '%',\
+                              'background-color': contributionBarFileFormatColors[fileFormat] }",
+                          v-bind:title="fileFormat + ': ' + user.fileFormatContribution[fileFormat] + ' lines, '\
+                              + 'total: ' + user.totalCommits + ' lines ' + '(contribution from ' + minDate + ' to '\
+                              + maxDate + ')'"
+                      )
+                template(v-else)
                   .summary-chart__contrib(
                       v-bind:title="'Total contribution from ' + minDate + ' to ' + maxDate + ': '\
                           + user.totalCommits + ' lines'"
@@ -247,19 +250,19 @@ html
                 span.loc(v-bind:title="getTotalFileBlankLineInfo()") {{ totalLineCount }}&nbsp;
                 span.bloc(v-bind:title="getTotalFileBlankLineInfo()") ({{ totalBlankLineCount }})
               template(v-if="containsGroups")
-                template(v-for="group in Object.keys(getGroupsExistingLinesObj)", v-bind:key="group")
+                template(v-for="group in Object.keys(getGroupExistingLinesObj)", v-bind:key="group")
                   label
                     input.mui-checkbox--group(type="checkbox" :checked="selectedGroups.includes(group)"
                         v-on:change="selectGroup(group)")
-                    span(v-bind:title="getGroupBlankLineInfo(group)") {{ group }}: {{ getGroupsExistingLinesObj[group] }}&nbsp;
-                    span.bloc(v-bind:title="getGroupBlankLineInfo(group)") ({{ filesGroupsBlankLinesObj[group] }})
+                    span(v-bind:title="getGroupBlankLineInfo(group)") {{ group }}: {{ getGroupExistingLinesObj[group] }}&nbsp;
+                    span.bloc(v-bind:title="getGroupBlankLineInfo(group)") ({{ groupBlankLinesObj[group] }})
               template(v-else)
-                template(v-for="format in Object.keys(getExistingLinesObj)", v-bind:key="format")
+                template(v-for="format in Object.keys(getFileFormatExistingLinesObj)", v-bind:key="format")
                   label
                     input.mui-checkbox--fileformat(type="checkbox" :checked="selectedFileFormats.includes(format)"
                         v-on:change="selectFileFormat(format)")
-                    span(v-bind:title="getFileBlankLineInfo(format)") {{ format }}: {{ getExistingLinesObj[format] }}&nbsp;
-                    span.bloc(v-bind:title="getFileBlankLineInfo(format)") ({{ filesBlankLinesObj[format] }})
+                    span(v-bind:title="getFileFormatBlankLineInfo(format)") {{ format }}: {{ getFileFormatExistingLinesObj[format] }}&nbsp;
+                    span.bloc(v-bind:title="getFileFormatBlankLineInfo(format)") ({{ fileFormatBlankLinesObj[format] }})
         .files(v-if="isLoaded")
           .empty(v-if="files.length === 0") nothing to see here :(
           template(v-for="file in selectedFiles")
