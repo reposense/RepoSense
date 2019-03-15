@@ -482,34 +482,11 @@ window.vSummary = {
           }
         });
       });
-      const authorData = {};
-      // If filterSort is related to variance & contribution, sum them up
-      if (repos[0] && !Number.isNaN(repos[0][0][this.filterSort])) {
-        Object.keys(authorMap).forEach((author) => {
-          authorData[author] = {};
-          // [no of repos, total count]
-          authorData[author][this.filterSort] = [0, 0];
-          authorMap[author].forEach((repo) => {
-            authorData[author][this.filterSort][0] += 1;
-            authorData[author][this.filterSort][1] += repo[this.filterSort];
-          });
-        });
-        // Calculate average
-        Object.keys(authorData).forEach((author) => {
-          Object.keys(authorData[author]).forEach((filterProp) => {
-            const [totalNum, totalValue] = authorData[author][filterProp];
-            authorData[author][filterProp].average = totalValue / totalNum;
-          });
-        });
-      }
 
       Object.keys(authorMap).forEach((author) => filtered.push(authorMap[author]));
       filtered.sort(comparator((ele) => {
-        if (this.filterSort === 'totalCommits' || this.filterSort === 'variance') {
-          return authorData[ele[0].name][this.filterSort].average;
-        }
-        const field = ele[0][this.filterSort];
-        return field.toLowerCase ? field.toLowerCase() : field;
+        const field = ele[0].displayName;
+        return field.toLowerCase();
       }));
       return filtered;
     },
