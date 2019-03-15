@@ -42,6 +42,8 @@ public class RepoConfigurationTest {
             .getResource("RepoConfigurationTest/repoconfig_formats_test").getFile()).toPath();
     private static final Path WITHOUT_FORMATS_TEST_CONFIG_FILES = new File(CsvParserTest.class.getClassLoader()
             .getResource("RepoConfigurationTest/repoconfig_withoutformats_test").getFile()).toPath();
+    private static final Path OVERRIDE_STANDALONE_TEST = new File(CsvParserTest.class.getClassLoader()
+                    .getResource("RepoConfigurationTest/repoconfig_overrideStandAlone_test").getFile()).toPath();
 
     private static final String TEST_REPO_DELTA = "https://github.com/reposense/testrepo-Delta.git";
 
@@ -259,5 +261,40 @@ public class RepoConfigurationTest {
                 new RepoConfiguration(new RepoLocation(TEST_REPO_DELTA));
 
         Assert.assertNotEquals(validLocationDefaultBranchRepoConfig, validLocationValidBranchRepoConfig);
+    }
+
+    @Test
+    public void repoConfig_overrideStandaloneConfig_success()
+            throws ParseException, GitCloneException, IOException, HelpScreenException {
+        RepoConfiguration expectedConfig = new RepoConfiguration(new RepoLocation(TEST_REPO_DELTA), "master");
+
+        List<Author> expectedAuthorList = new ArrayList<>();
+        Author[] authors = new Author[]{FIRST_AUTHOR, SECOND_AUTHOR, THIRD_AUTHOR, FOURTH_AUTHOR};
+        for (Author author : authors) {
+            Author expectedAuthor = new Author(author);
+            List<String> expectedAuthorIgnoreGlobList = new ArrayList<>();
+            expectedAuthorIgnoreGlobList.addAll(author.getIgnoreGlobList());
+            expectedAuthorIgnoreGlobList.removeAll(REPO_LEVEL_GLOB_LIST);
+            expectedAuthor.setIgnoreGlobList(expectedAuthorIgnoreGlobList);
+            expectedAuthorList.add(expectedAuthor);
+        }
+        expectedConfig.setAuthorList(expectedAuthorList);
+        expectedConfig.setAuthorDisplayNameMap(REPO_DELTA_STANDALONE_CONFIG.getAuthorDisplayNameMap());
+        expectedConfig.setAuthorEmailsAndAliasesMap(REPO_DELTA_STANDALONE_CONFIG.getAuthorEmailsAndAliasesMap());
+
+        String formats = String.join(" ", CLI_FORMATS);
+        String input = new InputBuilder().addConfig(OVERRIDE_STANDALONE_TEST)
+                .addFormats(formats)
+                .build();
+        CliArguments cliArguments = ArgsParser.parse(translateCommandline(input));
+
+        List<RepoConfiguration> actualConfigs =
+                new RepoConfigCsvParser(((ConfigCliArguments) cliArguments).getRepoConfigFilePath()).parse();
+
+        RepoConfiguration actualConfig = actualConfigs.get(0);
+        GitClone.clone(actualConfig);
+        ReportGenerator.updateRepoConfig(actualConfig);
+
+        TestUtil.compareRepoConfig(expectedConfig, actualConfig);
     }
 }

@@ -31,6 +31,8 @@ public class CsvParserTest {
             .getResource("repoconfig_empty_branch_test").getFile()).toPath();
     private static final Path REPO_CONFIG_NO_SPECIAL_CHARACTER_FILE = new File(CsvParserTest.class.getClassLoader()
             .getResource("CsvParserTest/repoconfig_noSpecialCharacter_test.csv").getFile()).toPath();
+    private static final Path REPO_CONFIG_OVERRIDE_KEYWORD_FILE = new File(CsvParserTest.class.getClassLoader()
+            .getResource("CsvParserTest/repoconfig_overrideKeyword_test.csv").getFile()).toPath();
     private static final Path AUTHOR_CONFIG_EMPTY_LOCATION_FILE = new File(CsvParserTest.class.getClassLoader()
             .getResource("CsvParserTest/authorconfig_emptyLocation_test.csv").getFile()).toPath();
     private static final Path AUTHOR_CONFIG_NO_SPECIAL_CHARACTER_FILE = new File(CsvParserTest.class.getClassLoader()
@@ -246,5 +248,24 @@ public class CsvParserTest {
         Assert.assertEquals(1, actualConfigs.size());
         Assert.assertEquals(expectedConfig.getBranch(), actualConfigs.get(0).getBranch());
         Assert.assertEquals(expectedConfig.getBranch(), authorConfigs.get(0).getBranch());
+    }
+
+    @Test
+    public void repoConfig_overrideKeyword_success() throws ParseException, IOException, HelpScreenException {
+        RepoConfigCsvParser repoConfigCsvParser = new RepoConfigCsvParser(REPO_CONFIG_OVERRIDE_KEYWORD_FILE);
+        List<RepoConfiguration> configs = repoConfigCsvParser.parse();
+        RepoConfiguration config = configs.get(0);
+
+        Assert.assertEquals(1, configs.size());
+        Assert.assertEquals(new RepoLocation(TEST_REPO_BETA_LOCATION), config.getLocation());
+        Assert.assertEquals(TEST_REPO_BETA_BRANCH, config.getBranch());
+        Assert.assertEquals(TEST_REPO_BETA_CONFIG_FORMATS, TEST_REPO_BETA_CONFIG_FORMATS);
+        Assert.assertFalse(config.isStandaloneConfigIgnored());
+        Assert.assertEquals(config.getIgnoreCommitList(),
+                CommitHash.convertStringsToCommits(TEST_REPO_BETA_CONFIG_IGNORED_COMMITS));
+
+        Assert.assertTrue(config.isFormatsOverriding());
+        Assert.assertTrue(config.isIgnoreGlobListOverriding());
+        Assert.assertTrue(config.isIgnoreCommitListOverriding());
     }
 }

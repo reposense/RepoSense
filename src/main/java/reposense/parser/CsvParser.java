@@ -94,7 +94,7 @@ public abstract class CsvParser<T> {
     /**
      * Removes the override keyword for {@code position} in {@code elements}.
      */
-    private void removeOverrideKeywordFromElement(final String[] elements, int position) {
+    protected void removeOverrideKeywordFromElement(final String[] elements, int position) {
         if (isElementOverridingStandaloneConfig(elements, position)) {
             elements[position] = elements[position].replaceFirst(OVERRIDE_KEYWORD, "");
         }
@@ -106,7 +106,6 @@ public abstract class CsvParser<T> {
      * Otherwise returns an empty string.
      */
     protected String getValueInElement(final String[] elements, int position) {
-        removeOverrideKeywordFromElement(elements, position);
         return (containsValueAtPosition(elements, position)) ? elements[position] : "";
     }
 
@@ -116,7 +115,6 @@ public abstract class CsvParser<T> {
      * Otherwise returns the {@code defaultValue}.
      */
     protected String getValueInElement(final String[] elements, int position, String defaultValue) {
-        removeOverrideKeywordFromElement(elements, position);
         return (containsValueAtPosition(elements, position)) ? elements[position] : defaultValue;
     }
 

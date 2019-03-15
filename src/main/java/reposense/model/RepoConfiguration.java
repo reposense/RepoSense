@@ -346,4 +346,16 @@ public class RepoConfiguration {
     public boolean isStandaloneConfigIgnored() {
         return isStandaloneConfigIgnored;
     }
+
+    public boolean isFormatsOverriding() {
+        return isFormatsOverriding;
+    }
+
+    public boolean isIgnoreGlobListOverriding() {
+        return isIgnoreGlobListOverriding;
+    }
+
+    public boolean isIgnoreCommitListOverriding() {
+        return isIgnoreCommitListOverriding;
+    }
 }
