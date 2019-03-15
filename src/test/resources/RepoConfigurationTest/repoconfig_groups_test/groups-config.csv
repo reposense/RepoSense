@@ -1,4 +1,4 @@
-Group Name,Globs
-test,src/test**
-code,**.java
-docs,docs**
+Repository's Location,Group Name,Globs
+https://github.com/reposense/testrepo-Beta.git,test,src/test**
+https://github.com/reposense/testrepo-Beta.git,code,**.java
+https://github.com/reposense/testrepo-Beta.git,docs,docs**

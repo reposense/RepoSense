@@ -3,6 +3,7 @@ package reposense.builder;
 import java.util.List;
 
 import reposense.model.Author;
+import reposense.model.Group;
 import reposense.model.RepoConfiguration;
 import reposense.model.RepoLocation;
 import reposense.parser.InvalidLocationException;
@@ -36,6 +37,11 @@ public class ConfigurationBuilder {
 
     public ConfigurationBuilder authorList(List<Author> list) {
         config.setAuthorList(list);
+        return this;
+    }
+
+    public ConfigurationBuilder groupList(List<Group> list) {
+        config.setGroupList(list);
         return this;
     }
 

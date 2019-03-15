@@ -1,4 +1,0 @@
-Group Name, Globs
-code,**.java
-tests,test**
-docs,docs**;**.adoc;**.md

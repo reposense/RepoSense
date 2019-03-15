@@ -2,13 +2,10 @@ package reposense.parser;
 
 import java.io.IOException;
 import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.util.Collections;
 import java.util.List;
 
 import reposense.model.CommitHash;
 import reposense.model.Format;
-import reposense.model.Group;
 import reposense.model.RepoConfiguration;
 import reposense.model.RepoLocation;
 
@@ -25,17 +22,9 @@ public class RepoConfigCsvParser extends CsvParser<RepoConfiguration> {
     private static final int IGNORE_GLOB_LIST_POSITION = 3;
     private static final int IGNORE_STANDALONE_CONFIG_POSITION = 4;
     private static final int IGNORE_COMMIT_LIST_CONFIG_POSITION = 5;
-    private static final int GROUPS_CONFIG_POSITION = 6;
-
-    private static String configFolderPath;
 
     public RepoConfigCsvParser(Path csvFilePath) throws IOException {
         super(csvFilePath);
-        if (csvFilePath.getParent() != null) {
-            this.configFolderPath = csvFilePath.getParent().toString() + '/';
-        } else {
-            this.configFolderPath = "./";
-        }
     }
 
     /**
@@ -62,14 +51,6 @@ public class RepoConfigCsvParser extends CsvParser<RepoConfiguration> {
         String ignoreStandaloneConfig = getValueInElement(elements, IGNORE_STANDALONE_CONFIG_POSITION);
         List<CommitHash> ignoreCommitList = CommitHash.convertStringsToCommits(
                 getManyValueInElement(elements, IGNORE_COMMIT_LIST_CONFIG_POSITION));
-        List<Group> groups = Collections.emptyList();
-        try {
-            groups = new GroupConfigCsvParser(Paths.get(configFolderPath
-                + getValueInElement(elements, GROUPS_CONFIG_POSITION))).parse();
-        } catch (IOException e) {
-            // IOException thrown as config file for groups is not found.
-            // Ignore exception as the file is optional.
-        }
 
         boolean isStandaloneConfigIgnored = ignoreStandaloneConfig.equalsIgnoreCase(IGNORE_STANDALONE_CONFIG_KEYWORD);
 
@@ -79,7 +60,7 @@ public class RepoConfigCsvParser extends CsvParser<RepoConfiguration> {
         }
 
         RepoConfiguration config = new RepoConfiguration(
-                location, branch, formats, ignoreGlobList, isStandaloneConfigIgnored, ignoreCommitList, groups);
+                location, branch, formats, ignoreGlobList, isStandaloneConfigIgnored, ignoreCommitList);
 
         if (results.contains(config)) {
             logger.warning("Ignoring duplicated repository " + location + " " + branch);

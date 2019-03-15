@@ -25,6 +25,7 @@ import reposense.model.CliArguments;
 import reposense.model.ConfigCliArguments;
 import reposense.model.Format;
 import reposense.model.Group;
+import reposense.model.GroupConfiguration;
 import reposense.model.LocationsCliArguments;
 import reposense.model.RepoConfiguration;
 import reposense.model.RepoLocation;
@@ -239,9 +240,13 @@ public class RepoConfigurationTest {
 
         List<RepoConfiguration> actualConfigs =
             new RepoConfigCsvParser(((ConfigCliArguments) cliArguments).getRepoConfigFilePath()).parse();
+        List<GroupConfiguration> groupConfigs =
+                new GroupConfigCsvParser(((ConfigCliArguments) cliArguments).getGroupConfigFilePath()).parse();
+
+        RepoConfiguration.mergeGroups(actualConfigs, groupConfigs);
 
         Assert.assertEquals(1, actualConfigs.size());
-        Assert.assertEquals(CONFIG_GROUPS, actualConfigs.get(0).getGroups());
+        Assert.assertEquals(CONFIG_GROUPS, actualConfigs.get(0).getGroupList());
     }
 
     @Test

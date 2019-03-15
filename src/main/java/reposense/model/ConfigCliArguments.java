@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Optional;
 
 import reposense.parser.AuthorConfigCsvParser;
+import reposense.parser.GroupConfigCsvParser;
 import reposense.parser.RepoConfigCsvParser;
 
 /**
@@ -18,6 +19,7 @@ public class ConfigCliArguments extends CliArguments {
     private Path configFolderPath;
     private Path repoConfigFilePath;
     private Path authorConfigFilePath;
+    private Path groupConfigFilePath;
 
     public ConfigCliArguments(Path configFolderPath, Path outputFilePath, Optional<Date> sinceDate,
             Optional<Date> untilDate, List<Format> formats, boolean isAutomaticallyLaunching) {
@@ -26,6 +28,7 @@ public class ConfigCliArguments extends CliArguments {
                 : configFolderPath;
         this.repoConfigFilePath = configFolderPath.resolve(RepoConfigCsvParser.REPO_CONFIG_FILENAME);
         this.authorConfigFilePath = configFolderPath.resolve(AuthorConfigCsvParser.AUTHOR_CONFIG_FILENAME);
+        this.groupConfigFilePath = configFolderPath.resolve(GroupConfigCsvParser.GROUP_CONFIG_FILENAME);
         this.outputFilePath = outputFilePath;
         this.sinceDate = sinceDate;
         this.untilDate = untilDate;
@@ -45,6 +48,10 @@ public class ConfigCliArguments extends CliArguments {
         return authorConfigFilePath;
     }
 
+    public Path getGroupConfigFilePath() {
+        return groupConfigFilePath;
+    }
+
     public boolean equals(Object other) {
         // short circuit if same object
         if (this == other) {
@@ -60,6 +67,7 @@ public class ConfigCliArguments extends CliArguments {
 
         return super.equals(other)
                 && this.repoConfigFilePath.equals(otherConfigCliArguments.repoConfigFilePath)
-                && this.authorConfigFilePath.equals(otherConfigCliArguments.authorConfigFilePath);
+                && this.authorConfigFilePath.equals(otherConfigCliArguments.authorConfigFilePath)
+                && this.groupConfigFilePath.equals(otherConfigCliArguments.groupConfigFilePath);
     }
 }

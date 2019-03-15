@@ -107,7 +107,7 @@ public class FileInfoAnalyzer {
      * Sets specified {@code Group} for {@code fileInfo}
      */
     private static void setGroup(RepoConfiguration config, FileInfo fileInfo) {
-        List<Group> groups = config.getGroups();
+        List<Group> groups = config.getGroupList();
         if (groups.isEmpty()) {
             fileInfo.setGroup("none");
         } else {

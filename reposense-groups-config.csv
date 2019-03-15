@@ -1,5 +1,0 @@
-Group Name, Globs
-frontend,frontend**
-backend,**.java
-tests,test**
-docs,docs**;**.md;**.adoc
