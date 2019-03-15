@@ -72,6 +72,9 @@ window.vSummary = {
     filterSortReverse() {
       this.getFiltered();
     },
+    filterTimeFrame() {
+      this.getFiltered();
+    },
     filterGroupSelection() {
       this.getFiltered();
     },
