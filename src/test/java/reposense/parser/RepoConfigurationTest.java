@@ -15,6 +15,7 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
+import net.sourceforge.argparse4j.helper.HelpScreenException;
 import reposense.RepoSense;
 import reposense.git.GitClone;
 import reposense.git.GitCloneException;
@@ -124,7 +125,7 @@ public class RepoConfigurationTest {
 
     @Test
     public void repoConfig_ignoresStandaloneConfig_success()
-            throws ParseException, GitCloneException, IOException {
+            throws ParseException, GitCloneException, IOException, HelpScreenException {
         List<Author> expectedAuthors = new ArrayList<>();
         Author author = new Author(FIRST_AUTHOR);
         author.setIgnoreGlobList(REPO_LEVEL_GLOB_LIST);
@@ -159,7 +160,8 @@ public class RepoConfigurationTest {
     }
 
     @Test
-    public void repoConfig_ignoresStandaloneConfigInCli_success() throws ParseException, GitCloneException {
+    public void repoConfig_ignoresStandaloneConfigInCli_success()
+            throws ParseException, GitCloneException, HelpScreenException {
         RepoConfiguration expectedConfig = new RepoConfiguration(new RepoLocation(TEST_REPO_DELTA), "master");
         expectedConfig.setFormats(Format.convertStringsToFormats(CLI_FORMATS));
         expectedConfig.setStandaloneConfigIgnored(true);
@@ -181,7 +183,7 @@ public class RepoConfigurationTest {
 
     @Test
     public void repoConfig_wrongKeywordUseStandaloneConfig_success()
-            throws ParseException, GitCloneException, IOException {
+            throws ParseException, GitCloneException, IOException, HelpScreenException {
         String formats = String.join(" ", CLI_FORMATS);
         String input = new InputBuilder().addConfig(IGNORE_STANDALONE_KEYWORD_TEST_CONFIG_FILES)
                 .addFormats(formats)
@@ -199,7 +201,7 @@ public class RepoConfigurationTest {
     }
 
     @Test
-    public void repoConfig_withFormats_ignoreCliFormats() throws ParseException, IOException {
+    public void repoConfig_withFormats_ignoreCliFormats() throws ParseException, IOException, HelpScreenException {
         String formats = String.join(" ", CLI_FORMATS);
         String input = new InputBuilder().addConfig(FORMATS_TEST_CONFIG_FILES)
                 .addFormats(formats)
@@ -215,7 +217,7 @@ public class RepoConfigurationTest {
     }
 
     @Test
-    public void repoConfig_withoutFormats_useCliFormats() throws ParseException, IOException {
+    public void repoConfig_withoutFormats_useCliFormats() throws ParseException, IOException, HelpScreenException {
         String formats = String.join(" ", CLI_FORMATS);
         String input = new InputBuilder().addConfig(WITHOUT_FORMATS_TEST_CONFIG_FILES)
                 .addFormats(formats)
@@ -231,7 +233,7 @@ public class RepoConfigurationTest {
     }
 
     @Test
-    public void repoConfig_withGroups() throws ParseException, IOException {
+    public void repoConfig_withGroups() throws ParseException, IOException, HelpScreenException {
         String input = new InputBuilder().addConfig(GROUPS_TEST_CONFIG_FILES).build();
         CliArguments cliArguments = ArgsParser.parse(translateCommandline(input));
 
@@ -243,7 +245,8 @@ public class RepoConfigurationTest {
     }
 
     @Test
-    public void repoConfig_withoutFormatsAndCliFormats_useDefaultFormats() throws ParseException, IOException {
+    public void repoConfig_withoutFormatsAndCliFormats_useDefaultFormats()
+            throws ParseException, IOException, HelpScreenException {
         String input = new InputBuilder().addConfig(WITHOUT_FORMATS_TEST_CONFIG_FILES).build();
         CliArguments cliArguments = ArgsParser.parse(translateCommandline(input));
 

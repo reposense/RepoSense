@@ -190,22 +190,20 @@ header{
     }
 
     &__group--breakdown{
-        &__title{
-            &__name{
-                float:left;
-                display:inline-block;
-            }
+        overflow-y:hidden;
 
-            &__filled--circle{
-                float:left;
-                display:inline-block;
-                height: 13px;
-                width: 13px;
-                border-radius: 50%;
-                margin-top:0.25rem;
-                margin-left:0.25rem;
-                margin-right:0.25rem;
-            }
+        &__legend{
+            float:left;
+            display:inline;
+        }
+    }
+
+    &__fileformat--breakdown{
+        overflow-y:hidden;
+
+        &__legend{
+            float:left;
+            display:inline;
         }
     }
 }
@@ -282,6 +280,14 @@ header{
             float:left;
             display: inline-block;
         }
+
+        &--bar--fileformat{
+            text-align:left;
+            height:0.3rem;
+            margin-top:0.1rem;
+            float:left;
+            display: inline-block;
+        }
     }
 }
 
@@ -303,6 +309,33 @@ header{
             margin-top:0.1rem;
             color:mui-color("red");
 
+            .radio-button--search{
+                float:left;
+                margin:1.5rem 2.0rem 0rem 0rem;
+            }
+
+            .radio-button--checkbox{
+                float:left;
+                margin:0.25rem 2.0rem 0rem 0rem;
+            }
+
+            #search{
+                padding:0.5rem 1.0rem 0.25rem 1.0rem;
+                margin-top:1.0rem;
+                width: 30%;
+            }
+
+            #submit-button{
+                background-color:mui-color("blue");
+                color:mui-color("white");
+                margin:1.0rem 0rem 0rem 0.25rem;
+                padding:0.5rem 1.0rem 0.25rem 1.0rem;
+            }
+
+            #submit-button[disabled]{
+                background-color:mui-color("grey");
+            }
+
             .select {
               font-weight:bold;
             }
@@ -314,7 +347,7 @@ header{
               color:mui-color("grey");
             }
 
-            span.fileType {
+            span.fileFormat {
                 span.bloc::after {
                   content: ', ';
                 }

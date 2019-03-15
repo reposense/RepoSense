@@ -6,6 +6,7 @@ import reposense.authorship.model.AuthorshipSummary;
 import reposense.authorship.model.FileResult;
 import reposense.authorship.model.LineInfo;
 import reposense.model.Author;
+import reposense.model.Format;
 import reposense.model.Group;
 
 /**
@@ -17,15 +18,16 @@ public class FileResultAggregator {
      * Returns the {@code AuthorshipSummary} generated from aggregating the {@code fileResults}.
      */
     public static AuthorshipSummary aggregateFileResult(List<FileResult> fileResults, List<Author> authors,
-        List<Group> groups) {
-        AuthorshipSummary authorContributionSummary = new AuthorshipSummary(fileResults, authors, groups);
+        List<Format> formats, List<Group> groups) {
+        AuthorshipSummary authorContributionSummary = new AuthorshipSummary(fileResults, authors, formats, groups);
         for (FileResult fileResult : fileResults) {
             for (LineInfo lineInfo : fileResult.getLines()) {
                 Author author = lineInfo.getAuthor();
                 if (!authors.contains(author)) {
                     continue;
                 }
-                authorContributionSummary.addAuthorContributionCount(author, fileResult.getGroup());
+                authorContributionSummary.addAuthorContributionCount(author, fileResult.getPath(),
+                    fileResult.getGroup());
             }
         }
         return authorContributionSummary;

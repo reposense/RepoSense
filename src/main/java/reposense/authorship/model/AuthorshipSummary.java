@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Map;
 
 import reposense.model.Author;
+import reposense.model.Format;
 import reposense.model.Group;
 
 /**
@@ -14,15 +15,29 @@ import reposense.model.Group;
 public class AuthorshipSummary {
     private final List<FileResult> fileResults;
     private final Map<Author, Integer> authorFinalContributionMap;
+    private final Map<Author, LinkedHashMap<String, Integer>> authorFileFormatContributionMap;
     private final Map<Author, Map<String, Integer>> authorGroupContributionMap;
 
-    public AuthorshipSummary(List<FileResult> fileResults, List<Author> authors, List<Group> groups) {
+    public AuthorshipSummary(List<FileResult> fileResults, List<Author> authors, List<Format> formats,
+        List<Group> groups) {
         this.fileResults = fileResults;
         authorFinalContributionMap = new HashMap<>();
+        authorFileFormatContributionMap = new HashMap<>();
         authorGroupContributionMap = new HashMap<>();
 
         // initialise each author contribution to be 0
         authors.forEach((author) -> authorFinalContributionMap.put(author, 0));
+
+        // file format contribution
+        authors.forEach((author) -> {
+            LinkedHashMap<String, Integer> defaultFileFormatContribution = new LinkedHashMap<>();
+            for (Format format : formats) {
+                defaultFileFormatContribution.put(format.toString(), 0);
+            }
+            authorFileFormatContributionMap.put(author, defaultFileFormatContribution);
+        });
+
+        // group contribution
         if (!groups.isEmpty()) {
             authors.forEach((author) -> {
                 Map<String, Integer> defaultGroupContribution = new LinkedHashMap<>();
@@ -38,10 +53,19 @@ public class AuthorshipSummary {
     }
 
     /**
-     * Increments the contribution count of {@code author} by one.
+     * Increments the contribution count of {@code author} and the corresponding file format specified by
+     * {@code filePath} by one.
      */
-    public void addAuthorContributionCount(Author author, String group) {
+
+    public void addAuthorContributionCount(Author author, String filePath, String group) {
         authorFinalContributionMap.put(author, authorFinalContributionMap.get(author) + 1);
+        // Add file format contribution count
+        Map<String, Integer> fileFormatContributionMap = authorFileFormatContributionMap.get(author);
+        String fileFormat = filePath.substring(filePath.lastIndexOf('.') + 1);
+        fileFormat = fileFormat.isEmpty() ? "others" : fileFormat;
+        fileFormatContributionMap.put(fileFormat, fileFormatContributionMap.getOrDefault(fileFormat, 0) + 1);
+
+        // Add group contribution count
         if (group != null) {
             Map<String, Integer> groupContributionMap = authorGroupContributionMap.get(author);
             groupContributionMap.put(group, groupContributionMap.getOrDefault(group, 0) + 1);
@@ -54,6 +78,10 @@ public class AuthorshipSummary {
 
     public Map<Author, Map<String, Integer>> getAuthorGroupContributionMap() {
         return authorGroupContributionMap;
+    }
+
+    public Map<Author, LinkedHashMap<String, Integer>> getAuthorFileFormatContributionMap() {
+        return authorFileFormatContributionMap;
     }
 
     public List<FileResult> getFileResults() {

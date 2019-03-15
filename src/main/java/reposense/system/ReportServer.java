@@ -11,13 +11,13 @@ import java.util.logging.Logger;
 import net.freeutils.httpserver.HTTPServer;
 
 /**
- * Handles starting of the server to display the dashboard.
+ * Handles starting of the server to display the report.
  */
-public class DashboardServer {
+public class ReportServer {
 
     private static final String LOCAL_HOST_URL = "http://localhost:%s/";
 
-    private static final Logger logger = LogsManager.getLogger(DashboardServer.class);
+    private static final Logger logger = LogsManager.getLogger(ReportServer.class);
 
     /**
      * Starts a server at {@code port} and loads the {@code requestPath} from the local disk.
@@ -45,12 +45,12 @@ public class DashboardServer {
      */
     private static void launchBrowser(String url) throws IOException {
         try {
-            if (Desktop.isDesktopSupported()) {
+            if (Desktop.isDesktopSupported() && Desktop.getDesktop().isSupported(Desktop.Action.BROWSE)) {
                 Desktop.getDesktop().browse(new URI(url));
                 logger.info("Loading " + url + " on the default browser...");
             } else {
                 logger.severe("Browser could not be launched. Please refer to the user guide to"
-                        + " manually view the dashboard");
+                        + " manually view the report");
             }
         } catch (URISyntaxException ue) {
             logger.log(Level.SEVERE, ue.getMessage(), ue);

@@ -41,13 +41,10 @@ html
             i.fas.fa-caret-right
           .tab-content
             .tab-panes
-              #tab-authorship.tab-pane(v-if="isTabAuthorship")
-                .toolbar(v-if="tabInfo.tabAuthorship.totalCommits > 0")
-                    a(v-if="isCollapsed", v-on:click="expand(true)") Expand all
-                    a(v-else, v-on:click="expand(false)") Collapse all
-                v_authorship(
-                  v-bind:key="generateKey(tabInfo.tabAuthorship)",
-                  v-bind:info="tabInfo.tabAuthorship")
+              v_authorship#tab-authorship.tab-pane(
+                v-if="tabType === 'authorship'"
+                v-bind:key="generateKey(tabInfo.tabAuthorship)",
+                v-bind:info="tabInfo.tabAuthorship")
               #tab-empty.tab-pane(v-else)
                 .title
                   span To view the code attributed to a specific author, click the &nbsp;
@@ -111,25 +108,36 @@ html
             .summary-charts__title(
               v-if="filterGroupRepos",
             ) {{ repo[0].repoPath }}
-            template(v-if="filterBreakdown")
+            .summary-charts__fileformat--breakdown(v-if="filterBreakdown && !repoContainsGroups[repo[0].repoPath]")
               template(v-if="filterGroupRepos")
-                .summary-charts__group-breakdown(
-                    v-for="group in Object.keys(repo[0].groupContribution)")
-                  .summary-charts__group--breakdown__title
-                    .summary-charts__group--breakdown__title__filled--circle(
-                        v-bind:style="{ 'background-color' : contributionBarGroupColors[group] }"
-                    )
-                    .summary-charts__group--breakdown__title__name {{ group }}
-                br
+                .summary-charts__fileformat--breakdown__legend(
+                    v-for="fileFormat in Object.keys(repo[0].fileFormatContribution)")
+                  i.fas.fa-circle(
+                      v-bind:style="{ 'color' : contributionBarColors[fileFormat] }"
+                  )
+                  span &nbsp; {{ fileFormat }} &nbsp;
               template(v-else)
-                .summary-charts__group-breakdown(
+                .summary-charts__fileformat--breakdown__legend(
+                    v-for="fileFormat in Object.keys(contributionBarColors)")
+                  i.fas.fa-circle(
+                      v-bind:style="{ 'color' : contributionBarColors[fileFormat] }"
+                  )
+                  span &nbsp; {{ fileFormat }} &nbsp;
+            .summary-charts__group--breakdown(v-if="filterBreakdown && repoContainsGroups[repo[0].repoPath]")
+              template(v-if="filterGroupRepos")
+                .summary-charts__group--breakdown__legend(
+                    v-for="group in Object.keys(repo[0].groupContribution)")
+                  i.fas.fa-circle(
+                      v-bind:style="{ 'color' : contributionBarGroupColors[group] }"
+                  )
+                  span &nbsp; {{ group }} &nbsp;
+              template(v-else)
+                .summary-charts__group--breakdown__legend(
                     v-for="group in Object.keys(contributionBarGroupColors)")
-                  .summary-charts__group--breakdown__title
-                    .summary-charts__group--breakdown__title__filled--circle(
-                        v-bind:style="{ 'background-color' : contributionBarGroupColors[group] }"
-                    )
-                    .summary-charts__group--breakdown__title__name {{ group }}
-                br
+                  i.fas.fa-circle(
+                      v-bind:style="{ 'color' : contributionBarGroupColors[group] }"
+                  )
+                  span &nbsp; {{ group }} &nbsp;
             .summary-chart(v-for="(user, i) in repo")
               .summary-chart__title
                 .summary-chart__title--index {{ i+1 }}
@@ -140,7 +148,7 @@ html
                   v-on:click="$emit('view-authorship', \
                       {author:user.name, repo:user.repoName, name:user.displayName, location:repo[0].location, \
                           minDate:minDate, maxDate:maxDate, totalCommits:user.totalCommits, \
-                          filesGroupsObj:user.groupContribution})"
+                          filesLinesObj:user.fileFormatContribution, filesGroupsObj:user.groupContribution})"
                 )
                   i.summary-chart__title--button.fas.fa-code
                 a(
@@ -191,11 +199,22 @@ html
                             + 'total: ' + user.totalCommits + ' lines ' + '(contribution from ' + minDate + ' to '\
                             + maxDate + ')'"
                      )
-                template(v-else)
+                template(v-if="!repoContainsGroups[user.repoPath] && filterBreakdown")
                   .summary-chart__contrib(
-                      v-bind:title=
-                          "'Total contribution from ' + minDate + ' to ' + maxDate + ': ' + user.totalCommits\
-                          + ' lines'"
+                      v-for="(widths, fileFormat) in getFileFormatContributionBars(user.fileFormatContribution)"
+                  )
+                    .summary-chart__contrib--bar--fileformat(
+                        v-for="width in widths",
+                        v-bind:style="{ width: width + '%',\
+                            'background-color': contributionBarColors[fileFormat] }",
+                        v-bind:title="fileFormat + ': ' + user.fileFormatContribution[fileFormat] + ' lines, '\
+                            + 'total: ' + user.totalCommits + ' lines ' + '(contribution from ' + minDate + ' to '\
+                            + maxDate + ')'"
+                    )
+                template(v-if="!filterBreakdown")
+                  .summary-chart__contrib(
+                      v-bind:title="'Total contribution from ' + minDate + ' to ' + maxDate + ': '\
+                          + user.totalCommits + ' lines'"
                   )
                     .summary-chart__contrib--bar(
                         v-for="width in getContributionBars(user.totalCommits)",
@@ -204,38 +223,49 @@ html
 
     vuetemplate#v_authorship
       #authorship
+        // TODO: remove in #524
+        .toolbar(v-if="info.totalCommits > 0")
+            a(v-if="activeFilesCount === 0", v-on:click="expandAll(true)") Expand all
+            a(v-else, v-on:click="expandAll(false)") Collapse all
         .title
           a.repoName(
             v-bind:href="info.location", target="_blank",
             v-bind:title="'Click to open the repo'"
           ) {{ info.repo }}
           .author {{ info.name }} ({{ info.author }}) contribution from {{ info.minDate }} to {{ info.maxDate }}
-          .contribution(v-if="isLoaded")
+          .contribution(v-if="isLoaded && files.length!=0")
+            input.radio-button--search(type="radio", name="filter", value="search", v-on:click="enableSearchBar()")
+            form.file-picker.mui-form--inline(onsubmit="return false")
+              input#search(type="search", placeholder="Filter by glob", v-on:change="updateFilterSearch", disabled)
+              button#submit-button(type="submit", disabled) Filter
+            input.radio-button--checkbox(type="radio", name="filter", value="checkboxes", v-on:click="enableCheckBoxes()",
+                checked)
             div.checkboxes.mui-form--inline(v-if="files.length > 0")
               label
-                input(type="checkbox" v-on:click="selectAll" v-model="isSelectAllChecked").mui-checkbox
+                input.mui-checkbox--fileformat(type="checkbox" v-on:click="selectAll" v-model="isSelectAllChecked")
                 span.select(v-bind:title="getTotalFileBlankLineInfo()") All:&nbsp;
                 span.loc(v-bind:title="getTotalFileBlankLineInfo()") {{ totalLineCount }}&nbsp;
                 span.bloc(v-bind:title="getTotalFileBlankLineInfo()") ({{ totalBlankLineCount }})
               template(v-if="containsGroups")
-                template(v-for="group in Object.keys(filesGroupsExistingLinesObj)")
+                template(v-for="group in Object.keys(getGroupsExistingLinesObj)", v-bind:key="group")
                   label
-                    input(type="checkbox" :checked="selectedGroups.includes(group)" v-on:change="selectGroup(group)").mui-checkbox
-                    span(v-bind:title="getGroupBlankLineInfo(group)") {{ group }}: {{ filesGroupsExistingLinesObj[group] }}&nbsp;
+                    input.mui-checkbox--group(type="checkbox" :checked="selectedGroups.includes(group)"
+                        v-on:change="selectGroup(group)")
+                    span(v-bind:title="getGroupBlankLineInfo(group)") {{ group }}: {{ getGroupsExistingLinesObj[group] }}&nbsp;
                     span.bloc(v-bind:title="getGroupBlankLineInfo(group)") ({{ filesGroupsBlankLinesObj[group] }})
               template(v-else)
-                template(v-for="type in Object.keys(filesLinesObj)")
+                template(v-for="format in Object.keys(getExistingLinesObj)", v-bind:key="format")
                   label
-                    input(type="checkbox" :checked="selectedFileTypes.includes(type)" v-on:change="selectFileType(type)").mui-checkbox
-                    span(v-bind:title="getFileBlankLineInfo(type)") {{ type }}: {{ filesLinesObj[type] }}&nbsp;
-                    span.bloc(v-bind:title="getFileBlankLineInfo(type)") ({{ filesBlankLinesObj[type] }})
-
+                    input.mui-checkbox--fileformat(type="checkbox" :checked="selectedFileFormats.includes(format)"
+                        v-on:change="selectFileFormat(format)")
+                    span(v-bind:title="getFileBlankLineInfo(format)") {{ format }}: {{ getExistingLinesObj[format] }}&nbsp;
+                    span.bloc(v-bind:title="getFileBlankLineInfo(format)") ({{ filesBlankLinesObj[format] }})
         .files(v-if="isLoaded")
-          .empty(v-if="files.length===0") nothing to see here :(
+          .empty(v-if="files.length === 0") nothing to see here :(
           template(v-for="file in selectedFiles")
             .file.active(v-bind:key="file.path")
               .title
-                span.path(onclick="toggleNext(this.parentNode)") {{ file.path }}&nbsp;
+                span.path(onclick="toggleNext(this.parentNode)", v-on:click="updateCount") {{ file.path }}&nbsp;
                 span.loc ({{ file.lineCount }} lines)
                 a(
                   v-bind:href="getFileLink(file, 'commits')", target="_blank",
