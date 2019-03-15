@@ -161,7 +161,6 @@ window.vSummary = {
       const contributionLimit = (this.avgContributionSize * 2);
       const totalBars = {};
       const maxLength = 100;
-      let keys = [];
 
       Object.keys(breakdownContribution).forEach((type) => {
         const contribution = breakdownContribution[type];
