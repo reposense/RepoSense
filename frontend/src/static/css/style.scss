@@ -294,11 +294,13 @@ header{
 
             .fileformat {
                 margin-left:3rem;
+                align-items:center;
+                display: flex;
             }
 
             .radio-button--search{
                 float:left;
-                margin:1rem 2.0rem 0rem 0rem;
+                margin:1.75rem 2.0rem 0rem 0rem;
             }
 
             .radio-button--checkbox{
@@ -346,7 +348,6 @@ header{
             }
 
             .mui-checkbox--fileformat {
-                margin-top:0.2rem;
                 vertical-align:middle;
             }
 
@@ -358,7 +359,6 @@ header{
                 }
                 span{
                     margin-left:0.25rem;
-                    vertical-align:middle;
                 }
             }
         }
@@ -366,7 +366,6 @@ header{
 
     .files{
         clear:left;
-        margin-top:2rem;
 
         .file{
             pre{
