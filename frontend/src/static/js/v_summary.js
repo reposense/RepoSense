@@ -48,6 +48,8 @@ window.vSummary = {
       filterSearch: '',
       filterSort: 'displayName',
       filterSortReverse: false,
+      filterSortOptions: [{text: 'Contribution', value: 'totalCommits'}, {text: 'Variance', value: 'variance'},
+          {text: 'Author name', value: 'displayName'}],
       filterGroupSelection: 'groupByRepos',
       filterTimeFrame: 'day',
       filterBreakdown: false,
@@ -77,6 +79,7 @@ window.vSummary = {
     },
     filterGroupSelection() {
       this.getFiltered();
+      this.updateSortingOptions();
     },
     filterBreakdown() {
       this.getFiltered();
@@ -212,6 +215,20 @@ window.vSummary = {
     // model functions //
     updateFilterSearch(evt) {
       this.filterSearch = evt.target.value;
+    },
+    updateSortingOptions() {
+      let newOptions = [];
+      const sortingOptions = [{text: 'Contribution', value: 'totalCommits'}, {text: 'Variance', value: 'variance'},
+          {text: 'Author name', value: 'displayName'}, {text: 'Repo/Branch Name', value: 'searchPath'}];
+      const voidOptions = {'groupByAuthors': ['displayName'], 'groupByRepos': ['searchPath'], 'groupByNone': []};
+
+      sortingOptions.forEach((option) => {
+        if (!voidOptions[this.filterGroupSelection].includes(option.value)) {
+          newOptions.push(option);
+        }
+      });
+      this.filterSortOptions = newOptions;
+      this.filterSort = (this.filterGroupSelection !== 'groupByAuthors') ? 'displayName' : 'searchPath';
     },
     setSummaryHash() {
       const { addHash, encodeHash } = window;
