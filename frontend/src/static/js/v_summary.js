@@ -48,8 +48,8 @@ window.vSummary = {
       filterSearch: '',
       filterSort: 'displayName',
       filterSortReverse: false,
-      filterSortOptions: [{text: 'Contribution', value: 'totalCommits'}, {text: 'Variance', value: 'variance'},
-          {text: 'Author name', value: 'displayName'}],
+      filterSortOptions: [{ text: 'Contribution', value: 'totalCommits' }, { text: 'Variance', value: 'variance' },
+          { text: 'Author name', value: 'displayName' }],
       filterGroupSelection: 'groupByRepos',
       filterTimeFrame: 'day',
       filterBreakdown: false,
@@ -218,9 +218,9 @@ window.vSummary = {
     },
     updateSortingOptions() {
       let newOptions = [];
-      const sortingOptions = [{text: 'Contribution', value: 'totalCommits'}, {text: 'Variance', value: 'variance'},
-          {text: 'Author name', value: 'displayName'}, {text: 'Repo/Branch Name', value: 'searchPath'}];
-      const voidOptions = {'groupByAuthors': ['displayName'], 'groupByRepos': ['searchPath'], 'groupByNone': []};
+      const sortingOptions = [{ text: 'Contribution', value: 'totalCommits' }, { text: 'Variance', value: 'variance' },
+          { text: 'Author name', value: 'displayName' }, { text: 'Repo/Branch Name', value: 'searchPath' }];
+      const voidOptions = { 'groupByAuthors': ['displayName'], 'groupByRepos': ['searchPath'], 'groupByNone': [] };
 
       sortingOptions.forEach((option) => {
         if (!voidOptions[this.filterGroupSelection].includes(option.value)) {
