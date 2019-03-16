@@ -131,11 +131,11 @@ public class ArgsParser {
 
         parser.addArgument(TIMEZONE_FLAGS)
                 .dest(TIMEZONE_FLAGS[0])
-                .metavar("UTC[±hh[mm]]")
+                .metavar("ZONE_ID[±hh[mm]]")
                 .type(new ZoneIdArgumentType())
                 .setDefault(ZoneId.systemDefault())
                 .help("The timezone to use for the generated report. "
-                        + "The timezone should be recognized by Java ZoneId class. \n"
+                        + "The timezone should be recognized by Java ZoneId class. E.g. UTC \n"
                         + "If not provided, system default timezone will be used.");
 
         return parser;

@@ -112,9 +112,9 @@ Named Arguments:
 --ignore-standalone-config, -i
                      A flag to ignore the standalone config file in
                      the repo.
---timezone UTC[±hh[mm]], -t UTC[±hh[mm]]
+--timezone ZONE_ID[±hh[mm]], -t ZONE_ID[±hh[mm]]
                      The timezone to use for the generated report. 
-                     The timezone should be recognized by Java ZoneId class.
+                     The timezone should be recognized by Java ZoneId class. E.g. UTC
                      If not provided, system default timezone will be used.
 --config PATH, -c PATH
                      The directory containing the config files. If not
