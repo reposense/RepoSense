@@ -217,10 +217,10 @@ window.vSummary = {
       this.filterSearch = evt.target.value;
     },
     updateSortingOptions() {
-      let newOptions = [];
+      const newOptions = [];
       const sortingOptions = [{ text: 'Contribution', value: 'totalCommits' }, { text: 'Variance', value: 'variance' },
           { text: 'Author name', value: 'displayName' }, { text: 'Repo/Branch Name', value: 'searchPath' }];
-      const voidOptions = { 'groupByAuthors': ['displayName'], 'groupByRepos': ['searchPath'], 'groupByNone': [] };
+      const voidOptions = { groupByAuthors: ['displayName'], groupByRepos: ['searchPath'], groupByNone: [] };
 
       sortingOptions.forEach((option) => {
         if (!voidOptions[this.filterGroupSelection].includes(option.value)) {
