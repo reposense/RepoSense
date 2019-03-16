@@ -9,6 +9,7 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.logging.Logger;
 
+import reposense.git.GitBranch;
 import reposense.system.LogsManager;
 import reposense.util.FileUtil;
 
@@ -18,6 +19,7 @@ import reposense.util.FileUtil;
 public class RepoConfiguration {
     public static final String DEFAULT_BRANCH = "HEAD";
     private static final Logger logger = LogsManager.getLogger(RepoConfiguration.class);
+    private final transient String repoFolderName;
 
     private RepoLocation location;
     private String branch;
@@ -56,8 +58,10 @@ public class RepoConfiguration {
 
         if (organization != null) {
             displayName = organization + "_" + repoName + "_" + branch;
+            repoFolderName = organization + "_" + repoName;
         } else {
             displayName = repoName + "_" + branch;
+            repoFolderName = repoName;
         }
     }
 
@@ -140,14 +144,37 @@ public class RepoConfiguration {
         ignoreCommitList = CommitHash.convertStringsToCommits(standaloneConfig.getIgnoreCommitList());
     }
 
+    /**
+     * Updates branch with {@code currentBranch} if default branch is specified.
+     */
+    public void updateBranch(String currentBranch) {
+        if (branch.equals(DEFAULT_BRANCH)) {
+            setBranch(currentBranch);
+        }
+    }
+
+    /**
+     * Gets the current branch and updates branch with current branch if default branch is specified.
+     */
+    public void updateBranch() {
+        if (branch.equals(DEFAULT_BRANCH)) {
+            String currentBranch = GitBranch.getCurrentBranch(getRepoRoot());
+            setBranch(currentBranch);
+        }
+    }
+
     public String getRepoRoot() {
-        String path = FileUtil.REPOS_ADDRESS + File.separator + getRepoName() + File.separator;
+        String path = FileUtil.REPOS_ADDRESS + File.separator + getRepoFolderName() + File.separator;
 
         if (!getRepoName().isEmpty()) {
             path += getRepoName() + File.separator;
         }
 
         return path;
+    }
+
+    public String getRepoFolderName() {
+        return repoFolderName;
     }
 
     @Override

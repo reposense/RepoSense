@@ -9,6 +9,7 @@ import java.util.Date;
 import org.junit.Assert;
 import org.junit.Test;
 
+import reposense.git.exception.CommitNotFoundException;
 import reposense.template.GitTestTemplate;
 import reposense.util.TestUtil;
 
