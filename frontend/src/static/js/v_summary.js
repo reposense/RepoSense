@@ -442,11 +442,8 @@ window.vSummary = {
         full = this.groupByRepos(this.filtered);
       }
 
-      if (this.filterSortReverse) {
+      if (this.filterSortReverse && this.filterGroupSelection !== 'groupByAuthors') {
         full.forEach((repo) => repo.reverse());
-        if (this.filterGroupSelection === 'groupByAuthors') {
-          full.reverse();
-        }
       }
 
       this.filtered = full;
