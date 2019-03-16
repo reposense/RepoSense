@@ -33,6 +33,7 @@ window.api = {
     return loadJSON(`${REPORT_DIR}/summary.json`)
         .then((data) => {
           window.app.creationDate = data.reportGeneratedTime;
+          window.app.repoSenseVersion = data.repoSenseVersion;
 
           const names = [];
           data.repos.forEach((repo) => {

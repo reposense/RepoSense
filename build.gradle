@@ -6,6 +6,7 @@ plugins {
     id 'com.github.johnrengelman.shadow' version '2.0.4'
     id 'com.liferay.node' version '4.4.0'
     id 'com.github.psxpaul.execfork' version '0.1.8'
+    id 'com.palantir.git-version' version '0.11.0'
 }
 
 mainClassName = 'reposense.RepoSense'
@@ -62,6 +63,15 @@ dependencies {
 shadowJar {
     archiveName = 'RepoSense.jar'
     destinationDir = file("${buildDir}/jar/")
+
+    def repoSenseVersion = project.property("version")
+    if (repoSenseVersion.equals("unspecified")) {
+        repoSenseVersion = versionDetails().lastTag
+    }
+
+    manifest {
+    	attributes 'Implementation-Version': repoSenseVersion
+    }
 }
 
 task zipReport(dependsOn: 'npmRunBrowserify', type: Zip) {
@@ -122,7 +132,13 @@ idea {
 
 run {
     //the second arguments indicates the default value associated with the property.
+    def repoSenseVersion = project.property("version")
+    if (repoSenseVersion.equals("unspecified")) {
+        repoSenseVersion = versionDetails().lastTag
+    }
+    
     args System.getProperty('args', '').split()
+    systemProperty "version", repoSenseVersion
 }
 
 tasks.withType(Copy) {

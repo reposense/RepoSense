@@ -28,6 +28,7 @@ import reposense.system.ReportServer;
 import reposense.util.FileUtil;
 
 public class RepoSense {
+
     private static final Logger logger = LogsManager.getLogger(RepoSense.class);
     private static final int SERVER_PORT_NUMBER = 9000;
     private static final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("E MMM d HH:mm:ss 'SGT' yyyy");
@@ -104,5 +105,15 @@ public class RepoSense {
         RepoConfiguration.setStandaloneConfigIgnoredToRepoConfigs(configs, cliArguments.isStandaloneConfigIgnored());
 
         return configs;
+    }
+
+    public static String getVersion() {
+        String version = RepoSense.class.getPackage().getImplementationVersion();
+
+        if (version == null || "unspecified".equals(version)) {
+            version = System.getProperty("version");
+        }
+
+        return version;
     }
 }

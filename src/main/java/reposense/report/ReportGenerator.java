@@ -84,7 +84,8 @@ public class ReportGenerator {
                 logger.log(Level.WARNING, "Error deleting report directory.", ioe);
             }
         }
-        FileUtil.writeJsonFile(new SummaryReportJson(configs, generationDate), getSummaryResultPath(outputPath));
+        FileUtil.writeJsonFile(new SummaryReportJson(configs, generationDate, RepoSense.getVersion()),
+                getSummaryResultPath(outputPath));
         logger.info("The report is generated at " + outputPath);
     }
 

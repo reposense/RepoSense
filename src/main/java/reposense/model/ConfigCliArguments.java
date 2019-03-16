@@ -10,7 +10,7 @@ import reposense.parser.AuthorConfigCsvParser;
 import reposense.parser.RepoConfigCsvParser;
 
 /**
- * Represents command line arguments user supplied when running the program with mandatory field -config.
+ * Represents command line arguments user supplied when running the program with mandatory field --config.
  */
 public class ConfigCliArguments extends CliArguments {
     private static final Path EMPTY_PATH = Paths.get("");

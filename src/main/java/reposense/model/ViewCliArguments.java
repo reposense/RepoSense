@@ -3,7 +3,7 @@ package reposense.model;
 import java.nio.file.Path;
 
 /**
- * Represents command line arguments user supplied when running the program with mandatory field -view.
+ * Represents command line arguments user supplied when running the program with mandatory field --view.
  */
 public class ViewCliArguments extends CliArguments {
     private Path reportDirectoryPath;

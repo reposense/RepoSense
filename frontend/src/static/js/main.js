@@ -175,6 +175,10 @@ window.app = new window.Vue({
     generateKey(dataObj) {
       return JSON.stringify(dataObj);
     },
+
+    getRepoSenseLink() {
+      return `https://github.com/reposense/RepoSense/commits/${window.app.repoSenseVersion}`;
+    },
   },
   components: {
     v_summary: window.vSummary,
