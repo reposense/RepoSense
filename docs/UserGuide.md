@@ -50,7 +50,7 @@ As the report consist of static pages, it can be viewed using a Web Browser, and
 
 Here is an example of how the report looks like:
 
-![report](images/report.png)
+![report](images/report-features.png)
 
 It consists of three main parts: the [_Chart Panel_](#chart-panel), the [_Code Panel_](#code-panel), and the [_Tool Bar_](#tool-bar),  each of which is explained in the sections below.
 
