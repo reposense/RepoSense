@@ -136,7 +136,7 @@ run {
     if (repoSenseVersion.equals("unspecified")) {
         repoSenseVersion = versionDetails().lastTag
     }
-    
+
     args System.getProperty('args', '').split()
     systemProperty "version", repoSenseVersion
 }
