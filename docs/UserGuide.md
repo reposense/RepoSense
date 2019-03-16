@@ -250,7 +250,7 @@ In addition, there are some _optional_ extra parameters you can use to customize
   Example:`--ignore-standalone-config` or `-i`
 * **`--view, -v [REPORT_FOLDER]`**: A flag to launch the report automatically after processing (`-v` as alias). Note that if the `REPORT_FOLDER` argument is given, no analysis will be performed and the report specified by the argument will be opened.<br>
 Example:`--view` or `-v`
-* **`--timezone, -t ZONE_ID`**: Indicates the timezone relative to UTC which will be used for the generated report. Format: `UTC[±hh[mm]]` Default: system's default timezone.<br>
+* **`--timezone, -t ZONE_ID`**: Indicates the timezone which will be used for the generated report. The timezone should be recognized by Java ZoneId class. Format: `UTC[±hh[mm]]` or other valid ZoneId Default: system's default timezone.<br>
   Example:`--timezone UTC+08` or `-t UTC-1030`
 
 Here's an example of a command using all parameters:<br>
