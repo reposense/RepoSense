@@ -1,4 +1,4 @@
-package reposense.git;
+package reposense.git.exception;
 
 
 /**

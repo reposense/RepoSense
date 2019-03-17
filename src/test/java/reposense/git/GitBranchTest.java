@@ -3,6 +3,7 @@ package reposense.git;
 import org.junit.Assert;
 import org.junit.Test;
 
+import reposense.git.exception.GitCloneException;
 import reposense.model.Format;
 import reposense.model.RepoConfiguration;
 import reposense.model.RepoLocation;
