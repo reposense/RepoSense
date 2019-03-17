@@ -8,6 +8,7 @@ import java.util.Date;
 import java.util.logging.Logger;
 
 import reposense.commits.model.CommitResult;
+import reposense.git.exception.CommitNotFoundException;
 import reposense.system.LogsManager;
 
 /**
