@@ -1,6 +1,5 @@
 package reposense.authorship.model;
 
-import java.util.ArrayList;
 import java.util.Objects;
 
 import reposense.model.Author;
@@ -12,21 +11,14 @@ public class LineInfo {
     private int lineNumber;
     private Author author;
     private String content;
-    private ArrayList<IssueInfo> issues;
 
     private transient boolean isTracked;
 
     public LineInfo(int lineNumber, String content) {
         this.lineNumber = lineNumber;
-        //V this line is commented to reduce the size of the output JSON
-        //this.issues = new ArrayList<>();
         this.content = content;
 
         isTracked = true;
-    }
-
-    public ArrayList<IssueInfo> getIssues() {
-        return issues;
     }
 
     public Author getAuthor() {
@@ -53,15 +45,6 @@ public class LineInfo {
         return isTracked;
     }
 
-
-    public boolean hasIssue() {
-        return !issues.isEmpty();
-    }
-
-    public void addNewIssue(IssueInfo issueInfo) {
-        issues.add(issueInfo);
-    }
-
     @Override
     public boolean equals(Object other) {
         if (this == other) {
@@ -76,7 +59,6 @@ public class LineInfo {
         return lineNumber == otherLineInfo.lineNumber
                 && Objects.equals(author, otherLineInfo.author)
                 && content.equals(otherLineInfo.content)
-                && Objects.equals(issues, otherLineInfo.issues)
                 && isTracked == otherLineInfo.isTracked;
     }
 }
