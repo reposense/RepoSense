@@ -249,6 +249,7 @@ window.vAuthorship = {
       this.selectedFileFormats = this.fileFormats.slice();
       this.isSelectAllChecked = true;
       this.filterSearch = '*';
+      this.sortFiles();
     },
 
     enableSearchBar() {
