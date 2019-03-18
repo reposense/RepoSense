@@ -79,7 +79,10 @@ html
               label group by
             .mui-select
               select(v-model="filterSort")
-                option(v-for="option in filterSortOptions" v-bind:value="option.value") {{ option.text }}
+                option(value="totalCommits") Contribution
+                option(value="variance") Variance
+                option(value="displayName", v-if="filterGroupSelection !== 'groupByAuthors'") Author Name
+                option(value="searchPath", v-if="filterGroupSelection !== 'groupByRepos'") Repo/Branch Name
               label sort by
             .mui-select
               select(v-model="filterTimeFrame")
