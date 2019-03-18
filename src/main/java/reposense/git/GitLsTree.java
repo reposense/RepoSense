@@ -47,11 +47,9 @@ public class GitLsTree {
         boolean hasError = false;
         String[] paths;
 
-        Path rootPath = Paths.get(config.getRepoRoot()).getParent().resolve(config.getRepoName() + ".git");
-
         try {
-            GitClone.cloneBare(config, rootPath);
-            paths = getFilePaths(config, rootPath);
+            GitClone.cloneBare(config);
+            paths = getFilePaths(config);
         } catch (IOException | RuntimeException e) {
             throw new GitCloneException(e);
         }
@@ -74,7 +72,9 @@ public class GitLsTree {
     /**
      * Returns an Array of {@code String} containing file paths of all tracked files.
      */
-    private static String[] getFilePaths(RepoConfiguration config, Path rootPath) {
+    private static String[] getFilePaths(RepoConfiguration config) {
+        // Path rootPath = Paths.get(FileUtil.REPOS_ADDRESS, config.getRepoName());
+        Path rootPath = Paths.get(config.getRepoRoot());
         String command = "git ls-tree --name-only -r " + config.getBranch();
 
         return runCommand(rootPath, command).split("\n");

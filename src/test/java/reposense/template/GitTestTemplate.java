@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.util.Arrays;
 import java.util.Collections;
 
-import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Assert;
 import org.junit.Before;
@@ -58,6 +57,7 @@ public class GitTestTemplate {
         config = new RepoConfiguration(new RepoLocation(TEST_REPO_GIT_LOCATION), "master");
         config.setAuthorList(Collections.singletonList(getAlphaAllAliasAuthor()));
         config.setFormats(Format.DEFAULT_FORMATS);
+        GitCheckout.checkout(config.getRepoRoot(), "master");
     }
 
     @BeforeClass
@@ -71,11 +71,6 @@ public class GitTestTemplate {
     @AfterClass
     public static void afterClass() throws IOException {
         deleteRepos();
-    }
-
-    @After
-    public void after() {
-        GitCheckout.checkout(config.getRepoRoot(), "master");
     }
 
     private static void deleteRepos() throws IOException {

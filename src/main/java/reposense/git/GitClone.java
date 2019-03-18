@@ -28,9 +28,10 @@ public class GitClone {
     /**
      * Clones a bare repo specified in the {@code repoConfig}.
      */
-    public static void cloneBare(RepoConfiguration repoConfig, Path rootPath) throws IOException {
-        FileUtil.deleteDirectory(rootPath.toString());
-        clone(repoConfig.getLocation(), repoConfig.getRepoName(), GIT_CLONE_BARE_OPTION);
+    public static void cloneBare(RepoConfiguration repoConfig) throws IOException {
+        FileUtil.deleteDirectory(repoConfig.getRepoRoot());
+        clone(
+            repoConfig.getLocation(), repoConfig.getRepoFolderName(), repoConfig.getRepoName(), GIT_CLONE_BARE_OPTION);
     }
 
     /**
@@ -41,7 +42,8 @@ public class GitClone {
         try {
             FileUtil.deleteDirectory(repoConfig.getRepoRoot());
             logger.info("Cloning from " + repoConfig.getLocation() + "...");
-            clone(repoConfig.getLocation(), repoConfig.getRepoFolderName(), "");
+            clone(
+                repoConfig.getLocation(), repoConfig.getRepoFolderName(), repoConfig.getRepoName(), "");
             logger.info("Cloning completed!");
         } catch (RuntimeException rte) {
             logger.log(Level.SEVERE, "Error encountered in Git Cloning, will attempt to continue analyzing", rte);
@@ -61,10 +63,12 @@ public class GitClone {
         }
     }
 
-    private static void clone(RepoLocation location, String repoName, String additionalCommand) throws IOException {
-        Path rootPath = Paths.get(FileUtil.REPOS_ADDRESS, repoName);
+    private static void clone(RepoLocation location, String repoFolderName, String repoName, String additionalCommand)
+            throws IOException {
+        Path rootPath = Paths.get(FileUtil.REPOS_ADDRESS, repoFolderName);
         Files.createDirectories(rootPath);
-        String command = String.format("git clone %s %s", additionalCommand, addQuote(location.toString()));
+        String command =
+                String.format("git clone %s %s %s", additionalCommand, addQuote(location.toString()), repoName);
         runCommand(rootPath, command);
     }
 }
