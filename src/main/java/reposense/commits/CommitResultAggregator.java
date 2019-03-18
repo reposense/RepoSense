@@ -56,8 +56,8 @@ public class CommitResultAggregator {
         }
         //get mean
         float total = 0;
-        long totalDays = ((contributions.get(contributions.size() - 1).getDate().getTime() - startDate.getTime())
-                / DAYS_IN_MS) + 1;
+        long totalDays = ((contributions.get(contributions.size() - 1).getDate().getTime()
+                - getStartOfDate(startDate).getTime()) / DAYS_IN_MS) + 1;
 
         for (AuthorDailyContribution contribution : contributions) {
             total += contribution.getTotalContribution();
@@ -65,7 +65,7 @@ public class CommitResultAggregator {
         float mean = total / totalDays;
 
         float variance = 0;
-        long currentDate = startDate.getTime();
+        long currentDate = getStartOfDate(startDate).getTime();
         int contributionIndex = 0;
         for (int i = 0; i < totalDays; i += 1) {
             if (currentDate == contributions.get(contributionIndex).getDate().getTime()) {
