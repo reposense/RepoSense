@@ -41,8 +41,7 @@ public class RepoConfiguration {
     }
 
     public RepoConfiguration(RepoLocation location, String branch) {
-        this(location, branch, Collections.emptyList(), Collections.emptyList(), false,
-            Collections.emptyList());
+        this(location, branch, Collections.emptyList(), Collections.emptyList(), false, Collections.emptyList());
     }
 
     public RepoConfiguration(RepoLocation location, String branch, List<Format> formats, List<String> ignoreGlobList,
