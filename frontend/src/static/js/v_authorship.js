@@ -234,6 +234,7 @@ window.vAuthorship = {
       } else if (this.selectedFileFormats.length === 0) {
         this.isSelectAllChecked = false;
       }
+
       setTimeout(this.updateCount, 0);
     },
 
