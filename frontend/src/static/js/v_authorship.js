@@ -39,9 +39,10 @@ window.vAuthorship = {
       totalLineCount: '',
       totalBlankLineCount: '',
       filesSortType: 'lineOfCode',
-      toReverseSortFiles: true,
+      toReverseSortFiles: false,
       activeFilesCount: 0,
       filterSearch: '*',
+      sortingFunction: window.comparator(filesSortDict.lineOfCode),
     };
   },
 
@@ -204,10 +205,8 @@ window.vAuthorship = {
     },
 
     sortFiles() {
-      const sortingFunction = (a, b) => ( this.toReverseSortFiles ? -1 : 1 )
+      this.sortingFunction = (a, b) => (this.toReverseSortFiles ? -1 : 1)
           * window.comparator(filesSortDict[this.filesSortType])(a, b);
-
-      this.selectedFiles.sort(sortingFunction);
     },
 
     selectAll() {
@@ -218,7 +217,6 @@ window.vAuthorship = {
         this.selectedFileFormats = [];
         this.activeFilesCount = 0;
       }
-      this.sortFiles();
     },
 
     selectFileFormat(format) {
@@ -236,20 +234,17 @@ window.vAuthorship = {
       } else if (this.selectedFileFormats.length === 0) {
         this.isSelectAllChecked = false;
       }
-      this.sortFiles();
       setTimeout(this.updateCount, 0);
     },
 
     updateFilterSearch(evt) {
       this.filterSearch = (evt.target.value.length !== 0) ? evt.target.value : '*';
-      this.sortFiles();
     },
 
     tickAllCheckboxes() {
       this.selectedFileFormats = this.fileFormats.slice();
       this.isSelectAllChecked = true;
       this.filterSearch = '*';
-      this.sortFiles();
     },
 
     enableSearchBar() {
@@ -305,8 +300,10 @@ window.vAuthorship = {
 
   computed: {
     selectedFiles() {
-      return this.files.filter((file) => this.isSelected(file.path)
-          && minimatch(file.path, this.filterSearch, { matchBase: true }));
+      return this.files
+          .filter((file) => this.isSelected(file.path)
+              && minimatch(file.path, this.filterSearch, { matchBase: true }))
+          .sort(this.sortingFunction);
     },
     getExistingLinesObj() {
       return Object.keys(this.filesLinesObj)
