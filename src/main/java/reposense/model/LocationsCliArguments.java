@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.Optional;
 
 /**
- * Represents command line arguments user supplied when running the program with mandatory field --repos.
+ * Represents command line arguments user supplied when running the program with mandatory field -repos.
  */
 public class LocationsCliArguments extends CliArguments {
     private List<String> locations;

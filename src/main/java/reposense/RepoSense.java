@@ -28,7 +28,6 @@ import reposense.system.ReportServer;
 import reposense.util.FileUtil;
 
 public class RepoSense {
-
     private static final Logger logger = LogsManager.getLogger(RepoSense.class);
     private static final int SERVER_PORT_NUMBER = 9000;
     private static final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("E MMM d HH:mm:ss 'SGT' yyyy");
