@@ -15,8 +15,8 @@ Thank you for your interest in contributing to RepoSense!
   - [ReportGenerator](#reportgeneratormain)
   - [System](#system)
   - [Model](#model)
-- [HTML Dashboard](#html-dashboard)
-  - [Dashboard Architecture](#dashboard-architecture)
+- [HTML Report](#html-report)
+  - [Report Architecture](#report-architecture)
   - [Javascript Files](#javascript-files)
   - [JSON Report Files](#json-report-files)
   - [Main](#main-mainjs)
@@ -62,7 +62,7 @@ Optionally, you can follow the [Using Checkstyle](UsingCheckstyle.md) document t
 ### Configuring the JavaScript coding style
 Our project follows the [Airbnb Javascript Style Guide](https://github.com/airbnb/javascript), the eslint configuration file is available at the root of the project. Please run a `npm run lint -- --fix frontend/src/**/*js` from the project root directory and fix all of the eslint errors before committing your code for final review.
 
-Eslint and its accompaning modules can be installed through NPM, so do ensure that you got it [installed](https://www.npmjs.com/get-npm) if you are working on the dashboard.
+Eslint and its accompaning modules can be installed through NPM, so do ensure that you got it [installed](https://www.npmjs.com/get-npm) if you are working on the report.
 
 ### Configuring Cypress for automated front-end testing
 We use [Cypress](https://www.cypress.io/) for automated end-to-end front-end testing. <br/>
@@ -91,10 +91,10 @@ Named Arguments:
 ```
 --help, -h           Show help message.
 --view [PATH], -v [PATH]
-                     Starts a server to display the dashboard in the
+                     Starts a server to display the report in the
                      provided directory. If used as a flag (with no
                      argument), generates a report and automatically
-                     displays the dashboard.
+                     displays the report.
 --output PATH, -o PATH
                      The directory to output the report folder,
                      reposense-report. If not provided, the report
@@ -198,14 +198,14 @@ gradlew run -Dargs="-c ./configs/ -o output_path/ -s 21/10/2017 -u 21/11/2017 -f
  1. uses `GitDownloader` API to download the repository from *GitHub*.
  1. copies the template files into the designated output directory.
  1. uses `CommitReporter` and `AuthorshipReporter` to produce the commit and authorship summary respectively.
- 1. generates the `JSON` files needed to generate the `HTML` dashboard.
+ 1. generates the `JSON` files needed to generate the `HTML` report.
 
 
 ### System
 `System` contains the classes that interact with the Operating System and external processes.
  * [`CommandRunner`](/src/main/java/reposense/system/CommandRunner.java) creates processes that executes commands on the terminal. It consists of many *git* commands.
  * [`LogsManager`](/src/main/java/reposense/system/LogsManager.java) uses the `java.util.logging` package for logging. The `LogsManager` class is used to manage the logging levels and logging destinations. Log messages are output through: `Console` and to a `.log` file.
- * [`DashboardServer`](/src/main/java/reposense/system/DashboardServer.java) starts a server to display the dashboard on the browser. It depends on the `net.freeutils.httpserver` package.
+ * [`ReportServer`](/src/main/java/reposense/system/ReportServer.java) starts a server to display the report on the browser. It depends on the `net.freeutils.httpserver` package.
 
 
 ### Model
@@ -219,30 +219,30 @@ gradlew run -Dargs="-c ./configs/ -o output_path/ -s 21/10/2017 -u 21/11/2017 -f
     - `ReportGenerator` to determine the directory to output the report.
 
 
-## HTML Dashboard
-The source files for the dashboard is located in [`frontend/src`](../frontend/src) and is built by [spuild](https://github.com/ongspxm/spuild2) before being packaged into the JAR file to be extracted as part of the report.
+## HTML Report
+The source files for the report is located in [`frontend/src`](../frontend/src) and is built by [spuild](https://github.com/ongspxm/spuild2) before being packaged into the JAR file to be extracted as part of the report.
 
 The main HTML file is generated from [`frontend/src/index.jade`](../frontend/src/index.jade).
 
-[Vue](https://vuejs.org/v2/api/) (pronounced /vjuː/, like view) is a progressive framework for building user interfaces. It is heavily ultilized in the dashboard to dynamically update the information in the various views. (Style guide available [here](https://vuejs.org/v2/style-guide/)).
+[Vue](https://vuejs.org/v2/api/) (pronounced /vjuː/, like view) is a progressive framework for building user interfaces. It is heavily utilized in the report to dynamically update the information in the various views. (Style guide available [here](https://vuejs.org/v2/style-guide/)).
 
-![dashboard screenshot](images/dashboard.png)
+![report screenshot](images/report-summary.png)
 
-### Dashboard Architecture
-![dashboard architecture](images/dashboard-architecture.png)
+### Report Architecture
+![report architecture](images/report-architecture.png)
 
-The main Vue object (`window.app`) is responsible for the loading of the dashboard (through `summary.json`). Its `repos` attribute is tied to the global `window.REPOS`, and is passed into the various other modules when the information is needed.
+The main Vue object (`window.app`) is responsible for the loading of the report (through `summary.json`). Its `repos` attribute is tied to the global `window.REPOS`, and is passed into the various other modules when the information is needed.
 
 `window.app` is broken down into two main parts
 - the summary view
 - and the tabbed interface
 
-Summary view act as the main dashboard which shows the various calculations. </br>
+Summary view act as the main report which shows the various calculations. </br>
 Tabbed interface is responsible for loading various modules such as authorship to display additional information.
 
 ### Javascript Files
 - [**main.js**](../frontend/src/static/js/main.js) - main controller that pushes content into different modules
-- [**api.js**](../frontend/src/static/js/api.js)- loading and parsing of the dashboard content
+- [**api.js**](../frontend/src/static/js/api.js)- loading and parsing of the report content
 - [**v_summary.js**](../frontend/src/static/js/v_summary.js) - module that supports the ramp chart view
 - [**v_authorship.js**](../frontend/src/static/js/v_authorship.js) - module that supports the authorship view
 
@@ -254,9 +254,9 @@ Tabbed interface is responsible for loading various modules such as authorship t
 ### Main (main.js)
 This contains the logic for main VueJS object, `window.app`, which is responsible for passing the necessary data into the relevant modules to be loaded.
 
-`v_summary` and `v_authorship` are components which will be embedded into dashboard and will render the corresponding content based on the data passed into it from the main `window.app`.
+`v_summary` and `v_authorship` are components which will be embedded into report and will render the corresponding content based on the data passed into it from the main `window.app`.
 
-#### Loading of dashboard information
+#### Loading of report information
 The main Vue object depends on the `summary.json` data to determine the right `commits.json` files to load into memory. This is handled by `api.js` which loads the relevant file information from the network files if it is available, otherwise a report archive, `archive.zip`, have to be used.
 
 Once the relevant `commit.json` files are loaded, all the repo information will be passed into `v_summary` to be loaded in the summary view as the relevant ramp charts.
@@ -265,7 +265,7 @@ Once the relevant `commit.json` files are loaded, all the repo information will 
 Most activity or actions should happen within the module itself, but in the case where there is a need to spawn or alter the view of another module, an event is emitted from the first module to the main Vue object (`window.app`), which then handles the data received and passes it along to the relevant modules.
 
 #### Hash link
-Other than the global main Vue object, another global variable we have is the `window.hashParams`. This object is reponsible for generating the relevant permalink for a specific view of the summary module for the dashboard.
+Other than the global main Vue object, another global variable we have is the `window.hashParams`. This object is reponsible for generating the relevant permalink for a specific view of the summary module for the report.
 
 ### Data loader (api.js)
 This is the module that is in charged of loading and parsing the data files generated as part of the report.
@@ -273,7 +273,7 @@ This is the module that is in charged of loading and parsing the data files gene
 #### Loading from ZIP file
 Due to security design, most modern browsers (e.g. Chrome) do not allow web pages to obtain local files using the directory alone. As such, a ZIP archive of the report information will be produced alongside the report generation.
 
-This archive will be used in place of the network files to load information into the dashboard, in the case when the network files are unavailable.
+This archive will be used in place of the network files to load information into the report, in the case when the network files are unavailable.
 
 The API module will be handling all request for all the JSON data files. If the network file is not available, the files will be obtained from the zip archive provided.
 
@@ -285,7 +285,7 @@ For the basic skeleton of `window.REPOS`, refer to the generated `summary.json` 
 ### Summary View (v_summary.js)
 The `v_summary` module is in charge of loading the ramp charts from the corresponding `commits.json`.
 
-![summary architecture](images/dashboard-architecture-summary.png)
+![summary architecture](images/report-architecture-summary.png)
 
 #### Initializing the data for the ramp charts
 The summary module is activated after the information is loaded from the main Vue.JS object. At creation, the `repo` attribute is populated with the `window.REPOS` object, which contains information loaded from `summary.json`.
@@ -299,7 +299,7 @@ For ramps between the date ranges, the slices will be selected and it will be pr
 ### Authorship View (v_authorship.js)
 The authorship module retrieves the relevant information from the corresponding `authorship.json` file if it is not yet loaded. If it has been loaded, the data will be written into `window.REPOS` and be read from there instead.
 
-![authorship architecture](images/dashboard-architecture-authorship.png)
+![authorship architecture](images/report-architecture-authorship.png)
 
 #### Showing relevant information by authors
 The files will be filtered, picking only files the selected author has written in. The lines are then split into chunks of "touched" and "untouched" code to be displayed in the tab view which will be popped up on the right side of the screen.
