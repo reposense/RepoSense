@@ -24,7 +24,12 @@ window.decodeHash = function decodeHash() {
       .forEach((param) => {
         const [key, val] = param.split('=');
         if (key) {
-          hashParams[key] = decodeURIComponent(val);
+          try {
+            hashParams[key] = decodeURIComponent(val);
+          } catch (error) {
+            this.userUpdated = false;
+            this.isLoading = false;
+          }
         }
       });
   window.hashParams = hashParams;
@@ -168,8 +173,22 @@ window.app = new window.Vue({
 
       this.isTabActive = true;
       this.isCollapsed = false;
-
       this.tabType = 'authorship';
+    },
+    renderAuthorShipTabHash(minDate, maxDate) {
+      const hash = window.hashParams;
+      const info = {
+        author: hash.tabAuthor,
+        repo: hash.tabRepo,
+        minDate,
+        maxDate,
+      };
+      const tabInfoLength = Object.values(info).filter((x) => x).length;
+      if (Object.keys(info).length === tabInfoLength) {
+        this.updateTabAuthorship(info);
+      } else if (hash.tabOpen === 'false' || tabInfoLength > 2) {
+        window.app.isTabActive = false;
+      }
     },
 
     generateKey(dataObj) {
@@ -177,7 +196,12 @@ window.app = new window.Vue({
     },
 
     getRepoSenseLink() {
-      return `https://github.com/reposense/RepoSense/commits/${window.app.repoSenseVersion}`;
+      return `https://github.com/reposense/RepoSense/releases/tag/${window.app.repoSenseVersion}`;
+    },
+
+    receiveDates(dates) {
+      const [minDate, maxDate] = dates;
+      this.renderAuthorShipTabHash(minDate, maxDate);
     },
   },
   components: {
@@ -187,6 +211,7 @@ window.app = new window.Vue({
   },
   created() {
     this.updateReportDir();
+    window.decodeHash();
   },
   updated() {
     this.$nextTick(() => {
@@ -194,5 +219,11 @@ window.app = new window.Vue({
         window.$('tabs-wrapper').style.flex = `0 0 ${flexWidth * 100}%`;
       }
     });
+    if (!this.isTabActive) {
+      window.removeHash('tabAuthor');
+      window.removeHash('tabRepo');
+      window.addHash('tabOpen', this.isTabActive);
+      window.encodeHash();
+    }
   },
 });
