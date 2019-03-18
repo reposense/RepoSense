@@ -31,6 +31,7 @@ public class RepoSense {
     private static final Logger logger = LogsManager.getLogger(RepoSense.class);
     private static final int SERVER_PORT_NUMBER = 9000;
     private static final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("E MMM d HH:mm:ss 'SGT' yyyy");
+    private static String VERSION_UNSPECIFIED = "unspecified";
 
     public static void main(String[] args) {
         try {
@@ -109,7 +110,7 @@ public class RepoSense {
     public static String getVersion() {
         String version = RepoSense.class.getPackage().getImplementationVersion();
 
-        if (version == null || "unspecified".equals(version)) {
+        if (version == null || version.equals(VERSION_UNSPECIFIED)) {
             version = System.getProperty("version");
         }
 

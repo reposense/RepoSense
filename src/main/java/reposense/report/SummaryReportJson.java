@@ -12,9 +12,9 @@ public class SummaryReportJson {
     private final String reportGeneratedTime;
     private final List<RepoConfiguration> repos;
 
-    public SummaryReportJson(List<RepoConfiguration> repos, String reportGeneratedTime, String version) {
+    public SummaryReportJson(List<RepoConfiguration> repos, String reportGeneratedTime, String repoSenseVersion) {
         this.repos = repos;
         this.reportGeneratedTime = reportGeneratedTime;
-        this.repoSenseVersion = version;
+        this.repoSenseVersion = repoSenseVersion;
     }
 }
