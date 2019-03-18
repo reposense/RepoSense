@@ -57,7 +57,7 @@ public class CommitResultAggregator {
         //get mean
         float total = 0;
         long totalDays = ((contributions.get(contributions.size() - 1).getDate().getTime() - startDate.getTime())
-                / DAYS_IN_MS) + 1; // days in milisecond
+                / DAYS_IN_MS) + 1;
 
         for (AuthorDailyContribution contribution : contributions) {
             total += contribution.getTotalContribution();
