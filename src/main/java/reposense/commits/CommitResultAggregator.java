@@ -19,6 +19,8 @@ import reposense.model.RepoConfiguration;
  */
 public class CommitResultAggregator {
 
+    private static int DAYS_IN_MS = 24 * 60 * 60 * 1000;
+
     /**
      * Returns the {@code CommitContributionSummary} generated from aggregating the {@code commitResults}.
      */
@@ -55,7 +57,7 @@ public class CommitResultAggregator {
         //get mean
         float total = 0;
         long totalDays = ((contributions.get(contributions.size() - 1).getDate().getTime() - startDate.getTime())
-                / (24 * 60 * 60 * 1000)) + 1; // days in milisecond
+                / DAYS_IN_MS) + 1; // days in milisecond
 
         for (AuthorDailyContribution contribution : contributions) {
             total += contribution.getTotalContribution();
@@ -63,11 +65,16 @@ public class CommitResultAggregator {
         float mean = total / totalDays;
 
         float variance = 0;
-        for (AuthorDailyContribution contribution : contributions) {
-            variance += Math.pow((mean - contribution.getTotalContribution()), 2);
-        }
-        for (int i = 0; i < totalDays - contributions.size(); i += 1) {
-            variance += Math.pow(mean, 2);
+        long currentDate = startDate.getTime();
+        int contributionIndex = 0;
+        for (int i = 0; i < totalDays; i += 1) {
+            if (currentDate == contributions.get(contributionIndex).getDate().getTime()) {
+                variance += Math.pow((mean - contributions.get(contributionIndex).getTotalContribution()), 2);
+                contributionIndex += 1;
+            } else {
+                variance += Math.pow(mean, 2);
+            }
+            currentDate += DAYS_IN_MS;
         }
         return variance / totalDays;
     }
