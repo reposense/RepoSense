@@ -7,6 +7,7 @@ import java.nio.file.Paths;
 import org.junit.Assert;
 import org.junit.Test;
 
+import reposense.git.exception.GitCloneException;
 import reposense.template.GitTestTemplate;
 
 public class GitCloneTest extends GitTestTemplate {
