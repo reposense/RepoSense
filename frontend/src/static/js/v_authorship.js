@@ -204,11 +204,10 @@ window.vAuthorship = {
     },
 
     sortFiles() {
-      this.selectedFiles.sort(window.comparator(filesSortDict[this.filesSortType]));
+      const sortingFunction = (a, b) => ( this.toReverseSortFiles ? -1 : 1 )
+          * window.comparator(filesSortDict[this.filesSortType])(a, b);
 
-      if (this.toReverseSortFiles) {
-        this.selectedFiles.reverse();
-      }
+      this.selectedFiles.sort(sortingFunction);
     },
 
     selectAll() {
