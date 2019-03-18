@@ -261,6 +261,7 @@ window.vSummary = {
       if (hash.breakdown) {
         this.filterBreakdown = convertBool(hash.breakdown);
       }
+      window.decodeHash();
     },
 
     getDates() {
@@ -303,6 +304,7 @@ window.vSummary = {
         this.filterUntilDate = maxDate;
         this.maxDate = maxDate;
       }
+      this.$emit('get-dates', [this.minDate, this.maxDate]);
     },
     getFiltered() {
       this.setSummaryHash();

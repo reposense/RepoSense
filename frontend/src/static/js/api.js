@@ -32,7 +32,7 @@ window.api = {
 
     return loadJSON(`${REPORT_DIR}/summary.json`)
         .then((data) => {
-          window.app.creationDate = data.dashboardGeneratedTime;
+          window.app.creationDate = data.reportGeneratedTime;
           window.app.sinceDate = data.repos[0].sinceDate;
 
           const names = [];
