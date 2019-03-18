@@ -176,11 +176,8 @@ window.app = new window.Vue({
     },
 
     updateTabAuthorship(obj) {
-      this.deactivateTab();
       this.tabInfo.tabAuthorship = Object.assign({}, obj);
-
-      this.isTabActive = true;
-      this.isCollapsed = false;
+      this.activateTab('authorship');
     },
 
     updateTabZoomin(obj) {
