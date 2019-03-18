@@ -242,6 +242,7 @@ window.vAuthorship = {
 
     updateFilterSearch(evt) {
       this.filterSearch = (evt.target.value.length !== 0) ? evt.target.value : '*';
+      this.sortFiles();
     },
 
     tickAllCheckboxes() {
