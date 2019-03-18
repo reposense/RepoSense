@@ -27,7 +27,6 @@ public class RepoConfiguration {
     private Date sinceDate;
     private Date untilDate;
 
-    private transient boolean needCheckStyle = false;
     private transient boolean annotationOverwrite = true;
     private transient List<Format> formats;
     private transient int commitNum = 1;
@@ -213,14 +212,6 @@ public class RepoConfiguration {
 
     public void setCommitNum(int commitNum) {
         this.commitNum = commitNum;
-    }
-
-    public boolean isNeedCheckStyle() {
-        return needCheckStyle;
-    }
-
-    public void setNeedCheckStyle(boolean needCheckStyle) {
-        this.needCheckStyle = needCheckStyle;
     }
 
     public String getBranch() {
