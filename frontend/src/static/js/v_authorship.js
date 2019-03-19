@@ -202,12 +202,9 @@ window.vAuthorship = {
       } else {
         this.selectedFileFormats.push(format);
       }
-    },
-
-    getSelectedFiles() {
       if (this.fileFormats.length === this.selectedFileFormats.length) {
         this.isSelectAllChecked = true;
-      } else if (this.selectedFileFormats.length === 0) {
+      } else {
         this.isSelectAllChecked = false;
       }
 
