@@ -33,6 +33,8 @@ window.vAuthorship = {
       totalBlankLineCount: '',
       activeFilesCount: 0,
       filterSearch: '*',
+      isSearchBar: false,
+      isCheckBoxes: true,
     };
   },
 
@@ -227,28 +229,14 @@ window.vAuthorship = {
     enableSearchBar() {
       const searchBar = document.getElementById('search');
       const submitButton = document.getElementById('submit-button');
-      searchBar.disabled = false;
-      submitButton.disabled = false;
 
       this.tickAllCheckboxes();
-      const checkboxes = document.getElementsByClassName('mui-checkbox--fileformat');
-      Array.from(checkboxes).forEach((checkbox) => {
-        checkbox.disabled = true;
-      });
     },
 
     enableCheckBoxes() {
       const searchBar = document.getElementById('search');
       const submitButton = document.getElementById('submit-button');
       searchBar.value = '';
-      searchBar.disabled = true;
-      submitButton.disabled = true;
-
-      this.tickAllCheckboxes();
-      const checkboxes = document.getElementsByClassName('mui-checkbox--fileformat');
-      Array.from(checkboxes).forEach((checkbox) => {
-        checkbox.disabled = false;
-      });
     },
 
     isSelected(filePath) {
