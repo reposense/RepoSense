@@ -188,7 +188,7 @@ window.vAuthorship = {
     },
 
     selectAll() {
-      if(this.isSearchBar) {
+      if (this.isSearchBar) {
         this.indicateCheckBoxes();
       }
       if (!this.isSelectAllChecked) {
@@ -201,7 +201,7 @@ window.vAuthorship = {
     },
 
     selectFileFormat(format) {
-      if(this.isSearchBar) {
+      if (this.isSearchBar) {
         this.indicateCheckBoxes();
       }
       if (this.selectedFileFormats.includes(format)) {
@@ -223,7 +223,7 @@ window.vAuthorship = {
     },
 
     updateFilterSearch(evt) {
-      if(this.isCheckBoxes) {
+      if (this.isCheckBoxes) {
         this.indicateSearchBar();
       }
       this.filterSearch = (evt.target.value.length !== 0) ? evt.target.value : '*';
