@@ -208,7 +208,7 @@ html
           .contribution(v-if="isLoaded && files.length!=0")
             input.radio-button--search(type="radio", name="filter", value="search", :checked="isSearchBar", disabled)
             form.file-picker.mui-form--inline(onsubmit="return false")
-              input#search(type="search", placeholder="Filter by glob", v-on:change="updateFilterSearch")
+              input#search(type="search", placeholder="Filter by glob", v-on:change="updateFilterSearch", v-on:click="indicateSearchBar")
               button#submit-button(type="submit", v-on:click="indicateSearchBar") Filter
             input.radio-button--checkbox(type="radio", name="filter", value="checkboxes", :checked="isCheckBoxes", disabled)
             div.checkboxes.mui-form--inline(v-if="files.length > 0")
