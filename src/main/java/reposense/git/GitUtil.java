@@ -105,15 +105,16 @@ class GitUtil {
      * Produces log messages when the invalid file path is skipped
      */
     public static boolean isValidPath(File repoRoot, String path) {
+        String validPath = path;
         FileSystem fileSystem = FileSystems.getDefault();
         if (path.contains("/*")) {
-            path = path.substring(0, path.indexOf("/*"));
+            validPath = path.substring(0, path.indexOf("/*"));
         } else if (path.contains("*")) {
             return true;
         }
         String globPath = "glob:" + repoRoot.getAbsolutePath() + "/*";
         PathMatcher pathMatcher = fileSystem.getPathMatcher(globPath);
-        if (pathMatcher.matches(new File(repoRoot, path).toPath())) {
+        if (pathMatcher.matches(new File(repoRoot, validPath).toPath())) {
             return true;
         }
 
