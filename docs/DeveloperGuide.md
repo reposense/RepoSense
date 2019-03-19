@@ -86,7 +86,7 @@ We use [Cypress](https://www.cypress.io/) for automated end-to-end front-end tes
 ### Building and running RepoSense from code
 
 1. Execute the following command on the OS terminal inside the project directory. <br/>
-Usage: `gradlew run -Dargs="([--config CONFIG_FOLDER] | [--repos REPO_PATH_OR_URL...]) [--view [REPORT_FOLDER]] [--output OUTPUT_DIRECTORY] [--since DD/MM/YYYY] [--until DD/MM/YYYY] [--formats FORMAT...] [--ignore-standalone-config] [--timezone UTC[±hh[mm]]]"` <br/>
+Usage: `gradlew run -Dargs="([--config CONFIG_FOLDER] | [--repos REPO_PATH_OR_URL...]) [--view [REPORT_FOLDER]] [--output OUTPUT_DIRECTORY] [--since DD/MM/YYYY] [--until DD/MM/YYYY] [--formats FORMAT...] [--ignore-standalone-config] [--timezone ZONE_ID[±hh[mm]]]"` <br/>
 Named Arguments: 
 ```
 --help, -h           Show help message.
