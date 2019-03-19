@@ -206,12 +206,11 @@ html
           ) {{ info.repo }}
           .author {{ info.name }} ({{ info.author }}) contribution from {{ info.minDate }} to {{ info.maxDate }}
           .contribution(v-if="isLoaded && files.length!=0")
-            input.radio-button--search(type="radio", name="filter", value="search", v-on:click="enableSearchBar()", disabled, :checked="isSearchBar")
+            input.radio-button--search(type="radio", name="filter", value="search", :checked="isSearchBar", disabled)
             form.file-picker.mui-form--inline(onsubmit="return false")
               input#search(type="search", placeholder="Filter by glob", v-on:change="updateFilterSearch")
-              button#submit-button(type="submit") Filter
-            input.radio-button--checkbox(type="radio", name="filter", value="checkboxes", v-on:click="enableCheckBoxes()",
-                disabled, :checked="isCheckBoxes")
+              button#submit-button(type="submit", v-on:click="indicateSearchBar") Filter
+            input.radio-button--checkbox(type="radio", name="filter", value="checkboxes", :checked="isCheckBoxes", disabled)
             div.checkboxes.mui-form--inline(v-if="files.length > 0")
               label
                 input.mui-checkbox--fileformat(type="checkbox" v-on:click="selectAll" v-model="isSelectAllChecked")

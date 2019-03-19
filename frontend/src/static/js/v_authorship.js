@@ -188,6 +188,9 @@ window.vAuthorship = {
     },
 
     selectAll() {
+      if(this.isSearchBar) {
+        this.indicateCheckBoxes();
+      }
       if (!this.isSelectAllChecked) {
         this.selectedFileFormats = this.fileFormats.slice();
         this.activeFilesCount = this.files.length;
@@ -198,6 +201,9 @@ window.vAuthorship = {
     },
 
     selectFileFormat(format) {
+      if(this.isSearchBar) {
+        this.indicateCheckBoxes();
+      }
       if (this.selectedFileFormats.includes(format)) {
         const index = this.selectedFileFormats.indexOf(format);
         this.selectedFileFormats.splice(index, 1);
@@ -217,26 +223,29 @@ window.vAuthorship = {
     },
 
     updateFilterSearch(evt) {
+      if(this.isCheckBoxes) {
+        this.indicateSearchBar();
+      }
       this.filterSearch = (evt.target.value.length !== 0) ? evt.target.value : '*';
     },
 
     tickAllCheckboxes() {
       this.selectedFileFormats = this.fileFormats.slice();
       this.isSelectAllChecked = true;
-      this.filterSearch = '*';
     },
 
-    enableSearchBar() {
-      const searchBar = document.getElementById('search');
-      const submitButton = document.getElementById('submit-button');
-
+    indicateSearchBar() {
+      this.isSearchBar = true;
+      this.isCheckBoxes = false;
       this.tickAllCheckboxes();
     },
 
-    enableCheckBoxes() {
+    indicateCheckBoxes() {
       const searchBar = document.getElementById('search');
-      const submitButton = document.getElementById('submit-button');
       searchBar.value = '';
+      this.filterSearch = '*';
+      this.isSearchBar = false;
+      this.isCheckBoxes = true;
     },
 
     isSelected(filePath) {
