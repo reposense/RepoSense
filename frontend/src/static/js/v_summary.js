@@ -268,6 +268,7 @@ window.vSummary = {
       if (hash.breakdown) {
         this.filterBreakdown = convertBool(hash.breakdown);
       }
+      window.decodeHash();
     },
 
     getDates() {
@@ -310,6 +311,7 @@ window.vSummary = {
         this.filterUntilDate = maxDate;
         this.maxDate = maxDate;
       }
+      this.$emit('get-dates', [this.minDate, this.maxDate]);
     },
     getFiltered() {
       this.setSummaryHash();
@@ -474,6 +476,21 @@ window.vSummary = {
       }
 
       this.filtered = full;
+    },
+
+    // triggering opening of tabs //
+    openTabAuthorship(user, repo) {
+      const { minDate, maxDate } = this;
+
+      this.$emit('view-authorship', {
+        minDate,
+        maxDate,
+        author: user.name,
+        repo: user.repoName,
+        name: user.displayName,
+        location: repo[0].location,
+        totalCommits: user.totalCommits,
+      });
     },
   },
   created() {

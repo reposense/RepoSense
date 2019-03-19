@@ -24,7 +24,12 @@ window.decodeHash = function decodeHash() {
       .forEach((param) => {
         const [key, val] = param.split('=');
         if (key) {
-          hashParams[key] = decodeURIComponent(val);
+          try {
+            hashParams[key] = decodeURIComponent(val);
+          } catch (error) {
+            this.userUpdated = false;
+            this.isLoading = false;
+          }
         }
       });
   window.hashParams = hashParams;
@@ -162,18 +167,51 @@ window.app = new window.Vue({
       }
     },
 
-    updateTabAuthorship(obj) {
-      this.deactivateTab();
-      this.tabInfo.tabAuthorship = Object.assign({}, obj);
+    // handle opening of sidebar //
+    activateTab(tabName) {
+      // changing isTabActive to trigger redrawing of component
+      this.isTabActive = false;
+      if (document.getElementById('tabs-wrapper')) {
+        document.getElementById('tabs-wrapper').scrollTop = 0;
+      }
 
       this.isTabActive = true;
       this.isCollapsed = false;
+      this.tabType = tabName;
+    },
 
-      this.tabType = 'authorship';
+    updateTabAuthorship(obj) {
+      this.tabInfo.tabAuthorship = Object.assign({}, obj);
+      this.activateTab('authorship');
+    },
+
+    updateTabZoomin(obj) {
+      this.tabInfo.tabZoomin = Object.assign({}, obj);
+      this.activateTab('zoomin');
+    },
+    renderAuthorShipTabHash(minDate, maxDate) {
+      const hash = window.hashParams;
+      const info = {
+        author: hash.tabAuthor,
+        repo: hash.tabRepo,
+        minDate,
+        maxDate,
+      };
+      const tabInfoLength = Object.values(info).filter((x) => x).length;
+      if (Object.keys(info).length === tabInfoLength) {
+        this.updateTabAuthorship(info);
+      } else if (hash.tabOpen === 'false' || tabInfoLength > 2) {
+        window.app.isTabActive = false;
+      }
     },
 
     generateKey(dataObj) {
       return JSON.stringify(dataObj);
+    },
+
+    receiveDates(dates) {
+      const [minDate, maxDate] = dates;
+      this.renderAuthorShipTabHash(minDate, maxDate);
     },
   },
   components: {
@@ -183,6 +221,7 @@ window.app = new window.Vue({
   },
   created() {
     this.updateReportDir();
+    window.decodeHash();
   },
   updated() {
     this.$nextTick(() => {
@@ -190,5 +229,11 @@ window.app = new window.Vue({
         window.$('tabs-wrapper').style.flex = `0 0 ${flexWidth * 100}%`;
       }
     });
+    if (!this.isTabActive) {
+      window.removeHash('tabAuthor');
+      window.removeHash('tabRepo');
+      window.addHash('tabOpen', this.isTabActive);
+      window.encodeHash();
+    }
   },
 });

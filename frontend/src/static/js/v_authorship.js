@@ -40,6 +40,11 @@ window.vAuthorship = {
     initiate() {
       const repo = window.REPOS[this.info.repo];
 
+      this.getRepoProps(repo);
+      if (!repo || !this.info.name) {
+        window.app.isTabActive = false;
+        return;
+      }
       if (repoCache.length === 2) {
         const toRemove = repoCache.shift();
         if (toRemove !== this.info.repo) {
@@ -56,6 +61,24 @@ window.vAuthorship = {
       }
     },
 
+    getRepoProps(repo) {
+      if (repo) {
+        const author = repo.users.filter((user) => user.name === this.info.author);
+        if (author.length > 0) {
+          this.info.name = author[0].displayName;
+          this.filesLinesObj = author[0].fileFormatContribution;
+        }
+        this.info.location = repo.location.location;
+      }
+    },
+
+    setInfoHash() {
+      const { addHash, removeHash } = window;
+      addHash('tabAuthor', this.info.author);
+      addHash('tabRepo', this.info.repo);
+      removeHash('tabOpen');
+    },
+
     expandAll(isActive) {
       const renameValue = isActive ? 'file active' : 'file';
 
@@ -64,11 +87,18 @@ window.vAuthorship = {
         file.className = renameValue;
       });
 
-      this.activeFilesCount = isActive ? this.selectedFiles.length : 0;
+      this.activeFiles = isActive ? this.selectedFiles.length : 0;
     },
 
     updateCount() {
-      this.activeFilesCount = document.getElementsByClassName('file active').length;
+      this.activeFiles = document.getElementsByClassName('file active').length;
+    },
+
+    hasCommits(info) {
+      if (window.REPOS[info.repo]) {
+        return window.REPOS[info.repo].commits.authorFinalContributionMap[info.author] > 0;
+      }
+      return false;
     },
 
     splitSegments(lines) {
@@ -132,7 +162,7 @@ window.vAuthorship = {
       this.totalBlankLineCount = totalBlankLineCount;
       res.sort((a, b) => b.lineCount - a.lineCount);
 
-      Object.keys(this.info.filesLinesObj).forEach((file) => {
+      Object.keys(this.filesLinesObj).forEach((file) => {
         this.selectedFileFormats.push(file);
         this.fileFormats.push(file);
       });
@@ -140,7 +170,6 @@ window.vAuthorship = {
       this.filesBlankLinesObj = filesBlanksInfoObj;
       this.files = res;
       this.isLoaded = true;
-
       this.activeFilesCount = this.selectedFiles.length;
     },
 
@@ -236,7 +265,7 @@ window.vAuthorship = {
     getFileBlankLineInfo(fileFormat) {
       return `${fileFormat}: Blank: ${
         this.filesBlankLinesObj[fileFormat]}, Non-Blank: ${
-        this.info.filesLinesObj[fileFormat] - this.filesBlankLinesObj[fileFormat]}`;
+        this.filesLinesObj[fileFormat] - this.filesBlankLinesObj[fileFormat]}`;
     },
 
     getTotalFileBlankLineInfo() {
@@ -251,15 +280,16 @@ window.vAuthorship = {
           && minimatch(file.path, this.filterSearch, { matchBase: true }));
     },
     getExistingLinesObj() {
-      return Object.keys(this.info.filesLinesObj)
-          .filter((type) => this.info.filesLinesObj[type] > 0)
+      return Object.keys(this.filesLinesObj)
+          .filter((type) => this.filesLinesObj[type] > 0)
           .reduce((acc, key) => ({
-            ...acc, [key]: this.info.filesLinesObj[key],
+            ...acc, [key]: this.filesLinesObj[key],
           }), {});
     },
   },
 
   created() {
     this.initiate();
+    this.setInfoHash();
   },
 };
