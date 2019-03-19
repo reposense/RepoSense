@@ -3,7 +3,9 @@ package reposense.git;
 import static reposense.util.StringsUtil.addQuote;
 
 import java.io.File;
-import java.io.IOException;
+import java.nio.file.FileSystem;
+import java.nio.file.FileSystems;
+import java.nio.file.PathMatcher;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -103,42 +105,19 @@ class GitUtil {
      * Produces log messages when the invalid file path is skipped
      */
     public static boolean isValidPath(File repoRoot, String path) {
-        String validPath = path;
-        if (path.startsWith("/") || path.startsWith("\\")) {
-            logger.log(Level.WARNING, path + " will be skipped as this file cannot be read.");
-            return false;
-        } else if (path.contains("/*")) {
-            validPath = path.substring(0, path.indexOf(("/*")));
-        } else if (path.contains("*")) { // not in directories
+        FileSystem fileSystem = FileSystems.getDefault();
+        if (path.contains("/*")) {
+            path = path.substring(0, path.indexOf("/*"));
+        } else if (path.contains("*")) {
             return true;
         }
-        boolean isChildInsideRepo =  childIsInsideRepo(repoRoot, new File(repoRoot, validPath));
-        if (!isChildInsideRepo) {
-            logger.log(Level.WARNING, path + " will be skipped as this file is outside the repo.");
-        }
-        return isChildInsideRepo;
-    }
-
-    /**
-     * Returns true if the child path is inside repository folder
-     */
-    private static boolean childIsInsideRepo(File repoRoot, File child) {
-        try {
-            File rootFile = repoRoot.getCanonicalFile();
-            File childFile = child.getCanonicalFile();
-
-            while (childFile != null) {
-                if (childFile.equals(rootFile)) {
-                    return true;
-                }
-                childFile = childFile.getParentFile();
-            }
-        } catch (IOException ex) {
-            return false;
-        } catch (SecurityException ex) {
-            return false;
+        String globPath = "glob:" + repoRoot.getAbsolutePath() + "/*";
+        PathMatcher pathMatcher = fileSystem.getPathMatcher(globPath);
+        if (pathMatcher.matches(new File(repoRoot, path).toPath())) {
+            return true;
         }
 
+        logger.log(Level.WARNING, path + " will be skipped as this file is outside the repo.");
         return false;
     }
 }
