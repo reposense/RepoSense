@@ -1,5 +1,6 @@
 html
   head
+    title RepoSense Report
     link(rel="stylesheet", href="https://fonts.googleapis.com/css?family=Titillium+Web")
     link(rel="stylesheet", href="https://cdn.jsdelivr.net/npm/normalize.css@8.0/normalize.min.css")
     link(rel="stylesheet", href="https://cdn.jsdelivr.net/npm/muicss@0.9/dist/css/mui.min.css")
@@ -228,6 +229,17 @@ html
                     span(v-bind:title="getFileBlankLineInfo(format)")
                       span {{ format }}: {{ getExistingLinesObj[format] }}&nbsp;
                       span.bloc ({{ filesBlankLinesObj[format] }})
+            .sorting.mui-form--inline
+              .mui-select
+                select(v-model="filesSortType")
+                  option(value="lineOfCode") LoC
+                  option(value="path") Path
+                  option(value="fileName") File Name
+                  option(value="fileType") File Format
+                label sort by
+              label
+                input(type="checkbox", v-model="toReverseSortFiles").mui-checkbox
+                span reverse
 
         .files(v-if="isLoaded")
           .empty(v-if="files.length === 0") nothing to see here :(
