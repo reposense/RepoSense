@@ -489,7 +489,7 @@ window.vSummary = {
       });
 
       Object.keys(authorMap).forEach((author) => filtered.push(authorMap[author]));
-      filtered.sort(comparator((ele) => {
+      filtered.sort(window.comparator((ele) => {
         const field = ele[0].displayName;
         return field.toLowerCase();
       }));
