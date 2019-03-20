@@ -149,6 +149,10 @@ window.vSummary = {
       const total = untilMS - sinceMS;
       return total;
     },
+    getSliceColor(date) {
+      const timeMs = (new Date(date)).getTime();
+      return (timeMs / DAY_IN_MS) % 5;
+    },
     getSliceLink(user, slice) {
       const { REPOS } = window;
       const untilDate = this.filterTimeFrame === 'week' ? addDays(slice.date, 6) : slice.date;
