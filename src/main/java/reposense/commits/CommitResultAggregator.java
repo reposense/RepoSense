@@ -19,7 +19,8 @@ import reposense.model.RepoConfiguration;
  */
 public class CommitResultAggregator {
 
-    private static int DAYS_IN_MS = 24 * 60 * 60 * 1000;
+    private static final int DAYS_IN_MS = 24 * 60 * 60 * 1000;
+    private static Date lastDate = null;
 
     /**
      * Returns the {@code CommitContributionSummary} generated from aggregating the {@code commitResults}.
@@ -56,7 +57,7 @@ public class CommitResultAggregator {
         }
         //get mean
         float total = 0;
-        long totalDays = ((contributions.get(contributions.size() - 1).getDate().getTime()
+        long totalDays = ((lastDate.getTime()
                 - getStartOfDate(startDate).getTime()) / DAYS_IN_MS) + 1;
 
         for (AuthorDailyContribution contribution : contributions) {
@@ -68,7 +69,8 @@ public class CommitResultAggregator {
         long currentDate = getStartOfDate(startDate).getTime();
         int contributionIndex = 0;
         for (int i = 0; i < totalDays; i += 1) {
-            if (currentDate == contributions.get(contributionIndex).getDate().getTime()) {
+            if (contributionIndex < contributions.size()
+                    && currentDate == contributions.get(contributionIndex).getDate().getTime()) {
                 variance += Math.pow((mean - contributions.get(contributionIndex).getTotalContribution()), 2);
                 contributionIndex += 1;
             } else {
@@ -84,27 +86,30 @@ public class CommitResultAggregator {
         Map<Author, List<AuthorDailyContribution>> authorDailyContributionsMap = new HashMap<>();
         authorSet.forEach(author -> authorDailyContributionsMap.put(author, new ArrayList<>()));
 
-        Date previousDate = null;
+        Date commitStartDate = null;
         for (CommitResult commitResult : commitResults) {
-            Date commitStartDate = getStartOfDate(commitResult.getTime());
+            commitStartDate = getStartOfDate(commitResult.getTime());
+            Author commitAuthor = commitResult.getAuthor();
 
-            if (!commitStartDate.equals(previousDate)) {
-                previousDate = new Date(commitStartDate.getTime());
-                addDailyContributionForNewDate(authorDailyContributionsMap, commitStartDate);
+            List<AuthorDailyContribution> authorDailyContributions =
+                    authorDailyContributionsMap.get(commitAuthor);
+
+            if (authorDailyContributions.isEmpty()
+                    || !authorDailyContributions.get(authorDailyContributions.size() - 1)
+                            .getDate().equals(commitStartDate)) {
+                addDailyContributionForNewDate(authorDailyContributions, commitStartDate);
             }
 
-            List<AuthorDailyContribution> authorContributions =
-                    authorDailyContributionsMap.get(commitResult.getAuthor());
-            authorContributions.get(authorContributions.size() - 1).addCommitContribution(commitResult);
+            authorDailyContributions.get(authorDailyContributions.size() - 1).addCommitContribution(commitResult);
         }
+        lastDate = commitStartDate;
 
         return authorDailyContributionsMap;
     }
 
     private static void addDailyContributionForNewDate(
-            Map<Author, List<AuthorDailyContribution>> authorDailyContributionsMap, Date date) {
-        authorDailyContributionsMap.values().forEach(authorDailyContributions ->
-                authorDailyContributions.add(new AuthorDailyContribution(date)));
+            List<AuthorDailyContribution> authorDailyContributions, Date date) {
+        authorDailyContributions.add(new AuthorDailyContribution(date));
     }
 
     private static Date getStartOfDate(Date current) {
