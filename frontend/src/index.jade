@@ -215,7 +215,7 @@ html
                 checked)
             .checkboxes.mui-form--inline(v-if="files.length > 0")
               label
-                input.mui-checkbox--fileformat(type="checkbox" v-on:click="selectAll" v-model="isSelectAllChecked")
+                input.mui-checkbox--fileformat(type="checkbox" v-on:click="selectAll" :checked="isSelectAllChecked")
                 span.select(v-bind:title="getTotalFileBlankLineInfo()") All:&nbsp;
                 span.loc(v-bind:title="getTotalFileBlankLineInfo()") {{ totalLineCount }}&nbsp;
                 span.bloc(v-bind:title="getTotalFileBlankLineInfo()") ({{ totalBlankLineCount }})
