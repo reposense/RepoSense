@@ -434,10 +434,10 @@ window.vSummary = {
       return null;
     },
     updateSortSelection () {
-      if (this.filterGroupSelection === 'groupByAuthors') {
-        this.filterSort = (this.filterSort === 'displayName') ? 'searchPath' : this.filterSort;
-      } else if (this.filterGroupSelection === 'groupByRepos') {
-        this.filterSort = (this.filterSort === 'searchPath') ? 'displayName' : this.filterSort;
+      if (this.filterGroupSelection === 'groupByAuthors' && this.filterSort === 'displayName') {
+        this.filterSort = 'searchPath';
+      } else if (this.filterGroupSelection === 'groupByRepos' && this.filterSort === 'searchPath') {
+        this.filterSort = 'displayName';
       }
     },
     sortFiltered() {
