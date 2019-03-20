@@ -2,60 +2,6 @@
   "authorDailyContributionsMap": {
     "zacharytang": [
       {
-        "insertions": 0,
-        "deletions": 0,
-        "date": "2017-10-09",
-        "commitResults": []
-      },
-      {
-        "insertions": 0,
-        "deletions": 0,
-        "date": "2017-10-16",
-        "commitResults": []
-      },
-      {
-        "insertions": 0,
-        "deletions": 0,
-        "date": "2017-10-19",
-        "commitResults": []
-      },
-      {
-        "insertions": 0,
-        "deletions": 0,
-        "date": "2017-10-29",
-        "commitResults": []
-      },
-      {
-        "insertions": 0,
-        "deletions": 0,
-        "date": "2017-10-30",
-        "commitResults": []
-      },
-      {
-        "insertions": 0,
-        "deletions": 0,
-        "date": "2017-10-31",
-        "commitResults": []
-      },
-      {
-        "insertions": 0,
-        "deletions": 0,
-        "date": "2017-11-04",
-        "commitResults": []
-      },
-      {
-        "insertions": 0,
-        "deletions": 0,
-        "date": "2017-11-05",
-        "commitResults": []
-      },
-      {
-        "insertions": 0,
-        "deletions": 0,
-        "date": "2017-11-07",
-        "commitResults": []
-      },
-      {
         "insertions": 113,
         "deletions": 0,
         "date": "2017-11-09",
@@ -67,45 +13,9 @@
             "deletions": 0
           }
         ]
-      },
-      {
-        "insertions": 0,
-        "deletions": 0,
-        "date": "2017-11-10",
-        "commitResults": []
-      },
-      {
-        "insertions": 0,
-        "deletions": 0,
-        "date": "2017-11-11",
-        "commitResults": []
-      },
-      {
-        "insertions": 0,
-        "deletions": 0,
-        "date": "2017-11-12",
-        "commitResults": []
-      },
-      {
-        "insertions": 0,
-        "deletions": 0,
-        "date": "2017-11-13",
-        "commitResults": []
       }
     ],
     "CindyTsai1": [
-      {
-        "insertions": 0,
-        "deletions": 0,
-        "date": "2017-10-09",
-        "commitResults": []
-      },
-      {
-        "insertions": 0,
-        "deletions": 0,
-        "date": "2017-10-16",
-        "commitResults": []
-      },
       {
         "insertions": 1,
         "deletions": 0,
@@ -118,72 +28,6 @@
             "deletions": 0
           }
         ]
-      },
-      {
-        "insertions": 0,
-        "deletions": 0,
-        "date": "2017-10-29",
-        "commitResults": []
-      },
-      {
-        "insertions": 0,
-        "deletions": 0,
-        "date": "2017-10-30",
-        "commitResults": []
-      },
-      {
-        "insertions": 0,
-        "deletions": 0,
-        "date": "2017-10-31",
-        "commitResults": []
-      },
-      {
-        "insertions": 0,
-        "deletions": 0,
-        "date": "2017-11-04",
-        "commitResults": []
-      },
-      {
-        "insertions": 0,
-        "deletions": 0,
-        "date": "2017-11-05",
-        "commitResults": []
-      },
-      {
-        "insertions": 0,
-        "deletions": 0,
-        "date": "2017-11-07",
-        "commitResults": []
-      },
-      {
-        "insertions": 0,
-        "deletions": 0,
-        "date": "2017-11-09",
-        "commitResults": []
-      },
-      {
-        "insertions": 0,
-        "deletions": 0,
-        "date": "2017-11-10",
-        "commitResults": []
-      },
-      {
-        "insertions": 0,
-        "deletions": 0,
-        "date": "2017-11-11",
-        "commitResults": []
-      },
-      {
-        "insertions": 0,
-        "deletions": 0,
-        "date": "2017-11-12",
-        "commitResults": []
-      },
-      {
-        "insertions": 0,
-        "deletions": 0,
-        "date": "2017-11-13",
-        "commitResults": []
       }
     ],
     "April0616": [
@@ -218,24 +62,6 @@
             "deletions": 1
           }
         ]
-      },
-      {
-        "insertions": 0,
-        "deletions": 0,
-        "date": "2017-10-19",
-        "commitResults": []
-      },
-      {
-        "insertions": 0,
-        "deletions": 0,
-        "date": "2017-10-29",
-        "commitResults": []
-      },
-      {
-        "insertions": 0,
-        "deletions": 0,
-        "date": "2017-10-30",
-        "commitResults": []
       },
       {
         "insertions": 18,
@@ -332,18 +158,6 @@
         ]
       },
       {
-        "insertions": 0,
-        "deletions": 0,
-        "date": "2017-11-09",
-        "commitResults": []
-      },
-      {
-        "insertions": 0,
-        "deletions": 0,
-        "date": "2017-11-10",
-        "commitResults": []
-      },
-      {
         "insertions": 9,
         "deletions": 6,
         "date": "2017-11-11",
@@ -355,12 +169,6 @@
             "deletions": 6
           }
         ]
-      },
-      {
-        "insertions": 0,
-        "deletions": 0,
-        "date": "2017-11-12",
-        "commitResults": []
       },
       {
         "insertions": 1,
@@ -377,24 +185,6 @@
       }
     ],
     "nbr": [
-      {
-        "insertions": 0,
-        "deletions": 0,
-        "date": "2017-10-09",
-        "commitResults": []
-      },
-      {
-        "insertions": 0,
-        "deletions": 0,
-        "date": "2017-10-16",
-        "commitResults": []
-      },
-      {
-        "insertions": 0,
-        "deletions": 0,
-        "date": "2017-10-19",
-        "commitResults": []
-      },
       {
         "insertions": 42,
         "deletions": 13,
@@ -471,18 +261,6 @@
             "deletions": 4
           }
         ]
-      },
-      {
-        "insertions": 0,
-        "deletions": 0,
-        "date": "2017-11-07",
-        "commitResults": []
-      },
-      {
-        "insertions": 0,
-        "deletions": 0,
-        "date": "2017-11-09",
-        "commitResults": []
       },
       {
         "insertions": 31,
@@ -564,12 +342,6 @@
             "deletions": 2
           }
         ]
-      },
-      {
-        "insertions": 0,
-        "deletions": 0,
-        "date": "2017-11-13",
-        "commitResults": []
       }
     ]
   },
