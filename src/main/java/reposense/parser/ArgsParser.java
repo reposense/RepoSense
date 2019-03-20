@@ -8,6 +8,7 @@ import java.util.Optional;
 import java.util.logging.Logger;
 
 import net.sourceforge.argparse4j.ArgumentParsers;
+import net.sourceforge.argparse4j.helper.HelpScreenException;
 import net.sourceforge.argparse4j.impl.Arguments;
 import net.sourceforge.argparse4j.impl.action.HelpArgumentAction;
 import net.sourceforge.argparse4j.inf.ArgumentParser;
@@ -42,8 +43,11 @@ public class ArgsParser {
     private static final String PROGRAM_USAGE = "java -jar RepoSense.jar";
     private static final String PROGRAM_DESCRIPTION =
             "RepoSense is a contribution analysis tool for Git repositories.";
+    private static final String MESSAGE_HEADER_MUTEX = "mutual exclusive arguments";
     private static final String MESSAGE_SINCE_DATE_LATER_THAN_UNTIL_DATE =
             "\"Since Date\" cannot be later than \"Until Date\"";
+    private static final String MESSAGE_USING_DEFAULT_CONFIG_PATH =
+            "Config path not provided, using current working directory as default.";
     private static final Path EMPTY_PATH = Paths.get("");
 
     private static ArgumentParser getArgumentParser() {
@@ -54,27 +58,18 @@ public class ArgsParser {
                 .description(PROGRAM_DESCRIPTION);
 
         MutuallyExclusiveGroup mutexParser = parser
-                .addMutuallyExclusiveGroup(PROGRAM_USAGE)
+                .addMutuallyExclusiveGroup(MESSAGE_HEADER_MUTEX)
                 .required(false);
 
+        // Boolean flags
         parser.addArgument(HELP_FLAGS)
                 .dest(HELP_FLAGS[0])
                 .help("Show help message.")
                 .action(new HelpArgumentAction());
-
-        mutexParser.addArgument(CONFIG_FLAGS)
-                .dest(CONFIG_FLAGS[0])
-                .type(new ConfigFolderArgumentType())
-                .metavar("PATH")
-                .setDefault(EMPTY_PATH)
-                .help("The directory containing the config files."
-                        + "If not provided, the config files will be obtained from the current working directory.");
-
-        mutexParser.addArgument(REPO_FLAGS)
-                .nargs("+")
-                .dest(REPO_FLAGS[0])
-                .metavar("LOCATION")
-                .help("The GitHub URL or disk locations to clone repository.");
+        parser.addArgument(IGNORE_FLAGS)
+                .dest(IGNORE_FLAGS[0])
+                .action(Arguments.storeTrue())
+                .help("A flag to ignore the standalone config file in the repo.");
 
         parser.addArgument(VIEW_FLAGS)
                 .dest(VIEW_FLAGS[0])
@@ -82,9 +77,9 @@ public class ArgsParser {
                 .metavar("PATH")
                 .type(new ReportFolderArgumentType())
                 .setConst(EMPTY_PATH)
-                .help("Starts a server to display the dashboard in the provided directory. "
+                .help("Starts a server to display the report in the provided directory. "
                         + "If used as a flag (with no argument), "
-                        + "generates a report and automatically displays the dashboard.");
+                        + "generates a report and automatically displays the report.");
 
         parser.addArgument(OUTPUT_FLAGS)
                 .dest(OUTPUT_FLAGS[0])
@@ -118,10 +113,19 @@ public class ArgsParser {
                         + "If not provided, default file formats will be used.\n"
                         + "Please refer to userguide for more information.");
 
-        parser.addArgument(IGNORE_FLAGS)
-                .dest(IGNORE_FLAGS[0])
-                .action(Arguments.storeTrue())
-                .help("A flag to ignore the standalone config file in the repo.");
+        // Mutex flags - these will always be the last parameters in help message.
+        mutexParser.addArgument(CONFIG_FLAGS)
+                .dest(CONFIG_FLAGS[0])
+                .type(new ConfigFolderArgumentType())
+                .metavar("PATH")
+                .setDefault(EMPTY_PATH)
+                .help("The directory containing the config files."
+                        + "If not provided, the config files will be obtained from the current working directory.");
+        mutexParser.addArgument(REPO_FLAGS)
+                .nargs("+")
+                .dest(REPO_FLAGS[0])
+                .metavar("LOCATION")
+                .help("The GitHub URL or disk locations to clone repository.");
 
         return parser;
     }
@@ -129,9 +133,11 @@ public class ArgsParser {
     /**
      * Parses the given string arguments to a {@code CliArguments} object.
      *
+     * @throws HelpScreenException if given args contain the --help flag. Help message will be printed out
+     * by the {@code ArgumentParser} hence this is to signal to the caller that the program is safe to exit.
      * @throws ParseException if the given string arguments fails to parse to a {@code CliArguments} object.
      */
-    public static CliArguments parse(String[] args) throws ParseException {
+    public static CliArguments parse(String[] args) throws HelpScreenException, ParseException {
         try {
             ArgumentParser parser = getArgumentParser();
             Namespace results = parser.parseArgs(args);
@@ -163,9 +169,15 @@ public class ArgsParser {
                         isAutomaticallyLaunching, isStandaloneConfigIgnored);
             }
 
+            if (configFolderPath.equals(EMPTY_PATH)) {
+                logger.info(MESSAGE_USING_DEFAULT_CONFIG_PATH);
+            }
             return new ConfigCliArguments(
                     configFolderPath, outputFolderPath, sinceDate, untilDate, formats, isAutomaticallyLaunching);
-        } catch (ArgumentParserException ape) {
+        } catch (HelpScreenException hse) {
+            throw hse;
+        }
+        catch (ArgumentParserException ape) {
             throw new ParseException(getArgumentParser().formatUsage() + ape.getMessage() + "\n");
         }
     }

@@ -192,6 +192,15 @@ header{
         text-align:left;
         font-weight:bold;
     }
+
+    &__fileformat--breakdown{
+        overflow-y:hidden;
+
+        &__legend{
+            float:left;
+            display:inline;
+        }
+    }
 }
 
 .summary-chart{
@@ -254,6 +263,40 @@ header{
             margin-top:0.1rem;
             background-color:mui-color("red");
         }
+
+        &--bar--fileformat{
+            text-align:left;
+            height:0.3rem;
+            margin-top:0.1rem;
+            float:left;
+            display: inline-block;
+        }
+    }
+}
+
+/* Ramp */
+.ramp{
+    font-size:100%;
+    position:relative;
+
+    $height:3rem;
+    height:$height;
+    background-color:mui-color("blue", "50");
+
+    &__slice{
+        display:block;
+        position:absolute;
+        width:0;
+        height:0;
+
+        border-left-color: rgba(0,0,0,0);
+        border-left-style: solid;
+
+        &--color0{ border-bottom:$height rgba(mui-color("orange"), 0.5) solid;  }
+        &--color1{ border-bottom:$height rgba(mui-color("light-blue"), 0.5) solid;  }
+        &--color2{ border-bottom:$height rgba(mui-color("green"), 0.5) solid;  }
+        &--color3{ border-bottom:$height rgba(mui-color("indigo"), 0.5) solid;  }
+        &--color4{ border-bottom:$height rgba(mui-color("pink"), 0.5) solid;  }
     }
 }
 
@@ -339,7 +382,7 @@ header{
               color:mui-color("grey");
             }
 
-            span.fileType {
+            span.fileFormat {
                 span.bloc::after {
                   content: ', ';
                 }
@@ -350,13 +393,29 @@ header{
             }
             .checkboxes {
                 label{
-                    float:left;
+                    display:inline-flex;
+                    align-items:center;
                     padding-right:10px;
-                    white-space:nowrap;
                 }
                 span{
                     margin-left:0.25rem;
                     vertical-align:middle;
+                }
+            }
+            .sorting {
+                display:flex;
+                align-items:center;
+                .mui-select {
+                    cursor:pointer;
+                }
+                label {
+                    overflow-y:hidden;
+                }
+                & > label {
+                    margin-left:10px;
+                }
+                span {
+                    margin-left:0.25rem;
                 }
             }
         }

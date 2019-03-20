@@ -1,15 +1,13 @@
-function comparator(fn) {
-  return function compare(a, b) {
-    const a1 = fn(a);
-    const b1 = fn(b);
-    if (a1 === b1) {
-      return 0;
-    } if (a1 < b1) {
-      return -1;
-    }
-    return 1;
-  };
-}
+window.comparator = (fn) => function compare(a, b) {
+  const a1 = fn(a);
+  const b1 = fn(b);
+  if (a1 === b1) {
+    return 0;
+  } if (a1 < b1) {
+    return -1;
+  }
+  return 1;
+};
 
 // ui funcs, only allow one ramp to be highlighted //
 let drags = [];
@@ -51,16 +49,10 @@ window.dragViewUp = function dragViewUp(evt) {
   const offset = ramp.parentElement.offsetLeft;
   drags = drags.map((x) => (x - offset) * 100 / base);
 
-  if (drags[1] - drags[0] < 3) {
-    // if less than 3% of ramp charts selected, treat as accidental click
-    const value = drags[0];
-    drags = [value, value];
-  } else {
-    const overlay = ramp.getElementsByClassName('overlay')[0];
-    overlay.style.marginLeft = `${drags[0]}%`;
-    overlay.style.width = `${drags[1] - drags[0]}%`;
-    overlay.className += ' show';
-  }
+  const overlay = ramp.getElementsByClassName('overlay')[0];
+  overlay.style.marginLeft = `${drags[0]}%`;
+  overlay.style.width = `${drags[1] - drags[0]}%`;
+  overlay.className += ' show';
 };
 
 // date functions //
@@ -99,6 +91,7 @@ window.vSummary = {
       filterSortReverse: false,
       filterGroupRepos: true,
       filterTimeFrame: 'day',
+      filterBreakdown: false,
       tmpFilterSinceDate: '',
       tmpFilterUntilDate: '',
       filterSinceDate: '',
@@ -106,6 +99,7 @@ window.vSummary = {
       filterHash: '',
       minDate: '',
       maxDate: '',
+      contributionBarColors: {},
     };
   },
   watch: {
@@ -124,14 +118,17 @@ window.vSummary = {
     filterTimeFrame() {
       this.getFiltered();
     },
+    filterBreakdown() {
+      this.getFiltered();
+    },
     tmpFilterSinceDate() {
-      if (this.tmpFilterSinceDate >= this.minDate) {
+      if (this.tmpFilterSinceDate && this.tmpFilterSinceDate >= this.minDate) {
         this.filterSinceDate = this.tmpFilterSinceDate;
         this.getFiltered();
       }
     },
     tmpFilterUntilDate() {
-      if (this.tmpFilterUntilDate <= this.maxDate) {
+      if (this.tmpFilterUntilDate && this.tmpFilterUntilDate <= this.maxDate) {
         this.filterUntilDate = this.tmpFilterUntilDate;
         this.getFiltered();
       }
@@ -173,6 +170,45 @@ window.vSummary = {
   },
   methods: {
     // view functions //
+    getFileFormatContributionBars(fileFormatContribution) {
+      let totalWidth = 0;
+      const contributionLimit = (this.avgContributionSize * 2);
+      const totalBars = {};
+      const maxLength = 100;
+
+      Object.keys(fileFormatContribution).forEach((fileFormat) => {
+        const contribution = fileFormatContribution[fileFormat];
+        const res = [];
+        let fileFormatWidth = 0;
+
+        // compute 100% width bars
+        const cnt = parseInt(contribution / contributionLimit, 10);
+        for (let cntId = 0; cntId < cnt; cntId += 1) {
+          res.push(maxLength);
+          fileFormatWidth += maxLength;
+          totalWidth += maxLength;
+        }
+
+        // compute < 100% width bars
+        const last = (contribution % contributionLimit) / contributionLimit;
+        if (last !== 0) {
+          res.push(last * maxLength);
+          fileFormatWidth += last * maxLength;
+          totalWidth += last * maxLength;
+        }
+
+        // split > 100% width bars into smaller bars
+        if ((totalWidth > maxLength) && (totalWidth !== fileFormatWidth)) {
+          res.unshift(maxLength - (totalWidth - fileFormatWidth));
+          res[res.length - 1] = res[res.length - 1] - (maxLength - (totalWidth - fileFormatWidth));
+          totalWidth = res[res.length - 1];
+        }
+        totalBars[fileFormat] = res;
+      });
+
+      return totalBars;
+    },
+
     getContributionBars(totalContribution) {
       const res = [];
       const contributionLimit = (this.avgContributionSize * 2);
@@ -206,6 +242,7 @@ window.vSummary = {
 
       addHash('reverse', this.filterSortReverse);
       addHash('repoSort', this.filterGroupRepos);
+      addHash('breakdown', this.filterBreakdown);
 
       encodeHash();
     },
@@ -228,6 +265,10 @@ window.vSummary = {
 
       if (hash.reverse) { this.filterSortReverse = convertBool(hash.reverse); }
       if (hash.repoSort) { this.filterGroupRepos = convertBool(hash.repoSort); }
+      if (hash.breakdown) {
+        this.filterBreakdown = convertBool(hash.breakdown);
+      }
+      window.decodeHash();
     },
 
     getDates() {
@@ -270,6 +311,7 @@ window.vSummary = {
         this.filterUntilDate = maxDate;
         this.maxDate = maxDate;
       }
+      this.$emit('get-dates', [this.minDate, this.maxDate]);
     },
     getFiltered() {
       this.setSummaryHash();
@@ -305,6 +347,24 @@ window.vSummary = {
 
       this.getDates();
       this.sortFiltered();
+    },
+    processFileFormats() {
+      const selectedColors = ['#ffe119', '#4363d8', '#3cb44b', '#f58231', '#911eb4', '#46f0f0', '#f032e6',
+          '#bcf60c', '#fabebe', '#008080', '#e6beff', '#9a6324', '#fffac8', '#800000', '#aaffc3', '#808000', '#ffd8b1',
+          '#000075', '#808080'];
+      const colors = {};
+      let i = 0;
+
+      this.repos.forEach((repo) => {
+        const user = repo.users[0];
+        Object.keys(user.fileFormatContribution).forEach((fileFormat) => {
+          if (!Object.prototype.hasOwnProperty.call(colors, fileFormat)) {
+            colors[fileFormat] = selectedColors[i];
+            i = (i + 1) % selectedColors.length;
+          }
+        });
+        this.contributionBarColors = colors;
+      });
     },
     splitCommitsWeek(user) {
       const { commits } = user;
@@ -399,7 +459,7 @@ window.vSummary = {
 
       this.filtered.forEach((users) => {
         if (this.filterGroupRepos) {
-          users.sort(comparator((ele) => ele[this.filterSort]));
+          users.sort(window.comparator((ele) => ele[this.filterSort]));
           full.push(users);
         } else {
           users.forEach((user) => full[0].push(user));
@@ -407,7 +467,7 @@ window.vSummary = {
       });
 
       if (!this.filterGroupRepos) {
-        full[0].sort(comparator((ele) => {
+        full[0].sort(window.comparator((ele) => {
           const field = ele[this.filterSort];
           return field.toLowerCase ? field.toLowerCase() : field;
         }));
@@ -443,7 +503,11 @@ window.vSummary = {
 
     // triggering opening of tabs //
     openTabAuthorship(user, repo) {
+      const { minDate, maxDate } = this;
+
       this.$emit('view-authorship', {
+        minDate,
+        maxDate,
         author: user.name,
         repo: user.repoName,
         name: user.displayName,
@@ -481,6 +545,10 @@ window.vSummary = {
   created() {
     this.renderFilterHash();
     this.getFiltered();
+    this.processFileFormats();
+  },
+  components: {
+    v_ramp: window.vRamp,
   },
   components: {
     v_ramp: window.vRamp,

@@ -16,6 +16,7 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
+import net.sourceforge.argparse4j.helper.HelpScreenException;
 import reposense.model.AuthorConfiguration;
 import reposense.model.CliArguments;
 import reposense.model.ConfigCliArguments;
@@ -41,14 +42,14 @@ public class ConfigSystemTest {
     }
 
     @Test
-    public void testNoDateRange() throws IOException, URISyntaxException, ParseException {
+    public void testNoDateRange() throws IOException, URISyntaxException, ParseException, HelpScreenException {
         generateReport();
         Path actualFiles = Paths.get(getClass().getClassLoader().getResource("noDateRange/expected").toURI());
         verifyAllJson(actualFiles, FT_TEMP_DIR);
     }
 
     @Test
-    public void testDateRange() throws IOException, URISyntaxException, ParseException {
+    public void testDateRange() throws IOException, URISyntaxException, ParseException, HelpScreenException {
         generateReport(getInputWithDates("1/9/2017", "30/10/2017"));
         Path actualFiles = Paths.get(getClass().getClassLoader().getResource("dateRange/expected").toURI());
         verifyAllJson(actualFiles, FT_TEMP_DIR);
@@ -58,11 +59,12 @@ public class ConfigSystemTest {
         return String.format("--since %s --until %s", sinceDate, untilDate);
     }
 
-    private void generateReport() throws IOException, URISyntaxException, ParseException {
+    private void generateReport() throws IOException, URISyntaxException, ParseException, HelpScreenException {
         generateReport("");
     }
 
-    private void generateReport(String inputDates) throws IOException, URISyntaxException, ParseException {
+    private void generateReport(String inputDates)
+            throws IOException, URISyntaxException, ParseException, HelpScreenException {
         Path configFolder = Paths.get(getClass().getClassLoader().getResource("repo-config.csv").toURI()).getParent();
 
         String formats = String.join(" ", TESTING_FILE_FORMATS);

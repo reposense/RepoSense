@@ -4,7 +4,7 @@
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/08a3527378464ed4a5ad62e27f590d6a)](https://www.codacy.com/app/reposense/RepoSense?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=reposense/RepoSense&amp;utm_campaign=Badge_Grade)
 [![deploy on_netlify](https://img.shields.io/badge/deploy-on_netlify-blue.svg)](https://reposense.netlify.com/)
 
-RepoSense is a contribution analysis tool for Git repositories. It generates a static HTML dashboard including contribution information for each author in the repository.
+RepoSense is a contribution analysis tool for Git repositories. It generates a static HTML report including contribution information for each author in the repository.
 The features of the report includes:
 * Visualization for contribution frequency
 * Visualization for contribution amount
@@ -20,12 +20,17 @@ The features of the report includes:
 RepoSense is a project based in the [National University of Singapore, School of Computing](http://www.comp.nus.edu.sg/), and is funded by a grant from [NUS Center for Development of Teaching and Learning](http://www.cdtl.nus.edu.sg/).
 
 * [**Aditya Agarwal**](https://github.com/adityaa1998): _Project Member_ since May 2018
+* [**Apoorva Ullas**](https://github.com/apoorva17): _Project Member_ since Aug 2018
+* [**Chelsey Ong Hee**](https://github.com/chelseyong): _Project Member_ since Jan 2019
 * [**Damith C. Rajapakse**](https://github.com/damithc): _Project Mentor_ since Aug 2017
+* [**Gilbert Emerson**](https://github.com/emer7): _Project Member_ since Jan 2019
 * [**Ma Tanghao**](https://github.com/harryggg): _Team Lead_ for May 2017 - May 2018
 * [**Ong Shu Peng**](https://github.com/ongspxm): _Project Member_ since May 2018
 * [**Peh Xian Bin, Eugene**](https://github.com/eugenepeh): _Team Lead_ since May 2018
 * [**Tan Jun An**](https://github.com/yamidark): _Project Member_ since May 2018
 * [**Teng Yong Hao**](https://github.com/yong24s): _Project Member_ since May 2018
+* [**Teo Ming Yi**](https://github.com/myteo): _Project Member_ since Jan 2019
+* [**Wang Chao**](https://github.com/fzdy1914): _Project Member_ since Jan 2019
 
 ## Contributing
 We welcome pull requests. Please read the [contribution guidelines](docs/Process.md#how-to-contribute-to-the-reposense-repository) before starting work on one.
