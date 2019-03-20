@@ -76,9 +76,9 @@ window.vSummary = {
     filterGroupSelection() {
       this.getFiltered();
       if (this.filterGroupSelection === 'groupByAuthors') {
-        this.filterSort = 'searchPath';
-      } else {
-        this.filterSort = 'displayName';
+        this.filterSort = (this.filterSort === 'displayName') ? 'searchPath' : this.filterSort;
+      } else if (this.filterGroupSelection === 'groupByRepos') {
+        this.filterSort = (this.filterSort === 'searchPath') ? 'displayName' : this.filterSort;
       }
     },
     filterBreakdown() {
