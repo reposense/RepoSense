@@ -77,9 +77,9 @@ public class ArgsParser {
                 .metavar("PATH")
                 .type(new ReportFolderArgumentType())
                 .setConst(EMPTY_PATH)
-                .help("Starts a server to display the dashboard in the provided directory. "
+                .help("Starts a server to display the report in the provided directory. "
                         + "If used as a flag (with no argument), "
-                        + "generates a report and automatically displays the dashboard.");
+                        + "generates a report and automatically displays the report.");
 
         parser.addArgument(OUTPUT_FLAGS)
                 .dest(OUTPUT_FLAGS[0])

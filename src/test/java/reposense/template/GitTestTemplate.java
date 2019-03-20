@@ -17,7 +17,7 @@ import reposense.authorship.model.FileResult;
 import reposense.authorship.model.LineInfo;
 import reposense.git.GitCheckout;
 import reposense.git.GitClone;
-import reposense.git.GitCloneException;
+import reposense.git.exception.GitCloneException;
 import reposense.model.Author;
 import reposense.model.CommitHash;
 import reposense.model.Format;

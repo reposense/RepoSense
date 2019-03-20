@@ -12,7 +12,6 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import reposense.authorship.analyzer.AnnotatorAnalyzer;
-import reposense.authorship.analyzer.CheckStyleParser;
 import reposense.authorship.model.FileInfo;
 import reposense.authorship.model.FileResult;
 import reposense.authorship.model.LineInfo;
@@ -47,9 +46,6 @@ public class FileInfoAnalyzer {
 
         aggregateBlameAuthorInfo(config, fileInfo);
 
-        if (config.isNeedCheckStyle()) {
-            CheckStyleParser.aggregateStyleIssue(fileInfo, config.getRepoRoot());
-        }
         if (config.isAnnotationOverwrite()) {
             AnnotatorAnalyzer.aggregateAnnotationAuthorInfo(fileInfo, config.getAuthorEmailsAndAliasesMap());
         }

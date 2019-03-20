@@ -1,15 +1,13 @@
-function comparator(fn) {
-  return function compare(a, b) {
-    const a1 = fn(a);
-    const b1 = fn(b);
-    if (a1 === b1) {
-      return 0;
-    } if (a1 < b1) {
-      return -1;
-    }
-    return 1;
-  };
-}
+window.comparator = (fn) => function compare(a, b) {
+  const a1 = fn(a);
+  const b1 = fn(b);
+  if (a1 === b1) {
+    return 0;
+  } if (a1 < b1) {
+    return -1;
+  }
+  return 1;
+};
 
 // date functions //
 const DAY_IN_MS = (1000 * 60 * 60 * 24);
@@ -258,6 +256,7 @@ window.vSummary = {
       if (hash.breakdown) {
         this.filterBreakdown = convertBool(hash.breakdown);
       }
+      window.decodeHash();
     },
 
     getDates() {
@@ -300,6 +299,7 @@ window.vSummary = {
         this.filterUntilDate = maxDate;
         this.maxDate = maxDate;
       }
+      this.$emit('get-dates', [this.minDate, this.maxDate]);
     },
     getFiltered() {
       this.setSummaryHash();
@@ -457,7 +457,7 @@ window.vSummary = {
     groupByRepos(repos) {
       const sortedRepos = [];
       repos.forEach((users) => {
-        users.sort(comparator((ele) => ele[this.filterSort]));
+        users.sort(window.comparator((ele) => ele[this.filterSort]));
         sortedRepos.push(users);
       });
       return sortedRepos;
@@ -469,7 +469,7 @@ window.vSummary = {
           sortedRepos.push(user);
         });
       });
-      sortedRepos.sort(comparator((ele) => {
+      sortedRepos.sort(window.comparator((ele) => {
         const field = ele[this.filterSort];
         return field.toLowerCase ? field.toLowerCase() : field;
       }));
