@@ -43,8 +43,8 @@ public class CommitInfoExtractor {
     }
 
     /**
-    * Parses the {@code gitLogResult} into a list of {@code CommitInfo} and returns it.
-    */
+     * Parses the {@code gitLogResult} into a list of {@code CommitInfo} and returns it.
+     */
     private static ArrayList<CommitInfo> parseGitLogResults(String gitLogResult) {
         ArrayList<CommitInfo> commitInfos = new ArrayList<>();
         String[] rawLines = gitLogResult.split("\n");
