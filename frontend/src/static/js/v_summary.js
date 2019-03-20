@@ -433,7 +433,7 @@ window.vSummary = {
 
       return null;
     },
-    updateSortSelection () {
+    updateSortSelection() {
       if (this.filterGroupSelection === 'groupByAuthors' && this.filterSort === 'displayName') {
         this.filterSort = 'searchPath';
       } else if (this.filterGroupSelection === 'groupByRepos' && this.filterSort === 'searchPath') {
