@@ -213,9 +213,11 @@ window.vAuthorship = {
       if (!this.isSelectAllChecked) {
         this.selectedFileFormats = this.fileFormats.slice();
         this.activeFilesCount = this.files.length;
+        this.isSelectAllChecked = true;
       } else {
         this.selectedFileFormats = [];
         this.activeFilesCount = 0;
+        this.isSelectAllChecked = false;
       }
     },
 
