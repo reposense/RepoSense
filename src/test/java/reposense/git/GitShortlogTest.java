@@ -2,6 +2,7 @@ package reposense.git;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 import org.junit.Assert;
@@ -32,10 +33,11 @@ public class GitShortlogTest extends GitTestTemplate {
         List<Author> expectedAuthorList = new ArrayList<>();
 
         expectedAuthorList.add(new Author("eugenepeh"));
-        config.setSinceDate(TestUtil.getDate(2018, Calendar.MAY, 5));
-        config.setUntilDate(TestUtil.getDate(2018, Calendar.MAY, 10));
 
-        List<Author> actualAuthorList = GitShortlog.getAuthors(config);
+        Date sinceDate = TestUtil.getDate(2018, Calendar.MAY, 5);
+        Date untilDate = TestUtil.getDate(2018, Calendar.MAY, 10);
+
+        List<Author> actualAuthorList = GitShortlog.getAuthors(config, sinceDate, untilDate);
 
         Assert.assertEquals(expectedAuthorList.size(), actualAuthorList.size());
         Assert.assertEquals(expectedAuthorList, actualAuthorList);
@@ -43,10 +45,10 @@ public class GitShortlogTest extends GitTestTemplate {
 
     @Test
     public void getAuthors_validRepoDateOutOfRange_success() {
-        config.setSinceDate(TestUtil.getDate(2018, Calendar.JUNE, 1));
-        config.setUntilDate(TestUtil.getDate(2018, Calendar.JUNE, 20));
+        Date sinceDate = TestUtil.getDate(2018, Calendar.JUNE, 1);
+        Date untilDate = TestUtil.getDate(2018, Calendar.JUNE, 20);
 
-        List<Author> actualAuthorList = GitShortlog.getAuthors(config);
+        List<Author> actualAuthorList = GitShortlog.getAuthors(config, sinceDate, untilDate);
 
         Assert.assertTrue(actualAuthorList.isEmpty());
     }

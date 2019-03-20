@@ -3,10 +3,8 @@ package reposense.model;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Date;
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 import java.util.logging.Logger;
 
 import reposense.git.GitBranch;
@@ -24,8 +22,6 @@ public class RepoConfiguration {
     private RepoLocation location;
     private String branch;
     private String displayName;
-    private Date sinceDate;
-    private Date untilDate;
 
     private transient boolean annotationOverwrite = true;
     private transient List<Format> formats;
@@ -62,14 +58,6 @@ public class RepoConfiguration {
         } else {
             displayName = repoName + "_" + branch;
             repoFolderName = repoName;
-        }
-    }
-
-    public static void setDatesToRepoConfigs(
-            List<RepoConfiguration> configs, Optional<Date> sinceDate, Optional<Date> untilDate) {
-        for (RepoConfiguration config : configs) {
-            config.setSinceDate(sinceDate.orElse(null));
-            config.setUntilDate(untilDate.orElse(null));
         }
     }
 
@@ -289,22 +277,6 @@ public class RepoConfiguration {
 
     public void setAuthorEmailsAndAliasesMap(Map<String, Author> authorEmailsAndAliasesMap) {
         authorConfig.setAuthorEmailsAndAliasesMap(authorEmailsAndAliasesMap);
-    }
-
-    public Date getSinceDate() {
-        return sinceDate;
-    }
-
-    public void setSinceDate(Date sinceDate) {
-        this.sinceDate = sinceDate;
-    }
-
-    public Date getUntilDate() {
-        return untilDate;
-    }
-
-    public void setUntilDate(Date untilDate) {
-        this.untilDate = untilDate;
     }
 
     public List<Format> getFormats() {

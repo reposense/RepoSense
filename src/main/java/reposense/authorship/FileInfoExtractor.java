@@ -9,6 +9,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Comparator;
+import java.util.Date;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -49,10 +50,14 @@ public class FileInfoExtractor {
             "-(\\d)+(,)?(\\d)* \\+(?<startingLineNumber>\\d+)(,)?(\\d)* @@");
     private static final Pattern FILE_CHANGED_PATTERN = Pattern.compile("\n(\\+){3} b?/(?<filePath>.*)\n");
 
+    public static List<FileInfo> extractFileInfos(RepoConfiguration config) {
+        return extractFileInfos(config, null, null);
+    }
+
     /**
      * Extracts a list of relevant files given in {@code config}.
      */
-    public static List<FileInfo> extractFileInfos(RepoConfiguration config) {
+    public static List<FileInfo> extractFileInfos(RepoConfiguration config, Date sinceDate, Date untilDate) {
         logger.info("Extracting relevant file info from " + config.getLocation() + "...");
 
         List<FileInfo> fileInfos = new ArrayList<>();
@@ -60,12 +65,12 @@ public class FileInfoExtractor {
         // checks out to the latest commit of the date range to ensure the FileInfo generated correspond to the
         // git blame file analyze output
         try {
-            GitCheckout.checkoutDate(config.getRepoRoot(), config.getBranch(), config.getUntilDate());
+            GitCheckout.checkoutDate(config.getRepoRoot(), config.getBranch(), untilDate);
         } catch (CommitNotFoundException cnfe) {
             return fileInfos;
         }
         String lastCommitHash = GitRevList.getCommitHashBeforeDate(
-                config.getRepoRoot(), config.getBranch(), config.getSinceDate());
+                config.getRepoRoot(), config.getBranch(), sinceDate);
 
         if (!lastCommitHash.isEmpty()) {
             fileInfos = getEditedFileInfos(config, lastCommitHash);

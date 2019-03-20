@@ -23,8 +23,8 @@ public class CommitResultAggregator {
      * Returns the {@code CommitContributionSummary} generated from aggregating the {@code commitResults}.
      */
     public static CommitContributionSummary aggregateCommitResults(
-            RepoConfiguration config, List<CommitResult> commitResults) {
-        Date startDate = config.getSinceDate() == null ? getStartDate(commitResults) : config.getSinceDate();
+            RepoConfiguration config, List<CommitResult> commitResults, Date sinceDate) {
+        Date startDate = sinceDate == null ? getStartDate(commitResults) : sinceDate;
 
         Map<Author, List<AuthorDailyContribution>> authorDailyContributionsMap =
                 getAuthorDailyContributionsMap(config.getAuthorDisplayNameMap().keySet(), commitResults, startDate);

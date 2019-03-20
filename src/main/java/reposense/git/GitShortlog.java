@@ -19,12 +19,16 @@ import reposense.model.RepoConfiguration;
  */
 public class GitShortlog {
 
+    public static List<Author> getAuthors(RepoConfiguration config) {
+        return getAuthors(config, null, null);
+    }
+
     /**
      * Extracts all the author identities from the repository and date range given in {@code config}.
      */
-    public static List<Author> getAuthors(RepoConfiguration config) {
+    public static List<Author> getAuthors(RepoConfiguration config, Date sinceDate, Date untilDate) {
         String summary = getShortlogSummary(
-                config.getRepoRoot(), config.getSinceDate(), config.getUntilDate());
+                config.getRepoRoot(), sinceDate, untilDate);
 
         if (summary.isEmpty()) {
             return Collections.emptyList();

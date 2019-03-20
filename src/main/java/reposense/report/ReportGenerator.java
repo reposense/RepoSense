@@ -6,6 +6,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Collections;
+import java.util.Date;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -42,13 +43,15 @@ public class ReportGenerator {
      * @throws IOException if templateZip.zip does not exists in jar file.
      */
     public static void generateReposReport(List<RepoConfiguration> configs, String outputPath,
-            String generationDate) throws IOException {
+            String generationDate, Date sinceDate, Date untilDate) throws IOException {
         InputStream is = RepoSense.class.getResourceAsStream(TEMPLATE_FILE);
         FileUtil.copyTemplate(is, outputPath);
 
-        cloneAndAnalyzeRepos(configs, outputPath);
+        cloneAndAnalyzeRepos(configs, outputPath, sinceDate, untilDate);
 
-        FileUtil.writeJsonFile(new SummaryReportJson(configs, generationDate), getSummaryResultPath(outputPath));
+        FileUtil.writeJsonFile(new SummaryReportJson(
+                configs, generationDate, sinceDate, untilDate),
+                getSummaryResultPath(outputPath));
         logger.info("The report is generated at " + outputPath);
     }
 
@@ -56,7 +59,8 @@ public class ReportGenerator {
      * Clone, analyze and generate the report for repositories in {@code configs}.
      * Performs analysis and report generation of each repository in parallel with the cloning of the next repository.
      */
-    private static void cloneAndAnalyzeRepos(List<RepoConfiguration> configs, String outputPath) throws IOException {
+    private static void cloneAndAnalyzeRepos(List<RepoConfiguration> configs, String outputPath,
+            Date sinceDate, Date untilDate) throws IOException {
         RepoCloner repoCloner = new RepoCloner();
         RepoConfiguration clonedRepo = null;
 
@@ -64,12 +68,12 @@ public class ReportGenerator {
             repoCloner.clone(outputPath, config);
 
             if (clonedRepo != null) {
-                analyzeRepo(outputPath, clonedRepo);
+                analyzeRepo(outputPath, clonedRepo, sinceDate, untilDate);
             }
             clonedRepo = repoCloner.getClonedRepo(outputPath);
         }
         if (clonedRepo != null) {
-            analyzeRepo(outputPath, clonedRepo);
+            analyzeRepo(outputPath, clonedRepo, sinceDate, untilDate);
         }
         repoCloner.cleanup();
     }
@@ -77,7 +81,7 @@ public class ReportGenerator {
     /**
      * Analyzes repo specified by {@code config} and generates the report.
      */
-    private static void analyzeRepo(String outputPath, RepoConfiguration config) {
+    private static void analyzeRepo(String outputPath, RepoConfiguration config, Date sinceDate, Date untilDate) {
         Path repoReportDirectory;
         try {
             repoReportDirectory = Paths.get(outputPath, config.getDisplayName());
@@ -92,10 +96,12 @@ public class ReportGenerator {
         }
         // preprocess the config and repo
         updateRepoConfig(config);
-        updateAuthorList(config);
+        updateAuthorList(config, sinceDate, untilDate);
 
-        CommitContributionSummary commitSummary = CommitsReporter.generateCommitSummary(config);
-        AuthorshipSummary authorshipSummary = AuthorshipReporter.generateAuthorshipSummary(config);
+        CommitContributionSummary commitSummary = CommitsReporter.generateCommitSummary(config,
+                sinceDate, untilDate);
+        AuthorshipSummary authorshipSummary = AuthorshipReporter.generateAuthorshipSummary(config,
+                sinceDate, untilDate);
         generateIndividualRepoReport(commitSummary, authorshipSummary, repoReportDirectory.toString());
     }
 
@@ -133,11 +139,11 @@ public class ReportGenerator {
     /**
      * Find and update {@code config} with all the author identities if author list is empty.
      */
-    private static void updateAuthorList(RepoConfiguration config) {
+    private static void updateAuthorList(RepoConfiguration config, Date sinceDate, Date untilDate) {
         if (config.getAuthorList().isEmpty()) {
             logger.info(String.format(
                     "%s has no authors specified, using all authors by default.", config.getDisplayName()));
-            List<Author> authorList = GitShortlog.getAuthors(config);
+            List<Author> authorList = GitShortlog.getAuthors(config, sinceDate, untilDate);
             config.setAuthorList(authorList);
         }
     }

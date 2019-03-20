@@ -89,17 +89,14 @@ public class GitLogTest extends GitTestTemplate {
     @Test
     public void gitLog_sinceDateInFuture_noContent() {
         Date date = TestUtil.getDate(2050, Calendar.JANUARY, 1);
-        config.setSinceDate(date);
-        String content = GitLog.get(config, getAlphaAllAliasAuthor());
+        String content = GitLog.get(config, getAlphaAllAliasAuthor(), date, null);
         Assert.assertTrue(content.isEmpty());
     }
 
     @Test
     public void gitLog_untilDateBeforeAnyCommit_noContent() {
         Date date = TestUtil.getDate(2010, Calendar.JANUARY, 1);
-        config.setUntilDate(date);
-        config.setSinceDate(null);
-        String content = GitLog.get(config, getAlphaAllAliasAuthor());
+        String content = GitLog.get(config, getAlphaAllAliasAuthor(), null, date);
         Assert.assertTrue(content.isEmpty());
     }
 }

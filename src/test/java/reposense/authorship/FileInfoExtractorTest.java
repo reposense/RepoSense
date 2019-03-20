@@ -48,9 +48,8 @@ public class FileInfoExtractorTest extends GitTestTemplate {
     @Test
     public void extractFileInfos_sinceDateFebrauaryNineToLatestCommit_success() {
         Date date = TestUtil.getDate(2018, Calendar.FEBRUARY, 9);
-        config.setSinceDate(date);
 
-        List<FileInfo> files = FileInfoExtractor.extractFileInfos(config);
+        List<FileInfo> files = FileInfoExtractor.extractFileInfos(config, date, null);
         Assert.assertEquals(4, files.size());
 
         // files edited within commit range
@@ -97,18 +96,16 @@ public class FileInfoExtractorTest extends GitTestTemplate {
     @Test
     public void extractFileInfos_sinceDateAfterLatestCommit_emptyResult() {
         Date date = TestUtil.getDate(2050, 12, 31);
-        config.setSinceDate(date);
 
-        List<FileInfo> files = FileInfoExtractor.extractFileInfos(config);
+        List<FileInfo> files = FileInfoExtractor.extractFileInfos(config, date, null);
         Assert.assertTrue(files.isEmpty());
     }
 
     @Test
     public void extractFileInfos_untilDateBeforeFirstCommit_emptyResult() {
         Date date = TestUtil.getDate(2015, 12, 31);
-        config.setUntilDate(date);
 
-        List<FileInfo> files = FileInfoExtractor.extractFileInfos(config);
+        List<FileInfo> files = FileInfoExtractor.extractFileInfos(config, null, date);
         Assert.assertTrue(files.isEmpty());
     }
 

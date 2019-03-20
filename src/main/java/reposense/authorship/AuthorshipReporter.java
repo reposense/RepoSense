@@ -1,5 +1,6 @@
 package reposense.authorship;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
@@ -17,8 +18,9 @@ public class AuthorshipReporter {
     /**
      * Generates and returns the authorship summary for each repo in {@code config}.
      */
-    public static AuthorshipSummary generateAuthorshipSummary(RepoConfiguration config) {
-        List<FileInfo> fileInfos = FileInfoExtractor.extractFileInfos(config);
+    public static AuthorshipSummary generateAuthorshipSummary(RepoConfiguration config,
+            Date sinceDate, Date untilDate) {
+        List<FileInfo> fileInfos = FileInfoExtractor.extractFileInfos(config, sinceDate, untilDate);
 
         List<FileResult> fileResults = fileInfos.stream()
                 .map(fileInfo -> FileInfoAnalyzer.analyzeFile(config, fileInfo))
