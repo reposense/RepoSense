@@ -75,11 +75,7 @@ window.vSummary = {
     },
     filterGroupSelection() {
       this.getFiltered();
-      if (this.filterGroupSelection === 'groupByAuthors') {
-        this.filterSort = (this.filterSort === 'displayName') ? 'searchPath' : this.filterSort;
-      } else if (this.filterGroupSelection === 'groupByRepos') {
-        this.filterSort = (this.filterSort === 'searchPath') ? 'displayName' : this.filterSort;
-      }
+      this.updateSortSelection();
     },
     filterBreakdown() {
       this.getFiltered();
@@ -436,6 +432,13 @@ window.vSummary = {
       }
 
       return null;
+    },
+    updateSortSelection () {
+      if (this.filterGroupSelection === 'groupByAuthors') {
+        this.filterSort = (this.filterSort === 'displayName') ? 'searchPath' : this.filterSort;
+      } else if (this.filterGroupSelection === 'groupByRepos') {
+        this.filterSort = (this.filterSort === 'searchPath') ? 'displayName' : this.filterSort;
+      }
     },
     sortFiltered() {
       let full = [];
