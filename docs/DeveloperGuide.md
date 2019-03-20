@@ -114,7 +114,8 @@ Named Arguments:
                      the repo.
 --timezone ZONE_ID[±hh[mm]], -t ZONE_ID[±hh[mm]]
                      The timezone to use for the generated report. 
-                     The timezone should be recognized by Java ZoneId class. E.g. UTC
+                     One kind of valid timezones is relative to UTC. 
+                     E.g. UTC, UTC+08, UTC-1030.
                      If not provided, system default timezone will be used.
 --config PATH, -c PATH
                      The directory containing the config files. If not

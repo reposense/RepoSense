@@ -135,7 +135,7 @@ public class ArgsParser {
                 .type(new ZoneIdArgumentType())
                 .setDefault(ZoneId.systemDefault())
                 .help("The timezone to use for the generated report. "
-                        + "The timezone should be recognized by Java ZoneId class. E.g. UTC \n"
+                        + "One kind of valid timezones is relative to UTC. E.g. UTC, UTC+08, UTC-1030. \n"
                         + "If not provided, system default timezone will be used.");
 
         return parser;
