@@ -1,3 +1,10 @@
+const filesSortDict = {
+  lineOfCode: (file) => file.lineCount,
+  path: (file) => file.path,
+  fileName: (file) => file.path.split(/[/]+/).pop(),
+  fileType: (file) => file.path.split(/[/]+/).pop().split(/[.]+/).pop(),
+};
+
 window.toggleNext = function toggleNext(ele) {
   // function for toggling unopened code
   const targetClass = 'active';
@@ -31,9 +38,21 @@ window.vAuthorship = {
       filesBlankLinesObj: {},
       totalLineCount: '',
       totalBlankLineCount: '',
+      filesSortType: 'lineOfCode',
+      toReverseSortFiles: false,
       activeFilesCount: 0,
       filterSearch: '*',
+      sortingFunction: window.comparator(filesSortDict.lineOfCode),
     };
+  },
+
+  watch: {
+    filesSortType() {
+      this.sortFiles();
+    },
+    toReverseSortFiles() {
+      this.sortFiles();
+    },
   },
 
   methods: {
@@ -92,6 +111,13 @@ window.vAuthorship = {
 
     updateCount() {
       this.activeFiles = document.getElementsByClassName('file active').length;
+    },
+
+    hasCommits(info) {
+      if (window.REPOS[info.repo]) {
+        return window.REPOS[info.repo].commits.authorFinalContributionMap[info.author] > 0;
+      }
+      return false;
     },
 
     hasCommits(info) {
@@ -182,6 +208,11 @@ window.vAuthorship = {
       }
 
       filesInfoObj[fileFormat] += lineCount;
+    },
+
+    sortFiles() {
+      this.sortingFunction = (a, b) => (this.toReverseSortFiles ? -1 : 1)
+          * window.comparator(filesSortDict[this.filesSortType])(a, b);
     },
 
     selectAll() {
@@ -276,8 +307,10 @@ window.vAuthorship = {
 
   computed: {
     selectedFiles() {
-      return this.files.filter((file) => this.isSelected(file.path)
-          && minimatch(file.path, this.filterSearch, { matchBase: true }));
+      return this.files
+          .filter((file) => this.isSelected(file.path)
+              && minimatch(file.path, this.filterSearch, { matchBase: true }))
+          .sort(this.sortingFunction);
     },
     getExistingLinesObj() {
       return Object.keys(this.filesLinesObj)
