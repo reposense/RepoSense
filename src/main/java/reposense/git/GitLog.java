@@ -19,6 +19,19 @@ public class GitLog {
 
         String command = "git log --no-merges -i ";
         command += GitUtil.convertToGitDateRangeArgs(config.getSinceDate(), config.getUntilDate());
+        command += " --pretty=format:\"%H|%aN|%aE|%ad|%s\" --date=iso --shortstat";
+        command += GitUtil.convertToFilterAuthorArgs(author);
+        command += GitUtil.convertToGitFormatsArgs(config.getFormats());
+        command += GitUtil.convertToGitExcludeGlobArgs(rootPath.toFile(), author.getIgnoreGlobList());
+
+        return runCommand(rootPath, command);
+    }
+
+    public static String getWithFiles(RepoConfiguration config, Author author) {
+        Path rootPath = Paths.get(config.getRepoRoot());
+
+        String command = "git log --no-merges -i ";
+        command += GitUtil.convertToGitDateRangeArgs(config.getSinceDate(), config.getUntilDate());
         command += " --pretty=format:\"%H|%aN|%aE|%ad|%s\" --date=iso --stat";
         command += GitUtil.convertToFilterAuthorArgs(author);
         command += GitUtil.convertToGitFormatsArgs(config.getFormats());
