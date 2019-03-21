@@ -1,6 +1,7 @@
 package reposense.model;
 
 import java.nio.file.Path;
+import java.time.ZoneId;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
@@ -14,7 +15,7 @@ public class LocationsCliArguments extends CliArguments {
 
     public LocationsCliArguments(List<String> locations, Path outputFilePath, Optional<Date> sinceDate,
             Optional<Date> untilDate, List<Format> formats, boolean isAutomaticallyLaunching,
-            boolean isStandaloneConfigIgnored) {
+            boolean isStandaloneConfigIgnored, ZoneId zoneId) {
         this.locations = locations;
         this.outputFilePath = outputFilePath;
         this.sinceDate = sinceDate;
@@ -22,6 +23,7 @@ public class LocationsCliArguments extends CliArguments {
         this.formats = formats;
         this.isAutomaticallyLaunching = isAutomaticallyLaunching;
         this.isStandaloneConfigIgnored = isStandaloneConfigIgnored;
+        this.zoneId = zoneId;
     }
 
     public List<String> getLocations() {
