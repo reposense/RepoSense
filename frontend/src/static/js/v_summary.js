@@ -443,6 +443,7 @@ window.vSummary = {
     sortFiltered() {
       let full = [];
       if (this.filterGroupSelection === 'groupByNone') {
+        // push all repos into the same group
         full[0] = this.groupByNone(this.filtered);
       } else if (this.filterGroupSelection === 'groupByAuthors') {
         full = this.groupByAuthors(this.filtered);
