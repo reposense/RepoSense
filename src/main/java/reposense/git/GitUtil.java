@@ -3,9 +3,11 @@ package reposense.git;
 import static reposense.util.StringsUtil.addQuote;
 
 import java.io.File;
+import java.io.IOException;
 import java.nio.file.FileSystem;
 import java.nio.file.FileSystems;
 import java.nio.file.PathMatcher;
+import java.nio.file.Paths;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -108,14 +110,25 @@ class GitUtil {
         String validPath = path;
         FileSystem fileSystem = FileSystems.getDefault();
         if (path.contains("/*")) {
+            // contains directories
             validPath = path.substring(0, path.indexOf("/*"));
         } else if (path.contains("*")) {
+            // no directories
             return true;
+        } else if (path.startsWith("/")) {
+            // Ignore globs cannot start with a slash
+            return false;
         }
-        String globPath = "glob:" + repoRoot.getAbsolutePath() + "/*";
-        PathMatcher pathMatcher = fileSystem.getPathMatcher(globPath);
-        if (pathMatcher.matches(new File(repoRoot, validPath).toPath())) {
-            return true;
+
+        try {
+            String fileGlobPath = "glob:" + repoRoot.getCanonicalPath().replaceAll("\\\\+", "\\/") + "/**";
+            PathMatcher pathMatcher = fileSystem.getPathMatcher(fileGlobPath);
+            validPath = new File(repoRoot, validPath).getCanonicalPath();
+            if (pathMatcher.matches(Paths.get(validPath))) {
+                return true;
+            }
+        } catch (IOException ex) {
+            logger.log(Level.WARNING, path + " requires file system queries.");
         }
 
         logger.log(Level.WARNING, path + " will be skipped as this file is outside the repo.");
