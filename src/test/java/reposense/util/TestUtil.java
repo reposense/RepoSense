@@ -138,8 +138,8 @@ public class TestUtil {
             return expectedNumberCommits == 0;
         }
 
-        // each commit has 3 lines of info, and a blank line in between each
-        return expectedNumberCommits * 4 - 1 == gitLogResult.split("\n").length;
+        // each commit has 2 lines of info, and a blank line in between each
+        return expectedNumberCommits * 3 - 1 == gitLogResult.split("\n").length;
     }
 
     /**
