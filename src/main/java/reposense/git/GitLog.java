@@ -19,7 +19,7 @@ public class GitLog {
 
         String command = "git log --no-merges -i ";
         command += GitUtil.convertToGitDateRangeArgs(config.getSinceDate(), config.getUntilDate());
-        command += " --pretty=format:\"%H|%aN|%aE|%ad|%s\" --date=iso --shortstat";
+        command += " --pretty=format:\"%H|%aN|%aE|%ad|%s\" --date=iso --stat";
         command += GitUtil.convertToFilterAuthorArgs(author);
         command += GitUtil.convertToGitFormatsArgs(config.getFormats());
         command += GitUtil.convertToGitExcludeGlobArgs(rootPath.toFile(), author.getIgnoreGlobList());
