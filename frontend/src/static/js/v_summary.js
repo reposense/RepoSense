@@ -339,14 +339,13 @@ window.vSummary = {
           '#000075', '#808080'];
       const formatColors = {};
       let i = 0;
-      let j = 0;
 
       this.repos.forEach((repo) => {
         const user = repo.users[0];
         Object.keys(user.formatContribution).forEach((format) => {
           if (!Object.prototype.hasOwnProperty.call(formatColors, format)) {
-            formatColors[format] = selectedColors[j];
-            j = (j + 1) % selectedColors.length;
+            formatColors[format] = selectedColors[i];
+            i = (i + 1) % selectedColors.length;
           }
         });
       });
