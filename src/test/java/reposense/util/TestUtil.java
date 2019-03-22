@@ -144,7 +144,7 @@ public class TestUtil {
 
     /**
      * Returns true if the {@code expectedNumberFilesChanged} is equal to the actual number of files changed in
-     * {#code gitLogResult}
+     * {@code gitLogResult}
      */
     public static boolean compareNumberFilesChanged(int expectedNumberFilesChanged, String gitLogResult) {
         // if git log result is empty, then there are no files changed
