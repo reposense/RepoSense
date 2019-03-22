@@ -64,17 +64,18 @@ public class GitLogTest extends GitTestTemplate {
         Author ignoreMovedFileAuthor = getAlphaAllAliasAuthor();
         ignoreMovedFileAuthor.setIgnoreGlobList(Collections.singletonList("**movedFile.java"));
 
-        String content = GitLog.get(config, ignoreMovedFileAuthor);
-        Assert.assertTrue(TestUtil.compareNumberExpectedCommitsToGitLogLines(6, content));
+        String content = GitLog.getWithFiles(config, ignoreMovedFileAuthor);
+        Assert.assertTrue(TestUtil.compareNumberFilesChanged(4, content));
     }
 
     @Test
     public void gitLog_authorIgnoreAllJavaFiles_success() {
+        config.setFormats(Collections.singletonList(new Format("java")));
         Author ignoreAllJavaFilesAuthor = getAlphaAllAliasAuthor();
         ignoreAllJavaFilesAuthor.setIgnoreGlobList(Collections.singletonList("*.java"));
 
-        String content = GitLog.get(config, ignoreAllJavaFilesAuthor);
-        Assert.assertTrue(TestUtil.compareNumberExpectedCommitsToGitLogLines(2, content));
+        String content = GitLog.getWithFiles(config, ignoreAllJavaFilesAuthor);
+        Assert.assertTrue(TestUtil.compareNumberFilesChanged(0, content));
     }
 
     @Test
