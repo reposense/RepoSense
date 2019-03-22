@@ -2,9 +2,7 @@ package reposense.model;
 
 import java.nio.file.FileSystems;
 import java.nio.file.PathMatcher;
-import java.util.Arrays;
 import java.util.List;
-import java.util.stream.Collectors;
 
 /**
  * Represents a group in {@code RepoConfiguration}.
