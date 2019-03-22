@@ -209,6 +209,8 @@ html
             v-bind:title="'Click to open the repo'"
           ) {{ info.repo }}
           .author {{ info.name }} ({{ info.author }}) contribution from {{ info.minDate }} to {{ info.maxDate }}
+          div.test(v-model=fileFormats) {{fileFormats}}
+          div.test(v-model=selectedFileFormats) {{selectedFileFormats}}
           .contribution(v-if="isLoaded && files.length!=0")
             .searchbox
               input.radio-button--search(type="radio", name="filter", value="search", v-on:click="enableSearchBar()")
