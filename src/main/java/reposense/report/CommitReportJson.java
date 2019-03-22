@@ -17,8 +17,7 @@ import reposense.model.Author;
 public class CommitReportJson {
     private final Map<Author, List<AuthorDailyContribution>> authorDailyContributionsMap;
     private final Map<Author, Integer> authorFinalContributionMap;
-    private final Map<Author, LinkedHashMap<String, Integer>> authorFileFormatContributionMap;
-    private final Map<Author, LinkedHashMap<String, Integer>> authorGroupContributionMap;
+    private final Map<Author, LinkedHashMap<String, Integer>> authorFormatContributionMap;
     private final Map<Author, Float> authorContributionVariance;
     private final Map<Author, String> authorDisplayNameMap;
 
@@ -34,11 +33,8 @@ public class CommitReportJson {
         authorFinalContributionMap = new HashMap<>();
         authorFinalContributionMap.put(emptyAuthor, 0);
 
-        authorFileFormatContributionMap = new HashMap<>();
-        authorFileFormatContributionMap.put(emptyAuthor, new LinkedHashMap<>());
-
-        authorGroupContributionMap = new HashMap<>();
-        authorGroupContributionMap.put(emptyAuthor, new LinkedHashMap<>());
+        authorFormatContributionMap = new HashMap<>();
+        authorFormatContributionMap.put(emptyAuthor, new LinkedHashMap<>());
 
         authorContributionVariance = new HashMap<>();
         authorContributionVariance.put(emptyAuthor, (float) 0.0);
@@ -50,8 +46,7 @@ public class CommitReportJson {
     public CommitReportJson(CommitContributionSummary commitSummary, AuthorshipSummary authorshipSummary) {
         authorDailyContributionsMap = commitSummary.getAuthorDailyContributionsMap();
         authorFinalContributionMap = authorshipSummary.getAuthorFinalContributionMap();
-        authorFileFormatContributionMap = authorshipSummary.getAuthorFileFormatContributionMap();
-        authorGroupContributionMap = authorshipSummary.getAuthorGroupContributionMap();
+        authorFormatContributionMap = authorshipSummary.getAuthorFormatContributionMap();
         authorContributionVariance = commitSummary.getAuthorContributionVariance();
         authorDisplayNameMap = commitSummary.getAuthorDisplayNameMap();
     }
