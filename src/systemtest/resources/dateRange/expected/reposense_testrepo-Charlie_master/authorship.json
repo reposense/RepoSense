@@ -1,7 +1,7 @@
 [
   {
     "path": "README.adoc",
-    "group": "docs",
+    "format": "docs",
     "lines": [
       {
         "lineNumber": 1,
@@ -264,7 +264,7 @@
   },
   {
     "path": "docs/AboutUs.adoc",
-    "group": "docs",
+    "format": "docs",
     "lines": [
       {
         "lineNumber": 1,
@@ -610,7 +610,7 @@
   },
   {
     "path": "docs/DeveloperGuide.adoc",
-    "group": "docs",
+    "format": "docs",
     "lines": [
       {
         "lineNumber": 1,
@@ -9386,7 +9386,7 @@
   },
   {
     "path": "docs/UserGuide.adoc",
-    "group": "docs",
+    "format": "docs",
     "lines": [
       {
         "lineNumber": 1,
@@ -14634,7 +14634,7 @@
   },
   {
     "path": "src/main/java/seedu/address/MainApp.java",
-    "group": "code",
+    "format": "code",
     "lines": [
       {
         "lineNumber": 1,
@@ -16164,7 +16164,7 @@
   },
   {
     "path": "src/main/java/seedu/address/commons/core/Messages.java",
-    "group": "code",
+    "format": "code",
     "lines": [
       {
         "lineNumber": 1,
@@ -16279,7 +16279,7 @@
   },
   {
     "path": "src/main/java/seedu/address/commons/events/model/AddressBookChangedEvent.java",
-    "group": "code",
+    "format": "code",
     "lines": [
       {
         "lineNumber": 1,
@@ -16429,7 +16429,7 @@
   },
   {
     "path": "src/main/java/seedu/address/commons/events/ui/BrowserPanelLocateEvent.java",
-    "group": "code",
+    "format": "code",
     "lines": [
       {
         "lineNumber": 1,
@@ -16613,7 +16613,7 @@
   },
   {
     "path": "src/main/java/seedu/address/commons/events/ui/OpenRequestEvent.java",
-    "group": "code",
+    "format": "code",
     "lines": [
       {
         "lineNumber": 1,
@@ -16720,7 +16720,7 @@
   },
   {
     "path": "src/main/java/seedu/address/commons/events/ui/SaveAsRequestEvent.java",
-    "group": "code",
+    "format": "code",
     "lines": [
       {
         "lineNumber": 1,
@@ -16827,7 +16827,7 @@
   },
   {
     "path": "src/main/java/seedu/address/commons/events/ui/TaskPanelSelectionChangedEvent.java",
-    "group": "code",
+    "format": "code",
     "lines": [
       {
         "lineNumber": 1,
@@ -17018,7 +17018,7 @@
   },
   {
     "path": "src/main/java/seedu/address/logic/Logic.java",
-    "group": "code",
+    "format": "code",
     "lines": [
       {
         "lineNumber": 1,
@@ -17245,7 +17245,7 @@
   },
   {
     "path": "src/main/java/seedu/address/logic/LogicManager.java",
-    "group": "code",
+    "format": "code",
     "lines": [
       {
         "lineNumber": 1,
@@ -17795,7 +17795,7 @@
   },
   {
     "path": "src/main/java/seedu/address/logic/commands/AddCommand.java",
-    "group": "code",
+    "format": "code",
     "lines": [
       {
         "lineNumber": 1,
@@ -18668,7 +18668,7 @@
   },
   {
     "path": "src/main/java/seedu/address/logic/commands/AddTagCommand.java",
-    "group": "code",
+    "format": "code",
     "lines": [
       {
         "lineNumber": 1,
@@ -19560,7 +19560,7 @@
   },
   {
     "path": "src/main/java/seedu/address/logic/commands/BackupCommand.java",
-    "group": "code",
+    "format": "code",
     "lines": [
       {
         "lineNumber": 1,
@@ -19905,7 +19905,7 @@
   },
   {
     "path": "src/main/java/seedu/address/logic/commands/ChangePrivacyCommand.java",
-    "group": "code",
+    "format": "code",
     "lines": [
       {
         "lineNumber": 1,
@@ -21819,7 +21819,7 @@
   },
   {
     "path": "src/main/java/seedu/address/logic/commands/ClearCommand.java",
-    "group": "code",
+    "format": "code",
     "lines": [
       {
         "lineNumber": 1,
@@ -22348,7 +22348,7 @@
   },
   {
     "path": "src/main/java/seedu/address/logic/commands/Command.java",
-    "group": "code",
+    "format": "code",
     "lines": [
       {
         "lineNumber": 1,
@@ -22786,7 +22786,7 @@
   },
   {
     "path": "src/main/java/seedu/address/logic/commands/DeleteCommand.java",
-    "group": "code",
+    "format": "code",
     "lines": [
       {
         "lineNumber": 1,
@@ -23329,7 +23329,7 @@
   },
   {
     "path": "src/main/java/seedu/address/logic/commands/DeleteTagCommand.java",
-    "group": "code",
+    "format": "code",
     "lines": [
       {
         "lineNumber": 1,
@@ -24221,7 +24221,7 @@
   },
   {
     "path": "src/main/java/seedu/address/logic/commands/EditCommand.java",
-    "group": "code",
+    "format": "code",
     "lines": [
       {
         "lineNumber": 1,
@@ -28217,7 +28217,7 @@
   },
   {
     "path": "src/main/java/seedu/address/logic/commands/EditTagCommand.java",
-    "group": "code",
+    "format": "code",
     "lines": [
       {
         "lineNumber": 1,
@@ -28912,7 +28912,7 @@
   },
   {
     "path": "src/main/java/seedu/address/logic/commands/FavouriteCommand.java",
-    "group": "code",
+    "format": "code",
     "lines": [
       {
         "lineNumber": 1,
@@ -29362,7 +29362,7 @@
   },
   {
     "path": "src/main/java/seedu/address/logic/commands/FavouriteListCommand.java",
-    "group": "code",
+    "format": "code",
     "lines": [
       {
         "lineNumber": 1,
@@ -29525,7 +29525,7 @@
   },
   {
     "path": "src/main/java/seedu/address/logic/commands/FindCommand.java",
-    "group": "code",
+    "format": "code",
     "lines": [
       {
         "lineNumber": 1,
@@ -30005,7 +30005,7 @@
   },
   {
     "path": "src/main/java/seedu/address/logic/commands/FindTagCommand.java",
-    "group": "code",
+    "format": "code",
     "lines": [
       {
         "lineNumber": 1,
@@ -30273,7 +30273,7 @@
   },
   {
     "path": "src/main/java/seedu/address/logic/commands/HistoryCommand.java",
-    "group": "code",
+    "format": "code",
     "lines": [
       {
         "lineNumber": 1,
@@ -30556,7 +30556,7 @@
   },
   {
     "path": "src/main/java/seedu/address/logic/commands/ListCommand.java",
-    "group": "code",
+    "format": "code",
     "lines": [
       {
         "lineNumber": 1,
@@ -30728,7 +30728,7 @@
   },
   {
     "path": "src/main/java/seedu/address/logic/commands/LocateCommand.java",
-    "group": "code",
+    "format": "code",
     "lines": [
       {
         "lineNumber": 1,
@@ -31115,7 +31115,7 @@
   },
   {
     "path": "src/main/java/seedu/address/logic/commands/RedoCommand.java",
-    "group": "code",
+    "format": "code",
     "lines": [
       {
         "lineNumber": 1,
@@ -31384,7 +31384,7 @@
   },
   {
     "path": "src/main/java/seedu/address/logic/commands/SelectCommand.java",
-    "group": "code",
+    "format": "code",
     "lines": [
       {
         "lineNumber": 1,
@@ -31765,7 +31765,7 @@
   },
   {
     "path": "src/main/java/seedu/address/logic/commands/SortCommand.java",
-    "group": "code",
+    "format": "code",
     "lines": [
       {
         "lineNumber": 1,
@@ -32167,7 +32167,7 @@
   },
   {
     "path": "src/main/java/seedu/address/logic/commands/UndoCommand.java",
-    "group": "code",
+    "format": "code",
     "lines": [
       {
         "lineNumber": 1,
@@ -32436,7 +32436,7 @@
   },
   {
     "path": "src/main/java/seedu/address/logic/commands/UnfavouriteCommand.java",
-    "group": "code",
+    "format": "code",
     "lines": [
       {
         "lineNumber": 1,
@@ -32886,7 +32886,7 @@
   },
   {
     "path": "src/main/java/seedu/address/logic/parser/AddCommandParser.java",
-    "group": "code",
+    "format": "code",
     "lines": [
       {
         "lineNumber": 1,
@@ -34243,7 +34243,7 @@
   },
   {
     "path": "src/main/java/seedu/address/logic/parser/AddTagCommandParser.java",
-    "group": "code",
+    "format": "code",
     "lines": [
       {
         "lineNumber": 1,
@@ -34736,7 +34736,7 @@
   },
   {
     "path": "src/main/java/seedu/address/logic/parser/AddressBookParser.java",
-    "group": "code",
+    "format": "code",
     "lines": [
       {
         "lineNumber": 1,
@@ -35848,7 +35848,7 @@
   },
   {
     "path": "src/main/java/seedu/address/logic/parser/BackupCommandParser.java",
-    "group": "code",
+    "format": "code",
     "lines": [
       {
         "lineNumber": 1,
@@ -35976,7 +35976,7 @@
   },
   {
     "path": "src/main/java/seedu/address/logic/parser/ChangePrivacyCommandParser.java",
-    "group": "code",
+    "format": "code",
     "lines": [
       {
         "lineNumber": 1,
@@ -37042,7 +37042,7 @@
   },
   {
     "path": "src/main/java/seedu/address/logic/parser/ClearCommandParser.java",
-    "group": "code",
+    "format": "code",
     "lines": [
       {
         "lineNumber": 1,
@@ -37310,7 +37310,7 @@
   },
   {
     "path": "src/main/java/seedu/address/logic/parser/CliSyntax.java",
-    "group": "code",
+    "format": "code",
     "lines": [
       {
         "lineNumber": 1,
@@ -37518,7 +37518,7 @@
   },
   {
     "path": "src/main/java/seedu/address/logic/parser/DeleteCommandParser.java",
-    "group": "code",
+    "format": "code",
     "lines": [
       {
         "lineNumber": 1,
@@ -37808,7 +37808,7 @@
   },
   {
     "path": "src/main/java/seedu/address/logic/parser/DeleteTagCommandParser.java",
-    "group": "code",
+    "format": "code",
     "lines": [
       {
         "lineNumber": 1,
@@ -38280,7 +38280,7 @@
   },
   {
     "path": "src/main/java/seedu/address/logic/parser/EditCommandParser.java",
-    "group": "code",
+    "format": "code",
     "lines": [
       {
         "lineNumber": 1,
@@ -39194,7 +39194,7 @@
   },
   {
     "path": "src/main/java/seedu/address/logic/parser/EditTagCommandParser.java",
-    "group": "code",
+    "format": "code",
     "lines": [
       {
         "lineNumber": 1,
@@ -39637,7 +39637,7 @@
   },
   {
     "path": "src/main/java/seedu/address/logic/parser/FavouriteCommandParser.java",
-    "group": "code",
+    "format": "code",
     "lines": [
       {
         "lineNumber": 1,
@@ -39849,7 +39849,7 @@
   },
   {
     "path": "src/main/java/seedu/address/logic/parser/FindCommandParser.java",
-    "group": "code",
+    "format": "code",
     "lines": [
       {
         "lineNumber": 1,
@@ -40174,7 +40174,7 @@
   },
   {
     "path": "src/main/java/seedu/address/logic/parser/FindTagCommandParser.java",
-    "group": "code",
+    "format": "code",
     "lines": [
       {
         "lineNumber": 1,
@@ -40435,7 +40435,7 @@
   },
   {
     "path": "src/main/java/seedu/address/logic/parser/LocateCommandParser.java",
-    "group": "code",
+    "format": "code",
     "lines": [
       {
         "lineNumber": 1,
@@ -40647,7 +40647,7 @@
   },
   {
     "path": "src/main/java/seedu/address/logic/parser/ParserUtil.java",
-    "group": "code",
+    "format": "code",
     "lines": [
       {
         "lineNumber": 1,
@@ -42024,7 +42024,7 @@
   },
   {
     "path": "src/main/java/seedu/address/logic/parser/SortCommandParser.java",
-    "group": "code",
+    "format": "code",
     "lines": [
       {
         "lineNumber": 1,
@@ -42370,7 +42370,7 @@
   },
   {
     "path": "src/main/java/seedu/address/logic/parser/UnfavouriteCommandParser.java",
-    "group": "code",
+    "format": "code",
     "lines": [
       {
         "lineNumber": 1,
@@ -42582,7 +42582,7 @@
   },
   {
     "path": "src/main/java/seedu/address/model/AddressBook.java",
-    "group": "code",
+    "format": "code",
     "lines": [
       {
         "lineNumber": 1,
@@ -44785,7 +44785,7 @@
   },
   {
     "path": "src/main/java/seedu/address/model/Model.java",
-    "group": "code",
+    "format": "code",
     "lines": [
       {
         "lineNumber": 1,
@@ -45560,7 +45560,7 @@
   },
   {
     "path": "src/main/java/seedu/address/model/ModelManager.java",
-    "group": "code",
+    "format": "code",
     "lines": [
       {
         "lineNumber": 1,
@@ -47469,7 +47469,7 @@
   },
   {
     "path": "src/main/java/seedu/address/model/ReadOnlyAddressBook.java",
-    "group": "code",
+    "format": "code",
     "lines": [
       {
         "lineNumber": 1,
@@ -47682,7 +47682,7 @@
   },
   {
     "path": "src/main/java/seedu/address/model/person/Address.java",
-    "group": "code",
+    "format": "code",
     "lines": [
       {
         "lineNumber": 1,
@@ -48246,7 +48246,7 @@
   },
   {
     "path": "src/main/java/seedu/address/model/person/Email.java",
-    "group": "code",
+    "format": "code",
     "lines": [
       {
         "lineNumber": 1,
@@ -48782,7 +48782,7 @@
   },
   {
     "path": "src/main/java/seedu/address/model/person/Name.java",
-    "group": "code",
+    "format": "code",
     "lines": [
       {
         "lineNumber": 1,
@@ -49345,7 +49345,7 @@
   },
   {
     "path": "src/main/java/seedu/address/model/person/NameContainsFavouritePredicate.java",
-    "group": "code",
+    "format": "code",
     "lines": [
       {
         "lineNumber": 1,
@@ -49515,7 +49515,7 @@
   },
   {
     "path": "src/main/java/seedu/address/model/person/NameContainsTagsPredicate.java",
-    "group": "code",
+    "format": "code",
     "lines": [
       {
         "lineNumber": 1,
@@ -50168,7 +50168,7 @@
   },
   {
     "path": "src/main/java/seedu/address/model/person/Person.java",
-    "group": "code",
+    "format": "code",
     "lines": [
       {
         "lineNumber": 1,
@@ -51397,7 +51397,7 @@
   },
   {
     "path": "src/main/java/seedu/address/model/person/Phone.java",
-    "group": "code",
+    "format": "code",
     "lines": [
       {
         "lineNumber": 1,
@@ -51940,7 +51940,7 @@
   },
   {
     "path": "src/main/java/seedu/address/model/person/ReadOnlyPerson.java",
-    "group": "code",
+    "format": "code",
     "lines": [
       {
         "lineNumber": 1,
@@ -52392,7 +52392,7 @@
   },
   {
     "path": "src/main/java/seedu/address/model/person/Remark.java",
-    "group": "code",
+    "format": "code",
     "lines": [
       {
         "lineNumber": 1,
@@ -52947,7 +52947,7 @@
   },
   {
     "path": "src/main/java/seedu/address/model/person/UniquePersonList.java",
-    "group": "code",
+    "format": "code",
     "lines": [
       {
         "lineNumber": 1,
@@ -54652,7 +54652,7 @@
   },
   {
     "path": "src/main/java/seedu/address/model/tag/Tag.java",
-    "group": "code",
+    "format": "code",
     "lines": [
       {
         "lineNumber": 1,
@@ -55096,7 +55096,7 @@
   },
   {
     "path": "src/main/java/seedu/address/model/task/Deadline.java",
-    "group": "code",
+    "format": "code",
     "lines": [
       {
         "lineNumber": 1,
@@ -56022,7 +56022,7 @@
   },
   {
     "path": "src/main/java/seedu/address/model/task/Description.java",
-    "group": "code",
+    "format": "code",
     "lines": [
       {
         "lineNumber": 1,
@@ -56479,7 +56479,7 @@
   },
   {
     "path": "src/main/java/seedu/address/model/task/Priority.java",
-    "group": "code",
+    "format": "code",
     "lines": [
       {
         "lineNumber": 1,
@@ -57069,7 +57069,7 @@
   },
   {
     "path": "src/main/java/seedu/address/model/task/ReadOnlyTask.java",
-    "group": "code",
+    "format": "code",
     "lines": [
       {
         "lineNumber": 1,
@@ -57379,7 +57379,7 @@
   },
   {
     "path": "src/main/java/seedu/address/model/task/Task.java",
-    "group": "code",
+    "format": "code",
     "lines": [
       {
         "lineNumber": 1,
@@ -58123,7 +58123,7 @@
   },
   {
     "path": "src/main/java/seedu/address/model/task/TaskContainsKeywordPredicate.java",
-    "group": "code",
+    "format": "code",
     "lines": [
       {
         "lineNumber": 1,
@@ -58398,7 +58398,7 @@
   },
   {
     "path": "src/main/java/seedu/address/model/task/TaskName.java",
-    "group": "code",
+    "format": "code",
     "lines": [
       {
         "lineNumber": 1,
@@ -58848,7 +58848,7 @@
   },
   {
     "path": "src/main/java/seedu/address/model/task/UniqueTaskList.java",
-    "group": "code",
+    "format": "code",
     "lines": [
       {
         "lineNumber": 1,
@@ -59725,7 +59725,7 @@
   },
   {
     "path": "src/main/java/seedu/address/model/task/exceptions/DuplicateTaskException.java",
-    "group": "code",
+    "format": "code",
     "lines": [
       {
         "lineNumber": 1,
@@ -59825,7 +59825,7 @@
   },
   {
     "path": "src/main/java/seedu/address/model/task/exceptions/TaskNotFoundException.java",
-    "group": "code",
+    "format": "code",
     "lines": [
       {
         "lineNumber": 1,
@@ -59890,7 +59890,7 @@
   },
   {
     "path": "src/main/java/seedu/address/model/util/SampleDataUtil.java",
-    "group": "code",
+    "format": "code",
     "lines": [
       {
         "lineNumber": 1,
@@ -60454,7 +60454,7 @@
   },
   {
     "path": "src/main/java/seedu/address/storage/AddressBookStorage.java",
-    "group": "code",
+    "format": "code",
     "lines": [
       {
         "lineNumber": 1,
@@ -60815,7 +60815,7 @@
   },
   {
     "path": "src/main/java/seedu/address/storage/StorageManager.java",
-    "group": "code",
+    "format": "code",
     "lines": [
       {
         "lineNumber": 1,
@@ -61666,7 +61666,7 @@
   },
   {
     "path": "src/main/java/seedu/address/storage/XmlAdaptedPerson.java",
-    "group": "code",
+    "format": "code",
     "lines": [
       {
         "lineNumber": 1,
@@ -62490,7 +62490,7 @@
   },
   {
     "path": "src/main/java/seedu/address/storage/XmlAdaptedTask.java",
-    "group": "code",
+    "format": "code",
     "lines": [
       {
         "lineNumber": 1,
@@ -62884,7 +62884,7 @@
   },
   {
     "path": "src/main/java/seedu/address/storage/XmlAddressBookStorage.java",
-    "group": "code",
+    "format": "code",
     "lines": [
       {
         "lineNumber": 1,
@@ -63644,7 +63644,7 @@
   },
   {
     "path": "src/main/java/seedu/address/storage/XmlSerializableAddressBook.java",
-    "group": "code",
+    "format": "code",
     "lines": [
       {
         "lineNumber": 1,
@@ -64291,7 +64291,7 @@
   },
   {
     "path": "src/main/java/seedu/address/ui/BrowserPanel.java",
-    "group": "code",
+    "format": "code",
     "lines": [
       {
         "lineNumber": 1,
@@ -65085,7 +65085,7 @@
   },
   {
     "path": "src/main/java/seedu/address/ui/MainWindow.java",
-    "group": "code",
+    "format": "code",
     "lines": [
       {
         "lineNumber": 1,
@@ -67470,7 +67470,7 @@
   },
   {
     "path": "src/main/java/seedu/address/ui/PersonCard.java",
-    "group": "code",
+    "format": "code",
     "lines": [
       {
         "lineNumber": 1,
@@ -68356,7 +68356,7 @@
   },
   {
     "path": "src/main/java/seedu/address/ui/StatusBarFooter.java",
-    "group": "code",
+    "format": "code",
     "lines": [
       {
         "lineNumber": 1,
@@ -68989,7 +68989,7 @@
   },
   {
     "path": "src/main/java/seedu/address/ui/TaskCard.java",
-    "group": "code",
+    "format": "code",
     "lines": [
       {
         "lineNumber": 1,
@@ -69530,7 +69530,7 @@
   },
   {
     "path": "src/main/java/seedu/address/ui/TaskListPanel.java",
-    "group": "code",
+    "format": "code",
     "lines": [
       {
         "lineNumber": 1,
@@ -70155,7 +70155,7 @@
   },
   {
     "path": "src/main/java/seedu/address/ui/Ui.java",
-    "group": "code",
+    "format": "code",
     "lines": [
       {
         "lineNumber": 1,
@@ -70291,7 +70291,7 @@
   },
   {
     "path": "src/main/java/seedu/address/ui/UiManager.java",
-    "group": "code",
+    "format": "code",
     "lines": [
       {
         "lineNumber": 1,
@@ -71177,7 +71177,7 @@
   },
   {
     "path": "src/test/java/seedu/address/commons/util/AppUtilTest.java",
-    "group": "test",
+    "format": "test",
     "lines": [
       {
         "lineNumber": 1,
@@ -71516,7 +71516,7 @@
   },
   {
     "path": "src/test/java/seedu/address/logic/commands/AddCommandTest.java",
-    "group": "test",
+    "format": "test",
     "lines": [
       {
         "lineNumber": 1,
@@ -73565,7 +73565,7 @@
   },
   {
     "path": "src/test/java/seedu/address/logic/commands/AddTagCommandTest.java",
-    "group": "test",
+    "format": "test",
     "lines": [
       {
         "lineNumber": 1,
@@ -74631,7 +74631,7 @@
   },
   {
     "path": "src/test/java/seedu/address/logic/commands/ChangePrivacyCommandTest.java",
-    "group": "test",
+    "format": "test",
     "lines": [
       {
         "lineNumber": 1,
@@ -75536,7 +75536,7 @@
   },
   {
     "path": "src/test/java/seedu/address/logic/commands/ClearCommandTest.java",
-    "group": "test",
+    "format": "test",
     "lines": [
       {
         "lineNumber": 1,
@@ -75819,7 +75819,7 @@
   },
   {
     "path": "src/test/java/seedu/address/logic/commands/CommandTestUtil.java",
-    "group": "test",
+    "format": "test",
     "lines": [
       {
         "lineNumber": 1,
@@ -77211,7 +77211,7 @@
   },
   {
     "path": "src/test/java/seedu/address/logic/commands/DeleteCommandTest.java",
-    "group": "test",
+    "format": "test",
     "lines": [
       {
         "lineNumber": 1,
@@ -78054,7 +78054,7 @@
   },
   {
     "path": "src/test/java/seedu/address/logic/commands/DeleteTagCommandTest.java",
-    "group": "test",
+    "format": "test",
     "lines": [
       {
         "lineNumber": 1,
@@ -79211,7 +79211,7 @@
   },
   {
     "path": "src/test/java/seedu/address/logic/commands/EditCommandTest.java",
-    "group": "test",
+    "format": "test",
     "lines": [
       {
         "lineNumber": 1,
@@ -80831,7 +80831,7 @@
   },
   {
     "path": "src/test/java/seedu/address/logic/commands/EditTagCommandTest.java",
-    "group": "test",
+    "format": "test",
     "lines": [
       {
         "lineNumber": 1,
@@ -81624,7 +81624,7 @@
   },
   {
     "path": "src/test/java/seedu/address/logic/commands/EditTaskDescriptorTest.java",
-    "group": "test",
+    "format": "test",
     "lines": [
       {
         "lineNumber": 1,
@@ -82011,7 +82011,7 @@
   },
   {
     "path": "src/test/java/seedu/address/logic/commands/FavouriteCommandTest.java",
-    "group": "test",
+    "format": "test",
     "lines": [
       {
         "lineNumber": 1,
@@ -82559,7 +82559,7 @@
   },
   {
     "path": "src/test/java/seedu/address/logic/commands/FavouriteListCommandTest.java",
-    "group": "test",
+    "format": "test",
     "lines": [
       {
         "lineNumber": 1,
@@ -82890,7 +82890,7 @@
   },
   {
     "path": "src/test/java/seedu/address/logic/commands/FindTagCommandTest.java",
-    "group": "test",
+    "format": "test",
     "lines": [
       {
         "lineNumber": 1,
@@ -83669,7 +83669,7 @@
   },
   {
     "path": "src/test/java/seedu/address/logic/commands/LocateCommandTest.java",
-    "group": "test",
+    "format": "test",
     "lines": [
       {
         "lineNumber": 1,
@@ -84672,7 +84672,7 @@
   },
   {
     "path": "src/test/java/seedu/address/logic/commands/RedoCommandTest.java",
-    "group": "test",
+    "format": "test",
     "lines": [
       {
         "lineNumber": 1,
@@ -85074,7 +85074,7 @@
   },
   {
     "path": "src/test/java/seedu/address/logic/commands/UnFavouriteCommandTest.java",
-    "group": "test",
+    "format": "test",
     "lines": [
       {
         "lineNumber": 1,
@@ -85622,7 +85622,7 @@
   },
   {
     "path": "src/test/java/seedu/address/logic/commands/UndoCommandTest.java",
-    "group": "test",
+    "format": "test",
     "lines": [
       {
         "lineNumber": 1,
@@ -86038,7 +86038,7 @@
   },
   {
     "path": "src/test/java/seedu/address/logic/parser/AddCommandParserTest.java",
-    "group": "test",
+    "format": "test",
     "lines": [
       {
         "lineNumber": 1,
@@ -87701,7 +87701,7 @@
   },
   {
     "path": "src/test/java/seedu/address/logic/parser/AddTagCommandParserTest.java",
-    "group": "test",
+    "format": "test",
     "lines": [
       {
         "lineNumber": 1,
@@ -88116,7 +88116,7 @@
   },
   {
     "path": "src/test/java/seedu/address/logic/parser/AddressBookParserTest.java",
-    "group": "test",
+    "format": "test",
     "lines": [
       {
         "lineNumber": 1,
@@ -90348,7 +90348,7 @@
   },
   {
     "path": "src/test/java/seedu/address/logic/parser/ChangePrivacyCommandParserTest.java",
-    "group": "test",
+    "format": "test",
     "lines": [
       {
         "lineNumber": 1,
@@ -91568,7 +91568,7 @@
   },
   {
     "path": "src/test/java/seedu/address/logic/parser/DeleteCommandParserTest.java",
-    "group": "test",
+    "format": "test",
     "lines": [
       {
         "lineNumber": 1,
@@ -91942,7 +91942,7 @@
   },
   {
     "path": "src/test/java/seedu/address/logic/parser/DeleteTagCommandParserTest.java",
-    "group": "test",
+    "format": "test",
     "lines": [
       {
         "lineNumber": 1,
@@ -92406,7 +92406,7 @@
   },
   {
     "path": "src/test/java/seedu/address/logic/parser/EditTagCommandParserTest.java",
-    "group": "test",
+    "format": "test",
     "lines": [
       {
         "lineNumber": 1,
@@ -92786,7 +92786,7 @@
   },
   {
     "path": "src/test/java/seedu/address/logic/parser/FavouriteCommandParserTest.java",
-    "group": "test",
+    "format": "test",
     "lines": [
       {
         "lineNumber": 1,
@@ -92977,7 +92977,7 @@
   },
   {
     "path": "src/test/java/seedu/address/logic/parser/FindTagCommandParserTest.java",
-    "group": "test",
+    "format": "test",
     "lines": [
       {
         "lineNumber": 1,
@@ -93252,7 +93252,7 @@
   },
   {
     "path": "src/test/java/seedu/address/logic/parser/LocateCommandParserTest.java",
-    "group": "test",
+    "format": "test",
     "lines": [
       {
         "lineNumber": 1,
@@ -93464,7 +93464,7 @@
   },
   {
     "path": "src/test/java/seedu/address/logic/parser/SortCommandParserTest.java",
-    "group": "test",
+    "format": "test",
     "lines": [
       {
         "lineNumber": 1,
@@ -94173,7 +94173,7 @@
   },
   {
     "path": "src/test/java/seedu/address/logic/parser/UnfavouriteCommandParserTest.java",
-    "group": "test",
+    "format": "test",
     "lines": [
       {
         "lineNumber": 1,
@@ -94364,7 +94364,7 @@
   },
   {
     "path": "src/test/java/seedu/address/model/AddressBookTest.java",
-    "group": "test",
+    "format": "test",
     "lines": [
       {
         "lineNumber": 1,
@@ -95894,7 +95894,7 @@
   },
   {
     "path": "src/test/java/seedu/address/model/person/AddressTest.java",
-    "group": "test",
+    "format": "test",
     "lines": [
       {
         "lineNumber": 1,
@@ -96114,7 +96114,7 @@
   },
   {
     "path": "src/test/java/seedu/address/model/person/EmailTest.java",
-    "group": "test",
+    "format": "test",
     "lines": [
       {
         "lineNumber": 1,
@@ -96467,7 +96467,7 @@
   },
   {
     "path": "src/test/java/seedu/address/model/person/NameTest.java",
-    "group": "test",
+    "format": "test",
     "lines": [
       {
         "lineNumber": 1,
@@ -96722,7 +96722,7 @@
   },
   {
     "path": "src/test/java/seedu/address/model/person/PhoneTest.java",
-    "group": "test",
+    "format": "test",
     "lines": [
       {
         "lineNumber": 1,
@@ -96970,7 +96970,7 @@
   },
   {
     "path": "src/test/java/seedu/address/model/task/DeadlineTest.java",
-    "group": "test",
+    "format": "test",
     "lines": [
       {
         "lineNumber": 1,
@@ -97287,7 +97287,7 @@
   },
   {
     "path": "src/test/java/seedu/address/model/task/DescriptionTest.java",
-    "group": "test",
+    "format": "test",
     "lines": [
       {
         "lineNumber": 1,
@@ -97436,7 +97436,7 @@
   },
   {
     "path": "src/test/java/seedu/address/model/task/PriorityTest.java",
-    "group": "test",
+    "format": "test",
     "lines": [
       {
         "lineNumber": 1,
@@ -97606,7 +97606,7 @@
   },
   {
     "path": "src/test/java/seedu/address/model/task/TaskNameTest.java",
-    "group": "test",
+    "format": "test",
     "lines": [
       {
         "lineNumber": 1,
@@ -97762,7 +97762,7 @@
   },
   {
     "path": "src/test/java/seedu/address/testutil/EditPersonDescriptorBuilder.java",
-    "group": "test",
+    "format": "test",
     "lines": [
       {
         "lineNumber": 1,
@@ -98634,7 +98634,7 @@
   },
   {
     "path": "src/test/java/seedu/address/testutil/EditTaskDescriptorBuilder.java",
-    "group": "test",
+    "format": "test",
     "lines": [
       {
         "lineNumber": 1,
@@ -99259,7 +99259,7 @@
   },
   {
     "path": "src/test/java/seedu/address/testutil/PersonBuilder.java",
-    "group": "test",
+    "format": "test",
     "lines": [
       {
         "lineNumber": 1,
@@ -100236,7 +100236,7 @@
   },
   {
     "path": "src/test/java/seedu/address/testutil/PersonPrivacySettingsBuilder.java",
-    "group": "test",
+    "format": "test",
     "lines": [
       {
         "lineNumber": 1,
@@ -100875,7 +100875,7 @@
   },
   {
     "path": "src/test/java/seedu/address/testutil/PersonUtil.java",
-    "group": "test",
+    "format": "test",
     "lines": [
       {
         "lineNumber": 1,
@@ -101165,7 +101165,7 @@
   },
   {
     "path": "src/test/java/seedu/address/testutil/TaskBuilder.java",
-    "group": "test",
+    "format": "test",
     "lines": [
       {
         "lineNumber": 1,
@@ -101825,7 +101825,7 @@
   },
   {
     "path": "src/test/java/seedu/address/testutil/TypicalPersons.java",
-    "group": "test",
+    "format": "test",
     "lines": [
       {
         "lineNumber": 1,
@@ -102544,7 +102544,7 @@
   },
   {
     "path": "src/test/java/seedu/address/testutil/TypicalTasks.java",
-    "group": "test",
+    "format": "test",
     "lines": [
       {
         "lineNumber": 1,
@@ -103085,7 +103085,7 @@
   },
   {
     "path": "src/test/java/seedu/address/ui/BrowserPanelTest.java",
-    "group": "test",
+    "format": "test",
     "lines": [
       {
         "lineNumber": 1,
@@ -103543,7 +103543,7 @@
   },
   {
     "path": "src/test/java/seedu/address/ui/StatusBarFooterTest.java",
-    "group": "test",
+    "format": "test",
     "lines": [
       {
         "lineNumber": 1,
@@ -104078,7 +104078,7 @@
   },
   {
     "path": "src/test/java/seedu/address/ui/UiPartTest.java",
-    "group": "test",
+    "format": "test",
     "lines": [
       {
         "lineNumber": 1,
@@ -104802,7 +104802,7 @@
   },
   {
     "path": "src/test/java/systemtests/AddCommandSystemTest.java",
-    "group": "test",
+    "format": "test",
     "lines": [
       {
         "lineNumber": 1,
@@ -106632,7 +106632,7 @@
   },
   {
     "path": "src/test/java/systemtests/ClearCommandSystemTest.java",
-    "group": "test",
+    "format": "test",
     "lines": [
       {
         "lineNumber": 1,
@@ -107363,7 +107363,7 @@
   },
   {
     "path": "src/test/java/systemtests/EditCommandSystemTest.java",
-    "group": "test",
+    "format": "test",
     "lines": [
       {
         "lineNumber": 1,

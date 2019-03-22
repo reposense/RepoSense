@@ -1502,7 +1502,7 @@
     "April0616": 3,
     "nbr": 42
   },
-  "authorFileFormatContributionMap": {
+  "authorFormatContributionMap": {
     "zacharytang": {
       "fxml": 0
     },
@@ -1515,12 +1515,6 @@
     "nbr": {
       "fxml": 42
     }
-  },
-  "authorGroupContributionMap": {
-    "zacharytang": {},
-    "CindyTsai1": {},
-    "April0616": {},
-    "nbr": {}
   },
   "authorContributionVariance": {
     "zacharytang": 0.0,
