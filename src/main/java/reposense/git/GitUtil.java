@@ -127,8 +127,9 @@ class GitUtil {
             if (pathMatcher.matches(Paths.get(validPath))) {
                 return true;
             }
-        } catch (IOException ex) {
-            logger.log(Level.WARNING, path + " requires file system queries.");
+        } catch (IOException ioe) {
+            logger.log(Level.WARNING, ioe.getMessage(), ioe);
+            return false;
         }
 
         logger.log(Level.WARNING, path + " will be skipped as this file is outside the repo.");
