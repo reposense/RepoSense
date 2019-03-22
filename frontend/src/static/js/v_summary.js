@@ -46,7 +46,7 @@ window.vSummary = {
       filterSearch: '',
       filterSort: 'displayName',
       filterSortReverse: false,
-      filterGroupRepos: true,
+      filterGroupSelection: 'groupByRepos',
       filterTimeFrame: 'day',
       filterBreakdown: false,
       tmpFilterSinceDate: '',
@@ -70,11 +70,12 @@ window.vSummary = {
     filterSortReverse() {
       this.getFiltered();
     },
-    filterGroupRepos() {
-      this.getFiltered();
-    },
     filterTimeFrame() {
       this.getFiltered();
+    },
+    filterGroupSelection() {
+      this.getFiltered();
+      this.updateSortSelection();
     },
     filterBreakdown() {
       this.getFiltered();
@@ -222,7 +223,7 @@ window.vSummary = {
       addHash('timeframe', this.filterTimeFrame);
 
       addHash('reverse', this.filterSortReverse);
-      addHash('repoSort', this.filterGroupRepos);
+      addHash('groupSelect', this.filterGroupSelection);
       addHash('breakdown', this.filterBreakdown);
 
       encodeHash();
@@ -245,7 +246,9 @@ window.vSummary = {
       }
 
       if (hash.reverse) { this.filterSortReverse = convertBool(hash.reverse); }
-      if (hash.repoSort) { this.filterGroupRepos = convertBool(hash.repoSort); }
+      if (hash.groupSelect) {
+        this.filterGroupSelection = hash.groupSelect;
+      }
       if (hash.breakdown) {
         this.filterBreakdown = convertBool(hash.breakdown);
       }
@@ -430,26 +433,22 @@ window.vSummary = {
 
       return null;
     },
-    sortFiltered() {
-      const full = [];
-      if (!this.filterGroupRepos) {
-        full.push([]);
+    updateSortSelection() {
+      if (this.filterGroupSelection === 'groupByAuthors' && this.filterSort === 'displayName') {
+        this.filterSort = 'searchPath';
+      } else if (this.filterGroupSelection === 'groupByRepos' && this.filterSort === 'searchPath') {
+        this.filterSort = 'displayName';
       }
-
-      this.filtered.forEach((users) => {
-        if (this.filterGroupRepos) {
-          users.sort(window.comparator((ele) => ele[this.filterSort]));
-          full.push(users);
-        } else {
-          users.forEach((user) => full[0].push(user));
-        }
-      });
-
-      if (!this.filterGroupRepos) {
-        full[0].sort(window.comparator((ele) => {
-          const field = ele[this.filterSort];
-          return field.toLowerCase ? field.toLowerCase() : field;
-        }));
+    },
+    sortFiltered() {
+      let full = [];
+      if (this.filterGroupSelection === 'groupByNone') {
+        // push all repos into the same group
+        full[0] = this.groupByNone(this.filtered);
+      } else if (this.filterGroupSelection === 'groupByAuthors') {
+        full = this.groupByAuthors(this.filtered);
+      } else {
+        full = this.groupByRepos(this.filtered);
       }
 
       if (this.filterSortReverse) {
@@ -457,6 +456,48 @@ window.vSummary = {
       }
 
       this.filtered = full;
+    },
+
+    groupByRepos(repos) {
+      const sortedRepos = [];
+      repos.forEach((users) => {
+        users.sort(window.comparator((ele) => ele[this.filterSort]));
+        sortedRepos.push(users);
+      });
+      return sortedRepos;
+    },
+    groupByNone(repos) {
+      const sortedRepos = [];
+      repos.forEach((users) => {
+        users.forEach((user) => {
+          sortedRepos.push(user);
+        });
+      });
+      sortedRepos.sort(window.comparator((ele) => {
+        const field = ele[this.filterSort];
+        return field.toLowerCase ? field.toLowerCase() : field;
+      }));
+      return sortedRepos;
+    },
+    groupByAuthors(repos) {
+      const authorMap = {};
+      const filtered = [];
+      repos.forEach((users) => {
+        users.forEach((user) => {
+          if (Object.keys(authorMap).includes(user.name)) {
+            authorMap[user.name].push(user);
+          } else {
+            authorMap[user.name] = [user];
+          }
+        });
+      });
+
+      Object.keys(authorMap).forEach((author) => filtered.push(authorMap[author]));
+      filtered.sort(window.comparator((ele) => {
+        const field = ele[0].displayName;
+        return field.toLowerCase();
+      }));
+      return filtered;
     },
   },
   created() {

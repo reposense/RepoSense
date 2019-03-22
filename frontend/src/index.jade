@@ -73,12 +73,18 @@ html
             .mui-textfield
               input.summary-picker__search(type="text", v-on:change="updateFilterSearch")
               label search
+            .mui-select.grouping
+              select(v-model="filterGroupSelection")
+                option(value="groupByNone") None
+                option(value="groupByRepos") Repo/Branch
+                option(value="groupByAuthors") Author
+              label group by
             .mui-select
               select(v-model="filterSort")
                 option(value="totalCommits") Contribution
                 option(value="variance") Variance
-                option(value="displayName") Author Name
-                option(value="searchPath") Repo/Branch Name
+                option(value="displayName", v-if="filterGroupSelection !== 'groupByAuthors'") Author Name
+                option(value="searchPath", v-if="filterGroupSelection !== 'groupByRepos'") Repo/Branch Name
               label sort by
             .mui-select
               select(v-model="filterTimeFrame")
@@ -100,18 +106,14 @@ html
               input(type="checkbox", v-model="filterSortReverse").mui-checkbox.summary-picker__checkbox
               span reverse
             label
-              input(type="checkbox", v-model="filterGroupRepos").mui-checkbox.summary-picker__checkbox
-              span group by repo/branch
-            label
               input(type="checkbox", v-model="filterBreakdown").mui-checkbox.summary-picker__checkbox
               span breakdown by file format
         #summary-charts
           .summary-charts(v-for="repo of filteredRepos")
-            .summary-charts__title(
-              v-if="filterGroupRepos",
-            ) {{ repo[0].repoPath }}
+            .summary-charts__title(v-if="filterGroupSelection === 'groupByRepos'") {{ repo[0].repoPath }}
+            .summary-charts__title(v-if="filterGroupSelection === 'groupByAuthors'") {{ repo[0].displayName }} ({{ repo[0].name }})
             .summary-charts__fileformat--breakdown(v-if="filterBreakdown")
-              template(v-if="filterGroupRepos")
+              template(v-if="filterGroupSelection === 'groupByRepos'")
                 .summary-charts__fileformat--breakdown__legend(
                     v-for="fileFormat in Object.keys(repo[0].fileFormatContribution)")
                   i.fas.fa-circle(
@@ -128,8 +130,9 @@ html
             .summary-chart(v-for="(user, i) in repo")
               .summary-chart__title
                 .summary-chart__title--index {{ i+1 }}
-                .summary-chart__title--repo(v-if="!filterGroupRepos") {{ user.repoPath }}
-                .summary-chart__title--name {{ user.displayName }}
+                .summary-chart__title--repo(v-if="filterGroupSelection === 'groupByNone'") {{ user.repoPath }}
+                .summary-chart__title--author-repo(v-if="filterGroupSelection === 'groupByAuthors'") {{ user.repoPath }}
+                .summary-chart__title--name(v-if="filterGroupSelection !== 'groupByAuthors'") {{ user.displayName }}
                 a(
                   title="click to view author's code",
                   v-on:click="$emit('view-authorship', \
@@ -207,24 +210,28 @@ html
           ) {{ info.repo }}
           .author {{ info.name }} ({{ info.author }}) contribution from {{ info.minDate }} to {{ info.maxDate }}
           .contribution(v-if="isLoaded && files.length!=0")
-            input.radio-button--search(type="radio", name="filter", value="search", v-on:click="enableSearchBar()")
-            form.file-picker.mui-form--inline(onsubmit="return false")
-              input#search(type="search", placeholder="Filter by glob", v-on:change="updateFilterSearch", disabled)
-              button#submit-button(type="submit", disabled) Filter
-            input.radio-button--checkbox(type="radio", name="filter", value="checkboxes", v-on:click="enableCheckBoxes()",
-                checked)
-            .checkboxes.mui-form--inline(v-if="files.length > 0")
-              label
-                input.mui-checkbox--fileformat(type="checkbox" v-on:click="selectAll" v-model="isSelectAllChecked")
-                span.select(v-bind:title="getTotalFileBlankLineInfo()") All:&nbsp;
-                span.loc(v-bind:title="getTotalFileBlankLineInfo()") {{ totalLineCount }}&nbsp;
-                span.bloc(v-bind:title="getTotalFileBlankLineInfo()") ({{ totalBlankLineCount }})
-              template(v-for="format in Object.keys(getExistingLinesObj)", v-bind:key="format")
+            .searchbox
+              input.radio-button--search(type="radio", name="filter", value="search", v-on:click="enableSearchBar()")
+              form.file-picker.mui-form--inline(onsubmit="return false")
+                input#search(type="search", placeholder="Filter by glob", v-on:change="updateFilterSearch", disabled)
+                button#submit-button(type="submit", disabled) Filter
+            .fileformat
+              input.radio-button--checkbox(type="radio", name="filter", value="checkboxes", v-on:click="enableCheckBoxes()",
+                  checked)
+              div.checkboxes.mui-form--inline(v-if="files.length > 0")
                 label
-                  input.mui-checkbox--fileformat(type="checkbox" :checked="selectedFileFormats.includes(format)"
-                      v-on:change="selectFileFormat(format)")
-                  span(v-bind:title="getFileBlankLineInfo(format)") {{ format }}: {{ getExistingLinesObj[format] }}&nbsp;
-                  span.bloc(v-bind:title="getFileBlankLineInfo(format)") ({{ filesBlankLinesObj[format] }})
+                  input.mui-checkbox--fileformat(type="checkbox" v-on:click="selectAll" v-model="isSelectAllChecked")
+                  span(v-bind:title="getTotalFileBlankLineInfo()")
+                    span.select All:&nbsp;
+                    span.loc {{ totalLineCount }}&nbsp;
+                    span.bloc ({{ totalBlankLineCount }})
+                template(v-for="format in Object.keys(getExistingLinesObj)", v-bind:key="format")
+                  label
+                    input.mui-checkbox--fileformat(type="checkbox" :checked="selectedFileFormats.includes(format)"
+                        v-on:change="selectFileFormat(format)")
+                    span(v-bind:title="getFileBlankLineInfo(format)")
+                      span {{ format }}: {{ getExistingLinesObj[format] }}&nbsp;
+                      span.bloc ({{ filesBlankLinesObj[format] }})
             .sorting.mui-form--inline
               .mui-select
                 select(v-model="filesSortType")
