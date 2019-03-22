@@ -79,6 +79,7 @@ public class ReportGenerator {
      */
     private static void analyzeRepo(String outputPath, RepoConfiguration config) {
         Path repoReportDirectory;
+        logger.info("Analyzing " + config.getLocation() + "...");
         try {
             repoReportDirectory = Paths.get(outputPath, config.getDisplayName());
             FileUtil.createDirectory(repoReportDirectory);
