@@ -86,7 +86,7 @@ We use [Cypress](https://www.cypress.io/) for automated end-to-end front-end tes
 ### Building and running RepoSense from code
 
 1. Execute the following command on the OS terminal inside the project directory. <br/>
-Usage: `gradlew run -Dargs="([--config CONFIG_FOLDER] | [--repos REPO_PATH_OR_URL...]) [--view [REPORT_FOLDER]] [--output OUTPUT_DIRECTORY] [--since DD/MM/YYYY] [--until DD/MM/YYYY] [--formats FORMAT...] [--ignore-standalone-config]"` <br/>
+Usage: `gradlew run -Dargs="([--config CONFIG_FOLDER] | [--repos REPO_PATH_OR_URL...]) [--view [REPORT_FOLDER]] [--output OUTPUT_DIRECTORY] [--since DD/MM/YYYY] [--until DD/MM/YYYY] [--formats FORMAT...] [--ignore-standalone-config] [--timezone ZONE_ID[±hh[mm]]]"` <br/>
 Named Arguments: 
 ```
 --help, -h           Show help message.
@@ -113,6 +113,11 @@ Named Arguments:
 --ignore-standalone-config, -i
                      A flag to ignore the standalone config file in
                      the repo.
+--timezone ZONE_ID[±hh[mm]], -t ZONE_ID[±hh[mm]]
+                     The timezone to use for the generated report. 
+                     One kind of valid timezones is relative to UTC. 
+                     E.g. UTC, UTC+08, UTC-1030.
+                     If not provided, system default timezone will be used.
 --config PATH, -c PATH
                      The directory containing the config files. If not
                      provided, the config files will be obtained from
@@ -120,7 +125,6 @@ Named Arguments:
 --repo LOCATION [LOCATION ...], --repos LOCATION [LOCATION ...], -r LOCATION [LOCATION ...]
                      The GitHub URL or disk locations to clone repository.
 ```
-
 
 Sample usage to generate the report with no specify arguments: (find and use config files in current working directory)
 ```
@@ -130,6 +134,11 @@ gradlew run
 Sample usage to generate the report with config files and automatically open the report:
 ```
 gradlew run -Dargs="--config ./configs/ --output output_path/ --since 21/10/2017 --until 21/11/2017 --formats java adoc js --view"
+```
+
+Sample usage to generate the report with config files and choose the timezone used to be UTC+8:
+```
+gradlew run -Dargs="--config ./configs/ --output output_path/ --timezone UTC+08"
 ```
 
 Sample usage to generate the report with repository locations and automatically open the report:
