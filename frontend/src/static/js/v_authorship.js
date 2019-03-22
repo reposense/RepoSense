@@ -1,3 +1,10 @@
+const filesSortDict = {
+  lineOfCode: (file) => file.lineCount,
+  path: (file) => file.path,
+  fileName: (file) => file.path.split(/[/]+/).pop(),
+  fileType: (file) => file.path.split(/[/]+/).pop().split(/[.]+/).pop(),
+};
+
 window.toggleNext = function toggleNext(ele) {
   // function for toggling unopened code
   const targetClass = 'active';
@@ -35,9 +42,21 @@ window.vAuthorship = {
       totalLineCount: '',
       totalBlankLineCount: '',
       containsGroups: false,
+      filesSortType: 'lineOfCode',
+      toReverseSortFiles: false,
       activeFilesCount: 0,
       filterSearch: '*',
+      sortingFunction: window.comparator(filesSortDict.lineOfCode),
     };
+  },
+
+  watch: {
+    filesSortType() {
+      this.sortFiles();
+    },
+    toReverseSortFiles() {
+      this.sortFiles();
+    },
   },
 
   methods: {
@@ -211,6 +230,11 @@ window.vAuthorship = {
       filesInfoObj[type] += lineCount;
     },
 
+    sortFiles() {
+      this.sortingFunction = (a, b) => (this.toReverseSortFiles ? -1 : 1)
+          * window.comparator(filesSortDict[this.filesSortType])(a, b);
+    },
+
     selectAll() {
       if (!this.isSelectAllChecked) {
         this.selectedFileFormats = this.fileFormats.slice();
@@ -343,10 +367,12 @@ window.vAuthorship = {
     selectedFiles() {
       if (!this.containsGroups) {
         return this.files.filter((file) => this.isSelectedFileTypes(file.path)
-            && minimatch(file.path, this.filterSearch, { matchBase: true }));
+            && minimatch(file.path, this.filterSearch, { matchBase: true }))
+            .sort(this.sortingFunction);
       }
       return this.files.filter((file) => this.isSelectedGroups(file.group)
-          && minimatch(file.path, this.filterSearch, { matchBase: true }));
+          && minimatch(file.path, this.filterSearch, { matchBase: true }))
+          .sort(this.sortingFunction);
     },
     getFileFormatExistingLinesObj() {
       return Object.keys(this.filesLinesObj)

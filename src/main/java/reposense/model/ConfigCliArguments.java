@@ -2,6 +2,7 @@ package reposense.model;
 
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.time.ZoneId;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
@@ -22,7 +23,7 @@ public class ConfigCliArguments extends CliArguments {
     private Path groupConfigFilePath;
 
     public ConfigCliArguments(Path configFolderPath, Path outputFilePath, Optional<Date> sinceDate,
-            Optional<Date> untilDate, List<Format> formats, boolean isAutomaticallyLaunching) {
+            Optional<Date> untilDate, List<Format> formats, boolean isAutomaticallyLaunching, ZoneId zoneId) {
         this.configFolderPath = configFolderPath.equals(EMPTY_PATH)
                 ? configFolderPath.toAbsolutePath()
                 : configFolderPath;
@@ -34,6 +35,7 @@ public class ConfigCliArguments extends CliArguments {
         this.untilDate = untilDate;
         this.formats = formats;
         this.isAutomaticallyLaunching = isAutomaticallyLaunching;
+        this.zoneId = zoneId;
     }
 
     public Path getConfigFolderPath() {
