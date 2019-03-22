@@ -47,7 +47,7 @@ public class ReportGenerator {
         InputStream is = RepoSense.class.getResourceAsStream(TEMPLATE_FILE);
         FileUtil.copyTemplate(is, outputPath);
 
-        cloneAndAnalyzeRepos(configs, outputPath, sinceDate, untilDate);
+        cloneAndAnalyzeRepos(configs, outputPath);
 
         FileUtil.writeJsonFile(new SummaryReportJson(
                 configs, generationDate, sinceDate, untilDate),
@@ -59,8 +59,7 @@ public class ReportGenerator {
      * Clone, analyze and generate the report for repositories in {@code configs}.
      * Performs analysis and report generation of each repository in parallel with the cloning of the next repository.
      */
-    private static void cloneAndAnalyzeRepos(List<RepoConfiguration> configs, String outputPath,
-            Date sinceDate, Date untilDate) throws IOException {
+    private static void cloneAndAnalyzeRepos(List<RepoConfiguration> configs, String outputPath) throws IOException {
         RepoCloner repoCloner = new RepoCloner();
         RepoConfiguration clonedRepo = null;
 
@@ -68,12 +67,12 @@ public class ReportGenerator {
             repoCloner.clone(outputPath, config);
 
             if (clonedRepo != null) {
-                analyzeRepo(outputPath, clonedRepo, sinceDate, untilDate);
+                analyzeRepo(outputPath, clonedRepo);
             }
             clonedRepo = repoCloner.getClonedRepo(outputPath);
         }
         if (clonedRepo != null) {
-            analyzeRepo(outputPath, clonedRepo, sinceDate, untilDate);
+            analyzeRepo(outputPath, clonedRepo);
         }
         repoCloner.cleanup();
     }
@@ -81,7 +80,7 @@ public class ReportGenerator {
     /**
      * Analyzes repo specified by {@code config} and generates the report.
      */
-    private static void analyzeRepo(String outputPath, RepoConfiguration config, Date sinceDate, Date untilDate) {
+    private static void analyzeRepo(String outputPath, RepoConfiguration config) {
         Path repoReportDirectory;
         try {
             repoReportDirectory = Paths.get(outputPath, config.getDisplayName());
@@ -96,12 +95,10 @@ public class ReportGenerator {
         }
         // preprocess the config and repo
         updateRepoConfig(config);
-        updateAuthorList(config, sinceDate, untilDate);
+        updateAuthorList(config);
 
-        CommitContributionSummary commitSummary = CommitsReporter.generateCommitSummary(config,
-                sinceDate, untilDate);
-        AuthorshipSummary authorshipSummary = AuthorshipReporter.generateAuthorshipSummary(config,
-                sinceDate, untilDate);
+        CommitContributionSummary commitSummary = CommitsReporter.generateCommitSummary(config);
+        AuthorshipSummary authorshipSummary = AuthorshipReporter.generateAuthorshipSummary(config);
         generateIndividualRepoReport(commitSummary, authorshipSummary, repoReportDirectory.toString());
     }
 
@@ -139,11 +136,11 @@ public class ReportGenerator {
     /**
      * Find and update {@code config} with all the author identities if author list is empty.
      */
-    private static void updateAuthorList(RepoConfiguration config, Date sinceDate, Date untilDate) {
+    private static void updateAuthorList(RepoConfiguration config) {
         if (config.getAuthorList().isEmpty()) {
             logger.info(String.format(
                     "%s has no authors specified, using all authors by default.", config.getDisplayName()));
-            List<Author> authorList = GitShortlog.getAuthors(config, sinceDate, untilDate);
+            List<Author> authorList = GitShortlog.getAuthors(config);
             config.setAuthorList(authorList);
         }
     }

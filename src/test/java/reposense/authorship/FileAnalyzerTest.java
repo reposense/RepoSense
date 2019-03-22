@@ -39,6 +39,8 @@ public class FileAnalyzerTest extends GitTestTemplate {
         Date untilDate = TestUtil.getDate(2018, Calendar.FEBRUARY, 8);
 
         GitCheckout.checkoutDate(config.getRepoRoot(), config.getBranch(), untilDate);
+        config.setSinceDate(sinceDate);
+        config.setUntilDate(untilDate);
 
         FileResult fileResult = getFileResult("blameTest.java");
         assertFileAnalysisCorrectness(fileResult);
@@ -50,6 +52,8 @@ public class FileAnalyzerTest extends GitTestTemplate {
         Date untilDate = TestUtil.getDate(2018, Calendar.FEBRUARY, 9);
 
         GitCheckout.checkoutDate(config.getRepoRoot(), config.getBranch(), untilDate);
+        config.setSinceDate(sinceDate);
+        config.setUntilDate(untilDate);
 
         FileResult fileResult = getFileResult("newPos/movedFile.java");
         assertFileAnalysisCorrectness(fileResult);

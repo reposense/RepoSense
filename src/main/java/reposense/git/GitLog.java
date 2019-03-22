@@ -4,7 +4,6 @@ import static reposense.system.CommandRunner.runCommand;
 
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.Date;
 
 import reposense.model.Author;
 import reposense.model.RepoConfiguration;
@@ -16,14 +15,10 @@ import reposense.model.RepoConfiguration;
 public class GitLog {
 
     public static String get(RepoConfiguration config, Author author) {
-        return get(config, author, null, null);
-    }
-
-    public static String get(RepoConfiguration config, Author author, Date sinceDate, Date untilDate) {
         Path rootPath = Paths.get(config.getRepoRoot());
 
         String command = "git log --no-merges -i ";
-        command += GitUtil.convertToGitDateRangeArgs(sinceDate, untilDate);
+        command += GitUtil.convertToGitDateRangeArgs(config.getSinceDate(), config.getUntilDate());
         command += " --pretty=format:\"%H|%aN|%aE|%ad|%s\" --date=iso --shortstat";
         command += GitUtil.convertToFilterAuthorArgs(author);
         command += GitUtil.convertToGitFormatsArgs(config.getFormats());

@@ -83,6 +83,8 @@ public class ConfigSystemTest {
         RepoConfiguration.merge(repoConfigs, authorConfigs);
 
         RepoConfiguration.setFormatsToRepoConfigs(repoConfigs, cliArguments.getFormats());
+        RepoConfiguration.setDatesToRepoConfigs(
+                repoConfigs, cliArguments.getSinceDate(), cliArguments.getUntilDate());
 
         ReportGenerator.generateReposReport(repoConfigs, FT_TEMP_DIR, TEST_REPORT_GENERATED_TIME,
                 cliArguments.getSinceDate().orElse(null), cliArguments.getUntilDate().orElse(null));
