@@ -57,9 +57,7 @@ window.vSummary = {
       rampSize: 0.01,
       minDate: '',
       maxDate: '',
-      contributionBarFileFormatColors: {},
-      contributionBarGroupColors: {},
-      repoContainsGroups: {},
+      contributionBarColors: {},
     };
   },
   watch: {
@@ -155,22 +153,22 @@ window.vSummary = {
                 + `until=${untilDate}'T'23:59:59+08:00`;
     },
 
-    getBreakdownContributionBars(breakdownContribution) {
+    getFormatContributionBars(formatContribution) {
       let totalWidth = 0;
       const contributionLimit = (this.avgContributionSize * 2);
       const totalBars = {};
       const maxLength = 100;
 
-      Object.keys(breakdownContribution).forEach((type) => {
-        const contribution = breakdownContribution[type];
+      Object.keys(formatContribution).forEach((format) => {
+        const contribution = formatContribution[format];
         const res = [];
-        let typeWidth = 0;
+        let formatWidth = 0;
 
         // compute 100% width bars
         const cnt = parseInt(contribution / contributionLimit, 10);
         for (let cntId = 0; cntId < cnt; cntId += 1) {
           res.push(maxLength);
-          typeWidth += maxLength;
+          formatWidth += maxLength;
           totalWidth += maxLength;
         }
 
@@ -178,17 +176,17 @@ window.vSummary = {
         const last = (contribution % contributionLimit) / contributionLimit;
         if (last !== 0) {
           res.push(last * maxLength);
-          typeWidth += last * maxLength;
+          formatWidth += last * maxLength;
           totalWidth += last * maxLength;
         }
 
         // split > 100% width bars into smaller bars
-        if ((totalWidth > maxLength) && (totalWidth !== typeWidth)) {
-          res.unshift(maxLength - (totalWidth - typeWidth));
-          res[res.length - 1] = res[res.length - 1] - (maxLength - (totalWidth - typeWidth));
+        if ((totalWidth > maxLength) && (totalWidth !== formatWidth)) {
+          res.unshift(maxLength - (totalWidth - formatWidth));
+          res[res.length - 1] = res[res.length - 1] - (maxLength - (totalWidth - formatWidth));
           totalWidth = res[res.length - 1];
         }
-        totalBars[type] = res;
+        totalBars[format] = res;
       });
 
       return totalBars;
@@ -335,40 +333,25 @@ window.vSummary = {
       this.getDates();
       this.sortFiltered();
     },
-    processBreakdown() {
+    processFormats() {
       const selectedColors = ['#ffe119', '#4363d8', '#3cb44b', '#f58231', '#911eb4', '#46f0f0', '#f032e6',
           '#bcf60c', '#fabebe', '#008080', '#e6beff', '#9a6324', '#fffac8', '#800000', '#aaffc3', '#808000', '#ffd8b1',
           '#000075', '#808080'];
-      const groupColors = {};
-      const fileFormatColors = {};
-      const containsGroup = {};
+      const formatColors = {};
       let i = 0;
       let j = 0;
 
       this.repos.forEach((repo) => {
         const user = repo.users[0];
-        if (Object.keys(user.groupContribution).length !== 0) {
-          containsGroup[user.repoPath] = true;
-          Object.keys(user.groupContribution).forEach((group) => {
-            if (!Object.prototype.hasOwnProperty.call(groupColors, group)) {
-              groupColors[group] = selectedColors[i];
-              i = (i + 1) % selectedColors.length;
-            }
-          });
-        } else {
-          containsGroup[user.repoPath] = false;
-          Object.keys(user.fileFormatContribution).forEach((fileFormat) => {
-            if (!Object.prototype.hasOwnProperty.call(fileFormatColors, fileFormat)) {
-              fileFormatColors[fileFormat] = selectedColors[j];
-              j = (j + 1) % selectedColors.length;
-            }
-          });
-        }
+        Object.keys(user.formatContribution).forEach((format) => {
+          if (!Object.prototype.hasOwnProperty.call(formatColors, format)) {
+            formatColors[format] = selectedColors[j];
+            j = (j + 1) % selectedColors.length;
+          }
+        });
       });
 
-      this.contributionBarGroupColors = groupColors;
-      this.contributionBarFileFormatColors = fileFormatColors;
-      this.repoContainsGroups = containsGroup;
+      this.contributionBarFormatColors = formatColors;
     },
     splitCommitsWeek(user) {
       const { commits } = user;
@@ -523,6 +506,6 @@ window.vSummary = {
   created() {
     this.renderFilterHash();
     this.getFiltered();
-    this.processBreakdown();
+    this.processFormats();
   },
 };

@@ -33,15 +33,11 @@ window.vAuthorship = {
       isLoaded: false,
       files: [],
       isSelectAllChecked: true,
-      selectedFileFormats: [],
-      fileFormats: [],
-      selectedGroups: [],
-      groups: [],
-      fileFormatBlankLinesObj: {},
-      groupBlankLinesObj: {},
+      selectedFormats: [],
+      formats: [],
+      formatBlankLinesObj: {},
       totalLineCount: '',
       totalBlankLineCount: '',
-      containsGroups: false,
       filesSortType: 'lineOfCode',
       toReverseSortFiles: false,
       activeFilesCount: 0,
@@ -89,8 +85,7 @@ window.vAuthorship = {
         const author = repo.users.filter((user) => user.name === this.info.author);
         if (author.length > 0) {
           this.info.name = author[0].displayName;
-          this.filesLinesObj = author[0].fileFormatContribution;
-          this.filesGroupsObj = author[0].groupContribution;
+          this.filesLinesObj = author[0].formatContribution;
         }
         this.info.location = repo.location.location;
       }
@@ -161,12 +156,10 @@ window.vAuthorship = {
 
     processFiles(files) {
       const res = [];
-      const fileFormatBlanksInfoObj = {};
-      const groupBlanksInfoObj = {};
+      const formatBlanksInfoObj = {};
       let totalLineCount = 0;
       let totalBlankLineCount = 0;
 
-      this.setContainsGroups(files[0]);
       files.forEach((file) => {
         const lineCnt = file.authorContributionMap[this.info.author];
         if (lineCnt) {
@@ -174,18 +167,14 @@ window.vAuthorship = {
           const out = {};
           out.path = file.path;
           out.lineCount = lineCnt;
-          out.group = file.group;
+          out.format = file.format;
 
           const segmentInfo = this.splitSegments(file.lines);
           out.segments = segmentInfo.segments;
           totalBlankLineCount += segmentInfo.blankLineCount;
 
-          let fileFormat = file.path.split('.').pop();
-          fileFormat = (fileFormat.length === 0) ? 'others' : fileFormat;
-          this.addBlankLineCount(fileFormat, segmentInfo.blankLineCount,
-              fileFormatBlanksInfoObj);
-          this.addBlankLineCount(file.group, segmentInfo.blankLineCount,
-              groupBlanksInfoObj);
+          this.addBlankLineCount(file.format, segmentInfo.blankLineCount,
+              formatBlanksInfoObj);
           res.push(out);
         }
       });
@@ -195,31 +184,15 @@ window.vAuthorship = {
       res.sort((a, b) => b.lineCount - a.lineCount);
 
       Object.keys(this.filesLinesObj).forEach((file) => {
-        this.selectedFileFormats.push(file);
-        this.fileFormats.push(file);
+        this.selectedFormats.push(file);
+        this.formats.push(file);
       });
 
-      if (this.containsGroups) {
-        Object.keys(this.filesGroupsObj).forEach((file) => {
-          this.selectedGroups.push(file);
-          this.groups.push(file);
-        });
-      }
-
-      this.fileFormatBlankLinesObj = fileFormatBlanksInfoObj;
-      this.groupBlankLinesObj = groupBlanksInfoObj;
+      this.formatBlankLinesObj = formatBlanksInfoObj;
       this.files = res;
       this.isLoaded = true;
 
       this.activeFilesCount = this.selectedFiles.length;
-    },
-
-    setContainsGroups(file) {
-      if (Object.prototype.hasOwnProperty.call(file, 'group')) {
-        this.containsGroups = true;
-      } else {
-        this.containsGroups = false;
-      }
     },
 
     addBlankLineCount(type, lineCount, filesInfoObj) {
@@ -237,38 +210,27 @@ window.vAuthorship = {
 
     selectAll() {
       if (!this.isSelectAllChecked) {
-        this.selectedFileFormats = this.fileFormats.slice();
-        this.selectedGroups = this.groups.slice();
+        this.selectedFormats = this.formats.slice();
         this.activeFilesCount = this.files.length;
       } else {
-        this.selectedFileFormats = [];
-        this.selectedGroups = [];
+        this.selectedFormats = [];
         this.activeFilesCount = 0;
       }
     },
 
-    selectFileFormat(format) {
-      if (this.selectedFileFormats.includes(format)) {
-        const index = this.selectedFileFormats.indexOf(format);
-        this.selectedFileFormats.splice(index, 1);
+    selectFormat(format) {
+      if (this.selectedFormats.includes(format)) {
+        const index = this.selectedFormats.indexOf(format);
+        this.selectedFormats.splice(index, 1);
       } else {
-        this.selectedFileFormats.push(format);
-      }
-    },
-
-    selectGroup(group) {
-      if (this.selectedGroups.includes(group)) {
-        const index = this.selectedGroups.indexOf(group);
-        this.selectedGroups.splice(index, 1);
-      } else {
-        this.selectedGroups.push(group);
+        this.selectedFormats.push(format);
       }
     },
 
     getSelectedFiles() {
-      if (this.fileFormats.length === this.selectedFileFormats.length) {
+      if (this.formats.length === this.selectedFormats.length) {
         this.isSelectAllChecked = true;
-      } else if (this.selectedFileFormats.length === 0) {
+      } else if (this.selectedFormats.length === 0) {
         this.isSelectAllChecked = false;
       }
 
@@ -280,8 +242,7 @@ window.vAuthorship = {
     },
 
     tickAllCheckboxes() {
-      this.selectedFileFormats = this.fileFormats.slice();
-      this.selectedGroups = this.groups.slice();
+      this.selectedFormats = this.formats.slice();
       this.isSelectAllChecked = true;
       this.filterSearch = '*';
     },
@@ -296,12 +257,7 @@ window.vAuthorship = {
       document.getElementsByClassName('mui-checkbox--all')[0].disabled = true;
       let checkboxes = [];
 
-      if (!this.containsGroups) {
-        checkboxes = document.getElementsByClassName('mui-checkbox--fileformat');
-      } else {
-        checkboxes = document.getElementsByClassName('mui-checkbox--group');
-      }
-
+      checkboxes = document.getElementsByClassName('mui-checkbox--format');
       Array.from(checkboxes).forEach((checkbox) => {
         checkbox.disabled = true;
       });
@@ -318,24 +274,14 @@ window.vAuthorship = {
       document.getElementsByClassName('mui-checkbox--all')[0].disabled = false;
       let checkboxes = [];
 
-      if (!this.containsGroups) {
-        checkboxes = document.getElementsByClassName('mui-checkbox--fileformat');
-      } else {
-        checkboxes = document.getElementsByClassName('mui-checkbox--group');
-      }
-
+      checkboxes = document.getElementsByClassName('mui-checkbox--format');
       Array.from(checkboxes).forEach((checkbox) => {
         checkbox.disabled = false;
       });
     },
 
-    isSelectedFileTypes(filePath) {
-      const fileExt = filePath.split('.').pop();
-      return this.selectedFileFormats.includes(fileExt);
-    },
-
-    isSelectedGroups(group) {
-      return this.selectedGroups.includes(group);
+    isSelectedFormats(format) {
+      return this.selectedFormats.includes(format);
     },
 
     getFileLink(file, path) {
@@ -345,16 +291,10 @@ window.vAuthorship = {
         repo.location.organization}/${repo.location.repoName}/${path}/${repo.branch}/${file.path}`;
     },
 
-    getFileFormatBlankLineInfo(fileFormat) {
-      return `${fileFormat}: Blank: ${
-        this.fileFormatBlankLinesObj[fileFormat]}, Non-Blank: ${
-        this.filesLinesObj[fileFormat] - this.fileFormatBlankLinesObj[fileFormat]}`;
-    },
-
-    getGroupBlankLineInfo(group) {
-      return `${group}: Blank: ${
-        this.groupBlankLinesObj[group]}, Non-Blank: ${
-        this.filesGroupsObj[group] - this.groupBlankLinesObj[group]}`;
+    getFormatBlankLineInfo(format) {
+      return `${format}: Blank: ${
+        this.formatBlankLinesObj[format]}, Non-Blank: ${
+        this.filesLinesObj[format] - this.formatBlankLinesObj[format]}`;
     },
 
     getTotalFileBlankLineInfo() {
@@ -365,27 +305,15 @@ window.vAuthorship = {
 
   computed: {
     selectedFiles() {
-      if (!this.containsGroups) {
-        return this.files.filter((file) => this.isSelectedFileTypes(file.path)
-            && minimatch(file.path, this.filterSearch, { matchBase: true }))
-            .sort(this.sortingFunction);
-      }
-      return this.files.filter((file) => this.isSelectedGroups(file.group)
+      return this.files.filter((file) => this.isSelectedFormats(file.format)
           && minimatch(file.path, this.filterSearch, { matchBase: true }))
           .sort(this.sortingFunction);
     },
-    getFileFormatExistingLinesObj() {
+    getFormatExistingLinesObj() {
       return Object.keys(this.filesLinesObj)
           .filter((type) => this.filesLinesObj[type] > 0)
           .reduce((acc, key) => ({
             ...acc, [key]: this.filesLinesObj[key],
-          }), {});
-    },
-    getGroupExistingLinesObj() {
-      return Object.keys(this.filesGroupsObj)
-          .filter((type) => this.filesGroupsObj[type] > 0)
-          .reduce((acc, key) => ({
-            ...acc, [key]: this.filesGroupsObj[key],
           }), {});
     },
   },
