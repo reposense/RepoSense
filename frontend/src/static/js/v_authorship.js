@@ -182,8 +182,10 @@ window.vAuthorship = {
       res.sort((a, b) => b.lineCount - a.lineCount);
 
       Object.keys(this.filesLinesObj).forEach((file) => {
-        this.selectedFileFormats.push(file);
-        this.fileFormats.push(file);
+        if (this.filesLinesObj[file] != 0) {
+          this.selectedFileFormats.push(file);
+          this.fileFormats.push(file);
+        }
       });
 
       this.filesBlankLinesObj = filesBlanksInfoObj;
