@@ -68,7 +68,7 @@ public class RepoConfigurationTest {
 
     private static final List<Format> CONFIG_FORMATS = Format.convertStringsToFormats(Arrays.asList(
             "java", "adoc", "md"));
-    private static final List<Group> CONFIG_GROUPS = Group.convertStringsToGroups(Arrays.asList("test: **/test/*",
+    private static final List<Group> CONFIG_GROUPS = TestUtil.convertStringsToGroups(Arrays.asList("test: **/test/*",
         "code: **/*.java", "docs: **/docs/*"));
     private static final List<String> CLI_FORMATS = Arrays.asList("css", "html");
 
