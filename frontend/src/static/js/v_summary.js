@@ -250,8 +250,12 @@ window.vSummary = {
       const hash = window.hashParams;
 
       if (hash.search) { this.filterSearch = hash.search; }
-      if (hash.sort) { this.sortGroupSelection = hash.sort; }
-      if (hash.sortWithin) { this.sortWithinGroupSelection = hash.sortWithin; }
+      if (hash.sort) {
+        this.sortGroupSelection = hash.sort;
+      }
+      if (hash.sortWithin) {
+        this.sortWithinGroupSelection = hash.sortWithin;
+      }
 
       if (hash.timeframe) { this.filterTimeFrame = hash.timeframe; }
       if (hash.since) {
@@ -462,7 +466,7 @@ window.vSummary = {
           this.sortWithinGroupSelection = 'nameAsc';
         }
         if (this.sortGroupSelection === 'nameAsc' || this.sortGroupSelection === 'nameDsc') {
-          this.sortGroupSelection = 'searchPathAsc';;
+          this.sortGroupSelection = 'searchPathAsc';
         }
       }
     },
