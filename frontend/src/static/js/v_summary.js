@@ -46,7 +46,8 @@ window.vSummary = {
       filterSearch: '',
       filterSortReverse: false,
       filterGroupSelection: 'groupByRepos',
-      sortGroupSelection: 'nameAsc',
+      sortGroupSelection: 'searchPathAsc',
+      sortWithinGroupSelection: 'nameAsc',
       filterTimeFrame: 'day',
       filterBreakdown: false,
       tmpFilterSinceDate: '',
@@ -65,6 +66,9 @@ window.vSummary = {
       this.getFiltered();
     },
     sortGroupSelection() {
+      this.getFiltered();
+    },
+    sortWithinGroupSelection() {
       this.getFiltered();
     },
     filterSortReverse() {
@@ -217,6 +221,7 @@ window.vSummary = {
 
       addHash('search', this.filterSearch);
       addHash('sort', this.sortGroupSelection);
+      addHash('sortWithin', this.sortWithinGroupSelection);
 
       addHash('since', this.filterSinceDate);
       addHash('until', this.filterUntilDate);
@@ -236,6 +241,7 @@ window.vSummary = {
 
       if (hash.search) { this.filterSearch = hash.search; }
       if (hash.sort) { this.sortGroupSelection = hash.sort; }
+      if (hash.sortWithin) { this.sortWithinGroupSelection = hash.sortWithin; }
 
       if (hash.timeframe) { this.filterTimeFrame = hash.timeframe; }
       if (hash.since) {
@@ -434,23 +440,35 @@ window.vSummary = {
       return null;
     },
     updateSortSelection() {
-      if (this.filterGroupSelection === 'groupByAuthors' && (this.sortGroupSelection === 'nameAsc' || this.sortGroupSelection === 'nameDsc')) {
-        this.sortGroupSelection = 'searchPathAsc';
-      } else if (this.filterGroupSelection === 'groupByRepos' && (this.sortGroupSelection === 'searchPathAsc' || this.sortGroupSelection === 'searchPathDsc')) {
-        this.sortGroupSelection = 'nameAsc';
+      if (this.filterGroupSelection === 'groupByAuthors') {
+        if (this.sortWithinGroupSelection === 'nameAsc' || this.sortWithinGroupSelection === 'nameDsc') {
+          this.sortWithinGroupSelection = 'searchPathAsc';
+        }
+        if (this.sortGroupSelection === 'searchPathAsc' || this.sortGroupSelection === 'searchPathDsc') {
+          this.sortGroupSelection = 'nameAsc';
+        }
+      } else if (this.filterGroupSelection === 'groupByRepos') {
+        if (this.sortWithinGroupSelection === 'searchPathAsc' || this.sortWithinGroupSelection === 'searchPathDsc') {
+          this.sortWithinGroupSelection = 'nameAsc';
+        }
+        if (this.sortGroupSelection === 'nameAsc' || this.sortGroupSelection === 'nameDsc') {
+          this.sortGroupSelection = 'searchPathAsc';;
+        }
       }
     },
     sortFiltered() {
       let full = [];
-      const sortingOrder = this.sortGroupSelection.substring(this.sortGroupSelection.length - 3).toLowerCase();
+      const isSortingAsc = this.sortGroupSelection.substring(this.sortGroupSelection.length - 3).toLowerCase() === 'asc';
       const sortingOption = this.sortGroupSelection.substring(0, this.sortGroupSelection.length - 3);
+      const isSortingWithinAsc = this.sortWithinGroupSelection.substring(this.sortWithinGroupSelection.length - 3).toLowerCase() === 'asc';
+      const sortingWithinOption = this.sortWithinGroupSelection.substring(0, this.sortWithinGroupSelection.length - 3);
       if (this.filterGroupSelection === 'groupByNone') {
         // push all repos into the same group
-        full[0] = this.groupByNone(this.filtered, sortingOption, sortingOrder === 'asc');
+        full[0] = this.groupByNone(this.filtered, sortingOption, isSortingAsc);
       } else if (this.filterGroupSelection === 'groupByAuthors') {
-        full = this.groupByAuthors(this.filtered, sortingOption, sortingOrder === 'asc');
+        full = this.groupByAuthors(this.filtered, sortingOption, isSortingAsc, sortingWithinOption, isSortingWithinAsc);
       } else {
-        full = this.groupByRepos(this.filtered, sortingOption, sortingOrder === 'asc');
+        full = this.groupByRepos(this.filtered, sortingOption, isSortingAsc, sortingWithinOption, isSortingWithinAsc);
       }
 
       if (this.filterSortReverse) {
@@ -460,12 +478,13 @@ window.vSummary = {
       this.filtered = full;
     },
 
-    groupByRepos(repos, option, isAscending) {
+    groupByRepos(repos, sortingOption, isSortingAscending, sortingWithinOption, isSortingWithinAscending) {
       const sortedRepos = [];
       repos.forEach((users) => {
-        users.sort(window.comparator((ele) => ele[option]));
+        users.sort(window.comparator((ele) => ele[sortingWithinOption]));
         sortedRepos.push(users);
       });
+      sortedRepos.sort((repo) => repo[0][sortingOption]);
       return sortedRepos;
     },
     groupByNone(repos, option, isAscending) {
@@ -481,7 +500,7 @@ window.vSummary = {
       }));
       return sortedRepos;
     },
-    groupByAuthors(repos, option, isAscending) {
+    groupByAuthors(repos, sortingOption, isSortingAscending, sortingWithinOption, isSortingWithinAscending) {
       const authorMap = {};
       const filtered = [];
       repos.forEach((users) => {
@@ -493,11 +512,13 @@ window.vSummary = {
           }
         });
       });
-
-      Object.keys(authorMap).forEach((author) => filtered.push(authorMap[author]));
+      Object.keys(authorMap).forEach((author) => {
+        authorMap[author].sort(window.comparator((repo) => repo[sortingWithinOption]));
+        filtered.push(authorMap[author]);
+      });
       filtered.sort(window.comparator((ele) => {
-        const field = ele[0].displayName;
-        return field.toLowerCase();
+        const field = ele[0][sortingOption];
+        return field.toLowerCase ? field.toLowerCase() : field;
       }));
       return filtered;
     },
