@@ -445,16 +445,16 @@ window.vSummary = {
     },
     updateSortSelection() {
       if (this.filterGroupSelection === 'groupByAuthors') {
-        if (!this.sortWithinGroupSelection || this.sortWithinGroupSelection === 'nameAsc' ||
-          this.sortWithinGroupSelection === 'nameDsc') {
+        if (!this.sortWithinGroupSelection || this.sortWithinGroupSelection === 'nameAsc'
+          || this.sortWithinGroupSelection === 'nameDsc') {
           this.sortWithinGroupSelection = 'searchPathAsc';
         }
         if (this.sortGroupSelection === 'searchPathAsc' || this.sortGroupSelection === 'searchPathDsc') {
           this.sortGroupSelection = 'nameAsc';
         }
       } else if (this.filterGroupSelection === 'groupByRepos') {
-        if (!this.sortWithinGroupSelection || this.sortWithinGroupSelection === 'searchPathAsc' ||
-          this.sortWithinGroupSelection === 'searchPathDsc') {
+        if (!this.sortWithinGroupSelection || this.sortWithinGroupSelection === 'searchPathAsc'
+          || this.sortWithinGroupSelection === 'searchPathDsc') {
           this.sortWithinGroupSelection = 'nameAsc';
         }
         if (this.sortGroupSelection === 'nameAsc' || this.sortGroupSelection === 'nameDsc') {
