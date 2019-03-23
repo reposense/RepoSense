@@ -114,9 +114,6 @@ html
               label until
           .summary-picker__checkboxes.summary-picker__section
             label
-              input(type="checkbox", v-model="filterSortReverse").mui-checkbox.summary-picker__checkbox
-              span reverse
-            label
               input(type="checkbox", v-model="filterBreakdown").mui-checkbox.summary-picker__checkbox
               span breakdown by file format
         #summary-charts
@@ -251,7 +248,9 @@ html
                   option(value="fileName") File Name
                   option(value="fileType") File Format
                 label sort by
-
+              label
+                input(type="checkbox", v-model="toReverseSortFiles").mui-checkbox
+                span reverse
         .files(v-if="isLoaded")
           .empty(v-if="files.length === 0") nothing to see here :(
           template(v-for="file in selectedFiles")
