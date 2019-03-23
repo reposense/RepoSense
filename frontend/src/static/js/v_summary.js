@@ -44,9 +44,9 @@ window.vSummary = {
     return {
       filtered: [],
       filterSearch: '',
-      filterSort: 'displayName',
       filterSortReverse: false,
       filterGroupSelection: 'groupByRepos',
+      sortGroupSelection: 'nameAsc',
       filterTimeFrame: 'day',
       filterBreakdown: false,
       tmpFilterSinceDate: '',
@@ -64,7 +64,7 @@ window.vSummary = {
     repos() {
       this.getFiltered();
     },
-    filterSort() {
+    sortGroupSelection() {
       this.getFiltered();
     },
     filterSortReverse() {
@@ -216,7 +216,7 @@ window.vSummary = {
       const { addHash, encodeHash } = window;
 
       addHash('search', this.filterSearch);
-      addHash('sort', this.filterSort);
+      addHash('sort', this.sortGroupSelection);
 
       addHash('since', this.filterSinceDate);
       addHash('until', this.filterUntilDate);
@@ -235,7 +235,7 @@ window.vSummary = {
       const hash = window.hashParams;
 
       if (hash.search) { this.filterSearch = hash.search; }
-      if (hash.sort) { this.filterSort = hash.sort; }
+      if (hash.sort) { this.sortGroupSelection = hash.sort; }
 
       if (hash.timeframe) { this.filterTimeFrame = hash.timeframe; }
       if (hash.since) {
@@ -434,21 +434,23 @@ window.vSummary = {
       return null;
     },
     updateSortSelection() {
-      if (this.filterGroupSelection === 'groupByAuthors' && this.filterSort === 'displayName') {
-        this.filterSort = 'searchPath';
-      } else if (this.filterGroupSelection === 'groupByRepos' && this.filterSort === 'searchPath') {
-        this.filterSort = 'displayName';
+      if (this.filterGroupSelection === 'groupByAuthors' && (this.sortGroupSelection === 'nameAsc' || this.sortGroupSelection === 'nameDsc')) {
+        this.sortGroupSelection = 'searchPathAsc';
+      } else if (this.filterGroupSelection === 'groupByRepos' && (this.sortGroupSelection === 'searchPathAsc' || this.sortGroupSelection === 'searchPathDsc')) {
+        this.sortGroupSelection = 'nameAsc';
       }
     },
     sortFiltered() {
       let full = [];
+      const sortingOrder = this.sortGroupSelection.substring(this.sortGroupSelection.length - 3).toLowerCase();
+      const sortingOption = this.sortGroupSelection.substring(0, this.sortGroupSelection.length - 3);
       if (this.filterGroupSelection === 'groupByNone') {
         // push all repos into the same group
-        full[0] = this.groupByNone(this.filtered);
+        full[0] = this.groupByNone(this.filtered, sortingOption, sortingOrder === 'asc');
       } else if (this.filterGroupSelection === 'groupByAuthors') {
-        full = this.groupByAuthors(this.filtered);
+        full = this.groupByAuthors(this.filtered, sortingOption, sortingOrder === 'asc');
       } else {
-        full = this.groupByRepos(this.filtered);
+        full = this.groupByRepos(this.filtered, sortingOption, sortingOrder === 'asc');
       }
 
       if (this.filterSortReverse) {
@@ -458,15 +460,15 @@ window.vSummary = {
       this.filtered = full;
     },
 
-    groupByRepos(repos) {
+    groupByRepos(repos, option, isAscending) {
       const sortedRepos = [];
       repos.forEach((users) => {
-        users.sort(window.comparator((ele) => ele[this.filterSort]));
+        users.sort(window.comparator((ele) => ele[option]));
         sortedRepos.push(users);
       });
       return sortedRepos;
     },
-    groupByNone(repos) {
+    groupByNone(repos, option, isAscending) {
       const sortedRepos = [];
       repos.forEach((users) => {
         users.forEach((user) => {
@@ -474,12 +476,12 @@ window.vSummary = {
         });
       });
       sortedRepos.sort(window.comparator((ele) => {
-        const field = ele[this.filterSort];
+        const field = ele[option];
         return field.toLowerCase ? field.toLowerCase() : field;
       }));
       return sortedRepos;
     },
-    groupByAuthors(repos) {
+    groupByAuthors(repos, option, isAscending) {
       const authorMap = {};
       const filtered = [];
       repos.forEach((users) => {
