@@ -52,7 +52,8 @@ public class CommitResultAggregator {
         return result;
     }
 
-    private static float getContributionVariance(List<AuthorDailyContribution> contributions, Date startDate, Date lastDate) {
+    private static float getContributionVariance(List<AuthorDailyContribution> contributions,
+            Date startDate, Date lastDate) {
         if (contributions.size() == 0) {
             return 0;
         }
