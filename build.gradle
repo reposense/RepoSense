@@ -6,6 +6,7 @@ plugins {
     id 'com.github.johnrengelman.shadow' version '2.0.4'
     id 'com.liferay.node' version '4.4.0'
     id 'com.github.psxpaul.execfork' version '0.1.8'
+    id 'jacoco'
 }
 
 mainClassName = 'reposense.RepoSense'
@@ -20,7 +21,7 @@ repositories {
 }
 
 wrapper {
-  gradleVersion = '4.9'
+    gradleVersion = '4.9'
 }
 
 checkstyle {
@@ -29,10 +30,14 @@ checkstyle {
 }
 
 test {
-  testLogging {
-    events 'passed', 'skipped', 'failed'
-    showStandardStreams = true
-  }
+    jacoco {
+        destinationFile = new File("${buildDir}/jacoco/test.exec")
+    }
+
+    testLogging {
+      events 'passed', 'skipped', 'failed'
+      showStandardStreams = true
+    }
 }
 
 sourceSets {
@@ -45,8 +50,8 @@ sourceSets {
 }
 
 configurations {
-  systemtestImplementation.extendsFrom testImplementation
-  systemtestRuntime.extendsFrom testRuntime
+    systemtestImplementation.extendsFrom testImplementation
+    systemtestRuntime.extendsFrom testRuntime
 }
 
 dependencies {
@@ -76,42 +81,47 @@ tasks.compileJava.dependsOn('zipReport');
 tasks.run.dependsOn('compileJava');
 
 task systemtest(dependsOn: 'zipReport', type: Test) {
-  testClassesDirs = sourceSets.systemtest.output.classesDirs
-  classpath = sourceSets.systemtest.runtimeClasspath
-  testLogging {
-    events 'passed', 'skipped', 'failed'
-    showStandardStreams = true
-  }
+    testClassesDirs = sourceSets.systemtest.output.classesDirs
+    classpath = sourceSets.systemtest.runtimeClasspath
+    
+    jacoco {
+        destinationFile = new File("${buildDir}/jacoco/test.exec")
+    }
+    
+    testLogging {
+        events 'passed', 'skipped', 'failed'
+        showStandardStreams = true
+    }
 }
 
 task startServerInBackground(dependsOn: 'classes', type: com.github.psxpaul.task.JavaExecFork) {
-  main = mainClassName
-  classpath = sourceSets.main.runtimeClasspath
-  args = ['--repo', 'https://github.com/reposense/RepoSense.git', '--view']
-  waitForPort = 9000
+    main = mainClassName
+    classpath = sourceSets.main.runtimeClasspath
+    args = ['--repo', 'https://github.com/reposense/RepoSense.git', '--view']
+    waitForPort = 9000
 }
 
 task installCypress(type: com.liferay.gradle.plugins.node.tasks.NpmInstallTask) {
-  workingDir = file('frontend/cypress/')
+    workingDir = file('frontend/cypress/')
 }
 
 task cypress(dependsOn: ['installCypress', 'startServerInBackground'], type: com.liferay.gradle.plugins.node.tasks.ExecuteNpmTask) {
-  tasks.startServerInBackground.mustRunAfter('installCypress')
+    tasks.startServerInBackground.mustRunAfter('installCypress')
 
-  workingDir = file('frontend/cypress/')
-  args = ["run-script", "debug"]
+    workingDir = file('frontend/cypress/')
+    args = ["run-script", "debug"]
 }
 
 task frontendTest(dependsOn: ['installCypress', 'startServerInBackground'], type: com.liferay.gradle.plugins.node.tasks.ExecuteNpmTask) {
-  tasks.startServerInBackground.mustRunAfter('installCypress')
+    tasks.startServerInBackground.mustRunAfter('installCypress')
 
-  workingDir = file('frontend/cypress/')
-  args = ["run-script", "tests"]
+    workingDir = file('frontend/cypress/')
+    args = ["run-script", "tests"]
 
-  // Run tests in CI without slow motion
-  if (project.hasProperty('ci')) {
-    args = ["run-script", "ci"]
-  }
+    // Run tests in CI without slow motion
+    if (project.hasProperty('ci')) {
+      args = ["run-script", "ci"]
+    }
 }
 
 idea {
@@ -129,4 +139,29 @@ tasks.withType(Copy) {
     includeEmptyDirs = true
 }
 
-defaultTasks 'clean', 'build', 'systemtest', 'frontendTest'
+jacocoTestReport {
+    reports {
+        xml.enabled false
+        csv.enabled false
+        html.destination file("${buildDir}/jacocoHtml")
+    }
+}
+
+task coverage(type: JacocoReport) {
+    sourceDirectories = files(sourceSets.main.allSource.srcDirs)
+    classDirectories = files(sourceSets.main.output)
+    executionData = files(jacocoTestReport.executionData)
+    
+    afterEvaluate {
+        classDirectories = files(classDirectories.files.collect {
+            fileTree(dir: it, exclude: ['**/*.jar'])
+        })
+    }
+    
+    reports {
+        html.enabled = true
+        xml.enabled = true
+    }
+}
+
+defaultTasks 'clean', 'build', 'systemtest', 'frontendTest', 'coverage'
