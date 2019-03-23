@@ -6,7 +6,6 @@ import java.text.SimpleDateFormat;
 import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
-import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.regex.Matcher;
@@ -37,8 +36,6 @@ public class CommitInfoAnalyzer {
 
     private static final Pattern INSERTION_PATTERN = Pattern.compile("([0-9]+) insertion");
     private static final Pattern DELETION_PATTERN = Pattern.compile("([0-9]+) deletion");
-    private static final Pattern EMAIL_PREFIX_PATTERN = Pattern.compile("(.*\\+)");
-    private static final Pattern EMAIL_SUFFIX_PATTERN = Pattern.compile("(\\+.*)");
 
     /**
      * Analyzes each {@code CommitInfo} in {@code commitInfos} and returns a list of {@code CommitResult} that is not
@@ -46,7 +43,7 @@ public class CommitInfoAnalyzer {
      */
     public static List<CommitResult> analyzeCommits(List<CommitInfo> commitInfos, RepoConfiguration config) {
         return commitInfos.stream()
-                .map(commitInfo -> analyzeCommit(commitInfo, config.getAuthorEmailsAndAliasesMap()))
+                .map(commitInfo -> analyzeCommit(commitInfo, config))
                 .filter(commitResult -> !commitResult.getAuthor().equals(Author.UNKNOWN_AUTHOR)
                         && !CommitHash.isInsideCommitList(commitResult.getHash(), config.getIgnoreCommitList()))
                 .sorted(Comparator.comparing(CommitResult::getTime))
@@ -56,16 +53,13 @@ public class CommitInfoAnalyzer {
     /**
      * Extracts the relevant data from {@code commitInfo} into a {@code CommitResult}.
      */
-    public static CommitResult analyzeCommit(CommitInfo commitInfo, Map<String, Author> authorAliasMap) {
+    public static CommitResult analyzeCommit(CommitInfo commitInfo, RepoConfiguration config) {
         String infoLine = commitInfo.getInfoLine();
         String statLine = commitInfo.getStatLine();
 
         String[] elements = infoLine.split(LOG_SPLITTER);
         String hash = elements[COMMIT_HASH_INDEX];
-        Author author = authorAliasMap.getOrDefault(elements[AUTHOR_INDEX],
-                authorAliasMap.getOrDefault(removeEmailPrefixPattern(elements[EMAIL_INDEX]),
-                        authorAliasMap.getOrDefault(removeEmailSuffixPattern(elements[EMAIL_INDEX]),
-                                Author.UNKNOWN_AUTHOR)));
+        Author author = config.getAuthor(elements[AUTHOR_INDEX], elements[EMAIL_INDEX]);
 
         Date date = null;
         try {
@@ -78,14 +72,6 @@ public class CommitInfoAnalyzer {
         int insertion = getInsertion(statLine);
         int deletion = getDeletion(statLine);
         return new CommitResult(author, hash, date, message, insertion, deletion);
-    }
-
-    private static String removeEmailPrefixPattern(String email) {
-        return EMAIL_PREFIX_PATTERN.matcher(email).replaceFirst("");
-    }
-
-    private static String removeEmailSuffixPattern(String email) {
-        return EMAIL_SUFFIX_PATTERN.matcher(email).replaceFirst("");
     }
 
     private static int getInsertion(String raw) {

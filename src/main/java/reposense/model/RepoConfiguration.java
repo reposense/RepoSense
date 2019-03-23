@@ -145,6 +145,14 @@ public class RepoConfiguration {
     }
 
     /**
+     * Attempts to find matching {@code Author} given a name and an email.
+     * If no matching {@code Author} is found, {@code UNKNOWN_AUTHOR} is returned.
+     */
+    public Author getAuthor(String name, String email) {
+        return authorConfig.getAuthor(name, email);
+    }
+
+    /**
      * Updates branch with {@code currentBranch} if default branch is specified.
      */
     public void updateBranch(String currentBranch) {
