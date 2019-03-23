@@ -46,17 +46,19 @@ public class RepoConfigCsvParser extends CsvParser<RepoConfiguration> {
     protected void processLine(List<RepoConfiguration> results, String[] elements) throws InvalidLocationException {
         RepoLocation location = new RepoLocation(getValueInElement(elements, LOCATION_POSITION));
         String branch = getValueInElement(elements, BRANCH_POSITION, RepoConfiguration.DEFAULT_BRANCH);
+
         boolean isFormatsOverriding = isElementOverridingStandaloneConfig(elements, FILE_FORMATS_POSITION);
         if (isFormatsOverriding) {
             removeOverrideKeywordFromElement(elements, FILE_FORMATS_POSITION);
         }
         List<Format> formats = Format.convertStringsToFormats(getManyValueInElement(elements, FILE_FORMATS_POSITION));
+
         boolean isIgnoreGlobListOverriding = isElementOverridingStandaloneConfig(elements, IGNORE_GLOB_LIST_POSITION);
         if (isIgnoreGlobListOverriding) {
             removeOverrideKeywordFromElement(elements, IGNORE_GLOB_LIST_POSITION);
         }
         List<String> ignoreGlobList = getManyValueInElement(elements, IGNORE_GLOB_LIST_POSITION);
-        String ignoreStandaloneConfig = getValueInElement(elements, IGNORE_STANDALONE_CONFIG_POSITION);
+
         boolean isIgnoreCommitListOverriding =
                 isElementOverridingStandaloneConfig(elements, IGNORE_COMMIT_LIST_CONFIG_POSITION);
         if (isIgnoreCommitListOverriding) {
@@ -65,6 +67,7 @@ public class RepoConfigCsvParser extends CsvParser<RepoConfiguration> {
         List<CommitHash> ignoreCommitList = CommitHash.convertStringsToCommits(
                 getManyValueInElement(elements, IGNORE_COMMIT_LIST_CONFIG_POSITION));
 
+        String ignoreStandaloneConfig = getValueInElement(elements, IGNORE_STANDALONE_CONFIG_POSITION);
         boolean isStandaloneConfigIgnored = ignoreStandaloneConfig.equalsIgnoreCase(IGNORE_STANDALONE_CONFIG_KEYWORD);
 
         if (!isStandaloneConfigIgnored && !ignoreStandaloneConfig.isEmpty()) {

@@ -52,7 +52,8 @@ public class CsvParserTest {
     private static final List<Format> TEST_REPO_DELTA_FORMATS =
             Format.convertStringsToFormats(Arrays.asList("java", "fxml"));
 
-    private static final List<String> TEST_REPO_BETA_CONFIG_FORMATS = Arrays.asList("java", "adoc", "md");
+    private static final List<Format> TEST_REPO_BETA_CONFIG_FORMATS =
+            Arrays.asList(new Format("java"), new Format("adoc"), new Format("md"));
     private static final List<String> TEST_REPO_BETA_CONFIG_IGNORED_COMMITS =
             Arrays.asList("abcde12345", "67890fdecba");
 
@@ -85,7 +86,7 @@ public class CsvParserTest {
         Assert.assertEquals(new RepoLocation(TEST_REPO_BETA_LOCATION), config.getLocation());
         Assert.assertEquals(TEST_REPO_BETA_BRANCH, config.getBranch());
 
-        Assert.assertEquals(TEST_REPO_BETA_CONFIG_FORMATS, TEST_REPO_BETA_CONFIG_FORMATS);
+        Assert.assertEquals(TEST_REPO_BETA_CONFIG_FORMATS, config.getFormats());
 
         Assert.assertTrue(config.isStandaloneConfigIgnored());
 
@@ -259,10 +260,10 @@ public class CsvParserTest {
         Assert.assertEquals(1, configs.size());
         Assert.assertEquals(new RepoLocation(TEST_REPO_BETA_LOCATION), config.getLocation());
         Assert.assertEquals(TEST_REPO_BETA_BRANCH, config.getBranch());
-        Assert.assertEquals(TEST_REPO_BETA_CONFIG_FORMATS, TEST_REPO_BETA_CONFIG_FORMATS);
+        Assert.assertEquals(TEST_REPO_BETA_CONFIG_FORMATS, config.getFormats());
         Assert.assertFalse(config.isStandaloneConfigIgnored());
-        Assert.assertEquals(config.getIgnoreCommitList(),
-                CommitHash.convertStringsToCommits(TEST_REPO_BETA_CONFIG_IGNORED_COMMITS));
+        Assert.assertEquals(CommitHash.convertStringsToCommits(TEST_REPO_BETA_CONFIG_IGNORED_COMMITS),
+                config.getIgnoreCommitList());
 
         Assert.assertTrue(config.isFormatsOverriding());
         Assert.assertTrue(config.isIgnoreGlobListOverriding());
