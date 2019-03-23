@@ -92,14 +92,15 @@ html
               label sort groups by
             .mui-select.sort-within-group
               select(v-model="sortWithinGroupSelection")
-                option(value="nameAsc", v-if="filterGroupSelection !== 'groupByAuthors'") &uarr; name
-                option(value="nameDsc", v-if="filterGroupSelection !== 'groupByAuthors'") &darr; name
-                option(value="searchPathAsc", v-if="filterGroupSelection !== 'groupByRepos'") &uarr; repo/branch
-                option(value="searchPathDsc", v-if="filterGroupSelection !== 'groupByRepos'") &darr; repo/branch
-                option(value="totalCommitsAsc") &uarr; contribution
-                option(value="totalCommitsDsc") &darr; contribution
-                option(value="varianceAsc") &uarr; variance
-                option(value="varianceDsc") &darr; variance
+                option(value="nameAsc", v-if="filterGroupSelection === 'groupByRepos'") &uarr; name
+                option(value="nameDsc", v-if="filterGroupSelection === 'groupByRepos'") &darr; name
+                option(value="searchPathAsc", v-if="filterGroupSelection === 'groupByAuthors'") &uarr; repo/branch
+                option(value="searchPathDsc", v-if="filterGroupSelection === 'groupByAuthors'") &darr; repo/branch
+                option(value="totalCommitsAsc", v-if="filterGroupSelection !== 'groupByNone'") &uarr; contribution
+                option(value="totalCommitsDsc", v-if="filterGroupSelection !== 'groupByNone'") &darr; contribution
+                option(value="varianceAsc", v-if="filterGroupSelection !== 'groupByNone'") &uarr; variance
+                option(value="varianceDsc", v-if="filterGroupSelection !== 'groupByNone'") &darr; variance
+                option(value="", v-if="filterGroupSelection === 'groupByNone'")
               label sort within groups by
             .mui-select
               select(v-model="filterTimeFrame")

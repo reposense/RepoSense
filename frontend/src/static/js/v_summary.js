@@ -67,15 +67,9 @@ window.vSummary = {
     },
     sortGroupSelection() {
       this.getFiltered();
-      if (this.filterGroupSelection === 'groupByNone') {
-        this.sortWithinGroupSelection = this.sortGroupSelection;
-      }
     },
     sortWithinGroupSelection() {
       this.getFiltered();
-      if (this.filterGroupSelection === 'groupByNone') {
-        this.sortGroupSelection = this.sortWithinGroupSelection;
-      }
     },
     filterSortReverse() {
       this.getFiltered();
@@ -84,12 +78,8 @@ window.vSummary = {
       this.getFiltered();
     },
     filterGroupSelection() {
-      this.getFiltered();
       this.updateSortSelection();
-      if (this.filterGroupSelection === 'groupByNone') {
-        this.sortGroupSelection = 'nameAsc';
-        this.sortWithinGroupSelection = 'nameAsc';
-      }
+      this.getFiltered();
     },
     filterBreakdown() {
       this.getFiltered();
@@ -455,19 +445,23 @@ window.vSummary = {
     },
     updateSortSelection() {
       if (this.filterGroupSelection === 'groupByAuthors') {
-        if (this.sortWithinGroupSelection === 'nameAsc' || this.sortWithinGroupSelection === 'nameDsc') {
+        if (!this.sortWithinGroupSelection || this.sortWithinGroupSelection === 'nameAsc' ||
+          this.sortWithinGroupSelection === 'nameDsc') {
           this.sortWithinGroupSelection = 'searchPathAsc';
         }
         if (this.sortGroupSelection === 'searchPathAsc' || this.sortGroupSelection === 'searchPathDsc') {
           this.sortGroupSelection = 'nameAsc';
         }
       } else if (this.filterGroupSelection === 'groupByRepos') {
-        if (this.sortWithinGroupSelection === 'searchPathAsc' || this.sortWithinGroupSelection === 'searchPathDsc') {
+        if (!this.sortWithinGroupSelection || this.sortWithinGroupSelection === 'searchPathAsc' ||
+          this.sortWithinGroupSelection === 'searchPathDsc') {
           this.sortWithinGroupSelection = 'nameAsc';
         }
         if (this.sortGroupSelection === 'nameAsc' || this.sortGroupSelection === 'nameDsc') {
           this.sortGroupSelection = 'searchPathAsc';
         }
+      } else if (this.filterGroupSelection === 'groupByNone') {
+        this.sortWithinGroupSelection = '';
       }
     },
     sortFiltered() {
