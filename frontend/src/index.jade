@@ -85,6 +85,10 @@ html
                 option(value="nameDsc", v-if="filterGroupSelection !== 'groupByRepos'") &darr; name
                 option(value="searchPathAsc", v-if="filterGroupSelection !== 'groupByAuthors'") &uarr; repo/branch
                 option(value="searchPathDsc", v-if="filterGroupSelection !== 'groupByAuthors'") &darr; repo/branch
+                option(value="totalCommitsAsc", v-if="filterGroupSelection === 'groupByNone'") &uarr; contribution
+                option(value="totalCommitsDsc", v-if="filterGroupSelection === 'groupByNone'") &darr; contribution
+                option(value="varianceAsc", v-if="filterGroupSelection === 'groupByNone'") &uarr; variance
+                option(value="varianceDsc", v-if="filterGroupSelection === 'groupByNone'") &darr; variance
               label sort groups by
             .mui-select.sort-within-group
               select(v-model="sortWithinGroupSelection")
