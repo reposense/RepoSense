@@ -31,7 +31,8 @@ public class CommitResultAggregator {
         Map<Author, List<AuthorDailyContribution>> authorDailyContributionsMap =
                 getAuthorDailyContributionsMap(config.getAuthorDisplayNameMap().keySet(), commitResults);
 
-        Date lastDate = getStartOfDate(commitResults.get(commitResults.size() - 1).getTime());
+        Date lastDate = commitResults.size() == 0 ? null
+                : getStartOfDate(commitResults.get(commitResults.size() - 1).getTime());
 
         Map<Author, Float> authorContributionVariance =
                 calcAuthorContributionVariance(authorDailyContributionsMap, startDate, lastDate);
