@@ -67,9 +67,15 @@ window.vSummary = {
     },
     sortGroupSelection() {
       this.getFiltered();
+      if (this.filterGroupSelection === 'groupByNone') {
+        this.sortWithinGroupSelection = this.sortGroupSelection;
+      }
     },
     sortWithinGroupSelection() {
       this.getFiltered();
+      if (this.filterGroupSelection === 'groupByNone') {
+        this.sortGroupSelection = this.sortWithinGroupSelection;
+      }
     },
     filterSortReverse() {
       this.getFiltered();
@@ -80,6 +86,10 @@ window.vSummary = {
     filterGroupSelection() {
       this.getFiltered();
       this.updateSortSelection();
+      if (this.filterGroupSelection === 'groupByNone') {
+        this.sortGroupSelection = 'nameAsc';
+        this.sortWithinGroupSelection = 'nameAsc';
+      }
     },
     filterBreakdown() {
       this.getFiltered();
