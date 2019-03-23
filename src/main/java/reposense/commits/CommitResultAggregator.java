@@ -20,7 +20,6 @@ import reposense.model.RepoConfiguration;
 public class CommitResultAggregator {
 
     private static final int DAYS_IN_MS = 24 * 60 * 60 * 1000;
-    private static Date lastDate = null;
 
     /**
      * Returns the {@code CommitContributionSummary} generated from aggregating the {@code commitResults}.
@@ -32,8 +31,10 @@ public class CommitResultAggregator {
         Map<Author, List<AuthorDailyContribution>> authorDailyContributionsMap =
                 getAuthorDailyContributionsMap(config.getAuthorDisplayNameMap().keySet(), commitResults);
 
+        Date lastDate = getStartOfDate(commitResults.get(commitResults.size() - 1).getTime());
+
         Map<Author, Float> authorContributionVariance =
-                calcAuthorContributionVariance(authorDailyContributionsMap, startDate);
+                calcAuthorContributionVariance(authorDailyContributionsMap, startDate, lastDate);
 
         return new CommitContributionSummary(
                 config.getAuthorDisplayNameMap(),
@@ -42,16 +43,16 @@ public class CommitResultAggregator {
     }
 
     private static Map<Author, Float> calcAuthorContributionVariance(
-            Map<Author, List<AuthorDailyContribution>> intervalContributionMaps, Date startDate) {
+            Map<Author, List<AuthorDailyContribution>> intervalContributionMaps, Date startDate, Date lastDate) {
         Map<Author, Float> result = new HashMap<>();
         for (Author author : intervalContributionMaps.keySet()) {
             List<AuthorDailyContribution> contributions = intervalContributionMaps.get(author);
-            result.put(author, getContributionVariance(contributions, startDate));
+            result.put(author, getContributionVariance(contributions, startDate, lastDate));
         }
         return result;
     }
 
-    private static float getContributionVariance(List<AuthorDailyContribution> contributions, Date startDate) {
+    private static float getContributionVariance(List<AuthorDailyContribution> contributions, Date startDate, Date lastDate) {
         if (contributions.size() == 0) {
             return 0;
         }
@@ -102,7 +103,6 @@ public class CommitResultAggregator {
 
             authorDailyContributions.get(authorDailyContributions.size() - 1).addCommitContribution(commitResult);
         }
-        lastDate = commitStartDate;
 
         return authorDailyContributionsMap;
     }
