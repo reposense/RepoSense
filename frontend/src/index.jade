@@ -255,9 +255,6 @@ html
                   option(value="fileName") File Name
                   option(value="fileType") File Format
                 label sort by
-              label
-                input(type="checkbox", v-model="toReverseSortFiles").mui-checkbox
-                span reverse
 
         .files(v-if="isLoaded")
           .empty(v-if="files.length === 0") nothing to see here :(

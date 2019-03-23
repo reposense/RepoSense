@@ -1,6 +1,6 @@
 window.comparator = (fn) => function compare(a, b) {
-  const a1 = fn(a);
-  const b1 = fn(b);
+  const a1 = fn(a).toLowerCase ? fn(a).toLowerCase() : fn(a);
+  const b1 = fn(b).toLowerCase ? fn(b).toLowerCase() : fn(b);
   if (a1 === b1) {
     return 0;
   } if (a1 < b1) {
@@ -458,17 +458,17 @@ window.vSummary = {
     },
     sortFiltered() {
       let full = [];
-      const isSortingAsc = this.sortGroupSelection.substring(this.sortGroupSelection.length - 3).toLowerCase() === 'asc';
+      const isSortingDesc = this.sortGroupSelection.substring(this.sortGroupSelection.length - 3).toLowerCase() === 'dsc';
       const sortingOption = this.sortGroupSelection.substring(0, this.sortGroupSelection.length - 3);
-      const isSortingWithinAsc = this.sortWithinGroupSelection.substring(this.sortWithinGroupSelection.length - 3).toLowerCase() === 'asc';
+      const isSortingWithinDesc = this.sortWithinGroupSelection.substring(this.sortWithinGroupSelection.length - 3).toLowerCase() === 'dsc';
       const sortingWithinOption = this.sortWithinGroupSelection.substring(0, this.sortWithinGroupSelection.length - 3);
       if (this.filterGroupSelection === 'groupByNone') {
         // push all repos into the same group
-        full[0] = this.groupByNone(this.filtered, sortingOption, isSortingAsc);
+        full[0] = this.groupByNone(this.filtered, sortingOption, isSortingDesc);
       } else if (this.filterGroupSelection === 'groupByAuthors') {
-        full = this.groupByAuthors(this.filtered, sortingOption, isSortingAsc, sortingWithinOption, isSortingWithinAsc);
+        full = this.groupByAuthors(this.filtered, sortingOption, isSortingDesc, sortingWithinOption, isSortingWithinDesc);
       } else {
-        full = this.groupByRepos(this.filtered, sortingOption, isSortingAsc, sortingWithinOption, isSortingWithinAsc);
+        full = this.groupByRepos(this.filtered, sortingOption, isSortingDesc, sortingWithinOption, isSortingWithinDesc);
       }
 
       if (this.filterSortReverse) {
@@ -478,29 +478,36 @@ window.vSummary = {
       this.filtered = full;
     },
 
-    groupByRepos(repos, sortingOption, isSortingAscending, sortingWithinOption, isSortingWithinAscending) {
+    groupByRepos(repos, sortingOption, isSortingDescending, sortingWithinOption, isSortingWithinDescending) {
       const sortedRepos = [];
       repos.forEach((users) => {
         users.sort(window.comparator((ele) => ele[sortingWithinOption]));
+        if (isSortingWithinDescending) {
+          users.reverse();
+        }
         sortedRepos.push(users);
       });
-      sortedRepos.sort((repo) => repo[0][sortingOption]);
+      sortedRepos.sort(window.comparator((repo) => repo[0][sortingOption]));
+      if (isSortingDescending) {
+        sortedRepos.reverse();
+      }
       return sortedRepos;
     },
-    groupByNone(repos, option, isAscending) {
+    groupByNone(repos, option, isDescending) {
       const sortedRepos = [];
       repos.forEach((users) => {
         users.forEach((user) => {
           sortedRepos.push(user);
         });
       });
-      sortedRepos.sort(window.comparator((ele) => {
-        const field = ele[option];
-        return field.toLowerCase ? field.toLowerCase() : field;
-      }));
+      sortedRepos.sort(window.comparator((ele) => ele[option]));
+      if (isDescending) {
+        sortedRepos.reverse();
+      }
+
       return sortedRepos;
     },
-    groupByAuthors(repos, sortingOption, isSortingAscending, sortingWithinOption, isSortingWithinAscending) {
+    groupByAuthors(repos, sortingOption, isSortingDescending, sortingWithinOption, isSortingWithinDescending) {
       const authorMap = {};
       const filtered = [];
       repos.forEach((users) => {
@@ -514,12 +521,16 @@ window.vSummary = {
       });
       Object.keys(authorMap).forEach((author) => {
         authorMap[author].sort(window.comparator((repo) => repo[sortingWithinOption]));
+        if (isSortingWithinDescending) {
+          authorMap[author].reverse();
+        }
         filtered.push(authorMap[author]);
       });
-      filtered.sort(window.comparator((ele) => {
-        const field = ele[0][sortingOption];
-        return field.toLowerCase ? field.toLowerCase() : field;
-      }));
+
+      filtered.sort(window.comparator((ele) => ele[0][sortingOption]));
+      if (isSortingDescending) {
+        filtered.reverse();
+      }
       return filtered;
     },
   },
