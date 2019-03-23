@@ -473,12 +473,13 @@ window.vSummary = {
     sortFiltered() {
       let full = [];
       const isSortingDesc = this.sortGroupSelection
-            .substring(this.sortGroupSelection.length - 3).toLowerCase() === 'dsc';
+          .substring(this.sortGroupSelection.length - 3).toLowerCase() === 'dsc';
       const sortingOption = this.sortGroupSelection
-            .substring(0, this.sortGroupSelection.length - 3);
-      const isSortingWithinDesc = this.sortWithinGroupSelection.
-            substring(this.sortWithinGroupSelection.length - 3).toLowerCase() === 'dsc';
-      const sortingWithinOption = this.sortWithinGroupSelection.substring(0, this.sortWithinGroupSelection.length - 3);
+          .substring(0, this.sortGroupSelection.length - 3);
+      const isSortingWithinDesc = this.sortWithinGroupSelection
+          .substring(this.sortWithinGroupSelection.length - 3).toLowerCase() === 'dsc';
+      const sortingWithinOption = this.sortWithinGroupSelection
+          .substring(0, this.sortWithinGroupSelection.length - 3);
       if (this.filterGroupSelection === 'groupByNone') {
         // push all repos into the same group
         full[0] = this.groupByNone(this.filtered, sortingOption, isSortingDesc);
@@ -497,7 +498,8 @@ window.vSummary = {
       this.filtered = full;
     },
 
-    groupByRepos(repos, sortingOption, isSortingDescending, sortingWithinOption, isSortingWithinDescending) {
+    groupByRepos(repos, sortingOption, isSortingDescending, sortingWithinOption,
+      isSortingWithinDescending) {
       const sortedRepos = [];
       repos.forEach((users) => {
         users.sort(window.comparator((ele) => ele[sortingWithinOption]));
@@ -527,7 +529,7 @@ window.vSummary = {
       return sortedRepos;
     },
     groupByAuthors(repos, sortingOption, isSortingDescending, sortingWithinOption,
-        isSortingWithinDescending) {
+      isSortingWithinDescending) {
       const authorMap = {};
       const filtered = [];
       repos.forEach((users) => {
