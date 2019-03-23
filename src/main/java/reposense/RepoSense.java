@@ -54,7 +54,6 @@ public class RepoSense {
                     formatter.format(ZonedDateTime.now(cliArguments.getZoneId())),
                     cliArguments.getSinceDate().orElse(null),
                     cliArguments.getUntilDate().orElse(null));
-            formatter.format(ZonedDateTime.now(cliArguments.getZoneId()));
 
             FileUtil.zip(cliArguments.getOutputFilePath().toAbsolutePath(), ".json");
 
