@@ -100,7 +100,7 @@ html
                 option(value="totalCommitsDsc", v-if="filterGroupSelection !== 'groupByNone'") &darr; contribution
                 option(value="varianceAsc", v-if="filterGroupSelection !== 'groupByNone'") &uarr; variance
                 option(value="varianceDsc", v-if="filterGroupSelection !== 'groupByNone'") &darr; variance
-                option(value="", v-if="filterGroupSelection === 'groupByNone'")
+                option(value="", v-if="filterGroupSelection === 'groupByNone'", style="display:none") —— N/A ——
               label sort within groups by
             .mui-select
               select(v-model="filterTimeFrame")
