@@ -25,10 +25,10 @@ class GitUtil {
     private static final String AUTHOR_EMAIL_PATTERN = "^.* <%s>$";
 
     // capture prefix and + operator
-    private static final String EMAIL_PREFIX_REGEX_GROUP = "\\(.\\++\\)\\?";
+    private static final String EMAIL_PREFIX_REGEX_GROUP = "\\(.*+\\)\\?";
 
     // capture + operator and suffix
-    private static final String EMAIL_SUFFIX_REGEX_GROUP = "\\(+.\\+\\)\\?";
+    private static final String EMAIL_SUFFIX_REGEX_GROUP = "\\(+.*\\)\\?";
 
     private static final String OR_OPERATOR_PATTERN = "\\|";
 

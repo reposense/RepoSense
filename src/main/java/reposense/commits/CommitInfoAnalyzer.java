@@ -37,7 +37,8 @@ public class CommitInfoAnalyzer {
 
     private static final Pattern INSERTION_PATTERN = Pattern.compile("([0-9]+) insertion");
     private static final Pattern DELETION_PATTERN = Pattern.compile("([0-9]+) deletion");
-    private static final Pattern EMAIL_PLUS_OPERATOR_PATTERN = Pattern.compile("(\\d*\\+\\d*)");
+    private static final Pattern EMAIL_PREFIX_PATTERN = Pattern.compile("(.*\\+)");
+    private static final Pattern EMAIL_SUFFIX_PATTERN = Pattern.compile("(\\+.*)");
 
     /**
      * Analyzes each {@code CommitInfo} in {@code commitInfos} and returns a list of {@code CommitResult} that is not
@@ -62,8 +63,9 @@ public class CommitInfoAnalyzer {
         String[] elements = infoLine.split(LOG_SPLITTER);
         String hash = elements[COMMIT_HASH_INDEX];
         Author author = authorAliasMap.getOrDefault(elements[AUTHOR_INDEX],
-                authorAliasMap.getOrDefault(removeEmailPlusOperatorPattern(elements[EMAIL_INDEX]),
-                        Author.UNKNOWN_AUTHOR));
+                authorAliasMap.getOrDefault(removeEmailPrefixPattern(elements[EMAIL_INDEX]),
+                        authorAliasMap.getOrDefault(removeEmailSuffixPattern(elements[EMAIL_INDEX]),
+                                Author.UNKNOWN_AUTHOR)));
 
         Date date = null;
         try {
@@ -78,8 +80,12 @@ public class CommitInfoAnalyzer {
         return new CommitResult(author, hash, date, message, insertion, deletion);
     }
 
-    private static String removeEmailPlusOperatorPattern(String email) {
-        return EMAIL_PLUS_OPERATOR_PATTERN.matcher(email).replaceAll("");
+    private static String removeEmailPrefixPattern(String email) {
+        return EMAIL_PREFIX_PATTERN.matcher(email).replaceFirst("");
+    }
+
+    private static String removeEmailSuffixPattern(String email) {
+        return EMAIL_SUFFIX_PATTERN.matcher(email).replaceFirst("");
     }
 
     private static int getInsertion(String raw) {
