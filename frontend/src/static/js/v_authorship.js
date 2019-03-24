@@ -2,7 +2,7 @@ const filesSortDict = {
   lineOfCode: (file) => file.lineCount,
   path: (file) => file.path,
   fileName: (file) => file.path.split(/[/]+/).pop(),
-  fileType: (file) => file.path.split(/[/]+/).pop().split(/[.]+/).pop(),
+  fileType: (file) => file.fileType,
 };
 
 window.toggleNext = function toggleNext(ele) {
