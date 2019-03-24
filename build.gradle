@@ -20,6 +20,30 @@ repositories {
     mavenCentral()
 }
 
+configurations {
+    systemtestImplementation.extendsFrom testImplementation
+    systemtestRuntime.extendsFrom testRuntime
+}
+
+dependencies {
+    implementation  group: 'com.github.javaparser', name: 'javaparser-core', version: '3.0.1'
+    implementation  group: 'com.google.code.gson' ,name: 'gson', version:'2.8.5'
+    implementation  group: 'org.apache.ant', name: 'ant', version: '1.10.3'
+    implementation  group: 'net.sourceforge.argparse4j', name: 'argparse4j', version: '0.8.1'
+    implementation  group: 'net.freeutils', name: 'jlhttp', version: '2.4'
+
+    testImplementation group: 'junit', name: 'junit', version: '4.12'
+}
+
+sourceSets {
+    systemtest {
+        compileClasspath += main.output + test.output
+        runtimeClasspath += main.output + test.output
+        java.srcDir file('src/systemtest/java')
+        resources.srcDir file('src/systemtest/resources')
+    }
+}
+
 wrapper {
     gradleVersion = '4.9'
 }
@@ -44,6 +68,15 @@ jacoco {
     toolVersion = "0.8.3"
 }
 
+jacocoTestReport {
+    reports {
+        html.enabled = true
+        xml.enabled true
+        csv.enabled false
+        html.destination file("${buildDir}/jacocoHtml")
+    }
+}
+
 test {
     jacoco {
         append = true
@@ -54,30 +87,6 @@ test {
         events 'passed', 'skipped', 'failed'
         showStandardStreams = true
     }
-}
-
-sourceSets {
-    systemtest {
-        compileClasspath += main.output + test.output
-        runtimeClasspath += main.output + test.output
-        java.srcDir file('src/systemtest/java')
-        resources.srcDir file('src/systemtest/resources')
-    }
-}
-
-configurations {
-    systemtestImplementation.extendsFrom testImplementation
-    systemtestRuntime.extendsFrom testRuntime
-}
-
-dependencies {
-    implementation  group: 'com.github.javaparser', name: 'javaparser-core', version: '3.0.1'
-    implementation  group: 'com.google.code.gson' ,name: 'gson', version:'2.8.5'
-    implementation  group: 'org.apache.ant', name: 'ant', version: '1.10.3'
-    implementation  group: 'net.sourceforge.argparse4j', name: 'argparse4j', version: '0.8.1'
-    implementation  group: 'net.freeutils', name: 'jlhttp', version: '2.4'
-
-    testImplementation group: 'junit', name: 'junit', version: '4.12'
 }
 
 shadowJar {
@@ -143,15 +152,6 @@ task frontendTest(dependsOn: ['installCypress', 'startServerInBackground'], type
 
 tasks.withType(Copy) {
     includeEmptyDirs = true
-}
-
-jacocoTestReport {
-    reports {
-        html.enabled = true
-        xml.enabled true
-        csv.enabled false
-        html.destination file("${buildDir}/jacocoHtml")
-    }
 }
 
 task coverage(type: JacocoReport) {
