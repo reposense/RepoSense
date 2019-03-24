@@ -158,13 +158,13 @@ task coverage(type: JacocoReport) {
     sourceDirectories = files(sourceSets.main.allSource.srcDirs)
     classDirectories = files(sourceSets.main.output)
     executionData = files(jacocoTestReport.executionData)
-    
+
     afterEvaluate {
         classDirectories = files(classDirectories.files.collect {
             fileTree(dir: it, exclude: ['**/*.jar'])
         })
     }
-    
+
     reports {
         html.enabled = true
         xml.enabled = true
