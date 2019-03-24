@@ -52,8 +52,7 @@ public abstract class CsvParser<T> {
             br.readLine();
             String line;
 
-            for (int lineNumber = 1; (line = br.readLine()) != null; lineNumber++)
-            {
+            for (int lineNumber = 2; (line = br.readLine()) != null; lineNumber++) {
                 String[] elements = line.split(ELEMENT_SEPARATOR);
 
                 if (line.isEmpty() || isLineMalformed(elements, lineNumber, line)) {
