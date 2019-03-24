@@ -5,8 +5,11 @@ import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -20,6 +23,7 @@ import reposense.commits.model.CommitContributionSummary;
 import reposense.git.GitShortlog;
 import reposense.model.Author;
 import reposense.model.RepoConfiguration;
+import reposense.model.RepoLocation;
 import reposense.model.StandaloneConfig;
 import reposense.parser.StandaloneConfigJsonParser;
 import reposense.system.LogsManager;
@@ -46,32 +50,65 @@ public class ReportGenerator {
         InputStream is = RepoSense.class.getResourceAsStream(TEMPLATE_FILE);
         FileUtil.copyTemplate(is, outputPath);
 
-        cloneAndAnalyzeRepos(configs, outputPath);
+        Map<RepoLocation, List<RepoConfiguration>> repoLocationMap = groupConfigsByRepoLocation(configs);
+        cloneAndAnalyzeRepos(repoLocationMap, outputPath);
 
         FileUtil.writeJsonFile(new SummaryReportJson(configs, generationDate), getSummaryResultPath(outputPath));
         logger.info("The report is generated at " + outputPath);
     }
 
     /**
-     * Clone, analyze and generate the report for repositories in {@code configs}.
+     * Groups {@code RepoConfiguration} with the same {@code RepoLocation} together so that they are only cloned once.
+     */
+    private static Map<RepoLocation, List<RepoConfiguration>> groupConfigsByRepoLocation(
+            List<RepoConfiguration> configs) {
+        Map<RepoLocation, List<RepoConfiguration>> repoLocationToBranch = new HashMap<>();
+        for (RepoConfiguration config : configs) {
+            RepoLocation location = config.getLocation();
+            if (repoLocationToBranch.containsKey(location)) {
+                repoLocationToBranch.get(location).add(config);
+            } else {
+                List<RepoConfiguration> configsList = new ArrayList<>();
+                configsList.add(config);
+                repoLocationToBranch.put(location, configsList);
+            }
+        }
+        return repoLocationToBranch;
+    }
+
+    /**
+     * Clone, analyze and generate the report for repositories in {@code repoLocationMap}.
      * Performs analysis and report generation of each repository in parallel with the cloning of the next repository.
      */
-    private static void cloneAndAnalyzeRepos(List<RepoConfiguration> configs, String outputPath) throws IOException {
+    private static void cloneAndAnalyzeRepos(
+            Map<RepoLocation, List<RepoConfiguration>> repoLocationMap, String outputPath) throws IOException {
         RepoCloner repoCloner = new RepoCloner();
-        RepoConfiguration clonedRepo = null;
+        RepoLocation clonedRepoLocation = null;
 
-        for (RepoConfiguration config : configs) {
-            repoCloner.clone(outputPath, config);
+        for (RepoLocation location : repoLocationMap.keySet()) {
+            repoCloner.clone(outputPath, repoLocationMap.get(location).get(0));
 
-            if (clonedRepo != null) {
-                analyzeRepo(outputPath, clonedRepo);
+            if (clonedRepoLocation != null) {
+                analyzeRepos(outputPath, repoLocationMap.get(clonedRepoLocation), repoCloner);
             }
-            clonedRepo = repoCloner.getClonedRepo(outputPath);
+            clonedRepoLocation = repoCloner.getClonedRepo(outputPath);
         }
-        if (clonedRepo != null) {
-            analyzeRepo(outputPath, clonedRepo);
+        if (clonedRepoLocation != null) {
+            analyzeRepos(outputPath, repoLocationMap.get(clonedRepoLocation), repoCloner);
         }
         repoCloner.cleanup();
+    }
+
+    /**
+     * Analyzes repos in {@code configs} and generates the report.
+     */
+    private static void analyzeRepos(
+            String outputPath, List<RepoConfiguration> configs, RepoCloner repoCloner) throws IOException {
+        for (RepoConfiguration config : configs) {
+            if (repoCloner.prepareToAnalyze(outputPath, config)) {
+                analyzeRepo(outputPath, config);
+            }
+        }
     }
 
     /**

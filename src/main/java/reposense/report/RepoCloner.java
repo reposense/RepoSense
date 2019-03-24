@@ -13,6 +13,7 @@ import java.util.logging.Logger;
 import reposense.git.GitBranch;
 import reposense.git.GitCheckout;
 import reposense.model.RepoConfiguration;
+import reposense.model.RepoLocation;
 import reposense.system.CommandRunnerProcess;
 import reposense.system.CommandRunnerProcessException;
 import reposense.system.LogsManager;
@@ -38,17 +39,15 @@ public class RepoCloner {
      */
     public void clone(String outputPath, RepoConfiguration config) throws IOException {
         configs[currentIndex] = config;
-        isCurrentRepoCloned = true;
-        if (isPreviousRepoDifferent()) {
-            isCurrentRepoCloned = spawnCloneProcess(outputPath, config);
-        }
+        isCurrentRepoCloned = spawnCloneProcess(outputPath, config);
     }
 
     /**
-     * Waits for current clone process to finish executing and returns the corresponding {@code RepoConfiguration}.
+     * Waits for current clone process to finish executing and returns the {@code RepoLocation} of the corresponding
+     * {@code RepoConfiguration}.
      */
-    public RepoConfiguration getClonedRepo(String outputPath) throws IOException {
-        if (isCurrentRepoCloned && isPreviousRepoDifferent()) {
+    public RepoLocation getClonedRepo(String outputPath) throws IOException {
+        if (isCurrentRepoCloned) {
             isCurrentRepoCloned = waitForCloneProcess(outputPath, configs[currentIndex]);
         }
 
@@ -57,23 +56,28 @@ public class RepoCloner {
             return null;
         }
 
-        if (isPreviousRepoDifferent()) {
-            currentRepoDefaultBranch = GitBranch.getCurrentBranch(configs[currentIndex].getRepoRoot());
-        }
-        configs[currentIndex].updateBranch(currentRepoDefaultBranch);
-
+        currentRepoDefaultBranch = GitBranch.getCurrentBranch(configs[currentIndex].getRepoRoot());
         cleanupPrevRepoFolder();
 
-        try {
-            GitCheckout.checkout(configs[currentIndex].getRepoRoot(), configs[currentIndex].getBranch());
-        } catch (RuntimeException e) {
-            logger.log(Level.SEVERE, "Branch does not exist! Analysis terminated.", e);
-            handleCloningFailed(outputPath, configs[currentIndex]);
-            return null;
-        }
         previousIndex = currentIndex;
         currentIndex = (currentIndex + 1) % configs.length;
-        return configs[previousIndex];
+        return configs[previousIndex].getLocation();
+    }
+
+    /**
+     * Prepares repo specified by {@code config} to be analyzed by updating and checking out its branch.
+     */
+    public boolean prepareToAnalyze(String outputPath, RepoConfiguration config) throws IOException {
+        config.updateBranch(currentRepoDefaultBranch);
+
+        try {
+            GitCheckout.checkout(config.getRepoRoot(), config.getBranch());
+            return true;
+        } catch (RuntimeException e) {
+            logger.log(Level.SEVERE, "Branch does not exist! Analysis terminated.", e);
+            handleCloningFailed(outputPath, config);
+        }
+        return false;
     }
 
     /**
@@ -81,14 +85,6 @@ public class RepoCloner {
      */
     public void cleanup() {
         deleteDirectory(FileUtil.REPOS_ADDRESS);
-    }
-
-    /**
-     * Returns true if current repo is different from the previously cloned repo.
-     */
-    private boolean isPreviousRepoDifferent() {
-        return previousIndex == currentIndex
-                || !configs[previousIndex].getLocation().equals(configs[currentIndex].getLocation());
     }
 
     /**
@@ -142,7 +138,7 @@ public class RepoCloner {
      * Deletes previously cloned repo directories that are not in use anymore.
      */
     private void cleanupPrevRepoFolder() {
-        if (isPreviousRepoDifferent() && previousIndex != currentIndex) {
+        if (previousIndex != currentIndex) {
             deleteDirectory(configs[previousIndex].getRepoRoot());
         }
     }
