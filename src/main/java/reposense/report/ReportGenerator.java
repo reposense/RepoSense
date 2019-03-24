@@ -33,7 +33,7 @@ public class ReportGenerator {
     // zip file which contains all the report template files
     private static final String TEMPLATE_FILE = "/templateZip.zip";
 
-    private static final String MESSAGE_INVALID_CONFIG_JSON = "%s Ignoring the config provided by this repository.";
+    private static final String MESSAGE_INVALID_CONFIG_JSON = "%s Ignoring the config provided by %s.";
 
     /**
      * Generates the authorship and commits JSON file for each repo in {@code configs} at {@code outputPath}, as
@@ -85,10 +85,12 @@ public class ReportGenerator {
             FileUtil.createDirectory(repoReportDirectory);
         } catch (IOException ioe) {
             logger.log(Level.WARNING,
-                    "Error has occurred while creating repo directory, will skip this repo.", ioe);
+                    String.format("Error has occurred while creating repo directory for %s, will skip this repo.",
+                            config.getLocation()), ioe);
             return;
         } catch (RuntimeException rte) {
-            logger.log(Level.SEVERE, "Error has occurred during analysis, will skip this repo.", rte);
+            logger.log(Level.SEVERE, String.format("Error has occurred during analysis of %s, will skip this repo.",
+                    config.getLocation()), rte);
             return;
         }
         // preprocess the config and repo
@@ -121,10 +123,10 @@ public class ReportGenerator {
             StandaloneConfig standaloneConfig = new StandaloneConfigJsonParser().parse(configJsonPath);
             config.update(standaloneConfig);
         } catch (JsonSyntaxException jse) {
-            logger.warning(String.format("%s/%s/%s is malformed.",
-                    config.getDisplayName(), REPOSENSE_CONFIG_FOLDER, REPOSENSE_CONFIG_FILE));
+            logger.warning(String.format("%s/%s/%s is malformed for %s.",
+                    config.getDisplayName(), REPOSENSE_CONFIG_FOLDER, REPOSENSE_CONFIG_FILE, config.getLocation()));
         } catch (IllegalArgumentException iae) {
-            logger.warning(String.format(MESSAGE_INVALID_CONFIG_JSON, iae.getMessage()));
+            logger.warning(String.format(MESSAGE_INVALID_CONFIG_JSON, iae.getMessage(), config.getLocation()));
         } catch (IOException ioe) {
             throw new AssertionError(
                     "This exception should not happen as we have performed the file existence check.");
@@ -137,7 +139,7 @@ public class ReportGenerator {
     private static void updateAuthorList(RepoConfiguration config) {
         if (config.getAuthorList().isEmpty()) {
             logger.info(String.format(
-                    "%s has no authors specified, using all authors by default.", config.getDisplayName()));
+                    "%s has no authors specified, using all authors by default.", config.getLocation()));
             List<Author> authorList = GitShortlog.getAuthors(config);
             config.setAuthorList(authorList);
         }

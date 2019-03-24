@@ -43,6 +43,8 @@ public class CommitInfoAnalyzer {
      * specified to be ignored or the author is inside {@code config}.
      */
     public static List<CommitResult> analyzeCommits(List<CommitInfo> commitInfos, RepoConfiguration config) {
+        logger.info("Analyzing commits info for " + config.getLocation() + "...");
+
         return commitInfos.stream()
                 .map(commitInfo -> analyzeCommit(commitInfo, config.getAuthorEmailsAndAliasesMap()))
                 .filter(commitResult -> !commitResult.getAuthor().equals(Author.UNKNOWN_AUTHOR)

@@ -40,7 +40,8 @@ public class FileInfoExtractor {
     private static final String FILE_CHANGED_GROUP_NAME = "filePath";
     private static final String FILE_DELETED_SYMBOL = "/dev/null";
     private static final String MATCH_GROUP_FAIL_MESSAGE_FORMAT = "Failed to match the %s group for:\n%s";
-    private static final String INVALID_FILE_PATH_MESSAGE_FORMAT = "Invalid file path %s provided, skipping this file.";
+    private static final String INVALID_FILE_PATH_MESSAGE_FORMAT =
+            "Invalid file path %s provided for %s, skipping this file.";
     private static final String GIT_DIRECTORY = ".git";
 
     private static final int LINE_CHANGED_HEADER_INDEX = 0;
@@ -114,7 +115,7 @@ public class FileInfoExtractor {
                     setLinesToTrack(currentFileInfo, fileDiffResult);
                     fileInfos.add(currentFileInfo);
                 } catch (InvalidPathException ipe) {
-                    logger.warning(String.format(INVALID_FILE_PATH_MESSAGE_FORMAT, filePath));
+                    logger.warning(String.format(INVALID_FILE_PATH_MESSAGE_FORMAT, filePath, config.getLocation()));
                 }
             }
         }
@@ -179,12 +180,13 @@ public class FileInfoExtractor {
                     try {
                         fileInfos.add(generateFileInfo(config.getRepoRoot(), relativePath));
                     } catch (InvalidPathException ipe) {
-                        logger.warning(String.format(INVALID_FILE_PATH_MESSAGE_FORMAT, filePath));
+                        logger.warning(String.format(INVALID_FILE_PATH_MESSAGE_FORMAT, filePath, config.getLocation()));
                     }
                 }
             }
         } catch (IOException ioe) {
-            logger.log(Level.SEVERE, "Error occured while extracing all relevant file infos.", ioe);
+            logger.log(Level.SEVERE, String.format("Error occured while extracing all relevant file infos for %s.",
+                    config.getLocation()), ioe);
         }
     }
 
