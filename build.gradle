@@ -1,12 +1,12 @@
 plugins {
-    id 'java'
+    id 'application'
     id 'checkstyle'
     id 'idea'
-    id 'application'
+    id 'jacoco'
+    id 'java'
     id 'com.github.johnrengelman.shadow' version '2.0.4'
     id 'com.liferay.node' version '4.4.0'
     id 'com.github.psxpaul.execfork' version '0.1.8'
-    id 'jacoco'
 }
 
 mainClassName = 'reposense.RepoSense'
@@ -16,10 +16,6 @@ node.nodeVersion = '10.5.0'
 sourceCompatibility = JavaVersion.VERSION_1_8
 targetCompatibility = JavaVersion.VERSION_1_8
 
-jacoco {
-    toolVersion = "0.8.3"
-}
-
 repositories {
     mavenCentral()
 }
@@ -28,9 +24,24 @@ wrapper {
     gradleVersion = '4.9'
 }
 
+run {
+    //the second arguments indicates the default value associated with the property.
+    args System.getProperty('args', '').split()
+}
+
 checkstyle {
     toolVersion = '8.1'
     configDir = file("$rootProject.projectDir/config/checkstyle")
+}
+
+idea {
+    module {
+        sourceSets.systemtest.allSource.srcDirs.each { srcDir -> module.testSourceDirs += srcDir }
+    }
+}
+
+jacoco {
+    toolVersion = "0.8.3"
 }
 
 test {
@@ -128,17 +139,6 @@ task frontendTest(dependsOn: ['installCypress', 'startServerInBackground'], type
     if (project.hasProperty('ci')) {
         args = ["run-script", "ci"]
     }
-}
-
-idea {
-    module {
-        sourceSets.systemtest.allSource.srcDirs.each { srcDir -> module.testSourceDirs += srcDir }
-    }
-}
-
-run {
-    //the second arguments indicates the default value associated with the property.
-    args System.getProperty('args', '').split()
 }
 
 tasks.withType(Copy) {
