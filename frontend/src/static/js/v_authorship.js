@@ -33,9 +33,9 @@ window.vAuthorship = {
       isLoaded: false,
       files: [],
       isSelectAllChecked: true,
-      selectedFormats: [],
-      formats: [],
-      formatBlankLinesObj: {},
+      selectedFileTypes: [],
+      fileTypes: [],
+      fileTypeBlankLinesObj: {},
       totalLineCount: '',
       totalBlankLineCount: '',
       filesSortType: 'lineOfCode',
@@ -85,7 +85,7 @@ window.vAuthorship = {
         const author = repo.users.filter((user) => user.name === this.info.author);
         if (author.length > 0) {
           this.info.name = author[0].displayName;
-          this.filesLinesObj = author[0].formatContribution;
+          this.filesLinesObj = author[0].fileTypeContribution;
         }
         this.info.location = repo.location.location;
       }
@@ -156,7 +156,7 @@ window.vAuthorship = {
 
     processFiles(files) {
       const res = [];
-      const formatBlanksInfoObj = {};
+      const fileTypeBlanksInfoObj = {};
       let totalLineCount = 0;
       let totalBlankLineCount = 0;
 
@@ -167,14 +167,14 @@ window.vAuthorship = {
           const out = {};
           out.path = file.path;
           out.lineCount = lineCnt;
-          out.format = file.format;
+          out.fileType = file.fileType;
 
           const segmentInfo = this.splitSegments(file.lines);
           out.segments = segmentInfo.segments;
           totalBlankLineCount += segmentInfo.blankLineCount;
 
-          this.addBlankLineCount(file.format, segmentInfo.blankLineCount,
-              formatBlanksInfoObj);
+          this.addBlankLineCount(file.fileType, segmentInfo.blankLineCount,
+              fileTypeBlanksInfoObj);
           res.push(out);
         }
       });
@@ -184,11 +184,11 @@ window.vAuthorship = {
       res.sort((a, b) => b.lineCount - a.lineCount);
 
       Object.keys(this.filesLinesObj).forEach((file) => {
-        this.selectedFormats.push(file);
-        this.formats.push(file);
+        this.selectedFileTypes.push(file);
+        this.fileTypes.push(file);
       });
 
-      this.formatBlankLinesObj = formatBlanksInfoObj;
+      this.fileTypeBlankLinesObj = fileTypeBlanksInfoObj;
       this.files = res;
       this.isLoaded = true;
 
@@ -210,27 +210,27 @@ window.vAuthorship = {
 
     selectAll() {
       if (!this.isSelectAllChecked) {
-        this.selectedFormats = this.formats.slice();
+        this.selectedFileTypes = this.fileTypes.slice();
         this.activeFilesCount = this.files.length;
       } else {
-        this.selectedFormats = [];
+        this.selectedFileTypes = [];
         this.activeFilesCount = 0;
       }
     },
 
-    selectFormat(format) {
-      if (this.selectedFormats.includes(format)) {
-        const index = this.selectedFormats.indexOf(format);
-        this.selectedFormats.splice(index, 1);
+    selectFileType(fileType) {
+      if (this.selectedFileTypes.includes(fileType)) {
+        const index = this.selectedFileTypes.indexOf(fileType);
+        this.selectedFileTypes.splice(index, 1);
       } else {
-        this.selectedFormats.push(format);
+        this.selectedFileTypes.push(fileType);
       }
     },
 
     getSelectedFiles() {
-      if (this.formats.length === this.selectedFormats.length) {
+      if (this.fileTypes.length === this.selectedFileTypes.length) {
         this.isSelectAllChecked = true;
-      } else if (this.selectedFormats.length === 0) {
+      } else if (this.selectedFileTypes.length === 0) {
         this.isSelectAllChecked = false;
       }
 
@@ -242,7 +242,7 @@ window.vAuthorship = {
     },
 
     tickAllCheckboxes() {
-      this.selectedFormats = this.formats.slice();
+      this.selectedFileTypes = this.fileTypes.slice();
       this.isSelectAllChecked = true;
       this.filterSearch = '*';
     },
@@ -257,7 +257,7 @@ window.vAuthorship = {
       document.getElementsByClassName('mui-checkbox--all')[0].disabled = true;
       let checkboxes = [];
 
-      checkboxes = document.getElementsByClassName('mui-checkbox--format');
+      checkboxes = document.getElementsByClassName('mui-checkbox--fileType');
       Array.from(checkboxes).forEach((checkbox) => {
         checkbox.disabled = true;
       });
@@ -274,14 +274,14 @@ window.vAuthorship = {
       document.getElementsByClassName('mui-checkbox--all')[0].disabled = false;
       let checkboxes = [];
 
-      checkboxes = document.getElementsByClassName('mui-checkbox--format');
+      checkboxes = document.getElementsByClassName('mui-checkbox--fileType');
       Array.from(checkboxes).forEach((checkbox) => {
         checkbox.disabled = false;
       });
     },
 
-    isSelectedFormats(format) {
-      return this.selectedFormats.includes(format);
+    isSelectedFileTypes(fileType) {
+      return this.selectedFileTypes.includes(fileType);
     },
 
     getFileLink(file, path) {
@@ -291,10 +291,10 @@ window.vAuthorship = {
         repo.location.organization}/${repo.location.repoName}/${path}/${repo.branch}/${file.path}`;
     },
 
-    getFormatBlankLineInfo(format) {
-      return `${format}: Blank: ${
-        this.formatBlankLinesObj[format]}, Non-Blank: ${
-        this.filesLinesObj[format] - this.formatBlankLinesObj[format]}`;
+    getFileTypeBlankLineInfo(fileType) {
+      return `${fileType}: Blank: ${
+        this.fileTypeBlankLinesObj[fileType]}, Non-Blank: ${
+        this.filesLinesObj[fileType] - this.fileTypeBlankLinesObj[fileType]}`;
     },
 
     getTotalFileBlankLineInfo() {
@@ -305,11 +305,11 @@ window.vAuthorship = {
 
   computed: {
     selectedFiles() {
-      return this.files.filter((file) => this.isSelectedFormats(file.format)
+      return this.files.filter((file) => this.isSelectedFileTypes(file.fileType)
           && minimatch(file.path, this.filterSearch, { matchBase: true }))
           .sort(this.sortingFunction);
     },
-    getFormatExistingLinesObj() {
+    getFileTypeExistingLinesObj() {
       return Object.keys(this.filesLinesObj)
           .filter((type) => this.filesLinesObj[type] > 0)
           .reduce((acc, key) => ({

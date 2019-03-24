@@ -15,13 +15,13 @@ import reposense.model.Group;
 public class AuthorshipSummary {
     private final List<FileResult> fileResults;
     private final Map<Author, Integer> authorFinalContributionMap;
-    private final Map<Author, LinkedHashMap<String, Integer>> authorFormatContributionMap;
+    private final Map<Author, LinkedHashMap<String, Integer>> authorFileTypeContributionMap;
 
     public AuthorshipSummary(List<FileResult> fileResults, List<Author> authors, List<Format> formats,
         List<Group> groups) {
         this.fileResults = fileResults;
         authorFinalContributionMap = new HashMap<>();
-        authorFormatContributionMap = new HashMap<>();
+        authorFileTypeContributionMap = new HashMap<>();
 
         // initialise each author contribution to be 0
         authors.forEach((author) -> authorFinalContributionMap.put(author, 0));
@@ -34,17 +34,17 @@ public class AuthorshipSummary {
                     defaultGroupContribution.put(group.toString(), 0);
                 }
                 defaultGroupContribution.put(Group.DEFAULT_GROUP, 0);
-                authorFormatContributionMap.put(author, defaultGroupContribution);
+                authorFileTypeContributionMap.put(author, defaultGroupContribution);
             });
         } else {
-            authors.forEach((author) -> authorFormatContributionMap.put(author, new LinkedHashMap<>()));
+            authors.forEach((author) -> authorFileTypeContributionMap.put(author, new LinkedHashMap<>()));
             // file format contribution
             authors.forEach((author) -> {
                 LinkedHashMap<String, Integer> defaultFileFormatContribution = new LinkedHashMap<>();
                 for (Format format : formats) {
                     defaultFileFormatContribution.put(format.toString(), 0);
                 }
-                authorFormatContributionMap.put(author, defaultFileFormatContribution);
+                authorFileTypeContributionMap.put(author, defaultFileFormatContribution);
             });
         }
     }
@@ -57,8 +57,8 @@ public class AuthorshipSummary {
     public void addAuthorContributionCount(Author author, String format) {
         authorFinalContributionMap.put(author, authorFinalContributionMap.get(author) + 1);
 
-        // Add format contribution count
-        Map<String, Integer> formatContributionMap = authorFormatContributionMap.get(author);
+        // Add fileType contribution count
+        Map<String, Integer> formatContributionMap = authorFileTypeContributionMap.get(author);
         formatContributionMap.put(format, formatContributionMap.getOrDefault(format, 0) + 1);
     }
 
@@ -66,8 +66,8 @@ public class AuthorshipSummary {
         return authorFinalContributionMap;
     }
 
-    public Map<Author, LinkedHashMap<String, Integer>> getAuthorFormatContributionMap() {
-        return authorFormatContributionMap;
+    public Map<Author, LinkedHashMap<String, Integer>> getAuthorFileTypeContributionMap() {
+        return authorFileTypeContributionMap;
     }
 
     public List<FileResult> getFileResults() {
