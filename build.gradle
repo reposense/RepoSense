@@ -40,18 +40,18 @@ test {
     }
 
     testLogging {
-      events 'passed', 'skipped', 'failed'
-      showStandardStreams = true
+        events 'passed', 'skipped', 'failed'
+        showStandardStreams = true
     }
 }
 
 sourceSets {
-  systemtest {
-    compileClasspath += main.output + test.output
-    runtimeClasspath += main.output + test.output
-    java.srcDir file('src/systemtest/java')
-    resources.srcDir file('src/systemtest/resources')
-  }
+    systemtest {
+        compileClasspath += main.output + test.output
+        runtimeClasspath += main.output + test.output
+        java.srcDir file('src/systemtest/java')
+        resources.srcDir file('src/systemtest/resources')
+    }
 }
 
 configurations {
@@ -126,7 +126,7 @@ task frontendTest(dependsOn: ['installCypress', 'startServerInBackground'], type
 
     // Run tests in CI without slow motion
     if (project.hasProperty('ci')) {
-      args = ["run-script", "ci"]
+        args = ["run-script", "ci"]
     }
 }
 
