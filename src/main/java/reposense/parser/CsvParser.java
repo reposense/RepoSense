@@ -23,8 +23,8 @@ public abstract class CsvParser<T> {
     private static final String MESSAGE_UNABLE_TO_READ_CSV_FILE = "Unable to read the supplied CSV file.";
     private static final String MESSAGE_MALFORMED_LINE_FORMAT = "Warning! line %d in configuration file is malformed.\n"
             + "Contents: %s";
-    private static final String MESSAGE_LINE_PARSE_EXCEPTION_FORMAT
-            = "Warning! Error parsing line %d in configuration file.\n"
+    private static final String MESSAGE_LINE_PARSE_EXCEPTION_FORMAT =
+            "Warning! Error parsing line %d in configuration file.\n"
             + "Error: %s";
 
     private Path csvFilePath;
