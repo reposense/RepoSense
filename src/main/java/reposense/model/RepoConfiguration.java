@@ -213,7 +213,10 @@ public class RepoConfiguration {
                 && authorConfig.equals(otherRepoConfig.authorConfig)
                 && ignoreGlobList.equals(otherRepoConfig.ignoreGlobList)
                 && isStandaloneConfigIgnored == otherRepoConfig.isStandaloneConfigIgnored
-                && formats.equals(otherRepoConfig.formats);
+                && formats.equals(otherRepoConfig.formats)
+                && isFormatsOverriding == otherRepoConfig.isFormatsOverriding
+                && isIgnoreGlobListOverriding == otherRepoConfig.isIgnoreGlobListOverriding
+                && isIgnoreCommitListOverriding == otherRepoConfig.isIgnoreCommitListOverriding;
     }
 
     public Map<Author, String> getAuthorDisplayNameMap() {

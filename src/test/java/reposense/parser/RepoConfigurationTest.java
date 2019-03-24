@@ -266,7 +266,9 @@ public class RepoConfigurationTest {
     @Test
     public void repoConfig_overrideStandaloneConfig_success()
             throws ParseException, GitCloneException, IOException, HelpScreenException {
-        RepoConfiguration expectedConfig = new RepoConfiguration(new RepoLocation(TEST_REPO_DELTA), "master");
+        RepoConfiguration expectedConfig = new RepoConfiguration(new RepoLocation(TEST_REPO_DELTA), "master",
+                Collections.emptyList(), Collections.emptyList(), false, Collections.emptyList(),
+                true, true, true);
 
         List<Author> expectedAuthorList = new ArrayList<>();
         Author[] authors = new Author[]{FIRST_AUTHOR, SECOND_AUTHOR, THIRD_AUTHOR, FOURTH_AUTHOR};

@@ -281,7 +281,7 @@ Repository's Location|Branch|File formats|Ignore Glob List|Ignore standalone con
 ---------------------|------|------------|----------------|------------------------|-------------------
 `https://github.com/foo/bar.git`|`master`|`java;css`|`test/**`|`yes`|`2fb6b9b2dd9fa40bf0f9815da2cb0ae8731436c7;c5a6dc774e22099cd9ddeb0faff1e75f9cf4f151`
 
-When using standalone config (it is not ignored), it is possible to override specific values from the standalone config by prepending the entered value with `override:`.
+When using standalone config (if it is not ignored), it is possible to override specific values from the standalone config by prepending the entered value with `override:`.
 
 <br>
 
