@@ -1,7 +1,7 @@
 [
   {
     "path": "annotationTest.java",
-    "format": "code",
+    "fileType": "code",
     "lines": [
       {
         "lineNumber": 1,
@@ -88,7 +88,7 @@
   },
   {
     "path": "blameTest.java",
-    "format": "code",
+    "fileType": "code",
     "lines": [
       {
         "lineNumber": 1,
@@ -126,7 +126,7 @@
   },
   {
     "path": "newFile.java",
-    "format": "code",
+    "fileType": "code",
     "lines": [
       {
         "lineNumber": 1,
@@ -149,7 +149,7 @@
   },
   {
     "path": "newPos/movedFile.java",
-    "format": "code",
+    "fileType": "code",
     "lines": [
       {
         "lineNumber": 1,

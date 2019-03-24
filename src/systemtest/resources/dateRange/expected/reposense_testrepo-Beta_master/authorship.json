@@ -1,7 +1,7 @@
 [
   {
     "path": "src/main/resources/view/MainWindow.fxml",
-    "format": "fxml",
+    "fileType": "fxml",
     "lines": [
       {
         "lineNumber": 1,
@@ -431,7 +431,7 @@
   },
   {
     "path": "src/main/resources/view/PersonInfoOverview.fxml",
-    "format": "fxml",
+    "fileType": "fxml",
     "lines": [
       {
         "lineNumber": 1,
@@ -819,7 +819,7 @@
   },
   {
     "path": "src/main/resources/view/PersonListCard.fxml",
-    "format": "fxml",
+    "fileType": "fxml",
     "lines": [
       {
         "lineNumber": 1,
@@ -1117,7 +1117,7 @@
   },
   {
     "path": "src/main/resources/view/TagListPanel.fxml",
-    "format": "fxml",
+    "fileType": "fxml",
     "lines": [
       {
         "lineNumber": 1,
