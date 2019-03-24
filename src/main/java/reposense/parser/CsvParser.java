@@ -21,10 +21,10 @@ public abstract class CsvParser<T> {
 
     private static final String ELEMENT_SEPARATOR = ",";
     private static final String MESSAGE_UNABLE_TO_READ_CSV_FILE = "Unable to read the supplied CSV file.";
-    private static final String MESSAGE_MALFORMED_LINE_FORMAT = "Warning! line %d in configuration file is malformed.\n"
+    private static final String MESSAGE_MALFORMED_LINE_FORMAT = "Warning! line %d in CSV file, %s, is malformed.\n"
             + "Contents: %s";
     private static final String MESSAGE_LINE_PARSE_EXCEPTION_FORMAT =
-            "Warning! Error parsing line %d in configuration file.\n"
+            "Warning! Error parsing line %d in CSV file, %s.\n"
             + "Error: %s";
 
     private Path csvFilePath;
@@ -62,7 +62,8 @@ public abstract class CsvParser<T> {
                 try {
                     processLine(results, elements);
                 } catch (ParseException pe) {
-                    logger.warning(String.format(MESSAGE_LINE_PARSE_EXCEPTION_FORMAT, lineNumber, pe.getMessage()));
+                    logger.warning(String.format(MESSAGE_LINE_PARSE_EXCEPTION_FORMAT,
+                            lineNumber, csvFilePath.getFileName(), pe.getMessage()));
                 }
             }
         } catch (IOException ioe) {
@@ -77,7 +78,8 @@ public abstract class CsvParser<T> {
     private boolean isLineMalformed(final String[] elements, int lineNumber, String line) {
         for (int position : mandatoryPositions()) {
             if (!containsValueAtPosition(elements, position)) {
-                logger.warning(String.format(MESSAGE_MALFORMED_LINE_FORMAT, lineNumber, line));
+                logger.warning(String.format(MESSAGE_MALFORMED_LINE_FORMAT,
+                        lineNumber, csvFilePath.getFileName(), line));
                 return true;
             }
         }
