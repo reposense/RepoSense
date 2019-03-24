@@ -49,8 +49,7 @@ public class ReportGenerator {
 
         cloneAndAnalyzeRepos(configs, outputPath);
 
-        FileUtil.writeJsonFile(new SummaryReportJson(
-                configs, generationDate, sinceDate, untilDate),
+        FileUtil.writeJsonFile(new SummaryReportJson(configs, generationDate, sinceDate, untilDate),
                 getSummaryResultPath(outputPath));
         logger.info("The report is generated at " + outputPath);
     }
