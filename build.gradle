@@ -16,6 +16,10 @@ node.nodeVersion = '10.5.0'
 sourceCompatibility = JavaVersion.VERSION_1_8
 targetCompatibility = JavaVersion.VERSION_1_8
 
+jacoco {
+    toolVersion = "0.8.3"
+}
+
 repositories {
     mavenCentral()
 }
@@ -31,6 +35,7 @@ checkstyle {
 
 test {
     jacoco {
+        append = true
         destinationFile = new File("${buildDir}/jacoco/test.exec")
     }
 
@@ -83,11 +88,12 @@ tasks.run.dependsOn('compileJava');
 task systemtest(dependsOn: 'zipReport', type: Test) {
     testClassesDirs = sourceSets.systemtest.output.classesDirs
     classpath = sourceSets.systemtest.runtimeClasspath
-    
+
     jacoco {
+        append = true
         destinationFile = new File("${buildDir}/jacoco/test.exec")
     }
-    
+
     testLogging {
         events 'passed', 'skipped', 'failed'
         showStandardStreams = true
@@ -141,7 +147,8 @@ tasks.withType(Copy) {
 
 jacocoTestReport {
     reports {
-        xml.enabled false
+        html.enabled = true
+        xml.enabled true
         csv.enabled false
         html.destination file("${buildDir}/jacocoHtml")
     }
@@ -164,4 +171,4 @@ task coverage(type: JacocoReport) {
     }
 }
 
-defaultTasks 'clean', 'build', 'systemtest', 'frontendTest', 'coverage'
+defaultTasks 'clean', 'build', 'test', 'systemtest', 'frontendTest', 'coverage'
