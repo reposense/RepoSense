@@ -22,9 +22,10 @@ public abstract class CsvParser<T> {
     private static final String ELEMENT_SEPARATOR = ",";
     private static final String MESSAGE_UNABLE_TO_READ_CSV_FILE = "Unable to read the supplied CSV file.";
     private static final String MESSAGE_MALFORMED_LINE_FORMAT = "Warning! line %d in CSV file, %s, is malformed.\n"
-            + "Contents: %s";
+            + "Content: %s";
     private static final String MESSAGE_LINE_PARSE_EXCEPTION_FORMAT =
             "Warning! Error parsing line %d in CSV file, %s.\n"
+            + "Content: %s\n"
             + "Error: %s";
 
     private Path csvFilePath;
@@ -63,7 +64,7 @@ public abstract class CsvParser<T> {
                     processLine(results, elements);
                 } catch (ParseException pe) {
                     logger.warning(String.format(MESSAGE_LINE_PARSE_EXCEPTION_FORMAT,
-                            lineNumber, csvFilePath.getFileName(), pe.getMessage()));
+                            lineNumber, csvFilePath.getFileName(), line, pe.getMessage()));
                 }
             }
         } catch (IOException ioe) {
