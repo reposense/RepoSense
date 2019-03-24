@@ -98,4 +98,18 @@ public class FileAnalyzerTest extends GitTestTemplate {
         fileInfoFull.getLines().forEach(lineInfo ->
                 Assert.assertEquals(Author.UNKNOWN_AUTHOR, lineInfo.getAuthor()));
     }
+
+    @Test
+    public void analyzeFile_emailWithAdditionOperator_success() {
+        config.setBranch("email-with-addition-operator");
+        GitCheckout.checkoutBranch(config.getRepoRoot(), config.getBranch());
+        Author author = new Author(MINGYI_AUTHOR_NAME);
+        config.setAuthorList(Collections.singletonList(author));
+
+        FileInfo fileInfo = FileInfoExtractor.generateFileInfo(config.getRepoRoot(), "pr_617.java");
+        FileInfoAnalyzer.analyzeFile(config, fileInfo);
+
+        Assert.assertEquals(1, fileInfo.getLines().size());
+        fileInfo.getLines().forEach(lineInfo -> Assert.assertEquals(author, lineInfo.getAuthor()));
+    }
 }

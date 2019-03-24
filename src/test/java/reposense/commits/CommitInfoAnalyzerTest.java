@@ -17,6 +17,7 @@ import reposense.template.GitTestTemplate;
 
 public class CommitInfoAnalyzerTest extends GitTestTemplate {
     private static final int NUMBER_EUGENE_COMMIT = 1;
+    private static final int NUMBER_MINGYI_COMMIT = 2;
     private static final int NUMBER_EMPTY_MESSAGE_COMMIT = 1;
 
     @Before
@@ -104,5 +105,17 @@ public class CommitInfoAnalyzerTest extends GitTestTemplate {
         commitResults.removeIf(s -> !s.getMessage().isEmpty());
 
         Assert.assertEquals(NUMBER_EMPTY_MESSAGE_COMMIT, commitResults.size());
+    }
+
+    @Test
+    public void analyzeCommits_emailWithAdditionOperator_success() {
+        config.setBranch("email-with-addition-operator");
+        Author author = new Author(MINGYI_AUTHOR_NAME);
+        config.setAuthorList(Collections.singletonList(author));
+
+        List<CommitInfo> commitInfos = CommitInfoExtractor.extractCommitInfos(config);
+        List<CommitResult> commitResults = CommitInfoAnalyzer.analyzeCommits(commitInfos, config);
+
+        Assert.assertEquals(NUMBER_MINGYI_COMMIT, commitResults.size());
     }
 }
