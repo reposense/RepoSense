@@ -171,4 +171,4 @@ task coverage(type: JacocoReport) {
     }
 }
 
-defaultTasks 'clean', 'build', 'test', 'systemtest', 'frontendTest', 'coverage'
+defaultTasks 'clean', 'build', 'systemtest', 'frontendTest', 'coverage'
