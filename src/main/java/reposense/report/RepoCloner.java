@@ -119,6 +119,7 @@ public class RepoCloner {
      */
     private boolean waitForCloneProcess(String outputPath, RepoConfiguration config) throws IOException {
         try {
+            logger.info("Waiting for cloning of " + config.getLocation() + " to complete...");
             crp.waitForProcess();
             logger.info("Cloning of " + config.getLocation() + " completed!");
         } catch (RuntimeException | CommandRunnerProcessException e) {
