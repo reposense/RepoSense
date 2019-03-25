@@ -21,6 +21,7 @@ import reposense.model.AuthorConfiguration;
 import reposense.model.CliArguments;
 import reposense.model.ConfigCliArguments;
 import reposense.model.RepoConfiguration;
+import reposense.model.ReportConfiguration;
 import reposense.parser.ArgsParser;
 import reposense.parser.AuthorConfigCsvParser;
 import reposense.parser.ParseException;
@@ -86,7 +87,8 @@ public class ConfigSystemTest {
         RepoConfiguration.setDatesToRepoConfigs(
                 repoConfigs, cliArguments.getSinceDate(), cliArguments.getUntilDate());
 
-        ReportGenerator.generateReposReport(repoConfigs, FT_TEMP_DIR, TEST_REPORT_GENERATED_TIME);
+        ReportGenerator
+                .generateReposReport(repoConfigs, FT_TEMP_DIR, new ReportConfiguration(), TEST_REPORT_GENERATED_TIME);
     }
 
     private void verifyAllJson(Path expectedDirectory, String actualRelative) {
