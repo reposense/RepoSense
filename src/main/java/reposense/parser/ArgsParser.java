@@ -2,6 +2,7 @@ package reposense.parser;
 
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.time.ZoneId;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
@@ -37,6 +38,7 @@ public class ArgsParser {
     public static final String[] UNTIL_FLAGS = new String[]{"--until", "-u"};
     public static final String[] FORMAT_FLAGS = new String[]{"--formats", "-f"};
     public static final String[] IGNORE_FLAGS = new String[]{"--ignore-standalone-config", "-i"};
+    public static final String[] TIMEZONE_FLAGS = new String[]{"--timezone", "-t"};
 
     private static final Logger logger = LogsManager.getLogger(ArgsParser.class);
 
@@ -127,6 +129,15 @@ public class ArgsParser {
                 .metavar("LOCATION")
                 .help("The GitHub URL or disk locations to clone repository.");
 
+        parser.addArgument(TIMEZONE_FLAGS)
+                .dest(TIMEZONE_FLAGS[0])
+                .metavar("ZONE_ID[±hh[mm]]")
+                .type(new ZoneIdArgumentType())
+                .setDefault(ZoneId.systemDefault())
+                .help("The timezone to use for the generated report. "
+                        + "One kind of valid timezones is relative to UTC. E.g. UTC, UTC+08, UTC-1030. \n"
+                        + "If not provided, system default timezone will be used.");
+
         return parser;
     }
 
@@ -150,6 +161,7 @@ public class ArgsParser {
             List<String> locations = results.get(REPO_FLAGS[0]);
             List<Format> formats = Format.convertStringsToFormats(results.get(FORMAT_FLAGS[0]));
             boolean isStandaloneConfigIgnored = results.get(IGNORE_FLAGS[0]);
+            ZoneId zoneId = results.get(TIMEZONE_FLAGS[0]);
 
             verifyDatesRangeIsCorrect(sinceDate, untilDate);
 
@@ -166,18 +178,17 @@ public class ArgsParser {
 
             if (locations != null) {
                 return new LocationsCliArguments(locations, outputFolderPath, sinceDate, untilDate, formats,
-                        isAutomaticallyLaunching, isStandaloneConfigIgnored);
+                        isAutomaticallyLaunching, isStandaloneConfigIgnored, zoneId);
             }
 
             if (configFolderPath.equals(EMPTY_PATH)) {
                 logger.info(MESSAGE_USING_DEFAULT_CONFIG_PATH);
             }
-            return new ConfigCliArguments(
-                    configFolderPath, outputFolderPath, sinceDate, untilDate, formats, isAutomaticallyLaunching);
+            return new ConfigCliArguments(configFolderPath, outputFolderPath, sinceDate, untilDate, formats,
+                    isAutomaticallyLaunching, zoneId);
         } catch (HelpScreenException hse) {
             throw hse;
-        }
-        catch (ArgumentParserException ape) {
+        } catch (ArgumentParserException ape) {
             throw new ParseException(getArgumentParser().formatUsage() + ape.getMessage() + "\n");
         }
     }

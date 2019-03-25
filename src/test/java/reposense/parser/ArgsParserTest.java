@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.time.ZoneId;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
@@ -49,6 +50,8 @@ public class ArgsParserTest {
     private static final String TEST_REPO_CHARLIE = "https://github.com/reposense/testrepo-Charlie.git";
     private static final String TEST_REPO_DELTA = "https://github.com/reposense/testrepo-Delta.git";
 
+    private static final String DEFAULT_TIMEZONE = "UTC+08";
+
     @Before
     public void before() {
         DEFAULT_INPUT_BUILDER.reset().addConfig(CONFIG_FOLDER_ABSOLUTE);
@@ -63,6 +66,7 @@ public class ArgsParserTest {
                 .addFormats("java adoc html css js")
                 .addIgnoreStandaloneConfig()
                 .addView()
+                .addTimezone(DEFAULT_TIMEZONE)
                 .build();
         CliArguments cliArguments = ArgsParser.parse(translateCommandline(input));
         Assert.assertTrue(cliArguments instanceof ConfigCliArguments);
@@ -83,6 +87,8 @@ public class ArgsParserTest {
         Assert.assertEquals(expectedFormats, cliArguments.getFormats());
 
         Assert.assertTrue(cliArguments.isAutomaticallyLaunching());
+
+        Assert.assertEquals(ZoneId.of(DEFAULT_TIMEZONE), cliArguments.getZoneId());
     }
 
     @Test(expected = HelpScreenException.class)
@@ -93,8 +99,8 @@ public class ArgsParserTest {
 
     @Test
     public void parse_allCorrectInputsAlias_success() throws ParseException, IOException, HelpScreenException {
-        String input = String.format("-c %s -o %s -s 01/07/2017 -u 30/11/2017 -f java adoc html css js -i -v",
-                CONFIG_FOLDER_ABSOLUTE, OUTPUT_DIRECTORY_ABSOLUTE);
+        String input = String.format("-c %s -o %s -s 01/07/2017 -u 30/11/2017 -f java adoc html css js -i -v -t %s",
+                CONFIG_FOLDER_ABSOLUTE, OUTPUT_DIRECTORY_ABSOLUTE, DEFAULT_TIMEZONE);
         CliArguments cliArguments = ArgsParser.parse(translateCommandline(input));
         Assert.assertTrue(cliArguments instanceof ConfigCliArguments);
         Assert.assertTrue(Files.isSameFile(
@@ -114,6 +120,8 @@ public class ArgsParserTest {
         Assert.assertEquals(expectedFormats, cliArguments.getFormats());
 
         Assert.assertTrue(cliArguments.isAutomaticallyLaunching());
+
+        Assert.assertEquals(ZoneId.of(DEFAULT_TIMEZONE), cliArguments.getZoneId());
     }
 
     @Test
@@ -125,6 +133,7 @@ public class ArgsParserTest {
                 .addFormats("java   adoc  html      css js   ")
                 .addIgnoreStandaloneConfig().addWhiteSpace(1)
                 .addView().addWhiteSpace(4)
+                .addTimezone(DEFAULT_TIMEZONE).addWhiteSpace(5)
                 .build();
         CliArguments cliArguments = ArgsParser.parse(translateCommandline(input));
         Assert.assertTrue(cliArguments instanceof ConfigCliArguments);
@@ -145,6 +154,8 @@ public class ArgsParserTest {
         Assert.assertEquals(expectedFormats, cliArguments.getFormats());
 
         Assert.assertTrue(cliArguments.isAutomaticallyLaunching());
+
+        Assert.assertEquals(ZoneId.of(DEFAULT_TIMEZONE), cliArguments.getZoneId());
     }
 
     @Test
@@ -176,6 +187,7 @@ public class ArgsParserTest {
         Assert.assertEquals(ArgsParser.DEFAULT_REPORT_NAME, cliArguments.getOutputFilePath().getFileName().toString());
         Assert.assertEquals(Format.DEFAULT_FORMATS, cliArguments.getFormats());
         Assert.assertFalse(cliArguments.isAutomaticallyLaunching());
+        Assert.assertEquals(ZoneId.systemDefault(), cliArguments.getZoneId());
     }
 
     @Test
@@ -513,6 +525,41 @@ public class ArgsParserTest {
     @Test(expected = ParseException.class)
     public void parse_extraArgumentForIgnore_throwsParseException() throws ParseException, HelpScreenException {
         String input = DEFAULT_INPUT_BUILDER.addIgnoreStandaloneConfig().add("true").build();
+        ArgsParser.parse(translateCommandline(input));
+    }
+
+    @Test
+    public void parse_withTimezone_success() throws ParseException, HelpScreenException {
+        String zoneId = "UTC+11";
+        String input = DEFAULT_INPUT_BUILDER.addTimezone(zoneId).build();
+        CliArguments cliArguments = ArgsParser.parse(translateCommandline(input));
+
+        Assert.assertTrue(cliArguments instanceof ConfigCliArguments);
+        Assert.assertEquals(ZoneId.of(zoneId), cliArguments.getZoneId());
+
+        zoneId = "UTC-1030";
+        input = DEFAULT_INPUT_BUILDER.addTimezone(zoneId).build();
+        cliArguments = ArgsParser.parse(translateCommandline(input));
+
+        Assert.assertTrue(cliArguments instanceof ConfigCliArguments);
+        Assert.assertEquals(ZoneId.of(zoneId), cliArguments.getZoneId());
+
+        input = DEFAULT_INPUT_BUILDER.addTimezone("UTC+00").build();
+        cliArguments = ArgsParser.parse(translateCommandline(input));
+
+        Assert.assertTrue(cliArguments instanceof ConfigCliArguments);
+        Assert.assertEquals(ZoneId.of("UTC"), cliArguments.getZoneId());
+    }
+
+    @Test(expected = ParseException.class)
+    public void parse_incorrectTimezone_throwsParseException() throws ParseException, HelpScreenException {
+        String input = DEFAULT_INPUT_BUILDER.addTimezone("UTC+").build();
+        ArgsParser.parse(translateCommandline(input));
+    }
+
+    @Test(expected = ParseException.class)
+    public void parse_timezoneWithoutArgument_throwsParseException() throws ParseException, HelpScreenException {
+        String input = DEFAULT_INPUT_BUILDER.addTimezone("").build();
         ArgsParser.parse(translateCommandline(input));
     }
 }
