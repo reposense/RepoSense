@@ -46,5 +46,6 @@
       "branch": "nonExistentBranch",
       "displayName": "reposense_testrepo-Delta_nonExistentBranch"
     }
-  ]
+  ],
+  "reportTitle": "RepoSense Report"
 }
