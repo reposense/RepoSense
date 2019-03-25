@@ -22,8 +22,12 @@ public abstract class CsvParser<T> {
     private static final String ELEMENT_SEPARATOR = ",";
     private static final String OVERRIDE_KEYWORD = "override:";
     private static final String MESSAGE_UNABLE_TO_READ_CSV_FILE = "Unable to read the supplied CSV file.";
-    private static final String MESSAGE_MALFORMED_LINE_FORMAT = "Warning! line %d in configuration file is malformed.\n"
-            + "Contents: %s";
+    private static final String MESSAGE_MALFORMED_LINE_FORMAT = "Warning! line %d in CSV file, %s, is malformed.\n"
+            + "Content: %s";
+    private static final String MESSAGE_LINE_PARSE_EXCEPTION_FORMAT =
+            "Warning! Error parsing line %d in CSV file, %s.\n"
+            + "Content: %s\n"
+            + "Error: %s";
 
     private Path csvFilePath;
 
@@ -44,27 +48,28 @@ public abstract class CsvParser<T> {
      */
     public List<T> parse() throws IOException {
         List<T> results = new ArrayList<>();
-        int lineNumber = 1;
 
         try (BufferedReader br = new BufferedReader(new FileReader(csvFilePath.toFile()))) {
             // Skip first line, which is the header row
             br.readLine();
             String line;
 
-            while ((line = br.readLine()) != null) {
+            for (int lineNumber = 2; (line = br.readLine()) != null; lineNumber++) {
                 String[] elements = line.split(ELEMENT_SEPARATOR);
 
                 if (line.isEmpty() || isLineMalformed(elements, lineNumber, line)) {
                     continue;
                 }
 
-                processLine(results, elements);
-                lineNumber++;
+                try {
+                    processLine(results, elements);
+                } catch (ParseException pe) {
+                    logger.warning(String.format(MESSAGE_LINE_PARSE_EXCEPTION_FORMAT,
+                            lineNumber, csvFilePath.getFileName(), line, pe.getMessage()));
+                }
             }
         } catch (IOException ioe) {
             throw new IOException(MESSAGE_UNABLE_TO_READ_CSV_FILE, ioe);
-        } catch (ParseException pe) {
-            logger.log(Level.WARNING, pe.getMessage(), pe);
         } catch (IllegalArgumentException iae) {
             logger.log(Level.WARNING, iae.getMessage(), iae);
         }
@@ -75,7 +80,8 @@ public abstract class CsvParser<T> {
     private boolean isLineMalformed(final String[] elements, int lineNumber, String line) {
         for (int position : mandatoryPositions()) {
             if (!containsValueAtPosition(elements, position)) {
-                logger.warning(String.format(MESSAGE_MALFORMED_LINE_FORMAT, lineNumber, line));
+                logger.warning(String.format(MESSAGE_MALFORMED_LINE_FORMAT,
+                        lineNumber, csvFilePath.getFileName(), line));
                 return true;
             }
         }

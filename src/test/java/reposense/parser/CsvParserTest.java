@@ -41,6 +41,8 @@ public class CsvParserTest {
             .getResource("CsvParserTest/authorconfig_specialCharacter_test.csv").getFile()).toPath();
     private static final Path AUTHOR_CONFIG_MULTIPLE_EMAILS_FILE = new File(CsvParserTest.class.getClassLoader()
             .getResource("CsvParserTest/authorconfig_multipleEmails_test.csv").getFile()).toPath();
+    private static final Path AUTHOR_CONFIG_INVALID_LOCATION = new File(CsvParserTest.class.getClassLoader()
+            .getResource("CsvParserTest/authorconfig_invalidLocation_test.csv").getFile()).toPath();
     private static final Path MERGE_EMPTY_LOCATION_FOLDER = new File(CsvParserTest.class.getClassLoader()
             .getResource("CsvParserTest/repoconfig_merge_empty_location_test").getFile()).toPath();
 
@@ -144,7 +146,7 @@ public class CsvParserTest {
     }
 
     @Test
-    public void authorConfig_multipleEmails_success() throws IOException, InvalidLocationException {
+    public void authorConfig_multipleEmails_success() throws IOException {
         AuthorConfigCsvParser authorConfigCsvParser = new AuthorConfigCsvParser(AUTHOR_CONFIG_MULTIPLE_EMAILS_FILE);
         List<AuthorConfiguration> configs = authorConfigCsvParser.parse();
 
@@ -155,6 +157,18 @@ public class CsvParserTest {
         Author actualAuthor = config.getAuthorList().get(0);
         Assert.assertEquals(FIRST_AUTHOR_EMAIL_LIST.size(), actualAuthor.getEmails().size());
         Assert.assertTrue(actualAuthor.getEmails().containsAll(FIRST_AUTHOR_EMAIL_LIST));
+    }
+
+    @Test
+    public void authorConfig_invalidLocation_success() throws IOException {
+        AuthorConfigCsvParser authorConfigCsvParser = new AuthorConfigCsvParser(AUTHOR_CONFIG_INVALID_LOCATION);
+        List<AuthorConfiguration> configs = authorConfigCsvParser.parse();
+
+        Assert.assertEquals(1, configs.size());
+
+        AuthorConfiguration config = configs.get(0);
+
+        Assert.assertEquals(3, config.getAuthorList().size());
     }
 
     @Test
