@@ -133,6 +133,15 @@ public class InputBuilder {
     }
 
     /**
+     * Adds the timezone flag with the {@code zoneId} as argument to the input.
+     * This method should only be called once in one build.
+     */
+    public InputBuilder addTimezone(String zoneId) {
+        input.append(ArgsParser.TIMEZONE_FLAGS[0] + WHITESPACE + zoneId + WHITESPACE);
+        return this;
+    }
+
+    /**
      * Adds {@code content} to the input.
      */
     public InputBuilder add(String content) {
