@@ -40,7 +40,7 @@ script:
   - npm run lint frontend/src/**/*.js
   - npm run lint frontend/cypress/**.js
   - time travis_retry ./gradlew clean checkstyleMain checkstyleTest test systemTest
-  - ./gradlew run -Dargs="-V"
+  - git fetch --unshallow && ./gradlew run -Dargs="-V"
 
 before_install: &common_before_install
   - npm install --only=dev
