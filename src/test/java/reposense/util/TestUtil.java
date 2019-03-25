@@ -151,9 +151,9 @@ public class TestUtil {
         if (gitLogResult.isEmpty()) {
             return expectedNumberFilesChanged == 0;
         }
-        // 2nd line of each commit has info of the changed file
         String[] changesLogged = gitLogResult.split("\n");
         HashSet<String> filesChanged = new HashSet<>();
+        // Checks the 2nd line of each commit which contains info of the changed file
         for (int i = 1; i < changesLogged.length; i += 4) {
             String log = changesLogged[i];
             String fileChanged = log.split("\\| ")[0].trim();

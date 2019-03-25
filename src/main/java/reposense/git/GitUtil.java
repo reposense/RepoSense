@@ -115,8 +115,9 @@ class GitUtil {
         } else if (path.contains("*")) {
             // no directories
             return true;
-        } else if (path.startsWith("/")) {
+        } else if (path.startsWith("/") || path.startsWith("\\")) {
             // Ignore globs cannot start with a slash
+            logger.log(Level.WARNING, path + " cannot start with / or \\.");
             return false;
         }
 
@@ -132,7 +133,7 @@ class GitUtil {
             return false;
         }
 
-        logger.log(Level.WARNING, path + " will be skipped as this file is outside the repo.");
+        logger.log(Level.WARNING, path + " will be skipped as this glob points to outside the repository.");
         return false;
     }
 }

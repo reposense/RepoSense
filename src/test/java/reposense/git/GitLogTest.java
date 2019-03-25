@@ -124,6 +124,10 @@ public class GitLogTest extends GitTestTemplate {
         content = GitLog.getWithFiles(config, ignoreInvalidFileAuthor);
         Assert.assertTrue(TestUtil.compareNumberFilesChanged(6, content));
 
+        ignoreInvalidFileAuthor.setIgnoreGlobList(Collections.singletonList("\\collate"));
+        content = GitLog.getWithFiles(config, ignoreInvalidFileAuthor);
+        Assert.assertTrue(TestUtil.compareNumberFilesChanged(6, content));
+
         ignoreInvalidFileAuthor.setIgnoreGlobList(Collections.singletonList(".."));
         content = GitLog.getWithFiles(config, ignoreInvalidFileAuthor);
         Assert.assertTrue(TestUtil.compareNumberFilesChanged(6, content));
