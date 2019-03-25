@@ -39,7 +39,7 @@ public class FileInfoAnalyzer {
      * {@code config} contributed to the file in {@code fileInfo}.
      */
     public static FileResult analyzeFile(RepoConfiguration config, FileInfo fileInfo) {
-        logger.info("Analyzing file info from " + config.getLocation() + "...");
+        logger.info(String.format("Analyzing file info from %s (%s)...", config.getLocation(), config.getBranch()));
 
         String relativePath = fileInfo.getPath();
         if (isReused(config.getRepoRoot(), relativePath)) {

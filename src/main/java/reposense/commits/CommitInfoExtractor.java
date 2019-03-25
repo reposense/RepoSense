@@ -22,7 +22,7 @@ public class CommitInfoExtractor {
      * Extracts out and returns the raw information of each commit for the repo in {@code config}.
      */
     public static List<CommitInfo> extractCommitInfos(RepoConfiguration config) {
-        logger.info("Extracting commits info for " + config.getLocation() + "...");
+        logger.info(String.format("Extracting commits info for %s (%s)...", config.getLocation(), config.getBranch()));
 
         GitCheckout.checkoutBranch(config.getRepoRoot(), config.getBranch());
 
