@@ -20,6 +20,7 @@ import reposense.commits.model.CommitContributionSummary;
 import reposense.git.GitShortlog;
 import reposense.model.Author;
 import reposense.model.RepoConfiguration;
+import reposense.model.ReportConfiguration;
 import reposense.model.StandaloneConfig;
 import reposense.parser.StandaloneConfigJsonParser;
 import reposense.system.LogsManager;
@@ -42,13 +43,14 @@ public class ReportGenerator {
      * @throws IOException if templateZip.zip does not exists in jar file.
      */
     public static void generateReposReport(List<RepoConfiguration> configs, String outputPath,
-            String generationDate) throws IOException {
+            ReportConfiguration reportConfig, String generationDate) throws IOException {
         InputStream is = RepoSense.class.getResourceAsStream(TEMPLATE_FILE);
         FileUtil.copyTemplate(is, outputPath);
 
         cloneAndAnalyzeRepos(configs, outputPath);
 
-        FileUtil.writeJsonFile(new SummaryReportJson(configs, generationDate), getSummaryResultPath(outputPath));
+        FileUtil.writeJsonFile(
+                new SummaryReportJson(configs, reportConfig, generationDate), getSummaryResultPath(outputPath));
         logger.info("The report is generated at " + outputPath);
     }
 

@@ -9,6 +9,7 @@ import java.util.Optional;
 
 import reposense.parser.AuthorConfigCsvParser;
 import reposense.parser.RepoConfigCsvParser;
+import reposense.parser.ReportConfigJsonParser;
 
 /**
  * Represents command line arguments user supplied when running the program with mandatory field -config.
@@ -19,6 +20,7 @@ public class ConfigCliArguments extends CliArguments {
     private Path configFolderPath;
     private Path repoConfigFilePath;
     private Path authorConfigFilePath;
+    private Path reportConfigFilePath;
 
     public ConfigCliArguments(Path configFolderPath, Path outputFilePath, Optional<Date> sinceDate,
             Optional<Date> untilDate, List<Format> formats, boolean isAutomaticallyLaunching, ZoneId zoneId) {
@@ -27,6 +29,7 @@ public class ConfigCliArguments extends CliArguments {
                 : configFolderPath;
         this.repoConfigFilePath = configFolderPath.resolve(RepoConfigCsvParser.REPO_CONFIG_FILENAME);
         this.authorConfigFilePath = configFolderPath.resolve(AuthorConfigCsvParser.AUTHOR_CONFIG_FILENAME);
+        this.reportConfigFilePath = configFolderPath.resolve(ReportConfigJsonParser.REPORT_CONFIG_FILENAME);
         this.outputFilePath = outputFilePath;
         this.sinceDate = sinceDate;
         this.untilDate = untilDate;
@@ -47,6 +50,10 @@ public class ConfigCliArguments extends CliArguments {
         return authorConfigFilePath;
     }
 
+    public Path getReportConfigFilePath() {
+        return reportConfigFilePath;
+    }
+
     public boolean equals(Object other) {
         // short circuit if same object
         if (this == other) {
@@ -62,6 +69,7 @@ public class ConfigCliArguments extends CliArguments {
 
         return super.equals(other)
                 && this.repoConfigFilePath.equals(otherConfigCliArguments.repoConfigFilePath)
-                && this.authorConfigFilePath.equals(otherConfigCliArguments.authorConfigFilePath);
+                && this.authorConfigFilePath.equals(otherConfigCliArguments.authorConfigFilePath)
+                && this.reportConfigFilePath.equals(otherConfigCliArguments.reportConfigFilePath);
     }
 }
