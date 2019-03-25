@@ -62,18 +62,18 @@ public class ReportGenerator {
      */
     private static Map<RepoLocation, List<RepoConfiguration>> groupConfigsByRepoLocation(
             List<RepoConfiguration> configs) {
-        Map<RepoLocation, List<RepoConfiguration>> repoLocationToBranch = new HashMap<>();
+        Map<RepoLocation, List<RepoConfiguration>> repoLocationMap = new HashMap<>();
         for (RepoConfiguration config : configs) {
             RepoLocation location = config.getLocation();
-            if (repoLocationToBranch.containsKey(location)) {
-                repoLocationToBranch.get(location).add(config);
+            if (repoLocationMap.containsKey(location)) {
+                repoLocationMap.get(location).add(config);
             } else {
                 List<RepoConfiguration> configsList = new ArrayList<>();
                 configsList.add(config);
-                repoLocationToBranch.put(location, configsList);
+                repoLocationMap.put(location, configsList);
             }
         }
-        return repoLocationToBranch;
+        return repoLocationMap;
     }
 
     /**
