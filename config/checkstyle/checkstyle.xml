@@ -162,7 +162,6 @@
 
     <module name="LeftCurly">
       <!-- Checks for placement of the left curly brace ('{'). -->
-      <property name="severity" value="warning"/>
     </module>
 
     <module name="RightCurly">
