@@ -550,7 +550,4 @@ window.vSummary = {
   components: {
     v_ramp: window.vRamp,
   },
-  components: {
-    v_ramp: window.vRamp,
-  },
 };
