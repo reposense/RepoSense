@@ -104,10 +104,17 @@ public class ReportGenerator {
      */
     private static void analyzeRepos(
             String outputPath, List<RepoConfiguration> configs, RepoCloner repoCloner) throws IOException {
+
         for (RepoConfiguration config : configs) {
-            if (repoCloner.prepareToAnalyze(outputPath, config)) {
-                analyzeRepo(outputPath, config);
+            try {
+                repoCloner.updateAndCheckoutBranch(config);
+            } catch (RuntimeException e) {
+                logger.log(Level.SEVERE, "Branch does not exist! Analysis terminated.", e);
+                Path repoReportDirectory = Paths.get(outputPath, config.getDisplayName());
+                FileUtil.createDirectory(repoReportDirectory);
+                generateEmptyRepoReport(repoReportDirectory.toString());
             }
+            analyzeRepo(outputPath, config);
         }
     }
 

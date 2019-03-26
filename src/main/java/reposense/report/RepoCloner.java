@@ -67,17 +67,9 @@ public class RepoCloner {
     /**
      * Prepares repo specified by {@code config} to be analyzed by updating and checking out its branch.
      */
-    public boolean prepareToAnalyze(String outputPath, RepoConfiguration config) throws IOException {
+    public void updateAndCheckoutBranch(RepoConfiguration config) {
         config.updateBranch(currentRepoDefaultBranch);
-
-        try {
-            GitCheckout.checkout(config.getRepoRoot(), config.getBranch());
-            return true;
-        } catch (RuntimeException e) {
-            logger.log(Level.SEVERE, "Branch does not exist! Analysis terminated.", e);
-            handleCloningFailed(outputPath, config);
-        }
-        return false;
+        GitCheckout.checkout(config.getRepoRoot(), config.getBranch());
     }
 
     /**
