@@ -1,4 +1,4 @@
-package reposense.parser;
+package reposense.model;
 
 import static org.apache.tools.ant.types.Commandline.translateCommandline;
 
@@ -19,14 +19,12 @@ import net.sourceforge.argparse4j.helper.HelpScreenException;
 import reposense.RepoSense;
 import reposense.git.GitClone;
 import reposense.git.exception.GitCloneException;
-import reposense.model.Author;
-import reposense.model.AuthorConfiguration;
-import reposense.model.CliArguments;
-import reposense.model.ConfigCliArguments;
-import reposense.model.Format;
-import reposense.model.LocationsCliArguments;
-import reposense.model.RepoConfiguration;
-import reposense.model.RepoLocation;
+import reposense.parser.ArgsParser;
+import reposense.parser.AuthorConfigCsvParser;
+import reposense.parser.CsvParserTest;
+import reposense.parser.InvalidLocationException;
+import reposense.parser.ParseException;
+import reposense.parser.RepoConfigCsvParser;
 import reposense.report.ReportGenerator;
 import reposense.util.FileUtil;
 import reposense.util.InputBuilder;
