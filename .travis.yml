@@ -39,7 +39,7 @@ script:
   - ./config/travis/run-checks.sh
   - npm run lint frontend/src/**/*.js
   - npm run lint frontend/cypress/**.js
-  - time travis_retry ./gradlew clean checkstyleMain checkstyleTest test systemTest
+  - time travis_retry ./gradlew clean checkstyleMain checkstyleTest test systemTest coverage
 
 before_install: &common_before_install
   - npm install --only=dev
@@ -58,3 +58,6 @@ cache:
     - $HOME/.gradle/wrapper/
     - $HOME/Library/Caches/Homebrew
     - $HOME/.cache
+
+after_success:
+  - bash <(curl -s https://codecov.io/bash)
