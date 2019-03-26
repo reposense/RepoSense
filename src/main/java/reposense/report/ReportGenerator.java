@@ -113,6 +113,7 @@ public class ReportGenerator {
                 Path repoReportDirectory = Paths.get(outputPath, config.getDisplayName());
                 FileUtil.createDirectory(repoReportDirectory);
                 generateEmptyRepoReport(repoReportDirectory.toString());
+                return;
             }
             analyzeRepo(outputPath, config);
         }
