@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.logging.ConsoleHandler;
 import java.util.logging.FileHandler;
 import java.util.logging.Handler;
@@ -15,18 +16,21 @@ import java.util.logging.SimpleFormatter;
  * Configures and manages the loggers and handlers, including their levels
  */
 public class LogsManager {
+    public static final String DEFAULT_LOG_FOLER_LACATION = "./";
 
     // Whenever the log file size exceeds {@code MAX_FILE_SIZE_IN_BYTES} it rolls over to another file
     // The maximum number of files to store the logs is {@code FILE_COUNT}
     private static final int FILE_COUNT = 2;
     private static final int MEGABYTE = (1 << 20);
-    private static final int MAX_FILE_SIZE_IN_BYTES = 5 * MEGABYTE; // 5MB
+    private static final int MAX_FILE_SIZE_IN_BYTES = 5 * MEGABYTE;
+    private static final ArrayList<Logger> LOGGER_LIST = new ArrayList<>();
 
     // All the log files will be store with a .log extension
     // eg. reposense.log.0, in the logs/ folder of the working directory
-    private static final String LOG_FILE_LOCATION = "./logs/";
-    private static final String LOG_FILE = LOG_FILE_LOCATION + "reposense.log";
+    private static final String LOG_FOLDER_NAME = "reposense-report/logs";
+    private static final String LOG_FILE_NAME = "reposense.log";
 
+    private static String logFolderLocation = "./";
     private static Level currentConsoleLogLevel = Level.INFO;
     private static Level currentFileLogLevel = Level.INFO;
     private static FileHandler fileHandler;
@@ -34,11 +38,11 @@ public class LogsManager {
 
     public static Logger getLogger(String name) {
         Logger logger = Logger.getLogger(name);
+        LOGGER_LIST.add(logger);
         logger.setUseParentHandlers(false);
 
         removeHandlers(logger);
         addConsoleHandler(logger);
-        addFileHandler(logger);
 
         return logger;
     }
@@ -79,7 +83,7 @@ public class LogsManager {
      * Creates File Handler if it is null.
      */
     private static void addFileHandler(Logger logger) {
-        Path path = Paths.get(LOG_FILE_LOCATION);
+        Path path = Paths.get(logFolderLocation).resolve(LOG_FOLDER_NAME);
 
         try {
             if (!Files.exists(path)) {
@@ -102,7 +106,8 @@ public class LogsManager {
      * @throws IOException if there are problems opening the file.
      */
     private static FileHandler createFileHandler() throws IOException {
-        FileHandler fileHandler = new FileHandler(LOG_FILE, MAX_FILE_SIZE_IN_BYTES, FILE_COUNT, true);
+        Path path = Paths.get(logFolderLocation).resolve(LOG_FOLDER_NAME).resolve(LOG_FILE_NAME);
+        FileHandler fileHandler = new FileHandler(path.toString(), MAX_FILE_SIZE_IN_BYTES, FILE_COUNT, true);
         fileHandler.setFormatter(new SimpleFormatter());
         fileHandler.setLevel(currentFileLogLevel);
         return fileHandler;
@@ -113,6 +118,14 @@ public class LogsManager {
         consoleHandler.setLevel(currentConsoleLogLevel);
         consoleHandler.setFormatter(new CustomLogFormatter());
         return consoleHandler;
+    }
+
+    /** Set the {@code logFolderLocation } and add fileHandler
+     *  to all the {@code Logger} in {@code LOGGER_LIST}
+     */
+    public static void setLogFolderLocation(String location) {
+        logFolderLocation = location;
+        LOGGER_LIST.stream().forEach(logger -> addFileHandler(logger));
     }
 
     public static void setConsoleHandlerLevel(Level level) {

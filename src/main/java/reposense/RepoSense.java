@@ -33,6 +33,7 @@ public class RepoSense {
 
     public static void main(String[] args) {
         try {
+            LogsManager.setLogFolderLocation("./");
             CliArguments cliArguments = ArgsParser.parse(args);
             List<RepoConfiguration> configs = null;
 
