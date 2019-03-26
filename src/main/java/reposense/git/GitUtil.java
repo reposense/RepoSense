@@ -109,16 +109,16 @@ class GitUtil {
     private static boolean isValidPath(File repoRoot, String path) {
         String validPath = path;
         FileSystem fileSystem = FileSystems.getDefault();
-        if (path.contains("/*")) {
+        if (path.startsWith("/") || path.startsWith("\\")) {
+            // Ignore globs cannot start with a slash
+            logger.log(Level.WARNING, path + " cannot start with / or \\.");
+            return false;
+        } else if (path.contains("/*") || path.contains("\\*")) {
             // contains directories
             validPath = path.substring(0, path.indexOf("/*"));
         } else if (path.contains("*")) {
             // no directories
             return true;
-        } else if (path.startsWith("/") || path.startsWith("\\")) {
-            // Ignore globs cannot start with a slash
-            logger.log(Level.WARNING, path + " cannot start with / or \\.");
-            return false;
         }
 
         try {
