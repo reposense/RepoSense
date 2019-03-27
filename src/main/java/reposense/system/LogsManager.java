@@ -15,6 +15,7 @@ import java.util.logging.SimpleFormatter;
  * Configures and manages the loggers and handlers, including their levels
  */
 public class LogsManager {
+
     // Whenever the log file size exceeds {@code MAX_FILE_SIZE_IN_BYTES} it rolls over to another file
     // The maximum number of files to store the logs is {@code FILE_COUNT}
     private static final int FILE_COUNT = 2;
