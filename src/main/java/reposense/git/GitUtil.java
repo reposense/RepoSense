@@ -22,13 +22,7 @@ class GitUtil {
     private static final String AUTHOR_NAME_PATTERN = "^%s <.*>$";
 
     // ignore check against author name
-    private static final String AUTHOR_EMAIL_PATTERN = "^.* <%s>$";
-
-    // capture prefix and + operator
-    private static final String EMAIL_PREFIX_REGEX_GROUP = "\\(.*+\\)\\?";
-
-    // capture + operator and suffix
-    private static final String EMAIL_SUFFIX_REGEX_GROUP = "\\(+.*\\)\\?";
+    private static final String AUTHOR_EMAIL_PATTERN = "^.* <\\(.*+\\)\\?%s>$";
 
     private static final String OR_OPERATOR_PATTERN = "\\|";
 
@@ -60,26 +54,14 @@ class GitUtil {
                         StringsUtil.replaceSpecialSymbols(authorAlias, ".")) + OR_OPERATOR_PATTERN)
                 .forEach(filterAuthorArgsBuilder::append);
         author.getEmails().stream()
-                .map(email -> String.format(AUTHOR_EMAIL_PATTERN, convertToEmailRegex(email)) + OR_OPERATOR_PATTERN)
+                .map(email -> String.format(AUTHOR_EMAIL_PATTERN,
+                        StringsUtil.replaceSpecialSymbols(email, ".")) + OR_OPERATOR_PATTERN)
                 .forEach(filterAuthorArgsBuilder::append);
 
         filterAuthorArgsBuilder.append(
                 String.format(AUTHOR_NAME_PATTERN,
                         StringsUtil.replaceSpecialSymbols(author.getGitId(), "."))).append("\"");
         return filterAuthorArgsBuilder.toString();
-    }
-
-    /**
-     * Converts email to regex, adding optional regex groups for better matching.
-     */
-    private static String convertToEmailRegex(String email) {
-        String[] emails = email.split("@");
-        String authorEmailRegex = EMAIL_PREFIX_REGEX_GROUP;
-        authorEmailRegex += StringsUtil.replaceSpecialSymbols(emails[0], ".");
-        authorEmailRegex += EMAIL_SUFFIX_REGEX_GROUP;
-        authorEmailRegex += ".";
-        authorEmailRegex += StringsUtil.replaceSpecialSymbols(emails[1], ".");
-        return authorEmailRegex;
     }
 
     /**

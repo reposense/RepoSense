@@ -101,7 +101,7 @@ public class FileAnalyzerTest extends GitTestTemplate {
 
     @Test
     public void analyzeFile_emailWithAdditionOperator_success() {
-        config.setBranch("email-with-addition-operator");
+        config.setBranch("PR-617_FileAnalyzerTest_analyzeFile_emailWithAdditionOperator_success");
         GitCheckout.checkoutBranch(config.getRepoRoot(), config.getBranch());
         Author author = new Author(MINGYI_AUTHOR_NAME);
         config.setAuthorList(Collections.singletonList(author));

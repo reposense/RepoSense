@@ -206,9 +206,8 @@ public class AuthorConfiguration {
         Matcher matcher = EMAIL_PLUS_OPERATOR_PATTERN.matcher(email);
 
         if (matcher.matches()) {
-            return authorEmailsAndAliasesMap.getOrDefault(matcher.group("prefix") + matcher.group("domain"),
-                    authorEmailsAndAliasesMap.getOrDefault(matcher.group("suffix") + matcher.group("domain"),
-                            Author.UNKNOWN_AUTHOR));
+            return authorEmailsAndAliasesMap.getOrDefault(matcher.group("suffix") + matcher.group("domain"),
+                    Author.UNKNOWN_AUTHOR);
         }
         return authorEmailsAndAliasesMap.getOrDefault(email, Author.UNKNOWN_AUTHOR);
     }

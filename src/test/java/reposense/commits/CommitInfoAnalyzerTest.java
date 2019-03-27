@@ -17,7 +17,7 @@ import reposense.template.GitTestTemplate;
 
 public class CommitInfoAnalyzerTest extends GitTestTemplate {
     private static final int NUMBER_EUGENE_COMMIT = 1;
-    private static final int NUMBER_MINGYI_COMMIT = 2;
+    private static final int NUMBER_MINGYI_COMMIT = 1;
     private static final int NUMBER_EMPTY_MESSAGE_COMMIT = 1;
 
     @Before
@@ -109,7 +109,7 @@ public class CommitInfoAnalyzerTest extends GitTestTemplate {
 
     @Test
     public void analyzeCommits_emailWithAdditionOperator_success() {
-        config.setBranch("email-with-addition-operator");
+        config.setBranch("PR-617_FileAnalyzerTest_analyzeFile_emailWithAdditionOperator_success");
         Author author = new Author(MINGYI_AUTHOR_NAME);
         config.setAuthorList(Collections.singletonList(author));
 

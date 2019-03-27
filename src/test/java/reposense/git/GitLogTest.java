@@ -105,12 +105,12 @@ public class GitLogTest extends GitTestTemplate {
 
     @Test
     public void gitLog_emailWithAdditionOperator_success() {
-        config.setBranch("email-with-addition-operator");
+        config.setBranch("PR-617_FileAnalyzerTest_analyzeFile_emailWithAdditionOperator_success");
         GitCheckout.checkoutBranch(config.getRepoRoot(), config.getBranch());
         Author author = new Author(MINGYI_AUTHOR_NAME);
         config.setAuthorList(Collections.singletonList(author));
 
         String content = GitLog.get(config, author);
-        Assert.assertTrue(TestUtil.compareNumberExpectedCommitsToGitLogLines(2, content));
+        Assert.assertTrue(TestUtil.compareNumberExpectedCommitsToGitLogLines(1, content));
     }
 }
