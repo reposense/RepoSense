@@ -46,8 +46,8 @@ window.vSummary = {
       filterSearch: '',
       filterSortReverse: false,
       filterGroupSelection: 'groupByRepos',
-      sortGroupSelection: 'searchPathAsc',
-      sortWithinGroupSelection: 'nameAsc',
+      sortGroupSelection: 'searchPath asc',
+      sortWithinGroupSelection: 'name asc',
       filterTimeFrame: 'day',
       filterBreakdown: false,
       tmpFilterSinceDate: '',
@@ -129,6 +129,18 @@ window.vSummary = {
     },
     filteredRepos() {
       return this.filtered.filter((repo) => repo.length > 0);
+    },
+    sortingOption() {
+      return this.sortGroupSelection.split(' ')[0];
+    },
+    isSortingDsc() {
+      return this.sortGroupSelection.split(' ')[1] === 'dsc';
+    },
+    sortingWithinOption() {
+      return this.sortWithinGroupSelection.split(' ')[0];
+    },
+    isSortingWithinDsc() {
+      return this.sortWithinGroupSelection.split(' ')[1] === 'dsc';
     },
   },
   methods: {
@@ -466,23 +478,15 @@ window.vSummary = {
     },
     sortFiltered() {
       let full = [];
-      const isSortingDesc = this.sortGroupSelection
-          .substring(this.sortGroupSelection.length - 3).toLowerCase() === 'dsc';
-      const sortingOption = this.sortGroupSelection
-          .substring(0, this.sortGroupSelection.length - 3);
-      const isSortingWithinDesc = this.sortWithinGroupSelection
-          .substring(this.sortWithinGroupSelection.length - 3).toLowerCase() === 'dsc';
-      const sortingWithinOption = this.sortWithinGroupSelection
-          .substring(0, this.sortWithinGroupSelection.length - 3);
       if (this.filterGroupSelection === 'groupByNone') {
         // push all repos into the same group
-        full[0] = this.groupByNone(this.filtered, sortingOption, isSortingDesc);
+        full[0] = this.groupByNone(this.filtered, this.sortingOption, this.isSortingDsc);
       } else if (this.filterGroupSelection === 'groupByAuthors') {
-        full = this.groupByAuthors(this.filtered, sortingOption,
-            isSortingDesc, sortingWithinOption, isSortingWithinDesc);
+        full = this.groupByAuthors(this.filtered, this.sortingOption,
+            this.isSortingDsc, this.sortingWithinOption, this.isSortingWithinDsc);
       } else {
-        full = this.groupByRepos(this.filtered, sortingOption, isSortingDesc,
-            sortingWithinOption, isSortingWithinDesc);
+        full = this.groupByRepos(this.filtered, this.sortingOption, this.isSortingDsc,
+            this.sortingWithinOption, this.isSortingWithinDsc);
       }
 
       if (this.filterSortReverse) {
