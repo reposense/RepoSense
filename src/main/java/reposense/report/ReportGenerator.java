@@ -20,6 +20,7 @@ import reposense.authorship.AuthorshipReporter;
 import reposense.authorship.model.AuthorshipSummary;
 import reposense.commits.CommitsReporter;
 import reposense.commits.model.CommitContributionSummary;
+import reposense.git.GitCheckout;
 import reposense.git.GitShortlog;
 import reposense.model.Author;
 import reposense.model.RepoConfiguration;
@@ -87,12 +88,13 @@ public class ReportGenerator {
             repoCloner.clone(outputPath, repoLocationMap.get(location).get(0));
 
             if (clonedRepoLocation != null) {
-                analyzeRepos(outputPath, repoLocationMap.get(clonedRepoLocation), repoCloner);
+                analyzeRepos(outputPath, repoLocationMap.get(clonedRepoLocation),
+                        repoCloner.getCurrentRepoDefaultBranch());
             }
             clonedRepoLocation = repoCloner.getClonedRepoLocation(outputPath);
         }
         if (clonedRepoLocation != null) {
-            analyzeRepos(outputPath, repoLocationMap.get(clonedRepoLocation), repoCloner);
+            analyzeRepos(outputPath, repoLocationMap.get(clonedRepoLocation), repoCloner.getCurrentRepoDefaultBranch());
         }
         repoCloner.cleanup();
     }
@@ -100,46 +102,45 @@ public class ReportGenerator {
     /**
      * Analyzes all repos in {@code configs} and generates their report.
      */
-    private static void analyzeRepos(
-            String outputPath, List<RepoConfiguration> configs, RepoCloner repoCloner) throws IOException {
-
+    private static void analyzeRepos(String outputPath, List<RepoConfiguration> configs, String defaultBranch) {
         for (RepoConfiguration config : configs) {
+            config.updateBranch(defaultBranch);
+
+            Path repoReportDirectory;
             try {
-                repoCloner.updateAndCheckoutBranch(config);
+                repoReportDirectory = Paths.get(outputPath, config.getDisplayName());
+                FileUtil.createDirectory(repoReportDirectory);
+            } catch (IOException ioe) {
+                logger.log(Level.WARNING,
+                        "Error has occurred while creating repo directory, will skip this repo.", ioe);
+                continue;
+            } catch (RuntimeException rte) {
+                logger.log(Level.SEVERE, "Error has occurred during analysis, will skip this repo.", rte);
+                continue;
+            }
+
+            try {
+                GitCheckout.checkout(config.getRepoRoot(), config.getBranch());
             } catch (RuntimeException e) {
                 logger.log(Level.SEVERE, "Branch does not exist! Analysis terminated.", e);
-                Path repoReportDirectory = Paths.get(outputPath, config.getDisplayName());
-                FileUtil.createDirectory(repoReportDirectory);
                 generateEmptyRepoReport(repoReportDirectory.toString());
-                return;
+                continue;
             }
-            analyzeRepo(outputPath, config);
+            analyzeRepo(config, repoReportDirectory.toString());
         }
     }
 
     /**
      * Analyzes repo specified by {@code config} and generates the report.
      */
-    private static void analyzeRepo(String outputPath, RepoConfiguration config) {
-        Path repoReportDirectory;
-        try {
-            repoReportDirectory = Paths.get(outputPath, config.getDisplayName());
-            FileUtil.createDirectory(repoReportDirectory);
-        } catch (IOException ioe) {
-            logger.log(Level.WARNING,
-                    "Error has occurred while creating repo directory, will skip this repo.", ioe);
-            return;
-        } catch (RuntimeException rte) {
-            logger.log(Level.SEVERE, "Error has occurred during analysis, will skip this repo.", rte);
-            return;
-        }
+    private static void analyzeRepo(RepoConfiguration config, String repoReportDirectory) {
         // preprocess the config and repo
         updateRepoConfig(config);
         updateAuthorList(config);
 
         CommitContributionSummary commitSummary = CommitsReporter.generateCommitSummary(config);
         AuthorshipSummary authorshipSummary = AuthorshipReporter.generateAuthorshipSummary(config);
-        generateIndividualRepoReport(commitSummary, authorshipSummary, repoReportDirectory.toString());
+        generateIndividualRepoReport(commitSummary, authorshipSummary, repoReportDirectory);
     }
 
     /**

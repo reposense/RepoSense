@@ -65,14 +65,6 @@ public class RepoCloner {
     }
 
     /**
-     * Prepares repo specified by {@code config} to be analyzed by updating and checking out its branch.
-     */
-    public void updateAndCheckoutBranch(RepoConfiguration config) {
-        config.updateBranch(currentRepoDefaultBranch);
-        GitCheckout.checkout(config.getRepoRoot(), config.getBranch());
-    }
-
-    /**
      * Cleans up after all repos have been cloned and analyzed.
      */
     public void cleanup() {
@@ -141,5 +133,9 @@ public class RepoCloner {
         } catch (IOException ioe) {
             logger.log(Level.WARNING, "Error deleting report directory.", ioe);
         }
+    }
+
+    public String getCurrentRepoDefaultBranch() {
+        return currentRepoDefaultBranch;
     }
 }
