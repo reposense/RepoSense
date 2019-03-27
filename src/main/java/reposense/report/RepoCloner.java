@@ -76,7 +76,7 @@ public class RepoCloner {
             GitCheckout.checkout(configs[currentIndex].getRepoRoot(), configs[currentIndex].getBranch());
         } catch (RuntimeException e) {
             logger.log(Level.SEVERE, String.format(MESSAGE_BRANCH_DOES_NOT_EXIST,
-                    configs[currentIndex].getLocation(), configs[currentIndex].getBranch()), e);
+                    configs[currentIndex].getBranch(), configs[currentIndex].getLocation()), e);
             handleCloningFailed(outputPath, configs[currentIndex]);
             return null;
         }
