@@ -3,7 +3,6 @@ package reposense.system;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.logging.ConsoleHandler;
 import java.util.logging.FileHandler;
@@ -16,8 +15,6 @@ import java.util.logging.SimpleFormatter;
  * Configures and manages the loggers and handlers, including their levels
  */
 public class LogsManager {
-    public static final String DEFAULT_LOG_FOLER_LACATION = "./";
-
     // Whenever the log file size exceeds {@code MAX_FILE_SIZE_IN_BYTES} it rolls over to another file
     // The maximum number of files to store the logs is {@code FILE_COUNT}
     private static final int FILE_COUNT = 2;
@@ -27,10 +24,10 @@ public class LogsManager {
 
     // All the log files will be store with a .log extension
     // eg. reposense.log.0, in the logs/ folder of the working directory
-    private static final String LOG_FOLDER_NAME = "reposense-report/logs";
+    private static final String LOG_FOLDER_NAME = "logs";
     private static final String LOG_FILE_NAME = "reposense.log";
 
-    private static String logFolderLocation = "./";
+    private static Path logFolderLocation;
     private static Level currentConsoleLogLevel = Level.INFO;
     private static Level currentFileLogLevel = Level.INFO;
     private static FileHandler fileHandler;
@@ -43,6 +40,10 @@ public class LogsManager {
 
         removeHandlers(logger);
         addConsoleHandler(logger);
+
+        if (logFolderLocation != null) {
+            addFileHandler(logger);
+        }
 
         return logger;
     }
@@ -83,7 +84,7 @@ public class LogsManager {
      * Creates File Handler if it is null.
      */
     private static void addFileHandler(Logger logger) {
-        Path path = Paths.get(logFolderLocation).resolve(LOG_FOLDER_NAME);
+        Path path = logFolderLocation.resolve(LOG_FOLDER_NAME);
 
         try {
             if (!Files.exists(path)) {
@@ -106,7 +107,7 @@ public class LogsManager {
      * @throws IOException if there are problems opening the file.
      */
     private static FileHandler createFileHandler() throws IOException {
-        Path path = Paths.get(logFolderLocation).resolve(LOG_FOLDER_NAME).resolve(LOG_FILE_NAME);
+        Path path = logFolderLocation.resolve(LOG_FOLDER_NAME).resolve(LOG_FILE_NAME);
         FileHandler fileHandler = new FileHandler(path.toString(), MAX_FILE_SIZE_IN_BYTES, FILE_COUNT, true);
         fileHandler.setFormatter(new SimpleFormatter());
         fileHandler.setLevel(currentFileLogLevel);
@@ -123,7 +124,7 @@ public class LogsManager {
     /** Set the {@code logFolderLocation } and add fileHandler
      *  to all the {@code Logger} in {@code LOGGER_LIST}
      */
-    public static void setLogFolderLocation(String location) {
+    public static void setLogFolderLocation(Path location) {
         logFolderLocation = location;
         LOGGER_LIST.stream().forEach(logger -> addFileHandler(logger));
     }
