@@ -19,7 +19,7 @@ public class LogsManager {
     // The maximum number of files to store the logs is {@code FILE_COUNT}
     private static final int FILE_COUNT = 2;
     private static final int MEGABYTE = (1 << 20);
-    private static final int MAX_FILE_SIZE_IN_BYTES = 5 * MEGABYTE;
+    private static final int MAX_FILE_SIZE_IN_BYTES = 5 * MEGABYTE; // 5MB
     private static final ArrayList<Logger> LOGGER_LIST = new ArrayList<>();
 
     // All the log files will be store with a .log extension
