@@ -457,20 +457,18 @@ window.vSummary = {
     },
     updateSortSelection() {
       if (this.filterGroupSelection === 'groupByAuthors') {
-        if (!this.sortWithinGroupSelection || this.sortWithinGroupSelection === 'nameAsc'
-          || this.sortWithinGroupSelection === 'nameDsc') {
-          this.sortWithinGroupSelection = 'searchPathAsc';
+        if (!this.sortWithinGroupSelection || this.sortingWithinOption === 'name') {
+          this.sortWithinGroupSelection = 'searchPath asc';
         }
-        if (this.sortGroupSelection === 'searchPathAsc' || this.sortGroupSelection === 'searchPathDsc') {
-          this.sortGroupSelection = 'nameAsc';
+        if (this.sortingOption !== 'name') {
+          this.sortGroupSelection = 'name asc';
         }
       } else if (this.filterGroupSelection === 'groupByRepos') {
-        if (!this.sortWithinGroupSelection || this.sortWithinGroupSelection === 'searchPathAsc'
-          || this.sortWithinGroupSelection === 'searchPathDsc') {
-          this.sortWithinGroupSelection = 'nameAsc';
+        if (!this.sortWithinGroupSelection || this.sortingWithinOption === 'searchPath') {
+          this.sortWithinGroupSelection = 'name asc';
         }
-        if (this.sortGroupSelection === 'nameAsc' || this.sortGroupSelection === 'nameDsc') {
-          this.sortGroupSelection = 'searchPathAsc';
+        if (this.sortingOption !== 'searchPath') {
+          this.sortGroupSelection = 'searchPath asc';
         }
       } else if (this.filterGroupSelection === 'groupByNone') {
         this.sortWithinGroupSelection = '';
