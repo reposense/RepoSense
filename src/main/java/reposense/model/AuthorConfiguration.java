@@ -203,12 +203,15 @@ public class AuthorConfiguration {
         if (authorEmailsAndAliasesMap.containsKey(name)) {
             return authorEmailsAndAliasesMap.get(name);
         }
+        if (authorEmailsAndAliasesMap.containsKey(email)) {
+            return authorEmailsAndAliasesMap.get(email);
+        }
         Matcher matcher = EMAIL_PLUS_OPERATOR_PATTERN.matcher(email);
 
         if (matcher.matches()) {
             return authorEmailsAndAliasesMap.getOrDefault(matcher.group("suffix") + matcher.group("domain"),
                     Author.UNKNOWN_AUTHOR);
         }
-        return authorEmailsAndAliasesMap.getOrDefault(email, Author.UNKNOWN_AUTHOR);
+        return Author.UNKNOWN_AUTHOR;
     }
 }
