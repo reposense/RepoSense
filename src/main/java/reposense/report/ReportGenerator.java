@@ -65,13 +65,11 @@ public class ReportGenerator {
         Map<RepoLocation, List<RepoConfiguration>> repoLocationMap = new HashMap<>();
         for (RepoConfiguration config : configs) {
             RepoLocation location = config.getLocation();
-            if (repoLocationMap.containsKey(location)) {
-                repoLocationMap.get(location).add(config);
-            } else {
-                List<RepoConfiguration> configsList = new ArrayList<>();
-                configsList.add(config);
-                repoLocationMap.put(location, configsList);
+
+            if (!repoLocationMap.containsKey(location)) {
+                repoLocationMap.put(location, new ArrayList<>());
             }
+            repoLocationMap.get(location).add(config);
         }
         return repoLocationMap;
     }
@@ -91,7 +89,7 @@ public class ReportGenerator {
             if (clonedRepoLocation != null) {
                 analyzeRepos(outputPath, repoLocationMap.get(clonedRepoLocation), repoCloner);
             }
-            clonedRepoLocation = repoCloner.getClonedRepo(outputPath);
+            clonedRepoLocation = repoCloner.getClonedRepoLocation(outputPath);
         }
         if (clonedRepoLocation != null) {
             analyzeRepos(outputPath, repoLocationMap.get(clonedRepoLocation), repoCloner);
@@ -100,7 +98,7 @@ public class ReportGenerator {
     }
 
     /**
-     * Analyzes repos in {@code configs} and generates the report.
+     * Analyzes all repos in {@code configs} and generates their report.
      */
     private static void analyzeRepos(
             String outputPath, List<RepoConfiguration> configs, RepoCloner repoCloner) throws IOException {

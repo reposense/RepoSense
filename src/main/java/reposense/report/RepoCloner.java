@@ -46,7 +46,7 @@ public class RepoCloner {
      * Waits for current clone process to finish executing and returns the {@code RepoLocation} of the corresponding
      * {@code RepoConfiguration}.
      */
-    public RepoLocation getClonedRepo(String outputPath) throws IOException {
+    public RepoLocation getClonedRepoLocation(String outputPath) throws IOException {
         if (isCurrentRepoCloned) {
             isCurrentRepoCloned = waitForCloneProcess(outputPath, configs[currentIndex]);
         }
@@ -73,7 +73,7 @@ public class RepoCloner {
     }
 
     /**
-     * Cleans up after all repos have been cloned and analyzed
+     * Cleans up after all repos have been cloned and analyzed.
      */
     public void cleanup() {
         deleteDirectory(FileUtil.REPOS_ADDRESS);
