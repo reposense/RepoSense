@@ -25,6 +25,7 @@ import reposense.system.LogsManager;
  */
 public class CommitInfoAnalyzer {
     private static final Logger logger = LogsManager.getLogger(CommitInfoAnalyzer.class);
+    private static final String MESSAGE_START_ANALYZING_COMMIT_INFO = "Analyzing commits info for %s (%s)...";
 
     private static final DateFormat GIT_ISO_FORMAT = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
     private static final String LOG_SPLITTER = "\\|";
@@ -43,7 +44,7 @@ public class CommitInfoAnalyzer {
      * specified to be ignored or the author is inside {@code config}.
      */
     public static List<CommitResult> analyzeCommits(List<CommitInfo> commitInfos, RepoConfiguration config) {
-        logger.info(String.format("Analyzing commits info for %s (%s)...", config.getLocation(), config.getBranch()));
+        logger.info(String.format(MESSAGE_START_ANALYZING_COMMIT_INFO, config.getLocation(), config.getBranch()));
 
         return commitInfos.stream()
                 .map(commitInfo -> analyzeCommit(commitInfo, config.getAuthorEmailsAndAliasesMap()))

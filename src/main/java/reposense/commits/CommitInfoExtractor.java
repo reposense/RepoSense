@@ -17,12 +17,13 @@ import reposense.system.LogsManager;
  */
 public class CommitInfoExtractor {
     private static final Logger logger = LogsManager.getLogger(CommitInfoExtractor.class);
+    private static final String MESSAGE_START_EXTRACTING_COMMIT_INFO = "Extracting commits info for %s (%s)...";
 
     /**
      * Extracts out and returns the raw information of each commit for the repo in {@code config}.
      */
     public static List<CommitInfo> extractCommitInfos(RepoConfiguration config) {
-        logger.info(String.format("Extracting commits info for %s (%s)...", config.getLocation(), config.getBranch()));
+        logger.info(String.format(MESSAGE_START_EXTRACTING_COMMIT_INFO, config.getLocation(), config.getBranch()));
 
         GitCheckout.checkoutBranch(config.getRepoRoot(), config.getBranch());
 

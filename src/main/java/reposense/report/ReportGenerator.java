@@ -43,6 +43,9 @@ public class ReportGenerator {
     private static final String MESSAGE_MALFORMED_STANDALONE_CONFIG = "%s/%s/%s is malformed for %s (%s).";
     private static final String MESSAGE_NO_AUTHORS_SPECIFIED =
             "%s (%s) has no authors specified, using all authors by default.";
+    private static final String MESSAGE_START_ANALYSIS = "Analyzing %s (%s)...";
+    private static final String MESSAGE_COMPLETE_ANALYSIS = "Analysis of %s (%s) completed!";
+    private static final String MESSAGE_REPORT_GENERATED = "The report is generated at %s";
 
     /**
      * Generates the authorship and commits JSON file for each repo in {@code configs} at {@code outputPath}, as
@@ -58,7 +61,7 @@ public class ReportGenerator {
         cloneAndAnalyzeRepos(configs, outputPath);
 
         FileUtil.writeJsonFile(new SummaryReportJson(configs, generationDate), getSummaryResultPath(outputPath));
-        logger.info("The report is generated at " + outputPath);
+        logger.info(String.format(MESSAGE_REPORT_GENERATED, outputPath));
     }
 
     /**
@@ -88,7 +91,7 @@ public class ReportGenerator {
      */
     private static void analyzeRepo(String outputPath, RepoConfiguration config) {
         Path repoReportDirectory;
-        logger.info(String.format("Analyzing %s (%s)...", config.getLocation(), config.getBranch()));
+        logger.info(String.format(MESSAGE_START_ANALYSIS, config.getLocation(), config.getBranch()));
         try {
             repoReportDirectory = Paths.get(outputPath, config.getDisplayName());
             FileUtil.createDirectory(repoReportDirectory);
@@ -108,7 +111,7 @@ public class ReportGenerator {
         CommitContributionSummary commitSummary = CommitsReporter.generateCommitSummary(config);
         AuthorshipSummary authorshipSummary = AuthorshipReporter.generateAuthorshipSummary(config);
         generateIndividualRepoReport(commitSummary, authorshipSummary, repoReportDirectory.toString());
-        logger.info(String.format("Analysis of %s (%s) completed!", config.getLocation(), config.getBranch()));
+        logger.info(String.format(MESSAGE_COMPLETE_ANALYSIS, config.getLocation(), config.getBranch()));
     }
 
     /**

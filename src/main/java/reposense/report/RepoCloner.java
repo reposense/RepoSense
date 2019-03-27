@@ -22,6 +22,14 @@ import reposense.util.FileUtil;
  * Handles asynchronous cloning of repos to allow multiple repos to be cloned and analyzed concurrently.
  */
 public class RepoCloner {
+    private static final String MESSAGE_BRANCH_DOES_NOT_EXIST = "Branch %s does not exist in %s! Analysis terminated.";
+    private static final String MESSAGE_START_CLONING = "Cloning in parallel from %s...";
+    private static final String MESSAGE_WAITING_FOR_CLONING = "Waiting for cloning of %s to complete...";
+    private static final String MESSAGE_COMPLETE_CLONING = "Cloning of %s completed!";
+    private static final String MESSAGE_ERROR_DELETING_DIRECTORY = "Error deleting report directory.";
+    private static final String MESSAGE_ERROR_CLONING =
+            "Exception met while trying to clone the repo, will skip this repo.";
+
     private static final int MAX_NO_OF_REPOS = 2;
     private static final Logger logger = LogsManager.getLogger(RepoCloner.class);
 
@@ -67,7 +75,8 @@ public class RepoCloner {
         try {
             GitCheckout.checkout(configs[currentIndex].getRepoRoot(), configs[currentIndex].getBranch());
         } catch (RuntimeException e) {
-            logger.log(Level.SEVERE, "Branch does not exist! Analysis terminated.", e);
+            logger.log(Level.SEVERE, String.format(MESSAGE_BRANCH_DOES_NOT_EXIST,
+                    configs[currentIndex].getLocation(), configs[currentIndex].getBranch()), e);
             handleCloningFailed(outputPath, configs[currentIndex]);
             return null;
         }
@@ -100,13 +109,12 @@ public class RepoCloner {
 
         try {
             FileUtil.deleteDirectory(config.getRepoRoot());
-            logger.info("Cloning in parallel from " + config.getLocation() + "...");
+            logger.info(String.format(MESSAGE_START_CLONING, config.getLocation()));
             Path rootPath = Paths.get(FileUtil.REPOS_ADDRESS, config.getRepoFolderName());
             Files.createDirectories(rootPath);
             crp = runCommandAsync(rootPath, "git clone " + addQuote(config.getLocation().toString()));
         } catch (RuntimeException | IOException e) {
-            logger.log(Level.WARNING,
-                    "Exception met while trying to clone the repo, will skip this repo.", e);
+            logger.log(Level.WARNING, MESSAGE_ERROR_CLONING, e);
             handleCloningFailed(outputPath, config);
             return false;
         }
@@ -119,13 +127,12 @@ public class RepoCloner {
      */
     private boolean waitForCloneProcess(String outputPath, RepoConfiguration config) throws IOException {
         try {
-            logger.info("Waiting for cloning of " + config.getLocation() + " to complete...");
+            logger.info(String.format(MESSAGE_WAITING_FOR_CLONING, config.getLocation()));
             crp.waitForProcess();
-            logger.info("Cloning of " + config.getLocation() + " completed!");
+            logger.info(String.format(MESSAGE_COMPLETE_CLONING, config.getLocation()));
         } catch (RuntimeException | CommandRunnerProcessException e) {
             crp = null;
-            logger.log(Level.WARNING,
-                    "Exception met while trying to clone the repo, will skip this repo.", e);
+            logger.log(Level.WARNING, MESSAGE_ERROR_CLONING, e);
             handleCloningFailed(outputPath, config);
             return false;
         }
@@ -152,7 +159,7 @@ public class RepoCloner {
         try {
             FileUtil.deleteDirectory(root);
         } catch (IOException ioe) {
-            logger.log(Level.WARNING, "Error deleting report directory.", ioe);
+            logger.log(Level.WARNING, MESSAGE_ERROR_DELETING_DIRECTORY, ioe);
         }
     }
 }
