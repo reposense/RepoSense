@@ -11,7 +11,6 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import reposense.git.GitBranch;
-import reposense.git.GitCheckout;
 import reposense.model.RepoConfiguration;
 import reposense.model.RepoLocation;
 import reposense.system.CommandRunnerProcess;
