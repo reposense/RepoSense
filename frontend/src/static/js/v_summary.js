@@ -134,14 +134,17 @@ window.vSummary = {
       const newSize = 100 * (slice.insertions / this.avgCommitSize);
       return Math.max(newSize * this.rampSize, 0.5);
     },
+    // position for commit granularity
     getCommitPos(i, total, sinceDate, untilDate) {
       return (total - i - 1) / total * DAY_IN_MS
           / (this.getTotalForPos(sinceDate, untilDate) + DAY_IN_MS);
     },
+    // position for day granularity
     getSlicePos(date, sinceDate, untilDate) {
       const total = this.getTotalForPos(sinceDate, untilDate);
       return (new Date(untilDate) - new Date(date)) / (total + DAY_IN_MS);
     },
+    // get duration in miliseconds between 2 date
     getTotalForPos(sinceDate, untilDate) {
       return new Date(untilDate) - new Date(sinceDate);
     },
@@ -381,6 +384,9 @@ window.vSummary = {
           date: getDateStr(startOfWeekMs),
         };
 
+        // commits are not contiguous, meaning there are gaps of days without
+        // commits, so we are going to check each commit's date and make sure
+        // it is within the duration of a week
         while (commits.length > 0
             && (new Date(commits[0].date)).getTime() < startOfWeekMs + WEEK_IN_MS) {
           const commit = commits.shift();
