@@ -1,4 +1,4 @@
-package reposense.parser;
+package reposense.model;
 
 import static org.apache.tools.ant.types.Commandline.translateCommandline;
 
@@ -19,16 +19,13 @@ import net.sourceforge.argparse4j.helper.HelpScreenException;
 import reposense.RepoSense;
 import reposense.git.GitClone;
 import reposense.git.exception.GitCloneException;
-import reposense.model.Author;
-import reposense.model.AuthorConfiguration;
-import reposense.model.CliArguments;
-import reposense.model.ConfigCliArguments;
-import reposense.model.Format;
-import reposense.model.Group;
-import reposense.model.GroupConfiguration;
-import reposense.model.LocationsCliArguments;
-import reposense.model.RepoConfiguration;
-import reposense.model.RepoLocation;
+import reposense.parser.ArgsParser;
+import reposense.parser.AuthorConfigCsvParser;
+import reposense.parser.CsvParserTest;
+import reposense.parser.GroupConfigCsvParser;
+import reposense.parser.InvalidLocationException;
+import reposense.parser.ParseException;
+import reposense.parser.RepoConfigCsvParser;
 import reposense.report.ReportGenerator;
 import reposense.util.FileUtil;
 import reposense.util.InputBuilder;
@@ -46,6 +43,8 @@ public class RepoConfigurationTest {
             .getResource("RepoConfigurationTest/repoconfig_withoutformats_test").getFile()).toPath();
     private static final Path GROUPS_TEST_CONFIG_FILES = new File(CsvParserTest.class.getClassLoader()
         .getResource("RepoConfigurationTest/repoconfig_groups_test").getFile()).toPath();
+    private static final Path OVERRIDE_STANDALONE_TEST_CONFIG_FILE = new File(CsvParserTest.class.getClassLoader()
+                    .getResource("RepoConfigurationTest/repoconfig_overrideStandAlone_test").getFile()).toPath();
 
     private static final String TEST_REPO_DELTA = "https://github.com/reposense/testrepo-Delta.git";
 
@@ -281,5 +280,44 @@ public class RepoConfigurationTest {
                 new RepoConfiguration(new RepoLocation(TEST_REPO_DELTA));
 
         Assert.assertNotEquals(validLocationDefaultBranchRepoConfig, validLocationValidBranchRepoConfig);
+    }
+
+    @Test
+    public void repoConfig_overrideStandaloneConfig_success()
+            throws ParseException, GitCloneException, IOException, HelpScreenException {
+        RepoConfiguration expectedConfig = new RepoConfiguration(new RepoLocation(TEST_REPO_DELTA), "master",
+                Collections.emptyList(), Collections.emptyList(), false, Collections.emptyList(),
+                true, true, true);
+
+        List<Author> expectedAuthorList = new ArrayList<>();
+        Author[] authors = new Author[]{FIRST_AUTHOR, SECOND_AUTHOR, THIRD_AUTHOR, FOURTH_AUTHOR};
+        for (Author author : authors) {
+            Author expectedAuthor = new Author(author);
+            List<String> expectedAuthorIgnoreGlobList = new ArrayList<>();
+            expectedAuthorIgnoreGlobList.addAll(author.getIgnoreGlobList());
+
+            // Authors' original ignoreGlobList contains values from StandaloneConfig repo level, thus need to remove
+            expectedAuthorIgnoreGlobList.removeAll(REPO_LEVEL_GLOB_LIST);
+            expectedAuthor.setIgnoreGlobList(expectedAuthorIgnoreGlobList);
+            expectedAuthorList.add(expectedAuthor);
+        }
+        expectedConfig.setAuthorList(expectedAuthorList);
+        expectedConfig.setAuthorDisplayNameMap(REPO_DELTA_STANDALONE_CONFIG.getAuthorDisplayNameMap());
+        expectedConfig.setAuthorEmailsAndAliasesMap(REPO_DELTA_STANDALONE_CONFIG.getAuthorEmailsAndAliasesMap());
+
+        String formats = String.join(" ", CLI_FORMATS);
+        String input = new InputBuilder().addConfig(OVERRIDE_STANDALONE_TEST_CONFIG_FILE)
+                .addFormats(formats)
+                .build();
+        CliArguments cliArguments = ArgsParser.parse(translateCommandline(input));
+
+        List<RepoConfiguration> actualConfigs =
+                new RepoConfigCsvParser(((ConfigCliArguments) cliArguments).getRepoConfigFilePath()).parse();
+
+        RepoConfiguration actualConfig = actualConfigs.get(0);
+        GitClone.clone(actualConfig);
+        ReportGenerator.updateRepoConfig(actualConfig);
+
+        TestUtil.compareRepoConfig(expectedConfig, actualConfig);
     }
 }

@@ -35,17 +35,22 @@ public class RepoConfiguration {
     private transient GroupConfiguration groupConfig;
     private transient boolean isStandaloneConfigIgnored;
     private transient List<CommitHash> ignoreCommitList;
+    private transient boolean isFormatsOverriding;
+    private transient boolean isIgnoreGlobListOverriding;
+    private transient boolean isIgnoreCommitListOverriding;
 
     public RepoConfiguration(RepoLocation location) {
         this(location, DEFAULT_BRANCH);
     }
 
     public RepoConfiguration(RepoLocation location, String branch) {
-        this(location, branch, Collections.emptyList(), Collections.emptyList(), false, Collections.emptyList());
+        this(location, branch, Collections.emptyList(), Collections.emptyList(), false, Collections.emptyList(),
+                false, false, false);
     }
 
     public RepoConfiguration(RepoLocation location, String branch, List<Format> formats, List<String> ignoreGlobList,
-            boolean isStandaloneConfigIgnored, List<CommitHash> ignoreCommitList) {
+            boolean isStandaloneConfigIgnored, List<CommitHash> ignoreCommitList, boolean isFormatsOverriding,
+            boolean isIgnoreGlobListOverriding, boolean isIgnoreCommitListOverriding) {
         this.authorConfig = new AuthorConfiguration(location, branch);
         this.groupConfig = new GroupConfiguration(location);
         this.location = location;
@@ -54,6 +59,9 @@ public class RepoConfiguration {
         this.isStandaloneConfigIgnored = isStandaloneConfigIgnored;
         this.formats = formats;
         this.ignoreCommitList = ignoreCommitList;
+        this.isFormatsOverriding = isFormatsOverriding;
+        this.isIgnoreGlobListOverriding = isIgnoreGlobListOverriding;
+        this.isIgnoreCommitListOverriding = isIgnoreCommitListOverriding;
 
         String organization = location.getOrganization();
         String repoName = location.getRepoName();
@@ -184,10 +192,20 @@ public class RepoConfiguration {
      * Clears authors information and use the information provided from {@code standaloneConfig}.
      */
     public void update(StandaloneConfig standaloneConfig) {
-        authorConfig.update(standaloneConfig);
-        ignoreGlobList = standaloneConfig.getIgnoreGlobList();
-        formats = Format.convertStringsToFormats(standaloneConfig.getFormats());
-        ignoreCommitList = CommitHash.convertStringsToCommits(standaloneConfig.getIgnoreCommitList());
+        // only assign the new values when all the fields in {@code standaloneConfig} pass the validations.
+        Format.validateFormats(standaloneConfig.getFormats());
+        CommitHash.validateCommits(standaloneConfig.getIgnoreCommitList());
+
+        if (!isIgnoreGlobListOverriding) {
+            ignoreGlobList = standaloneConfig.getIgnoreGlobList();
+        }
+        if (!isFormatsOverriding) {
+            formats = Format.convertStringsToFormats(standaloneConfig.getFormats());
+        }
+        if (!isIgnoreCommitListOverriding) {
+            ignoreCommitList = CommitHash.convertStringsToCommits(standaloneConfig.getIgnoreCommitList());
+        }
+        authorConfig.update(standaloneConfig, ignoreGlobList);
     }
 
     /**
@@ -241,7 +259,10 @@ public class RepoConfiguration {
                 && authorConfig.equals(otherRepoConfig.authorConfig)
                 && ignoreGlobList.equals(otherRepoConfig.ignoreGlobList)
                 && isStandaloneConfigIgnored == otherRepoConfig.isStandaloneConfigIgnored
-                && formats.equals(otherRepoConfig.formats);
+                && formats.equals(otherRepoConfig.formats)
+                && isFormatsOverriding == otherRepoConfig.isFormatsOverriding
+                && isIgnoreGlobListOverriding == otherRepoConfig.isIgnoreGlobListOverriding
+                && isIgnoreCommitListOverriding == otherRepoConfig.isIgnoreCommitListOverriding;
     }
 
     public Map<Author, String> getAuthorDisplayNameMap() {
@@ -410,5 +431,17 @@ public class RepoConfiguration {
 
     public boolean isStandaloneConfigIgnored() {
         return isStandaloneConfigIgnored;
+    }
+
+    public boolean isFormatsOverriding() {
+        return isFormatsOverriding;
+    }
+
+    public boolean isIgnoreGlobListOverriding() {
+        return isIgnoreGlobListOverriding;
+    }
+
+    public boolean isIgnoreCommitListOverriding() {
+        return isIgnoreCommitListOverriding;
     }
 }

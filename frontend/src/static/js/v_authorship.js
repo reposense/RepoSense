@@ -184,8 +184,10 @@ window.vAuthorship = {
       res.sort((a, b) => b.lineCount - a.lineCount);
 
       Object.keys(this.filesLinesObj).forEach((file) => {
-        this.selectedFileTypes.push(file);
-        this.fileTypes.push(file);
+        if (this.filesLinesObj[file] !== 0) {
+          this.selectedFileTypes.push(file);
+          this.fileTypes.push(file);
+        }
       });
 
       this.fileTypeBlankLinesObj = fileTypeBlanksInfoObj;
@@ -230,7 +232,7 @@ window.vAuthorship = {
     getSelectedFiles() {
       if (this.fileTypes.length === this.selectedFileTypes.length) {
         this.isSelectAllChecked = true;
-      } else if (this.selectedFileTypes.length === 0) {
+      } else {
         this.isSelectAllChecked = false;
       }
 
