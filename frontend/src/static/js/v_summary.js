@@ -139,16 +139,11 @@ window.vSummary = {
           / (this.getTotalForPos(sinceDate, untilDate) + DAY_IN_MS);
     },
     getSlicePos(date, sinceDate, untilDate) {
-      const timeMS = (new Date(date)).getTime();
-      const untilMS = (new Date(untilDate)).getTime();
       const total = this.getTotalForPos(sinceDate, untilDate);
-      return (untilMS - timeMS) / (total + DAY_IN_MS);
+      return (new Date(untilDate) - new Date(date)) / (total + DAY_IN_MS);
     },
     getTotalForPos(sinceDate, untilDate) {
-      const sinceMS = (new Date(sinceDate)).getTime();
-      const untilMS = (new Date(untilDate)).getTime();
-      const total = untilMS - sinceMS;
-      return total;
+      return new Date(untilDate) - new Date(sinceDate);
     },
     getSliceColor(date) {
       const timeMs = (new Date(date)).getTime();
