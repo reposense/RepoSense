@@ -10,11 +10,13 @@ import reposense.model.RepoConfiguration;
 
 /**
  * Contains git log related functionalities.
+ * Git log is responsible to obtain the commit logs and the authors' info.
  */
 public class GitLog {
 
     /**
-     * Responsible for obtaining the commit logs and the authors' info.
+     * Returns the git commit log info of {@code Author},
+     * in the repository specified in {@code config}
      */
     public static String get(RepoConfiguration config, Author author) {
         Path rootPath = Paths.get(config.getRepoRoot());
@@ -30,7 +32,8 @@ public class GitLog {
     }
 
     /**
-     * Responsible for obtaining the commit logs with files changed and authors' info
+     * Returns the git commit log info of {@code Author}, with the files changed,
+     * in the repository specified in {@code config}
      */
     public static String getWithFiles(RepoConfiguration config, Author author) {
         Path rootPath = Paths.get(config.getRepoRoot());

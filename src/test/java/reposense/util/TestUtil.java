@@ -154,8 +154,8 @@ public class TestUtil {
         String[] changesLogged = gitLogResult.split("\n");
         HashSet<String> filesChanged = new HashSet<>();
         // Checks the 2nd line of each commit which contains info of the changed file
-        for (int i = 1; i < changesLogged.length; i += 4) {
-            String log = changesLogged[i];
+        for (int i = 0; i < changesLogged.length; i += 4) {
+            String log = changesLogged[i + 1];
             String fileChanged = log.split("\\| ")[0].trim();
             if (fileChanged.contains("=>")) {
                 fileChanged = fileChanged.substring(fileChanged.indexOf("=> ") + 3);
