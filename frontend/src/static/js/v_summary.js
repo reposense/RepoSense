@@ -136,7 +136,7 @@ window.vSummary = {
     },
     // position for commit granularity
     getCommitPos(i, total, sinceDate, untilDate) {
-      return (total - i - 1) / total * DAY_IN_MS
+      return (total - i - 1) * DAY_IN_MS / total
           / (this.getTotalForPos(sinceDate, untilDate) + DAY_IN_MS);
     },
     // position for day granularity
