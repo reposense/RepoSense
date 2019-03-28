@@ -170,7 +170,7 @@ window.app = new window.Vue({
 
       this.isTabActive = true;
       this.isCollapsed = false;
-      this.tabActive = tabName;
+      this.tabType = tabName;
     },
 
     updateTabAuthorship(obj) {
