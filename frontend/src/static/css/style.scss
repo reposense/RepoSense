@@ -246,11 +246,11 @@ header{
 
             &.show{
                 background-color:#fffa;
-                border:.1rem dashed #000;
+                border:1px dashed #000;
             }
 
             &.edge{
-                border-right:.1rem dashed #000;
+                border-right:1px dashed #000;
             }
         }
     }
