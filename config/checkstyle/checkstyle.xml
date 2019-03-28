@@ -163,7 +163,6 @@
     <!-- Checks for placement of the left curly brace ('{'). -->
     <module name="LeftCurly" />
 
-    <module name="RightCurly">
       <!-- Checks right curlies on CATCH, ELSE, and TRY blocks are on
       the same line. e.g., the following example is fine:
       <pre>
@@ -180,8 +179,7 @@
         else
       </pre>
       -->
-      <property name="severity" value="warning"/>
-    </module>
+    <module name="RightCurly" />
 
     <!-- Checks for braces around loop blocks -->
     <module name="NeedBraces">
