@@ -279,7 +279,9 @@ Here is an example:
 
 Repository's Location|Branch|File formats|Ignore Glob List|Ignore standalone config|Ignore Commits List
 ---------------------|------|------------|----------------|------------------------|-------------------
-`https://github.com/foo/bar.git`|`master`|`java;css`|`test/**`|`yes`|`2fb6b9b2dd9fa40bf0f9815da2cb0ae8731436c7;c5a6dc774e22099cd9ddeb0faff1e75f9cf4f151`
+`https://github.com/foo/bar.git`|`master`|`override:java;css`|`test/**`|`yes`|`2fb6b9b2dd9fa40bf0f9815da2cb0ae8731436c7;c5a6dc774e22099cd9ddeb0faff1e75f9cf4f151`
+
+When using standalone config (if it is not ignored), it is possible to override specific values from the standalone config by prepending the entered value with `override:`.
 
 <br>
 
@@ -287,12 +289,13 @@ Column Name | Explanation
 ----------- | -----------
 Repository's Location | The `GitHub URL` or `Disk Path` to the git repository e.g., `https://github.com/foo/bar.git` or `C:\Users\user\Desktop\GitHub\foo\bar`
 [Optional] Branch | The branch to analyze in the target repository e.g., `master`. Default: the default branch of the repo
-[Optional] File formats<sup>*</sup> | The file extensions to analyze. Default: `adoc;cs;css;fxml;gradle;html;java;js;json;jsp;md;py;tag;txt;xml`
-[Optional] Ignore Glob List<sup>*</sup> | The list of file path globs to ignore during analysis for each author. e.g., `test/**;temp/**`
+[Optional] File formats<sup>*+</sup> | The file extensions to analyze. Default: `adoc;cs;css;fxml;gradle;html;java;js;json;jsp;md;py;tag;txt;xml`
+[Optional] Ignore Glob List<sup>*+</sup> | The list of file path globs to ignore during analysis for each author. e.g., `test/**;temp/**`
 [Optional] Ignore standalone config | To ignore the standalone config file (if any) in target repository, enter **`yes`**. If the cell is empty, the standalone config file in the repo (if any) will take precedence over configurations provided in the csv files.
-[Optional] Ignore Commit List<sup>*</sup> | The list of commits to ignore during analysis. For accurate results, the commits should be provided with their full hash.
+[Optional] Ignore Commit List<sup>*+</sup> | The list of commits to ignore during analysis. For accurate results, the commits should be provided with their full hash.
 
-<sup>* **Multi-value column**: multiple values can be entered in this column using a semicolon `;` as the separator.</sup>
+<sup>* **Multi-value column**: multiple values can be entered in this column using a semicolon `;` as the separator.</sup>  
+<sup>+ **Overrideable column**: prepend with `override:` to use entered value(s) instead of value(s) from standalone config.</sup>
 
 #### `author-config.csv`
 
