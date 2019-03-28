@@ -60,8 +60,7 @@ public class CommitResultAggregator {
         }
         //get mean
         float total = 0;
-        long totalDays = (lastDate.getTime() - getStartOfDate(startDate).getTime())
-                / DAYS_IN_MS + 1;
+        long totalDays = (lastDate.getTime() - getStartOfDate(startDate).getTime()) / DAYS_IN_MS + 1;
 
         for (AuthorDailyContribution contribution : contributions) {
             total += contribution.getTotalContribution();
@@ -94,12 +93,11 @@ public class CommitResultAggregator {
             commitStartDate = getStartOfDate(commitResult.getTime());
             Author commitAuthor = commitResult.getAuthor();
 
-            List<AuthorDailyContribution> authorDailyContributions =
-                    authorDailyContributionsMap.get(commitAuthor);
+            List<AuthorDailyContribution> authorDailyContributions = authorDailyContributionsMap.get(commitAuthor);
 
             if (authorDailyContributions.isEmpty()
-                    || !authorDailyContributions.get(authorDailyContributions.size() - 1)
-                            .getDate().equals(commitStartDate)) {
+                    || !authorDailyContributions.get(authorDailyContributions.size() - 1).getDate()
+                            .equals(commitStartDate)) {
                 addDailyContributionForNewDate(authorDailyContributions, commitStartDate);
             }
 
