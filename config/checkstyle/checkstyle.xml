@@ -160,9 +160,8 @@
       <property name="max" value="120"/>
     </module>
 
-    <module name="LeftCurly">
-      <!-- Checks for placement of the left curly brace ('{'). -->
-    </module>
+    <!-- Checks for placement of the left curly brace ('{'). -->
+    <module name="LeftCurly" />
 
     <module name="RightCurly">
       <!-- Checks right curlies on CATCH, ELSE, and TRY blocks are on
