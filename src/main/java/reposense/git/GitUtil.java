@@ -89,7 +89,8 @@ class GitUtil {
 
     /**
      * Returns the {@code String} command to specify the globs to exclude for `git log` command.
-     * Also checks that every glob in {@code ignoreGlobList} only targets files within the given repository {@code root}.
+     * Also checks that every glob in {@code ignoreGlobList} only targets files
+     * within the given repository {@code root}.
      */
     public static String convertToGitExcludeGlobArgs(File root, List<String> ignoreGlobList) {
         StringBuilder gitExcludeGlobArgsBuilder = new StringBuilder();
