@@ -20,27 +20,27 @@ public class GitUtilTest extends GitTestTemplate {
         final String emptyResult = "";
 
         String result = convertToGitExcludeGlobArgs(repoRoot, Collections.EMPTY_LIST);
-        Assert.assertEquals(result, emptyResult);
+        Assert.assertEquals(emptyResult, result);
 
         result = convertToGitExcludeGlobArgs(repoRoot, Collections.singletonList("**.js"));
-        Assert.assertEquals(result, String.format(cmdFormat, "**.js"));
+        Assert.assertEquals(String.format(cmdFormat, "**.js"), result);
 
         result = convertToGitExcludeGlobArgs(repoRoot, Collections.singletonList("collate**"));
-        Assert.assertEquals(result, String.format(cmdFormat, "collate**"));
+        Assert.assertEquals(String.format(cmdFormat, "collate**"), result);
 
         result = convertToGitExcludeGlobArgs(repoRoot, Collections.singletonList("*\\sth"));
-        Assert.assertEquals(result, String.format(cmdFormat, "*\\sth"));
+        Assert.assertEquals(String.format(cmdFormat, "*\\sth"), result);
 
         result = convertToGitExcludeGlobArgs(repoRoot, Collections.singletonList("bin/*"));
-        Assert.assertEquals(result, String.format(cmdFormat, "bin/*"));
+        Assert.assertEquals(String.format(cmdFormat, "bin/*"), result);
 
         result = convertToGitExcludeGlobArgs(repoRoot, Collections.singletonList("../**"));
-        Assert.assertEquals(result, emptyResult);
+        Assert.assertEquals(emptyResult, result);
 
         result = convertToGitExcludeGlobArgs(repoRoot, Collections.singletonList("\\**"));
-        Assert.assertEquals(result, emptyResult);
+        Assert.assertEquals(emptyResult, result);
 
         result = convertToGitExcludeGlobArgs(repoRoot, Collections.singletonList("/sth/*"));
-        Assert.assertEquals(result, emptyResult);
+        Assert.assertEquals(emptyResult, result);
     }
 }

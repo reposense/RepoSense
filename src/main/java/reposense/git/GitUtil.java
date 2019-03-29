@@ -89,13 +89,13 @@ class GitUtil {
 
     /**
      * Returns the {@code String} command to specify the globs to exclude for `git log` command.
-     * Also checks that every glob in {@code ignoreGlobList} only targets files within the given repository {@code root}
+     * Also checks that every glob in {@code ignoreGlobList} only targets files within the given repository {@code root}.
      */
     public static String convertToGitExcludeGlobArgs(File root, List<String> ignoreGlobList) {
         StringBuilder gitExcludeGlobArgsBuilder = new StringBuilder();
         final String cmdFormat = " " + addQuote(":(exclude)%s");
         ignoreGlobList.stream()
-                .filter(item -> !item.isEmpty() && isValidPath(root, item))
+                .filter(item -> isValidPath(root, item))
                 .map(ignoreGlob -> String.format(cmdFormat, ignoreGlob))
                 .forEach(gitExcludeGlobArgsBuilder::append);
 
@@ -103,13 +103,15 @@ class GitUtil {
     }
 
     /**
-     * Returns true if the {@code path} is inside the current repository
-     * Produces log messages when the invalid file path is skipped
+     * Returns true if the {@code path} is inside the current repository.
+     * Produces log messages when the invalid file path is skipped.
      */
     private static boolean isValidPath(File repoRoot, String path) {
         String validPath = path;
         FileSystem fileSystem = FileSystems.getDefault();
-        if (path.startsWith("/") || path.startsWith("\\")) {
+        if (path.isEmpty()) {
+            return false;
+        } else if (path.startsWith("/") || path.startsWith("\\")) {
             // Ignore globs cannot start with a slash
             logger.log(Level.WARNING, path + " cannot start with / or \\.");
             return false;
