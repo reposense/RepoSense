@@ -36,15 +36,14 @@ public class AuthorConfiguration {
     /**
      * Clears authors information and use the information provided from {@code standaloneConfig}.
      */
-    public void update(StandaloneConfig standaloneConfig) {
+    public void update(StandaloneConfig standaloneConfig, List<String> ignoreGlobList) {
         List<Author> newAuthorList = new ArrayList<>();
         Map<String, Author> newAuthorEmailsAndAliasesMap = new TreeMap<>(String.CASE_INSENSITIVE_ORDER);
         Map<Author, String> newAuthorDisplayNameMap = new HashMap<>();
-        List<String> newIgnoreGlobList = standaloneConfig.getIgnoreGlobList();
 
         for (StandaloneAuthor sa : standaloneConfig.getAuthors()) {
             Author author = new Author(sa);
-            author.appendIgnoreGlobList(newIgnoreGlobList);
+            author.appendIgnoreGlobList(ignoreGlobList);
 
             newAuthorList.add(author);
             newAuthorDisplayNameMap.put(author, author.getDisplayName());
@@ -55,10 +54,6 @@ public class AuthorConfiguration {
             emails.forEach(email -> newAuthorEmailsAndAliasesMap.put(email, author));
         }
 
-        Format.validateFormats(standaloneConfig.getFormats());
-        CommitHash.validateCommits(standaloneConfig.getIgnoreCommitList());
-
-        // only assign the new values when all the fields in {@code standaloneConfig} pass the validations.
         setAuthorList(newAuthorList);
         setAuthorEmailsAndAliasesMap(newAuthorEmailsAndAliasesMap);
         setAuthorDisplayNameMap(newAuthorDisplayNameMap);

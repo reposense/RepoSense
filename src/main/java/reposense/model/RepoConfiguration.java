@@ -9,6 +9,7 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.logging.Logger;
 
+import reposense.git.GitBranch;
 import reposense.system.LogsManager;
 import reposense.util.FileUtil;
 
@@ -18,6 +19,7 @@ import reposense.util.FileUtil;
 public class RepoConfiguration {
     public static final String DEFAULT_BRANCH = "HEAD";
     private static final Logger logger = LogsManager.getLogger(RepoConfiguration.class);
+    private final transient String repoFolderName;
 
     private RepoLocation location;
     private String branch;
@@ -25,7 +27,6 @@ public class RepoConfiguration {
     private Date sinceDate;
     private Date untilDate;
 
-    private transient boolean needCheckStyle = false;
     private transient boolean annotationOverwrite = true;
     private transient List<Format> formats;
     private transient int commitNum = 1;
@@ -33,17 +34,22 @@ public class RepoConfiguration {
     private transient AuthorConfiguration authorConfig;
     private transient boolean isStandaloneConfigIgnored;
     private transient List<CommitHash> ignoreCommitList;
+    private transient boolean isFormatsOverriding;
+    private transient boolean isIgnoreGlobListOverriding;
+    private transient boolean isIgnoreCommitListOverriding;
 
     public RepoConfiguration(RepoLocation location) {
         this(location, DEFAULT_BRANCH);
     }
 
     public RepoConfiguration(RepoLocation location, String branch) {
-        this(location, branch, Collections.emptyList(), Collections.emptyList(), false, Collections.emptyList());
+        this(location, branch, Collections.emptyList(), Collections.emptyList(), false, Collections.emptyList(),
+                false, false, false);
     }
 
     public RepoConfiguration(RepoLocation location, String branch, List<Format> formats, List<String> ignoreGlobList,
-            boolean isStandaloneConfigIgnored, List<CommitHash> ignoreCommitList) {
+            boolean isStandaloneConfigIgnored, List<CommitHash> ignoreCommitList, boolean isFormatsOverriding,
+            boolean isIgnoreGlobListOverriding, boolean isIgnoreCommitListOverriding) {
         this.authorConfig = new AuthorConfiguration(location, branch);
         this.location = location;
         this.branch = location.isEmpty() ? DEFAULT_BRANCH : branch;
@@ -51,14 +57,19 @@ public class RepoConfiguration {
         this.isStandaloneConfigIgnored = isStandaloneConfigIgnored;
         this.formats = formats;
         this.ignoreCommitList = ignoreCommitList;
+        this.isFormatsOverriding = isFormatsOverriding;
+        this.isIgnoreGlobListOverriding = isIgnoreGlobListOverriding;
+        this.isIgnoreCommitListOverriding = isIgnoreCommitListOverriding;
 
         String organization = location.getOrganization();
         String repoName = location.getRepoName();
 
         if (organization != null) {
             displayName = organization + "_" + repoName + "_" + branch;
+            repoFolderName = organization + "_" + repoName;
         } else {
             displayName = repoName + "_" + branch;
+            repoFolderName = repoName;
         }
     }
 
@@ -135,20 +146,53 @@ public class RepoConfiguration {
      * Clears authors information and use the information provided from {@code standaloneConfig}.
      */
     public void update(StandaloneConfig standaloneConfig) {
-        authorConfig.update(standaloneConfig);
-        ignoreGlobList = standaloneConfig.getIgnoreGlobList();
-        formats = Format.convertStringsToFormats(standaloneConfig.getFormats());
-        ignoreCommitList = CommitHash.convertStringsToCommits(standaloneConfig.getIgnoreCommitList());
+        // only assign the new values when all the fields in {@code standaloneConfig} pass the validations.
+        Format.validateFormats(standaloneConfig.getFormats());
+        CommitHash.validateCommits(standaloneConfig.getIgnoreCommitList());
+
+        if (!isIgnoreGlobListOverriding) {
+            ignoreGlobList = standaloneConfig.getIgnoreGlobList();
+        }
+        if (!isFormatsOverriding) {
+            formats = Format.convertStringsToFormats(standaloneConfig.getFormats());
+        }
+        if (!isIgnoreCommitListOverriding) {
+            ignoreCommitList = CommitHash.convertStringsToCommits(standaloneConfig.getIgnoreCommitList());
+        }
+        authorConfig.update(standaloneConfig, ignoreGlobList);
+    }
+
+    /**
+     * Updates branch with {@code currentBranch} if default branch is specified.
+     */
+    public void updateBranch(String currentBranch) {
+        if (branch.equals(DEFAULT_BRANCH)) {
+            setBranch(currentBranch);
+        }
+    }
+
+    /**
+     * Gets the current branch and updates branch with current branch if default branch is specified.
+     */
+    public void updateBranch() {
+        if (branch.equals(DEFAULT_BRANCH)) {
+            String currentBranch = GitBranch.getCurrentBranch(getRepoRoot());
+            setBranch(currentBranch);
+        }
     }
 
     public String getRepoRoot() {
-        String path = FileUtil.REPOS_ADDRESS + File.separator + getRepoName() + File.separator;
+        String path = FileUtil.REPOS_ADDRESS + File.separator + getRepoFolderName() + File.separator;
 
         if (!getRepoName().isEmpty()) {
             path += getRepoName() + File.separator;
         }
 
         return path;
+    }
+
+    public String getRepoFolderName() {
+        return repoFolderName;
     }
 
     @Override
@@ -169,7 +213,10 @@ public class RepoConfiguration {
                 && authorConfig.equals(otherRepoConfig.authorConfig)
                 && ignoreGlobList.equals(otherRepoConfig.ignoreGlobList)
                 && isStandaloneConfigIgnored == otherRepoConfig.isStandaloneConfigIgnored
-                && formats.equals(otherRepoConfig.formats);
+                && formats.equals(otherRepoConfig.formats)
+                && isFormatsOverriding == otherRepoConfig.isFormatsOverriding
+                && isIgnoreGlobListOverriding == otherRepoConfig.isIgnoreGlobListOverriding
+                && isIgnoreCommitListOverriding == otherRepoConfig.isIgnoreCommitListOverriding;
     }
 
     public Map<Author, String> getAuthorDisplayNameMap() {
@@ -186,14 +233,6 @@ public class RepoConfiguration {
 
     public void setCommitNum(int commitNum) {
         this.commitNum = commitNum;
-    }
-
-    public boolean isNeedCheckStyle() {
-        return needCheckStyle;
-    }
-
-    public void setNeedCheckStyle(boolean needCheckStyle) {
-        this.needCheckStyle = needCheckStyle;
     }
 
     public String getBranch() {
@@ -327,5 +366,17 @@ public class RepoConfiguration {
 
     public boolean isStandaloneConfigIgnored() {
         return isStandaloneConfigIgnored;
+    }
+
+    public boolean isFormatsOverriding() {
+        return isFormatsOverriding;
+    }
+
+    public boolean isIgnoreGlobListOverriding() {
+        return isIgnoreGlobListOverriding;
+    }
+
+    public boolean isIgnoreCommitListOverriding() {
+        return isIgnoreCommitListOverriding;
     }
 }

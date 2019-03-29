@@ -1,7 +1,6 @@
 package reposense;
 
 import java.io.IOException;
-import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -23,14 +22,14 @@ import reposense.parser.InvalidLocationException;
 import reposense.parser.ParseException;
 import reposense.parser.RepoConfigCsvParser;
 import reposense.report.ReportGenerator;
-import reposense.system.DashboardServer;
 import reposense.system.LogsManager;
+import reposense.system.ReportServer;
 import reposense.util.FileUtil;
 
 public class RepoSense {
     private static final Logger logger = LogsManager.getLogger(RepoSense.class);
     private static final int SERVER_PORT_NUMBER = 9000;
-    private static final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("E MMM d HH:mm:ss 'SGT' yyyy");
+    private static final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("E MMM d HH:mm:ss yyyy z");
 
     public static void main(String[] args) {
         try {
@@ -38,7 +37,7 @@ public class RepoSense {
             List<RepoConfiguration> configs = null;
 
             if (cliArguments instanceof ViewCliArguments) {
-                DashboardServer.startServer(SERVER_PORT_NUMBER, ((
+                ReportServer.startServer(SERVER_PORT_NUMBER, ((
                         ViewCliArguments) cliArguments).getReportDirectoryPath().toAbsolutePath());
                 return;
             } else if (cliArguments instanceof ConfigCliArguments) {
@@ -52,12 +51,12 @@ public class RepoSense {
             RepoConfiguration.setFormatsToRepoConfigs(configs, cliArguments.getFormats());
             RepoConfiguration.setDatesToRepoConfigs(configs, cliArguments.getSinceDate(), cliArguments.getUntilDate());
             ReportGenerator.generateReposReport(configs, cliArguments.getOutputFilePath().toAbsolutePath().toString(),
-                    formatter.format(ZonedDateTime.now(ZoneId.of("UTC+8"))));
+                    formatter.format(ZonedDateTime.now(cliArguments.getZoneId())));
 
             FileUtil.zip(cliArguments.getOutputFilePath().toAbsolutePath(), ".json");
 
             if (cliArguments.isAutomaticallyLaunching()) {
-                DashboardServer.startServer(SERVER_PORT_NUMBER, cliArguments.getOutputFilePath().toAbsolutePath());
+                ReportServer.startServer(SERVER_PORT_NUMBER, cliArguments.getOutputFilePath().toAbsolutePath());
             }
         } catch (IOException ioe) {
             logger.log(Level.WARNING, ioe.getMessage(), ioe);

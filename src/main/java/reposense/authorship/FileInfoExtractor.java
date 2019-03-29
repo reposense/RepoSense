@@ -19,10 +19,10 @@ import java.util.stream.Stream;
 
 import reposense.authorship.model.FileInfo;
 import reposense.authorship.model.LineInfo;
-import reposense.git.CommitNotFoundException;
 import reposense.git.GitCheckout;
 import reposense.git.GitDiff;
 import reposense.git.GitRevList;
+import reposense.git.exception.CommitNotFoundException;
 import reposense.model.Format;
 import reposense.model.RepoConfiguration;
 import reposense.system.LogsManager;

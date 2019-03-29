@@ -10,6 +10,7 @@ import java.nio.file.Paths;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import reposense.git.exception.GitCloneException;
 import reposense.model.RepoConfiguration;
 import reposense.model.RepoLocation;
 import reposense.system.LogsManager;
@@ -31,7 +32,7 @@ public class GitClone {
         try {
             FileUtil.deleteDirectory(repoConfig.getRepoRoot());
             logger.info("Cloning from " + repoConfig.getLocation() + "...");
-            clone(repoConfig.getLocation(), repoConfig.getRepoName());
+            clone(repoConfig.getLocation(), repoConfig.getRepoFolderName());
             logger.info("Cloning completed!");
         } catch (RuntimeException rte) {
             logger.log(Level.SEVERE, "Error encountered in Git Cloning, will attempt to continue analyzing", rte);
@@ -43,14 +44,11 @@ public class GitClone {
         }
 
         try {
-            if (repoConfig.getBranch().equals(RepoConfiguration.DEFAULT_BRANCH)) {
-                String currentBranch = GitBranch.getCurrentBranch(repoConfig.getRepoRoot());
-                repoConfig.setBranch(currentBranch);
-            }
+            repoConfig.updateBranch();
             GitCheckout.checkout(repoConfig.getRepoRoot(), repoConfig.getBranch());
-        } catch (RuntimeException e) {
-            logger.log(Level.SEVERE, "Branch does not exist! Analyze terminated.", e);
-            throw new GitCloneException(e);
+        } catch (RuntimeException rte) {
+            logger.log(Level.SEVERE, "Branch does not exist! Analysis terminated.", rte);
+            throw new GitCloneException(rte);
         }
     }
 
