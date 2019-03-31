@@ -16,6 +16,7 @@ import com.google.gson.JsonSyntaxException;
 import reposense.RepoSense;
 import reposense.authorship.AuthorshipReporter;
 import reposense.authorship.model.AuthorshipSummary;
+import reposense.commits.CommitResultAggregator;
 import reposense.commits.CommitsReporter;
 import reposense.commits.model.CommitContributionSummary;
 import reposense.git.GitShortlog;
@@ -49,26 +50,8 @@ public class ReportGenerator {
 
         cloneAndAnalyzeRepos(configs, outputPath);
 
-        Date sinceDate = null;
-        Date untilDate = null;
-        if (cliSinceDate == null || cliUntilDate == null) {
-            for (RepoConfiguration config : configs) {
-                if (config.getSinceDate() != null) {
-                    if (sinceDate == null) {
-                        sinceDate = config.getSinceDate();
-                    } else if (sinceDate.after(config.getSinceDate())) {
-                        sinceDate = config.getSinceDate();
-                    }
-                }
-                if (config.getUntilDate() != null) {
-                    if (untilDate == null) {
-                        untilDate = config.getUntilDate();
-                    } else if (untilDate.before(config.getUntilDate())) {
-                        untilDate = config.getUntilDate();
-                    }
-                }
-            }
-        }
+        Date sinceDate = CommitResultAggregator.getEarliestSinceDate();
+        Date untilDate = CommitResultAggregator.getlatestUntilDate();
         sinceDate = cliSinceDate == null ? sinceDate : cliSinceDate;
         untilDate = cliUntilDate == null ? untilDate : cliUntilDate;
 
