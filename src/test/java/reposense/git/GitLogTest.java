@@ -80,7 +80,6 @@ public class GitLogTest extends GitTestTemplate {
 
     @Test
     public void gitLog_authorIgnoreValidFilePath_success() {
-        // config.setFormats(Collections.singletonList(new Format("java")));
         Author ignoreValidFileAuthor = getAlphaAllAliasAuthor();
 
         // Existing file is ignored
