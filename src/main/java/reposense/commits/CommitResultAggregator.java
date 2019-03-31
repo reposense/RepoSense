@@ -24,7 +24,16 @@ public class CommitResultAggregator {
      */
     public static CommitContributionSummary aggregateCommitResults(
             RepoConfiguration config, List<CommitResult> commitResults) {
-        Date startDate = config.getSinceDate() == null ? getStartDate(commitResults) : config.getSinceDate();
+        Date startDate = null;
+        if (config.getSinceDate() == null) {
+            startDate = getStartDate(commitResults);
+            config.setSinceDate(startDate);
+        } else {
+            startDate = config.getSinceDate();
+        }
+        if (config.getUntilDate() == null) {
+            config.setUntilDate(getUntilDate(commitResults));
+        }
 
         Map<Author, List<AuthorDailyContribution>> authorDailyContributionsMap =
                 getAuthorDailyContributionsMap(config.getAuthorDisplayNameMap().keySet(), commitResults, startDate);
@@ -120,5 +129,15 @@ public class CommitResultAggregator {
             min = commitInfos.get(0).getTime();
         }
         return min;
+    }
+
+    private static Date getUntilDate(List<CommitResult> commitInfos) {
+        Calendar cal = Calendar.getInstance();
+        cal.set(Calendar.YEAR, 1970);
+        Date max = cal.getTime();
+        if (!commitInfos.isEmpty()) {
+            max = commitInfos.get(commitInfos.size() - 1).getTime();
+        }
+        return max;
     }
 }

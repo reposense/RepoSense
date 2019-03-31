@@ -43,11 +43,34 @@ public class ReportGenerator {
      * @throws IOException if templateZip.zip does not exists in jar file.
      */
     public static void generateReposReport(List<RepoConfiguration> configs, String outputPath,
-            String generationDate, Date sinceDate, Date untilDate) throws IOException {
+            String generationDate, Date cliSinceDate, Date cliUntilDate) throws IOException {
         InputStream is = RepoSense.class.getResourceAsStream(TEMPLATE_FILE);
         FileUtil.copyTemplate(is, outputPath);
 
         cloneAndAnalyzeRepos(configs, outputPath);
+
+        Date sinceDate = null;
+        Date untilDate = null;
+        if (cliSinceDate == null || cliUntilDate == null) {
+            for (RepoConfiguration config : configs) {
+                if (config.getSinceDate() != null) {
+                    if (sinceDate == null) {
+                        sinceDate = config.getSinceDate();
+                    } else if (sinceDate.after(config.getSinceDate())) {
+                        sinceDate = config.getSinceDate();
+                    }
+                }
+                if (config.getUntilDate() != null) {
+                    if (untilDate == null) {
+                        untilDate = config.getUntilDate();
+                    } else if (untilDate.before(config.getUntilDate())) {
+                        untilDate = config.getUntilDate();
+                    }
+                }
+            }
+        }
+        sinceDate = cliSinceDate == null ? sinceDate : cliSinceDate;
+        untilDate = cliUntilDate == null ? untilDate : cliUntilDate;
 
         FileUtil.writeJsonFile(new SummaryReportJson(configs, generationDate, sinceDate, untilDate),
                 getSummaryResultPath(outputPath));
