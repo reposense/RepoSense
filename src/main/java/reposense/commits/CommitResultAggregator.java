@@ -19,30 +19,20 @@ import reposense.model.RepoConfiguration;
  */
 public class CommitResultAggregator {
 
-    private static Date earliestSinceDate = null;
-    private static Date latestUntilDate = null;
-
-    public static Date getEarliestSinceDate() {
-        return earliestSinceDate;
-    }
-
-    public static Date getlatestUntilDate() {
-        return latestUntilDate;
-    }
-
     /**
      * Returns the {@code CommitContributionSummary} generated from aggregating the {@code commitResults}.
      */
     public static CommitContributionSummary aggregateCommitResults(
             RepoConfiguration config, List<CommitResult> commitResults) {
-        Date startDate = config.getSinceDate() == null ? getStartDate(commitResults) : config.getSinceDate();
-        Date untilDate = getUntilDate(commitResults);
-
-        if (earliestSinceDate == null || earliestSinceDate.after(startDate)) {
-            earliestSinceDate = startDate;
+        Date startDate = null;
+        if (config.getSinceDate() == null) {
+            startDate = getStartDate(commitResults);
+            config.setSinceDate(startDate);
+        } else {
+            startDate = config.getSinceDate();
         }
-        if (latestUntilDate == null || latestUntilDate.before(untilDate)) {
-            latestUntilDate = untilDate;
+        if (config.getUntilDate() == null) {
+            config.setUntilDate(getUntilDate(commitResults));
         }
 
         Map<Author, List<AuthorDailyContribution>> authorDailyContributionsMap =
