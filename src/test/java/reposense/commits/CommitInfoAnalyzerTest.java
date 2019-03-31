@@ -109,7 +109,7 @@ public class CommitInfoAnalyzerTest extends GitTestTemplate {
 
     @Test
     public void analyzeCommits_emailWithAdditionOperator_success() {
-        config.setBranch("PR-617_FileAnalyzerTest_analyzeFile_emailWithAdditionOperator_success");
+        config.setBranch("617-FileAnalyzerTest-analyzeFile_emailWithAdditionOperator_success");
         Author author = new Author(MINGYI_AUTHOR_NAME);
         config.setAuthorList(Collections.singletonList(author));
 
