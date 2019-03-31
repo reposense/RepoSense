@@ -196,7 +196,11 @@ window.app = new window.Vue({
     },
 
     getRepoSenseLink() {
-      return `https://github.com/reposense/RepoSense/releases/tag/${window.app.repoSenseVersion}`;
+      const version = window.app.repoSenseVersion;
+      if (version.startsWith('v')) {
+        return `https://github.com/reposense/RepoSense/releases/tag/${version}`;
+      }
+      return `https://github.com/reposense/RepoSense/commits/${version}`;
     },
 
     receiveDates(dates) {
