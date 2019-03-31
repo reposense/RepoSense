@@ -25,14 +25,14 @@ public class GitUtilTest extends GitTestTemplate {
         result = convertToGitExcludeGlobArgs(repoRoot, Collections.singletonList("**.js"));
         Assert.assertEquals(String.format(cmdFormat, "**.js"), result);
 
-        result = convertToGitExcludeGlobArgs(repoRoot, Collections.singletonList("collate**"));
-        Assert.assertEquals(String.format(cmdFormat, "collate**"), result);
+        result = convertToGitExcludeGlobArgs(repoRoot, Collections.singletonList("movedFile**"));
+        Assert.assertEquals(String.format(cmdFormat, "movedFile**"), result);
 
-        result = convertToGitExcludeGlobArgs(repoRoot, Collections.singletonList("*\\sth"));
-        Assert.assertEquals(String.format(cmdFormat, "*\\sth"), result);
+        result = convertToGitExcludeGlobArgs(repoRoot, Collections.singletonList("*\\newPos"));
+        Assert.assertEquals(String.format(cmdFormat, "*\\newPos"), result);
 
-        result = convertToGitExcludeGlobArgs(repoRoot, Collections.singletonList("bin/*"));
-        Assert.assertEquals(String.format(cmdFormat, "bin/*"), result);
+        result = convertToGitExcludeGlobArgs(repoRoot, Collections.singletonList("newPos/*"));
+        Assert.assertEquals(String.format(cmdFormat, "newPos/*"), result);
 
         result = convertToGitExcludeGlobArgs(repoRoot, Collections.singletonList("../**"));
         Assert.assertEquals(emptyResult, result);
@@ -40,7 +40,7 @@ public class GitUtilTest extends GitTestTemplate {
         result = convertToGitExcludeGlobArgs(repoRoot, Collections.singletonList("\\**"));
         Assert.assertEquals(emptyResult, result);
 
-        result = convertToGitExcludeGlobArgs(repoRoot, Collections.singletonList("/sth/*"));
+        result = convertToGitExcludeGlobArgs(repoRoot, Collections.singletonList("/newPos/*"));
         Assert.assertEquals(emptyResult, result);
     }
 }
