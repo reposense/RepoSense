@@ -79,53 +79,50 @@ public class GitLogTest extends GitTestTemplate {
     }
 
     @Test
-    public void gitLog_authorIgnoreValidFilePath_success() {
-        Author ignoreValidFileAuthor = getAlphaAllAliasAuthor();
+    public void gitLog_validIgnoreGlobs_success() {
+        Author author = getAlphaAllAliasAuthor();
 
-        // Existing file is ignored
-        ignoreValidFileAuthor.setIgnoreGlobList(Collections.singletonList("annotationTest.java"));
-        String content = GitLog.getWithFiles(config, ignoreValidFileAuthor);
+        author.setIgnoreGlobList(Collections.singletonList("annotationTest.java"));
+        String content = GitLog.getWithFiles(config, author);
         Assert.assertTrue(TestUtil.compareNumberFilesChanged(6, content));
 
-        ignoreValidFileAuthor.setIgnoreGlobList(Collections.singletonList("**Test**"));
-        content = GitLog.getWithFiles(config, ignoreValidFileAuthor);
+        author.setIgnoreGlobList(Collections.singletonList("**Test**"));
+        content = GitLog.getWithFiles(config, author);
         Assert.assertTrue(TestUtil.compareNumberFilesChanged(5, content));
 
-        // Files that do not exist
-        ignoreValidFileAuthor.setIgnoreGlobList(Collections.singletonList("**blameTest"));
-        content = GitLog.getWithFiles(config, ignoreValidFileAuthor);
-        Assert.assertTrue(TestUtil.compareNumberFilesChanged(7, content));
+        author.setIgnoreGlobList(Collections.singletonList("README.md"));
+        content = GitLog.getWithFiles(config, author);
+        Assert.assertTrue(TestUtil.compareNumberFilesChanged(6, content));
 
-        ignoreValidFileAuthor.setIgnoreGlobList(Collections.singletonList("nonExisting.txt"));
-        content = GitLog.getWithFiles(config, ignoreValidFileAuthor);
-        Assert.assertTrue(TestUtil.compareNumberFilesChanged(7, content));
+        author.setIgnoreGlobList(Collections.singletonList("**.java"));
+        content = GitLog.getWithFiles(config, author);
+        Assert.assertTrue(TestUtil.compareNumberFilesChanged(1, content));
 
-        ignoreValidFileAuthor.setIgnoreGlobList(Collections.singletonList("./java"));
-        content = GitLog.getWithFiles(config, ignoreValidFileAuthor);
-        Assert.assertTrue(TestUtil.compareNumberFilesChanged(7, content));
+        author.setIgnoreGlobList(Collections.singletonList("./newPos"));
+        content = GitLog.getWithFiles(config, author);
+        Assert.assertTrue(TestUtil.compareNumberFilesChanged(6, content));
 
     }
 
     @Test
-    public void gitLog_authorIgnoreInvalidFilePath_success() {
-        config.setFormats(Collections.singletonList(new Format("java")));
-        Author ignoreInvalidFileAuthor = getAlphaAllAliasAuthor();
+    public void gitLog_invalidIgnoreGlobs_success() {
+        Author author = getAlphaAllAliasAuthor();
 
-        ignoreInvalidFileAuthor.setIgnoreGlobList(Collections.singletonList("../bin"));
-        String content = GitLog.getWithFiles(config, ignoreInvalidFileAuthor);
-        Assert.assertTrue(TestUtil.compareNumberFilesChanged(6, content));
+        author.setIgnoreGlobList(Collections.singletonList("../testrepo-Alpha"));
+        String content = GitLog.getWithFiles(config, author);
+        Assert.assertTrue(TestUtil.compareNumberFilesChanged(7, content));
 
-        ignoreInvalidFileAuthor.setIgnoreGlobList(Collections.singletonList("../*.java"));
-        content = GitLog.getWithFiles(config, ignoreInvalidFileAuthor);
-        Assert.assertTrue(TestUtil.compareNumberFilesChanged(6, content));
+        author.setIgnoreGlobList(Collections.singletonList("../*.java"));
+        content = GitLog.getWithFiles(config, author);
+        Assert.assertTrue(TestUtil.compareNumberFilesChanged(7, content));
 
-        ignoreInvalidFileAuthor.setIgnoreGlobList(Collections.singletonList("/newPos"));
-        content = GitLog.getWithFiles(config, ignoreInvalidFileAuthor);
-        Assert.assertTrue(TestUtil.compareNumberFilesChanged(6, content));
+        author.setIgnoreGlobList(Collections.singletonList("/newPos"));
+        content = GitLog.getWithFiles(config, author);
+        Assert.assertTrue(TestUtil.compareNumberFilesChanged(7, content));
 
-        ignoreInvalidFileAuthor.setIgnoreGlobList(Collections.singletonList(".."));
-        content = GitLog.getWithFiles(config, ignoreInvalidFileAuthor);
-        Assert.assertTrue(TestUtil.compareNumberFilesChanged(6, content));
+        author.setIgnoreGlobList(Collections.singletonList(".."));
+        content = GitLog.getWithFiles(config, author);
+        Assert.assertTrue(TestUtil.compareNumberFilesChanged(7, content));
     }
 
     @Test
