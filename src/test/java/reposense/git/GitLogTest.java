@@ -96,7 +96,7 @@ public class GitLogTest extends GitTestTemplate {
         content = GitLog.getWithFiles(config, ignoreValidFileAuthor);
         Assert.assertTrue(TestUtil.compareNumberFilesChanged(7, content));
 
-        ignoreValidFileAuthor.setIgnoreGlobList(Collections.singletonList("collate.md"));
+        ignoreValidFileAuthor.setIgnoreGlobList(Collections.singletonList("nonExisting.txt"));
         content = GitLog.getWithFiles(config, ignoreValidFileAuthor);
         Assert.assertTrue(TestUtil.compareNumberFilesChanged(7, content));
 
