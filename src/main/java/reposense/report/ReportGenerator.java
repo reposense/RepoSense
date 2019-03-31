@@ -33,7 +33,19 @@ public class ReportGenerator {
     // zip file which contains all the report template files
     private static final String TEMPLATE_FILE = "/templateZip.zip";
 
-    private static final String MESSAGE_INVALID_CONFIG_JSON = "%s Ignoring the config provided by this repository.";
+    private static final String MESSAGE_INVALID_CONFIG_JSON = "%s Ignoring the config provided by %s (%s).";
+    private static final String MESSAGE_ERROR_CREATING_DIRECTORY =
+            "Error has occurred while creating repo directory for %s (%s), will skip this repo.";
+    private static final String MESSAGE_ERROR_DURING_ANALYSIS =
+            "Error has occurred during analysis of %s (%s), will skip this repo.";
+    private static final String MESSAGE_NO_STANDALONE_CONFIG = "%s (%s) does not contain a standalone config file.";
+    private static final String MESSAGE_IGNORING_STANDALONE_CONFIG = "Ignoring standalone config file in %s (%s).";
+    private static final String MESSAGE_MALFORMED_STANDALONE_CONFIG = "%s/%s/%s is malformed for %s (%s).";
+    private static final String MESSAGE_NO_AUTHORS_SPECIFIED =
+            "%s (%s) has no authors specified, using all authors by default.";
+    private static final String MESSAGE_START_ANALYSIS = "Analyzing %s (%s)...";
+    private static final String MESSAGE_COMPLETE_ANALYSIS = "Analysis of %s (%s) completed!";
+    private static final String MESSAGE_REPORT_GENERATED = "The report is generated at %s";
 
     /**
      * Generates the authorship and commits JSON file for each repo in {@code configs} at {@code outputPath}, as
@@ -50,7 +62,7 @@ public class ReportGenerator {
 
         FileUtil.writeJsonFile(new SummaryReportJson(configs, generationDate, RepoSense.getVersion()),
                 getSummaryResultPath(outputPath));
-        logger.info("The report is generated at " + outputPath);
+        logger.info(String.format(MESSAGE_REPORT_GENERATED, outputPath));
     }
 
     /**
@@ -80,15 +92,17 @@ public class ReportGenerator {
      */
     private static void analyzeRepo(String outputPath, RepoConfiguration config) {
         Path repoReportDirectory;
+        logger.info(String.format(MESSAGE_START_ANALYSIS, config.getLocation(), config.getBranch()));
         try {
             repoReportDirectory = Paths.get(outputPath, config.getDisplayName());
             FileUtil.createDirectory(repoReportDirectory);
         } catch (IOException ioe) {
             logger.log(Level.WARNING,
-                    "Error has occurred while creating repo directory, will skip this repo.", ioe);
+                    String.format(MESSAGE_ERROR_CREATING_DIRECTORY, config.getLocation(), config.getBranch()), ioe);
             return;
         } catch (RuntimeException rte) {
-            logger.log(Level.SEVERE, "Error has occurred during analysis, will skip this repo.", rte);
+            logger.log(Level.SEVERE,
+                    String.format(MESSAGE_ERROR_DURING_ANALYSIS, config.getLocation(), config.getBranch()), rte);
             return;
         }
         // preprocess the config and repo
@@ -98,6 +112,7 @@ public class ReportGenerator {
         CommitContributionSummary commitSummary = CommitsReporter.generateCommitSummary(config);
         AuthorshipSummary authorshipSummary = AuthorshipReporter.generateAuthorshipSummary(config);
         generateIndividualRepoReport(commitSummary, authorshipSummary, repoReportDirectory.toString());
+        logger.info(String.format(MESSAGE_COMPLETE_ANALYSIS, config.getLocation(), config.getBranch()));
     }
 
     /**
@@ -108,12 +123,12 @@ public class ReportGenerator {
                 Paths.get(config.getRepoRoot(), REPOSENSE_CONFIG_FOLDER, REPOSENSE_CONFIG_FILE).toAbsolutePath();
 
         if (!Files.exists(configJsonPath)) {
-            logger.info(String.format("%s does not contain a standalone config file.", config.getLocation()));
+            logger.info(String.format(MESSAGE_NO_STANDALONE_CONFIG, config.getLocation(), config.getBranch()));
             return;
         }
 
         if (config.isStandaloneConfigIgnored()) {
-            logger.info(String.format("Ignoring standalone config file in %s.", config.getLocation()));
+            logger.info(String.format(MESSAGE_IGNORING_STANDALONE_CONFIG, config.getLocation(), config.getBranch()));
             return;
         }
 
@@ -121,10 +136,11 @@ public class ReportGenerator {
             StandaloneConfig standaloneConfig = new StandaloneConfigJsonParser().parse(configJsonPath);
             config.update(standaloneConfig);
         } catch (JsonSyntaxException jse) {
-            logger.warning(String.format("%s/%s/%s is malformed.",
-                    config.getDisplayName(), REPOSENSE_CONFIG_FOLDER, REPOSENSE_CONFIG_FILE));
+            logger.warning(String.format(MESSAGE_MALFORMED_STANDALONE_CONFIG, config.getDisplayName(),
+                    REPOSENSE_CONFIG_FOLDER, REPOSENSE_CONFIG_FILE, config.getLocation(), config.getBranch()));
         } catch (IllegalArgumentException iae) {
-            logger.warning(String.format(MESSAGE_INVALID_CONFIG_JSON, iae.getMessage()));
+            logger.warning(String.format(MESSAGE_INVALID_CONFIG_JSON,
+                    iae.getMessage(), config.getLocation(), config.getBranch()));
         } catch (IOException ioe) {
             throw new AssertionError(
                     "This exception should not happen as we have performed the file existence check.");
@@ -136,8 +152,7 @@ public class ReportGenerator {
      */
     private static void updateAuthorList(RepoConfiguration config) {
         if (config.getAuthorList().isEmpty()) {
-            logger.info(String.format(
-                    "%s has no authors specified, using all authors by default.", config.getDisplayName()));
+            logger.info(String.format(MESSAGE_NO_AUTHORS_SPECIFIED, config.getLocation(), config.getBranch()));
             List<Author> authorList = GitShortlog.getAuthors(config);
             config.setAuthorList(authorList);
         }
