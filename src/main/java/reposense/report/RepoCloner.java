@@ -114,11 +114,11 @@ public class RepoCloner {
                     "Exception met while trying to clone the repo, will skip this repo.", e);
             handleCloningFailed(outputPath, config);
             return false;
+        } catch (InvalidFilePathException e) {
+            handleCloningFailed(outputPath, config);
+            return false;
         } catch (GitCloneException e) {
             e.printStackTrace();
-        } catch (InvalidFilePathException e) {
-            e.printStackTrace();
-            return false;
         }
         return true;
     }

@@ -193,7 +193,7 @@ public class FileInfoExtractor {
      * {@code relativePath} file.
      */
     public static FileInfo generateFileInfo(String repoRoot, String relativePath) {
-        FileInfo fileInfo = new FileInfo(relativePath.replace('\\', '/'));
+        FileInfo fileInfo = new FileInfo(relativePath);
         Path path = Paths.get(repoRoot, fileInfo.getPath());
 
         try (BufferedReader br = new BufferedReader(new FileReader(path.toFile()))) {
