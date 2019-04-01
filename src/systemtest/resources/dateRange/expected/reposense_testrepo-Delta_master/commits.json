@@ -1,37 +1,9 @@
 {
   "authorDailyContributionsMap": {
-    "lithiumlkid": [
-      {
-        "insertions": 0,
-        "deletions": 0,
-        "date": "2017-09-01",
-        "commitResults": []
-      }
-    ],
-    "lohtianwei": [
-      {
-        "insertions": 0,
-        "deletions": 0,
-        "date": "2017-09-01",
-        "commitResults": []
-      }
-    ],
-    "codeeong": [
-      {
-        "insertions": 0,
-        "deletions": 0,
-        "date": "2017-09-01",
-        "commitResults": []
-      }
-    ],
-    "jordancjq": [
-      {
-        "insertions": 0,
-        "deletions": 0,
-        "date": "2017-09-01",
-        "commitResults": []
-      }
-    ]
+    "lithiumlkid": [],
+    "lohtianwei": [],
+    "codeeong": [],
+    "jordancjq": []
   },
   "authorFinalContributionMap": {
     "lithiumlkid": 0,
