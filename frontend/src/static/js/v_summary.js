@@ -130,18 +130,6 @@ window.vSummary = {
     filteredRepos() {
       return this.filtered.filter((repo) => repo.length > 0);
     },
-    sortingOption() {
-      return this.sortGroupSelection.split(' ')[0];
-    },
-    isSortingDsc() {
-      return this.sortGroupSelection.split(' ')[1] === 'dsc';
-    },
-    sortingWithinOption() {
-      return this.sortWithinGroupSelection.split(' ')[0];
-    },
-    isSortingWithinDsc() {
-      return this.sortWithinGroupSelection.split(' ')[1] === 'dsc';
-    },
   },
   methods: {
     // view functions //
@@ -456,6 +444,7 @@ window.vSummary = {
       return null;
     },
     updateSortSelection() {
+      this.getOptionWithOrder();
       if (this.filterGroupSelection === 'groupByAuthors') {
         if (!this.sortWithinGroupSelection || this.sortingWithinOption === 'name') {
           this.sortWithinGroupSelection = 'searchPath asc';
@@ -474,7 +463,14 @@ window.vSummary = {
         this.sortWithinGroupSelection = '';
       }
     },
+    getOptionWithOrder() {
+      this.sortingOption = this.sortGroupSelection.split(' ')[0];
+      this.isSortingDsc = this.sortGroupSelection.split(' ')[1] === 'dsc';
+      this.sortingWithinOption = this.sortWithinGroupSelection.split(' ')[0];
+      this.isSortingWithinDsc = this.sortWithinGroupSelection.split(' ')[1] === 'dsc';
+    },
     sortFiltered() {
+      this.getOptionWithOrder();
       let full = [];
       if (this.filterGroupSelection === 'groupByNone') {
         // push all repos into the same group
