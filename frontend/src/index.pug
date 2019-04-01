@@ -154,9 +154,8 @@ html
                   i.summary-chart__title--button.fab.fa-github
 
               .summary-chart__ramp(
-                onmouseup="dragViewUp(event)",
-                onmousedown="dragViewDown(event)",
-                v-on:mouseup="openTabZoomin(user)"
+                onclick="viewClick(event)",
+                v-on:click="openTabZoomin(user)"
               )
                 v_ramp(
                   v-bind:user="user",

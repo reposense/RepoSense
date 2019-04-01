@@ -12,6 +12,18 @@ window.comparator = (fn) => function compare(a, b) {
 // ui funcs, only allow one ramp to be highlighted //
 let drags = [];
 
+function viewClick(evt) {
+  if (drags.length === 2) {
+    drags = [];
+  }
+
+  if (evt.shiftKey) {
+    return drags.length === 0
+      ? dragViewDown(evt)
+      : dragViewUp(evt);
+  }
+}
+
 function getBaseTarget(target) {
   return (target.className === 'summary-chart__ramp')
     ? target : getBaseTarget(target.parentElement);
@@ -517,7 +529,7 @@ window.vSummary = {
 
     openTabZoomin(userOrig) {
       // skip if accidentally clicked on ramp chart
-      if (drags[1] - drags[0]) {
+      if (drags.length === 2 && drags[1] - drags[0]) {
         const idxs = drags.map((x) => x * userOrig.commits.length / 100);
         const rawCommits = userOrig.commits.slice(
             parseInt(idxs[0], 10),
