@@ -105,7 +105,7 @@ public class GitLogTest extends GitTestTemplate {
     }
 
     @Test
-    public void gitLog_invalidIgnoreGlobs_success() {
+    public void gitLog_invalidIgnoreGlobs_filtered() {
         Author author = getAlphaAllAliasAuthor();
 
         author.setIgnoreGlobList(Collections.singletonList("../testrepo-Alpha"));
