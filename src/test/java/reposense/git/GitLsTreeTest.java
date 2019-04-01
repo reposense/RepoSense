@@ -1,7 +1,7 @@
 package reposense.git;
 
+import org.junit.After;
 import org.junit.Assume;
-import org.junit.Before;
 import org.junit.Test;
 
 import reposense.git.exception.GitCloneException;
@@ -11,8 +11,8 @@ import reposense.util.SystemUtil;
 
 public class GitLsTreeTest extends GitTestTemplate {
 
-    @Before
-    public void before() {
+    @After
+    public void after() {
        // Overrides checkout master behaviour in GitTestTemplate as it throws error when run on a bare clone.
     }
 
