@@ -73,7 +73,6 @@ public class GitLsTree {
      * Returns an Array of {@code String} containing file paths of all tracked files.
      */
     private static String[] getFilePaths(RepoConfiguration config) {
-        // Path rootPath = Paths.get(FileUtil.REPOS_ADDRESS, config.getRepoName());
         Path rootPath = Paths.get(config.getRepoRoot());
         String command = "git ls-tree --name-only -r " + config.getBranch();
 

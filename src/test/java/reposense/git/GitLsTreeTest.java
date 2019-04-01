@@ -1,6 +1,7 @@
 package reposense.git;
 
 import org.junit.Assume;
+import org.junit.Before;
 import org.junit.Test;
 
 import reposense.git.exception.GitCloneException;
@@ -9,6 +10,11 @@ import reposense.template.GitTestTemplate;
 import reposense.util.SystemUtil;
 
 public class GitLsTreeTest extends GitTestTemplate {
+
+    @Before
+    public void before() {
+       // Overrides checkout master behaviour in GitTestTemplate as it throws error when run on a bare clone.
+    }
 
     @Test
     public void repo_validFilePaths_success() throws InvalidFilePathException, GitCloneException {
