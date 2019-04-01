@@ -464,10 +464,10 @@ window.vSummary = {
       }
     },
     getOptionWithOrder() {
-      this.sortingOption = this.sortGroupSelection.split(' ')[0];
-      this.isSortingDsc = this.sortGroupSelection.split(' ')[1] === 'dsc';
-      this.sortingWithinOption = this.sortWithinGroupSelection.split(' ')[0];
-      this.isSortingWithinDsc = this.sortWithinGroupSelection.split(' ')[1] === 'dsc';
+      [this.sortingOption, this.isSortingDsc] = this.sortGroupSelection.split(' ');
+      this.isSortingDsc = this.isSortingDsc === 'dsc';
+      [this.sortingWithinOption, this.isSortingWithinDsc] = this.sortWithinGroupSelection.split(' ');
+      this.isSortingWithinDsc = this.isSortingWithinDsc === 'dsc';
     },
     sortFiltered() {
       this.getOptionWithOrder();
