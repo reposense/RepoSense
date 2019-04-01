@@ -101,7 +101,6 @@ public class GitLogTest extends GitTestTemplate {
         author.setIgnoreGlobList(Collections.singletonList("./newPos"));
         content = GitLog.getWithFiles(config, author);
         Assert.assertTrue(TestUtil.compareNumberFilesChanged(6, content));
-
     }
 
     @Test
