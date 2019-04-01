@@ -445,6 +445,7 @@ window.vSummary = {
     },
     updateSortSelection() {
       this.getOptionWithOrder();
+      // Update UI selection to change all illegal options
       if (this.filterGroupSelection === 'groupByAuthors') {
         if (!this.sortWithinGroupSelection || this.sortingWithinOption === 'name') {
           this.sortWithinGroupSelection = 'searchPath asc';
