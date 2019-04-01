@@ -16,7 +16,7 @@ public class FileInfo {
     public FileInfo(String path) {
         if (SystemUtil.isWindows()) {
             // Only replace \ to / in Windows paths, so it does not interferes with a correct Unix path
-            path.replace('\\', '/');
+            path = path.replace('\\', '/');
         }
 
         this.path = path;
