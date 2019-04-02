@@ -1,22 +1,17 @@
-function comparator(fn) {
-  return function compare(a, b) {
-    const a1 = fn(a);
-    const b1 = fn(b);
-    if (a1 === b1) {
-      return 0;
-    } if (a1 < b1) {
-      return -1;
-    }
-    return 1;
-  };
-}
+window.comparator = (fn) => function compare(a, b) {
+  const a1 = fn(a);
+  const b1 = fn(b);
+  if (a1 === b1) {
+    return 0;
+  } if (a1 < b1) {
+    return -1;
+  }
+  return 1;
+};
 
 // date functions //
 const DAY_IN_MS = (1000 * 60 * 60 * 24);
-function getIntervalDay(a, b) {
-  const diff = Date.parse(a) - Date.parse(b);
-  return diff / DAY_IN_MS;
-}
+const WEEK_IN_MS = DAY_IN_MS * 7;
 function getDateStr(date) {
   return (new Date(date)).toISOString().split('T')[0];
 }
@@ -48,7 +43,7 @@ window.vSummary = {
       filterSearch: '',
       filterSort: 'displayName',
       filterSortReverse: false,
-      filterGroupRepos: true,
+      filterGroupSelection: 'groupByRepos',
       filterTimeFrame: 'day',
       filterBreakdown: false,
       tmpFilterSinceDate: '',
@@ -72,11 +67,12 @@ window.vSummary = {
     filterSortReverse() {
       this.getFiltered();
     },
-    filterGroupRepos() {
-      this.getFiltered();
-    },
     filterTimeFrame() {
       this.getFiltered();
+    },
+    filterGroupSelection() {
+      this.getFiltered();
+      this.updateSortSelection();
     },
     filterBreakdown() {
       this.getFiltered();
@@ -138,8 +134,23 @@ window.vSummary = {
       const newSize = 100 * (slice.insertions / this.avgCommitSize);
       return Math.max(newSize * this.rampSize, 0.5);
     },
-    getSlicePos(i, total) {
-      return (total - i - 1) / total;
+    // position for commit granularity
+    getCommitPos(i, total, sinceDate, untilDate) {
+      return (total - i - 1) * DAY_IN_MS / total
+          / (this.getTotalForPos(sinceDate, untilDate) + DAY_IN_MS);
+    },
+    // position for day granularity
+    getSlicePos(date, sinceDate, untilDate) {
+      const total = this.getTotalForPos(sinceDate, untilDate);
+      return (new Date(untilDate) - new Date(date)) / (total + DAY_IN_MS);
+    },
+    // get duration in miliseconds between 2 date
+    getTotalForPos(sinceDate, untilDate) {
+      return new Date(untilDate) - new Date(sinceDate);
+    },
+    getSliceColor(date) {
+      const timeMs = (new Date(date)).getTime();
+      return (timeMs / DAY_IN_MS) % 5;
     },
     getSliceLink(user, slice) {
       const { REPOS } = window;
@@ -224,7 +235,7 @@ window.vSummary = {
       addHash('timeframe', this.filterTimeFrame);
 
       addHash('reverse', this.filterSortReverse);
-      addHash('repoSort', this.filterGroupRepos);
+      addHash('groupSelect', this.filterGroupSelection);
       addHash('breakdown', this.filterBreakdown);
 
       encodeHash();
@@ -247,7 +258,9 @@ window.vSummary = {
       }
 
       if (hash.reverse) { this.filterSortReverse = convertBool(hash.reverse); }
-      if (hash.repoSort) { this.filterGroupRepos = convertBool(hash.repoSort); }
+      if (hash.groupSelect) {
+        this.filterGroupSelection = hash.groupSelect;
+      }
       if (hash.breakdown) {
         this.filterBreakdown = convertBool(hash.breakdown);
       }
@@ -259,7 +272,7 @@ window.vSummary = {
         return;
       }
 
-      let minDate = '';
+      let minDate = window.app.sinceDate;
       let maxDate = '';
       this.filtered.forEach((repo) => {
         repo.forEach((user) => {
@@ -351,22 +364,34 @@ window.vSummary = {
     },
     splitCommitsWeek(user) {
       const { commits } = user;
-      const leng = commits.length;
 
       const res = [];
-      for (let weekId = 0; weekId < (leng - 1) / 7; weekId += 1) {
+
+      const sinceDate = dateRounding(this.filterSinceDate, 1);
+      const untilDate = this.filterUntilDate;
+
+      const sinceMs = (new Date(sinceDate)).getTime();
+      const untilMs = (new Date(untilDate)).getTime();
+
+      const diff = Math.round(Math.abs((untilMs - sinceMs) / DAY_IN_MS));
+
+      for (let weekId = 0; weekId < diff / 7; weekId += 1) {
+        const startOfWeekMs = sinceMs + (weekId * WEEK_IN_MS);
+
         const week = {
           insertions: 0,
           deletions: 0,
-          date: commits[weekId * 7].date,
+          date: getDateStr(startOfWeekMs),
         };
 
-        for (let dayId = 0; dayId < 7; dayId += 1) {
-          const commit = commits[(weekId * 7) + dayId];
-          if (commit) {
-            week.insertions += commit.insertions;
-            week.deletions += commit.deletions;
-          }
+        // commits are not contiguous, meaning there are gaps of days without
+        // commits, so we are going to check each commit's date and make sure
+        // it is within the duration of a week
+        while (commits.length > 0
+            && (new Date(commits[0].date)).getTime() < startOfWeekMs + WEEK_IN_MS) {
+          const commit = commits.shift();
+          week.insertions += commit.insertions;
+          week.deletions += commit.deletions;
         }
 
         res.push(week);
@@ -393,21 +418,6 @@ window.vSummary = {
         untilDate = userLast.date;
       }
 
-      if (this.filterTimeFrame === 'week') {
-        sinceDate = dateRounding(sinceDate, 1);
-      }
-      let diff = getIntervalDay(userFirst.date, sinceDate);
-
-      const startMs = (new Date(sinceDate)).getTime();
-      for (let dayId = 0; dayId < diff; dayId += 1) {
-        user.commits.push({
-          insertions: 0,
-          deletions: 0,
-          commitResults: [],
-          date: getDateStr(startMs + (dayId * DAY_IN_MS)),
-        });
-      }
-
       user.dailyCommits.forEach((commit) => {
         const { date } = commit;
         if (date >= sinceDate && date <= untilDate) {
@@ -415,43 +425,24 @@ window.vSummary = {
         }
       });
 
-      if (this.filterTimeFrame === 'week') {
-        untilDate = dateRounding(untilDate);
-      }
-      diff = getIntervalDay(untilDate, userLast.date);
-
-      const endMs = (new Date(userLast.date)).getTime();
-      for (let paddingId = 1; paddingId < diff; paddingId += 1) {
-        user.commits.push({
-          insertions: 0,
-          deletions: 0,
-          commitResults: [],
-          date: getDateStr(endMs + (paddingId * DAY_IN_MS)),
-        });
-      }
-
       return null;
     },
-    sortFiltered() {
-      const full = [];
-      if (!this.filterGroupRepos) {
-        full.push([]);
+    updateSortSelection() {
+      if (this.filterGroupSelection === 'groupByAuthors' && this.filterSort === 'displayName') {
+        this.filterSort = 'searchPath';
+      } else if (this.filterGroupSelection === 'groupByRepos' && this.filterSort === 'searchPath') {
+        this.filterSort = 'displayName';
       }
-
-      this.filtered.forEach((users) => {
-        if (this.filterGroupRepos) {
-          users.sort(comparator((ele) => ele[this.filterSort]));
-          full.push(users);
-        } else {
-          users.forEach((user) => full[0].push(user));
-        }
-      });
-
-      if (!this.filterGroupRepos) {
-        full[0].sort(comparator((ele) => {
-          const field = ele[this.filterSort];
-          return field.toLowerCase ? field.toLowerCase() : field;
-        }));
+    },
+    sortFiltered() {
+      let full = [];
+      if (this.filterGroupSelection === 'groupByNone') {
+        // push all repos into the same group
+        full[0] = this.groupByNone(this.filtered);
+      } else if (this.filterGroupSelection === 'groupByAuthors') {
+        full = this.groupByAuthors(this.filtered);
+      } else {
+        full = this.groupByRepos(this.filtered);
       }
 
       if (this.filterSortReverse) {
@@ -459,6 +450,48 @@ window.vSummary = {
       }
 
       this.filtered = full;
+    },
+
+    groupByRepos(repos) {
+      const sortedRepos = [];
+      repos.forEach((users) => {
+        users.sort(window.comparator((ele) => ele[this.filterSort]));
+        sortedRepos.push(users);
+      });
+      return sortedRepos;
+    },
+    groupByNone(repos) {
+      const sortedRepos = [];
+      repos.forEach((users) => {
+        users.forEach((user) => {
+          sortedRepos.push(user);
+        });
+      });
+      sortedRepos.sort(window.comparator((ele) => {
+        const field = ele[this.filterSort];
+        return field.toLowerCase ? field.toLowerCase() : field;
+      }));
+      return sortedRepos;
+    },
+    groupByAuthors(repos) {
+      const authorMap = {};
+      const filtered = [];
+      repos.forEach((users) => {
+        users.forEach((user) => {
+          if (Object.keys(authorMap).includes(user.name)) {
+            authorMap[user.name].push(user);
+          } else {
+            authorMap[user.name] = [user];
+          }
+        });
+      });
+
+      Object.keys(authorMap).forEach((author) => filtered.push(authorMap[author]));
+      filtered.sort(window.comparator((ele) => {
+        const field = ele[0].displayName;
+        return field.toLowerCase();
+      }));
+      return filtered;
     },
   },
   created() {

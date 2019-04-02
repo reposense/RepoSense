@@ -6,7 +6,6 @@ import java.text.SimpleDateFormat;
 import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
-import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.regex.Matcher;
@@ -25,6 +24,7 @@ import reposense.system.LogsManager;
  */
 public class CommitInfoAnalyzer {
     private static final Logger logger = LogsManager.getLogger(CommitInfoAnalyzer.class);
+    private static final String MESSAGE_START_ANALYZING_COMMIT_INFO = "Analyzing commits info for %s (%s)...";
 
     private static final DateFormat GIT_ISO_FORMAT = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
     private static final String LOG_SPLITTER = "\\|";
@@ -43,8 +43,10 @@ public class CommitInfoAnalyzer {
      * specified to be ignored or the author is inside {@code config}.
      */
     public static List<CommitResult> analyzeCommits(List<CommitInfo> commitInfos, RepoConfiguration config) {
+        logger.info(String.format(MESSAGE_START_ANALYZING_COMMIT_INFO, config.getLocation(), config.getBranch()));
+
         return commitInfos.stream()
-                .map(commitInfo -> analyzeCommit(commitInfo, config.getAuthorEmailsAndAliasesMap()))
+                .map(commitInfo -> analyzeCommit(commitInfo, config))
                 .filter(commitResult -> !commitResult.getAuthor().equals(Author.UNKNOWN_AUTHOR)
                         && !CommitHash.isInsideCommitList(commitResult.getHash(), config.getIgnoreCommitList()))
                 .sorted(Comparator.comparing(CommitResult::getTime))
@@ -54,14 +56,13 @@ public class CommitInfoAnalyzer {
     /**
      * Extracts the relevant data from {@code commitInfo} into a {@code CommitResult}.
      */
-    public static CommitResult analyzeCommit(CommitInfo commitInfo, Map<String, Author> authorAliasMap) {
+    public static CommitResult analyzeCommit(CommitInfo commitInfo, RepoConfiguration config) {
         String infoLine = commitInfo.getInfoLine();
         String statLine = commitInfo.getStatLine();
 
         String[] elements = infoLine.split(LOG_SPLITTER);
         String hash = elements[COMMIT_HASH_INDEX];
-        Author author = authorAliasMap.getOrDefault(elements[AUTHOR_INDEX],
-                authorAliasMap.getOrDefault(elements[EMAIL_INDEX], Author.UNKNOWN_AUTHOR));
+        Author author = config.getAuthor(elements[AUTHOR_INDEX], elements[EMAIL_INDEX]);
 
         Date date = null;
         try {

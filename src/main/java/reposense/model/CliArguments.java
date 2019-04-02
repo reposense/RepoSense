@@ -1,6 +1,7 @@
 package reposense.model;
 
 import java.nio.file.Path;
+import java.time.ZoneId;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
@@ -14,6 +15,11 @@ public abstract class CliArguments {
     protected Optional<Date> untilDate;
     protected List<Format> formats;
     protected boolean isAutomaticallyLaunching;
+    protected ZoneId zoneId;
+
+    public ZoneId getZoneId() {
+        return zoneId;
+    }
 
     public Path getOutputFilePath() {
         return outputFilePath;
@@ -53,6 +59,7 @@ public abstract class CliArguments {
                 && this.sinceDate.equals(otherCliArguments.sinceDate)
                 && this.untilDate.equals(otherCliArguments.untilDate)
                 && this.formats.equals(otherCliArguments.formats)
-                && this.isAutomaticallyLaunching == otherCliArguments.isAutomaticallyLaunching;
+                && this.isAutomaticallyLaunching == otherCliArguments.isAutomaticallyLaunching
+                && this.zoneId.equals(otherCliArguments.zoneId);
     }
 }

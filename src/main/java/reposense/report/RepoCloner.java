@@ -15,7 +15,9 @@ import reposense.git.GitCheckout;
 import reposense.git.GitLsTree;
 import reposense.git.exception.GitCloneException;
 import reposense.git.exception.InvalidFilePathException;
+
 import reposense.model.RepoConfiguration;
+import reposense.model.RepoLocation;
 import reposense.system.CommandRunnerProcess;
 import reposense.system.CommandRunnerProcessException;
 import reposense.system.LogsManager;
@@ -25,6 +27,13 @@ import reposense.util.FileUtil;
  * Handles asynchronous cloning of repos to allow multiple repos to be cloned and analyzed concurrently.
  */
 public class RepoCloner {
+    private static final String MESSAGE_START_CLONING = "Cloning in parallel from %s...";
+    private static final String MESSAGE_WAITING_FOR_CLONING = "Waiting for cloning of %s to complete...";
+    private static final String MESSAGE_COMPLETE_CLONING = "Cloning of %s completed!";
+    private static final String MESSAGE_ERROR_DELETING_DIRECTORY = "Error deleting report directory.";
+    private static final String MESSAGE_ERROR_CLONING =
+            "Exception met while trying to clone the repo, will skip this repo.";
+
     private static final int MAX_NO_OF_REPOS = 2;
     private static final Logger logger = LogsManager.getLogger(RepoCloner.class);
 
@@ -41,17 +50,15 @@ public class RepoCloner {
      */
     public void clone(String outputPath, RepoConfiguration config) throws IOException {
         configs[currentIndex] = config;
-        isCurrentRepoCloned = true;
-        if (isPreviousRepoDifferent()) {
-            isCurrentRepoCloned = spawnCloneProcess(outputPath, config);
-        }
+        isCurrentRepoCloned = spawnCloneProcess(outputPath, config);
     }
 
     /**
-     * Waits for current clone process to finish executing and returns the corresponding {@code RepoConfiguration}.
+     * Waits for current clone process to finish executing and returns the {@code RepoLocation} of the corresponding
+     * {@code RepoConfiguration}.
      */
-    public RepoConfiguration getClonedRepo(String outputPath) throws IOException {
-        if (isCurrentRepoCloned && isPreviousRepoDifferent()) {
+    public RepoLocation getClonedRepoLocation(String outputPath) throws IOException {
+        if (isCurrentRepoCloned) {
             isCurrentRepoCloned = waitForCloneProcess(outputPath, configs[currentIndex]);
         }
 
@@ -60,38 +67,19 @@ public class RepoCloner {
             return null;
         }
 
-        if (isPreviousRepoDifferent()) {
-            currentRepoDefaultBranch = GitBranch.getCurrentBranch(configs[currentIndex].getRepoRoot());
-        }
-        configs[currentIndex].updateBranch(currentRepoDefaultBranch);
-
+        currentRepoDefaultBranch = GitBranch.getCurrentBranch(configs[currentIndex].getRepoRoot());
         cleanupPrevRepoFolder();
 
-        try {
-            GitCheckout.checkout(configs[currentIndex].getRepoRoot(), configs[currentIndex].getBranch());
-        } catch (RuntimeException e) {
-            logger.log(Level.SEVERE, "Branch does not exist! Analysis terminated.", e);
-            handleCloningFailed(outputPath, configs[currentIndex]);
-            return null;
-        }
         previousIndex = currentIndex;
         currentIndex = (currentIndex + 1) % configs.length;
-        return configs[previousIndex];
+        return configs[previousIndex].getLocation();
     }
 
     /**
-     * Cleans up after all repos have been cloned and analyzed
+     * Cleans up after all repos have been cloned and analyzed.
      */
     public void cleanup() {
         deleteDirectory(FileUtil.REPOS_ADDRESS);
-    }
-
-    /**
-     * Returns true if current repo is different from the previously cloned repo.
-     */
-    private boolean isPreviousRepoDifferent() {
-        return previousIndex == currentIndex
-                || !configs[previousIndex].getLocation().equals(configs[currentIndex].getLocation());
     }
 
     /**
@@ -105,13 +93,12 @@ public class RepoCloner {
             GitLsTree.validateFilePaths(config);
 
             FileUtil.deleteDirectory(config.getRepoRoot());
-            logger.info("Cloning in parallel from " + config.getLocation() + "...");
+            logger.info(String.format(MESSAGE_START_CLONING, config.getLocation()));
             Path rootPath = Paths.get(FileUtil.REPOS_ADDRESS, config.getRepoFolderName());
             Files.createDirectories(rootPath);
             crp = runCommandAsync(rootPath, "git clone " + addQuote(config.getLocation().toString()));
         } catch (RuntimeException | IOException e) {
-            logger.log(Level.WARNING,
-                    "Exception met while trying to clone the repo, will skip this repo.", e);
+            logger.log(Level.WARNING, MESSAGE_ERROR_CLONING, e);
             handleCloningFailed(outputPath, config);
             return false;
         } catch (InvalidFilePathException e) {
@@ -129,12 +116,12 @@ public class RepoCloner {
      */
     private boolean waitForCloneProcess(String outputPath, RepoConfiguration config) throws IOException {
         try {
+            logger.info(String.format(MESSAGE_WAITING_FOR_CLONING, config.getLocation()));
             crp.waitForProcess();
-            logger.info("Cloning of " + config.getLocation() + " completed!");
+            logger.info(String.format(MESSAGE_COMPLETE_CLONING, config.getLocation()));
         } catch (RuntimeException | CommandRunnerProcessException e) {
             crp = null;
-            logger.log(Level.WARNING,
-                    "Exception met while trying to clone the repo, will skip this repo.", e);
+            logger.log(Level.WARNING, MESSAGE_ERROR_CLONING, e);
             handleCloningFailed(outputPath, config);
             return false;
         }
@@ -152,7 +139,7 @@ public class RepoCloner {
      * Deletes previously cloned repo directories that are not in use anymore.
      */
     private void cleanupPrevRepoFolder() {
-        if (isPreviousRepoDifferent() && previousIndex != currentIndex) {
+        if (previousIndex != currentIndex) {
             deleteDirectory(configs[previousIndex].getRepoRoot());
         }
     }
@@ -161,7 +148,11 @@ public class RepoCloner {
         try {
             FileUtil.deleteDirectory(root);
         } catch (IOException ioe) {
-            logger.log(Level.WARNING, "Error deleting report directory.", ioe);
+            logger.log(Level.WARNING, MESSAGE_ERROR_DELETING_DIRECTORY, ioe);
         }
+    }
+
+    public String getCurrentRepoDefaultBranch() {
+        return currentRepoDefaultBranch;
     }
 }
