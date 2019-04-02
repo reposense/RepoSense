@@ -149,4 +149,15 @@ public class GitLogTest extends GitTestTemplate {
         String content = GitLog.get(config, getAlphaAllAliasAuthor());
         Assert.assertTrue(content.isEmpty());
     }
+
+    @Test
+    public void gitLog_emailWithAdditionOperator_success() {
+        config.setBranch("617-FileAnalyzerTest-analyzeFile_emailWithAdditionOperator_success");
+        GitCheckout.checkoutBranch(config.getRepoRoot(), config.getBranch());
+        Author author = new Author(MINGYI_AUTHOR_NAME);
+        config.setAuthorList(Collections.singletonList(author));
+
+        String content = GitLog.get(config, author);
+        Assert.assertTrue(TestUtil.compareNumberExpectedCommitsToGitLogLines(1, content));
+    }
 }
