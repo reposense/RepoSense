@@ -7,7 +7,7 @@ import java.util.logging.Logger;
 import reposense.system.LogsManager;
 
 public class GroupConfiguration {
-    private static final Logger logger = LogsManager.getLogger(AuthorConfiguration.class);
+    private static final Logger logger = LogsManager.getLogger(GroupConfiguration.class);
 
     private RepoLocation location;
 
@@ -23,7 +23,7 @@ public class GroupConfiguration {
             return true;
         }
 
-        if (!(other instanceof AuthorConfiguration)) {
+        if (!(other instanceof GroupConfiguration)) {
             return false;
         }
 

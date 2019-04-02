@@ -37,7 +37,6 @@ public class AuthorshipSummary {
                 authorFileTypeContributionMap.put(author, defaultGroupContribution);
             });
         } else {
-            authors.forEach((author) -> authorFileTypeContributionMap.put(author, new LinkedHashMap<>()));
             // file format contribution
             authors.forEach((author) -> {
                 LinkedHashMap<String, Integer> defaultFileFormatContribution = new LinkedHashMap<>();
@@ -53,7 +52,6 @@ public class AuthorshipSummary {
      * Increments the contribution count of {@code author} and the corresponding file format specified by
      * {@code filePath} by one.
      */
-
     public void addAuthorContributionCount(Author author, String format) {
         authorFinalContributionMap.put(author, authorFinalContributionMap.get(author) + 1);
 
