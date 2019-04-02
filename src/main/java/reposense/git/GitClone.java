@@ -42,8 +42,7 @@ public class GitClone {
         try {
             FileUtil.deleteDirectory(repoConfig.getRepoRoot());
             logger.info("Cloning from " + repoConfig.getLocation() + "...");
-            clone(
-                repoConfig.getLocation(), repoConfig.getRepoFolderName(), repoConfig.getRepoName(), "");
+            clone(repoConfig.getLocation(), repoConfig.getRepoFolderName(), repoConfig.getRepoName(), "");
             logger.info("Cloning completed!");
         } catch (RuntimeException rte) {
             logger.log(Level.SEVERE, "Error encountered in Git Cloning, will attempt to continue analyzing", rte);

@@ -33,7 +33,7 @@ public class GitLsTree {
 
 
     /**
-     * Checks that the repository in {@code config} contains invalid file paths that are not compatible with Windows.
+     * Verifies that the repository in {@code config} contains only file paths that are compatible with Windows.
      * Skips check if the operating system is not Windows.
      *
      * @throws InvalidFilePathException if the repository contains invalid file paths that are not compatible with
