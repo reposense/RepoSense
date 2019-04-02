@@ -7,6 +7,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 import java.util.logging.Logger;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import reposense.system.LogsManager;
 
@@ -16,6 +18,8 @@ import reposense.system.LogsManager;
 public class AuthorConfiguration {
     public static final String DEFAULT_BRANCH = "HEAD";
     private static final Logger logger = LogsManager.getLogger(AuthorConfiguration.class);
+    private static final Pattern EMAIL_PLUS_OPERATOR_PATTERN =
+            Pattern.compile("^(?<prefix>.+)\\+(?<suffix>.*)(?<domain>@.+)$");
 
     private RepoLocation location;
     private String branch;
@@ -184,5 +188,25 @@ public class AuthorConfiguration {
 
     public RepoLocation getLocation() {
         return location;
+    }
+
+    /**
+     * Attempts to find matching {@code Author} given a name and an email.
+     * If no matching {@code Author} is found, {@code Author#UNKNOWN_AUTHOR} is returned.
+     */
+    public Author getAuthor(String name, String email) {
+        if (authorEmailsAndAliasesMap.containsKey(name)) {
+            return authorEmailsAndAliasesMap.get(name);
+        }
+        if (authorEmailsAndAliasesMap.containsKey(email)) {
+            return authorEmailsAndAliasesMap.get(email);
+        }
+        Matcher matcher = EMAIL_PLUS_OPERATOR_PATTERN.matcher(email);
+
+        if (matcher.matches()) {
+            return authorEmailsAndAliasesMap.getOrDefault(matcher.group("suffix") + matcher.group("domain"),
+                    Author.UNKNOWN_AUTHOR);
+        }
+        return Author.UNKNOWN_AUTHOR;
     }
 }

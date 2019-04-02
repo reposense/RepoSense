@@ -7,7 +7,6 @@ import java.nio.file.Path;
 import java.nio.file.PathMatcher;
 import java.nio.file.Paths;
 import java.util.HashMap;
-import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -73,8 +72,6 @@ public class FileInfoAnalyzer {
      * Sets the {@code Author} for each line in {@code fileInfo} based on the git blame analysis on the file.
      */
     private static void aggregateBlameAuthorInfo(RepoConfiguration config, FileInfo fileInfo) {
-        Map<String, Author> authorEmailsAndAliasesMap = config.getAuthorEmailsAndAliasesMap();
-
         String blameResults = getGitBlameResult(config, fileInfo.getPath());
         String[] blameResultLines = blameResults.split("\n");
         Path filePath = Paths.get(fileInfo.getPath());
@@ -84,8 +81,7 @@ public class FileInfoAnalyzer {
             String authorName = blameResultLines[lineCount + 1].substring(AUTHOR_NAME_OFFSET);
             String authorEmail = blameResultLines[lineCount + 2]
                     .substring(AUTHOR_EMAIL_OFFSET).replaceAll("<|>", "");
-            Author author = authorEmailsAndAliasesMap.getOrDefault(authorName,
-                    authorEmailsAndAliasesMap.getOrDefault(authorEmail, Author.UNKNOWN_AUTHOR));
+            Author author = config.getAuthor(authorName, authorEmail);
 
             if (!fileInfo.isFileLineTracked(lineCount / 3) || isAuthorIgnoringFile(author, filePath)
                     || CommitHash.isInsideCommitList(commitHash, config.getIgnoreCommitList())) {

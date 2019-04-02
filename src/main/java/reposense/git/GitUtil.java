@@ -22,7 +22,7 @@ class GitUtil {
     private static final String AUTHOR_NAME_PATTERN = "^%s <.*>$";
 
     // ignore check against author name
-    private static final String AUTHOR_EMAIL_PATTERN = "^.* <%s>$";
+    private static final String AUTHOR_EMAIL_PATTERN = "^.* <\\(.*+\\)\\?%s>$";
 
     private static final String OR_OPERATOR_PATTERN = "\\|";
 
