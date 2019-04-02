@@ -26,7 +26,9 @@ import com.google.gson.GsonBuilder;
 
 import reposense.system.LogsManager;
 
-
+/**
+ * Wrap utitilities function correlating to file processing
+ */
 public class FileUtil {
     public static final String REPOS_ADDRESS = "repos";
 
@@ -37,6 +39,9 @@ public class FileUtil {
     private static final String GITHUB_API_DATE_FORMAT = "yyyy-MM-dd";
     private static final ByteBuffer buffer = ByteBuffer.allocate(1 << 11); // 2KB
 
+    /**
+    * Write a JSON file from a Java Object
+    */
     public static void writeJsonFile(Object object, String path) {
         Gson gson = new GsonBuilder()
                 .setDateFormat(GITHUB_API_DATE_FORMAT)
@@ -52,6 +57,9 @@ public class FileUtil {
         }
     }
 
+    /**
+    * Uses the commit analysis results to generate the summary information of a repository.
+    */
     public static void deleteDirectory(String root) throws IOException {
         Path rootPath = Paths.get(root);
         if (Files.exists(rootPath)) {

@@ -155,6 +155,9 @@ public class RepoCloner {
         }
     }
 
+    /**
+    * Delete a directory given a root
+    */
     private void deleteDirectory(String root) {
         try {
             FileUtil.deleteDirectory(root);

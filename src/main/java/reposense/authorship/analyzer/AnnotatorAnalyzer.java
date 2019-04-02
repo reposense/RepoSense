@@ -45,6 +45,9 @@ public class AnnotatorAnalyzer {
         }
     }
 
+    /**
+     * Find the author that authors a line
+     */
     private static Author findAuthorInLine(String line, Map<String, Author> authorAliasMap) {
         try {
             String[] split = line.split(AUTHOR_TAG);

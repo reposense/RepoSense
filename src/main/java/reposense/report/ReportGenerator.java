@@ -25,6 +25,9 @@ import reposense.parser.StandaloneConfigJsonParser;
 import reposense.system.LogsManager;
 import reposense.util.FileUtil;
 
+/**
+ * Wrap all the functionalities in generating a report
+ */
 public class ReportGenerator {
     private static final String REPOSENSE_CONFIG_FOLDER = "_reposense";
     private static final String REPOSENSE_CONFIG_FILE = "config.json";
@@ -164,6 +167,9 @@ public class ReportGenerator {
         FileUtil.writeJsonFile(authorshipSummary.getFileResults(), getIndividualAuthorshipPath(repoReportDirectory));
     }
 
+    /**
+    * Generate a report for empty repo
+    */
     public static void generateEmptyRepoReport(String repoReportDirectory) {
         CommitReportJson emptyCommitReportJson = new CommitReportJson();
         FileUtil.writeJsonFile(emptyCommitReportJson, getIndividualCommitsPath(repoReportDirectory));

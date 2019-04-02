@@ -108,6 +108,9 @@ public class LogsManager {
         return fileHandler;
     }
 
+    /**
+     * Creates a {@code ConsoleHandler} for console output.
+     */
     private static ConsoleHandler createConsoleHandler() {
         ConsoleHandler consoleHandler = new ConsoleHandler();
         consoleHandler.setLevel(currentConsoleLogLevel);

@@ -10,6 +10,9 @@ import reposense.model.Author;
 import reposense.model.AuthorConfiguration;
 import reposense.model.RepoLocation;
 
+/**
+ * Parse the given author-config.csv file
+ */
 public class AuthorConfigCsvParser extends CsvParser<AuthorConfiguration> {
     public static final String AUTHOR_CONFIG_FILENAME = "author-config.csv";
 

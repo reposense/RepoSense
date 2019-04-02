@@ -3,10 +3,16 @@ package reposense.system;
 import java.io.IOException;
 import java.nio.file.Path;
 
+/**
+ * Wrap all the functionalities to run command
+ */
 public class CommandRunner {
 
     private static boolean isWindows = isWindows();
 
+    /**
+    * Run a given command
+    */
     public static String runCommand(Path path, String command) {
         CommandRunnerProcess crp = spawnCommandProcess(path, command);
         try {
