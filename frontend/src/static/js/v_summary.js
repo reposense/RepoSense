@@ -479,13 +479,11 @@ window.vSummary = {
       let full = [];
       if (this.filterGroupSelection === 'groupByNone') {
         // push all repos into the same group
-        full[0] = this.groupByNone(this.filtered, this.sortingOption, this.isSortingDsc);
+        full[0] = this.groupByNone(this.filtered);
       } else if (this.filterGroupSelection === 'groupByAuthors') {
-        full = this.groupByAuthors(this.filtered, this.sortingOption,
-            this.isSortingDsc, this.sortingWithinOption, this.isSortingWithinDsc);
+        full = this.groupByAuthors(this.filtered);
       } else {
-        full = this.groupByRepos(this.filtered, this.sortingOption, this.isSortingDsc,
-            this.sortingWithinOption, this.isSortingWithinDsc);
+        full = this.groupByRepos(this.filtered);
       }
 
       if (this.filterSortReverse) {
@@ -495,38 +493,36 @@ window.vSummary = {
       this.filtered = full;
     },
 
-    groupByRepos(repos, sortingOption, isSortingDescending, sortingWithinOption,
-      isSortingWithinDescending) {
+    groupByRepos(repos) {
       const sortedRepos = [];
       repos.forEach((users) => {
-        users.sort(window.comparator((ele) => ele[sortingWithinOption]));
-        if (isSortingWithinDescending) {
+        users.sort(window.comparator((ele) => ele[this.sortingWithinOption]));
+        if (this.isSortingWithinDsc) {
           users.reverse();
         }
         sortedRepos.push(users);
       });
-      sortedRepos.sort(window.comparator((repo) => repo[0][sortingOption]));
-      if (isSortingDescending) {
+      sortedRepos.sort(window.comparator((repo) => repo[0][this.sortingOption]));
+      if (this.isSortingDsc) {
         sortedRepos.reverse();
       }
       return sortedRepos;
     },
-    groupByNone(repos, option, isDescending) {
+    groupByNone(repos) {
       const sortedRepos = [];
       repos.forEach((users) => {
         users.forEach((user) => {
           sortedRepos.push(user);
         });
       });
-      sortedRepos.sort(window.comparator((ele) => ele[option]));
-      if (isDescending) {
+      sortedRepos.sort(window.comparator((ele) => ele[this.sortingOption]));
+      if (this.isSortingDsc) {
         sortedRepos.reverse();
       }
 
       return sortedRepos;
     },
-    groupByAuthors(repos, sortingOption, isSortingDescending, sortingWithinOption,
-      isSortingWithinDescending) {
+    groupByAuthors(repos) {
       const authorMap = {};
       const filtered = [];
       repos.forEach((users) => {
@@ -539,15 +535,15 @@ window.vSummary = {
         });
       });
       Object.keys(authorMap).forEach((author) => {
-        authorMap[author].sort(window.comparator((repo) => repo[sortingWithinOption]));
-        if (isSortingWithinDescending) {
+        authorMap[author].sort(window.comparator((repo) => repo[this.sortingWithinOption]));
+        if (this.isSortingWithinDsc) {
           authorMap[author].reverse();
         }
         filtered.push(authorMap[author]);
       });
 
-      filtered.sort(window.comparator((ele) => ele[0][sortingOption]));
-      if (isSortingDescending) {
+      filtered.sort(window.comparator((ele) => ele[0][this.sortingOption]));
+      if (this.isSortingDsc) {
         filtered.reverse();
       }
       return filtered;
