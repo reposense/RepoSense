@@ -11,7 +11,6 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import reposense.git.GitBranch;
-import reposense.git.GitCheckout;
 import reposense.git.GitLsTree;
 import reposense.git.exception.GitCloneException;
 import reposense.git.exception.InvalidFilePathException;
