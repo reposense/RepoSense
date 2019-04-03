@@ -13,6 +13,7 @@ import reposense.authorship.model.FileInfo;
 import reposense.git.GitCheckout;
 import reposense.model.Author;
 import reposense.template.GitTestTemplate;
+import reposense.util.SystemUtil;
 import reposense.util.TestUtil;
 
 
@@ -69,7 +70,7 @@ public class FileInfoExtractorTest extends GitTestTemplate {
         GitCheckout.checkout(config.getRepoRoot(), WINDOWS_ILLEGAL_FILE_NAME_BRANCH);
         List<FileInfo> files = FileInfoExtractor.extractFileInfos(config);
 
-        if (TestUtil.isWindows()) {
+        if (SystemUtil.isWindows()) {
             Assert.assertEquals(6, files.size());
         } else {
             Assert.assertEquals(7, files.size());
@@ -142,7 +143,7 @@ public class FileInfoExtractorTest extends GitTestTemplate {
         GitCheckout.checkout(config.getRepoRoot(), WINDOWS_ILLEGAL_FILE_NAME_BRANCH);
         List<FileInfo> files = FileInfoExtractor.getEditedFileInfos(config, OCTOBER_SEVENTH_COMMIT_HASH);
 
-        if (TestUtil.isWindows()) {
+        if (SystemUtil.isWindows()) {
             Assert.assertTrue(files.isEmpty());
         } else {
             Assert.assertEquals(1, files.size());
