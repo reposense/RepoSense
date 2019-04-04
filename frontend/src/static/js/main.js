@@ -24,7 +24,12 @@ window.decodeHash = function decodeHash() {
       .forEach((param) => {
         const [key, val] = param.split('=');
         if (key) {
-          hashParams[key] = decodeURIComponent(val);
+          try {
+            hashParams[key] = decodeURIComponent(val);
+          } catch (error) {
+            this.userUpdated = false;
+            this.isLoading = false;
+          }
         }
       });
   window.hashParams = hashParams;
@@ -99,10 +104,10 @@ window.app = new window.Vue({
 
     isLoading: false,
     isCollapsed: false,
-    isTabActive: true,
-    isTabAuthorship: false,
+    isTabActive: true, // to force tab wrapper to load
+
+    tabType: 'empty',
     tabInfo: {},
-    tabAuthorship: {},
     creationDate: '',
   },
   methods: {
@@ -154,30 +159,45 @@ window.app = new window.Vue({
       });
       return full;
     },
-    deactivateTabs() {
-      this.isTabAuthorship = false;
-    },
 
-    updateTabAuthorship(obj) {
-      this.deactivateTabs();
-      this.tabInfo.tabAuthorship = Object.assign({}, obj);
-
-      this.isTabActive = true;
-      this.isTabAuthorship = true;
-      this.isCollapsed = false;
+    deactivateTab() {
+      this.isTabActive = false;
       if (document.getElementById('tabs-wrapper')) {
         document.getElementById('tabs-wrapper').scrollTop = 0;
       }
     },
 
-    /* global expandAll */
-    expand(isActive) {
-      this.isCollapsed = !isActive;
-      expandAll(isActive);
+    updateTabAuthorship(obj) {
+      this.deactivateTab();
+      this.tabInfo.tabAuthorship = Object.assign({}, obj);
+
+      this.isTabActive = true;
+      this.isCollapsed = false;
+      this.tabType = 'authorship';
+    },
+    renderAuthorShipTabHash(minDate, maxDate) {
+      const hash = window.hashParams;
+      const info = {
+        author: hash.tabAuthor,
+        repo: hash.tabRepo,
+        minDate,
+        maxDate,
+      };
+      const tabInfoLength = Object.values(info).filter((x) => x).length;
+      if (Object.keys(info).length === tabInfoLength) {
+        this.updateTabAuthorship(info);
+      } else if (hash.tabOpen === 'false' || tabInfoLength > 2) {
+        window.app.isTabActive = false;
+      }
     },
 
     generateKey(dataObj) {
       return JSON.stringify(dataObj);
+    },
+
+    receiveDates(dates) {
+      const [minDate, maxDate] = dates;
+      this.renderAuthorShipTabHash(minDate, maxDate);
     },
   },
   components: {
@@ -187,6 +207,7 @@ window.app = new window.Vue({
   },
   created() {
     this.updateReportDir();
+    window.decodeHash();
   },
   updated() {
     this.$nextTick(() => {
@@ -194,5 +215,11 @@ window.app = new window.Vue({
         window.$('tabs-wrapper').style.flex = `0 0 ${flexWidth * 100}%`;
       }
     });
+    if (!this.isTabActive) {
+      window.removeHash('tabAuthor');
+      window.removeHash('tabRepo');
+      window.addHash('tabOpen', this.isTabActive);
+      window.encodeHash();
+    }
   },
 });

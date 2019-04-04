@@ -19,10 +19,10 @@ import java.util.stream.Stream;
 
 import reposense.authorship.model.FileInfo;
 import reposense.authorship.model.LineInfo;
-import reposense.git.CommitNotFoundException;
 import reposense.git.GitCheckout;
 import reposense.git.GitDiff;
 import reposense.git.GitRevList;
+import reposense.git.exception.CommitNotFoundException;
 import reposense.model.Format;
 import reposense.model.RepoConfiguration;
 import reposense.system.LogsManager;
@@ -32,6 +32,7 @@ import reposense.system.LogsManager;
  */
 public class FileInfoExtractor {
     private static final Logger logger = LogsManager.getLogger(FileInfoExtractor.class);
+    private static final String MESSAGE_START_EXTRACTING_FILE_INFO = "Extracting relevant file info from %s (%s)...";
 
     private static final String DIFF_FILE_CHUNK_SEPARATOR = "\ndiff --git a/.*\n";
     private static final String LINE_CHUNKS_SEPARATOR = "\n@@ ";
@@ -53,7 +54,7 @@ public class FileInfoExtractor {
      * Extracts a list of relevant files given in {@code config}.
      */
     public static List<FileInfo> extractFileInfos(RepoConfiguration config) {
-        logger.info("Extracting relevant file info from " + config.getLocation() + "...");
+        logger.info(String.format(MESSAGE_START_EXTRACTING_FILE_INFO, config.getLocation(), config.getBranch()));
 
         List<FileInfo> fileInfos = new ArrayList<>();
 
@@ -193,7 +194,7 @@ public class FileInfoExtractor {
      * {@code relativePath} file.
      */
     public static FileInfo generateFileInfo(String repoRoot, String relativePath) {
-        FileInfo fileInfo = new FileInfo(relativePath.replace('\\', '/'));
+        FileInfo fileInfo = new FileInfo(relativePath);
         Path path = Paths.get(repoRoot, fileInfo.getPath());
 
         try (BufferedReader br = new BufferedReader(new FileReader(path.toFile()))) {

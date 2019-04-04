@@ -10,6 +10,7 @@ import java.nio.file.Paths;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import reposense.git.exception.GitCloneException;
 import reposense.model.RepoConfiguration;
 import reposense.model.RepoLocation;
 import reposense.system.LogsManager;
@@ -21,7 +22,17 @@ import reposense.util.FileUtil;
  */
 public class GitClone {
 
+    public static final String GIT_CLONE_BARE_OPTION = "--bare";
     private static final Logger logger = LogsManager.getLogger(GitClone.class);
+
+    /**
+     * Clones a bare repo specified in the {@code repoConfig}.
+     */
+    public static void cloneBare(RepoConfiguration repoConfig) throws IOException {
+        FileUtil.deleteDirectory(repoConfig.getRepoRoot());
+        clone(
+            repoConfig.getLocation(), repoConfig.getRepoFolderName(), repoConfig.getRepoName(), GIT_CLONE_BARE_OPTION);
+    }
 
     /**
      * Clones repo specified in the {@code repoConfig} and updates it with the branch info.
@@ -31,7 +42,7 @@ public class GitClone {
         try {
             FileUtil.deleteDirectory(repoConfig.getRepoRoot());
             logger.info("Cloning from " + repoConfig.getLocation() + "...");
-            clone(repoConfig.getLocation(), repoConfig.getRepoName());
+            clone(repoConfig.getLocation(), repoConfig.getRepoFolderName(), repoConfig.getRepoName(), "");
             logger.info("Cloning completed!");
         } catch (RuntimeException rte) {
             logger.log(Level.SEVERE, "Error encountered in Git Cloning, will attempt to continue analyzing", rte);
@@ -43,20 +54,20 @@ public class GitClone {
         }
 
         try {
-            if (repoConfig.getBranch().equals(RepoConfiguration.DEFAULT_BRANCH)) {
-                String currentBranch = GitBranch.getCurrentBranch(repoConfig.getRepoRoot());
-                repoConfig.setBranch(currentBranch);
-            }
+            repoConfig.updateBranch();
             GitCheckout.checkout(repoConfig.getRepoRoot(), repoConfig.getBranch());
-        } catch (RuntimeException e) {
-            logger.log(Level.SEVERE, "Branch does not exist! Analyze terminated.", e);
-            throw new GitCloneException(e);
+        } catch (RuntimeException rte) {
+            logger.log(Level.SEVERE, "Branch does not exist! Analysis terminated.", rte);
+            throw new GitCloneException(rte);
         }
     }
 
-    private static void clone(RepoLocation location, String repoName) throws IOException {
-        Path rootPath = Paths.get(FileUtil.REPOS_ADDRESS, repoName);
+    private static void clone(RepoLocation location, String repoFolderName, String repoName, String additionalCommand)
+            throws IOException {
+        Path rootPath = Paths.get(FileUtil.REPOS_ADDRESS, repoFolderName);
         Files.createDirectories(rootPath);
-        runCommand(rootPath, "git clone " + addQuote(location.toString()));
+        String command =
+                String.format("git clone %s %s %s", additionalCommand, addQuote(location.toString()), repoName);
+        runCommand(rootPath, command);
     }
 }

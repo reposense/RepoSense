@@ -5,6 +5,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -139,6 +140,29 @@ public class TestUtil {
 
         // each commit has 2 lines of info, and a blank line in between each
         return expectedNumberCommits * 3 - 1 == gitLogResult.split("\n").length;
+    }
+
+    /**
+     * Returns true if the {@code expectedNumberFilesChanged} is equal to the actual number of files changed in
+     * {@code gitLogResult}.
+     */
+    public static boolean compareNumberFilesChanged(int expectedNumberFilesChanged, String gitLogResult) {
+        // if git log result is empty, then there are no files changed
+        if (gitLogResult.isEmpty()) {
+            return expectedNumberFilesChanged == 0;
+        }
+        String[] changesLogged = gitLogResult.split("\n");
+        HashSet<String> filesChanged = new HashSet<>();
+        // Checks the 2nd line of each commit which contains info of the changed file
+        for (int i = 0; i < changesLogged.length; i += 4) {
+            String log = changesLogged[i + 1];
+            String fileChanged = log.split("\\| ")[0].trim();
+            if (fileChanged.contains("=>")) {
+                fileChanged = fileChanged.substring(fileChanged.indexOf("=> ") + 3);
+            }
+            filesChanged.add(fileChanged);
+        }
+        return filesChanged.size() == expectedNumberFilesChanged;
     }
 
     /**
