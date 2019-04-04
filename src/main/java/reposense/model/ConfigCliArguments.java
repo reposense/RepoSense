@@ -48,7 +48,7 @@ public class ConfigCliArguments extends CliArguments {
     }
 
     /**
-     * Compare the equality of ConfigCliArguments object
+     * Compares the equality of {@code ConfigCliArguments} objects.
      */
     public boolean equals(Object other) {
         // short circuit if same object

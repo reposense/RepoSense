@@ -17,7 +17,7 @@ public class ViewCliArguments extends CliArguments {
     }
 
     /**
-     * Compare the equality of ViewCliArguments object
+     * Compare the equality of {@code ViewCliArguments} objects.
      */
     public boolean equals(Object other) {
         // short circuit if same object

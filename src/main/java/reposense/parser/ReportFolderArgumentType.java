@@ -10,7 +10,7 @@ import net.sourceforge.argparse4j.inf.ArgumentParserException;
 import net.sourceforge.argparse4j.inf.ArgumentType;
 
 /**
- * Check the argument of the report folder flag
+ * Checks the argument of {@code --view} flag.
  */
 public class ReportFolderArgumentType implements ArgumentType<Path> {
     @Override

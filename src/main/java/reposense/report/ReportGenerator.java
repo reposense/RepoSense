@@ -31,7 +31,7 @@ import reposense.system.LogsManager;
 import reposense.util.FileUtil;
 
 /**
- * Wrap all the functionalities in generating a report
+ * Contains functionalities to generate a report.
  */
 public class ReportGenerator {
     private static final String REPOSENSE_CONFIG_FOLDER = "_reposense";
@@ -214,7 +214,7 @@ public class ReportGenerator {
     }
 
     /**
-    * Generate a report for empty repo
+    * Generates a report for empty repo.
     */
     public static void generateEmptyRepoReport(String repoReportDirectory) {
         CommitReportJson emptyCommitReportJson = new CommitReportJson();

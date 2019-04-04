@@ -35,7 +35,7 @@ public class LocationsCliArguments extends CliArguments {
     }
 
     /**
-     * Compare the equality of LocationsCliArguments object
+     * Compare the equality of {@code LocationsCliArguments} objects.
      */
     public boolean equals(Object other) {
         // short circuit if same object

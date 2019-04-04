@@ -27,7 +27,7 @@ import com.google.gson.GsonBuilder;
 import reposense.system.LogsManager;
 
 /**
- * Wrap utitilities function correlating to file processing
+ * Contains functionalities to process file.
  */
 public class FileUtil {
     public static final String REPOS_ADDRESS = "repos";
@@ -40,13 +40,10 @@ public class FileUtil {
     private static final ByteBuffer buffer = ByteBuffer.allocate(1 << 11); // 2KB
 
     /**
-    * Write a JSON file from a Java Object
-    */
+     * Writes a JSON file from a Java Object.
+     */
     public static void writeJsonFile(Object object, String path) {
-        Gson gson = new GsonBuilder()
-                .setDateFormat(GITHUB_API_DATE_FORMAT)
-                .setPrettyPrinting()
-                .create();
+        Gson gson = new GsonBuilder().setDateFormat(GITHUB_API_DATE_FORMAT).setPrettyPrinting().create();
         String result = gson.toJson(object);
 
         try (PrintWriter out = new PrintWriter(path)) {
@@ -58,33 +55,31 @@ public class FileUtil {
     }
 
     /**
-    * Uses the commit analysis results to generate the summary information of a repository.
-    */
+     * Deletes a directory given the root path.
+     */
     public static void deleteDirectory(String root) throws IOException {
         Path rootPath = Paths.get(root);
         if (Files.exists(rootPath)) {
-            Files.walk(rootPath)
-                    .sorted(Comparator.reverseOrder())
-                    .forEach(filePath -> filePath.toFile().delete());
+            Files.walk(rootPath).sorted(Comparator.reverseOrder()).forEach(filePath -> filePath.toFile().delete());
         }
     }
 
     /**
-     * Zips all the files of {@code fileTypes} contained in {@code sourceAndOutputPath} directory into the same folder.
+     * Zips all the files of {@code fileTypes} contained in
+     * {@code sourceAndOutputPath} directory into the same folder.
      */
     public static void zip(Path sourceAndOutputPath, String... fileTypes) {
         FileUtil.zip(sourceAndOutputPath, sourceAndOutputPath, fileTypes);
     }
 
     /**
-     * Zips all the {@code fileTypes} files contained in the {@code sourcePath} and its subdirectories.
-     * Creates the zipped {@code ZIP_FILE} file in the {@code outputPath}.
+     * Zips all the {@code fileTypes} files contained in the {@code sourcePath} and
+     * its subdirectories. Creates the zipped {@code ZIP_FILE} file in the
+     * {@code outputPath}.
      */
     public static void zip(Path sourcePath, Path outputPath, String... fileTypes) {
-        try (
-                FileOutputStream fos = new FileOutputStream(outputPath + File.separator + ZIP_FILE);
-                ZipOutputStream zos = new ZipOutputStream(fos)
-        ) {
+        try (FileOutputStream fos = new FileOutputStream(outputPath + File.separator + ZIP_FILE);
+                ZipOutputStream zos = new ZipOutputStream(fos)) {
             Set<Path> allFiles = getFilePaths(sourcePath, fileTypes);
             for (Path path : allFiles) {
                 String filePath = sourcePath.relativize(path.toAbsolutePath()).toString();
@@ -107,6 +102,7 @@ public class FileUtil {
 
     /**
      * Unzips the contents of the {@code zipSourcePath} into {@code outputPath}.
+     * 
      * @throws IOException if {@code zipSourcePath} is an invalid path.
      */
     public static void unzip(Path zipSourcePath, Path outputPath) throws IOException {
@@ -117,6 +113,7 @@ public class FileUtil {
 
     /**
      * Unzips the contents of the {@code is} into {@code outputPath}.
+     * 
      * @throws IOException if {@code is} refers to an invalid path.
      */
     public static void unzip(InputStream is, Path outputPath) throws IOException {
@@ -147,6 +144,7 @@ public class FileUtil {
 
     /**
      * Copies the template files from {@code sourcePath} to the {@code outputPath}.
+     * 
      * @throws IOException if {@code is} refers to an invalid path.
      */
     public static void copyTemplate(InputStream is, String outputPath) throws IOException {
@@ -161,16 +159,17 @@ public class FileUtil {
     }
 
     /**
-     * Returns a list of {@code Path} of {@code fileTypes} contained in the given {@code directoryPath} directory.
+     * Returns a list of {@code Path} of {@code fileTypes} contained in the given
+     * {@code directoryPath} directory.
      */
     private static Set<Path> getFilePaths(Path directoryPath, String... fileTypes) throws IOException {
-        return Files.walk(directoryPath)
-                .filter(p -> FileUtil.isFileTypeInPath(p, fileTypes) || Files.isDirectory(p))
+        return Files.walk(directoryPath).filter(p -> FileUtil.isFileTypeInPath(p, fileTypes) || Files.isDirectory(p))
                 .collect(Collectors.toSet());
     }
 
     /**
-     * Returns true if the {@code path} contains one of the {@code fileTypes} extension.
+     * Returns true if the {@code path} contains one of the {@code fileTypes}
+     * extension.
      */
     private static boolean isFileTypeInPath(Path path, String... fileTypes) {
         return Arrays.stream(fileTypes).anyMatch(path.toString()::endsWith);

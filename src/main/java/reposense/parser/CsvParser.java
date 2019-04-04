@@ -16,7 +16,7 @@ import java.util.stream.Collectors;
 import reposense.system.LogsManager;
 
 /**
- * Wrap functionalities that parse CSV
+ * Contains functionalities that parses CSV.
  */
 public abstract class CsvParser<T> {
     protected static final String COLUMN_VALUES_SEPARATOR = ";";
@@ -81,7 +81,7 @@ public abstract class CsvParser<T> {
     }
 
     /**
-     * Check if there is malformed line
+     * Checks if there is malformed line.
      */
     private boolean isLineMalformed(final String[] elements, int lineNumber, String line) {
         for (int position : mandatoryPositions()) {

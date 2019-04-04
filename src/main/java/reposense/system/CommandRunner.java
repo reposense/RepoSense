@@ -5,13 +5,13 @@ import java.nio.file.Path;
 import reposense.util.SystemUtil;
 
 /**
- * Wraps all the functionalities to run command.
+ * Contains functionalities to run command.
  */
 public class CommandRunner {
 
     /**
-    * Runs a given command.
-    */
+     * Runs a command.
+     */
     public static String runCommand(Path path, String command) {
         CommandRunnerProcess crp = spawnCommandProcess(path, command);
         try {
@@ -26,18 +26,15 @@ public class CommandRunner {
     }
 
     /**
-     * Spawns a {@code CommandRunnerProcess} to execute {@code command}. Does not wait for process to finish executing.
+     * Spawns a {@code CommandRunnerProcess} to execute {@code command}. Does not
+     * wait for process to finish executing.
      */
     private static CommandRunnerProcess spawnCommandProcess(Path path, String command) {
         ProcessBuilder pb = null;
         if (SystemUtil.isWindows()) {
-            pb = new ProcessBuilder()
-                    .command(new String[]{"CMD", "/c", command})
-                    .directory(path.toFile());
+            pb = new ProcessBuilder().command(new String[] { "CMD", "/c", command }).directory(path.toFile());
         } else {
-            pb = new ProcessBuilder()
-                    .command(new String[]{"bash", "-c", command})
-                    .directory(path.toFile());
+            pb = new ProcessBuilder().command(new String[] { "bash", "-c", command }).directory(path.toFile());
         }
         Process p = null;
         try {
