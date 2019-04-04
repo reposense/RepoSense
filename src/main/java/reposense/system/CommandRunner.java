@@ -3,9 +3,10 @@ package reposense.system;
 import java.io.IOException;
 import java.nio.file.Path;
 
+import reposense.util.SystemUtil;
+
 public class CommandRunner {
 
-    private static boolean isWindows = isWindows();
 
     public static String runCommand(Path path, String command) {
         CommandRunnerProcess crp = spawnCommandProcess(path, command);
@@ -25,7 +26,7 @@ public class CommandRunner {
      */
     private static CommandRunnerProcess spawnCommandProcess(Path path, String command) {
         ProcessBuilder pb = null;
-        if (isWindows) {
+        if (SystemUtil.isWindows()) {
             pb = new ProcessBuilder()
                     .command(new String[]{"CMD", "/c", command})
                     .directory(path.toFile());
@@ -45,9 +46,5 @@ public class CommandRunner {
         outputGobbler.start();
         errorGobbler.start();
         return new CommandRunnerProcess(path, command, p, outputGobbler, errorGobbler);
-    }
-
-    private static boolean isWindows() {
-        return (System.getProperty("os.name").toLowerCase().indexOf("win") >= 0);
     }
 }
