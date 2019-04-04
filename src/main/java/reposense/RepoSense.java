@@ -35,8 +35,7 @@ public class RepoSense {
     private static final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("E MMM d HH:mm:ss yyyy z");
 
     /**
-     * The main method as the entry point of the program
-     * @param args
+     * The entry point of the program.
      */
     public static void main(String[] args) {
         try {
