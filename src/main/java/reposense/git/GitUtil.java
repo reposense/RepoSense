@@ -2,13 +2,22 @@ package reposense.git;
 
 import static reposense.util.StringsUtil.addQuote;
 
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.FileSystem;
+import java.nio.file.FileSystems;
+import java.nio.file.PathMatcher;
+import java.nio.file.Paths;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import reposense.model.Author;
 import reposense.model.Format;
+import reposense.system.LogsManager;
 import reposense.util.StringsUtil;
 
 /**
@@ -17,6 +26,7 @@ import reposense.util.StringsUtil;
 class GitUtil {
     static final DateFormat GIT_LOG_SINCE_DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd'T'00:00:00+08:00");
     static final DateFormat GIT_LOG_UNTIL_DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd'T'23:59:59+08:00");
+    private static final Logger logger = LogsManager.getLogger(GitUtil.class);
 
     // ignore check against email
     private static final String AUTHOR_NAME_PATTERN = "^%s <.*>$";
@@ -79,15 +89,54 @@ class GitUtil {
 
     /**
      * Returns the {@code String} command to specify the globs to exclude for `git log` command.
+     * Also checks that every glob in {@code ignoreGlobList} only targets files within the given repository
+     * {@code root}.
      */
-    static String convertToGitExcludeGlobArgs(List<String> ignoreGlobList) {
+    public static String convertToGitExcludeGlobArgs(File root, List<String> ignoreGlobList) {
         StringBuilder gitExcludeGlobArgsBuilder = new StringBuilder();
         final String cmdFormat = " " + addQuote(":(exclude)%s");
         ignoreGlobList.stream()
-                .filter(item -> !item.isEmpty())
+                .filter(item -> isValidPath(root, item))
                 .map(ignoreGlob -> String.format(cmdFormat, ignoreGlob))
                 .forEach(gitExcludeGlobArgsBuilder::append);
 
         return gitExcludeGlobArgsBuilder.toString();
+    }
+
+    /**
+     * Returns true if the {@code path} is inside the current repository.
+     * Produces log messages when the invalid file path is skipped.
+     */
+    private static boolean isValidPath(File repoRoot, String path) {
+        String validPath = path;
+        FileSystem fileSystem = FileSystems.getDefault();
+        if (path.isEmpty()) {
+            return false;
+        } else if (path.startsWith("/") || path.startsWith("\\")) {
+            // Ignore globs cannot start with a slash
+            logger.log(Level.WARNING, path + " cannot start with / or \\.");
+            return false;
+        } else if (path.contains("/*") || path.contains("\\*")) {
+            // contains directories
+            validPath = path.substring(0, path.indexOf("/*"));
+        } else if (path.contains("*")) {
+            // no directories
+            return true;
+        }
+
+        try {
+            String fileGlobPath = "glob:" + repoRoot.getCanonicalPath().replaceAll("\\\\+", "\\/") + "/**";
+            PathMatcher pathMatcher = fileSystem.getPathMatcher(fileGlobPath);
+            validPath = new File(repoRoot, validPath).getCanonicalPath();
+            if (pathMatcher.matches(Paths.get(validPath))) {
+                return true;
+            }
+        } catch (IOException ioe) {
+            logger.log(Level.WARNING, ioe.getMessage(), ioe);
+            return false;
+        }
+
+        logger.log(Level.WARNING, path + " will be skipped as this glob points to outside the repository.");
+        return false;
     }
 }
