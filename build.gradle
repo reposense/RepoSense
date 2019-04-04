@@ -51,7 +51,6 @@ wrapper {
 
 run {
     //the second arguments indicates the default value associated with the property.
-
     args System.getProperty('args', '').split()
     systemProperty "version", getRepoSenseVersion()
 }
