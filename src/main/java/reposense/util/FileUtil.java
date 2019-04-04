@@ -12,7 +12,6 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Arrays;
-import java.util.Comparator;
 import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -53,11 +52,19 @@ public class FileUtil {
     }
 
     public static void deleteDirectory(String root) throws IOException {
-        Path rootPath = Paths.get(root);
-        if (Files.exists(rootPath)) {
-            Files.walk(rootPath)
-                    .sorted(Comparator.reverseOrder())
-                    .forEach(filePath -> filePath.toFile().delete());
+        File rootDirectory = Paths.get(root).toFile();
+        if (rootDirectory.exists()) {
+            for (File file : rootDirectory.listFiles()) {
+                if (file.isDirectory()) {
+                    deleteDirectory(file.toString());
+                } else {
+                    file.delete();
+                }
+            }
+            rootDirectory.delete();
+            if (rootDirectory.exists()) {
+                throw new IOException(String.format("Fail to delete directory %s", rootDirectory));
+            }
         }
     }
 
