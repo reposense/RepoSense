@@ -5,8 +5,11 @@ import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -17,9 +20,11 @@ import reposense.authorship.AuthorshipReporter;
 import reposense.authorship.model.AuthorshipSummary;
 import reposense.commits.CommitsReporter;
 import reposense.commits.model.CommitContributionSummary;
+import reposense.git.GitCheckout;
 import reposense.git.GitShortlog;
 import reposense.model.Author;
 import reposense.model.RepoConfiguration;
+import reposense.model.RepoLocation;
 import reposense.model.StandaloneConfig;
 import reposense.parser.StandaloneConfigJsonParser;
 import reposense.system.LogsManager;
@@ -33,7 +38,20 @@ public class ReportGenerator {
     // zip file which contains all the report template files
     private static final String TEMPLATE_FILE = "/templateZip.zip";
 
-    private static final String MESSAGE_INVALID_CONFIG_JSON = "%s Ignoring the config provided by this repository.";
+    private static final String MESSAGE_INVALID_CONFIG_JSON = "%s Ignoring the config provided by %s (%s).";
+    private static final String MESSAGE_ERROR_CREATING_DIRECTORY =
+            "Error has occurred while creating repo directory for %s (%s), will skip this repo.";
+    private static final String MESSAGE_ERROR_DURING_ANALYSIS =
+            "Error has occurred during analysis of %s (%s), will skip this repo.";
+    private static final String MESSAGE_NO_STANDALONE_CONFIG = "%s (%s) does not contain a standalone config file.";
+    private static final String MESSAGE_IGNORING_STANDALONE_CONFIG = "Ignoring standalone config file in %s (%s).";
+    private static final String MESSAGE_MALFORMED_STANDALONE_CONFIG = "%s/%s/%s is malformed for %s (%s).";
+    private static final String MESSAGE_NO_AUTHORS_SPECIFIED =
+            "%s (%s) has no authors specified, using all authors by default.";
+    private static final String MESSAGE_START_ANALYSIS = "Analyzing %s (%s)...";
+    private static final String MESSAGE_COMPLETE_ANALYSIS = "Analysis of %s (%s) completed!";
+    private static final String MESSAGE_REPORT_GENERATED = "The report is generated at %s";
+    private static final String MESSAGE_BRANCH_DOES_NOT_EXIST = "Branch %s does not exist in %s! Analysis terminated.";
 
     /**
      * Generates the authorship and commits JSON file for each repo in {@code configs} at {@code outputPath}, as
@@ -46,57 +64,100 @@ public class ReportGenerator {
         InputStream is = RepoSense.class.getResourceAsStream(TEMPLATE_FILE);
         FileUtil.copyTemplate(is, outputPath);
 
-        cloneAndAnalyzeRepos(configs, outputPath);
+        Map<RepoLocation, List<RepoConfiguration>> repoLocationMap = groupConfigsByRepoLocation(configs);
+        cloneAndAnalyzeRepos(repoLocationMap, outputPath);
 
         FileUtil.writeJsonFile(new SummaryReportJson(configs, generationDate), getSummaryResultPath(outputPath));
-        logger.info("The report is generated at " + outputPath);
+        logger.info(String.format(MESSAGE_REPORT_GENERATED, outputPath));
     }
 
     /**
-     * Clone, analyze and generate the report for repositories in {@code configs}.
+     * Groups {@code RepoConfiguration} with the same {@code RepoLocation} together so that they are only cloned once.
+     */
+    private static Map<RepoLocation, List<RepoConfiguration>> groupConfigsByRepoLocation(
+            List<RepoConfiguration> configs) {
+        Map<RepoLocation, List<RepoConfiguration>> repoLocationMap = new HashMap<>();
+        for (RepoConfiguration config : configs) {
+            RepoLocation location = config.getLocation();
+
+            if (!repoLocationMap.containsKey(location)) {
+                repoLocationMap.put(location, new ArrayList<>());
+            }
+            repoLocationMap.get(location).add(config);
+        }
+        return repoLocationMap;
+    }
+
+    /**
+     * Clone, analyze and generate the report for repositories in {@code repoLocationMap}.
      * Performs analysis and report generation of each repository in parallel with the cloning of the next repository.
      */
-    private static void cloneAndAnalyzeRepos(List<RepoConfiguration> configs, String outputPath) throws IOException {
+    private static void cloneAndAnalyzeRepos(
+            Map<RepoLocation, List<RepoConfiguration>> repoLocationMap, String outputPath) throws IOException {
         RepoCloner repoCloner = new RepoCloner();
-        RepoConfiguration clonedRepo = null;
+        RepoLocation clonedRepoLocation = null;
 
-        for (RepoConfiguration config : configs) {
-            repoCloner.clone(outputPath, config);
+        for (RepoLocation location : repoLocationMap.keySet()) {
+            repoCloner.clone(outputPath, repoLocationMap.get(location).get(0));
 
-            if (clonedRepo != null) {
-                analyzeRepo(outputPath, clonedRepo);
+            if (clonedRepoLocation != null) {
+                analyzeRepos(outputPath, repoLocationMap.get(clonedRepoLocation),
+                        repoCloner.getCurrentRepoDefaultBranch());
             }
-            clonedRepo = repoCloner.getClonedRepo(outputPath);
+            clonedRepoLocation = repoCloner.getClonedRepoLocation(outputPath);
         }
-        if (clonedRepo != null) {
-            analyzeRepo(outputPath, clonedRepo);
+        if (clonedRepoLocation != null) {
+            analyzeRepos(outputPath, repoLocationMap.get(clonedRepoLocation), repoCloner.getCurrentRepoDefaultBranch());
         }
         repoCloner.cleanup();
     }
 
     /**
+     * Analyzes all repos in {@code configs} and generates their report.
+     */
+    private static void analyzeRepos(String outputPath, List<RepoConfiguration> configs, String defaultBranch) {
+        for (RepoConfiguration config : configs) {
+            config.updateBranch(defaultBranch);
+
+            Path repoReportDirectory;
+            logger.info(String.format(MESSAGE_START_ANALYSIS, config.getLocation(), config.getBranch()));
+            try {
+                repoReportDirectory = Paths.get(outputPath, config.getDisplayName());
+                FileUtil.createDirectory(repoReportDirectory);
+            } catch (IOException ioe) {
+                logger.log(Level.WARNING,
+                        String.format(MESSAGE_ERROR_CREATING_DIRECTORY, config.getLocation(), config.getBranch()), ioe);
+                continue;
+            } catch (RuntimeException rte) {
+                logger.log(Level.SEVERE,
+                        String.format(MESSAGE_ERROR_DURING_ANALYSIS, config.getLocation(), config.getBranch()), rte);
+                continue;
+            }
+
+            try {
+                GitCheckout.checkout(config.getRepoRoot(), config.getBranch());
+            } catch (RuntimeException e) {
+                logger.log(Level.SEVERE, String.format(MESSAGE_BRANCH_DOES_NOT_EXIST,
+                        config.getBranch(), config.getLocation()), e);
+                generateEmptyRepoReport(repoReportDirectory.toString());
+                continue;
+            }
+            analyzeRepo(config, repoReportDirectory.toString());
+        }
+    }
+
+    /**
      * Analyzes repo specified by {@code config} and generates the report.
      */
-    private static void analyzeRepo(String outputPath, RepoConfiguration config) {
-        Path repoReportDirectory;
-        try {
-            repoReportDirectory = Paths.get(outputPath, config.getDisplayName());
-            FileUtil.createDirectory(repoReportDirectory);
-        } catch (IOException ioe) {
-            logger.log(Level.WARNING,
-                    "Error has occurred while creating repo directory, will skip this repo.", ioe);
-            return;
-        } catch (RuntimeException rte) {
-            logger.log(Level.SEVERE, "Error has occurred during analysis, will skip this repo.", rte);
-            return;
-        }
+    private static void analyzeRepo(RepoConfiguration config, String repoReportDirectory) {
         // preprocess the config and repo
         updateRepoConfig(config);
         updateAuthorList(config);
 
         CommitContributionSummary commitSummary = CommitsReporter.generateCommitSummary(config);
         AuthorshipSummary authorshipSummary = AuthorshipReporter.generateAuthorshipSummary(config);
-        generateIndividualRepoReport(commitSummary, authorshipSummary, repoReportDirectory.toString());
+        generateIndividualRepoReport(commitSummary, authorshipSummary, repoReportDirectory);
+        logger.info(String.format(MESSAGE_COMPLETE_ANALYSIS, config.getLocation(), config.getBranch()));
     }
 
     /**
@@ -107,12 +168,12 @@ public class ReportGenerator {
                 Paths.get(config.getRepoRoot(), REPOSENSE_CONFIG_FOLDER, REPOSENSE_CONFIG_FILE).toAbsolutePath();
 
         if (!Files.exists(configJsonPath)) {
-            logger.info(String.format("%s does not contain a standalone config file.", config.getLocation()));
+            logger.info(String.format(MESSAGE_NO_STANDALONE_CONFIG, config.getLocation(), config.getBranch()));
             return;
         }
 
         if (config.isStandaloneConfigIgnored()) {
-            logger.info(String.format("Ignoring standalone config file in %s.", config.getLocation()));
+            logger.info(String.format(MESSAGE_IGNORING_STANDALONE_CONFIG, config.getLocation(), config.getBranch()));
             return;
         }
 
@@ -120,10 +181,11 @@ public class ReportGenerator {
             StandaloneConfig standaloneConfig = new StandaloneConfigJsonParser().parse(configJsonPath);
             config.update(standaloneConfig);
         } catch (JsonSyntaxException jse) {
-            logger.warning(String.format("%s/%s/%s is malformed.",
-                    config.getDisplayName(), REPOSENSE_CONFIG_FOLDER, REPOSENSE_CONFIG_FILE));
+            logger.warning(String.format(MESSAGE_MALFORMED_STANDALONE_CONFIG, config.getDisplayName(),
+                    REPOSENSE_CONFIG_FOLDER, REPOSENSE_CONFIG_FILE, config.getLocation(), config.getBranch()));
         } catch (IllegalArgumentException iae) {
-            logger.warning(String.format(MESSAGE_INVALID_CONFIG_JSON, iae.getMessage()));
+            logger.warning(String.format(MESSAGE_INVALID_CONFIG_JSON,
+                    iae.getMessage(), config.getLocation(), config.getBranch()));
         } catch (IOException ioe) {
             throw new AssertionError(
                     "This exception should not happen as we have performed the file existence check.");
@@ -135,8 +197,7 @@ public class ReportGenerator {
      */
     private static void updateAuthorList(RepoConfiguration config) {
         if (config.getAuthorList().isEmpty()) {
-            logger.info(String.format(
-                    "%s has no authors specified, using all authors by default.", config.getDisplayName()));
+            logger.info(String.format(MESSAGE_NO_AUTHORS_SPECIFIED, config.getLocation(), config.getBranch()));
             List<Author> authorList = GitShortlog.getAuthors(config);
             config.setAuthorList(authorList);
         }

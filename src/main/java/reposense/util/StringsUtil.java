@@ -34,4 +34,15 @@ public class StringsUtil {
     public static String addQuote(String original) {
         return "\"" + original + "\"";
     }
+
+    /**
+     * Removes quotes at the start and end of {@code original}, if exists.
+     */
+    public static String removeQuote(String original) {
+        if (original.startsWith("\"") && original.endsWith("\"")) {
+            return original.substring(1, original.length() - 1);
+        }
+
+        return original;
+    }
 }
