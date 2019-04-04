@@ -36,5 +36,19 @@ window.vRamp = {
       const newSize = 100 * (slice.insertions / this.avgsize);
       return Math.max(newSize * this.rampSize, 0.5);
     },
+
+    // position for commit granularity
+    getCommitPos(i, total, sinceDate, untilDate) {
+      return (total - i - 1) * DAY_IN_MS / total
+          / (this.getTotalForPos(sinceDate, untilDate) + DAY_IN_MS);
+    },
+    // get duration in miliseconds between 2 date
+    getTotalForPos(sinceDate, untilDate) {
+      return new Date(untilDate) - new Date(sinceDate);
+    },
+    getSliceColor(date) {
+      const timeMs = (new Date(date)).getTime();
+      return (timeMs / DAY_IN_MS) % 5;
+    },
   },
 };
