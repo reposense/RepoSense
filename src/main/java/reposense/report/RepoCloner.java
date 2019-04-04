@@ -11,6 +11,10 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import reposense.git.GitBranch;
+import reposense.git.GitLsTree;
+import reposense.git.exception.GitCloneException;
+import reposense.git.exception.InvalidFilePathException;
+
 import reposense.model.RepoConfiguration;
 import reposense.model.RepoLocation;
 import reposense.system.CommandRunnerProcess;
@@ -85,6 +89,8 @@ public class RepoCloner {
         assert(crp == null);
 
         try {
+            GitLsTree.validateFilePaths(config);
+
             FileUtil.deleteDirectory(config.getRepoRoot());
             logger.info(String.format(MESSAGE_START_CLONING, config.getLocation()));
             Path rootPath = Paths.get(FileUtil.REPOS_ADDRESS, config.getRepoFolderName());
@@ -94,6 +100,11 @@ public class RepoCloner {
             logger.log(Level.WARNING, MESSAGE_ERROR_CLONING, e);
             handleCloningFailed(outputPath, config);
             return false;
+        } catch (InvalidFilePathException e) {
+            handleCloningFailed(outputPath, config);
+            return false;
+        } catch (GitCloneException e) {
+            e.printStackTrace();
         }
         return true;
     }
