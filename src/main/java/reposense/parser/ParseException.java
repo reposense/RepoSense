@@ -1,7 +1,7 @@
 package reposense.parser;
 
 /**
- * Parses exception message.
+ * Represents the exception of parsing.
  */
 public class ParseException extends Exception {
     public ParseException(String message) {

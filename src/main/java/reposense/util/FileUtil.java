@@ -27,7 +27,7 @@ import com.google.gson.GsonBuilder;
 import reposense.system.LogsManager;
 
 /**
- * Contains functionalities to process file.
+ * Contains file processing related functionalities.
  */
 public class FileUtil {
     public static final String REPOS_ADDRESS = "repos";
@@ -59,6 +59,7 @@ public class FileUtil {
 
     /**
      * Deletes a directory given the root path.
+     * @throws IOException if the root path does not exist.
      */
     public static void deleteDirectory(String root) throws IOException {
         Path rootPath = Paths.get(root);

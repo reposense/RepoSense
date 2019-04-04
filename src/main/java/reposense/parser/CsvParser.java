@@ -16,7 +16,7 @@ import java.util.stream.Collectors;
 import reposense.system.LogsManager;
 
 /**
- * Contains functionalities to parse CSV.
+ * Contains CSV parsing related functionalities.
  */
 public abstract class CsvParser<T> {
     protected static final String COLUMN_VALUES_SEPARATOR = ";";

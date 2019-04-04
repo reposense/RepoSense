@@ -6,7 +6,7 @@ import java.nio.file.Path;
 import reposense.util.SystemUtil;
 
 /**
- * Contains functionalities to run command.
+ * Contains command running related functionalities.
  */
 public class CommandRunner {
 

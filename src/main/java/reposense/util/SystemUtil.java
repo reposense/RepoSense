@@ -1,7 +1,7 @@
 package reposense.util;
 
 /**
- * Contains functionalities related to system.
+ * Contains sytem related functionalities.
  */
 public class SystemUtil {
 

@@ -31,7 +31,7 @@ import reposense.system.LogsManager;
 import reposense.util.FileUtil;
 
 /**
- * Contains functionalities to generate a report.
+ * Contains report generation related functionalities.
  */
 public class ReportGenerator {
     private static final String REPOSENSE_CONFIG_FOLDER = "_reposense";

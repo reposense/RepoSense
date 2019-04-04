@@ -7,7 +7,7 @@ import java.nio.channels.Channels;
 import java.nio.channels.ReadableByteChannel;
 
 /**
- * Contains functionalities to consume input stream and process it.
+ * Contains input stream consumption and processing related functionalities.
  */
 public class StreamGobbler extends Thread {
 

@@ -65,6 +65,11 @@ public class ConfigSystemTest {
 
     /**
      * Generates the testing report to be compared with expected report.
+     * @throws IOException if there is error in parsing csv file.
+     * @throws URISyntaxException if the path fo config folder cannot be converted to URI.
+     * @throws ParseException if the string argument fails to parse to a {@code CliArguments} object.
+     * @throws HelpScreenException if given args contain the --help flag. Help message will be printed out
+     * by the {@code ArgumentParser} hence this is to signal to the caller that the program is safe to exit.
      */
     private void generateReport(String inputDates)
             throws IOException, URISyntaxException, ParseException, HelpScreenException {
