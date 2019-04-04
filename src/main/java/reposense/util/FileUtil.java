@@ -102,7 +102,7 @@ public class FileUtil {
 
     /**
      * Unzips the contents of the {@code zipSourcePath} into {@code outputPath}.
-     * 
+     *
      * @throws IOException if {@code zipSourcePath} is an invalid path.
      */
     public static void unzip(Path zipSourcePath, Path outputPath) throws IOException {
@@ -113,7 +113,7 @@ public class FileUtil {
 
     /**
      * Unzips the contents of the {@code is} into {@code outputPath}.
-     * 
+     *
      * @throws IOException if {@code is} refers to an invalid path.
      */
     public static void unzip(InputStream is, Path outputPath) throws IOException {
@@ -144,7 +144,7 @@ public class FileUtil {
 
     /**
      * Copies the template files from {@code sourcePath} to the {@code outputPath}.
-     * 
+     *
      * @throws IOException if {@code is} refers to an invalid path.
      */
     public static void copyTemplate(InputStream is, String outputPath) throws IOException {
