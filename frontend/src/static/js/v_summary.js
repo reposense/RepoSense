@@ -46,10 +46,10 @@ window.vSummary = {
       filterSearch: '',
       filterSortReverse: false,
       filterGroupSelection: 'groupByRepos',
-      sortGroupSelection: 'searchPath asc',
+      sortGroupSelection: 'searchPath',
       sortingOption: '',
       isSortingDsc: '',
-      sortWithinGroupSelection: 'name asc',
+      sortWithinGroupSelection: 'name',
       sortingWithinOption: '',
       isSortingWithinDsc: '',
       filterTimeFrame: 'day',
@@ -452,17 +452,17 @@ window.vSummary = {
       // Update UI selection to change all illegal options
       if (this.filterGroupSelection === 'groupByAuthors') {
         if (!this.sortWithinGroupSelection || this.sortingWithinOption === 'name') {
-          this.sortWithinGroupSelection = 'searchPath asc';
+          this.sortWithinGroupSelection = 'searchPath';
         }
         if (this.sortingOption !== 'name') {
-          this.sortGroupSelection = 'name asc';
+          this.sortGroupSelection = 'name';
         }
       } else if (this.filterGroupSelection === 'groupByRepos') {
         if (!this.sortWithinGroupSelection || this.sortingWithinOption === 'searchPath') {
-          this.sortWithinGroupSelection = 'name asc';
+          this.sortWithinGroupSelection = 'name';
         }
         if (this.sortingOption !== 'searchPath') {
-          this.sortGroupSelection = 'searchPath asc';
+          this.sortGroupSelection = 'searchPath';
         }
       } else if (this.filterGroupSelection === 'groupByNone') {
         this.sortWithinGroupSelection = '';
@@ -470,9 +470,7 @@ window.vSummary = {
     },
     getOptionWithOrder() {
       [this.sortingOption, this.isSortingDsc] = this.sortGroupSelection.split(' ');
-      this.isSortingDsc = this.isSortingDsc === 'dsc';
       [this.sortingWithinOption, this.isSortingWithinDsc] = this.sortWithinGroupSelection.split(' ');
-      this.isSortingWithinDsc = this.isSortingWithinDsc === 'dsc';
     },
     sortFiltered() {
       this.getOptionWithOrder();
