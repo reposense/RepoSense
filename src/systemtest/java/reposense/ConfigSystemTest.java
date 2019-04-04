@@ -63,6 +63,9 @@ public class ConfigSystemTest {
         generateReport("");
     }
 
+    /**
+     * Generates the testing report to be compared with expected report.
+     */
     private void generateReport(String inputDates)
             throws IOException, URISyntaxException, ParseException, HelpScreenException {
         Path configFolder = Paths.get(getClass().getClassLoader().getResource("repo-config.csv").toURI()).getParent();
@@ -89,6 +92,9 @@ public class ConfigSystemTest {
         ReportGenerator.generateReposReport(repoConfigs, FT_TEMP_DIR, TEST_REPORT_GENERATED_TIME);
     }
 
+    /**
+     * Verifies all JSON files in {@code actualDirectory} with {@code expectedDirectory}
+     */
     private void verifyAllJson(Path expectedDirectory, String actualRelative) {
         try (Stream<Path> pathStream = Files.list(expectedDirectory)) {
             for (Path filePath : pathStream.collect(Collectors.toList())) {
@@ -105,6 +111,9 @@ public class ConfigSystemTest {
         }
     }
 
+    /**
+     * Asserts the correctness of given JSON file.
+     */
     private void assertJson(Path expectedJson, String expectedPosition, String actualRelative) {
         Path actualJson = Paths.get(actualRelative, expectedPosition);
         Assert.assertTrue(Files.exists(actualJson));

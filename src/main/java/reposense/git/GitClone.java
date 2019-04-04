@@ -62,6 +62,10 @@ public class GitClone {
         }
     }
 
+    /**
+     * Clones a repo given the location and folder name.
+     * @throws IOException
+     */
     private static void clone(RepoLocation location, String repoFolderName, String repoName, String additionalCommand)
             throws IOException {
         Path rootPath = Paths.get(FileUtil.REPOS_ADDRESS, repoFolderName);

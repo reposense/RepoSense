@@ -38,11 +38,11 @@ public class StandaloneConfigTest extends GitTestTemplate {
     private static final List<Author> AUTHOR_CONFIG_SPECIAL_CHARACTER_AUTHORS = Arrays.asList(
             FIRST_SPECIAL_CHARACTER_AUTHOR, SECOND_SPECIAL_CHARACTER_AUTHOR, THIRD_SPECIAL_CHARACTER_AUTHOR);
 
-    private static StandaloneConfig VALID_STANDALONE_CONFIG;
+    private static StandaloneConfig validStandaloneConfig;
 
     @BeforeClass
     public static void setUp() throws IOException {
-        VALID_STANDALONE_CONFIG = new StandaloneConfigJsonParser().parse(VALID_CONFIG);
+        validStandaloneConfig = new StandaloneConfigJsonParser().parse(VALID_CONFIG);
     }
 
     @Test
@@ -64,7 +64,7 @@ public class StandaloneConfigTest extends GitTestTemplate {
         StandaloneConfig standaloneConfig = new StandaloneConfigJsonParser().parse(AUTHORS_TRAILING_COMMAS_CONFIG);
         config.update(standaloneConfig);
 
-        Assert.assertEquals(VALID_STANDALONE_CONFIG, standaloneConfig);
+        Assert.assertEquals(validStandaloneConfig, standaloneConfig);
     }
 
     @Test(expected = JsonSyntaxException.class)
