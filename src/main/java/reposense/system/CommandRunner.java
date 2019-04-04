@@ -27,15 +27,18 @@ public class CommandRunner {
     }
 
     /**
-     * Spawns a {@code CommandRunnerProcess} to execute {@code command}. Does not
-     * wait for process to finish executing.
+     * Spawns a {@code CommandRunnerProcess} to execute {@code command}. Does not wait for process to finish executing.
      */
     private static CommandRunnerProcess spawnCommandProcess(Path path, String command) {
         ProcessBuilder pb = null;
         if (SystemUtil.isWindows()) {
-            pb = new ProcessBuilder().command(new String[] { "CMD", "/c", command }).directory(path.toFile());
+            pb = new ProcessBuilder()
+                    .command(new String[]{"CMD", "/c", command})
+                    .directory(path.toFile());
         } else {
-            pb = new ProcessBuilder().command(new String[] { "bash", "-c", command }).directory(path.toFile());
+            pb = new ProcessBuilder()
+                    .command(new String[]{"bash", "-c", command})
+                    .directory(path.toFile());
         }
         Process p = null;
         try {

@@ -10,7 +10,7 @@ import reposense.model.RepoConfiguration;
 import reposense.model.RepoLocation;
 
 /**
- * Parses {@code repo-config.csv} file.
+ * Container for the values parsed from {@code repo-config.csv} file.
  */
 public class RepoConfigCsvParser extends CsvParser<RepoConfiguration> {
     public static final String REPO_CONFIG_FILENAME = "repo-config.csv";

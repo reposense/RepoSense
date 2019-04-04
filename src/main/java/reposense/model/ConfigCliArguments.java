@@ -47,9 +47,7 @@ public class ConfigCliArguments extends CliArguments {
         return authorConfigFilePath;
     }
 
-    /**
-     * Compares the equality of {@code ConfigCliArguments} objects.
-     */
+    @Override
     public boolean equals(Object other) {
         // short circuit if same object
         if (this == other) {

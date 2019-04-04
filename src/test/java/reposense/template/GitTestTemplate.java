@@ -104,7 +104,8 @@ public class GitTestTemplate {
     }
 
     /**
-     * Asserts the correctness of file analysis.
+     * Asserts the correctness of file analysis with regards to the contribution
+     * made by author named in {@code FAKE_AUTHOR_NAME}.
      */
     public void assertFileAnalysisCorrectness(FileResult fileResult) {
         for (LineInfo line : fileResult.getLines()) {

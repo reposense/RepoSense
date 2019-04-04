@@ -132,7 +132,8 @@ public class Author {
     }
 
     /**
-     * Adds all ignore glob list to {@code ignoreGlobList}.
+     * Validates and adds a list of ignore glob into the {@code Author} class instance variable,
+     * and updates the ignore glob matcher.
      */
     public void appendIgnoreGlobList(List<String> ignoreGlobList) {
         validateIgnoreGlobs(ignoreGlobList);

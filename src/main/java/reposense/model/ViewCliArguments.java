@@ -16,9 +16,7 @@ public class ViewCliArguments extends CliArguments {
         return reportDirectoryPath;
     }
 
-    /**
-     * Compare the equality of {@code ViewCliArguments} objects.
-     */
+    @Override
     public boolean equals(Object other) {
         // short circuit if same object
         if (this == other) {

@@ -63,8 +63,8 @@ public class GitClone {
     }
 
     /**
-     * Clones a repo given the location and folder name.
-     * @throws IOException
+     * Clones a repo given the repo location into a directory.
+     * @throws IOException if it fails to create a directory.
      */
     private static void clone(RepoLocation location, String repoFolderName, String repoName, String additionalCommand)
             throws IOException {
