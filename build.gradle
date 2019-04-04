@@ -51,17 +51,9 @@ wrapper {
 
 run {
     //the second arguments indicates the default value associated with the property.
-    def repoSenseVersion = project.property("version")
-    if (repoSenseVersion.equals("unspecified")) {
-        if (versionDetails().commitDistance == 0) {
-            repoSenseVersion = versionDetails().lastTag
-        } else {
-            repoSenseVersion = versionDetails().gitHash
-        }
-    }
 
     args System.getProperty('args', '').split()
-    systemProperty "version", repoSenseVersion
+    systemProperty "version", getRepoSenseVersion()
 }
 
 checkstyle {
@@ -104,17 +96,8 @@ shadowJar {
     archiveName = 'RepoSense.jar'
     destinationDir = file("${buildDir}/jar/")
 
-    def repoSenseVersion = project.property("version")
-    if (repoSenseVersion.equals("unspecified")) {
-        if (versionDetails().commitDistance == 0) {
-            repoSenseVersion = versionDetails().lastTag
-        } else {
-            repoSenseVersion = versionDetails().gitHash
-        }
-    }
-
     manifest {
-    	attributes 'Implementation-Version': repoSenseVersion
+    	attributes 'Implementation-Version': getRepoSenseVersion()
     }
 }
 
@@ -193,6 +176,14 @@ task coverage(type: JacocoReport) {
         html.enabled = true
         xml.enabled = true
     }
+}
+
+String getRepoSenseVersion() {
+    String repoSenseVersion = project.property("version")
+    if (repoSenseVersion.equals("unspecified")) {
+        repoSenseVersion = versionDetails().commitDistance == 0 ? versionDetails().lastTag : versionDetails().gitHash
+    }
+    return repoSenseVersion
 }
 
 defaultTasks 'clean', 'build', 'systemtest', 'frontendTest', 'coverage'
