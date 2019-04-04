@@ -14,6 +14,9 @@ import reposense.model.RepoConfiguration;
  */
 public class GitLog {
 
+    /**
+     * Returns the git commit log info of {@code Author}, in the repository specified in {@code config}.
+     */
     public static String get(RepoConfiguration config, Author author) {
         Path rootPath = Paths.get(config.getRepoRoot());
 
@@ -22,7 +25,24 @@ public class GitLog {
         command += " --pretty=format:\"%H|%aN|%aE|%ad|%s\" --date=iso --shortstat";
         command += GitUtil.convertToFilterAuthorArgs(author);
         command += GitUtil.convertToGitFormatsArgs(config.getFormats());
-        command += GitUtil.convertToGitExcludeGlobArgs(author.getIgnoreGlobList());
+        command += GitUtil.convertToGitExcludeGlobArgs(rootPath.toFile(), author.getIgnoreGlobList());
+
+        return runCommand(rootPath, command);
+    }
+
+    /**
+     * Returns the git commit log info of {@code Author}, with the files changed, in the repository specified in
+     * {@code config}.
+     */
+    public static String getWithFiles(RepoConfiguration config, Author author) {
+        Path rootPath = Paths.get(config.getRepoRoot());
+
+        String command = "git log --no-merges -i ";
+        command += GitUtil.convertToGitDateRangeArgs(config.getSinceDate(), config.getUntilDate());
+        command += " --pretty=format:\"%H|%aN|%aE|%ad|%s\" --date=iso --stat";
+        command += GitUtil.convertToFilterAuthorArgs(author);
+        command += GitUtil.convertToGitFormatsArgs(config.getFormats());
+        command += GitUtil.convertToGitExcludeGlobArgs(rootPath.toFile(), author.getIgnoreGlobList());
 
         return runCommand(rootPath, command);
     }

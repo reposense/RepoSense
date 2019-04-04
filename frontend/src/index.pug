@@ -143,14 +143,36 @@ html
                   title="click to view author's repo"
                 )
                   i.summary-chart__title--button.fab.fa-github
+              .summary-chart__ramp
+                template(v-if="filterTimeFrame === 'commit'")
+                    template(v-for="(slice, j) in user.commits")
+                      a.summary-chart__ramp__slice(
+                        v-for="(commit, k) in slice.commitResults",
+                        v-if="commit.insertions>0",
+                        v-bind:href="getSliceLink(user, slice)", target="_blank",
+                        v-bind:title="`[${slice.date}] ${commit.message}: ${commit.insertions} lines`",
+                        v-bind:class="'summary-chart__ramp__slice--color' + getSliceColor(slice.date)",
+                        v-bind:style="{\
+                            zIndex: user.commits.length - j,\
+                            borderLeftWidth: getWidth(commit) + 'em',\
+                            right: ((getSlicePos(slice.date, filterSinceDate, filterUntilDate)\
+                                + (getCommitPos(k, slice.commitResults.length, filterSinceDate, filterUntilDate))) * 100) + '%'\
+                        }"
+                      )
 
-              .summary-chart__ramp(onmouseup="dragViewUp(event)", onmousedown="dragViewDown(event)")
-                v_ramp(
-                  v-bind:user="user",
-                  v-bind:tframe="filterTimeFrame",
-                  v-bind:avgsize="avgCommitSize")
-                .overlay
-
+                template(v-else)
+                  a.summary-chart__ramp__slice(
+                    v-for="(slice, j) in user.commits",
+                    v-if="slice.insertions > 0",
+                    v-bind:title="`[${slice.date}] ${filterTimeFrame === 'day' ? 'Daily' : 'Weekly'} contribution: ${slice.insertions} lines`",
+                    v-bind:href="getSliceLink(user, slice)", target="_blank",
+                    v-bind:class="'summary-chart__ramp__slice--color' + getSliceColor(slice.date)",
+                    v-bind:style="{\
+                      zIndex: user.commits.length - j,\
+                      borderLeftWidth: getWidth(slice) + 'em',\
+                      right: (getSlicePos(slice.date, filterSinceDate, filterUntilDate) * 100) + '%'\
+                    }"
+                  )
               .summary-chart__contribution
                 template(v-if="filterBreakdown")
                   .summary-chart__contrib(
@@ -190,13 +212,15 @@ html
           .author {{ info.name }} ({{ info.author }}) contribution from {{ info.minDate }} to {{ info.maxDate }}
           .contribution(v-if="isLoaded && files.length!=0")
             .searchbox
-              input.radio-button--search(type="radio", name="filter", value="search", v-on:click="enableSearchBar()")
+              input.radio-button--search(type="radio", name="filter", value="search", v-bind:checked="isSearchBar",
+                  v-on:click="indicateSearchBar")
               form.file-picker.mui-form--inline(onsubmit="return false")
-                input#search(type="search", placeholder="Filter by glob", v-on:change="updateFilterSearch", disabled)
-                button#submit-button(type="submit", disabled) Filter
+                input#search(type="search", placeholder="Filter by glob", v-on:change="updateFilterSearch",
+                    v-on:click="indicateSearchBar")
+                button#submit-button(type="submit", v-on:click="indicateSearchBar") Filter
             .fileformat
-              input.radio-button--checkbox(type="radio", name="filter", value="checkboxes", v-on:click="enableCheckBoxes()",
-                  checked)
+              input.radio-button--checkbox(type="radio", name="filter", value="checkboxes", v-bind:checked="isCheckBoxes",
+                  v-on:click="indicateCheckBoxes")
               div.checkboxes.mui-form--inline(v-if="files.length > 0")
                 label
                   input.mui-checkbox--fileformat(type="checkbox" v-on:click="selectAll" v-model="isSelectAllChecked")
@@ -206,7 +230,7 @@ html
                     span.bloc ({{ totalBlankLineCount }})
                 template(v-for="format in Object.keys(getExistingLinesObj)", v-bind:key="format")
                   label
-                    input.mui-checkbox--fileformat(type="checkbox" :checked="selectedFileFormats.includes(format)"
+                    input.mui-checkbox--fileformat(type="checkbox" v-bind:checked="selectedFileFormats.includes(format)"
                         v-on:change="selectFileFormat(format)")
                     span(v-bind:title="getFileBlankLineInfo(format)")
                       span {{ format }}: {{ getExistingLinesObj[format] }}&nbsp;
