@@ -177,7 +177,6 @@ window.app = new window.Vue({
 
       this.isTabActive = true;
       this.isCollapsed = false;
-<<<<<<< HEAD
       this.tabType = tabName;
     },
 
