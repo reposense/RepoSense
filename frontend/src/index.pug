@@ -145,11 +145,11 @@ html
                   i.summary-chart__title--button.fab.fa-github
 
               .summary-chart__ramp
-              	v_ramp(
+                v_ramp(
                   v-bind:user="user",
                   v-bind:tframe="filterTimeFrame",
                   v-bind:avgsize="avgCommitSize")
-								.overlay
+                .overlay
 
               .summary-chart__contribution
                 template(v-if="filterBreakdown")
