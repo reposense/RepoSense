@@ -206,21 +206,6 @@ window.app = new window.Vue({
 
       this.tabType = 'authorship';
     },
-    renderAuthorShipTabHash(minDate, maxDate) {
-      const hash = window.hashParams;
-      const info = {
-        author: hash.tabAuthor,
-        repo: hash.tabRepo,
-        minDate,
-        maxDate,
-      };
-      const tabInfoLength = Object.values(info).filter((x) => x).length;
-      if (Object.keys(info).length === tabInfoLength) {
-        this.updateTabAuthorship(info);
-      } else if (hash.tabOpen === 'false' || tabInfoLength > 2) {
-        window.app.isTabActive = false;
-      }
-    },
 
     generateKey(dataObj) {
       return JSON.stringify(dataObj);

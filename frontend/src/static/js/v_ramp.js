@@ -1,6 +1,8 @@
+const { DAY_IN_MS: dayInMs } = window;
+
 function addDays(dateStr, numDays) {
   const date = new Date(dateStr);
-  return window.getDateStr(date.getTime() + numDays * window.DAY_IN_MS);
+  return window.getDateStr(date.getTime() + numDays * dayInMs);
 }
 
 window.vRamp = {
@@ -39,8 +41,8 @@ window.vRamp = {
 
     // position for commit granularity
     getCommitPos(i, total, sinceDate, untilDate) {
-      return (total - i - 1) * DAY_IN_MS / total
-          / (this.getTotalForPos(sinceDate, untilDate) + DAY_IN_MS);
+      return (total - i - 1) * dayInMs / total
+          / (this.getTotalForPos(sinceDate, untilDate) + dayInMs);
     },
     // get duration in miliseconds between 2 date
     getTotalForPos(sinceDate, untilDate) {
@@ -48,7 +50,7 @@ window.vRamp = {
     },
     getSliceColor(date) {
       const timeMs = (new Date(date)).getTime();
-      return (timeMs / DAY_IN_MS) % 5;
+      return (timeMs / dayInMs) % 5;
     },
   },
 };
