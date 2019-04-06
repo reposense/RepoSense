@@ -5,6 +5,7 @@ import java.util.List;
 
 import reposense.model.Author;
 import reposense.model.Group;
+import reposense.util.SystemUtil;
 
 /**
  * Stores the path to the file and the list of {@code LineInfo} for each line in the file.
@@ -16,6 +17,11 @@ public class FileInfo {
     private String group;
 
     public FileInfo(String path) {
+        if (SystemUtil.isWindows()) {
+            // Only replace \ to / in Windows paths, so it does not interferes with a correct Unix path
+            path = path.replace('\\', '/');
+        }
+
         this.path = path;
         this.group = Group.DEFAULT_GROUP;
         lines = new ArrayList<>();

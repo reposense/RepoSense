@@ -1,31 +1,6 @@
 {
   "authorDailyContributionsMap": {
-    "fakeAuthor": [
-      {
-        "insertions": 0,
-        "deletions": 0,
-        "date": "2018-02-06",
-        "commitResults": []
-      },
-      {
-        "insertions": 0,
-        "deletions": 0,
-        "date": "2018-02-07",
-        "commitResults": []
-      },
-      {
-        "insertions": 0,
-        "deletions": 0,
-        "date": "2018-02-08",
-        "commitResults": []
-      },
-      {
-        "insertions": 0,
-        "deletions": 0,
-        "date": "2018-02-09",
-        "commitResults": []
-      }
-    ],
+    "fakeAuthor": [],
     "harryggg": [
       {
         "insertions": 3,
@@ -60,12 +35,6 @@
         ]
       },
       {
-        "insertions": 0,
-        "deletions": 0,
-        "date": "2018-02-08",
-        "commitResults": []
-      },
-      {
         "insertions": 4,
         "deletions": 0,
         "date": "2018-02-09",
@@ -79,58 +48,8 @@
         ]
       }
     ],
-    "Eugene Peh": [
-      {
-        "insertions": 0,
-        "deletions": 0,
-        "date": "2018-02-06",
-        "commitResults": []
-      },
-      {
-        "insertions": 0,
-        "deletions": 0,
-        "date": "2018-02-07",
-        "commitResults": []
-      },
-      {
-        "insertions": 0,
-        "deletions": 0,
-        "date": "2018-02-08",
-        "commitResults": []
-      },
-      {
-        "insertions": 0,
-        "deletions": 0,
-        "date": "2018-02-09",
-        "commitResults": []
-      }
-    ],
-    "eugenepeh": [
-      {
-        "insertions": 0,
-        "deletions": 0,
-        "date": "2018-02-06",
-        "commitResults": []
-      },
-      {
-        "insertions": 0,
-        "deletions": 0,
-        "date": "2018-02-07",
-        "commitResults": []
-      },
-      {
-        "insertions": 0,
-        "deletions": 0,
-        "date": "2018-02-08",
-        "commitResults": []
-      },
-      {
-        "insertions": 0,
-        "deletions": 0,
-        "date": "2018-02-09",
-        "commitResults": []
-      }
-    ]
+    "Eugene Peh": [],
+    "eugenepeh": []
   },
   "authorFinalContributionMap": {
     "fakeAuthor": 0,
