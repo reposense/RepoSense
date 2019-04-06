@@ -195,6 +195,10 @@ window.vSummary = {
         if ((totalWidth > maxLength) && (totalWidth !== fileFormatWidth)) {
           res.unshift(maxLength - (totalWidth - fileFormatWidth));
           res[res.length - 1] = res[res.length - 1] - (maxLength - (totalWidth - fileFormatWidth));
+          if (res[res.length - 1] < 0) {
+            const negativeElement = res.pop();
+            res[res.length - 1] += negativeElement;
+          }
           totalWidth = res[res.length - 1];
         }
         totalBars[fileFormat] = res;
