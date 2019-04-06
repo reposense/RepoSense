@@ -1,6 +1,8 @@
+const { DAY_IN_MS: dayInMs } = window;
+
 function addDays(dateStr, numDays) {
   const date = new Date(dateStr);
-  return window.getDateStr(date.getTime() + numDays * window.DAY_IN_MS);
+  return window.getDateStr(date.getTime() + numDays * dayInMs);
 }
 
 function getBaseLink(repoId) {
@@ -42,6 +44,20 @@ window.vRamp = {
 
       const newSize = 100 * (slice.insertions / this.avgsize);
       return Math.max(newSize * this.rampSize, 0.5);
+    },
+
+    // position for commit granularity
+    getCommitPos(i, total, sinceDate, untilDate) {
+      return (total - i - 1) * dayInMs / total
+          / (this.getTotalForPos(sinceDate, untilDate) + dayInMs);
+    },
+    // get duration in miliseconds between 2 date
+    getTotalForPos(sinceDate, untilDate) {
+      return new Date(untilDate) - new Date(sinceDate);
+    },
+    getSliceColor(date) {
+      const timeMs = (new Date(date)).getTime();
+      return (timeMs / dayInMs) % 5;
     },
   },
 };

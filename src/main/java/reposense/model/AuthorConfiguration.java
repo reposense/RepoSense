@@ -7,6 +7,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 import java.util.logging.Logger;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import reposense.system.LogsManager;
 
@@ -16,6 +18,8 @@ import reposense.system.LogsManager;
 public class AuthorConfiguration {
     public static final String DEFAULT_BRANCH = "HEAD";
     private static final Logger logger = LogsManager.getLogger(AuthorConfiguration.class);
+    private static final Pattern EMAIL_PLUS_OPERATOR_PATTERN =
+            Pattern.compile("^(?<prefix>.+)\\+(?<suffix>.*)(?<domain>@.+)$");
 
     private RepoLocation location;
     private String branch;
@@ -36,15 +40,14 @@ public class AuthorConfiguration {
     /**
      * Clears authors information and use the information provided from {@code standaloneConfig}.
      */
-    public void update(StandaloneConfig standaloneConfig) {
+    public void update(StandaloneConfig standaloneConfig, List<String> ignoreGlobList) {
         List<Author> newAuthorList = new ArrayList<>();
         Map<String, Author> newAuthorEmailsAndAliasesMap = new TreeMap<>(String.CASE_INSENSITIVE_ORDER);
         Map<Author, String> newAuthorDisplayNameMap = new HashMap<>();
-        List<String> newIgnoreGlobList = standaloneConfig.getIgnoreGlobList();
 
         for (StandaloneAuthor sa : standaloneConfig.getAuthors()) {
             Author author = new Author(sa);
-            author.appendIgnoreGlobList(newIgnoreGlobList);
+            author.appendIgnoreGlobList(ignoreGlobList);
 
             newAuthorList.add(author);
             newAuthorDisplayNameMap.put(author, author.getDisplayName());
@@ -55,10 +58,6 @@ public class AuthorConfiguration {
             emails.forEach(email -> newAuthorEmailsAndAliasesMap.put(email, author));
         }
 
-        Format.validateFormats(standaloneConfig.getFormats());
-        CommitHash.validateCommits(standaloneConfig.getIgnoreCommitList());
-
-        // only assign the new values when all the fields in {@code standaloneConfig} pass the validations.
         setAuthorList(newAuthorList);
         setAuthorEmailsAndAliasesMap(newAuthorEmailsAndAliasesMap);
         setAuthorDisplayNameMap(newAuthorDisplayNameMap);
@@ -189,5 +188,25 @@ public class AuthorConfiguration {
 
     public RepoLocation getLocation() {
         return location;
+    }
+
+    /**
+     * Attempts to find matching {@code Author} given a name and an email.
+     * If no matching {@code Author} is found, {@code Author#UNKNOWN_AUTHOR} is returned.
+     */
+    public Author getAuthor(String name, String email) {
+        if (authorEmailsAndAliasesMap.containsKey(name)) {
+            return authorEmailsAndAliasesMap.get(name);
+        }
+        if (authorEmailsAndAliasesMap.containsKey(email)) {
+            return authorEmailsAndAliasesMap.get(email);
+        }
+        Matcher matcher = EMAIL_PLUS_OPERATOR_PATTERN.matcher(email);
+
+        if (matcher.matches()) {
+            return authorEmailsAndAliasesMap.getOrDefault(matcher.group("suffix") + matcher.group("domain"),
+                    Author.UNKNOWN_AUTHOR);
+        }
+        return Author.UNKNOWN_AUTHOR;
     }
 }

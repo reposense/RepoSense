@@ -45,6 +45,8 @@ window.vAuthorship = {
 
       toReverseSortFiles: false,
       sortingFunction: window.comparator(filesSortDict.lineOfCode),
+      isSearchBar: false,
+      isCheckBoxes: true,
     };
   },
 
@@ -115,13 +117,6 @@ window.vAuthorship = {
       this.activeFilesCount = document.getElementsByClassName('file active').length;
     },
 
-    hasCommits(info) {
-      if (window.REPOS[info.repo]) {
-        return window.REPOS[info.repo].commits.authorFinalContributionMap[info.author] > 0;
-      }
-      return false;
-    },
-
     splitSegments(lines) {
       // split into segments separated by authored
       let lastState;
@@ -184,8 +179,10 @@ window.vAuthorship = {
       res.sort((a, b) => b.lineCount - a.lineCount);
 
       Object.keys(this.filesLinesObj).forEach((file) => {
-        this.selectedFileFormats.push(file);
-        this.fileFormats.push(file);
+        if (this.filesLinesObj[file] !== 0) {
+          this.selectedFileFormats.push(file);
+          this.fileFormats.push(file);
+        }
       });
 
       this.filesBlankLinesObj = filesBlanksInfoObj;
@@ -211,6 +208,9 @@ window.vAuthorship = {
     },
 
     selectAll() {
+      if (this.isSearchBar) {
+        this.indicateCheckBoxes();
+      }
       if (!this.isSelectAllChecked) {
         this.selectedFileFormats = this.fileFormats.slice();
         this.activeFilesCount = this.files.length;
@@ -221,18 +221,18 @@ window.vAuthorship = {
     },
 
     selectFileFormat(format) {
+      if (this.isSearchBar) {
+        this.indicateCheckBoxes();
+      }
       if (this.selectedFileFormats.includes(format)) {
         const index = this.selectedFileFormats.indexOf(format);
         this.selectedFileFormats.splice(index, 1);
       } else {
         this.selectedFileFormats.push(format);
       }
-    },
-
-    getSelectedFiles() {
       if (this.fileFormats.length === this.selectedFileFormats.length) {
         this.isSelectAllChecked = true;
-      } else if (this.selectedFileFormats.length === 0) {
+      } else {
         this.isSelectAllChecked = false;
       }
 
@@ -240,40 +240,29 @@ window.vAuthorship = {
     },
 
     updateFilterSearch(evt) {
+      if (this.isCheckBoxes) {
+        this.indicateSearchBar();
+      }
       this.filterSearch = (evt.target.value.length !== 0) ? evt.target.value : '*';
     },
 
     tickAllCheckboxes() {
       this.selectedFileFormats = this.fileFormats.slice();
       this.isSelectAllChecked = true;
-      this.filterSearch = '*';
     },
 
-    enableSearchBar() {
-      const searchBar = document.getElementById('search');
-      const submitButton = document.getElementById('submit-button');
-      searchBar.disabled = false;
-      submitButton.disabled = false;
-
+    indicateSearchBar() {
+      this.isSearchBar = true;
+      this.isCheckBoxes = false;
       this.tickAllCheckboxes();
-      const checkboxes = document.getElementsByClassName('mui-checkbox--fileformat');
-      Array.from(checkboxes).forEach((checkbox) => {
-        checkbox.disabled = true;
-      });
     },
 
-    enableCheckBoxes() {
+    indicateCheckBoxes() {
       const searchBar = document.getElementById('search');
-      const submitButton = document.getElementById('submit-button');
       searchBar.value = '';
-      searchBar.disabled = true;
-      submitButton.disabled = true;
-
-      this.tickAllCheckboxes();
-      const checkboxes = document.getElementsByClassName('mui-checkbox--fileformat');
-      Array.from(checkboxes).forEach((checkbox) => {
-        checkbox.disabled = false;
-      });
+      this.filterSearch = '*';
+      this.isSearchBar = false;
+      this.isCheckBoxes = true;
     },
 
     isSelected(filePath) {

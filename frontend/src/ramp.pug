@@ -7,7 +7,7 @@
           v-if="commit.insertions>0",
           v-bind:href="getLink(user, commit)", target="_blank",
           v-bind:title="`[${slice.date}] ${commit.message}: ${commit.insertions} lines`",
-          v-bind:class="'ramp__slice--color' + j % 5",
+          v-bind:class="'ramp__slice--color' + getSliceColor(slice.date)",
           v-bind:style="{\
               zIndex: user.commits.length - j,\
               borderLeftWidth: getWidth(commit) + 'em',\
@@ -23,7 +23,7 @@
       v-if="slice.insertions > 0",
       v-bind:title="`[${slice.date}] ${tframe === 'day' ? 'Daily' : 'Weekly'} contribution: ${slice.insertions} lines`",
       v-bind:href="getLink(user, slice)", target="_blank",
-      v-bind:class="'ramp__slice--color' + j % 5",
+      v-bind:class="'ramp__slice--color' + getSliceColor(slice.date)",
       v-bind:style="{\
         zIndex: user.commits.length - j,\
         borderLeftWidth: getWidth(slice) + 'em',\
