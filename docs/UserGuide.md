@@ -13,6 +13,7 @@
   * [Customize Using csv Config Files](#customize-using-csv-config-files)
     * [`repo-config.csv`](#repo-configcsv)
     * [`author-config.csv`](#author-configcsv)
+    * [`groups-config.csv`](#groups-configcsv)
 * [Analyzing Multiple Repos](#analyzing-multiple-repos)
 * [Using Travis-CI to automate publishing of the report to GitHub Pages](#using-travis-ci-to-automate-publishing-of-the-report-to-github-pages)
 * [FAQ](#faq)
@@ -316,6 +317,19 @@ Author's GitHub ID | GitHub username of the target author e.g., `JohnDoe`
 If `author-config.csv` is not given and the repo has not provide author details in a standalone config file, all the authors of the repositories within the date range specified (if any) will be analyzed.
 
 <hr>
+
+#### `groups-config.csv`
+
+Optionally, you can provide a `groups-config.csv`(which should be in the same directory as `repo-config.csv` file) to provide details on any custom groupings for files in specified repositories. It should contain the following columns:
+
+Column Name | Explanation
+----------- | -----------
+Repository's Location | Same as `repo-config.csv`.
+Group Name | Name of the group e.g.,`test`.
+Globs | The list of file path globs to include for specified group. e.g.,`**/test/*;**.java`.
+
+Note that a file in a given repository can only have 1 group specified. e.g. `example.java` in `example-repo` can either be in `test` group
+or in `code` group, but not in both `test` and `code` group. If multiple groups are specified for a given file, the latter group is set for the file.
 
 ## Analyzing Multiple Repos
 

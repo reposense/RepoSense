@@ -54,7 +54,7 @@ window.vSummary = {
       rampSize: 0.01,
       minDate: '',
       maxDate: '',
-      contributionBarColors: {},
+      contributionBarFileTypeColors: {},
     };
   },
   watch: {
@@ -164,22 +164,23 @@ window.vSummary = {
                 + `since=${slice.date}'T'00:00:00+08:00&`
                 + `until=${untilDate}'T'23:59:59+08:00`;
     },
-    getFileFormatContributionBars(fileFormatContribution) {
+
+    getFileTypeContributionBars(fileTypeContribution) {
       let totalWidth = 0;
       const contributionLimit = (this.avgContributionSize * 2);
       const totalBars = {};
       const maxLength = 100;
 
-      Object.keys(fileFormatContribution).forEach((fileFormat) => {
-        const contribution = fileFormatContribution[fileFormat];
+      Object.keys(fileTypeContribution).forEach((fileType) => {
+        const contribution = fileTypeContribution[fileType];
         const res = [];
-        let fileFormatWidth = 0;
+        let fileTypeWidth = 0;
 
         // compute 100% width bars
         const cnt = parseInt(contribution / contributionLimit, 10);
         for (let cntId = 0; cntId < cnt; cntId += 1) {
           res.push(maxLength);
-          fileFormatWidth += maxLength;
+          fileTypeWidth += maxLength;
           totalWidth += maxLength;
         }
 
@@ -187,17 +188,17 @@ window.vSummary = {
         const last = (contribution % contributionLimit) / contributionLimit;
         if (last !== 0) {
           res.push(last * maxLength);
-          fileFormatWidth += last * maxLength;
+          fileTypeWidth += last * maxLength;
           totalWidth += last * maxLength;
         }
 
         // split > 100% width bars into smaller bars
-        if ((totalWidth > maxLength) && (totalWidth !== fileFormatWidth)) {
-          res.unshift(maxLength - (totalWidth - fileFormatWidth));
-          res[res.length - 1] = res[res.length - 1] - (maxLength - (totalWidth - fileFormatWidth));
+        if ((totalWidth > maxLength) && (totalWidth !== fileTypeWidth)) {
+          res.unshift(maxLength - (totalWidth - fileTypeWidth));
+          res[res.length - 1] = res[res.length - 1] - (maxLength - (totalWidth - fileTypeWidth));
           totalWidth = res[res.length - 1];
         }
-        totalBars[fileFormat] = res;
+        totalBars[fileType] = res;
       });
 
       return totalBars;
@@ -344,23 +345,22 @@ window.vSummary = {
       this.getDates();
       this.sortFiltered();
     },
-    processFileFormats() {
+    processFileTypes() {
       const selectedColors = ['#ffe119', '#4363d8', '#3cb44b', '#f58231', '#911eb4', '#46f0f0', '#f032e6',
           '#bcf60c', '#fabebe', '#008080', '#e6beff', '#9a6324', '#fffac8', '#800000', '#aaffc3', '#808000', '#ffd8b1',
           '#000075', '#808080'];
-      const colors = {};
+      const fileTypeColors = {};
       let i = 0;
 
       this.repos.forEach((repo) => {
         const user = repo.users[0];
-        Object.keys(user.fileFormatContribution).forEach((fileFormat) => {
-          if (!Object.prototype.hasOwnProperty.call(colors, fileFormat)) {
-            colors[fileFormat] = selectedColors[i];
-            i = (i + 1) % selectedColors.length;
-          }
+        Object.keys(user.fileTypeContribution).forEach((fileType) => {
+          fileTypeColors[fileType] = selectedColors[i];
+          i = (i + 1) % selectedColors.length;
         });
-        this.contributionBarColors = colors;
       });
+
+      this.contributionBarFileTypeColors = fileTypeColors;
     },
     splitCommitsWeek(user) {
       const { commits } = user;
@@ -497,6 +497,6 @@ window.vSummary = {
   created() {
     this.renderFilterHash();
     this.getFiltered();
-    this.processFileFormats();
+    this.processFileTypes();
   },
 };

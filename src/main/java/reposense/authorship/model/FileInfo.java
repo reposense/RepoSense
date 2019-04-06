@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import reposense.model.Author;
+import reposense.model.Group;
 import reposense.util.SystemUtil;
 
 /**
@@ -13,6 +14,8 @@ public class FileInfo {
     private final String path;
     private final ArrayList<LineInfo> lines;
 
+    private String group;
+
     public FileInfo(String path) {
         if (SystemUtil.isWindows()) {
             // Only replace \ to / in Windows paths, so it does not interferes with a correct Unix path
@@ -20,6 +23,7 @@ public class FileInfo {
         }
 
         this.path = path;
+        this.group = Group.DEFAULT_GROUP;
         lines = new ArrayList<>();
     }
 
@@ -44,6 +48,14 @@ public class FileInfo {
 
     public String getPath() {
         return path;
+    }
+
+    public String getGroup() {
+        return group;
+    }
+
+    public void setGroup(String group) {
+        this.group = group;
     }
 
     /**

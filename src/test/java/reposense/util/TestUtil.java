@@ -3,6 +3,7 @@ package reposense.util;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashSet;
@@ -12,6 +13,7 @@ import java.util.stream.Collectors;
 import org.junit.Assert;
 
 import reposense.model.Author;
+import reposense.model.Group;
 import reposense.model.RepoConfiguration;
 
 public class TestUtil {
@@ -172,4 +174,20 @@ public class TestUtil {
         return System.getProperty("os.name").toLowerCase().contains("win");
     }
 
+    /**
+     * Converts all the strings in {@code groups} into {@code Group} objects. Returns null if {@code groups} is null.
+     * @throws IllegalArgumentException if any of the strings are in invalid formats.
+     */
+    public static List<Group> convertStringsToGroups(List<String> groups) throws IllegalArgumentException {
+        if (groups == null) {
+            return null;
+        }
+
+        return groups.stream()
+                .map(temp -> {
+                    String[] elements = temp.split(":");
+                    Group obj = new Group(elements[0], Arrays.asList(elements[1].split(";")));
+                    return obj;
+                }).collect(Collectors.toList());
+    }
 }

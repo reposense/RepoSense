@@ -8108,22 +8108,30 @@
     "Esilocke": 10944,
     "wangyiming1019": 2469
   },
-  "authorFileFormatContributionMap": {
+  "authorFileTypeContributionMap": {
     "charlesgoh": {
-      "java": 3258,
-      "adoc": 970
+      "code": 1825,
+      "test": 1433,
+      "docs": 970,
+      "other": 0
     },
     "jeffreygohkw": {
-      "java": 4642,
-      "adoc": 1198
+      "code": 2914,
+      "test": 1728,
+      "docs": 1198,
+      "other": 0
     },
     "Esilocke": {
-      "java": 8366,
-      "adoc": 2578
+      "code": 4308,
+      "test": 4058,
+      "docs": 2578,
+      "other": 0
     },
     "wangyiming1019": {
-      "java": 2469,
-      "adoc": 0
+      "code": 1142,
+      "test": 1327,
+      "docs": 0,
+      "other": 0
     }
   },
   "authorContributionVariance": {

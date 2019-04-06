@@ -189,7 +189,7 @@ header{
         font-weight:bold;
     }
 
-    &__fileformat--breakdown{
+    &__fileType--breakdown{
         overflow-y:hidden;
 
         &__legend{
@@ -264,7 +264,7 @@ header{
             background-color:mui-color("red");
         }
 
-        &--bar--fileformat{
+        &--bar--fileType{
             text-align:left;
             height:0.3rem;
             margin-top:0.1rem;
@@ -292,7 +292,7 @@ header{
             margin-top:0.1rem;
             color:mui-color("red");
 
-            .fileformat {
+            .fileType {
                 margin-left:3rem;
                 margin-top:1.5rem;
                 align-items:center;
@@ -334,7 +334,7 @@ header{
                 color:mui-color("grey");
             }
 
-            span.fileFormat {
+            span.fileType {
                 span.bloc::after {
                     content:', ';
                 }
@@ -344,7 +344,7 @@ header{
                 }
             }
 
-            .mui-checkbox--fileformat {
+            .mui-checkbox--fileType {
                 vertical-align:middle;
             }
 
