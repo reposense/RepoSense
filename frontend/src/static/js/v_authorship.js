@@ -80,7 +80,7 @@ window.vAuthorship = {
         this.processFiles(repo.files);
       } else {
         window.api.loadAuthorship(this.info.repo)
-            .then((files) => this.processFiles(files));
+          .then((files) => this.processFiles(files));
       }
     },
 
@@ -111,6 +111,13 @@ window.vAuthorship = {
       });
 
       this.activeFilesCount = isActive ? this.selectedFiles.length : 0;
+    },
+
+    hasCommits(info) {
+      if (window.REPOS[info.repo]) {
+        return window.REPOS[info.repo].commits.authorFinalContributionMap[info.author] > 0;
+      }
+      return false;
     },
 
     updateCount() {
@@ -169,7 +176,7 @@ window.vAuthorship = {
           out.segments = segmentInfo.segments;
           totalBlankLineCount += segmentInfo.blankLineCount;
           this.addBlankLineCountToFileFormat(file.path, segmentInfo.blankLineCount,
-              filesBlanksInfoObj);
+            filesBlanksInfoObj);
           res.push(out);
         }
       });
@@ -204,7 +211,7 @@ window.vAuthorship = {
 
     sortFiles() {
       this.sortingFunction = (a, b) => (this.toReverseSortFiles ? -1 : 1)
-          * window.comparator(filesSortDict[this.filesSortType])(a, b);
+        * window.comparator(filesSortDict[this.filesSortType])(a, b);
     },
 
     selectAll() {
@@ -280,7 +287,7 @@ window.vAuthorship = {
     getFileBlankLineInfo(fileFormat) {
       return `${fileFormat}: Blank: ${
         this.filesBlankLinesObj[fileFormat]}, Non-Blank: ${
-        this.filesLinesObj[fileFormat] - this.filesBlankLinesObj[fileFormat]}`;
+          this.filesLinesObj[fileFormat] - this.filesBlankLinesObj[fileFormat]}`;
     },
 
     getTotalFileBlankLineInfo() {
@@ -292,16 +299,16 @@ window.vAuthorship = {
   computed: {
     selectedFiles() {
       return this.files
-          .filter((file) => this.isSelected(file.path)
-              && minimatch(file.path, this.filterSearch, { matchBase: true }))
-          .sort(this.sortingFunction);
+        .filter((file) => this.isSelected(file.path)
+          && minimatch(file.path, this.filterSearch, { matchBase: true }))
+        .sort(this.sortingFunction);
     },
     getExistingLinesObj() {
       return Object.keys(this.filesLinesObj)
-          .filter((type) => this.filesLinesObj[type] > 0)
-          .reduce((acc, key) => ({
-            ...acc, [key]: this.filesLinesObj[key],
-          }), {});
+        .filter((type) => this.filesLinesObj[type] > 0)
+        .reduce((acc, key) => ({
+          ...acc, [key]: this.filesLinesObj[key],
+        }), {});
     },
   },
 
