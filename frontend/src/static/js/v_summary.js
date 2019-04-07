@@ -43,10 +43,10 @@ window.vSummary = {
       filterSearch: '',
       filterSortReverse: false,
       filterGroupSelection: 'groupByRepos',
-      sortGroupSelection: 'searchPath',
+      sortGroupSelection: 'searchPath', // UI for sorting groups
+      sortWithinGroupSelection: 'name', // UI for sorting within groups
       sortingOption: '',
       isSortingDsc: '',
-      sortWithinGroupSelection: 'name',
       sortingWithinOption: '',
       isSortingWithinDsc: '',
       filterTimeFrame: 'day',
