@@ -12,18 +12,6 @@ window.comparator = (fn) => function compare(a, b) {
 // ui funcs, only allow one ramp to be highlighted //
 let drags = [];
 
-function viewClick(evt) {
-  if (drags.length === 2) {
-    drags = [];
-  }
-
-  if (evt.shiftKey) {
-    return drags.length === 0
-      ? dragViewDown(evt)
-      : dragViewUp(evt);
-  }
-}
-
 function getBaseTarget(target) {
   return (target.className === 'summary-chart__ramp')
     ? target : getBaseTarget(target.parentElement);
@@ -34,7 +22,7 @@ function deactivateAllOverlays() {
       .forEach((x) => { x.className = 'overlay'; });
 }
 
-window.dragViewDown = function dragViewDown(evt) {
+function dragViewDown(evt) {
   deactivateAllOverlays();
 
   const pos = evt.clientX;
@@ -48,9 +36,9 @@ window.dragViewDown = function dragViewDown(evt) {
   overlay.style.marginLeft = '0';
   overlay.style.width = `${(pos - offset) * 100 / base}%`;
   overlay.className += ' edge';
-};
+}
 
-window.dragViewUp = function dragViewUp(evt) {
+function dragViewUp(evt) {
   deactivateAllOverlays();
   const ramp = getBaseTarget(evt.target);
 
@@ -65,6 +53,20 @@ window.dragViewUp = function dragViewUp(evt) {
   overlay.style.marginLeft = `${drags[0]}%`;
   overlay.style.width = `${drags[1] - drags[0]}%`;
   overlay.className += ' show';
+}
+
+window.viewClick = function viewClick(evt) {
+  if (drags.length === 2) {
+    drags = [];
+  }
+
+  if (evt.shiftKey) {
+    return drags.length === 0
+      ? dragViewDown(evt)
+      : dragViewUp(evt);
+  }
+
+  return null;
 };
 
 // date functions //
