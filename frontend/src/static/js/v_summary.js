@@ -530,7 +530,7 @@ window.vSummary = {
           avgCommitSize,
           user,
           sinceDate: user.commits[0].date,
-          untilDate: user.commits[user.commits.length-1].date,
+          untilDate: user.commits[user.commits.length - 1].date,
         });
       }
     },
