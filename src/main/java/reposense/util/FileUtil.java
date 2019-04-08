@@ -40,7 +40,7 @@ public class FileUtil {
     private static final ByteBuffer buffer = ByteBuffer.allocate(1 << 11); // 2KB
 
     /**
-     * Writes a JSON file from a Java Object.
+     * Writes the JSON file representing the {@code object} at the given {@code path}.
      */
     public static void writeJsonFile(Object object, String path) {
         Gson gson = new GsonBuilder()

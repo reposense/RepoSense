@@ -214,7 +214,7 @@ public class ReportGenerator {
     }
 
     /**
-    * Generates a report for empty repo.
+    * Generates a report at the {@code repoReportDirectory}.
     */
     public static void generateEmptyRepoReport(String repoReportDirectory) {
         CommitReportJson emptyCommitReportJson = new CommitReportJson();

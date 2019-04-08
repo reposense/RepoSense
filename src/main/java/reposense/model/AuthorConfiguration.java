@@ -132,9 +132,7 @@ public class AuthorConfiguration {
     }
 
     /**
-     * Overloads {@code addAuthor} and {@code propagateIgnoreGlobList} methods.
-     * {@code addAuthor} Adds author to the {@code AuthorList}.
-     * {@code propagateIgnoreGlobList} Propagates {@code ignoreGlobList} to {@code author}.
+     * Adds {@code author} to the {@code AuthorList}, and propagates {@code ignoreGlobList} to the {@code author}.
      */
     public void addAuthor(Author author, List<String> ignoreGlobList) {
         addAuthor(author);

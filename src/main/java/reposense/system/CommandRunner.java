@@ -11,7 +11,7 @@ import reposense.util.SystemUtil;
 public class CommandRunner {
 
     /**
-     * Runs a command.
+     * Spawns a backend terminal process, with working directory at {@code path}, to executes the {@code command}.
      */
     public static String runCommand(Path path, String command) {
         CommandRunnerProcess crp = spawnCommandProcess(path, command);

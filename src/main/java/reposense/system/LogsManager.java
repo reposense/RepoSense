@@ -109,7 +109,7 @@ public class LogsManager {
     }
 
     /**
-     * Creates a {@code ConsoleHandler} for console output.
+     * Creates a {@code ConsoleHandler} to output the log to console.
      */
     private static ConsoleHandler createConsoleHandler() {
         ConsoleHandler consoleHandler = new ConsoleHandler();

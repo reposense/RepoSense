@@ -144,7 +144,7 @@ public class RepoCloner {
     }
 
     /**
-    * Deletes a directory given the root path.
+    * Deletes the {@code root} directory.
     */
     private void deleteDirectory(String root) {
         try {

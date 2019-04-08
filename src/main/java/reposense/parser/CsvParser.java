@@ -81,7 +81,7 @@ public abstract class CsvParser<T> {
     }
 
     /**
-     * Checks if there is malformed line.
+     * Checks if the {@code line} contains values at the mandatory positions in CSV format.
      */
     private boolean isLineMalformed(final String[] elements, int lineNumber, String line) {
         for (int position : mandatoryPositions()) {
