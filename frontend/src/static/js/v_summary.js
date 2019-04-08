@@ -527,7 +527,10 @@ window.vSummary = {
         const { avgCommitSize } = this;
         const user = { ...userOrig, commits };
         this.$emit('view-zoomin', {
-          user, avgCommitSize,
+          avgCommitSize,
+          user,
+          sinceDate: user.commits[0].date,
+          untilDate: user.commits[user.commits.length-1].date,
         });
       }
     },

@@ -6,6 +6,8 @@
   v_ramp(
     v-bind:user="info.user",
     v-bind:tframe="'commit'",
+    v-bind:sdate="info.sinceDate",
+    v-bind:udate="info.untilDate",
     v-bind:avgsize="info.avgCommitSize")
 
   .zoomin__day(v-for="day in info.user.commits")
