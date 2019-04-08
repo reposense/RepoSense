@@ -58,7 +58,7 @@ public class FileUtil {
     }
 
     /**
-     * Deletes a directory given the root path.
+     * Deletes the {@code root} directory.
      * @throws IOException if the root path does not exist.
      */
     public static void deleteDirectory(String root) throws IOException {
