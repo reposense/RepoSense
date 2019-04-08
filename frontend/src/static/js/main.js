@@ -201,8 +201,6 @@ window.app = new window.Vue({
       } else if (hash.tabOpen === 'false' || tabInfoLength > 2) {
         window.app.isTabActive = false;
       }
-
-      this.tabType = 'authorship';
     },
 
     generateKey(dataObj) {
