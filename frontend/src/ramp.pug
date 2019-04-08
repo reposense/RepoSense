@@ -11,8 +11,8 @@
           v-bind:style="{\
               zIndex: user.commits.length - j,\
               borderLeftWidth: getWidth(commit) + 'em',\
-              right: ((getPos(j, user.commits.length)\
-                  + (getPos(k, slice.commitResults.length) / user.commits.length)) * 100) + '%'\
+              right: ((getSlicePos(slice.date)\
+                  + (getCommitPos(k, slice.commitResults.length))) * 100) + '%'\
           }"
         )
 
@@ -27,6 +27,6 @@
       v-bind:style="{\
         zIndex: user.commits.length - j,\
         borderLeftWidth: getWidth(slice) + 'em',\
-        right: (getPos(j, user.commits.length) * 100) + '%'\
+        right: (getSlicePos(slice.date) * 100) + '%'\
       }"
     )

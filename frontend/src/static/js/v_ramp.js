@@ -11,7 +11,7 @@ function getBaseLink(repoId) {
 window.getBaseLink = getBaseLink;
 
 window.vRamp = {
-  props: ['user', 'tframe', 'avgsize'],
+  props: ['user', 'tframe', 'avgsize', 'sdate', 'udate'],
   template: window.$('v_ramp').innerHTML,
   data() {
     return {
@@ -20,9 +20,6 @@ window.vRamp = {
   },
 
   methods: {
-    getPos(i, total) {
-      return (total - i - 1) / total;
-    },
     getLink(user, slice) {
       const { REPOS } = window;
       const untilDate = this.tframe === 'week' ? addDays(slice.date, 6) : slice.date;
@@ -45,10 +42,16 @@ window.vRamp = {
     },
 
     // position for commit granularity
-    getCommitPos(i, total, sinceDate, untilDate) {
+    getCommitPos(i, total) {
       return (total - i - 1) * window.DAY_IN_MS / total
-          / (this.getTotalForPos(sinceDate, untilDate) + window.DAY_IN_MS);
+          / (this.getTotalForPos(this.sdate, this.udate) + window.DAY_IN_MS);
     },
+    // position for day granularity
+    getSlicePos(date) {
+      const total = this.getTotalForPos(this.sdate, this.udate);
+      return (new Date(this.udate) - new Date(date)) / (total + window.DAY_IN_MS);
+    },
+
     // get duration in miliseconds between 2 date
     getTotalForPos(sinceDate, untilDate) {
       return new Date(untilDate) - new Date(sinceDate);
