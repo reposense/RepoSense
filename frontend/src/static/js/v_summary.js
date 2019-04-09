@@ -509,17 +509,13 @@ window.vSummary = {
     openTabZoomin(userOrig) {
       // skip if accidentally clicked on ramp chart
       if (drags.length === 2 && drags[1] - drags[0]) {
-        const tdiff = (new Date(this.filterUntilDate) - new Date(this.filterSinceDate))/DAY_IN_MS;
-        const tpre = (new Date(userOrig.commits[0].date) - new Date(this.filterSinceDate))/DAY_IN_MS;
-        const tpost = (new Date(this.filterUntilDate) - new Date(userOrig.commits[userOrig.commits.length-1].date))/DAY_IN_MS;
-
+        const tdiff = new Date(this.filterUntilDate) - new Date(this.filterSinceDate);
         const idxs = drags.map((x) => x * tdiff / 100);
-        console.log(idxs);
-        console.log(tpre, tpost);
+        const tsince = getDateStr(new Date(this.filterSinceDate).getTime() + idxs[0]);
+        const tuntil = getDateStr(new Date(this.filterSinceDate).getTime() + idxs[1]);
 
-        const rawCommits = userOrig.commits.slice(
-            parseInt(idxs[0], 10),
-            parseInt(idxs[1] + 1, 10),
+        const rawCommits = userOrig.commits.filter(
+            (commit) => commit.date >= tsince && commit.date <= tuntil,
         );
 
         const commits = [];
@@ -536,8 +532,8 @@ window.vSummary = {
         this.$emit('view-zoomin', {
           avgCommitSize,
           user,
-          sinceDate: user.commits[0].date,
-          untilDate: user.commits[user.commits.length - 1].date,
+          sinceDate: tsince,
+          untilDate: tuntil,
         });
       }
     },
