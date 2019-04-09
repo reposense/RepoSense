@@ -509,7 +509,14 @@ window.vSummary = {
     openTabZoomin(userOrig) {
       // skip if accidentally clicked on ramp chart
       if (drags.length === 2 && drags[1] - drags[0]) {
-        const idxs = drags.map((x) => x * userOrig.commits.length / 100);
+        const tdiff = (new Date(this.filterUntilDate) - new Date(this.filterSinceDate))/DAY_IN_MS;
+        const tpre = (new Date(userOrig.commits[0].date) - new Date(this.filterSinceDate))/DAY_IN_MS;
+        const tpost = (new Date(this.filterUntilDate) - new Date(userOrig.commits[userOrig.commits.length-1].date))/DAY_IN_MS;
+
+        const idxs = drags.map((x) => x * tdiff / 100);
+        console.log(idxs);
+        console.log(tpre, tpost);
+
         const rawCommits = userOrig.commits.slice(
             parseInt(idxs[0], 10),
             parseInt(idxs[1] + 1, 10),
