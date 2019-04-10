@@ -1631,25 +1631,25 @@
     "jordancjq": []
   },
   "authorFinalContributionMap": {
-    "lithiumlkid": 317,
-    "lohtianwei": 2045,
-    "codeeong": 2068,
+    "lithiumlkid": 360,
+    "lohtianwei": 2121,
+    "codeeong": 2090,
     "jordancjq": 0
   },
   "authorFileFormatContributionMap": {
     "lithiumlkid": {
       "java": 0,
-      "adoc": 317,
+      "adoc": 360,
       "md": 0
     },
     "lohtianwei": {
-      "java": 1774,
-      "adoc": 271,
+      "java": 1817,
+      "adoc": 304,
       "md": 0
     },
     "codeeong": {
-      "java": 1667,
-      "adoc": 401,
+      "java": 1685,
+      "adoc": 405,
       "md": 0
     },
     "jordancjq": {
