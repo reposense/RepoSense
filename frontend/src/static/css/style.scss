@@ -168,11 +168,13 @@ header{
 
     .mui-textfield, .mui-select{
         margin:0.5rem;
+        padding-right:10px;
     }
 
     label{
         text-align:left;
         overflow-y:hidden;
+        width:110px;
     }
 
     input, select{
