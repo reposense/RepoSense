@@ -74,8 +74,8 @@ public class ReportGenerator {
         Map<RepoLocation, List<RepoConfiguration>> repoLocationMap = groupConfigsByRepoLocation(configs);
         cloneAndAnalyzeRepos(repoLocationMap, outputPath);
 
-        Date sinceDate = cliSinceDate == null ? earliestSinceDate : cliSinceDate;;
-        Date untilDate = cliUntilDate == null ? latestUntilDate : cliUntilDate;;
+        Date sinceDate = cliSinceDate == null ? earliestSinceDate : cliSinceDate;
+        Date untilDate = cliUntilDate == null ? latestUntilDate : cliUntilDate;
 
         FileUtil.writeJsonFile(new SummaryReportJson(configs, generationDate, sinceDate, untilDate),
                 getSummaryResultPath(outputPath));
