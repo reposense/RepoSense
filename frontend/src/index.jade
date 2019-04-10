@@ -81,13 +81,29 @@ html
                 option(value="groupByRepos") Repo/Branch
                 option(value="groupByAuthors") Author
               label group by
-            .mui-select
-              select(v-model="filterSort")
-                option(value="totalCommits") Contribution
-                option(value="variance") Variance
-                option(value="displayName", v-if="filterGroupSelection !== 'groupByAuthors'") Author Name
-                option(value="searchPath", v-if="filterGroupSelection !== 'groupByRepos'") Repo/Branch Name
-              label sort by
+            .mui-select.sort-group
+              select(v-model="sortGroupSelection")
+                option(value="name", v-if="filterGroupSelection !== 'groupByRepos'") &uarr; name
+                option(value="name dsc", v-if="filterGroupSelection !== 'groupByRepos'") &darr; name
+                option(value="searchPath", v-if="filterGroupSelection !== 'groupByAuthors'") &uarr; repo/branch
+                option(value="searchPath dsc", v-if="filterGroupSelection !== 'groupByAuthors'") &darr; repo/branch
+                option(value="totalCommits", v-if="filterGroupSelection === 'groupByNone'") &uarr; contribution
+                option(value="totalCommits dsc", v-if="filterGroupSelection === 'groupByNone'") &darr; contribution
+                option(value="variance", v-if="filterGroupSelection === 'groupByNone'") &uarr; variance
+                option(value="variance dsc", v-if="filterGroupSelection === 'groupByNone'") &darr; variance
+              label sort groups by
+            .mui-select.sort-within-group
+              select(v-model="sortWithinGroupSelection")
+                option(value="name", v-if="filterGroupSelection === 'groupByRepos'") &uarr; name
+                option(value="name dsc", v-if="filterGroupSelection === 'groupByRepos'") &darr; name
+                option(value="searchPath", v-if="filterGroupSelection === 'groupByAuthors'") &uarr; repo/branch
+                option(value="searchPath dsc", v-if="filterGroupSelection === 'groupByAuthors'") &darr; repo/branch
+                option(value="totalCommits", v-if="filterGroupSelection !== 'groupByNone'") &uarr; contribution
+                option(value="totalCommits dsc", v-if="filterGroupSelection !== 'groupByNone'") &darr; contribution
+                option(value="variance", v-if="filterGroupSelection !== 'groupByNone'") &uarr; variance
+                option(value="variance dsc", v-if="filterGroupSelection !== 'groupByNone'") &darr; variance
+                option(value="", v-if="filterGroupSelection === 'groupByNone'", style="display:none") —— N/A ——
+              label sort within groups by
             .mui-select
               select(v-model="filterTimeFrame")
                 option(value="commit") Commit
@@ -104,9 +120,6 @@ html
                 v-bind:min="filterSinceDate", v-bind:max="maxDate")
               label until
           .summary-picker__checkboxes.summary-picker__section
-            label
-              input(type="checkbox", v-model="filterSortReverse").mui-checkbox.summary-picker__checkbox
-              span reverse
             label
               input(type="checkbox", v-model="filterBreakdown").mui-checkbox.summary-picker__checkbox
               span breakdown by file format
