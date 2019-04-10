@@ -1,10 +1,10 @@
 describe('contribution bar', () => {
   it('same length when breakdown selected', () => {
-    let expectedSum = 0;
+    let expectedWidthSum = 0;
     cy.get('.summary-chart__contrib--bar').then((ele) => {
       let i;
       for (i = 0; i < ele.length; i += 1) {
-        expectedSum += parseFloat(ele[i].style.width.split('%')[0]);
+        expectedWidthSum += parseFloat(ele[i].style.width.split('%')[0]);
       }
     });
 
@@ -14,12 +14,12 @@ describe('contribution bar', () => {
     Cypress.wait();
 
     cy.get('.summary-chart__contrib--bar--fileformat').then((ele) => {
-      let actualSum = 0;
+      let actualWidthSum = 0;
       let i;
       for (i = 0; i < ele.length; i += 1) {
-        actualSum += parseFloat(ele[i].style.width.split('%')[0]);
+        actualWidthSum += parseFloat(ele[i].style.width.split('%')[0]);
       }
-      expect(actualSum.toFixed(3)).to.be.equal(expectedSum.toFixed(3));
+      expect(actualWidthSum.toFixed(3)).to.be.equal(expectedWidthSum.toFixed(3));
     });
   });
 });
