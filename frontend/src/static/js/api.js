@@ -47,7 +47,7 @@ window.api = {
 
   loadCommits(repoName) {
     return loadJSON(`${REPORT_DIR}/${repoName}/commits.json`).then((commits) => {
-      let res = [];
+      const res = [];
       const repo = window.REPOS[repoName];
       let repoTotalCommits = 0;
       let repoTotalVariance = 0;
@@ -101,8 +101,8 @@ window.api = {
 
   loadAuthorCommitsVariance() {
     const repos = window.REPOS;
-    let authorCommits = {};
-    let authorVariance = {};
+    const authorCommits = {};
+    const authorVariance = {};
     Object.keys(repos).forEach((repo) => {
       repos[repo].users.forEach((user) => {
         if (!Object.keys(authorCommits).includes(user)) {
@@ -114,9 +114,9 @@ window.api = {
       });
     });
     Object.keys(repos).forEach((repo) => {
-        repos[repo].users.forEach((user) => {
-          user.authorCommits = authorCommits[user.name];
-          user.authorVariance = authorVariance[user.name];
+      repos[repo].users.forEach((user) => {
+        user.authorCommits = authorCommits[user.name];
+        user.authorVariance = authorVariance[user.name];
       });
     });
   },

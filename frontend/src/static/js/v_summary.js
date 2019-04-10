@@ -460,7 +460,7 @@ window.vSummary = {
         }
       } else if (this.filterGroupSelection === 'groupByNone') {
         this.sortWithinGroupSelection = '';
-        if (this.sortingOption.indexOf('Commits') != -1 || this.sortingOption.indexOf('Variance') != -1) {
+        if (this.sortingOption.indexOf('Commits') !== -1 || this.sortingOption.indexOf('Variance') !== -1) {
           this.sortGroupSelection = 'name';
         }
       }
