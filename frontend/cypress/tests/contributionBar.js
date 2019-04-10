@@ -11,6 +11,8 @@ describe('contribution bar', () => {
     cy.get('#summary-wrapper label').contains('breakdown by file format').siblings().filter('input')
         .check();
 
+    Cypress.wait();
+
     cy.get('.summary-chart__contrib--bar--fileformat').then((ele) => {
       let actualSum = 0;
       let i;
