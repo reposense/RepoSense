@@ -240,13 +240,13 @@ public class ReportGenerator {
     }
 
     public static void setEarliestSinceDate(Date newEarliestSinceDate) {
-        if (earliestSinceDate == null || earliestSinceDate.after(newEarliestSinceDate)) {
+        if (earliestSinceDate == null || newEarliestSinceDate.before(earliestSinceDate)) {
             earliestSinceDate = newEarliestSinceDate;
         }
     }
 
     public static void setLatestUntilDate(Date newLatestUntilDate) {
-        if (latestUntilDate == null || latestUntilDate.before(newLatestUntilDate)) {
+        if (latestUntilDate == null || newLatestUntilDate.after(latestUntilDate)) {
             latestUntilDate = newLatestUntilDate;
         }
     }
