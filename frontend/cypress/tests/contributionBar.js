@@ -8,7 +8,8 @@ describe('contribution bar', () => {
       }
     });
 
-    cy.get('#summary-wrapper input[type=checkbox]').eq(1).check();
+    cy.get('#summary-wrapper label').contains('breakdown by file format').siblings().filter('input')
+        .check();
 
     cy.get('.summary-chart__contrib--bar--fileformat').then((ele) => {
       let actualSum = 0;
