@@ -13,6 +13,7 @@ import reposense.commits.model.CommitContributionSummary;
 import reposense.commits.model.CommitResult;
 import reposense.model.Author;
 import reposense.model.RepoConfiguration;
+import reposense.report.ReportGenerator;
 
 /**
  * Uses the commit analysis results to generate the summary information of a repository.
@@ -26,16 +27,9 @@ public class CommitResultAggregator {
      */
     public static CommitContributionSummary aggregateCommitResults(
             RepoConfiguration config, List<CommitResult> commitResults) {
-        Date startDate = null;
-        if (config.getSinceDate() == null) {
-            startDate = getStartDate(commitResults);
-            config.setSinceDate(startDate);
-        } else {
-            startDate = config.getSinceDate();
-        }
-        if (config.getUntilDate() == null) {
-            config.setUntilDate(getUntilDate(commitResults));
-        }
+        Date startDate = config.getSinceDate() == null ? getStartDate(commitResults) : config.getSinceDate();
+        ReportGenerator.setEarliestSinceDate(startDate);
+        ReportGenerator.setLatestUntilDate(getUntilDate(commitResults));
 
         Map<Author, List<AuthorDailyContribution>> authorDailyContributionsMap =
                 getAuthorDailyContributionsMap(config.getAuthorDisplayNameMap().keySet(), commitResults);

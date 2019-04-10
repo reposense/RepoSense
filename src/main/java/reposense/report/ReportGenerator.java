@@ -54,6 +54,9 @@ public class ReportGenerator {
     private static final String MESSAGE_REPORT_GENERATED = "The report is generated at %s";
     private static final String MESSAGE_BRANCH_DOES_NOT_EXIST = "Branch %s does not exist in %s! Analysis terminated.";
 
+    private static Date earliestSinceDate = null;
+    private static Date latestUntilDate = null;
+
     /**
      * Generates the authorship and commits JSON file for each repo in {@code configs} at {@code outputPath}, as
      * well as the summary JSON file of all the repos.
@@ -65,31 +68,14 @@ public class ReportGenerator {
         InputStream is = RepoSense.class.getResourceAsStream(TEMPLATE_FILE);
         FileUtil.copyTemplate(is, outputPath);
 
+        earliestSinceDate = null;
+        latestUntilDate = null;
+
         Map<RepoLocation, List<RepoConfiguration>> repoLocationMap = groupConfigsByRepoLocation(configs);
         cloneAndAnalyzeRepos(repoLocationMap, outputPath);
 
-        Date sinceDate = null;
-        Date untilDate = null;
-        if (cliSinceDate == null || cliUntilDate == null) {
-            for (RepoConfiguration config : configs) {
-                if (config.getSinceDate() != null) {
-                    if (sinceDate == null) {
-                        sinceDate = config.getSinceDate();
-                    } else if (sinceDate.after(config.getSinceDate())) {
-                        sinceDate = config.getSinceDate();
-                    }
-                }
-                if (config.getUntilDate() != null) {
-                    if (untilDate == null) {
-                        untilDate = config.getUntilDate();
-                    } else if (untilDate.before(config.getUntilDate())) {
-                        untilDate = config.getUntilDate();
-                    }
-                }
-            }
-        }
-        sinceDate = cliSinceDate == null ? sinceDate : cliSinceDate;
-        untilDate = cliUntilDate == null ? untilDate : cliUntilDate;
+        Date sinceDate = cliSinceDate == null ? earliestSinceDate : cliSinceDate;;
+        Date untilDate = cliUntilDate == null ? latestUntilDate : cliUntilDate;;
 
         FileUtil.writeJsonFile(new SummaryReportJson(configs, generationDate, sinceDate, untilDate),
                 getSummaryResultPath(outputPath));
@@ -251,5 +237,17 @@ public class ReportGenerator {
 
     private static String getIndividualCommitsPath(String repoReportDirectory) {
         return repoReportDirectory + "/commits.json";
+    }
+
+    public static void setEarliestSinceDate(Date newEarliestSinceDate) {
+        if (earliestSinceDate == null || earliestSinceDate.after(newEarliestSinceDate)) {
+            earliestSinceDate = newEarliestSinceDate;
+        }
+    }
+
+    public static void setLatestUntilDate(Date newLatestUntilDate) {
+        if (latestUntilDate == null || latestUntilDate.before(newLatestUntilDate)) {
+            latestUntilDate = newLatestUntilDate;
+        }
     }
 }
