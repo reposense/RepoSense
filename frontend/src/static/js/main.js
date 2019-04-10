@@ -142,6 +142,7 @@ window.app = new window.Vue({
               .then(() => { this.loadedRepo += 1; })
         )));
       }).then(() => {
+        window.api.loadAuthorCommitsVariance();
         this.userUpdated = true;
         this.isLoading = false;
       }).catch((error) => {
