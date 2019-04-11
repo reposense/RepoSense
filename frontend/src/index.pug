@@ -46,11 +46,11 @@ html
           .tab-content
             .tab-panes
               v_authorship#tab-authorship.tab-pane(
-                v-if="tabType=='authorship'"
+                v-if="tabType === 'authorship'"
                 v-bind:key="generateKey(tabInfo.tabAuthorship)",
                 v-bind:info="tabInfo.tabAuthorship")
               v_zoomin#tab-zoomin.tab-pane(
-                v-else-if="tabType=='zoomin'",
+                v-else-if="tabType === 'zoomin'",
                 v-bind:key="generateKey(tabInfo.tabZoomin)",
                 v-bind:info="tabInfo.tabZoomin",
                 v-on:view-summary="updateSummaryDates")
