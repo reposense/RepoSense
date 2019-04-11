@@ -88,36 +88,32 @@
     <module name="PackageName">
       <!-- Validates identifiers for package names against the supplied expression. -->
       <property name="format" value="^[a-z]+(\.[a-z][a-z0-9]{1,})*$"/>
-      <property name="severity" value="warning"/>
     </module>
 
     <module name="TypeName">
       <!-- Validates static, final fields against the expression "^[A-Z][a-zA-Z0-9]*$". -->
       <metadata name="altname" value="TypeName"/>
-      <property name="severity" value="warning"/>
     </module>
 
     <module name="ConstantName">
-      <!-- Validates non-private, static, final fields against the expression "^[A-Z][A-Z0-9]*(_[A-Z0-9]+)*$". -->
+      <!-- Validates non-private or non-protected, static, final fields against the expression "^[A-Z][A-Z0-9]*(_[A-Z0-9]+)*$". -->
       <metadata name="altname" value="ConstantName"/>
       <property name="applyToPrivate" value="false"/>
+      <property name="applyToProtected" value="false"/>
       <message key="name.invalidPattern"
                value="Variable ''{0}'' should be in ALL_CAPS (if it is a constant) or be private (otherwise)."/>
-      <property name="severity" value="warning"/>
     </module>
 
     <module name="StaticVariableName">
       <!-- Validates static, non-final fields against the supplied expression. -->
       <metadata name="altname" value="StaticVariableName"/>
       <property name="format" value="^[a-z][a-zA-Z0-9]*_?$"/>
-      <property name="severity" value="warning"/>
     </module>
 
     <module name="MemberName">
       <!-- Validates non-static members against the supplied expression. -->
       <metadata name="altname" value="MemberName"/>
       <property name="format" value="^[a-z][a-zA-Z0-9]*$"/>
-      <property name="severity" value="warning"/>
     </module>
 
     <module name="MethodName">
@@ -126,20 +122,14 @@
       <property name="format" value="^[a-z][a-zA-Z0-9]*(_[a-z][a-zA-Z0-9]+){0,2}$"/>
     </module>
 
-    <module name="ParameterName">
-      <!-- Validates identifiers for method parameters against the expression "^[a-z][a-zA-Z0-9]*$". -->
-      <property name="severity" value="warning"/>
-    </module>
+    <!-- Validates identifiers for method parameters against the expression "^[a-z][a-zA-Z0-9]*$". -->
+    <module name="ParameterName"/>
 
-    <module name="LocalFinalVariableName">
-      <!-- Validates identifiers for local final variables against the expression "^[a-z][a-zA-Z0-9]*$". -->
-      <property name="severity" value="warning"/>
-    </module>
+    <!-- Validates identifiers for local final variables against the expression "^[a-z][a-zA-Z0-9]*$". -->
+    <module name="LocalFinalVariableName"/>
 
-    <module name="LocalVariableName">
-      <!-- Validates identifiers for local variables against the expression "^[a-z][a-zA-Z0-9]*$". -->
-      <property name="severity" value="warning"/>
-    </module>
+    <!-- Validates identifiers for local variables against the expression "^[a-z][a-zA-Z0-9]*$". -->
+    <module name="LocalVariableName"/>
 
 
     <!--
@@ -160,12 +150,9 @@
       <property name="max" value="120"/>
     </module>
 
-    <module name="LeftCurly">
-      <!-- Checks for placement of the left curly brace ('{'). -->
-      <property name="severity" value="warning"/>
-    </module>
+    <!-- Checks for placement of the left curly brace ('{'). -->
+    <module name="LeftCurly" />
 
-    <module name="RightCurly">
       <!-- Checks right curlies on CATCH, ELSE, and TRY blocks are on
       the same line. e.g., the following example is fine:
       <pre>
@@ -182,8 +169,7 @@
         else
       </pre>
       -->
-      <property name="severity" value="warning"/>
-    </module>
+    <module name="RightCurly" />
 
     <!-- Checks for braces around loop blocks -->
     <module name="NeedBraces">
@@ -348,10 +334,8 @@
       <property name="allowLineBreaks" value="true"/>
     </module>
 
-    <module name="ParenPad">
-      <!-- Checks that there is no whitespace before close parenthesis or after open parenthesis. -->
-      <property name="severity" value="warning"/>
-    </module>
+    <!-- Checks that there is no whitespace before close parenthesis or after open parenthesis. -->
+    <module name="ParenPad"/>
 
     <!--
     JAVADOC CHECKS
@@ -359,7 +343,6 @@
 
     <!-- Checks that every class, enumeration and interface have a header comment. -->
     <module name="JavadocType">
-      <property name="severity" value="warning"/>
       <property name="allowMissingParamTags" value="true"/>
     </module>
 
@@ -368,7 +351,6 @@
       <!-- Checks public methods that have more than 1 line of code.
         Single line of code methods are often due to refactor for readability.
       -->
-      <property name="severity" value="warning"/>
       <property name="minLineCount" value="1"/>
       <property name="allowedAnnotations" value="Override, Test, Before, BeforeClass, After, AfterClass, Subscribe"/>
       <property name="scope" value="public"/>
@@ -386,7 +368,6 @@
       <!-- Checks private methods that have more than 3 lines of code.
         We define methods that have more than 3 lines of code as non-trivial.
       -->
-      <property name="severity" value="warning"/>
       <property name="minLineCount" value="3"/>
       <property name="allowedAnnotations" value="Override, Test, Before, BeforeClass, After, AfterClass, Subscribe"/>
       <property name="scope" value="private"/>

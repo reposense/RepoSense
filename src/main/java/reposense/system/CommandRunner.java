@@ -5,9 +5,14 @@ import java.nio.file.Path;
 
 import reposense.util.SystemUtil;
 
+/**
+ * Contains command running related functionalities.
+ */
 public class CommandRunner {
 
-
+    /**
+     * Spawns a backend terminal process, with working directory at {@code path}, to executes the {@code command}.
+     */
     public static String runCommand(Path path, String command) {
         CommandRunnerProcess crp = spawnCommandProcess(path, command);
         try {

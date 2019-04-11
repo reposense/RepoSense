@@ -43,6 +43,9 @@ public class CommitResultAggregator {
                 authorContributionVariance);
     }
 
+    /**
+     * Calculates the contribution variance of all authors.
+     */
     private static Map<Author, Float> calcAuthorContributionVariance(
             Map<Author, List<AuthorDailyContribution>> intervalContributionMaps, Date startDate, Date lastDate) {
         Map<Author, Float> result = new HashMap<>();
