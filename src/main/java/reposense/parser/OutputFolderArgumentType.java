@@ -9,6 +9,9 @@ import net.sourceforge.argparse4j.inf.ArgumentParser;
 import net.sourceforge.argparse4j.inf.ArgumentParserException;
 import net.sourceforge.argparse4j.inf.ArgumentType;
 
+/**
+ * Checks the argument of {@code --output} flag.
+ */
 public class OutputFolderArgumentType implements ArgumentType<Path> {
     @Override
     public Path convert(ArgumentParser parser, Argument arg, String value) throws ArgumentParserException {
