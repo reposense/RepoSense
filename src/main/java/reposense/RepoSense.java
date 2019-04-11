@@ -27,7 +27,7 @@ import reposense.system.ReportServer;
 import reposense.util.FileUtil;
 
 /**
- * The main RepoSense class
+ * The main RepoSense class.
  */
 public class RepoSense {
     private static final Logger logger = LogsManager.getLogger(RepoSense.class);
