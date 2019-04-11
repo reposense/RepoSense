@@ -62,6 +62,10 @@ public class GitClone {
         }
     }
 
+    /**
+     * Clones a repo given the repo location into a directory.
+     * @throws IOException if it fails to create a directory.
+     */
     private static void clone(RepoLocation location, String repoFolderName, String repoName, String additionalCommand)
             throws IOException {
         Path rootPath = Paths.get(FileUtil.REPOS_ADDRESS, repoFolderName);

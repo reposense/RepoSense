@@ -46,8 +46,8 @@ public class StandaloneConfigJsonParserTest {
 
     private static final String TEST_DUMMY_LOCATION = "https://github.com/reposense/RepoSense.git";
 
-    private static RepoConfiguration EXPECTED_GITHUBID_ONLY_REPOCONFIG;
-    private static RepoConfiguration EXPECTED_FULL_REPOCONFIG;
+    private static RepoConfiguration expectedGithubIdOnlyRepoconfig;
+    private static RepoConfiguration expectedFullRepoConfig;
 
     @BeforeClass
     public static void setUp() throws InvalidLocationException {
@@ -55,22 +55,22 @@ public class StandaloneConfigJsonParserTest {
         author.setAuthorAliases(Arrays.asList("Yong Hao TENG"));
         author.setIgnoreGlobList(Arrays.asList("**.css", "**.html", "**.jade", "**.js"));
 
-        EXPECTED_GITHUBID_ONLY_REPOCONFIG = new RepoConfiguration(new RepoLocation(TEST_DUMMY_LOCATION));
-        EXPECTED_GITHUBID_ONLY_REPOCONFIG.setFormats(Format.DEFAULT_FORMATS);
-        EXPECTED_GITHUBID_ONLY_REPOCONFIG.setAuthorList(Arrays.asList(new Author("yong24s")));
-        EXPECTED_GITHUBID_ONLY_REPOCONFIG.addAuthorEmailsAndAliasesMapEntry(author, author.getEmails());
+        expectedGithubIdOnlyRepoconfig = new RepoConfiguration(new RepoLocation(TEST_DUMMY_LOCATION));
+        expectedGithubIdOnlyRepoconfig.setFormats(Format.DEFAULT_FORMATS);
+        expectedGithubIdOnlyRepoconfig.setAuthorList(Arrays.asList(new Author("yong24s")));
+        expectedGithubIdOnlyRepoconfig.addAuthorEmailsAndAliasesMapEntry(author, author.getEmails());
 
-        EXPECTED_FULL_REPOCONFIG = new RepoConfiguration(new RepoLocation(TEST_DUMMY_LOCATION));
-        EXPECTED_FULL_REPOCONFIG.setFormats(Format.convertStringsToFormats(
+        expectedFullRepoConfig = new RepoConfiguration(new RepoLocation(TEST_DUMMY_LOCATION));
+        expectedFullRepoConfig.setFormats(Format.convertStringsToFormats(
                 Arrays.asList("gradle", "jade", "java", "js", "md", "scss", "yml")));
-        EXPECTED_FULL_REPOCONFIG.setIgnoreCommitList(Arrays.asList(new CommitHash(
+        expectedFullRepoConfig.setIgnoreCommitList(Arrays.asList(new CommitHash(
                 "7b96c563eb2d3612aa5275364333664a18f01491")));
-        EXPECTED_FULL_REPOCONFIG.setIgnoreGlobList(Arrays.asList("**.adoc", "collate**"));
-        EXPECTED_FULL_REPOCONFIG.setAuthorList(Arrays.asList(author));
-        EXPECTED_FULL_REPOCONFIG.setAuthorDisplayName(author, "Yong Hao");
-        EXPECTED_FULL_REPOCONFIG.addAuthorEmailsAndAliasesMapEntry(author, Arrays.asList(author.getGitId()));
-        EXPECTED_FULL_REPOCONFIG.addAuthorEmailsAndAliasesMapEntry(author, author.getAuthorAliases());
-        EXPECTED_FULL_REPOCONFIG.addAuthorEmailsAndAliasesMapEntry(author, author.getEmails());
+        expectedFullRepoConfig.setIgnoreGlobList(Arrays.asList("**.adoc", "collate**"));
+        expectedFullRepoConfig.setAuthorList(Arrays.asList(author));
+        expectedFullRepoConfig.setAuthorDisplayName(author, "Yong Hao");
+        expectedFullRepoConfig.addAuthorEmailsAndAliasesMapEntry(author, Arrays.asList(author.getGitId()));
+        expectedFullRepoConfig.addAuthorEmailsAndAliasesMapEntry(author, author.getAuthorAliases());
+        expectedFullRepoConfig.addAuthorEmailsAndAliasesMapEntry(author, author.getEmails());
     }
 
     @Test
@@ -91,13 +91,13 @@ public class StandaloneConfigJsonParserTest {
     @Test
     public void standaloneConfig_correctConfig_success() throws IOException, InvalidLocationException {
         StandaloneConfig config = new StandaloneConfigJsonParser().parse(STANDALONE_CONFIG_FULL);
-        assertSameConfig(EXPECTED_FULL_REPOCONFIG, config);
+        assertSameConfig(expectedFullRepoConfig, config);
     }
 
     @Test
     public void standaloneConfig_githubIdOnlyConfig_success() throws IOException, InvalidLocationException {
         StandaloneConfig config = new StandaloneConfigJsonParser().parse(STANDALONE_CONFIG_GITHUBID_ONLY);
-        assertSameConfig(EXPECTED_GITHUBID_ONLY_REPOCONFIG, config);
+        assertSameConfig(expectedGithubIdOnlyRepoconfig, config);
     }
 
     @Test(expected = JsonSyntaxException.class)
