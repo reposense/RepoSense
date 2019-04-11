@@ -26,6 +26,9 @@ import reposense.model.RepoLocation;
 import reposense.parser.InvalidLocationException;
 import reposense.util.FileUtil;
 
+/**
+ * Contains templates for git testing.
+ */
 public class GitTestTemplate {
     protected static final String TEST_REPO_GIT_LOCATION = "https://github.com/reposense/testrepo-Alpha.git";
     protected static final String DISK_REPO_DISPLAY_NAME = "testrepo-Alpha_master";
@@ -83,6 +86,9 @@ public class GitTestTemplate {
         FileUtil.deleteDirectory(FileUtil.REPOS_ADDRESS);
     }
 
+    /**
+     * Generates the information for test file.
+     */
     public FileInfo generateTestFileInfo(String relativePath) {
         FileInfo fileInfo = FileInfoExtractor.generateFileInfo(config.getRepoRoot(), relativePath);
 
@@ -97,6 +103,10 @@ public class GitTestTemplate {
         return FileInfoAnalyzer.analyzeFile(config, fileinfo);
     }
 
+    /**
+     * Asserts the correctness of file analysis with regards to the contribution
+     * made by author named in {@code FAKE_AUTHOR_NAME}.
+     */
     public void assertFileAnalysisCorrectness(FileResult fileResult) {
         for (LineInfo line : fileResult.getLines()) {
             if (line.getContent().startsWith("fake")) {
