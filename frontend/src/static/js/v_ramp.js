@@ -1,12 +1,17 @@
-const { DAY_IN_MS: dayInMs } = window;
-
 function addDays(dateStr, numDays) {
   const date = new Date(dateStr);
-  return window.getDateStr(date.getTime() + numDays * dayInMs);
+  return window.getDateStr(date.getTime() + numDays * window.DAY_IN_MS);
 }
 
+function getBaseLink(repoId) {
+  return `http://github.com/${
+    window.REPOS[repoId].location.organization}/${
+    window.REPOS[repoId].location.repoName}`;
+}
+window.getBaseLink = getBaseLink;
+
 window.vRamp = {
-  props: ['user', 'tframe', 'avgsize'],
+  props: ['user', 'tframe', 'avgsize', 'sdate', 'udate'],
   template: window.$('v_ramp').innerHTML,
   data() {
     return {
@@ -15,20 +20,17 @@ window.vRamp = {
   },
 
   methods: {
-    getPos(i, total) {
-      return (total - i - 1) / total;
-    },
     getLink(user, slice) {
       const { REPOS } = window;
       const untilDate = this.tframe === 'week' ? addDays(slice.date, 6) : slice.date;
 
-      return `http://github.com/${
-        REPOS[user.repoId].location.organization}/${
-        REPOS[user.repoId].location.repoName}/commits/${
-        REPOS[user.repoId].branch}?`
-                + `author=${user.name}&`
-                + `since=${slice.date}'T'00:00:00+08:00&`
-                + `until=${untilDate}'T'23:59:59+08:00`;
+      if (this.tframe === 'commit') {
+        return `${getBaseLink(user.repoId)}/commit/${slice.hash}`;
+      }
+      return `${getBaseLink(user.repoId)}/commits/${REPOS[user.repoId].branch}?`
+                  + `author=${user.name}&`
+                  + `since=${slice.date}'T'00:00:00+08:00&`
+                  + `until=${untilDate}'T'23:59:59+08:00`;
     },
     getWidth(slice) {
       if (slice.insertions === 0) {
@@ -40,17 +42,23 @@ window.vRamp = {
     },
 
     // position for commit granularity
-    getCommitPos(i, total, sinceDate, untilDate) {
-      return (total - i - 1) * dayInMs / total
-          / (this.getTotalForPos(sinceDate, untilDate) + dayInMs);
+    getCommitPos(i, total) {
+      return (total - i - 1) * window.DAY_IN_MS / total
+          / (this.getTotalForPos(this.sdate, this.udate) + window.DAY_IN_MS);
     },
+    // position for day granularity
+    getSlicePos(date) {
+      const total = this.getTotalForPos(this.sdate, this.udate);
+      return (new Date(this.udate) - new Date(date)) / (total + window.DAY_IN_MS);
+    },
+
     // get duration in miliseconds between 2 date
     getTotalForPos(sinceDate, untilDate) {
       return new Date(untilDate) - new Date(sinceDate);
     },
     getSliceColor(date) {
       const timeMs = (new Date(date)).getTime();
-      return (timeMs / dayInMs) % 5;
+      return (timeMs / window.DAY_IN_MS) % 5;
     },
   },
 };

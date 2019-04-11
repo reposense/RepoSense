@@ -1,0 +1,19 @@
+#zoomin
+  h1 {{ info.user.displayName }} ({{ info.user.name }})
+  a(v-on:click="openSummary") Show ramp chart for this period
+
+  h2 {{ info.user.repoName }}
+  v_ramp(
+    v-bind:user="info.user",
+    v-bind:tframe="'commit'",
+    v-bind:sdate="info.sinceDate",
+    v-bind:udate="info.untilDate",
+    v-bind:avgsize="info.avgCommitSize")
+
+  .zoomin__day(v-for="day in info.user.commits")
+    template(v-if="day.insertions > 0")
+      h3 {{ day.date }}
+      ul
+        li(v-for="slice in day.commitResults")
+          a(v-bind:href="getSliceLink(slice)", target="_blank") {{ slice.message }}
+          span &nbsp; ({{ slice.insertions }} lines)

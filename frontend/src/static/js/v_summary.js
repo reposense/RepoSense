@@ -22,7 +22,7 @@ function deactivateAllOverlays() {
       .forEach((x) => { x.className = 'overlay'; });
 }
 
-window.dragViewDown = function dragViewDown(evt) {
+function dragViewDown(evt) {
   deactivateAllOverlays();
 
   const pos = evt.clientX;
@@ -36,9 +36,9 @@ window.dragViewDown = function dragViewDown(evt) {
   overlay.style.marginLeft = '0';
   overlay.style.width = `${(pos - offset) * 100 / base}%`;
   overlay.className += ' edge';
-};
+}
 
-window.dragViewUp = function dragViewUp(evt) {
+function dragViewUp(evt) {
   deactivateAllOverlays();
   const ramp = getBaseTarget(evt.target);
 
@@ -53,11 +53,27 @@ window.dragViewUp = function dragViewUp(evt) {
   overlay.style.marginLeft = `${drags[0]}%`;
   overlay.style.width = `${drags[1] - drags[0]}%`;
   overlay.className += ' show';
+}
+
+window.viewClick = function viewClick(evt) {
+  if (drags.length === 2) {
+    drags = [];
+  }
+
+  if (evt.shiftKey) {
+    return drags.length === 0
+      ? dragViewDown(evt)
+      : dragViewUp(evt);
+  }
+
+  return null;
 };
 
 // date functions //
 const DAY_IN_MS = (1000 * 60 * 60 * 24);
+window.DAY_IN_MS = DAY_IN_MS;
 const WEEK_IN_MS = DAY_IN_MS * 7;
+
 function getDateStr(date) {
   return (new Date(date)).toISOString().split('T')[0];
 }
@@ -454,6 +470,27 @@ window.vSummary = {
       this.filtered = full;
     },
 
+    // updating filters programically //
+    resetDateRange() {
+      this.tmpFilterSinceDate = this.minDate;
+      this.tmpFilterUntilDate = this.maxDate;
+    },
+
+    updateDateRange() {
+      if (drags.length > 0) {
+        const since = new Date(this.filterSinceDate).getTime();
+        const until = new Date(this.filterUntilDate).getTime();
+        const range = until - since;
+
+        const getStr = (time) => getDateStr(new Date(time));
+        this.tmpFilterSinceDate = getStr(since + range * drags[0] / 100);
+        this.tmpFilterUntilDate = getStr(since + range * drags[1] / 100);
+
+        drags = [];
+        deactivateAllOverlays();
+      }
+    },
+
     // triggering opening of tabs //
     openTabAuthorship(user, repo) {
       const { minDate, maxDate } = this;
@@ -467,6 +504,38 @@ window.vSummary = {
         location: repo[0].location,
         totalCommits: user.totalCommits,
       });
+    },
+
+    openTabZoomin(userOrig) {
+      // skip if accidentally clicked on ramp chart
+      if (drags.length === 2 && drags[1] - drags[0]) {
+        const tdiff = new Date(this.filterUntilDate) - new Date(this.filterSinceDate);
+        const idxs = drags.map((x) => x * tdiff / 100);
+        const tsince = getDateStr(new Date(this.filterSinceDate).getTime() + idxs[0]);
+        const tuntil = getDateStr(new Date(this.filterSinceDate).getTime() + idxs[1]);
+
+        const rawCommits = userOrig.commits.filter(
+            (commit) => commit.date >= tsince && commit.date <= tuntil,
+        );
+
+        const commits = [];
+        rawCommits.forEach((commit) => {
+          if (this.filterTimeFrame === 'week') {
+            commit.dayCommits.forEach((dayCommit) => commits.push(dayCommit));
+          } else {
+            commits.push(commit);
+          }
+        });
+
+        const { avgCommitSize } = this;
+        const user = { ...userOrig, commits };
+        this.$emit('view-zoomin', {
+          avgCommitSize,
+          user,
+          sinceDate: tsince,
+          untilDate: tuntil,
+        });
+      }
     },
 
     groupByRepos(repos) {
