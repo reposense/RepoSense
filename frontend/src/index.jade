@@ -87,10 +87,10 @@ html
                 option(value="searchPath dsc", v-if="filterGroupSelection !== 'groupByAuthors'") &darr; repo/branch
                 option(value="totalCommits", v-if="filterGroupSelection === 'groupByNone'") &uarr; contribution
                 option(value="totalCommits dsc", v-if="filterGroupSelection === 'groupByNone'") &darr; contribution
-                option(value="repoTotalCommits", v-if="filterGroupSelection === 'groupByRepos'") &uarr; repo contribution
-                option(value="repoTotalCommits dsc", v-if="filterGroupSelection === 'groupByRepos'") &darr; repo contribution
-                option(value="repoTotalVariance", v-if="filterGroupSelection === 'groupByRepos'") &uarr; repo variance
-                option(value="repoTotalVariance dsc", v-if="filterGroupSelection === 'groupByRepos'") &darr; repo variance
+                option(value="repoCommits", v-if="filterGroupSelection === 'groupByRepos'") &uarr; repo contribution
+                option(value="repoCommits dsc", v-if="filterGroupSelection === 'groupByRepos'") &darr; repo contribution
+                option(value="repoVariance", v-if="filterGroupSelection === 'groupByRepos'") &uarr; repo variance
+                option(value="repoVariance dsc", v-if="filterGroupSelection === 'groupByRepos'") &darr; repo variance
                 option(value="authorCommits", v-if="filterGroupSelection === 'groupByAuthors'") &uarr; author contribution
                 option(value="authorCommits dsc", v-if="filterGroupSelection === 'groupByAuthors'") &darr; author contribution
                 option(value="authorVariance", v-if="filterGroupSelection === 'groupByAuthors'") &uarr; author variance
