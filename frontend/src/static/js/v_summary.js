@@ -1,6 +1,6 @@
 window.comparator = (fn) => function compare(a, b) {
-  const a1 = fn(a);
-  const b1 = fn(b);
+  const a1 = fn(a).toLowerCase ? fn(a).toLowerCase() : fn(a);
+  const b1 = fn(b).toLowerCase ? fn(b).toLowerCase() : fn(b);
   if (a1 === b1) {
     return 0;
   } if (a1 < b1) {
@@ -41,9 +41,14 @@ window.vSummary = {
     return {
       filtered: [],
       filterSearch: '',
-      filterSort: 'displayName',
       filterSortReverse: false,
       filterGroupSelection: 'groupByRepos',
+      sortGroupSelection: 'searchPath', // UI for sorting groups
+      sortWithinGroupSelection: 'name', // UI for sorting within groups
+      sortingOption: '',
+      isSortingDsc: '',
+      sortingWithinOption: '',
+      isSortingWithinDsc: '',
       filterTimeFrame: 'day',
       filterBreakdown: false,
       tmpFilterSinceDate: '',
@@ -61,7 +66,10 @@ window.vSummary = {
     repos() {
       this.getFiltered();
     },
-    filterSort() {
+    sortGroupSelection() {
+      this.getFiltered();
+    },
+    sortWithinGroupSelection() {
       this.getFiltered();
     },
     filterSortReverse() {
@@ -71,8 +79,8 @@ window.vSummary = {
       this.getFiltered();
     },
     filterGroupSelection() {
-      this.getFiltered();
       this.updateSortSelection();
+      this.getFiltered();
     },
     filterBreakdown() {
       this.getFiltered();
@@ -228,7 +236,8 @@ window.vSummary = {
       const { addHash, encodeHash } = window;
 
       addHash('search', this.filterSearch);
-      addHash('sort', this.filterSort);
+      addHash('sort', this.sortGroupSelection);
+      addHash('sortWithin', this.sortWithinGroupSelection);
 
       addHash('since', this.filterSinceDate);
       addHash('until', this.filterUntilDate);
@@ -247,7 +256,12 @@ window.vSummary = {
       const hash = window.hashParams;
 
       if (hash.search) { this.filterSearch = hash.search; }
-      if (hash.sort) { this.filterSort = hash.sort; }
+      if (hash.sort) {
+        this.sortGroupSelection = hash.sort;
+      }
+      if (hash.sortWithin) {
+        this.sortWithinGroupSelection = hash.sortWithin;
+      }
 
       if (hash.timeframe) { this.filterTimeFrame = hash.timeframe; }
       if (hash.since) {
@@ -428,13 +442,32 @@ window.vSummary = {
       return null;
     },
     updateSortSelection() {
-      if (this.filterGroupSelection === 'groupByAuthors' && this.filterSort === 'displayName') {
-        this.filterSort = 'searchPath';
-      } else if (this.filterGroupSelection === 'groupByRepos' && this.filterSort === 'searchPath') {
-        this.filterSort = 'displayName';
+      this.getOptionWithOrder();
+      // Update UI selection to change all illegal options
+      if (this.filterGroupSelection === 'groupByAuthors') {
+        if (!this.sortWithinGroupSelection || this.sortingWithinOption === 'name') {
+          this.sortWithinGroupSelection = 'searchPath';
+        }
+        if (this.sortingOption !== 'name') {
+          this.sortGroupSelection = 'name';
+        }
+      } else if (this.filterGroupSelection === 'groupByRepos') {
+        if (!this.sortWithinGroupSelection || this.sortingWithinOption === 'searchPath') {
+          this.sortWithinGroupSelection = 'name';
+        }
+        if (this.sortingOption !== 'searchPath') {
+          this.sortGroupSelection = 'searchPath';
+        }
+      } else if (this.filterGroupSelection === 'groupByNone') {
+        this.sortWithinGroupSelection = '';
       }
     },
+    getOptionWithOrder() {
+      [this.sortingOption, this.isSortingDsc] = this.sortGroupSelection.split(' ');
+      [this.sortingWithinOption, this.isSortingWithinDsc] = this.sortWithinGroupSelection.split(' ');
+    },
     sortFiltered() {
+      this.getOptionWithOrder();
       let full = [];
       if (this.filterGroupSelection === 'groupByNone') {
         // push all repos into the same group
@@ -455,9 +488,16 @@ window.vSummary = {
     groupByRepos(repos) {
       const sortedRepos = [];
       repos.forEach((users) => {
-        users.sort(window.comparator((ele) => ele[this.filterSort]));
+        users.sort(window.comparator((ele) => ele[this.sortingWithinOption]));
+        if (this.isSortingWithinDsc) {
+          users.reverse();
+        }
         sortedRepos.push(users);
       });
+      sortedRepos.sort(window.comparator((repo) => repo[0][this.sortingOption]));
+      if (this.isSortingDsc) {
+        sortedRepos.reverse();
+      }
       return sortedRepos;
     },
     groupByNone(repos) {
@@ -467,10 +507,11 @@ window.vSummary = {
           sortedRepos.push(user);
         });
       });
-      sortedRepos.sort(window.comparator((ele) => {
-        const field = ele[this.filterSort];
-        return field.toLowerCase ? field.toLowerCase() : field;
-      }));
+      sortedRepos.sort(window.comparator((ele) => ele[this.sortingOption]));
+      if (this.isSortingDsc) {
+        sortedRepos.reverse();
+      }
+
       return sortedRepos;
     },
     groupByAuthors(repos) {
@@ -485,12 +526,18 @@ window.vSummary = {
           }
         });
       });
+      Object.keys(authorMap).forEach((author) => {
+        authorMap[author].sort(window.comparator((repo) => repo[this.sortingWithinOption]));
+        if (this.isSortingWithinDsc) {
+          authorMap[author].reverse();
+        }
+        filtered.push(authorMap[author]);
+      });
 
-      Object.keys(authorMap).forEach((author) => filtered.push(authorMap[author]));
-      filtered.sort(window.comparator((ele) => {
-        const field = ele[0].displayName;
-        return field.toLowerCase();
-      }));
+      filtered.sort(window.comparator((ele) => ele[0][this.sortingOption]));
+      if (this.isSortingDsc) {
+        filtered.reverse();
+      }
       return filtered;
     },
   },
