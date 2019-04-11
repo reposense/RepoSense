@@ -1,8 +1,8 @@
 describe('search bar', () => {
   it('non-existent author shows no result', () => {
     cy.get('#summary-wrapper input[type=text]')
-        .type('abcdef')
-        .type('{enter}');
+        .type('abcdef', 'force: true')
+        .type('{enter}', 'force: true');
 
     Cypress.wait();
 
