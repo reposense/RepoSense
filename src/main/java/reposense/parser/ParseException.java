@@ -1,7 +1,7 @@
 package reposense.parser;
 
 /**
- * Represents the exception of parsing.
+ * Signals that there is an exception when parsing a string.
  */
 public class ParseException extends Exception {
     public ParseException(String message) {

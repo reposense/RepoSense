@@ -1,7 +1,7 @@
 package reposense.git.exception;
 
 /**
- * Represents the exception of git clone.
+ * Signals that there is an exception when cloning a repo.
  */
 public class GitCloneException extends Exception {
     public GitCloneException(Exception e) {
