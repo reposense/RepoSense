@@ -8,7 +8,10 @@ function getBaseLink(repoId) {
     window.REPOS[repoId].location.organization}/${
     window.REPOS[repoId].location.repoName}`;
 }
-window.getBaseLink = getBaseLink;
+
+function rampClick(evt) {
+  if (evt.shiftKey) { evt.preventDefault(); }
+}
 
 window.vRamp = {
   props: ['user', 'tframe', 'avgsize', 'sdate', 'udate'],
