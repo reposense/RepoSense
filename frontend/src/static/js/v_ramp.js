@@ -9,7 +9,7 @@ function getBaseLink(repoId) {
     window.REPOS[repoId].location.repoName}`;
 }
 
-function rampClick(evt) {
+window.rampClick = function rampClick(evt) {
   if (evt.shiftKey) { evt.preventDefault(); }
 }
 
