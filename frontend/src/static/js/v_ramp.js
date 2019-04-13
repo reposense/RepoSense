@@ -11,7 +11,7 @@ function getBaseLink(repoId) {
 
 window.rampClick = function rampClick(evt) {
   if (evt.shiftKey) { evt.preventDefault(); }
-}
+};
 
 window.vRamp = {
   props: ['user', 'tframe', 'avgsize', 'sdate', 'udate'],
