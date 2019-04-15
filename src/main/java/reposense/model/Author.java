@@ -131,6 +131,10 @@ public class Author {
         return ignoreGlobMatcher;
     }
 
+    /**
+     * Validates and adds a list of ignore glob into the {@code Author} class instance variable,
+     * and updates the ignore glob matcher.
+     */
     public void appendIgnoreGlobList(List<String> ignoreGlobList) {
         validateIgnoreGlobs(ignoreGlobList);
         this.ignoreGlobList.addAll(ignoreGlobList);

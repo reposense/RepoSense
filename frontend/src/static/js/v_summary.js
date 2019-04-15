@@ -287,22 +287,18 @@ window.vSummary = {
       }
 
       let minDate = window.app.sinceDate;
-      let maxDate = '';
       this.filtered.forEach((repo) => {
         repo.forEach((user) => {
           const { commits } = user;
           if (commits.length) {
             const date1 = commits[0].date;
-            const date2 = commits[commits.length - 1].date;
             if (!minDate || minDate > date1) {
               minDate = date1;
-            }
-            if (!maxDate || maxDate < date2) {
-              maxDate = date2;
             }
           }
         });
       });
+      const maxDate = window.app.untilDate;
 
       if (!this.filterSinceDate) {
         if (!this.tmpFilterSinceDate || this.tmpFilterSinceDate < minDate) {
