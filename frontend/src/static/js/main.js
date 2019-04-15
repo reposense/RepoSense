@@ -197,6 +197,9 @@ window.app = new window.Vue({
 
     getRepoSenseLink() {
       const version = window.app.repoSenseVersion;
+      if (!version) {
+        return `https://github.com/reposense/RepoSense`;
+      }
       if (version.startsWith('v')) {
         return `https://github.com/reposense/RepoSense/releases/tag/${version}`;
       }
