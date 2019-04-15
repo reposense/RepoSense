@@ -475,7 +475,7 @@ window.vSummary = {
         if (this.sortingOption.indexOf('Commits') !== -1 || this.sortingOption.indexOf('Variance') !== -1) {
           this.sortGroupSelection = 'name';
         }
-        this.contributionSelection = [{value: 'totalCommits', text: '↑ contribution'},
+        this.contributionSelection = [{ value: 'totalCommits', text: '↑ contribution' },
             { value: 'commits dsc', text: '↓ contribution' }];
         this.varianceSelection = [{ value: 'variance', text: '↑ variance' },
             { value: 'variance dsc', text: '↓ variance' }];
