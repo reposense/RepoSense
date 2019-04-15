@@ -130,6 +130,8 @@ task startServerInBackground(dependsOn: 'classes', type: com.github.psxpaul.task
     main = mainClassName
     classpath = sourceSets.main.runtimeClasspath
     args = ['--repo', 'https://github.com/reposense/RepoSense.git', '--view']
+    String versionJvmArgs = '-Dversion=' + getRepoSenseVersion()
+    jvmArgs = [ versionJvmArgs ]
     waitForPort = 9000
 }
 
