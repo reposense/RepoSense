@@ -49,6 +49,10 @@ window.vSummary = {
       isSortingDsc: '',
       sortingWithinOption: '',
       isSortingWithinDsc: '',
+      contributionSelection: [{ value: 'repoCommits', text: '↑ repo contribution' },
+          { value: 'repoCommits dsc', text: '↓ repo contribution' }],
+      varianceSelection: [{ value: 'repoVariance', text: '↑ repo variance' },
+          { value: 'repoVariance dsc', text: '↓ repo variance' }],
       filterTimeFrame: 'day',
       filterBreakdown: false,
       tmpFilterSinceDate: '',
@@ -451,6 +455,10 @@ window.vSummary = {
         if (this.sortingOption !== 'name') {
           this.sortGroupSelection = 'name';
         }
+        this.contributionSelection = [{ value: 'authorCommits', text: '↑ author contribution' },
+            { value: 'authorCommits dsc', text: '↓ author contribution' }];
+        this.varianceSelection = [{ value: 'authorVariance', text: '↑ author variance' },
+            { value: 'authorVariance dsc', text: '↓ author variance' }];
       } else if (this.filterGroupSelection === 'groupByRepos') {
         if (!this.sortWithinGroupSelection || this.sortingWithinOption === 'searchPath') {
           this.sortWithinGroupSelection = 'name';
@@ -458,11 +466,19 @@ window.vSummary = {
         if (this.sortingOption !== 'searchPath') {
           this.sortGroupSelection = 'searchPath';
         }
+        this.contributionSelection = [{ value: 'repoCommits', text: '↑ repo contribution' },
+            { value: 'repoCommits dsc', text: '↓ repo contribution' }];
+        this.varianceSelection = [{ value: 'repoVariance', text: '↑ repo variance' },
+            { value: 'repoVariance dsc', text: '↓ repo variance' }];
       } else if (this.filterGroupSelection === 'groupByNone') {
         this.sortWithinGroupSelection = '';
         if (this.sortingOption.indexOf('Commits') !== -1 || this.sortingOption.indexOf('Variance') !== -1) {
           this.sortGroupSelection = 'name';
         }
+        this.contributionSelection = [{value: 'totalCommits', text: '↑ contribution'},
+            { value: 'commits dsc', text: '↓ contribution' }];
+        this.varianceSelection = [{ value: 'variance', text: '↑ variance' },
+            { value: 'variance dsc', text: '↓ variance' }];
       }
     },
     getOptionWithOrder() {
