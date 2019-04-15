@@ -34,6 +34,7 @@ window.api = {
         .then((data) => {
           window.app.creationDate = data.reportGeneratedTime;
           window.app.sinceDate = data.repos[0].sinceDate;
+          window.app.untilDate = data.repos[0].untilDate;
           window.app.repoSenseVersion = data.repoSenseVersion;
 
           const names = [];

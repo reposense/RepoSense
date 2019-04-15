@@ -60,7 +60,7 @@ public class ConfigSystemTest {
     }
 
     private void generateReport() throws IOException, URISyntaxException, ParseException, HelpScreenException {
-        generateReport("");
+        generateReport("--until 02/03/2019");
     }
 
     /**
