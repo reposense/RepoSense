@@ -15,6 +15,9 @@ import java.util.stream.Collectors;
 
 import reposense.system.LogsManager;
 
+/**
+ * Contains CSV parsing related functionalities.
+ */
 public abstract class CsvParser<T> {
     protected static final String COLUMN_VALUES_SEPARATOR = ";";
     protected static final Logger logger = LogsManager.getLogger(CsvParser.class);
@@ -77,6 +80,9 @@ public abstract class CsvParser<T> {
         return results;
     }
 
+    /**
+     * Checks if the {@code line} contains values at the mandatory positions in CSV format.
+     */
     private boolean isLineMalformed(final String[] elements, int lineNumber, String line) {
         for (int position : mandatoryPositions()) {
             if (!containsValueAtPosition(elements, position)) {

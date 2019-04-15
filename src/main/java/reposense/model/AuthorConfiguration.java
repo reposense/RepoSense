@@ -123,11 +123,17 @@ public class AuthorConfiguration {
         author.appendIgnoreGlobList(ignoreGlobList);
     }
 
+    /**
+     * Adds author to the {@code AuthorList}.
+     */
     public void addAuthor(Author author) {
         authorList.add(author);
         setAuthorDetails(author);
     }
 
+    /**
+     * Adds {@code author} to the {@code AuthorList}, and propagates {@code ignoreGlobList} to the {@code author}.
+     */
     public void addAuthor(Author author, List<String> ignoreGlobList) {
         addAuthor(author);
         propagateIgnoreGlobList(author, ignoreGlobList);

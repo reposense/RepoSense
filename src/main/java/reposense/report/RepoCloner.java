@@ -143,6 +143,9 @@ public class RepoCloner {
         }
     }
 
+    /**
+    * Deletes the {@code root} directory.
+    */
     private void deleteDirectory(String root) {
         try {
             FileUtil.deleteDirectory(root);
