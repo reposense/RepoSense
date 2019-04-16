@@ -1,5 +1,6 @@
 package reposense.report;
 
+import java.util.Date;
 import java.util.List;
 
 import reposense.model.RepoConfiguration;
@@ -10,9 +11,14 @@ import reposense.model.RepoConfiguration;
 public class SummaryReportJson {
     private final String reportGeneratedTime;
     private final List<RepoConfiguration> repos;
+    private final Date sinceDate;
+    private final Date untilDate;
 
-    public SummaryReportJson(List<RepoConfiguration> repos, String reportGeneratedTime) {
+    public SummaryReportJson(List<RepoConfiguration> repos, String reportGeneratedTime,
+            Date sinceDate, Date untilDate) {
         this.repos = repos;
         this.reportGeneratedTime = reportGeneratedTime;
+        this.sinceDate = sinceDate;
+        this.untilDate = untilDate;
     }
 }
