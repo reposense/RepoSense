@@ -33,6 +33,7 @@ public class RepoSense {
     private static final Logger logger = LogsManager.getLogger(RepoSense.class);
     private static final int SERVER_PORT_NUMBER = 9000;
     private static final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("E MMM d HH:mm:ss yyyy z");
+    private static final String VERSION_UNSPECIFIED = "unspecified";
 
     /**
      * The entry point of the program.
@@ -111,5 +112,15 @@ public class RepoSense {
         RepoConfiguration.setStandaloneConfigIgnoredToRepoConfigs(configs, cliArguments.isStandaloneConfigIgnored());
 
         return configs;
+    }
+
+    public static String getVersion() {
+        String version = RepoSense.class.getPackage().getImplementationVersion();
+
+        if (version == null || version.equals(VERSION_UNSPECIFIED)) {
+            version = System.getProperty("version");
+        }
+
+        return version;
     }
 }
