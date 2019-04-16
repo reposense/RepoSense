@@ -34,6 +34,7 @@ public class LocationsCliArguments extends CliArguments {
         return isStandaloneConfigIgnored;
     }
 
+    @Override
     public boolean equals(Object other) {
         // short circuit if same object
         if (this == other) {

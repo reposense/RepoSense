@@ -26,11 +26,17 @@ import reposense.system.LogsManager;
 import reposense.system.ReportServer;
 import reposense.util.FileUtil;
 
+/**
+ * The main RepoSense class.
+ */
 public class RepoSense {
     private static final Logger logger = LogsManager.getLogger(RepoSense.class);
     private static final int SERVER_PORT_NUMBER = 9000;
     private static final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("E MMM d HH:mm:ss yyyy z");
 
+    /**
+     * The entry point of the program.
+     */
     public static void main(String[] args) {
         try {
             CliArguments cliArguments = ArgsParser.parse(args);
