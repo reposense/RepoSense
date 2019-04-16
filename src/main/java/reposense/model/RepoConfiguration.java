@@ -24,8 +24,8 @@ public class RepoConfiguration {
     private RepoLocation location;
     private String branch;
     private String displayName;
-    private Date sinceDate;
-    private Date untilDate;
+    private transient Date sinceDate;
+    private transient Date untilDate;
 
     private transient boolean annotationOverwrite = true;
     private transient List<Format> formats;
