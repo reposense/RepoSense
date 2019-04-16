@@ -71,7 +71,8 @@ public class RepoCloner {
         try {
             currentRepoDefaultBranch = GitBranch.getCurrentBranch(configs[currentIndex].getRepoRoot());
         } catch (RuntimeException rte) {
-            logger.log(Level.SEVERE, String.format(MESSAGE_ERROR_GETTING_BRANCH,
+            // GitBranch will throw this exception when repository is empty
+            logger.log(Level.WARNING, String.format(MESSAGE_ERROR_GETTING_BRANCH,
                     configs[currentIndex].getLocation(), configs[currentIndex].getBranch()), rte);
             handleCloningFailed(outputPath, configs[currentIndex]);
             return null;
