@@ -32,6 +32,8 @@ public class RepoCloner {
     private static final String MESSAGE_ERROR_DELETING_DIRECTORY = "Error deleting report directory.";
     private static final String MESSAGE_ERROR_CLONING =
             "Exception met while trying to clone the repo, will skip this repo.";
+    private static final String MESSAGE_ERROR_GETTING_BRANCH =
+            "Exception met while trying to get current branch of %s (%s), will skip this repo.";
 
     private static final int MAX_NO_OF_REPOS = 2;
     private static final Logger logger = LogsManager.getLogger(RepoCloner.class);
@@ -66,7 +68,14 @@ public class RepoCloner {
             return null;
         }
 
-        currentRepoDefaultBranch = GitBranch.getCurrentBranch(configs[currentIndex].getRepoRoot());
+        try {
+            currentRepoDefaultBranch = GitBranch.getCurrentBranch(configs[currentIndex].getRepoRoot());
+        } catch (RuntimeException rte) {
+            logger.log(Level.SEVERE, String.format(MESSAGE_ERROR_GETTING_BRANCH,
+                    configs[currentIndex].getLocation(), configs[currentIndex].getBranch()), rte);
+            handleCloningFailed(outputPath, configs[currentIndex]);
+            return null;
+        }
         cleanupPrevRepoFolder();
 
         previousIndex = currentIndex;
