@@ -7,6 +7,7 @@ plugins {
     id 'com.github.johnrengelman.shadow' version '2.0.4'
     id 'com.liferay.node' version '4.4.0'
     id 'com.github.psxpaul.execfork' version '0.1.8'
+    id 'com.palantir.git-version' version '0.11.0'
 }
 
 mainClassName = 'reposense.RepoSense'
@@ -51,6 +52,7 @@ wrapper {
 run {
     //the second arguments indicates the default value associated with the property.
     args System.getProperty('args', '').split()
+    systemProperty "version", getRepoSenseVersion()
 }
 
 checkstyle {
@@ -92,6 +94,10 @@ test {
 shadowJar {
     archiveName = 'RepoSense.jar'
     destinationDir = file("${buildDir}/jar/")
+
+    manifest {
+    	attributes 'Implementation-Version': getRepoSenseVersion()
+    }
 }
 
 task zipReport(dependsOn: 'npmRunBrowserify', type: Zip) {
@@ -124,6 +130,8 @@ task startServerInBackground(dependsOn: 'classes', type: com.github.psxpaul.task
     main = mainClassName
     classpath = sourceSets.main.runtimeClasspath
     args = ['--repo', 'https://github.com/reposense/RepoSense.git', '--view']
+    String versionJvmArgs = '-Dversion=' + getRepoSenseVersion()
+    jvmArgs = [ versionJvmArgs ]
     waitForPort = 9000
 }
 
@@ -169,6 +177,14 @@ task coverage(type: JacocoReport) {
         html.enabled = true
         xml.enabled = true
     }
+}
+
+String getRepoSenseVersion() {
+    String repoSenseVersion = project.property("version")
+    if (repoSenseVersion.equals("unspecified")) {
+        repoSenseVersion = versionDetails().commitDistance == 0 ? versionDetails().lastTag : versionDetails().gitHash
+    }
+    return repoSenseVersion
 }
 
 defaultTasks 'clean', 'build', 'systemtest', 'frontendTest', 'coverage'
