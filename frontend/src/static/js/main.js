@@ -195,6 +195,17 @@ window.app = new window.Vue({
       return JSON.stringify(dataObj);
     },
 
+    getRepoSenseLink() {
+      const version = window.app.repoSenseVersion;
+      if (!version) {
+        return 'https://github.com/reposense/RepoSense';
+      }
+      if (version.startsWith('v')) {
+        return `https://github.com/reposense/RepoSense/releases/tag/${version}`;
+      }
+      return `https://github.com/reposense/RepoSense/commits/${version}`;
+    },
+
     receiveDates(dates) {
       const [minDate, maxDate] = dates;
       this.renderAuthorShipTabHash(minDate, maxDate);

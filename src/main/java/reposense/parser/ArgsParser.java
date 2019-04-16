@@ -12,10 +12,12 @@ import net.sourceforge.argparse4j.ArgumentParsers;
 import net.sourceforge.argparse4j.helper.HelpScreenException;
 import net.sourceforge.argparse4j.impl.Arguments;
 import net.sourceforge.argparse4j.impl.action.HelpArgumentAction;
+import net.sourceforge.argparse4j.impl.action.VersionArgumentAction;
 import net.sourceforge.argparse4j.inf.ArgumentParser;
 import net.sourceforge.argparse4j.inf.ArgumentParserException;
 import net.sourceforge.argparse4j.inf.MutuallyExclusiveGroup;
 import net.sourceforge.argparse4j.inf.Namespace;
+import reposense.RepoSense;
 import reposense.model.CliArguments;
 import reposense.model.ConfigCliArguments;
 import reposense.model.Format;
@@ -39,6 +41,7 @@ public class ArgsParser {
     public static final String[] FORMAT_FLAGS = new String[]{"--formats", "-f"};
     public static final String[] IGNORE_FLAGS = new String[]{"--ignore-standalone-config", "-i"};
     public static final String[] TIMEZONE_FLAGS = new String[]{"--timezone", "-t"};
+    public static final String[] VERSION_FLAGS = new String[]{"--version", "-V"};
 
     private static final Logger logger = LogsManager.getLogger(ArgsParser.class);
 
@@ -65,9 +68,14 @@ public class ArgsParser {
 
         // Boolean flags
         parser.addArgument(HELP_FLAGS)
-                .dest(HELP_FLAGS[0])
                 .help("Show help message.")
                 .action(new HelpArgumentAction());
+
+        parser.version("RepoSense " + RepoSense.getVersion());
+        parser.addArgument(VERSION_FLAGS)
+                .help("Show the version of RepoSense.")
+                .action(new VersionArgumentAction());
+
         parser.addArgument(IGNORE_FLAGS)
                 .dest(IGNORE_FLAGS[0])
                 .action(Arguments.storeTrue())
