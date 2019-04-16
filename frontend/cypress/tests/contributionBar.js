@@ -13,13 +13,13 @@ describe('contribution bar', () => {
 
     Cypress.wait();
 
+    let actualWidthSum = 0;
     cy.get('.summary-chart__contrib--bar--fileformat').then((ele) => {
-      let actualWidthSum = 0;
       let i;
       for (i = 0; i < ele.length; i += 1) {
         actualWidthSum += parseFloat(ele[i].style.width.split('%')[0]);
       }
-      expect(actualWidthSum.toFixed(3)).to.be.equal(expectedWidthSum.toFixed(3));
     });
+    expect(actualWidthSum.toFixed(3)).to.be.equal(expectedWidthSum.toFixed(3));
   });
 });
