@@ -95,8 +95,8 @@ The `Code Panel` allows users to see the code attributed to a specific author. C
 ### Commits Panel
 
 The `Commits Panel` allows users to see the commits attributed to a specific author. Hold `Shift` and click on the ramp chart in the `Chart Panel` to select the time range where you want to display the `Commit Panel` for on the right.
-* The Commit Panel shows the commits that contain author's contributions, sorted by the date it was commited.
-* The date range for the Chart Panel can be updated by clicking on the "Show ramp chart for this period" below the name of the author.
+* The `Commits Panel` shows the commits that contain author's contributions, sorted by the date it was commited.
+* The date range for the `Chart Panel` can be updated by clicking on the "Show ramp chart for this period" below the name of the author.
 * The ramp slices displayed in the ramp chart for the `Commits Panel` represents individual commits.
 
 ### Tool Bar
