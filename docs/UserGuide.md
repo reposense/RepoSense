@@ -4,6 +4,7 @@
 * [Interpreting the Report](#interpreting-the-report)
   * [Chart Panel](#chart-panel)
   * [Code Panel](#code-panel)
+  * [Commits Panel](#commits-panel)
   * [Tool Bar](#tool-bar)
 * [Configuring a Repo to Provide Additional Data to RepoSense](#configuring-a-repo-to-provide-additional-data-to-reposense)
   * [Provide Data Using a json Config File](#provide-data-using-a-json-config-file)
@@ -91,6 +92,12 @@ The `Code Panel` allows users to see the code attributed to a specific author. C
 * Code attributed to the author is highlighted in green.
 * Non-trivial code segments that are not written by the selected author are hidden by default, but you can toggle them by clicking on the `...` icon.
 
+### Commits Panel
+
+The `Commits Panel` allows users to see the commits attributed to a specific author. Hold `Shift` and click on the ramp chart in the `Chart Panel` to select the time range where you want to display the `Commit Panel` for on the right.
+* The Commit Panel shows the commits that contain author's contributions, sorted by the date it was commited.
+* The date range for the Chart Panel can be updated by clicking on the "Show ramp chart for this period" below the name of the author.
+* The ramp slices displayed in the ramp chart for the `Commits Panel` represents individual commits.
 
 ### Tool Bar
 The `Tool Bar` at the top provides a set of configuration options that control the Chart Panel.
