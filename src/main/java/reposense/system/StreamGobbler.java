@@ -6,6 +6,9 @@ import java.nio.ByteBuffer;
 import java.nio.channels.Channels;
 import java.nio.channels.ReadableByteChannel;
 
+/**
+ * Contains input stream consumption and processing related functionalities.
+ */
 public class StreamGobbler extends Thread {
 
     private final ByteBuffer buffer = ByteBuffer.allocate(1 << 13); // 8KB

@@ -24,8 +24,8 @@ public class RepoConfiguration {
     private RepoLocation location;
     private String branch;
     private String displayName;
-    private Date sinceDate;
-    private Date untilDate;
+    private transient Date sinceDate;
+    private transient Date untilDate;
 
     private transient boolean annotationOverwrite = true;
     private transient List<Format> formats;
@@ -77,7 +77,8 @@ public class RepoConfiguration {
             List<RepoConfiguration> configs, Optional<Date> sinceDate, Optional<Date> untilDate) {
         for (RepoConfiguration config : configs) {
             config.setSinceDate(sinceDate.orElse(null));
-            config.setUntilDate(untilDate.orElse(null));
+            // set untilDate in summary.json to the current date of generation if it is not provided
+            config.setUntilDate(untilDate.orElse(new Date()));
         }
     }
 

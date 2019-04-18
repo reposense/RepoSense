@@ -48,6 +48,9 @@ before_cache:
   - rm -f  $HOME/.gradle/caches/modules-2/modules-2.lock
   - rm -fr $HOME/.gradle/caches/*/plugin-resolution/
 
+after_success:
+  - git fetch --unshallow && ./gradlew run -Dargs="-V"
+
 cache:
   npm: true,
   directories:

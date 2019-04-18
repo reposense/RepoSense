@@ -266,6 +266,10 @@ Here's an example of a command using all parameters:<br>
 Here's an example of a command using all alias of parameters:<br>
 `java -jar RepoSense.jar -r https://github.com/reposense/RepoSense.git -o ./report_folder -s 21/10/2017 -u 21/11/2017 -f java adoc js -v -i`
 
+Also, there are two _information_ parameters you can use to know more about RepoSense:
+* **`--help, -h`**: Show help message.
+* **`--version, -V`**: Show the version of RepoSense.
+
 ### Customize Using csv Config Files
 
 Another, more powerful, way to customize the analysis is by using dedicated config files. In this case you need to use the `--config` parameter instead of the `--repo` parameter when running RepoSense, as follows:

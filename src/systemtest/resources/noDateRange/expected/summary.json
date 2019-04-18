@@ -46,5 +46,7 @@
       "branch": "nonExistentBranch",
       "displayName": "reposense_testrepo-Delta_nonExistentBranch"
     }
-  ]
+  ],
+  "sinceDate": "2017-09-30",
+  "untilDate": "2019-03-02"
 }

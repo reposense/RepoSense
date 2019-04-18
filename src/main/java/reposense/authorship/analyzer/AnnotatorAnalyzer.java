@@ -45,6 +45,11 @@ public class AnnotatorAnalyzer {
         }
     }
 
+    /**
+     * Extracts the author name from the given {@code line}, finds the corresponding {@code Author}
+     * in {@code authorAliasMap},and returns the result.
+     * @return {@code Author#UNKNOWN_AUTHOR} if no matching {@code Author} is found.
+     */
     private static Author findAuthorInLine(String line, Map<String, Author> authorAliasMap) {
         try {
             String[] split = line.split(AUTHOR_TAG);
