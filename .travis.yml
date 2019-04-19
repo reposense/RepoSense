@@ -4,7 +4,10 @@ matrix:
   include:
     - name: Ubuntu 14.04 JDK 8
       os: linux
-      jdk: oraclejdk8
+      jdk: openjdk8
+      before_install:
+        - sudo apt-get update openjdk-8-jdk
+        - sudo apt-get upgrade openjdk-8-jdk
 
     - name: macOS 10.13.6 JDK 8
       os: osx
@@ -14,7 +17,7 @@ matrix:
       before_install:
         - *common_before_install
         - brew install cask
-        - brew cask install caskroom/versions/java8 # Update to the latest version of JDK 8
+        - brew cask install AdoptOpenJDK/openjdk/adoptopenjdk8
         - export JAVA_HOME=`/usr/libexec/java_home -v 1.8`
         - echo "Downgraded JDK to:"; java -version
 
