@@ -5,10 +5,6 @@ matrix:
     - name: Ubuntu 14.04 JDK 8
       os: linux
       jdk: oraclejdk8
-      addons:
-        apt:
-          packages:
-            - oracle-java8-installer # Update to the latest version of JDK 8
 
     - name: macOS 10.13.6 JDK 8
       os: osx
