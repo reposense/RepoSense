@@ -8,6 +8,7 @@ matrix:
       before_install:
         - sudo apt-get update
         - sudo apt-get --only-upgrade install openjdk-8-jdk
+        - echo -e "Actual JDK in use -- "; java -version
 
     - name: macOS 10.13.6 JDK 8
       os: osx
@@ -19,7 +20,7 @@ matrix:
         - brew install cask
         - brew cask install AdoptOpenJDK/openjdk/adoptopenjdk8
         - export JAVA_HOME=`/usr/libexec/java_home -v 1.8`
-        - echo "Downgraded JDK to:"; java -version
+        - echo -e "Actual JDK in use -- "; java -version
 
     - name: "Cypress frontend tests"
       os: linux
