@@ -8,9 +8,7 @@
         "organization": "reposense"
       },
       "branch": "master",
-      "displayName": "reposense_testrepo-Alpha_master",
-      "sinceDate": "2017-09-01",
-      "untilDate": "2017-10-30"
+      "displayName": "reposense_testrepo-Alpha_master"
     },
     {
       "location": {
@@ -19,9 +17,7 @@
         "organization": "reposense"
       },
       "branch": "master",
-      "displayName": "reposense_testrepo-Beta_master",
-      "sinceDate": "2017-09-01",
-      "untilDate": "2017-10-30"
+      "displayName": "reposense_testrepo-Beta_master"
     },
     {
       "location": {
@@ -30,9 +26,7 @@
         "organization": "reposense"
       },
       "branch": "master",
-      "displayName": "reposense_testrepo-Charlie_master",
-      "sinceDate": "2017-09-01",
-      "untilDate": "2017-10-30"
+      "displayName": "reposense_testrepo-Charlie_master"
     },
     {
       "location": {
@@ -41,9 +35,7 @@
         "organization": "reposense"
       },
       "branch": "master",
-      "displayName": "reposense_testrepo-Delta_master",
-      "sinceDate": "2017-09-01",
-      "untilDate": "2017-10-30"
+      "displayName": "reposense_testrepo-Delta_master"
     },
     {
       "location": {
@@ -52,9 +44,9 @@
         "organization": "reposense"
       },
       "branch": "nonExistentBranch",
-      "displayName": "reposense_testrepo-Delta_nonExistentBranch",
-      "sinceDate": "2017-09-01",
-      "untilDate": "2017-10-30"
+      "displayName": "reposense_testrepo-Delta_nonExistentBranch"
     }
-  ]
+  ],
+  "sinceDate": "2017-09-01",
+  "untilDate": "2017-10-30"
 }
