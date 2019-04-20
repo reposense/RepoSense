@@ -171,6 +171,8 @@ public class ArgsParser {
             boolean isStandaloneConfigIgnored = results.get(IGNORE_FLAGS[0]);
             ZoneId zoneId = results.get(TIMEZONE_FLAGS[0]);
 
+            LogsManager.setLogFolderLocation(outputFolderPath);
+
             verifyDatesRangeIsCorrect(sinceDate, untilDate);
 
             if (reportFolderPath != null && !reportFolderPath.equals(EMPTY_PATH) && configFolderPath.equals(EMPTY_PATH)
