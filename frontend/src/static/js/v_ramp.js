@@ -10,7 +10,7 @@ function getBaseLink(repoId) {
 }
 
 window.rampClick = function rampClick(evt) {
-  if (evt.shiftKey) { evt.preventDefault(); }
+  if (evt.ctrlKey) { evt.preventDefault(); }
 };
 
 window.vRamp = {
