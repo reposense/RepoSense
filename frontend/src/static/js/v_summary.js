@@ -60,7 +60,7 @@ window.viewClick = function viewClick(evt) {
     drags = [];
   }
 
-  if (evt.shiftKey) {
+  if (evt.ctrlKey) {
     return drags.length === 0
       ? dragViewDown(evt)
       : dragViewUp(evt);
