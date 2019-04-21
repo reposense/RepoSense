@@ -90,6 +90,7 @@ Usage: `gradlew run -Dargs="([--config CONFIG_FOLDER] | [--repos REPO_PATH_OR_UR
 Named Arguments: 
 ```
 --help, -h           Show help message.
+--version, -V        Show the version of RepoSense.
 --view [PATH], -v [PATH]
                      Starts a server to display the report in the
                      provided directory. If used as a flag (with no

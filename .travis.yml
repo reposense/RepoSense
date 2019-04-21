@@ -4,11 +4,11 @@ matrix:
   include:
     - name: Ubuntu 14.04 JDK 8
       os: linux
-      jdk: oraclejdk8
-      addons:
-        apt:
-          packages:
-            - oracle-java8-installer # Update to the latest version of JDK 8
+      jdk: openjdk8
+      before_install:
+        - sudo apt-get update
+        - sudo apt-get --only-upgrade install openjdk-8-jdk
+        - echo -e "Actual JDK in use -- "; java -version
 
     - name: macOS 10.13.6 JDK 8
       os: osx
@@ -18,9 +18,9 @@ matrix:
       before_install:
         - *common_before_install
         - brew install cask
-        - brew cask install caskroom/versions/java8 # Update to the latest version of JDK 8
+        - brew cask install AdoptOpenJDK/openjdk/adoptopenjdk8
         - export JAVA_HOME=`/usr/libexec/java_home -v 1.8`
-        - echo "Downgraded JDK to:"; java -version
+        - echo -e "Actual JDK in use -- "; java -version
 
     - name: "Cypress frontend tests"
       os: linux
@@ -47,6 +47,9 @@ before_install: &common_before_install
 before_cache:
   - rm -f  $HOME/.gradle/caches/modules-2/modules-2.lock
   - rm -fr $HOME/.gradle/caches/*/plugin-resolution/
+
+after_success:
+  - git fetch --unshallow && ./gradlew run -Dargs="-V"
 
 cache:
   npm: true,

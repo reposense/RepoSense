@@ -14,6 +14,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
+import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -26,6 +27,7 @@ import reposense.model.Format;
 import reposense.model.LocationsCliArguments;
 import reposense.model.RepoConfiguration;
 import reposense.model.ViewCliArguments;
+import reposense.util.FileUtil;
 import reposense.util.InputBuilder;
 import reposense.util.TestUtil;
 
@@ -42,6 +44,7 @@ public class ArgsParserTest {
             CONFIG_FOLDER_ABSOLUTE.resolve(RepoConfigCsvParser.REPO_CONFIG_FILENAME);
     private static final Path AUTHOR_CONFIG_CSV_FILE =
             CONFIG_FOLDER_ABSOLUTE.resolve(AuthorConfigCsvParser.AUTHOR_CONFIG_FILENAME);
+    private static final String NONEXISTENT_DIRECTORY = "some_non_existent_dir/";
 
     private static final InputBuilder DEFAULT_INPUT_BUILDER = new InputBuilder();
 
@@ -55,6 +58,15 @@ public class ArgsParserTest {
     @Before
     public void before() {
         DEFAULT_INPUT_BUILDER.reset().addConfig(CONFIG_FOLDER_ABSOLUTE);
+    }
+
+    @After
+    public void after() {
+        try {
+            FileUtil.deleteDirectory(PROJECT_DIRECTORY.resolve(NONEXISTENT_DIRECTORY).toString());
+        } catch (IOException e) {
+            System.err.println(e.getMessage());
+        }
     }
 
     @Test
@@ -478,7 +490,7 @@ public class ArgsParserTest {
 
     @Test
     public void outputPath_nonExistentDirectory_success() throws ParseException, IOException, HelpScreenException {
-        Path nonExistentDirectory = PROJECT_DIRECTORY.resolve("some_non_existent_dir/");
+        Path nonExistentDirectory = PROJECT_DIRECTORY.resolve(NONEXISTENT_DIRECTORY);
         Path expectedRelativeOutputDirectoryPath = nonExistentDirectory.resolve(ArgsParser.DEFAULT_REPORT_NAME);
         String input = new InputBuilder().addOutput(nonExistentDirectory).build();
         CliArguments cliArguments = ArgsParser.parse(translateCommandline(input));

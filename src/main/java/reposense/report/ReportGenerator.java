@@ -80,7 +80,8 @@ public class ReportGenerator {
         Date sinceDate = cliSinceDate == null ? earliestSinceDate : cliSinceDate;
         Date untilDate = cliUntilDate == null ? latestUntilDate : cliUntilDate;
 
-        FileUtil.writeJsonFile(new SummaryReportJson(configs, generationDate, sinceDate, untilDate),
+        FileUtil.writeJsonFile(
+                new SummaryReportJson(configs, generationDate, sinceDate, untilDate, RepoSense.getVersion()),
                 getSummaryResultPath(outputPath));
         logger.info(String.format(MESSAGE_REPORT_GENERATED, outputPath));
     }
