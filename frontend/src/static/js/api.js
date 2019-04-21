@@ -50,8 +50,6 @@ window.api = {
     return loadJSON(`${REPORT_DIR}/${repoName}/commits.json`).then((commits) => {
       const res = [];
       const repo = window.REPOS[repoName];
-      let repoCommits = 0;
-      let repoVariance = 0;
 
       Object.keys(commits.authorDisplayNameMap).forEach((author) => {
         if (author) {
@@ -75,18 +73,12 @@ window.api = {
           obj.repoName = `${repo.displayName}`;
           obj.location = `${repo.location.location}`;
 
-          repoCommits += obj.totalCommits;
-          repoVariance += obj.variance;
           res.push(obj);
         }
       });
 
       repo.commits = commits;
       repo.users = res;
-      res.forEach((author) => {
-        author.repoCommits = repoCommits;
-        author.repoVariance = repoVariance;
-      });
 
       return res;
     });
@@ -100,24 +92,33 @@ window.api = {
         });
   },
 
-  loadAuthorCommitsVariance() {
+  calcCommitsVariance() {
     const repos = window.REPOS;
     const authorCommits = {};
     const authorVariance = {};
     Object.keys(repos).forEach((repo) => {
-      repos[repo].users.forEach((user) => {
-        if (!Object.keys(authorCommits).includes(user)) {
-          authorCommits[user.name] = 0;
-          authorVariance[user.name] = 0;
+      let repoCommits = 0;
+      let repoVariance = 0;
+      repos[repo].users.forEach((author) => {
+        repoCommits += author.totalCommits;
+        repoVariance += author.variance;
+        if (!Object.keys(authorCommits).includes(author)) {
+          authorCommits[author.name] = 0;
+          authorVariance[author.name] = 0;
         }
-        authorCommits[user.name] += user.totalCommits;
-        authorVariance[user.name] += user.variance;
+        authorCommits[author.name] += author.totalCommits;
+        authorVariance[author.name] += author.variance;
+      });
+
+      repos[repo].users.forEach((author) => {
+        author.repoCommits = repoCommits;
+        author.repoVariance = repoVariance;
       });
     });
     Object.keys(repos).forEach((repo) => {
-      repos[repo].users.forEach((user) => {
-        user.authorCommits = authorCommits[user.name];
-        user.authorVariance = authorVariance[user.name];
+      repos[repo].users.forEach((author) => {
+        author.authorCommits = authorCommits[author.name];
+        author.authorVariance = authorVariance[author.name];
       });
     });
   },
