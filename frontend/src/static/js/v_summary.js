@@ -433,14 +433,14 @@ window.vSummary = {
         if (!this.sortWithinGroupSelection || this.sortingWithinOption === 'name') {
           this.sortWithinGroupSelection = 'searchPath';
         }
-        if (this.sortingOption !== 'name') {
+        if (this.sortingOption === 'searchPath') {
           this.sortGroupSelection = 'name';
         }
       } else if (this.filterGroupSelection === 'groupByRepos') {
         if (!this.sortWithinGroupSelection || this.sortingWithinOption === 'searchPath') {
           this.sortWithinGroupSelection = 'name';
         }
-        if (this.sortingOption !== 'searchPath') {
+        if (this.sortingOption === 'name') {
           this.sortGroupSelection = 'searchPath';
         }
       } else if (this.filterGroupSelection === 'groupByNone') {
