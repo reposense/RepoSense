@@ -97,6 +97,7 @@ window.api = {
     const repos = window.REPOS;
     const authorCommits = {};
     const authorVariance = {};
+
     Object.keys(repos).forEach((repo) => {
       let repoCommits = 0;
       let repoVariance = 0;
@@ -107,15 +108,19 @@ window.api = {
           authorCommits[author.name] = 0;
           authorVariance[author.name] = 0;
         }
+        // Accumulate author's commits and variance
         authorCommits[author.name] += author.totalCommits;
         authorVariance[author.name] += author.variance;
       });
 
+      // Write total commits and variance into repo's data
       repos[repo].users.forEach((author) => {
         author.repoCommits = repoCommits;
         author.repoVariance = repoVariance;
       });
     });
+
+    // Write total commits and variance into author's data
     Object.keys(repos).forEach((repo) => {
       repos[repo].users.forEach((author) => {
         author.authorCommits = authorCommits[author.name];
