@@ -95,6 +95,8 @@ window.api = {
 
   calcCommitsVariance() {
     const repos = window.REPOS;
+    const authorCommits = {};
+    const authorVariance = {};
 
     Object.keys(repos).forEach((repo) => {
       let repoCommits = 0;
@@ -102,21 +104,27 @@ window.api = {
       repos[repo].users.forEach((author) => {
         repoCommits += author.totalCommits;
         repoVariance += author.variance;
-        if (!Object.keys(author).includes('authorCommits')) {
-          author.authorCommits = 0;
-        }
-        if (!Object.keys(author).includes('authorVariance')) {
-          author.authorVariance = 0;
+        if (!Object.keys(authorCommits).includes(author)) {
+          authorCommits[author.name] = 0;
+          authorVariance[author.name] = 0;
         }
         // Accumulate author's commits and variance
-        author.authorCommits += author.totalCommits;
-        author.authorVariance += author.variance;
+        authorCommits[author.name] += author.totalCommits;
+        authorVariance[author.name] += author.variance;
       });
 
       // Write total commits and variance into repo's data
       repos[repo].users.forEach((author) => {
         author.repoCommits = repoCommits;
         author.repoVariance = repoVariance;
+      });
+    });
+
+    // Write total commits and variance into author's data
+    Object.keys(repos).forEach((repo) => {
+      repos[repo].users.forEach((author) => {
+        author.authorCommits = authorCommits[author.name];
+        author.authorVariance = authorVariance[author.name];
       });
     });
   },
