@@ -95,8 +95,6 @@ window.api = {
 
   calcCommitsVariance() {
     const repos = window.REPOS;
-    const authorCommits = {};
-    const authorVariance = {};
 
     Object.keys(repos).forEach((repo) => {
       let repoCommits = 0;
@@ -121,7 +119,6 @@ window.api = {
         author.repoVariance = repoVariance;
       });
     });
-
   },
 
 };
