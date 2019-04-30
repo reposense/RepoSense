@@ -246,12 +246,12 @@ header{
             top:0;
 
             &.show{
-                background-color:#fffa;
-                border:1px dashed #000;
+                background-color:rgba(mui-color("white"), 0.5);
+                border:1px dashed mui-color("black");
             }
 
             &.edge{
-                border-right:1px dashed #000;
+                border-right:1px dashed mui-color("black");
             }
         }
     }
