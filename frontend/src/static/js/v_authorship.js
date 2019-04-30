@@ -38,12 +38,10 @@ window.vAuthorship = {
       filesBlankLinesObj: {},
       totalLineCount: '',
       totalBlankLineCount: '',
-
       filesSortType: 'lineOfCode',
+      toReverseSortFiles: false,
       activeFilesCount: 0,
       filterSearch: '*',
-
-      toReverseSortFiles: false,
       sortingFunction: window.comparator(filesSortDict.lineOfCode),
       isSearchBar: false,
       isCheckBoxes: true,
@@ -113,15 +111,15 @@ window.vAuthorship = {
       this.activeFilesCount = isActive ? this.selectedFiles.length : 0;
     },
 
+    updateCount() {
+      this.activeFilesCount = document.getElementsByClassName('file active').length;
+    },
+
     hasCommits(info) {
       if (window.REPOS[info.repo]) {
         return window.REPOS[info.repo].commits.authorFinalContributionMap[info.author] > 0;
       }
       return false;
-    },
-
-    updateCount() {
-      this.activeFilesCount = document.getElementsByClassName('file active').length;
     },
 
     splitSegments(lines) {
@@ -195,6 +193,7 @@ window.vAuthorship = {
       this.filesBlankLinesObj = filesBlanksInfoObj;
       this.files = res;
       this.isLoaded = true;
+
       this.activeFilesCount = this.selectedFiles.length;
     },
 
@@ -211,7 +210,7 @@ window.vAuthorship = {
 
     sortFiles() {
       this.sortingFunction = (a, b) => (this.toReverseSortFiles ? -1 : 1)
-        * window.comparator(filesSortDict[this.filesSortType])(a, b);
+          * window.comparator(filesSortDict[this.filesSortType])(a, b);
     },
 
     selectAll() {
@@ -300,7 +299,7 @@ window.vAuthorship = {
     selectedFiles() {
       return this.files
           .filter((file) => this.isSelected(file.path)
-          && minimatch(file.path, this.filterSearch, { matchBase: true }))
+              && minimatch(file.path, this.filterSearch, { matchBase: true }))
           .sort(this.sortingFunction);
     },
     getExistingLinesObj() {
