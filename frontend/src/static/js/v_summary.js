@@ -462,18 +462,18 @@ window.vSummary = {
         // push all repos into the same group
         full[0] = this.groupByNone(this.filtered);
       } else if (this.filterGroupSelection === 'groupByAuthors') {
-        if (this.sortingOption === 'variance') {
+        /*if (this.sortingOption === 'variance') {
           this.sortingOption = 'authorVariance';
         } else if (this.sortingOption === 'totalCommits') {
           this.sortingOption = 'authorCommits';
-        }
+        }*/
         full = this.groupByAuthors(this.filtered);
       } else {
-        if (this.sortingOption === 'variance') {
+        /*if (this.sortingOption === 'variance') {
           this.sortingOption = 'repoVariance';
         } else if (this.sortingOption === 'totalCommits') {
           this.sortingOption = 'repoCommits';
-        }
+        }*/
         full = this.groupByRepos(this.filtered);
       }
 
@@ -486,14 +486,26 @@ window.vSummary = {
 
     groupByRepos(repos) {
       const sortedRepos = [];
+      const repoData = {}
       repos.forEach((users) => {
+        let [commits, variance] = [0, 0];
         users.sort(window.comparator((ele) => ele[this.sortingWithinOption]));
         if (this.isSortingWithinDsc) {
           users.reverse();
         }
+        users.forEach((user) => {
+          commits += user.totalCommits;
+          variance += user.variance;
+        });
         sortedRepos.push(users);
+        repoData[users[0].repoName] = { totalCommits: commits, variance: variance };
       });
-      sortedRepos.sort(window.comparator((repo) => repo[0][this.sortingOption]));
+      sortedRepos.sort(window.comparator((repo) => {
+        if (this.sortingOption === 'totalCommits' || this.sortingOption === 'variance') {
+          return repoData[repo[0].repoName][this.sortingOption];
+        }
+        return repo[0][this.sortingOption];
+      }));
       if (this.isSortingDsc) {
         sortedRepos.reverse();
       }
@@ -515,13 +527,17 @@ window.vSummary = {
     },
     groupByAuthors(repos) {
       const authorMap = {};
+      const authorData = {};
       const filtered = [];
       repos.forEach((users) => {
         users.forEach((user) => {
           if (Object.keys(authorMap).includes(user.name)) {
             authorMap[user.name].push(user);
+            authorData[user.name].totalCommits += user.totalCommits;
+            authorData[user.name].variance += user.variance;
           } else {
             authorMap[user.name] = [user];
+            authorData[user.name] = { totalCommits: user.totalCommits, variance: user.variance };
           }
         });
       });
@@ -533,7 +549,12 @@ window.vSummary = {
         filtered.push(authorMap[author]);
       });
 
-      filtered.sort(window.comparator((ele) => ele[0][this.sortingOption]));
+      filtered.sort(window.comparator((ele) => {
+        if (this.sortingOption === 'totalCommits' || this.sortingOption === 'variance') {
+          return authorData[ele[0].name][this.sortingOption];
+        }
+        return ele[0][this.sortingOption];
+      }));
       if (this.isSortingDsc) {
         filtered.reverse();
       }
