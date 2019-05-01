@@ -462,18 +462,8 @@ window.vSummary = {
         // push all repos into the same group
         full[0] = this.groupByNone(this.filtered);
       } else if (this.filterGroupSelection === 'groupByAuthors') {
-        /*if (this.sortingOption === 'variance') {
-          this.sortingOption = 'authorVariance';
-        } else if (this.sortingOption === 'totalCommits') {
-          this.sortingOption = 'authorCommits';
-        }*/
         full = this.groupByAuthors(this.filtered);
       } else {
-        /*if (this.sortingOption === 'variance') {
-          this.sortingOption = 'repoVariance';
-        } else if (this.sortingOption === 'totalCommits') {
-          this.sortingOption = 'repoCommits';
-        }*/
         full = this.groupByRepos(this.filtered);
       }
 
