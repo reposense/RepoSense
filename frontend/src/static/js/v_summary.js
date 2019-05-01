@@ -476,19 +476,19 @@ window.vSummary = {
 
     groupByRepos(repos) {
       const sortedRepos = [];
-      const repoData = {}
+      const repoData = {};
       repos.forEach((users) => {
-        let [commits, variance] = [0, 0];
+        let [totalCommits, variance] = [0, 0];
         users.sort(window.comparator((ele) => ele[this.sortingWithinOption]));
         if (this.isSortingWithinDsc) {
           users.reverse();
         }
         users.forEach((user) => {
-          commits += user.totalCommits;
+          totalCommits += user.totalCommits;
           variance += user.variance;
         });
         sortedRepos.push(users);
-        repoData[users[0].repoName] = { totalCommits: commits, variance: variance };
+        repoData[users[0].repoName] = { totalCommits, variance };
       });
       sortedRepos.sort(window.comparator((repo) => {
         if (this.sortingOption === 'totalCommits' || this.sortingOption === 'variance') {
