@@ -177,8 +177,8 @@ window.app = new window.Vue({
       this.tabInfo.tabAuthorship = Object.assign({}, obj);
       this.activateTab('authorship');
     },
-    updateTabZoomin(obj) {
-      this.tabInfo.tabZoomin = Object.assign({}, obj);
+    updateTabZoom(obj) {
+      this.tabInfo.tabZoom = Object.assign({}, obj);
       this.activateTab('zoom');
     },
 
