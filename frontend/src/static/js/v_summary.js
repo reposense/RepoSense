@@ -476,23 +476,16 @@ window.vSummary = {
 
     groupByRepos(repos) {
       const sortedRepos = [];
-      const repoData = {};
       repos.forEach((users) => {
-        let [totalCommits, variance] = [0, 0];
         users.sort(window.comparator((ele) => ele[this.sortingWithinOption]));
         if (this.isSortingWithinDsc) {
           users.reverse();
         }
-        users.forEach((user) => {
-          totalCommits += user.totalCommits;
-          variance += user.variance;
-        });
         sortedRepos.push(users);
-        repoData[users[0].repoName] = { totalCommits, variance };
       });
       sortedRepos.sort(window.comparator((repo) => {
         if (this.sortingOption === 'totalCommits' || this.sortingOption === 'variance') {
-          return repoData[repo[0].repoName][this.sortingOption];
+          return repo.reduce(this.getSumOfData, 0);
         }
         return repo[0][this.sortingOption];
       }));
@@ -517,17 +510,13 @@ window.vSummary = {
     },
     groupByAuthors(repos) {
       const authorMap = {};
-      const authorData = {};
       const filtered = [];
       repos.forEach((users) => {
         users.forEach((user) => {
           if (Object.keys(authorMap).includes(user.name)) {
             authorMap[user.name].push(user);
-            authorData[user.name].totalCommits += user.totalCommits;
-            authorData[user.name].variance += user.variance;
           } else {
             authorMap[user.name] = [user];
-            authorData[user.name] = { totalCommits: user.totalCommits, variance: user.variance };
           }
         });
       });
@@ -539,16 +528,20 @@ window.vSummary = {
         filtered.push(authorMap[author]);
       });
 
-      filtered.sort(window.comparator((ele) => {
+      filtered.sort(window.comparator((author) => {
         if (this.sortingOption === 'totalCommits' || this.sortingOption === 'variance') {
-          return authorData[ele[0].name][this.sortingOption];
+          return author.reduce(this.getSumOfData, 0);
         }
-        return ele[0][this.sortingOption];
+        return author[0][this.sortingOption];
       }));
       if (this.isSortingDsc) {
         filtered.reverse();
       }
       return filtered;
+    },
+
+    getSumOfData(total, group) {
+      return total + group[this.sortingOption];
     },
   },
   created() {
