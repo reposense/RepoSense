@@ -1,4 +1,4 @@
-#zoomin
+#zoom
   h1 {{ info.user.displayName }} ({{ info.user.name }})
   a(v-on:click="openSummary") Show ramp chart for this period
 
@@ -10,7 +10,7 @@
       v-bind:udate="info.untilDate",
       v-bind:avgsize="info.avgCommitSize")
 
-  .zoomin__day(v-for="day in info.user.commits")
+  .zoom__day(v-for="day in info.user.commits")
     template(v-if="day.insertions > 0")
       h3 {{ day.date }}
       ul

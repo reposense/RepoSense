@@ -29,7 +29,7 @@ html
           v_summary(
             ref="summary",
             v-bind:repos="getUsers()",
-            v-on:view-zoomin="updateTabZoomin",
+            v-on:view-zoom="updateTabZoom",
             v-on:view-authorship="updateTabAuthorship",
             v-on:get-dates="receiveDates"
           )
@@ -51,10 +51,10 @@ html
                 v-if="tabType === 'authorship'"
                 v-bind:key="generateKey(tabInfo.tabAuthorship)",
                 v-bind:info="tabInfo.tabAuthorship")
-              v_zoomin#tab-zoomin.tab-pane(
-                v-else-if="tabType === 'zoomin'",
-                v-bind:key="generateKey(tabInfo.tabZoomin)",
-                v-bind:info="tabInfo.tabZoomin",
+              v_zoom#tab-zoom.tab-pane(
+                v-else-if="tabType === 'zoom'",
+                v-bind:key="generateKey(tabInfo.tabZoom)",
+                v-bind:info="tabInfo.tabZoom",
                 v-on:view-summary="updateSummaryDates")
               #tab-empty.tab-pane(v-else)
                 .title
@@ -170,7 +170,7 @@ html
 
               .summary-chart__ramp(
                 onclick="viewClick(event)",
-                v-on:click="openTabZoomin(user)"
+                v-on:click="openTabZoom(user)"
               )
                 v_ramp(
                     v-bind:user="user",
@@ -206,8 +206,8 @@ html
     vuetemplate#v_ramp
       include ramp.pug
 
-    vuetemplate#v_zoomin
-      include tabs/zoomin.pug
+    vuetemplate#v_zoom
+      include tabs/zoom.pug
 
     vuetemplate#v_authorship
       #authorship
@@ -287,7 +287,7 @@ html
 
     script(src="static/js/api.js")
     script(src="static/js/v_ramp.js")
-    script(src="static/js/v_zoomin.js")
+    script(src="static/js/v_zoom.js")
     script(src="static/js/v_summary.js")
     script(src="static/js/v_authorship.js")
     script(src="static/js/main.js")

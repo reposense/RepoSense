@@ -1,6 +1,6 @@
-window.vZoomin = {
+window.vZoom = {
   props: ['info'],
-  template: window.$('v_zoomin').innerHTML,
+  template: window.$('v_zoom').innerHTML,
   data: () => ({}),
   methods: {
     openSummary() {
