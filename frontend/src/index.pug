@@ -30,7 +30,7 @@ html
             ref="summary",
             v-bind:repos="getUsers()",
             v-on:view-zoomin="updateTabZoomin",
-            v-on:view-authorship="updateTabAuthorship"
+            v-on:view-authorship="updateTabAuthorship",
             v-on:get-dates="receiveDates"
           )
           .timestamp-footer
@@ -43,7 +43,7 @@ html
 
         #tabs-wrapper(v-if="isTabActive")
           #tab-resize(onmousedown="registerMouseMove()")
-          .tab-close(v-on:click="isTabActive=false;")
+          .tab-close(v-on:click="isTabActive=false")
             i.fas.fa-caret-right
           .tab-content
             .tab-panes
