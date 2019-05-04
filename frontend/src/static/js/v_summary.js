@@ -485,7 +485,7 @@ window.vSummary = {
       });
       sortedRepos.sort(window.comparator((repo) => {
         if (this.sortingOption === 'totalCommits' || this.sortingOption === 'variance') {
-          return repo.reduce(this.groupCommitsVariance, 0);
+          return repo.reduce(this.getGroupCommitsVariance, 0);
         }
         return repo[0][this.sortingOption];
       }));
@@ -530,7 +530,7 @@ window.vSummary = {
 
       filtered.sort(window.comparator((author) => {
         if (this.sortingOption === 'totalCommits' || this.sortingOption === 'variance') {
-          return author.reduce(this.groupCommitsVariance, 0);
+          return author.reduce(this.getGroupCommitsVariance, 0);
         }
         return author[0][this.sortingOption];
       }));
@@ -540,7 +540,7 @@ window.vSummary = {
       return filtered;
     },
 
-    groupCommitsVariance(total, group) {
+    getGroupCommitsVariance(total, group) {
       return total + group[this.sortingOption];
     },
   },
