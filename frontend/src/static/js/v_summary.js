@@ -14,7 +14,8 @@ let drags = [];
 
 function getBaseTarget(target) {
   return (target.className === 'summary-chart__ramp')
-    ? target : getBaseTarget(target.parentElement);
+      ? target
+      : getBaseTarget(target.parentElement);
 }
 
 function deactivateAllOverlays() {
@@ -62,8 +63,8 @@ window.viewClick = function viewClick(evt) {
 
   if (evt.ctrlKey) {
     return drags.length === 0
-      ? dragViewDown(evt)
-      : dragViewUp(evt);
+        ? dragViewDown(evt)
+        : dragViewUp(evt);
   }
 
   return null;
