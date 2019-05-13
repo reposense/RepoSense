@@ -12,6 +12,7 @@ import java.util.logging.Logger;
 
 import reposense.git.GitBranch;
 import reposense.git.GitLsTree;
+import reposense.git.exception.GitBranchException;
 import reposense.git.exception.GitCloneException;
 import reposense.git.exception.InvalidFilePathException;
 
@@ -70,10 +71,10 @@ public class RepoCloner {
 
         try {
             currentRepoDefaultBranch = GitBranch.getCurrentBranch(configs[currentIndex].getRepoRoot());
-        } catch (RuntimeException rte) {
+        } catch (GitBranchException gbe) {
             // GitBranch will throw this exception when repository is empty
             logger.log(Level.WARNING, String.format(MESSAGE_ERROR_GETTING_BRANCH,
-                    configs[currentIndex].getLocation(), configs[currentIndex].getBranch()), rte);
+                    configs[currentIndex].getLocation(), configs[currentIndex].getBranch()), gbe);
             handleCloningFailed(outputPath, configs[currentIndex]);
             return null;
         }
