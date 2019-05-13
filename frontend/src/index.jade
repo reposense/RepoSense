@@ -151,12 +151,12 @@ html
                 a(
                   title="click to view author's code",
                   v-on:click="$emit('view-authorship', \
-                      {author:user.name, repo:user.repoName, name:user.displayName, location:repo[0].location, \
+                      {author:user.name, repo:user.repoName, name:user.displayName, location:repo[i].location, \
                           minDate:minDate, maxDate:maxDate})"
                 )
                   i.summary-chart__title--button.fas.fa-code
                 a(
-                  v-bind:href="repo[0].location", target="_blank",
+                  v-bind:href="repo[i].location", target="_blank",
                   title="click to view author's repo"
                 )
                   i.summary-chart__title--button.fab.fa-github
