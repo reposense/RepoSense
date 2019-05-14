@@ -55,8 +55,6 @@ public class RepoSense {
                 throw new AssertionError("CliArguments's subclass type is unhandled.");
             }
 
-
-
             RepoConfiguration.setFormatsToRepoConfigs(configs, cliArguments.getFormats());
             RepoConfiguration.setDatesToRepoConfigs(configs, cliArguments.getSinceDate(), cliArguments.getUntilDate());
             ReportGenerator.generateReposReport(configs, cliArguments.getOutputFilePath().toAbsolutePath().toString(),
@@ -64,7 +62,6 @@ public class RepoSense {
                     cliArguments.getSinceDate().orElse(null),
                     cliArguments.getUntilDate().orElse(null));
 
-            // FIX BUG: non-relevant JSON file to be excluded
             FileUtil.zipRelevantJsonFiles(configs, cliArguments.getOutputFilePath().toAbsolutePath(), ".json");
 
             if (cliArguments.isAutomaticallyLaunching()) {

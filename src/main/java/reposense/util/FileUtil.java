@@ -43,8 +43,6 @@ public class FileUtil {
     private static final String GITHUB_API_DATE_FORMAT = "yyyy-MM-dd";
     private static final ByteBuffer buffer = ByteBuffer.allocate(1 << 11); // 2KB
 
-    //private static final
-
     /**
      * Zips only the relevant .JSON files
      * @param configs Utilizes the relevant repo folders that are required to be zipped
@@ -137,7 +135,6 @@ public class FileUtil {
      * Creates the zipped {@code ZIP_FILE} file in the {@code outputPath}.
      */
     public static void zip(Path sourcePath, Path outputPath, String... fileTypes) {
-        HashSet<Path> relevantFolders = new HashSet<>();
         try (
                 FileOutputStream fos = new FileOutputStream(outputPath + File.separator + ZIP_FILE);
                 ZipOutputStream zos = new ZipOutputStream(fos)
