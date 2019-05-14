@@ -146,7 +146,6 @@ public class FileUtil {
 
             for (Path path : allFiles) {
                 String filePath = sourcePath.relativize(path.toAbsolutePath()).toString();
-                System.out.println(path.getParent().getFileName().toString());
 
                 String zipEntry = Files.isDirectory(path) ? filePath + File.separator : filePath;
                 zos.putNextEntry(new ZipEntry(zipEntry.replace("\\", "/")));
