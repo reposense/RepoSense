@@ -62,7 +62,7 @@ public class RepoSense {
                     cliArguments.getSinceDate().orElse(null),
                     cliArguments.getUntilDate().orElse(null));
 
-            FileUtil.zipRelevantJsonFiles(configs, cliArguments.getOutputFilePath().toAbsolutePath(), ".json");
+            FileUtil.zipRelevantJsonFiles(configs, cliArguments.getOutputFilePath().toAbsolutePath());
 
             if (cliArguments.isAutomaticallyLaunching()) {
                 ReportServer.startServer(SERVER_PORT_NUMBER, cliArguments.getOutputFilePath().toAbsolutePath());
