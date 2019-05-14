@@ -47,8 +47,7 @@ public class FileUtil {
      * Zips only the relevant .JSON files
      * @param configs Utilizes the relevant repo folders that are required to be zipped
      */
-    public static void zipRelevantJsonFiles(List<RepoConfiguration> configs, Path sourceAndOutputPath,
-                                            String... fileTypes) {
+    public static void zipRelevantJsonFiles(List<RepoConfiguration> configs, Path sourceAndOutputPath) {
         HashSet<String> relevantFolderNames = new HashSet<>();
 
         for (RepoConfiguration repoConfiguration : configs) {
@@ -59,7 +58,7 @@ public class FileUtil {
                 FileOutputStream fos = new FileOutputStream(sourceAndOutputPath + File.separator + ZIP_FILE);
                 ZipOutputStream zos = new ZipOutputStream(fos)
         ) {
-            Set<Path> allFiles = getFilePaths(sourceAndOutputPath, fileTypes);
+            Set<Path> allFiles = getFilePaths(sourceAndOutputPath, ".json");
 
             for (Path path : allFiles) {
                 String filePath = sourceAndOutputPath.relativize(path.toAbsolutePath()).toString();
