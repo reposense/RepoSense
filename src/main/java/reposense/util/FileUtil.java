@@ -12,6 +12,8 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Arrays;
+import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -23,6 +25,7 @@ import java.util.zip.ZipOutputStream;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
+import reposense.model.RepoConfiguration;
 import reposense.system.LogsManager;
 
 /**
@@ -34,9 +37,54 @@ public class FileUtil {
     // zip file which contains all the specified file types
     public static final String ZIP_FILE = "archive.zip";
 
+    public static final String SUMMARY_JSON_FILE = "summary.json";
+
     private static final Logger logger = LogsManager.getLogger(FileUtil.class);
     private static final String GITHUB_API_DATE_FORMAT = "yyyy-MM-dd";
     private static final ByteBuffer buffer = ByteBuffer.allocate(1 << 11); // 2KB
+
+    //private static final
+
+    /**
+     * Zips only the relevant .JSON files
+     * @param configs Utilizes the relevant repo folders that are required to be zipped
+     */
+    public static void zipRelevantJsonFiles(List<RepoConfiguration> configs, Path sourceAndOutputPath, String... fileTypes) {
+        HashSet<String> relevantFolderNames = new HashSet<>();
+
+        for (RepoConfiguration repoConfiguration : configs) {
+            relevantFolderNames.add(repoConfiguration.getDisplayName());
+        }
+
+        HashSet<Path> relevantFolders = new HashSet<>();
+        try (
+                FileOutputStream fos = new FileOutputStream(sourceAndOutputPath + File.separator + ZIP_FILE);
+                ZipOutputStream zos = new ZipOutputStream(fos)
+        ) {
+            Set<Path> allFiles = getFilePaths(sourceAndOutputPath, fileTypes);
+
+            for (Path path : allFiles) {
+                String filePath = sourceAndOutputPath.relativize(path.toAbsolutePath()).toString();
+
+                if (relevantFolderNames.contains(path.getParent().getFileName().toString()) ||
+                        path.getFileName().toString().equals(SUMMARY_JSON_FILE)) {
+                    String zipEntry = Files.isDirectory(path) ? filePath + File.separator : filePath;
+                    zos.putNextEntry(new ZipEntry(zipEntry.replace("\\", "/")));
+                    if (Files.isRegularFile(path)) {
+                        try (InputStream is = Files.newInputStream(path)) {
+                            int length;
+                            while ((length = is.read(buffer.array())) > 0) {
+                                zos.write(buffer.array(), 0, length);
+                            }
+                        }
+                    }
+                }
+                zos.closeEntry();
+            }
+        } catch (IOException ioe) {
+            logger.log(Level.SEVERE, ioe.getMessage(), ioe);
+        }
+    }
 
     /**
      * Writes the JSON file representing the {@code object} at the given {@code path}.
@@ -89,13 +137,17 @@ public class FileUtil {
      * Creates the zipped {@code ZIP_FILE} file in the {@code outputPath}.
      */
     public static void zip(Path sourcePath, Path outputPath, String... fileTypes) {
+        HashSet<Path> relevantFolders = new HashSet<>();
         try (
                 FileOutputStream fos = new FileOutputStream(outputPath + File.separator + ZIP_FILE);
                 ZipOutputStream zos = new ZipOutputStream(fos)
         ) {
             Set<Path> allFiles = getFilePaths(sourcePath, fileTypes);
+
             for (Path path : allFiles) {
                 String filePath = sourcePath.relativize(path.toAbsolutePath()).toString();
+                System.out.println(path.getParent().getFileName().toString());
+
                 String zipEntry = Files.isDirectory(path) ? filePath + File.separator : filePath;
                 zos.putNextEntry(new ZipEntry(zipEntry.replace("\\", "/")));
                 if (Files.isRegularFile(path)) {
