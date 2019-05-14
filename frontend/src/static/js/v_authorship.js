@@ -142,7 +142,7 @@ window.vAuthorship = {
           lastState = authored;
         }
 
-        const content = line.content || ' ';
+        const content = (line.lineNumber + ' ' + line.content) || ' ';
         segments[lastId].lines.push(content);
 
         if (line.content === '' && authored) {
