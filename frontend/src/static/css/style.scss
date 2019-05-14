@@ -291,12 +291,12 @@ header{
         }
 
         .contribution{
-            margin-top:0.1rem;
             color:mui-color("red");
+            font-size: 1.0rem;
 
             .fileformat {
                 margin-left:3rem;
-                margin-top:1.5rem;
+                margin-top:1.0rem;
                 align-items:center;
                 display: flex;
             }
@@ -314,7 +314,7 @@ header{
 
             #search{
                 padding:0.5rem 1.0rem 0.25rem 1.0rem;
-                margin-top:1.0rem;
+                margin-top:1.25rem;
                 width: 30%;
             }
 
@@ -327,6 +327,7 @@ header{
 
             .select {
                 font-weight:bold;
+                font-size:1.0rem;
             }
             .loc {
                 font-weight:bolder;
@@ -360,9 +361,11 @@ header{
                     margin-left:0.25rem;
                 }
             }
+
             .sorting {
                 display:flex;
                 align-items:center;
+                margin-top:1.0rem;
                 .mui-select {
                     cursor:pointer;
                 }
@@ -375,6 +378,10 @@ header{
                 span {
                     margin-left:0.25rem;
                 }
+            }
+
+            #reverse {
+                color:mui-color("black");
             }
         }
     }

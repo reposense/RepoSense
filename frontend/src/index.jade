@@ -225,30 +225,6 @@ html
           ) {{ info.repo }}
           .author {{ info.name }} ({{ info.author }}) contribution from {{ info.minDate }} to {{ info.maxDate }}
           .contribution(v-if="isLoaded && files.length!=0")
-            .searchbox
-              input.radio-button--search(type="radio", name="filter", value="search", v-bind:checked="isSearchBar",
-                  v-on:click="indicateSearchBar")
-              form.file-picker.mui-form--inline(onsubmit="return false")
-                input#search(type="search", placeholder="Filter by glob", v-on:change="updateFilterSearch",
-                    v-on:click="indicateSearchBar")
-                button#submit-button(type="submit", v-on:click="indicateSearchBar") Filter
-            .fileformat
-              input.radio-button--checkbox(type="radio", name="filter", value="checkboxes", v-bind:checked="isCheckBoxes",
-                  v-on:click="indicateCheckBoxes")
-              div.checkboxes.mui-form--inline(v-if="files.length > 0")
-                label
-                  input.mui-checkbox--fileformat(type="checkbox" v-on:click="selectAll" v-model="isSelectAllChecked")
-                  span(v-bind:title="getTotalFileBlankLineInfo()")
-                    span.select All:&nbsp;
-                    span.loc {{ totalLineCount }}&nbsp;
-                    span.bloc ({{ totalBlankLineCount }})
-                template(v-for="format in Object.keys(getExistingLinesObj)", v-bind:key="format")
-                  label
-                    input.mui-checkbox--fileformat(type="checkbox" v-bind:checked="selectedFileFormats.includes(format)"
-                        v-on:change="selectFileFormat(format)")
-                    span(v-bind:title="getFileBlankLineInfo(format)")
-                      span {{ format }}: {{ getExistingLinesObj[format] }}&nbsp;
-                      span.bloc ({{ filesBlankLinesObj[format] }})
             .sorting.mui-form--inline
               .mui-select
                 select(v-model="filesSortType")
@@ -259,7 +235,31 @@ html
                 label sort by
               label
                 input(type="checkbox", v-model="toReverseSortFiles").mui-checkbox
-                span reverse
+                span#reverse reverse
+            .searchbox
+              input.radio-button--search(type="radio", name="filter", value="search", v-bind:checked="isSearchBar",
+                  v-on:click="indicateSearchBar")
+              form.file-picker.mui-form--inline(onsubmit="return false")
+                input#search(type="search", placeholder="Filter by glob", v-on:change="updateFilterSearch",
+                    v-on:click="indicateSearchBar")
+                button#submit-button(type="submit", v-on:click="indicateSearchBar") Filter
+            .fileformat
+              input.radio-button--checkbox(type="radio", name="filter", value="checkboxes", v-bind:checked="isCheckBoxes",
+              v-on:click="indicateCheckBoxes")
+              div.checkboxes.mui-form--inline(v-if="files.length > 0")
+                label
+                  input.mui-checkbox--fileformat(type="checkbox" v-on:click="selectAll" v-model="isSelectAllChecked")
+                  span(v-bind:title="getTotalFileBlankLineInfo()")
+                    span.select All:&nbsp;
+                    span.loc {{ totalLineCount }}&nbsp;
+                    span.bloc ({{ totalBlankLineCount }})
+                template(v-for="format in Object.keys(getExistingLinesObj)", v-bind:key="format")
+                  label
+                    input.mui-checkbox--fileformat(type="checkbox" v-bind:checked="selectedFileFormats.includes(format)"
+                    v-on:change="selectFileFormat(format)")
+                    span(v-bind:title="getFileBlankLineInfo(format)")
+                      span {{ format }}: {{ getExistingLinesObj[format] }}&nbsp;
+                      span.bloc ({{ filesBlankLinesObj[format] }})
 
         .files(v-if="isLoaded")
           .empty(v-if="files.length === 0") nothing to see here :(
