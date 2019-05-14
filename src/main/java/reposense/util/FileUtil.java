@@ -49,14 +49,14 @@ public class FileUtil {
      * Zips only the relevant .JSON files
      * @param configs Utilizes the relevant repo folders that are required to be zipped
      */
-    public static void zipRelevantJsonFiles(List<RepoConfiguration> configs, Path sourceAndOutputPath, String... fileTypes) {
+    public static void zipRelevantJsonFiles(List<RepoConfiguration> configs, Path sourceAndOutputPath,
+                                            String... fileTypes) {
         HashSet<String> relevantFolderNames = new HashSet<>();
 
         for (RepoConfiguration repoConfiguration : configs) {
             relevantFolderNames.add(repoConfiguration.getDisplayName());
         }
 
-        HashSet<Path> relevantFolders = new HashSet<>();
         try (
                 FileOutputStream fos = new FileOutputStream(sourceAndOutputPath + File.separator + ZIP_FILE);
                 ZipOutputStream zos = new ZipOutputStream(fos)
@@ -66,8 +66,8 @@ public class FileUtil {
             for (Path path : allFiles) {
                 String filePath = sourceAndOutputPath.relativize(path.toAbsolutePath()).toString();
 
-                if (relevantFolderNames.contains(path.getParent().getFileName().toString()) ||
-                        path.getFileName().toString().equals(SUMMARY_JSON_FILE)) {
+                if (relevantFolderNames.contains(path.getParent().getFileName().toString())
+                        || path.getFileName().toString().equals(SUMMARY_JSON_FILE)) {
                     String zipEntry = Files.isDirectory(path) ? filePath + File.separator : filePath;
                     zos.putNextEntry(new ZipEntry(zipEntry.replace("\\", "/")));
                     if (Files.isRegularFile(path)) {

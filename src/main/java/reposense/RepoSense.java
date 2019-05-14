@@ -66,7 +66,6 @@ public class RepoSense {
 
             // FIX BUG: non-relevant JSON file to be excluded
             FileUtil.zipRelevantJsonFiles(configs, cliArguments.getOutputFilePath().toAbsolutePath(), ".json");
-            //FileUtil.zip(cliArguments.getOutputFilePath().toAbsolutePath(), ".json");
 
             if (cliArguments.isAutomaticallyLaunching()) {
                 ReportServer.startServer(SERVER_PORT_NUMBER, cliArguments.getOutputFilePath().toAbsolutePath());
