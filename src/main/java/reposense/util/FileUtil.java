@@ -37,34 +37,27 @@ public class FileUtil {
     // zip file which contains all the specified file types
     public static final String ZIP_FILE = "archive.zip";
 
-    public static final String SUMMARY_JSON_FILE = "summary.json";
-
     private static final Logger logger = LogsManager.getLogger(FileUtil.class);
     private static final String GITHUB_API_DATE_FORMAT = "yyyy-MM-dd";
     private static final ByteBuffer buffer = ByteBuffer.allocate(1 << 11); // 2KB
 
     /**
-     * Zips only the relevant .JSON files
-     * @param configs Utilizes the relevant repo folders that are required to be zipped
+     * Zips all the relevant files and relative folders
+     * @param relativePaths contains the relevant folders to be zipped.
+     * @param relevantFiles contains the relevant files to be zipped.
+     * @param fileTypes contains the file types to be zipped. Only files which are of the type "fileTypes" will be
+     *                  zipped.
      */
-    public static void zipRelevantJsonFiles(List<RepoConfiguration> configs, Path sourceAndOutputPath) {
-        HashSet<String> relevantFolderNames = new HashSet<>();
-
-        for (RepoConfiguration repoConfiguration : configs) {
-            relevantFolderNames.add(repoConfiguration.getDisplayName());
-        }
-
+    public static void zipRelativeFiles(HashSet<Path> relativePaths, HashSet<Path> relevantFiles,
+                                        Path sourceAndOutputPath, String... fileTypes) {
         try (
                 FileOutputStream fos = new FileOutputStream(sourceAndOutputPath + File.separator + ZIP_FILE);
                 ZipOutputStream zos = new ZipOutputStream(fos)
         ) {
-            Set<Path> allFiles = getFilePaths(sourceAndOutputPath, ".json");
-
+            Set<Path> allFiles = getFilePaths(sourceAndOutputPath, fileTypes);
             for (Path path : allFiles) {
                 String filePath = sourceAndOutputPath.relativize(path.toAbsolutePath()).toString();
-
-                if (relevantFolderNames.contains(path.getParent().getFileName().toString())
-                        || path.getFileName().toString().equals(SUMMARY_JSON_FILE)) {
+                if (relativePaths.contains(path.getParent()) || relevantFiles.contains(path.getFileName())) {
                     String zipEntry = Files.isDirectory(path) ? filePath + File.separator : filePath;
                     zos.putNextEntry(new ZipEntry(zipEntry.replace("\\", "/")));
                     if (Files.isRegularFile(path)) {
@@ -139,10 +132,8 @@ public class FileUtil {
                 ZipOutputStream zos = new ZipOutputStream(fos)
         ) {
             Set<Path> allFiles = getFilePaths(sourcePath, fileTypes);
-
             for (Path path : allFiles) {
                 String filePath = sourcePath.relativize(path.toAbsolutePath()).toString();
-
                 String zipEntry = Files.isDirectory(path) ? filePath + File.separator : filePath;
                 zos.putNextEntry(new ZipEntry(zipEntry.replace("\\", "/")));
                 if (Files.isRegularFile(path)) {

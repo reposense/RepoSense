@@ -9,6 +9,8 @@ import reposense.model.RepoConfiguration;
  * Represents the structure of summary.json file in reposense-report folder.
  */
 public class SummaryReportJson {
+    public static final String SUMMARY_JSON_FILE_NAME = "summary.json";
+
     private final String repoSenseVersion;
     private final String reportGeneratedTime;
     private final List<RepoConfiguration> repos;

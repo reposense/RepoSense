@@ -1,9 +1,13 @@
 package reposense;
 
+import java.io.File;
 import java.io.IOException;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -22,6 +26,7 @@ import reposense.parser.InvalidLocationException;
 import reposense.parser.ParseException;
 import reposense.parser.RepoConfigCsvParser;
 import reposense.report.ReportGenerator;
+import reposense.report.SummaryReportJson;
 import reposense.system.LogsManager;
 import reposense.system.ReportServer;
 import reposense.util.FileUtil;
@@ -62,7 +67,11 @@ public class RepoSense {
                     cliArguments.getSinceDate().orElse(null),
                     cliArguments.getUntilDate().orElse(null));
 
-            FileUtil.zipRelevantJsonFiles(configs, cliArguments.getOutputFilePath().toAbsolutePath());
+            HashSet<Path> relevantFolders = getRelativeFolders(cliArguments.getOutputFilePath(), configs);
+            HashSet<Path> relevantFiles = new HashSet<>();
+            relevantFiles.add(Paths.get(SummaryReportJson.SUMMARY_JSON_FILE_NAME));
+            FileUtil.zipRelativeFiles(relevantFolders, relevantFiles, cliArguments.getOutputFilePath().toAbsolutePath(),
+                    ".json");
 
             if (cliArguments.isAutomaticallyLaunching()) {
                 ReportServer.startServer(SERVER_PORT_NUMBER, cliArguments.getOutputFilePath().toAbsolutePath());
@@ -74,6 +83,22 @@ public class RepoSense {
         } catch (HelpScreenException e) {
             // help message was printed by the ArgumentParser; it is safe to exit.
         }
+    }
+
+    /**
+     * Returns a list of relevant repo folders to be zipped up later
+     * @param sourcePath
+     * @param configs
+     * @return
+     */
+    private static HashSet<Path> getRelativeFolders(Path sourcePath, List<RepoConfiguration> configs) {
+        HashSet<Path> relevantFolders = new HashSet<>();
+        for (RepoConfiguration repoConfiguration : configs) {
+            relevantFolders.add(Paths.get(sourcePath + File.separator + repoConfiguration.getDisplayName())
+            .toAbsolutePath());
+        }
+
+        return relevantFolders;
     }
 
     /**
