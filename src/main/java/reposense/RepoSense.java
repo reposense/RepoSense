@@ -71,7 +71,7 @@ public class RepoSense {
             HashSet<Path> relevantFiles = new HashSet<>();
             relevantFiles.add(Paths.get(SummaryReportJson.SUMMARY_JSON_FILE_NAME));
             FileUtil.zipRelativeFiles(relevantFolders, relevantFiles, cliArguments.getOutputFilePath().toAbsolutePath(),
-                    ".json");
+                    cliArguments.getOutputFilePath().toAbsolutePath(), ".json");
 
             if (cliArguments.isAutomaticallyLaunching()) {
                 ReportServer.startServer(SERVER_PORT_NUMBER, cliArguments.getOutputFilePath().toAbsolutePath());

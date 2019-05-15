@@ -47,14 +47,14 @@ public class FileUtil {
      *                  zipped.
      */
     public static void zipRelativeFiles(HashSet<Path> relativePaths, HashSet<Path> relevantFiles,
-                                        Path sourceAndOutputPath, String... fileTypes) {
+                                        Path sourcePath, Path outputPath, String... fileTypes) {
         try (
-                FileOutputStream fos = new FileOutputStream(sourceAndOutputPath + File.separator + ZIP_FILE);
+                FileOutputStream fos = new FileOutputStream(outputPath + File.separator + ZIP_FILE);
                 ZipOutputStream zos = new ZipOutputStream(fos)
         ) {
-            Set<Path> allFiles = getFilePaths(sourceAndOutputPath, fileTypes);
+            Set<Path> allFiles = getFilePaths(sourcePath, fileTypes);
             for (Path path : allFiles) {
-                String filePath = sourceAndOutputPath.relativize(path.toAbsolutePath()).toString();
+                String filePath = sourcePath.relativize(path.toAbsolutePath()).toString();
                 if (relativePaths.contains(path.getParent()) || relevantFiles.contains(path.getFileName())) {
                     String zipEntry = Files.isDirectory(path) ? filePath + File.separator : filePath;
                     zos.putNextEntry(new ZipEntry(zipEntry.replace("\\", "/")));
