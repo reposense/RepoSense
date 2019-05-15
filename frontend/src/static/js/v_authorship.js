@@ -128,6 +128,7 @@ window.vAuthorship = {
       let lastId = -1;
       const segments = [];
       let blankLineCount = 0;
+      let lineCount = 0;
 
       lines.forEach((line) => {
         const authored = (line.author && line.author.gitId === this.info.author);
@@ -136,14 +137,18 @@ window.vAuthorship = {
           segments.push({
             authored,
             lines: [],
+            lineNumbers: [],
           });
 
           lastId += 1;
           lastState = authored;
         }
 
-        const content = (line.lineNumber.toString().padEnd(5) + line.content) || ' ';
+        const content = line.content || ' ';
         segments[lastId].lines.push(content);
+
+        lineCount += 1;
+        segments[lastId].lineNumbers.push(lineCount);
 
         if (line.content === '' && authored) {
           blankLineCount += 1;
