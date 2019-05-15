@@ -27,8 +27,11 @@ public class FileUtilTest {
     private static final Path TEST_ZIP_PATH = Paths.get(FILE_UTIL_TEST_DIRECTORY.toString(), "testZip.zip");
     private static final Path UNZIPPED_DIRECTORY_PATH = Paths.get(FILE_UTIL_TEST_DIRECTORY.toString(),
             "UnzippedFolder");
-    private static final Path[] REPO_FOLDERS = {Paths.get("reposense_testrepo-Beta"),
-            Paths.get("reposense_testrepo-Charlie")};
+    private static final Path[] RELEVANT_FILE_FOLDER_PATHS = {
+            Paths.get(RELEVANT_REPO_DIRECTORY_PATH.toString(), "reposense_testrepo-Beta").toAbsolutePath(),
+            Paths.get(RELEVANT_REPO_DIRECTORY_PATH.toString(), "reposense_testrepo-Charlie").toAbsolutePath(),
+            Paths.get(RELEVANT_REPO_DIRECTORY_PATH.toString(), SummaryReportJson.SUMMARY_JSON_FILE_NAME)
+                    .toAbsolutePath()};
     private static final Path EXPECTED_RELEVANT_FOLDER_PATH = Paths.get(FILE_UTIL_TEST_DIRECTORY.toString(),
             "expectedRelevantUnzippedFiles");
 
@@ -37,16 +40,9 @@ public class FileUtilTest {
      */
     @Test
     public void zip_onlyRelevantFiles_success() throws IOException {
-        HashSet<Path> relevantFolders = new HashSet<>(Arrays.asList(REPO_FOLDERS));
-        HashSet<Path> relevantFiles = new HashSet<>();
-        relevantFolders.add(Paths.get(RELEVANT_REPO_DIRECTORY_PATH + File.separator
-                        + "reposense_testrepo-Beta"));
-        relevantFolders.add(Paths.get(RELEVANT_REPO_DIRECTORY_PATH + File.separator
-                + "reposense_testrepo-Charlie"));
-        relevantFiles.add(Paths.get(SummaryReportJson.SUMMARY_JSON_FILE_NAME));
+        HashSet<Path> relevantPaths = new HashSet<>(Arrays.asList(RELEVANT_FILE_FOLDER_PATHS));
 
-        FileUtil.zipRelativeFiles(relevantFolders, relevantFiles,
-                RELEVANT_REPO_DIRECTORY_PATH, FILE_UTIL_TEST_DIRECTORY, ".json");
+        FileUtil.zipRelativeFiles(relevantPaths, RELEVANT_REPO_DIRECTORY_PATH, FILE_UTIL_TEST_DIRECTORY, ".json");
         FileUtil.unzip(ARCHIVE_ZIP_PATH, UNZIPPED_DIRECTORY_PATH);
 
         Assert.assertTrue(TestUtil.compareDirectories(UNZIPPED_DIRECTORY_PATH, EXPECTED_RELEVANT_FOLDER_PATH));

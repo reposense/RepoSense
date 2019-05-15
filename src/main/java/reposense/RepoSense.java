@@ -67,11 +67,10 @@ public class RepoSense {
                     cliArguments.getSinceDate().orElse(null),
                     cliArguments.getUntilDate().orElse(null));
 
-            HashSet<Path> relevantFolders = getRelativeFolders(cliArguments.getOutputFilePath(), configs);
-            HashSet<Path> relevantFiles = new HashSet<>();
-            relevantFiles.add(Paths.get(SummaryReportJson.SUMMARY_JSON_FILE_NAME));
-            FileUtil.zipRelativeFiles(relevantFolders, relevantFiles, cliArguments.getOutputFilePath().toAbsolutePath(),
-                    cliArguments.getOutputFilePath().toAbsolutePath(), ".json");
+            HashSet<Path> relevantPaths = getRelativeFolders(cliArguments.getOutputFilePath(), configs);
+            relevantPaths.add(Paths.get(cliArguments.getOutputFilePath().toAbsolutePath().toString(),
+                    SummaryReportJson.SUMMARY_JSON_FILE_NAME));
+            FileUtil.zipRelativeFiles(relevantPaths, cliArguments.getOutputFilePath().toAbsolutePath(), ".json");
 
             if (cliArguments.isAutomaticallyLaunching()) {
                 ReportServer.startServer(SERVER_PORT_NUMBER, cliArguments.getOutputFilePath().toAbsolutePath());

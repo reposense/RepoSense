@@ -40,13 +40,21 @@ public class FileUtil {
     private static final ByteBuffer buffer = ByteBuffer.allocate(1 << 11); // 2KB
 
     /**
+     * Zips all the relative folders and relevant files of {@code fileTypes} contained in
+     * {@code sourceAndOutputPath} directory into the same folder.
+     */
+    public static void zipRelativeFiles(HashSet<Path> relativePaths,
+                                        Path sourceAndOutputPath, String... fileTypes) {
+        zipRelativeFiles(relativePaths, sourceAndOutputPath, sourceAndOutputPath, fileTypes);
+    }
+
+    /**
      * Zips all the relevant files and relative folders
      * @param relativePaths contains the relevant folders to be zipped.
-     * @param relevantFiles contains the relevant files to be zipped.
      * @param fileTypes contains the file types to be zipped. Only files which are of the type "fileTypes" will be
      *                  zipped.
      */
-    public static void zipRelativeFiles(HashSet<Path> relativePaths, HashSet<Path> relevantFiles,
+    public static void zipRelativeFiles(HashSet<Path> relativePaths,
                                         Path sourcePath, Path outputPath, String... fileTypes) {
         try (
                 FileOutputStream fos = new FileOutputStream(outputPath + File.separator + ZIP_FILE);
@@ -55,7 +63,7 @@ public class FileUtil {
             Set<Path> allFiles = getFilePaths(sourcePath, fileTypes);
             for (Path path : allFiles) {
                 String filePath = sourcePath.relativize(path.toAbsolutePath()).toString();
-                if (relativePaths.contains(path.getParent()) || relevantFiles.contains(path.getFileName())) {
+                if (relativePaths.contains(path.getParent()) || relativePaths.contains(path)) {
                     String zipEntry = Files.isDirectory(path) ? filePath + File.separator : filePath;
                     zos.putNextEntry(new ZipEntry(zipEntry.replace("\\", "/")));
                     if (Files.isRegularFile(path)) {
