@@ -95,7 +95,7 @@ public class RepoSense {
         HashSet<Path> relevantFolders = new HashSet<>();
         for (RepoConfiguration repoConfiguration : configs) {
             relevantFolders.add(Paths.get(sourcePath + File.separator + repoConfiguration.getDisplayName())
-            .toAbsolutePath());
+                .toAbsolutePath());
         }
 
         return relevantFolders;
