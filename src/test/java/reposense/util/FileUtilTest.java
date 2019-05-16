@@ -30,8 +30,8 @@ public class FileUtilTest {
     private static final Path[] RELEVANT_FILE_FOLDER_PATHS = {
             Paths.get(RELEVANT_REPO_DIRECTORY_PATH.toString(), "reposense_testrepo-Beta").toAbsolutePath(),
             Paths.get(RELEVANT_REPO_DIRECTORY_PATH.toString(), "reposense_testrepo-Charlie").toAbsolutePath(),
-            Paths.get(RELEVANT_REPO_DIRECTORY_PATH.toString(), SummaryReportJson.SUMMARY_JSON_FILE_NAME)
-                    .toAbsolutePath()};
+            Paths.get(RELEVANT_REPO_DIRECTORY_PATH.toString(),
+                    SummaryReportJson.SUMMARY_JSON_FILE_NAME).toAbsolutePath()};
     private static final Path EXPECTED_RELEVANT_FOLDER_PATH = Paths.get(FILE_UTIL_TEST_DIRECTORY.toString(),
             "expectedRelevantUnzippedFiles");
 

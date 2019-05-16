@@ -235,7 +235,7 @@ public class ReportGenerator {
     }
 
     private static String getSummaryResultPath(String targetFileLocation) {
-        return targetFileLocation + "/summary.json";
+        return targetFileLocation + "/" + SummaryReportJson.SUMMARY_JSON_FILE_NAME;
     }
 
     private static String getIndividualAuthorshipPath(String repoReportDirectory) {

@@ -44,7 +44,7 @@ public class FileUtil {
      * {@code sourceAndOutputPath} directory into the same folder.
      */
     public static void zipRelativeFiles(HashSet<Path> relativePaths,
-                                        Path sourceAndOutputPath, String... fileTypes) {
+            Path sourceAndOutputPath, String... fileTypes) {
         zipRelativeFiles(relativePaths, sourceAndOutputPath, sourceAndOutputPath, fileTypes);
     }
 
@@ -55,7 +55,7 @@ public class FileUtil {
      *                  zipped.
      */
     public static void zipRelativeFiles(HashSet<Path> relativePaths,
-                                        Path sourcePath, Path outputPath, String... fileTypes) {
+            Path sourcePath, Path outputPath, String... fileTypes) {
         try (
                 FileOutputStream fos = new FileOutputStream(outputPath + File.separator + ZIP_FILE);
                 ZipOutputStream zos = new ZipOutputStream(fos)
