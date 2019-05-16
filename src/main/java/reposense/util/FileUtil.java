@@ -42,6 +42,11 @@ public class FileUtil {
     /**
      * Zips all the relative folders and relevant files of {@code fileTypes} contained in
      * {@code sourceAndOutputPath} directory into the same folder.
+     * @param relativePaths contains the relevant folders to be zipped.
+     * @param sourceAndOutputPath contains the directory where the relevant folders and files are located at and
+     *                           where to be zipped to.
+     * @param fileTypes contains the file types to be zipped. Only files which are of the type "fileTypes" will be
+     *                  zipped.
      */
     public static void zipRelativeFiles(HashSet<Path> relativePaths,
             Path sourceAndOutputPath, String... fileTypes) {
@@ -51,6 +56,8 @@ public class FileUtil {
     /**
      * Zips all the relevant files and relative folders
      * @param relativePaths contains the relevant folders to be zipped.
+     * @param sourcePath contains the directory where the relevant folders and files are located at
+     * @param outputPath contains the directory to be zipped to.
      * @param fileTypes contains the file types to be zipped. Only files which are of the type "fileTypes" will be
      *                  zipped.
      */
