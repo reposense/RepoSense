@@ -66,7 +66,7 @@ public class RepoConfiguration {
         String repoName = location.getRepoName();
 
         if (organization != null) {
-            displayName = organization + "_" + repoName + "_" + branch;
+            displayName = organization + "/" + repoName + "[" + branch + "]";
             repoFolderName = organization + "_" + repoName;
         } else {
             displayName = repoName + "_" + branch;
