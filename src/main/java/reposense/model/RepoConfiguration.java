@@ -10,6 +10,7 @@ import java.util.Optional;
 import java.util.logging.Logger;
 
 import reposense.git.GitBranch;
+import reposense.git.exception.GitBranchException;
 import reposense.system.LogsManager;
 import reposense.util.FileUtil;
 
@@ -183,7 +184,7 @@ public class RepoConfiguration {
     /**
      * Gets the current branch and updates branch with current branch if default branch is specified.
      */
-    public void updateBranch() {
+    public void updateBranch() throws GitBranchException {
         if (branch.equals(DEFAULT_BRANCH)) {
             String currentBranch = GitBranch.getCurrentBranch(getRepoRoot());
             setBranch(currentBranch);

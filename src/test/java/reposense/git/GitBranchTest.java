@@ -3,6 +3,7 @@ package reposense.git;
 import org.junit.Assert;
 import org.junit.Test;
 
+import reposense.git.exception.GitBranchException;
 import reposense.git.exception.GitCloneException;
 import reposense.model.Format;
 import reposense.model.RepoConfiguration;
@@ -17,13 +18,14 @@ public class GitBranchTest extends GitTestTemplate {
             "https://github.com/reposense/testrepo-UncommonDefaultBranch.git";
 
     @Test
-    public void getCurrentBranch_masterBranch_success() {
+    public void getCurrentBranch_masterBranch_success() throws GitBranchException {
         String currentBranch = GitBranch.getCurrentBranch(config.getRepoRoot());
         Assert.assertEquals("master", currentBranch);
     }
 
     @Test
-    public void getCurrentBranch_uncommonDefaultBranch_success() throws GitCloneException, InvalidLocationException {
+    public void getCurrentBranch_uncommonDefaultBranch_success()
+            throws GitCloneException, InvalidLocationException, GitBranchException {
         RepoConfiguration uncommonDefaultConfig = new RepoConfiguration(
                 new RepoLocation(TEST_REPO_UNCOMMON_DEFAULT_GIT_LOCATION), RepoConfiguration.DEFAULT_BRANCH);
         uncommonDefaultConfig.setFormats(Format.DEFAULT_FORMATS);
