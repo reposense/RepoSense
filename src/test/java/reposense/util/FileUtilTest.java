@@ -42,7 +42,7 @@ public class FileUtilTest {
     public void zip_onlyRelevantFiles_success() throws IOException {
         HashSet<Path> relevantPaths = new HashSet<>(Arrays.asList(RELEVANT_FILE_FOLDER_PATHS));
 
-        FileUtil.zipRelevantFoldersAndFiles(relevantPaths, RELEVANT_REPO_DIRECTORY_PATH,
+        FileUtil.zipFoldersAndFiles(relevantPaths, RELEVANT_REPO_DIRECTORY_PATH,
                 FILE_UTIL_TEST_DIRECTORY, ".json");
         FileUtil.unzip(ARCHIVE_ZIP_PATH, UNZIPPED_DIRECTORY_PATH);
 
@@ -52,7 +52,7 @@ public class FileUtilTest {
     @Test
     public void zip_validLocation_success() throws IOException {
         HashSet<Path> relevantPaths = new HashSet<>(Arrays.asList(RELEVANT_FILE_FOLDER_PATHS));
-        FileUtil.zipRelevantFoldersAndFiles(relevantPaths, RELEVANT_REPO_DIRECTORY_PATH,
+        FileUtil.zipFoldersAndFiles(relevantPaths, RELEVANT_REPO_DIRECTORY_PATH,
                 FILE_UTIL_TEST_DIRECTORY, ".json");
         Assert.assertTrue(Files.exists(ARCHIVE_ZIP_PATH));
         Assert.assertTrue(Files.size(ARCHIVE_ZIP_PATH) > 0);
@@ -62,7 +62,7 @@ public class FileUtilTest {
     public void zip_validFileType_success() throws IOException {
         HashSet<Path> relevantPaths = new HashSet<>();
         relevantPaths.add(Paths.get(FILE_UTIL_TEST_DIRECTORY.toString(), "test.csv"));
-        FileUtil.zipRelevantFoldersAndFiles(relevantPaths, FILE_UTIL_TEST_DIRECTORY, ".csv");
+        FileUtil.zipFoldersAndFiles(relevantPaths, FILE_UTIL_TEST_DIRECTORY, ".csv");
         Assert.assertTrue(Files.exists(ARCHIVE_ZIP_PATH));
         Assert.assertTrue(Files.size(ARCHIVE_ZIP_PATH) > 0);
     }

@@ -59,26 +59,26 @@ public class FileUtil {
     /**
      * Zips all the relative folders and relevant files of {@code fileTypes} contained in
      * {@code sourceAndOutputPath} directory into the same folder.
-     * @param relevantPaths contains the relevant folders to be zipped.
-     * @param sourceAndOutputPath contains the directory where the relevant folders and files are located at and
+     * @param pathsToZip contains the folders and files to be zipped.
+     * @param sourceAndOutputPath contains the directory where the source folders and files are located at and
      *                           where to be zipped to.
      * @param fileTypes contains the file types to be zipped. Only files which are of the type "fileTypes" will be
      *                  zipped.
      */
-    public static void zipRelevantFoldersAndFiles(HashSet<Path> relevantPaths,
+    public static void zipFoldersAndFiles(HashSet<Path> pathsToZip,
             Path sourceAndOutputPath, String... fileTypes) {
-        zipRelevantFoldersAndFiles(relevantPaths, sourceAndOutputPath, sourceAndOutputPath, fileTypes);
+        zipFoldersAndFiles(pathsToZip, sourceAndOutputPath, sourceAndOutputPath, fileTypes);
     }
 
     /**
      * Zips all the relevant files and relative folders
-     * @param relevantPaths contains the relevant folders to be zipped.
+     * @param pathsToZip contains the relevant folders to be zipped.
      * @param sourcePath contains the directory where the relevant folders and files are located at
      * @param outputPath contains the directory to be zipped to.
      * @param fileTypes contains the file types to be zipped. Only files which are of the type "fileTypes" will be
      *                  zipped.
      */
-    public static void zipRelevantFoldersAndFiles(HashSet<Path> relevantPaths,
+    public static void zipFoldersAndFiles(HashSet<Path> pathsToZip,
             Path sourcePath, Path outputPath, String... fileTypes) {
         try (
                 FileOutputStream fos = new FileOutputStream(outputPath + File.separator + ZIP_FILE);
@@ -87,7 +87,7 @@ public class FileUtil {
             Set<Path> allFiles = getFilePaths(sourcePath, fileTypes);
             for (Path path : allFiles) {
                 String filePath = sourcePath.relativize(path.toAbsolutePath()).toString();
-                if (relevantPaths.contains(path.getParent()) || relevantPaths.contains(path)) {
+                if (pathsToZip.contains(path.getParent()) || pathsToZip.contains(path)) {
                     String zipEntry = Files.isDirectory(path) ? filePath + File.separator : filePath;
                     zos.putNextEntry(new ZipEntry(zipEntry.replace("\\", "/")));
                     if (Files.isRegularFile(path)) {

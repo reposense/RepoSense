@@ -69,7 +69,7 @@ public class RepoSense {
             HashSet<Path> repoFoldersAndFiles = FileUtil.getReportFolders(cliArguments.getOutputFilePath(), configs);
             repoFoldersAndFiles.add(Paths.get(cliArguments.getOutputFilePath().toAbsolutePath().toString(),
                     SummaryReportJson.SUMMARY_JSON_FILE_NAME));
-            FileUtil.zipRelevantFoldersAndFiles(repoFoldersAndFiles, cliArguments.getOutputFilePath().toAbsolutePath(),
+            FileUtil.zipFoldersAndFiles(repoFoldersAndFiles, cliArguments.getOutputFilePath().toAbsolutePath(),
                     ".json");
 
             if (cliArguments.isAutomaticallyLaunching()) {
