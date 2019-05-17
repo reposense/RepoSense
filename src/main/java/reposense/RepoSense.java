@@ -1,6 +1,5 @@
 package reposense;
 
-import java.io.File;
 import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -67,10 +66,11 @@ public class RepoSense {
                     cliArguments.getSinceDate().orElse(null),
                     cliArguments.getUntilDate().orElse(null));
 
-            HashSet<Path> relevantPaths = getRelativeFolders(cliArguments.getOutputFilePath(), configs);
-            relevantPaths.add(Paths.get(cliArguments.getOutputFilePath().toAbsolutePath().toString(),
+            HashSet<Path> repoFoldersAndFiles = FileUtil.getReportFolders(cliArguments.getOutputFilePath(), configs);
+            repoFoldersAndFiles.add(Paths.get(cliArguments.getOutputFilePath().toAbsolutePath().toString(),
                     SummaryReportJson.SUMMARY_JSON_FILE_NAME));
-            FileUtil.zipRelativeFiles(relevantPaths, cliArguments.getOutputFilePath().toAbsolutePath(), ".json");
+            FileUtil.zipRelevantFoldersAndFiles(repoFoldersAndFiles, cliArguments.getOutputFilePath().toAbsolutePath(),
+                    ".json");
 
             if (cliArguments.isAutomaticallyLaunching()) {
                 ReportServer.startServer(SERVER_PORT_NUMBER, cliArguments.getOutputFilePath().toAbsolutePath());
@@ -82,22 +82,6 @@ public class RepoSense {
         } catch (HelpScreenException e) {
             // help message was printed by the ArgumentParser; it is safe to exit.
         }
-    }
-
-    /**
-     * Returns a list of relevant repo folders to be zipped up later
-     * @param sourcePath
-     * @param configs
-     * @return
-     */
-    private static HashSet<Path> getRelativeFolders(Path sourcePath, List<RepoConfiguration> configs) {
-        HashSet<Path> relevantFolders = new HashSet<>();
-        for (RepoConfiguration repoConfiguration : configs) {
-            relevantFolders.add(Paths.get(sourcePath + File.separator + repoConfiguration.getDisplayName())
-                .toAbsolutePath());
-        }
-
-        return relevantFolders;
     }
 
     /**

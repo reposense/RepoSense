@@ -13,6 +13,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Arrays;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -24,6 +25,7 @@ import java.util.zip.ZipOutputStream;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
+import reposense.model.RepoConfiguration;
 import reposense.system.LogsManager;
 
 /**
@@ -40,28 +42,43 @@ public class FileUtil {
     private static final ByteBuffer buffer = ByteBuffer.allocate(1 << 11); // 2KB
 
     /**
+     * Returns a list of relevant repo folders to be zipped up later
+     * @param sourcePath contains the source directory where the repo folders are located at
+     * @param configs contains the list of configuration information for a single repository
+     * @return a set of relevant repo folders (to be zipped later)
+     */
+    public static HashSet<Path> getReportFolders(Path sourcePath, List<RepoConfiguration> configs) {
+        HashSet<Path> relevantFolders = new HashSet<>();
+        for (RepoConfiguration repoConfiguration : configs) {
+            relevantFolders.add(Paths.get(sourcePath + File.separator + repoConfiguration.getDisplayName())
+                    .toAbsolutePath());
+        }
+        return relevantFolders;
+    }
+
+    /**
      * Zips all the relative folders and relevant files of {@code fileTypes} contained in
      * {@code sourceAndOutputPath} directory into the same folder.
-     * @param relativePaths contains the relevant folders to be zipped.
+     * @param relevantPaths contains the relevant folders to be zipped.
      * @param sourceAndOutputPath contains the directory where the relevant folders and files are located at and
      *                           where to be zipped to.
      * @param fileTypes contains the file types to be zipped. Only files which are of the type "fileTypes" will be
      *                  zipped.
      */
-    public static void zipRelativeFiles(HashSet<Path> relativePaths,
+    public static void zipRelevantFoldersAndFiles(HashSet<Path> relevantPaths,
             Path sourceAndOutputPath, String... fileTypes) {
-        zipRelativeFiles(relativePaths, sourceAndOutputPath, sourceAndOutputPath, fileTypes);
+        zipRelevantFoldersAndFiles(relevantPaths, sourceAndOutputPath, sourceAndOutputPath, fileTypes);
     }
 
     /**
      * Zips all the relevant files and relative folders
-     * @param relativePaths contains the relevant folders to be zipped.
+     * @param relevantPaths contains the relevant folders to be zipped.
      * @param sourcePath contains the directory where the relevant folders and files are located at
      * @param outputPath contains the directory to be zipped to.
      * @param fileTypes contains the file types to be zipped. Only files which are of the type "fileTypes" will be
      *                  zipped.
      */
-    public static void zipRelativeFiles(HashSet<Path> relativePaths,
+    public static void zipRelevantFoldersAndFiles(HashSet<Path> relevantPaths,
             Path sourcePath, Path outputPath, String... fileTypes) {
         try (
                 FileOutputStream fos = new FileOutputStream(outputPath + File.separator + ZIP_FILE);
@@ -70,7 +87,7 @@ public class FileUtil {
             Set<Path> allFiles = getFilePaths(sourcePath, fileTypes);
             for (Path path : allFiles) {
                 String filePath = sourcePath.relativize(path.toAbsolutePath()).toString();
-                if (relativePaths.contains(path.getParent()) || relativePaths.contains(path)) {
+                if (relevantPaths.contains(path.getParent()) || relevantPaths.contains(path)) {
                     String zipEntry = Files.isDirectory(path) ? filePath + File.separator : filePath;
                     zos.putNextEntry(new ZipEntry(zipEntry.replace("\\", "/")));
                     if (Files.isRegularFile(path)) {
@@ -125,42 +142,6 @@ public class FileUtil {
             if (rootDirectory.exists()) {
                 throw new IOException(String.format("Fail to delete directory %s", rootDirectory));
             }
-        }
-    }
-
-    /**
-     * Zips all the files of {@code fileTypes} contained in {@code sourceAndOutputPath} directory into the same folder.
-     */
-    public static void zip(Path sourceAndOutputPath, String... fileTypes) {
-        FileUtil.zip(sourceAndOutputPath, sourceAndOutputPath, fileTypes);
-    }
-
-    /**
-     * Zips all the {@code fileTypes} files contained in the {@code sourcePath} and its subdirectories.
-     * Creates the zipped {@code ZIP_FILE} file in the {@code outputPath}.
-     */
-    public static void zip(Path sourcePath, Path outputPath, String... fileTypes) {
-        try (
-                FileOutputStream fos = new FileOutputStream(outputPath + File.separator + ZIP_FILE);
-                ZipOutputStream zos = new ZipOutputStream(fos)
-        ) {
-            Set<Path> allFiles = getFilePaths(sourcePath, fileTypes);
-            for (Path path : allFiles) {
-                String filePath = sourcePath.relativize(path.toAbsolutePath()).toString();
-                String zipEntry = Files.isDirectory(path) ? filePath + File.separator : filePath;
-                zos.putNextEntry(new ZipEntry(zipEntry.replace("\\", "/")));
-                if (Files.isRegularFile(path)) {
-                    try (InputStream is = Files.newInputStream(path)) {
-                        int length;
-                        while ((length = is.read(buffer.array())) > 0) {
-                            zos.write(buffer.array(), 0, length);
-                        }
-                    }
-                }
-                zos.closeEntry();
-            }
-        } catch (IOException ioe) {
-            logger.log(Level.SEVERE, ioe.getMessage(), ioe);
         }
     }
 
