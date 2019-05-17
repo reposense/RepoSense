@@ -162,20 +162,22 @@ html
                   i.summary-chart__title--button.fab.fa-github
               .summary-chart__ramp
                 template(v-if="filterTimeFrame === 'commit'")
-                    template(v-for="(slice, j) in user.commits")
-                      a.summary-chart__ramp__slice(
-                        v-for="(commit, k) in slice.commitResults",
-                        v-if="commit.insertions>0 && (getSlicePos(slice.date, filterSinceDate, filterUntilDate) + (getCommitPos(k, slice.commitResults.length, filterSinceDate, filterUntilDate))) < 1.0",
-                        v-bind:href="getSliceLink(user, slice)", target="_blank",
-                        v-bind:title="`[${slice.date}] ${commit.message}: ${commit.insertions} lines`",
-                        v-bind:class="'summary-chart__ramp__slice--color' + getSliceColor(slice.date)",
-                        v-bind:style="{\
-                            zIndex: user.commits.length - j,\
-                            borderLeftWidth: getWidth(commit) + 'em',\
-                            right: ((getSlicePos(slice.date, filterSinceDate, filterUntilDate)\
-                                + (getCommitPos(k, slice.commitResults.length, filterSinceDate, filterUntilDate))) * 100) + '%'\
-                        }"
-                      )
+                  template(v-for="(slice, j) in user.commits")
+                    a.summary-chart__ramp__slice(
+                      v-for="(commit, k) in slice.commitResults",
+                      v-if="commit.insertions > 0 && \
+                        (getSlicePos(slice.date, filterSinceDate,filterUntilDate) + \
+                        getCommitPos(k, slice.commitResults.length, filterSinceDate, filterUntilDate)) < 1.0",
+                      v-bind:href="getSliceLink(user, slice)", target="_blank",
+                      v-bind:title="`[${slice.date}] ${commit.message}: ${commit.insertions} lines`",
+                      v-bind:class="'summary-chart__ramp__slice--color' + getSliceColor(slice.date)",
+                      v-bind:style="{\
+                          zIndex: user.commits.length - j,\
+                          borderLeftWidth: getWidth(commit) + 'em',\
+                          right: ((getSlicePos(slice.date, filterSinceDate, filterUntilDate)\
+                              + (getCommitPos(k, slice.commitResults.length, filterSinceDate, filterUntilDate))) * 100) + '%'\
+                      }"
+                    )
 
                 template(v-else)
                   a.summary-chart__ramp__slice(
