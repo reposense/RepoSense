@@ -398,6 +398,7 @@ window.vSummary = {
           insertions: 0,
           deletions: 0,
           date: getDateStr(startOfWeekMs),
+          endDate: getDateStr(startOfWeekMs + durationMs - DAY_IN_MS),
         };
 
         // commits are not contiguous, meaning there are gaps of days without
