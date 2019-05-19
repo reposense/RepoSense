@@ -287,8 +287,8 @@ html
                         span.tooltiptext.tooltiptext--close Show untouched code
                         span.tooltiptext.tooltiptext--open Hide untouched code
                       .code(v-for="(line, index) in segment.lines")
-                        div.line-number {{ segment.lineNumbers[index] + "\n" }}
-                        div.line-content {{ line + "\n" }}
+                        .line-number {{ segment.lineNumbers[index] + "\n" }}
+                        .line-content {{ line + "\n" }}
         .empty(v-else) loading...
 
     script(src="static/js/api.js")
