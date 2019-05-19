@@ -370,15 +370,28 @@ window.vSummary = {
 
       const res = [];
 
-      const sinceDate = dateRounding(this.filterSinceDate, 1);
+      const sinceDate = dateRounding(this.filterSinceDate, 0); // round up for the next sunday
       const untilDate = this.filterUntilDate;
 
       const sinceMs = (new Date(sinceDate)).getTime();
       const untilMs = (new Date(untilDate)).getTime();
 
+      // add first week commits starting from filterSinceDate to end of the week
+      // if filterSinceDate is not the start of the week
+      if (this.filterSinceDate !== sinceDate) {
+        const firstWeekDateMs = new Date(this.filterSinceDate).getTime();
+        this.pushCommitsWeek(firstWeekDateMs, sinceMs, sinceMs - firstWeekDateMs, res, commits);
+      }
+
+      this.pushCommitsWeek(sinceMs, untilMs, WEEK_IN_MS, res, commits);
+
+      user.commits = res;
+    },
+    pushCommitsWeek(sinceMs, untilMs, durationMs, res, commits) {
       const diff = Math.round(Math.abs((untilMs - sinceMs) / DAY_IN_MS));
 
       for (let weekId = 0; weekId < diff / 7; weekId += 1) {
+
         const startOfWeekMs = sinceMs + (weekId * WEEK_IN_MS);
 
         const week = {
@@ -391,7 +404,7 @@ window.vSummary = {
         // commits, so we are going to check each commit's date and make sure
         // it is within the duration of a week
         while (commits.length > 0
-            && (new Date(commits[0].date)).getTime() < startOfWeekMs + WEEK_IN_MS) {
+        && (new Date(commits[0].date)).getTime() < startOfWeekMs + durationMs) {
           const commit = commits.shift();
           week.insertions += commit.insertions;
           week.deletions += commit.deletions;
@@ -399,9 +412,8 @@ window.vSummary = {
 
         res.push(week);
       }
-
-      user.commits = res;
     },
+
     getUserCommits(user) {
       user.commits = [];
       const userFirst = user.dailyCommits[0];
