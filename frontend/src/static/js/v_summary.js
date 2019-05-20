@@ -391,7 +391,6 @@ window.vSummary = {
       const diff = Math.round(Math.abs((untilMs - sinceMs) / DAY_IN_MS));
 
       for (let weekId = 0; weekId < diff / 7; weekId += 1) {
-
         const startOfWeekMs = sinceMs + (weekId * WEEK_IN_MS);
 
         const week = {
