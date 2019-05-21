@@ -2,6 +2,7 @@ package reposense.parser;
 
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.Date;
 import java.util.List;
@@ -51,6 +52,7 @@ public class ArgsParser {
     private static final String MESSAGE_HEADER_MUTEX = "mutual exclusive arguments";
     private static final String MESSAGE_SINCE_DATE_LATER_THAN_UNTIL_DATE =
             "\"Since Date\" cannot be later than \"Until Date\"";
+    private static final String MESSAGE_DATE_OUT_OF_BOUND = "\"%s\" must be no later than today's date.";
     private static final String MESSAGE_USING_DEFAULT_CONFIG_PATH =
             "Config path not provided, using current working directory as default.";
     private static final Path EMPTY_PATH = Paths.get("");
@@ -174,6 +176,8 @@ public class ArgsParser {
             LogsManager.setLogFolderLocation(outputFolderPath);
 
             verifyDatesRangeIsCorrect(sinceDate, untilDate);
+            verifySinceDateIsValid(sinceDate);
+            verifyUntilDateIsValid(untilDate);
 
             if (reportFolderPath != null && !reportFolderPath.equals(EMPTY_PATH) && configFolderPath.equals(EMPTY_PATH)
                 && locations == null) {
@@ -212,6 +216,28 @@ public class ArgsParser {
             throws ParseException {
         if (sinceDate.isPresent() && untilDate.isPresent() && sinceDate.get().getTime() > untilDate.get().getTime()) {
             throw new ParseException(MESSAGE_SINCE_DATE_LATER_THAN_UNTIL_DATE);
+        }
+    }
+
+    /**
+     * Verifies that {@code sinceDate} is no later than today's date.
+     * @throws ParseException if {@code sinceDate} is later than today's date.
+     */
+    private static void verifySinceDateIsValid(Optional<Date> sinceDate) throws ParseException {
+        long todayDate = new Date().getTime();
+        if (sinceDate.isPresent() && sinceDate.get().getTime() > todayDate) {
+            throw new ParseException(String.format(MESSAGE_DATE_OUT_OF_BOUND, "Since date"));
+        }
+    }
+
+    /**
+     * Verifies that {@code untilDate} is no later than today's date.
+     * @throws ParseException if {@code untilDate} is later than today's date.
+     */
+    private static void verifyUntilDateIsValid(Optional<Date> untilDate) throws ParseException {
+        long todayDate = new Date().getTime();
+        if (untilDate.isPresent() && untilDate.get().getTime() > todayDate) {
+            throw new ParseException(String.format(MESSAGE_DATE_OUT_OF_BOUND, "Until date"));
         }
     }
 }

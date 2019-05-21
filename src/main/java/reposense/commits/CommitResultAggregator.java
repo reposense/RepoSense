@@ -129,9 +129,7 @@ public class CommitResultAggregator {
     }
 
     private static Date getStartDate(List<CommitResult> commitInfos) {
-        Calendar cal = Calendar.getInstance();
-        cal.set(Calendar.YEAR, 2050);
-        Date min = cal.getTime();
+        Date min = new Date(1970);
         if (!commitInfos.isEmpty()) {
             min = commitInfos.get(0).getTime();
         }
@@ -139,9 +137,7 @@ public class CommitResultAggregator {
     }
 
     private static Date getUntilDate(List<CommitResult> commitInfos) {
-        Calendar cal = Calendar.getInstance();
-        cal.set(Calendar.YEAR, 1970);
-        Date max = cal.getTime();
+        Date max = new Date();
         if (!commitInfos.isEmpty()) {
             max = commitInfos.get(commitInfos.size() - 1).getTime();
         }
