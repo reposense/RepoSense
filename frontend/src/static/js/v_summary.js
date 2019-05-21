@@ -165,12 +165,14 @@ window.vSummary = {
       const untilDate = this.filterTimeFrame === 'week' ? addDays(slice.date, 6) : slice.date;
 
       return `http://github.com/${
-        REPOS[user.repoId].location.organization}/${
-        REPOS[user.repoId].location.repoName}/commits/${
-        REPOS[user.repoId].branch}?`
-                + `author=${user.name}&`
-                + `since=${slice.date}'T'00:00:00+08:00&`
-                + `until=${untilDate}'T'23:59:59+08:00`;
+          REPOS[user.repoId].location.organization}/${
+          REPOS[user.repoId].location.repoName}`
+              + ((this.filterTimeFrame === 'commit')
+              ? `/commit/${slice.commitResults[0].hash}`
+              : (`/commits/${REPOS[user.repoId].branch}?`
+                  + `author=${user.name}&`
+                  + `since=${slice.date}'T'00:00:00+08:00&`
+                  + `until=${untilDate}'T'23:59:59+08:00`));
     },
     getFileFormatContributionBars(fileFormatContribution) {
       let totalWidth = 0;
