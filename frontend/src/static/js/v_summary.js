@@ -180,6 +180,14 @@ window.vSummary = {
         REPOS[user.repoId].location.repoName}/commit/${
         slice.commitResults[index].hash}`;
     },
+    getSliceLinkCommit(user, slice, index) {
+      const { REPOS } = window;
+
+      return `http://github.com/${
+        REPOS[user.repoId].location.organization}/${
+        REPOS[user.repoId].location.repoName}/commit/${
+        slice.commitResults[index].hash}`;
+    },
     getFileFormatContributionBars(fileFormatContribution) {
       let totalWidth = 0;
       const contributionLimit = (this.avgContributionSize * 2);
