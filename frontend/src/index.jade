@@ -125,10 +125,10 @@ html
               span breakdown by file format
         #summary-charts
           .summary-charts(v-for="repo of filteredRepos")
-            .summary-charts__title(v-if="filterGroupSelection === 'groupByRepos'") {{ repo[0].repoPath }}&nbsp;&nbsp;
-              .summary-charts__title--contribution(title="Total contribution of group") [{{ getGroupTotalContribution(repo) }} lines]
-            .summary-charts__title(v-if="filterGroupSelection === 'groupByAuthors'") {{ repo[0].displayName }} ({{ repo[0].name }}) {{ repo[0].repoPath }}&nbsp;&nbsp;
-              .summary-charts__title--contribution(title="Total contribution of group") [{{ getGroupTotalContribution(repo) }} lines]
+            .summary-charts__title(v-if="filterGroupSelection === 'groupByRepos'") {{ repo[0].repoPath }}
+              .group-total-contribution Total contribution of group: {{ getGroupTotalContribution(repo) }} lines
+            .summary-charts__title(v-if="filterGroupSelection === 'groupByAuthors'") {{ repo[0].displayName }} ({{ repo[0].name }}) {{ repo[0].repoPath }}
+              .group-total-contribution Total contribution of group: {{ getGroupTotalContribution(repo) }} lines
             .summary-charts__fileformat--breakdown(v-if="filterBreakdown")
               template(v-if="filterGroupSelection === 'groupByRepos'")
                 .summary-charts__fileformat--breakdown__legend(
