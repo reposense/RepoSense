@@ -67,9 +67,11 @@ window.vSummary = {
       this.getFiltered();
     },
     sortGroupSelection() {
+      this.updateSortSelection();
       this.getFiltered();
     },
     sortWithinGroupSelection() {
+      this.updateSortSelection();
       this.getFiltered();
     },
     filterSortReverse() {
