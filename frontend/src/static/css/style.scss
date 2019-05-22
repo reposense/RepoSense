@@ -189,6 +189,10 @@ header{
         display:block;
         text-align:left;
         font-weight:bold;
+
+        .group-total-contribution{
+            font-weight:normal;
+        }
     }
 
     &__fileformat--breakdown{

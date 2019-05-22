@@ -543,6 +543,14 @@ window.vSummary = {
     getGroupCommitsVariance(total, group) {
       return total + group[this.sortingOption];
     },
+
+    getGroupTotalContribution(group) {
+      let totalContribution = 0;
+      group.forEach((ele) => {
+        totalContribution += ele.totalCommits;
+      });
+      return totalContribution;
+    },
   },
   created() {
     this.renderFilterHash();
