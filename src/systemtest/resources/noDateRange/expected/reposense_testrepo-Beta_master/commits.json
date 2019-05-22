@@ -15,54 +15,8 @@
         ]
       }
     ],
-    "CindyTsai1": [
-      {
-        "insertions": 1,
-        "deletions": 0,
-        "date": "2017-10-19",
-        "commitResults": [
-          {
-            "hash": "f45960b264a6c550d98137cebe7cea9bb78fdfcd",
-            "message": "Birthday feature: update person related files",
-            "insertions": 1,
-            "deletions": 0
-          }
-        ]
-      }
-    ],
+    "CindyTsai1": [],
     "April0616": [
-      {
-        "insertions": 1,
-        "deletions": 0,
-        "date": "2017-10-09",
-        "commitResults": [
-          {
-            "hash": "38c72663ef5e8cca0485d44f7462605c162dea00",
-            "message": "Add a remark Label inside PersonListCard.fxml",
-            "insertions": 1,
-            "deletions": 0
-          }
-        ]
-      },
-      {
-        "insertions": 3,
-        "deletions": 1,
-        "date": "2017-10-16",
-        "commitResults": [
-          {
-            "hash": "a460e24bc1b94d009cb572dc920f35cd73c4ee11",
-            "message": "UI: update PersonListCard.fxml",
-            "insertions": 2,
-            "deletions": 0
-          },
-          {
-            "hash": "b4b51938c691351888e0b31646633eed30bebe14",
-            "message": "UI: update PersonCard.java",
-            "insertions": 1,
-            "deletions": 1
-          }
-        ]
-      },
       {
         "insertions": 18,
         "deletions": 7,
@@ -366,10 +320,10 @@
     }
   },
   "authorContributionVariance": {
-    "zacharytang": 344.84183,
-    "CindyTsai1": 0.027006157,
-    "April0616": 1433.8046,
-    "nbr": 495.91364
+    "zacharytang": 490.32968,
+    "CindyTsai1": 0.0,
+    "April0616": 2006.6942,
+    "nbr": 679.0016
   },
   "authorDisplayNameMap": {
     "zacharytang": "Zac",
