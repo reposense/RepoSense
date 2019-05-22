@@ -190,10 +190,10 @@ header{
         text-align:left;
         font-weight:bold;
 
-        .group-total-contribution{
+        &--contribution{
             font-weight:normal;
             display:inline;
-            font-size: 0.6rem;
+            font-size: 0.65rem;
         }
     }
 
