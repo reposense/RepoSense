@@ -6,11 +6,13 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -66,8 +68,8 @@ public class ReportGenerator {
      *
      * @throws IOException if templateZip.zip does not exists in jar file.
      */
-    public static void generateReposReport(List<RepoConfiguration> configs, String outputPath,
-            String generationDate, Date cliSinceDate, Date cliUntilDate) throws IOException {
+    public static void generateReposReport(List<RepoConfiguration> configs, String outputPath, String generationDate,
+            Optional<Date> cliSinceDate, Optional<Date> cliUntilDate) throws IOException {
         InputStream is = RepoSense.class.getResourceAsStream(TEMPLATE_FILE);
         FileUtil.copyTemplate(is, outputPath);
 
@@ -77,8 +79,16 @@ public class ReportGenerator {
         Map<RepoLocation, List<RepoConfiguration>> repoLocationMap = groupConfigsByRepoLocation(configs);
         cloneAndAnalyzeRepos(repoLocationMap, outputPath);
 
-        Date sinceDate = cliSinceDate == null ? earliestSinceDate : cliSinceDate;
-        Date untilDate = cliUntilDate == null ? latestUntilDate : cliUntilDate;
+        Date sinceDate = (cliSinceDate.isPresent()) ? cliSinceDate.get() : null;
+        Date untilDate = (cliUntilDate.isPresent()) ? cliUntilDate.get() : new Date();
+
+        // set sinceDate to one month before untilDate if sinceDate is null.
+        if (sinceDate == null) {
+            Calendar cal = Calendar.getInstance();
+            cal.setTime(untilDate);
+            cal.add(Calendar.MONTH, -1);
+            sinceDate = cal.getTime();
+        }
 
         FileUtil.writeJsonFile(
                 new SummaryReportJson(configs, generationDate, sinceDate, untilDate, RepoSense.getVersion()),
