@@ -98,17 +98,20 @@ The `Tool Bar` at the top provides a set of configuration options that control t
   * Multiple keywords/terms can be used, separated by spaces.
   * Entries that contain _any_ (not necessarily _all_) of the search terms will be displayed.
   * The keywords used to filter author and repository are case-insensitive.
+* `Group by` : denotes whether to group the captured results by
+  * `None` : results will not be grouped in any particular way.
+  * `Repo/Branch` : results will be grouped by repositories and its' associating branches.
+  * `Author` : results will be  grouped by the name of the author. Contributions made to multiple repositories by a particular author will be grouped under the author.
 * `Sort by` : sorting criteria for the Chart Panel
   * `Total Contribution` : the amount of lines, written by the author, in the repository.
   * `Variance` : the [variance](https://en.wikipedia.org/wiki/Variance) of the number of lines that the author has contributed to the repository daily, sorted from low to high.
   * `Author Name` : the author's display name.
   * `Repo/Branch Name` : see note [1] below.
 * `Granularity` : the period of time for which commits are aggregated in the Ramp Chart.
+    * `Commit`: each commit made is represented as one ramp
     * `Day`: commits within a day (commits made within 00:00 to 23:59 in **GMT+8**) are shown as one ramp
     * `Week`:  commits within a week are shown as one ramp
 * `Since`, `Until` : the date range for the Ramp Chart (not applied to the Contribution Bars).
-* `Reverse` : if checked, the sorting will be done in the reverse order of the default sorting order
-* `Group` : if checked, authors from the same repo/branch<sup>[1]</sup> will be grouped together. This has precedence over the `sort by` feature; the `sort by` feature will only change display order of the authors under the same repo/branch<sup>[1]</sup>.
 
 Notes:<br>
 [1] **`Repo/Branch`**: the repo/branch name is constructed as `ORGANIZATION_REPOSITORY_BRANCH` e.g., `resposense_reposense_master`
