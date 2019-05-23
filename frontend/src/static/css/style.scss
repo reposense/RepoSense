@@ -189,6 +189,12 @@ header{
         display:block;
         text-align:left;
         font-weight:bold;
+
+        &--contribution{
+            font-weight:normal;
+            display:inline;
+            font-size: 0.65rem;
+        }
     }
 
     &__fileformat--breakdown{
