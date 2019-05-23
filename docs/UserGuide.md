@@ -280,7 +280,7 @@ The directory used with the `--config` parameter should contain a `repo-config.c
 `repo-config.csv` file contains repo-level config data as follows:
 
 * First row: column headings, ignored by RepoSense
-* Second row: repo data
+* Second row onwards: repo data
 
 Here is an example:
 
@@ -319,6 +319,8 @@ Author's GitHub ID | GitHub username of the target author e.g., `JohnDoe`
 [Optional] Ignore Glob List<sup>*</sup> | Files to ignore for this author, in addition to files ignored by the patterns specified in `repo-config.csv`
 
 <sup>* **Multi-value column**: multiple values can be entered in this column using a semicolon `;` as the separator.</sup>
+
+> Note: the first row consists of config headings, which is ignored by RepoSense.
 
 If `author-config.csv` is not given and the repo has not provide author details in a standalone config file, all the authors of the repositories within the date range specified (if any) will be analyzed.
 
