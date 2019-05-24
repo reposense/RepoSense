@@ -3,6 +3,7 @@ package reposense.parser;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.time.ZoneId;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
@@ -118,7 +119,8 @@ public class ArgsParser {
                 .nargs("*")
                 .metavar("FORMAT")
                 .type(new AlphanumericArgumentType())
-                .setDefault(Format.DEFAULT_FORMAT_STRINGS)
+                //.setDefault(Format.DEFAULT_FORMAT_STRINGS)
+                .setDefault(new ArrayList<String>())
                 .help("The alphanumeric file formats to process.\n"
                         + "If not provided, default file formats will be used.\n"
                         + "Please refer to userguide for more information.");
