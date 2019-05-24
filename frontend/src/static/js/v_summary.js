@@ -172,7 +172,7 @@ window.vSummary = {
                 + `since=${slice.date}'T'00:00:00+08:00&`
                 + `until=${untilDate}'T'23:59:59+08:00`;
     },
-    getSliceLinkCommit(user, slice, index) {
+    getSliceCommitLink(user, slice, index) {
       const { REPOS } = window;
 
       return `http://github.com/${
