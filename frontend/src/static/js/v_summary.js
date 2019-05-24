@@ -90,10 +90,22 @@ window.vSummary = {
         this.filterSinceDate = this.tmpFilterSinceDate;
         this.getFiltered();
       }
+      // If user clears the since date field
+      else if (!this.tmpFilterSinceDate) {
+        this.filterSinceDate = this.minDate;
+        this.tmpFilterSinceDate = this.filterSinceDate;
+        this.getFiltered();
+      }
     },
     tmpFilterUntilDate() {
       if (this.tmpFilterUntilDate && this.tmpFilterUntilDate <= this.maxDate) {
         this.filterUntilDate = this.tmpFilterUntilDate;
+        this.getFiltered();
+      }
+      // If user clears the until date field
+      else if (!this.tmpFilterUntilDate) {
+        this.filterUntilDate = this.maxDate;
+        this.tmpFilterUntilDate = this.filterUntilDate;
         this.getFiltered();
       }
     },
