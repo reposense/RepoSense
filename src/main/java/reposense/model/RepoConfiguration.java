@@ -35,7 +35,8 @@ public class RepoConfiguration {
     private transient AuthorConfiguration authorConfig;
     private transient boolean isStandaloneConfigIgnored;
     private transient List<CommitHash> ignoreCommitList;
-    private transient boolean isFormatsOverriding;
+    private transient boolean isFormatsOverridenByCsvFile;
+    private transient boolean isFormatRestrictionDisabled = false;
     private transient boolean isIgnoreGlobListOverriding;
     private transient boolean isIgnoreCommitListOverriding;
 
@@ -49,7 +50,7 @@ public class RepoConfiguration {
     }
 
     public RepoConfiguration(RepoLocation location, String branch, List<Format> formats, List<String> ignoreGlobList,
-            boolean isStandaloneConfigIgnored, List<CommitHash> ignoreCommitList, boolean isFormatsOverriding,
+            boolean isStandaloneConfigIgnored, List<CommitHash> ignoreCommitList, boolean isFormatsOverridenByCsvFile,
             boolean isIgnoreGlobListOverriding, boolean isIgnoreCommitListOverriding) {
         this.authorConfig = new AuthorConfiguration(location, branch);
         this.location = location;
@@ -58,7 +59,7 @@ public class RepoConfiguration {
         this.isStandaloneConfigIgnored = isStandaloneConfigIgnored;
         this.formats = formats;
         this.ignoreCommitList = ignoreCommitList;
-        this.isFormatsOverriding = isFormatsOverriding;
+        this.isFormatsOverridenByCsvFile = isFormatsOverridenByCsvFile;
         this.isIgnoreGlobListOverriding = isIgnoreGlobListOverriding;
         this.isIgnoreCommitListOverriding = isIgnoreCommitListOverriding;
 
@@ -132,6 +133,8 @@ public class RepoConfiguration {
      * Sets {@code formats} to {@code RepoConfiguration} in {@code configs} if its format list is empty.
      */
     public static void setFormatsToRepoConfigs(List<RepoConfiguration> configs, List<Format> formats) {
+        configs.stream().filter(config -> formats.isEmpty())
+                        .forEach(config -> config.isFormatRestrictionDisabled = true);
         configs.stream().filter(config -> config.getFormats().isEmpty())
                         .forEach(config -> config.setFormats(formats));
     }
@@ -155,7 +158,7 @@ public class RepoConfiguration {
         if (!isIgnoreGlobListOverriding) {
             ignoreGlobList = standaloneConfig.getIgnoreGlobList();
         }
-        if (!isFormatsOverriding) {
+        if (!isFormatsOverridenByCsvFile) {
             formats = Format.convertStringsToFormats(standaloneConfig.getFormats());
         }
         if (!isIgnoreCommitListOverriding) {
@@ -224,7 +227,7 @@ public class RepoConfiguration {
                 && ignoreGlobList.equals(otherRepoConfig.ignoreGlobList)
                 && isStandaloneConfigIgnored == otherRepoConfig.isStandaloneConfigIgnored
                 && formats.equals(otherRepoConfig.formats)
-                && isFormatsOverriding == otherRepoConfig.isFormatsOverriding
+                && isFormatsOverridenByCsvFile == otherRepoConfig.isFormatsOverridenByCsvFile
                 && isIgnoreGlobListOverriding == otherRepoConfig.isIgnoreGlobListOverriding
                 && isIgnoreCommitListOverriding == otherRepoConfig.isIgnoreCommitListOverriding;
     }
@@ -378,8 +381,12 @@ public class RepoConfiguration {
         return isStandaloneConfigIgnored;
     }
 
-    public boolean isFormatsOverriding() {
-        return isFormatsOverriding;
+    public boolean isFormatsOverridenByCsvFile() {
+        return isFormatsOverridenByCsvFile;
+    }
+
+    public boolean isFormatRestrictionDisabled() {
+        return isFormatRestrictionDisabled;
     }
 
     public boolean isIgnoreGlobListOverriding() {
