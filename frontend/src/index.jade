@@ -125,7 +125,7 @@ html
               span breakdown by file format
         #summary-charts
           .summary-charts(v-for="repo of filteredRepos")
-            .summary-charts__title(v-if="filterGroupSelection === 'groupByRepos'") {{ repo[0].repoPath }}
+            .summary-charts__title(v-if="filterGroupSelection === 'groupByRepos'") {{ repo[0].repoName }}
             .summary-charts__title(v-if="filterGroupSelection === 'groupByAuthors'") {{ repo[0].displayName }} ({{ repo[0].name }})
             .summary-charts__fileformat--breakdown(v-if="filterBreakdown")
               template(v-if="filterGroupSelection === 'groupByRepos'")
@@ -145,8 +145,8 @@ html
             .summary-chart(v-for="(user, i) in repo")
               .summary-chart__title
                 .summary-chart__title--index {{ i+1 }}
-                .summary-chart__title--repo(v-if="filterGroupSelection === 'groupByNone'") {{ user.repoPath }}
-                .summary-chart__title--author-repo(v-if="filterGroupSelection === 'groupByAuthors'") {{ user.repoPath }}
+                .summary-chart__title--repo(v-if="filterGroupSelection === 'groupByNone'") {{ user.repoName }}
+                .summary-chart__title--author-repo(v-if="filterGroupSelection === 'groupByAuthors'") {{ user.repoName }}
                 .summary-chart__title--name(v-if="filterGroupSelection !== 'groupByAuthors'") {{ user.displayName }}
                 a(
                   title="click to view author's code",
