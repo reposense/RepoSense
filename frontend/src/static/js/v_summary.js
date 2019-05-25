@@ -172,6 +172,18 @@ window.vSummary = {
                 + `since=${slice.date}'T'00:00:00+08:00&`
                 + `until=${untilDate}'T'23:59:59+08:00`;
     },
+    getRepoLink(repo) {
+      const { REPOS } = window;
+      const urlString = repo.location;
+
+      if (urlString.indexOf('http://github.com/') === 0 || urlString.indexOf('https://github.com/') === 0) {
+        return `https://github.com/${
+          REPOS[repo.repoId].location.organization}/${
+          REPOS[repo.repoId].location.repoName}/tree/${
+          REPOS[repo.repoId].branch}`;
+      }
+      return urlString;
+    },
     getFileFormatContributionBars(fileFormatContribution) {
       let totalWidth = 0;
       const contributionLimit = (this.avgContributionSize * 2);

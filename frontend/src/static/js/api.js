@@ -71,7 +71,7 @@ window.api = {
 
           obj.searchPath = searchParams.join('_').toLowerCase();
           obj.repoName = `${repo.displayName}`;
-          obj.location = `https:/github.com/${repo.location.organization}/${repo.location.repoName}/tree/${repo.branch}`;
+          obj.location = `${repo.location.location}`;
 
           res.push(obj);
         }
