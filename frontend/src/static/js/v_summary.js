@@ -176,7 +176,7 @@ window.vSummary = {
       const { REPOS } = window;
       const urlString = repo.location;
 
-      if (urlString.indexOf('http://github.com/') === 0 || urlString.indexOf('https://github.com/') === 0) {
+      if (urlString.startsWith('http://github.com/') || urlString.startsWith('https://github.com/')) {
         return `https://github.com/${
           REPOS[repo.repoId].location.organization}/${
           REPOS[repo.repoId].location.repoName}/tree/${
