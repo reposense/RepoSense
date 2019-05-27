@@ -151,7 +151,7 @@ html
                 a(
                   title="click to view author's code",
                   v-on:click="$emit('view-authorship', \
-                      {author:user.name, repo:user.repoName, name:user.displayName, location:repo[i].location, \
+                      {author:user.name, repo:user.repoName, name:user.displayName, location:getRepoLink(repo[i]), \
                           minDate:minDate, maxDate:maxDate})"
                 )
                   i.summary-chart__title--button.fas.fa-code
