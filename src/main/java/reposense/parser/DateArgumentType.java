@@ -2,6 +2,7 @@ package reposense.parser;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.Optional;
 
@@ -27,6 +28,15 @@ public class DateArgumentType implements ArgumentType<Optional<Date>> {
 
     @Override
     public Optional<Date> convert(ArgumentParser parser, Argument arg, String value) throws ArgumentParserException {
+        if (value.equals("*")) {
+            Calendar cal = Calendar.getInstance();
+            if (arg.getDest().equals(ArgsParser.SINCE_FLAGS[0])) {
+                cal.set(2000, Calendar.JANUARY, 1);
+            } else {
+                cal.setTime(new Date());
+            }
+            return Optional.of(cal.getTime());
+        }
         try {
             return Optional.of(CLI_ARGS_DATE_FORMAT.parse(value));
         } catch (java.text.ParseException pe) {
