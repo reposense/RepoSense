@@ -12,7 +12,7 @@ import net.sourceforge.argparse4j.inf.ArgumentParserException;
  */
 public class UntilDateArgumentType extends DateArgumentType {
     /**
-     * Returns the date of report generation if user specifies {@value *} in {@code value}, or attempts to return
+     * Returns the date of report generation if user specifies * in {@code value}, or attempts to return
      * the desired date otherwise.
      */
     @Override
