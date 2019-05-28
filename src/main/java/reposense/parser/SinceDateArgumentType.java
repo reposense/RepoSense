@@ -18,7 +18,7 @@ public class SinceDateArgumentType extends DateArgumentType {
      * Then, RepoConfiguration will set sinceDate in all repo configurations to null.
      * Also, ReportGenerator will replace the arbitrary since date with the earliest commit date.
      */
-    public static final Date ARBITRARY_SINCE_DATE = new GregorianCalendar(2050, Calendar.JANUARY,
+    public static final Date ARBITRARY_SINCE_DATE = new GregorianCalendar(1, Calendar.JANUARY,
             1).getTime();
 
     /**
