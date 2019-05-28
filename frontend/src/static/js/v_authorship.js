@@ -146,7 +146,7 @@ window.vAuthorship = {
         const content = line.content || ' ';
         segments[lastId].lines.push(content);
 
-        segments[lastId].lineNumbers.push(lineCount);
+        segments[lastId].lineNumbers.push(lineCount + 1);
 
         if (line.content === '' && authored) {
           blankLineCount += 1;
