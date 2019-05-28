@@ -98,19 +98,29 @@ The `Tool Bar` at the top provides a set of configuration options that control t
   * Multiple keywords/terms can be used, separated by spaces.
   * Entries that contain _any_ (not necessarily _all_) of the search terms will be displayed.
   * The keywords used to filter author and repository are case-insensitive.
+  
 * `Group by` : denotes whether to group the captured results by
   * `None` : results will not be grouped in any particular way.
   * `Repo/Branch` : results will be grouped by repositories and its' associating branches.
   * `Author` : results will be  grouped by the name of the author. Contributions made to multiple repositories by a particular author will be grouped under the author.
-* `Sort by` : sorting criteria for the Chart Panel
-  * `Total Contribution` : the amount of lines, written by the author, in the repository.
-  * `Variance` : the [variance](https://en.wikipedia.org/wiki/Variance) of the number of lines that the author has contributed to the repository daily, sorted from low to high.
-  * `Author Name` : the author's display name.
-  * `Repo/Branch Name` : see note [1] below.
+  
+* `Sort groups by`: sorting criteria for the main group
+  * `Name` : groups will be sorted by GitHub ID in alphabetical order.
+  * `Repo/branch` : groups will be sorted in alphabetical order by the name of the repo, followed by name of the branch. See note [1] below.
+  * `Contribution` : groups will be sorted by the total combined contributions within a group, in the order of number of lines added
+  * `Variance` : the [variance](https://en.wikipedia.org/wiki/Variance) of the number of lines that the group has contributed to the repository daily.
+
+* `Sort within groups by`: sorting criteria within a group
+  * `Name` : sorted by GitHub ID in alphabetical order.
+  * `Repo/branch` : sorted in alphabetical order by the name of the repo, followed by name of the branch. See note [1] below.
+  * `Contribution` : sorted by individual contributions in the order of number of lines added
+  * `Variance` : the [variance](https://en.wikipedia.org/wiki/Variance) of the number of lines that the group has contributed to the repository daily.
+  
 * `Granularity` : the period of time for which commits are aggregated in the Ramp Chart.
-    * `Commit`: each commit made is represented as one ramp
+    * `Commit`: each commit made is shown as one ramp
     * `Day`: commits within a day (commits made within 00:00 to 23:59 in **GMT+8**) are shown as one ramp
     * `Week`:  commits within a week are shown as one ramp
+    
 * `Since`, `Until` : the date range for the Ramp Chart (not applied to the Contribution Bars).
 
 Notes:<br>
