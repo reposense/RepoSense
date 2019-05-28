@@ -27,7 +27,7 @@ public class SinceDateArgumentType extends DateArgumentType {
      */
     @Override
     public Optional<Date> convert(ArgumentParser parser, Argument arg, String value) throws ArgumentParserException {
-        if (value.equals("*")) {
+        if ("*".equals(value)) {
             return Optional.of(ARBITRARY_SINCE_DATE);
         }
         return super.convert(parser, arg, value);
