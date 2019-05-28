@@ -2,6 +2,408 @@
   "authorDailyContributionsMap": {
     "charlesgoh": [
       {
+        "insertions": 57,
+        "deletions": 0,
+        "date": "2017-09-30",
+        "commitResults": [
+          {
+            "hash": "2d6d546be54937d95582ba205ac5b892b5022121",
+            "message": "[W09-B2][SORT] Added sort command class",
+            "insertions": 53,
+            "deletions": 0
+          },
+          {
+            "hash": "46e2ef8220ab4ce6ce5f05dc076ce88ec115dfe7",
+            "message": "[SORT] Added constant for invalid message input",
+            "insertions": 4,
+            "deletions": 0
+          }
+        ]
+      },
+      {
+        "insertions": 408,
+        "deletions": 96,
+        "date": "2017-10-01",
+        "commitResults": [
+          {
+            "hash": "353cbca2cca5671ddb0d358e4bf07ef838221a2a",
+            "message": "[W09-B2] Added more Non Functional Requirements to the Developer Guide",
+            "insertions": 7,
+            "deletions": 2
+          },
+          {
+            "hash": "b24f318790a623c1d96527601b0d3fe78bdc9f75",
+            "message": "[W09-B2] Added several glossary terminologies used in the NFR section",
+            "insertions": 36,
+            "deletions": 1
+          },
+          {
+            "hash": "4227b44398f4cb26cb19d9df767c8f40f14aada9",
+            "message": "[W09-B2] Changed repo URL to organization\u0027s new repo URL",
+            "insertions": 2,
+            "deletions": 2
+          },
+          {
+            "hash": "0326886be0e3e114d768a4e203c77200e6e8c72d",
+            "message": "[SORT][PARSER] Added sort command case to main address book parser",
+            "insertions": 31,
+            "deletions": 40
+          },
+          {
+            "hash": "c1f9678fb4f1b5526defd56c2852f3d97a80d7a0",
+            "message": "[SORT][PARSER][FIX] Changed redirect to SortCommandParser instead of SortCommand",
+            "insertions": 1,
+            "deletions": 1
+          },
+          {
+            "hash": "02d05c1a9f80131f093e2bf997c0e569eee59998",
+            "message": "[SORT][COMMANDPARSER] Added SortCommandParser to receive args and offload to Sort Command instance",
+            "insertions": 51,
+            "deletions": 8
+          },
+          {
+            "hash": "caa553b4c2b8e8e059f02f4292cfcb43fa3ed274",
+            "message": "[SORT][COMMANDPARSER] Changed ParseExceptionError message for the input check",
+            "insertions": 2,
+            "deletions": 1
+          },
+          {
+            "hash": "e56dcd92e2cbc18820f0b8c8d9d4f6f03c572ebb",
+            "message": "[FIX][SORT][COMMANDPARSER] Fixed missing Parentheses",
+            "insertions": 1,
+            "deletions": 1
+          },
+          {
+            "hash": "782ef34302fec717096325e842f9a4fbae5d167a",
+            "message": "[SORT][COMMAND] Set up Sort Command instance",
+            "insertions": 27,
+            "deletions": 29
+          },
+          {
+            "hash": "c5559d57c8f07970fd1ecc59625bb7434f5a4b33",
+            "message": "[UNIQUEPERSONLIST] Added bulk of sort functionality operations to the UniquePersonList class",
+            "insertions": 83,
+            "deletions": 0
+          },
+          {
+            "hash": "d789cc6a3de9c99d7a389ca3d19373f3d3edd2a2",
+            "message": "[UNIQUEPERSONCLASS] Added dependency for collection comments",
+            "insertions": 1,
+            "deletions": 4
+          },
+          {
+            "hash": "2681720499aa311feb5fcaac19ce89c28f3569d7",
+            "message": "[MODEL][MANAGER] Transfered sort command control to Model Manager",
+            "insertions": 13,
+            "deletions": 1
+          },
+          {
+            "hash": "2afc6dba4019ca0cf7d16a7086e6f2ff48dde107",
+            "message": "[SORT][ADDRESSBOOK] Control pass through modelmanager to AddressBook before going into unique person list",
+            "insertions": 11,
+            "deletions": 1
+          },
+          {
+            "hash": "d0f6f96436fdbc22d89db97c4db3f4178940090f",
+            "message": "[SORT][TEST] Added overriding test method to AddCommandTest to prevent crash",
+            "insertions": 5,
+            "deletions": 0
+          },
+          {
+            "hash": "612fc148c213a9acd7853af54ebe3ca1f1c5794d",
+            "message": "[UPDATE][USERGUIDE] Updated user guide with instructions and info on the sort command",
+            "insertions": 20,
+            "deletions": 0
+          },
+          {
+            "hash": "5c4d8202a8702204c463e7f8d84de7ce4b77aedf",
+            "message": "[SORT][LOGICTESTS] Added logic tests to test sorting functionality",
+            "insertions": 117,
+            "deletions": 5
+          }
+        ]
+      },
+      {
+        "insertions": 3,
+        "deletions": 3,
+        "date": "2017-10-02",
+        "commitResults": [
+          {
+            "hash": "b9f8145f7733608429a416eda88a67e1ecb9d779",
+            "message": "[UI][ICON] Changed UI logo icon",
+            "insertions": 3,
+            "deletions": 3
+          }
+        ]
+      },
+      {
+        "insertions": 68,
+        "deletions": 46,
+        "date": "2017-10-04",
+        "commitResults": [
+          {
+            "hash": "f83f8257aa71a025507e981472fd62e4dc6ea3c9",
+            "message": "[SORT][CLEANUP] Deleted unused import statements from SortCommand",
+            "insertions": 0,
+            "deletions": 3
+          },
+          {
+            "hash": "37e6a49381d1212a1e66f54b4b2ab85d99fdd92b",
+            "message": "[IMPORTS] Moved some imports to conform to coding style",
+            "insertions": 3,
+            "deletions": 3
+          },
+          {
+            "hash": "b19fda39da1f1b1bac2f10bf5c43b7e2c3746079",
+            "message": "[SORT][CLEANUP] Reordered import statements to comply with coding standards",
+            "insertions": 19,
+            "deletions": 2
+          },
+          {
+            "hash": "3f424bf6c2218cf4a2e3bf13376dcfbbf31f3555",
+            "message": "[SORT][CLEANUP] Ported sorting comparators to sortBy function",
+            "insertions": 37,
+            "deletions": 31
+          },
+          {
+            "hash": "1a1a911944dcf5b8413f08a250feb227f03fcb2d",
+            "message": "[SORT][CLEANUP] Deleted unused comments in SortCommand class",
+            "insertions": 0,
+            "deletions": 3
+          },
+          {
+            "hash": "82ca93e46977e2d68aa4f273a773489369461d82",
+            "message": "[SORT][CLEANUP] Added missing Javadoc to SortCommandParser to comply with coding standard",
+            "insertions": 3,
+            "deletions": 0
+          },
+          {
+            "hash": "1196afc35a33ee7a5d756ef78326a7c50845b088",
+            "message": "[CLEANUP] Deleted unused imports in AddressBookTest",
+            "insertions": 0,
+            "deletions": 3
+          },
+          {
+            "hash": "f1da74aa20a35445170d7e01c290af56d3b72146",
+            "message": "[CODESTYLE] Swapped out import statements to adhere to coding standard",
+            "insertions": 6,
+            "deletions": 1
+          }
+        ]
+      },
+      {
+        "insertions": 7,
+        "deletions": 45,
+        "date": "2017-10-07",
+        "commitResults": [
+          {
+            "hash": "c6d1364b189e99cf8b295ae875c5b5322c718ae6",
+            "message": "[W7.7][v1.0][DEVDOCS] Tweaked some flawed user stories",
+            "insertions": 3,
+            "deletions": 3
+          },
+          {
+            "hash": "d3f78740e1aa082f229f5e3884d69ce76953fc82",
+            "message": "[W7.7][DEV][NFR + Glossary] Edited some NFRs and deleted redundant glossary terms",
+            "insertions": 3,
+            "deletions": 41
+          },
+          {
+            "hash": "3aaf118379639ecfd2953d15e594c7c825fec593",
+            "message": "[W7.7] Added newline before eof to prevent check failure",
+            "insertions": 1,
+            "deletions": 1
+          }
+        ]
+      },
+      {
+        "insertions": 22,
+        "deletions": 30,
+        "date": "2017-10-09",
+        "commitResults": [
+          {
+            "hash": "3e1163989004168ba2098d96892dd3d5003de51d",
+            "message": "[ABOUTUS] Updated project team details",
+            "insertions": 22,
+            "deletions": 30
+          }
+        ]
+      },
+      {
+        "insertions": 17,
+        "deletions": 6,
+        "date": "2017-10-10",
+        "commitResults": [
+          {
+            "hash": "0f613cac77436af43e971da16c536d72400cbc59",
+            "message": "[USERGUIDE] Added user guide for possible extension --\u003e Exporting data functionality",
+            "insertions": 6,
+            "deletions": 0
+          },
+          {
+            "hash": "5d112ab486bffacb89d79c529d02c8de48b76f20",
+            "message": "[USERGUIDE] Added documentation for possible feature --\u003e Integration with google calendar",
+            "insertions": 7,
+            "deletions": 6
+          },
+          {
+            "hash": "bcfd019dc9e099acdd5d0de5cf4bef669054d5e7",
+            "message": "[USERGUIDE] Added docs for potential feature --\u003e Autocomplete",
+            "insertions": 4,
+            "deletions": 0
+          }
+        ]
+      },
+      {
+        "insertions": 28,
+        "deletions": 34,
+        "date": "2017-10-11",
+        "commitResults": [
+          {
+            "hash": "148fd2871178ef5ffeddadc100d12369822386cb",
+            "message": "[README] Increased width of UI mockup image",
+            "insertions": 1,
+            "deletions": 1
+          },
+          {
+            "hash": "dce8758548f51b8ac33d4bea910fdd809a06b52c",
+            "message": "Revert \"Update UserGuide.adoc\"",
+            "insertions": 27,
+            "deletions": 33
+          }
+        ]
+      },
+      {
+        "insertions": 90,
+        "deletions": 3,
+        "date": "2017-10-15",
+        "commitResults": [
+          {
+            "hash": "c35162a9c9c769064da3e5a82f54f4621c5db792",
+            "message": "[DEV][DOCS][SORT] Added developer guide for sort implementation",
+            "insertions": 41,
+            "deletions": 0
+          },
+          {
+            "hash": "f51c9ed5cefb8683d5acb8f80fa172d6a821476f",
+            "message": "[README] Added codacy status badge",
+            "insertions": 2,
+            "deletions": 1
+          },
+          {
+            "hash": "453de84da34996e6e76543a74ae23f0698310b1e",
+            "message": "[UI][PERSONCARD][TAG] Added random colours for PersonCard tags",
+            "insertions": 47,
+            "deletions": 2
+          }
+        ]
+      },
+      {
+        "insertions": 30,
+        "deletions": 3,
+        "date": "2017-10-17",
+        "commitResults": [
+          {
+            "hash": "3be877cc49c6df32f6e9580fcee6db17684af4e8",
+            "message": "[UI][PERSONCARD][IMPORTS] Added import dependencies for Random and HashMap",
+            "insertions": 3,
+            "deletions": 0
+          },
+          {
+            "hash": "cb819a57cf5c30b88cb30957d3b4caa83064cadf",
+            "message": "[UI] Added person count indicator to UI footer",
+            "insertions": 11,
+            "deletions": 3
+          },
+          {
+            "hash": "aff037723621444a128f32c95cbc4efed2b1eb59",
+            "message": "[STORAGE] Added new backup method",
+            "insertions": 16,
+            "deletions": 0
+          }
+        ]
+      },
+      {
+        "insertions": 97,
+        "deletions": 53,
+        "date": "2017-10-18",
+        "commitResults": [
+          {
+            "hash": "d6c145c9264d00049d4994f99b28a53c2d35f7c8",
+            "message": "[LOGIC] Changed file path to more intuitive option --\u003e full path + filename + extension",
+            "insertions": 6,
+            "deletions": 8
+          },
+          {
+            "hash": "ede8dff5ede5bafe6fe63cbd7b9ce4226034a4e1",
+            "message": "[ABPARSER] Added BackupCommand cases and sort command alias case",
+            "insertions": 6,
+            "deletions": 0
+          },
+          {
+            "hash": "1bdf842dfb034268344a28a418c161d5389fe3e3",
+            "message": "[BACKUPCOMMAND] Added high level calls. Unable to access storage component",
+            "insertions": 66,
+            "deletions": 0
+          },
+          {
+            "hash": "85149b5548d5bb4fb718d8f6eee5771ed00278a9",
+            "message": "[BACKUP][INPROGRESS] Buggy implementation of Backup command",
+            "insertions": 19,
+            "deletions": 45
+          }
+        ]
+      },
+      {
+        "insertions": 31,
+        "deletions": 10,
+        "date": "2017-10-19",
+        "commitResults": [
+          {
+            "hash": "48e7349a8b39057b35b48f7481be4a8b93cd28d0",
+            "message": "[BACKUP] Implemented basic functionality for backup command. Backs up to same directory. Tests to be fixed in future commits",
+            "insertions": 12,
+            "deletions": 3
+          },
+          {
+            "hash": "cef8594a11a1cb977947ec0ffd8c0ae2e5ca7db9",
+            "message": "[FIX] Added missing imports in PersonCard class",
+            "insertions": 3,
+            "deletions": 0
+          },
+          {
+            "hash": "224396d91dec757f3032e50f4a26f580250c802e",
+            "message": "[MAINWINDOW] Fixed checkstyle error regarding overly long line",
+            "insertions": 2,
+            "deletions": 1
+          },
+          {
+            "hash": "ee8fd3fd611b2ef2f030568ad2492a3b3d6b6992",
+            "message": "[TEMPFIX] Overloaded Logic object constructor to allow old tests to run without depending on storage components",
+            "insertions": 9,
+            "deletions": 0
+          },
+          {
+            "hash": "e158390e79637c1081d6564a106e128e2d50ee49",
+            "message": "[FIX] Minor fixes for travis fails",
+            "insertions": 3,
+            "deletions": 4
+          },
+          {
+            "hash": "e948b199cb1c7d194941260ff9ca076704f2da5f",
+            "message": "[REMARK][GUI] Added remark placeholder to GUI",
+            "insertions": 2,
+            "deletions": 0
+          },
+          {
+            "hash": "f7e225068edb6ae10d3c1069aaf8cad360fa9112",
+            "message": "Revert \"[REMARK][GUI] Added remark placeholder to GUI\"",
+            "insertions": 0,
+            "deletions": 2
+          }
+        ]
+      },
+      {
         "insertions": 88,
         "deletions": 9,
         "date": "2017-10-20",
@@ -2013,6 +2415,398 @@
     ],
     "jeffreygohkw": [
       {
+        "insertions": 6,
+        "deletions": 7,
+        "date": "2017-10-01",
+        "commitResults": [
+          {
+            "hash": "c09066472339c25b85f2e4d063f7105ad5a13084",
+            "message": "[SETUP] Update CI, User Guide and Developer Guide URL",
+            "insertions": 5,
+            "deletions": 6
+          },
+          {
+            "hash": "935504a610cf33eea499d085c29068bdd8926672",
+            "message": "[SETUP] Update Appveyor link",
+            "insertions": 1,
+            "deletions": 1
+          }
+        ]
+      },
+      {
+        "insertions": 43,
+        "deletions": 3,
+        "date": "2017-10-02",
+        "commitResults": [
+          {
+            "hash": "91e7bb480da830d2b921d6524a1259e781f1273e",
+            "message": "[W09-B2] Add User Stories",
+            "insertions": 43,
+            "deletions": 1
+          },
+          {
+            "hash": "f470752973f5f97d1b3e10c4ea3ff2f27cae43af",
+            "message": "[W09-B2] Remove \u0027More to be Added\u0027",
+            "insertions": 0,
+            "deletions": 2
+          }
+        ]
+      },
+      {
+        "insertions": 46,
+        "deletions": 0,
+        "date": "2017-10-03",
+        "commitResults": [
+          {
+            "hash": "4c3b1318b6d20aebb7d3dc672e5cf3f2ce9b70d7",
+            "message": "Add Open and Save As Buttons into UI",
+            "insertions": 46,
+            "deletions": 0
+          }
+        ]
+      },
+      {
+        "insertions": 57,
+        "deletions": 5,
+        "date": "2017-10-04",
+        "commitResults": [
+          {
+            "hash": "9a9c49d8b8b53a4e179f44c9987193b54fcbc648",
+            "message": "Add Method to change file path of save file",
+            "insertions": 13,
+            "deletions": 0
+          },
+          {
+            "hash": "da0b9dfd2e724d4edcbbbe294262e182694b6fa6",
+            "message": "Add windows for Open and Save As buttons.",
+            "insertions": 44,
+            "deletions": 5
+          }
+        ]
+      },
+      {
+        "insertions": 141,
+        "deletions": 35,
+        "date": "2017-10-08",
+        "commitResults": [
+          {
+            "hash": "ca3063fc1ecffa27f04deac48d11d39178eac890",
+            "message": "Add Open and Save As Functionality",
+            "insertions": 60,
+            "deletions": 4
+          },
+          {
+            "hash": "47b46c20f582fc0558c5b99cce394862ddf2d64e",
+            "message": "Add Keyboard shortcuts for Open, Save As and Exit",
+            "insertions": 17,
+            "deletions": 5
+          },
+          {
+            "hash": "ca565565c66ad4af7d28adfc78c499e547b87fd3",
+            "message": "Update User Guide",
+            "insertions": 6,
+            "deletions": 0
+          },
+          {
+            "hash": "5b341908ad01f403435675d4e0fb1bb1d8f15137",
+            "message": "Update User Guide",
+            "insertions": 9,
+            "deletions": 0
+          },
+          {
+            "hash": "61b2be798bb0b5033ef20bfb228e3a65ed07fcb2",
+            "message": "Fix Typo in User Guide",
+            "insertions": 2,
+            "deletions": 2
+          },
+          {
+            "hash": "9fec4bea54a7749851cad7d58c88a5b2c5cf336f",
+            "message": "Remove whitespace in User Guide",
+            "insertions": 47,
+            "deletions": 24
+          }
+        ]
+      },
+      {
+        "insertions": 1,
+        "deletions": 1,
+        "date": "2017-10-09",
+        "commitResults": [
+          {
+            "hash": "78a0f49ff728957fe8fc1a4fe7b761276eb3e8c3",
+            "message": "Update Travis link in README",
+            "insertions": 1,
+            "deletions": 1
+          }
+        ]
+      },
+      {
+        "insertions": 84,
+        "deletions": 3,
+        "date": "2017-10-10",
+        "commitResults": [
+          {
+            "hash": "61bd76dd06647d37d025a0aece46ef14d479a9a5",
+            "message": "Add Browser, Privacy and Budget to User Guide",
+            "insertions": 82,
+            "deletions": 1
+          },
+          {
+            "hash": "629a84b2b5ad7da0a591512c08fe9af27e268526",
+            "message": "Update Travis and Coveralls link",
+            "insertions": 2,
+            "deletions": 2
+          }
+        ]
+      },
+      {
+        "insertions": 10,
+        "deletions": 3,
+        "date": "2017-10-11",
+        "commitResults": [
+          {
+            "hash": "af2b5179f22243e1ee8f470f99fb4db6a3e911e5",
+            "message": "Add shorthand for sort",
+            "insertions": 2,
+            "deletions": 0
+          },
+          {
+            "hash": "0a0f3019b5babd56c157c849f91b0d7a0fdff800",
+            "message": "Update User Guide",
+            "insertions": 1,
+            "deletions": 0
+          },
+          {
+            "hash": "99c376754e29ae99eabe79f1d9ba157ee89e19ba",
+            "message": "Modify Sort to be Undoable",
+            "insertions": 5,
+            "deletions": 2
+          },
+          {
+            "hash": "a9ff3373b1a8c0f5997b76a73fa5107f159febcd",
+            "message": "Update User Guide",
+            "insertions": 2,
+            "deletions": 1
+          }
+        ]
+      },
+      {
+        "insertions": 38,
+        "deletions": 2,
+        "date": "2017-10-12",
+        "commitResults": [
+          {
+            "hash": "e917c3effd3547a33ce08cb90ea9c46aa23817cc",
+            "message": "Add SortCommandParserTest",
+            "insertions": 38,
+            "deletions": 0
+          },
+          {
+            "hash": "4d9ca2fbee7fbafaa575e7034dba5ced8ca63013",
+            "message": "Remove unused import statement in SortCommandParserTest",
+            "insertions": 0,
+            "deletions": 2
+          }
+        ]
+      },
+      {
+        "insertions": 145,
+        "deletions": 40,
+        "date": "2017-10-13",
+        "commitResults": [
+          {
+            "hash": "f951ee3886aa6545c2cd4260e82b036eff413164",
+            "message": "Update SortCommandParser test case",
+            "insertions": 5,
+            "deletions": 0
+          },
+          {
+            "hash": "a005ffe3776b054a06959f3123db72b773fe262b",
+            "message": "Add isPrivate to all Person fields",
+            "insertions": 42,
+            "deletions": 5
+          },
+          {
+            "hash": "a0ed7556afc3f361347ddf2909915dd48f5f63fd",
+            "message": "Update XmlAdapterPerson",
+            "insertions": 14,
+            "deletions": 4
+          },
+          {
+            "hash": "ad59c6609bcb82dae1bb4cca5be0c611e7d3784a",
+            "message": "Update SampleDataUtil",
+            "insertions": 12,
+            "deletions": 12
+          },
+          {
+            "hash": "3fde991506b189e4c45e0f35f49e16b440155ccf",
+            "message": "Modify AddCommandParser and Prefixes for AddCommand",
+            "insertions": 23,
+            "deletions": 2
+          },
+          {
+            "hash": "220b4c0d42f77f440bbf2c7931cc04ee8ebe2c88",
+            "message": "Modify AddCommandParser to parse private data",
+            "insertions": 49,
+            "deletions": 17
+          }
+        ]
+      },
+      {
+        "insertions": 76,
+        "deletions": 12,
+        "date": "2017-10-14",
+        "commitResults": [
+          {
+            "hash": "a246ad2d45ee0dd71052df3564fb0ba286260977",
+            "message": "Modify constructor for Phone, Address, Email and Name",
+            "insertions": 24,
+            "deletions": 8
+          },
+          {
+            "hash": "3af55f438c5be21029a6d2fb3c32c5d59afe2f5f",
+            "message": "Modify constructor for Phone, Address, Email and Name",
+            "insertions": 4,
+            "deletions": 4
+          },
+          {
+            "hash": "77ed32c36d6133ff5e3efda6a928562fbc94b48e",
+            "message": "Modify ParserUtil and XmlAdaptedPerson",
+            "insertions": 48,
+            "deletions": 0
+          }
+        ]
+      },
+      {
+        "insertions": 254,
+        "deletions": 57,
+        "date": "2017-10-15",
+        "commitResults": [
+          {
+            "hash": "55b3155b4f864147a1da5f2a2d76711023f86a37",
+            "message": "Update getSamplePersons in SampleDataUtil.java",
+            "insertions": 12,
+            "deletions": 12
+          },
+          {
+            "hash": "0c32011671b1a5d1d5c5459d7eeddc52357acc48",
+            "message": "Add saving of privacy in XmlAdaptedPerson",
+            "insertions": 4,
+            "deletions": 0
+          },
+          {
+            "hash": "c950c60ac8fca789a609baf4a4ab58d8eade41ed",
+            "message": "Modify toString in Address, Email, Name and Phone",
+            "insertions": 12,
+            "deletions": 0
+          },
+          {
+            "hash": "695cbc1b081e8ea9f9dd1ac718145fecbb0e2087",
+            "message": "Modify EditCommand to not edit private fields",
+            "insertions": 29,
+            "deletions": 4
+          },
+          {
+            "hash": "ab8dfc398fc5fdc342e7196ac6a99fa0b94922df",
+            "message": "Add ChangePrivacyCommand class",
+            "insertions": 128,
+            "deletions": 0
+          },
+          {
+            "hash": "4b5b6327eafe96c14ca86037c465a050c1acedd4",
+            "message": "Modify ParserUtil to fit checkstyle",
+            "insertions": 29,
+            "deletions": 24
+          },
+          {
+            "hash": "25c9c8bfba000b770ad057d131a0698e87196bcc",
+            "message": "Modify PersonPrivacySettings",
+            "insertions": 40,
+            "deletions": 17
+          }
+        ]
+      },
+      {
+        "insertions": 124,
+        "deletions": 15,
+        "date": "2017-10-16",
+        "commitResults": [
+          {
+            "hash": "44012dcf69bfe7709b4491057a21ce0194d5853a",
+            "message": "Modify toString output for private fields",
+            "insertions": 4,
+            "deletions": 4
+          },
+          {
+            "hash": "12207e66c3f9e500cd9beb56a7ed53208c7e5f08",
+            "message": "Modify BrowserPanel to print a message when searching private name",
+            "insertions": 16,
+            "deletions": 2
+          },
+          {
+            "hash": "a393f8b1840ccc12a2756ccff7a456f92c084430",
+            "message": "Fix Typo in BrowserPanel",
+            "insertions": 2,
+            "deletions": 2
+          },
+          {
+            "hash": "0f6b61f84eb3e65b8c1cbdfcff802a6e5f5f7d7f",
+            "message": "Remove unused Constructor for PersonPrivacySettings",
+            "insertions": 0,
+            "deletions": 4
+          },
+          {
+            "hash": "821a743d3ad798aab890da8b179cb432e170dcca",
+            "message": "Add Test Case for private Address, Email, Name and Phone",
+            "insertions": 36,
+            "deletions": 0
+          },
+          {
+            "hash": "1b3a040c8b8d1137d12655e9107f30a9a09c725e",
+            "message": "Fix checkstyle for import statement",
+            "insertions": 4,
+            "deletions": 0
+          },
+          {
+            "hash": "09649191745d26a5d268bc816b32d45ea1e27219",
+            "message": "Update EditCommandTest to test for private fields",
+            "insertions": 57,
+            "deletions": 0
+          },
+          {
+            "hash": "04c44b57a5e552107c8100a1f6efa04911433475",
+            "message": "Fix typo in CommandTestUtil",
+            "insertions": 0,
+            "deletions": 3
+          },
+          {
+            "hash": "6a2127e65e149b793f4236fa07e303869b9e58d3",
+            "message": "Fix bug in EditCommandTest",
+            "insertions": 5,
+            "deletions": 0
+          }
+        ]
+      },
+      {
+        "insertions": 81,
+        "deletions": 0,
+        "date": "2017-10-19",
+        "commitResults": [
+          {
+            "hash": "b7b4a4c343b2d78bb502b1d923977dacf354e0f2",
+            "message": "Update UserGuide",
+            "insertions": 3,
+            "deletions": 0
+          },
+          {
+            "hash": "6a0f912f5bc70cd23097020ff89f1fc1fe6b88f0",
+            "message": "Update DeveloperGuide to include Privacy of fields",
+            "insertions": 78,
+            "deletions": 0
+          }
+        ]
+      },
+      {
         "insertions": 44,
         "deletions": 6,
         "date": "2017-10-21",
@@ -3370,6 +4164,358 @@
       }
     ],
     "Esilocke": [
+      {
+        "insertions": 94,
+        "deletions": 1,
+        "date": "2017-10-01",
+        "commitResults": [
+          {
+            "hash": "a06792f28283c3f1f6ccff08808e67dc7b55e3af",
+            "message": "Documentation: Add use cases for search and edit",
+            "insertions": 64,
+            "deletions": 1
+          },
+          {
+            "hash": "ef1d1ba722517747c9bc1a925db16cb624deee4f",
+            "message": "Documentation: Add use cases for undo/redo",
+            "insertions": 30,
+            "deletions": 0
+          }
+        ]
+      },
+      {
+        "insertions": 52,
+        "deletions": 44,
+        "date": "2017-10-03",
+        "commitResults": [
+          {
+            "hash": "9cc5fd0eb41aa5a86a39c9d7691831c99b59793c",
+            "message": "Model: Attempted to remove null-checks for model classes, in preparation for allowing of optional data.",
+            "insertions": 0,
+            "deletions": 5
+          },
+          {
+            "hash": "1aacd8e852b0f7b81032658ae875e570967308ae",
+            "message": "Model: Restored null-check for Name class as names are required and cannot be left blank",
+            "insertions": 1,
+            "deletions": 0
+          },
+          {
+            "hash": "ac81016508d6a8cc220d5639e92507b5e196d14a",
+            "message": "Model: Lifted restrictions on data validation. Empty data may not be submitted into the address book.",
+            "insertions": 18,
+            "deletions": 3
+          },
+          {
+            "hash": "6fee1e117b5090516cb295c006a97a8e2a6dce12",
+            "message": "Documentation: Changed repo URL of DG to match organization name",
+            "insertions": 1,
+            "deletions": 1
+          },
+          {
+            "hash": "36e104e205e4a314a327d86f91382fb10ac9e772",
+            "message": "Documentation: Add use case for sorting",
+            "insertions": 25,
+            "deletions": 0
+          },
+          {
+            "hash": "2e39d6d5efe5d8282b3ca4f26b30ea9f3e43a1bb",
+            "message": "Model: Enforced coding standards and removed unused import statements",
+            "insertions": 3,
+            "deletions": 9
+          },
+          {
+            "hash": "241125a71c8f2b37aa0e330f741e2a2d22ed8202",
+            "message": "Documentation: Updated user guide to reflect potential changes in data validation",
+            "insertions": 2,
+            "deletions": 1
+          },
+          {
+            "hash": "670e48b51901845026ec7ce5e51d687bafbaaf6e",
+            "message": "JUnit: Removed certain obsolete JUnit tests with the implementation of optional data input",
+            "insertions": 2,
+            "deletions": 25
+          }
+        ]
+      },
+      {
+        "insertions": 1,
+        "deletions": 2,
+        "date": "2017-10-04",
+        "commitResults": [
+          {
+            "hash": "faf8b799044f4eca93347567131b80ef73378917",
+            "message": "Minor: Attempt to rerun Travis",
+            "insertions": 1,
+            "deletions": 0
+          },
+          {
+            "hash": "34e782b69a643452200e092e9d8d9338332dad88",
+            "message": "Minor: Removed trailing whitespaces",
+            "insertions": 0,
+            "deletions": 1
+          },
+          {
+            "hash": "cdee2f9772964fa0afa0f35d7feea84e1dbdd47c",
+            "message": "Minor: Removed unused import statement",
+            "insertions": 0,
+            "deletions": 1
+          }
+        ]
+      },
+      {
+        "insertions": 7,
+        "deletions": 10,
+        "date": "2017-10-07",
+        "commitResults": [
+          {
+            "hash": "ef391820b7774d3d62b76275eb68e8ba66a87772",
+            "message": "Documentation: Fix extension lettering",
+            "insertions": 6,
+            "deletions": 6
+          },
+          {
+            "hash": "210a367583e87e101dc0422038430a83b8774ec9",
+            "message": "Documentation: Rename undo/redo use case for clarity",
+            "insertions": 1,
+            "deletions": 1
+          },
+          {
+            "hash": "33e764d1143cc96c842422ad60f6eafecb17befb",
+            "message": "Cleanup - Removed unnecessary import statements",
+            "insertions": 0,
+            "deletions": 2
+          },
+          {
+            "hash": "0296f83b731ac8e2a45b45690ddf9cf4ab6f8598",
+            "message": "Cleanup: Remove unused imports",
+            "insertions": 0,
+            "deletions": 1
+          }
+        ]
+      },
+      {
+        "insertions": 200,
+        "deletions": 57,
+        "date": "2017-10-10",
+        "commitResults": [
+          {
+            "hash": "387644f658d383e060dae1b7cc9d55e0bbcfbc59",
+            "message": "Documentation: Update user guide for upcoming features",
+            "insertions": 19,
+            "deletions": 2
+          },
+          {
+            "hash": "a8966d59ac2d125957a1d1d25505a2ee66123475",
+            "message": "Documentation: Added further details on new upcoming commands",
+            "insertions": 166,
+            "deletions": 39
+          },
+          {
+            "hash": "4c4279a69350a99c931ea3a30dbae711eae4aff6",
+            "message": "Documentation: Updated user guide for birthday addition, and added upcoming tags",
+            "insertions": 10,
+            "deletions": 10
+          },
+          {
+            "hash": "42fecf4f13ad55141ad8c15efa1ae0b663e53090",
+            "message": "Documentation: Minor formatting on command summary",
+            "insertions": 4,
+            "deletions": 5
+          },
+          {
+            "hash": "bf018c69cc244e9685217ad75d8a4f3b9d824713",
+            "message": "Cleanup: Removed trailing whitespace",
+            "insertions": 1,
+            "deletions": 1
+          }
+        ]
+      },
+      {
+        "insertions": 16,
+        "deletions": 0,
+        "date": "2017-10-11",
+        "commitResults": [
+          {
+            "hash": "5dda10cb51d541033dc289e019dced12af446e8d",
+            "message": "Model: [TDD] Add blank new tests for tasks object",
+            "insertions": 16,
+            "deletions": 0
+          }
+        ]
+      },
+      {
+        "insertions": 442,
+        "deletions": 15,
+        "date": "2017-10-12",
+        "commitResults": [
+          {
+            "hash": "8132fdbf172868d998312ec16769e7f5c3e2c810",
+            "message": "Model: [TDD] Expand on testing for deadlines",
+            "insertions": 47,
+            "deletions": 0
+          },
+          {
+            "hash": "4bd2d25ef785383336dea41d4c7a4cdd668d3ff7",
+            "message": "Model: [TDD] Expand on testing for descriptions",
+            "insertions": 16,
+            "deletions": 0
+          },
+          {
+            "hash": "e4b8e1a88288626607b56d68a30b342f4b4b709d",
+            "message": "Model: [TDD] Expand on testing for names",
+            "insertions": 17,
+            "deletions": 0
+          },
+          {
+            "hash": "7f0b3b7763f6fcf7d05615a9bc12bb2055d2ba4b",
+            "message": "Model: [TDD] Expand on testing for priorities",
+            "insertions": 19,
+            "deletions": 0
+          },
+          {
+            "hash": "5a9c36b39009dcf9f16750a5568bb31a210f2ba7",
+            "message": "Model: Add empty classes for Tasks object",
+            "insertions": 20,
+            "deletions": 0
+          },
+          {
+            "hash": "a37f81df1a4b75e4fbdf51a07ca027d8eb2ab30c",
+            "message": "Model: [JUnit] Updated Task object test cases",
+            "insertions": 8,
+            "deletions": 15
+          },
+          {
+            "hash": "2e5c5bc98ae22e6db2141acc136dc2fcf719a7b3",
+            "message": "Added unit functionality for Deadline object",
+            "insertions": 122,
+            "deletions": 0
+          },
+          {
+            "hash": "6dfb78e3187cdaabfb8e44b1955f6bf3386692d5",
+            "message": "Added unit functionality for Description object",
+            "insertions": 60,
+            "deletions": 0
+          },
+          {
+            "hash": "f5856b657a65f908b886911e57e870c8d0e13b7e",
+            "message": "Added unit functionality for Name object",
+            "insertions": 58,
+            "deletions": 0
+          },
+          {
+            "hash": "06b4bbc73057bc5ef706b90553bfc19c37d76a1d",
+            "message": "Added unit functionality for Priority object",
+            "insertions": 75,
+            "deletions": 0
+          }
+        ]
+      },
+      {
+        "insertions": 4,
+        "deletions": 2,
+        "date": "2017-10-17",
+        "commitResults": [
+          {
+            "hash": "2f0901960407705956146fee96f9a902cd0c9db4",
+            "message": "[Checkstyle] Resolved checkstyle conflicts in import statements",
+            "insertions": 1,
+            "deletions": 1
+          },
+          {
+            "hash": "7b0737a001efb38a1fa76282f3caaf217353c9d3",
+            "message": "[Checkstyle] Resolved import checkstyle errors",
+            "insertions": 0,
+            "deletions": 1
+          },
+          {
+            "hash": "38deb0714450bc6b511324c172e431c672651ca1",
+            "message": "[Checkstyle] Added Javadocs to Task object",
+            "insertions": 3,
+            "deletions": 0
+          }
+        ]
+      },
+      {
+        "insertions": 56,
+        "deletions": 0,
+        "date": "2017-10-18",
+        "commitResults": [
+          {
+            "hash": "c3d17e460889c33e2d03c1396d1f85291a784e8e",
+            "message": "Documentation: Added description of implementation of tasks objects",
+            "insertions": 56,
+            "deletions": 0
+          }
+        ]
+      },
+      {
+        "insertions": 229,
+        "deletions": 11,
+        "date": "2017-10-19",
+        "commitResults": [
+          {
+            "hash": "42a042cc5b7feafccbc1067af4a9a938bfdb9fcb",
+            "message": "[Documentation] Added further explanation on how Task objects will be handled",
+            "insertions": 31,
+            "deletions": 0
+          },
+          {
+            "hash": "5d040ebbf20427f117bead1daad51de64bfa1586",
+            "message": "Resolve merge conflicts",
+            "insertions": 2,
+            "deletions": 4
+          },
+          {
+            "hash": "cc5b5c5b49098ee3c6671c33b5621eb7f5b4403b",
+            "message": "[Logic] Add support for global addition of tags",
+            "insertions": 18,
+            "deletions": 2
+          },
+          {
+            "hash": "e62deca4bfc507efb8fe6c75f1aa4e7b9d2dc8e8",
+            "message": "[Logic] Add support for global deletion of tags",
+            "insertions": 18,
+            "deletions": 4
+          },
+          {
+            "hash": "b8ec6ab9765ec26d72bd44f3e0c6aca596b59f07",
+            "message": "[Model] Add new method \"editTag\"",
+            "insertions": 3,
+            "deletions": 1
+          },
+          {
+            "hash": "5fb9f027dad770b18fcc0ee0472417d58d0ea254",
+            "message": "[Model] Expanded on editTag method in Model Manager.",
+            "insertions": 25,
+            "deletions": 0
+          },
+          {
+            "hash": "c39d30d3b093d417516315354c1573a96b7ffd28",
+            "message": "[JUnit] Added blank tests for EditTagParser",
+            "insertions": 18,
+            "deletions": 0
+          },
+          {
+            "hash": "25611f7a67db963311a5dc0a39e65ea7a096c23c",
+            "message": "[JUnit] Added blank tests for EditTagCommand",
+            "insertions": 18,
+            "deletions": 0
+          },
+          {
+            "hash": "976ec2d36a59fb37f3b500715461c7552dfd9fda",
+            "message": "[Logic] Added new command: EditTagCommand",
+            "insertions": 92,
+            "deletions": 0
+          },
+          {
+            "hash": "9d90d368656430a8b68257d105b1a6917283284a",
+            "message": "[Logic] Added blank new parser for EditTagCommand",
+            "insertions": 4,
+            "deletions": 0
+          }
+        ]
+      },
       {
         "insertions": 456,
         "deletions": 214,
@@ -5794,6 +6940,225 @@
     ],
     "wangyiming1019": [
       {
+        "insertions": 21,
+        "deletions": 1,
+        "date": "2017-10-03",
+        "commitResults": [
+          {
+            "hash": "4979d0586f42dbd5be52648531bc3fd355d3edc6",
+            "message": "Add short form of find",
+            "insertions": 1,
+            "deletions": 0
+          },
+          {
+            "hash": "499b31bc1a852e7c9d12242ed8f87ab5117cdde2",
+            "message": "Add short form of function \"add\"",
+            "insertions": 1,
+            "deletions": 1
+          },
+          {
+            "hash": "34fbacaa4463d04746134259742545f2d8efa134",
+            "message": "Update ClearCommand.java",
+            "insertions": 1,
+            "deletions": 0
+          },
+          {
+            "hash": "cbb70b9cf053d4620759e631a824523b87426dff",
+            "message": "Update DeleteCommand.java",
+            "insertions": 1,
+            "deletions": 0
+          },
+          {
+            "hash": "c7ca99a8dd72de559af7fb5f20c97ed191f5680a",
+            "message": "Update EditCommand.java",
+            "insertions": 1,
+            "deletions": 0
+          },
+          {
+            "hash": "f355387073a38da62290aff14e19b8a70e362001",
+            "message": "Update FindCommand.java",
+            "insertions": 1,
+            "deletions": 0
+          },
+          {
+            "hash": "8277d5b8d337c6d12f34afb470d4bedf1663e1f8",
+            "message": "Update HistoryCommand.java",
+            "insertions": 1,
+            "deletions": 0
+          },
+          {
+            "hash": "315ea767135c227227d8b5ff6578307ebe654153",
+            "message": "Update ListCommand.java",
+            "insertions": 1,
+            "deletions": 0
+          },
+          {
+            "hash": "8027d8184e781c04d0cf7c8eb72f44f897a5de04",
+            "message": "Update RedoCommand.java",
+            "insertions": 1,
+            "deletions": 0
+          },
+          {
+            "hash": "f01e3cd58550a422393675ed4f28c421cd963168",
+            "message": "Update SelectCommand.java",
+            "insertions": 1,
+            "deletions": 0
+          },
+          {
+            "hash": "094eb240373c7b71b14616cb3dbf74ce7aee675b",
+            "message": "Update UndoCommand.java",
+            "insertions": 1,
+            "deletions": 0
+          },
+          {
+            "hash": "dcc0c288d510b78c613e3e742a7b512fc3e3fbfb",
+            "message": "Update AddressBookParser.java",
+            "insertions": 10,
+            "deletions": 0
+          }
+        ]
+      },
+      {
+        "insertions": 560,
+        "deletions": 137,
+        "date": "2017-10-16",
+        "commitResults": [
+          {
+            "hash": "6b75d90ae6e094e27015448f4971b804fe84b554",
+            "message": "Update PersonCard.java",
+            "insertions": 23,
+            "deletions": 2
+          },
+          {
+            "hash": "46364a86af26a0da8ce264c233f3d8c260f0fbf4",
+            "message": "Update AddressBookParserTest.java",
+            "insertions": 63,
+            "deletions": 0
+          },
+          {
+            "hash": "16ad4dd04c512fb08760ea661f6b6a1eafb446e5",
+            "message": "Update AddressBookParserTest.java",
+            "insertions": 3,
+            "deletions": 1
+          },
+          {
+            "hash": "91010cb608a52df4c53632307fe1c66a808396fd",
+            "message": "Update PersonCard.java",
+            "insertions": 8,
+            "deletions": 7
+          },
+          {
+            "hash": "563ab894003a1155e5be7bbb1ad9bb90b2de73e9",
+            "message": "Revert \"add some parser test\"",
+            "insertions": 2,
+            "deletions": 89
+          },
+          {
+            "hash": "a80f285697999554dbfb13b33980ebd28b6333ab",
+            "message": "Update AddressBookParserTest.java",
+            "insertions": 22,
+            "deletions": 22
+          },
+          {
+            "hash": "b3cdbfb057fd63372934bdb2bf2bb6b9918e31b2",
+            "message": "Update AddressBookParser.java",
+            "insertions": 10,
+            "deletions": 1
+          },
+          {
+            "hash": "d8dcc0465865338fc5eac8366b23099681588ed5",
+            "message": "Update Model.java",
+            "insertions": 11,
+            "deletions": 0
+          },
+          {
+            "hash": "8912a77f858840a38d49a45d3516a5d94d9f36f4",
+            "message": "Update ModelManager.java",
+            "insertions": 42,
+            "deletions": 0
+          },
+          {
+            "hash": "5a038920749d2068b7ade7e16e420e001e462f5d",
+            "message": "Rename AddTagCommand to AddTagCommand.java",
+            "insertions": 109,
+            "deletions": 0
+          },
+          {
+            "hash": "e44223480eb656a3b46ae50f41830447cb384922",
+            "message": "Rename DeleteTagCommand to DeleteTagCommand.java",
+            "insertions": 108,
+            "deletions": 0
+          },
+          {
+            "hash": "c576aa0c63961055b378bd3b4aa6cba695e2e43a",
+            "message": "Rename AddTagCommandParser to AddTagCommandParser.java",
+            "insertions": 66,
+            "deletions": 0
+          },
+          {
+            "hash": "83218ae51d550ee51e0fd16343604f92d1221f8f",
+            "message": "Rename DeleteTagCommandParser to DeleteTagCommandParser.java",
+            "insertions": 66,
+            "deletions": 0
+          },
+          {
+            "hash": "738f3768e31ade37da391539134d2c45233ea148",
+            "message": "Update ModelManager.java",
+            "insertions": 10,
+            "deletions": 10
+          },
+          {
+            "hash": "de948c8f66fa74d11c818fc0ce934460ebe58b01",
+            "message": "Update AddTagCommand.java",
+            "insertions": 3,
+            "deletions": 3
+          },
+          {
+            "hash": "f8bbc1d2224dbde30f77e1de766a4109c7b68c01",
+            "message": "Add test case for addTag and deleteTag",
+            "insertions": 12,
+            "deletions": 0
+          },
+          {
+            "hash": "6c2f1e8760187933e345b68302f10995b6ab5cc7",
+            "message": "fix trailing whitespace",
+            "insertions": 2,
+            "deletions": 2
+          }
+        ]
+      },
+      {
+        "insertions": 71,
+        "deletions": 69,
+        "date": "2017-10-17",
+        "commitResults": [
+          {
+            "hash": "629cc8d8bad91a51fd24612a663985ea6397f59b",
+            "message": "fix lexicographical order",
+            "insertions": 4,
+            "deletions": 2
+          },
+          {
+            "hash": "f64d7fd77fa918aa0a44e82dc2794f3cc81eef91",
+            "message": "Create DeleteTagCommandParser.java",
+            "insertions": 66,
+            "deletions": 0
+          },
+          {
+            "hash": "f9e0d50a85ebdf278d9618cf0cf7770982012b6d",
+            "message": "Delete DeleteTagCommandParser.java",
+            "insertions": 0,
+            "deletions": 66
+          },
+          {
+            "hash": "c8e69d1ab7e11717d22ee42a1d782bc22fb10418",
+            "message": "fix lexicographical order",
+            "insertions": 1,
+            "deletions": 1
+          }
+        ]
+      },
+      {
         "insertions": 990,
         "deletions": 552,
         "date": "2017-10-21",
@@ -6738,34 +8103,34 @@
     ]
   },
   "authorFinalContributionMap": {
-    "charlesgoh": 3946,
-    "jeffreygohkw": 5554,
-    "Esilocke": 10497,
-    "wangyiming1019": 2382
+    "charlesgoh": 4228,
+    "jeffreygohkw": 5840,
+    "Esilocke": 10944,
+    "wangyiming1019": 2469
   },
   "authorFileFormatContributionMap": {
     "charlesgoh": {
-      "java": 3078,
-      "adoc": 868
+      "java": 3258,
+      "adoc": 970
     },
     "jeffreygohkw": {
-      "java": 4454,
-      "adoc": 1100
+      "java": 4642,
+      "adoc": 1198
     },
     "Esilocke": {
-      "java": 8202,
-      "adoc": 2295
+      "java": 8366,
+      "adoc": 2578
     },
     "wangyiming1019": {
-      "java": 2382,
+      "java": 2469,
       "adoc": 0
     }
   },
   "authorContributionVariance": {
-    "charlesgoh": 115441.94,
-    "jeffreygohkw": 102113.03,
-    "Esilocke": 573105.06,
-    "wangyiming1019": 87559.836
+    "charlesgoh": 87520.74,
+    "jeffreygohkw": 73333.07,
+    "Esilocke": 409334.53,
+    "wangyiming1019": 63797.973
   },
   "authorDisplayNameMap": {
     "charlesgoh": "Cha",
