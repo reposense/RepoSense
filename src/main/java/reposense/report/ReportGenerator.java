@@ -29,6 +29,7 @@ import reposense.model.Author;
 import reposense.model.RepoConfiguration;
 import reposense.model.RepoLocation;
 import reposense.model.StandaloneConfig;
+import reposense.parser.SinceDateArgumentType;
 import reposense.parser.StandaloneConfigJsonParser;
 import reposense.system.LogsManager;
 import reposense.util.FileUtil;
@@ -82,12 +83,13 @@ public class ReportGenerator {
         Date sinceDate = (cliSinceDate.isPresent()) ? cliSinceDate.get() : null;
         Date untilDate = (cliUntilDate.isPresent()) ? cliUntilDate.get() : new Date();
 
-        // set sinceDate to one month before untilDate if sinceDate is null.
-        if (sinceDate == null) {
+        if (sinceDate == null) { // set sinceDate to one month before untilDate if sinceDate is null.
             Calendar cal = Calendar.getInstance();
             cal.setTime(untilDate);
             cal.add(Calendar.MONTH, -1);
             sinceDate = cal.getTime();
+        } else if (sinceDate.equals(SinceDateArgumentType.ARBITRARY_SINCE_DATE)) {
+            sinceDate = earliestSinceDate;
         }
 
         FileUtil.writeJsonFile(

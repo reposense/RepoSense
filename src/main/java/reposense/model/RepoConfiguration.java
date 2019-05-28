@@ -12,6 +12,7 @@ import java.util.logging.Logger;
 
 import reposense.git.GitBranch;
 import reposense.git.exception.GitBranchException;
+import reposense.parser.SinceDateArgumentType;
 import reposense.system.LogsManager;
 import reposense.util.FileUtil;
 
@@ -88,6 +89,8 @@ public class RepoConfiguration {
             sinceDate = cal.getTime();
             logger.info(String.format(" As \"since date\" is not specified, only commits that were made form %s to %s "
                     + "will be captured by the program.", sinceDate.toString(), untilDate.toString()));
+        } else if (sinceDate.equals(SinceDateArgumentType.ARBITRARY_SINCE_DATE)) {
+            sinceDate = null;
         }
 
         for (RepoConfiguration config : configs) {
