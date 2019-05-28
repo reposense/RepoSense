@@ -206,7 +206,7 @@ header{
     text-align:left;
 
     &__title{
-
+        clear:left;
         & > * {
             display:inline;
             padding-right:0.5rem;
