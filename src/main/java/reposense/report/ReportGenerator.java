@@ -81,7 +81,7 @@ public class ReportGenerator {
         cloneAndAnalyzeRepos(repoLocationMap, outputPath);
 
         Date sinceDate = (cliSinceDate.isPresent()) ? cliSinceDate.get() : null;
-        Date untilDate = (cliUntilDate.isPresent()) ? cliUntilDate.get() : new Date();
+        Date untilDate = (cliUntilDate.isPresent()) ? cliUntilDate.get() : latestUntilDate;
 
         if (sinceDate == null) { // set sinceDate to one month before untilDate if sinceDate is null.
             Calendar cal = Calendar.getInstance();

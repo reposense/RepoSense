@@ -29,7 +29,7 @@ public class CommitResultAggregator {
             RepoConfiguration config, List<CommitResult> commitResults) {
         Date startDate = config.getSinceDate() == null ? getStartDate(commitResults) : config.getSinceDate();
         ReportGenerator.setEarliestSinceDate(startDate);
-        ReportGenerator.setLatestUntilDate(getUntilDate(commitResults));
+        ReportGenerator.setLatestUntilDate(getUntilDate(config, commitResults));
 
         Map<Author, List<AuthorDailyContribution>> authorDailyContributionsMap =
                 getAuthorDailyContributionsMap(config.getAuthorDisplayNameMap().keySet(), commitResults);
@@ -130,7 +130,7 @@ public class CommitResultAggregator {
 
     private static Date getStartDate(List<CommitResult> commitInfos) {
         Calendar cal = Calendar.getInstance();
-        cal.set(Calendar.YEAR, 2050);
+        cal.set(Calendar.YEAR, 1970);
         Date min = cal.getTime();
         if (!commitInfos.isEmpty()) {
             min = commitInfos.get(0).getTime();
@@ -138,10 +138,17 @@ public class CommitResultAggregator {
         return min;
     }
 
-    private static Date getUntilDate(List<CommitResult> commitInfos) {
-        Calendar cal = Calendar.getInstance();
-        cal.set(Calendar.YEAR, 1970);
-        Date max = cal.getTime();
+    private static Date getUntilDate(RepoConfiguration config, List<CommitResult> commitInfos) {
+        Date max;
+        if (config.getSinceDate() == null) {
+            max = new Date();
+        } else {
+            Calendar cal = Calendar.getInstance();
+            cal.setTime(config.getSinceDate());
+            cal.add(Calendar.MONTH, 1);
+            max = cal.getTime();
+        }
+
         if (!commitInfos.isEmpty()) {
             max = commitInfos.get(commitInfos.size() - 1).getTime();
         }
