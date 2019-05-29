@@ -73,13 +73,13 @@ public class Format {
     /**
      * Returns true if the {@code relativePath}'s file type is inside {@code formatsWhiteList}.
      */
-    public static boolean isInsideWhiteList(Format targetFileFormat, List<Format> formatsWhiteList) {
-        return formatsWhiteList.stream().anyMatch(format -> targetFileFormat.equals(format));
+    public static boolean isInsideWhiteList(String targetFileFormat, List<Format> formatsWhiteList) {
+        return formatsWhiteList.stream().anyMatch(format -> targetFileFormat.equals(format.toString()));
     }
 
-    public static Format getFileFormat(String relativePath) {
+    public static String getFileFormat(String relativePath) {
         String[] tok = relativePath.split("[./\\\\]");
-        return new Format(tok[tok.length - 1]);
+        return tok[tok.length - 1];
     }
 
     /**
