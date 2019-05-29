@@ -183,7 +183,7 @@ public class ArgsParserTest {
         Assert.assertEquals(Optional.empty(), cliArguments.getSinceDate());
         Assert.assertEquals(Optional.empty(), cliArguments.getUntilDate());
         Assert.assertEquals(ArgsParser.DEFAULT_REPORT_NAME, cliArguments.getOutputFilePath().getFileName().toString());
-        Assert.assertEquals(Format.DEFAULT_FORMATS, cliArguments.getFormats());
+        Assert.assertEquals(Format.NO_SPECIFIED_FORMATS, cliArguments.getFormats());
         Assert.assertFalse(cliArguments.isAutomaticallyLaunching());
 
         input = new InputBuilder().addConfig(CONFIG_FOLDER_RELATIVE).build();
@@ -197,7 +197,7 @@ public class ArgsParserTest {
         Assert.assertEquals(Optional.empty(), cliArguments.getSinceDate());
         Assert.assertEquals(Optional.empty(), cliArguments.getUntilDate());
         Assert.assertEquals(ArgsParser.DEFAULT_REPORT_NAME, cliArguments.getOutputFilePath().getFileName().toString());
-        Assert.assertEquals(Format.DEFAULT_FORMATS, cliArguments.getFormats());
+        Assert.assertEquals(Format.NO_SPECIFIED_FORMATS, cliArguments.getFormats());
         Assert.assertFalse(cliArguments.isAutomaticallyLaunching());
         Assert.assertEquals(ZoneId.systemDefault(), cliArguments.getZoneId());
     }

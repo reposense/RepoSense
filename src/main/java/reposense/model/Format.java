@@ -12,6 +12,7 @@ public class Format {
             "adoc", "cs", "css", "fxml", "gradle", "html", "java", "js",
             "json", "jsp", "md", "py", "tag", "txt", "xml");
     public static final List<Format> DEFAULT_FORMATS = convertStringsToFormats(DEFAULT_FORMAT_STRINGS);
+    public static final List<Format> NO_SPECIFIED_FORMATS = convertStringsToFormats(Arrays.asList());
     private static final String FORMAT_VALIDATION_REGEX = "[A-Za-z0-9]+";
     private static final String MESSAGE_ILLEGAL_FORMATS = "The provided format, %s, contains illegal characters.";
 
