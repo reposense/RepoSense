@@ -79,7 +79,7 @@ public class Format {
 
     public static Format getFileFormat(String relativePath) {
         String[] tok = relativePath.split("[./\\\\]");
-        return new Format(tok[tok.length-1]);
+        return new Format(tok[tok.length - 1]);
     }
 
     /**
