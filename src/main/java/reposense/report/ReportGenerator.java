@@ -22,11 +22,13 @@ import reposense.authorship.model.AuthorshipSummary;
 import reposense.commits.CommitsReporter;
 import reposense.commits.model.CommitContributionSummary;
 import reposense.git.GitCheckout;
+import reposense.git.GitRemote;
 import reposense.git.GitShortlog;
 import reposense.model.Author;
 import reposense.model.RepoConfiguration;
 import reposense.model.RepoLocation;
 import reposense.model.StandaloneConfig;
+import reposense.parser.InvalidLocationException;
 import reposense.parser.StandaloneConfigJsonParser;
 import reposense.system.LogsManager;
 import reposense.util.FileUtil;
@@ -56,6 +58,7 @@ public class ReportGenerator {
     private static final String MESSAGE_COMPLETE_ANALYSIS = "Analysis of %s (%s) completed!";
     private static final String MESSAGE_REPORT_GENERATED = "The report is generated at %s";
     private static final String MESSAGE_BRANCH_DOES_NOT_EXIST = "Branch %s does not exist in %s! Analysis terminated.";
+    private static final String MESSAGE_INVALID_LOCATION = "Location %s cannot be represented by a URL or PATH.";
 
     private static Date earliestSinceDate = null;
     private static Date latestUntilDate = null;
@@ -171,8 +174,13 @@ public class ReportGenerator {
 
         CommitContributionSummary commitSummary = CommitsReporter.generateCommitSummary(config);
         AuthorshipSummary authorshipSummary = AuthorshipReporter.generateAuthorshipSummary(config);
+
+        // updates local repo's location to remote location after analysing
+        updateRemoteLink(config);
+
         generateIndividualRepoReport(commitSummary, authorshipSummary, repoReportDirectory);
         logger.info(String.format(MESSAGE_COMPLETE_ANALYSIS, config.getLocation(), config.getBranch()));
+
     }
 
     /**
@@ -215,6 +223,21 @@ public class ReportGenerator {
             logger.info(String.format(MESSAGE_NO_AUTHORS_SPECIFIED, config.getLocation(), config.getBranch()));
             List<Author> authorList = GitShortlog.getAuthors(config);
             config.setAuthorList(authorList);
+        }
+    }
+
+    /**
+     * Updates {@code config} with the correct remote repository link if analysing from local repositories.
+     */
+    public static void updateRemoteLink(RepoConfiguration config) {
+        String location = config.getLocation().toString();
+        if (!location.contains("https://github.com") && !location.contains("http://github.com")) {
+            String remote = GitRemote.getRemoteUrl(config);
+            try {
+                config.setLocation(new RepoLocation(remote));
+            } catch (InvalidLocationException ile) {
+                logger.warning(String.format(MESSAGE_INVALID_LOCATION, remote));
+            }
         }
     }
 
