@@ -292,7 +292,7 @@ header{
 
         .contribution{
             color:mui-color("red");
-            font-size: 1.0rem;
+            font-size: 0.875rem;
 
             .fileformat {
                 margin-left:3rem;
@@ -381,6 +381,10 @@ header{
 
             #reverse {
                 color:mui-color("black");
+            }
+
+            select {
+                font-size:0.875rem;
             }
         }
     }
