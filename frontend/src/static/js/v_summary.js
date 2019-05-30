@@ -98,12 +98,11 @@ window.vSummary = {
     tmpFilterUntilDate() {
       if (this.tmpFilterUntilDate && this.tmpFilterUntilDate <= this.maxDate) {
         this.filterUntilDate = this.tmpFilterUntilDate;
-        this.getFiltered();
       } else if (!this.tmpFilterUntilDate) { // If user clears the until date field
         this.filterUntilDate = this.maxDate;
         this.tmpFilterUntilDate = this.filterUntilDate;
-        this.getFiltered();
       }
+      this.getFiltered();
     },
   },
   computed: {
