@@ -119,7 +119,6 @@ public class ArgsParser {
                 .nargs("*")
                 .metavar("FORMAT")
                 .type(new AlphanumericArgumentType())
-                //.setDefault(Format.DEFAULT_FORMAT_STRINGS)
                 .setDefault(new ArrayList<String>())
                 .help("The alphanumeric file formats to process.\n"
                         + "If not provided, default file formats will be used.\n"
