@@ -426,9 +426,9 @@ header{
         }
 
         .line-number{
-            color:mui-color("grey");
-            float: left;
-            width: 2rem;
+            color:mui-color('grey');
+            float:left;
+            width:2rem;
             // Not allowing user to select text
             -webkit-touch-callout:none; /* iOS Safari */
             -webkit-user-select:none; /* Safari */
@@ -438,16 +438,16 @@ header{
             user-select:none; /* Non-prefixed version, currently supported by Chrome and Opera */
 
             .hljs-number{
-                color:mui-color("grey");
+                color:mui-color('grey');
             }
 
             .hljs-comment{
-                color:mui-color("grey");
+                color:mui-color('grey');
             }
         }
 
         .line-content{
-            padding-left: 2rem;
+            padding-left:2rem;
         }
 
         .untouched{
