@@ -110,7 +110,7 @@ public class FileInfoExtractor {
             }
 
             if (Format.isInsideWhiteList(Format.getFileFormat(filePath), config.getFormats())
-                    || config.isFormatRestrictionDisabled()) {
+                    || config.getFormats().isEmpty()) {
                 try {
                     FileInfo currentFileInfo = generateFileInfo(config.getRepoRoot(), filePath);
                     setLinesToTrack(currentFileInfo, fileDiffResult);
@@ -178,7 +178,7 @@ public class FileInfoExtractor {
                 }
 
                 if (Format.isInsideWhiteList(Format.getFileFormat(relativePath), config.getFormats())
-                        || config.isFormatRestrictionDisabled()) {
+                        || config.getFormats().isEmpty()) {
                     try {
                         fileInfos.add(generateFileInfo(config.getRepoRoot(), relativePath));
                     } catch (InvalidPathException ipe) {

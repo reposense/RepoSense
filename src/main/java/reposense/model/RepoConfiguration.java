@@ -36,7 +36,6 @@ public class RepoConfiguration {
     private transient boolean isStandaloneConfigIgnored;
     private transient List<CommitHash> ignoreCommitList;
     private transient boolean isFormatsOverridenByCsvFile;
-    private transient boolean isFormatRestrictionDisabled = false;
     private transient boolean isIgnoreGlobListOverriding;
     private transient boolean isIgnoreCommitListOverriding;
 
@@ -133,8 +132,6 @@ public class RepoConfiguration {
      * Sets {@code formats} to {@code RepoConfiguration} in {@code configs} if its format list is empty.
      */
     public static void setFormatsToRepoConfigs(List<RepoConfiguration> configs, List<Format> formats) {
-        configs.stream().filter(config -> formats.isEmpty())
-                        .forEach(config -> config.isFormatRestrictionDisabled = true);
         configs.stream().filter(config -> config.getFormats().isEmpty())
                         .forEach(config -> config.setFormats(formats));
     }
@@ -383,10 +380,6 @@ public class RepoConfiguration {
 
     public boolean isFormatsOverridenByCsvFile() {
         return isFormatsOverridenByCsvFile;
-    }
-
-    public boolean isFormatRestrictionDisabled() {
-        return isFormatRestrictionDisabled;
     }
 
     public boolean isIgnoreGlobListOverriding() {
