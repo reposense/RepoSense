@@ -214,7 +214,17 @@ window.vSummary = {
 
       return totalBars;
     },
-
+    getFileFormatsTouchedInRepo(repo) {
+      let fileFormats = [];
+      repo.forEach((user) => {
+        Object.keys(user.fileFormatContribution).forEach((fileFormat) => {
+          if (!fileFormats.includes(fileFormat)) {
+            fileFormats.push(fileFormat);
+          }
+        });
+      });
+      return fileFormats;
+    },
     getContributionBars(totalContribution) {
       const res = [];
       const contributionLimit = (this.avgContributionSize * 2);
