@@ -545,11 +545,7 @@ window.vSummary = {
     },
 
     getGroupTotalContribution(group) {
-      let totalContribution = 0;
-      group.forEach((ele) => {
-        totalContribution += ele.totalCommits;
-      });
-      return totalContribution;
+      return group.reduce((accumulatedContribution, user) => accumulatedContribution + user.totalCommits, 0);
     },
   },
   created() {
