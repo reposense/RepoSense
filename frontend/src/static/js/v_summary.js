@@ -215,7 +215,7 @@ window.vSummary = {
       return totalBars;
     },
     getFileFormatsTouchedInRepo(repo) {
-      let fileFormats = [];
+      const fileFormats = [];
       repo.forEach((user) => {
         Object.keys(user.fileFormatContribution).forEach((fileFormat) => {
           if (!fileFormats.includes(fileFormat)) {
