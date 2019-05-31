@@ -84,7 +84,7 @@ public class FileUtil {
                     String filePath = sourcePath.relativize(path.toAbsolutePath()).toString();
                     String zipEntry = Files.isDirectory(path) ? filePath + File.separator : filePath;
                     zos.putNextEntry(new ZipEntry(zipEntry.replace("\\", "/")));
-                    if (Files.isRegularFile(pathToZip)) {
+                    if (Files.isRegularFile(path)) {
                         Files.copy(path, zos);
                     }
                     zos.closeEntry();
