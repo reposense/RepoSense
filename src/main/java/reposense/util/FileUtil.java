@@ -58,7 +58,7 @@ public class FileUtil {
 
     /**
      * Zips all the relative folders and relevant files of {@code fileTypes} contained in
-     * {@code sourceAndOutputPath} directory into the same folder.
+     * {@code pathsToZip} directory into {@code sourceAndOutputPath}.
      * @param pathsToZip contains the folders and files to be zipped.
      * @param sourceAndOutputPath contains the directory where the source folders and files are located at and
      *                           where to be zipped to.
@@ -84,22 +84,17 @@ public class FileUtil {
                 FileOutputStream fos = new FileOutputStream(outputPath + File.separator + ZIP_FILE);
                 ZipOutputStream zos = new ZipOutputStream(fos)
         ) {
-            Set<Path> allFiles = getFilePaths(sourcePath, fileTypes);
-            for (Path path : allFiles) {
-                String filePath = sourcePath.relativize(path.toAbsolutePath()).toString();
-                if (pathsToZip.contains(path.getParent()) || pathsToZip.contains(path)) {
+            for (Path pathToZip : pathsToZip) {
+                Set<Path> allPaths = getFilePaths(pathToZip, fileTypes);
+                for (Path path : allPaths) {
+                    String filePath = sourcePath.relativize(path.toAbsolutePath()).toString();
                     String zipEntry = Files.isDirectory(path) ? filePath + File.separator : filePath;
                     zos.putNextEntry(new ZipEntry(zipEntry.replace("\\", "/")));
-                    if (Files.isRegularFile(path)) {
-                        try (InputStream is = Files.newInputStream(path)) {
-                            int length;
-                            while ((length = is.read(buffer.array())) > 0) {
-                                zos.write(buffer.array(), 0, length);
-                            }
-                        }
+                    if (Files.isRegularFile(pathToZip)) {
+                        Files.copy(path, zos);
                     }
+                    zos.closeEntry();
                 }
-                zos.closeEntry();
             }
         } catch (IOException ioe) {
             logger.log(Level.SEVERE, ioe.getMessage(), ioe);
