@@ -9,7 +9,10 @@
         "indent": ["error", 2, {
             "MemberExpression": 2,
             "CallExpression": { "arguments": 2 },
-            "ArrayExpression": 2
+            "ArrayExpression": 2,
+            "ignoredNodes": [
+                "ConditionalExpression"
+            ]
         }]
     }
 }
