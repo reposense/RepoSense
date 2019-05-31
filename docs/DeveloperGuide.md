@@ -107,7 +107,7 @@ Named Arguments:
                      The date to stop filtering.
 --formats [FORMAT [FORMAT ...]], -f [FORMAT [FORMAT ...]]
                      The alphanumeric file formats to process.
-                     If not provided, default file formats will be
+                     If not provided, all file formats will be
                      used.
                      Please refer to userguide for more information.
 --ignore-standalone-config, -i
