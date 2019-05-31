@@ -632,7 +632,7 @@ window.vSummary = {
     },
 
     getGroupTotalContribution(group) {
-      return group.reduce((accumulatedContribution, user) => accumulatedContribution + user.totalCommits, 0);
+      return group.reduce((accContribution, user) => accContribution + user.totalCommits, 0);
     },
   },
   created() {
