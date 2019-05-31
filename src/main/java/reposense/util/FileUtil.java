@@ -59,11 +59,6 @@ public class FileUtil {
     /**
      * Zips all the relative folders and relevant files of {@code fileTypes} contained in
      * {@code pathsToZip} directory into {@code sourceAndOutputPath}.
-     * @param pathsToZip contains the folders and files to be zipped.
-     * @param sourceAndOutputPath contains the directory where the source folders and files are located at and
-     *                           where to be zipped to.
-     * @param fileTypes contains the file types to be zipped. Only files which are of the type "fileTypes" will be
-     *                  zipped.
      */
     public static void zipFoldersAndFiles(HashSet<Path> pathsToZip,
             Path sourceAndOutputPath, String... fileTypes) {
@@ -75,8 +70,7 @@ public class FileUtil {
      * @param pathsToZip contains the relevant folders to be zipped.
      * @param sourcePath contains the directory where the relevant folders and files are located at
      * @param outputPath contains the directory to be zipped to.
-     * @param fileTypes contains the file types to be zipped. Only files which are of the type "fileTypes" will be
-     *                  zipped.
+     * @param fileTypes contains the file types to be zipped.
      */
     public static void zipFoldersAndFiles(HashSet<Path> pathsToZip,
             Path sourcePath, Path outputPath, String... fileTypes) {
