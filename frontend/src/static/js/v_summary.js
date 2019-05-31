@@ -257,9 +257,9 @@ window.vSummary = {
 
       if (urlString.includes('://github.com')) {
         return `https://github.com/${
-            REPOS[repo.repoId].location.organization}/${
-            REPOS[repo.repoId].location.repoName}/tree/${
-            REPOS[repo.repoId].branch}`;
+          REPOS[repo.repoId].location.organization}/${
+          REPOS[repo.repoId].location.repoName}/tree/${
+          REPOS[repo.repoId].branch}`;
       }
       return urlString;
     },
