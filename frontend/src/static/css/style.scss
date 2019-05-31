@@ -9,6 +9,10 @@ vuetemplate{
     display:none;
 }
 
+a{
+    cursor:pointer;
+}
+
 .wrapper{
     text-align:center;
 }
@@ -208,6 +212,7 @@ header{
 }
 
 .summary-chart{
+    position:relative;
     margin-bottom:1rem;
     text-align:left;
 
@@ -239,27 +244,21 @@ header{
     }
 
     &__ramp{
-        font-size:100%;
         position:relative;
 
-        $height:3rem;
-        height:$height;
-        background-color:mui-color("blue", "50");
-
-        &__slice{
-            display:block;
+        .overlay{
+            height:100%;
             position:absolute;
-            width:0;
-            height:0;
+            top:0;
 
-            border-left-color: rgba(0,0,0,0);
-            border-left-style: solid;
+            &.show{
+                background-color:rgba(mui-color("white"), 0.5);
+                border:1px dashed mui-color("black");
+            }
 
-            &--color0{ border-bottom:$height rgba(mui-color("orange"), 0.5) solid;  }
-            &--color1{ border-bottom:$height rgba(mui-color("light-blue"), 0.5) solid;  }
-            &--color2{ border-bottom:$height rgba(mui-color("green"), 0.5) solid;  }
-            &--color3{ border-bottom:$height rgba(mui-color("indigo"), 0.5) solid;  }
-            &--color4{ border-bottom:$height rgba(mui-color("pink"), 0.5) solid;  }
+            &.edge{
+                border-right:1px dashed mui-color("black");
+            }
         }
     }
 
@@ -279,6 +278,32 @@ header{
             float:left;
             display: inline-block;
         }
+    }
+}
+
+/* Ramp */
+.ramp{
+    font-size:100%;
+    position:relative;
+
+    $height:3rem;
+    height:$height;
+    background-color:mui-color("blue", "50");
+
+    &__slice{
+        display:block;
+        position:absolute;
+        width:0;
+        height:0;
+
+        border-left-color: rgba(0,0,0,0);
+        border-left-style: solid;
+
+        &--color0{ border-bottom:$height rgba(mui-color("orange"), 0.5) solid;  }
+        &--color1{ border-bottom:$height rgba(mui-color("light-blue"), 0.5) solid;  }
+        &--color2{ border-bottom:$height rgba(mui-color("green"), 0.5) solid;  }
+        &--color3{ border-bottom:$height rgba(mui-color("indigo"), 0.5) solid;  }
+        &--color4{ border-bottom:$height rgba(mui-color("pink"), 0.5) solid;  }
     }
 }
 
