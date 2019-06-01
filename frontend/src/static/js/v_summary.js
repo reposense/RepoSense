@@ -253,15 +253,13 @@ window.vSummary = {
 
     getRepoLink(repo) {
       const { REPOS } = window;
-      const urlString = repo.location;
+      const { location, branch } = REPOS[repo.repoId];
 
-      if (urlString.includes('://github.com')) {
-        return `https://github.com/${
-          REPOS[repo.repoId].location.organization}/${
-          REPOS[repo.repoId].location.repoName}/tree/${
-          REPOS[repo.repoId].branch}`;
+      if (Object.prototype.hasOwnProperty.call(location, 'organization')) {
+        return `https://github.com/${location.organization}/${location.repoName}/tree/${branch}`;
       }
-      return urlString;
+
+      return repo.location;
     },
 
     // model functions //
