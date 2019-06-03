@@ -53,6 +53,8 @@ public class ArgsParser {
             "\"Since Date\" cannot be later than \"Until Date\"";
     private static final String MESSAGE_USING_DEFAULT_CONFIG_PATH =
             "Config path not provided, using current working directory as default.";
+    private static final String MESSAGE_SINCE_DATE_LATER_THAN_TODAY_DATE =
+            "\"Since Date\" must not be later than today's date.";
     private static final Path EMPTY_PATH = Paths.get("");
 
     private static ArgumentParser getArgumentParser() {
@@ -173,6 +175,7 @@ public class ArgsParser {
 
             LogsManager.setLogFolderLocation(outputFolderPath);
 
+            verifySinceDateIsValid(sinceDate);
             verifyDatesRangeIsCorrect(sinceDate, untilDate);
 
             if (reportFolderPath != null && !reportFolderPath.equals(EMPTY_PATH) && configFolderPath.equals(EMPTY_PATH)
@@ -212,6 +215,16 @@ public class ArgsParser {
             throws ParseException {
         if (sinceDate.isPresent() && untilDate.isPresent() && sinceDate.get().getTime() > untilDate.get().getTime()) {
             throw new ParseException(MESSAGE_SINCE_DATE_LATER_THAN_UNTIL_DATE);
+        }
+    }
+
+    /**
+     * Returns true if {@code sinceDate} is a future date.
+     */
+    private static void verifySinceDateIsValid(Optional<Date> sinceDate) throws ParseException {
+        Date dateToday = new Date();
+        if (sinceDate.isPresent() && sinceDate.get().getTime() > dateToday.getTime()) {
+            throw new ParseException(MESSAGE_SINCE_DATE_LATER_THAN_TODAY_DATE);
         }
     }
 }
