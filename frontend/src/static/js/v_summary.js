@@ -404,6 +404,7 @@ window.vSummary = {
           insertions: 0,
           deletions: 0,
           date: getDateStr(startOfWeekMs),
+          commitResults: []
         };
 
         // commits are not contiguous, meaning there are gaps of days without
@@ -414,6 +415,7 @@ window.vSummary = {
           const commit = commits.shift();
           week.insertions += commit.insertions;
           week.deletions += commit.deletions;
+          commit.commitResults.forEach((commitResult) => week.commitResults.push(commitResult));
         }
 
         res.push(week);
@@ -543,11 +545,11 @@ window.vSummary = {
 
         const commits = [];
         rawCommits.forEach((commit) => {
-          if (this.filterTimeFrame === 'week') {
-            commit.dayCommits.forEach((dayCommit) => commits.push(dayCommit));
-          } else {
+          // if (this.filterTimeFrame === 'week') {
+          //   commit.dayCommits.forEach((dayCommit) => commits.push(dayCommit));
+          // } else {
             commits.push(commit);
-          }
+          // }
         });
 
         const { avgCommitSize } = this;
