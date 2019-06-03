@@ -29,6 +29,6 @@
       v-bind:style="{\
           zIndex: user.commits.length - j,\
           borderLeftWidth: getWidth(slice) + 'em',\
-          right: (getSlicePos(slice.endDate) * 100) + '%'\
+          right: (getSlicePos(tframe === 'day' ? slice.date : slice.endDate) * 100) + '%'\
       }"
     )
