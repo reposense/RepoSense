@@ -230,13 +230,17 @@ public class ReportGenerator {
      * Updates {@code config} with the correct remote repository link if analysing from local repositories.
      */
     public static void updateRemoteLink(RepoConfiguration config) {
-        String location = config.getLocation().toString();
-        if (!location.contains("https://github.com") && !location.contains("http://github.com")) {
+        String organization = config.getLocation().getOrganization();
+        if (organization == null) {
             String remote = GitRemote.getRemoteUrl(config);
-            try {
-                config.setLocation(new RepoLocation(remote));
-            } catch (InvalidLocationException ile) {
-                logger.warning(String.format(MESSAGE_INVALID_LOCATION, remote));
+
+            // only set the location if remote location can be found
+            if (remote != null) {
+                try {
+                    config.setLocation(new RepoLocation(remote));
+                } catch (InvalidLocationException ile) {
+                    logger.warning(String.format(MESSAGE_INVALID_LOCATION, remote));
+                }
             }
         }
     }

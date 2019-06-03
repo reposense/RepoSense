@@ -20,6 +20,10 @@ public class GitRemote {
         Path rootPath = Paths.get(config.getLocation().toString());
         String command = "git remote get-url origin";
 
-        return runCommand(rootPath, command).replace("\n", "");
+        try {
+            return runCommand(rootPath, command).replace("\n", "");
+        } catch (RuntimeException re) {
+            return null;
+        }
     }
 }
