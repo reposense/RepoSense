@@ -3,6 +3,7 @@ package reposense.commits;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -35,7 +36,7 @@ public class CommitResultAggregator {
             startDate = config.getSinceDate();
         }
         ReportGenerator.setEarliestSinceDate(startDate);
-        ReportGenerator.setLatestUntilDate(getUntilDate(config, commitResults));
+        ReportGenerator.setLatestUntilDate(getUntilDate(commitResults));
 
         Map<Author, List<AuthorDailyContribution>> authorDailyContributionsMap =
                 getAuthorDailyContributionsMap(config.getAuthorDisplayNameMap().keySet(), commitResults);
@@ -135,25 +136,15 @@ public class CommitResultAggregator {
     }
 
     private static Date getStartDate(List<CommitResult> commitInfos) {
-        Calendar cal = Calendar.getInstance();
-        cal.set(Calendar.YEAR, 1970);
-        Date min = cal.getTime();
+        Date min = new GregorianCalendar(1970, 1, 1).getTime();
         if (!commitInfos.isEmpty()) {
             min = commitInfos.get(0).getTime();
         }
         return min;
     }
 
-    private static Date getUntilDate(RepoConfiguration config, List<CommitResult> commitInfos) {
-        Date max;
-        if (config.getSinceDate() == null) {
-            max = new Date();
-        } else {
-            Calendar cal = Calendar.getInstance();
-            cal.setTime(config.getSinceDate());
-            cal.add(Calendar.MONTH, 1);
-            max = cal.getTime();
-        }
+    private static Date getUntilDate(List<CommitResult> commitInfos) {
+        Date max = new GregorianCalendar(2050, 1, 1).getTime();
 
         if (!commitInfos.isEmpty()) {
             max = commitInfos.get(commitInfos.size() - 1).getTime();
