@@ -107,7 +107,7 @@ window.vSummary = {
       isSortingDsc: '',
       sortingWithinOption: '',
       isSortingWithinDsc: '',
-      filterTimeFrame: 'day',
+      filterTimeFrame: 'commit',
       filterBreakdown: false,
       tmpFilterSinceDate: '',
       tmpFilterUntilDate: '',
