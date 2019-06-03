@@ -13,6 +13,7 @@ import reposense.commits.model.CommitContributionSummary;
 import reposense.commits.model.CommitResult;
 import reposense.model.Author;
 import reposense.model.RepoConfiguration;
+import reposense.parser.SinceDateArgumentType;
 import reposense.report.ReportGenerator;
 
 /**
@@ -27,7 +28,12 @@ public class CommitResultAggregator {
      */
     public static CommitContributionSummary aggregateCommitResults(
             RepoConfiguration config, List<CommitResult> commitResults) {
-        Date startDate = config.getSinceDate() == null ? getStartDate(commitResults) : config.getSinceDate();
+        Date startDate;
+        if (config.getSinceDate() == null || config.getSinceDate().equals(SinceDateArgumentType.ARBITRARY_SINCE_DATE)) {
+            startDate = getStartDate(commitResults);
+        } else {
+            startDate = config.getSinceDate();
+        }
         ReportGenerator.setEarliestSinceDate(startDate);
         ReportGenerator.setLatestUntilDate(getUntilDate(config, commitResults));
 

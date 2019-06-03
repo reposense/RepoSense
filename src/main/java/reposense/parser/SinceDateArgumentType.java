@@ -15,8 +15,7 @@ import net.sourceforge.argparse4j.inf.ArgumentParserException;
 public class SinceDateArgumentType extends DateArgumentType {
     /*
      * When user specifies *, arbitrary since date will be returned.
-     * Then, RepoConfiguration will set sinceDate in all repo configurations to null.
-     * Also, ReportGenerator will replace the arbitrary since date with the earliest commit date.
+     * Then, ReportGenerator will replace the arbitrary since date with the earliest commit date.
      */
     public static final Date ARBITRARY_SINCE_DATE = new GregorianCalendar(1, Calendar.JANUARY,
             1).getTime();
