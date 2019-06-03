@@ -156,7 +156,7 @@ html
                 .summary-chart__title--index {{ i+1 }}
                 .summary-chart__title--repo(v-if="filterGroupSelection === 'groupByNone'") {{ user.repoPath }}
                 .summary-chart__title--author-repo(v-if="filterGroupSelection === 'groupByAuthors'") {{ user.repoPath }}
-                .summary-chart__title--name(v-if="filterGroupSelection !== 'groupByAuthors'") {{ user.displayName }}
+                .summary-chart__title--name(v-if="filterGroupSelection !== 'groupByAuthors'") {{ user.displayName }} ({{ user.name }})
                 a(
                   title="click to view author's code",
                   v-on:click="openTabAuthorship(user, repo)"
@@ -282,7 +282,9 @@ html
                         i.fas.fa-ellipsis-h.icon
                         span.tooltiptext.tooltiptext--close Show untouched code
                         span.tooltiptext.tooltiptext--open Hide untouched code
-                      .code {{ segment.lines.join("\n") }}
+                      .code(v-for="(line, index) in segment.lines")
+                        .line-number {{ segment.lineNumbers[index] + "\n" }}
+                        .line-content {{ line + "\n" }}
         .empty(v-else) loading...
 
     script(src="static/js/api.js")
