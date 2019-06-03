@@ -12,7 +12,6 @@ import java.util.logging.Logger;
 
 import reposense.git.GitBranch;
 import reposense.git.exception.GitBranchException;
-import reposense.parser.SinceDateArgumentType;
 import reposense.system.LogsManager;
 import reposense.util.FileUtil;
 
