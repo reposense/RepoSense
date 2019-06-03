@@ -412,19 +412,20 @@ window.vSummary = {
       for (let weekId = 0; weekId < diff / 7; weekId += 1) {
         const startOfWeekMs = sinceMs + (weekId * WEEK_IN_MS);
         const endOfWeekMs = startOfWeekMs + durationMs - DAY_IN_MS;
+        const endOfWeekMsWithinUntilMs = endOfWeekMs <= untilMs ? endOfWeekMs : untilMs;
 
         const week = {
           insertions: 0,
           deletions: 0,
           date: getDateStr(startOfWeekMs),
-          endDate: getDateStr(endOfWeekMs <= untilMs ? endOfWeekMs : untilMs),
+          endDate: getDateStr(endOfWeekMsWithinUntilMs),
         };
 
         // commits are not contiguous, meaning there are gaps of days without
         // commits, so we are going to check each commit's date and make sure
         // it is within the duration of a week
         while (commits.length > 0
-            && (new Date(commits[0].date)).getTime() < startOfWeekMs + durationMs) {
+            && (new Date(commits[0].date)).getTime() <= endOfWeekMsWithinUntilMs) {
           const commit = commits.shift();
           week.insertions += commit.insertions;
           week.deletions += commit.deletions;

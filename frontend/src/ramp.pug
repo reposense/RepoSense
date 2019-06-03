@@ -23,12 +23,12 @@
       onclick="rampClick(event);",
       v-for="(slice, j) in user.commits",
       v-if="slice.insertions > 0",
-      v-bind:title="`[${slice.date}] ${tframe === 'day' ? 'Daily' : 'Weekly'} contribution: ${slice.insertions} lines`",
+      v-bind:title="`${tframe === 'day' ? '[' + slice.date + '] Daily' : '[' + slice.date + ' till ' + slice.endDate + '] Weekly'} contribution: ${slice.insertions} lines`",
       v-bind:href="getLink(user, slice)", target="_blank",
       v-bind:class="'ramp__slice--color' + getSliceColor(slice.date)",
       v-bind:style="{\
           zIndex: user.commits.length - j,\
           borderLeftWidth: getWidth(slice) + 'em',\
-          right: (getSlicePos(slice.date) * 100) + '%'\
+          right: (getSlicePos(slice.endDate) * 100) + '%'\
       }"
     )
