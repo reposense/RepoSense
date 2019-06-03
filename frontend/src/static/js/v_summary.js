@@ -424,7 +424,7 @@ window.vSummary = {
         // commits, so we are going to check each commit's date and make sure
         // it is within the duration of a week
         while (commits.length > 0
-          && (new Date(commits[0].date)).getTime() < startOfWeekMs + durationMs) {
+            && (new Date(commits[0].date)).getTime() < startOfWeekMs + durationMs) {
           const commit = commits.shift();
           week.insertions += commit.insertions;
           week.deletions += commit.deletions;
@@ -432,7 +432,6 @@ window.vSummary = {
         res.push(week);
       }
     },
-
     getUserCommits(user) {
       user.commits = [];
       const userFirst = user.dailyCommits[0];
