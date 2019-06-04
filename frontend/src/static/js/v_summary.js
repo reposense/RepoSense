@@ -257,6 +257,17 @@ window.vSummary = {
       return res;
     },
 
+    getRepoLink(repo) {
+      const { REPOS } = window;
+      const { location, branch } = REPOS[repo.repoId];
+
+      if (Object.prototype.hasOwnProperty.call(location, 'organization')) {
+        return `https://github.com/${location.organization}/${location.repoName}/tree/${branch}`;
+      }
+
+      return repo.location;
+    },
+
     // model functions //
     updateFilterSearch(evt) {
       this.filterSearch = evt.target.value;
@@ -521,7 +532,7 @@ window.vSummary = {
     },
 
     // triggering opening of tabs //
-    openTabAuthorship(user, repo) {
+    openTabAuthorship(user, repo, index) {
       const { minDate, maxDate } = this;
 
       this.$emit('view-authorship', {
@@ -530,7 +541,7 @@ window.vSummary = {
         author: user.name,
         repo: user.repoName,
         name: user.displayName,
-        location: repo[0].location,
+        location: this.getRepoLink(repo[index]),
         totalCommits: user.totalCommits,
       });
     },
