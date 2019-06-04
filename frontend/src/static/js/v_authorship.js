@@ -86,10 +86,8 @@ window.vAuthorship = {
       if (repo) {
         const author = repo.users.filter((user) => user.name === this.info.author);
         if (author.length > 0) {
-          this.info.name = author[0].displayName;
           this.filesLinesObj = author[0].fileFormatContribution;
         }
-        this.info.location = repo.location.location;
       }
     },
 
