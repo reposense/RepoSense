@@ -28,16 +28,12 @@ public class GitDiff {
      *   if the file is a binary file.
      */
     public static Optional<Integer> getNumLinesModified(Path rootPath, Path relativePath,
-                                                        Optional<String> priorCommitHash, Optional<String> lastCommitHash) {
-        if (!priorCommitHash.isPresent()) {
-            priorCommitHash = Optional.of(EMPTY_COMMIT_HASH);
-        }
-        if (!lastCommitHash.isPresent()) {
-            lastCommitHash = Optional.of(CHECKED_OUT_COMMIT_REFERENCE);
-        }
+            Optional<String> fromCommitHash, Optional<String> toCommitHash) {
+        String priorCommitHash = (fromCommitHash.isPresent()) ? fromCommitHash.get() : EMPTY_COMMIT_HASH;
+        String postCommitHash = (toCommitHash.isPresent()) ? toCommitHash.get() : CHECKED_OUT_COMMIT_REFERENCE;
 
         String message = String.format("git diff --numstat %s %s %s",
-                priorCommitHash.get(), lastCommitHash.get(), relativePath);
+                priorCommitHash, postCommitHash, relativePath);
 
         String returnMessage = runCommand(rootPath, message);
 
