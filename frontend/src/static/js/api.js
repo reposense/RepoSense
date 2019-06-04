@@ -70,7 +70,6 @@ window.api = {
           ];
 
           obj.searchPath = searchParams.join('_').toLowerCase();
-          obj.repoPath = `${repo.displayName}`;
           obj.repoName = `${repo.displayName}`;
           obj.location = `${repo.location.location}`;
 

@@ -118,6 +118,9 @@ window.app = new window.Vue({
       window.JSZip.loadAsync(evt.target.files[0])
           .then((zip) => {
             window.REPORT_ZIP = zip;
+          }, () => {
+            window.alert('Either the .zip file is corrupted, or you uploaded a .zip file that is not generated '
+                + 'by RepoSense.');
           })
           .then(() => this.updateReportView());
     },
@@ -160,21 +163,33 @@ window.app = new window.Vue({
       return full;
     },
 
-    deactivateTab() {
+    // handle opening of sidebar //
+    activateTab(tabName) {
+      // changing isTabActive to trigger redrawing of component
       this.isTabActive = false;
       if (document.getElementById('tabs-wrapper')) {
         document.getElementById('tabs-wrapper').scrollTop = 0;
       }
-    },
-
-    updateTabAuthorship(obj) {
-      this.deactivateTab();
-      this.tabInfo.tabAuthorship = Object.assign({}, obj);
 
       this.isTabActive = true;
       this.isCollapsed = false;
-      this.tabType = 'authorship';
+      this.tabType = tabName;
     },
+
+    updateTabAuthorship(obj) {
+      this.tabInfo.tabAuthorship = Object.assign({}, obj);
+      this.activateTab('authorship');
+    },
+    updateTabZoom(obj) {
+      this.tabInfo.tabZoom = Object.assign({}, obj);
+      this.activateTab('zoom');
+    },
+
+    // updating summary view
+    updateSummaryDates() {
+      this.$refs.summary.updateDateRange();
+    },
+
     renderAuthorShipTabHash(minDate, maxDate) {
       const hash = window.hashParams;
       const info = {
@@ -212,6 +227,7 @@ window.app = new window.Vue({
     },
   },
   components: {
+    v_zoom: window.vZoom,
     v_summary: window.vSummary,
     v_authorship: window.vAuthorship,
     CircleSpinner: window.VueLoadingSpinner.Circle,
