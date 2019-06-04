@@ -111,7 +111,7 @@ public class FileInfoExtractor {
             }
 
             if (isBinaryFile(Paths.get(filePath), Paths.get(config.getRepoRoot()))) {
-                logger.log(Level.FINE, relativePath + " is a binary file and will be ignored.");
+                logger.log(Level.FINE, filePath + " is a binary file and will be ignored.");
                 continue;
             }
 
