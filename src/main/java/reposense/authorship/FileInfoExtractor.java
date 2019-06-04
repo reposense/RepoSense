@@ -239,10 +239,6 @@ public class FileInfoExtractor {
      * Returns true if {@code filePath} is a binary file.
      */
     private static boolean isBinaryFile(Path filePath, Path repoRoot) {
-        if ((GitDiff.getNumLinesModified(repoRoot, filePath, Optional.empty(), Optional.empty())).isPresent()) {
-            return false;
-        } else {
-            return true;
-        }
+        return !((GitDiff.getNumLinesModified(repoRoot, filePath, Optional.empty(), Optional.empty())).isPresent());
     }
 }
