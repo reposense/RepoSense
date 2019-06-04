@@ -545,11 +545,7 @@ window.vSummary = {
 
         const commits = [];
         rawCommits.forEach((commit) => {
-          // if (this.filterTimeFrame === 'week') {
-          //   commit.dayCommits.forEach((dayCommit) => commits.push(dayCommit));
-          // } else {
-            commits.push(commit);
-          // }
+          commits.push(commit);
         });
 
         const { avgCommitSize } = this;
