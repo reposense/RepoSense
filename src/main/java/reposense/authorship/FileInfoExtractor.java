@@ -10,6 +10,7 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Optional;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.regex.Matcher;
@@ -109,6 +110,11 @@ public class FileInfoExtractor {
                 continue;
             }
 
+            if (isBinaryFile(Paths.get(filePath), Paths.get(config.getRepoRoot()))) {
+                logger.log(Level.FINE, relativePath + " is a binary file and will be ignored.");
+                continue;
+            }
+
             if (Format.isInsideWhiteList(filePath, config.getFormats())) {
                 try {
                     FileInfo currentFileInfo = generateFileInfo(config.getRepoRoot(), filePath);
@@ -176,6 +182,11 @@ public class FileInfoExtractor {
                     continue;
                 }
 
+                if (isBinaryFile(Paths.get(relativePath), Paths.get(config.getRepoRoot()))) {
+                    logger.log(Level.FINE, relativePath + " is a binary file and will be ignored.");
+                    continue;
+                }
+
                 if (Format.isInsideWhiteList(relativePath, config.getFormats())) {
                     try {
                         fileInfos.add(generateFileInfo(config.getRepoRoot(), relativePath));
@@ -222,5 +233,16 @@ public class FileInfoExtractor {
         }
 
         return Integer.parseInt(chunkHeaderMatcher.group(STARTING_LINE_NUMBER_GROUP_NAME));
+    }
+
+    /**
+     * Returns true if {@code filePath} is a binary file.
+     */
+    private static boolean isBinaryFile(Path filePath, Path repoRoot) {
+        if ((GitDiff.getNumLinesModified(repoRoot, filePath, Optional.empty(), Optional.empty())).isPresent()) {
+            return false;
+        } else {
+            return true;
+        }
     }
 }
