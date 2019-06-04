@@ -110,7 +110,7 @@ public class FileInfoExtractor {
                 continue;
             }
 
-            if (isBinaryFile(Paths.get(filePath), Paths.get(config.getRepoRoot()))) {
+            if (isBinaryFile(filePath, Paths.get(config.getRepoRoot()))) {
                 logger.log(Level.FINE, filePath + " is a binary file and will be ignored.");
                 continue;
             }
@@ -182,7 +182,7 @@ public class FileInfoExtractor {
                     continue;
                 }
 
-                if (isBinaryFile(Paths.get(relativePath), Paths.get(config.getRepoRoot()))) {
+                if (isBinaryFile(relativePath, Paths.get(config.getRepoRoot()))) {
                     logger.log(Level.FINE, relativePath + " is a binary file and will be ignored.");
                     continue;
                 }
@@ -238,7 +238,7 @@ public class FileInfoExtractor {
     /**
      * Returns true if {@code filePath} is a binary file.
      */
-    private static boolean isBinaryFile(Path filePath, Path repoRoot) {
+    private static boolean isBinaryFile(String filePath, Path repoRoot) {
         return !((GitDiff.getNumLinesModified(repoRoot, filePath, Optional.empty(), Optional.empty())).isPresent());
     }
 }
