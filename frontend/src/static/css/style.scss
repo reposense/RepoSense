@@ -178,7 +178,8 @@ header{
     label{
         text-align:left;
         overflow-y:hidden;
-        width:110px;
+        width:fit-content;
+        font-size:0.75rem;
     }
 
     input, select{
@@ -304,8 +305,8 @@ header{
 /* Authorship */
 #tab-authorship{
     .toolbar{
-        float: right;
-        cursor: pointer;
+        float:right;
+        cursor:pointer;
     }
 
     .title{
@@ -323,7 +324,7 @@ header{
                 margin-left:3rem;
                 margin-top:1.5rem;
                 align-items:center;
-                display: flex;
+                display:flex;
             }
 
             .radio-button--search{
@@ -340,7 +341,7 @@ header{
             #search{
                 padding:0.5rem 1.0rem 0.25rem 1.0rem;
                 margin-top:1.0rem;
-                width: 30%;
+                width:30%;
             }
 
             #submit-button{
