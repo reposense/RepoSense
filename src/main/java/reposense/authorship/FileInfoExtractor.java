@@ -27,6 +27,7 @@ import reposense.git.exception.CommitNotFoundException;
 import reposense.model.Format;
 import reposense.model.RepoConfiguration;
 import reposense.system.LogsManager;
+import reposense.util.FileUtil;
 
 /**
  * Extracts out all the relevant {@code FileInfo} from the repository.
@@ -110,6 +111,16 @@ public class FileInfoExtractor {
                 continue;
             }
 
+            if (!FileUtil.isValidPath(filePath)) {
+                logger.warning(String.format(INVALID_FILE_PATH_MESSAGE_FORMAT, filePath));
+                continue;
+            }
+
+            if (!Files.exists(Paths.get(config.getRepoRoot(), filePath))) {
+                String sss = Paths.get(config.getRepoRoot(), filePath).toString();
+                continue;
+            }
+
             if (isBinaryFile(filePath, Paths.get(config.getRepoRoot()))) {
                 logger.log(Level.FINE, filePath + " is a binary file and will be ignored.");
                 continue;
@@ -182,6 +193,15 @@ public class FileInfoExtractor {
                     continue;
                 }
 
+                if (!FileUtil.isValidPath(filePath.toString())) {
+                    logger.warning(String.format(INVALID_FILE_PATH_MESSAGE_FORMAT, filePath));
+                    return;
+                }
+
+                if (!Files.exists(filePath)) {
+                    continue;
+                }
+
                 if (isBinaryFile(relativePath, Paths.get(config.getRepoRoot()))) {
                     logger.log(Level.FINE, relativePath + " is a binary file and will be ignored.");
                     continue;
@@ -239,6 +259,6 @@ public class FileInfoExtractor {
      * Returns true if {@code filePath} is a binary file.
      */
     private static boolean isBinaryFile(String filePath, Path repoRoot) {
-        return !((GitDiff.getNumLinesModified(repoRoot, filePath, Optional.empty(), Optional.empty())).isPresent());
+        return !((GitDiff.getNumLinesModified(repoRoot, filePath, Optional.empty(), Optional.empty()).isPresent()));
     }
 }
