@@ -453,18 +453,26 @@ window.vSummary = {
       this.getOptionWithOrder();
       // Update UI selection to change all illegal options
       if (this.filterGroupSelection === 'groupByAuthors') {
-        if (!this.sortWithinGroupSelection || this.sortingWithinOption === 'name') {
+        if (!this.sortWithinGroupSelection || this.sortWithinGroupSelection === 'name') {
           this.sortWithinGroupSelection = 'searchPath';
+        } else if (this.sortWithinGroupSelection === 'name dsc') {
+          this.sortWithinGroupSelection = 'searchPath dsc';
         }
-        if (this.sortingOption === 'searchPath') {
+        if (this.sortGroupSelection === 'searchPath') {
           this.sortGroupSelection = 'name';
+        } else if (this.sortGroupSelection === 'searchPath dsc') {
+          this.sortGroupSelection = 'name dsc';
         }
       } else if (this.filterGroupSelection === 'groupByRepos') {
-        if (!this.sortWithinGroupSelection || this.sortingWithinOption === 'searchPath') {
+        if (!this.sortWithinGroupSelection || this.sortWithinGroupSelection === 'searchPath') {
           this.sortWithinGroupSelection = 'name';
+        } else if (this.sortWithinGroupSelection === 'searchPath dsc') {
+          this.sortWithinGroupSelection = 'name dsc';
         }
-        if (this.sortingOption === 'name') {
+        if (this.sortGroupSelection === 'name') {
           this.sortGroupSelection = 'searchPath';
+        } else if (this.sortGroupSelection === 'name dsc') {
+          this.sortGroupSelection = 'searchPath dsc';
         }
       } else if (this.filterGroupSelection === 'groupByNone') {
         this.sortWithinGroupSelection = '';
