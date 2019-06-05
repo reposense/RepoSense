@@ -116,10 +116,6 @@ public class FileInfoExtractor {
                 continue;
             }
 
-            if (!Files.exists(Paths.get(config.getRepoRoot(), filePath))) {
-                continue;
-            }
-
             if (!fileExistsInRepo(filePath, Paths.get(config.getRepoRoot()))) {
                 continue;
             }
@@ -198,10 +194,6 @@ public class FileInfoExtractor {
 
                 if (!FileUtil.isValidPath(filePath.toString())) {
                     logger.warning(String.format(INVALID_FILE_PATH_MESSAGE_FORMAT, filePath));
-                    continue;
-                }
-
-                if (!fileExistsInRepo(relativePath, Paths.get(config.getRepoRoot()))) {
                     continue;
                 }
 
