@@ -647,6 +647,10 @@ window.vSummary = {
     getGroupCommitsVariance(total, group) {
       return total + group[this.sortingOption];
     },
+
+    getGroupTotalContribution(group) {
+      return group.reduce((accContribution, user) => accContribution + user.totalCommits, 0);
+    },
   },
   created() {
     this.renderFilterHash();
