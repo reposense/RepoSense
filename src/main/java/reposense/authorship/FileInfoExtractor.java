@@ -197,7 +197,7 @@ public class FileInfoExtractor {
                     continue;
                 }
 
-                if (!fileExistsInRepo(filePath, Paths.get(config.getRepoRoot()))) {
+                if (!fileExistsInRepo(relativePath, Paths.get(config.getRepoRoot()))) {
                     continue;
                 }
 
