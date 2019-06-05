@@ -32,7 +32,7 @@ public class GitDiff {
         String priorCommitHash = (fromCommitHash.isPresent()) ? fromCommitHash.get() : EMPTY_COMMIT_HASH;
         String postCommitHash = (toCommitHash.isPresent()) ? toCommitHash.get() : CHECKED_OUT_COMMIT_REFERENCE;
 
-        String message = String.format("git diff --numstat %s %s %s", priorCommitHash, postCommitHash, relativePath);
+        String message = String.format("git diff --numstat %s %s -- \"%s\"", priorCommitHash, postCommitHash, relativePath);
         return runCommand(rootPath, message);
     }
 }
