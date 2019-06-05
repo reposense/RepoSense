@@ -117,7 +117,10 @@ public class FileInfoExtractor {
             }
 
             if (!Files.exists(Paths.get(config.getRepoRoot(), filePath))) {
-                String sss = Paths.get(config.getRepoRoot(), filePath).toString();
+                continue;
+            }
+
+            if (!fileExistsInRepo(filePath, Paths.get(config.getRepoRoot()))) {
                 continue;
             }
 
@@ -195,10 +198,10 @@ public class FileInfoExtractor {
 
                 if (!FileUtil.isValidPath(filePath.toString())) {
                     logger.warning(String.format(INVALID_FILE_PATH_MESSAGE_FORMAT, filePath));
-                    return;
+                    continue;
                 }
 
-                if (!Files.exists(filePath)) {
+                if (!fileExistsInRepo(relativePath, Paths.get(config.getRepoRoot()))) {
                     continue;
                 }
 
@@ -256,9 +259,22 @@ public class FileInfoExtractor {
     }
 
     /**
+     * Returns true if {@code relativePath} exists in the HEAD of the current branch. If {@code returnMessage} is empty,
+     * it means that the file does not exist in the HEAD of the current branch.
+     */
+    private static boolean fileExistsInRepo(String relativePath, Path repoRoot) {
+        String returnMessage = GitDiff.diffNumLinesModified(repoRoot, relativePath, Optional.empty(), Optional.empty());
+        return !(returnMessage.isEmpty());
+    }
+
+    /**
      * Returns true if {@code filePath} is a binary file.
      */
     private static boolean isBinaryFile(String filePath, Path repoRoot) {
-        return !((GitDiff.getNumLinesModified(repoRoot, filePath, Optional.empty(), Optional.empty()).isPresent()));
+        String returnMessage = GitDiff.diffNumLinesModified(repoRoot, filePath, Optional.empty(), Optional.empty());
+
+        // [0]: numLinesAdded, [1]: numLinesDeleted, [2]: file name
+        String[] tokenizedMessage = returnMessage.split("\t");
+        return (tokenizedMessage[0].equals("-") && tokenizedMessage[1].equals("-"));
     }
 }
