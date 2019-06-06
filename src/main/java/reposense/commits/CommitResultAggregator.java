@@ -145,7 +145,6 @@ public class CommitResultAggregator {
 
     private static Date getUntilDate(List<CommitResult> commitInfos) {
         Date max = new GregorianCalendar(2050, 1, 1).getTime();
-
         if (!commitInfos.isEmpty()) {
             max = commitInfos.get(commitInfos.size() - 1).getTime();
         }
