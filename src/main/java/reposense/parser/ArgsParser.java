@@ -219,7 +219,9 @@ public class ArgsParser {
     }
 
     /**
-     * Returns true if {@code sinceDate} is a future date.
+     * Verifies that {@code sinceDate} is no later than the date of report generation.
+     *
+     * @throws  ParseException if {@code sinceDate} supplied is later than date of report generation.
      */
     private static void verifySinceDateIsValid(Optional<Date> sinceDate) throws ParseException {
         Date dateToday = new Date();
