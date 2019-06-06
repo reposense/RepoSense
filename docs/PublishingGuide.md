@@ -3,8 +3,7 @@
 [Travis-CI](https://travis-ci.org/) enables you to automate RepoSense report generation and publish the report online to [GitHub Pages](https://pages.github.com/) for free.
 
 1. Fork publish-RepoSense repository using this [link](https://github.com/RepoSense/publish-RepoSense/fork)
-1. Follow this [guide](https://help.github.com/articles/creating-a-personal-access-token-for-the-command-line/) to generate a `Personal access token` on GitHub for report publishing <br/>
-*Remember to **copy it** and you would **only require** `public_repo` permission*
+1. Create a GitHub `personal access token` or `deploy key` by following this [link](#granting-write-access-to-reposense-for-publishing)
 1. Sign up and login to [Travis-CI](https://travis-ci.org/)
 1. Go to [your account](https://travis-ci.org/account/repositories), click on **Sync account** to fetch all your repositories into Travis-CI
 1. Go to [your publish-RepoSense fork in Travis-CI](https://travis-ci.org/search/publish-RepoSense/), under **Current** tab click on **Activate repository**
@@ -24,7 +23,7 @@ It takes a few minutes for report generation. Meanwhile, you can monitor the pro
 Try accessing your site again when a green tick appears beside your fork.
 
 ### Granting write-access to RepoSense for publishing
-We recommmend use of [deploy key](https://developer.github.com/v3/guides/managing-deploy-keys/#deploy-keys) for enhanced security and [personal access token](https://github.blog/2013-05-16-personal-api-tokens/) for ease of setup.
+We recommmend use of [personal access token](https://github.blog/2013-05-16-personal-api-tokens/) for ease of setup and [deploy key](https://developer.github.com/v3/guides/managing-deploy-keys/#deploy-keys) for enhanced security.
 
 ##### If you wish to use `personal access token`:
 1. Follow this [guide](https://help.github.com/articles/creating-a-personal-access-token-for-the-command-line/) to generate a `Personal access token` on GitHub for report publishing <br/>
