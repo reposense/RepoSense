@@ -21,7 +21,7 @@ public class SinceDateArgumentType extends DateArgumentType {
             1).getTime();
 
     /**
-     * Returns an arbitrary year 2000 if user specifies * in {@code value}, or attempts to return
+     * Returns an arbitrary year 1/1/1 if user specifies * in {@code value}, or attempts to return
      * the desired date otherwise.
      */
     @Override
