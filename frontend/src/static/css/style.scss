@@ -178,7 +178,8 @@ header{
     label{
         text-align:left;
         overflow-y:hidden;
-        width:110px;
+        width:fit-content;
+        font-size:0.75rem;
     }
 
     input, select{
@@ -193,6 +194,12 @@ header{
         display:block;
         text-align:left;
         font-weight:bold;
+
+        &--contribution{
+            font-weight:normal;
+            display:inline;
+            font-size: 0.65rem;
+        }
     }
 
     &__fileformat--breakdown{
@@ -304,8 +311,8 @@ header{
 /* Authorship */
 #tab-authorship{
     .toolbar{
-        float: right;
-        cursor: pointer;
+        float:right;
+        cursor:pointer;
     }
 
     .title{
@@ -322,7 +329,7 @@ header{
                 margin-left:3rem;
                 margin-top:1.0rem;
                 align-items:center;
-                display: flex;
+                display:flex;
             }
 
             .radio-button--search{
@@ -457,6 +464,31 @@ header{
             padding-left:1rem;
             border-left:0.25rem solid mui-color('green');
             background-color:mui-color('green', '50');
+        }
+
+        .line-number{
+            color:mui-color('grey');
+            float:left;
+            width:2rem;
+            // Not allowing user to select text
+            -webkit-touch-callout:none; /* iOS Safari */
+            -webkit-user-select:none; /* Safari */
+            -khtml-user-select:none; /* Konqueror HTML */
+            -moz-user-select:none; /* Firefox */
+            -ms-user-select:none; /* Internet Explorer/Edge */
+            user-select:none; /* Non-prefixed version, currently supported by Chrome and Opera */
+
+            .hljs-number{
+                color:mui-color('grey');
+            }
+
+            .hljs-comment{
+                color:mui-color('grey');
+            }
+        }
+
+        .line-content{
+            padding-left:2rem;
         }
 
         .untouched{
