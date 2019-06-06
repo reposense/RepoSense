@@ -146,14 +146,20 @@ window.vSummary = {
     tmpFilterSinceDate() {
       if (this.tmpFilterSinceDate && this.tmpFilterSinceDate >= this.minDate) {
         this.filterSinceDate = this.tmpFilterSinceDate;
-        this.getFiltered();
+      } else if (!this.tmpFilterSinceDate) { // If user clears the since date field
+        this.filterSinceDate = this.minDate;
+        this.tmpFilterSinceDate = this.filterSinceDate;
       }
+      this.getFiltered();
     },
     tmpFilterUntilDate() {
       if (this.tmpFilterUntilDate && this.tmpFilterUntilDate <= this.maxDate) {
         this.filterUntilDate = this.tmpFilterUntilDate;
-        this.getFiltered();
+      } else if (!this.tmpFilterUntilDate) { // If user clears the until date field
+        this.filterUntilDate = this.maxDate;
+        this.tmpFilterUntilDate = this.filterUntilDate;
       }
+      this.getFiltered();
     },
   },
   computed: {
@@ -250,6 +256,17 @@ window.vSummary = {
       }
 
       return res;
+    },
+
+    getRepoLink(repo) {
+      const { REPOS } = window;
+      const { location, branch } = REPOS[repo.repoId];
+
+      if (Object.prototype.hasOwnProperty.call(location, 'organization')) {
+        return `https://github.com/${location.organization}/${location.repoName}/tree/${branch}`;
+      }
+
+      return repo.location;
     },
 
     // model functions //
@@ -516,7 +533,7 @@ window.vSummary = {
     },
 
     // triggering opening of tabs //
-    openTabAuthorship(user, repo) {
+    openTabAuthorship(user, repo, index) {
       const { minDate, maxDate } = this;
 
       this.$emit('view-authorship', {
@@ -525,7 +542,7 @@ window.vSummary = {
         author: user.name,
         repo: user.repoName,
         name: user.displayName,
-        location: repo[0].location,
+        location: this.getRepoLink(repo[index]),
         totalCommits: user.totalCommits,
       });
     },
@@ -630,6 +647,10 @@ window.vSummary = {
 
     getGroupCommitsVariance(total, group) {
       return total + group[this.sortingOption];
+    },
+
+    getGroupTotalContribution(group) {
+      return group.reduce((accContribution, user) => accContribution + user.totalCommits, 0);
     },
   },
   created() {
