@@ -23,9 +23,8 @@ public class GitDiff {
     }
 
     /**
-     * Returns the number of lines modified (numLinesAdded - numLinesDeleted) from the commit {@code priorCommitHash}
-     *   to the commit {@code lastCommitHash} if the file is not a binary file. Returns {@code null}
-     *   if the file is a binary file.
+     * Returns the raw message of the number of lines modified of a given file {@code relativePath} form the commit
+     * {@code priorCommitHash} to the commit {@code lastCommitHash}.
      */
     public static String diffNumLinesModified(Path rootPath, String relativePath,
             Optional<String> fromCommitHash, Optional<String> toCommitHash) {

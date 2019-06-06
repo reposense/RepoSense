@@ -255,8 +255,8 @@ public class FileInfoExtractor {
     }
 
     /**
-     * Returns true if {@code relativePath} exists in the HEAD of the current branch. If {@code returnMessage} is empty,
-     * it means that the file does not exist in the HEAD of the current branch.
+     * Returns true if {@code relativePath} exists in the HEAD of the currently checked out commit.
+     * If {@code returnMessage} is empty, it means that the file does not exist in the remote repo.
      */
     private static boolean fileExistsInRepo(String relativePath, Path repoRoot) {
         String returnMessage = GitDiff.diffNumLinesModified(repoRoot, relativePath, Optional.empty(), Optional.empty());
@@ -264,10 +264,12 @@ public class FileInfoExtractor {
     }
 
     /**
-     * Returns true if {@code filePath} is a binary file.
+     * Returns true if {@code relativePath} is a binary file.
+     * @apiNote {@code relativePath} must exist in the HEAD of the currently checked out commit.
+     * Call {@code fileExistsInRepo} to check if the file exists in the commit.
      */
-    private static boolean isBinaryFile(String filePath, Path repoRoot) {
-        String returnMessage = GitDiff.diffNumLinesModified(repoRoot, filePath, Optional.empty(), Optional.empty());
+    private static boolean isBinaryFile(String relativePath, Path repoRoot) {
+        String returnMessage = GitDiff.diffNumLinesModified(repoRoot, relativePath, Optional.empty(), Optional.empty());
 
         // [0]: numLinesAdded, [1]: numLinesDeleted, [2]: file name
         String[] tokenizedMessage = returnMessage.split("\t");
