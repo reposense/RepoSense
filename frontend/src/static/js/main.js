@@ -118,6 +118,9 @@ window.app = new window.Vue({
       window.JSZip.loadAsync(evt.target.files[0])
           .then((zip) => {
             window.REPORT_ZIP = zip;
+          }, () => {
+            window.alert('Either the .zip file is corrupted, or you uploaded a .zip file that is not generated '
+                + 'by RepoSense.');
           })
           .then(() => this.updateReportView());
     },
