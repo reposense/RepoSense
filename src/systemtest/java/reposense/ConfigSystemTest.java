@@ -62,9 +62,17 @@ public class ConfigSystemTest {
     }
 
     private void generateReport() throws IOException, URISyntaxException, ParseException, HelpScreenException {
-        generateReport("");
+        generateReport("--until 02/03/2019");
     }
 
+    /**
+     * Generates the testing report to be compared with expected report.
+     * @throws IOException if there is error in parsing csv file.
+     * @throws URISyntaxException if the path fo config folder cannot be converted to URI.
+     * @throws ParseException if the string argument fails to parse to a {@code CliArguments} object.
+     * @throws HelpScreenException if given args contain the --help flag. Help message will be printed out
+     * by the {@code ArgumentParser} hence this is to signal to the caller that the program is safe to exit.
+     */
     private void generateReport(String inputDates)
             throws IOException, URISyntaxException, ParseException, HelpScreenException {
         Path configFolder = Paths.get(getClass().getClassLoader().getResource("repo-config.csv").toURI()).getParent();
@@ -91,9 +99,13 @@ public class ConfigSystemTest {
         RepoConfiguration.setDatesToRepoConfigs(
                 repoConfigs, cliArguments.getSinceDate(), cliArguments.getUntilDate());
 
-        ReportGenerator.generateReposReport(repoConfigs, FT_TEMP_DIR, TEST_REPORT_GENERATED_TIME);
+        ReportGenerator.generateReposReport(repoConfigs, FT_TEMP_DIR, TEST_REPORT_GENERATED_TIME,
+                cliArguments.getSinceDate().orElse(null), cliArguments.getUntilDate().orElse(null));
     }
 
+    /**
+     * Verifies all JSON files in {@code actualDirectory} with {@code expectedDirectory}
+     */
     private void verifyAllJson(Path expectedDirectory, String actualRelative) {
         try (Stream<Path> pathStream = Files.list(expectedDirectory)) {
             for (Path filePath : pathStream.collect(Collectors.toList())) {
@@ -110,6 +122,9 @@ public class ConfigSystemTest {
         }
     }
 
+    /**
+     * Asserts the correctness of given JSON file.
+     */
     private void assertJson(Path expectedJson, String expectedPosition, String actualRelative) {
         Path actualJson = Paths.get(actualRelative, expectedPosition);
         Assert.assertTrue(Files.exists(actualJson));

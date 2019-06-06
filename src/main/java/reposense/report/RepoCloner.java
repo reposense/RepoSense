@@ -12,6 +12,7 @@ import java.util.logging.Logger;
 
 import reposense.git.GitBranch;
 import reposense.git.GitLsTree;
+import reposense.git.exception.GitBranchException;
 import reposense.git.exception.GitCloneException;
 import reposense.git.exception.InvalidFilePathException;
 
@@ -32,6 +33,8 @@ public class RepoCloner {
     private static final String MESSAGE_ERROR_DELETING_DIRECTORY = "Error deleting report directory.";
     private static final String MESSAGE_ERROR_CLONING =
             "Exception met while trying to clone the repo, will skip this repo.";
+    private static final String MESSAGE_ERROR_GETTING_BRANCH =
+            "Exception met while trying to get current branch of %s (%s), will skip this repo.";
 
     private static final int MAX_NO_OF_REPOS = 2;
     private static final Logger logger = LogsManager.getLogger(RepoCloner.class);
@@ -66,7 +69,15 @@ public class RepoCloner {
             return null;
         }
 
-        currentRepoDefaultBranch = GitBranch.getCurrentBranch(configs[currentIndex].getRepoRoot());
+        try {
+            currentRepoDefaultBranch = GitBranch.getCurrentBranch(configs[currentIndex].getRepoRoot());
+        } catch (GitBranchException gbe) {
+            // GitBranch will throw this exception when repository is empty
+            logger.log(Level.WARNING, String.format(MESSAGE_ERROR_GETTING_BRANCH,
+                    configs[currentIndex].getLocation(), configs[currentIndex].getBranch()), gbe);
+            handleCloningFailed(outputPath, configs[currentIndex]);
+            return null;
+        }
         cleanupPrevRepoFolder();
 
         previousIndex = currentIndex;
@@ -143,6 +154,9 @@ public class RepoCloner {
         }
     }
 
+    /**
+    * Deletes the {@code root} directory.
+    */
     private void deleteDirectory(String root) {
         try {
             FileUtil.deleteDirectory(root);

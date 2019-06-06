@@ -705,7 +705,7 @@
         ]
       },
       {
-        "insertions": 190,
+        "insertions": 182,
         "deletions": 205,
         "date": "2017-10-30",
         "commitResults": [
@@ -762,20 +762,20 @@
             "message": "[TRAVISS] Fixed 120 character overshot to appease traviss",
             "insertions": 2,
             "deletions": 1
-          },
+          }
+        ]
+      },
+      {
+        "insertions": 548,
+        "deletions": 47,
+        "date": "2017-10-31",
+        "commitResults": [
           {
             "hash": "9138d3989582827b8248ef4a8318c03f605ab182",
             "message": "[PERSONCARD] Added getters/setters for fontSizeMultiplier",
             "insertions": 8,
             "deletions": 0
-          }
-        ]
-      },
-      {
-        "insertions": 540,
-        "deletions": 47,
-        "date": "2017-10-31",
-        "commitResults": [
+          },
           {
             "hash": "62c312936d4bdee43498592b92fec851f1e4afc4",
             "message": "[JUnit] Added font size increase/decrease tests",
@@ -1119,8 +1119,8 @@
         ]
       },
       {
-        "insertions": 754,
-        "deletions": 298,
+        "insertions": 609,
+        "deletions": 290,
         "date": "2017-11-05",
         "commitResults": [
           {
@@ -1286,28 +1286,16 @@
             "deletions": 2
           },
           {
-            "hash": "85f71b35ef533fa7577aade955ec21fb47caaac0",
-            "message": "[AVATAR] Set up avatar classes",
-            "insertions": 87,
-            "deletions": 2
-          },
-          {
             "hash": "c600f403d2e3c46e70d5694b5e614446fb8420b4",
             "message": "[AVATAR] Set up classes for avatar",
             "insertions": 55,
             "deletions": 7
-          },
-          {
-            "hash": "7a686ffe148479b8b78cc5e34c75390f62c61e6e",
-            "message": "[AVATAR] Set up classes for avatar",
-            "insertions": 58,
-            "deletions": 6
           }
         ]
       },
       {
-        "insertions": 441,
-        "deletions": 171,
+        "insertions": 248,
+        "deletions": 97,
         "date": "2017-11-06",
         "commitResults": [
           {
@@ -1329,12 +1317,6 @@
             "deletions": 6
           },
           {
-            "hash": "385a8257217c56e2ff230b5cfe376f3ae5f07fae",
-            "message": "[PERSONCARD][AVATAR] Removed change avatar button",
-            "insertions": 0,
-            "deletions": 6
-          },
-          {
             "hash": "13c1892ab0a07fbecc57b69dc15d6106e8d9c689",
             "message": "[TESTS][FIX] Fixed backup command parser tests",
             "insertions": 3,
@@ -1347,19 +1329,7 @@
             "deletions": 4
           },
           {
-            "hash": "ec38601ac01a61bc3f4d4d5e3fda171222e175e3",
-            "message": "[EDIT][PERSON] Made edit command and person accept new field of avatar",
-            "insertions": 42,
-            "deletions": 4
-          },
-          {
             "hash": "142967348fe82894f17b48ff376f883153157ce8",
-            "message": "[ADD][AVATAR] Added support for avatar in add command",
-            "insertions": 4,
-            "deletions": 1
-          },
-          {
-            "hash": "ee04676542e26fde449a2b7111cad216ce5bf7fb",
             "message": "[ADD][AVATAR] Added support for avatar in add command",
             "insertions": 4,
             "deletions": 1
@@ -1371,31 +1341,13 @@
             "deletions": 2
           },
           {
-            "hash": "6cf4c79d1fb4565c0f1b93dc1aaf2104b3622144",
-            "message": "[PERSON][AVATAR] Added support for avatar in person class",
-            "insertions": 2,
-            "deletions": 2
-          },
-          {
             "hash": "38f5f0536da3223ffaeb81c6550e3c46f5fae907",
             "message": "[PERSONBUILDER] Added support for avatar in different classes",
             "insertions": 57,
             "deletions": 15
           },
           {
-            "hash": "1dc6ecc3f2fd05ab491897da76798393d837d61e",
-            "message": "[PERSONBUILDER] Added support for avatar in different classes",
-            "insertions": 64,
-            "deletions": 37
-          },
-          {
             "hash": "a6ec9b501a1ae5328e50726d850495520c4aa2d4",
-            "message": "[PRIVACY] Added missing condition in equals method of ChangePrivacyCommand",
-            "insertions": 2,
-            "deletions": 1
-          },
-          {
-            "hash": "a2cc94b457c5d3b4ce027208bb5ea7bee4c11170",
             "message": "[PRIVACY] Added missing condition in equals method of ChangePrivacyCommand",
             "insertions": 2,
             "deletions": 1
@@ -1407,19 +1359,7 @@
             "deletions": 0
           },
           {
-            "hash": "fcc41475b49d8bbb5f7bc04c25e479fa3a4c8b9e",
-            "message": "[PRIVACY] Added missing condition in equals method of ChangePrivacyCommand",
-            "insertions": 4,
-            "deletions": 0
-          },
-          {
             "hash": "473beb79460d7b8021deb3ae0a0795dc3e39aa61",
-            "message": "[PRIVACY] Fixed some bugs for support for avatar",
-            "insertions": 4,
-            "deletions": 1
-          },
-          {
-            "hash": "a022e9548164dd29e8688fbbea887e89be24a894",
             "message": "[PRIVACY] Fixed some bugs for support for avatar",
             "insertions": 4,
             "deletions": 1
@@ -1431,31 +1371,13 @@
             "deletions": 0
           },
           {
-            "hash": "f4fa28860f1e97e68b9154af3043043a76356de0",
-            "message": "[XMLFILE] Added missing condition in XMLAdaptedPerson",
-            "insertions": 3,
-            "deletions": 0
-          },
-          {
             "hash": "2c7f01b14ed7441a58e4b68a6ff2df5a1058aadd",
             "message": "[FIX] Fixed typo in xml adapted person class",
             "insertions": 1,
             "deletions": 1
           },
           {
-            "hash": "ad2863f6ce396656051feda8fce4c6bba0c2bf31",
-            "message": "[FIX] Fixed typo in xml adapted person class",
-            "insertions": 1,
-            "deletions": 1
-          },
-          {
             "hash": "fef5b79c83d9ade0ebf9f7a9ad42c3f030d696ff",
-            "message": "[EDITCOMMANDPARSER] Added support for avatar in the command parser",
-            "insertions": 4,
-            "deletions": 2
-          },
-          {
-            "hash": "632d06b9b2b5119828c8c154bd7d5c8b4d564f8b",
             "message": "[EDITCOMMANDPARSER] Added support for avatar in the command parser",
             "insertions": 4,
             "deletions": 2
@@ -1473,12 +1395,6 @@
             "deletions": 10
           },
           {
-            "hash": "72153e9329609d2038b4714bc52be16f871d9d21",
-            "message": "[STORAGE] Deleted unused method from storage manager",
-            "insertions": 0,
-            "deletions": 10
-          },
-          {
             "hash": "97b13563703c35e6d51693890afb830419a63535",
             "message": "[CHECKSTYLE] Cleaned up unused code",
             "insertions": 2,
@@ -1491,19 +1407,7 @@
             "deletions": 4
           },
           {
-            "hash": "b5402c863c9e79b675c864c08c31c131e466b713",
-            "message": "[CHECKSTYLE] Fixed checkstyle problems",
-            "insertions": 27,
-            "deletions": 6
-          },
-          {
             "hash": "819e33846e3083cc514801d6a4ba7603b2b04675",
-            "message": "[PERSONCARD] Added getter for avatar",
-            "insertions": 6,
-            "deletions": 0
-          },
-          {
-            "hash": "4bce12dbfcc9a7140c1e93c0b62cda41cd59122c",
             "message": "[PERSONCARD] Added getter for avatar",
             "insertions": 6,
             "deletions": 0
@@ -1515,19 +1419,7 @@
             "deletions": 0
           },
           {
-            "hash": "244ccce415d5012d949606140fbda053babee3ee",
-            "message": "[READONLYPERSON] Added avatar string in ReadOnlyPerson get as text",
-            "insertions": 2,
-            "deletions": 0
-          },
-          {
             "hash": "0e4ad843b50dab98e524d474cf451fbcf5813e14",
-            "message": "[TESTUTIL] Edit person descriptor support for avatar",
-            "insertions": 16,
-            "deletions": 1
-          },
-          {
-            "hash": "96e8f3445c9f412f76d4f8ef4a0ff9eaa94f2e94",
             "message": "[TESTUTIL] Edit person descriptor support for avatar",
             "insertions": 16,
             "deletions": 1
@@ -1537,28 +1429,16 @@
             "message": "[COMMANDUTIL] Added avatar support",
             "insertions": 12,
             "deletions": 2
-          },
-          {
-            "hash": "709b4db4f62449edbfe8bf9c13b06d6b6dbbbb4f",
-            "message": "[COMMANDUTIL] Added avatar support",
-            "insertions": 12,
-            "deletions": 2
           }
         ]
       },
       {
-        "insertions": 174,
-        "deletions": 182,
+        "insertions": 444,
+        "deletions": 184,
         "date": "2017-11-07",
         "commitResults": [
           {
             "hash": "767c835bbbf22bc516e11566721f8c0be3eca97d",
-            "message": "[BUG] Half-fix for parse issue with avatar",
-            "insertions": 18,
-            "deletions": 12
-          },
-          {
-            "hash": "af4b99d55b1684bd2892a8bac18b6a070f17fcf7",
             "message": "[BUG] Half-fix for parse issue with avatar",
             "insertions": 18,
             "deletions": 12
@@ -1570,19 +1450,7 @@
             "deletions": 5
           },
           {
-            "hash": "335a858fdea786b9d71aa09a7e3222a5f38e3384",
-            "message": "[TEST][FIX] Fixed parse optional fields missing success test in addcommandparser",
-            "insertions": 5,
-            "deletions": 5
-          },
-          {
             "hash": "2dc11599c41d1668f96d456778f375c1c62d1996",
-            "message": "[FIX][TESTS] ixed all add command parser tests",
-            "insertions": 2,
-            "deletions": 2
-          },
-          {
-            "hash": "e8cff7c316011ad4d3e8c820fe0b91f7fcaa69cd",
             "message": "[FIX][TESTS] ixed all add command parser tests",
             "insertions": 2,
             "deletions": 2
@@ -1594,16 +1462,130 @@
             "deletions": 0
           },
           {
-            "hash": "3cf78f8e5c478f137e1c734ca20d9a08cfdc737f",
-            "message": "[PERSONUTIL][FIX] Fixed broken test in AddressBookParserTest",
-            "insertions": 2,
-            "deletions": 0
-          },
-          {
             "hash": "12f24d20b4efd1b6140a57184ee2c097ed570003",
             "message": "[FIX] Removed unused imports",
             "insertions": 0,
             "deletions": 2
+          },
+          {
+            "hash": "85f71b35ef533fa7577aade955ec21fb47caaac0",
+            "message": "[AVATAR] Set up avatar classes",
+            "insertions": 87,
+            "deletions": 2
+          },
+          {
+            "hash": "7a686ffe148479b8b78cc5e34c75390f62c61e6e",
+            "message": "[AVATAR] Set up classes for avatar",
+            "insertions": 58,
+            "deletions": 6
+          },
+          {
+            "hash": "385a8257217c56e2ff230b5cfe376f3ae5f07fae",
+            "message": "[PERSONCARD][AVATAR] Removed change avatar button",
+            "insertions": 0,
+            "deletions": 6
+          },
+          {
+            "hash": "ec38601ac01a61bc3f4d4d5e3fda171222e175e3",
+            "message": "[EDIT][PERSON] Made edit command and person accept new field of avatar",
+            "insertions": 42,
+            "deletions": 4
+          },
+          {
+            "hash": "ee04676542e26fde449a2b7111cad216ce5bf7fb",
+            "message": "[ADD][AVATAR] Added support for avatar in add command",
+            "insertions": 4,
+            "deletions": 1
+          },
+          {
+            "hash": "6cf4c79d1fb4565c0f1b93dc1aaf2104b3622144",
+            "message": "[PERSON][AVATAR] Added support for avatar in person class",
+            "insertions": 2,
+            "deletions": 2
+          },
+          {
+            "hash": "1dc6ecc3f2fd05ab491897da76798393d837d61e",
+            "message": "[PERSONBUILDER] Added support for avatar in different classes",
+            "insertions": 64,
+            "deletions": 37
+          },
+          {
+            "hash": "a2cc94b457c5d3b4ce027208bb5ea7bee4c11170",
+            "message": "[PRIVACY] Added missing condition in equals method of ChangePrivacyCommand",
+            "insertions": 2,
+            "deletions": 1
+          },
+          {
+            "hash": "fcc41475b49d8bbb5f7bc04c25e479fa3a4c8b9e",
+            "message": "[PRIVACY] Added missing condition in equals method of ChangePrivacyCommand",
+            "insertions": 4,
+            "deletions": 0
+          },
+          {
+            "hash": "a022e9548164dd29e8688fbbea887e89be24a894",
+            "message": "[PRIVACY] Fixed some bugs for support for avatar",
+            "insertions": 4,
+            "deletions": 1
+          },
+          {
+            "hash": "f4fa28860f1e97e68b9154af3043043a76356de0",
+            "message": "[XMLFILE] Added missing condition in XMLAdaptedPerson",
+            "insertions": 3,
+            "deletions": 0
+          },
+          {
+            "hash": "ad2863f6ce396656051feda8fce4c6bba0c2bf31",
+            "message": "[FIX] Fixed typo in xml adapted person class",
+            "insertions": 1,
+            "deletions": 1
+          },
+          {
+            "hash": "632d06b9b2b5119828c8c154bd7d5c8b4d564f8b",
+            "message": "[EDITCOMMANDPARSER] Added support for avatar in the command parser",
+            "insertions": 4,
+            "deletions": 2
+          },
+          {
+            "hash": "b5402c863c9e79b675c864c08c31c131e466b713",
+            "message": "[CHECKSTYLE] Fixed checkstyle problems",
+            "insertions": 27,
+            "deletions": 6
+          },
+          {
+            "hash": "96e8f3445c9f412f76d4f8ef4a0ff9eaa94f2e94",
+            "message": "[TESTUTIL] Edit person descriptor support for avatar",
+            "insertions": 16,
+            "deletions": 1
+          },
+          {
+            "hash": "709b4db4f62449edbfe8bf9c13b06d6b6dbbbb4f",
+            "message": "[COMMANDUTIL] Added avatar support",
+            "insertions": 12,
+            "deletions": 2
+          },
+          {
+            "hash": "af4b99d55b1684bd2892a8bac18b6a070f17fcf7",
+            "message": "[BUG] Half-fix for parse issue with avatar",
+            "insertions": 18,
+            "deletions": 12
+          },
+          {
+            "hash": "335a858fdea786b9d71aa09a7e3222a5f38e3384",
+            "message": "[TEST][FIX] Fixed parse optional fields missing success test in addcommandparser",
+            "insertions": 5,
+            "deletions": 5
+          },
+          {
+            "hash": "e8cff7c316011ad4d3e8c820fe0b91f7fcaa69cd",
+            "message": "[FIX][TESTS] ixed all add command parser tests",
+            "insertions": 2,
+            "deletions": 2
+          },
+          {
+            "hash": "3cf78f8e5c478f137e1c734ca20d9a08cfdc737f",
+            "message": "[PERSONUTIL][FIX] Fixed broken test in AddressBookParserTest",
+            "insertions": 2,
+            "deletions": 0
           },
           {
             "hash": "6a66907891f218d32ed85bae38ede041671a518a",
@@ -1618,19 +1600,7 @@
             "deletions": 1
           },
           {
-            "hash": "722701f45955d02a2a495c7d09c06dd6075cc580",
-            "message": "[EVENT] Added new event for avatar change",
-            "insertions": 33,
-            "deletions": 1
-          },
-          {
             "hash": "2e497ebafe2b09eef3c26f0cac266ca147e9da74",
-            "message": "[AVATAR][EVENTS] Added newline",
-            "insertions": 1,
-            "deletions": 1
-          },
-          {
-            "hash": "555e09b7accb22263f58f6a9828759a316f9a580",
             "message": "[AVATAR][EVENTS] Added newline",
             "insertions": 1,
             "deletions": 1
@@ -1642,19 +1612,7 @@
             "deletions": 3
           },
           {
-            "hash": "83e1c2fd482c4fa2537f11b86320759339a154fc",
-            "message": "[COLLATE] Added collate comments",
-            "insertions": 2,
-            "deletions": 3
-          },
-          {
             "hash": "c3d92d50da9b66a27119227c5b84add12cde5f01",
-            "message": "[PERSONCARD] Remove avatar variable",
-            "insertions": 0,
-            "deletions": 8
-          },
-          {
-            "hash": "43c8ee343b1d0723b19d7c3c7563477841745e56",
             "message": "[PERSONCARD] Remove avatar variable",
             "insertions": 0,
             "deletions": 8
@@ -1666,19 +1624,7 @@
             "deletions": 56
           },
           {
-            "hash": "cd57a99d87b41ab3cc2d21cbd9f19eec51b20b5c",
-            "message": "[AVATAR] Took down avatar from person list cards in panel",
-            "insertions": 1,
-            "deletions": 56
-          },
-          {
             "hash": "6b4ab68f60aa47a44ce11922656ba6101004a970",
-            "message": "[AVATAR] Implemented avatar on new selection panel",
-            "insertions": 23,
-            "deletions": 1
-          },
-          {
-            "hash": "966a7d74d7182939395601bb78ed600ef0b94c23",
             "message": "[AVATAR] Implemented avatar on new selection panel",
             "insertions": 23,
             "deletions": 1
@@ -1686,18 +1632,12 @@
         ]
       },
       {
-        "insertions": 730,
-        "deletions": 276,
+        "insertions": 798,
+        "deletions": 356,
         "date": "2017-11-08",
         "commitResults": [
           {
             "hash": "0fb1e585e71bc0bb4ffbfcefbf06c691e394cb57",
-            "message": "[DELETE] Deleted event for changed avatar",
-            "insertions": 0,
-            "deletions": 30
-          },
-          {
-            "hash": "a1d33a2144336e00379e0fb933d99bcca94b3827",
             "message": "[DELETE] Deleted event for changed avatar",
             "insertions": 0,
             "deletions": 30
@@ -1709,31 +1649,13 @@
             "deletions": 4
           },
           {
-            "hash": "081d360e296a86f491df4b8103f2eb83966b21fd",
-            "message": "[UG] Added bits and pieces to include avatar field",
-            "insertions": 7,
-            "deletions": 2
-          },
-          {
             "hash": "6d868a65f6f536991050289a2923e5d76ebef8f9",
             "message": "[UG] Made a few tweaks to UG",
             "insertions": 5,
             "deletions": 1
           },
           {
-            "hash": "efd1b8343118723fdfa579a5604543a931165320",
-            "message": "[UG] Made a few tweaks to UG",
-            "insertions": 15,
-            "deletions": 0
-          },
-          {
             "hash": "b09cac42b0ad1a27bcfc43e25c04104e32c77859",
-            "message": "[DG] Update DG to include implementation of avatar setting",
-            "insertions": 36,
-            "deletions": 0
-          },
-          {
-            "hash": "f0ba8c5b0c5c6a41f6a28c1c1ef49286eca1474c",
             "message": "[DG] Update DG to include implementation of avatar setting",
             "insertions": 36,
             "deletions": 0
@@ -1745,19 +1667,7 @@
             "deletions": 1
           },
           {
-            "hash": "a4fb8344b3c71a311d850f04f7348d18dc997571",
-            "message": "[VERSION] Change version to v1.5",
-            "insertions": 1,
-            "deletions": 1
-          },
-          {
             "hash": "680c804abbd7c7a2f15367aa9942fdaa43e33f47",
-            "message": "[COLLATE] Updated collate files",
-            "insertions": 2,
-            "deletions": 2
-          },
-          {
-            "hash": "c7b362faeb281cc3775c0bddb6cd4a6f21bbf799",
             "message": "[COLLATE] Updated collate files",
             "insertions": 2,
             "deletions": 2
@@ -1769,19 +1679,7 @@
             "deletions": 1
           },
           {
-            "hash": "8783c5e1a07e3414ef86d72a7652aef89d1b3487",
-            "message": "[UG] Removed trailing whitespace",
-            "insertions": 1,
-            "deletions": 1
-          },
-          {
             "hash": "68aae7512b463f4cf11b1a55f853da523f3bafab",
-            "message": "[DOCS] Update docs and added contributions doc",
-            "insertions": 161,
-            "deletions": 43
-          },
-          {
-            "hash": "7f5e99628b44fc8153bbbfd93417a163ef339d75",
             "message": "[DOCS] Update docs and added contributions doc",
             "insertions": 161,
             "deletions": 43
@@ -1793,19 +1691,7 @@
             "deletions": 1
           },
           {
-            "hash": "343a70ff4f61ccf454b236dd5df801e9bd321c9f",
-            "message": "[DG] Added some asciidoc fixes",
-            "insertions": 1,
-            "deletions": 1
-          },
-          {
             "hash": "f161d2d25a039a88b79c5c4fec7fbce55ece47c5",
-            "message": "[EOFNEWLINE] Added newline at EOF",
-            "insertions": 1,
-            "deletions": 1
-          },
-          {
-            "hash": "0c0284c24617013d1fff1579cd6caf932dd30cca",
             "message": "[EOFNEWLINE] Added newline at EOF",
             "insertions": 1,
             "deletions": 1
@@ -1815,6 +1701,120 @@
             "message": "[DOCS] Delete john doe example adoc file",
             "insertions": 0,
             "deletions": 50
+          },
+          {
+            "hash": "72153e9329609d2038b4714bc52be16f871d9d21",
+            "message": "[STORAGE] Deleted unused method from storage manager",
+            "insertions": 0,
+            "deletions": 10
+          },
+          {
+            "hash": "4bce12dbfcc9a7140c1e93c0b62cda41cd59122c",
+            "message": "[PERSONCARD] Added getter for avatar",
+            "insertions": 6,
+            "deletions": 0
+          },
+          {
+            "hash": "244ccce415d5012d949606140fbda053babee3ee",
+            "message": "[READONLYPERSON] Added avatar string in ReadOnlyPerson get as text",
+            "insertions": 2,
+            "deletions": 0
+          },
+          {
+            "hash": "722701f45955d02a2a495c7d09c06dd6075cc580",
+            "message": "[EVENT] Added new event for avatar change",
+            "insertions": 33,
+            "deletions": 1
+          },
+          {
+            "hash": "555e09b7accb22263f58f6a9828759a316f9a580",
+            "message": "[AVATAR][EVENTS] Added newline",
+            "insertions": 1,
+            "deletions": 1
+          },
+          {
+            "hash": "83e1c2fd482c4fa2537f11b86320759339a154fc",
+            "message": "[COLLATE] Added collate comments",
+            "insertions": 2,
+            "deletions": 3
+          },
+          {
+            "hash": "43c8ee343b1d0723b19d7c3c7563477841745e56",
+            "message": "[PERSONCARD] Remove avatar variable",
+            "insertions": 0,
+            "deletions": 8
+          },
+          {
+            "hash": "cd57a99d87b41ab3cc2d21cbd9f19eec51b20b5c",
+            "message": "[AVATAR] Took down avatar from person list cards in panel",
+            "insertions": 1,
+            "deletions": 56
+          },
+          {
+            "hash": "966a7d74d7182939395601bb78ed600ef0b94c23",
+            "message": "[AVATAR] Implemented avatar on new selection panel",
+            "insertions": 23,
+            "deletions": 1
+          },
+          {
+            "hash": "a1d33a2144336e00379e0fb933d99bcca94b3827",
+            "message": "[DELETE] Deleted event for changed avatar",
+            "insertions": 0,
+            "deletions": 30
+          },
+          {
+            "hash": "081d360e296a86f491df4b8103f2eb83966b21fd",
+            "message": "[UG] Added bits and pieces to include avatar field",
+            "insertions": 7,
+            "deletions": 2
+          },
+          {
+            "hash": "efd1b8343118723fdfa579a5604543a931165320",
+            "message": "[UG] Made a few tweaks to UG",
+            "insertions": 15,
+            "deletions": 0
+          },
+          {
+            "hash": "f0ba8c5b0c5c6a41f6a28c1c1ef49286eca1474c",
+            "message": "[DG] Update DG to include implementation of avatar setting",
+            "insertions": 36,
+            "deletions": 0
+          },
+          {
+            "hash": "a4fb8344b3c71a311d850f04f7348d18dc997571",
+            "message": "[VERSION] Change version to v1.5",
+            "insertions": 1,
+            "deletions": 1
+          },
+          {
+            "hash": "c7b362faeb281cc3775c0bddb6cd4a6f21bbf799",
+            "message": "[COLLATE] Updated collate files",
+            "insertions": 2,
+            "deletions": 2
+          },
+          {
+            "hash": "8783c5e1a07e3414ef86d72a7652aef89d1b3487",
+            "message": "[UG] Removed trailing whitespace",
+            "insertions": 1,
+            "deletions": 1
+          },
+          {
+            "hash": "7f5e99628b44fc8153bbbfd93417a163ef339d75",
+            "message": "[DOCS] Update docs and added contributions doc",
+            "insertions": 161,
+            "deletions": 43
+          },
+          {
+            "hash": "343a70ff4f61ccf454b236dd5df801e9bd321c9f",
+            "message": "[DG] Added some asciidoc fixes",
+            "insertions": 1,
+            "deletions": 1
+          },
+          {
+            "hash": "0c0284c24617013d1fff1579cd6caf932dd30cca",
+            "message": "[EOFNEWLINE] Added newline at EOF",
+            "insertions": 1,
+            "deletions": 1
           },
           {
             "hash": "6c84f30a713ed61a4daff123a61904a169a90340",
@@ -3671,9 +3671,9 @@
         ]
       },
       {
-        "insertions": 112,
-        "deletions": 32,
-        "date": "2017-11-06",
+        "insertions": 424,
+        "deletions": 86,
+        "date": "2017-11-07",
         "commitResults": [
           {
             "hash": "b8434886a04434b52038fcb9fb88411c7bfae6ce",
@@ -3698,14 +3698,7 @@
             "message": "Remove irrelevant sections in the UG",
             "insertions": 0,
             "deletions": 10
-          }
-        ]
-      },
-      {
-        "insertions": 312,
-        "deletions": 54,
-        "date": "2017-11-07",
-        "commitResults": [
+          },
           {
             "hash": "903aea34d44df8f0ee03a907f8042637052370f5",
             "message": "Update NavigateCommand to detect Person or Tasks with no Address",
@@ -6188,8 +6181,8 @@
         ]
       },
       {
-        "insertions": 606,
-        "deletions": 81,
+        "insertions": 405,
+        "deletions": 52,
         "date": "2017-11-07",
         "commitResults": [
           {
@@ -6229,19 +6222,7 @@
             "deletions": 0
           },
           {
-            "hash": "e3173c342e1cd7d1851b1f7b289de301d347c0e7",
-            "message": "[Docs] Added portfolio page",
-            "insertions": 166,
-            "deletions": 0
-          },
-          {
             "hash": "9257092912abeb85e8f0958d62133597b1192e44",
-            "message": "[Docs] Rephrased DG for Task implementation",
-            "insertions": 27,
-            "deletions": 29
-          },
-          {
-            "hash": "bc6c88e237c7c783d4bdc86e40b34351133b63f0",
             "message": "[Docs] Rephrased DG for Task implementation",
             "insertions": 27,
             "deletions": 29
@@ -6253,15 +6234,34 @@
             "deletions": 0
           },
           {
-            "hash": "d9a85d44f48a21769140a3a9563ed400531e34a7",
-            "message": "[Docs] Added tags for portfolio page including purposes",
-            "insertions": 6,
-            "deletions": 0
-          },
-          {
             "hash": "4d77a98edb79b3340565637afea729cfdd012b1a",
             "message": "[Docs] Added extra include statements from UG",
             "insertions": 2,
+            "deletions": 0
+          }
+        ]
+      },
+      {
+        "insertions": 201,
+        "deletions": 29,
+        "date": "2017-11-08",
+        "commitResults": [
+          {
+            "hash": "e3173c342e1cd7d1851b1f7b289de301d347c0e7",
+            "message": "[Docs] Added portfolio page",
+            "insertions": 166,
+            "deletions": 0
+          },
+          {
+            "hash": "bc6c88e237c7c783d4bdc86e40b34351133b63f0",
+            "message": "[Docs] Rephrased DG for Task implementation",
+            "insertions": 27,
+            "deletions": 29
+          },
+          {
+            "hash": "d9a85d44f48a21769140a3a9563ed400531e34a7",
+            "message": "[Docs] Added tags for portfolio page including purposes",
+            "insertions": 6,
             "deletions": 0
           },
           {
@@ -8135,9 +8135,9 @@
     }
   },
   "authorContributionVariance": {
-    "charlesgoh": 86818.71,
-    "jeffreygohkw": 71305.99,
-    "Esilocke": 413377.22,
+    "charlesgoh": 87520.74,
+    "jeffreygohkw": 73333.07,
+    "Esilocke": 409334.53,
     "wangyiming1019": 63797.973
   },
   "authorDisplayNameMap": {

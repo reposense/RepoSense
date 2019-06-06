@@ -10,6 +10,7 @@ import java.util.Optional;
 import java.util.logging.Logger;
 
 import reposense.git.GitBranch;
+import reposense.git.exception.GitBranchException;
 import reposense.system.LogsManager;
 import reposense.util.FileUtil;
 
@@ -24,8 +25,8 @@ public class RepoConfiguration {
     private RepoLocation location;
     private String branch;
     private String displayName;
-    private Date sinceDate;
-    private Date untilDate;
+    private transient Date sinceDate;
+    private transient Date untilDate;
 
     private transient boolean annotationOverwrite = true;
     private transient List<Format> formats;
@@ -79,7 +80,8 @@ public class RepoConfiguration {
             List<RepoConfiguration> configs, Optional<Date> sinceDate, Optional<Date> untilDate) {
         for (RepoConfiguration config : configs) {
             config.setSinceDate(sinceDate.orElse(null));
-            config.setUntilDate(untilDate.orElse(null));
+            // set untilDate in summary.json to the current date of generation if it is not provided
+            config.setUntilDate(untilDate.orElse(new Date()));
         }
     }
 
@@ -228,7 +230,7 @@ public class RepoConfiguration {
     /**
      * Gets the current branch and updates branch with current branch if default branch is specified.
      */
-    public void updateBranch() {
+    public void updateBranch() throws GitBranchException {
         if (branch.equals(DEFAULT_BRANCH)) {
             String currentBranch = GitBranch.getCurrentBranch(getRepoRoot());
             setBranch(currentBranch);

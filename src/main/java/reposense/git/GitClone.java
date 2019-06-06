@@ -10,6 +10,7 @@ import java.nio.file.Paths;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import reposense.git.exception.GitBranchException;
 import reposense.git.exception.GitCloneException;
 import reposense.model.RepoConfiguration;
 import reposense.model.RepoLocation;
@@ -56,12 +57,20 @@ public class GitClone {
         try {
             repoConfig.updateBranch();
             GitCheckout.checkout(repoConfig.getRepoRoot(), repoConfig.getBranch());
+        } catch (GitBranchException gbe) {
+            logger.log(Level.SEVERE,
+                    "Exception met while trying to get current branch of repo. Analysis terminated.", gbe);
+            throw new GitCloneException(gbe);
         } catch (RuntimeException rte) {
             logger.log(Level.SEVERE, "Branch does not exist! Analysis terminated.", rte);
             throw new GitCloneException(rte);
         }
     }
 
+    /**
+     * Clones a repo given the repo location into a directory.
+     * @throws IOException if it fails to create a directory.
+     */
     private static void clone(RepoLocation location, String repoFolderName, String repoName, String additionalCommand)
             throws IOException {
         Path rootPath = Paths.get(FileUtil.REPOS_ADDRESS, repoFolderName);
