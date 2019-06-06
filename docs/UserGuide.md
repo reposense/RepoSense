@@ -105,16 +105,16 @@ The `Tool Bar` at the top provides a set of configuration options that control t
   * Multiple keywords/terms can be used, separated by spaces.
   * Entries that contain _any_ (not necessarily _all_) of the search terms will be displayed.
   * The keywords used to filter author and repository are case-insensitive.
-* `Group by` : denotes whether to group the captured results by
+* `Group by` : grouping criteria for the rows of results
   * `None` : results will not be grouped in any particular way.
   * `Repo/Branch` : results will be grouped by repositories and its' associating branches.
   * `Author` : results will be  grouped by the name of the author. Contributions made to multiple repositories by a particular author will be grouped under the author.  
 * `Sort groups by`: sorting criteria for the main group
   * `Name` : groups will be sorted by GitHub ID in alphabetical order.
   * `Repo/branch` : groups will be sorted in alphabetical order by the name of the repo, followed by name of the branch. See note [1] below.
-  * `Contribution` : groups will be sorted by the total combined contributions within a group, in the order of number of lines added
+  * `Contribution` : groups will be sorted by the combined contributions within a group, in the order of number of lines added
   * `Variance` : the [variance](https://en.wikipedia.org/wiki/Variance) of the number of lines that the group has contributed to the repository daily.
-* `Sort within groups by`: sorting criteria within a group
+* `Sort within groups by`: sorting criteria within each group
   * `Name` : sorted by GitHub ID in alphabetical order.
   * `Repo/branch` : sorted in alphabetical order by the name of the repo, followed by name of the branch. See note [1] below.
   * `Contribution` : sorted by individual contributions in the order of number of lines added
@@ -292,7 +292,7 @@ The directory used with the `--config` parameter should contain a `repo-config.c
 `repo-config.csv` file contains repo-level config data as follows:
 
 * First row: column headings, ignored by RepoSense
-* Second row onwards: repo data
+* Second row onwards: each row represents a repository's configuration
 
 Here is an example:
 
