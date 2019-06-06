@@ -10,7 +10,7 @@ function getBaseLink(repoId) {
 }
 
 window.rampClick = function rampClick(evt) {
-  const isKeyPressed = navigator.userAgent.includes("Mac") ? evt.metaKey : evt.ctrlKey;
+  const isKeyPressed = this.isMacintosh ? evt.metaKey : evt.ctrlKey;
   if (isKeyPressed) { evt.preventDefault(); }
 };
 

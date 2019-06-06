@@ -57,7 +57,7 @@ function dragViewUp(evt) {
 }
 
 window.viewClick = function viewClick(evt) {
-  const isKeyPressed = navigator.userAgent.includes("Mac") ? evt.metaKey : evt.ctrlKey;
+  const isKeyPressed = this.isMacintosh ? evt.metaKey : evt.ctrlKey;
   if (drags.length === 2) {
     drags = [];
   }
