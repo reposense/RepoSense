@@ -23,6 +23,20 @@
 It takes a few minutes for report generation. Meanwhile, you can monitor the progress live at [Travis-CI's Builds](https://travis-ci.org/dashboard/builds). <br/>
 Try accessing your site again when a green tick appears beside your fork.
 
+### Granting write-access to RepoSense for publishing
+We recommmend use of [deploy key](https://developer.github.com/v3/guides/managing-deploy-keys/#deploy-keys) for enhanced security and [personal access token](https://github.blog/2013-05-16-personal-api-tokens/) for ease of setup.
+
+##### If you wish to use `personal access token`:
+1. Follow this [guide](https://help.github.com/articles/creating-a-personal-access-token-for-the-command-line/) to generate a `Personal access token` on GitHub for report publishing <br/>
+*Remember to **copy it** and you would **only require** `public_repo` permission*
+
+##### If you wish to use `deploy key`:
+1. Use `ssh-keygen` to create a public/private key pair without a passphrase. <br/>
+i.e. `ssh-keygen -t ecdsa -b 521 -f id_reposense -q -N ""`
+2. Go to the [deploy key settings](../../../../publish-RepoSense/settings/keys) of your publish-RepoSense fork and create a new deploy key with the contents of `id_reposense.pub`
+3. Next **copy** the base64 encoded content of the private key. <br/>
+i.e. `cat id_reposense | base64 -w 0`
+
 ### Keeping your site up-to-date with your code contribution
 
 [Travis-CI](https://travis-ci.org/) offers `Cron Jobs` in intervals of daily, weekly or monthly.
