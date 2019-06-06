@@ -28,6 +28,8 @@ public class FileInfoExtractorTest extends GitTestTemplate {
     private static final String DIRECTORY_WITH_VALID_WHITELISTED_NAME_BRANCH = "directory-with-valid-whitelisted-name";
     private static final String BRANCH_WITH_VALID_WHITELISTED_FILE_NAME_BRANCH =
             "535-FileInfoExtractorTest-branchWithValidWhitelistedFileName.txt";
+    private static final String BINARY_AND_NON_BINARY_FILES_BRANCH =
+            "728-FileInfoExtractorTest-generateFileInfo_directoryWithBinaryAndNonBinaryFiles_success";
     private static final String FEBRUARY_EIGHT_COMMIT_HASH = "768015345e70f06add2a8b7d1f901dc07bf70582";
     private static final String OCTOBER_SEVENTH_COMMIT_HASH = "b28dfac5bd449825c1a372e58485833b35fdbd50";
 
@@ -161,6 +163,18 @@ public class FileInfoExtractorTest extends GitTestTemplate {
     public void generateFileInfo_fileWithoutSpecialCharacters_correctFileInfoGenerated() {
         FileInfo fileInfo = FileInfoExtractor.generateFileInfo(".", FILE_WITHOUT_SPECIAL_CHARACTER.toString());
         Assert.assertEquals(5, fileInfo.getLines().size());
+    }
+
+    @Test
+    public void generateFileInfo_directoryWithBinaryAndNonBinaryFiles_success() {
+        GitCheckout.checkoutBranch(config.getRepoRoot(), BINARY_AND_NON_BINARY_FILES_BRANCH);
+        List<FileInfo> files = FileInfoExtractor.extractFileInfos(config);
+
+        Assert.assertEquals(1, files.size());
+        // Non binary files should be captured
+        Assert.assertTrue(isFileExistence(Paths.get("binaryFileTest/nonBinaryFile.txt"), files));
+        // Binary files should be ignored
+        Assert.assertFalse(isFileExistence(Paths.get("binaryFileTest/binaryFile.txt"), files));
     }
 
     private boolean isFileExistence(Path filePath, List<FileInfo> files) {
