@@ -14,10 +14,10 @@ import net.sourceforge.argparse4j.inf.ArgumentParserException;
  */
 public class SinceDateArgumentType extends DateArgumentType {
     /*
-     * When user specifies *, arbitrary since date will be returned.
+     * When user specifies *, arbitrary first commit date will be returned.
      * Then, ReportGenerator will replace the arbitrary since date with the earliest commit date.
      */
-    public static final Date ARBITRARY_SINCE_DATE = new GregorianCalendar(1, Calendar.JANUARY,
+    public static final Date ARBITARY_FIRST_COMMIT_DATE = new GregorianCalendar(1, Calendar.JANUARY,
             1).getTime();
 
     /**
@@ -27,7 +27,7 @@ public class SinceDateArgumentType extends DateArgumentType {
     @Override
     public Optional<Date> convert(ArgumentParser parser, Argument arg, String value) throws ArgumentParserException {
         if ("*".equals(value)) {
-            return Optional.of(ARBITRARY_SINCE_DATE);
+            return Optional.of(ARBITARY_FIRST_COMMIT_DATE);
         }
         return super.convert(parser, arg, value);
     }

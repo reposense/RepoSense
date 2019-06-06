@@ -88,7 +88,7 @@ public class ReportGenerator {
             cal.setTime(untilDate);
             cal.add(Calendar.MONTH, -1);
             sinceDate = cal.getTime();
-        } else if (sinceDate.equals(SinceDateArgumentType.ARBITRARY_SINCE_DATE)) {
+        } else if (sinceDate.equals(SinceDateArgumentType.ARBITARY_FIRST_COMMIT_DATE)) {
             sinceDate = earliestSinceDate;
         }
 
