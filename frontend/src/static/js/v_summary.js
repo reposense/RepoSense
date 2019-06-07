@@ -79,14 +79,14 @@ function getDateStr(date) {
   return (new Date(date)).toISOString().split('T')[0];
 }
 function dateRounding(datestr, roundDown) {
-  // rounding up to nearest sunday
+  // rounding up to nearest monday
   const date = new Date(datestr);
   const day = date.getUTCDay();
   let datems = date.getTime();
   if (roundDown) {
-    datems -= day * DAY_IN_MS;
+    datems -= ((day + 6) % 7) * DAY_IN_MS;
   } else {
-    datems += (7 - day) * DAY_IN_MS;
+    datems += ((8 - day) % 7) * DAY_IN_MS;
   }
 
   return getDateStr(datems);
@@ -389,7 +389,7 @@ window.vSummary = {
 
       const res = [];
 
-      const sinceDate = dateRounding(this.filterSinceDate, 0); // round up for the next sunday
+      const sinceDate = dateRounding(this.filterSinceDate, 0); // round up for the next monday
       const untilDate = this.filterUntilDate;
 
       const sinceMs = (new Date(sinceDate)).getTime();
@@ -399,7 +399,7 @@ window.vSummary = {
       // if filterSinceDate is not the start of the week
       if (this.filterSinceDate !== sinceDate) {
         const firstWeekDateMs = new Date(this.filterSinceDate).getTime();
-        this.pushCommitsWeek(firstWeekDateMs, sinceMs, sinceMs - firstWeekDateMs, res, commits);
+        this.pushCommitsWeek(firstWeekDateMs, sinceMs - 1, WEEK_IN_MS, res, commits);
       }
 
       this.pushCommitsWeek(sinceMs, untilMs, WEEK_IN_MS, res, commits);
