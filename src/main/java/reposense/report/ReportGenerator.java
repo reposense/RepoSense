@@ -9,8 +9,10 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -19,6 +21,7 @@ import com.google.gson.JsonSyntaxException;
 import reposense.RepoSense;
 import reposense.authorship.AuthorshipReporter;
 import reposense.authorship.model.AuthorshipSummary;
+import reposense.authorship.model.FileResult;
 import reposense.commits.CommitsReporter;
 import reposense.commits.model.CommitContributionSummary;
 import reposense.git.GitCheckout;
@@ -223,6 +226,32 @@ public class ReportGenerator {
         CommitReportJson commitReportJson = new CommitReportJson(commitSummary, authorshipSummary);
         FileUtil.writeJsonFile(commitReportJson, getIndividualCommitsPath(repoReportDirectory));
         FileUtil.writeJsonFile(authorshipSummary.getFileResults(), getIndividualAuthorshipPath(repoReportDirectory));
+
+        generateAuthorshipSummaryByFiles(authorshipSummary.getFileResults(), repoReportDirectory);
+        generateAuthorshipSummaryReport(authorshipSummary.getFileResults(), repoReportDirectory);
+    }
+
+    private static void generateAuthorshipSummaryReport(List<FileResult> fileResults, String repoReportDirectory) {
+        Set<FileAuthorshipSummary> fileAuthorshipSummaries = new HashSet<>();
+        fileResults.forEach(fileResult -> fileAuthorshipSummaries.add(new FileAuthorshipSummary(fileResult)));
+        FileUtil.writeJsonFile(fileAuthorshipSummaries, getAuthorshipSummaryPath(repoReportDirectory));
+    }
+
+    /**
+     * Generates individual authorship summary by individual files captured in {@code fileResults}.
+     */
+    private static void generateAuthorshipSummaryByFiles(List<FileResult> fileResults,
+                                                         String repoReportDirectory) {
+        for (FileResult fileResult : fileResults) {
+            Path absoluteFilePath =
+                    Paths.get(repoReportDirectory + "/files/" + fileResult.getPath() + ".json");
+            try {
+                FileUtil.createDirectory(absoluteFilePath.getParent());
+            } catch (IOException ioe) {
+                logger.log(Level.SEVERE, ioe.getMessage());
+            }
+            FileUtil.writeJsonFile(fileResult.getLines(), absoluteFilePath.toString());
+        }
     }
 
     /**
@@ -244,6 +273,10 @@ public class ReportGenerator {
 
     private static String getIndividualCommitsPath(String repoReportDirectory) {
         return repoReportDirectory + "/commits.json";
+    }
+
+    private static String getAuthorshipSummaryPath(String repoReportDirectory) {
+        return repoReportDirectory + "/authorshipSummary.json";
     }
 
     public static void setEarliestSinceDate(Date newEarliestSinceDate) {
