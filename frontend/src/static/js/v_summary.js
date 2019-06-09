@@ -438,16 +438,19 @@ window.vSummary = {
           endDate: getDateStr(endOfWeekMsWithinUntilMs),
         };
 
-        // commits are not contiguous, meaning there are gaps of days without
-        // commits, so we are going to check each commit's date and make sure
-        // it is within the duration of a week
-        while (commits.length > 0
-            && (new Date(commits[0].date)).getTime() <= endOfWeekMsWithinUntilMs) {
-          const commit = commits.shift();
-          week.insertions += commit.insertions;
-          week.deletions += commit.deletions;
-        }
+        this.addLineContributionWeek(endOfWeekMsWithinUntilMs, week, commits);
         res.push(week);
+      }
+    },
+    addLineContributionWeek(endOfWeekMs, week, commits) {
+      // commits are not contiguous, meaning there are gaps of days without
+      // commits, so we are going to check each commit's date and make sure
+      // it is within the duration of a week
+      while (commits.length > 0
+          && (new Date(commits[0].date)).getTime() <= endOfWeekMs) {
+        const commit = commits.shift();
+        week.insertions += commit.insertions;
+        week.deletions += commit.deletions;
       }
     },
     getUserCommits(user) {
