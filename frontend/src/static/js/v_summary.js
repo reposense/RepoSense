@@ -416,19 +416,19 @@ window.vSummary = {
       // if filterSinceDate is not the start of the week
       if (this.filterSinceDate !== sinceDate) {
         const firstWeekDateMs = new Date(this.filterSinceDate).getTime();
-        this.pushCommitsWeek(firstWeekDateMs, sinceMs - 1, WEEK_IN_MS, res, commits);
+        this.pushCommitsWeek(firstWeekDateMs, sinceMs - 1, res, commits);
       }
 
-      this.pushCommitsWeek(sinceMs, untilMs, WEEK_IN_MS, res, commits);
+      this.pushCommitsWeek(sinceMs, untilMs, res, commits);
 
       user.commits = res;
     },
-    pushCommitsWeek(sinceMs, untilMs, durationMs, res, commits) {
+    pushCommitsWeek(sinceMs, untilMs, res, commits) {
       const diff = Math.round(Math.abs((untilMs - sinceMs) / DAY_IN_MS));
 
       for (let weekId = 0; weekId < diff / 7; weekId += 1) {
         const startOfWeekMs = sinceMs + (weekId * WEEK_IN_MS);
-        const endOfWeekMs = startOfWeekMs + durationMs - DAY_IN_MS;
+        const endOfWeekMs = startOfWeekMs + WEEK_IN_MS - DAY_IN_MS;
         const endOfWeekMsWithinUntilMs = endOfWeekMs <= untilMs ? endOfWeekMs : untilMs;
 
         const week = {
