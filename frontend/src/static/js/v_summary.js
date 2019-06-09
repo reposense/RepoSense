@@ -101,8 +101,8 @@ window.vSummary = {
       filterSearch: '',
       filterSortReverse: false,
       filterGroupSelection: 'groupByRepos',
-      sortGroupSelection: 'searchPath', // UI for sorting groups
-      sortWithinGroupSelection: 'name', // UI for sorting within groups
+      sortGroupSelection: 'groupTitle', // UI for sorting groups
+      sortWithinGroupSelection: 'title', // UI for sorting within groups
       sortingOption: '',
       isSortingDsc: '',
       sortingWithinOption: '',
@@ -136,7 +136,7 @@ window.vSummary = {
       this.getFiltered();
     },
     filterGroupSelection() {
-      this.updateSortSelection();
+      this.updateSortWithinGroup();
       this.getFiltered();
     },
     filterBreakdown() {
@@ -466,25 +466,14 @@ window.vSummary = {
 
       return null;
     },
-    updateSortSelection() {
-      this.getOptionWithOrder();
-      // Update UI selection to change all illegal options
-      if (this.filterGroupSelection === 'groupByAuthors') {
-        if (!this.sortWithinGroupSelection || this.sortingWithinOption === 'name') {
-          this.sortWithinGroupSelection = 'searchPath';
-        }
-        if (this.sortingOption === 'searchPath') {
-          this.sortGroupSelection = 'name';
-        }
-      } else if (this.filterGroupSelection === 'groupByRepos') {
-        if (!this.sortWithinGroupSelection || this.sortingWithinOption === 'searchPath') {
-          this.sortWithinGroupSelection = 'name';
-        }
-        if (this.sortingOption === 'name') {
-          this.sortGroupSelection = 'searchPath';
-        }
-      } else if (this.filterGroupSelection === 'groupByNone') {
-        this.sortWithinGroupSelection = '';
+    updateSortWithinGroup() {
+      const ele = document.getElementsByClassName('mui-select sort-within-group');
+      if (this.filterGroupSelection === 'groupByNone') {
+        ele[0].style.pointerEvents = 'none';
+        ele[0].style.opacity = 0.5;
+      } else {
+        ele[0].style.pointerEvents = 'auto';
+        ele[0].style.opacity = 1;
       }
     },
     getOptionWithOrder() {
@@ -580,18 +569,20 @@ window.vSummary = {
 
     groupByRepos(repos) {
       const sortedRepos = [];
+      const sortingWithinOption = this.sortingWithinOption === 'title' ? 'name' : this.sortingWithinOption;
+      const sortingOption = this.sortingOption === 'groupTitle' ? 'searchPath' : this.sortingOption;
       repos.forEach((users) => {
-        users.sort(window.comparator((ele) => ele[this.sortingWithinOption]));
+        users.sort(window.comparator((ele) => ele[sortingWithinOption]));
         if (this.isSortingWithinDsc) {
           users.reverse();
         }
         sortedRepos.push(users);
       });
       sortedRepos.sort(window.comparator((repo) => {
-        if (this.sortingOption === 'totalCommits' || this.sortingOption === 'variance') {
+        if (sortingOption === 'totalCommits' || sortingOption === 'variance') {
           return repo.reduce(this.getGroupCommitsVariance, 0);
         }
-        return repo[0][this.sortingOption];
+        return repo[0][sortingOption];
       }));
       if (this.isSortingDsc) {
         sortedRepos.reverse();
@@ -600,12 +591,18 @@ window.vSummary = {
     },
     groupByNone(repos) {
       const sortedRepos = [];
+      const isSortingGroupTitle = this.sortingOption === 'groupTitle';
       repos.forEach((users) => {
         users.forEach((user) => {
           sortedRepos.push(user);
         });
       });
-      sortedRepos.sort(window.comparator((ele) => ele[this.sortingOption]));
+      sortedRepos.sort(window.comparator((repo) => {
+        if (isSortingGroupTitle) {
+          return repo.searchPath + repo.name;
+        }
+        return repo[this.sortingOption];
+      }));
       if (this.isSortingDsc) {
         sortedRepos.reverse();
       }
@@ -615,6 +612,8 @@ window.vSummary = {
     groupByAuthors(repos) {
       const authorMap = {};
       const filtered = [];
+      const sortingWithinOption = this.sortingWithinOption === 'title' ? 'searchPath' : this.sortingWithinOption;
+      const sortingOption = this.sortingOption === 'groupTitle' ? 'name' : this.sortingOption;
       repos.forEach((users) => {
         users.forEach((user) => {
           if (Object.keys(authorMap).includes(user.name)) {
@@ -625,7 +624,7 @@ window.vSummary = {
         });
       });
       Object.keys(authorMap).forEach((author) => {
-        authorMap[author].sort(window.comparator((repo) => repo[this.sortingWithinOption]));
+        authorMap[author].sort(window.comparator((repo) => repo[sortingWithinOption]));
         if (this.isSortingWithinDsc) {
           authorMap[author].reverse();
         }
@@ -633,10 +632,10 @@ window.vSummary = {
       });
 
       filtered.sort(window.comparator((author) => {
-        if (this.sortingOption === 'totalCommits' || this.sortingOption === 'variance') {
+        if (sortingOption === 'totalCommits' || sortingOption === 'variance') {
           return author.reduce(this.getGroupCommitsVariance, 0);
         }
-        return author[0][this.sortingOption];
+        return author[0][sortingOption];
       }));
       if (this.isSortingDsc) {
         filtered.reverse();
