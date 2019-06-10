@@ -181,7 +181,7 @@ public class FileInfoExtractor {
                     continue;
                 }
 
-                if (!isValidAndNonBinaryFile(filePath.toString(), Paths.get(config.getRepoRoot()))) {
+                if (!isValidAndNonBinaryFile(relativePath, Paths.get(config.getRepoRoot()))) {
                     continue;
                 }
 
