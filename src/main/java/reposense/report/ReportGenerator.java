@@ -45,6 +45,9 @@ public class ReportGenerator {
     // zip file which contains all the report template files
     private static final String TEMPLATE_FILE = "/templateZip.zip";
 
+    // folder where blame history by individual files are located at
+    private static final String INDIVIDUAL_AUTHORSHIP_FILES_FIRECTORY = "/files/";
+
     private static final String MESSAGE_INVALID_CONFIG_JSON = "%s Ignoring the config provided by %s (%s).";
     private static final String MESSAGE_ERROR_CREATING_DIRECTORY =
             "Error has occurred while creating repo directory for %s (%s), will skip this repo.";
@@ -244,7 +247,8 @@ public class ReportGenerator {
                                                          String repoReportDirectory) {
         for (FileResult fileResult : fileResults) {
             Path absoluteFilePath =
-                    Paths.get(repoReportDirectory + "/files/" + fileResult.getPath() + ".json");
+                    Paths.get(repoReportDirectory + INDIVIDUAL_AUTHORSHIP_FILES_FIRECTORY
+                            + fileResult.getPath() + ".json");
             try {
                 FileUtil.createDirectory(absoluteFilePath.getParent());
             } catch (IOException ioe) {
