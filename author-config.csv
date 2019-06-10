@@ -1,9 +1,9 @@
 Repository's Location,Branch,Author's GitHub ID,Author's Email,Author's Display Name,Author's Git Author Name,Ignore Glob List
-https://github.com/reposense/testrepo-Beta.git,master,nbriannl,,Nbr,,
-https://github.com/reposense/testrepo-Beta.git,master,zacharytang,zacharytang.tc@gmail.com,Zac,,src/main**
-https://github.com/reposense/testrepo-Beta.git,master,April0616,,Fan,LAPTOP-7KFM2KSP\User;Fan Yuting,
-https://github.com/reposense/testrepo-Beta.git,master,CindyTsai1,,Cin,YuHsuan,src/test**
-https://github.com/reposense/testrepo-Beta.git,add-config-json,nbriannl,,Nbr,,
-https://github.com/reposense/testrepo-Beta.git,add-config-json,zacharytang,zacharytang.tc@gmail.com,Zac,,src/main**
-https://github.com/reposense/testrepo-Beta.git,add-config-json,April0616,,Fan,LAPTOP-7KFM2KSP\User;Fan Yuting,
-https://github.com/reposense/testrepo-Beta.git,add-config-json,CindyTsai1,,Cin,YuHsuan,src/test**
+https://github.com/reposense/testrepo-Beta.git,master,nbriannl,,Labayna Neil Brian Narido,,
+https://github.com/reposense/testrepo-Beta.git,master,zacharytang,zacharytang.tc@gmail.com,"Tang Tjun Chii, Zachary",,src/main**
+https://github.com/reposense/testrepo-Beta.git,master,April0616,,Fan Yuting,LAPTOP-7KFM2KSP\User;Fan Yuting,
+https://github.com/reposense/testrepo-Beta.git,master,CindyTsai1,,Tsai Yu Hsuan,YuHsuan,src/test**
+https://github.com/reposense/testrepo-Beta.git,add-config-json,nbriannl,,"Labayna Neil, Brian Narido",,
+https://github.com/reposense/testrepo-Beta.git,add-config-json,zacharytang,zacharytang.tc@gmail.com,Tang Tjun Chii Zachary,,src/main**
+https://github.com/reposense/testrepo-Beta.git,add-config-json,April0616,,Fan Yuting,LAPTOP-7KFM2KSP\User;Fan Yuting,
+https://github.com/reposense/testrepo-Beta.git,add-config-json,CindyTsai1,,Tsai Yu Hsuan,YuHsuan,src/test**
