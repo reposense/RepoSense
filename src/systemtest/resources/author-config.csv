@@ -1,9 +1,9 @@
 Repository's Location,Branch,Author's GitHub ID,Author's Email,Author's Display Name,Author's Git Author Name,Ignore Glob List
 https://github.com/reposense/testrepo-Beta.git,,nbr,neilbrian.nl@gmail.com,Labayna Neil Brian Narido,,
-https://github.com/reposense/testrepo-Beta.git,,zacharytang,,Tang Tjun Chii, Zachary,Zachary Tang,src/main**
+https://github.com/reposense/testrepo-Beta.git,,zacharytang,,"Tang Tjun Chii, Zachary",Zachary Tang,src/main**
 https://github.com/reposense/testrepo-Beta.git,,April0616,,Fan Yuting,LAPTOP-7KFM2KSP\User;Fan Yuting,
 https://github.com/reposense/testrepo-Beta.git,,CindyTsai1,,Tsai Yu Hsuan,YuHsuan,src/test**
 https://github.com/reposense/testrepo-Charlie.git,,charlesgoh,,Charles Goh,Charles Goh,
 https://github.com/reposense/testrepo-Charlie.git,,Esilocke,,Kelvin Lin,,
 https://github.com/reposense/testrepo-Charlie.git,,jeffreygohkw,,Jeffrey Goh Kian Wei,Jeffrey Goh,
-https://github.com/reposense/testrepo-Charlie.git,,wangyiming1019,,Wang Yi Ming, Kyle,ACER\kyle;Wang Yiming,**.adoc
+https://github.com/reposense/testrepo-Charlie.git,,wangyiming1019,,"Wang Yi Ming, Kyle",ACER\kyle;Wang Yiming,**.adoc
