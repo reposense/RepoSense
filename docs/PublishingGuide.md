@@ -30,6 +30,8 @@ We recommmend use of [personal access token](https://github.blog/2013-05-16-pers
 1. **Copy** the token for later use <br/>
 
 ##### If you wish to use `deploy key`:
+> For Windows users, `ssh-keygen` and `base64` are accessible using [`Git Bash`](https://gitforwindows.org/).
+
 1. Use `ssh-keygen` to create a public/private key pair without a passphrase <br/>
 i.e. `ssh-keygen -t ecdsa -b 521 -f id_reposense -q -N ""`
 1. Go to the [deploy key settings](../../../../publish-RepoSense/settings/keys) of your publish-RepoSense fork and create a new deploy key with the contents of `id_reposense.pub`
