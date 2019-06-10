@@ -10,16 +10,10 @@
       v-bind:udate="info.untilDate",
       v-bind:avgsize="info.avgCommitSize")
 
-  .zoom__week(v-if="filterTimeFrame === 'week'", v-for="week in info.user.commits")
-    template(v-if="week.insertions > 0")
-      h3 Week of {{ week.date }}
-      ul
-        li(v-for="slice in week.commitResults")
-          a(v-bind:href="getSliceLink(slice)", target="_blank") {{ slice.message }}
-          span &nbsp; ({{ slice.insertions }} lines)
-  .zoom__day(v-else, v-for="day in info.user.commits")
+  .zoom__day(v-for="day in info.user.commits")
     template(v-if="day.insertions > 0")
-      h3 {{ day.date }}
+      h3(v-if="filterTimeFrame === 'week'") Week of {{ day.date }}
+      h3(v-else) {{ day.date }}
       ul
         li(v-for="slice in day.commitResults")
           a(v-bind:href="getSliceLink(slice)", target="_blank") {{ slice.message }}
