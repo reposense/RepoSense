@@ -111,17 +111,7 @@ public class FileInfoExtractor {
                 continue;
             }
 
-            if (!FileUtil.isValidPath(filePath)) {
-                logger.warning(String.format(INVALID_FILE_PATH_MESSAGE_FORMAT, filePath));
-                continue;
-            }
-
-            if (!fileExistsInRepo(filePath, Paths.get(config.getRepoRoot()))) {
-                continue;
-            }
-
-            if (isBinaryFile(filePath, Paths.get(config.getRepoRoot()))) {
-                logger.log(Level.FINE, filePath + " is a binary file and will be ignored.");
+            if (!isValidAndNonBinaryFile(filePath, Paths.get(config.getRepoRoot()))) {
                 continue;
             }
 
@@ -192,17 +182,7 @@ public class FileInfoExtractor {
                     continue;
                 }
 
-                if (!FileUtil.isValidPath(filePath.toString())) {
-                    logger.warning(String.format(INVALID_FILE_PATH_MESSAGE_FORMAT, filePath));
-                    continue;
-                }
-
-                if (!fileExistsInRepo(relativePath, Paths.get(config.getRepoRoot()))) {
-                    continue;
-                }
-
-                if (isBinaryFile(relativePath, Paths.get(config.getRepoRoot()))) {
-                    logger.log(Level.FINE, relativePath + " is a binary file and will be ignored.");
+                if (!isValidAndNonBinaryFile(filePath.toString(), Paths.get(config.getRepoRoot()))) {
                     continue;
                 }
 
@@ -255,24 +235,37 @@ public class FileInfoExtractor {
     }
 
     /**
+     * Returns true if {@code filePath} is valid and non-binary file.
+     */
+    private static boolean isValidAndNonBinaryFile(String filePath, Path repoRoot) {
+        if (!FileUtil.isValidPath(filePath)) {
+            return false;
+        }
+
+        String diffNumLinesMsg = GitDiff.diffNumLinesModified(repoRoot, filePath);
+        if (!fileExistsInRepo(diffNumLinesMsg)) {
+            return false;
+        }
+        if (isBinaryFile(diffNumLinesMsg)) {
+            return false;
+        }
+        return true;
+    }
+
+    /**
      * Returns true if {@code relativePath} exists in the HEAD of the currently checked out commit.
      * If {@code returnMessage} is empty, it means that the file does not exist in the remote repo.
      */
-    private static boolean fileExistsInRepo(String relativePath, Path repoRoot) {
-        String returnMessage = GitDiff.diffNumLinesModified(repoRoot, relativePath, Optional.empty(), Optional.empty());
-        return !(returnMessage.isEmpty());
+    private static boolean fileExistsInRepo(String diffNumLinesMsg) {
+        return !(diffNumLinesMsg.isEmpty());
     }
 
     /**
      * Returns true if {@code relativePath} is a binary file.
-     * @apiNote {@code relativePath} must exist in the HEAD of the currently checked out commit.
-     * Call {@code fileExistsInRepo} to check if the file exists in the commit.
      */
-    private static boolean isBinaryFile(String relativePath, Path repoRoot) {
-        String returnMessage = GitDiff.diffNumLinesModified(repoRoot, relativePath, Optional.empty(), Optional.empty());
-
+    private static boolean isBinaryFile(String diffNumLinesMsg) {
         // [0]: numLinesAdded, [1]: numLinesDeleted, [2]: file name
-        String[] tokenizedMessage = returnMessage.split("\t");
+        String[] tokenizedMessage = diffNumLinesMsg.split("\t");
         return (tokenizedMessage[0].equals("-") && tokenizedMessage[1].equals("-"));
     }
 }

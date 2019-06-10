@@ -23,16 +23,12 @@ public class GitDiff {
     }
 
     /**
-     * Returns the raw message of the number of lines modified of a given file {@code relativePath} form the commit
-     * {@code priorCommitHash} to the commit {@code lastCommitHash}.
+     * Returns the raw message of the number of lines modified of a given file {@code relativePath} form the first
+     * empty commit to the checked out commit.
      */
-    public static String diffNumLinesModified(Path rootPath, String relativePath,
-            Optional<String> fromCommitHash, Optional<String> toCommitHash) {
-        String priorCommitHash = (fromCommitHash.isPresent()) ? fromCommitHash.get() : EMPTY_COMMIT_HASH;
-        String postCommitHash = (toCommitHash.isPresent()) ? toCommitHash.get() : CHECKED_OUT_COMMIT_REFERENCE;
-
-        String message = String.format("git diff --numstat %s %s -- \"%s\"", priorCommitHash,
-                postCommitHash, relativePath);
+    public static String diffNumLinesModified(Path rootPath, String relativePath) {
+        String message = String.format("git diff --numstat %s %s -- \"%s\"", EMPTY_COMMIT_HASH,
+                CHECKED_OUT_COMMIT_REFERENCE, relativePath);
         return runCommand(rootPath, message);
     }
 }
