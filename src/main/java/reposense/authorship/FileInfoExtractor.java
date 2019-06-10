@@ -242,13 +242,7 @@ public class FileInfoExtractor {
         }
 
         String diffNumLinesMsg = GitDiff.diffNumLinesModified(repoRoot, filePath);
-        if (!fileExistsInRepo(diffNumLinesMsg)) {
-            return false;
-        }
-        if (isBinaryFile(diffNumLinesMsg)) {
-            return false;
-        }
-        return true;
+        return (fileExistsInRepo(diffNumLinesMsg) && !isBinaryFile(diffNumLinesMsg));
     }
 
     /**
