@@ -206,8 +206,8 @@ html
     vuetemplate#v_zoom
       include tabs/zoom.pug
 
-    vuetemplate#v_code
-      include code.pug
+    vuetemplate#v_segment
+      include segment
 
     vuetemplate#v_authorship
       #authorship
@@ -276,14 +276,14 @@ html
                   i.button.fas.fa-user-edit
               pre.hljs
                 template(v-for="segment in file.segments")
-                  v_code(v-bind:segment="segment", v-bind:path="file.path")
+                  v_segment(v-bind:segment="segment", v-bind:path="file.path")
 
         .empty(v-else) loading...
 
     script(src="static/js/api.js")
     script(src="static/js/v_ramp.js")
     script(src="static/js/v_zoom.js")
-    script(src="static/js/v_code.js")
+    script(src="static/js/v_segment.js")
     script(src="static/js/v_summary.js")
     script(src="static/js/v_authorship.js")
     script(src="static/js/main.js")
