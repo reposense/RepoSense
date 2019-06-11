@@ -57,6 +57,8 @@ public class ReportGenerator {
     private static final String MESSAGE_REPORT_GENERATED = "The report is generated at %s";
     private static final String MESSAGE_BRANCH_DOES_NOT_EXIST = "Branch %s does not exist in %s! Analysis terminated.";
 
+    private static final String LOG_BRANCH_DOES_NOT_EXIST = "Branch \"%s\" does not exist.";
+
     private static Date earliestSinceDate = null;
     private static Date latestUntilDate = null;
 
@@ -81,7 +83,8 @@ public class ReportGenerator {
         Date untilDate = cliUntilDate == null ? latestUntilDate : cliUntilDate;
 
         FileUtil.writeJsonFile(
-                new SummaryReportJson(configs, generationDate, sinceDate, untilDate, RepoSense.getVersion()),
+                new SummaryReportJson(configs, generationDate, sinceDate, untilDate, RepoSense.getVersion(),
+                        ErrorSummary.getInstance().getErrorList()),
                 getSummaryResultPath(outputPath));
         logger.info(String.format(MESSAGE_REPORT_GENERATED, outputPath));
     }
@@ -155,6 +158,9 @@ public class ReportGenerator {
                 logger.log(Level.SEVERE, String.format(MESSAGE_BRANCH_DOES_NOT_EXIST,
                         config.getBranch(), config.getLocation()), e);
                 generateEmptyRepoReport(repoReportDirectory.toString());
+                ErrorSummary errorSummary = ErrorSummary.getInstance();
+                errorSummary.addErrorMessage(config.getRepoName(),
+                        String.format(LOG_BRANCH_DOES_NOT_EXIST, config.getBranch()));
                 continue;
             }
             analyzeRepo(config, repoReportDirectory.toString());

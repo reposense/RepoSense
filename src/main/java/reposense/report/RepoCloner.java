@@ -36,6 +36,8 @@ public class RepoCloner {
     private static final String MESSAGE_ERROR_GETTING_BRANCH =
             "Exception met while trying to get current branch of %s (%s), will skip this repo.";
 
+    private static final String LOG_ERROR_CLONING = "Failed to clone from %s";
+
     private static final int MAX_NO_OF_REPOS = 2;
     private static final Logger logger = LogsManager.getLogger(RepoCloner.class);
 
@@ -140,9 +142,9 @@ public class RepoCloner {
     }
 
     private void handleCloningFailed(String outputPath, RepoConfiguration config) throws IOException {
-        Path repoReportDirectory = Paths.get(outputPath, config.getDisplayName());
-        FileUtil.createDirectory(repoReportDirectory);
-        ReportGenerator.generateEmptyRepoReport(repoReportDirectory.toString());
+        ErrorSummary errorSummary = ErrorSummary.getInstance();
+        errorSummary.addErrorMessage(config.getRepoName(),
+                String.format(LOG_ERROR_CLONING, config.getLocation()));
     }
 
     /**
