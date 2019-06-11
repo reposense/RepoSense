@@ -4,6 +4,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
 
 import org.junit.Assert;
@@ -166,15 +167,15 @@ public class FileInfoExtractorTest extends GitTestTemplate {
     }
 
     @Test
-    public void generateFileInfo_directoryWithBinaryAndNonBinaryFiles_success() {
+    public void getListOfNonBinaryFiles_directoryWithBinaryAndNonBinaryFiles_success() {
         GitCheckout.checkoutBranch(config.getRepoRoot(), BINARY_AND_NON_BINARY_FILES_BRANCH);
-        List<FileInfo> files = FileInfoExtractor.extractFileInfos(config);
+        HashSet<String> files = FileInfoExtractor.getListOfNonBinaryFiles(config);
 
         Assert.assertEquals(1, files.size());
         // Non binary files should be captured
-        Assert.assertTrue(isFileExistence(Paths.get("binaryFileTest/nonBinaryFile.txt"), files));
+        Assert.assertTrue(files.contains("binaryFileTest/nonBinaryFile.txt"));
         // Binary files should be ignored
-        Assert.assertFalse(isFileExistence(Paths.get("binaryFileTest/binaryFile.txt"), files));
+        Assert.assertTrue(files.contains("binaryFileTest/binaryFile.txt"));
     }
 
     private boolean isFileExistence(Path filePath, List<FileInfo> files) {

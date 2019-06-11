@@ -8,7 +8,9 @@ import java.nio.file.InvalidPathException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Comparator;
+import java.util.HashSet;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -44,6 +46,7 @@ public class FileInfoExtractor {
     private static final String MATCH_GROUP_FAIL_MESSAGE_FORMAT = "Failed to match the %s group for:\n%s";
     private static final String INVALID_FILE_PATH_MESSAGE_FORMAT = "Invalid file path %s provided, skipping this file.";
     private static final String GIT_DIRECTORY = ".git";
+    private static final String BINARY_FILE_LINE_DIFF_RESULT = "-\t-\t";
 
     private static final int LINE_CHANGED_HEADER_INDEX = 0;
 
@@ -94,6 +97,7 @@ public class FileInfoExtractor {
         }
 
         String[] fileDiffResultList = fullDiffResult.split(DIFF_FILE_CHUNK_SEPARATOR);
+        HashSet<String> nonBinaryFilesList = getListOfNonBinaryFiles(config);
 
         for (String fileDiffResult : fileDiffResultList) {
             Matcher filePathMatcher = FILE_CHANGED_PATTERN.matcher(fileDiffResult);
@@ -110,7 +114,7 @@ public class FileInfoExtractor {
                 continue;
             }
 
-            if (!isValidAndNonBinaryFile(filePath, Paths.get(config.getRepoRoot()))) {
+            if (!isValidAndNonBinaryFile(filePath, nonBinaryFilesList)) {
                 continue;
             }
 
@@ -126,6 +130,19 @@ public class FileInfoExtractor {
         }
 
         return fileInfos;
+    }
+
+    /**
+     * Returns the list of non-binary files for the repo {@code repoConfig}.
+     */
+    public static HashSet<String> getListOfNonBinaryFiles(RepoConfiguration repoConfig) {
+        String receivedMsg = GitDiff.gitGetModifiedFiles(Paths.get(repoConfig.getRepoRoot()));
+        String[] listOfFiles = receivedMsg.split("\n");
+
+        return Arrays.stream(listOfFiles)
+                .filter(file -> !file.startsWith(BINARY_FILE_LINE_DIFF_RESULT))
+                .map(filteredFile -> filteredFile.split("\t")[2])
+                .collect(Collectors.toCollection(HashSet::new));
     }
 
     /**
@@ -169,6 +186,7 @@ public class FileInfoExtractor {
      * based on {@code config} and inserts it into {@code fileInfos}.
      */
     private static void getAllFileInfo(RepoConfiguration config, Path directory, List<FileInfo> fileInfos) {
+        HashSet<String> nonBinaryFilesList = getListOfNonBinaryFiles(config);
         try (Stream<Path> pathStream = Files.list(directory)) {
             for (Path filePath : pathStream.collect(Collectors.toList())) {
                 String relativePath = filePath.toString().substring(config.getRepoRoot().length());
@@ -181,7 +199,7 @@ public class FileInfoExtractor {
                     continue;
                 }
 
-                if (!isValidAndNonBinaryFile(relativePath, Paths.get(config.getRepoRoot()))) {
+                if (!isValidAndNonBinaryFile(relativePath, nonBinaryFilesList)) {
                     continue;
                 }
 
@@ -236,29 +254,7 @@ public class FileInfoExtractor {
     /**
      * Returns true if {@code filePath} is valid and non-binary file.
      */
-    private static boolean isValidAndNonBinaryFile(String filePath, Path repoRoot) {
-        if (!FileUtil.isValidPath(filePath)) {
-            return false;
-        }
-
-        String diffNumLinesMsg = GitDiff.diffNumLinesModified(repoRoot, filePath);
-        return (fileExistsInRepo(diffNumLinesMsg) && !isBinaryFile(diffNumLinesMsg));
-    }
-
-    /**
-     * Returns true if {@code relativePath} exists in the HEAD of the currently checked out commit.
-     * If {@code returnMessage} is empty, it means that the file does not exist in the remote repo.
-     */
-    private static boolean fileExistsInRepo(String diffNumLinesMsg) {
-        return !(diffNumLinesMsg.isEmpty());
-    }
-
-    /**
-     * Returns true if {@code relativePath} is a binary file.
-     */
-    private static boolean isBinaryFile(String diffNumLinesMsg) {
-        // [0]: numLinesAdded, [1]: numLinesDeleted, [2]: file name
-        String[] tokenizedMessage = diffNumLinesMsg.split("\t");
-        return (tokenizedMessage[0].equals("-") && tokenizedMessage[1].equals("-"));
+    private static boolean isValidAndNonBinaryFile(String filePath, HashSet<String> nonBinaryFilesSet) {
+        return (FileUtil.isValidPath(filePath) && nonBinaryFilesSet.contains(filePath));
     }
 }

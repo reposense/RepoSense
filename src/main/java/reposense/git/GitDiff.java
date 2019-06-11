@@ -1,5 +1,7 @@
 package reposense.git;
 
+import reposense.system.CommandRunner;
+
 import static reposense.system.CommandRunner.runCommand;
 
 import java.nio.file.Path;
@@ -10,8 +12,8 @@ import java.nio.file.Paths;
  * Git diff is responsible for obtaining the changes between commits, commit and working tree, etc.
  */
 public class GitDiff {
-    public static final String EMPTY_COMMIT_HASH = "4b825dc642cb6eb9a060e54bf8d69288fbee4904";
-    public static final String CHECKED_OUT_COMMIT_REFERENCE = "HEAD";
+    private static final String EMPTY_TREE_HASH = "4b825dc642cb6eb9a060e54bf8d69288fbee4904";
+    private static final String CHECKED_OUT_COMMIT_REFERENCE = "HEAD";
 
     /**
      * Returns the git diff result of the current commit compared to {@code lastCommitHash}, without any context.
@@ -22,12 +24,11 @@ public class GitDiff {
     }
 
     /**
-     * Returns the raw message of the number of lines modified of a given file {@code relativePath} form the first
-     * empty commit to the checked out commit.
+     * Returns the raw message of a list of committed files with the corresponding number of lines added and deleted
+     *  in the repo {@code repoRoot}.
      */
-    public static String diffNumLinesModified(Path rootPath, String relativePath) {
-        String message = String.format("git diff --numstat %s %s -- \"%s\"", EMPTY_COMMIT_HASH,
-                CHECKED_OUT_COMMIT_REFERENCE, relativePath);
-        return runCommand(rootPath, message);
+    public static String gitGetModifiedFiles(Path repoRoot) {
+        String sendMsg = String.format("git diff --numstat %s %s", EMPTY_TREE_HASH, CHECKED_OUT_COMMIT_REFERENCE);
+        return CommandRunner.runCommand(repoRoot.toAbsolutePath(), sendMsg);
     }
 }
