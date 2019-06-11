@@ -79,14 +79,14 @@ function getDateStr(date) {
   return (new Date(date)).toISOString().split('T')[0];
 }
 function dateRounding(datestr, roundDown) {
-  // rounding up to nearest sunday
+  // rounding up to nearest monday
   const date = new Date(datestr);
   const day = date.getUTCDay();
   let datems = date.getTime();
   if (roundDown) {
-    datems -= day * DAY_IN_MS;
+    datems -= ((day + 6) % 7) * DAY_IN_MS;
   } else {
-    datems += (7 - day) * DAY_IN_MS;
+    datems += ((8 - day) % 7) * DAY_IN_MS;
   }
 
   return getDateStr(datems);
@@ -406,37 +406,52 @@ window.vSummary = {
 
       const res = [];
 
-      const sinceDate = dateRounding(this.filterSinceDate, 1);
+      const sinceDate = dateRounding(this.filterSinceDate, 0); // round up for the next monday
       const untilDate = this.filterUntilDate;
 
       const sinceMs = (new Date(sinceDate)).getTime();
       const untilMs = (new Date(untilDate)).getTime();
 
+      // add first week commits starting from filterSinceDate to end of the week
+      // if filterSinceDate is not the start of the week
+      if (this.filterSinceDate !== sinceDate) {
+        const firstWeekDateMs = new Date(this.filterSinceDate).getTime();
+        this.pushCommitsWeek(firstWeekDateMs, sinceMs - 1, res, commits);
+      }
+
+      this.pushCommitsWeek(sinceMs, untilMs, res, commits);
+
+      user.commits = res;
+    },
+    pushCommitsWeek(sinceMs, untilMs, res, commits) {
       const diff = Math.round(Math.abs((untilMs - sinceMs) / DAY_IN_MS));
 
       for (let weekId = 0; weekId < diff / 7; weekId += 1) {
         const startOfWeekMs = sinceMs + (weekId * WEEK_IN_MS);
+        const endOfWeekMs = startOfWeekMs + WEEK_IN_MS - DAY_IN_MS;
+        const endOfWeekMsWithinUntilMs = endOfWeekMs <= untilMs ? endOfWeekMs : untilMs;
 
         const week = {
           insertions: 0,
           deletions: 0,
           date: getDateStr(startOfWeekMs),
+          endDate: getDateStr(endOfWeekMsWithinUntilMs),
         };
 
-        // commits are not contiguous, meaning there are gaps of days without
-        // commits, so we are going to check each commit's date and make sure
-        // it is within the duration of a week
-        while (commits.length > 0
-            && (new Date(commits[0].date)).getTime() < startOfWeekMs + WEEK_IN_MS) {
-          const commit = commits.shift();
-          week.insertions += commit.insertions;
-          week.deletions += commit.deletions;
-        }
-
+        this.addLineContributionWeek(endOfWeekMsWithinUntilMs, week, commits);
         res.push(week);
       }
-
-      user.commits = res;
+    },
+    addLineContributionWeek(endOfWeekMs, week, commits) {
+      // commits are not contiguous, meaning there are gaps of days without
+      // commits, so we are going to check each commit's date and make sure
+      // it is within the duration of a week
+      while (commits.length > 0
+          && (new Date(commits[0].date)).getTime() <= endOfWeekMs) {
+        const commit = commits.shift();
+        week.insertions += commit.insertions;
+        week.deletions += commit.deletions;
+      }
     },
     getUserCommits(user) {
       user.commits = [];
