@@ -116,13 +116,13 @@ public class ReportGenerator {
         RepoLocation clonedRepoLocation = null;
 
         for (RepoLocation location : repoLocationMap.keySet()) {
-            repoCloner.clone(outputPath, repoLocationMap.get(location).get(0));
+            repoCloner.clone(repoLocationMap.get(location).get(0));
 
             if (clonedRepoLocation != null) {
                 analyzeRepos(outputPath, repoLocationMap.get(clonedRepoLocation),
                         repoCloner.getCurrentRepoDefaultBranch());
             }
-            clonedRepoLocation = repoCloner.getClonedRepoLocation(outputPath);
+            clonedRepoLocation = repoCloner.getClonedRepoLocation();
         }
         if (clonedRepoLocation != null) {
             analyzeRepos(outputPath, repoLocationMap.get(clonedRepoLocation), repoCloner.getCurrentRepoDefaultBranch());

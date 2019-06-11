@@ -52,18 +52,18 @@ public class RepoCloner {
      * Spawns a process to clone the repository specified by {@code config}.
      * Does not wait for process to finish executing.
      */
-    public void clone(String outputPath, RepoConfiguration config) throws IOException {
+    public void clone(RepoConfiguration config) {
         configs[currentIndex] = config;
-        isCurrentRepoCloned = spawnCloneProcess(outputPath, config);
+        isCurrentRepoCloned = spawnCloneProcess(config);
     }
 
     /**
      * Waits for current clone process to finish executing and returns the {@code RepoLocation} of the corresponding
      * {@code RepoConfiguration}.
      */
-    public RepoLocation getClonedRepoLocation(String outputPath) throws IOException {
+    public RepoLocation getClonedRepoLocation() {
         if (isCurrentRepoCloned) {
-            isCurrentRepoCloned = waitForCloneProcess(outputPath, configs[currentIndex]);
+            isCurrentRepoCloned = waitForCloneProcess(configs[currentIndex]);
         }
 
         if (!isCurrentRepoCloned) {
@@ -77,7 +77,7 @@ public class RepoCloner {
             // GitBranch will throw this exception when repository is empty
             logger.log(Level.WARNING, String.format(MESSAGE_ERROR_GETTING_BRANCH,
                     configs[currentIndex].getLocation(), configs[currentIndex].getBranch()), gbe);
-            handleCloningFailed(outputPath, configs[currentIndex]);
+            handleCloningFailed(configs[currentIndex]);
             return null;
         }
         cleanupPrevRepoFolder();
@@ -98,7 +98,7 @@ public class RepoCloner {
      * Spawns a process to clone repo specified in {@code repoConfig}. Does not wait for process to finish executing.
      * Should only handle a maximum of one spawned process at any time.
      */
-    private boolean spawnCloneProcess(String outputPath, RepoConfiguration config) throws IOException {
+    private boolean spawnCloneProcess(RepoConfiguration config) {
         assert(crp == null);
 
         try {
@@ -111,10 +111,10 @@ public class RepoCloner {
             crp = runCommandAsync(rootPath, "git clone " + addQuote(config.getLocation().toString()));
         } catch (RuntimeException | IOException e) {
             logger.log(Level.WARNING, MESSAGE_ERROR_CLONING, e);
-            handleCloningFailed(outputPath, config);
+            handleCloningFailed(config);
             return false;
         } catch (InvalidFilePathException e) {
-            handleCloningFailed(outputPath, config);
+            handleCloningFailed(config);
             return false;
         } catch (GitCloneException e) {
             e.printStackTrace();
@@ -126,7 +126,7 @@ public class RepoCloner {
      * Waits for previously spawned clone process to finish executing.
      * Should only be called after {@code spawnCloneProcess} has been called.
      */
-    private boolean waitForCloneProcess(String outputPath, RepoConfiguration config) throws IOException {
+    private boolean waitForCloneProcess(RepoConfiguration config) {
         try {
             logger.info(String.format(MESSAGE_WAITING_FOR_CLONING, config.getLocation()));
             crp.waitForProcess();
@@ -134,14 +134,14 @@ public class RepoCloner {
         } catch (RuntimeException | CommandRunnerProcessException e) {
             crp = null;
             logger.log(Level.WARNING, MESSAGE_ERROR_CLONING, e);
-            handleCloningFailed(outputPath, config);
+            handleCloningFailed(config);
             return false;
         }
         crp = null;
         return true;
     }
 
-    private void handleCloningFailed(String outputPath, RepoConfiguration config) throws IOException {
+    private void handleCloningFailed(RepoConfiguration config) {
         ErrorSummary errorSummary = ErrorSummary.getInstance();
         errorSummary.addErrorMessage(config.getRepoName(),
                 String.format(LOG_ERROR_CLONING, config.getLocation()));
