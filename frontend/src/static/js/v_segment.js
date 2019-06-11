@@ -4,7 +4,7 @@ window.vSegment = {
   data() {
     return {
       loaded: this.segment.authored || this.segment.lines.length < 5,
-    }
+    };
   },
   methods: {
     loadCode() {

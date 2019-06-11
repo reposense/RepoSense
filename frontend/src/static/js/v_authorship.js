@@ -317,6 +317,6 @@ window.vAuthorship = {
     this.setInfoHash();
   },
   components: {
-    v_segment: window.vSegment
-  }
+    v_segment: window.vSegment,
+  },
 };
