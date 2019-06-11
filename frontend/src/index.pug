@@ -207,7 +207,7 @@ html
       include tabs/zoom.pug
 
     vuetemplate#v_segment
-      include segment.pug
+      include tabs/segment.pug
 
     vuetemplate#v_authorship
       #authorship
@@ -275,7 +275,7 @@ html
                 )
                   i.button.fas.fa-user-edit
               pre.hljs
-                template(v-for="segment in file.segments")
+                div(v-for="segment in file.segments")
                   v_segment(v-bind:segment="segment", v-bind:path="file.path")
 
         .empty(v-else) loading...

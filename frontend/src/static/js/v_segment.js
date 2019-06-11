@@ -11,6 +11,7 @@ window.vSegment = {
       if (!this.loaded) {
         this.loaded = true;
       }
+      window.toggleNext(this.$el.childNodes[0]);
     },
   },
 };
