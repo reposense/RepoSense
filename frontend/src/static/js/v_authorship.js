@@ -316,4 +316,7 @@ window.vAuthorship = {
     this.initiate();
     this.setInfoHash();
   },
+  components: {
+    v_code: window.vCode
+  }
 };
