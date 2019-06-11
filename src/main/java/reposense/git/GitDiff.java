@@ -1,7 +1,5 @@
 package reposense.git;
 
-import reposense.system.CommandRunner;
-
 import static reposense.system.CommandRunner.runCommand;
 
 import java.nio.file.Path;
@@ -29,6 +27,6 @@ public class GitDiff {
      */
     public static String gitGetModifiedFiles(Path repoRoot) {
         String sendMsg = String.format("git diff --numstat %s %s", EMPTY_TREE_HASH, CHECKED_OUT_COMMIT_REFERENCE);
-        return CommandRunner.runCommand(repoRoot.toAbsolutePath(), sendMsg);
+        return runCommand(repoRoot.toAbsolutePath(), sendMsg);
     }
 }
