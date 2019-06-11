@@ -169,13 +169,13 @@ public class FileInfoExtractorTest extends GitTestTemplate {
     @Test
     public void getListOfNonBinaryFiles_directoryWithBinaryAndNonBinaryFiles_success() {
         GitCheckout.checkoutBranch(config.getRepoRoot(), BINARY_AND_NON_BINARY_FILES_BRANCH);
-        HashSet<String> files = FileInfoExtractor.getListOfNonBinaryFiles(config);
+        HashSet<Path> files = FileInfoExtractor.getListOfNonBinaryFiles(config);
 
         Assert.assertEquals(1, files.size());
         // Non binary files should be captured
-        Assert.assertTrue(files.contains("binaryFileTest/nonBinaryFile.txt"));
+        Assert.assertTrue(files.contains(Paths.get("binaryFileTest/nonBinaryFile.txt")));
         // Binary files should be ignored
-        Assert.assertTrue(files.contains("binaryFileTest/binaryFile.txt"));
+        Assert.assertFalse(files.contains(Paths.get("binaryFileTest/binaryFile.txt")));
     }
 
     private boolean isFileExistence(Path filePath, List<FileInfo> files) {
