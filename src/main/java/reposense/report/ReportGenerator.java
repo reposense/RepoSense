@@ -167,7 +167,7 @@ public class ReportGenerator {
                 logger.log(Level.SEVERE, String.format(MESSAGE_BRANCH_DOES_NOT_EXIST,
                         config.getBranch(), config.getLocation()), e);
                 generateEmptyRepoReport(repoReportDirectory.toString());
-                handleBranchingFailed(config, configs);
+                handleBranchingFailed(config);
                 continue;
             }
             analyzeRepo(config, repoReportDirectory.toString());
@@ -234,7 +234,7 @@ public class ReportGenerator {
     /**
      * Removes the {@code failedRepoConfig} from {@code configsList} and logs into list of errors in summary file.
      */
-    private static void handleBranchingFailed(RepoConfiguration failedRepoConfig, List<RepoConfiguration> configsList) {
+    private static void handleBranchingFailed(RepoConfiguration failedRepoConfig) {
         ErrorSummary.getInstance().addErrorMessage(failedRepoConfig.getDisplayName(),
                 String.format(LOG_BRANCH_DOES_NOT_EXIST, failedRepoConfig.getBranch()));
         failedRepoConfigsList.add(failedRepoConfig);
