@@ -1,8 +1,3 @@
-function addDays(dateStr, numDays) {
-  const date = new Date(dateStr);
-  return window.getDateStr(date.getTime() + numDays * window.DAY_IN_MS);
-}
-
 function getBaseLink(repoId) {
   return `http://github.com/${
     window.REPOS[repoId].location.organization}/${
@@ -25,7 +20,7 @@ window.vRamp = {
   methods: {
     getLink(user, slice) {
       const { REPOS } = window;
-      const untilDate = this.tframe === 'week' ? addDays(slice.date, 6) : slice.date;
+      const untilDate = this.tframe === 'week' ? slice.endDate : slice.date;
 
       if (this.tframe === 'commit') {
         return `${getBaseLink(user.repoId)}/commit/${slice.hash}`;
