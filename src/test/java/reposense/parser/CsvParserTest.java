@@ -7,7 +7,11 @@ import java.io.IOException;
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import org.junit.Assert;
 import org.junit.Test;
@@ -70,6 +74,16 @@ public class CsvParserTest {
     private static final Author THIRD_SPECIAL_CHARACTER_AUTHOR = new Author("^:jordancjq;$");
     private static final List<Author> AUTHOR_CONFIG_SPECIAL_CHARACTER_AUTHORS = Arrays.asList(
             FIRST_SPECIAL_CHARACTER_AUTHOR, SECOND_SPECIAL_CHARACTER_AUTHOR, THIRD_SPECIAL_CHARACTER_AUTHOR);
+
+    private static final String FIRST_SPECIAL_CHARACTER_DISPLAY_NAME = "\"Tay Fan Gao, Douya\"";
+    private static final String SECOND_SPECIAL_CHARACTER_DISPLAY_NAME = "Tora S/O Doyua T.";
+    private static final String THIRD_SPECIAL_CHARACTER_DISPLAY_NAME = "^:jordancjq;$";
+    private static final Map<Author, String> AUTHOR_DISPLAY_NAME_SPECIAL_CHARACTER_MAP =
+            Stream.of(new Object[][]{
+                    {FIRST_SPECIAL_CHARACTER_AUTHOR, FIRST_SPECIAL_CHARACTER_DISPLAY_NAME},
+                    {SECOND_SPECIAL_CHARACTER_AUTHOR, SECOND_SPECIAL_CHARACTER_DISPLAY_NAME},
+                    {THIRD_SPECIAL_CHARACTER_AUTHOR, THIRD_SPECIAL_CHARACTER_DISPLAY_NAME}
+            }).collect(Collectors.toMap(data -> (Author) data[0], data -> (String) data[1]));
 
     private static final List<String> REPO_LEVEL_GLOB_LIST = Arrays.asList("collated**");
     private static final List<String> FIRST_AUTHOR_GLOB_LIST = Arrays.asList("**.java", "collated**");
@@ -169,6 +183,20 @@ public class CsvParserTest {
         AuthorConfiguration config = configs.get(0);
 
         Assert.assertEquals(3, config.getAuthorList().size());
+    }
+
+    @Test
+    public void displayName_specialCharacter_success() throws IOException, InvalidLocationException {
+        AuthorConfigCsvParser authorConfigCsvParser = new AuthorConfigCsvParser(AUTHOR_CONFIG_SPECIAL_CHARACTER_FILE);
+        List<AuthorConfiguration> configs = authorConfigCsvParser.parse();
+
+        Assert.assertEquals(1, configs.size());
+
+        AuthorConfiguration config = configs.get(0);
+
+        Assert.assertEquals(new RepoLocation(TEST_REPO_BETA_LOCATION), config.getLocation());
+        Assert.assertEquals(TEST_REPO_BETA_BRANCH, config.getBranch());
+        Assert.assertEquals(AUTHOR_DISPLAY_NAME_SPECIAL_CHARACTER_MAP, config.getAuthorDisplayNameMap());
     }
 
     @Test
