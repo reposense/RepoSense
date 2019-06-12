@@ -53,7 +53,7 @@ Here is an example of how the report looks like:
 
 ![report](images/report-features.png)
 
-It consists of three main parts: the [_Chart Panel_](#chart-panel), the [_Code Panel_](#code-panel), and the [_Tool Bar_](#tool-bar),  each of which is explained in the sections below.
+It consists of three main parts: the [_Chart Panel_](#chart-panel), the [_Code Panel_](#code-panel), and the [_Tool Bar_](#tool-bar), each of which is explained in the sections below.
 
 
 ### Chart Panel
@@ -108,7 +108,7 @@ The `Tool Bar` at the top provides a set of configuration options that control t
 * `Group by` : grouping criteria for the rows of results
   * `None` : results will not be grouped in any particular way.
   * `Repo/Branch` : results will be grouped by repositories and its' associating branches.
-  * `Author` : results will be  grouped by the name of the author. Contributions made to multiple repositories by a particular author will be grouped under the author.  
+  * `Author` : results will be grouped by the name of the author. Contributions made to multiple repositories by a particular author will be grouped under the author.
 * `Sort groups by`: sorting criteria for the main group
   * `Name` : groups will be sorted by GitHub ID in alphabetical order.
   * `Repo/branch` : groups will be sorted in alphabetical order by the name of the repo, followed by name of the branch. See note [1] below.
@@ -122,7 +122,7 @@ The `Tool Bar` at the top provides a set of configuration options that control t
 * `Granularity` : the period of time for which commits are aggregated in the Ramp Chart.
     * `Commit`: each commit made is shown as one ramp
     * `Day`: commits within a day (commits made within 00:00 to 23:59) are shown as one ramp
-    * `Week`:  commits within a week are shown as one ramp   
+    * `Week`: commits within a week are shown as one ramp
 * `Since`, `Until` : the date range for the Ramp Chart (not applied to the Contribution Bars).
 
 Notes:<br>
@@ -143,7 +143,7 @@ Repo owners can provide the following additional information to RepoSense using 
 * which git and GitHub usernames belong to which authors
 * the display of an author
 
-To use this feature, add a `_reposense/config.json`  to the root of your repo using the format in the example below ([another example](../_reposense/config.json)) and **commit it** (reason: RepoSense can see committed code only):
+To use this feature, add a `_reposense/config.json` to the root of your repo using the format in the example below ([another example](../_reposense/config.json)) and **commit it** (reason: RepoSense can see committed code only):
 ```json
 {
   "ignoreGlobList": ["about-us/**", "**index.html"],
