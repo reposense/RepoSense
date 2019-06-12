@@ -8,6 +8,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -66,7 +67,7 @@ public class RepoSense {
                     cliArguments.getSinceDate().orElse(null),
                     cliArguments.getUntilDate().orElse(null));
 
-            HashSet<Path> repoFoldersAndFiles = FileUtil.getReportFolders(cliArguments.getOutputFilePath(), configs);
+            Set<Path> repoFoldersAndFiles = FileUtil.getReportFolders(cliArguments.getOutputFilePath(), configs);
             repoFoldersAndFiles.add(Paths.get(cliArguments.getOutputFilePath().toAbsolutePath().toString(),
                     SummaryReportJson.SUMMARY_JSON_FILE_NAME));
             FileUtil.zipFoldersAndFiles(repoFoldersAndFiles, cliArguments.getOutputFilePath().toAbsolutePath(),

@@ -42,14 +42,11 @@ public class FileUtil {
     private static final ByteBuffer buffer = ByteBuffer.allocate(1 << 11); // 2KB
 
     /**
-     * Returns a list of relevant repo folders to be zipped up later
-     * @param sourcePath contains the source directory where the repo folders are located at
-     * @param configs contains the list of configuration information for a single repository
-     * @return a set of relevant repo folders (to be zipped later)
+     * Returns a list of relevant repo paths from {@code repoConfigsList}.
      */
-    public static HashSet<Path> getReportFolders(Path sourcePath, List<RepoConfiguration> configs) {
-        HashSet<Path> relevantFolders = new HashSet<>();
-        for (RepoConfiguration repoConfiguration : configs) {
+    public static Set<Path> getReportFolders(Path sourcePath, List<RepoConfiguration> repoConfigsList) {
+        Set<Path> relevantFolders = new HashSet<>();
+        for (RepoConfiguration repoConfiguration : repoConfigsList) {
             relevantFolders.add(Paths.get(sourcePath + File.separator + repoConfiguration.getDisplayName())
                     .toAbsolutePath());
         }
@@ -57,22 +54,17 @@ public class FileUtil {
     }
 
     /**
-     * Zips all the relative folders and relevant files of {@code fileTypes} contained in
-     * {@code pathsToZip} directory into {@code sourceAndOutputPath}.
+     * Zips all files of type {@code fileTypes} that are in the directory {@code pathsToZip} into
+     * {@code sourceAndOutputPath}.
      */
-    public static void zipFoldersAndFiles(HashSet<Path> pathsToZip,
-            Path sourceAndOutputPath, String... fileTypes) {
+    public static void zipFoldersAndFiles(Set<Path> pathsToZip, Path sourceAndOutputPath, String... fileTypes) {
         zipFoldersAndFiles(pathsToZip, sourceAndOutputPath, sourceAndOutputPath, fileTypes);
     }
 
     /**
-     * Zips all the relevant files and relative folders
-     * @param pathsToZip contains the relevant folders to be zipped.
-     * @param sourcePath contains the directory where the relevant folders and files are located at
-     * @param outputPath contains the directory to be zipped to.
-     * @param fileTypes contains the file types to be zipped.
+     * Zips all files of type {@code fileTypes} that are in the directory {@code pathsToZip} into {@code outputPath}.
      */
-    public static void zipFoldersAndFiles(HashSet<Path> pathsToZip,
+    public static void zipFoldersAndFiles(Set<Path> pathsToZip,
             Path sourcePath, Path outputPath, String... fileTypes) {
         try (
                 FileOutputStream fos = new FileOutputStream(outputPath + File.separator + ZIP_FILE);
