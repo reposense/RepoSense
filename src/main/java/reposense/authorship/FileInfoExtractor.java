@@ -12,6 +12,7 @@ import java.util.Arrays;
 import java.util.Comparator;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.regex.Matcher;
@@ -97,7 +98,7 @@ public class FileInfoExtractor {
         }
 
         String[] fileDiffResultList = fullDiffResult.split(DIFF_FILE_CHUNK_SEPARATOR);
-        HashSet<Path> nonBinaryFilesList = getListOfNonBinaryFiles(config);
+        Set<Path> nonBinaryFilesList = getListOfNonBinaryFiles(config);
 
         for (String fileDiffResult : fileDiffResultList) {
             Matcher filePathMatcher = FILE_CHANGED_PATTERN.matcher(fileDiffResult);
@@ -135,16 +136,16 @@ public class FileInfoExtractor {
     /**
      * Returns the list of non-binary files for the repo {@code repoConfig}.
      */
-    public static HashSet<Path> getListOfNonBinaryFiles(RepoConfiguration repoConfig) {
+    public static Set<Path> getListOfNonBinaryFiles(RepoConfiguration repoConfig) {
         String receivedMsg = GitDiff.gitGetModifiedFiles(Paths.get(repoConfig.getRepoRoot()));
         String[] listOfFiles = receivedMsg.split("\n");
 
-        HashSet<String> nonBinaryFiles =  Arrays.stream(listOfFiles)
+        // Gets rid of binary files and files with invalid directory name, then convert into type path
+        // and return as a Set.
+        return Arrays.stream(listOfFiles)
                 .filter(file -> !file.startsWith(BINARY_FILE_LINE_DIFF_RESULT))
                 .map(rawNonBinaryFile -> rawNonBinaryFile.split("\t")[2])
-                .collect(Collectors.toCollection(HashSet::new));
-
-        return nonBinaryFiles.stream().filter(fileName -> FileUtil.isValidPath(fileName))
+                .filter(fileName -> FileUtil.isValidPath(fileName))
                 .map(filteredFile -> Paths.get(filteredFile))
                 .collect(Collectors.toCollection(HashSet::new));
     }
@@ -190,7 +191,7 @@ public class FileInfoExtractor {
      * based on {@code config} and inserts it into {@code fileInfos}.
      */
     private static void getAllFileInfo(RepoConfiguration config, Path directory, List<FileInfo> fileInfos) {
-        HashSet<Path> nonBinaryFilesList = getListOfNonBinaryFiles(config);
+        Set<Path> nonBinaryFilesList = getListOfNonBinaryFiles(config);
         try (Stream<Path> pathStream = Files.list(directory)) {
             for (Path filePath : pathStream.collect(Collectors.toList())) {
                 String relativePath = filePath.toString().substring(config.getRepoRoot().length());
@@ -258,7 +259,7 @@ public class FileInfoExtractor {
     /**
      * Returns true if {@code filePath} is valid and non-binary file.
      */
-    private static boolean isValidAndNonBinaryFile(String filePath, HashSet<Path> nonBinaryFilesSet) {
+    private static boolean isValidAndNonBinaryFile(String filePath, Set<Path> nonBinaryFilesSet) {
         return (FileUtil.isValidPath(filePath) && nonBinaryFilesSet.contains(Paths.get(filePath)));
     }
 }
