@@ -118,7 +118,7 @@ public class ReportGenerator {
     private static void cloneAndAnalyzeRepos(List<RepoConfiguration> configs, String outputPath) {
         Map<RepoLocation, List<RepoConfiguration>> repoLocationMap = groupConfigsByRepoLocation(configs);
         RepoCloner repoCloner = new RepoCloner();
-        RepoLocation clonedRepoLocation = null;
+        RepoLocation clonedRepoLocation;
         failedRepoConfigsList = new ArrayList<>();
 
         for (RepoLocation location : repoLocationMap.keySet()) {
@@ -128,12 +128,8 @@ public class ReportGenerator {
             if (clonedRepoLocation != null) {
                 analyzeRepos(outputPath, repoLocationMap.get(clonedRepoLocation),
                         repoCloner.getCurrentRepoDefaultBranch());
-            }
-
-            if (!repoCloner.isCurrentRepoCloned() || clonedRepoLocation == null) {
-                handleCloningFailed(configs.stream()
-                        .filter(config -> config.getLocation().equals(location))
-                        .collect(Collectors.toList()));
+            } else {
+                handleCloningFailed(location, configs);
             }
         }
         repoCloner.cleanup();
@@ -232,7 +228,8 @@ public class ReportGenerator {
     }
 
     /**
-     * Removes the {@code failedRepoConfig} from {@code configsList} and logs into list of errors in summary file.
+     * Adds {@code failedRepoConfig} into the collated list of failed repos and logs into the list of errors in the
+     *  summary.
      */
     private static void handleBranchingFailed(RepoConfiguration failedRepoConfig) {
         ErrorSummary.getInstance().addErrorMessage(failedRepoConfig.getDisplayName(),
@@ -240,16 +237,27 @@ public class ReportGenerator {
         failedRepoConfigsList.add(failedRepoConfig);
     }
 
-    private static void handleCloningFailed(List<RepoConfiguration> failedRepoConfigs) {
-        failedRepoConfigsList.addAll(failedRepoConfigs);
-        for (RepoConfiguration failedConfig : failedRepoConfigs) {
+    /**
+     * Adds the configs from {@code repoConfigs} that failed to clone from {@code failedLocation} into the list of
+     *  failed repos and logs into the list of errors in the summary.
+     */
+    private static void handleCloningFailed(RepoLocation failedLocation, List<RepoConfiguration> repoConfigs) {
+        List<RepoConfiguration> failedConfigs = repoConfigs.stream()
+                .filter(config -> config.getLocation().equals(failedLocation))
+                .collect(Collectors.toList());
+        failedRepoConfigsList.addAll(failedConfigs);
+
+        for (RepoConfiguration failedConfig : failedConfigs) {
             ErrorSummary.getInstance().addErrorMessage(failedConfig.getDisplayName(),
-                    String.format(LOG_ERROR_CLONING, failedConfig.getLocation()));
+                    String.format(LOG_ERROR_CLONING, failedLocation));
         }
     }
 
-    private static void removeFailedRepoConfigs(List<RepoConfiguration> configs) {
-        configs.removeAll(failedRepoConfigsList);
+    /**
+     * Remove configs from {@code repoConfigs} that failed to clone or branch out previously.
+     */
+    private static void removeFailedRepoConfigs(List<RepoConfiguration> repoConfigs) {
+        repoConfigs.removeAll(failedRepoConfigsList);
     }
 
     private static void generateIndividualRepoReport(

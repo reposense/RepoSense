@@ -55,10 +55,6 @@ public class RepoCloner {
         isCurrentRepoCloned = spawnCloneProcess(config);
     }
 
-    public boolean isCurrentRepoCloned() {
-        return this.isCurrentRepoCloned;
-    }
-
     /**
      * Waits for current clone process to finish executing and returns the {@code RepoLocation} of the corresponding
      * {@code RepoConfiguration}.
