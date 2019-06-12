@@ -13,6 +13,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.stream.Collectors;
 
 import com.google.gson.JsonSyntaxException;
 
@@ -57,10 +58,13 @@ public class ReportGenerator {
     private static final String MESSAGE_REPORT_GENERATED = "The report is generated at %s";
     private static final String MESSAGE_BRANCH_DOES_NOT_EXIST = "Branch %s does not exist in %s! Analysis terminated.";
 
+    private static final String LOG_ERROR_CLONING = "Failed to clone from %s";
     private static final String LOG_BRANCH_DOES_NOT_EXIST = "Branch \"%s\" does not exist.";
 
     private static Date earliestSinceDate = null;
     private static Date latestUntilDate = null;
+
+    private static List<RepoConfiguration> failedRepoConfigsList;
 
     /**
      * Generates the authorship and commits JSON file for each repo in {@code configs} at {@code outputPath}, as
@@ -76,8 +80,9 @@ public class ReportGenerator {
         earliestSinceDate = null;
         latestUntilDate = null;
 
-        Map<RepoLocation, List<RepoConfiguration>> repoLocationMap = groupConfigsByRepoLocation(configs);
-        cloneAndAnalyzeRepos(repoLocationMap, outputPath);
+
+        cloneAndAnalyzeRepos(configs, outputPath);
+        removeFailedRepoConfigs(configs);
 
         Date sinceDate = cliSinceDate == null ? earliestSinceDate : cliSinceDate;
         Date untilDate = cliUntilDate == null ? latestUntilDate : cliUntilDate;
@@ -110,22 +115,26 @@ public class ReportGenerator {
      * Clone, analyze and generate the report for repositories in {@code repoLocationMap}.
      * Performs analysis and report generation of each repository in parallel with the cloning of the next repository.
      */
-    private static void cloneAndAnalyzeRepos(
-            Map<RepoLocation, List<RepoConfiguration>> repoLocationMap, String outputPath) throws IOException {
+    private static void cloneAndAnalyzeRepos(List<RepoConfiguration> configs, String outputPath) {
+        Map<RepoLocation, List<RepoConfiguration>> repoLocationMap = groupConfigsByRepoLocation(configs);
         RepoCloner repoCloner = new RepoCloner();
         RepoLocation clonedRepoLocation = null;
+        failedRepoConfigsList = new ArrayList<>();
 
         for (RepoLocation location : repoLocationMap.keySet()) {
             repoCloner.clone(repoLocationMap.get(location).get(0));
 
+            clonedRepoLocation = repoCloner.getClonedRepoLocation();
             if (clonedRepoLocation != null) {
                 analyzeRepos(outputPath, repoLocationMap.get(clonedRepoLocation),
                         repoCloner.getCurrentRepoDefaultBranch());
             }
-            clonedRepoLocation = repoCloner.getClonedRepoLocation();
-        }
-        if (clonedRepoLocation != null) {
-            analyzeRepos(outputPath, repoLocationMap.get(clonedRepoLocation), repoCloner.getCurrentRepoDefaultBranch());
+
+            if (!repoCloner.isCurrentRepoCloned() || clonedRepoLocation == null) {
+                handleCloningFailed(configs.stream()
+                        .filter(config -> config.getLocation().equals(location))
+                        .collect(Collectors.toList()));
+            }
         }
         repoCloner.cleanup();
     }
@@ -158,9 +167,7 @@ public class ReportGenerator {
                 logger.log(Level.SEVERE, String.format(MESSAGE_BRANCH_DOES_NOT_EXIST,
                         config.getBranch(), config.getLocation()), e);
                 generateEmptyRepoReport(repoReportDirectory.toString());
-                ErrorSummary errorSummary = ErrorSummary.getInstance();
-                errorSummary.addErrorMessage(config.getRepoName(),
-                        String.format(LOG_BRANCH_DOES_NOT_EXIST, config.getBranch()));
+                handleBranchingFailed(config, configs);
                 continue;
             }
             analyzeRepo(config, repoReportDirectory.toString());
@@ -222,6 +229,27 @@ public class ReportGenerator {
             List<Author> authorList = GitShortlog.getAuthors(config);
             config.setAuthorList(authorList);
         }
+    }
+
+    /**
+     * Removes the {@code failedRepoConfig} from {@code configsList} and logs into list of errors in summary file.
+     */
+    private static void handleBranchingFailed(RepoConfiguration failedRepoConfig, List<RepoConfiguration> configsList) {
+        ErrorSummary.getInstance().addErrorMessage(failedRepoConfig.getDisplayName(),
+                String.format(LOG_BRANCH_DOES_NOT_EXIST, failedRepoConfig.getBranch()));
+        failedRepoConfigsList.add(failedRepoConfig);
+    }
+
+    private static void handleCloningFailed(List<RepoConfiguration> failedRepoConfigs) {
+        failedRepoConfigsList.addAll(failedRepoConfigs);
+        for (RepoConfiguration failedConfig : failedRepoConfigs) {
+            ErrorSummary.getInstance().addErrorMessage(failedConfig.getDisplayName(),
+                    String.format(LOG_ERROR_CLONING, failedConfig.getLocation()));
+        }
+    }
+
+    private static void removeFailedRepoConfigs(List<RepoConfiguration> configs) {
+        configs.removeAll(failedRepoConfigsList);
     }
 
     private static void generateIndividualRepoReport(

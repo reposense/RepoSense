@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -36,8 +37,6 @@ public class RepoCloner {
     private static final String MESSAGE_ERROR_GETTING_BRANCH =
             "Exception met while trying to get current branch of %s (%s), will skip this repo.";
 
-    private static final String LOG_ERROR_CLONING = "Failed to clone from %s";
-
     private static final int MAX_NO_OF_REPOS = 2;
     private static final Logger logger = LogsManager.getLogger(RepoCloner.class);
 
@@ -55,6 +54,10 @@ public class RepoCloner {
     public void clone(RepoConfiguration config) {
         configs[currentIndex] = config;
         isCurrentRepoCloned = spawnCloneProcess(config);
+    }
+
+    public boolean isCurrentRepoCloned() {
+        return this.isCurrentRepoCloned;
     }
 
     /**
@@ -77,7 +80,6 @@ public class RepoCloner {
             // GitBranch will throw this exception when repository is empty
             logger.log(Level.WARNING, String.format(MESSAGE_ERROR_GETTING_BRANCH,
                     configs[currentIndex].getLocation(), configs[currentIndex].getBranch()), gbe);
-            handleCloningFailed(configs[currentIndex]);
             return null;
         }
         cleanupPrevRepoFolder();
@@ -111,10 +113,8 @@ public class RepoCloner {
             crp = runCommandAsync(rootPath, "git clone " + addQuote(config.getLocation().toString()));
         } catch (RuntimeException | IOException e) {
             logger.log(Level.WARNING, MESSAGE_ERROR_CLONING, e);
-            handleCloningFailed(config);
             return false;
         } catch (InvalidFilePathException e) {
-            handleCloningFailed(config);
             return false;
         } catch (GitCloneException e) {
             e.printStackTrace();
@@ -134,17 +134,10 @@ public class RepoCloner {
         } catch (RuntimeException | CommandRunnerProcessException e) {
             crp = null;
             logger.log(Level.WARNING, MESSAGE_ERROR_CLONING, e);
-            handleCloningFailed(config);
             return false;
         }
         crp = null;
         return true;
-    }
-
-    private void handleCloningFailed(RepoConfiguration config) {
-        ErrorSummary errorSummary = ErrorSummary.getInstance();
-        errorSummary.addErrorMessage(config.getRepoName(),
-                String.format(LOG_ERROR_CLONING, config.getLocation()));
     }
 
     /**
@@ -157,8 +150,8 @@ public class RepoCloner {
     }
 
     /**
-    * Deletes the {@code root} directory.
-    */
+     * Deletes the {@code root} directory.
+     */
     private void deleteDirectory(String root) {
         try {
             FileUtil.deleteDirectory(root);
