@@ -5,7 +5,7 @@
   h2 {{ info.user.repoName }}
   v_ramp(
       v-bind:user="info.user",
-      v-bind:tframe="'commit'",
+      v-bind:tframe="filterTimeFrame",
       v-bind:sdate="info.sinceDate",
       v-bind:udate="info.untilDate",
       v-bind:avgsize="info.avgCommitSize")

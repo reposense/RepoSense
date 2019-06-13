@@ -3,7 +3,7 @@ window.vZoom = {
   template: window.$('v_zoom').innerHTML,
   data() {
     return {
-      filterTimeFrame: 'commit',
+      filterTimeFrame: window.hashParams.timeframe,
     };
   },
   methods: {
@@ -15,18 +15,23 @@ window.vZoom = {
       return `${window.getBaseLink(this.info.user.repoId)}/commit/${slice.hash}`;
     },
 
-    getFilterTimeFrame() {
-      window.decodeHash();
-      const hash = window.hashParams;
-      if (hash.timeframe) {
-        this.filterTimeFrame = hash.timeframe;
-      }
+    updateUser(repos) {
+      const userOrig = repos[this.info.repoIndex][this.info.userIndex];
+      const { commits } = userOrig;
+      const commitsWithinDuration = commits.filter(
+          (commit) => commit.date >= this.info.sinceDate && commit.date <= this.info.untilDate,
+      );
+      const user = { ...userOrig, commits: commitsWithinDuration };
+      this.info.user = user;
     },
+  },
+  mounted() {
+    this.$root.$on('updateFilterTimeFrame', (repos, timeFrame) => {
+      this.updateUser(repos);
+      this.filterTimeFrame = timeFrame;
+    });
   },
   components: {
     v_ramp: window.vRamp,
-  },
-  created() {
-    this.getFilterTimeFrame();
   },
 };

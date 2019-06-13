@@ -134,6 +134,7 @@ window.vSummary = {
     },
     filterTimeFrame() {
       this.getFiltered();
+      this.$root.$emit('updateFilterTimeFrame', this.filtered, this.filterTimeFrame);
     },
     filterGroupSelection() {
       this.updateSortWithinGroup();
@@ -552,7 +553,7 @@ window.vSummary = {
       });
     },
 
-    openTabZoom(userOrig) {
+    openTabZoom(userOrig, repoIndex, userIndex) {
       // skip if accidentally clicked on ramp chart
       if (drags.length === 2 && drags[1] - drags[0]) {
         const tdiff = new Date(this.filterUntilDate) - new Date(this.filterSinceDate);
@@ -564,18 +565,15 @@ window.vSummary = {
             (commit) => commit.date >= tsince && commit.date <= tuntil,
         );
 
-        const commits = [];
-        rawCommits.forEach((commit) => {
-          commits.push(commit);
-        });
-
         const { avgCommitSize } = this;
-        const user = { ...userOrig, commits };
+        const user = { ...userOrig, commits: rawCommits };
         this.$emit('view-zoom', {
           avgCommitSize,
           user,
           sinceDate: tsince,
           untilDate: tuntil,
+          repoIndex,
+          userIndex,
         });
       }
     },
