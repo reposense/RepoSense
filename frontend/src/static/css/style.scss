@@ -346,7 +346,7 @@ header{
             #search{
                 padding:0.5rem 1.0rem 0.25rem 1.0rem;
                 margin-top:1.25rem;
-                width: 30%;
+                width:30%;
             }
 
             #submit-button{
@@ -410,12 +410,12 @@ header{
                 }
             }
 
-            .reverse {
-                color:mui-color("black");
-            }
-
-            select {
+            .control-font {
                 font-size:0.875rem;
+
+                &.reverse {
+                    color:mui-color("black");
+                }
             }
         }
     }
