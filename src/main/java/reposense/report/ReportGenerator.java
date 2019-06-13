@@ -176,7 +176,6 @@ public class ReportGenerator {
             } catch (RuntimeException e) {
                 logger.log(Level.SEVERE, String.format(MESSAGE_BRANCH_DOES_NOT_EXIST,
                         config.getBranch(), config.getLocation()), e);
-                generateEmptyRepoReport(repoReportDirectory.toString());
                 handleBranchingFailed(config);
                 continue;
             }
@@ -275,15 +274,6 @@ public class ReportGenerator {
         CommitReportJson commitReportJson = new CommitReportJson(commitSummary, authorshipSummary);
         FileUtil.writeJsonFile(commitReportJson, getIndividualCommitsPath(repoReportDirectory));
         FileUtil.writeJsonFile(authorshipSummary.getFileResults(), getIndividualAuthorshipPath(repoReportDirectory));
-    }
-
-    /**
-    * Generates a report at the {@code repoReportDirectory}.
-    */
-    public static void generateEmptyRepoReport(String repoReportDirectory) {
-        CommitReportJson emptyCommitReportJson = new CommitReportJson();
-        FileUtil.writeJsonFile(emptyCommitReportJson, getIndividualCommitsPath(repoReportDirectory));
-        FileUtil.writeJsonFile(Collections.emptyList(), getIndividualAuthorshipPath(repoReportDirectory));
     }
 
     private static String getSummaryResultPath(String targetFileLocation) {
