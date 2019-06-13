@@ -129,14 +129,10 @@ html
               span breakdown by file format
         #error-message-box(v-if="errorMessages.length")
           .error-message-box
-            div The following issues occurred when analyzing the following repositories: -
-            table#error-message__failed-repos-table
-              tr
-                th Repo name
-                th Issue
-              tr(v-for="errorBlock in errorMessages")
-                th#error-message__failed-repo__name {{errorBlock[0]}}
-                th#error-message__failed-repo__reason {{errorBlock[1]}}
+            div#error-message-box__message The following issues occurred when analyzing the following repositories: -
+            div#error-message__failed-repos-list(v-for="errorBlock in errorMessages")
+              div#error-message__failed-repo__name &#10071 {{errorBlock[0]}}
+              div#error-message__failed-repo__reason {{errorBlock[1]}}
         #summary-charts
           .summary-charts(v-for="repo of filteredRepos")
             .summary-charts__title(v-if="filterGroupSelection === 'groupByRepos'") {{ repo[0].repoName }}&nbsp;&nbsp;
