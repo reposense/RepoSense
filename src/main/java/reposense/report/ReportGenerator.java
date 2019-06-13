@@ -9,8 +9,10 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
@@ -64,7 +66,7 @@ public class ReportGenerator {
     private static Date earliestSinceDate = null;
     private static Date latestUntilDate = null;
 
-    private static List<RepoConfiguration> failedRepoConfigsList;
+    private static Set<RepoConfiguration> failedRepoConfigsList = new HashSet<>();
 
     /**
      * Generates the authorship and commits JSON file for each repo in {@code configs} at {@code outputPath}, as
@@ -118,20 +120,32 @@ public class ReportGenerator {
     private static void cloneAndAnalyzeRepos(List<RepoConfiguration> configs, String outputPath) {
         Map<RepoLocation, List<RepoConfiguration>> repoLocationMap = groupConfigsByRepoLocation(configs);
         RepoCloner repoCloner = new RepoCloner();
-        RepoLocation clonedRepoLocation;
-        failedRepoConfigsList = new ArrayList<>();
+        RepoLocation clonedRepoLocation = null;
 
-        for (RepoLocation location : repoLocationMap.keySet()) {
+        List<RepoLocation> repoLocationList = new ArrayList<>(repoLocationMap.keySet());
+        Set<RepoLocation> successfullyClonedRepos = new HashSet<>();
+
+        // clones another repo in parallel while analyzing a cloned repo (if any)
+        for (RepoLocation location : repoLocationList) {
             repoCloner.clone(repoLocationMap.get(location).get(0));
 
-            clonedRepoLocation = repoCloner.getClonedRepoLocation();
             if (clonedRepoLocation != null) {
                 analyzeRepos(outputPath, repoLocationMap.get(clonedRepoLocation),
                         repoCloner.getCurrentRepoDefaultBranch());
-            } else {
-                handleCloningFailed(location, configs);
+                successfullyClonedRepos.add(clonedRepoLocation);
             }
+            clonedRepoLocation = repoCloner.getClonedRepoLocation();
         }
+        if (clonedRepoLocation != null) {
+            analyzeRepos(outputPath, repoLocationMap.get(clonedRepoLocation),
+                    repoCloner.getCurrentRepoDefaultBranch());
+            successfullyClonedRepos.add(clonedRepoLocation);
+        }
+
+        // handles configs that failed to clone and clean up the cloned repo directory.
+        handleCloningFailed(configs.stream()
+                .filter(config -> !successfullyClonedRepos.contains(config.getLocation()))
+                .collect(Collectors.toList()));
         repoCloner.cleanup();
     }
 
@@ -238,18 +252,14 @@ public class ReportGenerator {
     }
 
     /**
-     * Adds the configs from {@code repoConfigs} that failed to clone from {@code failedLocation} into the list of
-     *  failed repos and logs into the list of errors in the summary.
+     * Adds all {@code failedRepoConfigs} into the list of failed repos and logs into the list of errors in the
+     *  summary.
      */
-    private static void handleCloningFailed(RepoLocation failedLocation, List<RepoConfiguration> repoConfigs) {
-        List<RepoConfiguration> failedConfigs = repoConfigs.stream()
-                .filter(config -> config.getLocation().equals(failedLocation))
-                .collect(Collectors.toList());
-        failedRepoConfigsList.addAll(failedConfigs);
-
-        for (RepoConfiguration failedConfig : failedConfigs) {
+    private static void handleCloningFailed(List<RepoConfiguration> failedRepoConfigs) {
+        for (RepoConfiguration failedConfig : failedRepoConfigs) {
             ErrorSummary.getInstance().addErrorMessage(failedConfig.getDisplayName(),
-                    String.format(LOG_ERROR_CLONING, failedLocation));
+                    String.format(LOG_ERROR_CLONING, failedConfig.getLocation()));
+            failedRepoConfigsList.add(failedConfig);
         }
     }
 
