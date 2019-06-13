@@ -36,15 +36,12 @@
       },
       "branch": "master",
       "displayName": "reposense_testrepo-Delta_master"
-    },
+    }
+  ],
+  "errorList": [
     {
-      "location": {
-        "location": "https://github.com/reposense/testrepo-Delta.git",
-        "repoName": "testrepo-Delta",
-        "organization": "reposense"
-      },
-      "branch": "nonExistentBranch",
-      "displayName": "reposense_testrepo-Delta_nonExistentBranch"
+      "repoName": "reposense_testrepo-Delta_nonExistentBranch",
+      "errorMessage": "Branch \"nonExistentBranch\" does not exist."
     }
   ],
   "sinceDate": "2017-09-01",
