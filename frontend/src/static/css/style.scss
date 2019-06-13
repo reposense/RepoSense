@@ -104,6 +104,25 @@ header{
             margin-bottom:1em;
             color:mui-color('grey', '700');
         }
+
+        .error-message-box {
+            border: 2px solid red;
+            border-radius: 5px;
+        }
+        #error-message__failed-repos-table {
+            width: 100%;
+        }
+        #error-message__failed-repo__name, #error-message__failed-repo__reason {
+            font-size: medium;
+            font-style: normal;
+            font-weight: normal;
+            text-align: left;
+            color: red;
+        }
+        #error-message__failed-repos-table, #error-message__failed-repo__name, #error-message__failed-repo__reason {
+            border: 2px solid black;
+            border-collapse: collapse;
+        }
     }
 
     #tabs-wrapper{

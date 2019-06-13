@@ -37,6 +37,12 @@ window.api = {
           window.app.untilDate = data.untilDate;
           window.app.repoSenseVersion = data.repoSenseVersion;
 
+          data.errorList.forEach((errorBlock) => {
+            const repoName = `${errorBlock.repoName}`;
+            const errorMessage = `${errorBlock.errorMessage}`;
+            window.app.errorMessages.push([repoName, errorMessage]);
+          });
+
           const names = [];
           data.repos.forEach((repo) => {
             const repoName = `${repo.displayName}`;
