@@ -108,30 +108,27 @@ header{
         .error-message-box {
             padding: 20px;
             border-radius: 4px;
-            //background-color: #f44336;
-            //color: red;
-            border-color: #f44336;
-            background-color: #c9cbcf;
-            color: red;
+            background-color: #f44336;
+            color: white;
             margin-bottom: 15px;
+            text-align: left;
+        }
+        .fa-exclamation {
+            padding-right: 10px;
         }
         #error-message-box__message {
             padding-bottom: 10px;
             border-bottom: 2px solid;
         }
+        #error-message__failed-repo__reason {
+            margin-left: 1.5cm;
+        }
         #error-message-box__message, #error-message__failed-repo__name {
             font-size: large;
             font-weight: bolder;
         }
-        #error-message__failed-repo__reason {
-            font-size: medium;
-            font-style: normal;
-            font-weight: normal;
-            margin-left: 1.5cm;
-        }
         #error-message__failed-repo__name, #error-message__failed-repo__reason {
             padding-left: 3px;
-            text-align: left;
         }
     }
 

@@ -130,8 +130,9 @@ html
         #error-message-box(v-if="errorMessages.length")
           .error-message-box
             div#error-message-box__message The following issues occurred when analyzing the following repositories: -
-            div#error-message__failed-repos-list(v-for="errorBlock in errorMessages")
-              div#error-message__failed-repo__name &#10071 {{errorBlock[0]}}
+            div(v-for="errorBlock in errorMessages")
+              i.fas.fa-exclamation
+              span#error-message__failed-repo__name {{errorBlock[0]}}
               div#error-message__failed-repo__reason {{errorBlock[1]}}
         #summary-charts
           .summary-charts(v-for="repo of filteredRepos")
