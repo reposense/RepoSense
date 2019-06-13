@@ -237,12 +237,12 @@ html
             .searchbox
               input.radio-button--search(type="radio", name="filter", value="search", v-bind:checked="isSearchBar",
                   v-on:click="indicateSearchBar")
-              form.file-picker.mui-form--inline.control-font(onsubmit="return false")
+              form.file-picker.mui-form--inline(onsubmit="return false")
                 input#search.control-font(type="search", placeholder="Filter by glob", v-on:change="updateFilterSearch",
                     v-on:click="indicateSearchBar")
                 button#submit-button.control-font(type="submit", v-on:click="indicateSearchBar") Filter
             .fileformat
-              input.radio-button--checkbox.control-font(type="radio", name="filter", value="checkboxes", v-bind:checked="isCheckBoxes",
+              input.radio-button--checkbox(type="radio", name="filter", value="checkboxes", v-bind:checked="isCheckBoxes",
                   v-on:click="indicateCheckBoxes")
               div.checkboxes.mui-form--inline(v-if="files.length > 0")
                 label
