@@ -23,7 +23,7 @@ public class ErrorSummary {
      * Adds an error message for {@code repoName} with the reason {@code errorMessage} into a list of errors.
      */
     public void addErrorMessage(String repoName, String errorMessage) {
-        HashMap<String, String> errorDetails = new HashMap<>();
+        Map<String, String> errorDetails = new HashMap<>();
         errorDetails.put("repoName", repoName);
         errorDetails.put("errorMessage", errorMessage);
         errorList.add(errorDetails);

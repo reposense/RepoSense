@@ -80,8 +80,7 @@ public class ReportGenerator {
 
         earliestSinceDate = null;
         latestUntilDate = null;
-
-
+        
         cloneAndAnalyzeRepos(configs, outputPath);
         removeFailedRepoConfigs(configs);
 

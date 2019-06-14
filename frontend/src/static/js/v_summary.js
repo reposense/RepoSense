@@ -514,6 +514,7 @@ window.vSummary = {
 
       this.filtered = full;
     },
+
     // updating filters programically //
     resetDateRange() {
       this.tmpFilterSinceDate = this.minDate;
