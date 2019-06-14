@@ -345,6 +345,10 @@ Alternatively, you can use csv config files to customize the analysis as before 
 
 Follow this [guide](PublishingGuide.md) to automate publishing of your report to GitHub Pages.
 
+## Note on Binary Files
+
+RepoSense currently does not support analyzing of [Binary files](https://www.webopedia.com/TERM/B/binary_file.html). Common binary files include images (`.jpg`, `.png`), applications (`.exe`), zip files (`.zip`, `.rar`) and certain document types (`.docx`, `.pptx`).
+
 ## FAQ
 
 #### Q: Does RepoSense work on private repositories?
@@ -374,3 +378,6 @@ It is also possible that another user has overriden the authorship of your lines
 
 #### Q: I am able to run RepoSense on my repository on a Linux/Mac OS, but it fails on a Windows OS?
 **A:** It is possible you may have some file names with [special characters](https://docs.microsoft.com/en-us/windows/desktop/FileIO/naming-a-file#naming-conventions) in them, which is disallowed in Windows OS. As such, *RepoSense* is unable to fully clone your repository, thus failing the analysis.
+
+#### Q: Some files are not captured by RepoSense!
+**A:** The files may be [binary files](##Note on Binary Files). RepoSense is currently unable to analyze binary files.
