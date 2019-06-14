@@ -117,7 +117,7 @@ window.vSummary = {
       minDate: '',
       maxDate: '',
       contributionBarColors: {},
-      errorMessages: [],
+      errorMessages: window.app.errorMessages,
     };
   },
   watch: {
@@ -514,11 +514,6 @@ window.vSummary = {
 
       this.filtered = full;
     },
-
-    getErrorMessages() {
-      this.errorMessages = window.app.errorMessages;
-    },
-
     // updating filters programically //
     resetDateRange() {
       this.tmpFilterSinceDate = this.minDate;
@@ -675,7 +670,6 @@ window.vSummary = {
     this.renderFilterHash();
     this.getFiltered();
     this.processFileFormats();
-    this.getErrorMessages();
   },
   components: {
     v_ramp: window.vRamp,
