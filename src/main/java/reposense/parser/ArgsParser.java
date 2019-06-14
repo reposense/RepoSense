@@ -3,6 +3,7 @@ package reposense.parser;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.time.ZoneId;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
@@ -166,8 +167,10 @@ public class ArgsParser {
             Path configFolderPath = results.get(CONFIG_FLAGS[0]);
             Path reportFolderPath = results.get(VIEW_FLAGS[0]);
             Path outputFolderPath = results.get(OUTPUT_FLAGS[0]);
-            Optional<Date> sinceDate = results.get(SINCE_FLAGS[0]);
-            Optional<Date> untilDate = results.get(UNTIL_FLAGS[0]);
+            Optional<Date> cliSinceDate = results.get(SINCE_FLAGS[0]);
+            Optional<Date> cliUntilDate = results.get(UNTIL_FLAGS[0]);
+            Date sinceDate = cliSinceDate.orElse(getSinceDate(cliUntilDate));
+            Date untilDate = cliUntilDate.orElse(getUntilDate());
             List<String> locations = results.get(REPO_FLAGS[0]);
             List<Format> formats = Format.convertStringsToFormats(results.get(FORMAT_FLAGS[0]));
             boolean isStandaloneConfigIgnored = results.get(IGNORE_FLAGS[0]);
@@ -207,13 +210,40 @@ public class ArgsParser {
     }
 
     /**
+     * Returns a since date that is one month before {@code cliUntilDate} (if present) or one month before report
+     *  generation date otherwise.
+     */
+    private static Date getSinceDate(Optional<Date> cliUntilDate) {
+        Calendar cal = Calendar.getInstance();
+        cliUntilDate.ifPresent(cal::setTime);
+        cal.set(Calendar.HOUR_OF_DAY, 0);
+        cal.set(Calendar.MINUTE, 0);
+        cal.set(Calendar.SECOND, 0);
+        cal.set(Calendar.MILLISECOND, 0);
+        cal.add(Calendar.MONTH, -1);
+        return cal.getTime();
+    }
+
+    /**
+     * Returns date of report generation with time set to 23:59:59.
+     */
+    private static Date getUntilDate() {
+        Calendar cal = Calendar.getInstance();
+        cal.set(Calendar.HOUR_OF_DAY, 23);
+        cal.set(Calendar.MINUTE, 59);
+        cal.set(Calendar.SECOND, 59);
+        cal.set(Calendar.MILLISECOND, 0);
+        return cal.getTime();
+    }
+
+    /**
      * Verifies that {@code sinceDate} is earlier than {@code untilDate}.
      *
      * @throws ParseException if {@code sinceDate} supplied is later than {@code untilDate}.
      */
-    private static void verifyDatesRangeIsCorrect(Optional<Date> sinceDate, Optional<Date> untilDate)
+    private static void verifyDatesRangeIsCorrect(Date sinceDate, Date untilDate)
             throws ParseException {
-        if (sinceDate.isPresent() && untilDate.isPresent() && sinceDate.get().getTime() > untilDate.get().getTime()) {
+        if (sinceDate.getTime() > untilDate.getTime()) {
             throw new ParseException(MESSAGE_SINCE_DATE_LATER_THAN_UNTIL_DATE);
         }
     }
@@ -223,9 +253,9 @@ public class ArgsParser {
      *
      * @throws  ParseException if {@code sinceDate} supplied is later than date of report generation.
      */
-    private static void verifySinceDateIsValid(Optional<Date> sinceDate) throws ParseException {
+    private static void verifySinceDateIsValid(Date sinceDate) throws ParseException {
         Date dateToday = new Date();
-        if (sinceDate.isPresent() && sinceDate.get().getTime() > dateToday.getTime()) {
+        if (sinceDate.getTime() > dateToday.getTime()) {
             throw new ParseException(MESSAGE_SINCE_DATE_LATER_THAN_TODAY_DATE);
         }
     }

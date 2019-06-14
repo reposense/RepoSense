@@ -2,12 +2,10 @@ package reposense.model;
 
 import java.io.File;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 import java.util.logging.Logger;
 
 import reposense.git.GitBranch;
@@ -75,21 +73,7 @@ public class RepoConfiguration {
         }
     }
 
-    public static void setDatesToRepoConfigs(
-            List<RepoConfiguration> configs, Optional<Date> cliSinceDate, Optional<Date> cliUntilDate) {
-        Date sinceDate = (cliSinceDate.isPresent()) ? cliSinceDate.get() : null;
-        Date untilDate = (cliUntilDate.isPresent()) ? cliUntilDate.get() : new Date();
-
-        // set sinceDate to one month before untilDate if sinceDate is null.
-        if (sinceDate == null) {
-            Calendar cal = Calendar.getInstance();
-            cal.setTime(untilDate);
-            cal.add(Calendar.MONTH, -1);
-            sinceDate = cal.getTime();
-            logger.info(String.format(" As \"since date\" is not specified, only commits that were made form %s to %s "
-                    + "will be captured by the program.", sinceDate.toString(), untilDate.toString()));
-        }
-
+    public static void setDatesToRepoConfigs(List<RepoConfiguration> configs, Date sinceDate, Date untilDate) {
         for (RepoConfiguration config : configs) {
             config.setSinceDate(sinceDate);
             config.setUntilDate(untilDate);
