@@ -110,6 +110,7 @@ public class AuthorConfigCsvParser extends CsvParser<AuthorConfiguration> {
      * Otherwise, use github id from {@code author}.
      */
     private static void setDisplayName(AuthorConfiguration config, Author author, String displayName) {
+        displayName = displayName.replace("\"", "");
         author.setDisplayName(!displayName.isEmpty() ? displayName : author.getGitId());
         config.setAuthorDisplayName(author, !displayName.isEmpty() ? displayName : author.getGitId());
     }
