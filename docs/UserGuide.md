@@ -16,6 +16,7 @@
     * [`author-config.csv`](#author-configcsv)
 * [Analyzing Multiple Repos](#analyzing-multiple-repos)
 * [Using Travis-CI to automate publishing of the report to GitHub Pages](#using-travis-ci-to-automate-publishing-of-the-report-to-github-pages)
+* [Note on Binary Files](#note-on-binary-iles)
 * [FAQ](#faq)
 
 
@@ -380,4 +381,4 @@ It is also possible that another user has overriden the authorship of your lines
 **A:** It is possible you may have some file names with [special characters](https://docs.microsoft.com/en-us/windows/desktop/FileIO/naming-a-file#naming-conventions) in them, which is disallowed in Windows OS. As such, *RepoSense* is unable to fully clone your repository, thus failing the analysis.
 
 #### Q: Some files are not captured by RepoSense!
-**A:** The files may be [binary files](##Note on Binary Files). RepoSense is currently unable to analyze binary files.
+**A:** The files may be [binary files](#note-on-binary-files). RepoSense is currently unable to analyze binary files.
