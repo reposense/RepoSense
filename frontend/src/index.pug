@@ -129,7 +129,7 @@ html
               span breakdown by file format
         #error-message-box(v-if="errorMessages.length")
           .error-message-box
-            div#error-message-box__message The following issues occurred when analyzing the following repositories: -
+            div#error-message-box__message The following issues occurred when analyzing the following repositories:
             div(v-for="errorBlock in errorMessages")
               i.fas.fa-exclamation
               span#error-message__failed-repo__name {{errorBlock[0]}}
