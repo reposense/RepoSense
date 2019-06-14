@@ -174,6 +174,7 @@ window.app = new window.Vue({
       this.isTabActive = true;
       this.isCollapsed = false;
       this.tabType = tabName;
+      window.addHash('tabType', tabName);
     },
 
     updateTabAuthorship(obj) {
@@ -181,6 +182,8 @@ window.app = new window.Vue({
       this.activateTab('authorship');
     },
     updateTabZoom(obj) {
+      window.removeHash('tabAuthor');
+      window.removeHash('tabRepo');
       this.tabInfo.tabZoom = Object.assign({}, obj);
       this.activateTab('zoom');
     },
@@ -203,6 +206,24 @@ window.app = new window.Vue({
         this.updateTabAuthorship(info);
       } else if (hash.tabOpen === 'false' || tabInfoLength > 2) {
         window.app.isTabActive = false;
+      }
+    },
+
+    renderTabHash() {
+      window.decodeHash();
+      const hash = window.hashParams;
+
+      if (!hash.tabOpen) {
+        return;
+      }
+      window.app.isTabActive = hash.tabOpen;
+
+      if (hash.tabOpen === 'true') {
+        if (hash.tabType === 'authorship') {
+          this.renderAuthorShipTabHash(hash.since, hash.until);
+        } else {
+          // handle zoom tab if needed
+        }
       }
     },
 
@@ -234,7 +255,7 @@ window.app = new window.Vue({
   },
   created() {
     this.updateReportDir();
-    window.decodeHash();
+    this.renderTabHash();
   },
   updated() {
     this.$nextTick(() => {
@@ -245,8 +266,9 @@ window.app = new window.Vue({
     if (!this.isTabActive) {
       window.removeHash('tabAuthor');
       window.removeHash('tabRepo');
-      window.addHash('tabOpen', this.isTabActive);
-      window.encodeHash();
+      window.removeHash('tabType');
     }
+    window.addHash('tabOpen', this.isTabActive);
+    window.encodeHash();
   },
 });
