@@ -8,9 +8,7 @@ window.vSegment = {
   },
   methods: {
     loadCode() {
-      if (!this.loaded) {
-        this.loaded = true;
-      }
+      this.loaded = true;
       window.toggleNext(this.$el.childNodes[0]);
     },
   },
