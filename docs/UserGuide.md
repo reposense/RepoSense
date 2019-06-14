@@ -16,7 +16,7 @@
     * [`author-config.csv`](#author-configcsv)
 * [Analyzing Multiple Repos](#analyzing-multiple-repos)
 * [Using Travis-CI to automate publishing of the report to GitHub Pages](#using-travis-ci-to-automate-publishing-of-the-report-to-github-pages)
-* [Note on Binary Files](#note-on-binary-iles)
+* [Note on Binary Files](#note-on-binary-files)
 * [FAQ](#faq)
 
 
