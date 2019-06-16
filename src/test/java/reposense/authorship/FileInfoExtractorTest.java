@@ -2,6 +2,7 @@ package reposense.authorship;
 
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -170,12 +171,18 @@ public class FileInfoExtractorTest extends GitTestTemplate {
     public void getListOfNonBinaryFiles_directoryWithBinaryAndNonBinaryFiles_success() {
         GitCheckout.checkoutBranch(config.getRepoRoot(), BINARY_AND_NON_BINARY_FILES_BRANCH);
         Set<Path> files = FileInfoExtractor.getListOfNonBinaryFiles(config);
+        final List<String> nonBinaryFilesList = Arrays.asList(
+                "binaryFileTest/nonBinaryFile.txt", "My Documents/wordToHtml.htm", "My Pictures/notPngPicture.png",
+                "My Documents\\wordToHtml_files/colorschememapping.xml", "My Documents/wordToHtml_files/filelist.xml");
+        final List<String> binaryFilesList = Arrays.asList(
+                "binaryFileTest/binaryFile.txt", "My Documents/word.docx", "My Documents/pdfDocument.pdf",
+                "My Documents/wordToHtml_files/themedata.thmx", "My Pictures/pngPicture.png");
 
-        Assert.assertEquals(1, files.size());
+        Assert.assertEquals(5, files.size());
         // Non binary files should be captured
-        Assert.assertTrue(files.contains(Paths.get("binaryFileTest/nonBinaryFile.txt")));
+        nonBinaryFilesList.forEach(nonBinFile -> Assert.assertTrue(files.contains(Paths.get(nonBinFile))));
         // Binary files should be ignored
-        Assert.assertFalse(files.contains(Paths.get("binaryFileTest/binaryFile.txt")));
+        binaryFilesList.forEach(binFile -> Assert.assertFalse(files.contains(Paths.get(binFile))));
     }
 
     private boolean isFileExistence(Path filePath, List<FileInfo> files) {
