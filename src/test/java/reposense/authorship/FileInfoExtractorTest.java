@@ -14,6 +14,7 @@ import org.junit.Test;
 import reposense.authorship.model.FileInfo;
 import reposense.git.GitCheckout;
 import reposense.model.Author;
+import reposense.model.Format;
 import reposense.template.GitTestTemplate;
 import reposense.util.SystemUtil;
 import reposense.util.TestUtil;
@@ -169,16 +170,21 @@ public class FileInfoExtractorTest extends GitTestTemplate {
 
     @Test
     public void getListOfNonBinaryFiles_directoryWithBinaryAndNonBinaryFiles_success() {
-        GitCheckout.checkoutBranch(config.getRepoRoot(), BINARY_AND_NON_BINARY_FILES_BRANCH);
-        Set<Path> files = FileInfoExtractor.getListOfNonBinaryFiles(config);
-        final List<String> nonBinaryFilesList = Arrays.asList(
+        List<String> nonBinaryFilesList = Arrays.asList(
                 "binaryFileTest/nonBinaryFile.txt", "My Documents/wordToHtml.htm", "My Pictures/notPngPicture.png",
-                "My Documents\\wordToHtml_files/colorschememapping.xml", "My Documents/wordToHtml_files/filelist.xml");
-        final List<String> binaryFilesList = Arrays.asList(
+                "My Documents/wordToHtml_files/colorschememapping.xml", "My Documents/wordToHtml_files/filelist.xml",
+                "My Documents/notPdfDocument.pdf");
+        List<String> binaryFilesList = Arrays.asList(
                 "binaryFileTest/binaryFile.txt", "My Documents/word.docx", "My Documents/pdfDocument.pdf",
                 "My Documents/wordToHtml_files/themedata.thmx", "My Pictures/pngPicture.png");
+        List<Format> testfileFormats = Format.convertStringsToFormats(
+                Arrays.asList("txt", "htm", "xml", "pdf", "thmx"));
+        config.setFormats(testfileFormats);
+        GitCheckout.checkoutBranch(config.getRepoRoot(), BINARY_AND_NON_BINARY_FILES_BRANCH);
+        Set<Path> files = FileInfoExtractor.getListOfNonBinaryFiles(config);
 
-        Assert.assertEquals(5, files.size());
+
+        Assert.assertEquals(6, files.size());
         // Non binary files should be captured
         nonBinaryFilesList.forEach(nonBinFile -> Assert.assertTrue(files.contains(Paths.get(nonBinFile))));
         // Binary files should be ignored
