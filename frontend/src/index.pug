@@ -127,6 +127,9 @@ html
             label
               input(type="checkbox", v-model="filterBreakdown").mui-checkbox.summary-picker__checkbox
               span breakdown by file format
+            label
+              input(type="checkbox", v-model="mergeGroup").mui-checkbox.summary-picker__checkbox
+              span merge group
         #summary-charts
           .summary-charts(v-for="repo of filteredRepos")
             .summary-charts__title(v-if="filterGroupSelection === 'groupByRepos'") {{ repo[0].repoName }}&nbsp;&nbsp;

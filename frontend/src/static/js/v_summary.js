@@ -109,6 +109,7 @@ window.vSummary = {
       isSortingWithinDsc: '',
       filterTimeFrame: 'commit',
       filterBreakdown: false,
+      mergeGroup: false,
       tmpFilterSinceDate: '',
       tmpFilterUntilDate: '',
       filterSinceDate: '',
@@ -141,6 +142,13 @@ window.vSummary = {
     },
     filterBreakdown() {
       this.getFiltered();
+    },
+    mergeGroup() {
+      if (this.mergeGroup) {
+        if (this.filterGroupSelection === 'groupByRepos') {
+          this.getFilteredGroupRepo();
+        }
+      }
     },
     tmpFilterSinceDate() {
       if (this.tmpFilterSinceDate && this.tmpFilterSinceDate >= this.minDate) {
@@ -282,6 +290,7 @@ window.vSummary = {
       addHash('since', this.filterSinceDate);
       addHash('until', this.filterUntilDate);
       addHash('timeframe', this.filterTimeFrame);
+      addHash('mergegroup', this.mergeGroup);
 
       addHash('reverse', this.filterSortReverse);
       addHash('groupSelect', this.filterGroupSelection);
@@ -304,6 +313,9 @@ window.vSummary = {
       }
 
       if (hash.timeframe) { this.filterTimeFrame = hash.timeframe; }
+      if (hash.mergegroup) {
+        this.mergeGroup = hash.mergegroup;
+      }
       if (hash.since) {
         this.tmpFilterSinceDate = hash.since;
       }
@@ -382,6 +394,45 @@ window.vSummary = {
 
       this.getDates();
       this.sortFiltered();
+    },
+    getFilteredGroupRepo() {
+      this.setSummaryHash();
+
+      const group = [];
+
+      // get commits of all repos in the group
+      this.repos.forEach((repo) => {
+        let res = [];
+
+        repo.users.forEach((user) => {
+          res = res.concat(user); // need to flatten the content here
+        });
+
+        const toDisplay = this.filterSearch.toLowerCase()
+            .split(' ').filter((param) => param)
+            .map((param) => user.searchPath.search(param) > -1)
+            .reduce((curr, bool) => curr || bool, false);
+
+        if (!this.filterSearch || toDisplay) {
+          this.getUserCommits(res);
+          if (this.filterTimeFrame === 'week') {
+            this.splitCommitsWeek(res);
+          }
+        }
+
+        // sort commits in terms of date
+        if (res.length) {
+          res.sort(window.comparator((user) => user.date ));
+          group.push(res);
+        }
+      });
+
+      this.filtered = group;
+      this.getDates();
+      this.sortFiltered();
+    },
+    getFilteredGroupAuthor() {
+
     },
     processFileFormats() {
       const selectedColors = ['#ffe119', '#4363d8', '#3cb44b', '#f58231', '#911eb4', '#46f0f0', '#f032e6',
