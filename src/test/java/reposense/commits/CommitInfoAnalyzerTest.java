@@ -102,7 +102,7 @@ public class CommitInfoAnalyzerTest extends GitTestTemplate {
 
         List<CommitInfo> commitInfos = CommitInfoExtractor.extractCommitInfos(config);
         List<CommitResult> commitResults = CommitInfoAnalyzer.analyzeCommits(commitInfos, config);
-        commitResults.removeIf(s -> !s.getMessage().isEmpty());
+        commitResults.removeIf(s -> !s.getMessageTitle().isEmpty());
 
         Assert.assertEquals(NUMBER_EMPTY_MESSAGE_COMMIT, commitResults.size());
     }

@@ -33,7 +33,8 @@ public class CommitInfoAnalyzer {
     private static final int AUTHOR_INDEX = 1;
     private static final int EMAIL_INDEX = 2;
     private static final int DATE_INDEX = 3;
-    private static final int MESSAGE_INDEX = 4;
+    private static final int MESSAGE_TITLE_INDEX = 4;
+    private static final int MESSAGE_BODY_INDEX = 5;
 
     private static final Pattern INSERTION_PATTERN = Pattern.compile("([0-9]+) insertion");
     private static final Pattern DELETION_PATTERN = Pattern.compile("([0-9]+) deletion");
@@ -71,10 +72,11 @@ public class CommitInfoAnalyzer {
             logger.log(Level.WARNING, "Unable to parse the date from git log result for commit.", pe);
         }
 
-        String message = (elements.length > MESSAGE_INDEX) ? elements[MESSAGE_INDEX] : "";
+        String messageTitle = (elements.length > MESSAGE_TITLE_INDEX) ? elements[MESSAGE_TITLE_INDEX] : "";
+        String messageBody = (elements.length > MESSAGE_BODY_INDEX) ? elements[MESSAGE_BODY_INDEX] : "";
         int insertion = getInsertion(statLine);
         int deletion = getDeletion(statLine);
-        return new CommitResult(author, hash, date, message, insertion, deletion);
+        return new CommitResult(author, hash, date, messageTitle, messageBody, insertion, deletion);
     }
 
     private static int getInsertion(String raw) {

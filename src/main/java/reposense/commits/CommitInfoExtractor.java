@@ -43,7 +43,7 @@ public class CommitInfoExtractor {
      */
     private static ArrayList<CommitInfo> parseGitLogResults(String gitLogResult) {
         ArrayList<CommitInfo> commitInfos = new ArrayList<>();
-        String[] rawLines = gitLogResult.split("\n");
+        String[] rawLines = gitLogResult.split("(\n)");
 
         if (rawLines.length < 2) {
             //no log (maybe because no contribution for that file type)
