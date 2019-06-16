@@ -3,8 +3,6 @@ package reposense.authorship;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.InvalidPathException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
@@ -18,7 +16,6 @@ import java.util.logging.Logger;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 import reposense.authorship.model.FileInfo;
 import reposense.authorship.model.LineInfo;
@@ -45,8 +42,6 @@ public class FileInfoExtractor {
     private static final String FILE_CHANGED_GROUP_NAME = "filePath";
     private static final String FILE_DELETED_SYMBOL = "/dev/null";
     private static final String MATCH_GROUP_FAIL_MESSAGE_FORMAT = "Failed to match the %s group for:\n%s";
-    private static final String INVALID_FILE_PATH_MESSAGE_FORMAT = "Invalid file path %s provided, skipping this file.";
-    private static final String GIT_DIRECTORY = ".git";
     private static final String BINARY_FILE_LINE_DIFF_RESULT = "-\t-\t";
 
     private static final int LINE_CHANGED_HEADER_INDEX = 0;
@@ -76,7 +71,7 @@ public class FileInfoExtractor {
         if (!lastCommitHash.isEmpty()) {
             fileInfos = getEditedFileInfos(config, lastCommitHash);
         } else {
-            getAllFileInfo(config, Paths.get(config.getRepoRoot()), fileInfos);
+            getAllFileInfo(config, fileInfos);
         }
 
         fileInfos.sort(Comparator.comparing(FileInfo::getPath));
@@ -120,13 +115,9 @@ public class FileInfoExtractor {
             }
 
             if (Format.isInsideWhiteList(filePath, config.getFormats())) {
-                try {
-                    FileInfo currentFileInfo = generateFileInfo(config.getRepoRoot(), filePath);
-                    setLinesToTrack(currentFileInfo, fileDiffResult);
-                    fileInfos.add(currentFileInfo);
-                } catch (InvalidPathException ipe) {
-                    logger.warning(String.format(INVALID_FILE_PATH_MESSAGE_FORMAT, filePath));
-                }
+                FileInfo currentFileInfo = generateFileInfo(config.getRepoRoot(), filePath);
+                setLinesToTrack(currentFileInfo, fileDiffResult);
+                fileInfos.add(currentFileInfo);
             }
         }
 
@@ -140,12 +131,11 @@ public class FileInfoExtractor {
         String receivedMsg = GitDiff.gitGetModifiedFiles(Paths.get(repoConfig.getRepoRoot()));
         String[] listOfFiles = receivedMsg.split("\n");
 
-        // Gets rid of binary files and files with invalid directory name, then convert into type path
-        // and return as a Set.
+        // Gets rid of binary files and files with invalid directory name.
         return Arrays.stream(listOfFiles)
                 .filter(file -> !file.startsWith(BINARY_FILE_LINE_DIFF_RESULT))
                 .map(rawNonBinaryFile -> rawNonBinaryFile.split("\t")[2])
-                .filter(fileName -> FileUtil.isValidPath(fileName))
+                .filter(FileUtil::isValidPath)
                 .map(filteredFile -> Paths.get(filteredFile))
                 .collect(Collectors.toCollection(HashSet::new));
     }
@@ -190,34 +180,12 @@ public class FileInfoExtractor {
      * Traverses each file from the repo root directory, generates the {@code FileInfo} for each relevant file found
      * based on {@code config} and inserts it into {@code fileInfos}.
      */
-    private static void getAllFileInfo(RepoConfiguration config, Path directory, List<FileInfo> fileInfos) {
+    private static void getAllFileInfo(RepoConfiguration config, List<FileInfo> fileInfos) {
         Set<Path> nonBinaryFilesList = getListOfNonBinaryFiles(config);
-        try (Stream<Path> pathStream = Files.list(directory)) {
-            for (Path filePath : pathStream.collect(Collectors.toList())) {
-                String relativePath = filePath.toString().substring(config.getRepoRoot().length());
-                if (Files.isDirectory(filePath) && relativePath.equals(GIT_DIRECTORY)) {
-                    continue;
-                }
-
-                if (Files.isDirectory(filePath)) {
-                    getAllFileInfo(config, filePath, fileInfos);
-                    continue;
-                }
-
-                if (!isValidAndNonBinaryFile(relativePath, nonBinaryFilesList)) {
-                    continue;
-                }
-
-                if (Format.isInsideWhiteList(relativePath, config.getFormats())) {
-                    try {
-                        fileInfos.add(generateFileInfo(config.getRepoRoot(), relativePath));
-                    } catch (InvalidPathException ipe) {
-                        logger.warning(String.format(INVALID_FILE_PATH_MESSAGE_FORMAT, filePath));
-                    }
-                }
+        for (Path relativePath : nonBinaryFilesList) {
+            if (Format.isInsideWhiteList(relativePath.toString(), config.getFormats())) {
+                fileInfos.add(generateFileInfo(config.getRepoRoot(), relativePath.toString()));
             }
-        } catch (IOException ioe) {
-            logger.log(Level.SEVERE, "Error occured while extracing all relevant file infos.", ioe);
         }
     }
 
@@ -257,7 +225,7 @@ public class FileInfoExtractor {
     }
 
     /**
-     * Returns true if {@code filePath} is valid and non-binary file.
+     * Returns true if {@code filePath} is valid and non-binary.
      */
     private static boolean isValidAndNonBinaryFile(String filePath, Set<Path> nonBinaryFilesSet) {
         return (FileUtil.isValidPath(filePath) && nonBinaryFilesSet.contains(Paths.get(filePath)));

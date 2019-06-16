@@ -39,6 +39,8 @@ public class FileUtil {
     private static final String GITHUB_API_DATE_FORMAT = "yyyy-MM-dd";
     private static final ByteBuffer buffer = ByteBuffer.allocate(1 << 11); // 2KB
 
+    private static final String MESSAGE_INVALID_FILE_PATH = "\"%s\" is an invalid file path. Skipping this directory.";
+
     /**
      * Writes the JSON file representing the {@code object} at the given {@code path}.
      */
@@ -176,6 +178,7 @@ public class FileUtil {
         try {
             Paths.get(path);
         } catch (InvalidPathException | NullPointerException ex) {
+            logger.log(Level.WARNING, String.format(MESSAGE_INVALID_FILE_PATH, path));
             return false;
         }
         return true;
