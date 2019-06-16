@@ -16,7 +16,6 @@
     * [`author-config.csv`](#author-configcsv)
 * [Analyzing Multiple Repos](#analyzing-multiple-repos)
 * [Using Travis-CI to automate publishing of the report to GitHub Pages](#using-travis-ci-to-automate-publishing-of-the-report-to-github-pages)
-* [Note on Binary Files](#note-on-binary-files)
 * [FAQ](#faq)
 
 
@@ -346,10 +345,6 @@ Alternatively, you can use csv config files to customize the analysis as before 
 
 Follow this [guide](PublishingGuide.md) to automate publishing of your report to GitHub Pages.
 
-## Note on Binary Files
-
-RepoSense currently does not support analyzing of [Binary files](https://www.webopedia.com/TERM/B/binary_file.html). Common binary files include images (`.jpg`, `.png`), applications (`.exe`), zip files (`.zip`, `.rar`) and certain document types (`.docx`, `.pptx`).
-
 ## FAQ
 
 #### Q: Does RepoSense work on private repositories?
@@ -381,4 +376,4 @@ It is also possible that another user has overriden the authorship of your lines
 **A:** It is possible you may have some file names with [special characters](https://docs.microsoft.com/en-us/windows/desktop/FileIO/naming-a-file#naming-conventions) in them, which is disallowed in Windows OS. As such, *RepoSense* is unable to fully clone your repository, thus failing the analysis.
 
 #### Q: Some files are not captured by RepoSense!
-**A:** The files may be [binary files](#note-on-binary-files). RepoSense is currently unable to analyze binary files.
+**A:** The files may be [binary files](https://www.webopedia.com/TERM/B/binary_file.html). RepoSense currently does not support analyzing binary files. Common binary files include images (`.jpg`, `.png`), applications (`.exe`), zip files (`.zip`, `.rar`) and certain document types (`.docx`, `.pptx`). Therefore, these files will be ignored during analysis.
