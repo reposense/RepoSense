@@ -22,7 +22,7 @@ public class GitLog {
 
         String command = "git log --no-merges -i ";
         command += GitUtil.convertToGitDateRangeArgs(config.getSinceDate(), config.getUntilDate());
-        command += " --pretty=format:\"%H|%aN|%aE|%cd|%s\" --date=iso --shortstat";
+        command += " --pretty=format:\"==COMMIT INFO==%n%H%n%aN%n%aE%n%ci%n%s%n%b\" --shortstat";
         command += GitUtil.convertToFilterAuthorArgs(author);
         command += GitUtil.convertToGitFormatsArgs(config.getFormats());
         command += GitUtil.convertToGitExcludeGlobArgs(rootPath.toFile(), author.getIgnoreGlobList());

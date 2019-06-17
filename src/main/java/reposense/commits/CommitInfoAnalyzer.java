@@ -27,7 +27,7 @@ public class CommitInfoAnalyzer {
     private static final String MESSAGE_START_ANALYZING_COMMIT_INFO = "Analyzing commits info for %s (%s)...";
 
     private static final DateFormat GIT_ISO_FORMAT = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-    private static final String LOG_SPLITTER = "\\|";
+    private static final String LOG_SPLITTER = "\n";
 
     private static final int COMMIT_HASH_INDEX = 0;
     private static final int AUTHOR_INDEX = 1;
@@ -61,7 +61,7 @@ public class CommitInfoAnalyzer {
         String infoLine = commitInfo.getInfoLine();
         String statLine = commitInfo.getStatLine();
 
-        String[] elements = infoLine.split(LOG_SPLITTER);
+        String[] elements = infoLine.split(LOG_SPLITTER, 6);
         String hash = elements[COMMIT_HASH_INDEX];
         Author author = config.getAuthor(elements[AUTHOR_INDEX], elements[EMAIL_INDEX]);
 
