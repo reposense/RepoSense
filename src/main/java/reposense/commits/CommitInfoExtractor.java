@@ -56,7 +56,7 @@ public class CommitInfoExtractor {
 
             int statLineSeparatorIndex = rawCommitInfo.lastIndexOf("\n");
             String infoLine = rawCommitInfo.substring(0, statLineSeparatorIndex);
-            String statLine = rawCommitInfo.substring(statLineSeparatorIndex+1);
+            String statLine = rawCommitInfo.substring(statLineSeparatorIndex + 1);
             commitInfos.add(new CommitInfo(infoLine, statLine));
         }
 
