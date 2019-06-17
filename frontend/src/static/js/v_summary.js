@@ -99,7 +99,6 @@ window.vSummary = {
     return {
       filtered: [],
       filterSearch: '',
-      filterSortReverse: false,
       filterGroupSelection: 'groupByRepos',
       sortGroupSelection: 'groupTitle', // UI for sorting groups
       sortWithinGroupSelection: 'title', // UI for sorting within groups
@@ -127,9 +126,6 @@ window.vSummary = {
       this.getFiltered();
     },
     sortWithinGroupSelection() {
-      this.getFiltered();
-    },
-    filterSortReverse() {
       this.getFiltered();
     },
     filterTimeFrame() {
@@ -283,7 +279,6 @@ window.vSummary = {
       addHash('until', this.filterUntilDate);
       addHash('timeframe', this.filterTimeFrame);
 
-      addHash('reverse', this.filterSortReverse);
       addHash('groupSelect', this.filterGroupSelection);
       addHash('breakdown', this.filterBreakdown);
 
@@ -311,7 +306,6 @@ window.vSummary = {
         this.tmpFilterUntilDate = hash.until;
       }
 
-      if (hash.reverse) { this.filterSortReverse = convertBool(hash.reverse); }
       if (hash.groupSelect) {
         this.filterGroupSelection = hash.groupSelect;
       }
@@ -505,10 +499,6 @@ window.vSummary = {
         full = this.groupByAuthors(this.filtered);
       } else {
         full = this.groupByRepos(this.filtered);
-      }
-
-      if (this.filterSortReverse) {
-        full.forEach((repo) => repo.reverse());
       }
 
       this.filtered = full;
