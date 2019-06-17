@@ -106,7 +106,7 @@ header{
         }
 
         .error-message-box {
-            padding: 20px;
+            padding: 15px;
             border-radius: 4px;
             background-color: #f44336;
             color: white;
@@ -119,16 +119,17 @@ header{
         #error-message-box__message {
             padding-bottom: 10px;
             border-bottom: 2px solid;
+            font-size: 0.75rem;
         }
         #error-message__failed-repo__reason {
             margin-left: 1.5cm;
         }
         #error-message-box__message, #error-message__failed-repo__name {
-            font-size: large;
             font-weight: bolder;
         }
         #error-message__failed-repo__name, #error-message__failed-repo__reason {
             padding-left: 3px;
+            font-size: 0.75rem;
         }
     }
 
