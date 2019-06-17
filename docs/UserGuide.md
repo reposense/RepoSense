@@ -113,12 +113,12 @@ The `Tool Bar` at the top provides a set of configuration options that control t
   * `Name` : groups will be sorted by GitHub ID in alphabetical order.
   * `Repo/branch` : groups will be sorted in alphabetical order by the name of the repo, followed by name of the branch. See note [1] below.
   * `Contribution` : groups will be sorted by the combined contributions within a group, in the order of number of lines added
-  * `Variance` : the [variance](https://en.wikipedia.org/wiki/Variance) of the number of lines that the group has contributed to the repository daily.
+  * `Variance` : groups will be sorted by the average of the squared differences from the average number of lines of code contributed per day among all authors involved. Detailed definition of variance is located [here](https://en.wikipedia.org/wiki/Variance).
 * `Sort within groups by`: sorting criteria within each group
-  * `Name` : sorted by GitHub ID in alphabetical order.
-  * `Repo/branch` : sorted in alphabetical order by the name of the repo, followed by name of the branch. See note [1] below.
-  * `Contribution` : sorted by individual contributions in the order of number of lines added
-  * `Variance` : the [variance](https://en.wikipedia.org/wiki/Variance) of the number of lines that the group has contributed to the repository daily.
+  * `Name` : each sub-group will be sorted by GitHub ID in alphabetical order.
+  * `Repo/branch` : each sub-group will be sorted in alphabetical order by the name of the repo, followed by name of the branch. See note [1] below.
+  * `Contribution` : each sub-group will be sorted by individual contributions in the order of number of lines added
+  * `Variance` : each sub-group will be sorted by the average of the squared differences from the average number of lines of code contributed per day among all authors involved. Detailed definition of variance is located [here](https://en.wikipedia.org/wiki/Variance).
 * `Granularity` : the period of time for which commits are aggregated in the Ramp Chart.
     * `Commit`: each commit made is shown as one ramp
     * `Day`: commits within a day (commits made within 00:00 to 23:59) are shown as one ramp
