@@ -96,7 +96,7 @@ class GitUtil {
         StringBuilder gitExcludeGlobArgsBuilder = new StringBuilder();
         final String cmdFormat = " " + addQuote(":(exclude)%s");
         ignoreGlobList.stream()
-                .filter(item -> isValidPath(root, item))
+                .filter(item -> isValidIgnoreGlob(root, item))
                 .map(ignoreGlob -> String.format(cmdFormat, ignoreGlob))
                 .forEach(gitExcludeGlobArgsBuilder::append);
 
@@ -104,22 +104,22 @@ class GitUtil {
     }
 
     /**
-     * Returns true if the {@code path} is inside the current repository.
-     * Produces log messages when the invalid file path is skipped.
+     * Returns true if the {@code ignoreGlob} is inside the current repository.
+     * Produces log messages when the invalid {@code ignoreGlob} is skipped.
      */
-    private static boolean isValidPath(File repoRoot, String path) {
-        String validPath = path;
+    private static boolean isValidIgnoreGlob(File repoRoot, String ignoreGlob) {
+        String validPath = ignoreGlob;
         FileSystem fileSystem = FileSystems.getDefault();
-        if (path.isEmpty()) {
+        if (ignoreGlob.isEmpty()) {
             return false;
-        } else if (path.startsWith("/") || path.startsWith("\\")) {
+        } else if (ignoreGlob.startsWith("/") || ignoreGlob.startsWith("\\")) {
             // Ignore globs cannot start with a slash
-            logger.log(Level.WARNING, path + " cannot start with / or \\.");
+            logger.log(Level.WARNING, ignoreGlob + " cannot start with / or \\.");
             return false;
-        } else if (path.contains("/*") || path.contains("\\*")) {
+        } else if (ignoreGlob.contains("/*") || ignoreGlob.contains("\\*")) {
             // contains directories
-            validPath = path.substring(0, path.indexOf("/*"));
-        } else if (path.contains("*")) {
+            validPath = ignoreGlob.substring(0, ignoreGlob.indexOf("/*"));
+        } else if (ignoreGlob.contains("*")) {
             // no directories
             return true;
         }
@@ -136,7 +136,7 @@ class GitUtil {
             return false;
         }
 
-        logger.log(Level.WARNING, path + " will be skipped as this glob points to outside the repository.");
+        logger.log(Level.WARNING, ignoreGlob + " will be skipped as this glob points to outside the repository.");
         return false;
     }
 }
