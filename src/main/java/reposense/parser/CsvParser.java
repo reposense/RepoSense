@@ -59,6 +59,11 @@ public abstract class CsvParser<T> {
 
             for (int lineNumber = 2; (line = br.readLine()) != null; lineNumber++) {
                 String[] elements = line.split(ELEMENT_SEPARATOR_REGEX);
+                for (int colNum = 0; colNum < elements.length; colNum++) {
+                    if (elements[colNum].startsWith("\"") && elements[colNum].endsWith("\"")) {
+                        elements[colNum] = elements[colNum].replaceAll("^\"|\"$", "");
+                    }
+                }
 
                 if (line.isEmpty() || isLineMalformed(elements, lineNumber, line)) {
                     continue;
