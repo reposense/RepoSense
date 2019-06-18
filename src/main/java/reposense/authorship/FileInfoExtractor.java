@@ -125,7 +125,7 @@ public class FileInfoExtractor {
     }
 
     /**
-     * Returns the list of non-binary files for the repo {@code repoConfig}.
+     * Returns a {@code Set} of non-binary files for the repo {@code repoConfig}.
      */
     public static Set<Path> getListOfNonBinaryFiles(RepoConfiguration repoConfig) {
         String receivedMsg = GitDiff.gitGetModifiedFiles(Paths.get(repoConfig.getRepoRoot()));
