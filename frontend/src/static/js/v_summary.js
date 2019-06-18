@@ -425,7 +425,9 @@ window.vSummary = {
     mergeCommits(user, merged, dateToIndexMap) {
       // merge commits with the same date
       user.commits.forEach((commit) => {
-        const { commitResults, date, insertions, deletions } = commit;
+        const {
+          commitResults, date, insertions, deletions,
+        } = commit;
 
         if (Object.prototype.hasOwnProperty.call(dateToIndexMap, date)) {
           const commitWithSameDate = merged[dateToIndexMap[date]];
