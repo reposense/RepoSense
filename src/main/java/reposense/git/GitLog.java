@@ -13,6 +13,7 @@ import reposense.model.RepoConfiguration;
  * Git log is responsible to obtain the commit logs and the authors' info.
  */
 public class GitLog {
+    public static final String COMMIT_INFO_DELIMITER = "==COMMIT INFO==\n";
 
     /**
      * Returns the git commit log info of {@code Author}, in the repository specified in {@code config}.
@@ -39,7 +40,7 @@ public class GitLog {
 
         String command = "git log --no-merges -i ";
         command += GitUtil.convertToGitDateRangeArgs(config.getSinceDate(), config.getUntilDate());
-        command += " --pretty=format:\"%H|%aN|%aE|%cd|%s\" --date=iso --stat";
+        command += " --pretty=format:\"==COMMIT INFO==%n%H%n%aN%n%aE%n%ci%n%s%n%b\" --stat";
         command += GitUtil.convertToFilterAuthorArgs(author);
         command += GitUtil.convertToGitFormatsArgs(config.getFormats());
         command += GitUtil.convertToGitExcludeGlobArgs(rootPath.toFile(), author.getIgnoreGlobList());

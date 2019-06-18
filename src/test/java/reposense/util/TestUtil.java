@@ -11,6 +11,7 @@ import java.util.stream.Collectors;
 
 import org.junit.Assert;
 
+import reposense.git.GitLog;
 import reposense.model.Author;
 import reposense.model.RepoConfiguration;
 
@@ -132,7 +133,7 @@ public class TestUtil {
     }
 
     /**
-     * Returns true if the {@code expectedNumberCommits} is equal to the expected number of lines in
+     * Returns true if the {@code expectedNumberCommits} is equal to the expected number of commits captured in
      * {@code gitLogResult}.
      */
     public static boolean compareNumberExpectedCommitsToGitLogLines(int expectedNumberCommits, String gitLogResult) {
@@ -141,8 +142,8 @@ public class TestUtil {
             return expectedNumberCommits == 0;
         }
 
-        // each commit has 2 lines of info, and a blank line in between each
-        return expectedNumberCommits * 3 - 1 == gitLogResult.split("\n").length;
+        // (actualSplitGitLogResilt - 1) as the 1st token is always empty.
+        return expectedNumberCommits == (gitLogResult.split(GitLog.COMMIT_INFO_DELIMITER).length - 1);
     }
 
     /**
@@ -154,16 +155,20 @@ public class TestUtil {
         if (gitLogResult.isEmpty()) {
             return expectedNumberFilesChanged == 0;
         }
-        String[] changesLogged = gitLogResult.split("\n");
+        String[] changesLogged = gitLogResult.split(GitLog.COMMIT_INFO_DELIMITER);
         HashSet<String> filesChanged = new HashSet<>();
-        // Checks the 2nd line of each commit which contains info of the changed file
-        for (int i = 0; i < changesLogged.length; i += 4) {
-            String log = changesLogged[i + 1];
-            String fileChanged = log.split("\\| ")[0].trim();
-            if (fileChanged.contains("=>")) {
-                fileChanged = fileChanged.substring(fileChanged.indexOf("=> ") + 3);
+
+        // start from index 1 as index 0 is always empty.
+        for (int i = 1; i < changesLogged.length; i++) {
+            String[] commitInfo = changesLogged[i].replaceAll("\n+$", "").split("\n");
+            int numFilesChanged = Integer.parseInt(commitInfo[commitInfo.length - 1].trim().split(" ")[0]);
+            for (int fileNum = 0; fileNum < numFilesChanged; fileNum++) {
+                String fileChanged = commitInfo[commitInfo.length - 2 - fileNum].split("\\| ")[0].trim();
+                if (fileChanged.contains("=>")) {
+                    fileChanged = fileChanged.substring(fileChanged.indexOf("=> ") + 3);
+                }
+                filesChanged.add(fileChanged);
             }
-            filesChanged.add(fileChanged);
         }
         return filesChanged.size() == expectedNumberFilesChanged;
     }
