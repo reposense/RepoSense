@@ -26,7 +26,7 @@ public class CommitInfoAnalyzer {
     private static final Logger logger = LogsManager.getLogger(CommitInfoAnalyzer.class);
     private static final String MESSAGE_START_ANALYZING_COMMIT_INFO = "Analyzing commits info for %s (%s)...";
 
-    private static final DateFormat GIT_ISO_FORMAT = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+    private static final DateFormat GIT_ISO_FORMAT = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
     private static final String LOG_SPLITTER = "\n";
 
     private static final int COMMIT_HASH_INDEX = 0;
