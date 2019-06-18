@@ -109,7 +109,7 @@ window.vSummary = {
       isSortingWithinDsc: '',
       filterTimeFrame: 'commit',
       filterBreakdown: false,
-      mergeGroup: false,
+      isMergeGroup: false,
       tmpFilterSinceDate: '',
       tmpFilterUntilDate: '',
       filterSinceDate: '',
@@ -137,18 +137,15 @@ window.vSummary = {
       this.getFiltered();
     },
     filterGroupSelection() {
-      this.updateSortWithinGroup();
+      this.updateControls();
       this.getFiltered();
     },
     filterBreakdown() {
       this.getFiltered();
     },
-    mergeGroup() {
-      if (this.mergeGroup) {
-        if (this.filterGroupSelection === 'groupByRepos') {
-          this.getFilteredGroupRepo();
-        }
-      }
+    isMergeGroup() {
+      this.updateControls();
+      this.getFiltered();
     },
     tmpFilterSinceDate() {
       if (this.tmpFilterSinceDate && this.tmpFilterSinceDate >= this.minDate) {
@@ -290,7 +287,7 @@ window.vSummary = {
       addHash('since', this.filterSinceDate);
       addHash('until', this.filterUntilDate);
       addHash('timeframe', this.filterTimeFrame);
-      addHash('mergegroup', this.mergeGroup);
+      addHash('mergegroup', this.isMergeGroup);
 
       addHash('reverse', this.filterSortReverse);
       addHash('groupSelect', this.filterGroupSelection);
@@ -366,7 +363,10 @@ window.vSummary = {
       // array of array, sorted by repo
       const full = [];
 
-      this.repos.forEach((repo) => {
+      // create deep clone of this.repos if merging groups
+      let groups = this.isMergeGroup ? JSON.parse(JSON.stringify(this.repos)) : this.repos;
+
+      groups.forEach((repo) => {
         const res = [];
 
         // filtering
@@ -394,45 +394,69 @@ window.vSummary = {
 
       this.getDates();
       this.sortFiltered();
+
+      if (this.isMergeGroup && this.filterGroupSelection !== 'groupByNone') {
+        this.mergeGroup();
+      }
     },
-    getFilteredGroupRepo() {
-      this.setSummaryHash();
+    mergeGroup() {
+      this.filtered.forEach((repo, repoIndex) => {
+        let dateWithIndexMap = {};
+        let mergedCommits = [];
+        let mergedFileFormatContribution = {};
+        let mergedVariance = 0;
+        let numberOfDatesAdded = 0;
+        let totalMergedCommits = 0;
 
-      const group = [];
+        repo.forEach((user) => {
 
-      // get commits of all repos in the group
-      this.repos.forEach((repo) => {
-        let res = [];
+          // merge commits with the same date
+          user.commits.forEach((commit) => {
+            const { commitResults, date, insertions, deletions } = commit;
+            if (Object.prototype.hasOwnProperty.call(dateWithIndexMap, date)) {
+              const commitWithSameDate = mergedCommits[dateWithIndexMap[date]];
+              if (this.filterTimeFrame === 'week') {
+                commitWithSameDate.date = date;
+                commitWithSameDate.endDate = commit.endDate;
+              } else {
+                commitResults.forEach((commitResult) => {
+                  commitWithSameDate.commitResults.push(commitResult);
+                });
+              }
+              commitWithSameDate.insertions += insertions;
+              commitWithSameDate.deletions += deletions;
+            } else {
+              dateWithIndexMap[date] = numberOfDatesAdded++;
+              mergedCommits.push(commit);
+            }
+          });
 
-        repo.users.forEach((user) => {
-          res = res.concat(user); // need to flatten the content here
+          mergedCommits.sort(window.comparator((ele) => ele.date));
+
+          // get total file format contribution of entire group
+          Object.entries(user.fileFormatContribution).forEach((fileFormat) => {
+            let key = fileFormat[0];
+            let value = fileFormat[1];
+
+            if (!Object.prototype.hasOwnProperty.call(mergedFileFormatContribution, key)) {
+              mergedFileFormatContribution[key] = 0;
+            }
+            mergedFileFormatContribution[key] += value;
+          });
+
+          totalMergedCommits += user.totalCommits;
+          mergedVariance += user.variance;
         });
 
-        const toDisplay = this.filterSearch.toLowerCase()
-            .split(' ').filter((param) => param)
-            .map((param) => user.searchPath.search(param) > -1)
-            .reduce((curr, bool) => curr || bool, false);
+        repo[0].commits = mergedCommits;
+        repo[0].fileFormatContribution = mergedFileFormatContribution;
+        repo[0].totalCommits = totalMergedCommits;
+        repo[0].variance = mergedVariance;
 
-        if (!this.filterSearch || toDisplay) {
-          this.getUserCommits(res);
-          if (this.filterTimeFrame === 'week') {
-            this.splitCommitsWeek(res);
-          }
-        }
-
-        // sort commits in terms of date
-        if (res.length) {
-          res.sort(window.comparator((user) => user.date ));
-          group.push(res);
-        }
+        this.filtered[repoIndex] = [];
+        const mergedGroup = repo[0];
+        this.filtered[repoIndex].push(mergedGroup);
       });
-
-      this.filtered = group;
-      this.getDates();
-      this.sortFiltered();
-    },
-    getFilteredGroupAuthor() {
-
     },
     processFileFormats() {
       const selectedColors = ['#ffe119', '#4363d8', '#3cb44b', '#f58231', '#911eb4', '#46f0f0', '#f032e6',
@@ -532,14 +556,26 @@ window.vSummary = {
 
       return null;
     },
-    updateSortWithinGroup() {
-      const ele = document.getElementsByClassName('mui-select sort-within-group');
-      if (this.filterGroupSelection === 'groupByNone') {
-        ele[0].style.pointerEvents = 'none';
-        ele[0].style.opacity = 0.5;
+    updateControls() {
+      // update sort within selection if necessary
+      const sortWithin = document.getElementsByClassName('mui-select sort-within-group');
+      if (this.filterGroupSelection === 'groupByNone' || this.isMergeGroup) {
+        sortWithin[0].style.pointerEvents = 'none';
+        sortWithin[0].style.opacity = 0.5;
       } else {
-        ele[0].style.pointerEvents = 'auto';
-        ele[0].style.opacity = 1;
+        sortWithin[0].style.pointerEvents = 'auto';
+        sortWithin[0].style.opacity = 1;
+      }
+
+      // update merge checkbox if necessary
+      const merge = document.getElementsByClassName('merge-group');
+      if (this.filterGroupSelection === 'groupByNone') {
+        this.isMergeGroup = false;
+        merge[0].children[0].disabled = true;
+        merge[0].style.opacity = 0.5;
+      } else {
+        merge[0].children[0].disabled = false;
+        merge[0].style.opacity = 1;
       }
     },
     getOptionWithOrder() {
@@ -625,10 +661,12 @@ window.vSummary = {
         const { avgCommitSize } = this;
         const user = { ...userOrig, commits };
         this.$emit('view-zoom', {
+          filterGroupSelection: this.filterGroupSelection,
           avgCommitSize,
           user,
           sinceDate: tsince,
           untilDate: tuntil,
+          isMergeGroup: this.isMergeGroup
         });
       }
     },

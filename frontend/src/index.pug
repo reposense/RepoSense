@@ -127,8 +127,8 @@ html
             label
               input(type="checkbox", v-model="filterBreakdown").mui-checkbox.summary-picker__checkbox
               span breakdown by file format
-            label
-              input(type="checkbox", v-model="mergeGroup").mui-checkbox.summary-picker__checkbox
+            label.merge-group
+              input(type="checkbox", v-model="isMergeGroup").mui-checkbox.summary-picker__checkbox
               span merge group
         #summary-charts
           .summary-charts(v-for="repo of filteredRepos")
@@ -152,7 +152,7 @@ html
                   )
                   span &nbsp; {{ fileFormat }} &nbsp;
             .summary-chart(v-for="(user, i) in repo")
-              .summary-chart__title
+              .summary-chart__title(v-if="!isMergeGroup || filterGroupSelection === 'groupByNone'")
                 .summary-chart__title--index {{ i+1 }}
                 .summary-chart__title--repo(v-if="filterGroupSelection === 'groupByNone'") {{ user.repoName }}
                 .summary-chart__title--author-repo(v-if="filterGroupSelection === 'groupByAuthors'") {{ user.repoName }}
@@ -173,11 +173,13 @@ html
                 v-on:click="openTabZoom(user)"
               )
                 v_ramp(
+                    v-bind:groupby="filterGroupSelection",
                     v-bind:user="user",
                     v-bind:tframe="filterTimeFrame",
                     v-bind:sdate="filterSinceDate",
                     v-bind:udate="filterUntilDate",
-                    v-bind:avgsize="avgCommitSize")
+                    v-bind:avgsize="avgCommitSize",
+                    v-bind:mergegroup="isMergeGroup")
                 .overlay
 
               .summary-chart__contribution
