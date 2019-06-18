@@ -228,6 +228,6 @@ public class FileInfoExtractor {
      * Returns true if {@code filePath} is valid and non-binary.
      */
     private static boolean isValidAndNonBinaryFile(String filePath, Set<Path> nonBinaryFilesSet) {
-        return (FileUtil.isValidPath(filePath) && nonBinaryFilesSet.contains(Paths.get(filePath)));
+        return FileUtil.isValidPath(filePath) && nonBinaryFilesSet.contains(Paths.get(filePath));
     }
 }
