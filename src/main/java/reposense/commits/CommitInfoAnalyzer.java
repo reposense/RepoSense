@@ -82,7 +82,7 @@ public class CommitInfoAnalyzer {
     }
 
     private static String getCommitMessageBody(String raw) {
-        return raw.replaceAll("(?m)^    ", "");
+        return raw.replaceAll("(?m)^ {4}", "");
     }
 
     private static int getInsertion(String raw) {
