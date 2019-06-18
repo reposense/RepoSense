@@ -93,7 +93,7 @@ public class FileInfoExtractor {
         }
 
         String[] fileDiffResultList = fullDiffResult.split(DIFF_FILE_CHUNK_SEPARATOR);
-        Set<Path> nonBinaryFilesList = getListOfNonBinaryFiles(config);
+        Set<Path> nonBinaryFilesSet = getListOfNonBinaryFiles(config);
 
         for (String fileDiffResult : fileDiffResultList) {
             Matcher filePathMatcher = FILE_CHANGED_PATTERN.matcher(fileDiffResult);
@@ -110,7 +110,7 @@ public class FileInfoExtractor {
                 continue;
             }
 
-            if (!isValidAndNonBinaryFile(filePath, nonBinaryFilesList)) {
+            if (!isValidAndNonBinaryFile(filePath, nonBinaryFilesSet)) {
                 continue;
             }
 

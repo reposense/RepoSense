@@ -178,7 +178,7 @@ public class FileUtil {
     public static boolean isValidPath(String path) {
         try {
             Paths.get(path);
-        } catch (InvalidPathException | NullPointerException ex) {
+        } catch (InvalidPathException ipe) {
             logger.log(Level.WARNING, String.format(MESSAGE_INVALID_FILE_PATH, path));
             return false;
         }
