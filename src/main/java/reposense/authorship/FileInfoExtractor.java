@@ -128,8 +128,8 @@ public class FileInfoExtractor {
      * Returns a {@code Set} of non-binary files for the repo {@code repoConfig}.
      */
     public static Set<Path> getListOfNonBinaryFiles(RepoConfiguration repoConfig) {
-        String receivedMsg = GitDiff.gitGetModifiedFiles(Paths.get(repoConfig.getRepoRoot()));
-        String[] listOfFiles = receivedMsg.split("\n");
+        String rawGitDiffResult = GitDiff.gitGetModifiedFiles(Paths.get(repoConfig.getRepoRoot()));
+        String[] listOfFiles = rawGitDiffResult.split("\n");
 
         // Gets rid of binary files and files with invalid directory name.
         return Arrays.stream(listOfFiles)

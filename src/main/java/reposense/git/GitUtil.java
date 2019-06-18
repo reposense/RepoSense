@@ -136,7 +136,8 @@ class GitUtil {
             return false;
         }
 
-        logger.log(Level.WARNING, ignoreGlob + " will be skipped as this glob points to outside the repository.");
+        logger.log(Level.WARNING, ignoreGlob + " will be skipped as this glob points to the outside of "
+                + "the repository.");
         return false;
     }
 }

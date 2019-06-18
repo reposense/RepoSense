@@ -22,11 +22,11 @@ public class GitDiff {
     }
 
     /**
-     * Returns the raw message of a list of committed files with the corresponding number of lines added and deleted
-     * in the repo {@code repoRoot}.
+     * Returns the raw git diff result of a list of committed files with the corresponding number of
+     * lines added and deleted in the repo {@code repoRoot}.
      */
     public static String gitGetModifiedFiles(Path repoRoot) {
-        String sendMsg = String.format("git diff --numstat %s %s", EMPTY_TREE_HASH, CHECKED_OUT_COMMIT_REFERENCE);
-        return runCommand(repoRoot.toAbsolutePath(), sendMsg);
+        String diffCommand = String.format("git diff --numstat %s %s", EMPTY_TREE_HASH, CHECKED_OUT_COMMIT_REFERENCE);
+        return runCommand(repoRoot.toAbsolutePath(), diffCommand);
     }
 }
