@@ -364,7 +364,7 @@ window.vSummary = {
       const full = [];
 
       // create deep clone of this.repos if merging groups
-      let groups = this.isMergeGroup ? JSON.parse(JSON.stringify(this.repos)) : this.repos;
+      const groups = this.isMergeGroup ? JSON.parse(JSON.stringify(this.repos)) : this.repos;
 
       groups.forEach((repo) => {
         const res = [];
@@ -395,67 +395,70 @@ window.vSummary = {
       this.getDates();
       this.sortFiltered();
 
-      if (this.isMergeGroup && this.filterGroupSelection !== 'groupByNone') {
+      if (this.isMergeGroup) {
         this.mergeGroup();
       }
     },
     mergeGroup() {
-      this.filtered.forEach((repo, repoIndex) => {
-        let dateWithIndexMap = {};
-        let mergedCommits = [];
-        let mergedFileFormatContribution = {};
+      this.filtered.forEach((group, groupIndex) => {
+        const dateToIndexMap = {};
+        const mergedCommits = [];
+        const mergedFileFormatContribution = {};
         let mergedVariance = 0;
-        let numberOfDatesAdded = 0;
         let totalMergedCommits = 0;
 
-        repo.forEach((user) => {
-
-          // merge commits with the same date
-          user.commits.forEach((commit) => {
-            const { commitResults, date, insertions, deletions } = commit;
-            if (Object.prototype.hasOwnProperty.call(dateWithIndexMap, date)) {
-              const commitWithSameDate = mergedCommits[dateWithIndexMap[date]];
-              if (this.filterTimeFrame === 'week') {
-                commitWithSameDate.date = date;
-                commitWithSameDate.endDate = commit.endDate;
-              } else {
-                commitResults.forEach((commitResult) => {
-                  commitWithSameDate.commitResults.push(commitResult);
-                });
-              }
-              commitWithSameDate.insertions += insertions;
-              commitWithSameDate.deletions += deletions;
-            } else {
-              dateWithIndexMap[date] = numberOfDatesAdded++;
-              mergedCommits.push(commit);
-            }
-          });
-
+        group.forEach((user) => {
+          this.mergeCommits(user, mergedCommits, dateToIndexMap);
           mergedCommits.sort(window.comparator((ele) => ele.date));
 
-          // get total file format contribution of entire group
-          Object.entries(user.fileFormatContribution).forEach((fileFormat) => {
-            let key = fileFormat[0];
-            let value = fileFormat[1];
-
-            if (!Object.prototype.hasOwnProperty.call(mergedFileFormatContribution, key)) {
-              mergedFileFormatContribution[key] = 0;
-            }
-            mergedFileFormatContribution[key] += value;
-          });
+          this.mergeFileFormatContribution(user, mergedFileFormatContribution);
 
           totalMergedCommits += user.totalCommits;
           mergedVariance += user.variance;
         });
 
-        repo[0].commits = mergedCommits;
-        repo[0].fileFormatContribution = mergedFileFormatContribution;
-        repo[0].totalCommits = totalMergedCommits;
-        repo[0].variance = mergedVariance;
+        group[0].commits = mergedCommits;
+        group[0].fileFormatContribution = mergedFileFormatContribution;
+        group[0].totalCommits = totalMergedCommits;
+        group[0].variance = mergedVariance;
 
-        this.filtered[repoIndex] = [];
-        const mergedGroup = repo[0];
-        this.filtered[repoIndex].push(mergedGroup);
+        // clear all users and add merged group in filtered group
+        this.filtered[groupIndex] = [];
+        const mergedGroup = group[0];
+        this.filtered[groupIndex].push(mergedGroup);
+      });
+    },
+    mergeCommits(user, merged, dateToIndexMap) {
+      // merge commits with the same date
+      user.commits.forEach((commit) => {
+        const { commitResults, date, insertions, deletions } = commit;
+
+        if (Object.prototype.hasOwnProperty.call(dateToIndexMap, date)) {
+          const commitWithSameDate = merged[dateToIndexMap[date]];
+
+          if (this.filterTimeFrame !== 'week') {
+            commitResults.forEach((commitResult) => {
+              commitWithSameDate.commitResults.push(commitResult);
+            });
+          }
+
+          commitWithSameDate.insertions += insertions;
+          commitWithSameDate.deletions += deletions;
+        } else {
+          dateToIndexMap[date] = Object.keys(dateToIndexMap).length;
+          merged.push(commit);
+        }
+      });
+    },
+    mergeFileFormatContribution(user, merged) {
+      Object.entries(user.fileFormatContribution).forEach((fileFormat) => {
+        const key = fileFormat[0];
+        const value = fileFormat[1];
+
+        if (!Object.prototype.hasOwnProperty.call(merged, key)) {
+          merged[key] = 0;
+        }
+        merged[key] += value;
       });
     },
     processFileFormats() {
@@ -666,7 +669,7 @@ window.vSummary = {
           user,
           sinceDate: tsince,
           untilDate: tuntil,
-          isMergeGroup: this.isMergeGroup
+          isMergeGroup: this.isMergeGroup,
         });
       }
     },

@@ -36,6 +36,7 @@ window.vRamp = {
           + `until=${untilDate}'T'23:59:59+08:00`;
     },
     getMergedLink(user, slice, untilDate) {
+      const { REPOS } = window;
       return `${getBaseLink(user.repoId)}/commits/${REPOS[user.repoId].branch}?`
           + `since=${slice.date}'T'00:00:00+08:00&`
           + `until=${untilDate}'T'23:59:59+08:00`;
