@@ -38,6 +38,7 @@ public class CommitInfoAnalyzer {
 
     private static final Pattern INSERTION_PATTERN = Pattern.compile("([0-9]+) insertion");
     private static final Pattern DELETION_PATTERN = Pattern.compile("([0-9]+) deletion");
+    private static final Pattern FOUR_LEADING_SPACES_PATTERN = Pattern.compile("^    ", Pattern.MULTILINE);
 
     /**
      * Analyzes each {@code CommitInfo} in {@code commitInfos} and returns a list of {@code CommitResult} that is not
@@ -73,10 +74,15 @@ public class CommitInfoAnalyzer {
         }
 
         String messageTitle = (elements.length > MESSAGE_TITLE_INDEX) ? elements[MESSAGE_TITLE_INDEX] : "";
-        String messageBody = (elements.length > MESSAGE_BODY_INDEX) ? elements[MESSAGE_BODY_INDEX] : "";
+        String messageBody = (elements.length > MESSAGE_BODY_INDEX)
+                ? getCommitMessageBody(elements[MESSAGE_BODY_INDEX]) : "";
         int insertion = getInsertion(statLine);
         int deletion = getDeletion(statLine);
         return new CommitResult(author, hash, date, messageTitle, messageBody, insertion, deletion);
+    }
+
+    private static String getCommitMessageBody(String raw) {
+        return raw.replaceAll("(?m)^    ", "");
     }
 
     private static int getInsertion(String raw) {

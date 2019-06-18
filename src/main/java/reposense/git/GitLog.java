@@ -13,7 +13,10 @@ import reposense.model.RepoConfiguration;
  * Git log is responsible to obtain the commit logs and the authors' info.
  */
 public class GitLog {
-    public static final String COMMIT_INFO_DELIMITER = "==COMMIT INFO==\n";
+    public static final String COMMIT_INFO_DELIMITER = ">>>COMMIT INFO<<<\n";
+
+    private static final String PRETTY_FORMAT_STRING =
+            "\">>>COMMIT INFO<<<%n%H|%n|%aN|%n|%aE|%n|%cI|%n|%s|%n|%w(0,4,4)%b%w(0,0,0)\"";
 
     /**
      * Returns the git commit log info of {@code Author}, in the repository specified in {@code config}.
