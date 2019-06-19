@@ -71,6 +71,7 @@ public class CommitResult {
                 && hash.equals(otherCommitResult.hash)
                 && time.equals(otherCommitResult.time)
                 && messageTitle.equals(otherCommitResult.messageTitle)
+                && messageBody.equals(otherCommitResult.messageBody)
                 && insertions == otherCommitResult.insertions
                 && deletions == otherCommitResult.deletions;
     }

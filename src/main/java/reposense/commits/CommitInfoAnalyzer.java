@@ -23,10 +23,11 @@ import reposense.system.LogsManager;
  * Analyzes commit information found in the git log.
  */
 public class CommitInfoAnalyzer {
+    public static final DateFormat GIT_STRICT_ISO_DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
+
     private static final Logger logger = LogsManager.getLogger(CommitInfoAnalyzer.class);
     private static final String MESSAGE_START_ANALYZING_COMMIT_INFO = "Analyzing commits info for %s (%s)...";
 
-    private static final DateFormat GIT_ISO_FORMAT = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
     private static final String LOG_SPLITTER = "\\|\\n\\|";
 
     private static final int COMMIT_HASH_INDEX = 0;
@@ -67,7 +68,7 @@ public class CommitInfoAnalyzer {
 
         Date date = null;
         try {
-            date = GIT_ISO_FORMAT.parse(elements[DATE_INDEX]);
+            date = GIT_STRICT_ISO_DATE_FORMAT.parse(elements[DATE_INDEX]);
         } catch (ParseException pe) {
             logger.log(Level.WARNING, "Unable to parse the date from git log result for commit.", pe);
         }
