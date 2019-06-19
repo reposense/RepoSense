@@ -553,3 +553,11 @@ header{
         text-align:center;
     }
 }
+
+/* Zoom Tab */
+.commit-message-body{
+  overflow: auto;
+  background-color: white;
+  border: 1px solid #898989;
+  padding: 5px;
+}
