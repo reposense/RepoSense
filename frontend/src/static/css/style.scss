@@ -256,8 +256,10 @@ header{
     position:relative;
     margin-bottom:1rem;
     text-align:left;
+    overflow:auto;
 
     &__title{
+        clear:left;
 
         & > * {
             display:inline;
