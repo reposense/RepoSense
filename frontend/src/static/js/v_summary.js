@@ -110,6 +110,7 @@ window.vSummary = {
       filterBreakdown: false,
       tmpFilterSinceDate: '',
       tmpFilterUntilDate: '',
+      hasModifiedUntilDate: window.app.isUntilDateProvided,
       filterSinceDate: '',
       filterUntilDate: '',
       filterHash: '',
@@ -149,6 +150,10 @@ window.vSummary = {
     },
     tmpFilterUntilDate() {
       if (this.tmpFilterUntilDate && this.tmpFilterUntilDate <= this.maxDate) {
+        // user modified the until date if it is not the same as maxDate, as maxDate is default date
+        if (this.tmpFilterUntilDate !== this.maxDate) {
+          this.hasModifiedUntilDate = true;
+        }
         this.filterUntilDate = this.tmpFilterUntilDate;
       } else if (!this.tmpFilterUntilDate) { // If user clears the until date field
         this.filterUntilDate = this.maxDate;
@@ -276,7 +281,11 @@ window.vSummary = {
       addHash('sortWithin', this.sortWithinGroupSelection);
 
       addHash('since', this.filterSinceDate);
-      addHash('until', this.filterUntilDate);
+
+      if (this.hasModifiedUntilDate) {
+        addHash('until', this.filterUntilDate);
+      }
+
       addHash('timeframe', this.filterTimeFrame);
 
       addHash('groupSelect', this.filterGroupSelection);

@@ -77,12 +77,14 @@ public class ReportGenerator {
         Map<RepoLocation, List<RepoConfiguration>> repoLocationMap = groupConfigsByRepoLocation(configs);
         cloneAndAnalyzeRepos(repoLocationMap, outputPath);
 
-        Date sinceDate = cliSinceDate == null ? earliestSinceDate : cliSinceDate;
-        Date untilDate = cliUntilDate == null ? latestUntilDate : cliUntilDate;
+        Boolean isSinceDateProvided = !(cliSinceDate == null);
+        Boolean isUntilDateProvided = !(cliUntilDate == null);
+        Date sinceDate = isSinceDateProvided ? cliSinceDate : earliestSinceDate;
+        Date untilDate = isUntilDateProvided ? cliUntilDate : latestUntilDate;
 
         FileUtil.writeJsonFile(
-                new SummaryReportJson(configs, generationDate, sinceDate, untilDate, RepoSense.getVersion()),
-                getSummaryResultPath(outputPath));
+                new SummaryReportJson(configs, generationDate, sinceDate, untilDate, isSinceDateProvided,
+                RepoSense.getVersion()), getSummaryResultPath(outputPath));
         logger.info(String.format(MESSAGE_REPORT_GENERATED, outputPath));
     }
 
