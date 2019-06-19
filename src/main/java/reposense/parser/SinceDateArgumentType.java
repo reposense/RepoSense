@@ -17,8 +17,7 @@ public class SinceDateArgumentType extends DateArgumentType {
      * When user specifies *, arbitrary first commit date will be returned.
      * Then, ReportGenerator will replace the arbitrary since date with the earliest commit date.
      */
-    public static final Date ARBITARY_FIRST_COMMIT_DATE = new GregorianCalendar(1, Calendar.JANUARY,
-            1).getTime();
+    public static final Date ARBITARY_FIRST_COMMIT_DATE = new Date(Long.MIN_VALUE);
 
     /**
      * Returns an arbitrary year 1/1/1 if user specifies * in {@code value}, or attempts to return
