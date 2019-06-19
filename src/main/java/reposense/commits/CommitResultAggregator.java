@@ -37,7 +37,6 @@ public class CommitResultAggregator {
             startDate = config.getSinceDate();
         }
         ReportGenerator.setEarliestSinceDate(startDate);
-        ReportGenerator.setLatestUntilDate(getUntilDate(commitResults));
 
         Map<Author, List<AuthorDailyContribution>> authorDailyContributionsMap =
                 getAuthorDailyContributionsMap(config.getAuthorDisplayNameMap().keySet(), commitResults);
@@ -142,13 +141,5 @@ public class CommitResultAggregator {
             min = commitInfos.get(0).getTime();
         }
         return min;
-    }
-
-    private static Date getUntilDate(List<CommitResult> commitInfos) {
-        Date max = new GregorianCalendar(2050, 1, 1).getTime();
-        if (!commitInfos.isEmpty()) {
-            max = commitInfos.get(commitInfos.size() - 1).getTime();
-        }
-        return max;
     }
 }

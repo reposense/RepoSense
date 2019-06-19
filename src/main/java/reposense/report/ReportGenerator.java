@@ -59,7 +59,6 @@ public class ReportGenerator {
     private static final String MESSAGE_BRANCH_DOES_NOT_EXIST = "Branch %s does not exist in %s! Analysis terminated.";
 
     private static Date earliestSinceDate = null;
-    private static Date latestUntilDate = null;
 
     /**
      * Generates the authorship and commits JSON file for each repo in {@code configs} at {@code outputPath}, as
@@ -71,9 +70,6 @@ public class ReportGenerator {
             Date cliSinceDate, Date untilDate) throws IOException {
         InputStream is = RepoSense.class.getResourceAsStream(TEMPLATE_FILE);
         FileUtil.copyTemplate(is, outputPath);
-
-        earliestSinceDate = null;
-        latestUntilDate = null;
 
         Map<RepoLocation, List<RepoConfiguration>> repoLocationMap = groupConfigsByRepoLocation(configs);
         cloneAndAnalyzeRepos(repoLocationMap, outputPath);
@@ -250,12 +246,6 @@ public class ReportGenerator {
     public static void setEarliestSinceDate(Date newEarliestSinceDate) {
         if (earliestSinceDate == null || newEarliestSinceDate.before(earliestSinceDate)) {
             earliestSinceDate = newEarliestSinceDate;
-        }
-    }
-
-    public static void setLatestUntilDate(Date newLatestUntilDate) {
-        if (latestUntilDate == null || newLatestUntilDate.after(latestUntilDate)) {
-            latestUntilDate = newLatestUntilDate;
         }
     }
 }
