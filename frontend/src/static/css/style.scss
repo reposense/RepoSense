@@ -554,10 +554,12 @@ header{
     }
 }
 
-/* Zoom Tab */
+/* Commit Message Body in Zoom Tab */
 .commit-message-body{
-  overflow: auto;
-  background-color: white;
-  border: 1px solid #898989;
-  padding: 5px;
+    width: 100%;
+    min-height: 100px;
+    resize: vertical;
+    background-color: #fff;
+    border: 1px solid #898989;
+    padding: 5px;
 }

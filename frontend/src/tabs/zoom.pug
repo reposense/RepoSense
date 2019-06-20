@@ -17,6 +17,7 @@
         li(v-for="slice in day.commitResults")
           a(v-bind:href="getSliceLink(slice)", target="_blank") {{ slice.messageTitle }}
           span &nbsp; ({{ slice.insertions }} lines)
-          pre
-            .commit-message-body {{ slice.messageBody }}
+          div
+            textarea(v-if="slice.messageBody.length > 0", readonly="readonly", v-model="slice.messageBody").commit-message-body
+            p(v-else) No commit message body
 
