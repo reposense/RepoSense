@@ -13,8 +13,8 @@ window.vZoom = {
       return `${window.getBaseLink(this.info.user.repoId)}/commit/${slice.hash}`;
     },
 
-    toggleShowCommitMessageBody() {
-      this.showCommitMessageBody = !this.showCommitMessageBody;
+    toggleShowCommitMessageBody(isActive) {
+      this.showCommitMessageBody = isActive;
     }
   },
   components: {
