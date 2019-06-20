@@ -10,6 +10,9 @@
       v-bind:udate="info.untilDate",
       v-bind:avgsize="info.avgCommitSize")
 
+  .zoom__toggle-commit-message-body-visible
+      button(v-on:click="toggleShowCommitMessageBody") show/hide commit message body
+
   .zoom__day(v-for="day in info.user.commits")
     template(v-if="day.insertions > 0")
       h3 {{ day.date }}
@@ -17,7 +20,7 @@
         li(v-for="slice in day.commitResults")
           a(v-bind:href="getSliceLink(slice)", target="_blank") {{ slice.messageTitle }}
           span &nbsp; ({{ slice.insertions }} lines)
-          div
+          div(v-if="showCommitMessageBody === true")
             textarea(v-if="slice.messageBody.length > 0", readonly="readonly", v-model="slice.messageBody").commit-message-body
             p(v-else) No commit message body
 
