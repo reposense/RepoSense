@@ -77,8 +77,8 @@ public class ReportGenerator {
         Map<RepoLocation, List<RepoConfiguration>> repoLocationMap = groupConfigsByRepoLocation(configs);
         cloneAndAnalyzeRepos(repoLocationMap, outputPath);
 
-        Boolean isSinceDateProvided = !(cliSinceDate == null);
-        Boolean isUntilDateProvided = !(cliUntilDate == null);
+        Boolean isSinceDateProvided = cliSinceDate != null;
+        Boolean isUntilDateProvided = cliUntilDate != null;
         Date sinceDate = isSinceDateProvided ? cliSinceDate : earliestSinceDate;
         Date untilDate = isUntilDateProvided ? cliUntilDate : latestUntilDate;
 
