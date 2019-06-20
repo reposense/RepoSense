@@ -136,7 +136,7 @@ public class CommitResultAggregator {
     }
 
     private static Date getStartDate(List<CommitResult> commitInfos) {
-        Date min = new GregorianCalendar(1970, 1, 1).getTime();
+        Date min = new GregorianCalendar(1970, Calendar.JANUARY, 1).getTime();
         if (!commitInfos.isEmpty()) {
             min = commitInfos.get(0).getTime();
         }
