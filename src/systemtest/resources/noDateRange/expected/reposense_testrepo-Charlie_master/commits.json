@@ -8103,26 +8103,26 @@
     ]
   },
   "authorFinalContributionMap": {
-    "charlesgoh": 4228,
-    "jeffreygohkw": 5840,
-    "Esilocke": 10944,
-    "wangyiming1019": 2469
+    "charlesgoh": 4105,
+    "jeffreygohkw": 5743,
+    "Esilocke": 10739,
+    "wangyiming1019": 2456
   },
   "authorFileFormatContributionMap": {
     "charlesgoh": {
-      "java": 3258,
-      "adoc": 970
+      "java": 3220,
+      "adoc": 885
     },
     "jeffreygohkw": {
-      "java": 4642,
-      "adoc": 1198
+      "java": 4594,
+      "adoc": 1149
     },
     "Esilocke": {
-      "java": 8366,
-      "adoc": 2578
+      "java": 8227,
+      "adoc": 2512
     },
     "wangyiming1019": {
-      "java": 2469,
+      "java": 2456,
       "adoc": 0
     }
   },

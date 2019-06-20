@@ -1631,25 +1631,25 @@
     "jordancjq": []
   },
   "authorFinalContributionMap": {
-    "lithiumlkid": 360,
-    "lohtianwei": 2121,
-    "codeeong": 2090,
+    "lithiumlkid": 319,
+    "lohtianwei": 2045,
+    "codeeong": 2061,
     "jordancjq": 0
   },
   "authorFileFormatContributionMap": {
     "lithiumlkid": {
       "java": 0,
-      "adoc": 360,
+      "adoc": 319,
       "md": 0
     },
     "lohtianwei": {
-      "java": 1817,
-      "adoc": 304,
+      "java": 1772,
+      "adoc": 273,
       "md": 0
     },
     "codeeong": {
-      "java": 1685,
-      "adoc": 405,
+      "java": 1659,
+      "adoc": 402,
       "md": 0
     },
     "jordancjq": {
@@ -1659,9 +1659,9 @@
     }
   },
   "authorContributionVariance": {
-    "lithiumlkid": 1465.0459,
-    "lohtianwei": 15288.368,
-    "codeeong": 13430.541,
+    "lithiumlkid": 384.17944,
+    "lohtianwei": 4265.5845,
+    "codeeong": 4370.854,
     "jordancjq": 0.0
   },
   "authorDisplayNameMap": {
