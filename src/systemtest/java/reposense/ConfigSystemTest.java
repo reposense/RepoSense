@@ -42,16 +42,9 @@ public class ConfigSystemTest {
     }
 
     @Test
-    public void testNoUntilDate() throws IOException, URISyntaxException, ParseException, HelpScreenException {
-        generateReportWithNoUntilDate();
-        Path actualFiles = Paths.get(getClass().getClassLoader().getResource("noUntilDate/expected").toURI());
-        verifyAllJson(actualFiles, FT_TEMP_DIR);
-    }
-
-    @Test
-    public void testNoSinceDate() throws IOException, URISyntaxException, ParseException, HelpScreenException {
-        generateReportWithNoSinceDate();
-        Path actualFiles = Paths.get(getClass().getClassLoader().getResource("noSinceDate/expected").toURI());
+    public void testNoDateRange() throws IOException, URISyntaxException, ParseException, HelpScreenException {
+        generateReport();
+        Path actualFiles = Paths.get(getClass().getClassLoader().getResource("noDateRange/expected").toURI());
         verifyAllJson(actualFiles, FT_TEMP_DIR);
     }
 
@@ -66,14 +59,8 @@ public class ConfigSystemTest {
         return String.format("--since %s --until %s", sinceDate, untilDate);
     }
 
-    private void generateReportWithNoSinceDate() throws IOException, URISyntaxException, ParseException,
-            HelpScreenException {
+    private void generateReport() throws IOException, URISyntaxException, ParseException, HelpScreenException {
         generateReport("--until 02/03/2019");
-    }
-
-    private void generateReportWithNoUntilDate() throws IOException, URISyntaxException, ParseException,
-            HelpScreenException {
-        generateReport("--since 02/03/2017");
     }
 
     /**
