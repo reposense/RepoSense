@@ -42,7 +42,7 @@ public class FileUtil {
     private static final ByteBuffer buffer = ByteBuffer.allocate(1 << 11); // 2KB
 
     /**
-     * Returns a list of relevant repo paths from {@code repoConfigsList}.
+     * Returns a {@code set} of relevant repo paths from {@code repoConfigsList}.
      */
     public static Set<Path> getReportFolders(Path sourcePath, List<RepoConfiguration> repoConfigsList) {
         Set<Path> relevantFolders = new HashSet<>();
