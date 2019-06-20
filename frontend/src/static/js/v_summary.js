@@ -150,8 +150,7 @@ window.vSummary = {
     },
     tmpFilterUntilDate() {
       if (this.tmpFilterUntilDate && this.tmpFilterUntilDate <= this.maxDate) {
-        // user modified the until date if it is not the same as maxDate, as maxDate is default date
-        if (this.tmpFilterUntilDate !== this.maxDate) {
+        if (this.tmpFilterUntilDate !== this.maxDate) { // If user modifies the until date field
           this.hasModifiedUntilDate = true;
         }
         this.filterUntilDate = this.tmpFilterUntilDate;
