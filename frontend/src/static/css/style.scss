@@ -561,10 +561,10 @@ header{
 /* Commit Message Body in Zoom Tab */
 .commit-message-body{
     width: 100%;
-    min-height: 100px;
-    resize: vertical;
+    overflow-x: auto;
+    resizable: hidden;
     background-color: #fff;
     border: 1px solid #898989;
-    padding: 5px;
-    margin-bottom: 10px;
+    padding: 0.4rem;
+    margin-bottom: 1rem;
 }
