@@ -155,7 +155,7 @@ html
                 .summary-chart__title--author-repo(v-if="filterGroupSelection === 'groupByAuthors'") {{ user.repoName }}
                 .summary-chart__title--name(v-if="filterGroupSelection !== 'groupByAuthors'") {{ user.displayName }} ({{ user.name }})
                 // TODO: add number of lines per chart -- applies to all filterGroupSelection types
-                .summary-chart__title--line-count [{{ user.totalCommits }} lines]
+                .summary-chart__title--contribution [{{ user.totalCommits }} lines]
                 
                 a(
                   title="click to view author's code",
