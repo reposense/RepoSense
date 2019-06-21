@@ -5,7 +5,7 @@ function getBaseLink(repoId) {
 }
 
 window.rampClick = function rampClick(evt) {
-  if (evt.ctrlKey) { evt.preventDefault(); }
+  if (evt.metaKey) { evt.preventDefault(); }
 };
 
 window.vRamp = {

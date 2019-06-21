@@ -174,6 +174,7 @@ window.app = new window.Vue({
       this.isTabActive = true;
       this.isCollapsed = false;
       this.tabType = tabName;
+      window.addHash('tabType', tabName);
     },
 
     updateTabAuthorship(obj) {
@@ -181,6 +182,10 @@ window.app = new window.Vue({
       this.activateTab('authorship');
     },
     updateTabZoom(obj) {
+      // remove hashes from authorship tab if available
+      window.removeHash('tabAuthor');
+      window.removeHash('tabRepo');
+
       this.tabInfo.tabZoom = Object.assign({}, obj);
       this.activateTab('zoom');
     },
@@ -235,6 +240,12 @@ window.app = new window.Vue({
   created() {
     this.updateReportDir();
     window.decodeHash();
+
+    // update isTabActive if tabOpen hash exists
+    if (window.hashParams.tabOpen) {
+      this.isTabActive = window.hashParams.tabOpen === 'true';
+    }
+
   },
   updated() {
     this.$nextTick(() => {
@@ -245,8 +256,9 @@ window.app = new window.Vue({
     if (!this.isTabActive) {
       window.removeHash('tabAuthor');
       window.removeHash('tabRepo');
-      window.addHash('tabOpen', this.isTabActive);
-      window.encodeHash();
+      window.removeHash('tabType');
     }
+    window.addHash('tabOpen', this.isTabActive);
+    window.encodeHash();
   },
 });

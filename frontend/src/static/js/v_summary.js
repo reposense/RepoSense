@@ -61,7 +61,7 @@ window.viewClick = function viewClick(evt) {
     drags = [];
   }
 
-  if (evt.ctrlKey) {
+  if (evt.metaKey) {
     return drags.length === 0
         ? dragViewDown(evt)
         : dragViewUp(evt);
