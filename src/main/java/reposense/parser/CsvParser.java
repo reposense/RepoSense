@@ -22,7 +22,7 @@ public abstract class CsvParser<T> {
     protected static final String COLUMN_VALUES_SEPARATOR = ";";
     protected static final Logger logger = LogsManager.getLogger(CsvParser.class);
 
-    private static final String ELEMENT_SEPARATOR_REGEX = ",(?![\\w\\s]+\")";
+    private static final String ELEMENT_SEPARATOR_REGEX = ",(?=(?:[^\"]*\"[^\"]*\")*[^\"]*$)";
     private static final String OVERRIDE_KEYWORD = "override:";
     private static final String MESSAGE_UNABLE_TO_READ_CSV_FILE = "Unable to read the supplied CSV file.";
     private static final String MESSAGE_MALFORMED_LINE_FORMAT = "Warning! line %d in CSV file, %s, is malformed.\n"
@@ -60,9 +60,10 @@ public abstract class CsvParser<T> {
             for (int lineNumber = 2; (line = br.readLine()) != null; lineNumber++) {
                 String[] elements = line.split(ELEMENT_SEPARATOR_REGEX);
                 for (int colNum = 0; colNum < elements.length; colNum++) {
-                    if (elements[colNum].startsWith("\"") && elements[colNum].endsWith("\"")) {
-                        elements[colNum] = elements[colNum].replaceAll("^\"|\"$", "");
+                    if (elements[colNum].contains(",")) {
+                        elements[colNum] = elements[colNum].substring(1, elements[colNum].length() - 1);
                     }
+                    elements[colNum] = elements[colNum].replaceAll("\"{2}", "\"");
                 }
 
                 if (line.isEmpty() || isLineMalformed(elements, lineNumber, line)) {

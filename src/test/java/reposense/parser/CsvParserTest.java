@@ -75,7 +75,7 @@ public class CsvParserTest {
             FIRST_SPECIAL_CHARACTER_AUTHOR, SECOND_SPECIAL_CHARACTER_AUTHOR, THIRD_SPECIAL_CHARACTER_AUTHOR);
 
     private static final String FIRST_SPECIAL_CHARACTER_DISPLAY_NAME = "Tay Fan Gao, Douya";
-    private static final String SECOND_SPECIAL_CHARACTER_DISPLAY_NAME = "Tora S/O Doyua T.";
+    private static final String SECOND_SPECIAL_CHARACTER_DISPLAY_NAME = "\"\"Tora, S/O,\" Doyua, T.\"";
     private static final String THIRD_SPECIAL_CHARACTER_DISPLAY_NAME = "^:jordancjq;$";
     private static final Map<Author, String> AUTHOR_DISPLAY_NAME_SPECIAL_CHARACTER_MAP =
             Stream.of(new Object[][]{
