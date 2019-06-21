@@ -1,0 +1,13 @@
+#commits
+  h1 {{ info.user.displayName }} ({{ info.user.name }})
+
+  h2 {{ info.user.repoName }}
+
+  h3 Commit messages from {{ info.filterSinceDate }} to {{ info.filterUntilDate }}
+
+  .commits__day(v-for="day in info.user.commits")
+    template(v-if="day.insertions > 0")
+      h3 {{ day.date }}
+      ul
+        li(v-for="commitResult in day.commitResults")
+          a(v-bind:href="getLinkToGithubCommit(commitResult)", target="_blank") {{ commitResult.messageTitle }}

@@ -540,6 +540,27 @@ window.vSummary = {
       });
     },
 
+    openTabCommits(userOrig, repo) {
+      const rawCommits = userOrig.commits.filter(
+        (commit) => commit.date >= this.filterSinceDate && commit.date <= this.filterUntilDate,
+      );
+
+      const commits = [];
+      rawCommits.forEach((commit) => {
+        if (this.filterTimeFrame === 'week') {
+          commit.dayCommits.forEach((dayCommit) => commits.push(dayCommit));
+        } else {
+          commits.push(commit);
+        }
+      });
+      const user = { ...userOrig, commits };
+      this.$emit('view-commits', {
+        user,
+        filterSinceDate: this.filterSinceDate,
+        filterUntilDate: this.filterUntilDate,
+      });
+    },
+
     openTabZoom(userOrig) {
       // skip if accidentally clicked on ramp chart
       if (drags.length === 2 && drags[1] - drags[0]) {
