@@ -174,7 +174,6 @@ window.app = new window.Vue({
       this.isTabActive = true;
       this.isCollapsed = false;
       this.tabType = tabName;
-      window.addHash('tabType', tabName);
     },
 
     updateTabAuthorship(obj) {
@@ -255,7 +254,6 @@ window.app = new window.Vue({
     if (!this.isTabActive) {
       window.removeHash('tabAuthor');
       window.removeHash('tabRepo');
-      window.removeHash('tabType');
     }
     window.addHash('tabOpen', this.isTabActive);
     window.encodeHash();
