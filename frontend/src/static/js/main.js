@@ -245,7 +245,6 @@ window.app = new window.Vue({
     if (window.hashParams.tabOpen) {
       this.isTabActive = window.hashParams.tabOpen === 'true';
     }
-
   },
   updated() {
     this.$nextTick(() => {
