@@ -553,3 +553,18 @@ header{
         text-align:center;
     }
 }
+
+.commits__toggle-commit-message-body-visible{
+    padding-top: 10px;
+}
+
+/* Commit Message Body in Zoom Tab */
+.commits__details__commit-message-body{
+    width: 100%;
+    overflow-x: auto;
+    resizable: hidden;
+    background-color: #fff;
+    border: 1px solid #898989;
+    padding: 0.4rem;
+    margin-bottom: 1rem;
+}

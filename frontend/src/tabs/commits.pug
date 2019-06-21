@@ -3,11 +3,22 @@
 
   h2 {{ info.user.repoName }}
 
-  h3 Commit messages from {{ info.filterSinceDate }} to {{ info.filterUntilDate }}
+  h3 Commits made from {{ info.filterSinceDate }}  to  {{ info.filterUntilDate }}
 
-  .commits__day(v-for="day in info.user.commits")
-    template(v-if="day.insertions > 0")
-      h3 {{ day.date }}
-      ul
-        li(v-for="commitResult in day.commitResults")
-          a(v-bind:href="getLinkToGithubCommit(commitResult)", target="_blank") {{ commitResult.messageTitle }}
+  .commits(v-if="info.user.commits.length > 0")
+    .commits__toggle-commit-message-body-visible
+      button(v-if="showCommitMessageBody === true", v-on:click="toggleShowCommitMessageBody(false)") hide commit message body
+      button(v-else, v-on:click="toggleShowCommitMessageBody(true)") show commit message body
+
+    .commits__details(v-if="info.user.commits.length > 0", v-for="day in info.user.commits")
+      template
+        h3 {{ day.date }}
+        ul
+          li(v-for="commitResult in day.commitResults")
+            a(v-bind:href="getLinkToGithubCommit(commitResult)", target="_blank") {{ commitResult.messageTitle }}
+            div(v-if="showCommitMessageBody === true")
+              pre(v-if="commitResult.messageBody.length > 0").commits__details__commit-message-body {{ commitResult.messageBody }}
+              p(v-else) No commit message description provided
+
+  .commits(v-else)
+    div.commits__message-no-commits No commits were made during this time period.
