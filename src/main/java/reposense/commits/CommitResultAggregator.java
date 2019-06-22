@@ -3,7 +3,6 @@ package reposense.commits;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -136,7 +135,7 @@ public class CommitResultAggregator {
     }
 
     private static Date getStartDate(List<CommitResult> commitInfos) {
-        Date min = new GregorianCalendar(1970, Calendar.JANUARY, 1).getTime();
+        Date min = new Date(Long.MIN_VALUE);
         if (!commitInfos.isEmpty()) {
             min = commitInfos.get(0).getTime();
         }
