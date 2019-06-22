@@ -79,14 +79,14 @@ function getDateStr(date) {
   return (new Date(date)).toISOString().split('T')[0];
 }
 function dateRounding(datestr, roundDown) {
-  // rounding up to nearest sunday
+  // rounding up to nearest monday
   const date = new Date(datestr);
   const day = date.getUTCDay();
   let datems = date.getTime();
   if (roundDown) {
-    datems -= day * DAY_IN_MS;
+    datems -= ((day + 6) % 7) * DAY_IN_MS;
   } else {
-    datems += (7 - day) * DAY_IN_MS;
+    datems += ((8 - day) % 7) * DAY_IN_MS;
   }
 
   return getDateStr(datems);
@@ -99,10 +99,9 @@ window.vSummary = {
     return {
       filtered: [],
       filterSearch: '',
-      filterSortReverse: false,
       filterGroupSelection: 'groupByRepos',
-      sortGroupSelection: 'searchPath', // UI for sorting groups
-      sortWithinGroupSelection: 'name', // UI for sorting within groups
+      sortGroupSelection: 'groupTitle', // UI for sorting groups
+      sortWithinGroupSelection: 'title', // UI for sorting within groups
       sortingOption: '',
       isSortingDsc: '',
       sortingWithinOption: '',
@@ -129,14 +128,11 @@ window.vSummary = {
     sortWithinGroupSelection() {
       this.getFiltered();
     },
-    filterSortReverse() {
-      this.getFiltered();
-    },
     filterTimeFrame() {
       this.getFiltered();
     },
     filterGroupSelection() {
-      this.updateSortSelection();
+      this.updateSortWithinGroup();
       this.getFiltered();
     },
     filterBreakdown() {
@@ -257,6 +253,17 @@ window.vSummary = {
       return res;
     },
 
+    getRepoLink(repo) {
+      const { REPOS } = window;
+      const { location, branch } = REPOS[repo.repoId];
+
+      if (Object.prototype.hasOwnProperty.call(location, 'organization')) {
+        return `https://github.com/${location.organization}/${location.repoName}/tree/${branch}`;
+      }
+
+      return repo.location;
+    },
+
     // model functions //
     updateFilterSearch(evt) {
       this.filterSearch = evt.target.value;
@@ -272,7 +279,6 @@ window.vSummary = {
       addHash('until', this.filterUntilDate);
       addHash('timeframe', this.filterTimeFrame);
 
-      addHash('reverse', this.filterSortReverse);
       addHash('groupSelect', this.filterGroupSelection);
       addHash('breakdown', this.filterBreakdown);
 
@@ -300,7 +306,6 @@ window.vSummary = {
         this.tmpFilterUntilDate = hash.until;
       }
 
-      if (hash.reverse) { this.filterSortReverse = convertBool(hash.reverse); }
       if (hash.groupSelect) {
         this.filterGroupSelection = hash.groupSelect;
       }
@@ -395,37 +400,52 @@ window.vSummary = {
 
       const res = [];
 
-      const sinceDate = dateRounding(this.filterSinceDate, 1);
+      const sinceDate = dateRounding(this.filterSinceDate, 0); // round up for the next monday
       const untilDate = this.filterUntilDate;
 
       const sinceMs = (new Date(sinceDate)).getTime();
       const untilMs = (new Date(untilDate)).getTime();
 
+      // add first week commits starting from filterSinceDate to end of the week
+      // if filterSinceDate is not the start of the week
+      if (this.filterSinceDate !== sinceDate) {
+        const firstWeekDateMs = new Date(this.filterSinceDate).getTime();
+        this.pushCommitsWeek(firstWeekDateMs, sinceMs - 1, res, commits);
+      }
+
+      this.pushCommitsWeek(sinceMs, untilMs, res, commits);
+
+      user.commits = res;
+    },
+    pushCommitsWeek(sinceMs, untilMs, res, commits) {
       const diff = Math.round(Math.abs((untilMs - sinceMs) / DAY_IN_MS));
 
       for (let weekId = 0; weekId < diff / 7; weekId += 1) {
         const startOfWeekMs = sinceMs + (weekId * WEEK_IN_MS);
+        const endOfWeekMs = startOfWeekMs + WEEK_IN_MS - DAY_IN_MS;
+        const endOfWeekMsWithinUntilMs = endOfWeekMs <= untilMs ? endOfWeekMs : untilMs;
 
         const week = {
           insertions: 0,
           deletions: 0,
           date: getDateStr(startOfWeekMs),
+          endDate: getDateStr(endOfWeekMsWithinUntilMs),
         };
 
-        // commits are not contiguous, meaning there are gaps of days without
-        // commits, so we are going to check each commit's date and make sure
-        // it is within the duration of a week
-        while (commits.length > 0
-            && (new Date(commits[0].date)).getTime() < startOfWeekMs + WEEK_IN_MS) {
-          const commit = commits.shift();
-          week.insertions += commit.insertions;
-          week.deletions += commit.deletions;
-        }
-
+        this.addLineContributionWeek(endOfWeekMsWithinUntilMs, week, commits);
         res.push(week);
       }
-
-      user.commits = res;
+    },
+    addLineContributionWeek(endOfWeekMs, week, commits) {
+      // commits are not contiguous, meaning there are gaps of days without
+      // commits, so we are going to check each commit's date and make sure
+      // it is within the duration of a week
+      while (commits.length > 0
+          && (new Date(commits[0].date)).getTime() <= endOfWeekMs) {
+        const commit = commits.shift();
+        week.insertions += commit.insertions;
+        week.deletions += commit.deletions;
+      }
     },
     getUserCommits(user) {
       user.commits = [];
@@ -455,25 +475,14 @@ window.vSummary = {
 
       return null;
     },
-    updateSortSelection() {
-      this.getOptionWithOrder();
-      // Update UI selection to change all illegal options
-      if (this.filterGroupSelection === 'groupByAuthors') {
-        if (!this.sortWithinGroupSelection || this.sortingWithinOption === 'name') {
-          this.sortWithinGroupSelection = 'searchPath';
-        }
-        if (this.sortingOption === 'searchPath') {
-          this.sortGroupSelection = 'name';
-        }
-      } else if (this.filterGroupSelection === 'groupByRepos') {
-        if (!this.sortWithinGroupSelection || this.sortingWithinOption === 'searchPath') {
-          this.sortWithinGroupSelection = 'name';
-        }
-        if (this.sortingOption === 'name') {
-          this.sortGroupSelection = 'searchPath';
-        }
-      } else if (this.filterGroupSelection === 'groupByNone') {
-        this.sortWithinGroupSelection = '';
+    updateSortWithinGroup() {
+      const ele = document.getElementsByClassName('mui-select sort-within-group');
+      if (this.filterGroupSelection === 'groupByNone') {
+        ele[0].style.pointerEvents = 'none';
+        ele[0].style.opacity = 0.5;
+      } else {
+        ele[0].style.pointerEvents = 'auto';
+        ele[0].style.opacity = 1;
       }
     },
     getOptionWithOrder() {
@@ -490,10 +499,6 @@ window.vSummary = {
         full = this.groupByAuthors(this.filtered);
       } else {
         full = this.groupByRepos(this.filtered);
-      }
-
-      if (this.filterSortReverse) {
-        full.forEach((repo) => repo.reverse());
       }
 
       this.filtered = full;
@@ -521,7 +526,7 @@ window.vSummary = {
     },
 
     // triggering opening of tabs //
-    openTabAuthorship(user, repo) {
+    openTabAuthorship(user, repo, index) {
       const { minDate, maxDate } = this;
 
       this.$emit('view-authorship', {
@@ -530,7 +535,7 @@ window.vSummary = {
         author: user.name,
         repo: user.repoName,
         name: user.displayName,
-        location: repo[0].location,
+        location: this.getRepoLink(repo[index]),
         totalCommits: user.totalCommits,
       });
     },
@@ -569,18 +574,20 @@ window.vSummary = {
 
     groupByRepos(repos) {
       const sortedRepos = [];
+      const sortingWithinOption = this.sortingWithinOption === 'title' ? 'name' : this.sortingWithinOption;
+      const sortingOption = this.sortingOption === 'groupTitle' ? 'searchPath' : this.sortingOption;
       repos.forEach((users) => {
-        users.sort(window.comparator((ele) => ele[this.sortingWithinOption]));
+        users.sort(window.comparator((ele) => ele[sortingWithinOption]));
         if (this.isSortingWithinDsc) {
           users.reverse();
         }
         sortedRepos.push(users);
       });
       sortedRepos.sort(window.comparator((repo) => {
-        if (this.sortingOption === 'totalCommits' || this.sortingOption === 'variance') {
+        if (sortingOption === 'totalCommits' || sortingOption === 'variance') {
           return repo.reduce(this.getGroupCommitsVariance, 0);
         }
-        return repo[0][this.sortingOption];
+        return repo[0][sortingOption];
       }));
       if (this.isSortingDsc) {
         sortedRepos.reverse();
@@ -589,12 +596,18 @@ window.vSummary = {
     },
     groupByNone(repos) {
       const sortedRepos = [];
+      const isSortingGroupTitle = this.sortingOption === 'groupTitle';
       repos.forEach((users) => {
         users.forEach((user) => {
           sortedRepos.push(user);
         });
       });
-      sortedRepos.sort(window.comparator((ele) => ele[this.sortingOption]));
+      sortedRepos.sort(window.comparator((repo) => {
+        if (isSortingGroupTitle) {
+          return repo.searchPath + repo.name;
+        }
+        return repo[this.sortingOption];
+      }));
       if (this.isSortingDsc) {
         sortedRepos.reverse();
       }
@@ -604,6 +617,8 @@ window.vSummary = {
     groupByAuthors(repos) {
       const authorMap = {};
       const filtered = [];
+      const sortingWithinOption = this.sortingWithinOption === 'title' ? 'searchPath' : this.sortingWithinOption;
+      const sortingOption = this.sortingOption === 'groupTitle' ? 'name' : this.sortingOption;
       repos.forEach((users) => {
         users.forEach((user) => {
           if (Object.keys(authorMap).includes(user.name)) {
@@ -614,7 +629,7 @@ window.vSummary = {
         });
       });
       Object.keys(authorMap).forEach((author) => {
-        authorMap[author].sort(window.comparator((repo) => repo[this.sortingWithinOption]));
+        authorMap[author].sort(window.comparator((repo) => repo[sortingWithinOption]));
         if (this.isSortingWithinDsc) {
           authorMap[author].reverse();
         }
@@ -622,10 +637,10 @@ window.vSummary = {
       });
 
       filtered.sort(window.comparator((author) => {
-        if (this.sortingOption === 'totalCommits' || this.sortingOption === 'variance') {
+        if (sortingOption === 'totalCommits' || sortingOption === 'variance') {
           return author.reduce(this.getGroupCommitsVariance, 0);
         }
-        return author[0][this.sortingOption];
+        return author[0][sortingOption];
       }));
       if (this.isSortingDsc) {
         filtered.reverse();
@@ -635,6 +650,10 @@ window.vSummary = {
 
     getGroupCommitsVariance(total, group) {
       return total + group[this.sortingOption];
+    },
+
+    getGroupTotalContribution(group) {
+      return group.reduce((accContribution, user) => accContribution + user.totalCommits, 0);
     },
   },
   created() {
