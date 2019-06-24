@@ -79,6 +79,11 @@ public class GitClone {
         runCommand(rootPath, command);
     }
 
+    /**
+     * Clones a previously cloned bare repo from {@code clonedBareRepoLocation} into {@code outputFolderName} and
+     * directly branches out to {@code targetBranch}.
+     * @throws IOException if it fails to delete a directory.
+     */
     public static void cloneFromBareAndUpdateBranch(Path rootPath, Path clonedBareRepoLocation,
             String outputFolderName, String targetBranch) throws IOException {
         Path relativePath = rootPath.relativize(clonedBareRepoLocation);

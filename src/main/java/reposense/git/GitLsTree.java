@@ -2,9 +2,7 @@ package reposense.git;
 
 import static reposense.system.CommandRunner.runCommand;
 
-import java.io.IOException;
 import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.regex.Matcher;
@@ -40,35 +38,16 @@ public class GitLsTree {
      * Windows.
      */
     public static void validateFilePaths(RepoConfiguration config) throws InvalidFilePathException, GitCloneException {
-//        if (!SystemUtil.isWindows()) {
-//            return;
-//        }
-//
-//        boolean hasError = false;
-//        String[] paths;
-//
-//        try {
-//            GitClone.cloneBare(config);
-//            paths = getFilePaths(config);
-//        } catch (IOException | RuntimeException e) {
-//            throw new GitCloneException(e);
-//        }
-//
-//        for (String path : paths) {
-//            path = StringsUtil.removeQuote(path);
-//            Matcher matcher = ILLEGAL_WINDOWS_CHARACTER_PATTERN.matcher(path);
-//
-//            if (matcher.find()) {
-//                logger.log(Level.SEVERE, String.format(MESSAGE_INVALID_PATH, path, matcher.group()));
-//                hasError = true;
-//            }
-//        }
-//
-//        if (hasError) {
-//            throw new InvalidFilePathException("Invalid file paths found in " + config.getLocation());
-//        }
+        // DEPRECATED
     }
 
+    /**
+     * Verifies that the repository in {@code config} contains only file paths that are compatible with Windows.
+     * Skips check if the operating system is not Windows.
+     *
+     * @throws InvalidFilePathException if the repository contains invalid file paths that are not compatible with
+     * Windows.
+     */
     public static void validateFilePaths(RepoConfiguration config, Path clonedRepoLocation)
             throws InvalidFilePathException {
         if (!SystemUtil.isWindows()) {

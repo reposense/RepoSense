@@ -1,7 +1,6 @@
 package reposense.report;
 
 import static reposense.system.CommandRunner.runCommandAsync;
-import static reposense.util.StringsUtil.addQuote;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -12,11 +11,8 @@ import java.util.logging.Logger;
 
 import reposense.git.GitBranch;
 import reposense.git.GitClone;
-import reposense.git.GitLsTree;
-import reposense.git.exception.GitBranchException;
-import reposense.git.exception.GitCloneException;
-import reposense.git.exception.InvalidFilePathException;
 
+import reposense.git.exception.GitBranchException;
 import reposense.model.RepoConfiguration;
 import reposense.model.RepoLocation;
 import reposense.system.CommandRunnerProcess;
@@ -48,7 +44,7 @@ public class RepoCloner {
     private CommandRunnerProcess crp;
 
     /**
-     * Spawns a process to clone the repository specified by {@code config}.
+     * Spawns a process to clone the bare repository specified by {@code config}.
      * Does not wait for process to finish executing.
      */
     public void clone(String outputPath, RepoConfiguration config) throws IOException {
@@ -69,16 +65,18 @@ public class RepoCloner {
             deleteDirectory(configs[currentIndex].getRepoRoot());
             return null;
         }
-//
-//        try {
-//            currentRepoDefaultBranch = GitBranch.getCurrentBranch(configs[currentIndex].getRepoRoot());
-//        } catch (GitBranchException gbe) {
-//            // GitBranch will throw this exception when repository is empty
-//            logger.log(Level.WARNING, String.format(MESSAGE_ERROR_GETTING_BRANCH,
-//                    configs[currentIndex].getLocation(), configs[currentIndex].getBranch()), gbe);
-//            handleCloningFailed(outputPath, configs[currentIndex]);
-//            return null;
-//        }
+
+        try {
+            String bareRepoPath = Paths.get(FileUtil.REPOS_ADDRESS, configs[currentIndex].getRepoFolderName(),
+                    getBareRepoPath(configs[currentIndex])).toAbsolutePath().toString();
+            currentRepoDefaultBranch = GitBranch.getCurrentBranch(bareRepoPath);
+        } catch (GitBranchException gbe) {
+            // GitBranch will throw this exception when repository is empty
+            logger.log(Level.WARNING, String.format(MESSAGE_ERROR_GETTING_BRANCH,
+                    configs[currentIndex].getLocation(), configs[currentIndex].getBranch()), gbe);
+            handleCloningFailed(outputPath, configs[currentIndex]);
+            return null;
+        }
         cleanupPrevRepoFolder();
 
         previousIndex = currentIndex;
@@ -109,31 +107,19 @@ public class RepoCloner {
                     Paths.get(FileUtil.REPOS_ADDRESS, config.getRepoFolderName(), getBareRepoPath(config)).toString());
             Files.createDirectories(Paths.get(FileUtil.REPOS_ADDRESS, config.getRepoFolderName()));
             crp = runCommandAsync(rootPath, GitClone.getCloneBareCommand(config, getBareRepoPath(config)));
-
-//            FileUtil.deleteDirectory(config.getRepoRoot());
-//            logger.info(String.format(MESSAGE_START_CLONING, config.getLocation()));
-//            Path rootPath = Paths.get(FileUtil.REPOS_ADDRESS, config.getRepoFolderName());
-//            Files.createDirectories(rootPath);
-//            crp = runCommandAsync(rootPath, "git clone " + addQuote(config.getLocation().toString()));
         } catch (RuntimeException | IOException e) {
             logger.log(Level.WARNING, MESSAGE_ERROR_CLONING, e);
             handleCloningFailed(outputPath, config);
             return false;
         }
-//        } catch (InvalidFilePathException e) {
-//            handleCloningFailed(outputPath, config);
-//            return false;
-//        } catch (GitCloneException e) {
-//            e.printStackTrace();
-//        }
         return true;
     }
 
     /**
-     * Returns the path to the bare repo of {@code repoCOnfig} that is relative to the root path.
+     * Returns the path to the bare repo of {@code repoCOnfig} that is relative to the repo root path.
      */
     public String getBareRepoPath(RepoConfiguration repoConfig) {
-        return (repoConfig.getRepoName() + "_bare");
+        return repoConfig.getRepoName() + "_bare";
     }
 
     /**

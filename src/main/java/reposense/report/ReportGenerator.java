@@ -121,12 +121,13 @@ public class ReportGenerator {
             repoCloner.clone(outputPath, repoLocationMap.get(location).get(0));
 
             if (clonedRepoLocation != null) {
-                analyzeRepos(outputPath, repoLocationMap.get(clonedRepoLocation));
+                analyzeRepos(outputPath, repoLocationMap.get(clonedRepoLocation),
+                        repoCloner.getCurrentRepoDefaultBranch());
             }
             clonedRepoLocation = repoCloner.getClonedRepoLocation(outputPath);
         }
         if (clonedRepoLocation != null) {
-            analyzeRepos(outputPath, repoLocationMap.get(clonedRepoLocation));
+            analyzeRepos(outputPath, repoLocationMap.get(clonedRepoLocation), repoCloner.getCurrentRepoDefaultBranch());
         }
         repoCloner.cleanup();
     }
@@ -142,8 +143,10 @@ public class ReportGenerator {
     /**
      * Analyzes all repos in {@code configs} and generates their report.
      */
-    private static void analyzeRepos(String outputPath, List<RepoConfiguration> configs) throws IOException {
+    private static void analyzeRepos(String outputPath, List<RepoConfiguration> configs, String defaultBranch)
+            throws IOException {
         for (RepoConfiguration config : configs) {
+            config.updateBranch(defaultBranch);
             Path repoReportDirectory;
             logger.info(String.format(MESSAGE_START_ANALYSIS, config.getLocation(), config.getBranch()));
             try {
