@@ -269,10 +269,10 @@ Example:`--view` or `-v`
   Example:`--timezone UTC+08` or `-t UTC-1030`
 
 Here's an example of a command using all parameters:<br>
-`java -jar RepoSense.jar --repo https://github.com/se-edu/addressbook-level4.git --output ./report_folder --since 1/1/2017 --until 1/1/2018 --formats java adoc xml --view --ignore-standalone-config --timezone UTC+08`
+`java -jar RepoSense.jar --repo https://github.com/reposense/RepoSense.git --output ./report_folder --since 31/1/2017 --until 31/12/2018 --formats java adoc xml --view --ignore-standalone-config --timezone UTC+08`
 
 Here's an example of a command using all alias of parameters:<br>
-`java -jar RepoSense.jar -r https://github.com/se-edu/addressbook-level4.git -o ./report_folder -s 1/1/2017 -u 1/1/2018 -f java adoc xml -v -i`
+`java -jar RepoSense.jar -r https://github.com/reposense/RepoSense.git -o ./report_folder -s 31/1/2017 -u 31/12/2018 -f java adoc xml -v -i`
 
 Also, there are two _information_ parameters you can use to know more about RepoSense:
 * **`--help, -h`**: Show help message.
