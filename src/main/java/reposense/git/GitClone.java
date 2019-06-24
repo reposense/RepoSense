@@ -22,17 +22,16 @@ import reposense.util.FileUtil;
  * Git clone is responsible for cloning a local/remote repository into a new directory.
  */
 public class GitClone {
-
-    public static final String GIT_CLONE_BARE_OPTION = "--bare";
     private static final Logger logger = LogsManager.getLogger(GitClone.class);
 
     /**
-     * Clones a bare repo specified in the {@code repoConfig}.
+     * Returns the command to clone a bare repo specified in the {@code repoConfig}
+     * into the folder {@code outputFolderName}.
      */
-    public static void cloneBare(RepoConfiguration repoConfig) throws IOException {
-        FileUtil.deleteDirectory(repoConfig.getRepoRoot());
-        clone(
-            repoConfig.getLocation(), repoConfig.getRepoFolderName(), repoConfig.getRepoName(), GIT_CLONE_BARE_OPTION);
+    public static String getCloneBareCommand(RepoConfiguration repoConfig, String outputFolderName)
+            throws IOException {
+        FileUtil.deleteDirectory(outputFolderName);
+        return ("git clone --bare " + repoConfig.getLocation() + " " + outputFolderName);
     }
 
     /**
@@ -71,12 +70,21 @@ public class GitClone {
      * Clones a repo given the repo location into a directory.
      * @throws IOException if it fails to create a directory.
      */
-    private static void clone(RepoLocation location, String repoFolderName, String repoName, String additionalCommand)
-            throws IOException {
+    private static void clone(RepoLocation location, String repoFolderName, String outputFolderName,
+            String additionalCommand) throws IOException {
         Path rootPath = Paths.get(FileUtil.REPOS_ADDRESS, repoFolderName);
         Files.createDirectories(rootPath);
         String command =
-                String.format("git clone %s %s %s", additionalCommand, addQuote(location.toString()), repoName);
+                String.format("git clone %s %s %s", additionalCommand, addQuote(location.toString()), outputFolderName);
+        runCommand(rootPath, command);
+    }
+
+    public static void cloneFromBareAndUpdateBranch(Path rootPath, Path clonedBareRepoLocation,
+            String outputFolderName, String targetBranch) throws IOException {
+        Path relativePath = rootPath.relativize(clonedBareRepoLocation);
+        FileUtil.deleteDirectory(Paths.get(FileUtil.REPOS_ADDRESS, outputFolderName).toString());
+        String command = String.format("git clone %s --branch %s %s", relativePath, targetBranch,
+                outputFolderName);
         runCommand(rootPath, command);
     }
 }

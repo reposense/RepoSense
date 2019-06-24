@@ -21,8 +21,11 @@ import reposense.authorship.AuthorshipReporter;
 import reposense.authorship.model.AuthorshipSummary;
 import reposense.commits.CommitsReporter;
 import reposense.commits.model.CommitContributionSummary;
-import reposense.git.GitCheckout;
+import reposense.git.GitClone;
+import reposense.git.GitLsTree;
+import reposense.git.GitRevParse;
 import reposense.git.GitShortlog;
+import reposense.git.exception.InvalidFilePathException;
 import reposense.model.Author;
 import reposense.model.RepoConfiguration;
 import reposense.model.RepoLocation;
@@ -56,6 +59,8 @@ public class ReportGenerator {
     private static final String MESSAGE_COMPLETE_ANALYSIS = "Analysis of %s (%s) completed!";
     private static final String MESSAGE_REPORT_GENERATED = "The report is generated at %s";
     private static final String MESSAGE_BRANCH_DOES_NOT_EXIST = "Branch %s does not exist in %s! Analysis terminated.";
+
+    private static final String BARE_REPO_SUFFIX = "_bare";
 
     private static Date earliestSinceDate = null;
     private static Date latestUntilDate = null;
@@ -116,24 +121,29 @@ public class ReportGenerator {
             repoCloner.clone(outputPath, repoLocationMap.get(location).get(0));
 
             if (clonedRepoLocation != null) {
-                analyzeRepos(outputPath, repoLocationMap.get(clonedRepoLocation),
-                        repoCloner.getCurrentRepoDefaultBranch());
+                analyzeRepos(outputPath, repoLocationMap.get(clonedRepoLocation));
             }
             clonedRepoLocation = repoCloner.getClonedRepoLocation(outputPath);
         }
         if (clonedRepoLocation != null) {
-            analyzeRepos(outputPath, repoLocationMap.get(clonedRepoLocation), repoCloner.getCurrentRepoDefaultBranch());
+            analyzeRepos(outputPath, repoLocationMap.get(clonedRepoLocation));
         }
         repoCloner.cleanup();
     }
 
     /**
+     * Returns the path to the bare repo of {@code repoCOnfig} that is relative to the root path.
+     */
+    private static Path getBareRepoPath(RepoConfiguration repoConfig) {
+        return Paths.get(FileUtil.REPOS_ADDRESS, repoConfig.getRepoFolderName(),
+                repoConfig.getRepoName() + BARE_REPO_SUFFIX);
+    }
+
+    /**
      * Analyzes all repos in {@code configs} and generates their report.
      */
-    private static void analyzeRepos(String outputPath, List<RepoConfiguration> configs, String defaultBranch) {
+    private static void analyzeRepos(String outputPath, List<RepoConfiguration> configs) throws IOException {
         for (RepoConfiguration config : configs) {
-            config.updateBranch(defaultBranch);
-
             Path repoReportDirectory;
             logger.info(String.format(MESSAGE_START_ANALYSIS, config.getLocation(), config.getBranch()));
             try {
@@ -150,13 +160,22 @@ public class ReportGenerator {
             }
 
             try {
-                GitCheckout.checkout(config.getRepoRoot(), config.getBranch());
-            } catch (RuntimeException e) {
+                GitRevParse.assertBranchExists(config, getBareRepoPath(config));
+            } catch (RuntimeException rte) {
                 logger.log(Level.SEVERE, String.format(MESSAGE_BRANCH_DOES_NOT_EXIST,
-                        config.getBranch(), config.getLocation()), e);
+                        config.getBranch(), config.getLocation()), rte);
                 generateEmptyRepoReport(repoReportDirectory.toString());
                 continue;
             }
+
+            try {
+                GitLsTree.validateFilePaths(config, getBareRepoPath(config));
+            } catch (InvalidFilePathException ipe) {
+                continue;
+            }
+
+            GitClone.cloneFromBareAndUpdateBranch(Paths.get(FileUtil.REPOS_ADDRESS), getBareRepoPath(config),
+                    Paths.get(config.getRepoFolderName(), config.getRepoName()).toString(), config.getBranch());
             analyzeRepo(config, repoReportDirectory.toString());
         }
     }

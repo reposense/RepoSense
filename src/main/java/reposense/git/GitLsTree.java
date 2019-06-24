@@ -40,19 +40,43 @@ public class GitLsTree {
      * Windows.
      */
     public static void validateFilePaths(RepoConfiguration config) throws InvalidFilePathException, GitCloneException {
+//        if (!SystemUtil.isWindows()) {
+//            return;
+//        }
+//
+//        boolean hasError = false;
+//        String[] paths;
+//
+//        try {
+//            GitClone.cloneBare(config);
+//            paths = getFilePaths(config);
+//        } catch (IOException | RuntimeException e) {
+//            throw new GitCloneException(e);
+//        }
+//
+//        for (String path : paths) {
+//            path = StringsUtil.removeQuote(path);
+//            Matcher matcher = ILLEGAL_WINDOWS_CHARACTER_PATTERN.matcher(path);
+//
+//            if (matcher.find()) {
+//                logger.log(Level.SEVERE, String.format(MESSAGE_INVALID_PATH, path, matcher.group()));
+//                hasError = true;
+//            }
+//        }
+//
+//        if (hasError) {
+//            throw new InvalidFilePathException("Invalid file paths found in " + config.getLocation());
+//        }
+    }
+
+    public static void validateFilePaths(RepoConfiguration config, Path clonedRepoLocation)
+            throws InvalidFilePathException {
         if (!SystemUtil.isWindows()) {
             return;
         }
 
         boolean hasError = false;
-        String[] paths;
-
-        try {
-            GitClone.cloneBare(config);
-            paths = getFilePaths(config);
-        } catch (IOException | RuntimeException e) {
-            throw new GitCloneException(e);
-        }
+        String[] paths = getFilePaths(clonedRepoLocation, config);
 
         for (String path : paths) {
             path = StringsUtil.removeQuote(path);
@@ -72,10 +96,9 @@ public class GitLsTree {
     /**
      * Returns an Array of {@code String} containing file paths of all tracked files.
      */
-    private static String[] getFilePaths(RepoConfiguration config) {
-        Path rootPath = Paths.get(config.getRepoRoot());
+    private static String[] getFilePaths(Path clonedRepoLocation, RepoConfiguration config) {
         String command = "git ls-tree --name-only -r " + config.getBranch();
 
-        return runCommand(rootPath, command).split("\n");
+        return runCommand(clonedRepoLocation, command).split("\n");
     }
 }
