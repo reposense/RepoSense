@@ -485,22 +485,38 @@ header{
 
         .untouched{
             $grey:mui-color('grey', '400');
+            height:20px; // height of a line of code
+            background-color:mui-color('white');
+            border-left:0.25rem solid $grey;
 
             &.active{
+                border-left:none;
+                height:fit-content;
                 .code{
                     display:inherit;
-                    background-color:mui-color('white');
+                }
+            }
+
+            &.toggled{
+                .closer{
+                    margin:0.2rem 0 0 -0.2rem;
+
+                    &.bottom{
+                        margin:-1rem 0 0 -0.2rem;
+                    }
+
+                    .before-toggle{
+                        display:none;
+                    }
+
+                    .after-toggle{
+                        display:inherit;
+                    }
                 }
 
-                .closer{
-                    .icon{
-                        background-color:mui-color('black');
-                    }
-
-                    .tooltiptext{
-                        &--open{ display:inline-block; }
-                        &--close{ display:none; }
-                    }
+                .code{
+                    display:inherit;
+                    background:mui-color('white');
                 }
             }
 
@@ -512,37 +528,25 @@ header{
 
             .closer{
                 cursor:pointer;
-                padding:0.5rem 1rem;
+                position:absolute;
+                margin:0.2rem 0 0 -0.45rem;
 
-                .icon{
-                    background-color:$grey;
-                    color:mui-color('white');
-
-                    width:2.2rem;
-                    border-radius:0.25rem;
-
-                    &:hover{
-                        background:black;
-                    }
-
-                    &:hover ~ .tooltiptext{
-                        visibility:visible;
-                    }
+                &.bottom{
+                    margin:-1rem 0 0 -0.45rem;
                 }
 
-                .tooltiptext{
-                    padding:0.5rem;
-                    margin-left:0.5rem;
-                    border-radius:0.25rem;
+                .before-toggle{
+                    display:inherit;
+                }
 
-                    color:mui-color('white');
-                    background-color:mui-color('black');
+                .after-toggle{
+                    display:none;
+                }
 
-                    text-align:center;
-                    visibility:hidden;
-
-                    &--open{ display:none; }
-                    &--close{ display:inline-block; }
+                .icon{
+                    width:0.75em;
+                    background-color:mui-color('white');
+                    color:mui-color('grey');
                 }
             }
         }
