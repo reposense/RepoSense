@@ -164,6 +164,7 @@ public class ReportGenerator {
             try {
                 GitLsTree.validateFilePaths(config, FileUtil.getBareRepoPath(config));
             } catch (InvalidFilePathException ipe) {
+                generateEmptyRepoReport(repoReportDirectory.toString());
                 continue;
             }
 
