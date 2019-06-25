@@ -1,10 +1,11 @@
 package reposense.git;
 
+import java.io.IOException;
+
 import org.junit.After;
 import org.junit.Assume;
 import org.junit.Test;
 
-import reposense.git.exception.GitCloneException;
 import reposense.git.exception.InvalidFilePathException;
 import reposense.template.GitTestTemplate;
 import reposense.util.SystemUtil;
@@ -17,13 +18,13 @@ public class GitLsTreeTest extends GitTestTemplate {
     }
 
     @Test
-    public void repo_validFilePaths_success() throws InvalidFilePathException, GitCloneException {
+    public void repo_validFilePaths_success() throws InvalidFilePathException, IOException {
         GitLsTree.validateFilePaths(config);
     }
 
     @Test(expected = InvalidFilePathException.class)
     public void windows_cloneInvalidWindowsFilePaths_throwsInvalidFilePathException()
-            throws InvalidFilePathException, GitCloneException {
+            throws InvalidFilePathException, IOException {
         // Runs test only on Windows operating systems
         Assume.assumeTrue(SystemUtil.isWindows());
 

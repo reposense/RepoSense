@@ -30,6 +30,14 @@ public class GitLsTree {
     // Also, it is not possible to create and commit such a file on Unix systems.
     private static final Pattern ILLEGAL_WINDOWS_CHARACTER_PATTERN = Pattern.compile("[:\\\\*?|<>:\"]");
 
+    /**
+     * Clones a bare repo in {@code repoConfig} and verifies that the repo contains only file paths that are
+     * compatible in Windows.
+     *
+     * @throws IOException if it fails to create/delete the folders.
+     * @throws InvalidFilePathException if the repository contains invalid file paths that are not compatible with
+     * Windows.
+     */
     public static void validateFilePaths(RepoConfiguration repoConfig) throws IOException, InvalidFilePathException {
         GitClone.cloneBare(repoConfig, FileUtil.getBareRepoFolderName(repoConfig));
         validateFilePaths(repoConfig, FileUtil.getBareRepoPath(repoConfig));

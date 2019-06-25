@@ -70,6 +70,11 @@ public class GitClone {
         }
     }
 
+    /**
+     * Clones a bare repo specified in {@code repoConfig} into the folder {@code outputFolderName}.
+     *
+     * @throws IOException if it fails to delete a directory.
+     */
     public static void cloneBare(RepoConfiguration repoConfig, String outputFolderName) throws IOException {
         Path rootPath = Paths.get(FileUtil.REPOS_ADDRESS, repoConfig.getRepoFolderName());
         FileUtil.deleteDirectory(Paths.get(rootPath.toString(), outputFolderName).toString());
@@ -80,8 +85,9 @@ public class GitClone {
     }
 
     /**
-     * Performs a full clone from {@code clonedBareRepoLocation} into {@code outputFolderName} and
+     * Performs a full clone from {@code clonedBareRepoLocation} into the folder {@code outputFolderName} and
      * directly branches out to {@code targetBranch}.
+     *
      * @throws IOException if it fails to delete a directory.
      */
     public static void cloneFromBareAndUpdateBranch(Path rootPath, Path clonedBareRepoLocation,
