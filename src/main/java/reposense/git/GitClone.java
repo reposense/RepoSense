@@ -13,7 +13,6 @@ import java.util.logging.Logger;
 import reposense.git.exception.GitBranchException;
 import reposense.git.exception.GitCloneException;
 import reposense.model.RepoConfiguration;
-import reposense.model.RepoLocation;
 import reposense.system.LogsManager;
 import reposense.util.FileUtil;
 
@@ -37,12 +36,17 @@ public class GitClone {
     /**
      * Clones repo specified in the {@code repoConfig} and updates it with the branch info.
      */
-    public static void clone(RepoConfiguration repoConfig)
-            throws GitCloneException {
+    public static void clone(RepoConfiguration repoConfig) throws GitCloneException {
         try {
             FileUtil.deleteDirectory(repoConfig.getRepoRoot());
             logger.info("Cloning from " + repoConfig.getLocation() + "...");
-            clone(repoConfig.getLocation(), repoConfig.getRepoFolderName(), repoConfig.getRepoName(), "");
+
+            Path rootPath = Paths.get(FileUtil.REPOS_ADDRESS, repoConfig.getRepoFolderName());
+            Files.createDirectories(rootPath);
+            String command = String.format("git clone %s %s", addQuote(repoConfig.getLocation().toString()),
+                    repoConfig.getRepoName());
+            runCommand(rootPath, command);
+
             logger.info("Cloning completed!");
         } catch (RuntimeException rte) {
             logger.log(Level.SEVERE, "Error encountered in Git Cloning, will attempt to continue analyzing", rte);
@@ -66,21 +70,17 @@ public class GitClone {
         }
     }
 
-    /**
-     * Clones a repo given the repo location into a directory.
-     * @throws IOException if it fails to create a directory.
-     */
-    private static void clone(RepoLocation location, String repoFolderName, String outputFolderName,
-            String additionalCommand) throws IOException {
-        Path rootPath = Paths.get(FileUtil.REPOS_ADDRESS, repoFolderName);
+    public static void cloneBare(RepoConfiguration repoConfig, String outputFolderName) throws IOException {
+        Path rootPath = Paths.get(FileUtil.REPOS_ADDRESS, repoConfig.getRepoFolderName());
+        FileUtil.deleteDirectory(Paths.get(rootPath.toString(), outputFolderName).toString());
         Files.createDirectories(rootPath);
-        String command =
-                String.format("git clone %s %s %s", additionalCommand, addQuote(location.toString()), outputFolderName);
+        String command = String.format("git clone --bare %s %s", addQuote(repoConfig.getLocation().toString()),
+                outputFolderName);
         runCommand(rootPath, command);
     }
 
     /**
-     * Clones a previously cloned bare repo from {@code clonedBareRepoLocation} into {@code outputFolderName} and
+     * Performs a full clone from {@code clonedBareRepoLocation} into {@code outputFolderName} and
      * directly branches out to {@code targetBranch}.
      * @throws IOException if it fails to delete a directory.
      */

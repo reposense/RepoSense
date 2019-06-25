@@ -23,6 +23,7 @@ import java.util.zip.ZipOutputStream;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
+import reposense.model.RepoConfiguration;
 import reposense.system.LogsManager;
 
 /**
@@ -37,6 +38,8 @@ public class FileUtil {
     private static final Logger logger = LogsManager.getLogger(FileUtil.class);
     private static final String GITHUB_API_DATE_FORMAT = "yyyy-MM-dd";
     private static final ByteBuffer buffer = ByteBuffer.allocate(1 << 11); // 2KB
+
+    private static final String BARE_REPO_SUFFIX = "_bare";
 
     /**
      * Writes the JSON file representing the {@code object} at the given {@code path}.
@@ -186,5 +189,20 @@ public class FileUtil {
 
     private static String attachJsPrefix(String original, String prefix) {
         return "var " + prefix + " = " + original;
+    }
+
+    /**
+     * Returns the path to the bare repo version of {@code repoConfig} that is relative to the repos root path.
+     */
+    public static Path getBareRepoPath(RepoConfiguration repoConfig) {
+        return Paths.get(FileUtil.REPOS_ADDRESS,
+                repoConfig.getRepoFolderName(), repoConfig.getRepoName() + BARE_REPO_SUFFIX);
+    }
+
+    /**
+     * Returns the folder name of the bare repo version of {@code repoConfig}.
+     */
+    public static String getBareRepoFolderName(RepoConfiguration repoConfig) {
+        return repoConfig.getRepoName() + BARE_REPO_SUFFIX;
     }
 }

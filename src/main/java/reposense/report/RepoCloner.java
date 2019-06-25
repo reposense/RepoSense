@@ -47,7 +47,7 @@ public class RepoCloner {
      * Spawns a process to clone the bare repository specified by {@code config}.
      * Does not wait for process to finish executing.
      */
-    public void clone(String outputPath, RepoConfiguration config) throws IOException {
+    public void cloneBare(String outputPath, RepoConfiguration config) throws IOException {
         configs[currentIndex] = config;
         isCurrentRepoCloned = spawnCloneProcess(outputPath, config);
     }
@@ -67,8 +67,7 @@ public class RepoCloner {
         }
 
         try {
-            String bareRepoPath = Paths.get(FileUtil.REPOS_ADDRESS, configs[currentIndex].getRepoFolderName(),
-                    getBareRepoPath(configs[currentIndex])).toAbsolutePath().toString();
+            String bareRepoPath = FileUtil.getBareRepoPath(configs[currentIndex]).toString();
             currentRepoDefaultBranch = GitBranch.getCurrentBranch(bareRepoPath);
         } catch (GitBranchException gbe) {
             // GitBranch will throw this exception when repository is empty
@@ -103,23 +102,15 @@ public class RepoCloner {
             Files.createDirectories(rootPath);
 
             logger.info(String.format(MESSAGE_START_CLONING, config.getLocation()));
-            FileUtil.deleteDirectory(
-                    Paths.get(FileUtil.REPOS_ADDRESS, config.getRepoFolderName(), getBareRepoPath(config)).toString());
+            FileUtil.deleteDirectory(FileUtil.getBareRepoPath(config).toString());
             Files.createDirectories(Paths.get(FileUtil.REPOS_ADDRESS, config.getRepoFolderName()));
-            crp = runCommandAsync(rootPath, GitClone.getCloneBareCommand(config, getBareRepoPath(config)));
+            crp = runCommandAsync(rootPath, GitClone.getCloneBareCommand(config, FileUtil.getBareRepoFolderName(config)));
         } catch (RuntimeException | IOException e) {
             logger.log(Level.WARNING, MESSAGE_ERROR_CLONING, e);
             handleCloningFailed(outputPath, config);
             return false;
         }
         return true;
-    }
-
-    /**
-     * Returns the path to the bare repo of {@code repoCOnfig} that is relative to the repo root path.
-     */
-    public String getBareRepoPath(RepoConfiguration repoConfig) {
-        return repoConfig.getRepoName() + "_bare";
     }
 
     /**

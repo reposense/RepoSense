@@ -2,16 +2,17 @@ package reposense.git;
 
 import static reposense.system.CommandRunner.runCommand;
 
+import java.io.IOException;
 import java.nio.file.Path;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import reposense.git.exception.GitCloneException;
 import reposense.git.exception.InvalidFilePathException;
 import reposense.model.RepoConfiguration;
 import reposense.system.LogsManager;
+import reposense.util.FileUtil;
 import reposense.util.StringsUtil;
 import reposense.util.SystemUtil;
 
@@ -29,16 +30,9 @@ public class GitLsTree {
     // Also, it is not possible to create and commit such a file on Unix systems.
     private static final Pattern ILLEGAL_WINDOWS_CHARACTER_PATTERN = Pattern.compile("[:\\\\*?|<>:\"]");
 
-
-    /**
-     * Verifies that the repository in {@code config} contains only file paths that are compatible with Windows.
-     * Skips check if the operating system is not Windows.
-     *
-     * @throws InvalidFilePathException if the repository contains invalid file paths that are not compatible with
-     * Windows.
-     */
-    public static void validateFilePaths(RepoConfiguration config) throws InvalidFilePathException, GitCloneException {
-        // DEPRECATED
+    public static void validateFilePaths(RepoConfiguration repoConfig) throws IOException, InvalidFilePathException {
+        GitClone.cloneBare(repoConfig, FileUtil.getBareRepoFolderName(repoConfig));
+        validateFilePaths(repoConfig, FileUtil.getBareRepoPath(repoConfig));
     }
 
     /**
@@ -48,14 +42,14 @@ public class GitLsTree {
      * @throws InvalidFilePathException if the repository contains invalid file paths that are not compatible with
      * Windows.
      */
-    public static void validateFilePaths(RepoConfiguration config, Path clonedRepoLocation)
+    public static void validateFilePaths(RepoConfiguration config, Path clonedBareRepoLocation)
             throws InvalidFilePathException {
         if (!SystemUtil.isWindows()) {
             return;
         }
 
         boolean hasError = false;
-        String[] paths = getFilePaths(clonedRepoLocation, config);
+        String[] paths = getFilePaths(clonedBareRepoLocation, config);
 
         for (String path : paths) {
             path = StringsUtil.removeQuote(path);

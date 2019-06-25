@@ -60,8 +60,6 @@ public class ReportGenerator {
     private static final String MESSAGE_REPORT_GENERATED = "The report is generated at %s";
     private static final String MESSAGE_BRANCH_DOES_NOT_EXIST = "Branch %s does not exist in %s! Analysis terminated.";
 
-    private static final String BARE_REPO_SUFFIX = "_bare";
-
     private static Date earliestSinceDate = null;
     private static Date latestUntilDate = null;
 
@@ -118,7 +116,7 @@ public class ReportGenerator {
         RepoLocation clonedRepoLocation = null;
 
         for (RepoLocation location : repoLocationMap.keySet()) {
-            repoCloner.clone(outputPath, repoLocationMap.get(location).get(0));
+            repoCloner.cloneBare(outputPath, repoLocationMap.get(location).get(0));
 
             if (clonedRepoLocation != null) {
                 analyzeRepos(outputPath, repoLocationMap.get(clonedRepoLocation),
@@ -130,14 +128,6 @@ public class ReportGenerator {
             analyzeRepos(outputPath, repoLocationMap.get(clonedRepoLocation), repoCloner.getCurrentRepoDefaultBranch());
         }
         repoCloner.cleanup();
-    }
-
-    /**
-     * Returns the path to the bare repo of {@code repoCOnfig} that is relative to the root path.
-     */
-    private static Path getBareRepoPath(RepoConfiguration repoConfig) {
-        return Paths.get(FileUtil.REPOS_ADDRESS, repoConfig.getRepoFolderName(),
-                repoConfig.getRepoName() + BARE_REPO_SUFFIX);
     }
 
     /**
@@ -163,7 +153,7 @@ public class ReportGenerator {
             }
 
             try {
-                GitRevParse.assertBranchExists(config, getBareRepoPath(config));
+                GitRevParse.assertBranchExists(config, FileUtil.getBareRepoPath(config));
             } catch (RuntimeException rte) {
                 logger.log(Level.SEVERE, String.format(MESSAGE_BRANCH_DOES_NOT_EXIST,
                         config.getBranch(), config.getLocation()), rte);
@@ -172,12 +162,12 @@ public class ReportGenerator {
             }
 
             try {
-                GitLsTree.validateFilePaths(config, getBareRepoPath(config));
+                GitLsTree.validateFilePaths(config, FileUtil.getBareRepoPath(config));
             } catch (InvalidFilePathException ipe) {
                 continue;
             }
 
-            GitClone.cloneFromBareAndUpdateBranch(Paths.get(FileUtil.REPOS_ADDRESS), getBareRepoPath(config),
+            GitClone.cloneFromBareAndUpdateBranch(Paths.get(FileUtil.REPOS_ADDRESS), FileUtil.getBareRepoPath(config),
                     Paths.get(config.getRepoFolderName(), config.getRepoName()).toString(), config.getBranch());
             analyzeRepo(config, repoReportDirectory.toString());
         }
