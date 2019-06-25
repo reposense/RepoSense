@@ -104,7 +104,8 @@ public class RepoCloner {
             logger.info(String.format(MESSAGE_START_CLONING, config.getLocation()));
             FileUtil.deleteDirectory(FileUtil.getBareRepoPath(config).toString());
             Files.createDirectories(Paths.get(FileUtil.REPOS_ADDRESS, config.getRepoFolderName()));
-            crp = runCommandAsync(rootPath, GitClone.getCloneBareCommand(config, FileUtil.getBareRepoFolderName(config)));
+            crp = runCommandAsync(rootPath, GitClone.getCloneBareCommand(config,
+                    FileUtil.getBareRepoFolderName(config)));
         } catch (RuntimeException | IOException e) {
             logger.log(Level.WARNING, MESSAGE_ERROR_CLONING, e);
             handleCloningFailed(outputPath, config);
