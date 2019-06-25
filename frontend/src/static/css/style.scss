@@ -108,13 +108,13 @@ header{
         .error-message-box {
             padding: 15px;
             border-radius: 4px;
-            background-color: #f44336;
-            color: white;
+            background-color: #F8D7DA;
+            border-color: #F5C6CB;
+            color: #721C24;
             margin-bottom: 15px;
             text-align: left;
         }
         #error-message-box__close-button {
-            color: white;
             font-weight: bold;
             float: right;
             font-size: 25px;
@@ -122,11 +122,12 @@ header{
             cursor: pointer;
         }
         #error-message-box__close-button:hover {
-            color: black;
+            color: white;
         }
         .fa-exclamation {
             padding-top: 3px;
             padding-right: 10px;
+            font-size: smaller;
         }
         #error-message-box__message {
             padding-bottom: 10px;
