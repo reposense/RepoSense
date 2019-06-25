@@ -6,7 +6,6 @@ import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Comparator;
 import java.util.HashSet;
 import java.util.List;
@@ -128,11 +127,10 @@ public class FileInfoExtractor {
      * Returns a {@code Set} of non-binary files for the repo {@code repoConfig}.
      */
     public static Set<Path> getListOfNonBinaryFiles(RepoConfiguration repoConfig) {
-        String rawGitDiffResult = GitDiff.gitGetModifiedFiles(Paths.get(repoConfig.getRepoRoot()));
-        String[] listOfFiles = rawGitDiffResult.split("\n");
+        List<String> listOfFiles = GitDiff.gitGetModifiedFiles(Paths.get(repoConfig.getRepoRoot()));
 
         // Gets rid of binary files and files with invalid directory name.
-        return Arrays.stream(listOfFiles)
+        return listOfFiles.stream()
                 .filter(file -> !file.startsWith(BINARY_FILE_LINE_DIFF_RESULT))
                 .map(rawNonBinaryFile -> rawNonBinaryFile.split("\t")[2])
                 .filter(FileUtil::isValidPath)

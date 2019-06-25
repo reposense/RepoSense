@@ -4,6 +4,9 @@ import static reposense.system.CommandRunner.runCommand;
 
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 /**
  * Contains git diff related functionalities.
@@ -22,11 +25,12 @@ public class GitDiff {
     }
 
     /**
-     * Returns the raw git diff result of a list of committed files with the corresponding number of
-     * lines added and deleted in the repo {@code repoRoot}.
+     * Returns a list of committed files with the corresponding number of lines added and deleted in the repo
+     * {@code repoRoot}.
      */
-    public static String gitGetModifiedFiles(Path repoRoot) {
+    public static List<String> gitGetModifiedFiles(Path repoRoot) {
         String diffCommand = String.format("git diff --numstat %s %s", EMPTY_TREE_HASH, CHECKED_OUT_COMMIT_REFERENCE);
-        return runCommand(repoRoot.toAbsolutePath(), diffCommand);
+        String diffResult = runCommand(repoRoot.toAbsolutePath(), diffCommand);
+        return new ArrayList<>(Arrays.asList(diffResult.split("\n")));
     }
 }
