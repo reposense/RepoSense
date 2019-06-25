@@ -7,10 +7,9 @@ import reposense.system.CommandRunner;
 
 /**
  * Contains git rev parse related functionalities.
- * Git rev parse is responsible for verifying a particular branch exists.
+ * Git rev parse is responsible for verifying the existence of a particular branch.
  */
 public class GitRevParse {
-
     /**
      * Asserts that the branch in {@code repoConfig} exists.
      * @throws RuntimeException when the branch does not exist.

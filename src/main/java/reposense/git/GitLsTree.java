@@ -33,7 +33,6 @@ public class GitLsTree {
     /**
      * Clones a bare repo in {@code repoConfig} and verifies that the repo contains only file paths that are
      * compatible in Windows.
-     *
      * @throws IOException if it fails to create/delete the folders.
      * @throws InvalidFilePathException if the repository contains invalid file paths that are not compatible with
      * Windows.
@@ -46,7 +45,6 @@ public class GitLsTree {
     /**
      * Verifies that the repository in {@code config} contains only file paths that are compatible with Windows.
      * Skips check if the operating system is not Windows.
-     *
      * @throws InvalidFilePathException if the repository contains invalid file paths that are not compatible with
      * Windows.
      */

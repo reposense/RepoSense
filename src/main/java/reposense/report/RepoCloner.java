@@ -100,10 +100,10 @@ public class RepoCloner {
         try {
             Path rootPath = Paths.get(FileUtil.REPOS_ADDRESS, config.getRepoFolderName());
             Files.createDirectories(rootPath);
-
-            logger.info(String.format(MESSAGE_START_CLONING, config.getLocation()));
             FileUtil.deleteDirectory(FileUtil.getBareRepoPath(config).toString());
             Files.createDirectories(Paths.get(FileUtil.REPOS_ADDRESS, config.getRepoFolderName()));
+
+            logger.info(String.format(MESSAGE_START_CLONING, config.getLocation()));
             crp = runCommandAsync(rootPath, GitClone.getCloneBareCommand(config,
                     FileUtil.getBareRepoFolderName(config)));
         } catch (RuntimeException | IOException e) {

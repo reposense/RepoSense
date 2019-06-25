@@ -137,6 +137,7 @@ public class ReportGenerator {
             throws IOException {
         for (RepoConfiguration config : configs) {
             config.updateBranch(defaultBranch);
+
             Path repoReportDirectory;
             logger.info(String.format(MESSAGE_START_ANALYSIS, config.getLocation(), config.getBranch()));
             try {
