@@ -566,9 +566,7 @@ window.vSummary = {
         Object.entries(userOrig).forEach(([key, value]) => {
           user[key] = value;
         });
-        Object.entries(commits).forEach(([key, value]) => {
-          user[key] = value;
-        });
+        user['commits'] = commits;
         this.$emit('view-zoom', {
           avgCommitSize,
           user,
