@@ -100,9 +100,7 @@ html
             .mui-select.sort-within-group
               select(
                   v-model="sortWithinGroupSelection",
-                  v-bind:style="filterGroupSelection === 'groupByNone' || isMergeGroup ?\
-                      { pointerEvents: 'none', opacity: 0.5 } :\
-                      { pointerEvents: 'auto', opacity: 1.0 }"
+                  v-bind:disabled="filterGroupSelection === 'groupByNone' || isMergeGroup"
               )
                 option(value="title") &uarr; title
                 option(value="title dsc") &darr; title
@@ -132,12 +130,12 @@ html
             label
               input(type="checkbox", v-model="filterBreakdown").mui-checkbox.summary-picker__checkbox
               span breakdown by file format
-            label.merge-group(
-                v-bind:style="filterGroupSelection === 'groupByNone' ?\
-                    { opacity: 0.5, pointerEvents: 'none' } :\
-                    { opacity: 1.0, pointerEvents: 'auto' }"
-            )
-              input(type="checkbox", v-model="isMergeGroup").mui-checkbox.summary-picker__checkbox
+            label.merge-group
+              input(
+                  type="checkbox",
+                  v-model="isMergeGroup",
+                  v-bind:disabled="filterGroupSelection === 'groupByNone'"
+              ).mui-checkbox.summary-picker__checkbox
               span merge group
         #summary-charts
           .summary-charts(v-for="repo of filteredRepos")
