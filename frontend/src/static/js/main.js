@@ -36,6 +36,18 @@ window.decodeHash = function decodeHash() {
   window.hashParams = hashParams;
 };
 
+window.onhashchange = function onHashChange() {
+  const { hashParams } = window;
+  const hash = '#' + Object.keys(hashParams)
+      .map((key) => `${key}=${encodeURIComponent(hashParams[key])}`)
+      .join('&');
+
+  // hash values that are not the same means that user clicked forward/back button
+  if (hash !== window.location.hash) {
+    this.app.updateHash();
+  }
+};
+
 const DRAG_BAR_WIDTH = 13.25;
 const SCROLL_BAR_WIDTH = 17;
 const GUIDE_BAR_WIDTH = 2;
@@ -225,6 +237,12 @@ window.app = new window.Vue({
     receiveDates(dates) {
       const [minDate, maxDate] = dates;
       this.renderAuthorShipTabHash(minDate, maxDate);
+    },
+
+    updateHash() {
+      this.$refs.summary.renderFilterHash();
+      // const { hashParams } = window;
+      // this.renderAuthorShipTabHash(hashParams.since, hashParams.until);
     },
   },
   components: {
