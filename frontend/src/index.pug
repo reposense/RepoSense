@@ -130,7 +130,7 @@ html
             label
               input(type="checkbox", v-model="filterBreakdown").mui-checkbox.summary-picker__checkbox
               span breakdown by file format
-            label.merge-group
+            label.merge-group(v-bind:style="filterGroupSelection === 'groupByNone' ? { opacity:0.5 } : { opacity:1.0 }")
               input(
                   type="checkbox",
                   v-model="isMergeGroup",
