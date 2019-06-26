@@ -34,7 +34,8 @@ public class RepoSense {
     private static final int SERVER_PORT_NUMBER = 9000;
     private static final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("E MMM d HH:mm:ss yyyy z");
     private static final String VERSION_UNSPECIFIED = "unspecified";
-    private static final String MESSAGE_ELAPSED_TIME = "Elapsed processing time: %f seconds";
+    private static final String MESSAGE_ELAPSED_TIME =
+            "Elapsed processing time: %d hour(s) %d minute(s) %.2f second(s)";
 
     /**
      * The entry point of the program.
@@ -68,8 +69,12 @@ public class RepoSense {
             FileUtil.zip(cliArguments.getOutputFilePath().toAbsolutePath(), ".json");
 
             long endTime = System.nanoTime();
-            long elapsedTime = endTime - startTime;
-            logger.info(String.format(MESSAGE_ELAPSED_TIME, (double) elapsedTime / 1_000_000_000.0));
+            double elapsedTime = (double) (endTime - startTime) / 1_000_000_000.0;
+            int elapsedHours = (int) elapsedTime / 3600;
+            int elapsedMinutes = (int) (elapsedTime % 3600) / 60;
+            double elapsedSeconds = elapsedTime % 60;
+
+            logger.info(String.format(MESSAGE_ELAPSED_TIME, elapsedHours, elapsedMinutes, elapsedSeconds));
 
             if (cliArguments.isAutomaticallyLaunching()) {
                 ReportServer.startServer(SERVER_PORT_NUMBER, cliArguments.getOutputFilePath().toAbsolutePath());
