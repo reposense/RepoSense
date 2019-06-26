@@ -305,16 +305,10 @@ window.vAuthorship = {
     },
     getExistingLinesObj() {
       let numLinesModified = {};
-      Object.entries(this.filesBlankLinesObj)
+      Object.entries(this.filesLinesObj)
         .filter(([, value]) => value > 0)
         .forEach(([langType, value]) => numLinesModified[langType] = value);
       return numLinesModified;
-
-      // return Object.keys(this.filesLinesObj)
-      //     .filter((type) => this.filesLinesObj[type] > 0)
-      //     .reduce((acc, key) => ({
-      //       ...acc, [key]: this.filesLinesObj[key],
-      //     }), {});
     },
   },
 
