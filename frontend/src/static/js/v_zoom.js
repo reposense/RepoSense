@@ -12,7 +12,7 @@ window.vZoom = {
     },
 
     filterCommits() {
-      let { user } = this.info;
+      const { user } = this.info;
       const filtered = user.commits.filter(
           (commit) => commit.date >= this.info.sinceDate && commit.date <= this.info.untilDate,
       );
