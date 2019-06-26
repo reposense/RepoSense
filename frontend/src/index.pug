@@ -133,7 +133,7 @@ html
               .summary-charts__title--contribution(title="Total contribution of group") [{{ getGroupTotalContribution(repo) }} lines]
             .summary-charts__title(v-if="filterGroupSelection === 'groupByAuthors'") {{ repo[0].displayName }} ({{ repo[0].name }})&nbsp;&nbsp;
               .summary-charts__title--contribution(title="Total contribution of group") [{{ getGroupTotalContribution(repo) }} lines]
-            .summary-charts__fileformat--breakdown(v-if="filterBreakdown")
+            .summary-charts__fileType--breakdown(v-if="filterBreakdown")
               template(v-if="filterGroupSelection === 'groupByRepos'")
                 .summary-charts__fileType--breakdown__legend(
                     v-for="fileType in Object.keys(repo[0].fileTypeContribution)")
