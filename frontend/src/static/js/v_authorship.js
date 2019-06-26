@@ -307,7 +307,9 @@ window.vAuthorship = {
       const numLinesModified = {};
       Object.entries(this.filesLinesObj)
           .filter(([, value]) => value > 0)
-          .forEach(([langType, value]) => { numLinesModified[langType] = value; });
+          .forEach(([langType, value]) => {
+            numLinesModified[langType] = value;
+          });
       return numLinesModified;
     },
   },
