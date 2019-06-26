@@ -552,9 +552,18 @@ window.vSummary = {
             (commit) => commit.date >= tsince && commit.date <= tuntil,
         );
 
+        const commits = [];
+        rawCommits.forEach((commit) => {
+          if (this.filterTimeFrame === 'week') {
+            commit.dayCommits.forEach((dayCommit) => commits.push(dayCommit));
+          } else {
+            commits.push(commit);
+          }
+        });
+
         const { avgCommitSize } = this;
 
-        const user = Object.assign({}, userOrig, { commits: rawCommits });
+        const user = Object.assign({}, userOrig, { commits });
 
         this.$emit('view-zoom', {
           avgCommitSize,
