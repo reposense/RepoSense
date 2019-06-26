@@ -32,7 +32,7 @@
             borderLeftWidth: getWidth(slice) + 'em',\
             right: (getSlicePos(tframe === 'day' ? slice.date : slice.endDate) * 100) + '%' \
           },\
-          mergegroup && groupby === 'groupByAuthors' ? \
+          mergegroup && groupby === 'groupByAuthors' ?\
             { cursor: 'auto', pointerEvents: 'none' }  :\
             { cursor: 'pointer', pointerEvents: 'auto' }\
       ]"

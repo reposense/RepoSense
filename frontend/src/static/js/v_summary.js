@@ -133,14 +133,17 @@ window.vSummary = {
       this.getFiltered();
     },
     filterGroupSelection() {
-      this.updateControls();
+      // merge group is not allowed when group by none
+      if (this.filterGroupSelection === 'groupByNone') {
+        this.isMergeGroup = false;
+      }
+
       this.getFiltered();
     },
     filterBreakdown() {
       this.getFiltered();
     },
     isMergeGroup() {
-      this.updateControls();
       this.getFiltered();
     },
     tmpFilterSinceDate() {
@@ -554,28 +557,6 @@ window.vSummary = {
       });
 
       return null;
-    },
-    updateControls() {
-      // update sort within selection if necessary
-      const sortWithin = document.getElementsByClassName('mui-select sort-within-group');
-      if (this.filterGroupSelection === 'groupByNone' || this.isMergeGroup) {
-        sortWithin[0].style.pointerEvents = 'none';
-        sortWithin[0].style.opacity = 0.5;
-      } else {
-        sortWithin[0].style.pointerEvents = 'auto';
-        sortWithin[0].style.opacity = 1;
-      }
-
-      // update merge checkbox if necessary
-      const merge = document.getElementsByClassName('merge-group');
-      if (this.filterGroupSelection === 'groupByNone') {
-        this.isMergeGroup = false;
-        merge[0].children[0].disabled = true;
-        merge[0].style.opacity = 0.5;
-      } else {
-        merge[0].children[0].disabled = false;
-        merge[0].style.opacity = 1;
-      }
     },
     getOptionWithOrder() {
       [this.sortingOption, this.isSortingDsc] = this.sortGroupSelection.split(' ');
