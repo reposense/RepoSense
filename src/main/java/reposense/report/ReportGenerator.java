@@ -25,6 +25,7 @@ import reposense.git.GitClone;
 import reposense.git.GitLsTree;
 import reposense.git.GitRevParse;
 import reposense.git.GitShortlog;
+import reposense.git.exception.GitBranchException;
 import reposense.git.exception.InvalidFilePathException;
 import reposense.model.Author;
 import reposense.model.RepoConfiguration;
@@ -155,9 +156,9 @@ public class ReportGenerator {
 
             try {
                 GitRevParse.assertBranchExists(config, FileUtil.getBareRepoPath(config));
-            } catch (RuntimeException rte) {
+            } catch (GitBranchException gbe) {
                 logger.log(Level.SEVERE, String.format(MESSAGE_BRANCH_DOES_NOT_EXIST,
-                        config.getBranch(), config.getLocation()), rte);
+                        config.getBranch(), config.getLocation()), gbe);
                 generateEmptyRepoReport(repoReportDirectory.toString());
                 continue;
             }
