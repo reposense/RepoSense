@@ -150,7 +150,7 @@ html
                   span &nbsp; {{ fileFormat }} &nbsp;
             .summary-chart(v-for="(user, userIndex) in repo")
               .summary-chart__title
-                .summary-chart__title--index {{ userIndex+1 }}
+                .summary-chart__title--index {{ userIndex + 1 }}
                 .summary-chart__title--repo(v-if="filterGroupSelection === 'groupByNone'") {{ user.repoName }}
                 .summary-chart__title--author-repo(v-if="filterGroupSelection === 'groupByAuthors'") {{ user.repoName }}
                 .summary-chart__title--name(v-if="filterGroupSelection !== 'groupByAuthors'") {{ user.displayName }} ({{ user.name }})

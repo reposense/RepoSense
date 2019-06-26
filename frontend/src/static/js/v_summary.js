@@ -561,12 +561,8 @@ window.vSummary = {
         const tsince = getDateStr(new Date(this.filterSinceDate).getTime() + idxs[0]);
         const tuntil = getDateStr(new Date(this.filterSinceDate).getTime() + idxs[1]);
 
-        const rawCommits = userOrig.commits.filter(
-            (commit) => commit.date >= tsince && commit.date <= tuntil,
-        );
-
         const { avgCommitSize } = this;
-        const user = { ...userOrig, commits: rawCommits };
+        const user = Object.assign({}, userOrig);
         this.$emit('view-zoom', {
           avgCommitSize,
           user,
