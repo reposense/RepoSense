@@ -27,9 +27,7 @@ public class GitClone {
      * Returns the command to clone a bare repo specified in the {@code repoConfig}
      * into the folder {@code outputFolderName}.
      */
-    public static String getCloneBareCommand(RepoConfiguration repoConfig, String outputFolderName)
-            throws IOException {
-        FileUtil.deleteDirectory(outputFolderName);
+    public static String getCloneBareCommand(RepoConfiguration repoConfig, String outputFolderName) {
         return ("git clone --bare " + repoConfig.getLocation() + " " + outputFolderName);
     }
 
