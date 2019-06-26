@@ -306,7 +306,7 @@ window.vSummary = {
 
       if (hash.timeframe) { this.filterTimeFrame = hash.timeframe; }
       if (hash.mergegroup) {
-        this.mergeGroup = hash.mergegroup;
+        this.isMergeGroup = convertBool(hash.mergegroup);
       }
       if (hash.since) {
         this.tmpFilterSinceDate = hash.since;
