@@ -33,7 +33,9 @@ window.api = {
     return loadJSON(`${REPORT_DIR}/summary.json`)
         .then((data) => {
           window.app.creationDate = data.reportGeneratedTime;
-          window.app.sinceDate = data.repos[0].sinceDate;
+          window.app.sinceDate = data.sinceDate;
+          window.app.untilDate = data.untilDate;
+          window.app.repoSenseVersion = data.repoSenseVersion;
 
           const names = [];
           data.repos.forEach((repo) => {
@@ -68,7 +70,6 @@ window.api = {
           ];
 
           obj.searchPath = searchParams.join('_').toLowerCase();
-          obj.repoPath = `${repo.displayName}`;
           obj.repoName = `${repo.displayName}`;
           obj.location = `${repo.location.location}`;
 

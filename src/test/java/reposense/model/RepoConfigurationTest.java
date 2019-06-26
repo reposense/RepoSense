@@ -71,7 +71,7 @@ public class RepoConfigurationTest {
         "code: **/*.java", "docs: **/docs/*"));
     private static final List<String> CLI_FORMATS = Arrays.asList("css", "html");
 
-    private static RepoConfiguration REPO_DELTA_STANDALONE_CONFIG;
+    private static RepoConfiguration repoDeltaStandaloneConfig;
 
     @BeforeClass
     public static void setUp() throws InvalidLocationException {
@@ -91,22 +91,22 @@ public class RepoConfigurationTest {
         expectedAuthors.add(THIRD_AUTHOR);
         expectedAuthors.add(FOURTH_AUTHOR);
 
-        REPO_DELTA_STANDALONE_CONFIG = new RepoConfiguration(new RepoLocation(TEST_REPO_DELTA), "master");
-        REPO_DELTA_STANDALONE_CONFIG.setAuthorList(expectedAuthors);
-        REPO_DELTA_STANDALONE_CONFIG.addAuthorEmailsAndAliasesMapEntry(FIRST_AUTHOR, FIRST_AUTHOR_ALIASES);
-        REPO_DELTA_STANDALONE_CONFIG.addAuthorEmailsAndAliasesMapEntry(FOURTH_AUTHOR, FOURTH_AUTHOR_ALIASES);
-        REPO_DELTA_STANDALONE_CONFIG.setAuthorDisplayName(FIRST_AUTHOR, "Ahm");
-        REPO_DELTA_STANDALONE_CONFIG.setAuthorDisplayName(SECOND_AUTHOR, "Cod");
-        REPO_DELTA_STANDALONE_CONFIG.setAuthorDisplayName(THIRD_AUTHOR, "Jor");
-        REPO_DELTA_STANDALONE_CONFIG.setAuthorDisplayName(FOURTH_AUTHOR, "Loh");
+        repoDeltaStandaloneConfig = new RepoConfiguration(new RepoLocation(TEST_REPO_DELTA), "master");
+        repoDeltaStandaloneConfig.setAuthorList(expectedAuthors);
+        repoDeltaStandaloneConfig.addAuthorEmailsAndAliasesMapEntry(FIRST_AUTHOR, FIRST_AUTHOR_ALIASES);
+        repoDeltaStandaloneConfig.addAuthorEmailsAndAliasesMapEntry(FOURTH_AUTHOR, FOURTH_AUTHOR_ALIASES);
+        repoDeltaStandaloneConfig.setAuthorDisplayName(FIRST_AUTHOR, "Ahm");
+        repoDeltaStandaloneConfig.setAuthorDisplayName(SECOND_AUTHOR, "Cod");
+        repoDeltaStandaloneConfig.setAuthorDisplayName(THIRD_AUTHOR, "Jor");
+        repoDeltaStandaloneConfig.setAuthorDisplayName(FOURTH_AUTHOR, "Loh");
 
         SECOND_AUTHOR.setEmails(Arrays.asList("codeeong@gmail.com", "33129797+codeeong@users.noreply.github.com"));
         for (Author author : expectedAuthors) {
-            REPO_DELTA_STANDALONE_CONFIG.addAuthorEmailsAndAliasesMapEntry(author, author.getEmails());
+            repoDeltaStandaloneConfig.addAuthorEmailsAndAliasesMapEntry(author, author.getEmails());
         }
 
-        REPO_DELTA_STANDALONE_CONFIG.setIgnoreGlobList(REPO_LEVEL_GLOB_LIST);
-        REPO_DELTA_STANDALONE_CONFIG.setFormats(CONFIG_FORMATS);
+        repoDeltaStandaloneConfig.setIgnoreGlobList(REPO_LEVEL_GLOB_LIST);
+        repoDeltaStandaloneConfig.setFormats(CONFIG_FORMATS);
     }
 
     @Before
@@ -120,7 +120,7 @@ public class RepoConfigurationTest {
         GitClone.clone(actualConfig);
         ReportGenerator.updateRepoConfig(actualConfig);
 
-        TestUtil.compareRepoConfig(REPO_DELTA_STANDALONE_CONFIG, actualConfig);
+        TestUtil.compareRepoConfig(repoDeltaStandaloneConfig, actualConfig);
     }
 
     @Test
@@ -197,7 +197,7 @@ public class RepoConfigurationTest {
         GitClone.clone(actualConfig);
         ReportGenerator.updateRepoConfig(actualConfig);
 
-        TestUtil.compareRepoConfig(REPO_DELTA_STANDALONE_CONFIG, actualConfig);
+        TestUtil.compareRepoConfig(repoDeltaStandaloneConfig, actualConfig);
     }
 
     @Test
@@ -302,8 +302,8 @@ public class RepoConfigurationTest {
             expectedAuthorList.add(expectedAuthor);
         }
         expectedConfig.setAuthorList(expectedAuthorList);
-        expectedConfig.setAuthorDisplayNameMap(REPO_DELTA_STANDALONE_CONFIG.getAuthorDisplayNameMap());
-        expectedConfig.setAuthorEmailsAndAliasesMap(REPO_DELTA_STANDALONE_CONFIG.getAuthorEmailsAndAliasesMap());
+        expectedConfig.setAuthorDisplayNameMap(repoDeltaStandaloneConfig.getAuthorDisplayNameMap());
+        expectedConfig.setAuthorEmailsAndAliasesMap(repoDeltaStandaloneConfig.getAuthorEmailsAndAliasesMap());
 
         String formats = String.join(" ", CLI_FORMATS);
         String input = new InputBuilder().addConfig(OVERRIDE_STANDALONE_TEST_CONFIG_FILE)

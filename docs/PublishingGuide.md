@@ -3,14 +3,13 @@
 [Travis-CI](https://travis-ci.org/) enables you to automate RepoSense report generation and publish the report online to [GitHub Pages](https://pages.github.com/) for free.
 
 1. Fork publish-RepoSense repository using this [link](https://github.com/RepoSense/publish-RepoSense/fork)
-1. Follow this [guide](https://help.github.com/articles/creating-a-personal-access-token-for-the-command-line/) to generate a `Personal access token` on GitHub for report publishing <br/>
-*Remember to **copy it** and you would **only require** `public_repo` permission*
+1. Follow this [section](#granting-write-access-to-reposense-for-publishing) to generate a `personal access token` or `deploy key` on GitHub for report publishing 
 1. Sign up and login to [Travis-CI](https://travis-ci.org/)
 1. Go to [your account](https://travis-ci.org/account/repositories), click on **Sync account** to fetch all your repositories into Travis-CI
 1. Go to [your publish-RepoSense fork in Travis-CI](https://travis-ci.org/search/publish-RepoSense/), under **Current** tab click on **Activate repository**
 1. In the same page, click on **More options** on the right then access **Settings**
 ![Travis-CI Dashboard](images/publishingguide-travissetting.jpg "Travis-CI Dashboard")
-1. Under **Environment Variables**, name a variable as `GITHUB_TOKEN` and paste the `Personal access token` to its value field; then click **Add** <br/>
+1. Under **Environment Variables**, name a variable as `GITHUB_TOKEN` or `GITHUB_DEPLOY_KEY` depending on your earlier choice and paste the content that was copied earlier to its value field; then click **Add** <br/>
 *Ensure that the `Display value in build log` is* **switched off** for security reasons
 ![Travis-CI Environment Variable](images/publishingguide-githubtoken.jpg "Travis-CI Environment Variable")
 1. Edit [run.sh](../../../../publish-RepoSense/edit/master/run.sh), [repo-config.csv](../../../../publish-RepoSense/edit/master/configs/repo-config.csv) and [author-config.csv](../../../../publish-RepoSense/edit/master/configs/author-config.csv) to customize the command line parameters or repositories to be analyzed <br/>
@@ -22,6 +21,22 @@
 > The changes made to the configuration files should trigger Travis-CI to generate your report. Otherwise, follow the [next section](#keeping-your-site-up-to-date-with-your-code-contribution) to manually trigger a build. <br/><br/>
 It takes a few minutes for report generation. Meanwhile, you can monitor the progress live at [Travis-CI's Builds](https://travis-ci.org/dashboard/builds). <br/>
 Try accessing your site again when a green tick appears beside your fork.
+
+### Granting write-access to RepoSense for publishing
+We recommmend use of [personal access token](https://github.blog/2013-05-16-personal-api-tokens/) for ease of setup and [deploy key](https://developer.github.com/v3/guides/managing-deploy-keys/#deploy-keys) for enhanced security.
+
+##### If you wish to use `personal access token`:
+1. Follow this [guide](https://help.github.com/articles/creating-a-personal-access-token-for-the-command-line/) and give only `public_repo` permission <br/>
+1. **Copy** the token for later use <br/>
+
+##### If you wish to use `deploy key`:
+> For Windows users, `ssh-keygen` and `base64` are accessible using [`Git Bash`](https://gitforwindows.org/).
+
+1. Use `ssh-keygen` to create a public/private key pair without a passphrase <br/>
+i.e. `ssh-keygen -t ecdsa -b 521 -f id_reposense -q -N ""`
+1. Go to the [deploy key settings](../../../../publish-RepoSense/settings/keys) of your publish-RepoSense fork and create a new deploy key with the contents of `id_reposense.pub`
+1. **Copy** the base64 encoded content of the private key for later use <br/>
+i.e. `cat id_reposense | base64 -w 0`
 
 ### Keeping your site up-to-date with your code contribution
 

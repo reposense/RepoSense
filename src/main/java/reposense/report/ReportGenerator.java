@@ -7,6 +7,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -30,6 +31,9 @@ import reposense.parser.StandaloneConfigJsonParser;
 import reposense.system.LogsManager;
 import reposense.util.FileUtil;
 
+/**
+ * Contains report generation related functionalities.
+ */
 public class ReportGenerator {
     private static final String REPOSENSE_CONFIG_FOLDER = "_reposense";
     private static final String REPOSENSE_CONFIG_FILE = "config.json";
@@ -53,6 +57,9 @@ public class ReportGenerator {
     private static final String MESSAGE_REPORT_GENERATED = "The report is generated at %s";
     private static final String MESSAGE_BRANCH_DOES_NOT_EXIST = "Branch %s does not exist in %s! Analysis terminated.";
 
+    private static Date earliestSinceDate = null;
+    private static Date latestUntilDate = null;
+
     /**
      * Generates the authorship and commits JSON file for each repo in {@code configs} at {@code outputPath}, as
      * well as the summary JSON file of all the repos.
@@ -60,14 +67,22 @@ public class ReportGenerator {
      * @throws IOException if templateZip.zip does not exists in jar file.
      */
     public static void generateReposReport(List<RepoConfiguration> configs, String outputPath,
-            String generationDate) throws IOException {
+            String generationDate, Date cliSinceDate, Date cliUntilDate) throws IOException {
         InputStream is = RepoSense.class.getResourceAsStream(TEMPLATE_FILE);
         FileUtil.copyTemplate(is, outputPath);
+
+        earliestSinceDate = null;
+        latestUntilDate = null;
 
         Map<RepoLocation, List<RepoConfiguration>> repoLocationMap = groupConfigsByRepoLocation(configs);
         cloneAndAnalyzeRepos(repoLocationMap, outputPath);
 
-        FileUtil.writeJsonFile(new SummaryReportJson(configs, generationDate), getSummaryResultPath(outputPath));
+        Date sinceDate = cliSinceDate == null ? earliestSinceDate : cliSinceDate;
+        Date untilDate = cliUntilDate == null ? latestUntilDate : cliUntilDate;
+
+        FileUtil.writeJsonFile(
+                new SummaryReportJson(configs, generationDate, sinceDate, untilDate, RepoSense.getVersion()),
+                getSummaryResultPath(outputPath));
         logger.info(String.format(MESSAGE_REPORT_GENERATED, outputPath));
     }
 
@@ -210,6 +225,9 @@ public class ReportGenerator {
         FileUtil.writeJsonFile(authorshipSummary.getFileResults(), getIndividualAuthorshipPath(repoReportDirectory));
     }
 
+    /**
+    * Generates a report at the {@code repoReportDirectory}.
+    */
     public static void generateEmptyRepoReport(String repoReportDirectory) {
         CommitReportJson emptyCommitReportJson = new CommitReportJson();
         FileUtil.writeJsonFile(emptyCommitReportJson, getIndividualCommitsPath(repoReportDirectory));
@@ -226,5 +244,17 @@ public class ReportGenerator {
 
     private static String getIndividualCommitsPath(String repoReportDirectory) {
         return repoReportDirectory + "/commits.json";
+    }
+
+    public static void setEarliestSinceDate(Date newEarliestSinceDate) {
+        if (earliestSinceDate == null || newEarliestSinceDate.before(earliestSinceDate)) {
+            earliestSinceDate = newEarliestSinceDate;
+        }
+    }
+
+    public static void setLatestUntilDate(Date newLatestUntilDate) {
+        if (latestUntilDate == null || newLatestUntilDate.after(latestUntilDate)) {
+            latestUntilDate = newLatestUntilDate;
+        }
     }
 }

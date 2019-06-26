@@ -10,6 +10,9 @@ import net.sourceforge.argparse4j.inf.ArgumentParser;
 import net.sourceforge.argparse4j.inf.ArgumentParserException;
 import net.sourceforge.argparse4j.inf.ArgumentType;
 
+/**
+ * Checks the argument of {@code --config} flag.
+ */
 public class ConfigFolderArgumentType implements ArgumentType<Path> {
     private static final String PARSE_EXCEPTION_MESSAGE_MISSING_REQUIRED_CONFIG_FILES =
             "The required config file %s is not found in the specified folder.";

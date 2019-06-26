@@ -28,11 +28,18 @@ import reposense.system.LogsManager;
 import reposense.system.ReportServer;
 import reposense.util.FileUtil;
 
+/**
+ * The main RepoSense class.
+ */
 public class RepoSense {
     private static final Logger logger = LogsManager.getLogger(RepoSense.class);
     private static final int SERVER_PORT_NUMBER = 9000;
     private static final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("E MMM d HH:mm:ss yyyy z");
+    private static final String VERSION_UNSPECIFIED = "unspecified";
 
+    /**
+     * The entry point of the program.
+     */
     public static void main(String[] args) {
         try {
             CliArguments cliArguments = ArgsParser.parse(args);
@@ -53,7 +60,9 @@ public class RepoSense {
             RepoConfiguration.setFormatsToRepoConfigs(configs, cliArguments.getFormats());
             RepoConfiguration.setDatesToRepoConfigs(configs, cliArguments.getSinceDate(), cliArguments.getUntilDate());
             ReportGenerator.generateReposReport(configs, cliArguments.getOutputFilePath().toAbsolutePath().toString(),
-                    formatter.format(ZonedDateTime.now(cliArguments.getZoneId())));
+                    formatter.format(ZonedDateTime.now(cliArguments.getZoneId())),
+                    cliArguments.getSinceDate().orElse(null),
+                    cliArguments.getUntilDate().orElse(null));
 
             FileUtil.zip(cliArguments.getOutputFilePath().toAbsolutePath(), ".json");
 
@@ -114,5 +123,15 @@ public class RepoSense {
         RepoConfiguration.setStandaloneConfigIgnoredToRepoConfigs(configs, cliArguments.isStandaloneConfigIgnored());
 
         return configs;
+    }
+
+    public static String getVersion() {
+        String version = RepoSense.class.getPackage().getImplementationVersion();
+
+        if (version == null || version.equals(VERSION_UNSPECIFIED)) {
+            version = System.getProperty("version");
+        }
+
+        return version;
     }
 }

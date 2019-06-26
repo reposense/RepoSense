@@ -16,6 +16,9 @@ import reposense.model.Author;
 import reposense.model.Group;
 import reposense.model.RepoConfiguration;
 
+/**
+ * Contains testing related functionalities.
+ */
 public class TestUtil {
     private static final String MESSAGE_COMPARING_FILES = "Comparing files %s & %s\n";
 
