@@ -562,9 +562,9 @@ window.vSummary = {
         });
 
         const { avgCommitSize } = this;
-        let user = {};
-        Object.entries(userOrig).forEach(([key, value]) => user[key] = value);
-        Object.entries(commits).forEach(([key, value]) => user[key] = value);
+        const user = {};
+        Object.entries(userOrig).forEach(([key, value]) => { user[key] = value; });
+        Object.entries(commits).forEach(([key, value]) => { user[key] = value; });
         this.$emit('view-zoom', {
           avgCommitSize,
           user,
