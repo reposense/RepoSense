@@ -90,10 +90,8 @@ html
               label group by
             .mui-select.sort-group
               select(v-model="sortGroupSelection")
-                option(value="name", v-if="filterGroupSelection !== 'groupByRepos'") &uarr; name
-                option(value="name dsc", v-if="filterGroupSelection !== 'groupByRepos'") &darr; name
-                option(value="searchPath", v-if="filterGroupSelection !== 'groupByAuthors'") &uarr; repo/branch
-                option(value="searchPath dsc", v-if="filterGroupSelection !== 'groupByAuthors'") &darr; repo/branch
+                option(value="groupTitle") &uarr; group title
+                option(value="groupTitle dsc") &darr; group title
                 option(value="totalCommits") &uarr; contribution
                 option(value="totalCommits dsc") &darr; contribution
                 option(value="variance") &uarr; variance
@@ -101,15 +99,12 @@ html
               label sort groups by
             .mui-select.sort-within-group
               select(v-model="sortWithinGroupSelection")
-                option(value="name", v-if="filterGroupSelection === 'groupByRepos'") &uarr; name
-                option(value="name dsc", v-if="filterGroupSelection === 'groupByRepos'") &darr; name
-                option(value="searchPath", v-if="filterGroupSelection === 'groupByAuthors'") &uarr; repo/branch
-                option(value="searchPath dsc", v-if="filterGroupSelection === 'groupByAuthors'") &darr; repo/branch
-                option(value="totalCommits", v-if="filterGroupSelection !== 'groupByNone'") &uarr; contribution
-                option(value="totalCommits dsc", v-if="filterGroupSelection !== 'groupByNone'") &darr; contribution
-                option(value="variance", v-if="filterGroupSelection !== 'groupByNone'") &uarr; variance
-                option(value="variance dsc", v-if="filterGroupSelection !== 'groupByNone'") &darr; variance
-                option(value="", v-if="filterGroupSelection === 'groupByNone'", style="display:none") —— N/A ——
+                option(value="title") &uarr; title
+                option(value="title dsc") &darr; title
+                option(value="totalCommits") &uarr; contribution
+                option(value="totalCommits dsc") &darr; contribution
+                option(value="variance") &uarr; variance
+                option(value="variance dsc") &darr; variance
               label sort within groups by
             .mui-select
               select(v-model="filterTimeFrame")
@@ -223,13 +218,24 @@ html
           ) {{ info.repo }}
           .author {{ info.name }} ({{ info.author }}) contribution from {{ info.minDate }} to {{ info.maxDate }}
           .contribution(v-if="isLoaded && files.length!=0")
+            .sorting.mui-form--inline
+              .mui-select
+                select.control-font(v-model="filesSortType")
+                  option(value="lineOfCode") LoC
+                  option(value="path") Path
+                  option(value="fileName") File Name
+                  option(value="fileType") File Format
+                label.control-font sort by
+              label
+                input(type="checkbox", v-model="toReverseSortFiles").mui-checkbox
+                span.control-font.reverse reverse
             .searchbox
               input.radio-button--search(type="radio", name="filter", value="search", v-bind:checked="isSearchBar",
                   v-on:click="indicateSearchBar")
               form.file-picker.mui-form--inline(onsubmit="return false")
-                input#search(type="search", placeholder="Filter by glob", v-on:change="updateFilterSearch",
+                input#search.control-font(type="search", placeholder="Filter by glob", v-on:change="updateFilterSearch",
                     v-on:click="indicateSearchBar")
-                button#submit-button(type="submit", v-on:click="indicateSearchBar") Filter
+                button#submit-button.control-font(type="submit", v-on:click="indicateSearchBar") Filter
             .fileformat
               input.radio-button--checkbox(type="radio", name="filter", value="checkboxes", v-bind:checked="isCheckBoxes",
                   v-on:click="indicateCheckBoxes")
@@ -237,9 +243,9 @@ html
                 label
                   input.mui-checkbox--fileformat(type="checkbox" v-on:click="selectAll" v-model="isSelectAllChecked")
                   span(v-bind:title="getTotalFileBlankLineInfo()")
-                    span.select All:&nbsp;
-                    span.loc {{ totalLineCount }}&nbsp;
-                    span.bloc ({{ totalBlankLineCount }})
+                    span.select.control-font All:&nbsp;
+                    span.loc.control-font {{ totalLineCount }}&nbsp;
+                    span.bloc.control-font ({{ totalBlankLineCount }})
                 template(v-for="format in Object.keys(getExistingLinesObj)", v-bind:key="format")
                   label
                     input.mui-checkbox--fileformat(type="checkbox" v-bind:checked="selectedFileFormats.includes(format)"
@@ -247,17 +253,6 @@ html
                     span(v-bind:title="getFileBlankLineInfo(format)")
                       span {{ format }}: {{ getExistingLinesObj[format] }}&nbsp;
                       span.bloc ({{ filesBlankLinesObj[format] }})
-            .sorting.mui-form--inline
-              .mui-select
-                select(v-model="filesSortType")
-                  option(value="lineOfCode") LoC
-                  option(value="path") Path
-                  option(value="fileName") File Name
-                  option(value="fileType") File Format
-                label sort by
-              label
-                input(type="checkbox", v-model="toReverseSortFiles").mui-checkbox
-                span reverse
 
         .files(v-if="isLoaded")
           .empty(v-if="files.length === 0") nothing to see here :(
