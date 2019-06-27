@@ -1,5 +1,6 @@
 window.REPORT_ZIP = null;
 window.REPOS = {};
+window.isMacintosh = navigator.platform.includes('Mac');
 
 window.hashParams = {};
 window.addHash = function addHash(newKey, newVal) {
