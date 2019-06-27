@@ -385,8 +385,8 @@ window.vSummary = {
       const colors = {};
       let i = 0;
 
-      this.repos.forEach((repo) => {
-        const user = repo.users[0];
+      this.filtered.forEach((group) => {
+        const user = group[0];
         Object.keys(user.fileFormatContribution).forEach((fileFormat) => {
           if (!Object.prototype.hasOwnProperty.call(colors, fileFormat)) {
             colors[fileFormat] = selectedColors[i];
