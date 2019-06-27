@@ -28,7 +28,7 @@ public class GitClone {
      * into the folder {@code outputFolderName}.
      */
     public static String getCloneBareCommand(RepoConfiguration repoConfig, String outputFolderName) {
-        return ("git clone --bare " + repoConfig.getLocation() + " " + outputFolderName);
+        return "git clone --bare " + repoConfig.getLocation() + " " + outputFolderName;
     }
 
     /**
@@ -76,8 +76,7 @@ public class GitClone {
         Path rootPath = Paths.get(FileUtil.REPOS_ADDRESS, repoConfig.getRepoFolderName());
         FileUtil.deleteDirectory(Paths.get(rootPath.toString(), outputFolderName).toString());
         Files.createDirectories(rootPath);
-        String command = String.format("git clone --bare %s %s", addQuote(repoConfig.getLocation().toString()),
-                outputFolderName);
+        String command = getCloneBareCommand(repoConfig, outputFolderName);
         runCommand(rootPath, command);
     }
 
