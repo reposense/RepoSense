@@ -125,16 +125,20 @@ window.vSummary = {
     },
     sortGroupSelection() {
       this.getFiltered();
+      deactivateAllOverlays();
     },
     sortWithinGroupSelection() {
       this.getFiltered();
+      deactivateAllOverlays();
     },
     filterTimeFrame() {
       this.getFiltered();
+      deactivateAllOverlays();
     },
     filterGroupSelection() {
       this.updateSortWithinGroup();
       this.getFiltered();
+      deactivateAllOverlays();
     },
     filterBreakdown() {
       this.getFiltered();
@@ -147,6 +151,7 @@ window.vSummary = {
         this.tmpFilterSinceDate = this.filterSinceDate;
       }
       this.getFiltered();
+      deactivateAllOverlays();
     },
     tmpFilterUntilDate() {
       if (this.tmpFilterUntilDate && this.tmpFilterUntilDate <= this.maxDate) {
@@ -156,6 +161,7 @@ window.vSummary = {
         this.tmpFilterUntilDate = this.filterUntilDate;
       }
       this.getFiltered();
+      deactivateAllOverlays();
     },
   },
   computed: {
@@ -268,6 +274,7 @@ window.vSummary = {
     // model functions //
     updateFilterSearch(evt) {
       this.filterSearch = evt.target.value;
+      deactivateAllOverlays();
     },
     setSummaryHash() {
       const { addHash, encodeHash } = window;
