@@ -10,7 +10,7 @@ window.toggleSegment = function toggleSegment(ele) {
   if (idxActive === -1 && idxToggled === -1) {
     classes.push(targetClass);
   } else {
-    classes.splice(idxActive < idxToggled ? idxActive : idxToggled, 2);
+    classes.splice(idxActive, 2);
   }
 
   parent.className = classes.join(' ');

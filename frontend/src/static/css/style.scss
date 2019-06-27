@@ -463,101 +463,91 @@ header{
             }
         }
 
-        .code{
-            padding-left:1rem;
+        .segment{
             border-left:0.25rem solid mui-color('green');
-            background-color:mui-color('green', '50');
-        }
-
-        .line-number{
-            color:mui-color('grey');
-            float:left;
-            width:2rem;
-            // Not allowing user to select text
-            -webkit-touch-callout:none; /* iOS Safari */
-            -webkit-user-select:none; /* Safari */
-            -khtml-user-select:none; /* Konqueror HTML */
-            -moz-user-select:none; /* Firefox */
-            -ms-user-select:none; /* Internet Explorer/Edge */
-            user-select:none; /* Non-prefixed version, currently supported by Chrome and Opera */
-
-            .hljs-number{
-                color:mui-color('grey');
-            }
-
-            .hljs-comment{
-                color:mui-color('grey');
-            }
-        }
-
-        .line-content{
-            padding-left:2rem;
-        }
-
-        .untouched{
-            $grey:mui-color('grey', '400');
-            height:20px; // height of a line of code
-            background-color:mui-color('white');
-            border-left:0.25rem solid $grey;
-
-            &.active{
-                border-left:none;
-                height:fit-content;
-                .code{
-                    display:inherit;
-                }
-            }
-
-            &.toggled{
-                .closer{
-                    margin:0.2rem 0 0 -0.2rem;
-
-                    &.bottom{
-                        margin:-1rem 0 0 -0.2rem;
-                    }
-
-                    .before-toggle{
-                        display:none;
-                    }
-
-                    .after-toggle{
-                        display:inherit;
-                    }
-                }
-
-                .code{
-                    display:inherit;
-                    background:mui-color('white');
-                }
-            }
 
             .code{
-                display:none;
-                border-left:0.25rem solid $grey;
-                background-color:mui-color('white');
+                padding-left:1rem;
+                background-color:mui-color('green', '50');
             }
 
-            .closer{
-                cursor:pointer;
-                position:absolute;
-                margin:0.2rem 0 0 -0.45rem;
+            .line-number{
+                color:mui-color('grey');
+                float:left;
+                width:2rem;
+                // Not allowing user to select text
+                -webkit-touch-callout:none; /* iOS Safari */
+                -webkit-user-select:none; /* Safari */
+                -khtml-user-select:none; /* Konqueror HTML */
+                -moz-user-select:none; /* Firefox */
+                -ms-user-select:none; /* Internet Explorer/Edge */
+                user-select:none; /* Non-prefixed version, currently supported by Chrome and Opera */
 
-                &.bottom{
-                    margin:-1rem 0 0 -0.45rem;
+                .hljs-number{
+                    color:mui-color('grey');
                 }
 
-                .before-toggle{
-                    display:inherit;
+                .hljs-comment{
+                    color:mui-color('grey');
+                }
+            }
+
+            .line-content{
+                padding-left:2rem;
+            }
+
+            &.untouched{
+                $grey:mui-color('grey', '400');
+                border-left:0.25rem solid $grey;
+                height:20px; /* height of a single line of code */
+
+                &.active{
+                    height:fit-content;
+
+                    .code{
+                        display:inherit;
+                        background-color:mui-color('white');
+                    }
+
+                    &.toggled{
+                        .icon{
+                            &.open{
+                                display:none;
+                            }
+
+                            &.hide{
+                                display:inherit;
+                            }
+                        }
+                    }
                 }
 
-                .after-toggle{
+                .code{
                     display:none;
                 }
 
-                .icon{
-                    width:0.75em;
-                    background-color:mui-color('white');
-                    color:mui-color('grey');
+                .closer{
+                    cursor:pointer;
+                    position:absolute;
+                    margin:0.2rem 0 0 -0.45rem;
+
+                    &.bottom{
+                        margin:-1.05rem 0 0 -0.45rem; // custom margin for position of bottom toggle icon
+                    }
+
+                    .icon{
+                        width:0.75em;
+                        background-color:mui-color('white');
+                        color:mui-color('grey');
+
+                        &.open{
+                            display:inherit;
+                        }
+
+                        &.hide{
+                            display:none;
+                        }
+                    }
                 }
             }
         }

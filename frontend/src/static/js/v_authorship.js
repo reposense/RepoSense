@@ -5,8 +5,8 @@ const filesSortDict = {
   fileType: (file) => file.path.split(/[/]+/).pop().split(/[.]+/).pop(),
 };
 
-window.toggleNext = function toggleNext(ele) {
-  // function for toggling unopened code
+window.toggleFile = function toggleFile(ele) {
+  // function for toggling unopened files
   const targetClass = 'active';
 
   const parent = ele.parentNode;
