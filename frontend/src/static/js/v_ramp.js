@@ -5,7 +5,10 @@ function getBaseLink(repoId) {
 }
 
 window.rampClick = function rampClick(evt) {
-  if (evt.ctrlKey) { evt.preventDefault(); }
+  const isKeyPressed = this.isMacintosh ? evt.metaKey : evt.ctrlKey;
+  if (isKeyPressed) {
+    evt.preventDefault();
+  }
 };
 
 window.vRamp = {
