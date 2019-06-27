@@ -318,4 +318,7 @@ window.vAuthorship = {
     this.initiate();
     this.setInfoHash();
   },
+  components: {
+    v_segment: window.vSegment,
+  },
 };
