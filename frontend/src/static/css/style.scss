@@ -152,6 +152,12 @@ header{
     padding:2rem 1rem;
 }
 
+.summary__title--contribution {
+  display:inline;
+  font-size:.65rem;
+  font-weight:normal;
+}
+
 .summary-picker{
     display:flex;
     flex-flow:row wrap;
@@ -194,12 +200,6 @@ header{
         display:block;
         text-align:left;
         font-weight:bold;
-
-        &--contribution{
-            font-weight:normal;
-            display:inline;
-            font-size: 0.65rem;
-        }
     }
 
     &__fileformat--breakdown{
@@ -243,10 +243,6 @@ header{
             cursor:pointer;
             color:mui-color("grey");
             text-decoration:none;
-        }
-
-        &--contribution{
-            font-size:0.65rem;
         }
     }
 
