@@ -91,7 +91,7 @@ public class RepoCloner {
     }
 
     /**
-     * Spawns a process to clone repo specified in {@code repoConfig}. Does not wait for process to finish executing.
+     * Spawns a process to clone repo specified in {@code config}. Does not wait for process to finish executing.
      * Should only handle a maximum of one spawned process at any time.
      */
     private boolean spawnCloneProcess(String outputPath, RepoConfiguration config) throws IOException {

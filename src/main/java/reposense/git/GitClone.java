@@ -24,25 +24,25 @@ public class GitClone {
     private static final Logger logger = LogsManager.getLogger(GitClone.class);
 
     /**
-     * Returns the command to clone a bare repo specified in the {@code repoConfig}
+     * Returns the command to clone a bare repo specified in the {@code config}
      * into the folder {@code outputFolderName}.
      */
-    public static String getCloneBareCommand(RepoConfiguration repoConfig, String outputFolderName) {
-        return "git clone --bare " + repoConfig.getLocation() + " " + outputFolderName;
+    public static String getCloneBareCommand(RepoConfiguration config, String outputFolderName) {
+        return "git clone --bare " + config.getLocation() + " " + outputFolderName;
     }
 
     /**
-     * Clones repo specified in the {@code repoConfig} and updates it with the branch info.
+     * Clones repo specified in the {@code config} and updates it with the branch info.
      */
-    public static void clone(RepoConfiguration repoConfig) throws GitCloneException {
+    public static void clone(RepoConfiguration config) throws GitCloneException {
         try {
-            FileUtil.deleteDirectory(repoConfig.getRepoRoot());
-            logger.info("Cloning from " + repoConfig.getLocation() + "...");
+            FileUtil.deleteDirectory(config.getRepoRoot());
+            logger.info("Cloning from " + config.getLocation() + "...");
 
-            Path rootPath = Paths.get(FileUtil.REPOS_ADDRESS, repoConfig.getRepoFolderName());
+            Path rootPath = Paths.get(FileUtil.REPOS_ADDRESS, config.getRepoFolderName());
             Files.createDirectories(rootPath);
-            String command = String.format("git clone %s %s", addQuote(repoConfig.getLocation().toString()),
-                    repoConfig.getRepoName());
+            String command = String.format("git clone %s %s", addQuote(config.getLocation().toString()),
+                    config.getRepoName());
             runCommand(rootPath, command);
 
             logger.info("Cloning completed!");
@@ -56,8 +56,8 @@ public class GitClone {
         }
 
         try {
-            repoConfig.updateBranch();
-            GitCheckout.checkout(repoConfig.getRepoRoot(), repoConfig.getBranch());
+            config.updateBranch();
+            GitCheckout.checkout(config.getRepoRoot(), config.getBranch());
         } catch (GitBranchException gbe) {
             logger.log(Level.SEVERE,
                     "Exception met while trying to get current branch of repo. Analysis terminated.", gbe);
@@ -69,14 +69,14 @@ public class GitClone {
     }
 
     /**
-     * Clones a bare repo specified in {@code repoConfig} into the folder {@code outputFolderName}.
+     * Clones a bare repo specified in {@code config} into the folder {@code outputFolderName}.
      * @throws IOException if it fails to delete a directory.
      */
-    public static void cloneBare(RepoConfiguration repoConfig, String outputFolderName) throws IOException {
-        Path rootPath = Paths.get(FileUtil.REPOS_ADDRESS, repoConfig.getRepoFolderName());
+    public static void cloneBare(RepoConfiguration config, String outputFolderName) throws IOException {
+        Path rootPath = Paths.get(FileUtil.REPOS_ADDRESS, config.getRepoFolderName());
         FileUtil.deleteDirectory(Paths.get(rootPath.toString(), outputFolderName).toString());
         Files.createDirectories(rootPath);
-        String command = getCloneBareCommand(repoConfig, outputFolderName);
+        String command = getCloneBareCommand(config, outputFolderName);
         runCommand(rootPath, command);
     }
 

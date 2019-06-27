@@ -12,11 +12,11 @@ import reposense.system.CommandRunner;
  */
 public class GitRevParse {
     /**
-     * Asserts that the branch in {@code repoConfig} exists.
+     * Asserts that the branch in {@code config} exists.
      * @throws RuntimeException when the branch does not exist.
      */
-    public static void assertBranchExists(RepoConfiguration repoConfig, Path bareRepoRoot) throws GitBranchException {
-        String command = String.format("git rev-parse --verify %s", repoConfig.getBranch());
+    public static void assertBranchExists(RepoConfiguration config, Path bareRepoRoot) throws GitBranchException {
+        String command = String.format("git rev-parse --verify %s", config.getBranch());
         try {
             CommandRunner.runCommand(bareRepoRoot, command);
         } catch (RuntimeException rte) {

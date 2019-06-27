@@ -172,18 +172,18 @@ public class FileUtil {
     }
 
     /**
-     * Returns the path to the bare repo version of {@code repoConfig} that is relative to the root path.
+     * Returns the path to the bare repo version of {@code config} that is relative to the root path.
      */
-    public static Path getBareRepoPath(RepoConfiguration repoConfig) {
+    public static Path getBareRepoPath(RepoConfiguration config) {
         return Paths.get(FileUtil.REPOS_ADDRESS,
-                repoConfig.getRepoFolderName(), repoConfig.getRepoName() + BARE_REPO_SUFFIX);
+                config.getRepoFolderName(), config.getRepoName() + BARE_REPO_SUFFIX);
     }
 
     /**
-     * Returns the folder name of the bare repo version of {@code repoConfig}.
+     * Returns the folder name of the bare repo version of {@code config}.
      */
-    public static String getBareRepoFolderName(RepoConfiguration repoConfig) {
-        return repoConfig.getRepoName() + BARE_REPO_SUFFIX;
+    public static String getBareRepoFolderName(RepoConfiguration config) {
+        return config.getRepoName() + BARE_REPO_SUFFIX;
     }
 
     /**
