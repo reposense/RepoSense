@@ -529,10 +529,12 @@ header{
                 .closer{
                     cursor:pointer;
                     position:absolute;
+                    // custom margin for position of toggle icon
                     margin:0.2rem 0 0 -0.45rem;
 
                     &.bottom{
-                        margin:-1.05rem 0 0 -0.45rem; // custom margin for position of bottom toggle icon
+                        //custom margin for position of toggle icon at the bottom of segment
+                        margin:-1.05rem 0 0 -0.45rem;
                     }
 
                     .icon{
