@@ -130,9 +130,9 @@ html
         #summary-charts
           .summary-charts(v-for="repo of filteredRepos")
             .summary-charts__title(v-if="filterGroupSelection === 'groupByRepos'") {{ repo[0].repoName }}&nbsp;&nbsp;
-              .summary-charts__title--contribution(title="Total contribution of group") [{{ getGroupTotalContribution(repo) }} lines]
+              .summary__title--contribution(title="Total contribution of group") [{{ getGroupTotalContribution(repo) }} lines]
             .summary-charts__title(v-if="filterGroupSelection === 'groupByAuthors'") {{ repo[0].displayName }} ({{ repo[0].name }})&nbsp;&nbsp;
-              .summary-charts__title--contribution(title="Total contribution of group") [{{ getGroupTotalContribution(repo) }} lines]
+              .summary__title--contribution(title="Total contribution of group") [{{ getGroupTotalContribution(repo) }} lines]
             .summary-charts__fileformat--breakdown(v-if="filterBreakdown")
               template(v-if="filterGroupSelection === 'groupByRepos'")
                 .summary-charts__fileformat--breakdown__legend(
@@ -154,7 +154,7 @@ html
                 .summary-chart__title--repo(v-if="filterGroupSelection === 'groupByNone'") {{ user.repoName }}
                 .summary-chart__title--author-repo(v-if="filterGroupSelection === 'groupByAuthors'") {{ user.repoName }}
                 .summary-chart__title--name(v-if="filterGroupSelection !== 'groupByAuthors'") {{ user.displayName }} ({{ user.name }})
-                .summary-chart__title--contribution [{{ user.totalCommits }} lines]
+                .summary__title--contribution [{{ user.totalCommits }} lines]
                 a(
                   title="click to view author's code",
                   v-on:click="openTabAuthorship(user, repo, i)"
