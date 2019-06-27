@@ -92,7 +92,7 @@ public class FileInfoExtractor {
         }
 
         String[] fileDiffResultList = fullDiffResult.split(DIFF_FILE_CHUNK_SEPARATOR);
-        Set<Path> nonBinaryFilesSet = getListOfNonBinaryFiles(config);
+        Set<Path> nonBinaryFilesSet = getNonBinaryFilesList(config);
 
         for (String fileDiffResult : fileDiffResultList) {
             Matcher filePathMatcher = FILE_CHANGED_PATTERN.matcher(fileDiffResult);
@@ -126,11 +126,11 @@ public class FileInfoExtractor {
     /**
      * Returns a {@code Set} of non-binary files for the repo {@code repoConfig}.
      */
-    public static Set<Path> getListOfNonBinaryFiles(RepoConfiguration repoConfig) {
-        List<String> listOfFiles = GitDiff.gitGetModifiedFiles(Paths.get(repoConfig.getRepoRoot()));
+    public static Set<Path> getNonBinaryFilesList(RepoConfiguration repoConfig) {
+        List<String> modifiedFileList = GitDiff.getModifiedFiles(Paths.get(repoConfig.getRepoRoot()));
 
         // Gets rid of binary files and files with invalid directory name.
-        return listOfFiles.stream()
+        return modifiedFileList.stream()
                 .filter(file -> !file.startsWith(BINARY_FILE_LINE_DIFF_RESULT))
                 .map(rawNonBinaryFile -> rawNonBinaryFile.split("\t")[2])
                 .filter(FileUtil::isValidPath)
@@ -179,7 +179,7 @@ public class FileInfoExtractor {
      * based on {@code config} and inserts it into {@code fileInfos}.
      */
     private static void getAllFileInfo(RepoConfiguration config, List<FileInfo> fileInfos) {
-        Set<Path> nonBinaryFilesList = getListOfNonBinaryFiles(config);
+        Set<Path> nonBinaryFilesList = getNonBinaryFilesList(config);
         for (Path relativePath : nonBinaryFilesList) {
             if (Format.isInsideWhiteList(relativePath.toString(), config.getFormats())) {
                 fileInfos.add(generateFileInfo(config.getRepoRoot(), relativePath.toString()));
@@ -223,7 +223,7 @@ public class FileInfoExtractor {
     }
 
     /**
-     * Returns true if {@code filePath} is valid and non-binary.
+     * Returns true if {@code filePath} is valid and the file is not in binary.
      */
     private static boolean isValidAndNonBinaryFile(String filePath, Set<Path> nonBinaryFilesSet) {
         return FileUtil.isValidPath(filePath) && nonBinaryFilesSet.contains(Paths.get(filePath));

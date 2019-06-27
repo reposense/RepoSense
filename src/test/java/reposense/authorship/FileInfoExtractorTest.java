@@ -32,7 +32,7 @@ public class FileInfoExtractorTest extends GitTestTemplate {
     private static final String BRANCH_WITH_VALID_WHITELISTED_FILE_NAME_BRANCH =
             "535-FileInfoExtractorTest-branchWithValidWhitelistedFileName.txt";
     private static final String BINARY_AND_NON_BINARY_FILES_BRANCH =
-            "728-FileInfoExtractorTest-generateFileInfo_directoryWithBinaryAndNonBinaryFiles_success";
+            "728-FileInfoExtractorTest-getNonBinaryFilesList_directoryWithBinaryFiles_success";
     private static final String FEBRUARY_EIGHT_COMMIT_HASH = "768015345e70f06add2a8b7d1f901dc07bf70582";
     private static final String OCTOBER_SEVENTH_COMMIT_HASH = "b28dfac5bd449825c1a372e58485833b35fdbd50";
 
@@ -169,7 +169,7 @@ public class FileInfoExtractorTest extends GitTestTemplate {
     }
 
     @Test
-    public void getListOfNonBinaryFiles_directoryWithBinaryAndNonBinaryFiles_capturesNonBinaryFiles() {
+    public void getNonBinaryFilesList_directoryWithBinaryFiles_success() {
         List<String> nonBinaryFilesList = Arrays.asList(
                 "binaryFileTest/nonBinaryFile.txt", "My Documents/wordToHtml.htm", "My Pictures/notPngPicture.png",
                 "My Documents/wordToHtml_files/colorschememapping.xml", "My Documents/wordToHtml_files/filelist.xml",
@@ -181,7 +181,7 @@ public class FileInfoExtractorTest extends GitTestTemplate {
                 Arrays.asList("txt", "htm", "xml", "pdf", "thmx"));
         config.setFormats(testfileFormats);
         GitCheckout.checkoutBranch(config.getRepoRoot(), BINARY_AND_NON_BINARY_FILES_BRANCH);
-        Set<Path> files = FileInfoExtractor.getListOfNonBinaryFiles(config);
+        Set<Path> files = FileInfoExtractor.getNonBinaryFilesList(config);
 
 
         Assert.assertEquals(6, files.size());
