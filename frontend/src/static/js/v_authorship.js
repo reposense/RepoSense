@@ -304,11 +304,13 @@ window.vAuthorship = {
           .sort(this.sortingFunction);
     },
     getExistingLinesObj() {
-      return Object.keys(this.filesLinesObj)
-          .filter((type) => this.filesLinesObj[type] > 0)
-          .reduce((acc, key) => ({
-            ...acc, [key]: this.filesLinesObj[key],
-          }), {});
+      const numLinesModified = {};
+      Object.entries(this.filesLinesObj)
+          .filter(([, value]) => value > 0)
+          .forEach(([langType, value]) => {
+            numLinesModified[langType] = value;
+          });
+      return numLinesModified;
     },
   },
 
