@@ -6,7 +6,7 @@ const filesSortDict = {
 };
 
 window.toggleFile = function toggleFile(ele) {
-  // function for toggling unopened code
+  // function for toggling unopened files
   const targetClass = 'active';
 
   const parent = ele.parentNode;
