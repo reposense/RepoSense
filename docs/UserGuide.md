@@ -53,7 +53,7 @@ Here is an example of how the report looks like:
 
 ![report](images/report-features.png)
 
-It consists of three main parts: the [_Chart Panel_](#chart-panel), the [_Code Panel_](#code-panel), and the [_Tool Bar_](#tool-bar),  each of which is explained in the sections below.
+It consists of three main parts: the [_Chart Panel_](#chart-panel), the [_Code Panel_](#code-panel), and the [_Tool Bar_](#tool-bar), each of which is explained in the sections below.
 
 
 ### Chart Panel
@@ -94,7 +94,7 @@ The `Code Panel` allows users to see the code attributed to a specific author. C
 
 ### Commits Panel
 
-The `Commits Panel` allows users to see the commits attributed to a specific author. Hold `Ctrl` and click on the ramp chart in the `Chart Panel` to select the time range where you want to display the `Commit Panel` for on the right.
+The `Commits Panel` allows users to see the commits attributed to a specific author. Hold `Command`&#8984; (MacOS) or `Ctrl` (Others) and click on the ramp chart in the `Chart Panel` to select the time range where you want to display the `Commit Panel` for on the right.
 * The `Commits Panel` shows the commits that contain author's contributions, sorted by the date it was commited.
 * The date range for the `Chart Panel` can be updated by clicking on the "Show ramp chart for this period" below the name of the author.
 * The ramp slices displayed in the ramp chart for the `Commits Panel` represents individual commits.
@@ -105,17 +105,25 @@ The `Tool Bar` at the top provides a set of configuration options that control t
   * Multiple keywords/terms can be used, separated by spaces.
   * Entries that contain _any_ (not necessarily _all_) of the search terms will be displayed.
   * The keywords used to filter author and repository are case-insensitive.
-* `Sort by` : sorting criteria for the Chart Panel
-  * `Total Contribution` : the amount of lines, written by the author, in the repository.
-  * `Variance` : the [variance](https://en.wikipedia.org/wiki/Variance) of the number of lines that the author has contributed to the repository daily, sorted from low to high.
-  * `Author Name` : the author's display name.
-  * `Repo/Branch Name` : see note [1] below.
+* `Group by` : grouping criteria for the rows of results
+  * `None` : results will not be grouped in any particular way.
+  * `Repo/Branch` : results will be grouped by repositories and its' associating branches.
+  * `Author` : results will be grouped by the name of the author. Contributions made to multiple repositories by a particular author will be grouped under the author.
+* `Sort groups by`: sorting criteria for the main group
+  * `Name` : groups will be sorted by GitHub ID in alphabetical order.
+  * `Repo/branch` : groups will be sorted in alphabetical order by the name of the repo, followed by name of the branch. See note [1] below.
+  * `Contribution` : groups will be sorted by the combined contributions within a group, in the order of number of lines added
+  * `Variance` : groups will be sorted by the average of the squared differences from the average number of lines of code contributed per day among all authors involved. Detailed definition of variance is located [here](https://en.wikipedia.org/wiki/Variance).
+* `Sort within groups by`: sorting criteria within each group
+  * `Name` : each sub-group will be sorted by GitHub ID in alphabetical order.
+  * `Repo/branch` : each sub-group will be sorted in alphabetical order by the name of the repo, followed by name of the branch. See note [1] below.
+  * `Contribution` : each sub-group will be sorted by individual contributions in the order of number of lines added
+  * `Variance` : each sub-group will be sorted by the average of the squared differences from the average number of lines of code contributed per day by each author into a particular repo. Detailed definition of variance is located [here](https://en.wikipedia.org/wiki/Variance).
 * `Granularity` : the period of time for which commits are aggregated in the Ramp Chart.
-    * `Day`: commits within a day (commits made within 00:00 to 23:59 in **GMT+8**) are shown as one ramp
-    * `Week`:  commits within a week are shown as one ramp
+    * `Commit`: each commit made is shown as one ramp
+    * `Day`: commits within a day (commits made within 00:00 to 23:59) are shown as one ramp
+    * `Week`: commits within a week are shown as one ramp
 * `Since`, `Until` : the date range for the Ramp Chart (not applied to the Contribution Bars).
-* `Reverse` : if checked, the sorting will be done in the reverse order of the default sorting order
-* `Group` : if checked, authors from the same repo/branch<sup>[1]</sup> will be grouped together. This has precedence over the `sort by` feature; the `sort by` feature will only change display order of the authors under the same repo/branch<sup>[1]</sup>.
 
 Notes:<br>
 [1] **`Repo/Branch`**: the repo/branch name is constructed as `ORGANIZATION_REPOSITORY_BRANCH` e.g., `resposense_reposense_master`
@@ -135,7 +143,7 @@ Repo owners can provide the following additional information to RepoSense using 
 * which git and GitHub usernames belong to which authors
 * the display of an author
 
-To use this feature, add a `_reposense/config.json`  to the root of your repo using the format in the example below ([another example](../_reposense/config.json)) and **commit it** (reason: RepoSense can see committed code only):
+To use this feature, add a `_reposense/config.json` to the root of your repo using the format in the example below ([another example](../_reposense/config.json)) and **commit it** (reason: RepoSense can see committed code only):
 ```json
 {
   "ignoreGlobList": ["about-us/**", "**index.html"],
@@ -261,10 +269,10 @@ Example:`--view` or `-v`
   Example:`--timezone UTC+08` or `-t UTC-1030`
 
 Here's an example of a command using all parameters:<br>
-`java -jar RepoSense.jar --repo https://github.com/reposense/RepoSense.git --output ./report_folder --since 21/10/2017 --until 21/11/2017 --formats java adoc js --view --ignore-standalone-config --timezone UTC+08`
+`java -jar RepoSense.jar --repo https://github.com/reposense/RepoSense.git --output ./report_folder --since 31/1/2017 --until 31/12/2018 --formats java adoc xml --view --ignore-standalone-config --timezone UTC+08`
 
 Here's an example of a command using all alias of parameters:<br>
-`java -jar RepoSense.jar -r https://github.com/reposense/RepoSense.git -o ./report_folder -s 21/10/2017 -u 21/11/2017 -f java adoc js -v -i`
+`java -jar RepoSense.jar -r https://github.com/reposense/RepoSense.git -o ./report_folder -s 31/1/2017 -u 31/12/2018 -f java adoc xml -v -i`
 
 Also, there are two _information_ parameters you can use to know more about RepoSense:
 * **`--help, -h`**: Show help message.
@@ -284,7 +292,7 @@ The directory used with the `--config` parameter should contain a `repo-config.c
 `repo-config.csv` file contains repo-level config data as follows:
 
 * First row: column headings, ignored by RepoSense
-* Second row: repo data
+* Second row onwards: each row represents a repository's configuration
 
 Here is an example:
 
@@ -323,6 +331,8 @@ Author's GitHub ID | GitHub username of the target author e.g., `JohnDoe`
 [Optional] Ignore Glob List<sup>*</sup> | Files to ignore for this author, in addition to files ignored by the patterns specified in `repo-config.csv`
 
 <sup>* **Multi-value column**: multiple values can be entered in this column using a semicolon `;` as the separator.</sup>
+
+> Note: the first row consists of config headings, which is ignored by RepoSense.
 
 If `author-config.csv` is not given and the repo has not provide author details in a standalone config file, all the authors of the repositories within the date range specified (if any) will be analyzed.
 

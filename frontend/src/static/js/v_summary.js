@@ -57,11 +57,12 @@ function dragViewUp(evt) {
 }
 
 window.viewClick = function viewClick(evt) {
+  const isKeyPressed = this.isMacintosh ? evt.metaKey : evt.ctrlKey;
   if (drags.length === 2) {
     drags = [];
   }
 
-  if (evt.ctrlKey) {
+  if (isKeyPressed) {
     return drags.length === 0
         ? dragViewDown(evt)
         : dragViewUp(evt);
@@ -562,7 +563,8 @@ window.vSummary = {
         });
 
         const { avgCommitSize } = this;
-        const user = { ...userOrig, commits };
+        const user = Object.assign({}, userOrig, { commits });
+
         this.$emit('view-zoom', {
           avgCommitSize,
           user,
