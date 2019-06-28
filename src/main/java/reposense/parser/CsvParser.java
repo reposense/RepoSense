@@ -16,6 +16,7 @@ import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 import reposense.system.LogsManager;
+import reposense.util.StringsUtil;
 
 /**
  * Contains CSV parsing related functionalities.
@@ -65,7 +66,7 @@ public abstract class CsvParser<T> {
                 for (int colNum = 0; colNum < elements.length; colNum++) {
                     Matcher matcher = DOUBLEQUOTE_DETECTOR_REGEX.matcher(elements[colNum]);
                     if (matcher.find()) {
-                        elements[colNum] = elements[colNum].substring(1, elements[colNum].length() - 1);
+                        elements[colNum] = StringsUtil.removeQuote(elements[colNum]);
                     }
                     elements[colNum] = elements[colNum].replaceAll("\"{2}", "\"");
                 }
