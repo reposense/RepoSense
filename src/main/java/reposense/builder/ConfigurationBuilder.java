@@ -58,6 +58,9 @@ public class ConfigurationBuilder {
         return this;
     }
 
+    /**
+     *
+     */
     public RepoConfiguration build() {
         return config;
     }
