@@ -95,7 +95,6 @@ window.vAuthorship = {
       const { addHash, removeHash } = window;
       addHash('tabAuthor', this.info.author);
       addHash('tabRepo', this.info.repo);
-      removeHash('tabOpen');
     },
 
     expandAll(isActive) {
