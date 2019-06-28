@@ -502,7 +502,7 @@ header{
                 height:20px; /* height of a single line of code */
 
                 &.active{
-                    height:fit-content;
+                    height:100%;
 
                     .code{
                         display:inherit;
