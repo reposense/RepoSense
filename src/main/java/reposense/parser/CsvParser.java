@@ -11,8 +11,6 @@ import java.util.Collections;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 import reposense.system.LogsManager;
@@ -25,7 +23,6 @@ public abstract class CsvParser<T> {
     protected static final String COLUMN_VALUES_SEPARATOR = ";";
     protected static final Logger logger = LogsManager.getLogger(CsvParser.class);
 
-    private static final Pattern DOUBLEQUOTE_DETECTOR_REGEX = Pattern.compile("\"(?!,)(?<!,)|,");
     private static final String ELEMENT_SEPARATOR_REGEX = ",(?=(?:[^\"]*\"[^\"]*\")*[^\"]*$)";
     private static final String OVERRIDE_KEYWORD = "override:";
     private static final String MESSAGE_UNABLE_TO_READ_CSV_FILE = "Unable to read the supplied CSV file.";
@@ -64,10 +61,7 @@ public abstract class CsvParser<T> {
             for (int lineNumber = 2; (line = br.readLine()) != null; lineNumber++) {
                 String[] elements = line.split(ELEMENT_SEPARATOR_REGEX);
                 for (int colNum = 0; colNum < elements.length; colNum++) {
-                    Matcher matcher = DOUBLEQUOTE_DETECTOR_REGEX.matcher(elements[colNum]);
-                    if (matcher.find()) {
-                        elements[colNum] = StringsUtil.removeQuote(elements[colNum]);
-                    }
+                    elements[colNum] = StringsUtil.removeQuote(elements[colNum]);
                     elements[colNum] = elements[colNum].replaceAll("\"{2}", "\"");
                 }
 
