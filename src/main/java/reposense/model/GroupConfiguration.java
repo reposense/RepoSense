@@ -6,6 +6,9 @@ import java.util.logging.Logger;
 
 import reposense.system.LogsManager;
 
+/**
+ *
+ */
 public class GroupConfiguration {
     private static final Logger logger = LogsManager.getLogger(GroupConfiguration.class);
 

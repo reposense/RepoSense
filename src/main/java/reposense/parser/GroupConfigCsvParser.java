@@ -8,6 +8,9 @@ import reposense.model.Group;
 import reposense.model.GroupConfiguration;
 import reposense.model.RepoLocation;
 
+/**
+ *
+ */
 public class GroupConfigCsvParser extends CsvParser<GroupConfiguration> {
     public static final String GROUP_CONFIG_FILENAME = "groups-config.csv";
 
