@@ -463,97 +463,93 @@ header{
             }
         }
 
-        .code{
-            padding-left:1rem;
+        .segment{
             border-left:0.25rem solid mui-color('green');
-            background-color:mui-color('green', '50');
-        }
 
-        .line-number{
-            color:mui-color('grey');
-            float:left;
-            width:2rem;
-            // Not allowing user to select text
-            -webkit-touch-callout:none; /* iOS Safari */
-            -webkit-user-select:none; /* Safari */
-            -khtml-user-select:none; /* Konqueror HTML */
-            -moz-user-select:none; /* Firefox */
-            -ms-user-select:none; /* Internet Explorer/Edge */
-            user-select:none; /* Non-prefixed version, currently supported by Chrome and Opera */
-
-            .hljs-number{
-                color:mui-color('grey');
+            .code{
+                padding-left:1rem;
+                background-color:mui-color('green', '50');
             }
 
-            .hljs-comment{
+            .line-number{
                 color:mui-color('grey');
+                float:left;
+                width:2rem;
+                // Not allowing user to select text
+                -webkit-touch-callout:none; /* iOS Safari */
+                -webkit-user-select:none; /* Safari */
+                -khtml-user-select:none; /* Konqueror HTML */
+                -moz-user-select:none; /* Firefox */
+                -ms-user-select:none; /* Internet Explorer/Edge */
+                user-select:none; /* Non-prefixed version, currently supported by Chrome and Opera */
+
+                .hljs-number{
+                    color:mui-color('grey');
+                }
+
+                .hljs-comment{
+                    color:mui-color('grey');
+                }
             }
-        }
 
-        .line-content{
-            padding-left:2rem;
-        }
+            .line-content{
+                padding-left:2rem;
+            }
 
-        .untouched{
-            $grey:mui-color('grey', '400');
+            &.untouched{
+                $grey:mui-color('grey', '400');
+                border-left:0.25rem solid $grey;
+                height:20px; /* height of a single line of code */
 
-            &.active{
+                &.active{
+                    height:100%;
+
+                    .code{
+                        display:inherit;
+                        background-color:mui-color('white');
+                    }
+
+                    &.toggled{
+                        .icon{
+                            &.open{
+                                display:none;
+                            }
+
+                            &.hide{
+                                display:inherit;
+                            }
+                        }
+                    }
+                }
+
                 .code{
-                    display:inherit;
-                    background-color:mui-color('white');
+                    display:none;
                 }
 
                 .closer{
+                    cursor:pointer;
+                    position:absolute;
+                    // custom margin for position of toggle icon
+                    margin:0.2rem 0 0 -0.45rem;
+
+                    &.bottom{
+                        //custom margin for position of toggle icon at the bottom of segment
+                        margin:-1.05rem 0 0 -0.45rem;
+                    }
+
                     .icon{
-                        background-color:mui-color('black');
+                        width:0.75em;
+                        background-color:mui-color('white');
+                        color:mui-color('grey');
+
+                        &.open{
+                            display:inherit;
+                        }
+
+                        &.hide{
+                            display:none;
+                        }
                     }
-
-                    .tooltiptext{
-                        &--open{ display:inline-block; }
-                        &--close{ display:none; }
-                    }
-                }
-            }
-
-            .code{
-                display:none;
-                border-left:0.25rem solid $grey;
-                background-color:mui-color('white');
-            }
-
-            .closer{
-                cursor:pointer;
-                padding:0.5rem 1rem;
-
-                .icon{
-                    background-color:$grey;
-                    color:mui-color('white');
-
-                    width:2.2rem;
-                    border-radius:0.25rem;
-
-                    &:hover{
-                        background:black;
-                    }
-
-                    &:hover ~ .tooltiptext{
-                        visibility:visible;
-                    }
-                }
-
-                .tooltiptext{
-                    padding:0.5rem;
-                    margin-left:0.5rem;
-                    border-radius:0.25rem;
-
-                    color:mui-color('white');
-                    background-color:mui-color('black');
-
-                    text-align:center;
-                    visibility:hidden;
-
-                    &--open{ display:none; }
-                    &--close{ display:inline-block; }
                 }
             }
         }
