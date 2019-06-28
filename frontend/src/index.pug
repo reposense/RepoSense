@@ -78,40 +78,39 @@ html
     vuetemplate#v_summary
       #summary.wrapper
         form.summary-picker.mui-form--inline(v-on:submit.prevent="getFiltered();")
-          .summary-picker__section
-            .mui-textfield
-              input.summary-picker__search(type="text", v-on:change="updateFilterSearch", v-model="filterSearch")
-              label search
-            .mui-select.grouping
-              select(v-model="filterGroupSelection")
-                option(value="groupByNone") None
-                option(value="groupByRepos") Repo/Branch
-                option(value="groupByAuthors") Author
-              label group by
-            .mui-select.sort-group
-              select(v-model="sortGroupSelection")
-                option(value="groupTitle") &uarr; group title
-                option(value="groupTitle dsc") &darr; group title
-                option(value="totalCommits") &uarr; contribution
-                option(value="totalCommits dsc") &darr; contribution
-                option(value="variance") &uarr; variance
-                option(value="variance dsc") &darr; variance
-              label sort groups by
-            .mui-select.sort-within-group
-              select(v-model="sortWithinGroupSelection")
-                option(value="title") &uarr; title
-                option(value="title dsc") &darr; title
-                option(value="totalCommits") &uarr; contribution
-                option(value="totalCommits dsc") &darr; contribution
-                option(value="variance") &uarr; variance
-                option(value="variance dsc") &darr; variance
-              label sort within groups by
-            .mui-select
-              select(v-model="filterTimeFrame")
-                option(value="commit") Commit
-                option(value="day") Day
-                option(value="week") Week
-              label granularity
+          .mui-textfield
+            input.summary-picker__search(type="text", v-on:change="updateFilterSearch", v-model="filterSearch")
+            label search
+          .mui-select.grouping
+            select(v-model="filterGroupSelection")
+              option(value="groupByNone") None
+              option(value="groupByRepos") Repo/Branch
+              option(value="groupByAuthors") Author
+            label group by
+          .mui-select.sort-group
+            select(v-model="sortGroupSelection")
+              option(value="groupTitle") &uarr; group title
+              option(value="groupTitle dsc") &darr; group title
+              option(value="totalCommits") &uarr; contribution
+              option(value="totalCommits dsc") &darr; contribution
+              option(value="variance") &uarr; variance
+              option(value="variance dsc") &darr; variance
+            label sort groups by
+          .mui-select.sort-within-group
+            select(v-model="sortWithinGroupSelection")
+              option(value="title") &uarr; title
+              option(value="title dsc") &darr; title
+              option(value="totalCommits") &uarr; contribution
+              option(value="totalCommits dsc") &darr; contribution
+              option(value="variance") &uarr; variance
+              option(value="variance dsc") &darr; variance
+            label sort within groups by
+          .mui-select
+            select(v-model="filterTimeFrame")
+              option(value="commit") Commit
+              option(value="day") Day
+              option(value="week") Week
+            label granularity
           .summary-picker__section
             .mui-textfield.summary-picker__date
               input(type="date", v-model="tmpFilterSinceDate", onkeydown="return false",
