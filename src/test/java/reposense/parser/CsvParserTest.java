@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -42,6 +43,8 @@ public class CsvParserTest {
             .getResource("CsvParserTest/authorconfig_noSpecialCharacter_test.csv").getFile()).toPath();
     private static final Path AUTHOR_CONFIG_SPECIAL_CHARACTER_FILE = new File(CsvParserTest.class.getClassLoader()
             .getResource("CsvParserTest/authorconfig_specialCharacter_test.csv").getFile()).toPath();
+    private static final Path AUTHOR_CONFIG_COMMAS_AND_DOUBLEQUOTES_FILE = new File(CsvParserTest.class.getClassLoader()
+            .getResource("CsvParserTest/authorconfig_commasAndDoubleQuotes_test.csv").getFile()).toPath();
     private static final Path AUTHOR_CONFIG_MULTIPLE_EMAILS_FILE = new File(CsvParserTest.class.getClassLoader()
             .getResource("CsvParserTest/authorconfig_multipleEmails_test.csv").getFile()).toPath();
     private static final Path AUTHOR_CONFIG_INVALID_LOCATION = new File(CsvParserTest.class.getClassLoader()
@@ -77,7 +80,18 @@ public class CsvParserTest {
     private static final String FIRST_SPECIAL_CHARACTER_DISPLAY_NAME = "Tay Fan Gao, Douya";
     private static final String SECOND_SPECIAL_CHARACTER_DISPLAY_NAME = "\"\"Tora, S/O,\" Doyua, T.\"";
     private static final String THIRD_SPECIAL_CHARACTER_DISPLAY_NAME = "^:jordancjq;$";
-    private static final Map<Author, String> AUTHOR_DISPLAY_NAME_SPECIAL_CHARACTER_MAP =
+    private static final List<String> FIRST_COMMAS_AND_DOUBLEQUOTES_ALIAS =
+            Collections.singletonList("Tay Fan Gao, Douya \"SOC, Y2S1\"");
+    private static final List<String> SECOND_COMMAS_AND_DOUBLEQUOTES_ALIAS = Collections.emptyList();
+    private static final List<String> THIRD_COMMAS_AND_DOUBLEQUOTES_ALIAS =
+            Arrays.asList("Borex T\"ony Tong");
+    private static final Map<Author, List<String>> AUTHOR_ALIAS_COMMAS_AND_DOUBLE_QUOTES_MAP =
+            Stream.of(new Object[][]{
+                    {FIRST_SPECIAL_CHARACTER_AUTHOR, FIRST_COMMAS_AND_DOUBLEQUOTES_ALIAS},
+                    {SECOND_SPECIAL_CHARACTER_AUTHOR, SECOND_COMMAS_AND_DOUBLEQUOTES_ALIAS},
+                    {THIRD_SPECIAL_CHARACTER_AUTHOR, THIRD_COMMAS_AND_DOUBLEQUOTES_ALIAS}
+            }).collect(Collectors.toMap(data -> (Author) data[0], data -> (List<String>) data[1]));
+    private static final Map<Author, String> AUTHOR_DISPLAY_NAME_COMMAS_AND_DOUBLE_QUOTES_MAP=
             Stream.of(new Object[][]{
                     {FIRST_SPECIAL_CHARACTER_AUTHOR, FIRST_SPECIAL_CHARACTER_DISPLAY_NAME},
                     {SECOND_SPECIAL_CHARACTER_AUTHOR, SECOND_SPECIAL_CHARACTER_DISPLAY_NAME},
@@ -185,8 +199,9 @@ public class CsvParserTest {
     }
 
     @Test
-    public void displayName_specialCharacter_success() throws IOException, InvalidLocationException {
-        AuthorConfigCsvParser authorConfigCsvParser = new AuthorConfigCsvParser(AUTHOR_CONFIG_SPECIAL_CHARACTER_FILE);
+    public void parse_multipleColumnsWithCommasAndDoubleQuotes_success() throws IOException, InvalidLocationException {
+        AuthorConfigCsvParser authorConfigCsvParser =
+                new AuthorConfigCsvParser(AUTHOR_CONFIG_COMMAS_AND_DOUBLEQUOTES_FILE);
         List<AuthorConfiguration> configs = authorConfigCsvParser.parse();
 
         Assert.assertEquals(1, configs.size());
@@ -195,7 +210,12 @@ public class CsvParserTest {
 
         Assert.assertEquals(new RepoLocation(TEST_REPO_BETA_LOCATION), config.getLocation());
         Assert.assertEquals(TEST_REPO_BETA_BRANCH, config.getBranch());
-        Assert.assertEquals(AUTHOR_DISPLAY_NAME_SPECIAL_CHARACTER_MAP, config.getAuthorDisplayNameMap());
+        Assert.assertEquals(AUTHOR_DISPLAY_NAME_COMMAS_AND_DOUBLE_QUOTES_MAP, config.getAuthorDisplayNameMap());
+
+        Assert.assertEquals(AUTHOR_ALIAS_COMMAS_AND_DOUBLE_QUOTES_MAP.size(), config.getAuthorList().size());
+        config.getAuthorList().forEach(author -> {
+            Assert.assertEquals(AUTHOR_ALIAS_COMMAS_AND_DOUBLE_QUOTES_MAP.get(author), author.getAuthorAliases());
+        });
     }
 
     @Test
