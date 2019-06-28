@@ -227,7 +227,7 @@ public class ReportGenerator {
             List<Author> authorList = GitShortlog.getAuthors(config);
 
             if (authorList.isEmpty()) {
-                throw new NoAuthorsFoundWithCommitsException();
+                throw new NoAuthorsFoundWithCommitsException("Unable to find author with commits in this repository.");
             }
 
             config.setAuthorList(authorList);
