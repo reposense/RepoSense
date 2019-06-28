@@ -28,9 +28,9 @@ public class GitDiff {
      * Returns a list of committed files with the corresponding number of lines added and deleted in the repo
      * {@code repoRoot}.
      */
-    public static List<String> getModifiedFiles(Path repoRoot) {
+    public static List<String> getModifiedFilesList(Path repoRoot) {
         String diffCommand = String.format("git diff --numstat %s %s", EMPTY_TREE_HASH, CHECKED_OUT_COMMIT_REFERENCE);
         String diffResult = runCommand(repoRoot.toAbsolutePath(), diffCommand);
-        return new ArrayList<>(Arrays.asList(diffResult.split("\n")));
+        return Arrays.asList(diffResult.split("\n"));
     }
 }
