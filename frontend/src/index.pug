@@ -257,7 +257,6 @@ html
                       span {{ fileType }}: {{ getFileTypeExistingLinesObj[fileType] }}&nbsp;
                       span.bloc ({{ fileTypeBlankLinesObj[fileType] }})
 
-
         .files(v-if="isLoaded")
           .empty(v-if="files.length === 0") nothing to see here :(
           template(v-for="file in selectedFiles")
