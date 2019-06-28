@@ -193,45 +193,6 @@ window.vSummary = {
   },
   methods: {
     // view functions //
-    getWidth(slice) {
-      if (slice.insertions === 0) {
-        return 0;
-      }
-
-      const newSize = 100 * (slice.insertions / this.avgCommitSize);
-      return Math.max(newSize * this.rampSize, 0.5);
-    },
-    // position for commit granularity
-    getCommitPos(i, total, sinceDate, untilDate) {
-      return (total - i - 1) * DAY_IN_MS / total
-          / (this.getTotalForPos(sinceDate, untilDate) + DAY_IN_MS);
-    },
-    // position for day granularity
-    getSlicePos(date, sinceDate, untilDate) {
-      const total = this.getTotalForPos(sinceDate, untilDate);
-      return (new Date(untilDate) - new Date(date)) / (total + DAY_IN_MS);
-    },
-    // get duration in miliseconds between 2 date
-    getTotalForPos(sinceDate, untilDate) {
-      return new Date(untilDate) - new Date(sinceDate);
-    },
-    getSliceColor(date) {
-      const timeMs = (new Date(date)).getTime();
-      return (timeMs / DAY_IN_MS) % 5;
-    },
-    getSliceLink(user, slice) {
-      const { REPOS } = window;
-      const untilDate = this.filterTimeFrame === 'week' ? addDays(slice.date, 6) : slice.date;
-
-      return `http://github.com/${
-        REPOS[user.repoId].location.organization}/${
-        REPOS[user.repoId].location.repoName}/commits/${
-        REPOS[user.repoId].branch}?`
-                + `author=${user.name}&`
-                + `since=${slice.date}'T'00:00:00+08:00&`
-                + `until=${untilDate}'T'23:59:59+08:00`;
-    },
-
     getFileTypeContributionBars(fileTypeContribution) {
       let totalWidth = 0;
       const contributionLimit = (this.avgContributionSize * 2);
