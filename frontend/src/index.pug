@@ -214,6 +214,9 @@ html
     vuetemplate#v_zoom
       include tabs/zoom.pug
 
+    vuetemplate#v_segment
+      include tabs/segment.pug
+
     vuetemplate#v_authorship
       #authorship
         .toolbar(v-if="hasCommits(info)")
@@ -280,21 +283,15 @@ html
                 )
                   i.button.fas.fa-user-edit
               pre.hljs
-                div(v-hljs="file.path")
-                  template(v-for="segment in file.segments")
-                    .segment(v-bind:class="{ untouched: !segment.authored, active: segment.lines.length<5 }")
-                      .closer(v-if="!segment.authored && segment.lines.length>4", onclick="toggleNext(this)")
-                        i.fas.fa-ellipsis-h.icon
-                        span.tooltiptext.tooltiptext--close Show untouched code
-                        span.tooltiptext.tooltiptext--open Hide untouched code
-                      .code(v-for="(line, index) in segment.lines")
-                        .line-number {{ segment.lineNumbers[index] + "\n" }}
-                        .line-content {{ line + "\n" }}
+                div(v-for="segment in file.segments")
+                  v_segment(v-bind:segment="segment", v-bind:path="file.path")
+
         .empty(v-else) loading...
 
     script(src="static/js/api.js")
     script(src="static/js/v_ramp.js")
     script(src="static/js/v_zoom.js")
+    script(src="static/js/v_segment.js")
     script(src="static/js/v_summary.js")
     script(src="static/js/v_authorship.js")
     script(src="static/js/main.js")
