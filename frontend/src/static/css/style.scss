@@ -152,8 +152,7 @@ header{
     padding:2rem 1rem;
 }
 
-.summary__title--contribution {
-  display:inline;
+.contribution-text-font {
   font-size:.65rem;
   font-weight:normal;
 }
@@ -200,6 +199,10 @@ header{
         display:block;
         text-align:left;
         font-weight:bold;
+
+        &--contribution{
+          display:inline;
+        }
     }
 
     &__fileformat--breakdown{
