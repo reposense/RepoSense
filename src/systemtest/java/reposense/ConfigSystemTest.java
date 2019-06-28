@@ -53,6 +53,14 @@ public class ConfigSystemTest {
         verifyAllJson(actualFiles, FT_TEMP_DIR);
     }
 
+    @Test
+    public void test30DaysFromUntilDate() throws URISyntaxException, HelpScreenException, ParseException, IOException {
+        generateReport(getInputWithUntilDate("1/11/2017"));
+        Path actualFiles = Paths.get(getClass().getClassLoader()
+                .getResource("30daysFromUntilDate/expected").toURI());
+        verifyAllJson(actualFiles, FT_TEMP_DIR);
+    }
+
     /**
      * System test with a specified since date and until date.
      */
@@ -60,14 +68,6 @@ public class ConfigSystemTest {
     public void testDateRange() throws IOException, URISyntaxException, ParseException, HelpScreenException {
         generateReport(getInputWithDates("1/9/2017", "30/10/2017"));
         Path actualFiles = Paths.get(getClass().getClassLoader().getResource("dateRange/expected").toURI());
-        verifyAllJson(actualFiles, FT_TEMP_DIR);
-    }
-
-    @Test
-    public void test30DaysFromUntilDate() throws URISyntaxException, HelpScreenException, ParseException, IOException {
-        generateReport(getInputWithUntilDate("1/11/2017"));
-        Path actualFiles = Paths.get(getClass().getClassLoader()
-                .getResource("30daysFromUntilDate/expected").toURI());
         verifyAllJson(actualFiles, FT_TEMP_DIR);
     }
 

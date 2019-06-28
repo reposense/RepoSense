@@ -169,8 +169,8 @@ public class ArgsParser {
             Path outputFolderPath = results.get(OUTPUT_FLAGS[0]);
             Optional<Date> cliSinceDate = results.get(SINCE_FLAGS[0]);
             Optional<Date> cliUntilDate = results.get(UNTIL_FLAGS[0]);
-            Date sinceDate = cliSinceDate.orElse(getSinceDate(cliUntilDate));
-            Date untilDate = cliUntilDate.orElse(getUntilDate());
+            Date sinceDate = cliSinceDate.orElse(getDateMinusAMonth(cliUntilDate));
+            Date untilDate = cliUntilDate.orElse(getReportGenerationDate());
             List<String> locations = results.get(REPO_FLAGS[0]);
             List<Format> formats = Format.convertStringsToFormats(results.get(FORMAT_FLAGS[0]));
             boolean isStandaloneConfigIgnored = results.get(IGNORE_FLAGS[0]);
@@ -210,10 +210,10 @@ public class ArgsParser {
     }
 
     /**
-     * Returns a since date that is one month before {@code cliUntilDate} (if present) or one month before report
-     *  generation date otherwise.
+     * Returns a {@code Date} that is one month before {@code cliUntilDate} (if present) or one month before report
+     * generation date otherwise.
      */
-    private static Date getSinceDate(Optional<Date> cliUntilDate) {
+    private static Date getDateMinusAMonth(Optional<Date> cliUntilDate) {
         Calendar cal = Calendar.getInstance();
         cliUntilDate.ifPresent(cal::setTime);
         cal.set(Calendar.HOUR_OF_DAY, 0);
@@ -227,7 +227,7 @@ public class ArgsParser {
     /**
      * Returns date of report generation with time set to 23:59:59.
      */
-    private static Date getUntilDate() {
+    private static Date getReportGenerationDate() {
         Calendar cal = Calendar.getInstance();
         cal.set(Calendar.HOUR_OF_DAY, 23);
         cal.set(Calendar.MINUTE, 59);
