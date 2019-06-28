@@ -91,7 +91,7 @@ public class CsvParserTest {
                     {SECOND_SPECIAL_CHARACTER_AUTHOR, SECOND_COMMAS_AND_DOUBLEQUOTES_ALIAS},
                     {THIRD_SPECIAL_CHARACTER_AUTHOR, THIRD_COMMAS_AND_DOUBLEQUOTES_ALIAS}
             }).collect(Collectors.toMap(data -> (Author) data[0], data -> (List<String>) data[1]));
-    private static final Map<Author, String> AUTHOR_DISPLAY_NAME_COMMAS_AND_DOUBLE_QUOTES_MAP=
+    private static final Map<Author, String> AUTHOR_DISPLAY_NAME_COMMAS_AND_DOUBLE_QUOTES_MAP =
             Stream.of(new Object[][]{
                     {FIRST_SPECIAL_CHARACTER_AUTHOR, FIRST_SPECIAL_CHARACTER_DISPLAY_NAME},
                     {SECOND_SPECIAL_CHARACTER_AUTHOR, SECOND_SPECIAL_CHARACTER_DISPLAY_NAME},
