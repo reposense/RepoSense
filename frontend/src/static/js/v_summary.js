@@ -563,7 +563,8 @@ window.vSummary = {
         });
 
         const { avgCommitSize } = this;
-        const user = { ...userOrig, commits };
+        const user = Object.assign({}, userOrig, { commits });
+
         this.$emit('view-zoom', {
           avgCommitSize,
           user,
