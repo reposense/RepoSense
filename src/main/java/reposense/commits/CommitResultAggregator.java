@@ -29,12 +29,8 @@ public class CommitResultAggregator {
     public static CommitContributionSummary aggregateCommitResults(
             RepoConfiguration config, List<CommitResult> commitResults) {
         Date startDate;
-        if (config.getSinceDate() == null
-                || config.getSinceDate().equals(SinceDateArgumentType.ARBITARY_FIRST_COMMIT_DATE)) {
-            startDate = getStartDate(commitResults);
-        } else {
-            startDate = config.getSinceDate();
-        }
+        startDate = (config.getSinceDate().equals(SinceDateArgumentType.ARBITRARY_FIRST_COMMIT_DATE))
+                ? getStartDate(commitResults) : config.getSinceDate();
         ReportGenerator.setEarliestSinceDate(startDate);
 
         Map<Author, List<AuthorDailyContribution>> authorDailyContributionsMap =

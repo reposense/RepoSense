@@ -170,7 +170,7 @@ public class ArgsParser {
             Optional<Date> cliSinceDate = results.get(SINCE_FLAGS[0]);
             Optional<Date> cliUntilDate = results.get(UNTIL_FLAGS[0]);
             Date sinceDate = cliSinceDate.orElse(getDateMinusAMonth(cliUntilDate));
-            Date untilDate = cliUntilDate.orElse(getReportGenerationDate());
+            Date untilDate = cliUntilDate.orElse(getCurrentDate());
             List<String> locations = results.get(REPO_FLAGS[0]);
             List<Format> formats = Format.convertStringsToFormats(results.get(FORMAT_FLAGS[0]));
             boolean isStandaloneConfigIgnored = results.get(IGNORE_FLAGS[0]);
@@ -225,9 +225,9 @@ public class ArgsParser {
     }
 
     /**
-     * Returns date of report generation with time set to 23:59:59.
+     * Returns current date with time set to 23:59:59.
      */
-    private static Date getReportGenerationDate() {
+    private static Date getCurrentDate() {
         Calendar cal = Calendar.getInstance();
         cal.set(Calendar.HOUR_OF_DAY, 23);
         cal.set(Calendar.MINUTE, 59);

@@ -76,7 +76,7 @@ public class ReportGenerator {
         Map<RepoLocation, List<RepoConfiguration>> repoLocationMap = groupConfigsByRepoLocation(configs);
         cloneAndAnalyzeRepos(repoLocationMap, outputPath);
 
-        Date reportSinceDate = (cliSinceDate.equals(SinceDateArgumentType.ARBITARY_FIRST_COMMIT_DATE))
+        Date reportSinceDate = (cliSinceDate.equals(SinceDateArgumentType.ARBITRARY_FIRST_COMMIT_DATE))
                 ? earliestSinceDate : cliSinceDate;
 
         FileUtil.writeJsonFile(
