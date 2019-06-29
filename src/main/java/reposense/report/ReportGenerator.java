@@ -154,19 +154,15 @@ public class ReportGenerator {
 
             try {
                 GitCheckout.checkout(config.getRepoRoot(), config.getBranch());
-            } catch (RuntimeException e) {
-                logger.log(Level.SEVERE, String.format(MESSAGE_BRANCH_DOES_NOT_EXIST,
-                        config.getBranch(), config.getLocation()), e);
-                generateEmptyRepoReport(repoReportDirectory.toString(), Author.NAME_FAILED_TO_CLONE_OR_CHECKOUT);
-                continue;
-            }
-
-            try {
                 analyzeRepo(config, repoReportDirectory.toString());
             } catch (NoAuthorsFoundWithCommitsException e) {
                 logger.log(Level.SEVERE, String.format(MESSAGE_NO_AUTHORS_FOUND_WITH_COMMITS,
                         config.getLocation(), config.getBranch()));
                 generateEmptyRepoReport(repoReportDirectory.toString(), Author.NAME_NO_COMMITS_FOUND);
+            } catch (RuntimeException e) {
+                logger.log(Level.SEVERE, String.format(MESSAGE_BRANCH_DOES_NOT_EXIST,
+                        config.getBranch(), config.getLocation()), e);
+                generateEmptyRepoReport(repoReportDirectory.toString(), Author.NAME_FAILED_TO_CLONE_OR_CHECKOUT);
             }
         }
     }
