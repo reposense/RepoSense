@@ -12,6 +12,6 @@
     "-": 0.0
   },
   "authorDisplayNameMap": {
-    "-": "NO COMMITS FOUND WITHIN THIS PERIOD OF TIME"
+    "-": "NO AUTHOR WITH COMMITS FOUND WITHIN THIS PERIOD OF TIME"
   }
 }
