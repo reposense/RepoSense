@@ -77,9 +77,9 @@ public class CsvParserTest {
     private static final List<Author> AUTHOR_CONFIG_SPECIAL_CHARACTER_AUTHORS = Arrays.asList(
             FIRST_SPECIAL_CHARACTER_AUTHOR, SECOND_SPECIAL_CHARACTER_AUTHOR, THIRD_SPECIAL_CHARACTER_AUTHOR);
 
-    private static final String FIRST_SPECIAL_CHARACTER_DISPLAY_NAME = "Tay Fan Gao, Douya";
-    private static final String SECOND_SPECIAL_CHARACTER_DISPLAY_NAME = "\"\"Tora, S/O,\" Doyua, T.\"";
-    private static final String THIRD_SPECIAL_CHARACTER_DISPLAY_NAME = "^:jordancjq;$";
+    private static final String FIRST_COMMAS_AND_DOUBLEQUOTES_DISPLAY_NAME = "Tay Fan Gao, Douya";
+    private static final String SECOND_COMMAS_AND_DOUBLEQUOTES_DISPLAY_NAME = "\"\"Tora, S/O,\" Doyua, T.\"";
+    private static final String THIRD_COMMAS_AND_DOUBLEQUOTES_DISPLAY_NAME = "jordancjq";
     private static final List<String> FIRST_COMMAS_AND_DOUBLEQUOTES_ALIAS =
             Collections.singletonList("Tay Fan Gao, Douya \"SOC, Y2S1\"");
     private static final List<String> SECOND_COMMAS_AND_DOUBLEQUOTES_ALIAS = Collections.emptyList();
@@ -93,9 +93,9 @@ public class CsvParserTest {
             }).collect(Collectors.toMap(data -> (Author) data[0], data -> (List<String>) data[1]));
     private static final Map<Author, String> AUTHOR_DISPLAY_NAME_COMMAS_AND_DOUBLE_QUOTES_MAP =
             Stream.of(new Object[][]{
-                    {FIRST_SPECIAL_CHARACTER_AUTHOR, FIRST_SPECIAL_CHARACTER_DISPLAY_NAME},
-                    {SECOND_SPECIAL_CHARACTER_AUTHOR, SECOND_SPECIAL_CHARACTER_DISPLAY_NAME},
-                    {THIRD_SPECIAL_CHARACTER_AUTHOR, THIRD_SPECIAL_CHARACTER_DISPLAY_NAME}
+                    {FIRST_SPECIAL_CHARACTER_AUTHOR, FIRST_COMMAS_AND_DOUBLEQUOTES_DISPLAY_NAME},
+                    {SECOND_SPECIAL_CHARACTER_AUTHOR, SECOND_COMMAS_AND_DOUBLEQUOTES_DISPLAY_NAME},
+                    {THIRD_SPECIAL_CHARACTER_AUTHOR, THIRD_COMMAS_AND_DOUBLEQUOTES_DISPLAY_NAME}
             }).collect(Collectors.toMap(data -> (Author) data[0], data -> (String) data[1]));
 
     private static final List<String> REPO_LEVEL_GLOB_LIST = Arrays.asList("collated**");
