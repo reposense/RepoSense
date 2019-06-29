@@ -77,6 +77,9 @@ public class CsvParserTest {
     private static final List<Author> AUTHOR_CONFIG_SPECIAL_CHARACTER_AUTHORS = Arrays.asList(
             FIRST_SPECIAL_CHARACTER_AUTHOR, SECOND_SPECIAL_CHARACTER_AUTHOR, THIRD_SPECIAL_CHARACTER_AUTHOR);
 
+    private static final Author FIRST_COMMAS_AND_DOUBLEQUOTES_AUTHOR = new Author("ProcessedCooked");
+    private static final Author SECOND_COMMAS_AND_DOUBLEQUOTES_AUTHOR = new Author("codeeong");
+    private static final Author THIRD_COMMAS_AND_DOUBLEQUOTES_AUTHOR = new Author("jordancjq");
     private static final String FIRST_COMMAS_AND_DOUBLEQUOTES_DISPLAY_NAME = "Tay Fan Gao, Douya";
     private static final String SECOND_COMMAS_AND_DOUBLEQUOTES_DISPLAY_NAME = "\"\"Tora, S/O,\" Doyua, T.\"";
     private static final String THIRD_COMMAS_AND_DOUBLEQUOTES_DISPLAY_NAME = "jordancjq";
@@ -87,15 +90,15 @@ public class CsvParserTest {
             Arrays.asList("Borex T\"ony Tong");
     private static final Map<Author, List<String>> AUTHOR_ALIAS_COMMAS_AND_DOUBLE_QUOTES_MAP =
             Stream.of(new Object[][]{
-                    {FIRST_SPECIAL_CHARACTER_AUTHOR, FIRST_COMMAS_AND_DOUBLEQUOTES_ALIAS},
-                    {SECOND_SPECIAL_CHARACTER_AUTHOR, SECOND_COMMAS_AND_DOUBLEQUOTES_ALIAS},
-                    {THIRD_SPECIAL_CHARACTER_AUTHOR, THIRD_COMMAS_AND_DOUBLEQUOTES_ALIAS}
+                    {FIRST_COMMAS_AND_DOUBLEQUOTES_AUTHOR, FIRST_COMMAS_AND_DOUBLEQUOTES_ALIAS},
+                    {SECOND_COMMAS_AND_DOUBLEQUOTES_AUTHOR, SECOND_COMMAS_AND_DOUBLEQUOTES_ALIAS},
+                    {THIRD_COMMAS_AND_DOUBLEQUOTES_AUTHOR, THIRD_COMMAS_AND_DOUBLEQUOTES_ALIAS}
             }).collect(Collectors.toMap(data -> (Author) data[0], data -> (List<String>) data[1]));
     private static final Map<Author, String> AUTHOR_DISPLAY_NAME_COMMAS_AND_DOUBLE_QUOTES_MAP =
             Stream.of(new Object[][]{
-                    {FIRST_SPECIAL_CHARACTER_AUTHOR, FIRST_COMMAS_AND_DOUBLEQUOTES_DISPLAY_NAME},
-                    {SECOND_SPECIAL_CHARACTER_AUTHOR, SECOND_COMMAS_AND_DOUBLEQUOTES_DISPLAY_NAME},
-                    {THIRD_SPECIAL_CHARACTER_AUTHOR, THIRD_COMMAS_AND_DOUBLEQUOTES_DISPLAY_NAME}
+                    {FIRST_COMMAS_AND_DOUBLEQUOTES_AUTHOR, FIRST_COMMAS_AND_DOUBLEQUOTES_DISPLAY_NAME},
+                    {SECOND_COMMAS_AND_DOUBLEQUOTES_AUTHOR, SECOND_COMMAS_AND_DOUBLEQUOTES_DISPLAY_NAME},
+                    {THIRD_COMMAS_AND_DOUBLEQUOTES_AUTHOR, THIRD_COMMAS_AND_DOUBLEQUOTES_DISPLAY_NAME}
             }).collect(Collectors.toMap(data -> (Author) data[0], data -> (String) data[1]));
 
     private static final List<String> REPO_LEVEL_GLOB_LIST = Arrays.asList("collated**");
