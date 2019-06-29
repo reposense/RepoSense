@@ -24,7 +24,7 @@ public class CommitReportJson {
     /**
      * Empty constructor to construct an empty commit report.
      */
-    public CommitReportJson(String authorName) {
+    public CommitReportJson(String displayName) {
         Author emptyAuthor = Author.UNKNOWN_AUTHOR;
 
         authorDailyContributionsMap = new HashMap<>();
@@ -40,7 +40,7 @@ public class CommitReportJson {
         authorContributionVariance.put(emptyAuthor, (float) 0.0);
 
         authorDisplayNameMap = new HashMap<>();
-        authorDisplayNameMap.put(emptyAuthor, authorName);
+        authorDisplayNameMap.put(emptyAuthor, displayName);
     }
 
     public CommitReportJson(CommitContributionSummary commitSummary, AuthorshipSummary authorshipSummary) {
