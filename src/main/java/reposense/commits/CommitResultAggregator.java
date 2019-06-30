@@ -30,14 +30,14 @@ public class CommitResultAggregator {
             RepoConfiguration config, List<CommitResult> commitResults) {
         Date startDate;
         startDate = (config.getSinceDate().equals(SinceDateArgumentType.ARBITRARY_FIRST_COMMIT_DATE))
-                ? getStartDate(commitResults) 
+                ? getStartDate(commitResults)
                 : config.getSinceDate();
         ReportGenerator.setEarliestSinceDate(startDate);
 
         Map<Author, List<AuthorDailyContribution>> authorDailyContributionsMap =
                 getAuthorDailyContributionsMap(config.getAuthorDisplayNameMap().keySet(), commitResults);
 
-        Date lastDate = commitResults.size() == 0 
+        Date lastDate = commitResults.size() == 0
                 ? null
                 : getStartOfDate(commitResults.get(commitResults.size() - 1).getTime());
 
