@@ -42,7 +42,7 @@ public class ConfigSystemTest {
     }
 
     /**
-     * System test with a specified until date and a wildcard since date (capture from the very first commit).
+     * System test with a specified until date and a * since date to capture from the first commit.
      */
     @Test
     public void testSinceBeginningDateRange() throws IOException, URISyntaxException, ParseException,
