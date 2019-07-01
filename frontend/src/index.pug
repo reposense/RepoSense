@@ -257,8 +257,8 @@ html
                     span.select.control-font All:&nbsp;
                     span.loc.control-font {{ totalLineCount }}&nbsp;
                     span.bloc.control-font ({{ totalBlankLineCount }})
-                template(v-for="format in Object.keys(getExistingLinesObj)", v-bind:key="format")
-                  label
+                template(v-for="format in Object.keys(getExistingLinesObj)")
+                  label(v-bind:key="format")
                     input.mui-checkbox--fileformat(type="checkbox" v-bind:checked="selectedFileFormats.includes(format)"
                         v-on:change="selectFileFormat(format)")
                     span(v-bind:title="getFileBlankLineInfo(format)")

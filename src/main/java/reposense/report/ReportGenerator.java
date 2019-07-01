@@ -29,6 +29,7 @@ import reposense.model.Author;
 import reposense.model.RepoConfiguration;
 import reposense.model.RepoLocation;
 import reposense.model.StandaloneConfig;
+import reposense.parser.SinceDateArgumentType;
 import reposense.parser.StandaloneConfigJsonParser;
 import reposense.system.LogsManager;
 import reposense.util.FileUtil;
@@ -63,7 +64,6 @@ public class ReportGenerator {
     private static final String LOG_BRANCH_DOES_NOT_EXIST = "Branch \"%s\" does not exist.";
 
     private static Date earliestSinceDate = null;
-    private static Date latestUntilDate = null;
 
     private static Set<RepoConfiguration> failedRepoConfigsList = new HashSet<>();
 
@@ -73,22 +73,21 @@ public class ReportGenerator {
      *
      * @throws IOException if templateZip.zip does not exists in jar file.
      */
-    public static void generateReposReport(List<RepoConfiguration> configs, String outputPath,
-            String generationDate, Date cliSinceDate, Date cliUntilDate) throws IOException {
+    public static void generateReposReport(List<RepoConfiguration> configs, String outputPath, String generationDate,
+            Date cliSinceDate, Date untilDate) throws IOException {
         InputStream is = RepoSense.class.getResourceAsStream(TEMPLATE_FILE);
         FileUtil.copyTemplate(is, outputPath);
 
         earliestSinceDate = null;
-        latestUntilDate = null;
 
         cloneAndAnalyzeRepos(configs, outputPath);
         removeFailedRepoConfigs(configs);
 
-        Date sinceDate = cliSinceDate == null ? earliestSinceDate : cliSinceDate;
-        Date untilDate = cliUntilDate == null ? latestUntilDate : cliUntilDate;
+        Date reportSinceDate = (cliSinceDate.equals(SinceDateArgumentType.ARBITRARY_FIRST_COMMIT_DATE))
+                ? earliestSinceDate : cliSinceDate;
 
         FileUtil.writeJsonFile(
-                new SummaryReportJson(configs, generationDate, sinceDate, untilDate, RepoSense.getVersion(),
+                new SummaryReportJson(configs, generationDate, reportSinceDate, untilDate, RepoSense.getVersion(),
                         ErrorSummary.getInstance().getErrorList()),
                 getSummaryResultPath(outputPath));
         logger.info(String.format(MESSAGE_REPORT_GENERATED, outputPath));
@@ -289,12 +288,6 @@ public class ReportGenerator {
     public static void setEarliestSinceDate(Date newEarliestSinceDate) {
         if (earliestSinceDate == null || newEarliestSinceDate.before(earliestSinceDate)) {
             earliestSinceDate = newEarliestSinceDate;
-        }
-    }
-
-    public static void setLatestUntilDate(Date newLatestUntilDate) {
-        if (latestUntilDate == null || newLatestUntilDate.after(latestUntilDate)) {
-            latestUntilDate = newLatestUntilDate;
         }
     }
 }
