@@ -4,17 +4,17 @@ import java.nio.file.Path;
 import java.time.ZoneId;
 import java.util.Date;
 import java.util.List;
-import java.util.Optional;
 
 /**
  * Represents command line arguments user supplied when running the program.
  */
 public abstract class CliArguments {
     protected Path outputFilePath;
-    protected Optional<Date> sinceDate;
-    protected Optional<Date> untilDate;
+    protected Date sinceDate;
+    protected Date untilDate;
     protected List<Format> formats;
     protected boolean isAutomaticallyLaunching;
+    protected boolean isUntilDateProvided;
     protected ZoneId zoneId;
 
     public ZoneId getZoneId() {
@@ -25,11 +25,11 @@ public abstract class CliArguments {
         return outputFilePath;
     }
 
-    public Optional<Date> getSinceDate() {
+    public Date getSinceDate() {
         return sinceDate;
     }
 
-    public Optional<Date> getUntilDate() {
+    public Date getUntilDate() {
         return untilDate;
     }
 
@@ -39,6 +39,10 @@ public abstract class CliArguments {
 
     public boolean isAutomaticallyLaunching() {
         return isAutomaticallyLaunching;
+    }
+
+    public boolean isUntilDateProvided() {
+        return isUntilDateProvided;
     }
 
     @Override
@@ -60,6 +64,7 @@ public abstract class CliArguments {
                 && this.untilDate.equals(otherCliArguments.untilDate)
                 && this.formats.equals(otherCliArguments.formats)
                 && this.isAutomaticallyLaunching == otherCliArguments.isAutomaticallyLaunching
+                && this.isUntilDateProvided == otherCliArguments.isUntilDateProvided
                 && this.zoneId.equals(otherCliArguments.zoneId);
     }
 }

@@ -353,6 +353,7 @@ window.vSummary = {
     },
     getFiltered() {
       this.setSummaryHash();
+      this.getDates();
 
       // array of array, sorted by repo
       const full = [];
@@ -383,7 +384,6 @@ window.vSummary = {
       });
       this.filtered = full;
 
-      this.getDates();
       this.sortFiltered();
     },
     processFileFormats() {
@@ -571,7 +571,8 @@ window.vSummary = {
         });
 
         const { avgCommitSize } = this;
-        const user = { ...userOrig, commits };
+        const user = Object.assign({}, userOrig, { commits });
+
         this.$emit('view-zoom', {
           avgCommitSize,
           user,

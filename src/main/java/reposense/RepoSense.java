@@ -58,9 +58,8 @@ public class RepoSense {
             RepoConfiguration.setFormatsToRepoConfigs(configs, cliArguments.getFormats());
             RepoConfiguration.setDatesToRepoConfigs(configs, cliArguments.getSinceDate(), cliArguments.getUntilDate());
             ReportGenerator.generateReposReport(configs, cliArguments.getOutputFilePath().toAbsolutePath().toString(),
-                    formatter.format(ZonedDateTime.now(cliArguments.getZoneId())),
-                    cliArguments.getSinceDate().orElse(null),
-                    cliArguments.getUntilDate().orElse(null));
+                    formatter.format(ZonedDateTime.now(cliArguments.getZoneId())), cliArguments.getSinceDate(),
+                    cliArguments.getUntilDate(), cliArguments.isUntilDateProvided());
 
             FileUtil.zip(cliArguments.getOutputFilePath().toAbsolutePath(), ".json");
 

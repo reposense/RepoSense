@@ -27,6 +27,7 @@ import reposense.model.Author;
 import reposense.model.RepoConfiguration;
 import reposense.model.RepoLocation;
 import reposense.model.StandaloneConfig;
+import reposense.parser.SinceDateArgumentType;
 import reposense.parser.StandaloneConfigJsonParser;
 import reposense.system.LogsManager;
 import reposense.util.FileUtil;
@@ -58,7 +59,6 @@ public class ReportGenerator {
     private static final String MESSAGE_BRANCH_DOES_NOT_EXIST = "Branch %s does not exist in %s! Analysis terminated.";
 
     private static Date earliestSinceDate = null;
-    private static Date latestUntilDate = null;
 
     /**
      * Generates the authorship and commits JSON file for each repo in {@code configs} at {@code outputPath}, as
@@ -66,25 +66,22 @@ public class ReportGenerator {
      *
      * @throws IOException if templateZip.zip does not exists in jar file.
      */
-    public static void generateReposReport(List<RepoConfiguration> configs, String outputPath,
-            String generationDate, Date cliSinceDate, Date cliUntilDate) throws IOException {
+    public static void generateReposReport(List<RepoConfiguration> configs, String outputPath, String generationDate,
+            Date cliSinceDate, Date untilDate, boolean isUntilDateProvided) throws IOException {
         InputStream is = RepoSense.class.getResourceAsStream(TEMPLATE_FILE);
         FileUtil.copyTemplate(is, outputPath);
 
         earliestSinceDate = null;
-        latestUntilDate = null;
 
         Map<RepoLocation, List<RepoConfiguration>> repoLocationMap = groupConfigsByRepoLocation(configs);
         cloneAndAnalyzeRepos(repoLocationMap, outputPath);
 
-        Boolean isSinceDateProvided = cliSinceDate != null;
-        Boolean isUntilDateProvided = cliUntilDate != null;
-        Date sinceDate = isSinceDateProvided ? cliSinceDate : earliestSinceDate;
-        Date untilDate = isUntilDateProvided ? cliUntilDate : latestUntilDate;
+        Date reportSinceDate = (cliSinceDate.equals(SinceDateArgumentType.ARBITRARY_FIRST_COMMIT_DATE))
+                ? earliestSinceDate : cliSinceDate;
 
         FileUtil.writeJsonFile(
-                new SummaryReportJson(configs, generationDate, sinceDate, untilDate, isUntilDateProvided,
-                RepoSense.getVersion()), getSummaryResultPath(outputPath));
+                new SummaryReportJson(configs, generationDate, reportSinceDate, untilDate, isUntilDateProvided,
+                        RepoSense.getVersion()), getSummaryResultPath(outputPath));
         logger.info(String.format(MESSAGE_REPORT_GENERATED, outputPath));
     }
 
@@ -251,12 +248,6 @@ public class ReportGenerator {
     public static void setEarliestSinceDate(Date newEarliestSinceDate) {
         if (earliestSinceDate == null || newEarliestSinceDate.before(earliestSinceDate)) {
             earliestSinceDate = newEarliestSinceDate;
-        }
-    }
-
-    public static void setLatestUntilDate(Date newLatestUntilDate) {
-        if (latestUntilDate == null || newLatestUntilDate.after(latestUntilDate)) {
-            latestUntilDate = newLatestUntilDate;
         }
     }
 }
