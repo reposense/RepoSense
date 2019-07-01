@@ -256,9 +256,13 @@ In addition, there are some _optional_ extra parameters you can use to customize
 * **`--output, -o OUTPUT_DIRECTORY`**: Indicates where to save the report generated (`-o` as alias). Default: current directory.<br>
   Example: `--output ./foo` or `-o ./foo` (in this case, the report will be in the `./foo/reposense-report` folder)
 * **`--since, -s START_DATE`**: The start date of analysis (`-s` as alias). Format: `DD/MM/YYYY`<br>
-  Example:`--since 21/10/2017` or `-s 21/10/2017`
+  Example:`--since 21/10/2017` or `-s 21/10/2017` <br>
+  > Note: -
+  > - If the start date is not specified, only commits made one month before the end date (if specified) or the date of generating the report, will be captured and analyzed.
+  > - If `*` is specified as the start date (`--since *` or `-s *`), then the earliest commit date of all repositories will be taken as the since date.
 * **`--until, -u END_DATE`**: The end date of analysis (`-u` as alias). The analysis excludes the end date. Format: `DD/MM/YYYY`<br>
-  Example:`--until 21/10/2017` or `-u 21/10/2017`
+  Example:`--until 21/10/2017` or `-u 21/10/2017` <br>
+  > Note: If the end date is not specified, the date of generating the report will be taken as the end date.
 * **`--formats, -f LIST_OF_FORMATS`**: A space-separated list of file extensions that should be included in the analysis (`-f` as alias). Default: `adoc cs css fxml gradle html java js json jsp md py tag txt xml`<br>
   Example:`--formats css fxml gradle` or `-f css fxml gradle`
 * **`--ignore-standalone-config, -i`**: A flag to ignore the standalone config file in the repo (`-i` as alias). This flag will not overwrite the `Ignore standalone config` field in the csv config file. Default: the standalone config file is not ignored.<br>
@@ -384,3 +388,6 @@ It is also possible that another user has overriden the authorship of your lines
 
 #### Q: I am able to run RepoSense on my repository on a Linux/Mac OS, but it fails on a Windows OS?
 **A:** It is possible you may have some file names with [special characters](https://docs.microsoft.com/en-us/windows/desktop/FileIO/naming-a-file#naming-conventions) in them, which is disallowed in Windows OS. As such, *RepoSense* is unable to fully clone your repository, thus failing the analysis.
+
+#### Q: Why are some files not captured by RepoSense?
+**A:** The files may be [binary files](https://en.wikipedia.org/wiki/Binary_file). RepoSense does not analyze binary files. Common binary files include images (`.jpg`, `.png`), applications (`.exe`), zip files (`.zip`, `.rar`) and certain document types (`.docx`, `.pptx`).
