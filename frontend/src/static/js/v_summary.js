@@ -357,6 +357,7 @@ window.vSummary = {
     },
     getFiltered() {
       this.setSummaryHash();
+      this.getDates();
 
       // array of array, sorted by repo
       const full = [];
@@ -390,7 +391,6 @@ window.vSummary = {
       });
       this.filtered = full;
 
-      this.getDates();
       this.sortFiltered();
 
       if (this.isMergeGroup) {
@@ -636,7 +636,8 @@ window.vSummary = {
         });
 
         const { avgCommitSize } = this;
-        const user = { ...userOrig, commits };
+        const user = Object.assign({}, userOrig, { commits });
+
         this.$emit('view-zoom', {
           filterGroupSelection: this.filterGroupSelection,
           avgCommitSize,
