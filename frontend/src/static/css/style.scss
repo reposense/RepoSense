@@ -45,6 +45,11 @@ a{
     }
 }
 
+.mini-font{
+  font-size:.65rem;
+  font-weight:normal;
+}
+
 /** navigation bar **/
 header{
     z-index:100;
@@ -150,11 +155,6 @@ header{
 /* summary chart */
 #summary, .summary-status{
     padding:2rem 1rem;
-}
-
-.contribution-text-font {
-  font-size:.65rem;
-  font-weight:normal;
 }
 
 .summary-picker{
