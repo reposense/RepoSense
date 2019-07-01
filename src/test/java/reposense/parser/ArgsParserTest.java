@@ -12,7 +12,6 @@ import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
-import java.util.Optional;
 
 import org.junit.After;
 import org.junit.Assert;
@@ -91,8 +90,8 @@ public class ArgsParserTest {
 
         Date expectedSinceDate = TestUtil.getDate(2017, Calendar.JULY, 1);
         Date expectedUntilDate = TestUtil.getDate(2017, Calendar.NOVEMBER, 30);
-        Assert.assertEquals(expectedSinceDate, cliArguments.getSinceDate().get());
-        Assert.assertEquals(expectedUntilDate, cliArguments.getUntilDate().get());
+        Assert.assertEquals(expectedSinceDate, cliArguments.getSinceDate());
+        Assert.assertEquals(expectedUntilDate, cliArguments.getUntilDate());
 
         List<Format> expectedFormats = Format.convertStringsToFormats(
                 Arrays.asList("java", "adoc", "html", "css", "js"));
@@ -124,8 +123,8 @@ public class ArgsParserTest {
 
         Date expectedSinceDate = TestUtil.getDate(2017, Calendar.JULY, 1);
         Date expectedUntilDate = TestUtil.getDate(2017, Calendar.NOVEMBER, 30);
-        Assert.assertEquals(expectedSinceDate, cliArguments.getSinceDate().get());
-        Assert.assertEquals(expectedUntilDate, cliArguments.getUntilDate().get());
+        Assert.assertEquals(expectedSinceDate, cliArguments.getSinceDate());
+        Assert.assertEquals(expectedUntilDate, cliArguments.getUntilDate());
 
         List<Format> expectedFormats = Format.convertStringsToFormats(
                 Arrays.asList("java", "adoc", "html", "css", "js"));
@@ -158,8 +157,8 @@ public class ArgsParserTest {
 
         Date expectedSinceDate = TestUtil.getDate(2017, Calendar.JULY, 1);
         Date expectedUntilDate = TestUtil.getDate(2017, Calendar.NOVEMBER, 30);
-        Assert.assertEquals(expectedSinceDate, cliArguments.getSinceDate().get());
-        Assert.assertEquals(expectedUntilDate, cliArguments.getUntilDate().get());
+        Assert.assertEquals(expectedSinceDate, cliArguments.getSinceDate());
+        Assert.assertEquals(expectedUntilDate, cliArguments.getUntilDate());
 
         List<Format> expectedFormats = Format.convertStringsToFormats(Arrays.asList(
                 "java", "adoc", "html", "css", "js"));
@@ -180,8 +179,8 @@ public class ArgsParserTest {
         Assert.assertTrue(Files.isSameFile(
                 AUTHOR_CONFIG_CSV_FILE, ((ConfigCliArguments) cliArguments).getAuthorConfigFilePath()));
         // Optional arguments have default values
-        Assert.assertEquals(Optional.empty(), cliArguments.getSinceDate());
-        Assert.assertEquals(Optional.empty(), cliArguments.getUntilDate());
+        assertDateDiffOneMonth(cliArguments.getSinceDate(), cliArguments.getUntilDate());
+        assertDateDiffEndOfDay(cliArguments.getUntilDate());
         Assert.assertEquals(ArgsParser.DEFAULT_REPORT_NAME, cliArguments.getOutputFilePath().getFileName().toString());
         Assert.assertEquals(Format.DEFAULT_FORMATS, cliArguments.getFormats());
         Assert.assertFalse(cliArguments.isAutomaticallyLaunching());
@@ -194,8 +193,8 @@ public class ArgsParserTest {
         Assert.assertTrue(Files.isSameFile(
                 AUTHOR_CONFIG_CSV_FILE, ((ConfigCliArguments) cliArguments).getAuthorConfigFilePath()));
         // Optional arguments have default values
-        Assert.assertEquals(Optional.empty(), cliArguments.getSinceDate());
-        Assert.assertEquals(Optional.empty(), cliArguments.getUntilDate());
+        assertDateDiffOneMonth(cliArguments.getSinceDate(), cliArguments.getUntilDate());
+        assertDateDiffEndOfDay(cliArguments.getUntilDate());
         Assert.assertEquals(ArgsParser.DEFAULT_REPORT_NAME, cliArguments.getOutputFilePath().getFileName().toString());
         Assert.assertEquals(Format.DEFAULT_FORMATS, cliArguments.getFormats());
         Assert.assertFalse(cliArguments.isAutomaticallyLaunching());
@@ -330,7 +329,7 @@ public class ArgsParserTest {
         CliArguments cliArguments = ArgsParser.parse(translateCommandline(input));
         Assert.assertTrue(cliArguments instanceof ConfigCliArguments);
         Date expectedSinceDate = TestUtil.getDate(2017, Calendar.JULY, 1);
-        Assert.assertEquals(expectedSinceDate, cliArguments.getSinceDate().get());
+        Assert.assertEquals(expectedSinceDate, cliArguments.getSinceDate());
     }
 
     @Test
@@ -339,7 +338,7 @@ public class ArgsParserTest {
         CliArguments cliArguments = ArgsParser.parse(translateCommandline(input));
         Assert.assertTrue(cliArguments instanceof ConfigCliArguments);
         Date expectedUntilDate = TestUtil.getDate(2017, Calendar.NOVEMBER, 30);
-        Assert.assertEquals(expectedUntilDate, cliArguments.getUntilDate().get());
+        Assert.assertEquals(expectedUntilDate, cliArguments.getUntilDate());
     }
 
     @Test
@@ -573,5 +572,34 @@ public class ArgsParserTest {
     public void parse_timezoneWithoutArgument_throwsParseException() throws ParseException, HelpScreenException {
         String input = DEFAULT_INPUT_BUILDER.addTimezone("").build();
         ArgsParser.parse(translateCommandline(input));
+    }
+
+    /**
+     * Ensures that {@code actualSinceDate} is exactly one month before {@code untilDate}.
+     * @throws AssertionError if {@code actualSinceDate} is not one month before {@code untilDate}.
+     */
+    private void assertDateDiffOneMonth(Date actualSinceDate, Date untilDate) {
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(untilDate);
+        cal.set(Calendar.HOUR_OF_DAY, 0);
+        cal.set(Calendar.MINUTE, 0);
+        cal.set(Calendar.SECOND, 0);
+        cal.set(Calendar.MILLISECOND, 0);
+        cal.add(Calendar.MONTH, -1);
+        assert actualSinceDate.equals(cal.getTime());
+    }
+
+    /**
+     * Ensures that {@code actualUntilDate} falls on the date of report generation with time at 23:59:59.
+     * @throws AssertionError if {@code actualUntilDate} does not fall on the date of report generation
+     * with time at 23:59:59.
+     */
+    private void assertDateDiffEndOfDay(Date actualUntilDate) {
+        Calendar cal = Calendar.getInstance();
+        cal.set(Calendar.HOUR_OF_DAY, 23);
+        cal.set(Calendar.MINUTE, 59);
+        cal.set(Calendar.SECOND, 59);
+        cal.set(Calendar.MILLISECOND, 0);
+        assert actualUntilDate.equals(cal.getTime());
     }
 }

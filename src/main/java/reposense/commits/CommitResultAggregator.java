@@ -13,6 +13,7 @@ import reposense.commits.model.CommitContributionSummary;
 import reposense.commits.model.CommitResult;
 import reposense.model.Author;
 import reposense.model.RepoConfiguration;
+import reposense.parser.SinceDateArgumentType;
 import reposense.report.ReportGenerator;
 
 /**
@@ -27,14 +28,17 @@ public class CommitResultAggregator {
      */
     public static CommitContributionSummary aggregateCommitResults(
             RepoConfiguration config, List<CommitResult> commitResults) {
-        Date startDate = config.getSinceDate() == null ? getStartDate(commitResults) : config.getSinceDate();
+        Date startDate;
+        startDate = (config.getSinceDate().equals(SinceDateArgumentType.ARBITRARY_FIRST_COMMIT_DATE))
+                ? getStartDate(commitResults)
+                : config.getSinceDate();
         ReportGenerator.setEarliestSinceDate(startDate);
-        ReportGenerator.setLatestUntilDate(getUntilDate(commitResults));
 
         Map<Author, List<AuthorDailyContribution>> authorDailyContributionsMap =
                 getAuthorDailyContributionsMap(config.getAuthorDisplayNameMap().keySet(), commitResults);
 
-        Date lastDate = commitResults.size() == 0 ? null
+        Date lastDate = commitResults.size() == 0
+                ? null
                 : getStartOfDate(commitResults.get(commitResults.size() - 1).getTime());
 
         Map<Author, Float> authorContributionVariance =
@@ -129,22 +133,10 @@ public class CommitResultAggregator {
     }
 
     private static Date getStartDate(List<CommitResult> commitInfos) {
-        Calendar cal = Calendar.getInstance();
-        cal.set(Calendar.YEAR, 2050);
-        Date min = cal.getTime();
+        Date min = new Date(Long.MIN_VALUE);
         if (!commitInfos.isEmpty()) {
             min = commitInfos.get(0).getTime();
         }
         return min;
-    }
-
-    private static Date getUntilDate(List<CommitResult> commitInfos) {
-        Calendar cal = Calendar.getInstance();
-        cal.set(Calendar.YEAR, 1970);
-        Date max = cal.getTime();
-        if (!commitInfos.isEmpty()) {
-            max = commitInfos.get(commitInfos.size() - 1).getTime();
-        }
-        return max;
     }
 }
