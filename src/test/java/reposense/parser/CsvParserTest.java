@@ -95,7 +95,7 @@ public class CsvParserTest {
         Assert.assertEquals(config.getIgnoreCommitList(),
                 CommitHash.convertStringsToCommits(TEST_REPO_BETA_CONFIG_IGNORED_COMMITS));
 
-        Assert.assertFalse(config.isFormatsOverridenByCsvFile());
+        Assert.assertFalse(config.isCsvConfigOverridingFormats());
         Assert.assertFalse(config.isIgnoreGlobListOverriding());
         Assert.assertFalse(config.isIgnoreCommitListOverriding());
     }
@@ -283,7 +283,7 @@ public class CsvParserTest {
         Assert.assertEquals(CommitHash.convertStringsToCommits(TEST_REPO_BETA_CONFIG_IGNORED_COMMITS),
                 config.getIgnoreCommitList());
 
-        Assert.assertTrue(config.isFormatsOverridenByCsvFile());
+        Assert.assertTrue(config.isCsvConfigOverridingFormats());
         Assert.assertTrue(config.isIgnoreGlobListOverriding());
         Assert.assertTrue(config.isIgnoreCommitListOverriding());
     }
