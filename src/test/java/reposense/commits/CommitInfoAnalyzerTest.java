@@ -147,6 +147,34 @@ public class CommitInfoAnalyzerTest extends GitTestTemplate {
         Assert.assertEquals(expectedCommitResults, actualCommitResults);
     }
 
+    @Test
+    public void analyzeCommits_commitsWithEmptyCommitMessageTitleOrBody_success() throws ParseException {
+        Author author = new Author(JINYAO_AUTHOR_NAME);
+        List<CommitResult> expectedCommitResults = new ArrayList<>();
+        // 1st test: Contains commit message title but no commit message body.
+        expectedCommitResults.add(new CommitResult(author, "aa7044dd2fa7b5244bdcfd27da09e34ed7d3ef1d",
+                parseGitStrictIsoDate("2019-07-01T12:18:56+08:00"), "Test 1: With title but no body",
+                "", 1, 0));
+        // 2nd test: Contains no commit message title and no commit message body.
+        expectedCommitResults.add(new CommitResult(author, "db5f49e2ed5f72090f1b7fd66920661bfcaf0bae",
+                parseGitStrictIsoDate("2019-07-01T12:21:56+08:00"), "",
+                "", 0, 1));
+        // 3rd test: Contains both commit message title and commit message body.
+        expectedCommitResults.add(new CommitResult(author, "49a0abac931043089a9b83a48009c8b41695b2f8",
+                parseGitStrictIsoDate("2019-07-01T12:24:12+08:00"), "Test 3: With both title and body",
+                "With both title and body!\n", 0, 2));
+
+        config.setBranch("751-CommitInfoAnalyzerTest-analyzeCommits_commitsWithEmptyCommitMessageTitleOrBody_success");
+        config.setAuthorList(Collections.singletonList(author));
+        config.setSinceDate(new GregorianCalendar(2019, Calendar.JULY, 1).getTime());
+        config.setUntilDate(new GregorianCalendar(2019, Calendar.JULY, 2).getTime());
+
+        List<CommitInfo> actualCommitInfos = CommitInfoExtractor.extractCommitInfos(config);
+        List<CommitResult> actualCommitResults = CommitInfoAnalyzer.analyzeCommits(actualCommitInfos, config);
+
+        Assert.assertEquals(expectedCommitResults, actualCommitResults);
+    }
+
     /**
      * Returns a {@code Date} from a string {@code gitStrictIsoDate}.
      */

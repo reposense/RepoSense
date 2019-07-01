@@ -161,8 +161,8 @@ public class TestUtil {
         // start from index 1 as index 0 is always empty.
         for (int i = 1; i < changesLogged.length; i++) {
             String[] commitInfo = changesLogged[i].replaceAll("\n+$", "").split("\n");
-            int numFilesChanged = Integer.parseInt(commitInfo[commitInfo.length - 1].trim().split(" ")[0]);
-            for (int fileNum = 0; fileNum < numFilesChanged; fileNum++) {
+            int fileChangedNum = Integer.parseInt(commitInfo[commitInfo.length - 1].trim().split(" ")[0]);
+            for (int fileNum = 0; fileNum < fileChangedNum; fileNum++) {
                 String fileChanged = commitInfo[commitInfo.length - 2 - fileNum].split("\\| ")[0].trim();
                 if (fileChanged.contains("=>")) {
                     fileChanged = fileChanged.substring(fileChanged.indexOf("=> ") + 3);
