@@ -178,7 +178,8 @@ header{
     label{
         text-align:left;
         overflow-y:hidden;
-        width:110px;
+        width:fit-content;
+        font-size:0.75rem;
     }
 
     input, select{
@@ -193,6 +194,12 @@ header{
         display:block;
         text-align:left;
         font-weight:bold;
+
+        &--contribution{
+            font-weight:normal;
+            display:inline;
+            font-size: 0.65rem;
+        }
     }
 
     &__fileformat--breakdown{
@@ -209,8 +216,10 @@ header{
     position:relative;
     margin-bottom:1rem;
     text-align:left;
+    overflow:auto;
 
     &__title{
+        clear:left;
 
         & > * {
             display:inline;
@@ -304,8 +313,8 @@ header{
 /* Authorship */
 #tab-authorship{
     .toolbar{
-        float: right;
-        cursor: pointer;
+        float:right;
+        cursor:pointer;
     }
 
     .title{
@@ -316,14 +325,13 @@ header{
         }
 
         .contribution{
-            margin-top:0.1rem;
             color:mui-color("red");
 
             .fileformat {
                 margin-left:3rem;
-                margin-top:1.5rem;
+                margin-top:1.0rem;
                 align-items:center;
-                display: flex;
+                display:flex;
             }
 
             .radio-button--search{
@@ -339,8 +347,8 @@ header{
 
             #search{
                 padding:0.5rem 1.0rem 0.25rem 1.0rem;
-                margin-top:1.0rem;
-                width: 30%;
+                margin-top:1.25rem;
+                width:30%;
             }
 
             #submit-button{
@@ -385,9 +393,11 @@ header{
                     margin-left:0.25rem;
                 }
             }
+
             .sorting {
                 display:flex;
                 align-items:center;
+                margin-top:1.0rem;
                 .mui-select {
                     cursor:pointer;
                 }
@@ -399,6 +409,14 @@ header{
                 }
                 span {
                     margin-left:0.25rem;
+                }
+            }
+
+            .control-font {
+                font-size:0.875rem;
+
+                &.reverse {
+                    color:mui-color("black");
                 }
             }
         }
@@ -418,6 +436,7 @@ header{
                     .hljs{
                         // overwrite hljs library
                         display:inherit;
+                        padding:0;
                     }
                 }
             }
