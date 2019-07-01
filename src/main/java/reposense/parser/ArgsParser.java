@@ -3,6 +3,7 @@ package reposense.parser;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.time.ZoneId;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
@@ -51,6 +52,8 @@ public class ArgsParser {
     private static final String MESSAGE_HEADER_MUTEX = "mutual exclusive arguments";
     private static final String MESSAGE_SINCE_DATE_LATER_THAN_UNTIL_DATE =
             "\"Since Date\" cannot be later than \"Until Date\"";
+    private static final String MESSAGE_SINCE_DATE_LATER_THAN_TODAY_DATE =
+            "\"Since Date\" must not be later than today's date.";
     private static final String MESSAGE_USING_DEFAULT_CONFIG_PATH =
             "Config path not provided, using current working directory as default.";
     private static final Path EMPTY_PATH = Paths.get("");
@@ -102,7 +105,7 @@ public class ArgsParser {
         parser.addArgument(SINCE_FLAGS)
                 .dest(SINCE_FLAGS[0])
                 .metavar("dd/MM/yyyy")
-                .type(new DateArgumentType())
+                .type(new SinceDateArgumentType())
                 .setDefault(Optional.empty())
                 .help("The date to start filtering.");
 
@@ -164,8 +167,10 @@ public class ArgsParser {
             Path configFolderPath = results.get(CONFIG_FLAGS[0]);
             Path reportFolderPath = results.get(VIEW_FLAGS[0]);
             Path outputFolderPath = results.get(OUTPUT_FLAGS[0]);
-            Optional<Date> sinceDate = results.get(SINCE_FLAGS[0]);
-            Optional<Date> untilDate = results.get(UNTIL_FLAGS[0]);
+            Optional<Date> cliSinceDate = results.get(SINCE_FLAGS[0]);
+            Optional<Date> cliUntilDate = results.get(UNTIL_FLAGS[0]);
+            Date sinceDate = cliSinceDate.orElse(getDateMinusAMonth(cliUntilDate));
+            Date untilDate = cliUntilDate.orElse(getCurrentDate());
             List<String> locations = results.get(REPO_FLAGS[0]);
             List<Format> formats = Format.convertStringsToFormats(results.get(FORMAT_FLAGS[0]));
             boolean isStandaloneConfigIgnored = results.get(IGNORE_FLAGS[0]);
@@ -173,6 +178,7 @@ public class ArgsParser {
 
             LogsManager.setLogFolderLocation(outputFolderPath);
 
+            verifySinceDateIsValid(sinceDate);
             verifyDatesRangeIsCorrect(sinceDate, untilDate);
 
             if (reportFolderPath != null && !reportFolderPath.equals(EMPTY_PATH) && configFolderPath.equals(EMPTY_PATH)
@@ -204,14 +210,53 @@ public class ArgsParser {
     }
 
     /**
+     * Returns a {@code Date} that is one month before {@code cliUntilDate} (if present) or one month before report
+     * generation date otherwise.
+     */
+    private static Date getDateMinusAMonth(Optional<Date> cliUntilDate) {
+        Calendar cal = Calendar.getInstance();
+        cliUntilDate.ifPresent(cal::setTime);
+        cal.set(Calendar.HOUR_OF_DAY, 0);
+        cal.set(Calendar.MINUTE, 0);
+        cal.set(Calendar.SECOND, 0);
+        cal.set(Calendar.MILLISECOND, 0);
+        cal.add(Calendar.MONTH, -1);
+        return cal.getTime();
+    }
+
+    /**
+     * Returns current date with time set to 23:59:59.
+     */
+    private static Date getCurrentDate() {
+        Calendar cal = Calendar.getInstance();
+        cal.set(Calendar.HOUR_OF_DAY, 23);
+        cal.set(Calendar.MINUTE, 59);
+        cal.set(Calendar.SECOND, 59);
+        cal.set(Calendar.MILLISECOND, 0);
+        return cal.getTime();
+    }
+
+    /**
      * Verifies that {@code sinceDate} is earlier than {@code untilDate}.
      *
      * @throws ParseException if {@code sinceDate} supplied is later than {@code untilDate}.
      */
-    private static void verifyDatesRangeIsCorrect(Optional<Date> sinceDate, Optional<Date> untilDate)
+    private static void verifyDatesRangeIsCorrect(Date sinceDate, Date untilDate)
             throws ParseException {
-        if (sinceDate.isPresent() && untilDate.isPresent() && sinceDate.get().getTime() > untilDate.get().getTime()) {
+        if (sinceDate.getTime() > untilDate.getTime()) {
             throw new ParseException(MESSAGE_SINCE_DATE_LATER_THAN_UNTIL_DATE);
+        }
+    }
+
+    /**
+     * Verifies that {@code sinceDate} is no later than the date of report generation.
+     *
+     * @throws ParseException if {@code sinceDate} supplied is later than date of report generation.
+     */
+    private static void verifySinceDateIsValid(Date sinceDate) throws ParseException {
+        Date dateToday = new Date();
+        if (sinceDate.getTime() > dateToday.getTime()) {
+            throw new ParseException(MESSAGE_SINCE_DATE_LATER_THAN_TODAY_DATE);
         }
     }
 }
