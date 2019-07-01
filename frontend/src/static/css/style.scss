@@ -113,37 +113,41 @@ header{
             color: #721C24;
             margin-bottom: 15px;
             text-align: left;
-        }
-        #error-message-box__close-button {
-            font-weight: bold;
-            float: right;
-            font-size: 25px;
-            line-height: 10px;
-            cursor: pointer;
-        }
-        #error-message-box__close-button:hover {
-            color: white;
+
+            &__close-button {
+                font-weight: bold;
+                float: right;
+                font-size: 25px;
+                line-height: 10px;
+                cursor: pointer;
+
+                &:hover {
+                    color: white;
+                }
+            }
+
+            &__message {
+                font-weight: bolder;
+                padding-bottom: 10px;
+                border-bottom: 2px solid;
+                font-size: 0.75rem;
+            }
+
+            &__failed-repo__name {
+                font-weight: bolder;
+                padding-left: 0.2rem;
+                font-size: 0.75rem;
+            }
+
+            &__failed-repo__reason {
+                padding-left: 3rem;
+                font-size: 0.75rem;
+            }
         }
         .fa-exclamation {
             padding-top: 3px;
             padding-right: 10px;
             font-size: smaller;
-        }
-        #error-message-box__message {
-            padding-bottom: 10px;
-            border-bottom: 2px solid;
-            font-size: 0.75rem;
-        }
-
-        #error-message__failed-repo__reason {
-            margin-left: 1.5cm;
-        }
-        #error-message-box__message, #error-message__failed-repo__name {
-            font-weight: bolder;
-        }
-        #error-message__failed-repo__name, #error-message__failed-repo__reason {
-            padding-left: 3px;
-            font-size: 0.75rem;
         }
     }
 
