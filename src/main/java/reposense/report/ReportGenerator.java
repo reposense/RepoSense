@@ -54,7 +54,7 @@ public class ReportGenerator {
     private static final String MESSAGE_MALFORMED_STANDALONE_CONFIG = "%s/%s/%s is malformed for %s (%s).";
     private static final String MESSAGE_NO_AUTHORS_SPECIFIED =
             "%s (%s) has no authors specified, using all authors by default.";
-    private static final String MESSAGE_NO_AUTHORS_FOUND_WITH_COMMITS =
+    private static final String MESSAGE_NO_AUTHORS_WITH_COMMITS_FOUND =
             "No authors found with commits for %s (%s).";
     private static final String MESSAGE_START_ANALYSIS = "Analyzing %s (%s)...";
     private static final String MESSAGE_COMPLETE_ANALYSIS = "Analysis of %s (%s) completed!";
@@ -155,7 +155,7 @@ public class ReportGenerator {
                 GitCheckout.checkout(config.getRepoRoot(), config.getBranch());
                 analyzeRepo(config, repoReportDirectory.toString());
             } catch (NoAuthorsWithCommitsFoundException e) {
-                logger.log(Level.SEVERE, String.format(MESSAGE_NO_AUTHORS_FOUND_WITH_COMMITS,
+                logger.log(Level.SEVERE, String.format(MESSAGE_NO_AUTHORS_WITH_COMMITS_FOUND,
                         config.getLocation(), config.getBranch()));
                 generateEmptyRepoReport(repoReportDirectory.toString(), Author.NAME_NO_AUTHOR_WITH_COMMITS_FOUND);
             } catch (RuntimeException e) {
