@@ -25,5 +25,5 @@ window.vZoom = {
 
   created() {
     this.setInfoHash();
-  }
+  },
 };
