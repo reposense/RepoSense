@@ -28,7 +28,7 @@ public class GitBranchTest extends GitTestTemplate {
             throws GitCloneException, InvalidLocationException, GitBranchException {
         RepoConfiguration uncommonDefaultConfig = new RepoConfiguration(
                 new RepoLocation(TEST_REPO_UNCOMMON_DEFAULT_GIT_LOCATION), RepoConfiguration.DEFAULT_BRANCH);
-        uncommonDefaultConfig.setFormats(Format.DEFAULT_FORMATS);
+        uncommonDefaultConfig.setFormats(Format.DEFAULT_TEST_FORMATS);
 
         GitClone.clone(uncommonDefaultConfig);
         String currentBranch = GitBranch.getCurrentBranch(uncommonDefaultConfig.getRepoRoot());

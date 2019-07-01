@@ -61,14 +61,14 @@ public class GitTestTemplate {
     public void before() throws InvalidLocationException {
         config = new RepoConfiguration(new RepoLocation(TEST_REPO_GIT_LOCATION), "master");
         config.setAuthorList(Collections.singletonList(getAlphaAllAliasAuthor()));
-        config.setFormats(Format.DEFAULT_FORMATS);
+        config.setFormats(Format.DEFAULT_TEST_FORMATS);
     }
 
     @BeforeClass
     public static void beforeClass() throws GitCloneException, IOException, InvalidLocationException {
         deleteRepos();
         config = new RepoConfiguration(new RepoLocation(TEST_REPO_GIT_LOCATION), "master");
-        config.setFormats(Format.DEFAULT_FORMATS);
+        config.setFormats(Format.DEFAULT_TEST_FORMATS);
         GitClone.clone(config);
     }
 

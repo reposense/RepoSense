@@ -56,7 +56,7 @@ public class StandaloneConfigJsonParserTest {
         author.setIgnoreGlobList(Arrays.asList("**.css", "**.html", "**.jade", "**.js"));
 
         expectedGithubIdOnlyRepoconfig = new RepoConfiguration(new RepoLocation(TEST_DUMMY_LOCATION));
-        expectedGithubIdOnlyRepoconfig.setFormats(Format.DEFAULT_FORMATS);
+        expectedGithubIdOnlyRepoconfig.setFormats(Format.NO_SPECIFIED_FORMATS);
         expectedGithubIdOnlyRepoconfig.setAuthorList(Arrays.asList(new Author("yong24s")));
         expectedGithubIdOnlyRepoconfig.addAuthorEmailsAndAliasesMapEntry(author, author.getEmails());
 
