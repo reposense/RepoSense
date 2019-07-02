@@ -2,9 +2,11 @@ package reposense.authorship;
 
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
 
 import org.junit.Assert;
 import org.junit.Test;
@@ -12,6 +14,7 @@ import org.junit.Test;
 import reposense.authorship.model.FileInfo;
 import reposense.git.GitCheckout;
 import reposense.model.Author;
+import reposense.model.Format;
 import reposense.template.GitTestTemplate;
 import reposense.util.SystemUtil;
 import reposense.util.TestUtil;
@@ -28,6 +31,8 @@ public class FileInfoExtractorTest extends GitTestTemplate {
     private static final String DIRECTORY_WITH_VALID_WHITELISTED_NAME_BRANCH = "directory-with-valid-whitelisted-name";
     private static final String BRANCH_WITH_VALID_WHITELISTED_FILE_NAME_BRANCH =
             "535-FileInfoExtractorTest-branchWithValidWhitelistedFileName.txt";
+    private static final String BRANCH_WITH_BINARY_FILES =
+            "728-FileInfoExtractorTest-getNonBinaryFilesList_directoryWithBinaryFiles_success";
     private static final String FEBRUARY_EIGHT_COMMIT_HASH = "768015345e70f06add2a8b7d1f901dc07bf70582";
     private static final String OCTOBER_SEVENTH_COMMIT_HASH = "b28dfac5bd449825c1a372e58485833b35fdbd50";
 
@@ -161,6 +166,29 @@ public class FileInfoExtractorTest extends GitTestTemplate {
     public void generateFileInfo_fileWithoutSpecialCharacters_correctFileInfoGenerated() {
         FileInfo fileInfo = FileInfoExtractor.generateFileInfo(".", FILE_WITHOUT_SPECIAL_CHARACTER.toString());
         Assert.assertEquals(5, fileInfo.getLines().size());
+    }
+
+    @Test
+    public void getNonBinaryFilesList_directoryWithBinaryFiles_success() {
+        List<String> nonBinaryFilesList = Arrays.asList(
+                "binaryFileTest/nonBinaryFile.txt", "My Documents/wordToHtml.htm", "My Pictures/notPngPicture.png",
+                "My Documents/wordToHtml_files/colorschememapping.xml", "My Documents/wordToHtml_files/filelist.xml",
+                "My Documents/notPdfDocument.pdf");
+        List<String> binaryFilesList = Arrays.asList(
+                "binaryFileTest/binaryFile.txt", "My Documents/word.docx", "My Documents/pdfDocument.pdf",
+                "My Documents/wordToHtml_files/themedata.thmx", "My Pictures/pngPicture.png");
+        List<Format> testfileFormats = Format.convertStringsToFormats(
+                Arrays.asList("txt", "htm", "xml", "pdf", "thmx"));
+        config.setFormats(testfileFormats);
+        GitCheckout.checkoutBranch(config.getRepoRoot(), BRANCH_WITH_BINARY_FILES);
+        Set<Path> files = FileInfoExtractor.getNonBinaryFilesList(config);
+
+
+        Assert.assertEquals(6, files.size());
+        // Non binary files should be captured
+        nonBinaryFilesList.forEach(nonBinFile -> Assert.assertTrue(files.contains(Paths.get(nonBinFile))));
+        // Binary files should be ignored
+        binaryFilesList.forEach(binFile -> Assert.assertFalse(files.contains(Paths.get(binFile))));
     }
 
     private boolean isFileExistence(Path filePath, List<FileInfo> files) {

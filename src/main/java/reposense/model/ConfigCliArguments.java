@@ -5,7 +5,6 @@ import java.nio.file.Paths;
 import java.time.ZoneId;
 import java.util.Date;
 import java.util.List;
-import java.util.Optional;
 
 import reposense.parser.AuthorConfigCsvParser;
 import reposense.parser.GroupConfigCsvParser;
@@ -22,8 +21,8 @@ public class ConfigCliArguments extends CliArguments {
     private Path authorConfigFilePath;
     private Path groupConfigFilePath;
 
-    public ConfigCliArguments(Path configFolderPath, Path outputFilePath, Optional<Date> sinceDate,
-            Optional<Date> untilDate, List<Format> formats, boolean isAutomaticallyLaunching, ZoneId zoneId) {
+    public ConfigCliArguments(Path configFolderPath, Path outputFilePath, Date sinceDate,
+            Date untilDate, List<Format> formats, boolean isAutomaticallyLaunching, ZoneId zoneId) {
         this.configFolderPath = configFolderPath.equals(EMPTY_PATH)
                 ? configFolderPath.toAbsolutePath()
                 : configFolderPath;

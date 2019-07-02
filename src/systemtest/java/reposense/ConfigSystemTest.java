@@ -43,13 +43,29 @@ public class ConfigSystemTest {
         FileUtil.deleteDirectory(FT_TEMP_DIR);
     }
 
+    /**
+     * System test with a specified until date and a * since date to capture from the first commit.
+     */
     @Test
-    public void testNoDateRange() throws IOException, URISyntaxException, ParseException, HelpScreenException {
-        generateReport();
-        Path actualFiles = Paths.get(getClass().getClassLoader().getResource("noDateRange/expected").toURI());
+    public void testSinceBeginningDateRange() throws IOException, URISyntaxException, ParseException,
+            HelpScreenException {
+        generateReport(getInputWithDates("*", "2/3/2019"));
+        Path actualFiles = Paths.get(getClass().getClassLoader()
+                .getResource("sinceBeginningDateRange/expected").toURI());
         verifyAllJson(actualFiles, FT_TEMP_DIR);
     }
 
+    @Test
+    public void test30DaysFromUntilDate() throws URISyntaxException, HelpScreenException, ParseException, IOException {
+        generateReport(getInputWithUntilDate("1/11/2017"));
+        Path actualFiles = Paths.get(getClass().getClassLoader()
+                .getResource("30daysFromUntilDate/expected").toURI());
+        verifyAllJson(actualFiles, FT_TEMP_DIR);
+    }
+
+    /**
+     * System test with a specified since date and until date.
+     */
     @Test
     public void testDateRange() throws IOException, URISyntaxException, ParseException, HelpScreenException {
         generateReport(getInputWithDates("1/9/2017", "30/10/2017"));
@@ -57,12 +73,12 @@ public class ConfigSystemTest {
         verifyAllJson(actualFiles, FT_TEMP_DIR);
     }
 
-    private String getInputWithDates(String sinceDate, String untilDate) {
-        return String.format("--since %s --until %s", sinceDate, untilDate);
+    private String getInputWithUntilDate(String untilDate) {
+        return String.format("--until %s", untilDate);
     }
 
-    private void generateReport() throws IOException, URISyntaxException, ParseException, HelpScreenException {
-        generateReport("--until 02/03/2019");
+    private String getInputWithDates(String sinceDate, String untilDate) {
+        return String.format("--since %s --until %s", sinceDate, untilDate);
     }
 
     /**
@@ -100,7 +116,7 @@ public class ConfigSystemTest {
                 repoConfigs, cliArguments.getSinceDate(), cliArguments.getUntilDate());
 
         ReportGenerator.generateReposReport(repoConfigs, FT_TEMP_DIR, TEST_REPORT_GENERATED_TIME,
-                cliArguments.getSinceDate().orElse(null), cliArguments.getUntilDate().orElse(null));
+                cliArguments.getSinceDate(), cliArguments.getUntilDate());
     }
 
     /**

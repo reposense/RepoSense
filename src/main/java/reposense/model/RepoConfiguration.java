@@ -6,7 +6,6 @@ import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 import java.util.logging.Logger;
 
 import reposense.git.GitBranch;
@@ -76,12 +75,10 @@ public class RepoConfiguration {
         }
     }
 
-    public static void setDatesToRepoConfigs(
-            List<RepoConfiguration> configs, Optional<Date> sinceDate, Optional<Date> untilDate) {
+    public static void setDatesToRepoConfigs(List<RepoConfiguration> configs, Date sinceDate, Date untilDate) {
         for (RepoConfiguration config : configs) {
-            config.setSinceDate(sinceDate.orElse(null));
-            // set untilDate in summary.json to the current date of generation if it is not provided
-            config.setUntilDate(untilDate.orElse(new Date()));
+            config.setSinceDate(sinceDate);
+            config.setUntilDate(untilDate);
         }
     }
 
