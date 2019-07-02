@@ -42,12 +42,12 @@ public class ConfigSystemTest {
     }
 
     /**
-     * System test with a specified until date and a * since date to capture from the first commit.
+     * System test with a specified until date and a ^ since date to capture from the first commit.
      */
     @Test
     public void testSinceBeginningDateRange() throws IOException, URISyntaxException, ParseException,
             HelpScreenException {
-        generateReport(getInputWithDates("*", "2/3/2019"));
+        generateReport(getInputWithDates("^", "2/3/2019"));
         Path actualFiles = Paths.get(getClass().getClassLoader()
                 .getResource("sinceBeginningDateRange/expected").toURI());
         verifyAllJson(actualFiles, FT_TEMP_DIR);
