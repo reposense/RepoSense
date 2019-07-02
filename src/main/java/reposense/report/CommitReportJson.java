@@ -22,7 +22,7 @@ public class CommitReportJson {
     private final Map<Author, String> authorDisplayNameMap;
 
     /**
-     * Empty constructor to construct an empty commit report.
+     * Constructor to construct an empty commit report with the author's display name as {@code displayName}.
      */
     public CommitReportJson(String displayName) {
         Author emptyAuthor = Author.UNKNOWN_AUTHOR;
