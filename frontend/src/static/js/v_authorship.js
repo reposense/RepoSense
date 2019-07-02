@@ -93,8 +93,8 @@ window.vAuthorship = {
 
     setInfoHash() {
       const { addHash } = window;
-      addHash('tabAuthor', this.info.author);
-      addHash('tabRepo', this.info.repo);
+      addHash('repoIndex', this.info.repoIndex);
+      addHash('userIndex', this.info.userIndex);
     },
 
     expandAll(isActive) {
