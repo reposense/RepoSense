@@ -35,4 +35,11 @@ public class ErrorSummary {
     public List<Map<String, String>> getErrorList() {
         return errorList;
     }
+
+    /**
+     * Clears all previously stored list of errors in {@link ErrorSummary#errorList}.
+     */
+    public void clearErrorList() {
+        errorList.clear();
+    }
 }

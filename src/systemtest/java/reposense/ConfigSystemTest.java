@@ -12,6 +12,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -25,6 +26,7 @@ import reposense.parser.ArgsParser;
 import reposense.parser.AuthorConfigCsvParser;
 import reposense.parser.ParseException;
 import reposense.parser.RepoConfigCsvParser;
+import reposense.report.ErrorSummary;
 import reposense.report.ReportGenerator;
 import reposense.util.FileUtil;
 import reposense.util.InputBuilder;
@@ -69,6 +71,11 @@ public class ConfigSystemTest {
         generateReport(getInputWithDates("1/9/2017", "30/10/2017"));
         Path actualFiles = Paths.get(getClass().getClassLoader().getResource("dateRange/expected").toURI());
         verifyAllJson(actualFiles, FT_TEMP_DIR);
+    }
+
+    @After
+    public void afterEach() {
+        ErrorSummary.getInstance().clearErrorList();
     }
 
     private String getInputWithUntilDate(String untilDate) {

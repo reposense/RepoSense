@@ -42,10 +42,6 @@
     {
       "repoName": "reposense_testrepo-Delta_nonExistentBranch",
       "errorMessage": "Branch \"nonExistentBranch\" does not exist."
-    },
-    {
-      "repoName": "reposense_testrepo-Delta_nonExistentBranch",
-      "errorMessage": "Branch \"nonExistentBranch\" does not exist."
     }
   ],
   "sinceDate": "2017-09-30",
