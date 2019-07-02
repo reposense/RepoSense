@@ -153,8 +153,17 @@ public class ReportGenerator {
         for (RepoConfiguration config : configs) {
             config.updateBranch(defaultBranch);
 
-            Path repoReportDirectory;
             logger.info(String.format(MESSAGE_START_ANALYSIS, config.getLocation(), config.getBranch()));
+            try {
+                GitCheckout.checkout(config.getRepoRoot(), config.getBranch());
+            } catch (RuntimeException e) {
+                logger.log(Level.SEVERE, String.format(MESSAGE_BRANCH_DOES_NOT_EXIST,
+                        config.getBranch(), config.getLocation()), e);
+                handleBranchingFailed(config);
+                continue;
+            }
+
+            Path repoReportDirectory;
             try {
                 repoReportDirectory = Paths.get(outputPath, config.getDisplayName());
                 FileUtil.createDirectory(repoReportDirectory);
@@ -168,14 +177,6 @@ public class ReportGenerator {
                 continue;
             }
 
-            try {
-                GitCheckout.checkout(config.getRepoRoot(), config.getBranch());
-            } catch (RuntimeException e) {
-                logger.log(Level.SEVERE, String.format(MESSAGE_BRANCH_DOES_NOT_EXIST,
-                        config.getBranch(), config.getLocation()), e);
-                handleBranchingFailed(config);
-                continue;
-            }
             analyzeRepo(config, repoReportDirectory.toString());
         }
     }
