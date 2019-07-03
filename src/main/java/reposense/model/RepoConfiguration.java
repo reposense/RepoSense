@@ -123,7 +123,6 @@ public class RepoConfiguration {
             }
 
             RepoConfiguration matchingRepoConfig = getMatchingRepoConfigForGroups(repoConfigs, groupConfig);
-
             if (matchingRepoConfig == null) {
                 logger.warning(String.format(
                         "Repository %s is not found in repo-config.csv.", groupConfig.getLocation()));
@@ -131,14 +130,6 @@ public class RepoConfiguration {
             }
 
             matchingRepoConfig.setGroupConfiguration(groupConfig);
-        }
-
-        for (GroupConfiguration groupConfig : groupConfigs) {
-            if (groupConfig.getLocation().isEmpty()) {
-                for (RepoConfiguration repoConfig : repoConfigs) {
-                    repoConfig.addGroups(groupConfig.getGroupList());
-                }
-            }
         }
     }
 
@@ -330,10 +321,6 @@ public class RepoConfiguration {
         return authorConfig.getAuthorList();
     }
 
-    public List<Group> getGroupList() {
-        return groupConfig.getGroupList();
-    }
-
     public void addAuthor(Author author) {
         authorConfig.addAuthor(author, this.getIgnoreGlobList());
     }
@@ -346,15 +333,26 @@ public class RepoConfiguration {
         groupConfig.addGroups(groupList);
     }
 
+    public List<Group> getGroupList() {
+        return groupConfig.getGroupList();
+    }
+
+    public void setGroupConfiguration(GroupConfiguration groupConfig) {
+        this.groupConfig = groupConfig;
+    }
+
+    /**
+     * Clears groups information and sets the {@code groupList} to {@code RepoConfiguration}.
+     */
+    public void setGroupList(List<Group> groupList) {
+        groupConfig.setGroupList(groupList);
+    }
+
     public void setAuthorConfiguration(AuthorConfiguration authorConfig) {
         this.authorConfig = authorConfig;
         for (Author author : authorConfig.getAuthorList()) {
             AuthorConfiguration.propagateIgnoreGlobList(author, ignoreGlobList);
         }
-    }
-
-    public void setGroupConfiguration(GroupConfiguration groupConfig) {
-        this.groupConfig = groupConfig;
     }
 
     public boolean containsAuthor(Author author) {
@@ -367,13 +365,6 @@ public class RepoConfiguration {
     public void setAuthorList(List<Author> authorList) {
         authorConfig.setAuthorList(authorList);
         authorConfig.resetAuthorInformation(this.getIgnoreGlobList());
-    }
-
-    /**
-     * Clears groups information and sets the {@code groupList} to {@code RepoConfiguration}.
-     */
-    public void setGroupList(List<Group> groupList) {
-        groupConfig.setGroupList(groupList);
     }
 
     public Map<String, Author> getAuthorEmailsAndAliasesMap() {
