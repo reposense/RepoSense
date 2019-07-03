@@ -1,7 +1,17 @@
 {
-  "authorDailyContributionsMap": {},
-  "authorFinalContributionMap": {},
-  "authorFileFormatContributionMap": {},
-  "authorContributionVariance": {},
-  "authorDisplayNameMap": {}
+  "authorDailyContributionsMap": {
+    "-": []
+  },
+  "authorFinalContributionMap": {
+    "-": 0
+  },
+  "authorFileFormatContributionMap": {
+    "-": {}
+  },
+  "authorContributionVariance": {
+    "-": 0.0
+  },
+  "authorDisplayNameMap": {
+    "-": "NO AUTHOR WITH COMMITS FOUND WITHIN THIS PERIOD OF TIME"
+  }
 }
