@@ -233,7 +233,7 @@ public class RepoConfigurationTest {
     }
 
     @Test
-    public void repoConfig_withGroups() throws ParseException, IOException, HelpScreenException {
+    public void repoConfig_withCustomGroups() throws ParseException, IOException, HelpScreenException {
         String input = new InputBuilder().addConfig(GROUPS_TEST_CONFIG_FILES).build();
         CliArguments cliArguments = ArgsParser.parse(translateCommandline(input));
 

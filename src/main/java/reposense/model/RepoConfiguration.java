@@ -336,47 +336,6 @@ public class RepoConfiguration {
         authorConfig.addAuthors(authorList, this.getIgnoreGlobList());
     }
 
-    /**
-     * Adds the contents in {@code fileTypesList} into the existing list of fileTypes.
-     */
-    public void addFileTypes(List<Group> fileTypesList) {
-        for (Group group : fileTypesList) {
-            if (fileTypes.contains(group)) {
-                logger.log(Level.WARNING, String.format("Skipping group as %s already specified in repository %s",
-                        group.toString(), location));
-            } else {
-                fileTypes.add(group);
-            }
-        }
-    }
-
-    /**
-     * Clears existing {@link RepoConfiguration#fileTypes} and sets {@code fileTypes} into
-     * {@link RepoConfiguration#fileTypes}.
-     */
-    public void setFileTypes(List<Group> fileTypes) {
-        this.fileTypes.clear();
-        addFileTypes(fileTypes);
-    }
-
-    public List<Group> getFileTypes() {
-        return fileTypes;
-    }
-
-    /**
-     * Converts each {@code format} in {@code formats} into individual {@code fileTypes} and set the existing
-     * {@link RepoConfiguration#fileTypes} in {@link RepoConfiguration} to {@code fileTypes}.
-     */
-    public void setFormatsToFileTypes(List<Format> formats) {
-        if (hasCustomGroups) {
-            return;
-        }
-        List<Group> fileTypes = new ArrayList<>();
-        formats.forEach(format -> fileTypes.add(new Group(format.toString(),
-                Collections.singletonList("**/" + format.toString()))));
-        setFileTypes(fileTypes);
-    }
-
     public void setAuthorConfiguration(AuthorConfiguration authorConfig) {
         this.authorConfig = authorConfig;
         for (Author author : authorConfig.getAuthorList()) {
@@ -402,6 +361,33 @@ public class RepoConfiguration {
 
     public void setAuthorEmailsAndAliasesMap(Map<String, Author> authorEmailsAndAliasesMap) {
         authorConfig.setAuthorEmailsAndAliasesMap(authorEmailsAndAliasesMap);
+    }
+
+    /**
+     * Clears existing {@link RepoConfiguration#fileTypes} and sets {@code fileTypes} into
+     * {@link RepoConfiguration#fileTypes}.
+     */
+    private void setFileTypes(List<Group> fileTypes) {
+        this.fileTypes = fileTypes;
+    }
+
+    public List<Group> getFileTypes() {
+        return fileTypes;
+    }
+
+    /**
+     * Converts each {@code format} in {@code formats} into individual {@code fileTypes} and set the existing
+     * {@link RepoConfiguration#fileTypes} in {@link RepoConfiguration} to {@code fileTypes} if user is not using
+     * custom groups.
+     */
+    private void setFormatsToFileTypes(List<Format> formats) {
+        if (hasCustomGroups) {
+            return;
+        }
+        List<Group> fileTypes = new ArrayList<>();
+        formats.forEach(format -> fileTypes.add(new Group(format.toString(),
+                Collections.singletonList("**/" + format.toString()))));
+        setFileTypes(fileTypes);
     }
 
     public Date getSinceDate() {

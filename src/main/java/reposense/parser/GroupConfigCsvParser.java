@@ -9,7 +9,7 @@ import reposense.model.GroupConfiguration;
 import reposense.model.RepoLocation;
 
 /**
- *
+ * Container for the values parsed from {@code groups-config.csv} file.
  */
 public class GroupConfigCsvParser extends CsvParser<GroupConfiguration> {
     public static final String GROUP_CONFIG_FILENAME = "groups-config.csv";
@@ -31,13 +31,12 @@ public class GroupConfigCsvParser extends CsvParser<GroupConfiguration> {
     @Override
     protected int[] mandatoryPositions() {
         return new int[] {
-            LOCATION_POSITION, GROUP_NAME_POSITION,
-            FILES_GLOB_POSITION,
+            LOCATION_POSITION, GROUP_NAME_POSITION, FILES_GLOB_POSITION,
         };
     }
 
     /**
-     * Processes the csv file line by line and add created {@code Group} into {@code results}
+     * Processes the csv file line by line and adds created {@code Group} into {@code results}.
      */
     @Override
     protected void processLine(List<GroupConfiguration> results, String[] elements) {
@@ -55,7 +54,7 @@ public class GroupConfigCsvParser extends CsvParser<GroupConfiguration> {
         Group group = new Group(groupName, globList);
         if (config.containsGroup(group)) {
             logger.warning(String.format(
-                    "Skipping group as %s already specified for repository %s",
+                    "Skipping group as %s has already been specified for the repository %s",
                     group.toString(), config.getLocation()));
             return;
         }
