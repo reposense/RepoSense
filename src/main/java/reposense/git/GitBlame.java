@@ -17,8 +17,9 @@ public class GitBlame {
     private static final String COMMIT_HASH_REGEX = "(^[0-9a-f]{40} .*)";
     private static final String AUTHOR_NAME_REGEX = "(^author .*)";
     private static final String AUTHOR_EMAIL_REGEX = "(^author-mail .*)";
+    private static final String AUTHOR_TIME_REGEX = "(^author-time [0-9]+)";
     private static final String COMBINATION_REGEX =
-            COMMIT_HASH_REGEX + "|" + AUTHOR_NAME_REGEX + "|" + AUTHOR_EMAIL_REGEX;
+            COMMIT_HASH_REGEX + "|" + AUTHOR_NAME_REGEX + "|" + AUTHOR_EMAIL_REGEX + "|" + AUTHOR_TIME_REGEX;
 
     /**
      * Returns the raw git blame result for the {@code fileDirectory}, performed at the {@code root} directory.
