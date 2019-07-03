@@ -46,7 +46,7 @@ public class FileInfoAnalyzer {
         }
 
         aggregateBlameAuthorInfo(config, fileInfo);
-        setGroup(config, fileInfo);
+        setFileType(config, fileInfo);
 
         if (config.isAnnotationOverwrite()) {
             AnnotatorAnalyzer.aggregateAnnotationAuthorInfo(fileInfo, config.getAuthorEmailsAndAliasesMap());
@@ -96,9 +96,9 @@ public class FileInfoAnalyzer {
     }
 
     /**
-     * Sets specified {@code Group} for {@code fileInfo}
+     * Sets specified {@code fileType} for {@code fileInfo}
      */
-    private static void setGroup(RepoConfiguration config, FileInfo fileInfo) {
+    private static void setFileType(RepoConfiguration config, FileInfo fileInfo) {
         List<Group> fileTypes = config.getFileTypes();
         Path filePath = Paths.get(fileInfo.getPath());
         fileTypes.forEach(fileType -> {
