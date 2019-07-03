@@ -84,8 +84,8 @@ public class RepoSense {
      */
     public static List<RepoConfiguration> getRepoConfigurations(ConfigCliArguments cliArguments) throws IOException {
         List<RepoConfiguration> repoConfigs = new RepoConfigCsvParser(cliArguments.getRepoConfigFilePath()).parse();
-        List<AuthorConfiguration> authorConfigs = null;
-        List<GroupConfiguration> groupConfigs = null;
+        List<AuthorConfiguration> authorConfigs;
+        List<GroupConfiguration> groupConfigs;
 
         try {
             authorConfigs = new AuthorConfigCsvParser(cliArguments.getAuthorConfigFilePath()).parse();
@@ -97,7 +97,7 @@ public class RepoSense {
 
         try {
             groupConfigs = new GroupConfigCsvParser(cliArguments.getGroupConfigFilePath()).parse();
-            RepoConfiguration.mergeGroups(repoConfigs, groupConfigs);
+            RepoConfiguration.setGroupConfigsToRepos(repoConfigs, groupConfigs);
         } catch (IOException ioe) {
             // IOException thrown as groups-config.csv is not found.
             // Ignore exception as the file is optional.

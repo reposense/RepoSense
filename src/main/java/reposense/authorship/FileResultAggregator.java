@@ -18,8 +18,9 @@ public class FileResultAggregator {
      * Returns the {@code AuthorshipSummary} generated from aggregating the {@code fileResults}.
      */
     public static AuthorshipSummary aggregateFileResult(List<FileResult> fileResults, List<Author> authors,
-        List<Format> formats, List<Group> groups) {
-        AuthorshipSummary authorContributionSummary = new AuthorshipSummary(fileResults, authors, formats, groups);
+            List<Group> groups, boolean hasCustomGroup) {
+        AuthorshipSummary authorContributionSummary = new AuthorshipSummary(fileResults, authors, groups,
+                hasCustomGroup);
         for (FileResult fileResult : fileResults) {
             for (LineInfo lineInfo : fileResult.getLines()) {
                 Author author = lineInfo.getAuthor();

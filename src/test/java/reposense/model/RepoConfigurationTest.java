@@ -242,10 +242,10 @@ public class RepoConfigurationTest {
         List<GroupConfiguration> groupConfigs =
                 new GroupConfigCsvParser(((ConfigCliArguments) cliArguments).getGroupConfigFilePath()).parse();
 
-        RepoConfiguration.mergeGroups(actualConfigs, groupConfigs);
+        RepoConfiguration.setGroupConfigsToRepos(actualConfigs, groupConfigs);
 
         Assert.assertEquals(1, actualConfigs.size());
-        Assert.assertEquals(CONFIG_GROUPS, actualConfigs.get(0).getGroupList());
+        Assert.assertEquals(CONFIG_GROUPS, actualConfigs.get(0).getFileTypes());
     }
 
     @Test

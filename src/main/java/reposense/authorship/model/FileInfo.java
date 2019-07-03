@@ -14,7 +14,7 @@ public class FileInfo {
     private final String path;
     private final ArrayList<LineInfo> lines;
 
-    private String group;
+    private String fileType;
 
     public FileInfo(String path) {
         if (SystemUtil.isWindows()) {
@@ -23,7 +23,7 @@ public class FileInfo {
         }
 
         this.path = path;
-        this.group = Group.DEFAULT_GROUP;
+        this.fileType = Group.DEFAULT_GROUP;
         lines = new ArrayList<>();
     }
 
@@ -50,12 +50,12 @@ public class FileInfo {
         return path;
     }
 
-    public String getGroup() {
-        return group;
+    public String getFileType() {
+        return fileType;
     }
 
-    public void setGroup(String group) {
-        this.group = group;
+    public void setFileType(String fileType) {
+        this.fileType = fileType;
     }
 
     /**

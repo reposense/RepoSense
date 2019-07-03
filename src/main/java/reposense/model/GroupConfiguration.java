@@ -1,16 +1,19 @@
 package reposense.model;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.logging.Logger;
 
 import reposense.system.LogsManager;
 
 /**
- *
+ * Represents groups configuration information from CSV config file for a single repository.
+ * This class is only used to add the contents in {@link GroupConfiguration#groupList} into the respective
+ * {@link RepoConfiguration}.
  */
 public class GroupConfiguration {
-    private static final Logger logger = LogsManager.getLogger(GroupConfiguration.class);
 
     private RepoLocation location;
 
@@ -44,27 +47,8 @@ public class GroupConfiguration {
         groupList.add(group);
     }
 
-    /**
-     * Adds new groups from {@code groupList}. Skips groups that have already been added previously.
-     */
-    public void addGroups(List<Group> groupList) {
-        for (Group group : groupList) {
-            if (containsGroup(group)) {
-                logger.warning(String.format(
-                        "Skipping group as %s already specified in repository %s", group.toString(), location));
-                continue;
-            }
-
-            addGroup(group);
-        }
-    }
-
     public boolean containsGroup(Group group) {
         return groupList.contains(group);
-    }
-
-    public void setGroupList(List<Group> groupList) {
-        this.groupList = groupList;
     }
 
     public RepoLocation getLocation() {

@@ -15,15 +15,10 @@ public class FileResult {
     private final ArrayList<LineInfo> lines;
     private final HashMap<Author, Integer> authorContributionMap;
 
-    public FileResult(String path, String group, ArrayList<LineInfo> lines,
+    public FileResult(String path, String fileType, ArrayList<LineInfo> lines,
         HashMap<Author, Integer> authorContributionMap) {
         this.path = path;
-        if (!"none".equals(group)) {
-            this.fileType = group;
-        } else {
-            String fileExt = path.substring(path.lastIndexOf('.') + 1);
-            this.fileType = (fileExt.length() == 0) ? "others" : fileExt;
-        }
+        this.fileType = fileType;
         this.lines = lines;
         this.authorContributionMap = authorContributionMap;
     }

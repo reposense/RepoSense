@@ -6,6 +6,7 @@ import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import reposense.git.GitBranch;
@@ -24,15 +25,16 @@ public class RepoConfiguration {
     private RepoLocation location;
     private String branch;
     private String displayName;
+    private boolean hasCustomGroups = false;
     private transient Date sinceDate;
     private transient Date untilDate;
 
     private transient boolean annotationOverwrite = true;
     private transient List<Format> formats;
+    private transient List<Group> fileTypes;
     private transient int commitNum = 1;
     private transient List<String> ignoreGlobList = new ArrayList<>();
     private transient AuthorConfiguration authorConfig;
-    private transient GroupConfiguration groupConfig;
     private transient boolean isStandaloneConfigIgnored;
     private transient List<CommitHash> ignoreCommitList;
     private transient boolean isFormatsOverriding;
@@ -52,12 +54,12 @@ public class RepoConfiguration {
             boolean isStandaloneConfigIgnored, List<CommitHash> ignoreCommitList, boolean isFormatsOverriding,
             boolean isIgnoreGlobListOverriding, boolean isIgnoreCommitListOverriding) {
         this.authorConfig = new AuthorConfiguration(location, branch);
-        this.groupConfig = new GroupConfiguration(location);
         this.location = location;
         this.branch = location.isEmpty() ? DEFAULT_BRANCH : branch;
         this.ignoreGlobList = ignoreGlobList;
         this.isStandaloneConfigIgnored = isStandaloneConfigIgnored;
         this.formats = formats;
+        this.fileTypes = new ArrayList<>();
         this.ignoreCommitList = ignoreCommitList;
         this.isFormatsOverriding = isFormatsOverriding;
         this.isIgnoreGlobListOverriding = isIgnoreGlobListOverriding;
@@ -113,10 +115,10 @@ public class RepoConfiguration {
     }
 
     /**
-     * Merges a {@code RepoConfiguration} from {@code repoConfigs} with an {@code GroupConfiguration} from
-     * {@code groupConfigs} if their {@code RepoLocation} matches
+     * Sets the list of fileTypes in {@code groupConfigs} to the respective {@code repoConfigs}.
      */
-    public static void mergeGroups(List<RepoConfiguration> repoConfigs, List<GroupConfiguration> groupConfigs) {
+    public static void setGroupConfigsToRepos(List<RepoConfiguration> repoConfigs,
+            List<GroupConfiguration> groupConfigs) {
         for (GroupConfiguration groupConfig : groupConfigs) {
             if (groupConfig.getLocation().isEmpty()) {
                 continue;
@@ -128,8 +130,8 @@ public class RepoConfiguration {
                         "Repository %s is not found in repo-config.csv.", groupConfig.getLocation()));
                 continue;
             }
-
-            matchingRepoConfig.setGroupConfiguration(groupConfig);
+            matchingRepoConfig.setFileTypes(groupConfig.getGroupList());
+            matchingRepoConfig.hasCustomGroups = true;
         }
     }
 
@@ -166,8 +168,12 @@ public class RepoConfiguration {
      * Sets {@code formats} to {@code RepoConfiguration} in {@code configs} if its format list is empty.
      */
     public static void setFormatsToRepoConfigs(List<RepoConfiguration> configs, List<Format> formats) {
-        configs.stream().filter(config -> config.getFormats().isEmpty())
-                        .forEach(config -> config.setFormats(formats));
+        for (RepoConfiguration config : configs) {
+            if (!config.getFormats().isEmpty()) {
+                config.setFormats(formats);
+                config.setFormatsToFileTypes(formats);
+            }
+        }
     }
 
     /**
@@ -191,6 +197,7 @@ public class RepoConfiguration {
         }
         if (!isFormatsOverriding) {
             formats = Format.convertStringsToFormats(standaloneConfig.getFormats());
+            setFormatsToFileTypes(formats);
         }
         if (!isIgnoreCommitListOverriding) {
             ignoreCommitList = CommitHash.convertStringsToCommits(standaloneConfig.getIgnoreCommitList());
@@ -330,22 +337,41 @@ public class RepoConfiguration {
     }
 
     public void addGroups(List<Group> groupList) {
-        groupConfig.addGroups(groupList);
-    }
-
-    public List<Group> getGroupList() {
-        return groupConfig.getGroupList();
-    }
-
-    public void setGroupConfiguration(GroupConfiguration groupConfig) {
-        this.groupConfig = groupConfig;
+        for (Group group : groupList) {
+            if (fileTypes.contains(group)) {
+                logger.log(Level.WARNING, String.format("Skipping group as %s already specified in repository %s",
+                        group.toString(), location));
+            } else {
+                fileTypes.add(group);
+            }
+        }
     }
 
     /**
-     * Clears groups information and sets the {@code groupList} to {@code RepoConfiguration}.
+     * Clears existing {@link RepoConfiguration#fileTypes} and sets {@code groupList} into
+     * {@link RepoConfiguration#fileTypes}.
      */
-    public void setGroupList(List<Group> groupList) {
-        groupConfig.setGroupList(groupList);
+    public void setFileTypes(List<Group> groupList) {
+        fileTypes.clear();
+        addGroups(groupList);
+    }
+
+    public List<Group> getFileTypes() {
+        return fileTypes;
+    }
+
+    /**
+     * Converts each {@code format} in {@code formats} into individual {@code fileTypes} and set the existing
+     * {@link RepoConfiguration#fileTypes} in {@link RepoConfiguration} to {@code fileTypes}.
+     */
+    public void setFormatsToFileTypes(List<Format> formats) {
+        if (hasCustomGroups) {
+            return;
+        }
+        List<Group> fileTypes = new ArrayList<>();
+        formats.forEach(format -> fileTypes.add(new Group(format.toString(),
+                Collections.singletonList("**/" + format.toString()))));
+        setFileTypes(fileTypes);
     }
 
     public void setAuthorConfiguration(AuthorConfiguration authorConfig) {
@@ -441,5 +467,9 @@ public class RepoConfiguration {
 
     public boolean isIgnoreCommitListOverriding() {
         return isIgnoreCommitListOverriding;
+    }
+
+    public boolean hasCustomGroups() {
+        return hasCustomGroups;
     }
 }

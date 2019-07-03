@@ -110,16 +110,16 @@ The `Tool Bar` at the top provides a set of configuration options that control t
   * `None` : results will not be grouped in any particular way.
   * `Repo/Branch` : results will be grouped by repositories and its' associating branches.
   * `Author` : results will be grouped by the name of the author. Contributions made to multiple repositories by a particular author will be grouped under the author.
-* `Sort groups by`: sorting criteria for the main group
+* `Sort groups by`: sorting criteria for the main fileType
   * `Name` : groups will be sorted by GitHub ID in alphabetical order.
   * `Repo/branch` : groups will be sorted in alphabetical order by the name of the repo, followed by name of the branch. See note [1] below.
-  * `Contribution` : groups will be sorted by the combined contributions within a group, in the order of number of lines added
+  * `Contribution` : groups will be sorted by the combined contributions within a fileType, in the order of number of lines added
   * `Variance` : groups will be sorted by the average of the squared differences from the average number of lines of code contributed per day among all authors involved. Detailed definition of variance is located [here](https://en.wikipedia.org/wiki/Variance).
-* `Sort within groups by`: sorting criteria within each group
-  * `Name` : each sub-group will be sorted by GitHub ID in alphabetical order.
-  * `Repo/branch` : each sub-group will be sorted in alphabetical order by the name of the repo, followed by name of the branch. See note [1] below.
-  * `Contribution` : each sub-group will be sorted by individual contributions in the order of number of lines added
-  * `Variance` : each sub-group will be sorted by the average of the squared differences from the average number of lines of code contributed per day by each author into a particular repo. Detailed definition of variance is located [here](https://en.wikipedia.org/wiki/Variance).
+* `Sort within groups by`: sorting criteria within each fileType
+  * `Name` : each sub-fileType will be sorted by GitHub ID in alphabetical order.
+  * `Repo/branch` : each sub-fileType will be sorted in alphabetical order by the name of the repo, followed by name of the branch. See note [1] below.
+  * `Contribution` : each sub-fileType will be sorted by individual contributions in the order of number of lines added
+  * `Variance` : each sub-fileType will be sorted by the average of the squared differences from the average number of lines of code contributed per day by each author into a particular repo. Detailed definition of variance is located [here](https://en.wikipedia.org/wiki/Variance).
 * `Granularity` : the period of time for which commits are aggregated in the Ramp Chart.
     * `Commit`: each commit made is shown as one ramp
     * `Day`: commits within a day (commits made within 00:00 to 23:59) are shown as one ramp
@@ -350,11 +350,11 @@ Optionally, you can provide a `groups-config.csv`(which should be in the same di
 Column Name | Explanation
 ----------- | -----------
 Repository's Location | Same as `repo-config.csv`.
-Group Name | Name of the group e.g.,`test`.
-Globs | The list of file path globs to include for specified group. e.g.,`**/test/*;**.java`.
+Group Name | Name of the fileType e.g.,`test`.
+Globs | The list of file path globs to include for specified fileType. e.g.,`**/test/*;**.java`.
 
-Note that a file in a given repository can only have 1 group specified. e.g. `example.java` in `example-repo` can either be in `test` group
-or in `code` group, but not in both `test` and `code` group. If multiple groups are specified for a given file, the latter group is set for the file.
+Note that a file in a given repository can only have 1 fileType specified. e.g. `example.java` in `example-repo` can either be in `test` fileType
+or in `code` fileType, but not in both `test` and `code` fileType. If multiple groups are specified for a given file, the latter fileType is set for the file.
 
 ## Analyzing Multiple Repos
 

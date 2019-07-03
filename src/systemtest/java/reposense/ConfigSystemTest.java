@@ -109,7 +109,7 @@ public class ConfigSystemTest {
                 new GroupConfigCsvParser(((ConfigCliArguments) cliArguments).getGroupConfigFilePath()).parse();
 
         RepoConfiguration.merge(repoConfigs, authorConfigs);
-        RepoConfiguration.mergeGroups(repoConfigs, groupConfigs);
+        RepoConfiguration.setGroupConfigsToRepos(repoConfigs, groupConfigs);
 
         RepoConfiguration.setFormatsToRepoConfigs(repoConfigs, cliArguments.getFormats());
         RepoConfiguration.setDatesToRepoConfigs(

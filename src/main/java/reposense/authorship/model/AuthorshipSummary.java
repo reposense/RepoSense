@@ -17,35 +17,25 @@ public class AuthorshipSummary {
     private final Map<Author, Integer> authorFinalContributionMap;
     private final Map<Author, LinkedHashMap<String, Integer>> authorFileTypeContributionMap;
 
-    public AuthorshipSummary(List<FileResult> fileResults, List<Author> authors, List<Format> formats,
-        List<Group> groups) {
+    public AuthorshipSummary(List<FileResult> fileResults, List<Author> authors, List<Group> fileTypes,
+            boolean hasCustomGroupings) {
         this.fileResults = fileResults;
         authorFinalContributionMap = new HashMap<>();
         authorFileTypeContributionMap = new HashMap<>();
 
-        // initialise each author contribution to be 0
-        authors.forEach((author) -> authorFinalContributionMap.put(author, 0));
+        authors.forEach(author -> {
+            // initialise each author contribution to be 0
+            authorFinalContributionMap.put(author, 0);
 
-        if (!groups.isEmpty()) {
-            // group contribution
-            authors.forEach((author) -> {
-                LinkedHashMap<String, Integer> defaultGroupContribution = new LinkedHashMap<>();
-                for (Group group : groups) {
-                    defaultGroupContribution.put(group.toString(), 0);
-                }
-                defaultGroupContribution.put(Group.DEFAULT_GROUP, 0);
-                authorFileTypeContributionMap.put(author, defaultGroupContribution);
-            });
-        } else {
-            // file format contribution
-            authors.forEach((author) -> {
-                LinkedHashMap<String, Integer> defaultFileFormatContribution = new LinkedHashMap<>();
-                for (Format format : formats) {
-                    defaultFileFormatContribution.put(format.toString(), 0);
-                }
-                authorFileTypeContributionMap.put(author, defaultFileFormatContribution);
-            });
-        }
+            LinkedHashMap<String, Integer> defaultFileTypeContribution = new LinkedHashMap<>();
+            for (Group fileType : fileTypes) {
+                defaultFileTypeContribution.put(fileType.toString(), 0);
+            }
+            if (hasCustomGroupings) {
+                defaultFileTypeContribution.put(Group.DEFAULT_GROUP, 0);
+            }
+            authorFileTypeContributionMap.put(author, defaultFileTypeContribution);
+        });
     }
 
     /**

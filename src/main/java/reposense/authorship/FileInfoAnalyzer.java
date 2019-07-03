@@ -68,7 +68,7 @@ public class FileInfoAnalyzer {
             Author author = line.getAuthor();
             authorContributionMap.put(author, authorContributionMap.getOrDefault(author, 0) + 1);
         }
-        return new FileResult(fileInfo.getPath(), fileInfo.getGroup(), fileInfo.getLines(), authorContributionMap);
+        return new FileResult(fileInfo.getPath(), fileInfo.getFileType(), fileInfo.getLines(), authorContributionMap);
     }
 
     /**
@@ -99,18 +99,14 @@ public class FileInfoAnalyzer {
      * Sets specified {@code Group} for {@code fileInfo}
      */
     private static void setGroup(RepoConfiguration config, FileInfo fileInfo) {
-        List<Group> groups = config.getGroupList();
-        if (groups.isEmpty()) {
-            fileInfo.setGroup("none");
-        } else {
-            Path filePath = Paths.get(fileInfo.getPath());
-            for (Group group : groups) {
-                PathMatcher groupGlobMatcher = group.getGroupGlobMatcher();
-                if (groupGlobMatcher.matches(filePath)) {
-                    fileInfo.setGroup(group.toString());
-                }
+        List<Group> fileTypes = config.getFileTypes();
+        Path filePath = Paths.get(fileInfo.getPath());
+        fileTypes.forEach(fileType -> {
+            PathMatcher groupGlobMatcher = fileType.getGroupGlobMatcher();
+            if (groupGlobMatcher.matches(filePath)) {
+                fileInfo.setFileType(fileType.toString());
             }
-        }
+        });
     }
 
     /**
