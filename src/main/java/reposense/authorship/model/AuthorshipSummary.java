@@ -6,7 +6,6 @@ import java.util.List;
 import java.util.Map;
 
 import reposense.model.Author;
-import reposense.model.Format;
 import reposense.model.Group;
 
 /**

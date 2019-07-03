@@ -1,12 +1,7 @@
 package reposense.model;
 
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
-import java.util.logging.Logger;
-
-import reposense.system.LogsManager;
 
 /**
  * Represents groups configuration information from CSV config file for a single repository.

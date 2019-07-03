@@ -6,7 +6,6 @@ import reposense.authorship.model.AuthorshipSummary;
 import reposense.authorship.model.FileResult;
 import reposense.authorship.model.LineInfo;
 import reposense.model.Author;
-import reposense.model.Format;
 import reposense.model.Group;
 
 /**

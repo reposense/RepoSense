@@ -115,7 +115,7 @@ public class RepoConfiguration {
     }
 
     /**
-     * Sets the list of fileTypes in {@code groupConfigs} to the respective {@code repoConfigs}.
+     * Sets the list of groups in {@code groupConfigs} to the respective {@code repoConfigs}.
      */
     public static void setGroupConfigsToRepos(List<RepoConfiguration> repoConfigs,
             List<GroupConfiguration> groupConfigs) {
@@ -336,8 +336,11 @@ public class RepoConfiguration {
         authorConfig.addAuthors(authorList, this.getIgnoreGlobList());
     }
 
-    public void addGroups(List<Group> groupList) {
-        for (Group group : groupList) {
+    /**
+     * Adds the contents in {@code fileTypesList} into the existing list of fileTypes.
+     */
+    public void addFileTypes(List<Group> fileTypesList) {
+        for (Group group : fileTypesList) {
             if (fileTypes.contains(group)) {
                 logger.log(Level.WARNING, String.format("Skipping group as %s already specified in repository %s",
                         group.toString(), location));
@@ -348,12 +351,12 @@ public class RepoConfiguration {
     }
 
     /**
-     * Clears existing {@link RepoConfiguration#fileTypes} and sets {@code groupList} into
+     * Clears existing {@link RepoConfiguration#fileTypes} and sets {@code fileTypes} into
      * {@link RepoConfiguration#fileTypes}.
      */
-    public void setFileTypes(List<Group> groupList) {
-        fileTypes.clear();
-        addGroups(groupList);
+    public void setFileTypes(List<Group> fileTypes) {
+        this.fileTypes.clear();
+        addFileTypes(fileTypes);
     }
 
     public List<Group> getFileTypes() {
