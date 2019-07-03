@@ -245,6 +245,5 @@ window.app = new window.Vue({
       window.removeHash('tabType');
     }
     window.addHash('tabOpen', this.isTabActive);
-    window.encodeHash();
   },
 });
