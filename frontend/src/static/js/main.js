@@ -193,18 +193,37 @@ window.app = new window.Vue({
       this.$refs.summary.updateDateRange();
     },
 
+    renderAuthorShipTabHash(minDate, maxDate) {
+      const hash = window.hashParams;
+      const info = {
+        author: hash.tabAuthor,
+        repo: hash.tabRepo,
+        minDate,
+        maxDate,
+      };
+      const tabInfoLength = Object.values(info).filter((x) => x).length;
+      if (Object.keys(info).length === tabInfoLength) {
+        this.updateTabAuthorship(info);
+      } else if (hash.tabOpen === 'false' || tabInfoLength > 2) {
+        window.app.isTabActive = false;
+      }
+    },
+
     renderTabHash() {
       window.decodeHash();
       const hash = window.hashParams;
-
       if (!hash.tabOpen) {
         return;
       }
-
       const tabOpen = hash.tabOpen === 'true';
       this.isTabActive = tabOpen;
-      if (hash.tabType) {
-        this.tabType = hash.tabType;
+
+      if (tabOpen) {
+        if (hash.tabType === 'authorship') {
+          this.renderAuthorShipTabHash(hash.since, hash.until);
+        } else {
+          // handle zoom tab if needed
+        }
       }
     },
 
@@ -221,6 +240,14 @@ window.app = new window.Vue({
         return `https://github.com/reposense/RepoSense/releases/tag/${version}`;
       }
       return `https://github.com/reposense/RepoSense/commits/${version}`;
+    },
+
+    receiveDates(dates) {
+      const [minDate, maxDate] = dates;
+
+      if (this.tabType === 'authorship') {
+        this.renderAuthorShipTabHash(minDate, maxDate);
+      }
     },
   },
   components: {
@@ -240,10 +267,11 @@ window.app = new window.Vue({
       }
     });
     if (!this.isTabActive) {
-      window.removeHash('repoIndex');
-      window.removeHash('userIndex');
+      window.removeHash('tabAuthor');
+      window.removeHash('tabRepo');
       window.removeHash('tabType');
     }
     window.addHash('tabOpen', this.isTabActive);
+    window.encodeHash();
   },
 });

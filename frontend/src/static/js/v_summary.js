@@ -341,6 +341,7 @@ window.vSummary = {
         this.filterUntilDate = maxDate;
         this.maxDate = maxDate;
       }
+      this.$emit('get-dates', [this.minDate, this.maxDate]);
     },
     getFiltered() {
       this.setSummaryHash();
@@ -526,30 +527,16 @@ window.vSummary = {
     },
 
     // triggering opening of tabs //
-    openTab() {
-      const { app, hashParams } = window;
-      if (app.isTabActive) {
-        if (app.tabType === 'authorship') {
-          this.openTabAuthorship(hashParams.repoIndex, hashParams.userIndex);
-        } else {
-          // handle zoom tab
-        }
-      }
-    },
-
-    openTabAuthorship(repoIndex, userIndex) {
+    openTabAuthorship(user, repo, index) {
       const { minDate, maxDate } = this;
-      const user = this.filtered[repoIndex][userIndex];
 
       this.$emit('view-authorship', {
         minDate,
         maxDate,
-        repoIndex,
-        userIndex,
         author: user.name,
         repo: user.repoName,
         name: user.displayName,
-        location: this.getRepoLink(user),
+        location: this.getRepoLink(repo[index]),
         totalCommits: user.totalCommits,
       });
     },
@@ -675,7 +662,6 @@ window.vSummary = {
     this.renderFilterHash();
     this.getFiltered();
     this.processFileFormats();
-    this.openTab();
   },
   components: {
     v_ramp: window.vRamp,
