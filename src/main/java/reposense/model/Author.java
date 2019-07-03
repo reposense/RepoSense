@@ -10,6 +10,9 @@ import java.util.List;
  */
 public class Author {
 
+    public static final String NAME_FAILED_TO_CLONE_OR_CHECKOUT = "FAILED TO CLONE OR CHECKOUT THIS REPOSITORY";
+    public static final String NAME_NO_AUTHOR_WITH_COMMITS_FOUND =
+            "NO AUTHOR WITH COMMITS FOUND WITHIN THIS PERIOD OF TIME";
     private static final String UNKNOWN_AUTHOR_GIT_ID = "-";
     private static final String STANDARD_GITHUB_EMAIL_DOMAIN = "@users.noreply.github.com";
     private static final String MESSAGE_UNCOMMON_EMAIL_PATTERN = "The provided email, %s, uses uncommon pattern.";
