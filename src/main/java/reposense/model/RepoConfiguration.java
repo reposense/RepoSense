@@ -169,7 +169,7 @@ public class RepoConfiguration {
      */
     public static void setFormatsToRepoConfigs(List<RepoConfiguration> configs, List<Format> formats) {
         for (RepoConfiguration config : configs) {
-            if (!config.getFormats().isEmpty()) {
+            if (config.getFormats().isEmpty()) {
                 config.setFormats(formats);
                 config.setFormatsToFileTypes(formats);
             }
