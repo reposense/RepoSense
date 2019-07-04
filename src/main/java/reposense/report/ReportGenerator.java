@@ -6,6 +6,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -280,6 +281,15 @@ public class ReportGenerator {
      */
     private static void removeFailedRepoConfigs(List<RepoConfiguration> repoConfigs) {
         repoConfigs.removeAll(failedRepoConfigsList);
+    }
+
+    /**
+     * Generates a report at the {@code repoReportDirectory}.
+     */
+    public static void generateEmptyRepoReport(String repoReportDirectory, String displayName) {
+        CommitReportJson emptyCommitReportJson = new CommitReportJson(displayName);
+        FileUtil.writeJsonFile(emptyCommitReportJson, getIndividualCommitsPath(repoReportDirectory));
+        FileUtil.writeJsonFile(Collections.emptyList(), getIndividualAuthorshipPath(repoReportDirectory));
     }
 
     private static void generateIndividualRepoReport(
