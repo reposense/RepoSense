@@ -74,11 +74,11 @@ public class FileInfoAnalyzer {
      * Sets the {@code Author} for each line in {@code fileInfo} based on the git blame analysis on the file.
      */
     private static void aggregateBlameAuthorInfo(RepoConfiguration config, FileInfo fileInfo) {
-        Long sinceDateInMs = config.getSinceDate().getTime();
-        Long untilDateInMs = config.getUntilDate().getTime() + DAY_IN_MS; // get end of the day
         String blameResults = getGitBlameResult(config, fileInfo.getPath());
         String[] blameResultLines = blameResults.split("\n");
         Path filePath = Paths.get(fileInfo.getPath());
+        Long sinceDateInMs = config.getSinceDate().getTime();
+        Long untilDateInMs = config.getUntilDate().getTime() + DAY_IN_MS; // get end of the day
 
         for (int lineCount = 0; lineCount < blameResultLines.length; lineCount += 4) {
             String commitHash = blameResultLines[lineCount].substring(0, FULL_COMMIT_HASH_LENGTH);
