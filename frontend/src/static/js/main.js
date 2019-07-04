@@ -215,7 +215,6 @@ window.app = new window.Vue({
       if (!hash.tabOpen) {
         return;
       }
-      
       this.isTabActive = hash.tabOpen === 'true';
 
       if (this.isTabActive) {
