@@ -31,6 +31,7 @@ public class FileInfoAnalyzer {
     private static final int AUTHOR_EMAIL_OFFSET = "author-mail ".length();
     private static final int AUTHOR_TIME_OFFSET = "author-time ".length();
     private static final int FULL_COMMIT_HASH_LENGTH = 40;
+    private static final long DAY_IN_MS = 86400000;
 
     /**
      * Analyzes the lines of the file, given in the {@code fileInfo}, that has changed in the time period provided
@@ -74,7 +75,7 @@ public class FileInfoAnalyzer {
      */
     private static void aggregateBlameAuthorInfo(RepoConfiguration config, FileInfo fileInfo) {
         Long sinceDateInMs = config.getSinceDate().getTime();
-        Long untilDateInMs = config.getUntilDate().getTime();
+        Long untilDateInMs = config.getUntilDate().getTime() + DAY_IN_MS; // get end of the day
         String blameResults = getGitBlameResult(config, fileInfo.getPath());
         String[] blameResultLines = blameResults.split("\n");
         Path filePath = Paths.get(fileInfo.getPath());
