@@ -1,7 +1,6 @@
 package reposense.authorship;
 
 import java.util.Arrays;
-import java.util.Calendar;
 import java.util.Collections;
 import java.util.Date;
 
@@ -15,17 +14,9 @@ import reposense.git.exception.CommitNotFoundException;
 import reposense.model.Author;
 import reposense.model.CommitHash;
 import reposense.template.GitTestTemplate;
-import reposense.util.TestUtil;
 
 
 public class FileAnalyzerTest extends GitTestTemplate {
-
-    private static final Date BLAME_TEST_SINCE_DATE = TestUtil.getDate(2018, Calendar.FEBRUARY, 6);
-    private static final Date BLAME_TEST_UNTIL_DATE = TestUtil.getDate(2018, Calendar.FEBRUARY, 8);
-    private static final Date MOVED_FILE_SINCE_DATE = TestUtil.getDate(2018, Calendar.FEBRUARY, 7);
-    private static final Date MOVED_FILE_UNTIL_DATE = TestUtil.getDate(2018, Calendar.FEBRUARY, 9);
-    private static final Date PR_617_SINCE_DATE = TestUtil.getDate(2019, Calendar.MARCH, 28);
-    private static final Date PR_617_UNTIL_DATE = TestUtil.getDate(2019, Calendar.MARCH, 29);
 
     @Test
     public void blameTest() {
