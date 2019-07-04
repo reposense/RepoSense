@@ -2,7 +2,6 @@ package reposense.authorship;
 
 import java.util.Arrays;
 import java.util.Collections;
-import java.util.Date;
 
 import org.junit.Assert;
 import org.junit.Test;
@@ -36,12 +35,9 @@ public class FileAnalyzerTest extends GitTestTemplate {
 
     @Test
     public void blameTestDateRange() throws CommitNotFoundException {
-        Date sinceDate = BLAME_TEST_SINCE_DATE;
-        Date untilDate = BLAME_TEST_UNTIL_DATE;
-
-        GitCheckout.checkoutDate(config.getRepoRoot(), config.getBranch(), untilDate);
-        config.setSinceDate(sinceDate);
-        config.setUntilDate(untilDate);
+        GitCheckout.checkoutDate(config.getRepoRoot(), config.getBranch(), BLAME_TEST_UNTIL_DATE);
+        config.setSinceDate(BLAME_TEST_SINCE_DATE);
+        config.setUntilDate(BLAME_TEST_UNTIL_DATE);
 
         FileResult fileResult = getFileResult("blameTest.java");
         assertFileAnalysisCorrectness(fileResult);
@@ -49,12 +45,9 @@ public class FileAnalyzerTest extends GitTestTemplate {
 
     @Test
     public void movedFileBlameTestDateRange() throws CommitNotFoundException {
-        Date sinceDate = MOVED_FILE_SINCE_DATE;
-        Date untilDate = MOVED_FILE_UNTIL_DATE;
-
-        GitCheckout.checkoutDate(config.getRepoRoot(), config.getBranch(), untilDate);
-        config.setSinceDate(sinceDate);
-        config.setUntilDate(untilDate);
+        GitCheckout.checkoutDate(config.getRepoRoot(), config.getBranch(), MOVED_FILE_UNTIL_DATE);
+        config.setSinceDate(MOVED_FILE_SINCE_DATE);
+        config.setUntilDate(MOVED_FILE_UNTIL_DATE);
 
         FileResult fileResult = getFileResult("newPos/movedFile.java");
         assertFileAnalysisCorrectness(fileResult);
