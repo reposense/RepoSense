@@ -19,6 +19,28 @@ public class CommitReportJson {
     private final Map<Author, Float> authorContributionVariance;
     private final Map<Author, String> authorDisplayNameMap;
 
+    /**
+     * Constructor to construct an empty commit report with the author's display name as {@code displayName}.
+     */
+    public CommitReportJson(String displayName) {
+        Author emptyAuthor = Author.UNKNOWN_AUTHOR;
+
+        authorDailyContributionsMap = new HashMap<>();
+        authorDailyContributionsMap.put(emptyAuthor, Collections.emptyList());
+
+        authorFinalContributionMap = new HashMap<>();
+        authorFinalContributionMap.put(emptyAuthor, 0);
+
+        authorFileFormatContributionMap = new HashMap<>();
+        authorFileFormatContributionMap.put(emptyAuthor, new LinkedHashMap<>());
+
+        authorContributionVariance = new HashMap<>();
+        authorContributionVariance.put(emptyAuthor, (float) 0.0);
+
+        authorDisplayNameMap = new HashMap<>();
+        authorDisplayNameMap.put(emptyAuthor, displayName);
+    }
+
     public CommitReportJson(CommitContributionSummary commitSummary, AuthorshipSummary authorshipSummary) {
         authorDailyContributionsMap = commitSummary.getAuthorDailyContributionsMap();
         authorFinalContributionMap = authorshipSummary.getAuthorFinalContributionMap();
