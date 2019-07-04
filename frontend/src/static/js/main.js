@@ -215,10 +215,10 @@ window.app = new window.Vue({
       if (!hash.tabOpen) {
         return;
       }
-      const tabOpen = hash.tabOpen === 'true';
-      this.isTabActive = tabOpen;
+      
+      this.isTabActive = hash.tabOpen === 'true';
 
-      if (tabOpen) {
+      if (this.isTabActive) {
         if (hash.tabType === 'authorship') {
           this.renderAuthorShipTabHash(hash.since, hash.until);
         } else {
