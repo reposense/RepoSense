@@ -150,10 +150,11 @@ html
                   span &nbsp; {{ fileFormat }} &nbsp;
             .summary-chart(v-for="(user, i) in repo")
               .summary-chart__title
-                .summary-chart__title--index {{ i+1 }}
-                .summary-chart__title--repo(v-if="filterGroupSelection === 'groupByNone'") {{ user.repoName }}
-                .summary-chart__title--author-repo(v-if="filterGroupSelection === 'groupByAuthors'") {{ user.repoName }}
-                .summary-chart__title--name(v-if="filterGroupSelection !== 'groupByAuthors'") {{ user.displayName }} ({{ user.name }})
+                .summary-chart__title--info(v-if="user.name === '-'") INFO: {{ user.displayName }}
+                .summary-chart__title--index(v-if="user.name !== '-'") {{ i+1 }}
+                .summary-chart__title--repo(v-if="filterGroupSelection === 'groupByNone' && user.name !== '-'") {{ user.repoName }}
+                .summary-chart__title--author-repo(v-if="filterGroupSelection === 'groupByAuthors' && user.name !== '-'") {{ user.repoName }}
+                .summary-chart__title--name(v-if="filterGroupSelection !== 'groupByAuthors' && user.name !== '-'") {{ user.displayName }} ({{ user.name }})
                 a(
                   title="click to view author's code",
                   v-on:click="openTabAuthorship(user, repo, i)"
