@@ -11,8 +11,9 @@ import java.util.logging.Logger;
 
 import reposense.git.GitBranch;
 import reposense.git.GitClone;
-
 import reposense.git.exception.GitBranchException;
+
+import reposense.model.Author;
 import reposense.model.RepoConfiguration;
 import reposense.model.RepoLocation;
 import reposense.system.CommandRunnerProcess;
@@ -133,10 +134,14 @@ public class RepoCloner {
         return true;
     }
 
+    /**
+     * Creates an empty repository report that is due to cloning failure.
+     */
     private void handleCloningFailed(String outputPath, RepoConfiguration config) throws IOException {
         Path repoReportDirectory = Paths.get(outputPath, config.getDisplayName());
         FileUtil.createDirectory(repoReportDirectory);
-        ReportGenerator.generateEmptyRepoReport(repoReportDirectory.toString());
+        ReportGenerator.generateEmptyRepoReport(repoReportDirectory.toString(),
+                Author.NAME_FAILED_TO_CLONE_OR_CHECKOUT);
     }
 
     /**

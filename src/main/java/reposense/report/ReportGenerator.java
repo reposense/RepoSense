@@ -33,6 +33,7 @@ import reposense.model.RepoLocation;
 import reposense.model.StandaloneConfig;
 import reposense.parser.SinceDateArgumentType;
 import reposense.parser.StandaloneConfigJsonParser;
+import reposense.report.exception.NoAuthorsWithCommitsFoundException;
 import reposense.system.LogsManager;
 import reposense.util.FileUtil;
 
@@ -57,6 +58,8 @@ public class ReportGenerator {
     private static final String MESSAGE_MALFORMED_STANDALONE_CONFIG = "%s/%s/%s is malformed for %s (%s).";
     private static final String MESSAGE_NO_AUTHORS_SPECIFIED =
             "%s (%s) has no authors specified, using all authors by default.";
+    private static final String MESSAGE_NO_AUTHORS_WITH_COMMITS_FOUND =
+            "No authors found with commits for %s (%s).";
     private static final String MESSAGE_START_ANALYSIS = "Analyzing %s (%s)...";
     private static final String MESSAGE_COMPLETE_ANALYSIS = "Analysis of %s (%s) completed!";
     private static final String MESSAGE_REPORT_GENERATED = "The report is generated at %s";
@@ -158,27 +161,34 @@ public class ReportGenerator {
             } catch (GitBranchException gbe) {
                 logger.log(Level.SEVERE, String.format(MESSAGE_BRANCH_DOES_NOT_EXIST,
                         config.getBranch(), config.getLocation()), gbe);
-                generateEmptyRepoReport(repoReportDirectory.toString());
+                generateEmptyRepoReport(repoReportDirectory.toString(), Author.NAME_FAILED_TO_CLONE_OR_CHECKOUT);
                 continue;
             }
 
             try {
                 GitLsTree.validateFilePaths(config, FileUtil.getBareRepoPath(config));
             } catch (InvalidFilePathException ipe) {
-                generateEmptyRepoReport(repoReportDirectory.toString());
+                generateEmptyRepoReport(repoReportDirectory.toString(), Author.NAME_FAILED_TO_CLONE_OR_CHECKOUT);
                 continue;
             }
 
             GitClone.cloneFromBareAndUpdateBranch(Paths.get(FileUtil.REPOS_ADDRESS), FileUtil.getBareRepoPath(config),
                     Paths.get(config.getRepoFolderName(), config.getRepoName()).toString(), config.getBranch());
-            analyzeRepo(config, repoReportDirectory.toString());
+            try {
+                analyzeRepo(config, repoReportDirectory.toString());
+            } catch (NoAuthorsWithCommitsFoundException nafe) {
+                logger.log(Level.SEVERE, String.format(MESSAGE_NO_AUTHORS_WITH_COMMITS_FOUND,
+                        config.getLocation(), config.getBranch()));
+                generateEmptyRepoReport(repoReportDirectory.toString(), Author.NAME_NO_AUTHOR_WITH_COMMITS_FOUND);
+            }
         }
     }
 
     /**
      * Analyzes repo specified by {@code config} and generates the report.
      */
-    private static void analyzeRepo(RepoConfiguration config, String repoReportDirectory) {
+    private static void analyzeRepo(
+            RepoConfiguration config, String repoReportDirectory) throws NoAuthorsWithCommitsFoundException {
         // preprocess the config and repo
         updateRepoConfig(config);
         updateAuthorList(config);
@@ -224,10 +234,15 @@ public class ReportGenerator {
     /**
      * Find and update {@code config} with all the author identities if author list is empty.
      */
-    private static void updateAuthorList(RepoConfiguration config) {
+    private static void updateAuthorList(RepoConfiguration config) throws NoAuthorsWithCommitsFoundException {
         if (config.getAuthorList().isEmpty()) {
             logger.info(String.format(MESSAGE_NO_AUTHORS_SPECIFIED, config.getLocation(), config.getBranch()));
             List<Author> authorList = GitShortlog.getAuthors(config);
+
+            if (authorList.isEmpty()) {
+                throw new NoAuthorsWithCommitsFoundException();
+            }
+
             config.setAuthorList(authorList);
         }
     }
@@ -242,8 +257,8 @@ public class ReportGenerator {
     /**
     * Generates a report at the {@code repoReportDirectory}.
     */
-    public static void generateEmptyRepoReport(String repoReportDirectory) {
-        CommitReportJson emptyCommitReportJson = new CommitReportJson();
+    public static void generateEmptyRepoReport(String repoReportDirectory, String displayName) {
+        CommitReportJson emptyCommitReportJson = new CommitReportJson(displayName);
         FileUtil.writeJsonFile(emptyCommitReportJson, getIndividualCommitsPath(repoReportDirectory));
         FileUtil.writeJsonFile(Collections.emptyList(), getIndividualAuthorshipPath(repoReportDirectory));
     }
