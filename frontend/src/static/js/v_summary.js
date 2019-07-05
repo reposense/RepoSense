@@ -131,7 +131,6 @@ window.vSummary = {
     },
     filterTimeFrame() {
       this.getFiltered();
-      this.$root.$emit('updateFilterTimeFrame', this.filtered, this.filterTimeFrame);
     },
     filterGroupSelection() {
       this.updateSortWithinGroup();
@@ -544,7 +543,7 @@ window.vSummary = {
       });
     },
 
-    openTabZoom(userOrig, repoIndex, userIndex) {
+    openTabZoom(userOrig) {
       // skip if accidentally clicked on ramp chart
       if (drags.length === 2 && drags[1] - drags[0]) {
         const tdiff = new Date(this.filterUntilDate) - new Date(this.filterSinceDate);
@@ -559,8 +558,6 @@ window.vSummary = {
           user,
           sinceDate: tsince,
           untilDate: tuntil,
-          repoIndex,
-          userIndex,
         });
       }
     },
