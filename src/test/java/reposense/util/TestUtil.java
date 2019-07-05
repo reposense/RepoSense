@@ -105,6 +105,19 @@ public class TestUtil {
     }
 
     /**
+     * Creates and returns a {@code Date} object with the specified {@code year}, {@code month}, {@code day} that is
+     * at the end of the day.
+     */
+    public static Date getEndOfDate(int year, int month, int date) {
+        return new Calendar
+                .Builder()
+                .setDate(year, month, date)
+                .setTimeOfDay(23, 59, 59)
+                .build()
+                .getTime();
+    }
+
+    /**
      * Compares attributes of {@code expectedRepoConfig} and {@code actualRepoConfig}.
      *
      * @throws AssertionError if any attributes fail equality check.
