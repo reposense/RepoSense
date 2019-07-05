@@ -45,6 +45,14 @@ a{
     }
 }
 
+.red{
+    color:mui-color('red');
+
+    .summary-charts__title--contribution{
+        color:mui-color('black');
+    }
+}
+
 /** navigation bar **/
 header{
     z-index:100;
@@ -224,10 +232,6 @@ header{
         & > * {
             display:inline;
             padding-right:0.5rem;
-        }
-
-        &--info{
-            color:mui-color("red", "500");
         }
 
         &--index, &--repo{
