@@ -7,6 +7,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.logging.Logger;
+import java.util.stream.Collectors;
 
 import reposense.git.GitBranch;
 import reposense.git.exception.GitBranchException;
@@ -123,14 +124,17 @@ public class RepoConfiguration {
                 continue;
             }
 
-            RepoConfiguration matchingRepoConfig = getMatchingRepoConfigForGroups(repoConfigs, groupConfig);
-            if (matchingRepoConfig == null) {
+            List<RepoConfiguration> matchingRepoConfigs = getMatchingRepoConfigsByRepoLocation(repoConfigs,
+                    groupConfig.getLocation());
+            if (matchingRepoConfigs.isEmpty()) {
                 logger.warning(String.format(
                         "Repository %s is not found in repo-config.csv.", groupConfig.getLocation()));
                 continue;
             }
-            matchingRepoConfig.setFileTypes(groupConfig.getGroupList());
-            matchingRepoConfig.hasCustomGroups = true;
+            matchingRepoConfigs.forEach(matchingRepoConfig -> {
+                matchingRepoConfig.setFileTypes(groupConfig.getGroupList());
+                matchingRepoConfig.hasCustomGroups = true;
+            });
         }
     }
 
@@ -150,17 +154,12 @@ public class RepoConfiguration {
     }
 
     /**
-     * Iterates through {@code repoConfigs} to find a {@code RepoConfiguration} with {@code RepoLocation}
-     * that matches {@code groupConfig}. Returns {@code null} if no match is found.
+     * Returns a list of {@link RepoConfiguration} where the {@link RepoLocation} matches {@code targetRepoLocation}.
      */
-    private static RepoConfiguration getMatchingRepoConfigForGroups(
-            List<RepoConfiguration> repoConfigs, GroupConfiguration groupConfig) {
-        for (RepoConfiguration repoConfig : repoConfigs) {
-            if (repoConfig.getLocation().equals(groupConfig.getLocation())) {
-                return repoConfig;
-            }
-        }
-        return null;
+    private static List<RepoConfiguration> getMatchingRepoConfigsByRepoLocation(
+            List<RepoConfiguration> configs, RepoLocation targetRepoLocation) {
+        return configs.stream().filter(config -> config.getLocation().equals(targetRepoLocation))
+                .collect(Collectors.toList());
     }
 
     /**
