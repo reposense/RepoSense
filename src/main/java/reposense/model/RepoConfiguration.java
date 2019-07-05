@@ -34,7 +34,7 @@ public class RepoConfiguration {
     private transient AuthorConfiguration authorConfig;
     private transient boolean isStandaloneConfigIgnored;
     private transient List<CommitHash> ignoreCommitList;
-    private transient boolean isCsvConfigOverridingFormats;
+    private transient boolean isFormatsOverriding;
     private transient boolean isIgnoreGlobListOverriding;
     private transient boolean isIgnoreCommitListOverriding;
 
@@ -48,7 +48,7 @@ public class RepoConfiguration {
     }
 
     public RepoConfiguration(RepoLocation location, String branch, List<Format> formats, List<String> ignoreGlobList,
-            boolean isStandaloneConfigIgnored, List<CommitHash> ignoreCommitList, boolean isCsvConfigOverridingFormats,
+            boolean isStandaloneConfigIgnored, List<CommitHash> ignoreCommitList, boolean isFormatsOverriding,
             boolean isIgnoreGlobListOverriding, boolean isIgnoreCommitListOverriding) {
         this.authorConfig = new AuthorConfiguration(location, branch);
         this.location = location;
@@ -57,7 +57,7 @@ public class RepoConfiguration {
         this.isStandaloneConfigIgnored = isStandaloneConfigIgnored;
         this.formats = formats;
         this.ignoreCommitList = ignoreCommitList;
-        this.isCsvConfigOverridingFormats = isCsvConfigOverridingFormats;
+        this.isFormatsOverriding = isFormatsOverriding;
         this.isIgnoreGlobListOverriding = isIgnoreGlobListOverriding;
         this.isIgnoreCommitListOverriding = isIgnoreCommitListOverriding;
 
@@ -152,7 +152,7 @@ public class RepoConfiguration {
         if (!isIgnoreGlobListOverriding) {
             ignoreGlobList = standaloneConfig.getIgnoreGlobList();
         }
-        if (!isCsvConfigOverridingFormats) {
+        if (!isFormatsOverriding) {
             formats = Format.convertStringsToFormats(standaloneConfig.getFormats());
         }
         if (!isIgnoreCommitListOverriding) {
@@ -221,7 +221,7 @@ public class RepoConfiguration {
                 && ignoreGlobList.equals(otherRepoConfig.ignoreGlobList)
                 && isStandaloneConfigIgnored == otherRepoConfig.isStandaloneConfigIgnored
                 && formats.equals(otherRepoConfig.formats)
-                && isCsvConfigOverridingFormats == otherRepoConfig.isCsvConfigOverridingFormats
+                && isFormatsOverriding == otherRepoConfig.isFormatsOverriding
                 && isIgnoreGlobListOverriding == otherRepoConfig.isIgnoreGlobListOverriding
                 && isIgnoreCommitListOverriding == otherRepoConfig.isIgnoreCommitListOverriding;
     }
@@ -375,8 +375,8 @@ public class RepoConfiguration {
         return isStandaloneConfigIgnored;
     }
 
-    public boolean isCsvConfigOverridingFormats() {
-        return isCsvConfigOverridingFormats;
+    public boolean isFormatsOverriding() {
+        return isFormatsOverriding;
     }
 
     public boolean isIgnoreGlobListOverriding() {
