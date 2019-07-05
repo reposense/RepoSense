@@ -22,9 +22,9 @@ public class CommitReportJson {
     private final Map<Author, String> authorDisplayNameMap;
 
     /**
-     * Empty constructor to construct an empty commit report.
+     * Constructor to construct an empty commit report with the author's display name as {@code displayName}.
      */
-    public CommitReportJson() {
+    public CommitReportJson(String displayName) {
         Author emptyAuthor = Author.UNKNOWN_AUTHOR;
 
         authorDailyContributionsMap = new HashMap<>();
@@ -40,7 +40,7 @@ public class CommitReportJson {
         authorContributionVariance.put(emptyAuthor, (float) 0.0);
 
         authorDisplayNameMap = new HashMap<>();
-        authorDisplayNameMap.put(emptyAuthor, "FAILED TO CLONE OR CHECKOUT THIS REPOSITORY");
+        authorDisplayNameMap.put(emptyAuthor, displayName);
     }
 
     public CommitReportJson(CommitContributionSummary commitSummary, AuthorshipSummary authorshipSummary) {
