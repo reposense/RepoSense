@@ -27,7 +27,9 @@ import reposense.model.Author;
 import reposense.model.RepoConfiguration;
 import reposense.model.RepoLocation;
 import reposense.model.StandaloneConfig;
+import reposense.parser.SinceDateArgumentType;
 import reposense.parser.StandaloneConfigJsonParser;
+import reposense.report.exception.NoAuthorsWithCommitsFoundException;
 import reposense.system.LogsManager;
 import reposense.util.FileUtil;
 
@@ -52,13 +54,14 @@ public class ReportGenerator {
     private static final String MESSAGE_MALFORMED_STANDALONE_CONFIG = "%s/%s/%s is malformed for %s (%s).";
     private static final String MESSAGE_NO_AUTHORS_SPECIFIED =
             "%s (%s) has no authors specified, using all authors by default.";
+    private static final String MESSAGE_NO_AUTHORS_WITH_COMMITS_FOUND =
+            "No authors found with commits for %s (%s).";
     private static final String MESSAGE_START_ANALYSIS = "Analyzing %s (%s)...";
     private static final String MESSAGE_COMPLETE_ANALYSIS = "Analysis of %s (%s) completed!";
     private static final String MESSAGE_REPORT_GENERATED = "The report is generated at %s";
     private static final String MESSAGE_BRANCH_DOES_NOT_EXIST = "Branch %s does not exist in %s! Analysis terminated.";
 
     private static Date earliestSinceDate = null;
-    private static Date latestUntilDate = null;
 
     /**
      * Generates the authorship and commits JSON file for each repo in {@code configs} at {@code outputPath}, as
@@ -66,22 +69,21 @@ public class ReportGenerator {
      *
      * @throws IOException if templateZip.zip does not exists in jar file.
      */
-    public static void generateReposReport(List<RepoConfiguration> configs, String outputPath,
-            String generationDate, Date cliSinceDate, Date cliUntilDate) throws IOException {
+    public static void generateReposReport(List<RepoConfiguration> configs, String outputPath, String generationDate,
+            Date cliSinceDate, Date untilDate) throws IOException {
         InputStream is = RepoSense.class.getResourceAsStream(TEMPLATE_FILE);
         FileUtil.copyTemplate(is, outputPath);
 
         earliestSinceDate = null;
-        latestUntilDate = null;
 
         Map<RepoLocation, List<RepoConfiguration>> repoLocationMap = groupConfigsByRepoLocation(configs);
         cloneAndAnalyzeRepos(repoLocationMap, outputPath);
 
-        Date sinceDate = cliSinceDate == null ? earliestSinceDate : cliSinceDate;
-        Date untilDate = cliUntilDate == null ? latestUntilDate : cliUntilDate;
+        Date reportSinceDate = (cliSinceDate.equals(SinceDateArgumentType.ARBITRARY_FIRST_COMMIT_DATE))
+                ? earliestSinceDate : cliSinceDate;
 
         FileUtil.writeJsonFile(
-                new SummaryReportJson(configs, generationDate, sinceDate, untilDate, RepoSense.getVersion()),
+                new SummaryReportJson(configs, generationDate, reportSinceDate, untilDate, RepoSense.getVersion()),
                 getSummaryResultPath(outputPath));
         logger.info(String.format(MESSAGE_REPORT_GENERATED, outputPath));
     }
@@ -151,20 +153,24 @@ public class ReportGenerator {
 
             try {
                 GitCheckout.checkout(config.getRepoRoot(), config.getBranch());
+                analyzeRepo(config, repoReportDirectory.toString());
+            } catch (NoAuthorsWithCommitsFoundException e) {
+                logger.log(Level.SEVERE, String.format(MESSAGE_NO_AUTHORS_WITH_COMMITS_FOUND,
+                        config.getLocation(), config.getBranch()));
+                generateEmptyRepoReport(repoReportDirectory.toString(), Author.NAME_NO_AUTHOR_WITH_COMMITS_FOUND);
             } catch (RuntimeException e) {
                 logger.log(Level.SEVERE, String.format(MESSAGE_BRANCH_DOES_NOT_EXIST,
                         config.getBranch(), config.getLocation()), e);
-                generateEmptyRepoReport(repoReportDirectory.toString());
-                continue;
+                generateEmptyRepoReport(repoReportDirectory.toString(), Author.NAME_FAILED_TO_CLONE_OR_CHECKOUT);
             }
-            analyzeRepo(config, repoReportDirectory.toString());
         }
     }
 
     /**
      * Analyzes repo specified by {@code config} and generates the report.
      */
-    private static void analyzeRepo(RepoConfiguration config, String repoReportDirectory) {
+    private static void analyzeRepo(
+            RepoConfiguration config, String repoReportDirectory) throws NoAuthorsWithCommitsFoundException {
         // preprocess the config and repo
         updateRepoConfig(config);
         updateAuthorList(config);
@@ -210,10 +216,15 @@ public class ReportGenerator {
     /**
      * Find and update {@code config} with all the author identities if author list is empty.
      */
-    private static void updateAuthorList(RepoConfiguration config) {
+    private static void updateAuthorList(RepoConfiguration config) throws NoAuthorsWithCommitsFoundException {
         if (config.getAuthorList().isEmpty()) {
             logger.info(String.format(MESSAGE_NO_AUTHORS_SPECIFIED, config.getLocation(), config.getBranch()));
             List<Author> authorList = GitShortlog.getAuthors(config);
+
+            if (authorList.isEmpty()) {
+                throw new NoAuthorsWithCommitsFoundException();
+            }
+
             config.setAuthorList(authorList);
         }
     }
@@ -228,8 +239,8 @@ public class ReportGenerator {
     /**
     * Generates a report at the {@code repoReportDirectory}.
     */
-    public static void generateEmptyRepoReport(String repoReportDirectory) {
-        CommitReportJson emptyCommitReportJson = new CommitReportJson();
+    public static void generateEmptyRepoReport(String repoReportDirectory, String displayName) {
+        CommitReportJson emptyCommitReportJson = new CommitReportJson(displayName);
         FileUtil.writeJsonFile(emptyCommitReportJson, getIndividualCommitsPath(repoReportDirectory));
         FileUtil.writeJsonFile(Collections.emptyList(), getIndividualAuthorshipPath(repoReportDirectory));
     }
@@ -249,12 +260,6 @@ public class ReportGenerator {
     public static void setEarliestSinceDate(Date newEarliestSinceDate) {
         if (earliestSinceDate == null || newEarliestSinceDate.before(earliestSinceDate)) {
             earliestSinceDate = newEarliestSinceDate;
-        }
-    }
-
-    public static void setLatestUntilDate(Date newLatestUntilDate) {
-        if (latestUntilDate == null || newLatestUntilDate.after(latestUntilDate)) {
-            latestUntilDate = newLatestUntilDate;
         }
     }
 }

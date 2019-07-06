@@ -9,6 +9,7 @@ import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.nio.ByteBuffer;
 import java.nio.file.Files;
+import java.nio.file.InvalidPathException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Arrays;
@@ -40,6 +41,8 @@ public class FileUtil {
     private static final Logger logger = LogsManager.getLogger(FileUtil.class);
     private static final String GITHUB_API_DATE_FORMAT = "yyyy-MM-dd";
     private static final ByteBuffer buffer = ByteBuffer.allocate(1 << 11); // 2KB
+
+    private static final String MESSAGE_INVALID_FILE_PATH = "\"%s\" is an invalid file path. Skipping this directory.";
 
     /**
      * Returns a {@code set} of relevant repo paths from {@code repoConfigsList}.
@@ -179,6 +182,20 @@ public class FileUtil {
      */
     public static void createDirectory(Path dest) throws IOException {
         Files.createDirectories(dest);
+    }
+
+    /**
+     * Returns true if {@code path} is a valid path.
+     * Produces log messages when the invalid file path is skipped.
+     */
+    public static boolean isValidPath(String path) {
+        try {
+            Paths.get(path);
+        } catch (InvalidPathException ipe) {
+            logger.log(Level.WARNING, String.format(MESSAGE_INVALID_FILE_PATH, path));
+            return false;
+        }
+        return true;
     }
 
     /**
