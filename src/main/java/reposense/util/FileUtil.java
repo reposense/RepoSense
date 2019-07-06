@@ -12,10 +12,9 @@ import java.nio.file.Files;
 import java.nio.file.InvalidPathException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
@@ -45,36 +44,36 @@ public class FileUtil {
     private static final String MESSAGE_INVALID_FILE_PATH = "\"%s\" is an invalid file path. Skipping this directory.";
 
     /**
-     * Returns a {@code set} of relevant repo paths from {@code repoConfigsList}.
+     * Returns a list of paths to the generated reports from {@code repoConfigs}.
      */
-    public static Set<Path> getReportFolders(Path sourcePath, List<RepoConfiguration> repoConfigsList) {
-        Set<Path> relevantFolders = new HashSet<>();
-        for (RepoConfiguration repoConfiguration : repoConfigsList) {
-            relevantFolders.add(Paths.get(sourcePath + File.separator + repoConfiguration.getDisplayName())
-                    .toAbsolutePath());
+    public static List<Path> getReportFolders(Path sourcePath, List<RepoConfiguration> repoConfigs) {
+        List<Path> reportFolders = new ArrayList<>();
+        for (RepoConfiguration repoConfig : repoConfigs) {
+            reportFolders.add(
+                    Paths.get(sourcePath + File.separator + repoConfig.getDisplayName()).toAbsolutePath());
         }
-        return relevantFolders;
+        return reportFolders;
     }
 
     /**
-     * Zips all files of type {@code fileTypes} that are in the directory {@code pathsToZip} into
-     * {@code sourceAndOutputPath}.
+     * Zips all files of type {@code fileTypes} that are in the directory {@code pathsToZip} into a single file and
+     * output it to {@code sourceAndOutputPath}.
      */
-    public static void zipFoldersAndFiles(Set<Path> pathsToZip, Path sourceAndOutputPath, String... fileTypes) {
+    public static void zipFoldersAndFiles(List<Path> pathsToZip, Path sourceAndOutputPath, String... fileTypes) {
         zipFoldersAndFiles(pathsToZip, sourceAndOutputPath, sourceAndOutputPath, fileTypes);
     }
 
     /**
      * Zips all files of type {@code fileTypes} that are in the directory {@code pathsToZip} into {@code outputPath}.
      */
-    public static void zipFoldersAndFiles(Set<Path> pathsToZip,
+    public static void zipFoldersAndFiles(List<Path> pathsToZip,
             Path sourcePath, Path outputPath, String... fileTypes) {
         try (
                 FileOutputStream fos = new FileOutputStream(outputPath + File.separator + ZIP_FILE);
                 ZipOutputStream zos = new ZipOutputStream(fos)
         ) {
             for (Path pathToZip : pathsToZip) {
-                Set<Path> allPaths = getFilePaths(pathToZip, fileTypes);
+                List<Path> allPaths = getFilePaths(pathToZip, fileTypes);
                 for (Path path : allPaths) {
                     String filePath = sourcePath.relativize(path.toAbsolutePath()).toString();
                     String zipEntry = Files.isDirectory(path) ? filePath + File.separator : filePath;
@@ -201,10 +200,10 @@ public class FileUtil {
     /**
      * Returns a list of {@code Path} of {@code fileTypes} contained in the given {@code directoryPath} directory.
      */
-    private static Set<Path> getFilePaths(Path directoryPath, String... fileTypes) throws IOException {
+    private static List<Path> getFilePaths(Path directoryPath, String... fileTypes) throws IOException {
         return Files.walk(directoryPath)
                 .filter(p -> FileUtil.isFileTypeInPath(p, fileTypes) || Files.isDirectory(p))
-                .collect(Collectors.toSet());
+                .collect(Collectors.toList());
     }
 
     /**

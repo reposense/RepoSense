@@ -6,7 +6,8 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Arrays;
-import java.util.HashSet;
+import java.util.Collections;
+import java.util.List;
 
 import org.junit.After;
 import org.junit.Assert;
@@ -18,7 +19,7 @@ public class FileUtilTest {
 
     private static final Path FILE_UTIL_TEST_DIRECTORY = new File(FileUtilTest.class.getClassLoader()
             .getResource("FileUtilTest").getFile()).toPath().toAbsolutePath();
-    private static final Path RELEVANT_REPO_DIRECTORY_PATH = Paths.get(FILE_UTIL_TEST_DIRECTORY.toString(),
+    private static final Path REPO_REPORT_DIRECTORY_PATH = Paths.get(FILE_UTIL_TEST_DIRECTORY.toString(),
             "reposense-report-test");
     private static final Path ARCHIVE_ZIP_PATH = Paths.get(FILE_UTIL_TEST_DIRECTORY.toString(), FileUtil.ZIP_FILE);
     private static final Path EXPECTED_UNZIPPED_DIRECTORY_PATH = Paths.get(FILE_UTIL_TEST_DIRECTORY.toString(),
@@ -26,11 +27,12 @@ public class FileUtilTest {
     private static final Path TEST_ZIP_PATH = Paths.get(FILE_UTIL_TEST_DIRECTORY.toString(), "testZip.zip");
     private static final Path UNZIPPED_DIRECTORY_PATH = Paths.get(FILE_UTIL_TEST_DIRECTORY.toString(),
             "UnzippedFolder");
-    private static final Path[] RELEVANT_FILE_FOLDER_PATHS = {
-            Paths.get(RELEVANT_REPO_DIRECTORY_PATH.toString(), "reposense_testrepo-Beta").toAbsolutePath(),
-            Paths.get(RELEVANT_REPO_DIRECTORY_PATH.toString(), "reposense_testrepo-Charlie").toAbsolutePath(),
-            Paths.get(RELEVANT_REPO_DIRECTORY_PATH.toString(),
-                    SummaryReportJson.SUMMARY_JSON_FILE_NAME).toAbsolutePath()};
+    private static final List<Path> REPORT_FOLDER_FILE_PATHS = Arrays.asList(
+            Paths.get(REPO_REPORT_DIRECTORY_PATH.toString(), "reposense_testrepo-Beta").toAbsolutePath(),
+            Paths.get(REPO_REPORT_DIRECTORY_PATH.toString(), "reposense_testrepo-Charlie").toAbsolutePath(),
+            Paths.get(REPO_REPORT_DIRECTORY_PATH.toString(),
+            SummaryReportJson.SUMMARY_JSON_FILE_NAME).toAbsolutePath()
+    );
     private static final Path EXPECTED_RELEVANT_FOLDER_PATH = Paths.get(FILE_UTIL_TEST_DIRECTORY.toString(),
             "expectedRelevantUnzippedFiles");
 
@@ -39,27 +41,24 @@ public class FileUtilTest {
      */
     @Test
     public void zipFoldersAndFiles_onlyRelevantFiles_success() throws IOException {
-        HashSet<Path> relevantPaths = new HashSet<>(Arrays.asList(RELEVANT_FILE_FOLDER_PATHS));
-
-        FileUtil.zipFoldersAndFiles(relevantPaths, RELEVANT_REPO_DIRECTORY_PATH, FILE_UTIL_TEST_DIRECTORY, ".json");
+        FileUtil.zipFoldersAndFiles(REPORT_FOLDER_FILE_PATHS, REPO_REPORT_DIRECTORY_PATH, FILE_UTIL_TEST_DIRECTORY,
+                ".json");
         FileUtil.unzip(ARCHIVE_ZIP_PATH, UNZIPPED_DIRECTORY_PATH);
-
         Assert.assertTrue(TestUtil.compareDirectories(EXPECTED_RELEVANT_FOLDER_PATH, UNZIPPED_DIRECTORY_PATH));
     }
 
     @Test
     public void zipFoldersAndFiles_validLocation_success() throws IOException {
-        HashSet<Path> relevantPaths = new HashSet<>(Arrays.asList(RELEVANT_FILE_FOLDER_PATHS));
-        FileUtil.zipFoldersAndFiles(relevantPaths, RELEVANT_REPO_DIRECTORY_PATH, FILE_UTIL_TEST_DIRECTORY, ".json");
+        FileUtil.zipFoldersAndFiles(REPORT_FOLDER_FILE_PATHS, REPO_REPORT_DIRECTORY_PATH, FILE_UTIL_TEST_DIRECTORY,
+                ".json");
         Assert.assertTrue(Files.exists(ARCHIVE_ZIP_PATH));
         Assert.assertTrue(Files.size(ARCHIVE_ZIP_PATH) > 0);
     }
 
     @Test
     public void zipFoldersAndFiles_validFileType_success() throws IOException {
-        HashSet<Path> relevantPaths = new HashSet<>();
-        relevantPaths.add(Paths.get(FILE_UTIL_TEST_DIRECTORY.toString(), "test.csv"));
-        FileUtil.zipFoldersAndFiles(relevantPaths, FILE_UTIL_TEST_DIRECTORY, ".csv");
+        List<Path> paths = Collections.singletonList(Paths.get(FILE_UTIL_TEST_DIRECTORY.toString(), "test.csv"));
+        FileUtil.zipFoldersAndFiles(paths, FILE_UTIL_TEST_DIRECTORY, ".csv");
         Assert.assertTrue(Files.exists(ARCHIVE_ZIP_PATH));
         Assert.assertTrue(Files.size(ARCHIVE_ZIP_PATH) > 0);
     }

@@ -7,7 +7,6 @@ import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -65,10 +64,10 @@ public class RepoSense {
                     formatter.format(ZonedDateTime.now(cliArguments.getZoneId())),
                     cliArguments.getSinceDate(), cliArguments.getUntilDate());
 
-            Set<Path> repoFoldersAndFiles = FileUtil.getReportFolders(cliArguments.getOutputFilePath(), configs);
-            repoFoldersAndFiles.add(Paths.get(cliArguments.getOutputFilePath().toAbsolutePath().toString(),
+            List<Path> reportFoldersAndFiles = FileUtil.getReportFolders(cliArguments.getOutputFilePath(), configs);
+            reportFoldersAndFiles.add(Paths.get(cliArguments.getOutputFilePath().toAbsolutePath().toString(),
                     SummaryReportJson.SUMMARY_JSON_FILE_NAME));
-            FileUtil.zipFoldersAndFiles(repoFoldersAndFiles, cliArguments.getOutputFilePath().toAbsolutePath(),
+            FileUtil.zipFoldersAndFiles(reportFoldersAndFiles, cliArguments.getOutputFilePath().toAbsolutePath(),
                     ".json");
 
             if (cliArguments.isAutomaticallyLaunching()) {
