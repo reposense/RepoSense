@@ -7,7 +7,6 @@ import reposense.template.GitTestTemplate;
 
 
 public class AnnotatorAnalyzerTest extends GitTestTemplate {
-
     @Test
     public void noAnnotationTest() {
         config.setAnnotationOverwrite(false);
