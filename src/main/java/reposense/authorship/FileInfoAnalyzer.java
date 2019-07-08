@@ -89,15 +89,14 @@ public class FileInfoAnalyzer {
             String authorName = blameResultLines[lineCount + 1].substring(AUTHOR_NAME_OFFSET);
             String authorEmail = blameResultLines[lineCount + 2]
                     .substring(AUTHOR_EMAIL_OFFSET).replaceAll("<|>", "");
-            Author author = config.getAuthor(authorName, authorEmail);
-
             Long commitDateInMs = Long.parseLong(blameResultLines[lineCount + 3].substring(AUTHOR_TIME_OFFSET)) * 1000;
             String authorTimeZoneString = blameResultLines[lineCount + 4].substring(AUTHOR_TIMEZONE_OFFSET);
+            Author author = config.getAuthor(authorName, authorEmail);
+
             int authorOffset = TimeZone.getTimeZone(ZoneOffset.of(authorTimeZoneString)).getRawOffset();
             if (systemOffset != authorOffset) {
                 // get the adjusted time from difference in timezone
                 commitDateInMs += authorOffset - systemOffset;
-
             }
 
             if (!fileInfo.isFileLineTracked(lineCount / 5) || isAuthorIgnoringFile(author, filePath)
