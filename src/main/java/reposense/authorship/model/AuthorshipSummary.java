@@ -38,15 +38,15 @@ public class AuthorshipSummary {
     }
 
     /**
-     * Increments the contribution count of {@code author} and the corresponding file format specified by
+     * Increments the contribution count of {@code author} and the corresponding file type specified by
      * {@code filePath} by one.
      */
-    public void addAuthorContributionCount(Author author, String format) {
+    public void addAuthorContributionCount(Author author, String fileType) {
         authorFinalContributionMap.put(author, authorFinalContributionMap.get(author) + 1);
 
-        // Add fileType contribution count
-        Map<String, Integer> formatContributionMap = authorFileTypeContributionMap.get(author);
-        formatContributionMap.put(format, formatContributionMap.getOrDefault(format, 0) + 1);
+        // Add file type contribution count
+        Map<String, Integer> fileTypeContributionMap = authorFileTypeContributionMap.get(author);
+        fileTypeContributionMap.put(fileType, fileTypeContributionMap.getOrDefault(fileType, 0) + 1);
     }
 
     public Map<Author, Integer> getAuthorFinalContributionMap() {
