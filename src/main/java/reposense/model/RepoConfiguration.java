@@ -2,6 +2,7 @@ package reposense.model;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
@@ -25,7 +26,7 @@ public class RepoConfiguration {
     private RepoLocation location;
     private String branch;
     private String displayName;
-    private boolean hasCustomGroups = false;
+    private boolean hasCustomGroups;
     private transient Date sinceDate;
     private transient Date untilDate;
 
@@ -60,6 +61,7 @@ public class RepoConfiguration {
         this.isStandaloneConfigIgnored = isStandaloneConfigIgnored;
         this.formats = formats;
         this.fileTypes = new ArrayList<>();
+        this.hasCustomGroups = false;
         this.ignoreCommitList = ignoreCommitList;
         this.isFormatsOverriding = isFormatsOverriding;
         this.isIgnoreGlobListOverriding = isIgnoreGlobListOverriding;
@@ -169,8 +171,8 @@ public class RepoConfiguration {
         for (RepoConfiguration config : configs) {
             if (config.getFormats().isEmpty()) {
                 config.setFormats(formats);
-                config.setFormatsToFileTypes(formats);
             }
+            config.setFormatsToFileTypes(config.getFormats());
         }
     }
 
@@ -384,7 +386,7 @@ public class RepoConfiguration {
         }
         List<Group> fileTypes = new ArrayList<>();
         formats.forEach(format -> fileTypes.add(new Group(format.toString(),
-                Collections.singletonList("**/" + format.toString()))));
+                Arrays.asList("*" + format.toString(), "**/*" + format.toString()))));
         setFileTypes(fileTypes);
     }
 
