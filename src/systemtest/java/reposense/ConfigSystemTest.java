@@ -25,6 +25,7 @@ import reposense.parser.ArgsParser;
 import reposense.parser.AuthorConfigCsvParser;
 import reposense.parser.ParseException;
 import reposense.parser.RepoConfigCsvParser;
+import reposense.parser.SinceDateArgumentType;
 import reposense.report.ReportGenerator;
 import reposense.util.FileUtil;
 import reposense.util.InputBuilder;
@@ -42,12 +43,13 @@ public class ConfigSystemTest {
     }
 
     /**
-     * System test with a specified until date and a * since date to capture from the first commit.
+     * System test with a specified until date and a {@link SinceDateArgumentType#FIRST_COMMIT_DATE_SHORTHAND}
+     * since date to capture from the first commit.
      */
     @Test
     public void testSinceBeginningDateRange() throws IOException, URISyntaxException, ParseException,
             HelpScreenException {
-        generateReport(getInputWithDates("*", "2/3/2019"));
+        generateReport(getInputWithDates(SinceDateArgumentType.FIRST_COMMIT_DATE_SHORTHAND, "2/3/2019"));
         Path actualFiles = Paths.get(getClass().getClassLoader()
                 .getResource("sinceBeginningDateRange/expected").toURI());
         verifyAllJson(actualFiles, FT_TEMP_DIR);
