@@ -2,7 +2,6 @@ package reposense;
 
 import java.io.IOException;
 import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -24,7 +23,6 @@ import reposense.parser.InvalidLocationException;
 import reposense.parser.ParseException;
 import reposense.parser.RepoConfigCsvParser;
 import reposense.report.ReportGenerator;
-import reposense.report.SummaryReportJson;
 import reposense.system.LogsManager;
 import reposense.system.ReportServer;
 import reposense.util.FileUtil;
@@ -60,13 +58,10 @@ public class RepoSense {
 
             RepoConfiguration.setFormatsToRepoConfigs(configs, cliArguments.getFormats());
             RepoConfiguration.setDatesToRepoConfigs(configs, cliArguments.getSinceDate(), cliArguments.getUntilDate());
-            ReportGenerator.generateReposReport(configs, cliArguments.getOutputFilePath().toAbsolutePath().toString(),
+            List<Path> reportFoldersAndFiles = ReportGenerator.generateReposReport(configs,
+                    cliArguments.getOutputFilePath().toAbsolutePath().toString(),
                     formatter.format(ZonedDateTime.now(cliArguments.getZoneId())),
                     cliArguments.getSinceDate(), cliArguments.getUntilDate());
-
-            List<Path> reportFoldersAndFiles = FileUtil.getReportFolders(cliArguments.getOutputFilePath(), configs);
-            reportFoldersAndFiles.add(Paths.get(cliArguments.getOutputFilePath().toAbsolutePath().toString(),
-                    SummaryReportJson.SUMMARY_JSON_FILE_NAME));
             FileUtil.zipFoldersAndFiles(reportFoldersAndFiles, cliArguments.getOutputFilePath().toAbsolutePath(),
                     ".json");
 

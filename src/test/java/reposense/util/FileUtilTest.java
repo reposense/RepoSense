@@ -13,7 +13,7 @@ import org.junit.After;
 import org.junit.Assert;
 import org.junit.Test;
 
-import reposense.report.SummaryReportJson;
+import reposense.report.SummaryJson;
 
 public class FileUtilTest {
 
@@ -31,7 +31,7 @@ public class FileUtilTest {
             Paths.get(REPO_REPORT_DIRECTORY_PATH.toString(), "reposense_testrepo-Beta").toAbsolutePath(),
             Paths.get(REPO_REPORT_DIRECTORY_PATH.toString(), "reposense_testrepo-Charlie").toAbsolutePath(),
             Paths.get(REPO_REPORT_DIRECTORY_PATH.toString(),
-            SummaryReportJson.SUMMARY_JSON_FILE_NAME).toAbsolutePath()
+            SummaryJson.SUMMARY_JSON_FILE_NAME).toAbsolutePath()
     );
     private static final Path EXPECTED_RELEVANT_FOLDER_PATH = Paths.get(FILE_UTIL_TEST_DIRECTORY.toString(),
             "expectedRelevantUnzippedFiles");

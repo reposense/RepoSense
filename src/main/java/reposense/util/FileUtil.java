@@ -12,7 +12,6 @@ import java.nio.file.Files;
 import java.nio.file.InvalidPathException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.logging.Level;
@@ -25,7 +24,6 @@ import java.util.zip.ZipOutputStream;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
-import reposense.model.RepoConfiguration;
 import reposense.system.LogsManager;
 
 /**
@@ -44,18 +42,6 @@ public class FileUtil {
     private static final String MESSAGE_INVALID_FILE_PATH = "\"%s\" is an invalid file path. Skipping this directory.";
 
     /**
-     * Returns a list of paths to the generated reports from {@code repoConfigs}.
-     */
-    public static List<Path> getReportFolders(Path sourcePath, List<RepoConfiguration> repoConfigs) {
-        List<Path> reportFolders = new ArrayList<>();
-        for (RepoConfiguration repoConfig : repoConfigs) {
-            reportFolders.add(
-                    Paths.get(sourcePath + File.separator + repoConfig.getDisplayName()).toAbsolutePath());
-        }
-        return reportFolders;
-    }
-
-    /**
      * Zips all files of type {@code fileTypes} that are in the directory {@code pathsToZip} into a single file and
      * output it to {@code sourceAndOutputPath}.
      */
@@ -64,7 +50,8 @@ public class FileUtil {
     }
 
     /**
-     * Zips all files of type {@code fileTypes} that are in the directory {@code pathsToZip} into {@code outputPath}.
+     * Zips all files listed in {@code pathsToZip} of type {@code fileTypes} located in the directory
+     * {@code sourcePath} into {@code outputPath}.
      */
     public static void zipFoldersAndFiles(List<Path> pathsToZip,
             Path sourcePath, Path outputPath, String... fileTypes) {

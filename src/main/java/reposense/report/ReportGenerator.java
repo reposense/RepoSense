@@ -1,5 +1,6 @@
 package reposense.report;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Files;
@@ -64,13 +65,13 @@ public class ReportGenerator {
     private static Date earliestSinceDate = null;
 
     /**
-     * Generates the authorship and commits JSON file for each repo in {@code configs} at {@code outputPath}, as
-     * well as the summary JSON file of all the repos.
+     * Generates and returns a list of paths to the authorship and commits JSON file for each repo in {@code configs}
+     * at {@code outputPath}, as well as the summary JSON file of all the repos.
      *
      * @throws IOException if templateZip.zip does not exists in jar file.
      */
-    public static void generateReposReport(List<RepoConfiguration> configs, String outputPath, String generationDate,
-            Date cliSinceDate, Date untilDate) throws IOException {
+    public static List<Path> generateReposReport(List<RepoConfiguration> configs, String outputPath,
+            String generationDate, Date cliSinceDate, Date untilDate) throws IOException {
         InputStream is = RepoSense.class.getResourceAsStream(TEMPLATE_FILE);
         FileUtil.copyTemplate(is, outputPath);
 
@@ -83,9 +84,17 @@ public class ReportGenerator {
                 ? earliestSinceDate : cliSinceDate;
 
         FileUtil.writeJsonFile(
-                new SummaryReportJson(configs, generationDate, reportSinceDate, untilDate, RepoSense.getVersion()),
+                new SummaryJson(configs, generationDate, reportSinceDate, untilDate, RepoSense.getVersion()),
                 getSummaryResultPath(outputPath));
         logger.info(String.format(MESSAGE_REPORT_GENERATED, outputPath));
+
+        List<Path> reportFoldersAndFiles = new ArrayList<>();
+        for (RepoConfiguration config : configs) {
+            reportFoldersAndFiles.add(
+                    Paths.get(outputPath + File.separator + config.getDisplayName()).toAbsolutePath());
+        }
+        reportFoldersAndFiles.add(Paths.get(outputPath, SummaryJson.SUMMARY_JSON_FILE_NAME));
+        return reportFoldersAndFiles;
     }
 
     /**
@@ -246,7 +255,7 @@ public class ReportGenerator {
     }
 
     private static String getSummaryResultPath(String targetFileLocation) {
-        return targetFileLocation + "/" + SummaryReportJson.SUMMARY_JSON_FILE_NAME;
+        return targetFileLocation + "/" + SummaryJson.SUMMARY_JSON_FILE_NAME;
     }
 
     private static String getIndividualAuthorshipPath(String repoReportDirectory) {
