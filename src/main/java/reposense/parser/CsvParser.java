@@ -45,6 +45,9 @@ public abstract class CsvParser<T> {
         this.csvFilePath = csvFilePath;
     }
 
+    /**
+     * @throws IOException if there are error accessing the given csv file.
+     */
     public List<T> parse() throws IOException {
         List<T> results = new ArrayList<>();
         Reader csvReader;

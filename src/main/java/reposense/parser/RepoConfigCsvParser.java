@@ -2,10 +2,10 @@ package reposense.parser;
 
 import java.io.IOException;
 import java.nio.file.Path;
-import java.text.Normalizer;
 import java.util.List;
 
 import org.apache.commons.csv.CSVRecord;
+
 import reposense.model.CommitHash;
 import reposense.model.Format;
 import reposense.model.RepoConfiguration;

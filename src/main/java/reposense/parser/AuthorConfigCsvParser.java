@@ -7,6 +7,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import org.apache.commons.csv.CSVRecord;
+
 import reposense.model.Author;
 import reposense.model.AuthorConfiguration;
 import reposense.model.RepoLocation;
