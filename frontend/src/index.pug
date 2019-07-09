@@ -166,6 +166,7 @@ html
                   i.summary-chart__title--button.fab.fa-github
                 a(
                   title="click to view breakdown of commits",
+                  onclick="deactivateAllOverlays()"
                   v-on:click="openTabZoom(user, filterSinceDate, filterUntilDate)"
                 )
                   i.summary-chart__title--button.fas.fa-list-ul
