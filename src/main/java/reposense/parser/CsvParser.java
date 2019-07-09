@@ -1,20 +1,20 @@
 package reposense.parser;
 
-import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
+import java.io.Reader;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
-import java.util.logging.Level;
 import java.util.logging.Logger;
-import java.util.stream.Collectors;
+
+import org.apache.commons.csv.CSVFormat;
+import org.apache.commons.csv.CSVRecord;
 
 import reposense.system.LogsManager;
-import reposense.util.StringsUtil;
 
 /**
  * Contains CSV parsing related functionalities.
@@ -23,11 +23,9 @@ public abstract class CsvParser<T> {
     protected static final String COLUMN_VALUES_SEPARATOR = ";";
     protected static final Logger logger = LogsManager.getLogger(CsvParser.class);
 
-    private static final String ELEMENT_SEPARATOR_REGEX = ",(?=(?:[^\"]*\"[^\"]*\")*[^\"]*$)";
     private static final String OVERRIDE_KEYWORD = "override:";
     private static final String MESSAGE_UNABLE_TO_READ_CSV_FILE = "Unable to read the supplied CSV file.";
-    private static final String MESSAGE_MALFORMED_LINE_FORMAT = "Warning! line %d in CSV file, %s, is malformed.\n"
-            + "Content: %s";
+    private static final String MESSAGE_MALFORMED_LINE_FORMAT = "Warning! line %d in CSV file, %s, is malformed.";
     private static final String MESSAGE_LINE_PARSE_EXCEPTION_FORMAT =
             "Warning! Error parsing line %d in CSV file, %s.\n"
             + "Content: %s\n"
@@ -47,114 +45,92 @@ public abstract class CsvParser<T> {
         this.csvFilePath = csvFilePath;
     }
 
-    /**
-     * @throws IOException if there are error accessing the given csv file.
-     */
     public List<T> parse() throws IOException {
         List<T> results = new ArrayList<>();
+        Reader csvReader;
+        Iterable<CSVRecord> records;
 
-        try (BufferedReader br = new BufferedReader(new FileReader(csvFilePath.toFile()))) {
-            // Skip first line, which is the header row
-            br.readLine();
-            String line;
-
-            for (int lineNumber = 2; (line = br.readLine()) != null; lineNumber++) {
-                String[] elements = line.split(ELEMENT_SEPARATOR_REGEX);
-                for (int colNum = 0; colNum < elements.length; colNum++) {
-                    elements[colNum] = StringsUtil.removeQuote(elements[colNum]);
-                    elements[colNum] = elements[colNum].replaceAll("\"{2}", "\"");
-                }
-
-                if (line.isEmpty() || isLineMalformed(elements, lineNumber, line)) {
-                    continue;
-                }
-
-                try {
-                    processLine(results, elements);
-                } catch (ParseException pe) {
-                    logger.warning(String.format(MESSAGE_LINE_PARSE_EXCEPTION_FORMAT,
-                            lineNumber, csvFilePath.getFileName(), line, pe.getMessage()));
-                }
-            }
+        try {
+            csvReader = new FileReader(this.csvFilePath.toFile());
+            records = CSVFormat.DEFAULT.withFirstRecordAsHeader().parse(csvReader);
         } catch (IOException ioe) {
             throw new IOException(MESSAGE_UNABLE_TO_READ_CSV_FILE, ioe);
-        } catch (IllegalArgumentException iae) {
-            logger.log(Level.WARNING, iae.getMessage(), iae);
+        }
+
+        for (CSVRecord record : records) {
+            if (isLineMalformed(record)) {
+                continue;
+            }
+
+            try {
+                processLine(results, record);
+            } catch (ParseException pe) {
+                logger.warning(String.format(MESSAGE_LINE_PARSE_EXCEPTION_FORMAT,
+                        getLineNumber(record), csvFilePath.getFileName(), record.toString(), pe.getMessage()));
+            }
         }
 
         return results;
     }
 
     /**
-     * Checks if the {@code line} contains values at the mandatory positions in CSV format.
+     * Returns true if {@code elements} at row {@code lineNumber} does not contain values at the mandatory positions
+     * in CSV format.
      */
-    private boolean isLineMalformed(final String[] elements, int lineNumber, String line) {
+    private boolean isLineMalformed(CSVRecord record) {
         for (int position : mandatoryPositions()) {
-            if (!containsValueAtPosition(elements, position)) {
-                logger.warning(String.format(MESSAGE_MALFORMED_LINE_FORMAT,
-                        lineNumber, csvFilePath.getFileName(), line));
+            if (record.get(position).isEmpty()) {
+                logger.warning(String.format(MESSAGE_MALFORMED_LINE_FORMAT, getLineNumber(record),
+                        csvFilePath.getFileName()));
                 return true;
             }
         }
-
         return false;
     }
 
     /**
-     * Checks that {@code position} in within the range of {@code element} array and
-     * value in {@code position} is not empty.
+     * Returns the value of {@code record} at column number {@code position} if present, or
+     * returns {@code defaultValue} otherwise.
      */
-    private boolean containsValueAtPosition(final String[] elements, int position) {
-        return elements.length > position && !elements[position].isEmpty();
+    protected String getOrDefault(final CSVRecord record, int position, String defaultValue) {
+        return (record.get(position).isEmpty()) ? defaultValue : record.get(position);
     }
 
     /**
-     * Removes the override keyword for {@code position} in {@code elements}.
+     * Returns the value of {@code record} at {@code position} as a {@code List},
+     * delimited by {@code COLUMN_VALUES_SEPARATOR} if it is in {@code element} and not empty, or
+     * returns an empty {@code List} otherwise.
      */
-    protected void removeOverrideKeywordFromElement(final String[] elements, int position) {
-        if (isElementOverridingStandaloneConfig(elements, position)) {
-            elements[position] = elements[position].replaceFirst(OVERRIDE_KEYWORD, "");
-        }
+    protected List<String> getAsList(final CSVRecord record, int position) {
+        return (position >= record.size() || record.get(position).isEmpty())
+                ? Collections.emptyList()
+                : Arrays.asList(record.get(position).split(COLUMN_VALUES_SEPARATOR));
     }
 
     /**
-     * Gets the value of {@code position} in {@code elements}.
-     * Returns the value of {@code position} if it is in {@code element} and not empty.
-     * Otherwise returns an empty string.
+     * Returns the values in {@code record} as a list with the {@link CsvParser#OVERRIDE_KEYWORD} prefix removed.
+     * Returns an empty list if {@code record} at column number {@code position} is empty.
      */
-    protected String getValueInElement(final String[] elements, int position) {
-        return (containsValueAtPosition(elements, position)) ? elements[position] : "";
-    }
-
-    /**
-     * Gets the value of {@code position} in {@code elements}.
-     * Returns the value of {@code position} if it is in {@code element} and not empty.
-     * Otherwise returns the {@code defaultValue}.
-     */
-    protected String getValueInElement(final String[] elements, int position, String defaultValue) {
-        return (containsValueAtPosition(elements, position)) ? elements[position] : defaultValue;
-    }
-
-    /**
-     * Gets the value of {@code position} in {@code elements}.
-     * Returns the value of {@code element} at {@code position} as a {@code List},
-     * delimited by {@code COLUMN_VALUES_SEPARATOR} if it is in {@code element} and not empty.
-     * Otherwise returns an empty {@code List}.
-     */
-    protected List<String> getManyValueInElement(final String[] elements, int position) {
-        if (!containsValueAtPosition(elements, position)) {
+    protected List<String> getAsListWithoutOverridePrefix(final CSVRecord record, int position) {
+        if (position >= record.size() || record.get(position).isEmpty()) {
             return Collections.emptyList();
         }
 
-        String manyValue = getValueInElement(elements, position);
-        return Arrays.stream(manyValue.split(COLUMN_VALUES_SEPARATOR)).map(String::trim).collect(Collectors.toList());
+        String rawValue = (isElementOverridingStandaloneConfig(record, position))
+                ? record.get(position).replaceFirst(OVERRIDE_KEYWORD, "")
+                : record.get(position);
+        return Arrays.asList(rawValue.split(COLUMN_VALUES_SEPARATOR));
+    }
+
+    private long getLineNumber(final CSVRecord record) {
+        return  record.getRecordNumber() + 1;
     }
 
     /**
      * Checks if {@code position} in {@code element} is prefixed with the override keyword.
      */
-    protected boolean isElementOverridingStandaloneConfig(final String[] elements, int position) {
-        return (containsValueAtPosition(elements, position)) && elements[position].startsWith(OVERRIDE_KEYWORD);
+    protected boolean isElementOverridingStandaloneConfig(final CSVRecord record, int position) {
+        return position < record.size() && record.get(position).startsWith(OVERRIDE_KEYWORD);
     }
 
     /**
@@ -167,5 +143,5 @@ public abstract class CsvParser<T> {
      * All CsvParsers should use {@code getValueInElement} or {@code getManyValueInElement} to read contents in
      * {@code elements} and add created objects into {@code results}.
      */
-    protected abstract void processLine(List<T> results, final String[] elements) throws ParseException;
+    protected abstract void processLine(List<T> results, final CSVRecord record) throws ParseException;
 }
