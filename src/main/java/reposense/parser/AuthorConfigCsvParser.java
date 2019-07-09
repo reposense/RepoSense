@@ -51,11 +51,11 @@ public class AuthorConfigCsvParser extends CsvParser<AuthorConfiguration> {
     @Override
     protected void processLine(List<AuthorConfiguration> results, CSVRecord record)
             throws ParseException {
-        String location = record.get(LOCATION_POSITION);
+        String location = get(record, LOCATION_POSITION);
         String branch = getOrDefault(record, BRANCH_POSITION, AuthorConfiguration.DEFAULT_BRANCH);
-        String gitHubId = record.get(GITHUB_ID_POSITION);
+        String gitHubId = get(record, GITHUB_ID_POSITION);
         List<String> emails = getAsList(record, EMAIL_POSITION);
-        String displayName = record.get(DISPLAY_NAME_POSITION);
+        String displayName = get(record, DISPLAY_NAME_POSITION);
         List<String> aliases = getAsList(record, ALIAS_POSITION);
         List<String> ignoreGlobList = getAsList(record, IGNORE_GLOB_LIST_POSITION);
 
