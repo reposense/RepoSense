@@ -541,7 +541,7 @@ window.vSummary = {
       });
     },
 
-    openTabZoom(userOrig) {
+    getTabZoomRange(userOrig) {
       // skip if accidentally clicked on ramp chart
       if (drags.length === 2 && drags[1] - drags[0]) {
         const tdiff = new Date(this.filterUntilDate) - new Date(this.filterSinceDate);
@@ -549,29 +549,33 @@ window.vSummary = {
         const tsince = getDateStr(new Date(this.filterSinceDate).getTime() + idxs[0]);
         const tuntil = getDateStr(new Date(this.filterSinceDate).getTime() + idxs[1]);
 
-        const rawCommits = userOrig.commits.filter(
-            (commit) => commit.date >= tsince && commit.date <= tuntil,
-        );
-
-        const commits = [];
-        rawCommits.forEach((commit) => {
-          if (this.filterTimeFrame === 'week') {
-            commit.dayCommits.forEach((dayCommit) => commits.push(dayCommit));
-          } else {
-            commits.push(commit);
-          }
-        });
-
-        const { avgCommitSize } = this;
-        const user = Object.assign({}, userOrig, { commits });
-
-        this.$emit('view-zoom', {
-          avgCommitSize,
-          user,
-          sinceDate: tsince,
-          untilDate: tuntil,
-        });
+        this.openTabZoom(userOrig, tsince, tuntil);
       }
+    },
+
+    openTabZoom(userOrig, since, until) {
+      const rawCommits = userOrig.commits.filter(
+          (commit) => commit.date >= since && commit.date <= until,
+      );
+
+      const commits = [];
+      rawCommits.forEach((commit) => {
+        if (this.filterTimeFrame === 'week') {
+          commit.dayCommits.forEach((dayCommit) => commits.push(dayCommit));
+        } else {
+          commits.push(commit);
+        }
+      });
+
+      const { avgCommitSize } = this;
+      const user = Object.assign({}, userOrig, { commits });
+
+      this.$emit('view-zoom', {
+        avgCommitSize,
+        user,
+        sinceDate: since,
+        untilDate: until,
+      });
     },
 
     groupByRepos(repos) {
