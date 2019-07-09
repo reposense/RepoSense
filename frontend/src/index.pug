@@ -133,7 +133,7 @@ html
               .summary-charts__title--contribution(title="Total contribution of group") [{{ getGroupTotalContribution(repo) }} lines]
             .summary-charts__title(
                 v-if="filterGroupSelection === 'groupByAuthors'",
-                v-bind:class="{ red: repo[0].name === '-' }"
+                v-bind:class="{ warn: repo[0].name === '-' }"
             ) {{ repo[0].displayName }} ({{ repo[0].name }})&nbsp;&nbsp;
               .summary-charts__title--contribution(title="Total contribution of group") [{{ getGroupTotalContribution(repo) }} lines]
             .summary-charts__fileformat--breakdown(v-if="filterBreakdown")
@@ -158,7 +158,7 @@ html
                 .summary-chart__title--author-repo(v-if="filterGroupSelection === 'groupByAuthors'") {{ user.repoName }}
                 .summary-chart__title--name(
                     v-if="filterGroupSelection !== 'groupByAuthors'",
-                    v-bind:class="{ red: user.name === '-' }"
+                    v-bind:class="{ warn: user.name === '-' }"
                 ) {{ user.displayName }} ({{ user.name }})
                 a(
                   title="click to view author's code",
