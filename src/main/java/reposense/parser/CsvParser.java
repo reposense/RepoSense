@@ -30,7 +30,6 @@ public abstract class CsvParser<T> {
     private static final String MESSAGE_MALFORMED_LINE_FORMAT = "Warning! line %d in CSV file, %s, is malformed.";
     private static final String MESSAGE_LINE_PARSE_EXCEPTION_FORMAT =
             "Warning! Error parsing line %d in CSV file, %s.\n"
-            + "Content: %s\n"
             + "Error: %s";
 
     private Path csvFilePath;
@@ -71,7 +70,7 @@ public abstract class CsvParser<T> {
                 processLine(results, record);
             } catch (ParseException pe) {
                 logger.warning(String.format(MESSAGE_LINE_PARSE_EXCEPTION_FORMAT,
-                        getLineNumber(record), csvFilePath.getFileName(), record.toString(), pe.getMessage()));
+                        getLineNumber(record), csvFilePath.getFileName(), pe.getMessage()));
             } catch (IllegalArgumentException iae) {
                 logger.log(Level.WARNING, iae.getMessage(), iae);
             }
