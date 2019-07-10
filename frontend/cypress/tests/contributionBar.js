@@ -8,7 +8,7 @@ describe('contribution bar', () => {
       }
     });
 
-    cy.get('#summary-wrapper label').contains('breakdown by file format').siblings().filter('input')
+    cy.get('#summary-wrapper label').contains('breakdown by file type').siblings().filter('input')
         .check();
 
     Cypress.wait();
