@@ -114,11 +114,11 @@ html
               label granularity
           .summary-picker__section
             .mui-textfield.summary-picker__date
-              input(type="date", v-model="tmpFilterSinceDate", onkeydown="return false",
+              input(type="date", v-model="tmpFilterSinceDate", placeholder="yyyy-mm-dd",
                 v-bind:min="minDate", v-bind:max="filterUntilDate")
               label since
             .mui-textfield.summary-picker__date
-              input(type="date", v-model="tmpFilterUntilDate", onkeydown="return false",
+              input(type="date", v-model="tmpFilterUntilDate", placeholder="yyyy-mm-dd",
                 v-bind:min="filterSinceDate", v-bind:max="maxDate")
               label until
             .mui-textfield.summary-picker__date
