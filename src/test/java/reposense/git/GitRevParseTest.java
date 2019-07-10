@@ -3,6 +3,7 @@ package reposense.git;
 import java.nio.file.Paths;
 
 import org.junit.Test;
+
 import reposense.git.exception.GitBranchException;
 import reposense.template.GitTestTemplate;
 import reposense.util.FileUtil;
