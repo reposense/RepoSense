@@ -1,0 +1,27 @@
+{
+  "extends": "stylelint-config-standard",
+  "plugins": [
+    "stylelint-order"
+  ],
+  "rules": {
+    "at-rule-empty-line-before": null,
+    "at-rule-no-unknown": null,
+    "block-closing-brace-newline-after": "always",
+    "color-hex-case": "upper",
+    "color-hex-length": null,
+    "color-no-invalid-hex": true,
+    "declaration-block-no-duplicate-properties": true,
+    "declaration-block-no-shorthand-property-overrides": true,
+    "declaration-empty-line-before": null,
+    "declaration-no-important": true,
+    "indentation": "tab",
+    "length-zero-no-unit": true,
+    "no-descending-specificity": null,
+    "number-leading-zero": "never",
+    "number-no-trailing-zeros": null,
+    "order/properties-alphabetical-order": true,
+    "selector-list-comma-newline-after": null,
+    "selector-list-comma-space-after": null,
+    "selector-type-no-unknown": null
+  }
+}
