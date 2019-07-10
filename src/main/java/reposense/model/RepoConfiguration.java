@@ -385,8 +385,9 @@ public class RepoConfiguration {
             return;
         }
         List<Group> fileTypes = new ArrayList<>();
-        formats.forEach(format -> fileTypes.add(new Group(format.toString(),
-                Arrays.asList("*" + format.toString(), "**/*" + format.toString()))));
+        for (Format format : formats) {
+            fileTypes.add(new Group(format.toString(), Collections.singletonList("**" + format)));
+        }
         setFileTypes(fileTypes);
     }
 
