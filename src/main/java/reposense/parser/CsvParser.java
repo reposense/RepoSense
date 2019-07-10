@@ -51,11 +51,10 @@ public abstract class CsvParser<T> {
      */
     public List<T> parse() throws IOException {
         List<T> results = new ArrayList<>();
-        Reader csvReader;
         Iterable<CSVRecord> records;
 
         try {
-            csvReader = new FileReader(this.csvFilePath.toFile());
+            Reader csvReader = new FileReader(csvFilePath.toFile());
             records = CSVFormat.DEFAULT.withFirstRecordAsHeader().parse(csvReader);
         } catch (IOException ioe) {
             throw new IOException(MESSAGE_UNABLE_TO_READ_CSV_FILE, ioe);
@@ -80,9 +79,15 @@ public abstract class CsvParser<T> {
     }
 
     /**
-     * Returns true if {@code record} does not contain values at the mandatory columns in CSV format.
+     * Returns true if {@code record} does not contain the same number of columns as the header or contains missing
+     * values at the mandatory columns in CSV format.
      */
     private boolean isLineMalformed(CSVRecord record) {
+        if (!record.isConsistent()) {
+            logger.warning(String.format(MESSAGE_MALFORMED_LINE_FORMAT, getLineNumber(record),
+                    csvFilePath.getFileName()));
+            return true;
+        }
         for (int position : mandatoryPositions()) {
             if (record.get(position).isEmpty()) {
                 logger.warning(String.format(MESSAGE_MALFORMED_LINE_FORMAT, getLineNumber(record),
@@ -105,7 +110,7 @@ public abstract class CsvParser<T> {
      * returns {@code defaultValue} otherwise.
      */
     protected String getOrDefault(final CSVRecord record, int colNum, String defaultValue) {
-        return (record.get(colNum).isEmpty()) ? defaultValue : record.get(colNum).trim();
+        return record.get(colNum).isEmpty() ? defaultValue : get(record, colNum);
     }
 
     /**
@@ -114,7 +119,7 @@ public abstract class CsvParser<T> {
      * returns an empty {@code List} otherwise.
      */
     protected List<String> getAsList(final CSVRecord record, int colNum) {
-        if (colNum >= record.size() || record.get(colNum).isEmpty()) {
+        if (record.get(colNum).isEmpty()) {
             return Collections.emptyList();
         }
         return Arrays.stream(record.get(colNum).split(COLUMN_VALUES_SEPARATOR))
@@ -127,10 +132,6 @@ public abstract class CsvParser<T> {
      * Returns an empty list if {@code record} at {@code colNum} is empty.
      */
     protected List<String> getAsListWithoutOverridePrefix(final CSVRecord record, int colNum) {
-        if (colNum >= record.size()) {
-            return Collections.emptyList();
-        }
-
         String rawValue = (isElementOverridingStandaloneConfig(record, colNum))
                 ? record.get(colNum).replaceFirst(OVERRIDE_KEYWORD, "")
                 : record.get(colNum);
@@ -150,7 +151,7 @@ public abstract class CsvParser<T> {
      * Returns true if the {@code record} at {@code colNum} is prefixed with the override keyword.
      */
     protected boolean isElementOverridingStandaloneConfig(final CSVRecord record, int colNum) {
-        return colNum < record.size() && record.get(colNum).startsWith(OVERRIDE_KEYWORD);
+        return record.get(colNum).startsWith(OVERRIDE_KEYWORD);
     }
 
     /**
