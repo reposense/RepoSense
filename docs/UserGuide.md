@@ -353,8 +353,10 @@ Repository's Location | Same as `repo-config.csv`.
 Group Name | Name of the group e.g.,`test`.
 Globs | The list of file path globs to include for specified group. e.g.,`**/test/*;**.java`.
 
-Note that a file in a given repository can only have 1 group specified. e.g. `example.java` in `example-repo` can either be in `test` group
+Note that a file in a given repository should only be tagged to one group. e.g. `example.java` in `example-repo` can either be in `test` group
 or in `code` group, but not in both `test` and `code` group. If multiple groups are specified for a given file, the latter group is set for the file.
+
+> Note: the first row consists of config headings, which is ignored by RepoSense.
 
 ## Analyzing Multiple Repos
 
