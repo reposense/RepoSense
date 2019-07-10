@@ -117,38 +117,38 @@ window.vSummary = {
       minDate: '',
       maxDate: '',
       contributionBarColors: {},
-      hasUpdated: false, // to keep track of whether first cycle of watcher updates have finished
+      isWatcherUpdated: false, // to keep track of whether first cycle of watcher updates have finished
     };
   },
   watch: {
     repos() {
-      if (this.hasUpdated) {
+      if (this.isWatcherUpdated) {
         this.getFiltered();
       }
     },
     sortGroupSelection() {
-      if (this.hasUpdated) {
+      if (this.isWatcherUpdated) {
         this.getFiltered();
       }
     },
     sortWithinGroupSelection() {
-      if (this.hasUpdated) {
+      if (this.isWatcherUpdated) {
         this.getFiltered();
       }
     },
     filterTimeFrame() {
-      if (this.hasUpdated) {
+      if (this.isWatcherUpdated) {
         this.getFiltered();
       }
     },
     filterGroupSelection() {
       this.updateSortWithinGroup();
-      if (this.hasUpdated) {
+      if (this.isWatcherUpdated) {
         this.getFiltered();
       }
     },
     filterBreakdown() {
-      if (this.hasUpdated) {
+      if (this.isWatcherUpdated) {
         this.getFiltered();
       }
     },
@@ -159,7 +159,7 @@ window.vSummary = {
         this.filterSinceDate = this.minDate;
         this.tmpFilterSinceDate = this.filterSinceDate;
       }
-      if (this.hasUpdated) {
+      if (this.isWatcherUpdated) {
         this.getFiltered();
       }
     },
@@ -170,7 +170,7 @@ window.vSummary = {
         this.filterUntilDate = this.maxDate;
         this.tmpFilterUntilDate = this.filterUntilDate;
       }
-      if (this.hasUpdated) {
+      if (this.isWatcherUpdated) {
         this.getFiltered();
       }
     },
@@ -681,7 +681,7 @@ window.vSummary = {
     this.processFileFormats();
   },
   beforeUpdate() {
-    this.hasUpdated = true; // first cycle of watcher updates is done before 'beforeUpdate()' hook
+    this.isWatcherUpdated = true; // first cycle of watcher updates is done before 'beforeUpdate()' hook
   },
   components: {
     v_ramp: window.vRamp,
