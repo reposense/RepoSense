@@ -87,17 +87,17 @@ html
                 option(value="groupByNone") None
                 option(value="groupByRepos") Repo/Branch
                 option(value="groupByAuthors") Author
-              label fileType by
-            .mui-select.sort-fileType
+              label group by
+            .mui-select.sort-group
               select(v-model="sortGroupSelection")
-                option(value="groupTitle") &uarr; fileType title
-                option(value="groupTitle dsc") &darr; fileType title
+                option(value="groupTitle") &uarr; group title
+                option(value="groupTitle dsc") &darr; group title
                 option(value="totalCommits") &uarr; contribution
                 option(value="totalCommits dsc") &darr; contribution
                 option(value="variance") &uarr; variance
                 option(value="variance dsc") &darr; variance
               label sort groups by
-            .mui-select.sort-within-fileType
+            .mui-select.sort-within-group
               select(v-model="sortWithinGroupSelection")
                 option(value="title") &uarr; title
                 option(value="title dsc") &darr; title
@@ -126,13 +126,13 @@ html
           .summary-picker__checkboxes.summary-picker__section
             label
               input(type="checkbox", v-model="filterBreakdown").mui-checkbox.summary-picker__checkbox
-              span breakdown by file format/fileType
+              span breakdown by file type
         #summary-charts
           .summary-charts(v-for="repo of filteredRepos")
             .summary-charts__title(v-if="filterGroupSelection === 'groupByRepos'") {{ repo[0].repoName }}&nbsp;&nbsp;
-              .summary-charts__title--contribution(title="Total contribution of fileType") [{{ getGroupTotalContribution(repo) }} lines]
+              .summary-charts__title--contribution(title="Total contribution of group") [{{ getGroupTotalContribution(repo) }} lines]
             .summary-charts__title(v-if="filterGroupSelection === 'groupByAuthors'") {{ repo[0].displayName }} ({{ repo[0].name }})&nbsp;&nbsp;
-              .summary-charts__title--contribution(title="Total contribution of fileType") [{{ getGroupTotalContribution(repo) }} lines]
+              .summary-charts__title--contribution(title="Total contribution of group") [{{ getGroupTotalContribution(repo) }} lines]
             .summary-charts__fileType--breakdown(v-if="filterBreakdown")
               template(v-if="filterGroupSelection === 'groupByRepos'")
                 .summary-charts__fileType--breakdown__legend(
