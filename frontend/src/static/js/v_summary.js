@@ -117,6 +117,7 @@ window.vSummary = {
       minDate: '',
       maxDate: '',
       contributionBarColors: {},
+      isSafariBrowser: /.*Version.*Safari.*/.test(navigator.userAgent),
     };
   },
   watch: {
