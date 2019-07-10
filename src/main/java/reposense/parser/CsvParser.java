@@ -80,8 +80,7 @@ public abstract class CsvParser<T> {
     }
 
     /**
-     * Returns true if {@code elements} at row {@code lineNumber} does not contain values at the mandatory columns
-     * in CSV format.
+     * Returns true if {@code record} does not contain values at the mandatory columns in CSV format.
      */
     private boolean isLineMalformed(CSVRecord record) {
         for (int position : mandatoryPositions()) {
@@ -111,7 +110,7 @@ public abstract class CsvParser<T> {
 
     /**
      * Returns the value of {@code record} at {@code colNum} as a {@code List},
-     * delimited by {@code COLUMN_VALUES_SEPARATOR} if it is in {@code element} and not empty, or
+     * delimited by {@code COLUMN_VALUES_SEPARATOR} if it is in {@code record} and not empty, or
      * returns an empty {@code List} otherwise.
      */
     protected List<String> getAsList(final CSVRecord record, int colNum) {
@@ -163,7 +162,7 @@ public abstract class CsvParser<T> {
      * Processes the csv file line by line.
      * All CsvParsers must use {@link CsvParser#get}, {@link CsvParser#getOrDefault},
      * {@link CsvParser#getAsList} or {@link CsvParser#getAsListWithoutOverridePrefix} to read contents in
-     * {@code elements} and add created objects into {@code results}.
+     * {@code record} and add created objects into {@code results}.
      */
     protected abstract void processLine(List<T> results, final CSVRecord record) throws ParseException;
 }
