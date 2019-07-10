@@ -117,27 +117,40 @@ window.vSummary = {
       minDate: '',
       maxDate: '',
       contributionBarColors: {},
+      hasUpdated: false, // to keep track of whether first cycle of watcher updates have finished
     };
   },
   watch: {
     repos() {
-      this.getFiltered();
+      if (this.hasUpdated) {
+        this.getFiltered();
+      }
     },
     sortGroupSelection() {
-      this.getFiltered();
+      if (this.hasUpdated) {
+        this.getFiltered();
+      }
     },
     sortWithinGroupSelection() {
-      this.getFiltered();
+      if (this.hasUpdated) {
+        this.getFiltered();
+      }
     },
     filterTimeFrame() {
-      this.getFiltered();
+      if (this.hasUpdated) {
+        this.getFiltered();
+      }
     },
     filterGroupSelection() {
       this.updateSortWithinGroup();
-      this.getFiltered();
+      if (this.hasUpdated) {
+        this.getFiltered();
+      }
     },
     filterBreakdown() {
-      this.getFiltered();
+      if (this.hasUpdated) {
+        this.getFiltered();
+      }
     },
     tmpFilterSinceDate() {
       if (this.tmpFilterSinceDate && this.tmpFilterSinceDate >= this.minDate) {
@@ -146,7 +159,9 @@ window.vSummary = {
         this.filterSinceDate = this.minDate;
         this.tmpFilterSinceDate = this.filterSinceDate;
       }
-      this.getFiltered();
+      if (this.hasUpdated) {
+        this.getFiltered();
+      }
     },
     tmpFilterUntilDate() {
       if (this.tmpFilterUntilDate && this.tmpFilterUntilDate <= this.maxDate) {
@@ -155,7 +170,9 @@ window.vSummary = {
         this.filterUntilDate = this.maxDate;
         this.tmpFilterUntilDate = this.filterUntilDate;
       }
-      this.getFiltered();
+      if (this.hasUpdated) {
+        this.getFiltered();
+      }
     },
   },
   computed: {
@@ -662,6 +679,9 @@ window.vSummary = {
     this.renderFilterHash();
     this.getFiltered();
     this.processFileFormats();
+  },
+  beforeUpdate() {
+    this.hasUpdated = true; // first cycle of watcher updates is done before 'beforeUpdate()' hook
   },
   components: {
     v_ramp: window.vRamp,
