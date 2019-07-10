@@ -158,15 +158,12 @@ public class ReportGenerator {
 
             try {
                 GitRevParse.assertBranchExists(config, FileUtil.getBareRepoPath(config));
+                GitLsTree.validateFilePaths(config, FileUtil.getBareRepoPath(config));
             } catch (GitBranchException gbe) {
                 logger.log(Level.SEVERE, String.format(MESSAGE_BRANCH_DOES_NOT_EXIST,
                         config.getBranch(), config.getLocation()), gbe);
                 generateEmptyRepoReport(repoReportDirectory.toString(), Author.NAME_FAILED_TO_CLONE_OR_CHECKOUT);
                 continue;
-            }
-
-            try {
-                GitLsTree.validateFilePaths(config, FileUtil.getBareRepoPath(config));
             } catch (InvalidFilePathException ipe) {
                 generateEmptyRepoReport(repoReportDirectory.toString(), Author.NAME_FAILED_TO_CLONE_OR_CHECKOUT);
                 continue;

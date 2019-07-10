@@ -15,10 +15,10 @@ public class GitRevParse {
      * Asserts that the branch in {@code config} exists.
      * @throws RuntimeException when the branch does not exist.
      */
-    public static void assertBranchExists(RepoConfiguration config, Path bareRepoRoot) throws GitBranchException {
+    public static void assertBranchExists(RepoConfiguration config, Path repoRoot) throws GitBranchException {
         String command = String.format("git rev-parse --verify %s", config.getBranch());
         try {
-            CommandRunner.runCommand(bareRepoRoot, command);
+            CommandRunner.runCommand(repoRoot, command);
         } catch (RuntimeException rte) {
             throw new GitBranchException(rte);
         }
