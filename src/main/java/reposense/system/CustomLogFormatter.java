@@ -5,6 +5,8 @@ import static org.fusesource.jansi.Ansi.ansi;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.LogRecord;
 import java.util.logging.SimpleFormatter;
@@ -22,6 +24,10 @@ public class CustomLogFormatter extends SimpleFormatter {
             .reset().toString();
     private static final String WARNING_HIGHLIGHT = ansi().bg(Ansi.Color.YELLOW).fg(Ansi.Color.BLACK).a("[WARNING]")
             .reset().toString();
+    private static final Map<Level, String> formatMap = new HashMap<Level, String>() {{
+            put(Level.WARNING, WARNING_HIGHLIGHT);
+            put(Level.SEVERE, ERROR_HIGHLIGHT);
+        }};
 
     public CustomLogFormatter() {
         AnsiConsole.systemInstall();
@@ -32,10 +38,8 @@ public class CustomLogFormatter extends SimpleFormatter {
         StringBuilder builder = new StringBuilder();
         builder.append(dateFormat.format(new Date(record.getMillis()))).append(" - ");
 
-        if (record.getLevel().equals(Level.SEVERE)) {
-            builder.append(ERROR_HIGHLIGHT).append(" ");
-        } else if (record.getLevel().equals(Level.WARNING)) {
-            builder.append(WARNING_HIGHLIGHT).append(" ");
+        if (formatMap.containsKey(record.getLevel())) {
+            builder.append(formatMap.get(record.getLevel())).append(" ");
         }
 
         builder.append(formatMessage(record));
