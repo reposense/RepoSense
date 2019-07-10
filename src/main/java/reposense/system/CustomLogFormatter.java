@@ -24,12 +24,11 @@ public class CustomLogFormatter extends SimpleFormatter {
             .reset().toString();
     private static final String WARNING_HIGHLIGHT = ansi().bg(Ansi.Color.YELLOW).fg(Ansi.Color.BLACK).a("[WARNING]")
             .reset().toString();
-    private static final Map<Level, String> formatMap = new HashMap<Level, String>() {{
-            put(Level.WARNING, WARNING_HIGHLIGHT);
-            put(Level.SEVERE, ERROR_HIGHLIGHT);
-        }};
+    private static final Map<Level, String> formatMap = new HashMap<>();
 
     public CustomLogFormatter() {
+        formatMap.put(Level.WARNING, WARNING_HIGHLIGHT);
+        formatMap.put(Level.SEVERE, ERROR_HIGHLIGHT);
         AnsiConsole.systemInstall();
     }
 
