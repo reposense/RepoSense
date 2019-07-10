@@ -117,7 +117,7 @@ window.vSummary = {
       minDate: '',
       maxDate: '',
       contributionBarColors: {},
-      isWatcherUpdated: false, // to keep track of whether first cycle of watcher updates have finished
+      isWatcherUpdated: false, // keep track of whether first cycle of watcher updates is finished
     };
   },
   watch: {
@@ -681,7 +681,7 @@ window.vSummary = {
     this.processFileFormats();
   },
   beforeUpdate() {
-    this.isWatcherUpdated = true; // first cycle of watcher updates is done before 'beforeUpdate()' hook
+    this.isWatcherUpdated = true; // first cycle of watcher updates is done before 'beforeUpdate()'
   },
   components: {
     v_ramp: window.vRamp,
