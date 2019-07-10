@@ -19,11 +19,13 @@ import reposense.util.FileUtil;
 public class RepoConfiguration {
     public static final String DEFAULT_BRANCH = "HEAD";
     private static final Logger logger = LogsManager.getLogger(RepoConfiguration.class);
+    private static int repoConfigNum = 1;
     private final transient String repoFolderName;
 
     private RepoLocation location;
     private String branch;
     private String displayName;
+    private String outputFolderName;
     private transient Date sinceDate;
     private transient Date untilDate;
 
@@ -65,12 +67,16 @@ public class RepoConfiguration {
         String repoName = location.getRepoName();
 
         if (organization != null) {
-            displayName = organization + "_" + repoName + "_" + branch;
+            displayName = organization + "/" + repoName + "[" + branch + "]";
             repoFolderName = organization + "_" + repoName;
+            outputFolderName = repoConfigNum + "_" + organization + "_" + repoName + "_" + branch;
         } else {
-            displayName = repoName + "_" + branch;
+            displayName = repoName + "[" + branch + "]";
             repoFolderName = repoName;
+            outputFolderName = repoConfigNum + "_" + repoName + "_" + branch;
         }
+
+        repoConfigNum++;
     }
 
     public static void setDatesToRepoConfigs(List<RepoConfiguration> configs, Date sinceDate, Date untilDate) {
@@ -253,7 +259,7 @@ public class RepoConfiguration {
     }
 
     public void updateDisplayName(String branch) {
-        this.displayName = displayName.substring(0, displayName.lastIndexOf('_') + 1) + branch;
+        this.displayName = displayName.substring(0, displayName.lastIndexOf('[') + 1) + branch + "] ";
     }
 
     public boolean isAnnotationOverwrite() {
@@ -357,6 +363,10 @@ public class RepoConfiguration {
 
     public String getRepoName() {
         return location.getRepoName();
+    }
+
+    public String getOutputFolderName() {
+        return outputFolderName;
     }
 
     public void setStandaloneConfigIgnored(boolean isStandaloneConfigIgnored) {
