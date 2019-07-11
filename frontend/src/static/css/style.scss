@@ -156,10 +156,13 @@ header {
 	justify-content: center;
 	margin-bottom: 2rem;
 
-	&__section {
-		display: flex;
-		flex: 0 0 auto;
-	}
+    &__section{
+        display:flex;
+        flex:0 1 auto;
+        flex-flow:inherit;
+        justify-content:inherit;
+        align-items:inherit;
+    }
 
 	&__checkboxes {
 		label {
