@@ -6,6 +6,7 @@ Thank you for your interest in contributing to RepoSense!
   - [Verifying the setup](#verifying-the-setup)
   - [Configuring the Java coding style](#configuring-the-java-coding-style)
   - [Configuring the JavaScript coding style](#configuring-the-javascript-coding-style)
+  - [Configuring the CSS coding style](#configuring-the-css-coding-style)
   - [Configuring Cypress for automated front-end testing](#configuring-cypress-for-automated-front-end-testing)
   - [(Optional) Using Vue.js devtools for frontend debugging on Chrome](#optional-using-vuejs-devtools-for-frontend-debugging-on-chrome)
 - [Architecture](#architecture)
