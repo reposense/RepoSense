@@ -2,588 +2,588 @@
 
 /** global **/
 body {
-	font-family: 'Titillium Web', sans-serif;
+    font-family: 'Titillium Web', sans-serif;
 }
 
 vuetemplate {
-	display: none;
+    display: none;
 }
 
 a {
-	cursor: pointer;
+    cursor: pointer;
 }
 
 .wrapper {
-	text-align: center;
+    text-align: center;
 }
 
 .content {
-	max-width: 40rem;
-	text-align: left;
+    max-width: 40rem;
+    text-align: left;
 }
 
 .empty {
-	margin: 3rem 5rem;
-	text-align: center;
+    margin: 3rem 5rem;
+    text-align: center;
 }
 
 .loader {
-	align-items: center;
-	background: #FFF;
-	display: flex;
-	flex-direction: column;
-	height: 100%;
-	justify-content: center;
-	opacity: 1;
-	position: fixed;
-	top: 0;
-	width: 100%;
-	z-index: 10;
+    align-items: center;
+    background: #FFF;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    justify-content: center;
+    opacity: 1;
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 10;
 
-	.loading {
-		margin-top: 12px;
-	}
+    .loading {
+        margin-top: 12px;
+    }
 }
 
 /** navigation bar **/
 header {
-	display: flex;
-	justify-content: center;
-	position: relative;
-	z-index: 100;
+    display: flex;
+    justify-content: center;
+    position: relative;
+    z-index: 100;
 
-	.content {
-		align-items: center;
-		display: flex;
-		flex-grow: 1;
-		justify-content: space-between;
-	}
+    .content {
+        align-items: center;
+        display: flex;
+        flex-grow: 1;
+        justify-content: space-between;
+    }
 
-	.repo,
-	.logo {
-		margin: 0;
-	}
+    .repo,
+    .logo {
+        margin: 0;
+    }
 }
 
 #file-upload {
-	text-align: center;
+    text-align: center;
 }
 
 #app-wrapper {
-	display: flex;
-	height: 100vh;
-	left: 0;
-	position: absolute;
-	top: 0;
-	width: 100%;
-	z-index: 50;
+    display: flex;
+    height: 100vh;
+    left: 0;
+    position: absolute;
+    top: 0;
+    width: 100%;
+    z-index: 50;
 
-	#tab-resize-guide {
-		$tabs-width: 50%;
+    #tab-resize-guide {
+        $tabs-width: 50%;
 
-		background-color: mui-color('black');
-		cursor: col-resize;
-		display: none;
-		height: 100%;
-		position: fixed;
-		right: $tabs-width;
-		width: 2px;
-		z-index: 100;
-	}
+        background-color: mui-color('black');
+        cursor: col-resize;
+        display: none;
+        height: 100%;
+        position: fixed;
+        right: $tabs-width;
+        width: 2px;
+        z-index: 100;
+    }
 
-	#summary-wrapper {
-		flex-grow: 1;
-		height: 100%;
-		overflow-y: scroll;
-		text-align: center;
+    #summary-wrapper {
+        flex-grow: 1;
+        height: 100%;
+        overflow-y: scroll;
+        text-align: center;
 
-		.timestamp-footer {
-			color: mui-color('grey', '700');
-			margin-bottom: 1em;
-			margin-left: 1em;
-		}
-	}
+        .timestamp-footer {
+            color: mui-color('grey', '700');
+            margin-bottom: 1em;
+            margin-left: 1em;
+        }
+    }
 
-	#tabs-wrapper {
-		$tabs-width: 50%;
+    #tabs-wrapper {
+        $tabs-width: 50%;
 
-		background: mui-color('grey', '200');
-		flex: 0 0 $tabs-width;
-		overflow-y: scroll;
-		position: relative;
+        background: mui-color('grey', '200');
+        flex: 0 0 $tabs-width;
+        overflow-y: scroll;
+        position: relative;
 
-		.tab-close {
-			cursor: pointer;
-			position: fixed;
-			top: calc(50vh - 3rem);
+        .tab-close {
+            cursor: pointer;
+            position: fixed;
+            top: calc(50vh - 3rem);
 
-			svg {
-				background-color: mui-color('white');
-				color: mui-color('black');
-				padding: 3rem .25rem;
-			}
-		}
+            svg {
+                background-color: mui-color('white');
+                color: mui-color('black');
+                padding: 3rem .25rem;
+            }
+        }
 
-		.tab-content {
-			display: flex;
-			padding: 1rem 1.5rem;
-			padding-top: 4rem;
+        .tab-content {
+            display: flex;
+            padding: 1rem 1.5rem;
+            padding-top: 4rem;
 
-			.tab-panes {
-				text-align: left;
-				width: 100%;
-			}
-		}
+            .tab-panes {
+                text-align: left;
+                width: 100%;
+            }
+        }
 
-		#tab-resize {
-			background-color: mui-color('black');
-			cursor: col-resize;
-			height: 100%;
-			position: fixed;
-			width: 13.250px;
-		}
-	}
+        #tab-resize {
+            background-color: mui-color('black');
+            cursor: col-resize;
+            height: 100%;
+            position: fixed;
+            width: 13.250px;
+        }
+    }
 }
 
 /* summary chart */
 #summary,
 .summary-status {
-	padding: 2rem 1rem;
+    padding: 2rem 1rem;
 }
 
 .summary-picker {
-	align-items: center;
-	display: flex;
-	flex-flow: row wrap;
-	justify-content: center;
-	margin-bottom: 2rem;
+    align-items: center;
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: center;
+    margin-bottom: 2rem;
 
-	&__section {
-		align-items: inherit;
-		display: flex;
-		flex: 0 1 auto;
-		flex-flow: inherit;
-		justify-content: inherit;
-	}
+    &__section {
+        align-items: inherit;
+        display: flex;
+        flex: 0 1 auto;
+        flex-flow: inherit;
+        justify-content: inherit;
+    }
 
-	&__checkboxes {
-		label {
-			margin-left: .5rem;
-		}
+    &__checkboxes {
+        label {
+            margin-left: .5rem;
+        }
 
-		span {
-			margin-left: .25rem;
-		}
-	}
+        span {
+            margin-left: .25rem;
+        }
+    }
 
-	.mui-textfield,
-	.mui-select {
-		margin: .5rem;
-		padding-right: 10px;
-	}
+    .mui-textfield,
+    .mui-select {
+        margin: .5rem;
+        padding-right: 10px;
+    }
 
-	label {
-		font-size: .75rem;
-		overflow-y: hidden;
-		text-align: left;
-		width: fit-content;
-	}
+    label {
+        font-size: .75rem;
+        overflow-y: hidden;
+        text-align: left;
+        width: fit-content;
+    }
 
-	input,
-	select {
-		font-size: .75rem;
-	}
+    input,
+    select {
+        font-size: .75rem;
+    }
 }
 
 .summary-charts {
-	margin-bottom: 3rem;
+    margin-bottom: 3rem;
 
-	&__title {
-		display: block;
-		font-weight: bold;
-		text-align: left;
+    &__title {
+        display: block;
+        font-weight: bold;
+        text-align: left;
 
-		&--contribution {
-			display: inline;
-			font-size: .65rem;
-			font-weight: normal;
-		}
-	}
+        &--contribution {
+            display: inline;
+            font-size: .65rem;
+            font-weight: normal;
+        }
+    }
 
-	&__fileformat--breakdown {
-		overflow-y: hidden;
+    &__fileformat--breakdown {
+        overflow-y: hidden;
 
-		&__legend {
-			display: inline;
-			float: left;
-		}
-	}
+        &__legend {
+            display: inline;
+            float: left;
+        }
+    }
 }
 
 .summary-chart {
-	margin-bottom: 1rem;
-	overflow: auto;
-	position: relative;
-	text-align: left;
+    margin-bottom: 1rem;
+    overflow: auto;
+    position: relative;
+    text-align: left;
 
-	&__title {
-		clear: left;
+    &__title {
+        clear: left;
 
-		& > * {
-			display: inline;
-			padding-right: .5rem;
-		}
+        & > * {
+            display: inline;
+            padding-right: .5rem;
+        }
 
-		&--index,
-		&--repo {
-			font-weight: bold;
-		}
+        &--index,
+        &--repo {
+            font-weight: bold;
+        }
 
-		&--index::after {
-			content: '.';
-			display: inline-block;
-		}
+        &--index::after {
+            content: '.';
+            display: inline-block;
+        }
 
-		&--repo {
-			padding-right: .25rem;
-		}
+        &--repo {
+            padding-right: .25rem;
+        }
 
-		&--button {
-			color: mui-color('grey');
-			cursor: pointer;
-			text-decoration: none;
-		}
-	}
+        &--button {
+            color: mui-color('grey');
+            cursor: pointer;
+            text-decoration: none;
+        }
+    }
 
-	&__ramp {
-		position: relative;
+    &__ramp {
+        position: relative;
 
-		.overlay {
-			height: 100%;
-			position: absolute;
-			top: 0;
+        .overlay {
+            height: 100%;
+            position: absolute;
+            top: 0;
 
-			&.show {
-				background-color: rgba(mui-color('white'), .5);
-				border: 1px dashed mui-color('black');
-			}
+            &.show {
+                background-color: rgba(mui-color('white'), .5);
+                border: 1px dashed mui-color('black');
+            }
 
-			&.edge {
-				border-right: 1px dashed mui-color('black');
-			}
-		}
-	}
+            &.edge {
+                border-right: 1px dashed mui-color('black');
+            }
+        }
+    }
 
-	&__contrib {
-		text-align: left;
+    &__contrib {
+        text-align: left;
 
-		&--bar {
-			background-color: mui-color('red');
-			height: .3rem;
-			margin-top: .1rem;
-		}
+        &--bar {
+            background-color: mui-color('red');
+            height: .3rem;
+            margin-top: .1rem;
+        }
 
-		&--bar--fileformat {
-			display: inline-block;
-			float: left;
-			height: .3rem;
-			margin-top: .1rem;
-			text-align: left;
-		}
-	}
+        &--bar--fileformat {
+            display: inline-block;
+            float: left;
+            height: .3rem;
+            margin-top: .1rem;
+            text-align: left;
+        }
+    }
 }
 
 /* Ramp */
 .ramp {
-	$height: 3rem;
-	background-color: mui-color('blue', '50');
-	font-size: 100%;
-	height: $height;
-	position: relative;
+    $height: 3rem;
+    background-color: mui-color('blue', '50');
+    font-size: 100%;
+    height: $height;
+    position: relative;
 
-	&__slice {
-		border-left-color: rgba(0, 0, 0, 0);
-		border-left-style: solid;
-		display: block;
-		height: 0;
-		position: absolute;
-		width: 0;
+    &__slice {
+        border-left-color: rgba(0, 0, 0, 0);
+        border-left-style: solid;
+        display: block;
+        height: 0;
+        position: absolute;
+        width: 0;
 
-		&--color0 {
-			border-bottom: $height rgba(mui-color('orange'), .5) solid;
-		}
+        &--color0 {
+            border-bottom: $height rgba(mui-color('orange'), .5) solid;
+        }
 
-		&--color1 {
-			border-bottom: $height rgba(mui-color('light-blue'), .5) solid;
-		}
+        &--color1 {
+            border-bottom: $height rgba(mui-color('light-blue'), .5) solid;
+        }
 
-		&--color2 {
-			border-bottom: $height rgba(mui-color('green'), .5) solid;
-		}
+        &--color2 {
+            border-bottom: $height rgba(mui-color('green'), .5) solid;
+        }
 
-		&--color3 {
-			border-bottom: $height rgba(mui-color('indigo'), .5) solid;
-		}
+        &--color3 {
+            border-bottom: $height rgba(mui-color('indigo'), .5) solid;
+        }
 
-		&--color4 {
-			border-bottom: $height rgba(mui-color('pink'), .5) solid;
-		}
-	}
+        &--color4 {
+            border-bottom: $height rgba(mui-color('pink'), .5) solid;
+        }
+    }
 }
 
 /* Authorship */
 #tab-authorship {
-	.toolbar {
-		cursor: pointer;
-		float: right;
-	}
+    .toolbar {
+        cursor: pointer;
+        float: right;
+    }
 
-	.title {
-		.repoName {
-			cursor: pointer;
-			font-size: 1.5rem;
-			font-weight: bold;
-		}
+    .title {
+        .repoName {
+            cursor: pointer;
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
 
-		.contribution {
-			color: mui-color('red');
+        .contribution {
+            color: mui-color('red');
 
-			.fileformat {
-				align-items: center;
-				display: flex;
-				margin-left: 3rem;
-				margin-top: 1.0rem;
-			}
+            .fileformat {
+                align-items: center;
+                display: flex;
+                margin-left: 3rem;
+                margin-top: 1.0rem;
+            }
 
-			.radio-button--search {
-				float: left;
-				margin: 1.75rem 2.0rem 0 0;
-			}
+            .radio-button--search {
+                float: left;
+                margin: 1.75rem 2.0rem 0 0;
+            }
 
-			.radio-button--checkbox {
-				float: left;
-				margin: 0 2.0rem 0 -3rem;
-				vertical-align: middle;
-			}
+            .radio-button--checkbox {
+                float: left;
+                margin: 0 2.0rem 0 -3rem;
+                vertical-align: middle;
+            }
 
-			#search {
-				margin-top: 1.25rem;
-				padding: .5rem 1.0rem .25rem 1.0rem;
-				width: 30%;
-			}
+            #search {
+                margin-top: 1.25rem;
+                padding: .5rem 1.0rem .25rem 1.0rem;
+                width: 30%;
+            }
 
-			#submit-button {
-				background-color: mui-color('blue');
-				color: mui-color('white');
-				margin: 1.0rem 0 0 .25rem;
-				padding: .5rem 1.0rem .25rem 1.0rem;
-			}
+            #submit-button {
+                background-color: mui-color('blue');
+                color: mui-color('white');
+                margin: 1.0rem 0 0 .25rem;
+                padding: .5rem 1.0rem .25rem 1.0rem;
+            }
 
-			.select {
-				font-weight: bold;
-			}
+            .select {
+                font-weight: bold;
+            }
 
-			.loc {
-				font-weight: bolder;
-			}
+            .loc {
+                font-weight: bolder;
+            }
 
-			.bloc {
-				color: mui-color('grey');
-			}
+            .bloc {
+                color: mui-color('grey');
+            }
 
-			span.fileFormat {
-				span.bloc::after {
-					content: ', ';
-				}
+            span.fileFormat {
+                span.bloc::after {
+                    content: ', ';
+                }
 
-				span.bloc:last-child::after {
-					content: '';
-				}
-			}
+                span.bloc:last-child::after {
+                    content: '';
+                }
+            }
 
-			.mui-checkbox--fileformat {
-				vertical-align: middle;
-			}
+            .mui-checkbox--fileformat {
+                vertical-align: middle;
+            }
 
-			.checkboxes {
-				label {
-					align-items: center;
-					display: inline-flex;
-					padding-right: 10px;
-				}
+            .checkboxes {
+                label {
+                    align-items: center;
+                    display: inline-flex;
+                    padding-right: 10px;
+                }
 
-				span {
-					margin-left: .25rem;
-				}
-			}
+                span {
+                    margin-left: .25rem;
+                }
+            }
 
-			.sorting {
-				align-items: center;
-				display: flex;
-				margin-top: 1.0rem;
+            .sorting {
+                align-items: center;
+                display: flex;
+                margin-top: 1.0rem;
 
-				.mui-select {
-					cursor: pointer;
-				}
+                .mui-select {
+                    cursor: pointer;
+                }
 
-				label {
-					overflow-y: hidden;
-				}
+                label {
+                    overflow-y: hidden;
+                }
 
-				& > label {
-					margin-left: 10px;
-				}
+                & > label {
+                    margin-left: 10px;
+                }
 
-				span {
-					margin-left: .25rem;
-				}
-			}
+                span {
+                    margin-left: .25rem;
+                }
+            }
 
-			.control-font {
-				font-size: .875rem;
+            .control-font {
+                font-size: .875rem;
 
-				&.reverse {
-					color: mui-color('black');
-				}
-			}
-		}
-	}
+                &.reverse {
+                    color: mui-color('black');
+                }
+            }
+        }
+    }
 
-	.files {
-		clear: left;
+    .files {
+        clear: left;
 
-		.file {
-			pre {
-				display: none;
-			}
+        .file {
+            pre {
+                display: none;
+            }
 
-			&.active {
-				pre {
-					display: grid;
+            &.active {
+                pre {
+                    display: grid;
 
-					.hljs {
-						// overwrite hljs library
-						display: inherit;
-						padding: 0;
-					}
-				}
-			}
-		}
+                    .hljs {
+                        // overwrite hljs library
+                        display: inherit;
+                        padding: 0;
+                    }
+                }
+            }
+        }
 
-		.title {
-			font-size: 1.25rem;
-			font-weight: bold;
-			margin-top: 1rem;
+        .title {
+            font-size: 1.25rem;
+            font-weight: bold;
+            margin-top: 1rem;
 
-			.path {
-				cursor: pointer;
-			}
+            .path {
+                cursor: pointer;
+            }
 
-			.loc {
-				color: mui-color('grey');
-			}
+            .loc {
+                color: mui-color('grey');
+            }
 
-			.button {
-				color: mui-color('grey');
-				font-size: 1.15rem;
-				margin-left: .5rem;
-				text-decoration: none;
-			}
-		}
+            .button {
+                color: mui-color('grey');
+                font-size: 1.15rem;
+                margin-left: .5rem;
+                text-decoration: none;
+            }
+        }
 
-		.segment {
-			border-left: .25rem solid mui-color('green');
+        .segment {
+            border-left: .25rem solid mui-color('green');
 
-			.code {
-				background-color: mui-color('green', '50');
-				padding-left: 1rem;
-			}
+            .code {
+                background-color: mui-color('green', '50');
+                padding-left: 1rem;
+            }
 
-			.line-number {
-				color: mui-color('grey');
-				float: left;
-				// Not allowing user to select text
-				-webkit-touch-callout: none; /* iOS Safari */
-				-webkit-user-select: none; /* Safari */
-				-khtml-user-select: none; /* Konqueror HTML */
-				-moz-user-select: none; /* Firefox */
-				-ms-user-select: none; /* Internet Explorer/Edge */
-				user-select: none; /* Non-prefixed version, currently supported by Chrome and Opera */
-				width: 2rem;
+            .line-number {
+                color: mui-color('grey');
+                float: left;
+                // Not allowing user to select text
+                -webkit-touch-callout: none; /* iOS Safari */
+                -webkit-user-select: none; /* Safari */
+                -khtml-user-select: none; /* Konqueror HTML */
+                -moz-user-select: none; /* Firefox */
+                -ms-user-select: none; /* Internet Explorer/Edge */
+                user-select: none; /* Non-prefixed version, currently supported by Chrome and Opera */
+                width: 2rem;
 
-				.hljs-number {
-					color: mui-color('grey');
-				}
+                .hljs-number {
+                    color: mui-color('grey');
+                }
 
-				.hljs-comment {
-					color: mui-color('grey');
-				}
-			}
+                .hljs-comment {
+                    color: mui-color('grey');
+                }
+            }
 
-			.line-content {
-				padding-left: 2rem;
-			}
+            .line-content {
+                padding-left: 2rem;
+            }
 
-			&.untouched {
-				$grey: mui-color('grey', '400');
-				border-left: .25rem solid $grey;
-				height: 20px; /* height of a single line of code */
+            &.untouched {
+                $grey: mui-color('grey', '400');
+                border-left: .25rem solid $grey;
+                height: 20px; /* height of a single line of code */
 
-				&.active {
-					height: 100%;
+                &.active {
+                    height: 100%;
 
-					.code {
-						background-color: mui-color('white');
-						display: inherit;
-					}
+                    .code {
+                        background-color: mui-color('white');
+                        display: inherit;
+                    }
 
-					.closer {
-						.icon {
-							&.open {
-								display: none;
-							}
+                    .closer {
+                        .icon {
+                            &.open {
+                                display: none;
+                            }
 
-							&.hide {
-								display: inherit;
-							}
-						}
-					}
-				}
+                            &.hide {
+                                display: inherit;
+                            }
+                        }
+                    }
+                }
 
-				.code {
-					display: none;
-				}
+                .code {
+                    display: none;
+                }
 
-				.closer {
-					cursor: pointer;
-					// custom margin for position of toggle icon
-					margin: .2rem 0 0 -.45rem;
-					position: absolute;
+                .closer {
+                    cursor: pointer;
+                    // custom margin for position of toggle icon
+                    margin: .2rem 0 0 -.45rem;
+                    position: absolute;
 
-					&.bottom {
-						//custom margin for position of toggle icon at the bottom of segment
-						margin: -1.05rem 0 0 -.45rem;
-					}
+                    &.bottom {
+                        //custom margin for position of toggle icon at the bottom of segment
+                        margin: -1.05rem 0 0 -.45rem;
+                    }
 
-					.icon {
-						background-color: mui-color('white');
-						color: mui-color('grey');
-						width: .75em;
+                    .icon {
+                        background-color: mui-color('white');
+                        color: mui-color('grey');
+                        width: .75em;
 
-						&.open {
-							display: inherit;
-						}
+                        &.open {
+                            display: inherit;
+                        }
 
-						&.hide {
-							display: none;
-						}
-					}
-				}
-			}
-		}
-	}
+                        &.hide {
+                            display: none;
+                        }
+                    }
+                }
+            }
+        }
+    }
 
-	.empty {
-		text-align: center;
-	}
+    .empty {
+        text-align: center;
+    }
 }
