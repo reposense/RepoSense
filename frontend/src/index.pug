@@ -135,6 +135,7 @@ html
                     v-model="isMergeGroup",
                     v-bind:disabled="filterGroupSelection === 'groupByNone'"
                 ).mui-checkbox.summary-picker__checkbox
+                span merge group
         #summary-charts
           .summary-charts(v-for="repo of filteredRepos")
             .summary-charts__title(v-if="filterGroupSelection === 'groupByRepos'") {{ repo[0].repoName }}&nbsp;&nbsp;
