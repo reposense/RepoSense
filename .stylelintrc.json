@@ -1,27 +1,28 @@
 {
-  "extends": "stylelint-config-standard",
   "plugins": [
     "stylelint-order"
   ],
   "rules": {
-    "at-rule-empty-line-before": null,
-    "at-rule-no-unknown": null,
-    "block-closing-brace-newline-after": "always",
-    "color-hex-case": "upper",
-    "color-hex-length": null,
     "color-no-invalid-hex": true,
-    "declaration-block-no-duplicate-properties": true,
-    "declaration-block-no-shorthand-property-overrides": true,
-    "declaration-empty-line-before": null,
+    "string-no-newline": true,
+    "unit-no-unknown": true,
+    "property-no-unknown": true,
+    "block-no-empty": true,
+    "comment-no-empty": true,
+    "no-extra-semicolons": true,
+    "no-invalid-double-slash-comments": true,
     "declaration-no-important": true,
-    "indentation": "tab",
-    "length-zero-no-unit": true,
-    "no-descending-specificity": null,
+    "declaration-block-single-line-max-declarations": 1,
     "number-leading-zero": "never",
     "number-no-trailing-zeros": null,
-    "order/properties-alphabetical-order": true,
-    "selector-list-comma-newline-after": null,
-    "selector-list-comma-space-after": null,
-    "selector-type-no-unknown": null
+    "string-quotes": "single",
+    "length-zero-no-unit": true,
+    "value-keyword-case": "lower",
+    "property-case": "lower",
+    "declaration-colon-space-after": "always",
+    "selector-type-case": "lower",
+    "selector-list-comma-newline-after": "always",
+    "no-eol-whitespace": true,
+    "order/properties-alphabetical-order": true
   }
 }
