@@ -1,8 +1,8 @@
-@import "colors";
+@import 'colors';
 
 /** global **/
 body {
-	font-family: "Titillium Web", sans-serif;
+	font-family: 'Titillium Web', sans-serif;
 }
 
 vuetemplate {
@@ -59,7 +59,8 @@ header {
 		justify-content: space-between;
 	}
 
-	.repo, .logo {
+	.repo,
+	.logo {
 		margin: 0;
 	}
 }
@@ -145,7 +146,8 @@ header {
 }
 
 /* summary chart */
-#summary, .summary-status {
+#summary,
+.summary-status {
 	padding: 2rem 1rem;
 }
 
@@ -156,13 +158,13 @@ header {
 	justify-content: center;
 	margin-bottom: 2rem;
 
-    &__section{
-        display:flex;
-        flex:0 1 auto;
-        flex-flow:inherit;
-        justify-content:inherit;
-        align-items:inherit;
-    }
+	&__section {
+		align-items: inherit;
+		display: flex;
+		flex: 0 1 auto;
+		flex-flow: inherit;
+		justify-content: inherit;
+	}
 
 	&__checkboxes {
 		label {
@@ -174,7 +176,8 @@ header {
 		}
 	}
 
-	.mui-textfield, .mui-select {
+	.mui-textfield,
+	.mui-select {
 		margin: .5rem;
 		padding-right: 10px;
 	}
@@ -186,7 +189,8 @@ header {
 		width: fit-content;
 	}
 
-	input, select {
+	input,
+	select {
 		font-size: .75rem;
 	}
 }
@@ -230,12 +234,13 @@ header {
 			padding-right: .5rem;
 		}
 
-		&--index, &--repo {
+		&--index,
+		&--repo {
 			font-weight: bold;
 		}
 
 		&--index::after {
-			content: ".";
+			content: '.';
 			display: inline-block;
 		}
 
@@ -244,7 +249,7 @@ header {
 		}
 
 		&--button {
-			color: mui-color("grey");
+			color: mui-color('grey');
 			cursor: pointer;
 			text-decoration: none;
 		}
@@ -259,12 +264,12 @@ header {
 			top: 0;
 
 			&.show {
-				background-color: rgba(mui-color("white"), .5);
-				border: 1px dashed mui-color("black");
+				background-color: rgba(mui-color('white'), .5);
+				border: 1px dashed mui-color('black');
 			}
 
 			&.edge {
-				border-right: 1px dashed mui-color("black");
+				border-right: 1px dashed mui-color('black');
 			}
 		}
 	}
@@ -273,7 +278,7 @@ header {
 		text-align: left;
 
 		&--bar {
-			background-color: mui-color("red");
+			background-color: mui-color('red');
 			height: .3rem;
 			margin-top: .1rem;
 		}
@@ -291,7 +296,7 @@ header {
 /* Ramp */
 .ramp {
 	$height: 3rem;
-	background-color: mui-color("blue", "50");
+	background-color: mui-color('blue', '50');
 	font-size: 100%;
 	height: $height;
 	position: relative;
@@ -305,23 +310,23 @@ header {
 		width: 0;
 
 		&--color0 {
-			border-bottom: $height rgba(mui-color("orange"), .5) solid;
+			border-bottom: $height rgba(mui-color('orange'), .5) solid;
 		}
 
 		&--color1 {
-			border-bottom: $height rgba(mui-color("light-blue"), .5) solid;
+			border-bottom: $height rgba(mui-color('light-blue'), .5) solid;
 		}
 
 		&--color2 {
-			border-bottom: $height rgba(mui-color("green"), .5) solid;
+			border-bottom: $height rgba(mui-color('green'), .5) solid;
 		}
 
 		&--color3 {
-			border-bottom: $height rgba(mui-color("indigo"), .5) solid;
+			border-bottom: $height rgba(mui-color('indigo'), .5) solid;
 		}
 
 		&--color4 {
-			border-bottom: $height rgba(mui-color("pink"), .5) solid;
+			border-bottom: $height rgba(mui-color('pink'), .5) solid;
 		}
 	}
 }
@@ -341,7 +346,7 @@ header {
 		}
 
 		.contribution {
-			color: mui-color("red");
+			color: mui-color('red');
 
 			.fileformat {
 				align-items: center;
@@ -368,8 +373,8 @@ header {
 			}
 
 			#submit-button {
-				background-color: mui-color("blue");
-				color: mui-color("white");
+				background-color: mui-color('blue');
+				color: mui-color('white');
 				margin: 1.0rem 0 0 .25rem;
 				padding: .5rem 1.0rem .25rem 1.0rem;
 			}
@@ -383,7 +388,7 @@ header {
 			}
 
 			.bloc {
-				color: mui-color("grey");
+				color: mui-color('grey');
 			}
 
 			span.fileFormat {
@@ -438,7 +443,7 @@ header {
 				font-size: .875rem;
 
 				&.reverse {
-					color: mui-color("black");
+					color: mui-color('black');
 				}
 			}
 		}
@@ -479,7 +484,7 @@ header {
 			}
 
 			.button {
-				color: mui-color("grey");
+				color: mui-color('grey');
 				font-size: 1.15rem;
 				margin-left: .5rem;
 				text-decoration: none;
