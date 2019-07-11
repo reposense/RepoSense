@@ -110,7 +110,7 @@ public abstract class CsvParser<T> {
      * returns {@code defaultValue} otherwise.
      */
     protected String getOrDefault(final CSVRecord record, int colNum, String defaultValue) {
-        return record.get(colNum).isEmpty() ? defaultValue : get(record, colNum);
+        return get(record, colNum).isEmpty() ? defaultValue : get(record, colNum);
     }
 
     /**
@@ -119,10 +119,10 @@ public abstract class CsvParser<T> {
      * returns an empty {@code List} otherwise.
      */
     protected List<String> getAsList(final CSVRecord record, int colNum) {
-        if (record.get(colNum).isEmpty()) {
+        if (get(record, colNum).isEmpty()) {
             return Collections.emptyList();
         }
-        return Arrays.stream(record.get(colNum).split(COLUMN_VALUES_SEPARATOR))
+        return Arrays.stream(get(record, colNum).split(COLUMN_VALUES_SEPARATOR))
                 .map(String::trim)
                 .collect(Collectors.toList());
     }
@@ -132,9 +132,9 @@ public abstract class CsvParser<T> {
      * Returns an empty list if {@code record} at {@code colNum} is empty.
      */
     protected List<String> getAsListWithoutOverridePrefix(final CSVRecord record, int colNum) {
-        String rawValue = (isElementOverridingStandaloneConfig(record, colNum))
-                ? record.get(colNum).replaceFirst(OVERRIDE_KEYWORD, "")
-                : record.get(colNum);
+        String rawValue = isElementOverridingStandaloneConfig(record, colNum)
+                ? get(record, colNum).replaceFirst(OVERRIDE_KEYWORD, "")
+                : get(record, colNum);
 
         if (rawValue.isEmpty()) {
             return Collections.emptyList();
@@ -151,7 +151,7 @@ public abstract class CsvParser<T> {
      * Returns true if the {@code record} at {@code colNum} is prefixed with the override keyword.
      */
     protected boolean isElementOverridingStandaloneConfig(final CSVRecord record, int colNum) {
-        return record.get(colNum).startsWith(OVERRIDE_KEYWORD);
+        return get(record, colNum).startsWith(OVERRIDE_KEYWORD);
     }
 
     /**
