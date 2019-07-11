@@ -19,7 +19,6 @@ import reposense.util.FileUtil;
 public class RepoConfiguration {
     public static final String DEFAULT_BRANCH = "HEAD";
     private static final Logger logger = LogsManager.getLogger(RepoConfiguration.class);
-    private static int repoConfigNum = 1;
     private final transient String repoFolderName;
 
     private RepoLocation location;
@@ -69,14 +68,12 @@ public class RepoConfiguration {
         if (organization != null) {
             displayName = organization + "/" + repoName + "[" + branch + "]";
             repoFolderName = organization + "_" + repoName;
-            outputFolderName = repoConfigNum + "_" + organization + "_" + repoName + "_" + branch;
+            outputFolderName = organization + "_" + repoName + "_" + branch;
         } else {
             displayName = repoName + "[" + branch + "]";
             repoFolderName = repoName;
-            outputFolderName = repoConfigNum + "_" + repoName + "_" + branch;
+            outputFolderName = repoName + "_" + branch;
         }
-
-        repoConfigNum++;
     }
 
     public static void setDatesToRepoConfigs(List<RepoConfiguration> configs, Date sinceDate, Date untilDate) {
