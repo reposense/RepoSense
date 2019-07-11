@@ -65,9 +65,10 @@ public class ReportGenerator {
     private static Date earliestSinceDate = null;
 
     /**
-     * Generates and returns a list of paths to the authorship and commits JSON file for each repo in {@code configs}
-     * at {@code outputPath}, as well as the summary JSON file of all the repos.
+     * Generates the authorship and commits JSON file for each repo in {@code configs} at {@code outputPath}, as
+     * well as the summary JSON file of all the repos.
      *
+     * @return the list of file paths that were generated.
      * @throws IOException if templateZip.zip does not exists in jar file.
      */
     public static List<Path> generateReposReport(List<RepoConfiguration> configs, String outputPath,
