@@ -6,6 +6,7 @@ import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 import java.util.logging.Logger;
 
 import reposense.git.GitBranch;
@@ -63,13 +64,14 @@ public class RepoConfiguration {
 
         String organization = location.getOrganization();
         String repoName = location.getRepoName();
+        String uniqueIdentifier = UUID.nameUUIDFromBytes(location.toString().getBytes()).toString();
 
         if (organization != null) {
             displayName = organization + "_" + repoName + "_" + branch;
-            repoFolderName = organization + "_" + repoName;
+            repoFolderName = organization + "_" + repoName + "_" + uniqueIdentifier;
         } else {
             displayName = repoName + "_" + branch;
-            repoFolderName = repoName;
+            repoFolderName = repoName + "_" + uniqueIdentifier;
         }
     }
 
