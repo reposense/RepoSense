@@ -49,7 +49,6 @@ window.api = {
 
   loadCommits(repoName) {
     const folderName = window.REPOS[repoName].outputFolderName;
-
     return loadJSON(`${REPORT_DIR}/${folderName}/commits.json`).then((commits) => {
       const res = [];
       const repo = window.REPOS[repoName];
