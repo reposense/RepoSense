@@ -6,6 +6,7 @@ import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
@@ -171,7 +172,6 @@ public class RepoConfiguration {
             if (config.getFormats().isEmpty()) {
                 config.setFormats(formats);
             }
-            config.setFormatsToFileTypes(config.getFormats());
         }
     }
 
@@ -196,7 +196,6 @@ public class RepoConfiguration {
         }
         if (!isFormatsOverriding) {
             formats = Format.convertStringsToFormats(standaloneConfig.getFormats());
-            setFormatsToFileTypes(formats);
         }
         if (!isIgnoreCommitListOverriding) {
             ignoreCommitList = CommitHash.convertStringsToCommits(standaloneConfig.getIgnoreCommitList());
@@ -375,19 +374,37 @@ public class RepoConfiguration {
     }
 
     /**
-     * Converts each {@code format} in {@code formats} into individual {@code fileTypes} and set the existing
-     * {@link RepoConfiguration#fileTypes} in {@link RepoConfiguration} to {@code fileTypes} if user is not using
-     * custom groups.
+     * Appends the whitelisted {@code formats} into {@link RepoConfiguration#fileTypes} if the user is using custom
+     * groups; otherwise, converts the whitelisted {@code formats} into individual {@link RepoConfiguration#fileTypes}.
      */
-    private void setFormatsToFileTypes(List<Format> formats) {
+    public void updateFileTypes() {
+        List<Group> fileTypes;
         if (hasCustomGroups) {
-            return;
+            appendFormatsToExistingFileTypes(formats.stream().map(Objects::toString).collect(Collectors.toList()));
+        } else {
+            fileTypes = new ArrayList<>();
+            for (Format format : formats) {
+                fileTypes.add(new Group(format.toString(), Collections.singletonList("**" + format)));
+            }
+            setFileTypes(fileTypes);
         }
-        List<Group> fileTypes = new ArrayList<>();
-        for (Format format : formats) {
-            fileTypes.add(new Group(format.toString(), Collections.singletonList("**" + format)));
+    }
+
+    /**
+     * Appends all whitelisted {@code formats} into the {@code filePaths} of each custom {@link Group}.
+     */
+    private void appendFormatsToExistingFileTypes(List<String> formats) {
+        for (Group fileType : fileTypes) {
+            List<String> appendedFilePaths = new ArrayList<>();
+            for (String filePath : fileType.getFilePaths()) {
+                if (!filePath.endsWith("*")) {
+                    appendedFilePaths.add(filePath);
+                } else {
+                    formats.forEach(format -> appendedFilePaths.add(filePath + format));
+                }
+            }
+            fileType.setFilePaths(appendedFilePaths);
         }
-        setFileTypes(fileTypes);
     }
 
     public Date getSinceDate() {

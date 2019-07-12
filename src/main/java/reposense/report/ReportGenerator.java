@@ -183,6 +183,7 @@ public class ReportGenerator {
 
     /**
      * Updates {@code config} with configuration provided by repository if exists.
+     * Also updates the {@code fileTypes} according to the supplied file formats to be analyzed.
      */
     public static void updateRepoConfig(RepoConfiguration config) {
         Path configJsonPath =
@@ -190,27 +191,25 @@ public class ReportGenerator {
 
         if (!Files.exists(configJsonPath)) {
             logger.info(String.format(MESSAGE_NO_STANDALONE_CONFIG, config.getLocation(), config.getBranch()));
-            return;
-        }
-
-        if (config.isStandaloneConfigIgnored()) {
+        } else if (config.isStandaloneConfigIgnored()) {
             logger.info(String.format(MESSAGE_IGNORING_STANDALONE_CONFIG, config.getLocation(), config.getBranch()));
-            return;
+        } else {
+            try {
+                StandaloneConfig standaloneConfig = new StandaloneConfigJsonParser().parse(configJsonPath);
+                config.update(standaloneConfig);
+            } catch (JsonSyntaxException jse) {
+                logger.warning(String.format(MESSAGE_MALFORMED_STANDALONE_CONFIG, config.getDisplayName(),
+                        REPOSENSE_CONFIG_FOLDER, REPOSENSE_CONFIG_FILE, config.getLocation(), config.getBranch()));
+            } catch (IllegalArgumentException iae) {
+                logger.warning(String.format(MESSAGE_INVALID_CONFIG_JSON,
+                        iae.getMessage(), config.getLocation(), config.getBranch()));
+            } catch (IOException ioe) {
+                throw new AssertionError(
+                        "This exception should not happen as we have performed the file existence check.");
+            }
         }
 
-        try {
-            StandaloneConfig standaloneConfig = new StandaloneConfigJsonParser().parse(configJsonPath);
-            config.update(standaloneConfig);
-        } catch (JsonSyntaxException jse) {
-            logger.warning(String.format(MESSAGE_MALFORMED_STANDALONE_CONFIG, config.getDisplayName(),
-                    REPOSENSE_CONFIG_FOLDER, REPOSENSE_CONFIG_FILE, config.getLocation(), config.getBranch()));
-        } catch (IllegalArgumentException iae) {
-            logger.warning(String.format(MESSAGE_INVALID_CONFIG_JSON,
-                    iae.getMessage(), config.getLocation(), config.getBranch()));
-        } catch (IOException ioe) {
-            throw new AssertionError(
-                    "This exception should not happen as we have performed the file existence check.");
-        }
+        config.updateFileTypes();
     }
 
     /**

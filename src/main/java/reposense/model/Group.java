@@ -23,6 +23,15 @@ public class Group {
         setGroupGlobMatcher();
     }
 
+    public void setFilePaths(List<String> filePaths) {
+        this.filePaths = filePaths;
+        setGroupGlobMatcher();
+    }
+
+    public List<String> getFilePaths() {
+        return filePaths;
+    }
+
     @Override
     public String toString() {
         return groupName;
