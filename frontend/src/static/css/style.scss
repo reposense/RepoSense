@@ -503,6 +503,7 @@ header{
                 $grey:mui-color('grey', '400');
                 border-left:0.25rem solid $grey;
                 height:20px; /* height of a single line of code */
+                position:relative;
 
                 &.active{
                     height:100%;
