@@ -62,7 +62,7 @@ window.vAuthorship = {
       const repo = window.REPOS[this.info.repo];
 
       this.getRepoProps(repo);
-      if (!repo || !this.info.name) {
+      if (!repo || !this.info.author) {
         window.app.isTabActive = false;
         return;
       }
@@ -93,10 +93,9 @@ window.vAuthorship = {
     },
 
     setInfoHash() {
-      const { addHash, removeHash } = window;
+      const { addHash } = window;
       addHash('tabAuthor', this.info.author);
       addHash('tabRepo', this.info.repo);
-      removeHash('tabOpen');
     },
 
     expandAll(isActive) {
