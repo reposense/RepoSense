@@ -251,12 +251,17 @@ public class RepoConfiguration {
 
     public void setBranch(String branch) {
         updateDisplayName(branch);
+        updateOutputFolderName(branch);
         this.branch = branch;
         authorConfig.setBranch(branch);
     }
 
     public void updateDisplayName(String branch) {
-        this.displayName = displayName.substring(0, displayName.lastIndexOf('[') + 1) + branch + "] ";
+        this.displayName = displayName.substring(0, displayName.lastIndexOf('[') + 1) + branch + "]";
+    }
+
+    public void updateOutputFolderName(String branch) {
+        this.outputFolderName = outputFolderName.substring(0, outputFolderName.lastIndexOf('_') + 1) + branch;
     }
 
     public boolean isAnnotationOverwrite() {
