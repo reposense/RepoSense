@@ -133,6 +133,7 @@ public abstract class CsvParser<T> {
         if (isElementOverridingStandaloneConfig(record, colNum)) {
             data.set(0, data.get(0).replaceFirst(OVERRIDE_KEYWORD, ""));
         }
+        data.removeIf(String::isEmpty);
         return data;
     }
 
