@@ -53,28 +53,25 @@ public abstract class CsvParser<T> {
         List<T> results = new ArrayList<>();
         Iterable<CSVRecord> records;
 
-        try {
-            Reader csvReader = new FileReader(csvFilePath.toFile());
+        try (Reader csvReader = new FileReader(csvFilePath.toFile())) {
             records = CSVFormat.DEFAULT.withFirstRecordAsHeader().parse(csvReader);
+
+            for (CSVRecord record : records) {
+                if (isLineMalformed(record)) {
+                    continue;
+                }
+                try {
+                    processLine(results, record);
+                } catch (ParseException pe) {
+                    logger.warning(String.format(MESSAGE_LINE_PARSE_EXCEPTION_FORMAT,
+                            getLineNumber(record), csvFilePath.getFileName(), pe.getMessage()));
+                } catch (IllegalArgumentException iae) {
+                    logger.log(Level.WARNING, iae.getMessage(), iae);
+                }
+            }
         } catch (IOException ioe) {
             throw new IOException(MESSAGE_UNABLE_TO_READ_CSV_FILE, ioe);
         }
-
-        for (CSVRecord record : records) {
-            if (isLineMalformed(record)) {
-                continue;
-            }
-
-            try {
-                processLine(results, record);
-            } catch (ParseException pe) {
-                logger.warning(String.format(MESSAGE_LINE_PARSE_EXCEPTION_FORMAT,
-                        getLineNumber(record), csvFilePath.getFileName(), pe.getMessage()));
-            } catch (IllegalArgumentException iae) {
-                logger.log(Level.WARNING, iae.getMessage(), iae);
-            }
-        }
-
         return results;
     }
 
@@ -132,14 +129,11 @@ public abstract class CsvParser<T> {
      * Returns an empty list if {@code record} at {@code colNum} is empty.
      */
     protected List<String> getAsListWithoutOverridePrefix(final CSVRecord record, int colNum) {
-        String rawValue = isElementOverridingStandaloneConfig(record, colNum)
-                ? get(record, colNum).replaceFirst(OVERRIDE_KEYWORD, "")
-                : get(record, colNum);
-
-        if (rawValue.isEmpty()) {
-            return Collections.emptyList();
+        List<String> data = getAsList(record, colNum);
+        if (isElementOverridingStandaloneConfig(record, colNum)) {
+            data.set(0, data.get(0).replaceFirst(OVERRIDE_KEYWORD, ""));
         }
-        return Arrays.stream(rawValue.split((COLUMN_VALUES_SEPARATOR))).map(String::trim).collect(Collectors.toList());
+        return data;
     }
 
 
