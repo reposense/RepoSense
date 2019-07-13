@@ -111,7 +111,7 @@ window.app = new window.Vue({
     tabInfo: {},
     creationDate: '',
 
-    errorMessages: [],
+    errorMessages: {},
   },
   methods: {
     // model functions //

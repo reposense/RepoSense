@@ -37,10 +37,8 @@ window.api = {
           window.app.untilDate = data.untilDate;
           window.app.repoSenseVersion = data.repoSenseVersion;
 
-          data.errorList.forEach((errorBlock) => {
-            const repoName = `${errorBlock.repoName}`;
-            const errorMessage = `${errorBlock.errorMessage}`;
-            window.app.errorMessages.push([repoName, errorMessage]);
+          Object.entries(data.errorList).forEach(([repoName, message]) => {
+            window.app.errorMessages[repoName] = message;
           });
 
           const names = [];
