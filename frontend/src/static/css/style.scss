@@ -162,7 +162,10 @@ header{
 
     &__section{
         display:flex;
-        flex:0 0 auto;
+        flex:0 1 auto;
+        flex-flow:inherit;
+        justify-content:inherit;
+        align-items:inherit;
     }
 
     &__checkboxes{

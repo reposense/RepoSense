@@ -1,0 +1,18 @@
+[
+  {
+    "path": "README.adoc",
+    "lines": [
+      {
+        "lineNumber": 1,
+        "author": {
+          "gitId": "charlesgoh"
+        },
+        "content": "\u003d Address++"
+      }
+    ],
+    "authorContributionMap": {
+      "Esilocke": 1,
+      "-": 70
+    }
+  }
+]
