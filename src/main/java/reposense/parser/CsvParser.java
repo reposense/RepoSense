@@ -27,9 +27,10 @@ public abstract class CsvParser<T> {
 
     private static final String OVERRIDE_KEYWORD = "override:";
     private static final String MESSAGE_UNABLE_TO_READ_CSV_FILE = "Unable to read the supplied CSV file.";
-    private static final String MESSAGE_MALFORMED_LINE_FORMAT = "Warning! line %d in CSV file, %s, is malformed.";
-    private static final String MESSAGE_LINE_PARSE_EXCEPTION_FORMAT =
-            "Warning! Error parsing line %d in CSV file, %s.\n"
+    private static final String MESSAGE_MALFORMED_LINE_FORMAT = "Line %d in CSV file, %s, is malformed.\n"
+            + "Content: %s";
+    private static final String MESSAGE_LINE_PARSE_EXCEPTION_FORMAT = "Error parsing line %d in CSV file, %s.\n"
+            + "Content: %s\n"
             + "Error: %s";
 
     private Path csvFilePath;
@@ -63,8 +64,8 @@ public abstract class CsvParser<T> {
                 try {
                     processLine(results, record);
                 } catch (ParseException pe) {
-                    logger.warning(String.format(MESSAGE_LINE_PARSE_EXCEPTION_FORMAT,
-                            getLineNumber(record), csvFilePath.getFileName(), pe.getMessage()));
+                    logger.warning(String.format(MESSAGE_LINE_PARSE_EXCEPTION_FORMAT, getLineNumber(record),
+                            csvFilePath.getFileName(), getRowContentAsRawString(record), pe.getMessage()));
                 } catch (IllegalArgumentException iae) {
                     logger.log(Level.WARNING, iae.getMessage(), iae);
                 }
@@ -82,13 +83,13 @@ public abstract class CsvParser<T> {
     private boolean isLineMalformed(CSVRecord record) {
         if (!record.isConsistent()) {
             logger.warning(String.format(MESSAGE_MALFORMED_LINE_FORMAT, getLineNumber(record),
-                    csvFilePath.getFileName()));
+                    csvFilePath.getFileName(), getRowContentAsRawString(record)));
             return true;
         }
         for (int position : mandatoryPositions()) {
             if (record.get(position).isEmpty()) {
                 logger.warning(String.format(MESSAGE_MALFORMED_LINE_FORMAT, getLineNumber(record),
-                        csvFilePath.getFileName()));
+                        csvFilePath.getFileName(), getRowContentAsRawString(record)));
                 return true;
             }
         }
@@ -147,6 +148,17 @@ public abstract class CsvParser<T> {
      */
     protected boolean isElementOverridingStandaloneConfig(final CSVRecord record, int colNum) {
         return get(record, colNum).startsWith(OVERRIDE_KEYWORD);
+    }
+
+    /**
+     * Returns the contents of {@code record} as a raw string.
+     */
+    private String getRowContentAsRawString(final CSVRecord record) {
+        StringBuilder inputRowString = new StringBuilder();
+        for (int colNum = 0; colNum < record.size(); colNum++) {
+            inputRowString.append(get(record, colNum)).append(",");
+        }
+        return inputRowString.toString();
     }
 
     /**
