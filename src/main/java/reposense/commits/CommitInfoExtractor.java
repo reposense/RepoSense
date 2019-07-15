@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.logging.Logger;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import reposense.commits.model.CommitInfo;
 import reposense.git.GitCheckout;
@@ -18,6 +20,8 @@ import reposense.system.LogsManager;
 public class CommitInfoExtractor {
     private static final Logger logger = LogsManager.getLogger(CommitInfoExtractor.class);
     private static final String MESSAGE_START_EXTRACTING_COMMIT_INFO = "Extracting commits info for %s (%s)...";
+
+    private static final Pattern TRAILING_NEWLINES_PATTERN = Pattern.compile("\n+$");
 
     /**
      * Extracts out and returns the raw information of each commit for the repo in {@code config}.
@@ -52,7 +56,8 @@ public class CommitInfoExtractor {
 
         // Starts from 1 as index 0 is always empty.
         for (int i = 1; i < rawCommitInfos.length; i++) {
-            String rawCommitInfo = rawCommitInfos[i].replaceAll("\n+$", "");
+            Matcher matcher = TRAILING_NEWLINES_PATTERN.matcher(rawCommitInfos[i]);
+            String rawCommitInfo = matcher.replaceAll("");
 
             int statLineSeparatorIndex = rawCommitInfo.lastIndexOf("\n");
             String infoLine = rawCommitInfo.substring(0, statLineSeparatorIndex);

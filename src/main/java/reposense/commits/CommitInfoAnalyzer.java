@@ -40,6 +40,8 @@ public class CommitInfoAnalyzer {
     private static final Pattern INSERTION_PATTERN = Pattern.compile("([0-9]+) insertion");
     private static final Pattern DELETION_PATTERN = Pattern.compile("([0-9]+) deletion");
 
+    private static final Pattern LEADING_4_SPACES_PATTERN = Pattern.compile("^ {4}", Pattern.MULTILINE);
+
     /**
      * Analyzes each {@code CommitInfo} in {@code commitInfos} and returns a list of {@code CommitResult} that is not
      * specified to be ignored or the author is inside {@code config}.
@@ -82,7 +84,8 @@ public class CommitInfoAnalyzer {
     }
 
     private static String getCommitMessageBody(String raw) {
-        return raw.replaceAll("(?m)^ {4}", "");
+        Matcher matcher = LEADING_4_SPACES_PATTERN.matcher(raw);
+        return matcher.replaceAll("");
     }
 
     private static int getInsertion(String raw) {
