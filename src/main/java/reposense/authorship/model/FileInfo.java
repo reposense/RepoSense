@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import reposense.model.Author;
-import reposense.model.Group;
 import reposense.util.SystemUtil;
 
 /**
@@ -23,7 +22,6 @@ public class FileInfo {
         }
 
         this.path = path;
-        this.fileType = Group.DEFAULT_GROUP;
         lines = new ArrayList<>();
     }
 

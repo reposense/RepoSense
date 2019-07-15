@@ -9,14 +9,18 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
+/**
+ * Represents a fileType in {@link RepoConfiguration}.
+ * {@code FileType} is responsible for holding a list of whitelisted formats and user-specified custom groupings.
+ */
 public class FileType {
-    private List<Format> formats;
-    private List<Group> groups;
-
-    public static final String DEFAULT_GROUP = "other";
+    private static final String DEFAULT_GROUP = "other";
 
     private static final Pattern FILE_TYPE_VALIDATION_REGEX = Pattern.compile("[A-Za-z0-9]+");
     private static final String MESSAGE_ILLEGAL_FILE_TYPE = "The provided file type, %s, contains illegal characters.";
+
+    private List<Format> formats;
+    private List<Group> groups;
 
     public FileType() {
         formats = new ArrayList<>();
@@ -30,13 +34,14 @@ public class FileType {
 
     public String getFileType(String fileName) {
         if (hasCustomGroups()) {
+            String fileTypeLabel = DEFAULT_GROUP;
             for (Group group : groups) {
                 PathMatcher groupGlobMatcher = group.getGroupGlobMatcher();
                 if (groupGlobMatcher.matches(Paths.get(fileName))) {
-                    return group.toString();
+                    fileTypeLabel = group.toString();
                 }
             }
-            return DEFAULT_GROUP;
+            return fileTypeLabel;
         } else {
             for (Format format : formats) {
                 if (fileName.endsWith(format.toString())) {
@@ -47,7 +52,7 @@ public class FileType {
         }
     }
 
-    public List<String> getFileTypes() {
+    public List<String> getFileTypeLabels() {
         return hasCustomGroups()
                 ? groups.stream().map(Objects::toString).collect(Collectors.toList())
                 : formats.stream().map(Objects::toString).collect(Collectors.toList());

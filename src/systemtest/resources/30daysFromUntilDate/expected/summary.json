@@ -8,8 +8,7 @@
         "organization": "reposense"
       },
       "branch": "master",
-      "displayName": "reposense_testrepo-Alpha_master",
-      "hasCustomGroups": true
+      "displayName": "reposense_testrepo-Alpha_master"
     },
     {
       "location": {
@@ -18,8 +17,7 @@
         "organization": "reposense"
       },
       "branch": "master",
-      "displayName": "reposense_testrepo-Beta_master",
-      "hasCustomGroups": false
+      "displayName": "reposense_testrepo-Beta_master"
     },
     {
       "location": {
@@ -28,8 +26,7 @@
         "organization": "reposense"
       },
       "branch": "master",
-      "displayName": "reposense_testrepo-Charlie_master",
-      "hasCustomGroups": true
+      "displayName": "reposense_testrepo-Charlie_master"
     },
     {
       "location": {
@@ -38,8 +35,7 @@
         "organization": "reposense"
       },
       "branch": "master",
-      "displayName": "reposense_testrepo-Delta_master",
-      "hasCustomGroups": false
+      "displayName": "reposense_testrepo-Delta_master"
     },
     {
       "location": {
@@ -48,8 +44,7 @@
         "organization": "reposense"
       },
       "branch": "nonExistentBranch",
-      "displayName": "reposense_testrepo-Delta_nonExistentBranch",
-      "hasCustomGroups": false
+      "displayName": "reposense_testrepo-Delta_nonExistentBranch"
     }
   ],
   "sinceDate": "2017-10-01",

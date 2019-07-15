@@ -3640,26 +3640,22 @@
     "charlesgoh": {
       "code": 574,
       "test": 282,
-      "docs": 124,
-      "other": 0
+      "docs": 124
     },
     "jeffreygohkw": {
       "code": 1072,
       "test": 839,
-      "docs": 211,
-      "other": 0
+      "docs": 211
     },
     "Esilocke": {
       "code": 2031,
       "test": 884,
-      "docs": 433,
-      "other": 0
+      "docs": 433
     },
     "wangyiming1019": {
       "code": 965,
       "test": 1001,
-      "docs": 0,
-      "other": 0
+      "docs": 0
     }
   },
   "authorContributionVariance": {

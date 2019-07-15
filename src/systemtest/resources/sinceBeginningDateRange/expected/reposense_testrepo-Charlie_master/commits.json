@@ -8112,26 +8112,22 @@
     "charlesgoh": {
       "code": 1825,
       "test": 1433,
-      "docs": 970,
-      "other": 0
+      "docs": 970
     },
     "jeffreygohkw": {
       "code": 2914,
       "test": 1728,
-      "docs": 1198,
-      "other": 0
+      "docs": 1198
     },
     "Esilocke": {
       "code": 4308,
       "test": 4058,
-      "docs": 2578,
-      "other": 0
+      "docs": 2578
     },
     "wangyiming1019": {
       "code": 1142,
       "test": 1327,
-      "docs": 0,
-      "other": 0
+      "docs": 0
     }
   },
   "authorContributionVariance": {

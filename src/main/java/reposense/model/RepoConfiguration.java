@@ -371,7 +371,7 @@ public class RepoConfiguration {
      * Returns the labels used for the file types depending on whether the user has specified a custom grouping.
      */
     public List<String> getFileTypeLabels() {
-        return fileTypes.getFileTypes();
+        return fileTypes.getFileTypeLabels();
     }
 
     public String getFileType(String fileName) {

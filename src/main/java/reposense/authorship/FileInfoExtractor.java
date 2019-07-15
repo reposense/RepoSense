@@ -1,7 +1,6 @@
 package reposense.authorship;
 
 import java.io.BufferedReader;
-import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.nio.file.Path;
@@ -24,7 +23,6 @@ import reposense.git.GitDiff;
 import reposense.git.GitRevList;
 import reposense.git.exception.CommitNotFoundException;
 import reposense.model.FileType;
-import reposense.model.Format;
 import reposense.model.RepoConfiguration;
 import reposense.system.LogsManager;
 import reposense.util.FileUtil;
