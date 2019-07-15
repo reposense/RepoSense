@@ -9,7 +9,9 @@ import reposense.model.RepoConfiguration;
 /**
  * Represents the structure of summary.json file in reposense-report folder.
  */
-public class SummaryReportJson {
+public class SummaryJson {
+    public static final String SUMMARY_JSON_FILE_NAME = "summary.json";
+
     private final String repoSenseVersion;
     private final String reportGeneratedTime;
     private final List<RepoConfiguration> repos;
@@ -17,7 +19,7 @@ public class SummaryReportJson {
     private final Date sinceDate;
     private final Date untilDate;
 
-    public SummaryReportJson(List<RepoConfiguration> repos, String reportGeneratedTime, Date sinceDate, Date untilDate,
+    public SummaryJson(List<RepoConfiguration> repos, String reportGeneratedTime, Date sinceDate, Date untilDate,
             String repoSenseVersion, List<Map<String, String>> errorList) {
         this.repos = repos;
         this.reportGeneratedTime = reportGeneratedTime;
