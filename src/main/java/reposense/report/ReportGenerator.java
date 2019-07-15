@@ -218,8 +218,6 @@ public class ReportGenerator {
                         "This exception should not happen as we have performed the file existence check.");
             }
         }
-
-        config.updateFileTypes();
     }
 
     /**

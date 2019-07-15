@@ -26,6 +26,6 @@ public class AuthorshipReporter {
                 .collect(Collectors.toList());
 
         return FileResultAggregator.aggregateFileResult(fileResults, config.getAuthorList(),
-                config.getFileTypes(), config.hasCustomGroups());
+                config.getFileTypeLabels());
     }
 }

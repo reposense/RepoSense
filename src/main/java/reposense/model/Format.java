@@ -71,13 +71,6 @@ public class Format {
     }
 
     /**
-     * Returns true if the {@code relativePath}'s file type is inside {@code formatsWhiteList}.
-     */
-    public static boolean isInsideWhiteList(String relativePath, List<Format> formatsWhiteList) {
-        return formatsWhiteList.stream().anyMatch(format -> relativePath.endsWith("." + format));
-    }
-
-    /**
      * Checks that {@code value} is in a valid format.
      * @throws IllegalArgumentException if {@code value} does not meet the criteria.
      */

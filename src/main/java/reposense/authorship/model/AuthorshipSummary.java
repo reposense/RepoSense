@@ -16,8 +16,7 @@ public class AuthorshipSummary {
     private final Map<Author, Integer> authorFinalContributionMap;
     private final Map<Author, LinkedHashMap<String, Integer>> authorFileTypeContributionMap;
 
-    public AuthorshipSummary(List<FileResult> fileResults, List<Author> authors, List<Group> fileTypes,
-            boolean hasCustomGroupings) {
+    public AuthorshipSummary(List<FileResult> fileResults, List<Author> authors, List<String> fileTypes) {
         this.fileResults = fileResults;
         authorFinalContributionMap = new HashMap<>();
         authorFileTypeContributionMap = new HashMap<>();
@@ -27,12 +26,8 @@ public class AuthorshipSummary {
             authorFinalContributionMap.put(author, 0);
 
             LinkedHashMap<String, Integer> defaultFileTypeContribution = new LinkedHashMap<>();
-            for (Group fileType : fileTypes) {
-                defaultFileTypeContribution.put(fileType.toString(), 0);
-            }
-            if (hasCustomGroupings) {
-                defaultFileTypeContribution.put(Group.DEFAULT_GROUP, 0);
-            }
+
+            fileTypes.forEach(fileType -> defaultFileTypeContribution.put(fileType, 0));
             authorFileTypeContributionMap.put(author, defaultFileTypeContribution);
         });
     }

@@ -7,7 +7,6 @@ import java.nio.file.Path;
 import java.nio.file.PathMatcher;
 import java.nio.file.Paths;
 import java.util.HashMap;
-import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -18,7 +17,6 @@ import reposense.authorship.model.LineInfo;
 import reposense.git.GitBlame;
 import reposense.model.Author;
 import reposense.model.CommitHash;
-import reposense.model.Group;
 import reposense.model.RepoConfiguration;
 import reposense.system.LogsManager;
 
@@ -99,14 +97,7 @@ public class FileInfoAnalyzer {
      * Sets specified {@code fileType} for {@code fileInfo}
      */
     private static void setFileType(RepoConfiguration config, FileInfo fileInfo) {
-        List<Group> fileTypes = config.getFileTypes();
-        Path filePath = Paths.get(fileInfo.getPath());
-        fileTypes.forEach(fileType -> {
-            PathMatcher groupGlobMatcher = fileType.getGroupGlobMatcher();
-            if (groupGlobMatcher.matches(filePath)) {
-                fileInfo.setFileType(fileType.toString());
-            }
-        });
+        fileInfo.setFileType(config.getFileType(fileInfo.getPath()));
     }
 
     /**

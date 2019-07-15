@@ -6,7 +6,6 @@ import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
-import java.util.Objects;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
@@ -26,13 +25,11 @@ public class RepoConfiguration {
     private RepoLocation location;
     private String branch;
     private String displayName;
-    private boolean hasCustomGroups;
     private transient Date sinceDate;
     private transient Date untilDate;
 
     private transient boolean annotationOverwrite = true;
-    private transient List<Format> formats;
-    private transient List<Group> fileTypes;
+    private transient FileType fileTypes;
     private transient int commitNum = 1;
     private transient List<String> ignoreGlobList = new ArrayList<>();
     private transient AuthorConfiguration authorConfig;
@@ -59,9 +56,7 @@ public class RepoConfiguration {
         this.branch = location.isEmpty() ? DEFAULT_BRANCH : branch;
         this.ignoreGlobList = ignoreGlobList;
         this.isStandaloneConfigIgnored = isStandaloneConfigIgnored;
-        this.formats = formats;
-        this.fileTypes = new ArrayList<>();
-        this.hasCustomGroups = false;
+        this.fileTypes = new FileType(formats);
         this.ignoreCommitList = ignoreCommitList;
         this.isFormatsOverriding = isFormatsOverriding;
         this.isIgnoreGlobListOverriding = isIgnoreGlobListOverriding;
@@ -134,8 +129,7 @@ public class RepoConfiguration {
                 continue;
             }
             matchingRepoConfigs.forEach(matchingRepoConfig -> {
-                matchingRepoConfig.setFileTypes(groupConfig.getGroupList());
-                matchingRepoConfig.hasCustomGroups = true;
+                matchingRepoConfig.fileTypes.setGroups(groupConfig.getGroupList());
             });
         }
     }
@@ -169,8 +163,8 @@ public class RepoConfiguration {
      */
     public static void setFormatsToRepoConfigs(List<RepoConfiguration> configs, List<Format> formats) {
         for (RepoConfiguration config : configs) {
-            if (config.getFormats().isEmpty()) {
-                config.setFormats(formats);
+            if (!config.fileTypes.hasSpecifiedFormats()) {
+                config.fileTypes.setFormats(formats);
             }
         }
     }
@@ -195,7 +189,7 @@ public class RepoConfiguration {
             ignoreGlobList = standaloneConfig.getIgnoreGlobList();
         }
         if (!isFormatsOverriding) {
-            formats = Format.convertStringsToFormats(standaloneConfig.getFormats());
+            fileTypes.setFormats(Format.convertStringsToFormats(standaloneConfig.getFormats()));
         }
         if (!isIgnoreCommitListOverriding) {
             ignoreCommitList = CommitHash.convertStringsToCommits(standaloneConfig.getIgnoreCommitList());
@@ -262,7 +256,7 @@ public class RepoConfiguration {
                 && authorConfig.equals(otherRepoConfig.authorConfig)
                 && ignoreGlobList.equals(otherRepoConfig.ignoreGlobList)
                 && isStandaloneConfigIgnored == otherRepoConfig.isStandaloneConfigIgnored
-                && formats.equals(otherRepoConfig.formats)
+                && fileTypes.equals(otherRepoConfig.fileTypes)
                 && isFormatsOverriding == otherRepoConfig.isFormatsOverriding
                 && isIgnoreGlobListOverriding == otherRepoConfig.isIgnoreGlobListOverriding
                 && isIgnoreCommitListOverriding == otherRepoConfig.isIgnoreCommitListOverriding;
@@ -361,50 +355,27 @@ public class RepoConfiguration {
         authorConfig.setAuthorEmailsAndAliasesMap(authorEmailsAndAliasesMap);
     }
 
-    /**
-     * Clears existing {@link RepoConfiguration#fileTypes} and sets {@code fileTypes} into
-     * {@link RepoConfiguration#fileTypes}.
-     */
-    private void setFileTypes(List<Group> fileTypes) {
-        this.fileTypes = fileTypes;
+    public List<Format> getFormats() {
+        return fileTypes.getFormats();
     }
 
-    public List<Group> getFileTypes() {
-        return fileTypes;
+    public void setFormats(List<Format> formats) {
+        fileTypes.setFormats(formats);
     }
 
-    /**
-     * Appends the whitelisted {@code formats} into {@link RepoConfiguration#fileTypes} if the user is using custom
-     * groups; otherwise, converts the whitelisted {@code formats} into individual {@link RepoConfiguration#fileTypes}.
-     */
-    public void updateFileTypes() {
-        List<Group> fileTypes;
-        if (hasCustomGroups) {
-            appendFormatsToExistingFileTypes(formats.stream().map(Objects::toString).collect(Collectors.toList()));
-        } else {
-            fileTypes = new ArrayList<>();
-            for (Format format : formats) {
-                fileTypes.add(new Group(format.toString(), Collections.singletonList("**" + format)));
-            }
-            setFileTypes(fileTypes);
-        }
+    public List<Group> getGroups() {
+        return fileTypes.getGroups();
     }
 
     /**
-     * Appends all whitelisted {@code formats} into the {@code filePaths} of each custom {@link Group}.
+     * Returns the labels used for the file types depending on whether the user has specified a custom grouping.
      */
-    private void appendFormatsToExistingFileTypes(List<String> formats) {
-        for (Group fileType : fileTypes) {
-            List<String> appendedFilePaths = new ArrayList<>();
-            for (String filePath : fileType.getFilePaths()) {
-                if (!filePath.endsWith("*")) {
-                    appendedFilePaths.add(filePath);
-                } else {
-                    formats.forEach(format -> appendedFilePaths.add(filePath + format));
-                }
-            }
-            fileType.setFilePaths(appendedFilePaths);
-        }
+    public List<String> getFileTypeLabels() {
+        return fileTypes.getFileTypes();
+    }
+
+    public String getFileType(String fileName) {
+        return fileTypes.getFileType(fileName);
     }
 
     public Date getSinceDate() {
@@ -421,14 +392,6 @@ public class RepoConfiguration {
 
     public void setUntilDate(Date untilDate) {
         this.untilDate = untilDate;
-    }
-
-    public List<Format> getFormats() {
-        return formats;
-    }
-
-    public void setFormats(List<Format> formats) {
-        this.formats = formats;
     }
 
     public void setAuthorDisplayName(Author author, String displayName) {
@@ -473,9 +436,5 @@ public class RepoConfiguration {
 
     public boolean isIgnoreCommitListOverriding() {
         return isIgnoreCommitListOverriding;
-    }
-
-    public boolean hasCustomGroups() {
-        return hasCustomGroups;
     }
 }

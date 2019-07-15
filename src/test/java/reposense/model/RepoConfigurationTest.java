@@ -245,7 +245,7 @@ public class RepoConfigurationTest {
         RepoConfiguration.setGroupConfigsToRepos(actualConfigs, groupConfigs);
 
         Assert.assertEquals(1, actualConfigs.size());
-        Assert.assertEquals(CONFIG_GROUPS, actualConfigs.get(0).getFileTypes());
+        Assert.assertEquals(CONFIG_GROUPS, actualConfigs.get(0).getGroups());
     }
 
     @Test
