@@ -162,7 +162,10 @@ header{
 
     &__section{
         display:flex;
-        flex:0 0 auto;
+        flex:0 1 auto;
+        flex-flow:inherit;
+        justify-content:inherit;
+        align-items:inherit;
     }
 
     &__checkboxes{
@@ -483,11 +486,8 @@ header{
                 -ms-user-select:none; /* Internet Explorer/Edge */
                 user-select:none; /* Non-prefixed version, currently supported by Chrome and Opera */
 
-                .hljs-number{
-                    color:mui-color('grey');
-                }
-
-                .hljs-comment{
+                // overwrite all hljs colours
+                [class^='hljs']{
                     color:mui-color('grey');
                 }
             }
