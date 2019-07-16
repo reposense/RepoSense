@@ -46,4 +46,13 @@ public class GitLog {
 
         return runCommand(rootPath, command);
     }
+
+    public static String getForImage(RepoConfiguration config, String imageRelativePath) {
+        Path rootPath = Paths.get(config.getRepoRoot());
+
+        String command = "git log --follow --pretty=format:\"%H|%aN|%aE|%cd|%s\" ";
+        command += imageRelativePath;
+
+        return runCommand(rootPath, command);
+    }
 }
