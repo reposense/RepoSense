@@ -133,8 +133,8 @@ public abstract class CsvParser<T> {
         List<String> data = getAsList(record, colNum);
         if (isElementOverridingStandaloneConfig(record, colNum)) {
             data.set(0, data.get(0).replaceFirst(OVERRIDE_KEYWORD, ""));
+            data.removeIf(String::isEmpty);
         }
-        data.removeIf(String::isEmpty);
         return data;
     }
 
