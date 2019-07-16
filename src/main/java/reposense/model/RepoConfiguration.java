@@ -68,8 +68,8 @@ public class RepoConfiguration {
         outputFolderName = repoName + "_" + branch;
 
         if (organization != null) {
-            displayName = organization + "/" + displayName;
             repoFolderName = organization + "_" + repoName;
+            displayName = organization + "/" + displayName;
             outputFolderName = organization + outputFolderName;
         } else {
             repoFolderName = repoName;
