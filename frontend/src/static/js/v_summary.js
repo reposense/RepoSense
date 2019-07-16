@@ -236,7 +236,7 @@ window.vSummary = {
 
       return totalBars;
     },
-    getFileFormatsTouchedInRepo(repo) {
+    getFileFormats(repo) {
       const fileFormats = [];
       repo.forEach((user) => {
         Object.keys(user.fileFormatContribution).forEach((fileFormat) => {
