@@ -130,7 +130,7 @@ task systemtest(dependsOn: 'zipReport', type: Test) {
 task startServerInBackground(dependsOn: 'classes', type: com.github.psxpaul.task.JavaExecFork) {
     main = mainClassName
     classpath = sourceSets.main.runtimeClasspath
-    args = ['--repo', 'https://github.com/reposense/RepoSense.git', '--view']
+    args = ['--repo', 'https://github.com/reposense/RepoSense.git', 'https://github.com/reposense/testrepo-Empty.git', '--view']
     String versionJvmArgs = '-Dversion=' + getRepoSenseVersion()
     jvmArgs = [ versionJvmArgs ]
     waitForPort = 9000
