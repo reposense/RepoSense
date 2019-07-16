@@ -8,6 +8,9 @@ import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
+/**
+ * Represents a file type for use in {@link FileTypeManager}.
+ */
 public class FileType {
     // === NOTE: These variables are just temporary as PRs are being merged in. Need to deprecate them ASAP.
     public static final List<String> DEFAULT_FORMAT_STRINGS = Arrays.asList(
@@ -50,17 +53,33 @@ public class FileType {
         return getGroupGlobMatcher().matches(Paths.get(fileName));
     }
 
-    public void setGroupGlobMatcher(List<String> filePaths) {
+    private void setGroupGlobMatcher(List<String> filePaths) {
         String globString = "glob:{" + String.join(",", filePaths) + "}";
         this.paths = FileSystems.getDefault().getPathMatcher(globString);
     }
 
-    public PathMatcher getGroupGlobMatcher() {
+    private PathMatcher getGroupGlobMatcher() {
         return paths;
     }
 
     @Override
     public String toString() {
         return label;
+    }
+
+    @Override
+    public boolean equals(Object other) {
+        // short circuit if same object
+        if (this == other) {
+            return true;
+        }
+
+        // instanceof handles null
+        if (!(other instanceof FileType)) {
+            return false;
+        }
+
+        FileType otherFileType = (FileType) other;
+        return this.label.equals(otherFileType.label) && this.paths.equals(otherFileType.paths);
     }
 }

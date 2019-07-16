@@ -1,14 +1,13 @@
 package reposense.model;
 
-import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
 /**
- * Represents a fileType in {@link RepoConfiguration}.
- * {@code FileTypeManager} is responsible for holding a list of whitelisted formats and user-specified custom groupings.
+ * {@code FileTypeManager} is responsible for holding a list of whitelisted formats and user-specified custom
+ * groupings.
  */
 public class FileTypeManager {
     private static final String DEFAULT_GROUP = "other";
