@@ -78,7 +78,6 @@ public class FileType {
         if (!(other instanceof FileType)) {
             return false;
         }
-        
         FileType otherFileType = (FileType) other;
         return this.label.equals(otherFileType.label);
     }
