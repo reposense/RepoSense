@@ -5,14 +5,14 @@ import java.util.List;
 
 /**
  * Represents groups configuration information from CSV config file for a single repository.
- * This class is only used to add the contents in {@link GroupConfiguration#groupList} into the respective
+ * This class is only used to add the contents in {@link GroupConfiguration#groups} into the respective
  * {@link RepoConfiguration}.
  */
 public class GroupConfiguration {
 
     private RepoLocation location;
 
-    private transient List<Group> groupList = new ArrayList<>();
+    private transient List<FileType> groups = new ArrayList<>();
 
     public GroupConfiguration(RepoLocation location) {
         this.location = location;
@@ -31,19 +31,19 @@ public class GroupConfiguration {
         GroupConfiguration otherGroupConfig = (GroupConfiguration) other;
 
         return location.equals(otherGroupConfig.location)
-                && groupList.equals(otherGroupConfig.groupList);
+                && groups.equals(otherGroupConfig.groups);
     }
 
-    public List<Group> getGroupList() {
-        return groupList;
+    public List<FileType> getGroupsList() {
+        return groups;
     }
 
-    public void addGroup(Group group) {
-        groupList.add(group);
+    public void addGroup(FileType group) {
+        groups.add(group);
     }
 
-    public boolean containsGroup(Group group) {
-        return groupList.contains(group);
+    public boolean containsGroup(FileType group) {
+        return groups.contains(group);
     }
 
     public RepoLocation getLocation() {

@@ -65,10 +65,12 @@ public class RepoConfigurationTest {
     private static final List<String> THIRD_AUTHOR_GLOB_LIST = Arrays.asList("**[!(.md)]", "collated**");
     private static final List<String> FOURTH_AUTHOR_GLOB_LIST = Collections.singletonList("collated**");
 
-    private static final List<Format> CONFIG_FORMATS = Format.convertStringsToFormats(Arrays.asList(
+    private static final List<FileType> CONFIG_FORMATS = FileType.convertStringFormatsToFileTypes(Arrays.asList(
             "java", "adoc", "md"));
-    private static final List<Group> CONFIG_GROUPS = TestUtil.convertStringsToGroups(Arrays.asList("test: **/test/*",
-        "code: **/*.java", "docs: **/docs/*"));
+    private static final List<FileType> CONFIG_GROUPS = Arrays.asList(
+            new FileType("test", Collections.singletonList("**/test/*")),
+            new FileType("code", Collections.singletonList("**/*.java")),
+            new FileType("docs", Collections.singletonList("**/docs/*")));
     private static final List<String> CLI_FORMATS = Arrays.asList("css", "html");
 
     private static RepoConfiguration repoDeltaStandaloneConfig;
@@ -163,7 +165,7 @@ public class RepoConfigurationTest {
     public void repoConfig_ignoresStandaloneConfigInCli_success()
             throws ParseException, GitCloneException, HelpScreenException {
         RepoConfiguration expectedConfig = new RepoConfiguration(new RepoLocation(TEST_REPO_DELTA), "master");
-        expectedConfig.setFormats(Format.convertStringsToFormats(CLI_FORMATS));
+        expectedConfig.setFormats(FileType.convertStringFormatsToFileTypes(CLI_FORMATS));
         expectedConfig.setStandaloneConfigIgnored(true);
 
         String formats = String.join(" ", CLI_FORMATS);
@@ -229,7 +231,7 @@ public class RepoConfigurationTest {
         RepoConfiguration.setFormatsToRepoConfigs(actualConfigs, cliArguments.getFormats());
 
         Assert.assertEquals(1, actualConfigs.size());
-        Assert.assertEquals(Format.convertStringsToFormats(CLI_FORMATS), actualConfigs.get(0).getFormats());
+        Assert.assertEquals(FileType.convertStringFormatsToFileTypes(CLI_FORMATS), actualConfigs.get(0).getFormats());
     }
 
     @Test
@@ -259,7 +261,7 @@ public class RepoConfigurationTest {
         RepoConfiguration.setFormatsToRepoConfigs(actualConfigs, cliArguments.getFormats());
 
         Assert.assertEquals(1, actualConfigs.size());
-        Assert.assertEquals(Format.DEFAULT_FORMATS, actualConfigs.get(0).getFormats());
+        Assert.assertEquals(FileType.DEFAULT_FORMATS, actualConfigs.get(0).getFormats());
     }
 
     @Test

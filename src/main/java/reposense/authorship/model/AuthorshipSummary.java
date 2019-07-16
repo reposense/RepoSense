@@ -20,7 +20,7 @@ public class AuthorshipSummary {
         authorFinalContributionMap = new HashMap<>();
         authorFileTypeContributionMap = new HashMap<>();
 
-        authors.forEach(author -> {
+        for (Author author : authors) {
             // initialise each author contribution to be 0
             authorFinalContributionMap.put(author, 0);
 
@@ -28,7 +28,7 @@ public class AuthorshipSummary {
 
             fileTypes.forEach(fileType -> defaultFileTypeContribution.put(fileType, 0));
             authorFileTypeContributionMap.put(author, defaultFileTypeContribution);
-        });
+        }
     }
 
     /**

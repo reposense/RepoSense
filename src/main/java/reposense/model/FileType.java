@@ -1,118 +1,66 @@
 package reposense.model;
 
+import java.nio.file.FileSystems;
 import java.nio.file.PathMatcher;
 import java.nio.file.Paths;
-import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
-import java.util.Objects;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
-/**
- * Represents a fileType in {@link RepoConfiguration}.
- * {@code FileType} is responsible for holding a list of whitelisted formats and user-specified custom groupings.
- */
 public class FileType {
-    private static final String DEFAULT_GROUP = "other";
+    // === NOTE: These variables are just temporary as PRs are being merged in. Need to deprecate them ASAP.
+    public static final List<String> DEFAULT_FORMAT_STRINGS = Arrays.asList(
+            "adoc", "cs", "css", "fxml", "gradle", "html", "java", "js",
+            "json", "jsp", "md", "py", "tag", "txt", "xml");
+    public static final List<FileType> DEFAULT_FORMATS = convertStringFormatsToFileTypes(DEFAULT_FORMAT_STRINGS);
 
-    private static final Pattern FILE_TYPE_VALIDATION_REGEX = Pattern.compile("[A-Za-z0-9]+");
+
+    private static final String FILE_TYPE_VALIDATION_REGEX = "[A-Za-z0-9]+";
     private static final String MESSAGE_ILLEGAL_FILE_TYPE = "The provided file type, %s, contains illegal characters.";
 
-    private List<Format> formats;
-    private List<Group> groups;
+    private String label;
+    private PathMatcher paths;
 
-    public FileType() {
-        formats = new ArrayList<>();
-        groups = new ArrayList<>();
-    }
-
-    public FileType(List<Format> formats) {
-        this.formats = new ArrayList<>(formats);
-        groups = new ArrayList<>();
-    }
-
-    public String getFileType(String fileName) {
-        if (hasCustomGroups()) {
-            String fileTypeLabel = DEFAULT_GROUP;
-            for (Group group : groups) {
-                PathMatcher groupGlobMatcher = group.getGroupGlobMatcher();
-                if (groupGlobMatcher.matches(Paths.get(fileName))) {
-                    fileTypeLabel = group.toString();
-                }
-            }
-            return fileTypeLabel;
-        } else {
-            for (Format format : formats) {
-                if (fileName.endsWith(format.toString())) {
-                    return format.toString();
-                }
-            }
-            return fileName;
-        }
-    }
-
-    public List<String> getFileTypeLabels() {
-        return hasCustomGroups()
-                ? groups.stream().map(Objects::toString).collect(Collectors.toList())
-                : formats.stream().map(Objects::toString).collect(Collectors.toList());
+    public FileType(String label, List<String> paths) {
+        validateFileType(label);
+        this.label = label;
+        setGroupGlobMatcher(paths);
     }
 
     /**
-     * Returns true if the {@code fileName}'s file type is inside {@code formatsWhiteList}.
+     * Checks that the string {@code label} is a valid file type.
+     * @throws IllegalArgumentException if {@code label} does not meet the criteria.
      */
-    public static boolean isInsideFormatsWhiteList(RepoConfiguration config, String fileName) {
-        return config.getFormats().stream().anyMatch(format -> fileName.endsWith(format.toString()));
-    }
-
-    public void setFormats(List<Format> formats) {
-        this.formats = formats;
-    }
-
-    public List<Format> getFormats() {
-        return formats;
-    }
-
-    public void setGroups(List<Group> groups) {
-        this.groups = groups;
-    }
-
-    public List<Group> getGroups() {
-        return groups;
-    }
-
-    public boolean hasSpecifiedFormats() {
-        return !formats.isEmpty();
-    }
-
-    public boolean hasCustomGroups() {
-        return !groups.isEmpty();
-    }
-
-    /**
-     * Checks that the string {@code value} is a valid file type.
-     * @throws IllegalArgumentException if {@code value} does not meet the criteria.
-     */
-    public void validateFileType(String value) {
-        Matcher matcher = FILE_TYPE_VALIDATION_REGEX.matcher(value);
-        if (!matcher.matches()) {
-            throw new IllegalArgumentException(String.format(MESSAGE_ILLEGAL_FILE_TYPE, value));
+    private void validateFileType(String label) {
+        if (!label.matches(FILE_TYPE_VALIDATION_REGEX)) {
+            throw new IllegalArgumentException(String.format(MESSAGE_ILLEGAL_FILE_TYPE, label));
         }
+    }
+
+    public static List<FileType> convertStringFormatsToFileTypes(List<String> formats) {
+        return formats.stream().map(FileType::convertStringFormatToFileType).collect(Collectors.toList());
+    }
+
+    public static FileType convertStringFormatToFileType(String format) {
+        return new FileType(format, Collections.singletonList("**" + format));
+    }
+
+    public boolean isFileGlobMatching(String fileName) {
+        return getGroupGlobMatcher().matches(Paths.get(fileName));
+    }
+
+    public void setGroupGlobMatcher(List<String> filePaths) {
+        String globString = "glob:{" + String.join(",", filePaths) + "}";
+        this.paths = FileSystems.getDefault().getPathMatcher(globString);
+    }
+
+    public PathMatcher getGroupGlobMatcher() {
+        return paths;
     }
 
     @Override
-    public boolean equals(Object other) {
-        // short circuit if same object
-        if (this == other) {
-            return true;
-        }
-
-        // instanceof handles null
-        if (!(other instanceof FileType)) {
-            return false;
-        }
-
-        FileType otherFileType = (FileType) other;
-        return this.groups.equals(otherFileType.groups) && this.formats.equals(otherFileType.formats);
+    public String toString() {
+        return label;
     }
 }

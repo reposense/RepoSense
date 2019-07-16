@@ -1,0 +1,97 @@
+package reposense.model;
+
+import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
+import java.util.stream.Collectors;
+
+/**
+ * Represents a fileType in {@link RepoConfiguration}.
+ * {@code FileTypeManager} is responsible for holding a list of whitelisted formats and user-specified custom groupings.
+ */
+public class FileTypeManager {
+    private static final String DEFAULT_GROUP = "other";
+
+    private List<FileType> formats;
+    private List<FileType> groups;
+
+
+    public FileTypeManager() {
+        formats = new ArrayList<>();
+        groups = new ArrayList<>();
+    }
+
+    public String getFileType(String fileName) {
+        if (hasCustomGroups()) {
+            String fileTypeLabel = DEFAULT_GROUP;
+            for (FileType group : groups) {
+                if (group.isFileGlobMatching(fileName)) {
+                    fileTypeLabel = group.toString();
+                }
+            }
+            return fileTypeLabel;
+        } else {
+            for (FileType format : formats) {
+                if (format.isFileGlobMatching(fileName)) {
+                    return format.toString();
+                }
+            }
+            return fileName;
+        }
+    }
+
+    public List<String> getFileTypeLabels() {
+        return hasCustomGroups()
+                ? groups.stream().map(Objects::toString).collect(Collectors.toList())
+                : formats.stream().map(Objects::toString).collect(Collectors.toList());
+    }
+
+    /**
+     * Returns true if the {@code fileName}'s file type is inside {@code formatsWhiteList}.
+     */
+    public static boolean isInsideFormatsWhiteList(RepoConfiguration config, String fileName) {
+        return config.getFormats().stream().anyMatch(fileType -> fileType.isFileGlobMatching(fileName));
+        //return config.getFormats().stream().anyMatch(format -> fileName.endsWith(format.toString()));
+    }
+
+    public List<FileType> getFormats() {
+        return formats;
+    }
+
+    public void setFormats(List<FileType> formats) {
+        this.formats = formats;
+    }
+
+    public List<FileType> getGroups() {
+        return groups;
+    }
+
+    public void setGroups(List<FileType> groups) {
+        this.groups = groups;
+    }
+
+    public boolean hasSpecifiedFormats() {
+        return !formats.isEmpty();
+    }
+
+    public boolean hasCustomGroups() {
+        return !groups.isEmpty();
+    }
+
+    @Override
+    public boolean equals(Object other) {
+        // short circuit if same object
+        if (this == other) {
+            return true;
+        }
+
+        // instanceof handles null
+        if (!(other instanceof FileTypeManager)) {
+            return false;
+        }
+
+        FileTypeManager otherFileType = (FileTypeManager) other;
+        return this.groups.equals(otherFileType.groups) && this.formats.equals(otherFileType.formats);
+    }
+}

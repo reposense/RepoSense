@@ -4,6 +4,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.time.ZoneId;
 import java.util.Calendar;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
@@ -21,7 +22,7 @@ import net.sourceforge.argparse4j.inf.Namespace;
 import reposense.RepoSense;
 import reposense.model.CliArguments;
 import reposense.model.ConfigCliArguments;
-import reposense.model.Format;
+import reposense.model.FileType;
 import reposense.model.LocationsCliArguments;
 import reposense.model.ViewCliArguments;
 import reposense.system.LogsManager;
@@ -121,7 +122,7 @@ public class ArgsParser {
                 .nargs("*")
                 .metavar("FORMAT")
                 .type(new AlphanumericArgumentType())
-                .setDefault(Format.DEFAULT_FORMAT_STRINGS)
+                .setDefault(FileType.DEFAULT_FORMAT_STRINGS)
                 .help("The alphanumeric file formats to process.\n"
                         + "If not provided, default file formats will be used.\n"
                         + "Please refer to userguide for more information.");
@@ -172,7 +173,7 @@ public class ArgsParser {
             Date sinceDate = cliSinceDate.orElse(getDateMinusAMonth(cliUntilDate));
             Date untilDate = cliUntilDate.orElse(getCurrentDate());
             List<String> locations = results.get(REPO_FLAGS[0]);
-            List<Format> formats = Format.convertStringsToFormats(results.get(FORMAT_FLAGS[0]));
+            List<FileType> formats = FileType.convertStringFormatsToFileTypes(results.get(FORMAT_FLAGS[0]));
             boolean isStandaloneConfigIgnored = results.get(IGNORE_FLAGS[0]);
             ZoneId zoneId = results.get(TIMEZONE_FLAGS[0]);
 

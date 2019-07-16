@@ -4,7 +4,7 @@ import java.io.IOException;
 import java.nio.file.Path;
 import java.util.List;
 
-import reposense.model.Group;
+import reposense.model.FileType;
 import reposense.model.GroupConfiguration;
 import reposense.model.RepoLocation;
 
@@ -44,22 +44,23 @@ public class GroupConfigCsvParser extends CsvParser<GroupConfiguration> {
         String groupName = getValueInElement(elements, GROUP_NAME_POSITION);
         List<String> globList = getManyValueInElement(elements, FILES_GLOB_POSITION);
 
-        GroupConfiguration config = null;
+        GroupConfiguration groupConfig = null;
         try {
-            config = findMatchingGroupConfiguration(results, location);
+            groupConfig = findMatchingGroupConfiguration(results, location);
         } catch (InvalidLocationException e) {
             e.printStackTrace();
         }
 
-        Group group = new Group(groupName, globList);
-        if (config.containsGroup(group)) {
+        //Group group = new Group(groupName, globList);
+        FileType group = new FileType(groupName, globList);
+        if (groupConfig.containsGroup(group)) {
             logger.warning(String.format(
                     "Skipping group as %s has already been specified for the repository %s",
-                    group.toString(), config.getLocation()));
+                    group.toString(), groupConfig.getLocation()));
             return;
         }
 
-        config.addGroup(group);
+        groupConfig.addGroup(group);
     }
 
     /**

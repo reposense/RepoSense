@@ -12,7 +12,7 @@ public abstract class CliArguments {
     protected Path outputFilePath;
     protected Date sinceDate;
     protected Date untilDate;
-    protected List<Format> formats;
+    protected List<FileType> formats;
     protected boolean isAutomaticallyLaunching;
     protected ZoneId zoneId;
 
@@ -32,7 +32,7 @@ public abstract class CliArguments {
         return untilDate;
     }
 
-    public List<Format> getFormats() {
+    public List<FileType> getFormats() {
         return formats;
     }
 

@@ -5,7 +5,7 @@ import java.nio.file.Path;
 import java.util.List;
 
 import reposense.model.CommitHash;
-import reposense.model.Format;
+import reposense.model.FileType;
 import reposense.model.RepoConfiguration;
 import reposense.model.RepoLocation;
 
@@ -54,7 +54,8 @@ public class RepoConfigCsvParser extends CsvParser<RepoConfiguration> {
         if (isFormatsOverriding) {
             removeOverrideKeywordFromElement(elements, FILE_FORMATS_POSITION);
         }
-        List<Format> formats = Format.convertStringsToFormats(getManyValueInElement(elements, FILE_FORMATS_POSITION));
+        List<FileType> formats =
+                FileType.convertStringFormatsToFileTypes(getManyValueInElement(elements, FILE_FORMATS_POSITION));
 
         boolean isIgnoreGlobListOverriding = isElementOverridingStandaloneConfig(elements, IGNORE_GLOB_LIST_POSITION);
         if (isIgnoreGlobListOverriding) {

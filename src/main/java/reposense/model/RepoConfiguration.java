@@ -6,6 +6,7 @@ import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
@@ -29,7 +30,7 @@ public class RepoConfiguration {
     private transient Date untilDate;
 
     private transient boolean annotationOverwrite = true;
-    private transient FileType fileTypes;
+    private transient FileTypeManager fileTypesManager;
     private transient int commitNum = 1;
     private transient List<String> ignoreGlobList = new ArrayList<>();
     private transient AuthorConfiguration authorConfig;
@@ -48,7 +49,7 @@ public class RepoConfiguration {
                 false, false, false);
     }
 
-    public RepoConfiguration(RepoLocation location, String branch, List<Format> formats, List<String> ignoreGlobList,
+    public RepoConfiguration(RepoLocation location, String branch, List<FileType> formats, List<String> ignoreGlobList,
             boolean isStandaloneConfigIgnored, List<CommitHash> ignoreCommitList, boolean isFormatsOverriding,
             boolean isIgnoreGlobListOverriding, boolean isIgnoreCommitListOverriding) {
         this.authorConfig = new AuthorConfiguration(location, branch);
@@ -56,11 +57,13 @@ public class RepoConfiguration {
         this.branch = location.isEmpty() ? DEFAULT_BRANCH : branch;
         this.ignoreGlobList = ignoreGlobList;
         this.isStandaloneConfigIgnored = isStandaloneConfigIgnored;
-        this.fileTypes = new FileType(formats);
+        this.fileTypesManager = new FileTypeManager();
         this.ignoreCommitList = ignoreCommitList;
         this.isFormatsOverriding = isFormatsOverriding;
         this.isIgnoreGlobListOverriding = isIgnoreGlobListOverriding;
         this.isIgnoreCommitListOverriding = isIgnoreCommitListOverriding;
+
+        fileTypesManager.setFormats(formats);
 
         String organization = location.getOrganization();
         String repoName = location.getRepoName();
@@ -129,7 +132,7 @@ public class RepoConfiguration {
                 continue;
             }
             matchingRepoConfigs.forEach(matchingRepoConfig -> {
-                matchingRepoConfig.fileTypes.setGroups(groupConfig.getGroupList());
+                matchingRepoConfig.fileTypesManager.setGroups(groupConfig.getGroupsList());
             });
         }
     }
@@ -161,10 +164,10 @@ public class RepoConfiguration {
     /**
      * Sets {@code formats} to {@code RepoConfiguration} in {@code configs} if its format list is empty.
      */
-    public static void setFormatsToRepoConfigs(List<RepoConfiguration> configs, List<Format> formats) {
+    public static void setFormatsToRepoConfigs(List<RepoConfiguration> configs, List<FileType> formats) {
         for (RepoConfiguration config : configs) {
-            if (!config.fileTypes.hasSpecifiedFormats()) {
-                config.fileTypes.setFormats(formats);
+            if (!config.fileTypesManager.hasSpecifiedFormats()) {
+                config.fileTypesManager.setFormats(formats);
             }
         }
     }
@@ -182,14 +185,14 @@ public class RepoConfiguration {
      */
     public void update(StandaloneConfig standaloneConfig) {
         // only assign the new values when all the fields in {@code standaloneConfig} pass the validations.
-        Format.validateFormats(standaloneConfig.getFormats());
+        List<FileType> replacementFileTypes = FileType.convertStringFormatsToFileTypes(standaloneConfig.getFormats());
         CommitHash.validateCommits(standaloneConfig.getIgnoreCommitList());
 
         if (!isIgnoreGlobListOverriding) {
             ignoreGlobList = standaloneConfig.getIgnoreGlobList();
         }
         if (!isFormatsOverriding) {
-            fileTypes.setFormats(Format.convertStringsToFormats(standaloneConfig.getFormats()));
+            fileTypesManager.setFormats(replacementFileTypes);
         }
         if (!isIgnoreCommitListOverriding) {
             ignoreCommitList = CommitHash.convertStringsToCommits(standaloneConfig.getIgnoreCommitList());
@@ -256,7 +259,7 @@ public class RepoConfiguration {
                 && authorConfig.equals(otherRepoConfig.authorConfig)
                 && ignoreGlobList.equals(otherRepoConfig.ignoreGlobList)
                 && isStandaloneConfigIgnored == otherRepoConfig.isStandaloneConfigIgnored
-                && fileTypes.equals(otherRepoConfig.fileTypes)
+                && fileTypesManager.equals(otherRepoConfig.fileTypesManager)
                 && isFormatsOverriding == otherRepoConfig.isFormatsOverriding
                 && isIgnoreGlobListOverriding == otherRepoConfig.isIgnoreGlobListOverriding
                 && isIgnoreCommitListOverriding == otherRepoConfig.isIgnoreCommitListOverriding;
@@ -355,27 +358,27 @@ public class RepoConfiguration {
         authorConfig.setAuthorEmailsAndAliasesMap(authorEmailsAndAliasesMap);
     }
 
-    public List<Format> getFormats() {
-        return fileTypes.getFormats();
+    public List<FileType> getFormats() {
+        return fileTypesManager.getFormats();
     }
 
-    public void setFormats(List<Format> formats) {
-        fileTypes.setFormats(formats);
+    public void setFormats(List<FileType> formats) {
+        fileTypesManager.setFormats(formats);
     }
 
-    public List<Group> getGroups() {
-        return fileTypes.getGroups();
+    public List<FileType> getGroups() {
+        return fileTypesManager.getGroups();
     }
 
     /**
      * Returns the labels used for the file types depending on whether the user has specified a custom grouping.
      */
     public List<String> getFileTypeLabels() {
-        return fileTypes.getFileTypeLabels();
+        return fileTypesManager.getFileTypeLabels();
     }
 
     public String getFileType(String fileName) {
-        return fileTypes.getFileType(fileName);
+        return fileTypesManager.getFileType(fileName);
     }
 
     public Date getSinceDate() {

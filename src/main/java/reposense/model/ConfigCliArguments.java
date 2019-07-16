@@ -22,7 +22,7 @@ public class ConfigCliArguments extends CliArguments {
     private Path groupConfigFilePath;
 
     public ConfigCliArguments(Path configFolderPath, Path outputFilePath, Date sinceDate,
-            Date untilDate, List<Format> formats, boolean isAutomaticallyLaunching, ZoneId zoneId) {
+            Date untilDate, List<FileType> formats, boolean isAutomaticallyLaunching, ZoneId zoneId) {
         this.configFolderPath = configFolderPath.equals(EMPTY_PATH)
                 ? configFolderPath.toAbsolutePath()
                 : configFolderPath;

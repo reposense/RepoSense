@@ -18,7 +18,7 @@ import reposense.model.AuthorConfiguration;
 import reposense.model.CliArguments;
 import reposense.model.CommitHash;
 import reposense.model.ConfigCliArguments;
-import reposense.model.Format;
+import reposense.model.FileType;
 import reposense.model.RepoConfiguration;
 import reposense.model.RepoLocation;
 import reposense.util.InputBuilder;
@@ -51,11 +51,11 @@ public class CsvParserTest {
 
     private static final String TEST_REPO_DELTA_LOCATION = "https://github.com/reposense/testrepo-Delta.git";
     private static final String TEST_REPO_DELTA_BRANCH = "HEAD";
-    private static final List<Format> TEST_REPO_DELTA_FORMATS =
-            Format.convertStringsToFormats(Arrays.asList("java", "fxml"));
+    private static final List<FileType> TEST_REPO_DELTA_FORMATS =
+            FileType.convertStringFormatsToFileTypes(Arrays.asList("java", "fxml"));
 
-    private static final List<Format> TEST_REPO_BETA_CONFIG_FORMATS =
-            Arrays.asList(new Format("java"), new Format("adoc"), new Format("md"));
+    private static final List<FileType> TEST_REPO_BETA_CONFIG_FORMATS =
+            FileType.convertStringFormatsToFileTypes(Arrays.asList("java", "adoc", "md"));
     private static final List<String> TEST_REPO_BETA_CONFIG_IGNORED_COMMITS =
             Arrays.asList("abcde12345", "67890fdecba");
 
