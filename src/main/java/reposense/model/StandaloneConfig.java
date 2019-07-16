@@ -33,7 +33,7 @@ public class StandaloneConfig {
 
     public List<String> getFormats() {
         if (formats == null) {
-            return Collections.emptyList();
+            return FileType.DEFAULT_FORMAT_STRINGS;
         }
 
         formats.removeIf(Objects::isNull);
