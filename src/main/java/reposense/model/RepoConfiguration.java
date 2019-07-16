@@ -64,13 +64,13 @@ public class RepoConfiguration {
 
         String organization = location.getOrganization();
         String repoName = location.getRepoName();
+        displayName = repoName + "[" + branch + "]";
 
         if (organization != null) {
-            displayName = organization + "/" + repoName + "[" + branch + "]";
+            displayName = organization + "/" + displayName;
             repoFolderName = organization + "_" + repoName;
             outputFolderName = organization + "_" + repoName + "_" + branch;
         } else {
-            displayName = repoName + "[" + branch + "]";
             repoFolderName = repoName;
             outputFolderName = repoName + "_" + branch;
         }
