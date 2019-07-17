@@ -1,9 +1,10 @@
 #zoom
   h1 {{ info.user.displayName }} ({{ info.user.name }})
-  h3 Granularity: {{ filterTimeFrame }}
   a(v-on:click="openSummary") Show ramp chart for this period
 
-  h2 {{ info.user.repoName }}
+  .zoom__title
+    .zoom__title--repo {{ info.user.repoName }} &nbsp;
+    .zoom__title--granularity (granularity: one ramp per {{ filterTimeFrame }})
   v_ramp(
       v-bind:user="info.user",
       v-bind:tframe="filterTimeFrame",
