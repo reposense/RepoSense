@@ -143,7 +143,7 @@ html
             .summary-charts__fileformat--breakdown(v-if="filterBreakdown")
               template(v-if="filterGroupSelection === 'groupByRepos'")
                 .summary-charts__fileformat--breakdown__legend(
-                    v-for="fileFormat in Object.keys(repo[0].fileFormatContribution)")
+                    v-for="fileFormat in getFileFormats(repo)")
                   i.fas.fa-circle(
                       v-bind:style="{ 'color' : contributionBarColors[fileFormat] }"
                   )
