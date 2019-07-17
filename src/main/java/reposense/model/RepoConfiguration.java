@@ -71,8 +71,7 @@ public class RepoConfiguration {
             repoFolderName = organization + "_" + repoName;
             displayName = organization + "/" + displayName;
             outputFolderName = organization + "_" + outputFolderName;
-        }
-        else {
+        } else {
             repoFolderName = repoName;
         }
     }
