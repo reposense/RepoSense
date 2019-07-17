@@ -10,10 +10,10 @@ describe('error summary', () => {
       expect(expected).to.equal(message);
     });
 
-    cy.get('.error-message-box__failed-repo__name')
+    cy.get('.error-message-box__failed-repo--name')
       .should('be.visible');
 
-    cy.get('.error-message-box__failed-repo__reason')
+    cy.get('.error-message-box__failed-repo--reason')
       .should('be.visible');
   });
 
