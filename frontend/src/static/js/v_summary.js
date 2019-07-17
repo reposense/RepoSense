@@ -122,35 +122,23 @@ window.vSummary = {
   },
   watch: {
     repos() {
-      if (this.isWatcherUpdated) {
-        this.getFiltered();
-      }
+      this.getFilteredAfterWatcherUpdated();
     },
     sortGroupSelection() {
-      if (this.isWatcherUpdated) {
-        this.getFiltered();
-      }
+      this.getFilteredAfterWatcherUpdated();
     },
     sortWithinGroupSelection() {
-      if (this.isWatcherUpdated) {
-        this.getFiltered();
-      }
+      this.getFilteredAfterWatcherUpdated();
     },
     filterTimeFrame() {
-      if (this.isWatcherUpdated) {
-        this.getFiltered();
-      }
+      this.getFilteredAfterWatcherUpdated();
     },
     filterGroupSelection() {
       this.updateSortWithinGroup();
-      if (this.isWatcherUpdated) {
-        this.getFiltered();
-      }
+      this.getFilteredAfterWatcherUpdated();
     },
     filterBreakdown() {
-      if (this.isWatcherUpdated) {
-        this.getFiltered();
-      }
+      this.getFilteredAfterWatcherUpdated();
     },
     tmpFilterSinceDate() {
       if (this.tmpFilterSinceDate && this.tmpFilterSinceDate >= this.minDate) {
@@ -159,9 +147,7 @@ window.vSummary = {
         this.filterSinceDate = this.minDate;
         this.tmpFilterSinceDate = this.filterSinceDate;
       }
-      if (this.isWatcherUpdated) {
-        this.getFiltered();
-      }
+      this.getFilteredAfterWatcherUpdated();
     },
     tmpFilterUntilDate() {
       if (this.tmpFilterUntilDate && this.tmpFilterUntilDate <= this.maxDate) {
@@ -170,9 +156,7 @@ window.vSummary = {
         this.filterUntilDate = this.maxDate;
         this.tmpFilterUntilDate = this.filterUntilDate;
       }
-      if (this.isWatcherUpdated) {
-        this.getFiltered();
-      }
+      this.getFilteredAfterWatcherUpdated();
     },
   },
   computed: {
@@ -412,6 +396,11 @@ window.vSummary = {
         });
         this.contributionBarColors = colors;
       });
+    },
+    getFilteredAfterWatcherUpdated() {
+      if (this.isWatcherUpdated) {
+        this.getFiltered();
+      }
     },
     splitCommitsWeek(user) {
       const { commits } = user;
