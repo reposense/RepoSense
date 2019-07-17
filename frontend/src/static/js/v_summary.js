@@ -359,7 +359,6 @@ window.vSummary = {
       if (!this.isWatcherUpdated) {
         return;
       }
-      
       this.setSummaryHash();
       this.getDates();
 
