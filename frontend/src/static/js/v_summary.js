@@ -355,7 +355,7 @@ window.vSummary = {
       this.$emit('get-dates', [this.minDate, this.maxDate]);
     },
     getFiltered() {
-      // skip filtering of repos if watcher is not updated yet
+      // skip filtering of repos if watchers have not yet been updated
       if (!this.isWatcherUpdated) {
         return;
       }
