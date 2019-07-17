@@ -134,7 +134,7 @@ html
               .summary-charts__title--contribution(title="Total contribution of group") [{{ getGroupTotalContribution(repo) }} lines]
             .summary-charts__fileType--breakdown(v-if="filterBreakdown")
               template(v-if="filterGroupSelection === 'groupByRepos'")
-                .summary-charts__fileformat--breakdown__legend(
+                .summary-charts__fileType--breakdown__legend(
                     v-for="fileType in getFileTypes(repo)")
                   i.fas.fa-circle(
                       v-bind:style="{ 'color' : contributionBarFileTypeColors[fileType] }"
@@ -226,7 +226,7 @@ html
                   option(value="lineOfCode") LoC
                   option(value="path") Path
                   option(value="fileName") File Name
-                  option(value="fileType") File Format
+                  option(value="fileType") File Type
                 label.control-font sort by
               label
                 input(type="checkbox", v-model="toReverseSortFiles").mui-checkbox
@@ -243,14 +243,14 @@ html
                   v-on:click="indicateCheckBoxes")
               div.checkboxes.mui-form--inline(v-if="files.length > 0")
                 label
-                  input.mui-checkbox--fileformat(type="checkbox" v-on:click="selectAll" v-model="isSelectAllChecked")
+                  input.mui-checkbox--fileType(type="checkbox" v-on:click="selectAll" v-model="isSelectAllChecked")
                   span(v-bind:title="getTotalFileBlankLineInfo()")
                     span.select.control-font All:&nbsp;
                     span.loc.control-font {{ totalLineCount }}&nbsp;
                     span.bloc.control-font ({{ totalBlankLineCount }})
                 template(v-for="fileType in Object.keys(getFileTypeExistingLinesObj)", v-bind:key="fileType")
                   label
-                    input.mui-checkbox--fileformat(type="checkbox" v-bind:checked="selectedFileTypes.includes(fileType)"
+                    input.mui-checkbox--fileType(type="checkbox" v-bind:checked="selectedFileTypes.includes(fileType)"
                         v-on:change="selectFileType(fileType)")
                     span(v-bind:title="getFileTypeBlankLineInfo(fileType)")
                       span {{ fileType }}: {{ getFileTypeExistingLinesObj[fileType] }}&nbsp;
