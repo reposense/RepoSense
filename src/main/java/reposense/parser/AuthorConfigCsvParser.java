@@ -6,6 +6,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import org.apache.commons.csv.CSVRecord;
+
 import reposense.model.Author;
 import reposense.model.AuthorConfiguration;
 import reposense.model.RepoLocation;
@@ -47,15 +49,15 @@ public class AuthorConfigCsvParser extends CsvParser<AuthorConfiguration> {
      * {@code branch}.
      */
     @Override
-    protected void processLine(List<AuthorConfiguration> results, String[] elements)
+    protected void processLine(List<AuthorConfiguration> results, CSVRecord record)
             throws ParseException {
-        String location = getValueInElement(elements, LOCATION_POSITION);
-        String branch = getValueInElement(elements, BRANCH_POSITION, AuthorConfiguration.DEFAULT_BRANCH);
-        String gitHubId = getValueInElement(elements, GITHUB_ID_POSITION);
-        List<String> emails = getManyValueInElement(elements, EMAIL_POSITION);
-        String displayName = getValueInElement(elements, DISPLAY_NAME_POSITION);
-        List<String> aliases = getManyValueInElement(elements, ALIAS_POSITION);
-        List<String> ignoreGlobList = getManyValueInElement(elements, IGNORE_GLOB_LIST_POSITION);
+        String location = get(record, LOCATION_POSITION);
+        String branch = getOrDefault(record, BRANCH_POSITION, AuthorConfiguration.DEFAULT_BRANCH);
+        String gitHubId = get(record, GITHUB_ID_POSITION);
+        List<String> emails = getAsList(record, EMAIL_POSITION);
+        String displayName = get(record, DISPLAY_NAME_POSITION);
+        List<String> aliases = getAsList(record, ALIAS_POSITION);
+        List<String> ignoreGlobList = getAsList(record, IGNORE_GLOB_LIST_POSITION);
 
         AuthorConfiguration config = findMatchingAuthorConfiguration(results, location, branch);
 

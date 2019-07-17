@@ -112,7 +112,6 @@ html
                 option(value="day") Day
                 option(value="week") Week
               label granularity
-          .summary-picker__section
             .mui-textfield.summary-picker__date
               input(type="date", v-model="tmpFilterSinceDate", onkeydown="return false",
                 v-bind:min="minDate", v-bind:max="filterUntilDate")
@@ -123,10 +122,10 @@ html
               label until
             .mui-textfield.summary-picker__date
               a(v-on:click="resetDateRange") Reset date range
-          .summary-picker__checkboxes.summary-picker__section
-            label
-              input(type="checkbox", v-model="filterBreakdown").mui-checkbox.summary-picker__checkbox
-              span breakdown by file format
+            .summary-picker__checkboxes.summary-picker__section
+              label
+                input(type="checkbox", v-model="filterBreakdown").mui-checkbox.summary-picker__checkbox
+                span breakdown by file format
         #summary-charts
           .summary-charts(v-for="repo of filteredRepos")
             .summary-charts__title(v-if="filterGroupSelection === 'groupByRepos'") {{ repo[0].repoName }}&nbsp;&nbsp;
@@ -139,7 +138,7 @@ html
             .summary-charts__fileformat--breakdown(v-if="filterBreakdown")
               template(v-if="filterGroupSelection === 'groupByRepos'")
                 .summary-charts__fileformat--breakdown__legend(
-                    v-for="fileFormat in Object.keys(repo[0].fileFormatContribution)")
+                    v-for="fileFormat in getFileFormats(repo)")
                   i.fas.fa-circle(
                       v-bind:style="{ 'color' : contributionBarColors[fileFormat] }"
                   )
