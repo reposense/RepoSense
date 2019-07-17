@@ -113,7 +113,7 @@ public class FileInfoExtractor {
                 continue;
             }
 
-            if (FileTypeManager.isInsideFormatsWhiteList(config, filePath)) {
+            if (config.getFormats().isEmpty() || FileTypeManager.isInsideFormatsWhiteList(config, filePath)) {
                 FileInfo currentFileInfo = generateFileInfo(config.getRepoRoot(), filePath);
                 setLinesToTrack(currentFileInfo, fileDiffResult);
                 fileInfos.add(currentFileInfo);
@@ -181,7 +181,8 @@ public class FileInfoExtractor {
     private static void getAllFileInfo(RepoConfiguration config, List<FileInfo> fileInfos) {
         Set<Path> nonBinaryFilesList = getNonBinaryFilesList(config);
         for (Path relativePath : nonBinaryFilesList) {
-            if (FileTypeManager.isInsideFormatsWhiteList(config, relativePath.toString())) {
+            if (config.getFormats().isEmpty()
+                    || FileTypeManager.isInsideFormatsWhiteList(config, relativePath.toString())) {
                 fileInfos.add(generateFileInfo(config.getRepoRoot(), relativePath.toString()));
             }
         }

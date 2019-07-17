@@ -134,8 +134,8 @@ html
               .summary-charts__title--contribution(title="Total contribution of group") [{{ getGroupTotalContribution(repo) }} lines]
             .summary-charts__fileType--breakdown(v-if="filterBreakdown")
               template(v-if="filterGroupSelection === 'groupByRepos'")
-                .summary-charts__fileType--breakdown__legend(
-                    v-for="fileType in Object.keys(repo[0].fileTypeContribution)")
+                .summary-charts__fileformat--breakdown__legend(
+                    v-for="fileType in getFileTypes(repo)")
                   i.fas.fa-circle(
                       v-bind:style="{ 'color' : contributionBarFileTypeColors[fileType] }"
                   )

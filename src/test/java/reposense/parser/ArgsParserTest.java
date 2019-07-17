@@ -23,6 +23,7 @@ import reposense.RepoSense;
 import reposense.model.CliArguments;
 import reposense.model.ConfigCliArguments;
 import reposense.model.FileType;
+import reposense.model.FileTypeTest;
 import reposense.model.LocationsCliArguments;
 import reposense.model.RepoConfiguration;
 import reposense.model.ViewCliArguments;
@@ -182,7 +183,7 @@ public class ArgsParserTest {
         assertDateDiffOneMonth(cliArguments.getSinceDate(), cliArguments.getUntilDate());
         assertDateDiffEndOfDay(cliArguments.getUntilDate());
         Assert.assertEquals(ArgsParser.DEFAULT_REPORT_NAME, cliArguments.getOutputFilePath().getFileName().toString());
-        Assert.assertEquals(FileType.DEFAULT_FORMATS, cliArguments.getFormats());
+        Assert.assertEquals(FileTypeTest.NO_SPECIFIED_FORMATS, cliArguments.getFormats());
         Assert.assertFalse(cliArguments.isAutomaticallyLaunching());
 
         input = new InputBuilder().addConfig(CONFIG_FOLDER_RELATIVE).build();
@@ -196,7 +197,7 @@ public class ArgsParserTest {
         assertDateDiffOneMonth(cliArguments.getSinceDate(), cliArguments.getUntilDate());
         assertDateDiffEndOfDay(cliArguments.getUntilDate());
         Assert.assertEquals(ArgsParser.DEFAULT_REPORT_NAME, cliArguments.getOutputFilePath().getFileName().toString());
-        Assert.assertEquals(FileType.DEFAULT_FORMATS, cliArguments.getFormats());
+        Assert.assertEquals(FileTypeTest.NO_SPECIFIED_FORMATS, cliArguments.getFormats());
         Assert.assertFalse(cliArguments.isAutomaticallyLaunching());
         Assert.assertEquals(ZoneId.systemDefault(), cliArguments.getZoneId());
     }

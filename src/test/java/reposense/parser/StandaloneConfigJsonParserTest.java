@@ -13,6 +13,7 @@ import com.google.gson.JsonSyntaxException;
 import reposense.model.Author;
 import reposense.model.CommitHash;
 import reposense.model.FileType;
+import reposense.model.FileTypeTest;
 import reposense.model.RepoConfiguration;
 import reposense.model.RepoLocation;
 import reposense.model.StandaloneConfig;
@@ -56,7 +57,7 @@ public class StandaloneConfigJsonParserTest {
         author.setIgnoreGlobList(Arrays.asList("**.css", "**.html", "**.jade", "**.js"));
 
         expectedGithubIdOnlyRepoconfig = new RepoConfiguration(new RepoLocation(TEST_DUMMY_LOCATION));
-        expectedGithubIdOnlyRepoconfig.setFormats(FileType.DEFAULT_FORMATS);
+        expectedGithubIdOnlyRepoconfig.setFormats(FileTypeTest.NO_SPECIFIED_FORMATS);
         expectedGithubIdOnlyRepoconfig.setAuthorList(Arrays.asList(new Author("yong24s")));
         expectedGithubIdOnlyRepoconfig.addAuthorEmailsAndAliasesMapEntry(author, author.getEmails());
 
