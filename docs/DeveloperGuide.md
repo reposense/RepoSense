@@ -65,7 +65,7 @@ Optionally, you can follow the [Using Checkstyle](UsingCheckstyle.md) document t
 Our project follows the [Airbnb Javascript Style Guide](https://github.com/airbnb/javascript), the eslint configuration file is available at the root of the project. Please run a `npm run lint -- --fix frontend/src/**/*js` from the project root directory and fix all of the eslint errors before committing your code for final review.
 
 ### Configuring the CSS coding style
-Our project follows the [Google CSS Style Guide](https://google.github.io/styleguide/htmlcssguide.html#CSS_Formatting_Rules), the stylelint configuration file is available at the root of the project. Please run a `npm run stylelint` from the project root directory and fix all of the stylelint errors before committing your code for final review.
+Our project follows the [OSS CSS Coding Standard](https://oss-generic.github.io/process/codingStandards/CodingStandard-Css.html), the stylelint configuration file is available at the root of the project. Please run a `npm run stylelint` from the project root directory and fix all of the stylelint errors before committing your code for final review.
 
 Eslint, Stylelint and their accompanying modules can be installed through NPM, so do ensure that you got it [installed](https://www.npmjs.com/get-npm) if you are working on the report.
 
