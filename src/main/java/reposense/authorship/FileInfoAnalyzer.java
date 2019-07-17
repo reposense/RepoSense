@@ -44,7 +44,7 @@ public class FileInfoAnalyzer {
         }
 
         aggregateBlameAuthorInfo(config, fileInfo);
-        setFileType(config, fileInfo);
+        fileInfo.setFileType(config.getFileType(fileInfo.getPath()));
 
         if (config.isAnnotationOverwrite()) {
             AnnotatorAnalyzer.aggregateAnnotationAuthorInfo(fileInfo, config.getAuthorEmailsAndAliasesMap());
@@ -91,13 +91,6 @@ public class FileInfoAnalyzer {
 
             fileInfo.setLineAuthor(lineCount / 3, author);
         }
-    }
-
-    /**
-     * Sets specified {@code fileType} for {@code fileInfo}
-     */
-    private static void setFileType(RepoConfiguration config, FileInfo fileInfo) {
-        fileInfo.setFileType(config.getFileType(fileInfo.getPath()));
     }
 
     /**

@@ -63,8 +63,7 @@ public class FileType {
         return pathsGlob;
     }
 
-    @Override
-    public String toString() {
+    public String getLabel() {
         return label;
     }
 

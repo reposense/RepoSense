@@ -57,7 +57,7 @@ public class GroupConfigCsvParser extends CsvParser<GroupConfiguration> {
         if (groupConfig.containsGroup(group)) {
             logger.warning(String.format(
                     "Skipping group as %s has already been specified for the repository %s",
-                    group.toString(), groupConfig.getLocation()));
+                    group.getLabel(), groupConfig.getLocation()));
             return;
         }
 

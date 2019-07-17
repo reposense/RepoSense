@@ -26,14 +26,14 @@ public class FileTypeManager {
             String fileTypeLabel = DEFAULT_GROUP;
             for (FileType group : groups) {
                 if (group.isFileGlobMatching(fileName)) {
-                    fileTypeLabel = group.toString();
+                    fileTypeLabel = group.getLabel();
                 }
             }
             return fileTypeLabel;
         } else {
             for (FileType format : formats) {
                 if (format.isFileGlobMatching(fileName)) {
-                    return format.toString();
+                    return format.getLabel();
                 }
             }
             return fileName;
@@ -42,8 +42,8 @@ public class FileTypeManager {
 
     public List<String> getFileTypeLabels() {
         return hasCustomGroups()
-                ? groups.stream().map(Objects::toString).collect(Collectors.toList())
-                : formats.stream().map(Objects::toString).collect(Collectors.toList());
+                ? groups.stream().map(FileType::getLabel).collect(Collectors.toList())
+                : formats.stream().map(FileType::getLabel).collect(Collectors.toList());
     }
 
     /**
