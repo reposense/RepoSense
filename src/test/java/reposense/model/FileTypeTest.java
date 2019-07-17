@@ -17,12 +17,12 @@ public class FileTypeTest {
 
     @Test
     public void validateFileType_alphaNumeric_success() {
-        FileType fileType = new FileType("tEsT123", Collections.emptyList());
+        new FileType("tEsT123", Collections.emptyList());
     }
 
     @Test(expected = IllegalArgumentException.class)
     public void validateFileType_nonAlphaNumeric_throwsIllegalArgumentException() {
-        FileType invalidType = new FileType("tEsT123.java", Collections.emptyList());
+        new FileType("tEsT123.java", Collections.emptyList());
     }
 
     @Test

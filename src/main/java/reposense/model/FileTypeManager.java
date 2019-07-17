@@ -41,8 +41,8 @@ public class FileTypeManager {
                     return format.getLabel();
                 }
             }
-            throw new RuntimeException("This should not have happened as the file should have been in the whitelisted"
-                    + " list of formats.");
+            throw new AssertionError(
+                    "This exception should not happen as we have performed the whitelisted formats check.");
         } else {
             String[] tok = fileName.split("[./\\\\]+");
             return tok[tok.length - 1];
