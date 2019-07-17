@@ -29,7 +29,7 @@ public class RepoConfiguration {
     private transient Date untilDate;
 
     private transient boolean annotationOverwrite = true;
-    private transient FileTypeManager fileTypesManager;
+    private transient FileTypeManager fileTypeManager;
     private transient int commitNum = 1;
     private transient List<String> ignoreGlobList = new ArrayList<>();
     private transient AuthorConfiguration authorConfig;
@@ -56,13 +56,13 @@ public class RepoConfiguration {
         this.branch = location.isEmpty() ? DEFAULT_BRANCH : branch;
         this.ignoreGlobList = ignoreGlobList;
         this.isStandaloneConfigIgnored = isStandaloneConfigIgnored;
-        this.fileTypesManager = new FileTypeManager();
+        this.fileTypeManager = new FileTypeManager();
         this.ignoreCommitList = ignoreCommitList;
         this.isFormatsOverriding = isFormatsOverriding;
         this.isIgnoreGlobListOverriding = isIgnoreGlobListOverriding;
         this.isIgnoreCommitListOverriding = isIgnoreCommitListOverriding;
 
-        fileTypesManager.setFormats(formats);
+        fileTypeManager.setFormats(formats);
 
         String organization = location.getOrganization();
         String repoName = location.getRepoName();
@@ -131,7 +131,7 @@ public class RepoConfiguration {
                 continue;
             }
             matchingRepoConfigs.forEach(matchingRepoConfig -> {
-                matchingRepoConfig.fileTypesManager.setGroups(groupConfig.getGroupsList());
+                matchingRepoConfig.fileTypeManager.setGroups(groupConfig.getGroupsList());
             });
         }
     }
@@ -165,8 +165,8 @@ public class RepoConfiguration {
      */
     public static void setFormatsToRepoConfigs(List<RepoConfiguration> configs, List<FileType> formats) {
         for (RepoConfiguration config : configs) {
-            if (!config.fileTypesManager.hasSpecifiedFormats()) {
-                config.fileTypesManager.setFormats(formats);
+            if (!config.fileTypeManager.hasSpecifiedFormats()) {
+                config.fileTypeManager.setFormats(formats);
             }
         }
     }
@@ -191,7 +191,7 @@ public class RepoConfiguration {
             ignoreGlobList = standaloneConfig.getIgnoreGlobList();
         }
         if (!isFormatsOverriding) {
-            fileTypesManager.setFormats(replacementFileTypes);
+            fileTypeManager.setFormats(replacementFileTypes);
         }
         if (!isIgnoreCommitListOverriding) {
             ignoreCommitList = CommitHash.convertStringsToCommits(standaloneConfig.getIgnoreCommitList());
@@ -258,7 +258,7 @@ public class RepoConfiguration {
                 && authorConfig.equals(otherRepoConfig.authorConfig)
                 && ignoreGlobList.equals(otherRepoConfig.ignoreGlobList)
                 && isStandaloneConfigIgnored == otherRepoConfig.isStandaloneConfigIgnored
-                && fileTypesManager.equals(otherRepoConfig.fileTypesManager)
+                && fileTypeManager.equals(otherRepoConfig.fileTypeManager)
                 && isFormatsOverriding == otherRepoConfig.isFormatsOverriding
                 && isIgnoreGlobListOverriding == otherRepoConfig.isIgnoreGlobListOverriding
                 && isIgnoreCommitListOverriding == otherRepoConfig.isIgnoreCommitListOverriding;
@@ -358,26 +358,26 @@ public class RepoConfiguration {
     }
 
     public List<FileType> getFormats() {
-        return fileTypesManager.getFormats();
+        return fileTypeManager.getFormats();
     }
 
     public void setFormats(List<FileType> formats) {
-        fileTypesManager.setFormats(formats);
+        fileTypeManager.setFormats(formats);
     }
 
     public List<FileType> getGroups() {
-        return fileTypesManager.getGroups();
+        return fileTypeManager.getGroups();
     }
 
     /**
      * Returns the labels used for the file types depending on whether the user has specified a custom grouping.
      */
     public List<String> getFileTypeLabels() {
-        return fileTypesManager.getFileTypeLabels();
+        return fileTypeManager.getFileTypeLabels();
     }
 
     public String getFileType(String fileName) {
-        return fileTypesManager.getFileType(fileName);
+        return fileTypeManager.getFileType(fileName);
     }
 
     public Date getSinceDate() {

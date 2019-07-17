@@ -51,7 +51,6 @@ public class FileTypeManager {
      */
     public static boolean isInsideFormatsWhiteList(RepoConfiguration config, String fileName) {
         return config.getFormats().stream().anyMatch(fileType -> fileType.isFileGlobMatching(fileName));
-        //return config.getFormats().stream().anyMatch(format -> fileName.endsWith(format.toString()));
     }
 
     public List<FileType> getFormats() {
@@ -62,6 +61,10 @@ public class FileTypeManager {
         this.formats = formats;
     }
 
+    public boolean hasSpecifiedFormats() {
+        return !formats.isEmpty();
+    }
+
     public List<FileType> getGroups() {
         return groups;
     }
@@ -70,11 +73,7 @@ public class FileTypeManager {
         this.groups = groups;
     }
 
-    public boolean hasSpecifiedFormats() {
-        return !formats.isEmpty();
-    }
-
-    public boolean hasCustomGroups() {
+    private boolean hasCustomGroups() {
         return !groups.isEmpty();
     }
 

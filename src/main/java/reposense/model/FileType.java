@@ -23,16 +23,16 @@ public class FileType {
     private static final String MESSAGE_ILLEGAL_FILE_TYPE = "The provided file type, %s, contains illegal characters.";
 
     private String label;
-    private PathMatcher paths;
+    private PathMatcher pathsGlob;
 
     public FileType(String label, List<String> paths) {
         validateFileType(label);
         this.label = label;
-        setGroupGlobMatcher(paths);
+        setPathsGlobMatcher(paths);
     }
 
     /**
-     * Checks that the string {@code label} is a valid file type.
+     * Ensures that the string {@code label} is a valid file type.
      * @throws IllegalArgumentException if {@code label} does not meet the criteria.
      */
     private void validateFileType(String label) {
@@ -50,16 +50,16 @@ public class FileType {
     }
 
     public boolean isFileGlobMatching(String fileName) {
-        return getGroupGlobMatcher().matches(Paths.get(fileName));
+        return getPathsGlobMatcher().matches(Paths.get(fileName));
     }
 
-    private void setGroupGlobMatcher(List<String> filePaths) {
+    private void setPathsGlobMatcher(List<String> filePaths) {
         String globString = "glob:{" + String.join(",", filePaths) + "}";
-        this.paths = FileSystems.getDefault().getPathMatcher(globString);
+        this.pathsGlob = FileSystems.getDefault().getPathMatcher(globString);
     }
 
-    private PathMatcher getGroupGlobMatcher() {
-        return paths;
+    private PathMatcher getPathsGlobMatcher() {
+        return pathsGlob;
     }
 
     @Override
