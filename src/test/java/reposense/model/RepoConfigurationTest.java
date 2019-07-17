@@ -228,7 +228,7 @@ public class RepoConfigurationTest {
     }
 
     @Test
-    public void repoConfig_withoutFormatsAndCliFormats_useDefaultFormats()
+    public void repoConfig_withoutFormatsAndCliFormats_useAllFormats()
             throws ParseException, IOException, HelpScreenException {
         String input = new InputBuilder().addConfig(WITHOUT_FORMATS_TEST_CONFIG_FILES).build();
         CliArguments cliArguments = ArgsParser.parse(translateCommandline(input));
@@ -238,7 +238,7 @@ public class RepoConfigurationTest {
         RepoConfiguration.setFormatsToRepoConfigs(actualConfigs, cliArguments.getFormats());
 
         Assert.assertEquals(1, actualConfigs.size());
-        Assert.assertEquals(Format.DEFAULT_FORMATS, actualConfigs.get(0).getFormats());
+        Assert.assertEquals(FormatTest.NO_SPECIFIED_FORMATS, actualConfigs.get(0).getFormats());
     }
 
     @Test
