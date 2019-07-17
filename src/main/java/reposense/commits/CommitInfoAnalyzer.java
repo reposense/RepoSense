@@ -40,7 +40,7 @@ public class CommitInfoAnalyzer {
     private static final Pattern INSERTION_PATTERN = Pattern.compile("([0-9]+) insertion");
     private static final Pattern DELETION_PATTERN = Pattern.compile("([0-9]+) deletion");
 
-    private static final Pattern LEADING_4_SPACES_PATTERN = Pattern.compile("^ {4}", Pattern.MULTILINE);
+    private static final Pattern MESSAGEBODY_LEADING_PATTERN = Pattern.compile("^ {4}", Pattern.MULTILINE);
 
     /**
      * Analyzes each {@code CommitInfo} in {@code commitInfos} and returns a list of {@code CommitResult} that is not
@@ -84,7 +84,7 @@ public class CommitInfoAnalyzer {
     }
 
     private static String getCommitMessageBody(String raw) {
-        Matcher matcher = LEADING_4_SPACES_PATTERN.matcher(raw);
+        Matcher matcher = MESSAGEBODY_LEADING_PATTERN.matcher(raw);
         return matcher.replaceAll("");
     }
 
