@@ -14,7 +14,6 @@ public abstract class CliArguments {
     protected Date untilDate;
     protected List<Format> formats;
     protected boolean isAutomaticallyLaunching;
-    protected boolean isUntilDateProvided;
     protected ZoneId zoneId;
 
     public ZoneId getZoneId() {
@@ -41,10 +40,6 @@ public abstract class CliArguments {
         return isAutomaticallyLaunching;
     }
 
-    public boolean isUntilDateProvided() {
-        return isUntilDateProvided;
-    }
-
     @Override
     public boolean equals(Object other) {
         // short circuit if same object
@@ -64,7 +59,6 @@ public abstract class CliArguments {
                 && this.untilDate.equals(otherCliArguments.untilDate)
                 && this.formats.equals(otherCliArguments.formats)
                 && this.isAutomaticallyLaunching == otherCliArguments.isAutomaticallyLaunching
-                && this.isUntilDateProvided == otherCliArguments.isUntilDateProvided
                 && this.zoneId.equals(otherCliArguments.zoneId);
     }
 }

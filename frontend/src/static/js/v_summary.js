@@ -111,7 +111,7 @@ window.vSummary = {
       filterBreakdown: false,
       tmpFilterSinceDate: '',
       tmpFilterUntilDate: '',
-      hasModifiedUntilDate: window.app.isUntilDateProvided,
+      hasModifiedUntilDate: false,
       filterSinceDate: '',
       filterUntilDate: '',
       filterHash: '',

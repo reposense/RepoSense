@@ -171,7 +171,6 @@ public class ArgsParser {
             Optional<Date> cliUntilDate = results.get(UNTIL_FLAGS[0]);
             Date sinceDate = cliSinceDate.orElse(getDateMinusAMonth(cliUntilDate));
             Date untilDate = cliUntilDate.orElse(getCurrentDate());
-            boolean isUntilDateProvided = cliUntilDate.isPresent();
             List<String> locations = results.get(REPO_FLAGS[0]);
             List<Format> formats = Format.convertStringsToFormats(results.get(FORMAT_FLAGS[0]));
             boolean isStandaloneConfigIgnored = results.get(IGNORE_FLAGS[0]);
@@ -194,15 +193,15 @@ public class ArgsParser {
             }
 
             if (locations != null) {
-                return new LocationsCliArguments(locations, outputFolderPath, sinceDate, untilDate, isUntilDateProvided,
-                        formats, isAutomaticallyLaunching, isStandaloneConfigIgnored, zoneId);
+                return new LocationsCliArguments(locations, outputFolderPath, sinceDate, untilDate, formats,
+                        isAutomaticallyLaunching, isStandaloneConfigIgnored, zoneId);
             }
 
             if (configFolderPath.equals(EMPTY_PATH)) {
                 logger.info(MESSAGE_USING_DEFAULT_CONFIG_PATH);
             }
-            return new ConfigCliArguments(configFolderPath, outputFolderPath, sinceDate, untilDate, isUntilDateProvided,
-                    formats, isAutomaticallyLaunching, zoneId);
+            return new ConfigCliArguments(configFolderPath, outputFolderPath, sinceDate, untilDate, formats,
+                    isAutomaticallyLaunching, zoneId);
         } catch (HelpScreenException hse) {
             throw hse;
         } catch (ArgumentParserException ape) {
