@@ -236,7 +236,17 @@ window.vSummary = {
 
       return totalBars;
     },
-
+    getFileFormats(repo) {
+      const fileFormats = [];
+      repo.forEach((user) => {
+        Object.keys(user.fileFormatContribution).forEach((fileFormat) => {
+          if (!fileFormats.includes(fileFormat)) {
+            fileFormats.push(fileFormat);
+          }
+        });
+      });
+      return fileFormats;
+    },
     getContributionBars(totalContribution) {
       const res = [];
       const contributionLimit = (this.avgContributionSize * 2);
@@ -386,12 +396,13 @@ window.vSummary = {
       let i = 0;
 
       this.repos.forEach((repo) => {
-        const user = repo.users[0];
-        Object.keys(user.fileFormatContribution).forEach((fileFormat) => {
-          if (!Object.prototype.hasOwnProperty.call(colors, fileFormat)) {
-            colors[fileFormat] = selectedColors[i];
-            i = (i + 1) % selectedColors.length;
-          }
+        repo.users.forEach((user) => {
+          Object.keys(user.fileFormatContribution).forEach((fileFormat) => {
+            if (!Object.prototype.hasOwnProperty.call(colors, fileFormat)) {
+              colors[fileFormat] = selectedColors[i];
+              i = (i + 1) % selectedColors.length;
+            }
+          });
         });
         this.contributionBarColors = colors;
       });
