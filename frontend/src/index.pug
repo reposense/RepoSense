@@ -129,11 +129,11 @@ html
         #error-message-box(v-if="Object.entries(errorMessages).length")
           .error-message-box
             .error-message-box__close-button(onclick="this.parentElement.style.display='none'") &times;
-            div.error-message-box__message The following issues occurred when analyzing the following repositories:
-            div(v-for="errorBlock in errorMessages")
+            .error-message-box__message The following issues occurred when analyzing the following repositories:
+            .error-message-box__failed-repo(v-for="errorBlock in errorMessages")
               i.fas.fa-exclamation
-              span.error-message-box__failed-repo__name {{errorBlock.repoName}}
-              div.error-message-box__failed-repo__reason {{errorBlock.errorMessage}}
+              span.error-message-box__failed-repo--name {{errorBlock.repoName}}
+              div.error-message-box__failed-repo--reason {{errorBlock.errorMessage}}
         #summary-charts
           .summary-charts(v-for="repo of filteredRepos")
             .summary-charts__title(v-if="filterGroupSelection === 'groupByRepos'") {{ repo[0].repoName }}&nbsp;&nbsp;

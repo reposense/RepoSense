@@ -133,15 +133,17 @@ header{
                 font-size: 0.75rem;
             }
 
-            &__failed-repo__name {
-                font-weight: bolder;
-                padding-left: 0.2rem;
-                font-size: 0.75rem;
-            }
+            &__failed-repo {
+                &--name {
+                    font-weight:bolder;
+                    padding-left:0.2rem;
+                    font-size:0.75rem;
+                }
 
-            &__failed-repo__reason {
-                padding-left: 3rem;
-                font-size: 0.75rem;
+                &--reason {
+                    padding-left:3rem;
+                    font-size:0.75rem;
+                }
             }
         }
         .fa-exclamation {
