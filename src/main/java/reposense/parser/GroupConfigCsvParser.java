@@ -5,6 +5,7 @@ import java.nio.file.Path;
 import java.util.List;
 
 import org.apache.commons.csv.CSVRecord;
+
 import reposense.model.FileType;
 import reposense.model.GroupConfiguration;
 import reposense.model.RepoLocation;
