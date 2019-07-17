@@ -266,7 +266,7 @@ public class ReportGenerator {
 
     /**
      * Adds {@code failedRepoConfig} into the collated list of failed repos and logs into the list of errors in the
-     *  summary.
+     * summary.
      */
     private static void handleBranchingFailed(RepoConfiguration failedRepoConfig) {
         ErrorSummary.getInstance().addErrorMessage(failedRepoConfig.getDisplayName(),
@@ -276,7 +276,7 @@ public class ReportGenerator {
 
     /**
      * Adds all {@code failedRepoConfigs} into the list of failed repos and logs into the list of errors in the
-     *  summary.
+     * summary.
      */
     private static void handleCloningFailed(List<RepoConfiguration> failedRepoConfigs) {
         for (RepoConfiguration failedConfig : failedRepoConfigs) {
@@ -287,7 +287,7 @@ public class ReportGenerator {
     }
 
     /**
-     * Remove configs from {@code repoConfigs} that failed to clone or branch out previously.
+     * Removes configs from {@code repoConfigs} that failed to clone or branch out previously.
      */
     private static void removeFailedRepoConfigs(List<RepoConfiguration> repoConfigs) {
         repoConfigs.removeAll(failedRepoConfigsList);
