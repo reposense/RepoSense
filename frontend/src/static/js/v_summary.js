@@ -122,23 +122,23 @@ window.vSummary = {
   },
   watch: {
     repos() {
-      this.getFilteredAfterWatcherUpdated();
+      this.getFiltered();
     },
     sortGroupSelection() {
-      this.getFilteredAfterWatcherUpdated();
+      this.getFiltered();
     },
     sortWithinGroupSelection() {
-      this.getFilteredAfterWatcherUpdated();
+      this.getFiltered();
     },
     filterTimeFrame() {
-      this.getFilteredAfterWatcherUpdated();
+      this.getFiltered();
     },
     filterGroupSelection() {
       this.updateSortWithinGroup();
-      this.getFilteredAfterWatcherUpdated();
+      this.getFiltered();
     },
     filterBreakdown() {
-      this.getFilteredAfterWatcherUpdated();
+      this.getFiltered();
     },
     tmpFilterSinceDate() {
       if (this.tmpFilterSinceDate && this.tmpFilterSinceDate >= this.minDate) {
@@ -147,7 +147,7 @@ window.vSummary = {
         this.filterSinceDate = this.minDate;
         this.tmpFilterSinceDate = this.filterSinceDate;
       }
-      this.getFilteredAfterWatcherUpdated();
+      this.getFiltered();
     },
     tmpFilterUntilDate() {
       if (this.tmpFilterUntilDate && this.tmpFilterUntilDate <= this.maxDate) {
@@ -156,7 +156,7 @@ window.vSummary = {
         this.filterUntilDate = this.maxDate;
         this.tmpFilterUntilDate = this.filterUntilDate;
       }
-      this.getFilteredAfterWatcherUpdated();
+      this.getFiltered();
     },
   },
   computed: {
@@ -355,6 +355,11 @@ window.vSummary = {
       this.$emit('get-dates', [this.minDate, this.maxDate]);
     },
     getFiltered() {
+      // skip filtering of repos if watcher is not updated yet
+      if (!this.isWatcherUpdated) {
+        return;
+      }
+      
       this.setSummaryHash();
       this.getDates();
 
@@ -407,11 +412,6 @@ window.vSummary = {
         });
         this.contributionBarColors = colors;
       });
-    },
-    getFilteredAfterWatcherUpdated() {
-      if (this.isWatcherUpdated) {
-        this.getFiltered();
-      }
     },
     splitCommitsWeek(user) {
       const { commits } = user;
