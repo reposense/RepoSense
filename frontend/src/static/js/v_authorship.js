@@ -199,7 +199,7 @@ window.vAuthorship = {
     },
 
     addBlankLineCountToFileFormat(path, lineCount, filesInfoObj) {
-      let fileFormat = path.split('.').pop();
+      let fileFormat = path.split(/[./\\]/).pop();
       fileFormat = (fileFormat.length === 0) ? 'others' : fileFormat;
 
       if (!filesInfoObj[fileFormat]) {
@@ -273,7 +273,7 @@ window.vAuthorship = {
     },
 
     isSelected(filePath) {
-      const fileExt = filePath.split('.').pop();
+      const fileExt = filePath.split(/[./\\]/).pop();
       return this.selectedFileFormats.includes(fileExt);
     },
 
