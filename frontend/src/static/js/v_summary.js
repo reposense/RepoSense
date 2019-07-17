@@ -236,16 +236,16 @@ window.vSummary = {
 
       return totalBars;
     },
-    getFileFormats(repo) {
-      const fileFormats = [];
+    getFileTypes(repo) {
+      const fileTypes = [];
       repo.forEach((user) => {
-        Object.keys(user.fileFormatContribution).forEach((fileFormat) => {
-          if (!fileFormats.includes(fileFormat)) {
-            fileFormats.push(fileFormat);
+        Object.keys(user.fileTypeContribution).forEach((fileType) => {
+          if (!fileTypes.includes(fileType)) {
+            fileTypes.push(fileType);
           }
         });
       });
-      return fileFormats;
+      return fileTypes;
     },
     getContributionBars(totalContribution) {
       const res = [];
@@ -397,14 +397,14 @@ window.vSummary = {
 
       this.repos.forEach((repo) => {
         repo.users.forEach((user) => {
-          Object.keys(user.fileFormatContribution).forEach((fileType) => {
-            if (!Object.prototype.hasOwnProperty.call(colors, fileType)) {
-              colors[fileType] = selectedColors[i];
+          Object.keys(user.fileTypeContribution).forEach((fileType) => {
+            if (!Object.prototype.hasOwnProperty.call(fileTypeColors, fileType)) {
+              fileTypeColors[fileType] = selectedColors[i];
               i = (i + 1) % selectedColors.length;
             }
+          });
         });
       });
-
       this.contributionBarFileTypeColors = fileTypeColors;
     },
     splitCommitsWeek(user) {

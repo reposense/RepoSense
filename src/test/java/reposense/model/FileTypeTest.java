@@ -1,11 +1,20 @@
 package reposense.model;
 
+import java.util.Arrays;
 import java.util.Collections;
+import java.util.List;
 
 import org.junit.Assert;
 import org.junit.Test;
 
 public class FileTypeTest {
+    public static final List<String> DEFAULT_TEST_FORMAT_STRINGS = Arrays.asList(
+            "adoc", "cs", "css", "fxml", "gradle", "html", "java", "js",
+            "json", "jsp", "md", "py", "tag", "txt", "xml");
+    public static final List<FileType> DEFAULT_TEST_FORMATS = FileType.convertStringFormatsToFileTypes(
+            DEFAULT_TEST_FORMAT_STRINGS);
+    public static final List<FileType> NO_SPECIFIED_FORMATS = Collections.emptyList();
+
     @Test
     public void validateFileType_alphaNumeric_success() {
         FileType fileType = new FileType("tEsT123", Collections.emptyList());

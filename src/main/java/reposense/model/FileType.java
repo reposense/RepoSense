@@ -3,7 +3,6 @@ package reposense.model;
 import java.nio.file.FileSystems;
 import java.nio.file.PathMatcher;
 import java.nio.file.Paths;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -12,14 +11,6 @@ import java.util.stream.Collectors;
  * Represents a file type for use in {@link FileTypeManager}.
  */
 public class FileType {
-    // === NOTE: These variables are just temporary as PRs are being merged in. Need to deprecate them ASAP. ===
-    public static final List<String> DEFAULT_FORMAT_STRINGS = Arrays.asList(
-            "adoc", "cs", "css", "fxml", "gradle", "html", "java", "js",
-            "json", "jsp", "md", "py", "tag", "txt", "xml");
-    public static final List<FileType> DEFAULT_FORMATS = convertStringFormatsToFileTypes(DEFAULT_FORMAT_STRINGS);
-    // =========================================================================================================
-
-
     private static final String FILE_TYPE_VALIDATION_REGEX = "[A-Za-z0-9]+";
     private static final String MESSAGE_ILLEGAL_FILE_TYPE = "The provided file type, %s, contains illegal characters.";
 

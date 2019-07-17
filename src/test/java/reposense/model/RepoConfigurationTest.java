@@ -261,7 +261,7 @@ public class RepoConfigurationTest {
         RepoConfiguration.setFormatsToRepoConfigs(actualConfigs, cliArguments.getFormats());
 
         Assert.assertEquals(1, actualConfigs.size());
-        Assert.assertEquals(FileTyleTest.NO_SPECIFIED_FORMATS, actualConfigs.get(0).getFormats());
+        Assert.assertEquals(FileTypeTest.NO_SPECIFIED_FORMATS, actualConfigs.get(0).getFormats());
     }
 
     @Test
