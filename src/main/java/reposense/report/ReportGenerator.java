@@ -193,7 +193,6 @@ public class ReportGenerator {
 
     /**
      * Updates {@code config} with configuration provided by repository if exists.
-     * Also updates the {@code fileTypes} according to the supplied file formats to be analyzed.
      */
     public static void updateRepoConfig(RepoConfiguration config) {
         Path configJsonPath =

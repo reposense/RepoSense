@@ -14,7 +14,6 @@ public class FileTypeManager {
     private List<FileType> formats;
     private List<FileType> groups;
 
-
     public FileTypeManager() {
         formats = new ArrayList<>();
         groups = new ArrayList<>();
@@ -56,7 +55,7 @@ public class FileTypeManager {
     }
 
     /**
-     * Returns true if the {@code fileName}'s file type is inside {@code formatsWhiteList}.
+     * Returns true if the {@code fileName}'s file type is inside the list of specified formats to be analyzed.
      */
     public static boolean isInsideFormatsWhiteList(RepoConfiguration config, String fileName) {
         return config.getFormats().stream().anyMatch(fileType -> fileType.isFileGlobMatching(fileName));
