@@ -200,12 +200,12 @@ window.vAuthorship = {
       this.activeFilesCount = this.selectedFiles.length;
     },
 
-    addBlankLineCount(type, lineCount, filesInfoObj) {
-      if (!filesInfoObj[type]) {
-        filesInfoObj[type] = 0;
+    addBlankLineCount(fileType, lineCount, filesInfoObj) {
+      if (!filesInfoObj[fileType]) {
+        filesInfoObj[fileType] = 0;
       }
 
-      filesInfoObj[type] += lineCount;
+      filesInfoObj[fileType] += lineCount;
     },
 
     sortFiles() {
