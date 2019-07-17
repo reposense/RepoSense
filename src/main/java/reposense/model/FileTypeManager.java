@@ -30,12 +30,22 @@ public class FileTypeManager {
             }
             return fileTypeLabel;
         } else {
+            return getFileFormat(fileName);
+        }
+    }
+
+    private String getFileFormat(String fileName) {
+        if (hasSpecifiedFormats()) {
             for (FileType format : formats) {
                 if (format.isFileGlobMatching(fileName)) {
                     return format.getLabel();
                 }
             }
-            return fileName;
+            throw new RuntimeException("This should not have happened as the file should have been in the whitelisted"
+                    + " list of formats.");
+        } else {
+            String[] tok = fileName.split("[./\\\\]+");
+            return tok[tok.length -1];
         }
     }
 
