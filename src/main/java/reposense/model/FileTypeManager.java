@@ -45,7 +45,7 @@ public class FileTypeManager {
                     + " list of formats.");
         } else {
             String[] tok = fileName.split("[./\\\\]+");
-            return tok[tok.length -1];
+            return tok[tok.length - 1];
         }
     }
 

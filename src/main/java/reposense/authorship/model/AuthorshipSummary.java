@@ -39,7 +39,6 @@ public class AuthorshipSummary {
         authorFinalContributionMap.put(author, authorFinalContributionMap.get(author) + 1);
 
         // Add file type contribution count
-        ///// TO-DO: CHECK METHOD
         Map<String, Integer> fileTypeContributionMap = authorFileTypeContributionMap.get(author);
         fileTypeContributionMap.put(fileType, fileTypeContributionMap.getOrDefault(fileType, 0) + 1);
     }
