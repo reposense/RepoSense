@@ -45,6 +45,14 @@ a{
     }
 }
 
+.warn{
+    color:mui-color('red');
+
+    .summary-charts__title--contribution{
+        color:mui-color('black');
+    }
+}
+
 /** navigation bar **/
 header{
     z-index:100;
