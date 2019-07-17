@@ -511,11 +511,8 @@ header {
                 user-select: none; /* Non-prefixed version, currently supported by Chrome and Opera */
                 width: 2rem;
 
-                .hljs-number {
-                    color: mui-color('grey');
-                }
-
-                .hljs-comment {
+                // overwrite all hljs colours
+                [class^='hljs'] {
                     color: mui-color('grey');
                 }
             }
