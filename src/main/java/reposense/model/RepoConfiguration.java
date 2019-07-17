@@ -70,8 +70,9 @@ public class RepoConfiguration {
         if (organization != null) {
             repoFolderName = organization + "_" + repoName;
             displayName = organization + "/" + displayName;
-            outputFolderName = organization + outputFolderName;
-        } else {
+            outputFolderName = organization + "_" + outputFolderName;
+        }
+        else {
             repoFolderName = repoName;
         }
     }
