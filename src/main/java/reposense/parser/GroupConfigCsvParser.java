@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.nio.file.Path;
 import java.util.List;
 
+import org.apache.commons.csv.CSVRecord;
 import reposense.model.FileType;
 import reposense.model.GroupConfiguration;
 import reposense.model.RepoLocation;
@@ -39,10 +40,10 @@ public class GroupConfigCsvParser extends CsvParser<GroupConfiguration> {
      * Processes the csv file line by line and adds created {@code Group} into {@code results}.
      */
     @Override
-    protected void processLine(List<GroupConfiguration> results, String[] elements) {
-        String location = getValueInElement(elements, LOCATION_POSITION);
-        String groupName = getValueInElement(elements, GROUP_NAME_POSITION);
-        List<String> globList = getManyValueInElement(elements, FILES_GLOB_POSITION);
+    protected void processLine(List<GroupConfiguration> results, CSVRecord record) {
+        String location = get(record, LOCATION_POSITION);
+        String groupName = get(record, GROUP_NAME_POSITION);
+        List<String> globList = getAsList(record, FILES_GLOB_POSITION);
 
         GroupConfiguration groupConfig = null;
         try {
@@ -51,7 +52,6 @@ public class GroupConfigCsvParser extends CsvParser<GroupConfiguration> {
             e.printStackTrace();
         }
 
-        //Group group = new Group(groupName, globList);
         FileType group = new FileType(groupName, globList);
         if (groupConfig.containsGroup(group)) {
             logger.warning(String.format(
@@ -73,7 +73,7 @@ public class GroupConfigCsvParser extends CsvParser<GroupConfiguration> {
             List<GroupConfiguration> results, String location) throws InvalidLocationException {
         GroupConfiguration config = new GroupConfiguration(new RepoLocation(location));
 
-        for (GroupConfiguration groupConfig: results) {
+        for (GroupConfiguration groupConfig : results) {
             if (groupConfig.getLocation().equals(config.getLocation())) {
                 return groupConfig;
             }

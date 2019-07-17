@@ -12,11 +12,12 @@ import java.util.stream.Collectors;
  * Represents a file type for use in {@link FileTypeManager}.
  */
 public class FileType {
-    // === NOTE: These variables are just temporary as PRs are being merged in. Need to deprecate them ASAP.
+    // === NOTE: These variables are just temporary as PRs are being merged in. Need to deprecate them ASAP. ===
     public static final List<String> DEFAULT_FORMAT_STRINGS = Arrays.asList(
             "adoc", "cs", "css", "fxml", "gradle", "html", "java", "js",
             "json", "jsp", "md", "py", "tag", "txt", "xml");
     public static final List<FileType> DEFAULT_FORMATS = convertStringFormatsToFileTypes(DEFAULT_FORMAT_STRINGS);
+    // =========================================================================================================
 
 
     private static final String FILE_TYPE_VALIDATION_REGEX = "[A-Za-z0-9]+";
