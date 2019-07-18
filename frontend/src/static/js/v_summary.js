@@ -117,7 +117,7 @@ window.vSummary = {
       minDate: '',
       maxDate: '',
       contributionBarColors: {},
-      isWatcherUpdated: false, // keep track of whether first cycle of watcher updates is finished
+      canGetFiltered: true, // to prevent redundant executions of getFiltered() from initial page load
     };
   },
   watch: {
@@ -355,8 +355,8 @@ window.vSummary = {
       this.$emit('get-dates', [this.minDate, this.maxDate]);
     },
     getFiltered() {
-      // skip filtering of repos if watchers have not yet been updated
-      if (!this.isWatcherUpdated) {
+      // skip filtering of repos if first cycle of watcher updates are not finished
+      if (!this.canGetFiltered) {
         return;
       }
       this.setSummaryHash();
@@ -677,10 +677,11 @@ window.vSummary = {
   created() {
     this.renderFilterHash();
     this.getFiltered();
+    this.canGetFiltered = false; // disable getFiltered() after the first getFiltered() call
     this.processFileFormats();
   },
   beforeUpdate() {
-    this.isWatcherUpdated = true; // first cycle of watcher updates is done before 'beforeUpdate()'
+    this.canGetFiltered = true; // enable getFiltered() after first cycle of watcher updates
   },
   components: {
     v_ramp: window.vRamp,
