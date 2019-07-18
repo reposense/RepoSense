@@ -45,6 +45,11 @@ a{
     }
 }
 
+.mini-font {
+  font-size: .65rem;
+  font-weight: normal;
+}
+
 .warn{
     color:mui-color('red');
 
@@ -207,9 +212,7 @@ header{
         font-weight:bold;
 
         &--contribution{
-            font-weight:normal;
-            display:inline;
-            font-size: 0.65rem;
+          display:inline;
         }
     }
 
