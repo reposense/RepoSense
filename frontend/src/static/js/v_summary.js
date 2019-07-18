@@ -140,7 +140,10 @@ window.vSummary = {
       this.getFiltered();
     },
     tmpFilterSinceDate() {
-      if (this.tmpFilterSinceDate && this.tmpFilterSinceDate >= this.minDate) {
+      if (this.tmpFilterSinceDate) {
+        if (this.tmpFilterSinceDate < this.minDate) { // If tmpFilterSinceDate exceeds the min date
+          this.tmpFilterSinceDate = this.minDate;
+        }
         this.filterSinceDate = this.tmpFilterSinceDate;
       } else if (!this.tmpFilterSinceDate) { // If user clears the since date field
         this.filterSinceDate = this.minDate;
@@ -149,7 +152,10 @@ window.vSummary = {
       this.getFiltered();
     },
     tmpFilterUntilDate() {
-      if (this.tmpFilterUntilDate && this.tmpFilterUntilDate <= this.maxDate) {
+      if (this.tmpFilterUntilDate) {
+        if (this.tmpFilterUntilDate > this.maxDate) { // If tmpFilterUntilDate exceeds the max date
+          this.tmpFilterUntilDate = this.maxDate;
+        }
         this.filterUntilDate = this.tmpFilterUntilDate;
       } else if (!this.tmpFilterUntilDate) { // If user clears the until date field
         this.filterUntilDate = this.maxDate;
