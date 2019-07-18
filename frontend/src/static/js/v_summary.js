@@ -117,7 +117,7 @@ window.vSummary = {
       minDate: '',
       maxDate: '',
       contributionBarColors: {},
-      canGetFiltered: true, // to prevent redundant executions of getFiltered() from initial page load
+      canGetFiltered: true, // to prevent redundant getFiltered() calls from initial page load
     };
   },
   watch: {
