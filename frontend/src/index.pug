@@ -113,12 +113,18 @@ html
                 option(value="week") Week
               label granularity
             .mui-textfield.summary-picker__date
-              input(type="date", v-model="tmpFilterSinceDate", v-bind:min="minDate", v-bind:max="filterUntilDate",
-                onkeypress="return (event.charCode >= 48 && event.charCode <= 57) || event.charCode === 45")
+              input(v-if="isSafariBrowser", type="text", placeholder="yyyy-mm-dd", v-bind:min="minDate",
+                v-bind:max="filterUntilDate", v-bind:value="tmpFilterSinceDate",
+                onkeypress="return isKeyNumericalOrDash(event)", v-on:keyup.enter="updateTmpFilterSinceDate($event)")
+              input(v-else, type="date", v-model="tmpFilterSinceDate", onkeydown="return false",
+                v-bind:min="minDate", v-bind:max="filterUntilDate")
               label since
             .mui-textfield.summary-picker__date
-              input(type="date", v-model="tmpFilterUntilDate", v-bind:min="filterSinceDate", v-bind:max="maxDate",
-                onkeypress="return (event.charCode >= 48 && event.charCode <= 57) || event.charCode === 45")
+              input(v-if="isSafariBrowser", type="text", placeholder="yyyy-mm-dd", v-bind:min="filterSinceDate",
+                v-bind:max="maxDate", v-bind:value="tmpFilterUntilDate",
+                onkeypress="return isKeyNumericalOrDash(event)", v-on:keyup.enter="updateTmpFilterUntilDate($event)")
+              input(v-else, type="date", v-model="tmpFilterUntilDate", onkeydown="return false",
+                v-bind:min="filterSinceDate", v-bind:max="maxDate")
               label until
             .mui-textfield.summary-picker__date
               a(v-on:click="resetDateRange") Reset date range

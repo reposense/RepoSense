@@ -93,6 +93,11 @@ function dateRounding(datestr, roundDown) {
   return getDateStr(datems);
 }
 
+function isKeyNumericalOrDash(event) {
+  const key = event.keyCode;
+  return (key >= 48 && key <= 57) || key === 45;
+}
+
 window.vSummary = {
   props: ['repos'],
   template: window.$('v_summary').innerHTML,
@@ -117,6 +122,7 @@ window.vSummary = {
       minDate: '',
       maxDate: '',
       contributionBarColors: {},
+      isSafariBrowser: /.*Version.*Safari.*/.test(navigator.userAgent),
     };
   },
   watch: {
@@ -535,6 +541,15 @@ window.vSummary = {
         drags = [];
         deactivateAllOverlays();
       }
+    },
+
+    // update tmp dates for Safari browsers //
+    updateTmpFilterSinceDate(event) {
+      this.tmpFilterSinceDate = event.target.value;
+    },
+
+    updateTmpFilterUntilDate(event) {
+      this.tmpFilterUntilDate = event.target.value;
     },
 
     // triggering opening of tabs //
