@@ -7,6 +7,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 import org.junit.Assert;
@@ -160,17 +161,33 @@ public class TestUtil {
 
         // start from index 1 as index 0 is always empty.
         for (int i = 1; i < changesLogged.length; i++) {
-            String[] commitInfo = changesLogged[i].replaceAll("\n+$", "").split("\n");
-            int fileChangedNum = Integer.parseInt(commitInfo[commitInfo.length - 1].trim().split(" ")[0]);
-            for (int fileNum = 0; fileNum < fileChangedNum; fileNum++) {
-                String fileChanged = commitInfo[commitInfo.length - 2 - fileNum].split("\\| ")[0].trim();
-                if (fileChanged.contains("=>")) {
-                    fileChanged = fileChanged.substring(fileChanged.indexOf("=> ") + 3);
-                }
-                filesChanged.add(fileChanged);
-            }
+            filesChanged.addAll(getFilesChangedInCommit(changesLogged[i]));
         }
         return filesChanged.size() == expectedNumberFilesChanged;
+    }
+
+    /**
+     * Returns the {@code set} of files changed in the commit {@code rawCommitInfo}.
+     */
+    private static Set<String> getFilesChangedInCommit(String rawCommitInfo) {
+        Set<String> filesChanged = new HashSet<>();
+        String[] commitInfo = rawCommitInfo.replaceAll("\n+$", "").split("\n");
+        int fileChangedNum = Integer.parseInt(commitInfo[commitInfo.length - 1].trim().split(" ")[0]);
+        for (int fileNum = 0; fileNum < fileChangedNum; fileNum++) {
+            filesChanged.add(getFileChanged(commitInfo[commitInfo.length - 2 - fileNum]));
+        }
+        return filesChanged;
+    }
+
+    /**
+     * Returns the file changed given a {@code rawFileChangedString}.
+     */
+    private static String getFileChanged(String rawFileChangedString) {
+        String fileChanged = rawFileChangedString.split("\\| ")[0].trim();
+        if (fileChanged.contains("=>")) {
+            fileChanged = fileChanged.substring(fileChanged.indexOf("=> ") + 3);
+        }
+        return fileChanged;
     }
 
     /**
