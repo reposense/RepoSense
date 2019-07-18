@@ -45,6 +45,11 @@ a {
   }
 }
 
+.mini-font {
+  font-size: .65rem;
+  font-weight: normal;
+}
+
 .warn {
   color: mui-color('red');
 
@@ -211,12 +216,10 @@ header {
     font-weight: bold;
     text-align: left;
 
-    &--contribution {
-      display: inline;
-      font-size: .65rem;
-      font-weight: normal;
+        &--contribution{
+          display:inline;
+        }
     }
-  }
 
   &__fileformat--breakdown {
     overflow-y: hidden;
