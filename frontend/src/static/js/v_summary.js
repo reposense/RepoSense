@@ -93,10 +93,10 @@ function dateRounding(datestr, roundDown) {
   return getDateStr(datems);
 }
 
-function isKeyNumericalOrDash(event) {
+window.isKeyNumericalOrDash = function isKeyNumericalOrDash(event) {
   const key = event.keyCode;
   return (key >= 48 && key <= 57) || key === 45;
-}
+};
 
 window.vSummary = {
   props: ['repos'],
