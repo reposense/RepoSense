@@ -62,7 +62,7 @@ window.vAuthorship = {
       const repo = window.REPOS[this.info.repo];
 
       this.getRepoProps(repo);
-      if (!repo || !this.info.name) {
+      if (!repo || !this.info.author) {
         window.app.isTabActive = false;
         return;
       }
@@ -92,10 +92,9 @@ window.vAuthorship = {
     },
 
     setInfoHash() {
-      const { addHash, removeHash } = window;
+      const { addHash } = window;
       addHash('tabAuthor', this.info.author);
       addHash('tabRepo', this.info.repo);
-      removeHash('tabOpen');
     },
 
     expandAll(isActive) {
@@ -199,7 +198,7 @@ window.vAuthorship = {
     },
 
     addBlankLineCountToFileFormat(path, lineCount, filesInfoObj) {
-      let fileFormat = path.split('.').pop();
+      let fileFormat = path.split(/[./\\]/).pop();
       fileFormat = (fileFormat.length === 0) ? 'others' : fileFormat;
 
       if (!filesInfoObj[fileFormat]) {
@@ -273,7 +272,7 @@ window.vAuthorship = {
     },
 
     isSelected(filePath) {
-      const fileExt = filePath.split('.').pop();
+      const fileExt = filePath.split(/[./\\]/).pop();
       return this.selectedFileFormats.includes(fileExt);
     },
 
@@ -304,16 +303,21 @@ window.vAuthorship = {
           .sort(this.sortingFunction);
     },
     getExistingLinesObj() {
-      return Object.keys(this.filesLinesObj)
-          .filter((type) => this.filesLinesObj[type] > 0)
-          .reduce((acc, key) => ({
-            ...acc, [key]: this.filesLinesObj[key],
-          }), {});
+      const numLinesModified = {};
+      Object.entries(this.filesLinesObj)
+          .filter(([, value]) => value > 0)
+          .forEach(([langType, value]) => {
+            numLinesModified[langType] = value;
+          });
+      return numLinesModified;
     },
   },
 
   created() {
     this.initiate();
     this.setInfoHash();
+  },
+  components: {
+    v_segment: window.vSegment,
   },
 };
