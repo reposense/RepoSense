@@ -70,7 +70,7 @@ public class ReportGenerator {
 
     private static Date earliestSinceDate = null;
 
-    private static Set<RepoConfiguration> failedRepoConfigsList = new HashSet<>();
+    private static Set<RepoConfiguration> failedRepoConfigs;
 
     /**
      * Generates the authorship and commits JSON file for each repo in {@code configs} at {@code outputPath}, as
@@ -135,6 +135,7 @@ public class ReportGenerator {
 
         List<RepoLocation> repoLocationList = new ArrayList<>(repoLocationMap.keySet());
         Set<RepoLocation> successfullyClonedRepos = new HashSet<>();
+        failedRepoConfigs = new HashSet<>();
 
         // clones another repo in parallel while analyzing a cloned repo (if any)
         for (RepoLocation location : repoLocationList) {
@@ -271,7 +272,7 @@ public class ReportGenerator {
     private static void handleBranchingFailed(RepoConfiguration failedRepoConfig) {
         ErrorSummary.getInstance().addErrorMessage(failedRepoConfig.getDisplayName(),
                 String.format(LOG_BRANCH_DOES_NOT_EXIST, failedRepoConfig.getBranch()));
-        failedRepoConfigsList.add(failedRepoConfig);
+        failedRepoConfigs.add(failedRepoConfig);
     }
 
     /**
@@ -282,7 +283,7 @@ public class ReportGenerator {
         for (RepoConfiguration failedConfig : failedRepoConfigs) {
             ErrorSummary.getInstance().addErrorMessage(failedConfig.getDisplayName(),
                     String.format(LOG_ERROR_CLONING, failedConfig.getLocation()));
-            failedRepoConfigsList.add(failedConfig);
+            ReportGenerator.failedRepoConfigs.add(failedConfig);
         }
     }
 
@@ -290,7 +291,7 @@ public class ReportGenerator {
      * Removes configs from {@code repoConfigs} that failed to clone or branch out previously.
      */
     private static void removeFailedRepoConfigs(List<RepoConfiguration> repoConfigs) {
-        repoConfigs.removeAll(failedRepoConfigsList);
+        repoConfigs.removeAll(failedRepoConfigs);
     }
 
     /**
