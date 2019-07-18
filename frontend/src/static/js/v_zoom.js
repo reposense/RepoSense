@@ -2,7 +2,7 @@ window.vZoom = {
   props: ['info'],
   template: window.$('v_zoom').innerHTML,
   data: () => ({
-    showCommitMessageBody: true,
+    showAllCommitMessageBody: true,
   }),
   methods: {
     openSummary() {
@@ -13,9 +13,9 @@ window.vZoom = {
       return `${window.getBaseLink(this.info.user.repoId)}/commit/${slice.hash}`;
     },
 
-    toggleShowCommitMessageBody(isActive) {
-      this.showCommitMessageBody = isActive;
-    }
+    toggleAllCommitMessagesBody() {
+      this.showAllCommitMessageBody = (this.showAllCommitMessageBody !== true);
+    },
   },
   components: {
     v_ramp: window.vRamp,

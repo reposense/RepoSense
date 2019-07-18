@@ -569,17 +569,26 @@ header{
     }
 }
 
-.zoom__toggle-commit-message-body-visible{
+.zoom__toggle-commit-message-body{
     padding-top: 10px;
 }
 
 /* Commit Message Body in Zoom Tab */
-.commit-message-body{
-    width: 100%;
-    overflow-x: auto;
-    resizable: hidden;
-    background-color: #fff;
-    border: 1px solid #898989;
-    padding: 0.4rem;
-    margin-bottom: 1rem;
+.commit-message{
+    &.active{
+        .body{
+            display:inherit;
+            width: 100%;
+            overflow-x: auto;
+            resizable: hidden;
+            background-color: #fff;
+            border: 1px solid #898989;
+            padding: 0.4rem;
+            margin-bottom: 1rem;
+        }
+    }
+
+    .body {
+        display:none;
+    }
 }
