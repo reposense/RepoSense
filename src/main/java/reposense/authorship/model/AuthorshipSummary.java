@@ -40,7 +40,7 @@ public class AuthorshipSummary {
         authorFinalContributionMap.put(author, authorFinalContributionMap.get(author) + 1);
 
         Map<String, Integer> fileFormatContributionMap = authorFileFormatContributionMap.get(author);
-        String fileFormat = filePath.substring(filePath.lastIndexOf('.') + 1);
+        String fileFormat = Format.getFileFormat(filePath);
         fileFormat = fileFormat.isEmpty() ? "others" : fileFormat;
         fileFormatContributionMap.put(fileFormat, fileFormatContributionMap.getOrDefault(fileFormat, 0) + 1);
     }
