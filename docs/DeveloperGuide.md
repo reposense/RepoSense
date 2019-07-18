@@ -61,11 +61,8 @@ This project follows [oss-generic coding standards](https://oss-generic.github.i
 
 Optionally, you can follow the [Using Checkstyle](UsingCheckstyle.md) document to configure *Intellij* to check style-compliance as you write code.
 
-### Configuring the JavaScript coding style
-Our project follows the [Airbnb Javascript Style Guide](https://github.com/airbnb/javascript), the eslint configuration file is available at the root of the project. Please run a `npm run lint -- --fix frontend/src/**/*js` from the project root directory and fix all of the eslint errors before committing your code for final review.
-
-### Configuring the CSS coding style
-Our project follows the [OSS CSS Coding Standard](https://oss-generic.github.io/process/codingStandards/CodingStandard-Css.html), the stylelint configuration file is available at the root of the project. Please run a `npm run stylelint` from the project root directory and fix all of the stylelint errors before committing your code for final review.
+### Configuring the JavaScript and CSS coding style
+Our project follows the [Airbnb Javascript Style Guide](https://github.com/airbnb/javascript) and [OSS CSS Coding Standard](https://oss-generic.github.io/process/codingStandards/CodingStandard-Css.html), both the Eslint and Stylelint configuration file is available at the root of the project. Please run a `npm run lint` from the project root directory and fix all of the lint errors before committing your code for final review.
 
 Eslint, Stylelint and their accompanying modules can be installed through NPM, so do ensure that you got it [installed](https://www.npmjs.com/get-npm) if you are working on the report.
 
