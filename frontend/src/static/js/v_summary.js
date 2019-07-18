@@ -111,6 +111,7 @@ window.vSummary = {
       filterBreakdown: false,
       tmpFilterSinceDate: '',
       tmpFilterUntilDate: '',
+      hasModifiedSinceDate: false,
       hasModifiedUntilDate: false,
       filterSinceDate: '',
       filterUntilDate: '',
@@ -142,10 +143,15 @@ window.vSummary = {
     },
     tmpFilterSinceDate() {
       if (this.tmpFilterSinceDate && this.tmpFilterSinceDate >= this.minDate) {
+        if (this.tmpFilterSinceDate !== this.minDate) { // If user modifies the since date field
+          this.hasModifiedSinceDate = true;
+        }
         this.filterSinceDate = this.tmpFilterSinceDate;
       } else if (!this.tmpFilterSinceDate) { // If user clears the since date field
         this.filterSinceDate = this.minDate;
         this.tmpFilterSinceDate = this.filterSinceDate;
+        this.hasModifiedSinceDate = false;
+        window.removeHash('since');
       }
       this.getFiltered();
     },
@@ -158,6 +164,8 @@ window.vSummary = {
       } else if (!this.tmpFilterUntilDate) { // If user clears the until date field
         this.filterUntilDate = this.maxDate;
         this.tmpFilterUntilDate = this.filterUntilDate;
+        this.hasModifiedUntilDate = false;
+        window.removeHash('until');
       }
       this.getFiltered();
     },
@@ -290,7 +298,9 @@ window.vSummary = {
       addHash('sort', this.sortGroupSelection);
       addHash('sortWithin', this.sortWithinGroupSelection);
 
-      addHash('since', this.filterSinceDate);
+      if (this.hasModifiedSinceDate) {
+        addHash('since', this.filterSinceDate);
+      }
 
       if (this.hasModifiedUntilDate) {
         addHash('until', this.filterUntilDate);
@@ -526,8 +536,10 @@ window.vSummary = {
 
     // updating filters programically //
     resetDateRange() {
-      this.tmpFilterSinceDate = this.minDate;
-      this.tmpFilterUntilDate = this.maxDate;
+      // set both dates to empty string which will call their respective
+      // watchers to reset their values
+      this.tmpFilterSinceDate = '';
+      this.tmpFilterUntilDate = '';
     },
 
     updateDateRange() {
