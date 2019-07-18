@@ -45,6 +45,14 @@ a{
     }
 }
 
+.warn{
+    color:mui-color('red');
+
+    .summary-charts__title--contribution{
+        color:mui-color('black');
+    }
+}
+
 /** navigation bar **/
 header{
     z-index:100;
@@ -486,11 +494,8 @@ header{
                 -ms-user-select:none; /* Internet Explorer/Edge */
                 user-select:none; /* Non-prefixed version, currently supported by Chrome and Opera */
 
-                .hljs-number{
-                    color:mui-color('grey');
-                }
-
-                .hljs-comment{
+                // overwrite all hljs colours
+                [class^='hljs']{
                     color:mui-color('grey');
                 }
             }
@@ -503,6 +508,7 @@ header{
                 $grey:mui-color('grey', '400');
                 border-left:0.25rem solid $grey;
                 height:20px; /* height of a single line of code */
+                position:relative;
 
                 &.active{
                     height:100%;
