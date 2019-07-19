@@ -13,7 +13,9 @@ describe('load code view benchmark', function() {
     cy.get('.summary-chart__title').contains('eugenepeh')
       .parent()
       .within(($title) => {
-          cy.get('a .summary-chart__title--button.fa-code').click();
+          cy.get('a .summary-chart__title--button.fa-code')
+          .should('be.visible')
+          .click();
           startTime = performance.now();
       })
 
