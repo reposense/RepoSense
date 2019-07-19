@@ -37,8 +37,7 @@ matrix:
 
 script:
   - ./config/travis/run-checks.sh
-  - npm run lint frontend/src/**/*.js
-  - npm run lint frontend/cypress/**.js
+  - npm run lint
   - time travis_retry ./gradlew clean checkstyleMain checkstyleTest test systemTest coverage
 
 before_install: &common_before_install

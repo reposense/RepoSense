@@ -135,12 +135,12 @@ html
         #summary-charts
           .summary-charts(v-for="repo of filteredRepos")
             .summary-charts__title(v-if="filterGroupSelection === 'groupByRepos'") {{ repo[0].repoName }}&nbsp;&nbsp;
-              .summary-charts__title--contribution(title="Total contribution of group") [{{ getGroupTotalContribution(repo) }} lines]
+              .summary-charts__title--contribution.mini-font(title="Total contribution of group") [{{ getGroupTotalContribution(repo) }} lines]
             .summary-charts__title(
                 v-if="filterGroupSelection === 'groupByAuthors'",
                 v-bind:class="{ warn: repo[0].name === '-' }"
             ) {{ repo[0].displayName }} ({{ repo[0].name }})&nbsp;&nbsp;
-              .summary-charts__title--contribution(title="Total contribution of group") [{{ getGroupTotalContribution(repo) }} lines]
+              .summary-charts__title--contribution.mini-font(title="Total contribution of group") [{{ getGroupTotalContribution(repo) }} lines]
             .summary-charts__fileformat--breakdown(v-if="filterBreakdown")
               template(v-if="filterGroupSelection === 'groupByRepos'")
                 .summary-charts__fileformat--breakdown__legend(
@@ -165,6 +165,7 @@ html
                     v-if="filterGroupSelection !== 'groupByAuthors'",
                     v-bind:class="{ warn: user.name === '-' }"
                 ) {{ user.displayName }} ({{ user.name }})
+                .summary-chart__title--contribution.mini-font [{{ user.totalCommits }} lines]
                 a(
                   title="click to view author's code",
                   v-on:click="openTabAuthorship(user, repo, i)"
