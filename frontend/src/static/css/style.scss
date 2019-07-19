@@ -605,12 +605,12 @@ header {
 .commit-message {
   &.active {
     .body {
-      display: inherit;
       background-color: #fff;
       border: 1px solid #898989;
+      display: inherit;
       margin-bottom: 1rem;
       overflow-x: auto;
-      padding: 0.4rem;
+      padding: .4rem;
       resize: none;
       width: 100%;
     }
