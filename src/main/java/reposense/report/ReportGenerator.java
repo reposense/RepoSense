@@ -11,6 +11,7 @@ import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -291,7 +292,7 @@ public class ReportGenerator {
      * Removes configs from {@code repoConfigs} that failed to clone or branch out previously.
      */
     private static void removeFailedRepoConfigs(List<RepoConfiguration> repoConfigs) {
-        repoConfigs.removeAll(failedRepoConfigs);
+        repoConfigs.removeIf(repoConfiguration -> failedRepoConfigs.contains(repoConfiguration));
     }
 
     /**
