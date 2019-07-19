@@ -75,6 +75,7 @@ window.viewClick = function viewClick(evt) {
 const DAY_IN_MS = (1000 * 60 * 60 * 24);
 window.DAY_IN_MS = DAY_IN_MS;
 const WEEK_IN_MS = DAY_IN_MS * 7;
+const dateFormatRegex = /([12]\d{3}-(0[1-9]|1[0-2])-(0[1-9]|[12]\d|3[01]))$/;
 
 function getDateStr(date) {
   return (new Date(date)).toISOString().split('T')[0];
@@ -545,11 +546,23 @@ window.vSummary = {
 
     // update tmp dates for Safari browsers //
     updateTmpFilterSinceDate(event) {
-      this.tmpFilterSinceDate = event.target.value;
+      const since = event.target.value;
+      if (dateFormatRegex.test(since)) {
+        this.tmpFilterSinceDate = since;
+        event.currentTarget.style.removeProperty('border-bottom-color');
+      } else {
+        event.currentTarget.style.borderBottomColor = 'red';
+      }
     },
 
     updateTmpFilterUntilDate(event) {
-      this.tmpFilterUntilDate = event.target.value;
+      const until = event.target.value;
+      if (dateFormatRegex.test(until)) {
+        this.tmpFilterUntilDate = until;
+        event.currentTarget.style.removeProperty('border-bottom-color');
+      } else {
+        event.currentTarget.style.borderBottomColor = 'red';
+      }
     },
 
     // triggering opening of tabs //
