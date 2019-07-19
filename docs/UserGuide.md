@@ -29,8 +29,8 @@ Next, download the latest executable Jar from our [releases](https://github.com/
 
 The simplest use case for RepoSense is to generate a report for the entire history of a repo. Here are the steps:
 1. Generate the report for the repo by executing the following command in a terminal:<br/>
-   Format : `java -jar RepoSense.jar --repo FULL_REPO_URL` (note the `.git` at the end)<br>
-   Example: `java -jar RepoSense.jar --repo https://github.com/reposense/RepoSense.git`
+   Format : `java -jar RepoSense.jar --repo FULL_REPO_URL --since d1` (note the `.git` at the end)<br>
+   Example: `java -jar RepoSense.jar --repo https://github.com/reposense/RepoSense.git --since d1`
 1. The previous step analyzes the default branch of the repo and creates the report in a directory named `reposense-report`. Run the following command to view the report (it will open up in your default Browser):<br/>
    `java -jar RepoSense.jar --view reposense-report`
 
@@ -81,7 +81,7 @@ The `Chart Panel` (an example is shown above) contains _Ramp Charts_ and _Contri
 
 ### Code Panel
 
-The `Code Panel` allows users to see the code attributed to a specific author. Click on the name of the author in the `Chart Panel` to display the `Code Panel` on the right.
+The `Code Panel` allows users to see the code attributed to a specific author. Click on the `</>` icon beside the name of the author in the `Chart Panel` to display the `Code Panel` on the right.
 * The Code Panel shows the files that contain author's contributions, sorted by the number of lines written.
 * Select the radio button to enable one of the following 2 filters. Note that only 1 of the 2 filters is active at any time.
     * Type file path glob in glob filter to include files matching the glob expression.
@@ -90,7 +90,7 @@ The `Code Panel` allows users to see the code attributed to a specific author. C
 * Clicking the first icon beside the file title opens the history view of the file on github.
 * Clicking the second icon beside the file title opens the blame view of the file on github.
 * Code attributed to the author is highlighted in green.
-* Non-trivial code segments that are not written by the selected author are hidden by default, but you can toggle them by clicking on the `...` icon.
+* Non-trivial code segments that are not written by the selected author are hidden by default, but you can toggle them by clicking on the :heavy_plus_sign: icon.
 
 ### Commits Panel
 
@@ -124,6 +124,7 @@ The `Tool Bar` at the top provides a set of configuration options that control t
     * `Day`: commits within a day (commits made within 00:00 to 23:59) are shown as one ramp
     * `Week`: commits within a week are shown as one ramp
 * `Since`, `Until` : the date range for the Ramp Chart (not applied to the Contribution Bars).
+* `Reset date range` : this will reset the date range of the Ramp Chart to the default date range.
 
 Notes:<br>
 [1] **`Repo/Branch`**: the repo/branch name is constructed as `ORGANIZATION_REPOSITORY_BRANCH` e.g., `resposense_reposense_master`
