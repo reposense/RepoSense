@@ -547,20 +547,22 @@ window.vSummary = {
     // update tmp dates for Safari browsers //
     updateTmpFilterSinceDate(event) {
       const since = event.target.value;
-      if (dateFormatRegex.test(since)) {
+      if (dateFormatRegex.test(since) && since >= this.minDate) {
         this.tmpFilterSinceDate = since;
         event.currentTarget.style.removeProperty('border-bottom-color');
       } else {
+        // invalid since date detected
         event.currentTarget.style.borderBottomColor = 'red';
       }
     },
 
     updateTmpFilterUntilDate(event) {
       const until = event.target.value;
-      if (dateFormatRegex.test(until)) {
+      if (dateFormatRegex.test(until) && until <= this.maxDate) {
         this.tmpFilterUntilDate = until;
         event.currentTarget.style.removeProperty('border-bottom-color');
       } else {
+        // invalid until date detected
         event.currentTarget.style.borderBottomColor = 'red';
       }
     },
