@@ -597,19 +597,19 @@ header {
   }
 }
 
-.zoom{
-    &__title{
-        margin-top:1rem;
+.zoom {
+  &__title {
+    margin-top: 1rem;
 
-        &--repo{
-            display:inline;
-            font-size:1.5rem;
-            font-weight:400;
-        }
-
-        &--granularity{
-            display:inline;
-            font-size:1rem;
-        }
+    &--repo {
+      display: inline;
+      font-size: 1.5rem;
+      font-weight: 400;
     }
+
+    &--granularity {
+      display: inline;
+      font-size: 1rem;
+    }
+  }
 }
