@@ -536,8 +536,8 @@ window.vSummary = {
 
     // updating filters programically //
     resetDateRange() {
-      // set both dates to empty string which will call their respective
-      // watchers to reset their values
+      // setting both dates to empty string will trigger their respective
+      // watchers to reset their values and remove their hashes in the url
       this.tmpFilterSinceDate = '';
       this.tmpFilterUntilDate = '';
     },
