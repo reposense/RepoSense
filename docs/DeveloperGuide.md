@@ -218,7 +218,7 @@ gradlew run -Dargs="-c ./configs/ -o output_path/ -s 21/10/2017 -u 21/11/2017 -f
 
 ### ReportGenerator(Main)
 [`ReportGenerator`](/src/main/java/reposense/report/ReportGenerator.java),
- 1. uses `GitDownloader` API to download the repository from *GitHub*.
+ 1. uses `GitClone` API to clone the repository from *GitHub*.
  1. copies the template files into the designated output directory.
  1. uses `CommitReporter` and `AuthorshipReporter` to produce the commit and authorship summary respectively.
  1. generates the `JSON` files needed to generate the `HTML` report.
@@ -237,7 +237,7 @@ gradlew run -Dargs="-c ./configs/ -o output_path/ -s 21/10/2017 -u 21/11/2017 -f
  * [`CliArguments`](/src/main/java/reposense/model/CliArguments.java) stores the parsed command line arguments supplied by the user. It contains the configuration settings such as the CSV config file to read from, the directory to output the report to, and date range of commits to analyze. These configuration settings are passed into `RepoConfiguration`.
  * [`RepoConfiguration`](/src/main/java/reposense/model/RepoConfiguration.java) stores the configuration information from the CSV config file for a single repository, which are the repository's orgarization, name, branch, list of authors to analyse, date range to analyze commits and files from `CliArguments`.
  These configuration information are used by:
-    - `GitDownloader` to determine which repository to download from and which branch to check out to.
+    - `GitClone` to determine the location to clone the repository from and which branch to check out to.
     - `AuthorshipReporter` and `CommitsReporter` to determine the range of commits and files to analyze.
     - `ReportGenerator` to determine the directory to output the report.
 
