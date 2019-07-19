@@ -606,13 +606,13 @@ header {
   &.active {
     .body {
       display: inherit;
-      width: 100%;
-      overflow-x: auto;
-      resizable: hidden;
       background-color: #fff;
       border: 1px solid #898989;
-      padding: 0.4rem;
       margin-bottom: 1rem;
+      overflow-x: auto;
+      padding: 0.4rem;
+      resize: none;
+      width: 100%;
     }
   }
 
