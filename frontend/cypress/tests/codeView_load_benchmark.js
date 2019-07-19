@@ -10,7 +10,7 @@ describe('load code view benchmark', function() {
 
     let startTime;
 
-    cy.get('.summary-chart__title').contains('Eugene')
+    cy.get('.summary-chart__title--name').contains('Eugene')
       .parent()
       .within(($title) => {
           cy.get('a .summary-chart__title--button.fa-code').click();
