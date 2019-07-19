@@ -10,12 +10,11 @@ describe('load code view benchmark', function() {
 
     let startTime;
 
-    cy.get('.summary-chart__title--name').contains('Eugene')
+    cy.get('.summary-chart__title').contains('eugenepeh')
       .parent()
       .within(($title) => {
           cy.get('a .summary-chart__title--button.fa-code').click();
           startTime = performance.now();
-          console.log("starting now");
       })
 
     cy.get('#tab-authorship .files')
