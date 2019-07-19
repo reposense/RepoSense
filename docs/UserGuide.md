@@ -23,6 +23,7 @@
 
 First, ensure that you have the necessary prerequisites:
 * **JDK `1.8.0_60`** or later
+* **Java 8** (JRE `1.8.0_60`) or later
 * **git `2.14`** or later on the command line (run `git --version` in your OS terminal to confirm)
 
 Next, download the latest executable Jar from our [releases](https://github.com/reposense/RepoSense/releases/latest).
@@ -170,7 +171,7 @@ Note: all fields are optional unless specified otherwise.
 **Fields to provide _repository-level_ info**:
 
 * `ignoreGlobList`: Folders/files to ignore, specified using the [_glob format_](https://docs.oracle.com/javase/tutorial/essential/io/fileOps.html#glob).
-* `formats`: File formats to analyze. Default: `adoc cs css fxml gradle html java js json jsp md py tag txt xml`
+* `formats`: File formats to analyze. Default: all file formats
 * `ignoreCommitList`: The list of commits to ignore during analysis. For accurate results, the commits should be provided with their full hash.
 
 **Fields to provide _author-level_ info**:<br>
@@ -227,7 +228,9 @@ If you want to override the code authorships deduced by RepoSense (which is base
 
 There are 2 types of `@@author` tags:
 - Start Tags (format: `@@author AUTHOR_GITHUB_ID`): A start tag indicates the start of a code segment written by the author identified by the `AUTHOR_GITHUB_ID`.
-- End Tags (format: `@@author`): Optional. If not provided, the code till the next start tag (or the end of the file) will be attributed to the author specified in the start tag above. Use only when necessary to minimize polluting your code with these extra tags.
+- End Tags (format: `@@author`): Optional. An end tag indicates the end of a code segment written by the author identified by the `AUTHOR_GITHUB_ID` of the start tag.
+
+> Note: If end tag is not provided, the code till the next start tag (or the end of the file) will be attributed to the author specified in the start tag above. Use only when necessary to minimize polluting your code with these extra tags.
 
 The `@@author` tags should be enclosed within a comment, using the comment syntax of the file in concern. Below are some examples:
 
