@@ -117,20 +117,20 @@ header {
     }
 
     .error-message-box {
-      padding: 15px;
-      border-radius: 4px;
       background-color: #F8D7DA;
       border-color: #F5C6CB;
+      border-radius: 4px;
       color: #721C24;
       margin-bottom: 15px;
+      padding: 15px;
       text-align: left;
 
       &__close-button {
-        font-weight: bold;
+        cursor: pointer;
         float: right;
         font-size: 25px;
+        font-weight: bold;
         line-height: 10px;
-        cursor: pointer;
 
         &:hover {
           color: white;
@@ -138,30 +138,30 @@ header {
       }
 
       &__message {
-        font-weight: bolder;
-        padding-bottom: 10px;
         border-bottom: 2px solid;
         font-size: 0.75rem;
+        font-weight: bolder;
+        padding-bottom: 10px;
       }
 
       &__failed-repo {
         &--name {
+          font-size: 0.75rem;
           font-weight: bolder;
           padding-left: 0.2rem;
-          font-size: 0.75rem;
         }
 
         &--reason {
-          padding-left: 3rem;
           font-size: 0.75rem;
+          padding-left: 3rem;
         }
       }
     }
 
     .fa-exclamation {
+      font-size: smaller;
       padding-top: 3px;
       padding-right: 10px;
-      font-size: smaller;
     }
   }
 
