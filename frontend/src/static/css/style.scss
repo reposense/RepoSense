@@ -139,20 +139,20 @@ header {
 
       &__message {
         border-bottom: 2px solid;
-        font-size: 0.75rem;
+        font-size: .75rem;
         font-weight: bolder;
         padding-bottom: 10px;
       }
 
       &__failed-repo {
         &--name {
-          font-size: 0.75rem;
+          font-size: .75rem;
           font-weight: bolder;
-          padding-left: 0.2rem;
+          padding-left: .2rem;
         }
 
         &--reason {
-          font-size: 0.75rem;
+          font-size: .75rem;
           padding-left: 3rem;
         }
       }
@@ -160,8 +160,8 @@ header {
 
     .fa-exclamation {
       font-size: smaller;
-      padding-top: 3px;
       padding-right: 10px;
+      padding-top: 3px;
     }
   }
 
