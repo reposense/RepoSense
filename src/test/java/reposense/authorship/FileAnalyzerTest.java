@@ -99,8 +99,8 @@ public class FileAnalyzerTest extends GitTestTemplate {
 
     @Test
     public void analyzeFile_emailWithAdditionOperator_success() {
-        config.setSinceDate(PR_617_SINCE_DATE);
-        config.setUntilDate(PR_617_UNTIL_DATE);
+        config.setSinceDate(EMAIL_WITH_ADDITION_TEST_SINCE_DATE);
+        config.setUntilDate(EMAIL_WITH_ADDITION_TEST_UNTIL_DATE);
         config.setBranch("617-FileAnalyzerTest-analyzeFile_emailWithAdditionOperator_success");
         GitCheckout.checkoutBranch(config.getRepoRoot(), config.getBranch());
         Author author = new Author(MINGYI_AUTHOR_NAME);
