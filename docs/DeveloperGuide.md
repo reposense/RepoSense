@@ -6,6 +6,7 @@ Thank you for your interest in contributing to RepoSense!
   - [Verifying the setup](#verifying-the-setup)
   - [Configuring the Java coding style](#configuring-the-java-coding-style)
   - [Configuring the JavaScript coding style](#configuring-the-javascript-coding-style)
+  - [Configuring the CSS coding style](#configuring-the-css-coding-style)
   - [Configuring Cypress for automated front-end testing](#configuring-cypress-for-automated-front-end-testing)
   - [(Optional) Using Vue.js devtools for frontend debugging on Chrome](#optional-using-vuejs-devtools-for-frontend-debugging-on-chrome)
 - [Architecture](#architecture)
@@ -60,10 +61,10 @@ This project follows [oss-generic coding standards](https://oss-generic.github.i
 
 Optionally, you can follow the [Using Checkstyle](UsingCheckstyle.md) document to configure *Intellij* to check style-compliance as you write code.
 
-### Configuring the JavaScript coding style
-Our project follows the [Airbnb Javascript Style Guide](https://github.com/airbnb/javascript), the eslint configuration file is available at the root of the project. Please run a `npm run lint -- --fix frontend/src/**/*js` from the project root directory and fix all of the eslint errors before committing your code for final review.
+### Configuring the JavaScript and CSS coding style
+Our project follows the [Airbnb Javascript Style Guide](https://github.com/airbnb/javascript) and [OSS CSS Coding Standard](https://oss-generic.github.io/process/codingStandards/CodingStandard-Css.html), which is governed by the Eslint and Stylelint respectively. Their configuration files can be found at the root of the project. Please run a `npm run lint` from the project root directory and fix all of the lint errors before committing your code for final review.
 
-Eslint and its accompaning modules can be installed through NPM, so do ensure that you got it [installed](https://www.npmjs.com/get-npm) if you are working on the report.
+Eslint, Stylelint and their accompanying modules can be installed through NPM, so do ensure that you got it [installed](https://www.npmjs.com/get-npm) if you are working on the report.
 
 ### Configuring Cypress for automated front-end testing
 We use [Cypress](https://www.cypress.io/) for automated end-to-end front-end testing. <br/>
