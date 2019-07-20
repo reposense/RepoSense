@@ -181,12 +181,12 @@ public class ReportGenerator {
                 repoReportDirectory = Paths.get(outputPath, configToAnalyze.getOutputFolderName());
                 FileUtil.createDirectory(repoReportDirectory);
             } catch (IOException ioe) {
-                logger.log(Level.WARNING,
-                        String.format(MESSAGE_ERROR_CREATING_DIRECTORY, configToAnalyze.getLocation(), configToAnalyze.getBranch()), ioe);
+                logger.log(Level.WARNING, String.format(MESSAGE_ERROR_CREATING_DIRECTORY,
+                        configToAnalyze.getLocation(), configToAnalyze.getBranch()), ioe);
                 continue;
             } catch (RuntimeException rte) {
-                logger.log(Level.SEVERE,
-                        String.format(MESSAGE_ERROR_DURING_ANALYSIS, configToAnalyze.getLocation(), configToAnalyze.getBranch()), rte);
+                logger.log(Level.SEVERE, String.format(MESSAGE_ERROR_DURING_ANALYSIS,
+                        configToAnalyze.getLocation(), configToAnalyze.getBranch()), rte);
                 continue;
             }
 
