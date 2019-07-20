@@ -137,16 +137,6 @@ public class RepoCloner {
     }
 
     /**
-     * Creates an empty repository report that is due to cloning failure.
-     */
-    private void handleCloningFailed(String outputPath, RepoConfiguration config) throws IOException {
-        Path repoReportDirectory = Paths.get(outputPath, config.getOutputFolderName());
-        FileUtil.createDirectory(repoReportDirectory);
-        ReportGenerator.generateEmptyRepoReport(repoReportDirectory.toString(),
-                Author.NAME_FAILED_TO_CLONE_OR_CHECKOUT);
-    }
-
-    /**
      * Deletes previously cloned repo directories that are not in use anymore.
      */
     private void cleanupPrevRepoFolder() {
