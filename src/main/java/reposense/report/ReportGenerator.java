@@ -157,6 +157,7 @@ public class ReportGenerator {
 
     /**
      * Analyzes all repos in {@code configsToAnalyze} and generates their report.
+     * Also removes {@code configsToAnalyze} that failed to analyze from {@code configs}.
      */
     private static void analyzeRepos(String outputPath, List<RepoConfiguration> configs,
             List<RepoConfiguration> configsToAnalyze, String defaultBranch) {
