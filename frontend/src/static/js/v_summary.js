@@ -278,6 +278,7 @@ window.vSummary = {
     // model functions //
     updateFilterSearch(evt) {
       this.filterSearch = evt.target.value;
+      this.getFiltered();
     },
     setSummaryHash() {
       const { addHash, encodeHash } = window;
