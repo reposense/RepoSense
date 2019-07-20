@@ -52,7 +52,8 @@ window.api = {
   },
 
   loadCommits(repoName) {
-    return loadJSON(`${REPORT_DIR}/${repoName}/commits.json`).then((commits) => {
+    const folderName = window.REPOS[repoName].outputFolderName;
+    return loadJSON(`${REPORT_DIR}/${folderName}/commits.json`).then((commits) => {
       const res = [];
       const repo = window.REPOS[repoName];
 
@@ -89,7 +90,8 @@ window.api = {
   },
 
   loadAuthorship(repoName) {
-    return loadJSON(`${REPORT_DIR}/${repoName}/authorship.json`)
+    const folderName = window.REPOS[repoName].outputFolderName;
+    return loadJSON(`${REPORT_DIR}/${folderName}/authorship.json`)
         .then((files) => {
           window.REPOS[repoName].files = files;
           return files;
