@@ -44,7 +44,7 @@
   ],
   "errorList": [
     {
-      "repoName": "reposense_testrepo-Delta_nonExistentBranch",
+      "repoName": "reposense/testrepo-Delta[nonExistentBranch]",
       "errorMessage": "Branch \"nonExistentBranch\" does not exist."
     }
   ],
