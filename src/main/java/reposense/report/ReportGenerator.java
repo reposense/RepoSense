@@ -11,12 +11,12 @@ import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import java.util.stream.Collectors;
 
 import com.google.gson.JsonSyntaxException;
 
@@ -70,8 +70,6 @@ public class ReportGenerator {
 
     private static Date earliestSinceDate = null;
 
-    private static Set<RepoConfiguration> failedRepoConfigs;
-
     /**
      * Generates the authorship and commits JSON file for each repo in {@code configs} at {@code outputPath}, as
      * well as the summary JSON file of all the repos.
@@ -87,7 +85,6 @@ public class ReportGenerator {
         earliestSinceDate = null;
 
         cloneAndAnalyzeRepos(configs, outputPath);
-        removeFailedRepoConfigs(configs);
 
         Date reportSinceDate = (cliSinceDate.equals(SinceDateArgumentType.ARBITRARY_FIRST_COMMIT_DATE))
                 ? earliestSinceDate : cliSinceDate;
@@ -135,68 +132,69 @@ public class ReportGenerator {
 
         List<RepoLocation> repoLocationList = new ArrayList<>(repoLocationMap.keySet());
         Set<RepoLocation> successfullyClonedRepos = new HashSet<>();
-        failedRepoConfigs = new HashSet<>();
 
         // clones another repo in parallel while analyzing a cloned repo (if any)
         for (RepoLocation location : repoLocationList) {
             repoCloner.clone(repoLocationMap.get(location).get(0));
 
             if (clonedRepoLocation != null) {
-                analyzeRepos(outputPath, repoLocationMap.get(clonedRepoLocation),
+                analyzeRepos(outputPath, configs, repoLocationMap.get(clonedRepoLocation),
                         repoCloner.getCurrentRepoDefaultBranch());
                 successfullyClonedRepos.add(clonedRepoLocation);
             }
             clonedRepoLocation = repoCloner.getClonedRepoLocation();
         }
         if (clonedRepoLocation != null) {
-            analyzeRepos(outputPath, repoLocationMap.get(clonedRepoLocation),
+            analyzeRepos(outputPath, configs, repoLocationMap.get(clonedRepoLocation),
                     repoCloner.getCurrentRepoDefaultBranch());
             successfullyClonedRepos.add(clonedRepoLocation);
         }
 
         // handles configs that failed to clone and clean up the cloned repo directory.
-        handleCloningFailed(configs.stream()
-                .filter(config -> !successfullyClonedRepos.contains(config.getLocation()))
-                .collect(Collectors.toList()));
+        handleCloningFailed(configs, successfullyClonedRepos);
         repoCloner.cleanup();
     }
 
     /**
-     * Analyzes all repos in {@code configs} and generates their report.
+     * Analyzes all repos in {@code configsToAnalyze} and generates their report.
      */
-    private static void analyzeRepos(String outputPath, List<RepoConfiguration> configs, String defaultBranch) {
-        for (RepoConfiguration config : configs) {
-            config.updateBranch(defaultBranch);
+    private static void analyzeRepos(String outputPath, List<RepoConfiguration> configs,
+            List<RepoConfiguration> configsToAnalyze, String defaultBranch) {
+        for (RepoConfiguration configToAnalyze : configsToAnalyze) {
+            configToAnalyze.updateBranch(defaultBranch);
 
-            logger.info(String.format(MESSAGE_START_ANALYSIS, config.getLocation(), config.getBranch()));
+            logger.info(
+                    String.format(MESSAGE_START_ANALYSIS, configToAnalyze.getLocation(), configToAnalyze.getBranch()));
             try {
-                GitCheckout.checkout(config.getRepoRoot(), config.getBranch());
+                GitCheckout.checkout(configToAnalyze.getRepoRoot(), configToAnalyze.getBranch());
             } catch (RuntimeException e) {
                 logger.log(Level.SEVERE, String.format(MESSAGE_BRANCH_DOES_NOT_EXIST,
-                        config.getBranch(), config.getLocation()), e);
-                handleBranchingFailed(config);
+                        configToAnalyze.getBranch(), configToAnalyze.getLocation()), e);
+                ErrorSummary.getInstance().addErrorMessage(configToAnalyze.getDisplayName(),
+                        String.format(LOG_BRANCH_DOES_NOT_EXIST, configToAnalyze.getBranch()));
+                configs.removeIf(config -> config.equals(configToAnalyze));
                 continue;
             }
 
             Path repoReportDirectory;
             try {
-                repoReportDirectory = Paths.get(outputPath, config.getOutputFolderName());
+                repoReportDirectory = Paths.get(outputPath, configToAnalyze.getOutputFolderName());
                 FileUtil.createDirectory(repoReportDirectory);
             } catch (IOException ioe) {
                 logger.log(Level.WARNING,
-                        String.format(MESSAGE_ERROR_CREATING_DIRECTORY, config.getLocation(), config.getBranch()), ioe);
+                        String.format(MESSAGE_ERROR_CREATING_DIRECTORY, configToAnalyze.getLocation(), configToAnalyze.getBranch()), ioe);
                 continue;
             } catch (RuntimeException rte) {
                 logger.log(Level.SEVERE,
-                        String.format(MESSAGE_ERROR_DURING_ANALYSIS, config.getLocation(), config.getBranch()), rte);
+                        String.format(MESSAGE_ERROR_DURING_ANALYSIS, configToAnalyze.getLocation(), configToAnalyze.getBranch()), rte);
                 continue;
             }
 
             try {
-                analyzeRepo(config, repoReportDirectory.toString());
+                analyzeRepo(configToAnalyze, repoReportDirectory.toString());
             } catch (NoAuthorsWithCommitsFoundException e) {
                 logger.log(Level.SEVERE, String.format(MESSAGE_NO_AUTHORS_WITH_COMMITS_FOUND,
-                        config.getLocation(), config.getBranch()));
+                        configToAnalyze.getLocation(), configToAnalyze.getBranch()));
                 generateEmptyRepoReport(repoReportDirectory.toString(), Author.NAME_NO_AUTHOR_WITH_COMMITS_FOUND);
             }
         }
@@ -266,32 +264,20 @@ public class ReportGenerator {
     }
 
     /**
-     * Adds {@code failedRepoConfig} into the collated list of failed repos and logs into the list of errors in the
-     * summary.
+     * Adds {@code configs} that were not successfully cloned into the list of errors in the
+     * summary report and removes them from the list of {@code configs}.
      */
-    private static void handleBranchingFailed(RepoConfiguration failedRepoConfig) {
-        ErrorSummary.getInstance().addErrorMessage(failedRepoConfig.getDisplayName(),
-                String.format(LOG_BRANCH_DOES_NOT_EXIST, failedRepoConfig.getBranch()));
-        failedRepoConfigs.add(failedRepoConfig);
-    }
-
-    /**
-     * Adds all {@code failedRepoConfigs} into the list of failed repos and logs into the list of errors in the
-     * summary.
-     */
-    private static void handleCloningFailed(List<RepoConfiguration> failedRepoConfigs) {
-        for (RepoConfiguration failedConfig : failedRepoConfigs) {
-            ErrorSummary.getInstance().addErrorMessage(failedConfig.getDisplayName(),
-                    String.format(LOG_ERROR_CLONING, failedConfig.getLocation()));
-            ReportGenerator.failedRepoConfigs.add(failedConfig);
+    private static void handleCloningFailed(List<RepoConfiguration> configs,
+            Set<RepoLocation> successfullyClonedRepoLocations) {
+        Iterator<RepoConfiguration> itr = configs.iterator();
+        while (itr.hasNext()) {
+            RepoConfiguration config = itr.next();
+            if (!successfullyClonedRepoLocations.contains(config.getLocation())) {
+                ErrorSummary.getInstance().addErrorMessage(config.getDisplayName(),
+                        String.format(LOG_ERROR_CLONING, config.getLocation()));
+                itr.remove();
+            }
         }
-    }
-
-    /**
-     * Removes configs from {@code repoConfigs} that failed to clone or branch out previously.
-     */
-    private static void removeFailedRepoConfigs(List<RepoConfiguration> repoConfigs) {
-        repoConfigs.removeIf(repoConfiguration -> failedRepoConfigs.contains(repoConfiguration));
     }
 
     /**
