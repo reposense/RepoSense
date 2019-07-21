@@ -155,55 +155,53 @@ header {
         padding-left: 3rem;
       }
     }
-  }
 
-  .fa-exclamation {
-    font-size: smaller;
-    padding-right: 10px;
-    padding-top: 3px;
-  }
-}
-
-#tabs-wrapper {
-  $tabs-width: 50%;
-
-  background: mui-color('grey', '200');
-  flex: 0 0 $tabs-width;
-  overflow-y: scroll;
-  position: relative;
-
-  .tab-close {
-    cursor: pointer;
-    position: fixed;
-    top: calc(50vh - 3rem);
-
-    svg {
-      background-color: mui-color('white');
-      color: mui-color('black');
-      padding: 3rem .25rem;
+    .fa-exclamation {
+      font-size: smaller;
+      padding-right: 10px;
+      padding-top: 3px;
     }
   }
 
-  .tab-content {
-    display: flex;
-    padding: 1rem 1.5rem;
-    padding-top: 4rem;
+  #tabs-wrapper {
+    $tabs-width: 50%;
 
-    .tab-panes {
-      text-align: left;
-      width: 100%;
+    background: mui-color('grey', '200');
+    flex: 0 0 $tabs-width;
+    overflow-y: scroll;
+    position: relative;
+
+    .tab-close {
+      cursor: pointer;
+      position: fixed;
+      top: calc(50vh - 3rem);
+
+      svg {
+        background-color: mui-color('white');
+        color: mui-color('black');
+        padding: 3rem .25rem;
+      }
+    }
+
+    .tab-content {
+      display: flex;
+      padding: 1rem 1.5rem;
+      padding-top: 4rem;
+
+      .tab-panes {
+        text-align: left;
+        width: 100%;
+      }
+    }
+
+    #tab-resize {
+      background-color: mui-color('black');
+      cursor: col-resize;
+      height: 100%;
+      position: fixed;
+      width: 13.250px;
     }
   }
-
-  #tab-resize {
-    background-color: mui-color('black');
-    cursor: col-resize;
-    height: 100%;
-    position: fixed;
-    width: 13.250px;
-  }
-}
-
 }
 
 /* summary chart */
