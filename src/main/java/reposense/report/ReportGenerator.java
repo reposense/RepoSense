@@ -161,7 +161,9 @@ public class ReportGenerator {
      */
     private static void analyzeRepos(String outputPath, List<RepoConfiguration> configs,
             List<RepoConfiguration> configsToAnalyze, String defaultBranch) {
-        for (RepoConfiguration configToAnalyze : configsToAnalyze) {
+        Iterator<RepoConfiguration> itr = configsToAnalyze.iterator();
+        while (itr.hasNext()) {
+            RepoConfiguration configToAnalyze = itr.next();
             configToAnalyze.updateBranch(defaultBranch);
 
             logger.info(
