@@ -117,6 +117,7 @@ window.vSummary = {
       minDate: '',
       maxDate: '',
       contributionBarFileTypeColors: {},
+      canGetFiltered: true, // to prevent redundant getFiltered() calls from initial page load
     };
   },
   watch: {
@@ -278,6 +279,7 @@ window.vSummary = {
     // model functions //
     updateFilterSearch(evt) {
       this.filterSearch = evt.target.value;
+      this.getFiltered();
     },
     setSummaryHash() {
       const { addHash, encodeHash } = window;
@@ -354,6 +356,10 @@ window.vSummary = {
       this.$emit('get-dates', [this.minDate, this.maxDate]);
     },
     getFiltered() {
+      // skip filtering of repos if first cycle of watcher updates are not finished
+      if (!this.canGetFiltered) {
+        return;
+      }
       this.setSummaryHash();
       this.getDates();
 
@@ -673,6 +679,10 @@ window.vSummary = {
     this.renderFilterHash();
     this.getFiltered();
     this.processFileTypes();
+    this.canGetFiltered = false; // disable getFiltered() after the first getFiltered() call
+  },
+  beforeUpdate() {
+    this.canGetFiltered = true; // enable getFiltered() after first cycle of watcher updates
   },
   components: {
     v_ramp: window.vRamp,
