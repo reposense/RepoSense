@@ -144,66 +144,66 @@ header {
         padding-bottom: 10px;
       }
 
-      &__failed-repo {
-        &--name {
-          font-size: .75rem;
-          font-weight: bolder;
-          padding-left: .2rem;
-        }
-
-        &--reason {
-          font-size: .75rem;
-          padding-left: 3rem;
-        }
+      &__failed-repo--name {
+        font-size: .75rem;
+        font-weight: bolder;
+        padding-left: .2rem;
       }
-    }
 
-    .fa-exclamation {
-      font-size: smaller;
-      padding-right: 10px;
-      padding-top: 3px;
+      &__failed-repo--reason {
+        font-size: .75rem;
+        padding-left: 3rem;
+      }
     }
   }
 
-  #tabs-wrapper {
-    $tabs-width: 50%;
+  .fa-exclamation {
+    font-size: smaller;
+    padding-right: 10px;
+    padding-top: 3px;
+  }
+}
 
-    background: mui-color('grey', '200');
-    flex: 0 0 $tabs-width;
-    overflow-y: scroll;
-    position: relative;
+#tabs-wrapper {
+  $tabs-width: 50%;
 
-    .tab-close {
-      cursor: pointer;
-      position: fixed;
-      top: calc(50vh - 3rem);
+  background: mui-color('grey', '200');
+  flex: 0 0 $tabs-width;
+  overflow-y: scroll;
+  position: relative;
 
-      svg {
-        background-color: mui-color('white');
-        color: mui-color('black');
-        padding: 3rem .25rem;
-      }
-    }
+  .tab-close {
+    cursor: pointer;
+    position: fixed;
+    top: calc(50vh - 3rem);
 
-    .tab-content {
-      display: flex;
-      padding: 1rem 1.5rem;
-      padding-top: 4rem;
-
-      .tab-panes {
-        text-align: left;
-        width: 100%;
-      }
-    }
-
-    #tab-resize {
-      background-color: mui-color('black');
-      cursor: col-resize;
-      height: 100%;
-      position: fixed;
-      width: 13.250px;
+    svg {
+      background-color: mui-color('white');
+      color: mui-color('black');
+      padding: 3rem .25rem;
     }
   }
+
+  .tab-content {
+    display: flex;
+    padding: 1rem 1.5rem;
+    padding-top: 4rem;
+
+    .tab-panes {
+      text-align: left;
+      width: 100%;
+    }
+  }
+
+  #tab-resize {
+    background-color: mui-color('black');
+    cursor: col-resize;
+    height: 100%;
+    position: fixed;
+    width: 13.250px;
+  }
+}
+
 }
 
 /* summary chart */
