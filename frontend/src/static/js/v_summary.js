@@ -448,6 +448,7 @@ window.vSummary = {
           deletions: 0,
           date: getDateStr(startOfWeekMs),
           endDate: getDateStr(endOfWeekMsWithinUntilMs),
+          commitResults: [],
         };
 
         this.addLineContributionWeek(endOfWeekMsWithinUntilMs, week, commits);
@@ -463,6 +464,7 @@ window.vSummary = {
         const commit = commits.shift();
         week.insertions += commit.insertions;
         week.deletions += commit.deletions;
+        commit.commitResults.forEach((commitResult) => week.commitResults.push(commitResult));
       }
     },
     getUserCommits(user) {
@@ -566,22 +568,8 @@ window.vSummary = {
         const tsince = getDateStr(new Date(this.filterSinceDate).getTime() + idxs[0]);
         const tuntil = getDateStr(new Date(this.filterSinceDate).getTime() + idxs[1]);
 
-        const rawCommits = userOrig.commits.filter(
-            (commit) => commit.date >= tsince && commit.date <= tuntil,
-        );
-
-        const commits = [];
-        rawCommits.forEach((commit) => {
-          if (this.filterTimeFrame === 'week') {
-            commit.dayCommits.forEach((dayCommit) => commits.push(dayCommit));
-          } else {
-            commits.push(commit);
-          }
-        });
-
         const { avgCommitSize } = this;
-        const user = Object.assign({}, userOrig, { commits });
-
+        const user = Object.assign({}, userOrig);
         this.$emit('view-zoom', {
           avgCommitSize,
           user,
