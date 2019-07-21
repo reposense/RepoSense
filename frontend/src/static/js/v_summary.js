@@ -121,9 +121,6 @@ window.vSummary = {
     };
   },
   watch: {
-    repos() {
-      this.getFiltered();
-    },
     sortGroupSelection() {
       this.getFiltered();
     },
