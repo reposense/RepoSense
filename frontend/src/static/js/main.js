@@ -182,6 +182,10 @@ window.app = new window.Vue({
     },
 
     updateTabAuthorship(obj) {
+      // remove hashes from zoom tab if available
+      window.removeHash('zoomSince');
+      window.removeHash('zoomUntil');
+      window.removeHash('avgCommitSize');
       this.tabInfo.tabAuthorship = Object.assign({}, obj);
       this.activateTab('authorship');
     },
@@ -211,6 +215,23 @@ window.app = new window.Vue({
       }
     },
 
+    renderZoomTabHash() {
+      const hash = window.hashParams;
+      const info = {
+        author: hash.tabAuthor,
+        repo: hash.tabRepo,
+        avgCommitSize: hash.avgCommitSize,
+        sinceDate: hash.zoomSince,
+        untilDate: hash.zoomUntil,
+      };
+      const tabInfoLength = Object.values(info).filter((x) => x).length;
+      if (Object.keys(info).length === tabInfoLength) {
+        this.updateTabZoom(info);
+      } else if (hash.tabOpen === 'false' || tabInfoLength > 2) {
+        window.app.isTabActive = false;
+      }
+    },
+
     renderTabHash() {
       window.decodeHash();
       const hash = window.hashParams;
@@ -223,7 +244,7 @@ window.app = new window.Vue({
         if (hash.tabType === 'authorship') {
           this.renderAuthorShipTabHash(hash.since, hash.until);
         } else {
-          // handle zoom tab if needed
+          this.renderZoomTabHash();
         }
       }
     },
@@ -268,9 +289,13 @@ window.app = new window.Vue({
       }
     });
     if (!this.isTabActive) {
+      // remove hashes from tab pane
       window.removeHash('tabAuthor');
       window.removeHash('tabRepo');
       window.removeHash('tabType');
+      window.removeHash('avgCommitSize');
+      window.removeHash('zoomSince');
+      window.removeHash('zoomUntil');
     }
     window.addHash('tabOpen', this.isTabActive);
     window.encodeHash();

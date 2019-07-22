@@ -357,8 +357,8 @@ window.vSummary = {
       if (!this.canGetFiltered) {
         return;
       }
-      this.setSummaryHash();
       this.getDates();
+      this.setSummaryHash();
 
       // array of array, sorted by repo
       const full = [];
@@ -665,6 +665,14 @@ window.vSummary = {
     this.getFiltered();
     this.canGetFiltered = false; // disable getFiltered() after the first getFiltered() call
     this.processFileFormats();
+  },
+  beforeMount() {
+    this.$root.$on('restoreCommits', (user) => {
+      this.getUserCommits(user);
+      if (this.filterTimeFrame === 'week') {
+        this.splitCommitsWeek(user);
+      }
+    });
   },
   beforeUpdate() {
     this.canGetFiltered = true; // enable getFiltered() after first cycle of watcher updates
