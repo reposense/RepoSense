@@ -6,6 +6,7 @@ import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 import java.util.logging.Logger;
 
 import reposense.git.GitBranch;
@@ -27,6 +28,7 @@ public class RepoConfiguration {
     private transient Date sinceDate;
     private transient Date untilDate;
     private transient String repoFolderName;
+    private final transient String uniqueIdentifier;
 
     private transient boolean annotationOverwrite = true;
     private transient List<Format> formats;
@@ -61,12 +63,14 @@ public class RepoConfiguration {
         this.isFormatsOverriding = isFormatsOverriding;
         this.isIgnoreGlobListOverriding = isIgnoreGlobListOverriding;
         this.isIgnoreCommitListOverriding = isIgnoreCommitListOverriding;
+        this.uniqueIdentifier = UUID.nameUUIDFromBytes(location.toString().getBytes()).toString();
 
         String organization = location.getOrganization();
         String repoName = location.getRepoName();
+
         displayName = repoName + "[" + branch + "]";
-        outputFolderName = repoName + "_" + branch;
-        repoFolderName = repoName;
+        outputFolderName = repoName + "_" + branch + "-" + uniqueIdentifier;
+        repoFolderName = repoName + "-" + uniqueIdentifier;
 
         if (organization != null) {
             repoFolderName = organization + "_" + repoFolderName;
@@ -259,8 +263,12 @@ public class RepoConfiguration {
         this.displayName = displayName.substring(0, displayName.lastIndexOf('[') + 1) + branch + "]";
     }
 
+    /**
+     * Replaces the branch parameter in {@code outputFolderName} with {@code branch}
+     */
     public void updateOutputFolderName(String branch) {
-        this.outputFolderName = outputFolderName.substring(0, outputFolderName.lastIndexOf('_') + 1) + branch;
+        this.outputFolderName = outputFolderName.substring(0, outputFolderName.lastIndexOf('_') + 1) + branch
+               + "-" + this.uniqueIdentifier;
     }
 
     public boolean isAnnotationOverwrite() {
