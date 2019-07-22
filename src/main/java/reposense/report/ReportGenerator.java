@@ -7,6 +7,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
@@ -89,13 +90,35 @@ public class ReportGenerator {
                 getSummaryResultPath(outputPath));
         logger.info(String.format(MESSAGE_REPORT_GENERATED, outputPath));
 
-        List<Path> reportFoldersAndFiles = new ArrayList<>();
+        return getReportFiles(configs, outputPath);
+    }
+
+    /**
+     * Returns a list of paths to the successfully generated authorship and commits JSON file for each repo in
+     * {@code configs} at {@code outputPath}, as well as the summary JSON file of all the repos.
+     */
+    private static List<Path> getReportFiles(List<RepoConfiguration> configs, String outputPath) {
+        List<Path> reportFiles = new ArrayList<>();
         for (RepoConfiguration config : configs) {
-            reportFoldersAndFiles.add(
-                    Paths.get(outputPath + File.separator + config.getDisplayName()).toAbsolutePath());
+            Path authorshipJsonPath = Paths.get(
+                    outputPath + File.separator + config.getOutputFolderName(), "authorship.json").toAbsolutePath();
+            Path commitsJsonPath = Paths.get(
+                    outputPath + File.separator + config.getOutputFolderName(), "commits.json").toAbsolutePath();
+            if (!Files.exists(authorshipJsonPath) || !Files.exists(commitsJsonPath)) {
+                logger.log(Level.SEVERE,
+                        "Problems occurred when generating the report files for " + config.getDisplayName());
+                continue;
+            }
+            reportFiles.add(authorshipJsonPath);
+            reportFiles.add(commitsJsonPath);
         }
-        reportFoldersAndFiles.add(Paths.get(outputPath, SummaryJson.SUMMARY_JSON_FILE_NAME));
-        return reportFoldersAndFiles;
+        Path summaryJsonPath = Paths.get(outputPath, SummaryJson.SUMMARY_JSON_FILE_NAME);
+        if (!Files.exists(summaryJsonPath)) {
+            logger.log(Level.SEVERE, "Problems occurred when generating the report summary files.");
+        } else {
+            reportFiles.add(summaryJsonPath);
+        }
+        return reportFiles;
     }
 
     /**
