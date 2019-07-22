@@ -29,8 +29,8 @@ Thank you for your interest in contributing to RepoSense!
 ## Setting up
 
 ### Prerequisites
-1. **JDK `1.8.0_60`** or later.
-1. **git `2.14`** or later on the command line.
+1. **JDK `1.8.0_60`** or later. You may download the JDK [here](https://www.oracle.com/technetwork/java/javase/downloads/index.html).
+1. **git `2.14`** or later on the command line. You may download git [here](https://git-scm.com/downloads).
  > Type `git --version` on your OS terminal and ensure that you have the correct version of **git**.
 
 ### Setting up the project in your computer using IntelliJ
@@ -266,8 +266,11 @@ Tabbed interface is responsible for loading various modules such as authorship t
 ### Javascript Files
 - [**main.js**](../frontend/src/static/js/main.js) - main controller that pushes content into different modules
 - [**api.js**](../frontend/src/static/js/api.js)- loading and parsing of the report content
-- [**v_summary.js**](../frontend/src/static/js/v_summary.js) - module that supports the ramp chart view
+- [**v_summary.js**](../frontend/src/static/js/v_summary.js) - module that supports the summary view
 - [**v_authorship.js**](../frontend/src/static/js/v_authorship.js) - module that supports the authorship view
+- [**v_ramp.js**](../frontend/src/static/js/v_ramp.js) - module that supports the ramp chart
+- [**v_zoom.js**](../frontend/src/static/js/v_zoom.js) - module that supports the commits panel
+- [**v_segment.js**](../frontend/src/static/js/v_segment.js) - module that supports code segments in the code view
 
 ### JSON Report Files
 - **summary.json** - a list of all the repositories and their respective details

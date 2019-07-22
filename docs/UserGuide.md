@@ -22,9 +22,8 @@
 ## Getting Started
 
 First, ensure that you have the necessary prerequisites:
-* **JDK `1.8.0_60`** or later
-* **Java 8** (JRE `1.8.0_60`) or later
-* **git `2.14`** or later on the command line (run `git --version` in your OS terminal to confirm)
+* **Java 8** (JRE `1.8.0_60`) or later. You may download Java [here](https://www.java.com/en/).
+* **git `2.14`** or later on the command line (run `git --version` in your OS terminal to confirm). You may download git [here](https://git-scm.com/downloads).
 
 Next, download the latest executable Jar from our [releases](https://github.com/reposense/RepoSense/releases/latest).
 
