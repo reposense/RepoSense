@@ -35,9 +35,7 @@ window.vZoom = {
       const { info } = this;
       const { users } = window.REPOS[info.repo];
 
-      const selectedUser = Object.assign({}, users.filter((user) => {
-        return user.name === info.author;
-      })[0]);
+      const selectedUser = Object.assign({}, users.filter((user) => user.name === info.author)[0]);
 
       this.$root.$emit('restoreCommits', selectedUser); // restore selected user's commits from v_summary
       this.info.user = selectedUser;
