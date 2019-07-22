@@ -52,7 +52,6 @@ window.vZoom = {
       addHash('zoomSince', this.info.sinceDate);
       addHash('zoomUntil', this.info.untilDate);
     },
-
   },
   components: {
     v_ramp: window.vRamp,
