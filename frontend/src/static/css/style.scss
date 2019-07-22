@@ -597,8 +597,24 @@ header {
   }
 }
 
-.zoom__toggle-commit-message-body {
-  padding-top: 10px;
+.zoom {
+  &__title {
+    margin-top: 1rem;
+
+    &--repo {
+      display: inline;
+      font-size: 1.5rem;
+      font-weight: 400;
+    }
+
+    &--granularity {
+      display: inline;
+    }
+  }
+
+  &__toggle-commit-message-body {
+    padding-top: 10px;
+  }
 }
 
 /* Commit Message Body in Zoom Tab */

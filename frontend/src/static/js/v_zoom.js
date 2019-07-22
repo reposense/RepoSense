@@ -1,12 +1,24 @@
 window.vZoom = {
   props: ['info'],
   template: window.$('v_zoom').innerHTML,
-  data: () => ({
-    showAllCommitMessageBody: true,
-  }),
+  data() {
+    return {
+      filterTimeFrame: window.hashParams.timeframe,
+      showAllCommitMessageBody: true,
+    };
+  },
   methods: {
     openSummary() {
       this.$emit('view-summary', {});
+    },
+
+    filterCommits() {
+      const { user } = this.info;
+      const date = this.filterTimeFrame === 'week' ? 'endDate' : 'date';
+      const filtered = user.commits.filter(
+          (commit) => commit[date] >= this.info.sinceDate && commit[date] <= this.info.untilDate,
+      );
+      user.commits = filtered;
     },
 
     getSliceLink(slice) {
@@ -16,6 +28,9 @@ window.vZoom = {
     toggleAllCommitMessagesBody() {
       this.showAllCommitMessageBody = (this.showAllCommitMessageBody !== true);
     },
+  },
+  created() {
+    this.filterCommits();
   },
   components: {
     v_ramp: window.vRamp,
