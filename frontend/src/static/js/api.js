@@ -26,6 +26,16 @@ function loadJSON(fname) {
   });
 }
 
+function isDisplayNameUnique(currName, arrNames) {
+  const setNames = new Set(arrNames);
+  return !setNames.has(currName);
+}
+
+function makeDisplayNameUnique(currName, mapNames) {
+  return currName + " (" + mapNames[currName] + ")";
+}
+
+
 window.api = {
   loadSummary() {
     window.REPOS = {};
@@ -38,8 +48,18 @@ window.api = {
           window.app.repoSenseVersion = data.repoSenseVersion;
 
           const names = [];
+          const mapNames = {};
           data.repos.forEach((repo) => {
-            const repoName = `${repo.displayName}`;
+            let repoName = `${repo.displayName}`;
+            if (isDisplayNameUnique(repoName, names)) {
+              mapNames[repoName] = 0;
+            } else {
+              mapNames[repoName] += 1;
+              repoName = makeDisplayNameUnique(repoName, mapNames);
+              repo.displayName = repoName;  // to check whether it works
+              console.log(repoName + " not unique " + repo.outputFolderName);
+            }
+
             window.REPOS[repoName] = repo;
             names.push(repoName);
           });
