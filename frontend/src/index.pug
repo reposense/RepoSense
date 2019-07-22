@@ -28,7 +28,7 @@ html
           .summary-status(v-if="loadedRepo<repoLength") Loading repos ... {{ loadedRepo }} / {{ repoLength }}
           v_summary(
             ref="summary",
-            v-bind:repos="getUsers()",
+            v-bind:repos="users",
             v-on:view-zoom="updateTabZoom",
             v-on:view-authorship="updateTabAuthorship",
             v-on:get-dates="receiveDates"
