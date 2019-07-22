@@ -133,7 +133,7 @@ public class RepoConfiguration {
                 continue;
             }
             matchingRepoConfigs.forEach(matchingRepoConfig -> {
-                matchingRepoConfig.fileTypeManager.setGroups(groupConfig.getGroupsList());
+                matchingRepoConfig.setGroups(groupConfig.getGroupsList());
             });
         }
     }
@@ -374,6 +374,10 @@ public class RepoConfiguration {
 
     public List<FileType> getGroups() {
         return fileTypeManager.getGroups();
+    }
+
+    public void setGroups(List<FileType> groups) {
+        fileTypeManager.setGroups(groups);
     }
 
     /**

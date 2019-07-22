@@ -81,7 +81,7 @@ class GitUtil {
         StringBuilder gitFormatsArgsBuilder = new StringBuilder();
         final String cmdFormat = " -- " + addQuote("*.%s");
         formats.stream()
-                .map(format -> String.format(cmdFormat, format.getLabel()))
+                .map(format -> String.format(cmdFormat, format.toString()))
                 .forEach(gitFormatsArgsBuilder::append);
 
         return gitFormatsArgsBuilder.toString();

@@ -15,19 +15,20 @@ public class FileType {
     private static final String MESSAGE_ILLEGAL_FILE_TYPE = "The provided file type, %s, contains illegal characters.";
 
     private String label;
+    private List<String> paths;
     private PathMatcher pathsGlob;
 
     public FileType(String label, List<String> paths) {
         validateFileType(label);
         this.label = label;
-        setPathsGlobMatcher(paths);
+        setPaths(paths);
     }
 
     /**
      * Ensures that the string {@code label} is a valid file type.
      * @throws IllegalArgumentException if {@code label} does not meet the criteria.
      */
-    private void validateFileType(String label) {
+    public static void validateFileType(String label) {
         if (!label.matches(FILE_TYPE_VALIDATION_REGEX)) {
             throw new IllegalArgumentException(String.format(MESSAGE_ILLEGAL_FILE_TYPE, label));
         }
@@ -41,8 +42,13 @@ public class FileType {
         return new FileType(format, Collections.singletonList("**" + format));
     }
 
+    private void setPaths(List<String> paths) {
+        this.paths = paths;
+        setPathsGlobMatcher(paths);
+    }
+
     public boolean isFileGlobMatching(String fileName) {
-        return getPathsGlobMatcher().matches(Paths.get(fileName));
+        return pathsGlob.matches(Paths.get(fileName));
     }
 
     private void setPathsGlobMatcher(List<String> filePaths) {
@@ -50,11 +56,8 @@ public class FileType {
         this.pathsGlob = FileSystems.getDefault().getPathMatcher(globString);
     }
 
-    private PathMatcher getPathsGlobMatcher() {
-        return pathsGlob;
-    }
-
-    public String getLabel() {
+    @Override
+    public String toString() {
         return label;
     }
 
@@ -70,6 +73,6 @@ public class FileType {
             return false;
         }
         FileType otherFileType = (FileType) other;
-        return this.label.equals(otherFileType.label);
+        return this.label.equals(otherFileType.label) && this.paths.equals(otherFileType.paths);
     }
 }

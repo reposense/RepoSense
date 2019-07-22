@@ -24,7 +24,7 @@ public class FileTypeManager {
             String fileTypeLabel = DEFAULT_GROUP;
             for (FileType group : groups) {
                 if (group.isFileGlobMatching(fileName)) {
-                    fileTypeLabel = group.getLabel();
+                    fileTypeLabel = group.toString();
                 }
             }
             return fileTypeLabel;
@@ -37,7 +37,7 @@ public class FileTypeManager {
         if (hasSpecifiedFormats()) {
             for (FileType format : formats) {
                 if (format.isFileGlobMatching(fileName)) {
-                    return format.getLabel();
+                    return format.toString();
                 }
             }
             throw new AssertionError(
@@ -50,15 +50,15 @@ public class FileTypeManager {
 
     public List<String> getFileTypeLabels() {
         return hasCustomGroups()
-                ? groups.stream().map(FileType::getLabel).collect(Collectors.toList())
-                : formats.stream().map(FileType::getLabel).collect(Collectors.toList());
+                ? groups.stream().map(Object::toString).collect(Collectors.toList())
+                : formats.stream().map(Object::toString).collect(Collectors.toList());
     }
 
     /**
      * Returns true if the {@code fileName}'s file type is inside the list of specified formats to be analyzed.
      */
-    public static boolean isInsideFormatsWhiteList(RepoConfiguration config, String fileName) {
-        return config.getFormats().stream().anyMatch(fileType -> fileType.isFileGlobMatching(fileName));
+    public static boolean isInsideFormatsWhiteList(String fileName, List<FileType> formats) {
+        return formats.stream().anyMatch(format -> format.isFileGlobMatching(fileName));
     }
 
     public List<FileType> getFormats() {

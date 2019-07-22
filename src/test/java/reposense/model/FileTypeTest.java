@@ -17,12 +17,12 @@ public class FileTypeTest {
 
     @Test
     public void validateFileType_alphaNumeric_success() {
-        new FileType("tEsT123", Collections.emptyList());
+        FileType.validateFileType("tEsT123");
     }
 
     @Test(expected = IllegalArgumentException.class)
     public void validateFileType_nonAlphaNumeric_throwsIllegalArgumentException() {
-        new FileType("tEsT123.java", Collections.emptyList());
+        FileType.validateFileType("tEsT123.java");
     }
 
     @Test
@@ -38,14 +38,14 @@ public class FileTypeTest {
     }
 
     @Test
-    public void isFileGlobMatching_matchingGroup_sucess() {
+    public void isFileGlobMatching_matchingGroup_success() {
         FileType fileType = new FileType("test", Collections.singletonList("**/test/*"));
         Assert.assertTrue(fileType.isFileGlobMatching("src/test/main.java"));
         Assert.assertTrue(fileType.isFileGlobMatching("src//test/main.java"));
     }
 
     @Test
-    public void isFileGlobMatching_nonMatchingGroup_sucess() {
+    public void isFileGlobMatching_nonMatchingGroup_success() {
         FileType fileType = new FileType("test", Collections.singletonList("**/test/*"));
         Assert.assertFalse(fileType.isFileGlobMatching("test/main.java"));
     }

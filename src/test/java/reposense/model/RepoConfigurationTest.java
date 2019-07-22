@@ -68,9 +68,9 @@ public class RepoConfigurationTest {
     private static final List<FileType> CONFIG_FORMATS = FileType.convertStringFormatsToFileTypes(Arrays.asList(
             "java", "adoc", "md"));
     private static final List<FileType> CONFIG_GROUPS = Arrays.asList(
-            new FileType("test", Collections.singletonList("**/test/*")),
-            new FileType("code", Collections.singletonList("**/*.java")),
-            new FileType("docs", Collections.singletonList("**/docs/*")));
+            new FileType("test", Collections.singletonList("src/test**")),
+            new FileType("code", Collections.singletonList("**.java")),
+            new FileType("docs", Collections.singletonList("docs**")));
     private static final List<String> CLI_FORMATS = Arrays.asList("css", "html");
 
     private static RepoConfiguration repoDeltaStandaloneConfig;

@@ -663,8 +663,8 @@ window.vSummary = {
   created() {
     this.renderFilterHash();
     this.getFiltered();
-    this.processFileTypes();
     this.canGetFiltered = false; // disable getFiltered() after the first getFiltered() call
+    this.processFileTypes();
   },
   beforeUpdate() {
     this.canGetFiltered = true; // enable getFiltered() after first cycle of watcher updates
