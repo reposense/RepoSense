@@ -32,7 +32,7 @@ function isDisplayNameUnique(currName, arrNames) {
 }
 
 function makeDisplayNameUnique(currName, mapNames) {
-  return currName + " (" + mapNames[currName] + ")";
+  return currName + ' (' + mapNames[currName] + ')';
 }
 
 
@@ -57,7 +57,6 @@ window.api = {
               mapNames[repoName] += 1;
               repoName = makeDisplayNameUnique(repoName, mapNames);
               repo.displayName = repoName;  // to check whether it works
-              console.log(repoName + " not unique " + repo.outputFolderName);
             }
 
             window.REPOS[repoName] = repo;
