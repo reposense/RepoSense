@@ -357,8 +357,8 @@ window.vSummary = {
       if (!this.canGetFiltered) {
         return;
       }
-      this.getDates();
       this.setSummaryHash();
+      this.getDates();
 
       // array of array, sorted by repo
       const full = [];
