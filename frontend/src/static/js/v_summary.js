@@ -283,7 +283,6 @@ window.vSummary = {
     updateFilterSearch(evt) {
       this.filterSearch = evt.target.value;
       this.getFiltered();
-
       deactivateAllOverlays();
     },
     setSummaryHash() {
