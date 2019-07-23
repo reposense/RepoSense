@@ -266,11 +266,8 @@ Tabbed interface is responsible for loading various modules such as authorship t
 ### Javascript Files
 - [**main.js**](../frontend/src/static/js/main.js) - main controller that pushes content into different modules
 - [**api.js**](../frontend/src/static/js/api.js)- loading and parsing of the report content
-- [**v_summary.js**](../frontend/src/static/js/v_summary.js) - module that supports the summary view
+- [**v_summary.js**](../frontend/src/static/js/v_summary.js) - module that supports the ramp chart view
 - [**v_authorship.js**](../frontend/src/static/js/v_authorship.js) - module that supports the authorship view
-- [**v_ramp.js**](../frontend/src/static/js/v_ramp.js) - module that supports the ramp chart
-- [**v_zoom.js**](../frontend/src/static/js/v_zoom.js) - module that supports the commits panel
-- [**v_segment.js**](../frontend/src/static/js/v_segment.js) - module that supports code segments in the code view
 
 ### JSON Report Files
 - **summary.json** - a list of all the repositories and their respective details
