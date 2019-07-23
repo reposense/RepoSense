@@ -9,24 +9,31 @@ import reposense.model.Author;
  */
 public class CommitResult {
     private final String hash;
-    private final String message;
+    private final String messageTitle;
+    private final String messageBody;
     private final int insertions;
     private final int deletions;
 
     private final transient Author author;
     private final transient Date time;
 
-    public CommitResult(Author author, String hash, Date time, String message, int insertions, int deletions) {
+    public CommitResult(Author author, String hash, Date time, String messageTitle,
+            String messageBody, int insertions, int deletions) {
         this.author = author;
         this.hash = hash;
         this.time = time;
-        this.message = message;
+        this.messageTitle = messageTitle;
+        this.messageBody = messageBody;
         this.insertions = insertions;
         this.deletions = deletions;
     }
 
-    public String getMessage() {
-        return message;
+    public String getMessageTitle() {
+        return messageTitle;
+    }
+
+    public String getMessageBody() {
+        return messageBody;
     }
 
     public Author getAuthor() {
@@ -63,7 +70,8 @@ public class CommitResult {
         return author.equals(otherCommitResult.author)
                 && hash.equals(otherCommitResult.hash)
                 && time.equals(otherCommitResult.time)
-                && message.equals(otherCommitResult.message)
+                && messageTitle.equals(otherCommitResult.messageTitle)
+                && messageBody.equals(otherCommitResult.messageBody)
                 && insertions == otherCommitResult.insertions
                 && deletions == otherCommitResult.deletions;
     }

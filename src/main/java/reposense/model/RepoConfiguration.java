@@ -6,7 +6,6 @@ import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 import java.util.logging.Logger;
 
 import reposense.git.GitBranch;
@@ -20,13 +19,14 @@ import reposense.util.FileUtil;
 public class RepoConfiguration {
     public static final String DEFAULT_BRANCH = "HEAD";
     private static final Logger logger = LogsManager.getLogger(RepoConfiguration.class);
-    private final transient String repoFolderName;
 
     private RepoLocation location;
     private String branch;
     private String displayName;
+    private String outputFolderName;
     private transient Date sinceDate;
     private transient Date untilDate;
+    private transient String repoFolderName;
 
     private transient boolean annotationOverwrite = true;
     private transient List<Format> formats;
@@ -64,22 +64,21 @@ public class RepoConfiguration {
 
         String organization = location.getOrganization();
         String repoName = location.getRepoName();
+        displayName = repoName + "[" + branch + "]";
+        outputFolderName = repoName + "_" + branch;
+        repoFolderName = repoName;
 
         if (organization != null) {
-            displayName = organization + "_" + repoName + "_" + branch;
-            repoFolderName = organization + "_" + repoName;
-        } else {
-            displayName = repoName + "_" + branch;
-            repoFolderName = repoName;
+            repoFolderName = organization + "_" + repoFolderName;
+            displayName = organization + "/" + displayName;
+            outputFolderName = organization + "_" + outputFolderName;
         }
     }
 
-    public static void setDatesToRepoConfigs(
-            List<RepoConfiguration> configs, Optional<Date> sinceDate, Optional<Date> untilDate) {
+    public static void setDatesToRepoConfigs(List<RepoConfiguration> configs, Date sinceDate, Date untilDate) {
         for (RepoConfiguration config : configs) {
-            config.setSinceDate(sinceDate.orElse(null));
-            // set untilDate in summary.json to the current date of generation if it is not provided
-            config.setUntilDate(untilDate.orElse(new Date()));
+            config.setSinceDate(sinceDate);
+            config.setUntilDate(untilDate);
         }
     }
 
@@ -251,12 +250,17 @@ public class RepoConfiguration {
 
     public void setBranch(String branch) {
         updateDisplayName(branch);
+        updateOutputFolderName(branch);
         this.branch = branch;
         authorConfig.setBranch(branch);
     }
 
     public void updateDisplayName(String branch) {
-        this.displayName = displayName.substring(0, displayName.lastIndexOf('_') + 1) + branch;
+        this.displayName = displayName.substring(0, displayName.lastIndexOf('[') + 1) + branch + "]";
+    }
+
+    public void updateOutputFolderName(String branch) {
+        this.outputFolderName = outputFolderName.substring(0, outputFolderName.lastIndexOf('_') + 1) + branch;
     }
 
     public boolean isAnnotationOverwrite() {
@@ -360,6 +364,10 @@ public class RepoConfiguration {
 
     public String getRepoName() {
         return location.getRepoName();
+    }
+
+    public String getOutputFolderName() {
+        return outputFolderName;
     }
 
     public void setStandaloneConfigIgnored(boolean isStandaloneConfigIgnored) {

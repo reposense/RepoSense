@@ -4,7 +4,6 @@ import java.nio.file.Path;
 import java.time.ZoneId;
 import java.util.Date;
 import java.util.List;
-import java.util.Optional;
 
 /**
  * Represents command line arguments user supplied when running the program with mandatory field -repos.
@@ -13,8 +12,8 @@ public class LocationsCliArguments extends CliArguments {
     private List<String> locations;
     private boolean isStandaloneConfigIgnored;
 
-    public LocationsCliArguments(List<String> locations, Path outputFilePath, Optional<Date> sinceDate,
-            Optional<Date> untilDate, List<Format> formats, boolean isAutomaticallyLaunching,
+    public LocationsCliArguments(List<String> locations, Path outputFilePath, Date sinceDate,
+            Date untilDate, List<Format> formats, boolean isAutomaticallyLaunching,
             boolean isStandaloneConfigIgnored, ZoneId zoneId) {
         this.locations = locations;
         this.outputFilePath = outputFilePath;

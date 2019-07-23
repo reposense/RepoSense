@@ -1,6 +1,5 @@
 package reposense.model;
 
-import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -8,10 +7,6 @@ import java.util.stream.Collectors;
  * Represents a file format in {@code RepoConfiguration}.
  */
 public class Format {
-    public static final List<String> DEFAULT_FORMAT_STRINGS = Arrays.asList(
-            "adoc", "cs", "css", "fxml", "gradle", "html", "java", "js",
-            "json", "jsp", "md", "py", "tag", "txt", "xml");
-    public static final List<Format> DEFAULT_FORMATS = convertStringsToFormats(DEFAULT_FORMAT_STRINGS);
     private static final String FORMAT_VALIDATION_REGEX = "[A-Za-z0-9]+";
     private static final String MESSAGE_ILLEGAL_FORMATS = "The provided format, %s, contains illegal characters.";
 
@@ -74,7 +69,12 @@ public class Format {
      * Returns true if the {@code relativePath}'s file type is inside {@code formatsWhiteList}.
      */
     public static boolean isInsideWhiteList(String relativePath, List<Format> formatsWhiteList) {
-        return formatsWhiteList.stream().anyMatch(format -> relativePath.endsWith("." + format));
+        return formatsWhiteList.stream().anyMatch(format -> relativePath.endsWith(format.toString()));
+    }
+
+    public static String getFileFormat(String relativePath) {
+        String[] tok = relativePath.split("[./\\\\]");
+        return tok[tok.length - 1];
     }
 
     /**

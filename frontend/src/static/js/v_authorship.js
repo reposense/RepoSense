@@ -62,7 +62,7 @@ window.vAuthorship = {
       const repo = window.REPOS[this.info.repo];
 
       this.getRepoProps(repo);
-      if (!repo || !this.info.name) {
+      if (!repo || !this.info.author) {
         window.app.isTabActive = false;
         return;
       }
@@ -92,10 +92,10 @@ window.vAuthorship = {
     },
 
     setInfoHash() {
-      const { addHash, removeHash } = window;
+      const { addHash, encodeHash } = window;
       addHash('tabAuthor', this.info.author);
       addHash('tabRepo', this.info.repo);
-      removeHash('tabOpen');
+      encodeHash();
     },
 
     expandAll(isActive) {
@@ -199,7 +199,7 @@ window.vAuthorship = {
     },
 
     addBlankLineCountToFileFormat(path, lineCount, filesInfoObj) {
-      let fileFormat = path.split('.').pop();
+      let fileFormat = path.split(/[./\\]/).pop();
       fileFormat = (fileFormat.length === 0) ? 'others' : fileFormat;
 
       if (!filesInfoObj[fileFormat]) {
@@ -273,7 +273,7 @@ window.vAuthorship = {
     },
 
     isSelected(filePath) {
-      const fileExt = filePath.split('.').pop();
+      const fileExt = filePath.split(/[./\\]/).pop();
       return this.selectedFileFormats.includes(fileExt);
     },
 

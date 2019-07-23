@@ -1,6 +1,7 @@
 package reposense;
 
 import java.io.IOException;
+import java.nio.file.Path;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -57,12 +58,12 @@ public class RepoSense {
 
             RepoConfiguration.setFormatsToRepoConfigs(configs, cliArguments.getFormats());
             RepoConfiguration.setDatesToRepoConfigs(configs, cliArguments.getSinceDate(), cliArguments.getUntilDate());
-            ReportGenerator.generateReposReport(configs, cliArguments.getOutputFilePath().toAbsolutePath().toString(),
+            List<Path> reportFoldersAndFiles = ReportGenerator.generateReposReport(configs,
+                    cliArguments.getOutputFilePath().toAbsolutePath().toString(),
                     formatter.format(ZonedDateTime.now(cliArguments.getZoneId())),
-                    cliArguments.getSinceDate().orElse(null),
-                    cliArguments.getUntilDate().orElse(null));
-
-            FileUtil.zip(cliArguments.getOutputFilePath().toAbsolutePath(), ".json");
+                    cliArguments.getSinceDate(), cliArguments.getUntilDate());
+            FileUtil.zipFoldersAndFiles(reportFoldersAndFiles, cliArguments.getOutputFilePath().toAbsolutePath(),
+                    ".json");
 
             if (cliArguments.isAutomaticallyLaunching()) {
                 ReportServer.startServer(SERVER_PORT_NUMBER, cliArguments.getOutputFilePath().toAbsolutePath());

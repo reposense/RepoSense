@@ -28,7 +28,7 @@ html
           .summary-status(v-if="loadedRepo<repoLength") Loading repos ... {{ loadedRepo }} / {{ repoLength }}
           v_summary(
             ref="summary",
-            v-bind:repos="getUsers()",
+            v-bind:repos="users",
             v-on:view-zoom="updateTabZoom",
             v-on:view-authorship="updateTabAuthorship",
             v-on:get-dates="receiveDates"
@@ -77,7 +77,7 @@ html
 
     vuetemplate#v_summary
       #summary.wrapper
-        form.summary-picker.mui-form--inline(v-on:submit.prevent="getFiltered();")
+        form.summary-picker.mui-form--inline(onsubmit="return false;")
           .summary-picker__section
             .mui-textfield
               input.summary-picker__search(type="text", v-on:change="updateFilterSearch", v-model="filterSearch")
@@ -112,7 +112,6 @@ html
                 option(value="day") Day
                 option(value="week") Week
               label granularity
-          .summary-picker__section
             .mui-textfield.summary-picker__date
               input(type="date", v-model="tmpFilterSinceDate", onkeydown="return false",
                 v-bind:min="minDate", v-bind:max="filterUntilDate")
@@ -123,20 +122,23 @@ html
               label until
             .mui-textfield.summary-picker__date
               a(v-on:click="resetDateRange") Reset date range
-          .summary-picker__checkboxes.summary-picker__section
-            label
-              input(type="checkbox", v-model="filterBreakdown").mui-checkbox.summary-picker__checkbox
-              span breakdown by file format
+            .summary-picker__checkboxes.summary-picker__section
+              label
+                input(type="checkbox", v-model="filterBreakdown").mui-checkbox.summary-picker__checkbox
+                span breakdown by file format
         #summary-charts
           .summary-charts(v-for="repo of filteredRepos")
             .summary-charts__title(v-if="filterGroupSelection === 'groupByRepos'") {{ repo[0].repoName }}&nbsp;&nbsp;
-              .summary-charts__title--contribution(title="Total contribution of group") [{{ getGroupTotalContribution(repo) }} lines]
-            .summary-charts__title(v-if="filterGroupSelection === 'groupByAuthors'") {{ repo[0].displayName }} ({{ repo[0].name }})&nbsp;&nbsp;
-              .summary-charts__title--contribution(title="Total contribution of group") [{{ getGroupTotalContribution(repo) }} lines]
+              .summary-charts__title--contribution.mini-font(title="Total contribution of group") [{{ getGroupTotalContribution(repo) }} lines]
+            .summary-charts__title(
+                v-if="filterGroupSelection === 'groupByAuthors'",
+                v-bind:class="{ warn: repo[0].name === '-' }"
+            ) {{ repo[0].displayName }} ({{ repo[0].name }})&nbsp;&nbsp;
+              .summary-charts__title--contribution.mini-font(title="Total contribution of group") [{{ getGroupTotalContribution(repo) }} lines]
             .summary-charts__fileformat--breakdown(v-if="filterBreakdown")
               template(v-if="filterGroupSelection === 'groupByRepos'")
                 .summary-charts__fileformat--breakdown__legend(
-                    v-for="fileFormat in Object.keys(repo[0].fileFormatContribution)")
+                    v-for="fileFormat in getFileFormats(repo)")
                   i.fas.fa-circle(
                       v-bind:style="{ 'color' : contributionBarColors[fileFormat] }"
                   )
@@ -153,7 +155,11 @@ html
                 .summary-chart__title--index {{ i+1 }}
                 .summary-chart__title--repo(v-if="filterGroupSelection === 'groupByNone'") {{ user.repoName }}
                 .summary-chart__title--author-repo(v-if="filterGroupSelection === 'groupByAuthors'") {{ user.repoName }}
-                .summary-chart__title--name(v-if="filterGroupSelection !== 'groupByAuthors'") {{ user.displayName }} ({{ user.name }})
+                .summary-chart__title--name(
+                    v-if="filterGroupSelection !== 'groupByAuthors'",
+                    v-bind:class="{ warn: user.name === '-' }"
+                ) {{ user.displayName }} ({{ user.name }})
+                .summary-chart__title--contribution.mini-font [{{ user.totalCommits }} lines]
                 a(
                   title="click to view author's code",
                   v-on:click="openTabAuthorship(user, repo, i)"
@@ -249,8 +255,8 @@ html
                     span.select.control-font All:&nbsp;
                     span.loc.control-font {{ totalLineCount }}&nbsp;
                     span.bloc.control-font ({{ totalBlankLineCount }})
-                template(v-for="format in Object.keys(getExistingLinesObj)", v-bind:key="format")
-                  label
+                template(v-for="format in Object.keys(getExistingLinesObj)")
+                  label(v-bind:key="format")
                     input.mui-checkbox--fileformat(type="checkbox" v-bind:checked="selectedFileFormats.includes(format)"
                         v-on:change="selectFileFormat(format)")
                     span(v-bind:title="getFileBlankLineInfo(format)")
