@@ -121,6 +121,7 @@ header {
       border-color: #F5C6CB;
       border-radius: 4px;
       color: #721C24;
+      font-size: .75rem;
       margin-bottom: 15px;
       padding: 15px;
       text-align: left;
@@ -139,19 +140,16 @@ header {
 
       &__message {
         border-bottom: 2px solid;
-        font-size: .75rem;
         font-weight: bolder;
         padding-bottom: 10px;
       }
 
       &__failed-repo--name {
-        font-size: .75rem;
         font-weight: bolder;
         padding-left: .2rem;
       }
 
       &__failed-repo--reason {
-        font-size: .75rem;
         padding-left: 3rem;
       }
     }
