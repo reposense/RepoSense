@@ -7,7 +7,7 @@
           v-for="(commit, k) in slice.commitResults",
           v-if="commit.insertions>0",
           v-bind:href="getLink(user, commit)", target="_blank",
-          v-bind:title="`[${slice.date}] ${commit.message}: ${commit.insertions} lines`",
+          v-bind:title="`[${slice.date}] ${commit.messageTitle}: ${commit.insertions} lines`",
           v-bind:class="'ramp__slice--color' + getSliceColor(slice.date)",
           v-bind:style="{\
               zIndex: user.commits.length - j,\
