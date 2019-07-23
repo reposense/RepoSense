@@ -578,14 +578,12 @@ window.vSummary = {
 
     formatInputDate(event) {
       const date = event.target.value;
-      let formattedDate = date;
       // append dash to date with format yyyy-mm-dd
       if (date.match(/^\d{4}$/) !== null) {
-        formattedDate += '-';
+        event.target.value += '-';
       } else if (date.match(/^\d{4}-\d{2}$/) !== null) {
-        formattedDate += '-';
+        event.target.value += '-';
       }
-      event.target.value = formattedDate;
     },
 
     // triggering opening of tabs //
