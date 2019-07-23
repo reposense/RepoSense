@@ -125,6 +125,9 @@ The `Tool Bar` at the top provides a set of configuration options that control t
     * `Week`: commits within a week are shown as one ramp
 * `Since`, `Until` : the date range for the Ramp Chart (not applied to the Contribution Bars).
 * `Reset date range` : this will reset the date range of the Ramp Chart to the default date range.
+* `Breakdown by file format` : this will toggle the contribution bar to either display the bar by 
+    * the total lines of codes added (if checkbox is left unchecked), or
+    * a breakdown of the number of lines of codes added to each file format (if checkbox is checked). 
 
 Notes:<br>
 [1] **`Repo/Branch`**: the repo/branch name is constructed as `ORGANIZATION/REPOSITORY[BRANCH]` e.g., `resposense/reposense[master]`
