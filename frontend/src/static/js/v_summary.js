@@ -123,13 +123,11 @@ window.vSummary = {
       minDate: '',
       maxDate: '',
       contributionBarColors: {},
+      canGetFiltered: true, // to prevent redundant getFiltered() calls from initial page load
       isSafariBrowser: /.*Version.*Safari.*/.test(navigator.userAgent),
     };
   },
   watch: {
-    repos() {
-      this.getFiltered();
-    },
     sortGroupSelection() {
       this.getFiltered();
     },
@@ -285,6 +283,7 @@ window.vSummary = {
     // model functions //
     updateFilterSearch(evt) {
       this.filterSearch = evt.target.value;
+      this.getFiltered();
     },
     setSummaryHash() {
       const { addHash, encodeHash } = window;
@@ -361,6 +360,10 @@ window.vSummary = {
       this.$emit('get-dates', [this.minDate, this.maxDate]);
     },
     getFiltered() {
+      // skip filtering of repos if first cycle of watcher updates are not finished
+      if (!this.canGetFiltered) {
+        return;
+      }
       this.setSummaryHash();
       this.getDates();
 
@@ -449,6 +452,7 @@ window.vSummary = {
           deletions: 0,
           date: getDateStr(startOfWeekMs),
           endDate: getDateStr(endOfWeekMsWithinUntilMs),
+          commitResults: [],
         };
 
         this.addLineContributionWeek(endOfWeekMsWithinUntilMs, week, commits);
@@ -464,6 +468,7 @@ window.vSummary = {
         const commit = commits.shift();
         week.insertions += commit.insertions;
         week.deletions += commit.deletions;
+        commit.commitResults.forEach((commitResult) => week.commitResults.push(commitResult));
       }
     },
     getUserCommits(user) {
@@ -590,22 +595,8 @@ window.vSummary = {
         const tsince = getDateStr(new Date(this.filterSinceDate).getTime() + idxs[0]);
         const tuntil = getDateStr(new Date(this.filterSinceDate).getTime() + idxs[1]);
 
-        const rawCommits = userOrig.commits.filter(
-            (commit) => commit.date >= tsince && commit.date <= tuntil,
-        );
-
-        const commits = [];
-        rawCommits.forEach((commit) => {
-          if (this.filterTimeFrame === 'week') {
-            commit.dayCommits.forEach((dayCommit) => commits.push(dayCommit));
-          } else {
-            commits.push(commit);
-          }
-        });
-
         const { avgCommitSize } = this;
-        const user = Object.assign({}, userOrig, { commits });
-
+        const user = Object.assign({}, userOrig);
         this.$emit('view-zoom', {
           avgCommitSize,
           user,
@@ -702,7 +693,11 @@ window.vSummary = {
   created() {
     this.renderFilterHash();
     this.getFiltered();
+    this.canGetFiltered = false; // disable getFiltered() after the first getFiltered() call
     this.processFileFormats();
+  },
+  beforeUpdate() {
+    this.canGetFiltered = true; // enable getFiltered() after first cycle of watcher updates
   },
   components: {
     v_ramp: window.vRamp,

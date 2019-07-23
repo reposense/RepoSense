@@ -28,7 +28,7 @@ html
           .summary-status(v-if="loadedRepo<repoLength") Loading repos ... {{ loadedRepo }} / {{ repoLength }}
           v_summary(
             ref="summary",
-            v-bind:repos="getUsers()",
+            v-bind:repos="users",
             v-on:view-zoom="updateTabZoom",
             v-on:view-authorship="updateTabAuthorship",
             v-on:get-dates="receiveDates"
@@ -77,7 +77,7 @@ html
 
     vuetemplate#v_summary
       #summary.wrapper
-        form.summary-picker.mui-form--inline(v-on:submit.prevent="getFiltered();")
+        form.summary-picker.mui-form--inline(onsubmit="return false;")
           .summary-picker__section
             .mui-textfield
               input.summary-picker__search(type="text", v-on:change="updateFilterSearch", v-model="filterSearch")
