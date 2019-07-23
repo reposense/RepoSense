@@ -4,7 +4,9 @@ import static org.apache.tools.ant.types.Commandline.translateCommandline;
 
 import java.io.File;
 import java.io.IOException;
+import java.net.URISyntaxException;
 import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -67,9 +69,11 @@ public class RepoConfigurationTest {
     private static final List<String> CLI_FORMATS = Arrays.asList("css", "html");
 
     private static RepoConfiguration repoDeltaStandaloneConfig;
+    private static String localTestRepo1;
+    private static String localTestRepo2;
 
     @BeforeClass
-    public static void setUp() throws InvalidLocationException {
+    public static void setUp() throws InvalidLocationException, URISyntaxException {
         FIRST_AUTHOR.setAuthorAliases(FIRST_AUTHOR_ALIASES);
         SECOND_AUTHOR.setAuthorAliases(SECOND_AUTHOR_ALIASES);
         THIRD_AUTHOR.setAuthorAliases(THIRD_AUTHOR_ALIASES);
@@ -102,6 +106,13 @@ public class RepoConfigurationTest {
 
         repoDeltaStandaloneConfig.setIgnoreGlobList(REPO_LEVEL_GLOB_LIST);
         repoDeltaStandaloneConfig.setFormats(CONFIG_FORMATS);
+
+        localTestRepo1 = Paths.get(RepoConfigurationTest.class.getClassLoader()
+                .getResource("RepoConfigurationTest/repoconfig_uniqueIdentifier_test1/local_alpha").toURI())
+                .toString();
+        localTestRepo2 = Paths.get(RepoConfigurationTest.class.getClassLoader()
+                .getResource("RepoConfigurationTest/repoconfig_uniqueIdentifier_test2/local_alpha").toURI())
+                .toString();
     }
 
     @Before
@@ -298,5 +309,34 @@ public class RepoConfigurationTest {
         ReportGenerator.updateRepoConfig(actualConfig);
 
         TestUtil.compareRepoConfig(expectedConfig, actualConfig);
+    }
+
+    @Test
+    public void repoConfig_differentLocationSameName_repoFolderNameNotEqual() throws InvalidLocationException {
+        RepoConfiguration config1 = new RepoConfiguration(new RepoLocation(localTestRepo1));
+        RepoConfiguration config2 = new RepoConfiguration(new RepoLocation(localTestRepo2));
+
+        Assert.assertNotEquals(config1.getRepoFolderName(), config2.getRepoFolderName());
+    }
+
+    @Test
+    public void repoConfig_differentLocationSameName_outputFolderNameNotEqual() throws InvalidLocationException {
+        RepoConfiguration config1 = new RepoConfiguration(new RepoLocation(localTestRepo1));
+        RepoConfiguration config2 = new RepoConfiguration(new RepoLocation(localTestRepo2));
+
+        Assert.assertNotEquals(config1.getOutputFolderName(), config2.getOutputFolderName());
+    }
+
+    @Test
+    public void repoConfig_makeDisplayNamesUnique_success() throws InvalidLocationException {
+        RepoConfiguration config1 = new RepoConfiguration(new RepoLocation(localTestRepo1));
+        RepoConfiguration config2 = new RepoConfiguration(new RepoLocation(localTestRepo2));
+        List<RepoConfiguration> configs = new ArrayList<>();
+        configs.add(config1);
+        configs.add(config2);
+
+        RepoConfiguration.makeDisplayNamesUnique(configs);
+
+        Assert.assertNotEquals(config1.getDisplayName(), config2.getDisplayName());
     }
 }
