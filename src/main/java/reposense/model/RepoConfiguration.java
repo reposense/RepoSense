@@ -282,7 +282,7 @@ public class RepoConfiguration {
     public void updateDisplayName(String branch) {
         int uniqueIdIndex = displayName.lastIndexOf('(');
         String uniqueId = (uniqueIdIndex == -1) ? "" : " " + displayName.substring(uniqueIdIndex);
-        
+
         this.displayName = displayName.substring(0, displayName.lastIndexOf('[') + 1) + branch + "]"
                     + uniqueId;
     }
