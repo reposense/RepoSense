@@ -40,6 +40,10 @@ public class FileUtil {
     private static final ByteBuffer buffer = ByteBuffer.allocate(1 << 11); // 2KB
 
     private static final String MESSAGE_INVALID_FILE_PATH = "\"%s\" is an invalid file path. Skipping this directory.";
+    private static final String MESSAGE_FAIL_TO_WRITE_TO_JSON =
+            "Exception occurred while attempting to write to JSON file at: %s .";
+    private static final String MESSAGE_FAIL_TO_ZIP_FILES =
+            "Exception occurred while attempting to ZIP the contents of the report files.";
 
     /**
      * Zips all files of type {@code fileTypes} that are in the directory {@code pathsToZip} into a single file and
@@ -72,14 +76,14 @@ public class FileUtil {
                 }
             }
         } catch (IOException ioe) {
-            logger.log(Level.SEVERE, ioe.getMessage(), ioe);
+            logger.severe(MESSAGE_FAIL_TO_ZIP_FILES);
         }
     }
 
     /**
      * Writes the JSON file representing the {@code object} at the given {@code path}.
      */
-    public static void writeJsonFile(Object object, String path) {
+    public static Path writeJsonFile(Object object, String path) throws FileNotFoundException {
         Gson gson = new GsonBuilder()
                 .setDateFormat(GITHUB_API_DATE_FORMAT)
                 .setPrettyPrinting()
@@ -89,8 +93,10 @@ public class FileUtil {
         try (PrintWriter out = new PrintWriter(path)) {
             out.print(result);
             out.print("\n");
+            return Paths.get(path);
         } catch (FileNotFoundException e) {
             logger.log(Level.SEVERE, e.getMessage(), e);
+            throw new FileNotFoundException(String.format(MESSAGE_FAIL_TO_WRITE_TO_JSON, path));
         }
     }
 
