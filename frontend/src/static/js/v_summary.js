@@ -94,11 +94,6 @@ function dateRounding(datestr, roundDown) {
   return getDateStr(datems);
 }
 
-window.isKeyNumericalOrDash = function isKeyNumericalOrDash(event) {
-  const key = event.keyCode;
-  return (key >= 48 && key <= 57) || key === 45;
-};
-
 window.vSummary = {
   props: ['repos'],
   template: window.$('v_summary').innerHTML,
@@ -570,6 +565,26 @@ window.vSummary = {
         // invalid until date detected
         event.currentTarget.style.borderBottomColor = 'red';
       }
+    },
+
+    validateInput(event) {
+      const key = event.keyCode;
+      // only allow integer, backspace, enter, delete or arrow keys
+      if (!(key >= 48 && key <= 57) && key !== 8 && key !== 13 && key !== 46 && !(key >= 37 && key <= 40)) {
+        event.preventDefault();
+      }
+    },
+
+    formatInputDate(event) {
+      const date = event.target.value;
+      let formattedDate = date;
+      // append dash to date with format yyyy-mm-dd
+      if (date.match(/^\d{4}$/) !== null) {
+        formattedDate += '-';
+      } else if (date.match(/^\d{4}-\d{2}$/) !== null) {
+        formattedDate += '-';
+      }
+      event.target.value = formattedDate;
     },
 
     // triggering opening of tabs //

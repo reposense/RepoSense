@@ -114,15 +114,15 @@ html
               label granularity
             .mui-textfield.summary-picker__date
               input(v-if="isSafariBrowser", type="text", placeholder="yyyy-mm-dd", v-bind:min="minDate",
-                v-bind:max="filterUntilDate", v-bind:value="tmpFilterSinceDate",
-                onkeypress="return isKeyNumericalOrDash(event)", v-on:keyup.enter="updateTmpFilterSinceDate($event)")
+                v-bind:max="filterUntilDate", v-bind:value="tmpFilterSinceDate", v-on:keyup.enter="updateTmpFilterSinceDate",
+                v-on:keydown="validateInput", v-on:input="formatInputDate", maxlength=10)
               input(v-else, type="date", v-model="tmpFilterSinceDate", onkeydown="return false",
                 v-bind:min="minDate", v-bind:max="filterUntilDate")
               label since
             .mui-textfield.summary-picker__date
               input(v-if="isSafariBrowser", type="text", placeholder="yyyy-mm-dd", v-bind:min="filterSinceDate",
-                v-bind:max="maxDate", v-bind:value="tmpFilterUntilDate",
-                onkeypress="return isKeyNumericalOrDash(event)", v-on:keyup.enter="updateTmpFilterUntilDate($event)")
+                v-bind:max="maxDate", v-bind:value="tmpFilterUntilDate", v-on:keyup.enter="updateTmpFilterUntilDate",
+                v-on:keydown="validateInput", v-on:input="formatInputDate", maxlength=10)
               input(v-else, type="date", v-model="tmpFilterUntilDate", onkeydown="return false",
                 v-bind:min="filterSinceDate", v-bind:max="maxDate")
               label until
