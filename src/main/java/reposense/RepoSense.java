@@ -58,7 +58,6 @@ public class RepoSense {
 
             RepoConfiguration.setFormatsToRepoConfigs(configs, cliArguments.getFormats());
             RepoConfiguration.setDatesToRepoConfigs(configs, cliArguments.getSinceDate(), cliArguments.getUntilDate());
-            RepoConfiguration.makeDisplayNamesUnique(configs);
             List<Path> reportFoldersAndFiles = ReportGenerator.generateReposReport(configs,
                     cliArguments.getOutputFilePath().toAbsolutePath().toString(),
                     formatter.format(ZonedDateTime.now(cliArguments.getZoneId())),

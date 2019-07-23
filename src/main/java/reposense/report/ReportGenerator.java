@@ -78,6 +78,8 @@ public class ReportGenerator {
 
         earliestSinceDate = null;
 
+        RepoConfiguration.makeDisplayNamesUnique(configs);
+
         Map<RepoLocation, List<RepoConfiguration>> repoLocationMap = groupConfigsByRepoLocation(configs);
         cloneAndAnalyzeRepos(repoLocationMap, outputPath);
 
