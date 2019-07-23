@@ -449,11 +449,9 @@ window.vSummary = {
         if (Object.prototype.hasOwnProperty.call(dateToIndexMap, date)) {
           const commitWithSameDate = merged[dateToIndexMap[date]];
 
-          if (this.filterTimeFrame !== 'week') {
-            commitResults.forEach((commitResult) => {
-              commitWithSameDate.commitResults.push(commitResult);
-            });
-          }
+          commitResults.forEach((commitResult) => {
+            commitWithSameDate.commitResults.push(commitResult);
+          });
 
           commitWithSameDate.insertions += insertions;
           commitWithSameDate.deletions += deletions;
