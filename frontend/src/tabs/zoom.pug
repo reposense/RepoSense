@@ -23,7 +23,7 @@
         li(v-for="slice in day.commitResults")
           a(v-bind:href="getSliceLink(slice)", target="_blank") {{ slice.messageTitle }}
           span &nbsp; ({{ slice.insertions }} lines)
-          .commit-message.active(v-if="showAllCommitMessageBody === true")
+          .commit-message.active
             button(onclick="toggleNext(this)", v-if="slice.messageBody.length > 0") show/hide commit message body
             pre(v-if="slice.messageBody.length > 0").body {{ slice.messageBody }}
             p(v-else) No commit message body

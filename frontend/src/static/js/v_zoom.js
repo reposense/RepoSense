@@ -27,6 +27,13 @@ window.vZoom = {
 
     toggleAllCommitMessagesBody() {
       this.showAllCommitMessageBody = (this.showAllCommitMessageBody !== true);
+
+      const renameValue = this.showAllCommitMessageBody ? 'commit-message active' : 'commit-message';
+
+      const commitMessageClasses = document.getElementsByClassName('commit-message');
+      Array.from(commitMessageClasses).forEach((comitMessageClass) => {
+        comitMessageClass.className = renameValue;
+      });
     },
   },
   created() {
