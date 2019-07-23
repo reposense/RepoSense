@@ -17,6 +17,7 @@ import java.util.logging.Logger;
 
 import reposense.model.Author;
 import reposense.model.FileType;
+import reposense.model.FileTypeManager;
 import reposense.system.LogsManager;
 import reposense.util.StringsUtil;
 
@@ -77,7 +78,8 @@ class GitUtil {
     /**
      * Returns the {@code String} command to specify the file formats to analyze for `git` commands.
      */
-    static String convertToGitFormatsArgs(List<FileType> formats) {
+    static String convertToGitFormatsArgs(FileTypeManager fileTypeManager) {
+        List<FileType> formats = fileTypeManager.getFormats();
         StringBuilder gitFormatsArgsBuilder = new StringBuilder();
         final String cmdFormat = " -- " + addQuote("*.%s");
         formats.stream()

@@ -215,7 +215,7 @@ public class RepoConfigurationTest {
         RepoConfiguration.setFormatsToRepoConfigs(actualConfigs, cliArguments.getFormats());
 
         Assert.assertEquals(1, actualConfigs.size());
-        Assert.assertEquals(CONFIG_FORMATS, actualConfigs.get(0).getFormats());
+        TestUtil.compareWhitelistedFormats(CONFIG_FORMATS, actualConfigs.get(0).getFileTypeManager());
     }
 
     @Test
@@ -231,7 +231,8 @@ public class RepoConfigurationTest {
         RepoConfiguration.setFormatsToRepoConfigs(actualConfigs, cliArguments.getFormats());
 
         Assert.assertEquals(1, actualConfigs.size());
-        Assert.assertEquals(FileType.convertStringFormatsToFileTypes(CLI_FORMATS), actualConfigs.get(0).getFormats());
+        TestUtil.compareWhitelistedFormats(
+                FileType.convertStringFormatsToFileTypes(CLI_FORMATS), actualConfigs.get(0).getFileTypeManager());
     }
 
     @Test
@@ -247,7 +248,7 @@ public class RepoConfigurationTest {
         RepoConfiguration.setGroupConfigsToRepos(actualConfigs, groupConfigs);
 
         Assert.assertEquals(1, actualConfigs.size());
-        Assert.assertEquals(CONFIG_GROUPS, actualConfigs.get(0).getGroups());
+        TestUtil.compareCustomGroups(CONFIG_GROUPS, actualConfigs.get(0).getFileTypeManager());
     }
 
     @Test
@@ -261,7 +262,8 @@ public class RepoConfigurationTest {
         RepoConfiguration.setFormatsToRepoConfigs(actualConfigs, cliArguments.getFormats());
 
         Assert.assertEquals(1, actualConfigs.size());
-        Assert.assertEquals(FileTypeTest.NO_SPECIFIED_FORMATS, actualConfigs.get(0).getFormats());
+        TestUtil.compareWhitelistedFormats(
+                FileTypeTest.NO_SPECIFIED_FORMATS, actualConfigs.get(0).getFileTypeManager());
     }
 
     @Test

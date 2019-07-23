@@ -364,19 +364,11 @@ public class RepoConfiguration {
         authorConfig.setAuthorEmailsAndAliasesMap(authorEmailsAndAliasesMap);
     }
 
-    public List<FileType> getFormats() {
-        return fileTypeManager.getFormats();
-    }
-
     public void setFormats(List<FileType> formats) {
         fileTypeManager.setFormats(formats);
     }
 
-    public List<FileType> getGroups() {
-        return fileTypeManager.getGroups();
-    }
-
-    public void setGroups(List<FileType> groups) {
+    private void setGroups(List<FileType> groups) {
         fileTypeManager.setGroups(groups);
     }
 
@@ -389,6 +381,10 @@ public class RepoConfiguration {
 
     public String getFileType(String fileName) {
         return fileTypeManager.getFileType(fileName);
+    }
+
+    public FileTypeManager getFileTypeManager() {
+        return fileTypeManager;
     }
 
     public Date getSinceDate() {

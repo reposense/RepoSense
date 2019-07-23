@@ -57,8 +57,8 @@ public class FileTypeManager {
     /**
      * Returns true if the {@code fileName}'s file type is inside the list of specified formats to be analyzed.
      */
-    public static boolean isInsideFormatsWhiteList(String fileName, List<FileType> formats) {
-        return formats.stream().anyMatch(format -> format.isFileGlobMatching(fileName));
+    public boolean isInsideWhitelistedFormats(String fileName) {
+        return getFormats().stream().anyMatch(format -> format.isFileGlobMatching(fileName));
     }
 
     public List<FileType> getFormats() {

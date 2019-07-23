@@ -118,7 +118,7 @@ public class CsvParserTest {
         Assert.assertEquals(new RepoLocation(TEST_REPO_BETA_LOCATION), config.getLocation());
         Assert.assertEquals(TEST_REPO_BETA_BRANCH, config.getBranch());
 
-        Assert.assertEquals(TEST_REPO_BETA_CONFIG_FORMATS, config.getFormats());
+        TestUtil.compareWhitelistedFormats(TEST_REPO_BETA_CONFIG_FORMATS, config.getFileTypeManager());
 
         Assert.assertTrue(config.isStandaloneConfigIgnored());
 
@@ -328,7 +328,7 @@ public class CsvParserTest {
         Assert.assertEquals(1, configs.size());
         Assert.assertEquals(new RepoLocation(TEST_REPO_BETA_LOCATION), config.getLocation());
         Assert.assertEquals(TEST_REPO_BETA_BRANCH, config.getBranch());
-        Assert.assertEquals(TEST_REPO_BETA_CONFIG_FORMATS, config.getFormats());
+        TestUtil.compareWhitelistedFormats(TEST_REPO_BETA_CONFIG_FORMATS, config.getFileTypeManager());
         Assert.assertFalse(config.isStandaloneConfigIgnored());
         Assert.assertEquals(CommitHash.convertStringsToCommits(TEST_REPO_BETA_CONFIG_IGNORED_COMMITS),
                 config.getIgnoreCommitList());

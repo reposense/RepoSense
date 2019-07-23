@@ -34,11 +34,13 @@ public class FileTypeManagerTest {
 
     @Test
     public void isInsideFormatsWhiteList_whitelistedFormat_success() {
-        Assert.assertTrue(FileTypeManager.isInsideFormatsWhiteList("test.py", FileTypeTest.DEFAULT_TEST_FORMATS));
+        fileTypeManager.setFormats(FileTypeTest.DEFAULT_TEST_FORMATS);
+        Assert.assertTrue(fileTypeManager.isInsideWhitelistedFormats("test.py"));
     }
 
     @Test
     public void isInsideFormatsWhiteList_notWhitelistedFormat_success() {
-        Assert.assertFalse(FileTypeManager.isInsideFormatsWhiteList("test.cpp", FileTypeTest.DEFAULT_TEST_FORMATS));
+        fileTypeManager.setFormats(FileTypeTest.DEFAULT_TEST_FORMATS);
+        Assert.assertFalse(fileTypeManager.isInsideWhitelistedFormats("test.cpp"));
     }
 }
