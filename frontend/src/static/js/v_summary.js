@@ -562,6 +562,8 @@ window.vSummary = {
         location: this.getRepoLink(repo[index]),
         totalCommits: user.totalCommits,
       });
+
+      deactivateAllOverlays();
     },
 
     openTabZoom(userOrig) {
