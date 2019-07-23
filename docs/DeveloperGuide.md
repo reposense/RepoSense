@@ -328,10 +328,10 @@ The authorship module retrieves the relevant information from the corresponding 
 The files will be filtered, picking only files the selected author has written in. The lines are then split into chunks of "touched" and "untouched" code segments to be displayed in the tab view which will be popped up on the right side of the screen.
 
 ### Zoom View (v_zoom.js)
-The `v_zoom` module is in charge of filtering and displaying the sub-range of commits in the selected ramp chart. 
+The `v_zoom` module is in charge of filtering and displaying the sub-range of commits from the selected ramp chart. 
 
 ### Ramp View (v_ramp.js)
-The `v_ramp` module is responsible to generate ramp charts that contain ramp slices.
+The `v_ramp` module is responsible to retrieve the relevant information from `v_summary` and generate ramp charts that contain ramp slices.
 
 #### Padding for dates
 For ramps between the date ranges, the slices will be selected and it will be pre and post padded with empty slices to align the ramp slice between the `sinceDate` and `untilDate`. The ramps will then be rendered with the slices in the right position.
