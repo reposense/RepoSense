@@ -570,7 +570,8 @@ window.vSummary = {
     validateInput(event) {
       const key = event.keyCode;
       // only allow integer, backspace, enter, delete or arrow keys
-      if (!(key >= 48 && key <= 57) && key !== 8 && key !== 13 && key !== 46 && !(key >= 37 && key <= 40)) {
+      if (!(key >= 48 && key <= 57) && key !== 8 && key !== 13
+          && key !== 46 && !(key >= 37 && key <= 40)) {
         event.preventDefault();
       }
     },
