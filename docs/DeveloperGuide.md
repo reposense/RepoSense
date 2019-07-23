@@ -264,20 +264,20 @@ Summary view act as the main report which shows the various calculations. </br>
 Tabbed interface is responsible for loading various modules such as authorship and zoom to display additional information.
 
 ### Javascript Files
-- [**main.js**](../frontend/src/static/js/main.js) - main controller that pushes content into different modules
-- [**api.js**](../frontend/src/static/js/api.js)- loading and parsing of the report content
-- [**v_summary.js**](../frontend/src/static/js/v_summary.js) - module that supports the summary view
-- [**v_authorship.js**](../frontend/src/static/js/v_authorship.js) - module that supports the authorship tab view
-- [**v_zoom.js**](../frontend/src/static/js/v_zoom.js) - module that supports the zoom tab view
-- [**v_ramp.js**](../frontend/src/static/js/v_ramp.js) - module that supports the ramp chart view
-- [**v_segment.js**](../frontend/src/static/js/v_segment.js) - module that supports the code segment view
+- [**main.js**](#main-mainjsfrontendsrcstaticjsmainjs) - main controller that pushes content into different modules
+- [**api.js**](#data-loader-apijsfrontendsrcstaticjsapijs)- loading and parsing of the report content
+- [**v_summary.js**](#summary-viewfrontendsrcstaticjsv_summaryjs-v_summaryjs) - module that supports the summary view
+- [**v_authorship.js**](#authorship-viewfrontendsrcstaticjsv_authorshipjs-v_authorshipjs) - module that supports the authorship tab view
+- [**v_zoom.js**](#zoom-viewfrontendsrcstaticjsv_zoomjs-v_zoomjs) - module that supports the zoom tab view
+- [**v_ramp.js**](#ramp-viewfrontendsrcstaticjsv_rampjs-v_rampjs) - module that supports the ramp chart view
+- [**v_segment.js**](#segment-viewfrontendsrcstaticjsv_segmentjs-v_segmentjs) - module that supports the code segment view
 
 ### JSON Report Files
 - **summary.json** - a list of all the repositories and their respective details
 - **projName/commits.json** - contains information of the users' commits information (e.g. line deletion, insertion, etc), grouped by date
 - **projName/authorship.json** - contains information from git blame, detailing the author of each line for all the processed files
 
-### Main (main.js)
+### Main ([main.js](../frontend/src/static/js/main.js))
 This contains the logic for main VueJS object, `window.app`, which is responsible for passing the necessary data into the relevant modules to be loaded.
 
 `v_summary`, `v_authorship`, `v_zoom`, `v_segment` and `v_ramp` are components which will be embedded into report and will render the corresponding content based on the data passed into it from the main `window.app`.
@@ -293,7 +293,7 @@ Most activity or actions should happen within the module itself, but in the case
 #### Hash link
 Other than the global main Vue object, another global variable we have is the `window.hashParams`. This object is reponsible for generating the relevant permalink for a specific view of the summary module for the report.
 
-### Data loader (api.js)
+### Data loader ([api.js](../frontend/src/static/js/api.js))
 This is the module that is in charged of loading and parsing the data files generated as part of the report.
 
 #### Loading from ZIP file
@@ -308,7 +308,7 @@ After the JSON files are loaded from their respective sources, the data will be 
 
 For the basic skeleton of `window.REPOS`, refer to the generated `summary.json` file in the report for more details.
 
-### Summary View (v_summary.js)
+### Summary View ([v_summary.js](../frontend/src/static/js/v_summary.js))
 The `v_summary` module is in charge of loading the ramp charts from the corresponding `commits.json`.
 
 ![summary architecture](images/report-architecture-summary.png)
@@ -319,7 +319,7 @@ The summary module is activated after the information is loaded from the main Vu
 #### Filtering users and repositories
 The commits information is retrieved from the corresponding project folders for each repository. These information will be filtered and sorted before passed into the template to be displayed as ramp charts.
 
-### Authorship View (v_authorship.js)
+### Authorship View ([v_authorship.js](../frontend/src/static/js/v_authorship.js))
 The authorship module retrieves the relevant information from the corresponding `authorship.json` file if it is not yet loaded. If it has been loaded, the data will be written into `window.REPOS` and be read from there instead.
 
 ![authorship architecture](images/report-architecture-authorship.png)
@@ -327,14 +327,14 @@ The authorship module retrieves the relevant information from the corresponding 
 #### Showing relevant information by authors
 The files will be filtered, picking only files the selected author has written in. The lines are then split into chunks of "touched" and "untouched" code segments to be displayed in the tab view which will be popped up on the right side of the screen.
 
-### Zoom View (v_zoom.js)
-The `v_zoom` module is in charge of filtering and displaying the sub-range of commits from the selected ramp chart. 
+### Zoom View ([v_zoom.js](../frontend/src/static/js/v_zoom.js))
+The `v_zoom` module is in charge of filtering and displaying the commits from selected sub-range of a ramp chart. 
 
-### Ramp View (v_ramp.js)
-The `v_ramp` module is responsible to retrieve the relevant information from `v_summary` and generate ramp charts that contain ramp slices.
+### Ramp View ([v_ramp.js](../frontend/src/static/js/v_ramp.js))
+The `v_ramp` module is responsible to receive the relevant information from `v_summary` and generate ramp charts that contain ramp slices.
 
 #### Padding for dates
 For ramps between the date ranges, the slices will be selected and it will be pre and post padded with empty slices to align the ramp slice between the `sinceDate` and `untilDate`. The ramps will then be rendered with the slices in the right position.
 
-### Segment View (v_segment.js)
+### Segment View ([v_segment.js](../frontend/src/static/js/v_segment.js))
 The `v-segment` module separates the code in terms of "touched" and "untouched" segments and only loads each "untouched" segment when it is toggled. 
