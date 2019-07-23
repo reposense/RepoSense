@@ -4,6 +4,7 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
@@ -148,6 +149,22 @@ public class RepoConfiguration {
     }
 
     /**
+     * Ensures that the {@code displayName} of each {@code RepoConfiguration} is unique.
+     */
+    public static void makeDisplayNamesUnique(List<RepoConfiguration> configs) {
+        Map<String, Integer> uniqueNames = new HashMap<>();
+        for (RepoConfiguration config : configs) {
+            if (!uniqueNames.containsKey(config.getDisplayName())) {
+                uniqueNames.put(config.getDisplayName(), 1);
+            } else {
+                String currName = config.getDisplayName();
+                config.appendUniqueIdToDisplayName("(" + uniqueNames.get(currName).toString() + ")");
+                uniqueNames.put(currName, uniqueNames.get(currName) + 1);
+            }
+        }
+    }
+
+    /**
      * Clears authors information and use the information provided from {@code standaloneConfig}.
      */
     public void update(StandaloneConfig standaloneConfig) {
@@ -259,12 +276,23 @@ public class RepoConfiguration {
         authorConfig.setBranch(branch);
     }
 
+    /**
+     * Replaces the branch parameter in {@code displayName} with {@code branch}.
+     */
     public void updateDisplayName(String branch) {
-        this.displayName = displayName.substring(0, displayName.lastIndexOf('[') + 1) + branch + "]";
+        int uniqueIdIndex = displayName.lastIndexOf('(');
+        String uniqueId = uniqueIdIndex == -1 ? "" : displayName.substring(uniqueIdIndex);
+
+        this.displayName = displayName.substring(0, displayName.lastIndexOf('[') + 1) + branch + "]"
+                    + " " + uniqueId;
+    }
+
+    public void appendUniqueIdToDisplayName(String toAppend) {
+        this.displayName = displayName + " " + toAppend;
     }
 
     /**
-     * Replaces the branch parameter in {@code outputFolderName} with {@code branch}
+     * Replaces the branch parameter in {@code outputFolderName} with {@code branch}.
      */
     public void updateOutputFolderName(String branch) {
         this.outputFolderName = outputFolderName.substring(0, outputFolderName.lastIndexOf('_') + 1) + branch
