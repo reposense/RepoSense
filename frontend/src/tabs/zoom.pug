@@ -12,7 +12,7 @@
       v-bind:udate="info.untilDate",
       v-bind:avgsize="info.avgCommitSize")
 
-  .zoom__toggle-commit-message-body
+  .zoom__toggle-commit-message-body(v-if="info.user.commits.length")
       button(v-on:click="toggleAllCommitMessagesBody()") show/hide all commit messages body
 
   .zoom__day(v-for="day in info.user.commits")
