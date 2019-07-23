@@ -251,7 +251,7 @@ The main HTML file is generated from [`frontend/src/index.pug`](../frontend/src/
 
 ![report screenshot](images/report-summary.png)
 
-### Report Architecture 
+### Report Architecture
 ![report architecture](images/report-architecture.png)
 
 The main Vue object (`window.app`) is responsible for the loading of the report (through `summary.json`). Its `repos` attribute is tied to the global `window.REPOS`, and is passed into the various other modules when the information is needed.
