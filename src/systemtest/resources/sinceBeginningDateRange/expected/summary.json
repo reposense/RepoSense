@@ -9,7 +9,7 @@
       },
       "branch": "master",
       "displayName": "reposense/testrepo-Alpha[master]",
-      "outputFolderName": "reposense_testrepo-Alpha_master"
+      "outputFolderName": "reposense_testrepo-Alpha_master-89f2cd63-a7d1-38dc-a170-2fed0aa51f9a"
     },
     {
       "location": {
@@ -19,7 +19,7 @@
       },
       "branch": "master",
       "displayName": "reposense/testrepo-Beta[master]",
-      "outputFolderName": "reposense_testrepo-Beta_master"
+      "outputFolderName": "reposense_testrepo-Beta_master-174d98f8-cc83-32f6-b197-c18785a4c690"
     },
     {
       "location": {
@@ -29,7 +29,7 @@
       },
       "branch": "master",
       "displayName": "reposense/testrepo-Charlie[master]",
-      "outputFolderName": "reposense_testrepo-Charlie_master"
+      "outputFolderName": "reposense_testrepo-Charlie_master-869c25cd-f22f-3d4f-82dd-59c52023c6fd"
     },
     {
       "location": {
@@ -39,7 +39,7 @@
       },
       "branch": "master",
       "displayName": "reposense/testrepo-Delta[master]",
-      "outputFolderName": "reposense_testrepo-Delta_master"
+      "outputFolderName": "reposense_testrepo-Delta_master-b959a03c-ece6-3547-b6fa-83ab7aa5db2d"
     },
     {
       "location": {
@@ -49,7 +49,7 @@
       },
       "branch": "nonExistentBranch",
       "displayName": "reposense/testrepo-Delta[nonExistentBranch]",
-      "outputFolderName": "reposense_testrepo-Delta_nonExistentBranch"
+      "outputFolderName": "reposense_testrepo-Delta_nonExistentBranch-b959a03c-ece6-3547-b6fa-83ab7aa5db2d"
     }
   ],
   "sinceDate": "2017-09-30",
