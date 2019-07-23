@@ -124,8 +124,8 @@ The `Tool Bar` at the top provides a set of configuration options that control t
     * `Day`: commits within a day (commits made within 00:00 to 23:59) are shown as one ramp
     * `Week`: commits within a week are shown as one ramp
 * `Since`, `Until` : the date range for the Ramp Chart (not applied to the Contribution Bars).
-* `Reset date range` : this will reset the date range of the Ramp Chart to the default date range.
-* `Breakdown by file format` : this will toggle the contribution bar to either display the bar by 
+* `Reset date range` : resets the date range of the Ramp Chart to the default date range.
+* `Breakdown by file format` : toggles the contribution bar to either display the bar by :
     * the total lines of codes added (if checkbox is left unchecked), or
     * a breakdown of the number of lines of codes added to each file format (if checkbox is checked). 
 
@@ -232,7 +232,7 @@ There are 2 types of `@@author` tags:
 - Start Tags (format: `@@author AUTHOR_GITHUB_ID`): A start tag indicates the start of a code segment written by the author identified by the `AUTHOR_GITHUB_ID`.
 - End Tags (format: `@@author`): Optional. An end tag indicates the end of a code segment written by the author identified by the `AUTHOR_GITHUB_ID` of the start tag.
 
-> Note: If end tag is not provided, the code till the next start tag (or the end of the file) will be attributed to the author specified in the start tag above. Use only when necessary to minimize polluting your code with these extra tags.
+> Note: If an end tag is not provided, the code till the next start tag (or the end of the file) will be attributed to the author specified in the start tag above. Use only when necessary to minimize polluting your code with these extra tags.
 
 The `@@author` tags should be enclosed within a comment, using the comment syntax of the file in concern. Below are some examples:
 
