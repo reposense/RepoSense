@@ -149,7 +149,7 @@ public class ReportGenerator {
             Path repoReportDirectory;
             logger.info(String.format(MESSAGE_START_ANALYSIS, config.getLocation(), config.getBranch()));
             try {
-                repoReportDirectory = Paths.get(outputPath, config.getDisplayName());
+                repoReportDirectory = Paths.get(outputPath, config.getOutputFolderName());
                 FileUtil.createDirectory(repoReportDirectory);
             } catch (IOException ioe) {
                 logger.log(Level.WARNING,
