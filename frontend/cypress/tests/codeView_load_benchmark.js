@@ -1,14 +1,15 @@
 describe('load code view benchmark', function() {
   const NUM_TRIALS = 3;
   const THRESHOLD_LOADING_TIME = 8000;
+  const THRESHOLD_LOADING_TIME_SECONDS = THRESHOLD_LOADING_TIME / 1000;
 
   const BUFFER_PERCENTAGE = 0.1;
   const BUFFER_SUGGESTED_TIME = 3000;
   const ALLOWED_BUFFER_TIME = BUFFER_PERCENTAGE * THRESHOLD_LOADING_TIME >= BUFFER_SUGGESTED_TIME
                               ? BUFFER_PERCENTAGE * THRESHOLD_LOADING_TIME : BUFFER_SUGGESTED_TIME;
+  const ALLOWED_BUFFER_TIME_SECONDS = ALLOWED_BUFFER_TIME / 1000;
 
   const MAXIMUM_LOADING_TIME = THRESHOLD_LOADING_TIME + ALLOWED_BUFFER_TIME;
-  const MAXIMUM_LOADING_TIME_SECONDS = MAXIMUM_LOADING_TIME / 1000;
 
   let totalLoadingTime = 0;
 
@@ -56,7 +57,7 @@ describe('load code view benchmark', function() {
     });
   }
 
-  it(`average time taken to load is within ${MAXIMUM_LOADING_TIME_SECONDS}s`, function() {
+  it(`average time taken to load is within ${THRESHOLD_LOADING_TIME_SECONDS}(+${ALLOWED_BUFFER_TIME_SECONDS})s`, function() {
     const averageLoadingTime = totalLoadingTime / NUM_TRIALS;
     const averageLoadingTimeSeconds = averageLoadingTime / 1000;
 
