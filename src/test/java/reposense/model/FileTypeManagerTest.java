@@ -12,7 +12,7 @@ public class FileTypeManagerTest {
 
     @Before
     public void setUp() {
-        fileTypeManager = new FileTypeManager();
+        fileTypeManager = new FileTypeManager(Collections.emptyList());
     }
 
     @Test

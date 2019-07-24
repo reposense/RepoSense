@@ -57,13 +57,11 @@ public class RepoConfiguration {
         this.branch = location.isEmpty() ? DEFAULT_BRANCH : branch;
         this.ignoreGlobList = ignoreGlobList;
         this.isStandaloneConfigIgnored = isStandaloneConfigIgnored;
-        this.fileTypeManager = new FileTypeManager();
+        this.fileTypeManager = new FileTypeManager(formats);
         this.ignoreCommitList = ignoreCommitList;
         this.isFormatsOverriding = isFormatsOverriding;
         this.isIgnoreGlobListOverriding = isIgnoreGlobListOverriding;
         this.isIgnoreCommitListOverriding = isIgnoreCommitListOverriding;
-
-        fileTypeManager.setFormats(formats);
 
         String organization = location.getOrganization();
         String repoName = location.getRepoName();

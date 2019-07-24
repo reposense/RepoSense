@@ -78,7 +78,7 @@ class GitUtil {
     /**
      * Returns the {@code String} command to specify the file formats to analyze for `git` commands.
      */
-    static String convertToGitFormatsArgs(FileTypeManager fileTypeManager) {
+    public static String convertToGitFormatsArgs(FileTypeManager fileTypeManager) {
         List<FileType> formats = fileTypeManager.getFormats();
         StringBuilder gitFormatsArgsBuilder = new StringBuilder();
         final String cmdFormat = " -- " + addQuote("*.%s");

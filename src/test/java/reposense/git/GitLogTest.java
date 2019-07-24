@@ -9,6 +9,7 @@ import org.junit.Test;
 
 import reposense.model.Author;
 import reposense.model.FileType;
+import reposense.model.FileTypeManager;
 import reposense.template.GitTestTemplate;
 import reposense.util.TestUtil;
 
@@ -22,14 +23,14 @@ public class GitLogTest extends GitTestTemplate {
 
     @Test
     public void gitLog_nonExistingFormats_noContent() {
-        config.setFormats(Collections.singletonList(FileType.convertStringFormatToFileType("py")));
+        config.setFormats(FileType.convertStringFormatsToFileTypes(Collections.singletonList("py")));
         String content = GitLog.get(config, getAlphaAllAliasAuthor());
         Assert.assertTrue(content.isEmpty());
     }
 
     @Test
     public void gitLog_includeAllJavaFiles_success() {
-        config.setFormats(Collections.singletonList(FileType.convertStringFormatToFileType("java")));
+        config.setFormats(FileType.convertStringFormatsToFileTypes(Collections.singletonList("java")));
         String content = GitLog.get(config, getAlphaAllAliasAuthor());
         Assert.assertTrue(TestUtil.compareNumberExpectedCommitsToGitLogLines(8, content));
     }
@@ -60,7 +61,7 @@ public class GitLogTest extends GitTestTemplate {
 
     @Test
     public void gitLog_includeAllJavaFilesAuthorIgnoreMovedFile_success() {
-        config.setFormats(Collections.singletonList(FileType.convertStringFormatToFileType("java")));
+        config.setFormats(FileType.convertStringFormatsToFileTypes(Collections.singletonList("java")));
         Author ignoreMovedFileAuthor = getAlphaAllAliasAuthor();
         ignoreMovedFileAuthor.setIgnoreGlobList(Collections.singletonList("**movedFile.java"));
 
@@ -70,7 +71,7 @@ public class GitLogTest extends GitTestTemplate {
 
     @Test
     public void gitLog_authorIgnoreAllJavaFiles_success() {
-        config.setFormats(Collections.singletonList(FileType.convertStringFormatToFileType("java")));
+        config.setFormats(FileType.convertStringFormatsToFileTypes(Collections.singletonList("java")));
         Author ignoreAllJavaFilesAuthor = getAlphaAllAliasAuthor();
         ignoreAllJavaFilesAuthor.setIgnoreGlobList(Collections.singletonList("*.java"));
 

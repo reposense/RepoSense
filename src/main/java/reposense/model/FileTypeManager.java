@@ -14,8 +14,8 @@ public class FileTypeManager {
     private List<FileType> formats;
     private List<FileType> groups;
 
-    public FileTypeManager() {
-        formats = new ArrayList<>();
+    public FileTypeManager(List<FileType> formats) {
+        this.formats = formats;
         groups = new ArrayList<>();
     }
 
