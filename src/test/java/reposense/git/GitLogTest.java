@@ -9,7 +9,6 @@ import org.junit.Test;
 
 import reposense.model.Author;
 import reposense.model.FileType;
-import reposense.model.FileTypeManager;
 import reposense.template.GitTestTemplate;
 import reposense.util.TestUtil;
 
