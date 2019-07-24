@@ -240,6 +240,10 @@ public class ReportGenerator {
         }
     }
 
+    /**
+     * Generates an authorship report file from {@code authorshipSummary} and commits report file
+     * from {@code commitSummary} to {@code repoReportDirectory}.
+     */
     private static void generateIndividualRepoReport(
             CommitContributionSummary commitSummary, AuthorshipSummary authorshipSummary, String repoReportDirectory) {
         CommitReportJson commitReportJson = new CommitReportJson(commitSummary, authorshipSummary);
