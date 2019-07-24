@@ -26,7 +26,7 @@ window.vZoom = {
     },
 
     toggleAllCommitMessagesBody() {
-      this.showAllCommitMessageBody = (this.showAllCommitMessageBody !== true);
+      this.showAllCommitMessageBody = !this.showAllCommitMessageBody;
 
       const renameValue = this.showAllCommitMessageBody ? 'commit-message active' : 'commit-message';
 

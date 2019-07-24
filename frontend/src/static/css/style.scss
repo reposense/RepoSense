@@ -621,8 +621,8 @@ header {
 .commit-message {
   &.active {
     .body {
-      background-color: #fff;
-      border: 1px solid #898989;
+      background-color: white;
+      border: 1px solid gray;
       display: inherit;
       margin-bottom: 1rem;
       overflow-x: auto;
@@ -634,5 +634,11 @@ header {
 
   .body {
     display: none;
+  }
+}
+.fa-file-alt {
+  padding-left: .5rem;
+  &:hover {
+    cursor: pointer;
   }
 }
