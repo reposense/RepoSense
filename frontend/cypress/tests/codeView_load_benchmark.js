@@ -1,5 +1,5 @@
 describe('load code view benchmark', function() {
-  const NUM_TRIALS = 3;
+  const NUM_TRIALS = 5;
   const THRESHOLD_LOADING_TIME = 8000;
   const THRESHOLD_LOADING_TIME_SECONDS = THRESHOLD_LOADING_TIME / 1000;
 
