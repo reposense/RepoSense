@@ -621,8 +621,8 @@ header {
 .commit-message {
   &.active {
     .body {
-      background-color: white;
-      border: 1px solid gray;
+      background-color: mui-color('white');
+      border: 1px solid mui-color('grey', '700');
       display: inherit;
       margin-bottom: 1rem;
       overflow-x: auto;
