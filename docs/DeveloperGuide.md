@@ -247,7 +247,7 @@ The source files for the report is located in [`frontend/src`](../frontend/src) 
 
 The main HTML file is generated from [`frontend/src/index.pug`](../frontend/src/index.pug).
 
-[Vue](https://vuejs.org/v2/api/) (pronounced /vjuː/, like view) is a progressive framework for building user interfaces. It is heavily utilized in the report to dynamically update the information in the various views. (Style guide available [here](https://vuejs.org/v2/style-guide/), Developer tool available [here](https://chrome.google.com/webstore/detail/vuejs-devtools/nhdogjmejiglipccpnnnanhbledajbpd)). Vue lifecycle hooks are the defined methods which gets executed in a certain stage of the Vue object lifespan. The following is the lifecycle diagram indicating the hook sequence:
+[Vue](https://vuejs.org/v2/api/) (pronounced /vjuː/, like view) is a progressive framework for building user interfaces. It is heavily utilized in the report to dynamically update the information in the various views. (Style guide available [here](https://vuejs.org/v2/style-guide/), Developer tool available [here](https://chrome.google.com/webstore/detail/vuejs-devtools/nhdogjmejiglipccpnnnanhbledajbpd)). Vue lifecycle hooks are the defined methods which gets executed in a certain stage of the Vue object lifespan. The following is the Vue lifecycle diagram taken from [here](https://vuejs.org/v2/guide/instance.html#Lifecycle-Diagram) indicating the hook sequence:
 ![vue lifecycle diagram](images/vue-lifecycle-diagram.png)
 
 The following is a snapshot of the report:
@@ -262,12 +262,12 @@ The main Vue object (`window.app`) is responsible for the loading of the report 
 - the summary view
 - and the tabbed interface
 
-Summary view act as the main report which shows the various calculations. </br>
-Tabbed interface is responsible for loading various modules such as authorship and zoom to display additional information.
+The summary view acts as the main report which shows the various calculations. </br>
+The tabbed interface is responsible for loading various modules such as authorship and zoom to display additional information.
 
 ### Javascript Files
 - [**main.js**](#main-mainjs) - main controller that pushes content into different modules
-- [**api.js**](#data-loader-apijs)- loading and parsing of the report content
+- [**api.js**](#data-loader-apijs) - loading and parsing of the report content
 - [**v_summary.js**](#summary-view-v_summaryjs) - module that supports the summary view
 - [**v_authorship.js**](#authorship-view-v_authorshipjs) - module that supports the authorship tab view
 - [**v_zoom.js**](#zoom-view-v_zoomjs) - module that supports the zoom tab view
@@ -296,7 +296,7 @@ Most activity or actions should happen within the module itself, but in the case
 Other than the global main Vue object, another global variable we have is the `window.hashParams`. This object is reponsible for generating the relevant permalink for a specific view of the summary module for the report.
 
 ### Data loader ([api.js](../frontend/src/static/js/api.js))
-This is the module that is in charged of loading and parsing the data files generated as part of the report.
+This is the module that is in charge of loading and parsing the data files generated as part of the report.
 
 #### Loading from ZIP file
 Due to security design, most modern browsers (e.g. Chrome) do not allow web pages to obtain local files using the directory alone. As such, a ZIP archive of the report information will be produced alongside the report generation.
@@ -333,10 +333,10 @@ The files will be filtered, picking only files the selected author has written i
 The `v_zoom` module is in charge of filtering and displaying the commits from selected sub-range of a ramp chart. 
 
 ### Ramp View ([v_ramp.js](../frontend/src/static/js/v_ramp.js))
-The `v_ramp` module is responsible to receive the relevant information from `v_summary` and generate ramp charts that contain ramp slices.
+The `v_ramp` module is responsible for receiving the relevant information from `v_summary` and generating ramp charts that contain ramp slices.
 
 #### Padding for dates
 For ramps between the date ranges, the slices will be selected and it will be pre and post padded with empty slices to align the ramp slice between the `sinceDate` and `untilDate`. The ramps will then be rendered with the slices in the right position.
 
 ### Segment View ([v_segment.js](../frontend/src/static/js/v_segment.js))
-The `v-segment` module separates the code in terms of "touched" and "untouched" segments and only loads each "untouched" segment when it is toggled. 
+The `v-segment` module is used as a component in `v_authorship`. It separates the code in terms of "touched" and "untouched" segments and only loads each "untouched" segment when it is toggled. 
