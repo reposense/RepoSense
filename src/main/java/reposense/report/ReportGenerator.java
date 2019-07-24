@@ -63,7 +63,7 @@ public class ReportGenerator {
     private static final String MESSAGE_BRANCH_DOES_NOT_EXIST = "Branch %s does not exist in %s! Analysis terminated.";
 
     private static Date earliestSinceDate = null;
-    private static List<Path> generatedReportFiles;
+    private static List<Path> generatedReportFiles = new ArrayList<>();
 
     /**
      * Generates the authorship and commits JSON file for each repo in {@code configs} at {@code outputPath}, as
