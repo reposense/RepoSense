@@ -37,7 +37,8 @@ describe('load code view benchmark', function() {
           startTime = performance.now();
         });
 
-      cy.get('#tab-authorship .files')
+      cy.get('#tab-authorship .files', { timeout: 45000 })
+        .should('be.visible')
         .then(() => {
           const endTime = performance.now();
           const loadingTime = endTime - startTime;
