@@ -1,34 +1,67 @@
 describe('load code view benchmark', function() {
-  const MAXIMUM_LOADING_TIME = 8000;
+  const NUM_TRIALS = 3;
+  const THRESHOLD_LOADING_TIME = 8000;
+  const THRESHOLD_LOADING_TIME_SECONDS = MAXIMUM_LOADING_TIME / 1000;
+
+  const BUFFER_PERCENTAGE = 0.1;
+  const BUFFER_SUGGESTED_TIME = 3000;
+  const ALLOWED_BUFFER_TIME = BUFFER_PERCENTAGE * MAXIMUM_LOADING_TIME >= BUFFER_SUGGESTED_TIME
+                              ? BUFFER_PERCENTAGE * MAXIMUM_LOADING_TIME : BUFFER_SUGGESTED_TIME;
+
+  const MAXIMUM_LOADING_TIME = THRESHOLD_LOADING_TIME + ALLOWED_BUFFER_TIME;
   const MAXIMUM_LOADING_TIME_SECONDS = MAXIMUM_LOADING_TIME / 1000;
-  let loadingTimeSeconds;
 
-  it(`time taken to load code view is within ${MAXIMUM_LOADING_TIME_SECONDS}s`,
-    function() {
-    // ensure that icons are loaded
-    Cypress.wait();
+  let totalLoadingTime = 0;
 
-    let startTime;
+  for (let i = 0; i < NUM_TRIALS; i++) {
+    it(`time taken to load code view (trial ${i+1})`, function() {
+      let startTime;
+      // ensure that icons are loaded
+      Cypress.wait();
 
-    cy.get('.summary-chart__title--name').contains('eugenepeh')
-      .parent()
-      .within(($title) => {
-          cy.get('a .summary-chart__title--button.fa-code')
-          .should('be.visible')
-          .click();
+      cy.get('#summary-wrapper .sort-within-group select')
+        .select('totalCommits dsc');
+
+      // ---- need the following 2 cy.get(.) while awaiting PR #828
+      cy.get('#summary-wrapper .sort-within-group select')
+        .select('totalCommits');
+
+      cy.get('#summary-wrapper .sort-within-group select')
+        .select('totalCommits dsc');
+      // ----- end of to delete
+
+      cy.get('.summary-chart__title--button.fa-code')
+        .should('be.visible')
+        .first()
+        .click()
+        .then(() => {
           startTime = performance.now();
-      })
+        })
 
-    cy.get('#tab-authorship .files')
-      .then(() => {
-        const endTime = performance.now();
-        const loadingTime = endTime - startTime;
+      cy.get('#tab-authorship .files')
+        .then(() => {
+          const endTime = performance.now();
+          const loadingTime = endTime - startTime;
+          const loadingTimeSeconds = loadingTime / 1000;
 
-        loadingTimeSeconds = (loadingTime / 1000).toFixed(3);
+          totalLoadingTime += loadingTime;
 
-        assert.isTrue(loadingTime < MAXIMUM_LOADING_TIME,
-          "loading time is within limit");
-        cy.log(`time taken to load code view: ${loadingTimeSeconds}s`)
-      });
+          assert.isTrue(loadingTime < MAXIMUM_LOADING_TIME,
+            `loading time for trial ${i+1}: ${loadingTimeSeconds.toFixed(3)}s`);
+        });
+    });
+  }
+
+
+  it(`average time taken to load is within ${MAXIMUM_LOADING_TIME_SECONDS}s`, function() {
+    const averageLoadingTime = totalLoadingTime / NUM_TRIALS;
+    const averageLoadingTimeSeconds = averageLoadingTime / 1000;
+
+    // wait so that the average loading time will
+    // show up as the test time in travis
+    cy.wait(averageLoadingTime);
+
+    assert.isTrue(averageLoadingTime < MAXIMUM_LOADING_TIME,
+      `average loading time: ${averageLoadingTimeSeconds}s`);
   });
 });
