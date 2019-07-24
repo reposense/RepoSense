@@ -52,7 +52,6 @@ describe('load code view benchmark', function() {
     });
   }
 
-
   it(`average time taken to load is within ${MAXIMUM_LOADING_TIME_SECONDS}s`, function() {
     const averageLoadingTime = totalLoadingTime / NUM_TRIALS;
     const averageLoadingTimeSeconds = averageLoadingTime / 1000;
