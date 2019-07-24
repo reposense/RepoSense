@@ -12,7 +12,7 @@ describe('load code view benchmark', function() {
 
   let totalLoadingTime = 0;
 
-  const timeTrial = function() {
+  const timeTrial = function(i) {
       let startTime;
       // ensure that icons are loaded
       Cypress.wait();
@@ -47,7 +47,7 @@ describe('load code view benchmark', function() {
           assert.isTrue(loadingTime < MAXIMUM_LOADING_TIME,
             `loading time for trial ${i+1}: ${loadingTimeSeconds.toFixed(3)}s`);
         });
-  }
+  };
 
 
   let i;
