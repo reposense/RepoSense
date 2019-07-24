@@ -149,7 +149,8 @@ public class RepoConfiguration {
     }
 
     /**
-     * Ensures that the {@code displayName} of each {@code RepoConfiguration} is unique.
+     * Appends a unique identifier to the {@code displayName} of a {@code RepoConfiguration} when
+     * there are multiple {@code RepoConfiguration} with identical {@code displayName}.
      */
     public static void makeDisplayNamesUnique(List<RepoConfiguration> configs) {
         Map<String, Integer> uniqueNames = new HashMap<>();
@@ -158,7 +159,7 @@ public class RepoConfiguration {
                 uniqueNames.put(config.getDisplayName(), 1);
             } else {
                 String currName = config.getDisplayName();
-                config.appendUniqueIdToDisplayName("(" + uniqueNames.get(currName).toString() + ")");
+                config.appendUniqueIdToDisplayName(uniqueNames.get(currName).toString());
                 uniqueNames.put(currName, uniqueNames.get(currName) + 1);
             }
         }
@@ -279,7 +280,7 @@ public class RepoConfiguration {
     /**
      * Replaces the branch parameter in {@code displayName} with {@code branch}.
      */
-    public void updateDisplayName(String branch) {
+    private void updateDisplayName(String branch) {
         int uniqueIdIndex = displayName.lastIndexOf('(');
         String uniqueId = (uniqueIdIndex == -1) ? "" : " " + displayName.substring(uniqueIdIndex);
 
@@ -287,14 +288,14 @@ public class RepoConfiguration {
                     + uniqueId;
     }
 
-    public void appendUniqueIdToDisplayName(String toAppend) {
-        this.displayName = displayName + " " + toAppend;
+    private void appendUniqueIdToDisplayName(String uniqueId) {
+        displayName = displayName + " (" + uniqueId + ")";
     }
 
     /**
      * Replaces the branch parameter in {@code outputFolderName} with {@code branch}.
      */
-    public void updateOutputFolderName(String branch) {
+    private void updateOutputFolderName(String branch) {
         this.outputFolderName = outputFolderName.substring(0, outputFolderName.lastIndexOf('_') + 1) + branch
                + "-" + this.uniqueIdentifier;
     }

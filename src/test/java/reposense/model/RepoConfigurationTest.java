@@ -331,9 +331,7 @@ public class RepoConfigurationTest {
     public void repoConfig_makeDisplayNamesUnique_success() throws InvalidLocationException {
         RepoConfiguration config1 = new RepoConfiguration(new RepoLocation(localTestRepo1));
         RepoConfiguration config2 = new RepoConfiguration(new RepoLocation(localTestRepo2));
-        List<RepoConfiguration> configs = new ArrayList<>();
-        configs.add(config1);
-        configs.add(config2);
+        List<RepoConfiguration> configs = Arrays.asList(config1, config2);
 
         RepoConfiguration.makeDisplayNamesUnique(configs);
 
