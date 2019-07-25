@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.logging.Logger;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import reposense.commits.model.CommitInfo;
 import reposense.git.GitCheckout;
@@ -18,6 +20,8 @@ import reposense.system.LogsManager;
 public class CommitInfoExtractor {
     private static final Logger logger = LogsManager.getLogger(CommitInfoExtractor.class);
     private static final String MESSAGE_START_EXTRACTING_COMMIT_INFO = "Extracting commits info for %s (%s)...";
+
+    private static final Pattern TRAILING_NEWLINES_PATTERN = Pattern.compile("\n+$");
 
     /**
      * Extracts out and returns the raw information of each commit for the repo in {@code config}.
@@ -43,16 +47,22 @@ public class CommitInfoExtractor {
      */
     private static ArrayList<CommitInfo> parseGitLogResults(String gitLogResult) {
         ArrayList<CommitInfo> commitInfos = new ArrayList<>();
-        String[] rawLines = gitLogResult.split("\n");
+        String[] rawCommitInfos = gitLogResult.split(GitLog.COMMIT_INFO_DELIMITER);
 
-        if (rawLines.length < 2) {
+        if (rawCommitInfos.length < 2) {
             //no log (maybe because no contribution for that file type)
             return commitInfos;
         }
 
-        for (int i = 0; i < rawLines.length; i++) {
-            commitInfos.add(new CommitInfo(rawLines[i], rawLines[++i]));
-            i++; //to skip the empty line
+        // Starts from 1 as index 0 is always empty.
+        for (int i = 1; i < rawCommitInfos.length; i++) {
+            Matcher matcher = TRAILING_NEWLINES_PATTERN.matcher(rawCommitInfos[i]);
+            String rawCommitInfo = matcher.replaceAll("");
+
+            int statLineSeparatorIndex = rawCommitInfo.lastIndexOf("\n");
+            String infoLine = rawCommitInfo.substring(0, statLineSeparatorIndex);
+            String statLine = rawCommitInfo.substring(statLineSeparatorIndex + 1);
+            commitInfos.add(new CommitInfo(infoLine, statLine));
         }
 
         Collections.reverse(commitInfos);
