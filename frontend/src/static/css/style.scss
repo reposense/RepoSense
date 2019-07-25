@@ -117,13 +117,13 @@ header {
     }
 
     .error-message-box {
-      background-color: #F8D7DA;
-      border-color: #F5C6CB;
-      border-radius: 4px;
-      color: #721C24;
+      background-color: mui-color('red', '100');
+      border: .1rem solid mui-color('red', '900');
+      border-radius: .25rem;
+      color: mui-color('red', '900');
       font-size: .75rem;
-      margin-bottom: 15px;
-      padding: 15px;
+      margin-bottom: .9rem;
+      padding: .9rem;
       text-align: left;
 
       &__close-button {
@@ -131,17 +131,17 @@ header {
         float: right;
         font-size: 25px;
         font-weight: bold;
-        line-height: 10px;
+        line-height: .625rem;
 
         &:hover {
-          color: white;
+          color: mui-color('white');
         }
       }
 
       &__message {
-        border-bottom: 2px solid;
+        border-bottom: .1rem solid;
         font-weight: bolder;
-        padding-bottom: 10px;
+        padding-bottom: .5rem;
       }
 
       &__failed-repo--name {
@@ -155,9 +155,8 @@ header {
     }
 
     .fa-exclamation {
-      font-size: smaller;
-      padding-right: 10px;
-      padding-top: 3px;
+      padding-right: .4rem;
+      padding-top: .2rem;
     }
   }
 
