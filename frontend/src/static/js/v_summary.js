@@ -430,8 +430,7 @@ window.vSummary = {
 
         // clear all users and add merged group in filtered group
         this.filtered[groupIndex] = [];
-        const mergedGroup = group[0];
-        this.filtered[groupIndex].push(mergedGroup);
+        this.filtered[groupIndex].push(group[0]);
       });
     },
     mergeCommits(user, merged, dateToIndexMap) {
