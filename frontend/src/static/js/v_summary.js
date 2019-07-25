@@ -595,7 +595,6 @@ window.vSummary = {
         const cursorPosition = event.target.selectionStart;
         if (date[cursorPosition - 1] === '-') {
           event.target.value = date.slice(0, cursorPosition - 1);
-          event.target.selectionStart = cursorPosition - 2;
         }
       }
     },
