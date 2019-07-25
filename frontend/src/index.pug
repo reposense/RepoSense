@@ -126,14 +126,13 @@ html
               label
                 input(type="checkbox", v-model="filterBreakdown").mui-checkbox.summary-picker__checkbox
                 span breakdown by file format
-        #error-message-box(v-if="Object.entries(errorMessages).length")
-          .error-message-box
-            .error-message-box__close-button(onclick="this.parentElement.style.display='none'") &times;
-            .error-message-box__message The following issues occurred when analyzing the following repositories:
-            .error-message-box__failed-repo(v-for="errorBlock in errorMessages")
-              i.fas.fa-exclamation.mini-font
-              span.error-message-box__failed-repo--name {{ errorBlock.repoName }}
-              div.error-message-box__failed-repo--reason {{ errorBlock.errorMessage }}
+        .error-message-box(v-if="Object.entries(errorMessages).length")
+          .error-message-box__close-button(onclick="this.parentElement.style.display='none'") &times;
+          .error-message-box__message The following issues occurred when analyzing the following repositories:
+          .error-message-box__failed-repo(v-for="errorBlock in errorMessages")
+            i.fas.fa-exclamation.mini-font
+            span.error-message-box__failed-repo--name {{ errorBlock.repoName }}
+            div.error-message-box__failed-repo--reason {{ errorBlock.errorMessage }}
         #summary-charts
           .summary-charts(v-for="repo of filteredRepos")
             .summary-charts__title(v-if="filterGroupSelection === 'groupByRepos'") {{ repo[0].repoName }}&nbsp;&nbsp;
