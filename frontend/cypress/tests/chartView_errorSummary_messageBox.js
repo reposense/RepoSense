@@ -18,7 +18,7 @@ describe('error summary', () => {
   });
 
   it('can be closed', () => {
-    cy.get('#error-message-box')
+    cy.get('.error-message-box')
       .should('be.visible');
 
     cy.get('#summary-wrapper > #summary > #error-message-box > .error-message-box > .error-message-box__close-button')
@@ -26,7 +26,7 @@ describe('error summary', () => {
 
     Cypress.wait();
 
-    cy.get('#error-message-box')
+    cy.get('.error-message-box')
       .should('not.be.visible');
   });
 });
