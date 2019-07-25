@@ -144,6 +144,12 @@ header {
         padding-bottom: .5rem;
       }
 
+      .icon {
+        width: 1rem;
+        padding-right: .4rem;
+        padding-top: .2rem;
+      }
+
       &__failed-repo--name {
         font-weight: bolder;
         padding-left: .2rem;
@@ -152,11 +158,6 @@ header {
       &__failed-repo--reason {
         padding-left: 3rem;
       }
-    }
-
-    .fa-exclamation {
-      padding-right: .4rem;
-      padding-top: .2rem;
     }
   }
 
