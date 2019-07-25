@@ -111,6 +111,7 @@ window.app = new window.Vue({
   el: '#app',
   data: {
     repos: {},
+    users: [],
     repoLength: 0,
     loadedRepo: 0,
     userUpdated: false,
@@ -160,6 +161,7 @@ window.app = new window.Vue({
       }).then(() => {
         this.userUpdated = true;
         this.isLoading = false;
+        this.getUsers();
       }).catch((error) => {
         this.userUpdated = false;
         this.isLoading = false;
@@ -173,7 +175,7 @@ window.app = new window.Vue({
           full.push(this.repos[repo]);
         }
       });
-      return full;
+      this.users = full;
     },
 
     // handle opening of sidebar //
