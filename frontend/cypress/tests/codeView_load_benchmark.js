@@ -55,7 +55,7 @@ describe('load code view benchmark', function() {
     const averageLoadingTime = totalLoadingTime / NUM_TRIALS;
     const averageLoadingTimeSeconds = averageLoadingTime / 1000;
 
-    const isATrialWithinMaxTime = loadingTimes.map(time => time <= MAXIMUM_LOADING_TIME)
+    const isATrialWithinMaxTime = loadingTimes.map((time) => time <= MAXIMUM_LOADING_TIME)
                                               .reduce((acc, curr) => acc || curr, false);
 
     assert.isTrue(isATrialWithinMaxTime,
