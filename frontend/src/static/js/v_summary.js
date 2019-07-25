@@ -581,7 +581,6 @@ window.vSummary = {
 
     validateInputDate(event) {
       const key = event.keyCode;
-      const date = event.target.value;
       if (!(isIntegerKey(key) || isBackSpaceOrDeleteKey(key) || isArrowKey(key)
           || isEnterKey(key))) {
         event.preventDefault();
