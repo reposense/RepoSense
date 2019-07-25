@@ -59,10 +59,13 @@ public class ReportGenerator {
             "No authors found with commits for %s (%s).";
     private static final String MESSAGE_START_ANALYSIS = "Analyzing %s (%s)...";
     private static final String MESSAGE_COMPLETE_ANALYSIS = "Analysis of %s (%s) completed!";
+    private static final String FRAGMENT_NUM_REPOS_ANALYZED = "[%d/%d]";
     private static final String MESSAGE_REPORT_GENERATED = "The report is generated at %s";
     private static final String MESSAGE_BRANCH_DOES_NOT_EXIST = "Branch %s does not exist in %s! Analysis terminated.";
 
     private static Date earliestSinceDate = null;
+    private static int totalNumReposToAnalyze = 0;
+    private static int numReposAnalyzed = 0;
 
     /**
      * Generates the authorship and commits JSON file for each repo in {@code configs} at {@code outputPath}, as
@@ -77,6 +80,7 @@ public class ReportGenerator {
         FileUtil.copyTemplate(is, outputPath);
 
         earliestSinceDate = null;
+        totalNumReposToAnalyze = configs.size();
 
         Map<RepoLocation, List<RepoConfiguration>> repoLocationMap = groupConfigsByRepoLocation(configs);
         cloneAndAnalyzeRepos(repoLocationMap, outputPath);
@@ -131,7 +135,11 @@ public class ReportGenerator {
                 analyzeRepos(outputPath, repoLocationMap.get(clonedRepoLocation),
                         repoCloner.getCurrentRepoDefaultBranch());
             }
+
             clonedRepoLocation = repoCloner.getClonedRepoLocation(outputPath);
+            if (clonedRepoLocation == null) {
+                incrementNumReposAnalyzed(repoLocationMap.get(location).size());
+            }
         }
         if (clonedRepoLocation != null) {
             analyzeRepos(outputPath, repoLocationMap.get(clonedRepoLocation), repoCloner.getCurrentRepoDefaultBranch());
@@ -145,9 +153,11 @@ public class ReportGenerator {
     private static void analyzeRepos(String outputPath, List<RepoConfiguration> configs, String defaultBranch) {
         for (RepoConfiguration config : configs) {
             config.updateBranch(defaultBranch);
+            incrementNumReposAnalyzed(1);
 
             Path repoReportDirectory;
-            logger.info(String.format(MESSAGE_START_ANALYSIS, config.getLocation(), config.getBranch()));
+            logger.info(String.format(FRAGMENT_NUM_REPOS_ANALYZED, numReposAnalyzed, totalNumReposToAnalyze) + " "
+                    + String.format(MESSAGE_START_ANALYSIS, config.getLocation(), config.getBranch()));
             try {
                 repoReportDirectory = Paths.get(outputPath, config.getOutputFolderName());
                 FileUtil.createDirectory(repoReportDirectory);
@@ -271,5 +281,9 @@ public class ReportGenerator {
         if (earliestSinceDate == null || newEarliestSinceDate.before(earliestSinceDate)) {
             earliestSinceDate = newEarliestSinceDate;
         }
+    }
+
+    private static void incrementNumReposAnalyzed(int num) {
+        numReposAnalyzed += num;
     }
 }
