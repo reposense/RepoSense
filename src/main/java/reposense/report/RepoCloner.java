@@ -30,7 +30,7 @@ public class RepoCloner {
     private static final String MESSAGE_COMPLETE_CLONING = "Cloning of %s completed!";
     private static final String MESSAGE_ERROR_DELETING_DIRECTORY = "Error deleting report directory.";
     private static final String MESSAGE_ERROR_CLONING =
-            "Exception met while trying to clone the repo, will skip this repo.";
+            "Exception met while trying to clone the repo \"%s\", will skip this repo.";
     private static final String MESSAGE_ERROR_GETTING_BRANCH =
             "Exception met while trying to get current branch of %s (%s), will skip this repo.";
 
@@ -107,7 +107,7 @@ public class RepoCloner {
             crp = runCommandAsync(rootPath, GitClone.getCloneBareCommand(config,
                     FileUtil.getBareRepoFolderName(config)));
         } catch (RuntimeException | IOException e) {
-            logger.log(Level.WARNING, MESSAGE_ERROR_CLONING, e);
+            logger.log(Level.WARNING, String.format(MESSAGE_ERROR_CLONING, config.getDisplayName()), e);
             handleCloningFailed(outputPath, config);
             return false;
         }
@@ -125,7 +125,7 @@ public class RepoCloner {
             logger.info(String.format(MESSAGE_COMPLETE_CLONING, config.getLocation()));
         } catch (RuntimeException | CommandRunnerProcessException e) {
             crp = null;
-            logger.log(Level.WARNING, MESSAGE_ERROR_CLONING, e);
+            logger.log(Level.WARNING, String.format(MESSAGE_ERROR_CLONING, config.getDisplayName()), e);
             handleCloningFailed(outputPath, config);
             return false;
         }
