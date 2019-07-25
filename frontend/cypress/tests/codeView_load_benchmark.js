@@ -15,19 +15,12 @@ describe('load code view benchmark', function() {
 
   const timeTrial = function(i) {
       let startTime;
+
       // ensure that icons are loaded
       Cypress.wait();
 
       cy.get('#summary-wrapper .sort-within-group select')
         .select('totalCommits dsc');
-
-      // ---- need the following 2 cy.get(.) while awaiting PR #828
-      cy.get('#summary-wrapper .sort-within-group select')
-        .select('totalCommits');
-
-      cy.get('#summary-wrapper .sort-within-group select')
-        .select('totalCommits dsc');
-      // ----- end of to delete
 
       cy.get('.summary-chart__title--button.fa-code')
         .should('be.visible')
@@ -42,6 +35,9 @@ describe('load code view benchmark', function() {
         .then(() => {
           const endTime = performance.now();
           const loadingTime = endTime - startTime;
+          const loadingTimeSeconds = loadingTime / 1000;
+
+          cy.log(`trial ${i+1} loading time: ${loadingTimeSeconds.toFixed(3)}s`);
 
           loadingTimes.push(loadingTime);
         });
@@ -63,6 +59,6 @@ describe('load code view benchmark', function() {
                                               .reduce((acc, curr) => acc || curr, false);
 
     assert.isTrue(isATrialWithinMaxTime,
-      `average loading time: ${averageLoadingTimeSeconds}s`);
+      `[average loading time: ${averageLoadingTimeSeconds.toFixed(3)}s]`);
   });
 });
