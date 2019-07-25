@@ -265,8 +265,7 @@ window.app = new window.Vue({
 
     updateHash() {
       this.$refs.summary.renderFilterHash();
-      // const { hashParams } = window;
-      // this.renderAuthorShipTabHash(hashParams.since, hashParams.until);
+      this.renderTabHash();
     },
   },
   components: {
