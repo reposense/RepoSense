@@ -38,9 +38,9 @@ window.decodeHash = function decodeHash() {
 
 window.onhashchange = function onHashChange() {
   const { hashParams } = window;
-  const hash = '#' + Object.keys(hashParams)
+  const hash = `# + ${Object.keys(hashParams)
       .map((key) => `${key}=${encodeURIComponent(hashParams[key])}`)
-      .join('&');
+      .join('&')}`;
 
   // hash values that are not the same means that user clicked forward/back button
   if (hash !== window.location.hash) {
