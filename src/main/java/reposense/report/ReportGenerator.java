@@ -1,6 +1,6 @@
 package reposense.report;
 
-import java.io.FileNotFoundException;
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Files;
@@ -63,7 +63,6 @@ public class ReportGenerator {
     private static final String MESSAGE_BRANCH_DOES_NOT_EXIST = "Branch %s does not exist in %s! Analysis terminated.";
 
     private static Date earliestSinceDate = null;
-    private static List<Path> generatedReportFiles = new ArrayList<>();
 
     /**
      * Generates the authorship and commits JSON file for each repo in {@code configs} at {@code outputPath}, as
@@ -78,7 +77,6 @@ public class ReportGenerator {
         FileUtil.copyTemplate(is, outputPath);
 
         earliestSinceDate = null;
-        generatedReportFiles = new ArrayList<>();
 
         Map<RepoLocation, List<RepoConfiguration>> repoLocationMap = groupConfigsByRepoLocation(configs);
         cloneAndAnalyzeRepos(repoLocationMap, outputPath);
@@ -86,17 +84,18 @@ public class ReportGenerator {
         Date reportSinceDate = (cliSinceDate.equals(SinceDateArgumentType.ARBITRARY_FIRST_COMMIT_DATE))
                 ? earliestSinceDate : cliSinceDate;
 
-        try {
-            Path summaryReportFile = FileUtil.writeJsonFile(
-                    new SummaryJson(configs, generationDate, reportSinceDate, untilDate, RepoSense.getVersion()),
-                    getSummaryResultPath(outputPath));
-            generatedReportFiles.add(summaryReportFile);
-        } catch (FileNotFoundException fnfe) {
-            logger.severe(fnfe.getMessage());
-        }
+        FileUtil.writeJsonFile(
+                new SummaryJson(configs, generationDate, reportSinceDate, untilDate, RepoSense.getVersion()),
+                getSummaryResultPath(outputPath));
         logger.info(String.format(MESSAGE_REPORT_GENERATED, outputPath));
 
-        return generatedReportFiles;
+        List<Path> reportFoldersAndFiles = new ArrayList<>();
+        for (RepoConfiguration config : configs) {
+            reportFoldersAndFiles.add(
+                    Paths.get(outputPath + File.separator + config.getOutputFolderName()).toAbsolutePath());
+        }
+        reportFoldersAndFiles.add(Paths.get(outputPath, SummaryJson.SUMMARY_JSON_FILE_NAME));
+        return reportFoldersAndFiles;
     }
 
     /**
@@ -240,26 +239,11 @@ public class ReportGenerator {
         }
     }
 
-    /**
-     * Generates an authorship report file from {@code authorshipSummary} and commits report file
-     * from {@code commitSummary} to {@code repoReportDirectory}.
-     */
     private static void generateIndividualRepoReport(
             CommitContributionSummary commitSummary, AuthorshipSummary authorshipSummary, String repoReportDirectory) {
         CommitReportJson commitReportJson = new CommitReportJson(commitSummary, authorshipSummary);
-        try {
-            generatedReportFiles.add(
-                    FileUtil.writeJsonFile(commitReportJson, getIndividualCommitsPath(repoReportDirectory)));
-        } catch (FileNotFoundException fnfe) {
-            logger.severe(fnfe.getMessage());
-        }
-
-        try {
-            generatedReportFiles.add(FileUtil.writeJsonFile(
-                    authorshipSummary.getFileResults(), getIndividualAuthorshipPath(repoReportDirectory)));
-        } catch (FileNotFoundException fnfe) {
-            logger.severe(fnfe.getMessage());
-        }
+        FileUtil.writeJsonFile(commitReportJson, getIndividualCommitsPath(repoReportDirectory));
+        FileUtil.writeJsonFile(authorshipSummary.getFileResults(), getIndividualAuthorshipPath(repoReportDirectory));
     }
 
     /**
@@ -267,18 +251,8 @@ public class ReportGenerator {
     */
     public static void generateEmptyRepoReport(String repoReportDirectory, String displayName) {
         CommitReportJson emptyCommitReportJson = new CommitReportJson(displayName);
-        try {
-            generatedReportFiles.add(
-                    FileUtil.writeJsonFile(emptyCommitReportJson, getIndividualCommitsPath(repoReportDirectory)));
-        } catch (FileNotFoundException fnfe) {
-            logger.severe(fnfe.getMessage());
-        }
-        try {
-            generatedReportFiles.add(
-                    FileUtil.writeJsonFile(Collections.emptyList(), getIndividualAuthorshipPath(repoReportDirectory)));
-        } catch (FileNotFoundException fnfe) {
-            logger.severe(fnfe.getMessage());
-        }
+        FileUtil.writeJsonFile(emptyCommitReportJson, getIndividualCommitsPath(repoReportDirectory));
+        FileUtil.writeJsonFile(Collections.emptyList(), getIndividualAuthorshipPath(repoReportDirectory));
     }
 
     private static String getSummaryResultPath(String targetFileLocation) {
