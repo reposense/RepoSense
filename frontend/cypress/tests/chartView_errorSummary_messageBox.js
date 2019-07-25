@@ -1,9 +1,9 @@
 describe('error summary', () => {
   it('shows list of issues encountered while analyzing repos', () => {
-    cy.get('#error-message-box')
+    cy.get('.error-message-box')
       .should('be.visible');
 
-    cy.get('#summary-wrapper > #summary > #error-message-box > .error-message-box > .error-message-box__message').then(($ele) => {
+    cy.get('#summary-wrapper > #summary > .error-message-box > .error-message-box__message').then(($ele) => {
       const expected = 'The following issues occurred when analyzing the following repositories:';
       const message = $ele.text();
 
@@ -21,7 +21,7 @@ describe('error summary', () => {
     cy.get('.error-message-box')
       .should('be.visible');
 
-    cy.get('#summary-wrapper > #summary > #error-message-box > .error-message-box > .error-message-box__close-button')
+    cy.get('#summary-wrapper > #summary > .error-message-box > .error-message-box__close-button')
       .click();
 
     Cypress.wait();
