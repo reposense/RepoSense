@@ -77,22 +77,6 @@ window.DAY_IN_MS = DAY_IN_MS;
 const WEEK_IN_MS = DAY_IN_MS * 7;
 const dateFormatRegex = /([12]\d{3}-(0[1-9]|1[0-2])-(0[1-9]|[12]\d|3[01]))$/;
 
-// date keys for handling safari date input //
-function isIntegerKey(key) {
-  return (key >= 48 && key <= 57) || (key >= 96 && key <= 105);
-}
-
-function isArrowKey(key) {
-  return key >= 37 && key <= 40;
-}
-
-function isBackSpaceOrDeleteKey(key) {
-  return key === 8 || key === 46;
-}
-
-function isEnterKey(key) {
-  return key === 13;
-}
 
 function getDateStr(date) {
   return (new Date(date)).toISOString().split('T')[0];
@@ -556,7 +540,7 @@ window.vSummary = {
       }
     },
 
-    // update tmp dates for Safari browsers //
+    // update tmp dates manually after enter key in date field //
     updateTmpFilterSinceDate(event) {
       const since = event.target.value;
       if (dateFormatRegex.test(since) && since >= this.minDate) {
@@ -576,36 +560,6 @@ window.vSummary = {
       } else {
         // invalid until date detected
         event.currentTarget.style.borderBottomColor = 'red';
-      }
-    },
-
-    validateInputDate(event) {
-      const key = event.keyCode;
-      if (!(isIntegerKey(key) || isBackSpaceOrDeleteKey(key) || isArrowKey(key)
-          || isEnterKey(key))) {
-        event.preventDefault();
-      }
-    },
-
-    deleteDashInputDate(event) {
-      const key = event.keyCode;
-      const date = event.target.value;
-      // remove two chars before the cursor's position if deleting dash character
-      if (isBackSpaceOrDeleteKey(key)) {
-        const cursorPosition = event.target.selectionStart;
-        if (date[cursorPosition - 1] === '-') {
-          event.target.value = date.slice(0, cursorPosition - 1);
-        }
-      }
-    },
-
-    appendDashInputDate(event) {
-      const date = event.target.value;
-      // append dash to date with format yyyy-mm-dd
-      if (date.match(/^\d{4}$/) !== null) {
-        event.target.value += '-';
-      } else if (date.match(/^\d{4}-\d{2}$/) !== null) {
-        event.target.value += '-';
       }
     },
 
