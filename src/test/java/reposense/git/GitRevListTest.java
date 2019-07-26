@@ -29,7 +29,7 @@ public class GitRevListTest extends GitTestTemplate {
 
     @Test
     public void getCommitHashBeforeDate_februaryNineDate_success() {
-        Date date = TestUtil.getDate(2018, Calendar.FEBRUARY, 9, TestUtil.END_OF_DAY_TIME);
+        Date date = TestUtil.getDate(2018, Calendar.FEBRUARY, 8, TestUtil.END_OF_DAY_TIME);
         String commitHash = GitRevList.getCommitHashBeforeDate(config.getRepoRoot(), config.getBranch(), date);
 
         // result from git has a newline at the end
