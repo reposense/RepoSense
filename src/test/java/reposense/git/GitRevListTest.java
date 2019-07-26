@@ -13,14 +13,14 @@ public class GitRevListTest extends GitTestTemplate {
 
     @Test
     public void getCommitHashBeforeDate_beforeInitialCommitDate_emptyResult() {
-        Date date = TestUtil.getDate(2018, Calendar.FEBRUARY, 4);
+        Date date = TestUtil.getDate(2018, Calendar.FEBRUARY, 4, TestUtil.END_OF_DAY_TIME);
         String commitHash = GitRevList.getCommitHashBeforeDate(config.getRepoRoot(), config.getBranch(), date);
         Assert.assertTrue(commitHash.isEmpty());
     }
 
     @Test
     public void getCommitHashBeforeDate_afterLatestCommitDate_success() {
-        Date date = TestUtil.getDate(2018, Calendar.MAY, 10);
+        Date date = TestUtil.getDate(2018, Calendar.MAY, 10, TestUtil.END_OF_DAY_TIME);
         String commitHash = GitRevList.getCommitHashBeforeDate(config.getRepoRoot(), config.getBranch(), date);
 
         // result from git has a newline at the end
@@ -29,7 +29,7 @@ public class GitRevListTest extends GitTestTemplate {
 
     @Test
     public void getCommitHashBeforeDate_februaryNineDate_success() {
-        Date date = TestUtil.getDate(2018, Calendar.FEBRUARY, 9);
+        Date date = TestUtil.getDate(2018, Calendar.FEBRUARY, 9, TestUtil.END_OF_DAY_TIME);
         String commitHash = GitRevList.getCommitHashBeforeDate(config.getRepoRoot(), config.getBranch(), date);
 
         // result from git has a newline at the end
@@ -44,7 +44,7 @@ public class GitRevListTest extends GitTestTemplate {
 
     @Test(expected = RuntimeException.class)
     public void getCommitHashBeforeDate_invalidBranch_throwsRunTimeException() {
-        Date date = TestUtil.getDate(2018, Calendar.FEBRUARY, 9);
+        Date date = TestUtil.getDate(2018, Calendar.FEBRUARY, 9, TestUtil.END_OF_DAY_TIME);
         GitRevList.getCommitHashBeforeDate(config.getRepoRoot(), "invalidBranch", date);
     }
 }

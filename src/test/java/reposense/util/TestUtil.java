@@ -20,6 +20,8 @@ import reposense.model.RepoConfiguration;
  * Contains testing related functionalities.
  */
 public class TestUtil {
+    public static final int[] END_OF_DAY_TIME = {23, 59, 59};
+    public static final int[] START_OF_DAY_TIME = {0, 0, 0};
     private static final String MESSAGE_COMPARING_FILES = "Comparing files %s & %s\n";
 
     private static final String MESSAGE_LINE_CONTENT_DIFFERENT = "Content different at line number %d:\n"
@@ -97,11 +99,11 @@ public class TestUtil {
     /**
      * Creates and returns a {@code Date} object with the specified {@code year}, {@code month}, {@code day}.
      */
-    public static Date getDate(int year, int month, int date) {
+    public static Date getDate(int year, int month, int date, int[] time) {
         return new Calendar
                 .Builder()
                 .setDate(year, month, date)
-                .setTimeOfDay(0, 0, 0)
+                .setTimeOfDay(time[0], time[1], time[2])
                 .build()
                 .getTime();
     }

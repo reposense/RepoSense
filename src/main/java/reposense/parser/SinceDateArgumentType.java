@@ -27,6 +27,6 @@ public class SinceDateArgumentType extends DateArgumentType {
     public Optional<Date> convert(ArgumentParser parser, Argument arg, String value) throws ArgumentParserException {
         return (FIRST_COMMIT_DATE_SHORTHAND.equals(value))
                 ? Optional.of(ARBITRARY_FIRST_COMMIT_DATE)
-                : super.convert(parser, arg, value);
+                : super.convert(parser, arg, value + " 00:00:00");
     }
 }

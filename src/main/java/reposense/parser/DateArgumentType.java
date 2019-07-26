@@ -15,12 +15,12 @@ import net.sourceforge.argparse4j.inf.ArgumentType;
  */
 public class DateArgumentType implements ArgumentType<Optional<Date>> {
     private static final String PARSE_EXCEPTION_MESSAGE_INVALID_DATE_STRING_FORMAT = "Invalid Date: %s";
-    private static final DateFormat CLI_ARGS_DATE_FORMAT = new SimpleDateFormat("dd/MM/yyyy");
+    private static final DateFormat CLI_ARGS_DATE_FORMAT = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
 
     static {
         /*
          * Setting setLenient to false prevents unexpected results.
-         * Without it, even with "dd/MM/yyyy" format, 11/31/2017 will be parsed to 11/7/2019.
+         * Without it, even with "dd/MM/yyyy HH:mm:ss" format, 11/31/2017 00:00:00 will be parsed to 11/7/2019 00:00:00.
          * */
         CLI_ARGS_DATE_FORMAT.setLenient(false);
     }

@@ -55,7 +55,7 @@ public class FileInfoExtractorTest extends GitTestTemplate {
 
     @Test
     public void extractFileInfos_sinceDateFebrauaryNineToLatestCommit_success() {
-        Date date = TestUtil.getDate(2018, Calendar.FEBRUARY, 9);
+        Date date = TestUtil.getDate(2018, Calendar.FEBRUARY, 9, TestUtil.START_OF_DAY_TIME);
         config.setSinceDate(date);
 
         List<FileInfo> files = FileInfoExtractor.extractFileInfos(config);
@@ -104,7 +104,7 @@ public class FileInfoExtractorTest extends GitTestTemplate {
 
     @Test
     public void extractFileInfos_sinceDateAfterLatestCommit_emptyResult() {
-        Date date = TestUtil.getDate(2050, 12, 31);
+        Date date = TestUtil.getDate(2050, 12, 31, TestUtil.START_OF_DAY_TIME);
         config.setSinceDate(date);
 
         List<FileInfo> files = FileInfoExtractor.extractFileInfos(config);
@@ -113,7 +113,7 @@ public class FileInfoExtractorTest extends GitTestTemplate {
 
     @Test
     public void extractFileInfos_untilDateBeforeFirstCommit_emptyResult() {
-        Date date = TestUtil.getDate(2015, 12, 31);
+        Date date = TestUtil.getDate(2015, 12, 31, TestUtil.END_OF_DAY_TIME);
         config.setUntilDate(date);
 
         List<FileInfo> files = FileInfoExtractor.extractFileInfos(config);

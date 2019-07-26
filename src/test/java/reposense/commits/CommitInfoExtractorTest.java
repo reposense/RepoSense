@@ -21,7 +21,7 @@ public class CommitInfoExtractorTest extends GitTestTemplate {
 
     @Test
     public void withoutContentTest() {
-        Date sinceDate = TestUtil.getDate(2050, Calendar.JANUARY, 1);
+        Date sinceDate = TestUtil.getDate(2050, Calendar.JANUARY, 1, TestUtil.START_OF_DAY_TIME);
         config.setSinceDate(sinceDate);
 
         List<CommitInfo> commits = CommitInfoExtractor.extractCommitInfos(config);
