@@ -57,6 +57,11 @@ public class CommitResult {
     }
 
     @Override
+    public int hashCode() {
+        return hash.hashCode();
+    }
+
+    @Override
     public boolean equals(Object other) {
         if (this == other) {
             return true;

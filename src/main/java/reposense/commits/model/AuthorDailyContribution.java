@@ -1,8 +1,8 @@
 package reposense.commits.model;
 
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
+import java.util.LinkedHashSet;
+import java.util.Set;
 
 /**
  * Holds the commits made and line contribution count of an {@code Author} for a single day.
@@ -11,14 +11,14 @@ public class AuthorDailyContribution {
     private int insertions;
     private int deletions;
     private Date date;
-    private List<CommitResult> commitResults;
+    private Set<CommitResult> commitResults;
 
     public AuthorDailyContribution(Date date) {
         this.date = date;
 
         insertions = 0;
         deletions = 0;
-        commitResults = new ArrayList<>();
+        commitResults = new LinkedHashSet<>();
     }
 
     public Date getDate() {
