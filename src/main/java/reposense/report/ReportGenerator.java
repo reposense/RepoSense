@@ -137,9 +137,6 @@ public class ReportGenerator {
             }
 
             clonedRepoLocation = repoCloner.getClonedRepoLocation(outputPath);
-            if (clonedRepoLocation == null) {
-                incrementNumReposAnalyzed(repoLocationMap.get(location).size());
-            }
         }
         if (clonedRepoLocation != null) {
             analyzeRepos(outputPath, repoLocationMap.get(clonedRepoLocation), repoCloner.getCurrentRepoDefaultBranch());
