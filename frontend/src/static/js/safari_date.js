@@ -3,23 +3,18 @@ function isIntegerKey(key) {
   return (key >= 48 && key <= 57) || (key >= 96 && key <= 105);
 }
 
-function isArrowKey(key) {
-  return key >= 37 && key <= 40;
+function isArrowOrEnterKey(key) {
+  return (key >= 37 && key <= 40) || key === 13;
 }
 
 function isBackSpaceOrDeleteKey(key) {
   return key === 8 || key === 46;
 }
 
-function isEnterKey(key) {
-  return key === 13;
-}
-
 function validateInputDate(event) {
   const key = event.keyCode;
-  // only allow integer, backspace, delete, arrow and enter keys
-  if (!(isIntegerKey(key) || isBackSpaceOrDeleteKey(key) || isArrowKey(key)
-      || isEnterKey(key))) {
+  // only allow integer, backspace, delete, arrow or enter keys
+  if (!(isIntegerKey(key) || isBackSpaceOrDeleteKey(key) || isArrowOrEnterKey(key))) {
     event.preventDefault();
   }
 }
