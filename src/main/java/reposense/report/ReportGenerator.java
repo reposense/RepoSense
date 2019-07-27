@@ -52,8 +52,6 @@ public class ReportGenerator {
     private static final String MESSAGE_INVALID_CONFIG_JSON = "%s Ignoring the config provided by %s (%s).";
     private static final String MESSAGE_ERROR_CREATING_DIRECTORY =
             "Error has occurred while creating repo directory for %s (%s), will skip this repo.";
-    private static final String MESSAGE_ERROR_DURING_ANALYSIS =
-            "Error has occurred during analysis of %s (%s), will skip this repo.";
     private static final String MESSAGE_NO_STANDALONE_CONFIG = "%s (%s) does not contain a standalone config file.";
     private static final String MESSAGE_IGNORING_STANDALONE_CONFIG = "Ignoring standalone config file in %s (%s).";
     private static final String MESSAGE_MALFORMED_STANDALONE_CONFIG = "%s/%s/%s is malformed for %s (%s).";
@@ -160,20 +158,19 @@ public class ReportGenerator {
                 logger.log(Level.WARNING,
                         String.format(MESSAGE_ERROR_CREATING_DIRECTORY, config.getLocation(), config.getBranch()), ioe);
                 continue;
-            } catch (RuntimeException rte) {
-                logger.log(Level.SEVERE,
-                        String.format(MESSAGE_ERROR_DURING_ANALYSIS, config.getLocation(), config.getBranch()), rte);
-                continue;
             }
 
             try {
                 GitRevParse.assertBranchExists(config, FileUtil.getBareRepoPath(config));
-                GitLsTree.validateFilePaths(config, FileUtil.getBareRepoPath(config));
             } catch (GitBranchException gbe) {
                 logger.log(Level.SEVERE, String.format(MESSAGE_BRANCH_DOES_NOT_EXIST,
                         config.getBranch(), config.getLocation()), gbe);
                 generateEmptyRepoReport(repoReportDirectory.toString(), Author.NAME_FAILED_TO_CLONE_OR_CHECKOUT);
                 continue;
+            }
+
+            try {
+                GitLsTree.validateFilePaths(config, FileUtil.getBareRepoPath(config));
             } catch (InvalidFilePathException ipe) {
                 generateEmptyRepoReport(repoReportDirectory.toString(), Author.NAME_FAILED_TO_CLONE_OR_CHECKOUT);
                 continue;
