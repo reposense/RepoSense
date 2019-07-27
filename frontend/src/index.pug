@@ -113,12 +113,18 @@ html
                 option(value="week") Week
               label granularity
             .mui-textfield.summary-picker__date
-              input(type="date", v-model="tmpFilterSinceDate", onkeydown="return false",
-                v-bind:min="minDate", v-bind:max="filterUntilDate")
+              input(v-if="isSafariBrowser", type="text", placeholder="yyyy-mm-dd", v-bind:min="minDate",
+                  v-bind:max="filterUntilDate", v-bind:value="tmpFilterSinceDate", v-on:keyup.enter="updateTmpFilterSinceDate",
+                  onkeydown="formatInputDateOnKeyDown(event)", oninput="appendDashInputDate(event)", maxlength=10)
+              input(v-else, type="date", v-model="tmpFilterSinceDate", onkeydown="return false",
+                  v-bind:min="minDate", v-bind:max="filterUntilDate")
               label since
             .mui-textfield.summary-picker__date
-              input(type="date", v-model="tmpFilterUntilDate", onkeydown="return false",
-                v-bind:min="filterSinceDate", v-bind:max="maxDate")
+              input(v-if="isSafariBrowser", type="text", placeholder="yyyy-mm-dd", v-bind:min="filterSinceDate",
+                  v-bind:max="maxDate", v-bind:value="tmpFilterUntilDate", v-on:keyup.enter="updateTmpFilterUntilDate",
+                  onkeydown="formatInputDateOnKeyDown(event)", oninput="appendDashInputDate(event)", maxlength=10)
+              input(v-else, type="date", v-model="tmpFilterUntilDate", onkeydown="return false",
+                  v-bind:min="filterSinceDate", v-bind:max="maxDate")
               label until
             .mui-textfield.summary-picker__date
               a(v-on:click="resetDateRange") Reset date range
@@ -292,6 +298,7 @@ html
         .empty(v-else) loading...
 
     script(src="static/js/api.js")
+    script(src="static/js/safari_date.js")
     script(src="static/js/v_ramp.js")
     script(src="static/js/v_zoom.js")
     script(src="static/js/v_segment.js")
