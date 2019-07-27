@@ -20,11 +20,10 @@
       h3(v-if="filterTimeFrame === 'week'") Week of {{ day.date }}
       h3(v-else) {{ day.date }}
       ul
-        li(v-for="slice in day.commitResults").commit-message
+        li(v-for="slice in day.commitResults").commit-message.active
           a(v-bind:href="getSliceLink(slice)", target="_blank") {{ slice.messageTitle }}
           i.fas.fa-file-alt(v-if="slice.messageBody.length > 0", onclick="toggleNext(this)", title="Click to view the commit message body")
           span &nbsp; ({{ slice.insertions }} lines)
-          .active
-            pre(v-if="slice.messageBody.length > 0").body {{ slice.messageBody }}
-            p(v-else) No commit message body
+          pre(v-if="slice.messageBody.length > 0").body {{ slice.messageBody }}
+          p(v-else) No commit message body
 
