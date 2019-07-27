@@ -178,7 +178,7 @@ html
                   i.summary-chart__title--button.fas.fa-list-ul
               .summary-chart__ramp(
                 onclick="viewClick(event)",
-                v-on:click="getRangeAndOpenTabZoom(user)"
+                v-on:click="openTabZoomSubrange(user)"
               )
                 v_ramp(
                     v-bind:user="user",

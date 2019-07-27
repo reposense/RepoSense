@@ -552,7 +552,7 @@ window.vSummary = {
       });
     },
 
-    getRangeAndOpenTabZoom(userOrig) {
+    openTabZoomSubrange(userOrig) {
       // skip if accidentally clicked on ramp chart
       if (drags.length === 2 && drags[1] - drags[0]) {
         const tdiff = new Date(this.filterUntilDate) - new Date(this.filterSinceDate);
