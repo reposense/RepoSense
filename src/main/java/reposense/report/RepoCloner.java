@@ -1,7 +1,5 @@
 package reposense.report;
 
-import static reposense.system.CommandRunner.runCommandAsync;
-
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -104,8 +102,8 @@ public class RepoCloner {
             Files.createDirectories(rootPath);
 
             logger.info(String.format(MESSAGE_START_CLONING, config.getLocation()));
-            crp = runCommandAsync(rootPath, GitClone.getCloneBareCommand(config,
-                    FileUtil.getBareRepoFolderName(config)));
+            crp = GitClone.cloneBareAsync(config, rootPath, FileUtil.getBareRepoFolderName(config));
+
         } catch (RuntimeException | IOException e) {
             logger.log(Level.WARNING, String.format(MESSAGE_ERROR_CLONING, config.getDisplayName()), e);
             handleCloningFailed(outputPath, config);

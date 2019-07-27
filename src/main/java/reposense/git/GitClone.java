@@ -13,6 +13,8 @@ import java.util.logging.Logger;
 import reposense.git.exception.GitBranchException;
 import reposense.git.exception.GitCloneException;
 import reposense.model.RepoConfiguration;
+import reposense.system.CommandRunner;
+import reposense.system.CommandRunnerProcess;
 import reposense.system.LogsManager;
 import reposense.util.FileUtil;
 
@@ -24,11 +26,14 @@ public class GitClone {
     private static final Logger logger = LogsManager.getLogger(GitClone.class);
 
     /**
-     * Returns the command to clone a bare repo specified in the {@code config}
+     * Runs {@code git clone --bare} command asynchronously to clone a bare repo specified in the {@code config}
      * into the folder {@code outputFolderName}.
+     *
+     * @return an instance of {@link CommandRunnerProcess} to allow tracking the status of the cloning process.
      */
-    public static String getCloneBareCommand(RepoConfiguration config, String outputFolderName) {
-        return "git clone --bare " + config.getLocation() + " " + outputFolderName;
+    public static CommandRunnerProcess cloneBareAsync(RepoConfiguration config, Path rootPath,
+            String outputFolderName) {
+        return CommandRunner.runCommandAsync(rootPath, getCloneBareCommand(config, outputFolderName));
     }
 
     /**
@@ -92,5 +97,13 @@ public class GitClone {
         String command = String.format("git clone %s --branch %s %s", relativePath, targetBranch,
                 outputFolderName);
         runCommand(rootPath, command);
+    }
+
+    /**
+     * Returns the command to clone a bare repo specified in the {@code config}
+     * into the folder {@code outputFolderName}.
+     */
+    private static String getCloneBareCommand(RepoConfiguration config, String outputFolderName) {
+        return "git clone --bare " + config.getLocation() + " " + outputFolderName;
     }
 }
