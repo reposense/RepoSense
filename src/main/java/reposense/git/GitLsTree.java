@@ -2,7 +2,6 @@ package reposense.git;
 
 import static reposense.system.CommandRunner.runCommand;
 
-import java.io.IOException;
 import java.nio.file.Path;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -12,7 +11,6 @@ import java.util.regex.Pattern;
 import reposense.git.exception.InvalidFilePathException;
 import reposense.model.RepoConfiguration;
 import reposense.system.LogsManager;
-import reposense.util.FileUtil;
 import reposense.util.StringsUtil;
 import reposense.util.SystemUtil;
 
@@ -29,18 +27,6 @@ public class GitLsTree {
     // the output of git-ls-tree is ambiguous. i.e. /path/to/test\file or /path/contains:a/file.
     // Also, it is not possible to create and commit such a file on Unix systems.
     private static final Pattern ILLEGAL_WINDOWS_CHARACTER_PATTERN = Pattern.compile("[:\\\\*?|<>:\"]");
-
-    /**
-     * Clones a bare repo in {@code config} and verifies that the repo contains only file paths that are
-     * compatible in Windows.
-     * @throws IOException if it fails to create/delete the folders.
-     * @throws InvalidFilePathException if the repository contains invalid file paths that are not compatible with
-     * Windows.
-     */
-    public static void validateFilePaths(RepoConfiguration config) throws IOException, InvalidFilePathException {
-        GitClone.cloneBare(config, FileUtil.getBareRepoFolderName(config));
-        validateFilePaths(config, FileUtil.getBareRepoPath(config));
-    }
 
     /**
      * Verifies that the repository in {@code config} contains only file paths that are compatible with Windows.
