@@ -89,9 +89,8 @@ public class ArgsParserTest {
         Assert.assertTrue(Files.isSameFile(
                 OUTPUT_DIRECTORY_ABSOLUTE.resolve(ArgsParser.DEFAULT_REPORT_NAME), cliArguments.getOutputFilePath()));
 
-        Date expectedSinceDate = TestUtil.getDate(2017, Calendar.JULY, 1, TestUtil.START_OF_DAY_TIME);
-        Date expectedUntilDate = TestUtil.getDate(2017, Calendar.NOVEMBER, 30,
-                TestUtil.END_OF_DAY_TIME);
+        Date expectedSinceDate = TestUtil.getSinceDate(2017, Calendar.JULY, 1);
+        Date expectedUntilDate = TestUtil.getUntilDate(2017, Calendar.NOVEMBER, 30);
         Assert.assertEquals(expectedSinceDate, cliArguments.getSinceDate());
         Assert.assertEquals(expectedUntilDate, cliArguments.getUntilDate());
 
@@ -123,8 +122,8 @@ public class ArgsParserTest {
         Assert.assertTrue(Files.isSameFile(
                 OUTPUT_DIRECTORY_ABSOLUTE.resolve(ArgsParser.DEFAULT_REPORT_NAME), cliArguments.getOutputFilePath()));
 
-        Date expectedSinceDate = TestUtil.getDate(2017, Calendar.JULY, 1, TestUtil.START_OF_DAY_TIME);
-        Date expectedUntilDate = TestUtil.getDate(2017, Calendar.NOVEMBER, 30, TestUtil.END_OF_DAY_TIME);
+        Date expectedSinceDate = TestUtil.getSinceDate(2017, Calendar.JULY, 1);
+        Date expectedUntilDate = TestUtil.getUntilDate(2017, Calendar.NOVEMBER, 30);
         Assert.assertEquals(expectedSinceDate, cliArguments.getSinceDate());
         Assert.assertEquals(expectedUntilDate, cliArguments.getUntilDate());
 
@@ -157,8 +156,8 @@ public class ArgsParserTest {
         Assert.assertTrue(Files.isSameFile(
                 OUTPUT_DIRECTORY_ABSOLUTE.resolve(ArgsParser.DEFAULT_REPORT_NAME), cliArguments.getOutputFilePath()));
 
-        Date expectedSinceDate = TestUtil.getDate(2017, Calendar.JULY, 1, TestUtil.START_OF_DAY_TIME);
-        Date expectedUntilDate = TestUtil.getDate(2017, Calendar.NOVEMBER, 30, TestUtil.END_OF_DAY_TIME);
+        Date expectedSinceDate = TestUtil.getSinceDate(2017, Calendar.JULY, 1);
+        Date expectedUntilDate = TestUtil.getUntilDate(2017, Calendar.NOVEMBER, 30);
         Assert.assertEquals(expectedSinceDate, cliArguments.getSinceDate());
         Assert.assertEquals(expectedUntilDate, cliArguments.getUntilDate());
 
@@ -330,7 +329,7 @@ public class ArgsParserTest {
         String input = DEFAULT_INPUT_BUILDER.addSinceDate("01/07/2017").build();
         CliArguments cliArguments = ArgsParser.parse(translateCommandline(input));
         Assert.assertTrue(cliArguments instanceof ConfigCliArguments);
-        Date expectedSinceDate = TestUtil.getDate(2017, Calendar.JULY, 1, TestUtil.START_OF_DAY_TIME);
+        Date expectedSinceDate = TestUtil.getSinceDate(2017, Calendar.JULY, 1);
         Assert.assertEquals(expectedSinceDate, cliArguments.getSinceDate());
     }
 
@@ -339,7 +338,7 @@ public class ArgsParserTest {
         String input = DEFAULT_INPUT_BUILDER.addUntilDate("30/11/2017").build();
         CliArguments cliArguments = ArgsParser.parse(translateCommandline(input));
         Assert.assertTrue(cliArguments instanceof ConfigCliArguments);
-        Date expectedUntilDate = TestUtil.getDate(2017, Calendar.NOVEMBER, 30, TestUtil.END_OF_DAY_TIME);
+        Date expectedUntilDate = TestUtil.getUntilDate(2017, Calendar.NOVEMBER, 30);
         Assert.assertEquals(expectedUntilDate, cliArguments.getUntilDate());
     }
 
