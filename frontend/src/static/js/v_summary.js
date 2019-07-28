@@ -150,7 +150,7 @@ window.vSummary = {
       } else if (!this.tmpFilterSinceDate) { // If user clears the since date field
         this.filterSinceDate = this.minDate;
         this.tmpFilterSinceDate = this.filterSinceDate;
-        addHash('since', this.filterSinceDate);
+        this.hasModifiedSinceDate = true;
       }
       this.getFiltered();
     },
@@ -163,7 +163,7 @@ window.vSummary = {
       } else if (!this.tmpFilterUntilDate) { // If user clears the until date field
         this.filterUntilDate = this.maxDate;
         this.tmpFilterUntilDate = this.filterUntilDate;
-        addHash('until', this.filterUntilDate);
+        this.hasModifiedUntilDate = true;
       }
       this.getFiltered();
     },
