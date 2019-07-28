@@ -648,7 +648,7 @@ window.vSummary = {
       });
     },
 
-    openTabZoom(userOrig) {
+    openTabZoomSubrange(userOrig) {
       // skip if accidentally clicked on ramp chart
       if (drags.length === 2 && drags[1] - drags[0]) {
         const tdiff = new Date(this.filterUntilDate) - new Date(this.filterSinceDate);
@@ -656,17 +656,22 @@ window.vSummary = {
         const tsince = getDateStr(new Date(this.filterSinceDate).getTime() + idxs[0]);
         const tuntil = getDateStr(new Date(this.filterSinceDate).getTime() + idxs[1]);
 
-        const { avgCommitSize } = this;
-        const user = Object.assign({}, userOrig);
-        this.$emit('view-zoom', {
-          filterGroupSelection: this.filterGroupSelection,
-          avgCommitSize,
-          user,
-          sinceDate: tsince,
-          untilDate: tuntil,
-          isMergeGroup: this.isMergeGroup,
-        });
+        this.openTabZoom(userOrig, tsince, tuntil);
       }
+    },
+
+    openTabZoom(userOrig, since, until) {
+      const { avgCommitSize } = this;
+      const user = Object.assign({}, userOrig);
+
+      this.$emit('view-zoom', {
+        filterGroupSelection: this.filterGroupSelection,
+        avgCommitSize,
+        user,
+        sinceDate: since,
+        untilDate: until,
+        isMergeGroup: this.isMergeGroup,
+      });
     },
 
     groupByRepos(repos) {
