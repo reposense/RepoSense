@@ -75,6 +75,8 @@ window.viewClick = function viewClick(evt) {
 const DAY_IN_MS = (1000 * 60 * 60 * 24);
 window.DAY_IN_MS = DAY_IN_MS;
 const WEEK_IN_MS = DAY_IN_MS * 7;
+const dateFormatRegex = /([12]\d{3}-(0[1-9]|1[0-2])-(0[1-9]|[12]\d|3[01]))$/;
+
 
 function getDateStr(date) {
   return (new Date(date)).toISOString().split('T')[0];
@@ -118,6 +120,7 @@ window.vSummary = {
       maxDate: '',
       contributionBarColors: {},
       errorMessages: window.app.errorMessages,
+      isSafariBrowser: /.*Version.*Safari.*/.test(navigator.userAgent),
     };
   },
   watch: {
@@ -538,6 +541,29 @@ window.vSummary = {
       }
     },
 
+    // update tmp dates manually after enter key in date field //
+    updateTmpFilterSinceDate(event) {
+      const since = event.target.value;
+      if (dateFormatRegex.test(since) && since >= this.minDate) {
+        this.tmpFilterSinceDate = since;
+        event.currentTarget.style.removeProperty('border-bottom-color');
+      } else {
+        // invalid since date detected
+        event.currentTarget.style.borderBottomColor = 'red';
+      }
+    },
+
+    updateTmpFilterUntilDate(event) {
+      const until = event.target.value;
+      if (dateFormatRegex.test(until) && until <= this.maxDate) {
+        this.tmpFilterUntilDate = until;
+        event.currentTarget.style.removeProperty('border-bottom-color');
+      } else {
+        // invalid until date detected
+        event.currentTarget.style.borderBottomColor = 'red';
+      }
+    },
+
     // triggering opening of tabs //
     openTabAuthorship(user, repo, index) {
       const { minDate, maxDate } = this;
@@ -553,7 +579,7 @@ window.vSummary = {
       });
     },
 
-    openTabZoom(userOrig) {
+    openTabZoomSubrange(userOrig) {
       // skip if accidentally clicked on ramp chart
       if (drags.length === 2 && drags[1] - drags[0]) {
         const tdiff = new Date(this.filterUntilDate) - new Date(this.filterSinceDate);
@@ -561,15 +587,20 @@ window.vSummary = {
         const tsince = getDateStr(new Date(this.filterSinceDate).getTime() + idxs[0]);
         const tuntil = getDateStr(new Date(this.filterSinceDate).getTime() + idxs[1]);
 
-        const { avgCommitSize } = this;
-        const user = Object.assign({}, userOrig);
-        this.$emit('view-zoom', {
-          avgCommitSize,
-          user,
-          sinceDate: tsince,
-          untilDate: tuntil,
-        });
+        this.openTabZoom(userOrig, tsince, tuntil);
       }
+    },
+
+    openTabZoom(userOrig, since, until) {
+      const { avgCommitSize } = this;
+      const user = Object.assign({}, userOrig);
+
+      this.$emit('view-zoom', {
+        avgCommitSize,
+        user,
+        sinceDate: since,
+        untilDate: until,
+      });
     },
 
     groupByRepos(repos) {
