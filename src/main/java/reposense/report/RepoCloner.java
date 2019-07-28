@@ -11,6 +11,7 @@ import reposense.git.GitBranch;
 import reposense.git.GitClone;
 import reposense.git.exception.GitBranchException;
 
+import reposense.git.exception.GitCloneException;
 import reposense.model.Author;
 import reposense.model.RepoConfiguration;
 import reposense.model.RepoLocation;
@@ -103,8 +104,7 @@ public class RepoCloner {
 
             logger.info(String.format(MESSAGE_START_CLONING, config.getLocation()));
             crp = GitClone.cloneBareAsync(config, rootPath, FileUtil.getBareRepoFolderName(config));
-
-        } catch (RuntimeException | IOException e) {
+        } catch (GitCloneException | IOException e) {
             logger.log(Level.WARNING, String.format(MESSAGE_ERROR_CLONING, config.getDisplayName()), e);
             handleCloningFailed(outputPath, config);
             return false;

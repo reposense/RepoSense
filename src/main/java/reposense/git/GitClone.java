@@ -30,10 +30,15 @@ public class GitClone {
      * into the folder {@code outputFolderName}.
      *
      * @return an instance of {@link CommandRunnerProcess} to allow tracking the status of the cloning process.
+     * @throws GitCloneException when exception has occurred while running the command.
      */
     public static CommandRunnerProcess cloneBareAsync(RepoConfiguration config, Path rootPath,
-            String outputFolderName) {
-        return CommandRunner.runCommandAsync(rootPath, getCloneBareCommand(config, outputFolderName));
+            String outputFolderName) throws GitCloneException {
+        try {
+            return CommandRunner.runCommandAsync(rootPath, getCloneBareCommand(config, outputFolderName));
+        } catch (RuntimeException rte) {
+            throw new GitCloneException(rte);
+        }
     }
 
     /**
