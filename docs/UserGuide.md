@@ -29,8 +29,9 @@ Next, download the latest executable Jar from our [releases](https://github.com/
 
 The simplest use case for RepoSense is to generate a report for the entire history of a repo. Here are the steps:
 1. Generate the report for the repo by executing the following command in a terminal:<br/>
-   Format : `java -jar RepoSense.jar --repo FULL_REPO_URL --since d1` (note the `.git` at the end)<br>
-   Example: `java -jar RepoSense.jar --repo https://github.com/reposense/RepoSense.git --since d1`
+   Format : `java -jar RepoSense.jar --repo FULL_REPO_URL` (note the `.git` at the end)<br>
+   Example: `java -jar RepoSense.jar --repo https://github.com/reposense/RepoSense.git`
+   > Note: The above command will analyze the commits made within one month from the date of report generation. Append `--since d1` if you wish to analyze from the date of the first commit. 
 1. The previous step analyzes the default branch of the repo and creates the report in a directory named `reposense-report`. Run the following command to view the report (it will open up in your default Browser):<br/>
    `java -jar RepoSense.jar --view reposense-report`
 
