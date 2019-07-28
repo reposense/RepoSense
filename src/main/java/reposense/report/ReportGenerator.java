@@ -156,7 +156,8 @@ public class ReportGenerator {
                 GitRevParse.assertBranchExists(config, FileUtil.getBareRepoPath(config));
                 GitLsTree.validateFilePaths(config, FileUtil.getBareRepoPath(config));
 
-                GitClone.cloneFromBareAndUpdateBranch(Paths.get(FileUtil.REPOS_ADDRESS), FileUtil.getBareRepoPath(config),
+                GitClone.cloneFromBareAndUpdateBranch(
+                        Paths.get(FileUtil.REPOS_ADDRESS), FileUtil.getBareRepoPath(config),
                         Paths.get(config.getRepoFolderName(), config.getRepoName()).toString(), config.getBranch());
                 analyzeRepo(config, repoReportDirectory.toString());
             } catch (IOException ioe) {
