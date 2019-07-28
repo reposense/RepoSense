@@ -144,8 +144,7 @@ public class ReportGenerator {
     /**
      * Analyzes all repos in {@code configs} and generates their report.
      */
-    private static void analyzeRepos(String outputPath, List<RepoConfiguration> configs, String defaultBranch)
-            throws IOException {
+    private static void analyzeRepos(String outputPath, List<RepoConfiguration> configs, String defaultBranch) {
         for (RepoConfiguration config : configs) {
             config.updateBranch(defaultBranch);
 
@@ -156,23 +155,24 @@ public class ReportGenerator {
                 FileUtil.createDirectory(repoReportDirectory);
                 GitRevParse.assertBranchExists(config, FileUtil.getBareRepoPath(config));
                 GitLsTree.validateFilePaths(config, FileUtil.getBareRepoPath(config));
+
+                GitClone.cloneFromBareAndUpdateBranch(Paths.get(FileUtil.REPOS_ADDRESS), FileUtil.getBareRepoPath(config),
+                        Paths.get(config.getRepoFolderName(), config.getRepoName()).toString(), config.getBranch());
+                analyzeRepo(config, repoReportDirectory.toString());
             } catch (IOException ioe) {
                 logger.log(Level.WARNING,
                         String.format(MESSAGE_ERROR_CREATING_DIRECTORY, config.getLocation(), config.getBranch()), ioe);
-                continue;
             } catch (GitBranchException gbe) {
                 logger.log(Level.SEVERE, String.format(MESSAGE_BRANCH_DOES_NOT_EXIST,
                         config.getBranch(), config.getLocation()), gbe);
                 generateEmptyRepoReport(repoReportDirectory.toString(), Author.NAME_FAILED_TO_CLONE_OR_CHECKOUT);
-                continue;
             } catch (InvalidFilePathException ipe) {
                 generateEmptyRepoReport(repoReportDirectory.toString(), Author.NAME_FAILED_TO_CLONE_OR_CHECKOUT);
-                continue;
+            } catch (NoAuthorsWithCommitsFoundException nafe) {
+                logger.log(Level.WARNING, String.format(MESSAGE_NO_AUTHORS_WITH_COMMITS_FOUND,
+                        config.getLocation(), config.getBranch()));
+                generateEmptyRepoReport(repoReportDirectory.toString(), Author.NAME_NO_AUTHOR_WITH_COMMITS_FOUND);
             }
-
-            GitClone.cloneFromBareAndUpdateBranch(Paths.get(FileUtil.REPOS_ADDRESS), FileUtil.getBareRepoPath(config),
-                    Paths.get(config.getRepoFolderName(), config.getRepoName()).toString(), config.getBranch());
-            analyzeRepo(config, repoReportDirectory.toString());
         }
     }
 
@@ -180,18 +180,10 @@ public class ReportGenerator {
      * Analyzes repo specified by {@code config} and generates the report.
      */
     private static void analyzeRepo(
-            RepoConfiguration config, String repoReportDirectory) {
+            RepoConfiguration config, String repoReportDirectory) throws NoAuthorsWithCommitsFoundException {
         // preprocess the config and repo
         updateRepoConfig(config);
-
-        try {
-            updateAuthorList(config);
-        } catch (NoAuthorsWithCommitsFoundException nafe) {
-            logger.log(Level.WARNING, String.format(MESSAGE_NO_AUTHORS_WITH_COMMITS_FOUND,
-                    config.getLocation(), config.getBranch()));
-            generateEmptyRepoReport(repoReportDirectory, Author.NAME_NO_AUTHOR_WITH_COMMITS_FOUND);
-            return;
-        }
+        updateAuthorList(config);
 
         CommitContributionSummary commitSummary = CommitsReporter.generateCommitSummary(config);
         AuthorshipSummary authorshipSummary = AuthorshipReporter.generateAuthorshipSummary(config);
