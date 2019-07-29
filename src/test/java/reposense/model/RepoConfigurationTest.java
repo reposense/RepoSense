@@ -44,6 +44,8 @@ public class RepoConfigurationTest {
                     .getResource("RepoConfigurationTest/repoconfig_overrideStandAlone_test").getFile()).toPath();
 
     private static final String TEST_REPO_DELTA = "https://github.com/reposense/testrepo-Delta.git";
+    private static final String TEST_REPO_MINIMAL_STANDALONE_CONFIG =
+            "https://github.com/reposense/testrepo-minimalstandaloneconfig.git";
 
     private static final Author FIRST_AUTHOR = new Author("lithiumlkid");
     private static final Author SECOND_AUTHOR = new Author("codeeong");
@@ -294,6 +296,28 @@ public class RepoConfigurationTest {
                 new RepoConfigCsvParser(((ConfigCliArguments) cliArguments).getRepoConfigFilePath()).parse();
 
         RepoConfiguration actualConfig = actualConfigs.get(0);
+        GitClone.clone(actualConfig);
+        ReportGenerator.updateRepoConfig(actualConfig);
+
+        TestUtil.compareRepoConfig(expectedConfig, actualConfig);
+    }
+
+    @Test
+    public void repoConfig_minimalStandaloneConfig_fieldsAssignedDefaultValues() throws GitCloneException,
+            InvalidLocationException {
+        RepoConfiguration expectedConfig = new RepoConfiguration(new RepoLocation(TEST_REPO_MINIMAL_STANDALONE_CONFIG), "master");
+
+        Author firstAuthor = new Author("bluein-green");
+        Author secondAuthor = new Author("jylee-git");
+        List<Author> expectedAuthors = Arrays.asList(firstAuthor, secondAuthor);
+        expectedConfig.setAuthorList(expectedAuthors);
+
+        expectedConfig.setIgnoreGlobList(Collections.emptyList());
+        expectedConfig.setFormats(Collections.emptyList());
+        expectedConfig.setIgnoreCommitList(Collections.emptyList());
+
+        RepoConfiguration actualConfig = new RepoConfiguration(new RepoLocation(TEST_REPO_MINIMAL_STANDALONE_CONFIG),
+                "master");
         GitClone.clone(actualConfig);
         ReportGenerator.updateRepoConfig(actualConfig);
 
