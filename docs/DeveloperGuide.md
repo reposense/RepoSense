@@ -182,21 +182,23 @@ gradlew run -Dargs="-c ./configs/ -o output_path/ -s 21/10/2017 -u 21/11/2017 -f
 *Figure 1. Overall architecture of RepoSense*
 
 ### Parser(ConfigParser)
-`Parser` contains two classes:
+[`Parser`](/src/main/java/reposense/parser) contains two classes:
  * [`ArgsParser`](/src/main/java/reposense/parser/ArgsParser.java): Parses the user-supplied command line arguments into a `CliArguments` object.
  * [`CsvParser`](/src/main/java/reposense/parser/CsvParser.java): Parses the the user-supplied CSV config file into a list of `RepoConfiguration` for each repository to analyze.
 
 
 ### Git
-`Git` package contains the wrapper classes for respective *git* commands.
+[`Git`](/src/main/java/reposense/git) package contains the wrapper classes for respective *git* commands.
  * [`GitBlame`](/src/main/java/reposense/git/GitBlame.java): Wrapper class for `git blame` functionality. Traces the revision and author last modified each line of a file.
  * [`GitBranch`](/src/main/java/reposense/git/GitBranch.java): Wrapper class for `git branch` functionality. Gets the name of the working branch of the target repo.
  * [`GitCheckout`](/src/main/java/reposense/git/GitCheckout.java): Wrapper class for `git checkout` functionality. Checks out the repository by branch name or commit hash.
  * [`GitClone`](/src/main/java/reposense/git/GitClone.java): Wrapper class for `git clone` functionality. Clones the repository from *GitHub* into a temporary folder in order to run the analysis.
  * [`GitDiff`](/src/main/java/reposense/git/GitDiff.java): Wrapper class for `git diff` functionality. Obtains the changes between commits.
  * [`GitLog`](/src/main/java/reposense/git/GitLog.java): Wrapper class for `git log` functionality. Obtains the commit logs and the authors' info.
+ * [`GitLsTree`](/src/main/java/reposense/git/GitLsTree.java): Wrapper class for `git ls-tree` functionality. Ensures that the tracked files do not contain any paths with illegal characters for Windows users.
  * [`GitRevList`](/src/main/java/reposense/git/GitRevList.java): Wrapper class for `git rev-list` functionality. Retrieves the commit objects in reverse chronological order.
  * [`GitShortlog`](/src/main/java/reposense/git/GitShortlog.java): Wrapper class for `git shortlog` functionality. Obtains the list of authors who have contributed to the target repo.
+ * [`GitUtil`](/src/main/java/reposense/git/GitUtil.java): Contains helper functions used by the other Git classes above.
 
 
 ### CommitsReporter
@@ -225,14 +227,14 @@ gradlew run -Dargs="-c ./configs/ -o output_path/ -s 21/10/2017 -u 21/11/2017 -f
 
 
 ### System
-`System` contains the classes that interact with the Operating System and external processes.
+[`System`](/src/main/java/reposense/system) contains the classes that interact with the Operating System and external processes.
  * [`CommandRunner`](/src/main/java/reposense/system/CommandRunner.java) creates processes that executes commands on the terminal. It consists of many *git* commands.
  * [`LogsManager`](/src/main/java/reposense/system/LogsManager.java) uses the `java.util.logging` package for logging. The `LogsManager` class is used to manage the logging levels and logging destinations. Log messages are output through: `Console` and to a `.log` file.
  * [`ReportServer`](/src/main/java/reposense/system/ReportServer.java) starts a server to display the report on the browser. It depends on the `net.freeutils.httpserver` package.
 
 
 ### Model
-`Model` holds the data structures that are commonly used by the different aspects of *RepoSense*.
+[`Model`](/src/main/java/reposense/model) holds the data structures that are commonly used by the different aspects of *RepoSense*.
  * [`Author`](/src/main/java/reposense/model/Author.java) stores the `GitHub ID` of an author. Any contributions or commits made by the author, using his/her `GitHub ID` or aliases, will be attributed to the same `Author` object. It is used by `AuthorshipReporter` and `CommitsReporter` to attribute the commit and file contributions to the respective authors.
  * [`CliArguments`](/src/main/java/reposense/model/CliArguments.java) stores the parsed command line arguments supplied by the user. It contains the configuration settings such as the CSV config file to read from, the directory to output the report to, and date range of commits to analyze. These configuration settings are passed into `RepoConfiguration`.
  * [`RepoConfiguration`](/src/main/java/reposense/model/RepoConfiguration.java) stores the configuration information from the CSV config file for a single repository, which are the repository's orgarization, name, branch, list of authors to analyse, date range to analyze commits and files from `CliArguments`.
