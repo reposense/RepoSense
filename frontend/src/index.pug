@@ -168,6 +168,7 @@ html
                 .summary-chart__title--contribution.mini-font [{{ user.totalCommits }} lines]
                 a(
                   title="click to view author's code",
+                  onclick="deactivateAllOverlays()",
                   v-on:click="openTabAuthorship(user, repo, i)"
                 )
                   i.summary-chart__title--button.fas.fa-code
