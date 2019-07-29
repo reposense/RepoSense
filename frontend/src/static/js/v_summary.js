@@ -373,9 +373,8 @@ window.vSummary = {
       // array of array, sorted by repo
       const full = [];
 
-      // create deep clone of this.repos if merging groups
+      // create deep clone of this.repos to not modify the content of this.repos when merging groups
       const groups = this.isMergeGroup ? JSON.parse(JSON.stringify(this.repos)) : this.repos;
-
       groups.forEach((repo) => {
         const res = [];
 
