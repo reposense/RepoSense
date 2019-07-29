@@ -56,7 +56,7 @@ window.vZoom = {
 
       const renameValue = this.showAllCommitMessageBody ? 'body active' : 'body';
 
-      const commitMessageClasses = document.getElementsByClassName('body')
+      const commitMessageClasses = document.getElementsByClassName('body');
       Array.from(commitMessageClasses).forEach((commitMessageClass) => {
         commitMessageClass.className = renameValue;
       });
