@@ -1,7 +1,7 @@
 window.toggleCommitBodyMessage = function toggleCommitBodyMessage(ele) {
   // function for expanding/collapsing a commit message body.
-  const activeClass = 'commit-message--body-active';
-  const inactiveClass = 'commit-message--body';
+  const activeClass = 'body active';
+  const inactiveClass = 'body';
 
   const commitMessageBodyElemet = ele.nextElementSibling;
 
@@ -54,13 +54,9 @@ window.vZoom = {
     toggleAllCommitMessagesBody(isActive) {
       this.showAllCommitMessageBody = isActive;
 
-      const renameValue = this.showAllCommitMessageBody
-        ? 'commit-message--body-active'
-        : 'commit-message--body';
+      const renameValue = this.showAllCommitMessageBody ? 'body active' : 'body';
 
-      const commitMessageClasses = isActive
-        ? document.getElementsByClassName('commit-message--body')
-        : document.getElementsByClassName('commit-message--body-active');
+      const commitMessageClasses = document.getElementsByClassName('body')
       Array.from(commitMessageClasses).forEach((commitMessageClass) => {
         commitMessageClass.className = renameValue;
       });
@@ -69,7 +65,7 @@ window.vZoom = {
     },
 
     updateNumExpandedCommitMessages() {
-      this.numExpandedCommitMessages = document.getElementsByClassName('commit-message--body-active').length;
+      this.numExpandedCommitMessages = document.getElementsByClassName('active').length;
     },
   },
   created() {

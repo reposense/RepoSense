@@ -31,6 +31,6 @@
             title="Click to show/hide the commit message body"
           )
             i.commit-message--button.fas.fa-ellipsis-h
-          .commit-message--body-active(v-if="slice.messageBody.length > 0")
+          .body.active(v-if="slice.messageBody.length > 0")
             pre {{ slice.messageBody }}
 

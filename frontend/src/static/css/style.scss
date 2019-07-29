@@ -619,7 +619,7 @@ header {
 
 /* Commit Message Body in Zoom Tab */
 .commit-message {
-  &--body-active {
+  .body.active {
     background-color: mui-color('white');
     border: 1px solid mui-color('grey', '700');
     display: inherit;
@@ -634,7 +634,7 @@ header {
     }
   }
 
-  &--body {
+  .body {
     display: none;
   }
 
