@@ -27,6 +27,7 @@ import reposense.git.GitLsTree;
 import reposense.git.GitRevParse;
 import reposense.git.GitShortlog;
 import reposense.git.exception.GitBranchException;
+import reposense.git.exception.GitCloneException;
 import reposense.git.exception.InvalidFilePathException;
 import reposense.model.Author;
 import reposense.model.RepoConfiguration;
@@ -156,9 +157,7 @@ public class ReportGenerator {
                 GitRevParse.assertBranchExists(config, FileUtil.getBareRepoPath(config));
                 GitLsTree.validateFilePaths(config, FileUtil.getBareRepoPath(config));
 
-                GitClone.cloneFromBareAndUpdateBranch(
-                        Paths.get(FileUtil.REPOS_ADDRESS), FileUtil.getBareRepoPath(config),
-                        Paths.get(config.getRepoFolderName(), config.getRepoName()).toString(), config.getBranch());
+                GitClone.cloneFromBareAndUpdateBranch(Paths.get(FileUtil.REPOS_ADDRESS), config);
                 analyzeRepo(config, repoReportDirectory.toString());
             } catch (IOException ioe) {
                 logger.log(Level.WARNING,
@@ -167,7 +166,7 @@ public class ReportGenerator {
                 logger.log(Level.SEVERE, String.format(MESSAGE_BRANCH_DOES_NOT_EXIST,
                         config.getBranch(), config.getLocation()), gbe);
                 generateEmptyRepoReport(repoReportDirectory.toString(), Author.NAME_FAILED_TO_CLONE_OR_CHECKOUT);
-            } catch (InvalidFilePathException ipe) {
+            } catch (InvalidFilePathException | GitCloneException ipe) {
                 generateEmptyRepoReport(repoReportDirectory.toString(), Author.NAME_FAILED_TO_CLONE_OR_CHECKOUT);
             } catch (NoAuthorsWithCommitsFoundException nafe) {
                 logger.log(Level.WARNING, String.format(MESSAGE_NO_AUTHORS_WITH_COMMITS_FOUND,

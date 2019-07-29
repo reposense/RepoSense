@@ -80,6 +80,7 @@ public class GitClone {
 
     /**
      * Clones a bare repo specified in {@code config} into the folder {@code outputFolderName}.
+     *
      * @throws IOException if it fails to delete a directory.
      */
     public static void cloneBare(RepoConfiguration config, String outputFolderName) throws IOException {
@@ -93,15 +94,24 @@ public class GitClone {
     /**
      * Performs a full clone from {@code clonedBareRepoLocation} into the folder {@code outputFolderName} and
      * directly branches out to {@code targetBranch}.
+     *
      * @throws IOException if it fails to delete a directory.
+     * @throws GitCloneException if an exception has occurred while running the command.
      */
-    public static void cloneFromBareAndUpdateBranch(Path rootPath, Path clonedBareRepoLocation,
-            String outputFolderName, String targetBranch) throws IOException {
-        Path relativePath = rootPath.relativize(clonedBareRepoLocation);
+    public static void cloneFromBareAndUpdateBranch(Path rootPath, RepoConfiguration config)
+            throws GitCloneException, IOException {
+        Path relativePath = rootPath.relativize(FileUtil.getBareRepoPath(config));
+        String outputFolderName = Paths.get(config.getRepoFolderName(), config.getRepoName()).toString();
         FileUtil.deleteDirectory(Paths.get(FileUtil.REPOS_ADDRESS, outputFolderName).toString());
-        String command = String.format("git clone %s --branch %s %s", relativePath, targetBranch,
-                outputFolderName);
-        runCommand(rootPath, command);
+        String command = String.format(
+                "git clone %s --branch %s %s", relativePath, config.getBranch(), outputFolderName);
+        try {
+            runCommand(rootPath, command);
+        } catch (RuntimeException rte) {
+            logger.severe("Exception met while cloning or checking out " + config.getDisplayName() + "."
+                    + "Analysis terminated.");
+            throw new GitCloneException(rte);
+        }
     }
 
     /**
