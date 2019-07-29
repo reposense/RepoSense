@@ -149,8 +149,6 @@ window.vSummary = {
         this.filterSinceDate = this.tmpFilterSinceDate;
       } else if (!this.tmpFilterSinceDate) { // If user clears the since date field
         this.filterSinceDate = this.minDate;
-        this.tmpFilterSinceDate = this.filterSinceDate;
-        this.hasModifiedSinceDate = true;
       }
       this.getFiltered();
     },
@@ -162,8 +160,6 @@ window.vSummary = {
         this.filterUntilDate = this.tmpFilterUntilDate;
       } else if (!this.tmpFilterUntilDate) { // If user clears the until date field
         this.filterUntilDate = this.maxDate;
-        this.tmpFilterUntilDate = this.filterUntilDate;
-        this.hasModifiedUntilDate = true;
       }
       this.getFiltered();
     },
@@ -537,10 +533,8 @@ window.vSummary = {
 
     // updating filters programically //
     resetDateRange() {
-      // setting both dates to empty string will trigger their respective
-      // watchers to reset their values and remove their hashes in the url
-      this.tmpFilterSinceDate = '';
-      this.tmpFilterUntilDate = '';
+      this.tmpFilterSinceDate = this.minDate;
+      this.tmpFilterUntilDate = this.maxDate;
     },
 
     updateDateRange() {
@@ -558,9 +552,15 @@ window.vSummary = {
       }
     },
 
-    // update tmp dates manually after enter key in date field //
     updateTmpFilterSinceDate(event) {
       const since = event.target.value;
+
+      if (!this.isSafariBrowser) {
+        this.tmpFilterSinceDate = since.empty ? this.minDate : since;
+        event.target.value = this.filterSinceDate;
+        return;
+      }
+
       if (dateFormatRegex.test(since) && since >= this.minDate) {
         this.tmpFilterSinceDate = since;
         event.currentTarget.style.removeProperty('border-bottom-color');
@@ -572,6 +572,13 @@ window.vSummary = {
 
     updateTmpFilterUntilDate(event) {
       const until = event.target.value;
+
+      if (!this.isSafariBrowser) {
+        this.tmpFilterUntilDate = until.empty ? this.maxDate : until;
+        event.target.value = this.filterUntilDate;
+        return;
+      }
+
       if (dateFormatRegex.test(until) && until <= this.maxDate) {
         this.tmpFilterUntilDate = until;
         event.currentTarget.style.removeProperty('border-bottom-color');

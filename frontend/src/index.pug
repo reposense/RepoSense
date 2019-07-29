@@ -116,15 +116,15 @@ html
               input(v-if="isSafariBrowser", type="text", placeholder="yyyy-mm-dd",
                   v-bind:value="tmpFilterSinceDate", v-on:keyup.enter="updateTmpFilterSinceDate",
                   onkeydown="formatInputDateOnKeyDown(event)", oninput="appendDashInputDate(event)", maxlength=10)
-              input(v-else, type="date", v-model="tmpFilterSinceDate", onkeydown="return false",
-                  v-bind:min="minDate", v-bind:max="filterUntilDate")
+              input(v-else, type="date", v-bind:value="filterSinceDate", v-on:input="updateTmpFilterSinceDate",
+                  onkeydown="return false", v-bind:min="minDate", v-bind:max="filterUntilDate")
               label since
             .mui-textfield.summary-picker__date
               input(v-if="isSafariBrowser", type="text", placeholder="yyyy-mm-dd",
                   v-bind:value="tmpFilterUntilDate", v-on:keyup.enter="updateTmpFilterUntilDate",
                   onkeydown="formatInputDateOnKeyDown(event)", oninput="appendDashInputDate(event)", maxlength=10)
-              input(v-else, type="date", v-model="tmpFilterUntilDate", onkeydown="return false",
-                  v-bind:min="filterSinceDate", v-bind:max="maxDate")
+              input(v-else, type="date", v-bind:value="filterUntilDate", v-on:input="updateTmpFilterUntilDate",
+                  onkeydown="return false", v-bind:min="filterSinceDate", v-bind:max="maxDate")
               label until
             .mui-textfield.summary-picker__date
               a(v-on:click="resetDateRange") Reset date range
