@@ -125,23 +125,19 @@ window.vSummary = {
   watch: {
     sortGroupSelection() {
       this.getFiltered();
-      deactivateAllOverlays();
     },
     sortWithinGroupSelection() {
       this.getFiltered();
-      deactivateAllOverlays();
     },
     filterTimeFrame() {
       this.getFiltered();
-      deactivateAllOverlays();
     },
     filterGroupSelection() {
       this.updateSortWithinGroup();
       this.getFiltered();
-      deactivateAllOverlays();
     },
     filterBreakdown() {
-      this.getFiltered();
+      this.setSummaryHash();
     },
     tmpFilterSinceDate() {
       if (this.tmpFilterSinceDate && this.tmpFilterSinceDate >= this.minDate) {
@@ -151,7 +147,6 @@ window.vSummary = {
         this.tmpFilterSinceDate = this.filterSinceDate;
       }
       this.getFiltered();
-      deactivateAllOverlays();
     },
     tmpFilterUntilDate() {
       if (this.tmpFilterUntilDate && this.tmpFilterUntilDate <= this.maxDate) {
@@ -161,7 +156,6 @@ window.vSummary = {
         this.tmpFilterUntilDate = this.filterUntilDate;
       }
       this.getFiltered();
-      deactivateAllOverlays();
     },
   },
   computed: {
@@ -285,7 +279,6 @@ window.vSummary = {
     updateFilterSearch(evt) {
       this.filterSearch = evt.target.value;
       this.getFiltered();
-      deactivateAllOverlays();
     },
     setSummaryHash() {
       const { addHash, encodeHash } = window;
@@ -395,6 +388,7 @@ window.vSummary = {
       this.filtered = full;
 
       this.sortFiltered();
+      deactivateAllOverlays();
     },
     processFileFormats() {
       const selectedColors = ['#ffe119', '#4363d8', '#3cb44b', '#f58231', '#911eb4', '#46f0f0', '#f032e6',
@@ -543,7 +537,6 @@ window.vSummary = {
         this.tmpFilterUntilDate = getStr(since + range * drags[1] / 100);
 
         drags = [];
-        deactivateAllOverlays();
       }
     },
 
@@ -583,8 +576,6 @@ window.vSummary = {
         location: this.getRepoLink(repo[index]),
         totalCommits: user.totalCommits,
       });
-
-      deactivateAllOverlays();
     },
 
     openTabZoomSubrange(userOrig) {
