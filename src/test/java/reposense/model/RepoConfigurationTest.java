@@ -305,7 +305,8 @@ public class RepoConfigurationTest {
     @Test
     public void repoConfig_minimalStandaloneConfig_fieldsAssignedDefaultValues() throws GitCloneException,
             InvalidLocationException {
-        RepoConfiguration expectedConfig = new RepoConfiguration(new RepoLocation(TEST_REPO_MINIMAL_STANDALONE_CONFIG), "master");
+        RepoConfiguration expectedConfig = new RepoConfiguration(new RepoLocation(TEST_REPO_MINIMAL_STANDALONE_CONFIG),
+                "master");
 
         Author firstAuthor = new Author("bluein-green");
         Author secondAuthor = new Author("jylee-git");
