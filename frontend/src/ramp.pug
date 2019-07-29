@@ -32,7 +32,8 @@
             borderLeftWidth: getWidth(slice) + 'em',\
             right: (getSlicePos(tframe === 'day' ? slice.date : slice.endDate) * 100) + '%' \
           },\
-          /* disallow clickable ramp slices when merging groups that are grouped by authors */\
+          /* disallow clickable ramp slices when merging groups that are grouped by authors \
+             as unable to form a url that navigates to different repositories of the same author */\
           mergegroup && groupby === 'groupByAuthors' ?\
             { cursor: 'auto', pointerEvents: 'none' }  :\
             { cursor: 'pointer', pointerEvents: 'auto' }\
