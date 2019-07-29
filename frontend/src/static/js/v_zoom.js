@@ -22,7 +22,7 @@ window.vZoom = {
       const { user } = this.info;
       const date = this.filterTimeFrame === 'week' ? 'endDate' : 'date';
       const filtered = user.commits.filter(
-          (commit) => commit[date] >= this.info.sinceDate && commit[date] <= this.info.untilDate,
+          (commit) => commit[date] >= this.info.zoomSince && commit[date] <= this.info.zoomUntil,
       );
       user.commits = filtered;
     },
@@ -33,9 +33,9 @@ window.vZoom = {
 
     restoreZoomTab() {
       const { info } = this;
-      const { users } = window.REPOS[info.repo];
+      const { users } = window.REPOS[info.tabRepo];
 
-      const selectedUser = Object.assign({}, users.filter((user) => user.name === info.author)[0]);
+      const selectedUser = Object.assign({}, users.filter((user) => user.name === info.tabAuthor)[0]);
 
       this.$root.$emit('restoreCommits', selectedUser); // restore selected user's commits from v_summary
       this.info.user = selectedUser;
@@ -47,8 +47,8 @@ window.vZoom = {
       addHash('tabAuthor', user.name);
       addHash('tabRepo', user.repoId);
       addHash('avgCommitSize', this.info.avgCommitSize);
-      addHash('zoomSince', this.info.sinceDate);
-      addHash('zoomUntil', this.info.untilDate);
+      addHash('zoomSince', this.info.zoomSince);
+      addHash('zoomUntil', this.info.zoomUntil);
     },
   },
   components: {

@@ -8,8 +8,8 @@
   v_ramp(
       v-bind:user="info.user",
       v-bind:tframe="filterTimeFrame",
-      v-bind:sdate="info.sinceDate",
-      v-bind:udate="info.untilDate",
+      v-bind:sdate="info.zoomSince",
+      v-bind:udate="info.zoomUntil",
       v-bind:avgsize="info.avgCommitSize")
 
   .zoom__day(v-for="day in info.user.commits")

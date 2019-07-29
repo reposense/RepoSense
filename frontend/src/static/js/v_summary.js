@@ -597,8 +597,8 @@ window.vSummary = {
       this.$emit('view-zoom', {
         avgCommitSize,
         user,
-        sinceDate: since,
-        untilDate: until,
+        zoomSince: since,
+        zoomUntil: until,
       });
     },
 

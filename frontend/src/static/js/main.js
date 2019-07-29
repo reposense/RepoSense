@@ -218,11 +218,11 @@ window.app = new window.Vue({
     renderZoomTabHash() {
       const hash = window.hashParams;
       const info = {
-        author: hash.tabAuthor,
-        repo: hash.tabRepo,
+        tabAuthor: hash.tabAuthor,
+        tabRepo: hash.tabRepo,
         avgCommitSize: hash.avgCommitSize,
-        sinceDate: hash.zoomSince,
-        untilDate: hash.zoomUntil,
+        zoomSince: hash.zoomSince,
+        zoomUntil: hash.zoomUntil,
       };
       const tabInfoLength = Object.values(info).filter((x) => x).length;
       if (Object.keys(info).length === tabInfoLength) {
