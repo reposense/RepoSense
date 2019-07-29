@@ -7,7 +7,6 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.UUID;
 import java.util.logging.Logger;
 
 import reposense.git.GitBranch;
@@ -29,7 +28,6 @@ public class RepoConfiguration {
     private transient Date sinceDate;
     private transient Date untilDate;
     private transient String repoFolderName;
-    private final transient String uniqueIdentifier;
 
     private transient boolean annotationOverwrite = true;
     private transient List<Format> formats;
@@ -64,14 +62,13 @@ public class RepoConfiguration {
         this.isFormatsOverriding = isFormatsOverriding;
         this.isIgnoreGlobListOverriding = isIgnoreGlobListOverriding;
         this.isIgnoreCommitListOverriding = isIgnoreCommitListOverriding;
-        this.uniqueIdentifier = UUID.nameUUIDFromBytes(location.toString().getBytes()).toString();
 
         String organization = location.getOrganization();
         String repoName = location.getRepoName();
 
         displayName = repoName + "[" + branch + "]";
-        outputFolderName = repoName + "_" + branch + "-" + uniqueIdentifier;
-        repoFolderName = repoName + "-" + uniqueIdentifier;
+        outputFolderName = repoName + "_" + branch;
+        repoFolderName = repoName;
 
         if (organization != null) {
             repoFolderName = organization + "_" + repoFolderName;
@@ -153,17 +150,80 @@ public class RepoConfiguration {
      * there are multiple {@code RepoConfiguration} with identical {@code displayName}.
      */
     public static void makeDisplayNamesUnique(List<RepoConfiguration> configs) {
-        Map<String, Integer> uniqueNames = new HashMap<>();
+        List<String> displayNames = new ArrayList<>();
         for (RepoConfiguration config : configs) {
-            if (!uniqueNames.containsKey(config.getDisplayName())) {
-                uniqueNames.put(config.getDisplayName(), 1);
-            } else {
-                String currName = config.getDisplayName();
-                config.appendUniqueIdToDisplayName(uniqueNames.get(currName).toString());
-                uniqueNames.put(currName, uniqueNames.get(currName) + 1);
+            displayNames.add(config.getDisplayName());
+        }
+
+        List<String> uniqueDisplayNames = makeNamesUnique(displayNames);
+
+        for (int i = 0; i < configs.size(); i++) {
+            if (!displayNames.get(i).equals(uniqueDisplayNames.get(i))) {
+                configs.get(i).setDisplayName(uniqueDisplayNames.get(i));
             }
         }
     }
+
+    /**
+     *
+     * @param configs
+     */
+    public static void makeOutputFolderNamesUnique(List<RepoConfiguration> configs) {
+        List<String> outputFolderNames = new ArrayList<>();
+        for (RepoConfiguration config : configs) {
+            outputFolderNames.add(config.getOutputFolderName());
+        }
+
+        List<String> uniqueOutputFolderNames = makeNamesUnique(outputFolderNames);
+
+        for (int i = 0; i < configs.size(); i++) {
+            if (!outputFolderNames.get(i).equalsIgnoreCase(uniqueOutputFolderNames.get(i))) {
+                configs.get(i).setOutputFolderName(uniqueOutputFolderNames.get(i));
+            }
+        }
+    }
+
+    /**
+     *
+     * @param configs
+     */
+    public static void makeRepoFolderNamesUnique(List<RepoConfiguration> configs) {
+        List<String> repoFolderNames = new ArrayList<>();
+        for (RepoConfiguration config : configs) {
+            repoFolderNames.add(config.getRepoFolderName());
+        }
+
+        List<String> uniqueRepoFolderNames = makeNamesUnique(repoFolderNames);
+
+        for (int i = 0; i < configs.size(); i++) {
+            if (!repoFolderNames.get(i).equals(uniqueRepoFolderNames.get(i))) {
+                configs.get(i).setRepoFolderName(uniqueRepoFolderNames.get(i));
+            }
+        }
+    }
+
+    /**
+     *
+     * @param names
+     * @return
+     */
+    private static List<String> makeNamesUnique(List<String> names) {
+        Map<String, Integer> uniqueNames = new HashMap<>();
+        List<String> newNames = new ArrayList<>();
+        for (String name : names) {
+            if (!uniqueNames.containsKey(name)) {
+                uniqueNames.put(name, 1);
+                newNames.add(name);
+            } else {
+                String newName = name + " (" + uniqueNames.get(name).toString() + ")";
+                newNames.add(newName);
+                uniqueNames.put(name, uniqueNames.get(name) + 1);
+            }
+        }
+
+        return newNames;
+    }
+
 
     /**
      * Clears authors information and use the information provided from {@code standaloneConfig}.
@@ -226,6 +286,10 @@ public class RepoConfiguration {
         return repoFolderName;
     }
 
+    private void setRepoFolderName(String repoFolderName) {
+        this.repoFolderName = repoFolderName;
+    }
+
     @Override
     public boolean equals(Object other) {
 
@@ -281,23 +345,21 @@ public class RepoConfiguration {
      * Replaces the branch parameter in {@code displayName} with {@code branch}.
      */
     private void updateDisplayName(String branch) {
-        int uniqueIdIndex = displayName.lastIndexOf('(');
-        String uniqueId = (uniqueIdIndex == -1) ? "" : " " + displayName.substring(uniqueIdIndex);
+        int uniqueIdIndex = displayName.lastIndexOf(' ');
+        String uniqueId = (uniqueIdIndex == -1) ? "" : displayName.substring(uniqueIdIndex);
 
         this.displayName = displayName.substring(0, displayName.lastIndexOf('[') + 1) + branch + "]"
                     + uniqueId;
-    }
-
-    private void appendUniqueIdToDisplayName(String uniqueId) {
-        displayName = displayName + " (" + uniqueId + ")";
     }
 
     /**
      * Replaces the branch parameter in {@code outputFolderName} with {@code branch}.
      */
     private void updateOutputFolderName(String branch) {
+        int uniqueIdIndex = outputFolderName.lastIndexOf(' ');
+        String uniqueId = (uniqueIdIndex == -1) ? "" : outputFolderName.substring(uniqueIdIndex);
         this.outputFolderName = outputFolderName.substring(0, outputFolderName.lastIndexOf('_') + 1) + branch
-               + "-" + this.uniqueIdentifier;
+                    + uniqueId;
     }
 
     public boolean isAnnotationOverwrite() {
@@ -399,12 +461,20 @@ public class RepoConfiguration {
         return displayName;
     }
 
+    private void setDisplayName(String displayName) {
+        this.displayName = displayName;
+    }
+
     public String getRepoName() {
         return location.getRepoName();
     }
 
     public String getOutputFolderName() {
         return outputFolderName;
+    }
+
+    private void setOutputFolderName(String outputFolderName) {
+        this.outputFolderName = outputFolderName;
     }
 
     public void setStandaloneConfigIgnored(boolean isStandaloneConfigIgnored) {
