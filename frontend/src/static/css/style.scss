@@ -637,12 +637,13 @@ header {
   &--body {
     display: none;
   }
-}
 
-.fa-file-alt {
-  padding-left: .5rem;
+  &--button {
+    color: mui-color('grey');
+    padding-left: .5rem;
 
-  &:hover {
-    cursor: pointer;
+    &:hover {
+      cursor: pointer;
+    }
   }
 }

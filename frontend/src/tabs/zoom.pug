@@ -30,7 +30,7 @@
             onclick="toggleCommitBodyMessage(this)",
             title="Click to view the commit message body"
           )
-            i.fas.fa-file-alt
+            i.commit-message--button.fas.fa-file-alt
           .commit-message--body-active(v-if="slice.messageBody.length > 0")
             pre {{ slice.messageBody }}
 
