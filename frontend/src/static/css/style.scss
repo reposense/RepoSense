@@ -619,25 +619,29 @@ header {
 
 /* Commit Message Body in Zoom Tab */
 .commit-message {
-  &.active {
-    .body {
-      background-color: mui-color('white');
-      border: 1px solid mui-color('grey', '700');
-      display: inherit;
-      margin-bottom: 1rem;
-      overflow-x: auto;
-      padding: .4rem;
-      resize: none;
-      width: 100%;
+  &--body-active {
+    background-color: mui-color('white');
+    border: 1px solid mui-color('grey', '700');
+    display: inherit;
+    margin-bottom: 1rem;
+    overflow-x: auto;
+    padding: .4rem;
+    resize: none;
+    width: 100%;
+
+    pre {
+      margin: 0;
     }
   }
 
-  .body {
+  &--body {
     display: none;
   }
 }
+
 .fa-file-alt {
   padding-left: .5rem;
+
   &:hover {
     cursor: pointer;
   }

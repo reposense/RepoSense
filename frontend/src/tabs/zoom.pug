@@ -13,17 +13,24 @@
       v-bind:avgsize="info.avgCommitSize")
 
   .zoom__toggle-commit-message-body(v-if="info.user.commits.length")
-      button(v-on:click="toggleAllCommitMessagesBody()") show/hide all commit messages body
+    button(v-if="numExpandedCommitMessages === 0", v-on:click="toggleAllCommitMessagesBody(true)") show all commit messages body
+    button(v-else, v-on:click="toggleAllCommitMessagesBody(false)") hide all commit messages body
 
   .zoom__day(v-for="day in info.user.commits")
     template(v-if="day.insertions > 0")
       h3(v-if="filterTimeFrame === 'week'") Week of {{ day.date }}
       h3(v-else) {{ day.date }}
       ul
-        li(v-for="slice in day.commitResults").commit-message.active
+        li(v-for="slice in day.commitResults").commit-message
           a(v-bind:href="getSliceLink(slice)", target="_blank") {{ slice.messageTitle }}
-          i.fas.fa-file-alt(v-if="slice.messageBody.length > 0", onclick="toggleNext(this)", title="Click to view the commit message body")
           span &nbsp; ({{ slice.insertions }} lines)
-          pre(v-if="slice.messageBody.length > 0").body {{ slice.messageBody }}
-          p(v-else) No commit message body
+          a(
+            v-if="slice.messageBody.length > 0",
+            v-on:click="updateNumExpandedCommitMessages",
+            onclick="toggleCommitBodyMessage(this)",
+            title="Click to view the commit message body"
+          )
+            i.fas.fa-file-alt
+          .commit-message--body-active(v-if="slice.messageBody.length > 0")
+            pre {{ slice.messageBody }}
 
