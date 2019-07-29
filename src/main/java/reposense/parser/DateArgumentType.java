@@ -14,6 +14,8 @@ import net.sourceforge.argparse4j.inf.ArgumentType;
  * Verifies and parses a string-formatted date to a {@code Date} object.
  */
 public class DateArgumentType implements ArgumentType<Optional<Date>> {
+    protected static final String DATE_FORMAT_REGEX =
+            "^((0[1-9]|[12][0-9]|3[01])\\/(0[1-9]|1[012])\\/(19|2[0-9])[0-9]{2})";
     private static final String PARSE_EXCEPTION_MESSAGE_INVALID_DATE_STRING_FORMAT = "Invalid Date: %s";
     private static final DateFormat CLI_ARGS_DATE_FORMAT = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
 
