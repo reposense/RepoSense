@@ -28,9 +28,9 @@
             v-if="slice.messageBody.length > 0",
             v-on:click="updateNumExpandedCommitMessages",
             onclick="toggleCommitBodyMessage(this)",
-            title="Click to view the commit message body"
+            title="Click to show/hide the commit message body"
           )
-            i.commit-message--button.fas.fa-file-alt
+            i.commit-message--button.fas.fa-ellipsis-h
           .commit-message--body-active(v-if="slice.messageBody.length > 0")
             pre {{ slice.messageBody }}
 

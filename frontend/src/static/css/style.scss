@@ -639,7 +639,7 @@ header {
   }
 
   &--button {
-    color: mui-color('grey');
+    color: mui-color('grey', '700');
     padding-left: .5rem;
 
     &:hover {
