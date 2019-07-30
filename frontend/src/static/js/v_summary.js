@@ -75,6 +75,8 @@ window.viewClick = function viewClick(evt) {
 const DAY_IN_MS = (1000 * 60 * 60 * 24);
 window.DAY_IN_MS = DAY_IN_MS;
 const WEEK_IN_MS = DAY_IN_MS * 7;
+const dateFormatRegex = /([12]\d{3}-(0[1-9]|1[0-2])-(0[1-9]|[12]\d|3[01]))$/;
+
 
 function getDateStr(date) {
   return (new Date(date)).toISOString().split('T')[0];
@@ -117,12 +119,10 @@ window.vSummary = {
       minDate: '',
       maxDate: '',
       contributionBarColors: {},
+      isSafariBrowser: /.*Version.*Safari.*/.test(navigator.userAgent),
     };
   },
   watch: {
-    repos() {
-      this.getFiltered();
-    },
     sortGroupSelection() {
       this.getFiltered();
     },
@@ -236,7 +236,17 @@ window.vSummary = {
 
       return totalBars;
     },
-
+    getFileFormats(repo) {
+      const fileFormats = [];
+      repo.forEach((user) => {
+        Object.keys(user.fileFormatContribution).forEach((fileFormat) => {
+          if (!fileFormats.includes(fileFormat)) {
+            fileFormats.push(fileFormat);
+          }
+        });
+      });
+      return fileFormats;
+    },
     getContributionBars(totalContribution) {
       const res = [];
       const contributionLimit = (this.avgContributionSize * 2);
@@ -268,6 +278,7 @@ window.vSummary = {
     // model functions //
     updateFilterSearch(evt) {
       this.filterSearch = evt.target.value;
+      this.getFiltered();
     },
     setSummaryHash() {
       const { addHash, encodeHash } = window;
@@ -386,12 +397,13 @@ window.vSummary = {
       let i = 0;
 
       this.repos.forEach((repo) => {
-        const user = repo.users[0];
-        Object.keys(user.fileFormatContribution).forEach((fileFormat) => {
-          if (!Object.prototype.hasOwnProperty.call(colors, fileFormat)) {
-            colors[fileFormat] = selectedColors[i];
-            i = (i + 1) % selectedColors.length;
-          }
+        repo.users.forEach((user) => {
+          Object.keys(user.fileFormatContribution).forEach((fileFormat) => {
+            if (!Object.prototype.hasOwnProperty.call(colors, fileFormat)) {
+              colors[fileFormat] = selectedColors[i];
+              i = (i + 1) % selectedColors.length;
+            }
+          });
         });
         this.contributionBarColors = colors;
       });
@@ -431,6 +443,7 @@ window.vSummary = {
           deletions: 0,
           date: getDateStr(startOfWeekMs),
           endDate: getDateStr(endOfWeekMsWithinUntilMs),
+          commitResults: [],
         };
 
         this.addLineContributionWeek(endOfWeekMsWithinUntilMs, week, commits);
@@ -446,6 +459,7 @@ window.vSummary = {
         const commit = commits.shift();
         week.insertions += commit.insertions;
         week.deletions += commit.deletions;
+        commit.commitResults.forEach((commitResult) => week.commitResults.push(commitResult));
       }
     },
     getUserCommits(user) {
@@ -526,6 +540,29 @@ window.vSummary = {
       }
     },
 
+    // update tmp dates manually after enter key in date field //
+    updateTmpFilterSinceDate(event) {
+      const since = event.target.value;
+      if (dateFormatRegex.test(since) && since >= this.minDate) {
+        this.tmpFilterSinceDate = since;
+        event.currentTarget.style.removeProperty('border-bottom-color');
+      } else {
+        // invalid since date detected
+        event.currentTarget.style.borderBottomColor = 'red';
+      }
+    },
+
+    updateTmpFilterUntilDate(event) {
+      const until = event.target.value;
+      if (dateFormatRegex.test(until) && until <= this.maxDate) {
+        this.tmpFilterUntilDate = until;
+        event.currentTarget.style.removeProperty('border-bottom-color');
+      } else {
+        // invalid until date detected
+        event.currentTarget.style.borderBottomColor = 'red';
+      }
+    },
+
     // triggering opening of tabs //
     openTabAuthorship(user, repo, index) {
       const { minDate, maxDate } = this;
@@ -541,7 +578,7 @@ window.vSummary = {
       });
     },
 
-    openTabZoom(userOrig) {
+    openTabZoomSubrange(userOrig) {
       // skip if accidentally clicked on ramp chart
       if (drags.length === 2 && drags[1] - drags[0]) {
         const tdiff = new Date(this.filterUntilDate) - new Date(this.filterSinceDate);
@@ -549,29 +586,20 @@ window.vSummary = {
         const tsince = getDateStr(new Date(this.filterSinceDate).getTime() + idxs[0]);
         const tuntil = getDateStr(new Date(this.filterSinceDate).getTime() + idxs[1]);
 
-        const rawCommits = userOrig.commits.filter(
-            (commit) => commit.date >= tsince && commit.date <= tuntil,
-        );
-
-        const commits = [];
-        rawCommits.forEach((commit) => {
-          if (this.filterTimeFrame === 'week') {
-            commit.dayCommits.forEach((dayCommit) => commits.push(dayCommit));
-          } else {
-            commits.push(commit);
-          }
-        });
-
-        const { avgCommitSize } = this;
-        const user = Object.assign({}, userOrig, { commits });
-
-        this.$emit('view-zoom', {
-          avgCommitSize,
-          user,
-          sinceDate: tsince,
-          untilDate: tuntil,
-        });
+        this.openTabZoom(userOrig, tsince, tuntil);
       }
+    },
+
+    openTabZoom(userOrig, since, until) {
+      const { avgCommitSize } = this;
+      const user = Object.assign({}, userOrig);
+
+      this.$emit('view-zoom', {
+        avgCommitSize,
+        user,
+        sinceDate: since,
+        untilDate: until,
+      });
     },
 
     groupByRepos(repos) {

@@ -6,6 +6,7 @@ Thank you for your interest in contributing to RepoSense!
   - [Verifying the setup](#verifying-the-setup)
   - [Configuring the Java coding style](#configuring-the-java-coding-style)
   - [Configuring the JavaScript coding style](#configuring-the-javascript-coding-style)
+  - [Configuring the CSS coding style](#configuring-the-css-coding-style)
   - [Configuring Cypress for automated front-end testing](#configuring-cypress-for-automated-front-end-testing)
   - [(Optional) Using Vue.js devtools for frontend debugging on Chrome](#optional-using-vuejs-devtools-for-frontend-debugging-on-chrome)
 - [Architecture](#architecture)
@@ -60,10 +61,10 @@ This project follows [oss-generic coding standards](https://oss-generic.github.i
 
 Optionally, you can follow the [Using Checkstyle](UsingCheckstyle.md) document to configure *Intellij* to check style-compliance as you write code.
 
-### Configuring the JavaScript coding style
-Our project follows the [Airbnb Javascript Style Guide](https://github.com/airbnb/javascript), the eslint configuration file is available at the root of the project. Please run a `npm run lint -- --fix frontend/src/**/*js` from the project root directory and fix all of the eslint errors before committing your code for final review.
+### Configuring the JavaScript and CSS coding style
+Our project follows the [Airbnb Javascript Style Guide](https://github.com/airbnb/javascript) and [OSS CSS Coding Standard](https://oss-generic.github.io/process/codingStandards/CodingStandard-Css.html), which is governed by the Eslint and Stylelint respectively. Their configuration files can be found at the root of the project. Please run a `npm run lint` from the project root directory and fix all of the lint errors before committing your code for final review.
 
-Eslint and its accompaning modules can be installed through NPM, so do ensure that you got it [installed](https://www.npmjs.com/get-npm) if you are working on the report.
+Eslint, Stylelint and their accompanying modules can be installed through NPM, so do ensure that you got it [installed](https://www.npmjs.com/get-npm) if you are working on the report.
 
 ### Configuring Cypress for automated front-end testing
 We use [Cypress](https://www.cypress.io/) for automated end-to-end front-end testing. <br/>
@@ -119,7 +120,7 @@ Named Arguments:
                      The date to stop filtering.
 --formats [FORMAT [FORMAT ...]], -f [FORMAT [FORMAT ...]]
                      The alphanumeric file formats to process.
-                     If not provided, default file formats will be
+                     If not provided, all file formats will be
                      used.
                      Please refer to userguide for more information.
 --ignore-standalone-config, -i
@@ -244,10 +245,12 @@ gradlew run -Dargs="-c ./configs/ -o output_path/ -s 21/10/2017 -u 21/11/2017 -f
 ## HTML Report
 The source files for the report is located in [`frontend/src`](../frontend/src) and is built by [spuild](https://github.com/ongspxm/spuild2) before being packaged into the JAR file to be extracted as part of the report.
 
-The main HTML file is generated from [`frontend/src/index.jade`](../frontend/src/index.jade).
+The main HTML file is generated from [`frontend/src/index.pug`](../frontend/src/index.pug).
 
-[Vue](https://vuejs.org/v2/api/) (pronounced /vjuː/, like view) is a progressive framework for building user interfaces. It is heavily utilized in the report to dynamically update the information in the various views. (Style guide available [here](https://vuejs.org/v2/style-guide/), Developer tool available [here](https://chrome.google.com/webstore/detail/vuejs-devtools/nhdogjmejiglipccpnnnanhbledajbpd)).
+[Vue](https://vuejs.org/v2/api/) (pronounced /vjuː/, like view) is a progressive framework for building user interfaces. It is heavily utilized in the report to dynamically update the information in the various views. (Style guide available [here](https://vuejs.org/v2/style-guide/), Developer tool available [here](https://chrome.google.com/webstore/detail/vuejs-devtools/nhdogjmejiglipccpnnnanhbledajbpd)). Vue lifecycle hooks are the defined methods which gets executed in a certain stage of the Vue object lifespan. The following is the Vue lifecycle diagram taken from [here](https://vuejs.org/v2/guide/instance.html#Lifecycle-Diagram) indicating the hook sequence:
+![vue lifecycle diagram](images/vue-lifecycle-diagram.png)
 
+The following is a snapshot of the report:
 ![report screenshot](images/report-summary.png)
 
 ### Report Architecture
@@ -259,24 +262,27 @@ The main Vue object (`window.app`) is responsible for the loading of the report 
 - the summary view
 - and the tabbed interface
 
-Summary view act as the main report which shows the various calculations. </br>
-Tabbed interface is responsible for loading various modules such as authorship to display additional information.
+The summary view acts as the main report which shows the various calculations. </br>
+The tabbed interface is responsible for loading various modules such as authorship and zoom to display additional information.
 
 ### Javascript Files
-- [**main.js**](../frontend/src/static/js/main.js) - main controller that pushes content into different modules
-- [**api.js**](../frontend/src/static/js/api.js)- loading and parsing of the report content
-- [**v_summary.js**](../frontend/src/static/js/v_summary.js) - module that supports the ramp chart view
-- [**v_authorship.js**](../frontend/src/static/js/v_authorship.js) - module that supports the authorship view
+- [**main.js**](#main-mainjs) - main controller that pushes content into different modules
+- [**api.js**](#data-loader-apijs) - loading and parsing of the report content
+- [**v_summary.js**](#summary-view-v_summaryjs) - module that supports the summary view
+- [**v_authorship.js**](#authorship-view-v_authorshipjs) - module that supports the authorship tab view
+- [**v_zoom.js**](#zoom-view-v_zoomjs) - module that supports the zoom tab view
+- [**v_ramp.js**](#ramp-view-v_rampjs) - module that supports the ramp chart view
+- [**v_segment.js**](#segment-view-v_segmentjs) - module that supports the code segment view
 
 ### JSON Report Files
 - **summary.json** - a list of all the repositories and their respective details
 - **projName/commits.json** - contains information of the users' commits information (e.g. line deletion, insertion, etc), grouped by date
 - **projName/authorship.json** - contains information from git blame, detailing the author of each line for all the processed files
 
-### Main (main.js)
+### Main ([main.js](../frontend/src/static/js/main.js))
 This contains the logic for main VueJS object, `window.app`, which is responsible for passing the necessary data into the relevant modules to be loaded.
 
-`v_summary` and `v_authorship` are components which will be embedded into report and will render the corresponding content based on the data passed into it from the main `window.app`.
+`v_summary`, `v_authorship`, `v_zoom`, `v_segment` and `v_ramp` are components which will be embedded into report and will render the corresponding content based on the data passed into it from the main `window.app`.
 
 #### Loading of report information
 The main Vue object depends on the `summary.json` data to determine the right `commits.json` files to load into memory. This is handled by `api.js` which loads the relevant file information from the network files if it is available, otherwise a report archive, `archive.zip`, have to be used.
@@ -289,8 +295,8 @@ Most activity or actions should happen within the module itself, but in the case
 #### Hash link
 Other than the global main Vue object, another global variable we have is the `window.hashParams`. This object is reponsible for generating the relevant permalink for a specific view of the summary module for the report.
 
-### Data loader (api.js)
-This is the module that is in charged of loading and parsing the data files generated as part of the report.
+### Data loader ([api.js](../frontend/src/static/js/api.js))
+This is the module that is in charge of loading and parsing the data files generated as part of the report.
 
 #### Loading from ZIP file
 Due to security design, most modern browsers (e.g. Chrome) do not allow web pages to obtain local files using the directory alone. As such, a ZIP archive of the report information will be produced alongside the report generation.
@@ -304,7 +310,7 @@ After the JSON files are loaded from their respective sources, the data will be 
 
 For the basic skeleton of `window.REPOS`, refer to the generated `summary.json` file in the report for more details.
 
-### Summary View (v_summary.js)
+### Summary View ([v_summary.js](../frontend/src/static/js/v_summary.js))
 The `v_summary` module is in charge of loading the ramp charts from the corresponding `commits.json`.
 
 ![summary architecture](images/report-architecture-summary.png)
@@ -315,13 +321,22 @@ The summary module is activated after the information is loaded from the main Vu
 #### Filtering users and repositories
 The commits information is retrieved from the corresponding project folders for each repository. These information will be filtered and sorted before passed into the template to be displayed as ramp charts.
 
-#### Padding for dates
-For ramps between the date ranges, the slices will be selected and it will be pre and post padded with empty slices to align the ramp slice between the `sinceDate` and `untilDate`. The ramps will then be rendered with the slices in the right position.
-
-### Authorship View (v_authorship.js)
+### Authorship View ([v_authorship.js](../frontend/src/static/js/v_authorship.js))
 The authorship module retrieves the relevant information from the corresponding `authorship.json` file if it is not yet loaded. If it has been loaded, the data will be written into `window.REPOS` and be read from there instead.
 
 ![authorship architecture](images/report-architecture-authorship.png)
 
 #### Showing relevant information by authors
-The files will be filtered, picking only files the selected author has written in. The lines are then split into chunks of "touched" and "untouched" code to be displayed in the tab view which will be popped up on the right side of the screen.
+The files will be filtered, picking only files the selected author has written in. The lines are then split into chunks of "touched" and "untouched" code segments to be displayed in the tab view which will be popped up on the right side of the screen.
+
+### Zoom View ([v_zoom.js](../frontend/src/static/js/v_zoom.js))
+The `v_zoom` module is in charge of filtering and displaying the commits from selected sub-range of a ramp chart. 
+
+### Ramp View ([v_ramp.js](../frontend/src/static/js/v_ramp.js))
+The `v_ramp` module is responsible for receiving the relevant information from `v_summary` and generating ramp charts that contain ramp slices.
+
+#### Padding for dates
+For ramps between the date ranges, the slices will be selected and it will be pre and post padded with empty slices to align the ramp slice between the `sinceDate` and `untilDate`. The ramps will then be rendered with the slices in the right position.
+
+### Segment View ([v_segment.js](../frontend/src/static/js/v_segment.js))
+The `v-segment` module is used as a component in `v_authorship`. It separates the code in terms of "touched" and "untouched" segments and only loads each "untouched" segment when it is toggled. 

@@ -126,7 +126,7 @@ The `Tool Bar` at the top provides a set of configuration options that control t
 * `Since`, `Until` : the date range for the Ramp Chart (not applied to the Contribution Bars).
 
 Notes:<br>
-[1] **`Repo/Branch`**: the repo/branch name is constructed as `ORGANIZATION_REPOSITORY_BRANCH` e.g., `resposense_reposense_master`
+[1] **`Repo/Branch`**: the repo/branch name is constructed as `ORGANIZATION/REPOSITORY[BRANCH]` e.g., `resposense/reposense[master]`
 
 **Bookmarking a specific toolbar setting and the opened code panel**: The URL changes according to the toolbar configuration and opened code panel viewed. You can save a specific configuration of the report by bookmarking the url (using browser functionality).
 
@@ -263,7 +263,7 @@ In addition, there are some _optional_ extra parameters you can use to customize
 * **`--until, -u END_DATE`**: The end date of analysis (`-u` as alias). The analysis excludes the end date. Format: `DD/MM/YYYY`<br>
   Example:`--until 21/10/2017` or `-u 21/10/2017` <br>
   > Note: If the end date is not specified, the date of generating the report will be taken as the end date.
-* **`--formats, -f LIST_OF_FORMATS`**: A space-separated list of file extensions that should be included in the analysis (`-f` as alias). Default: `adoc cs css fxml gradle html java js json jsp md py tag txt xml`<br>
+* **`--formats, -f LIST_OF_FORMATS`**: A space-separated list of file extensions that should be included in the analysis (`-f` as alias). Default: all file formats<br>
   Example:`--formats css fxml gradle` or `-f css fxml gradle`
 * **`--ignore-standalone-config, -i`**: A flag to ignore the standalone config file in the repo (`-i` as alias). This flag will not overwrite the `Ignore standalone config` field in the csv config file. Default: the standalone config file is not ignored.<br>
   Example:`--ignore-standalone-config` or `-i`
