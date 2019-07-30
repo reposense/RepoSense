@@ -417,8 +417,8 @@ window.vSummary = {
       const untilDate = this.filterUntilDate;
 
       const nextMondayMs = (new Date(nextMondayDate)).getTime();
-      const untilMs = (new Date(untilDate)).getTime();
       const sinceMs = new Date(this.filterSinceDate).getTime();
+      const untilMs = (new Date(untilDate)).getTime();
 
       if (nextMondayDate <= untilDate) {
         this.pushCommitsWeek(sinceMs, nextMondayMs - 1, res, commits);
