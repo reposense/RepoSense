@@ -174,7 +174,7 @@ public class FileUtil {
     }
 
     /**
-     * Returns the path to the bare repo version of {@code config} that is relative to the root path.
+     * Returns the relative path to the bare repo version of {@code config}.
      */
     public static Path getBareRepoPath(RepoConfiguration config) {
         return Paths.get(FileUtil.REPOS_ADDRESS,

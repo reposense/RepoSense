@@ -26,11 +26,11 @@ public class GitClone {
     private static final Logger logger = LogsManager.getLogger(GitClone.class);
 
     /**
-     * Runs {@code git clone --bare} command asynchronously to clone a bare repo specified in the {@code config}
+     * Runs "git clone --bare" command asynchronously to clone a bare repo specified in the {@code config}
      * into the folder {@code outputFolderName}.
      *
-     * @return an instance of {@link CommandRunnerProcess} to allow tracking the status of the cloning process.
-     * @throws GitCloneException when exception has occurred while running the command.
+     * @return an instance of {@code CommandRunnerProcess} to allow tracking the status of the cloning process.
+     * @throws GitCloneException when an error occurs during command execution.
      */
     public static CommandRunnerProcess cloneBareAsync(RepoConfiguration config, Path rootPath,
             String outputFolderName) throws GitCloneException {
@@ -80,7 +80,6 @@ public class GitClone {
 
     /**
      * Clones a bare repo specified in {@code config} into the folder {@code outputFolderName}.
-     *
      * @throws IOException if it fails to delete a directory.
      */
     public static void cloneBare(RepoConfiguration config, String outputFolderName) throws IOException {
@@ -94,9 +93,8 @@ public class GitClone {
     /**
      * Performs a full clone from {@code clonedBareRepoLocation} into the folder {@code outputFolderName} and
      * directly branches out to {@code targetBranch}.
-     *
      * @throws IOException if it fails to delete a directory.
-     * @throws GitCloneException if an exception has occurred while running the command.
+     * @throws GitCloneException when an error occurs during command execution.
      */
     public static void cloneFromBareAndUpdateBranch(Path rootPath, RepoConfiguration config)
             throws GitCloneException, IOException {
@@ -115,7 +113,7 @@ public class GitClone {
     }
 
     /**
-     * Returns the command to clone a bare repo specified in the {@code config}
+     * Constructs the command to clone a bare repo specified in the {@code config}
      * into the folder {@code outputFolderName}.
      */
     private static String getCloneBareCommand(RepoConfiguration config, String outputFolderName) {
