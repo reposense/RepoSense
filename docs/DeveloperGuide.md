@@ -252,6 +252,10 @@ The main HTML file is generated from [`frontend/src/index.pug`](../frontend/src/
 [Vue](https://vuejs.org/v2/api/) (pronounced /vjuː/, like view) is a progressive framework for building user interfaces. It is heavily utilized in the report to dynamically update the information in the various views. (Style guide available [here](https://vuejs.org/v2/style-guide/), Developer tool available [here](https://chrome.google.com/webstore/detail/vuejs-devtools/nhdogjmejiglipccpnnnanhbledajbpd)). Vue lifecycle hooks are the defined methods which gets executed in a certain stage of the Vue object lifespan. The following is the Vue lifecycle diagram taken from [here](https://vuejs.org/v2/guide/instance.html#Lifecycle-Diagram) indicating the hook sequence:
 ![vue lifecycle diagram](images/vue-lifecycle-diagram.png)
 
+<div style="text-align: center">
+    <img src="/docs/images/vue-lifecycle-diagram.png" alt="vue lifecycle diagram">
+</div>
+
 The following is a snapshot of the report:
 ![report screenshot](images/report-summary.png)
 
