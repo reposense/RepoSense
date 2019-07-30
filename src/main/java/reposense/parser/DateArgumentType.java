@@ -4,6 +4,8 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Optional;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import net.sourceforge.argparse4j.inf.Argument;
 import net.sourceforge.argparse4j.inf.ArgumentParser;
@@ -25,6 +27,18 @@ public class DateArgumentType implements ArgumentType<Optional<Date>> {
          * Without it, even with "dd/MM/yyyy HH:mm:ss" format, 11/31/2017 00:00:00 will be parsed to 11/7/2019 00:00:00.
          * */
         CLI_ARGS_DATE_FORMAT.setLenient(false);
+    }
+
+    /**
+     * Extracts the first substring that matches the {@code DATE_FORMAT_REGEX}.
+     */
+    protected String extractDate(String date) {
+        Matcher matcher = Pattern.compile(DATE_FORMAT_REGEX).matcher(date);
+        String extractedDate = date;
+        if (matcher.find()) {
+            extractedDate = matcher.group(1);
+        }
+        return extractedDate;
     }
 
     @Override

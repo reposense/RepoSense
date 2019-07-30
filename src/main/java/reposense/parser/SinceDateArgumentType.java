@@ -2,8 +2,6 @@ package reposense.parser;
 
 import java.util.Date;
 import java.util.Optional;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 import net.sourceforge.argparse4j.inf.Argument;
 import net.sourceforge.argparse4j.inf.ArgumentParser;
@@ -30,8 +28,7 @@ public class SinceDateArgumentType extends DateArgumentType {
         if (FIRST_COMMIT_DATE_SHORTHAND.equals(value)) {
             return Optional.of(ARBITRARY_FIRST_COMMIT_DATE);
         } else {
-            Matcher matcher = Pattern.compile(DATE_FORMAT_REGEX).matcher(value);
-            String sinceDate = matcher.find() ? matcher.group(1) : value;
+            String sinceDate = extractDate(value);
             return super.convert(parser, arg, sinceDate + " 00:00:00");
         }
     }
