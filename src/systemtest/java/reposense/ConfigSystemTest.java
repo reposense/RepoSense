@@ -42,6 +42,7 @@ public class ConfigSystemTest {
     @Before
     public void setUp() throws IOException {
         FileUtil.deleteDirectory(FT_TEMP_DIR);
+        ErrorSummary.getInstance().clearErrorList();
     }
 
     /**
@@ -73,11 +74,6 @@ public class ConfigSystemTest {
         generateReport(getInputWithDates("1/9/2017", "30/10/2017"));
         Path actualFiles = Paths.get(getClass().getClassLoader().getResource("dateRange/expected").toURI());
         verifyAllJson(actualFiles, FT_TEMP_DIR);
-    }
-
-    @After
-    public void afterEach() {
-        ErrorSummary.getInstance().clearErrorList();
     }
 
     private String getInputWithUntilDate(String untilDate) {

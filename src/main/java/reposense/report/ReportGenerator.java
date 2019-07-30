@@ -288,7 +288,7 @@ public class ReportGenerator {
     }
 
     private static void generateIndividualRepoReport(
-            CommitContributionSummary commitSummary, AuthorshipSummary authorshipSummary, String repoReportDirectory) {
+            String repoReportDirectory, CommitContributionSummary commitSummary, AuthorshipSummary authorshipSummary) {
         CommitReportJson commitReportJson = new CommitReportJson(commitSummary, authorshipSummary);
         FileUtil.writeJsonFile(commitReportJson, getIndividualCommitsPath(repoReportDirectory));
         FileUtil.writeJsonFile(authorshipSummary.getFileResults(), getIndividualAuthorshipPath(repoReportDirectory));
