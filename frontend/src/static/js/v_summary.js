@@ -551,7 +551,7 @@ window.vSummary = {
       this.hasModifiedSinceDate = true;
 
       if (!this.isSafariBrowser) {
-        this.tmpFilterSinceDate = since.empty ? '' : since;
+        this.tmpFilterSinceDate = since;
         event.target.value = this.filterSinceDate;
         return;
       }
@@ -570,7 +570,7 @@ window.vSummary = {
       this.hasModifiedUntilDate = true;
 
       if (!this.isSafariBrowser) {
-        this.tmpFilterUntilDate = until.empty ? '' : until;
+        this.tmpFilterUntilDate = until;
         event.target.value = this.filterUntilDate;
         return;
       }
