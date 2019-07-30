@@ -10,11 +10,9 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -131,27 +129,25 @@ public class ReportGenerator {
         RepoLocation clonedRepoLocation = null;
 
         List<RepoLocation> repoLocationList = new ArrayList<>(repoLocationMap.keySet());
-        Set<RepoLocation> successfullyClonedRepos = new HashSet<>();
 
-        // clones another repo in parallel while analyzing a cloned repo (if any)
-        for (RepoLocation location : repoLocationList) {
-            repoCloner.clone(repoLocationMap.get(location).get(0));
+        RepoLocation repoLocation = repoLocationList.get(0);
+        repoCloner.clone(repoLocationMap.get(repoLocation).get(0));
 
-            if (clonedRepoLocation != null) {
+        for (int index = 1; index <= repoLocationList.size(); index++) {
+            clonedRepoLocation = repoCloner.getClonedRepoLocation();
+
+            if (clonedRepoLocation == null) {
+                handleCloningFailed(configs, repoLocation);
+            } else {
+                // Clone the rest while analyzing the previously cloned repos in parallel.
+                if (index < repoLocationList.size()) {
+                    repoLocation = repoLocationList.get(index);
+                    repoCloner.clone(repoLocationMap.get(repoLocation).get(0));
+                }
                 analyzeRepos(outputPath, configs, repoLocationMap.get(clonedRepoLocation),
                         repoCloner.getCurrentRepoDefaultBranch());
-                successfullyClonedRepos.add(clonedRepoLocation);
             }
-            clonedRepoLocation = repoCloner.getClonedRepoLocation();
         }
-        if (clonedRepoLocation != null) {
-            analyzeRepos(outputPath, configs, repoLocationMap.get(clonedRepoLocation),
-                    repoCloner.getCurrentRepoDefaultBranch());
-            successfullyClonedRepos.add(clonedRepoLocation);
-        }
-
-        // handles configs that failed to clone and clean up the cloned repo directory.
-        handleCloningFailed(configs, successfullyClonedRepos);
         repoCloner.cleanup();
     }
 
@@ -267,15 +263,14 @@ public class ReportGenerator {
     }
 
     /**
-     * Adds {@code configs} that were not successfully cloned into the list of errors in the
-     * summary report and removes them from the list of {@code configs}.
+     * Adds {@code configs} that were not successfully cloned from {@code failedRepoLocation}
+     * into the list of errors in the summary report and removes them from the list of {@code configs}.
      */
-    private static void handleCloningFailed(List<RepoConfiguration> configs,
-            Set<RepoLocation> successfullyClonedRepoLocations) {
+    private static void handleCloningFailed(List<RepoConfiguration> configs, RepoLocation failedRepoLocation) {
         Iterator<RepoConfiguration> itr = configs.iterator();
         while (itr.hasNext()) {
             RepoConfiguration config = itr.next();
-            if (!successfullyClonedRepoLocations.contains(config.getLocation())) {
+            if (config.getLocation().equals(failedRepoLocation)) {
                 ErrorSummary.getInstance().addErrorMessage(config.getDisplayName(),
                         String.format(LOG_ERROR_CLONING, config.getLocation()));
                 itr.remove();
