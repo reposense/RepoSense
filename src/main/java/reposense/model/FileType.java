@@ -34,7 +34,7 @@ public class FileType {
         }
     }
 
-    public static List<FileType> convertStringFormatsToFileTypes(List<String> formats) {
+    public static List<FileType> convertFormatStringsToFileTypes(List<String> formats) {
         return formats.stream().map(FileType::convertStringFormatToFileType).collect(Collectors.toList());
     }
 

@@ -173,7 +173,7 @@ public class ArgsParser {
             Date sinceDate = cliSinceDate.orElse(getDateMinusAMonth(cliUntilDate));
             Date untilDate = cliUntilDate.orElse(getCurrentDate());
             List<String> locations = results.get(REPO_FLAGS[0]);
-            List<FileType> formats = FileType.convertStringFormatsToFileTypes(results.get(FORMAT_FLAGS[0]));
+            List<FileType> formats = FileType.convertFormatStringsToFileTypes(results.get(FORMAT_FLAGS[0]));
             boolean isStandaloneConfigIgnored = results.get(IGNORE_FLAGS[0]);
             ZoneId zoneId = results.get(TIMEZONE_FLAGS[0]);
 

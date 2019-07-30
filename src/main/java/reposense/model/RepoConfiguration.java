@@ -184,7 +184,7 @@ public class RepoConfiguration {
      */
     public void update(StandaloneConfig standaloneConfig) {
         // only assign the new values when all the fields in {@code standaloneConfig} pass the validations.
-        List<FileType> replacementFileTypes = FileType.convertStringFormatsToFileTypes(standaloneConfig.getFormats());
+        List<FileType> replacementFileTypes = FileType.convertFormatStringsToFileTypes(standaloneConfig.getFormats());
         CommitHash.validateCommits(standaloneConfig.getIgnoreCommitList());
 
         if (!isIgnoreGlobListOverriding) {

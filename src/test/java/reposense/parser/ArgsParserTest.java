@@ -94,7 +94,7 @@ public class ArgsParserTest {
         Assert.assertEquals(expectedSinceDate, cliArguments.getSinceDate());
         Assert.assertEquals(expectedUntilDate, cliArguments.getUntilDate());
 
-        List<FileType> expectedFormats = FileType.convertStringFormatsToFileTypes(
+        List<FileType> expectedFormats = FileType.convertFormatStringsToFileTypes(
                 Arrays.asList("java", "adoc", "html", "css", "js"));
         Assert.assertEquals(expectedFormats, cliArguments.getFormats());
 
@@ -127,7 +127,7 @@ public class ArgsParserTest {
         Assert.assertEquals(expectedSinceDate, cliArguments.getSinceDate());
         Assert.assertEquals(expectedUntilDate, cliArguments.getUntilDate());
 
-        List<FileType> expectedFormats = FileType.convertStringFormatsToFileTypes(
+        List<FileType> expectedFormats = FileType.convertFormatStringsToFileTypes(
                 Arrays.asList("java", "adoc", "html", "css", "js"));
         Assert.assertEquals(expectedFormats, cliArguments.getFormats());
 
@@ -161,7 +161,7 @@ public class ArgsParserTest {
         Assert.assertEquals(expectedSinceDate, cliArguments.getSinceDate());
         Assert.assertEquals(expectedUntilDate, cliArguments.getUntilDate());
 
-        List<FileType> expectedFormats = FileType.convertStringFormatsToFileTypes(Arrays.asList(
+        List<FileType> expectedFormats = FileType.convertFormatStringsToFileTypes(Arrays.asList(
                 "java", "adoc", "html", "css", "js"));
         Assert.assertEquals(expectedFormats, cliArguments.getFormats());
 
@@ -347,7 +347,7 @@ public class ArgsParserTest {
         String input = DEFAULT_INPUT_BUILDER.addFormats("java js css 7z").build();
         CliArguments cliArguments = ArgsParser.parse(translateCommandline(input));
         Assert.assertTrue(cliArguments instanceof ConfigCliArguments);
-        List<FileType> expectedFormats = FileType.convertStringFormatsToFileTypes(
+        List<FileType> expectedFormats = FileType.convertFormatStringsToFileTypes(
                 Arrays.asList("java", "js", "css", "7z"));
         Assert.assertEquals(expectedFormats, cliArguments.getFormats());
     }

@@ -65,7 +65,7 @@ public class RepoConfigurationTest {
     private static final List<String> THIRD_AUTHOR_GLOB_LIST = Arrays.asList("**[!(.md)]", "collated**");
     private static final List<String> FOURTH_AUTHOR_GLOB_LIST = Collections.singletonList("collated**");
 
-    private static final List<FileType> CONFIG_FORMATS = FileType.convertStringFormatsToFileTypes(Arrays.asList(
+    private static final List<FileType> CONFIG_FORMATS = FileType.convertFormatStringsToFileTypes(Arrays.asList(
             "java", "adoc", "md"));
     private static final List<FileType> CONFIG_GROUPS = Arrays.asList(
             new FileType("test", Collections.singletonList("src/test**")),
@@ -165,7 +165,7 @@ public class RepoConfigurationTest {
     public void repoConfig_ignoresStandaloneConfigInCli_success()
             throws ParseException, GitCloneException, HelpScreenException {
         RepoConfiguration expectedConfig = new RepoConfiguration(new RepoLocation(TEST_REPO_DELTA), "master");
-        expectedConfig.setFormats(FileType.convertStringFormatsToFileTypes(CLI_FORMATS));
+        expectedConfig.setFormats(FileType.convertFormatStringsToFileTypes(CLI_FORMATS));
         expectedConfig.setStandaloneConfigIgnored(true);
 
         String formats = String.join(" ", CLI_FORMATS);
@@ -232,7 +232,7 @@ public class RepoConfigurationTest {
 
         Assert.assertEquals(1, actualConfigs.size());
         TestUtil.compareWhitelistedFormats(
-                FileType.convertStringFormatsToFileTypes(CLI_FORMATS), actualConfigs.get(0).getFileTypeManager());
+                FileType.convertFormatStringsToFileTypes(CLI_FORMATS), actualConfigs.get(0).getFileTypeManager());
     }
 
     @Test

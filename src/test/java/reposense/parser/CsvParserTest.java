@@ -58,10 +58,10 @@ public class CsvParserTest {
     private static final String TEST_REPO_DELTA_LOCATION = "https://github.com/reposense/testrepo-Delta.git";
     private static final String TEST_REPO_DELTA_BRANCH = "HEAD";
     private static final List<FileType> TEST_REPO_DELTA_FORMATS =
-            FileType.convertStringFormatsToFileTypes(Arrays.asList("java", "fxml"));
+            FileType.convertFormatStringsToFileTypes(Arrays.asList("java", "fxml"));
 
     private static final List<FileType> TEST_REPO_BETA_CONFIG_FORMATS =
-            FileType.convertStringFormatsToFileTypes(Arrays.asList("java", "adoc", "md"));
+            FileType.convertFormatStringsToFileTypes(Arrays.asList("java", "adoc", "md"));
     private static final List<String> TEST_REPO_BETA_CONFIG_IGNORED_COMMITS =
             Arrays.asList("abcde12345", "67890fdecba");
 

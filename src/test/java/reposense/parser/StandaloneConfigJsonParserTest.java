@@ -62,7 +62,7 @@ public class StandaloneConfigJsonParserTest {
         expectedGithubIdOnlyRepoconfig.addAuthorEmailsAndAliasesMapEntry(author, author.getEmails());
 
         expectedFullRepoConfig = new RepoConfiguration(new RepoLocation(TEST_DUMMY_LOCATION));
-        expectedFullRepoConfig.setFormats(FileType.convertStringFormatsToFileTypes(
+        expectedFullRepoConfig.setFormats(FileType.convertFormatStringsToFileTypes(
                 Arrays.asList("gradle", "jade", "java", "js", "md", "scss", "yml")));
         expectedFullRepoConfig.setIgnoreCommitList(Arrays.asList(new CommitHash(
                 "7b96c563eb2d3612aa5275364333664a18f01491")));

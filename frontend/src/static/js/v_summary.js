@@ -405,8 +405,8 @@ window.vSummary = {
             }
           });
         });
+        this.contributionBarFileTypeColors = fileTypeColors;
       });
-      this.contributionBarFileTypeColors = fileTypeColors;
     },
     splitCommitsWeek(user) {
       const { commits } = user;

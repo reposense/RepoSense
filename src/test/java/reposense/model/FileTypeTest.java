@@ -11,7 +11,7 @@ public class FileTypeTest {
     public static final List<String> DEFAULT_TEST_FORMAT_STRINGS = Arrays.asList(
             "adoc", "cs", "css", "fxml", "gradle", "html", "java", "js",
             "json", "jsp", "md", "py", "tag", "txt", "xml");
-    public static final List<FileType> DEFAULT_TEST_FORMATS = FileType.convertStringFormatsToFileTypes(
+    public static final List<FileType> DEFAULT_TEST_FORMATS = FileType.convertFormatStringsToFileTypes(
             DEFAULT_TEST_FORMAT_STRINGS);
     public static final List<FileType> NO_SPECIFIED_FORMATS = Collections.emptyList();
 

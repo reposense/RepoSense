@@ -22,14 +22,14 @@ public class GitLogTest extends GitTestTemplate {
 
     @Test
     public void gitLog_nonExistingFormats_noContent() {
-        config.setFormats(FileType.convertStringFormatsToFileTypes(Collections.singletonList("py")));
+        config.setFormats(FileType.convertFormatStringsToFileTypes(Collections.singletonList("py")));
         String content = GitLog.get(config, getAlphaAllAliasAuthor());
         Assert.assertTrue(content.isEmpty());
     }
 
     @Test
     public void gitLog_includeAllJavaFiles_success() {
-        config.setFormats(FileType.convertStringFormatsToFileTypes(Collections.singletonList("java")));
+        config.setFormats(FileType.convertFormatStringsToFileTypes(Collections.singletonList("java")));
         String content = GitLog.get(config, getAlphaAllAliasAuthor());
         Assert.assertTrue(TestUtil.compareNumberExpectedCommitsToGitLogLines(8, content));
     }
@@ -60,7 +60,7 @@ public class GitLogTest extends GitTestTemplate {
 
     @Test
     public void gitLog_includeAllJavaFilesAuthorIgnoreMovedFile_success() {
-        config.setFormats(FileType.convertStringFormatsToFileTypes(Collections.singletonList("java")));
+        config.setFormats(FileType.convertFormatStringsToFileTypes(Collections.singletonList("java")));
         Author ignoreMovedFileAuthor = getAlphaAllAliasAuthor();
         ignoreMovedFileAuthor.setIgnoreGlobList(Collections.singletonList("**movedFile.java"));
 
@@ -70,7 +70,7 @@ public class GitLogTest extends GitTestTemplate {
 
     @Test
     public void gitLog_authorIgnoreAllJavaFiles_success() {
-        config.setFormats(FileType.convertStringFormatsToFileTypes(Collections.singletonList("java")));
+        config.setFormats(FileType.convertFormatStringsToFileTypes(Collections.singletonList("java")));
         Author ignoreAllJavaFilesAuthor = getAlphaAllAliasAuthor();
         ignoreAllJavaFilesAuthor.setIgnoreGlobList(Collections.singletonList("*.java"));
 
