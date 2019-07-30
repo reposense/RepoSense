@@ -65,7 +65,7 @@ The `Chart Panel` (an example is shown above) contains _Ramp Charts_ and _Contri
 
 **Ramp Chart**: This is a visualization of frequency and quantity of contributions of an author for a specific repository.
 
-* **Title**: Each title consists of the **index**, the **name** of the author, a button to view author's **code** and a button to view author's **repo**.
+* **Title**: Each title consists of the **index**, the **name** of the author, number of lines written to the repo, a button to view author's **code**, a button to view author's **repo** and a button to view the **commits** made by the author.
 * **Rows**: Each _row_ (i.e., light blue rectangle) represents the contribution timeline of an author for a specific repository.
 * **Ramp**: Each row contains **ramps** -- the pointy saw-tooth shapes you see in the screenshot above. A ramp represents the contributions of an author possibly aggregated over a period (e.g., a day or a week).
   * The area of the ramp is proportional to the amount of contribution the author did at that time period.
@@ -77,7 +77,7 @@ The `Chart Panel` (an example is shown above) contains _Ramp Charts_ and _Contri
 
 **Contribution Bar**: The total amount of code contributed by an author during the _total analysis period_ is represented by the length of the **red bars** (called _contribution bars_) that appear at the bottom of the row.
 * Hover over a contribution bar to see the exact amount of the contribution.
-* If an author contributed significantly higher than other authors, the contribution bar can span multiple lines (see the 4th author in the screenshot for an example).
+* If an author contributed significantly higher than other authors, the contribution bar can span multiple lines (see the 2nd author in the screenshot for an example).
 
 
 ### Code Panel
@@ -319,7 +319,7 @@ Column Name | Explanation
 ----------- | -----------
 Repository's Location | The `GitHub URL` or `Disk Path` to the git repository e.g., `https://github.com/foo/bar.git` or `C:\Users\user\Desktop\GitHub\foo\bar`
 [Optional] Branch | The branch to analyze in the target repository e.g., `master`. Default: the default branch of the repo
-[Optional] File formats<sup>*+</sup> | The file extensions to analyze. Default: `adoc;cs;css;fxml;gradle;html;java;js;json;jsp;md;py;tag;txt;xml`
+[Optional] File formats<sup>*+</sup> | The file extensions to analyze. Default: all file formats
 [Optional] Ignore Glob List<sup>*+</sup> | The list of file path globs to ignore during analysis for each author. e.g., `test/**;temp/**`
 [Optional] Ignore standalone config | To ignore the standalone config file (if any) in target repository, enter **`yes`**. If the cell is empty, the standalone config file in the repo (if any) will take precedence over configurations provided in the csv files.
 [Optional] Ignore Commit List<sup>*+</sup> | The list of commits to ignore during analysis. For accurate results, the commits should be provided with their full hash.
