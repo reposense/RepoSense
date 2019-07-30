@@ -143,9 +143,6 @@ window.vSummary = {
     },
     tmpFilterSinceDate() {
       if (this.tmpFilterSinceDate && this.tmpFilterSinceDate >= this.minDate) {
-        if (this.tmpFilterSinceDate !== this.minDate) { // If user modifies the since date field
-          this.hasModifiedSinceDate = true;
-        }
         this.filterSinceDate = this.tmpFilterSinceDate;
       } else if (!this.tmpFilterSinceDate) { // If user clears the since date field
         this.filterSinceDate = this.minDate;
@@ -154,9 +151,6 @@ window.vSummary = {
     },
     tmpFilterUntilDate() {
       if (this.tmpFilterUntilDate && this.tmpFilterUntilDate <= this.maxDate) {
-        if (this.tmpFilterUntilDate !== this.maxDate) { // If user modifies the until date field
-          this.hasModifiedUntilDate = true;
-        }
         this.filterUntilDate = this.tmpFilterUntilDate;
       } else if (!this.tmpFilterUntilDate) { // If user clears the until date field
         this.filterUntilDate = this.maxDate;
@@ -533,8 +527,8 @@ window.vSummary = {
 
     // updating filters programically //
     resetDateRange() {
-      this.tmpFilterSinceDate = this.minDate;
-      this.tmpFilterUntilDate = this.maxDate;
+      this.tmpFilterSinceDate = '';
+      this.tmpFilterUntilDate = '';
     },
 
     updateDateRange() {
@@ -554,9 +548,10 @@ window.vSummary = {
 
     updateTmpFilterSinceDate(event) {
       const since = event.target.value;
+      this.hasModifiedSinceDate = true;
 
       if (!this.isSafariBrowser) {
-        this.tmpFilterSinceDate = since.empty ? this.minDate : since;
+        this.tmpFilterSinceDate = since.empty ? '' : since;
         event.target.value = this.filterSinceDate;
         return;
       }
@@ -572,9 +567,10 @@ window.vSummary = {
 
     updateTmpFilterUntilDate(event) {
       const until = event.target.value;
+      this.hasModifiedUntilDate = true;
 
       if (!this.isSafariBrowser) {
-        this.tmpFilterUntilDate = until.empty ? this.maxDate : until;
+        this.tmpFilterUntilDate = until.empty ? '' : until;
         event.target.value = this.filterUntilDate;
         return;
       }
