@@ -185,8 +185,10 @@ public class ReportGenerator {
         updateRepoConfig(config);
         updateAuthorList(config);
 
-        CommitContributionSummary commitSummary = CommitsReporter.generateCommitSummary(config);
+        //CommitContributionSummary commitSummary = CommitsReporter.generateCommitSummary(config);
         AuthorshipSummary authorshipSummary = AuthorshipReporter.generateAuthorshipSummary(config);
+        CommitContributionSummary commitSummary = CommitsReporter.generateCommitSummary(config);
+
         generateIndividualRepoReport(commitSummary, authorshipSummary, repoReportDirectory);
         logger.info(String.format(MESSAGE_COMPLETE_ANALYSIS, config.getLocation(), config.getBranch()));
     }
