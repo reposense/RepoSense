@@ -423,7 +423,7 @@ window.vSummary = {
       if (nextMondayDate <= untilDate) {
         this.pushCommitsWeek(sinceMs, nextMondayMs - 1, res, commits);
         this.pushCommitsWeek(nextMondayMs, untilMs, res, commits);
-      } else { // duration between since date and until date is less than one week
+      } else {
         this.pushCommitsWeek(sinceMs, untilMs, res, commits);
       }
       user.commits = res;
