@@ -9,6 +9,7 @@ import java.util.regex.Pattern;
 import reposense.authorship.model.FileInfo;
 import reposense.authorship.model.LineInfo;
 import reposense.model.Author;
+import reposense.model.RepoConfiguration;
 
 /**
  * Analyzes the authorship of a {@code FileInfo} using the given annotations on the file.
@@ -22,12 +23,17 @@ public class AnnotatorAnalyzer {
     /**
      * Overrides the authorship information in {@code fileInfo} based on annotations given on the file.
      */
-    public static void aggregateAnnotationAuthorInfo(FileInfo fileInfo, Map<String, Author> authorAliasMap) {
+    public static void aggregateAnnotationAuthorInfo(FileInfo fileInfo, RepoConfiguration config) {
+        Map<String, Author> authorAliasMap = config.getAuthorEmailsAndAliasesMap();
         Author currentAuthor = Author.UNKNOWN_AUTHOR;
         Path filePath = Paths.get(fileInfo.getPath());
         for (LineInfo lineInfo : fileInfo.getLines()) {
             if (lineInfo.getContent().contains(AUTHOR_TAG)) {
                 Author newAuthor = findAuthorInLine(lineInfo.getContent(), authorAliasMap);
+
+                if (!newAuthor.equals(Author.UNKNOWN_AUTHOR) && !config.containsAuthor(newAuthor)) {
+                    config.addAuthor(newAuthor);
+                }
 
                 if (newAuthor.equals(Author.UNKNOWN_AUTHOR)) {
                     //end of an author tag should belong to this author too.
@@ -57,7 +63,7 @@ public class AnnotatorAnalyzer {
             if (name == null) {
                 return Author.UNKNOWN_AUTHOR;
             }
-            return authorAliasMap.getOrDefault(name, Author.UNKNOWN_AUTHOR);
+            return authorAliasMap.getOrDefault(name, new Author(name));
         } catch (ArrayIndexOutOfBoundsException e) {
             return Author.UNKNOWN_AUTHOR;
         }
