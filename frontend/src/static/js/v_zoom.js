@@ -6,8 +6,8 @@ window.toggleCommitBodyMessage = function toggleCommitBodyMessage(ele) {
   const commitMessageBodyElemet = ele.nextElementSibling;
 
   commitMessageBodyElemet.className = commitMessageBodyElemet.className === activeClass
-    ? inactiveClass
-    : activeClass;
+      ? inactiveClass
+      : activeClass;
 };
 
 window.vZoom = {

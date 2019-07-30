@@ -93,11 +93,12 @@ The `Code Panel` allows users to see the code attributed to a specific author. C
 * Non-trivial code segments that are not written by the selected author are hidden by default, but you can toggle them by clicking on the `...` icon.
 
 ### Commits Panel
-![Commits panel](/docs/images/commits-panel.png)
+<img src="/docs/images/commits-panel.png" alt="commits panel" width="468" height="424">
 
-The `Commits Panel` allows users to see the commits attributed to a specific author. Hold `Command`&#8984; (MacOS) or `Ctrl` (Others) and click on the ramp chart in the `Chart Panel` to select the time range where you want to display the `Commit Panel` for on the right. <br>
+The `Commits Panel` allows users to see the commits attributed to a specific author. Hold `Command`&#8984; **(MacOS)** or `Ctrl` **(other OSes)** and click on the ramp chart in the `Chart Panel` to select the time range where you want to display the `Commit Panel` for on the right. <br>
 
 ![Opening commits panel](/docs/images/opening-commits-panel.gif)
+<img src="/docs/images/commits-panel.png" alt="commits panel" width="468" height="424">
 
 * The `Commits Panel` shows the commits that contain author's contributions, sorted by the date it was committed.
 * The date range for the `Chart Panel` can be updated by clicking on the "Show ramp chart for this period" below the name of the author.
