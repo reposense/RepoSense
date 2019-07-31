@@ -14,8 +14,6 @@ import org.junit.Assert;
 
 import reposense.git.GitLog;
 import reposense.model.Author;
-import reposense.model.FileType;
-import reposense.model.FileTypeManager;
 import reposense.model.RepoConfiguration;
 
 /**
@@ -133,27 +131,6 @@ public class TestUtil {
         Assert.assertEquals(expectedAuthor.getGitId(), actualAuthor.getGitId());
         Assert.assertEquals(expectedAuthor.getIgnoreGlobList(), actualAuthor.getIgnoreGlobList());
         Assert.assertEquals(expectedAuthor.getAuthorAliases(), actualAuthor.getAuthorAliases());
-    }
-
-    /**
-     * Compares attributes of {@code expectedFormats} and the white-listed formats in {@code actualFileTypeManager}.
-     *
-     * @throws AssertionError if the formats in {@code actualFileTypeManager} is different from
-     * {@code expectedFormats}.
-     */
-    public static void compareWhitelistedFormats(
-            List<FileType> expectedFormats, FileTypeManager actualFileTypeManager) {
-        Assert.assertEquals(expectedFormats, actualFileTypeManager.getFormats());
-    }
-
-    /**
-     * Compares attributes of {@code expectedGroups} and the groups in {@code actualFileTypeManager}.
-     *
-     * @throws AssertionError if the groups in {@code actualFileTypeManager} is different from {@code expectedGroups}.
-     */
-    public static void compareCustomGroups(
-            List<FileType> expectedGroups, FileTypeManager actualFileTypeManager) {
-        Assert.assertEquals(expectedGroups, actualFileTypeManager.getGroups());
     }
 
     /**

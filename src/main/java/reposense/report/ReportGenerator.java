@@ -247,8 +247,8 @@ public class ReportGenerator {
     }
 
     /**
-     * Generates a report at the {@code repoReportDirectory}.
-     */
+    * Generates a report at the {@code repoReportDirectory}.
+    */
     public static void generateEmptyRepoReport(String repoReportDirectory, String displayName) {
         CommitReportJson emptyCommitReportJson = new CommitReportJson(displayName);
         FileUtil.writeJsonFile(emptyCommitReportJson, getIndividualCommitsPath(repoReportDirectory));
