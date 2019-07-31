@@ -28,7 +28,7 @@ public class RepoClonerTest {
                 new RepoConfiguration(new RepoLocation(TEST_REPO_EMPTY_GIT_LOCATION));
 
         RepoCloner repoCloner = new RepoCloner();
-        repoCloner.clone(emptyRepositoryRepoConfig);
+        repoCloner.cloneBare(OUTPUT_PATH, emptyRepositoryRepoConfig);
         RepoLocation clonedRepoLocation = repoCloner.getClonedRepoLocation();
 
         Assert.assertNull(clonedRepoLocation);
