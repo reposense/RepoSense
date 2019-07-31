@@ -150,13 +150,15 @@ header {
         width: 1rem;
       }
 
-      &__failed-repo--name {
-        font-weight: bolder;
-        padding-left: .2rem;
-      }
+      &__failed-repo {
+        &--name {
+          font-weight: bolder;
+          padding-left: .2rem;
+        }
 
-      &__failed-repo--reason {
-        padding-left: 3rem;
+        &--reason {
+          padding-left: 3rem;
+        }
       }
     }
   }
