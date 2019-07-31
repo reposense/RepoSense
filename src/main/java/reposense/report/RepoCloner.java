@@ -10,11 +10,7 @@ import java.util.logging.Logger;
 import reposense.git.GitBranch;
 import reposense.git.GitClone;
 import reposense.git.exception.GitBranchException;
-
 import reposense.git.exception.GitCloneException;
-import reposense.git.exception.InvalidFilePathException;
-
-import reposense.model.Author;
 import reposense.model.RepoConfiguration;
 import reposense.model.RepoLocation;
 import reposense.system.CommandRunnerProcess;
@@ -49,7 +45,7 @@ public class RepoCloner {
      * Spawns a process to clone the bare repository specified by {@code config}.
      * Does not wait for process to finish executing.
      */
-    public void cloneBare(String outputPath, RepoConfiguration config) throws IOException {
+    public void cloneBare(RepoConfiguration config) {
         configs[currentIndex] = config;
         isCurrentRepoCloned = spawnCloneProcess(config);
     }
@@ -107,7 +103,6 @@ public class RepoCloner {
             crp = GitClone.cloneBareAsync(config, rootPath, FileUtil.getBareRepoFolderName(config));
         } catch (GitCloneException | IOException e) {
             logger.log(Level.WARNING, String.format(MESSAGE_ERROR_CLONING, config.getDisplayName()), e);
-            handleCloningFailed(outputPath, config);
             return false;
         }
         return true;
@@ -125,7 +120,6 @@ public class RepoCloner {
         } catch (RuntimeException | CommandRunnerProcessException e) {
             crp = null;
             logger.log(Level.WARNING, String.format(MESSAGE_ERROR_CLONING, config.getDisplayName()), e);
-            handleCloningFailed(outputPath, config);
             return false;
         }
         crp = null;

@@ -15,6 +15,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.stream.Collectors;
 
 import com.google.gson.JsonSyntaxException;
 
@@ -68,6 +69,9 @@ public class ReportGenerator {
 
     private static final String LOG_ERROR_CLONING = "Failed to clone from %s";
     private static final String LOG_BRANCH_DOES_NOT_EXIST = "Branch \"%s\" does not exist.";
+    private static final String LOG_BRANCH_CONTAINS_ILLEGAL_FILE_PATH =
+            "Branch contains file paths that are illegal and not analyzable.";
+    private static final String LOG_ERROR_CLONING_OR_BRANCHING = "Exception met while cloning or checking out.";
 
     private static Date earliestSinceDate = null;
 
@@ -133,23 +137,25 @@ public class ReportGenerator {
 
         List<RepoLocation> repoLocationList = new ArrayList<>(repoLocationMap.keySet());
 
-        RepoLocation repoLocation = repoLocationList.get(0);
-        repoCloner.cloneBare(outputPath, repoLocationMap.get(repoLocation).get(0));
+        RepoLocation currRepoLocation = repoLocationList.get(0);
+        repoCloner.cloneBare(repoLocationMap.get(currRepoLocation).get(0));
 
         for (int index = 1; index <= repoLocationList.size(); index++) {
+            RepoLocation nextRepoLocation = (index < repoLocationList.size()) ? repoLocationList.get(index) : null;
             clonedRepoLocation = repoCloner.getClonedRepoLocation();
 
+            // Clone the rest while analyzing the previously cloned repos in parallel.
+            if (nextRepoLocation != null) {
+                repoCloner.cloneBare(repoLocationMap.get(nextRepoLocation).get(0));
+            }
+
             if (clonedRepoLocation == null) {
-                handleCloningFailed(configs, repoLocation);
+                handleCloningFailed(configs, currRepoLocation);
             } else {
-                // Clone the rest while analyzing the previously cloned repos in parallel.
-                if (index < repoLocationList.size()) {
-                    repoLocation = repoLocationList.get(index);
-                    repoCloner.cloneBare(outputPath, repoLocationMap.get(repoLocation).get(0));
-                }
                 analyzeRepos(outputPath, configs, repoLocationMap.get(clonedRepoLocation),
                         repoCloner.getCurrentRepoDefaultBranch());
             }
+            currRepoLocation = nextRepoLocation;
         }
         repoCloner.cleanup();
     }
@@ -165,29 +171,29 @@ public class ReportGenerator {
             RepoConfiguration configToAnalyze = itr.next();
             configToAnalyze.updateBranch(defaultBranch);
 
-//            ErrorSummary.getInstance().addErrorMessage(configToAnalyze.getDisplayName(),
-//                    String.format(LOG_BRANCH_DOES_NOT_EXIST, configToAnalyze.getBranch()));
-//            configs.removeIf(config -> config.equals(configToAnalyze));
-
-            Path repoReportDirectory;
-            repoReportDirectory = Paths.get(outputPath, configToAnalyze.getOutputFolderName());
-            logger.info(String.format(MESSAGE_START_ANALYSIS, configToAnalyze.getLocation(), configToAnalyze.getBranch()));
+            Path repoReportDirectory = Paths.get(outputPath, configToAnalyze.getOutputFolderName());
+            logger.info(
+                    String.format(MESSAGE_START_ANALYSIS, configToAnalyze.getLocation(), configToAnalyze.getBranch()));
             try {
-                FileUtil.createDirectory(repoReportDirectory);
                 GitRevParse.assertBranchExists(configToAnalyze, FileUtil.getBareRepoPath(configToAnalyze));
                 GitLsTree.validateFilePaths(configToAnalyze, FileUtil.getBareRepoPath(configToAnalyze));
-
                 GitClone.cloneFromBareAndUpdateBranch(Paths.get(FileUtil.REPOS_ADDRESS), configToAnalyze);
+
+                FileUtil.createDirectory(repoReportDirectory);
                 analyzeRepo(configToAnalyze, repoReportDirectory.toString());
             } catch (IOException ioe) {
-                logger.log(Level.WARNING,
-                        String.format(MESSAGE_ERROR_CREATING_DIRECTORY, configToAnalyze.getLocation(), configToAnalyze.getBranch()), ioe);
+                String logMessage = String.format(MESSAGE_ERROR_CREATING_DIRECTORY,
+                        configToAnalyze.getLocation(), configToAnalyze.getBranch());
+                logger.log(Level.WARNING, logMessage, ioe);
             } catch (GitBranchException gbe) {
                 logger.log(Level.SEVERE, String.format(MESSAGE_BRANCH_DOES_NOT_EXIST,
                         configToAnalyze.getBranch(), configToAnalyze.getLocation()), gbe);
-                generateEmptyRepoReport(repoReportDirectory.toString(), Author.NAME_FAILED_TO_CLONE_OR_CHECKOUT);
-            } catch (InvalidFilePathException | GitCloneException ipe) {
-                generateEmptyRepoReport(repoReportDirectory.toString(), Author.NAME_FAILED_TO_CLONE_OR_CHECKOUT);
+                handleAnalysisFailed(configs, configToAnalyze,
+                        String.format(LOG_BRANCH_DOES_NOT_EXIST, configToAnalyze.getBranch()));
+            } catch (InvalidFilePathException ipe) {
+                handleAnalysisFailed(configs, configToAnalyze, LOG_BRANCH_CONTAINS_ILLEGAL_FILE_PATH);
+            } catch (GitCloneException gce) {
+                handleAnalysisFailed(configs, configToAnalyze, LOG_ERROR_CLONING_OR_BRANCHING);
             } catch (NoAuthorsWithCommitsFoundException nafe) {
                 logger.log(Level.WARNING, String.format(MESSAGE_NO_AUTHORS_WITH_COMMITS_FOUND,
                         configToAnalyze.getLocation(), configToAnalyze.getBranch()));
@@ -264,6 +270,7 @@ public class ReportGenerator {
      * into the list of errors in the summary report and removes them from the list of {@code configs}.
      */
     private static void handleCloningFailed(List<RepoConfiguration> configs, RepoLocation failedRepoLocation) {
+        /*
         Iterator<RepoConfiguration> itr = configs.iterator();
         while (itr.hasNext()) {
             RepoConfiguration config = itr.next();
@@ -272,7 +279,46 @@ public class ReportGenerator {
                         String.format(LOG_ERROR_CLONING, config.getLocation()));
                 itr.remove();
             }
+        }*/
+        List<RepoConfiguration> failedConfigs = configs.stream()
+                .filter(config -> config.getLocation().equals(failedRepoLocation))
+                .collect(Collectors.toList());
+        handleFailedConfigs(configs, failedConfigs, String.format(LOG_ERROR_CLONING, failedRepoLocation));
+    }
+
+    /**
+     * Adds {@code failedConfigs} that failed cloning/analysis into the list of errors in the summary report and
+     * removes {@code failedConfigs} from the list of {@code configs}.
+     */
+    private static void handleFailedConfigs(
+            List<RepoConfiguration> configs, List<RepoConfiguration> failedConfigs, String errorMessage) {
+        Iterator<RepoConfiguration> itr = configs.iterator();
+        while (itr.hasNext()) {
+            RepoConfiguration config = itr.next();
+            if (failedConfigs.contains(config)) {
+                ErrorSummary.getInstance().addErrorMessage(config.getDisplayName(), errorMessage);
+                itr.remove();
+            }
         }
+    }
+
+    /**
+     * Adds {@code failedConfig} that failed analysis into the list of errors in the summary report and
+     * removes {@code failedConfig} from the list of {@code configs}.
+     */
+    private static void handleAnalysisFailed(List<RepoConfiguration> configs, RepoConfiguration failedConfig,
+            String errorMessage) {
+        /*
+        Iterator<RepoConfiguration> itr = configs.iterator();
+        while (itr.hasNext()) {
+            RepoConfiguration config = itr.next();
+            if (config.equals(failedConfig)) {
+                ErrorSummary.getInstance().addErrorMessage(config.getDisplayName(), errorMessage);
+                itr.remove();
+            }
+        }
+         */
+        handleFailedConfigs(configs, Collections.singletonList(failedConfig), errorMessage);
     }
 
     /**
