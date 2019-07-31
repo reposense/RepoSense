@@ -499,21 +499,19 @@ window.vSummary = {
 
       const res = [];
 
-      const sinceDate = dateRounding(this.filterSinceDate, 0); // round up for the next monday
+      const nextMondayDate = dateRounding(this.filterSinceDate, 0); // round up for the next monday
       const untilDate = this.filterUntilDate;
 
-      const sinceMs = (new Date(sinceDate)).getTime();
+      const nextMondayMs = (new Date(nextMondayDate)).getTime();
+      const sinceMs = new Date(this.filterSinceDate).getTime();
       const untilMs = (new Date(untilDate)).getTime();
 
-      // add first week commits starting from filterSinceDate to end of the week
-      // if filterSinceDate is not the start of the week
-      if (this.filterSinceDate !== sinceDate) {
-        const firstWeekDateMs = new Date(this.filterSinceDate).getTime();
-        this.pushCommitsWeek(firstWeekDateMs, sinceMs - 1, res, commits);
+      if (nextMondayDate <= untilDate) {
+        this.pushCommitsWeek(sinceMs, nextMondayMs - 1, res, commits);
+        this.pushCommitsWeek(nextMondayMs, untilMs, res, commits);
+      } else {
+        this.pushCommitsWeek(sinceMs, untilMs, res, commits);
       }
-
-      this.pushCommitsWeek(sinceMs, untilMs, res, commits);
-
       user.commits = res;
     },
     pushCommitsWeek(sinceMs, untilMs, res, commits) {
