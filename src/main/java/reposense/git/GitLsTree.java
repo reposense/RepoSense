@@ -2,15 +2,12 @@ package reposense.git;
 
 import static reposense.system.CommandRunner.runCommand;
 
-import java.io.IOException;
 import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import reposense.git.exception.GitCloneException;
 import reposense.git.exception.InvalidFilePathException;
 import reposense.model.RepoConfiguration;
 import reposense.system.LogsManager;
@@ -31,28 +28,20 @@ public class GitLsTree {
     // Also, it is not possible to create and commit such a file on Unix systems.
     private static final Pattern ILLEGAL_WINDOWS_CHARACTER_PATTERN = Pattern.compile("[:\\\\*?|<>:\"]");
 
-
     /**
      * Verifies that the repository in {@code config} contains only file paths that are compatible with Windows.
      * Skips check if the operating system is not Windows.
-     *
      * @throws InvalidFilePathException if the repository contains invalid file paths that are not compatible with
      * Windows.
      */
-    public static void validateFilePaths(RepoConfiguration config) throws InvalidFilePathException, GitCloneException {
+    public static void validateFilePaths(RepoConfiguration config, Path clonedBareRepoDirectory)
+            throws InvalidFilePathException {
         if (!SystemUtil.isWindows()) {
             return;
         }
 
         boolean hasError = false;
-        String[] paths;
-
-        try {
-            GitClone.cloneBare(config);
-            paths = getFilePaths(config);
-        } catch (IOException | RuntimeException e) {
-            throw new GitCloneException(e);
-        }
+        String[] paths = getFilePaths(clonedBareRepoDirectory, config);
 
         for (String path : paths) {
             path = StringsUtil.removeQuote(path);
@@ -72,10 +61,9 @@ public class GitLsTree {
     /**
      * Returns an Array of {@code String} containing file paths of all tracked files.
      */
-    private static String[] getFilePaths(RepoConfiguration config) {
-        Path rootPath = Paths.get(config.getRepoRoot());
+    private static String[] getFilePaths(Path clonedRepoDirectory, RepoConfiguration config) {
         String command = "git ls-tree --name-only -r " + config.getBranch();
 
-        return runCommand(rootPath, command).split("\n");
+        return runCommand(clonedRepoDirectory, command).split("\n");
     }
 }
