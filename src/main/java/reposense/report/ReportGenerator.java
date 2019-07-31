@@ -144,7 +144,7 @@ public class ReportGenerator {
             RepoLocation nextRepoLocation = (index < repoLocationList.size()) ? repoLocationList.get(index) : null;
             clonedRepoLocation = repoCloner.getClonedRepoLocation();
 
-            // Clone the rest while analyzing the previously cloned repos in parallel.
+            // Clones the next location while analyzing the previously cloned repos in parallel.
             if (nextRepoLocation != null) {
                 repoCloner.cloneBare(repoLocationMap.get(nextRepoLocation).get(0));
             }
@@ -270,20 +270,19 @@ public class ReportGenerator {
      * into the list of errors in the summary report and removes them from the list of {@code configs}.
      */
     private static void handleCloningFailed(List<RepoConfiguration> configs, RepoLocation failedRepoLocation) {
-        /*
-        Iterator<RepoConfiguration> itr = configs.iterator();
-        while (itr.hasNext()) {
-            RepoConfiguration config = itr.next();
-            if (config.getLocation().equals(failedRepoLocation)) {
-                ErrorSummary.getInstance().addErrorMessage(config.getDisplayName(),
-                        String.format(LOG_ERROR_CLONING, config.getLocation()));
-                itr.remove();
-            }
-        }*/
         List<RepoConfiguration> failedConfigs = configs.stream()
                 .filter(config -> config.getLocation().equals(failedRepoLocation))
                 .collect(Collectors.toList());
         handleFailedConfigs(configs, failedConfigs, String.format(LOG_ERROR_CLONING, failedRepoLocation));
+    }
+
+    /**
+     * Adds {@code failedConfig} that failed analysis into the list of errors in the summary report and
+     * removes {@code failedConfig} from the list of {@code configs}.
+     */
+    private static void handleAnalysisFailed(List<RepoConfiguration> configs, RepoConfiguration failedConfig,
+            String errorMessage) {
+        handleFailedConfigs(configs, Collections.singletonList(failedConfig), errorMessage);
     }
 
     /**
@@ -300,25 +299,6 @@ public class ReportGenerator {
                 itr.remove();
             }
         }
-    }
-
-    /**
-     * Adds {@code failedConfig} that failed analysis into the list of errors in the summary report and
-     * removes {@code failedConfig} from the list of {@code configs}.
-     */
-    private static void handleAnalysisFailed(List<RepoConfiguration> configs, RepoConfiguration failedConfig,
-            String errorMessage) {
-        /*
-        Iterator<RepoConfiguration> itr = configs.iterator();
-        while (itr.hasNext()) {
-            RepoConfiguration config = itr.next();
-            if (config.equals(failedConfig)) {
-                ErrorSummary.getInstance().addErrorMessage(config.getDisplayName(), errorMessage);
-                itr.remove();
-            }
-        }
-         */
-        handleFailedConfigs(configs, Collections.singletonList(failedConfig), errorMessage);
     }
 
     /**
