@@ -111,6 +111,7 @@ window.vSummary = {
       isSortingWithinDsc: '',
       filterTimeFrame: 'commit',
       filterBreakdown: false,
+      isMergeGroup: false,
       tmpFilterSinceDate: '',
       tmpFilterUntilDate: '',
       filterSinceDate: '',
@@ -133,10 +134,17 @@ window.vSummary = {
       this.getFiltered();
     },
     filterGroupSelection() {
-      this.updateSortWithinGroup();
+      // merge group is not allowed when group by none
+      if (this.filterGroupSelection === 'groupByNone') {
+        this.isMergeGroup = false;
+      }
+
       this.getFiltered();
     },
     filterBreakdown() {
+      this.getFiltered();
+    },
+    isMergeGroup() {
       this.getFiltered();
     },
     tmpFilterSinceDate() {
@@ -290,6 +298,7 @@ window.vSummary = {
       addHash('since', this.filterSinceDate);
       addHash('until', this.filterUntilDate);
       addHash('timeframe', this.filterTimeFrame);
+      addHash('mergegroup', this.isMergeGroup);
 
       addHash('groupSelect', this.filterGroupSelection);
       addHash('breakdown', this.filterBreakdown);
@@ -311,6 +320,9 @@ window.vSummary = {
       }
 
       if (hash.timeframe) { this.filterTimeFrame = hash.timeframe; }
+      if (hash.mergegroup) {
+        this.isMergeGroup = convertBool(hash.mergegroup);
+      }
       if (hash.since) {
         this.tmpFilterSinceDate = hash.since;
       }
@@ -361,7 +373,10 @@ window.vSummary = {
       // array of array, sorted by repo
       const full = [];
 
-      this.repos.forEach((repo) => {
+      // create deep clone of this.repos to not modify the original content of this.repos
+      // when merging groups
+      const groups = this.isMergeGroup ? JSON.parse(JSON.stringify(this.repos)) : this.repos;
+      groups.forEach((repo) => {
         const res = [];
 
         // filtering
@@ -388,6 +403,71 @@ window.vSummary = {
       this.filtered = full;
 
       this.sortFiltered();
+
+      if (this.isMergeGroup) {
+        this.mergeGroup();
+      }
+    },
+    mergeGroup() {
+      this.filtered.forEach((group, groupIndex) => {
+        const dateToIndexMap = {};
+        const mergedCommits = [];
+        const mergedFileFormatContribution = {};
+        let mergedVariance = 0;
+        let totalMergedCommits = 0;
+
+        group.forEach((user) => {
+          this.mergeCommits(user, mergedCommits, dateToIndexMap);
+          mergedCommits.sort(window.comparator((ele) => ele.date));
+
+          this.mergeFileFormatContribution(user, mergedFileFormatContribution);
+
+          totalMergedCommits += user.totalCommits;
+          mergedVariance += user.variance;
+        });
+
+        group[0].commits = mergedCommits;
+        group[0].fileFormatContribution = mergedFileFormatContribution;
+        group[0].totalCommits = totalMergedCommits;
+        group[0].variance = mergedVariance;
+
+        // clear all users and add merged group in filtered group
+        this.filtered[groupIndex] = [];
+        this.filtered[groupIndex].push(group[0]);
+      });
+    },
+    mergeCommits(user, merged, dateToIndexMap) {
+      // merge commits with the same date
+      user.commits.forEach((commit) => {
+        const {
+          commitResults, date, insertions, deletions,
+        } = commit;
+
+        if (Object.prototype.hasOwnProperty.call(dateToIndexMap, date)) {
+          const commitWithSameDate = merged[dateToIndexMap[date]];
+
+          commitResults.forEach((commitResult) => {
+            commitWithSameDate.commitResults.push(commitResult);
+          });
+
+          commitWithSameDate.insertions += insertions;
+          commitWithSameDate.deletions += deletions;
+        } else {
+          dateToIndexMap[date] = Object.keys(dateToIndexMap).length;
+          merged.push(commit);
+        }
+      });
+    },
+    mergeFileFormatContribution(user, merged) {
+      Object.entries(user.fileFormatContribution).forEach((fileFormat) => {
+        const key = fileFormat[0];
+        const value = fileFormat[1];
+
+        if (!Object.prototype.hasOwnProperty.call(merged, key)) {
+          merged[key] = 0;
+        }
+        merged[key] += value;
+      });
     },
     processFileFormats() {
       const selectedColors = ['#ffe119', '#4363d8', '#3cb44b', '#f58231', '#911eb4', '#46f0f0', '#f032e6',
@@ -488,16 +568,6 @@ window.vSummary = {
 
       return null;
     },
-    updateSortWithinGroup() {
-      const ele = document.getElementsByClassName('mui-select sort-within-group');
-      if (this.filterGroupSelection === 'groupByNone') {
-        ele[0].style.pointerEvents = 'none';
-        ele[0].style.opacity = 0.5;
-      } else {
-        ele[0].style.pointerEvents = 'auto';
-        ele[0].style.opacity = 1;
-      }
-    },
     getOptionWithOrder() {
       [this.sortingOption, this.isSortingDsc] = this.sortGroupSelection.split(' ');
       [this.sortingWithinOption, this.isSortingWithinDsc] = this.sortWithinGroupSelection.split(' ');
@@ -523,19 +593,10 @@ window.vSummary = {
       this.tmpFilterUntilDate = this.maxDate;
     },
 
-    updateDateRange() {
-      if (drags.length > 0) {
-        const since = new Date(this.filterSinceDate).getTime();
-        const until = new Date(this.filterUntilDate).getTime();
-        const range = until - since;
-
-        const getStr = (time) => getDateStr(new Date(time));
-        this.tmpFilterSinceDate = getStr(since + range * drags[0] / 100);
-        this.tmpFilterUntilDate = getStr(since + range * drags[1] / 100);
-
-        drags = [];
-        deactivateAllOverlays();
-      }
+    updateDateRange(since, until) {
+      this.tmpFilterSinceDate = since;
+      this.tmpFilterUntilDate = until;
+      deactivateAllOverlays();
     },
 
     // update tmp dates manually after enter key in date field //
@@ -593,10 +654,12 @@ window.vSummary = {
       const user = Object.assign({}, userOrig);
 
       this.$emit('view-zoom', {
+        filterGroupSelection: this.filterGroupSelection,
         avgCommitSize,
         user,
         sinceDate: since,
         untilDate: until,
+        isMergeGroup: this.isMergeGroup,
       });
     },
 
