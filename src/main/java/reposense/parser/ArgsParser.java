@@ -113,7 +113,7 @@ public class ArgsParser {
         parser.addArgument(UNTIL_FLAGS)
                 .dest(UNTIL_FLAGS[0])
                 .metavar("dd/MM/yyyy")
-                .type(new DateArgumentType())
+                .type(new UntilDateArgumentType())
                 .setDefault(Optional.empty())
                 .help("The date to stop filtering.");
 
