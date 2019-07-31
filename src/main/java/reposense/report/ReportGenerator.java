@@ -22,8 +22,13 @@ import reposense.authorship.AuthorshipReporter;
 import reposense.authorship.model.AuthorshipSummary;
 import reposense.commits.CommitsReporter;
 import reposense.commits.model.CommitContributionSummary;
-import reposense.git.GitCheckout;
+import reposense.git.GitClone;
+import reposense.git.GitLsTree;
+import reposense.git.GitRevParse;
 import reposense.git.GitShortlog;
+import reposense.git.exception.GitBranchException;
+import reposense.git.exception.GitCloneException;
+import reposense.git.exception.InvalidFilePathException;
 import reposense.model.Author;
 import reposense.model.RepoConfiguration;
 import reposense.model.RepoLocation;
@@ -48,8 +53,6 @@ public class ReportGenerator {
     private static final String MESSAGE_INVALID_CONFIG_JSON = "%s Ignoring the config provided by %s (%s).";
     private static final String MESSAGE_ERROR_CREATING_DIRECTORY =
             "Error has occurred while creating repo directory for %s (%s), will skip this repo.";
-    private static final String MESSAGE_ERROR_DURING_ANALYSIS =
-            "Error has occurred during analysis of %s (%s), will skip this repo.";
     private static final String MESSAGE_NO_STANDALONE_CONFIG = "%s (%s) does not contain a standalone config file.";
     private static final String MESSAGE_IGNORING_STANDALONE_CONFIG = "Ignoring standalone config file in %s (%s).";
     private static final String MESSAGE_MALFORMED_STANDALONE_CONFIG = "%s/%s/%s is malformed for %s (%s).";
@@ -127,7 +130,7 @@ public class ReportGenerator {
         RepoLocation clonedRepoLocation = null;
 
         for (RepoLocation location : repoLocationMap.keySet()) {
-            repoCloner.clone(outputPath, repoLocationMap.get(location).get(0));
+            repoCloner.cloneBare(outputPath, repoLocationMap.get(location).get(0));
 
             if (clonedRepoLocation != null) {
                 analyzeRepos(outputPath, repoLocationMap.get(clonedRepoLocation),
@@ -149,31 +152,28 @@ public class ReportGenerator {
             config.updateBranch(defaultBranch);
 
             Path repoReportDirectory;
+            repoReportDirectory = Paths.get(outputPath, config.getOutputFolderName());
             logger.info(String.format(MESSAGE_START_ANALYSIS, config.getLocation(), config.getBranch()));
             try {
-                repoReportDirectory = Paths.get(outputPath, config.getOutputFolderName());
                 FileUtil.createDirectory(repoReportDirectory);
+                GitRevParse.assertBranchExists(config, FileUtil.getBareRepoPath(config));
+                GitLsTree.validateFilePaths(config, FileUtil.getBareRepoPath(config));
+
+                GitClone.cloneFromBareAndUpdateBranch(Paths.get(FileUtil.REPOS_ADDRESS), config);
+                analyzeRepo(config, repoReportDirectory.toString());
             } catch (IOException ioe) {
                 logger.log(Level.WARNING,
                         String.format(MESSAGE_ERROR_CREATING_DIRECTORY, config.getLocation(), config.getBranch()), ioe);
-                continue;
-            } catch (RuntimeException rte) {
-                logger.log(Level.SEVERE,
-                        String.format(MESSAGE_ERROR_DURING_ANALYSIS, config.getLocation(), config.getBranch()), rte);
-                continue;
-            }
-
-            try {
-                GitCheckout.checkout(config.getRepoRoot(), config.getBranch());
-                analyzeRepo(config, repoReportDirectory.toString());
-            } catch (NoAuthorsWithCommitsFoundException e) {
-                logger.log(Level.SEVERE, String.format(MESSAGE_NO_AUTHORS_WITH_COMMITS_FOUND,
+            } catch (GitBranchException gbe) {
+                logger.log(Level.SEVERE, String.format(MESSAGE_BRANCH_DOES_NOT_EXIST,
+                        config.getBranch(), config.getLocation()), gbe);
+                generateEmptyRepoReport(repoReportDirectory.toString(), Author.NAME_FAILED_TO_CLONE_OR_CHECKOUT);
+            } catch (InvalidFilePathException | GitCloneException ipe) {
+                generateEmptyRepoReport(repoReportDirectory.toString(), Author.NAME_FAILED_TO_CLONE_OR_CHECKOUT);
+            } catch (NoAuthorsWithCommitsFoundException nafe) {
+                logger.log(Level.WARNING, String.format(MESSAGE_NO_AUTHORS_WITH_COMMITS_FOUND,
                         config.getLocation(), config.getBranch()));
                 generateEmptyRepoReport(repoReportDirectory.toString(), Author.NAME_NO_AUTHOR_WITH_COMMITS_FOUND);
-            } catch (RuntimeException e) {
-                logger.log(Level.SEVERE, String.format(MESSAGE_BRANCH_DOES_NOT_EXIST,
-                        config.getBranch(), config.getLocation()), e);
-                generateEmptyRepoReport(repoReportDirectory.toString(), Author.NAME_FAILED_TO_CLONE_OR_CHECKOUT);
             }
         }
     }

@@ -176,10 +176,15 @@ html
                   title="click to view author's repo"
                 )
                   i.summary-chart__title--button.fab.fa-github
-
+                a(
+                  title="click to view breakdown of commits",
+                  onclick="deactivateAllOverlays()",
+                  v-on:click="openTabZoom(user, filterSinceDate, filterUntilDate)"
+                )
+                  i.summary-chart__title--button.fas.fa-list-ul
               .summary-chart__ramp(
                 onclick="viewClick(event)",
-                v-on:click="openTabZoom(user)"
+                v-on:click="openTabZoomSubrange(user)"
               )
                 v_ramp(
                     v-bind:user="user",
