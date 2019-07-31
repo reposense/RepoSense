@@ -312,34 +312,25 @@ public class RepoConfigurationTest {
     }
 
     @Test
-    public void repoConfig_makeRepoFolderNamesUnique_success() throws InvalidLocationException {
+    public void repoConfig_differentLocalLocationSameName_differentRepoFolderName() throws InvalidLocationException {
         RepoConfiguration config1 = new RepoConfiguration(new RepoLocation(localTestRepo1));
         RepoConfiguration config2 = new RepoConfiguration(new RepoLocation(localTestRepo2));
-        List<RepoConfiguration> configs = Arrays.asList(config1, config2);
-
-        RepoConfiguration.makeRepoFolderNamesUnique(configs);
 
         Assert.assertNotEquals(config1.getRepoFolderName(), config2.getRepoFolderName());
     }
 
     @Test
-    public void repoConfig_makeOutputFolderNamesUnique_success() throws InvalidLocationException {
+    public void repoConfig_differentLocalLocationSameName_differentOutputFolderName() throws InvalidLocationException {
         RepoConfiguration config1 = new RepoConfiguration(new RepoLocation(localTestRepo1));
         RepoConfiguration config2 = new RepoConfiguration(new RepoLocation(localTestRepo2));
-        List<RepoConfiguration> configs = Arrays.asList(config1, config2);
-
-        RepoConfiguration.makeOutputFolderNamesUnique(configs);
 
         Assert.assertNotEquals(config1.getOutputFolderName(), config2.getOutputFolderName());
     }
 
     @Test
-    public void repoConfig_makeDisplayNamesUnique_success() throws InvalidLocationException {
+    public void repoConfig_differentLocalLocationSameName_differentDisplayName() throws InvalidLocationException {
         RepoConfiguration config1 = new RepoConfiguration(new RepoLocation(localTestRepo1));
         RepoConfiguration config2 = new RepoConfiguration(new RepoLocation(localTestRepo2));
-        List<RepoConfiguration> configs = Arrays.asList(config1, config2);
-
-        RepoConfiguration.makeDisplayNamesUnique(configs);
 
         Assert.assertNotEquals(config1.getDisplayName(), config2.getDisplayName());
     }
