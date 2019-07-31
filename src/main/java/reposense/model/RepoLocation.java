@@ -88,12 +88,15 @@ public class RepoLocation {
         }
     }
 
-    private boolean isRepoNameUnique(String name) {
-        if (!uniqueRepoNames.keySet().contains(name)) {
-            uniqueRepoNames.put(name, 0);
+    /**
+     * Checks whether {@code repoName} has been used for other {@code RepoLocation}s
+     */
+    private boolean isRepoNameUnique(String repoName) {
+        if (!uniqueRepoNames.keySet().contains(repoName)) {
+            uniqueRepoNames.put(repoName, 0);
             return true;
         } else {
-            uniqueRepoNames.put(name, uniqueRepoNames.get(name) + 1);
+            uniqueRepoNames.put(repoName, uniqueRepoNames.get(repoName) + 1);
             return false;
         }
     }
