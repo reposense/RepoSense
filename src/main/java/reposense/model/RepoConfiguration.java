@@ -205,10 +205,6 @@ public class RepoConfiguration {
         return repoFolderName;
     }
 
-    private void setRepoFolderName(String repoFolderName) {
-        this.repoFolderName = repoFolderName;
-    }
-
     @Override
     public boolean equals(Object other) {
 
@@ -380,20 +376,12 @@ public class RepoConfiguration {
         return displayName;
     }
 
-    private void setDisplayName(String displayName) {
-        this.displayName = displayName;
-    }
-
     public String getRepoName() {
         return location.getRepoName();
     }
 
     public String getOutputFolderName() {
         return outputFolderName;
-    }
-
-    private void setOutputFolderName(String outputFolderName) {
-        this.outputFolderName = outputFolderName;
     }
 
     public void setStandaloneConfigIgnored(boolean isStandaloneConfigIgnored) {
