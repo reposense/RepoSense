@@ -29,6 +29,7 @@ html
           v_summary(
             ref="summary",
             v-bind:repos="users",
+            v-bind:error-messages="errorMessages",
             v-on:view-zoom="updateTabZoom",
             v-on:view-authorship="updateTabAuthorship",
             v-on:get-dates="receiveDates"
@@ -133,7 +134,7 @@ html
                 input(type="checkbox", v-model="filterBreakdown").mui-checkbox.summary-picker__checkbox
                 span breakdown by file format
         .error-message-box(v-if="Object.entries(errorMessages).length")
-          .error-message-box__close-button(onclick="this.parentElement.style.display='none'") &times;
+          .error-message-box__close-button(onclick="dismissTab(this)") &times;
           .error-message-box__message The following issues occurred when analyzing the following repositories:
           .error-message-box__failed-repo(v-for="errorBlock in errorMessages")
             i.fas.fa-exclamation.mini-font
