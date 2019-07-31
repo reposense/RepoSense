@@ -13,11 +13,13 @@
       a(v-on:click="openSummary") [Show ramp chart for this period]
     .zoom__title--granularity.mini-font *granularity: one ramp per {{ filterTimeFrame }}
   v_ramp(
+      v-bind:groupby="info.filterGroupSelection",
       v-bind:user="info.user",
       v-bind:tframe="filterTimeFrame",
       v-bind:sdate="info.sinceDate",
       v-bind:udate="info.untilDate",
-      v-bind:avgsize="info.avgCommitSize")
+      v-bind:avgsize="info.avgCommitSize",
+      v-bind:mergegroup="info.isMergeGroup")
 
   .zoom__day(v-for="day in info.user.commits")
     template(v-if="day.insertions > 0")
