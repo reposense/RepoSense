@@ -8,7 +8,7 @@ window.vZoom = {
   },
   methods: {
     openSummary() {
-      this.$emit('view-summary', {});
+      this.$emit('view-summary', this.info.sinceDate, this.info.untilDate);
     },
 
     filterCommits() {

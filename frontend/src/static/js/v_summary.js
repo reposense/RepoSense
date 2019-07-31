@@ -595,19 +595,10 @@ window.vSummary = {
       this.tmpFilterUntilDate = this.maxDate;
     },
 
-    updateDateRange() {
-      if (drags.length > 0) {
-        const since = new Date(this.filterSinceDate).getTime();
-        const until = new Date(this.filterUntilDate).getTime();
-        const range = until - since;
-
-        const getStr = (time) => getDateStr(new Date(time));
-        this.tmpFilterSinceDate = getStr(since + range * drags[0] / 100);
-        this.tmpFilterUntilDate = getStr(since + range * drags[1] / 100);
-
-        drags = [];
-        deactivateAllOverlays();
-      }
+    updateDateRange(since, until) {
+      this.tmpFilterSinceDate = since;
+      this.tmpFilterUntilDate = until;
+      deactivateAllOverlays();
     },
 
     // update tmp dates manually after enter key in date field //
