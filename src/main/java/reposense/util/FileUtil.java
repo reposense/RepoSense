@@ -24,6 +24,7 @@ import java.util.zip.ZipOutputStream;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
+import reposense.model.RepoConfiguration;
 import reposense.system.LogsManager;
 
 /**
@@ -38,6 +39,8 @@ public class FileUtil {
     private static final Logger logger = LogsManager.getLogger(FileUtil.class);
     private static final String GITHUB_API_DATE_FORMAT = "yyyy-MM-dd";
     private static final ByteBuffer buffer = ByteBuffer.allocate(1 << 11); // 2KB
+
+    private static final String BARE_REPO_SUFFIX = "_bare";
 
     private static final String MESSAGE_INVALID_FILE_PATH = "\"%s\" is an invalid file path. Skipping this directory.";
     private static final String MESSAGE_FAIL_TO_ZIP_FILES =
@@ -170,6 +173,21 @@ public class FileUtil {
      */
     public static void createDirectory(Path dest) throws IOException {
         Files.createDirectories(dest);
+    }
+
+    /**
+     * Returns the relative path to the bare repo version of {@code config}.
+     */
+    public static Path getBareRepoPath(RepoConfiguration config) {
+        return Paths.get(FileUtil.REPOS_ADDRESS,
+                config.getRepoFolderName(), config.getRepoName() + BARE_REPO_SUFFIX);
+    }
+
+    /**
+     * Returns the folder name of the bare repo version of {@code config}.
+     */
+    public static String getBareRepoFolderName(RepoConfiguration config) {
+        return config.getRepoName() + BARE_REPO_SUFFIX;
     }
 
     /**
