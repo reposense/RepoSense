@@ -35,8 +35,8 @@ public class FileAnalyzerTest extends GitTestTemplate {
 
     @Test
     public void blameTestDateRange() throws CommitNotFoundException {
-        Date sinceDate = TestUtil.getDate(2018, Calendar.FEBRUARY, 6);
-        Date untilDate = TestUtil.getDate(2018, Calendar.FEBRUARY, 8);
+        Date sinceDate = TestUtil.getSinceDate(2018, Calendar.FEBRUARY, 6);
+        Date untilDate = TestUtil.getUntilDate(2018, Calendar.FEBRUARY, 8);
 
         GitCheckout.checkoutDate(config.getRepoRoot(), config.getBranch(), untilDate);
         config.setSinceDate(sinceDate);
@@ -48,8 +48,8 @@ public class FileAnalyzerTest extends GitTestTemplate {
 
     @Test
     public void movedFileBlameTestDateRange() throws CommitNotFoundException {
-        Date sinceDate = TestUtil.getDate(2018, Calendar.FEBRUARY, 7);
-        Date untilDate = TestUtil.getDate(2018, Calendar.FEBRUARY, 9);
+        Date sinceDate = TestUtil.getSinceDate(2018, Calendar.FEBRUARY, 7);
+        Date untilDate = TestUtil.getUntilDate(2018, Calendar.FEBRUARY, 9);
 
         GitCheckout.checkoutDate(config.getRepoRoot(), config.getBranch(), untilDate);
         config.setSinceDate(sinceDate);
