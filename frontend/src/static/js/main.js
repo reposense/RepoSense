@@ -191,8 +191,8 @@ window.app = new window.Vue({
     },
 
     // updating summary view
-    updateSummaryDates(zoomSince, zoomUntil) {
-      this.$refs.summary.updateDateRange(zoomSince, zoomUntil);
+    updateSummaryDates(since, until) {
+      this.$refs.summary.updateDateRange(since, until);
     },
 
     renderAuthorShipTabHash(minDate, maxDate) {

@@ -525,9 +525,9 @@ window.vSummary = {
       this.tmpFilterUntilDate = this.maxDate;
     },
 
-    updateDateRange(zoomSince, zoomUntil) {
-      this.tmpFilterSinceDate = zoomSince;
-      this.tmpFilterUntilDate = zoomUntil;
+    updateDateRange(since, until) {
+      this.tmpFilterSinceDate = since;
+      this.tmpFilterUntilDate = until;
       deactivateAllOverlays();
     },
 
