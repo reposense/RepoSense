@@ -267,7 +267,7 @@ In addition, there are some _optional_ extra parameters you can use to customize
   > Note: -
   > - If the start date is not specified, only commits made one month before the end date (if specified) or the date of generating the report, will be captured and analyzed.
   > - If `d1` is specified as the start date (`--since d1` or `-s d1`), then the earliest commit date of all repositories will be taken as the since date.
-* **`--until, -u END_DATE`**: The end date of analysis (`-u` as alias). The analysis excludes the end date. Format: `DD/MM/YYYY`<br>
+* **`--until, -u END_DATE`**: The end date of analysis (`-u` as alias). The analysis includes the end date. Format: `DD/MM/YYYY`<br>
   Example:`--until 21/10/2017` or `-u 21/10/2017` <br>
   > Note: If the end date is not specified, the date of generating the report will be taken as the end date.
 * **`--formats, -f LIST_OF_FORMATS`**: A space-separated list of file extensions that should be included in the analysis (`-f` as alias). Default: all file formats<br>
