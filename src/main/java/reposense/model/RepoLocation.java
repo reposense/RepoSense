@@ -7,7 +7,9 @@ import java.nio.file.InvalidPathException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -20,6 +22,7 @@ public class RepoLocation {
     private static final String GIT_LINK_SUFFIX = ".git";
     private static final Pattern GIT_REPOSITORY_LOCATION_PATTERN =
             Pattern.compile("^.*github.com\\/(?<org>.+?)\\/(?<repoName>.+?)\\.git$");
+    private static Map<String, Integer> uniqueRepoNames = new HashMap<>();
 
     private final String location;
     private final String repoName;
@@ -37,7 +40,12 @@ public class RepoLocation {
             organization = matcher.group("org");
             repoName = matcher.group("repoName");
         } else {
-            repoName = Paths.get(location).getFileName().toString().replace(GIT_LINK_SUFFIX, "");
+            String prelimRepoName = Paths.get(location).getFileName().toString().replace(GIT_LINK_SUFFIX, "");
+            if (isRepoNameUnique(prelimRepoName)) {
+                repoName = prelimRepoName;
+            } else {
+                repoName = createUniqueRepoName(prelimRepoName);
+            }
         }
     }
 
@@ -79,6 +87,21 @@ public class RepoLocation {
             throw new InvalidLocationException(location + " is an invalid location.");
         }
     }
+
+    private boolean isRepoNameUnique(String name) {
+        if (!uniqueRepoNames.keySet().contains(name)) {
+            uniqueRepoNames.put(name, 0);
+            return true;
+        } else {
+            uniqueRepoNames.put(name, uniqueRepoNames.get(name) + 1);
+            return false;
+        }
+    }
+
+    private String createUniqueRepoName(String name) {
+        return name + "_" + uniqueRepoNames.get(name);
+    }
+
 
     @Override
     public String toString() {
