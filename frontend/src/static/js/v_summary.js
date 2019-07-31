@@ -595,6 +595,7 @@ window.vSummary = {
       const user = Object.assign({}, userOrig);
 
       this.$emit('view-zoom', {
+        filterGroupSelection: this.filterGroupSelection,
         avgCommitSize,
         user,
         sinceDate: since,

@@ -1,10 +1,17 @@
 #zoom
-  h1 {{ info.user.displayName }} ({{ info.user.name }})
-  a(v-on:click="openSummary") Show ramp chart for this period
-
   .zoom__title
-    .zoom__title--repo {{ info.user.repoName }} &nbsp;
-    .zoom__title--granularity.mini-font (granularity: one ramp per {{ filterTimeFrame }})
+    .zoom_title--group
+      h1(v-if="info.filterGroupSelection === 'groupByAuthors'") {{ info.user.displayName }} ({{ info.user.name }})
+      h1(v-else) {{ info.user.repoName }}
+    .zoom__title--chart
+      span &#8627; &nbsp;
+      h3(v-if="info.filterGroupSelection === 'groupByAuthors'") {{ info.user.repoName }}
+      h3(v-else) {{ info.user.displayName }} ({{ info.user.name }})
+    .zoom__title--period
+      span &#8627; &nbsp;
+      span {{ info.sinceDate }} ~ {{ info.untilDate }} &nbsp;
+      a(v-on:click="openSummary") [Show ramp chart for this period]
+    .zoom__title--granularity.mini-font *granularity: one ramp per {{ filterTimeFrame }}
   v_ramp(
       v-bind:user="info.user",
       v-bind:tframe="filterTimeFrame",

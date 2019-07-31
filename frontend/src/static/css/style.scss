@@ -601,14 +601,20 @@ header {
   &__title {
     margin-top: 1rem;
 
-    &--repo {
-      display: inline;
-      font-size: 1.5rem;
-      font-weight: 400;
+    &--chart {
+      margin-left: 0.3rem;
+
+      h3 {
+        display: inline;
+      }
+    }
+
+    &--period {
+      margin-left: 2rem;
     }
 
     &--granularity {
-      display: inline;
+      margin-top: 0.5rem;
     }
   }
 }
