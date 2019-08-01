@@ -39,6 +39,10 @@ window.api = {
           window.app.isSinceDateProvided = data.isSinceDateProvided;
           window.app.isUntilDateProvided = data.isUntilDateProvided;
 
+          Object.entries(data.errorList).forEach(([repoName, message]) => {
+            window.app.errorMessages[repoName] = message;
+          });
+
           const names = [];
           data.repos.forEach((repo) => {
             const repoName = `${repo.displayName}`;

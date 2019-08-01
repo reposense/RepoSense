@@ -29,6 +29,7 @@ html
           v_summary(
             ref="summary",
             v-bind:repos="users",
+            v-bind:error-messages="errorMessages",
             v-on:view-zoom="updateTabZoom",
             v-on:view-authorship="updateTabAuthorship",
             v-on:get-dates="receiveDates"
@@ -133,7 +134,7 @@ html
               a(v-on:click="resetDateRange") Reset date range
             .summary-picker__checkboxes.summary-picker__section
               label
-                input(type="checkbox", v-model="filterBreakdown").mui-checkbox.summary-picker__checkbox
+                input(type="checkbox", v-model="filterBreakdown", v-on:change="setSummaryHash()").mui-checkbox.summary-picker__checkbox
                 span breakdown by file type
               label.merge-group(v-bind:style="filterGroupSelection === 'groupByNone' ? { opacity:0.5 } : { opacity:1.0 }")
                 input(
@@ -142,6 +143,13 @@ html
                     v-bind:disabled="filterGroupSelection === 'groupByNone'"
                 ).mui-checkbox.summary-picker__checkbox
                 span merge group
+        .error-message-box(v-if="Object.entries(errorMessages).length")
+          .error-message-box__close-button(onclick="dismissTab(this)") &times;
+          .error-message-box__message The following issues occurred when analyzing the following repositories:
+          .error-message-box__failed-repo(v-for="errorBlock in errorMessages")
+            i.fas.fa-exclamation.mini-font
+            span.error-message-box__failed-repo--name {{ errorBlock.repoName }}
+            div.error-message-box__failed-repo--reason {{ errorBlock.errorMessage }}
         #summary-charts
           .summary-charts(v-for="repo of filteredRepos")
             .summary-charts__title(v-if="filterGroupSelection === 'groupByRepos'") {{ repo[0].repoName }}&nbsp;&nbsp;
@@ -178,6 +186,7 @@ html
                 .summary-chart__title--contribution.mini-font [{{ user.totalCommits }} lines]
                 a(
                   title="click to view author's code",
+                  onclick="deactivateAllOverlays()",
                   v-on:click="openTabAuthorship(user, repo, i)"
                 )
                   i.summary-chart__title--button.fas.fa-code
@@ -244,30 +253,35 @@ html
             a(v-if="activeFilesCount === 0", v-on:click="expandAll(true)") Expand all
             a(v-else, v-on:click="expandAll(false)") Collapse all
         .title
-          a.repoName(
+          a.repoName.large-font(
             v-bind:href="info.location", target="_blank",
             v-bind:title="'Click to open the repo'"
           ) {{ info.repo }}
-          .author {{ info.name }} ({{ info.author }}) contribution from {{ info.minDate }} to {{ info.maxDate }}
+          .author.medium-font
+            span &#8627; &nbsp;
+            span {{ info.name }} ({{ info.author }})
+          .period.medium-font
+            span &#8627; &nbsp;
+            span {{ info.minDate }} to {{ info.maxDate }}
           .contribution(v-if="isLoaded && files.length!=0")
             .sorting.mui-form--inline
               .mui-select
-                select.control-font(v-model="filesSortType")
+                select.medium-font(v-model="filesSortType")
                   option(value="lineOfCode") LoC
                   option(value="path") Path
                   option(value="fileName") File Name
                   option(value="fileType") File Type
-                label.control-font sort by
+                label.medium-font sort by
               label
                 input(type="checkbox", v-model="toReverseSortFiles").mui-checkbox
-                span.control-font.reverse reverse
+                span.medium-font.reverse reverse
             .searchbox
               input.radio-button--search(type="radio", name="filter", value="search", v-bind:checked="isSearchBar",
                   v-on:click="indicateSearchBar")
               form.file-picker.mui-form--inline(onsubmit="return false")
-                input#search.control-font(type="search", placeholder="Filter by glob", v-on:change="updateFilterSearch",
+                input#search.medium-font(type="search", placeholder="Filter by glob", v-on:change="updateFilterSearch",
                     v-on:click="indicateSearchBar")
-                button#submit-button.control-font(type="submit", v-on:click="indicateSearchBar") Filter
+                button#submit-button.medium-font(type="submit", v-on:click="indicateSearchBar") Filter
             .fileType
               input.radio-button--checkbox(type="radio", name="filter", value="checkboxes", v-bind:checked="isCheckBoxes",
                   v-on:click="indicateCheckBoxes")
@@ -275,12 +289,12 @@ html
                 label
                   input.mui-checkbox--fileType(type="checkbox" v-on:click="selectAll" v-model="isSelectAllChecked")
                   span(v-bind:title="getTotalFileBlankLineInfo()")
-                    span.select.control-font All:&nbsp;
-                    span.loc.control-font {{ totalLineCount }}&nbsp;
-                    span.bloc.control-font ({{ totalBlankLineCount }})
-                template(v-for="fileType in Object.keys(getFileTypeExistingLinesObj)", v-bind:key="fileType")
-                  label
-                    input.mui-checkbox--fileType(type="checkbox" v-bind:checked="selectedFileTypes.includes(fileType)"
+                    span.select.medium-font All:&nbsp;
+                    span.loc.medium-font {{ totalLineCount }}&nbsp;
+                    span.bloc.medium-font ({{ totalBlankLineCount }})
+                template(v-for="fileType in Object.keys(getFileTypeExistingLinesObj)")
+                  label(v-bind:key="fileType")
+                    input.mui-checkbox--fileType(type="checkbox" v-bind:checked="selectedFileFormats.includes(format)"
                         v-on:change="selectFileType(fileType)")
                     span(v-bind:title="getFileTypeBlankLineInfo(fileType)")
                       span {{ fileType }}: {{ getFileTypeExistingLinesObj[fileType] }}&nbsp;
