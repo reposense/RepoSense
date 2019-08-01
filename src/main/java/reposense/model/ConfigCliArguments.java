@@ -20,7 +20,8 @@ public class ConfigCliArguments extends CliArguments {
     private Path authorConfigFilePath;
 
     public ConfigCliArguments(Path configFolderPath, Path outputFilePath, Date sinceDate,
-            Date untilDate, List<Format> formats, boolean isAutomaticallyLaunching, ZoneId zoneId) {
+            Date untilDate, boolean isSinceDateProvided, boolean isUntilDateProvided,
+            List<Format> formats, boolean isAutomaticallyLaunching, ZoneId zoneId) {
         this.configFolderPath = configFolderPath.equals(EMPTY_PATH)
                 ? configFolderPath.toAbsolutePath()
                 : configFolderPath;
@@ -29,6 +30,8 @@ public class ConfigCliArguments extends CliArguments {
         this.outputFilePath = outputFilePath;
         this.sinceDate = sinceDate;
         this.untilDate = untilDate;
+        this.isSinceDateProvided = isSinceDateProvided;
+        this.isUntilDateProvided = isUntilDateProvided;
         this.formats = formats;
         this.isAutomaticallyLaunching = isAutomaticallyLaunching;
         this.zoneId = zoneId;
