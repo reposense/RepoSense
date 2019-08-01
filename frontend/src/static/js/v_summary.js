@@ -111,8 +111,11 @@ window.vSummary = {
       isSortingWithinDsc: '',
       filterTimeFrame: 'commit',
       filterBreakdown: false,
+      isMergeGroup: false,
       tmpFilterSinceDate: '',
       tmpFilterUntilDate: '',
+      hasModifiedSinceDate: window.app.isSinceDateProvided,
+      hasModifiedUntilDate: window.app.isUntilDateProvided,
       filterSinceDate: '',
       filterUntilDate: '',
       filterHash: '',
@@ -133,18 +136,24 @@ window.vSummary = {
       this.getFiltered();
     },
     filterGroupSelection() {
-      this.updateSortWithinGroup();
+      // merge group is not allowed when group by none
+      if (this.filterGroupSelection === 'groupByNone') {
+        this.isMergeGroup = false;
+      }
+
       this.getFiltered();
     },
     filterBreakdown() {
       this.setSummaryHash();
+    },
+    isMergeGroup() {
+      this.getFiltered();
     },
     tmpFilterSinceDate() {
       if (this.tmpFilterSinceDate && this.tmpFilterSinceDate >= this.minDate) {
         this.filterSinceDate = this.tmpFilterSinceDate;
       } else if (!this.tmpFilterSinceDate) { // If user clears the since date field
         this.filterSinceDate = this.minDate;
-        this.tmpFilterSinceDate = this.filterSinceDate;
       }
       this.getFiltered();
     },
@@ -153,7 +162,6 @@ window.vSummary = {
         this.filterUntilDate = this.tmpFilterUntilDate;
       } else if (!this.tmpFilterUntilDate) { // If user clears the until date field
         this.filterUntilDate = this.maxDate;
-        this.tmpFilterUntilDate = this.filterUntilDate;
       }
       this.getFiltered();
     },
@@ -287,9 +295,16 @@ window.vSummary = {
       addHash('sort', this.sortGroupSelection);
       addHash('sortWithin', this.sortWithinGroupSelection);
 
-      addHash('since', this.filterSinceDate);
-      addHash('until', this.filterUntilDate);
+      if (this.hasModifiedSinceDate) {
+        addHash('since', this.filterSinceDate);
+      }
+
+      if (this.hasModifiedUntilDate) {
+        addHash('until', this.filterUntilDate);
+      }
+
       addHash('timeframe', this.filterTimeFrame);
+      addHash('mergegroup', this.isMergeGroup);
 
       addHash('groupSelect', this.filterGroupSelection);
       addHash('breakdown', this.filterBreakdown);
@@ -311,6 +326,9 @@ window.vSummary = {
       }
 
       if (hash.timeframe) { this.filterTimeFrame = hash.timeframe; }
+      if (hash.mergegroup) {
+        this.isMergeGroup = convertBool(hash.mergegroup);
+      }
       if (hash.since) {
         this.tmpFilterSinceDate = hash.since;
       }
@@ -361,7 +379,10 @@ window.vSummary = {
       // array of array, sorted by repo
       const full = [];
 
-      this.repos.forEach((repo) => {
+      // create deep clone of this.repos to not modify the original content of this.repos
+      // when merging groups
+      const groups = this.isMergeGroup ? JSON.parse(JSON.stringify(this.repos)) : this.repos;
+      groups.forEach((repo) => {
         const res = [];
 
         // filtering
@@ -388,7 +409,75 @@ window.vSummary = {
       this.filtered = full;
 
       this.sortFiltered();
+<<<<<<< HEAD
       deactivateAllOverlays();
+=======
+
+      if (this.isMergeGroup) {
+        this.mergeGroup();
+      }
+    },
+    mergeGroup() {
+      this.filtered.forEach((group, groupIndex) => {
+        const dateToIndexMap = {};
+        const mergedCommits = [];
+        const mergedFileFormatContribution = {};
+        let mergedVariance = 0;
+        let totalMergedCommits = 0;
+
+        group.forEach((user) => {
+          this.mergeCommits(user, mergedCommits, dateToIndexMap);
+          mergedCommits.sort(window.comparator((ele) => ele.date));
+
+          this.mergeFileFormatContribution(user, mergedFileFormatContribution);
+
+          totalMergedCommits += user.totalCommits;
+          mergedVariance += user.variance;
+        });
+
+        group[0].commits = mergedCommits;
+        group[0].fileFormatContribution = mergedFileFormatContribution;
+        group[0].totalCommits = totalMergedCommits;
+        group[0].variance = mergedVariance;
+
+        // clear all users and add merged group in filtered group
+        this.filtered[groupIndex] = [];
+        this.filtered[groupIndex].push(group[0]);
+      });
+    },
+    mergeCommits(user, merged, dateToIndexMap) {
+      // merge commits with the same date
+      user.commits.forEach((commit) => {
+        const {
+          commitResults, date, insertions, deletions,
+        } = commit;
+
+        if (Object.prototype.hasOwnProperty.call(dateToIndexMap, date)) {
+          const commitWithSameDate = merged[dateToIndexMap[date]];
+
+          commitResults.forEach((commitResult) => {
+            commitWithSameDate.commitResults.push(commitResult);
+          });
+
+          commitWithSameDate.insertions += insertions;
+          commitWithSameDate.deletions += deletions;
+        } else {
+          dateToIndexMap[date] = Object.keys(dateToIndexMap).length;
+          merged.push(commit);
+        }
+      });
+    },
+    mergeFileFormatContribution(user, merged) {
+      Object.entries(user.fileFormatContribution).forEach((fileFormat) => {
+        const key = fileFormat[0];
+        const value = fileFormat[1];
+
+        if (!Object.prototype.hasOwnProperty.call(merged, key)) {
+          merged[key] = 0;
+        }
+        merged[key] += value;
+      });
+>>>>>>> master
     },
     processFileFormats() {
       const selectedColors = ['#ffe119', '#4363d8', '#3cb44b', '#f58231', '#911eb4', '#46f0f0', '#f032e6',
@@ -414,21 +503,19 @@ window.vSummary = {
 
       const res = [];
 
-      const sinceDate = dateRounding(this.filterSinceDate, 0); // round up for the next monday
+      const nextMondayDate = dateRounding(this.filterSinceDate, 0); // round up for the next monday
       const untilDate = this.filterUntilDate;
 
-      const sinceMs = (new Date(sinceDate)).getTime();
+      const nextMondayMs = (new Date(nextMondayDate)).getTime();
+      const sinceMs = new Date(this.filterSinceDate).getTime();
       const untilMs = (new Date(untilDate)).getTime();
 
-      // add first week commits starting from filterSinceDate to end of the week
-      // if filterSinceDate is not the start of the week
-      if (this.filterSinceDate !== sinceDate) {
-        const firstWeekDateMs = new Date(this.filterSinceDate).getTime();
-        this.pushCommitsWeek(firstWeekDateMs, sinceMs - 1, res, commits);
+      if (nextMondayDate <= untilDate) {
+        this.pushCommitsWeek(sinceMs, nextMondayMs - 1, res, commits);
+        this.pushCommitsWeek(nextMondayMs, untilMs, res, commits);
+      } else {
+        this.pushCommitsWeek(sinceMs, untilMs, res, commits);
       }
-
-      this.pushCommitsWeek(sinceMs, untilMs, res, commits);
-
       user.commits = res;
     },
     pushCommitsWeek(sinceMs, untilMs, res, commits) {
@@ -491,16 +578,6 @@ window.vSummary = {
 
       return null;
     },
-    updateSortWithinGroup() {
-      const ele = document.getElementsByClassName('mui-select sort-within-group');
-      if (this.filterGroupSelection === 'groupByNone') {
-        ele[0].style.pointerEvents = 'none';
-        ele[0].style.opacity = 0.5;
-      } else {
-        ele[0].style.pointerEvents = 'auto';
-        ele[0].style.opacity = 1;
-      }
-    },
     getOptionWithOrder() {
       [this.sortingOption, this.isSortingDsc] = this.sortGroupSelection.split(' ');
       [this.sortingWithinOption, this.isSortingWithinDsc] = this.sortWithinGroupSelection.split(' ');
@@ -522,10 +599,11 @@ window.vSummary = {
 
     // updating filters programically //
     resetDateRange() {
-      this.tmpFilterSinceDate = this.minDate;
-      this.tmpFilterUntilDate = this.maxDate;
+      this.tmpFilterSinceDate = '';
+      this.tmpFilterUntilDate = '';
     },
 
+<<<<<<< HEAD
     updateDateRange() {
       if (drags.length > 0) {
         const since = new Date(this.filterSinceDate).getTime();
@@ -538,11 +616,24 @@ window.vSummary = {
 
         drags = [];
       }
+=======
+    updateDateRange(since, until) {
+      this.tmpFilterSinceDate = since;
+      this.tmpFilterUntilDate = until;
+      deactivateAllOverlays();
+>>>>>>> master
     },
 
-    // update tmp dates manually after enter key in date field //
     updateTmpFilterSinceDate(event) {
       const since = event.target.value;
+      this.hasModifiedSinceDate = true;
+
+      if (!this.isSafariBrowser) {
+        this.tmpFilterSinceDate = since;
+        event.target.value = this.filterSinceDate;
+        return;
+      }
+
       if (dateFormatRegex.test(since) && since >= this.minDate) {
         this.tmpFilterSinceDate = since;
         event.currentTarget.style.removeProperty('border-bottom-color');
@@ -554,6 +645,14 @@ window.vSummary = {
 
     updateTmpFilterUntilDate(event) {
       const until = event.target.value;
+      this.hasModifiedUntilDate = true;
+
+      if (!this.isSafariBrowser) {
+        this.tmpFilterUntilDate = until;
+        event.target.value = this.filterUntilDate;
+        return;
+      }
+
       if (dateFormatRegex.test(until) && until <= this.maxDate) {
         this.tmpFilterUntilDate = until;
         event.currentTarget.style.removeProperty('border-bottom-color');
@@ -595,10 +694,12 @@ window.vSummary = {
       const user = Object.assign({}, userOrig);
 
       this.$emit('view-zoom', {
+        filterGroupSelection: this.filterGroupSelection,
         avgCommitSize,
         user,
         sinceDate: since,
         untilDate: until,
+        isMergeGroup: this.isMergeGroup,
       });
     },
 

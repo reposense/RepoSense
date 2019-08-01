@@ -98,7 +98,10 @@ html
                 option(value="variance dsc") &darr; variance
               label sort groups by
             .mui-select.sort-within-group
-              select(v-model="sortWithinGroupSelection")
+              select(
+                  v-model="sortWithinGroupSelection",
+                  v-bind:disabled="filterGroupSelection === 'groupByNone' || isMergeGroup"
+              )
                 option(value="title") &uarr; title
                 option(value="title dsc") &darr; title
                 option(value="totalCommits") &uarr; contribution
@@ -113,18 +116,18 @@ html
                 option(value="week") Week
               label granularity
             .mui-textfield.summary-picker__date
-              input(v-if="isSafariBrowser", type="text", placeholder="yyyy-mm-dd", v-bind:min="minDate",
-                  v-bind:max="filterUntilDate", v-bind:value="tmpFilterSinceDate", v-on:keyup.enter="updateTmpFilterSinceDate",
+              input(v-if="isSafariBrowser", type="text", placeholder="yyyy-mm-dd",
+                  v-bind:value="filterSinceDate", v-on:keyup.enter="updateTmpFilterSinceDate",
                   onkeydown="formatInputDateOnKeyDown(event)", oninput="appendDashInputDate(event)", maxlength=10)
-              input(v-else, type="date", v-model="tmpFilterSinceDate", onkeydown="return false",
-                  v-bind:min="minDate", v-bind:max="filterUntilDate")
+              input(v-else, type="date", v-bind:value="filterSinceDate", v-on:input="updateTmpFilterSinceDate",
+                  onkeydown="return false", v-bind:min="minDate", v-bind:max="filterUntilDate")
               label since
             .mui-textfield.summary-picker__date
-              input(v-if="isSafariBrowser", type="text", placeholder="yyyy-mm-dd", v-bind:min="filterSinceDate",
-                  v-bind:max="maxDate", v-bind:value="tmpFilterUntilDate", v-on:keyup.enter="updateTmpFilterUntilDate",
+              input(v-if="isSafariBrowser", type="text", placeholder="yyyy-mm-dd",
+                  v-bind:value="filterUntilDate", v-on:keyup.enter="updateTmpFilterUntilDate",
                   onkeydown="formatInputDateOnKeyDown(event)", oninput="appendDashInputDate(event)", maxlength=10)
-              input(v-else, type="date", v-model="tmpFilterUntilDate", onkeydown="return false",
-                  v-bind:min="filterSinceDate", v-bind:max="maxDate")
+              input(v-else, type="date", v-bind:value="filterUntilDate", v-on:input="updateTmpFilterUntilDate",
+                  onkeydown="return false", v-bind:min="filterSinceDate", v-bind:max="maxDate")
               label until
             .mui-textfield.summary-picker__date
               a(v-on:click="resetDateRange") Reset date range
@@ -132,6 +135,13 @@ html
               label
                 input(type="checkbox", v-model="filterBreakdown").mui-checkbox.summary-picker__checkbox
                 span breakdown by file format
+              label.merge-group(v-bind:style="filterGroupSelection === 'groupByNone' ? { opacity:0.5 } : { opacity:1.0 }")
+                input(
+                    type="checkbox",
+                    v-model="isMergeGroup",
+                    v-bind:disabled="filterGroupSelection === 'groupByNone'"
+                ).mui-checkbox.summary-picker__checkbox
+                span merge group
         #summary-charts
           .summary-charts(v-for="repo of filteredRepos")
             .summary-charts__title(v-if="filterGroupSelection === 'groupByRepos'") {{ repo[0].repoName }}&nbsp;&nbsp;
@@ -157,7 +167,7 @@ html
                   )
                   span &nbsp; {{ fileFormat }} &nbsp;
             .summary-chart(v-for="(user, i) in repo")
-              .summary-chart__title
+              .summary-chart__title(v-if="!isMergeGroup")
                 .summary-chart__title--index {{ i+1 }}
                 .summary-chart__title--repo(v-if="filterGroupSelection === 'groupByNone'") {{ user.repoName }}
                 .summary-chart__title--author-repo(v-if="filterGroupSelection === 'groupByAuthors'") {{ user.repoName }}
@@ -188,11 +198,13 @@ html
                 v-on:click="openTabZoomSubrange(user)"
               )
                 v_ramp(
+                    v-bind:groupby="filterGroupSelection",
                     v-bind:user="user",
                     v-bind:tframe="filterTimeFrame",
                     v-bind:sdate="filterSinceDate",
                     v-bind:udate="filterUntilDate",
-                    v-bind:avgsize="avgCommitSize")
+                    v-bind:avgsize="avgCommitSize",
+                    v-bind:mergegroup="isMergeGroup")
                 .overlay
 
               .summary-chart__contribution

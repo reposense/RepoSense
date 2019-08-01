@@ -32,8 +32,8 @@ public class GitShortlogTest extends GitTestTemplate {
         List<Author> expectedAuthorList = new ArrayList<>();
 
         expectedAuthorList.add(new Author("eugenepeh"));
-        config.setSinceDate(TestUtil.getDate(2018, Calendar.MAY, 5));
-        config.setUntilDate(TestUtil.getDate(2018, Calendar.MAY, 10));
+        config.setSinceDate(TestUtil.getSinceDate(2018, Calendar.MAY, 5));
+        config.setUntilDate(TestUtil.getUntilDate(2018, Calendar.MAY, 10));
 
         List<Author> actualAuthorList = GitShortlog.getAuthors(config);
 
@@ -43,8 +43,8 @@ public class GitShortlogTest extends GitTestTemplate {
 
     @Test
     public void getAuthors_validRepoDateOutOfRange_success() {
-        config.setSinceDate(TestUtil.getDate(2018, Calendar.JUNE, 1));
-        config.setUntilDate(TestUtil.getDate(2018, Calendar.JUNE, 20));
+        config.setSinceDate(TestUtil.getSinceDate(2018, Calendar.JUNE, 1));
+        config.setUntilDate(TestUtil.getUntilDate(2018, Calendar.JUNE, 20));
 
         List<Author> actualAuthorList = GitShortlog.getAuthors(config);
 
