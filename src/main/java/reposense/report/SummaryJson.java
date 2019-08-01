@@ -22,7 +22,8 @@ public class SummaryJson {
     private final boolean isUntilDateProvided;
 
     public SummaryJson(List<RepoConfiguration> repos, String reportGeneratedTime, Date sinceDate, Date untilDate,
-            boolean isSinceDateProvided, boolean isUntilDateProvided, String repoSenseVersion, List<Map<String, String>> errorList) {
+            boolean isSinceDateProvided, boolean isUntilDateProvided, String repoSenseVersion,
+            List<Map<String, String>> errorList) {
         this.repos = repos;
         this.reportGeneratedTime = reportGeneratedTime;
         this.sinceDate = sinceDate;
