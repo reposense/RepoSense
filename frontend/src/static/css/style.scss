@@ -125,6 +125,52 @@ header {
       margin-bottom: 1em;
       margin-left: 1em;
     }
+
+    .error-message-box {
+      background-color: mui-color('red', '100');
+      border: .1rem solid mui-color('red', '900');
+      border-radius: .25rem;
+      color: mui-color('red', '900');
+      font-size: .75rem;
+      margin-bottom: .9rem;
+      padding: .9rem;
+      text-align: left;
+
+      &__close-button {
+        cursor: pointer;
+        float: right;
+        font-size: 1.4rem;
+        font-weight: bold;
+        line-height: .625rem;
+
+        &:hover {
+          color: mui-color('white');
+        }
+      }
+
+      &__message {
+        border-bottom: .1rem solid;
+        font-weight: bolder;
+        padding-bottom: .5rem;
+      }
+
+      .icon {
+        padding-right: .4rem;
+        padding-top: .2rem;
+        width: 1rem;
+      }
+
+      &__failed-repo {
+        &--name {
+          font-weight: bolder;
+          padding-left: .2rem;
+        }
+
+        &--reason {
+          padding-left: 3rem;
+        }
+      }
+    }
   }
 
   #tabs-wrapper {
