@@ -418,7 +418,7 @@ window.vSummary = {
       this.filtered.forEach((group, groupIndex) => {
         const dateToIndexMap = {};
         const mergedCommits = [];
-        const mergedFileFormatContribution = {};
+        const mergedFileTypeContribution = {};
         let mergedVariance = 0;
         let totalMergedCommits = 0;
 
@@ -426,14 +426,14 @@ window.vSummary = {
           this.mergeCommits(user, mergedCommits, dateToIndexMap);
           mergedCommits.sort(window.comparator((ele) => ele.date));
 
-          this.mergeFileFormatContribution(user, mergedFileFormatContribution);
+          this.mergeFileTypeContribution(user, mergedFileTypeContribution);
 
           totalMergedCommits += user.totalCommits;
           mergedVariance += user.variance;
         });
 
         group[0].commits = mergedCommits;
-        group[0].fileFormatContribution = mergedFileFormatContribution;
+        group[0].fileTypeContribution = mergedFileTypeContribution;
         group[0].totalCommits = totalMergedCommits;
         group[0].variance = mergedVariance;
 
@@ -464,10 +464,10 @@ window.vSummary = {
         }
       });
     },
-    mergeFileFormatContribution(user, merged) {
-      Object.entries(user.fileFormatContribution).forEach((fileFormat) => {
-        const key = fileFormat[0];
-        const value = fileFormat[1];
+    mergeFileTypeContribution(user, merged) {
+      Object.entries(user.fileTypeContribution).forEach((fileType) => {
+        const key = fileType[0];
+        const value = fileType[1];
 
         if (!Object.prototype.hasOwnProperty.call(merged, key)) {
           merged[key] = 0;
