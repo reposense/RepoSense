@@ -53,5 +53,7 @@
     }
   ],
   "sinceDate": "2017-09-30",
-  "untilDate": "2019-03-02"
+  "untilDate": "2019-03-02",
+  "isSinceDateProvided": true,
+  "isUntilDateProvided": true
 }
