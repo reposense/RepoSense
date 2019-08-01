@@ -26,6 +26,8 @@ describe('load code view benchmark', function() {
     cy.get('#summary-wrapper .sort-within-group select')
       .select('totalCommits dsc');
 
+    Cypress.wait();
+
     cy.get('.summary-chart__title--button.fa-code')
       .should('be.visible')
       .first()
