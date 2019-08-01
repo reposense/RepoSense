@@ -1,15 +1,3 @@
-window.toggleCommitBodyMessage = function toggleCommitBodyMessage(ele) {
-  // function for expanding/collapsing a commit message body.
-  const activeClass = 'body active';
-  const inactiveClass = 'body';
-
-  const commitMessageBodyElement = ele.nextElementSibling;
-
-  commitMessageBodyElement.className = commitMessageBodyElement.className === activeClass
-      ? inactiveClass
-      : activeClass;
-};
-
 window.vZoom = {
   props: ['info'],
   template: window.$('v_zoom').innerHTML,
@@ -54,22 +42,26 @@ window.vZoom = {
     toggleAllCommitMessagesBody(isActive) {
       this.showAllCommitMessageBody = isActive;
 
-      const renameValue = this.showAllCommitMessageBody ? 'body active' : 'body';
+      const toRename = this.showAllCommitMessageBody ? 'commit-message active' : 'commit-message';
 
-      const commitMessageClasses = document.getElementsByClassName('body');
+      const commitMessageClasses = document.getElementsByClassName('commit-message');
       Array.from(commitMessageClasses).forEach((commitMessageClass) => {
-        commitMessageClass.className = renameValue;
+        commitMessageClass.className = toRename;
       });
 
       this.expandedCommitMessagesNum = isActive ? this.getCommitMessageBodyNum() : 0;
     },
 
     updateExpandedCommitMessagesNum() {
-      this.expandedCommitMessagesNum = document.getElementsByClassName('body active').length;
+      this.expandedCommitMessagesNum = document.getElementsByClassName('commit-message active')
+          .length;
     },
   },
   created() {
     this.filterCommits();
+  },
+  mounted() {
+    this.updateExpandedCommitMessagesNum();
   },
   components: {
     v_ramp: window.vRamp,

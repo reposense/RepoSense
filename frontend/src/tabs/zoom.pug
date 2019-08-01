@@ -24,16 +24,16 @@
       h3(v-if="filterTimeFrame === 'week'") Week of {{ day.date }}
       h3(v-else) {{ day.date }}
       ul
-        li(v-for="slice in day.commitResults").commit-message
+        li(v-for="slice in day.commitResults").commit-message.active
           a(v-bind:href="getSliceLink(slice)" target="_blank") {{ slice.messageTitle }}
           span &nbsp; ({{ slice.insertions }} lines)
           a(
             v-if="slice.messageBody.length > 0",
             v-on:click="updateExpandedCommitMessagesNum",
-            onclick="toggleCommitBodyMessage(this)",
+            onclick="toggleNext(this)",
             title="Click to show/hide the commit message body"
           )
             i.commit-message--button.fas.fa-ellipsis-h
-          .body.active(v-if="slice.messageBody.length > 0")
+          .body(v-if="slice.messageBody.length > 0")
             pre {{ slice.messageBody }}
 
