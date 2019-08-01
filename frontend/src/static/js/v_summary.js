@@ -114,6 +114,8 @@ window.vSummary = {
       isMergeGroup: false,
       tmpFilterSinceDate: '',
       tmpFilterUntilDate: '',
+      hasModifiedSinceDate: window.app.isSinceDateProvided,
+      hasModifiedUntilDate: window.app.isUntilDateProvided,
       filterSinceDate: '',
       filterUntilDate: '',
       filterHash: '',
@@ -152,7 +154,6 @@ window.vSummary = {
         this.filterSinceDate = this.tmpFilterSinceDate;
       } else if (!this.tmpFilterSinceDate) { // If user clears the since date field
         this.filterSinceDate = this.minDate;
-        this.tmpFilterSinceDate = this.filterSinceDate;
       }
       this.getFiltered();
     },
@@ -161,7 +162,6 @@ window.vSummary = {
         this.filterUntilDate = this.tmpFilterUntilDate;
       } else if (!this.tmpFilterUntilDate) { // If user clears the until date field
         this.filterUntilDate = this.maxDate;
-        this.tmpFilterUntilDate = this.filterUntilDate;
       }
       this.getFiltered();
     },
@@ -295,8 +295,14 @@ window.vSummary = {
       addHash('sort', this.sortGroupSelection);
       addHash('sortWithin', this.sortWithinGroupSelection);
 
-      addHash('since', this.filterSinceDate);
-      addHash('until', this.filterUntilDate);
+      if (this.hasModifiedSinceDate) {
+        addHash('since', this.filterSinceDate);
+      }
+
+      if (this.hasModifiedUntilDate) {
+        addHash('until', this.filterUntilDate);
+      }
+
       addHash('timeframe', this.filterTimeFrame);
       addHash('mergegroup', this.isMergeGroup);
 
@@ -493,21 +499,19 @@ window.vSummary = {
 
       const res = [];
 
-      const sinceDate = dateRounding(this.filterSinceDate, 0); // round up for the next monday
+      const nextMondayDate = dateRounding(this.filterSinceDate, 0); // round up for the next monday
       const untilDate = this.filterUntilDate;
 
-      const sinceMs = (new Date(sinceDate)).getTime();
+      const nextMondayMs = (new Date(nextMondayDate)).getTime();
+      const sinceMs = new Date(this.filterSinceDate).getTime();
       const untilMs = (new Date(untilDate)).getTime();
 
-      // add first week commits starting from filterSinceDate to end of the week
-      // if filterSinceDate is not the start of the week
-      if (this.filterSinceDate !== sinceDate) {
-        const firstWeekDateMs = new Date(this.filterSinceDate).getTime();
-        this.pushCommitsWeek(firstWeekDateMs, sinceMs - 1, res, commits);
+      if (nextMondayDate <= untilDate) {
+        this.pushCommitsWeek(sinceMs, nextMondayMs - 1, res, commits);
+        this.pushCommitsWeek(nextMondayMs, untilMs, res, commits);
+      } else {
+        this.pushCommitsWeek(sinceMs, untilMs, res, commits);
       }
-
-      this.pushCommitsWeek(sinceMs, untilMs, res, commits);
-
       user.commits = res;
     },
     pushCommitsWeek(sinceMs, untilMs, res, commits) {
@@ -591,8 +595,8 @@ window.vSummary = {
 
     // updating filters programically //
     resetDateRange() {
-      this.tmpFilterSinceDate = this.minDate;
-      this.tmpFilterUntilDate = this.maxDate;
+      this.tmpFilterSinceDate = '';
+      this.tmpFilterUntilDate = '';
     },
 
     updateDateRange(since, until) {
@@ -601,9 +605,16 @@ window.vSummary = {
       deactivateAllOverlays();
     },
 
-    // update tmp dates manually after enter key in date field //
     updateTmpFilterSinceDate(event) {
       const since = event.target.value;
+      this.hasModifiedSinceDate = true;
+
+      if (!this.isSafariBrowser) {
+        this.tmpFilterSinceDate = since;
+        event.target.value = this.filterSinceDate;
+        return;
+      }
+
       if (dateFormatRegex.test(since) && since >= this.minDate) {
         this.tmpFilterSinceDate = since;
         event.currentTarget.style.removeProperty('border-bottom-color');
@@ -615,6 +626,14 @@ window.vSummary = {
 
     updateTmpFilterUntilDate(event) {
       const until = event.target.value;
+      this.hasModifiedUntilDate = true;
+
+      if (!this.isSafariBrowser) {
+        this.tmpFilterUntilDate = until;
+        event.target.value = this.filterUntilDate;
+        return;
+      }
+
       if (dateFormatRegex.test(until) && until <= this.maxDate) {
         this.tmpFilterUntilDate = until;
         event.currentTarget.style.removeProperty('border-bottom-color');
