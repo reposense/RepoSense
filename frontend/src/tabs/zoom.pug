@@ -1,13 +1,13 @@
 #zoom
   .zoom__title
-    .zoom_title--group
-      h1(v-if="info.filterGroupSelection === 'groupByAuthors'") {{ info.user.displayName }} ({{ info.user.name }})
-      h1(v-else) {{ info.user.repoName }}
-    .zoom__title--chart(v-if="!info.isMergeGroup")
+    .zoom_title--group.large-font
+      span(v-if="info.filterGroupSelection === 'groupByAuthors'") {{ info.user.displayName }} ({{ info.user.name }})
+      span(v-else) {{ info.user.repoName }}
+    .zoom__title--chart.medium-font(v-if="!info.isMergeGroup")
       span &#8627; &nbsp;
-      h3(v-if="info.filterGroupSelection === 'groupByAuthors'") {{ info.user.repoName }}
-      h3(v-else) {{ info.user.displayName }} ({{ info.user.name }})
-    .zoom__title--period
+      span(v-if="info.filterGroupSelection === 'groupByAuthors'") {{ info.user.repoName }}
+      span(v-else) {{ info.user.displayName }} ({{ info.user.name }})
+    .zoom__title--period.medium-font
       span &#8627; &nbsp;
       span {{ info.sinceDate }} to {{ info.untilDate }} &nbsp;
       a(v-on:click="openSummary") [Show ramp chart for this period]

@@ -50,6 +50,16 @@ a {
   font-weight: normal;
 }
 
+.medium-font {
+  font-size: .875rem;
+  font-weight: normal;
+}
+
+.large-font {
+  font-size: 1.5rem;
+  font-weight: bold;
+}
+
 .warn {
   color: mui-color('red');
 
@@ -352,8 +362,6 @@ header {
   .title {
     .repoName {
       cursor: pointer;
-      font-size: 1.5rem;
-      font-weight: bold;
     }
 
     .contribution {
@@ -450,12 +458,8 @@ header {
         }
       }
 
-      .control-font {
-        font-size: .875rem;
-
-        &.reverse {
+      .reverse {
           color: mui-color('black');
-        }
       }
     }
   }
@@ -599,14 +603,8 @@ header {
 
 .zoom {
   &__title {
-    margin-top: 1rem;
-
     &--chart {
       margin-left: .3rem;
-
-      h3 {
-        display: inline;
-      }
     }
 
     &--period {
