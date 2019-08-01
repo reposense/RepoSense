@@ -24,8 +24,8 @@ import reposense.util.StringsUtil;
  * Contains Git related utilities.
  */
 class GitUtil {
-    static final DateFormat GIT_LOG_SINCE_DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd'T'00:00:00+08:00");
-    static final DateFormat GIT_LOG_UNTIL_DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd'T'23:59:59+08:00");
+    static final DateFormat GIT_LOG_SINCE_DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss+08:00");
+    static final DateFormat GIT_LOG_UNTIL_DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss+08:00");
     private static final Logger logger = LogsManager.getLogger(GitUtil.class);
 
     // ignore check against email

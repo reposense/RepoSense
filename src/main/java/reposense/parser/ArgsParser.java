@@ -113,7 +113,7 @@ public class ArgsParser {
         parser.addArgument(UNTIL_FLAGS)
                 .dest(UNTIL_FLAGS[0])
                 .metavar("dd/MM/yyyy")
-                .type(new DateArgumentType())
+                .type(new UntilDateArgumentType())
                 .setDefault(Optional.empty())
                 .help("The date to stop filtering.");
 
@@ -170,6 +170,8 @@ public class ArgsParser {
             Path outputFolderPath = results.get(OUTPUT_FLAGS[0]);
             Optional<Date> cliSinceDate = results.get(SINCE_FLAGS[0]);
             Optional<Date> cliUntilDate = results.get(UNTIL_FLAGS[0]);
+            boolean isSinceDateProvided = cliSinceDate.isPresent();
+            boolean isUntilDateProvided = cliUntilDate.isPresent();
             Date sinceDate = cliSinceDate.orElse(getDateMinusAMonth(cliUntilDate));
             Date untilDate = cliUntilDate.orElse(getCurrentDate());
             List<String> locations = results.get(REPO_FLAGS[0]);
@@ -194,15 +196,15 @@ public class ArgsParser {
             }
 
             if (locations != null) {
-                return new LocationsCliArguments(locations, outputFolderPath, sinceDate, untilDate, formats,
-                        isAutomaticallyLaunching, isStandaloneConfigIgnored, zoneId);
+                return new LocationsCliArguments(locations, outputFolderPath, sinceDate, untilDate, isSinceDateProvided,
+                        isUntilDateProvided, formats, isAutomaticallyLaunching, isStandaloneConfigIgnored, zoneId);
             }
 
             if (configFolderPath.equals(EMPTY_PATH)) {
                 logger.info(MESSAGE_USING_DEFAULT_CONFIG_PATH);
             }
-            return new ConfigCliArguments(configFolderPath, outputFolderPath, sinceDate, untilDate, formats,
-                    isAutomaticallyLaunching, zoneId);
+            return new ConfigCliArguments(configFolderPath, outputFolderPath, sinceDate, untilDate, isSinceDateProvided,
+                    isUntilDateProvided, formats, isAutomaticallyLaunching, zoneId);
         } catch (HelpScreenException hse) {
             throw hse;
         } catch (ArgumentParserException ape) {

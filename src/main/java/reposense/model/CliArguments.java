@@ -12,6 +12,8 @@ public abstract class CliArguments {
     protected Path outputFilePath;
     protected Date sinceDate;
     protected Date untilDate;
+    protected boolean isSinceDateProvided;
+    protected boolean isUntilDateProvided;
     protected List<FileType> formats;
     protected boolean isAutomaticallyLaunching;
     protected ZoneId zoneId;
@@ -30,6 +32,14 @@ public abstract class CliArguments {
 
     public Date getUntilDate() {
         return untilDate;
+    }
+
+    public boolean isSinceDateProvided() {
+        return isSinceDateProvided;
+    }
+
+    public boolean isUntilDateProvided() {
+        return isUntilDateProvided;
     }
 
     public List<FileType> getFormats() {
@@ -57,6 +67,8 @@ public abstract class CliArguments {
         return this.outputFilePath.equals(otherCliArguments.outputFilePath)
                 && this.sinceDate.equals(otherCliArguments.sinceDate)
                 && this.untilDate.equals(otherCliArguments.untilDate)
+                && this.isSinceDateProvided == otherCliArguments.isSinceDateProvided
+                && this.isUntilDateProvided == otherCliArguments.isUntilDateProvided
                 && this.formats.equals(otherCliArguments.formats)
                 && this.isAutomaticallyLaunching == otherCliArguments.isAutomaticallyLaunching
                 && this.zoneId.equals(otherCliArguments.zoneId);
