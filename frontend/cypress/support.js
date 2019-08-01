@@ -7,6 +7,7 @@ Cypress.Screenshot.defaults({
 
 beforeEach(() => {
   cy.visit('/');
+  Cypress.wait();
 });
 
 // Slows down test execution on non-CI environment.
