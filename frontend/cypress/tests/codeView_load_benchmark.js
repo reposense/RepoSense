@@ -49,7 +49,6 @@ describe('load code view benchmark', function() {
       });
   };
 
-
   for (let i = 0; i < NUM_TRIALS; i++) {
     it(`time taken to load code view (trial ${i+1})`, function() {
       timeTrial(i);
