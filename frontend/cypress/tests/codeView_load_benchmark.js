@@ -50,8 +50,6 @@ describe('load code view benchmark', function() {
     it(`time taken to load code view (trial ${i+1})`, function() {
       if (!isATrialWithinMaxTime) {
         timeTrial(i);
-      } else {
-        this.skip();
       }
     });
   }
