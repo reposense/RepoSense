@@ -134,7 +134,7 @@ html
               a(v-on:click="resetDateRange") Reset date range
             .summary-picker__checkboxes.summary-picker__section
               label
-                input(type="checkbox", v-model="filterBreakdown").mui-checkbox.summary-picker__checkbox
+                input(type="checkbox", v-model="filterBreakdown", v-on:change="setSummaryHash()").mui-checkbox.summary-picker__checkbox
                 span breakdown by file format
               label.merge-group(v-bind:style="filterGroupSelection === 'groupByNone' ? { opacity:0.5 } : { opacity:1.0 }")
                 input(
@@ -186,6 +186,7 @@ html
                 .summary-chart__title--contribution.mini-font [{{ user.totalCommits }} lines]
                 a(
                   title="click to view author's code",
+                  onclick="deactivateAllOverlays()",
                   v-on:click="openTabAuthorship(user, repo, i)"
                 )
                   i.summary-chart__title--button.fas.fa-code

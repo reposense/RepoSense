@@ -148,9 +148,6 @@ window.vSummary = {
 
       this.getFiltered();
     },
-    filterBreakdown() {
-      this.getFiltered();
-    },
     isMergeGroup() {
       this.getFiltered();
     },
@@ -380,6 +377,7 @@ window.vSummary = {
     getFiltered() {
       this.setSummaryHash();
       this.getDates();
+      deactivateAllOverlays();
 
       // array of array, sorted by repo
       const full = [];
