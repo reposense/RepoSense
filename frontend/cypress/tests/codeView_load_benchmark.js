@@ -14,10 +14,6 @@ describe('load code view benchmark', function() {
   let isATrialWithinMaxTime = false;
 
   function timeTrial(i) {
-    // if (isATrialWithinMaxTime) {
-    //   return;
-    // }
-
     let startTime;
 
     // ensure that icons are loaded
@@ -26,9 +22,7 @@ describe('load code view benchmark', function() {
     cy.get('#summary-wrapper .sort-within-group select')
       .select('totalCommits dsc');
 
-    Cypress.wait();
-
-    cy.get('.summary-chart__title--button.fa-code')
+    cy.get('.summary-chart__title--button.fa-code', { timeout: 90000 })
       .should('be.visible')
       .first()
       .click()
@@ -54,6 +48,9 @@ describe('load code view benchmark', function() {
 
   for (let i = 0; i < NUM_TRIALS; i++) {
     it(`time taken to load code view (trial ${i+1})`, function() {
+      if (isATrialWithinMaxTime) {
+        this.skip();
+      }
       timeTrial(i);
     });
   }
