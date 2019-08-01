@@ -143,9 +143,6 @@ window.vSummary = {
 
       this.getFiltered();
     },
-    filterBreakdown() {
-      this.setSummaryHash();
-    },
     isMergeGroup() {
       this.getFiltered();
     },
@@ -375,6 +372,7 @@ window.vSummary = {
     getFiltered() {
       this.setSummaryHash();
       this.getDates();
+      deactivateAllOverlays();
 
       // array of array, sorted by repo
       const full = [];
@@ -409,9 +407,6 @@ window.vSummary = {
       this.filtered = full;
 
       this.sortFiltered();
-<<<<<<< HEAD
-      deactivateAllOverlays();
-=======
 
       if (this.isMergeGroup) {
         this.mergeGroup();
@@ -477,7 +472,6 @@ window.vSummary = {
         }
         merged[key] += value;
       });
->>>>>>> master
     },
     processFileFormats() {
       const selectedColors = ['#ffe119', '#4363d8', '#3cb44b', '#f58231', '#911eb4', '#46f0f0', '#f032e6',
@@ -603,25 +597,10 @@ window.vSummary = {
       this.tmpFilterUntilDate = '';
     },
 
-<<<<<<< HEAD
-    updateDateRange() {
-      if (drags.length > 0) {
-        const since = new Date(this.filterSinceDate).getTime();
-        const until = new Date(this.filterUntilDate).getTime();
-        const range = until - since;
-
-        const getStr = (time) => getDateStr(new Date(time));
-        this.tmpFilterSinceDate = getStr(since + range * drags[0] / 100);
-        this.tmpFilterUntilDate = getStr(since + range * drags[1] / 100);
-
-        drags = [];
-      }
-=======
     updateDateRange(since, until) {
       this.tmpFilterSinceDate = since;
       this.tmpFilterUntilDate = until;
       deactivateAllOverlays();
->>>>>>> master
     },
 
     updateTmpFilterSinceDate(event) {
