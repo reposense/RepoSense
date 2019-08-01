@@ -1,3 +1,8 @@
+window.dismissTab = function dismissTab(node) {
+  const parent = node.parentNode;
+  parent.style.display = 'none';
+};
+
 window.comparator = (fn) => function compare(a, b) {
   const a1 = fn(a).toLowerCase ? fn(a).toLowerCase() : fn(a);
   const b1 = fn(b).toLowerCase ? fn(b).toLowerCase() : fn(b);
@@ -96,7 +101,7 @@ function dateRounding(datestr, roundDown) {
 }
 
 window.vSummary = {
-  props: ['repos'],
+  props: ['repos', 'errorMessages'],
   template: window.$('v_summary').innerHTML,
   data() {
     return {
