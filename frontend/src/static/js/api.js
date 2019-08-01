@@ -36,6 +36,8 @@ window.api = {
           window.app.sinceDate = data.sinceDate;
           window.app.untilDate = data.untilDate;
           window.app.repoSenseVersion = data.repoSenseVersion;
+          window.app.isSinceDateProvided = data.isSinceDateProvided;
+          window.app.isUntilDateProvided = data.isUntilDateProvided;
 
           const names = [];
           data.repos.forEach((repo) => {
