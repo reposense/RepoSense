@@ -85,6 +85,7 @@ public class ReportGenerator {
 
         earliestSinceDate = null;
         totalNumReposToAnalyze = configs.size();
+        numReposAnalyzed = 0;
 
         Map<RepoLocation, List<RepoConfiguration>> repoLocationMap = groupConfigsByRepoLocation(configs);
         cloneAndAnalyzeRepos(repoLocationMap, outputPath);
