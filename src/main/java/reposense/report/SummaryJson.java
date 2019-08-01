@@ -16,13 +16,17 @@ public class SummaryJson {
     private final List<RepoConfiguration> repos;
     private final Date sinceDate;
     private final Date untilDate;
+    private final boolean isSinceDateProvided;
+    private final boolean isUntilDateProvided;
 
     public SummaryJson(List<RepoConfiguration> repos, String reportGeneratedTime, Date sinceDate, Date untilDate,
-            String repoSenseVersion) {
+            boolean isSinceDateProvided, boolean isUntilDateProvided, String repoSenseVersion) {
         this.repos = repos;
         this.reportGeneratedTime = reportGeneratedTime;
         this.sinceDate = sinceDate;
         this.untilDate = untilDate;
+        this.isSinceDateProvided = isSinceDateProvided;
+        this.isUntilDateProvided = isUntilDateProvided;
         this.repoSenseVersion = repoSenseVersion;
     }
 }
