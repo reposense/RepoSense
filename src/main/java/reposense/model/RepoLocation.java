@@ -41,11 +41,7 @@ public class RepoLocation {
             repoName = matcher.group("repoName");
         } else {
             String prelimRepoName = Paths.get(location).getFileName().toString().replace(GIT_LINK_SUFFIX, "");
-            if (isRepoNameUnique(prelimRepoName)) {
-                repoName = prelimRepoName;
-            } else {
-                repoName = createUniqueRepoName(prelimRepoName);
-            }
+            repoName = isRepoNameUnique(prelimRepoName) ? prelimRepoName : createUniqueRepoName(prelimRepoName);
         }
     }
 
