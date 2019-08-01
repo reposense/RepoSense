@@ -31,6 +31,7 @@ public class FileAnalyzerTest extends GitTestTemplate {
         config.setUntilDate(MOVED_FILE_UNTIL_DATE);
         FileResult fileResult = getFileResult("newPos/movedFile.java");
         assertFileAnalysisCorrectness(fileResult);
+
     }
 
     @Test
