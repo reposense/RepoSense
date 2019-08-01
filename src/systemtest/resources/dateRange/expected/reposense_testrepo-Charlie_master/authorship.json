@@ -5,7 +5,7 @@
       {
         "lineNumber": 1,
         "author": {
-          "gitId": "-"
+          "gitId": "jeffreygohkw"
         },
         "content": "\u003d Address++"
       },
@@ -131,21 +131,21 @@
       {
         "lineNumber": 19,
         "author": {
-          "gitId": "-"
+          "gitId": "jeffreygohkw"
         },
         "content": "* It is a Java application primarily targeted for students doing group projects."
       },
       {
         "lineNumber": 20,
         "author": {
-          "gitId": "-"
+          "gitId": "jeffreygohkw"
         },
         "content": "* It is *written in OOP fashion*. The code base is *reasonably well-written* and is *significantly big* (around 6 KLoC)"
       },
       {
         "lineNumber": 21,
         "author": {
-          "gitId": "-"
+          "gitId": "jeffreygohkw"
         },
         "content": "* Contains support for _Build Automation_ using Gradle and for _Continuous Integration_ using Travis CI, AppVeyor and Codacy, with coverage checks using Coveralls."
       },
@@ -236,7 +236,7 @@
       {
         "lineNumber": 34,
         "author": {
-          "gitId": "-"
+          "gitId": "jeffreygohkw"
         },
         "content": "* This application was built using the source code found in https://github.com/nus-cs2103-AY1718S1/addressbook-level4/[AddressBook-level4] by _SE-EDU_."
       },
@@ -257,8 +257,8 @@
     ],
     "authorContributionMap": {
       "charlesgoh": 3,
-      "jeffreygohkw": 2,
-      "-": 31
+      "jeffreygohkw": 7,
+      "-": 26
     }
   },
   {
@@ -16272,6 +16272,155 @@
     }
   },
   {
+    "path": "src/main/java/seedu/address/commons/events/model/AddressBookChangedEvent.java",
+    "lines": [
+      {
+        "lineNumber": 1,
+        "author": {
+          "gitId": "-"
+        },
+        "content": "package seedu.address.commons.events.model;"
+      },
+      {
+        "lineNumber": 2,
+        "author": {
+          "gitId": "-"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 3,
+        "author": {
+          "gitId": "-"
+        },
+        "content": "import seedu.address.commons.events.BaseEvent;"
+      },
+      {
+        "lineNumber": 4,
+        "author": {
+          "gitId": "-"
+        },
+        "content": "import seedu.address.model.ReadOnlyAddressBook;"
+      },
+      {
+        "lineNumber": 5,
+        "author": {
+          "gitId": "-"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 6,
+        "author": {
+          "gitId": "-"
+        },
+        "content": "/** Indicates the AddressBook in the model has changed*/"
+      },
+      {
+        "lineNumber": 7,
+        "author": {
+          "gitId": "-"
+        },
+        "content": "public class AddressBookChangedEvent extends BaseEvent {"
+      },
+      {
+        "lineNumber": 8,
+        "author": {
+          "gitId": "-"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 9,
+        "author": {
+          "gitId": "-"
+        },
+        "content": "    public final ReadOnlyAddressBook data;"
+      },
+      {
+        "lineNumber": 10,
+        "author": {
+          "gitId": "-"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 11,
+        "author": {
+          "gitId": "-"
+        },
+        "content": "    public AddressBookChangedEvent(ReadOnlyAddressBook data) {"
+      },
+      {
+        "lineNumber": 12,
+        "author": {
+          "gitId": "-"
+        },
+        "content": "        this.data \u003d data;"
+      },
+      {
+        "lineNumber": 13,
+        "author": {
+          "gitId": "-"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 14,
+        "author": {
+          "gitId": "-"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 15,
+        "author": {
+          "gitId": "-"
+        },
+        "content": "    @Override"
+      },
+      {
+        "lineNumber": 16,
+        "author": {
+          "gitId": "-"
+        },
+        "content": "    public String toString() {"
+      },
+      {
+        "lineNumber": 17,
+        "author": {
+          "gitId": "Esilocke"
+        },
+        "content": "        return \"number of persons \" + data.getPersonList().size() + \", number of tags \" + data.getTagList().size()"
+      },
+      {
+        "lineNumber": 18,
+        "author": {
+          "gitId": "Esilocke"
+        },
+        "content": "                + \", number of tasks \" + data.getTasksList().size();"
+      },
+      {
+        "lineNumber": 19,
+        "author": {
+          "gitId": "-"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 20,
+        "author": {
+          "gitId": "-"
+        },
+        "content": "}"
+      }
+    ],
+    "authorContributionMap": {
+      "Esilocke": 2,
+      "-": 18
+    }
+  },
+  {
     "path": "src/main/java/seedu/address/commons/events/ui/BrowserPanelLocateEvent.java",
     "lines": [
       {
@@ -25147,14 +25296,14 @@
       {
         "lineNumber": 157,
         "author": {
-          "gitId": "-"
+          "gitId": "Esilocke"
         },
         "content": "        } catch (IllegalArgumentException e) {"
       },
       {
         "lineNumber": 158,
         "author": {
-          "gitId": "-"
+          "gitId": "Esilocke"
         },
         "content": "            throw new CommandException(MESSAGE_ALL_FIELDS_PRIVATE);"
       },
@@ -28039,9 +28188,9 @@
     "authorContributionMap": {
       "charlesgoh": 22,
       "jeffreygohkw": 152,
-      "Esilocke": 172,
+      "Esilocke": 174,
       "wangyiming1019": 15,
-      "-": 208
+      "-": 206
     }
   },
   {
@@ -39895,21 +40044,21 @@
       {
         "lineNumber": 35,
         "author": {
-          "gitId": "-"
+          "gitId": "Esilocke"
         },
         "content": "            String argsWithNoTaskPrefix \u003d args.replaceFirst(PREFIX_TASK.getPrefix(), \"\");"
       },
       {
         "lineNumber": 36,
         "author": {
-          "gitId": "-"
+          "gitId": "Esilocke"
         },
         "content": "            trimmedArgs \u003d argsWithNoTaskPrefix.trim();"
       },
       {
         "lineNumber": 37,
         "author": {
-          "gitId": "-"
+          "gitId": "Esilocke"
         },
         "content": "            if (trimmedArgs.isEmpty()) {"
       },
@@ -39937,7 +40086,7 @@
       {
         "lineNumber": 41,
         "author": {
-          "gitId": "-"
+          "gitId": "Esilocke"
         },
         "content": "            String[] nameKeywords \u003d trimmedArgs.split(\"\\\\s+\");"
       },
@@ -39971,8 +40120,8 @@
       }
     ],
     "authorContributionMap": {
-      "Esilocke": 10,
-      "-": 35
+      "Esilocke": 14,
+      "-": 31
     }
   },
   {
@@ -44008,7 +44157,7 @@
       {
         "lineNumber": 233,
         "author": {
-          "gitId": "-"
+          "gitId": "Esilocke"
         },
         "content": ""
       },
@@ -44505,14 +44654,14 @@
       {
         "lineNumber": 304,
         "author": {
-          "gitId": "-"
+          "gitId": "Esilocke"
         },
         "content": "                \u0026\u0026 this.tags.equalsOrderInsensitive(((AddressBook) other).tags))"
       },
       {
         "lineNumber": 305,
         "author": {
-          "gitId": "-"
+          "gitId": "Esilocke"
         },
         "content": "                \u0026\u0026 this.tasks.equals(((AddressBook) other).tasks);"
       },
@@ -44554,7 +44703,7 @@
       {
         "lineNumber": 311,
         "author": {
-          "gitId": "-"
+          "gitId": "Esilocke"
         },
         "content": "        return Objects.hash(persons, tags, tasks);"
       },
@@ -44575,9 +44724,9 @@
     ],
     "authorContributionMap": {
       "charlesgoh": 10,
-      "Esilocke": 101,
+      "Esilocke": 105,
       "wangyiming1019": 16,
-      "-": 186
+      "-": 182
     }
   },
   {
@@ -46676,21 +46825,21 @@
       {
         "lineNumber": 189,
         "author": {
-          "gitId": "-"
+          "gitId": "Esilocke"
         },
         "content": "    public void unfavouritePerson(ReadOnlyPerson target) throws PersonNotFoundException {"
       },
       {
         "lineNumber": 190,
         "author": {
-          "gitId": "-"
+          "gitId": "Esilocke"
         },
         "content": "        addressBook.unfavouritePerson(target);"
       },
       {
         "lineNumber": 191,
         "author": {
-          "gitId": "-"
+          "gitId": "Esilocke"
         },
         "content": "        updateFilteredPersonList(new NameContainsFavouritePredicate());"
       },
@@ -47222,14 +47371,14 @@
       {
         "lineNumber": 267,
         "author": {
-          "gitId": "-"
+          "gitId": "Esilocke"
         },
         "content": "                \u0026\u0026 filteredPersons.equals(other.filteredPersons)"
       },
       {
         "lineNumber": 268,
         "author": {
-          "gitId": "-"
+          "gitId": "Esilocke"
         },
         "content": "                \u0026\u0026 filteredTasks.equals(other.filteredTasks);"
       },
@@ -47257,9 +47406,9 @@
     ],
     "authorContributionMap": {
       "charlesgoh": 6,
-      "Esilocke": 93,
+      "Esilocke": 98,
       "wangyiming1019": 49,
-      "-": 123
+      "-": 118
     }
   },
   {
@@ -49463,7 +49612,7 @@
       {
         "lineNumber": 23,
         "author": {
-          "gitId": "-"
+          "gitId": "wangyiming1019"
         },
         "content": "        String allTagString \u003d convertTagToString(person);"
       },
@@ -49582,35 +49731,35 @@
       {
         "lineNumber": 40,
         "author": {
-          "gitId": "-"
+          "gitId": "wangyiming1019"
         },
         "content": "    /**"
       },
       {
         "lineNumber": 41,
         "author": {
-          "gitId": "-"
+          "gitId": "wangyiming1019"
         },
         "content": "     * check only unwanted tag list has elements"
       },
       {
         "lineNumber": 42,
         "author": {
-          "gitId": "-"
+          "gitId": "wangyiming1019"
         },
         "content": "     * @return a boolean value"
       },
       {
         "lineNumber": 43,
         "author": {
-          "gitId": "-"
+          "gitId": "wangyiming1019"
         },
         "content": "     */"
       },
       {
         "lineNumber": 44,
         "author": {
-          "gitId": "-"
+          "gitId": "wangyiming1019"
         },
         "content": ""
       },
@@ -49680,42 +49829,42 @@
       {
         "lineNumber": 54,
         "author": {
-          "gitId": "-"
+          "gitId": "wangyiming1019"
         },
         "content": "    /**"
       },
       {
         "lineNumber": 55,
         "author": {
-          "gitId": "-"
+          "gitId": "wangyiming1019"
         },
         "content": "     * Update the wantedTag and unwantedTag list"
       },
       {
         "lineNumber": 56,
         "author": {
-          "gitId": "-"
+          "gitId": "wangyiming1019"
         },
         "content": "     * @param wantedTag list of tags to be searched"
       },
       {
         "lineNumber": 57,
         "author": {
-          "gitId": "-"
+          "gitId": "wangyiming1019"
         },
         "content": "     * @param unwantedTag list of tags to not be searched"
       },
       {
         "lineNumber": 58,
         "author": {
-          "gitId": "-"
+          "gitId": "wangyiming1019"
         },
         "content": "     */"
       },
       {
         "lineNumber": 59,
         "author": {
-          "gitId": "-"
+          "gitId": "wangyiming1019"
         },
         "content": ""
       },
@@ -49799,35 +49948,35 @@
       {
         "lineNumber": 71,
         "author": {
-          "gitId": "-"
+          "gitId": "wangyiming1019"
         },
         "content": "    /**"
       },
       {
         "lineNumber": 72,
         "author": {
-          "gitId": "-"
+          "gitId": "wangyiming1019"
         },
         "content": "     * Convert a set of tags to Strings"
       },
       {
         "lineNumber": 73,
         "author": {
-          "gitId": "-"
+          "gitId": "wangyiming1019"
         },
         "content": "     */"
       },
       {
         "lineNumber": 74,
         "author": {
-          "gitId": "-"
+          "gitId": "wangyiming1019"
         },
         "content": ""
       },
       {
         "lineNumber": 75,
         "author": {
-          "gitId": "-"
+          "gitId": "wangyiming1019"
         },
         "content": "    private String convertTagToString(ReadOnlyPerson person) {"
       },
@@ -49952,8 +50101,7 @@
       }
     ],
     "authorContributionMap": {
-      "wangyiming1019": 75,
-      "-": 17
+      "wangyiming1019": 92
     }
   },
   {
@@ -58657,7 +58805,7 @@
       {
         "lineNumber": 5,
         "author": {
-          "gitId": "-"
+          "gitId": "Esilocke"
         },
         "content": "import java.util.Collection;"
       },
@@ -58713,7 +58861,7 @@
       {
         "lineNumber": 13,
         "author": {
-          "gitId": "-"
+          "gitId": "Esilocke"
         },
         "content": "import seedu.address.commons.util.CollectionUtil;"
       },
@@ -59496,8 +59644,7 @@
       }
     ],
     "authorContributionMap": {
-      "Esilocke": 122,
-      "-": 2
+      "Esilocke": 124
     }
   },
   {
@@ -67131,28 +67278,28 @@
       {
         "lineNumber": 326,
         "author": {
-          "gitId": "-"
+          "gitId": "Esilocke"
         },
         "content": "    public TaskListPanel getTaskListPanel() {"
       },
       {
         "lineNumber": 327,
         "author": {
-          "gitId": "-"
+          "gitId": "Esilocke"
         },
         "content": "        return this.taskListPanel;"
       },
       {
         "lineNumber": 328,
         "author": {
-          "gitId": "-"
+          "gitId": "Esilocke"
         },
         "content": "    }"
       },
       {
         "lineNumber": 329,
         "author": {
-          "gitId": "-"
+          "gitId": "Esilocke"
         },
         "content": ""
       },
@@ -67230,8 +67377,8 @@
     "authorContributionMap": {
       "charlesgoh": 3,
       "jeffreygohkw": 107,
-      "Esilocke": 7,
-      "-": 222
+      "Esilocke": 11,
+      "-": 218
     }
   },
   {

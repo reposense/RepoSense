@@ -429,6 +429,393 @@
     }
   },
   {
+    "path": "src/main/resources/view/PersonInfoOverview.fxml",
+    "lines": [
+      {
+        "lineNumber": 1,
+        "author": {
+          "gitId": "-"
+        },
+        "content": "\u003c?xml version\u003d\"1.0\" encoding\u003d\"UTF-8\"?\u003e"
+      },
+      {
+        "lineNumber": 2,
+        "author": {
+          "gitId": "-"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 3,
+        "author": {
+          "gitId": "-"
+        },
+        "content": "\u003c?import javafx.scene.control.Label?\u003e"
+      },
+      {
+        "lineNumber": 4,
+        "author": {
+          "gitId": "-"
+        },
+        "content": "\u003c?import javafx.scene.control.SplitPane?\u003e"
+      },
+      {
+        "lineNumber": 5,
+        "author": {
+          "gitId": "-"
+        },
+        "content": "\u003c?import javafx.scene.layout.AnchorPane?\u003e"
+      },
+      {
+        "lineNumber": 6,
+        "author": {
+          "gitId": "-"
+        },
+        "content": "\u003c?import javafx.scene.layout.HBox?\u003e"
+      },
+      {
+        "lineNumber": 7,
+        "author": {
+          "gitId": "-"
+        },
+        "content": "\u003c?import javafx.scene.layout.StackPane?\u003e"
+      },
+      {
+        "lineNumber": 8,
+        "author": {
+          "gitId": "-"
+        },
+        "content": "\u003c?import javafx.scene.layout.VBox?\u003e"
+      },
+      {
+        "lineNumber": 9,
+        "author": {
+          "gitId": "-"
+        },
+        "content": "\u003cStackPane styleClass\u003d\"info-panel\" xmlns\u003d\"http://javafx.com/javafx/8\" xmlns:fx\u003d\"http://javafx.com/fxml/1\"\u003e"
+      },
+      {
+        "lineNumber": 10,
+        "author": {
+          "gitId": "nbr"
+        },
+        "content": "    \u003c!--Edit dividerPositions below to adjust vertical divider position between the person info and the timetable area --\u003e"
+      },
+      {
+        "lineNumber": 11,
+        "author": {
+          "gitId": "nbr"
+        },
+        "content": "    \u003cSplitPane dividerPositions\u003d\"0.3\" orientation\u003d\"VERTICAL\"\u003e"
+      },
+      {
+        "lineNumber": 12,
+        "author": {
+          "gitId": "-"
+        },
+        "content": "        \u003cAnchorPane\u003e"
+      },
+      {
+        "lineNumber": 13,
+        "author": {
+          "gitId": "nbr"
+        },
+        "content": "            \u003c!--Edit dividerPositions below to adjust the divider position between the person photo and the person details--\u003e"
+      },
+      {
+        "lineNumber": 14,
+        "author": {
+          "gitId": "nbr"
+        },
+        "content": "            \u003cSplitPane dividerPositions\u003d\"0.5\" AnchorPane.bottomAnchor\u003d\"0.0\" AnchorPane.leftAnchor\u003d\"0.0\" AnchorPane.rightAnchor\u003d\"0.0\" AnchorPane.topAnchor\u003d\"0.0\"\u003e"
+      },
+      {
+        "lineNumber": 15,
+        "author": {
+          "gitId": "-"
+        },
+        "content": "                \u003cAnchorPane minHeight\u003d\"0.0\" minWidth\u003d\"0.0\" styleClass\u003d\"info-name-cell\"\u003e"
+      },
+      {
+        "lineNumber": 16,
+        "author": {
+          "gitId": "-"
+        },
+        "content": "                    \u003cLabel fx:id\u003d\"name\" alignment\u003d\"CENTER\" contentDisplay\u003d\"CENTER\" prefHeight\u003d\"28.0\" prefWidth\u003d\"43.2\" styleClass\u003d\"display_big_label\" text\u003d\"\\$name\" textAlignment\u003d\"CENTER\" AnchorPane.bottomAnchor\u003d\"0.0\" AnchorPane.leftAnchor\u003d\"0.0\" AnchorPane.rightAnchor\u003d\"0.0\" AnchorPane.topAnchor\u003d\"0.0\" /\u003e"
+      },
+      {
+        "lineNumber": 17,
+        "author": {
+          "gitId": "-"
+        },
+        "content": "                \u003c/AnchorPane\u003e"
+      },
+      {
+        "lineNumber": 18,
+        "author": {
+          "gitId": "-"
+        },
+        "content": "                \u003cAnchorPane minHeight\u003d\"0.0\" minWidth\u003d\"0.0\" styleClass\u003d\"info-cell\"\u003e"
+      },
+      {
+        "lineNumber": 19,
+        "author": {
+          "gitId": "-"
+        },
+        "content": "                    \u003cVBox alignment\u003d\"CENTER_LEFT\" AnchorPane.bottomAnchor\u003d\"0.0\" AnchorPane.leftAnchor\u003d\"20.0\" AnchorPane.rightAnchor\u003d\"0.0\" AnchorPane.topAnchor\u003d\"0.0\"\u003e"
+      },
+      {
+        "lineNumber": 20,
+        "author": {
+          "gitId": "-"
+        },
+        "content": "                        \u003cHBox alignment\u003d\"CENTER_LEFT\" spacing\u003d\"5\"\u003e"
+      },
+      {
+        "lineNumber": 21,
+        "author": {
+          "gitId": "-"
+        },
+        "content": "                            \u003cLabel styleClass\u003d\"display_small_label\" text\u003d\"Gender:\" /\u003e"
+      },
+      {
+        "lineNumber": 22,
+        "author": {
+          "gitId": "-"
+        },
+        "content": "                            \u003cLabel fx:id\u003d\"gender\" styleClass\u003d\"display_small_value\" text\u003d\"\\$gender\" /\u003e"
+      },
+      {
+        "lineNumber": 23,
+        "author": {
+          "gitId": "-"
+        },
+        "content": "                        \u003c/HBox\u003e"
+      },
+      {
+        "lineNumber": 24,
+        "author": {
+          "gitId": "-"
+        },
+        "content": "                        \u003cHBox alignment\u003d\"CENTER_LEFT\" spacing\u003d\"5\"\u003e"
+      },
+      {
+        "lineNumber": 25,
+        "author": {
+          "gitId": "-"
+        },
+        "content": "                            \u003cLabel styleClass\u003d\"display_small_label\" text\u003d\"Matriculation No:\" /\u003e"
+      },
+      {
+        "lineNumber": 26,
+        "author": {
+          "gitId": "-"
+        },
+        "content": "                            \u003cLabel fx:id\u003d\"matricNo\" styleClass\u003d\"display_small_value\" text\u003d\"\\$matricNo\" /\u003e"
+      },
+      {
+        "lineNumber": 27,
+        "author": {
+          "gitId": "-"
+        },
+        "content": "                        \u003c/HBox\u003e"
+      },
+      {
+        "lineNumber": 28,
+        "author": {
+          "gitId": "-"
+        },
+        "content": "                        \u003cHBox alignment\u003d\"CENTER_LEFT\" spacing\u003d\"5\"\u003e"
+      },
+      {
+        "lineNumber": 29,
+        "author": {
+          "gitId": "-"
+        },
+        "content": "                            \u003cLabel styleClass\u003d\"display_small_label\" text\u003d\"Phone No:\" /\u003e"
+      },
+      {
+        "lineNumber": 30,
+        "author": {
+          "gitId": "-"
+        },
+        "content": "                            \u003cLabel fx:id\u003d\"phone\" styleClass\u003d\"display_small_value\" text\u003d\"\\$phone\" /\u003e"
+      },
+      {
+        "lineNumber": 31,
+        "author": {
+          "gitId": "-"
+        },
+        "content": "                        \u003c/HBox\u003e"
+      },
+      {
+        "lineNumber": 32,
+        "author": {
+          "gitId": "-"
+        },
+        "content": "                        \u003cHBox alignment\u003d\"CENTER_LEFT\" spacing\u003d\"5\"\u003e"
+      },
+      {
+        "lineNumber": 33,
+        "author": {
+          "gitId": "-"
+        },
+        "content": "                            \u003cLabel styleClass\u003d\"display_small_label\" text\u003d\"Address:\" /\u003e"
+      },
+      {
+        "lineNumber": 34,
+        "author": {
+          "gitId": "-"
+        },
+        "content": "                            \u003cLabel fx:id\u003d\"address\" styleClass\u003d\"display_small_value\" text\u003d\"\\$address\" /\u003e"
+      },
+      {
+        "lineNumber": 35,
+        "author": {
+          "gitId": "-"
+        },
+        "content": "                        \u003c/HBox\u003e"
+      },
+      {
+        "lineNumber": 36,
+        "author": {
+          "gitId": "-"
+        },
+        "content": "                        \u003cHBox alignment\u003d\"CENTER_LEFT\" spacing\u003d\"5\"\u003e"
+      },
+      {
+        "lineNumber": 37,
+        "author": {
+          "gitId": "-"
+        },
+        "content": "                            \u003cLabel styleClass\u003d\"display_small_label\" text\u003d\"Email:\" /\u003e"
+      },
+      {
+        "lineNumber": 38,
+        "author": {
+          "gitId": "-"
+        },
+        "content": "                            \u003cLabel fx:id\u003d\"email\" styleClass\u003d\"display_small_value\" text\u003d\"\\$email\" /\u003e"
+      },
+      {
+        "lineNumber": 39,
+        "author": {
+          "gitId": "-"
+        },
+        "content": "                        \u003c/HBox\u003e"
+      },
+      {
+        "lineNumber": 40,
+        "author": {
+          "gitId": "-"
+        },
+        "content": "                        \u003cHBox alignment\u003d\"CENTER_LEFT\" spacing\u003d\"5\"\u003e"
+      },
+      {
+        "lineNumber": 41,
+        "author": {
+          "gitId": "-"
+        },
+        "content": "                            \u003cLabel styleClass\u003d\"display_small_label\" text\u003d\"Birthday:\" /\u003e"
+      },
+      {
+        "lineNumber": 42,
+        "author": {
+          "gitId": "-"
+        },
+        "content": "                            \u003cLabel fx:id\u003d\"birthday\" styleClass\u003d\"display_small_value\" text\u003d\"\\$birthday\" /\u003e"
+      },
+      {
+        "lineNumber": 43,
+        "author": {
+          "gitId": "-"
+        },
+        "content": "                        \u003c/HBox\u003e"
+      },
+      {
+        "lineNumber": 44,
+        "author": {
+          "gitId": "-"
+        },
+        "content": "                        \u003cHBox alignment\u003d\"CENTER_LEFT\" spacing\u003d\"5\"\u003e"
+      },
+      {
+        "lineNumber": 45,
+        "author": {
+          "gitId": "-"
+        },
+        "content": "                            \u003cLabel styleClass\u003d\"display_small_label\" text\u003d\"Remark:\" /\u003e"
+      },
+      {
+        "lineNumber": 46,
+        "author": {
+          "gitId": "-"
+        },
+        "content": "                            \u003cLabel fx:id\u003d\"remark\" styleClass\u003d\"display_small_value\" text\u003d\"\\$remark\" /\u003e"
+      },
+      {
+        "lineNumber": 47,
+        "author": {
+          "gitId": "-"
+        },
+        "content": "                        \u003c/HBox\u003e"
+      },
+      {
+        "lineNumber": 48,
+        "author": {
+          "gitId": "-"
+        },
+        "content": "                    \u003c/VBox\u003e"
+      },
+      {
+        "lineNumber": 49,
+        "author": {
+          "gitId": "-"
+        },
+        "content": "                \u003c/AnchorPane\u003e"
+      },
+      {
+        "lineNumber": 50,
+        "author": {
+          "gitId": "-"
+        },
+        "content": "            \u003c/SplitPane\u003e"
+      },
+      {
+        "lineNumber": 51,
+        "author": {
+          "gitId": "-"
+        },
+        "content": "        \u003c/AnchorPane\u003e"
+      },
+      {
+        "lineNumber": 52,
+        "author": {
+          "gitId": "-"
+        },
+        "content": "        \u003cAnchorPane minHeight\u003d\"0.0\" minWidth\u003d\"0.0\" /\u003e"
+      },
+      {
+        "lineNumber": 53,
+        "author": {
+          "gitId": "-"
+        },
+        "content": "    \u003c/SplitPane\u003e"
+      },
+      {
+        "lineNumber": 54,
+        "author": {
+          "gitId": "-"
+        },
+        "content": "\u003c/StackPane\u003e"
+      }
+    ],
+    "authorContributionMap": {
+      "-": 50,
+      "nbr": 4
+    }
+  },
+  {
     "path": "src/main/resources/view/PersonListCard.fxml",
     "lines": [
       {

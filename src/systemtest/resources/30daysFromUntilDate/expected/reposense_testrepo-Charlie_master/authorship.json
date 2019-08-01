@@ -2152,266 +2152,266 @@
       {
         "lineNumber": 221,
         "author": {
-          "gitId": "-"
+          "gitId": "charlesgoh"
         },
         "content": "\u003d\u003d\u003d Increase/Decrease/Reset Font Size"
       },
       {
         "lineNumber": 222,
         "author": {
-          "gitId": "-"
+          "gitId": "charlesgoh"
         },
         "content": ""
       },
       {
         "lineNumber": 223,
         "author": {
-          "gitId": "-"
+          "gitId": "charlesgoh"
         },
         "content": "On some screens, the text appear to be too small. The aim of the increase/decrease/reset font size feature is to allow"
       },
       {
         "lineNumber": 224,
         "author": {
-          "gitId": "-"
+          "gitId": "charlesgoh"
         },
         "content": "users to customize the application\u0027s font size quickly on the go."
       },
       {
         "lineNumber": 225,
         "author": {
-          "gitId": "-"
+          "gitId": "charlesgoh"
         },
         "content": ""
       },
       {
         "lineNumber": 226,
         "author": {
-          "gitId": "-"
+          "gitId": "charlesgoh"
         },
         "content": "image::FontSizeUI.png[width\u003d\"540\"]"
       },
       {
         "lineNumber": 227,
         "author": {
-          "gitId": "-"
+          "gitId": "charlesgoh"
         },
         "content": ""
       },
       {
         "lineNumber": 228,
         "author": {
-          "gitId": "-"
+          "gitId": "charlesgoh"
         },
         "content": "There are two methods of calling changes in font size. The first way is through the UI. The Class Diagram for this"
       },
       {
         "lineNumber": 229,
         "author": {
-          "gitId": "-"
+          "gitId": "charlesgoh"
         },
         "content": "procedure is shown below:"
       },
       {
         "lineNumber": 230,
         "author": {
-          "gitId": "-"
+          "gitId": "charlesgoh"
         },
         "content": ""
       },
       {
         "lineNumber": 231,
         "author": {
-          "gitId": "-"
+          "gitId": "charlesgoh"
         },
         "content": "Image Placeholder"
       },
       {
         "lineNumber": 232,
         "author": {
-          "gitId": "-"
+          "gitId": "charlesgoh"
         },
         "content": ""
       },
       {
         "lineNumber": 233,
         "author": {
-          "gitId": "-"
+          "gitId": "charlesgoh"
         },
         "content": "The other method of calling changes in font size is through a CLI command. When the relevant command is entered,"
       },
       {
         "lineNumber": 234,
         "author": {
-          "gitId": "-"
+          "gitId": "charlesgoh"
         },
         "content": "the Command class calls MainWindow. The rest of the process flow is identical to that of the UI triggered font size"
       },
       {
         "lineNumber": 235,
         "author": {
-          "gitId": "-"
+          "gitId": "charlesgoh"
         },
         "content": "command."
       },
       {
         "lineNumber": 236,
         "author": {
-          "gitId": "-"
+          "gitId": "charlesgoh"
         },
         "content": ""
       },
       {
         "lineNumber": 237,
         "author": {
-          "gitId": "-"
+          "gitId": "charlesgoh"
         },
         "content": "Image Placeholder"
       },
       {
         "lineNumber": 238,
         "author": {
-          "gitId": "-"
+          "gitId": "charlesgoh"
         },
         "content": ""
       },
       {
         "lineNumber": 239,
         "author": {
-          "gitId": "-"
+          "gitId": "charlesgoh"
         },
         "content": "\u003d\u003d\u003d\u003d Design Considerations"
       },
       {
         "lineNumber": 240,
         "author": {
-          "gitId": "-"
+          "gitId": "charlesgoh"
         },
         "content": ""
       },
       {
         "lineNumber": 241,
         "author": {
-          "gitId": "-"
+          "gitId": "charlesgoh"
         },
         "content": "**Aspect:** Implementation of Task-related commands +"
       },
       {
         "lineNumber": 242,
         "author": {
-          "gitId": "-"
+          "gitId": "charlesgoh"
         },
         "content": "**Alternative 1 (current choice):** Use polymorphism to allow existing commands to implement the new commands +"
       },
       {
         "lineNumber": 243,
         "author": {
-          "gitId": "-"
+          "gitId": "charlesgoh"
         },
         "content": "**Pros:** Under this scheme, any command can be extended to allow addition of new commands of any type, without affecting the architecture significantly +"
       },
       {
         "lineNumber": 244,
         "author": {
-          "gitId": "-"
+          "gitId": "charlesgoh"
         },
         "content": "**Cons:** SRP may be violated as each Command class may now need to handle 2 different types of objects. +"
       },
       {
         "lineNumber": 245,
         "author": {
-          "gitId": "-"
+          "gitId": "charlesgoh"
         },
         "content": "**Alternative 2:** Create new classes for all new commands +"
       },
       {
         "lineNumber": 246,
         "author": {
-          "gitId": "-"
+          "gitId": "charlesgoh"
         },
         "content": "**Pros:** Simpler to implement. +"
       },
       {
         "lineNumber": 247,
         "author": {
-          "gitId": "-"
+          "gitId": "charlesgoh"
         },
         "content": "**Cons:** Code duplication occurs as the commands for Person and Tasks objects share the same structure."
       },
       {
         "lineNumber": 248,
         "author": {
-          "gitId": "-"
+          "gitId": "charlesgoh"
         },
         "content": ""
       },
       {
         "lineNumber": 249,
         "author": {
-          "gitId": "-"
+          "gitId": "charlesgoh"
         },
         "content": "---"
       },
       {
         "lineNumber": 250,
         "author": {
-          "gitId": "-"
+          "gitId": "charlesgoh"
         },
         "content": ""
       },
       {
         "lineNumber": 251,
         "author": {
-          "gitId": "-"
+          "gitId": "charlesgoh"
         },
         "content": "**Aspect:** Storage of Task objects +"
       },
       {
         "lineNumber": 252,
         "author": {
-          "gitId": "-"
+          "gitId": "charlesgoh"
         },
         "content": "**Alternative 1 (current choice):** Store Tasks objects in a separate XML file +"
       },
       {
         "lineNumber": 253,
         "author": {
-          "gitId": "-"
+          "gitId": "charlesgoh"
         },
         "content": "**Pros:** Easier to manage as Person storage will not interfere with Task storage, and vice versa."
       },
       {
         "lineNumber": 254,
         "author": {
-          "gitId": "-"
+          "gitId": "charlesgoh"
         },
         "content": "**Cons:** All existing save/load functions will require an additional method to handle Task storage."
       },
       {
         "lineNumber": 255,
         "author": {
-          "gitId": "-"
+          "gitId": "charlesgoh"
         },
         "content": "**Alternative 2:** Store Task objects together in the default XML storage file +"
       },
       {
         "lineNumber": 256,
         "author": {
-          "gitId": "-"
+          "gitId": "charlesgoh"
         },
         "content": "**Pros** Only 1 storage file is needed. The storage manager thus only needs to refer to one storage +"
       },
       {
         "lineNumber": 257,
         "author": {
-          "gitId": "-"
+          "gitId": "charlesgoh"
         },
         "content": "**Cons** Any changes to the Person or Task"
       },
       {
         "lineNumber": 258,
         "author": {
-          "gitId": "-"
+          "gitId": "charlesgoh"
         },
         "content": ""
       },
@@ -9648,10 +9648,10 @@
       }
     ],
     "authorContributionMap": {
-      "charlesgoh": 92,
+      "charlesgoh": 130,
       "jeffreygohkw": 140,
       "Esilocke": 169,
-      "-": 890
+      "-": 852
     }
   },
   {
@@ -9926,7 +9926,7 @@
       {
         "lineNumber": 39,
         "author": {
-          "gitId": "-"
+          "gitId": "charlesgoh"
         },
         "content": "image::Ui.png[width\u003d\"800\"]"
       },
@@ -10157,35 +10157,35 @@
       {
         "lineNumber": 72,
         "author": {
-          "gitId": "-"
+          "gitId": "charlesgoh"
         },
         "content": "image::FontSizeUI.png[width\u003d\"540\"]"
       },
       {
         "lineNumber": 73,
         "author": {
-          "gitId": "-"
+          "gitId": "charlesgoh"
         },
         "content": ""
       },
       {
         "lineNumber": 74,
         "author": {
-          "gitId": "-"
+          "gitId": "charlesgoh"
         },
         "content": "* *Increase Size:* kbd:[CTRL] + kbd:[W] (kbd:[CMD] + kbd:[W] on MacOS)"
       },
       {
         "lineNumber": 75,
         "author": {
-          "gitId": "-"
+          "gitId": "charlesgoh"
         },
         "content": "* *Decrease Size:* kbd:[CTRL] + kbd:[E] (kbd:[CMD] + kbd:[E] on MacOS)"
       },
       {
         "lineNumber": 76,
         "author": {
-          "gitId": "-"
+          "gitId": "charlesgoh"
         },
         "content": "* *Reset Size:* kbd:[CTRL] + kbd:[R] (kbd:[CMD] + kbd:[R] on MacOS)"
       },
@@ -15085,65 +15085,65 @@
       {
         "lineNumber": 776,
         "author": {
-          "gitId": "-"
+          "gitId": "charlesgoh"
         },
         "content": "* *Increase Size:* kbd:[CTRL] + kbd:[W] (kbd:[CMD] + kbd:[W] on MacOS)"
       },
       {
         "lineNumber": 777,
         "author": {
-          "gitId": "-"
+          "gitId": "charlesgoh"
         },
         "content": "* *Decrease Size:* kbd:[CTRL] + kbd:[E] (kbd:[CMD] + kbd:[E] on MacOS)"
       },
       {
         "lineNumber": 778,
         "author": {
-          "gitId": "-"
+          "gitId": "charlesgoh"
         },
         "content": "* *Reset Size:* kbd:[CTRL] + kbd:[R] (kbd:[CMD] + kbd:[R] on MacOS)"
       },
       {
         "lineNumber": 779,
         "author": {
-          "gitId": "-"
+          "gitId": "charlesgoh"
         },
         "content": ""
       },
       {
         "lineNumber": 780,
         "author": {
-          "gitId": "-"
+          "gitId": "charlesgoh"
         },
         "content": "\u003d\u003d v2.0 UI Concept"
       },
       {
         "lineNumber": 781,
         "author": {
-          "gitId": "-"
+          "gitId": "charlesgoh"
         },
         "content": "This is the concept design of our v2.0 end product. Actual design may vary."
       },
       {
         "lineNumber": 782,
         "author": {
-          "gitId": "-"
+          "gitId": "charlesgoh"
         },
         "content": ""
       },
       {
         "lineNumber": 783,
         "author": {
-          "gitId": "-"
+          "gitId": "charlesgoh"
         },
         "content": "image::v2UIMockup.png[width\u003d\"800\"]"
       }
     ],
     "authorContributionMap": {
-      "charlesgoh": 56,
+      "charlesgoh": 70,
       "jeffreygohkw": 88,
       "Esilocke": 252,
-      "-": 387
+      "-": 373
     }
   },
   {
@@ -33738,77 +33738,77 @@
       {
         "lineNumber": 1,
         "author": {
-          "gitId": "-"
+          "gitId": "Esilocke"
         },
         "content": "package seedu.address.logic.commands;"
       },
       {
         "lineNumber": 2,
         "author": {
-          "gitId": "-"
+          "gitId": "Esilocke"
         },
         "content": ""
       },
       {
         "lineNumber": 3,
         "author": {
-          "gitId": "-"
+          "gitId": "Esilocke"
         },
         "content": "import java.util.List;"
       },
       {
         "lineNumber": 4,
         "author": {
-          "gitId": "-"
+          "gitId": "Esilocke"
         },
         "content": ""
       },
       {
         "lineNumber": 5,
         "author": {
-          "gitId": "-"
+          "gitId": "Esilocke"
         },
         "content": "import seedu.address.commons.core.Messages;"
       },
       {
         "lineNumber": 6,
         "author": {
-          "gitId": "-"
+          "gitId": "Esilocke"
         },
         "content": "import seedu.address.commons.core.index.Index;"
       },
       {
         "lineNumber": 7,
         "author": {
-          "gitId": "-"
+          "gitId": "Esilocke"
         },
         "content": "import seedu.address.logic.commands.exceptions.CommandException;"
       },
       {
         "lineNumber": 8,
         "author": {
-          "gitId": "-"
+          "gitId": "Esilocke"
         },
         "content": "import seedu.address.model.task.ReadOnlyTask;"
       },
       {
         "lineNumber": 9,
         "author": {
-          "gitId": "-"
+          "gitId": "Esilocke"
         },
         "content": "import seedu.address.model.task.exceptions.DuplicateTaskException;"
       },
       {
         "lineNumber": 10,
         "author": {
-          "gitId": "-"
+          "gitId": "Esilocke"
         },
         "content": "import seedu.address.model.task.exceptions.TaskNotFoundException;"
       },
       {
         "lineNumber": 11,
         "author": {
-          "gitId": "-"
+          "gitId": "Esilocke"
         },
         "content": ""
       },
@@ -34150,8 +34150,7 @@
       }
     ],
     "authorContributionMap": {
-      "Esilocke": 48,
-      "-": 11
+      "Esilocke": 59
     }
   },
   {
@@ -34160,77 +34159,77 @@
       {
         "lineNumber": 1,
         "author": {
-          "gitId": "-"
+          "gitId": "Esilocke"
         },
         "content": "package seedu.address.logic.commands;"
       },
       {
         "lineNumber": 2,
         "author": {
-          "gitId": "-"
+          "gitId": "Esilocke"
         },
         "content": ""
       },
       {
         "lineNumber": 3,
         "author": {
-          "gitId": "-"
+          "gitId": "Esilocke"
         },
         "content": "import java.util.List;"
       },
       {
         "lineNumber": 4,
         "author": {
-          "gitId": "-"
+          "gitId": "Esilocke"
         },
         "content": ""
       },
       {
         "lineNumber": 5,
         "author": {
-          "gitId": "-"
+          "gitId": "Esilocke"
         },
         "content": "import seedu.address.commons.core.Messages;"
       },
       {
         "lineNumber": 6,
         "author": {
-          "gitId": "-"
+          "gitId": "Esilocke"
         },
         "content": "import seedu.address.commons.core.index.Index;"
       },
       {
         "lineNumber": 7,
         "author": {
-          "gitId": "-"
+          "gitId": "Esilocke"
         },
         "content": "import seedu.address.logic.commands.exceptions.CommandException;"
       },
       {
         "lineNumber": 8,
         "author": {
-          "gitId": "-"
+          "gitId": "Esilocke"
         },
         "content": "import seedu.address.model.task.ReadOnlyTask;"
       },
       {
         "lineNumber": 9,
         "author": {
-          "gitId": "-"
+          "gitId": "Esilocke"
         },
         "content": "import seedu.address.model.task.exceptions.DuplicateTaskException;"
       },
       {
         "lineNumber": 10,
         "author": {
-          "gitId": "-"
+          "gitId": "Esilocke"
         },
         "content": "import seedu.address.model.task.exceptions.TaskNotFoundException;"
       },
       {
         "lineNumber": 11,
         "author": {
-          "gitId": "-"
+          "gitId": "Esilocke"
         },
         "content": ""
       },
@@ -34579,8 +34578,7 @@
       }
     ],
     "authorContributionMap": {
-      "Esilocke": 49,
-      "-": 11
+      "Esilocke": 60
     }
   },
   {
@@ -37813,14 +37811,14 @@
       {
         "lineNumber": 32,
         "author": {
-          "gitId": "-"
+          "gitId": "Esilocke"
         },
         "content": "import seedu.address.logic.commands.SetCompleteCommand;"
       },
       {
         "lineNumber": 33,
         "author": {
-          "gitId": "-"
+          "gitId": "Esilocke"
         },
         "content": "import seedu.address.logic.commands.SetIncompleteCommand;"
       },
@@ -38247,49 +38245,49 @@
       {
         "lineNumber": 94,
         "author": {
-          "gitId": "-"
+          "gitId": "Esilocke"
         },
         "content": "        case SetCompleteCommand.COMMAND_WORD:"
       },
       {
         "lineNumber": 95,
         "author": {
-          "gitId": "-"
+          "gitId": "Esilocke"
         },
         "content": "        case SetCompleteCommand.COMMAND_ALIAS:"
       },
       {
         "lineNumber": 96,
         "author": {
-          "gitId": "-"
+          "gitId": "Esilocke"
         },
         "content": "            return new SetTaskCompleteCommandParser().parse(arguments);"
       },
       {
         "lineNumber": 97,
         "author": {
-          "gitId": "-"
+          "gitId": "Esilocke"
         },
         "content": ""
       },
       {
         "lineNumber": 98,
         "author": {
-          "gitId": "-"
+          "gitId": "Esilocke"
         },
         "content": "        case SetIncompleteCommand.COMMAND_WORD:"
       },
       {
         "lineNumber": 99,
         "author": {
-          "gitId": "-"
+          "gitId": "Esilocke"
         },
         "content": "        case SetIncompleteCommand.COMMAND_ALIAS:"
       },
       {
         "lineNumber": 100,
         "author": {
-          "gitId": "-"
+          "gitId": "Esilocke"
         },
         "content": "            return new SetTaskIncompleteCommandParser().parse(arguments);"
       },
@@ -38829,9 +38827,9 @@
     "authorContributionMap": {
       "charlesgoh": 10,
       "jeffreygohkw": 9,
-      "Esilocke": 16,
+      "Esilocke": 25,
       "wangyiming1019": 41,
-      "-": 100
+      "-": 91
     }
   },
   {
@@ -40874,7 +40872,7 @@
       {
         "lineNumber": 21,
         "author": {
-          "gitId": "-"
+          "gitId": "jeffreygohkw"
         },
         "content": "    public static final Prefix PREFIX_REMARK_PRIVATE \u003d new Prefix(\"pr/\");"
       },
@@ -40916,7 +40914,7 @@
       {
         "lineNumber": 27,
         "author": {
-          "gitId": "-"
+          "gitId": "jeffreygohkw"
         },
         "content": "    public static final Prefix PREFIX_PRIORITY \u003d new Prefix(\"pri/\");"
       },
@@ -40944,9 +40942,9 @@
     ],
     "authorContributionMap": {
       "charlesgoh": 1,
-      "jeffreygohkw": 6,
+      "jeffreygohkw": 8,
       "Esilocke": 6,
-      "-": 17
+      "-": 15
     }
   },
   {
@@ -45900,14 +45898,14 @@
       {
         "lineNumber": 1,
         "author": {
-          "gitId": "-"
+          "gitId": "Esilocke"
         },
         "content": "package seedu.address.logic.parser;"
       },
       {
         "lineNumber": 2,
         "author": {
-          "gitId": "-"
+          "gitId": "Esilocke"
         },
         "content": ""
       },
@@ -46102,8 +46100,7 @@
       }
     ],
     "authorContributionMap": {
-      "Esilocke": 27,
-      "-": 2
+      "Esilocke": 29
     }
   },
   {
@@ -46112,14 +46109,14 @@
       {
         "lineNumber": 1,
         "author": {
-          "gitId": "-"
+          "gitId": "Esilocke"
         },
         "content": "package seedu.address.logic.parser;"
       },
       {
         "lineNumber": 2,
         "author": {
-          "gitId": "-"
+          "gitId": "Esilocke"
         },
         "content": ""
       },
@@ -46314,8 +46311,7 @@
       }
     ],
     "authorContributionMap": {
-      "Esilocke": 27,
-      "-": 2
+      "Esilocke": 29
     }
   },
   {
@@ -49760,21 +49756,21 @@
       {
         "lineNumber": 93,
         "author": {
-          "gitId": "-"
+          "gitId": "Esilocke"
         },
         "content": "    /** Changes the state of the specified task */"
       },
       {
         "lineNumber": 94,
         "author": {
-          "gitId": "-"
+          "gitId": "Esilocke"
         },
         "content": "    void setAsComplete(ReadOnlyTask toSet, boolean isComplete) throws TaskNotFoundException, DuplicateTaskException;"
       },
       {
         "lineNumber": 95,
         "author": {
-          "gitId": "-"
+          "gitId": "Esilocke"
         },
         "content": ""
       },
@@ -49956,9 +49952,9 @@
     ],
     "authorContributionMap": {
       "charlesgoh": 6,
-      "Esilocke": 45,
+      "Esilocke": 48,
       "wangyiming1019": 20,
-      "-": 49
+      "-": 46
     }
   },
   {
@@ -70307,7 +70303,7 @@
       {
         "lineNumber": 30,
         "author": {
-          "gitId": "-"
+          "gitId": "jeffreygohkw"
         },
         "content": "    public static final String GOOGLE_MAPS_URL_PREFIX \u003d \"https://www.google.com.sg/maps/search/\";"
       },
@@ -70901,8 +70897,8 @@
       }
     ],
     "authorContributionMap": {
-      "jeffreygohkw": 65,
-      "-": 49
+      "jeffreygohkw": 66,
+      "-": 48
     }
   },
   {
@@ -83980,42 +83976,42 @@
       {
         "lineNumber": 258,
         "author": {
-          "gitId": "-"
+          "gitId": "Esilocke"
         },
         "content": ""
       },
       {
         "lineNumber": 259,
         "author": {
-          "gitId": "-"
+          "gitId": "Esilocke"
         },
         "content": "        @Override"
       },
       {
         "lineNumber": 260,
         "author": {
-          "gitId": "-"
+          "gitId": "Esilocke"
         },
         "content": "        public void setAsComplete(ReadOnlyTask toSet, boolean isComplete)"
       },
       {
         "lineNumber": 261,
         "author": {
-          "gitId": "-"
+          "gitId": "Esilocke"
         },
         "content": "                throws TaskNotFoundException, DuplicateTaskException {"
       },
       {
         "lineNumber": 262,
         "author": {
-          "gitId": "-"
+          "gitId": "Esilocke"
         },
         "content": "            fail(\"This method should not be called.\");"
       },
       {
         "lineNumber": 263,
         "author": {
-          "gitId": "-"
+          "gitId": "Esilocke"
         },
         "content": "        }"
       },
@@ -84344,9 +84340,9 @@
     ],
     "authorContributionMap": {
       "charlesgoh": 4,
-      "Esilocke": 115,
+      "Esilocke": 121,
       "wangyiming1019": 24,
-      "-": 166
+      "-": 160
     }
   },
   {
@@ -99625,7 +99621,7 @@
       {
         "lineNumber": 1,
         "author": {
-          "gitId": "-"
+          "gitId": "Esilocke"
         },
         "content": "package seedu.address.logic.commands;"
       },
@@ -100240,8 +100236,7 @@
       }
     ],
     "authorContributionMap": {
-      "Esilocke": 87,
-      "-": 1
+      "Esilocke": 88
     }
   },
   {
@@ -100250,7 +100245,7 @@
       {
         "lineNumber": 1,
         "author": {
-          "gitId": "-"
+          "gitId": "Esilocke"
         },
         "content": "package seedu.address.logic.commands;"
       },
@@ -100851,8 +100846,7 @@
       }
     ],
     "authorContributionMap": {
-      "Esilocke": 85,
-      "-": 1
+      "Esilocke": 86
     }
   },
   {
@@ -104447,7 +104441,7 @@
       {
         "lineNumber": 9,
         "author": {
-          "gitId": "-"
+          "gitId": "Esilocke"
         },
         "content": "import static seedu.address.logic.commands.DeleteCommand.DELETE_TYPE_TASK;"
       },
@@ -104468,7 +104462,7 @@
       {
         "lineNumber": 12,
         "author": {
-          "gitId": "-"
+          "gitId": "Esilocke"
         },
         "content": "import static seedu.address.logic.parser.CliSyntax.PREFIX_FROM;"
       },
@@ -104489,14 +104483,14 @@
       {
         "lineNumber": 15,
         "author": {
-          "gitId": "-"
+          "gitId": "Esilocke"
         },
         "content": "import static seedu.address.logic.parser.CliSyntax.PREFIX_TARGET;"
       },
       {
         "lineNumber": 16,
         "author": {
-          "gitId": "-"
+          "gitId": "Esilocke"
         },
         "content": "import static seedu.address.logic.parser.CliSyntax.PREFIX_TASK;"
       },
@@ -104510,14 +104504,14 @@
       {
         "lineNumber": 18,
         "author": {
-          "gitId": "-"
+          "gitId": "Esilocke"
         },
         "content": "import static seedu.address.testutil.TypicalIndexes.INDEX_FIRST_TASK;"
       },
       {
         "lineNumber": 19,
         "author": {
-          "gitId": "-"
+          "gitId": "Esilocke"
         },
         "content": "import static seedu.address.testutil.TypicalIndexes.INDEX_SECOND_PERSON;"
       },
@@ -104531,7 +104525,7 @@
       {
         "lineNumber": 21,
         "author": {
-          "gitId": "-"
+          "gitId": "Esilocke"
         },
         "content": "import java.util.ArrayList;"
       },
@@ -104594,7 +104588,7 @@
       {
         "lineNumber": 30,
         "author": {
-          "gitId": "-"
+          "gitId": "Esilocke"
         },
         "content": "import seedu.address.commons.core.index.Index;"
       },
@@ -104608,7 +104602,7 @@
       {
         "lineNumber": 32,
         "author": {
-          "gitId": "-"
+          "gitId": "Esilocke"
         },
         "content": "import seedu.address.logic.commands.AssignCommand;"
       },
@@ -104650,7 +104644,7 @@
       {
         "lineNumber": 38,
         "author": {
-          "gitId": "-"
+          "gitId": "Esilocke"
         },
         "content": "import seedu.address.logic.commands.DismissCommand;"
       },
@@ -104671,14 +104665,14 @@
       {
         "lineNumber": 41,
         "author": {
-          "gitId": "-"
+          "gitId": "Esilocke"
         },
         "content": "import seedu.address.logic.commands.EditCommand.EditTaskDescriptor;"
       },
       {
         "lineNumber": 42,
         "author": {
-          "gitId": "-"
+          "gitId": "Esilocke"
         },
         "content": "import seedu.address.logic.commands.EditTagCommand;"
       },
@@ -104748,14 +104742,14 @@
       {
         "lineNumber": 52,
         "author": {
-          "gitId": "-"
+          "gitId": "Esilocke"
         },
         "content": "import seedu.address.logic.commands.SetCompleteCommand;"
       },
       {
         "lineNumber": 53,
         "author": {
-          "gitId": "-"
+          "gitId": "Esilocke"
         },
         "content": "import seedu.address.logic.commands.SetIncompleteCommand;"
       },
@@ -104797,21 +104791,21 @@
       {
         "lineNumber": 59,
         "author": {
-          "gitId": "-"
+          "gitId": "Esilocke"
         },
         "content": "import seedu.address.model.tag.Tag;"
       },
       {
         "lineNumber": 60,
         "author": {
-          "gitId": "-"
+          "gitId": "Esilocke"
         },
         "content": "import seedu.address.model.task.Task;"
       },
       {
         "lineNumber": 61,
         "author": {
-          "gitId": "-"
+          "gitId": "Esilocke"
         },
         "content": "import seedu.address.model.task.TaskContainsKeywordPredicate;"
       },
@@ -104825,7 +104819,7 @@
       {
         "lineNumber": 63,
         "author": {
-          "gitId": "-"
+          "gitId": "Esilocke"
         },
         "content": "import seedu.address.testutil.EditTaskDescriptorBuilder;"
       },
@@ -104853,14 +104847,14 @@
       {
         "lineNumber": 67,
         "author": {
-          "gitId": "-"
+          "gitId": "Esilocke"
         },
         "content": "import seedu.address.testutil.TaskBuilder;"
       },
       {
         "lineNumber": 68,
         "author": {
-          "gitId": "-"
+          "gitId": "Esilocke"
         },
         "content": "import seedu.address.testutil.TaskUtil;"
       },
@@ -104951,28 +104945,28 @@
       {
         "lineNumber": 81,
         "author": {
-          "gitId": "-"
+          "gitId": "Esilocke"
         },
         "content": ""
       },
       {
         "lineNumber": 82,
         "author": {
-          "gitId": "-"
+          "gitId": "Esilocke"
         },
         "content": "        Task task \u003d new TaskBuilder().build();"
       },
       {
         "lineNumber": 83,
         "author": {
-          "gitId": "-"
+          "gitId": "Esilocke"
         },
         "content": "        command \u003d (AddCommand) parser.parseCommand(TaskUtil.getAddCommand(task));"
       },
       {
         "lineNumber": 84,
         "author": {
-          "gitId": "-"
+          "gitId": "Esilocke"
         },
         "content": "        assertEquals(new AddCommand(task), command);"
       },
@@ -105042,49 +105036,49 @@
       {
         "lineNumber": 94,
         "author": {
-          "gitId": "-"
+          "gitId": "Esilocke"
         },
         "content": ""
       },
       {
         "lineNumber": 95,
         "author": {
-          "gitId": "-"
+          "gitId": "Esilocke"
         },
         "content": "        Task task \u003d new TaskBuilder().build();"
       },
       {
         "lineNumber": 96,
         "author": {
-          "gitId": "-"
+          "gitId": "Esilocke"
         },
         "content": "        command \u003d (AddCommand) parser.parseCommand(AddCommand.COMMAND_ALIAS + \" \""
       },
       {
         "lineNumber": 97,
         "author": {
-          "gitId": "-"
+          "gitId": "Esilocke"
         },
         "content": "                + PREFIX_TASK + \" \" + TaskUtil.getTaskDetails(task));"
       },
       {
         "lineNumber": 98,
         "author": {
-          "gitId": "-"
+          "gitId": "Esilocke"
         },
         "content": "        assertEquals(new AddCommand(task), command);"
       },
       {
         "lineNumber": 99,
         "author": {
-          "gitId": "-"
+          "gitId": "Esilocke"
         },
         "content": "    }"
       },
       {
         "lineNumber": 100,
         "author": {
-          "gitId": "-"
+          "gitId": "Esilocke"
         },
         "content": ""
       },
@@ -105567,28 +105561,28 @@
       {
         "lineNumber": 169,
         "author": {
-          "gitId": "-"
+          "gitId": "Esilocke"
         },
         "content": ""
       },
       {
         "lineNumber": 170,
         "author": {
-          "gitId": "-"
+          "gitId": "Esilocke"
         },
         "content": "        command \u003d (DeleteCommand) parser.parseCommand("
       },
       {
         "lineNumber": 171,
         "author": {
-          "gitId": "-"
+          "gitId": "Esilocke"
         },
         "content": "                DeleteCommand.COMMAND_WORD + \" \" + PREFIX_TASK + \" \" + INDEX_FIRST_TASK.getOneBased());"
       },
       {
         "lineNumber": 172,
         "author": {
-          "gitId": "-"
+          "gitId": "Esilocke"
         },
         "content": "        assertEquals(new DeleteCommand(INDEX_FIRST_TASK, DELETE_TYPE_TASK), command);"
       },
@@ -105644,28 +105638,28 @@
       {
         "lineNumber": 180,
         "author": {
-          "gitId": "-"
+          "gitId": "Esilocke"
         },
         "content": ""
       },
       {
         "lineNumber": 181,
         "author": {
-          "gitId": "-"
+          "gitId": "Esilocke"
         },
         "content": "        command \u003d (DeleteCommand) parser.parseCommand("
       },
       {
         "lineNumber": 182,
         "author": {
-          "gitId": "-"
+          "gitId": "Esilocke"
         },
         "content": "                DeleteCommand.COMMAND_ALIAS + \" \" + PREFIX_TASK + \" \"  + INDEX_FIRST_TASK.getOneBased());"
       },
       {
         "lineNumber": 183,
         "author": {
-          "gitId": "-"
+          "gitId": "Esilocke"
         },
         "content": "        assertEquals(new DeleteCommand(INDEX_FIRST_TASK, DELETE_TYPE_TASK), command);"
       },
@@ -105819,7 +105813,7 @@
       {
         "lineNumber": 205,
         "author": {
-          "gitId": "-"
+          "gitId": "Esilocke"
         },
         "content": ""
       },
@@ -105875,42 +105869,42 @@
       {
         "lineNumber": 213,
         "author": {
-          "gitId": "-"
+          "gitId": "Esilocke"
         },
         "content": ""
       },
       {
         "lineNumber": 214,
         "author": {
-          "gitId": "-"
+          "gitId": "Esilocke"
         },
         "content": "        Task task \u003d new TaskBuilder().build();"
       },
       {
         "lineNumber": 215,
         "author": {
-          "gitId": "-"
+          "gitId": "Esilocke"
         },
         "content": "        EditTaskDescriptor taskDescriptor \u003d new EditTaskDescriptorBuilder(task).build();"
       },
       {
         "lineNumber": 216,
         "author": {
-          "gitId": "-"
+          "gitId": "Esilocke"
         },
         "content": "        command \u003d (EditCommand) parser.parseCommand(EditCommand.COMMAND_WORD + \" \""
       },
       {
         "lineNumber": 217,
         "author": {
-          "gitId": "-"
+          "gitId": "Esilocke"
         },
         "content": "                + INDEX_FIRST_TASK.getOneBased() + \" \" + PREFIX_TASK + \" \" + TaskUtil.getTaskDetails(task));"
       },
       {
         "lineNumber": 218,
         "author": {
-          "gitId": "-"
+          "gitId": "Esilocke"
         },
         "content": "        assertEquals(new EditCommand(INDEX_FIRST_TASK, taskDescriptor), command);"
       },
@@ -105980,56 +105974,56 @@
       {
         "lineNumber": 228,
         "author": {
-          "gitId": "-"
+          "gitId": "Esilocke"
         },
         "content": ""
       },
       {
         "lineNumber": 229,
         "author": {
-          "gitId": "-"
+          "gitId": "Esilocke"
         },
         "content": "        Task task \u003d new TaskBuilder().build();"
       },
       {
         "lineNumber": 230,
         "author": {
-          "gitId": "-"
+          "gitId": "Esilocke"
         },
         "content": "        EditTaskDescriptor taskDescriptor \u003d new EditTaskDescriptorBuilder(task).build();"
       },
       {
         "lineNumber": 231,
         "author": {
-          "gitId": "-"
+          "gitId": "Esilocke"
         },
         "content": "        command \u003d (EditCommand) parser.parseCommand(EditCommand.COMMAND_ALIAS + \" \""
       },
       {
         "lineNumber": 232,
         "author": {
-          "gitId": "-"
+          "gitId": "Esilocke"
         },
         "content": "                + INDEX_FIRST_TASK.getOneBased() + \" \" + PREFIX_TASK + \" \" + TaskUtil.getTaskDetails(task));"
       },
       {
         "lineNumber": 233,
         "author": {
-          "gitId": "-"
+          "gitId": "Esilocke"
         },
         "content": "        assertEquals(new EditCommand(INDEX_FIRST_TASK, taskDescriptor), command);"
       },
       {
         "lineNumber": 234,
         "author": {
-          "gitId": "-"
+          "gitId": "Esilocke"
         },
         "content": "    }"
       },
       {
         "lineNumber": 235,
         "author": {
-          "gitId": "-"
+          "gitId": "Esilocke"
         },
         "content": ""
       },
@@ -106260,35 +106254,35 @@
       {
         "lineNumber": 268,
         "author": {
-          "gitId": "-"
+          "gitId": "Esilocke"
         },
         "content": ""
       },
       {
         "lineNumber": 269,
         "author": {
-          "gitId": "-"
+          "gitId": "Esilocke"
         },
         "content": "        command \u003d (FindCommand) parser.parseCommand("
       },
       {
         "lineNumber": 270,
         "author": {
-          "gitId": "-"
+          "gitId": "Esilocke"
         },
         "content": "                FindCommand.COMMAND_WORD + \" \" + PREFIX_TASK +  \" \""
       },
       {
         "lineNumber": 271,
         "author": {
-          "gitId": "-"
+          "gitId": "Esilocke"
         },
         "content": "                        + keywords.stream().collect(Collectors.joining(\" \")));"
       },
       {
         "lineNumber": 272,
         "author": {
-          "gitId": "-"
+          "gitId": "Esilocke"
         },
         "content": "        assertEquals(new FindCommand(new TaskContainsKeywordPredicate(keywords)), command);"
       },
@@ -106351,35 +106345,35 @@
       {
         "lineNumber": 281,
         "author": {
-          "gitId": "-"
+          "gitId": "Esilocke"
         },
         "content": ""
       },
       {
         "lineNumber": 282,
         "author": {
-          "gitId": "-"
+          "gitId": "Esilocke"
         },
         "content": "        command \u003d (FindCommand) parser.parseCommand("
       },
       {
         "lineNumber": 283,
         "author": {
-          "gitId": "-"
+          "gitId": "Esilocke"
         },
         "content": "                FindCommand.COMMAND_ALIAS + \" \" + PREFIX_TASK +  \" \""
       },
       {
         "lineNumber": 284,
         "author": {
-          "gitId": "-"
+          "gitId": "Esilocke"
         },
         "content": "                        + keywords.stream().collect(Collectors.joining(\" \")));"
       },
       {
         "lineNumber": 285,
         "author": {
-          "gitId": "-"
+          "gitId": "Esilocke"
         },
         "content": "        assertEquals(new FindCommand(new TaskContainsKeywordPredicate(keywords)), command);"
       },
@@ -107429,7 +107423,7 @@
       {
         "lineNumber": 435,
         "author": {
-          "gitId": "-"
+          "gitId": "Esilocke"
         },
         "content": ""
       },
@@ -107689,9 +107683,9 @@
     "authorContributionMap": {
       "charlesgoh": 21,
       "jeffreygohkw": 75,
-      "Esilocke": 89,
+      "Esilocke": 154,
       "wangyiming1019": 86,
-      "-": 200
+      "-": 135
     }
   },
   {
@@ -120409,7 +120403,7 @@
       {
         "lineNumber": 31,
         "author": {
-          "gitId": "-"
+          "gitId": "Esilocke"
         },
         "content": "            Boolean defaultState \u003d false;"
       },
@@ -120423,7 +120417,7 @@
       {
         "lineNumber": 33,
         "author": {
-          "gitId": "-"
+          "gitId": "Esilocke"
         },
         "content": "                    defaultAssignees, defaultState);"
       },
@@ -120850,49 +120844,49 @@
       {
         "lineNumber": 94,
         "author": {
-          "gitId": "-"
+          "gitId": "Esilocke"
         },
         "content": "    /**"
       },
       {
         "lineNumber": 95,
         "author": {
-          "gitId": "-"
+          "gitId": "Esilocke"
         },
         "content": "     * Sets the state of the {@code Task} that we are building."
       },
       {
         "lineNumber": 96,
         "author": {
-          "gitId": "-"
+          "gitId": "Esilocke"
         },
         "content": "     */"
       },
       {
         "lineNumber": 97,
         "author": {
-          "gitId": "-"
+          "gitId": "Esilocke"
         },
         "content": "    public TaskBuilder withState(boolean state) {"
       },
       {
         "lineNumber": 98,
         "author": {
-          "gitId": "-"
+          "gitId": "Esilocke"
         },
         "content": "        this.task.setState(state);"
       },
       {
         "lineNumber": 99,
         "author": {
-          "gitId": "-"
+          "gitId": "Esilocke"
         },
         "content": "        return this;"
       },
       {
         "lineNumber": 100,
         "author": {
-          "gitId": "-"
+          "gitId": "Esilocke"
         },
         "content": "    }"
       },
@@ -120926,8 +120920,260 @@
       }
     ],
     "authorContributionMap": {
-      "Esilocke": 95,
-      "-": 9
+      "Esilocke": 104
+    }
+  },
+  {
+    "path": "src/test/java/seedu/address/testutil/TaskUtil.java",
+    "lines": [
+      {
+        "lineNumber": 1,
+        "author": {
+          "gitId": "Esilocke"
+        },
+        "content": "package seedu.address.testutil;"
+      },
+      {
+        "lineNumber": 2,
+        "author": {
+          "gitId": "Esilocke"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 3,
+        "author": {
+          "gitId": "Esilocke"
+        },
+        "content": "import static seedu.address.logic.parser.CliSyntax.PREFIX_DEADLINE;"
+      },
+      {
+        "lineNumber": 4,
+        "author": {
+          "gitId": "Esilocke"
+        },
+        "content": "import static seedu.address.logic.parser.CliSyntax.PREFIX_DESCRIPTION;"
+      },
+      {
+        "lineNumber": 5,
+        "author": {
+          "gitId": "Esilocke"
+        },
+        "content": "import static seedu.address.logic.parser.CliSyntax.PREFIX_NAME;"
+      },
+      {
+        "lineNumber": 6,
+        "author": {
+          "gitId": "Esilocke"
+        },
+        "content": "import static seedu.address.logic.parser.CliSyntax.PREFIX_PRIORITY;"
+      },
+      {
+        "lineNumber": 7,
+        "author": {
+          "gitId": "Esilocke"
+        },
+        "content": "import static seedu.address.logic.parser.CliSyntax.PREFIX_TASK;"
+      },
+      {
+        "lineNumber": 8,
+        "author": {
+          "gitId": "Esilocke"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 9,
+        "author": {
+          "gitId": "Esilocke"
+        },
+        "content": "import seedu.address.logic.commands.AddCommand;"
+      },
+      {
+        "lineNumber": 10,
+        "author": {
+          "gitId": "Esilocke"
+        },
+        "content": "import seedu.address.model.task.ReadOnlyTask;"
+      },
+      {
+        "lineNumber": 11,
+        "author": {
+          "gitId": "Esilocke"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 12,
+        "author": {
+          "gitId": "Esilocke"
+        },
+        "content": "/**"
+      },
+      {
+        "lineNumber": 13,
+        "author": {
+          "gitId": "Esilocke"
+        },
+        "content": " * Utility class for Tasks"
+      },
+      {
+        "lineNumber": 14,
+        "author": {
+          "gitId": "Esilocke"
+        },
+        "content": " */"
+      },
+      {
+        "lineNumber": 15,
+        "author": {
+          "gitId": "Esilocke"
+        },
+        "content": "public class TaskUtil {"
+      },
+      {
+        "lineNumber": 16,
+        "author": {
+          "gitId": "Esilocke"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 17,
+        "author": {
+          "gitId": "Esilocke"
+        },
+        "content": "    /**"
+      },
+      {
+        "lineNumber": 18,
+        "author": {
+          "gitId": "Esilocke"
+        },
+        "content": "     * Returns an add command string for adding the {@code task}."
+      },
+      {
+        "lineNumber": 19,
+        "author": {
+          "gitId": "Esilocke"
+        },
+        "content": "     */"
+      },
+      {
+        "lineNumber": 20,
+        "author": {
+          "gitId": "Esilocke"
+        },
+        "content": "    public static String getAddCommand(ReadOnlyTask task) {"
+      },
+      {
+        "lineNumber": 21,
+        "author": {
+          "gitId": "Esilocke"
+        },
+        "content": "        return AddCommand.COMMAND_WORD + \" \" + PREFIX_TASK + \" \" + getTaskDetails(task);"
+      },
+      {
+        "lineNumber": 22,
+        "author": {
+          "gitId": "Esilocke"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 23,
+        "author": {
+          "gitId": "Esilocke"
+        },
+        "content": ""
+      },
+      {
+        "lineNumber": 24,
+        "author": {
+          "gitId": "Esilocke"
+        },
+        "content": "    /**"
+      },
+      {
+        "lineNumber": 25,
+        "author": {
+          "gitId": "Esilocke"
+        },
+        "content": "     * Returns the part of command string for the given {@code task}\u0027s details."
+      },
+      {
+        "lineNumber": 26,
+        "author": {
+          "gitId": "Esilocke"
+        },
+        "content": "     */"
+      },
+      {
+        "lineNumber": 27,
+        "author": {
+          "gitId": "Esilocke"
+        },
+        "content": "    public static String getTaskDetails(ReadOnlyTask task) {"
+      },
+      {
+        "lineNumber": 28,
+        "author": {
+          "gitId": "Esilocke"
+        },
+        "content": "        StringBuilder sb \u003d new StringBuilder();"
+      },
+      {
+        "lineNumber": 29,
+        "author": {
+          "gitId": "Esilocke"
+        },
+        "content": "        sb.append(PREFIX_NAME + task.getTaskName().taskName + \" \");"
+      },
+      {
+        "lineNumber": 30,
+        "author": {
+          "gitId": "Esilocke"
+        },
+        "content": "        sb.append(PREFIX_DESCRIPTION + task.getDescription().value + \" \");"
+      },
+      {
+        "lineNumber": 31,
+        "author": {
+          "gitId": "Esilocke"
+        },
+        "content": "        sb.append(PREFIX_DEADLINE + task.getDeadline().value + \" \");"
+      },
+      {
+        "lineNumber": 32,
+        "author": {
+          "gitId": "Esilocke"
+        },
+        "content": "        sb.append(PREFIX_PRIORITY + task.getPriority().value + \" \");"
+      },
+      {
+        "lineNumber": 33,
+        "author": {
+          "gitId": "Esilocke"
+        },
+        "content": "        return sb.toString();"
+      },
+      {
+        "lineNumber": 34,
+        "author": {
+          "gitId": "Esilocke"
+        },
+        "content": "    }"
+      },
+      {
+        "lineNumber": 35,
+        "author": {
+          "gitId": "Esilocke"
+        },
+        "content": "}"
+      }
+    ],
+    "authorContributionMap": {
+      "Esilocke": 35
     }
   },
   {
