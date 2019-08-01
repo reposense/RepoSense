@@ -11,36 +11,42 @@ describe('load code view benchmark', function() {
 
   const MAXIMUM_LOADING_TIME = THRESHOLD_LOADING_TIME + ALLOWED_BUFFER_TIME;
 
-  let loadingTimes = [];
+  let isATrialWithinMaxTime = false;
 
-  const timeTrial = function(i) {
-      let startTime;
+  function timeTrial(i) {
+    if (isATrialWithinMaxTime) {
+      return;
+    }
 
-      // ensure that icons are loaded
-      Cypress.wait();
+    let startTime;
 
-      cy.get('#summary-wrapper .sort-within-group select')
-        .select('totalCommits dsc');
+    // ensure that icons are loaded
+    Cypress.wait();
 
-      cy.get('.summary-chart__title--button.fa-code')
-        .should('be.visible')
-        .first()
-        .click()
-        .then(() => {
-          startTime = performance.now();
-        });
+    cy.get('#summary-wrapper .sort-within-group select')
+      .select('totalCommits dsc');
 
-      cy.get('#tab-authorship .files', { timeout: 90000 })
-        .should('be.visible')
-        .then(() => {
-          const endTime = performance.now();
-          const loadingTime = endTime - startTime;
-          const loadingTimeSeconds = loadingTime / 1000;
+    cy.get('.summary-chart__title--button.fa-code')
+      .should('be.visible')
+      .first()
+      .click()
+      .then(() => {
+        startTime = performance.now();
+      });
 
-          cy.log(`trial ${i+1} loading time: ${loadingTimeSeconds.toFixed(3)}s`);
+    cy.get('#tab-authorship .files', { timeout: 90000 })
+      .should('be.visible')
+      .then(() => {
+        const endTime = performance.now();
+        const loadingTime = endTime - startTime;
+        const loadingTimeSeconds = loadingTime / 1000;
 
-          loadingTimes.push(loadingTime);
-        });
+        cy.log(`trial ${i+1} loading time: ${loadingTimeSeconds.toFixed(3)}s`);
+
+        if (loadingTime <= MAXIMUM_LOADING_TIME) {
+          isATrialWithinMaxTime = true;
+        }
+      });
   };
 
 
@@ -51,14 +57,6 @@ describe('load code view benchmark', function() {
   }
 
   it(`at least one trial is within ${THRESHOLD_LOADING_TIME_SECONDS}(+${ALLOWED_BUFFER_TIME_SECONDS})s`, function() {
-    const totalLoadingTime = loadingTimes.reduce((acc, curr) => acc + curr, 0);
-    const averageLoadingTime = totalLoadingTime / NUM_TRIALS;
-    const averageLoadingTimeSeconds = averageLoadingTime / 1000;
-
-    const isATrialWithinMaxTime = loadingTimes.map((time) => time <= MAXIMUM_LOADING_TIME)
-                                              .reduce((acc, curr) => acc || curr, false);
-
-    assert.isTrue(isATrialWithinMaxTime,
-      `[average loading time: ${averageLoadingTimeSeconds.toFixed(3)}s]`);
+    assert.isTrue(isATrialWithinMaxTime);
   });
 });
