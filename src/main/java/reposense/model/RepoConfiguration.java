@@ -64,7 +64,6 @@ public class RepoConfiguration {
 
         String organization = location.getOrganization();
         String repoName = location.getRepoName();
-
         displayName = repoName + "[" + branch + "]";
         outputFolderName = repoName + "_" + branch;
         repoFolderName = repoName;
@@ -260,21 +259,14 @@ public class RepoConfiguration {
      * Replaces the branch parameter in {@code displayName} with {@code branch}.
      */
     private void updateDisplayName(String branch) {
-        int uniqueIdIndex = displayName.lastIndexOf(' ');
-        String uniqueId = (uniqueIdIndex == -1) ? "" : displayName.substring(uniqueIdIndex);
-
-        this.displayName = displayName.substring(0, displayName.lastIndexOf('[') + 1) + branch + "]"
-                    + uniqueId;
+        this.displayName = displayName.substring(0, displayName.lastIndexOf('[') + 1) + branch + "]";
     }
 
     /**
      * Replaces the branch parameter in {@code outputFolderName} with {@code branch}.
      */
     private void updateOutputFolderName(String branch) {
-        int uniqueIdIndex = outputFolderName.lastIndexOf(' ');
-        String uniqueId = (uniqueIdIndex == -1) ? "" : outputFolderName.substring(uniqueIdIndex);
-        this.outputFolderName = outputFolderName.substring(0, outputFolderName.lastIndexOf('_') + 1) + branch
-                    + uniqueId;
+        this.outputFolderName = outputFolderName.substring(0, outputFolderName.lastIndexOf('_') + 1) + branch;
     }
 
     public boolean isAnnotationOverwrite() {
