@@ -41,17 +41,13 @@ public class GroupConfigCsvParser extends CsvParser<GroupConfiguration> {
      * Processes the csv file line by line and adds created {@code Group} into {@code results}.
      */
     @Override
-    protected void processLine(List<GroupConfiguration> results, CSVRecord record) {
+    protected void processLine(List<GroupConfiguration> results, CSVRecord record) throws InvalidLocationException {
         String location = get(record, LOCATION_POSITION);
         String groupName = get(record, GROUP_NAME_POSITION);
         List<String> globList = getAsList(record, FILES_GLOB_POSITION);
 
         GroupConfiguration groupConfig = null;
-        try {
-            groupConfig = findMatchingGroupConfiguration(results, location);
-        } catch (InvalidLocationException e) {
-            e.printStackTrace();
-        }
+        groupConfig = findMatchingGroupConfiguration(results, location);
 
         FileType group = new FileType(groupName, globList);
         if (groupConfig.containsGroup(group)) {
