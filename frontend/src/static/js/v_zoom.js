@@ -5,7 +5,7 @@ window.vZoom = {
     return {
       filterTimeFrame: window.hashParams.timeframe,
       showAllCommitMessageBody: true,
-      expandedCommitMessagesNum: this.getCommitMessageBodyNum(),
+      expandedCommitMessagesCount: this.getCommitMessageBodyCount(),
     };
   },
   methods: {
@@ -26,17 +26,17 @@ window.vZoom = {
       return `${window.getBaseLink(this.info.user.repoId)}/commit/${slice.hash}`;
     },
 
-    getCommitMessageBodyNum() {
-      let nonEmptyCommitMessageNum = 0;
+    getCommitMessageBodyCount() {
+      let nonEmptyCommitMessageCount = 0;
       this.info.user.commits.forEach((commit) => {
         commit.commitResults.forEach((commitResult) => {
           if (commitResult.messageBody !== '') {
-            nonEmptyCommitMessageNum += 1;
+            nonEmptyCommitMessageCount += 1;
           }
         });
       });
 
-      return nonEmptyCommitMessageNum;
+      return nonEmptyCommitMessageCount;
     },
 
     toggleAllCommitMessagesBody(isActive) {
@@ -49,11 +49,11 @@ window.vZoom = {
         commitMessageClass.className = toRename;
       });
 
-      this.expandedCommitMessagesNum = isActive ? this.getCommitMessageBodyNum() : 0;
+      this.expandedCommitMessagesCount = isActive ? this.getCommitMessageBodyCount() : 0;
     },
 
-    updateExpandedCommitMessagesNum() {
-      this.expandedCommitMessagesNum = document.getElementsByClassName('commit-message active')
+    updateExpandedCommitMessagesCount() {
+      this.expandedCommitMessagesCount = document.getElementsByClassName('commit-message active')
           .length;
     },
   },
@@ -61,7 +61,7 @@ window.vZoom = {
     this.filterCommits();
   },
   mounted() {
-    this.updateExpandedCommitMessagesNum();
+    this.updateExpandedCommitMessagesCount();
   },
   components: {
     v_ramp: window.vRamp,
