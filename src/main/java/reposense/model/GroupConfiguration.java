@@ -5,8 +5,7 @@ import java.util.List;
 
 /**
  * Represents groups configuration information from CSV config file for a single repository.
- * This class is only used to add the contents in {@link GroupConfiguration#groups} into the respective
- * {@link RepoConfiguration}.
+ * This class is only used to add the contents in {@code groups} into the respective repo configurations.
  */
 public class GroupConfiguration {
 
