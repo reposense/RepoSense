@@ -14,9 +14,9 @@ describe('load code view benchmark', function() {
   let isATrialWithinMaxTime = false;
 
   function timeTrial(i) {
-    if (isATrialWithinMaxTime) {
-      return;
-    }
+    // if (isATrialWithinMaxTime) {
+    //   return;
+    // }
 
     let startTime;
 
