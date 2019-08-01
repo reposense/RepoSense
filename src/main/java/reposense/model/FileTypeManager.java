@@ -19,7 +19,10 @@ public class FileTypeManager {
         groups = new ArrayList<>();
     }
 
-    public String getFileType(String fileName) {
+    /**
+     * Returns the assigned file type {@code label} of the file {@code fileName}.
+     */
+    public String getFileTypeLabel(String fileName) {
         if (hasCustomGroups()) {
             String fileTypeLabel = DEFAULT_GROUP;
             for (FileType group : groups) {
@@ -58,7 +61,7 @@ public class FileTypeManager {
      * Returns true if the {@code fileName}'s file type is inside the list of specified formats to be analyzed.
      */
     public boolean isInsideWhitelistedFormats(String fileName) {
-        return getFormats().stream().anyMatch(format -> format.isFileGlobMatching(fileName));
+        return !hasSpecifiedFormats() || getFormats().stream().anyMatch(format -> format.isFileGlobMatching(fileName));
     }
 
     public List<FileType> getFormats() {
