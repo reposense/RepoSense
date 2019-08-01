@@ -257,7 +257,12 @@ html
             v-bind:href="info.location", target="_blank",
             v-bind:title="'Click to open the repo'"
           ) {{ info.repo }}
-          .author {{ info.name }} ({{ info.author }}) contribution from {{ info.minDate }} to {{ info.maxDate }}
+          .author.medium-font
+            span &#8627; &nbsp;
+            span {{ info.name }} ({{ info.author }})
+          .period.medium-font
+            span &#8627; &nbsp;
+            span {{ info.minDate }} to {{ info.maxDate }}
           .contribution(v-if="isLoaded && files.length!=0")
             .sorting.mui-form--inline
               .mui-select
