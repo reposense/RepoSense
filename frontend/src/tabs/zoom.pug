@@ -16,8 +16,8 @@
       v-bind:mergegroup="info.isMergeGroup")
 
   .zoom__toggle-commit-message-body(v-if="info.user.commits.length")
-    button(v-if="numExpandedCommitMessages === 0", v-on:click="toggleAllCommitMessagesBody(true)") show all commit messages body
-    button(v-else, v-on:click="toggleAllCommitMessagesBody(false)") hide all commit messages body
+    button(v-if="expandedCommitMessagesNum === 0" v-on:click="toggleAllCommitMessagesBody(true)") show all commit messages body
+    button(v-else v-on:click="toggleAllCommitMessagesBody(false)") hide all commit messages body
 
   .zoom__day(v-for="day in info.user.commits")
     template(v-if="day.insertions > 0")
@@ -25,11 +25,11 @@
       h3(v-else) {{ day.date }}
       ul
         li(v-for="slice in day.commitResults").commit-message
-          a(v-bind:href="getSliceLink(slice)", target="_blank") {{ slice.messageTitle }}
+          a(v-bind:href="getSliceLink(slice)" target="_blank") {{ slice.messageTitle }}
           span &nbsp; ({{ slice.insertions }} lines)
           a(
             v-if="slice.messageBody.length > 0",
-            v-on:click="updateNumExpandedCommitMessages",
+            v-on:click="updateExpandedCommitMessagesNum",
             onclick="toggleCommitBodyMessage(this)",
             title="Click to show/hide the commit message body"
           )

@@ -3,9 +3,9 @@ window.toggleCommitBodyMessage = function toggleCommitBodyMessage(ele) {
   const activeClass = 'body active';
   const inactiveClass = 'body';
 
-  const commitMessageBodyElemet = ele.nextElementSibling;
+  const commitMessageBodyElement = ele.nextElementSibling;
 
-  commitMessageBodyElemet.className = commitMessageBodyElemet.className === activeClass
+  commitMessageBodyElement.className = commitMessageBodyElement.className === activeClass
       ? inactiveClass
       : activeClass;
 };
@@ -17,7 +17,7 @@ window.vZoom = {
     return {
       filterTimeFrame: window.hashParams.timeframe,
       showAllCommitMessageBody: true,
-      numExpandedCommitMessages: this.getNumCommitMessageBody(),
+      expandedCommitMessagesNum: this.getCommitMessageBodyNum(),
     };
   },
   methods: {
@@ -38,17 +38,17 @@ window.vZoom = {
       return `${window.getBaseLink(this.info.user.repoId)}/commit/${slice.hash}`;
     },
 
-    getNumCommitMessageBody() {
-      let numNonEmptyCommitMessageBody = 0;
+    getCommitMessageBodyNum() {
+      let nonEmptyCommitMessageNum = 0;
       this.info.user.commits.forEach((commit) => {
         commit.commitResults.forEach((commitResult) => {
           if (commitResult.messageBody !== '') {
-            numNonEmptyCommitMessageBody += 1;
+            nonEmptyCommitMessageNum += 1;
           }
         });
       });
 
-      return numNonEmptyCommitMessageBody;
+      return nonEmptyCommitMessageNum;
     },
 
     toggleAllCommitMessagesBody(isActive) {
@@ -61,11 +61,11 @@ window.vZoom = {
         commitMessageClass.className = renameValue;
       });
 
-      this.numExpandedCommitMessages = isActive ? this.getNumCommitMessageBody() : 0;
+      this.expandedCommitMessagesNum = isActive ? this.getCommitMessageBodyNum() : 0;
     },
 
-    updateNumExpandedCommitMessages() {
-      this.numExpandedCommitMessages = document.getElementsByClassName('active').length;
+    updateExpandedCommitMessagesNum() {
+      this.expandedCommitMessagesNum = document.getElementsByClassName('body active').length;
     },
   },
   created() {
