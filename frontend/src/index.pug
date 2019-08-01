@@ -29,6 +29,7 @@ html
           v_summary(
             ref="summary",
             v-bind:repos="users",
+            v-bind:error-messages="errorMessages",
             v-on:view-zoom="updateTabZoom",
             v-on:view-authorship="updateTabAuthorship",
             v-on:get-dates="receiveDates"
@@ -133,7 +134,7 @@ html
               a(v-on:click="resetDateRange") Reset date range
             .summary-picker__checkboxes.summary-picker__section
               label
-                input(type="checkbox", v-model="filterBreakdown").mui-checkbox.summary-picker__checkbox
+                input(type="checkbox", v-model="filterBreakdown", v-on:change="setSummaryHash()").mui-checkbox.summary-picker__checkbox
                 span breakdown by file format
               label.merge-group(v-bind:style="filterGroupSelection === 'groupByNone' ? { opacity:0.5 } : { opacity:1.0 }")
                 input(
@@ -142,6 +143,13 @@ html
                     v-bind:disabled="filterGroupSelection === 'groupByNone'"
                 ).mui-checkbox.summary-picker__checkbox
                 span merge group
+        .error-message-box(v-if="Object.entries(errorMessages).length")
+          .error-message-box__close-button(onclick="dismissTab(this)") &times;
+          .error-message-box__message The following issues occurred when analyzing the following repositories:
+          .error-message-box__failed-repo(v-for="errorBlock in errorMessages")
+            i.fas.fa-exclamation.mini-font
+            span.error-message-box__failed-repo--name {{ errorBlock.repoName }}
+            div.error-message-box__failed-repo--reason {{ errorBlock.errorMessage }}
         #summary-charts
           .summary-charts(v-for="repo of filteredRepos")
             .summary-charts__title(v-if="filterGroupSelection === 'groupByRepos'") {{ repo[0].repoName }}&nbsp;&nbsp;
@@ -178,6 +186,7 @@ html
                 .summary-chart__title--contribution.mini-font [{{ user.totalCommits }} lines]
                 a(
                   title="click to view author's code",
+                  onclick="deactivateAllOverlays()",
                   v-on:click="openTabAuthorship(user, repo, i)"
                 )
                   i.summary-chart__title--button.fas.fa-code
