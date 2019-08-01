@@ -53,5 +53,7 @@
     }
   ],
   "sinceDate": "2017-10-01",
-  "untilDate": "2017-11-01"
+  "untilDate": "2017-11-01",
+  "isSinceDateProvided": false,
+  "isUntilDateProvided": true
 }
