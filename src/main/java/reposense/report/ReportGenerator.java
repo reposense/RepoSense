@@ -104,7 +104,7 @@ public class ReportGenerator {
         List<Path> reportFoldersAndFiles = new ArrayList<>();
         for (RepoConfiguration config : configs) {
             reportFoldersAndFiles.add(
-                    Paths.get(outputPath + File.separator + config.getDisplayName()).toAbsolutePath());
+                    Paths.get(outputPath + File.separator + config.getOutputFolderName()).toAbsolutePath());
         }
         reportFoldersAndFiles.add(Paths.get(outputPath, SummaryJson.SUMMARY_JSON_FILE_NAME));
         return reportFoldersAndFiles;
