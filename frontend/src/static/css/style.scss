@@ -368,6 +368,13 @@ header {
   height: $height;
   position: relative;
 
+  /* disallow clickable ramp slices when merging groups that are grouped by authors
+     as unable to form a url that navigates to different repositories of the same author */
+  &.merged-author {
+    cursor: auto;
+    pointer-events: none;
+  }
+
   &__slice {
     border-left-color: rgba(0, 0, 0, 0);
     border-left-style: solid;

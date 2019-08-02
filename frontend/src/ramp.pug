@@ -1,4 +1,4 @@
-.ramp
+.ramp(v-bind:class="{ 'merged-author' : mergegroup && groupby === 'groupByAuthors' }")
   template(v-if="tframe === 'commit'")
     template(v-for="(slice, j) in user.commits")
       a.ramp__slice(
@@ -31,11 +31,6 @@
             zIndex: user.commits.length - j,\
             borderLeftWidth: getWidth(slice) + 'em',\
             right: (getSlicePos(tframe === 'day' ? slice.date : slice.endDate) * 100) + '%' \
-          },\
-          /* disallow clickable ramp slices when merging groups that are grouped by authors \
-             as unable to form a url that navigates to different repositories of the same author */\
-          mergegroup && groupby === 'groupByAuthors' ?\
-            { cursor: 'auto', pointerEvents: 'none' }  :\
-            { cursor: 'pointer', pointerEvents: 'auto' }\
+          }\
       ]"
     )
