@@ -23,13 +23,13 @@ public class RepoClonerTest {
     }
 
     @Test
-    public void repoCloner_emptyRepo_failsGracefully() throws InvalidLocationException, IOException {
+    public void repoCloner_emptyRepo_failsGracefully() throws InvalidLocationException {
         RepoConfiguration emptyRepositoryRepoConfig =
                 new RepoConfiguration(new RepoLocation(TEST_REPO_EMPTY_GIT_LOCATION));
 
         RepoCloner repoCloner = new RepoCloner();
-        repoCloner.cloneBare(OUTPUT_PATH, emptyRepositoryRepoConfig);
-        RepoLocation clonedRepoLocation = repoCloner.getClonedRepoLocation(OUTPUT_PATH);
+        repoCloner.cloneBare(emptyRepositoryRepoConfig);
+        RepoLocation clonedRepoLocation = repoCloner.getClonedRepoLocation();
 
         Assert.assertNull(clonedRepoLocation);
     }

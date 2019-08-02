@@ -43,6 +43,8 @@ public class FileUtil {
     private static final String BARE_REPO_SUFFIX = "_bare";
 
     private static final String MESSAGE_INVALID_FILE_PATH = "\"%s\" is an invalid file path. Skipping this directory.";
+    private static final String MESSAGE_FAIL_TO_ZIP_FILES =
+            "Exception occurred while attempting to zip the report files.";
 
     /**
      * Zips all files of type {@code fileTypes} that are in the directory {@code pathsToZip} into a single file and
@@ -75,7 +77,7 @@ public class FileUtil {
                 }
             }
         } catch (IOException ioe) {
-            logger.log(Level.SEVERE, ioe.getMessage(), ioe);
+            logger.severe(MESSAGE_FAIL_TO_ZIP_FILES);
         }
     }
 
