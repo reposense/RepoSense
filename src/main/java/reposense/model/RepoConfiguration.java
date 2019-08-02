@@ -377,8 +377,8 @@ public class RepoConfiguration {
         return fileTypeManager.getFileTypeLabels();
     }
 
-    public String getFileTypeLabel(String fileName) {
-        return fileTypeManager.getFileTypeLabel(fileName);
+    public FileType getFileType(String fileName) {
+        return fileTypeManager.getFileType(fileName);
     }
 
     public FileTypeManager getFileTypeManager() {

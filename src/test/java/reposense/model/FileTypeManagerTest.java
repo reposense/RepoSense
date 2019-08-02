@@ -21,15 +21,15 @@ public class FileTypeManagerTest {
                 new FileType("code", Collections.singletonList("src/main/**")),
                 new FileType("docs", Arrays.asList("backend/docs/**", "src/docs/**"))
         ));
-        Assert.assertEquals("docs", fileTypeManager.getFileTypeLabel("src/docs/a/b/c/def.md"));
-        Assert.assertEquals("code", fileTypeManager.getFileTypeLabel("src/main/a/b/c/def.java"));
-        Assert.assertEquals("other", fileTypeManager.getFileTypeLabel("src/main.java"));
+        Assert.assertEquals("docs", fileTypeManager.getFileType("src/docs/a/b/c/def.md").toString());
+        Assert.assertEquals("code", fileTypeManager.getFileType("src/main/a/b/c/def.java").toString());
+        Assert.assertEquals("other", fileTypeManager.getFileType("src/main.java").toString());
     }
 
     @Test
     public void getFileType_noCustomGroups_returnsCorrectFormat() {
-        Assert.assertEquals("makefile", fileTypeManager.getFileTypeLabel("src/build/makefile"));
-        Assert.assertEquals("cpp", fileTypeManager.getFileTypeLabel("src/main/main.cpp"));
+        Assert.assertEquals("makefile", fileTypeManager.getFileType("src/build/makefile").toString());
+        Assert.assertEquals("cpp", fileTypeManager.getFileType("src/main/main.cpp").toString());
     }
 
     @Test

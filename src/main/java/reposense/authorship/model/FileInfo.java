@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import reposense.model.Author;
+import reposense.model.FileType;
 import reposense.util.SystemUtil;
 
 /**
@@ -13,7 +14,7 @@ public class FileInfo {
     private final String path;
     private final ArrayList<LineInfo> lines;
 
-    private String fileType;
+    private FileType fileType;
 
     public FileInfo(String path) {
         if (SystemUtil.isWindows()) {
@@ -48,11 +49,11 @@ public class FileInfo {
         return path;
     }
 
-    public String getFileType() {
+    public FileType getFileType() {
         return fileType;
     }
 
-    public void setFileType(String fileType) {
+    public void setFileType(FileType fileType) {
         this.fileType = fileType;
     }
 

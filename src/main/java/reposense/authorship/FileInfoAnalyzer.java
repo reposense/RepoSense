@@ -44,7 +44,7 @@ public class FileInfoAnalyzer {
         }
 
         aggregateBlameAuthorInfo(config, fileInfo);
-        fileInfo.setFileType(config.getFileTypeLabel(fileInfo.getPath()));
+        fileInfo.setFileType(config.getFileType(fileInfo.getPath()));
 
         if (config.isAnnotationOverwrite()) {
             AnnotatorAnalyzer.aggregateAnnotationAuthorInfo(fileInfo, config.getAuthorEmailsAndAliasesMap());

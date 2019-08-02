@@ -1,6 +1,7 @@
 package reposense.model;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -10,6 +11,7 @@ import java.util.stream.Collectors;
  */
 public class FileTypeManager {
     private static final String DEFAULT_GROUP = "other";
+    private static final FileType DEFAULT_GROUP_TYPE = new FileType(DEFAULT_GROUP, Collections.singletonList("**"));
 
     private List<FileType> formats;
     private List<FileType> groups;
@@ -20,34 +22,34 @@ public class FileTypeManager {
     }
 
     /**
-     * Returns the assigned file type {@code label} of the file {@code fileName}.
+     * Returns the assigned file type of the file {@code fileName}.
      */
-    public String getFileTypeLabel(String fileName) {
+    public FileType getFileType(String fileName) {
         if (hasCustomGroups()) {
-            String fileTypeLabel = DEFAULT_GROUP;
+            FileType result = DEFAULT_GROUP_TYPE;
             for (FileType group : groups) {
                 if (group.isFileGlobMatching(fileName)) {
-                    fileTypeLabel = group.toString();
+                    result = group;
                 }
             }
-            return fileTypeLabel;
+            return result;
         } else {
             return getFileFormat(fileName);
         }
     }
 
-    private String getFileFormat(String fileName) {
+    private FileType getFileFormat(String fileName) {
         if (hasSpecifiedFormats()) {
             for (FileType format : formats) {
                 if (format.isFileGlobMatching(fileName)) {
-                    return format.toString();
+                    return format;
                 }
             }
             throw new AssertionError(
                     "This exception should not happen as we have performed the whitelisted formats check.");
         } else {
             String[] tok = fileName.split("[./\\\\]+");
-            return tok[tok.length - 1];
+            return FileType.convertStringFormatToFileType(tok[tok.length - 1]);
         }
     }
 

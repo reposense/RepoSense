@@ -5,18 +5,19 @@ import java.util.HashMap;
 import java.util.List;
 
 import reposense.model.Author;
+import reposense.model.FileType;
 
 /**
  * Stores the result from analyzing a {@code FileInfo}.
  */
 public class FileResult {
     private final String path;
-    private String fileType;
+    private FileType fileType;
     private final ArrayList<LineInfo> lines;
     private final HashMap<Author, Integer> authorContributionMap;
 
-    public FileResult(String path, String fileType, ArrayList<LineInfo> lines,
-        HashMap<Author, Integer> authorContributionMap) {
+    public FileResult(String path, FileType fileType, ArrayList<LineInfo> lines,
+            HashMap<Author, Integer> authorContributionMap) {
         this.path = path;
         this.fileType = fileType;
         this.lines = lines;
@@ -31,7 +32,7 @@ public class FileResult {
         return path;
     }
 
-    public String getFileType() {
+    public FileType getFileType() {
         return fileType;
     }
 
