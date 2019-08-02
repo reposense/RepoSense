@@ -11,6 +11,9 @@ public class ProgressTracker {
         this.total = total;
     }
 
+    /**
+     * Increments the {@code current} number of repos analysed.
+     */
     public void incrementProgress() {
         current += 1;
         assert(current <= total);
