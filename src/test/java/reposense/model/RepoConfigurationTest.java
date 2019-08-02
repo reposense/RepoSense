@@ -314,6 +314,29 @@ public class RepoConfigurationTest {
     }
 
     @Test
+    public void repoConfig_minimalStandaloneConfig_fieldsAssignedDefaultValues() throws GitCloneException,
+            InvalidLocationException {
+        RepoConfiguration expectedConfig = new RepoConfiguration(new RepoLocation(TEST_REPO_MINIMAL_STANDALONE_CONFIG),
+                "master");
+
+        Author firstAuthor = new Author("bluein-green");
+        Author secondAuthor = new Author("jylee-git");
+        List<Author> expectedAuthors = Arrays.asList(firstAuthor, secondAuthor);
+        expectedConfig.setAuthorList(expectedAuthors);
+
+        expectedConfig.setIgnoreGlobList(Collections.emptyList());
+        expectedConfig.setFormats(Collections.emptyList());
+        expectedConfig.setIgnoreCommitList(Collections.emptyList());
+
+        RepoConfiguration actualConfig = new RepoConfiguration(new RepoLocation(TEST_REPO_MINIMAL_STANDALONE_CONFIG),
+                "master");
+        GitClone.clone(actualConfig);
+        ReportGenerator.updateRepoConfig(actualConfig);
+
+        TestUtil.compareRepoConfig(expectedConfig, actualConfig);
+    }
+
+    @Test
     public void repoConfig_differentLocalLocationSameName_differentRepoFolderName() throws InvalidLocationException {
         RepoConfiguration config1 = new RepoConfiguration(new RepoLocation(localTestRepo1));
         RepoConfiguration config2 = new RepoConfiguration(new RepoLocation(localTestRepo2));
@@ -335,28 +358,5 @@ public class RepoConfigurationTest {
         RepoConfiguration config2 = new RepoConfiguration(new RepoLocation(localTestRepo2));
 
         Assert.assertNotEquals(config1.getDisplayName(), config2.getDisplayName());
-    }
-
-    @Test
-    public void repoConfig_minimalStandaloneConfig_fieldsAssignedDefaultValues() throws GitCloneException,
-            InvalidLocationException {
-        RepoConfiguration expectedConfig = new RepoConfiguration(new RepoLocation(TEST_REPO_MINIMAL_STANDALONE_CONFIG),
-                "master");
-
-        Author firstAuthor = new Author("bluein-green");
-        Author secondAuthor = new Author("jylee-git");
-        List<Author> expectedAuthors = Arrays.asList(firstAuthor, secondAuthor);
-        expectedConfig.setAuthorList(expectedAuthors);
-
-        expectedConfig.setIgnoreGlobList(Collections.emptyList());
-        expectedConfig.setFormats(Collections.emptyList());
-        expectedConfig.setIgnoreCommitList(Collections.emptyList());
-
-        RepoConfiguration actualConfig = new RepoConfiguration(new RepoLocation(TEST_REPO_MINIMAL_STANDALONE_CONFIG),
-                "master");
-        GitClone.clone(actualConfig);
-        ReportGenerator.updateRepoConfig(actualConfig);
-
-        TestUtil.compareRepoConfig(expectedConfig, actualConfig);
     }
 }
