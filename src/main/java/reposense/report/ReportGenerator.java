@@ -40,6 +40,7 @@ import reposense.parser.StandaloneConfigJsonParser;
 import reposense.report.exception.NoAuthorsWithCommitsFoundException;
 import reposense.system.LogsManager;
 import reposense.util.FileUtil;
+import reposense.util.ProgressTracker;
 
 /**
  * Contains report generation related functionalities.
@@ -74,6 +75,7 @@ public class ReportGenerator {
     private static final String LOG_ERROR_CLONING_OR_BRANCHING = "Exception met while cloning or checking out.";
 
     private static Date earliestSinceDate = null;
+    private static ProgressTracker progressTracker = null;
 
     /**
      * Generates the authorship and commits JSON file for each repo in {@code configs} at {@code outputPath}, as
@@ -89,6 +91,7 @@ public class ReportGenerator {
         FileUtil.copyTemplate(is, outputPath);
 
         earliestSinceDate = null;
+        progressTracker = new ProgressTracker(configs.size());
 
         cloneAndAnalyzeRepos(configs, outputPath);
 
@@ -169,12 +172,14 @@ public class ReportGenerator {
             List<RepoConfiguration> configsToAnalyze, String defaultBranch) {
         Iterator<RepoConfiguration> itr = configsToAnalyze.iterator();
         while (itr.hasNext()) {
+            progressTracker.incrementProgress();
             RepoConfiguration configToAnalyze = itr.next();
             configToAnalyze.updateBranch(defaultBranch);
 
             Path repoReportDirectory = Paths.get(outputPath, configToAnalyze.getOutputFolderName());
             logger.info(
-                    String.format(MESSAGE_START_ANALYSIS, configToAnalyze.getLocation(), configToAnalyze.getBranch()));
+                    String.format(progressTracker.getProgress() + " "
+                            + MESSAGE_START_ANALYSIS, configToAnalyze.getLocation(), configToAnalyze.getBranch()));
             try {
                 GitRevParse.assertBranchExists(configToAnalyze, FileUtil.getBareRepoPath(configToAnalyze));
                 GitLsTree.validateFilePaths(configToAnalyze, FileUtil.getBareRepoPath(configToAnalyze));
