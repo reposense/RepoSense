@@ -110,10 +110,10 @@ public class RepoConfigurationTest {
         repoDeltaStandaloneConfig.setFormats(CONFIG_FORMATS);
 
         localTestRepo1 = Paths.get(RepoConfigurationTest.class.getClassLoader()
-                .getResource("RepoConfigurationTest/repoconfig_uniqueIdentifier_test1/local_alpha").toURI())
+                .getResource("RepoConfigurationTest/repoconfig_uniqueName_test1/local_alpha").toURI())
                 .toString();
         localTestRepo2 = Paths.get(RepoConfigurationTest.class.getClassLoader()
-                .getResource("RepoConfigurationTest/repoconfig_uniqueIdentifier_test2/local_alpha").toURI())
+                .getResource("RepoConfigurationTest/repoconfig_uniqueName_test2/local_alpha").toURI())
                 .toString();
     }
 
