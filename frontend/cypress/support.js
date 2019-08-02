@@ -6,7 +6,10 @@ Cypress.Screenshot.defaults({
 });
 
 beforeEach(() => {
-  cy.visit('/', { timeout: 120000 });
+  cy.visit('/')
+    .then(() => {}, () => {
+      cy.reload(true);
+    })
 });
 
 // Slows down test execution on non-CI environment.
