@@ -34,12 +34,12 @@
           a(v-bind:href="getSliceLink(slice)" target="_blank") {{ slice.messageTitle }}
           span &nbsp; ({{ slice.insertions }} lines)
           a(
-            v-if="slice.messageBody.length > 0",
+            v-if="slice.messageBody !== ''",
             v-on:click="updateExpandedCommitMessagesCount",
             onclick="toggleNext(this)",
             title="Click to show/hide the commit message body"
           )
             i.commit-message--button.fas.fa-ellipsis-h
-          .body(v-if="slice.messageBody!== ''")
+          .body(v-if="slice.messageBody !== ''")
             pre {{ slice.messageBody }}
 
