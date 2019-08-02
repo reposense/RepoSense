@@ -24,7 +24,7 @@ public class FileResultAggregator {
                 if (!authors.contains(author)) {
                     continue;
                 }
-                authorContributionSummary.addAuthorContributionCount(author, fileResult.getFileType().toString());
+                authorContributionSummary.addAuthorContributionCount(author, fileResult.getFileType());
             }
         }
         return authorContributionSummary;

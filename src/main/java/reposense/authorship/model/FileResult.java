@@ -12,14 +12,14 @@ import reposense.model.FileType;
  */
 public class FileResult {
     private final String path;
-    private FileType fileType;
+    private String fileType;
     private final ArrayList<LineInfo> lines;
     private final HashMap<Author, Integer> authorContributionMap;
 
     public FileResult(String path, FileType fileType, ArrayList<LineInfo> lines,
             HashMap<Author, Integer> authorContributionMap) {
         this.path = path;
-        this.fileType = fileType;
+        this.fileType = fileType.toString();
         this.lines = lines;
         this.authorContributionMap = authorContributionMap;
     }
@@ -32,7 +32,7 @@ public class FileResult {
         return path;
     }
 
-    public FileType getFileType() {
+    public String getFileType() {
         return fileType;
     }
 
