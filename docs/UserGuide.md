@@ -94,11 +94,16 @@ The `Code Panel` allows users to see the code attributed to a specific author. C
 * Non-trivial code segments that are not written by the selected author are hidden by default, but you can toggle them by clicking on the :heavy_plus_sign: icon.
 
 ### Commits Panel
+<img src="/docs/images/commits-panel.png" alt="commits panel" width="468">
 
-The `Commits Panel` allows users to see the commits attributed to a specific author. Hold `Command`&#8984; (MacOS) or `Ctrl` (Others) and click on the ramp chart in the `Chart Panel` to select the time range where you want to display the `Commit Panel` for on the right.
-* The `Commits Panel` shows the commits that contain author's contributions, sorted by the date it was commited.
+The `Commits Panel` allows users to see the commits attributed to a specific author. Hold `Command`&#8984; **(MacOS)** or `Ctrl` **(other OSes)** and click on the ramp chart in the `Chart Panel` to select the time range where you want to display the `Commit Panel` for on the right. <br>
+
+![Opening commits panel](/docs/images/opening-commits-panel.gif)
+
+* The `Commits Panel` shows the commits that contain author's contributions, sorted by the date it was committed.
 * The date range for the `Chart Panel` can be updated by clicking on the "Show ramp chart for this period" below the name of the author.
 * The ramp slices displayed in the ramp chart for the `Commits Panel` represents individual commits.
+* The commit messages body can be expanded or collapsed by clicking on the `...` icon beside each commit message title.
 
 ### Tool Bar
 The `Tool Bar` at the top provides a set of configuration options that control the Chart Panel.
