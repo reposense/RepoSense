@@ -182,7 +182,7 @@ gradlew run -Dargs="-c ./configs/ -o output_path/ -s 21/10/2017 -u 21/11/2017 -f
 *Figure 1. Overall architecture of RepoSense*
 
 ### Parser(ConfigParser)
-[`Parser`](/src/main/java/reposense/parser) contains three classes:
+[`Parser`](/src/main/java/reposense/parser) contains three components:
  * [`ArgsParser`](/src/main/java/reposense/parser/ArgsParser.java): Parses the user-supplied command line arguments into a `CliArguments` object.
  * [`CsvParser`](/src/main/java/reposense/parser/CsvParser.java): Abstract generic class for CSV parsing functionality. The following two classes extends `CsvParser`.
    * [`AuthorConfigCsvParser`](/src/main/java/reposense/parser/AuthorConfigCsvParser.java): Parses the `author-config.csv` config file into a list of `AuthorConfiguration` for each repository to analyze.
