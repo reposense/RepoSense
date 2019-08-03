@@ -294,7 +294,7 @@ html
                     span.bloc.medium-font ({{ totalBlankLineCount }})
                 template(v-for="fileType in Object.keys(getFileTypeExistingLinesObj)")
                   label(v-bind:key="fileType")
-                    input.mui-checkbox--fileType(type="checkbox" v-bind:checked="selectedFileFormats.includes(format)"
+                    input.mui-checkbox--fileType(type="checkbox" v-bind:checked="selectedFileTypes.includes(fileType)"
                         v-on:change="selectFileType(fileType)")
                     span(v-bind:title="getFileTypeBlankLineInfo(fileType)")
                       span {{ fileType }}: {{ getFileTypeExistingLinesObj[fileType] }}&nbsp;
