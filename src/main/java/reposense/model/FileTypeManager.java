@@ -3,7 +3,6 @@ package reposense.model;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.stream.Collectors;
 
 /**
  * {@code FileTypeManager} is responsible for holding a list of whitelisted formats and user-specified custom
@@ -53,10 +52,8 @@ public class FileTypeManager {
         }
     }
 
-    public List<String> getFileTypeLabels() {
-        return hasCustomGroups()
-                ? groups.stream().map(Object::toString).collect(Collectors.toList())
-                : formats.stream().map(Object::toString).collect(Collectors.toList());
+    public List<FileType> getAllFileTypes() {
+        return hasCustomGroups() ? groups : formats;
     }
 
     /**
