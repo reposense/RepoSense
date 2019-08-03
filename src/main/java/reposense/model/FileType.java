@@ -9,6 +9,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
 import com.google.gson.JsonPrimitive;
 import com.google.gson.JsonSerializationContext;
 import com.google.gson.JsonSerializer;
@@ -82,7 +83,7 @@ public class FileType {
         return this.label.equals(otherFileType.label) && this.paths.equals(otherFileType.paths);
     }
 
-    private class FileTypeSerializer implements JsonSerializer<FileType> {
+    public static class FileTypeSerializer implements JsonSerializer<FileType> {
         @Override
         public JsonElement serialize(FileType fileType, Type typeOfSource, JsonSerializationContext context) {
             return new JsonPrimitive(fileType.toString());

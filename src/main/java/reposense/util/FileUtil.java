@@ -24,6 +24,7 @@ import java.util.zip.ZipOutputStream;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
+import reposense.model.FileType;
 import reposense.model.RepoConfiguration;
 import reposense.system.LogsManager;
 
@@ -87,6 +88,7 @@ public class FileUtil {
     public static void writeJsonFile(Object object, String path) {
         Gson gson = new GsonBuilder()
                 .setDateFormat(GITHUB_API_DATE_FORMAT)
+                .registerTypeAdapter(FileType.class, new FileType.FileTypeSerializer())
                 .setPrettyPrinting()
                 .create();
         String result = gson.toJson(object);
