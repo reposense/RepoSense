@@ -45,7 +45,7 @@ window.vRamp = {
         return `${getBaseLink(slice.repoId)}/commit/${slice.hash}`;
       }
 
-      return `${getBaseLink(slice.repoId)}/commits/${REPOS[slice.repoId].branch}?`
+      return `${getBaseLink(user.repoId)}/commits/${REPOS[user.repoId].branch}?`
           + `since=${slice.date}'T'00:00:00+08:00&`
           + `until=${untilDate}'T'23:59:59+08:00`;
     },
