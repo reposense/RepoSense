@@ -363,10 +363,11 @@ Column Name | Explanation
 ----------- | -----------
 Repository's Location | Same as `repo-config.csv`.
 Group Name | Name of the group e.g.,`test`.
-Globs | The list of file path globs to include for specified group. e.g.,`**/test/*;**.java`.
+Globs * | The list of file path globs to include for specified group. e.g.,`**/test/*;**.java`.
+<sup>* **Multi-value column**: multiple values can be entered in this column using a semicolon `;` as the separator.</sup>
 
-Note that a file in a given repository should only be tagged to one group. e.g. `example.java` in `example-repo` can either be in `test` group
-or in `code` group, but not in both `test` and `code` group. If multiple groups are specified for a given file, the latter group is set for the file.
+Note that a file in a given repository should only be tagged to one group. <br>
+e.g.: `example.java` in `example-repo` can either be in `test` group or in `code` group, but not in both `test` and `code` group. If multiple groups are specified for a given file, the latter group (i.e.: `code` group) is set for the file.
 
 > Note: the first row consists of config headings, which is ignored by RepoSense.
 
