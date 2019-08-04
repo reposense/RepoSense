@@ -357,7 +357,7 @@ If `author-config.csv` is not given and the repo has not provide author details 
 
 #### `groups-config.csv`
 
-Optionally, you can provide a `groups-config.csv`(which should be in the same directory as `repo-config.csv` file) to provide details on any custom groupings for files in specified repositories. It should contain the following columns:
+Optionally, you can provide a `groups-config.csv`(which should be in the same directory as `repo-config.csv` file) to provide details on any custom groupings for files in specified repositories ([example](groups-config.csv)). It should contain the following columns:
 
 Column Name | Explanation
 ----------- | -----------
