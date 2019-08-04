@@ -111,6 +111,8 @@ window.app = new window.Vue({
     tabType: 'empty',
     tabInfo: {},
     creationDate: '',
+
+    errorMessages: {},
   },
   methods: {
     // model functions //
@@ -191,8 +193,8 @@ window.app = new window.Vue({
     },
 
     // updating summary view
-    updateSummaryDates() {
-      this.$refs.summary.updateDateRange();
+    updateSummaryDates(since, until) {
+      this.$refs.summary.updateDateRange(since, until);
     },
 
     renderAuthorShipTabHash(minDate, maxDate) {
