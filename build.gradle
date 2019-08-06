@@ -12,7 +12,7 @@ plugins {
 
 mainClassName = 'reposense.RepoSense'
 
-node.nodeVersion = '10.5.0'
+node.nodeVersion = '10.16.0'
 
 sourceCompatibility = JavaVersion.VERSION_1_8
 targetCompatibility = JavaVersion.VERSION_1_8
@@ -131,7 +131,7 @@ task systemtest(dependsOn: 'zipReport', type: Test) {
 task startServerInBackground(dependsOn: 'classes', type: com.github.psxpaul.task.JavaExecFork) {
     main = mainClassName
     classpath = sourceSets.main.runtimeClasspath
-    args = ['--repo', 'https://github.com/reposense/RepoSense.git', '--view', '--since', 'd1']
+    args = ['--repo', 'https://github.com/reposense/RepoSense.git', 'https://github.com/reposense/testrepo-Empty.git', '--since', 'd1', '--view']
     String versionJvmArgs = '-Dversion=' + getRepoSenseVersion()
     jvmArgs = [ versionJvmArgs ]
     waitForPort = 9000
