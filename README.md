@@ -25,6 +25,9 @@ RepoSense is a project based in the [National University of Singapore, School of
 * [**Chelsey Ong Hee**](https://github.com/chelseyong): _Project Member_ since Jan 2019
 * [**Damith C. Rajapakse**](https://github.com/damithc): _Project Mentor_ since Aug 2017
 * [**Gilbert Emerson**](https://github.com/emer7): _Project Member_ since Jan 2019
+* [**James Pang Mun Wai**](https://github.com/jamessspanggg): _Project Member_ since May 2019
+* [**Jin Minjia**](https://github.com/bluein-green): _Project Member_ since May 2019
+* [**Lee Jin Yao**](https://github.com/jylee-git): _Project Member_ since May 2019
 * [**Ma Tanghao**](https://github.com/harryggg): _Team Lead_ for May 2017 - May 2018
 * [**Ong Shu Peng**](https://github.com/ongspxm): _Project Member_ since May 2018
 * [**Peh Xian Bin, Eugene**](https://github.com/eugenepeh): _Team Lead_ since May 2018
