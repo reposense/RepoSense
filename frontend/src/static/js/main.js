@@ -126,15 +126,16 @@ window.app = new window.Vue({
             window.alert('Either the .zip file is corrupted, or you uploaded a .zip file that is not generated '
                 + 'by RepoSense.');
           })
-          .then(() => this.updateReportView());
+          .then(() => this.updateReportViewAndRenderTabHash());
     },
-    updateReportDir() {
+    initialize() {
+      window.decodeHash();
       window.REPORT_ZIP = null;
 
       this.users = [];
-      this.updateReportView();
+      this.updateReportViewAndRenderTabHash();
     },
-    updateReportView() {
+    updateReportViewAndRenderTabHash() {
       window.api.loadSummary().then((names) => {
         this.repos = window.REPOS;
         this.repoLength = Object.keys(window.REPOS).length;
@@ -181,7 +182,18 @@ window.app = new window.Vue({
       this.isCollapsed = false;
       this.tabType = tabName;
 
+      window.addHash('tabOpen', this.isTabActive);
       window.addHash('tabType', this.tabType);
+      window.encodeHash();
+    },
+
+    deactivateTab() {
+      this.isTabActive = false;
+      window.addHash('tabOpen', this.isTabActive);
+      window.removeHash('tabAuthor');
+      window.removeHash('tabRepo');
+      window.removeHash('tabType');
+      window.encodeHash();
     },
 
     updateTabAuthorship(obj) {
@@ -215,7 +227,6 @@ window.app = new window.Vue({
     },
 
     renderTabHash() {
-      window.decodeHash();
       const hash = window.hashParams;
       if (!hash.tabOpen) {
         return;
@@ -271,8 +282,7 @@ window.app = new window.Vue({
     CircleSpinner: window.VueLoadingSpinner.Circle,
   },
   created() {
-    this.updateReportDir();
-    window.decodeHash();
+    this.initialize();
   },
   updated() {
     this.$nextTick(() => {
@@ -280,12 +290,5 @@ window.app = new window.Vue({
         window.$('tabs-wrapper').style.flex = `0 0 ${flexWidth * 100}%`;
       }
     });
-    if (!this.isTabActive) {
-      window.removeHash('tabAuthor');
-      window.removeHash('tabRepo');
-      window.removeHash('tabType');
-    }
-    window.addHash('tabOpen', this.isTabActive);
-    window.encodeHash();
   },
 });
