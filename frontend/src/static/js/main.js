@@ -152,6 +152,7 @@ window.app = new window.Vue({
         this.userUpdated = true;
         this.isLoading = false;
         this.getUsers();
+        this.renderTabHash();
       }).catch((error) => {
         this.userUpdated = false;
         this.isLoading = false;
@@ -223,7 +224,17 @@ window.app = new window.Vue({
 
       if (this.isTabActive) {
         if (hash.tabType === 'authorship') {
-          this.renderAuthorShipTabHash(hash.since, hash.until);
+          let since = hash.since;
+          let until = hash.until;
+
+          // get since and until dates from window.app if not found in hash
+          if (!since) {
+            since = window.app.sinceDate;
+          }
+          if (!until) {
+            until = window.app.untilDate;
+          }
+          this.renderAuthorShipTabHash(since, until);
         } else {
           // handle zoom tab if needed
         }
@@ -261,7 +272,7 @@ window.app = new window.Vue({
   },
   created() {
     this.updateReportDir();
-    this.renderTabHash();
+    window.decodeHash();
   },
   updated() {
     this.$nextTick(() => {
