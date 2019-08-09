@@ -266,8 +266,10 @@ window.app = new window.Vue({
     },
 
     updateHash() {
-      this.$refs.summary.renderFilterHash();
-      this.renderTabHash();
+      if (this.$refs.summary) { // check if summary component has been created
+        this.$refs.summary.renderFilterHash();
+        this.renderTabHash();
+      }
     },
   },
   components: {
