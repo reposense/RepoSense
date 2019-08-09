@@ -26,6 +26,7 @@ import reposense.parser.AuthorConfigCsvParser;
 import reposense.parser.ParseException;
 import reposense.parser.RepoConfigCsvParser;
 import reposense.parser.SinceDateArgumentType;
+import reposense.report.ErrorSummary;
 import reposense.report.ReportGenerator;
 import reposense.util.FileUtil;
 import reposense.util.InputBuilder;
@@ -40,6 +41,7 @@ public class ConfigSystemTest {
     @Before
     public void setUp() throws IOException {
         FileUtil.deleteDirectory(FT_TEMP_DIR);
+        ErrorSummary.getInstance().clearErrorList();
     }
 
     /**
@@ -113,7 +115,8 @@ public class ConfigSystemTest {
                 repoConfigs, cliArguments.getSinceDate(), cliArguments.getUntilDate());
 
         ReportGenerator.generateReposReport(repoConfigs, FT_TEMP_DIR, TEST_REPORT_GENERATED_TIME,
-                cliArguments.getSinceDate(), cliArguments.getUntilDate());
+                cliArguments.getSinceDate(), cliArguments.getUntilDate(),
+                cliArguments.isSinceDateProvided(), cliArguments.isUntilDateProvided());
     }
 
     /**
