@@ -452,6 +452,11 @@ window.vSummary = {
           commitResults, date, insertions, deletions,
         } = commit;
 
+        // bind repoId to each commit
+        commitResults.forEach((commitResult) => {
+          commitResult.repoId = user.repoId;
+        });
+
         if (Object.prototype.hasOwnProperty.call(dateToIndexMap, date)) {
           const commitWithSameDate = merged[dateToIndexMap[date]];
 
