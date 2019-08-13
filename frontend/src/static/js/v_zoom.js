@@ -23,6 +23,9 @@ window.vZoom = {
     },
 
     getSliceLink(slice) {
+      if (this.info.isMergeGroup) {
+        return `${window.getBaseLink(slice.repoId)}/commit/${slice.hash}`;
+      }
       return `${window.getBaseLink(this.info.user.repoId)}/commit/${slice.hash}`;
     },
 
