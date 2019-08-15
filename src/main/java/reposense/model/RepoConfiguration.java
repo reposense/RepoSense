@@ -96,7 +96,8 @@ public class RepoConfiguration {
 
             if (matchingRepoConfig == null) {
                 logger.warning(String.format(
-                        "Repository %s is not found in repo-config.csv.", authorConfig.getLocation()));
+                        "Repository %s (branch %s) is not found in repo-config.csv.",
+                        authorConfig.getLocation(), authorConfig.getBranch()));
                 continue;
             }
 
