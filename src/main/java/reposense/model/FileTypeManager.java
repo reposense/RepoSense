@@ -24,17 +24,17 @@ public class FileTypeManager {
      * Returns the assigned file type of the file {@code fileName}.
      */
     public FileType getFileType(String fileName) {
-        if (hasCustomGroups()) {
-            FileType result = DEFAULT_GROUP_TYPE;
-            for (FileType group : groups) {
-                if (group.isFileGlobMatching(fileName)) {
-                    result = group;
-                }
-            }
-            return result;
-        } else {
+        if (!hasCustomGroups()) {
             return getFileFormat(fileName);
         }
+
+        FileType result = DEFAULT_GROUP_TYPE;
+        for (FileType group : groups) {
+            if (group.isFileGlobMatching(fileName)) {
+                result = group;
+            }
+        }
+        return result;
     }
 
     private FileType getFileFormat(String fileName) {
