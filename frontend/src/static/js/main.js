@@ -38,7 +38,7 @@ window.decodeHash = function decodeHash() {
 
 window.onhashchange = function onHashChange() {
   const { hashParams } = window;
-  const hash = `# + ${Object.keys(hashParams)
+  const hash = `#${Object.keys(hashParams)
       .map((key) => `${key}=${encodeURIComponent(hashParams[key])}`)
       .join('&')}`;
 
