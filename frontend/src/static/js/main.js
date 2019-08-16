@@ -43,6 +43,7 @@ function handleForwardOrBackButton(hashParam, urlHash) {
     return;
   }
 
+  // compare hash using a secure way against timing attacks
   for (let i = 0; i < hashParam.length; i++) {
     if ((hashParam.charCodeAt(i) ^ urlHash.charCodeAt(i)) !== 0) {
       this.app.updateHash();
