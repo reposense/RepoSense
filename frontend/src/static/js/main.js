@@ -42,11 +42,23 @@ window.onhashchange = function onHashChange() {
       .map((key) => `${key}=${encodeURIComponent(hashParams[key])}`)
       .join('&')}`;
 
-  // hash values that are not the same means that user clicked forward/back button
-  if (hash !== window.location.hash) {
-    this.app.updateHash();
-  }
+  handleForwardOrBackButton(hash, window.location.hash);
 };
+
+function handleForwardOrBackButton(hashParam, urlHash) {
+  // if there are differences between hashParams and urlHash, forward/back button is clicked
+  if (hashParam.length !== urlHash.length) {
+    this.app.updateHash();
+    return;
+  }
+
+  for (let i = 0; i < hashParam.length; i++) {
+    if ((hashParam.charCodeAt(i) ^ urlHash.charCodeAt(i)) !== 0) {
+      this.app.updateHash();
+      return;
+    }
+  }
+}
 
 const DRAG_BAR_WIDTH = 13.25;
 const SCROLL_BAR_WIDTH = 17;
