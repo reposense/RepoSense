@@ -36,15 +36,6 @@ window.decodeHash = function decodeHash() {
   window.hashParams = hashParams;
 };
 
-window.onhashchange = function onHashChange() {
-  const { hashParams } = window;
-  const hash = `#${Object.keys(hashParams)
-      .map((key) => `${key}=${encodeURIComponent(hashParams[key])}`)
-      .join('&')}`;
-
-  handleForwardOrBackButton(hash, window.location.hash);
-};
-
 function handleForwardOrBackButton(hashParam, urlHash) {
   // if there are differences between hashParams and urlHash, forward/back button is clicked
   if (hashParam.length !== urlHash.length) {
@@ -59,6 +50,15 @@ function handleForwardOrBackButton(hashParam, urlHash) {
     }
   }
 }
+
+window.onhashchange = function onHashChange() {
+  const { hashParams } = window;
+  const hash = `#${Object.keys(hashParams)
+      .map((key) => `${key}=${encodeURIComponent(hashParams[key])}`)
+      .join('&')}`;
+
+  handleForwardOrBackButton(hash, window.location.hash);
+};
 
 const DRAG_BAR_WIDTH = 13.25;
 const SCROLL_BAR_WIDTH = 17;
