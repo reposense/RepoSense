@@ -24,7 +24,7 @@ matrix:
 
     - name: "Cypress frontend tests"
       os: linux
-      dist: xenial
+      dist: bionic
       addons:
         chrome: stable
       services:
