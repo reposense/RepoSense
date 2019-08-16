@@ -1,3 +1,8 @@
+window.dismissTab = function dismissTab(node) {
+  const parent = node.parentNode;
+  parent.style.display = 'none';
+};
+
 window.comparator = (fn) => function compare(a, b) {
   const a1 = fn(a).toLowerCase ? fn(a).toLowerCase() : fn(a);
   const b1 = fn(b).toLowerCase ? fn(b).toLowerCase() : fn(b);
@@ -75,6 +80,8 @@ window.viewClick = function viewClick(evt) {
 const DAY_IN_MS = (1000 * 60 * 60 * 24);
 window.DAY_IN_MS = DAY_IN_MS;
 const WEEK_IN_MS = DAY_IN_MS * 7;
+const dateFormatRegex = /([12]\d{3}-(0[1-9]|1[0-2])-(0[1-9]|[12]\d|3[01]))$/;
+
 
 function getDateStr(date) {
   return (new Date(date)).toISOString().split('T')[0];
@@ -94,7 +101,7 @@ function dateRounding(datestr, roundDown) {
 }
 
 window.vSummary = {
-  props: ['repos'],
+  props: ['repos', 'errorMessages'],
   template: window.$('v_summary').innerHTML,
   data() {
     return {
@@ -109,15 +116,18 @@ window.vSummary = {
       isSortingWithinDsc: '',
       filterTimeFrame: 'commit',
       filterBreakdown: false,
+      isMergeGroup: false,
       tmpFilterSinceDate: '',
       tmpFilterUntilDate: '',
+      hasModifiedSinceDate: window.app.isSinceDateProvided,
+      hasModifiedUntilDate: window.app.isUntilDateProvided,
       filterSinceDate: '',
       filterUntilDate: '',
       filterHash: '',
       minDate: '',
       maxDate: '',
       contributionBarColors: {},
-      canGetFiltered: true, // to prevent redundant getFiltered() calls from initial page load
+      isSafariBrowser: /.*Version.*Safari.*/.test(navigator.userAgent),
     };
   },
   watch: {
@@ -131,10 +141,14 @@ window.vSummary = {
       this.getFiltered();
     },
     filterGroupSelection() {
-      this.updateSortWithinGroup();
+      // merge group is not allowed when group by none
+      if (this.filterGroupSelection === 'groupByNone') {
+        this.isMergeGroup = false;
+      }
+
       this.getFiltered();
     },
-    filterBreakdown() {
+    isMergeGroup() {
       this.getFiltered();
     },
     tmpFilterSinceDate() {
@@ -142,7 +156,6 @@ window.vSummary = {
         this.filterSinceDate = this.tmpFilterSinceDate;
       } else if (!this.tmpFilterSinceDate) { // If user clears the since date field
         this.filterSinceDate = this.minDate;
-        this.tmpFilterSinceDate = this.filterSinceDate;
       }
       this.getFiltered();
     },
@@ -151,7 +164,6 @@ window.vSummary = {
         this.filterUntilDate = this.tmpFilterUntilDate;
       } else if (!this.tmpFilterUntilDate) { // If user clears the until date field
         this.filterUntilDate = this.maxDate;
-        this.tmpFilterUntilDate = this.filterUntilDate;
       }
       this.getFiltered();
     },
@@ -285,9 +297,16 @@ window.vSummary = {
       addHash('sort', this.sortGroupSelection);
       addHash('sortWithin', this.sortWithinGroupSelection);
 
-      addHash('since', this.filterSinceDate);
-      addHash('until', this.filterUntilDate);
+      if (this.hasModifiedSinceDate) {
+        addHash('since', this.filterSinceDate);
+      }
+
+      if (this.hasModifiedUntilDate) {
+        addHash('until', this.filterUntilDate);
+      }
+
       addHash('timeframe', this.filterTimeFrame);
+      addHash('mergegroup', this.isMergeGroup);
 
       addHash('groupSelect', this.filterGroupSelection);
       addHash('breakdown', this.filterBreakdown);
@@ -309,6 +328,9 @@ window.vSummary = {
       }
 
       if (hash.timeframe) { this.filterTimeFrame = hash.timeframe; }
+      if (hash.mergegroup) {
+        this.isMergeGroup = convertBool(hash.mergegroup);
+      }
       if (hash.since) {
         this.tmpFilterSinceDate = hash.since;
       }
@@ -353,17 +375,17 @@ window.vSummary = {
       this.$emit('get-dates', [this.minDate, this.maxDate]);
     },
     getFiltered() {
-      // skip filtering of repos if first cycle of watcher updates are not finished
-      if (!this.canGetFiltered) {
-        return;
-      }
       this.setSummaryHash();
       this.getDates();
+      deactivateAllOverlays();
 
       // array of array, sorted by repo
       const full = [];
 
-      this.repos.forEach((repo) => {
+      // create deep clone of this.repos to not modify the original content of this.repos
+      // when merging groups
+      const groups = this.isMergeGroup ? JSON.parse(JSON.stringify(this.repos)) : this.repos;
+      groups.forEach((repo) => {
         const res = [];
 
         // filtering
@@ -390,6 +412,76 @@ window.vSummary = {
       this.filtered = full;
 
       this.sortFiltered();
+
+      if (this.isMergeGroup) {
+        this.mergeGroup();
+      }
+    },
+    mergeGroup() {
+      this.filtered.forEach((group, groupIndex) => {
+        const dateToIndexMap = {};
+        const mergedCommits = [];
+        const mergedFileFormatContribution = {};
+        let mergedVariance = 0;
+        let totalMergedCommits = 0;
+
+        group.forEach((user) => {
+          this.mergeCommits(user, mergedCommits, dateToIndexMap);
+          mergedCommits.sort(window.comparator((ele) => ele.date));
+
+          this.mergeFileFormatContribution(user, mergedFileFormatContribution);
+
+          totalMergedCommits += user.totalCommits;
+          mergedVariance += user.variance;
+        });
+
+        group[0].commits = mergedCommits;
+        group[0].fileFormatContribution = mergedFileFormatContribution;
+        group[0].totalCommits = totalMergedCommits;
+        group[0].variance = mergedVariance;
+
+        // clear all users and add merged group in filtered group
+        this.filtered[groupIndex] = [];
+        this.filtered[groupIndex].push(group[0]);
+      });
+    },
+    mergeCommits(user, merged, dateToIndexMap) {
+      // merge commits with the same date
+      user.commits.forEach((commit) => {
+        const {
+          commitResults, date, insertions, deletions,
+        } = commit;
+
+        // bind repoId to each commit
+        commitResults.forEach((commitResult) => {
+          commitResult.repoId = user.repoId;
+        });
+
+        if (Object.prototype.hasOwnProperty.call(dateToIndexMap, date)) {
+          const commitWithSameDate = merged[dateToIndexMap[date]];
+
+          commitResults.forEach((commitResult) => {
+            commitWithSameDate.commitResults.push(commitResult);
+          });
+
+          commitWithSameDate.insertions += insertions;
+          commitWithSameDate.deletions += deletions;
+        } else {
+          dateToIndexMap[date] = Object.keys(dateToIndexMap).length;
+          merged.push(commit);
+        }
+      });
+    },
+    mergeFileFormatContribution(user, merged) {
+      Object.entries(user.fileFormatContribution).forEach((fileFormat) => {
+        const key = fileFormat[0];
+        const value = fileFormat[1];
+
+        if (!Object.prototype.hasOwnProperty.call(merged, key)) {
+          merged[key] = 0;
+        }
+        merged[key] += value;
+      });
     },
     processFileFormats() {
       const selectedColors = ['#ffe119', '#4363d8', '#3cb44b', '#f58231', '#911eb4', '#46f0f0', '#f032e6',
@@ -415,21 +507,19 @@ window.vSummary = {
 
       const res = [];
 
-      const sinceDate = dateRounding(this.filterSinceDate, 0); // round up for the next monday
+      const nextMondayDate = dateRounding(this.filterSinceDate, 0); // round up for the next monday
       const untilDate = this.filterUntilDate;
 
-      const sinceMs = (new Date(sinceDate)).getTime();
+      const nextMondayMs = (new Date(nextMondayDate)).getTime();
+      const sinceMs = new Date(this.filterSinceDate).getTime();
       const untilMs = (new Date(untilDate)).getTime();
 
-      // add first week commits starting from filterSinceDate to end of the week
-      // if filterSinceDate is not the start of the week
-      if (this.filterSinceDate !== sinceDate) {
-        const firstWeekDateMs = new Date(this.filterSinceDate).getTime();
-        this.pushCommitsWeek(firstWeekDateMs, sinceMs - 1, res, commits);
+      if (nextMondayDate <= untilDate) {
+        this.pushCommitsWeek(sinceMs, nextMondayMs - 1, res, commits);
+        this.pushCommitsWeek(nextMondayMs, untilMs, res, commits);
+      } else {
+        this.pushCommitsWeek(sinceMs, untilMs, res, commits);
       }
-
-      this.pushCommitsWeek(sinceMs, untilMs, res, commits);
-
       user.commits = res;
     },
     pushCommitsWeek(sinceMs, untilMs, res, commits) {
@@ -492,16 +582,6 @@ window.vSummary = {
 
       return null;
     },
-    updateSortWithinGroup() {
-      const ele = document.getElementsByClassName('mui-select sort-within-group');
-      if (this.filterGroupSelection === 'groupByNone') {
-        ele[0].style.pointerEvents = 'none';
-        ele[0].style.opacity = 0.5;
-      } else {
-        ele[0].style.pointerEvents = 'auto';
-        ele[0].style.opacity = 1;
-      }
-    },
     getOptionWithOrder() {
       [this.sortingOption, this.isSortingDsc] = this.sortGroupSelection.split(' ');
       [this.sortingWithinOption, this.isSortingWithinDsc] = this.sortWithinGroupSelection.split(' ');
@@ -523,22 +603,51 @@ window.vSummary = {
 
     // updating filters programically //
     resetDateRange() {
-      this.tmpFilterSinceDate = this.minDate;
-      this.tmpFilterUntilDate = this.maxDate;
+      this.tmpFilterSinceDate = '';
+      this.tmpFilterUntilDate = '';
     },
 
-    updateDateRange() {
-      if (drags.length > 0) {
-        const since = new Date(this.filterSinceDate).getTime();
-        const until = new Date(this.filterUntilDate).getTime();
-        const range = until - since;
+    updateDateRange(since, until) {
+      this.tmpFilterSinceDate = since;
+      this.tmpFilterUntilDate = until;
+      deactivateAllOverlays();
+    },
 
-        const getStr = (time) => getDateStr(new Date(time));
-        this.tmpFilterSinceDate = getStr(since + range * drags[0] / 100);
-        this.tmpFilterUntilDate = getStr(since + range * drags[1] / 100);
+    updateTmpFilterSinceDate(event) {
+      const since = event.target.value;
+      this.hasModifiedSinceDate = true;
 
-        drags = [];
-        deactivateAllOverlays();
+      if (!this.isSafariBrowser) {
+        this.tmpFilterSinceDate = since;
+        event.target.value = this.filterSinceDate;
+        return;
+      }
+
+      if (dateFormatRegex.test(since) && since >= this.minDate) {
+        this.tmpFilterSinceDate = since;
+        event.currentTarget.style.removeProperty('border-bottom-color');
+      } else {
+        // invalid since date detected
+        event.currentTarget.style.borderBottomColor = 'red';
+      }
+    },
+
+    updateTmpFilterUntilDate(event) {
+      const until = event.target.value;
+      this.hasModifiedUntilDate = true;
+
+      if (!this.isSafariBrowser) {
+        this.tmpFilterUntilDate = until;
+        event.target.value = this.filterUntilDate;
+        return;
+      }
+
+      if (dateFormatRegex.test(until) && until <= this.maxDate) {
+        this.tmpFilterUntilDate = until;
+        event.currentTarget.style.removeProperty('border-bottom-color');
+      } else {
+        // invalid until date detected
+        event.currentTarget.style.borderBottomColor = 'red';
       }
     },
 
@@ -557,7 +666,7 @@ window.vSummary = {
       });
     },
 
-    openTabZoom(userOrig) {
+    openTabZoomSubrange(userOrig) {
       // skip if accidentally clicked on ramp chart
       if (drags.length === 2 && drags[1] - drags[0]) {
         const tdiff = new Date(this.filterUntilDate) - new Date(this.filterSinceDate);
@@ -565,15 +674,22 @@ window.vSummary = {
         const tsince = getDateStr(new Date(this.filterSinceDate).getTime() + idxs[0]);
         const tuntil = getDateStr(new Date(this.filterSinceDate).getTime() + idxs[1]);
 
-        const { avgCommitSize } = this;
-        const user = Object.assign({}, userOrig);
-        this.$emit('view-zoom', {
-          avgCommitSize,
-          user,
-          sinceDate: tsince,
-          untilDate: tuntil,
-        });
+        this.openTabZoom(userOrig, tsince, tuntil);
       }
+    },
+
+    openTabZoom(userOrig, since, until) {
+      const { avgCommitSize } = this;
+      const user = Object.assign({}, userOrig);
+
+      this.$emit('view-zoom', {
+        filterGroupSelection: this.filterGroupSelection,
+        avgCommitSize,
+        user,
+        sinceDate: since,
+        untilDate: until,
+        isMergeGroup: this.isMergeGroup,
+      });
     },
 
     groupByRepos(repos) {
@@ -663,11 +779,7 @@ window.vSummary = {
   created() {
     this.renderFilterHash();
     this.getFiltered();
-    this.canGetFiltered = false; // disable getFiltered() after the first getFiltered() call
     this.processFileFormats();
-  },
-  beforeUpdate() {
-    this.canGetFiltered = true; // enable getFiltered() after first cycle of watcher updates
   },
   components: {
     v_ramp: window.vRamp,
