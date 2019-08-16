@@ -249,8 +249,11 @@ window.app = new window.Vue({
       if (this.isTabActive) {
         if (hash.tabType === 'authorship') {
           this.renderAuthorShipTabHash(hash.since, hash.until);
-        } else {
+        } else if (hash.tabType === 'zoom') {
           // handle zoom tab if needed
+        } else {
+          this.tabType = 'empty';
+          window.removeHash('tabType');
         }
       }
     },
