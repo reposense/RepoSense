@@ -364,6 +364,7 @@ Column Name | Explanation
 Repository's Location | Same as `repo-config.csv`.
 Group Name | Name of the group e.g.,`test`.
 Globs * | The list of file path globs to include for specified group. e.g.,`**/test/*;**.java`.
+
 <sup>* **Multi-value column**: multiple values can be entered in this column using a semicolon `;` as the separator.</sup>
 
 Note that a file in a given repository should only be tagged to one group. <br>
