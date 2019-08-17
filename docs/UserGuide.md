@@ -14,7 +14,7 @@
   * [Customize Using csv Config Files](#customize-using-csv-config-files)
     * [`repo-config.csv`](#repo-configcsv)
     * [`author-config.csv`](#author-configcsv)
-    * [`groups-config.csv`](#groups-configcsv)
+    * [`group-config.csv`](#group-configcsv)
 * [Analyzing Multiple Repos](#analyzing-multiple-repos)
 * [Using Travis-CI to automate publishing of the report to GitHub Pages](#using-travis-ci-to-automate-publishing-of-the-report-to-github-pages)
 * [FAQ](#faq)
@@ -355,9 +355,9 @@ If `author-config.csv` is not given and the repo has not provide author details 
 
 <hr>
 
-#### `groups-config.csv`
+#### `group-config.csv`
 
-Optionally, you can provide a `groups-config.csv`(which should be in the same directory as `repo-config.csv` file) to provide details on any custom groupings for files in specified repositories ([example](groups-config.csv)). It should contain the following columns:
+Optionally, you can provide a `group-config.csv`(which should be in the same directory as `repo-config.csv` file) to provide details on any custom groupings for files in specified repositories ([example](group-config.csv)). It should contain the following columns:
 
 Column Name | Explanation
 ----------- | -----------

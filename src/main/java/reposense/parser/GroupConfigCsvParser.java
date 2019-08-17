@@ -11,13 +11,13 @@ import reposense.model.GroupConfiguration;
 import reposense.model.RepoLocation;
 
 /**
- * Container for the values parsed from {@code groups-config.csv} file.
+ * Container for the values parsed from {@code group-config.csv} file.
  */
 public class GroupConfigCsvParser extends CsvParser<GroupConfiguration> {
-    public static final String GROUP_CONFIG_FILENAME = "groups-config.csv";
+    public static final String GROUP_CONFIG_FILENAME = "group-config.csv";
 
     /**
-     * Positions of the elements of a line in groups-config.csv config file
+     * Positions of the elements of a line in group-config.csv config file
      */
     private static final int LOCATION_POSITION = 0;
     private static final int GROUP_NAME_POSITION = 1;
