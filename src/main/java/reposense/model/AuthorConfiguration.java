@@ -215,4 +215,8 @@ public class AuthorConfiguration {
         }
         return Author.UNKNOWN_AUTHOR;
     }
+
+    public boolean isUsingDefaultBranch() {
+        return this.branch.equals(DEFAULT_BRANCH);
+    }
 }
