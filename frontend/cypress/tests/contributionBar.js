@@ -8,13 +8,13 @@ describe('contribution bar', () => {
       }
     });
 
-    cy.get('#summary-wrapper label').contains('breakdown by file format').siblings().filter('input')
+    cy.get('#summary-wrapper label').contains('breakdown by file type').siblings().filter('input')
         .check();
 
     Cypress.wait();
 
     let actualWidthSum = 0;
-    cy.get('.summary-chart__contrib--bar--fileformat').then((ele) => {
+    cy.get('.summary-chart__contrib--bar--fileType').then((ele) => {
       let i;
       for (i = 0; i < ele.length; i += 1) {
         actualWidthSum += parseFloat(ele[i].style.width.split('%')[0]);

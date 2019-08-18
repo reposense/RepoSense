@@ -277,7 +277,7 @@ header {
     }
   }
 
-  &__fileformat--breakdown {
+  &__fileType--breakdown {
     overflow-y: hidden;
 
     &__legend {
@@ -350,7 +350,7 @@ header {
       margin-top: .1rem;
     }
 
-    &--bar--fileformat {
+    &--bar--fileType {
       display: inline-block;
       float: left;
       height: .3rem;
@@ -421,7 +421,7 @@ header {
     .contribution {
       color: mui-color('red');
 
-      .fileformat {
+      .fileType {
         align-items: center;
         display: flex;
         margin-left: 3rem;
@@ -464,7 +464,7 @@ header {
         color: mui-color('grey');
       }
 
-      span.fileFormat {
+      span.fileType {
         span.bloc::after {
           content: ', ';
         }
@@ -474,7 +474,7 @@ header {
         }
       }
 
-      .mui-checkbox--fileformat {
+      .mui-checkbox--fileType {
         vertical-align: middle;
       }
 

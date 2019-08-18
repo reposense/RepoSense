@@ -14,7 +14,7 @@ public abstract class CliArguments {
     protected Date untilDate;
     protected boolean isSinceDateProvided;
     protected boolean isUntilDateProvided;
-    protected List<Format> formats;
+    protected List<FileType> formats;
     protected boolean isAutomaticallyLaunching;
     protected ZoneId zoneId;
 
@@ -42,7 +42,7 @@ public abstract class CliArguments {
         return isUntilDateProvided;
     }
 
-    public List<Format> getFormats() {
+    public List<FileType> getFormats() {
         return formats;
     }
 

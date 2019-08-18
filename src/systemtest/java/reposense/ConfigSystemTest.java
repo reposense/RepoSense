@@ -20,9 +20,11 @@ import net.sourceforge.argparse4j.helper.HelpScreenException;
 import reposense.model.AuthorConfiguration;
 import reposense.model.CliArguments;
 import reposense.model.ConfigCliArguments;
+import reposense.model.GroupConfiguration;
 import reposense.model.RepoConfiguration;
 import reposense.parser.ArgsParser;
 import reposense.parser.AuthorConfigCsvParser;
+import reposense.parser.GroupConfigCsvParser;
 import reposense.parser.ParseException;
 import reposense.parser.RepoConfigCsvParser;
 import reposense.parser.SinceDateArgumentType;
@@ -107,8 +109,11 @@ public class ConfigSystemTest {
                 new RepoConfigCsvParser(((ConfigCliArguments) cliArguments).getRepoConfigFilePath()).parse();
         List<AuthorConfiguration> authorConfigs =
                 new AuthorConfigCsvParser(((ConfigCliArguments) cliArguments).getAuthorConfigFilePath()).parse();
+        List<GroupConfiguration> groupConfigs =
+                new GroupConfigCsvParser(((ConfigCliArguments) cliArguments).getGroupConfigFilePath()).parse();
 
         RepoConfiguration.merge(repoConfigs, authorConfigs);
+        RepoConfiguration.setGroupConfigsToRepos(repoConfigs, groupConfigs);
 
         RepoConfiguration.setFormatsToRepoConfigs(repoConfigs, cliArguments.getFormats());
         RepoConfiguration.setDatesToRepoConfigs(
