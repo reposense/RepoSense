@@ -1,0 +1,4 @@
+Repo location,Group label,Globs
+https://github.com/reposense/testrepo-Beta.git,Code,**/*.java;**/*.py
+https://github.com/someCoy/invalidlocation,Main,**/*.py
+https://github.com/reposense/testrepo-Beta.git,Docs,docs/**

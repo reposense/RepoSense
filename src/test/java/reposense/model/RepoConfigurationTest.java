@@ -22,6 +22,7 @@ import reposense.git.exception.GitCloneException;
 import reposense.parser.ArgsParser;
 import reposense.parser.AuthorConfigCsvParser;
 import reposense.parser.CsvParserTest;
+import reposense.parser.GroupConfigCsvParser;
 import reposense.parser.InvalidLocationException;
 import reposense.parser.ParseException;
 import reposense.parser.RepoConfigCsvParser;
@@ -40,6 +41,8 @@ public class RepoConfigurationTest {
             .getResource("RepoConfigurationTest/repoconfig_formats_test").getFile()).toPath();
     private static final Path WITHOUT_FORMATS_TEST_CONFIG_FILES = new File(CsvParserTest.class.getClassLoader()
             .getResource("RepoConfigurationTest/repoconfig_withoutformats_test").getFile()).toPath();
+    private static final Path GROUPS_TEST_CONFIG_FILES = new File(CsvParserTest.class.getClassLoader()
+        .getResource("RepoConfigurationTest/repoconfig_groups_test").getFile()).toPath();
     private static final Path OVERRIDE_STANDALONE_TEST_CONFIG_FILE = new File(CsvParserTest.class.getClassLoader()
                     .getResource("RepoConfigurationTest/repoconfig_overrideStandAlone_test").getFile()).toPath();
 
@@ -64,8 +67,12 @@ public class RepoConfigurationTest {
     private static final List<String> THIRD_AUTHOR_GLOB_LIST = Arrays.asList("**[!(.md)]", "collated**");
     private static final List<String> FOURTH_AUTHOR_GLOB_LIST = Collections.singletonList("collated**");
 
-    private static final List<Format> CONFIG_FORMATS = Format.convertStringsToFormats(Arrays.asList(
+    private static final List<FileType> CONFIG_FORMATS = FileType.convertFormatStringsToFileTypes(Arrays.asList(
             "java", "adoc", "md"));
+    private static final List<FileType> CONFIG_GROUPS = Arrays.asList(
+            new FileType("test", Collections.singletonList("src/test**")),
+            new FileType("code", Collections.singletonList("**.java")),
+            new FileType("docs", Collections.singletonList("docs**")));
     private static final List<String> CLI_FORMATS = Arrays.asList("css", "html");
 
     private static RepoConfiguration repoDeltaStandaloneConfig;
@@ -160,7 +167,7 @@ public class RepoConfigurationTest {
     public void repoConfig_ignoresStandaloneConfigInCli_success()
             throws ParseException, GitCloneException, HelpScreenException {
         RepoConfiguration expectedConfig = new RepoConfiguration(new RepoLocation(TEST_REPO_DELTA), "master");
-        expectedConfig.setFormats(Format.convertStringsToFormats(CLI_FORMATS));
+        expectedConfig.setFormats(FileType.convertFormatStringsToFileTypes(CLI_FORMATS));
         expectedConfig.setStandaloneConfigIgnored(true);
 
         String formats = String.join(" ", CLI_FORMATS);
@@ -210,7 +217,7 @@ public class RepoConfigurationTest {
         RepoConfiguration.setFormatsToRepoConfigs(actualConfigs, cliArguments.getFormats());
 
         Assert.assertEquals(1, actualConfigs.size());
-        Assert.assertEquals(CONFIG_FORMATS, actualConfigs.get(0).getFormats());
+        Assert.assertEquals(CONFIG_FORMATS, actualConfigs.get(0).getFileTypeManager().getFormats());
     }
 
     @Test
@@ -226,7 +233,25 @@ public class RepoConfigurationTest {
         RepoConfiguration.setFormatsToRepoConfigs(actualConfigs, cliArguments.getFormats());
 
         Assert.assertEquals(1, actualConfigs.size());
-        Assert.assertEquals(Format.convertStringsToFormats(CLI_FORMATS), actualConfigs.get(0).getFormats());
+
+        List<FileType> actualFormats = actualConfigs.get(0).getFileTypeManager().getFormats();
+        Assert.assertEquals(FileType.convertFormatStringsToFileTypes(CLI_FORMATS), actualFormats);
+    }
+
+    @Test
+    public void repoConfig_withCustomGroups_useCustomGroups() throws ParseException, IOException, HelpScreenException {
+        String input = new InputBuilder().addConfig(GROUPS_TEST_CONFIG_FILES).build();
+        CliArguments cliArguments = ArgsParser.parse(translateCommandline(input));
+
+        List<RepoConfiguration> actualConfigs =
+                new RepoConfigCsvParser(((ConfigCliArguments) cliArguments).getRepoConfigFilePath()).parse();
+        List<GroupConfiguration> groupConfigs =
+                new GroupConfigCsvParser(((ConfigCliArguments) cliArguments).getGroupConfigFilePath()).parse();
+
+        RepoConfiguration.setGroupConfigsToRepos(actualConfigs, groupConfigs);
+
+        Assert.assertEquals(1, actualConfigs.size());
+        Assert.assertEquals(CONFIG_GROUPS, actualConfigs.get(0).getFileTypeManager().getGroups());
     }
 
     @Test
@@ -240,7 +265,7 @@ public class RepoConfigurationTest {
         RepoConfiguration.setFormatsToRepoConfigs(actualConfigs, cliArguments.getFormats());
 
         Assert.assertEquals(1, actualConfigs.size());
-        Assert.assertEquals(FormatTest.NO_SPECIFIED_FORMATS, actualConfigs.get(0).getFormats());
+        Assert.assertEquals(FileTypeTest.NO_SPECIFIED_FORMATS, actualConfigs.get(0).getFileTypeManager().getFormats());
     }
 
     @Test

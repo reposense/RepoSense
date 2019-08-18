@@ -13,7 +13,7 @@ public class LocationsCliArguments extends CliArguments {
     private boolean isStandaloneConfigIgnored;
 
     public LocationsCliArguments(List<String> locations, Path outputFilePath, Date sinceDate,
-            Date untilDate, boolean isSinceDateProvided, boolean isUntilDateProvided, List<Format> formats,
+            Date untilDate, boolean isSinceDateProvided, boolean isUntilDateProvided, List<FileType> formats,
             boolean isAutomaticallyLaunching, boolean isStandaloneConfigIgnored, ZoneId zoneId) {
         this.locations = locations;
         this.outputFilePath = outputFilePath;
