@@ -216,7 +216,7 @@ public class AuthorConfiguration {
         return Author.UNKNOWN_AUTHOR;
     }
 
-    public boolean isUsingDefaultBranch() {
+    public boolean isDefaultBranch() {
         return this.branch.equals(DEFAULT_BRANCH);
     }
 }
