@@ -22,7 +22,7 @@ import net.sourceforge.argparse4j.inf.Namespace;
 import reposense.RepoSense;
 import reposense.model.CliArguments;
 import reposense.model.ConfigCliArguments;
-import reposense.model.Format;
+import reposense.model.FileType;
 import reposense.model.LocationsCliArguments;
 import reposense.model.ViewCliArguments;
 import reposense.system.LogsManager;
@@ -175,7 +175,7 @@ public class ArgsParser {
             Date sinceDate = cliSinceDate.orElse(getDateMinusAMonth(cliUntilDate));
             Date untilDate = cliUntilDate.orElse(getCurrentDate());
             List<String> locations = results.get(REPO_FLAGS[0]);
-            List<Format> formats = Format.convertStringsToFormats(results.get(FORMAT_FLAGS[0]));
+            List<FileType> formats = FileType.convertFormatStringsToFileTypes(results.get(FORMAT_FLAGS[0]));
             boolean isStandaloneConfigIgnored = results.get(IGNORE_FLAGS[0]);
             ZoneId zoneId = results.get(TIMEZONE_FLAGS[0]);
 

@@ -22,8 +22,8 @@ import net.sourceforge.argparse4j.helper.HelpScreenException;
 import reposense.RepoSense;
 import reposense.model.CliArguments;
 import reposense.model.ConfigCliArguments;
-import reposense.model.Format;
-import reposense.model.FormatTest;
+import reposense.model.FileType;
+import reposense.model.FileTypeTest;
 import reposense.model.LocationsCliArguments;
 import reposense.model.RepoConfiguration;
 import reposense.model.ViewCliArguments;
@@ -94,7 +94,7 @@ public class ArgsParserTest {
         Assert.assertEquals(expectedSinceDate, cliArguments.getSinceDate());
         Assert.assertEquals(expectedUntilDate, cliArguments.getUntilDate());
 
-        List<Format> expectedFormats = Format.convertStringsToFormats(
+        List<FileType> expectedFormats = FileType.convertFormatStringsToFileTypes(
                 Arrays.asList("java", "adoc", "html", "css", "js"));
         Assert.assertEquals(expectedFormats, cliArguments.getFormats());
 
@@ -127,7 +127,7 @@ public class ArgsParserTest {
         Assert.assertEquals(expectedSinceDate, cliArguments.getSinceDate());
         Assert.assertEquals(expectedUntilDate, cliArguments.getUntilDate());
 
-        List<Format> expectedFormats = Format.convertStringsToFormats(
+        List<FileType> expectedFormats = FileType.convertFormatStringsToFileTypes(
                 Arrays.asList("java", "adoc", "html", "css", "js"));
         Assert.assertEquals(expectedFormats, cliArguments.getFormats());
 
@@ -161,7 +161,7 @@ public class ArgsParserTest {
         Assert.assertEquals(expectedSinceDate, cliArguments.getSinceDate());
         Assert.assertEquals(expectedUntilDate, cliArguments.getUntilDate());
 
-        List<Format> expectedFormats = Format.convertStringsToFormats(Arrays.asList(
+        List<FileType> expectedFormats = FileType.convertFormatStringsToFileTypes(Arrays.asList(
                 "java", "adoc", "html", "css", "js"));
         Assert.assertEquals(expectedFormats, cliArguments.getFormats());
 
@@ -183,7 +183,7 @@ public class ArgsParserTest {
         assertDateDiffOneMonth(cliArguments.getSinceDate(), cliArguments.getUntilDate());
         assertDateDiffEndOfDay(cliArguments.getUntilDate());
         Assert.assertEquals(ArgsParser.DEFAULT_REPORT_NAME, cliArguments.getOutputFilePath().getFileName().toString());
-        Assert.assertEquals(FormatTest.NO_SPECIFIED_FORMATS, cliArguments.getFormats());
+        Assert.assertEquals(FileTypeTest.NO_SPECIFIED_FORMATS, cliArguments.getFormats());
         Assert.assertFalse(cliArguments.isAutomaticallyLaunching());
 
         input = new InputBuilder().addConfig(CONFIG_FOLDER_RELATIVE).build();
@@ -197,7 +197,7 @@ public class ArgsParserTest {
         assertDateDiffOneMonth(cliArguments.getSinceDate(), cliArguments.getUntilDate());
         assertDateDiffEndOfDay(cliArguments.getUntilDate());
         Assert.assertEquals(ArgsParser.DEFAULT_REPORT_NAME, cliArguments.getOutputFilePath().getFileName().toString());
-        Assert.assertEquals(FormatTest.NO_SPECIFIED_FORMATS, cliArguments.getFormats());
+        Assert.assertEquals(FileTypeTest.NO_SPECIFIED_FORMATS, cliArguments.getFormats());
         Assert.assertFalse(cliArguments.isAutomaticallyLaunching());
         Assert.assertEquals(ZoneId.systemDefault(), cliArguments.getZoneId());
     }
@@ -365,7 +365,8 @@ public class ArgsParserTest {
         String input = DEFAULT_INPUT_BUILDER.addFormats("java js css 7z").build();
         CliArguments cliArguments = ArgsParser.parse(translateCommandline(input));
         Assert.assertTrue(cliArguments instanceof ConfigCliArguments);
-        List<Format> expectedFormats = Format.convertStringsToFormats(Arrays.asList("java", "js", "css", "7z"));
+        List<FileType> expectedFormats = FileType.convertFormatStringsToFileTypes(
+                Arrays.asList("java", "js", "css", "7z"));
         Assert.assertEquals(expectedFormats, cliArguments.getFormats());
     }
 
