@@ -17,6 +17,7 @@ import com.google.gson.JsonSerializer;
  * Represents a file type for use in {@link FileTypeManager}.
  */
 public class FileType {
+    private static final String FILE_FORMAT_VALIDATION_REGEX = "[A-Za-z0-9]+";
     private static final String MESSAGE_ILLEGAL_FILE_FORMAT = "The provided file format, %s, is illegal.";
 
     private String label;
@@ -24,7 +25,7 @@ public class FileType {
     private PathMatcher pathsGlob;
 
     public FileType(String label, List<String> paths) {
-        assert !label.isEmpty();
+        validateFileTypeLabel(label);
         this.label = label;
         setPaths(paths);
     }
@@ -33,7 +34,7 @@ public class FileType {
      * Ensures that the string {@code label} is a valid file type.
      * @throws IllegalArgumentException if {@code label} is an empty string.
      */
-    public static void validateFileType(String label) {
+    public static void validateFileTypeLabel(String label) {
         if (label.isEmpty()) {
             throw new IllegalArgumentException();
         }
@@ -43,10 +44,18 @@ public class FileType {
         return formats.stream().map(FileType::convertStringFormatToFileType).collect(Collectors.toList());
     }
 
+    /**
+     * Returns a {@code FileType} with label named {@code format} and globs that include all files that end with
+     * {@code format}.
+     * @throws IllegalArgumentException if {@code format} is not alphanumeric.
+     */
     public static FileType convertStringFormatToFileType(String format) {
-        try {
-            return new FileType(format, Collections.singletonList("**" + format));
-        } catch (IllegalArgumentException iae) {
+        validateFileFormat(format);
+        return new FileType(format, Collections.singletonList("**" + format));
+    }
+
+    public static void validateFileFormat(String format) {
+        if (!format.matches(FILE_FORMAT_VALIDATION_REGEX)) {
             throw new IllegalArgumentException(String.format(MESSAGE_ILLEGAL_FILE_FORMAT, format));
         }
     }

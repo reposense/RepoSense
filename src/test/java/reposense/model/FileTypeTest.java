@@ -16,13 +16,24 @@ public class FileTypeTest {
     public static final List<FileType> NO_SPECIFIED_FORMATS = Collections.emptyList();
 
     @Test
-    public void validateFileType_alphaNumeric_success() {
-        FileType.validateFileType("tEsT123");
+    public void validateFileTypeLabel_validLabel_success() {
+        FileType.validateFileTypeLabel("tEsT123");
+        FileType.validateFileTypeLabel("t$e's&t Me");
     }
 
     @Test(expected = IllegalArgumentException.class)
-    public void validateFileType_nonAlphaNumeric_throwsIllegalArgumentException() {
-        FileType.validateFileType("tEsT123.java");
+    public void validateFileTypeLabel_emptyLabel_throwsIllegalArgumentException() {
+        FileType.validateFileTypeLabel("");
+    }
+
+    @Test
+    public void validateFileFormat_isAlphaNumeric_success() {
+        FileType.validateFileFormat("tEsT123");
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void validateFileFormat_specialCharacters_throwsIllegalArgumentException() {
+        FileType.validateFileFormat("$pull request");
     }
 
     @Test
