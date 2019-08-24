@@ -3,6 +3,9 @@ package reposense.model;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.logging.Logger;
+
+import reposense.system.LogsManager;
 
 /**
  * {@code FileTypeManager} is responsible for holding a list of whitelisted formats and user-specified custom
@@ -14,6 +17,8 @@ public class FileTypeManager {
 
     private List<FileType> formats;
     private List<FileType> groups;
+
+    private final Logger logger = LogsManager.getLogger(this.getClass());
 
     public FileTypeManager(List<FileType> formats) {
         this.formats = formats;
@@ -48,7 +53,13 @@ public class FileTypeManager {
                     "This exception should not happen as we have performed the whitelisted formats check.");
         } else {
             String[] tok = fileName.split("[./\\\\]+");
-            return FileType.convertStringFormatToFileType(tok[tok.length - 1]);
+            try {
+                return FileType.convertStringFormatToFileType(tok[tok.length - 1]);
+            } catch (IllegalArgumentException iae) {
+                logger.warning(String.format("Unable to determine the file format for the file %s. "
+                        + "This file will be treated as the file type \"other\".", fileName));
+                return DEFAULT_GROUP_TYPE;
+            }
         }
     }
 
