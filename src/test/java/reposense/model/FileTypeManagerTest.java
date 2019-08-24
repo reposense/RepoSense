@@ -32,7 +32,7 @@ public class FileTypeManagerTest {
         Assert.assertEquals("cpp", fileTypeManager.getFileType("src/main/main.cpp").toString());
 
         // File with unorthodox naming convention should be treated as the format "other".
-        Assert.assertEquals("other", fileTypeManager.getFileType("asd..").toString());
+        Assert.assertEquals("other", fileTypeManager.getFileType("asd. .").toString());
     }
 
     @Test
