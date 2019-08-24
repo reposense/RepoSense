@@ -19,7 +19,7 @@ import com.google.gson.JsonSerializer;
 public class FileType {
     private static final String FILE_FORMAT_VALIDATION_REGEX = "[A-Za-z0-9]+";
     private static final String MESSAGE_ILLEGAL_FILE_FORMAT = "The provided file format, %s, contains illegal "
-        + "characters.";
+            + "characters.";
 
     private String label;
     private List<String> paths;
