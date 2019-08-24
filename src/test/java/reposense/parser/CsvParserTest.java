@@ -22,7 +22,8 @@ import reposense.model.AuthorConfiguration;
 import reposense.model.CliArguments;
 import reposense.model.CommitHash;
 import reposense.model.ConfigCliArguments;
-import reposense.model.Format;
+import reposense.model.FileType;
+import reposense.model.GroupConfiguration;
 import reposense.model.RepoConfiguration;
 import reposense.model.RepoLocation;
 import reposense.util.InputBuilder;
@@ -51,17 +52,29 @@ public class CsvParserTest {
             .getResource("CsvParserTest/authorconfig_invalidLocation_test.csv").getFile()).toPath();
     private static final Path MERGE_EMPTY_LOCATION_FOLDER = new File(CsvParserTest.class.getClassLoader()
             .getResource("CsvParserTest/repoconfig_merge_empty_location_test").getFile()).toPath();
+    private static final Path GROUP_CONFIG_MULTI_LOCATION_FILE = new File(CsvParserTest.class.getClassLoader()
+            .getResource("CsvParserTest/groupconfig_multipleLocation_test.csv").getFile()).toPath();
+    private static final Path GROUP_CONFIG_EMPTY_LOCATION_FILE = new File(CsvParserTest.class.getClassLoader()
+            .getResource("CsvParserTest/groupconfig_emptyLocation_test.csv").getFile()).toPath();
+    private static final Path GROUP_CONFIG_INVALID_LOCATION_FILE = new File(CsvParserTest.class.getClassLoader()
+            .getResource("CsvParserTest/groupconfig_invalidLocation_test.csv").getFile()).toPath();
 
     private static final String TEST_REPO_BETA_LOCATION = "https://github.com/reposense/testrepo-Beta.git";
     private static final String TEST_REPO_BETA_BRANCH = "master";
+    private static final List<FileType> TEST_REPO_BETA_GROUPS = Arrays.asList(
+            new FileType("Code", Arrays.asList("**/*.java", "**/*.py")),
+            new FileType("Docs", Collections.singletonList("docs/**")));
 
     private static final String TEST_REPO_DELTA_LOCATION = "https://github.com/reposense/testrepo-Delta.git";
     private static final String TEST_REPO_DELTA_BRANCH = "HEAD";
-    private static final List<Format> TEST_REPO_DELTA_FORMATS =
-            Format.convertStringsToFormats(Arrays.asList("java", "fxml"));
+    private static final List<FileType> TEST_REPO_DELTA_FORMATS =
+            FileType.convertFormatStringsToFileTypes(Arrays.asList("java", "fxml"));
+    private static final List<FileType> TEST_REPO_DELTA_GROUPS = Arrays.asList(
+            new FileType("Main", Collections.singletonList("src/main/**")),
+            new FileType("Test", Arrays.asList("src/test/**", "src/systest/**")));
 
-    private static final List<Format> TEST_REPO_BETA_CONFIG_FORMATS =
-            Arrays.asList(new Format("java"), new Format("adoc"), new Format("md"));
+    private static final List<FileType> TEST_REPO_BETA_CONFIG_FORMATS =
+            FileType.convertFormatStringsToFileTypes(Arrays.asList("java", "adoc", "md"));
     private static final List<String> TEST_REPO_BETA_CONFIG_IGNORED_COMMITS =
             Arrays.asList("abcde12345", "67890fdecba");
 
@@ -118,7 +131,7 @@ public class CsvParserTest {
         Assert.assertEquals(new RepoLocation(TEST_REPO_BETA_LOCATION), config.getLocation());
         Assert.assertEquals(TEST_REPO_BETA_BRANCH, config.getBranch());
 
-        Assert.assertEquals(TEST_REPO_BETA_CONFIG_FORMATS, config.getFormats());
+        Assert.assertEquals(TEST_REPO_BETA_CONFIG_FORMATS, config.getFileTypeManager().getFormats());
 
         Assert.assertTrue(config.isStandaloneConfigIgnored());
 
@@ -199,6 +212,44 @@ public class CsvParserTest {
         AuthorConfiguration config = configs.get(0);
 
         Assert.assertEquals(3, config.getAuthorList().size());
+    }
+
+    @Test
+    public void groupConfig_invalidLocation_success() throws IOException {
+        GroupConfigCsvParser groupConfigCsvParser = new GroupConfigCsvParser(GROUP_CONFIG_INVALID_LOCATION_FILE);
+        List<GroupConfiguration> groupConfigs = groupConfigCsvParser.parse();
+
+        Assert.assertEquals(1, groupConfigs.size());
+
+        GroupConfiguration actualConfig = groupConfigs.get(0);
+        Assert.assertEquals(2, actualConfig.getGroupsList().size());
+    }
+
+    @Test
+    public void groupConfig_emptyLocation_success() throws IOException {
+        GroupConfigCsvParser groupConfigCsvParser = new GroupConfigCsvParser(GROUP_CONFIG_EMPTY_LOCATION_FILE);
+        List<GroupConfiguration> groupConfigs = groupConfigCsvParser.parse();
+
+        Assert.assertEquals(1, groupConfigs.size());
+
+        GroupConfiguration actualConfig = groupConfigs.get(0);
+        Assert.assertEquals(2, actualConfig.getGroupsList().size());
+    }
+
+    @Test
+    public void groupConfig_multipleLocations_success() throws IOException {
+        GroupConfigCsvParser groupConfigCsvParser = new GroupConfigCsvParser(GROUP_CONFIG_MULTI_LOCATION_FILE);
+        List<GroupConfiguration> groupConfigs = groupConfigCsvParser.parse();
+
+        Assert.assertEquals(2, groupConfigs.size());
+
+        GroupConfiguration actualBetaConfig = groupConfigs.get(0);
+        Assert.assertEquals(TEST_REPO_BETA_LOCATION, actualBetaConfig.getLocation().toString());
+        Assert.assertEquals(TEST_REPO_BETA_GROUPS, actualBetaConfig.getGroupsList());
+
+        GroupConfiguration actualDeltaConfig = groupConfigs.get(1);
+        Assert.assertEquals(TEST_REPO_DELTA_LOCATION, actualDeltaConfig.getLocation().toString());
+        Assert.assertEquals(TEST_REPO_DELTA_GROUPS, actualDeltaConfig.getGroupsList());
     }
 
     @Test
@@ -328,7 +379,7 @@ public class CsvParserTest {
         Assert.assertEquals(1, configs.size());
         Assert.assertEquals(new RepoLocation(TEST_REPO_BETA_LOCATION), config.getLocation());
         Assert.assertEquals(TEST_REPO_BETA_BRANCH, config.getBranch());
-        Assert.assertEquals(TEST_REPO_BETA_CONFIG_FORMATS, config.getFormats());
+        Assert.assertEquals(TEST_REPO_BETA_CONFIG_FORMATS, config.getFileTypeManager().getFormats());
         Assert.assertFalse(config.isStandaloneConfigIgnored());
         Assert.assertEquals(CommitHash.convertStringsToCommits(TEST_REPO_BETA_CONFIG_IGNORED_COMMITS),
                 config.getIgnoreCommitList());

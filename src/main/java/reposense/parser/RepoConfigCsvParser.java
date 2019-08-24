@@ -7,7 +7,7 @@ import java.util.List;
 import org.apache.commons.csv.CSVRecord;
 
 import reposense.model.CommitHash;
-import reposense.model.Format;
+import reposense.model.FileType;
 import reposense.model.RepoConfiguration;
 import reposense.model.RepoLocation;
 
@@ -53,7 +53,7 @@ public class RepoConfigCsvParser extends CsvParser<RepoConfiguration> {
         String branch = getOrDefault(record, BRANCH_POSITION, RepoConfiguration.DEFAULT_BRANCH);
 
         boolean isFormatsOverriding = isElementOverridingStandaloneConfig(record, FILE_FORMATS_POSITION);
-        List<Format> formats = Format.convertStringsToFormats(
+        List<FileType> formats = FileType.convertFormatStringsToFileTypes(
                 getAsListWithoutOverridePrefix(record, FILE_FORMATS_POSITION));
 
         boolean isIgnoreGlobListOverriding = isElementOverridingStandaloneConfig(record, IGNORE_GLOB_LIST_POSITION);

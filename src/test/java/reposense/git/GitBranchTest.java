@@ -5,7 +5,7 @@ import org.junit.Test;
 
 import reposense.git.exception.GitBranchException;
 import reposense.git.exception.GitCloneException;
-import reposense.model.FormatTest;
+import reposense.model.FileTypeTest;
 import reposense.model.RepoConfiguration;
 import reposense.model.RepoLocation;
 import reposense.parser.InvalidLocationException;
@@ -28,8 +28,7 @@ public class GitBranchTest extends GitTestTemplate {
             throws GitCloneException, InvalidLocationException, GitBranchException {
         RepoConfiguration uncommonDefaultConfig = new RepoConfiguration(
                 new RepoLocation(TEST_REPO_UNCOMMON_DEFAULT_GIT_LOCATION), RepoConfiguration.DEFAULT_BRANCH);
-        uncommonDefaultConfig.setFormats(FormatTest.DEFAULT_TEST_FORMATS);
-
+        uncommonDefaultConfig.setFormats(FileTypeTest.DEFAULT_TEST_FORMATS);
         GitClone.clone(uncommonDefaultConfig);
         String currentBranch = GitBranch.getCurrentBranch(uncommonDefaultConfig.getRepoRoot());
         Assert.assertEquals("uncommon", currentBranch);

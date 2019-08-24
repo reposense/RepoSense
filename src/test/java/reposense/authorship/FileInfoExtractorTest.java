@@ -14,7 +14,7 @@ import org.junit.Test;
 import reposense.authorship.model.FileInfo;
 import reposense.git.GitCheckout;
 import reposense.model.Author;
-import reposense.model.FormatTest;
+import reposense.model.FileTypeTest;
 import reposense.template.GitTestTemplate;
 import reposense.util.SystemUtil;
 import reposense.util.TestUtil;
@@ -198,7 +198,7 @@ public class FileInfoExtractorTest extends GitTestTemplate {
         List<String> binaryFilesList = Arrays.asList(
                 "binaryFileTest/binaryFile.ARBIFORMAT", "My Documents/word.docx", "My Documents/pdfDocument.fdp",
                 "My Documents/wordToHtml_files/themedata.thmx", "My Pictures/pngPicture.png");
-        config.setFormats(FormatTest.NO_SPECIFIED_FORMATS);
+        config.setFormats(FileTypeTest.NO_SPECIFIED_FORMATS);
         GitCheckout.checkoutBranch(config.getRepoRoot(), BRANCH_WITH_RARE_FILE_FORMATS);
 
         List<FileInfo> files = FileInfoExtractor.extractFileInfos(config);
