@@ -17,25 +17,26 @@ import com.google.gson.JsonSerializer;
  * Represents a file type for use in {@link FileTypeManager}.
  */
 public class FileType {
-    private static final String MESSAGE_ILLEGAL_FILE_FORMAT = "The provided file format, %s, is illegal.";
+    private static final String FILE_TYPE_VALIDATION_REGEX = "[A-Za-z0-9]+";
+    private static final String MESSAGE_ILLEGAL_FILE_TYPE = "The provided file type, %s, contains illegal characters.";
 
     private String label;
     private List<String> paths;
     private PathMatcher pathsGlob;
 
     public FileType(String label, List<String> paths) {
-        assert !label.isEmpty();
+        validateFileType(label);
         this.label = label;
         setPaths(paths);
     }
 
     /**
      * Ensures that the string {@code label} is a valid file type.
-     * @throws IllegalArgumentException if {@code label} is an empty string.
+     * @throws IllegalArgumentException if {@code label} does not meet the criteria.
      */
     public static void validateFileType(String label) {
-        if (label.isEmpty()) {
-            throw new IllegalArgumentException();
+        if (!label.matches(FILE_TYPE_VALIDATION_REGEX)) {
+            throw new IllegalArgumentException(String.format(MESSAGE_ILLEGAL_FILE_TYPE, label));
         }
     }
 
@@ -44,11 +45,7 @@ public class FileType {
     }
 
     public static FileType convertStringFormatToFileType(String format) {
-        try {
-            return new FileType(format, Collections.singletonList("**" + format));
-        } catch (IllegalArgumentException iae) {
-            throw new IllegalArgumentException(String.format(MESSAGE_ILLEGAL_FILE_FORMAT, format));
-        }
+        return new FileType(format, Collections.singletonList("**" + format));
     }
 
     private void setPaths(List<String> paths) {
