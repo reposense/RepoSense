@@ -129,7 +129,6 @@ window.app = new window.Vue({
           .then(() => this.updateReportViewAndRenderTabHash());
     },
     initialize() {
-      window.decodeHash();
       window.REPORT_ZIP = null;
 
       this.users = [];
@@ -227,6 +226,7 @@ window.app = new window.Vue({
     },
 
     renderTabHash() {
+      window.decodeHash();
       const hash = window.hashParams;
       if (!hash.tabOpen) {
         return;
