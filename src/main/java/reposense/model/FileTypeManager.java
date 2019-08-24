@@ -15,10 +15,10 @@ public class FileTypeManager {
     private static final String DEFAULT_GROUP = "other";
     private static final FileType DEFAULT_GROUP_TYPE = new FileType(DEFAULT_GROUP, Collections.singletonList("**"));
 
-    //private static final Logger logger = LogsManager.getLogger(FileTypeManager.class);
-
     private List<FileType> formats;
     private List<FileType> groups;
+
+    private final Logger logger = LogsManager.getLogger(this.getClass());
 
     public FileTypeManager(List<FileType> formats) {
         this.formats = formats;
@@ -56,8 +56,8 @@ public class FileTypeManager {
             try {
                 return FileType.convertStringFormatToFileType(tok[tok.length - 1]);
             } catch (IllegalArgumentException iae) {
-//                logger.warning(String.format("Unable to determine the file format for the file %s. "
-//                        + "This file will be treated as the file type \"other\".", fileName));
+                logger.warning(String.format("Unable to determine the file format for the file %s. "
+                        + "This file will be treated as the file type \"other\".", fileName));
                 return DEFAULT_GROUP_TYPE;
             }
         }
