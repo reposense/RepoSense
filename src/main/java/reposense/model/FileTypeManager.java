@@ -53,8 +53,9 @@ public class FileTypeManager {
                     "This exception should not happen as we have performed the whitelisted formats check.");
         } else {
             String[] tok = fileName.split("[./\\\\]+");
+            String deducedFormat = tok[tok.length - 1];
             try {
-                return FileType.convertStringFormatToFileType(tok[tok.length - 1]);
+                return new FileType(deducedFormat, Collections.singletonList("**" + deducedFormat));
             } catch (IllegalArgumentException iae) {
                 logger.warning(String.format("Unable to determine the file format for the file \"%s\". "
                         + "This file will be treated as the file type \"other\".", fileName));

@@ -30,6 +30,7 @@ public class FileTypeManagerTest {
     public void getFileType_noCustomGroups_returnsCorrectFormat() {
         Assert.assertEquals("makefile", fileTypeManager.getFileType("src/build/makefile").toString());
         Assert.assertEquals("cpp", fileTypeManager.getFileType("src/main/main.cpp").toString());
+        Assert.assertEquals("Pull Request", fileTypeManager.getFileType("Pull Request").toString());
 
         // File with unorthodox naming convention should be treated as the format "other".
         Assert.assertEquals("other", fileTypeManager.getFileType("asd. .").toString());
