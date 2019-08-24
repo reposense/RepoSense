@@ -56,7 +56,7 @@ public class FileTypeManager {
             try {
                 return FileType.convertStringFormatToFileType(tok[tok.length - 1]);
             } catch (IllegalArgumentException iae) {
-                logger.warning(String.format("Unable to determine the file format for the file %s. "
+                logger.warning(String.format("Unable to determine the file format for the file \"%s\". "
                         + "This file will be treated as the file type \"other\".", fileName));
                 return DEFAULT_GROUP_TYPE;
             }
