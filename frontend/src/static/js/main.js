@@ -235,8 +235,7 @@ window.app = new window.Vue({
 
       if (this.isTabActive) {
         if (hash.tabType === 'authorship') {
-          let since = hash.since;
-          let until = hash.until;
+          let { since, until } = hash;
 
           // get since and until dates from window.app if not found in hash
           if (!since) {
