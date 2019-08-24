@@ -47,14 +47,17 @@ public class FileType {
     /**
      * Returns a {@code FileType} with label named {@code format} and globs that include all files that end with
      * {@code format}.
-     * @throws IllegalArgumentException if {@code format} is not alphanumeric.
      */
     public static FileType convertStringFormatToFileType(String format) {
         validateFileFormat(format);
         return new FileType(format, Collections.singletonList("**" + format));
     }
 
-    public static void validateFileFormat(String format) {
+    /**
+     * Ensures that {@code format} is a valid file format.
+     * @throws IllegalArgumentException if {@code format} is not alphanumeric.
+     */
+    public static void validateFileFormat(String format) throws IllegalArgumentException {
         if (!format.matches(FILE_FORMAT_VALIDATION_REGEX)) {
             throw new IllegalArgumentException(String.format(MESSAGE_ILLEGAL_FILE_FORMAT, format));
         }
