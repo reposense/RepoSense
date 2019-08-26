@@ -107,11 +107,17 @@ public class RepoConfiguration {
 
             matchingRepoConfig.setAuthorConfiguration(authorConfig);
         }
-
+        // to test
         for (AuthorConfiguration authorConfig : authorConfigs) {
             if (authorConfig.getLocation().isEmpty()) {
                 for (RepoConfiguration repoConfig : repoConfigs) {
                     repoConfig.addAuthors(authorConfig.getAuthorList());
+                }
+            } else if (authorConfig.isDefaultBranch()) {
+                for (RepoConfiguration repoConfig : repoConfigs) {
+                    if (repoConfig.getLocation().equals(authorConfig.getLocation())) {
+                        repoConfig.addAuthors(authorConfig.getAuthorList());
+                    }
                 }
             }
         }
@@ -121,7 +127,7 @@ public class RepoConfiguration {
      * Sets the list of groups in {@code groupConfigs} to the respective {@code repoConfigs}.
      */
     public static void setGroupConfigsToRepos(List<RepoConfiguration> repoConfigs,
-            List<GroupConfiguration> groupConfigs) {
+                                              List<GroupConfiguration> groupConfigs) {
         for (GroupConfiguration groupConfig : groupConfigs) {
             if (groupConfig.getLocation().isEmpty()) {
                 continue;
@@ -148,7 +154,7 @@ public class RepoConfiguration {
             List<RepoConfiguration> repoConfigs, AuthorConfiguration authorConfig) {
         for (RepoConfiguration repoConfig : repoConfigs) {
             if (repoConfig.getLocation().equals(authorConfig.getLocation())
-                    && repoConfig.getBranch().equals(authorConfig.getBranch())) {
+                    && (authorConfig.isDefaultBranch() || repoConfig.getBranch().equals(authorConfig.getBranch()))) {
                 return repoConfig;
             }
         }
