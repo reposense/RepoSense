@@ -107,7 +107,7 @@ public class RepoConfiguration {
 
             matchingRepoConfig.setAuthorConfiguration(authorConfig);
         }
-        // to test
+
         for (AuthorConfiguration authorConfig : authorConfigs) {
             if (authorConfig.getLocation().isEmpty()) {
                 for (RepoConfiguration repoConfig : repoConfigs) {
