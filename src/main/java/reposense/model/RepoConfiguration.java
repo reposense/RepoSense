@@ -127,7 +127,7 @@ public class RepoConfiguration {
      * Sets the list of groups in {@code groupConfigs} to the respective {@code repoConfigs}.
      */
     public static void setGroupConfigsToRepos(List<RepoConfiguration> repoConfigs,
-                                              List<GroupConfiguration> groupConfigs) {
+            List<GroupConfiguration> groupConfigs) {
         for (GroupConfiguration groupConfig : groupConfigs) {
             if (groupConfig.getLocation().isEmpty()) {
                 continue;
