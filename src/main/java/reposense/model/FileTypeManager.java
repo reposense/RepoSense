@@ -14,11 +14,10 @@ import reposense.system.LogsManager;
 public class FileTypeManager {
     private static final String DEFAULT_GROUP = "other";
     private static final FileType DEFAULT_GROUP_TYPE = new FileType(DEFAULT_GROUP, Collections.singletonList("**"));
+    private static final Logger logger = LogsManager.getLogger(FileTypeManager.class);
 
     private List<FileType> formats;
     private List<FileType> groups;
-
-    private static final Logger logger = LogsManager.getLogger(FileTypeManager.class);
 
     public FileTypeManager(List<FileType> formats) {
         this.formats = formats;
