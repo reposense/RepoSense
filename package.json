@@ -23,7 +23,7 @@
   "homepage": "https://github.com/reposense/RepoSense#readme",
   "dependencies": {
     "minimatch": "^3.0.4",
-    "spuild": "1.0.2",
+    "spuild": "^1.1.0",
     "stylelint-config-standard": "^18.3.0"
   },
   "devDependencies": {
@@ -32,7 +32,7 @@
     "eslint-config-airbnb-base": "^13.0.0",
     "eslint-plugin-import": "^2.13.0",
     "stylelint": "^10.1.0",
-    "stylelint-order": "^3.0.1",
+    "stylelint-order": "^3.1.0",
     "vueify": "^9.4.1"
   }
 }
