@@ -283,8 +283,6 @@ public class CsvParserTest {
         expectedAuthors.add(FIRST_AUTHOR);
         expectedAuthors.add(SECOND_AUTHOR);
 
-        List<RepoConfiguration> expectedRepos = new ArrayList<>();
-
         RepoConfiguration firstRepo = new RepoConfiguration(new RepoLocation(TEST_REPO_BETA_LOCATION),
                 TEST_REPO_BETA_MASTER_BRANCH);
         firstRepo.setAuthorList(expectedAuthors);
@@ -292,7 +290,6 @@ public class CsvParserTest {
         firstRepo.setAuthorDisplayName(SECOND_AUTHOR, "Zac");
         firstRepo.addAuthorEmailsAndAliasesMapEntry(SECOND_AUTHOR,  Arrays.asList("Zachary Tang"));
         firstRepo.setIgnoreGlobList(REPO_LEVEL_GLOB_LIST);
-        expectedRepos.add(firstRepo);
 
         RepoConfiguration secondRepo = new RepoConfiguration(new RepoLocation(TEST_REPO_BETA_LOCATION),
                 TEST_REPO_BETA_ADD_CONFIG_JSON_BRANCH);
@@ -300,7 +297,6 @@ public class CsvParserTest {
         secondRepo.setAuthorDisplayName(SECOND_AUTHOR, "Zac");
         secondRepo.addAuthorEmailsAndAliasesMapEntry(SECOND_AUTHOR,  Arrays.asList("Zachary Tang"));
         secondRepo.setIgnoreGlobList(REPO_LEVEL_GLOB_LIST);
-        expectedRepos.add(secondRepo);
 
         String input = new InputBuilder().addConfig(TEST_CONFIG_FOLDER).build();
         CliArguments cliArguments = ArgsParser.parse(translateCommandline(input));
