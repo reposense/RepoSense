@@ -694,7 +694,7 @@ window.vSummary = {
 
     groupByRepos(repos) {
       const sortedRepos = [];
-      const sortingWithinOption = this.sortingWithinOption === 'title' ? 'name' : this.sortingWithinOption;
+      const sortingWithinOption = this.sortingWithinOption === 'title' ? 'displayName' : this.sortingWithinOption;
       const sortingOption = this.sortingOption === 'groupTitle' ? 'searchPath' : this.sortingOption;
       repos.forEach((users) => {
         users.sort(window.comparator((ele) => ele[sortingWithinOption]));
