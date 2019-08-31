@@ -140,6 +140,7 @@ public class Author {
      */
     public void appendIgnoreGlobList(List<String> ignoreGlobList) {
         validateIgnoreGlobs(ignoreGlobList);
+        this.ignoreGlobList.removeAll(ignoreGlobList);
         this.ignoreGlobList.addAll(ignoreGlobList);
         updateIgnoreGlobMatcher();
     }

@@ -94,9 +94,10 @@ public class RepoConfiguration {
             }
 
             RepoConfiguration matchingRepoConfig = getMatchingRepoConfig(repoConfigs, authorConfig);
+            boolean isDefaultBranch = authorConfig.isDefaultBranch();
 
             if (matchingRepoConfig == null) {
-                String branchInfo = authorConfig.isDefaultBranch()
+                String branchInfo = isDefaultBranch
                         ? ""
                         : String.format(" (branch %s)", authorConfig.getBranch());
                 logger.warning(String.format(
@@ -105,7 +106,9 @@ public class RepoConfiguration {
                 continue;
             }
 
-            matchingRepoConfig.setAuthorConfiguration(authorConfig);
+            if (!isDefaultBranch) {
+                matchingRepoConfig.setAuthorConfiguration(authorConfig);
+            }
         }
 
         for (AuthorConfiguration authorConfig : authorConfigs) {
