@@ -738,7 +738,7 @@ window.vSummary = {
       const authorMap = {};
       const filtered = [];
       const sortingWithinOption = this.sortingWithinOption === 'title' ? 'searchPath' : this.sortingWithinOption;
-      const sortingOption = this.sortingOption === 'groupTitle' ? 'name' : this.sortingOption;
+      const sortingOption = this.sortingOption === 'groupTitle' ? 'displayName' : this.sortingOption;
       repos.forEach((users) => {
         users.forEach((user) => {
           if (Object.keys(authorMap).includes(user.name)) {
