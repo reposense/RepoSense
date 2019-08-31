@@ -269,6 +269,7 @@ public class ReportGenerator {
 
             config.setAuthorList(authorList);
         }
+        config.removeIgnoredAuthors();
     }
 
     /**
