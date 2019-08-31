@@ -60,7 +60,8 @@ public class CsvParserTest {
             .getResource("CsvParserTest/groupconfig_invalidLocation_test.csv").getFile()).toPath();
 
     private static final String TEST_REPO_BETA_LOCATION = "https://github.com/reposense/testrepo-Beta.git";
-    private static final String TEST_REPO_BETA_BRANCH = "master";
+    private static final String TEST_REPO_BETA_MASTER_BRANCH = "master";
+    private static final String TEST_REPO_BETA_ADD_CONFIG_JSON_BRANCH = "add-config-json";
     private static final List<FileType> TEST_REPO_BETA_GROUPS = Arrays.asList(
             new FileType("Code", Arrays.asList("**/*.java", "**/*.py")),
             new FileType("Docs", Collections.singletonList("docs/**")));
@@ -129,7 +130,7 @@ public class CsvParserTest {
         RepoConfiguration config = configs.get(0);
 
         Assert.assertEquals(new RepoLocation(TEST_REPO_BETA_LOCATION), config.getLocation());
-        Assert.assertEquals(TEST_REPO_BETA_BRANCH, config.getBranch());
+        Assert.assertEquals(TEST_REPO_BETA_MASTER_BRANCH, config.getBranch());
 
         Assert.assertEquals(TEST_REPO_BETA_CONFIG_FORMATS, config.getFileTypeManager().getFormats());
 
@@ -154,7 +155,7 @@ public class CsvParserTest {
         AuthorConfiguration config = configs.get(0);
 
         Assert.assertEquals(new RepoLocation(TEST_REPO_BETA_LOCATION), config.getLocation());
-        Assert.assertEquals(TEST_REPO_BETA_BRANCH, config.getBranch());
+        Assert.assertEquals(TEST_REPO_BETA_MASTER_BRANCH, config.getBranch());
 
         Assert.assertEquals(AUTHOR_CONFIG_NO_SPECIAL_CHARACTER_AUTHORS, config.getAuthorList());
     }
@@ -183,7 +184,7 @@ public class CsvParserTest {
         AuthorConfiguration config = configs.get(0);
 
         Assert.assertEquals(new RepoLocation(TEST_REPO_BETA_LOCATION), config.getLocation());
-        Assert.assertEquals(TEST_REPO_BETA_BRANCH, config.getBranch());
+        Assert.assertEquals(TEST_REPO_BETA_MASTER_BRANCH, config.getBranch());
 
         Assert.assertEquals(AUTHOR_CONFIG_SPECIAL_CHARACTER_AUTHORS, config.getAuthorList());
     }
@@ -263,7 +264,7 @@ public class CsvParserTest {
         AuthorConfiguration config = configs.get(0);
 
         Assert.assertEquals(new RepoLocation(TEST_REPO_BETA_LOCATION), config.getLocation());
-        Assert.assertEquals(TEST_REPO_BETA_BRANCH, config.getBranch());
+        Assert.assertEquals(TEST_REPO_BETA_MASTER_BRANCH, config.getBranch());
         Assert.assertEquals(AUTHOR_DISPLAY_NAME_COMMAS_AND_DOUBLE_QUOTES_MAP, config.getAuthorDisplayNameMap());
 
         Assert.assertEquals(AUTHOR_ALIAS_COMMAS_AND_DOUBLE_QUOTES_MAP.size(), config.getAuthorList().size());
@@ -282,13 +283,24 @@ public class CsvParserTest {
         expectedAuthors.add(FIRST_AUTHOR);
         expectedAuthors.add(SECOND_AUTHOR);
 
-        RepoConfiguration expectedConfig = new RepoConfiguration(new RepoLocation(TEST_REPO_BETA_LOCATION),
-                TEST_REPO_BETA_BRANCH);
-        expectedConfig.setAuthorList(expectedAuthors);
-        expectedConfig.setAuthorDisplayName(FIRST_AUTHOR, "Nbr");
-        expectedConfig.setAuthorDisplayName(SECOND_AUTHOR, "Zac");
-        expectedConfig.addAuthorEmailsAndAliasesMapEntry(SECOND_AUTHOR,  Arrays.asList("Zachary Tang"));
-        expectedConfig.setIgnoreGlobList(REPO_LEVEL_GLOB_LIST);
+        List<RepoConfiguration> expectedRepos = new ArrayList<>();
+
+        RepoConfiguration firstRepo = new RepoConfiguration(new RepoLocation(TEST_REPO_BETA_LOCATION),
+                TEST_REPO_BETA_MASTER_BRANCH);
+        firstRepo.setAuthorList(expectedAuthors);
+        firstRepo.setAuthorDisplayName(FIRST_AUTHOR, "Nbr");
+        firstRepo.setAuthorDisplayName(SECOND_AUTHOR, "Zac");
+        firstRepo.addAuthorEmailsAndAliasesMapEntry(SECOND_AUTHOR,  Arrays.asList("Zachary Tang"));
+        firstRepo.setIgnoreGlobList(REPO_LEVEL_GLOB_LIST);
+        expectedRepos.add(firstRepo);
+
+        RepoConfiguration secondRepo = new RepoConfiguration(new RepoLocation(TEST_REPO_BETA_LOCATION),
+                TEST_REPO_BETA_MASTER_BRANCH);
+        secondRepo.setAuthorList(Arrays.asList(SECOND_AUTHOR));
+        secondRepo.setAuthorDisplayName(SECOND_AUTHOR, "Zac");
+        secondRepo.addAuthorEmailsAndAliasesMapEntry(SECOND_AUTHOR,  Arrays.asList("Zachary Tang"));
+        secondRepo.setIgnoreGlobList(REPO_LEVEL_GLOB_LIST);
+        expectedRepos.add(secondRepo);
 
         String input = new InputBuilder().addConfig(TEST_CONFIG_FOLDER).build();
         CliArguments cliArguments = ArgsParser.parse(translateCommandline(input));
@@ -299,8 +311,9 @@ public class CsvParserTest {
                 new AuthorConfigCsvParser(((ConfigCliArguments) cliArguments).getAuthorConfigFilePath()).parse();
         RepoConfiguration.merge(actualConfigs, authorConfigs);
 
-        Assert.assertEquals(1, actualConfigs.size());
-        TestUtil.compareRepoConfig(expectedConfig, actualConfigs.get(0));
+        Assert.assertEquals(2, actualConfigs.size());
+        TestUtil.compareRepoConfig(firstRepo, actualConfigs.get(0));
+        TestUtil.compareRepoConfig(secondRepo, actualConfigs.get(1));
     }
 
     @Test
@@ -317,7 +330,7 @@ public class CsvParserTest {
         expectedDeltaAuthors.add(FIRST_AUTHOR);
 
         RepoConfiguration expectedBetaConfig =
-                new RepoConfiguration(new RepoLocation(TEST_REPO_BETA_LOCATION), TEST_REPO_BETA_BRANCH);
+                new RepoConfiguration(new RepoLocation(TEST_REPO_BETA_LOCATION), TEST_REPO_BETA_MASTER_BRANCH);
         expectedBetaConfig.setAuthorList(expectedBetaAuthors);
         expectedBetaConfig.setAuthorDisplayName(FIRST_AUTHOR, "Nbr");
         expectedBetaConfig.setAuthorDisplayName(SECOND_AUTHOR, "Zac");
@@ -378,7 +391,7 @@ public class CsvParserTest {
 
         Assert.assertEquals(1, configs.size());
         Assert.assertEquals(new RepoLocation(TEST_REPO_BETA_LOCATION), config.getLocation());
-        Assert.assertEquals(TEST_REPO_BETA_BRANCH, config.getBranch());
+        Assert.assertEquals(TEST_REPO_BETA_MASTER_BRANCH, config.getBranch());
         Assert.assertEquals(TEST_REPO_BETA_CONFIG_FORMATS, config.getFileTypeManager().getFormats());
         Assert.assertFalse(config.isStandaloneConfigIgnored());
         Assert.assertEquals(CommitHash.convertStringsToCommits(TEST_REPO_BETA_CONFIG_IGNORED_COMMITS),
