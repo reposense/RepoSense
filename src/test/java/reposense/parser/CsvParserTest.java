@@ -295,7 +295,7 @@ public class CsvParserTest {
         expectedRepos.add(firstRepo);
 
         RepoConfiguration secondRepo = new RepoConfiguration(new RepoLocation(TEST_REPO_BETA_LOCATION),
-                TEST_REPO_BETA_MASTER_BRANCH);
+                TEST_REPO_BETA_ADD_CONFIG_JSON_BRANCH);
         secondRepo.setAuthorList(Arrays.asList(SECOND_AUTHOR));
         secondRepo.setAuthorDisplayName(SECOND_AUTHOR, "Zac");
         secondRepo.addAuthorEmailsAndAliasesMapEntry(SECOND_AUTHOR,  Arrays.asList("Zachary Tang"));
