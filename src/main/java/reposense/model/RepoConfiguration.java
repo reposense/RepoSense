@@ -334,8 +334,16 @@ public class RepoConfiguration {
         this.ignoreCommitList = ignoreCommitList;
     }
 
+    public List<String> getIgnoredAuthorsList() {
+        return this.ignoredAuthorsList;
+    }
+
     public void setIgnoredAuthorsList(List<String> ignoredAuthorsList) {
         this.ignoredAuthorsList = ignoredAuthorsList;
+    }
+
+    public boolean isIgnoredAuthorsListOverriding() {
+        return this.isIgnoredAuthorsListOverriding;
     }
 
     public void setIsIgnoredAuthorsListOverriding(boolean isIgnoredAuthorsListOverriding) {
