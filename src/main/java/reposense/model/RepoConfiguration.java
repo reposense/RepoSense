@@ -117,7 +117,7 @@ public class RepoConfiguration {
                     repoConfig.addAuthors(authorConfig.getAuthorList());
                 }
             } else if (authorConfig.isDefaultBranch()) {
-                List<RepoConfiguration> matchingRepoConfigs = getMatchingRepoConfigsByRepoLocation(repoConfigs,
+                List<RepoConfiguration> matchingRepoConfigs = getMatchingRepoConfigsByLocation(repoConfigs,
                         authorConfig.getLocation());
                 matchingRepoConfigs.forEach(matchingRepoConfig -> {
                     matchingRepoConfig.addAuthors(authorConfig.getAuthorList());
@@ -136,7 +136,7 @@ public class RepoConfiguration {
                 continue;
             }
 
-            List<RepoConfiguration> matchingRepoConfigs = getMatchingRepoConfigsByRepoLocation(repoConfigs,
+            List<RepoConfiguration> matchingRepoConfigs = getMatchingRepoConfigsByLocation(repoConfigs,
                     groupConfig.getLocation());
             if (matchingRepoConfigs.isEmpty()) {
                 logger.warning(String.format(
@@ -167,7 +167,7 @@ public class RepoConfiguration {
     /**
      * Returns a list of {@link RepoConfiguration} where the {@link RepoLocation} matches {@code targetRepoLocation}.
      */
-    private static List<RepoConfiguration> getMatchingRepoConfigsByRepoLocation(
+    private static List<RepoConfiguration> getMatchingRepoConfigsByLocation(
             List<RepoConfiguration> configs, RepoLocation targetRepoLocation) {
         return configs.stream().filter(config -> config.getLocation().equals(targetRepoLocation))
                 .collect(Collectors.toList());
