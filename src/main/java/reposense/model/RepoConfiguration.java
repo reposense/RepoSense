@@ -117,11 +117,11 @@ public class RepoConfiguration {
                     repoConfig.addAuthors(authorConfig.getAuthorList());
                 }
             } else if (authorConfig.isDefaultBranch()) {
-                for (RepoConfiguration repoConfig : repoConfigs) {
-                    if (repoConfig.getLocation().equals(authorConfig.getLocation())) {
-                        repoConfig.addAuthors(authorConfig.getAuthorList());
-                    }
-                }
+                List<RepoConfiguration> matchingRepoConfigs = getMatchingRepoConfigsByRepoLocation(repoConfigs,
+                        authorConfig.getLocation());
+                matchingRepoConfigs.forEach(matchingRepoConfig -> {
+                    matchingRepoConfig.addAuthors(authorConfig.getAuthorList());
+                });
             }
         }
     }

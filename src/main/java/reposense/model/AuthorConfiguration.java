@@ -120,7 +120,7 @@ public class AuthorConfiguration {
      * Propagates {@code ignoreGlobList} to {@code author}.
      */
     public static void propagateIgnoreGlobList(Author author, List<String> ignoreGlobList) {
-        author.appendIgnoreGlobList(ignoreGlobList);
+        author.appendIgnoreGlobListWithoutDuplicates(ignoreGlobList);
     }
 
     /**
