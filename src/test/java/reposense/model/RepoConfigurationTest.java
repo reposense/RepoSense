@@ -4,7 +4,6 @@ import static org.apache.tools.ant.types.Commandline.translateCommandline;
 
 import java.io.File;
 import java.io.IOException;
-import java.lang.reflect.Array;
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -357,8 +356,8 @@ public class RepoConfigurationTest {
     }
 
     @Test
-    public void repoConfig_removeIgnoredAuthors()
-            throws ParseException, GitCloneException, IOException, HelpScreenException, NoAuthorsWithCommitsFoundException {
+    public void repoConfig_removeIgnoredAuthors() throws ParseException, GitCloneException, IOException,
+            HelpScreenException, NoAuthorsWithCommitsFoundException {
         List<Author> expectedAuthors = new ArrayList<>();
         Author author = new Author(FIRST_AUTHOR);
         author.setIgnoreGlobList(REPO_LEVEL_GLOB_LIST);
