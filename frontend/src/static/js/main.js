@@ -126,16 +126,16 @@ window.app = new window.Vue({
             window.alert('Either the .zip file is corrupted, or you uploaded a .zip file that is not generated '
                 + 'by RepoSense.');
           })
-          .then(() => this.updateReportViewAndRenderTabHash());
+          .then(() => this.updateReportView().then(() => this.renderTabHash()));
     },
     initialize() {
       window.REPORT_ZIP = null;
 
       this.users = [];
-      this.updateReportViewAndRenderTabHash();
+      this.updateReportView().then(() => this.renderTabHash());
     },
-    updateReportViewAndRenderTabHash() {
-      window.api.loadSummary().then((names) => {
+    async updateReportView() {
+      await window.api.loadSummary().then((names) => {
         this.repos = window.REPOS;
         this.repoLength = Object.keys(window.REPOS).length;
         this.loadedRepo = 0;
@@ -152,7 +152,6 @@ window.app = new window.Vue({
         this.userUpdated = true;
         this.isLoading = false;
         this.getUsers();
-        this.renderTabHash();
       }).catch((error) => {
         this.userUpdated = false;
         this.isLoading = false;
