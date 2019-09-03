@@ -234,7 +234,11 @@ window.app = new window.Vue({
       return JSON.stringify(dataObj);
     },
 
-    getRepoSenseLink() {
+      getRepoSenseMainSiteLink() {
+          return 'https://github.com/reposense/RepoSense';
+      },
+
+      getRepoSenseVersionSpecificLink() {
       const version = window.app.repoSenseVersion;
       if (!version) {
         return 'https://github.com/reposense/RepoSense';
