@@ -128,7 +128,7 @@ window.app = new window.Vue({
           })
           .then(() => this.updateReportView().then(() => this.renderTabHash()));
     },
-    initialize() {
+    updateReportDir() {
       window.REPORT_ZIP = null;
 
       this.users = [];
@@ -280,7 +280,7 @@ window.app = new window.Vue({
     CircleSpinner: window.VueLoadingSpinner.Circle,
   },
   created() {
-    this.initialize();
+    this.updateReportDir();
   },
   updated() {
     this.$nextTick(() => {
