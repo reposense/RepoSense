@@ -237,12 +237,8 @@ window.app = new window.Vue({
           let { since, until } = hash;
 
           // get since and until dates from window.app if not found in hash
-          if (!since) {
-            since = window.app.sinceDate;
-          }
-          if (!until) {
-            until = window.app.untilDate;
-          }
+          since = since || window.app.sinceDate;
+          until = until || window.app.untilDate;
           this.renderAuthorShipTabHash(since, until);
         } else {
           // handle zoom tab if needed
