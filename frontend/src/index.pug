@@ -48,7 +48,7 @@ html
 
         #tabs-wrapper(v-if="isTabActive")
           #tab-resize(onmousedown="registerMouseMove()")
-          .tab-close(v-on:click="isTabActive=false")
+          .tab-close(v-on:click="deactivateTab")
             i.fas.fa-caret-right
           .tab-content
             .tab-panes
