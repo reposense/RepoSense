@@ -13,12 +13,12 @@ public class GitRevParseTest extends GitTestTemplate {
     @Test
     public void assertBranchExists_withExistingBranch_success() throws GitBranchException {
         config.setBranch("master");
-        GitRevParse.assertBranchExists(config, Paths.get(FileUtil.REPOS_ADDRESS, config.getRepoFolderName()));
+        GitRevParse.assertBranchExists(config, Paths.get(config.getRepoRoot()));
     }
 
     @Test (expected = GitBranchException.class)
     public void assertBranchExists_withNonExistentBranch_throwsGitBranchException() throws GitBranchException {
         config.setBranch("nonExistentBranch");
-        GitRevParse.assertBranchExists(config, Paths.get(FileUtil.REPOS_ADDRESS, config.getRepoFolderName()));
+        GitRevParse.assertBranchExists(config, Paths.get(config.getRepoRoot()));
     }
 }
