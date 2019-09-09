@@ -6,7 +6,6 @@ import org.junit.Test;
 
 import reposense.git.exception.GitBranchException;
 import reposense.template.GitTestTemplate;
-import reposense.util.FileUtil;
 
 public class GitRevParseTest extends GitTestTemplate {
 
