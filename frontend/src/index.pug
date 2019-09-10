@@ -169,7 +169,7 @@ html
                   span &nbsp; {{ fileType }} &nbsp;
               template(v-else)
                 .summary-charts__fileType--breakdown__legend(
-                    v-for="fileType in Object.keys(contributionBaFileTypeColors)")
+                    v-for="fileType in Object.keys(contributionBarFileTypeColors)")
                   i.fas.fa-circle(
                       v-bind:style="{ 'color' : contributionBarFileTypeColors[fileType] }"
                   )
