@@ -45,6 +45,16 @@ a {
   }
 }
 
+.border-index {
+  color: #FFFFFF;
+  background-color: rgb(52, 58, 64);
+  border-radius: 10rem;
+  font-weight: 700;
+  font-size: medium;
+  padding: .25rem;
+  box-sizing: border-box;
+}
+
 .mini-font {
   font-size: .65rem;
   font-weight: normal;
@@ -275,13 +285,12 @@ header {
     &--index,
     &--repo,
 
-    &--index::after {
-      content: '.';
+    &--index::after{
       display: inline-block;
-
     }
 
     &--repo {
+      font-size: medium;
       padding: .5rem;
     }
 
