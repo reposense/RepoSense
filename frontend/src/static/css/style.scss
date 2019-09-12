@@ -60,6 +60,10 @@ a {
   font-weight: bold;
 }
 
+.tab-padding {
+  padding: 2rem 1.5rem;
+}
+
 .warn {
   color: mui-color('red');
 
@@ -195,8 +199,7 @@ header {
 
     .tab-content {
       display: flex;
-      padding: 1rem 1.5rem;
-      padding-top: 2rem;
+
 
       .tab-panes {
         text-align: left;
@@ -217,7 +220,6 @@ header {
 /* summary chart */
 #summary,
 .summary-status {
-  padding: 2rem 1rem;
 }
 
 .summary-picker {
