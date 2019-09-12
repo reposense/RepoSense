@@ -272,6 +272,19 @@ header {
     font-weight: bold;
     text-align: left;
 
+    &--index,
+    &--repo,
+
+    &--index::after {
+      content: '.';
+      display: inline-block;
+
+    }
+
+    &--repo {
+      padding: .5rem;
+    }
+
     &--contribution {
       display: inline;
     }
