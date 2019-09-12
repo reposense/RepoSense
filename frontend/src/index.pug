@@ -40,11 +40,12 @@ html
               v-bind:href="getRepoSenseMainSiteLink()", target="_blank",
             )
               strong RepoSense
+            span  (
             a(
               v-bind:href="getRepoSenseVersionSpecificLink()", target ="_blank",
             )
-              strong  {{ repoSenseVersion }}
-            span &nbsp; on {{ creationDate }}
+              strong {{ repoSenseVersion }}
+            span ) &nbsp; on {{ creationDate }}
 
         #tabs-wrapper(v-if="isTabActive")
           #tab-resize(onmousedown="registerMouseMove()")
