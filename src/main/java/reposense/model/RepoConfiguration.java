@@ -231,7 +231,7 @@ public class RepoConfiguration {
     }
 
     /**
-     * Gets the path to the root folder of the repository
+     * Gets the path to the root folder of the repository.
      */
     public String getRepoRoot() {
         String path = FileUtil.REPOS_ADDRESS + File.separator + getRepoFolderName() + File.separator;
@@ -244,7 +244,7 @@ public class RepoConfiguration {
     }
 
     /**
-     * Gets the name of the folder containing the cloned repository; the parent directory of the repo's root folder
+     * Gets the name of the folder containing the cloned repository; the parent directory of the repo's root folder.
      */
     public String getRepoFolderName() {
         return repoFolderName;
