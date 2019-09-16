@@ -150,8 +150,11 @@ public class Author {
      */
     public void appendIgnoreGlobListWithoutDuplicates(List<String> ignoreGlobList) {
         validateIgnoreGlobs(ignoreGlobList);
-        this.ignoreGlobList.removeAll(ignoreGlobList);
-        this.ignoreGlobList.addAll(ignoreGlobList);
+        ignoreGlobList.forEach(ignoreGlob -> {
+            if (!this.ignoreGlobList.contains(ignoreGlob)) {
+                this.ignoreGlobList.add(ignoreGlob);
+            }
+        });
         updateIgnoreGlobMatcher();
     }
 
