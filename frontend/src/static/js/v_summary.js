@@ -222,7 +222,7 @@ window.vSummary = {
           contributionBars.push(fullBarWidth - currentBarWidth);
           barWidth -= fullBarWidth - currentBarWidth;
           const numOfFullBars = Math.floor(barWidth / fullBarWidth);
-          for (let i = 0; i < numOfFullBars; i++) {
+          for (let i = 0; i < numOfFullBars; i += 1) {
             contributionBars.push(fullBarWidth);
           }
           const remainingBarWidth = barWidth % fullBarWidth;
