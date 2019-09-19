@@ -126,16 +126,16 @@ window.app = new window.Vue({
             window.alert('Either the .zip file is corrupted, or you uploaded a .zip file that is not generated '
                 + 'by RepoSense.');
           })
-          .then(() => this.updateReportView());
+          .then(() => this.updateReportView().then(() => this.renderTabHash()));
     },
     updateReportDir() {
       window.REPORT_ZIP = null;
 
       this.users = [];
-      this.updateReportView();
+      this.updateReportView().then(() => this.renderTabHash());
     },
-    updateReportView() {
-      window.api.loadSummary().then((names) => {
+    async updateReportView() {
+      await window.api.loadSummary().then((names) => {
         this.repos = window.REPOS;
         this.repoLength = Object.keys(window.REPOS).length;
         this.loadedRepo = 0;
@@ -180,7 +180,18 @@ window.app = new window.Vue({
       this.isCollapsed = false;
       this.tabType = tabName;
 
+      window.addHash('tabOpen', this.isTabActive);
       window.addHash('tabType', this.tabType);
+      window.encodeHash();
+    },
+
+    deactivateTab() {
+      this.isTabActive = false;
+      window.addHash('tabOpen', this.isTabActive);
+      window.removeHash('tabAuthor');
+      window.removeHash('tabRepo');
+      window.removeHash('tabType');
+      window.encodeHash();
     },
 
     updateTabAuthorship(obj) {
@@ -223,7 +234,12 @@ window.app = new window.Vue({
 
       if (this.isTabActive) {
         if (hash.tabType === 'authorship') {
-          this.renderAuthorShipTabHash(hash.since, hash.until);
+          let { since, until } = hash;
+
+          // get since and until dates from window.app if not found in hash
+          since = since || window.app.sinceDate;
+          until = until || window.app.untilDate;
+          this.renderAuthorShipTabHash(since, until);
         } else {
           // handle zoom tab if needed
         }
@@ -261,7 +277,6 @@ window.app = new window.Vue({
   },
   created() {
     this.updateReportDir();
-    this.renderTabHash();
   },
   updated() {
     this.$nextTick(() => {
@@ -269,12 +284,5 @@ window.app = new window.Vue({
         window.$('tabs-wrapper').style.flex = `0 0 ${flexWidth * 100}%`;
       }
     });
-    if (!this.isTabActive) {
-      window.removeHash('tabAuthor');
-      window.removeHash('tabRepo');
-      window.removeHash('tabType');
-    }
-    window.addHash('tabOpen', this.isTabActive);
-    window.encodeHash();
   },
 });

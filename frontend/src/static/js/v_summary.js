@@ -694,7 +694,7 @@ window.vSummary = {
 
     groupByRepos(repos) {
       const sortedRepos = [];
-      const sortingWithinOption = this.sortingWithinOption === 'title' ? 'name' : this.sortingWithinOption;
+      const sortingWithinOption = this.sortingWithinOption === 'title' ? 'displayName' : this.sortingWithinOption;
       const sortingOption = this.sortingOption === 'groupTitle' ? 'searchPath' : this.sortingOption;
       repos.forEach((users) => {
         users.sort(window.comparator((ele) => ele[sortingWithinOption]));
@@ -738,7 +738,7 @@ window.vSummary = {
       const authorMap = {};
       const filtered = [];
       const sortingWithinOption = this.sortingWithinOption === 'title' ? 'searchPath' : this.sortingWithinOption;
-      const sortingOption = this.sortingOption === 'groupTitle' ? 'name' : this.sortingOption;
+      const sortingOption = this.sortingOption === 'groupTitle' ? 'displayName' : this.sortingOption;
       repos.forEach((users) => {
         users.forEach((user) => {
           if (Object.keys(authorMap).includes(user.name)) {
