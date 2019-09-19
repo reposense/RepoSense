@@ -117,8 +117,8 @@ public class RepoConfiguration {
                     repoConfig.addAuthors(authorConfig.getAuthorList());
                 }
             } else if (authorConfig.isDefaultBranch()) {
-                List<RepoConfiguration> matchingRepoConfigs = getMatchingRepoConfigsByLocation(repoConfigs,
-                        authorConfig.getLocation());
+                List<RepoConfiguration> matchingRepoConfigs =
+                        getMatchingRepoConfigsByLocation(repoConfigs, authorConfig.getLocation());
                 matchingRepoConfigs.forEach(matchingRepoConfig -> {
                     matchingRepoConfig.addAuthors(authorConfig.getAuthorList());
                 });
@@ -156,8 +156,10 @@ public class RepoConfiguration {
     private static RepoConfiguration getMatchingRepoConfig(
             List<RepoConfiguration> repoConfigs, AuthorConfiguration authorConfig) {
         for (RepoConfiguration repoConfig : repoConfigs) {
+            boolean isDefaultBranchOrMatchRepoConfigBranch = (authorConfig.isDefaultBranch()
+                    || authorConfig.getBranch().equals(repoConfig.getBranch()));
             if (repoConfig.getLocation().equals(authorConfig.getLocation())
-                    && (authorConfig.isDefaultBranch() || repoConfig.getBranch().equals(authorConfig.getBranch()))) {
+                    && isDefaultBranchOrMatchRepoConfigBranch) {
                 return repoConfig;
             }
         }
