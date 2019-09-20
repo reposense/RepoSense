@@ -12,7 +12,7 @@ describe('search bar', () => {
     cy.get('#summary-wrapper form.summary-picker')
         .submit();
 
-  Cypress.wait();
+    Cypress.wait();
 
     cy.get('#summary-wrapper #summary-charts').then(($ele) => {
       const content = $ele.html();
