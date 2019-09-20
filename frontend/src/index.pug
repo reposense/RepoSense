@@ -81,7 +81,7 @@ html
         form.summary-picker.mui-form--inline(onsubmit="return false;")
           .summary-picker__section
             .mui-textfield
-              input.summary-picker__search(type="search", v-on:change="updateFilterSearch", v-model="filterSearch")
+              input.summary-picker__search(type="search", v-on:input="updateFilterSearch", v-model="filterSearch")
               label search
             .mui-select.grouping
               select(v-model="filterGroupSelection")
