@@ -46,13 +46,23 @@ a {
 }
 
 .border-index {
-  background-color: rgb(52, 58, 64);
-  border-radius: 10rem;
+  background: rgb(52, 58, 64);
+  border-color: transparent;
+  border-radius: 5rem;
+  box-shadow: 0 0 0 2px transparent;
+  box-sizing: border-box;
   color: #FFFFFF;
+  display: inline-block;
+  font-family: "Roboto", "Segoe UI", "GeezaPro", "DejaVu Serif", "sans-serif", "-apple-system", "BlinkMacSystemFont";
   font-size: medium;
-  font-weight: 700;
-  padding: .25rem;
-
+  font-weight: 500;
+  line-height: 1;
+  overflow: hidden;
+  padding: 0.25em 0.4em 0.25em 0.4em;
+  text-align: center;
+  text-decoration: none;
+  text-indent: 0;
+  vertical-align: middle;
 }
 
 .mini-font {
