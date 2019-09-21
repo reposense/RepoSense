@@ -215,12 +215,15 @@ window.vSummary = {
         let barWidth = (contribution / contributionPerFullBar) * fullBarWidth;
         const contributionBars = [];
 
+        // if contribution bar for file type is able to fit on the current line
         if (currentBarWidth + barWidth < fullBarWidth) {
           contributionBars.push(barWidth);
           currentBarWidth += barWidth;
         } else {
+          // take up all the space left on the current line
           contributionBars.push(fullBarWidth - currentBarWidth);
           barWidth -= fullBarWidth - currentBarWidth;
+          // additional bar width will start on a new line
           const numOfFullBars = Math.floor(barWidth / fullBarWidth);
           for (let i = 0; i < numOfFullBars; i += 1) {
             contributionBars.push(fullBarWidth);
