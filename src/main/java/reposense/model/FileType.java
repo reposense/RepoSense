@@ -31,16 +31,6 @@ public class FileType {
         setPaths(paths);
     }
 
-    /**
-     * Ensures that the string {@code label} is a valid file type.
-     * @throws IllegalArgumentException if {@code label} is an empty string.
-     */
-    public static void validateFileTypeLabel(String label) {
-        if (label.isEmpty()) {
-            throw new IllegalArgumentException();
-        }
-    }
-
     public static List<FileType> convertFormatStringsToFileTypes(List<String> formats) {
         return formats.stream().map(FileType::convertStringFormatToFileType).collect(Collectors.toList());
     }
@@ -52,6 +42,16 @@ public class FileType {
     public static FileType convertStringFormatToFileType(String format) {
         validateFileFormat(format);
         return new FileType(format, Collections.singletonList("**" + format));
+    }
+
+    /**
+     * Ensures that the string {@code label} is a valid file type.
+     * @throws IllegalArgumentException if {@code label} is an empty string.
+     */
+    public static void validateFileTypeLabel(String label) {
+        if (label.isEmpty()) {
+            throw new IllegalArgumentException();
+        }
     }
 
     /**
