@@ -156,10 +156,10 @@ public class RepoConfiguration {
     private static RepoConfiguration getMatchingRepoConfig(
             List<RepoConfiguration> repoConfigs, AuthorConfiguration authorConfig) {
         for (RepoConfiguration repoConfig : repoConfigs) {
-            boolean isDefaultBranchOrMatchRepoConfigBranch = (authorConfig.isDefaultBranch()
+            boolean isMatchingBranch = (authorConfig.isDefaultBranch()
                     || authorConfig.getBranch().equals(repoConfig.getBranch()));
             if (repoConfig.getLocation().equals(authorConfig.getLocation())
-                    && isDefaultBranchOrMatchRepoConfigBranch) {
+                    && isMatchingBranch) {
                 return repoConfig;
             }
         }

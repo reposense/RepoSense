@@ -79,7 +79,7 @@ public class AuthorTest {
         ignoreGlobList.addAll(Arrays.asList(moreIgnoreGlobs));
 
         author.setIgnoreGlobList(Arrays.asList(ignoreGlobs));
-        author.appendIgnoreGlobList(Arrays.asList(moreIgnoreGlobs));
+        author.importIgnoreGlobList(Arrays.asList(moreIgnoreGlobs));
 
         Assert.assertEquals(4, author.getIgnoreGlobList().size());
         Assert.assertTrue(author.getIgnoreGlobList().containsAll(ignoreGlobList));
@@ -92,6 +92,6 @@ public class AuthorTest {
         Author author = new Author("Tester");
         String[] ignoreGlobs = new String[] {"**[!(.md)] | rm -rf /", "C:\\Program Files\\**"};
 
-        author.appendIgnoreGlobList(Arrays.asList(ignoreGlobs));
+        author.importIgnoreGlobList(Arrays.asList(ignoreGlobs));
     }
 }
