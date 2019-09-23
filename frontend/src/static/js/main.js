@@ -250,11 +250,11 @@ window.app = new window.Vue({
       return JSON.stringify(dataObj);
     },
 
-    getRepoSenseMainSiteLink() {
+    getRepoSenseHomeLink() {
       return 'https://github.com/reposense/RepoSense';
     },
 
-    getRepoSenseVersionSpecificLink() {
+    getRepoSenseVersionLink() {
       const version = window.app.repoSenseVersion;
       if (!version) {
         return 'https://github.com/reposense/RepoSense';
