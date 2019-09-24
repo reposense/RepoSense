@@ -78,10 +78,18 @@ public abstract class CsvParser<T> {
         return results;
     }
 
+    /**
+     * Returns an array of Strings representing the header of a CSV file.
+     *
+     * @param reader A BufferedReader opened on the CSV file.
+     * @return an array of Strings where each Strings is a column name from the CSV header.
+     * @throws IOException
+     */
     private String[] getHeader(BufferedReader reader) throws IOException {
         String currentLine = "";
 
         while (currentLine.length() == 0) {
+            // read from file until we encounter a line that is not blank or empty
             currentLine = reader.readLine().trim();
         }
         return currentLine.split(",");
