@@ -1,5 +1,6 @@
 package reposense.parser;
 
+import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.Reader;
@@ -54,8 +55,9 @@ public abstract class CsvParser<T> {
         List<T> results = new ArrayList<>();
         Iterable<CSVRecord> records;
 
-        try (Reader csvReader = new FileReader(csvFilePath.toFile())) {
-            records = CSVFormat.DEFAULT.withFirstRecordAsHeader().parse(csvReader);
+        try (BufferedReader csvReader = new BufferedReader(new FileReader(csvFilePath.toFile()))) {
+            String[] header = getHeader(csvReader);
+            records = CSVFormat.DEFAULT.withHeader(header).parse(csvReader);
 
             for (CSVRecord record : records) {
                 if (isLineMalformed(record)) {
@@ -74,6 +76,15 @@ public abstract class CsvParser<T> {
             throw new IOException(MESSAGE_UNABLE_TO_READ_CSV_FILE, ioe);
         }
         return results;
+    }
+
+    private String[] getHeader(BufferedReader reader) throws IOException {
+        String currentLine = "";
+
+        while (currentLine.length() == 0) {
+            currentLine = reader.readLine().trim();
+        }
+        return currentLine.split(",");
     }
 
     /**
