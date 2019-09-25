@@ -94,21 +94,15 @@ public class RepoConfiguration {
             }
 
             RepoConfiguration matchingRepoConfig = getMatchingRepoConfig(repoConfigs, authorConfig);
-            boolean isDefaultBranch = authorConfig.isDefaultBranch();
 
-            if (matchingRepoConfig == null) {
-                String branchInfo = isDefaultBranch
-                        ? ""
-                        : String.format(" (branch %s)", authorConfig.getBranch());
+            if (matchingRepoConfig == null && !authorConfig.isDefaultBranch()) {
                 logger.warning(String.format(
-                        "Repository %s%s is not found in repo-config.csv.",
-                        authorConfig.getLocation(), branchInfo));
+                        "Repository %s (branch %s) is not found in repo-config.csv.",
+                        authorConfig.getLocation(), authorConfig.getBranch()));
                 continue;
             }
 
-            if (!isDefaultBranch) {
-                matchingRepoConfig.setAuthorConfiguration(authorConfig);
-            }
+            matchingRepoConfig.setAuthorConfiguration(authorConfig);
         }
 
         for (AuthorConfiguration authorConfig : authorConfigs) {
@@ -119,6 +113,12 @@ public class RepoConfiguration {
             } else if (authorConfig.isDefaultBranch()) {
                 List<RepoConfiguration> matchingRepoConfigs =
                         getMatchingRepoConfigsByLocation(repoConfigs, authorConfig.getLocation());
+                if (matchingRepoConfigs.isEmpty()) {
+                    logger.warning(String.format(
+                            "Repository %s is not found in repo-config.csv.",
+                            authorConfig.getLocation()));
+                    continue;
+                }
                 matchingRepoConfigs.forEach(matchingRepoConfig -> {
                     matchingRepoConfig.addAuthors(authorConfig.getAuthorList());
                 });
@@ -155,11 +155,12 @@ public class RepoConfiguration {
      */
     private static RepoConfiguration getMatchingRepoConfig(
             List<RepoConfiguration> repoConfigs, AuthorConfiguration authorConfig) {
+        if (authorConfig.isDefaultBranch()) {
+            return null;
+        }
         for (RepoConfiguration repoConfig : repoConfigs) {
-            boolean isMatchingBranch = (authorConfig.isDefaultBranch()
-                    || authorConfig.getBranch().equals(repoConfig.getBranch()));
             if (repoConfig.getLocation().equals(authorConfig.getLocation())
-                    && isMatchingBranch) {
+                    && repoConfig.getBranch().equals(authorConfig.getBranch())) {
                 return repoConfig;
             }
         }
