@@ -95,10 +95,12 @@ public class RepoConfiguration {
 
             RepoConfiguration matchingRepoConfig = getMatchingRepoConfig(repoConfigs, authorConfig);
 
-            if (matchingRepoConfig == null && !authorConfig.isDefaultBranch()) {
-                logger.warning(String.format(
-                        "Repository %s (branch %s) is not found in repo-config.csv.",
-                        authorConfig.getLocation(), authorConfig.getBranch()));
+            if (matchingRepoConfig == null) {
+                if (!authorConfig.isDefaultBranch()) {
+                    logger.warning(String.format(
+                            "Repository %s (branch %s) is not found in repo-config.csv.",
+                            authorConfig.getLocation(), authorConfig.getBranch()));
+                }
                 continue;
             }
 
