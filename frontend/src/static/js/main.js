@@ -251,7 +251,7 @@ window.app = new window.Vue({
     },
 
     getRepoSenseHomeLink() {
-      return 'https://reposense.org';
+      return 'reposense.org';
     },
 
     getRepoSenseVersionLink() {
