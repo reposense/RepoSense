@@ -45,26 +45,6 @@ a {
   }
 }
 
-.border-index {
-  background: rgb(52, 58, 64);
-  border-color: transparent;
-  border-radius: 5rem;
-  box-shadow: 0 0 0 2px transparent;
-  box-sizing: border-box;
-  color: #FFFFFF;
-  display: inline-block;
-  font-family: 'Roboto', 'Segoe UI', 'GeezaPro', 'DejaVu Serif', 'sans-serif', '-apple-system', 'BlinkMacSystemFont';
-  font-size: medium;
-  font-weight: 500;
-  line-height: 1;
-  overflow: hidden;
-  padding: .25em .4em .25em .4em;
-  text-align: center;
-  text-decoration: none;
-  text-indent: 0;
-  vertical-align: middle;
-}
-
 .mini-font {
   font-size: .65rem;
   font-weight: normal;
@@ -294,14 +274,18 @@ header {
     font-weight: bold;
     text-align: left;
 
-    &--index,
-    &--repo,
-
-    &--index::after{
+    &--index {
+      background: mui-color('black');
+      color: mui-color('white');
       display: inline-block;
+      font-size: medium;
+      overflow: hidden;
+      padding: .1em .25em .1em .25em;
+      vertical-align: middle;
     }
 
     &--repo {
+      display: inline-block;
       font-size: medium;
       padding: .5rem;
     }
