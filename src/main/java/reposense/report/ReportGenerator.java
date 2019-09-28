@@ -35,6 +35,7 @@ import reposense.model.Author;
 import reposense.model.RepoConfiguration;
 import reposense.model.RepoLocation;
 import reposense.model.StandaloneConfig;
+import reposense.parser.InvalidLocationException;
 import reposense.parser.SinceDateArgumentType;
 import reposense.parser.StandaloneConfigJsonParser;
 import reposense.report.exception.NoAuthorsWithCommitsFoundException;
@@ -49,6 +50,7 @@ public class ReportGenerator {
     private static final String REPOSENSE_CONFIG_FOLDER = "_reposense";
     private static final String REPOSENSE_CONFIG_FILE = "config.json";
     private static final Logger logger = LogsManager.getLogger(ReportGenerator.class);
+    private static final String FILE_PATH_FOR_BROWSER = "file:///";
 
     // zip file which contains all the report template files
     private static final String TEMPLATE_FILE = "/templateZip.zip";
@@ -67,6 +69,7 @@ public class ReportGenerator {
     private static final String MESSAGE_COMPLETE_ANALYSIS = "Analysis of %s (%s) completed!";
     private static final String MESSAGE_REPORT_GENERATED = "The report is generated at %s";
     private static final String MESSAGE_BRANCH_DOES_NOT_EXIST = "Branch %s does not exist in %s! Analysis terminated.";
+    private static final String MESSAGE_INVALID_LOCAL_REPO_LOCATION = "Location of %s cannot be found locally.";
 
     private static final String LOG_ERROR_CLONING = "Failed to clone from %s";
     private static final String LOG_BRANCH_DOES_NOT_EXIST = "Branch \"%s\" does not exist.";
@@ -219,6 +222,10 @@ public class ReportGenerator {
 
         CommitContributionSummary commitSummary = CommitsReporter.generateCommitSummary(config);
         AuthorshipSummary authorshipSummary = AuthorshipReporter.generateAuthorshipSummary(config);
+
+        // updates path of the local repo so that can be viewed in browser
+        updateRepoPath(config);
+
         generateIndividualRepoReport(repoReportDirectory, commitSummary, authorshipSummary);
         logger.info(String.format(MESSAGE_COMPLETE_ANALYSIS, config.getLocation(), config.getBranch()));
     }
@@ -268,6 +275,21 @@ public class ReportGenerator {
             }
 
             config.setAuthorList(authorList);
+        }
+    }
+
+    /**
+     * Updates {@code config} to be viewed in browser if analysing local repositories
+     */
+    private static void updateRepoPath(RepoConfiguration config) {
+        String organization = config.getLocation().getOrganization();
+        if(organization == null) {
+            String updatedPath = FILE_PATH_FOR_BROWSER + config.getLocation();
+            try {
+                config.setLocation(new RepoLocation(updatedPath));
+            } catch (InvalidLocationException ile) {
+                logger.warning(String.format(MESSAGE_INVALID_LOCAL_REPO_LOCATION, updatedPath));
+            }
         }
     }
 

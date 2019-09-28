@@ -439,6 +439,10 @@ public class RepoConfiguration {
         return location;
     }
 
+    public void setLocation(RepoLocation location) {
+        this.location = location;
+    }
+
     public String getOrganization() {
         return location.getOrganization();
     }
