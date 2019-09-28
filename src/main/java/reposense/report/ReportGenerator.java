@@ -283,7 +283,7 @@ public class ReportGenerator {
      */
     private static void updateRepoPath(RepoConfiguration config) {
         String organization = config.getLocation().getOrganization();
-        if(organization == null) {
+        if (organization == null) {
             String updatedPath = FILE_PATH_FOR_BROWSER + config.getLocation();
             try {
                 config.setLocation(new RepoLocation(updatedPath));
