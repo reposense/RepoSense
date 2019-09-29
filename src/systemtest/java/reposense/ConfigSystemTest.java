@@ -121,7 +121,7 @@ public class ConfigSystemTest {
 
         ReportGenerator.generateReposReport(repoConfigs, FT_TEMP_DIR, TEST_REPORT_GENERATED_TIME,
                 cliArguments.getSinceDate(), cliArguments.getUntilDate(),
-                cliArguments.isSinceDateProvided(), cliArguments.isUntilDateProvided());
+                cliArguments.isSinceDateProvided(), cliArguments.isUntilDateProvided(), false);
     }
 
     /**

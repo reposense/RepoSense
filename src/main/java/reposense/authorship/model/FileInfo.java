@@ -65,6 +65,13 @@ public class FileInfo {
     }
 
     /**
+     * Sets whether {@code lineNumber} is fully credited to its {@code Author}.
+     */
+    public void setIsFullCredit(int lineNumber, boolean isFullCredit) {
+        lines.get(lineNumber).setIsFullCredit(isFullCredit);
+    }
+
+    /**
      * Returns true if the {@code LineInfo} in {@code lineNumber} index is being tracked.
      */
     public boolean isFileLineTracked(int lineNumber) {

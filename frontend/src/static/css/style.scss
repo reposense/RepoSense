@@ -586,6 +586,12 @@ header {
         padding-left: 1rem;
       }
 
+      &.fullCredit {
+        .code {
+          background-color: mui-color('green', '100');
+        }
+      }
+
       .line-number {
         color: mui-color('grey');
         float: left;

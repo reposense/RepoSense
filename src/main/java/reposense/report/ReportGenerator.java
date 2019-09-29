@@ -86,14 +86,14 @@ public class ReportGenerator {
      */
     public static List<Path> generateReposReport(List<RepoConfiguration> configs, String outputPath,
             String generationDate, Date cliSinceDate, Date untilDate,
-            boolean isSinceDateProvided, boolean isUntilDateProvided) throws IOException {
+            boolean isSinceDateProvided, boolean isUntilDateProvided, boolean isAuthorshipAnalyzed) throws IOException {
         InputStream is = RepoSense.class.getResourceAsStream(TEMPLATE_FILE);
         FileUtil.copyTemplate(is, outputPath);
 
         earliestSinceDate = null;
         progressTracker = new ProgressTracker(configs.size());
 
-        cloneAndAnalyzeRepos(configs, outputPath);
+        cloneAndAnalyzeRepos(configs, outputPath, isAuthorshipAnalyzed);
 
         Date reportSinceDate = (cliSinceDate.equals(SinceDateArgumentType.ARBITRARY_FIRST_COMMIT_DATE))
                 ? earliestSinceDate : cliSinceDate;
@@ -134,7 +134,8 @@ public class ReportGenerator {
      * Clone, analyze and generate the report for repositories in {@code repoLocationMap}.
      * Performs analysis and report generation of each repository in parallel with the cloning of the next repository.
      */
-    private static void cloneAndAnalyzeRepos(List<RepoConfiguration> configs, String outputPath) {
+    private static void cloneAndAnalyzeRepos(
+            List<RepoConfiguration> configs, String outputPath, boolean isAuthorshipAnalyzed) {
         Map<RepoLocation, List<RepoConfiguration>> repoLocationMap = groupConfigsByRepoLocation(configs);
         RepoCloner repoCloner = new RepoCloner();
         RepoLocation clonedRepoLocation = null;
@@ -157,7 +158,7 @@ public class ReportGenerator {
                 handleCloningFailed(configs, currRepoLocation);
             } else {
                 analyzeRepos(outputPath, configs, repoLocationMap.get(clonedRepoLocation),
-                        repoCloner.getCurrentRepoDefaultBranch());
+                        repoCloner.getCurrentRepoDefaultBranch(), isAuthorshipAnalyzed);
             }
             currRepoLocation = nextRepoLocation;
         }
@@ -169,7 +170,7 @@ public class ReportGenerator {
      * Also removes {@code configsToAnalyze} that failed to analyze from {@code configs}.
      */
     private static void analyzeRepos(String outputPath, List<RepoConfiguration> configs,
-            List<RepoConfiguration> configsToAnalyze, String defaultBranch) {
+            List<RepoConfiguration> configsToAnalyze, String defaultBranch, boolean isAuthorshipAnalyzed) {
         Iterator<RepoConfiguration> itr = configsToAnalyze.iterator();
         while (itr.hasNext()) {
             progressTracker.incrementProgress();
@@ -186,7 +187,7 @@ public class ReportGenerator {
                 GitClone.cloneFromBareAndUpdateBranch(Paths.get(FileUtil.REPOS_ADDRESS), configToAnalyze);
 
                 FileUtil.createDirectory(repoReportDirectory);
-                analyzeRepo(configToAnalyze, repoReportDirectory.toString());
+                analyzeRepo(configToAnalyze, repoReportDirectory.toString(), isAuthorshipAnalyzed);
             } catch (IOException ioe) {
                 String logMessage = String.format(MESSAGE_ERROR_CREATING_DIRECTORY,
                         configToAnalyze.getLocation(), configToAnalyze.getBranch());
@@ -211,14 +212,15 @@ public class ReportGenerator {
     /**
      * Analyzes repo specified by {@code config} and generates the report.
      */
-    private static void analyzeRepo(
-            RepoConfiguration config, String repoReportDirectory) throws NoAuthorsWithCommitsFoundException {
+    private static void analyzeRepo(RepoConfiguration config, String repoReportDirectory,
+            boolean isAuthorshipAnalyzed) throws NoAuthorsWithCommitsFoundException {
         // preprocess the config and repo
         updateRepoConfig(config);
         updateAuthorList(config);
 
         CommitContributionSummary commitSummary = CommitsReporter.generateCommitSummary(config);
-        AuthorshipSummary authorshipSummary = AuthorshipReporter.generateAuthorshipSummary(config);
+        AuthorshipSummary authorshipSummary = AuthorshipReporter.generateAuthorshipSummary(
+                config, isAuthorshipAnalyzed);
         generateIndividualRepoReport(repoReportDirectory, commitSummary, authorshipSummary);
         logger.info(String.format(MESSAGE_COMPLETE_ANALYSIS, config.getLocation(), config.getBranch()));
     }

@@ -63,13 +63,13 @@ public class FileAnalyzerTest extends GitTestTemplate {
     public void analyzeFile_blameTestFileIgnoreFakeAuthorCommitFullHash_success() {
         FileInfo fileInfoFull = generateTestFileInfo("blameTest.java");
         config.setIgnoreCommitList(Collections.singletonList(FAKE_AUTHOR_BLAME_TEST_FILE_COMMIT_08022018));
-        FileInfoAnalyzer.analyzeFile(config, fileInfoFull);
+        FileInfoAnalyzer.analyzeFile(config, fileInfoFull, false);
 
         FileInfo fileInfoShort = generateTestFileInfo("blameTest.java");
         config.setIgnoreCommitList(
                 Collections.singletonList(
                         new CommitHash(FAKE_AUTHOR_BLAME_TEST_FILE_COMMIT_08022018_STRING.substring(0, 8))));
-        FileInfoAnalyzer.analyzeFile(config, fileInfoShort);
+        FileInfoAnalyzer.analyzeFile(config, fileInfoShort, false);
 
         Assert.assertEquals(fileInfoFull, fileInfoShort);
 
@@ -86,13 +86,13 @@ public class FileAnalyzerTest extends GitTestTemplate {
         FileInfo fileInfoFull = generateTestFileInfo("blameTest.java");
         config.setIgnoreCommitList(Arrays.asList(FAKE_AUTHOR_BLAME_TEST_FILE_COMMIT_08022018,
                 MAIN_AUTHOR_BLAME_TEST_FILE_COMMIT_06022018));
-        FileInfoAnalyzer.analyzeFile(config, fileInfoFull);
+        FileInfoAnalyzer.analyzeFile(config, fileInfoFull, false);
 
         FileInfo fileInfoShort = generateTestFileInfo("blameTest.java");
         config.setIgnoreCommitList(CommitHash.convertStringsToCommits(
                 Arrays.asList(FAKE_AUTHOR_BLAME_TEST_FILE_COMMIT_08022018_STRING.substring(0, 8),
                         MAIN_AUTHOR_BLAME_TEST_FILE_COMMIT_06022018_STRING.substring(0, 8))));
-        FileInfoAnalyzer.analyzeFile(config, fileInfoShort);
+        FileInfoAnalyzer.analyzeFile(config, fileInfoShort, false);
 
         Assert.assertEquals(fileInfoFull, fileInfoShort);
         fileInfoFull.getLines().forEach(lineInfo ->
@@ -107,7 +107,7 @@ public class FileAnalyzerTest extends GitTestTemplate {
         config.setAuthorList(Collections.singletonList(author));
 
         FileInfo fileInfo = FileInfoExtractor.generateFileInfo(config.getRepoRoot(), "pr_617.java");
-        FileInfoAnalyzer.analyzeFile(config, fileInfo);
+        FileInfoAnalyzer.analyzeFile(config, fileInfo, false);
 
         Assert.assertEquals(1, fileInfo.getLines().size());
         fileInfo.getLines().forEach(lineInfo -> Assert.assertEquals(author, lineInfo.getAuthor()));

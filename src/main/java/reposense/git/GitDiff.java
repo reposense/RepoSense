@@ -24,6 +24,14 @@ public class GitDiff {
     }
 
     /**
+     * Returns the git diff result of {@code currentCommitHash} compared to {@code baseCommitHash}.
+     */
+    public static String diffCommits(String root, String baseCommitHash, String currentCommitHash) {
+        Path rootPath = Paths.get(root);
+        return runCommand(rootPath, String.format("git diff %s...%s", baseCommitHash, currentCommitHash));
+    }
+
+    /**
      * Returns a list of committed files with the corresponding number of lines added and deleted in the repo
      * {@code repoRoot}.
      */

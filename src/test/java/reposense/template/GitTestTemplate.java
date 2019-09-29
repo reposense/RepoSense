@@ -101,7 +101,7 @@ public class GitTestTemplate {
 
     public FileResult getFileResult(String relativePath) {
         FileInfo fileinfo = generateTestFileInfo(relativePath);
-        return FileInfoAnalyzer.analyzeFile(config, fileinfo);
+        return FileInfoAnalyzer.analyzeFile(config, fileinfo, false);
     }
 
     /**

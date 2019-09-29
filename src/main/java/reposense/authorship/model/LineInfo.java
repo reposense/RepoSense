@@ -10,6 +10,7 @@ import reposense.model.Author;
 public class LineInfo {
     private int lineNumber;
     private Author author;
+    private boolean isFullCredit;
     private String content;
 
     private transient boolean isTracked;
@@ -19,14 +20,23 @@ public class LineInfo {
         this.content = content;
 
         isTracked = true;
+        isFullCredit = false;
     }
 
     public Author getAuthor() {
         return author;
     }
 
+    public boolean isFullCredit() {
+        return isFullCredit;
+    }
+
     public void setAuthor(Author author) {
         this.author = author;
+    }
+
+    public void setIsFullCredit(boolean isFullCredit) {
+        this.isFullCredit = isFullCredit;
     }
 
     public int getLineNumber() {

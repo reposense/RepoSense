@@ -17,11 +17,11 @@ public class AuthorshipReporter {
     /**
      * Generates and returns the authorship summary for each repo in {@code config}.
      */
-    public static AuthorshipSummary generateAuthorshipSummary(RepoConfiguration config) {
+    public static AuthorshipSummary generateAuthorshipSummary(RepoConfiguration config, boolean isAuthorshipAnalyzed) {
         List<FileInfo> fileInfos = FileInfoExtractor.extractFileInfos(config);
 
         List<FileResult> fileResults = fileInfos.stream()
-                .map(fileInfo -> FileInfoAnalyzer.analyzeFile(config, fileInfo))
+                .map(fileInfo -> FileInfoAnalyzer.analyzeFile(config, fileInfo, isAuthorshipAnalyzed))
                 .filter(Objects::nonNull)
                 .collect(Collectors.toList());
 

@@ -44,6 +44,7 @@ public class ArgsParser {
     public static final String[] IGNORE_FLAGS = new String[]{"--ignore-standalone-config", "-i"};
     public static final String[] TIMEZONE_FLAGS = new String[]{"--timezone", "-t"};
     public static final String[] VERSION_FLAGS = new String[]{"--version", "-V"};
+    public static final String[] ANALYZE_AUTHORSHIP_FLAGS = new String[]{"--analyze-authorship", "-A"};
 
     private static final Logger logger = LogsManager.getLogger(ArgsParser.class);
 
@@ -84,6 +85,11 @@ public class ArgsParser {
                 .dest(IGNORE_FLAGS[0])
                 .action(Arguments.storeTrue())
                 .help("A flag to ignore the standalone config file in the repo.");
+
+        parser.addArgument(ANALYZE_AUTHORSHIP_FLAGS)
+                .dest(ANALYZE_AUTHORSHIP_FLAGS[0])
+                .action(Arguments.storeTrue())
+                .help("A flag to perform analysis for code authorship.");
 
         parser.addArgument(VIEW_FLAGS)
                 .dest(VIEW_FLAGS[0])
@@ -177,6 +183,7 @@ public class ArgsParser {
             List<String> locations = results.get(REPO_FLAGS[0]);
             List<FileType> formats = FileType.convertFormatStringsToFileTypes(results.get(FORMAT_FLAGS[0]));
             boolean isStandaloneConfigIgnored = results.get(IGNORE_FLAGS[0]);
+            boolean isAuthorshipAnalyzed = results.get(ANALYZE_AUTHORSHIP_FLAGS[0]);
             ZoneId zoneId = results.get(TIMEZONE_FLAGS[0]);
 
             LogsManager.setLogFolderLocation(outputFolderPath);
@@ -197,14 +204,15 @@ public class ArgsParser {
 
             if (locations != null) {
                 return new LocationsCliArguments(locations, outputFolderPath, sinceDate, untilDate, isSinceDateProvided,
-                        isUntilDateProvided, formats, isAutomaticallyLaunching, isStandaloneConfigIgnored, zoneId);
+                        isUntilDateProvided, formats, isAutomaticallyLaunching, isStandaloneConfigIgnored, zoneId,
+                        isAuthorshipAnalyzed);
             }
 
             if (configFolderPath.equals(EMPTY_PATH)) {
                 logger.info(MESSAGE_USING_DEFAULT_CONFIG_PATH);
             }
             return new ConfigCliArguments(configFolderPath, outputFolderPath, sinceDate, untilDate, isSinceDateProvided,
-                    isUntilDateProvided, formats, isAutomaticallyLaunching, zoneId);
+                    isUntilDateProvided, formats, isAutomaticallyLaunching, zoneId, isAuthorshipAnalyzed);
         } catch (HelpScreenException hse) {
             throw hse;
         } catch (ArgumentParserException ape) {

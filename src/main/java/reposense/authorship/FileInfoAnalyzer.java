@@ -11,6 +11,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import reposense.authorship.analyzer.AnnotatorAnalyzer;
+import reposense.authorship.analyzer.AuthorshipAnalyzer;
 import reposense.authorship.model.FileInfo;
 import reposense.authorship.model.FileResult;
 import reposense.authorship.model.LineInfo;
@@ -37,13 +38,13 @@ public class FileInfoAnalyzer {
      * Returns null if the file contains the reused tag, or none of the {@code Author} specified in
      * {@code config} contributed to the file in {@code fileInfo}.
      */
-    public static FileResult analyzeFile(RepoConfiguration config, FileInfo fileInfo) {
+    public static FileResult analyzeFile(RepoConfiguration config, FileInfo fileInfo, boolean isAuthorshipAnalyzed) {
         String relativePath = fileInfo.getPath();
         if (isReused(config.getRepoRoot(), relativePath)) {
             return null;
         }
 
-        aggregateBlameAuthorInfo(config, fileInfo);
+        aggregateBlameAuthorInfo(config, fileInfo, isAuthorshipAnalyzed);
         fileInfo.setFileType(config.getFileType(fileInfo.getPath()));
 
         if (config.isAnnotationOverwrite()) {
@@ -72,7 +73,8 @@ public class FileInfoAnalyzer {
     /**
      * Sets the {@code Author} for each line in {@code fileInfo} based on the git blame analysis on the file.
      */
-    private static void aggregateBlameAuthorInfo(RepoConfiguration config, FileInfo fileInfo) {
+    private static void aggregateBlameAuthorInfo(
+            RepoConfiguration config, FileInfo fileInfo, boolean isAuthorshipAnalyzed) {
         String blameResults = getGitBlameResult(config, fileInfo.getPath());
         String[] blameResultLines = blameResults.split("\n");
         Path filePath = Paths.get(fileInfo.getPath());
@@ -90,6 +92,13 @@ public class FileInfoAnalyzer {
             }
 
             fileInfo.setLineAuthor(lineCount / 3, author);
+
+            if (isAuthorshipAnalyzed && !author.equals(Author.UNKNOWN_AUTHOR)) {
+                String lineContent = fileInfo.getLine(lineCount / 3 + 1).getContent();
+                boolean isFullCredit = AuthorshipAnalyzer.analyzeAuthorship(
+                        config, fileInfo.getPath(), lineContent, commitHash, author);
+                fileInfo.setIsFullCredit(lineCount / 3, isFullCredit);
+            }
         }
     }
 

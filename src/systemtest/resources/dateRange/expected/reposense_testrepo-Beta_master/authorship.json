@@ -8,6 +8,7 @@
         "author": {
           "gitId": "-"
         },
+        "isFullCredit": false,
         "content": "\u003c?xml version\u003d\"1.0\" encoding\u003d\"UTF-8\"?\u003e"
       },
       {
@@ -15,6 +16,7 @@
         "author": {
           "gitId": "-"
         },
+        "isFullCredit": false,
         "content": ""
       },
       {
@@ -22,6 +24,7 @@
         "author": {
           "gitId": "-"
         },
+        "isFullCredit": false,
         "content": "\u003c?import java.net.URL?\u003e"
       },
       {
@@ -29,6 +32,7 @@
         "author": {
           "gitId": "-"
         },
+        "isFullCredit": false,
         "content": "\u003c?import javafx.geometry.Insets?\u003e"
       },
       {
@@ -36,6 +40,7 @@
         "author": {
           "gitId": "-"
         },
+        "isFullCredit": false,
         "content": "\u003c?import javafx.scene.control.Menu?\u003e"
       },
       {
@@ -43,6 +48,7 @@
         "author": {
           "gitId": "-"
         },
+        "isFullCredit": false,
         "content": "\u003c?import javafx.scene.control.MenuBar?\u003e"
       },
       {
@@ -50,6 +56,7 @@
         "author": {
           "gitId": "-"
         },
+        "isFullCredit": false,
         "content": "\u003c?import javafx.scene.control.MenuItem?\u003e"
       },
       {
@@ -57,6 +64,7 @@
         "author": {
           "gitId": "-"
         },
+        "isFullCredit": false,
         "content": "\u003c?import javafx.scene.control.SplitPane?\u003e"
       },
       {
@@ -64,6 +72,7 @@
         "author": {
           "gitId": "-"
         },
+        "isFullCredit": false,
         "content": "\u003c?import javafx.scene.layout.StackPane?\u003e"
       },
       {
@@ -71,6 +80,7 @@
         "author": {
           "gitId": "-"
         },
+        "isFullCredit": false,
         "content": "\u003c?import javafx.scene.layout.VBox?\u003e"
       },
       {
@@ -78,6 +88,7 @@
         "author": {
           "gitId": "-"
         },
+        "isFullCredit": false,
         "content": "\u003cVBox xmlns\u003d\"http://javafx.com/javafx/8\" xmlns:fx\u003d\"http://javafx.com/fxml/1\"\u003e"
       },
       {
@@ -85,6 +96,7 @@
         "author": {
           "gitId": "-"
         },
+        "isFullCredit": false,
         "content": "  \u003cstylesheets\u003e"
       },
       {
@@ -92,6 +104,7 @@
         "author": {
           "gitId": "-"
         },
+        "isFullCredit": false,
         "content": "    \u003cURL value\u003d\"@DarkTheme.css\" /\u003e"
       },
       {
@@ -99,6 +112,7 @@
         "author": {
           "gitId": "-"
         },
+        "isFullCredit": false,
         "content": "    \u003cURL value\u003d\"@Extensions.css\" /\u003e"
       },
       {
@@ -106,6 +120,7 @@
         "author": {
           "gitId": "-"
         },
+        "isFullCredit": false,
         "content": "  \u003c/stylesheets\u003e"
       },
       {
@@ -113,6 +128,7 @@
         "author": {
           "gitId": "-"
         },
+        "isFullCredit": false,
         "content": ""
       },
       {
@@ -120,6 +136,7 @@
         "author": {
           "gitId": "-"
         },
+        "isFullCredit": false,
         "content": "  \u003cMenuBar fx:id\u003d\"menuBar\" VBox.vgrow\u003d\"NEVER\"\u003e"
       },
       {
@@ -127,6 +144,7 @@
         "author": {
           "gitId": "-"
         },
+        "isFullCredit": false,
         "content": "    \u003cMenu mnemonicParsing\u003d\"false\" text\u003d\"File\"\u003e"
       },
       {
@@ -134,6 +152,7 @@
         "author": {
           "gitId": "-"
         },
+        "isFullCredit": false,
         "content": "      \u003cMenuItem mnemonicParsing\u003d\"false\" onAction\u003d\"#handleExit\" text\u003d\"Exit\" /\u003e"
       },
       {
@@ -141,6 +160,7 @@
         "author": {
           "gitId": "-"
         },
+        "isFullCredit": false,
         "content": "    \u003c/Menu\u003e"
       },
       {
@@ -148,6 +168,7 @@
         "author": {
           "gitId": "-"
         },
+        "isFullCredit": false,
         "content": "    \u003cMenu mnemonicParsing\u003d\"false\" text\u003d\"Help\"\u003e"
       },
       {
@@ -155,6 +176,7 @@
         "author": {
           "gitId": "-"
         },
+        "isFullCredit": false,
         "content": "      \u003cMenuItem fx:id\u003d\"helpMenuItem\" mnemonicParsing\u003d\"false\" onAction\u003d\"#handleHelp\" text\u003d\"Help\" /\u003e"
       },
       {
@@ -162,6 +184,7 @@
         "author": {
           "gitId": "-"
         },
+        "isFullCredit": false,
         "content": "    \u003c/Menu\u003e"
       },
       {
@@ -169,6 +192,7 @@
         "author": {
           "gitId": "-"
         },
+        "isFullCredit": false,
         "content": "  \u003c/MenuBar\u003e"
       },
       {
@@ -176,6 +200,7 @@
         "author": {
           "gitId": "-"
         },
+        "isFullCredit": false,
         "content": ""
       },
       {
@@ -183,6 +208,7 @@
         "author": {
           "gitId": "nbr"
         },
+        "isFullCredit": false,
         "content": "  \u003cStackPane fx:id\u003d\"commandBoxPlaceholder\" styleClass\u003d\"pane-with-border\" VBox.vgrow\u003d\"NEVER\"\u003e"
       },
       {
@@ -190,6 +216,7 @@
         "author": {
           "gitId": "nbr"
         },
+        "isFullCredit": false,
         "content": "    \u003cpadding\u003e"
       },
       {
@@ -197,6 +224,7 @@
         "author": {
           "gitId": "nbr"
         },
+        "isFullCredit": false,
         "content": "      \u003cInsets bottom\u003d\"5\" left\u003d\"10\" right\u003d\"10\" top\u003d\"5\" /\u003e"
       },
       {
@@ -204,6 +232,7 @@
         "author": {
           "gitId": "nbr"
         },
+        "isFullCredit": false,
         "content": "    \u003c/padding\u003e"
       },
       {
@@ -211,6 +240,7 @@
         "author": {
           "gitId": "nbr"
         },
+        "isFullCredit": false,
         "content": "  \u003c/StackPane\u003e"
       },
       {
@@ -218,6 +248,7 @@
         "author": {
           "gitId": "nbr"
         },
+        "isFullCredit": false,
         "content": ""
       },
       {
@@ -225,6 +256,7 @@
         "author": {
           "gitId": "nbr"
         },
+        "isFullCredit": false,
         "content": "  \u003cStackPane fx:id\u003d\"resultDisplayPlaceholder\" maxHeight\u003d\"200\" minHeight\u003d\"200\" prefHeight\u003d\"200\" styleClass\u003d\"pane-with-border\" VBox.vgrow\u003d\"NEVER\"\u003e"
       },
       {
@@ -232,6 +264,7 @@
         "author": {
           "gitId": "-"
         },
+        "isFullCredit": false,
         "content": "    \u003cpadding\u003e"
       },
       {
@@ -239,6 +272,7 @@
         "author": {
           "gitId": "nbr"
         },
+        "isFullCredit": false,
         "content": "      \u003cInsets bottom\u003d\"5\" left\u003d\"10\" right\u003d\"10\" top\u003d\"5\" /\u003e"
       },
       {
@@ -246,6 +280,7 @@
         "author": {
           "gitId": "-"
         },
+        "isFullCredit": false,
         "content": "    \u003c/padding\u003e"
       },
       {
@@ -253,6 +288,7 @@
         "author": {
           "gitId": "-"
         },
+        "isFullCredit": false,
         "content": "  \u003c/StackPane\u003e"
       },
       {
@@ -260,6 +296,7 @@
         "author": {
           "gitId": "-"
         },
+        "isFullCredit": false,
         "content": ""
       },
       {
@@ -267,6 +304,7 @@
         "author": {
           "gitId": "nbr"
         },
+        "isFullCredit": false,
         "content": "  \u003cStackPane fx:id\u003d\"tagListPanelPlaceholder\" maxHeight\u003d\"80\" minHeight\u003d\"80\" prefHeight\u003d\"80\" styleClass\u003d\"pane-with-border\" VBox.vgrow\u003d\"NEVER\"\u003e"
       },
       {
@@ -274,6 +312,7 @@
         "author": {
           "gitId": "-"
         },
+        "isFullCredit": false,
         "content": "    \u003cpadding\u003e"
       },
       {
@@ -281,6 +320,7 @@
         "author": {
           "gitId": "nbr"
         },
+        "isFullCredit": false,
         "content": "      \u003cInsets bottom\u003d\"5\" left\u003d\"10\" right\u003d\"10\" top\u003d\"5\" /\u003e"
       },
       {
@@ -288,6 +328,7 @@
         "author": {
           "gitId": "-"
         },
+        "isFullCredit": false,
         "content": "    \u003c/padding\u003e"
       },
       {
@@ -295,6 +336,7 @@
         "author": {
           "gitId": "-"
         },
+        "isFullCredit": false,
         "content": "  \u003c/StackPane\u003e"
       },
       {
@@ -302,6 +344,7 @@
         "author": {
           "gitId": "-"
         },
+        "isFullCredit": false,
         "content": ""
       },
       {
@@ -309,6 +352,7 @@
         "author": {
           "gitId": "-"
         },
+        "isFullCredit": false,
         "content": "  \u003cSplitPane id\u003d\"splitPane\" fx:id\u003d\"splitPane\" dividerPositions\u003d\"0.4\" VBox.vgrow\u003d\"ALWAYS\"\u003e"
       },
       {
@@ -316,6 +360,7 @@
         "author": {
           "gitId": "nbr"
         },
+        "isFullCredit": false,
         "content": "    \u003cVBox fx:id\u003d\"personList\" minWidth\u003d\"335.0\" prefHeight\u003d\"143.0\" prefWidth\u003d\"335.0\" SplitPane.resizableWithParent\u003d\"false\"\u003e"
       },
       {
@@ -323,6 +368,7 @@
         "author": {
           "gitId": "-"
         },
+        "isFullCredit": false,
         "content": "      \u003cpadding\u003e"
       },
       {
@@ -330,6 +376,7 @@
         "author": {
           "gitId": "nbr"
         },
+        "isFullCredit": false,
         "content": "        \u003cInsets bottom\u003d\"10\" left\u003d\"10\" right\u003d\"10\" top\u003d\"10\" /\u003e"
       },
       {
@@ -337,6 +384,7 @@
         "author": {
           "gitId": "-"
         },
+        "isFullCredit": false,
         "content": "      \u003c/padding\u003e"
       },
       {
@@ -344,6 +392,7 @@
         "author": {
           "gitId": "-"
         },
+        "isFullCredit": false,
         "content": "      \u003cStackPane fx:id\u003d\"personListPanelPlaceholder\" VBox.vgrow\u003d\"ALWAYS\" /\u003e"
       },
       {
@@ -351,6 +400,7 @@
         "author": {
           "gitId": "-"
         },
+        "isFullCredit": false,
         "content": "    \u003c/VBox\u003e"
       },
       {
@@ -358,6 +408,7 @@
         "author": {
           "gitId": "-"
         },
+        "isFullCredit": false,
         "content": ""
       },
       {
@@ -365,6 +416,7 @@
         "author": {
           "gitId": "-"
         },
+        "isFullCredit": false,
         "content": "    \u003cStackPane fx:id\u003d\"infoPlaceholder\" prefWidth\u003d\"340\"\u003e"
       },
       {
@@ -372,6 +424,7 @@
         "author": {
           "gitId": "-"
         },
+        "isFullCredit": false,
         "content": "      \u003cpadding\u003e"
       },
       {
@@ -379,6 +432,7 @@
         "author": {
           "gitId": "nbr"
         },
+        "isFullCredit": false,
         "content": "        \u003cInsets bottom\u003d\"10\" left\u003d\"10\" right\u003d\"10\" top\u003d\"10\" /\u003e"
       },
       {
@@ -386,6 +440,7 @@
         "author": {
           "gitId": "-"
         },
+        "isFullCredit": false,
         "content": "      \u003c/padding\u003e"
       },
       {
@@ -393,6 +448,7 @@
         "author": {
           "gitId": "-"
         },
+        "isFullCredit": false,
         "content": "    \u003c/StackPane\u003e"
       },
       {
@@ -400,6 +456,7 @@
         "author": {
           "gitId": "-"
         },
+        "isFullCredit": false,
         "content": "  \u003c/SplitPane\u003e"
       },
       {
@@ -407,6 +464,7 @@
         "author": {
           "gitId": "-"
         },
+        "isFullCredit": false,
         "content": ""
       },
       {
@@ -414,6 +472,7 @@
         "author": {
           "gitId": "-"
         },
+        "isFullCredit": false,
         "content": "  \u003cStackPane fx:id\u003d\"statusbarPlaceholder\" VBox.vgrow\u003d\"NEVER\" /\u003e"
       },
       {
@@ -421,6 +480,7 @@
         "author": {
           "gitId": "-"
         },
+        "isFullCredit": false,
         "content": "\u003c/VBox\u003e"
       }
     ],
@@ -438,6 +498,7 @@
         "author": {
           "gitId": "-"
         },
+        "isFullCredit": false,
         "content": "\u003c?xml version\u003d\"1.0\" encoding\u003d\"UTF-8\"?\u003e"
       },
       {
@@ -445,6 +506,7 @@
         "author": {
           "gitId": "-"
         },
+        "isFullCredit": false,
         "content": ""
       },
       {
@@ -452,6 +514,7 @@
         "author": {
           "gitId": "-"
         },
+        "isFullCredit": false,
         "content": "\u003c?import javafx.scene.control.Label?\u003e"
       },
       {
@@ -459,6 +522,7 @@
         "author": {
           "gitId": "-"
         },
+        "isFullCredit": false,
         "content": "\u003c?import javafx.scene.control.SplitPane?\u003e"
       },
       {
@@ -466,6 +530,7 @@
         "author": {
           "gitId": "-"
         },
+        "isFullCredit": false,
         "content": "\u003c?import javafx.scene.layout.AnchorPane?\u003e"
       },
       {
@@ -473,6 +538,7 @@
         "author": {
           "gitId": "-"
         },
+        "isFullCredit": false,
         "content": "\u003c?import javafx.scene.layout.HBox?\u003e"
       },
       {
@@ -480,6 +546,7 @@
         "author": {
           "gitId": "-"
         },
+        "isFullCredit": false,
         "content": "\u003c?import javafx.scene.layout.StackPane?\u003e"
       },
       {
@@ -487,6 +554,7 @@
         "author": {
           "gitId": "-"
         },
+        "isFullCredit": false,
         "content": "\u003c?import javafx.scene.layout.VBox?\u003e"
       },
       {
@@ -494,6 +562,7 @@
         "author": {
           "gitId": "-"
         },
+        "isFullCredit": false,
         "content": "\u003cStackPane styleClass\u003d\"info-panel\" xmlns\u003d\"http://javafx.com/javafx/8\" xmlns:fx\u003d\"http://javafx.com/fxml/1\"\u003e"
       },
       {
@@ -501,6 +570,7 @@
         "author": {
           "gitId": "nbr"
         },
+        "isFullCredit": false,
         "content": "    \u003c!--Edit dividerPositions below to adjust vertical divider position between the person info and the timetable area --\u003e"
       },
       {
@@ -508,6 +578,7 @@
         "author": {
           "gitId": "nbr"
         },
+        "isFullCredit": false,
         "content": "    \u003cSplitPane dividerPositions\u003d\"0.3\" orientation\u003d\"VERTICAL\"\u003e"
       },
       {
@@ -515,6 +586,7 @@
         "author": {
           "gitId": "-"
         },
+        "isFullCredit": false,
         "content": "        \u003cAnchorPane\u003e"
       },
       {
@@ -522,6 +594,7 @@
         "author": {
           "gitId": "nbr"
         },
+        "isFullCredit": false,
         "content": "            \u003c!--Edit dividerPositions below to adjust the divider position between the person photo and the person details--\u003e"
       },
       {
@@ -529,6 +602,7 @@
         "author": {
           "gitId": "nbr"
         },
+        "isFullCredit": false,
         "content": "            \u003cSplitPane dividerPositions\u003d\"0.5\" AnchorPane.bottomAnchor\u003d\"0.0\" AnchorPane.leftAnchor\u003d\"0.0\" AnchorPane.rightAnchor\u003d\"0.0\" AnchorPane.topAnchor\u003d\"0.0\"\u003e"
       },
       {
@@ -536,6 +610,7 @@
         "author": {
           "gitId": "-"
         },
+        "isFullCredit": false,
         "content": "                \u003cAnchorPane minHeight\u003d\"0.0\" minWidth\u003d\"0.0\" styleClass\u003d\"info-name-cell\"\u003e"
       },
       {
@@ -543,6 +618,7 @@
         "author": {
           "gitId": "-"
         },
+        "isFullCredit": false,
         "content": "                    \u003cLabel fx:id\u003d\"name\" alignment\u003d\"CENTER\" contentDisplay\u003d\"CENTER\" prefHeight\u003d\"28.0\" prefWidth\u003d\"43.2\" styleClass\u003d\"display_big_label\" text\u003d\"\\$name\" textAlignment\u003d\"CENTER\" AnchorPane.bottomAnchor\u003d\"0.0\" AnchorPane.leftAnchor\u003d\"0.0\" AnchorPane.rightAnchor\u003d\"0.0\" AnchorPane.topAnchor\u003d\"0.0\" /\u003e"
       },
       {
@@ -550,6 +626,7 @@
         "author": {
           "gitId": "-"
         },
+        "isFullCredit": false,
         "content": "                \u003c/AnchorPane\u003e"
       },
       {
@@ -557,6 +634,7 @@
         "author": {
           "gitId": "-"
         },
+        "isFullCredit": false,
         "content": "                \u003cAnchorPane minHeight\u003d\"0.0\" minWidth\u003d\"0.0\" styleClass\u003d\"info-cell\"\u003e"
       },
       {
@@ -564,6 +642,7 @@
         "author": {
           "gitId": "-"
         },
+        "isFullCredit": false,
         "content": "                    \u003cVBox alignment\u003d\"CENTER_LEFT\" AnchorPane.bottomAnchor\u003d\"0.0\" AnchorPane.leftAnchor\u003d\"20.0\" AnchorPane.rightAnchor\u003d\"0.0\" AnchorPane.topAnchor\u003d\"0.0\"\u003e"
       },
       {
@@ -571,6 +650,7 @@
         "author": {
           "gitId": "-"
         },
+        "isFullCredit": false,
         "content": "                        \u003cHBox alignment\u003d\"CENTER_LEFT\" spacing\u003d\"5\"\u003e"
       },
       {
@@ -578,6 +658,7 @@
         "author": {
           "gitId": "-"
         },
+        "isFullCredit": false,
         "content": "                            \u003cLabel styleClass\u003d\"display_small_label\" text\u003d\"Gender:\" /\u003e"
       },
       {
@@ -585,6 +666,7 @@
         "author": {
           "gitId": "-"
         },
+        "isFullCredit": false,
         "content": "                            \u003cLabel fx:id\u003d\"gender\" styleClass\u003d\"display_small_value\" text\u003d\"\\$gender\" /\u003e"
       },
       {
@@ -592,6 +674,7 @@
         "author": {
           "gitId": "-"
         },
+        "isFullCredit": false,
         "content": "                        \u003c/HBox\u003e"
       },
       {
@@ -599,6 +682,7 @@
         "author": {
           "gitId": "-"
         },
+        "isFullCredit": false,
         "content": "                        \u003cHBox alignment\u003d\"CENTER_LEFT\" spacing\u003d\"5\"\u003e"
       },
       {
@@ -606,6 +690,7 @@
         "author": {
           "gitId": "-"
         },
+        "isFullCredit": false,
         "content": "                            \u003cLabel styleClass\u003d\"display_small_label\" text\u003d\"Matriculation No:\" /\u003e"
       },
       {
@@ -613,6 +698,7 @@
         "author": {
           "gitId": "-"
         },
+        "isFullCredit": false,
         "content": "                            \u003cLabel fx:id\u003d\"matricNo\" styleClass\u003d\"display_small_value\" text\u003d\"\\$matricNo\" /\u003e"
       },
       {
@@ -620,6 +706,7 @@
         "author": {
           "gitId": "-"
         },
+        "isFullCredit": false,
         "content": "                        \u003c/HBox\u003e"
       },
       {
@@ -627,6 +714,7 @@
         "author": {
           "gitId": "-"
         },
+        "isFullCredit": false,
         "content": "                        \u003cHBox alignment\u003d\"CENTER_LEFT\" spacing\u003d\"5\"\u003e"
       },
       {
@@ -634,6 +722,7 @@
         "author": {
           "gitId": "-"
         },
+        "isFullCredit": false,
         "content": "                            \u003cLabel styleClass\u003d\"display_small_label\" text\u003d\"Phone No:\" /\u003e"
       },
       {
@@ -641,6 +730,7 @@
         "author": {
           "gitId": "-"
         },
+        "isFullCredit": false,
         "content": "                            \u003cLabel fx:id\u003d\"phone\" styleClass\u003d\"display_small_value\" text\u003d\"\\$phone\" /\u003e"
       },
       {
@@ -648,6 +738,7 @@
         "author": {
           "gitId": "-"
         },
+        "isFullCredit": false,
         "content": "                        \u003c/HBox\u003e"
       },
       {
@@ -655,6 +746,7 @@
         "author": {
           "gitId": "-"
         },
+        "isFullCredit": false,
         "content": "                        \u003cHBox alignment\u003d\"CENTER_LEFT\" spacing\u003d\"5\"\u003e"
       },
       {
@@ -662,6 +754,7 @@
         "author": {
           "gitId": "-"
         },
+        "isFullCredit": false,
         "content": "                            \u003cLabel styleClass\u003d\"display_small_label\" text\u003d\"Address:\" /\u003e"
       },
       {
@@ -669,6 +762,7 @@
         "author": {
           "gitId": "-"
         },
+        "isFullCredit": false,
         "content": "                            \u003cLabel fx:id\u003d\"address\" styleClass\u003d\"display_small_value\" text\u003d\"\\$address\" /\u003e"
       },
       {
@@ -676,6 +770,7 @@
         "author": {
           "gitId": "-"
         },
+        "isFullCredit": false,
         "content": "                        \u003c/HBox\u003e"
       },
       {
@@ -683,6 +778,7 @@
         "author": {
           "gitId": "-"
         },
+        "isFullCredit": false,
         "content": "                        \u003cHBox alignment\u003d\"CENTER_LEFT\" spacing\u003d\"5\"\u003e"
       },
       {
@@ -690,6 +786,7 @@
         "author": {
           "gitId": "-"
         },
+        "isFullCredit": false,
         "content": "                            \u003cLabel styleClass\u003d\"display_small_label\" text\u003d\"Email:\" /\u003e"
       },
       {
@@ -697,6 +794,7 @@
         "author": {
           "gitId": "-"
         },
+        "isFullCredit": false,
         "content": "                            \u003cLabel fx:id\u003d\"email\" styleClass\u003d\"display_small_value\" text\u003d\"\\$email\" /\u003e"
       },
       {
@@ -704,6 +802,7 @@
         "author": {
           "gitId": "-"
         },
+        "isFullCredit": false,
         "content": "                        \u003c/HBox\u003e"
       },
       {
@@ -711,6 +810,7 @@
         "author": {
           "gitId": "-"
         },
+        "isFullCredit": false,
         "content": "                        \u003cHBox alignment\u003d\"CENTER_LEFT\" spacing\u003d\"5\"\u003e"
       },
       {
@@ -718,6 +818,7 @@
         "author": {
           "gitId": "-"
         },
+        "isFullCredit": false,
         "content": "                            \u003cLabel styleClass\u003d\"display_small_label\" text\u003d\"Birthday:\" /\u003e"
       },
       {
@@ -725,6 +826,7 @@
         "author": {
           "gitId": "-"
         },
+        "isFullCredit": false,
         "content": "                            \u003cLabel fx:id\u003d\"birthday\" styleClass\u003d\"display_small_value\" text\u003d\"\\$birthday\" /\u003e"
       },
       {
@@ -732,6 +834,7 @@
         "author": {
           "gitId": "-"
         },
+        "isFullCredit": false,
         "content": "                        \u003c/HBox\u003e"
       },
       {
@@ -739,6 +842,7 @@
         "author": {
           "gitId": "-"
         },
+        "isFullCredit": false,
         "content": "                        \u003cHBox alignment\u003d\"CENTER_LEFT\" spacing\u003d\"5\"\u003e"
       },
       {
@@ -746,6 +850,7 @@
         "author": {
           "gitId": "-"
         },
+        "isFullCredit": false,
         "content": "                            \u003cLabel styleClass\u003d\"display_small_label\" text\u003d\"Remark:\" /\u003e"
       },
       {
@@ -753,6 +858,7 @@
         "author": {
           "gitId": "-"
         },
+        "isFullCredit": false,
         "content": "                            \u003cLabel fx:id\u003d\"remark\" styleClass\u003d\"display_small_value\" text\u003d\"\\$remark\" /\u003e"
       },
       {
@@ -760,6 +866,7 @@
         "author": {
           "gitId": "-"
         },
+        "isFullCredit": false,
         "content": "                        \u003c/HBox\u003e"
       },
       {
@@ -767,6 +874,7 @@
         "author": {
           "gitId": "-"
         },
+        "isFullCredit": false,
         "content": "                    \u003c/VBox\u003e"
       },
       {
@@ -774,6 +882,7 @@
         "author": {
           "gitId": "-"
         },
+        "isFullCredit": false,
         "content": "                \u003c/AnchorPane\u003e"
       },
       {
@@ -781,6 +890,7 @@
         "author": {
           "gitId": "-"
         },
+        "isFullCredit": false,
         "content": "            \u003c/SplitPane\u003e"
       },
       {
@@ -788,6 +898,7 @@
         "author": {
           "gitId": "-"
         },
+        "isFullCredit": false,
         "content": "        \u003c/AnchorPane\u003e"
       },
       {
@@ -795,6 +906,7 @@
         "author": {
           "gitId": "-"
         },
+        "isFullCredit": false,
         "content": "        \u003cAnchorPane minHeight\u003d\"0.0\" minWidth\u003d\"0.0\" /\u003e"
       },
       {
@@ -802,6 +914,7 @@
         "author": {
           "gitId": "-"
         },
+        "isFullCredit": false,
         "content": "    \u003c/SplitPane\u003e"
       },
       {
@@ -809,6 +922,7 @@
         "author": {
           "gitId": "-"
         },
+        "isFullCredit": false,
         "content": "\u003c/StackPane\u003e"
       }
     ],
@@ -826,6 +940,7 @@
         "author": {
           "gitId": "-"
         },
+        "isFullCredit": false,
         "content": "\u003c?xml version\u003d\"1.0\" encoding\u003d\"UTF-8\"?\u003e"
       },
       {
@@ -833,6 +948,7 @@
         "author": {
           "gitId": "-"
         },
+        "isFullCredit": false,
         "content": ""
       },
       {
@@ -840,6 +956,7 @@
         "author": {
           "gitId": "-"
         },
+        "isFullCredit": false,
         "content": "\u003c?import javafx.geometry.Insets?\u003e"
       },
       {
@@ -847,6 +964,7 @@
         "author": {
           "gitId": "-"
         },
+        "isFullCredit": false,
         "content": "\u003c?import javafx.scene.control.Label?\u003e"
       },
       {
@@ -854,6 +972,7 @@
         "author": {
           "gitId": "-"
         },
+        "isFullCredit": false,
         "content": "\u003c?import javafx.scene.layout.ColumnConstraints?\u003e"
       },
       {
@@ -861,6 +980,7 @@
         "author": {
           "gitId": "-"
         },
+        "isFullCredit": false,
         "content": "\u003c?import javafx.scene.layout.FlowPane?\u003e"
       },
       {
@@ -868,6 +988,7 @@
         "author": {
           "gitId": "-"
         },
+        "isFullCredit": false,
         "content": "\u003c?import javafx.scene.layout.GridPane?\u003e"
       },
       {
@@ -875,6 +996,7 @@
         "author": {
           "gitId": "-"
         },
+        "isFullCredit": false,
         "content": "\u003c?import javafx.scene.layout.HBox?\u003e"
       },
       {
@@ -882,6 +1004,7 @@
         "author": {
           "gitId": "-"
         },
+        "isFullCredit": false,
         "content": "\u003c?import javafx.scene.layout.Region?\u003e"
       },
       {
@@ -889,6 +1012,7 @@
         "author": {
           "gitId": "-"
         },
+        "isFullCredit": false,
         "content": "\u003c?import javafx.scene.layout.VBox?\u003e"
       },
       {
@@ -896,6 +1020,7 @@
         "author": {
           "gitId": "-"
         },
+        "isFullCredit": false,
         "content": ""
       },
       {
@@ -903,6 +1028,7 @@
         "author": {
           "gitId": "-"
         },
+        "isFullCredit": false,
         "content": "\u003cHBox id\u003d\"cardPane\" fx:id\u003d\"cardPane\" xmlns\u003d\"http://javafx.com/javafx/8\" xmlns:fx\u003d\"http://javafx.com/fxml/1\"\u003e"
       },
       {
@@ -910,6 +1036,7 @@
         "author": {
           "gitId": "-"
         },
+        "isFullCredit": false,
         "content": "  \u003cGridPane HBox.hgrow\u003d\"ALWAYS\"\u003e"
       },
       {
@@ -917,6 +1044,7 @@
         "author": {
           "gitId": "-"
         },
+        "isFullCredit": false,
         "content": "    \u003ccolumnConstraints\u003e"
       },
       {
@@ -924,6 +1052,7 @@
         "author": {
           "gitId": "-"
         },
+        "isFullCredit": false,
         "content": "      \u003cColumnConstraints hgrow\u003d\"SOMETIMES\" minWidth\u003d\"10\" prefWidth\u003d\"150\" /\u003e"
       },
       {
@@ -931,6 +1060,7 @@
         "author": {
           "gitId": "-"
         },
+        "isFullCredit": false,
         "content": "    \u003c/columnConstraints\u003e"
       },
       {
@@ -938,6 +1068,7 @@
         "author": {
           "gitId": "-"
         },
+        "isFullCredit": false,
         "content": "    \u003cVBox alignment\u003d\"CENTER_LEFT\" minHeight\u003d\"105\" GridPane.columnIndex\u003d\"0\"\u003e"
       },
       {
@@ -945,6 +1076,7 @@
         "author": {
           "gitId": "-"
         },
+        "isFullCredit": false,
         "content": "      \u003cpadding\u003e"
       },
       {
@@ -952,6 +1084,7 @@
         "author": {
           "gitId": "-"
         },
+        "isFullCredit": false,
         "content": "        \u003cInsets top\u003d\"5\" right\u003d\"5\" bottom\u003d\"5\" left\u003d\"15\" /\u003e"
       },
       {
@@ -959,6 +1092,7 @@
         "author": {
           "gitId": "-"
         },
+        "isFullCredit": false,
         "content": "      \u003c/padding\u003e"
       },
       {
@@ -966,6 +1100,7 @@
         "author": {
           "gitId": "-"
         },
+        "isFullCredit": false,
         "content": "      \u003cHBox spacing\u003d\"5\" alignment\u003d\"CENTER_LEFT\"\u003e"
       },
       {
@@ -973,6 +1108,7 @@
         "author": {
           "gitId": "-"
         },
+        "isFullCredit": false,
         "content": "        \u003cLabel fx:id\u003d\"id\" styleClass\u003d\"cell_big_label\"\u003e"
       },
       {
@@ -980,6 +1116,7 @@
         "author": {
           "gitId": "-"
         },
+        "isFullCredit": false,
         "content": "          \u003cminWidth\u003e"
       },
       {
@@ -987,6 +1124,7 @@
         "author": {
           "gitId": "-"
         },
+        "isFullCredit": false,
         "content": "            \u003c!-- Ensures that the label text is never truncated --\u003e"
       },
       {
@@ -994,6 +1132,7 @@
         "author": {
           "gitId": "-"
         },
+        "isFullCredit": false,
         "content": "            \u003cRegion fx:constant\u003d\"USE_PREF_SIZE\" /\u003e"
       },
       {
@@ -1001,6 +1140,7 @@
         "author": {
           "gitId": "-"
         },
+        "isFullCredit": false,
         "content": "          \u003c/minWidth\u003e"
       },
       {
@@ -1008,6 +1148,7 @@
         "author": {
           "gitId": "-"
         },
+        "isFullCredit": false,
         "content": "        \u003c/Label\u003e"
       },
       {
@@ -1015,6 +1156,7 @@
         "author": {
           "gitId": "-"
         },
+        "isFullCredit": false,
         "content": "        \u003cLabel fx:id\u003d\"name\" text\u003d\"\\$first\" styleClass\u003d\"cell_big_label\" /\u003e"
       },
       {
@@ -1022,6 +1164,7 @@
         "author": {
           "gitId": "-"
         },
+        "isFullCredit": false,
         "content": "      \u003c/HBox\u003e"
       },
       {
@@ -1029,6 +1172,7 @@
         "author": {
           "gitId": "-"
         },
+        "isFullCredit": false,
         "content": "      \u003cFlowPane fx:id\u003d\"tags\" /\u003e"
       },
       {
@@ -1036,6 +1180,7 @@
         "author": {
           "gitId": "April0616"
         },
+        "isFullCredit": false,
         "content": "      \u003cLabel fx:id\u003d\"gender\" styleClass\u003d\"cell_small_label\" text\u003d\"\\$gender\" /\u003e"
       },
       {
@@ -1043,6 +1188,7 @@
         "author": {
           "gitId": "April0616"
         },
+        "isFullCredit": false,
         "content": "      \u003cLabel fx:id\u003d\"matricNo\" styleClass\u003d\"cell_small_label\" text\u003d\"\\$matricNo\" /\u003e"
       },
       {
@@ -1050,6 +1196,7 @@
         "author": {
           "gitId": "-"
         },
+        "isFullCredit": false,
         "content": "      \u003cLabel fx:id\u003d\"phone\" styleClass\u003d\"cell_small_label\" text\u003d\"\\$phone\" /\u003e"
       },
       {
@@ -1057,6 +1204,7 @@
         "author": {
           "gitId": "-"
         },
+        "isFullCredit": false,
         "content": "      \u003cLabel fx:id\u003d\"address\" styleClass\u003d\"cell_small_label\" text\u003d\"\\$address\" /\u003e"
       },
       {
@@ -1064,6 +1212,7 @@
         "author": {
           "gitId": "-"
         },
+        "isFullCredit": false,
         "content": "      \u003cLabel fx:id\u003d\"email\" styleClass\u003d\"cell_small_label\" text\u003d\"\\$email\" /\u003e"
       },
       {
@@ -1071,6 +1220,7 @@
         "author": {
           "gitId": "CindyTsai1"
         },
+        "isFullCredit": false,
         "content": "      \u003cLabel fx:id\u003d\"birthday\" styleClass\u003d\"cell_small_label\" text\u003d\"\\$birthday\" /\u003e"
       },
       {
@@ -1078,6 +1228,7 @@
         "author": {
           "gitId": "-"
         },
+        "isFullCredit": false,
         "content": "      \u003cLabel fx:id\u003d\"timetable\" styleClass\u003d\"cell_small_label\" text\u003d\"\\$timetable\" /\u003e"
       },
       {
@@ -1085,6 +1236,7 @@
         "author": {
           "gitId": "April0616"
         },
+        "isFullCredit": false,
         "content": "      \u003cLabel fx:id\u003d\"remark\" styleClass\u003d\"cell_small_label\" text\u003d\"\\$remark\" /\u003e"
       },
       {
@@ -1092,6 +1244,7 @@
         "author": {
           "gitId": "-"
         },
+        "isFullCredit": false,
         "content": "    \u003c/VBox\u003e"
       },
       {
@@ -1099,6 +1252,7 @@
         "author": {
           "gitId": "-"
         },
+        "isFullCredit": false,
         "content": "  \u003c/GridPane\u003e"
       },
       {
@@ -1106,6 +1260,7 @@
         "author": {
           "gitId": "-"
         },
+        "isFullCredit": false,
         "content": "\u003c/HBox\u003e"
       }
     ],
@@ -1124,6 +1279,7 @@
         "author": {
           "gitId": "nbr"
         },
+        "isFullCredit": false,
         "content": "\u003c?xml version\u003d\"1.0\" encoding\u003d\"UTF-8\"?\u003e"
       },
       {
@@ -1131,6 +1287,7 @@
         "author": {
           "gitId": "nbr"
         },
+        "isFullCredit": false,
         "content": ""
       },
       {
@@ -1138,6 +1295,7 @@
         "author": {
           "gitId": "nbr"
         },
+        "isFullCredit": false,
         "content": "\u003c?import javafx.geometry.Insets?\u003e"
       },
       {
@@ -1145,6 +1303,7 @@
         "author": {
           "gitId": "nbr"
         },
+        "isFullCredit": false,
         "content": "\u003c?import javafx.scene.layout.ColumnConstraints?\u003e"
       },
       {
@@ -1152,6 +1311,7 @@
         "author": {
           "gitId": "nbr"
         },
+        "isFullCredit": false,
         "content": "\u003c?import javafx.scene.layout.FlowPane?\u003e"
       },
       {
@@ -1159,6 +1319,7 @@
         "author": {
           "gitId": "nbr"
         },
+        "isFullCredit": false,
         "content": "\u003c?import javafx.scene.layout.GridPane?\u003e"
       },
       {
@@ -1166,6 +1327,7 @@
         "author": {
           "gitId": "nbr"
         },
+        "isFullCredit": false,
         "content": "\u003c?import javafx.scene.layout.HBox?\u003e"
       },
       {
@@ -1173,6 +1335,7 @@
         "author": {
           "gitId": "nbr"
         },
+        "isFullCredit": false,
         "content": "\u003c?import javafx.scene.layout.RowConstraints?\u003e"
       },
       {
@@ -1180,6 +1343,7 @@
         "author": {
           "gitId": "nbr"
         },
+        "isFullCredit": false,
         "content": "\u003c?import javafx.scene.layout.VBox?\u003e"
       },
       {
@@ -1187,6 +1351,7 @@
         "author": {
           "gitId": "nbr"
         },
+        "isFullCredit": false,
         "content": "\u003cHBox id\u003d\"cardPane\" fx:id\u003d\"cardPane\" xmlns\u003d\"http://javafx.com/javafx/8.0.141\" xmlns:fx\u003d\"http://javafx.com/fxml/1\"\u003e"
       },
       {
@@ -1194,6 +1359,7 @@
         "author": {
           "gitId": "nbr"
         },
+        "isFullCredit": false,
         "content": "  \u003cGridPane HBox.hgrow\u003d\"ALWAYS\"\u003e"
       },
       {
@@ -1201,6 +1367,7 @@
         "author": {
           "gitId": "nbr"
         },
+        "isFullCredit": false,
         "content": "    \u003ccolumnConstraints\u003e"
       },
       {
@@ -1208,6 +1375,7 @@
         "author": {
           "gitId": "nbr"
         },
+        "isFullCredit": false,
         "content": "      \u003cColumnConstraints hgrow\u003d\"SOMETIMES\" minWidth\u003d\"10\" prefWidth\u003d\"150\" /\u003e"
       },
       {
@@ -1215,6 +1383,7 @@
         "author": {
           "gitId": "nbr"
         },
+        "isFullCredit": false,
         "content": "    \u003c/columnConstraints\u003e"
       },
       {
@@ -1222,6 +1391,7 @@
         "author": {
           "gitId": "nbr"
         },
+        "isFullCredit": false,
         "content": "    \u003cVBox alignment\u003d\"CENTER_LEFT\" minHeight\u003d\"105\" GridPane.columnIndex\u003d\"0\"\u003e"
       },
       {
@@ -1229,6 +1399,7 @@
         "author": {
           "gitId": "nbr"
         },
+        "isFullCredit": false,
         "content": "      \u003cpadding\u003e"
       },
       {
@@ -1236,6 +1407,7 @@
         "author": {
           "gitId": "nbr"
         },
+        "isFullCredit": false,
         "content": "        \u003cInsets bottom\u003d\"5\" left\u003d\"15\" right\u003d\"5\" top\u003d\"5\" /\u003e"
       },
       {
@@ -1243,6 +1415,7 @@
         "author": {
           "gitId": "nbr"
         },
+        "isFullCredit": false,
         "content": "      \u003c/padding\u003e"
       },
       {
@@ -1250,6 +1423,7 @@
         "author": {
           "gitId": "nbr"
         },
+        "isFullCredit": false,
         "content": "      \u003cFlowPane fx:id\u003d\"tags\" /\u003e"
       },
       {
@@ -1257,6 +1431,7 @@
         "author": {
           "gitId": "nbr"
         },
+        "isFullCredit": false,
         "content": "    \u003c/VBox\u003e"
       },
       {
@@ -1264,6 +1439,7 @@
         "author": {
           "gitId": "nbr"
         },
+        "isFullCredit": false,
         "content": "      \u003crowConstraints\u003e"
       },
       {
@@ -1271,6 +1447,7 @@
         "author": {
           "gitId": "nbr"
         },
+        "isFullCredit": false,
         "content": "         \u003cRowConstraints /\u003e"
       },
       {
@@ -1278,6 +1455,7 @@
         "author": {
           "gitId": "nbr"
         },
+        "isFullCredit": false,
         "content": "      \u003c/rowConstraints\u003e"
       },
       {
@@ -1285,6 +1463,7 @@
         "author": {
           "gitId": "nbr"
         },
+        "isFullCredit": false,
         "content": "  \u003c/GridPane\u003e"
       },
       {
@@ -1292,6 +1471,7 @@
         "author": {
           "gitId": "nbr"
         },
+        "isFullCredit": false,
         "content": "\u003c/HBox\u003e"
       }
     ],

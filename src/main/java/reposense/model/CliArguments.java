@@ -17,6 +17,7 @@ public abstract class CliArguments {
     protected List<FileType> formats;
     protected boolean isAutomaticallyLaunching;
     protected ZoneId zoneId;
+    protected boolean isAuthorshipAnalyzed;
 
     public ZoneId getZoneId() {
         return zoneId;
@@ -50,6 +51,10 @@ public abstract class CliArguments {
         return isAutomaticallyLaunching;
     }
 
+    public boolean isAuthorshipAnalyzed() {
+        return isAuthorshipAnalyzed;
+    }
+
     @Override
     public boolean equals(Object other) {
         // short circuit if same object
@@ -71,6 +76,7 @@ public abstract class CliArguments {
                 && this.isUntilDateProvided == otherCliArguments.isUntilDateProvided
                 && this.formats.equals(otherCliArguments.formats)
                 && this.isAutomaticallyLaunching == otherCliArguments.isAutomaticallyLaunching
-                && this.zoneId.equals(otherCliArguments.zoneId);
+                && this.zoneId.equals(otherCliArguments.zoneId)
+                && this.isAuthorshipAnalyzed == otherCliArguments.isAuthorshipAnalyzed;
     }
 }
