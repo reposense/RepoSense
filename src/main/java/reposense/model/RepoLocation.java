@@ -62,9 +62,12 @@ public class RepoLocation {
         boolean isValidGitUrl = false;
 
         try {
-            if ((location.substring(0, 8)).equals("file:///")) {
-                location = location.substring(8);
+            if (location.length() > 7) {
+                if ((location.substring(0, 8)).equals("file:///")) {
+                    location = location.substring(8);
+                }
             }
+
             Path pathLocation = Paths.get(location);
             isValidPathLocation = Files.exists(pathLocation);
         } catch (InvalidPathException ipe) {
