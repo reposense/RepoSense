@@ -90,12 +90,31 @@ public class RepoConfiguration {
     public static void merge(List<RepoConfiguration> repoConfigs, List<AuthorConfiguration> authorConfigs) {
         for (AuthorConfiguration authorConfig : authorConfigs) {
             if (authorConfig.getLocation().isEmpty()) {
+                for (RepoConfiguration repoConfig : repoConfigs) {
+                    repoConfig.addAuthors(authorConfig.getAuthorList());
+                }
                 continue;
             }
 
-            RepoConfiguration matchingRepoConfig = getMatchingRepoConfig(repoConfigs, authorConfig);
+            List<RepoConfiguration> locationMatchingRepoConfigs =
+                    getMatchingRepoConfigsByLocation(repoConfigs, authorConfig.getLocation());
 
-            if (matchingRepoConfig == null) {
+            if (locationMatchingRepoConfigs.isEmpty()) {
+                logger.warning(String.format(
+                        "Repository %s is not found in repo-config.csv.",
+                        authorConfig.getLocation()));
+                continue;
+            }
+            if (authorConfig.isDefaultBranch()) {
+                locationMatchingRepoConfigs.forEach(matchingRepoConfig -> {
+                    matchingRepoConfig.addAuthors(authorConfig.getAuthorList());
+                });
+                continue;
+            }
+
+            RepoConfiguration branchMatchingRepoConfig = getMatchingRepoConfig(repoConfigs, authorConfig);
+
+            if (branchMatchingRepoConfig == null) {
                 if (!authorConfig.isDefaultBranch()) {
                     logger.warning(String.format(
                             "Repository %s (branch %s) is not found in repo-config.csv.",
@@ -104,27 +123,7 @@ public class RepoConfiguration {
                 continue;
             }
 
-            matchingRepoConfig.setAuthorConfiguration(authorConfig);
-        }
-
-        for (AuthorConfiguration authorConfig : authorConfigs) {
-            if (authorConfig.getLocation().isEmpty()) {
-                for (RepoConfiguration repoConfig : repoConfigs) {
-                    repoConfig.addAuthors(authorConfig.getAuthorList());
-                }
-            } else if (authorConfig.isDefaultBranch()) {
-                List<RepoConfiguration> matchingRepoConfigs =
-                        getMatchingRepoConfigsByLocation(repoConfigs, authorConfig.getLocation());
-                if (matchingRepoConfigs.isEmpty()) {
-                    logger.warning(String.format(
-                            "Repository %s is not found in repo-config.csv.",
-                            authorConfig.getLocation()));
-                    continue;
-                }
-                matchingRepoConfigs.forEach(matchingRepoConfig -> {
-                    matchingRepoConfig.addAuthors(authorConfig.getAuthorList());
-                });
-            }
+            branchMatchingRepoConfig.addAuthors(authorConfig.getAuthorList());
         }
     }
 
