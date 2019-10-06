@@ -9,6 +9,8 @@ Thank you for your interest in contributing to RepoSense!
   - [Configuring the CSS coding style](#configuring-the-css-coding-style)
   - [Configuring Cypress for automated front-end testing](#configuring-cypress-for-automated-front-end-testing)
   - [(Optional) Using Vue.js devtools for frontend debugging on Chrome](#optional-using-vuejs-devtools-for-frontend-debugging-on-chrome)
+  - [Before writing code](#before-writing-code)
+  - [Building and running RepoSense from code](#building-and-running-reposense-from-code)
 - [Architecture](#architecture)
   - [Parser](#parserconfigparser)
   - [Git](#git)
