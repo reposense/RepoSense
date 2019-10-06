@@ -42,6 +42,8 @@ public class CsvParserTest {
             .getResource("CsvParserTest/repoconfig_redundantLines_test.csv").getFile()).toPath();
     private static final Path AUTHOR_CONFIG_EMPTY_LOCATION_FILE = new File(CsvParserTest.class.getClassLoader()
             .getResource("CsvParserTest/authorconfig_emptyLocation_test.csv").getFile()).toPath();
+    private static final Path AUTHOR_CONFIG_EMPTY_CONFIG_FILE = new File(CsvParserTest.class.getClassLoader()
+            .getResource("CsvParserTest/authorconfig_emptyConfig_test.csv").getFile()).toPath();
     private static final Path AUTHOR_CONFIG_NO_SPECIAL_CHARACTER_FILE = new File(CsvParserTest.class.getClassLoader()
             .getResource("CsvParserTest/authorconfig_noSpecialCharacter_test.csv").getFile()).toPath();
     private static final Path AUTHOR_CONFIG_SPECIAL_CHARACTER_FILE = new File(CsvParserTest.class.getClassLoader()
@@ -173,6 +175,12 @@ public class CsvParserTest {
         Assert.assertEquals(expectedConfig.getLocation(), authorConfig.getLocation());
         Assert.assertEquals(expectedConfig.getBranch(), authorConfig.getBranch());
         Assert.assertEquals(AUTHOR_CONFIG_NO_SPECIAL_CHARACTER_AUTHORS, authorConfig.getAuthorList());
+    }
+
+    @Test (expected = IOException.class)
+    public void authorConfig_emptyConfig_fail() throws IOException {
+        AuthorConfigCsvParser authorConfigCsvParser = new AuthorConfigCsvParser(AUTHOR_CONFIG_EMPTY_CONFIG_FILE);
+        authorConfigCsvParser.parse();
     }
 
     @Test
