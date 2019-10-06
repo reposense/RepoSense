@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
@@ -32,6 +33,7 @@ public abstract class CsvParser<T> {
     private static final String MESSAGE_LINE_PARSE_EXCEPTION_FORMAT = "Error parsing line %d in CSV file, %s.\n"
             + "Content: %s\n"
             + "Error: %s";
+    private static final String MESSAGE_EMPTY_CSV = "CSV file is empty.";
 
     private Path csvFilePath;
 
@@ -87,9 +89,11 @@ public abstract class CsvParser<T> {
     private String[] getHeader(BufferedReader reader) throws IOException {
         String currentLine = "";
 
+        // read from file until we encounter a line that is neither blank nor empty
         while (currentLine.length() == 0) {
-            // read from file until we encounter a line that is not blank or empty
-            currentLine = reader.readLine().trim();
+            currentLine = Optional.ofNullable(reader.readLine())
+                                  .map(String::trim)
+                                  .orElseThrow(IOException::new);
         }
         return currentLine.split(",");
     }
