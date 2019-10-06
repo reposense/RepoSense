@@ -286,6 +286,10 @@ window.vSummary = {
     },
 
     // model functions //
+    resetFilterSearch(evt) {
+      this.filterSearch = "";
+      this.getFiltered();
+    },
     updateFilterSearch(evt) {
       this.filterSearch = evt.target.value;
       this.getFiltered();

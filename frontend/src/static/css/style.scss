@@ -251,6 +251,21 @@ header {
     padding-right: 10px;
   }
 
+  .mui-btn {
+    bottom: -.5rem;
+    height: 15px;
+    line-height: 5px;
+    font-size: 10px;
+    margin: 0;
+    padding: 5px;
+    box-shadow: none;
+  }
+
+  .searchBar {
+    margin-right: 0;
+    padding-right: 5px;
+  }
+
   label {
     font-size: .75rem;
     overflow-y: hidden;

@@ -80,9 +80,10 @@ html
       #summary.wrapper
         form.summary-picker.mui-form--inline(onsubmit="return false;")
           .summary-picker__section
-            .mui-textfield
-              input.summary-picker__search(type="search", v-on:input="updateFilterSearch", v-model="filterSearch")
+            .mui-textfield.searchBar
+              input.summary-picker__search(type="text", v-on:input="updateFilterSearch", v-model="filterSearch")
               label search
+            button.mui-btn.mui-btn--raised(v-on:click="resetFilterSearch") x
             .mui-select.grouping
               select(v-model="filterGroupSelection")
                 option(value="groupByNone") None
