@@ -254,18 +254,14 @@ header {
   }
 
   .mui-btn {
-    bottom: -.5rem;
-    height: 15px;
-    line-height: 5px;
-    font-size: 10px;
-    margin: 0;
-    padding: 5px;
+    bottom: -8px;
     box-shadow: none;
-  }
-
-  .searchBox {
-    margin-right: 0;
-    padding-right: 5px;
+    height: 15px;
+    font-size: 10px;
+    left: -10px;
+    line-height: 5px;
+    margin: 0;
+    padding: 0;
   }
 
   label {
