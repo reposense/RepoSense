@@ -232,8 +232,11 @@ public class CsvParserTest {
 
         Assert.assertEquals(2, groupConfigs.size());
 
-        Assert.assertEquals(2, groupConfigs.get(0).getGroupsList().size());
-        Assert.assertEquals(1, groupConfigs.get(1).getGroupsList().size());
+        GroupConfiguration actualReposenseConfig = groupConfigs.get(0);
+        Assert.assertEquals(2, actualReposenseConfig.getGroupsList().size());
+
+        GroupConfiguration actualEmptyLocationConfig = groupConfigs.get(1);
+        Assert.assertEquals(1, actualEmptyLocationConfig.getGroupsList().size());
     }
 
     @Test
