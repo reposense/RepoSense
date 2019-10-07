@@ -279,8 +279,8 @@ window.vSummary = {
     },
 
     // model functions //
-    resetFilterSearch(evt) {
-      this.filterSearch = "";
+    resetFilterSearch() {
+      this.filterSearch = '';
       this.getFiltered();
     },
     updateFilterSearch(evt) {
