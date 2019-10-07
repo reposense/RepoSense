@@ -124,6 +124,9 @@ public class RepoConfiguration {
             List<GroupConfiguration> groupConfigs) {
         for (GroupConfiguration groupConfig : groupConfigs) {
             if (groupConfig.getLocation().isEmpty()) {
+                for (RepoConfiguration repoConfig : repoConfigs) {
+                    repoConfig.addGroups(groupConfig.getGroupsList());
+                }
                 continue;
             }
 
@@ -135,7 +138,7 @@ public class RepoConfiguration {
                 continue;
             }
             matchingRepoConfigs.forEach(matchingRepoConfig -> {
-                matchingRepoConfig.setGroups(groupConfig.getGroupsList());
+                matchingRepoConfig.addGroups(groupConfig.getGroupsList());
             });
         }
     }
@@ -378,6 +381,10 @@ public class RepoConfiguration {
 
     private void setGroups(List<FileType> groups) {
         fileTypeManager.setGroups(groups);
+    }
+
+    public void addGroups(List<FileType> groups) {
+        fileTypeManager.addGroups(groups);
     }
 
     /**
