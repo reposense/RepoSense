@@ -80,11 +80,10 @@ public abstract class CsvParser<T> {
     }
 
     /**
-     * Returns an array of Strings representing the header of a CSV file.
+     * Returns the header of a CSV file, which is assumed to be the first non-empty / non-whitespace line in the file.
+     * The line is split into an array of Strings, using the comma symbol as delimiter.
      *
-     * @param reader A BufferedReader opened on the CSV file.
-     * @return an array of Strings where each Strings is a column name from the CSV header.
-     * @throws IOException
+     * @throws IOException if the file has only empty or blank lines, or if there is an error accessing the file.
      */
     private String[] getHeader(BufferedReader reader) throws IOException {
         String currentLine = "";
