@@ -230,10 +230,10 @@ public class CsvParserTest {
         GroupConfigCsvParser groupConfigCsvParser = new GroupConfigCsvParser(GROUP_CONFIG_EMPTY_LOCATION_FILE);
         List<GroupConfiguration> groupConfigs = groupConfigCsvParser.parse();
 
-        Assert.assertEquals(1, groupConfigs.size());
+        Assert.assertEquals(2, groupConfigs.size());
 
-        GroupConfiguration actualConfig = groupConfigs.get(0);
-        Assert.assertEquals(2, actualConfig.getGroupsList().size());
+        Assert.assertEquals(2, groupConfigs.get(0).getGroupsList().size());
+        Assert.assertEquals(1, groupConfigs.get(1).getGroupsList().size());
     }
 
     @Test
