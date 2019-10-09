@@ -17,7 +17,7 @@ import reposense.model.RepoLocation;
 public class RepoConfigCsvParser extends CsvParser<RepoConfiguration> {
     public static final String REPO_CONFIG_FILENAME = "repo-config.csv";
     private static final String IGNORE_STANDALONE_CONFIG_KEYWORD = "yes";
-    private static final String MESSAGE_ZERO_REPO_CONFIGS = "There are no valid repo configs in the specified csv";
+    private static final String MESSAGE_ZERO_REPO_CONFIGS = "There are no valid configurations in the repo-config csv.";
 
     /**
      * Positions of the elements of a line in repo-config.csv config file
