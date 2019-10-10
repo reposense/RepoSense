@@ -73,6 +73,7 @@ public class ReportGenerator {
     private static final String LOG_BRANCH_CONTAINS_ILLEGAL_FILE_PATH =
             "Branch contains file paths with illegal characters and not analyzable.";
     private static final String LOG_ERROR_CLONING_OR_BRANCHING = "Exception met while cloning or checking out.";
+    private static final String LOG_UNKNOWN_ERROR = "Unknown error.";
 
     private static Date earliestSinceDate = null;
     private static ProgressTracker progressTracker = null;
@@ -204,6 +205,10 @@ public class ReportGenerator {
                 logger.log(Level.WARNING, String.format(MESSAGE_NO_AUTHORS_WITH_COMMITS_FOUND,
                         configToAnalyze.getLocation(), configToAnalyze.getBranch()));
                 generateEmptyRepoReport(repoReportDirectory.toString(), Author.NAME_NO_AUTHOR_WITH_COMMITS_FOUND);
+            } catch (Exception e) {
+                logger.log(Level.SEVERE, e.getMessage());
+                e.printStackTrace();
+                handleAnalysisFailed(configs, configToAnalyze, LOG_UNKNOWN_ERROR);
             }
         }
     }
