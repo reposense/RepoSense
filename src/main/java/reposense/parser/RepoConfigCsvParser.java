@@ -44,6 +44,9 @@ public class RepoConfigCsvParser extends CsvParser<RepoConfiguration> {
         };
     }
 
+    /**
+     * @throws IOException if there are 0 valid records in the given csv, or if there are errors accessing the file.
+     */
     @Override
     public List<RepoConfiguration> parse() throws IOException {
         List<RepoConfiguration> repoConfigs = super.parse();
