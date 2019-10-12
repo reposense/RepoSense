@@ -254,14 +254,22 @@ header {
   }
 
   .mui-btn {
-    bottom: -8px;
+    bottom: -7px;
     box-shadow: none;
-    font-size: 10px;
+    color: mui-color('grey');
+    font-size: 0.75rem;
+    font-weight: bold;
     height: 15px;
-    left: -10px;
+    left: -25px;
     line-height: 5px;
     margin: 0;
     padding: 0;
+  }
+
+  input {
+    font-size: .75rem;
+    padding-right: 10px;
+
   }
 
   label {
@@ -271,7 +279,6 @@ header {
     width: fit-content;
   }
 
-  input,
   select {
     font-size: .75rem;
   }
