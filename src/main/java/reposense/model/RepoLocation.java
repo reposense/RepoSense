@@ -62,13 +62,8 @@ public class RepoLocation {
         boolean isValidGitUrl = false;
 
         try {
-            if (location.length() > 7) {
-                if ((location.substring(0, 8)).equals("file:///")) {
-                    location = location.substring(8);
-                }
-            }
-
-            Path pathLocation = Paths.get(location);
+            String updatedLocation = fileStringCheck(location);
+            Path pathLocation = Paths.get(updatedLocation);
             isValidPathLocation = Files.exists(pathLocation);
         } catch (InvalidPathException ipe) {
             // Ignore exception
@@ -128,5 +123,15 @@ public class RepoLocation {
         }
 
         return convertedLocations;
+    }
+
+    /**
+     * Check if path has file append
+     */
+    private String fileStringCheck(String location) {
+        if ((location.length() > 7) && (location.substring(0, 8)).equals("file:///")) {
+            return location.substring(8);
+        }
+        return location;
     }
 }
