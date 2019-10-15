@@ -1,0 +1,8 @@
+Repository's Location,Group Name, Globs
+https://github.com/reposense/testrepo-Delta.git,code,**.java
+https://github.com/reposense/testrepo-Delta.git,tests,src/test**
+https://github.com/reposense/testrepo-Delta.git,docs,docs**;**.adoc;**.md
+https://github.com/reposense/RepoSense.git,frontend,frontend/**
+https://github.com/reposense/RepoSense.git,backend,**.java
+https://github.com/reposense/RepoSense.git,tests,src/test/**
+https://github.com/reposense/RepoSense.git,docs,docs**;**.md;**.adoc
