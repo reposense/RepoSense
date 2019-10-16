@@ -278,8 +278,12 @@ window.vSummary = {
       return repo.location;
     },
 
-    getCreateIssueLink() {
+    getReportIssueLink() {
       return 'https://github.com/reposense/RepoSense/issues/new?title=Unhandled%20errors...&body=Logs.....';
+    },
+
+    getReportIssueEmailAddress() {
+      return 'seer@comp.nus.edu.sg';
     },
 
     // model functions //

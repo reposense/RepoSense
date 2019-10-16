@@ -156,12 +156,16 @@ html
             i.fas.fa-exclamation.mini-font
             span.error-message-box__failed-repo--name {{ errorBlock.repoName }}
             div.error-message-box__failed-repo--reason(v-if="errorBlock.errorMessage === 'Unknown error.'")
-              span Oops! An unexpected error occurred. We are actively improving RepoSense, please consider using this&nbsp;
+              span Oops, an unexpected error occurred. If you think this is due to a problem in RepoSense, please report in&nbsp;
               a(
-                v-bind:href="getCreateIssueLink()", target="_blank",
+                v-bind:href="getReportIssueLink()", target="_blank",
               )
-                strong link&nbsp;
-              span to report this issue to us. Thank you!
+                strong our issue tracker&nbsp;
+              span or email us at&nbsp;
+              a(
+                v-bind:href="'mailto:' + getReportIssueEmailAddress()"
+              )
+                span {{ getReportIssueEmailAddress() }}
             div.error-message-box__failed-repo--reason(v-else) {{ errorBlock.errorMessage }}
         #summary-charts
           .summary-charts(v-for="(repo, i) in filteredRepos")
