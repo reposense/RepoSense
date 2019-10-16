@@ -155,7 +155,14 @@ html
           .error-message-box__failed-repo(v-for="errorBlock in errorMessages")
             i.fas.fa-exclamation.mini-font
             span.error-message-box__failed-repo--name {{ errorBlock.repoName }}
-            div.error-message-box__failed-repo--reason {{ errorBlock.errorMessage }}
+            div.error-message-box__failed-repo--reason(v-if="errorBlock.errorMessage === 'Unknown error.'")
+              span Oops! An unexpected error occurred. We are actively improving RepoSense, please consider using this&nbsp;
+              a(
+                v-bind:href="getCreateIssueLink()", target="_blank",
+              )
+                strong link&nbsp;
+              span to report this issue to us. Thank you!
+            div.error-message-box__failed-repo--reason(v-else) {{ errorBlock.errorMessage }}
         #summary-charts
           .summary-charts(v-for="(repo, i) in filteredRepos")
             .summary-charts__title(v-if="filterGroupSelection === 'groupByRepos'")

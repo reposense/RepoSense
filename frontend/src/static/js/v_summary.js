@@ -278,6 +278,10 @@ window.vSummary = {
       return repo.location;
     },
 
+    getCreateIssueLink() {
+      return 'https://github.com/reposense/RepoSense/issues/new?title=Unhandled%20errors...&body=Logs.....';
+    },
+
     // model functions //
     updateFilterSearch(evt) {
       this.filterSearch = evt.target.value;
