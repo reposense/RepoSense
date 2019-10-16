@@ -761,6 +761,10 @@ window.vSummary = {
       return filtered;
     },
 
+    getPercentile(index) {
+      return index * 100 / (this.filtered.length - 1);
+    },
+
     getGroupCommitsVariance(total, group) {
       return total + group[this.sortingOption];
     },

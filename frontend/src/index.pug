@@ -162,6 +162,7 @@ html
               .summary-charts__title--index {{ i+1 }}
               .summary-charts__title--repo {{ repo[0].repoName }}
               .summary-charts__title--contribution.mini-font(title="Total contribution of group") [{{ getGroupTotalContribution(repo) }} lines]
+              .summary-charts__title--percentile {{ getPercentile(i) }} %
             .summary-charts__title(
                 v-if="filterGroupSelection === 'groupByAuthors'",
                 v-bind:class="{ warn: repo[0].name === '-' }"
@@ -169,6 +170,7 @@ html
               .summary-charts__title--index {{ i+1 }}
               .summary-charts__title--repo {{ repo[0].displayName }} ({{ repo[0].name }})
               .summary-charts__title--contribution.mini-font(title="Total contribution of group") [{{ getGroupTotalContribution(repo) }} lines]
+              .summary-charts__title--percentile {{ getPercentile(i) }} %
             .summary-charts__fileType--breakdown(v-if="filterBreakdown")
               template(v-if="filterGroupSelection === 'groupByRepos'")
                 .summary-charts__fileType--breakdown__legend(

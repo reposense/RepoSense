@@ -270,14 +270,14 @@ header {
   margin-bottom: 3rem;
 
   &__title {
-    display: block;
+    align-items: center;
+    display: flex;
     font-weight: bold;
     text-align: left;
 
     &--index {
       background: mui-color('black');
       color: mui-color('white');
-      display: inline-block;
       font-size: medium;
       overflow: hidden;
       padding: .1em .25em .1em .25em;
@@ -285,13 +285,13 @@ header {
     }
 
     &--repo {
-      display: inline-block;
       font-size: medium;
       padding: .5rem;
     }
 
-    &--contribution {
-      display: inline;
+    &--percentile {
+      color: mui-color('grey');
+      margin-left: auto;
     }
   }
 
