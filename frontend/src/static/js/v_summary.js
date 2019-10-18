@@ -278,9 +278,9 @@ window.vSummary = {
       return repo.location;
     },
 
-    getReportIssueLink(repoSenseVersion, stackTrace) {
+    getReportIssueLink(stackTrace) {
       return 'https://github.com/reposense/RepoSense/issues/new?title=' +
-          encodeURI('Unexpected error with RepoSense version ') + repoSenseVersion + '&body=' +
+          encodeURI('Unexpected error with RepoSense version ') + window.app.repoSenseVersion + '&body=' +
           encodeURI(stackTrace);
     },
 
