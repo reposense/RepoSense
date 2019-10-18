@@ -278,8 +278,10 @@ window.vSummary = {
       return repo.location;
     },
 
-    getReportIssueLink() {
-      return 'https://github.com/reposense/RepoSense/issues/new?title=Unhandled%20errors...&body=Logs.....';
+    getReportIssueLink(repoSenseVersion, stackTrace) {
+      return 'https://github.com/reposense/RepoSense/issues/new?title=' +
+          encodeURI('Unexpected error with RepoSense version ') + repoSenseVersion + '&body=' +
+          encodeURI(stackTrace);
     },
 
     getReportIssueEmailAddress() {

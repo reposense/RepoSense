@@ -3,6 +3,8 @@ package reposense.report;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.PrintWriter;
+import java.io.StringWriter;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -73,7 +75,7 @@ public class ReportGenerator {
     private static final String LOG_BRANCH_CONTAINS_ILLEGAL_FILE_PATH =
             "Branch contains file paths with illegal characters and not analyzable.";
     private static final String LOG_ERROR_CLONING_OR_BRANCHING = "Exception met while cloning or checking out.";
-    private static final String LOG_UNKNOWN_ERROR = "Unknown error.";
+    private static final String LOG_UNEXPECTED_ERROR = "Unexpected error stack trace for %s:\n>%s";
 
     private static Date earliestSinceDate = null;
     private static ProgressTracker progressTracker = null;
@@ -206,9 +208,11 @@ public class ReportGenerator {
                         configToAnalyze.getLocation(), configToAnalyze.getBranch()));
                 generateEmptyRepoReport(repoReportDirectory.toString(), Author.NAME_NO_AUTHOR_WITH_COMMITS_FOUND);
             } catch (Exception e) {
-                logger.log(Level.SEVERE, e.getMessage());
-                e.printStackTrace();
-                handleAnalysisFailed(configs, configToAnalyze, LOG_UNKNOWN_ERROR);
+                StringWriter sw = new StringWriter();
+                e.printStackTrace(new PrintWriter(sw));
+                logger.log(Level.SEVERE, sw.toString());
+                handleAnalysisFailed(configs, configToAnalyze, String.format(
+                        LOG_UNEXPECTED_ERROR, configToAnalyze.getLocation(), sw.toString()));
             }
         }
     }
