@@ -16,6 +16,7 @@
     * [`author-config.csv`](#author-configcsv)
     * [`group-config.csv`](#group-configcsv)
 * [Analyzing Multiple Repos](#analyzing-multiple-repos)
+* [Using RepoSense with Netlify](#using-reposense-with-netlify)
 * [Using Travis-CI to automate publishing of the report to GitHub Pages](#using-travis-ci-to-automate-publishing-of-the-report-to-github-pages)
 * [FAQ](#faq)
 
@@ -384,6 +385,7 @@ Alternatively, you can use csv config files to customize the analysis as before 
 * `repo-config.csv`: Add additional rows for the extra repos ([example](repo-config.csv))
 * `author-config.csv`: Add one row for each author in each repo you want to analyze
 
+## Using RepoSense with Netlify
 
 ## Using Travis-CI to automate publishing of the report to GitHub Pages
 
