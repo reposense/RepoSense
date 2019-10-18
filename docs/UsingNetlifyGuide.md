@@ -4,8 +4,7 @@
 
 1. Fork the RepoSense repository using this [link](https://github.com/repoSense/RepoSense/fork).
 1. Set up Netlify for your forked repository. We recommend this [site](https://www.netlify.com/blog/2016/09/29/a-step-by-step-guide-deploying-on-netlify/) for ease of setup. For the `Build Command` in **Step 5** use:
-`./gradlew run -Dargs="--config ./ --output output_path/  --formats java adoc js"`
-and for `Publishing Directory` use `/output_path/reposense-report`
+`./gradlew run -Dargs="--config ./ --output output_path/  --formats java adoc js"` and for `Publishing Directory` in **Step 5** use `/output_path/reposense-report`
 1. Click on **Settings** in the top, choose **Build & deploy** from the right panel and scroll to **Build hooks**.
 ![Build hooks](images/using-netlify-build-hooks.png)
 1. Click **Add build hook**, give your webhook a name, and choose the `master` branch to build. 
