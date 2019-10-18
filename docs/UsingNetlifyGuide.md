@@ -20,4 +20,6 @@
 
 > This should cause Netlify to deploy your site each and every time based on your checked checkboxes.
 
+**Note:** After setting up, you just need to make sure your forked repository is same as upstream every time.
+
 
