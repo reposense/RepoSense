@@ -163,7 +163,7 @@ html
                 strong our issue tracker&nbsp;
               span or email us at&nbsp;
               a(
-                v-bind:href="'mailto:' + getReportIssueEmailAddress()"
+                v-bind:href="getReportIssueEmailLink(errorBlock.errorMessage)"
               )
                 span {{ getReportIssueEmailAddress() }}
             div.error-message-box__failed-repo--reason(v-else) {{ errorBlock.errorMessage }}

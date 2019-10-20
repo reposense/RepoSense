@@ -288,6 +288,12 @@ window.vSummary = {
       return 'seer@comp.nus.edu.sg';
     },
 
+    getReportIssueEmailLink(stackTrace) {
+      return 'mailto:' + this.getReportIssueEmailAddress() + '?subject=' +
+          encodeURI('Unexpected error with RepoSense version ') + window.app.repoSenseVersion + '&body=' +
+          encodeURI(stackTrace);
+    },
+
     // model functions //
     updateFilterSearch(evt) {
       this.filterSearch = evt.target.value;
