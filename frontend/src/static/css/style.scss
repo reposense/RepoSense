@@ -254,16 +254,20 @@ header {
   }
 
   .mui-btn {
-    bottom: -7px;
+    bottom: -8px;
     box-shadow: none;
     color: mui-color('grey');
     font-size: .75rem;
     font-weight: bold;
     height: 15px;
-    left: -25px;
+    left: -8px;
     line-height: 5px;
     margin: 0;
     padding: 0;
+  }
+
+  .search_box {
+    display: flex;
   }
 
   input {
