@@ -762,7 +762,7 @@ window.vSummary = {
     },
 
     getPercentile(index) {
-      return index * 100 / (this.filtered.length - 1);
+      return (Math.round(index * 1000 / (this.filtered.length - 1)) / 10).toFixed(1);
     },
 
     getGroupCommitsVariance(total, group) {
