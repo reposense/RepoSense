@@ -16,7 +16,7 @@
 1. Select **application.json** as content type
 1. Select **Let me select individual events** and based on your requirements check the checkboxes.
 1. Leave the **Active** checkbox checked.
-1. Click on **Add webhook** to save the webhook. 
+1. Click on **Add webhook** to save the webhook and add it.
 
 > This should cause Netlify to deploy your site each and every time based on your checked checkboxes.
 
