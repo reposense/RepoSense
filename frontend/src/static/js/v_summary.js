@@ -278,10 +278,9 @@ window.vSummary = {
       return repo.location;
     },
 
-    getReportIssueLink(stackTrace) {
-      return 'https://github.com/reposense/RepoSense/issues/new?title=' +
-          encodeURI('Unexpected error with RepoSense version ') + window.app.repoSenseVersion + '&body=' +
-          encodeURI(stackTrace);
+    getReportIssueGitHubLink(stackTrace) {
+      return 'https://github.com/reposense/RepoSense/issues/new?title=' + this.getReportIssueTitle() +
+          '&body=' + this.getReportIssueMessage(stackTrace);
     },
 
     getReportIssueEmailAddress() {
@@ -289,9 +288,16 @@ window.vSummary = {
     },
 
     getReportIssueEmailLink(stackTrace) {
-      return 'mailto:' + this.getReportIssueEmailAddress() + '?subject=' +
-          encodeURI('Unexpected error with RepoSense version ') + window.app.repoSenseVersion + '&body=' +
-          encodeURI(stackTrace);
+      return 'mailto:' + this.getReportIssueEmailAddress() + '?subject=' + this.getReportIssueTitle() +
+          '&body=' + this.getReportIssueMessage(stackTrace);
+    },
+
+    getReportIssueTitle() {
+      return encodeURI('Unexpected error with RepoSense version ') + window.app.repoSenseVersion;
+    },
+
+    getReportIssueMessage(message) {
+      return encodeURI(message);
     },
 
     // model functions //
