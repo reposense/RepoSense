@@ -279,8 +279,8 @@ window.vSummary = {
     },
 
     getReportIssueGitHubLink(stackTrace) {
-      return 'https://github.com/reposense/RepoSense/issues/new?title=' + this.getReportIssueTitle() +
-          '&body=' + this.getReportIssueMessage(stackTrace);
+      return `https://github.com/reposense/RepoSense/issues/new?title=${this.getReportIssueTitle()
+      }&body=${this.getReportIssueMessage(stackTrace)}`;
     },
 
     getReportIssueEmailAddress() {
@@ -288,8 +288,8 @@ window.vSummary = {
     },
 
     getReportIssueEmailLink(stackTrace) {
-      return 'mailto:' + this.getReportIssueEmailAddress() + '?subject=' + this.getReportIssueTitle() +
-          '&body=' + this.getReportIssueMessage(stackTrace);
+      return `mailto:${this.getReportIssueEmailAddress()}?subject=${this.getReportIssueTitle()
+      }&body=${this.getReportIssueMessage(stackTrace)}`;
     },
 
     getReportIssueTitle() {
