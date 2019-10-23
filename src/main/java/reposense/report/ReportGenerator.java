@@ -211,8 +211,8 @@ public class ReportGenerator {
                 StringWriter sw = new StringWriter();
                 e.printStackTrace(new PrintWriter(sw));
                 logger.log(Level.SEVERE, sw.toString());
-                handleAnalysisFailed(configs, configToAnalyze, String.format(
-                        LOG_UNEXPECTED_ERROR, configToAnalyze.getLocation(), sw.toString()));
+                handleAnalysisFailed(configs, configToAnalyze,
+                        String.format(LOG_UNEXPECTED_ERROR, configToAnalyze.getLocation(), sw.toString()));
             }
         }
     }
