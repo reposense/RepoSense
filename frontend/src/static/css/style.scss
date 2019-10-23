@@ -254,7 +254,7 @@ header {
   }
 
   .mui-btn {
-    bottom: -8px;
+    background: transparent;
     box-shadow: none;
     color: mui-color('grey');
     font-size: .75rem;
@@ -268,6 +268,7 @@ header {
 
   .search_box {
     display: flex;
+    align-items: center;
   }
 
   input {
