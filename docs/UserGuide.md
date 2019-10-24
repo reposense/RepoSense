@@ -387,8 +387,7 @@ Alternatively, you can use csv config files to customize the analysis as before 
 
 ## Using RepoSense with Netlify
 
-You can use Netlify to run RepoSense with your configured files. 
-Follow this [guide](UsingNetlifyGuide.md) to use RepoSense with Netlify. 
+You can use Netlify to run RepoSense with your configured files. Follow this [guide](UsingNetlifyGuide.md) to use RepoSense with Netlify.
 
 ## Using Travis-CI to automate publishing of the report to GitHub Pages
 
