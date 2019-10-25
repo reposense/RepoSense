@@ -7,7 +7,7 @@
 ![Netlify setup](images/using-netlify-setup.png)
 1. Click on **Settings** in the top, choose **Build & deploy** from the right panel and scroll to **Build hooks**.
 ![Build hooks](images/using-netlify-build-hooks.png)
-1. Click **Add build hook**, give your webhook a name, and choose the `master` branch to build.
+1. Click **Add build hook**, give your webhook a name, and choose the `master` branch to build. A Netlify URL will be generated.
 1. Go to your target repository (the repository you want to analyze) and click on **Settings**.
 1. Select **Webhooks** on left panel and click on **Add webhook**.
 ![Add webhook](images/using-netlify-add-hook.png)
