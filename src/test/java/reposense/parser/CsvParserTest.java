@@ -38,8 +38,14 @@ public class CsvParserTest {
             .getResource("CsvParserTest/repoconfig_noSpecialCharacter_test.csv").getFile()).toPath();
     private static final Path REPO_CONFIG_OVERRIDE_KEYWORD_FILE = new File(CsvParserTest.class.getClassLoader()
             .getResource("CsvParserTest/repoconfig_overrideKeyword_test.csv").getFile()).toPath();
+    private static final Path REPO_CONFIG_REDUNDANT_LINES_FILE = new File(CsvParserTest.class.getClassLoader()
+            .getResource("CsvParserTest/require_trailing_whitespaces/repoconfig_redundantLines_test.csv")
+            .getFile()).toPath();
     private static final Path AUTHOR_CONFIG_EMPTY_LOCATION_FILE = new File(CsvParserTest.class.getClassLoader()
             .getResource("CsvParserTest/authorconfig_emptyLocation_test.csv").getFile()).toPath();
+    private static final Path AUTHOR_CONFIG_EMPTY_CONFIG_FILE = new File(CsvParserTest.class.getClassLoader()
+            .getResource("CsvParserTest/require_trailing_whitespaces/authorconfig_emptyConfig_test.csv")
+            .getFile()).toPath();
     private static final Path AUTHOR_CONFIG_NO_SPECIAL_CHARACTER_FILE = new File(CsvParserTest.class.getClassLoader()
             .getResource("CsvParserTest/authorconfig_noSpecialCharacter_test.csv").getFile()).toPath();
     private static final Path AUTHOR_CONFIG_SPECIAL_CHARACTER_FILE = new File(CsvParserTest.class.getClassLoader()
@@ -171,6 +177,12 @@ public class CsvParserTest {
         Assert.assertEquals(expectedConfig.getLocation(), authorConfig.getLocation());
         Assert.assertEquals(expectedConfig.getBranch(), authorConfig.getBranch());
         Assert.assertEquals(AUTHOR_CONFIG_NO_SPECIAL_CHARACTER_AUTHORS, authorConfig.getAuthorList());
+    }
+
+    @Test (expected = IOException.class)
+    public void authorConfig_emptyConfig_fail() throws IOException {
+        AuthorConfigCsvParser authorConfigCsvParser = new AuthorConfigCsvParser(AUTHOR_CONFIG_EMPTY_CONFIG_FILE);
+        authorConfigCsvParser.parse();
     }
 
     @Test
@@ -387,5 +399,16 @@ public class CsvParserTest {
         Assert.assertTrue(config.isFormatsOverriding());
         Assert.assertTrue(config.isIgnoreGlobListOverriding());
         Assert.assertTrue(config.isIgnoreCommitListOverriding());
+    }
+
+    @Test
+    public void repoConfig_redundantLines_success() throws ParseException, IOException, HelpScreenException {
+        RepoConfigCsvParser repoConfigCsvParser = new RepoConfigCsvParser(REPO_CONFIG_REDUNDANT_LINES_FILE);
+        List<RepoConfiguration> configs = repoConfigCsvParser.parse();
+        RepoConfiguration config = configs.get(0);
+
+        Assert.assertEquals(1, configs.size());
+        Assert.assertEquals(new RepoLocation(TEST_REPO_BETA_LOCATION), config.getLocation());
+        Assert.assertEquals(TEST_REPO_BETA_BRANCH, config.getBranch());
     }
 }
