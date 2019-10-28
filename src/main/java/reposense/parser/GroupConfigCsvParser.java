@@ -79,4 +79,9 @@ public class GroupConfigCsvParser extends CsvParser<GroupConfiguration> {
         results.add(config);
         return config;
     }
+
+    @Override
+    protected String[] header() {
+        return new String[]{"Repository Location", "Group name", "Globs"};
+    }
 }

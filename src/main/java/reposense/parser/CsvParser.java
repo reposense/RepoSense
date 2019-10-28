@@ -55,7 +55,7 @@ public abstract class CsvParser<T> {
         Iterable<CSVRecord> records;
 
         try (Reader csvReader = new FileReader(csvFilePath.toFile())) {
-            records = CSVFormat.DEFAULT.withFirstRecordAsHeader().parse(csvReader);
+            records = CSVFormat.DEFAULT.withTrim().withHeader(header()).parse(csvReader);
 
             for (CSVRecord record : records) {
                 if (isLineMalformed(record)) {
@@ -173,4 +173,6 @@ public abstract class CsvParser<T> {
      * {@code record} and add created objects into {@code results}.
      */
     protected abstract void processLine(List<T> results, final CSVRecord record) throws ParseException;
+
+    protected abstract String[] header();
 }

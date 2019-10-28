@@ -83,4 +83,10 @@ public class RepoConfigCsvParser extends CsvParser<RepoConfiguration> {
 
         results.add(config);
     }
+
+    @Override
+    protected String[] header() {
+        return new String[] {"Repository Location", "Branch", "File formats", "Ignore glob list", "Ignore standalone config",
+                "Ignore commit list"};
+    }
 }

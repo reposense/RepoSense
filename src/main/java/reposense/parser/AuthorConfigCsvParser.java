@@ -140,4 +140,10 @@ public class AuthorConfigCsvParser extends CsvParser<AuthorConfiguration> {
 
         author.setIgnoreGlobList(ignoreGlobList);
     }
+
+    @Override
+    protected String[] header() {
+        return new String[] {"Repository Location", "Branch", "GitHub ID", "Author emails", "Author display names",
+                             "Author git author names", "Ignore glob list"};
+    }
 }
