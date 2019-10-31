@@ -179,12 +179,6 @@ public class CsvParserTest {
         Assert.assertEquals(AUTHOR_CONFIG_NO_SPECIAL_CHARACTER_AUTHORS, authorConfig.getAuthorList());
     }
 
-    @Test (expected = IOException.class)
-    public void authorConfig_emptyConfig_fail() throws IOException {
-        AuthorConfigCsvParser authorConfigCsvParser = new AuthorConfigCsvParser(AUTHOR_CONFIG_EMPTY_CONFIG_FILE);
-        authorConfigCsvParser.parse();
-    }
-
     @Test
     public void authorConfig_specialCharacter_success() throws IOException, InvalidLocationException {
         AuthorConfigCsvParser authorConfigCsvParser = new AuthorConfigCsvParser(AUTHOR_CONFIG_SPECIAL_CHARACTER_FILE);
