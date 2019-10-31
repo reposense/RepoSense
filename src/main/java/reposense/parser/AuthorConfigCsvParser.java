@@ -29,6 +29,9 @@ public class AuthorConfigCsvParser extends CsvParser<AuthorConfiguration> {
     private static final int ALIAS_POSITION = 5;
     private static final int IGNORE_GLOB_LIST_POSITION = 6;
 
+    private static final String[] header = {"Repository Location", "Branch", "GitHub ID", "Author emails",
+            "Author display names", "Author git author names", "Ignore glob list"};
+
     public AuthorConfigCsvParser(Path csvFilePath) throws IOException {
         super(csvFilePath);
     }
@@ -143,7 +146,6 @@ public class AuthorConfigCsvParser extends CsvParser<AuthorConfiguration> {
 
     @Override
     protected String[] header() {
-        return new String[] {"Repository Location", "Branch", "GitHub ID", "Author emails", "Author display names",
-                             "Author git author names", "Ignore glob list"};
+        return header;
     }
 }
