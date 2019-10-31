@@ -1,5 +1,6 @@
 package reposense.parser;
 
+import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.Reader;
@@ -54,7 +55,8 @@ public abstract class CsvParser<T> {
         List<T> results = new ArrayList<>();
         Iterable<CSVRecord> records;
 
-        try (Reader csvReader = new FileReader(csvFilePath.toFile())) {
+        try (BufferedReader csvReader = new BufferedReader(new FileReader(csvFilePath.toFile()))) {
+            csvReader.readLine();
             records = CSVFormat.DEFAULT.withTrim().withHeader(header()).parse(csvReader);
 
             for (CSVRecord record : records) {
