@@ -16,6 +16,7 @@ import java.util.stream.Collectors;
 
 import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVRecord;
+import org.apache.tools.ant.taskdefs.BUnzip2;
 
 import reposense.system.LogsManager;
 
@@ -56,7 +57,7 @@ public abstract class CsvParser<T> {
         Iterable<CSVRecord> records;
 
         try (BufferedReader csvReader = new BufferedReader(new FileReader(csvFilePath.toFile()))) {
-            csvReader.readLine();
+            skipHeader(csvReader);
             records = CSVFormat.DEFAULT.withTrim().withHeader(header()).parse(csvReader);
 
             for (CSVRecord record : records) {
@@ -143,6 +144,10 @@ public abstract class CsvParser<T> {
 
     private long getLineNumber(final CSVRecord record) {
         return  record.getRecordNumber() + 1;
+    }
+
+    private void skipHeader(BufferedReader csvReader) {
+        csvReader.readLine();
     }
 
     /**
