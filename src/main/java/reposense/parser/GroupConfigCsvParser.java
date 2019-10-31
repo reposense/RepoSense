@@ -23,6 +23,8 @@ public class GroupConfigCsvParser extends CsvParser<GroupConfiguration> {
     private static final int GROUP_NAME_POSITION = 1;
     private static final int FILES_GLOB_POSITION = 2;
 
+    private static final String[] header = {"Repository Location", "Group name", "Globs"};
+
     public GroupConfigCsvParser(Path csvFilePath) throws IOException {
         super(csvFilePath);
     }
@@ -82,6 +84,6 @@ public class GroupConfigCsvParser extends CsvParser<GroupConfiguration> {
 
     @Override
     protected String[] header() {
-        return new String[]{"Repository Location", "Group name", "Globs"};
+        return header;
     }
 }
