@@ -82,7 +82,6 @@ public abstract class CsvParser<T> {
      * values at the mandatory columns in CSV format.
      */
     private boolean isLineMalformed(CSVRecord record) {
-
         if (!record.isConsistent()) {
             logger.warning(String.format(MESSAGE_MALFORMED_LINE_FORMAT, getLineNumber(record),
                     csvFilePath.getFileName(), getRowContentAsRawString(record)));
