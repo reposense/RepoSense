@@ -199,6 +199,7 @@ window.vAuthorship = {
       this.isLoaded = true;
 
       this.activeFilesCount = this.selectedFiles.length;
+      this.sortFiles();
     },
 
     addBlankLineCount(fileType, lineCount, filesInfoObj) {
@@ -210,7 +211,7 @@ window.vAuthorship = {
     },
 
     sortFiles() {
-      this.sortingFunction = (a, b) => (this.toReverseSortFiles ? -1 : 1)
+      this.sortingFunction = (a, b) => (this.toReverseSortFiles ? 1 : -1)
           * window.comparator(filesSortDict[this.filesSortType])(a, b);
     },
 
