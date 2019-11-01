@@ -56,9 +56,8 @@ public abstract class CsvParser<T> {
         List<T> results = new ArrayList<>();
         Iterable<CSVRecord> records;
 
-        try (BufferedReader csvReader = new BufferedReader(new FileReader(csvFilePath.toFile()))) {
-            skipHeader(csvReader);
-            records = CSVFormat.DEFAULT.withTrim().withHeader(header()).parse(csvReader);
+        try (Reader csvReader = new FileReader(csvFilePath.toFile())) {
+            records = CSVFormat.DEFAULT.withTrim().withHeader(header()).withSkipHeaderRecord().parse(csvReader);
 
             for (CSVRecord record : records) {
                 if (isLineMalformed(record)) {
@@ -144,10 +143,6 @@ public abstract class CsvParser<T> {
 
     private long getLineNumber(final CSVRecord record) {
         return  record.getRecordNumber() + 1;
-    }
-
-    private void skipHeader(BufferedReader csvReader) {
-        csvReader.readLine();
     }
 
     /**
