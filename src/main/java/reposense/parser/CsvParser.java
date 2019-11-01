@@ -156,7 +156,6 @@ public abstract class CsvParser<T> {
      */
     private String getRowContentAsRawString(final CSVRecord record) {
         StringJoiner inputRowString = new StringJoiner(",");
-
         for (String value : record) {
             inputRowString.add(value);
         }
