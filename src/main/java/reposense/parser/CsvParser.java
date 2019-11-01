@@ -1,6 +1,5 @@
 package reposense.parser;
 
-import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.Reader;
@@ -16,7 +15,6 @@ import java.util.stream.Collectors;
 
 import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVRecord;
-import org.apache.tools.ant.taskdefs.BUnzip2;
 
 import reposense.system.LogsManager;
 
