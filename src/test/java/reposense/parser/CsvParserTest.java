@@ -43,9 +43,6 @@ public class CsvParserTest {
             .getFile()).toPath();
     private static final Path AUTHOR_CONFIG_EMPTY_LOCATION_FILE = new File(CsvParserTest.class.getClassLoader()
             .getResource("CsvParserTest/authorconfig_emptyLocation_test.csv").getFile()).toPath();
-    private static final Path AUTHOR_CONFIG_EMPTY_CONFIG_FILE = new File(CsvParserTest.class.getClassLoader()
-            .getResource("CsvParserTest/require_trailing_whitespaces/authorconfig_emptyConfig_test.csv")
-            .getFile()).toPath();
     private static final Path AUTHOR_CONFIG_NO_SPECIAL_CHARACTER_FILE = new File(CsvParserTest.class.getClassLoader()
             .getResource("CsvParserTest/authorconfig_noSpecialCharacter_test.csv").getFile()).toPath();
     private static final Path AUTHOR_CONFIG_SPECIAL_CHARACTER_FILE = new File(CsvParserTest.class.getClassLoader()
