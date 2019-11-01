@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+import java.util.StringJoiner;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
@@ -81,6 +82,7 @@ public abstract class CsvParser<T> {
      * values at the mandatory columns in CSV format.
      */
     private boolean isLineMalformed(CSVRecord record) {
+
         if (!record.isConsistent()) {
             logger.warning(String.format(MESSAGE_MALFORMED_LINE_FORMAT, getLineNumber(record),
                     csvFilePath.getFileName(), getRowContentAsRawString(record)));
@@ -154,9 +156,10 @@ public abstract class CsvParser<T> {
      * Returns the contents of {@code record} as a raw string.
      */
     private String getRowContentAsRawString(final CSVRecord record) {
-        StringBuilder inputRowString = new StringBuilder();
-        for (int colNum = 0; colNum < record.size(); colNum++) {
-            inputRowString.append(get(record, colNum)).append(",");
+        StringJoiner inputRowString = new StringJoiner(",");
+
+        for (String value : record) {
+            inputRowString.add(value);
         }
         return inputRowString.toString();
     }
