@@ -5,7 +5,7 @@
 1. Fork the RepoSense repository using this [link](https://github.com/repoSense/RepoSense/fork).
 1. Set up Netlify in your forked repository. We recommend this [site](https://www.netlify.com/blog/2016/09/29/a-step-by-step-guide-deploying-on-netlify/) for ease of setup. Please refer to the picture below for **Step 5**.
 ![Netlify setup](images/using-netlify-setup.png)
-1. Click on **Settings** in the top, choose **Build & deploy** from the right panel and scroll to **Build hooks**.
+1. Click on **Settings** in the top, choose **Build & deploy** from the left panel and scroll to **Build hooks**.
 ![Build hooks](images/using-netlify-build-hooks.png)
 1. Click **Add build hook**, give your webhook a name, and choose the `master` branch to build. A Netlify URL will be generated.
 1. Go to your target repository (the repository you want to analyze) and click on **Settings**.
@@ -18,11 +18,11 @@
 1. Leave the **Active** checkbox checked.
 1. Click on **Add webhook** to save the webhook and add it.
 
-> This should cause Netlify to deploy your site each and every time based on your checked checkboxes. Please make sure your forked repository is **upto date** with upstream to enjoy the latest features.
+> This should cause Netlify to deploy your site each and every time based on your checked checkboxes. Please make sure your forked repository is **up-to-date** with upstream to enjoy the latest features.
 
-### If you wish to use `config files`
+### If you wish to customize using `config files`
 
-Using `config files` lets you generate a more customised report. Please refer to [how to configure using csv files](UserGuide.md#customize-using-csv-config-files) for a more detailed explanation.
+Using `config files` lets you generate a more customised report. Please refer to [how to customize using csv config files](UserGuide.md#customize-using-csv-config-files) for a more detailed explanation.
 
 In **Step 5** for **Build Command** use:
 ```
