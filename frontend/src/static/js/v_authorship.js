@@ -211,7 +211,7 @@ window.vAuthorship = {
     },
 
     sortFiles() {
-      this.sortingFunction = (a, b) => (this.toReverseSortFiles == "descending" ? -1 : 1)
+      this.sortingFunction = (a, b) => (this.toReverseSortFiles === 'descending' ? -1 : 1)
           * window.comparator(filesSortDict[this.filesSortType])(a, b);
     },
 
