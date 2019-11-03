@@ -50,7 +50,7 @@ public class RepoConfigCsvParser extends CsvParser<RepoConfiguration> {
     @Override
     public List<RepoConfiguration> parse() throws IOException {
         List<RepoConfiguration> repoConfigs = super.parse();
-        if (repoConfigs.size() == 0) {
+        if (repoConfigs.isEmpty()) {
             throw new IOException(MESSAGE_ZERO_REPO_CONFIGS);
         }
         return repoConfigs;
