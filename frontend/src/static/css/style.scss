@@ -515,6 +515,7 @@ header {
 
         .mui-select {
           cursor: pointer;
+          padding-right: 15px;
         }
 
         label {
@@ -530,9 +531,6 @@ header {
         }
       }
 
-      .reverse {
-        color: mui-color('black');
-      }
     }
   }
 
