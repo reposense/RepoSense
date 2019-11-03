@@ -408,10 +408,18 @@ public class CsvParserTest {
     public void repoConfig_redundantLines_success() throws ParseException, IOException, HelpScreenException {
         RepoConfigCsvParser repoConfigCsvParser = new RepoConfigCsvParser(REPO_CONFIG_REDUNDANT_LINES_FILE);
         List<RepoConfiguration> configs = repoConfigCsvParser.parse();
-        RepoConfiguration config = configs.get(0);
 
-        Assert.assertEquals(1, configs.size());
-        Assert.assertEquals(new RepoLocation(TEST_REPO_BETA_LOCATION), config.getLocation());
-        Assert.assertEquals(TEST_REPO_BETA_BRANCH, config.getBranch());
+        Assert.assertEquals(3, configs.size());
+        RepoConfiguration betaConfig = configs.get(0);
+        RepoConfiguration charlieConfig = configs.get(1);
+        RepoConfiguration deltaConfig = configs.get(2);
+
+        Assert.assertEquals(new RepoLocation(TEST_REPO_BETA_LOCATION), betaConfig.getLocation());
+        Assert.assertEquals(TEST_REPO_BETA_BRANCH, betaConfig.getBranch());
+        Assert.assertEquals(new RepoLocation(TEST_REPO_CHARLIE_LOCATION), charlieConfig.getLocation());
+        Assert.assertEquals(TEST_REPO_CHARLIE_BRANCH, charlieConfig.getBranch());
+        Assert.assertEquals(new RepoLocation(TEST_REPO_DELTA_LOCATION), deltaConfig.getLocation());
+        Assert.assertEquals(TEST_REPO_DELTA_BRANCH, deltaConfig.getBranch());
+        Assert.assertTrue(deltaConfig.isStandaloneConfigIgnored());
     }
 }
