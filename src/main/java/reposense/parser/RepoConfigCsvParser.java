@@ -53,7 +53,6 @@ public class RepoConfigCsvParser extends CsvParser<RepoConfiguration> {
         if (repoConfigs.size() == 0) {
             throw new IOException(MESSAGE_ZERO_REPO_CONFIGS);
         }
-
         return repoConfigs;
     }
 
