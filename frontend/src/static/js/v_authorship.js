@@ -39,7 +39,7 @@ window.vAuthorship = {
       totalLineCount: '',
       totalBlankLineCount: '',
       filesSortType: 'lineOfCode',
-      toReverseSortFiles: 'descending',
+      sortByOrder: 'descending',
       activeFilesCount: 0,
       filterSearch: '*',
       sortingFunction: window.comparator(filesSortDict.lineOfCode),
@@ -211,7 +211,7 @@ window.vAuthorship = {
     },
 
     sortFiles() {
-      this.sortingFunction = (a, b) => (this.toReverseSortFiles === 'descending' ? -1 : 1)
+      this.sortingFunction = (a, b) => (this.sortByOrder === 'descending' ? -1 : 1)
           * window.comparator(filesSortDict[this.filesSortType])(a, b);
     },
 
