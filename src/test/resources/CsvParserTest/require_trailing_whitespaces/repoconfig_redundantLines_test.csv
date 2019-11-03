@@ -4,3 +4,14 @@
                    
 Repository's Location,Branch,File formats,Ignore Glob List,Ignore standalone config,Ignore Commits List
 https://github.com/reposense/testrepo-Beta.git,master,,,,
+
+                                                           
+https://github.com/reposense/testrepo-Delta.git,master,,,yes,
+https://github.com/reposense/testrepo-Charlie.git,,,,,
+                                
+                                 
+
+
+                                        
+
+                                       
