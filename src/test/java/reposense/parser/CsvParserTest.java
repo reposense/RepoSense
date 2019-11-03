@@ -84,6 +84,9 @@ public class CsvParserTest {
     private static final List<String> TEST_REPO_BETA_CONFIG_IGNORED_COMMITS =
             Arrays.asList("abcde12345", "67890fdecba");
 
+    private static final String TEST_REPO_CHARLIE_LOCATION = "https://github.com/reposense/testrepo-Charlie.git";
+    private static final String TEST_REPO_CHARLIE_BRANCH = "HEAD";
+
     private static final Author FIRST_AUTHOR = new Author("nbriannl");
     private static final Author SECOND_AUTHOR = new Author("zacharytang");
     private static final List<String> SECOND_AUTHOR_ALIASES = Arrays.asList("Zachary Tang");
