@@ -405,7 +405,7 @@ public class CsvParserTest {
     }
 
     @Test
-    public void repoConfig_redundantLines_success() throws ParseException, IOException, HelpScreenException {
+    public void repoConfig_redundantLines_success() throws ParseException, IOException {
         RepoConfigCsvParser repoConfigCsvParser = new RepoConfigCsvParser(REPO_CONFIG_REDUNDANT_LINES_FILE);
         List<RepoConfiguration> configs = repoConfigCsvParser.parse();
 
