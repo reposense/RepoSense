@@ -392,7 +392,7 @@ public class CsvParserTest {
     }
 
     @Test (expected = IOException.class)
-    public void repoConfig_zeroValidRecords_fail() throws IOException {
+    public void repoConfig_zeroValidRecords_throwsIOException() throws IOException {
         RepoConfigCsvParser repoConfigCsvParser = new RepoConfigCsvParser(REPO_CONFIG_ZERO_VALID_RECORDS);
         repoConfigCsvParser.parse();
     }
