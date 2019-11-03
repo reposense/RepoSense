@@ -26,5 +26,5 @@ Using `config files` lets you generate a more customised report. Please refer to
 
 In **Step 5** for **Build Command** use:
 ```
-./gradlew run -Dargs="--config CONFIG_FILE_LOCATION ./ --output output_path/  --formats java adoc js"
+./gradlew run -Dargs="--config CONFIG_FILE_LOCATION --output output_path/  --formats java adoc js"
 ```
