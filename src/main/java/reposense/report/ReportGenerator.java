@@ -212,7 +212,7 @@ public class ReportGenerator {
     /**
      * Analyzes repo specified by {@code config} and generates the report.
      */
-    private static void analyzeRepo(
+    private static List<Path> analyzeRepo(
             RepoConfiguration config, String repoReportDirectory) throws NoAuthorsWithCommitsFoundException {
         // preprocess the config and repo
         updateRepoConfig(config);
@@ -220,8 +220,8 @@ public class ReportGenerator {
 
         CommitContributionSummary commitSummary = CommitsReporter.generateCommitSummary(config);
         AuthorshipSummary authorshipSummary = AuthorshipReporter.generateAuthorshipSummary(config);
-        generateIndividualRepoReport(repoReportDirectory, commitSummary, authorshipSummary);
         logger.info(String.format(MESSAGE_COMPLETE_ANALYSIS, config.getLocation(), config.getBranch()));
+        return generateIndividualRepoReport(repoReportDirectory, commitSummary, authorshipSummary);
     }
 
     /**
