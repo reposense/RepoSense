@@ -169,9 +169,11 @@ public class ReportGenerator {
      * Analyzes all repos in {@code configsToAnalyze} and generates their report.
      * Also removes {@code configsToAnalyze} that failed to analyze from {@code configs}.
      */
-    private static void analyzeRepos(String outputPath, List<RepoConfiguration> configs,
+    private static List<Path> analyzeRepos(String outputPath, List<RepoConfiguration> configs,
             List<RepoConfiguration> configsToAnalyze, String defaultBranch) {
         Iterator<RepoConfiguration> itr = configsToAnalyze.iterator();
+
+        List<Path> generatedFiles = new LinkedList<>();
         while (itr.hasNext()) {
             progressTracker.incrementProgress();
             RepoConfiguration configToAnalyze = itr.next();
@@ -187,7 +189,7 @@ public class ReportGenerator {
                 GitClone.cloneFromBareAndUpdateBranch(Paths.get(FileUtil.REPOS_ADDRESS), configToAnalyze);
 
                 FileUtil.createDirectory(repoReportDirectory);
-                analyzeRepo(configToAnalyze, repoReportDirectory.toString());
+                generatedFiles.addAll(analyzeRepo(configToAnalyze, repoReportDirectory.toString()));
             } catch (IOException ioe) {
                 String logMessage = String.format(MESSAGE_ERROR_CREATING_DIRECTORY,
                         configToAnalyze.getLocation(), configToAnalyze.getBranch());
@@ -204,9 +206,11 @@ public class ReportGenerator {
             } catch (NoAuthorsWithCommitsFoundException nafe) {
                 logger.log(Level.WARNING, String.format(MESSAGE_NO_AUTHORS_WITH_COMMITS_FOUND,
                         configToAnalyze.getLocation(), configToAnalyze.getBranch()));
-                generateEmptyRepoReport(repoReportDirectory.toString(), Author.NAME_NO_AUTHOR_WITH_COMMITS_FOUND);
+                generatedFiles.addAll(
+                generateEmptyRepoReport(repoReportDirectory.toString(), Author.NAME_NO_AUTHOR_WITH_COMMITS_FOUND));
             }
         }
+        return generatedFiles;
     }
 
     /**
