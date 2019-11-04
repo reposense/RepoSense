@@ -42,6 +42,7 @@ import reposense.report.exception.NoAuthorsWithCommitsFoundException;
 import reposense.system.LogsManager;
 import reposense.util.FileUtil;
 import reposense.util.ProgressTracker;
+import sun.awt.image.ImageWatched;
 
 /**
  * Contains report generation related functionalities.
@@ -135,7 +136,7 @@ public class ReportGenerator {
      * Clone, analyze and generate the report for repositories in {@code repoLocationMap}.
      * Performs analysis and report generation of each repository in parallel with the cloning of the next repository.
      */
-    private static void cloneAndAnalyzeRepos(List<RepoConfiguration> configs, String outputPath) {
+    private static List<Path> cloneAndAnalyzeRepos(List<RepoConfiguration> configs, String outputPath) {
         Map<RepoLocation, List<RepoConfiguration>> repoLocationMap = groupConfigsByRepoLocation(configs);
         RepoCloner repoCloner = new RepoCloner();
         RepoLocation clonedRepoLocation = null;
@@ -144,6 +145,8 @@ public class ReportGenerator {
 
         RepoLocation currRepoLocation = repoLocationList.get(0);
         repoCloner.cloneBare(repoLocationMap.get(currRepoLocation).get(0));
+
+        List<Path> generatedFiles = new LinkedList<>();
 
         for (int index = 1; index <= repoLocationList.size(); index++) {
             RepoLocation nextRepoLocation = (index < repoLocationList.size()) ? repoLocationList.get(index) : null;
@@ -157,12 +160,13 @@ public class ReportGenerator {
             if (clonedRepoLocation == null) {
                 handleCloningFailed(configs, currRepoLocation);
             } else {
-                analyzeRepos(outputPath, configs, repoLocationMap.get(clonedRepoLocation),
-                        repoCloner.getCurrentRepoDefaultBranch());
+                generatedFiles.addAll(analyzeRepos(outputPath, configs, repoLocationMap.get(clonedRepoLocation),
+                    repoCloner.getCurrentRepoDefaultBranch()));
             }
             currRepoLocation = nextRepoLocation;
         }
         repoCloner.cleanup();
+        return generatedFiles;
     }
 
     /**
