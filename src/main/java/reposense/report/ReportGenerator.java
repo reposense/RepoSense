@@ -11,6 +11,7 @@ import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
@@ -310,17 +311,29 @@ public class ReportGenerator {
     /**
      * Generates a report at the {@code repoReportDirectory}.
      */
-    public static void generateEmptyRepoReport(String repoReportDirectory, String displayName) {
+    public static List<Path> generateEmptyRepoReport(String repoReportDirectory, String displayName) {
         CommitReportJson emptyCommitReportJson = new CommitReportJson(displayName);
-        FileUtil.writeJsonFile(emptyCommitReportJson, getIndividualCommitsPath(repoReportDirectory));
-        FileUtil.writeJsonFile(Collections.emptyList(), getIndividualAuthorshipPath(repoReportDirectory));
+
+        List<Path> generatedFiles = new LinkedList<>();
+
+        FileUtil.writeJsonFile(emptyCommitReportJson, getIndividualCommitsPath(repoReportDirectory))
+                .ifPresent(generatedFiles::add);
+        FileUtil.writeJsonFile(Collections.emptyList(), getIndividualAuthorshipPath(repoReportDirectory))
+                .ifPresent(generatedFiles::add);
+
+        return generatedFiles;
     }
 
-    private static void generateIndividualRepoReport(
+    private static List<Path> generateIndividualRepoReport(
             String repoReportDirectory, CommitContributionSummary commitSummary, AuthorshipSummary authorshipSummary) {
         CommitReportJson commitReportJson = new CommitReportJson(commitSummary, authorshipSummary);
-        FileUtil.writeJsonFile(commitReportJson, getIndividualCommitsPath(repoReportDirectory));
-        FileUtil.writeJsonFile(authorshipSummary.getFileResults(), getIndividualAuthorshipPath(repoReportDirectory));
+
+        List<Path> generatedFiles = new LinkedList<>();
+        FileUtil.writeJsonFile(commitReportJson, getIndividualCommitsPath(repoReportDirectory))
+                .ifPresent(generatedFiles::add);
+        FileUtil.writeJsonFile(authorshipSummary.getFileResults(), getIndividualAuthorshipPath(repoReportDirectory))
+                .ifPresent(generatedFiles::add);
+        return generatedFiles;
     }
 
     private static String getSummaryResultPath(String targetFileLocation) {
