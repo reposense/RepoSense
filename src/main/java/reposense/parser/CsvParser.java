@@ -48,7 +48,10 @@ public abstract class CsvParser<T> {
     }
 
     /**
-     * @throws IOException if there are error accessing the given csv file.
+     * Parses the csv file associated with this instance of the {@code CsvParser} and returns a {@code List}
+     * containing the records in this file.
+     *
+     * @throws IOException if there are errors accessing the given csv file.
      */
     public List<T> parse() throws IOException {
         List<T> results = new ArrayList<>();
