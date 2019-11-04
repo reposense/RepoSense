@@ -95,7 +95,7 @@ public class ReportGenerator {
         earliestSinceDate = null;
         progressTracker = new ProgressTracker(configs.size());
 
-        cloneAndAnalyzeRepos(configs, outputPath);
+        List<Path> reportFoldersAndFiles = cloneAndAnalyzeRepos(configs, outputPath);
 
         Date reportSinceDate = (cliSinceDate.equals(SinceDateArgumentType.ARBITRARY_FIRST_COMMIT_DATE))
                 ? earliestSinceDate : cliSinceDate;
@@ -103,15 +103,10 @@ public class ReportGenerator {
         FileUtil.writeJsonFile(
                 new SummaryJson(configs, generationDate, reportSinceDate, untilDate, isSinceDateProvided,
                         isUntilDateProvided, RepoSense.getVersion(), ErrorSummary.getInstance().getErrorList()),
-                getSummaryResultPath(outputPath));
+                getSummaryResultPath(outputPath))
+            .ifPresent(reportFoldersAndFiles::add);
         logger.info(String.format(MESSAGE_REPORT_GENERATED, outputPath));
 
-        List<Path> reportFoldersAndFiles = new ArrayList<>();
-        for (RepoConfiguration config : configs) {
-            reportFoldersAndFiles.add(
-                    Paths.get(outputPath + File.separator + config.getOutputFolderName()).toAbsolutePath());
-        }
-        reportFoldersAndFiles.add(Paths.get(outputPath, SummaryJson.SUMMARY_JSON_FILE_NAME));
         return reportFoldersAndFiles;
     }
 
