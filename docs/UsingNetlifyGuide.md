@@ -3,7 +3,7 @@
 [Netlify](https://www.netlify.com) enables you to run RepoSense directly on your target repository. You can do everything on the browser itself and Netlify will handle running RepoSense for you. Therefore, as a user you don't need to download the latest jar file every time when wanting to run RepoSense.
 
 1. Fork the RepoSense repository using this [link](https://github.com/repoSense/RepoSense/fork).
-1. Set up Netlify in your forked repository. We recommend this [site](https://www.netlify.com/blog/2016/09/29/a-step-by-step-guide-deploying-on-netlify/) for ease of setup. Please refer to the picture below for **Step 5**.
+1. Set up Netlify in your forked repository. We recommend this [site](https://www.netlify.com/blog/2016/09/29/a-step-by-step-guide-deploying-on-netlify/) for ease of setup. Please refer to the fields below for **Step 5**.
    
    **Build command**:
    ```
