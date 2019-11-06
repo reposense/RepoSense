@@ -325,6 +325,9 @@ public class ReportGenerator {
         return generatedFiles;
     }
 
+    /**
+     * Generates a report for a single repository at {@code repoReportDirectory}.
+     */
     private static List<Path> generateIndividualRepoReport(
             String repoReportDirectory, CommitContributionSummary commitSummary, AuthorshipSummary authorshipSummary) {
         CommitReportJson commitReportJson = new CommitReportJson(commitSummary, authorshipSummary);
