@@ -140,7 +140,6 @@ public class ReportGenerator {
         repoCloner.cloneBare(repoLocationMap.get(currRepoLocation).get(0));
 
         List<Path> generatedFiles = new LinkedList<>();
-
         for (int index = 1; index <= repoLocationList.size(); index++) {
             RepoLocation nextRepoLocation = (index < repoLocationList.size()) ? repoLocationList.get(index) : null;
             clonedRepoLocation = repoCloner.getClonedRepoLocation();
@@ -169,7 +168,6 @@ public class ReportGenerator {
     private static List<Path> analyzeRepos(String outputPath, List<RepoConfiguration> configs,
             List<RepoConfiguration> configsToAnalyze, String defaultBranch) {
         Iterator<RepoConfiguration> itr = configsToAnalyze.iterator();
-
         List<Path> generatedFiles = new LinkedList<>();
         while (itr.hasNext()) {
             progressTracker.incrementProgress();
