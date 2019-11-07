@@ -3,9 +3,6 @@ package reposense.model;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.logging.Logger;
-
-import reposense.system.LogsManager;
 
 /**
  * {@code FileTypeManager} is responsible for holding a list of whitelisted formats and user-specified custom
