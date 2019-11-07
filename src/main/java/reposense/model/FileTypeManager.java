@@ -13,7 +13,6 @@ import reposense.system.LogsManager;
  */
 public class FileTypeManager {
     private static final String DEFAULT_GROUP = "other";
-    private static final Logger logger = LogsManager.getLogger(FileTypeManager.class);
     private static final FileType DEFAULT_GROUP_TYPE = new FileType(DEFAULT_GROUP, Collections.singletonList("**"));
 
     private List<FileType> formats;
@@ -87,13 +86,7 @@ public class FileTypeManager {
      * Adds new groups from {@code groupList}. Skips groups that have already been added previously.
      */
     public void addGroups(List<FileType> groupList) {
-        for (FileType group : groupList) {
-            if (containsGroup(group)) {
-                continue;
-            }
-
-            this.groups.add(group);
-        }
+        groupList.stream().filter(group -> !this.containsGroup(group)).forEach(groups::add);
     }
 
     public boolean containsGroup(FileType group) {
