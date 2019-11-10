@@ -688,8 +688,35 @@ header {
     }
   }
 
-  &__toggle-commit-message-body {
-    padding-top: 10px;
+  &__toolbar {
+    display: flex;
+
+    .sorting {
+      margin-left: auto;
+      padding-top: 10px;
+
+      .mui-select {
+        cursor: pointer;
+      }
+
+      label {
+        margin: 10px;
+        overflow-y: hidden;
+      }
+
+      & > label {
+        margin-left: 10px;
+      }
+
+      span {
+        margin-left: .25rem;
+      }
+    }
+
+    .toggle-commit-message-body {
+      padding-top: 10px;
+      width: 50%;
+    }
   }
 }
 
