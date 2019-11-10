@@ -1,3 +1,8 @@
+const commitSortDict = {
+    lineOfCode: (commit) => commit.insertions,
+    time: (commit) => commit.date,
+};
+
 window.vZoom = {
   props: ['info'],
   template: window.$('v_zoom').innerHTML,
@@ -6,8 +11,22 @@ window.vZoom = {
       filterTimeFrame: window.hashParams.timeframe,
       showAllCommitMessageBody: true,
       expandedCommitMessagesCount: this.getCommitMessageBodyCount(),
+      commitsSortType: 'time',
+      toReverseSortedCommits: false,
+      sortingFunction: window.comparator(commitSortDict.time),
     };
   },
+
+  watch: {
+    commitsSortType() {
+      this.sortCommits();
+    },
+
+    toReverseSortedCommits() {
+      this.sortCommits();
+    },
+  },
+
   methods: {
     openSummary() {
       this.$emit('view-summary', this.info.sinceDate, this.info.untilDate);
@@ -42,6 +61,11 @@ window.vZoom = {
       return nonEmptyCommitMessageCount;
     },
 
+    sortCommits() {
+      this.sortingFunction = (a, b) => (this.toReverseSortedCommits? -1 : 1)
+      * window.comparator(commitSortDict[this.commitsSortType])(a, b);
+    },
+
     toggleAllCommitMessagesBody(isActive) {
       this.showAllCommitMessageBody = isActive;
 
@@ -59,6 +83,11 @@ window.vZoom = {
       this.expandedCommitMessagesCount = document.getElementsByClassName('commit-message active')
           .length;
     },
+  },
+  computed: {
+    selectedCommits() {
+      return this.info.user.commits.sort(this.sortingFunction);
+    }
   },
   created() {
     this.filterCommits();
