@@ -1,6 +1,6 @@
 const commitSortDict = {
-    lineOfCode: (commit) => commit.insertions,
-    time: (commit) => commit.date,
+  lineOfCode: (commit) => commit.insertions,
+  time: (commit) => commit.date,
 };
 
 window.vZoom = {
@@ -62,7 +62,7 @@ window.vZoom = {
     },
 
     sortCommits() {
-      this.sortingFunction = (a, b) => (this.toReverseSortedCommits? -1 : 1)
+      this.sortingFunction = (a, b) => (this.toReverseSortedCommits ? -1 : 1)
       * window.comparator(commitSortDict[this.commitsSortType])(a, b);
     },
 
@@ -87,7 +87,7 @@ window.vZoom = {
   computed: {
     selectedCommits() {
       return this.info.user.commits.sort(this.sortingFunction);
-    }
+    },
   },
   created() {
     this.filterCommits();
