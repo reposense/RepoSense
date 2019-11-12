@@ -26,6 +26,9 @@ Thank you for your interest in contributing to RepoSense!
   - [Data loader](#data-loader-apijs)
   - [Summary View](#summary-view-v_summaryjs)
   - [Authorship View](#authorship-view-v_authorshipjs)
+  - [Zoom View](#zoom-view-v_zoomjs)
+  - [Ramp View](#ramp-view-v_rampjs)
+  - [Segment View](#segment-view-v_segmentjs)
 
 ## Setting up
 
