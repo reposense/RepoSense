@@ -60,6 +60,10 @@ a {
   font-weight: bold;
 }
 
+.tab-padding {
+  padding: 2rem 1.5rem;
+}
+
 .warn {
   color: mui-color('red');
 
@@ -195,8 +199,6 @@ header {
 
     .tab-content {
       display: flex;
-      padding: 1rem 1.5rem;
-      padding-top: 4rem;
 
       .tab-panes {
         text-align: left;
@@ -217,7 +219,7 @@ header {
 /* summary chart */
 #summary,
 .summary-status {
-  padding: 2rem 1rem;
+  text-align: center;
 }
 
 .summary-picker {
@@ -271,6 +273,22 @@ header {
     display: block;
     font-weight: bold;
     text-align: left;
+
+    &--index {
+      background: mui-color('black');
+      color: mui-color('white');
+      display: inline-block;
+      font-size: medium;
+      overflow: hidden;
+      padding: .1em .25em .1em .25em;
+      vertical-align: middle;
+    }
+
+    &--repo {
+      display: inline-block;
+      font-size: medium;
+      padding: .5rem;
+    }
 
     &--contribution {
       display: inline;
