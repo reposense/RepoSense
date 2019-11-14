@@ -132,7 +132,7 @@ public class AuthorshipAnalyzer {
                     if (similarityScore >= SIMILARITY_THRESHOLD
                             && (mostSimilarLine == null || similarityScore > mostSimilarLine.getSimilarityScore())) {
                         mostSimilarLine = new CandidateLine(
-                                currentPreImageLineNumber, deletedLineContent, commitHash, filePath, similarityScore);
+                                currentPreImageLineNumber, deletedLineContent, filePath, commitHash, similarityScore);
                     }
                 }
                 if (!lineChanged.startsWith(ADDED_LINE_SYMBOL)) {

@@ -242,6 +242,36 @@ public class ArgsParserTest {
     }
 
     @Test
+    public void parse_withAnalyzeAuthorship_success() throws ParseException, HelpScreenException {
+        String input = new InputBuilder().addRepos(TEST_REPO_REPOSENSE, TEST_REPO_DELTA)
+                .addAnalyzeAuthorship()
+                .build();
+        CliArguments cliArguments = ArgsParser.parse(translateCommandline(input));
+
+        String inputWithAlias = new InputBuilder().addRepos(TEST_REPO_REPOSENSE, TEST_REPO_DELTA)
+                .add("-A")
+                .build();
+        CliArguments cliArgumentsWithAlias = ArgsParser.parse(translateCommandline(inputWithAlias));
+
+        Assert.assertTrue(cliArguments instanceof LocationsCliArguments);
+        Assert.assertTrue(cliArgumentsWithAlias instanceof LocationsCliArguments);
+
+        Assert.assertTrue((cliArguments.isAuthorshipAnalyzed()));
+        Assert.assertTrue((cliArgumentsWithAlias.isAuthorshipAnalyzed()));
+
+        Assert.assertEquals(cliArguments, cliArgumentsWithAlias);
+    }
+
+    @Test
+    public void parse_withoutAnalyzeAuthorship_success() throws ParseException, HelpScreenException {
+        String input = new InputBuilder().addRepos(TEST_REPO_REPOSENSE, TEST_REPO_DELTA).build();
+        CliArguments cliArguments = ArgsParser.parse(translateCommandline(input));
+
+        Assert.assertTrue(cliArguments instanceof LocationsCliArguments);
+        Assert.assertFalse((cliArguments.isAuthorshipAnalyzed()));
+    }
+
+    @Test
     public void parse_viewOnlyWithoutArgs_returnsConfigCliArguments() throws ParseException, HelpScreenException {
         String input = new InputBuilder().addView().build();
         CliArguments cliArguments = ArgsParser.parse(translateCommandline(input));

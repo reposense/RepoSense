@@ -1,5 +1,6 @@
 package reposense.git;
 
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Collections;
 import java.util.Date;
@@ -159,5 +160,30 @@ public class GitLogTest extends GitTestTemplate {
 
         String content = GitLog.get(config, author);
         Assert.assertTrue(TestUtil.compareNumberExpectedCommitsToGitLogLines(1, content));
+    }
+
+    @Test
+    public void getParentCommit_success() {
+        String content = GitLog.getParentCommits(config.getRepoRoot(), SECOND_COMMIT_HASH);
+        Assert.assertEquals(INITIAL_COMMIT_HASH, content);
+    }
+
+    @Test
+    public void getParentCommit_mergeCommit_success() {
+        config.setBranch("945-GitLogTest-getParentCommit_mergeCommit_success");
+        GitCheckout.checkoutBranch(config.getRepoRoot(), config.getBranch());
+        String content = GitLog.getParentCommits(config.getRepoRoot(), MERGE_COMMIT_HASH);
+        Assert.assertEquals(MERGE_COMMIT_PARENTS_HASH, Arrays.asList(content.split(" ")));
+    }
+
+    @Test
+    public void getParentCommit_initialCommit_empty() {
+        String content = GitLog.getParentCommits(config.getRepoRoot(), INITIAL_COMMIT_HASH);
+        Assert.assertTrue(content.isEmpty());
+    }
+
+    @Test(expected = RuntimeException.class)
+    public void getParentCommit_nonExistentCommit_throwsRunTimeException() {
+        GitLog.getParentCommits(config.getRepoRoot(), NONEXISTENT_COMMIT_HASH);
     }
 }

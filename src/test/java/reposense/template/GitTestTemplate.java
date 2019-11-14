@@ -3,6 +3,7 @@ package reposense.template;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.List;
 
 import org.junit.After;
 import org.junit.AfterClass;
@@ -40,7 +41,12 @@ public class GitTestTemplate {
     protected static final String YONG_AUTHOR_NAME = "Yong Hao TENG";
     protected static final String MINGYI_AUTHOR_NAME = "myteo";
     protected static final String JINYAO_AUTHOR_NAME = "jylee-git";
+    protected static final String INITIAL_COMMIT_HASH = "fd425072e12004b71d733a58d819d845509f8db3";
+    protected static final String SECOND_COMMIT_HASH = "05310e79fe8e54c5096bacc97b886ab24304d12b";
     protected static final String LATEST_COMMIT_HASH = "136c6713fc00cfe79a1598e8ce83c6ef3b878660";
+    protected static final String MERGE_COMMIT_HASH = "7937ff5334ee45cb51e8cfd83a2237d33568a20c";
+    protected static final List<String> MERGE_COMMIT_PARENTS_HASH =
+            Arrays.asList("22aec0be218b0c71065e65460ab48a2d95c8c681", "271bfbb0f0624481825abd812ff1d27768f9aba0");
     protected static final String EUGENE_AUTHOR_README_FILE_COMMIT_07052018_STRING =
             "2d87a431fcbb8f73a731b6df0fcbee962c85c250";
     protected static final CommitHash EUGENE_AUTHOR_README_FILE_COMMIT_07052018 =

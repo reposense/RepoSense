@@ -133,6 +133,16 @@ public class InputBuilder {
     }
 
     /**
+     * Adds the analyzeAuthorship flag to the input.
+     * This method should only be called once in one build.
+     */
+    public InputBuilder addAnalyzeAuthorship() {
+        input.append(ArgsParser.ANALYZE_AUTHORSHIP_FLAGS[0] + WHITESPACE);
+        return this;
+    }
+
+
+    /**
      * Adds the timezone flag with the {@code zoneId} as argument to the input.
      * This method should only be called once in one build.
      */

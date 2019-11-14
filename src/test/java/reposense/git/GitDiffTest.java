@@ -31,4 +31,16 @@ public class GitDiffTest extends GitTestTemplate {
     public void diffCommit_nonexistentCommitHash_throwsRunTimeException() {
         GitDiff.diffCommit(config.getRepoRoot(), NONEXISTENT_COMMIT_HASH);
     }
+
+    @Test
+    public void diffCommits_validCommitHashes_success() {
+        String diffResult = GitDiff.diffCommits(config.getRepoRoot(),
+                FAKE_AUTHOR_BLAME_TEST_FILE_COMMIT_08022018_STRING, LATEST_COMMIT_HASH);
+        Assert.assertFalse(diffResult.isEmpty());
+    }
+
+    @Test(expected = RuntimeException.class)
+    public void diffCommits_nonexistentCommitHash_throwsRunTimeException() {
+        GitDiff.diffCommits(config.getRepoRoot(), NONEXISTENT_COMMIT_HASH, LATEST_COMMIT_HASH);
+    }
 }
