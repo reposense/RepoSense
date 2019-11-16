@@ -38,7 +38,8 @@ public class RepoLocation {
             organization = matcher.group("org");
             repoName = matcher.group("repoName");
         } else {
-            repoName = FILE_PATH_FOR_BROWSER + Paths.get(location).getFileName().toString().replace(GIT_LINK_SUFFIX, "");
+            repoName = FILE_PATH_FOR_BROWSER
+                + Paths.get(location).getFileName().toString().replace(GIT_LINK_SUFFIX, "");
         }
     }
 

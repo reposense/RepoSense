@@ -35,7 +35,6 @@ import reposense.model.Author;
 import reposense.model.RepoConfiguration;
 import reposense.model.RepoLocation;
 import reposense.model.StandaloneConfig;
-import reposense.parser.InvalidLocationException;
 import reposense.parser.SinceDateArgumentType;
 import reposense.parser.StandaloneConfigJsonParser;
 import reposense.report.exception.NoAuthorsWithCommitsFoundException;
