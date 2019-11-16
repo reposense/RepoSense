@@ -20,6 +20,7 @@ public class RepoLocation {
     private static final String GIT_LINK_SUFFIX = ".git";
     private static final Pattern GIT_REPOSITORY_LOCATION_PATTERN =
             Pattern.compile("^.*github.com\\/(?<org>.+?)\\/(?<repoName>.+?)\\.git$");
+    private static final String FILE_PATH_FOR_BROWSER = "file:///";
 
     private final String location;
     private final String repoName;
@@ -37,7 +38,7 @@ public class RepoLocation {
             organization = matcher.group("org");
             repoName = matcher.group("repoName");
         } else {
-            repoName = "file:///" + Paths.get(location).getFileName().toString().replace(GIT_LINK_SUFFIX, "");
+            repoName = FILE_PATH_FOR_BROWSER + Paths.get(location).getFileName().toString().replace(GIT_LINK_SUFFIX, "");
         }
     }
 

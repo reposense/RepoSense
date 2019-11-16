@@ -50,7 +50,6 @@ public class ReportGenerator {
     private static final String REPOSENSE_CONFIG_FOLDER = "_reposense";
     private static final String REPOSENSE_CONFIG_FILE = "config.json";
     private static final Logger logger = LogsManager.getLogger(ReportGenerator.class);
-    private static final String FILE_PATH_FOR_BROWSER = "file:///";
 
     // zip file which contains all the report template files
     private static final String TEMPLATE_FILE = "/templateZip.zip";
@@ -275,21 +274,6 @@ public class ReportGenerator {
             }
 
             config.setAuthorList(authorList);
-        }
-    }
-
-    /**
-     * Updates {@code config} to be viewed in browser if analysing local repositories
-     */
-    private static void updateRepoPath(RepoConfiguration config) {
-        String organization = config.getLocation().getOrganization();
-        if (organization == null) {
-            String updatedPath = FILE_PATH_FOR_BROWSER + config.getLocation();
-            try {
-                config.setLocation(new RepoLocation(updatedPath));
-            } catch (InvalidLocationException ile) {
-                logger.warning(String.format(MESSAGE_INVALID_LOCAL_REPO_LOCATION, updatedPath));
-            }
         }
     }
 
