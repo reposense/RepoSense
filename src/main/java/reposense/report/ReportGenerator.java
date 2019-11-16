@@ -67,7 +67,6 @@ public class ReportGenerator {
     private static final String MESSAGE_COMPLETE_ANALYSIS = "Analysis of %s (%s) completed!";
     private static final String MESSAGE_REPORT_GENERATED = "The report is generated at %s";
     private static final String MESSAGE_BRANCH_DOES_NOT_EXIST = "Branch %s does not exist in %s! Analysis terminated.";
-    private static final String MESSAGE_INVALID_LOCAL_REPO_LOCATION = "Location of %s cannot be found locally.";
 
     private static final String LOG_ERROR_CLONING = "Failed to clone from %s";
     private static final String LOG_BRANCH_DOES_NOT_EXIST = "Branch \"%s\" does not exist.";
@@ -220,10 +219,6 @@ public class ReportGenerator {
 
         CommitContributionSummary commitSummary = CommitsReporter.generateCommitSummary(config);
         AuthorshipSummary authorshipSummary = AuthorshipReporter.generateAuthorshipSummary(config);
-
-        // updates path of the local repo so that can be viewed in browser
-        // updateRepoPath(config);
-
         generateIndividualRepoReport(repoReportDirectory, commitSummary, authorshipSummary);
         logger.info(String.format(MESSAGE_COMPLETE_ANALYSIS, config.getLocation(), config.getBranch()));
     }
