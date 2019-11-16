@@ -224,7 +224,7 @@ public class ReportGenerator {
         AuthorshipSummary authorshipSummary = AuthorshipReporter.generateAuthorshipSummary(config);
 
         // updates path of the local repo so that can be viewed in browser
-        updateRepoPath(config);
+        // updateRepoPath(config);
 
         generateIndividualRepoReport(repoReportDirectory, commitSummary, authorshipSummary);
         logger.info(String.format(MESSAGE_COMPLETE_ANALYSIS, config.getLocation(), config.getBranch()));

@@ -37,7 +37,7 @@ public class RepoLocation {
             organization = matcher.group("org");
             repoName = matcher.group("repoName");
         } else {
-            repoName = Paths.get(location).getFileName().toString().replace(GIT_LINK_SUFFIX, "");
+            repoName = "file:///" + Paths.get(location).getFileName().toString().replace(GIT_LINK_SUFFIX, "");
         }
     }
 
@@ -62,8 +62,7 @@ public class RepoLocation {
         boolean isValidGitUrl = false;
 
         try {
-            String updatedLocation = fileStringCheck(location);
-            Path pathLocation = Paths.get(updatedLocation);
+            Path pathLocation = Paths.get(location);
             isValidPathLocation = Files.exists(pathLocation);
         } catch (InvalidPathException ipe) {
             // Ignore exception
@@ -123,15 +122,5 @@ public class RepoLocation {
         }
 
         return convertedLocations;
-    }
-
-    /**
-     * Check if path has file append
-     */
-    private String fileStringCheck(String location) {
-        if ((location.length() > 7) && (location.substring(0, 8)).equals("file:///")) {
-            return location.substring(8);
-        }
-        return location;
     }
 }
