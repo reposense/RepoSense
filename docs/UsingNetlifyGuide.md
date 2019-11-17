@@ -3,18 +3,21 @@
 [Netlify](https://www.netlify.com) will enable you to run RepoSense directly on your target repository. Netlify will handle running RepoSense for you. You will be able to use everything on the browser itself and don't need to download anything to run RepoSense.
 
 1. Fork the RepoSense repository using this [link](https://github.com/repoSense/RepoSense/fork).
-1. Set up Netlify in your forked repository. We recommend this [site](https://www.netlify.com/blog/2016/09/29/a-step-by-step-guide-deploying-on-netlify/) for ease of setup. Please refer to the fields below for **Step 5**.
+1. Follow this [guide](https://www.netlify.com/blog/2016/09/29/a-step-by-step-guide-deploying-on-netlify/) to set up Netlify in your forked repository. You will need to use the following in **Step 5** of the guide:
    
    **Build command**:
    ```
-   ./gradlew run -Dargs="--repos YOUR_TARGET_REPO --output output_path/ --formats java adoc js"
+   ./gradlew run -Dargs="--repos YOUR_TARGET_REPO"
    ```
    **Publish directory**:
    ```
-   /output_path/reposense-report
+   ./reposense-report
    ```
-These steps will allow you to take the first look at the report. To enable continuous deployment of the report, refer below to Section: for further instructions. 
+   
+These steps will allow you to take the first look at your report. To enable continuous deployment of the report, refer below to [Continuous deployment using Netlify](#continuous-deployment-using-netlify) for further instructions. 
 
+
+### Continuous deployment using Netlify
 
 1. Click on **Settings** in the top, choose **Build & deploy** from the left panel and scroll to **Build hooks**.
    ![Build hooks](images/using-netlify-build-hooks.png)
