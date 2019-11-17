@@ -1,6 +1,6 @@
-## Using RepoSense with Netlify
-
-[Netlify](https://www.netlify.com) enables you to run RepoSense directly on your target repository. You can do everything on the browser itself and Netlify will handle running RepoSense for you. Therefore, as a user you don't need to download the latest jar file every time when wanting to run RepoSense.
+## Using RepoSense with Netlify 
+                                 
+[Netlify](https://www.netlify.com) will enable you to run RepoSense directly on your target repository. Netlify will handle running RepoSense for you. You will be able to use everything on the browser itself and don't need to download anything to run RepoSense.
 
 1. Fork the RepoSense repository using this [link](https://github.com/repoSense/RepoSense/fork).
 1. Set up Netlify in your forked repository. We recommend this [site](https://www.netlify.com/blog/2016/09/29/a-step-by-step-guide-deploying-on-netlify/) for ease of setup. Please refer to the fields below for **Step 5**.
@@ -13,6 +13,9 @@
    ```
    /output_path/reposense-report
    ```
+These steps will allow you to take the first look at the report. To enable continuous deployment of the report, refer below to Section: for further instructions. 
+
+
 1. Click on **Settings** in the top, choose **Build & deploy** from the left panel and scroll to **Build hooks**.
    ![Build hooks](images/using-netlify-build-hooks.png)
 1. Click **Add build hook**, give your webhook a name, and choose the `master` branch to build. A Netlify URL will be generated.

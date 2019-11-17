@@ -27,7 +27,7 @@ First, ensure that you have the necessary prerequisites:
 * **Java 8** (JRE `1.8.0_60`) or later. You may download Java [here](https://www.java.com/en/).
 * **git `2.14`** or later on the command line (run `git --version` in your OS terminal to confirm). You may download git [here](https://git-scm.com/downloads).
 
-Next, download the latest executable Jar from our [releases](https://github.com/reposense/RepoSense/releases/latest). Alternatively, you can follow this guide on [Using RepoSense with Netlify](UserGuide.md#using-reposense-with-netlify)
+Next, download the latest executable Jar from our [releases](https://github.com/reposense/RepoSense/releases/latest). Alternatively, you can follow this guide on [Using RepoSense with Netlify](UserGuide.md#using-reposense-with-netlify) which will allow you to use the latest version of this application online without having to download the latest jar file.
 
 The simplest use case for RepoSense is to generate a report for the entire history of a repo. Here are the steps:
 1. Generate the report for the repo by executing the following command in a terminal:<br/>
@@ -387,7 +387,7 @@ Alternatively, you can use csv config files to customize the analysis as before 
 
 ## Using RepoSense with Netlify
 
-You can use Netlify to run RepoSense with your configured files. Follow this [guide](UsingNetlifyGuide.md) to use RepoSense with Netlify.
+You can use Netlify to run RepoSense online with your configured files. This will yield easy access to the application, saving you the time and effort of setup and downloading the jar file every time you want to use the application. Further instructions can be found on this [guide](UsingNetlifyGuide.md).
 
 ## Using Travis-CI to automate publishing of the report to GitHub Pages
 
