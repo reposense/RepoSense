@@ -334,6 +334,8 @@ public class ReportGenerator {
 
     /**
      * Generates a report for a single repository at {@code repoReportDirectory}.
+     *
+     * @return A list of paths to the JSON report files generated for this report.
      */
     private static List<Path> generateIndividualRepoReport(
             String repoReportDirectory, CommitContributionSummary commitSummary, AuthorshipSummary authorshipSummary) {
