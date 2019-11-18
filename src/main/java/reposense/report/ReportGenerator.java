@@ -157,7 +157,7 @@ public class ReportGenerator {
                 handleCloningFailed(configs, currRepoLocation);
             } else {
                 generatedFiles.addAll(analyzeRepos(outputPath, configs, repoLocationMap.get(clonedRepoLocation),
-                    repoCloner.getCurrentRepoDefaultBranch()));
+                        repoCloner.getCurrentRepoDefaultBranch()));
             }
             currRepoLocation = nextRepoLocation;
         }
