@@ -168,6 +168,8 @@ public class ReportGenerator {
     /**
      * Analyzes all repos in {@code configsToAnalyze} and generates their report.
      * Also removes {@code configsToAnalyze} that failed to analyze from {@code configs}.
+     *
+     * @return A list of paths to the JSON report files generated for the repositories in {@code configsToAnalyze}.
      */
     private static List<Path> analyzeRepos(String outputPath, List<RepoConfiguration> configs,
             List<RepoConfiguration> configsToAnalyze, String defaultBranch) {
