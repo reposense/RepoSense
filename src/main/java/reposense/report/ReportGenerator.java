@@ -206,8 +206,8 @@ public class ReportGenerator {
             } catch (NoAuthorsWithCommitsFoundException nafe) {
                 logger.log(Level.WARNING, String.format(MESSAGE_NO_AUTHORS_WITH_COMMITS_FOUND,
                         configToAnalyze.getLocation(), configToAnalyze.getBranch()));
-                generatedFiles.addAll(
-                    generateEmptyRepoReport(repoReportDirectory.toString(), Author.NAME_NO_AUTHOR_WITH_COMMITS_FOUND));
+                generatedFiles.addAll(generateEmptyRepoReport(repoReportDirectory.toString(),
+                        Author.NAME_NO_AUTHOR_WITH_COMMITS_FOUND));
             }
         }
         return generatedFiles;
