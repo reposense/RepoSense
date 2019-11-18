@@ -13,6 +13,7 @@ import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
@@ -98,11 +99,12 @@ public class ReportGenerator {
         Date reportSinceDate = (cliSinceDate.equals(SinceDateArgumentType.ARBITRARY_FIRST_COMMIT_DATE))
                 ? earliestSinceDate : cliSinceDate;
 
-        FileUtil.writeJsonFile(
+        Optional<Path> summaryPath = FileUtil.writeJsonFile(
                 new SummaryJson(configs, generationDate, reportSinceDate, untilDate, isSinceDateProvided,
                         isUntilDateProvided, RepoSense.getVersion(), ErrorSummary.getInstance().getErrorList()),
-                getSummaryResultPath(outputPath))
-            .ifPresent(reportFoldersAndFiles::add);
+                        getSummaryResultPath(outputPath));
+        summaryPath.ifPresent(reportFoldersAndFiles::add);
+
         logger.info(String.format(MESSAGE_REPORT_GENERATED, outputPath));
 
         return reportFoldersAndFiles;
