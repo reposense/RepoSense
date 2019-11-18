@@ -10,7 +10,6 @@ import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -143,7 +142,7 @@ public class ReportGenerator {
         RepoLocation currRepoLocation = repoLocationList.get(0);
         repoCloner.cloneBare(repoLocationMap.get(currRepoLocation).get(0));
 
-        List<Path> generatedFiles = new LinkedList<>();
+        List<Path> generatedFiles = new ArrayList<>();
         for (int index = 1; index <= repoLocationList.size(); index++) {
             RepoLocation nextRepoLocation = (index < repoLocationList.size()) ? repoLocationList.get(index) : null;
             clonedRepoLocation = repoCloner.getClonedRepoLocation();
@@ -174,7 +173,7 @@ public class ReportGenerator {
     private static List<Path> analyzeRepos(String outputPath, List<RepoConfiguration> configs,
             List<RepoConfiguration> configsToAnalyze, String defaultBranch) {
         Iterator<RepoConfiguration> itr = configsToAnalyze.iterator();
-        List<Path> generatedFiles = new LinkedList<>();
+        List<Path> generatedFiles = new ArrayList<>();
         while (itr.hasNext()) {
             progressTracker.incrementProgress();
             RepoConfiguration configToAnalyze = itr.next();
@@ -319,7 +318,7 @@ public class ReportGenerator {
     public static List<Path> generateEmptyRepoReport(String repoReportDirectory, String displayName) {
         CommitReportJson emptyCommitReportJson = new CommitReportJson(displayName);
 
-        List<Path> generatedFiles = new LinkedList<>();
+        List<Path> generatedFiles = new ArrayList<>();
 
         FileUtil.writeJsonFile(emptyCommitReportJson, getIndividualCommitsPath(repoReportDirectory))
                 .ifPresent(generatedFiles::add);
@@ -336,7 +335,7 @@ public class ReportGenerator {
             String repoReportDirectory, CommitContributionSummary commitSummary, AuthorshipSummary authorshipSummary) {
         CommitReportJson commitReportJson = new CommitReportJson(commitSummary, authorshipSummary);
 
-        List<Path> generatedFiles = new LinkedList<>();
+        List<Path> generatedFiles = new ArrayList<>();
         FileUtil.writeJsonFile(commitReportJson, getIndividualCommitsPath(repoReportDirectory))
                 .ifPresent(generatedFiles::add);
         FileUtil.writeJsonFile(authorshipSummary.getFileResults(), getIndividualAuthorshipPath(repoReportDirectory))
