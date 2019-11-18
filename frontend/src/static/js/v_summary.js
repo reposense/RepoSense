@@ -776,6 +776,5 @@ window.vSummary = {
   },
   components: {
     v_ramp: window.vRamp,
-    v_summaryChart: window.vsummaryChart,
   },
 };
