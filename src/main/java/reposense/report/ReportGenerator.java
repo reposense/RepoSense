@@ -215,6 +215,8 @@ public class ReportGenerator {
 
     /**
      * Analyzes repo specified by {@code config} and generates the report.
+     *
+     * @return A list of paths to the JSON report files generated for the repo specified by {@code config}.
      */
     private static List<Path> analyzeRepo(
             RepoConfiguration config, String repoReportDirectory) throws NoAuthorsWithCommitsFoundException {
