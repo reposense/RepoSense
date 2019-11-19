@@ -23,9 +23,9 @@
             option(value="fileType") File Type
           label.medium-font sort by
         .mui-select.sort-order
-          select.medium-font(v-model="sortByOrder")
-            option(value="descending") Descending
-            option(value="ascending") Ascending
+          select.medium-font(v-model="toReverseSortFiles")
+            option(v-bind:value='true') Descending
+            option(v-bind:value='false') Ascending
           label.medium-font order
       .searchbox
         input.radio-button--search(type="radio", name="filter", value="search", v-bind:checked="isSearchBar",
