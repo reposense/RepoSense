@@ -30,7 +30,7 @@ public class AuthorshipAnalyzerTest extends GitTestTemplate {
 
         Assert.assertTrue(fileInfoFull.getLine(1).isFullCredit());
 
-        //  Partial credit given as author only appended a full stop to the line
+        // Partial credit given as author only appended a full stop to the line
         Assert.assertFalse(fileInfoFull.getLine(2).isFullCredit());
         Assert.assertFalse(fileInfoFull.getLine(3).isFullCredit());
     }
@@ -67,7 +67,7 @@ public class AuthorshipAnalyzerTest extends GitTestTemplate {
 
         Assert.assertTrue(fileInfoFull.getLine(1).isFullCredit());
 
-        //  Full credit given since previous version was made in a commit before the sinceDate
+        // Full credit given since previous version was made in a commit before the sinceDate
         Assert.assertTrue(fileInfoFull.getLine(2).isFullCredit());
         Assert.assertTrue(fileInfoFull.getLine(3).isFullCredit());
     }
@@ -96,7 +96,7 @@ public class AuthorshipAnalyzerTest extends GitTestTemplate {
         FileInfo fileInfoFull = generateAnalyzeAuthorshipTestFileInfo("analyzeAuthorshipTest1.java");
         FileInfoAnalyzer.analyzeFile(config, fileInfoFull, true);
 
-        //  Empty line is given full credit
+        // Empty line is given full credit
         Assert.assertEquals(new Author(FAKE_AUTHOR_NAME), fileInfoFull.getLine(1).getAuthor());
         Assert.assertTrue(fileInfoFull.getLine(1).isFullCredit());
     }

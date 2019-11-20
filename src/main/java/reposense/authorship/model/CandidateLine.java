@@ -1,7 +1,7 @@
 package reposense.authorship.model;
 
 /**
- * Stores the information of a candidate line used in {@code LineCreditAnalyzer}.
+ * Stores the information of a candidate line used in {@code AuthorshipAnalyzer}.
  */
 public class CandidateLine {
     private int lineNumber;
