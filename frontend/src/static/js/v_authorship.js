@@ -131,20 +131,20 @@ window.vAuthorship = {
 
       lines.forEach((line, lineCount) => {
         const authored = (line.author && line.author.gitId === this.info.author);
-        const fullCredit = line.isFullCredit;
+        const { isFullCredit } = line;
 
         if (authored !== lastState || lastId === -1
-            || (authored && lastCreditState !== fullCredit)) {
+            || (authored && isFullCredit !== lastCreditState)) {
           segments.push({
             authored,
-            fullCredit,
+            isFullCredit,
             lines: [],
             lineNumbers: [],
           });
 
           lastId += 1;
           lastState = authored;
-          lastCreditState = fullCredit;
+          lastCreditState = isFullCredit;
         }
 
         const content = line.content || ' ';

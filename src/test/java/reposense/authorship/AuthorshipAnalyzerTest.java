@@ -110,16 +110,8 @@ public class AuthorshipAnalyzerTest extends GitTestTemplate {
         fakeAuthor.appendIgnoreGlobList(Collections.singletonList("analyzeAuthorshipTest2.java"));
         FileInfoAnalyzer.analyzeFile(config, fileInfoFull, true);
 
-        Assert.assertEquals(new Author(FAKE_AUTHOR_NAME), fileInfoFull.getLine(1).getAuthor());
-        Assert.assertEquals(new Author(FAKE_AUTHOR_NAME), fileInfoFull.getLine(2).getAuthor());
-        Assert.assertEquals(new Author(FAKE_AUTHOR_NAME), fileInfoFull.getLine(3).getAuthor());
-        Assert.assertEquals(new Author(MINGYI_AUTHOR_NAME), fileInfoFull.getLine(4).getAuthor());
-
-        Assert.assertTrue(fileInfoFull.getLine(1).isFullCredit());
-        Assert.assertTrue(fileInfoFull.getLine(2).isFullCredit());
-        Assert.assertTrue(fileInfoFull.getLine(3).isFullCredit());
-
         // Full credit given since previous author ignores the previous file name
+        Assert.assertEquals(new Author(MINGYI_AUTHOR_NAME), fileInfoFull.getLine(4).getAuthor());
         Assert.assertTrue(fileInfoFull.getLine(4).isFullCredit());
     }
 
@@ -128,18 +120,9 @@ public class AuthorshipAnalyzerTest extends GitTestTemplate {
         FileInfo fileInfoFull = generateAnalyzeAuthorshipTestFileInfo("analyzeAuthorshipTest1.java");
         FileInfoAnalyzer.analyzeFile(config, fileInfoFull, true);
 
-        Assert.assertEquals(new Author(FAKE_AUTHOR_NAME), fileInfoFull.getLine(1).getAuthor());
-        Assert.assertEquals(new Author(FAKE_AUTHOR_NAME), fileInfoFull.getLine(2).getAuthor());
+        // Full credit given since current author is also the author of the previous version
         Assert.assertEquals(new Author(FAKE_AUTHOR_NAME), fileInfoFull.getLine(3).getAuthor());
-        Assert.assertEquals(new Author(MINGYI_AUTHOR_NAME), fileInfoFull.getLine(4).getAuthor());
-
-        Assert.assertTrue(fileInfoFull.getLine(1).isFullCredit());
-        Assert.assertTrue(fileInfoFull.getLine(2).isFullCredit());
-
-        // Full credit given since previous author is also the current author
         Assert.assertTrue(fileInfoFull.getLine(3).isFullCredit());
-
-        Assert.assertFalse(fileInfoFull.getLine(4).isFullCredit());
     }
 
     /**

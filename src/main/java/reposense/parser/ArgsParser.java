@@ -89,7 +89,7 @@ public class ArgsParser {
         parser.addArgument(ANALYZE_AUTHORSHIP_FLAGS)
                 .dest(ANALYZE_AUTHORSHIP_FLAGS[0])
                 .action(Arguments.storeTrue())
-                .help("A flag to perform analysis for code authorship.");
+                .help("A flag to perform analysis of code authorship.");
 
         parser.addArgument(VIEW_FLAGS)
                 .dest(VIEW_FLAGS[0])
