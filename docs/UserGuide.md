@@ -16,7 +16,7 @@
     * [`author-config.csv`](#author-configcsv)
     * [`group-config.csv`](#group-configcsv)
 * [Analyzing Multiple Repos](#analyzing-multiple-repos)
-* [Using RepoSense with Netlify](#using-reposense-with-netlify)
+* [Quickstart RepoSense with Netlify](#quickstart-reposense-with-netlify)
 * [Using Travis-CI to automate publishing of the report to GitHub Pages](#using-travis-ci-to-automate-publishing-of-the-report-to-github-pages)
 * [FAQ](#faq)
 
@@ -385,9 +385,9 @@ Alternatively, you can use csv config files to customize the analysis as before 
 * `repo-config.csv`: Add additional rows for the extra repos ([example](repo-config.csv))
 * `author-config.csv`: Add one row for each author in each repo you want to analyze
 
-## Using RepoSense with Netlify
+## Quickstart RepoSense with Netlify
 
-You can use Netlify to run RepoSense online with your configured files. This will yield easy access to the application, saving you the time and effort of setup and downloading the jar file every time you want to use the application. Further instructions can be found on this [guide](UsingNetlifyGuide.md).
+Using Netlify, and a fork of this repo, allows you to quickly get started online and enjoy a real time RepoSense report on your target repository. Further instructions can be found in this [guide](UsingNetlifyGuide.md).
 
 ## Using Travis-CI to automate publishing of the report to GitHub Pages
 
