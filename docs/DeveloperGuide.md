@@ -5,10 +5,11 @@ Thank you for your interest in contributing to RepoSense!
   - [Setting up the project in your computer using IntelliJ](#setting-up-the-project-in-your-computer-using-intellij)
   - [Verifying the setup](#verifying-the-setup)
   - [Configuring the Java coding style](#configuring-the-java-coding-style)
-  - [Configuring the JavaScript coding style](#configuring-the-javascript-coding-style)
-  - [Configuring the CSS coding style](#configuring-the-css-coding-style)
+  - [Configuring the JavaScript and CSS coding style](#configuring-the-javascript-and-css-coding-style)
   - [Configuring Cypress for automated front-end testing](#configuring-cypress-for-automated-front-end-testing)
   - [(Optional) Using Vue.js devtools for frontend debugging on Chrome](#optional-using-vuejs-devtools-for-frontend-debugging-on-chrome)
+  - [Before writing code](#before-writing-code)
+  - [Building and running RepoSense from code](#building-and-running-reposense-from-code)
 - [Architecture](#architecture)
   - [Parser](#parserconfigparser)
   - [Git](#git)
@@ -25,6 +26,9 @@ Thank you for your interest in contributing to RepoSense!
   - [Data loader](#data-loader-apijs)
   - [Summary View](#summary-view-v_summaryjs)
   - [Authorship View](#authorship-view-v_authorshipjs)
+  - [Zoom View](#zoom-view-v_zoomjs)
+  - [Ramp View](#ramp-view-v_rampjs)
+  - [Segment View](#segment-view-v_segmentjs)
 
 ## Setting up
 
