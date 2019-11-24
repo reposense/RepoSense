@@ -104,7 +104,7 @@ public class ReportGenerator {
         Optional<Path> summaryPath = FileUtil.writeJsonFile(
                 new SummaryJson(configs, generationDate, reportSinceDate, untilDate, isSinceDateProvided,
                         isUntilDateProvided, RepoSense.getVersion(), ErrorSummary.getInstance().getErrorList()),
-                        getSummaryResultPath(outputPath));
+                getSummaryResultPath(outputPath));
         summaryPath.ifPresent(reportFoldersAndFiles::add);
 
         logger.info(String.format(MESSAGE_REPORT_GENERATED, outputPath));
