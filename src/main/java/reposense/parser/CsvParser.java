@@ -35,6 +35,7 @@ public abstract class CsvParser<T> {
             + "Error: %s";
 
     private Path csvFilePath;
+    private int numOfLinesBeforeFirstRecord = 0;
 
     /**
      * @throws IOException if {@code csvFilePath} is an invalid path.
@@ -92,6 +93,7 @@ public abstract class CsvParser<T> {
             currentLine = Optional.ofNullable(reader.readLine())
                                   .map(String::trim)
                                   .orElseThrow(IOException::new);
+            numOfLinesBeforeFirstRecord++;
         }
         return currentLine.split(",");
     }
@@ -160,7 +162,7 @@ public abstract class CsvParser<T> {
 
 
     private long getLineNumber(final CSVRecord record) {
-        return  record.getRecordNumber() + 1;
+        return  record.getRecordNumber() + numOfLinesBeforeFirstRecord;
     }
 
     /**
