@@ -155,7 +155,18 @@ html
           .error-message-box__failed-repo(v-for="errorBlock in errorMessages")
             i.fas.fa-exclamation.mini-font
             span.error-message-box__failed-repo--name {{ errorBlock.repoName }}
-            div.error-message-box__failed-repo--reason {{ errorBlock.errorMessage }}
+            div.error-message-box__failed-repo--reason(v-if="errorBlock.errorMessage.startsWith('Unexpected error stack trace')")
+              span Oops, an unexpected error occurred. If you think this is due to a problem in RepoSense, please report in&nbsp;
+              a(
+                v-bind:href="getReportIssueGitHubLink(errorBlock.errorMessage)", target="_blank",
+              )
+                strong our issue tracker&nbsp;
+              span or email us at&nbsp;
+              a(
+                v-bind:href="getReportIssueEmailLink(errorBlock.errorMessage)"
+              )
+                span {{ getReportIssueEmailAddress() }}
+            div.error-message-box__failed-repo--reason(v-else) {{ errorBlock.errorMessage }}
         #summary-charts
           .summary-charts(v-for="(repo, i) in filteredRepos")
             .summary-charts__title(v-if="filterGroupSelection === 'groupByRepos'")
