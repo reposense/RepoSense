@@ -1,9 +1,13 @@
 #zoom
-  span.large-font Zoom View
+  span.large-font Commits Panel
   .zoom__title
-    a.zoom_title--group.large-font
-      span(v-if="info.filterGroupSelection === 'groupByAuthors'") {{ info.user.displayName }} ({{ info.user.name }})
-      span(v-else) {{ info.user.repoName }}
+    .zoom_title--group.large-font
+      a(
+      v-bind:href="info.location", target="_blank",
+      v-bind:title="'Click to open the repo'"
+      )
+       span(v-if="info.filterGroupSelection === 'groupByAuthors'") {{ info.user.displayName }} ({{ info.user.name }})
+       span(v-else) {{ info.user.repoName }}
     .zoom__title--chart.medium-font(v-if="!info.isMergeGroup")
       span &#8627; &nbsp;
       span(v-if="info.filterGroupSelection === 'groupByAuthors'") {{ info.user.repoName }}
