@@ -10,7 +10,6 @@ import java.util.List;
  */
 public class LocationsCliArguments extends CliArguments {
     private List<String> locations;
-    private boolean isStandaloneConfigIgnored;
 
     public LocationsCliArguments(List<String> locations, Path outputFilePath, Date sinceDate,
             Date untilDate, boolean isSinceDateProvided, boolean isUntilDateProvided, List<FileType> formats,
@@ -29,10 +28,6 @@ public class LocationsCliArguments extends CliArguments {
 
     public List<String> getLocations() {
         return locations;
-    }
-
-    public boolean isStandaloneConfigIgnored() {
-        return isStandaloneConfigIgnored;
     }
 
     @Override

@@ -17,6 +17,7 @@ public abstract class CliArguments {
     protected List<FileType> formats;
     protected boolean isAutomaticallyLaunching;
     protected ZoneId zoneId;
+    protected boolean isStandaloneConfigIgnored;
 
     public ZoneId getZoneId() {
         return zoneId;
@@ -48,6 +49,10 @@ public abstract class CliArguments {
 
     public boolean isAutomaticallyLaunching() {
         return isAutomaticallyLaunching;
+    }
+
+    public boolean isStandaloneConfigIgnored() {
+        return isStandaloneConfigIgnored;
     }
 
     @Override
