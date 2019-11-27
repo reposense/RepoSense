@@ -23,8 +23,8 @@ public class ConfigCliArguments extends CliArguments {
 
     public ConfigCliArguments(Path configFolderPath, Path outputFilePath, Date sinceDate,
             Date untilDate, boolean isSinceDateProvided, boolean isUntilDateProvided,
-            List<FileType> formats, boolean isAutomaticallyLaunching, ZoneId zoneId,
-            boolean isStandaloneConfigIgnored) {
+            List<FileType> formats, boolean isAutomaticallyLaunching,
+            boolean isStandaloneConfigIgnored, ZoneId zoneId) {
         this.configFolderPath = configFolderPath.equals(EMPTY_PATH)
                 ? configFolderPath.toAbsolutePath()
                 : configFolderPath;
