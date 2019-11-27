@@ -58,7 +58,7 @@ public abstract class CsvParser<T> {
 
         try (BufferedReader csvReader = new BufferedReader(new FileReader(csvFilePath.toFile()))) {
             String[] header = getHeader(csvReader);
-            records = CSVFormat.DEFAULT.withHeader(header).parse(csvReader);
+            records = CSVFormat.DEFAULT.withIgnoreEmptyLines(false).withHeader(header).parse(csvReader);
 
             for (CSVRecord record : records) {
                 if (isLineMalformed(record)) {
