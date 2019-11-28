@@ -91,8 +91,8 @@ public abstract class CsvParser<T> {
         // read from file until we encounter a line that is neither blank nor empty
         while (currentLine.length() == 0) {
             currentLine = Optional.ofNullable(reader.readLine())
-                                  .map(String::trim)
-                                  .orElseThrow(IOException::new);
+                    .map(String::trim)
+                    .orElseThrow(IOException::new);
             numOfLinesBeforeFirstRecord++;
         }
         return currentLine.split(",");
