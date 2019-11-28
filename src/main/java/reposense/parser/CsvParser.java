@@ -33,6 +33,7 @@ public abstract class CsvParser<T> {
     private static final String MESSAGE_LINE_PARSE_EXCEPTION_FORMAT = "Error parsing line %d in CSV file, %s.\n"
             + "Content: %s\n"
             + "Error: %s";
+    private static final String MESSAGE_EMPTY_CSV_FORMAT = "The CSV file, %s, is empty.";
 
     private Path csvFilePath;
     private int numOfLinesBeforeFirstRecord = 0;
