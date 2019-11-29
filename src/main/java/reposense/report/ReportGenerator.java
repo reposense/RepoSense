@@ -328,7 +328,7 @@ public class ReportGenerator {
      * Generates a report at the {@code repoReportDirectory}.
      * @return A list of paths to the JSON report files generated for this empty report.
      */
-    public static List<Path> generateEmptyRepoReport(String repoReportDirectory, String displayName) {
+    private static List<Path> generateEmptyRepoReport(String repoReportDirectory, String displayName) {
         CommitReportJson emptyCommitReportJson = new CommitReportJson(displayName);
 
         List<Path> generatedFiles = new ArrayList<>();
