@@ -76,6 +76,8 @@ public abstract class CsvParser<T> {
             }
         } catch (IOException ioe) {
             throw new IOException(MESSAGE_UNABLE_TO_READ_CSV_FILE, ioe);
+        } catch (InvalidCsvException ice) {
+            throw new IOException(ice.getMessage(), ice);
         }
         return results;
     }
@@ -84,16 +86,18 @@ public abstract class CsvParser<T> {
      * Returns the header of a CSV file, which is assumed to be the first non-empty / non-whitespace line in the file.
      * The line is split into an array of Strings, using the comma symbol as delimiter.
      *
-     * @throws IOException if the file has only empty or blank lines, or if there is an error accessing the file.
+     * @throws IOException if there is an error accessing the file.
+     * @throws InvalidCsvException if the file has only empty or blank lines.
      */
-    private String[] getHeader(BufferedReader reader) throws IOException {
+    private String[] getHeader(BufferedReader reader) throws IOException, InvalidCsvException {
         String currentLine = "";
 
         // read from file until we encounter a line that is neither blank nor empty
         while (currentLine.length() == 0) {
             currentLine = Optional.ofNullable(reader.readLine())
                     .map(String::trim)
-                    .orElseThrow(IOException::new);
+                    .orElseThrow(() -> new InvalidCsvException(String.format(
+                            MESSAGE_EMPTY_CSV_FORMAT, csvFilePath.getFileName())));
             numOfLinesBeforeFirstRecord++;
         }
         return currentLine.split(",");
