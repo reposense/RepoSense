@@ -98,6 +98,7 @@ public abstract class CsvParser<T> {
                     .map(String::trim)
                     .orElseThrow(() -> new InvalidCsvException(String.format(
                             MESSAGE_EMPTY_CSV_FORMAT, csvFilePath.getFileName())));
+
             numOfLinesBeforeFirstRecord++;
         }
         return currentLine.split(",");
