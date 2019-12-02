@@ -183,7 +183,7 @@ public class CsvParserTest {
     }
 
     @Test (expected = IOException.class)
-    public void authorConfig_emptyConfig_fail() throws IOException {
+    public void authorConfig_emptyConfig_throwsIoException() throws IOException {
         AuthorConfigCsvParser authorConfigCsvParser = new AuthorConfigCsvParser(AUTHOR_CONFIG_EMPTY_CONFIG_FILE);
         authorConfigCsvParser.parse();
     }
