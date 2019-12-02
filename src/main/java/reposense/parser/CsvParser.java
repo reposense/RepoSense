@@ -155,11 +155,16 @@ public abstract class CsvParser<T> {
      * Returns the contents of {@code record} as a raw string.
      */
     private String getRowContentAsRawString(final CSVRecord record) {
+        String emptyLineMessage = "[EMPTY LINE]";
         StringJoiner inputRowString = new StringJoiner(",");
         for (String value : record) {
             inputRowString.add(value);
         }
-        return inputRowString.toString();
+        String contentAsString = inputRowString.toString();
+        if (contentAsString.trim().isEmpty()) {
+            contentAsString = emptyLineMessage;
+        }
+        return contentAsString;
     }
 
     /**
