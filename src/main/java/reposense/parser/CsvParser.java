@@ -93,7 +93,7 @@ public abstract class CsvParser<T> {
         String currentLine = "";
 
         // read from file until we encounter a line that is neither blank nor empty
-        while (currentLine.length() == 0) {
+        while (currentLine.isEmpty()) {
             currentLine = Optional.ofNullable(reader.readLine())
                     .map(String::trim)
                     .orElseThrow(() -> new InvalidCsvException(String.format(
