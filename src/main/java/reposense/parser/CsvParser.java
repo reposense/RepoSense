@@ -27,6 +27,7 @@ public abstract class CsvParser<T> {
     protected static final Logger logger = LogsManager.getLogger(CsvParser.class);
 
     private static final String OVERRIDE_KEYWORD = "override:";
+    private static final String EMPTY_LINE_STRING_REPRESENTATION = "[EMPTY LINE]";
     private static final String MESSAGE_UNABLE_TO_READ_CSV_FILE = "Unable to read the supplied CSV file.";
     private static final String MESSAGE_MALFORMED_LINE_FORMAT = "Line %d in CSV file, %s, is malformed.\n"
             + "Content: %s";
@@ -155,14 +156,13 @@ public abstract class CsvParser<T> {
      * Returns the contents of {@code record} as a raw string.
      */
     private String getRowContentAsRawString(final CSVRecord record) {
-        String emptyLineMessage = "[EMPTY LINE]";
         StringJoiner inputRowString = new StringJoiner(",");
         for (String value : record) {
             inputRowString.add(value);
         }
         String contentAsString = inputRowString.toString();
         if (contentAsString.trim().isEmpty()) {
-            contentAsString = emptyLineMessage;
+            contentAsString = EMPTY_LINE_STRING_REPRESENTATION;
         }
         return contentAsString;
     }
