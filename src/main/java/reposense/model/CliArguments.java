@@ -16,8 +16,8 @@ public abstract class CliArguments {
     protected boolean isUntilDateProvided;
     protected List<FileType> formats;
     protected boolean isAutomaticallyLaunching;
-    protected ZoneId zoneId;
     protected boolean isStandaloneConfigIgnored;
+    protected ZoneId zoneId;
 
     public ZoneId getZoneId() {
         return zoneId;
