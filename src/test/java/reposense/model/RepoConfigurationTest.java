@@ -4,6 +4,8 @@ import static org.apache.tools.ant.types.Commandline.translateCommandline;
 
 import java.io.File;
 import java.io.IOException;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -27,7 +29,6 @@ import reposense.parser.InvalidLocationException;
 import reposense.parser.ParseException;
 import reposense.parser.RepoConfigCsvParser;
 import reposense.report.ReportGenerator;
-import reposense.report.exception.NoAuthorsWithCommitsFoundException;
 import reposense.util.FileUtil;
 import reposense.util.InputBuilder;
 import reposense.util.TestUtil;
@@ -357,7 +358,7 @@ public class RepoConfigurationTest {
 
     @Test
     public void repoConfig_removeIgnoredAuthors() throws ParseException, GitCloneException, IOException,
-            HelpScreenException, NoAuthorsWithCommitsFoundException {
+            HelpScreenException, NoSuchMethodException, InvocationTargetException, IllegalAccessException {
         List<Author> expectedAuthors = new ArrayList<>();
         Author author = new Author(FIRST_AUTHOR);
         author.setIgnoreGlobList(REPO_LEVEL_GLOB_LIST);
@@ -388,7 +389,9 @@ public class RepoConfigurationTest {
         RepoConfiguration actualConfig = actualConfigs.get(0);
         GitClone.clone(actualConfig);
         ReportGenerator.updateRepoConfig(actualConfig);
-        ReportGenerator.updateAuthorList(actualConfig);
+        Method updateAuthorList = ReportGenerator.class.getDeclaredMethod("updateAuthorList", RepoConfiguration.class);
+        updateAuthorList.setAccessible(true);
+        updateAuthorList.invoke(null, actualConfig);
 
         TestUtil.compareRepoConfig(expectedConfig, actualConfig);
     }

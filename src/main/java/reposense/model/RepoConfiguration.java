@@ -203,7 +203,7 @@ public class RepoConfiguration {
             ignoreCommitList = CommitHash.convertStringsToCommits(standaloneConfig.getIgnoreCommitList());
         }
         if (!isIgnoredAuthorsListOverriding) {
-            ignoredAuthorsList = standaloneConfig.getIgnoredAuthorsList();
+            ignoredAuthorsList = standaloneConfig.getIgnoreAuthorList();
         }
         authorConfig.update(standaloneConfig, ignoreGlobList);
     }

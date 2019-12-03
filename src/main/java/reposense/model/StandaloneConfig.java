@@ -12,7 +12,7 @@ public class StandaloneConfig {
     private List<String> ignoreGlobList;
     private List<String> formats;
     private List<String> ignoreCommitList;
-    private List<String> ignoredAuthorsList;
+    private List<String> ignoreAuthorList;
 
     public List<StandaloneAuthor> getAuthors() {
         if (authors == null) {
@@ -50,12 +50,12 @@ public class StandaloneConfig {
         return ignoreCommitList;
     }
 
-    public List<String> getIgnoredAuthorsList() {
-        if (ignoredAuthorsList == null) {
+    public List<String> getIgnoreAuthorList() {
+        if (ignoreAuthorList == null) {
             return Collections.emptyList();
         }
-        ignoredAuthorsList.removeIf(Objects::isNull);
-        return ignoredAuthorsList;
+        ignoreAuthorList.removeIf(Objects::isNull);
+        return ignoreAuthorList;
     }
 
     @Override
@@ -73,6 +73,6 @@ public class StandaloneConfig {
                 && getIgnoreGlobList().equals(otherStandaloneConfig.getIgnoreGlobList())
                 && getFormats().equals(otherStandaloneConfig.getFormats())
                 && getIgnoreCommitList().equals(otherStandaloneConfig.getIgnoreCommitList())
-                && getIgnoredAuthorsList().equals(otherStandaloneConfig.getIgnoredAuthorsList());
+                && getIgnoreAuthorList().equals(otherStandaloneConfig.getIgnoreAuthorList());
     }
 }
