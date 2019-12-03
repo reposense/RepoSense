@@ -38,8 +38,8 @@ public class ConfigCliArguments extends CliArguments {
         this.isUntilDateProvided = isUntilDateProvided;
         this.formats = formats;
         this.isAutomaticallyLaunching = isAutomaticallyLaunching;
-        this.zoneId = zoneId;
         this.isStandaloneConfigIgnored = isStandaloneConfigIgnored;
+        this.zoneId = zoneId;
     }
 
     public Path getConfigFolderPath() {
