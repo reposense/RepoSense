@@ -34,6 +34,9 @@ public abstract class CsvParser<T> {
             + "Content: %s\n"
             + "Error: %s";
     private static final String MESSAGE_EMPTY_CSV_FORMAT = "The CSV file, %s, is empty.";
+    private static final String MESSAGE_WRONG_HEADER_SIZE = "Wrong number of columns in header of CSV file, %s. \n"
+        + "Number of columns in header: %d\n"
+        + "Expected number of columns: %d";
 
     private Path csvFilePath;
     private int numOfLinesBeforeFirstRecord = 0;
@@ -189,6 +192,16 @@ public abstract class CsvParser<T> {
         return inputRowString.toString();
     }
 
+    private void validateHeader(String[] possibleHeader) throws InvalidCsvException {
+        int expectedNumberOfColumns = getHeaderSize();
+        int actualNumberOfColumns = possibleHeader.length;
+        if (actualNumberOfColumns != expectedNumberOfColumns) {
+            throw new InvalidCsvException(String.format(
+                    MESSAGE_WRONG_HEADER_SIZE, csvFilePath.getFileName(), actualNumberOfColumns,
+                    expectedNumberOfColumns));
+        }
+    }
+
     /**
      * Gets the list of positions that are mandatory for verification.
      */
@@ -201,8 +214,6 @@ public abstract class CsvParser<T> {
      * {@code record} and add created objects into {@code results}.
      */
     protected abstract void processLine(List<T> results, final CSVRecord record) throws ParseException;
-
-    protected abstract void validateHeader(String[] possibleHeader) throws InvalidCsvException;
 
     protected abstract int getHeaderSize();
 }
