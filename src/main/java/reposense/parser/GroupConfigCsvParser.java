@@ -1,5 +1,6 @@
 package reposense.parser;
 
+import java.awt.*;
 import java.io.IOException;
 import java.nio.file.Path;
 import java.util.List;
@@ -22,6 +23,8 @@ public class GroupConfigCsvParser extends CsvParser<GroupConfiguration> {
     private static final int LOCATION_POSITION = 0;
     private static final int GROUP_NAME_POSITION = 1;
     private static final int FILES_GLOB_POSITION = 2;
+
+    private static final int HEADER_SIZE = 3;
 
     public GroupConfigCsvParser(Path csvFilePath) throws IOException {
         super(csvFilePath);
@@ -78,5 +81,10 @@ public class GroupConfigCsvParser extends CsvParser<GroupConfiguration> {
 
         results.add(config);
         return config;
+    }
+    
+    @Override
+    protected int getHeaderSize() {
+        return HEADER_SIZE;
     }
 }
