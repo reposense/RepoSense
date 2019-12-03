@@ -201,4 +201,6 @@ public abstract class CsvParser<T> {
      * {@code record} and add created objects into {@code results}.
      */
     protected abstract void processLine(List<T> results, final CSVRecord record) throws ParseException;
+
+    protected abstract void validateHeader(String[] possibleHeader) throws InvalidCsvException;
 }
