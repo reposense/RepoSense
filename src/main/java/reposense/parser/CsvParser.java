@@ -104,7 +104,9 @@ public abstract class CsvParser<T> {
 
             numOfLinesBeforeFirstRecord++;
         }
-        return currentLine.split(",");
+        String[] header = currentLine.split(",");
+        validateHeader(header);
+        return header;
     }
 
     /**
