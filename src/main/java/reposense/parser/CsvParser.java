@@ -203,4 +203,6 @@ public abstract class CsvParser<T> {
     protected abstract void processLine(List<T> results, final CSVRecord record) throws ParseException;
 
     protected abstract void validateHeader(String[] possibleHeader) throws InvalidCsvException;
+
+    protected abstract int getHeaderSize();
 }
