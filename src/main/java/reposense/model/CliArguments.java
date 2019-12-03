@@ -76,6 +76,7 @@ public abstract class CliArguments {
                 && this.isUntilDateProvided == otherCliArguments.isUntilDateProvided
                 && this.formats.equals(otherCliArguments.formats)
                 && this.isAutomaticallyLaunching == otherCliArguments.isAutomaticallyLaunching
+                && this.isStandaloneConfigIgnored == otherCliArguments.isStandaloneConfigIgnored
                 && this.zoneId.equals(otherCliArguments.zoneId);
     }
 }
