@@ -1,6 +1,5 @@
 package reposense.parser;
 
-import java.awt.*;
 import java.io.IOException;
 import java.nio.file.Path;
 import java.util.List;
@@ -82,7 +81,7 @@ public class GroupConfigCsvParser extends CsvParser<GroupConfiguration> {
         results.add(config);
         return config;
     }
-    
+
     @Override
     protected int getHeaderSize() {
         return HEADER_SIZE;
