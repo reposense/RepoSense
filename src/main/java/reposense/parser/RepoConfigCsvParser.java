@@ -86,6 +86,9 @@ public class RepoConfigCsvParser extends CsvParser<RepoConfiguration> {
         results.add(config);
     }
 
+    /**
+     * Gets the number of columns expected in the header.
+     */
     @Override
     protected int getHeaderSize() {
         return HEADER_SIZE;

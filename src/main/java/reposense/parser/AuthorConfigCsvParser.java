@@ -143,6 +143,10 @@ public class AuthorConfigCsvParser extends CsvParser<AuthorConfiguration> {
         author.setIgnoreGlobList(ignoreGlobList);
     }
 
+    /**
+     * Gets the number of columns expected in the header.
+     */
+    @Override
     protected int getHeaderSize() {
         return HEADER_SIZE;
     }

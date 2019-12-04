@@ -221,5 +221,8 @@ public abstract class CsvParser<T> {
      */
     protected abstract void processLine(List<T> results, final CSVRecord record) throws ParseException;
 
+    /**
+     * Gets the number of columns expected in the header.
+     */
     protected abstract int getHeaderSize();
 }

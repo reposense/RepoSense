@@ -82,6 +82,9 @@ public class GroupConfigCsvParser extends CsvParser<GroupConfiguration> {
         return config;
     }
 
+    /**
+     * Gets the number of columns expected in the header.
+     */
     @Override
     protected int getHeaderSize() {
         return HEADER_SIZE;
