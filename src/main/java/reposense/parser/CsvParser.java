@@ -194,6 +194,10 @@ public abstract class CsvParser<T> {
         return inputRowString.toString();
     }
 
+    /**
+     * Checks if a given header has the right number of columns.
+     * @throws InvalidCsvException if the header does not have as many columns as expected.
+     */
     private void validateHeader(String[] possibleHeader) throws InvalidCsvException {
         int expectedNumberOfColumns = getHeaderSize();
         int actualNumberOfColumns = possibleHeader.length;
