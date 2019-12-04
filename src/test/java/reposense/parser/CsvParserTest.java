@@ -56,6 +56,8 @@ public class CsvParserTest {
             .getResource("CsvParserTest/authorconfig_multipleEmails_test.csv").getFile()).toPath();
     private static final Path AUTHOR_CONFIG_INVALID_LOCATION = new File(CsvParserTest.class.getClassLoader()
             .getResource("CsvParserTest/authorconfig_invalidLocation_test.csv").getFile()).toPath();
+    private static final Path AUTHOR_CONFIG_INVALID_HEADER_SIZE = new File(CsvParserTest.class.getClassLoader()
+            .getResource("CsvParserTest/authorconfig_invalidHeaderSize_test.csv").getFile()).toPath();
     private static final Path MERGE_EMPTY_LOCATION_FOLDER = new File(CsvParserTest.class.getClassLoader()
             .getResource("CsvParserTest/repoconfig_merge_empty_location_test").getFile()).toPath();
     private static final Path GROUP_CONFIG_MULTI_LOCATION_FILE = new File(CsvParserTest.class.getClassLoader()
@@ -227,6 +229,12 @@ public class CsvParserTest {
         AuthorConfiguration config = configs.get(0);
 
         Assert.assertEquals(3, config.getAuthorList().size());
+    }
+
+    @Test (expected = IOException.class)
+    public void authorConfig_invalidHeaderSize_throwsIoException() throws IOException {
+        AuthorConfigCsvParser authorConfigCsvParser = new AuthorConfigCsvParser(AUTHOR_CONFIG_INVALID_HEADER_SIZE);
+        authorConfigCsvParser.parse();
     }
 
     @Test
