@@ -23,6 +23,9 @@ public class GroupConfigCsvParser extends CsvParser<GroupConfiguration> {
     private static final int GROUP_NAME_POSITION = 1;
     private static final int FILES_GLOB_POSITION = 2;
 
+    /**
+     * Number of columns expected in the header of group-config.csv file.
+     */
     private static final int HEADER_SIZE = 3;
 
     public GroupConfigCsvParser(Path csvFilePath) throws IOException {
