@@ -45,6 +45,8 @@ public class RepoConfigurationTest {
         .getResource("RepoConfigurationTest/repoconfig_groups_test").getFile()).toPath();
     private static final Path OVERRIDE_STANDALONE_TEST_CONFIG_FILE = new File(CsvParserTest.class.getClassLoader()
                     .getResource("RepoConfigurationTest/repoconfig_overrideStandAlone_test").getFile()).toPath();
+    private static final Path IGNORE_STANDALONE_FLAG_OVERRIDE_CSV_TEST = new File(CsvParserTest.class.getClassLoader()
+            .getResource("RepoConfigurationTest/repoconfig_ignoreStandaloneOverrideCsv_test").getFile()).toPath();
 
     private static final String TEST_REPO_DELTA = "https://github.com/reposense/testrepo-Delta.git";
     private static final String TEST_REPO_MINIMAL_STANDALONE_CONFIG =
@@ -183,6 +185,39 @@ public class RepoConfigurationTest {
         ReportGenerator.updateRepoConfig(actualConfig);
 
         TestUtil.compareRepoConfig(expectedConfig, actualConfig);
+    }
+
+    @Test
+    public void repoConfig_ignoresStandaloneConfigInCliOverridesCsv_success()
+            throws HelpScreenException, IOException, ParseException {
+        String inputWithoutIgnoreStandaloneFlag = new InputBuilder().addConfig(IGNORE_STANDALONE_FLAG_OVERRIDE_CSV_TEST)
+            .build();
+
+        String inputWithIgnoreStandaloneFlag = new InputBuilder().addConfig(IGNORE_STANDALONE_FLAG_OVERRIDE_CSV_TEST)
+            .addIgnoreStandaloneConfig()
+            .build();
+
+        CliArguments argsWithoutIgnoreStandaloneFlag = ArgsParser.parse(
+            translateCommandline(inputWithoutIgnoreStandaloneFlag));
+
+        CliArguments argsWithIgnoreStandaloneFlag = ArgsParser.parse(
+                translateCommandline(inputWithIgnoreStandaloneFlag));
+
+        List<RepoConfiguration> repoConfigsWithSomeIgnoringStandaloneConfig =
+                RepoSense.getRepoConfigurations((ConfigCliArguments) argsWithoutIgnoreStandaloneFlag);
+        List<RepoConfiguration> repoConfigsWithAllIgnoringStandaloneConfig =
+                RepoSense.getRepoConfigurations((ConfigCliArguments) argsWithIgnoreStandaloneFlag);
+
+        repoConfigsWithAllIgnoringStandaloneConfig.forEach(config ->
+                Assert.assertTrue(config.isStandaloneConfigIgnored()));
+
+        RepoConfiguration config1 = repoConfigsWithSomeIgnoringStandaloneConfig.get(0);
+        RepoConfiguration config2 = repoConfigsWithSomeIgnoringStandaloneConfig.get(1);
+        RepoConfiguration config3 = repoConfigsWithSomeIgnoringStandaloneConfig.get(2);
+
+        Assert.assertTrue(config1.isStandaloneConfigIgnored());
+        Assert.assertFalse(config2.isStandaloneConfigIgnored());
+        Assert.assertFalse(config3.isStandaloneConfigIgnored());
     }
 
     @Test
