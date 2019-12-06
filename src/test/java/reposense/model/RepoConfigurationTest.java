@@ -178,8 +178,6 @@ public class RepoConfigurationTest {
         CliArguments cliArguments = ArgsParser.parse(translateCommandline(input));
         List<RepoConfiguration> actualConfigs = RepoSense.getRepoConfigurations((LocationsCliArguments) cliArguments);
         RepoConfiguration.setFormatsToRepoConfigs(actualConfigs, cliArguments.getFormats());
-        RepoConfiguration.setStandaloneConfigIgnoredToRepoConfigs(actualConfigs,
-                cliArguments.isStandaloneConfigIgnored());
         RepoConfiguration actualConfig = actualConfigs.get(0);
         GitClone.clone(actualConfig);
         ReportGenerator.updateRepoConfig(actualConfig);

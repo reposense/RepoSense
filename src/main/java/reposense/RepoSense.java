@@ -60,9 +60,6 @@ public class RepoSense {
 
             RepoConfiguration.setFormatsToRepoConfigs(configs, cliArguments.getFormats());
             RepoConfiguration.setDatesToRepoConfigs(configs, cliArguments.getSinceDate(), cliArguments.getUntilDate());
-            RepoConfiguration.setStandaloneConfigIgnoredToRepoConfigs(configs,
-                    cliArguments.isStandaloneConfigIgnored());
-
             List<Path> reportFoldersAndFiles = ReportGenerator.generateReposReport(configs,
                     cliArguments.getOutputFilePath().toAbsolutePath().toString(),
                     formatter.format(ZonedDateTime.now(cliArguments.getZoneId())),
@@ -109,6 +106,10 @@ public class RepoSense {
             // Ignore exception as the file is optional.
         }
 
+        if (cliArguments.isStandaloneConfigIgnored()) {
+            RepoConfiguration.setStandaloneConfigIgnoredToRepoConfigs(repoConfigs, true);
+        }
+
         return repoConfigs;
     }
 
@@ -124,6 +125,9 @@ public class RepoSense {
                 logger.log(Level.WARNING, ile.getMessage(), ile);
             }
         }
+
+        RepoConfiguration.setStandaloneConfigIgnoredToRepoConfigs(configs, cliArguments.isStandaloneConfigIgnored());
+
         return configs;
     }
 
