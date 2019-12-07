@@ -12,7 +12,7 @@ window.vZoom = {
       showAllCommitMessageBody: true,
       expandedCommitMessagesCount: this.getCommitMessageBodyCount(),
       commitsSortType: 'time',
-      toReverseSortedCommits: false,
+      toReverseSortedCommits: true,
       sortingFunction: window.comparator(commitSortDict.time),
     };
   },
