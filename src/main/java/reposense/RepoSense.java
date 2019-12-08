@@ -25,6 +25,7 @@ import reposense.report.ReportGenerator;
 import reposense.system.LogsManager;
 import reposense.system.ReportServer;
 import reposense.util.FileUtil;
+import reposense.util.TimeUtil;
 
 /**
  * The main RepoSense class.
@@ -34,16 +35,13 @@ public class RepoSense {
     private static final int SERVER_PORT_NUMBER = 9000;
     private static final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("E MMM d HH:mm:ss yyyy z");
     private static final String VERSION_UNSPECIFIED = "unspecified";
-    private static final String MESSAGE_ELAPSED_TIME =
-            "Elapsed processing time: %d hour(s) %d minute(s) %.2f second(s)";
 
     /**
      * The entry point of the program.
      */
     public static void main(String[] args) {
         try {
-            long startTime = System.nanoTime();
-
+            TimeUtil.startTimer();
             CliArguments cliArguments = ArgsParser.parse(args);
             List<RepoConfiguration> configs = null;
 
@@ -67,13 +65,7 @@ public class RepoSense {
 
             FileUtil.zip(cliArguments.getOutputFilePath().toAbsolutePath(), ".json");
 
-            long endTime = System.nanoTime();
-            double elapsedTime = (double) (endTime - startTime) / 1_000_000_000.0;
-            int elapsedHours = (int) elapsedTime / 3600;
-            int elapsedMinutes = (int) (elapsedTime % 3600) / 60;
-            double elapsedSeconds = elapsedTime % 60;
-
-            logger.info(String.format(MESSAGE_ELAPSED_TIME, elapsedHours, elapsedMinutes, elapsedSeconds));
+            logger.info(TimeUtil.getTimeElapsedMessage());
 
             if (cliArguments.isAutomaticallyLaunching()) {
                 ReportServer.startServer(SERVER_PORT_NUMBER, cliArguments.getOutputFilePath().toAbsolutePath());
