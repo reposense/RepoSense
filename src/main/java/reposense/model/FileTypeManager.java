@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.logging.Logger;
+import java.util.regex.Pattern;
 
 import reposense.system.LogsManager;
 
@@ -15,6 +16,8 @@ public class FileTypeManager {
     private static final String DEFAULT_GROUP = "other";
     private static final FileType DEFAULT_GROUP_TYPE = new FileType(DEFAULT_GROUP, Collections.singletonList("**"));
     private static final Logger logger = LogsManager.getLogger(FileTypeManager.class);
+
+    private static final Pattern PATTERN_ALPHANUMERIC = Pattern.compile("^\\w+$");
 
     private List<FileType> formats;
     private List<FileType> groups;
@@ -41,6 +44,10 @@ public class FileTypeManager {
         return result;
     }
 
+    /**
+     * Returns the file format of the given {@code fileName}.
+     * Returns the file type "other" if the format of the file is not of the standard type.
+     */
     private FileType getFileFormat(String fileName) {
         if (hasSpecifiedFormats()) {
             for (FileType format : formats) {
@@ -53,6 +60,11 @@ public class FileTypeManager {
         } else {
             String[] tok = fileName.split("[./\\\\]+");
             String label = tok[tok.length - 1];
+
+            if (!isAlphaNumeric(label)) {
+                return DEFAULT_GROUP_TYPE;
+            }
+
             try {
                 return new FileType(label, Collections.singletonList("**" + label));
             } catch (IllegalArgumentException iae) {
@@ -96,6 +108,10 @@ public class FileTypeManager {
 
     private boolean hasCustomGroups() {
         return !groups.isEmpty();
+    }
+
+    private boolean isAlphaNumeric(String stringToTest) {
+        return PATTERN_ALPHANUMERIC.matcher(stringToTest).matches();
     }
 
     @Override
