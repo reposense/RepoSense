@@ -3,8 +3,10 @@ package reposense.model;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.TreeMap;
 import java.util.logging.Logger;
 import java.util.regex.Matcher;
@@ -42,8 +44,10 @@ public class AuthorConfiguration {
      */
     public void update(StandaloneConfig standaloneConfig, List<String> ignoreGlobList) {
         List<Author> newAuthorList = new ArrayList<>();
-        Map<String, Author> newAuthorEmailsAndAliasesMap = new TreeMap<>(String.CASE_INSENSITIVE_ORDER);
+        Map<String, Author> newAuthorEmailsMap = new TreeMap<>(String.CASE_INSENSITIVE_ORDER);
+        Map<String, Author> newAuthorAliasesMap = new TreeMap<>(String.CASE_INSENSITIVE_ORDER);
         Map<Author, String> newAuthorDisplayNameMap = new HashMap<>();
+        List<String> allAliases = new ArrayList<>();
 
         for (StandaloneAuthor sa : standaloneConfig.getAuthors()) {
             Author author = new Author(sa);
@@ -54,8 +58,21 @@ public class AuthorConfiguration {
             List<String> aliases = new ArrayList<>(author.getAuthorAliases());
             List<String> emails = new ArrayList<>(author.getEmails());
             aliases.add(author.getGitId());
-            aliases.forEach(alias -> newAuthorEmailsAndAliasesMap.put(alias, author));
-            emails.forEach(email -> newAuthorEmailsAndAliasesMap.put(email, author));
+            allAliases.addAll(aliases);
+            aliases.forEach(alias -> newAuthorAliasesMap.put(alias, author));
+            emails.forEach(email -> newAuthorEmailsMap.put(email, author));
+        }
+
+        Set<String> uniqueAliasesSet = new HashSet<String>(allAliases);
+        boolean hasDuplicateAliases = uniqueAliasesSet.size() != allAliases.size();
+        Map<String, Author> newAuthorEmailsAndAliasesMap = new TreeMap<>(String.CASE_INSENSITIVE_ORDER);
+
+        if (hasDuplicateAliases) {
+            logger.warning("Has duplicate aliases. Using emails to process instead.");
+            newAuthorEmailsAndAliasesMap.putAll(newAuthorEmailsMap);
+        } else {
+            newAuthorEmailsAndAliasesMap.putAll(newAuthorAliasesMap);
+            newAuthorEmailsAndAliasesMap.putAll(newAuthorEmailsMap);
         }
 
         setAuthorList(newAuthorList);
