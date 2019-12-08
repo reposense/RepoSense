@@ -8,7 +8,7 @@ import org.junit.Assert;
 import org.junit.Test;
 
 import reposense.model.Author;
-import reposense.model.Format;
+import reposense.model.FileType;
 import reposense.template.GitTestTemplate;
 import reposense.util.TestUtil;
 
@@ -22,14 +22,14 @@ public class GitLogTest extends GitTestTemplate {
 
     @Test
     public void gitLog_nonExistingFormats_noContent() {
-        config.setFormats(Collections.singletonList(new Format("py")));
+        config.setFormats(FileType.convertFormatStringsToFileTypes(Collections.singletonList("py")));
         String content = GitLog.get(config, getAlphaAllAliasAuthor());
         Assert.assertTrue(content.isEmpty());
     }
 
     @Test
     public void gitLog_includeAllJavaFiles_success() {
-        config.setFormats(Collections.singletonList(new Format("java")));
+        config.setFormats(FileType.convertFormatStringsToFileTypes(Collections.singletonList("java")));
         String content = GitLog.get(config, getAlphaAllAliasAuthor());
         Assert.assertTrue(TestUtil.compareNumberExpectedCommitsToGitLogLines(8, content));
     }
@@ -60,7 +60,7 @@ public class GitLogTest extends GitTestTemplate {
 
     @Test
     public void gitLog_includeAllJavaFilesAuthorIgnoreMovedFile_success() {
-        config.setFormats(Collections.singletonList(new Format("java")));
+        config.setFormats(FileType.convertFormatStringsToFileTypes(Collections.singletonList("java")));
         Author ignoreMovedFileAuthor = getAlphaAllAliasAuthor();
         ignoreMovedFileAuthor.setIgnoreGlobList(Collections.singletonList("**movedFile.java"));
 
@@ -70,7 +70,7 @@ public class GitLogTest extends GitTestTemplate {
 
     @Test
     public void gitLog_authorIgnoreAllJavaFiles_success() {
-        config.setFormats(Collections.singletonList(new Format("java")));
+        config.setFormats(FileType.convertFormatStringsToFileTypes(Collections.singletonList("java")));
         Author ignoreAllJavaFilesAuthor = getAlphaAllAliasAuthor();
         ignoreAllJavaFilesAuthor.setIgnoreGlobList(Collections.singletonList("*.java"));
 
@@ -135,7 +135,7 @@ public class GitLogTest extends GitTestTemplate {
 
     @Test
     public void gitLog_sinceDateInFuture_noContent() {
-        Date date = TestUtil.getDate(2050, Calendar.JANUARY, 1);
+        Date date = TestUtil.getSinceDate(2050, Calendar.JANUARY, 1);
         config.setSinceDate(date);
         String content = GitLog.get(config, getAlphaAllAliasAuthor());
         Assert.assertTrue(content.isEmpty());
@@ -143,7 +143,7 @@ public class GitLogTest extends GitTestTemplate {
 
     @Test
     public void gitLog_untilDateBeforeAnyCommit_noContent() {
-        Date date = TestUtil.getDate(2010, Calendar.JANUARY, 1);
+        Date date = TestUtil.getUntilDate(2010, Calendar.JANUARY, 1);
         config.setUntilDate(date);
         config.setSinceDate(null);
         String content = GitLog.get(config, getAlphaAllAliasAuthor());

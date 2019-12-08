@@ -7,10 +7,12 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 import org.junit.Assert;
 
+import reposense.git.GitLog;
 import reposense.model.Author;
 import reposense.model.RepoConfiguration;
 
@@ -18,6 +20,8 @@ import reposense.model.RepoConfiguration;
  * Contains testing related functionalities.
  */
 public class TestUtil {
+    private static final int[] END_OF_DAY_TIME = {23, 59, 59};
+    private static final int[] START_OF_DAY_TIME = {0, 0, 0};
     private static final String MESSAGE_COMPARING_FILES = "Comparing files %s & %s\n";
 
     private static final String MESSAGE_LINE_CONTENT_DIFFERENT = "Content different at line number %d:\n"
@@ -95,13 +99,27 @@ public class TestUtil {
     /**
      * Creates and returns a {@code Date} object with the specified {@code year}, {@code month}, {@code day}.
      */
-    public static Date getDate(int year, int month, int date) {
+    private static Date getDate(int year, int month, int date, int[] time) {
         return new Calendar
                 .Builder()
                 .setDate(year, month, date)
-                .setTimeOfDay(0, 0, 0)
+                .setTimeOfDay(time[0], time[1], time[2])
                 .build()
                 .getTime();
+    }
+
+    /**
+     * Wrapper for {@code getDate} method to get since date with time 00:00:00
+     */
+    public static Date getSinceDate(int year, int month, int date) {
+        return getDate(year, month, date, START_OF_DAY_TIME);
+    }
+
+    /**
+     * Wrapper for {@code getDate} method to get until date with time 23:59:59
+     */
+    public static Date getUntilDate(int year, int month, int date) {
+        return getDate(year, month, date, END_OF_DAY_TIME);
     }
 
     /**
@@ -132,7 +150,7 @@ public class TestUtil {
     }
 
     /**
-     * Returns true if the {@code expectedNumberCommits} is equal to the expected number of lines in
+     * Returns true if the {@code expectedNumberCommits} is equal to the expected number of commits captured in
      * {@code gitLogResult}.
      */
     public static boolean compareNumberExpectedCommitsToGitLogLines(int expectedNumberCommits, String gitLogResult) {
@@ -141,8 +159,8 @@ public class TestUtil {
             return expectedNumberCommits == 0;
         }
 
-        // each commit has 2 lines of info, and a blank line in between each
-        return expectedNumberCommits * 3 - 1 == gitLogResult.split("\n").length;
+        // (actualSplitGitLogResilt - 1) as the 1st token is always empty.
+        return expectedNumberCommits == (gitLogResult.split(GitLog.COMMIT_INFO_DELIMITER).length - 1);
     }
 
     /**
@@ -154,18 +172,38 @@ public class TestUtil {
         if (gitLogResult.isEmpty()) {
             return expectedNumberFilesChanged == 0;
         }
-        String[] changesLogged = gitLogResult.split("\n");
+        String[] changesLogged = gitLogResult.split(GitLog.COMMIT_INFO_DELIMITER);
         HashSet<String> filesChanged = new HashSet<>();
-        // Checks the 2nd line of each commit which contains info of the changed file
-        for (int i = 0; i < changesLogged.length; i += 4) {
-            String log = changesLogged[i + 1];
-            String fileChanged = log.split("\\| ")[0].trim();
-            if (fileChanged.contains("=>")) {
-                fileChanged = fileChanged.substring(fileChanged.indexOf("=> ") + 3);
-            }
-            filesChanged.add(fileChanged);
+
+        // start from index 1 as index 0 is always empty.
+        for (int i = 1; i < changesLogged.length; i++) {
+            filesChanged.addAll(getFilesChangedInCommit(changesLogged[i]));
         }
         return filesChanged.size() == expectedNumberFilesChanged;
+    }
+
+    /**
+     * Returns the {@code set} of files changed in the commit {@code rawCommitInfo}.
+     */
+    private static Set<String> getFilesChangedInCommit(String rawCommitInfo) {
+        Set<String> filesChanged = new HashSet<>();
+        String[] commitInfo = rawCommitInfo.replaceAll("\n+$", "").split("\n");
+        int fileChangedNum = Integer.parseInt(commitInfo[commitInfo.length - 1].trim().split(" ")[0]);
+        for (int fileNum = 0; fileNum < fileChangedNum; fileNum++) {
+            filesChanged.add(getFileChanged(commitInfo[commitInfo.length - 2 - fileNum]));
+        }
+        return filesChanged;
+    }
+
+    /**
+     * Returns the file changed given a {@code rawFileChangedString}.
+     */
+    private static String getFileChanged(String rawFileChangedString) {
+        String fileChanged = rawFileChangedString.split("\\| ")[0].trim();
+        if (fileChanged.contains("=>")) {
+            fileChanged = fileChanged.substring(fileChanged.indexOf("=> ") + 3);
+        }
+        return fileChanged;
     }
 
     /**

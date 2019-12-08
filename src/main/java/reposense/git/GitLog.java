@@ -13,6 +13,10 @@ import reposense.model.RepoConfiguration;
  * Git log is responsible to obtain the commit logs and the authors' info.
  */
 public class GitLog {
+    public static final String COMMIT_INFO_DELIMITER = "(?m)^>>>COMMIT INFO<<<\\n";
+
+    private static final String PRETTY_FORMAT_STRING =
+            "\">>>COMMIT INFO<<<%n%H|%n|%aN|%n|%aE|%n|%cI|%n|%s|%n|%w(0,4,4)%b%w(0,0,0)\"";
 
     /**
      * Returns the git commit log info of {@code Author}, in the repository specified in {@code config}.
@@ -22,9 +26,9 @@ public class GitLog {
 
         String command = "git log --no-merges -i ";
         command += GitUtil.convertToGitDateRangeArgs(config.getSinceDate(), config.getUntilDate());
-        command += " --pretty=format:\"%H|%aN|%aE|%cd|%s\" --date=iso --shortstat";
+        command += " --pretty=format:" + PRETTY_FORMAT_STRING + " --shortstat";
         command += GitUtil.convertToFilterAuthorArgs(author);
-        command += GitUtil.convertToGitFormatsArgs(config.getFormats());
+        command += GitUtil.convertToGitFormatsArgs(config.getFileTypeManager().getFormats());
         command += GitUtil.convertToGitExcludeGlobArgs(rootPath.toFile(), author.getIgnoreGlobList());
 
         return runCommand(rootPath, command);
@@ -39,9 +43,9 @@ public class GitLog {
 
         String command = "git log --no-merges -i ";
         command += GitUtil.convertToGitDateRangeArgs(config.getSinceDate(), config.getUntilDate());
-        command += " --pretty=format:\"%H|%aN|%aE|%cd|%s\" --date=iso --stat";
+        command += " --pretty=format:" + PRETTY_FORMAT_STRING + " --stat";
         command += GitUtil.convertToFilterAuthorArgs(author);
-        command += GitUtil.convertToGitFormatsArgs(config.getFormats());
+        command += GitUtil.convertToGitFormatsArgs(config.getFileTypeManager().getFormats());
         command += GitUtil.convertToGitExcludeGlobArgs(rootPath.toFile(), author.getIgnoreGlobList());
 
         return runCommand(rootPath, command);

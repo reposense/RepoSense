@@ -1,6 +1,7 @@
 package reposense;
 
 import java.io.IOException;
+import java.nio.file.Path;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -12,12 +13,14 @@ import net.sourceforge.argparse4j.helper.HelpScreenException;
 import reposense.model.AuthorConfiguration;
 import reposense.model.CliArguments;
 import reposense.model.ConfigCliArguments;
+import reposense.model.GroupConfiguration;
 import reposense.model.LocationsCliArguments;
 import reposense.model.RepoConfiguration;
 import reposense.model.RepoLocation;
 import reposense.model.ViewCliArguments;
 import reposense.parser.ArgsParser;
 import reposense.parser.AuthorConfigCsvParser;
+import reposense.parser.GroupConfigCsvParser;
 import reposense.parser.InvalidLocationException;
 import reposense.parser.ParseException;
 import reposense.parser.RepoConfigCsvParser;
@@ -59,11 +62,13 @@ public class RepoSense {
 
             RepoConfiguration.setFormatsToRepoConfigs(configs, cliArguments.getFormats());
             RepoConfiguration.setDatesToRepoConfigs(configs, cliArguments.getSinceDate(), cliArguments.getUntilDate());
-            ReportGenerator.generateReposReport(configs, cliArguments.getOutputFilePath().toAbsolutePath().toString(),
+            List<Path> reportFoldersAndFiles = ReportGenerator.generateReposReport(configs,
+                    cliArguments.getOutputFilePath().toAbsolutePath().toString(),
                     formatter.format(ZonedDateTime.now(cliArguments.getZoneId())),
-                    cliArguments.getSinceDate(), cliArguments.getUntilDate());
-
-            FileUtil.zip(cliArguments.getOutputFilePath().toAbsolutePath(), ".json");
+                    cliArguments.getSinceDate(), cliArguments.getUntilDate(),
+                    cliArguments.isSinceDateProvided(), cliArguments.isUntilDateProvided());
+            FileUtil.zipFoldersAndFiles(reportFoldersAndFiles, cliArguments.getOutputFilePath().toAbsolutePath(),
+                    ".json");
 
             logger.info(TimeUtil.getTimeElapsedMessage());
 
@@ -86,13 +91,22 @@ public class RepoSense {
      */
     public static List<RepoConfiguration> getRepoConfigurations(ConfigCliArguments cliArguments) throws IOException {
         List<RepoConfiguration> repoConfigs = new RepoConfigCsvParser(cliArguments.getRepoConfigFilePath()).parse();
-        List<AuthorConfiguration> authorConfigs = null;
+        List<AuthorConfiguration> authorConfigs;
+        List<GroupConfiguration> groupConfigs;
 
         try {
             authorConfigs = new AuthorConfigCsvParser(cliArguments.getAuthorConfigFilePath()).parse();
             RepoConfiguration.merge(repoConfigs, authorConfigs);
         } catch (IOException ioe) {
             // IOException thrown as author-config.csv is not found.
+            // Ignore exception as the file is optional.
+        }
+
+        try {
+            groupConfigs = new GroupConfigCsvParser(cliArguments.getGroupConfigFilePath()).parse();
+            RepoConfiguration.setGroupConfigsToRepos(repoConfigs, groupConfigs);
+        } catch (IOException ioe) {
+            // IOException thrown as groups-config.csv is not found.
             // Ignore exception as the file is optional.
         }
 

@@ -22,7 +22,6 @@ import reposense.git.GitCheckout;
 import reposense.git.GitDiff;
 import reposense.git.GitRevList;
 import reposense.git.exception.CommitNotFoundException;
-import reposense.model.Format;
 import reposense.model.RepoConfiguration;
 import reposense.system.LogsManager;
 import reposense.util.FileUtil;
@@ -113,7 +112,7 @@ public class FileInfoExtractor {
                 continue;
             }
 
-            if (Format.isInsideWhiteList(filePath, config.getFormats())) {
+            if (config.getFileTypeManager().isInsideWhitelistedFormats(filePath)) {
                 FileInfo currentFileInfo = generateFileInfo(config.getRepoRoot(), filePath);
                 setLinesToTrack(currentFileInfo, fileDiffResult);
                 fileInfos.add(currentFileInfo);
@@ -181,7 +180,7 @@ public class FileInfoExtractor {
     private static void getAllFileInfo(RepoConfiguration config, List<FileInfo> fileInfos) {
         Set<Path> nonBinaryFilesList = getNonBinaryFilesList(config);
         for (Path relativePath : nonBinaryFilesList) {
-            if (Format.isInsideWhiteList(relativePath.toString(), config.getFormats())) {
+            if (config.getFileTypeManager().isInsideWhitelistedFormats(relativePath.toString())) {
                 fileInfos.add(generateFileInfo(config.getRepoRoot(), relativePath.toString()));
             }
         }

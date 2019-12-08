@@ -13,7 +13,8 @@ import java.nio.file.InvalidPathException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Arrays;
-import java.util.Set;
+import java.util.List;
+import java.util.Optional;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
@@ -24,6 +25,8 @@ import java.util.zip.ZipOutputStream;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
+import reposense.model.FileType;
+import reposense.model.RepoConfiguration;
 import reposense.system.LogsManager;
 
 /**
@@ -39,14 +42,56 @@ public class FileUtil {
     private static final String GITHUB_API_DATE_FORMAT = "yyyy-MM-dd";
     private static final ByteBuffer buffer = ByteBuffer.allocate(1 << 11); // 2KB
 
+    private static final String BARE_REPO_SUFFIX = "_bare";
+
     private static final String MESSAGE_INVALID_FILE_PATH = "\"%s\" is an invalid file path. Skipping this directory.";
+    private static final String MESSAGE_FAIL_TO_ZIP_FILES =
+            "Exception occurred while attempting to zip the report files.";
+
+    /**
+     * Zips all files of type {@code fileTypes} that are in the directory {@code pathsToZip} into a single file and
+     * output it to {@code sourceAndOutputPath}.
+     */
+    public static void zipFoldersAndFiles(List<Path> pathsToZip, Path sourceAndOutputPath, String... fileTypes) {
+        zipFoldersAndFiles(pathsToZip, sourceAndOutputPath, sourceAndOutputPath, fileTypes);
+    }
+
+    /**
+     * Zips all files listed in {@code pathsToZip} of type {@code fileTypes} located in the directory
+     * {@code sourcePath} into {@code outputPath}.
+     */
+    public static void zipFoldersAndFiles(List<Path> pathsToZip,
+            Path sourcePath, Path outputPath, String... fileTypes) {
+        try (
+                FileOutputStream fos = new FileOutputStream(outputPath + File.separator + ZIP_FILE);
+                ZipOutputStream zos = new ZipOutputStream(fos)
+        ) {
+            for (Path pathToZip : pathsToZip) {
+                List<Path> allPaths = getFilePaths(pathToZip, fileTypes);
+                for (Path path : allPaths) {
+                    String filePath = sourcePath.relativize(path.toAbsolutePath()).toString();
+                    String zipEntry = Files.isDirectory(path) ? filePath + File.separator : filePath;
+                    zos.putNextEntry(new ZipEntry(zipEntry.replace("\\", "/")));
+                    if (Files.isRegularFile(path)) {
+                        Files.copy(path, zos);
+                    }
+                    zos.closeEntry();
+                }
+            }
+        } catch (IOException ioe) {
+            logger.severe(MESSAGE_FAIL_TO_ZIP_FILES);
+        }
+    }
 
     /**
      * Writes the JSON file representing the {@code object} at the given {@code path}.
+     * @return An Optional containing the Path to the JSON file, or an empty Optional
+     *         if there was an error while writing the JSON file.
      */
-    public static void writeJsonFile(Object object, String path) {
+    public static Optional<Path> writeJsonFile(Object object, String path) {
         Gson gson = new GsonBuilder()
                 .setDateFormat(GITHUB_API_DATE_FORMAT)
+                .registerTypeAdapter(FileType.class, new FileType.FileTypeSerializer())
                 .setPrettyPrinting()
                 .create();
         String result = gson.toJson(object);
@@ -54,8 +99,10 @@ public class FileUtil {
         try (PrintWriter out = new PrintWriter(path)) {
             out.print(result);
             out.print("\n");
+            return Optional.of(path).map(Paths::get);
         } catch (FileNotFoundException e) {
             logger.log(Level.SEVERE, e.getMessage(), e);
+            return Optional.empty();
         }
     }
 
@@ -77,42 +124,6 @@ public class FileUtil {
             if (rootDirectory.exists()) {
                 throw new IOException(String.format("Fail to delete directory %s", rootDirectory));
             }
-        }
-    }
-
-    /**
-     * Zips all the files of {@code fileTypes} contained in {@code sourceAndOutputPath} directory into the same folder.
-     */
-    public static void zip(Path sourceAndOutputPath, String... fileTypes) {
-        FileUtil.zip(sourceAndOutputPath, sourceAndOutputPath, fileTypes);
-    }
-
-    /**
-     * Zips all the {@code fileTypes} files contained in the {@code sourcePath} and its subdirectories.
-     * Creates the zipped {@code ZIP_FILE} file in the {@code outputPath}.
-     */
-    public static void zip(Path sourcePath, Path outputPath, String... fileTypes) {
-        try (
-                FileOutputStream fos = new FileOutputStream(outputPath + File.separator + ZIP_FILE);
-                ZipOutputStream zos = new ZipOutputStream(fos)
-        ) {
-            Set<Path> allFiles = getFilePaths(sourcePath, fileTypes);
-            for (Path path : allFiles) {
-                String filePath = sourcePath.relativize(path.toAbsolutePath()).toString();
-                String zipEntry = Files.isDirectory(path) ? filePath + File.separator : filePath;
-                zos.putNextEntry(new ZipEntry(zipEntry.replace("\\", "/")));
-                if (Files.isRegularFile(path)) {
-                    try (InputStream is = Files.newInputStream(path)) {
-                        int length;
-                        while ((length = is.read(buffer.array())) > 0) {
-                            zos.write(buffer.array(), 0, length);
-                        }
-                    }
-                }
-                zos.closeEntry();
-            }
-        } catch (IOException ioe) {
-            logger.log(Level.SEVERE, ioe.getMessage(), ioe);
         }
     }
 
@@ -172,6 +183,21 @@ public class FileUtil {
     }
 
     /**
+     * Returns the relative path to the bare repo version of {@code config}.
+     */
+    public static Path getBareRepoPath(RepoConfiguration config) {
+        return Paths.get(FileUtil.REPOS_ADDRESS,
+                config.getRepoFolderName(), config.getRepoName() + BARE_REPO_SUFFIX);
+    }
+
+    /**
+     * Returns the folder name of the bare repo version of {@code config}.
+     */
+    public static String getBareRepoFolderName(RepoConfiguration config) {
+        return config.getRepoName() + BARE_REPO_SUFFIX;
+    }
+
+    /**
      * Returns true if {@code path} is a valid path.
      * Produces log messages when the invalid file path is skipped.
      */
@@ -188,10 +214,10 @@ public class FileUtil {
     /**
      * Returns a list of {@code Path} of {@code fileTypes} contained in the given {@code directoryPath} directory.
      */
-    private static Set<Path> getFilePaths(Path directoryPath, String... fileTypes) throws IOException {
+    private static List<Path> getFilePaths(Path directoryPath, String... fileTypes) throws IOException {
         return Files.walk(directoryPath)
                 .filter(p -> FileUtil.isFileTypeInPath(p, fileTypes) || Files.isDirectory(p))
-                .collect(Collectors.toSet());
+                .collect(Collectors.toList());
     }
 
     /**

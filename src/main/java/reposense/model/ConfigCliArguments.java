@@ -7,6 +7,7 @@ import java.util.Date;
 import java.util.List;
 
 import reposense.parser.AuthorConfigCsvParser;
+import reposense.parser.GroupConfigCsvParser;
 import reposense.parser.RepoConfigCsvParser;
 
 /**
@@ -18,17 +19,22 @@ public class ConfigCliArguments extends CliArguments {
     private Path configFolderPath;
     private Path repoConfigFilePath;
     private Path authorConfigFilePath;
+    private Path groupConfigFilePath;
 
     public ConfigCliArguments(Path configFolderPath, Path outputFilePath, Date sinceDate,
-            Date untilDate, List<Format> formats, boolean isAutomaticallyLaunching, ZoneId zoneId) {
+            Date untilDate, boolean isSinceDateProvided, boolean isUntilDateProvided,
+            List<FileType> formats, boolean isAutomaticallyLaunching, ZoneId zoneId) {
         this.configFolderPath = configFolderPath.equals(EMPTY_PATH)
                 ? configFolderPath.toAbsolutePath()
                 : configFolderPath;
         this.repoConfigFilePath = configFolderPath.resolve(RepoConfigCsvParser.REPO_CONFIG_FILENAME);
         this.authorConfigFilePath = configFolderPath.resolve(AuthorConfigCsvParser.AUTHOR_CONFIG_FILENAME);
+        this.groupConfigFilePath = configFolderPath.resolve(GroupConfigCsvParser.GROUP_CONFIG_FILENAME);
         this.outputFilePath = outputFilePath;
         this.sinceDate = sinceDate;
         this.untilDate = untilDate;
+        this.isSinceDateProvided = isSinceDateProvided;
+        this.isUntilDateProvided = isUntilDateProvided;
         this.formats = formats;
         this.isAutomaticallyLaunching = isAutomaticallyLaunching;
         this.zoneId = zoneId;
@@ -44,6 +50,10 @@ public class ConfigCliArguments extends CliArguments {
 
     public Path getAuthorConfigFilePath() {
         return authorConfigFilePath;
+    }
+
+    public Path getGroupConfigFilePath() {
+        return groupConfigFilePath;
     }
 
     @Override
@@ -62,6 +72,7 @@ public class ConfigCliArguments extends CliArguments {
 
         return super.equals(other)
                 && this.repoConfigFilePath.equals(otherConfigCliArguments.repoConfigFilePath)
-                && this.authorConfigFilePath.equals(otherConfigCliArguments.authorConfigFilePath);
+                && this.authorConfigFilePath.equals(otherConfigCliArguments.authorConfigFilePath)
+                && this.groupConfigFilePath.equals(otherConfigCliArguments.groupConfigFilePath);
     }
 }

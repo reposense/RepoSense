@@ -14,7 +14,7 @@ import org.junit.Test;
 import reposense.authorship.model.FileInfo;
 import reposense.git.GitCheckout;
 import reposense.model.Author;
-import reposense.model.Format;
+import reposense.model.FileTypeTest;
 import reposense.template.GitTestTemplate;
 import reposense.util.SystemUtil;
 import reposense.util.TestUtil;
@@ -33,6 +33,8 @@ public class FileInfoExtractorTest extends GitTestTemplate {
             "535-FileInfoExtractorTest-branchWithValidWhitelistedFileName.txt";
     private static final String BRANCH_WITH_BINARY_FILES =
             "728-FileInfoExtractorTest-getNonBinaryFilesList_directoryWithBinaryFiles_success";
+    private static final String BRANCH_WITH_RARE_FILE_FORMATS =
+            "708-FileInfoExtractorTest-extractFileInfos_withoutSpecifiedFormats_success";
     private static final String FEBRUARY_EIGHT_COMMIT_HASH = "768015345e70f06add2a8b7d1f901dc07bf70582";
     private static final String OCTOBER_SEVENTH_COMMIT_HASH = "b28dfac5bd449825c1a372e58485833b35fdbd50";
 
@@ -53,7 +55,7 @@ public class FileInfoExtractorTest extends GitTestTemplate {
 
     @Test
     public void extractFileInfos_sinceDateFebrauaryNineToLatestCommit_success() {
-        Date date = TestUtil.getDate(2018, Calendar.FEBRUARY, 9);
+        Date date = TestUtil.getSinceDate(2018, Calendar.FEBRUARY, 9);
         config.setSinceDate(date);
 
         List<FileInfo> files = FileInfoExtractor.extractFileInfos(config);
@@ -102,7 +104,7 @@ public class FileInfoExtractorTest extends GitTestTemplate {
 
     @Test
     public void extractFileInfos_sinceDateAfterLatestCommit_emptyResult() {
-        Date date = TestUtil.getDate(2050, 12, 31);
+        Date date = TestUtil.getSinceDate(2050, 12, 31);
         config.setSinceDate(date);
 
         List<FileInfo> files = FileInfoExtractor.extractFileInfos(config);
@@ -111,7 +113,7 @@ public class FileInfoExtractorTest extends GitTestTemplate {
 
     @Test
     public void extractFileInfos_untilDateBeforeFirstCommit_emptyResult() {
-        Date date = TestUtil.getDate(2015, 12, 31);
+        Date date = TestUtil.getUntilDate(2015, 12, 31);
         config.setUntilDate(date);
 
         List<FileInfo> files = FileInfoExtractor.extractFileInfos(config);
@@ -177,18 +179,35 @@ public class FileInfoExtractorTest extends GitTestTemplate {
         List<String> binaryFilesList = Arrays.asList(
                 "binaryFileTest/binaryFile.txt", "My Documents/word.docx", "My Documents/pdfDocument.pdf",
                 "My Documents/wordToHtml_files/themedata.thmx", "My Pictures/pngPicture.png");
-        List<Format> testfileFormats = Format.convertStringsToFormats(
-                Arrays.asList("txt", "htm", "xml", "pdf", "thmx"));
-        config.setFormats(testfileFormats);
         GitCheckout.checkoutBranch(config.getRepoRoot(), BRANCH_WITH_BINARY_FILES);
         Set<Path> files = FileInfoExtractor.getNonBinaryFilesList(config);
-
 
         Assert.assertEquals(6, files.size());
         // Non binary files should be captured
         nonBinaryFilesList.forEach(nonBinFile -> Assert.assertTrue(files.contains(Paths.get(nonBinFile))));
         // Binary files should be ignored
         binaryFilesList.forEach(binFile -> Assert.assertFalse(files.contains(Paths.get(binFile))));
+    }
+
+    @Test
+    public void extractFileInfos_withoutSpecifiedFormats_success() {
+        List<String> nonBinaryFilesList = Arrays.asList(
+                "binaryFileTest/nonBinaryFile.ARBIFORMAT", "My Documents/wordToHtml.htm",
+                "My Pictures/notPngPicture.png", "My Documents/wordToHtml_files/colorschememapping.xml",
+                "My Documents/wordToHtml_files/filelist.xml", "My Documents/notPdfDocument.fdp");
+        List<String> binaryFilesList = Arrays.asList(
+                "binaryFileTest/binaryFile.ARBIFORMAT", "My Documents/word.docx", "My Documents/pdfDocument.fdp",
+                "My Documents/wordToHtml_files/themedata.thmx", "My Pictures/pngPicture.png");
+        config.setFormats(FileTypeTest.NO_SPECIFIED_FORMATS);
+        GitCheckout.checkoutBranch(config.getRepoRoot(), BRANCH_WITH_RARE_FILE_FORMATS);
+
+        List<FileInfo> files = FileInfoExtractor.extractFileInfos(config);
+
+        Assert.assertEquals(nonBinaryFilesList.size(), files.size());
+        // Non binary files should be captured
+        nonBinaryFilesList.forEach(nonBinFile -> Assert.assertTrue(isFileExistence(Paths.get(nonBinFile), files)));
+        // Binary files should be ignored
+        binaryFilesList.forEach(binFile -> Assert.assertFalse(isFileExistence(Paths.get(binFile), files)));
     }
 
     private boolean isFileExistence(Path filePath, List<FileInfo> files) {

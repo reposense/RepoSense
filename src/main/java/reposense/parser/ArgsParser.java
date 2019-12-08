@@ -4,6 +4,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.time.ZoneId;
 import java.util.Calendar;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
@@ -21,7 +22,7 @@ import net.sourceforge.argparse4j.inf.Namespace;
 import reposense.RepoSense;
 import reposense.model.CliArguments;
 import reposense.model.ConfigCliArguments;
-import reposense.model.Format;
+import reposense.model.FileType;
 import reposense.model.LocationsCliArguments;
 import reposense.model.ViewCliArguments;
 import reposense.system.LogsManager;
@@ -112,7 +113,7 @@ public class ArgsParser {
         parser.addArgument(UNTIL_FLAGS)
                 .dest(UNTIL_FLAGS[0])
                 .metavar("dd/MM/yyyy")
-                .type(new DateArgumentType())
+                .type(new UntilDateArgumentType())
                 .setDefault(Optional.empty())
                 .help("The date to stop filtering.");
 
@@ -121,7 +122,7 @@ public class ArgsParser {
                 .nargs("*")
                 .metavar("FORMAT")
                 .type(new AlphanumericArgumentType())
-                .setDefault(Format.DEFAULT_FORMAT_STRINGS)
+                .setDefault(Collections.emptyList())
                 .help("The alphanumeric file formats to process.\n"
                         + "If not provided, default file formats will be used.\n"
                         + "Please refer to userguide for more information.");
@@ -169,10 +170,12 @@ public class ArgsParser {
             Path outputFolderPath = results.get(OUTPUT_FLAGS[0]);
             Optional<Date> cliSinceDate = results.get(SINCE_FLAGS[0]);
             Optional<Date> cliUntilDate = results.get(UNTIL_FLAGS[0]);
+            boolean isSinceDateProvided = cliSinceDate.isPresent();
+            boolean isUntilDateProvided = cliUntilDate.isPresent();
             Date sinceDate = cliSinceDate.orElse(getDateMinusAMonth(cliUntilDate));
             Date untilDate = cliUntilDate.orElse(getCurrentDate());
             List<String> locations = results.get(REPO_FLAGS[0]);
-            List<Format> formats = Format.convertStringsToFormats(results.get(FORMAT_FLAGS[0]));
+            List<FileType> formats = FileType.convertFormatStringsToFileTypes(results.get(FORMAT_FLAGS[0]));
             boolean isStandaloneConfigIgnored = results.get(IGNORE_FLAGS[0]);
             ZoneId zoneId = results.get(TIMEZONE_FLAGS[0]);
 
@@ -193,15 +196,15 @@ public class ArgsParser {
             }
 
             if (locations != null) {
-                return new LocationsCliArguments(locations, outputFolderPath, sinceDate, untilDate, formats,
-                        isAutomaticallyLaunching, isStandaloneConfigIgnored, zoneId);
+                return new LocationsCliArguments(locations, outputFolderPath, sinceDate, untilDate, isSinceDateProvided,
+                        isUntilDateProvided, formats, isAutomaticallyLaunching, isStandaloneConfigIgnored, zoneId);
             }
 
             if (configFolderPath.equals(EMPTY_PATH)) {
                 logger.info(MESSAGE_USING_DEFAULT_CONFIG_PATH);
             }
-            return new ConfigCliArguments(configFolderPath, outputFolderPath, sinceDate, untilDate, formats,
-                    isAutomaticallyLaunching, zoneId);
+            return new ConfigCliArguments(configFolderPath, outputFolderPath, sinceDate, untilDate, isSinceDateProvided,
+                    isUntilDateProvided, formats, isAutomaticallyLaunching, zoneId);
         } catch (HelpScreenException hse) {
             throw hse;
         } catch (ArgumentParserException ape) {

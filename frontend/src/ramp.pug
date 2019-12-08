@@ -7,7 +7,7 @@
           v-for="(commit, k) in slice.commitResults",
           v-if="commit.insertions>0",
           v-bind:href="getLink(user, commit)", target="_blank",
-          v-bind:title="`[${slice.date}] ${commit.message}: ${commit.insertions} lines`",
+          v-bind:title="`[${slice.date}] ${commit.messageTitle}: ${commit.insertions} lines`",
           v-bind:class="'ramp__slice--color' + getSliceColor(slice.date)",
           v-bind:style="{\
               zIndex: user.commits.length - j,\
@@ -26,9 +26,16 @@
       v-bind:title="`${tframe === 'day' ? '[' + slice.date + '] Daily' : '[' + slice.date + ' till ' + slice.endDate + '] Weekly'} contribution: ${slice.insertions} lines`",
       v-bind:href="getLink(user, slice)", target="_blank",
       v-bind:class="'ramp__slice--color' + getSliceColor(slice.date)",
-      v-bind:style="{\
-          zIndex: user.commits.length - j,\
-          borderLeftWidth: getWidth(slice) + 'em',\
-          right: (getSlicePos(tframe === 'day' ? slice.date : slice.endDate) * 100) + '%'\
-      }"
+      v-bind:style="[\
+          {\
+            zIndex: user.commits.length - j,\
+            borderLeftWidth: getWidth(slice) + 'em',\
+            right: (getSlicePos(tframe === 'day' ? slice.date : slice.endDate) * 100) + '%' \
+          },\
+          /* disallow clickable ramp slices when merging groups that are grouped by authors \
+             as unable to form a url that navigates to different repositories of the same author */\
+          mergegroup && groupby === 'groupByAuthors' ?\
+            { cursor: 'auto', pointerEvents: 'none' }  :\
+            { cursor: 'pointer', pointerEvents: 'auto' }\
+      ]"
     )

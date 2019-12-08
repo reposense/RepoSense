@@ -14,6 +14,7 @@
   * [Customize Using csv Config Files](#customize-using-csv-config-files)
     * [`repo-config.csv`](#repo-configcsv)
     * [`author-config.csv`](#author-configcsv)
+    * [`group-config.csv`](#group-configcsv)
 * [Analyzing Multiple Repos](#analyzing-multiple-repos)
 * [Using Travis-CI to automate publishing of the report to GitHub Pages](#using-travis-ci-to-automate-publishing-of-the-report-to-github-pages)
 * [FAQ](#faq)
@@ -22,8 +23,8 @@
 ## Getting Started
 
 First, ensure that you have the necessary prerequisites:
-* **JDK `1.8.0_60`** or later
-* **git `2.14`** or later on the command line (run `git --version` in your OS terminal to confirm)
+* **Java 8** (JRE `1.8.0_60`) or later. You may download Java [here](https://www.java.com/en/).
+* **git `2.14`** or later on the command line (run `git --version` in your OS terminal to confirm). You may download git [here](https://git-scm.com/downloads).
 
 Next, download the latest executable Jar from our [releases](https://github.com/reposense/RepoSense/releases/latest).
 
@@ -31,6 +32,7 @@ The simplest use case for RepoSense is to generate a report for the entire histo
 1. Generate the report for the repo by executing the following command in a terminal:<br/>
    Format : `java -jar RepoSense.jar --repo FULL_REPO_URL` (note the `.git` at the end)<br>
    Example: `java -jar RepoSense.jar --repo https://github.com/reposense/RepoSense.git`
+   > Note: The above command will analyze the commits made within one month from the date of report generation. Append `--since d1` if you wish to analyze from the date of the first commit. 
 1. The previous step analyzes the default branch of the repo and creates the report in a directory named `reposense-report`. Run the following command to view the report (it will open up in your default Browser):<br/>
    `java -jar RepoSense.jar --view reposense-report`
 
@@ -53,7 +55,7 @@ Here is an example of how the report looks like:
 
 ![report](images/report-features.png)
 
-It consists of three main parts: the [_Chart Panel_](#chart-panel), the [_Code Panel_](#code-panel), and the [_Tool Bar_](#tool-bar), each of which is explained in the sections below.
+It consists of four main parts: the [_Chart Panel_](#chart-panel), the [_Code Panel_](#code-panel), the [_Commits Panel_](#commits-panel), and the [_Tool Bar_](#tool-bar), each of which is explained in the sections below.
 
 
 ### Chart Panel
@@ -64,7 +66,7 @@ The `Chart Panel` (an example is shown above) contains _Ramp Charts_ and _Contri
 
 **Ramp Chart**: This is a visualization of frequency and quantity of contributions of an author for a specific repository.
 
-* **Title**: Each title consists of the **index**, the **name** of the author, a button to view author's **code** and a button to view author's **repo**.
+* **Title**: Each title consists of the **index**, the **name** of the author, number of lines written to the repo, a button to view author's **code**, a button to view author's **repo** and a button to view the **commits** made by the author.
 * **Rows**: Each _row_ (i.e., light blue rectangle) represents the contribution timeline of an author for a specific repository.
 * **Ramp**: Each row contains **ramps** -- the pointy saw-tooth shapes you see in the screenshot above. A ramp represents the contributions of an author possibly aggregated over a period (e.g., a day or a week).
   * The area of the ramp is proportional to the amount of contribution the author did at that time period.
@@ -76,12 +78,12 @@ The `Chart Panel` (an example is shown above) contains _Ramp Charts_ and _Contri
 
 **Contribution Bar**: The total amount of code contributed by an author during the _total analysis period_ is represented by the length of the **red bars** (called _contribution bars_) that appear at the bottom of the row.
 * Hover over a contribution bar to see the exact amount of the contribution.
-* If an author contributed significantly higher than other authors, the contribution bar can span multiple lines (see the 4th author in the screenshot for an example).
+* If an author contributed significantly higher than other authors, the contribution bar can span multiple lines (see the 2nd author in the screenshot for an example).
 
 
 ### Code Panel
 
-The `Code Panel` allows users to see the code attributed to a specific author. Click on the name of the author in the `Chart Panel` to display the `Code Panel` on the right.
+The `Code Panel` allows users to see the code attributed to a specific author. Click on the `</>` icon beside the name of the author in the `Chart Panel` to display the `Code Panel` on the right.
 * The Code Panel shows the files that contain author's contributions, sorted by the number of lines written.
 * Select the radio button to enable one of the following 2 filters. Note that only 1 of the 2 filters is active at any time.
     * Type file path glob in glob filter to include files matching the glob expression.
@@ -90,14 +92,19 @@ The `Code Panel` allows users to see the code attributed to a specific author. C
 * Clicking the first icon beside the file title opens the history view of the file on github.
 * Clicking the second icon beside the file title opens the blame view of the file on github.
 * Code attributed to the author is highlighted in green.
-* Non-trivial code segments that are not written by the selected author are hidden by default, but you can toggle them by clicking on the `...` icon.
+* Non-trivial code segments that are not written by the selected author are hidden by default, but you can toggle them by clicking on the :heavy_plus_sign: icon.
 
 ### Commits Panel
+<img src="/docs/images/commits-panel.png" alt="commits panel" width="468">
 
-The `Commits Panel` allows users to see the commits attributed to a specific author. Hold `Command`&#8984; (MacOS) or `Ctrl` (Others) and click on the ramp chart in the `Chart Panel` to select the time range where you want to display the `Commit Panel` for on the right.
-* The `Commits Panel` shows the commits that contain author's contributions, sorted by the date it was commited.
+The `Commits Panel` allows users to see the commits attributed to a specific author. Hold `Command`&#8984; **(MacOS)** or `Ctrl` **(other OSes)** and click on the ramp chart in the `Chart Panel` to select the time range where you want to display the `Commit Panel` for on the right. <br>
+
+![Opening commits panel](/docs/images/opening-commits-panel.gif)
+
+* The `Commits Panel` shows the commits that contain author's contributions, sorted by the date it was committed.
 * The date range for the `Chart Panel` can be updated by clicking on the "Show ramp chart for this period" below the name of the author.
 * The ramp slices displayed in the ramp chart for the `Commits Panel` represents individual commits.
+* The commit messages body can be expanded or collapsed by clicking on the `...` icon beside each commit message title.
 
 ### Tool Bar
 The `Tool Bar` at the top provides a set of configuration options that control the Chart Panel.
@@ -110,23 +117,27 @@ The `Tool Bar` at the top provides a set of configuration options that control t
   * `Repo/Branch` : results will be grouped by repositories and its' associating branches.
   * `Author` : results will be grouped by the name of the author. Contributions made to multiple repositories by a particular author will be grouped under the author.
 * `Sort groups by`: sorting criteria for the main group
-  * `Name` : groups will be sorted by GitHub ID in alphabetical order.
+  * `Group title` : groups will be sorted by the title of the group (in bold text) in alphabetical order.
   * `Repo/branch` : groups will be sorted in alphabetical order by the name of the repo, followed by name of the branch. See note [1] below.
   * `Contribution` : groups will be sorted by the combined contributions within a group, in the order of number of lines added
   * `Variance` : groups will be sorted by the average of the squared differences from the average number of lines of code contributed per day among all authors involved. Detailed definition of variance is located [here](https://en.wikipedia.org/wiki/Variance).
 * `Sort within groups by`: sorting criteria within each group
-  * `Name` : each sub-group will be sorted by GitHub ID in alphabetical order.
+  * `Title` : each sub-group will be sorted by it's title in alphabetical order.
   * `Repo/branch` : each sub-group will be sorted in alphabetical order by the name of the repo, followed by name of the branch. See note [1] below.
   * `Contribution` : each sub-group will be sorted by individual contributions in the order of number of lines added
   * `Variance` : each sub-group will be sorted by the average of the squared differences from the average number of lines of code contributed per day by each author into a particular repo. Detailed definition of variance is located [here](https://en.wikipedia.org/wiki/Variance).
 * `Granularity` : the period of time for which commits are aggregated in the Ramp Chart.
     * `Commit`: each commit made is shown as one ramp
     * `Day`: commits within a day (commits made within 00:00 to 23:59) are shown as one ramp
-    * `Week`: commits within a week are shown as one ramp
+    * `Week`: commits within a week (from Monday 00:00 to Sunday 23:59) are shown as one ramp
 * `Since`, `Until` : the date range for the Ramp Chart (not applied to the Contribution Bars).
+* `Reset date range` : resets the date range of the Ramp Chart to the default date range.
+* `Breakdown by file format` : toggles the contribution bar to either display the bar by :
+    * the total lines of codes added (if checkbox is left unchecked), or
+    * a breakdown of the number of lines of codes added to each file format (if checkbox is checked). 
 
 Notes:<br>
-[1] **`Repo/Branch`**: the repo/branch name is constructed as `ORGANIZATION_REPOSITORY_BRANCH` e.g., `resposense_reposense_master`
+[1] **`Repo/Branch`**: the repo/branch name is constructed as `ORGANIZATION/REPOSITORY[BRANCH]` e.g., `resposense/reposense[master]`
 
 **Bookmarking a specific toolbar setting and the opened code panel**: The URL changes according to the toolbar configuration and opened code panel viewed. You can save a specific configuration of the report by bookmarking the url (using browser functionality).
 
@@ -169,7 +180,7 @@ Note: all fields are optional unless specified otherwise.
 **Fields to provide _repository-level_ info**:
 
 * `ignoreGlobList`: Folders/files to ignore, specified using the [_glob format_](https://docs.oracle.com/javase/tutorial/essential/io/fileOps.html#glob).
-* `formats`: File formats to analyze. Default: `adoc cs css fxml gradle html java js json jsp md py tag txt xml`
+* `formats`: File formats to analyze. Default: all file formats
 * `ignoreCommitList`: The list of commits to ignore during analysis. For accurate results, the commits should be provided with their full hash.
 
 **Fields to provide _author-level_ info**:<br>
@@ -226,7 +237,9 @@ If you want to override the code authorships deduced by RepoSense (which is base
 
 There are 2 types of `@@author` tags:
 - Start Tags (format: `@@author AUTHOR_GITHUB_ID`): A start tag indicates the start of a code segment written by the author identified by the `AUTHOR_GITHUB_ID`.
-- End Tags (format: `@@author`): Optional. If not provided, the code till the next start tag (or the end of the file) will be attributed to the author specified in the start tag above. Use only when necessary to minimize polluting your code with these extra tags.
+- End Tags (format: `@@author`): Optional. An end tag indicates the end of a code segment written by the author identified by the `AUTHOR_GITHUB_ID` of the start tag.
+
+> Note: If an end tag is not provided, the code till the next start tag (or the end of the file) will be attributed to the author specified in the start tag above. Use only when necessary to minimize polluting your code with these extra tags.
 
 The `@@author` tags should be enclosed within a comment, using the comment syntax of the file in concern. Below are some examples:
 
@@ -260,10 +273,10 @@ In addition, there are some _optional_ extra parameters you can use to customize
   > Note: -
   > - If the start date is not specified, only commits made one month before the end date (if specified) or the date of generating the report, will be captured and analyzed.
   > - If `d1` is specified as the start date (`--since d1` or `-s d1`), then the earliest commit date of all repositories will be taken as the since date.
-* **`--until, -u END_DATE`**: The end date of analysis (`-u` as alias). The analysis excludes the end date. Format: `DD/MM/YYYY`<br>
+* **`--until, -u END_DATE`**: The end date of analysis (`-u` as alias). The analysis includes the end date. Format: `DD/MM/YYYY`<br>
   Example:`--until 21/10/2017` or `-u 21/10/2017` <br>
   > Note: If the end date is not specified, the date of generating the report will be taken as the end date.
-* **`--formats, -f LIST_OF_FORMATS`**: A space-separated list of file extensions that should be included in the analysis (`-f` as alias). Default: `adoc cs css fxml gradle html java js json jsp md py tag txt xml`<br>
+* **`--formats, -f LIST_OF_FORMATS`**: A space-separated list of file extensions that should be included in the analysis (`-f` as alias). Default: all file formats<br>
   Example:`--formats css fxml gradle` or `-f css fxml gradle`
 * **`--ignore-standalone-config, -i`**: A flag to ignore the standalone config file in the repo (`-i` as alias). This flag will not overwrite the `Ignore standalone config` field in the csv config file. Default: the standalone config file is not ignored.<br>
   Example:`--ignore-standalone-config` or `-i`
@@ -312,7 +325,7 @@ Column Name | Explanation
 ----------- | -----------
 Repository's Location | The `GitHub URL` or `Disk Path` to the git repository e.g., `https://github.com/foo/bar.git` or `C:\Users\user\Desktop\GitHub\foo\bar`
 [Optional] Branch | The branch to analyze in the target repository e.g., `master`. Default: the default branch of the repo
-[Optional] File formats<sup>*+</sup> | The file extensions to analyze. Default: `adoc;cs;css;fxml;gradle;html;java;js;json;jsp;md;py;tag;txt;xml`
+[Optional] File formats<sup>*+</sup> | The file extensions to analyze. Default: all file formats
 [Optional] Ignore Glob List<sup>*+</sup> | The list of file path globs to ignore during analysis for each author. e.g., `test/**;temp/**`
 [Optional] Ignore standalone config | To ignore the standalone config file (if any) in target repository, enter **`yes`**. If the cell is empty, the standalone config file in the repo (if any) will take precedence over configurations provided in the csv files.
 [Optional] Ignore Commit List<sup>*+</sup> | The list of commits to ignore during analysis. For accurate results, the commits should be provided with their full hash.
@@ -341,6 +354,23 @@ Author's GitHub ID | GitHub username of the target author e.g., `JohnDoe`
 If `author-config.csv` is not given and the repo has not provide author details in a standalone config file, all the authors of the repositories within the date range specified (if any) will be analyzed.
 
 <hr>
+
+#### `group-config.csv`
+
+Optionally, you can provide a `group-config.csv`(which should be in the same directory as `repo-config.csv` file) to provide details on any custom groupings for files in specified repositories ([example](group-config.csv)). It should contain the following columns:
+
+Column Name | Explanation
+----------- | -----------
+Repository's Location | Same as `repo-config.csv`.
+Group Name | Name of the group e.g.,`test`.
+Globs * | The list of file path globs to include for specified group. e.g.,`**/test/*;**.java`.
+
+<sup>* **Multi-value column**: multiple values can be entered in this column using a semicolon `;` as the separator.</sup>
+
+Note that a file in a given repository should only be tagged to one group. <br>
+e.g.: `example.java` in `example-repo` can either be in `test` group or in `code` group, but not in both `test` and `code` group. If multiple groups are specified for a given file, the latter group (i.e.: `code` group) is set for the file.
+
+> Note: the first row consists of config headings, which is ignored by RepoSense.
 
 ## Analyzing Multiple Repos
 

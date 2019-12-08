@@ -46,14 +46,14 @@ public class GitCheckoutTest extends GitTestTemplate {
         Path newFile = Paths.get(config.getRepoRoot(), "newFile.java");
         Assert.assertTrue(Files.exists(newFile));
 
-        Date untilDate = TestUtil.getDate(2018, Calendar.FEBRUARY, 6);
+        Date untilDate = TestUtil.getUntilDate(2018, Calendar.FEBRUARY, 6);
         GitCheckout.checkoutDate(config.getRepoRoot(), config.getBranch(), untilDate);
         Assert.assertFalse(Files.exists(newFile));
     }
 
     @Test(expected = CommitNotFoundException.class)
     public void checkoutToDate_invalidDate_throwsEmptyCommitException() throws CommitNotFoundException {
-        Date untilDate = TestUtil.getDate(2015, Calendar.FEBRUARY, 6);
+        Date untilDate = TestUtil.getUntilDate(2015, Calendar.FEBRUARY, 6);
         GitCheckout.checkoutDate(config.getRepoRoot(), config.getBranch(), untilDate);
     }
 }

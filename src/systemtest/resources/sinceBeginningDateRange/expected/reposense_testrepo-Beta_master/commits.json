@@ -8,7 +8,8 @@
         "commitResults": [
           {
             "hash": "76a4ddb9f4d139620361a1a8de613b3e46d8a269",
-            "message": "Updated collated code",
+            "messageTitle": "Updated collated code",
+            "messageBody": "",
             "insertions": 113,
             "deletions": 0
           }
@@ -23,7 +24,8 @@
         "commitResults": [
           {
             "hash": "f45960b264a6c550d98137cebe7cea9bb78fdfcd",
-            "message": "Birthday feature: update person related files",
+            "messageTitle": "Birthday feature: update person related files",
+            "messageBody": "",
             "insertions": 1,
             "deletions": 0
           }
@@ -38,7 +40,8 @@
         "commitResults": [
           {
             "hash": "38c72663ef5e8cca0485d44f7462605c162dea00",
-            "message": "Add a remark Label inside PersonListCard.fxml",
+            "messageTitle": "Add a remark Label inside PersonListCard.fxml",
+            "messageBody": "",
             "insertions": 1,
             "deletions": 0
           }
@@ -51,13 +54,15 @@
         "commitResults": [
           {
             "hash": "a460e24bc1b94d009cb572dc920f35cd73c4ee11",
-            "message": "UI: update PersonListCard.fxml",
+            "messageTitle": "UI: update PersonListCard.fxml",
+            "messageBody": "",
             "insertions": 2,
             "deletions": 0
           },
           {
             "hash": "b4b51938c691351888e0b31646633eed30bebe14",
-            "message": "UI: update PersonCard.java",
+            "messageTitle": "UI: update PersonCard.java",
+            "messageBody": "",
             "insertions": 1,
             "deletions": 1
           }
@@ -70,19 +75,22 @@
         "commitResults": [
           {
             "hash": "92c52cb47919fa380702819b1beab5a61487802e",
-            "message": "update ui",
+            "messageTitle": "update ui",
+            "messageBody": "",
             "insertions": 1,
             "deletions": 0
           },
           {
             "hash": "502d5209fb64385e737f9c6e3bcb3977a280b1ae",
-            "message": "display contactPhotos",
+            "messageTitle": "display contactPhotos",
+            "messageBody": "",
             "insertions": 11,
             "deletions": 3
           },
           {
             "hash": "9df7233b80e05dd29b0af9a8635a83797714bce0",
-            "message": "adjust UI settings",
+            "messageTitle": "adjust UI settings",
+            "messageBody": "",
             "insertions": 6,
             "deletions": 4
           }
@@ -95,7 +103,8 @@
         "commitResults": [
           {
             "hash": "54ac0478a202a29b8bfc267d8a082f853ac4c5ae",
-            "message": "change fxml format",
+            "messageTitle": "change fxml format",
+            "messageBody": "",
             "insertions": 64,
             "deletions": 35
           }
@@ -108,37 +117,43 @@
         "commitResults": [
           {
             "hash": "85f717ffd3de04abe764d0df529dda4bc0fe6d17",
-            "message": "update personInfoPanel",
+            "messageTitle": "update personInfoPanel",
+            "messageBody": "",
             "insertions": 81,
             "deletions": 0
           },
           {
             "hash": "51e7dbf6f2d72be0a3fb166a03cdcbf8fa49743d",
-            "message": "update format",
+            "messageTitle": "update format",
+            "messageBody": "",
             "insertions": 55,
             "deletions": 48
           },
           {
             "hash": "7948859cec2dd3f1b1749f56144ffeb32eff7be8",
-            "message": "update tags",
+            "messageTitle": "update tags",
+            "messageBody": "",
             "insertions": 3,
             "deletions": 3
           },
           {
             "hash": "600e13b9eca72354c7f83b047826af4c8b3d33e2",
-            "message": "update tag center",
+            "messageTitle": "update tag center",
+            "messageBody": "",
             "insertions": 9,
             "deletions": 6
           },
           {
             "hash": "d4231120b703481514abc705db6d9b408c9abe08",
-            "message": "update collocate headers",
+            "messageTitle": "update collocate headers",
+            "messageBody": "",
             "insertions": 1,
             "deletions": 1
           },
           {
             "hash": "fd3ea8062bd62066c57b7ce85183714b201a14f4",
-            "message": "wrap text",
+            "messageTitle": "wrap text",
+            "messageBody": "",
             "insertions": 2,
             "deletions": 2
           }
@@ -151,7 +166,8 @@
         "commitResults": [
           {
             "hash": "83072636f6d2e3a860f2be996396dc78f9fe98a0",
-            "message": "collate codes",
+            "messageTitle": "collate codes",
+            "messageBody": "",
             "insertions": 1,
             "deletions": 1
           }
@@ -164,7 +180,8 @@
         "commitResults": [
           {
             "hash": "a5c9b3443ec0f1d2f03d8857627e4d03c0f21221",
-            "message": "some change",
+            "messageTitle": "some change",
+            "messageBody": "",
             "insertions": 9,
             "deletions": 6
           }
@@ -177,7 +194,8 @@
         "commitResults": [
           {
             "hash": "c02d02475f877f4a52c49d7d2a4549bdb58a3149",
-            "message": "update UI",
+            "messageTitle": "update UI",
+            "messageBody": "",
             "insertions": 1,
             "deletions": 1
           }
@@ -192,13 +210,15 @@
         "commitResults": [
           {
             "hash": "e933821b0afb269faf27dd45845976656b622493",
-            "message": "\"UI: Add TagListPanel\"",
+            "messageTitle": "\"UI: Add TagListPanel\"",
+            "messageBody": "",
             "insertions": 40,
             "deletions": 11
           },
           {
             "hash": "f5c11947217f64965da86531f9dd67dd3e62f29d",
-            "message": "\"Modified panel dimensions\"",
+            "messageTitle": "\"Modified panel dimensions\"",
+            "messageBody": "",
             "insertions": 2,
             "deletions": 2
           }
@@ -211,7 +231,8 @@
         "commitResults": [
           {
             "hash": "93191db48eb5aa2f97d765cdf736c68c85fc0ae4",
-            "message": "\"Added comments to indicate which values to change to modify UI\"",
+            "messageTitle": "\"Added comments to indicate which values to change to modify UI\"",
+            "messageBody": "",
             "insertions": 4,
             "deletions": 3
           }
@@ -224,7 +245,8 @@
         "commitResults": [
           {
             "hash": "053319c3d8cd5d26424b6ac69d51f3c03e262215",
-            "message": "Collate code for v1.4",
+            "messageTitle": "Collate code for v1.4",
+            "messageBody": "",
             "insertions": 3,
             "deletions": 0
           }
@@ -237,13 +259,15 @@
         "commitResults": [
           {
             "hash": "3f12f5d82f214b3a64f9709b0a06982a6751929c",
-            "message": "Merge branch \u0027master\u0027 into ThemeSwitch",
+            "messageTitle": "Merge branch \u0027master\u0027 into ThemeSwitch",
+            "messageBody": "# Conflicts:\n#\tsrc/main/java/seedu/address/logic/parser/AddressBookParser.java\n",
             "insertions": 2,
             "deletions": 5
           },
           {
             "hash": "07c3d30af4b3700b2b2118646d84bf58029a5cc1",
-            "message": "Fix bug: Remove default theme in the app. An empty user pref now dictates the default stylesheet.",
+            "messageTitle": "Fix bug: Remove default theme in the app. An empty user pref now dictates the default stylesheet.",
+            "messageBody": "",
             "insertions": 0,
             "deletions": 1
           }
@@ -256,7 +280,8 @@
         "commitResults": [
           {
             "hash": "850273a65b83b567b1d7ea6cb6ba20a029c8eeaf",
-            "message": "Merge master to ThemeSwitchForMerge",
+            "messageTitle": "Merge master to ThemeSwitchForMerge",
+            "messageBody": "",
             "insertions": 2,
             "deletions": 4
           }
@@ -269,7 +294,8 @@
         "commitResults": [
           {
             "hash": "3a5d01cefeb7d546b4d662f3057d46994e6fdaa8",
-            "message": "Adjust Person Info Panel to show full address",
+            "messageTitle": "Adjust Person Info Panel to show full address",
+            "messageBody": "",
             "insertions": 31,
             "deletions": 42
           }
@@ -282,37 +308,43 @@
         "commitResults": [
           {
             "hash": "851523a1b0de2a1f55896bd4cde92f55ccf77fd7",
-            "message": "PersonListPanel fix size. Added Color borders",
+            "messageTitle": "PersonListPanel fix size. Added Color borders",
+            "messageBody": "",
             "insertions": 22,
             "deletions": 28
           },
           {
             "hash": "dc58462947e8e03e3b627f1d49cac01e08fcc18f",
-            "message": "Checkpoint",
+            "messageTitle": "Checkpoint",
+            "messageBody": "",
             "insertions": 10,
             "deletions": 13
           },
           {
             "hash": "57b8bc8fe014c960d24e9ac064ac453e750dde24",
-            "message": "Checkpoint2",
+            "messageTitle": "Checkpoint2",
+            "messageBody": "",
             "insertions": 1,
             "deletions": 1
           },
           {
             "hash": "e1400bba9cb3107c97b755ae90ea09df352757b5",
-            "message": "Elements dynamically shift with tags",
+            "messageTitle": "Elements dynamically shift with tags",
+            "messageBody": "",
             "insertions": 17,
             "deletions": 10
           },
           {
             "hash": "96666b7a79a8a66fa8096e77f79103f92695e384",
-            "message": "Person Card Looks like a card and added a divider",
+            "messageTitle": "Person Card Looks like a card and added a divider",
+            "messageBody": "",
             "insertions": 1,
             "deletions": 1
           },
           {
             "hash": "6ad945335710f32195f6d5b5bbd0aff049c239b0",
-            "message": "Remark now can dynamically render",
+            "messageTitle": "Remark now can dynamically render",
+            "messageBody": "",
             "insertions": 1,
             "deletions": 1
           }
@@ -325,19 +357,22 @@
         "commitResults": [
           {
             "hash": "a0a1db047c8badbc69b55cb2472c806a856488bd",
-            "message": "Person info panel details no shift",
+            "messageTitle": "Person info panel details no shift",
+            "messageBody": "",
             "insertions": 1,
             "deletions": 1
           },
           {
             "hash": "6d063a6095d85db37b74956a98de886fa4ae6535",
-            "message": "Horizontal boundaries settled",
+            "messageTitle": "Horizontal boundaries settled",
+            "messageBody": "",
             "insertions": 2,
             "deletions": 2
           },
           {
             "hash": "2d9292764c7813c6c11ed9e19acd7971725054d9",
-            "message": "All boundaries settled",
+            "messageTitle": "All boundaries settled",
+            "messageBody": "",
             "insertions": 2,
             "deletions": 2
           }
@@ -351,7 +386,7 @@
     "April0616": 154,
     "nbr": 48
   },
-  "authorFileFormatContributionMap": {
+  "authorFileTypeContributionMap": {
     "zacharytang": {
       "fxml": 92
     },
@@ -372,9 +407,9 @@
     "nbr": 495.91364
   },
   "authorDisplayNameMap": {
-    "zacharytang": "Zac",
-    "CindyTsai1": "Cin",
-    "April0616": "Fan",
-    "nbr": "Nbr"
+    "zacharytang": "Yagami Rukei Polland",
+    "CindyTsai1": "Ravind s/o Ramesh",
+    "April0616": "2805Tagoe",
+    "nbr": "Ashwin Mukadaan Singhania, Rathod"
   }
 }

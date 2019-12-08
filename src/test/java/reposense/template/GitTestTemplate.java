@@ -20,7 +20,7 @@ import reposense.git.GitClone;
 import reposense.git.exception.GitCloneException;
 import reposense.model.Author;
 import reposense.model.CommitHash;
-import reposense.model.Format;
+import reposense.model.FileTypeTest;
 import reposense.model.RepoConfiguration;
 import reposense.model.RepoLocation;
 import reposense.parser.InvalidLocationException;
@@ -39,6 +39,7 @@ public class GitTestTemplate {
     protected static final String EUGENE_AUTHOR_NAME = "eugenepeh";
     protected static final String YONG_AUTHOR_NAME = "Yong Hao TENG";
     protected static final String MINGYI_AUTHOR_NAME = "myteo";
+    protected static final String JINYAO_AUTHOR_NAME = "jylee-git";
     protected static final String LATEST_COMMIT_HASH = "136c6713fc00cfe79a1598e8ce83c6ef3b878660";
     protected static final String EUGENE_AUTHOR_README_FILE_COMMIT_07052018_STRING =
             "2d87a431fcbb8f73a731b6df0fcbee962c85c250";
@@ -61,14 +62,14 @@ public class GitTestTemplate {
     public void before() throws InvalidLocationException {
         config = new RepoConfiguration(new RepoLocation(TEST_REPO_GIT_LOCATION), "master");
         config.setAuthorList(Collections.singletonList(getAlphaAllAliasAuthor()));
-        config.setFormats(Format.DEFAULT_FORMATS);
+        config.setFormats(FileTypeTest.DEFAULT_TEST_FORMATS);
     }
 
     @BeforeClass
     public static void beforeClass() throws GitCloneException, IOException, InvalidLocationException {
         deleteRepos();
         config = new RepoConfiguration(new RepoLocation(TEST_REPO_GIT_LOCATION), "master");
-        config.setFormats(Format.DEFAULT_FORMATS);
+        config.setFormats(FileTypeTest.DEFAULT_TEST_FORMATS);
         GitClone.clone(config);
     }
 

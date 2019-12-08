@@ -4,8 +4,10 @@ import java.io.IOException;
 import java.nio.file.Path;
 import java.util.List;
 
+import org.apache.commons.csv.CSVRecord;
+
 import reposense.model.CommitHash;
-import reposense.model.Format;
+import reposense.model.FileType;
 import reposense.model.RepoConfiguration;
 import reposense.model.RepoLocation;
 
@@ -46,31 +48,23 @@ public class RepoConfigCsvParser extends CsvParser<RepoConfiguration> {
      * {@code branch}.
      */
     @Override
-    protected void processLine(List<RepoConfiguration> results, String[] elements) throws InvalidLocationException {
-        RepoLocation location = new RepoLocation(getValueInElement(elements, LOCATION_POSITION));
-        String branch = getValueInElement(elements, BRANCH_POSITION, RepoConfiguration.DEFAULT_BRANCH);
+    protected void processLine(List<RepoConfiguration> results, CSVRecord record) throws InvalidLocationException {
+        RepoLocation location = new RepoLocation(get(record, LOCATION_POSITION));
+        String branch = getOrDefault(record, BRANCH_POSITION, RepoConfiguration.DEFAULT_BRANCH);
 
-        boolean isFormatsOverriding = isElementOverridingStandaloneConfig(elements, FILE_FORMATS_POSITION);
-        if (isFormatsOverriding) {
-            removeOverrideKeywordFromElement(elements, FILE_FORMATS_POSITION);
-        }
-        List<Format> formats = Format.convertStringsToFormats(getManyValueInElement(elements, FILE_FORMATS_POSITION));
+        boolean isFormatsOverriding = isElementOverridingStandaloneConfig(record, FILE_FORMATS_POSITION);
+        List<FileType> formats = FileType.convertFormatStringsToFileTypes(
+                getAsListWithoutOverridePrefix(record, FILE_FORMATS_POSITION));
 
-        boolean isIgnoreGlobListOverriding = isElementOverridingStandaloneConfig(elements, IGNORE_GLOB_LIST_POSITION);
-        if (isIgnoreGlobListOverriding) {
-            removeOverrideKeywordFromElement(elements, IGNORE_GLOB_LIST_POSITION);
-        }
-        List<String> ignoreGlobList = getManyValueInElement(elements, IGNORE_GLOB_LIST_POSITION);
+        boolean isIgnoreGlobListOverriding = isElementOverridingStandaloneConfig(record, IGNORE_GLOB_LIST_POSITION);
+        List<String> ignoreGlobList = getAsListWithoutOverridePrefix(record, IGNORE_GLOB_LIST_POSITION);
 
         boolean isIgnoreCommitListOverriding =
-                isElementOverridingStandaloneConfig(elements, IGNORE_COMMIT_LIST_CONFIG_POSITION);
-        if (isIgnoreCommitListOverriding) {
-            removeOverrideKeywordFromElement(elements, IGNORE_COMMIT_LIST_CONFIG_POSITION);
-        }
+                isElementOverridingStandaloneConfig(record, IGNORE_COMMIT_LIST_CONFIG_POSITION);
         List<CommitHash> ignoreCommitList = CommitHash.convertStringsToCommits(
-                getManyValueInElement(elements, IGNORE_COMMIT_LIST_CONFIG_POSITION));
+                getAsListWithoutOverridePrefix(record, IGNORE_COMMIT_LIST_CONFIG_POSITION));
 
-        String ignoreStandaloneConfig = getValueInElement(elements, IGNORE_STANDALONE_CONFIG_POSITION);
+        String ignoreStandaloneConfig = get(record, IGNORE_STANDALONE_CONFIG_POSITION);
         boolean isStandaloneConfigIgnored = ignoreStandaloneConfig.equalsIgnoreCase(IGNORE_STANDALONE_CONFIG_KEYWORD);
 
         if (!isStandaloneConfigIgnored && !ignoreStandaloneConfig.isEmpty()) {

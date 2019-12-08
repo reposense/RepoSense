@@ -1,19 +1,45 @@
 #zoom
-  h1 {{ info.user.displayName }} ({{ info.user.name }})
-  a(v-on:click="openSummary") Show ramp chart for this period
-
-  h2 {{ info.user.repoName }}
+  .zoom__title
+    .zoom_title--group.large-font
+      span(v-if="info.filterGroupSelection === 'groupByAuthors'") {{ info.user.displayName }} ({{ info.user.name }})
+      span(v-else) {{ info.user.repoName }}
+    .zoom__title--chart.medium-font(v-if="!info.isMergeGroup")
+      span &#8627; &nbsp;
+      span(v-if="info.filterGroupSelection === 'groupByAuthors'") {{ info.user.repoName }}
+      span(v-else) {{ info.user.displayName }} ({{ info.user.name }})
+    .zoom__title--period.medium-font
+      span &#8627; &nbsp;
+      span {{ info.sinceDate }} to {{ info.untilDate }} &nbsp;
+      a(v-on:click="openSummary") [Show ramp chart for this period]
+    .zoom__title--granularity.mini-font granularity: one ramp per {{ filterTimeFrame }}
   v_ramp(
+      v-bind:groupby="info.filterGroupSelection",
       v-bind:user="info.user",
-      v-bind:tframe="'commit'",
+      v-bind:tframe="filterTimeFrame",
       v-bind:sdate="info.sinceDate",
       v-bind:udate="info.untilDate",
-      v-bind:avgsize="info.avgCommitSize")
+      v-bind:avgsize="info.avgCommitSize",
+      v-bind:mergegroup="info.isMergeGroup")
+
+  .zoom__toggle-commit-message-body(v-if="info.user.commits.length")
+    button(v-if="expandedCommitMessagesCount === 0" v-on:click="toggleAllCommitMessagesBody(true)") show all commit messages body
+    button(v-else v-on:click="toggleAllCommitMessagesBody(false)") hide all commit messages body
 
   .zoom__day(v-for="day in info.user.commits")
     template(v-if="day.insertions > 0")
-      h3 {{ day.date }}
+      h3(v-if="filterTimeFrame === 'week'") Week of {{ day.date }}
+      h3(v-else) {{ day.date }}
       ul
-        li(v-for="slice in day.commitResults")
-          a(v-bind:href="getSliceLink(slice)", target="_blank") {{ slice.message }}
+        li(v-for="slice in day.commitResults").commit-message.active
+          a(v-bind:href="getSliceLink(slice)" target="_blank") {{ slice.messageTitle }}
           span &nbsp; ({{ slice.insertions }} lines)
+          a(
+            v-if="slice.messageBody !== ''",
+            v-on:click="updateExpandedCommitMessagesCount",
+            onclick="toggleNext(this)",
+            title="Click to show/hide the commit message body"
+          )
+            i.commit-message--button.fas.fa-ellipsis-h
+          .body(v-if="slice.messageBody !== ''")
+            pre {{ slice.messageBody }}
+
