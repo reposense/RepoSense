@@ -68,8 +68,6 @@ public class FileTypeManager {
             try {
                 return new FileType(label, Collections.singletonList("**" + label));
             } catch (IllegalArgumentException iae) {
-                logger.warning(String.format("Unable to determine the file format for the file \"%s\". "
-                        + "This file will be treated as the file type \"other\".", fileName));
                 return DEFAULT_GROUP_TYPE;
             }
         }
