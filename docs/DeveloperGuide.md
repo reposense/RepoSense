@@ -5,10 +5,11 @@ Thank you for your interest in contributing to RepoSense!
   - [Setting up the project in your computer using IntelliJ](#setting-up-the-project-in-your-computer-using-intellij)
   - [Verifying the setup](#verifying-the-setup)
   - [Configuring the Java coding style](#configuring-the-java-coding-style)
-  - [Configuring the JavaScript coding style](#configuring-the-javascript-coding-style)
-  - [Configuring the CSS coding style](#configuring-the-css-coding-style)
+  - [Configuring the JavaScript and CSS coding style](#configuring-the-javascript-and-css-coding-style)
   - [Configuring Cypress for automated front-end testing](#configuring-cypress-for-automated-front-end-testing)
   - [(Optional) Using Vue.js devtools for frontend debugging on Chrome](#optional-using-vuejs-devtools-for-frontend-debugging-on-chrome)
+  - [Before writing code](#before-writing-code)
+  - [Building and running RepoSense from code](#building-and-running-reposense-from-code)
 - [Architecture](#architecture)
   - [Parser](#parserconfigparser)
   - [Git](#git)
@@ -25,6 +26,9 @@ Thank you for your interest in contributing to RepoSense!
   - [Data loader](#data-loader-apijs)
   - [Summary View](#summary-view-v_summaryjs)
   - [Authorship View](#authorship-view-v_authorshipjs)
+  - [Zoom View](#zoom-view-v_zoomjs)
+  - [Ramp View](#ramp-view-v_rampjs)
+  - [Segment View](#segment-view-v_segmentjs)
 
 ## Setting up
 
@@ -184,7 +188,7 @@ gradlew run -Dargs="-c ./configs/ -o output_path/ -s 21/10/2017 -u 21/11/2017 -f
 ### Parser(ConfigParser)
 [`Parser`](/src/main/java/reposense/parser) contains three components:
  * [`ArgsParser`](/src/main/java/reposense/parser/ArgsParser.java): Parses the user-supplied command line arguments into a `CliArguments` object.
- * [`CsvParser`](/src/main/java/reposense/parser/CsvParser.java): Abstract generic class for CSV parsing functionality. The following two classes extends `CsvParser`.
+ * [`CsvParser`](/src/main/java/reposense/parser/CsvParser.java): Abstract generic class for CSV parsing functionality. The following three classes extend `CsvParser`.
    * [`AuthorConfigCsvParser`](/src/main/java/reposense/parser/AuthorConfigCsvParser.java): Parses the `author-config.csv` config file into a list of `AuthorConfiguration` for each repository to analyze.
    * [`GroupConfigCsvParser`](/src/main/java/reposense/parser/GroupConfigCsvParser.java) Parses the `group-config.csv` config file into a list of `GroupConfiguration` for each repository to analyze.
    * [`RepoConfigCsvParser`](/src/main/java/reposense/parser/RepoConfigCsvParser.java): Parses the `repo-config.csv` config file into a list of `RepoConfiguration` for each repository to analyze.
