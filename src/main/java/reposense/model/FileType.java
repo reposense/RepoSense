@@ -6,6 +6,7 @@ import java.nio.file.PathMatcher;
 import java.nio.file.Paths;
 import java.util.Collections;
 import java.util.List;
+import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 import com.google.gson.JsonElement;
@@ -17,7 +18,7 @@ import com.google.gson.JsonSerializer;
  * Represents a file type for use in {@link FileTypeManager}.
  */
 public class FileType {
-    private static final String FILE_FORMAT_VALIDATION_REGEX = "[A-Za-z0-9]+";
+    private static final Pattern FILE_FORMAT_VALIDATION_PATTERN = Pattern.compile("^\\w+$");
     private static final String MESSAGE_ILLEGAL_FILE_FORMAT = "The provided file format, %s, contains illegal "
             + "characters.";
 
@@ -59,7 +60,7 @@ public class FileType {
      * @throws IllegalArgumentException if {@code format} is not alphanumeric.
      */
     public static void validateFileFormat(String format) throws IllegalArgumentException {
-        if (!format.matches(FILE_FORMAT_VALIDATION_REGEX)) {
+        if (!FILE_FORMAT_VALIDATION_PATTERN.matcher(format).matches()) {
             throw new IllegalArgumentException(String.format(MESSAGE_ILLEGAL_FILE_FORMAT, format));
         }
     }
