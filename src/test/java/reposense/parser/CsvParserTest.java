@@ -41,6 +41,8 @@ public class CsvParserTest {
     private static final Path REPO_CONFIG_REDUNDANT_LINES_FILE = new File(CsvParserTest.class.getClassLoader()
             .getResource("CsvParserTest/require_trailing_whitespaces/repoconfig_redundantLines_test.csv")
             .getFile()).toPath();
+    private static final Path REPO_CONFIG_INVALID_HEADER_SIZE_FILE = new File(CsvParserTest.class.getClassLoader()
+            .getResource("CsvParserTest/repoconfig_invalidHeaderSize_test.csv").getFile()).toPath();
     private static final Path AUTHOR_CONFIG_EMPTY_LOCATION_FILE = new File(CsvParserTest.class.getClassLoader()
             .getResource("CsvParserTest/authorconfig_emptyLocation_test.csv").getFile()).toPath();
     private static final Path AUTHOR_CONFIG_EMPTY_CONFIG_FILE = new File(CsvParserTest.class.getClassLoader()
@@ -437,5 +439,11 @@ public class CsvParserTest {
         Assert.assertEquals(new RepoLocation(TEST_REPO_DELTA_LOCATION), deltaConfig.getLocation());
         Assert.assertEquals(TEST_REPO_DELTA_BRANCH, deltaConfig.getBranch());
         Assert.assertTrue(deltaConfig.isStandaloneConfigIgnored());
+    }
+
+    @Test (expected = IOException.class)
+    public void repoConfig_invalidHeaderSize_throwsIoException() throws IOException {
+        RepoConfigCsvParser repoConfigCsvParser = new RepoConfigCsvParser(REPO_CONFIG_INVALID_HEADER_SIZE_FILE);
+        repoConfigCsvParser.parse();
     }
 }
