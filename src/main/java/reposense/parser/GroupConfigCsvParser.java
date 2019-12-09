@@ -24,12 +24,12 @@ public class GroupConfigCsvParser extends CsvParser<GroupConfiguration> {
     private static final int FILES_GLOB_POSITION = 2;
 
     /**
-     * Number of columns expected in the header of group-config.csv file.
+     * Number of columns expected in the header of repo-config.csv file.
      */
     private static final int HEADER_SIZE = 3;
 
     public GroupConfigCsvParser(Path csvFilePath) throws IOException {
-        super(csvFilePath);
+        super(csvFilePath, HEADER_SIZE);
     }
 
     /**
@@ -83,13 +83,5 @@ public class GroupConfigCsvParser extends CsvParser<GroupConfiguration> {
 
         results.add(config);
         return config;
-    }
-
-    /**
-     * Gets the number of columns expected in the header.
-     */
-    @Override
-    protected int getHeaderSize() {
-        return HEADER_SIZE;
     }
 }

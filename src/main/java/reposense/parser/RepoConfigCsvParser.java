@@ -34,7 +34,7 @@ public class RepoConfigCsvParser extends CsvParser<RepoConfiguration> {
     private static final int HEADER_SIZE = 6;
 
     public RepoConfigCsvParser(Path csvFilePath) throws IOException {
-        super(csvFilePath);
+        super(csvFilePath, HEADER_SIZE);
     }
 
     /**
@@ -87,13 +87,5 @@ public class RepoConfigCsvParser extends CsvParser<RepoConfiguration> {
         }
 
         results.add(config);
-    }
-
-    /**
-     * Gets the number of columns expected in the header.
-     */
-    @Override
-    protected int getHeaderSize() {
-        return HEADER_SIZE;
     }
 }

@@ -35,7 +35,7 @@ public class AuthorConfigCsvParser extends CsvParser<AuthorConfiguration> {
     private static final int HEADER_SIZE = 7;
 
     public AuthorConfigCsvParser(Path csvFilePath) throws IOException {
-        super(csvFilePath);
+        super(csvFilePath, HEADER_SIZE);
     }
 
     /**
@@ -144,13 +144,5 @@ public class AuthorConfigCsvParser extends CsvParser<AuthorConfiguration> {
         }
 
         author.setIgnoreGlobList(ignoreGlobList);
-    }
-
-    /**
-     * Gets the number of columns expected in the header.
-     */
-    @Override
-    protected int getHeaderSize() {
-        return HEADER_SIZE;
     }
 }

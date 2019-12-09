@@ -41,18 +41,20 @@ public abstract class CsvParser<T> {
         + "Expected number of columns: %d";
 
     private Path csvFilePath;
+    private int expectedHeaderSize;
     private int numOfLinesBeforeFirstRecord = 0;
 
     /**
      * @throws IOException if {@code csvFilePath} is an invalid path.
      */
-    public CsvParser(Path csvFilePath) throws IOException {
+    public CsvParser(Path csvFilePath, int expectedHeaderSize) throws IOException {
         if (csvFilePath == null || !Files.exists(csvFilePath)) {
             throw new IOException("Csv file does not exists in given path.\n"
                     + "Use '-help' to list all the available subcommands and some concept guides.");
         }
 
         this.csvFilePath = csvFilePath;
+        this.expectedHeaderSize = expectedHeaderSize;
     }
 
     /**
@@ -205,12 +207,11 @@ public abstract class CsvParser<T> {
      * @throws InvalidCsvException if {@code possibleHeader} does not have as many columns as expected.
      */
     private void validateHeader(String[] possibleHeader) throws InvalidCsvException {
-        int expectedNumberOfColumns = getHeaderSize();
         int actualNumberOfColumns = possibleHeader.length;
-        if (actualNumberOfColumns != expectedNumberOfColumns) {
+        if (actualNumberOfColumns != expectedHeaderSize) {
             throw new InvalidCsvException(String.format(
                     MESSAGE_WRONG_HEADER_SIZE, csvFilePath.getFileName(), actualNumberOfColumns,
-                    expectedNumberOfColumns));
+                    expectedHeaderSize));
         }
     }
 
@@ -226,9 +227,4 @@ public abstract class CsvParser<T> {
      * {@code record} and add created objects into {@code results}.
      */
     protected abstract void processLine(List<T> results, final CSVRecord record) throws ParseException;
-
-    /**
-     * Gets the number of columns expected in the header.
-     */
-    protected abstract int getHeaderSize();
 }
