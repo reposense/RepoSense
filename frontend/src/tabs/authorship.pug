@@ -55,7 +55,9 @@
     template(v-for="file in selectedFiles")
       .file.active(v-bind:key="file.path")
         .title
-          span.path(onclick="toggleNext(this.parentNode)", v-on:click="updateCount") {{ file.path }}&nbsp;
+          span.path(onclick="toggleNext(this.parentNode)", v-on:click="updateCount")
+            span [{{ activeSortSection(file) }}]&nbsp
+            span.remaining-path {{ remainingPathSection(file) }}&nbsp
           span.loc ({{ file.lineCount }} lines)
           a(
           v-bind:href="getFileLink(file, 'commits')", target="_blank",

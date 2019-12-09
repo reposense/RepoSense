@@ -5,6 +5,20 @@ const filesSortDict = {
   fileType: (file) => file.fileType,
 };
 
+const activeSortSectionDict = {
+  lineOfCode: (file) => `${file.lineCount} lines`,
+  path: (file) => file.path,
+  fileName: (file) => file.path.split(/[/]+/).pop(),
+  fileType: (file) => file.fileType,
+};
+
+const remainingPathSectionDict = {
+  lineOfCode: (file) => file.path,
+  path: () => '',
+  fileName: (file) => file.path.split(/[/]+/).slice(0, -1).join('/'),
+  fileType: (file) => file.path,
+};
+
 window.toggleNext = function toggleNext(ele) {
   // function for toggling unopened code
   const targetClass = 'active';
@@ -45,12 +59,15 @@ window.vAuthorship = {
       sortingFunction: window.comparator(filesSortDict.lineOfCode),
       isSearchBar: false,
       isCheckBoxes: true,
+      activeSortSection: activeSortSectionDict.lineOfCode,
+      remainingPathSection: remainingPathSectionDict.lineOfCode,
     };
   },
 
   watch: {
     filesSortType() {
       this.sortFiles();
+      this.updateActiveSort();
     },
     toReverseSortFiles() {
       this.sortFiles();
@@ -212,6 +229,11 @@ window.vAuthorship = {
     sortFiles() {
       this.sortingFunction = (a, b) => (this.toReverseSortFiles ? -1 : 1)
           * window.comparator(filesSortDict[this.filesSortType])(a, b);
+    },
+
+    updateActiveSort() {
+      this.activeSortSection = activeSortSectionDict[this.filesSortType];
+      this.remainingPathSection = remainingPathSectionDict[this.filesSortType];
     },
 
     selectAll() {
