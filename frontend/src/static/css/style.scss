@@ -60,6 +60,10 @@ a {
   font-weight: bold;
 }
 
+.tab-padding {
+  padding: 2rem 1.5rem;
+}
+
 .warn {
   color: mui-color('red');
 
@@ -195,8 +199,6 @@ header {
 
     .tab-content {
       display: flex;
-      padding: 1rem 1.5rem;
-      padding-top: 4rem;
 
       .tab-panes {
         text-align: left;
@@ -217,7 +219,7 @@ header {
 /* summary chart */
 #summary,
 .summary-status {
-  padding: 2rem 1rem;
+  text-align: center;
 }
 
 .summary-picker {
@@ -272,12 +274,28 @@ header {
     font-weight: bold;
     text-align: left;
 
+    &--index {
+      background: mui-color('black');
+      color: mui-color('white');
+      display: inline-block;
+      font-size: medium;
+      overflow: hidden;
+      padding: .1em .25em .1em .25em;
+      vertical-align: middle;
+    }
+
+    &--repo {
+      display: inline-block;
+      font-size: medium;
+      padding: .5rem;
+    }
+
     &--contribution {
       display: inline;
     }
   }
 
-  &__fileformat--breakdown {
+  &__fileType--breakdown {
     overflow-y: hidden;
 
     &__legend {
@@ -350,7 +368,7 @@ header {
       margin-top: .1rem;
     }
 
-    &--bar--fileformat {
+    &--bar--fileType {
       display: inline-block;
       float: left;
       height: .3rem;
@@ -421,7 +439,7 @@ header {
     .contribution {
       color: mui-color('red');
 
-      .fileformat {
+      .fileType {
         align-items: center;
         display: flex;
         margin-left: 3rem;
@@ -464,7 +482,7 @@ header {
         color: mui-color('grey');
       }
 
-      span.fileFormat {
+      span.fileType {
         span.bloc::after {
           content: ', ';
         }
@@ -474,7 +492,7 @@ header {
         }
       }
 
-      .mui-checkbox--fileformat {
+      .mui-checkbox--fileType {
         vertical-align: middle;
       }
 

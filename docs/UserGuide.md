@@ -14,6 +14,7 @@
   * [Customize Using csv Config Files](#customize-using-csv-config-files)
     * [`repo-config.csv`](#repo-configcsv)
     * [`author-config.csv`](#author-configcsv)
+    * [`group-config.csv`](#group-configcsv)
 * [Analyzing Multiple Repos](#analyzing-multiple-repos)
 * [Using Travis-CI to automate publishing of the report to GitHub Pages](#using-travis-ci-to-automate-publishing-of-the-report-to-github-pages)
 * [FAQ](#faq)
@@ -54,7 +55,7 @@ Here is an example of how the report looks like:
 
 ![report](images/report-features.png)
 
-It consists of three main parts: the [_Chart Panel_](#chart-panel), the [_Code Panel_](#code-panel), and the [_Tool Bar_](#tool-bar), each of which is explained in the sections below.
+It consists of four main parts: the [_Chart Panel_](#chart-panel), the [_Code Panel_](#code-panel), the [_Commits Panel_](#commits-panel), and the [_Tool Bar_](#tool-bar), each of which is explained in the sections below.
 
 
 ### Chart Panel
@@ -353,6 +354,23 @@ Author's GitHub ID | GitHub username of the target author e.g., `JohnDoe`
 If `author-config.csv` is not given and the repo has not provide author details in a standalone config file, all the authors of the repositories within the date range specified (if any) will be analyzed.
 
 <hr>
+
+#### `group-config.csv`
+
+Optionally, you can provide a `group-config.csv`(which should be in the same directory as `repo-config.csv` file) to provide details on any custom groupings for files in specified repositories ([example](group-config.csv)). It should contain the following columns:
+
+Column Name | Explanation
+----------- | -----------
+Repository's Location | Same as `repo-config.csv`.
+Group Name | Name of the group e.g.,`test`.
+Globs * | The list of file path globs to include for specified group. e.g.,`**/test/*;**.java`.
+
+<sup>* **Multi-value column**: multiple values can be entered in this column using a semicolon `;` as the separator.</sup>
+
+Note that a file in a given repository should only be tagged to one group. <br>
+e.g.: `example.java` in `example-repo` can either be in `test` group or in `code` group, but not in both `test` and `code` group. If multiple groups are specified for a given file, the latter group (i.e.: `code` group) is set for the file.
+
+> Note: the first row consists of config headings, which is ignored by RepoSense.
 
 ## Analyzing Multiple Repos
 
