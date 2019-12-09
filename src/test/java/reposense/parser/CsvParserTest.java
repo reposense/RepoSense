@@ -66,6 +66,8 @@ public class CsvParserTest {
             .getResource("CsvParserTest/groupconfig_emptyLocation_test.csv").getFile()).toPath();
     private static final Path GROUP_CONFIG_INVALID_LOCATION_FILE = new File(CsvParserTest.class.getClassLoader()
             .getResource("CsvParserTest/groupconfig_invalidLocation_test.csv").getFile()).toPath();
+    private static final Path GROUP_CONFIG_INVALID_HEADER_SIZE_FILE = new File(CsvParserTest.class.getClassLoader()
+            .getResource("CsvParserTest/groupconfig_invalidHeaderSize_test.csv").getFile()).toPath();
 
     private static final String TEST_REPO_BETA_LOCATION = "https://github.com/reposense/testrepo-Beta.git";
     private static final String TEST_REPO_BETA_BRANCH = "master";
@@ -273,6 +275,12 @@ public class CsvParserTest {
         GroupConfiguration actualDeltaConfig = groupConfigs.get(1);
         Assert.assertEquals(TEST_REPO_DELTA_LOCATION, actualDeltaConfig.getLocation().toString());
         Assert.assertEquals(TEST_REPO_DELTA_GROUPS, actualDeltaConfig.getGroupsList());
+    }
+
+    @Test (expected = IOException.class)
+    public void groupConfig_invalidHeaderSize_throwsIoException() throws IOException {
+        GroupConfigCsvParser groupConfigCsvParser = new GroupConfigCsvParser(GROUP_CONFIG_INVALID_HEADER_SIZE_FILE);
+        groupConfigCsvParser.parse();
     }
 
     @Test
