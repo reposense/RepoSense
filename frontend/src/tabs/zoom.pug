@@ -2,13 +2,13 @@
   span.large-font Commits Panel
   .zoom__title
     .zoom_title--group.large-font
-       span(v-if="info.filterGroupSelection === 'groupByAuthors'") {{ info.user.displayName }} ({{ info.user.name }})
-       a(
-       v-else,
-       v-bind:href="info.location", target="_blank",
-       v-bind:title="'Click to open the repo'"
-       )
-         span {{ info.user.repoName }}
+      span(v-if="info.filterGroupSelection === 'groupByAuthors'") {{ info.user.displayName }} ({{ info.user.name }})
+      a(
+        v-else,
+        v-bind:href="info.location", target="_blank",
+        v-bind:title="'Click to open the repo'"
+      )
+        span {{ info.user.repoName }}
     .zoom__title--chart.medium-font(v-if="!info.isMergeGroup")
       span &#8627; &nbsp;
       span(v-if="info.filterGroupSelection === 'groupByAuthors'") {{ info.user.repoName }}
