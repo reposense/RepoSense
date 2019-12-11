@@ -357,7 +357,7 @@ public class RepoConfigurationTest {
     }
 
     @Test
-    public void repoConfig_removeIgnoredAuthors() throws ParseException, GitCloneException, IOException,
+    public void repoConfig_removeIgnoredAuthors_success() throws ParseException, GitCloneException, IOException,
             HelpScreenException, NoSuchMethodException, InvocationTargetException, IllegalAccessException {
         List<Author> expectedAuthors = new ArrayList<>();
         Author author = new Author(FIRST_AUTHOR);
