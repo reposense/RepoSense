@@ -191,6 +191,9 @@ window.app = new window.Vue({
       window.removeHash('tabAuthor');
       window.removeHash('tabRepo');
       window.removeHash('tabType');
+      window.removeHash('avgCommitSize');
+      window.removeHash('zoomSince');
+      window.removeHash('zoomUntil');
       window.encodeHash();
     },
 
@@ -293,15 +296,6 @@ window.app = new window.Vue({
         this.renderAuthorShipTabHash(minDate, maxDate);
       }
     },
-    removeAllTabHashes() {
-      window.removeHash('tabAuthor');
-      window.removeHash('tabRepo');
-      window.removeHash('tabType');
-      window.removeHash('avgCommitSize');
-      window.removeHash('zoomSince');
-      window.removeHash('zoomUntil');
-      window.encodeHash();
-    },
   },
   components: {
     v_zoom: window.vZoom,
@@ -318,9 +312,5 @@ window.app = new window.Vue({
         window.$('tabs-wrapper').style.flex = `0 0 ${flexWidth * 100}%`;
       }
     });
-    if (!this.isTabActive) {
-      // remove hashes from tab pane
-      this.removeAllTabHashes();
-    }
   },
 });
