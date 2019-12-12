@@ -25,12 +25,12 @@ window.vRamp = {
       const { REPOS } = window;
       const untilDate = this.tframe === 'week' ? slice.endDate : slice.date;
 
-      if (this.tframe === 'commit') {
-        return `${getBaseLink(user.repoId)}/commit/${slice.hash}`;
-      }
-
       if (this.mergegroup) {
         return this.getMergedLink(user, slice, untilDate);
+      }
+
+      if (this.tframe === 'commit') {
+        return `${getBaseLink(user.repoId)}/commit/${slice.hash}`;
       }
 
       return `${getBaseLink(user.repoId)}/commits/${REPOS[user.repoId].branch}?`
@@ -40,6 +40,11 @@ window.vRamp = {
     },
     getMergedLink(user, slice, untilDate) {
       const { REPOS } = window;
+
+      if (this.tframe === 'commit') {
+        return `${getBaseLink(slice.repoId)}/commit/${slice.hash}`;
+      }
+
       return `${getBaseLink(user.repoId)}/commits/${REPOS[user.repoId].branch}?`
           + `since=${slice.date}'T'00:00:00+08:00&`
           + `until=${untilDate}'T'23:59:59+08:00`;

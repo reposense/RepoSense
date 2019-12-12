@@ -28,7 +28,7 @@ public class GitLog {
         command += GitUtil.convertToGitDateRangeArgs(config.getSinceDate(), config.getUntilDate());
         command += " --pretty=format:" + PRETTY_FORMAT_STRING + " --shortstat";
         command += GitUtil.convertToFilterAuthorArgs(author);
-        command += GitUtil.convertToGitFormatsArgs(config.getFormats());
+        command += GitUtil.convertToGitFormatsArgs(config.getFileTypeManager().getFormats());
         command += GitUtil.convertToGitExcludeGlobArgs(rootPath.toFile(), author.getIgnoreGlobList());
 
         return runCommand(rootPath, command);
@@ -45,7 +45,7 @@ public class GitLog {
         command += GitUtil.convertToGitDateRangeArgs(config.getSinceDate(), config.getUntilDate());
         command += " --pretty=format:" + PRETTY_FORMAT_STRING + " --stat";
         command += GitUtil.convertToFilterAuthorArgs(author);
-        command += GitUtil.convertToGitFormatsArgs(config.getFormats());
+        command += GitUtil.convertToGitFormatsArgs(config.getFileTypeManager().getFormats());
         command += GitUtil.convertToGitExcludeGlobArgs(rootPath.toFile(), author.getIgnoreGlobList());
 
         return runCommand(rootPath, command);

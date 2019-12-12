@@ -12,8 +12,8 @@ import com.google.gson.JsonSyntaxException;
 
 import reposense.model.Author;
 import reposense.model.CommitHash;
-import reposense.model.Format;
-import reposense.model.FormatTest;
+import reposense.model.FileType;
+import reposense.model.FileTypeTest;
 import reposense.model.RepoConfiguration;
 import reposense.model.RepoLocation;
 import reposense.model.StandaloneConfig;
@@ -57,12 +57,12 @@ public class StandaloneConfigJsonParserTest {
         author.setIgnoreGlobList(Arrays.asList("**.css", "**.html", "**.jade", "**.js"));
 
         expectedGithubIdOnlyRepoconfig = new RepoConfiguration(new RepoLocation(TEST_DUMMY_LOCATION));
-        expectedGithubIdOnlyRepoconfig.setFormats(FormatTest.NO_SPECIFIED_FORMATS);
+        expectedGithubIdOnlyRepoconfig.setFormats(FileTypeTest.NO_SPECIFIED_FORMATS);
         expectedGithubIdOnlyRepoconfig.setAuthorList(Arrays.asList(new Author("yong24s")));
         expectedGithubIdOnlyRepoconfig.addAuthorEmailsAndAliasesMapEntry(author, author.getEmails());
 
         expectedFullRepoConfig = new RepoConfiguration(new RepoLocation(TEST_DUMMY_LOCATION));
-        expectedFullRepoConfig.setFormats(Format.convertStringsToFormats(
+        expectedFullRepoConfig.setFormats(FileType.convertFormatStringsToFileTypes(
                 Arrays.asList("gradle", "jade", "java", "js", "md", "scss", "yml")));
         expectedFullRepoConfig.setIgnoreCommitList(Arrays.asList(new CommitHash(
                 "7b96c563eb2d3612aa5275364333664a18f01491")));

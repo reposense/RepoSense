@@ -2,7 +2,7 @@ const filesSortDict = {
   lineOfCode: (file) => file.lineCount,
   path: (file) => file.path,
   fileName: (file) => file.path.split(/[/]+/).pop(),
-  fileType: (file) => file.path.split(/[/]+/).pop().split(/[.]+/).pop(),
+  fileType: (file) => file.fileType,
 };
 
 window.toggleNext = function toggleNext(ele) {
@@ -33,9 +33,9 @@ window.vAuthorship = {
       isLoaded: false,
       files: [],
       isSelectAllChecked: true,
-      selectedFileFormats: [],
-      fileFormats: [],
-      filesBlankLinesObj: {},
+      selectedFileTypes: [],
+      fileTypes: [],
+      fileTypeBlankLinesObj: {},
       totalLineCount: '',
       totalBlankLineCount: '',
       filesSortType: 'lineOfCode',
@@ -86,7 +86,8 @@ window.vAuthorship = {
       if (repo) {
         const author = repo.users.filter((user) => user.name === this.info.author);
         if (author.length > 0) {
-          this.filesLinesObj = author[0].fileFormatContribution;
+          this.info.name = author[0].displayName;
+          this.filesLinesObj = author[0].fileTypeContribution;
         }
       }
     },
@@ -159,7 +160,7 @@ window.vAuthorship = {
 
     processFiles(files) {
       const res = [];
-      const filesBlanksInfoObj = {};
+      const fileTypeBlanksInfoObj = {};
       let totalLineCount = 0;
       let totalBlankLineCount = 0;
 
@@ -170,12 +171,14 @@ window.vAuthorship = {
           const out = {};
           out.path = file.path;
           out.lineCount = lineCnt;
+          out.fileType = file.fileType;
 
           const segmentInfo = this.splitSegments(file.lines);
           out.segments = segmentInfo.segments;
           totalBlankLineCount += segmentInfo.blankLineCount;
-          this.addBlankLineCountToFileFormat(file.path, segmentInfo.blankLineCount,
-              filesBlanksInfoObj);
+
+          this.addBlankLineCount(file.fileType, segmentInfo.blankLineCount,
+              fileTypeBlanksInfoObj);
           res.push(out);
         }
       });
@@ -186,27 +189,24 @@ window.vAuthorship = {
 
       Object.keys(this.filesLinesObj).forEach((file) => {
         if (this.filesLinesObj[file] !== 0) {
-          this.selectedFileFormats.push(file);
-          this.fileFormats.push(file);
+          this.selectedFileTypes.push(file);
+          this.fileTypes.push(file);
         }
       });
 
-      this.filesBlankLinesObj = filesBlanksInfoObj;
+      this.fileTypeBlankLinesObj = fileTypeBlanksInfoObj;
       this.files = res;
       this.isLoaded = true;
 
       this.activeFilesCount = this.selectedFiles.length;
     },
 
-    addBlankLineCountToFileFormat(path, lineCount, filesInfoObj) {
-      let fileFormat = path.split(/[./\\]/).pop();
-      fileFormat = (fileFormat.length === 0) ? 'others' : fileFormat;
-
-      if (!filesInfoObj[fileFormat]) {
-        filesInfoObj[fileFormat] = 0;
+    addBlankLineCount(fileType, lineCount, filesInfoObj) {
+      if (!filesInfoObj[fileType]) {
+        filesInfoObj[fileType] = 0;
       }
 
-      filesInfoObj[fileFormat] += lineCount;
+      filesInfoObj[fileType] += lineCount;
     },
 
     sortFiles() {
@@ -219,25 +219,28 @@ window.vAuthorship = {
         this.indicateCheckBoxes();
       }
       if (!this.isSelectAllChecked) {
-        this.selectedFileFormats = this.fileFormats.slice();
+        this.selectedFileTypes = this.fileTypes.slice();
         this.activeFilesCount = this.files.length;
       } else {
-        this.selectedFileFormats = [];
+        this.selectedFileTypes = [];
         this.activeFilesCount = 0;
       }
     },
 
-    selectFileFormat(format) {
+    selectFileType(fileType) {
       if (this.isSearchBar) {
         this.indicateCheckBoxes();
       }
-      if (this.selectedFileFormats.includes(format)) {
-        const index = this.selectedFileFormats.indexOf(format);
-        this.selectedFileFormats.splice(index, 1);
+      if (this.selectedFileTypes.includes(fileType)) {
+        const index = this.selectedFileTypes.indexOf(fileType);
+        this.selectedFileTypes.splice(index, 1);
       } else {
-        this.selectedFileFormats.push(format);
+        this.selectedFileTypes.push(fileType);
       }
-      if (this.fileFormats.length === this.selectedFileFormats.length) {
+    },
+
+    getSelectedFiles() {
+      if (this.fileTypes.length === this.selectedFileTypes.length) {
         this.isSelectAllChecked = true;
       } else {
         this.isSelectAllChecked = false;
@@ -254,7 +257,7 @@ window.vAuthorship = {
     },
 
     tickAllCheckboxes() {
-      this.selectedFileFormats = this.fileFormats.slice();
+      this.selectedFileTypes = this.fileTypes.slice();
       this.isSelectAllChecked = true;
     },
 
@@ -272,9 +275,8 @@ window.vAuthorship = {
       this.isCheckBoxes = true;
     },
 
-    isSelected(filePath) {
-      const fileExt = filePath.split(/[./\\]/).pop();
-      return this.selectedFileFormats.includes(fileExt);
+    isSelectedFileTypes(fileType) {
+      return this.selectedFileTypes.includes(fileType);
     },
 
     getFileLink(file, path) {
@@ -284,10 +286,10 @@ window.vAuthorship = {
         repo.location.organization}/${repo.location.repoName}/${path}/${repo.branch}/${file.path}`;
     },
 
-    getFileBlankLineInfo(fileFormat) {
-      return `${fileFormat}: Blank: ${
-        this.filesBlankLinesObj[fileFormat]}, Non-Blank: ${
-        this.filesLinesObj[fileFormat] - this.filesBlankLinesObj[fileFormat]}`;
+    getFileTypeBlankLineInfo(fileType) {
+      return `${fileType}: Blank: ${
+        this.fileTypeBlankLinesObj[fileType]}, Non-Blank: ${
+        this.filesLinesObj[fileType] - this.fileTypeBlankLinesObj[fileType]}`;
     },
 
     getTotalFileBlankLineInfo() {
@@ -298,12 +300,11 @@ window.vAuthorship = {
 
   computed: {
     selectedFiles() {
-      return this.files
-          .filter((file) => this.isSelected(file.path)
-              && minimatch(file.path, this.filterSearch, { matchBase: true }))
+      return this.files.filter((file) => this.isSelectedFileTypes(file.fileType)
+          && minimatch(file.path, this.filterSearch, { matchBase: true }))
           .sort(this.sortingFunction);
     },
-    getExistingLinesObj() {
+    getFileTypeExistingLinesObj() {
       const numLinesModified = {};
       Object.entries(this.filesLinesObj)
           .filter(([, value]) => value > 0)

@@ -50,6 +50,20 @@ a {
   font-weight: normal;
 }
 
+.medium-font {
+  font-size: .875rem;
+  font-weight: normal;
+}
+
+.large-font {
+  font-size: 1.5rem;
+  font-weight: bold;
+}
+
+.tab-padding {
+  padding: 2rem 1.5rem;
+}
+
 .warn {
   color: mui-color('red');
 
@@ -115,6 +129,52 @@ header {
       margin-bottom: 1em;
       margin-left: 1em;
     }
+
+    .error-message-box {
+      background-color: mui-color('red', '100');
+      border: .1rem solid mui-color('red', '900');
+      border-radius: .25rem;
+      color: mui-color('red', '900');
+      font-size: .75rem;
+      margin-bottom: .9rem;
+      padding: .9rem;
+      text-align: left;
+
+      &__close-button {
+        cursor: pointer;
+        float: right;
+        font-size: 1.4rem;
+        font-weight: bold;
+        line-height: .625rem;
+
+        &:hover {
+          color: mui-color('white');
+        }
+      }
+
+      &__message {
+        border-bottom: .1rem solid;
+        font-weight: bolder;
+        padding-bottom: .5rem;
+      }
+
+      .icon {
+        padding-right: .4rem;
+        padding-top: .2rem;
+        width: 1rem;
+      }
+
+      &__failed-repo {
+        &--name {
+          font-weight: bolder;
+          padding-left: .2rem;
+        }
+
+        &--reason {
+          padding-left: 3rem;
+        }
+      }
+    }
   }
 
   #tabs-wrapper {
@@ -139,8 +199,6 @@ header {
 
     .tab-content {
       display: flex;
-      padding: 1rem 1.5rem;
-      padding-top: 4rem;
 
       .tab-panes {
         text-align: left;
@@ -161,7 +219,7 @@ header {
 /* summary chart */
 #summary,
 .summary-status {
-  padding: 2rem 1rem;
+  text-align: center;
 }
 
 .summary-picker {
@@ -216,12 +274,28 @@ header {
     font-weight: bold;
     text-align: left;
 
+    &--index {
+      background: mui-color('black');
+      color: mui-color('white');
+      display: inline-block;
+      font-size: medium;
+      overflow: hidden;
+      padding: .1em .25em .1em .25em;
+      vertical-align: middle;
+    }
+
+    &--repo {
+      display: inline-block;
+      font-size: medium;
+      padding: .5rem;
+    }
+
     &--contribution {
       display: inline;
     }
   }
 
-  &__fileformat--breakdown {
+  &__fileType--breakdown {
     overflow-y: hidden;
 
     &__legend {
@@ -294,7 +368,7 @@ header {
       margin-top: .1rem;
     }
 
-    &--bar--fileformat {
+    &--bar--fileType {
       display: inline-block;
       float: left;
       height: .3rem;
@@ -352,14 +426,20 @@ header {
   .title {
     .repoName {
       cursor: pointer;
-      font-size: 1.5rem;
-      font-weight: bold;
+    }
+
+    .author {
+      margin-left: .3rem;
+    }
+
+    .period {
+      margin-left: 2rem;
     }
 
     .contribution {
       color: mui-color('red');
 
-      .fileformat {
+      .fileType {
         align-items: center;
         display: flex;
         margin-left: 3rem;
@@ -402,7 +482,7 @@ header {
         color: mui-color('grey');
       }
 
-      span.fileFormat {
+      span.fileType {
         span.bloc::after {
           content: ', ';
         }
@@ -412,7 +492,7 @@ header {
         }
       }
 
-      .mui-checkbox--fileformat {
+      .mui-checkbox--fileType {
         vertical-align: middle;
       }
 
@@ -450,12 +530,8 @@ header {
         }
       }
 
-      .control-font {
-        font-size: .875rem;
-
-        &.reverse {
-          color: mui-color('black');
-        }
+      .reverse {
+        color: mui-color('black');
       }
     }
   }
@@ -599,16 +675,53 @@ header {
 
 .zoom {
   &__title {
-    margin-top: 1rem;
+    &--chart {
+      margin-left: .3rem;
+    }
 
-    &--repo {
-      display: inline;
-      font-size: 1.5rem;
-      font-weight: 400;
+    &--period {
+      margin-left: 2rem;
     }
 
     &--granularity {
-      display: inline;
+      margin-top: .5rem;
     }
+  }
+
+  &__toggle-commit-message-body {
+    padding-top: 10px;
+  }
+}
+
+/* Commit Message Body in Zoom Tab */
+.commit-message {
+  &.active {
+    .body {
+      background-color: mui-color('white');
+      border: 1px solid mui-color('grey', '700');
+      display: inherit;
+      margin-bottom: 1rem;
+      overflow-x: auto;
+      padding: .4rem;
+      resize: none;
+      width: 100%;
+    }
+  }
+
+  .body {
+    display: none;
+  }
+
+  &--button {
+    color: mui-color('grey', '700');
+    padding-left: .5rem;
+
+    &:hover {
+      cursor: pointer;
+    }
+  }
+
+  pre {
+    margin: 0;
   }
 }

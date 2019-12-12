@@ -7,6 +7,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.logging.Logger;
+import java.util.stream.Collectors;
 
 import reposense.git.GitBranch;
 import reposense.git.exception.GitBranchException;
@@ -29,7 +30,7 @@ public class RepoConfiguration {
     private transient String repoFolderName;
 
     private transient boolean annotationOverwrite = true;
-    private transient List<Format> formats;
+    private transient FileTypeManager fileTypeManager;
     private transient int commitNum = 1;
     private transient List<String> ignoreGlobList = new ArrayList<>();
     private transient AuthorConfiguration authorConfig;
@@ -48,7 +49,7 @@ public class RepoConfiguration {
                 false, false, false);
     }
 
-    public RepoConfiguration(RepoLocation location, String branch, List<Format> formats, List<String> ignoreGlobList,
+    public RepoConfiguration(RepoLocation location, String branch, List<FileType> formats, List<String> ignoreGlobList,
             boolean isStandaloneConfigIgnored, List<CommitHash> ignoreCommitList, boolean isFormatsOverriding,
             boolean isIgnoreGlobListOverriding, boolean isIgnoreCommitListOverriding) {
         this.authorConfig = new AuthorConfiguration(location, branch);
@@ -56,7 +57,7 @@ public class RepoConfiguration {
         this.branch = location.isEmpty() ? DEFAULT_BRANCH : branch;
         this.ignoreGlobList = ignoreGlobList;
         this.isStandaloneConfigIgnored = isStandaloneConfigIgnored;
-        this.formats = formats;
+        this.fileTypeManager = new FileTypeManager(formats);
         this.ignoreCommitList = ignoreCommitList;
         this.isFormatsOverriding = isFormatsOverriding;
         this.isIgnoreGlobListOverriding = isIgnoreGlobListOverriding;
@@ -95,8 +96,12 @@ public class RepoConfiguration {
             RepoConfiguration matchingRepoConfig = getMatchingRepoConfig(repoConfigs, authorConfig);
 
             if (matchingRepoConfig == null) {
+                String branchInfo = authorConfig.isDefaultBranch()
+                        ? ""
+                        : String.format(" (branch %s)", authorConfig.getBranch());
                 logger.warning(String.format(
-                        "Repository %s is not found in repo-config.csv.", authorConfig.getLocation()));
+                        "Repository %s%s is not found in repo-config.csv.",
+                        authorConfig.getLocation(), branchInfo));
                 continue;
             }
 
@@ -109,6 +114,29 @@ public class RepoConfiguration {
                     repoConfig.addAuthors(authorConfig.getAuthorList());
                 }
             }
+        }
+    }
+
+    /**
+     * Sets the list of groups in {@code groupConfigs} to the respective {@code repoConfigs}.
+     */
+    public static void setGroupConfigsToRepos(List<RepoConfiguration> repoConfigs,
+            List<GroupConfiguration> groupConfigs) {
+        for (GroupConfiguration groupConfig : groupConfigs) {
+            if (groupConfig.getLocation().isEmpty()) {
+                continue;
+            }
+
+            List<RepoConfiguration> matchingRepoConfigs = getMatchingRepoConfigsByRepoLocation(repoConfigs,
+                    groupConfig.getLocation());
+            if (matchingRepoConfigs.isEmpty()) {
+                logger.warning(String.format(
+                        "Repository %s is not found in repo-config.csv.", groupConfig.getLocation()));
+                continue;
+            }
+            matchingRepoConfigs.forEach(matchingRepoConfig -> {
+                matchingRepoConfig.setGroups(groupConfig.getGroupsList());
+            });
         }
     }
 
@@ -128,11 +156,23 @@ public class RepoConfiguration {
     }
 
     /**
+     * Returns a list of {@link RepoConfiguration} where the {@link RepoLocation} matches {@code targetRepoLocation}.
+     */
+    private static List<RepoConfiguration> getMatchingRepoConfigsByRepoLocation(
+            List<RepoConfiguration> configs, RepoLocation targetRepoLocation) {
+        return configs.stream().filter(config -> config.getLocation().equals(targetRepoLocation))
+                .collect(Collectors.toList());
+    }
+
+    /**
      * Sets {@code formats} to {@code RepoConfiguration} in {@code configs} if its format list is empty.
      */
-    public static void setFormatsToRepoConfigs(List<RepoConfiguration> configs, List<Format> formats) {
-        configs.stream().filter(config -> config.getFormats().isEmpty())
-                        .forEach(config -> config.setFormats(formats));
+    public static void setFormatsToRepoConfigs(List<RepoConfiguration> configs, List<FileType> formats) {
+        for (RepoConfiguration config : configs) {
+            if (!config.fileTypeManager.hasSpecifiedFormats()) {
+                config.fileTypeManager.setFormats(formats);
+            }
+        }
     }
 
     /**
@@ -148,14 +188,14 @@ public class RepoConfiguration {
      */
     public void update(StandaloneConfig standaloneConfig) {
         // only assign the new values when all the fields in {@code standaloneConfig} pass the validations.
-        Format.validateFormats(standaloneConfig.getFormats());
+        List<FileType> replacementFileTypes = FileType.convertFormatStringsToFileTypes(standaloneConfig.getFormats());
         CommitHash.validateCommits(standaloneConfig.getIgnoreCommitList());
 
         if (!isIgnoreGlobListOverriding) {
             ignoreGlobList = standaloneConfig.getIgnoreGlobList();
         }
         if (!isFormatsOverriding) {
-            formats = Format.convertStringsToFormats(standaloneConfig.getFormats());
+            fileTypeManager.setFormats(replacementFileTypes);
         }
         if (!isIgnoreCommitListOverriding) {
             ignoreCommitList = CommitHash.convertStringsToCommits(standaloneConfig.getIgnoreCommitList());
@@ -190,6 +230,9 @@ public class RepoConfiguration {
         }
     }
 
+    /**
+     * Gets the path to the root folder of the repository.
+     */
     public String getRepoRoot() {
         String path = FileUtil.REPOS_ADDRESS + File.separator + getRepoFolderName() + File.separator;
 
@@ -200,6 +243,9 @@ public class RepoConfiguration {
         return path;
     }
 
+    /**
+     * Gets the name of the folder containing the cloned repository; the parent directory of the repo's root folder.
+     */
     public String getRepoFolderName() {
         return repoFolderName;
     }
@@ -222,7 +268,7 @@ public class RepoConfiguration {
                 && authorConfig.equals(otherRepoConfig.authorConfig)
                 && ignoreGlobList.equals(otherRepoConfig.ignoreGlobList)
                 && isStandaloneConfigIgnored == otherRepoConfig.isStandaloneConfigIgnored
-                && formats.equals(otherRepoConfig.formats)
+                && fileTypeManager.equals(otherRepoConfig.fileTypeManager)
                 && isFormatsOverriding == otherRepoConfig.isFormatsOverriding
                 && isIgnoreGlobListOverriding == otherRepoConfig.isIgnoreGlobListOverriding
                 && isIgnoreCommitListOverriding == otherRepoConfig.isIgnoreCommitListOverriding;
@@ -326,6 +372,29 @@ public class RepoConfiguration {
         authorConfig.setAuthorEmailsAndAliasesMap(authorEmailsAndAliasesMap);
     }
 
+    public void setFormats(List<FileType> formats) {
+        fileTypeManager.setFormats(formats);
+    }
+
+    private void setGroups(List<FileType> groups) {
+        fileTypeManager.setGroups(groups);
+    }
+
+    /**
+     * Returns all format or group types (depending on whether the user has specified a custom grouping).
+     */
+    public List<FileType> getAllFileTypes() {
+        return fileTypeManager.getAllFileTypes();
+    }
+
+    public FileType getFileType(String fileName) {
+        return fileTypeManager.getFileType(fileName);
+    }
+
+    public FileTypeManager getFileTypeManager() {
+        return fileTypeManager;
+    }
+
     public Date getSinceDate() {
         return sinceDate;
     }
@@ -340,14 +409,6 @@ public class RepoConfiguration {
 
     public void setUntilDate(Date untilDate) {
         this.untilDate = untilDate;
-    }
-
-    public List<Format> getFormats() {
-        return formats;
-    }
-
-    public void setFormats(List<Format> formats) {
-        this.formats = formats;
     }
 
     public void setAuthorDisplayName(Author author, String displayName) {

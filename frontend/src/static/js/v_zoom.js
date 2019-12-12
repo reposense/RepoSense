@@ -4,6 +4,8 @@ window.vZoom = {
   data() {
     return {
       filterTimeFrame: window.hashParams.timeframe,
+      showAllCommitMessageBody: true,
+      expandedCommitMessagesCount: this.getCommitMessageBodyCount(),
     };
   },
   methods: {
@@ -15,7 +17,7 @@ window.vZoom = {
     },
 
     openSummary() {
-      this.$emit('view-summary', this.info.sinceDate, this.info.untilDate);
+      this.$emit('view-summary', this.info.zoomSince, this.info.zoomUntil);
     },
 
     filterCommits() {
@@ -28,7 +30,23 @@ window.vZoom = {
     },
 
     getSliceLink(slice) {
+      if (this.info.isMergeGroup) {
+        return `${window.getBaseLink(slice.repoId)}/commit/${slice.hash}`;
+      }
       return `${window.getBaseLink(this.info.user.repoId)}/commit/${slice.hash}`;
+    },
+
+    getCommitMessageBodyCount() {
+      let nonEmptyCommitMessageCount = 0;
+      this.info.user.commits.forEach((commit) => {
+        commit.commitResults.forEach((commitResult) => {
+          if (commitResult.messageBody !== '') {
+            nonEmptyCommitMessageCount += 1;
+          }
+        });
+      });
+
+      return nonEmptyCommitMessageCount;
     },
 
     restoreZoomTab() {
@@ -43,20 +61,45 @@ window.vZoom = {
     },
 
     setInfoHash() {
-      const { addHash } = window;
-      const { user } = this.info;
+      const { addHash, encodeHash } = window;
+      const {
+        user, avgCommitSize, zoomSince, zoomUntil,
+      } = this.info;
+
       addHash('tabAuthor', user.name);
       addHash('tabRepo', user.repoId);
-      addHash('avgCommitSize', this.info.avgCommitSize);
-      addHash('zoomSince', this.info.zoomSince);
-      addHash('zoomUntil', this.info.zoomUntil);
+      addHash('avgCommitSize', avgCommitSize);
+      addHash('zoomSince', zoomSince);
+      addHash('zoomUntil', zoomUntil);
+      encodeHash();
     },
-  },
-  components: {
-    v_ramp: window.vRamp,
+
+    toggleAllCommitMessagesBody(isActive) {
+      this.showAllCommitMessageBody = isActive;
+
+      const toRename = this.showAllCommitMessageBody ? 'commit-message active' : 'commit-message';
+
+      const commitMessageClasses = document.getElementsByClassName('commit-message');
+      Array.from(commitMessageClasses).forEach((commitMessageClass) => {
+        commitMessageClass.className = toRename;
+      });
+
+      this.expandedCommitMessagesCount = isActive ? this.getCommitMessageBodyCount() : 0;
+    },
+
+    updateExpandedCommitMessagesCount() {
+      this.expandedCommitMessagesCount = document.getElementsByClassName('commit-message active')
+          .length;
+    },
   },
   created() {
     this.initiate();
     this.setInfoHash();
+  },
+  mounted() {
+    this.updateExpandedCommitMessagesCount();
+  },
+  components: {
+    v_ramp: window.vRamp,
   },
 };

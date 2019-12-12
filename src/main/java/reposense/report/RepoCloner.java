@@ -10,9 +10,7 @@ import java.util.logging.Logger;
 import reposense.git.GitBranch;
 import reposense.git.GitClone;
 import reposense.git.exception.GitBranchException;
-
 import reposense.git.exception.GitCloneException;
-import reposense.model.Author;
 import reposense.model.RepoConfiguration;
 import reposense.model.RepoLocation;
 import reposense.system.CommandRunnerProcess;
@@ -47,18 +45,18 @@ public class RepoCloner {
      * Spawns a process to clone the bare repository specified by {@code config}.
      * Does not wait for process to finish executing.
      */
-    public void cloneBare(String outputPath, RepoConfiguration config) throws IOException {
+    public void cloneBare(RepoConfiguration config) {
         configs[currentIndex] = config;
-        isCurrentRepoCloned = spawnCloneProcess(outputPath, config);
+        isCurrentRepoCloned = spawnCloneProcess(config);
     }
 
     /**
      * Waits for current clone process to finish executing and returns the {@code RepoLocation} of the corresponding
      * {@code RepoConfiguration}.
      */
-    public RepoLocation getClonedRepoLocation(String outputPath) throws IOException {
+    public RepoLocation getClonedRepoLocation() {
         if (isCurrentRepoCloned) {
-            isCurrentRepoCloned = waitForCloneProcess(outputPath, configs[currentIndex]);
+            isCurrentRepoCloned = waitForCloneProcess(configs[currentIndex]);
         }
 
         if (!isCurrentRepoCloned) {
@@ -73,7 +71,6 @@ public class RepoCloner {
             // GitBranch will throw this exception when repository is empty
             logger.log(Level.WARNING, String.format(MESSAGE_ERROR_GETTING_BRANCH,
                     configs[currentIndex].getLocation(), configs[currentIndex].getBranch()), gbe);
-            handleCloningFailed(outputPath, configs[currentIndex]);
             return null;
         }
         cleanupPrevRepoFolder();
@@ -94,7 +91,7 @@ public class RepoCloner {
      * Spawns a process to clone repo specified in {@code config}. Does not wait for process to finish executing.
      * Should only handle a maximum of one spawned process at any time.
      */
-    private boolean spawnCloneProcess(String outputPath, RepoConfiguration config) throws IOException {
+    private boolean spawnCloneProcess(RepoConfiguration config) {
         assert(crp == null);
 
         try {
@@ -106,7 +103,6 @@ public class RepoCloner {
             crp = GitClone.cloneBareAsync(config, rootPath, FileUtil.getBareRepoFolderName(config));
         } catch (GitCloneException | IOException e) {
             logger.log(Level.WARNING, String.format(MESSAGE_ERROR_CLONING, config.getDisplayName()), e);
-            handleCloningFailed(outputPath, config);
             return false;
         }
         return true;
@@ -116,7 +112,7 @@ public class RepoCloner {
      * Waits for previously spawned clone process to finish executing.
      * Should only be called after {@code spawnCloneProcess} has been called.
      */
-    private boolean waitForCloneProcess(String outputPath, RepoConfiguration config) throws IOException {
+    private boolean waitForCloneProcess(RepoConfiguration config) {
         try {
             logger.info(String.format(MESSAGE_WAITING_FOR_CLONING, config.getLocation()));
             crp.waitForProcess();
@@ -124,21 +120,10 @@ public class RepoCloner {
         } catch (RuntimeException | CommandRunnerProcessException e) {
             crp = null;
             logger.log(Level.WARNING, String.format(MESSAGE_ERROR_CLONING, config.getDisplayName()), e);
-            handleCloningFailed(outputPath, config);
             return false;
         }
         crp = null;
         return true;
-    }
-
-    /**
-     * Creates an empty repository report that is due to cloning failure.
-     */
-    private void handleCloningFailed(String outputPath, RepoConfiguration config) throws IOException {
-        Path repoReportDirectory = Paths.get(outputPath, config.getOutputFolderName());
-        FileUtil.createDirectory(repoReportDirectory);
-        ReportGenerator.generateEmptyRepoReport(repoReportDirectory.toString(),
-                Author.NAME_FAILED_TO_CLONE_OR_CHECKOUT);
     }
 
     /**
@@ -151,8 +136,8 @@ public class RepoCloner {
     }
 
     /**
-    * Deletes the {@code root} directory.
-    */
+     * Deletes the {@code root} directory.
+     */
     private void deleteDirectory(String root) {
         try {
             FileUtil.deleteDirectory(root);

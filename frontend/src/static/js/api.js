@@ -39,6 +39,10 @@ window.api = {
           window.app.isSinceDateProvided = data.isSinceDateProvided;
           window.app.isUntilDateProvided = data.isUntilDateProvided;
 
+          Object.entries(data.errorList).forEach(([repoName, message]) => {
+            window.app.errorMessages[repoName] = message;
+          });
+
           const names = [];
           data.repos.forEach((repo) => {
             const repoName = `${repo.displayName}`;
@@ -64,7 +68,7 @@ window.api = {
             displayName: commits.authorDisplayNameMap[author],
             dailyCommits: commits.authorDailyContributionsMap[author],
             totalCommits: commits.authorFinalContributionMap[author],
-            fileFormatContribution: commits.authorFileFormatContributionMap[author],
+            fileTypeContribution: commits.authorFileTypeContributionMap[author],
           };
 
           const searchParams = [
