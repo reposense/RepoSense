@@ -190,7 +190,7 @@ public class RepoConfigurationTest {
 
     @Test
     public void repoConfig_ignoresStandaloneConfigInCliOverridesCsv_success()
-            throws HelpScreenException, IOException, ParseException {
+            throws GitCloneException, HelpScreenException, IOException, ParseException {
 
         RepoConfiguration repoDeltaExpectedConfig = new RepoConfiguration(new RepoLocation(TEST_REPO_DELTA));
         repoDeltaExpectedConfig.setFormats(FileType.convertFormatStringsToFileTypes(CLI_FORMATS));
@@ -206,6 +206,10 @@ public class RepoConfigurationTest {
 
         RepoConfiguration repoCharlieActualConfig = actualConfigs.get(0);
         RepoConfiguration repoDeltaActualConfig = actualConfigs.get(1);
+        GitClone.clone(repoCharlieActualConfig);
+        GitClone.clone(repoCharlieExpectedConfig);
+        ReportGenerator.updateRepoConfig(repoCharlieActualConfig);
+        ReportGenerator.updateRepoConfig(repoDeltaActualConfig);
         TestUtil.compareRepoConfig(repoCharlieExpectedConfig, repoCharlieActualConfig);
         TestUtil.compareRepoConfig(repoDeltaExpectedConfig, repoDeltaActualConfig);
     }
