@@ -21,30 +21,33 @@ import reposense.git.GitClone;
 import reposense.git.exception.GitCloneException;
 import reposense.parser.ArgsParser;
 import reposense.parser.AuthorConfigCsvParser;
-import reposense.parser.CsvParserTest;
 import reposense.parser.GroupConfigCsvParser;
+import reposense.parser.GroupConfigParserTest;
 import reposense.parser.InvalidLocationException;
 import reposense.parser.ParseException;
 import reposense.parser.RepoConfigCsvParser;
+import reposense.parser.RepoConfigParserTest;
 import reposense.report.ReportGenerator;
 import reposense.util.FileUtil;
 import reposense.util.InputBuilder;
 import reposense.util.TestUtil;
 
 public class RepoConfigurationTest {
-    private static final Path IGNORE_STANDALONE_TEST_CONFIG_FILES = new File(CsvParserTest.class.getClassLoader()
+    private static final Path IGNORE_STANDALONE_TEST_CONFIG_FILES = new File(RepoConfigParserTest.class.getClassLoader()
             .getResource("RepoConfigurationTest/repoconfig_ignoreStandAlone_test").getFile()).toPath();
     private static final Path IGNORE_STANDALONE_KEYWORD_TEST_CONFIG_FILES =
-            new File(CsvParserTest.class.getClassLoader()
-                    .getResource("RepoConfigurationTest/repoconfig_ignoreStandAloneKeyword_test").getFile()).toPath();
-    private static final Path FORMATS_TEST_CONFIG_FILES = new File(CsvParserTest.class.getClassLoader()
+            new File(RepoConfigParserTest.class.getClassLoader()
+                    .getResource("RepoConfigurationTest/repoconfig_ignoreStandAloneKeyword_test")
+                    .getFile()).toPath();
+    private static final Path FORMATS_TEST_CONFIG_FILES = new File(RepoConfigParserTest.class.getClassLoader()
             .getResource("RepoConfigurationTest/repoconfig_formats_test").getFile()).toPath();
-    private static final Path WITHOUT_FORMATS_TEST_CONFIG_FILES = new File(CsvParserTest.class.getClassLoader()
+    private static final Path WITHOUT_FORMATS_TEST_CONFIG_FILES = new File(RepoConfigParserTest.class.getClassLoader()
             .getResource("RepoConfigurationTest/repoconfig_withoutformats_test").getFile()).toPath();
-    private static final Path GROUPS_TEST_CONFIG_FILES = new File(CsvParserTest.class.getClassLoader()
+    private static final Path GROUPS_TEST_CONFIG_FILES = new File(GroupConfigParserTest.class.getClassLoader()
         .getResource("RepoConfigurationTest/repoconfig_groups_test").getFile()).toPath();
-    private static final Path OVERRIDE_STANDALONE_TEST_CONFIG_FILE = new File(CsvParserTest.class.getClassLoader()
-                    .getResource("RepoConfigurationTest/repoconfig_overrideStandAlone_test").getFile()).toPath();
+    private static final Path OVERRIDE_STANDALONE_TEST_CONFIG_FILE = new File(RepoConfigParserTest.class
+            .getClassLoader().getResource("RepoConfigurationTest/repoconfig_overrideStandAlone_test")
+            .getFile()).toPath();
 
     private static final String TEST_REPO_DELTA = "https://github.com/reposense/testrepo-Delta.git";
     private static final String TEST_REPO_MINIMAL_STANDALONE_CONFIG =
