@@ -209,7 +209,7 @@ public class RepoConfigurationTest {
         List<RepoConfiguration> actualConfigs =
                 new RepoConfigCsvParser(((ConfigCliArguments) cliArguments).getRepoConfigFilePath()).parse();
         RepoConfiguration.setStandaloneConfigIgnoredToRepoConfigs(actualConfigs,
-            cliArguments.isStandaloneConfigIgnored());
+                cliArguments.isStandaloneConfigIgnored());
 
         RepoConfiguration repoBetaActualConfig = actualConfigs.get(0);
         RepoConfiguration repoDeltaActualConfig = actualConfigs.get(1);
@@ -232,9 +232,9 @@ public class RepoConfigurationTest {
         String input = new InputBuilder().addConfig(IGNORE_STANDALONE_FLAG_OVERRIDE_CSV_TEST).build();
         CliArguments cliArguments = ArgsParser.parse(translateCommandline(input));
         List<RepoConfiguration> actualConfigs =
-            new RepoConfigCsvParser(((ConfigCliArguments) cliArguments).getRepoConfigFilePath()).parse();
+                new RepoConfigCsvParser(((ConfigCliArguments) cliArguments).getRepoConfigFilePath()).parse();
         RepoConfiguration.setStandaloneConfigIgnoredToRepoConfigs(actualConfigs,
-            cliArguments.isStandaloneConfigIgnored());
+                cliArguments.isStandaloneConfigIgnored());
 
         RepoConfiguration repoBetaActualConfig = actualConfigs.get(0);
         RepoConfiguration repoDeltaActualConfig = actualConfigs.get(1);
