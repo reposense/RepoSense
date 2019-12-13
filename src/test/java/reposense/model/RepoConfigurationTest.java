@@ -48,7 +48,7 @@ public class RepoConfigurationTest {
     private static final Path IGNORE_STANDALONE_FLAG_OVERRIDE_CSV_TEST = new File(CsvParserTest.class.getClassLoader()
             .getResource("RepoConfigurationTest/repoconfig_ignoreStandaloneOverrideCsv_test").getFile()).toPath();
 
-    private static final String TEST_REPO_CHARLIE = "https://github.com/reposense/testrepo-Charlie.git";
+    private static final String TEST_REPO_BETA = "https://github.com/reposense/testrepo-Beta.git";
     private static final String TEST_REPO_DELTA = "https://github.com/reposense/testrepo-Delta.git";
     private static final String TEST_REPO_MINIMAL_STANDALONE_CONFIG =
             "https://github.com/reposense/testrepo-minimalstandaloneconfig.git";
@@ -189,14 +189,16 @@ public class RepoConfigurationTest {
     }
 
     @Test
-    public void repoConfig_ignoresStandaloneConfigInCliOverridesCsv_success()
+    public void repoConfig_ignoreStandaloneConfigInCli_overrideCsv()
             throws GitCloneException, HelpScreenException, IOException, ParseException {
 
-        RepoConfiguration repoDeltaExpectedConfig = new RepoConfiguration(new RepoLocation(TEST_REPO_DELTA));
-        repoDeltaExpectedConfig.setFormats(FileType.convertFormatStringsToFileTypes(CLI_FORMATS));
+        RepoConfiguration repoBetaExpectedConfig = new RepoConfiguration(
+            new RepoLocation(TEST_REPO_BETA), "master");
+        repoBetaExpectedConfig.setFormats(FileType.convertFormatStringsToFileTypes(CLI_FORMATS));
+        repoBetaExpectedConfig.setStandaloneConfigIgnored(true);
+        RepoConfiguration repoDeltaExpectedConfig = new RepoConfiguration(
+                new RepoLocation(TEST_REPO_DELTA), "master");
         repoDeltaExpectedConfig.setStandaloneConfigIgnored(true);
-        RepoConfiguration repoCharlieExpectedConfig = new RepoConfiguration(new RepoLocation(TEST_REPO_CHARLIE));
-        repoCharlieExpectedConfig.setStandaloneConfigIgnored(true);
 
         String input = new InputBuilder().addConfig(IGNORE_STANDALONE_FLAG_OVERRIDE_CSV_TEST)
                 .addIgnoreStandaloneConfig()
@@ -204,14 +206,35 @@ public class RepoConfigurationTest {
         CliArguments cliArguments = ArgsParser.parse(translateCommandline(input));
         List<RepoConfiguration> actualConfigs = RepoSense.getRepoConfigurations((ConfigCliArguments) cliArguments);
 
-        RepoConfiguration repoCharlieActualConfig = actualConfigs.get(0);
+        RepoConfiguration repoBetaActualConfig = actualConfigs.get(0);
         RepoConfiguration repoDeltaActualConfig = actualConfigs.get(1);
-        GitClone.clone(repoCharlieActualConfig);
-        GitClone.clone(repoCharlieExpectedConfig);
-        ReportGenerator.updateRepoConfig(repoCharlieActualConfig);
+        GitClone.clone(repoBetaActualConfig);
+        GitClone.clone(repoDeltaActualConfig);
+        ReportGenerator.updateRepoConfig(repoBetaActualConfig);
         ReportGenerator.updateRepoConfig(repoDeltaActualConfig);
-        TestUtil.compareRepoConfig(repoCharlieExpectedConfig, repoCharlieActualConfig);
+        TestUtil.compareRepoConfig(repoBetaExpectedConfig, repoBetaActualConfig);
         TestUtil.compareRepoConfig(repoDeltaExpectedConfig, repoDeltaActualConfig);
+    }
+
+    @Test
+    public void repoConfig_withoutIgnoreStandaloneInCli_useCsv()
+            throws GitCloneException, HelpScreenException, IOException, ParseException {
+        RepoConfiguration repoBetaExpectedConfig = new RepoConfiguration(new RepoLocation(TEST_REPO_BETA), "master");
+        repoBetaExpectedConfig.setFormats(FileType.convertFormatStringsToFileTypes(CLI_FORMATS));
+        repoBetaExpectedConfig.setStandaloneConfigIgnored(true);
+
+        String input = new InputBuilder().addConfig(IGNORE_STANDALONE_FLAG_OVERRIDE_CSV_TEST).build();
+        CliArguments cliArguments = ArgsParser.parse(translateCommandline(input));
+        List<RepoConfiguration> actualConfigs = RepoSense.getRepoConfigurations((ConfigCliArguments) cliArguments);
+
+        RepoConfiguration repoBetaActualConfig = actualConfigs.get(0);
+        RepoConfiguration repoDeltaActualConfig = actualConfigs.get(1);
+        GitClone.clone(repoBetaActualConfig);
+        GitClone.clone(repoDeltaActualConfig);
+        ReportGenerator.updateRepoConfig(repoBetaActualConfig);
+        ReportGenerator.updateRepoConfig(repoDeltaActualConfig);
+        TestUtil.compareRepoConfig(repoBetaExpectedConfig, repoBetaActualConfig);
+        TestUtil.compareRepoConfig(repoDeltaStandaloneConfig, repoDeltaActualConfig);
     }
 
     @Test
