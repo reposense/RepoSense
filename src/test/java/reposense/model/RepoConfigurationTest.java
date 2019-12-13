@@ -181,6 +181,8 @@ public class RepoConfigurationTest {
         CliArguments cliArguments = ArgsParser.parse(translateCommandline(input));
         List<RepoConfiguration> actualConfigs = RepoSense.getRepoConfigurations((LocationsCliArguments) cliArguments);
         RepoConfiguration.setFormatsToRepoConfigs(actualConfigs, cliArguments.getFormats());
+        RepoConfiguration.setStandaloneConfigIgnoredToRepoConfigs(actualConfigs,
+                cliArguments.isStandaloneConfigIgnored());
         RepoConfiguration actualConfig = actualConfigs.get(0);
         GitClone.clone(actualConfig);
         ReportGenerator.updateRepoConfig(actualConfig);
@@ -204,7 +206,10 @@ public class RepoConfigurationTest {
                 .addIgnoreStandaloneConfig()
                 .build();
         CliArguments cliArguments = ArgsParser.parse(translateCommandline(input));
-        List<RepoConfiguration> actualConfigs = RepoSense.getRepoConfigurations((ConfigCliArguments) cliArguments);
+        List<RepoConfiguration> actualConfigs =
+                new RepoConfigCsvParser(((ConfigCliArguments) cliArguments).getRepoConfigFilePath()).parse();
+        RepoConfiguration.setStandaloneConfigIgnoredToRepoConfigs(actualConfigs,
+            cliArguments.isStandaloneConfigIgnored());
 
         RepoConfiguration repoBetaActualConfig = actualConfigs.get(0);
         RepoConfiguration repoDeltaActualConfig = actualConfigs.get(1);
@@ -226,7 +231,10 @@ public class RepoConfigurationTest {
 
         String input = new InputBuilder().addConfig(IGNORE_STANDALONE_FLAG_OVERRIDE_CSV_TEST).build();
         CliArguments cliArguments = ArgsParser.parse(translateCommandline(input));
-        List<RepoConfiguration> actualConfigs = RepoSense.getRepoConfigurations((ConfigCliArguments) cliArguments);
+        List<RepoConfiguration> actualConfigs =
+            new RepoConfigCsvParser(((ConfigCliArguments) cliArguments).getRepoConfigFilePath()).parse();
+        RepoConfiguration.setStandaloneConfigIgnoredToRepoConfigs(actualConfigs,
+            cliArguments.isStandaloneConfigIgnored());
 
         RepoConfiguration repoBetaActualConfig = actualConfigs.get(0);
         RepoConfiguration repoDeltaActualConfig = actualConfigs.get(1);
