@@ -193,7 +193,7 @@ public class RepoConfigurationTest {
             throws GitCloneException, HelpScreenException, IOException, ParseException {
 
         RepoConfiguration repoBetaExpectedConfig = new RepoConfiguration(
-            new RepoLocation(TEST_REPO_BETA), "master");
+                new RepoLocation(TEST_REPO_BETA), "master");
         repoBetaExpectedConfig.setFormats(FileType.convertFormatStringsToFileTypes(CLI_FORMATS));
         repoBetaExpectedConfig.setStandaloneConfigIgnored(true);
         RepoConfiguration repoDeltaExpectedConfig = new RepoConfiguration(
@@ -219,7 +219,8 @@ public class RepoConfigurationTest {
     @Test
     public void repoConfig_withoutIgnoreStandaloneInCli_useCsv()
             throws GitCloneException, HelpScreenException, IOException, ParseException {
-        RepoConfiguration repoBetaExpectedConfig = new RepoConfiguration(new RepoLocation(TEST_REPO_BETA), "master");
+        RepoConfiguration repoBetaExpectedConfig = new RepoConfiguration(
+                new RepoLocation(TEST_REPO_BETA), "master");
         repoBetaExpectedConfig.setFormats(FileType.convertFormatStringsToFileTypes(CLI_FORMATS));
         repoBetaExpectedConfig.setStandaloneConfigIgnored(true);
 
