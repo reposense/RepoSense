@@ -222,7 +222,7 @@ public class RepoConfigurationTest {
     }
 
     @Test
-    public void repoConfig_withoutIgnoreStandaloneInCli_useCsv()
+    public void repoConfig_withoutIgnoreStandaloneConfigInCli_useCsv()
             throws GitCloneException, HelpScreenException, IOException, ParseException {
         RepoConfiguration repoBetaExpectedConfig = new RepoConfiguration(
                 new RepoLocation(TEST_REPO_BETA), "master");
