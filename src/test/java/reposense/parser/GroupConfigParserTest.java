@@ -16,11 +16,11 @@ import reposense.model.GroupConfiguration;
 
 public class GroupConfigParserTest {
     private static final Path GROUP_CONFIG_MULTI_LOCATION_FILE = new File(GroupConfigParserTest.class.getClassLoader()
-            .getResource("CsvParserTest/groupconfig_multipleLocation_test.csv").getFile()).toPath();
+            .getResource("GroupConfigParserTest/groupconfig_multipleLocation_test.csv").getFile()).toPath();
     private static final Path GROUP_CONFIG_EMPTY_LOCATION_FILE = new File(GroupConfigParserTest.class.getClassLoader()
-            .getResource("CsvParserTest/groupconfig_emptyLocation_test.csv").getFile()).toPath();
+            .getResource("GroupConfigParserTest/groupconfig_emptyLocation_test.csv").getFile()).toPath();
     private static final Path GROUP_CONFIG_INVALID_LOCATION_FILE = new File(GroupConfigParserTest.class.getClassLoader()
-            .getResource("CsvParserTest/groupconfig_invalidLocation_test.csv").getFile()).toPath();
+            .getResource("GroupConfigParserTest/groupconfig_invalidLocation_test.csv").getFile()).toPath();
 
     private static final String TEST_REPO_BETA_LOCATION = "https://github.com/reposense/testrepo-Beta.git";
     private static final List<FileType> TEST_REPO_BETA_GROUPS = Arrays.asList(

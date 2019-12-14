@@ -22,24 +22,24 @@ public class AuthorConfigParserTest {
     private static final String TEST_REPO_BETA_BRANCH = "master";
 
     private static final Path AUTHOR_CONFIG_EMPTY_LOCATION_FILE = new File(AuthorConfigParserTest.class.getClassLoader()
-            .getResource("CsvParserTest/authorconfig_emptyLocation_test.csv").getFile()).toPath();
+            .getResource("AuthorConfigParserTest/authorconfig_emptyLocation_test.csv").getFile()).toPath();
     private static final Path AUTHOR_CONFIG_EMPTY_CONFIG_FILE = new File(AuthorConfigParserTest.class.getClassLoader()
-            .getResource("CsvParserTest/require_trailing_whitespaces/authorconfig_emptyConfig_test.csv")
+            .getResource("AuthorConfigParserTest/require_trailing_whitespaces/authorconfig_emptyConfig_test.csv")
             .getFile()).toPath();
     private static final Path AUTHOR_CONFIG_NO_SPECIAL_CHARACTER_FILE = new File(AuthorConfigParserTest.class
-            .getClassLoader().getResource("CsvParserTest/authorconfig_noSpecialCharacter_test.csv")
+            .getClassLoader().getResource("AuthorConfigParserTest/authorconfig_noSpecialCharacter_test.csv")
             .getFile()).toPath();
     private static final Path AUTHOR_CONFIG_SPECIAL_CHARACTER_FILE = new File(AuthorConfigParserTest.class
-            .getClassLoader().getResource("CsvParserTest/authorconfig_specialCharacter_test.csv")
+            .getClassLoader().getResource("AuthorConfigParserTest/authorconfig_specialCharacter_test.csv")
             .getFile()).toPath();
     private static final Path AUTHOR_CONFIG_COMMAS_AND_DOUBLEQUOTES_FILE = new File(AuthorConfigParserTest.class
-            .getClassLoader().getResource("CsvParserTest/authorconfig_commasAndDoubleQuotes_test.csv")
+            .getClassLoader().getResource("AuthorConfigParserTest/authorconfig_commasAndDoubleQuotes_test.csv")
             .getFile()).toPath();
     private static final Path AUTHOR_CONFIG_MULTIPLE_EMAILS_FILE = new File(AuthorConfigParserTest.class
-            .getClassLoader().getResource("CsvParserTest/authorconfig_multipleEmails_test.csv")
+            .getClassLoader().getResource("AuthorConfigParserTest/authorconfig_multipleEmails_test.csv")
             .getFile()).toPath();
     private static final Path AUTHOR_CONFIG_INVALID_LOCATION = new File(AuthorConfigParserTest.class.getClassLoader()
-            .getResource("CsvParserTest/authorconfig_invalidLocation_test.csv").getFile()).toPath();
+            .getResource("AuthorConfigParserTest/authorconfig_invalidLocation_test.csv").getFile()).toPath();
 
     private static final Author FIRST_AUTHOR = new Author("nbriannl");
     private static final Author SECOND_AUTHOR = new Author("zacharytang");
