@@ -278,6 +278,28 @@ window.vSummary = {
       return repo.location;
     },
 
+    getReportIssueGitHubLink(stackTrace) {
+      return `https://github.com/reposense/RepoSense/issues/new?title=${this.getReportIssueTitle()
+      }&body=${this.getReportIssueMessage(stackTrace)}`;
+    },
+
+    getReportIssueEmailAddress() {
+      return 'seer@comp.nus.edu.sg';
+    },
+
+    getReportIssueEmailLink(stackTrace) {
+      return `mailto:${this.getReportIssueEmailAddress()}?subject=${this.getReportIssueTitle()
+      }&body=${this.getReportIssueMessage(stackTrace)}`;
+    },
+
+    getReportIssueTitle() {
+      return encodeURI('Unexpected error with RepoSense version ') + window.app.repoSenseVersion;
+    },
+
+    getReportIssueMessage(message) {
+      return encodeURI(message);
+    },
+
     // model functions //
     updateFilterSearch(evt) {
       this.filterSearch = evt.target.value;
