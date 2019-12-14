@@ -70,7 +70,7 @@ public class RepoSense {
             FileUtil.zipFoldersAndFiles(reportFoldersAndFiles, cliArguments.getOutputFilePath().toAbsolutePath(),
                     ".json");
 
-            logger.info(TimeUtil.getTimeElapsedMessage());
+            logger.info(TimeUtil.getElapsedTimeMessage());
 
             if (cliArguments.isAutomaticallyLaunching()) {
                 ReportServer.startServer(SERVER_PORT_NUMBER, cliArguments.getOutputFilePath().toAbsolutePath());
