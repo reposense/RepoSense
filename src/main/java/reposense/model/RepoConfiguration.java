@@ -123,15 +123,13 @@ public class RepoConfiguration {
     public static void setGroupConfigsToRepos(List<RepoConfiguration> repoConfigs,
             List<GroupConfiguration> groupConfigs) {
         for (GroupConfiguration groupConfig : groupConfigs) {
+            List<RepoConfiguration> matchingRepoConfigs;
             if (groupConfig.getLocation().isEmpty()) {
-                for (RepoConfiguration repoConfig : repoConfigs) {
-                    repoConfig.addGroups(groupConfig.getGroupsList());
-                }
-                continue;
+                matchingRepoConfigs = repoConfigs;
+            } else {
+                matchingRepoConfigs = getMatchingRepoConfigsByRepoLocation(repoConfigs,
+                        groupConfig.getLocation());
             }
-
-            List<RepoConfiguration> matchingRepoConfigs = getMatchingRepoConfigsByRepoLocation(repoConfigs,
-                    groupConfig.getLocation());
             if (matchingRepoConfigs.isEmpty()) {
                 logger.warning(String.format(
                         "Repository %s is not found in repo-config.csv.", groupConfig.getLocation()));
