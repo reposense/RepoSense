@@ -425,7 +425,7 @@ public class CsvParserTest {
         RepoConfiguration deltaConfig = configs.get(2);
 
         Assert.assertEquals(new RepoLocation(TEST_REPO_BETA_LOCATION), betaConfig.getLocation());
-        Assert.assertEquals(TEST_REPO_BETA_BRANCH, betaConfig.getBranch());
+        Assert.assertEquals(TEST_REPO_BETA_MASTER_BRANCH, betaConfig.getBranch());
         Assert.assertEquals(new RepoLocation(TEST_REPO_CHARLIE_LOCATION), charlieConfig.getLocation());
         Assert.assertEquals(TEST_REPO_CHARLIE_BRANCH, charlieConfig.getBranch());
         Assert.assertEquals(new RepoLocation(TEST_REPO_DELTA_LOCATION), deltaConfig.getLocation());
