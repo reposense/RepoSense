@@ -33,6 +33,9 @@
         li(v-for="slice in day.commitResults").commit-message.active
           a(v-bind:href="getSliceLink(slice)" target="_blank") {{ slice.messageTitle }}
           span &nbsp; ({{ slice.insertions }} lines)
+          .tag(v-if="slice.tag !== ''")
+            i.fas.fa-tags
+            span {{ slice.tag }}
           a(
             v-if="slice.messageBody !== ''",
             v-on:click="updateExpandedCommitMessagesCount",

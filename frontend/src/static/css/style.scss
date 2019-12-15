@@ -712,6 +712,11 @@ header {
     display: none;
   }
 
+  .tag {
+    display: inline;
+    margin-left: .5rem;
+  }
+
   &--button {
     color: mui-color('grey', '700');
     padding-left: .5rem;
