@@ -10,6 +10,7 @@
             "hash": "5c1caec2ee5611a938becb727933e30156fdbc38",
             "messageTitle": "Updated repoUrl",
             "messageBody": "",
+            "tag": "",
             "insertions": 2,
             "deletions": 2
           }
@@ -24,6 +25,7 @@
             "hash": "4cada5456502cbba544ea56ac4ff38f0944345b4",
             "messageTitle": "Updated travis url and removed codacy badge",
             "messageBody": "",
+            "tag": "",
             "insertions": 1,
             "deletions": 2
           },
@@ -31,6 +33,7 @@
             "hash": "78e045559e69a4326071fea9522e9d99da3522d4",
             "messageTitle": "Updated coveralls Url",
             "messageBody": "",
+            "tag": "",
             "insertions": 1,
             "deletions": 1
           },
@@ -38,6 +41,7 @@
             "hash": "8e7f50654fab252b5e0badafae25e2b80a490b89",
             "messageTitle": "Updated appveyor url",
             "messageBody": "",
+            "tag": "",
             "insertions": 1,
             "deletions": 1
           }
@@ -52,6 +56,7 @@
             "hash": "0821b695403037f7d809269543c12a16321e5665",
             "messageTitle": "Added user stories to developer guide.",
             "messageBody": "",
+            "tag": "",
             "insertions": 68,
             "deletions": 2
           }
@@ -66,6 +71,7 @@
             "hash": "1ed8b502950c3b5d41e2917b13f0d2a9b67c80e3",
             "messageTitle": "Updated userguide for v2.0",
             "messageBody": "",
+            "tag": "",
             "insertions": 13,
             "deletions": 2
           },
@@ -73,6 +79,7 @@
             "hash": "313506e09f3aab63544d2d2757d26aa774ebaa74",
             "messageTitle": "Updated developer guide for v2.0",
             "messageBody": "",
+            "tag": "",
             "insertions": 33,
             "deletions": 0
           }
@@ -87,6 +94,7 @@
             "hash": "6f6c76023def0eafc2fa90e9e2a393d9990b4166",
             "messageTitle": "update user guide",
             "messageBody": "",
+            "tag": "",
             "insertions": 8,
             "deletions": 7
           },
@@ -94,6 +102,7 @@
             "hash": "937bfbba3665e7dc5dbff682e8539cf870055246",
             "messageTitle": "-Added new command strings to autocomplete -Fix correct use of []",
             "messageBody": "",
+            "tag": "",
             "insertions": 2,
             "deletions": 2
           }
@@ -108,6 +117,7 @@
             "hash": "34ed7be74295dcd48520c40e1254de526057b1e8",
             "messageTitle": "update userguide",
             "messageBody": "",
+            "tag": "",
             "insertions": 2,
             "deletions": 2
           }
@@ -122,6 +132,7 @@
             "hash": "dacdd3a631a8690b1dea18fd59bcfe2aeb25cabd",
             "messageTitle": "fix help multiple windows bug fix After clicking on tab after entering list command it doesn\u0027t turn red even tho it has no extra parameters fix export command in uder guide",
             "messageBody": "",
+            "tag": "",
             "insertions": 1,
             "deletions": 1
           }
@@ -136,6 +147,7 @@
             "hash": "845a4384071fe901cd40c84ae322f846a6b346d1",
             "messageTitle": "Added PPP and change prefix for avatar",
             "messageBody": "",
+            "tag": "",
             "insertions": 55,
             "deletions": 4
           },
@@ -143,6 +155,7 @@
             "hash": "53058c48ce9f286ad865abf5763f8e6063cdffb3",
             "messageTitle": "add newline",
             "messageBody": "",
+            "tag": "",
             "insertions": 1,
             "deletions": 1
           }
@@ -157,6 +170,7 @@
             "hash": "5741509ed275ebe2bb1488f3ca618f72110b8648",
             "messageTitle": "Update ppp and some collate tags",
             "messageBody": "",
+            "tag": "",
             "insertions": 42,
             "deletions": 28
           },
@@ -164,6 +178,7 @@
             "hash": "90bd6deffdd8b267090dca12f645d8f373db06c7",
             "messageTitle": "Added circleci status badge",
             "messageBody": "",
+            "tag": "",
             "insertions": 1,
             "deletions": 0
           },
@@ -171,6 +186,7 @@
             "hash": "500d7017b4a498f3dd95a80901a6487306f156f5",
             "messageTitle": "fix circle ci badge",
             "messageBody": "",
+            "tag": "",
             "insertions": 1,
             "deletions": 1
           },
@@ -178,6 +194,7 @@
             "hash": "dfa7bbde76b65cefc9b991127d1a387e4fc2f8ca",
             "messageTitle": "Update userguide and collate",
             "messageBody": "",
+            "tag": "",
             "insertions": 16,
             "deletions": 17
           }
@@ -192,6 +209,7 @@
             "hash": "ecd417c0c1fcb111114f7a7ba34ad85af8d6295c",
             "messageTitle": "Update quick start",
             "messageBody": "",
+            "tag": "",
             "insertions": 72,
             "deletions": 14
           },
@@ -199,6 +217,7 @@
             "hash": "c3a7e736cbb9d65a02ac2be1a6742bf196177ac7",
             "messageTitle": "Fix checkstyle",
             "messageBody": "",
+            "tag": "",
             "insertions": 1,
             "deletions": 2
           }
@@ -213,6 +232,7 @@
             "hash": "7d8ed3452ba2152ee2e792e969cfddcf32516f35",
             "messageTitle": "Update quick start",
             "messageBody": "",
+            "tag": "",
             "insertions": 74,
             "deletions": 62
           },
@@ -220,6 +240,7 @@
             "hash": "d918b5597f82b7c4b1be70b762bbbacdd34080f0",
             "messageTitle": "Fix Ui guide",
             "messageBody": "",
+            "tag": "",
             "insertions": 1,
             "deletions": 1
           },
@@ -227,6 +248,7 @@
             "hash": "85ce9496dcee768ed1a6900dd420dcddfc427403",
             "messageTitle": "fix create image",
             "messageBody": "",
+            "tag": "v1.5rc",
             "insertions": 1,
             "deletions": 1
           }
@@ -241,6 +263,7 @@
             "hash": "6bed3ffa42dba02927f8d2878e6b423cdee2fd89",
             "messageTitle": "no message",
             "messageBody": "",
+            "tag": "",
             "insertions": 2,
             "deletions": 0
           }
@@ -255,6 +278,7 @@
             "hash": "eda516d6ffde5c58ea12e7b4585487cde1e686ee",
             "messageTitle": "Remove line",
             "messageBody": "",
+            "tag": "",
             "insertions": 0,
             "deletions": 2
           },
@@ -262,6 +286,7 @@
             "hash": "ae85e47558d4b6493b8b5f6e0593ebf569535e5b",
             "messageTitle": "Change privacy and key information in fundamentals",
             "messageBody": "",
+            "tag": "",
             "insertions": 5,
             "deletions": 3
           },
@@ -269,6 +294,7 @@
             "hash": "3bb5fe1e8e7fa021d3d435aef1fbe6fb8f9916a1",
             "messageTitle": "Changed Readme",
             "messageBody": "",
+            "tag": "",
             "insertions": 1,
             "deletions": 1
           },
@@ -276,6 +302,7 @@
             "hash": "2a843e7afc0419c8e709005a57533fb81f90e972",
             "messageTitle": "Added player component to dg",
             "messageBody": "",
+            "tag": "",
             "insertions": 129,
             "deletions": 2
           },
@@ -283,6 +310,7 @@
             "hash": "892f1cc40539f189fd837ca2c0062a91a742e92c",
             "messageTitle": "Updated dev guide",
             "messageBody": "",
+            "tag": "",
             "insertions": 18,
             "deletions": 4
           },
@@ -290,6 +318,7 @@
             "hash": "fbe8d0d5160127af3a276b0997892dc98db2de65",
             "messageTitle": "Fix end tag",
             "messageBody": "",
+            "tag": "",
             "insertions": 1,
             "deletions": 1
           },
@@ -297,6 +326,7 @@
             "hash": "7ee7a7e700fbb6cec77e80128bdb0e000da6d8ca",
             "messageTitle": "Removed introduction",
             "messageBody": "",
+            "tag": "v1.5",
             "insertions": 0,
             "deletions": 2
           }
@@ -313,6 +343,7 @@
             "hash": "e4ef52408f20318ae565f40886d938aed329086f",
             "messageTitle": "Minor edits to target user profile and value proposition in DEV GUIDE",
             "messageBody": "",
+            "tag": "",
             "insertions": 3,
             "deletions": 1
           },
@@ -320,6 +351,7 @@
             "hash": "15470f7ade79e0147d032e15c4895b4938702e4f",
             "messageTitle": "AddressBookParser:Add alias for Addcommand",
             "messageBody": "",
+            "tag": "",
             "insertions": 9,
             "deletions": 0
           },
@@ -327,6 +359,7 @@
             "hash": "95abeede889a31caf076b6377b327e43d6bc2cee",
             "messageTitle": "AddressBookParser: Add alias for EditCommand",
             "messageBody": "",
+            "tag": "",
             "insertions": 11,
             "deletions": 0
           },
@@ -334,6 +367,7 @@
             "hash": "bacc0b716fb216f2d21bc347410985e30161347b",
             "messageTitle": "AdressBookParser: Add alias for selectCommand",
             "messageBody": "",
+            "tag": "",
             "insertions": 9,
             "deletions": 0
           },
@@ -341,6 +375,7 @@
             "hash": "ef2dd3f68b07ece04005fd5c4c45f4967cc70963",
             "messageTitle": "AddressBookParser: Add alias for DeleteCommand",
             "messageBody": "",
+            "tag": "",
             "insertions": 9,
             "deletions": 0
           },
@@ -348,6 +383,7 @@
             "hash": "f7e839f0a73bfec04117a2264cfc8d94a927d514",
             "messageTitle": "AddressBookParser: Add alias for clearCommand",
             "messageBody": "",
+            "tag": "",
             "insertions": 8,
             "deletions": 0
           },
@@ -355,6 +391,7 @@
             "hash": "b4c2ecca4c0ce629b0aeba75e4b3b972fbe85e0b",
             "messageTitle": "AdressBookParser: Add alias for FindCommand",
             "messageBody": "",
+            "tag": "",
             "insertions": 10,
             "deletions": 0
           },
@@ -362,6 +399,7 @@
             "hash": "65ab45d0a89ba38567c095b10db894747f603a2e",
             "messageTitle": "AddressBookParser: Add alias for listCommand",
             "messageBody": "",
+            "tag": "",
             "insertions": 8,
             "deletions": 0
           },
@@ -369,6 +407,7 @@
             "hash": "b086d334c5db73294b7c76436af46e3e4879102c",
             "messageTitle": "AddressBookParser: Add alias for historyCommand",
             "messageBody": "",
+            "tag": "",
             "insertions": 8,
             "deletions": 0
           },
@@ -376,6 +415,7 @@
             "hash": "486b9ca9ff65ac3b45d43d43451e20bf03b9ed04",
             "messageTitle": "AddressBookParser: Add alias for undoCommand",
             "messageBody": "",
+            "tag": "",
             "insertions": 8,
             "deletions": 0
           },
@@ -383,6 +423,7 @@
             "hash": "dd853a209df4b4810ac5f669b5babb8743cb7a5a",
             "messageTitle": "AddressBookParser: Add alias for redoCommand",
             "messageBody": "",
+            "tag": "",
             "insertions": 8,
             "deletions": 0
           },
@@ -390,6 +431,7 @@
             "hash": "e044c7f70e49fac1fbd33b402be5ba201838a9b0",
             "messageTitle": "UserGuide: Add command aliases",
             "messageBody": "",
+            "tag": "",
             "insertions": 11,
             "deletions": 0
           }
@@ -404,6 +446,7 @@
             "hash": "55842f5443086411149c45f58388868e2e4ea376",
             "messageTitle": "Added sort function",
             "messageBody": "",
+            "tag": "",
             "insertions": 196,
             "deletions": 13
           }
@@ -418,6 +461,7 @@
             "hash": "56fe3371acccdb958b83fb14c02b5eb8d8020d3a",
             "messageTitle": "Edited userguide features portion 3.4-3.6",
             "messageBody": "",
+            "tag": "",
             "insertions": 7,
             "deletions": 7
           }
@@ -432,6 +476,7 @@
             "hash": "379a1949e354fdbc3636172db5130558cc7afc8a",
             "messageTitle": "Edits done to sort function based on Jordan\u0027s comments",
             "messageBody": "",
+            "tag": "",
             "insertions": 1,
             "deletions": 2
           },
@@ -439,6 +484,7 @@
             "hash": "933235a2f8c458c4b57beac44ac1ff4fd853ea8f",
             "messageTitle": "Updated user guide for feature sort. Added user guide for feature bestXI and set fields to private",
             "messageBody": "",
+            "tag": "",
             "insertions": 29,
             "deletions": 5
           },
@@ -446,6 +492,7 @@
             "hash": "6b264039b2138bd5a99455d162c11f9a94f68c39",
             "messageTitle": "DevGuide: Implementation",
             "messageBody": "",
+            "tag": "",
             "insertions": 14,
             "deletions": 0
           },
@@ -453,6 +500,7 @@
             "hash": "a070b6117343c78d4444e0824e38b536427c8e55",
             "messageTitle": "DevGuide:Implementation for showBest added",
             "messageBody": "",
+            "tag": "",
             "insertions": 7,
             "deletions": 0
           }
@@ -467,6 +515,7 @@
             "hash": "342022a12e1b296dbde96a0d6c171f93c9ed06a6",
             "messageTitle": "Minor edit to sortCommand: Change usage example.",
             "messageBody": "Added model stub for sort function\n",
+            "tag": "",
             "insertions": 8,
             "deletions": 2
           },
@@ -474,6 +523,7 @@
             "hash": "6f19ba6513957b5e27312970fbf933707db57985",
             "messageTitle": "Removed additional line break in sort command",
             "messageBody": "",
+            "tag": "",
             "insertions": 1,
             "deletions": 2
           }
@@ -488,6 +538,7 @@
             "hash": "806daf429c576f8f53d2cdc602bc06b4c4600a1e",
             "messageTitle": "Added test cases for Sort function.",
             "messageBody": "",
+            "tag": "",
             "insertions": 258,
             "deletions": 0
           }
@@ -502,6 +553,7 @@
             "hash": "e1a2f9fc13f0f7de5732559e8ef9f380a2ebcca8",
             "messageTitle": "Fixed checkstyle error for Travis",
             "messageBody": "",
+            "tag": "",
             "insertions": 40,
             "deletions": 29
           },
@@ -509,6 +561,7 @@
             "hash": "867396b5927cf33a62d9af0d8cf2b7f264c34555",
             "messageTitle": "Removed trailing whitespaces according to Travis checks",
             "messageBody": "",
+            "tag": "",
             "insertions": 4,
             "deletions": 4
           },
@@ -516,6 +569,7 @@
             "hash": "fc35bc155ae60091d188b456d22fa94f031adee8",
             "messageTitle": "Edited sort tests to appease Travis",
             "messageBody": "",
+            "tag": "",
             "insertions": 25,
             "deletions": 26
           },
@@ -523,6 +577,7 @@
             "hash": "71266a9804ed611124ab958045d7595d289a339a",
             "messageTitle": "edit test files for travis testing",
             "messageBody": "",
+            "tag": "",
             "insertions": 15,
             "deletions": 15
           },
@@ -530,6 +585,7 @@
             "hash": "e6466a174901bc27886887b897cd0afcb76a521a",
             "messageTitle": "Made minor changes to sort command and it\u0027s parser to throw appropriate exceptions to allow test cases to pass.",
             "messageBody": "",
+            "tag": "",
             "insertions": 25,
             "deletions": 0
           },
@@ -537,6 +593,7 @@
             "hash": "a334ec531a61061a28a9de2c6982f0a77214d7c5",
             "messageTitle": "SortCommandParserTest: Removed redundant whitespaces",
             "messageBody": "",
+            "tag": "",
             "insertions": 13,
             "deletions": 13
           },
@@ -544,6 +601,7 @@
             "hash": "fe087b9ecf042ce5aaa256d27ff879641968fbfa",
             "messageTitle": "Travis checkstyle edit",
             "messageBody": "",
+            "tag": "",
             "insertions": 2,
             "deletions": 1
           },
@@ -551,6 +609,7 @@
             "hash": "87888d4c9579336198e1c2f49272b7c3bd5bc4ab",
             "messageTitle": "Removed 1 test case temporarily for sortCommand",
             "messageBody": "",
+            "tag": "",
             "insertions": 3,
             "deletions": 3
           },
@@ -558,6 +617,7 @@
             "hash": "fd406f4169c0b5ceb89374862ca6c0fa9a7fc728",
             "messageTitle": "Minor checkstyle edit for sort command parser test",
             "messageBody": "",
+            "tag": "",
             "insertions": 7,
             "deletions": 6
           }
@@ -572,6 +632,7 @@
             "hash": "7fd47b674bffbf2f8c0d42b23e70c50aa6d5a24d",
             "messageTitle": "DevGuide: Updated implementation for Sort Command",
             "messageBody": "",
+            "tag": "",
             "insertions": 107,
             "deletions": 0
           }
@@ -586,6 +647,7 @@
             "hash": "4526e0910ebb486fe690b4e417bfbccd3092a85d",
             "messageTitle": "Minor updates to Toggleprivacy. Privacy toggles and changes in addressbook.xml but display still shows plaintext",
             "messageBody": "",
+            "tag": "",
             "insertions": 45,
             "deletions": 61
           },
@@ -593,6 +655,7 @@
             "hash": "eac0df1a1d0fafb28f4828ee204790350756848b",
             "messageTitle": "Minor change to xmladapated person for toggle privacy function to save permanently",
             "messageBody": "",
+            "tag": "",
             "insertions": 20,
             "deletions": 21
           }
@@ -607,6 +670,7 @@
             "hash": "f3e6adc221749d6819b8602f6ea46320771933cc",
             "messageTitle": "Minor update to UI portion Person Card to ensure private fields do not show plaintext in panel list",
             "messageBody": "",
+            "tag": "",
             "insertions": 25,
             "deletions": 4
           },
@@ -614,6 +678,7 @@
             "hash": "12f95796f6a7b2e04e7d13652ffd768e01204c12",
             "messageTitle": "Minor update to UI portion PlayerDetails to ensure private fields are not displayed in side panel",
             "messageBody": "",
+            "tag": "",
             "insertions": 18,
             "deletions": 4
           }
@@ -628,6 +693,7 @@
             "hash": "07ad8a7cb4a0da747a853e37001d2e1b0bc7046a",
             "messageTitle": "Updated TogglePrivacyCommand to include new fields added. PersonCard updated to ensure privated fields cannot be seen. XMLAdaptedPerson updated to save Rating privacy Changes made to Rating Class to allow privacy setting",
             "messageBody": "",
+            "tag": "",
             "insertions": 81,
             "deletions": 5
           },
@@ -635,6 +701,7 @@
             "hash": "e78b54c2e63826714795cc9b31d1cc02368aa427",
             "messageTitle": "no message",
             "messageBody": "",
+            "tag": "",
             "insertions": 0,
             "deletions": 3
           },
@@ -642,6 +709,7 @@
             "hash": "0652617c03d5bf99ef04b79346ea23b7ecee15df",
             "messageTitle": "Resolve conflicts",
             "messageBody": "",
+            "tag": "",
             "insertions": 0,
             "deletions": 4
           },
@@ -649,6 +717,7 @@
             "hash": "6be5cc5d0d0995d2905f3d3081822018ca64e440",
             "messageTitle": "Minor update to command usage",
             "messageBody": "",
+            "tag": "",
             "insertions": 4,
             "deletions": 0
           },
@@ -656,6 +725,7 @@
             "hash": "27b85087afcf2000bd8f4cece8d6f445c2b5f7ee",
             "messageTitle": "Fix Checkstyle errors",
             "messageBody": "",
+            "tag": "",
             "insertions": 44,
             "deletions": 18
           },
@@ -663,6 +733,7 @@
             "hash": "4550d779031456ab2cdc0488d7f907ee8492f152",
             "messageTitle": "Fix checkstyle",
             "messageBody": "",
+            "tag": "",
             "insertions": 3,
             "deletions": 1
           },
@@ -670,6 +741,7 @@
             "hash": "6ffe0468a6f61777ba70aa594fada6a92148e4a6",
             "messageTitle": "Checkstyle",
             "messageBody": "",
+            "tag": "",
             "insertions": 5,
             "deletions": 3
           },
@@ -677,6 +749,7 @@
             "hash": "3debb89f556207d50fbede51b22b2dae534d29ed",
             "messageTitle": "Checkstyle yet again",
             "messageBody": "",
+            "tag": "",
             "insertions": 7,
             "deletions": 0
           },
@@ -684,6 +757,7 @@
             "hash": "3a28cab3f00ed710d0d2aa17302c5c68f3c8fc9c",
             "messageTitle": "Updated sort command to include fields: JerseyNum, Position and Rating. Updated sort command to exclude field: Phone",
             "messageBody": "",
+            "tag": "",
             "insertions": 28,
             "deletions": 5
           },
@@ -691,6 +765,7 @@
             "hash": "368b06813203f6397e61216683271efe50da7b63",
             "messageTitle": "Removed outdated test case",
             "messageBody": "",
+            "tag": "",
             "insertions": 2,
             "deletions": 18
           },
@@ -698,6 +773,7 @@
             "hash": "f8a1fdf20370da4d03c39ad19481ad435609f4aa",
             "messageTitle": "Anotonate for collate",
             "messageBody": "",
+            "tag": "",
             "insertions": 15,
             "deletions": 2
           },
@@ -705,6 +781,7 @@
             "hash": "a75099d80a5ebf195c93a9f9f3edf78d999790a5",
             "messageTitle": "Userguide: Updated Sort feature and Toggle Privacy Feature",
             "messageBody": "",
+            "tag": "",
             "insertions": 23,
             "deletions": 2
           }
@@ -719,6 +796,7 @@
             "hash": "4fe9716a6d09ec1794c7d5e93e7c32e506e88fbe",
             "messageTitle": "Added Key Command. Toggles between locking and unlocking of the MTM. In a locked state, MTM has limited functionality: Change Theme, Find, List, Key, View, Exit, Help, Sort. Unlocked state has full functionality.",
             "messageBody": "",
+            "tag": "",
             "insertions": 286,
             "deletions": 72
           },
@@ -726,6 +804,7 @@
             "hash": "d3561646c124d32f19bf68f052279407767fc25a",
             "messageTitle": "Edited Key command to show current lock state when no password is entered",
             "messageBody": "",
+            "tag": "",
             "insertions": 14,
             "deletions": 3
           },
@@ -733,6 +812,7 @@
             "hash": "c4e606b177e85be9207aa8e5085aa08308aa0ca2",
             "messageTitle": "Checkstyles",
             "messageBody": "",
+            "tag": "",
             "insertions": 4,
             "deletions": 5
           },
@@ -740,6 +820,7 @@
             "hash": "2d8d475bee1404af52c0572422a7cdb32bec0b8b",
             "messageTitle": "Checkstyle again",
             "messageBody": "",
+            "tag": "",
             "insertions": 3,
             "deletions": 0
           },
@@ -747,6 +828,7 @@
             "hash": "a10d1066dc3de1db7cd8d3dd1798b6c6584de9a6",
             "messageTitle": "Checkstyle luvit",
             "messageBody": "",
+            "tag": "",
             "insertions": 23,
             "deletions": 0
           }
@@ -761,6 +843,7 @@
             "hash": "6df9792246dd7e46d4dbc81f38f0f95311af5a24",
             "messageTitle": "Minor edits to UG features portion",
             "messageBody": "",
+            "tag": "",
             "insertions": 48,
             "deletions": 3
           }
@@ -775,6 +858,7 @@
             "hash": "741c2631fca2f084d0d083d5607e985483a69381",
             "messageTitle": "DevGuide: Updated sort, toggle privacy and lock MTM",
             "messageBody": "",
+            "tag": "",
             "insertions": 253,
             "deletions": 23
           },
@@ -782,6 +866,7 @@
             "hash": "547828b327324784581897b933e477227a972789",
             "messageTitle": "Collate, PPP",
             "messageBody": "",
+            "tag": "",
             "insertions": 166,
             "deletions": 62
           }
@@ -796,6 +881,7 @@
             "hash": "f377bc7b5ff27a0bc1c11177d2cb7ecffaa2ffa2",
             "messageTitle": "Added Sort Sequence Diagram and Key activity diagram to DevGuide",
             "messageBody": "",
+            "tag": "",
             "insertions": 17,
             "deletions": 10
           },
@@ -803,6 +889,7 @@
             "hash": "e194b3980139cd66cd9bb22d5934cd74a75fc07f",
             "messageTitle": "Minor edit to Key command message success to show current lock state",
             "messageBody": "",
+            "tag": "",
             "insertions": 2,
             "deletions": 1
           },
@@ -810,6 +897,7 @@
             "hash": "2a14f88387cb3da57541084f9a8ddec8817e0b4a",
             "messageTitle": "Minor edit to sort function: When sorting, private fields will all be place together",
             "messageBody": "",
+            "tag": "",
             "insertions": 3,
             "deletions": 3
           },
@@ -817,6 +905,7 @@
             "hash": "dff0632ae1549a66179874d42537461349ae19db",
             "messageTitle": "Minor edit to sort command to show correct usage for sorting in descending order",
             "messageBody": "",
+            "tag": "",
             "insertions": 1,
             "deletions": 0
           },
@@ -824,6 +913,7 @@
             "hash": "ee8271bfde66db3aeb3eca84f14768a22e2dedcd",
             "messageTitle": "Edit to DG sort portion, update code snippet",
             "messageBody": "",
+            "tag": "",
             "insertions": 40,
             "deletions": 40
           },
@@ -831,6 +921,7 @@
             "hash": "08603d466ab8eff0f2f62b10558210e1372cf7a6",
             "messageTitle": "Edit toggle privacy command to handle no prefix input",
             "messageBody": "",
+            "tag": "",
             "insertions": 12,
             "deletions": 0
           },
@@ -838,6 +929,7 @@
             "hash": "1392332abce54868138114b632f72e213db45f52",
             "messageTitle": "Test cases for Key and Toggle Privacy and their respective command parsers",
             "messageBody": "",
+            "tag": "",
             "insertions": 272,
             "deletions": 0
           },
@@ -845,6 +937,7 @@
             "hash": "d3342cf9fcdcb0770215f09665a695885caf5e0c",
             "messageTitle": "Added javadoc to a method in Toggle Privacy",
             "messageBody": "",
+            "tag": "",
             "insertions": 4,
             "deletions": 0
           },
@@ -852,6 +945,7 @@
             "hash": "b07411fb021c74750f37ea8a2b6a9e2e821b0d77",
             "messageTitle": "Checkstyle",
             "messageBody": "",
+            "tag": "",
             "insertions": 6,
             "deletions": 1
           }
@@ -866,6 +960,7 @@
             "hash": "8774826cf0ee7922c349cdcb3ee207586f9d1e18",
             "messageTitle": "no message",
             "messageBody": "",
+            "tag": "",
             "insertions": 0,
             "deletions": 4
           },
@@ -873,6 +968,7 @@
             "hash": "625da21556a1ec353ffa7a887e4057b9807a4fba",
             "messageTitle": "no message",
             "messageBody": "",
+            "tag": "",
             "insertions": 2,
             "deletions": 55
           },
@@ -880,6 +976,7 @@
             "hash": "6f172199f88aca5d079a3b83a00c3a8eac257960",
             "messageTitle": "no message",
             "messageBody": "",
+            "tag": "",
             "insertions": 4,
             "deletions": 4
           }
@@ -896,6 +993,7 @@
             "hash": "876e38d87523be06f3e0b6dbe063431a3f7cb74e",
             "messageTitle": "UI change tag color",
             "messageBody": "",
+            "tag": "",
             "insertions": 88,
             "deletions": 4
           },
@@ -903,6 +1001,7 @@
             "hash": "4a5af1f33809d7b56e529fa161faf638649ae7fe",
             "messageTitle": "PersonCard.java : change indentation",
             "messageBody": "",
+            "tag": "",
             "insertions": 10,
             "deletions": 10
           },
@@ -910,6 +1009,7 @@
             "hash": "1018044e372f49648530e1e18a44fcd0386809bb",
             "messageTitle": "UI Change : to pass tests",
             "messageBody": "",
+            "tag": "",
             "insertions": 1,
             "deletions": 1
           }
@@ -924,6 +1024,7 @@
             "hash": "95f3f1cc6515986858dcaa1bdfdd3431c40ba891",
             "messageTitle": "add NFR",
             "messageBody": "",
+            "tag": "",
             "insertions": 14,
             "deletions": 3
           }
@@ -938,6 +1039,7 @@
             "hash": "29b0282175811ab6626633735bff47ce22230f41",
             "messageTitle": "added newlines",
             "messageBody": "",
+            "tag": "",
             "insertions": 4,
             "deletions": 3
           },
@@ -945,6 +1047,7 @@
             "hash": "9977364558e6a3a34f91a28346ef620ea6908136",
             "messageTitle": "change indentation",
             "messageBody": "",
+            "tag": "",
             "insertions": 1,
             "deletions": 2
           },
@@ -952,6 +1055,7 @@
             "hash": "0101b0c699395efe25d041790357cdecac0bf6f3",
             "messageTitle": "change indentation 2.0",
             "messageBody": "",
+            "tag": "",
             "insertions": 2,
             "deletions": 1
           },
@@ -959,6 +1063,7 @@
             "hash": "4c339ec00ad957d49507456d15a71ddd6b3cc4e9",
             "messageTitle": "indent",
             "messageBody": "",
+            "tag": "",
             "insertions": 16,
             "deletions": 16
           },
@@ -966,6 +1071,7 @@
             "hash": "78d0aec5a88fad0eaf34a85f4db090324a23643c",
             "messageTitle": "change name of our product",
             "messageBody": "",
+            "tag": "",
             "insertions": 1,
             "deletions": 1
           }
@@ -980,6 +1086,7 @@
             "hash": "b0a6978fddb4d0b1b2adcd91d9cda0e752a0cc90",
             "messageTitle": "codee v1.1 minor enhancement - set colour of tag",
             "messageBody": "",
+            "tag": "",
             "insertions": 205,
             "deletions": 25
           }
@@ -994,6 +1101,7 @@
             "hash": "75ca797b872234199d2c26813fcebcb089a5ee46",
             "messageTitle": "codee - add intro and 3.11-3.15",
             "messageBody": "",
+            "tag": "",
             "insertions": 22,
             "deletions": 12
           },
@@ -1001,6 +1109,7 @@
             "hash": "528592114dd1420c256539d8dd065dbcda5909c5",
             "messageTitle": "blue-teal default colour",
             "messageBody": "",
+            "tag": "",
             "insertions": 1,
             "deletions": 1
           }
@@ -1015,6 +1124,7 @@
             "hash": "e1f19e270a61bfeba687bae278723d6e8e9522d1",
             "messageTitle": "add SetCommadTest",
             "messageBody": "",
+            "tag": "",
             "insertions": 153,
             "deletions": 25
           },
@@ -1022,6 +1132,7 @@
             "hash": "4f9ee6fde76b3690698d6d6e8ef6a508dfbc766c",
             "messageTitle": "codee - set tag colour",
             "messageBody": "",
+            "tag": "",
             "insertions": 6,
             "deletions": 24
           },
@@ -1029,6 +1140,7 @@
             "hash": "6fd8313574ef7d44037dc3b4e0a6fa3461de5a2c",
             "messageTitle": "change indentation and checkstyle errors",
             "messageBody": "",
+            "tag": "",
             "insertions": 22,
             "deletions": 8
           },
@@ -1036,6 +1148,7 @@
             "hash": "1d6978befa4c8700dd14a5e5539819ad9e1191bb",
             "messageTitle": "add setcommand",
             "messageBody": "",
+            "tag": "",
             "insertions": 1,
             "deletions": 0
           },
@@ -1043,6 +1156,7 @@
             "hash": "e3c84e54d011c337c01b0bb268a90c9006801ba9",
             "messageTitle": "checkstyle",
             "messageBody": "",
+            "tag": "",
             "insertions": 2,
             "deletions": 11
           },
@@ -1050,6 +1164,7 @@
             "hash": "f2bf2585b4d096cf6636d60ece8226ef1f6ceab9",
             "messageTitle": "add TagTests",
             "messageBody": "",
+            "tag": "",
             "insertions": 13,
             "deletions": 1
           },
@@ -1057,6 +1172,7 @@
             "hash": "5d7ac4e10e0da5f3918be9e706d41968e5374623",
             "messageTitle": "add set tag colour to storage",
             "messageBody": "",
+            "tag": "",
             "insertions": 27,
             "deletions": 1
           }
@@ -1071,6 +1187,7 @@
             "hash": "6c14350bf7b14c4e629c4fd5e24637939079cf60",
             "messageTitle": "v1.2 update readme",
             "messageBody": "",
+            "tag": "",
             "insertions": 16,
             "deletions": 3
           }
@@ -1085,6 +1202,7 @@
             "hash": "a7f73d24998ed0d25c740b59e52ff4b59d849452",
             "messageTitle": "1.2 update developer guide feature contribution",
             "messageBody": "",
+            "tag": "",
             "insertions": 33,
             "deletions": 2
           },
@@ -1092,6 +1210,7 @@
             "hash": "363805a5dd9f088e7ca3dc93ad3c3e8b57c88ff5",
             "messageTitle": "change readme",
             "messageBody": "",
+            "tag": "",
             "insertions": 2,
             "deletions": 1
           }
@@ -1106,6 +1225,7 @@
             "hash": "2e13d3e60dfc3dd981ab794fe9e8f0429e5016f4",
             "messageTitle": "checkstyle",
             "messageBody": "",
+            "tag": "",
             "insertions": 0,
             "deletions": 1
           }
@@ -1120,6 +1240,7 @@
             "hash": "d3fbded779ed1d8877f1434691758d6d5173f857",
             "messageTitle": "more checkstyle changes to setcommandTest",
             "messageBody": "",
+            "tag": "",
             "insertions": 5,
             "deletions": 1
           },
@@ -1127,6 +1248,7 @@
             "hash": "bdf66e5c806d0bc9cf8d378a84213ec45d75ca31",
             "messageTitle": "swap import",
             "messageBody": "",
+            "tag": "",
             "insertions": 5,
             "deletions": 2
           },
@@ -1134,6 +1256,7 @@
             "hash": "c3a3a0ed2deff6595bd5df86cb01bf9b244206dd",
             "messageTitle": "make sure all tests pass",
             "messageBody": "",
+            "tag": "",
             "insertions": 3,
             "deletions": 2
           },
@@ -1141,6 +1264,7 @@
             "hash": "28e737b35db0409b3d43f4ea517866da88ade379",
             "messageTitle": "change browser panel to player details panel and add team panel",
             "messageBody": "",
+            "tag": "",
             "insertions": 115,
             "deletions": 88
           }
@@ -1155,6 +1279,7 @@
             "hash": "0543945c49e1b0c630d279f3d37064dbd4b8963f",
             "messageTitle": "add implementation for stc in dg",
             "messageBody": "",
+            "tag": "",
             "insertions": 48,
             "deletions": 0
           },
@@ -1162,6 +1287,7 @@
             "hash": "e33b9adecdcdec549573d2964719ba85c5aaa767",
             "messageTitle": "add set colour tag implementation into DG",
             "messageBody": "",
+            "tag": "",
             "insertions": 32,
             "deletions": 32
           },
@@ -1169,6 +1295,7 @@
             "hash": "53ca8f2d8b5cc639b32dfd2a01560604214a053d",
             "messageTitle": "change tests for UI changes",
             "messageBody": "",
+            "tag": "",
             "insertions": 7,
             "deletions": 151
           },
@@ -1176,6 +1303,7 @@
             "hash": "ab6edb053c98489bab46283f4e929333dc0d8635",
             "messageTitle": "checkstyle errors",
             "messageBody": "",
+            "tag": "",
             "insertions": 1,
             "deletions": 3
           },
@@ -1183,6 +1311,7 @@
             "hash": "2452dc105e79db6ba50bb7956978dce7eb1f6eab",
             "messageTitle": "more checkstyle",
             "messageBody": "",
+            "tag": "",
             "insertions": 3,
             "deletions": 6
           }
@@ -1197,6 +1326,7 @@
             "hash": "94d1d8d251cc7bbe350451f6e4eb865e31d3f83e",
             "messageTitle": "change logo and software title",
             "messageBody": "",
+            "tag": "",
             "insertions": 3,
             "deletions": 3
           },
@@ -1204,6 +1334,7 @@
             "hash": "abea5fd0859c3ec1460673bd8542cb523b638f3a",
             "messageTitle": "ui",
             "messageBody": "",
+            "tag": "",
             "insertions": 0,
             "deletions": 13
           }
@@ -1218,6 +1349,7 @@
             "hash": "7c79b2f86ea55407fb18bb0fded1ca3d9fd8539d",
             "messageTitle": "add XmlAdaptedTeam.java for team to be added and saved to storage",
             "messageBody": "",
+            "tag": "",
             "insertions": 85,
             "deletions": 6
           },
@@ -1225,6 +1357,7 @@
             "hash": "2f7ee8725ee7013582527fce5de0b749eb733767",
             "messageTitle": "change tests to accommodate team (**in progress, will not pass build tests)",
             "messageBody": "",
+            "tag": "",
             "insertions": 8,
             "deletions": 1
           },
@@ -1232,6 +1365,7 @@
             "hash": "dd5d18d2a798e719c7e5d56342b76f7a665c411d",
             "messageTitle": "link create team to ui",
             "messageBody": "",
+            "tag": "",
             "insertions": 37,
             "deletions": 15
           },
@@ -1239,6 +1373,7 @@
             "hash": "ef2545a84f4f99922b2ed36669baf156a9bffe91",
             "messageTitle": "remove unused import",
             "messageBody": "",
+            "tag": "",
             "insertions": 0,
             "deletions": 1
           },
@@ -1246,6 +1381,7 @@
             "hash": "95b7a81a3f44799366a1717836744b7a38ca96db",
             "messageTitle": "set spacing between team names",
             "messageBody": "",
+            "tag": "",
             "insertions": 3,
             "deletions": 1
           }
@@ -1260,6 +1396,7 @@
             "hash": "5e8185978b0bbf6040025d45e7e3645af3aac1fc",
             "messageTitle": "change colours of team name",
             "messageBody": "",
+            "tag": "",
             "insertions": 1,
             "deletions": 2
           },
@@ -1267,6 +1404,7 @@
             "hash": "9c23ec05c2d395c030fe26123060fbe732f22f92",
             "messageTitle": "changed date \"from june 2016\"",
             "messageBody": "",
+            "tag": "",
             "insertions": 2,
             "deletions": 2
           }
@@ -1281,6 +1419,7 @@
             "hash": "911593eb3e8d6ce9c55ecc6aa7eade6e8083c460",
             "messageTitle": "adding tests in progress",
             "messageBody": "",
+            "tag": "",
             "insertions": 12,
             "deletions": 0
           },
@@ -1288,6 +1427,7 @@
             "hash": "4c66babd667551737ae6c90b1f697b7e244c1d30",
             "messageTitle": "adding tests in progress",
             "messageBody": "",
+            "tag": "",
             "insertions": 95,
             "deletions": 8
           },
@@ -1295,6 +1435,7 @@
             "hash": "3b69786e861b4dde8175a3016fe457d49fc02010",
             "messageTitle": "git tag added for release",
             "messageBody": "",
+            "tag": "",
             "insertions": 1,
             "deletions": 1
           },
@@ -1302,6 +1443,7 @@
             "hash": "1909128bb74d559342771238f56c54013d6dda11",
             "messageTitle": "add TeamDisplay tests",
             "messageBody": "",
+            "tag": "",
             "insertions": 55,
             "deletions": 11
           },
@@ -1309,6 +1451,7 @@
             "hash": "826d51bcaa82d19a452bd71139e5286bdfa3f001",
             "messageTitle": "checkstyle errors",
             "messageBody": "",
+            "tag": "",
             "insertions": 4,
             "deletions": 5
           },
@@ -1316,6 +1459,7 @@
             "hash": "5e908f146c72fa75e141367d620c2a05043249ea",
             "messageTitle": "fix checkstyle errors",
             "messageBody": "",
+            "tag": "",
             "insertions": 11,
             "deletions": 7
           },
@@ -1323,6 +1467,7 @@
             "hash": "2db659e95be2204dadb05fa3d80b9deaab6470cb",
             "messageTitle": "changes after revieww",
             "messageBody": "",
+            "tag": "",
             "insertions": 0,
             "deletions": 9
           }
@@ -1337,6 +1482,7 @@
             "hash": "45efc712fc1e51f9d41e40eb3871724bbc0bb66b",
             "messageTitle": "change colour event",
             "messageBody": "",
+            "tag": "",
             "insertions": 173,
             "deletions": 29
           }
@@ -1351,6 +1497,7 @@
             "hash": "9296910d075ad19fdf32ef9ffbc448195fb95383",
             "messageTitle": "add deselectteamevent",
             "messageBody": "",
+            "tag": "",
             "insertions": 49,
             "deletions": 3
           },
@@ -1358,6 +1505,7 @@
             "hash": "e2e9dfaa92a6e7fea71e4c458299c6dfeba9e3e6",
             "messageTitle": "checkstyle",
             "messageBody": "",
+            "tag": "",
             "insertions": 3,
             "deletions": 8
           }
@@ -1372,6 +1520,7 @@
             "hash": "8aa58eebbb221f7100446a854b24a58bf61aced9",
             "messageTitle": "change tests for new player details panel",
             "messageBody": "",
+            "tag": "",
             "insertions": 29,
             "deletions": 46
           },
@@ -1379,6 +1528,7 @@
             "hash": "e8c26e318450c58a8fed23ad69431b91b0b3109e",
             "messageTitle": "add light theme",
             "messageBody": "",
+            "tag": "",
             "insertions": 14,
             "deletions": 3
           },
@@ -1386,6 +1536,7 @@
             "hash": "5a841951bcb6353a960f3f40b4eb1ac28278c444",
             "messageTitle": "collation of code into collate/Codee.md",
             "messageBody": "",
+            "tag": "",
             "insertions": 101,
             "deletions": 6
           },
@@ -1393,6 +1544,7 @@
             "hash": "4253f3af0bac048f8a3ec1098b15c8a034863ffa",
             "messageTitle": "checkstyle + add setcommandparsertest",
             "messageBody": "",
+            "tag": "",
             "insertions": 8,
             "deletions": 9
           },
@@ -1400,6 +1552,7 @@
             "hash": "9f0468042a22ba96de744c18a64dd08f1c565f20",
             "messageTitle": "add teamdisplay code to DG",
             "messageBody": "",
+            "tag": "",
             "insertions": 22,
             "deletions": 2
           },
@@ -1407,6 +1560,7 @@
             "hash": "945732b612004720468ac1d8c79d2b3502c0db0c",
             "messageTitle": "checkstyle",
             "messageBody": "",
+            "tag": "",
             "insertions": 14,
             "deletions": 5
           },
@@ -1414,6 +1568,7 @@
             "hash": "e0e136b12db3f1f26d11eab3a171239e0e77b29c",
             "messageTitle": "add changetheme to userguide",
             "messageBody": "",
+            "tag": "",
             "insertions": 10,
             "deletions": 1
           },
@@ -1421,6 +1576,7 @@
             "hash": "2dac757302b465e5538d113b3313a6e8251b9a8f",
             "messageTitle": "update UI in readme and add changetheme in userguide",
             "messageBody": "",
+            "tag": "",
             "insertions": 5,
             "deletions": 0
           },
@@ -1428,6 +1584,7 @@
             "hash": "5153aa3b398c278cfec6b4910dd5508dabafdf91",
             "messageTitle": "add changethemecommand to DG",
             "messageBody": "",
+            "tag": "",
             "insertions": 24,
             "deletions": 0
           }
@@ -1442,6 +1599,7 @@
             "hash": "ac2fdc691d9decf6a1a7e08fdd8f5dbc853ce259",
             "messageTitle": "checkstyle",
             "messageBody": "",
+            "tag": "",
             "insertions": 272,
             "deletions": 5
           },
@@ -1449,6 +1607,7 @@
             "hash": "89caa243928e0ed67a57ec09f87e62a36df1ab3d",
             "messageTitle": "DG",
             "messageBody": "",
+            "tag": "",
             "insertions": 8,
             "deletions": 8
           },
@@ -1456,6 +1615,7 @@
             "hash": "ff0b81d21e871524660aab10f4dd3c8a5fa5c39d",
             "messageTitle": "add to user guide + change name of app",
             "messageBody": "",
+            "tag": "",
             "insertions": 34,
             "deletions": 22
           },
@@ -1463,6 +1623,7 @@
             "hash": "5e91e747c151e32c7c4afc7d7f5eb260ebe69020",
             "messageTitle": "add toggle privacy event handling",
             "messageBody": "",
+            "tag": "",
             "insertions": 44,
             "deletions": 0
           }
@@ -1477,6 +1638,7 @@
             "hash": "a146f9f6fe7c61a98f1d66a779550c3532fd86ab",
             "messageTitle": "event handler for remarks",
             "messageBody": "",
+            "tag": "",
             "insertions": 17,
             "deletions": 15
           },
@@ -1484,6 +1646,7 @@
             "hash": "4cefb7f483aff3fa751fab7e902bba0be6b29f8a",
             "messageTitle": "add ChangeTheme Command and tests, with change in user guide",
             "messageBody": "",
+            "tag": "",
             "insertions": 11,
             "deletions": 5
           },
@@ -1491,6 +1654,7 @@
             "hash": "80f4d9f4ecb66e08b43c37e776f6c3ef40935f7f",
             "messageTitle": "checkstyle",
             "messageBody": "",
+            "tag": "",
             "insertions": 3,
             "deletions": 5
           }
@@ -1505,6 +1669,7 @@
             "hash": "456a8c4bcca006bc327fb54e0eb0b7a758ba0081",
             "messageTitle": "clarifies that settagcolor is NOT undoable",
             "messageBody": "",
+            "tag": "",
             "insertions": 8,
             "deletions": 0
           },
@@ -1512,6 +1677,7 @@
             "hash": "61e1bf739ebd5fa01e52d51f8ba05d0f73f0760a",
             "messageTitle": "clarify that cte is also not undoable",
             "messageBody": "",
+            "tag": "",
             "insertions": 6,
             "deletions": 0
           },
@@ -1519,6 +1685,7 @@
             "hash": "e5e2e413a503ce583c7469c3b9456e94f795b322",
             "messageTitle": "add logo to UI and change logo",
             "messageBody": "",
+            "tag": "",
             "insertions": 11,
             "deletions": 0
           }
@@ -1533,6 +1700,7 @@
             "hash": "9a4aa4b2dc43b20e5e97d10264dfa5fd8ff0c3aa",
             "messageTitle": "fix avatar path problem",
             "messageBody": "",
+            "tag": "",
             "insertions": 72,
             "deletions": 9
           },
@@ -1540,6 +1708,7 @@
             "hash": "b9367caeed8811c7594a7c9ae622664571714cd8",
             "messageTitle": "mem",
             "messageBody": "",
+            "tag": "",
             "insertions": 5,
             "deletions": 5
           }
@@ -1554,6 +1723,7 @@
             "hash": "a32b555ee3b10e3faf7569a732b269bef064b960",
             "messageTitle": "seq diagram for settag",
             "messageBody": "",
+            "tag": "",
             "insertions": 2,
             "deletions": 0
           },
@@ -1561,6 +1731,7 @@
             "hash": "219c12b49bf5aa8ac6ed8523254cdce80cfdc19f",
             "messageTitle": "sampledata changed",
             "messageBody": "",
+            "tag": "",
             "insertions": 1,
             "deletions": 1
           },
@@ -1568,6 +1739,7 @@
             "hash": "7a8f64a71ed60018d3944d4910d65a78816b0a10",
             "messageTitle": "event handler for edit",
             "messageBody": "",
+            "tag": "",
             "insertions": 2,
             "deletions": 0
           },
@@ -1575,6 +1747,7 @@
             "hash": "a6edadc423383fa1b7f91eb6825a40f9384d1a04",
             "messageTitle": "edit command",
             "messageBody": "",
+            "tag": "",
             "insertions": 31,
             "deletions": 1
           },
@@ -1582,6 +1755,7 @@
             "hash": "3412a2013488958283c62ff641a7fa966bbba0c0",
             "messageTitle": "fix select edit undo bug",
             "messageBody": "",
+            "tag": "",
             "insertions": 19,
             "deletions": 10
           },
@@ -1589,6 +1763,7 @@
             "hash": "f2ac395b6012f5610b261aa8d0290cde2b432c5e",
             "messageTitle": "change sampleDataUtil",
             "messageBody": "",
+            "tag": "",
             "insertions": 128,
             "deletions": 5
           },
@@ -1596,6 +1771,7 @@
             "hash": "6cfc25f0524c3e91e42083d747547f1ad00809c3",
             "messageTitle": "add author",
             "messageBody": "",
+            "tag": "",
             "insertions": 4,
             "deletions": 0
           },
@@ -1603,6 +1779,7 @@
             "hash": "815b2fd002ddaa65b2c5967177c8aab6c354694c",
             "messageTitle": "add ppp doc",
             "messageBody": "",
+            "tag": "",
             "insertions": 71,
             "deletions": 0
           }
@@ -1617,6 +1794,7 @@
             "hash": "85e1583faa5f30b224402a302d81d17139bc1ec8",
             "messageTitle": "add to dg",
             "messageBody": "",
+            "tag": "",
             "insertions": 70,
             "deletions": 50
           },
@@ -1624,6 +1802,7 @@
             "hash": "bf44c1d8041c179fa7f3b0665e3551805eeb73d5",
             "messageTitle": "PPP + UI change for autocomplete, text changed to black",
             "messageBody": "",
+            "tag": "",
             "insertions": 64,
             "deletions": 24
           },
@@ -1631,6 +1810,7 @@
             "hash": "e97b6d8eac3df2369cad932b5d3535582e39ab74",
             "messageTitle": "dg changes",
             "messageBody": "",
+            "tag": "",
             "insertions": 84,
             "deletions": 81
           }
@@ -1645,6 +1825,7 @@
             "hash": "77b31c34bad4634c94d2d9054367ae7267080a09",
             "messageTitle": "add stuff to DG",
             "messageBody": "",
+            "tag": "",
             "insertions": 15,
             "deletions": 4
           }
@@ -1659,6 +1840,7 @@
             "hash": "e795362a729c5c3553d995961b6eca4418098996",
             "messageTitle": "convert to pdf",
             "messageBody": "",
+            "tag": "",
             "insertions": 1,
             "deletions": 1
           },
@@ -1666,6 +1848,7 @@
             "hash": "d849139595b0cbfa0ae4b50d9accfcf4b49b079f",
             "messageTitle": "add event handlers for team display",
             "messageBody": "",
+            "tag": "",
             "insertions": 13,
             "deletions": 6
           },
@@ -1673,6 +1856,7 @@
             "hash": "90173a14e3dea374a9fbdac064b8beac214d0b5e",
             "messageTitle": "add tests",
             "messageBody": "",
+            "tag": "",
             "insertions": 130,
             "deletions": 0
           },
@@ -1680,6 +1864,7 @@
             "hash": "315e7dc33f52de769806ee045110717fa8143b69",
             "messageTitle": "collation",
             "messageBody": "",
+            "tag": "",
             "insertions": 6,
             "deletions": 0
           },
@@ -1687,6 +1872,7 @@
             "hash": "9ec2d66fba92299056460d55a293f598591a3c4e",
             "messageTitle": "found bug in edit and remark, changed UG",
             "messageBody": "",
+            "tag": "",
             "insertions": 32,
             "deletions": 17
           },
@@ -1694,6 +1880,7 @@
             "hash": "1282fbc9b3de17e73a194cf95d1f4a00f7d5b172",
             "messageTitle": "remove print statements",
             "messageBody": "",
+            "tag": "",
             "insertions": 0,
             "deletions": 3
           }
@@ -1708,6 +1895,7 @@
             "hash": "b1bad787325876cf999561c64864df33eab38c8a",
             "messageTitle": "add labels for diagrams",
             "messageBody": "",
+            "tag": "",
             "insertions": 4,
             "deletions": 2
           },
@@ -1715,6 +1903,7 @@
             "hash": "588963c9e80c35a765753837618b4b32b7aa11dc",
             "messageTitle": "add diagrams",
             "messageBody": "",
+            "tag": "",
             "insertions": 9,
             "deletions": 2
           },
@@ -1722,6 +1911,7 @@
             "hash": "38a9f652337fde517d73c59bfeff823d0b84e119",
             "messageTitle": "add diagrams to teamdisplay and playerdetails",
             "messageBody": "",
+            "tag": "",
             "insertions": 12,
             "deletions": 1
           },
@@ -1729,6 +1919,7 @@
             "hash": "b240303f5d476cd14abdf225cb259bb25239adb3",
             "messageTitle": "checkstyle",
             "messageBody": "",
+            "tag": "",
             "insertions": 0,
             "deletions": 1
           },
@@ -1736,6 +1927,7 @@
             "hash": "606410b4373aee590bf80c90358d1586187dca12",
             "messageTitle": "bug",
             "messageBody": "",
+            "tag": "",
             "insertions": 2,
             "deletions": 0
           },
@@ -1743,6 +1935,7 @@
             "hash": "d04dfbf66f28ed615a349422db0319d959a56bd5",
             "messageTitle": "app veyor",
             "messageBody": "",
+            "tag": "",
             "insertions": 1,
             "deletions": 1
           },
@@ -1750,6 +1943,7 @@
             "hash": "bcc73e55706bd69f51327b1a6df832f9e79f8439",
             "messageTitle": "test cases",
             "messageBody": "",
+            "tag": "",
             "insertions": 19,
             "deletions": 2
           },
@@ -1757,6 +1951,7 @@
             "hash": "c274c683da90f2dfc4d1127ca2b9b80fc15f58d2",
             "messageTitle": "trailing whitespace?!?!?!?!!?",
             "messageBody": "",
+            "tag": "",
             "insertions": 3,
             "deletions": 2
           },
@@ -1764,6 +1959,7 @@
             "hash": "c3210755031bb872715add3e71a663899f12522f",
             "messageTitle": "newline",
             "messageBody": "",
+            "tag": "",
             "insertions": 1,
             "deletions": 1
           },
@@ -1771,6 +1967,7 @@
             "hash": "bc91f22d942ae0c18b751d54349d0cca0aba2171",
             "messageTitle": "missing word",
             "messageBody": "",
+            "tag": "",
             "insertions": 1,
             "deletions": 1
           },
@@ -1778,6 +1975,7 @@
             "hash": "aadf38a06c489f5ce6a48151086e358fd24150a3",
             "messageTitle": "update PPP",
             "messageBody": "",
+            "tag": "",
             "insertions": 1,
             "deletions": 1
           },
@@ -1785,6 +1983,7 @@
             "hash": "09cbd78d52c6b2efd1ef4962b379ac4da7258f22",
             "messageTitle": "add what to expect to UG",
             "messageBody": "",
+            "tag": "",
             "insertions": 6,
             "deletions": 0
           },
@@ -1792,6 +1991,7 @@
             "hash": "eefd26b1d641b98ef6d0033da6d6c7d5d3c8767c",
             "messageTitle": "add valid command",
             "messageBody": "",
+            "tag": "",
             "insertions": 14,
             "deletions": 1
           },
@@ -1799,6 +1999,7 @@
             "hash": "d304575228900e13e6857e49dc92e51c1d925008",
             "messageTitle": "more changes",
             "messageBody": "",
+            "tag": "",
             "insertions": 10,
             "deletions": 22
           },
@@ -1806,6 +2007,7 @@
             "hash": "07331ea204e39259f559bd67090bf47f8dc0c6c3",
             "messageTitle": "some grammar",
             "messageBody": "",
+            "tag": "",
             "insertions": 2,
             "deletions": 2
           },
@@ -1813,6 +2015,7 @@
             "hash": "34b2df5737e17e2dfb5f18cb4de61d6f9cc44608",
             "messageTitle": "change the default theme",
             "messageBody": "",
+            "tag": "",
             "insertions": 7,
             "deletions": 7
           },
@@ -1820,6 +2023,7 @@
             "hash": "31165bade695962ec406dd51acd350fe07ec93d1",
             "messageTitle": "ui diagram",
             "messageBody": "",
+            "tag": "",
             "insertions": 2,
             "deletions": 0
           },
@@ -1827,6 +2031,7 @@
             "hash": "36965d6ca1895deff3d776a4f43a551e26987c56",
             "messageTitle": "add preface for devops and appendix",
             "messageBody": "",
+            "tag": "",
             "insertions": 3,
             "deletions": 2
           }
