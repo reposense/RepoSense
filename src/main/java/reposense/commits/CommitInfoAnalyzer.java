@@ -36,6 +36,7 @@ public class CommitInfoAnalyzer {
     private static final int DATE_INDEX = 3;
     private static final int MESSAGE_TITLE_INDEX = 4;
     private static final int MESSAGE_BODY_INDEX = 5;
+    private static final int REF_NAME_INDEX = 6;
 
     private static final Pattern INSERTION_PATTERN = Pattern.compile("([0-9]+) insertion");
     private static final Pattern DELETION_PATTERN = Pattern.compile("([0-9]+) deletion");
@@ -64,7 +65,7 @@ public class CommitInfoAnalyzer {
         String infoLine = commitInfo.getInfoLine();
         String statLine = commitInfo.getStatLine();
 
-        String[] elements = infoLine.split(LOG_SPLITTER, 6);
+        String[] elements = infoLine.split(LOG_SPLITTER, 7);
         String hash = elements[COMMIT_HASH_INDEX];
         Author author = config.getAuthor(elements[AUTHOR_INDEX], elements[EMAIL_INDEX]);
 
@@ -78,9 +79,12 @@ public class CommitInfoAnalyzer {
         String messageTitle = (elements.length > MESSAGE_TITLE_INDEX) ? elements[MESSAGE_TITLE_INDEX] : "";
         String messageBody = (elements.length > MESSAGE_BODY_INDEX)
                 ? getCommitMessageBody(elements[MESSAGE_BODY_INDEX]) : "";
+        String tag = elements[REF_NAME_INDEX].contains("tag")
+                ? elements[REF_NAME_INDEX].substring(elements[REF_NAME_INDEX].lastIndexOf("tag: ") + 5)
+                : "";
         int insertion = getInsertion(statLine);
         int deletion = getDeletion(statLine);
-        return new CommitResult(author, hash, date, messageTitle, messageBody, insertion, deletion);
+        return new CommitResult(author, hash, date, messageTitle, messageBody, tag, insertion, deletion);
     }
 
     private static String getCommitMessageBody(String raw) {
