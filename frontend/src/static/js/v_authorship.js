@@ -63,8 +63,12 @@ window.vAuthorship = {
     },
 
     info() {
-      this.initiate();
-      this.setInfoHash();
+      this.isLoaded = false;
+
+      setTimeout(() => {
+        this.initiate();
+        this.setInfoHash();
+      }, 0);
     },
   },
 
