@@ -8,18 +8,22 @@ window.vZoom = {
       expandedCommitMessagesCount: this.getCommitMessageBodyCount(),
     };
   },
+  computed: {
+    filteredUser() {
+      const { user } = this.info;
+      const filteredUser = Object.assign({}, user);
+
+      const date = this.filterTimeFrame === 'week' ? 'endDate' : 'date';
+      filteredUser.commits = user.commits.filter(
+          (commit) => commit[date] >= this.info.sinceDate && commit[date] <= this.info.untilDate,
+      );
+
+      return filteredUser;
+    }
+  },
   methods: {
     openSummary() {
       this.$emit('view-summary', this.info.sinceDate, this.info.untilDate);
-    },
-
-    filterCommits() {
-      const { user } = this.info;
-      const date = this.filterTimeFrame === 'week' ? 'endDate' : 'date';
-      const filtered = user.commits.filter(
-          (commit) => commit[date] >= this.info.sinceDate && commit[date] <= this.info.untilDate,
-      );
-      user.commits = filtered;
     },
 
     getSliceLink(slice) {
@@ -59,9 +63,6 @@ window.vZoom = {
       this.expandedCommitMessagesCount = document.getElementsByClassName('commit-message active')
           .length;
     },
-  },
-  created() {
-    this.filterCommits();
   },
   mounted() {
     this.updateExpandedCommitMessagesCount();
