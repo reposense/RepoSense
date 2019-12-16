@@ -42,7 +42,7 @@ window.vAuthorship = {
       toReverseSortFiles: true,
       activeFilesCount: 0,
       filterSearch: '*',
-      sortingFunction: window.comparator(filesSortDict.lineOfCode),
+      sortingFunction: (a, b) => -1 * window.comparator(filesSortDict.lineOfCode)(a, b),
       isSearchBar: false,
       isCheckBoxes: true,
     };
@@ -199,7 +199,6 @@ window.vAuthorship = {
       this.isLoaded = true;
 
       this.activeFilesCount = this.selectedFiles.length;
-      this.sortFiles();
     },
 
     addBlankLineCount(fileType, lineCount, filesInfoObj) {
