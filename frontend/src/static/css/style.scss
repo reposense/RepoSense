@@ -691,6 +691,12 @@ header {
   &__toggle-commit-message-body {
     padding-top: 10px;
   }
+
+  &__tags {
+    cursor: pointer;
+    display: inline;
+    margin-left: .5rem;
+  }
 }
 
 /* Commit Message Body in Zoom Tab */
