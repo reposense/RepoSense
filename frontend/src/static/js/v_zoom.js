@@ -19,7 +19,7 @@ window.vZoom = {
       );
 
       return filteredUser;
-    }
+    },
   },
   methods: {
     openSummary() {
