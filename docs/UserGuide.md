@@ -381,10 +381,9 @@ The simplest way to analyze multiple repos in one go is to use the `--repos` par
 * Example: `java -jar RepoSense.jar --repos https://github.com/reposense/RepoSense.git c:/myRepose/foo/bar` analyzes the two specified repos (one remote, one local) and generates one report containing details of both.
 
 Alternatively, you can use csv config files to further customize the analysis:
-* `repo-config.csv`: You can add additional rows to this file, where each row you add will enable you to add one corresponding repo for analysis. ([example](repo-config.csv))
-* `author-config.csv`: If you want to analyze specific authors from the repos you added in `repo-config.csv`, you can add additional rows in this file, where each row corresponds to a specific author.([example](author-config.csv))
-* `group-config.csv`: You can combine multiple repos under one group by adding additional rows in this file. With every extra row one extra repo can be combined in a group.([example](group-config.csv))
-
+* `repo-config.csv`: Add a new row, to analyze a new repo ([example](repo-config.csv)).
+* `author-config.csv`: Add a new row, to analyze a specific author in the repo you want to analyze ([example](author-config.csv)).
+* `group-config.csv`: Add a new row, to customize the grouping of the files in the specified repo ([example](group-config.csv)).
 
 ## Using Travis-CI to automate publishing of the report to GitHub Pages
 
