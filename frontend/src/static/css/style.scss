@@ -691,12 +691,6 @@ header {
   &__toggle-commit-message-body {
     padding-top: 10px;
   }
-
-  &__tags {
-    cursor: pointer;
-    display: inline;
-    margin-left: .5rem;
-  }
 }
 
 /* Commit Message Body in Zoom Tab */
@@ -718,11 +712,6 @@ header {
     display: none;
   }
 
-  .tag {
-    display: inline;
-    margin-left: .5rem;
-  }
-
   &--button {
     color: mui-color('grey', '700');
     padding-left: .5rem;
@@ -735,4 +724,15 @@ header {
   pre {
     margin: 0;
   }
+}
+
+/* Tags in commits */
+.tag {
+  background: mui-color('black-alpha-87');
+  border-radius: 5px;
+  color: mui-color('white');
+  cursor: pointer;
+  display: inline;
+  margin-right: .25rem;
+  padding: 0 3px 0 3px;
 }
