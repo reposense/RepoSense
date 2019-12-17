@@ -78,7 +78,7 @@ public class CommitResult {
                 && time.equals(otherCommitResult.time)
                 && messageTitle.equals(otherCommitResult.messageTitle)
                 && messageBody.equals(otherCommitResult.messageBody)
-                && tag.equals(otherCommitResult.tag)
+                && tag == null ? otherCommitResult.tag == null : tag.equals(otherCommitResult.tag)
                 && insertions == otherCommitResult.insertions
                 && deletions == otherCommitResult.deletions;
     }

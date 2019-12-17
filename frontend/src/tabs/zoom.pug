@@ -15,7 +15,7 @@
     .zoom__title--tags
       template(v-for="commit in info.user.commits")
         template(v-for="commitResult in commit.commitResults")
-          .tag(v-if="commitResult.tag !== ''", v-on:click="scrollToCommit('tag ' + commitResult.hash)")
+          .tag(v-if="commitResult.tag", v-on:click="scrollToCommit('tag ' + commitResult.hash)")
             i.fas.fa-tags
             span &nbsp; {{ commitResult.tag }}
 
@@ -41,7 +41,7 @@
           .title
             a(v-bind:href="getSliceLink(slice)" target="_blank") {{ slice.messageTitle }}
             span &nbsp; ({{ slice.insertions }} lines) &nbsp;
-            .tag(v-if="slice.tag !== ''", v-bind:class="[`${slice.hash}`]")
+            .tag(v-if="slice.tag", v-bind:class="[`${slice.hash}`]")
               i.fas.fa-tags
               span &nbsp; {{ slice.tag }}
             a(
