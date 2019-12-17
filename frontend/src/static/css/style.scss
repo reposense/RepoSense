@@ -686,6 +686,10 @@ header {
     &--granularity {
       margin-top: .5rem;
     }
+
+    &--tags {
+      margin-bottom: .25rem;
+    }
   }
 
   &__toggle-commit-message-body {
@@ -700,7 +704,7 @@ header {
       background-color: mui-color('white');
       border: 1px solid mui-color('grey', '700');
       display: inherit;
-      margin-bottom: 1rem;
+      margin: .25rem 1rem 0 0;
       overflow-x: auto;
       padding: .4rem;
       resize: none;
