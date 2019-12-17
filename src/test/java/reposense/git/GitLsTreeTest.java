@@ -19,7 +19,6 @@ import reposense.util.FileUtil;
 import reposense.util.SystemUtil;
 
 public class GitLsTreeTest extends GitTestTemplate {
-
     private static Method isValidWindowsFilenameMethod;
 
     @BeforeClass
