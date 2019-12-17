@@ -25,7 +25,7 @@ public class GitLsTree {
     private static final Pattern ILLEGAL_WINDOWS_FILE_PATTERN = Pattern.compile(
             "^((CON|PRN|AUX|NUL|COM[1-9]|LPT[1-9])(?=\\..*|$))" // contains reserved values (e.g.: com1)
                     + "|[<>:\"\\\\|?*\\x00-\\x1F]" // contains any reserved characters in directory name
-                    + "|(^\\s)|(/\\s+)" // contains leading whitespaces
+                    + "|(^\\s)|(/\\s+)" // file or folder names with leading whitespaces
                     + "|([\\s.]$)|([\\s.]+/)", // folder or file names ending with period or whitespaces
             Pattern.CASE_INSENSITIVE);
 
