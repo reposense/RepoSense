@@ -704,14 +704,11 @@ header {
       background-color: mui-color('white');
       border: 1px solid mui-color('grey', '700');
       display: inherit;
+      margin: .25rem 0 .25rem 0;
       overflow-x: auto;
       padding: .4rem;
       resize: none;
       width: 100%;
-    }
-
-    .title {
-      margin: .25rem 0 .25rem 0;
     }
   }
 
