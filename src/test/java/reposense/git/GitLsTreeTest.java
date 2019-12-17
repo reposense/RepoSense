@@ -39,7 +39,7 @@ public class GitLsTreeTest extends GitTestTemplate {
         // Runs test only on Windows operating systems
         Assume.assumeTrue(SystemUtil.isWindows());
 
-        List<String> validDirectoryNames = Arrays.asList("com10.txt", "folder name/file name.txt", "...txt");
+        List<String> validDirectoryNames = Arrays.asList("com10.txt", "folder name/file name.txt", ".txt");
         for (String fileName : validDirectoryNames) {
             Assert.assertTrue((boolean) isValidWindowsFilenameMethod.invoke(null, fileName));
         }
@@ -51,8 +51,8 @@ public class GitLsTreeTest extends GitTestTemplate {
         // Runs test only on Windows operating systems
         Assume.assumeTrue(SystemUtil.isWindows());
 
-        List<String> windowsReservedFilenames = Arrays.asList("com1.txt", "nul.txt", "asd.txt.", "asd.txt ",
-                "as\\d.txt", "\"main\".txt");
+        List<String> windowsReservedFilenames = Arrays.asList("com1.txt", "nul", "fi\\le.txt", "\"file\".txt",
+                "file.txt.", "folder./file.txt", "file.txt ", "folder /file.txt");
         for (String fileName : windowsReservedFilenames) {
             Assert.assertFalse((boolean) isValidWindowsFilenameMethod.invoke(null, fileName));
         }

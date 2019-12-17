@@ -23,7 +23,10 @@ public class GitLsTree {
     // for the output of git-ls-tree, files in directories are separated by forward-slash (e.g.: folder/name/file.txt).
     // Also, it is not possible to create and commit files with forward-slash characters in UNIX OSes.
     private static final Pattern ILLEGAL_WINDOWS_FILE_PATTERN = Pattern.compile(
-            "^((CON|PRN|AUX|NUL|COM[1-9]|LPT[1-9])(?=\\..*|$))|(^\\s)|[<>:\"\\\\|?*\\x00-\\x1F]|([\\s.]$)",
+            "^((CON|PRN|AUX|NUL|COM[1-9]|LPT[1-9])(?=\\..*|$))" // contains reserved values (e.g.: com1)
+                    + "|[<>:\"\\\\|?*\\x00-\\x1F]" // contains any reserved characters in directory name
+                    + "|(^\\s)|(/\\s+)" // contains leading whitespaces
+                    + "|([\\s.]$)|([\\s.]+/)", // folder or file names ending with period or whitespaces
             Pattern.CASE_INSENSITIVE);
 
     private static final Logger logger = LogsManager.getLogger(GitLsTree.class);
