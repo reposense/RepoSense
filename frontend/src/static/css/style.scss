@@ -688,7 +688,7 @@ header {
     }
 
     &--tags {
-      margin-bottom: .25rem;
+      margin: .25rem 0 .25rem 0;
     }
   }
 
@@ -704,11 +704,14 @@ header {
       background-color: mui-color('white');
       border: 1px solid mui-color('grey', '700');
       display: inherit;
-      margin: .25rem 1rem 0 0;
       overflow-x: auto;
       padding: .4rem;
       resize: none;
       width: 100%;
+    }
+
+    .title {
+      margin: .25rem 0 .25rem 0;
     }
   }
 

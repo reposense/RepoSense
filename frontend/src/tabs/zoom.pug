@@ -38,18 +38,19 @@
       h3(v-else) {{ day.date }}
       ul
         li(v-for="slice in day.commitResults").commit-message.active
-          a(v-bind:href="getSliceLink(slice)" target="_blank") {{ slice.messageTitle }}
-          span &nbsp; ({{ slice.insertions }} lines) &nbsp;
-          .tag(v-if="slice.tag !== ''", v-bind:class="[`${slice.hash}`]")
-            i.fas.fa-tags
-            span &nbsp; {{ slice.tag }}
-          a(
-            v-if="slice.messageBody !== ''",
-            v-on:click="updateExpandedCommitMessagesCount",
-            onclick="toggleNext(this)",
-            title="Click to show/hide the commit message body"
-          )
-            i.commit-message--button.fas.fa-ellipsis-h
+          .title
+            a(v-bind:href="getSliceLink(slice)" target="_blank") {{ slice.messageTitle }}
+            span &nbsp; ({{ slice.insertions }} lines) &nbsp;
+            .tag(v-if="slice.tag !== ''", v-bind:class="[`${slice.hash}`]")
+              i.fas.fa-tags
+              span &nbsp; {{ slice.tag }}
+            a(
+              v-if="slice.messageBody !== ''",
+              v-on:click="updateExpandedCommitMessagesCount",
+              onclick="toggleNext(this)",
+              title="Click to show/hide the commit message body"
+            )
+              i.commit-message--button.fas.fa-ellipsis-h
           .body(v-if="slice.messageBody !== ''")
             pre {{ slice.messageBody }}
 
