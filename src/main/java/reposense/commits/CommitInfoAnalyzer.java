@@ -79,9 +79,13 @@ public class CommitInfoAnalyzer {
         String messageTitle = (elements.length > MESSAGE_TITLE_INDEX) ? elements[MESSAGE_TITLE_INDEX] : "";
         String messageBody = (elements.length > MESSAGE_BODY_INDEX)
                 ? getCommitMessageBody(elements[MESSAGE_BODY_INDEX]) : "";
-        String tag = elements[REF_NAME_INDEX].contains("tag")
-                ? elements[REF_NAME_INDEX].substring(elements[REF_NAME_INDEX].lastIndexOf("tag: ") + 5)
+
+        String ref = elements[REF_NAME_INDEX];
+        String tag = ref.contains("tag")
+                ? ref.substring(ref.lastIndexOf("tag: ") + 5)
                 : "";
+        tag = tag.contains(", ") ? tag.substring(0, tag.lastIndexOf(", ")) : tag; // remove branch name, if any
+
         int insertion = getInsertion(statLine);
         int deletion = getDeletion(statLine);
         return new CommitResult(author, hash, date, messageTitle, messageBody, tag, insertion, deletion);
