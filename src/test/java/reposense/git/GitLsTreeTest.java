@@ -1,9 +1,15 @@
 package reposense.git;
 
 import java.io.IOException;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+import java.util.Arrays;
+import java.util.List;
 
 import org.junit.After;
+import org.junit.Assert;
 import org.junit.Assume;
+import org.junit.BeforeClass;
 import org.junit.Test;
 
 import reposense.git.exception.InvalidFilePathException;
@@ -14,9 +20,42 @@ import reposense.util.SystemUtil;
 
 public class GitLsTreeTest extends GitTestTemplate {
 
+    private static Method isValidWindowsFilenameMethod;
+
+    @BeforeClass
+    public static void beforeSubClass() throws NoSuchMethodException {
+        isValidWindowsFilenameMethod = GitLsTree.class.getDeclaredMethod("isValidWindowsFilename", String.class);
+        isValidWindowsFilenameMethod.setAccessible(true);
+    }
+
     @After
     public void after() {
        // Overrides checkout master behaviour in GitTestTemplate as it throws error when run on a bare clone.
+    }
+
+    @Test
+    public void isValidWindowsFilename_validFilenames_success()
+            throws IllegalAccessException, InvocationTargetException {
+        // Runs test only on Windows operating systems
+        Assume.assumeTrue(SystemUtil.isWindows());
+
+        List<String> validDirectoryNames = Arrays.asList("com10.txt", "folder name/file name.txt", "...txt");
+        for (String fileName : validDirectoryNames) {
+            Assert.assertTrue((boolean)isValidWindowsFilenameMethod.invoke(null, fileName));
+        }
+    }
+
+    @Test
+    public void isValidWindowsFilename_illegalFileNames_success()
+            throws IllegalAccessException, InvocationTargetException {
+        // Runs test only on Windows operating systems
+        Assume.assumeTrue(SystemUtil.isWindows());
+
+        List<String> windowsReservedFilenames = Arrays.asList("com1.txt", "nul.txt", "asd.txt.", "asd.txt ",
+                "as\\d.txt", "\"main\".txt");
+        for (String fileName : windowsReservedFilenames) {
+            Assert.assertFalse((boolean)isValidWindowsFilenameMethod.invoke(null, fileName));
+        }
     }
 
     @Test
