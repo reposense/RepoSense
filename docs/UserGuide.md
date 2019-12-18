@@ -341,7 +341,7 @@ Optionally, you can use a `author-config.csv` (which should be in the same direc
 Column Name | Explanation
 ----------- | -----------
 [Optional] Repository's Location | Same as `repo-config.csv`. Default: all the repos in `repo-config.csv`
-[Optional] Branch | The branch to analyze for this author e.g., `master`. Default: the default branch of the repo
+[Optional] Branch | The branch to analyze for this author e.g., `master`. Default: the author will be bound to all the repos in `repo-config.csv` that has the same repo's location, irregardless of branch
 Author's GitHub ID | GitHub username of the target author e.g., `JohnDoe`
 [Optional] Author's Emails<sup>*</sup> | Associated Github emails of the author. This can be found in your [GitHub settings](https://github.com/settings/emails).
 [Optional] Author's Display Name | The name to display for the author. Default: author's GitHub username.
