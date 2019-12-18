@@ -47,7 +47,7 @@ public class AuthorConfiguration {
 
         for (StandaloneAuthor sa : standaloneConfig.getAuthors()) {
             Author author = new Author(sa);
-            author.appendIgnoreGlobList(ignoreGlobList);
+            author.importIgnoreGlobList(ignoreGlobList);
 
             newAuthorList.add(author);
             newAuthorDisplayNameMap.put(author, author.getDisplayName());
@@ -120,7 +120,7 @@ public class AuthorConfiguration {
      * Propagates {@code ignoreGlobList} to {@code author}.
      */
     public static void propagateIgnoreGlobList(Author author, List<String> ignoreGlobList) {
-        author.appendIgnoreGlobList(ignoreGlobList);
+        author.importIgnoreGlobList(ignoreGlobList);
     }
 
     /**
