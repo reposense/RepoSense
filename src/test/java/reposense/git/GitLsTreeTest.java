@@ -51,8 +51,7 @@ public class GitLsTreeTest extends GitTestTemplate {
         Assume.assumeTrue(SystemUtil.isWindows());
 
         List<String> windowsReservedFilenames = Arrays.asList("com1.txt", "folder/com1.txt", "folder/com1/file.txt",
-                "nul", "fi\\le.txt", "\"file\".txt",
-                "file.txt.", "folder./file.txt", "file.txt ", "folder /file.txt");
+                "nul", "fi\\le.txt", "\"file\".txt", "file.txt.", "folder./file.txt", "file.txt ", "folder /file.txt");
         for (String fileName : windowsReservedFilenames) {
             Assert.assertFalse((boolean) isValidWindowsFilenameMethod.invoke(null, fileName));
         }
