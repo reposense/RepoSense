@@ -3,6 +3,7 @@ package reposense.commits;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Arrays;
 import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
@@ -29,6 +30,7 @@ public class CommitInfoAnalyzer {
     private static final String MESSAGE_START_ANALYZING_COMMIT_INFO = "Analyzing commits info for %s (%s)...";
 
     private static final String LOG_SPLITTER = "\\|\\n\\|";
+    private static final String REF_SPLITTER = ",\\s";
 
     private static final int COMMIT_HASH_INDEX = 0;
     private static final int AUTHOR_INDEX = 1;
@@ -80,17 +82,26 @@ public class CommitInfoAnalyzer {
         String messageBody = (elements.length > MESSAGE_BODY_INDEX)
                 ? getCommitMessageBody(elements[MESSAGE_BODY_INDEX]) : "";
 
-        String ref = elements[REF_NAME_INDEX];
-        String tag = ref.contains("tag")
-                ? ref.substring(ref.lastIndexOf("tag: ") + 5)
-                : null;
-        if (tag != null) {
-            tag = tag.contains(", ") ? tag.substring(0, tag.lastIndexOf(", ")) : tag; // remove branch name, if any
+        String[] refs = elements[REF_NAME_INDEX].split(REF_SPLITTER);
+        String[] tags = Arrays.stream(refs).filter(ref -> ref.contains("tag:")).toArray(String[]::new);
+        if (tags.length == 0) {
+            tags = null; // set to null so it won't be converted to json
+        } else {
+            extractTagNames(tags);
         }
 
         int insertion = getInsertion(statLine);
         int deletion = getDeletion(statLine);
-        return new CommitResult(author, hash, date, messageTitle, messageBody, tag, insertion, deletion);
+        return new CommitResult(author, hash, date, messageTitle, messageBody, tags, insertion, deletion);
+    }
+
+    /**
+     * Extracts the tag names in {@code tags}.
+     */
+    private static void extractTagNames(String[] tags) {
+        for (int i = 0; i < tags.length; i++) {
+            tags[i] = tags[i].substring(tags[i].lastIndexOf("tag: ") + 5);
+        }
     }
 
     private static String getCommitMessageBody(String raw) {

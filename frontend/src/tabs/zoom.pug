@@ -15,9 +15,10 @@
     .zoom__title--tags
       template(v-for="commit in info.user.commits")
         template(v-for="commitResult in commit.commitResults")
-          .tag.mini-font(v-if="commitResult.tag", v-on:click="scrollToCommit('tag ' + commitResult.hash)")
-            i.fas.fa-tags
-            span &nbsp; {{ commitResult.tag }}
+          template(v-if="commitResult.tags")
+            .tag.mini-font(v-for="tag in commitResult.tags", v-on:click="scrollToCommit('tag ' + commitResult.hash)")
+              i.fas.fa-tags
+              span &nbsp; {{ tag }}
 
   v_ramp(
       v-bind:groupby="info.filterGroupSelection",
@@ -40,9 +41,10 @@
         li(v-for="slice in day.commitResults").commit-message.active
           a(v-bind:href="getSliceLink(slice)" target="_blank") {{ slice.messageTitle }}
           span &nbsp; ({{ slice.insertions }} lines) &nbsp;
-          .tag.mini-font(v-if="slice.tag", v-bind:class="[`${slice.hash}`]")
-            i.fas.fa-tags
-            span &nbsp; {{ slice.tag }}
+          template(v-if="slice.tags")
+            .tag.mini-font(v-for="tag in slice.tags", v-bind:class="[`${slice.hash}`]")
+              i.fas.fa-tags
+              span &nbsp; {{ tag }}
           a(
             v-if="slice.messageBody !== ''",
             v-on:click="updateExpandedCommitMessagesCount",

@@ -1,5 +1,6 @@
 package reposense.commits.model;
 
+import java.util.Arrays;
 import java.util.Date;
 
 import reposense.model.Author;
@@ -11,7 +12,7 @@ public class CommitResult {
     private final String hash;
     private final String messageTitle;
     private final String messageBody;
-    private final String tag;
+    private final String[] tags;
     private final int insertions;
     private final int deletions;
 
@@ -19,13 +20,13 @@ public class CommitResult {
     private final transient Date time;
 
     public CommitResult(Author author, String hash, Date time, String messageTitle,
-            String messageBody, String tag, int insertions, int deletions) {
+            String messageBody, String[] tags, int insertions, int deletions) {
         this.author = author;
         this.hash = hash;
         this.time = time;
         this.messageTitle = messageTitle;
         this.messageBody = messageBody;
-        this.tag = tag;
+        this.tags = tags;
         this.insertions = insertions;
         this.deletions = deletions;
     }
@@ -38,8 +39,8 @@ public class CommitResult {
         return messageBody;
     }
 
-    public String getTag() {
-        return tag;
+    public String[] getTags() {
+        return tags;
     }
 
     public Author getAuthor() {
@@ -78,7 +79,7 @@ public class CommitResult {
                 && time.equals(otherCommitResult.time)
                 && messageTitle.equals(otherCommitResult.messageTitle)
                 && messageBody.equals(otherCommitResult.messageBody)
-                && tag == null ? otherCommitResult.tag == null : tag.equals(otherCommitResult.tag)
+                && Arrays.equals(tags, otherCommitResult.tags)
                 && insertions == otherCommitResult.insertions
                 && deletions == otherCommitResult.deletions;
     }
