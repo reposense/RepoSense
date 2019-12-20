@@ -4159,22 +4159,26 @@
     "Esilocke": 3348,
     "wangyiming1019": 1966
   },
-  "authorFileFormatContributionMap": {
+  "authorFileTypeContributionMap": {
     "charlesgoh": {
-      "java": 856,
-      "adoc": 124
+      "code": 574,
+      "test": 282,
+      "docs": 124
     },
     "jeffreygohkw": {
-      "java": 1911,
-      "adoc": 211
+      "code": 1072,
+      "test": 839,
+      "docs": 211
     },
     "Esilocke": {
-      "java": 2915,
-      "adoc": 433
+      "code": 2031,
+      "test": 884,
+      "docs": 433
     },
     "wangyiming1019": {
-      "java": 1966,
-      "adoc": 0
+      "code": 965,
+      "test": 1001,
+      "docs": 0
     }
   },
   "authorContributionVariance": {
@@ -4184,9 +4188,9 @@
     "wangyiming1019": 55435.55
   },
   "authorDisplayNameMap": {
-    "charlesgoh": "Cha",
-    "jeffreygohkw": "Jef",
-    "Esilocke": "Esi",
-    "wangyiming1019": "Wan"
+    "charlesgoh": "Peter Johnson",
+    "jeffreygohkw": "Zhao Xiang Qing",
+    "Esilocke": "Emilia Houston",
+    "wangyiming1019": "Amit Nitin Ravindra Prakash"
   }
 }

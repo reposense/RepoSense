@@ -126,7 +126,7 @@ window.vSummary = {
       filterHash: '',
       minDate: '',
       maxDate: '',
-      contributionBarColors: {},
+      contributionBarFileTypeColors: {},
       isSafariBrowser: /.*Version.*Safari.*/.test(navigator.userAgent),
     };
   },
@@ -204,58 +204,51 @@ window.vSummary = {
   },
   methods: {
     // view functions //
-    getFileFormatContributionBars(fileFormatContribution) {
-      let totalWidth = 0;
-      const contributionLimit = (this.avgContributionSize * 2);
-      const totalBars = {};
-      const maxLength = 100;
+    getFileTypeContributionBars(fileTypeContribution) {
+      let currentBarWidth = 0;
+      const fullBarWidth = 100;
+      const contributionPerFullBar = (this.avgContributionSize * 2);
+      const allFileTypesContributionBars = {};
 
-      Object.keys(fileFormatContribution).forEach((fileFormat) => {
-        const contribution = fileFormatContribution[fileFormat];
-        const res = [];
-        let fileFormatWidth = 0;
+      Object.keys(fileTypeContribution).forEach((fileType) => {
+        const contribution = fileTypeContribution[fileType];
+        let barWidth = (contribution / contributionPerFullBar) * fullBarWidth;
+        const contributionBars = [];
 
-        // compute 100% width bars
-        const cnt = parseInt(contribution / contributionLimit, 10);
-        for (let cntId = 0; cntId < cnt; cntId += 1) {
-          res.push(maxLength);
-          fileFormatWidth += maxLength;
-          totalWidth += maxLength;
-        }
-
-        // compute < 100% width bars
-        const last = (contribution % contributionLimit) / contributionLimit;
-        if (last !== 0) {
-          res.push(last * maxLength);
-          fileFormatWidth += last * maxLength;
-          totalWidth += last * maxLength;
-        }
-
-        // split > 100% width bars into smaller bars
-        if ((totalWidth > maxLength) && (totalWidth !== fileFormatWidth)) {
-          res.unshift(maxLength - (totalWidth - fileFormatWidth));
-          res[res.length - 1] = res[res.length - 1] - (maxLength - (totalWidth - fileFormatWidth));
-          if (res[res.length - 1] < 0) {
-            const negativeWidth = res.pop();
-            res[res.length - 1] += negativeWidth;
+        // if contribution bar for file type is able to fit on the current line
+        if (currentBarWidth + barWidth < fullBarWidth) {
+          contributionBars.push(barWidth);
+          currentBarWidth += barWidth;
+        } else {
+          // take up all the space left on the current line
+          contributionBars.push(fullBarWidth - currentBarWidth);
+          barWidth -= fullBarWidth - currentBarWidth;
+          // additional bar width will start on a new line
+          const numOfFullBars = Math.floor(barWidth / fullBarWidth);
+          for (let i = 0; i < numOfFullBars; i += 1) {
+            contributionBars.push(fullBarWidth);
           }
-          totalWidth = res[res.length - 1];
+          const remainingBarWidth = barWidth % fullBarWidth;
+          if (remainingBarWidth !== 0) {
+            contributionBars.push(remainingBarWidth);
+          }
+          currentBarWidth = remainingBarWidth;
         }
-        totalBars[fileFormat] = res;
+        allFileTypesContributionBars[fileType] = contributionBars;
       });
 
-      return totalBars;
+      return allFileTypesContributionBars;
     },
-    getFileFormats(repo) {
-      const fileFormats = [];
+    getFileTypes(repo) {
+      const fileTypes = [];
       repo.forEach((user) => {
-        Object.keys(user.fileFormatContribution).forEach((fileFormat) => {
-          if (!fileFormats.includes(fileFormat)) {
-            fileFormats.push(fileFormat);
+        Object.keys(user.fileTypeContribution).forEach((fileType) => {
+          if (!fileTypes.includes(fileType)) {
+            fileTypes.push(fileType);
           }
         });
       });
-      return fileFormats;
+      return fileTypes;
     },
     getContributionBars(totalContribution) {
       const res = [];
@@ -283,6 +276,28 @@ window.vSummary = {
       }
 
       return repo.location;
+    },
+
+    getReportIssueGitHubLink(stackTrace) {
+      return `https://github.com/reposense/RepoSense/issues/new?title=${this.getReportIssueTitle()
+      }&body=${this.getReportIssueMessage(stackTrace)}`;
+    },
+
+    getReportIssueEmailAddress() {
+      return 'seer@comp.nus.edu.sg';
+    },
+
+    getReportIssueEmailLink(stackTrace) {
+      return `mailto:${this.getReportIssueEmailAddress()}?subject=${this.getReportIssueTitle()
+      }&body=${this.getReportIssueMessage(stackTrace)}`;
+    },
+
+    getReportIssueTitle() {
+      return encodeURI('Unexpected error with RepoSense version ') + window.app.repoSenseVersion;
+    },
+
+    getReportIssueMessage(message) {
+      return encodeURI(message);
     },
 
     // model functions //
@@ -421,7 +436,7 @@ window.vSummary = {
       this.filtered.forEach((group, groupIndex) => {
         const dateToIndexMap = {};
         const mergedCommits = [];
-        const mergedFileFormatContribution = {};
+        const mergedFileTypeContribution = {};
         let mergedVariance = 0;
         let totalMergedCommits = 0;
 
@@ -429,14 +444,14 @@ window.vSummary = {
           this.mergeCommits(user, mergedCommits, dateToIndexMap);
           mergedCommits.sort(window.comparator((ele) => ele.date));
 
-          this.mergeFileFormatContribution(user, mergedFileFormatContribution);
+          this.mergeFileTypeContribution(user, mergedFileTypeContribution);
 
           totalMergedCommits += user.totalCommits;
           mergedVariance += user.variance;
         });
 
         group[0].commits = mergedCommits;
-        group[0].fileFormatContribution = mergedFileFormatContribution;
+        group[0].fileTypeContribution = mergedFileTypeContribution;
         group[0].totalCommits = totalMergedCommits;
         group[0].variance = mergedVariance;
 
@@ -472,10 +487,10 @@ window.vSummary = {
         }
       });
     },
-    mergeFileFormatContribution(user, merged) {
-      Object.entries(user.fileFormatContribution).forEach((fileFormat) => {
-        const key = fileFormat[0];
-        const value = fileFormat[1];
+    mergeFileTypeContribution(user, merged) {
+      Object.entries(user.fileTypeContribution).forEach((fileType) => {
+        const key = fileType[0];
+        const value = fileType[1];
 
         if (!Object.prototype.hasOwnProperty.call(merged, key)) {
           merged[key] = 0;
@@ -483,23 +498,23 @@ window.vSummary = {
         merged[key] += value;
       });
     },
-    processFileFormats() {
+    processFileTypes() {
       const selectedColors = ['#ffe119', '#4363d8', '#3cb44b', '#f58231', '#911eb4', '#46f0f0', '#f032e6',
           '#bcf60c', '#fabebe', '#008080', '#e6beff', '#9a6324', '#fffac8', '#800000', '#aaffc3', '#808000', '#ffd8b1',
           '#000075', '#808080'];
-      const colors = {};
+      const fileTypeColors = {};
       let i = 0;
 
       this.repos.forEach((repo) => {
         repo.users.forEach((user) => {
-          Object.keys(user.fileFormatContribution).forEach((fileFormat) => {
-            if (!Object.prototype.hasOwnProperty.call(colors, fileFormat)) {
-              colors[fileFormat] = selectedColors[i];
+          Object.keys(user.fileTypeContribution).forEach((fileType) => {
+            if (!Object.prototype.hasOwnProperty.call(fileTypeColors, fileType)) {
+              fileTypeColors[fileType] = selectedColors[i];
               i = (i + 1) % selectedColors.length;
             }
           });
         });
-        this.contributionBarColors = colors;
+        this.contributionBarFileTypeColors = fileTypeColors;
       });
     },
     splitCommitsWeek(user) {
@@ -694,7 +709,7 @@ window.vSummary = {
 
     groupByRepos(repos) {
       const sortedRepos = [];
-      const sortingWithinOption = this.sortingWithinOption === 'title' ? 'name' : this.sortingWithinOption;
+      const sortingWithinOption = this.sortingWithinOption === 'title' ? 'displayName' : this.sortingWithinOption;
       const sortingOption = this.sortingOption === 'groupTitle' ? 'searchPath' : this.sortingOption;
       repos.forEach((users) => {
         users.sort(window.comparator((ele) => ele[sortingWithinOption]));
@@ -738,7 +753,7 @@ window.vSummary = {
       const authorMap = {};
       const filtered = [];
       const sortingWithinOption = this.sortingWithinOption === 'title' ? 'searchPath' : this.sortingWithinOption;
-      const sortingOption = this.sortingOption === 'groupTitle' ? 'name' : this.sortingOption;
+      const sortingOption = this.sortingOption === 'groupTitle' ? 'displayName' : this.sortingOption;
       repos.forEach((users) => {
         users.forEach((user) => {
           if (Object.keys(authorMap).includes(user.name)) {
@@ -779,7 +794,7 @@ window.vSummary = {
   created() {
     this.renderFilterHash();
     this.getFiltered();
-    this.processFileFormats();
+    this.processFileTypes();
   },
   components: {
     v_ramp: window.vRamp,

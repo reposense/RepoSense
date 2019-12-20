@@ -13,12 +13,14 @@ import net.sourceforge.argparse4j.helper.HelpScreenException;
 import reposense.model.AuthorConfiguration;
 import reposense.model.CliArguments;
 import reposense.model.ConfigCliArguments;
+import reposense.model.GroupConfiguration;
 import reposense.model.LocationsCliArguments;
 import reposense.model.RepoConfiguration;
 import reposense.model.RepoLocation;
 import reposense.model.ViewCliArguments;
 import reposense.parser.ArgsParser;
 import reposense.parser.AuthorConfigCsvParser;
+import reposense.parser.GroupConfigCsvParser;
 import reposense.parser.InvalidLocationException;
 import reposense.parser.ParseException;
 import reposense.parser.RepoConfigCsvParser;
@@ -26,6 +28,7 @@ import reposense.report.ReportGenerator;
 import reposense.system.LogsManager;
 import reposense.system.ReportServer;
 import reposense.util.FileUtil;
+import reposense.util.TimeUtil;
 
 /**
  * The main RepoSense class.
@@ -41,6 +44,7 @@ public class RepoSense {
      */
     public static void main(String[] args) {
         try {
+            TimeUtil.startTimer();
             CliArguments cliArguments = ArgsParser.parse(args);
             List<RepoConfiguration> configs = null;
 
@@ -66,6 +70,8 @@ public class RepoSense {
             FileUtil.zipFoldersAndFiles(reportFoldersAndFiles, cliArguments.getOutputFilePath().toAbsolutePath(),
                     ".json");
 
+            logger.info(TimeUtil.getElapsedTimeMessage());
+
             if (cliArguments.isAutomaticallyLaunching()) {
                 ReportServer.startServer(SERVER_PORT_NUMBER, cliArguments.getOutputFilePath().toAbsolutePath());
             }
@@ -85,13 +91,22 @@ public class RepoSense {
      */
     public static List<RepoConfiguration> getRepoConfigurations(ConfigCliArguments cliArguments) throws IOException {
         List<RepoConfiguration> repoConfigs = new RepoConfigCsvParser(cliArguments.getRepoConfigFilePath()).parse();
-        List<AuthorConfiguration> authorConfigs = null;
+        List<AuthorConfiguration> authorConfigs;
+        List<GroupConfiguration> groupConfigs;
 
         try {
             authorConfigs = new AuthorConfigCsvParser(cliArguments.getAuthorConfigFilePath()).parse();
             RepoConfiguration.merge(repoConfigs, authorConfigs);
         } catch (IOException ioe) {
             // IOException thrown as author-config.csv is not found.
+            // Ignore exception as the file is optional.
+        }
+
+        try {
+            groupConfigs = new GroupConfigCsvParser(cliArguments.getGroupConfigFilePath()).parse();
+            RepoConfiguration.setGroupConfigsToRepos(repoConfigs, groupConfigs);
+        } catch (IOException ioe) {
+            // IOException thrown as groups-config.csv is not found.
             // Ignore exception as the file is optional.
         }
 

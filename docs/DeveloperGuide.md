@@ -5,10 +5,11 @@ Thank you for your interest in contributing to RepoSense!
   - [Setting up the project in your computer using IntelliJ](#setting-up-the-project-in-your-computer-using-intellij)
   - [Verifying the setup](#verifying-the-setup)
   - [Configuring the Java coding style](#configuring-the-java-coding-style)
-  - [Configuring the JavaScript coding style](#configuring-the-javascript-coding-style)
-  - [Configuring the CSS coding style](#configuring-the-css-coding-style)
+  - [Configuring the JavaScript and CSS coding style](#configuring-the-javascript-and-css-coding-style)
   - [Configuring Cypress for automated front-end testing](#configuring-cypress-for-automated-front-end-testing)
   - [(Optional) Using Vue.js devtools for frontend debugging on Chrome](#optional-using-vuejs-devtools-for-frontend-debugging-on-chrome)
+  - [Before writing code](#before-writing-code)
+  - [Building and running RepoSense from code](#building-and-running-reposense-from-code)
 - [Architecture](#architecture)
   - [Parser](#parserconfigparser)
   - [Git](#git)
@@ -25,6 +26,9 @@ Thank you for your interest in contributing to RepoSense!
   - [Data loader](#data-loader-apijs)
   - [Summary View](#summary-view-v_summaryjs)
   - [Authorship View](#authorship-view-v_authorshipjs)
+  - [Zoom View](#zoom-view-v_zoomjs)
+  - [Ramp View](#ramp-view-v_rampjs)
+  - [Segment View](#segment-view-v_segmentjs)
 
 ## Setting up
 
@@ -184,8 +188,9 @@ gradlew run -Dargs="-c ./configs/ -o output_path/ -s 21/10/2017 -u 21/11/2017 -f
 ### Parser(ConfigParser)
 [`Parser`](/src/main/java/reposense/parser) contains three components:
  * [`ArgsParser`](/src/main/java/reposense/parser/ArgsParser.java): Parses the user-supplied command line arguments into a `CliArguments` object.
- * [`CsvParser`](/src/main/java/reposense/parser/CsvParser.java): Abstract generic class for CSV parsing functionality. The following two classes extends `CsvParser`.
+ * [`CsvParser`](/src/main/java/reposense/parser/CsvParser.java): Abstract generic class for CSV parsing functionality. The following three classes extend `CsvParser`.
    * [`AuthorConfigCsvParser`](/src/main/java/reposense/parser/AuthorConfigCsvParser.java): Parses the `author-config.csv` config file into a list of `AuthorConfiguration` for each repository to analyze.
+   * [`GroupConfigCsvParser`](/src/main/java/reposense/parser/GroupConfigCsvParser.java) Parses the `group-config.csv` config file into a list of `GroupConfiguration` for each repository to analyze.
    * [`RepoConfigCsvParser`](/src/main/java/reposense/parser/RepoConfigCsvParser.java): Parses the `repo-config.csv` config file into a list of `RepoConfiguration` for each repository to analyze.
  * [`JsonParser`](/src/main/java/reposense/parser/JsonParser.java): Abstract generic class for JSON parsing functionality. The following class extends `JsonParser` class:
    * [`StandaloneConfigJsonParser`](/src/main/java/reposense/parser/StandaloneConfigJsonParser.java): Parses the `_reposense/config.json` config file into a `StandaloneConfig`.
@@ -243,6 +248,7 @@ gradlew run -Dargs="-c ./configs/ -o output_path/ -s 21/10/2017 -u 21/11/2017 -f
 [`Model`](/src/main/java/reposense/model) holds the data structures that are commonly used by the different aspects of *RepoSense*.
  * [`Author`](/src/main/java/reposense/model/Author.java) stores the `GitHub ID` of an author. Any contributions or commits made by the author, using his/her `GitHub ID` or aliases, will be attributed to the same `Author` object. It is used by `AuthorshipReporter` and `CommitsReporter` to attribute the commit and file contributions to the respective authors.
  * [`CliArguments`](/src/main/java/reposense/model/CliArguments.java) stores the parsed command line arguments supplied by the user. It contains the configuration settings such as the CSV config file to read from, the directory to output the report to, and date range of commits to analyze. These configuration settings are passed into `RepoConfiguration`.
+ * [`FileTypeManager`](/src/main/java/reposense/model/FileTypeManager.java) stores the file format to be analyzed and the custom groups specified by the user for any repository.
  * [`RepoConfiguration`](/src/main/java/reposense/model/RepoConfiguration.java) stores the configuration information from the CSV config file for a single repository, which are the repository's orgarization, name, branch, list of authors to analyse, date range to analyze commits and files from `CliArguments`.
  These configuration information are used by:
     - `GitClone` to determine the location to clone the repository from and which branch to check out to.

@@ -22,7 +22,7 @@ import reposense.git.GitClone;
 import reposense.git.exception.GitCloneException;
 import reposense.model.Author;
 import reposense.model.CommitHash;
-import reposense.model.FormatTest;
+import reposense.model.FileTypeTest;
 import reposense.model.RepoConfiguration;
 import reposense.model.RepoLocation;
 import reposense.parser.InvalidLocationException;
@@ -73,14 +73,14 @@ public class GitTestTemplate {
     public void before() throws InvalidLocationException {
         config = new RepoConfiguration(new RepoLocation(TEST_REPO_GIT_LOCATION), "master");
         config.setAuthorList(Collections.singletonList(getAlphaAllAliasAuthor()));
-        config.setFormats(FormatTest.DEFAULT_TEST_FORMATS);
+        config.setFormats(FileTypeTest.DEFAULT_TEST_FORMATS);
     }
 
     @BeforeClass
     public static void beforeClass() throws GitCloneException, IOException, InvalidLocationException {
         deleteRepos();
         config = new RepoConfiguration(new RepoLocation(TEST_REPO_GIT_LOCATION), "master");
-        config.setFormats(FormatTest.DEFAULT_TEST_FORMATS);
+        config.setFormats(FileTypeTest.DEFAULT_TEST_FORMATS);
         GitClone.clone(config);
     }
 
