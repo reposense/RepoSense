@@ -170,6 +170,29 @@ public class CommitInfoAnalyzerTest extends GitTestTemplate {
         Assert.assertEquals(expectedCommitResults, actualCommitResults);
     }
 
+    @Test
+    public void analyzeCommits_commitsWithMultipleTags_success() throws ParseException {
+        Author author = new Author(JAMES_AUTHOR_NAME);
+        List<CommitResult> expectedCommitResults = new ArrayList<>();
+
+        expectedCommitResults.add(new CommitResult(author, "62c3a50ef9b3580b2070deac1eed2b3e2d701e04",
+                parseGitStrictIsoDate("2019-12-20T22:45:18+08:00"), "Single Tag Commit",
+                "", new String[] {"1st"}, 2, 1));
+        expectedCommitResults.add(new CommitResult(author, "c5e36ec059390233ac036db61a84fa6b55952506",
+                parseGitStrictIsoDate("2019-12-20T22:47:21+08:00"), "Double Tag Commit",
+                "", new String[] {"2nd-tag", "1st-tag"}, 1, 0));
+
+        config.setBranch("879-CommitInfoAnalyzerTest-analyzeCommits_commitsWithMultipleTags_success");
+        config.setAuthorList(Collections.singletonList(author));
+        config.setSinceDate(new GregorianCalendar(2019, Calendar.DECEMBER, 20).getTime());
+        config.setUntilDate(new GregorianCalendar(2019, Calendar.DECEMBER, 21).getTime());
+
+        List<CommitInfo> actualCommitInfos = CommitInfoExtractor.extractCommitInfos(config);
+        List<CommitResult> actualCommitResults = CommitInfoAnalyzer.analyzeCommits(actualCommitInfos, config);
+
+        Assert.assertEquals(expectedCommitResults, actualCommitResults);
+    }
+
     /**
      * Returns a {@code Date} from a string {@code gitStrictIsoDate}.
      */
