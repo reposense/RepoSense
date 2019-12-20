@@ -188,11 +188,14 @@ public class RepoConfiguration {
     }
 
     /**
-     * Sets {@code isStandaloneConfigIgnored} to all {@code RepoConfiguration} in {@code configs}.
+     * Sets each {@code RepoConfiguration} in {@code configs} to ignore its standalone config, if
+     * {@code ignoreAllStandaloneConfigs} is true.
      */
     public static void setStandaloneConfigIgnoredToRepoConfigs(
-            List<RepoConfiguration> configs, boolean isStandaloneConfigIgnored) {
-        configs.stream().forEach(config -> config.setStandaloneConfigIgnored(isStandaloneConfigIgnored));
+            List<RepoConfiguration> configs, boolean ignoreAllStandaloneConfigs) {
+        if (ignoreAllStandaloneConfigs) {
+            configs.stream().forEach(config -> config.setStandaloneConfigIgnored(true));
+        }
     }
 
     /**
