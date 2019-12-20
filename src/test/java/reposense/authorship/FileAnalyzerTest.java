@@ -1,7 +1,9 @@
 package reposense.authorship;
 
 import java.util.Arrays;
+import java.util.Calendar;
 import java.util.Collections;
+import java.util.Date;
 
 import org.junit.Assert;
 import org.junit.Test;
@@ -13,10 +15,15 @@ import reposense.git.exception.CommitNotFoundException;
 import reposense.model.Author;
 import reposense.model.CommitHash;
 import reposense.template.GitTestTemplate;
+import reposense.util.TestUtil;
 
 
 public class FileAnalyzerTest extends GitTestTemplate {
-
+    private static final Date EMAIL_WITH_ADDITION_TEST_SINCE_DATE =
+            TestUtil.getSinceDate(2019, Calendar.MARCH, 28);
+    private static final Date EMAIL_WITH_ADDITION_TEST_UNTIL_DATE =
+            TestUtil.getUntilDate(2019, Calendar.MARCH, 28);
+    
     @Test
     public void blameTest() {
         config.setSinceDate(BLAME_TEST_SINCE_DATE);
