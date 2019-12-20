@@ -278,7 +278,7 @@ In addition, there are some _optional_ extra parameters you can use to customize
   > Note: If the end date is not specified, the date of generating the report will be taken as the end date.
 * **`--formats, -f LIST_OF_FORMATS`**: A space-separated list of file extensions that should be included in the analysis (`-f` as alias). Default: all file formats<br>
   Example:`--formats css fxml gradle` or `-f css fxml gradle`
-* **`--ignore-standalone-config, -i`**: A flag to ignore the standalone config file in the repo (`-i` as alias). This flag will not overwrite the `Ignore standalone config` field in the csv config file. Default: the standalone config file is not ignored.<br>
+* **`--ignore-standalone-config, -i`**: A flag to ignore the standalone config file in the repo (`-i` as alias). This flag will overwrite the `Ignore standalone config` field in the csv config file. Default: the standalone config file is not ignored.<br>
   Example:`--ignore-standalone-config` or `-i`
 * **`--view, -v [REPORT_FOLDER]`**: A flag to launch the report automatically after processing (`-v` as alias). Note that if the `REPORT_FOLDER` argument is given, no analysis will be performed and the report specified by the argument will be opened.<br>
 Example:`--view` or `-v`
@@ -340,7 +340,7 @@ Optionally, you can use a `author-config.csv` (which should be in the same direc
 Column Name | Explanation
 ----------- | -----------
 [Optional] Repository's Location | Same as `repo-config.csv`. Default: all the repos in `repo-config.csv`
-[Optional] Branch | The branch to analyze for this author e.g., `master`. Default: the default branch of the repo
+[Optional] Branch | The branch to analyze for this author e.g., `master`. Default: the author will be bound to all the repos in `repo-config.csv` that has the same repo's location, irregardless of branch
 Author's GitHub ID | GitHub username of the target author e.g., `JohnDoe`
 [Optional] Author's Emails<sup>*</sup> | Associated Github emails of the author. This can be found in your [GitHub settings](https://github.com/settings/emails).
 [Optional] Author's Display Name | The name to display for the author. Default: author's GitHub username.
