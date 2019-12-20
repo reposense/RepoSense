@@ -29,6 +29,7 @@ import reposense.report.ReportGenerator;
 import reposense.system.LogsManager;
 import reposense.system.ReportServer;
 import reposense.util.FileUtil;
+import reposense.util.TimeUtil;
 
 /**
  * The main RepoSense class.
@@ -44,6 +45,7 @@ public class RepoSense {
      */
     public static void main(String[] args) {
         try {
+            TimeUtil.startTimer();
             CliArguments cliArguments = ArgsParser.parse(args);
             List<RepoConfiguration> configs = null;
 
@@ -68,6 +70,8 @@ public class RepoSense {
                     cliArguments.isSinceDateProvided(), cliArguments.isUntilDateProvided());
             FileUtil.zipFoldersAndFiles(reportFoldersAndFiles, cliArguments.getOutputFilePath().toAbsolutePath(),
                     ".json");
+
+            logger.info(TimeUtil.getElapsedTimeMessage());
 
             if (cliArguments.isAutomaticallyLaunching()) {
                 ReportServer.startServer(SERVER_PORT_NUMBER, cliArguments.getOutputFilePath().toAbsolutePath());
