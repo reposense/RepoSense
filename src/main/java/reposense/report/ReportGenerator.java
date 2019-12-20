@@ -111,6 +111,10 @@ public class ReportGenerator {
         return reportFoldersAndFiles;
     }
 
+    /**
+     * Copies the template file to the specified {@code outputPath} for the repo report to be generated
+     * @throws IOException if {@code is} refers to an invalid path.
+     */
     private static void prepareTemplateFile(String outputPath) throws IOException {
         InputStream is = RepoSense.class.getResourceAsStream(TEMPLATE_FILE);
         FileUtil.copyTemplate(is, outputPath);
