@@ -31,7 +31,6 @@ public class RepoConfiguration {
 
     private transient boolean annotationOverwrite = true;
     private transient FileTypeManager fileTypeManager;
-    private transient int commitNum = 1;
     private transient List<String> ignoreGlobList = new ArrayList<>();
     private transient AuthorConfiguration authorConfig;
     private transient boolean isStandaloneConfigIgnored;
@@ -296,14 +295,6 @@ public class RepoConfiguration {
 
     public void setAuthorDisplayNameMap(Map<Author, String> authorDisplayNameMap) {
         authorConfig.setAuthorDisplayNameMap(authorDisplayNameMap);
-    }
-
-    public int getCommitNum() {
-        return commitNum;
-    }
-
-    public void setCommitNum(int commitNum) {
-        this.commitNum = commitNum;
     }
 
     public String getBranch() {
