@@ -92,30 +92,40 @@ public class RepoConfiguration {
     public static void merge(List<RepoConfiguration> repoConfigs, List<AuthorConfiguration> authorConfigs) {
         for (AuthorConfiguration authorConfig : authorConfigs) {
             if (authorConfig.getLocation().isEmpty()) {
-                continue;
-            }
-
-            RepoConfiguration matchingRepoConfig = getMatchingRepoConfig(repoConfigs, authorConfig);
-
-            if (matchingRepoConfig == null) {
-                String branchInfo = authorConfig.isDefaultBranch()
-                        ? ""
-                        : String.format(" (branch %s)", authorConfig.getBranch());
-                logger.warning(String.format(
-                        "Repository %s%s is not found in repo-config.csv.",
-                        authorConfig.getLocation(), branchInfo));
-                continue;
-            }
-
-            matchingRepoConfig.setAuthorConfiguration(authorConfig);
-        }
-
-        for (AuthorConfiguration authorConfig : authorConfigs) {
-            if (authorConfig.getLocation().isEmpty()) {
                 for (RepoConfiguration repoConfig : repoConfigs) {
                     repoConfig.addAuthors(authorConfig.getAuthorList());
                 }
+                continue;
             }
+
+            List<RepoConfiguration> locationMatchingRepoConfigs =
+                    getMatchingRepoConfigsByLocation(repoConfigs, authorConfig.getLocation());
+
+            if (locationMatchingRepoConfigs.isEmpty()) {
+                logger.warning(String.format(
+                        "Repository %s is not found in repo-config.csv.",
+                        authorConfig.getLocation()));
+                continue;
+            }
+            if (authorConfig.isDefaultBranch()) {
+                locationMatchingRepoConfigs.forEach(matchingRepoConfig -> {
+                    matchingRepoConfig.addAuthors(authorConfig.getAuthorList());
+                });
+                continue;
+            }
+
+            RepoConfiguration branchMatchingRepoConfig = getMatchingRepoConfig(repoConfigs, authorConfig);
+
+            if (branchMatchingRepoConfig == null) {
+                if (!authorConfig.isDefaultBranch()) {
+                    logger.warning(String.format(
+                            "Repository %s (branch %s) is not found in repo-config.csv.",
+                            authorConfig.getLocation(), authorConfig.getBranch()));
+                }
+                continue;
+            }
+
+            branchMatchingRepoConfig.addAuthors(authorConfig.getAuthorList());
         }
     }
 
@@ -129,7 +139,7 @@ public class RepoConfiguration {
                 continue;
             }
 
-            List<RepoConfiguration> matchingRepoConfigs = getMatchingRepoConfigsByRepoLocation(repoConfigs,
+            List<RepoConfiguration> matchingRepoConfigs = getMatchingRepoConfigsByLocation(repoConfigs,
                     groupConfig.getLocation());
             if (matchingRepoConfigs.isEmpty()) {
                 logger.warning(String.format(
@@ -148,6 +158,9 @@ public class RepoConfiguration {
      */
     private static RepoConfiguration getMatchingRepoConfig(
             List<RepoConfiguration> repoConfigs, AuthorConfiguration authorConfig) {
+        if (authorConfig.isDefaultBranch()) {
+            return null;
+        }
         for (RepoConfiguration repoConfig : repoConfigs) {
             if (repoConfig.getLocation().equals(authorConfig.getLocation())
                     && repoConfig.getBranch().equals(authorConfig.getBranch())) {
@@ -160,7 +173,7 @@ public class RepoConfiguration {
     /**
      * Returns a list of {@link RepoConfiguration} where the {@link RepoLocation} matches {@code targetRepoLocation}.
      */
-    private static List<RepoConfiguration> getMatchingRepoConfigsByRepoLocation(
+    private static List<RepoConfiguration> getMatchingRepoConfigsByLocation(
             List<RepoConfiguration> configs, RepoLocation targetRepoLocation) {
         return configs.stream().filter(config -> config.getLocation().equals(targetRepoLocation))
                 .collect(Collectors.toList());
@@ -178,11 +191,14 @@ public class RepoConfiguration {
     }
 
     /**
-     * Sets {@code isStandaloneConfigIgnored} to all {@code RepoConfiguration} in {@code configs}.
+     * Sets each {@code RepoConfiguration} in {@code configs} to ignore its standalone config, if
+     * {@code ignoreAllStandaloneConfigs} is true.
      */
     public static void setStandaloneConfigIgnoredToRepoConfigs(
-            List<RepoConfiguration> configs, boolean isStandaloneConfigIgnored) {
-        configs.stream().forEach(config -> config.setStandaloneConfigIgnored(isStandaloneConfigIgnored));
+            List<RepoConfiguration> configs, boolean ignoreAllStandaloneConfigs) {
+        if (ignoreAllStandaloneConfigs) {
+            configs.stream().forEach(config -> config.setStandaloneConfigIgnored(true));
+        }
     }
 
     /**
