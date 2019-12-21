@@ -23,7 +23,6 @@ public class FileAnalyzerTest extends GitTestTemplate {
             TestUtil.getSinceDate(2019, Calendar.MARCH, 28);
     private static final Date EMAIL_WITH_ADDITION_TEST_UNTIL_DATE =
             TestUtil.getUntilDate(2019, Calendar.MARCH, 28);
-    
     @Test
     public void blameTest() {
         config.setSinceDate(BLAME_TEST_SINCE_DATE);
