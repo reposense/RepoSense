@@ -433,7 +433,7 @@ public class RepoConfigurationTest {
         expectedConfig.setIgnoreGlobList(REPO_LEVEL_GLOB_LIST);
         expectedConfig.setFormats(CONFIG_FORMATS);
         expectedConfig.setStandaloneConfigIgnored(true);
-        expectedConfig.setIgnoredAuthorsList(Arrays.asList("jordancjq"));
+        expectedConfig.setIgnoredAuthorsList(Arrays.asList("jordancjq", "Eugene Peh"));
 
         String formats = String.join(" ", CLI_FORMATS);
         String input = new InputBuilder().addConfig(IGNORE_AUTHORS_TEST_CONFIG_FILE)
