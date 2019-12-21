@@ -16,6 +16,7 @@
     * [`author-config.csv`](#author-configcsv)
     * [`group-config.csv`](#group-configcsv)
 * [Analyzing Multiple Repos](#analyzing-multiple-repos)
+* [Quickstart RepoSense with Netlify](#quickstart-reposense-with-netlify)
 * [Using Travis-CI to automate publishing of the report to GitHub Pages](#using-travis-ci-to-automate-publishing-of-the-report-to-github-pages)
 * [FAQ](#faq)
 
@@ -26,7 +27,7 @@ First, ensure that you have the necessary prerequisites:
 * **Java 8** (JRE `1.8.0_60`) or later. You may download Java [here](https://www.java.com/en/).
 * **git `2.14`** or later on the command line (run `git --version` in your OS terminal to confirm). You may download git [here](https://git-scm.com/downloads).
 
-Next, download the latest executable Jar from our [releases](https://github.com/reposense/RepoSense/releases/latest).
+Next, download the latest executable Jar from our [releases](https://github.com/reposense/RepoSense/releases/latest). Alternatively, you can follow this guide on [Using RepoSense with Netlify](UserGuide.md#using-reposense-with-netlify) which will allow you to use the latest version of RepoSense online without having to download any files.
 
 The simplest use case for RepoSense is to generate a report for the entire history of a repo. Here are the steps:
 1. Generate the report for the repo by executing the following command in a terminal:<br/>
@@ -384,6 +385,9 @@ Alternatively, you can use csv config files to customize the analysis as before 
 * `repo-config.csv`: Add additional rows for the extra repos ([example](repo-config.csv))
 * `author-config.csv`: Add one row for each author in each repo you want to analyze
 
+## Quickstart RepoSense with Netlify
+
+Using Netlify, and a fork of this repo allow you to quickly get started online and enjoy a real time RepoSense report on your target repository. Further instructions can be found in this [guide](UsingNetlifyGuide.md).
 
 ## Using Travis-CI to automate publishing of the report to GitHub Pages
 
