@@ -204,7 +204,7 @@ public class ArgsParser {
                 logger.info(MESSAGE_USING_DEFAULT_CONFIG_PATH);
             }
             return new ConfigCliArguments(configFolderPath, outputFolderPath, sinceDate, untilDate, isSinceDateProvided,
-                    isUntilDateProvided, formats, isAutomaticallyLaunching, zoneId);
+                    isUntilDateProvided, formats, isAutomaticallyLaunching, isStandaloneConfigIgnored, zoneId);
         } catch (HelpScreenException hse) {
             throw hse;
         } catch (ArgumentParserException ape) {

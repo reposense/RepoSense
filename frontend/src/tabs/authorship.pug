@@ -22,9 +22,11 @@
             option(value="fileName") File Name
             option(value="fileType") File Type
           label.medium-font sort by
-        label
-          input(type="checkbox", v-model="toReverseSortFiles").mui-checkbox
-          span.medium-font.reverse reverse
+        .mui-select.sort-order
+          select.medium-font(v-model="toReverseSortFiles")
+            option(v-bind:value='true') Descending
+            option(v-bind:value='false') Ascending
+          label.medium-font order
       .searchbox
         input.radio-button--search(type="radio", name="filter", value="search", v-bind:checked="isSearchBar",
         v-on:click="indicateSearchBar")
