@@ -28,8 +28,7 @@ public class AuthorConfigCsvParser extends CsvParser<AuthorConfiguration> {
     private static final int DISPLAY_NAME_POSITION = 4;
     private static final int ALIAS_POSITION = 5;
     private static final int IGNORE_GLOB_LIST_POSITION = 6;
-    // Number of columns expected in the header of author-config.csv file.
-    private static final int HEADER_SIZE = IGNORE_GLOB_LIST_POSITION + 1;
+    private static final int HEADER_SIZE = IGNORE_GLOB_LIST_POSITION + 1; // last position + 1
 
     public AuthorConfigCsvParser(Path csvFilePath) throws IOException {
         super(csvFilePath, HEADER_SIZE);
