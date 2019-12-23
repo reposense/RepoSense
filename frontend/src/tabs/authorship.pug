@@ -55,10 +55,10 @@
     template(v-for="file in selectedFiles")
       .file.active(v-bind:key="file.path")
         .title
-          span.path(onclick="toggleNext(this.parentNode)", v-on:click="updateCount")
-            span [{{ activeSortSection(file) }}]&nbsp
-            span.remaining-path {{ remainingPathSection(file) }}&nbsp
-          span.loc ({{ file.lineCount }} lines)
+          span.title-text(onclick="toggleNext(this.parentNode)", v-on:click="updateCount")
+            span {{ activeSortSection(file) }}&nbsp
+            span.path {{ pathSection(file) }}&nbsp
+            span.loc {{ lineOfCodeSection(file) }}
           a(
           v-bind:href="getFileLink(file, 'commits')", target="_blank",
           title="click to view the history view of file"

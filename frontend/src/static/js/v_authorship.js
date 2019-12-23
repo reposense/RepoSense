@@ -6,13 +6,13 @@ const filesSortDict = {
 };
 
 const activeSortSectionDict = {
-  lineOfCode: (file) => `${file.lineCount} lines`,
+  lineOfCode: (file) => `(${file.lineCount} lines)`,
   path: (file) => file.path,
   fileName: (file) => file.path.split(/[/]+/).pop(),
-  fileType: (file) => file.fileType,
+  fileType: (file) => `(${file.fileType})`,
 };
 
-const remainingPathSectionDict = {
+const pathSectionDict = {
   lineOfCode: (file) => file.path,
   path: () => '',
   fileName: (file) => file.path.split(/[/]+/).slice(0, -1).join('/'),
@@ -60,14 +60,15 @@ window.vAuthorship = {
       isSearchBar: false,
       isCheckBoxes: true,
       activeSortSection: activeSortSectionDict.lineOfCode,
-      remainingPathSection: remainingPathSectionDict.lineOfCode,
+      pathSection: pathSectionDict.lineOfCode,
+      lineOfCodeSection: () => '',
     };
   },
 
   watch: {
     filesSortType() {
       this.sortFiles();
-      this.updateActiveSort();
+      this.updateTitleText();
     },
     toReverseSortFiles() {
       this.sortFiles();
@@ -231,9 +232,15 @@ window.vAuthorship = {
           * window.comparator(filesSortDict[this.filesSortType])(a, b);
     },
 
-    updateActiveSort() {
+    updateTitleText() {
       this.activeSortSection = activeSortSectionDict[this.filesSortType];
-      this.remainingPathSection = remainingPathSectionDict[this.filesSortType];
+      this.pathSection = pathSectionDict[this.filesSortType];
+      this.lineOfCodeSection = (file) => {
+        if (this.filesSortType === 'lineOfCode') {
+          return '';
+        }
+        return `(${file.lineCount} lines)`;
+      };
     },
 
     selectAll() {
