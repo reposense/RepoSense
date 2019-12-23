@@ -18,11 +18,9 @@ import reposense.model.AuthorConfiguration;
 import reposense.model.RepoLocation;
 
 public class AuthorConfigParserTest {
-    private static final String TEST_REPO_BETA_LOCATION = "https://github.com/reposense/testrepo-Beta.git";
-    private static final String TEST_REPO_BETA_BRANCH = "master";
-
-    private static final Path AUTHOR_CONFIG_EMPTY_LOCATION_FILE = new File(AuthorConfigParserTest.class.getClassLoader()
-            .getResource("AuthorConfigParserTest/authorconfig_emptyLocation_test.csv").getFile()).toPath();
+    private static final Path AUTHOR_CONFIG_EMPTY_LOCATION_FILE = new File(AuthorConfigParserTest.class
+            .getClassLoader().getResource("AuthorConfigParserTest/authorconfig_emptyLocation_test.csv")
+            .getFile()).toPath();
     private static final Path AUTHOR_CONFIG_EMPTY_CONFIG_FILE = new File(AuthorConfigParserTest.class.getClassLoader()
             .getResource("AuthorConfigParserTest/require_trailing_whitespaces/authorconfig_emptyConfig_test.csv")
             .getFile()).toPath();
@@ -40,6 +38,9 @@ public class AuthorConfigParserTest {
             .getFile()).toPath();
     private static final Path AUTHOR_CONFIG_INVALID_LOCATION = new File(AuthorConfigParserTest.class.getClassLoader()
             .getResource("AuthorConfigParserTest/authorconfig_invalidLocation_test.csv").getFile()).toPath();
+
+    private static final String TEST_REPO_BETA_LOCATION = "https://github.com/reposense/testrepo-Beta.git";
+    private static final String TEST_REPO_BETA_MASTER_BRANCH = "master";
 
     private static final Author FIRST_AUTHOR = new Author("nbriannl");
     private static final Author SECOND_AUTHOR = new Author("zacharytang");
@@ -90,7 +91,7 @@ public class AuthorConfigParserTest {
         AuthorConfiguration config = configs.get(0);
 
         Assert.assertEquals(new RepoLocation(TEST_REPO_BETA_LOCATION), config.getLocation());
-        Assert.assertEquals(TEST_REPO_BETA_BRANCH, config.getBranch());
+        Assert.assertEquals(TEST_REPO_BETA_MASTER_BRANCH, config.getBranch());
 
         Assert.assertEquals(AUTHOR_CONFIG_NO_SPECIAL_CHARACTER_AUTHORS, config.getAuthorList());
     }
@@ -125,7 +126,7 @@ public class AuthorConfigParserTest {
         AuthorConfiguration config = configs.get(0);
 
         Assert.assertEquals(new RepoLocation(TEST_REPO_BETA_LOCATION), config.getLocation());
-        Assert.assertEquals(TEST_REPO_BETA_BRANCH, config.getBranch());
+        Assert.assertEquals(TEST_REPO_BETA_MASTER_BRANCH, config.getBranch());
 
         Assert.assertEquals(AUTHOR_CONFIG_SPECIAL_CHARACTER_AUTHORS, config.getAuthorList());
     }
@@ -167,7 +168,7 @@ public class AuthorConfigParserTest {
         AuthorConfiguration config = configs.get(0);
 
         Assert.assertEquals(new RepoLocation(TEST_REPO_BETA_LOCATION), config.getLocation());
-        Assert.assertEquals(TEST_REPO_BETA_BRANCH, config.getBranch());
+        Assert.assertEquals(TEST_REPO_BETA_MASTER_BRANCH, config.getBranch());
         Assert.assertEquals(AUTHOR_DISPLAY_NAME_COMMAS_AND_DOUBLE_QUOTES_MAP, config.getAuthorDisplayNameMap());
 
         Assert.assertEquals(AUTHOR_ALIAS_COMMAS_AND_DOUBLE_QUOTES_MAP.size(), config.getAuthorList().size());
