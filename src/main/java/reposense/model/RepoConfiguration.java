@@ -136,7 +136,7 @@ public class RepoConfiguration {
             if (groupConfig.getLocation().isEmpty()) {
                 matchingRepoConfigs = repoConfigs;
             } else {
-                matchingRepoConfigs = getMatchingRepoConfigsByRepoLocation(repoConfigs,
+                matchingRepoConfigs = getMatchingRepoConfigsByLocation(repoConfigs,
                         groupConfig.getLocation());
             }
             if (matchingRepoConfigs.isEmpty()) {
