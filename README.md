@@ -24,3 +24,10 @@ Our project team and the list of contributors are [here](docs/Team.md).
 
 ## Contributing
 We welcome pull requests. Please read the [contribution guidelines](docs/Process.md#how-to-contribute-to-the-reposense-repository) before starting work on one.
+
+## Acknowledgements
+The web previews of RepoSense is powered by Netlify.
+
+<a href="https://www.netlify.com">
+  <img src="https://www.netlify.com/img/global/badges/netlify-color-bg.svg"/>
+</a>
