@@ -50,7 +50,7 @@ public abstract class CsvParser<T> {
      */
     public CsvParser(Path csvFilePath, int expectedHeaderSize) throws IOException {
         if (csvFilePath == null || !Files.exists(csvFilePath)) {
-            throw new FileNotFoundException("Csv file does not exists in given path.\n"
+            throw new FileNotFoundException("Csv file does not exist in given path.\n"
                     + "Use '-help' to list all the available subcommands and some concept guides.");
         }
 
