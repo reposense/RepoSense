@@ -26,14 +26,16 @@
         button(v-if="expandedCommitMessagesCount === 0" v-on:click="toggleAllCommitMessagesBody(true)") show all commit messages body
         button(v-else v-on:click="toggleAllCommitMessagesBody(false)") hide all commit messages body
       .sorting.mui-form--inline
-        .mui-select--inline
-          label sort by
+        .mui-select
           select.medium-font(v-model="commitsSortType")
             option(value="time") Time
             option(value="lineOfCode") LoC
-          label
-            input(type="checkbox", v-model="toReverseSortedCommits").mui-checkbox
-            span.medium-font.reverse reverse
+          label.medium-font sort by
+        .mui-select
+          select.medium-font(v-model="toReverseSortedCommits")
+            option(v-bind:value='true') Descending
+            option(v-bind:value='false') Ascending
+          label.medium-font order
 
   .zoom__day(v-for="day in selectedCommits")
     template(v-if="day.insertions > 0")
