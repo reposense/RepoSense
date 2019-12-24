@@ -19,10 +19,14 @@ import reposense.util.TestUtil;
 
 
 public class FileAnalyzerTest extends GitTestTemplate {
+    private static final Date BLAME_TEST_SINCE_DATE = TestUtil.getSinceDate(2018, Calendar.FEBRUARY, 6);
+    private static final Date BLAME_TEST_UNTIL_DATE = TestUtil.getUntilDate(2018, Calendar.FEBRUARY, 8);
     private static final Date EMAIL_WITH_ADDITION_TEST_SINCE_DATE =
             TestUtil.getSinceDate(2019, Calendar.MARCH, 28);
     private static final Date EMAIL_WITH_ADDITION_TEST_UNTIL_DATE =
             TestUtil.getUntilDate(2019, Calendar.MARCH, 28);
+    private static final Date MOVED_FILE_SINCE_DATE = TestUtil.getSinceDate(2018, Calendar.FEBRUARY, 7);
+    private static final Date MOVED_FILE_UNTIL_DATE = TestUtil.getUntilDate(2018, Calendar.FEBRUARY, 9);
     @Test
     public void blameTest() {
         config.setSinceDate(BLAME_TEST_SINCE_DATE);

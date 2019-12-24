@@ -2,9 +2,7 @@ package reposense.template;
 
 import java.io.IOException;
 import java.util.Arrays;
-import java.util.Calendar;
 import java.util.Collections;
-import java.util.Date;
 
 import org.junit.After;
 import org.junit.AfterClass;
@@ -27,16 +25,11 @@ import reposense.model.RepoConfiguration;
 import reposense.model.RepoLocation;
 import reposense.parser.InvalidLocationException;
 import reposense.util.FileUtil;
-import reposense.util.TestUtil;
 
 /**
  * Contains templates for git testing.
  */
 public class GitTestTemplate {
-    protected static final Date BLAME_TEST_SINCE_DATE = TestUtil.getSinceDate(2018, Calendar.FEBRUARY, 6);
-    protected static final Date BLAME_TEST_UNTIL_DATE = TestUtil.getUntilDate(2018, Calendar.FEBRUARY, 8);
-    protected static final Date MOVED_FILE_SINCE_DATE = TestUtil.getSinceDate(2018, Calendar.FEBRUARY, 7);
-    protected static final Date MOVED_FILE_UNTIL_DATE = TestUtil.getUntilDate(2018, Calendar.FEBRUARY, 9);
     protected static final String TEST_REPO_GIT_LOCATION = "https://github.com/reposense/testrepo-Alpha.git";
     protected static final String DISK_REPO_DISPLAY_NAME = "testrepo-Alpha_master";
     protected static final String FIRST_COMMIT_HASH = "7d7584f";
