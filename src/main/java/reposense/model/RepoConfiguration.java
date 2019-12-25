@@ -132,19 +132,20 @@ public class RepoConfiguration {
     public static void setGroupConfigsToRepos(List<RepoConfiguration> repoConfigs,
             List<GroupConfiguration> groupConfigs) {
         for (GroupConfiguration groupConfig : groupConfigs) {
+            List<RepoConfiguration> matchingRepoConfigs;
             if (groupConfig.getLocation().isEmpty()) {
-                continue;
+                matchingRepoConfigs = repoConfigs;
+            } else {
+                matchingRepoConfigs = getMatchingRepoConfigsByLocation(repoConfigs,
+                        groupConfig.getLocation());
             }
-
-            List<RepoConfiguration> matchingRepoConfigs = getMatchingRepoConfigsByLocation(repoConfigs,
-                    groupConfig.getLocation());
             if (matchingRepoConfigs.isEmpty()) {
                 logger.warning(String.format(
                         "Repository %s is not found in repo-config.csv.", groupConfig.getLocation()));
                 continue;
             }
             matchingRepoConfigs.forEach(matchingRepoConfig -> {
-                matchingRepoConfig.setGroups(groupConfig.getGroupsList());
+                matchingRepoConfig.addGroups(groupConfig.getGroupsList());
             });
         }
     }
@@ -385,6 +386,10 @@ public class RepoConfiguration {
 
     private void setGroups(List<FileType> groups) {
         fileTypeManager.setGroups(groups);
+    }
+
+    public void addGroups(List<FileType> groups) {
+        fileTypeManager.addGroups(groups);
     }
 
     /**
