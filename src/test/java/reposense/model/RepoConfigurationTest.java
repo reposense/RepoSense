@@ -72,9 +72,11 @@ public class RepoConfigurationTest {
 
     private static final List<FileType> CONFIG_FORMATS = FileType.convertFormatStringsToFileTypes(Arrays.asList(
             "java", "adoc", "md"));
-    private static final List<FileType> CONFIG_GROUPS = Arrays.asList(
+    private static final List<FileType> FIRST_CONFIG_GROUPS = Arrays.asList(
             new FileType("test", Collections.singletonList("src/test**")),
             new FileType("code", Collections.singletonList("**.java")),
+            new FileType("docs", Collections.singletonList("docs**")));
+    private static final List<FileType> SECOND_CONFIG_GROUPS = Arrays.asList(
             new FileType("docs", Collections.singletonList("docs**")));
     private static final List<String> CLI_FORMATS = Arrays.asList("css", "html");
 
@@ -311,8 +313,9 @@ public class RepoConfigurationTest {
 
         RepoConfiguration.setGroupConfigsToRepos(actualConfigs, groupConfigs);
 
-        Assert.assertEquals(1, actualConfigs.size());
-        Assert.assertEquals(CONFIG_GROUPS, actualConfigs.get(0).getFileTypeManager().getGroups());
+        Assert.assertEquals(2, actualConfigs.size());
+        Assert.assertEquals(FIRST_CONFIG_GROUPS, actualConfigs.get(0).getFileTypeManager().getGroups());
+        Assert.assertEquals(SECOND_CONFIG_GROUPS, actualConfigs.get(1).getFileTypeManager().getGroups());
     }
 
     @Test
