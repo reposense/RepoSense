@@ -365,7 +365,7 @@ Optionally, you can provide a `group-config.csv`(which should be in the same dir
 
 Column Name | Explanation
 ----------- | -----------
-Repository's Location | Same as `repo-config.csv`.
+[Optional] Repository's Location | Same as `repo-config.csv`. Default: all the repos in `repo-config.csv`
 Group Name | Name of the group e.g.,`test`.
 Globs * | The list of file path globs to include for specified group. e.g.,`**/test/*;**.java`.
 
