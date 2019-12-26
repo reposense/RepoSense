@@ -140,10 +140,10 @@ public class AuthorConfiguration {
     }
 
     /**
-     * Removes the authors in {@code ignoredAuthorsList}.
+     * Removes the authors provided in {@code ignoredAuthorsList} from the author list.
      */
     public void removeIgnoredAuthors(List<String> ignoredAuthorsList) {
-        for (String author: ignoredAuthorsList) {
+        for (String author : ignoredAuthorsList) {
             if (authorEmailsAndAliasesMap.containsKey(author)) {
                 authorList.remove(authorEmailsAndAliasesMap.get(author));
             }
