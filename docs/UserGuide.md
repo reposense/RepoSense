@@ -16,6 +16,7 @@
     * [`author-config.csv`](#author-configcsv)
     * [`group-config.csv`](#group-configcsv)
 * [Analyzing Multiple Repos](#analyzing-multiple-repos)
+* [Quickstart RepoSense with Netlify](#quickstart-reposense-with-netlify)
 * [Using Travis-CI to automate publishing of the report to GitHub Pages](#using-travis-ci-to-automate-publishing-of-the-report-to-github-pages)
 * [FAQ](#faq)
 
@@ -26,7 +27,7 @@ First, ensure that you have the necessary prerequisites:
 * **Java 8** (JRE `1.8.0_60`) or later. You may download Java [here](https://www.java.com/en/).
 * **git `2.14`** or later on the command line (run `git --version` in your OS terminal to confirm). You may download git [here](https://git-scm.com/downloads).
 
-Next, download the latest executable Jar from our [releases](https://github.com/reposense/RepoSense/releases/latest).
+Next, download the latest executable Jar from our [releases](https://github.com/reposense/RepoSense/releases/latest). Alternatively, you can follow this guide on [Using RepoSense with Netlify](UserGuide.md#using-reposense-with-netlify) which will allow you to use the latest version of RepoSense online without having to download any files.
 
 The simplest use case for RepoSense is to generate a report for the entire history of a repo. Here are the steps:
 1. Generate the report for the repo by executing the following command in a terminal:<br/>
@@ -278,7 +279,7 @@ In addition, there are some _optional_ extra parameters you can use to customize
   > Note: If the end date is not specified, the date of generating the report will be taken as the end date.
 * **`--formats, -f LIST_OF_FORMATS`**: A space-separated list of file extensions that should be included in the analysis (`-f` as alias). Default: all file formats<br>
   Example:`--formats css fxml gradle` or `-f css fxml gradle`
-* **`--ignore-standalone-config, -i`**: A flag to ignore the standalone config file in the repo (`-i` as alias). This flag will not overwrite the `Ignore standalone config` field in the csv config file. Default: the standalone config file is not ignored.<br>
+* **`--ignore-standalone-config, -i`**: A flag to ignore the standalone config file in the repo (`-i` as alias). This flag will overwrite the `Ignore standalone config` field in the csv config file. Default: the standalone config file is not ignored.<br>
   Example:`--ignore-standalone-config` or `-i`
 * **`--view, -v [REPORT_FOLDER]`**: A flag to launch the report automatically after processing (`-v` as alias). Note that if the `REPORT_FOLDER` argument is given, no analysis will be performed and the report specified by the argument will be opened.<br>
 Example:`--view` or `-v`
@@ -340,7 +341,7 @@ Optionally, you can use a `author-config.csv` (which should be in the same direc
 Column Name | Explanation
 ----------- | -----------
 [Optional] Repository's Location | Same as `repo-config.csv`. Default: all the repos in `repo-config.csv`
-[Optional] Branch | The branch to analyze for this author e.g., `master`. Default: the default branch of the repo
+[Optional] Branch | The branch to analyze for this author e.g., `master`. Default: the author will be bound to all the repos in `repo-config.csv` that has the same repo's location, irregardless of branch
 Author's GitHub ID | GitHub username of the target author e.g., `JohnDoe`
 [Optional] Author's Emails<sup>*</sup> | Associated Github emails of the author. This can be found in your [GitHub settings](https://github.com/settings/emails).
 [Optional] Author's Display Name | The name to display for the author. Default: author's GitHub username.
@@ -361,7 +362,7 @@ Optionally, you can provide a `group-config.csv`(which should be in the same dir
 
 Column Name | Explanation
 ----------- | -----------
-Repository's Location | Same as `repo-config.csv`.
+[Optional] Repository's Location | Same as `repo-config.csv`. Default: all the repos in `repo-config.csv`
 Group Name | Name of the group e.g.,`test`.
 Globs * | The list of file path globs to include for specified group. e.g.,`**/test/*;**.java`.
 
@@ -384,6 +385,9 @@ Alternatively, you can use csv config files to customize the analysis as before 
 * `repo-config.csv`: Add additional rows for the extra repos ([example](repo-config.csv))
 * `author-config.csv`: Add one row for each author in each repo you want to analyze
 
+## Quickstart RepoSense with Netlify
+
+Using Netlify, and a fork of this repo allow you to quickly get started online and enjoy a real time RepoSense report on your target repository. Further instructions can be found in this [guide](UsingNetlifyGuide.md).
 
 ## Using Travis-CI to automate publishing of the report to GitHub Pages
 
