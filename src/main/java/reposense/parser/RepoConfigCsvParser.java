@@ -27,6 +27,7 @@ public class RepoConfigCsvParser extends CsvParser<RepoConfiguration> {
     private static final int IGNORE_GLOB_LIST_POSITION = 3;
     private static final int IGNORE_STANDALONE_CONFIG_POSITION = 4;
     private static final int IGNORE_COMMIT_LIST_CONFIG_POSITION = 5;
+    private static final int IGNORE_AUTHOR_LIST_CONFIG_POSITION = 6;
 
     public RepoConfigCsvParser(Path csvFilePath) throws IOException {
         super(csvFilePath);
@@ -64,6 +65,10 @@ public class RepoConfigCsvParser extends CsvParser<RepoConfiguration> {
         List<CommitHash> ignoreCommitList = CommitHash.convertStringsToCommits(
                 getAsListWithoutOverridePrefix(record, IGNORE_COMMIT_LIST_CONFIG_POSITION));
 
+        boolean isIgnoredAuthorsListOverriding =
+                isElementOverridingStandaloneConfig(record, IGNORE_AUTHOR_LIST_CONFIG_POSITION);
+        List<String> ignoredAuthorsList = getAsListWithoutOverridePrefix(record, IGNORE_AUTHOR_LIST_CONFIG_POSITION);
+
         String ignoreStandaloneConfig = get(record, IGNORE_STANDALONE_CONFIG_POSITION);
         boolean isStandaloneConfigIgnored = ignoreStandaloneConfig.equalsIgnoreCase(IGNORE_STANDALONE_CONFIG_KEYWORD);
 
@@ -75,6 +80,8 @@ public class RepoConfigCsvParser extends CsvParser<RepoConfiguration> {
         RepoConfiguration config = new RepoConfiguration(
                 location, branch, formats, ignoreGlobList, isStandaloneConfigIgnored, ignoreCommitList,
                 isFormatsOverriding, isIgnoreGlobListOverriding, isIgnoreCommitListOverriding);
+        config.setIgnoredAuthorsList(ignoredAuthorsList);
+        config.setIsIgnoredAuthorsListOverriding(isIgnoredAuthorsListOverriding);
 
         if (results.contains(config)) {
             logger.warning("Ignoring duplicated repository " + location + " " + branch);
