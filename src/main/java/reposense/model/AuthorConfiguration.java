@@ -140,6 +140,18 @@ public class AuthorConfiguration {
     }
 
     /**
+     * Removes the authors provided in {@code ignoredAuthorsList} from the author list.
+     */
+    public void removeIgnoredAuthors(List<String> ignoredAuthorsList) {
+        for (String author : ignoredAuthorsList) {
+            if (authorEmailsAndAliasesMap.containsKey(author)) {
+                authorList.remove(authorEmailsAndAliasesMap.get(author));
+            }
+        }
+        resetAuthorInformation();
+    }
+
+    /**
      * Adds new authors from {@code authorList} and sets the default alias, aliases, emails and display name
      * of the new authors. Skips authors that have already been added previously.
      */
@@ -166,14 +178,10 @@ public class AuthorConfiguration {
     /**
      * Clears author mapping information and resets it with the details of current author list.
      */
-    public void resetAuthorInformation(List<String> ignoreGlobList) {
+    public void resetAuthorInformation() {
         authorEmailsAndAliasesMap.clear();
         authorDisplayNameMap.clear();
-
-        authorList.forEach(author -> {
-            setAuthorDetails(author);
-            propagateIgnoreGlobList(author, ignoreGlobList);
-        });
+        authorList.forEach(this::setAuthorDetails);
     }
 
     public Map<String, Author> getAuthorEmailsAndAliasesMap() {

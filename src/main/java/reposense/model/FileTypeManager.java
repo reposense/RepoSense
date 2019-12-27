@@ -90,6 +90,17 @@ public class FileTypeManager {
         return groups;
     }
 
+    /**
+     * Adds new groups from {@code groupList}. Skips groups that have already been added previously.
+     */
+    public void addGroups(List<FileType> groupList) {
+        groupList.stream().filter(group -> !this.containsGroup(group)).forEach(groups::add);
+    }
+
+    public boolean containsGroup(FileType group) {
+        return groups.contains(group);
+    }
+
     public void setGroups(List<FileType> groups) {
         this.groups = groups;
     }

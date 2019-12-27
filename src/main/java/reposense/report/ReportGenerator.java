@@ -274,6 +274,7 @@ public class ReportGenerator {
 
     /**
      * Find and update {@code config} with all the author identities if author list is empty.
+     * Also removes ignored authors from author list.
      */
     private static void updateAuthorList(RepoConfiguration config) throws NoAuthorsWithCommitsFoundException {
         if (config.getAuthorList().isEmpty()) {
@@ -286,6 +287,7 @@ public class ReportGenerator {
 
             config.setAuthorList(authorList);
         }
+        config.removeIgnoredAuthors();
     }
 
     /**
