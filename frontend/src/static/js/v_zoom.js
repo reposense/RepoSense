@@ -14,24 +14,24 @@ window.vZoom = {
     },
 
     filterCommits() {
-      const { user } = this.info;
+      const { userOrig } = this.info;
       const date = this.filterTimeFrame === 'week' ? 'endDate' : 'date';
-      const filtered = user.commits.filter(
+      const filtered = userOrig.commits.filter(
           (commit) => commit[date] >= this.info.sinceDate && commit[date] <= this.info.untilDate,
       );
-      user.commits = filtered;
+      userOrig.commits = filtered;
     },
 
     getSliceLink(slice) {
       if (this.info.isMergeGroup) {
         return `${window.getBaseLink(slice.repoId)}/commit/${slice.hash}`;
       }
-      return `${window.getBaseLink(this.info.user.repoId)}/commit/${slice.hash}`;
+      return `${window.getBaseLink(this.info.userOrig.repoId)}/commit/${slice.hash}`;
     },
 
     getCommitMessageBodyCount() {
       let nonEmptyCommitMessageCount = 0;
-      this.info.user.commits.forEach((commit) => {
+      this.info.userOrig.commits.forEach((commit) => {
         commit.commitResults.forEach((commitResult) => {
           if (commitResult.messageBody !== '') {
             nonEmptyCommitMessageCount += 1;

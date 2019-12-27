@@ -681,7 +681,7 @@ window.vSummary = {
       });
     },
 
-    openTabZoomSubrange(userOrig, repo, index) {
+    openTabZoomSubrange(user, repo, index) {
       // skip if accidentally clicked on ramp chart
       if (drags.length === 2 && drags[1] - drags[0]) {
         const tdiff = new Date(this.filterUntilDate) - new Date(this.filterSinceDate);
@@ -689,18 +689,18 @@ window.vSummary = {
         const tsince = getDateStr(new Date(this.filterSinceDate).getTime() + idxs[0]);
         const tuntil = getDateStr(new Date(this.filterSinceDate).getTime() + idxs[1]);
 
-        this.openTabZoom(userOrig, tsince, tuntil, repo, index);
+        this.openTabZoom(user, tsince, tuntil, repo, index);
       }
     },
 
-    openTabZoom(userOrig, since, until, repo, index) {
+    openTabZoom(user, since, until, repo, index) {
       const { avgCommitSize } = this;
-      const user = Object.assign({}, userOrig);
+      const userOrig = Object.assign({}, user);
 
       this.$emit('view-zoom', {
         filterGroupSelection: this.filterGroupSelection,
         avgCommitSize,
-        user,
+        userOrig,
         location: this.getRepoLink(repo[index]),
         sinceDate: since,
         untilDate: until,
