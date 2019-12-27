@@ -32,12 +32,14 @@ public class RepoConfiguration {
     private transient boolean annotationOverwrite = true;
     private transient FileTypeManager fileTypeManager;
     private transient List<String> ignoreGlobList = new ArrayList<>();
+    private transient List<String> ignoredAuthorsList = new ArrayList<>();
     private transient AuthorConfiguration authorConfig;
     private transient boolean isStandaloneConfigIgnored;
     private transient List<CommitHash> ignoreCommitList;
     private transient boolean isFormatsOverriding;
     private transient boolean isIgnoreGlobListOverriding;
     private transient boolean isIgnoreCommitListOverriding;
+    private transient boolean isIgnoredAuthorsListOverriding = false;
 
     public RepoConfiguration(RepoLocation location) {
         this(location, DEFAULT_BRANCH);
@@ -216,6 +218,9 @@ public class RepoConfiguration {
         if (!isIgnoreCommitListOverriding) {
             ignoreCommitList = CommitHash.convertStringsToCommits(standaloneConfig.getIgnoreCommitList());
         }
+        if (!isIgnoredAuthorsListOverriding) {
+            ignoredAuthorsList = standaloneConfig.getIgnoreAuthorList();
+        }
         authorConfig.update(standaloneConfig, ignoreGlobList);
     }
 
@@ -283,11 +288,13 @@ public class RepoConfiguration {
                 && branch.equals(otherRepoConfig.branch)
                 && authorConfig.equals(otherRepoConfig.authorConfig)
                 && ignoreGlobList.equals(otherRepoConfig.ignoreGlobList)
+                && ignoredAuthorsList.equals(otherRepoConfig.ignoredAuthorsList)
                 && isStandaloneConfigIgnored == otherRepoConfig.isStandaloneConfigIgnored
                 && fileTypeManager.equals(otherRepoConfig.fileTypeManager)
                 && isFormatsOverriding == otherRepoConfig.isFormatsOverriding
                 && isIgnoreGlobListOverriding == otherRepoConfig.isIgnoreGlobListOverriding
-                && isIgnoreCommitListOverriding == otherRepoConfig.isIgnoreCommitListOverriding;
+                && isIgnoreCommitListOverriding == otherRepoConfig.isIgnoreCommitListOverriding
+                && isIgnoredAuthorsListOverriding == otherRepoConfig.isIgnoredAuthorsListOverriding;
     }
 
     public Map<Author, String> getAuthorDisplayNameMap() {
@@ -341,6 +348,26 @@ public class RepoConfiguration {
         this.ignoreCommitList = ignoreCommitList;
     }
 
+    public List<String> getIgnoredAuthorsList() {
+        return this.ignoredAuthorsList;
+    }
+
+    public void setIgnoredAuthorsList(List<String> ignoredAuthorsList) {
+        this.ignoredAuthorsList = ignoredAuthorsList;
+    }
+
+    public boolean isIgnoredAuthorsListOverriding() {
+        return this.isIgnoredAuthorsListOverriding;
+    }
+
+    public void setIsIgnoredAuthorsListOverriding(boolean isIgnoredAuthorsListOverriding) {
+        this.isIgnoredAuthorsListOverriding = isIgnoredAuthorsListOverriding;
+    }
+
+    public void removeIgnoredAuthors() {
+        authorConfig.removeIgnoredAuthors(ignoredAuthorsList);
+    }
+
     public List<Author> getAuthorList() {
         return authorConfig.getAuthorList();
     }
@@ -369,7 +396,8 @@ public class RepoConfiguration {
      */
     public void setAuthorList(List<Author> authorList) {
         authorConfig.setAuthorList(authorList);
-        authorConfig.resetAuthorInformation(this.getIgnoreGlobList());
+        authorConfig.resetAuthorInformation();
+        authorList.forEach(author -> AuthorConfiguration.propagateIgnoreGlobList(author, this.getIgnoreGlobList()));
     }
 
     public Map<String, Author> getAuthorEmailsAndAliasesMap() {
