@@ -515,6 +515,7 @@ header {
 
         .mui-select {
           cursor: pointer;
+          padding-right: 15px;
         }
 
         label {
@@ -528,10 +529,6 @@ header {
         span {
           margin-left: .25rem;
         }
-      }
-
-      .reverse {
-        color: mui-color('black');
       }
     }
   }
@@ -615,7 +612,7 @@ header {
         position: relative;
 
         &.active {
-          height: 100%;
+          height: auto;
 
           .code {
             background-color: mui-color('white');
