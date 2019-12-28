@@ -10,7 +10,6 @@ import java.util.List;
  */
 public class LocationsCliArguments extends CliArguments {
     private List<String> locations;
-    private boolean isStandaloneConfigIgnored;
 
     public LocationsCliArguments(List<String> locations, Path outputFilePath, Date sinceDate,
             Date untilDate, boolean isSinceDateProvided, boolean isUntilDateProvided, List<FileType> formats,
@@ -31,10 +30,6 @@ public class LocationsCliArguments extends CliArguments {
         return locations;
     }
 
-    public boolean isStandaloneConfigIgnored() {
-        return isStandaloneConfigIgnored;
-    }
-
     @Override
     public boolean equals(Object other) {
         // short circuit if same object
@@ -50,7 +45,6 @@ public class LocationsCliArguments extends CliArguments {
         LocationsCliArguments otherLocationsCliArguments = (LocationsCliArguments) other;
 
         return super.equals(other)
-                && this.locations.equals(otherLocationsCliArguments.locations)
-                && this.isStandaloneConfigIgnored == otherLocationsCliArguments.isStandaloneConfigIgnored;
+                && this.locations.equals(otherLocationsCliArguments.locations);
     }
 }
