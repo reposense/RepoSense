@@ -1,2 +1,2 @@
-Repository's Location,Branch,File formats,Ignore Glob List,Ignore standalone config,Ignore Commits List
-https://github.com/reposense/testrepo-Beta.git,master,override:java;adoc;md,override:docs**,no,override:abcde12345;67890fdecba
+Repository's Location,Branch,File formats,Ignore Glob List,Ignore standalone config,Ignore Commits List,Ignore Authors List
+https://github.com/reposense/testrepo-Beta.git,master,override:java;adoc;md,override:docs**,no,override:abcde12345;67890fdecba,override:zacharytang
