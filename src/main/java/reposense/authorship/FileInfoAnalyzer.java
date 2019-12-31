@@ -3,6 +3,7 @@ package reposense.authorship;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
+import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.PathMatcher;
 import java.nio.file.Paths;
@@ -36,15 +37,23 @@ public class FileInfoAnalyzer {
     private static final int AUTHOR_TIMEZONE_OFFSET = "author-tz ".length();
     private static final int FULL_COMMIT_HASH_LENGTH = 40;
 
+    private static final String MESSAGE_FILE_MISSING = "Unable to analyze the file located at \"%s\" "
+            + "as the file is missing from your system. Skipping this file.";
+
     /**
      * Analyzes the lines of the file, given in the {@code fileInfo}, that has changed in the time period provided
      * by {@code config}.
-     * Returns null if the file contains the reused tag, or none of the {@code Author} specified in
-     * {@code config} contributed to the file in {@code fileInfo}.
+     * Returns null if the file contains the reused tag, the file is missing from the local system, or none of the
+     * {@code Author} specified in {@code config} contributed to the file in {@code fileInfo}.
      */
     public static FileResult analyzeFile(RepoConfiguration config, FileInfo fileInfo) {
         String relativePath = fileInfo.getPath();
         if (isReused(config.getRepoRoot(), relativePath)) {
+            return null;
+        }
+
+        if (Files.notExists(Paths.get(config.getRepoRoot(), relativePath))) {
+            logger.severe(String.format(MESSAGE_FILE_MISSING, relativePath));
             return null;
         }
 

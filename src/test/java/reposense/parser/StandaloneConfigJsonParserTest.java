@@ -67,6 +67,7 @@ public class StandaloneConfigJsonParserTest {
         expectedFullRepoConfig.setIgnoreCommitList(Arrays.asList(new CommitHash(
                 "7b96c563eb2d3612aa5275364333664a18f01491")));
         expectedFullRepoConfig.setIgnoreGlobList(Arrays.asList("**.adoc", "collate**"));
+        expectedFullRepoConfig.setIgnoredAuthorsList(Arrays.asList("yong24s"));
         expectedFullRepoConfig.setAuthorList(Arrays.asList(author));
         expectedFullRepoConfig.setAuthorDisplayName(author, "Yong Hao");
         expectedFullRepoConfig.addAuthorEmailsAndAliasesMapEntry(author, Arrays.asList(author.getGitId()));
