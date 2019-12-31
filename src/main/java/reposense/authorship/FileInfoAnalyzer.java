@@ -7,7 +7,10 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.PathMatcher;
 import java.nio.file.Paths;
+import java.time.ZoneId;
+import java.time.ZoneOffset;
 import java.util.HashMap;
+import java.util.TimeZone;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -30,6 +33,8 @@ public class FileInfoAnalyzer {
     private static final String REUSED_TAG = "//@reused";
     private static final int AUTHOR_NAME_OFFSET = "author ".length();
     private static final int AUTHOR_EMAIL_OFFSET = "author-mail ".length();
+    private static final int AUTHOR_TIME_OFFSET = "author-time ".length();
+    private static final int AUTHOR_TIMEZONE_OFFSET = "author-tz ".length();
     private static final int FULL_COMMIT_HASH_LENGTH = 40;
 
     private static final String MESSAGE_FILE_MISSING = "Unable to analyze the file located at \"%s\" "
@@ -85,20 +90,32 @@ public class FileInfoAnalyzer {
         String blameResults = getGitBlameResult(config, fileInfo.getPath());
         String[] blameResultLines = blameResults.split("\n");
         Path filePath = Paths.get(fileInfo.getPath());
+        Long sinceDateInMs = config.getSinceDate().getTime();
+        Long untilDateInMs = config.getUntilDate().getTime();
+        int systemRawOffset = TimeZone.getTimeZone(ZoneId.systemDefault()).getRawOffset();
 
-        for (int lineCount = 0; lineCount < blameResultLines.length; lineCount += 3) {
+        for (int lineCount = 0; lineCount < blameResultLines.length; lineCount += 5) {
             String commitHash = blameResultLines[lineCount].substring(0, FULL_COMMIT_HASH_LENGTH);
             String authorName = blameResultLines[lineCount + 1].substring(AUTHOR_NAME_OFFSET);
             String authorEmail = blameResultLines[lineCount + 2]
                     .substring(AUTHOR_EMAIL_OFFSET).replaceAll("<|>", "");
+            Long commitDateInMs = Long.parseLong(blameResultLines[lineCount + 3].substring(AUTHOR_TIME_OFFSET)) * 1000;
+            String authorTimeZone = blameResultLines[lineCount + 4].substring(AUTHOR_TIMEZONE_OFFSET);
             Author author = config.getAuthor(authorName, authorEmail);
 
-            if (!fileInfo.isFileLineTracked(lineCount / 3) || isAuthorIgnoringFile(author, filePath)
-                    || CommitHash.isInsideCommitList(commitHash, config.getIgnoreCommitList())) {
+            int authorRawOffset = TimeZone.getTimeZone(ZoneOffset.of(authorTimeZone)).getRawOffset();
+            if (systemRawOffset != authorRawOffset) {
+                // adjust commit date according to difference in timezone
+                commitDateInMs += authorRawOffset - systemRawOffset;
+            }
+
+            if (!fileInfo.isFileLineTracked(lineCount / 5) || isAuthorIgnoringFile(author, filePath)
+                    || CommitHash.isInsideCommitList(commitHash, config.getIgnoreCommitList())
+                    || commitDateInMs < sinceDateInMs || commitDateInMs > untilDateInMs) {
                 author = Author.UNKNOWN_AUTHOR;
             }
 
-            fileInfo.setLineAuthor(lineCount / 3, author);
+            fileInfo.setLineAuthor(lineCount / 5, author);
         }
     }
 
