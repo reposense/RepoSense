@@ -9,7 +9,10 @@ window.vSegment = {
   methods: {
     loadCode() {
       this.loaded = true;
-      window.toggleNext(this.$el.childNodes[0]);
+      // Update button and code css only once code has loaded into DOM
+      this.$nextTick(() => {
+        window.toggleNext(this.$el.childNodes[0]);
+      });
     },
   },
 };

@@ -33,7 +33,7 @@ public class GroupConfigCsvParser extends CsvParser<GroupConfiguration> {
     @Override
     protected int[] mandatoryPositions() {
         return new int[] {
-            LOCATION_POSITION, GROUP_NAME_POSITION, FILES_GLOB_POSITION,
+            GROUP_NAME_POSITION, FILES_GLOB_POSITION,
         };
     }
 
