@@ -18,7 +18,7 @@
           template(v-if="commitResult.tags")
             .tag.mini-font(v-for="tag in commitResult.tags", v-on:click="scrollToCommit(`tag ${commitResult.hash}`)")
               i.fas.fa-tags
-              span &nbsp; {{ tag }}
+              span &nbsp;{{ tag }}
 
   v_ramp(
       v-bind:groupby="info.filterGroupSelection",
@@ -44,7 +44,7 @@
           template(v-if="slice.tags")
             .tag.mini-font(v-for="tag in slice.tags", v-bind:class="[`${slice.hash}`]")
               i.fas.fa-tags
-              span &nbsp; {{ tag }}
+              span &nbsp;{{ tag }}
           a(
             v-if="slice.messageBody !== ''",
             v-on:click="updateExpandedCommitMessagesCount",
