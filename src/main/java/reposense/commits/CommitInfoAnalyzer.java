@@ -31,6 +31,7 @@ public class CommitInfoAnalyzer {
 
     private static final String LOG_SPLITTER = "\\|\\n\\|";
     private static final String REF_SPLITTER = ",\\s";
+    private static final String TAG_TITLE = "tag:";
 
     private static final int COMMIT_HASH_INDEX = 0;
     private static final int AUTHOR_INDEX = 1;
@@ -83,7 +84,7 @@ public class CommitInfoAnalyzer {
                 ? getCommitMessageBody(elements[MESSAGE_BODY_INDEX]) : "";
 
         String[] refs = elements[REF_NAME_INDEX].split(REF_SPLITTER);
-        String[] tags = Arrays.stream(refs).filter(ref -> ref.contains("tag:")).toArray(String[]::new);
+        String[] tags = Arrays.stream(refs).filter(ref -> ref.contains(TAG_TITLE)).toArray(String[]::new);
         if (tags.length == 0) {
             tags = null; // set to null so it won't be converted to json
         } else {
@@ -100,7 +101,7 @@ public class CommitInfoAnalyzer {
      */
     private static void extractTagNames(String[] tags) {
         for (int i = 0; i < tags.length; i++) {
-            tags[i] = tags[i].substring(tags[i].lastIndexOf("tag: ") + 5);
+            tags[i] = tags[i].substring(tags[i].lastIndexOf(TAG_TITLE) + 5);
         }
     }
 
