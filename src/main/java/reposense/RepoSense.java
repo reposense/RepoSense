@@ -28,6 +28,7 @@ import reposense.report.ReportGenerator;
 import reposense.system.LogsManager;
 import reposense.system.ReportServer;
 import reposense.util.FileUtil;
+import reposense.util.TimeUtil;
 
 /**
  * The main RepoSense class.
@@ -43,6 +44,7 @@ public class RepoSense {
      */
     public static void main(String[] args) {
         try {
+            TimeUtil.startTimer();
             CliArguments cliArguments = ArgsParser.parse(args);
             List<RepoConfiguration> configs = null;
 
@@ -60,6 +62,8 @@ public class RepoSense {
 
             RepoConfiguration.setFormatsToRepoConfigs(configs, cliArguments.getFormats());
             RepoConfiguration.setDatesToRepoConfigs(configs, cliArguments.getSinceDate(), cliArguments.getUntilDate());
+            RepoConfiguration.setStandaloneConfigIgnoredToRepoConfigs(configs,
+                    cliArguments.isStandaloneConfigIgnored());
             List<Path> reportFoldersAndFiles = ReportGenerator.generateReposReport(configs,
                     cliArguments.getOutputFilePath().toAbsolutePath().toString(),
                     formatter.format(ZonedDateTime.now(cliArguments.getZoneId())),
@@ -67,6 +71,8 @@ public class RepoSense {
                     cliArguments.isSinceDateProvided(), cliArguments.isUntilDateProvided());
             FileUtil.zipFoldersAndFiles(reportFoldersAndFiles, cliArguments.getOutputFilePath().toAbsolutePath(),
                     ".json");
+
+            logger.info(TimeUtil.getElapsedTimeMessage());
 
             if (cliArguments.isAutomaticallyLaunching()) {
                 ReportServer.startServer(SERVER_PORT_NUMBER, cliArguments.getOutputFilePath().toAbsolutePath());
@@ -121,8 +127,6 @@ public class RepoSense {
                 logger.log(Level.WARNING, ile.getMessage(), ile);
             }
         }
-
-        RepoConfiguration.setStandaloneConfigIgnoredToRepoConfigs(configs, cliArguments.isStandaloneConfigIgnored());
 
         return configs;
     }
