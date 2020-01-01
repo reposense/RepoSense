@@ -14,6 +14,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
@@ -84,8 +85,10 @@ public class FileUtil {
 
     /**
      * Writes the JSON file representing the {@code object} at the given {@code path}.
+     * @return An Optional containing the Path to the JSON file, or an empty Optional
+     *         if there was an error while writing the JSON file.
      */
-    public static void writeJsonFile(Object object, String path) {
+    public static Optional<Path> writeJsonFile(Object object, String path) {
         Gson gson = new GsonBuilder()
                 .setDateFormat(GITHUB_API_DATE_FORMAT)
                 .registerTypeAdapter(FileType.class, new FileType.FileTypeSerializer())
@@ -96,8 +99,10 @@ public class FileUtil {
         try (PrintWriter out = new PrintWriter(path)) {
             out.print(result);
             out.print("\n");
+            return Optional.of(path).map(Paths::get);
         } catch (FileNotFoundException e) {
             logger.log(Level.SEVERE, e.getMessage(), e);
+            return Optional.empty();
         }
     }
 
