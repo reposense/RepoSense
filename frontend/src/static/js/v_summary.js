@@ -695,12 +695,12 @@ window.vSummary = {
 
     openTabZoom(user, since, until, repo, index) {
       const { avgCommitSize } = this;
-      const userOrig = Object.assign({}, user);
+      const clonedUser = Object.assign({}, user);
 
       this.$emit('view-zoom', {
         filterGroupSelection: this.filterGroupSelection,
         avgCommitSize,
-        userOrig,
+        clonedUser,
         location: this.getRepoLink(repo[index]),
         sinceDate: since,
         untilDate: until,
