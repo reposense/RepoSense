@@ -1,6 +1,7 @@
 package reposense.parser;
 
 import java.io.BufferedReader;
+import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -36,20 +37,25 @@ public abstract class CsvParser<T> {
             + "Content: %s\n"
             + "Error: %s";
     private static final String MESSAGE_EMPTY_CSV_FORMAT = "The CSV file, %s, is empty.";
+    private static final String MESSAGE_WRONG_HEADER_SIZE = "Wrong number of columns in header of CSV file, %s. \n"
+        + "Number of columns in header: %d\n"
+        + "Expected number of columns: %d";
 
     private Path csvFilePath;
+    private int expectedHeaderSize;
     private int numOfLinesBeforeFirstRecord = 0;
 
     /**
      * @throws IOException if {@code csvFilePath} is an invalid path.
      */
-    public CsvParser(Path csvFilePath) throws IOException {
+    public CsvParser(Path csvFilePath, int expectedHeaderSize) throws IOException {
         if (csvFilePath == null || !Files.exists(csvFilePath)) {
-            throw new IOException("Csv file does not exists in given path.\n"
+            throw new FileNotFoundException("Csv file does not exist at the given path.\n"
                     + "Use '-help' to list all the available subcommands and some concept guides.");
         }
 
         this.csvFilePath = csvFilePath;
+        this.expectedHeaderSize = expectedHeaderSize;
     }
 
     /**
@@ -103,7 +109,9 @@ public abstract class CsvParser<T> {
 
             numOfLinesBeforeFirstRecord++;
         }
-        return currentLine.split(",");
+        String[] header = currentLine.split(",");
+        validateHeader(header);
+        return header;
     }
 
     /**
@@ -193,6 +201,19 @@ public abstract class CsvParser<T> {
             contentAsString = MESSAGE_EMPTY_LINE;
         }
         return contentAsString;
+    }
+
+    /**
+     * Checks if {@code possibleHeader} contains the expected number of columns.
+     * @throws InvalidCsvException if {@code possibleHeader} does not have as many columns as expected.
+     */
+    private void validateHeader(String[] possibleHeader) throws InvalidCsvException {
+        int actualNumberOfColumns = possibleHeader.length;
+        if (actualNumberOfColumns != expectedHeaderSize) {
+            throw new InvalidCsvException(String.format(
+                    MESSAGE_WRONG_HEADER_SIZE, csvFilePath.getFileName(), actualNumberOfColumns,
+                    expectedHeaderSize));
+        }
     }
 
     /**
