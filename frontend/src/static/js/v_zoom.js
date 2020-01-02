@@ -5,7 +5,7 @@ window.vZoom = {
     return {
       filterTimeFrame: window.hashParams.timeframe,
       showAllCommitMessageBody: true,
-      expandedCommitMessagesCount: this.getCommitMessageBodyCount(),
+      expandedCommitMessagesCount: this.totalCommitMessageBodyCount,
     };
   },
   computed: {
@@ -20,6 +20,18 @@ window.vZoom = {
 
       return filteredUser;
     },
+    totalCommitMessageBodyCount() {
+      let nonEmptyCommitMessageCount = 0;
+      this.filteredUser.commits.forEach((commit) => {
+        commit.commitResults.forEach((commitResult) => {
+          if (commitResult.messageBody !== '' && commitResult.insertions > 0) {
+            nonEmptyCommitMessageCount += 1;
+          }
+        });
+      });
+
+      return nonEmptyCommitMessageCount;
+    }
   },
   methods: {
     openSummary() {
@@ -33,19 +45,6 @@ window.vZoom = {
       return `${window.getBaseLink(this.info.user.repoId)}/commit/${slice.hash}`;
     },
 
-    getCommitMessageBodyCount() {
-      let nonEmptyCommitMessageCount = 0;
-      this.info.user.commits.forEach((commit) => {
-        commit.commitResults.forEach((commitResult) => {
-          if (commitResult.messageBody !== '') {
-            nonEmptyCommitMessageCount += 1;
-          }
-        });
-      });
-
-      return nonEmptyCommitMessageCount;
-    },
-
     toggleAllCommitMessagesBody(isActive) {
       this.showAllCommitMessageBody = isActive;
 
@@ -56,7 +55,7 @@ window.vZoom = {
         commitMessageClass.className = toRename;
       });
 
-      this.expandedCommitMessagesCount = isActive ? this.getCommitMessageBodyCount() : 0;
+      this.expandedCommitMessagesCount = isActive ? this.totalCommitMessageBodyCount : 0;
     },
 
     updateExpandedCommitMessagesCount() {
