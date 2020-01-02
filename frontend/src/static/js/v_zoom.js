@@ -31,7 +31,7 @@ window.vZoom = {
       });
 
       return nonEmptyCommitMessageCount;
-    }
+    },
   },
   methods: {
     openSummary() {
