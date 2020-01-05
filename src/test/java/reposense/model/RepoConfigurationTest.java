@@ -4,6 +4,8 @@ import static org.apache.tools.ant.types.Commandline.translateCommandline;
 
 import java.io.File;
 import java.io.IOException;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -44,9 +46,12 @@ public class RepoConfigurationTest {
             .getResource("RepoConfigurationTest/repoconfig_withoutformats_test").getFile()).toPath();
     private static final Path GROUPS_TEST_CONFIG_FILES = new File(RepoConfigurationTest.class.getClassLoader()
         .getResource("RepoConfigurationTest/repoconfig_groups_test").getFile()).toPath();
+
     private static final Path OVERRIDE_STANDALONE_TEST_CONFIG_FILE = new File(RepoConfigurationTest.class
             .getClassLoader().getResource("RepoConfigurationTest/repoconfig_overrideStandAlone_test")
             .getFile()).toPath();
+    private static final Path IGNORE_AUTHORS_TEST_CONFIG_FILE = new File(RepoConfigurationTest.class.getClassLoader()
+            .getResource("RepoConfigurationTest/repoconfig_ignoreAuthors_test").getFile()).toPath();
     private static final Path IGNORE_STANDALONE_FLAG_OVERRIDE_CSV_TEST = new File(RepoConfigurationTest.class
             .getClassLoader().getResource("RepoConfigurationTest/repoconfig_ignoreStandaloneOverrideCsv_test")
             .getFile()).toPath();
@@ -75,9 +80,11 @@ public class RepoConfigurationTest {
 
     private static final List<FileType> CONFIG_FORMATS = FileType.convertFormatStringsToFileTypes(Arrays.asList(
             "java", "adoc", "md"));
-    private static final List<FileType> CONFIG_GROUPS = Arrays.asList(
+    private static final List<FileType> FIRST_CONFIG_GROUPS = Arrays.asList(
             new FileType("test", Collections.singletonList("src/test**")),
             new FileType("code", Collections.singletonList("**.java")),
+            new FileType("docs", Collections.singletonList("docs**")));
+    private static final List<FileType> SECOND_CONFIG_GROUPS = Arrays.asList(
             new FileType("docs", Collections.singletonList("docs**")));
     private static final List<String> CLI_FORMATS = Arrays.asList("css", "html");
 
@@ -314,8 +321,9 @@ public class RepoConfigurationTest {
 
         RepoConfiguration.setGroupConfigsToRepos(actualConfigs, groupConfigs);
 
-        Assert.assertEquals(1, actualConfigs.size());
-        Assert.assertEquals(CONFIG_GROUPS, actualConfigs.get(0).getFileTypeManager().getGroups());
+        Assert.assertEquals(2, actualConfigs.size());
+        Assert.assertEquals(FIRST_CONFIG_GROUPS, actualConfigs.get(0).getFileTypeManager().getGroups());
+        Assert.assertEquals(SECOND_CONFIG_GROUPS, actualConfigs.get(1).getFileTypeManager().getGroups());
     }
 
     @Test
@@ -336,7 +344,8 @@ public class RepoConfigurationTest {
     public void repoConfig_emptyLocationDifferentBranch_equal() throws InvalidLocationException {
         RepoConfiguration emptyLocationEmptyBranchRepoConfig = new RepoConfiguration(new RepoLocation(""), "");
         RepoConfiguration emptyLocationDefaultBranchRepoConfig = new RepoConfiguration(new RepoLocation(""));
-        RepoConfiguration emptyLocationWithBranchRepoConfig = new RepoConfiguration(new RepoLocation(""), "master");
+        RepoConfiguration emptyLocationWithBranchRepoConfig = new RepoConfiguration(new RepoLocation(""),
+                "master");
 
         Assert.assertEquals(emptyLocationDefaultBranchRepoConfig, emptyLocationEmptyBranchRepoConfig);
         Assert.assertEquals(emptyLocationWithBranchRepoConfig, emptyLocationEmptyBranchRepoConfig);
@@ -358,6 +367,8 @@ public class RepoConfigurationTest {
         RepoConfiguration expectedConfig = new RepoConfiguration(new RepoLocation(TEST_REPO_DELTA), "master",
                 Collections.emptyList(), Collections.emptyList(), false, Collections.emptyList(),
                 true, true, true);
+        expectedConfig.setIsIgnoredAuthorsListOverriding(true);
+        expectedConfig.setIgnoredAuthorsList(Arrays.asList("lithiumlkid"));
 
         List<Author> expectedAuthorList = new ArrayList<>();
         Author[] authors = new Author[]{FIRST_AUTHOR, SECOND_AUTHOR, THIRD_AUTHOR, FOURTH_AUTHOR};
@@ -410,6 +421,47 @@ public class RepoConfigurationTest {
                 "master");
         GitClone.clone(actualConfig);
         ReportGenerator.updateRepoConfig(actualConfig);
+
+        TestUtil.compareRepoConfig(expectedConfig, actualConfig);
+    }
+
+    @Test
+    public void repoConfig_removeIgnoredAuthors_success() throws ParseException, GitCloneException, IOException,
+            HelpScreenException, NoSuchMethodException, InvocationTargetException, IllegalAccessException {
+        List<Author> expectedAuthors = new ArrayList<>();
+        Author author = new Author(FIRST_AUTHOR);
+        author.setIgnoreGlobList(REPO_LEVEL_GLOB_LIST);
+        expectedAuthors.add(author);
+
+        RepoConfiguration expectedConfig = new RepoConfiguration(new RepoLocation(TEST_REPO_DELTA), "master");
+        expectedConfig.setAuthorList(expectedAuthors);
+        expectedConfig.addAuthorEmailsAndAliasesMapEntry(author, FIRST_AUTHOR_ALIASES);
+        expectedConfig.setAuthorDisplayName(author, "Ahm");
+
+        expectedConfig.setIgnoreGlobList(REPO_LEVEL_GLOB_LIST);
+        expectedConfig.setFormats(CONFIG_FORMATS);
+        expectedConfig.setStandaloneConfigIgnored(true);
+        expectedConfig.setIgnoredAuthorsList(Arrays.asList("jordancjq", "Eugene Peh"));
+
+        String formats = String.join(" ", CLI_FORMATS);
+        String input = new InputBuilder().addConfig(IGNORE_AUTHORS_TEST_CONFIG_FILE)
+                .addFormats(formats)
+                .build();
+        CliArguments cliArguments = ArgsParser.parse(translateCommandline(input));
+
+        List<RepoConfiguration> actualConfigs =
+                new RepoConfigCsvParser(((ConfigCliArguments) cliArguments).getRepoConfigFilePath()).parse();
+        List<AuthorConfiguration> authorConfigs =
+                new AuthorConfigCsvParser(((ConfigCliArguments) cliArguments).getAuthorConfigFilePath()).parse();
+        RepoConfiguration.merge(actualConfigs, authorConfigs);
+
+        RepoConfiguration actualConfig = actualConfigs.get(0);
+        GitClone.clone(actualConfig);
+        ReportGenerator.updateRepoConfig(actualConfig);
+        Method updateAuthorList = ReportGenerator.class.getDeclaredMethod("updateAuthorList",
+                RepoConfiguration.class);
+        updateAuthorList.setAccessible(true);
+        updateAuthorList.invoke(null, actualConfig);
 
         TestUtil.compareRepoConfig(expectedConfig, actualConfig);
     }

@@ -37,6 +37,9 @@ public class RepoConfigParserTest {
     private static final Path REPO_CONFIG_REDUNDANT_LINES_FILE = new File(RepoConfigParserTest.class.getClassLoader()
             .getResource("RepoConfigParserTest/require_trailing_whitespaces/repoconfig_redundantLines_test.csv")
             .getFile()).toPath();
+    private static final Path REPO_CONFIG_INVALID_HEADER_SIZE_FILE = new File(RepoConfigParserTest.class
+            .getClassLoader().getResource("RepoConfigParserTest/repoconfig_invalidHeaderSize_test.csv")
+            .getFile()).toPath();
     private static final Path MERGE_EMPTY_LOCATION_FOLDER = new File(RepoConfigParserTest.class.getClassLoader()
             .getResource("RepoConfigParserTest/repoconfig_merge_empty_location_test").getFile()).toPath();
 
@@ -231,5 +234,11 @@ public class RepoConfigParserTest {
         Assert.assertEquals(new RepoLocation(TEST_REPO_DELTA_LOCATION), deltaConfig.getLocation());
         Assert.assertEquals(TEST_REPO_DELTA_BRANCH, deltaConfig.getBranch());
         Assert.assertTrue(deltaConfig.isStandaloneConfigIgnored());
+    }
+
+    @Test (expected = IOException.class)
+    public void repoConfig_invalidHeaderSize_throwsIoException() throws IOException {
+        RepoConfigCsvParser repoConfigCsvParser = new RepoConfigCsvParser(REPO_CONFIG_INVALID_HEADER_SIZE_FILE);
+        repoConfigCsvParser.parse();
     }
 }

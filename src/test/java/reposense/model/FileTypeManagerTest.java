@@ -28,8 +28,14 @@ public class FileTypeManagerTest {
 
     @Test
     public void getFileType_noCustomGroups_returnsCorrectFormat() {
+        // Files with standard format should return the format name itself
         Assert.assertEquals("makefile", fileTypeManager.getFileType("src/build/makefile").toString());
         Assert.assertEquals("cpp", fileTypeManager.getFileType("src/main/main.cpp").toString());
+        Assert.assertEquals("7z", fileTypeManager.getFileType("src/main/archive.7z").toString());
+
+        // Files that are not of the standard format should return "other".
+        Assert.assertEquals("other", fileTypeManager.getFileType("Backup File").toString());
+        Assert.assertEquals("other", fileTypeManager.getFileType("duke.j@va").toString());
     }
 
     @Test

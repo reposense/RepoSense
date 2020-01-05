@@ -38,6 +38,8 @@ public class AuthorConfigParserTest {
             .getFile()).toPath();
     private static final Path AUTHOR_CONFIG_INVALID_LOCATION = new File(AuthorConfigParserTest.class.getClassLoader()
             .getResource("AuthorConfigParserTest/authorconfig_invalidLocation_test.csv").getFile()).toPath();
+    private static final Path AUTHOR_CONFIG_INVALID_HEADER_SIZE = new File(AuthorConfigParserTest.class.getClassLoader()
+            .getResource("AuthorConfigParserTest/authorconfig_invalidHeaderSize_test.csv").getFile()).toPath();
 
     private static final String TEST_REPO_BETA_LOCATION = "https://github.com/reposense/testrepo-Beta.git";
     private static final String TEST_REPO_BETA_MASTER_BRANCH = "master";
@@ -155,6 +157,12 @@ public class AuthorConfigParserTest {
         AuthorConfiguration config = configs.get(0);
 
         Assert.assertEquals(3, config.getAuthorList().size());
+    }
+
+    @Test (expected = IOException.class)
+    public void authorConfig_invalidHeaderSize_throwsIoException() throws IOException {
+        AuthorConfigCsvParser authorConfigCsvParser = new AuthorConfigCsvParser(AUTHOR_CONFIG_INVALID_HEADER_SIZE);
+        authorConfigCsvParser.parse();
     }
 
     @Test
