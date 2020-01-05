@@ -37,6 +37,10 @@ public class FileTypeManager {
         return result;
     }
 
+    /**
+     * Returns the file format of the given {@code fileName}.
+     * Returns the file type "other" if the format of the file is not of the standard type.
+     */
     private FileType getFileFormat(String fileName) {
         if (hasSpecifiedFormats()) {
             for (FileType format : formats) {
@@ -48,7 +52,14 @@ public class FileTypeManager {
                     "This exception should not happen as we have performed the whitelisted formats check.");
         } else {
             String[] tok = fileName.split("[./\\\\]+");
-            return FileType.convertStringFormatToFileType(tok[tok.length - 1]);
+            String label = tok[tok.length - 1];
+
+            try {
+                FileType.validateFileFormat(label);
+                return new FileType(label, Collections.singletonList("**" + label));
+            } catch (IllegalArgumentException iae) {
+                return DEFAULT_GROUP_TYPE;
+            }
         }
     }
 
@@ -77,6 +88,17 @@ public class FileTypeManager {
 
     public List<FileType> getGroups() {
         return groups;
+    }
+
+    /**
+     * Adds new groups from {@code groupList}. Skips groups that have already been added previously.
+     */
+    public void addGroups(List<FileType> groupList) {
+        groupList.stream().filter(group -> !this.containsGroup(group)).forEach(groups::add);
+    }
+
+    public boolean containsGroup(FileType group) {
+        return groups.contains(group);
     }
 
     public void setGroups(List<FileType> groups) {
