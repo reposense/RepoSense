@@ -2,5 +2,8 @@
   "plugins": [
     "pug-lint"
   ],
-  "extends": "pug-lint-config-clock"
+  "extends": "pug-lint-config-clock",
+  "rules": {
+    "disallowClassLiteralsBeforeIdLiterals": true
+  }
 }
