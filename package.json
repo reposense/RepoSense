@@ -32,6 +32,7 @@
     "eslint": "^4.19.1",
     "eslint-config-airbnb-base": "^13.0.0",
     "eslint-plugin-import": "^2.13.0",
+    "pug-lint-config-clock": "^2.0.0",
     "stylelint": "^10.1.0",
     "stylelint-order": "^3.0.1",
     "vueify": "^9.4.1"

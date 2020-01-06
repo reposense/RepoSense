@@ -2,7 +2,5 @@
   "plugins": [
     "pug-lint"
   ],
-  "rules": {
-    "disallowAttributeConcatenation": true
-  }
+  "extends": "pug-lint-config-clock"
 }
