@@ -13,7 +13,6 @@ import org.junit.Test;
 import reposense.model.FileType;
 import reposense.model.GroupConfiguration;
 
-
 public class GroupConfigParserTest {
     private static final Path GROUP_CONFIG_MULTI_LOCATION_FILE = new File(GroupConfigParserTest.class.getClassLoader()
             .getResource("GroupConfigParserTest/groupconfig_multipleLocation_test.csv").getFile()).toPath();
