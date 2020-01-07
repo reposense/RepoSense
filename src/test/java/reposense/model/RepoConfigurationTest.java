@@ -343,8 +343,7 @@ public class RepoConfigurationTest {
     public void repoConfig_emptyLocationDifferentBranch_equal() throws InvalidLocationException {
         RepoConfiguration emptyLocationEmptyBranchRepoConfig = new RepoConfiguration(new RepoLocation(""), "");
         RepoConfiguration emptyLocationDefaultBranchRepoConfig = new RepoConfiguration(new RepoLocation(""));
-        RepoConfiguration emptyLocationWithBranchRepoConfig = new RepoConfiguration(new RepoLocation(""),
-                "master");
+        RepoConfiguration emptyLocationWithBranchRepoConfig = new RepoConfiguration(new RepoLocation(""), "master");
 
         Assert.assertEquals(emptyLocationDefaultBranchRepoConfig, emptyLocationEmptyBranchRepoConfig);
         Assert.assertEquals(emptyLocationWithBranchRepoConfig, emptyLocationEmptyBranchRepoConfig);
@@ -457,8 +456,7 @@ public class RepoConfigurationTest {
         RepoConfiguration actualConfig = actualConfigs.get(0);
         GitClone.clone(actualConfig);
         ReportGenerator.updateRepoConfig(actualConfig);
-        Method updateAuthorList = ReportGenerator.class.getDeclaredMethod("updateAuthorList",
-                RepoConfiguration.class);
+        Method updateAuthorList = ReportGenerator.class.getDeclaredMethod("updateAuthorList", RepoConfiguration.class);
         updateAuthorList.setAccessible(true);
         updateAuthorList.invoke(null, actualConfig);
 
