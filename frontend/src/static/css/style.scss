@@ -612,7 +612,7 @@ header {
         position: relative;
 
         &.active {
-          height: 100%;
+          height: auto;
 
           .code {
             background-color: mui-color('white');

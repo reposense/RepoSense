@@ -161,6 +161,7 @@ To use this feature, add a `_reposense/config.json` to the root of your repo usi
   "ignoreGlobList": ["about-us/**", "**index.html"],
   "formats": ["html", "css"],
   "ignoreCommitList": ["90018e49f129ce7e0abdc8b18e91c9813588c601", "67890def"],
+  "ignoreAuthorList": ["charlie"],
   "authors":
   [
     {
@@ -183,6 +184,7 @@ Note: all fields are optional unless specified otherwise.
 * `ignoreGlobList`: Folders/files to ignore, specified using the [_glob format_](https://docs.oracle.com/javase/tutorial/essential/io/fileOps.html#glob).
 * `formats`: File formats to analyze. Default: all file formats
 * `ignoreCommitList`: The list of commits to ignore during analysis. For accurate results, the commits should be provided with their full hash.
+* `ignoreAuthorList`: The list of authors to ignore during analysis. Authors specified in `authors` field or `author-config.csv` will be also be omitted if they are in this list. Authors should be specified by their [Git Author Name](#a-note-about-git-author-name).
 
 **Fields to provide _author-level_ info**:<br>
 Note: `authors` field should contain _all_ authors that should be captured in the analysis.
@@ -314,9 +316,9 @@ The directory used with the `--config` parameter should contain a `repo-config.c
 
 Here is an example:
 
-Repository's Location|Branch|File formats|Ignore Glob List|Ignore standalone config|Ignore Commits List
+Repository's Location|Branch|File formats|Ignore Glob List|Ignore standalone config|Ignore Commits List|Ignore Authors List
 ---------------------|------|------------|----------------|------------------------|-------------------
-`https://github.com/foo/bar.git`|`master`|`override:java;css`|`test/**`|`yes`|`2fb6b9b2dd9fa40bf0f9815da2cb0ae8731436c7;c5a6dc774e22099cd9ddeb0faff1e75f9cf4f151`
+`https://github.com/foo/bar.git`|`master`|`override:java;css`|`test/**`|`yes`|`2fb6b9b2dd9fa40bf0f9815da2cb0ae8731436c7;c5a6dc774e22099cd9ddeb0faff1e75f9cf4f151`|`Alice`
 
 When using standalone config (if it is not ignored), it is possible to override specific values from the standalone config by prepending the entered value with `override:`.
 
@@ -330,6 +332,7 @@ Repository's Location | The `GitHub URL` or `Disk Path` to the git repository e.
 [Optional] Ignore Glob List<sup>*+</sup> | The list of file path globs to ignore during analysis for each author. e.g., `test/**;temp/**`
 [Optional] Ignore standalone config | To ignore the standalone config file (if any) in target repository, enter **`yes`**. If the cell is empty, the standalone config file in the repo (if any) will take precedence over configurations provided in the csv files.
 [Optional] Ignore Commit List<sup>*+</sup> | The list of commits to ignore during analysis. For accurate results, the commits should be provided with their full hash.
+[Optional] Ignore Authors List<sup>*+</sup> | The list of authors to ignore during analysis. Authors should be specified by their [Git Author Name](#a-note-about-git-author-name).
 
 <sup>* **Multi-value column**: multiple values can be entered in this column using a semicolon `;` as the separator.</sup>  
 <sup>+ **Overrideable column**: prepend with `override:` to use entered value(s) instead of value(s) from standalone config.</sup>
@@ -362,7 +365,7 @@ Optionally, you can provide a `group-config.csv`(which should be in the same dir
 
 Column Name | Explanation
 ----------- | -----------
-Repository's Location | Same as `repo-config.csv`.
+[Optional] Repository's Location | Same as `repo-config.csv`. Default: all the repos in `repo-config.csv`
 Group Name | Name of the group e.g.,`test`.
 Globs * | The list of file path globs to include for specified group. e.g.,`**/test/*;**.java`.
 

@@ -22,9 +22,10 @@ public class GroupConfigCsvParser extends CsvParser<GroupConfiguration> {
     private static final int LOCATION_POSITION = 0;
     private static final int GROUP_NAME_POSITION = 1;
     private static final int FILES_GLOB_POSITION = 2;
+    private static final int HEADER_SIZE = FILES_GLOB_POSITION + 1; // last position + 1
 
     public GroupConfigCsvParser(Path csvFilePath) throws IOException {
-        super(csvFilePath);
+        super(csvFilePath, HEADER_SIZE);
     }
 
     /**
@@ -33,7 +34,7 @@ public class GroupConfigCsvParser extends CsvParser<GroupConfiguration> {
     @Override
     protected int[] mandatoryPositions() {
         return new int[] {
-            LOCATION_POSITION, GROUP_NAME_POSITION, FILES_GLOB_POSITION,
+            GROUP_NAME_POSITION, FILES_GLOB_POSITION,
         };
     }
 

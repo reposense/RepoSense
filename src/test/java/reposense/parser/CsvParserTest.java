@@ -41,6 +41,8 @@ public class CsvParserTest {
     private static final Path REPO_CONFIG_REDUNDANT_LINES_FILE = new File(CsvParserTest.class.getClassLoader()
             .getResource("CsvParserTest/require_trailing_whitespaces/repoconfig_redundantLines_test.csv")
             .getFile()).toPath();
+    private static final Path REPO_CONFIG_INVALID_HEADER_SIZE_FILE = new File(CsvParserTest.class.getClassLoader()
+            .getResource("CsvParserTest/repoconfig_invalidHeaderSize_test.csv").getFile()).toPath();
     private static final Path AUTHOR_CONFIG_EMPTY_LOCATION_FILE = new File(CsvParserTest.class.getClassLoader()
             .getResource("CsvParserTest/authorconfig_emptyLocation_test.csv").getFile()).toPath();
     private static final Path AUTHOR_CONFIG_EMPTY_CONFIG_FILE = new File(CsvParserTest.class.getClassLoader()
@@ -56,6 +58,8 @@ public class CsvParserTest {
             .getResource("CsvParserTest/authorconfig_multipleEmails_test.csv").getFile()).toPath();
     private static final Path AUTHOR_CONFIG_INVALID_LOCATION = new File(CsvParserTest.class.getClassLoader()
             .getResource("CsvParserTest/authorconfig_invalidLocation_test.csv").getFile()).toPath();
+    private static final Path AUTHOR_CONFIG_INVALID_HEADER_SIZE = new File(CsvParserTest.class.getClassLoader()
+            .getResource("CsvParserTest/authorconfig_invalidHeaderSize_test.csv").getFile()).toPath();
     private static final Path MERGE_EMPTY_LOCATION_FOLDER = new File(CsvParserTest.class.getClassLoader()
             .getResource("CsvParserTest/repoconfig_merge_empty_location_test").getFile()).toPath();
     private static final Path GROUP_CONFIG_MULTI_LOCATION_FILE = new File(CsvParserTest.class.getClassLoader()
@@ -64,6 +68,8 @@ public class CsvParserTest {
             .getResource("CsvParserTest/groupconfig_emptyLocation_test.csv").getFile()).toPath();
     private static final Path GROUP_CONFIG_INVALID_LOCATION_FILE = new File(CsvParserTest.class.getClassLoader()
             .getResource("CsvParserTest/groupconfig_invalidLocation_test.csv").getFile()).toPath();
+    private static final Path GROUP_CONFIG_INVALID_HEADER_SIZE_FILE = new File(CsvParserTest.class.getClassLoader()
+            .getResource("CsvParserTest/groupconfig_invalidHeaderSize_test.csv").getFile()).toPath();
 
     private static final String TEST_REPO_BETA_LOCATION = "https://github.com/reposense/testrepo-Beta.git";
     private static final String TEST_REPO_BETA_MASTER_BRANCH = "master";
@@ -84,6 +90,7 @@ public class CsvParserTest {
             FileType.convertFormatStringsToFileTypes(Arrays.asList("java", "adoc", "md"));
     private static final List<String> TEST_REPO_BETA_CONFIG_IGNORED_COMMITS =
             Arrays.asList("abcde12345", "67890fdecba");
+    private static final List<String> TEST_REPO_BETA_CONFIG_IGNORED_AUTHORS = Arrays.asList("zacharytang");
 
     private static final String TEST_REPO_CHARLIE_LOCATION = "https://github.com/reposense/testrepo-Charlie.git";
     private static final String TEST_REPO_CHARLIE_BRANCH = "HEAD";
@@ -148,10 +155,12 @@ public class CsvParserTest {
 
         Assert.assertEquals(config.getIgnoreCommitList(),
                 CommitHash.convertStringsToCommits(TEST_REPO_BETA_CONFIG_IGNORED_COMMITS));
+        Assert.assertEquals(config.getIgnoredAuthorsList(), TEST_REPO_BETA_CONFIG_IGNORED_AUTHORS);
 
         Assert.assertFalse(config.isFormatsOverriding());
         Assert.assertFalse(config.isIgnoreGlobListOverriding());
         Assert.assertFalse(config.isIgnoreCommitListOverriding());
+        Assert.assertFalse(config.isIgnoredAuthorsListOverriding());
     }
 
     @Test
@@ -231,6 +240,12 @@ public class CsvParserTest {
         Assert.assertEquals(3, config.getAuthorList().size());
     }
 
+    @Test (expected = IOException.class)
+    public void authorConfig_invalidHeaderSize_throwsIoException() throws IOException {
+        AuthorConfigCsvParser authorConfigCsvParser = new AuthorConfigCsvParser(AUTHOR_CONFIG_INVALID_HEADER_SIZE);
+        authorConfigCsvParser.parse();
+    }
+
     @Test
     public void groupConfig_invalidLocation_success() throws IOException {
         GroupConfigCsvParser groupConfigCsvParser = new GroupConfigCsvParser(GROUP_CONFIG_INVALID_LOCATION_FILE);
@@ -247,10 +262,13 @@ public class CsvParserTest {
         GroupConfigCsvParser groupConfigCsvParser = new GroupConfigCsvParser(GROUP_CONFIG_EMPTY_LOCATION_FILE);
         List<GroupConfiguration> groupConfigs = groupConfigCsvParser.parse();
 
-        Assert.assertEquals(1, groupConfigs.size());
+        Assert.assertEquals(2, groupConfigs.size());
 
-        GroupConfiguration actualConfig = groupConfigs.get(0);
-        Assert.assertEquals(2, actualConfig.getGroupsList().size());
+        GroupConfiguration actualReposenseConfig = groupConfigs.get(0);
+        Assert.assertEquals(2, actualReposenseConfig.getGroupsList().size());
+
+        GroupConfiguration actualEmptyLocationConfig = groupConfigs.get(1);
+        Assert.assertEquals(1, actualEmptyLocationConfig.getGroupsList().size());
     }
 
     @Test
@@ -267,6 +285,12 @@ public class CsvParserTest {
         GroupConfiguration actualDeltaConfig = groupConfigs.get(1);
         Assert.assertEquals(TEST_REPO_DELTA_LOCATION, actualDeltaConfig.getLocation().toString());
         Assert.assertEquals(TEST_REPO_DELTA_GROUPS, actualDeltaConfig.getGroupsList());
+    }
+
+    @Test (expected = IOException.class)
+    public void groupConfig_invalidHeaderSize_throwsIoException() throws IOException {
+        GroupConfigCsvParser groupConfigCsvParser = new GroupConfigCsvParser(GROUP_CONFIG_INVALID_HEADER_SIZE_FILE);
+        groupConfigCsvParser.parse();
     }
 
     @Test
@@ -408,10 +432,12 @@ public class CsvParserTest {
         Assert.assertFalse(config.isStandaloneConfigIgnored());
         Assert.assertEquals(CommitHash.convertStringsToCommits(TEST_REPO_BETA_CONFIG_IGNORED_COMMITS),
                 config.getIgnoreCommitList());
+        Assert.assertEquals(TEST_REPO_BETA_CONFIG_IGNORED_AUTHORS, config.getIgnoredAuthorsList());
 
         Assert.assertTrue(config.isFormatsOverriding());
         Assert.assertTrue(config.isIgnoreGlobListOverriding());
         Assert.assertTrue(config.isIgnoreCommitListOverriding());
+        Assert.assertTrue(config.isIgnoredAuthorsListOverriding());
     }
 
     @Test
@@ -431,5 +457,11 @@ public class CsvParserTest {
         Assert.assertEquals(new RepoLocation(TEST_REPO_DELTA_LOCATION), deltaConfig.getLocation());
         Assert.assertEquals(TEST_REPO_DELTA_BRANCH, deltaConfig.getBranch());
         Assert.assertTrue(deltaConfig.isStandaloneConfigIgnored());
+    }
+
+    @Test (expected = IOException.class)
+    public void repoConfig_invalidHeaderSize_throwsIoException() throws IOException {
+        RepoConfigCsvParser repoConfigCsvParser = new RepoConfigCsvParser(REPO_CONFIG_INVALID_HEADER_SIZE_FILE);
+        repoConfigCsvParser.parse();
     }
 }

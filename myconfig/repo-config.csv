@@ -1,0 +1,2 @@
+Repository's Location,Branch,File formats,Ignore Glob List,Ignore standalone config,Ignore Commits List
+https://github.com/cs2103-ay1819s2-w11-4/main.git,master,,**.adoc,yes,
