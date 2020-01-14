@@ -681,7 +681,7 @@ window.vSummary = {
       });
     },
 
-    openTabZoomSubrange(userOrig) {
+    openTabZoomSubrange(user) {
       // skip if accidentally clicked on ramp chart
       if (drags.length === 2 && drags[1] - drags[0]) {
         const tdiff = new Date(this.filterUntilDate) - new Date(this.filterSinceDate);
@@ -689,13 +689,12 @@ window.vSummary = {
         const tsince = getDateStr(new Date(this.filterSinceDate).getTime() + idxs[0]);
         const tuntil = getDateStr(new Date(this.filterSinceDate).getTime() + idxs[1]);
 
-        this.openTabZoom(userOrig, tsince, tuntil);
+        this.openTabZoom(user, tsince, tuntil);
       }
     },
 
-    openTabZoom(userOrig, since, until) {
+    openTabZoom(user, since, until) {
       const { avgCommitSize } = this;
-      const user = Object.assign({}, userOrig);
 
       this.$emit('view-zoom', {
         filterGroupSelection: this.filterGroupSelection,
