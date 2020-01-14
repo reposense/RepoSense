@@ -680,7 +680,6 @@ window.vSummary = {
         totalCommits: user.totalCommits,
       });
     },
-
     openTabZoomSubrange(user, repo, index) {
       // skip if accidentally clicked on ramp chart
       if (drags.length === 2 && drags[1] - drags[0]) {
@@ -688,14 +687,12 @@ window.vSummary = {
         const idxs = drags.map((x) => x * tdiff / 100);
         const tsince = getDateStr(new Date(this.filterSinceDate).getTime() + idxs[0]);
         const tuntil = getDateStr(new Date(this.filterSinceDate).getTime() + idxs[1]);
-
         this.openTabZoom(user, tsince, tuntil, repo, index);
       }
     },
 
     openTabZoom(user, since, until, repo, index) {
       const { avgCommitSize } = this;
-      const clonedUser = Object.assign({}, user);
 
       this.$emit('view-zoom', {
         filterGroupSelection: this.filterGroupSelection,
