@@ -19,6 +19,9 @@ import reposense.util.SystemUtil;
  * Git ls tree is responsible to obtain the list of staged files of a branch.
  */
 public class GitLsTree {
+    private static final Logger logger = LogsManager.getLogger(GitLsTree.class);
+    private static final String MESSAGE_INVALID_PATH = "Invalid filepath: '%s' contains '%s'";
+
     // Although forward-slash (/) is an invalid character in Windows file path, it is not included in the regex as
     // for the output of git-ls-tree, files in directories are separated by forward-slash (e.g.: folder/name/file.txt).
     // Also, it is not possible to create and commit files with forward-slash characters in UNIX OSes.
@@ -28,9 +31,6 @@ public class GitLsTree {
             + "|(^\\s)|((?<=/)\\s+)"            // file or folder names with leading whitespaces
             + "|([\\s.]$)|([\\s.]+(?=/))",      // folder or file names ending with period or whitespaces
             Pattern.CASE_INSENSITIVE);
-
-    private static final Logger logger = LogsManager.getLogger(GitLsTree.class);
-    private static final String MESSAGE_INVALID_PATH = "Invalid filepath: '%s' contains '%s'";
 
     /**
      * Verifies that the repository in {@code config} contains only file paths that are compatible with Windows.
