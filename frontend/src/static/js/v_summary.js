@@ -697,7 +697,7 @@ window.vSummary = {
       this.$emit('view-zoom', {
         filterGroupSelection: this.filterGroupSelection,
         avgCommitSize,
-        clonedUser,
+        user,
         location: this.getRepoLink(repo[index]),
         sinceDate: since,
         untilDate: until,
