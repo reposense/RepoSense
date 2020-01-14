@@ -3,7 +3,12 @@
   .zoom__title
     .zoom_title--group.large-font
       span(v-if="info.filterGroupSelection === 'groupByAuthors'") {{ filteredUser.displayName }} ({{ filteredUser.name }})
-      span(v-else) {{ filteredUser.repoName }}
+      a(
+          v-else,
+          v-bind:href="info.location", target="_blank",
+          v-bind:title="'Click to open the repo'"
+        )
+          span {{ filteredUser.repoName }}
     .zoom__title--chart.medium-font(v-if="!info.isMergeGroup")
       span &#8627; &nbsp;
       span(v-if="info.filterGroupSelection === 'groupByAuthors'") {{ filteredUser.repoName }}
