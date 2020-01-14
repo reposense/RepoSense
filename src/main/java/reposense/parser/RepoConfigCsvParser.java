@@ -28,9 +28,10 @@ public class RepoConfigCsvParser extends CsvParser<RepoConfiguration> {
     private static final int IGNORE_STANDALONE_CONFIG_POSITION = 4;
     private static final int IGNORE_COMMIT_LIST_CONFIG_POSITION = 5;
     private static final int IGNORE_AUTHOR_LIST_CONFIG_POSITION = 6;
+    private static final int HEADER_SIZE = IGNORE_AUTHOR_LIST_CONFIG_POSITION + 1; // last position + 1
 
     public RepoConfigCsvParser(Path csvFilePath) throws IOException {
-        super(csvFilePath);
+        super(csvFilePath, HEADER_SIZE);
     }
 
     /**
