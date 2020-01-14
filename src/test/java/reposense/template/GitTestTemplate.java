@@ -66,7 +66,8 @@ public class GitTestTemplate {
     }
 
     @BeforeClass
-    public static void beforeClass() throws GitCloneException, IOException, InvalidLocationException {
+    public static void beforeClass()
+            throws GitCloneException, IOException, InvalidLocationException, NoSuchMethodException {
         deleteRepos();
         config = new RepoConfiguration(new RepoLocation(TEST_REPO_GIT_LOCATION), "master");
         config.setFormats(FileTypeTest.DEFAULT_TEST_FORMATS);

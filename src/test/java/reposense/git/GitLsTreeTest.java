@@ -12,8 +12,10 @@ import org.junit.Assume;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
+import reposense.git.exception.GitCloneException;
 import reposense.git.exception.InvalidFilePathException;
 import reposense.model.RepoConfiguration;
+import reposense.parser.InvalidLocationException;
 import reposense.template.GitTestTemplate;
 import reposense.util.FileUtil;
 import reposense.util.SystemUtil;
@@ -22,7 +24,9 @@ public class GitLsTreeTest extends GitTestTemplate {
     private static Method isValidWindowsFilenameMethod;
 
     @BeforeClass
-    public static void beforeSubClass() throws NoSuchMethodException {
+    public static void beforeClass()
+            throws NoSuchMethodException, InvalidLocationException, IOException, GitCloneException {
+        GitTestTemplate.beforeClass();
         isValidWindowsFilenameMethod = GitLsTree.class.getDeclaredMethod("isValidWindowsFilename", String.class);
         isValidWindowsFilenameMethod.setAccessible(true);
     }
