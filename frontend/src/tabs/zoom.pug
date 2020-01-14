@@ -38,7 +38,6 @@
         label.medium-font order
 
   .zoom__day(v-for="day in filteredUser.commits")
-
     template(v-if="day.insertions > 0")
       h3(v-if="filterTimeFrame === 'week'") Week of {{ day.date }}
       h3(v-else) {{ day.date }}
