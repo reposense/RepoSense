@@ -13,21 +13,14 @@ window.vZoom = {
       expandedCommitMessagesCount: this.totalCommitMessageBodyCount,
       commitsSortType: 'time',
       toReverseSortedCommits: true,
-      sortingFunction: (a, b) => -1 * window.comparator(commitSortDict.time)(a, b),
     };
   },
 
-  watch: {
-    commitsSortType() {
-      this.sortCommits();
-    },
-
-    toReverseSortedCommits() {
-      this.sortCommits();
-    },
-  },
-
   computed: {
+    sortingFunction() {
+      return (a, b) => (this.toReverseSortedCommits ? -1 : 1)
+      * window.comparator(commitSortDict[this.commitsSortType])(a, b);
+    },
     filteredUser() {
       const { user } = this.info;
       const filteredUser = Object.assign({}, user);
@@ -62,11 +55,6 @@ window.vZoom = {
         return `${window.getBaseLink(slice.repoId)}/commit/${slice.hash}`;
       }
       return `${window.getBaseLink(this.info.user.repoId)}/commit/${slice.hash}`;
-    },
-
-    sortCommits() {
-      this.sortingFunction = (a, b) => (this.toReverseSortedCommits ? -1 : 1)
-      * window.comparator(commitSortDict[this.commitsSortType])(a, b);
     },
 
     toggleAllCommitMessagesBody(isActive) {
