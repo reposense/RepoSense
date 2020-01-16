@@ -45,9 +45,9 @@ window.vZoom = {
     toggleAllCommitMessagesBody(isActive) {
       this.showAllCommitMessageBody = isActive;
 
-      const toRename = this.showAllCommitMessageBody ? 'commit-message active' : 'commit-message';
+      const toRename = this.showAllCommitMessageBody ? 'commit-message body active' : 'commit-message body';
 
-      const commitMessageClasses = document.getElementsByClassName('commit-message');
+      const commitMessageClasses = document.getElementsByClassName('commit-message body');
       Array.from(commitMessageClasses).forEach((commitMessageClass) => {
         commitMessageClass.className = toRename;
       });
@@ -56,7 +56,7 @@ window.vZoom = {
     },
 
     updateExpandedCommitMessagesCount() {
-      this.expandedCommitMessagesCount = document.getElementsByClassName('commit-message active')
+      this.expandedCommitMessagesCount = document.getElementsByClassName('commit-message body active')
           .length;
     },
   },
