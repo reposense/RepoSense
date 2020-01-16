@@ -364,9 +364,9 @@ header {
 
     &--bar {
       background-color: mui-color('red');
+      float: left;
       height: 4px;
       margin-top: 2px;
-      float: left;
     }
   }
 }
