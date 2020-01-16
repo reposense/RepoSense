@@ -1,5 +1,6 @@
 package reposense;
 
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.nio.file.Path;
 import java.time.ZonedDateTime;
@@ -99,17 +100,23 @@ public class RepoSense {
         try {
             authorConfigs = new AuthorConfigCsvParser(cliArguments.getAuthorConfigFilePath()).parse();
             RepoConfiguration.merge(repoConfigs, authorConfigs);
-        } catch (IOException ioe) {
-            // IOException thrown as author-config.csv is not found.
+        } catch (FileNotFoundException fnfe) {
+            // FileNotFoundException thrown as author-config.csv is not found.
             // Ignore exception as the file is optional.
+        } catch (IOException ioe) {
+            // for all other IO exceptions, log the error and continue
+            logger.log(Level.WARNING, ioe.getMessage(), ioe);
         }
 
         try {
             groupConfigs = new GroupConfigCsvParser(cliArguments.getGroupConfigFilePath()).parse();
             RepoConfiguration.setGroupConfigsToRepos(repoConfigs, groupConfigs);
-        } catch (IOException ioe) {
-            // IOException thrown as groups-config.csv is not found.
+        } catch (FileNotFoundException fnfe) {
+            // FileNotFoundException thrown as groups-config.csv is not found.
             // Ignore exception as the file is optional.
+        } catch (IOException ioe) {
+            // for all other IO exceptions, log the error and continue
+            logger.log(Level.WARNING, ioe.getMessage(), ioe);
         }
 
         return repoConfigs;
