@@ -346,10 +346,10 @@ window.vSummary = {
       if (hash.mergegroup) {
         this.isMergeGroup = convertBool(hash.mergegroup);
       }
-      if (hash.since) {
+      if (hash.since && dateFormatRegex.test(hash.since)) {
         this.tmpFilterSinceDate = hash.since;
       }
-      if (hash.until) {
+      if (hash.until && dateFormatRegex.test(hash.until)) {
         this.tmpFilterUntilDate = hash.until;
       }
 
@@ -680,26 +680,25 @@ window.vSummary = {
         totalCommits: user.totalCommits,
       });
     },
-
-    openTabZoomSubrange(user) {
+    openTabZoomSubrange(user, repo, index) {
       // skip if accidentally clicked on ramp chart
       if (drags.length === 2 && drags[1] - drags[0]) {
         const tdiff = new Date(this.filterUntilDate) - new Date(this.filterSinceDate);
         const idxs = drags.map((x) => x * tdiff / 100);
         const tsince = getDateStr(new Date(this.filterSinceDate).getTime() + idxs[0]);
         const tuntil = getDateStr(new Date(this.filterSinceDate).getTime() + idxs[1]);
-
-        this.openTabZoom(user, tsince, tuntil);
+        this.openTabZoom(user, tsince, tuntil, repo, index);
       }
     },
 
-    openTabZoom(user, since, until) {
+    openTabZoom(user, since, until, repo, index) {
       const { avgCommitSize } = this;
 
       this.$emit('view-zoom', {
         filterGroupSelection: this.filterGroupSelection,
         avgCommitSize,
         user,
+        location: this.getRepoLink(repo[index]),
         sinceDate: since,
         untilDate: until,
         isMergeGroup: this.isMergeGroup,
