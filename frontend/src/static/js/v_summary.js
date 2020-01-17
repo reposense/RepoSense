@@ -784,6 +784,9 @@ window.vSummary = {
     },
 
     getPercentile(index) {
+      if (this.filterGroupSelection === 'groupByNone') {
+        return (Math.round((index + 1) * 1000 / this.filtered[0].length) / 10).toFixed(1);
+      }
       return (Math.round((index + 1) * 1000 / this.filtered.length) / 10).toFixed(1);
     },
 

@@ -224,6 +224,7 @@ html
                   v-on:click="openTabZoom(user, filterSinceDate, filterUntilDate)"
                 )
                   i.summary-chart__title--button.fas.fa-list-ul
+                .summary-chart__title--percentile.mini-font(v-if="filterGroupSelection === 'groupByNone'") {{ getPercentile(i) }} %
               .summary-chart__ramp(
                 onclick="viewClick(event)",
                 v-on:click="openTabZoomSubrange(user)"

@@ -312,7 +312,9 @@ header {
   text-align: left;
 
   &__title {
+    align-items: center;
     clear: left;
+    display: flex;
 
     & > * {
       display: inline;
@@ -337,6 +339,11 @@ header {
       color: mui-color('grey');
       cursor: pointer;
       text-decoration: none;
+    }
+
+    &--percentile {
+      color: mui-color('grey');
+      margin-left: auto;
     }
   }
 
