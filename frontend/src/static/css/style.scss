@@ -418,11 +418,6 @@ header {
 
 /* Authorship */
 #tab-authorship {
-  .toolbar {
-    cursor: pointer;
-    float: right;
-  }
-
   .title {
     .repoName {
       cursor: pointer;
@@ -501,29 +496,6 @@ header {
           align-items: center;
           display: inline-flex;
           padding-right: 10px;
-        }
-
-        span {
-          margin-left: .25rem;
-        }
-      }
-
-      .sorting {
-        align-items: center;
-        display: flex;
-        margin-top: 1.0rem;
-
-        .mui-select {
-          cursor: pointer;
-          padding-right: 15px;
-        }
-
-        label {
-          overflow-y: hidden;
-        }
-
-        & > label {
-          margin-left: 10px;
         }
 
         span {
@@ -670,6 +642,34 @@ header {
   }
 }
 
+.toolbar {
+  cursor: pointer;
+  float: right;
+}
+
+.sorting {
+  align-items: center;
+  display: flex;
+  margin-top: 1.0rem;
+
+  .mui-select {
+    cursor: pointer;
+    padding-right: 15px;
+  }
+
+  label {
+    overflow-y: hidden;
+  }
+
+  & > label {
+    margin-left: 10px;
+  }
+
+  span {
+    margin-left: .25rem;
+  }
+}
+
 .zoom {
   &__title {
     &--chart {
@@ -682,32 +682,6 @@ header {
 
     &--granularity {
       margin-top: .5rem;
-    }
-  }
-
-  &__toolbar {
-    align-items: center;
-    display: flex;
-
-    .sorting {
-      margin-left: auto;
-
-      .mui-select {
-        cursor: pointer;
-        padding-right: 15px;
-      }
-
-      label {
-        overflow-y: hidden;
-      }
-
-      & > label {
-        margin-left: 10px;
-      }
-    }
-
-    .toggle-commit-message-body {
-      width: 50%;
     }
   }
 }
