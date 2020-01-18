@@ -1,15 +1,16 @@
 {
-  "validateIndentation": 2,
-  "requireLineFeedAtFileEnd": true,
   "disallowTrailingSpaces": true,
   "disallowMultipleLineBreaks": true,
-  "validateDivTags": true,
+  "disallowTemplateString": null,
+  "disallowHtmlText": null,
+  "disallowAttributeConcatenation": true,
+  "disallowAttributeTemplateString": null,
+  "requireLineFeedAtFileEnd": true,
   "requireStrictEqualityOperators": true,
   "requireLowerCaseAttributes": true,
   "requireIdLiteralsBeforeAttributes": true,
   "requireClassLiteralsBeforeAttributes": true,
-  "disallowTemplateString": null,
-  "disallowHtmlText": null,
-  "disallowAttributeConcatenation": true,
-  "disallowAttributeTemplateString": null
+  "validateAttributeSeparator": { "separator": ", ", "multiLineSeparator": ",\n  " },
+  "validateDivTags": true,
+  "validateIndentation": 2
 }
