@@ -38,7 +38,7 @@
       .fileType
         input.radio-button--checkbox(type="radio", name="filter", value="checkboxes", v-bind:checked="isCheckBoxes",
         v-on:click="indicateCheckBoxes")
-        div.checkboxes.mui-form--inline(v-if="files.length > 0")
+        .checkboxes.mui-form--inline(v-if="files.length > 0")
           label
             input.mui-checkbox--fileType(type="checkbox" v-on:click="selectAll" v-model="isSelectAllChecked")
             span(v-bind:title="getTotalFileBlankLineInfo()")
@@ -71,7 +71,7 @@
           )
             i.button.fas.fa-user-edit
         pre.hljs
-          div(v-for="segment in file.segments")
+          template(v-for="segment in file.segments")
             v_segment(v-bind:segment="segment", v-bind:path="file.path")
 
   .empty(v-else) loading...

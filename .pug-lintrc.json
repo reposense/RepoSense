@@ -1,9 +1,15 @@
 {
-  "plugins": [
-    "pug-lint"
-  ],
-  "extends": "pug-lint-config-clock",
-  "rules": {
-    "disallowClassLiteralsBeforeIdLiterals": true
-  }
+  "validateIndentation": 2,
+  "requireLineFeedAtFileEnd": true,
+  "disallowTrailingSpaces": true,
+  "disallowMultipleLineBreaks": true,
+  "validateDivTags": true,
+  "requireStrictEqualityOperators": true,
+  "requireLowerCaseAttributes": true,
+  "requireIdLiteralsBeforeAttributes": true,
+  "requireClassLiteralsBeforeAttributes": true,
+  "disallowTemplateString": null,
+  "disallowHtmlText": null,
+  "disallowAttributeConcatenation": true,
+  "disallowAttributeTemplateString": null
 }
