@@ -4,10 +4,10 @@
     .zoom_title--group.large-font
       span(v-if="info.filterGroupSelection === 'groupByAuthors'") {{ filteredUser.displayName }} ({{ filteredUser.name }})
       a(
-          v-else,
-          v-bind:href="info.location", target="_blank",
-          v-bind:title="'Click to open the repo'"
-        )
+        v-else,
+        v-bind:href="info.location", target="_blank",
+        v-bind:title="'Click to open the repo'"
+      )
       span {{ filteredUser.repoName }}
     .zoom__title--chart.medium-font(v-if="!info.isMergeGroup")
       span &#8627; &nbsp;
@@ -19,17 +19,17 @@
       a(v-on:click="openSummary") [Show ramp chart for this period]
     .zoom__title--granularity.mini-font granularity: one ramp per {{ filterTimeFrame }}
   v_ramp(
-      v-bind:groupby="info.filterGroupSelection",
-      v-bind:user="filteredUser",
-      v-bind:tframe="filterTimeFrame",
-      v-bind:sdate="info.sinceDate",
-      v-bind:udate="info.untilDate",
-      v-bind:avgsize="info.avgCommitSize",
-      v-bind:mergegroup="info.isMergeGroup")
+    v-bind:groupby="info.filterGroupSelection",
+    v-bind:user="filteredUser",
+    v-bind:tframe="filterTimeFrame",
+    v-bind:sdate="info.sinceDate",
+    v-bind:udate="info.untilDate",
+    v-bind:avgsize="info.avgCommitSize",
+    v-bind:mergegroup="info.isMergeGroup")
 
   .zoom__toggle-commit-message-body(v-if="filteredUser.commits.length")
-    button(v-if="expandedCommitMessagesCount === 0" v-on:click="toggleAllCommitMessagesBody(true)") show all commit messages body
-    button(v-else v-on:click="toggleAllCommitMessagesBody(false)") hide all commit messages body
+    button(v-if="expandedCommitMessagesCount === 0", v-on:click="toggleAllCommitMessagesBody(true)") show all commit messages body
+    button(v-else, v-on:click="toggleAllCommitMessagesBody(false)") hide all commit messages body
 
   .zoom__day(v-for="day in filteredUser.commits")
     template(v-if="day.insertions > 0")
@@ -37,7 +37,7 @@
       h3(v-else) {{ day.date }}
       ul
         li.commit-message.active(v-for="slice in day.commitResults")
-          a(v-bind:href="getSliceLink(slice)" target="_blank") {{ slice.messageTitle }}
+          a(v-bind:href="getSliceLink(slice)", target="_blank") {{ slice.messageTitle }}
           span &nbsp; ({{ slice.insertions }} lines)
           a(
             v-if="slice.messageBody !== ''",
