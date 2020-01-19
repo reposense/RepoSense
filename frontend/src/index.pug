@@ -219,12 +219,12 @@ html
                 a(
                   title="click to view breakdown of commits",
                   onclick="deactivateAllOverlays()",
-                  v-on:click="openTabZoom(user, filterSinceDate, filterUntilDate)"
+                  v-on:click="openTabZoom(user, filterSinceDate, filterUntilDate, repo, i)"
                 )
                   i.summary-chart__title--button.fas.fa-list-ul
               .summary-chart__ramp(
                 onclick="viewClick(event)",
-                v-on:click="openTabZoomSubrange(user)"
+                v-on:click="openTabZoomSubrange(user, repo, i)"
               )
                 v_ramp(
                     v-bind:groupby="filterGroupSelection",
@@ -241,7 +241,7 @@ html
                   .summary-chart__contrib(
                       v-for="(widths, fileType) in getFileTypeContributionBars(user.fileTypeContribution)"
                   )
-                    .summary-chart__contrib--bar--fileType(
+                    .summary-chart__contrib--bar(
                         v-for="width in widths",
                         v-bind:style="{ width: width + '%',\
                             'background-color': contributionBarFileTypeColors[fileType] }",
