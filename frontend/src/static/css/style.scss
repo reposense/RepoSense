@@ -189,6 +189,7 @@ header {
       cursor: pointer;
       position: fixed;
       top: calc(50vh - 3rem);
+      z-index: 100;
 
       svg {
         background-color: mui-color('white');
