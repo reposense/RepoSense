@@ -561,6 +561,7 @@ header {
 
       .path {
         cursor: pointer;
+        overflow-wrap: break-word;
       }
 
       .loc {
