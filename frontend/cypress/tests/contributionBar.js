@@ -14,7 +14,7 @@ describe('contribution bar', () => {
     Cypress.wait();
 
     let actualWidthSum = 0;
-    cy.get('.summary-chart__contrib--bar--fileType').then((ele) => {
+    cy.get('.summary-chart__contrib--bar').then((ele) => {
       let i;
       for (i = 0; i < ele.length; i += 1) {
         actualWidthSum += parseFloat(ele[i].style.width.split('%')[0]);
