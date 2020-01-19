@@ -241,6 +241,7 @@ html
                   .summary-chart__contrib(
                     v-for="(widths, fileType) in getFileTypeContributionBars(user.fileTypeContribution)"
                   )
+
                     .summary-chart__contrib--bar--fileType(
                       v-for="width in widths",
                       v-bind:style="{ width: width + '%',\
