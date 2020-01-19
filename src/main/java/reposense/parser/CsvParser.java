@@ -93,7 +93,7 @@ public abstract class CsvParser<T> {
         }
 
         if (results.isEmpty()) {
-            throw new IOException(MESSAGE_ZERO_VALID_CONFIGS);
+            throw new IOException(String.format(MESSAGE_ZERO_VALID_CONFIGS, csvFilePath.getFileName()));
         }
         return results;
     }
