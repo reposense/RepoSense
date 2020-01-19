@@ -47,21 +47,6 @@ public class RepoConfigCsvParser extends CsvParser<RepoConfiguration> {
     }
 
     /**
-     * Parses the csv file associated with this instance of the {@code CsvParser} and returns a {@code List}
-     * containing the RepoConfigurations in this file.
-     *
-     * @throws IOException if there are no valid records in the csv, or if there are errors accessing the file.
-     */
-    @Override
-    public List<RepoConfiguration> parse() throws IOException {
-        List<RepoConfiguration> repoConfigs = super.parse();
-        if (repoConfigs.isEmpty()) {
-            throw new IOException(MESSAGE_ZERO_REPO_CONFIGS);
-        }
-        return repoConfigs;
-    }
-
-    /**
      * Processes the csv file line by line and add created {@code RepoConfiguration} into {@code results} but
      * ignores duplicated {@code RepoConfiguration} if there exists one that has same {@code location} and
      * {@code branch}.

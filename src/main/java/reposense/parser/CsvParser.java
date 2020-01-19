@@ -40,6 +40,7 @@ public abstract class CsvParser<T> {
     private static final String MESSAGE_WRONG_HEADER_SIZE = "Wrong number of columns in header of CSV file, %s. \n"
         + "Number of columns in header: %d\n"
         + "Expected number of columns: %d";
+    private static final String MESSAGE_ZERO_VALID_CONFIGS = "No valid configurations in the %s.";
 
     private Path csvFilePath;
     private int expectedHeaderSize;
@@ -89,6 +90,10 @@ public abstract class CsvParser<T> {
             throw new IOException(MESSAGE_UNABLE_TO_READ_CSV_FILE, ioe);
         } catch (InvalidCsvException ice) {
             throw new IOException(ice.getMessage(), ice);
+        }
+
+        if (results.isEmpty()) {
+            throw new IOException(MESSAGE_ZERO_VALID_CONFIGS);
         }
         return results;
     }
