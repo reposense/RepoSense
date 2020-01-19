@@ -549,6 +549,7 @@ header {
             // overwrite hljs library
             display: inherit;
             padding: 0;
+            white-space: pre-wrap;
           }
         }
       }
@@ -604,6 +605,7 @@ header {
 
       .line-content {
         padding-left: 2rem;
+        word-break: break-all;
       }
 
       &.untouched {
