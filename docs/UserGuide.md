@@ -315,7 +315,7 @@ The directory used with the `--config` parameter should contain a `repo-config.c
 Here is an example:
 
 Repository's Location|Branch|File formats|Ignore Glob List|Ignore standalone config|Ignore Commits List|Ignore Authors List
----------------------|------|------------|----------------|------------------------|-------------------
+---------------------|------|------------|----------------|------------------------|-------------------|-------------------
 `https://github.com/foo/bar.git`|`master`|`override:java;css`|`test/**`|`yes`|`2fb6b9b2dd9fa40bf0f9815da2cb0ae8731436c7;c5a6dc774e22099cd9ddeb0faff1e75f9cf4f151`|`Alice`
 
 When using standalone config (if it is not ignored), it is possible to override specific values from the standalone config by prepending the entered value with `override:`.
