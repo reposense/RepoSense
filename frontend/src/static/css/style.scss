@@ -293,6 +293,13 @@ header {
     &--contribution {
       display: inline;
     }
+
+    &--button {
+      color: mui-color('grey');
+      cursor: pointer;
+      padding-left: .5em;
+      text-decoration: none;
+    }
   }
 
   &__fileType--breakdown {
