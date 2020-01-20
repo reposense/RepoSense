@@ -1,6 +1,10 @@
 # AppVeyor configuration file
 # For more details see https://www.appveyor.com/docs/build-configuration/
 
+image:
+  - Visual Studio 2015
+  - Previous Visual Studio 2015
+
 # Call on gradle to build and run tests
 # --no-daemon: Prevent the daemon from launching to prevent file-in-use errors
 #     when we cache the ~/.gradle directory
