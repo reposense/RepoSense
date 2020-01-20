@@ -364,16 +364,9 @@ header {
 
     &--bar {
       background-color: mui-color('red');
-      height: .3rem;
-      margin-top: .1rem;
-    }
-
-    &--bar--fileType {
-      display: inline-block;
       float: left;
-      height: .3rem;
-      margin-top: .1rem;
-      text-align: left;
+      height: 4px;
+      margin-top: 2px;
     }
   }
 }
