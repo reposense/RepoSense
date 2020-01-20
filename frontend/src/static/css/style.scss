@@ -539,6 +539,8 @@ header {
     .file {
       pre {
         display: none;
+        font-family: SFMono-Regular, Consolas, Liberation Mono, Menlo, monospace;
+        font-size: 12px;
       }
 
       &.active {
