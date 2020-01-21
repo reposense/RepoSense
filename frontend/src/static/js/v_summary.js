@@ -267,6 +267,10 @@ window.vSummary = {
       return res;
     },
 
+    getAuthorProfileLink(userName) {
+      return `https://github.com/${userName}`;
+    },
+
     getRepoLink(repo) {
       const { REPOS } = window;
       const { location, branch } = REPOS[repo.repoId];
