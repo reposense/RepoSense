@@ -90,8 +90,7 @@ public class ReportGenerator {
     public static List<Path> generateReposReport(List<RepoConfiguration> configs, String outputPath,
             String generationDate, Date cliSinceDate, Date untilDate,
             boolean isSinceDateProvided, boolean isUntilDateProvided) throws IOException {
-        InputStream is = RepoSense.class.getResourceAsStream(TEMPLATE_FILE);
-        FileUtil.copyTemplate(is, outputPath);
+        prepareTemplateFile(outputPath);
 
         earliestSinceDate = null;
         progressTracker = new ProgressTracker(configs.size());
@@ -110,6 +109,15 @@ public class ReportGenerator {
         logger.info(String.format(MESSAGE_REPORT_GENERATED, outputPath));
 
         return reportFoldersAndFiles;
+    }
+
+    /**
+     * Copies the template file to the specified {@code outputPath} for the repo report to be generated.
+     * @throws IOException if template resource is not found.
+     */
+    private static void prepareTemplateFile(String outputPath) throws IOException {
+        InputStream is = RepoSense.class.getResourceAsStream(TEMPLATE_FILE);
+        FileUtil.copyTemplate(is, outputPath);
     }
 
     /**

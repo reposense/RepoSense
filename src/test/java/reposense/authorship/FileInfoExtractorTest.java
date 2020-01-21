@@ -16,7 +16,6 @@ import reposense.git.GitCheckout;
 import reposense.model.Author;
 import reposense.model.FileTypeTest;
 import reposense.template.GitTestTemplate;
-import reposense.util.SystemUtil;
 import reposense.util.TestUtil;
 
 
@@ -26,7 +25,6 @@ public class FileInfoExtractorTest extends GitTestTemplate {
     private static final Path FILE_WITHOUT_SPECIAL_CHARACTER = TEST_DATA_FOLDER
             .resolve("fileWithoutSpecialCharacters.txt");
 
-    private static final String WINDOWS_ILLEGAL_FILE_NAME_BRANCH = "windows-illegal-filename";
     private static final String EDITED_FILE_INFO_BRANCH = "getEditedFileInfos-test";
     private static final String DIRECTORY_WITH_VALID_WHITELISTED_NAME_BRANCH = "directory-with-valid-whitelisted-name";
     private static final String BRANCH_WITH_VALID_WHITELISTED_FILE_NAME_BRANCH =
@@ -36,7 +34,6 @@ public class FileInfoExtractorTest extends GitTestTemplate {
     private static final String BRANCH_WITH_RARE_FILE_FORMATS =
             "708-FileInfoExtractorTest-extractFileInfos_withoutSpecifiedFormats_success";
     private static final String FEBRUARY_EIGHT_COMMIT_HASH = "768015345e70f06add2a8b7d1f901dc07bf70582";
-    private static final String OCTOBER_SEVENTH_COMMIT_HASH = "b28dfac5bd449825c1a372e58485833b35fdbd50";
 
     @Test
     public void extractFileInfosTest() {
@@ -70,19 +67,6 @@ public class FileInfoExtractorTest extends GitTestTemplate {
         Assert.assertFalse(isFileExistence(Paths.get("inMasterBranch.java"), files));
         Assert.assertFalse(isFileExistence(Paths.get("blameTest.java"), files));
         Assert.assertFalse(isFileExistence(Paths.get("newFile.java"), files));
-    }
-
-    @Test
-    public void extractFileInfos_windowsIllegalFileNameBranch_success() {
-        GitCheckout.checkout(config.getRepoRoot(), WINDOWS_ILLEGAL_FILE_NAME_BRANCH);
-        List<FileInfo> files = FileInfoExtractor.extractFileInfos(config);
-
-        if (SystemUtil.isWindows()) {
-            Assert.assertEquals(6, files.size());
-        } else {
-            Assert.assertEquals(7, files.size());
-            Assert.assertTrue(isFileExistence(Paths.get("windows:Illegal?Characters!File(Name).java"), files));
-        }
     }
 
     @Test
@@ -143,19 +127,6 @@ public class FileInfoExtractorTest extends GitTestTemplate {
 
         // empty file created, not included
         Assert.assertFalse(isFileExistence(Paths.get("inMasterBranch.java"), files));
-    }
-
-    @Test
-    public void getEditedFileInfos_windowsIllegalFileNameBranchSinceOctoberFifteen_success() {
-        GitCheckout.checkout(config.getRepoRoot(), WINDOWS_ILLEGAL_FILE_NAME_BRANCH);
-        List<FileInfo> files = FileInfoExtractor.getEditedFileInfos(config, OCTOBER_SEVENTH_COMMIT_HASH);
-
-        if (SystemUtil.isWindows()) {
-            Assert.assertTrue(files.isEmpty());
-        } else {
-            Assert.assertEquals(1, files.size());
-            Assert.assertTrue(isFileExistence(Paths.get("windows:Illegal?Characters!File(Name).java"), files));
-        }
     }
 
     @Test
