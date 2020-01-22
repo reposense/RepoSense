@@ -5,7 +5,7 @@
 [![deploy on_netlify](https://img.shields.io/badge/deploy-on_netlify-blue.svg)](https://reposense.netlify.com/)
 [![codecov.io](https://codecov.io/gh/reposense/RepoSense/branch/master/graphs/badge.svg?branch=master)](http://codecov.io/github/reposense/RepoSense?branch=master)
 
-RepoSense is a contribution analysis tool for Git repositories. It is particularly useful for those who want a chronological visualisation of the code contributions and commits made to a group of repositories. Specifically, educators can use RepoSense to track the work done in student projects, while organisations may use it to oversee their project teams.  
+RepoSense is a contribution analysis tool for Git repositories. It is particularly useful for those who want a chronological visualisation of the code contributions and commits made to a group of repositories. Specifically, educators can use RepoSense to track the work done in student projects, while team leads may use it to oversee their project teams.
 
 RepoSense generates a static HTML report that includes contribution information for each author in each target repository.
 The features of the report include:
