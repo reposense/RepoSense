@@ -425,10 +425,34 @@ header {
     &--granularity {
       margin-top: .5rem;
     }
+
+    &--tags {
+      margin: .25rem 0 .25rem 0;
+
+      .tag {
+        cursor: pointer;
+      }
+    }
   }
 
   &__toggle-commit-message-body {
     padding-top: 10px;
+  }
+  &__day,
+  &__title {
+    /* Tags in commits */
+    .tag {
+      background: mui-color('grey', '600');
+      border-radius: 5px;
+      color: mui-color('white');
+      display: inline;
+      margin-right: .25rem;
+      padding: 0 3px 0 3px;
+
+      .fa-tags {
+        width: .65rem;
+      }
+    }
   }
 }
 
@@ -439,7 +463,7 @@ header {
       background-color: mui-color('white');
       border: 1px solid mui-color('grey', '700');
       display: inherit;
-      margin-bottom: 1rem;
+      margin: .25rem 0 .25rem 0;
       overflow-x: auto;
       padding: .4rem;
       resize: none;
