@@ -18,6 +18,14 @@
       span {{ info.sinceDate }} to {{ info.untilDate }} &nbsp;
       a(v-on:click="openSummary") [Show ramp chart for this period]
     .zoom__title--granularity.mini-font granularity: one ramp per {{ filterTimeFrame }}
+    .zoom__title--tags
+      template(v-for="commit in filteredUser.commits")
+        template(v-for="commitResult in commit.commitResults")
+          template(v-if="commitResult.tags")
+            .tag.mini-font(v-for="tag in commitResult.tags", v-on:click="scrollToCommit(`tag ${commitResult.hash}`)")
+              i.fas.fa-tags
+              span &nbsp;{{ tag }}
+
   v_ramp(
       v-bind:groupby="info.filterGroupSelection",
       v-bind:user="filteredUser",
@@ -38,7 +46,11 @@
       ul
         li(v-for="slice in day.commitResults").commit-message.active
           a(v-bind:href="getSliceLink(slice)" target="_blank") {{ slice.messageTitle }}
-          span &nbsp; ({{ slice.insertions }} lines)
+          span &nbsp; ({{ slice.insertions }} lines) &nbsp;
+          template(v-if="slice.tags")
+            .tag.mini-font(v-for="tag in slice.tags", v-bind:class="[`${slice.hash}`]")
+              i.fas.fa-tags
+              span &nbsp;{{ tag }}
           a(
             v-if="slice.messageBody !== ''",
             v-on:click="updateExpandedCommitMessagesCount",
