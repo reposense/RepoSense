@@ -254,7 +254,7 @@ window.app = new window.Vue({
       return 'http://reposense.org';
     },
 
-    getRepoSenseUserGuideVersionLink() {
+    getUserGuideVersionLink() {
       const version = window.app.repoSenseVersion;
       if (!version) {
         return 'https://github.com/reposense/RepoSense';
