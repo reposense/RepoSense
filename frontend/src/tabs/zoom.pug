@@ -19,7 +19,7 @@
       a(v-on:click="openSummary") [Show ramp chart for this period]
     .zoom__title--granularity.mini-font granularity: one ramp per {{ filterTimeFrame }}
     .zoom__title--tags
-      template(v-for="commit in info.user.commits")
+      template(v-for="commit in filteredUser.commits")
         template(v-for="commitResult in commit.commitResults")
           template(v-if="commitResult.tags")
             .tag.mini-font(v-for="tag in commitResult.tags", v-on:click="scrollToCommit(`tag ${commitResult.hash}`)")
