@@ -130,11 +130,11 @@ public class CommitInfoAnalyzerTest extends GitTestTemplate {
         List<CommitResult> expectedCommitResults = new ArrayList<>();
         expectedCommitResults.add(new CommitResult(author, "2eccc111e813e8b2977719b5959e32b674c56afe",
                 parseGitStrictIsoDate("2019-06-19T13:02:01+08:00"), ">>>COMMIT INFO<<<",
-                "Hi there!\n\n>>>COMMIT INFO<<<\n", 1, 0));
+                "Hi there!\n\n>>>COMMIT INFO<<<\n", null, 1, 0));
         expectedCommitResults.add(new CommitResult(author, "8f8359649361f6736c31b87d499a4264f6cf7ed7",
                 parseGitStrictIsoDate("2019-06-19T13:03:39+08:00"), "[#123] Reverted 1st commit",
                 "This is a test to see if the commit message body works. "
-                + "All should be same same.\n>>>COMMIT INFO<<<\n|The end.|\n", 0, 1));
+                + "All should be same same.\n>>>COMMIT INFO<<<\n|The end.", null, 0, 1));
 
         config.setBranch("751-CommitInfoAnalyzerTest-analyzeCommits_multipleCommitsWithCommitMessageBody_success");
         config.setAuthorList(Collections.singletonList(author));
@@ -154,15 +154,38 @@ public class CommitInfoAnalyzerTest extends GitTestTemplate {
         // 1st test: Contains commit message title but no commit message body.
         expectedCommitResults.add(new CommitResult(author, "e54ae8fdb77c6c7d2c39131b816bfc03e6a6dd44",
                 parseGitStrictIsoDate("2019-07-02T12:35:46+08:00"), "Test 1: With message title but no body",
-                "", 1, 0));
+                "", null, 1, 0));
         // 2nd test: Contains no commit message title and no commit message body.
         expectedCommitResults.add(new CommitResult(author, "57fa22fc2550210203c2941692f69ccb0cf18252",
-                parseGitStrictIsoDate("2019-07-02T12:36:14+08:00"), "", "", 0, 1));
+                parseGitStrictIsoDate("2019-07-02T12:36:14+08:00"), "", "", null, 0, 1));
 
         config.setBranch("751-CommitInfoAnalyzerTest-analyzeCommits_commitsWithEmptyCommitMessageTitleOrBody_success");
         config.setAuthorList(Collections.singletonList(author));
         config.setSinceDate(new GregorianCalendar(2019, Calendar.JULY, 2).getTime());
         config.setUntilDate(new GregorianCalendar(2019, Calendar.JULY, 3).getTime());
+
+        List<CommitInfo> actualCommitInfos = CommitInfoExtractor.extractCommitInfos(config);
+        List<CommitResult> actualCommitResults = CommitInfoAnalyzer.analyzeCommits(actualCommitInfos, config);
+
+        Assert.assertEquals(expectedCommitResults, actualCommitResults);
+    }
+
+    @Test
+    public void analyzeCommits_commitsWithMultipleTags_success() throws ParseException {
+        Author author = new Author(JAMES_AUTHOR_NAME);
+        List<CommitResult> expectedCommitResults = new ArrayList<>();
+
+        expectedCommitResults.add(new CommitResult(author, "62c3a50ef9b3580b2070deac1eed2b3e2d701e04",
+                parseGitStrictIsoDate("2019-12-20T22:45:18+08:00"), "Single Tag Commit",
+                "", new String[] {"1st"}, 2, 1));
+        expectedCommitResults.add(new CommitResult(author, "c5e36ec059390233ac036db61a84fa6b55952506",
+                parseGitStrictIsoDate("2019-12-20T22:47:21+08:00"), "Double Tag Commit",
+                "", new String[] {"2nd-tag", "1st-tag"}, 1, 0));
+
+        config.setBranch("879-CommitInfoAnalyzerTest-analyzeCommits_commitsWithMultipleTags_success");
+        config.setAuthorList(Collections.singletonList(author));
+        config.setSinceDate(new GregorianCalendar(2019, Calendar.DECEMBER, 20).getTime());
+        config.setUntilDate(new GregorianCalendar(2019, Calendar.DECEMBER, 21).getTime());
 
         List<CommitInfo> actualCommitInfos = CommitInfoExtractor.extractCommitInfos(config);
         List<CommitResult> actualCommitResults = CommitInfoAnalyzer.analyzeCommits(actualCommitInfos, config);
