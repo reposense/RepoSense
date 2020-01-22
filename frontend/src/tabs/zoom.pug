@@ -1,8 +1,8 @@
 #zoom
   span.large-font Commits Panel
   .toolbar(v-if="filteredUser.commits.length")
-    a(v-if="expandedCommitMessagesCount === 0" v-on:click="toggleAllCommitMessagesBody(true)") show commit messages
-    a(v-else v-on:click="toggleAllCommitMessagesBody(false)") hide commit messages
+    a(v-if="expandedCommitMessagesCount === 0" v-on:click="toggleAllCommitMessagesBody(true)") show all commit messages
+    a(v-else v-on:click="toggleAllCommitMessagesBody(false)") hide all commit messages
   .zoom__title
     .zoom_title--group.large-font
       span(v-if="info.filterGroupSelection === 'groupByAuthors'") {{ filteredUser.displayName }} ({{ filteredUser.name }})
