@@ -409,260 +409,6 @@ header {
   }
 }
 
-/* Authorship */
-#tab-authorship {
-  .toolbar {
-    cursor: pointer;
-    float: right;
-  }
-
-  .title {
-    .repoName {
-      cursor: pointer;
-    }
-
-    .author {
-      margin-left: .3rem;
-    }
-
-    .period {
-      margin-left: 2rem;
-    }
-
-    .contribution {
-      color: mui-color('red');
-
-      .fileType {
-        align-items: center;
-        display: flex;
-        margin-left: 3rem;
-        margin-top: 1.0rem;
-      }
-
-      .radio-button--search {
-        float: left;
-        margin: 1.75rem 2.0rem 0 0;
-      }
-
-      .radio-button--checkbox {
-        float: left;
-        margin: 0 2.0rem 0 -3rem;
-        vertical-align: middle;
-      }
-
-      #search {
-        margin-top: 1.25rem;
-        padding: .5rem 1.0rem .25rem 1.0rem;
-        width: 30%;
-      }
-
-      #submit-button {
-        background-color: mui-color('blue');
-        color: mui-color('white');
-        margin: 1.0rem 0 0 .25rem;
-        padding: .5rem 1.0rem .25rem 1.0rem;
-      }
-
-      .select {
-        font-weight: bold;
-      }
-
-      .loc {
-        font-weight: bolder;
-      }
-
-      .bloc {
-        color: mui-color('grey');
-      }
-
-      span.fileType {
-        span.bloc::after {
-          content: ', ';
-        }
-
-        span.bloc:last-child::after {
-          content: '';
-        }
-      }
-
-      .mui-checkbox--fileType {
-        vertical-align: middle;
-      }
-
-      .checkboxes {
-        label {
-          align-items: center;
-          display: inline-flex;
-          padding-right: 10px;
-        }
-
-        span {
-          margin-left: .25rem;
-        }
-      }
-
-      .sorting {
-        align-items: center;
-        display: flex;
-        margin-top: 1.0rem;
-
-        .mui-select {
-          cursor: pointer;
-          padding-right: 15px;
-        }
-
-        label {
-          overflow-y: hidden;
-        }
-
-        & > label {
-          margin-left: 10px;
-        }
-
-        span {
-          margin-left: .25rem;
-        }
-      }
-    }
-  }
-
-  .files {
-    clear: left;
-
-    .file {
-      pre {
-        display: none;
-      }
-
-      &.active {
-        pre {
-          display: grid;
-
-          .hljs {
-            // overwrite hljs library
-            display: inherit;
-            padding: 0;
-          }
-        }
-      }
-    }
-
-    .title {
-      font-size: 1.25rem;
-      font-weight: bold;
-      margin-top: 1rem;
-
-      .path {
-        cursor: pointer;
-      }
-
-      .loc {
-        color: mui-color('grey');
-      }
-
-      .button {
-        color: mui-color('grey');
-        font-size: 1.15rem;
-        margin-left: .5rem;
-        text-decoration: none;
-      }
-    }
-
-    .segment {
-      border-left: .25rem solid mui-color('green');
-
-      .code {
-        background-color: mui-color('green', '50');
-        padding-left: 1rem;
-      }
-
-      .line-number {
-        color: mui-color('grey');
-        float: left;
-        // Not allowing user to select text
-        -webkit-touch-callout: none; /* iOS Safari */
-        -webkit-user-select: none; /* Safari */
-        -khtml-user-select: none; /* Konqueror HTML */
-        -moz-user-select: none; /* Firefox */
-        -ms-user-select: none; /* Internet Explorer/Edge */
-        user-select: none; /* Non-prefixed version, currently supported by Chrome and Opera */
-        width: 2rem;
-
-        // overwrite all hljs colours
-        [class^='hljs'] {
-          color: mui-color('grey');
-        }
-      }
-
-      .line-content {
-        padding-left: 2rem;
-      }
-
-      &.untouched {
-        $grey: mui-color('grey', '400');
-        border-left: .25rem solid $grey;
-        height: 20px; /* height of a single line of code */
-        position: relative;
-
-        &.active {
-          height: auto;
-
-          .code {
-            background-color: mui-color('white');
-            display: inherit;
-          }
-
-          .closer {
-            .icon {
-              &.open {
-                display: none;
-              }
-
-              &.hide {
-                display: inherit;
-              }
-            }
-          }
-        }
-
-        .code {
-          display: none;
-        }
-
-        .closer {
-          cursor: pointer;
-          // custom margin for position of toggle icon
-          margin: .2rem 0 0 -.45rem;
-          position: absolute;
-
-          &.bottom {
-            //custom margin for position of toggle icon at the bottom of segment
-            margin: -1.05rem 0 0 -.45rem;
-          }
-
-          .icon {
-            background-color: mui-color('white');
-            color: mui-color('grey');
-            width: .75em;
-
-            &.open {
-              display: inherit;
-            }
-
-            &.hide {
-              display: none;
-            }
-          }
-        }
-      }
-    }
-  }
-
-  .empty {
-    text-align: center;
-  }
-}
-
 .zoom {
   &__title {
     &--chart {
@@ -676,10 +422,34 @@ header {
     &--granularity {
       margin-top: .5rem;
     }
+
+    &--tags {
+      margin: .25rem 0 .25rem 0;
+
+      .tag {
+        cursor: pointer;
+      }
+    }
   }
 
   &__toggle-commit-message-body {
     padding-top: 10px;
+  }
+  &__day,
+  &__title {
+    /* Tags in commits */
+    .tag {
+      background: mui-color('grey', '600');
+      border-radius: 5px;
+      color: mui-color('white');
+      display: inline;
+      margin-right: .25rem;
+      padding: 0 3px 0 3px;
+
+      .fa-tags {
+        width: .65rem;
+      }
+    }
   }
 }
 
@@ -690,7 +460,7 @@ header {
       background-color: mui-color('white');
       border: 1px solid mui-color('grey', '700');
       display: inherit;
-      margin-bottom: 1rem;
+      margin: .25rem 0 .25rem 0;
       overflow-x: auto;
       padding: .4rem;
       resize: none;
