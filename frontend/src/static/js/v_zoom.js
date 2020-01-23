@@ -45,6 +45,13 @@ window.vZoom = {
       return `${window.getBaseLink(this.info.user.repoId)}/commit/${slice.hash}`;
     },
 
+    scrollToCommit(commit) {
+      const el = this.$el.getElementsByClassName(commit)[0];
+      if (el) {
+        el.scrollIntoView();
+      }
+    },
+
     toggleAllCommitMessagesBody(isActive) {
       this.showAllCommitMessageBody = isActive;
 
