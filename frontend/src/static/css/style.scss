@@ -116,7 +116,7 @@ header {
     position: fixed;
     right: $tabs-width;
     width: 2px;
-    z-index: map-get($z-indices, 'center-divider');
+    z-index: z-index('center-divider');
   }
 
   #summary-wrapper {
