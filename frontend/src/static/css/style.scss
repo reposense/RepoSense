@@ -532,6 +532,7 @@ header {
     .file {
       pre {
         display: none;
+        // GitHub's font family and font size
         font-family: SFMono-Regular, Consolas, Liberation Mono, Menlo, monospace;
         font-size: 12px;
       }
@@ -551,7 +552,7 @@ header {
     }
 
     .title {
-      font-size: 1rem;
+      font-size: medium;
       font-weight: bold;
       margin-top: 1rem;
 
