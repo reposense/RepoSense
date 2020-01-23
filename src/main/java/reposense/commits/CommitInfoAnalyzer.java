@@ -82,9 +82,9 @@ public class CommitInfoAnalyzer {
         String messageTitle = (elements.length > MESSAGE_TITLE_INDEX) ? elements[MESSAGE_TITLE_INDEX] : "";
         String messageBody = (elements.length > MESSAGE_BODY_INDEX)
                 ? getCommitMessageBody(elements[MESSAGE_BODY_INDEX]) : "";
-    
-        String[] refs = (elements.length > REF_NAME_INDEX) 
-                ? elements[REF_NAME_INDEX].split(REF_SPLITTER) 
+
+        String[] refs = (elements.length > REF_NAME_INDEX)
+                ? elements[REF_NAME_INDEX].split(REF_SPLITTER)
                 : new String[]{""};
         String[] tags = Arrays.stream(refs).filter(ref -> ref.contains(TAG_PREFIX)).toArray(String[]::new);
         if (tags.length == 0) {
