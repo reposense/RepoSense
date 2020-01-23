@@ -39,7 +39,7 @@ a {
   position: fixed;
   top: 0;
   width: 100%;
-  z-index: map-get($z-indices, 'loader');
+  z-index: z-index('loader');
 
   .loading {
     margin-top: 12px;
@@ -78,7 +78,7 @@ header {
   display: flex;
   justify-content: center;
   position: relative;
-  z-index: map-get($z-indices, 'header');
+  z-index: z-index('header');
 
   .content {
     align-items: center;
@@ -104,7 +104,7 @@ header {
   position: absolute;
   top: 0;
   width: 100%;
-  z-index: map-get($z-indices, 'app-wrapper');
+  z-index: z-index('app-wrapper');
 
   #tab-resize-guide {
     $tabs-width: 50%;
@@ -190,7 +190,7 @@ header {
       cursor: pointer;
       position: fixed;
       top: calc(50vh - 3rem);
-      z-index: map-get($z-indices, 'center-divider');
+      z-index: z-index('center-divider');
 
       svg {
         background-color: mui-color('white');
@@ -214,7 +214,7 @@ header {
       height: 100%;
       position: fixed;
       width: 13.250px;
-      z-index: map-get($z-indices, 'center-divider');
+      z-index: z-index('center-divider');
     }
   }
 }
