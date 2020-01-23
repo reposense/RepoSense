@@ -253,6 +253,28 @@ header {
     padding-right: 10px;
   }
 
+  .mui-btn {
+    background: transparent;
+    box-shadow: none;
+    color: mui-color('grey');
+    font-size: .75rem;
+    font-weight: bold;
+    left: -8px;
+    margin: 0;
+    padding: 0;
+    vertical-align: middle;
+  }
+
+  .search_box {
+    align-items: center;
+    display: flex;
+  }
+
+  input {
+    font-size: .75rem;
+    padding-right: 10px;
+  }
+
   label {
     font-size: .75rem;
     overflow-y: hidden;
@@ -260,7 +282,6 @@ header {
     width: fit-content;
   }
 
-  input,
   select {
     font-size: .75rem;
   }
