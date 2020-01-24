@@ -222,6 +222,12 @@ header {
   text-align: center;
 }
 
+.button {
+  color: mui-color('grey');
+  cursor: pointer;
+  text-decoration: none;
+}
+
 .summary-picker {
   align-items: center;
   display: flex;
@@ -274,6 +280,11 @@ header {
     font-weight: bold;
     text-align: left;
 
+    & > * {
+      display: inline;
+      padding-right: .5rem;
+    }
+
     &--index {
       background: mui-color('black');
       color: mui-color('white');
@@ -292,13 +303,6 @@ header {
 
     &--contribution {
       display: inline;
-    }
-
-    &--button {
-      color: mui-color('grey');
-      cursor: pointer;
-      padding-left: .5em;
-      text-decoration: none;
     }
   }
 
@@ -338,12 +342,6 @@ header {
 
     &--repo {
       padding-right: .25rem;
-    }
-
-    &--button {
-      color: mui-color('grey');
-      cursor: pointer;
-      text-decoration: none;
     }
   }
 
