@@ -135,12 +135,16 @@ public class Author {
     }
 
     /**
-     * Validates and adds a list of ignore glob into the {@code Author} class instance variable,
+     * Validates and adds a list of ignore glob into the {@code Author} class instance variable without duplicates
      * and updates the ignore glob matcher.
      */
-    public void appendIgnoreGlobList(List<String> ignoreGlobList) {
+    public void importIgnoreGlobList(List<String> ignoreGlobList) {
         validateIgnoreGlobs(ignoreGlobList);
-        this.ignoreGlobList.addAll(ignoreGlobList);
+        ignoreGlobList.forEach(ignoreGlob -> {
+            if (!this.ignoreGlobList.contains(ignoreGlob)) {
+                this.ignoreGlobList.add(ignoreGlob);
+            }
+        });
         updateIgnoreGlobMatcher();
     }
 

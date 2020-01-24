@@ -47,7 +47,7 @@ public class AuthorConfiguration {
 
         for (StandaloneAuthor sa : standaloneConfig.getAuthors()) {
             Author author = new Author(sa);
-            author.appendIgnoreGlobList(ignoreGlobList);
+            author.importIgnoreGlobList(ignoreGlobList);
 
             newAuthorList.add(author);
             newAuthorDisplayNameMap.put(author, author.getDisplayName());
@@ -120,7 +120,7 @@ public class AuthorConfiguration {
      * Propagates {@code ignoreGlobList} to {@code author}.
      */
     public static void propagateIgnoreGlobList(Author author, List<String> ignoreGlobList) {
-        author.appendIgnoreGlobList(ignoreGlobList);
+        author.importIgnoreGlobList(ignoreGlobList);
     }
 
     /**
@@ -137,6 +137,18 @@ public class AuthorConfiguration {
     public void addAuthor(Author author, List<String> ignoreGlobList) {
         addAuthor(author);
         propagateIgnoreGlobList(author, ignoreGlobList);
+    }
+
+    /**
+     * Removes the authors provided in {@code ignoredAuthorsList} from the author list.
+     */
+    public void removeIgnoredAuthors(List<String> ignoredAuthorsList) {
+        for (String author : ignoredAuthorsList) {
+            if (authorEmailsAndAliasesMap.containsKey(author)) {
+                authorList.remove(authorEmailsAndAliasesMap.get(author));
+            }
+        }
+        resetAuthorInformation();
     }
 
     /**
@@ -166,14 +178,10 @@ public class AuthorConfiguration {
     /**
      * Clears author mapping information and resets it with the details of current author list.
      */
-    public void resetAuthorInformation(List<String> ignoreGlobList) {
+    public void resetAuthorInformation() {
         authorEmailsAndAliasesMap.clear();
         authorDisplayNameMap.clear();
-
-        authorList.forEach(author -> {
-            setAuthorDetails(author);
-            propagateIgnoreGlobList(author, ignoreGlobList);
-        });
+        authorList.forEach(this::setAuthorDetails);
     }
 
     public Map<String, Author> getAuthorEmailsAndAliasesMap() {

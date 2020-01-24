@@ -227,6 +227,9 @@
             "hash": "85ce9496dcee768ed1a6900dd420dcddfc427403",
             "messageTitle": "fix create image",
             "messageBody": "",
+            "tags": [
+              "v1.5rc"
+            ],
             "insertions": 1,
             "deletions": 1
           }
@@ -297,6 +300,9 @@
             "hash": "7ee7a7e700fbb6cec77e80128bdb0e000da6d8ca",
             "messageTitle": "Removed introduction",
             "messageBody": "",
+            "tags": [
+              "v1.5"
+            ],
             "insertions": 0,
             "deletions": 2
           }
