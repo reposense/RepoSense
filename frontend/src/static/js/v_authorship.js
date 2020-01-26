@@ -40,7 +40,7 @@ window.vAuthorship = {
       totalBlankLineCount: '',
       filesSortType: 'lineOfCode',
       toReverseSortFiles: true,
-      activeFilesCount: 0,
+      isActive: true,
       filterSearch: '*',
       sortingFunction: (a, b) => -1 * window.comparator(filesSortDict.lineOfCode)(a, b),
       isSearchBar: false,
@@ -54,6 +54,9 @@ window.vAuthorship = {
     },
     toReverseSortFiles() {
       this.sortFiles();
+    },
+    selectedFiles() {
+      setTimeout(this.updateCount, 0);
     },
   },
 
@@ -107,11 +110,11 @@ window.vAuthorship = {
         file.className = renameValue;
       });
 
-      this.activeFilesCount = isActive ? this.selectedFiles.length : 0;
+      this.isActive = isActive;
     },
 
     updateCount() {
-      this.activeFilesCount = document.getElementsByClassName('file active').length;
+      this.isActive = document.getElementsByClassName('file active').length;
     },
 
     hasCommits(info) {
@@ -197,8 +200,6 @@ window.vAuthorship = {
       this.fileTypeBlankLinesObj = fileTypeBlanksInfoObj;
       this.files = res;
       this.isLoaded = true;
-
-      this.activeFilesCount = this.selectedFiles.length;
     },
 
     addBlankLineCount(fileType, lineCount, filesInfoObj) {
@@ -220,10 +221,8 @@ window.vAuthorship = {
       }
       if (!this.isSelectAllChecked) {
         this.selectedFileTypes = this.fileTypes.slice();
-        this.activeFilesCount = this.files.length;
       } else {
         this.selectedFileTypes = [];
-        this.activeFilesCount = 0;
       }
     },
 
@@ -237,16 +236,6 @@ window.vAuthorship = {
       } else {
         this.selectedFileTypes.push(fileType);
       }
-    },
-
-    getSelectedFiles() {
-      if (this.fileTypes.length === this.selectedFileTypes.length) {
-        this.isSelectAllChecked = true;
-      } else {
-        this.isSelectAllChecked = false;
-      }
-
-      setTimeout(this.updateCount, 0);
     },
 
     updateFilterSearch(evt) {
