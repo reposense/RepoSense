@@ -278,7 +278,33 @@ window.vSummary = {
       return repo.location;
     },
 
+    getReportIssueGitHubLink(stackTrace) {
+      return `https://github.com/reposense/RepoSense/issues/new?title=${this.getReportIssueTitle()
+      }&body=${this.getReportIssueMessage(stackTrace)}`;
+    },
+
+    getReportIssueEmailAddress() {
+      return 'seer@comp.nus.edu.sg';
+    },
+
+    getReportIssueEmailLink(stackTrace) {
+      return `mailto:${this.getReportIssueEmailAddress()}?subject=${this.getReportIssueTitle()
+      }&body=${this.getReportIssueMessage(stackTrace)}`;
+    },
+
+    getReportIssueTitle() {
+      return encodeURI('Unexpected error with RepoSense version ') + window.app.repoSenseVersion;
+    },
+
+    getReportIssueMessage(message) {
+      return encodeURI(message);
+    },
+
     // model functions //
+    resetFilterSearch() {
+      this.filterSearch = '';
+      this.getFiltered();
+    },
     updateFilterSearch(evt) {
       this.filterSearch = evt.target.value;
       this.getFiltered();
@@ -324,10 +350,10 @@ window.vSummary = {
       if (hash.mergegroup) {
         this.isMergeGroup = convertBool(hash.mergegroup);
       }
-      if (hash.since) {
+      if (hash.since && dateFormatRegex.test(hash.since)) {
         this.tmpFilterSinceDate = hash.since;
       }
-      if (hash.until) {
+      if (hash.until && dateFormatRegex.test(hash.until)) {
         this.tmpFilterUntilDate = hash.until;
       }
 
@@ -658,27 +684,25 @@ window.vSummary = {
         totalCommits: user.totalCommits,
       });
     },
-
-    openTabZoomSubrange(userOrig) {
+    openTabZoomSubrange(user, repo, index) {
       // skip if accidentally clicked on ramp chart
       if (drags.length === 2 && drags[1] - drags[0]) {
         const tdiff = new Date(this.filterUntilDate) - new Date(this.filterSinceDate);
         const idxs = drags.map((x) => x * tdiff / 100);
         const tsince = getDateStr(new Date(this.filterSinceDate).getTime() + idxs[0]);
         const tuntil = getDateStr(new Date(this.filterSinceDate).getTime() + idxs[1]);
-
-        this.openTabZoom(userOrig, tsince, tuntil);
+        this.openTabZoom(user, tsince, tuntil, repo, index);
       }
     },
 
-    openTabZoom(userOrig, since, until) {
+    openTabZoom(user, since, until, repo, index) {
       const { avgCommitSize } = this;
-      const user = Object.assign({}, userOrig);
 
       this.$emit('view-zoom', {
         filterGroupSelection: this.filterGroupSelection,
         avgCommitSize,
         user,
+        location: this.getRepoLink(repo[index]),
         sinceDate: since,
         untilDate: until,
         isMergeGroup: this.isMergeGroup,

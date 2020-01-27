@@ -1,14 +1,17 @@
 package reposense.parser;
 
+import java.io.BufferedReader;
+import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
-import java.io.Reader;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
+import java.util.StringJoiner;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
@@ -26,25 +29,33 @@ public abstract class CsvParser<T> {
     protected static final Logger logger = LogsManager.getLogger(CsvParser.class);
 
     private static final String OVERRIDE_KEYWORD = "override:";
+    private static final String MESSAGE_EMPTY_LINE = "[EMPTY LINE]";
     private static final String MESSAGE_UNABLE_TO_READ_CSV_FILE = "Unable to read the supplied CSV file.";
     private static final String MESSAGE_MALFORMED_LINE_FORMAT = "Line %d in CSV file, %s, is malformed.\n"
             + "Content: %s";
     private static final String MESSAGE_LINE_PARSE_EXCEPTION_FORMAT = "Error parsing line %d in CSV file, %s.\n"
             + "Content: %s\n"
             + "Error: %s";
+    private static final String MESSAGE_EMPTY_CSV_FORMAT = "The CSV file, %s, is empty.";
+    private static final String MESSAGE_WRONG_HEADER_SIZE = "Wrong number of columns in header of CSV file, %s. \n"
+        + "Number of columns in header: %d\n"
+        + "Expected number of columns: %d";
 
     private Path csvFilePath;
+    private int expectedHeaderSize;
+    private int numOfLinesBeforeFirstRecord = 0;
 
     /**
      * @throws IOException if {@code csvFilePath} is an invalid path.
      */
-    public CsvParser(Path csvFilePath) throws IOException {
+    public CsvParser(Path csvFilePath, int expectedHeaderSize) throws IOException {
         if (csvFilePath == null || !Files.exists(csvFilePath)) {
-            throw new IOException("Csv file does not exists in given path.\n"
+            throw new FileNotFoundException("Csv file does not exist at the given path.\n"
                     + "Use '-help' to list all the available subcommands and some concept guides.");
         }
 
         this.csvFilePath = csvFilePath;
+        this.expectedHeaderSize = expectedHeaderSize;
     }
 
     /**
@@ -54,8 +65,9 @@ public abstract class CsvParser<T> {
         List<T> results = new ArrayList<>();
         Iterable<CSVRecord> records;
 
-        try (Reader csvReader = new FileReader(csvFilePath.toFile())) {
-            records = CSVFormat.DEFAULT.withFirstRecordAsHeader().parse(csvReader);
+        try (BufferedReader csvReader = new BufferedReader(new FileReader(csvFilePath.toFile()))) {
+            String[] header = getHeader(csvReader);
+            records = CSVFormat.DEFAULT.withIgnoreEmptyLines(false).withHeader(header).parse(csvReader);
 
             for (CSVRecord record : records) {
                 if (isLineMalformed(record)) {
@@ -72,8 +84,34 @@ public abstract class CsvParser<T> {
             }
         } catch (IOException ioe) {
             throw new IOException(MESSAGE_UNABLE_TO_READ_CSV_FILE, ioe);
+        } catch (InvalidCsvException ice) {
+            throw new IOException(ice.getMessage(), ice);
         }
         return results;
+    }
+
+    /**
+     * Returns the header of a CSV file, which is assumed to be the first non-empty / non-whitespace line in the file.
+     * The line is split into an array of Strings, using the comma symbol as delimiter.
+     *
+     * @throws IOException if there is an error accessing the file.
+     * @throws InvalidCsvException if the file has only empty or blank lines.
+     */
+    private String[] getHeader(BufferedReader reader) throws IOException, InvalidCsvException {
+        String currentLine = "";
+
+        // read from file until we encounter a line that is neither blank nor empty
+        while (currentLine.isEmpty()) {
+            currentLine = Optional.ofNullable(reader.readLine())
+                    .map(String::trim)
+                    .orElseThrow(() -> new InvalidCsvException(String.format(
+                            MESSAGE_EMPTY_CSV_FORMAT, csvFilePath.getFileName())));
+
+            numOfLinesBeforeFirstRecord++;
+        }
+        String[] header = currentLine.split(",");
+        validateHeader(header);
+        return header;
     }
 
     /**
@@ -140,7 +178,7 @@ public abstract class CsvParser<T> {
 
 
     private long getLineNumber(final CSVRecord record) {
-        return  record.getRecordNumber() + 1;
+        return  record.getRecordNumber() + numOfLinesBeforeFirstRecord;
     }
 
     /**
@@ -154,11 +192,28 @@ public abstract class CsvParser<T> {
      * Returns the contents of {@code record} as a raw string.
      */
     private String getRowContentAsRawString(final CSVRecord record) {
-        StringBuilder inputRowString = new StringBuilder();
-        for (int colNum = 0; colNum < record.size(); colNum++) {
-            inputRowString.append(get(record, colNum)).append(",");
+        StringJoiner inputRowString = new StringJoiner(",");
+        for (String value : record) {
+            inputRowString.add(value);
         }
-        return inputRowString.toString();
+        String contentAsString = inputRowString.toString();
+        if (contentAsString.trim().isEmpty()) {
+            contentAsString = MESSAGE_EMPTY_LINE;
+        }
+        return contentAsString;
+    }
+
+    /**
+     * Checks if {@code possibleHeader} contains the expected number of columns.
+     * @throws InvalidCsvException if {@code possibleHeader} does not have as many columns as expected.
+     */
+    private void validateHeader(String[] possibleHeader) throws InvalidCsvException {
+        int actualNumberOfColumns = possibleHeader.length;
+        if (actualNumberOfColumns != expectedHeaderSize) {
+            throw new InvalidCsvException(String.format(
+                    MESSAGE_WRONG_HEADER_SIZE, csvFilePath.getFileName(), actualNumberOfColumns,
+                    expectedHeaderSize));
+        }
     }
 
     /**

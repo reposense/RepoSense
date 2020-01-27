@@ -1,5 +1,6 @@
 package reposense;
 
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.nio.file.Path;
 import java.time.ZonedDateTime;
@@ -28,6 +29,7 @@ import reposense.report.ReportGenerator;
 import reposense.system.LogsManager;
 import reposense.system.ReportServer;
 import reposense.util.FileUtil;
+import reposense.util.TimeUtil;
 
 /**
  * The main RepoSense class.
@@ -43,6 +45,7 @@ public class RepoSense {
      */
     public static void main(String[] args) {
         try {
+            TimeUtil.startTimer();
             CliArguments cliArguments = ArgsParser.parse(args);
             List<RepoConfiguration> configs = null;
 
@@ -60,6 +63,8 @@ public class RepoSense {
 
             RepoConfiguration.setFormatsToRepoConfigs(configs, cliArguments.getFormats());
             RepoConfiguration.setDatesToRepoConfigs(configs, cliArguments.getSinceDate(), cliArguments.getUntilDate());
+            RepoConfiguration.setStandaloneConfigIgnoredToRepoConfigs(configs,
+                    cliArguments.isStandaloneConfigIgnored());
             List<Path> reportFoldersAndFiles = ReportGenerator.generateReposReport(configs,
                     cliArguments.getOutputFilePath().toAbsolutePath().toString(),
                     formatter.format(ZonedDateTime.now(cliArguments.getZoneId())),
@@ -67,6 +72,8 @@ public class RepoSense {
                     cliArguments.isSinceDateProvided(), cliArguments.isUntilDateProvided());
             FileUtil.zipFoldersAndFiles(reportFoldersAndFiles, cliArguments.getOutputFilePath().toAbsolutePath(),
                     ".json");
+
+            logger.info(TimeUtil.getElapsedTimeMessage());
 
             if (cliArguments.isAutomaticallyLaunching()) {
                 ReportServer.startServer(SERVER_PORT_NUMBER, cliArguments.getOutputFilePath().toAbsolutePath());
@@ -93,17 +100,23 @@ public class RepoSense {
         try {
             authorConfigs = new AuthorConfigCsvParser(cliArguments.getAuthorConfigFilePath()).parse();
             RepoConfiguration.merge(repoConfigs, authorConfigs);
-        } catch (IOException ioe) {
-            // IOException thrown as author-config.csv is not found.
+        } catch (FileNotFoundException fnfe) {
+            // FileNotFoundException thrown as author-config.csv is not found.
             // Ignore exception as the file is optional.
+        } catch (IOException ioe) {
+            // for all other IO exceptions, log the error and continue
+            logger.log(Level.WARNING, ioe.getMessage(), ioe);
         }
 
         try {
             groupConfigs = new GroupConfigCsvParser(cliArguments.getGroupConfigFilePath()).parse();
             RepoConfiguration.setGroupConfigsToRepos(repoConfigs, groupConfigs);
-        } catch (IOException ioe) {
-            // IOException thrown as groups-config.csv is not found.
+        } catch (FileNotFoundException fnfe) {
+            // FileNotFoundException thrown as groups-config.csv is not found.
             // Ignore exception as the file is optional.
+        } catch (IOException ioe) {
+            // for all other IO exceptions, log the error and continue
+            logger.log(Level.WARNING, ioe.getMessage(), ioe);
         }
 
         return repoConfigs;
@@ -121,8 +134,6 @@ public class RepoSense {
                 logger.log(Level.WARNING, ile.getMessage(), ile);
             }
         }
-
-        RepoConfiguration.setStandaloneConfigIgnoredToRepoConfigs(configs, cliArguments.isStandaloneConfigIgnored());
 
         return configs;
     }
