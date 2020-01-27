@@ -452,6 +452,18 @@ header {
       }
     }
   }
+
+  .commit-message {
+    pre {
+      display: none;
+    }
+
+    &.active {
+      pre {
+        display: grid;
+      }
+    }
+  }
 }
 
 /* Commit Message Body in Zoom Tab */

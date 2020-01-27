@@ -50,12 +50,12 @@
         option(v-bind:value='false') Ascending
       label.medium-font order
 
-  .zoom__day(v-for="day in filteredUser.commits")
+  .zoom__day(v-for="day in filteredUser.commits" v-bind:key="day.date")
     template(v-if="day.insertions > 0")
       h3(v-if="filterTimeFrame === 'week'") Week of {{ day.date }}
       h3(v-else) {{ day.date }}
-      ul
-        li(v-for="slice in day.commitResults").commit-message.active
+      template(v-for="slice in day.commitResults" v-bind:key="slice.hash")
+        .commit-message.active
           a(v-bind:href="getSliceLink(slice)" target="_blank") {{ slice.messageTitle }}
           span &nbsp; ({{ slice.insertions }} lines) &nbsp;
           template(v-if="slice.tags")
