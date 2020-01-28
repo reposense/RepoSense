@@ -24,8 +24,7 @@ public class GitLsTreeTest extends GitTestTemplate {
     private static Method isValidWindowsFilenameMethod;
 
     @BeforeClass
-    public static void beforeClass()
-            throws NoSuchMethodException, InvalidLocationException, IOException, GitCloneException {
+    public static void beforeClass() throws Exception {
         GitTestTemplate.beforeClass();
         isValidWindowsFilenameMethod = GitLsTree.class.getDeclaredMethod("isValidWindowsFilename", String.class);
         isValidWindowsFilenameMethod.setAccessible(true);
