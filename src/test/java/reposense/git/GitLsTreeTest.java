@@ -1,7 +1,6 @@
 package reposense.git;
 
 import java.io.IOException;
-import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.Arrays;
 import java.util.List;
@@ -12,10 +11,8 @@ import org.junit.Assume;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import reposense.git.exception.GitCloneException;
 import reposense.git.exception.InvalidFilePathException;
 import reposense.model.RepoConfiguration;
-import reposense.parser.InvalidLocationException;
 import reposense.template.GitTestTemplate;
 import reposense.util.FileUtil;
 import reposense.util.SystemUtil;
@@ -36,8 +33,7 @@ public class GitLsTreeTest extends GitTestTemplate {
     }
 
     @Test
-    public void isValidWindowsFilename_validFilenames_success()
-            throws IllegalAccessException, InvocationTargetException {
+    public void isValidWindowsFilename_validFilenames_success() throws Exception {
         // Runs test only on Windows operating systems
         Assume.assumeTrue(SystemUtil.isWindows());
 
@@ -48,8 +44,7 @@ public class GitLsTreeTest extends GitTestTemplate {
     }
 
     @Test
-    public void isValidWindowsFilename_illegalFileNames_success()
-            throws IllegalAccessException, InvocationTargetException {
+    public void isValidWindowsFilename_illegalFileNames_fail() throws Exception {
         // Runs test only on Windows operating systems
         Assume.assumeTrue(SystemUtil.isWindows());
 
