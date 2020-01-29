@@ -15,7 +15,7 @@ window.vZoom = {
 
       const date = this.filterTimeFrame === 'week' ? 'endDate' : 'date';
       filteredUser.commits = user.commits.filter(
-          (commit) => commit[date] >= this.info.sinceDate && commit[date] <= this.info.untilDate,
+          (commit) => commit[date] >= this.info.zoomSince && commit[date] <= this.info.zoomUntil,
       );
 
       return filteredUser;
@@ -41,7 +41,7 @@ window.vZoom = {
       this.setInfoHash();
     },
     openSummary() {
-      this.$emit('view-summary', this.info.sinceDate, this.info.untilDate);
+      this.$emit('view-summary', this.info.zoomSince, this.info.zoomUntil);
     },
 
     getSliceLink(slice) {
@@ -72,14 +72,14 @@ window.vZoom = {
     setInfoHash() {
       const { addHash, encodeHash } = window;
       const {
-        user, avgCommitSize, sinceDate, untilDate,
+        user, avgCommitSize, zoomSince, zoomUntil,
       } = this.info;
 
       addHash('tabAuthor', user.name);
       addHash('tabRepo', user.repoId);
       addHash('avgCommitSize', avgCommitSize);
-      addHash('zoomSince', sinceDate);
-      addHash('zoomUntil', untilDate);
+      addHash('zoomSince', zoomSince);
+      addHash('zoomUntil', zoomUntil);
       encodeHash();
     },
 

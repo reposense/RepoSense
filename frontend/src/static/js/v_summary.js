@@ -703,8 +703,8 @@ window.vSummary = {
         avgCommitSize,
         user,
         location: this.getRepoLink(repo[index]),
-        sinceDate: since,
-        untilDate: until,
+        zoomSince: since,
+        zoomUntil: until,
         isMergeGroup: this.isMergeGroup,
       });
     },
