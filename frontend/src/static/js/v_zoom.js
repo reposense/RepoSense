@@ -5,28 +5,43 @@ window.vZoom = {
     return {
       filterTimeFrame: window.hashParams.timeframe,
       showAllCommitMessageBody: true,
-      expandedCommitMessagesCount: this.getCommitMessageBodyCount(),
+      expandedCommitMessagesCount: this.totalCommitMessageBodyCount,
     };
+  },
+  computed: {
+    filteredUser() {
+      const { user } = this.info;
+      const filteredUser = Object.assign({}, user);
+
+      const date = this.filterTimeFrame === 'week' ? 'endDate' : 'date';
+      filteredUser.commits = user.commits.filter(
+          (commit) => commit[date] >= this.info.sinceDate && commit[date] <= this.info.untilDate,
+      );
+
+      return filteredUser;
+    },
+    totalCommitMessageBodyCount() {
+      let nonEmptyCommitMessageCount = 0;
+      this.filteredUser.commits.forEach((commit) => {
+        commit.commitResults.forEach((commitResult) => {
+          if (commitResult.messageBody !== '' && commitResult.insertions > 0) {
+            nonEmptyCommitMessageCount += 1;
+          }
+        });
+      });
+
+      return nonEmptyCommitMessageCount;
+    },
   },
   methods: {
     initiate() {
       if (!this.info.user) { // restoring zoom tab from reloaded page
         this.restoreZoomTab();
       }
-      this.filterCommits();
+      this.setInfoHash();
     },
-
     openSummary() {
-      this.$emit('view-summary', this.info.zoomSince, this.info.zoomUntil);
-    },
-
-    filterCommits() {
-      const { user } = this.info;
-      const date = this.filterTimeFrame === 'week' ? 'endDate' : 'date';
-      const filtered = user.commits.filter(
-          (commit) => commit[date] >= this.info.zoomSince && commit[date] <= this.info.zoomUntil,
-      );
-      user.commits = filtered;
+      this.$emit('view-summary', this.info.sinceDate, this.info.untilDate);
     },
 
     getSliceLink(slice) {
@@ -36,17 +51,11 @@ window.vZoom = {
       return `${window.getBaseLink(this.info.user.repoId)}/commit/${slice.hash}`;
     },
 
-    getCommitMessageBodyCount() {
-      let nonEmptyCommitMessageCount = 0;
-      this.info.user.commits.forEach((commit) => {
-        commit.commitResults.forEach((commitResult) => {
-          if (commitResult.messageBody !== '') {
-            nonEmptyCommitMessageCount += 1;
-          }
-        });
-      });
-
-      return nonEmptyCommitMessageCount;
+    scrollToCommit(commit) {
+      const el = this.$el.getElementsByClassName(commit)[0];
+      if (el) {
+        el.scrollIntoView();
+      }
     },
 
     restoreZoomTab() {
@@ -63,38 +72,37 @@ window.vZoom = {
     setInfoHash() {
       const { addHash, encodeHash } = window;
       const {
-        user, avgCommitSize, zoomSince, zoomUntil,
+        user, avgCommitSize, sinceDate, untilDate,
       } = this.info;
 
       addHash('tabAuthor', user.name);
       addHash('tabRepo', user.repoId);
       addHash('avgCommitSize', avgCommitSize);
-      addHash('zoomSince', zoomSince);
-      addHash('zoomUntil', zoomUntil);
+      addHash('zoomSince', sinceDate);
+      addHash('zoomUntil', untilDate);
       encodeHash();
     },
 
     toggleAllCommitMessagesBody(isActive) {
       this.showAllCommitMessageBody = isActive;
 
-      const toRename = this.showAllCommitMessageBody ? 'commit-message active' : 'commit-message';
+      const toRename = this.showAllCommitMessageBody ? 'commit-message message-body active' : 'commit-message message-body';
 
-      const commitMessageClasses = document.getElementsByClassName('commit-message');
+      const commitMessageClasses = document.getElementsByClassName('commit-message message-body');
       Array.from(commitMessageClasses).forEach((commitMessageClass) => {
         commitMessageClass.className = toRename;
       });
 
-      this.expandedCommitMessagesCount = isActive ? this.getCommitMessageBodyCount() : 0;
+      this.expandedCommitMessagesCount = isActive ? this.totalCommitMessageBodyCount : 0;
     },
 
     updateExpandedCommitMessagesCount() {
-      this.expandedCommitMessagesCount = document.getElementsByClassName('commit-message active')
+      this.expandedCommitMessagesCount = document.getElementsByClassName('commit-message message-body active')
           .length;
     },
   },
   created() {
     this.initiate();
-    this.setInfoHash();
   },
   mounted() {
     this.updateExpandedCommitMessagesCount();

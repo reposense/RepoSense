@@ -12,6 +12,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -44,6 +45,11 @@ public class ConfigSystemTest {
     public void setUp() throws IOException {
         FileUtil.deleteDirectory(FT_TEMP_DIR);
         ErrorSummary.getInstance().clearErrorList();
+    }
+
+    @After
+    public void tearDown() throws IOException {
+        FileUtil.deleteDirectory(FT_TEMP_DIR);
     }
 
     /**
