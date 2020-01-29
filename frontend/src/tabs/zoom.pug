@@ -44,7 +44,7 @@
       h3(v-if="filterTimeFrame === 'week'") Week of {{ day.date }}
       h3(v-else) {{ day.date }}
       ul
-        li(v-for="slice in day.commitResults").commit-message.active
+        li(v-for="slice in day.commitResults").commit-message(v-bind:class="{ 'message-body active': slice.messageBody !== '' }")
           a(v-bind:href="getSliceLink(slice)" target="_blank") {{ slice.messageTitle }}
           span &nbsp; ({{ slice.insertions }} lines) &nbsp;
           template(v-if="slice.tags")
