@@ -1,4 +1,5 @@
 @import 'colors';
+@import 'z-indices';
 
 /** global **/
 body {
@@ -38,7 +39,7 @@ a {
   position: fixed;
   top: 0;
   width: 100%;
-  z-index: 10;
+  z-index: z-index('loader');
 
   .loading {
     margin-top: 12px;
@@ -77,7 +78,7 @@ header {
   display: flex;
   justify-content: center;
   position: relative;
-  z-index: 100;
+  z-index: z-index('header');
 
   .content {
     align-items: center;
@@ -103,7 +104,7 @@ header {
   position: absolute;
   top: 0;
   width: 100%;
-  z-index: 50;
+  z-index: z-index('app-wrapper');
 
   #tab-resize-guide {
     $tabs-width: 50%;
@@ -115,7 +116,7 @@ header {
     position: fixed;
     right: $tabs-width;
     width: 2px;
-    z-index: 100;
+    z-index: z-index('center-divider');
   }
 
   #summary-wrapper {
@@ -189,6 +190,7 @@ header {
       cursor: pointer;
       position: fixed;
       top: calc(50vh - 3rem);
+      z-index: z-index('center-divider');
 
       svg {
         background-color: mui-color('white');
@@ -212,6 +214,7 @@ header {
       height: 100%;
       position: fixed;
       width: 13.250px;
+      z-index: z-index('center-divider');
     }
   }
 }
