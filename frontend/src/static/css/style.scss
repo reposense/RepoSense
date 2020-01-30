@@ -448,8 +448,6 @@ header {
     }
 
     &--tags {
-      margin: .25rem 0 .25rem 0;
-
       .tag {
         cursor: pointer;
       }
@@ -466,8 +464,8 @@ header {
       background: mui-color('grey', '600');
       border-radius: 5px;
       color: mui-color('white');
-      display: inline;
-      margin-right: .25rem;
+      display: inline-block;
+      margin: .1rem .1rem .1rem .1rem;
       padding: 0 3px 0 3px;
 
       .fa-tags {
