@@ -58,7 +58,7 @@ public class GitLog {
     public static String getBinaryFileAuthors(RepoConfiguration config, String filePath) {
         Path rootPath = Paths.get(config.getRepoRoot());
 
-        String command = "git log --pretty=format:\"%an\" ";
+        String command = "git log --pretty=format:\"%an %ae\" ";
         command += GitUtil.convertToGitDateRangeArgs(config.getSinceDate(), config.getUntilDate());
         command += filePath;
 
