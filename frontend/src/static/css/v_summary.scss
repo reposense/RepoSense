@@ -6,6 +6,12 @@
   text-align: center;
 }
 
+.button {
+  color: mui-color('grey');
+  cursor: pointer;
+  text-decoration: none;
+}
+
 .summary-picker {
   align-items: center;
   display: flex;
@@ -66,7 +72,6 @@
     width: fit-content;
   }
 
-  input,
   select {
     font-size: .75rem;
   }
@@ -79,6 +84,11 @@
     display: block;
     font-weight: bold;
     text-align: left;
+
+    & > * {
+      display: inline;
+      padding-right: .5rem;
+    }
 
     &--index {
       background: mui-color('black');
@@ -138,12 +148,6 @@
     &--repo {
       padding-right: .25rem;
     }
-
-    &--button {
-      color: mui-color('grey');
-      cursor: pointer;
-      text-decoration: none;
-    }
   }
 
   &__ramp {
@@ -170,8 +174,9 @@
 
     &--bar {
       background-color: mui-color('red');
-      height: .3rem;
-      margin-top: .1rem;
+      float: left;
+      height: 4px;
+      margin-top: 2px;
     }
   }
 }
