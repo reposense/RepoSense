@@ -272,6 +272,8 @@ header {
     }
 
     &--tags {
+      margin: .25rem 0 .25rem 0;
+
       .tag {
         cursor: pointer;
       }
@@ -289,7 +291,7 @@ header {
       border-radius: 5px;
       color: mui-color('white');
       display: inline-block;
-      margin: .1rem .1rem .1rem .1rem;
+      margin: .2rem .2rem .2rem 0;
       padding: 0 3px 0 3px;
 
       .fa-tags {
