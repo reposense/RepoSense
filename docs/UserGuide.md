@@ -389,7 +389,7 @@ Alternatively, you can use csv config files to further customize the analysis:
 
 ## Quickstart RepoSense with Netlify
 
-Using Netlify, and a fork of this repo allows you to quickly get started online and enjoy a real time RepoSense report on your target repository. Further instructions can be found in this [guide](UsingNetlifyGuide.md).
+To enjoy a real time RepoSense report on your target repositories, all you'll need is Netlify and a fork of this repo. Follow [this guide] to get started.
 
 ## Using Travis-CI to automate publishing of the report to GitHub Pages
 
