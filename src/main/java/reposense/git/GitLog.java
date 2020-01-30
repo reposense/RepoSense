@@ -50,4 +50,18 @@ public class GitLog {
 
         return runCommand(rootPath, command);
     }
+
+    /**
+     * Returns the authors who modified the binary file at {@code filePath}, in the repository specified in
+     * {@code config}.
+     */
+    public static String getBinaryFileAuthors(RepoConfiguration config, String filePath) {
+        Path rootPath = Paths.get(config.getRepoRoot());
+
+        String command = "git log --pretty=format:\"%an\" ";
+        command += GitUtil.convertToGitDateRangeArgs(config.getSinceDate(), config.getUntilDate());
+        command += filePath;
+
+        return runCommand(rootPath, command);
+    }
 }
