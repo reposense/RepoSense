@@ -9,12 +9,13 @@ import java.nio.file.PathMatcher;
 import java.nio.file.Paths;
 import java.time.ZoneId;
 import java.time.ZoneOffset;
-import java.util.HashMap;
-import java.util.TimeZone;
+import java.util.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.stream.Collectors;
 
 import reposense.authorship.analyzer.AnnotatorAnalyzer;
+import reposense.authorship.model.BinaryFileInfo;
 import reposense.authorship.model.FileInfo;
 import reposense.authorship.model.FileResult;
 import reposense.authorship.model.LineInfo;
@@ -23,6 +24,9 @@ import reposense.model.Author;
 import reposense.model.CommitHash;
 import reposense.model.RepoConfiguration;
 import reposense.system.LogsManager;
+
+import static reposense.git.GitLog.getBinaryFileAuthors;
+import static reposense.model.Author.UNKNOWN_AUTHOR;
 
 /**
  * Analyzes the target and information given in the {@code FileInfo}.
@@ -72,6 +76,25 @@ public class FileInfoAnalyzer {
     }
 
     /**
+     * Analyzes the lines of the file, given in the {@code fileInfo}, that has changed in the time period provided
+     * by {@code config}.
+     * Returns null if the file contains the reused tag, the file is missing from the local system, or none of the
+     * {@code Author} specified in {@code config} contributed to the file in {@code fileInfo}.
+     */
+    public static FileResult analyzeBinaryFile(RepoConfiguration config, BinaryFileInfo binaryFileInfo) {
+        String relativePath = binaryFileInfo.getPath();
+
+        if (Files.notExists(Paths.get(config.getRepoRoot(), relativePath))) {
+            logger.severe(String.format(MESSAGE_FILE_MISSING, relativePath));
+            return null;
+        }
+
+        binaryFileInfo.setFileType(config.getFileType(binaryFileInfo.getPath()));
+
+        return generateBinaryFileResult(config, binaryFileInfo);
+    }
+
+    /**
      * Generates and returns a {@code FileResult} with the authorship results from {@code fileInfo} consolidated.
      */
     private static FileResult generateFileResult(FileInfo fileInfo) {
@@ -80,7 +103,34 @@ public class FileInfoAnalyzer {
             Author author = line.getAuthor();
             authorContributionMap.put(author, authorContributionMap.getOrDefault(author, 0) + 1);
         }
-        return new FileResult(fileInfo.getPath(), fileInfo.getFileType(), fileInfo.getLines(), authorContributionMap);
+        return FileResult.createNonBinaryFileResult(fileInfo.getPath(), fileInfo.getFileType(), fileInfo.getLines(), authorContributionMap);
+    }
+
+    /**
+     * Generates and returns a {@code FileResult} with the authorship results from binary {@code fileInfo} consolidated.
+     */
+    private static FileResult generateBinaryFileResult(RepoConfiguration config, BinaryFileInfo binaryFileInfo) {
+        ArrayList<LineInfo> lineInfos = new ArrayList<>();
+        HashMap<Author, Integer> authorContributionMap = new HashMap<>();
+        String authorString = getBinaryFileAuthors(config, binaryFileInfo.getPath());
+        Set<Author> authors = Arrays.stream(authorString.split("\n")).map(x -> {
+            if(x.isEmpty()) {
+                return UNKNOWN_AUTHOR;
+            }
+            String[] arr = x.split("\t");
+            String authorName = arr[0];
+            String authorEmail = arr[1];
+            return config.getAuthor(authorName, authorEmail);
+        }).collect(Collectors.toSet());
+        LineInfo info = new LineInfo(1, "Binary diff not shown");
+        for(Author author : authors) {
+            // info.setAuthor(author);
+            // lineInfos.add(info);
+
+            authorContributionMap.put(author, 1);
+        }
+
+        return FileResult.createBinaryFileResult(binaryFileInfo.getPath(), binaryFileInfo.getFileType(), authors);
     }
 
     /**
@@ -112,7 +162,7 @@ public class FileInfoAnalyzer {
             if (!fileInfo.isFileLineTracked(lineCount / 5) || isAuthorIgnoringFile(author, filePath)
                     || CommitHash.isInsideCommitList(commitHash, config.getIgnoreCommitList())
                     || commitDateInMs < sinceDateInMs || commitDateInMs > untilDateInMs) {
-                author = Author.UNKNOWN_AUTHOR;
+                author = UNKNOWN_AUTHOR;
             }
 
             fileInfo.setLineAuthor(lineCount / 5, author);

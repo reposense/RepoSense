@@ -5,6 +5,7 @@ import java.util.Objects;
 import java.util.stream.Collectors;
 
 import reposense.authorship.model.AuthorshipSummary;
+import reposense.authorship.model.BinaryFileInfo;
 import reposense.authorship.model.FileInfo;
 import reposense.authorship.model.FileResult;
 import reposense.model.RepoConfiguration;
@@ -24,6 +25,15 @@ public class AuthorshipReporter {
                 .map(fileInfo -> FileInfoAnalyzer.analyzeFile(config, fileInfo))
                 .filter(Objects::nonNull)
                 .collect(Collectors.toList());
+
+//        List<BinaryFileInfo> binaryFileInfos = BinaryFileInfoExtractor.extractBinaryFileInfos(config);
+//
+//        List<FileResult> binaryFileResults = binaryFileInfos.stream()
+//                .map(fileInfo -> FileInfoAnalyzer.analyzeBinaryFile(config, fileInfo))
+//                .filter(Objects::nonNull)
+//                .collect(Collectors.toList());
+//
+//        fileResults.addAll(binaryFileResults);
 
         return FileResultAggregator.aggregateFileResult(fileResults, config.getAuthorList(),
                 config.getAllFileTypes());
