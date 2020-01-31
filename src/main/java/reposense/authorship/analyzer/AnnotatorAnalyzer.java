@@ -3,6 +3,7 @@ package reposense.authorship.analyzer;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Map;
+import java.util.Optional;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -23,25 +24,23 @@ public class AnnotatorAnalyzer {
      * Overrides the authorship information in {@code fileInfo} based on annotations given on the file.
      */
     public static void aggregateAnnotationAuthorInfo(FileInfo fileInfo, Map<String, Author> authorAliasMap) {
-        Author currentAuthor = Author.UNKNOWN_AUTHOR;
+        Optional<Author> currentAnnotatedAuthor = Optional.empty();
         Path filePath = Paths.get(fileInfo.getPath());
         for (LineInfo lineInfo : fileInfo.getLines()) {
             if (lineInfo.getContent().contains(AUTHOR_TAG)) {
-                Author newAuthor = findAuthorInLine(lineInfo.getContent(), authorAliasMap);
+                Optional<Author> newAnnotatedAuthor = findAuthorInLine(lineInfo.getContent(), authorAliasMap);
 
-                if (newAuthor.equals(Author.UNKNOWN_AUTHOR)) {
+                if (!newAnnotatedAuthor.isPresent()) {
                     //end of an author tag should belong to this author too.
-                    lineInfo.setAuthor(currentAuthor);
-                } else if (newAuthor.getIgnoreGlobMatcher().matches(filePath)) {
-                    newAuthor = Author.UNKNOWN_AUTHOR;
+                    lineInfo.setAuthor(currentAnnotatedAuthor.orElse(Author.UNKNOWN_AUTHOR));
+                } else if (newAnnotatedAuthor.get().getIgnoreGlobMatcher().matches(filePath)) {
+                    newAnnotatedAuthor = Optional.empty();
                 }
 
                 //set a new author
-                currentAuthor = newAuthor;
+                currentAnnotatedAuthor = newAnnotatedAuthor;
             }
-            if (!currentAuthor.equals(Author.UNKNOWN_AUTHOR)) {
-                lineInfo.setAuthor(currentAuthor);
-            }
+            currentAnnotatedAuthor.ifPresent(lineInfo::setAuthor);
         }
     }
 
@@ -50,16 +49,16 @@ public class AnnotatorAnalyzer {
      * in {@code authorAliasMap},and returns the result.
      * @return {@code Author#UNKNOWN_AUTHOR} if no matching {@code Author} is found.
      */
-    private static Author findAuthorInLine(String line, Map<String, Author> authorAliasMap) {
+    private static Optional<Author> findAuthorInLine(String line, Map<String, Author> authorAliasMap) {
         try {
             String[] split = line.split(AUTHOR_TAG);
             String name = extractAuthorName(split[1]);
             if (name == null) {
-                return Author.UNKNOWN_AUTHOR;
+                return Optional.empty();
             }
-            return authorAliasMap.getOrDefault(name, Author.UNKNOWN_AUTHOR);
+            return Optional.of(authorAliasMap.getOrDefault(name, Author.UNKNOWN_AUTHOR));
         } catch (ArrayIndexOutOfBoundsException e) {
-            return Author.UNKNOWN_AUTHOR;
+            return Optional.empty();
         }
     }
 
