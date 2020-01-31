@@ -49,6 +49,10 @@ public class FileInfoAnalyzer {
     public static FileResult analyzeFile(RepoConfiguration config, FileInfo fileInfo) {
         String relativePath = fileInfo.getPath();
 
+        if (isEmptyFile(config.getRepoRoot(), relativePath)) {
+            return null;
+        }
+
         if (Files.notExists(Paths.get(config.getRepoRoot(), relativePath))) {
             logger.severe(String.format(MESSAGE_FILE_MISSING, relativePath));
             return null;
@@ -124,13 +128,13 @@ public class FileInfoAnalyzer {
     }
 
     /**
-     * Returns true if the first line in the file at {@code repoRoot}'s {@code relativePath} contains the reused tag.
+     * Returns true if file at {@code repoRoot}'s {@code relativePath} has 0 lines.
      */
-    private static boolean isReused(String repoRoot, String relativePath) {
+    private static boolean isEmptyFile(String repoRoot, String relativePath) {
         Path path = Paths.get(repoRoot, relativePath);
         try (BufferedReader br = new BufferedReader(new FileReader(path.toFile()))) {
             String firstLine = br.readLine();
-            if (firstLine == null || firstLine.contains(REUSED_TAG)) {
+            if (firstLine == null) {
                 return true;
             }
         } catch (IOException ioe) {
