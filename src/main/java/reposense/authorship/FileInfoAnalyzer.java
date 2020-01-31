@@ -43,14 +43,11 @@ public class FileInfoAnalyzer {
     /**
      * Analyzes the lines of the file, given in the {@code fileInfo}, that has changed in the time period provided
      * by {@code config}.
-     * Returns null if the file contains the reused tag, the file is missing from the local system, or none of the
+     * Returns null if the file is missing from the local system, or none of the
      * {@code Author} specified in {@code config} contributed to the file in {@code fileInfo}.
      */
     public static FileResult analyzeFile(RepoConfiguration config, FileInfo fileInfo) {
         String relativePath = fileInfo.getPath();
-        if (isReused(config.getRepoRoot(), relativePath)) {
-            return null;
-        }
 
         if (Files.notExists(Paths.get(config.getRepoRoot(), relativePath))) {
             logger.severe(String.format(MESSAGE_FILE_MISSING, relativePath));
