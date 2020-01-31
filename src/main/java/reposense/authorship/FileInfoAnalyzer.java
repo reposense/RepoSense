@@ -29,7 +29,7 @@ import reposense.system.LogsManager;
  */
 public class FileInfoAnalyzer {
     private static final Logger logger = LogsManager.getLogger(FileInfoAnalyzer.class);
-    
+
     private static final int AUTHOR_NAME_OFFSET = "author ".length();
     private static final int AUTHOR_EMAIL_OFFSET = "author-mail ".length();
     private static final int AUTHOR_TIME_OFFSET = "author-time ".length();
