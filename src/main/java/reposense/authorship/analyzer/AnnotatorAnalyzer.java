@@ -31,8 +31,8 @@ public class AnnotatorAnalyzer {
                 Optional<Author> newAnnotatedAuthor = findAuthorInLine(lineInfo.getContent(), authorAliasMap);
 
                 if (!newAnnotatedAuthor.isPresent()) {
-                    //end of an author tag should belong to this author too.
-                    lineInfo.setAuthor(currentAnnotatedAuthor.orElse(Author.UNKNOWN_AUTHOR));
+                    //end of an author tag should belong to the current author too.
+                    currentAnnotatedAuthor.ifPresent(lineInfo::setAuthor);
                 } else if (newAnnotatedAuthor.get().getIgnoreGlobMatcher().matches(filePath)) {
                     newAnnotatedAuthor = Optional.empty();
                 }
