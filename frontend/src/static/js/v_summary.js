@@ -100,6 +100,8 @@ function dateRounding(datestr, roundDown) {
   return getDateStr(datems);
 }
 
+const BASE_URL = 'https://github.com';
+
 window.vSummary = {
   props: ['repos', 'errorMessages'],
   template: window.$('v_summary').innerHTML,
