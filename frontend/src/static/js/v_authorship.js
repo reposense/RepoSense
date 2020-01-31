@@ -165,13 +165,23 @@ window.vAuthorship = {
       let totalBlankLineCount = 0;
 
       files.forEach((file) => {
+        const out = {};
+        out.path = file.path;
+        out.fileType = file.fileType;
         const lineCnt = file.authorContributionMap[this.info.author];
-        if (lineCnt) {
+        if (file.isBinary && file.binaryFileAuthors.map((x) => x.gitId).includes(this.info.author)) {
+          out.lineCount = 1;
+          out.segments = [
+              {
+                authored: true,
+                lineNumbers: [1],
+                lines: ['Binary diff not shown'],
+              }];
+          res.push(out);
+        }
+        if (!file.isBinary && lineCnt) {
           totalLineCount += lineCnt;
-          const out = {};
-          out.path = file.path;
           out.lineCount = lineCnt;
-          out.fileType = file.fileType;
 
           const segmentInfo = this.splitSegments(file.lines);
           out.segments = segmentInfo.segments;
@@ -183,9 +193,12 @@ window.vAuthorship = {
         }
       });
 
+      console.log(res);
+
       this.totalLineCount = totalLineCount;
       this.totalBlankLineCount = totalBlankLineCount;
       res.sort((a, b) => b.lineCount - a.lineCount);
+      console.log(this.filesLinesObj)
 
       Object.keys(this.filesLinesObj).forEach((file) => {
         if (this.filesLinesObj[file] !== 0) {

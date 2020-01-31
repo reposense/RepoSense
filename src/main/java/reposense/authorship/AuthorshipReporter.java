@@ -26,14 +26,14 @@ public class AuthorshipReporter {
                 .filter(Objects::nonNull)
                 .collect(Collectors.toList());
 
-//        List<BinaryFileInfo> binaryFileInfos = BinaryFileInfoExtractor.extractBinaryFileInfos(config);
-//
-//        List<FileResult> binaryFileResults = binaryFileInfos.stream()
-//                .map(fileInfo -> FileInfoAnalyzer.analyzeBinaryFile(config, fileInfo))
-//                .filter(Objects::nonNull)
-//                .collect(Collectors.toList());
-//
-//        fileResults.addAll(binaryFileResults);
+        List<BinaryFileInfo> binaryFileInfos = BinaryFileInfoExtractor.extractBinaryFileInfos(config);
+
+        List<FileResult> binaryFileResults = binaryFileInfos.stream()
+                .map(fileInfo -> FileInfoAnalyzer.analyzeBinaryFile(config, fileInfo))
+                .filter(Objects::nonNull)
+                .collect(Collectors.toList());
+
+        fileResults.addAll(binaryFileResults);
 
         return FileResultAggregator.aggregateFileResult(fileResults, config.getAuthorList(),
                 config.getAllFileTypes());
