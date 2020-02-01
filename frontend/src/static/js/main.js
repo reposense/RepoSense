@@ -1,3 +1,4 @@
+window.BASE_URL = 'https://github.com';
 window.REPORT_ZIP = null;
 window.REPOS = {};
 window.isMacintosh = navigator.platform.includes('Mac');
@@ -36,7 +37,6 @@ window.decodeHash = function decodeHash() {
   window.hashParams = hashParams;
 };
 
-const BASE_URL = 'https://github.com';
 const DRAG_BAR_WIDTH = 13.25;
 const SCROLL_BAR_WIDTH = 17;
 const GUIDE_BAR_WIDTH = 2;
@@ -258,7 +258,7 @@ window.app = new window.Vue({
     getUserGuideVersionLink() {
       const version = window.app.repoSenseVersion;
       if (!version) {
-        return `${BASE_URL}/reposense/RepoSense`;
+        return `${window.BASE_URL}/reposense/RepoSense`;
       }
       return `https://github.com/reposense/RepoSense/blob/${version}/docs/UserGuide.md`;
     },

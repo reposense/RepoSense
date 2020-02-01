@@ -100,7 +100,6 @@ function dateRounding(datestr, roundDown) {
   return getDateStr(datems);
 }
 
-const BASE_URL = 'https://github.com';
 
 window.vSummary = {
   props: ['repos', 'errorMessages'],
@@ -274,14 +273,14 @@ window.vSummary = {
       const { location, branch } = REPOS[repo.repoId];
 
       if (Object.prototype.hasOwnProperty.call(location, 'organization')) {
-        return `${BASE_URL}/${location.organization}/${location.repoName}/tree/${branch}`;
+        return `${window.BASE_URL}/${location.organization}/${location.repoName}/tree/${branch}`;
       }
 
       return repo.location;
     },
 
     getReportIssueGitHubLink(stackTrace) {
-      return `${BASE_URL}/reposense/RepoSense/issues/new?title=${this.getReportIssueTitle()
+      return `${window.BASE_URL}/reposense/RepoSense/issues/new?title=${this.getReportIssueTitle()
       }&body=${this.getReportIssueMessage(stackTrace)}`;
     },
 
