@@ -170,6 +170,27 @@ html
               )
                 span {{ getReportIssueEmailAddress() }}
             div.error-message-box__failed-repo--reason(v-else) {{ errorBlock.errorMessage }}
+        .fileTypes(v-if="filterBreakdown")
+          div.checkboxes.mui-form--inline(v-if="Object.keys(contributionBarFileTypeColors).length > 0")
+            label(
+              v-bind:style="{ 'background-color' : '#000000', 'color' : '#ffffff' }"
+            )
+              input.mui-checkbox--fileType(type="checkbox" v-model="checkAllFileTypes")
+              span
+                span.select.medium-font All:&nbsp;
+            template(v-for="fileType in Object.keys(checkBoxFileTypeFontColors)" )
+              label(
+                v-bind:key="fileType"
+                v-bind:style="{ 'background-color' : contributionBarFileTypeColors[fileType]," +
+                "'color' : checkBoxFileTypeFontColors[fileType]}"
+              )
+                input.mui-checkbox--fileType(
+                  type="checkbox"
+                  v-bind:id="fileType"
+                  v-bind:value="fileType"
+                  v-model="checkedFileTypes"
+                )
+                span {{ fileType }}
         #summary-charts
           .summary-charts(v-for="(repo, i) in filteredRepos")
             .summary-charts__title(v-if="filterGroupSelection === 'groupByRepos'")
@@ -184,18 +205,13 @@ html
               .summary-charts__title--repo {{ repo[0].displayName }} ({{ repo[0].name }})
               .summary-charts__title--contribution.mini-font(title="Total contribution of group") [{{ getGroupTotalContribution(repo) }} lines]
             .summary-charts__fileType--breakdown(v-if="filterBreakdown")
-              template(v-if="filterGroupSelection === 'groupByRepos'")
+              template
                 .summary-charts__fileType--breakdown__legend(
-                    v-for="fileType in getFileTypes(repo)")
+                  v-if="filterGroupSelection !== 'groupByNone'"
+                  v-for="fileType in getFileTypes(repo)" :key="fileType"
+                )
                   i.fas.fa-circle(
-                      v-bind:style="{ 'color' : contributionBarFileTypeColors[fileType] }"
-                  )
-                  span &nbsp; {{ fileType }} &nbsp;
-              template(v-else)
-                .summary-charts__fileType--breakdown__legend(
-                    v-for="fileType in Object.keys(contributionBarFileTypeColors)")
-                  i.fas.fa-circle(
-                      v-bind:style="{ 'color' : contributionBarFileTypeColors[fileType] }"
+                    v-bind:style="{ 'color' : contributionBarFileTypeColors[fileType] }"
                   )
                   span &nbsp; {{ fileType }} &nbsp;
             .summary-chart(v-for="(user, i) in repo")

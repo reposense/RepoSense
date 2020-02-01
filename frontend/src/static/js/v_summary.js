@@ -105,6 +105,9 @@ window.vSummary = {
   template: window.$('v_summary').innerHTML,
   data() {
     return {
+      checkedFileTypes: [],
+      checkAllFileTypes: true,
+      fileTypes: [],
       filtered: [],
       filterSearch: '',
       filterGroupSelection: 'groupByRepos',
@@ -127,10 +130,14 @@ window.vSummary = {
       minDate: '',
       maxDate: '',
       contributionBarFileTypeColors: {},
+      checkBoxFileTypeFontColors: {},
       isSafariBrowser: /.*Version.*Safari.*/.test(navigator.userAgent),
     };
   },
   watch: {
+    checkAllFileTypes() {
+      this.selectAllFileTypes();
+    },
     sortGroupSelection() {
       this.getFiltered();
     },
@@ -210,32 +217,35 @@ window.vSummary = {
       const contributionPerFullBar = (this.avgContributionSize * 2);
       const allFileTypesContributionBars = {};
 
-      Object.keys(fileTypeContribution).forEach((fileType) => {
-        const contribution = fileTypeContribution[fileType];
-        let barWidth = (contribution / contributionPerFullBar) * fullBarWidth;
-        const contributionBars = [];
+      Object.keys(fileTypeContribution)
+          .filter((fileType) => this.checkedFileTypes.includes(fileType))
+          .forEach((fileType) => {
+            const contribution = fileTypeContribution[fileType];
+            let barWidth = (contribution / contributionPerFullBar) * fullBarWidth;
+            const contributionBars = [];
 
-        // if contribution bar for file type is able to fit on the current line
-        if (currentBarWidth + barWidth < fullBarWidth) {
-          contributionBars.push(barWidth);
-          currentBarWidth += barWidth;
-        } else {
-          // take up all the space left on the current line
-          contributionBars.push(fullBarWidth - currentBarWidth);
-          barWidth -= fullBarWidth - currentBarWidth;
-          // additional bar width will start on a new line
-          const numOfFullBars = Math.floor(barWidth / fullBarWidth);
-          for (let i = 0; i < numOfFullBars; i += 1) {
-            contributionBars.push(fullBarWidth);
-          }
-          const remainingBarWidth = barWidth % fullBarWidth;
-          if (remainingBarWidth !== 0) {
-            contributionBars.push(remainingBarWidth);
-          }
-          currentBarWidth = remainingBarWidth;
-        }
-        allFileTypesContributionBars[fileType] = contributionBars;
-      });
+            // if contribution bar for file type is able to fit on the current line
+            if (currentBarWidth + barWidth < fullBarWidth) {
+              contributionBars.push(barWidth);
+              currentBarWidth += barWidth;
+            } else {
+              // take up all the space left on the current line
+              contributionBars.push(fullBarWidth - currentBarWidth);
+              barWidth -= fullBarWidth - currentBarWidth;
+              // additional bar width will start on a new line
+              const numOfFullBars = Math.floor(barWidth / fullBarWidth);
+              for (let i = 0; i < numOfFullBars; i += 1) {
+                contributionBars.push(fullBarWidth);
+              }
+              const remainingBarWidth = barWidth % fullBarWidth;
+              if (remainingBarWidth !== 0) {
+                contributionBars.push(remainingBarWidth);
+              }
+              currentBarWidth = remainingBarWidth;
+            }
+
+            allFileTypesContributionBars[fileType] = contributionBars;
+          });
 
       return allFileTypesContributionBars;
     },
@@ -243,7 +253,7 @@ window.vSummary = {
       const fileTypes = [];
       repo.forEach((user) => {
         Object.keys(user.fileTypeContribution).forEach((fileType) => {
-          if (!fileTypes.includes(fileType)) {
+          if (this.checkedFileTypes.includes(fileType) && !fileTypes.includes(fileType)) {
             fileTypes.push(fileType);
           }
         });
@@ -516,10 +526,30 @@ window.vSummary = {
               fileTypeColors[fileType] = selectedColors[i];
               i = (i + 1) % selectedColors.length;
             }
+            if (!this.fileTypes.includes(fileType)) {
+              this.fileTypes.push(fileType);
+            }
           });
         });
         this.contributionBarFileTypeColors = fileTypeColors;
       });
+
+      Object.keys(this.contributionBarFileTypeColors).forEach((fileType) => {
+        const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(this.contributionBarFileTypeColors[fileType]);
+        const red = parseInt(result[1], 16);
+        const green = parseInt(result[2], 16);
+        const blue = parseInt(result[2], 16);
+
+        const luminosity = 0.2126 * red + 0.7152 * green + 0.0722 * blue; // per ITU-R BT.709
+
+        if (luminosity < 120) {
+          this.checkBoxFileTypeFontColors[fileType] = '#ffffff';
+        } else {
+          this.checkBoxFileTypeFontColors[fileType] = '#000000';
+        }
+      });
+
+      this.checkedFileTypes = this.fileTypes.slice();
     },
     splitCommitsWeek(user) {
       const { commits } = user;
@@ -565,8 +595,7 @@ window.vSummary = {
       // commits are not contiguous, meaning there are gaps of days without
       // commits, so we are going to check each commit's date and make sure
       // it is within the duration of a week
-      while (commits.length > 0
-          && (new Date(commits[0].date)).getTime() <= endOfWeekMs) {
+      while (commits.length > 0 && (new Date(commits[0].date)).getTime() <= endOfWeekMs) {
         const commit = commits.shift();
         week.insertions += commit.insertions;
         week.deletions += commit.deletions;
@@ -604,6 +633,13 @@ window.vSummary = {
     getOptionWithOrder() {
       [this.sortingOption, this.isSortingDsc] = this.sortGroupSelection.split(' ');
       [this.sortingWithinOption, this.isSortingWithinDsc] = this.sortWithinGroupSelection.split(' ');
+    },
+    selectAllFileTypes() {
+      if (this.checkAllFileTypes) {
+        this.checkedFileTypes = this.fileTypes.slice();
+      } else {
+        this.checkedFileTypes = [];
+      }
     },
     sortFiltered() {
       this.getOptionWithOrder();
