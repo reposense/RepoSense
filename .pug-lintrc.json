@@ -5,6 +5,7 @@
   "disallowMultipleLineBreaks": true,
   "disallowTemplateString": null,
   "disallowTrailingSpaces": true,
+  "maximumLineLength": 120,
   "requireClassLiteralsBeforeAttributes": true,
   "requireIdLiteralsBeforeAttributes": true,
   "requireLineFeedAtFileEnd": true,
