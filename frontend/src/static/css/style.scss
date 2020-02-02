@@ -1,4 +1,5 @@
 @import 'colors';
+@import 'z-indices';
 
 /** global **/
 body {
@@ -38,7 +39,7 @@ a {
   position: fixed;
   top: 0;
   width: 100%;
-  z-index: 10;
+  z-index: z-index('loader');
 
   .loading {
     margin-top: 12px;
@@ -77,7 +78,7 @@ header {
   display: flex;
   justify-content: center;
   position: relative;
-  z-index: 100;
+  z-index: z-index('header');
 
   .content {
     align-items: center;
@@ -103,7 +104,7 @@ header {
   position: absolute;
   top: 0;
   width: 100%;
-  z-index: 50;
+  z-index: z-index('app-wrapper');
 
   #tab-resize-guide {
     $tabs-width: 50%;
@@ -115,7 +116,7 @@ header {
     position: fixed;
     right: $tabs-width;
     width: 2px;
-    z-index: 100;
+    z-index: z-index('center-divider');
   }
 
   #summary-wrapper {
@@ -189,6 +190,7 @@ header {
       cursor: pointer;
       position: fixed;
       top: calc(50vh - 3rem);
+      z-index: z-index('center-divider');
 
       svg {
         background-color: mui-color('white');
@@ -212,161 +214,7 @@ header {
       height: 100%;
       position: fixed;
       width: 13.250px;
-    }
-  }
-}
-
-/* summary chart */
-#summary,
-.summary-status {
-  text-align: center;
-}
-
-.summary-picker {
-  align-items: center;
-  display: flex;
-  flex-flow: row wrap;
-  justify-content: center;
-  margin-bottom: 2rem;
-
-  &__section {
-    align-items: inherit;
-    display: flex;
-    flex: 0 1 auto;
-    flex-flow: inherit;
-    justify-content: inherit;
-  }
-
-  &__checkboxes {
-    label {
-      margin-left: .5rem;
-    }
-
-    span {
-      margin-left: .25rem;
-    }
-  }
-
-  .mui-textfield,
-  .mui-select {
-    margin: .5rem;
-    padding-right: 10px;
-  }
-
-  label {
-    font-size: .75rem;
-    overflow-y: hidden;
-    text-align: left;
-    width: fit-content;
-  }
-
-  input,
-  select {
-    font-size: .75rem;
-  }
-}
-
-.summary-charts {
-  margin-bottom: 3rem;
-
-  &__title {
-    display: block;
-    font-weight: bold;
-    text-align: left;
-
-    &--index {
-      background: mui-color('black');
-      color: mui-color('white');
-      display: inline-block;
-      font-size: medium;
-      overflow: hidden;
-      padding: .1em .25em .1em .25em;
-      vertical-align: middle;
-    }
-
-    &--repo {
-      display: inline-block;
-      font-size: medium;
-      padding: .5rem;
-    }
-
-    &--contribution {
-      display: inline;
-    }
-  }
-
-  &__fileType--breakdown {
-    overflow-y: hidden;
-
-    &__legend {
-      display: inline;
-      float: left;
-    }
-  }
-}
-
-.summary-chart {
-  margin-bottom: 1rem;
-  overflow: auto;
-  position: relative;
-  text-align: left;
-
-  &__title {
-    clear: left;
-
-    & > * {
-      display: inline;
-      padding-right: .5rem;
-    }
-
-    &--index,
-    &--repo {
-      font-weight: bold;
-    }
-
-    &--index::after {
-      content: '.';
-      display: inline-block;
-    }
-
-    &--repo {
-      padding-right: .25rem;
-    }
-
-    &--button {
-      color: mui-color('grey');
-      cursor: pointer;
-      text-decoration: none;
-    }
-  }
-
-  &__ramp {
-    position: relative;
-
-    .overlay {
-      height: 100%;
-      position: absolute;
-      top: 0;
-
-      &.show {
-        background-color: rgba(mui-color('white'), .5);
-        border: 1px dashed mui-color('black');
-      }
-
-      &.edge {
-        border-right: 1px dashed mui-color('black');
-      }
-    }
-  }
-
-  &__contrib {
-    text-align: left;
-
-    &--bar {
-      background-color: mui-color('red');
-      float: left;
-      height: 4px;
-      margin-top: 2px;
+      z-index: z-index('center-divider');
     }
   }
 }
@@ -384,243 +232,119 @@ header {
     }
 
     .author {
+
+/* Ramp */
+.ramp {
+  $height: 3rem;
+  background-color: mui-color('blue', '50');
+  font-size: 100%;
+  height: $height;
+  position: relative;
+
+  &__slice {
+    border-left-color: rgba(0, 0, 0, 0);
+    border-left-style: solid;
+    display: block;
+    height: 0;
+    position: absolute;
+    width: 0;
+
+    &--color0 {
+      border-bottom: $height rgba(mui-color('orange'), .5) solid;
+    }
+
+    &--color1 {
+      border-bottom: $height rgba(mui-color('light-blue'), .5) solid;
+    }
+
+    &--color2 {
+      border-bottom: $height rgba(mui-color('green'), .5) solid;
+    }
+
+    &--color3 {
+      border-bottom: $height rgba(mui-color('indigo'), .5) solid;
+    }
+
+    &--color4 {
+      border-bottom: $height rgba(mui-color('pink'), .5) solid;
+    }
+  }
+}
+
+.zoom {
+  &__title {
+    &--chart {
       margin-left: .3rem;
     }
 
-    .period {
+    &--period {
       margin-left: 2rem;
     }
 
-    .contribution {
-      color: mui-color('red');
-
-      .fileType {
-        align-items: center;
-        display: flex;
-        margin-left: 3rem;
-        margin-top: 1.0rem;
-      }
-
-      .radio-button--search {
-        float: left;
-        margin: 1.75rem 2.0rem 0 0;
-      }
-
-      .radio-button--checkbox {
-        float: left;
-        margin: 0 2.0rem 0 -3rem;
-        vertical-align: middle;
-      }
-
-      #search {
-        margin-top: 1.25rem;
-        padding: .5rem 1.0rem .25rem 1.0rem;
-        width: 30%;
-      }
-
-      #submit-button {
-        background-color: mui-color('blue');
-        color: mui-color('white');
-        margin: 1.0rem 0 0 .25rem;
-        padding: .5rem 1.0rem .25rem 1.0rem;
-      }
-
-      .select {
-        font-weight: bold;
-      }
-
-      .loc {
-        font-weight: bolder;
-      }
-
-      .bloc {
-        color: mui-color('grey');
-      }
-
-      span.fileType {
-        span.bloc::after {
-          content: ', ';
-        }
-
-        span.bloc:last-child::after {
-          content: '';
-        }
-      }
-
-      .mui-checkbox--fileType {
-        vertical-align: middle;
-      }
-
-      .checkboxes {
-        label {
-          align-items: center;
-          display: inline-flex;
-          padding-right: 10px;
-        }
-
-        span {
-          margin-left: .25rem;
-        }
-      }
-
-      .sorting {
-        align-items: center;
-        display: flex;
-        margin-top: 1.0rem;
-
-        .mui-select {
-          cursor: pointer;
-          padding-right: 15px;
-        }
-
-        label {
-          overflow-y: hidden;
-        }
-
-        & > label {
-          margin-left: 10px;
-        }
-
-        span {
-          margin-left: .25rem;
-        }
-      }
-    }
-  }
-
-  .files {
-    clear: left;
-
-    .file {
-      pre {
-        display: none;
-      }
-
-      &.active {
-        pre {
-          display: grid;
-
-          .hljs {
-            // overwrite hljs library
-            display: inherit;
-            padding: 0;
-          }
-        }
-      }
+    &--granularity {
+      margin-top: .5rem;
     }
 
-    .title {
-      font-size: 1.25rem;
-      font-weight: bold;
-      margin-top: 1rem;
+    &--tags {
+      margin: .25rem 0 .25rem 0;
 
-      .path {
+      .tag {
         cursor: pointer;
       }
-
-      .loc {
-        color: mui-color('grey');
-      }
-
-      .button {
-        color: mui-color('grey');
-        font-size: 1.15rem;
-        margin-left: .5rem;
-        text-decoration: none;
-      }
-    }
-
-    .segment {
-      border-left: .25rem solid mui-color('green');
-
-      .code {
-        background-color: mui-color('green', '50');
-        padding-left: 1rem;
-      }
-
-      .line-number {
-        color: mui-color('grey');
-        float: left;
-        // Not allowing user to select text
-        -webkit-touch-callout: none; /* iOS Safari */
-        -webkit-user-select: none; /* Safari */
-        -khtml-user-select: none; /* Konqueror HTML */
-        -moz-user-select: none; /* Firefox */
-        -ms-user-select: none; /* Internet Explorer/Edge */
-        user-select: none; /* Non-prefixed version, currently supported by Chrome and Opera */
-        width: 2rem;
-
-        // overwrite all hljs colours
-        [class^='hljs'] {
-          color: mui-color('grey');
-        }
-      }
-
-      .line-content {
-        padding-left: 2rem;
-      }
-
-      &.untouched {
-        $grey: mui-color('grey', '400');
-        border-left: .25rem solid $grey;
-        height: 20px; /* height of a single line of code */
-        position: relative;
-
-        &.active {
-          height: auto;
-
-          .code {
-            background-color: mui-color('white');
-            display: inherit;
-          }
-
-          .closer {
-            .icon {
-              &.open {
-                display: none;
-              }
-
-              &.hide {
-                display: inherit;
-              }
-            }
-          }
-        }
-
-        .code {
-          display: none;
-        }
-
-        .closer {
-          cursor: pointer;
-          // custom margin for position of toggle icon
-          margin: .2rem 0 0 -.45rem;
-          position: absolute;
-
-          &.bottom {
-            //custom margin for position of toggle icon at the bottom of segment
-            margin: -1.05rem 0 0 -.45rem;
-          }
-
-          .icon {
-            background-color: mui-color('white');
-            color: mui-color('grey');
-            width: .75em;
-
-            &.open {
-              display: inherit;
-            }
-
-            &.hide {
-              display: none;
-            }
-          }
-        }
-      }
     }
   }
 
-  .empty {
-    text-align: center;
+  &__toggle-commit-message-body {
+    padding-top: 10px;
+  }
+
+  &__day,
+  &__title {
+    /* Tags in commits */
+    .tag {
+      background: mui-color('grey', '600');
+      border-radius: 5px;
+      color: mui-color('white');
+      display: inline;
+      margin-right: .25rem;
+      padding: 0 3px 0 3px;
+
+      .fa-tags {
+        width: .65rem;
+      }
+    }
+  }
+}
+
+/* Commit Message Body in Zoom Tab */
+.commit-message {
+  &.active {
+    .body {
+      background-color: mui-color('white');
+      border: 1px solid mui-color('grey', '700');
+      display: inherit;
+      margin: .25rem 0 .25rem 0;
+      overflow-x: auto;
+      padding: .4rem;
+      resize: none;
+      width: 100%;
+    }
+  }
+
+  .body {
+    display: none;
+  }
+
+  &--button {
+    color: mui-color('grey', '700');
+    padding-left: .5rem;
+
+    &:hover {
+      cursor: pointer;
+    }
+  }
+
+  pre {
+    margin: 0;
   }
 }

@@ -45,12 +45,19 @@ window.vZoom = {
       return `${window.getBaseLink(this.info.user.repoId)}/commit/${slice.hash}`;
     },
 
+    scrollToCommit(commit) {
+      const el = this.$el.getElementsByClassName(commit)[0];
+      if (el) {
+        el.scrollIntoView();
+      }
+    },
+
     toggleAllCommitMessagesBody(isActive) {
       this.showAllCommitMessageBody = isActive;
 
-      const toRename = this.showAllCommitMessageBody ? 'commit-message active' : 'commit-message';
+      const toRename = this.showAllCommitMessageBody ? 'commit-message message-body active' : 'commit-message message-body';
 
-      const commitMessageClasses = document.getElementsByClassName('commit-message');
+      const commitMessageClasses = document.getElementsByClassName('commit-message message-body');
       Array.from(commitMessageClasses).forEach((commitMessageClass) => {
         commitMessageClass.className = toRename;
       });
@@ -59,7 +66,7 @@ window.vZoom = {
     },
 
     updateExpandedCommitMessagesCount() {
-      this.expandedCommitMessagesCount = document.getElementsByClassName('commit-message active')
+      this.expandedCommitMessagesCount = document.getElementsByClassName('commit-message message-body active')
           .length;
     },
   },
