@@ -138,9 +138,9 @@ header {
       color: mui-color('red', '900');
       font-size: .75rem;
       margin-bottom: .9rem;
+      overflow: auto;
       padding: .9rem;
       text-align: left;
-      word-wrap: break-word;
 
       &__close-button {
         cursor: pointer;
