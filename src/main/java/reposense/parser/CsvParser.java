@@ -65,7 +65,7 @@ public abstract class CsvParser<T> {
      *
      * @throws IOException if there are errors accessing the given csv file.
      */
-    public List<T> parse() throws IOException {
+    public List<T> parse() throws IOException, InvalidCsvException {
         List<T> results = new ArrayList<>();
         Iterable<CSVRecord> records;
 
@@ -88,12 +88,10 @@ public abstract class CsvParser<T> {
             }
         } catch (IOException ioe) {
             throw new IOException(MESSAGE_UNABLE_TO_READ_CSV_FILE, ioe);
-        } catch (InvalidCsvException ice) {
-            throw new IOException(ice.getMessage(), ice);
         }
 
         if (results.isEmpty()) {
-            throw new IOException(String.format(MESSAGE_ZERO_VALID_CONFIGS, csvFilePath.getFileName()));
+            throw new InvalidCsvException(String.format(MESSAGE_ZERO_VALID_CONFIGS, csvFilePath.getFileName()));
         }
         return results;
     }
