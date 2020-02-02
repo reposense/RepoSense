@@ -71,7 +71,7 @@ public class RepoConfigParserTest {
     private static final List<String> SECOND_AUTHOR_GLOB_LIST = Arrays.asList("**.doc", "collated**");
 
     @Test
-    public void repoConfig_noSpecialCharacter_success() throws IOException, InvalidLocationException {
+    public void repoConfig_noSpecialCharacter_success() throws Exception {
         RepoConfigCsvParser repoConfigCsvParser = new RepoConfigCsvParser(REPO_CONFIG_NO_SPECIAL_CHARACTER_FILE);
         List<RepoConfiguration> configs = repoConfigCsvParser.parse();
 
@@ -95,7 +95,7 @@ public class RepoConfigParserTest {
     }
 
     @Test
-    public void merge_twoRepoConfigs_success() throws ParseException, IOException, HelpScreenException {
+    public void merge_twoRepoConfigs_success() throws Exception {
         FIRST_AUTHOR.setIgnoreGlobList(FIRST_AUTHOR_GLOB_LIST);
         SECOND_AUTHOR.setIgnoreGlobList(SECOND_AUTHOR_GLOB_LIST);
         SECOND_AUTHOR.setAuthorAliases(SECOND_AUTHOR_ALIASES);
@@ -134,7 +134,7 @@ public class RepoConfigParserTest {
     }
 
     @Test
-    public void merge_emptyLocation_success() throws ParseException, IOException, HelpScreenException {
+    public void merge_emptyLocation_success() throws Exception {
         FIRST_AUTHOR.setIgnoreGlobList(FIRST_AUTHOR_GLOB_LIST);
         SECOND_AUTHOR.setIgnoreGlobList(REPO_LEVEL_GLOB_LIST);
         SECOND_AUTHOR.setAuthorAliases(SECOND_AUTHOR_ALIASES);
@@ -182,7 +182,7 @@ public class RepoConfigParserTest {
     }
 
     @Test
-    public void repoConfig_defaultBranch_success() throws ParseException, IOException, HelpScreenException {
+    public void repoConfig_defaultBranch_success() throws Exception {
         RepoConfiguration expectedConfig = new RepoConfiguration(new RepoLocation(TEST_REPO_BETA_LOCATION),
                 RepoConfiguration.DEFAULT_BRANCH);
 
@@ -201,7 +201,7 @@ public class RepoConfigParserTest {
     }
 
     @Test
-    public void repoConfig_overrideKeyword_success() throws ParseException, IOException, HelpScreenException {
+    public void repoConfig_overrideKeyword_success() throws Exception {
         RepoConfigCsvParser repoConfigCsvParser = new RepoConfigCsvParser(REPO_CONFIG_OVERRIDE_KEYWORD_FILE);
         List<RepoConfiguration> configs = repoConfigCsvParser.parse();
         RepoConfiguration config = configs.get(0);
@@ -220,7 +220,7 @@ public class RepoConfigParserTest {
     }
 
     @Test
-    public void repoConfig_redundantLines_success() throws ParseException, IOException {
+    public void repoConfig_redundantLines_success() throws Exception {
         RepoConfigCsvParser repoConfigCsvParser = new RepoConfigCsvParser(REPO_CONFIG_REDUNDANT_LINES_FILE);
         List<RepoConfiguration> configs = repoConfigCsvParser.parse();
 
@@ -239,13 +239,13 @@ public class RepoConfigParserTest {
     }
 
     @Test (expected = IOException.class)
-    public void repoConfig_invalidHeaderSize_throwsIoException() throws IOException {
+    public void repoConfig_invalidHeaderSize_throwsIoException() throws Exception {
         RepoConfigCsvParser repoConfigCsvParser = new RepoConfigCsvParser(REPO_CONFIG_INVALID_HEADER_SIZE_FILE);
         repoConfigCsvParser.parse();
     }
 
     @Test (expected = IOException.class)
-    public void repoConfig_zeroValidRecords_throwsIoException() throws IOException {
+    public void repoConfig_zeroValidRecords_throwsIoException() throws Exception {
         RepoConfigCsvParser repoConfigCsvParser = new RepoConfigCsvParser(REPO_CONFIG_ZERO_VALID_RECORDS);
         repoConfigCsvParser.parse();
     }
