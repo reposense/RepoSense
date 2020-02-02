@@ -83,7 +83,7 @@ public class AuthorConfigParserTest {
             Arrays.asList("nbr@example.com", "nbriannl@test.net", "nbriannl@users.noreply.github.com");
 
     @Test
-    public void authorConfig_noSpecialCharacter_success() throws IOException, InvalidLocationException {
+    public void authorConfig_noSpecialCharacter_success() throws Exception {
         AuthorConfigCsvParser authorConfigCsvParser =
                 new AuthorConfigCsvParser(AUTHOR_CONFIG_NO_SPECIAL_CHARACTER_FILE);
         List<AuthorConfiguration> configs = authorConfigCsvParser.parse();
@@ -99,7 +99,7 @@ public class AuthorConfigParserTest {
     }
 
     @Test
-    public void authorConfig_emptyLocation_success() throws ParseException, IOException {
+    public void authorConfig_emptyLocation_success() throws Exception {
         AuthorConfiguration expectedConfig = new AuthorConfiguration(new RepoLocation(""));
 
         AuthorConfigCsvParser authorConfigCsvParser = new AuthorConfigCsvParser(AUTHOR_CONFIG_EMPTY_LOCATION_FILE);
@@ -113,13 +113,13 @@ public class AuthorConfigParserTest {
     }
 
     @Test (expected = IOException.class)
-    public void authorConfig_emptyConfig_throwsIoException() throws IOException {
+    public void authorConfig_emptyConfig_throwsIoException() throws Exception {
         AuthorConfigCsvParser authorConfigCsvParser = new AuthorConfigCsvParser(AUTHOR_CONFIG_EMPTY_CONFIG_FILE);
         authorConfigCsvParser.parse();
     }
 
     @Test
-    public void authorConfig_specialCharacter_success() throws IOException, InvalidLocationException {
+    public void authorConfig_specialCharacter_success() throws Exception {
         AuthorConfigCsvParser authorConfigCsvParser = new AuthorConfigCsvParser(AUTHOR_CONFIG_SPECIAL_CHARACTER_FILE);
         List<AuthorConfiguration> configs = authorConfigCsvParser.parse();
 
@@ -134,7 +134,7 @@ public class AuthorConfigParserTest {
     }
 
     @Test
-    public void authorConfig_multipleEmails_success() throws IOException {
+    public void authorConfig_multipleEmails_success() throws Exception {
         AuthorConfigCsvParser authorConfigCsvParser = new AuthorConfigCsvParser(AUTHOR_CONFIG_MULTIPLE_EMAILS_FILE);
         List<AuthorConfiguration> configs = authorConfigCsvParser.parse();
 
@@ -148,7 +148,7 @@ public class AuthorConfigParserTest {
     }
 
     @Test
-    public void authorConfig_invalidLocation_success() throws IOException {
+    public void authorConfig_invalidLocation_success() throws Exception {
         AuthorConfigCsvParser authorConfigCsvParser = new AuthorConfigCsvParser(AUTHOR_CONFIG_INVALID_LOCATION);
         List<AuthorConfiguration> configs = authorConfigCsvParser.parse();
 
@@ -160,13 +160,13 @@ public class AuthorConfigParserTest {
     }
 
     @Test (expected = IOException.class)
-    public void authorConfig_invalidHeaderSize_throwsIoException() throws IOException {
+    public void authorConfig_invalidHeaderSize_throwsIoException() throws Exception {
         AuthorConfigCsvParser authorConfigCsvParser = new AuthorConfigCsvParser(AUTHOR_CONFIG_INVALID_HEADER_SIZE);
         authorConfigCsvParser.parse();
     }
 
     @Test
-    public void parse_multipleColumnsWithCommasAndDoubleQuotes_success() throws IOException, InvalidLocationException {
+    public void parse_multipleColumnsWithCommasAndDoubleQuotes_success() throws Exception {
         AuthorConfigCsvParser authorConfigCsvParser =
                 new AuthorConfigCsvParser(AUTHOR_CONFIG_COMMAS_AND_DOUBLEQUOTES_FILE);
         List<AuthorConfiguration> configs = authorConfigCsvParser.parse();
