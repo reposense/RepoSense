@@ -301,6 +301,10 @@ window.vSummary = {
     },
 
     // model functions //
+    resetFilterSearch() {
+      this.filterSearch = '';
+      this.getFiltered();
+    },
     updateFilterSearch(evt) {
       this.filterSearch = evt.target.value;
       this.getFiltered();
@@ -346,10 +350,10 @@ window.vSummary = {
       if (hash.mergegroup) {
         this.isMergeGroup = convertBool(hash.mergegroup);
       }
-      if (hash.since) {
+      if (hash.since && dateFormatRegex.test(hash.since)) {
         this.tmpFilterSinceDate = hash.since;
       }
-      if (hash.until) {
+      if (hash.until && dateFormatRegex.test(hash.until)) {
         this.tmpFilterUntilDate = hash.until;
       }
 
