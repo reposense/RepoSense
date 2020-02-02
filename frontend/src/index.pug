@@ -8,6 +8,8 @@ html
     link(rel="stylesheet", href="https://cdn.jsdelivr.net/npm/highlight.js@9.14/styles/color-brewer.min.css")
     link(rel="stylesheet", href="https://cdn.jsdelivr.net/npm/vue-loading-spinner@1.0/dist/vue-loading-spinner.css")
     link(rel="stylesheet", href="static/css/style.css")
+    link(rel="stylesheet", href="static/css/v_summary.css")
+    link(rel="stylesheet", href="static/css/v_authorship.css")
 
     script(src="https://use.fontawesome.com/releases/v5.0.13/js/all.js", defer=True)
     script(src="https://cdn.jsdelivr.net/npm/vue@2.5/dist/vue.js")
@@ -86,9 +88,10 @@ html
       #summary.wrapper
         form.summary-picker.mui-form--inline(onsubmit="return false;")
           .summary-picker__section
-            .mui-textfield
+            .mui-textfield.search_box
               input.summary-picker__search(type="text", v-on:change="updateFilterSearch", v-model="filterSearch")
               label search
+              button.mui-btn.mui-btn--raised(type="button", v-on:click.prevent="resetFilterSearch") x
             .mui-select.grouping
               select(v-model="filterGroupSelection")
                 option(value="groupByNone") None
@@ -221,13 +224,13 @@ html
                 a(
                   title="click to view breakdown of commits",
                   onclick="deactivateAllOverlays()",
-                  v-on:click="openTabZoom(user, filterSinceDate, filterUntilDate)"
+                  v-on:click="openTabZoom(user, filterSinceDate, filterUntilDate, repo, i)"
                 )
                   i.summary-chart__title--button.fas.fa-list-ul
                 .summary-chart__title--percentile.mini-font(v-if="filterGroupSelection === 'groupByNone'") {{ getPercentile(i) }} %
               .summary-chart__ramp(
                 onclick="viewClick(event)",
-                v-on:click="openTabZoomSubrange(user)"
+                v-on:click="openTabZoomSubrange(user, repo, i)"
               )
                 v_ramp(
                     v-bind:groupby="filterGroupSelection",
@@ -244,7 +247,7 @@ html
                   .summary-chart__contrib(
                       v-for="(widths, fileType) in getFileTypeContributionBars(user.fileTypeContribution)"
                   )
-                    .summary-chart__contrib--bar--fileType(
+                    .summary-chart__contrib--bar(
                         v-for="width in widths",
                         v-bind:style="{ width: width + '%',\
                             'background-color': contributionBarFileTypeColors[fileType] }",
