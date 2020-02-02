@@ -26,6 +26,10 @@ public class FileResult {
         this.binaryFileAuthors = binaryFileAuthors;
     }
 
+    public Set<Author> getBinaryFileAuthors() {
+        return binaryFileAuthors;
+    }
+
     public static FileResult createNonBinaryFileResult(String path, FileType fileType, ArrayList<LineInfo> lines,
                                                        HashMap<Author, Integer> authorContributionMap) {
         return new FileResult(path, fileType, lines, authorContributionMap, false, new HashSet<>());

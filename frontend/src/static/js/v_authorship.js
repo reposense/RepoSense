@@ -193,12 +193,9 @@ window.vAuthorship = {
         }
       });
 
-      console.log(res);
-
       this.totalLineCount = totalLineCount;
       this.totalBlankLineCount = totalBlankLineCount;
       res.sort((a, b) => b.lineCount - a.lineCount);
-      console.log(this.filesLinesObj)
 
       Object.keys(this.filesLinesObj).forEach((file) => {
         if (this.filesLinesObj[file] !== 0) {

@@ -62,7 +62,6 @@ public class GitLog {
         command += GitUtil.convertToGitDateRangeArgs(config.getSinceDate(), config.getUntilDate());
         command += " ";
         command += filePath;
-        System.out.println(command);
 
         return runCommand(rootPath, command);
     }

@@ -110,23 +110,20 @@ public class FileInfoAnalyzer {
      * Generates and returns a {@code FileResult} with the authorship results from binary {@code fileInfo} consolidated.
      */
     private static FileResult generateBinaryFileResult(RepoConfiguration config, BinaryFileInfo binaryFileInfo) {
-        ArrayList<LineInfo> lineInfos = new ArrayList<>();
         HashMap<Author, Integer> authorContributionMap = new HashMap<>();
-        String authorString = getBinaryFileAuthors(config, binaryFileInfo.getPath());
-        Set<Author> authors = Arrays.stream(authorString.split("\n")).map(x -> {
-            if(x.isEmpty()) {
-                return UNKNOWN_AUTHOR;
+        String authorsString = getBinaryFileAuthors(config, binaryFileInfo.getPath());
+        Set<Author> authors = new HashSet<>();
+        for (String authorString : authorsString.split("\n")) {
+            if(authorString.isEmpty()) { // Empty string, means no author at all
+                break;
             }
-            String[] arr = x.split("\t");
+            String[] arr = authorString.split("\t");
             String authorName = arr[0];
             String authorEmail = arr[1];
-            return config.getAuthor(authorName, authorEmail);
-        }).collect(Collectors.toSet());
-        LineInfo info = new LineInfo(1, "Binary diff not shown");
-        for(Author author : authors) {
-            // info.setAuthor(author);
-            // lineInfos.add(info);
+            authors.add(config.getAuthor(authorName, authorEmail));
+        }
 
+        for(Author author : authors) {
             authorContributionMap.put(author, 1);
         }
 
