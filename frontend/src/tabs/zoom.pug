@@ -15,7 +15,7 @@
       span(v-else) {{ filteredUser.displayName }} ({{ filteredUser.name }})
     .zoom__title--period.medium-font
       span &#8627; &nbsp;
-      span {{ info.sinceDate }} to {{ info.untilDate }} &nbsp;
+      span {{ info.zoomSince }} to {{ info.zoomUntil }} &nbsp;
       a(v-on:click="openSummary") [Show ramp chart for this period]
     .zoom__title--granularity.mini-font granularity: one ramp per {{ info.filterTimeFrame }}
     .zoom__title--tags

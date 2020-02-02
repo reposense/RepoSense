@@ -415,7 +415,7 @@ window.vSummary = {
               .reduce((curr, bool) => curr || bool, false);
 
           if (!this.filterSearch || toDisplay) {
-            this.getUserCommits(user);
+            this.getUserCommits(user, this.filterSinceDate, this.filterUntilDate);
             if (this.filterTimeFrame === 'week') {
               this.splitCommitsWeek(user, this.filterSinceDate, this.filterUntilDate);
             }
@@ -574,7 +574,7 @@ window.vSummary = {
         commit.commitResults.forEach((commitResult) => week.commitResults.push(commitResult));
       }
     },
-    getUserCommits(user) {
+    getUserCommits(user, sinceDate, untilDate) {
       user.commits = [];
       const userFirst = user.dailyCommits[0];
       const userLast = user.dailyCommits[user.dailyCommits.length - 1];
@@ -583,12 +583,10 @@ window.vSummary = {
         return null;
       }
 
-      let sinceDate = this.filterSinceDate;
       if (!sinceDate || sinceDate === 'undefined') {
         sinceDate = userFirst.date;
       }
 
-      let untilDate = this.filterUntilDate;
       if (!untilDate) {
         untilDate = userLast.date;
       }
@@ -706,6 +704,9 @@ window.vSummary = {
         sortingWithinOption, isSortingDsc, isSortingWithinDsc,
       } = this;
 
+      // deep clone so that changes in user within zoom tab won't affect summary
+      user = JSON.parse(JSON.stringify(user));
+
       this.$emit('view-zoom', {
         filterGroupSelection,
         filterTimeFrame,
@@ -820,7 +821,7 @@ window.vSummary = {
       groups.forEach((repo) => {
         const res = [];
         repo.users.forEach((user) => {
-          this.getUserCommits(user);
+          this.getUserCommits(user, zoomSince, zoomUntil);
           if (filterTimeFrame === 'week') {
             this.splitCommitsWeek(user, zoomSince, zoomUntil);
           }

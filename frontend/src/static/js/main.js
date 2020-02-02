@@ -261,7 +261,7 @@ window.app = new window.Vue({
         isSortingDsc: hash.isZoomSortingDsc === 'true',
         isSortingWithinDsc: hash.isZoomSortingWithinDsc === 'true',
       };
-      const tabInfoLength = Object.values(info).filter((x) => x != null).length;
+      const tabInfoLength = Object.values(info).filter((x) => x !== null).length;
       if (Object.keys(info).length === tabInfoLength) {
         this.updateTabZoom(info);
       } else if (hash.tabOpen === 'false' || tabInfoLength > 2) {
