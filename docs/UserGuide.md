@@ -120,11 +120,11 @@ The `Tool Bar` at the top provides a set of configuration options that control t
 * `Sort groups by`: sorting criteria for the main group
   * `Group title` : groups will be sorted by the title of the group (in bold text) in alphabetical order.
   * `Contribution` : groups will be sorted by the combined contributions within a group, in the order of number of lines added
-  * `Variance` : groups will be sorted by the average of the squared differences from the average number of lines of code contributed per day among all authors involved. Detailed definition of variance is located [here](https://en.wikipedia.org/wiki/Variance).
+  * `Variance` : groups will be sorted by how far the daily contributions are spread out from their average value among all authors involved. Detailed definition of variance is located [here](https://en.wikipedia.org/wiki/Variance).
 * `Sort within groups by`: sorting criteria within each group
   * `Title` : each group will be sorted internally by it's title in alphabetical order.
   * `Contribution` : each group will be sorted internally by individual contributions in the order of number of lines added
-  * `Variance` : each group will be sorted internally by the average of the squared differences from the average number of lines of code contributed per day by each author into a particular repo. Detailed definition of variance is located [here](https://en.wikipedia.org/wiki/Variance).
+  * `Variance` : each group will be sorted internally by how far the daily contributions are spread out from their average value by each author into a particular repo. Detailed definition of variance is located [here](https://en.wikipedia.org/wiki/Variance).
 * `Granularity` : the period of time for which commits are aggregated in the Ramp Chart.
     * `Commit`: each commit made is shown as one ramp
     * `Day`: commits within a day (commits made within 00:00 to 23:59) are shown as one ramp
@@ -384,8 +384,8 @@ The simplest way to analyze multiple repos in one go is to use the `--repos` par
 
 Alternatively, you can use csv config files to further customize the analysis:
 * `repo-config.csv`: Add a new row, to analyze a new repo ([example](repo-config.csv)).
-* `author-config.csv`: Add a new row, to analyze a specific author in the repo you want to analyze ([example](author-config.csv)).
-* `group-config.csv`: Add a new row, to customize the grouping of the files in the specified repo ([example](group-config.csv)).
+* `author-config.csv`: Add a new row, to specific the authors to analyze for the target repo(s) ([example](author-config.csv)).
+* `group-config.csv`: Add a new row, to customize the grouping of files for the target repo(s) ([example](group-config.csv)).
 
 ## Quickstart RepoSense with Netlify
 
