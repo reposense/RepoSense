@@ -197,9 +197,9 @@ html
                       v-bind:style="{ 'color' : contributionBarFileTypeColors[fileType] }"
                   )
                   span &nbsp; {{ fileType }} &nbsp;
-            .summary-chart(v-for="(user, i) in repo")
+            .summary-chart(v-for="(user, j) in repo")
               .summary-chart__title(v-if="!isMergeGroup")
-                .summary-chart__title--index {{ i+1 }}
+                .summary-chart__title--index {{ j+1 }}
                 .summary-chart__title--repo(v-if="filterGroupSelection === 'groupByNone'") {{ user.repoName }}
                 .summary-chart__title--author-repo(v-if="filterGroupSelection === 'groupByAuthors'") {{ user.repoName }}
                 .summary-chart__title--name(
@@ -210,23 +210,23 @@ html
                 a(
                   title="click to view author's code",
                   onclick="deactivateAllOverlays()",
-                  v-on:click="openTabAuthorship(user, repo, i)"
+                  v-on:click="openTabAuthorship(user, repo, j)"
                 )
                   i.summary-chart__title--button.fas.fa-code
                 a(
-                  v-bind:href="getRepoLink(repo[i])", target="_blank",
+                  v-bind:href="getRepoLink(repo[j])", target="_blank",
                   title="click to view author's repo"
                 )
                   i.summary-chart__title--button.fab.fa-github
                 a(
                   title="click to view breakdown of commits",
                   onclick="deactivateAllOverlays()",
-                  v-on:click="openTabZoom(user, filterSinceDate, filterUntilDate, repo, i)"
+                  v-on:click="openTabZoom(user, i, j, filterSinceDate, filterUntilDate)"
                 )
                   i.summary-chart__title--button.fas.fa-list-ul
               .summary-chart__ramp(
                 onclick="viewClick(event)",
-                v-on:click="openTabZoomSubrange(user, repo, i)"
+                v-on:click="openTabZoomSubrange(user, i, j)"
               )
                 v_ramp(
                     v-bind:groupby="filterGroupSelection",

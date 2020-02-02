@@ -3,7 +3,6 @@ window.vZoom = {
   template: window.$('v_zoom').innerHTML,
   data() {
     return {
-      filterTimeFrame: window.hashParams.timeframe,
       showAllCommitMessageBody: true,
       expandedCommitMessagesCount: this.totalCommitMessageBodyCount,
     };
@@ -13,7 +12,7 @@ window.vZoom = {
       const { user } = this.info;
       const filteredUser = Object.assign({}, user);
 
-      const date = this.filterTimeFrame === 'week' ? 'endDate' : 'date';
+      const date = this.info.filterTimeFrame === 'week' ? 'endDate' : 'date';
       filteredUser.commits = user.commits.filter(
           (commit) => commit[date] >= this.info.zoomSince && commit[date] <= this.info.zoomUntil,
       );
@@ -59,27 +58,30 @@ window.vZoom = {
     },
 
     restoreZoomTab() {
-      const { info } = this;
-      const { users } = window.REPOS[info.tabRepo];
-
-      const selectedUser = Object.assign({},
-          users.filter((user) => user.name === info.tabAuthor)[0]);
-
-      this.$root.$emit('restoreCommits', selectedUser); // restore selected user's commits from v_summary
-      this.info.user = selectedUser;
+      // restore selected user's commits from v_summary
+      this.$root.$emit('restoreCommits', this.info);
     },
 
     setInfoHash() {
       const { addHash, encodeHash } = window;
       const {
-        user, avgCommitSize, zoomSince, zoomUntil,
+        avgCommitSize, zoomSince, zoomUntil, filterGroupSelection, filterTimeFrame,
+        isMergeGroup, repoIndex, userIndex, sortingOption, sortingWithinOption, isSortingDsc,
+        isSortingWithinDsc,
       } = this.info;
 
-      addHash('tabAuthor', user.name);
-      addHash('tabRepo', user.repoId);
+      addHash('repoIndex', repoIndex);
+      addHash('userIndex', userIndex);
       addHash('avgCommitSize', avgCommitSize);
       addHash('zoomSince', zoomSince);
       addHash('zoomUntil', zoomUntil);
+      addHash('isZoomMergeGroup', isMergeGroup);
+      addHash('zoomFilterTimeFrame', filterTimeFrame);
+      addHash('zoomFilterGroupSelection', filterGroupSelection);
+      addHash('zoomSortingOption', sortingOption);
+      addHash('zoomSortingWithinOption', sortingWithinOption);
+      addHash('isZoomSortingDsc', isSortingDsc);
+      addHash('isZoomSortingWithinDsc', isSortingWithinDsc);
       encodeHash();
     },
 

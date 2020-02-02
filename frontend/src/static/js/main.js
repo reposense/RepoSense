@@ -188,24 +188,38 @@ window.app = new window.Vue({
     deactivateTab() {
       this.isTabActive = false;
       window.addHash('tabOpen', this.isTabActive);
-      window.removeHash('tabAuthor');
-      window.removeHash('tabRepo');
       window.removeHash('tabType');
-      window.removeHash('avgCommitSize');
-      window.removeHash('zoomSince');
-      window.removeHash('zoomUntil');
+      this.removeZoomHashes();
       window.encodeHash();
     },
 
-    updateTabAuthorship(obj) {
-      // remove hashes from zoom tab if available
+    removeAuthorshipHashes() {
+      window.removeHash('tabAuthor');
+      window.removeHash('tabRepo');
+    },
+
+    removeZoomHashes() {
       window.removeHash('zoomSince');
       window.removeHash('zoomUntil');
+      window.removeHash('repoIndex');
+      window.removeHash('userIndex');
       window.removeHash('avgCommitSize');
+      window.removeHash('zoomFilterGroupSelection');
+      window.removeHash('zoomFilterTimeFrame');
+      window.removeHash('isZoomMergeGroup');
+      window.removeHash('zoomSortingOption');
+      window.removeHash('zoomSortingWithinOption');
+      window.removeHash('isZoomSortingDsc');
+      window.removeHash('isZoomSortingWithinDsc');
+    },
+
+    updateTabAuthorship(obj) {
+      this.removeZoomHashes();
       this.tabInfo.tabAuthorship = Object.assign({}, obj);
       this.activateTab('authorship');
     },
     updateTabZoom(obj) {
+      this.removeAuthorshipHashes();
       this.tabInfo.tabZoom = Object.assign({}, obj);
       this.activateTab('zoom');
     },
@@ -234,13 +248,20 @@ window.app = new window.Vue({
     renderZoomTabHash() {
       const hash = window.hashParams;
       const info = {
-        tabAuthor: hash.tabAuthor,
-        tabRepo: hash.tabRepo,
         avgCommitSize: hash.avgCommitSize,
         zoomSince: hash.zoomSince,
         zoomUntil: hash.zoomUntil,
+        repoIndex: hash.repoIndex,
+        userIndex: hash.userIndex,
+        filterGroupSelection: hash.zoomFilterGroupSelection,
+        filterTimeFrame: hash.zoomFilterTimeFrame,
+        isMergeGroup: hash.isZoomMergeGroup === 'true',
+        sortingOption: hash.zoomSortingOption,
+        sortingWithinOption: hash.zoomSortingWithinOption,
+        isSortingDsc: hash.isZoomSortingDsc === 'true',
+        isSortingWithinDsc: hash.isZoomSortingWithinDsc === 'true',
       };
-      const tabInfoLength = Object.values(info).filter((x) => x).length;
+      const tabInfoLength = Object.values(info).filter((x) => x != null).length;
       if (Object.keys(info).length === tabInfoLength) {
         this.updateTabZoom(info);
       } else if (hash.tabOpen === 'false' || tabInfoLength > 2) {
