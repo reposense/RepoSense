@@ -40,7 +40,7 @@
     button(v-else v-on:click="toggleAllCommitMessagesBody(false)") hide all commit messages body
 
   template(v-for="day in filteredUser.commits")
-    .zoom__day(v-if="day.insertions > 0")
+    .zoom__day
       h3(v-if="filterTimeFrame === 'week'") Week of {{ day.date }}
       h3(v-else) {{ day.date }}
       ul
