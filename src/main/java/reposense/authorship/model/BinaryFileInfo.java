@@ -1,9 +1,5 @@
 package reposense.authorship.model;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import reposense.model.Author;
 import reposense.model.FileType;
 import reposense.util.SystemUtil;
 

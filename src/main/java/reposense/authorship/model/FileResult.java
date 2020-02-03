@@ -1,6 +1,10 @@
 package reposense.authorship.model;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 import reposense.model.Author;
 import reposense.model.FileType;

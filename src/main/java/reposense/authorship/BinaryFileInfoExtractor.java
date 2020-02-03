@@ -1,5 +1,15 @@
 package reposense.authorship;
 
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+import java.util.logging.Logger;
+import java.util.stream.Collectors;
+
 import reposense.authorship.model.BinaryFileInfo;
 import reposense.git.GitCheckout;
 import reposense.git.GitDiff;
@@ -7,12 +17,6 @@ import reposense.git.exception.CommitNotFoundException;
 import reposense.model.RepoConfiguration;
 import reposense.system.LogsManager;
 import reposense.util.FileUtil;
-
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.util.*;
-import java.util.logging.Logger;
-import java.util.stream.Collectors;
 
 /**
  * Extracts out all the relevant {@code BinaryFileInfo} from the repository.

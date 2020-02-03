@@ -1,5 +1,7 @@
 package reposense.authorship;
 
+import static reposense.git.GitLog.getBinaryFileAuthors;
+
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
@@ -9,10 +11,12 @@ import java.nio.file.PathMatcher;
 import java.nio.file.Paths;
 import java.time.ZoneId;
 import java.time.ZoneOffset;
-import java.util.*;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Set;
+import java.util.TimeZone;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import java.util.stream.Collectors;
 
 import reposense.authorship.analyzer.AnnotatorAnalyzer;
 import reposense.authorship.model.BinaryFileInfo;
@@ -24,9 +28,6 @@ import reposense.model.Author;
 import reposense.model.CommitHash;
 import reposense.model.RepoConfiguration;
 import reposense.system.LogsManager;
-
-import static reposense.git.GitLog.getBinaryFileAuthors;
-import static reposense.model.Author.UNKNOWN_AUTHOR;
 
 /**
  * Analyzes the target and information given in the {@code FileInfo}.
@@ -154,7 +155,7 @@ public class FileInfoAnalyzer {
             if (!fileInfo.isFileLineTracked(lineCount / 5) || isAuthorIgnoringFile(author, filePath)
                     || CommitHash.isInsideCommitList(commitHash, config.getIgnoreCommitList())
                     || commitDateInMs < sinceDateInMs || commitDateInMs > untilDateInMs) {
-                author = UNKNOWN_AUTHOR;
+                author = Author.UNKNOWN_AUTHOR;
             }
 
             fileInfo.setLineAuthor(lineCount / 5, author);
