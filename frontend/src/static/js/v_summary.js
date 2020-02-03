@@ -100,7 +100,6 @@ function dateRounding(datestr, roundDown) {
   return getDateStr(datems);
 }
 
-
 window.vSummary = {
   props: ['repos', 'errorMessages'],
   template: window.$('v_summary').innerHTML,
