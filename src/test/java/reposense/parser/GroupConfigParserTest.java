@@ -1,7 +1,6 @@
 package reposense.parser;
 
 import java.io.File;
-import java.io.IOException;
 import java.nio.file.Path;
 import java.util.Arrays;
 import java.util.Collections;
@@ -75,8 +74,8 @@ public class GroupConfigParserTest {
         Assert.assertEquals(TEST_REPO_DELTA_GROUPS, actualDeltaConfig.getGroupsList());
     }
 
-    @Test (expected = IOException.class)
-    public void groupConfig_invalidHeaderSize_throwsIoException() throws Exception {
+    @Test (expected = InvalidCsvException.class)
+    public void groupConfig_invalidHeaderSize_throwsInvalidCsvException() throws Exception {
         GroupConfigCsvParser groupConfigCsvParser = new GroupConfigCsvParser(GROUP_CONFIG_INVALID_HEADER_SIZE_FILE);
         groupConfigCsvParser.parse();
     }
