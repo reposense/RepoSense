@@ -83,4 +83,9 @@ public class CommitResult {
                 && insertions == otherCommitResult.insertions
                 && deletions == otherCommitResult.deletions;
     }
+
+    @Override
+    public int hashCode() {
+        return hash.hashCode();
+    }
 }
