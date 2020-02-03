@@ -313,6 +313,21 @@ header {
       padding: .4rem;
       resize: none;
       width: 100%;
+
+      pre {
+        position: relative;
+        .dashed-border {
+          border-right: mui-color('black');
+          border-right-style: dashed;
+          border-width: 1px;
+          height: 100%;
+          overflow: no-display;
+          pointer-events: none;
+          position: absolute;
+          top: 0;
+          width: 72ch;
+        }
+      }
     }
   }
 
