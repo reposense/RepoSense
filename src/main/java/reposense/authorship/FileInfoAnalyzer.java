@@ -19,7 +19,6 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import reposense.authorship.analyzer.AnnotatorAnalyzer;
-import reposense.authorship.model.BinaryFileInfo;
 import reposense.authorship.model.FileInfo;
 import reposense.authorship.model.FileResult;
 import reposense.authorship.model.LineInfo;
@@ -82,17 +81,17 @@ public class FileInfoAnalyzer {
      * Returns null if the file contains the reused tag, the file is missing from the local system, or none of the
      * {@code Author} specified in {@code config} contributed to the file in {@code fileInfo}.
      */
-    public static FileResult analyzeBinaryFile(RepoConfiguration config, BinaryFileInfo binaryFileInfo) {
-        String relativePath = binaryFileInfo.getPath();
+    public static FileResult analyzeBinaryFile(RepoConfiguration config, FileInfo fileInfo) {
+        String relativePath = fileInfo.getPath();
 
         if (Files.notExists(Paths.get(config.getRepoRoot(), relativePath))) {
             logger.severe(String.format(MESSAGE_FILE_MISSING, relativePath));
             return null;
         }
 
-        binaryFileInfo.setFileType(config.getFileType(binaryFileInfo.getPath()));
+        fileInfo.setFileType(config.getFileType(fileInfo.getPath()));
 
-        return generateBinaryFileResult(config, binaryFileInfo);
+        return generateBinaryFileResult(config, fileInfo);
     }
 
     /**
@@ -110,8 +109,8 @@ public class FileInfoAnalyzer {
     /**
      * Generates and returns a {@code FileResult} with the authorship results from binary {@code fileInfo} consolidated.
      */
-    private static FileResult generateBinaryFileResult(RepoConfiguration config, BinaryFileInfo binaryFileInfo) {
-        String authorsString = getBinaryFileAuthors(config, binaryFileInfo.getPath());
+    private static FileResult generateBinaryFileResult(RepoConfiguration config, FileInfo fileInfo) {
+        String authorsString = getBinaryFileAuthors(config, fileInfo.getPath());
         Set<Author> authors = new HashSet<>();
         for (String authorString : authorsString.split("\n")) {
             if(authorString.isEmpty()) { // Empty string, means no author at all
@@ -123,7 +122,7 @@ public class FileInfoAnalyzer {
             authors.add(config.getAuthor(authorName, authorEmail));
         }
 
-        return FileResult.createBinaryFileResult(binaryFileInfo.getPath(), binaryFileInfo.getFileType(), authors);
+        return FileResult.createBinaryFileResult(fileInfo.getPath(), fileInfo.getFileType(), authors);
     }
 
     /**
