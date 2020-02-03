@@ -75,9 +75,9 @@ public class FileInfoAnalyzer {
     }
 
     /**
-     * Analyzes the lines of the file, given in the {@code fileInfo}, that has changed in the time period provided
+     * Analyzes the binary file, given in the {@code fileInfo}, that has changed in the time period provided
      * by {@code config}.
-     * Returns null if the file contains the reused tag, the file is missing from the local system, or none of the
+     * Returns null if the file is missing from the local system, or none of the
      * {@code Author} specified in {@code config} contributed to the file in {@code fileInfo}.
      */
     public static FileResult analyzeBinaryFile(RepoConfiguration config, FileInfo fileInfo) {
@@ -107,13 +107,14 @@ public class FileInfoAnalyzer {
 
     /**
      * Generates and returns a {@code FileResult} with the authorship results from binary {@code fileInfo} consolidated.
+     * Returns null if none of the {@code Author} specified in {@code config} contributed to the file in {@code fileInfo}.
      */
     private static FileResult generateBinaryFileResult(RepoConfiguration config, FileInfo fileInfo) {
         String authorsString = GitLog.getBinaryFileAuthors(config, fileInfo.getPath());
         Set<Author> authors = new HashSet<>();
         for (String authorString : authorsString.split("\n")) {
             if(authorString.isEmpty()) { // Empty string, means no author at all
-                break;
+                return null;
             }
             String[] arr = authorString.split("\t");
             String authorName = arr[0];
