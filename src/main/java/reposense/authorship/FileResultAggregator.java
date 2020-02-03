@@ -22,7 +22,6 @@ public class FileResultAggregator {
         for (FileResult fileResult : fileResults) {
             if (fileResult.isBinary()) {
                 fileResult.getBinaryFileAuthors()
-
                         .forEach(author -> authorContributionSummary.addAuthorContributionCount(author, fileResult.getFileType()));
                 continue;
             }

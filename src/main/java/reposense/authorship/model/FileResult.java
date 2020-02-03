@@ -36,7 +36,9 @@ public class FileResult {
     }
 
     public static FileResult createBinaryFileResult(String path, FileType fileType, Set<Author> binaryFileAuthors) {
-        return new FileResult(path, fileType, new ArrayList<>(), new HashMap<>(),true, binaryFileAuthors);
+        HashMap<Author, Integer> authorContributionMap = new HashMap<>();
+        binaryFileAuthors.forEach(author -> authorContributionMap.put(author, 1));
+        return new FileResult(path, fileType, new ArrayList<>(), authorContributionMap,true, binaryFileAuthors);
     }
 
     public boolean isBinary() {

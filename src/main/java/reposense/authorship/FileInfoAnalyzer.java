@@ -110,7 +110,6 @@ public class FileInfoAnalyzer {
      * Generates and returns a {@code FileResult} with the authorship results from binary {@code fileInfo} consolidated.
      */
     private static FileResult generateBinaryFileResult(RepoConfiguration config, BinaryFileInfo binaryFileInfo) {
-        HashMap<Author, Integer> authorContributionMap = new HashMap<>();
         String authorsString = getBinaryFileAuthors(config, binaryFileInfo.getPath());
         Set<Author> authors = new HashSet<>();
         for (String authorString : authorsString.split("\n")) {
@@ -121,10 +120,6 @@ public class FileInfoAnalyzer {
             String authorName = arr[0];
             String authorEmail = arr[1];
             authors.add(config.getAuthor(authorName, authorEmail));
-        }
-
-        for(Author author : authors) {
-            authorContributionMap.put(author, 1);
         }
 
         return FileResult.createBinaryFileResult(binaryFileInfo.getPath(), binaryFileInfo.getFileType(), authors);
