@@ -79,12 +79,8 @@ public class RepoSense {
             if (cliArguments.isAutomaticallyLaunching()) {
                 ReportServer.startServer(SERVER_PORT_NUMBER, cliArguments.getOutputFilePath().toAbsolutePath());
             }
-        } catch (IOException ioe) {
+        } catch (IOException | ParseException | InvalidCsvException ioe) {
             logger.log(Level.WARNING, ioe.getMessage(), ioe);
-        } catch (ParseException pe) {
-            logger.log(Level.WARNING, pe.getMessage(), pe);
-        } catch (InvalidCsvException ice) {
-            logger.log(Level.WARNING, ice.getMessage(), ice);
         } catch (HelpScreenException e) {
             // help message was printed by the ArgumentParser; it is safe to exit.
         }
