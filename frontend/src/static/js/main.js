@@ -260,7 +260,7 @@ window.app = new window.Vue({
       if (!version) {
         return `${window.BASE_URL}/reposense/RepoSense`;
       }
-      return `https://github.com/reposense/RepoSense/blob/${version}/docs/UserGuide.md`;
+      return `${window.BASE_URL}/reposense/RepoSense/blob/${version}/docs/UserGuide.md`;
     },
 
     receiveDates(dates) {
