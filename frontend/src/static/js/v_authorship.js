@@ -165,14 +165,17 @@ window.vAuthorship = {
       let totalBlankLineCount = 0;
 
       files.forEach((file) => {
-        const out = {};
-        out.path = file.path;
-        out.fileType = file.fileType;
         const lineCnt = file.authorContributionMap[this.info.author];
+        if (!lineCnt) {
+          return;
+        }
+        const out = {
+          path: file.path,
+          fileType: file.fileType,
+          lineCount: lineCnt,
+        };
         if (file.isBinary
           && file.binaryFileAuthors.map((author) => author.gitId).includes(this.info.author)) {
-
-          out.lineCount = 1;
           out.segments = [
               {
                 authored: true,
@@ -181,7 +184,7 @@ window.vAuthorship = {
               }];
           res.push(out);
         }
-        if (!file.isBinary && lineCnt) {
+        if (!file.isBinary) {
           const segmentInfo = this.splitSegments(file.lines);
           out.segments = segmentInfo.segments;
           totalBlankLineCount += segmentInfo.blankLineCount;
@@ -191,10 +194,7 @@ window.vAuthorship = {
           res.push(out);
         }
 
-        if (lineCnt) {
-          totalLineCount += lineCnt;
-          out.lineCount = lineCnt;
-        }
+        totalLineCount += lineCnt;
       });
 
       this.totalLineCount = totalLineCount;
