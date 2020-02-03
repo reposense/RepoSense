@@ -32,6 +32,7 @@ window.vAuthorship = {
     return {
       isLoaded: false,
       files: [],
+      filterType: 'checkboxes',
       isSelectAllChecked: true,
       selectedFileTypes: [],
       fileTypes: [],
@@ -43,8 +44,6 @@ window.vAuthorship = {
       isActive: true,
       filterSearch: '*',
       sortingFunction: (a, b) => -1 * window.comparator(filesSortDict.lineOfCode)(a, b),
-      isSearchBar: false,
-      isCheckBoxes: true,
     };
   },
 
@@ -57,6 +56,24 @@ window.vAuthorship = {
     },
     selectedFiles() {
       setTimeout(this.updateCount, 0);
+    },
+    selectedFileTypes() {
+      if (this.selectedFileTypes.length === this.fileTypes.length) {
+        this.isSelectAllChecked = true;
+      }
+      if (this.selectedFileTypes.length === 0) {
+        this.isSelectAllChecked = false;
+      }
+    },
+    filterType() {
+      if (this.filterType === 'checkboxes') {
+        const searchBar = document.getElementById('search');
+        searchBar.value = '';
+        this.filterSearch = '*';
+      } else {
+        this.isSelectAllChecked = true;
+        this.selectedFileTypes = this.fileTypes.slice();
+      }
     },
   },
 
@@ -197,6 +214,7 @@ window.vAuthorship = {
         }
       });
 
+      this.selectedFileTypes = this.fileTypes.slice();
       this.fileTypeBlankLinesObj = fileTypeBlanksInfoObj;
       this.files = res;
       this.isLoaded = true;
@@ -216,7 +234,7 @@ window.vAuthorship = {
     },
 
     selectAll() {
-      if (this.isSearchBar) {
+      if (this.filterType === 'search') {
         this.indicateCheckBoxes();
       }
       if (!this.isSelectAllChecked) {
@@ -226,46 +244,26 @@ window.vAuthorship = {
       }
     },
 
-    selectFileType(fileType) {
-      if (this.isSearchBar) {
-        this.indicateCheckBoxes();
-      }
-      if (this.selectedFileTypes.includes(fileType)) {
-        const index = this.selectedFileTypes.indexOf(fileType);
-        this.selectedFileTypes.splice(index, 1);
-      } else {
-        this.selectedFileTypes.push(fileType);
-      }
-    },
-
     updateFilterSearch(evt) {
-      if (this.isCheckBoxes) {
+      if (this.filterType === 'checkboxes') {
         this.indicateSearchBar();
       }
       this.filterSearch = (evt.target.value.length !== 0) ? evt.target.value : '*';
     },
 
-    tickAllCheckboxes() {
-      this.selectedFileTypes = this.fileTypes.slice();
-      this.isSelectAllChecked = true;
-    },
-
     indicateSearchBar() {
-      this.isSearchBar = true;
-      this.isCheckBoxes = false;
-      this.tickAllCheckboxes();
+      this.isSelectAllChecked = true;
+      this.selectedFileTypes = this.fileTypes.slice();
+      this.filterType = 'search';
     },
 
     indicateCheckBoxes() {
-      const searchBar = document.getElementById('search');
-      searchBar.value = '';
-      this.filterSearch = '*';
-      this.isSearchBar = false;
-      this.isCheckBoxes = true;
-    },
-
-    isSelectedFileTypes(fileType) {
-      return this.selectedFileTypes.includes(fileType);
+      if (this.filterType === 'search') {
+        const searchBar = document.getElementById('search');
+        searchBar.value = '';
+        this.filterSearch = '*';
+        this.filterType = 'checkboxes';
+      }
     },
 
     getFileLink(file, path) {
@@ -289,7 +287,7 @@ window.vAuthorship = {
 
   computed: {
     selectedFiles() {
-      return this.files.filter((file) => this.isSelectedFileTypes(file.fileType)
+      return this.files.filter((file) => this.selectedFileTypes.includes(file.fileType)
           && minimatch(file.path, this.filterSearch, { matchBase: true }))
           .sort(this.sortingFunction);
     },
