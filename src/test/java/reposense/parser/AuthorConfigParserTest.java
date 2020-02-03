@@ -1,7 +1,6 @@
 package reposense.parser;
 
 import java.io.File;
-import java.io.IOException;
 import java.nio.file.Path;
 import java.util.Arrays;
 import java.util.Collections;
@@ -112,8 +111,8 @@ public class AuthorConfigParserTest {
         Assert.assertEquals(AUTHOR_CONFIG_NO_SPECIAL_CHARACTER_AUTHORS, authorConfig.getAuthorList());
     }
 
-    @Test (expected = IOException.class)
-    public void authorConfig_emptyConfig_throwsIoException() throws Exception {
+    @Test (expected = InvalidCsvException.class)
+    public void authorConfig_emptyConfig_throwsInvalidCsvException() throws Exception {
         AuthorConfigCsvParser authorConfigCsvParser = new AuthorConfigCsvParser(AUTHOR_CONFIG_EMPTY_CONFIG_FILE);
         authorConfigCsvParser.parse();
     }
@@ -159,8 +158,8 @@ public class AuthorConfigParserTest {
         Assert.assertEquals(3, config.getAuthorList().size());
     }
 
-    @Test (expected = IOException.class)
-    public void authorConfig_invalidHeaderSize_throwsIoException() throws Exception {
+    @Test (expected = InvalidCsvException.class)
+    public void authorConfig_invalidHeaderSize_throwsInvalidCsvException() throws Exception {
         AuthorConfigCsvParser authorConfigCsvParser = new AuthorConfigCsvParser(AUTHOR_CONFIG_INVALID_HEADER_SIZE);
         authorConfigCsvParser.parse();
     }
