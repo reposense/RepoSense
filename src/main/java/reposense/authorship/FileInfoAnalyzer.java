@@ -1,7 +1,5 @@
 package reposense.authorship;
 
-import static reposense.git.GitLog.getBinaryFileAuthors;
-
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
@@ -23,6 +21,7 @@ import reposense.authorship.model.FileInfo;
 import reposense.authorship.model.FileResult;
 import reposense.authorship.model.LineInfo;
 import reposense.git.GitBlame;
+import reposense.git.GitLog;
 import reposense.model.Author;
 import reposense.model.CommitHash;
 import reposense.model.RepoConfiguration;
@@ -110,7 +109,7 @@ public class FileInfoAnalyzer {
      * Generates and returns a {@code FileResult} with the authorship results from binary {@code fileInfo} consolidated.
      */
     private static FileResult generateBinaryFileResult(RepoConfiguration config, FileInfo fileInfo) {
-        String authorsString = getBinaryFileAuthors(config, fileInfo.getPath());
+        String authorsString = GitLog.getBinaryFileAuthors(config, fileInfo.getPath());
         Set<Author> authors = new HashSet<>();
         for (String authorString : authorsString.split("\n")) {
             if(authorString.isEmpty()) { // Empty string, means no author at all

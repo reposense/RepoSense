@@ -178,8 +178,8 @@ public class FileInfoExtractor {
      * Traverses each file from the repo root directory, generates the {@code FileInfo} for each relevant file found
      * based on {@code config} and inserts it into {@code fileInfos}.
      */
-    private static void getAllFileInfo(RepoConfiguration config, List<FileInfo> fileInfos) {
-        Set<Path> nonBinaryFilesList = getNonBinaryFilesList(config);
+    private static void getAllFileInfo(RepoConfiguration config, List<FileInfo> fileInfos, boolean isBinaryFiles) {
+        Set<Path> nonBinaryFilesList = isBinaryFiles ? getBinaryFilesList(config) : getNonBinaryFilesList(config);
         for (Path relativePath : nonBinaryFilesList) {
             if (config.getFileTypeManager().isInsideWhitelistedFormats(relativePath.toString())) {
                 fileInfos.add(generateFileInfo(config.getRepoRoot(), relativePath.toString()));
@@ -232,35 +232,10 @@ public class FileInfoExtractor {
     public static List<FileInfo> extractBinaryFileInfos(RepoConfiguration config) {
         logger.info(String.format(MESSAGE_START_EXTRACTING_BINARY_FILE_INFO, config.getLocation(), config.getBranch()));
 
-        List<FileInfo> binaryFileInfos = new ArrayList<>();
-
-        // checks out to the latest commit of the date range to ensure the FileInfo generated correspond to the
-        // git blame file analyze output
-        try {
-            GitCheckout.checkoutDate(config.getRepoRoot(), config.getBranch(), config.getUntilDate());
-        } catch (CommitNotFoundException cnfe) {
-            return binaryFileInfos;
-        }
-
-        binaryFileInfos = getAllBinaryFileInfo(config);
-
+        List<FileInfo> binaryFileInfos = new ArrayList<>() ;
+        getAllFileInfo(config, binaryFileInfos, true);
         binaryFileInfos.sort(Comparator.comparing(FileInfo::getPath));
         return binaryFileInfos;
-    }
-
-    public static List<FileInfo> getAllBinaryFileInfo(RepoConfiguration config) {
-        Set<Path> nonBinaryFilesList = getBinaryFilesList(config);
-        List<FileInfo> binaryFileInfos = new ArrayList<>();
-        for (Path relativePath : nonBinaryFilesList) {
-            if (config.getFileTypeManager().isInsideWhitelistedFormats(relativePath.toString())) {
-                binaryFileInfos.add(generateBinaryFileInfo(relativePath.toString()));
-            }
-        }
-        return binaryFileInfos;
-    }
-
-    private static FileInfo generateBinaryFileInfo(String relativePath) {
-        return new FileInfo(relativePath);
     }
 
     /**
