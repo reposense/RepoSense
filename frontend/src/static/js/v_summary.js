@@ -135,6 +135,14 @@ window.vSummary = {
     };
   },
   watch: {
+    checkedFileTypes() {
+      if (this.checkedFileTypes.length === this.fileTypes.length) {
+        this.checkAllFileTypes = true;
+      }
+      if (this.checkedFileTypes.length === 0) {
+        this.checkAllFileTypes = false;
+      }
+    },
     checkAllFileTypes() {
       this.selectAllFileTypes();
     },
