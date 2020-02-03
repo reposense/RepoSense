@@ -47,9 +47,9 @@ html
               strong RepoSense
             span &nbsp;(
             a(
-              v-bind:href="getRepoSenseVersionLink()", target ="_blank",
+              v-bind:href="getUserGuideVersionLink()", target ="_blank",
             )
-              strong {{ repoSenseVersion }}
+              strong User Guide - {{ repoSenseVersion }}
             span ) on {{ creationDate }}
 
         #tabs-wrapper(v-if="isTabActive")
