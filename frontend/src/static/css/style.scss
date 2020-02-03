@@ -303,6 +303,16 @@ header {
 
 /* Commit Message Body in Zoom Tab */
 .commit-message {
+  .title {
+    display: inline;
+    font-size: medium;
+    font-weight: bold;
+
+    span.loc {
+      color: mui-color('grey');
+    }
+  }
+
   &.active {
     .body {
       background-color: mui-color('white');
@@ -321,7 +331,8 @@ header {
   }
 
   &--button {
-    color: mui-color('grey', '700');
+    color: mui-color('grey');
+    font-size: 1.15rem;
     padding-left: .5rem;
 
     &:hover {
