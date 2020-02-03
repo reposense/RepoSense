@@ -3,7 +3,6 @@ package reposense.parser;
 import static org.apache.tools.ant.types.Commandline.translateCommandline;
 
 import java.io.File;
-import java.io.IOException;
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -12,7 +11,6 @@ import java.util.List;
 import org.junit.Assert;
 import org.junit.Test;
 
-import net.sourceforge.argparse4j.helper.HelpScreenException;
 import reposense.model.Author;
 import reposense.model.AuthorConfiguration;
 import reposense.model.CliArguments;
@@ -238,14 +236,14 @@ public class RepoConfigParserTest {
         Assert.assertTrue(deltaConfig.isStandaloneConfigIgnored());
     }
 
-    @Test (expected = IOException.class)
-    public void repoConfig_invalidHeaderSize_throwsIoException() throws Exception {
+    @Test (expected = InvalidCsvException.class)
+    public void repoConfig_invalidHeaderSize_throwsInvalidCsvException() throws Exception {
         RepoConfigCsvParser repoConfigCsvParser = new RepoConfigCsvParser(REPO_CONFIG_INVALID_HEADER_SIZE_FILE);
         repoConfigCsvParser.parse();
     }
 
-    @Test (expected = IOException.class)
-    public void repoConfig_zeroValidRecords_throwsIoException() throws Exception {
+    @Test (expected = InvalidCsvException.class)
+    public void repoConfig_zeroValidRecords_throwsInvalidCsvException() throws Exception {
         RepoConfigCsvParser repoConfigCsvParser = new RepoConfigCsvParser(REPO_CONFIG_ZERO_VALID_RECORDS);
         repoConfigCsvParser.parse();
     }
