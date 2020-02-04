@@ -32,7 +32,9 @@ public class AnnotatorAnalyzer {
 
                 if (!newAnnotatedAuthor.isPresent()) {
                     //end of an author tag should belong to the current author too.
-                    currentAnnotatedAuthor.ifPresent(lineInfo::setAuthor);
+                    //in case an end author tag was used without out a corresponding starting tag, attribute the
+                    // line to UNKNOWN_AUTHOR
+                    lineInfo.setAuthor(currentAnnotatedAuthor.orElse(Author.UNKNOWN_AUTHOR));
                 } else if (newAnnotatedAuthor.get().getIgnoreGlobMatcher().matches(filePath)) {
                     newAnnotatedAuthor = Optional.empty();
                 }
