@@ -174,26 +174,25 @@ window.vAuthorship = {
           fileType: file.fileType,
           lineCount: lineCnt,
         };
-        if (file.isBinary
-          && file.binaryFileAuthors.map((author) => author.gitId).includes(this.info.author)) {
+        if (file.isBinary) {
+          if (!file.binaryFileAuthors.map((author) => author.gitId).includes(this.info.author)) {
+            return;
+          }
           out.segments = [
               {
                 authored: true,
                 lineNumbers: [1],
                 lines: ['Binary diff not shown'],
               }];
-          res.push(out);
-        }
-        if (!file.isBinary) {
+        } else {
           const segmentInfo = this.splitSegments(file.lines);
           out.segments = segmentInfo.segments;
           totalBlankLineCount += segmentInfo.blankLineCount;
 
           this.addBlankLineCount(file.fileType, segmentInfo.blankLineCount,
               fileTypeBlanksInfoObj);
-          res.push(out);
         }
-
+        res.push(out);
         totalLineCount += lineCnt;
       });
 
