@@ -181,7 +181,7 @@ html
                   v-bind:href="getRepoLink(repo[0])", target="_blank",
                   title="click to view group's repo"
                 )
-                  i.button.fab.fa-github
+                  i.icon-button.fab.fa-github
             .summary-charts__title(
                 v-if="filterGroupSelection === 'groupByAuthors'",
                 v-bind:class="{ warn: repo[0].name === '-' }"
@@ -194,7 +194,7 @@ html
                   v-bind:href="getAuthorProfileLink(repo[0].name)", target="_blank",
                   title="click to view author's profile"
                 )
-                  i.button.fab.fa-github
+                  i.icon-button.fab.fa-github
             .summary-charts__fileType--breakdown(v-if="filterBreakdown")
               template(v-if="filterGroupSelection === 'groupByRepos'")
                 .summary-charts__fileType--breakdown__legend(
@@ -225,18 +225,18 @@ html
                   onclick="deactivateAllOverlays()",
                   v-on:click="openTabAuthorship(user, repo, i)"
                 )
-                  i.button.fas.fa-code
+                  i.icon-button.fas.fa-code
                 a(
                   v-bind:href="getRepoLink(repo[i])", target="_blank",
                   title="click to view author's repo"
                 )
-                  i.button.fab.fa-github
+                  i.icon-button.fab.fa-github
                 a(
                   title="click to view breakdown of commits",
                   onclick="deactivateAllOverlays()",
                   v-on:click="openTabZoom(user, filterSinceDate, filterUntilDate, repo, i)"
                 )
-                  i.button.fas.fa-list-ul
+                  i.icon-button.fas.fa-list-ul
               .summary-chart__ramp(
                 onclick="viewClick(event)",
                 v-on:click="openTabZoomSubrange(user, repo, i)"
