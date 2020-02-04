@@ -64,6 +64,7 @@ public abstract class CsvParser<T> {
      * containing the records in this file.
      *
      * @throws IOException if there are errors accessing the given csv file.
+     * @throws InvalidCsvException if the csv is malformed.
      */
     public List<T> parse() throws IOException, InvalidCsvException {
         List<T> results = new ArrayList<>();
