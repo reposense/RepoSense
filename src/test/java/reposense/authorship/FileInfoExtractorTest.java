@@ -30,7 +30,7 @@ public class FileInfoExtractorTest extends GitTestTemplate {
     private static final String BRANCH_WITH_VALID_WHITELISTED_FILE_NAME_BRANCH =
             "535-FileInfoExtractorTest-branchWithValidWhitelistedFileName.txt";
     private static final String BRANCH_WITH_BINARY_FILES =
-            "728-FileInfoExtractorTest-getNonBinaryFilesList_directoryWithBinaryFiles_success";
+            "728-FileInfoExtractorTest-getFilesList_directoryWithBinaryFiles_success";
     private static final String BRANCH_WITH_RARE_FILE_FORMATS =
             "708-FileInfoExtractorTest-extractFileInfos_withoutSpecifiedFormats_success";
     private static final String FEBRUARY_EIGHT_COMMIT_HASH = "768015345e70f06add2a8b7d1f901dc07bf70582";
@@ -151,13 +151,20 @@ public class FileInfoExtractorTest extends GitTestTemplate {
                 "binaryFileTest/binaryFile.txt", "My Documents/word.docx", "My Documents/pdfDocument.pdf",
                 "My Documents/wordToHtml_files/themedata.thmx", "My Pictures/pngPicture.png");
         GitCheckout.checkoutBranch(config.getRepoRoot(), BRANCH_WITH_BINARY_FILES);
-        Set<Path> files = FileInfoExtractor.getNonBinaryFilesList(config);
+        Set<Path> nonBinaryFiles = FileInfoExtractor.getFilesList(config, false);
 
-        Assert.assertEquals(6, files.size());
+        Assert.assertEquals(6, nonBinaryFiles.size());
         // Non binary files should be captured
-        nonBinaryFilesList.forEach(nonBinFile -> Assert.assertTrue(files.contains(Paths.get(nonBinFile))));
+        nonBinaryFilesList.forEach(nonBinFile -> Assert.assertTrue(nonBinaryFiles.contains(Paths.get(nonBinFile))));
         // Binary files should be ignored
-        binaryFilesList.forEach(binFile -> Assert.assertFalse(files.contains(Paths.get(binFile))));
+        binaryFilesList.forEach(binFile -> Assert.assertFalse(nonBinaryFiles.contains(Paths.get(binFile))));
+
+        Set<Path> binaryFiles = FileInfoExtractor.getFilesList(config, true);
+        Assert.assertEquals(5, binaryFiles.size());
+        // Binary files should be captured
+        binaryFilesList.forEach(binFile -> Assert.assertTrue(binaryFiles.contains(Paths.get(binFile))));
+        // Non binary files should be ignored
+        nonBinaryFilesList.forEach(nonBinFile -> Assert.assertFalse(binaryFiles.contains(Paths.get(nonBinFile))));
     }
 
     @Test
