@@ -90,21 +90,6 @@ public class FileInfoExtractor {
     }
 
     /**
-     * Returns a {@code Set} of binary files for the repo {@code repoConfig}.
-     */
-    public static Set<Path> getBinaryFilesList(RepoConfiguration repoConfig) {
-        List<String> modifiedFileList = GitDiff.getModifiedFilesList(Paths.get(repoConfig.getRepoRoot()));
-
-        // Gets rid of binary files and files with invalid directory name.
-        return modifiedFileList.stream()
-                .filter(file -> file.startsWith(BINARY_FILE_LINE_DIFF_RESULT))
-                .map(rawNonBinaryFile -> rawNonBinaryFile.split("\t")[2])
-                .filter(FileUtil::isValidPath)
-                .map(filteredFile -> Paths.get(filteredFile))
-                .collect(Collectors.toCollection(HashSet::new));
-    }
-
-    /**
      * Generates a list of relevant {@code FileInfo} for all files that were edited in between the current
      * commit and the {@code lastCommitHash} commit, marks each {@code LineInfo} for each {@code FileInfo} on
      * whether they have been inserted within the commit range or not, and returns it.
@@ -119,7 +104,7 @@ public class FileInfoExtractor {
         }
 
         String[] fileDiffResultList = fullDiffResult.split(DIFF_FILE_CHUNK_SEPARATOR);
-        Set<Path> nonBinaryFilesSet = getNonBinaryFilesList(config);
+        Set<Path> nonBinaryFilesSet = getFilesList(config, false);
 
         for (String fileDiffResult : fileDiffResultList) {
             Matcher filePathMatcher = FILE_CHANGED_PATTERN.matcher(fileDiffResult);
@@ -153,12 +138,12 @@ public class FileInfoExtractor {
     /**
      * Returns a {@code Set} of non-binary files for the repo {@code repoConfig}.
      */
-    public static Set<Path> getNonBinaryFilesList(RepoConfiguration repoConfig) {
+    public static Set<Path> getFilesList(RepoConfiguration repoConfig, boolean isBinaryFiles) {
         List<String> modifiedFileList = GitDiff.getModifiedFilesList(Paths.get(repoConfig.getRepoRoot()));
 
-        // Gets rid of binary files and files with invalid directory name.
+        // Gets rid of files with invalid directory name and filters by whether file is binary.
         return modifiedFileList.stream()
-                .filter(file -> !file.startsWith(BINARY_FILE_LINE_DIFF_RESULT))
+                .filter(file -> isBinaryFiles == file.startsWith(BINARY_FILE_LINE_DIFF_RESULT))
                 .map(rawNonBinaryFile -> rawNonBinaryFile.split("\t")[2])
                 .filter(FileUtil::isValidPath)
                 .map(filteredFile -> Paths.get(filteredFile))
@@ -206,9 +191,15 @@ public class FileInfoExtractor {
      * based on {@code config} and inserts it into {@code fileInfos}.
      */
     private static void getAllFileInfo(RepoConfiguration config, List<FileInfo> fileInfos, boolean isBinaryFiles) {
-        Set<Path> filesList = isBinaryFiles ? getBinaryFilesList(config) : getNonBinaryFilesList(config);
+        Set<Path> filesList = getFilesList(config, isBinaryFiles);
         for (Path relativePath : filesList) {
-            if (config.getFileTypeManager().isInsideWhitelistedFormats(relativePath.toString())) {
+            if (!config.getFileTypeManager().isInsideWhitelistedFormats(relativePath.toString())) {
+                continue;
+            }
+            if (isBinaryFiles) {
+                // skip LineInfo analysis
+                fileInfos.add(new FileInfo(relativePath.toString()));
+            } else {
                 fileInfos.add(generateFileInfo(config.getRepoRoot(), relativePath.toString()));
             }
         }
