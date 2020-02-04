@@ -316,12 +316,9 @@ header {
 
       pre {
         position: relative;
-        .dashed-border {
-          border-right: mui-color('black');
-          border-right-style: dashed;
-          border-width: 1px;
+        .dotted-border {
+          border-right: 1px dotted mui-color('black'); // 72nd character line
           height: 100%;
-          overflow: no-display;
           pointer-events: none;
           position: absolute;
           top: 0;
@@ -336,7 +333,7 @@ header {
   }
 
   &--button {
-    color: mui-color('grey', '700');
+    color: mui-color('grey');
     padding-left: .5rem;
 
     &:hover {
@@ -346,5 +343,22 @@ header {
 
   pre {
     margin: 0;
+  }
+
+  span.loc {
+    color: mui-color('grey');
+  }
+
+  .message-title {
+    display: inline;
+    font-family: monospace;
+    .within-border {
+      display: inline;
+    }
+    .not-within-border {
+      border-left: 1px dotted mui-color('black'); // 50th character line
+      display: inline;
+      pointer-events: none;
+    }
   }
 }
