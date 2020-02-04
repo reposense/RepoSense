@@ -79,8 +79,8 @@ public class RepoSense {
             if (cliArguments.isAutomaticallyLaunching()) {
                 ReportServer.startServer(SERVER_PORT_NUMBER, cliArguments.getOutputFilePath().toAbsolutePath());
             }
-        } catch (IOException | ParseException | InvalidCsvException ioe) {
-            logger.log(Level.WARNING, ioe.getMessage(), ioe);
+        } catch (IOException | ParseException | InvalidCsvException e) {
+            logger.log(Level.WARNING, e.getMessage(), e);
         } catch (HelpScreenException e) {
             // help message was printed by the ArgumentParser; it is safe to exit.
         }
@@ -104,9 +104,9 @@ public class RepoSense {
         } catch (FileNotFoundException fnfe) {
             // FileNotFoundException thrown as author-config.csv is not found.
             // Ignore exception as the file is optional.
-        } catch (IOException | InvalidCsvException excp) {
+        } catch (IOException | InvalidCsvException e) {
             // for all IO and invalid csv exceptions, log the error and continue
-            logger.log(Level.WARNING, excp.getMessage(), excp);
+            logger.log(Level.WARNING, e.getMessage(), e);
         }
 
         try {
@@ -115,9 +115,9 @@ public class RepoSense {
         } catch (FileNotFoundException fnfe) {
             // FileNotFoundException thrown as groups-config.csv is not found.
             // Ignore exception as the file is optional.
-        } catch (IOException | InvalidCsvException excp) {
+        } catch (IOException | InvalidCsvException e) {
             // for all other IO and invalid csv exceptions, log the error and continue
-            logger.log(Level.WARNING, excp.getMessage(), excp);
+            logger.log(Level.WARNING, e.getMessage(), e);
         }
 
         return repoConfigs;
