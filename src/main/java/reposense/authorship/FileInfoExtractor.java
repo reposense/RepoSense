@@ -32,7 +32,8 @@ import reposense.util.FileUtil;
 public class FileInfoExtractor {
     private static final Logger logger = LogsManager.getLogger(FileInfoExtractor.class);
     private static final String MESSAGE_START_EXTRACTING_FILE_INFO = "Extracting relevant file info from %s (%s)...";
-    private static final String MESSAGE_START_EXTRACTING_BINARY_FILE_INFO = "Extracting relevant binary file info from %s (%s)...";
+    private static final String MESSAGE_START_EXTRACTING_BINARY_FILE_INFO =
+        "Extracting relevant binary file info from %s (%s)...";
 
     private static final String DIFF_FILE_CHUNK_SEPARATOR = "\ndiff --git a/.*\n";
     private static final String LINE_CHUNKS_SEPARATOR = "\n@@ ";
@@ -83,7 +84,7 @@ public class FileInfoExtractor {
     public static List<FileInfo> extractBinaryFileInfos(RepoConfiguration config) {
         logger.info(String.format(MESSAGE_START_EXTRACTING_BINARY_FILE_INFO, config.getLocation(), config.getBranch()));
 
-        List<FileInfo> binaryFileInfos = new ArrayList<>() ;
+        List<FileInfo> binaryFileInfos = new ArrayList<>();
         getAllFileInfo(config, binaryFileInfos, true);
         binaryFileInfos.sort(Comparator.comparing(FileInfo::getPath));
         return binaryFileInfos;

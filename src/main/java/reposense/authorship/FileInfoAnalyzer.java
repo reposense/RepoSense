@@ -102,18 +102,20 @@ public class FileInfoAnalyzer {
             Author author = line.getAuthor();
             authorContributionMap.put(author, authorContributionMap.getOrDefault(author, 0) + 1);
         }
-        return FileResult.createNonBinaryFileResult(fileInfo.getPath(), fileInfo.getFileType(), fileInfo.getLines(), authorContributionMap);
+        return FileResult.createNonBinaryFileResult(
+            fileInfo.getPath(), fileInfo.getFileType(), fileInfo.getLines(), authorContributionMap);
     }
 
     /**
      * Generates and returns a {@code FileResult} with the authorship results from binary {@code fileInfo} consolidated.
-     * Returns null if none of the {@code Author} specified in {@code config} contributed to the file in {@code fileInfo}.
+     * Returns null if none of the {@code Author} specified in {@code config} contributed to the file in
+     * {@code fileInfo}.
      */
     private static FileResult generateBinaryFileResult(RepoConfiguration config, FileInfo fileInfo) {
         String authorsString = GitLog.getBinaryFileAuthors(config, fileInfo.getPath());
         Set<Author> authors = new HashSet<>();
         for (String authorString : authorsString.split("\n")) {
-            if(authorString.isEmpty()) { // Empty string, means no author at all
+            if (authorString.isEmpty()) { // Empty string, means no author at all
                 return null;
             }
             String[] arr = authorString.split("\t");
