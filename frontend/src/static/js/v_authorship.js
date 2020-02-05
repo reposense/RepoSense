@@ -33,7 +33,6 @@ window.vAuthorship = {
       isLoaded: false,
       files: [],
       filterType: 'checkboxes',
-      isSelectAllChecked: true,
       selectedFileTypes: [],
       fileTypes: [],
       fileTypeBlankLinesObj: {},
@@ -56,14 +55,6 @@ window.vAuthorship = {
     },
     selectedFiles() {
       setTimeout(this.updateCount, 0);
-    },
-    selectedFileTypes() {
-      if (this.selectedFileTypes.length === this.fileTypes.length) {
-        this.isSelectAllChecked = true;
-      }
-      if (this.selectedFileTypes.length === 0) {
-        this.isSelectAllChecked = false;
-      }
     },
     filterType() {
       if (this.filterType === 'checkboxes') {
@@ -286,6 +277,9 @@ window.vAuthorship = {
   },
 
   computed: {
+    isSelectAllChecked() {
+      return this.fileTypes.length === this.selectedFileTypes.length;
+    },
     selectedFiles() {
       return this.files.filter((file) => this.selectedFileTypes.includes(file.fileType)
           && minimatch(file.path, this.filterSearch, { matchBase: true }))
