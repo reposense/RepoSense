@@ -182,6 +182,7 @@ html
                   title="click to view group's repo"
                 )
                   i.icon-button.fab.fa-github
+              .summary-charts__title--percentile.mini-font {{ getPercentile(i) }} %
             .summary-charts__title(
                 v-if="filterGroupSelection === 'groupByAuthors'",
                 v-bind:class="{ warn: repo[0].name === '-' }"
@@ -195,6 +196,7 @@ html
                   title="click to view author's profile"
                 )
                   i.icon-button.fab.fa-github
+              .summary-charts__title--percentile.mini-font {{ getPercentile(i) }} %
             .summary-charts__fileType--breakdown(v-if="filterBreakdown")
               template(v-if="filterGroupSelection === 'groupByRepos'")
                 .summary-charts__fileType--breakdown__legend(
@@ -237,6 +239,8 @@ html
                   v-on:click="openTabZoom(user, filterSinceDate, filterUntilDate, repo, i)"
                 )
                   i.icon-button.fas.fa-list-ul
+                .summary-chart__title--percentile.mini-font(v-if="filterGroupSelection === 'groupByNone'") {{ getPercentile(i) }} %
+
               .summary-chart__ramp(
                 onclick="viewClick(event)",
                 v-on:click="openTabZoomSubrange(user, repo, i)"
