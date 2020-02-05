@@ -6,6 +6,12 @@
   text-align: center;
 }
 
+.icon-button {
+  color: mui-color('grey');
+  cursor: pointer;
+  text-decoration: none;
+}
+
 .summary-picker {
   align-items: center;
   display: flex;
@@ -99,6 +105,11 @@
       color: mui-color('grey');
       margin-left: auto;
     }
+
+    &--contribution {
+      display: inline;
+      padding-right: .5rem;
+    }
   }
 
   &__fileType--breakdown {
@@ -139,12 +150,6 @@
       padding-right: .25rem;
     }
 
-    &--button {
-      color: mui-color('grey');
-      cursor: pointer;
-      text-decoration: none;
-    }
-
     &--percentile {
       color: mui-color('grey');
       margin-left: auto;
@@ -177,8 +182,8 @@
     &--bar {
       background-color: mui-color('red');
       float: left;
-      height: .3rem;
-      margin-top: .1rem;
+      height: 4px;
+      margin-top: 2px;
     }
   }
 }
