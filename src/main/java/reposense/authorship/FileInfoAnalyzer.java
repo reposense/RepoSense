@@ -45,12 +45,12 @@ public class FileInfoAnalyzer {
     public static FileResult analyzeFile(RepoConfiguration config, FileInfo fileInfo) {
         String relativePath = fileInfo.getPath();
 
-        if (FileUtil.isEmptyFile(config.getRepoRoot(), relativePath)) {
+        if (Files.notExists(Paths.get(config.getRepoRoot(), relativePath))) {
+            logger.severe(String.format(MESSAGE_FILE_MISSING, relativePath));
             return null;
         }
 
-        if (Files.notExists(Paths.get(config.getRepoRoot(), relativePath))) {
-            logger.severe(String.format(MESSAGE_FILE_MISSING, relativePath));
+        if (FileUtil.isEmptyFile(config.getRepoRoot(), relativePath)) {
             return null;
         }
 
