@@ -6,6 +6,12 @@
   text-align: center;
 }
 
+.icon-button {
+  color: mui-color('grey');
+  cursor: pointer;
+  text-decoration: none;
+}
+
 .summary-picker {
   align-items: center;
   display: flex;
@@ -76,7 +82,8 @@
   margin-bottom: 3rem;
 
   &__title {
-    display: block;
+    align-items: center;
+    display: flex;
     font-weight: bold;
     text-align: left;
 
@@ -98,6 +105,7 @@
 
     &--contribution {
       display: inline;
+      padding-right: .5rem;
     }
   }
 
@@ -118,7 +126,9 @@
   text-align: left;
 
   &__title {
+    align-items: center;
     clear: left;
+    display: flex;
 
     & > * {
       display: inline;
@@ -137,12 +147,6 @@
 
     &--repo {
       padding-right: .25rem;
-    }
-
-    &--button {
-      color: mui-color('grey');
-      cursor: pointer;
-      text-decoration: none;
     }
   }
 
@@ -170,8 +174,9 @@
 
     &--bar {
       background-color: mui-color('red');
-      height: .3rem;
-      margin-top: .1rem;
+      float: left;
+      height: 4px;
+      margin-top: 2px;
     }
   }
 }
