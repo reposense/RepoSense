@@ -1,8 +1,5 @@
 package reposense.authorship;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.PathMatcher;
@@ -11,7 +8,6 @@ import java.time.ZoneId;
 import java.time.ZoneOffset;
 import java.util.HashMap;
 import java.util.TimeZone;
-import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import reposense.authorship.analyzer.AnnotatorAnalyzer;
@@ -23,6 +19,7 @@ import reposense.model.Author;
 import reposense.model.CommitHash;
 import reposense.model.RepoConfiguration;
 import reposense.system.LogsManager;
+import reposense.util.FileUtil;
 
 /**
  * Analyzes the target and information given in the {@code FileInfo}.
@@ -48,7 +45,7 @@ public class FileInfoAnalyzer {
     public static FileResult analyzeFile(RepoConfiguration config, FileInfo fileInfo) {
         String relativePath = fileInfo.getPath();
 
-        if (isEmptyFile(config.getRepoRoot(), relativePath)) {
+        if (FileUtil.isEmptyFile(config.getRepoRoot(), relativePath)) {
             return null;
         }
 
@@ -124,22 +121,6 @@ public class FileInfoAnalyzer {
      */
     private static String getGitBlameResult(RepoConfiguration config, String filePath) {
         return GitBlame.blame(config.getRepoRoot(), filePath);
-    }
-
-    /**
-     * Returns true if file at {@code repoRoot}'s {@code relativePath} has 0 lines.
-     */
-    private static boolean isEmptyFile(String repoRoot, String relativePath) {
-        Path path = Paths.get(repoRoot, relativePath);
-        try (BufferedReader br = new BufferedReader(new FileReader(path.toFile()))) {
-            String firstLine = br.readLine();
-            if (firstLine == null) {
-                return true;
-            }
-        } catch (IOException ioe) {
-            logger.log(Level.WARNING, ioe.getMessage(), ioe);
-        }
-        return false;
     }
 
     /**
