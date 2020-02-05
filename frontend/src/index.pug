@@ -205,9 +205,8 @@ html
               .summary-charts__title--repo {{ repo[0].displayName }} ({{ repo[0].name }})
               .summary-charts__title--contribution.mini-font(title="Total contribution of group") [{{ getGroupTotalContribution(repo) }} lines]
             .summary-charts__fileType--breakdown(v-if="filterBreakdown")
-              template
+              template(v-if="filterGroupSelection !== 'groupByNone'")
                 .summary-charts__fileType--breakdown__legend(
-                  v-if="filterGroupSelection !== 'groupByNone'"
                   v-for="fileType in getFileTypes(repo)" :key="fileType"
                 )
                   i.fas.fa-circle(
