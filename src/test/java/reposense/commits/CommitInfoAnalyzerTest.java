@@ -17,6 +17,7 @@ import reposense.commits.model.CommitInfo;
 import reposense.commits.model.CommitResult;
 import reposense.model.Author;
 import reposense.model.CommitHash;
+import reposense.model.FileTypeTest;
 import reposense.parser.InvalidLocationException;
 import reposense.template.GitTestTemplate;
 
@@ -186,6 +187,27 @@ public class CommitInfoAnalyzerTest extends GitTestTemplate {
         config.setAuthorList(Collections.singletonList(author));
         config.setSinceDate(new GregorianCalendar(2019, Calendar.DECEMBER, 20).getTime());
         config.setUntilDate(new GregorianCalendar(2019, Calendar.DECEMBER, 21).getTime());
+
+        List<CommitInfo> actualCommitInfos = CommitInfoExtractor.extractCommitInfos(config);
+        List<CommitResult> actualCommitResults = CommitInfoAnalyzer.analyzeCommits(actualCommitInfos, config);
+
+        Assert.assertEquals(expectedCommitResults, actualCommitResults);
+    }
+
+    @Test
+    public void analyzeCommits_emptyCommits_success() throws ParseException {
+        Author author = new Author(JAMES_AUTHOR_NAME);
+        List<CommitResult> expectedCommitResults = new ArrayList<>();
+
+        expectedCommitResults.add(new CommitResult(author, "016ab87c4afe89a98225b96c98ff28dd4774410f",
+                parseGitStrictIsoDate("2020-01-27T22:20:51+08:00"), "empty commit",
+                "", null, 0, 0));
+
+        config.setBranch("1019-CommitInfoAnalyzerTest-emptyCommits");
+        config.setAuthorList(Collections.singletonList(author));
+        config.setFormats(FileTypeTest.NO_SPECIFIED_FORMATS);
+        config.setSinceDate(new GregorianCalendar(2020, Calendar.JANUARY, 27).getTime());
+        config.setUntilDate(new GregorianCalendar(2020, Calendar.JANUARY, 28).getTime());
 
         List<CommitInfo> actualCommitInfos = CommitInfoExtractor.extractCommitInfos(config);
         List<CommitResult> actualCommitResults = CommitInfoAnalyzer.analyzeCommits(actualCommitInfos, config);
