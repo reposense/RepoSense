@@ -4,7 +4,6 @@ package reposense.util;
  * Contains time related functionalities.
  */
 public class TimeUtil {
-    private static String elapsedTimeMessage = "Elapsed processing time:";
     private static Long startTime;
 
     /**
@@ -17,12 +16,13 @@ public class TimeUtil {
     /**
      * Returns the formatted elapsed time from {@code startTime} until current time
      */
-    public static String getElapsedTimeMessage() {
+    public static String getElapsedTime() {
         long endTime = System.nanoTime();
         double elapsedTime = (double) (endTime - startTime) / 1_000_000_000.0;
         int elapsedHours = (int) elapsedTime / 3600;
         int elapsedMinutes = (int) (elapsedTime % 3600) / 60;
         double elapsedSeconds = elapsedTime % 60;
+        String elapsedTimeMessage = "";
 
         if (elapsedHours > 0) {
             elapsedTimeMessage += String.format(" %d hour(s)", elapsedHours);
@@ -32,8 +32,15 @@ public class TimeUtil {
             elapsedTimeMessage += String.format(" %d minute(s)", elapsedMinutes);
         }
 
-        elapsedTimeMessage += String.format(" %.2f seconds(s)", elapsedSeconds);
-
+        elapsedTimeMessage += String.format(" %.2f second(s)", elapsedSeconds);
         return elapsedTimeMessage;
+    }
+
+    /**
+     * Returns the formatted elapsed time from {@code startTime} until current time,
+     * with an additional explanatory string.
+     */
+    public static String getElapsedTimeMessage() {
+        return "Elapsed processing time:" + getElapsedTime();
     }
 }
