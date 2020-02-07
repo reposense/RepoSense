@@ -84,12 +84,11 @@
           span {{ getReportIssueEmailAddress() }}
       div.error-message-box__failed-repo--reason(v-else) {{ errorBlock.errorMessage }}
   v_charts(
-    v-bind:repos="repos",
+    v-bind:filtered="filtered",
+    v-bind:contribution-bar-file-type-colors="contributionBarFileTypeColors",
+    v-bind:avg-contribution-size="avgContributionSize",
     v-bind:filter-group-selection="filterGroupSelection",
-    v-bind:sort-group-selection="sortGroupSelection",
-    v-bind:sort-within-group-selection="sortWithinGroupSelection",
     v-bind:filter-breakdown="filterBreakdown",
-    v-bind:filter-search="filterSearch",
     v-bind:filter-time-frame="filterTimeFrame",
     v-bind:filter-since-date="filterSinceDate",
     v-bind:filter-until-date="filterUntilDate",
