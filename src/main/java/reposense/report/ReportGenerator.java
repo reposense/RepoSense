@@ -87,28 +87,30 @@ public class ReportGenerator {
      * @return the list of file paths that were generated.
      * @throws IOException if templateZip.zip does not exists in jar file.
      */
-    public static List<Path> generateReposReport(List<RepoConfiguration> configs, String outputPath,
-            String generationDate, Date cliSinceDate, Date untilDate,
-            boolean isSinceDateProvided, boolean isUntilDateProvided) throws IOException {
+    public static List<Path> generateReposReport(List<RepoConfiguration> configs, String outputPath)
+            throws IOException {
         prepareTemplateFile(outputPath);
-
         earliestSinceDate = null;
         progressTracker = new ProgressTracker(configs.size());
+        return cloneAndAnalyzeRepos(configs, outputPath);
+    }
 
-        List<Path> reportFoldersAndFiles = cloneAndAnalyzeRepos(configs, outputPath);
-
+    public static List<Path> generateSummary(List<RepoConfiguration> configs, String outputPath,
+            String generationDate, Date cliSinceDate, Date untilDate, boolean isSinceDateProvided,
+            boolean isUntilDateProvided, String elapsedTime) {
         Date reportSinceDate = (cliSinceDate.equals(SinceDateArgumentType.ARBITRARY_FIRST_COMMIT_DATE))
                 ? earliestSinceDate : cliSinceDate;
 
+        List<Path> reportFiles = new ArrayList<>();
         Optional<Path> summaryPath = FileUtil.writeJsonFile(
                 new SummaryJson(configs, generationDate, reportSinceDate, untilDate, isSinceDateProvided,
-                        isUntilDateProvided, RepoSense.getVersion(), ErrorSummary.getInstance().getErrorList()),
+                        isUntilDateProvided, RepoSense.getVersion(), ErrorSummary.getInstance().getErrorList(),
+                        elapsedTime),
                 getSummaryResultPath(outputPath));
-        summaryPath.ifPresent(reportFoldersAndFiles::add);
+        summaryPath.ifPresent(reportFiles::add);
 
         logger.info(String.format(MESSAGE_REPORT_GENERATED, outputPath));
-
-        return reportFoldersAndFiles;
+        return reportFiles;
     }
 
     /**
