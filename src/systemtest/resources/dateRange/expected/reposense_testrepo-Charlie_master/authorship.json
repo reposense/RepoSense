@@ -2,6 +2,7 @@
   {
     "path": "README.adoc",
     "fileType": "docs",
+    "isBinary": false,
     "lines": [
       {
         "lineNumber": 1,
@@ -260,11 +261,13 @@
       "charlesgoh": 3,
       "jeffreygohkw": 7,
       "-": 26
-    }
+    },
+    "binaryFileAuthors": []
   },
   {
     "path": "docs/AboutUs.adoc",
     "fileType": "docs",
+    "isBinary": false,
     "lines": [
       {
         "lineNumber": 1,
@@ -606,11 +609,13 @@
     "authorContributionMap": {
       "charlesgoh": 19,
       "-": 29
-    }
+    },
+    "binaryFileAuthors": []
   },
   {
     "path": "docs/DeveloperGuide.adoc",
     "fileType": "docs",
+    "isBinary": false,
     "lines": [
       {
         "lineNumber": 1,
@@ -9382,11 +9387,13 @@
       "jeffreygohkw": 157,
       "Esilocke": 178,
       "-": 847
-    }
+    },
+    "binaryFileAuthors": []
   },
   {
     "path": "docs/UserGuide.adoc",
     "fileType": "docs",
+    "isBinary": false,
     "lines": [
       {
         "lineNumber": 1,
@@ -14630,11 +14637,13 @@
       "jeffreygohkw": 47,
       "Esilocke": 255,
       "-": 414
-    }
+    },
+    "binaryFileAuthors": []
   },
   {
     "path": "src/main/java/seedu/address/MainApp.java",
     "fileType": "code",
+    "isBinary": false,
     "lines": [
       {
         "lineNumber": 1,
@@ -16160,11 +16169,13 @@
       "charlesgoh": 2,
       "jeffreygohkw": 5,
       "-": 210
-    }
+    },
+    "binaryFileAuthors": []
   },
   {
     "path": "src/main/java/seedu/address/commons/core/Messages.java",
     "fileType": "code",
+    "isBinary": false,
     "lines": [
       {
         "lineNumber": 1,
@@ -16275,11 +16286,13 @@
     "authorContributionMap": {
       "Esilocke": 2,
       "-": 13
-    }
+    },
+    "binaryFileAuthors": []
   },
   {
     "path": "src/main/java/seedu/address/commons/events/model/AddressBookChangedEvent.java",
     "fileType": "code",
+    "isBinary": false,
     "lines": [
       {
         "lineNumber": 1,
@@ -16425,11 +16438,13 @@
     "authorContributionMap": {
       "Esilocke": 2,
       "-": 18
-    }
+    },
+    "binaryFileAuthors": []
   },
   {
     "path": "src/main/java/seedu/address/commons/events/ui/BrowserPanelLocateEvent.java",
     "fileType": "code",
+    "isBinary": false,
     "lines": [
       {
         "lineNumber": 1,
@@ -16609,11 +16624,13 @@
     ],
     "authorContributionMap": {
       "jeffreygohkw": 25
-    }
+    },
+    "binaryFileAuthors": []
   },
   {
     "path": "src/main/java/seedu/address/commons/events/ui/OpenRequestEvent.java",
     "fileType": "code",
+    "isBinary": false,
     "lines": [
       {
         "lineNumber": 1,
@@ -16716,11 +16733,13 @@
     ],
     "authorContributionMap": {
       "jeffreygohkw": 14
-    }
+    },
+    "binaryFileAuthors": []
   },
   {
     "path": "src/main/java/seedu/address/commons/events/ui/SaveAsRequestEvent.java",
     "fileType": "code",
+    "isBinary": false,
     "lines": [
       {
         "lineNumber": 1,
@@ -16823,11 +16842,13 @@
     ],
     "authorContributionMap": {
       "jeffreygohkw": 14
-    }
+    },
+    "binaryFileAuthors": []
   },
   {
     "path": "src/main/java/seedu/address/commons/events/ui/TaskPanelSelectionChangedEvent.java",
     "fileType": "code",
+    "isBinary": false,
     "lines": [
       {
         "lineNumber": 1,
@@ -17014,11 +17035,13 @@
     ],
     "authorContributionMap": {
       "Esilocke": 26
-    }
+    },
+    "binaryFileAuthors": []
   },
   {
     "path": "src/main/java/seedu/address/logic/Logic.java",
     "fileType": "code",
+    "isBinary": false,
     "lines": [
       {
         "lineNumber": 1,
@@ -17241,11 +17264,13 @@
     "authorContributionMap": {
       "Esilocke": 4,
       "-": 27
-    }
+    },
+    "binaryFileAuthors": []
   },
   {
     "path": "src/main/java/seedu/address/logic/LogicManager.java",
     "fileType": "code",
+    "isBinary": false,
     "lines": [
       {
         "lineNumber": 1,
@@ -17791,11 +17816,13 @@
       "charlesgoh": 6,
       "Esilocke": 8,
       "-": 63
-    }
+    },
+    "binaryFileAuthors": []
   },
   {
     "path": "src/main/java/seedu/address/logic/commands/AddCommand.java",
     "fileType": "code",
+    "isBinary": false,
     "lines": [
       {
         "lineNumber": 1,
@@ -18664,11 +18691,13 @@
       "Esilocke": 60,
       "wangyiming1019": 1,
       "-": 58
-    }
+    },
+    "binaryFileAuthors": []
   },
   {
     "path": "src/main/java/seedu/address/logic/commands/AddTagCommand.java",
     "fileType": "code",
+    "isBinary": false,
     "lines": [
       {
         "lineNumber": 1,
@@ -19556,11 +19585,13 @@
     "authorContributionMap": {
       "Esilocke": 18,
       "wangyiming1019": 108
-    }
+    },
+    "binaryFileAuthors": []
   },
   {
     "path": "src/main/java/seedu/address/logic/commands/BackupCommand.java",
     "fileType": "code",
+    "isBinary": false,
     "lines": [
       {
         "lineNumber": 1,
@@ -19901,11 +19932,13 @@
     ],
     "authorContributionMap": {
       "charlesgoh": 48
-    }
+    },
+    "binaryFileAuthors": []
   },
   {
     "path": "src/main/java/seedu/address/logic/commands/ChangePrivacyCommand.java",
     "fileType": "code",
+    "isBinary": false,
     "lines": [
       {
         "lineNumber": 1,
@@ -21815,11 +21848,13 @@
     "authorContributionMap": {
       "jeffreygohkw": 270,
       "wangyiming1019": 2
-    }
+    },
+    "binaryFileAuthors": []
   },
   {
     "path": "src/main/java/seedu/address/logic/commands/ClearCommand.java",
     "fileType": "code",
+    "isBinary": false,
     "lines": [
       {
         "lineNumber": 1,
@@ -22344,11 +22379,13 @@
       "Esilocke": 60,
       "wangyiming1019": 1,
       "-": 13
-    }
+    },
+    "binaryFileAuthors": []
   },
   {
     "path": "src/main/java/seedu/address/logic/commands/Command.java",
     "fileType": "code",
+    "isBinary": false,
     "lines": [
       {
         "lineNumber": 1,
@@ -22782,11 +22819,13 @@
       "charlesgoh": 8,
       "Esilocke": 10,
       "-": 43
-    }
+    },
+    "binaryFileAuthors": []
   },
   {
     "path": "src/main/java/seedu/address/logic/commands/DeleteCommand.java",
     "fileType": "code",
+    "isBinary": false,
     "lines": [
       {
         "lineNumber": 1,
@@ -23325,11 +23364,13 @@
       "Esilocke": 28,
       "wangyiming1019": 1,
       "-": 47
-    }
+    },
+    "binaryFileAuthors": []
   },
   {
     "path": "src/main/java/seedu/address/logic/commands/DeleteTagCommand.java",
     "fileType": "code",
+    "isBinary": false,
     "lines": [
       {
         "lineNumber": 1,
@@ -24217,11 +24258,13 @@
     "authorContributionMap": {
       "Esilocke": 18,
       "wangyiming1019": 108
-    }
+    },
+    "binaryFileAuthors": []
   },
   {
     "path": "src/main/java/seedu/address/logic/commands/EditCommand.java",
     "fileType": "code",
+    "isBinary": false,
     "lines": [
       {
         "lineNumber": 1,
@@ -28213,11 +28256,13 @@
       "Esilocke": 174,
       "wangyiming1019": 15,
       "-": 206
-    }
+    },
+    "binaryFileAuthors": []
   },
   {
     "path": "src/main/java/seedu/address/logic/commands/EditTagCommand.java",
     "fileType": "code",
+    "isBinary": false,
     "lines": [
       {
         "lineNumber": 1,
@@ -28908,11 +28953,13 @@
     ],
     "authorContributionMap": {
       "Esilocke": 98
-    }
+    },
+    "binaryFileAuthors": []
   },
   {
     "path": "src/main/java/seedu/address/logic/commands/FavouriteCommand.java",
     "fileType": "code",
+    "isBinary": false,
     "lines": [
       {
         "lineNumber": 1,
@@ -29358,11 +29405,13 @@
     ],
     "authorContributionMap": {
       "wangyiming1019": 63
-    }
+    },
+    "binaryFileAuthors": []
   },
   {
     "path": "src/main/java/seedu/address/logic/commands/FavouriteListCommand.java",
     "fileType": "code",
+    "isBinary": false,
     "lines": [
       {
         "lineNumber": 1,
@@ -29521,11 +29570,13 @@
     ],
     "authorContributionMap": {
       "wangyiming1019": 22
-    }
+    },
+    "binaryFileAuthors": []
   },
   {
     "path": "src/main/java/seedu/address/logic/commands/FindCommand.java",
     "fileType": "code",
+    "isBinary": false,
     "lines": [
       {
         "lineNumber": 1,
@@ -30001,11 +30052,13 @@
       "Esilocke": 36,
       "wangyiming1019": 1,
       "-": 30
-    }
+    },
+    "binaryFileAuthors": []
   },
   {
     "path": "src/main/java/seedu/address/logic/commands/FindTagCommand.java",
     "fileType": "code",
+    "isBinary": false,
     "lines": [
       {
         "lineNumber": 1,
@@ -30269,11 +30322,13 @@
     ],
     "authorContributionMap": {
       "wangyiming1019": 37
-    }
+    },
+    "binaryFileAuthors": []
   },
   {
     "path": "src/main/java/seedu/address/logic/commands/HistoryCommand.java",
     "fileType": "code",
+    "isBinary": false,
     "lines": [
       {
         "lineNumber": 1,
@@ -30552,11 +30607,13 @@
     "authorContributionMap": {
       "wangyiming1019": 1,
       "-": 38
-    }
+    },
+    "binaryFileAuthors": []
   },
   {
     "path": "src/main/java/seedu/address/logic/commands/ListCommand.java",
     "fileType": "code",
+    "isBinary": false,
     "lines": [
       {
         "lineNumber": 1,
@@ -30724,11 +30781,13 @@
       "Esilocke": 3,
       "wangyiming1019": 1,
       "-": 19
-    }
+    },
+    "binaryFileAuthors": []
   },
   {
     "path": "src/main/java/seedu/address/logic/commands/LocateCommand.java",
     "fileType": "code",
+    "isBinary": false,
     "lines": [
       {
         "lineNumber": 1,
@@ -31111,11 +31170,13 @@
     ],
     "authorContributionMap": {
       "jeffreygohkw": 54
-    }
+    },
+    "binaryFileAuthors": []
   },
   {
     "path": "src/main/java/seedu/address/logic/commands/RedoCommand.java",
     "fileType": "code",
+    "isBinary": false,
     "lines": [
       {
         "lineNumber": 1,
@@ -31380,11 +31441,13 @@
     "authorContributionMap": {
       "wangyiming1019": 1,
       "-": 36
-    }
+    },
+    "binaryFileAuthors": []
   },
   {
     "path": "src/main/java/seedu/address/logic/commands/SelectCommand.java",
     "fileType": "code",
+    "isBinary": false,
     "lines": [
       {
         "lineNumber": 1,
@@ -31761,11 +31824,13 @@
     "authorContributionMap": {
       "wangyiming1019": 1,
       "-": 52
-    }
+    },
+    "binaryFileAuthors": []
   },
   {
     "path": "src/main/java/seedu/address/logic/commands/SortCommand.java",
     "fileType": "code",
+    "isBinary": false,
     "lines": [
       {
         "lineNumber": 1,
@@ -32163,11 +32228,13 @@
     "authorContributionMap": {
       "charlesgoh": 48,
       "jeffreygohkw": 8
-    }
+    },
+    "binaryFileAuthors": []
   },
   {
     "path": "src/main/java/seedu/address/logic/commands/UndoCommand.java",
     "fileType": "code",
+    "isBinary": false,
     "lines": [
       {
         "lineNumber": 1,
@@ -32432,11 +32499,13 @@
     "authorContributionMap": {
       "wangyiming1019": 1,
       "-": 36
-    }
+    },
+    "binaryFileAuthors": []
   },
   {
     "path": "src/main/java/seedu/address/logic/commands/UnfavouriteCommand.java",
     "fileType": "code",
+    "isBinary": false,
     "lines": [
       {
         "lineNumber": 1,
@@ -32882,11 +32951,13 @@
     ],
     "authorContributionMap": {
       "wangyiming1019": 63
-    }
+    },
+    "binaryFileAuthors": []
   },
   {
     "path": "src/main/java/seedu/address/logic/parser/AddCommandParser.java",
     "fileType": "code",
+    "isBinary": false,
     "lines": [
       {
         "lineNumber": 1,
@@ -34239,11 +34310,13 @@
       "Esilocke": 73,
       "wangyiming1019": 1,
       "-": 52
-    }
+    },
+    "binaryFileAuthors": []
   },
   {
     "path": "src/main/java/seedu/address/logic/parser/AddTagCommandParser.java",
     "fileType": "code",
+    "isBinary": false,
     "lines": [
       {
         "lineNumber": 1,
@@ -34732,11 +34805,13 @@
     "authorContributionMap": {
       "Esilocke": 4,
       "wangyiming1019": 65
-    }
+    },
+    "binaryFileAuthors": []
   },
   {
     "path": "src/main/java/seedu/address/logic/parser/AddressBookParser.java",
     "fileType": "code",
+    "isBinary": false,
     "lines": [
       {
         "lineNumber": 1,
@@ -35844,11 +35919,13 @@
       "Esilocke": 6,
       "wangyiming1019": 41,
       "-": 91
-    }
+    },
+    "binaryFileAuthors": []
   },
   {
     "path": "src/main/java/seedu/address/logic/parser/BackupCommandParser.java",
     "fileType": "code",
+    "isBinary": false,
     "lines": [
       {
         "lineNumber": 1,
@@ -35972,11 +36049,13 @@
     ],
     "authorContributionMap": {
       "charlesgoh": 17
-    }
+    },
+    "binaryFileAuthors": []
   },
   {
     "path": "src/main/java/seedu/address/logic/parser/ChangePrivacyCommandParser.java",
     "fileType": "code",
+    "isBinary": false,
     "lines": [
       {
         "lineNumber": 1,
@@ -37038,11 +37117,13 @@
     ],
     "authorContributionMap": {
       "jeffreygohkw": 151
-    }
+    },
+    "binaryFileAuthors": []
   },
   {
     "path": "src/main/java/seedu/address/logic/parser/ClearCommandParser.java",
     "fileType": "code",
+    "isBinary": false,
     "lines": [
       {
         "lineNumber": 1,
@@ -37306,11 +37387,13 @@
     ],
     "authorContributionMap": {
       "Esilocke": 37
-    }
+    },
+    "binaryFileAuthors": []
   },
   {
     "path": "src/main/java/seedu/address/logic/parser/CliSyntax.java",
     "fileType": "code",
+    "isBinary": false,
     "lines": [
       {
         "lineNumber": 1,
@@ -37514,11 +37597,13 @@
       "jeffreygohkw": 6,
       "Esilocke": 5,
       "-": 15
-    }
+    },
+    "binaryFileAuthors": []
   },
   {
     "path": "src/main/java/seedu/address/logic/parser/DeleteCommandParser.java",
     "fileType": "code",
+    "isBinary": false,
     "lines": [
       {
         "lineNumber": 1,
@@ -37804,11 +37889,13 @@
     "authorContributionMap": {
       "Esilocke": 12,
       "-": 28
-    }
+    },
+    "binaryFileAuthors": []
   },
   {
     "path": "src/main/java/seedu/address/logic/parser/DeleteTagCommandParser.java",
     "fileType": "code",
+    "isBinary": false,
     "lines": [
       {
         "lineNumber": 1,
@@ -38276,11 +38363,13 @@
     "authorContributionMap": {
       "Esilocke": 4,
       "wangyiming1019": 62
-    }
+    },
+    "binaryFileAuthors": []
   },
   {
     "path": "src/main/java/seedu/address/logic/parser/EditCommandParser.java",
     "fileType": "code",
+    "isBinary": false,
     "lines": [
       {
         "lineNumber": 1,
@@ -39190,11 +39279,13 @@
       "charlesgoh": 4,
       "Esilocke": 47,
       "-": 78
-    }
+    },
+    "binaryFileAuthors": []
   },
   {
     "path": "src/main/java/seedu/address/logic/parser/EditTagCommandParser.java",
     "fileType": "code",
+    "isBinary": false,
     "lines": [
       {
         "lineNumber": 1,
@@ -39633,11 +39724,13 @@
     ],
     "authorContributionMap": {
       "Esilocke": 62
-    }
+    },
+    "binaryFileAuthors": []
   },
   {
     "path": "src/main/java/seedu/address/logic/parser/FavouriteCommandParser.java",
     "fileType": "code",
+    "isBinary": false,
     "lines": [
       {
         "lineNumber": 1,
@@ -39845,11 +39938,13 @@
     ],
     "authorContributionMap": {
       "wangyiming1019": 29
-    }
+    },
+    "binaryFileAuthors": []
   },
   {
     "path": "src/main/java/seedu/address/logic/parser/FindCommandParser.java",
     "fileType": "code",
+    "isBinary": false,
     "lines": [
       {
         "lineNumber": 1,
@@ -40170,11 +40265,13 @@
     "authorContributionMap": {
       "Esilocke": 14,
       "-": 31
-    }
+    },
+    "binaryFileAuthors": []
   },
   {
     "path": "src/main/java/seedu/address/logic/parser/FindTagCommandParser.java",
     "fileType": "code",
+    "isBinary": false,
     "lines": [
       {
         "lineNumber": 1,
@@ -40431,11 +40528,13 @@
     ],
     "authorContributionMap": {
       "wangyiming1019": 36
-    }
+    },
+    "binaryFileAuthors": []
   },
   {
     "path": "src/main/java/seedu/address/logic/parser/LocateCommandParser.java",
     "fileType": "code",
+    "isBinary": false,
     "lines": [
       {
         "lineNumber": 1,
@@ -40643,11 +40742,13 @@
     ],
     "authorContributionMap": {
       "jeffreygohkw": 29
-    }
+    },
+    "binaryFileAuthors": []
   },
   {
     "path": "src/main/java/seedu/address/logic/parser/ParserUtil.java",
     "fileType": "code",
+    "isBinary": false,
     "lines": [
       {
         "lineNumber": 1,
@@ -42020,11 +42121,13 @@
       "jeffreygohkw": 29,
       "Esilocke": 39,
       "-": 104
-    }
+    },
+    "binaryFileAuthors": []
   },
   {
     "path": "src/main/java/seedu/address/logic/parser/SortCommandParser.java",
     "fileType": "code",
+    "isBinary": false,
     "lines": [
       {
         "lineNumber": 1,
@@ -42366,11 +42469,13 @@
     "authorContributionMap": {
       "charlesgoh": 44,
       "jeffreygohkw": 4
-    }
+    },
+    "binaryFileAuthors": []
   },
   {
     "path": "src/main/java/seedu/address/logic/parser/UnfavouriteCommandParser.java",
     "fileType": "code",
+    "isBinary": false,
     "lines": [
       {
         "lineNumber": 1,
@@ -42578,11 +42683,13 @@
     ],
     "authorContributionMap": {
       "wangyiming1019": 29
-    }
+    },
+    "binaryFileAuthors": []
   },
   {
     "path": "src/main/java/seedu/address/model/AddressBook.java",
     "fileType": "code",
+    "isBinary": false,
     "lines": [
       {
         "lineNumber": 1,
@@ -44781,11 +44888,13 @@
       "Esilocke": 105,
       "wangyiming1019": 16,
       "-": 182
-    }
+    },
+    "binaryFileAuthors": []
   },
   {
     "path": "src/main/java/seedu/address/model/Model.java",
     "fileType": "code",
+    "isBinary": false,
     "lines": [
       {
         "lineNumber": 1,
@@ -45556,11 +45665,13 @@
       "Esilocke": 36,
       "wangyiming1019": 18,
       "-": 49
-    }
+    },
+    "binaryFileAuthors": []
   },
   {
     "path": "src/main/java/seedu/address/model/ModelManager.java",
     "fileType": "code",
+    "isBinary": false,
     "lines": [
       {
         "lineNumber": 1,
@@ -47465,11 +47576,13 @@
       "Esilocke": 98,
       "wangyiming1019": 49,
       "-": 118
-    }
+    },
+    "binaryFileAuthors": []
   },
   {
     "path": "src/main/java/seedu/address/model/ReadOnlyAddressBook.java",
     "fileType": "code",
+    "isBinary": false,
     "lines": [
       {
         "lineNumber": 1,
@@ -47678,11 +47791,13 @@
     "authorContributionMap": {
       "Esilocke": 5,
       "-": 24
-    }
+    },
+    "binaryFileAuthors": []
   },
   {
     "path": "src/main/java/seedu/address/model/person/Address.java",
     "fileType": "code",
+    "isBinary": false,
     "lines": [
       {
         "lineNumber": 1,
@@ -48242,11 +48357,13 @@
       "jeffreygohkw": 14,
       "Esilocke": 6,
       "-": 59
-    }
+    },
+    "binaryFileAuthors": []
   },
   {
     "path": "src/main/java/seedu/address/model/person/Email.java",
     "fileType": "code",
+    "isBinary": false,
     "lines": [
       {
         "lineNumber": 1,
@@ -48778,11 +48895,13 @@
       "jeffreygohkw": 14,
       "Esilocke": 6,
       "-": 55
-    }
+    },
+    "binaryFileAuthors": []
   },
   {
     "path": "src/main/java/seedu/address/model/person/Name.java",
     "fileType": "code",
+    "isBinary": false,
     "lines": [
       {
         "lineNumber": 1,
@@ -49341,11 +49460,13 @@
     "authorContributionMap": {
       "jeffreygohkw": 14,
       "-": 65
-    }
+    },
+    "binaryFileAuthors": []
   },
   {
     "path": "src/main/java/seedu/address/model/person/NameContainsFavouritePredicate.java",
     "fileType": "code",
+    "isBinary": false,
     "lines": [
       {
         "lineNumber": 1,
@@ -49511,11 +49632,13 @@
     ],
     "authorContributionMap": {
       "wangyiming1019": 23
-    }
+    },
+    "binaryFileAuthors": []
   },
   {
     "path": "src/main/java/seedu/address/model/person/NameContainsTagsPredicate.java",
     "fileType": "code",
+    "isBinary": false,
     "lines": [
       {
         "lineNumber": 1,
@@ -50164,11 +50287,13 @@
     ],
     "authorContributionMap": {
       "wangyiming1019": 92
-    }
+    },
+    "binaryFileAuthors": []
   },
   {
     "path": "src/main/java/seedu/address/model/person/Person.java",
     "fileType": "code",
+    "isBinary": false,
     "lines": [
       {
         "lineNumber": 1,
@@ -51393,11 +51518,13 @@
       "charlesgoh": 16,
       "wangyiming1019": 22,
       "-": 136
-    }
+    },
+    "binaryFileAuthors": []
   },
   {
     "path": "src/main/java/seedu/address/model/person/Phone.java",
     "fileType": "code",
+    "isBinary": false,
     "lines": [
       {
         "lineNumber": 1,
@@ -51936,11 +52063,13 @@
       "jeffreygohkw": 15,
       "Esilocke": 6,
       "-": 55
-    }
+    },
+    "binaryFileAuthors": []
   },
   {
     "path": "src/main/java/seedu/address/model/person/ReadOnlyPerson.java",
     "fileType": "code",
+    "isBinary": false,
     "lines": [
       {
         "lineNumber": 1,
@@ -52388,11 +52517,13 @@
       "charlesgoh": 5,
       "wangyiming1019": 4,
       "-": 54
-    }
+    },
+    "binaryFileAuthors": []
   },
   {
     "path": "src/main/java/seedu/address/model/person/Remark.java",
     "fileType": "code",
+    "isBinary": false,
     "lines": [
       {
         "lineNumber": 1,
@@ -52943,11 +53074,13 @@
     ],
     "authorContributionMap": {
       "charlesgoh": 78
-    }
+    },
+    "binaryFileAuthors": []
   },
   {
     "path": "src/main/java/seedu/address/model/person/UniquePersonList.java",
     "fileType": "code",
+    "isBinary": false,
     "lines": [
       {
         "lineNumber": 1,
@@ -54648,11 +54781,13 @@
       "charlesgoh": 88,
       "wangyiming1019": 30,
       "-": 124
-    }
+    },
+    "binaryFileAuthors": []
   },
   {
     "path": "src/main/java/seedu/address/model/tag/Tag.java",
     "fileType": "code",
+    "isBinary": false,
     "lines": [
       {
         "lineNumber": 1,
@@ -55092,11 +55227,13 @@
     "authorContributionMap": {
       "charlesgoh": 4,
       "-": 58
-    }
+    },
+    "binaryFileAuthors": []
   },
   {
     "path": "src/main/java/seedu/address/model/task/Deadline.java",
     "fileType": "code",
+    "isBinary": false,
     "lines": [
       {
         "lineNumber": 1,
@@ -56018,11 +56155,13 @@
     ],
     "authorContributionMap": {
       "Esilocke": 131
-    }
+    },
+    "binaryFileAuthors": []
   },
   {
     "path": "src/main/java/seedu/address/model/task/Description.java",
     "fileType": "code",
+    "isBinary": false,
     "lines": [
       {
         "lineNumber": 1,
@@ -56475,11 +56614,13 @@
     ],
     "authorContributionMap": {
       "Esilocke": 64
-    }
+    },
+    "binaryFileAuthors": []
   },
   {
     "path": "src/main/java/seedu/address/model/task/Priority.java",
     "fileType": "code",
+    "isBinary": false,
     "lines": [
       {
         "lineNumber": 1,
@@ -57065,11 +57206,13 @@
     ],
     "authorContributionMap": {
       "Esilocke": 83
-    }
+    },
+    "binaryFileAuthors": []
   },
   {
     "path": "src/main/java/seedu/address/model/task/ReadOnlyTask.java",
     "fileType": "code",
+    "isBinary": false,
     "lines": [
       {
         "lineNumber": 1,
@@ -57375,11 +57518,13 @@
     ],
     "authorContributionMap": {
       "Esilocke": 43
-    }
+    },
+    "binaryFileAuthors": []
   },
   {
     "path": "src/main/java/seedu/address/model/task/Task.java",
     "fileType": "code",
+    "isBinary": false,
     "lines": [
       {
         "lineNumber": 1,
@@ -58119,11 +58264,13 @@
     ],
     "authorContributionMap": {
       "Esilocke": 105
-    }
+    },
+    "binaryFileAuthors": []
   },
   {
     "path": "src/main/java/seedu/address/model/task/TaskContainsKeywordPredicate.java",
     "fileType": "code",
+    "isBinary": false,
     "lines": [
       {
         "lineNumber": 1,
@@ -58394,11 +58541,13 @@
     ],
     "authorContributionMap": {
       "Esilocke": 38
-    }
+    },
+    "binaryFileAuthors": []
   },
   {
     "path": "src/main/java/seedu/address/model/task/TaskName.java",
     "fileType": "code",
+    "isBinary": false,
     "lines": [
       {
         "lineNumber": 1,
@@ -58844,11 +58993,13 @@
     ],
     "authorContributionMap": {
       "Esilocke": 63
-    }
+    },
+    "binaryFileAuthors": []
   },
   {
     "path": "src/main/java/seedu/address/model/task/UniqueTaskList.java",
     "fileType": "code",
+    "isBinary": false,
     "lines": [
       {
         "lineNumber": 1,
@@ -59721,11 +59872,13 @@
     ],
     "authorContributionMap": {
       "Esilocke": 124
-    }
+    },
+    "binaryFileAuthors": []
   },
   {
     "path": "src/main/java/seedu/address/model/task/exceptions/DuplicateTaskException.java",
     "fileType": "code",
+    "isBinary": false,
     "lines": [
       {
         "lineNumber": 1,
@@ -59821,11 +59974,13 @@
     ],
     "authorContributionMap": {
       "Esilocke": 13
-    }
+    },
+    "binaryFileAuthors": []
   },
   {
     "path": "src/main/java/seedu/address/model/task/exceptions/TaskNotFoundException.java",
     "fileType": "code",
+    "isBinary": false,
     "lines": [
       {
         "lineNumber": 1,
@@ -59886,11 +60041,13 @@
     ],
     "authorContributionMap": {
       "Esilocke": 8
-    }
+    },
+    "binaryFileAuthors": []
   },
   {
     "path": "src/main/java/seedu/address/model/util/SampleDataUtil.java",
     "fileType": "code",
+    "isBinary": false,
     "lines": [
       {
         "lineNumber": 1,
@@ -60450,11 +60607,13 @@
       "charlesgoh": 7,
       "wangyiming1019": 6,
       "-": 66
-    }
+    },
+    "binaryFileAuthors": []
   },
   {
     "path": "src/main/java/seedu/address/storage/AddressBookStorage.java",
     "fileType": "code",
+    "isBinary": false,
     "lines": [
       {
         "lineNumber": 1,
@@ -60811,11 +60970,13 @@
       "charlesgoh": 3,
       "jeffreygohkw": 3,
       "-": 44
-    }
+    },
+    "binaryFileAuthors": []
   },
   {
     "path": "src/main/java/seedu/address/storage/StorageManager.java",
     "fileType": "code",
+    "isBinary": false,
     "lines": [
       {
         "lineNumber": 1,
@@ -61662,11 +61823,13 @@
       "charlesgoh": 20,
       "jeffreygohkw": 8,
       "-": 92
-    }
+    },
+    "binaryFileAuthors": []
   },
   {
     "path": "src/main/java/seedu/address/storage/XmlAdaptedPerson.java",
     "fileType": "code",
+    "isBinary": false,
     "lines": [
       {
         "lineNumber": 1,
@@ -62486,11 +62649,13 @@
       "jeffreygohkw": 27,
       "wangyiming1019": 6,
       "-": 73
-    }
+    },
+    "binaryFileAuthors": []
   },
   {
     "path": "src/main/java/seedu/address/storage/XmlAdaptedTask.java",
     "fileType": "code",
+    "isBinary": false,
     "lines": [
       {
         "lineNumber": 1,
@@ -62880,11 +63045,13 @@
     ],
     "authorContributionMap": {
       "Esilocke": 55
-    }
+    },
+    "binaryFileAuthors": []
   },
   {
     "path": "src/main/java/seedu/address/storage/XmlAddressBookStorage.java",
     "fileType": "code",
+    "isBinary": false,
     "lines": [
       {
         "lineNumber": 1,
@@ -63640,11 +63807,13 @@
       "charlesgoh": 21,
       "jeffreygohkw": 9,
       "-": 77
-    }
+    },
+    "binaryFileAuthors": []
   },
   {
     "path": "src/main/java/seedu/address/storage/XmlSerializableAddressBook.java",
     "fileType": "code",
+    "isBinary": false,
     "lines": [
       {
         "lineNumber": 1,
@@ -64287,11 +64456,13 @@
     "authorContributionMap": {
       "Esilocke": 17,
       "-": 74
-    }
+    },
+    "binaryFileAuthors": []
   },
   {
     "path": "src/main/java/seedu/address/ui/BrowserPanel.java",
     "fileType": "code",
+    "isBinary": false,
     "lines": [
       {
         "lineNumber": 1,
@@ -65081,11 +65252,13 @@
     "authorContributionMap": {
       "jeffreygohkw": 37,
       "-": 75
-    }
+    },
+    "binaryFileAuthors": []
   },
   {
     "path": "src/main/java/seedu/address/ui/MainWindow.java",
     "fileType": "code",
+    "isBinary": false,
     "lines": [
       {
         "lineNumber": 1,
@@ -67466,11 +67639,13 @@
       "jeffreygohkw": 107,
       "Esilocke": 11,
       "-": 218
-    }
+    },
+    "binaryFileAuthors": []
   },
   {
     "path": "src/main/java/seedu/address/ui/PersonCard.java",
     "fileType": "code",
+    "isBinary": false,
     "lines": [
       {
         "lineNumber": 1,
@@ -68352,11 +68527,13 @@
       "charlesgoh": 31,
       "wangyiming1019": 9,
       "-": 85
-    }
+    },
+    "binaryFileAuthors": []
   },
   {
     "path": "src/main/java/seedu/address/ui/StatusBarFooter.java",
     "fileType": "code",
+    "isBinary": false,
     "lines": [
       {
         "lineNumber": 1,
@@ -68985,11 +69162,13 @@
     "authorContributionMap": {
       "charlesgoh": 9,
       "-": 80
-    }
+    },
+    "binaryFileAuthors": []
   },
   {
     "path": "src/main/java/seedu/address/ui/TaskCard.java",
     "fileType": "code",
+    "isBinary": false,
     "lines": [
       {
         "lineNumber": 1,
@@ -69526,11 +69705,13 @@
     ],
     "authorContributionMap": {
       "Esilocke": 76
-    }
+    },
+    "binaryFileAuthors": []
   },
   {
     "path": "src/main/java/seedu/address/ui/TaskListPanel.java",
     "fileType": "code",
+    "isBinary": false,
     "lines": [
       {
         "lineNumber": 1,
@@ -70151,11 +70332,13 @@
     ],
     "authorContributionMap": {
       "Esilocke": 88
-    }
+    },
+    "binaryFileAuthors": []
   },
   {
     "path": "src/main/java/seedu/address/ui/Ui.java",
     "fileType": "code",
+    "isBinary": false,
     "lines": [
       {
         "lineNumber": 1,
@@ -70287,11 +70470,13 @@
     "authorContributionMap": {
       "jeffreygohkw": 2,
       "-": 16
-    }
+    },
+    "binaryFileAuthors": []
   },
   {
     "path": "src/main/java/seedu/address/ui/UiManager.java",
     "fileType": "code",
+    "isBinary": false,
     "lines": [
       {
         "lineNumber": 1,
@@ -71173,11 +71358,13 @@
       "charlesgoh": 1,
       "jeffreygohkw": 4,
       "-": 120
-    }
+    },
+    "binaryFileAuthors": []
   },
   {
     "path": "src/test/java/seedu/address/commons/util/AppUtilTest.java",
     "fileType": "test",
+    "isBinary": false,
     "lines": [
       {
         "lineNumber": 1,
@@ -71512,11 +71699,13 @@
     "authorContributionMap": {
       "charlesgoh": 1,
       "-": 46
-    }
+    },
+    "binaryFileAuthors": []
   },
   {
     "path": "src/test/java/seedu/address/logic/commands/AddCommandTest.java",
     "fileType": "test",
+    "isBinary": false,
     "lines": [
       {
         "lineNumber": 1,
@@ -73561,11 +73750,13 @@
       "Esilocke": 102,
       "wangyiming1019": 24,
       "-": 161
-    }
+    },
+    "binaryFileAuthors": []
   },
   {
     "path": "src/test/java/seedu/address/logic/commands/AddTagCommandTest.java",
     "fileType": "test",
+    "isBinary": false,
     "lines": [
       {
         "lineNumber": 1,
@@ -74627,11 +74818,13 @@
     ],
     "authorContributionMap": {
       "wangyiming1019": 151
-    }
+    },
+    "binaryFileAuthors": []
   },
   {
     "path": "src/test/java/seedu/address/logic/commands/ChangePrivacyCommandTest.java",
     "fileType": "test",
+    "isBinary": false,
     "lines": [
       {
         "lineNumber": 1,
@@ -75532,11 +75725,13 @@
     ],
     "authorContributionMap": {
       "jeffreygohkw": 128
-    }
+    },
+    "binaryFileAuthors": []
   },
   {
     "path": "src/test/java/seedu/address/logic/commands/ClearCommandTest.java",
     "fileType": "test",
+    "isBinary": false,
     "lines": [
       {
         "lineNumber": 1,
@@ -75815,11 +76010,13 @@
     "authorContributionMap": {
       "Esilocke": 5,
       "-": 34
-    }
+    },
+    "binaryFileAuthors": []
   },
   {
     "path": "src/test/java/seedu/address/logic/commands/CommandTestUtil.java",
     "fileType": "test",
+    "isBinary": false,
     "lines": [
       {
         "lineNumber": 1,
@@ -77207,11 +77404,13 @@
       "Esilocke": 34,
       "wangyiming1019": 15,
       "-": 129
-    }
+    },
+    "binaryFileAuthors": []
   },
   {
     "path": "src/test/java/seedu/address/logic/commands/DeleteCommandTest.java",
     "fileType": "test",
+    "isBinary": false,
     "lines": [
       {
         "lineNumber": 1,
@@ -78050,11 +78249,13 @@
     "authorContributionMap": {
       "Esilocke": 10,
       "-": 109
-    }
+    },
+    "binaryFileAuthors": []
   },
   {
     "path": "src/test/java/seedu/address/logic/commands/DeleteTagCommandTest.java",
     "fileType": "test",
+    "isBinary": false,
     "lines": [
       {
         "lineNumber": 1,
@@ -79207,11 +79408,13 @@
     ],
     "authorContributionMap": {
       "wangyiming1019": 164
-    }
+    },
+    "binaryFileAuthors": []
   },
   {
     "path": "src/test/java/seedu/address/logic/commands/EditCommandTest.java",
     "fileType": "test",
+    "isBinary": false,
     "lines": [
       {
         "lineNumber": 1,
@@ -80827,11 +81030,13 @@
     "authorContributionMap": {
       "jeffreygohkw": 47,
       "-": 183
-    }
+    },
+    "binaryFileAuthors": []
   },
   {
     "path": "src/test/java/seedu/address/logic/commands/EditTagCommandTest.java",
     "fileType": "test",
+    "isBinary": false,
     "lines": [
       {
         "lineNumber": 1,
@@ -81620,11 +81825,13 @@
     ],
     "authorContributionMap": {
       "Esilocke": 112
-    }
+    },
+    "binaryFileAuthors": []
   },
   {
     "path": "src/test/java/seedu/address/logic/commands/EditTaskDescriptorTest.java",
     "fileType": "test",
+    "isBinary": false,
     "lines": [
       {
         "lineNumber": 1,
@@ -82007,11 +82214,13 @@
     ],
     "authorContributionMap": {
       "Esilocke": 54
-    }
+    },
+    "binaryFileAuthors": []
   },
   {
     "path": "src/test/java/seedu/address/logic/commands/FavouriteCommandTest.java",
     "fileType": "test",
+    "isBinary": false,
     "lines": [
       {
         "lineNumber": 1,
@@ -82555,11 +82764,13 @@
     ],
     "authorContributionMap": {
       "wangyiming1019": 77
-    }
+    },
+    "binaryFileAuthors": []
   },
   {
     "path": "src/test/java/seedu/address/logic/commands/FavouriteListCommandTest.java",
     "fileType": "test",
+    "isBinary": false,
     "lines": [
       {
         "lineNumber": 1,
@@ -82886,11 +83097,13 @@
     ],
     "authorContributionMap": {
       "wangyiming1019": 46
-    }
+    },
+    "binaryFileAuthors": []
   },
   {
     "path": "src/test/java/seedu/address/logic/commands/FindTagCommandTest.java",
     "fileType": "test",
+    "isBinary": false,
     "lines": [
       {
         "lineNumber": 1,
@@ -83665,11 +83878,13 @@
     ],
     "authorContributionMap": {
       "wangyiming1019": 110
-    }
+    },
+    "binaryFileAuthors": []
   },
   {
     "path": "src/test/java/seedu/address/logic/commands/LocateCommandTest.java",
     "fileType": "test",
+    "isBinary": false,
     "lines": [
       {
         "lineNumber": 1,
@@ -84668,11 +84883,13 @@
     ],
     "authorContributionMap": {
       "jeffreygohkw": 142
-    }
+    },
+    "binaryFileAuthors": []
   },
   {
     "path": "src/test/java/seedu/address/logic/commands/RedoCommandTest.java",
     "fileType": "test",
+    "isBinary": false,
     "lines": [
       {
         "lineNumber": 1,
@@ -85070,11 +85287,13 @@
     "authorContributionMap": {
       "Esilocke": 3,
       "-": 53
-    }
+    },
+    "binaryFileAuthors": []
   },
   {
     "path": "src/test/java/seedu/address/logic/commands/UnFavouriteCommandTest.java",
     "fileType": "test",
+    "isBinary": false,
     "lines": [
       {
         "lineNumber": 1,
@@ -85618,11 +85837,13 @@
     ],
     "authorContributionMap": {
       "wangyiming1019": 77
-    }
+    },
+    "binaryFileAuthors": []
   },
   {
     "path": "src/test/java/seedu/address/logic/commands/UndoCommandTest.java",
     "fileType": "test",
+    "isBinary": false,
     "lines": [
       {
         "lineNumber": 1,
@@ -86034,11 +86255,13 @@
     "authorContributionMap": {
       "Esilocke": 3,
       "-": 55
-    }
+    },
+    "binaryFileAuthors": []
   },
   {
     "path": "src/test/java/seedu/address/logic/parser/AddCommandParserTest.java",
     "fileType": "test",
+    "isBinary": false,
     "lines": [
       {
         "lineNumber": 1,
@@ -87697,11 +87920,13 @@
       "charlesgoh": 33,
       "Esilocke": 89,
       "-": 114
-    }
+    },
+    "binaryFileAuthors": []
   },
   {
     "path": "src/test/java/seedu/address/logic/parser/AddTagCommandParserTest.java",
     "fileType": "test",
+    "isBinary": false,
     "lines": [
       {
         "lineNumber": 1,
@@ -88112,11 +88337,13 @@
     ],
     "authorContributionMap": {
       "wangyiming1019": 58
-    }
+    },
+    "binaryFileAuthors": []
   },
   {
     "path": "src/test/java/seedu/address/logic/parser/AddressBookParserTest.java",
     "fileType": "test",
+    "isBinary": false,
     "lines": [
       {
         "lineNumber": 1,
@@ -90344,11 +90571,13 @@
       "Esilocke": 3,
       "wangyiming1019": 89,
       "-": 136
-    }
+    },
+    "binaryFileAuthors": []
   },
   {
     "path": "src/test/java/seedu/address/logic/parser/ChangePrivacyCommandParserTest.java",
     "fileType": "test",
+    "isBinary": false,
     "lines": [
       {
         "lineNumber": 1,
@@ -91564,11 +91793,13 @@
     ],
     "authorContributionMap": {
       "jeffreygohkw": 173
-    }
+    },
+    "binaryFileAuthors": []
   },
   {
     "path": "src/test/java/seedu/address/logic/parser/DeleteCommandParserTest.java",
     "fileType": "test",
+    "isBinary": false,
     "lines": [
       {
         "lineNumber": 1,
@@ -91938,11 +92169,13 @@
     "authorContributionMap": {
       "Esilocke": 23,
       "-": 29
-    }
+    },
+    "binaryFileAuthors": []
   },
   {
     "path": "src/test/java/seedu/address/logic/parser/DeleteTagCommandParserTest.java",
     "fileType": "test",
+    "isBinary": false,
     "lines": [
       {
         "lineNumber": 1,
@@ -92402,11 +92635,13 @@
     ],
     "authorContributionMap": {
       "wangyiming1019": 65
-    }
+    },
+    "binaryFileAuthors": []
   },
   {
     "path": "src/test/java/seedu/address/logic/parser/EditTagCommandParserTest.java",
     "fileType": "test",
+    "isBinary": false,
     "lines": [
       {
         "lineNumber": 1,
@@ -92782,11 +93017,13 @@
     ],
     "authorContributionMap": {
       "Esilocke": 53
-    }
+    },
+    "binaryFileAuthors": []
   },
   {
     "path": "src/test/java/seedu/address/logic/parser/FavouriteCommandParserTest.java",
     "fileType": "test",
+    "isBinary": false,
     "lines": [
       {
         "lineNumber": 1,
@@ -92973,11 +93210,13 @@
     ],
     "authorContributionMap": {
       "wangyiming1019": 26
-    }
+    },
+    "binaryFileAuthors": []
   },
   {
     "path": "src/test/java/seedu/address/logic/parser/FindTagCommandParserTest.java",
     "fileType": "test",
+    "isBinary": false,
     "lines": [
       {
         "lineNumber": 1,
@@ -93248,11 +93487,13 @@
     ],
     "authorContributionMap": {
       "wangyiming1019": 38
-    }
+    },
+    "binaryFileAuthors": []
   },
   {
     "path": "src/test/java/seedu/address/logic/parser/LocateCommandParserTest.java",
     "fileType": "test",
+    "isBinary": false,
     "lines": [
       {
         "lineNumber": 1,
@@ -93460,11 +93701,13 @@
     ],
     "authorContributionMap": {
       "jeffreygohkw": 29
-    }
+    },
+    "binaryFileAuthors": []
   },
   {
     "path": "src/test/java/seedu/address/logic/parser/SortCommandParserTest.java",
     "fileType": "test",
+    "isBinary": false,
     "lines": [
       {
         "lineNumber": 1,
@@ -94169,11 +94412,13 @@
     ],
     "authorContributionMap": {
       "jeffreygohkw": 100
-    }
+    },
+    "binaryFileAuthors": []
   },
   {
     "path": "src/test/java/seedu/address/logic/parser/UnfavouriteCommandParserTest.java",
     "fileType": "test",
+    "isBinary": false,
     "lines": [
       {
         "lineNumber": 1,
@@ -94360,11 +94605,13 @@
     ],
     "authorContributionMap": {
       "wangyiming1019": 26
-    }
+    },
+    "binaryFileAuthors": []
   },
   {
     "path": "src/test/java/seedu/address/model/AddressBookTest.java",
     "fileType": "test",
+    "isBinary": false,
     "lines": [
       {
         "lineNumber": 1,
@@ -95890,11 +96137,13 @@
       "charlesgoh": 114,
       "Esilocke": 8,
       "-": 95
-    }
+    },
+    "binaryFileAuthors": []
   },
   {
     "path": "src/test/java/seedu/address/model/person/AddressTest.java",
     "fileType": "test",
+    "isBinary": false,
     "lines": [
       {
         "lineNumber": 1,
@@ -96110,11 +96359,13 @@
     "authorContributionMap": {
       "jeffreygohkw": 9,
       "-": 21
-    }
+    },
+    "binaryFileAuthors": []
   },
   {
     "path": "src/test/java/seedu/address/model/person/EmailTest.java",
     "fileType": "test",
+    "isBinary": false,
     "lines": [
       {
         "lineNumber": 1,
@@ -96463,11 +96714,13 @@
     "authorContributionMap": {
       "jeffreygohkw": 9,
       "-": 40
-    }
+    },
+    "binaryFileAuthors": []
   },
   {
     "path": "src/test/java/seedu/address/model/person/NameTest.java",
     "fileType": "test",
+    "isBinary": false,
     "lines": [
       {
         "lineNumber": 1,
@@ -96718,11 +96971,13 @@
     "authorContributionMap": {
       "jeffreygohkw": 9,
       "-": 26
-    }
+    },
+    "binaryFileAuthors": []
   },
   {
     "path": "src/test/java/seedu/address/model/person/PhoneTest.java",
     "fileType": "test",
+    "isBinary": false,
     "lines": [
       {
         "lineNumber": 1,
@@ -96966,11 +97221,13 @@
     "authorContributionMap": {
       "jeffreygohkw": 9,
       "-": 25
-    }
+    },
+    "binaryFileAuthors": []
   },
   {
     "path": "src/test/java/seedu/address/model/task/DeadlineTest.java",
     "fileType": "test",
+    "isBinary": false,
     "lines": [
       {
         "lineNumber": 1,
@@ -97283,11 +97540,13 @@
     ],
     "authorContributionMap": {
       "Esilocke": 44
-    }
+    },
+    "binaryFileAuthors": []
   },
   {
     "path": "src/test/java/seedu/address/model/task/DescriptionTest.java",
     "fileType": "test",
+    "isBinary": false,
     "lines": [
       {
         "lineNumber": 1,
@@ -97432,11 +97691,13 @@
     ],
     "authorContributionMap": {
       "Esilocke": 20
-    }
+    },
+    "binaryFileAuthors": []
   },
   {
     "path": "src/test/java/seedu/address/model/task/PriorityTest.java",
     "fileType": "test",
+    "isBinary": false,
     "lines": [
       {
         "lineNumber": 1,
@@ -97602,11 +97863,13 @@
     ],
     "authorContributionMap": {
       "Esilocke": 23
-    }
+    },
+    "binaryFileAuthors": []
   },
   {
     "path": "src/test/java/seedu/address/model/task/TaskNameTest.java",
     "fileType": "test",
+    "isBinary": false,
     "lines": [
       {
         "lineNumber": 1,
@@ -97758,11 +98021,13 @@
     ],
     "authorContributionMap": {
       "Esilocke": 21
-    }
+    },
+    "binaryFileAuthors": []
   },
   {
     "path": "src/test/java/seedu/address/testutil/EditPersonDescriptorBuilder.java",
     "fileType": "test",
+    "isBinary": false,
     "lines": [
       {
         "lineNumber": 1,
@@ -98630,11 +98895,13 @@
       "charlesgoh": 13,
       "wangyiming1019": 8,
       "-": 102
-    }
+    },
+    "binaryFileAuthors": []
   },
   {
     "path": "src/test/java/seedu/address/testutil/EditTaskDescriptorBuilder.java",
     "fileType": "test",
+    "isBinary": false,
     "lines": [
       {
         "lineNumber": 1,
@@ -99255,11 +99522,13 @@
     ],
     "authorContributionMap": {
       "Esilocke": 88
-    }
+    },
+    "binaryFileAuthors": []
   },
   {
     "path": "src/test/java/seedu/address/testutil/PersonBuilder.java",
     "fileType": "test",
+    "isBinary": false,
     "lines": [
       {
         "lineNumber": 1,
@@ -100232,11 +100501,13 @@
       "charlesgoh": 13,
       "wangyiming1019": 12,
       "-": 113
-    }
+    },
+    "binaryFileAuthors": []
   },
   {
     "path": "src/test/java/seedu/address/testutil/PersonPrivacySettingsBuilder.java",
     "fileType": "test",
+    "isBinary": false,
     "lines": [
       {
         "lineNumber": 1,
@@ -100871,11 +101142,13 @@
     ],
     "authorContributionMap": {
       "jeffreygohkw": 90
-    }
+    },
+    "binaryFileAuthors": []
   },
   {
     "path": "src/test/java/seedu/address/testutil/PersonUtil.java",
     "fileType": "test",
+    "isBinary": false,
     "lines": [
       {
         "lineNumber": 1,
@@ -101161,11 +101434,13 @@
     "authorContributionMap": {
       "charlesgoh": 2,
       "-": 38
-    }
+    },
+    "binaryFileAuthors": []
   },
   {
     "path": "src/test/java/seedu/address/testutil/TaskBuilder.java",
     "fileType": "test",
+    "isBinary": false,
     "lines": [
       {
         "lineNumber": 1,
@@ -101821,11 +102096,13 @@
     ],
     "authorContributionMap": {
       "Esilocke": 93
-    }
+    },
+    "binaryFileAuthors": []
   },
   {
     "path": "src/test/java/seedu/address/testutil/TypicalPersons.java",
     "fileType": "test",
+    "isBinary": false,
     "lines": [
       {
         "lineNumber": 1,
@@ -102540,11 +102817,13 @@
       "Esilocke": 14,
       "wangyiming1019": 15,
       "-": 68
-    }
+    },
+    "binaryFileAuthors": []
   },
   {
     "path": "src/test/java/seedu/address/testutil/TypicalTasks.java",
     "fileType": "test",
+    "isBinary": false,
     "lines": [
       {
         "lineNumber": 1,
@@ -103081,11 +103360,13 @@
     ],
     "authorContributionMap": {
       "Esilocke": 76
-    }
+    },
+    "binaryFileAuthors": []
   },
   {
     "path": "src/test/java/seedu/address/ui/BrowserPanelTest.java",
     "fileType": "test",
+    "isBinary": false,
     "lines": [
       {
         "lineNumber": 1,
@@ -103539,11 +103820,13 @@
     "authorContributionMap": {
       "jeffreygohkw": 14,
       "-": 50
-    }
+    },
+    "binaryFileAuthors": []
   },
   {
     "path": "src/test/java/seedu/address/ui/StatusBarFooterTest.java",
     "fileType": "test",
+    "isBinary": false,
     "lines": [
       {
         "lineNumber": 1,
@@ -104074,11 +104357,13 @@
     "authorContributionMap": {
       "charlesgoh": 3,
       "-": 72
-    }
+    },
+    "binaryFileAuthors": []
   },
   {
     "path": "src/test/java/seedu/address/ui/UiPartTest.java",
     "fileType": "test",
+    "isBinary": false,
     "lines": [
       {
         "lineNumber": 1,
@@ -104798,11 +105083,13 @@
     "authorContributionMap": {
       "charlesgoh": 17,
       "-": 85
-    }
+    },
+    "binaryFileAuthors": []
   },
   {
     "path": "src/test/java/systemtests/AddCommandSystemTest.java",
     "fileType": "test",
+    "isBinary": false,
     "lines": [
       {
         "lineNumber": 1,
@@ -106628,11 +106915,13 @@
     "authorContributionMap": {
       "charlesgoh": 36,
       "-": 224
-    }
+    },
+    "binaryFileAuthors": []
   },
   {
     "path": "src/test/java/systemtests/ClearCommandSystemTest.java",
     "fileType": "test",
+    "isBinary": false,
     "lines": [
       {
         "lineNumber": 1,
@@ -107359,11 +107648,13 @@
     "authorContributionMap": {
       "Esilocke": 6,
       "-": 97
-    }
+    },
+    "binaryFileAuthors": []
   },
   {
     "path": "src/test/java/systemtests/EditCommandSystemTest.java",
     "fileType": "test",
+    "isBinary": false,
     "lines": [
       {
         "lineNumber": 1,
@@ -109343,6 +109634,7 @@
     "authorContributionMap": {
       "charlesgoh": 14,
       "-": 268
-    }
+    },
+    "binaryFileAuthors": []
   }
 ]

@@ -2,6 +2,7 @@
   {
     "path": "src/main/resources/view/MainWindow.fxml",
     "fileType": "fxml",
+    "isBinary": false,
     "lines": [
       {
         "lineNumber": 1,
@@ -456,11 +457,13 @@
       "April0616": 1,
       "-": 52,
       "nbr": 11
-    }
+    },
+    "binaryFileAuthors": []
   },
   {
     "path": "src/main/resources/view/PersonInfoOverview.fxml",
     "fileType": "fxml",
+    "isBinary": false,
     "lines": [
       {
         "lineNumber": 1,
@@ -922,11 +925,13 @@
       "April0616": 14,
       "-": 48,
       "nbr": 3
-    }
+    },
+    "binaryFileAuthors": []
   },
   {
     "path": "src/main/resources/view/PersonListCard.fxml",
     "fileType": "fxml",
+    "isBinary": false,
     "lines": [
       {
         "lineNumber": 1,
@@ -1227,11 +1232,13 @@
       "CindyTsai1": 1,
       "April0616": 4,
       "-": 37
-    }
+    },
+    "binaryFileAuthors": []
   },
   {
     "path": "src/main/resources/view/TagListPanel.fxml",
     "fileType": "fxml",
+    "isBinary": false,
     "lines": [
       {
         "lineNumber": 1,
@@ -1419,6 +1426,7 @@
     "authorContributionMap": {
       "-": 1,
       "nbr": 25
-    }
+    },
+    "binaryFileAuthors": []
   }
 ]

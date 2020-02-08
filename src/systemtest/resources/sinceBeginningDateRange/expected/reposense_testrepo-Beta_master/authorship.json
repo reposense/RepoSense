@@ -2,6 +2,7 @@
   {
     "path": "src/main/resources/view/InfoPanel.fxml",
     "fileType": "fxml",
+    "isBinary": false,
     "lines": [
       {
         "lineNumber": 1,
@@ -63,11 +64,13 @@
     "authorContributionMap": {
       "-": 7,
       "nbr": 1
-    }
+    },
+    "binaryFileAuthors": []
   },
   {
     "path": "src/main/resources/view/MainWindow.fxml",
     "fileType": "fxml",
+    "isBinary": false,
     "lines": [
       {
         "lineNumber": 1,
@@ -599,11 +602,13 @@
       "April0616": 56,
       "-": 14,
       "nbr": 5
-    }
+    },
+    "binaryFileAuthors": []
   },
   {
     "path": "src/main/resources/view/PersonInfoPanel.fxml",
     "fileType": "fxml",
+    "isBinary": false,
     "lines": [
       {
         "lineNumber": 1,
@@ -1182,11 +1187,13 @@
     ],
     "authorContributionMap": {
       "April0616": 82
-    }
+    },
+    "binaryFileAuthors": []
   },
   {
     "path": "src/main/resources/view/PersonListCard.fxml",
     "fileType": "fxml",
+    "isBinary": false,
     "lines": [
       {
         "lineNumber": 1,
@@ -1479,11 +1486,13 @@
     "authorContributionMap": {
       "-": 29,
       "nbr": 12
-    }
+    },
+    "binaryFileAuthors": []
   },
   {
     "path": "src/main/resources/view/PersonListPanel.fxml",
     "fileType": "fxml",
+    "isBinary": false,
     "lines": [
       {
         "lineNumber": 1,
@@ -1538,11 +1547,13 @@
     "authorContributionMap": {
       "-": 6,
       "nbr": 1
-    }
+    },
+    "binaryFileAuthors": []
   },
   {
     "path": "src/main/resources/view/TagListPanel.fxml",
     "fileType": "fxml",
+    "isBinary": false,
     "lines": [
       {
         "lineNumber": 1,
@@ -1737,11 +1748,13 @@
     "authorContributionMap": {
       "-": 1,
       "nbr": 26
-    }
+    },
+    "binaryFileAuthors": []
   },
   {
     "path": "unused/CombinedTimetableDisplay.fxml",
     "fileType": "fxml",
+    "isBinary": false,
     "lines": [
       {
         "lineNumber": 1,
@@ -2083,11 +2096,13 @@
     "authorContributionMap": {
       "zacharytang": 47,
       "-": 1
-    }
+    },
+    "binaryFileAuthors": []
   },
   {
     "path": "unused/PersonInfoOverview.fxml",
     "fileType": "fxml",
+    "isBinary": false,
     "lines": [
       {
         "lineNumber": 1,
@@ -2550,6 +2565,7 @@
       "April0616": 16,
       "-": 1,
       "nbr": 3
-    }
+    },
+    "binaryFileAuthors": []
   }
 ]

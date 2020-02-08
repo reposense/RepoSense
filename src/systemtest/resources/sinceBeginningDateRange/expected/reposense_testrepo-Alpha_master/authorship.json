@@ -2,6 +2,7 @@
   {
     "path": "annotationTest.java",
     "fileType": "code",
+    "isBinary": false,
     "lines": [
       {
         "lineNumber": 1,
@@ -84,11 +85,13 @@
     "authorContributionMap": {
       "harryggg": 5,
       "-": 6
-    }
+    },
+    "binaryFileAuthors": []
   },
   {
     "path": "blameTest.java",
     "fileType": "code",
+    "isBinary": false,
     "lines": [
       {
         "lineNumber": 1,
@@ -122,11 +125,13 @@
     "authorContributionMap": {
       "harryggg": 3,
       "-": 1
-    }
+    },
+    "binaryFileAuthors": []
   },
   {
     "path": "newFile.java",
     "fileType": "code",
+    "isBinary": false,
     "lines": [
       {
         "lineNumber": 1,
@@ -145,11 +150,13 @@
     ],
     "authorContributionMap": {
       "harryggg": 2
-    }
+    },
+    "binaryFileAuthors": []
   },
   {
     "path": "newPos/movedFile.java",
     "fileType": "code",
+    "isBinary": false,
     "lines": [
       {
         "lineNumber": 1,
@@ -182,6 +189,7 @@
     ],
     "authorContributionMap": {
       "harryggg": 4
-    }
+    },
+    "binaryFileAuthors": []
   }
 ]
