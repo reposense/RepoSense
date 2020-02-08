@@ -173,17 +173,12 @@ window.vAuthorship = {
           path: file.path,
           fileType: file.fileType,
           lineCount: lineCnt,
+          isBinary: file.isBinary,
         };
         if (file.isBinary) {
           if (!file.binaryFileAuthors.map((author) => author.gitId).includes(this.info.author)) {
             return;
           }
-          out.segments = [
-              {
-                authored: true,
-                lineNumbers: [1],
-                lines: ['Binary diff not shown'],
-              }];
         } else {
           const segmentInfo = this.splitSegments(file.lines);
           out.segments = segmentInfo.segments;

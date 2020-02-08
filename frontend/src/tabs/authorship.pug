@@ -70,8 +70,11 @@
           title="click to view the blame view of file"
           )
             i.button.fas.fa-user-edit
-        pre.hljs
+        pre.hljs(v-if="!file.isBinary")
           div(v-for="segment in file.segments")
             v_segment(v-bind:segment="segment", v-bind:path="file.path")
+        .binary-segment(v-if="file.isBinary")
+          .indicator BIN
+          .bin-text Binary file not shown.
 
   .empty(v-else) loading...
