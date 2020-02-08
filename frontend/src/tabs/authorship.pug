@@ -57,7 +57,7 @@
     .empty(v-if="files.length === 0") nothing to see here :(
     template(v-for="file in selectedFiles")
       .file.active(v-bind:key="file.path")
-        .title
+        .title.file-header
           span.path(onclick="toggleNext(this.parentNode)", v-on:click="updateCount") {{ file.path }}&nbsp;
           span.loc ({{ file.lineCount }} lines)
           a(

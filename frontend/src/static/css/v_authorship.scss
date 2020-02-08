@@ -7,6 +7,13 @@
     float: right;
   }
 
+  .file-header {
+    background-color: #fafbfc;
+    border-bottom: 1px solid mui-color('grey', '400');
+    border-top-left-radius: 2px;
+    border-top-right-radius: 2px;
+  }
+
   .title {
     .repoName {
       cursor: pointer;
