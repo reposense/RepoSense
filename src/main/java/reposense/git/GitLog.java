@@ -16,7 +16,7 @@ public class GitLog {
     public static final String COMMIT_INFO_DELIMITER = "(?m)^>>>COMMIT INFO<<<\\n";
 
     private static final String PRETTY_FORMAT_STRING =
-            "\">>>COMMIT INFO<<<%n%H|%n|%aN|%n|%aE|%n|%cI|%n|%s|%n|%w(0,4,4)%b%w(0,0,0)|%n|%D\"";
+            "\">>>COMMIT INFO<<<%n%H|%n|%aN|%n|%aE|%n|%cI|%n|%s|%n|%w(0,4,4)%b%w(0,0,0)|%n|%D|\"";
 
     /**
      * Returns the git commit log info of {@code Author}, in the repository specified in {@code config}.
