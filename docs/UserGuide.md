@@ -117,14 +117,14 @@ The `Tool Bar` at the top provides a set of configuration options that control t
   * `None` : results will not be grouped in any particular way.
   * `Repo/Branch` : results will be grouped by repositories and its' associating branches.
   * `Author` : results will be grouped by the name of the author. Contributions made to multiple repositories by a particular author will be grouped under the author.
-* `Sort groups by`: sorting criteria for the main group
+* `Sort groups by`: sorting criteria for the main group. See note [1] below.
   * `Group title` : groups will be sorted by the title of the group (in bold text) in alphabetical order.
-  * `Repo/branch` : groups will be sorted in alphabetical order by the name of the repo, followed by name of the branch. See note [1] below.
+  * `Repo/branch` : groups will be sorted in alphabetical order by the name of the repo, followed by name of the branch. See note [2] below.
   * `Contribution` : groups will be sorted by the combined contributions within a group, in the order of number of lines added
   * `Variance` : groups will be sorted by the average of the squared differences from the average number of lines of code contributed per day among all authors involved. Detailed definition of variance is located [here](https://en.wikipedia.org/wiki/Variance).
 * `Sort within groups by`: sorting criteria within each group
   * `Title` : each sub-group will be sorted by it's title in alphabetical order.
-  * `Repo/branch` : each sub-group will be sorted in alphabetical order by the name of the repo, followed by name of the branch. See note [1] below.
+  * `Repo/branch` : each sub-group will be sorted in alphabetical order by the name of the repo, followed by name of the branch. See note [2] below.
   * `Contribution` : each sub-group will be sorted by individual contributions in the order of number of lines added
   * `Variance` : each sub-group will be sorted by the average of the squared differences from the average number of lines of code contributed per day by each author into a particular repo. Detailed definition of variance is located [here](https://en.wikipedia.org/wiki/Variance).
 * `Granularity` : the period of time for which commits are aggregated in the Ramp Chart.
@@ -138,7 +138,9 @@ The `Tool Bar` at the top provides a set of configuration options that control t
     * a breakdown of the number of lines of codes added to each file format (if checkbox is checked). 
 
 Notes:<br>
-[1] **`Repo/Branch`**: the repo/branch name is constructed as `ORGANIZATION/REPOSITORY[BRANCH]` e.g., `resposense/reposense[master]`
+[1] **`Sort groups by`**: each main group has its own index and percentile according to its ranking position after sorting (e.g., 
+if the groups are sorted by contribution in descending order, a 25% percentile indicates that the group is in the top 25% of the whole cohort in terms of contribution)<br>
+[2] **`Repo/Branch`**: the repo/branch name is constructed as `ORGANIZATION/REPOSITORY[BRANCH]` (e.g., `resposense/reposense[master]`)
 
 **Bookmarking a specific toolbar setting and the opened code panel**: The URL changes according to the toolbar configuration and opened code panel viewed. You can save a specific configuration of the report by bookmarking the url (using browser functionality).
 

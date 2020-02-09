@@ -16,7 +16,7 @@ The features of the report include:
 * Filtering and sorting of authors
 
 ## Documentations
-* [**User Guide**](https://github.com/reposense/RepoSense/blob/release/docs/UserGuide.md)
+* **User Guide** [[**Current Build**]](https://github.com/reposense/RepoSense/blob/master/docs/UserGuide.md) [[**Latest Release**]](https://github.com/reposense/RepoSense/blob/release/docs/UserGuide.md)
 * [**Developer Guide**](docs/DeveloperGuide.md)
 
 ## About Us
