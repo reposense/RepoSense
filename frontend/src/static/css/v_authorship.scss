@@ -7,11 +7,8 @@
     float: right;
   }
 
-  .file-header {
-    background-color: #fafbfc;
-    border-bottom: 1px solid mui-color('grey', '400');
-    border-top-left-radius: 2px;
-    border-top-right-radius: 2px;
+  .file-title-padding {
+    padding: 0 .5em;
   }
 
   .title {
@@ -135,6 +132,7 @@
       &.active {
         pre {
           display: grid;
+          margin-top: 0;
 
           .hljs {
             // overwrite hljs library
@@ -146,6 +144,10 @@
     }
 
     .title {
+      background-color: #fafbfc;
+      border-bottom: 1px solid mui-color('grey', '400');
+      border-top-left-radius: 2px;
+      border-top-right-radius: 2px;
       font-size: 1.25rem;
       font-weight: bold;
       margin-top: 1rem;
