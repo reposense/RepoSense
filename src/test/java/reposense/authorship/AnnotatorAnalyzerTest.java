@@ -1,6 +1,5 @@
 package reposense.authorship;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Collections;
@@ -61,7 +60,7 @@ public class AnnotatorAnalyzerTest {
     @Test
     public void ignoreAnnotationTest() {
         config.setAnnotationOverwrite(false);
-        config.setAuthorList(new ArrayList<>(Collections.singletonList(FAKE_AUTHOR)));
+        config.setAuthorList(Collections.singletonList(FAKE_AUTHOR));
         FileResult fileResult = getFileResult("annotationTest.java");
         assertAnnotationAnalysisCorrectness(fileResult, FAKE_AUTHOR, FAKE_AUTHOR);
     }
@@ -69,7 +68,7 @@ public class AnnotatorAnalyzerTest {
     @Test
     public void applyAnnotationTest() {
         config.setAnnotationOverwrite(true);
-        config.setAuthorList(new ArrayList<>(Arrays.asList(FAKE_AUTHOR, HARRY_AUTHOR)));
+        config.setAuthorList(Arrays.asList(FAKE_AUTHOR, HARRY_AUTHOR));
         FileResult fileResult = getFileResult("annotationTest.java");
         assertAnnotationAnalysisCorrectness(fileResult, FAKE_AUTHOR, HARRY_AUTHOR);
     }
@@ -77,7 +76,7 @@ public class AnnotatorAnalyzerTest {
     @Test
     public void disownCodeTest() {
         config.setAnnotationOverwrite(true);
-        config.setAuthorList(new ArrayList<>(Collections.singletonList(FAKE_AUTHOR)));
+        config.setAuthorList(Collections.singletonList(FAKE_AUTHOR));
         FileResult fileResult = getFileResult("annotationTest.java");
         assertAnnotationAnalysisCorrectness(fileResult, FAKE_AUTHOR, Author.UNKNOWN_AUTHOR);
     }
