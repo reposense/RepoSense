@@ -1,5 +1,11 @@
 package reposense.authorship;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Calendar;
+import java.util.Collections;
+import java.util.Date;
+
 import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -13,21 +19,14 @@ import reposense.model.RepoConfiguration;
 import reposense.model.RepoLocation;
 import reposense.util.TestUtil;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Calendar;
-import java.util.Collections;
-import java.util.Date;
-
-
 public class AnnotatorAnalyzerTest {
 
-    private static final Date BLAME_TEST_SINCE_DATE = TestUtil.getSinceDate(2018, Calendar.FEBRUARY, 8);
-    private static final Date BLAME_TEST_UNTIL_DATE = TestUtil.getUntilDate(2018, Calendar.FEBRUARY, 10);
-    protected static final Author HARRY_AUTHOR = new Author("harryggg");
-    protected static final Author FAKE_AUTHOR= new Author("fakeAuthor");
-    protected static final String TEST_REPO_GIT_LOCATION = "https://github.com/reposense/testrepo-Alpha.git";
-    protected static RepoConfiguration config;
+    private static final Author HARRY_AUTHOR = new Author("harryggg");
+    private static final Author FAKE_AUTHOR = new Author("fakeAuthor");
+    private static final String TEST_REPO_GIT_LOCATION = "https://github.com/reposense/testrepo-Alpha.git";
+    private static RepoConfiguration config;
+    private static final Date SINCE_DATE = TestUtil.getSinceDate(2018, Calendar.FEBRUARY, 8);
+    private static final Date UNTIL_DATE = TestUtil.getUntilDate(2018, Calendar.FEBRUARY, 10);
 
     public FileResult getFileResult(String relativePath) {
         FileInfo fileInfo = FileInfoExtractor.generateFileInfo(config.getRepoRoot(), relativePath);
@@ -52,11 +51,11 @@ public class AnnotatorAnalyzerTest {
 
 
     @BeforeClass
-    public static void before() throws Exception {
+    public static void beforeClass() throws Exception {
         config = new RepoConfiguration(new RepoLocation(TEST_REPO_GIT_LOCATION), "master");
         GitClone.clone(config);
-        config.setSinceDate(BLAME_TEST_SINCE_DATE);
-        config.setUntilDate(BLAME_TEST_UNTIL_DATE);
+        config.setSinceDate(SINCE_DATE);
+        config.setUntilDate(UNTIL_DATE);
     }
 
     @Test
