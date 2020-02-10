@@ -34,17 +34,17 @@ public class AnnotatorAnalyzerTest {
     }
 
     /**
-     * Asserts the correctness of file analysis with regards to the contribution
-     * made by author named in {@code FAKE_AUTHOR_NAME}.
+     * Asserts the correctness of authorship overriding with regards to @@author tags given
+     * in the test file.
      */
-    public void assertFileAnalysisCorrectness(FileResult fileResult, Author originalAuthor,
+    public void assertAnnotationAnalysisCorrectness(FileResult fileResult, Author originalAuthor,
             Author overridingAuthor) {
         for (LineInfo line : fileResult.getLines()) {
             Author lineAuthor = line.getAuthor();
             if (line.getContent().startsWith("fake")) {
-                Assert.assertEquals(lineAuthor, originalAuthor);
+                Assert.assertEquals(originalAuthor, lineAuthor);
             } else {
-                Assert.assertEquals(lineAuthor, overridingAuthor);
+                Assert.assertEquals(overridingAuthor, lineAuthor);
             }
         }
     }
@@ -63,7 +63,7 @@ public class AnnotatorAnalyzerTest {
         config.setAnnotationOverwrite(false);
         config.setAuthorList(new ArrayList<>(Collections.singletonList(FAKE_AUTHOR)));
         FileResult fileResult = getFileResult("annotationTest.java");
-        assertFileAnalysisCorrectness(fileResult, FAKE_AUTHOR, null);
+        assertAnnotationAnalysisCorrectness(fileResult, FAKE_AUTHOR, FAKE_AUTHOR);
     }
 
     @Test
@@ -71,7 +71,7 @@ public class AnnotatorAnalyzerTest {
         config.setAnnotationOverwrite(true);
         config.setAuthorList(new ArrayList<>(Arrays.asList(FAKE_AUTHOR, HARRY_AUTHOR)));
         FileResult fileResult = getFileResult("annotationTest.java");
-        assertFileAnalysisCorrectness(fileResult, FAKE_AUTHOR, HARRY_AUTHOR);
+        assertAnnotationAnalysisCorrectness(fileResult, FAKE_AUTHOR, HARRY_AUTHOR);
     }
 
     @Test
@@ -79,7 +79,7 @@ public class AnnotatorAnalyzerTest {
         config.setAnnotationOverwrite(true);
         config.setAuthorList(new ArrayList<>(Collections.singletonList(FAKE_AUTHOR)));
         FileResult fileResult = getFileResult("annotationTest.java");
-        assertFileAnalysisCorrectness(fileResult, FAKE_AUTHOR, Author.UNKNOWN_AUTHOR);
+        assertAnnotationAnalysisCorrectness(fileResult, FAKE_AUTHOR, Author.UNKNOWN_AUTHOR);
     }
 
 }
