@@ -31,8 +31,8 @@ public class AnnotatorAnalyzer {
                 Optional<Author> newAnnotatedAuthor = findAuthorInLine(lineInfo.getContent(), authorAliasMap);
 
                 if (!newAnnotatedAuthor.isPresent()) {
-                    //end of an author tag should belong to the current author too.
-                    //in case an end author tag was used without out a corresponding starting tag, attribute the
+                    // end of an author tag should belong to the current author too.
+                    // if an end author tag was used without a corresponding starting tag, attribute the
                     // line to UNKNOWN_AUTHOR
                     lineInfo.setAuthor(currentAnnotatedAuthor.orElse(Author.UNKNOWN_AUTHOR));
                 } else if (newAnnotatedAuthor.get().getIgnoreGlobMatcher().matches(filePath)) {
@@ -48,8 +48,10 @@ public class AnnotatorAnalyzer {
 
     /**
      * Extracts the author name from the given {@code line}, finds the corresponding {@code Author}
-     * in {@code authorAliasMap},and returns the result.
-     * @return {@code Author#UNKNOWN_AUTHOR} if no matching {@code Author} is found.
+     * in {@code authorAliasMap}, and returns this {@code Author} stored in an {@code Optional}.
+     * @return {@code Optional.of(Author#UNKNOWN_AUTHOR)} if no matching {@code Author} is found,
+     *         {@code Optional.empty()} if an end author tag is used (i.e. "@@author"),
+     *         and {@code Optional.empty()} if the extracted author name is too short.
      */
     private static Optional<Author> findAuthorInLine(String line, Map<String, Author> authorAliasMap) {
         try {
