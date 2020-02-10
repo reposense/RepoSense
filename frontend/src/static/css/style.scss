@@ -476,18 +476,6 @@ header {
       }
     }
   }
-
-  .commit-message {
-    pre {
-      display: none;
-    }
-
-    &.active {
-      pre {
-        display: grid;
-      }
-    }
-  }
 }
 
 /* Commit Message Body in Zoom Tab */
@@ -496,7 +484,7 @@ header {
     .body {
       background-color: mui-color('white');
       border: 1px solid mui-color('grey', '700');
-      display: inherit;
+      display: grid;
       margin: .25rem 0 .25rem 0;
       overflow-x: auto;
       padding: .4rem;
