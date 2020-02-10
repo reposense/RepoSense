@@ -626,8 +626,12 @@ window.vSummary = {
 
     // updating filters programically //
     resetDateRange() {
+      this.hasModifiedSinceDate = false;
+      this.hasModifiedUntilDate = false;
       this.tmpFilterSinceDate = '';
       this.tmpFilterUntilDate = '';
+      window.removeHash('since');
+      window.removeHash('until');
     },
 
     updateDateRange(since, until) {
