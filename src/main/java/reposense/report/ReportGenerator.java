@@ -101,7 +101,7 @@ public class ReportGenerator {
      */
     public static List<Path> generateSummary(List<RepoConfiguration> configs, String outputPath,
             String generationDate, Date cliSinceDate, Date untilDate, boolean isSinceDateProvided,
-            boolean isUntilDateProvided, String elapsedTime) {
+            boolean isUntilDateProvided, String reportGenerationTime) {
         Date reportSinceDate = (cliSinceDate.equals(SinceDateArgumentType.ARBITRARY_FIRST_COMMIT_DATE))
                 ? earliestSinceDate : cliSinceDate;
 
@@ -109,7 +109,7 @@ public class ReportGenerator {
         Optional<Path> summaryPath = FileUtil.writeJsonFile(
                 new SummaryJson(configs, generationDate, reportSinceDate, untilDate, isSinceDateProvided,
                         isUntilDateProvided, RepoSense.getVersion(), ErrorSummary.getInstance().getErrorList(),
-                        elapsedTime),
+                        reportGenerationTime),
                 getSummaryResultPath(outputPath));
         summaryPath.ifPresent(reportFiles::add);
 
