@@ -182,7 +182,7 @@ html
               label(
                 v-bind:key="fileType"
                 v-bind:style="{ 'background-color' : contributionBarFileTypeColors[fileType]," +
-                "'color' : checkBoxFileTypeFontColors[fileType]}"
+                    "'color' : checkBoxFileTypeFontColors[fileType]}"
               )
                 input.mui-checkbox--fileType(
                   type="checkbox"
@@ -207,7 +207,7 @@ html
             .summary-charts__fileType--breakdown(v-if="filterBreakdown")
               template(v-if="filterGroupSelection !== 'groupByNone'")
                 .summary-charts__fileType--breakdown__legend(
-                  v-for="fileType in getFileTypes(repo)" :key="fileType"
+                  v-for="fileType in getFileTypes(repo)" v-bind:key="fileType"
                 )
                   i.fas.fa-circle(
                     v-bind:style="{ 'color' : contributionBarFileTypeColors[fileType] }"
