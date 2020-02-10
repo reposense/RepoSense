@@ -254,15 +254,12 @@ window.app = new window.Vue({
       return 'http://reposense.org';
     },
 
-    getRepoSenseVersionLink() {
+    getUserGuideVersionLink() {
       const version = window.app.repoSenseVersion;
       if (!version) {
         return 'https://github.com/reposense/RepoSense';
       }
-      if (version.startsWith('v')) {
-        return `https://github.com/reposense/RepoSense/releases/tag/${version}`;
-      }
-      return `https://github.com/reposense/RepoSense/commits/${version}`;
+      return `https://github.com/reposense/RepoSense/blob/${version}/docs/UserGuide.md`;
     },
 
     receiveDates(dates) {

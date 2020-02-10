@@ -1,4 +1,5 @@
 @import 'colors';
+@import 'z-indices';
 
 /** global **/
 body {
@@ -38,7 +39,7 @@ a {
   position: fixed;
   top: 0;
   width: 100%;
-  z-index: 10;
+  z-index: z-index('loader');
 
   .loading {
     margin-top: 12px;
@@ -77,7 +78,7 @@ header {
   display: flex;
   justify-content: center;
   position: relative;
-  z-index: 100;
+  z-index: z-index('header');
 
   .content {
     align-items: center;
@@ -103,7 +104,7 @@ header {
   position: absolute;
   top: 0;
   width: 100%;
-  z-index: 50;
+  z-index: z-index('app-wrapper');
 
   #tab-resize-guide {
     $tabs-width: 50%;
@@ -115,7 +116,7 @@ header {
     position: fixed;
     right: $tabs-width;
     width: 2px;
-    z-index: 100;
+    z-index: z-index('center-divider');
   }
 
   #summary-wrapper {
@@ -189,6 +190,7 @@ header {
       cursor: pointer;
       position: fixed;
       top: calc(50vh - 3rem);
+      z-index: z-index('center-divider');
 
       svg {
         background-color: mui-color('white');
@@ -212,182 +214,7 @@ header {
       height: 100%;
       position: fixed;
       width: 13.250px;
-    }
-  }
-}
-
-/* summary chart */
-#summary,
-.summary-status {
-  text-align: center;
-}
-
-.summary-picker {
-  align-items: center;
-  display: flex;
-  flex-flow: row wrap;
-  justify-content: center;
-  margin-bottom: 2rem;
-
-  &__section {
-    align-items: inherit;
-    display: flex;
-    flex: 0 1 auto;
-    flex-flow: inherit;
-    justify-content: inherit;
-  }
-
-  &__checkboxes {
-    label {
-      margin-left: .5rem;
-    }
-
-    span {
-      margin-left: .25rem;
-    }
-  }
-
-  .mui-textfield,
-  .mui-select {
-    margin: .5rem;
-    padding-right: 10px;
-  }
-
-  .mui-btn {
-    background: transparent;
-    box-shadow: none;
-    color: mui-color('grey');
-    font-size: .75rem;
-    font-weight: bold;
-    left: -8px;
-    margin: 0;
-    padding: 0;
-    vertical-align: middle;
-  }
-
-  .search_box {
-    align-items: center;
-    display: flex;
-  }
-
-  input {
-    font-size: .75rem;
-    padding-right: 10px;
-  }
-
-  label {
-    font-size: .75rem;
-    overflow-y: hidden;
-    text-align: left;
-    width: fit-content;
-  }
-
-  select {
-    font-size: .75rem;
-  }
-}
-
-.summary-charts {
-  margin-bottom: 3rem;
-
-  &__title {
-    display: block;
-    font-weight: bold;
-    text-align: left;
-
-    &--index {
-      background: mui-color('black');
-      color: mui-color('white');
-      display: inline-block;
-      font-size: medium;
-      overflow: hidden;
-      padding: .1em .25em .1em .25em;
-      vertical-align: middle;
-    }
-
-    &--repo {
-      display: inline-block;
-      font-size: medium;
-      padding: .5rem;
-    }
-
-    &--contribution {
-      display: inline;
-    }
-  }
-
-  &__fileType--breakdown {
-    overflow-y: hidden;
-
-    &__legend {
-      display: inline;
-      float: left;
-    }
-  }
-}
-
-.summary-chart {
-  margin-bottom: 1rem;
-  overflow: auto;
-  position: relative;
-  text-align: left;
-
-  &__title {
-    clear: left;
-
-    & > * {
-      display: inline;
-      padding-right: .5rem;
-    }
-
-    &--index,
-    &--repo {
-      font-weight: bold;
-    }
-
-    &--index::after {
-      content: '.';
-      display: inline-block;
-    }
-
-    &--repo {
-      padding-right: .25rem;
-    }
-
-    &--button {
-      color: mui-color('grey');
-      cursor: pointer;
-      text-decoration: none;
-    }
-  }
-
-  &__ramp {
-    position: relative;
-
-    .overlay {
-      height: 100%;
-      position: absolute;
-      top: 0;
-
-      &.show {
-        background-color: rgba(mui-color('white'), .5);
-        border: 1px dashed mui-color('black');
-      }
-
-      &.edge {
-        border-right: 1px dashed mui-color('black');
-      }
-    }
-  }
-
-  &__contrib {
-    text-align: left;
-
-    &--bar {
-      background-color: mui-color('red');
-      float: left;
-      height: 4px;
-      margin-top: 2px;
+      z-index: z-index('center-divider');
     }
   }
 }
@@ -456,6 +283,7 @@ header {
   &__toggle-commit-message-body {
     padding-top: 10px;
   }
+
   &__day,
   &__title {
     /* Tags in commits */
@@ -463,8 +291,8 @@ header {
       background: mui-color('grey', '600');
       border-radius: 5px;
       color: mui-color('white');
-      display: inline;
-      margin-right: .25rem;
+      display: inline-block;
+      margin: .2rem .2rem .2rem 0;
       padding: 0 3px 0 3px;
 
       .fa-tags {
@@ -480,7 +308,7 @@ header {
     .body {
       background-color: mui-color('white');
       border: 1px solid mui-color('grey', '700');
-      display: inherit;
+      display: grid;
       margin: .25rem 0 .25rem 0;
       overflow-x: auto;
       padding: .4rem;
@@ -504,5 +332,33 @@ header {
 
   pre {
     margin: 0;
+  }
+}
+
+.toolbar {
+  cursor: pointer;
+  float: right;
+}
+
+.sorting {
+  align-items: center;
+  display: flex;
+  margin-top: 1.0rem;
+
+  .mui-select {
+    cursor: pointer;
+    padding-right: 15px;
+  }
+
+  label {
+    overflow-y: hidden;
+  }
+
+  & > label {
+    margin-left: 10px;
+  }
+
+  span {
+    margin-left: .25rem;
   }
 }

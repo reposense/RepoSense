@@ -85,6 +85,11 @@ public class FileType {
     }
 
     @Override
+    public int hashCode() {
+        return this.label.hashCode();
+    }
+
+    @Override
     public boolean equals(Object other) {
         // short circuit if same object
         if (this == other) {

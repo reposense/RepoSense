@@ -62,7 +62,7 @@ public class Author {
         this.emails = another.emails;
         this.displayName = another.gitId;
         this.authorAliases = another.authorAliases;
-        this.ignoreGlobList = another.authorAliases;
+        this.ignoreGlobList = another.ignoreGlobList;
         this.ignoreGlobMatcher = another.ignoreGlobMatcher;
     }
 
