@@ -57,7 +57,7 @@
     .empty(v-if="files.length === 0") nothing to see here :(
     template(v-for="file in selectedFiles")
       .file.active(v-bind:key="file.path")
-        .title.file-title-padding
+        .title
           span.path(onclick="toggleNext(this.parentNode)", v-on:click="updateCount") {{ file.path }}&nbsp;
           span.loc ({{ file.lineCount }} lines)
           a(
@@ -70,7 +70,7 @@
           title="click to view the blame view of file"
           )
             i.button.fas.fa-user-edit
-        pre.hljs
+        pre.hljs.separate-out
           div(v-for="segment in file.segments")
             v_segment(v-bind:segment="segment", v-bind:path="file.path")
 
