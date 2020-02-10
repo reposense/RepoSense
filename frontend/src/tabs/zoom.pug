@@ -5,8 +5,9 @@
     a(v-else v-on:click="toggleAllCommitMessagesBody(false)") hide all commit messages
   .zoom__title
     .zoom_title--group.large-font
-      span(v-if="info.filterGroupSelection\
-        === 'groupByAuthors'") {{ filteredUser.displayName }} ({{ filteredUser.name }})
+      span(
+        v-if="info.filterGroupSelection === 'groupByAuthors'"
+      ) {{ filteredUser.displayName }} ({{ filteredUser.name }})
       a(
         v-else,
         v-bind:href="info.location", target="_blank",
