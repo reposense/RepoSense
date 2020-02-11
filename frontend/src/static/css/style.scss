@@ -283,6 +283,7 @@ header {
   &__toggle-commit-message-body {
     padding-top: 10px;
   }
+
   &__day,
   &__title {
     /* Tags in commits */
@@ -307,7 +308,7 @@ header {
     .body {
       background-color: mui-color('white');
       border: 1px solid mui-color('grey', '700');
-      display: inherit;
+      display: grid;
       margin: .25rem 0 .25rem 0;
       overflow-x: auto;
       padding: .4rem;
@@ -331,5 +332,33 @@ header {
 
   pre {
     margin: 0;
+  }
+}
+
+.toolbar {
+  cursor: pointer;
+  float: right;
+}
+
+.sorting {
+  align-items: center;
+  display: flex;
+  margin-top: 1.0rem;
+
+  .mui-select {
+    cursor: pointer;
+    padding-right: 15px;
+  }
+
+  label {
+    overflow-y: hidden;
+  }
+
+  & > label {
+    margin-left: 10px;
+  }
+
+  span {
+    margin-left: .25rem;
   }
 }
