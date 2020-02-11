@@ -43,13 +43,13 @@ public class ConfigSystemTest {
     private static final String TEST_REPORT_GENERATED_TIME = "Tue Jul 24 17:45:15 SGT 2018";
 
     @Before
-    public void setUp() throws IOException {
+    public void setUp() throws Exception {
         FileUtil.deleteDirectory(FT_TEMP_DIR);
         ErrorSummary.getInstance().clearErrorList();
     }
 
     @After
-    public void tearDown() throws IOException {
+    public void tearDown() throws Exception {
         FileUtil.deleteDirectory(FT_TEMP_DIR);
     }
 
@@ -101,7 +101,7 @@ public class ConfigSystemTest {
      * by the {@code ArgumentParser} hence this is to signal to the caller that the program is safe to exit.
      */
     private void generateReport(String inputDates)
-            throws IOException, InvalidCsvException, URISyntaxException, ParseException, HelpScreenException {
+            throws Exception {
         Path configFolder = Paths.get(getClass().getClassLoader().getResource("repo-config.csv").toURI()).getParent();
 
         String formats = String.join(" ", TESTING_FILE_FORMATS);

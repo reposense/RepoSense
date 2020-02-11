@@ -60,7 +60,7 @@ public class GitTestTemplate {
     protected static RepoConfiguration config;
 
     @Before
-    public void before() throws InvalidLocationException {
+    public void before() throws Exception {
         config = new RepoConfiguration(new RepoLocation(TEST_REPO_GIT_LOCATION), "master");
         config.setAuthorList(Collections.singletonList(getAlphaAllAliasAuthor()));
         config.setFormats(FileTypeTest.DEFAULT_TEST_FORMATS);
