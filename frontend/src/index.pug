@@ -146,8 +146,9 @@ html
                 input.mui-checkbox.summary-picker__checkbox(type="checkbox", v-model="filterBreakdown",
                   v-on:change="setSummaryHash()")
                 span breakdown by file type
-              label.merge-group(v-bind:style="filterGroupSelection === 'groupByNone' ?\
-                { opacity:0.5 } : { opacity:1.0 }")
+              label.merge-group(
+                v-bind:style="filterGroupSelection === 'groupByNone' ? { opacity:0.5 } : { opacity:1.0 }"
+              )
                 input.summary-picker__checkbox.mui-checkbox(
                   type="checkbox",
                   v-model="isMergeGroup",
