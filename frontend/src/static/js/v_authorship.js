@@ -48,15 +48,6 @@ window.vAuthorship = {
     };
   },
 
-  watch: {
-    filesSortType() {
-      this.sortFiles();
-    },
-    toReverseSortFiles() {
-      this.sortFiles();
-    },
-  },
-
   methods: {
     initiate() {
       const repo = window.REPOS[this.info.repo];
@@ -209,11 +200,6 @@ window.vAuthorship = {
       filesInfoObj[fileType] += lineCount;
     },
 
-    sortFiles() {
-      this.sortingFunction = (a, b) => (this.toReverseSortFiles ? -1 : 1)
-          * window.comparator(filesSortDict[this.filesSortType])(a, b);
-    },
-
     selectAll() {
       if (this.isSearchBar) {
         this.indicateCheckBoxes();
@@ -299,11 +285,18 @@ window.vAuthorship = {
   },
 
   computed: {
+
+    sortFiles() {
+      return (a, b) => (this.toReverseSortFiles ? -1 : 1)
+        * window.comparator(filesSortDict[this.filesSortType])(a, b);
+    },
+
     selectedFiles() {
       return this.files.filter((file) => this.isSelectedFileTypes(file.fileType)
           && minimatch(file.path, this.filterSearch, { matchBase: true }))
-          .sort(this.sortingFunction);
+          .sort(this.sortFiles);
     },
+
     getFileTypeExistingLinesObj() {
       const numLinesModified = {};
       Object.entries(this.filesLinesObj)
