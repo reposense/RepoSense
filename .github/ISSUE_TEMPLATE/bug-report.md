@@ -11,11 +11,16 @@ labels: "c.Bug"
 **Tell us about your environment**
 
 * **RepoSense Version:**
+* **OS and Version:**
+* **Web Browser and Version (if applicable):**
 
 **What did you do? Please include the steps to reproduce the bug.**
 
+1. 
+1. 
 
-**Add the actual source code causing the issue.**
+
+**If possible, add the actual source code causing the issue.**
 <!-- Paste the source code below: -->
 ```html
 
