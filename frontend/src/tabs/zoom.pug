@@ -54,8 +54,8 @@
     template(v-if="day.insertions > 0")
       h3(v-if="filterTimeFrame === 'week'") Week of {{ day.date }}
       h3(v-else) {{ day.date }}
-      template
-        .commit-message(
+      ul
+        li.commit-message(
             v-for="slice in day.commitResults"
             v-bind:key="slice.hash"
             v-bind:class="{ 'message-body active': slice.messageBody !== '' }"
