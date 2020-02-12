@@ -546,7 +546,7 @@ window.vSummary = {
         const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(this.contributionBarFileTypeColors[fileType]);
         const red = parseInt(result[1], 16);
         const green = parseInt(result[2], 16);
-        const blue = parseInt(result[2], 16);
+        const blue = parseInt(result[3], 16);
 
         const luminosity = 0.2126 * red + 0.7152 * green + 0.0722 * blue; // per ITU-R BT.709
 
