@@ -42,7 +42,6 @@ window.vAuthorship = {
       toReverseSortFiles: true,
       activeFilesCount: 0,
       filterSearch: '*',
-      sortingFunction: (a, b) => -1 * window.comparator(filesSortDict.lineOfCode)(a, b),
       isSearchBar: false,
       isCheckBoxes: true,
     };
@@ -286,7 +285,7 @@ window.vAuthorship = {
 
   computed: {
 
-    sortFiles() {
+    sortingFunction() {
       return (a, b) => (this.toReverseSortFiles ? -1 : 1)
         * window.comparator(filesSortDict[this.filesSortType])(a, b);
     },
@@ -294,7 +293,7 @@ window.vAuthorship = {
     selectedFiles() {
       return this.files.filter((file) => this.isSelectedFileTypes(file.fileType)
           && minimatch(file.path, this.filterSearch, { matchBase: true }))
-          .sort(this.sortFiles);
+          .sort(this.sortingFunction);
     },
 
     getFileTypeExistingLinesObj() {
