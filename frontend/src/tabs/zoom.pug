@@ -56,8 +56,9 @@
       h3(v-else) {{ day.date }}
       template
         .commit-message(
-            v-for="slice in day.commitResults"
-            v-bind:key="slice.hash"
+            tabindex="-1",
+            v-for="slice in day.commitResults",
+            v-bind:key="slice.hash",
             v-bind:class="{ 'message-body active': slice.messageBody !== '' }"
           )
           a(v-bind:href="getSliceLink(slice)" target="_blank") {{ slice.messageTitle }}

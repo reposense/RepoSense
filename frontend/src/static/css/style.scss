@@ -304,6 +304,8 @@ header {
 
 /* Commit Message Body in Zoom Tab */
 .commit-message {
+  padding: 5px;
+
   &.active {
     .body {
       background-color: mui-color('white');
@@ -313,7 +315,6 @@ header {
       overflow-x: auto;
       padding: .4rem;
       resize: none;
-      width: 100%;
     }
   }
 
