@@ -285,7 +285,6 @@ window.vAuthorship = {
   },
 
   computed: {
-
     sortFiles() {
       return (a, b) => (this.toReverseSortFiles ? -1 : 1)
         * window.comparator(filesSortDict[this.filesSortType])(a, b);
