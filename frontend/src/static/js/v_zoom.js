@@ -1,3 +1,8 @@
+const commitSortDict = {
+  lineOfCode: (commit) => commit.insertions,
+  time: (commit) => commit.date,
+};
+
 window.vZoom = {
   props: ['info'],
   template: window.$('v_zoom').innerHTML,
@@ -6,9 +11,16 @@ window.vZoom = {
       filterTimeFrame: window.hashParams.timeframe,
       showAllCommitMessageBody: true,
       expandedCommitMessagesCount: this.totalCommitMessageBodyCount,
+      commitsSortType: 'time',
+      toReverseSortedCommits: true,
     };
   },
+
   computed: {
+    sortingFunction() {
+      return (a, b) => (this.toReverseSortedCommits ? -1 : 1)
+      * window.comparator(commitSortDict[this.commitsSortType])(a, b);
+    },
     filteredUser() {
       const { user } = this.info;
       const filteredUser = Object.assign({}, user);
@@ -16,7 +28,7 @@ window.vZoom = {
       const date = this.filterTimeFrame === 'week' ? 'endDate' : 'date';
       filteredUser.commits = user.commits.filter(
           (commit) => commit[date] >= this.info.sinceDate && commit[date] <= this.info.untilDate,
-      );
+      ).sort(this.sortingFunction);
 
       return filteredUser;
     },

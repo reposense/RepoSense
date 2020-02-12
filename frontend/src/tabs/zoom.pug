@@ -1,5 +1,8 @@
 #zoom
   span.large-font Commits Panel
+  .toolbar(v-if="filteredUser.commits.length")
+    a(v-if="expandedCommitMessagesCount === 0" v-on:click="toggleAllCommitMessagesBody(true)") show all commit messages
+    a(v-else v-on:click="toggleAllCommitMessagesBody(false)") hide all commit messages
   .zoom__title
     .zoom_title--group.large-font
       span(v-if="info.filterGroupSelection === 'groupByAuthors'") {{ filteredUser.displayName }} ({{ filteredUser.name }})
@@ -35,16 +38,28 @@
       v-bind:avgsize="info.avgCommitSize",
       v-bind:mergegroup="info.isMergeGroup")
 
-  .zoom__toggle-commit-message-body(v-if="filteredUser.commits.length")
-    button(v-if="expandedCommitMessagesCount === 0" v-on:click="toggleAllCommitMessagesBody(true)") show all commit messages body
-    button(v-else v-on:click="toggleAllCommitMessagesBody(false)") hide all commit messages body
+  .sorting.mui-form--inline
+    .mui-select
+      select.medium-font(v-model="commitsSortType")
+        option(value="time") Time
+        option(value="lineOfCode") LoC
+      label.medium-font sort by
+    .mui-select
+      select.medium-font(v-model="toReverseSortedCommits")
+        option(v-bind:value='true') Descending
+        option(v-bind:value='false') Ascending
+      label.medium-font order
 
-  .zoom__day(v-for="day in filteredUser.commits")
+  .zoom__day(v-for="day in filteredUser.commits" v-bind:key="day.date")
     template(v-if="day.insertions > 0")
       h3(v-if="filterTimeFrame === 'week'") Week of {{ day.date }}
       h3(v-else) {{ day.date }}
-      ul
-        li(v-for="slice in day.commitResults").commit-message(v-bind:class="{ 'message-body active': slice.messageBody !== '' }")
+      template
+        .commit-message(
+            v-for="slice in day.commitResults"
+            v-bind:key="slice.hash"
+            v-bind:class="{ 'message-body active': slice.messageBody !== '' }"
+          )
           a(v-bind:href="getSliceLink(slice)" target="_blank") {{ slice.messageTitle }}
           span &nbsp; ({{ slice.insertions }} lines) &nbsp;
           template(v-if="slice.tags")

@@ -267,6 +267,10 @@ window.vSummary = {
       return res;
     },
 
+    getAuthorProfileLink(userName) {
+      return `https://github.com/${userName}`;
+    },
+
     getRepoLink(repo) {
       const { REPOS } = window;
       const { location, branch } = REPOS[repo.repoId];
@@ -783,6 +787,13 @@ window.vSummary = {
         filtered.reverse();
       }
       return filtered;
+    },
+
+    getPercentile(index) {
+      if (this.filterGroupSelection === 'groupByNone') {
+        return (Math.round((index + 1) * 1000 / this.filtered[0].length) / 10).toFixed(1);
+      }
+      return (Math.round((index + 1) * 1000 / this.filtered.length) / 10).toFixed(1);
     },
 
     getGroupCommitsVariance(total, group) {
