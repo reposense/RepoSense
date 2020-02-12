@@ -316,6 +316,7 @@ header {
 
       pre {
         position: relative;
+
         .dotted-border {
           border-right: 1px dotted mui-color('black'); // 72nd character line
           height: 100%;
@@ -352,9 +353,11 @@ header {
   .message-title {
     display: inline;
     font-family: monospace;
+
     .within-border {
       display: inline;
     }
+
     .not-within-border {
       border-left: 1px dotted mui-color('black'); // 50th character line
       display: inline;
