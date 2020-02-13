@@ -162,7 +162,7 @@ html
             i.fas.fa-exclamation.mini-font
             span.error-message-box__failed-repo--name {{ errorBlock.repoName }}
             .error-message-box__failed-repo--reason(
-              v-if="errorBlock.errorMessage.startsWith ('Unexpected error stack trace')"
+              v-if="errorBlock.errorMessage.startsWith('Unexpected error stack trace')"
             )
               span Oops, an unexpected error occurred. If this is due to a problem in RepoSense, please report in&nbsp;
               a(
