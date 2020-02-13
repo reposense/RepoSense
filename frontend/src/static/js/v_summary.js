@@ -106,7 +106,6 @@ window.vSummary = {
   data() {
     return {
       checkedFileTypes: [],
-      checkAllFileTypes: true,
       fileTypes: [],
       filtered: [],
       filterSearch: '',
@@ -135,17 +134,6 @@ window.vSummary = {
     };
   },
   watch: {
-    checkedFileTypes() {
-      if (this.checkedFileTypes.length === this.fileTypes.length) {
-        this.checkAllFileTypes = true;
-      }
-      if (this.checkedFileTypes.length === 0) {
-        this.checkAllFileTypes = false;
-      }
-    },
-    checkAllFileTypes() {
-      this.selectAllFileTypes();
-    },
     sortGroupSelection() {
       this.getFiltered();
     },
@@ -184,6 +172,9 @@ window.vSummary = {
     },
   },
   computed: {
+    checkAllFileTypes() {
+      return this.checkedFileTypes.length === this.fileTypes.length;
+    },
     avgCommitSize() {
       let totalCommits = 0;
       let totalCount = 0;
@@ -645,9 +636,9 @@ window.vSummary = {
     },
     selectAllFileTypes() {
       if (this.checkAllFileTypes) {
-        this.checkedFileTypes = this.fileTypes.slice();
-      } else {
         this.checkedFileTypes = [];
+      } else {
+        this.checkedFileTypes = this.fileTypes.slice();
       }
     },
     sortFiltered() {
