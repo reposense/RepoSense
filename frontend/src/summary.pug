@@ -56,7 +56,11 @@
         a(v-on:click="resetDateRange") Reset date range
       .summary-picker__checkboxes.summary-picker__section
         label
-          input(type="checkbox", v-model="filterBreakdown", v-on:change="setSummaryHash()").mui-checkbox.summary-picker__checkbox
+          input(
+            type="checkbox",
+            v-model="filterBreakdown",
+            v-on:change="setSummaryHash()"
+          ).mui-checkbox.summary-picker__checkbox
           span breakdown by file type
         label.merge-group(v-bind:style="filterGroupSelection === 'groupByNone' ? { opacity:0.5 } : { opacity:1.0 }")
           input(
@@ -71,8 +75,11 @@
     .error-message-box__failed-repo(v-for="errorBlock in errorMessages")
       i.fas.fa-exclamation.mini-font
       span.error-message-box__failed-repo--name {{ errorBlock.repoName }}
-      div.error-message-box__failed-repo--reason(v-if="errorBlock.errorMessage.startsWith('Unexpected error stack trace')")
-        span Oops, an unexpected error occurred. If you think this is due to a problem in RepoSense, please report in&nbsp;
+      div.error-message-box__failed-repo--reason(
+        v-if="errorBlock.errorMessage.startsWith('Unexpected error stack trace')"
+        )
+        span Oops, an unexpected error occurred. If you think this is due to a problem in RepoSense,
+          | please report in&nbsp;
         a(
           v-bind:href="getReportIssueGitHubLink(errorBlock.errorMessage)", target="_blank",
         )
@@ -88,7 +95,9 @@
       .summary-charts__title(v-if="filterGroupSelection === 'groupByRepos'")
         .summary-charts__title--index {{ i+1 }}
         .summary-charts__title--repo {{ repo[0].repoName }}
-        .summary-charts__title--contribution.mini-font(title="Total contribution of group") [{{ getGroupTotalContribution(repo) }} lines]
+        .summary-charts__title--contribution.mini-font(
+          title="Total contribution of group"
+        ) [{{ getGroupTotalContribution(repo) }} lines]
         template(v-if="isMergeGroup")
           a(
             v-bind:href="getRepoLink(repo[0])", target="_blank",
@@ -102,7 +111,9 @@
       )
         .summary-charts__title--index {{ i+1 }}
         .summary-charts__title--repo {{ repo[0].displayName }} ({{ repo[0].name }})
-        .summary-charts__title--contribution.mini-font(title="Total contribution of group") [{{ getGroupTotalContribution(repo) }} lines]
+        .summary-charts__title--contribution.mini-font(
+          title="Total contribution of group"
+        ) [{{ getGroupTotalContribution(repo) }} lines]
         template(v-if="isMergeGroup")
           a(
             v-bind:href="getAuthorProfileLink(repo[0].name)", target="_blank",
@@ -152,7 +163,9 @@
             v-on:click="openTabZoom(user, filterSinceDate, filterUntilDate, repo, i)"
           )
             i.icon-button.fas.fa-list-ul
-          .summary-chart__title--percentile.mini-font(v-if="filterGroupSelection === 'groupByNone'") {{ getPercentile(i) }} %
+          .summary-chart__title--percentile.mini-font(
+            v-if="filterGroupSelection === 'groupByNone'"
+          ) {{ getPercentile(i) }} %
 
         .summary-chart__ramp(
           onclick="viewClick(event)",
