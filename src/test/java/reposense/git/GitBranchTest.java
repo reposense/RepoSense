@@ -21,8 +21,7 @@ public class GitBranchTest extends GitTestTemplate {
     }
 
     @Test
-    public void getCurrentBranch_uncommonDefaultBranch_success()
-            throws Exception {
+    public void getCurrentBranch_uncommonDefaultBranch_success() throws Exception {
         RepoConfiguration uncommonDefaultConfig = new RepoConfiguration(
                 new RepoLocation(TEST_REPO_UNCOMMON_DEFAULT_GIT_LOCATION), RepoConfiguration.DEFAULT_BRANCH);
         uncommonDefaultConfig.setFormats(FileTypeTest.DEFAULT_TEST_FORMATS);

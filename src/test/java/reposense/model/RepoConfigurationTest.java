@@ -169,8 +169,7 @@ public class RepoConfigurationTest {
     }
 
     @Test
-    public void repoConfig_ignoresStandaloneConfigInCli_success()
-            throws Exception {
+    public void repoConfig_ignoresStandaloneConfigInCli_success() throws Exception {
         RepoConfiguration expectedConfig = new RepoConfiguration(new RepoLocation(TEST_REPO_DELTA), "master");
         expectedConfig.setFormats(FileType.convertFormatStringsToFileTypes(CLI_FORMATS));
         expectedConfig.setStandaloneConfigIgnored(true);

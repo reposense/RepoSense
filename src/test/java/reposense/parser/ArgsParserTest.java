@@ -281,8 +281,7 @@ public class ArgsParserTest {
     }
 
     @Test
-    public void parse_configFolderAndViewWithouthArgs_returnsConfigCliArguments()
-            throws Exception {
+    public void parse_configFolderAndViewWithouthArgs_returnsConfigCliArguments() throws Exception {
         String input = new InputBuilder().addConfig(CONFIG_FOLDER_ABSOLUTE)
                 .addView()
                 .build();
@@ -309,8 +308,7 @@ public class ArgsParserTest {
     }
 
     @Test
-    public void parse_configFolderAndViewWithArgs_returnsConfigCliArguments()
-            throws Exception {
+    public void parse_configFolderAndViewWithArgs_returnsConfigCliArguments() throws Exception {
         String input = new InputBuilder().addConfig(CONFIG_FOLDER_ABSOLUTE)
                 .addView(OUTPUT_DIRECTORY_ABSOLUTE)
                 .build();
@@ -371,8 +369,7 @@ public class ArgsParserTest {
     }
 
     @Test
-    public void parse_validGitRepoLocations_repoConfigurationListCorrectSize()
-            throws Exception {
+    public void parse_validGitRepoLocations_repoConfigurationListCorrectSize() throws Exception {
         String input = new InputBuilder().addRepos(TEST_REPO_REPOSENSE, TEST_REPO_DELTA).build();
         CliArguments cliArguments = ArgsParser.parse(translateCommandline(input));
         Assert.assertTrue(cliArguments instanceof LocationsCliArguments);
@@ -405,8 +402,7 @@ public class ArgsParserTest {
     }
 
     @Test
-    public void parse_repoLocationsAndViewWithArgs_returnsLocationsCliArguments()
-            throws Exception {
+    public void parse_repoLocationsAndViewWithArgs_returnsLocationsCliArguments() throws Exception {
         String input = new InputBuilder().addRepos(TEST_REPO_REPOSENSE, TEST_REPO_DELTA)
                 .addView(OUTPUT_DIRECTORY_ABSOLUTE)
                 .build();
@@ -463,8 +459,7 @@ public class ArgsParserTest {
     }
 
     @Test
-    public void parse_invalidRepoLocation_emptyRepoConfigurationList()
-            throws Exception {
+    public void parse_invalidRepoLocation_emptyRepoConfigurationList() throws Exception {
         String input = new InputBuilder().addRepos("https://githubaaaa.com/asdasdasdasd/RepoSense").build();
         CliArguments cliArguments = ArgsParser.parse(translateCommandline(input));
         Assert.assertTrue(cliArguments instanceof LocationsCliArguments);
@@ -473,16 +468,14 @@ public class ArgsParserTest {
     }
 
     @Test(expected = ParseException.class)
-    public void absoluteConfigFolder_withoutRequiredConfigFiles_throwsParseException()
-            throws Exception {
+    public void absoluteConfigFolder_withoutRequiredConfigFiles_throwsParseException() throws Exception {
         Path absDirectory = PROJECT_DIRECTORY.getParent().toAbsolutePath();
         String input = new InputBuilder().addConfig(absDirectory).build();
         ArgsParser.parse(translateCommandline(input));
     }
 
     @Test(expected = ParseException.class)
-    public void relativeConfigFolder_withoutRequiredConfigFiles_throwsParseException()
-            throws Exception {
+    public void relativeConfigFolder_withoutRequiredConfigFiles_throwsParseException() throws Exception {
         Path relDirectory = PROJECT_DIRECTORY.getParent();
         String input = new InputBuilder().addConfig(relDirectory).build();
         ArgsParser.parse(translateCommandline(input));
@@ -545,8 +538,7 @@ public class ArgsParserTest {
     }
 
     @Test(expected = ParseException.class)
-    public void parse_mutuallyExclusiveArgumentsConfigAndReposTogether_throwsParseException()
-            throws Exception {
+    public void parse_mutuallyExclusiveArgumentsConfigAndReposTogether_throwsParseException() throws Exception {
         String input = new InputBuilder().addConfig(CONFIG_FOLDER_ABSOLUTE)
                 .addRepos(TEST_REPO_REPOSENSE)
                 .build();

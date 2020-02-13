@@ -100,8 +100,7 @@ public class ConfigSystemTest {
      * @throws HelpScreenException if given args contain the --help flag. Help message will be printed out
      * by the {@code ArgumentParser} hence this is to signal to the caller that the program is safe to exit.
      */
-    private void generateReport(String inputDates)
-            throws Exception {
+    private void generateReport(String inputDates) throws Exception {
         Path configFolder = Paths.get(getClass().getClassLoader().getResource("repo-config.csv").toURI()).getParent();
 
         String formats = String.join(" ", TESTING_FILE_FORMATS);

@@ -25,8 +25,7 @@ public class GitLsTreeTest extends GitTestTemplate {
     }
 
     @Test(expected = InvalidFilePathException.class)
-    public void windows_cloneInvalidWindowsFilePaths_throwsInvalidFilePathException()
-            throws Exception {
+    public void windows_cloneInvalidWindowsFilePaths_throwsInvalidFilePathException() throws Exception {
         // Runs test only on Windows operating systems
         Assume.assumeTrue(SystemUtil.isWindows());
 
