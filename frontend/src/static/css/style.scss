@@ -362,7 +362,6 @@ header {
     .not-within-border {
       border-left: 1px dotted mui-color('black'); // 50th character line
       display: inline;
-      pointer-events: none;
     }
   }
 }
