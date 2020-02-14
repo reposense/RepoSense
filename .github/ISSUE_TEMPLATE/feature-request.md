@@ -8,7 +8,13 @@ labels: "c.Feature"
   Before opening a new issue, please search existing issues:  https://github.com/reposense/RepoSense/issues
 -->
 
-**Is your request related to a problem?**
+**What feature do you want RepoSense to have?**
+<!--
+  Provide a clear and concise description of what you want.
+-->
+
+
+**Is your feature request related to a problem?**
 
 <!--
   Provide a clear and concise description of what the problem is.
@@ -16,14 +22,15 @@ labels: "c.Feature"
 -->
 
 
-**Describe the solution you'd like**
+**If possible, describe the solution you'd like**
 
 <!--
-  Provide a clear and concise description of what you want to happen.
+  Here would be a good place to talk about the solution or the 
+  approach that can be taken.
 -->
 
 
-**Describe alternatives you've considered**
+**If applicable, describe alternatives you've considered**
 
 <!--
   Let us know about other solutions you've tried or researched.

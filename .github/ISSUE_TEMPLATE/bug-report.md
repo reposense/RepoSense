@@ -14,6 +14,7 @@ labels: "c.Bug"
 * **OS and Version:**
 * **Web Browser and Version (if applicable):**
 
+
 **What did you do? Please include the steps to reproduce the bug.**
 
 1. 
@@ -29,5 +30,5 @@ labels: "c.Bug"
 **What did you expect to happen?**
 
 
-**What actually happened? Please include the actual, raw output.**
+**What actually happened? Please include a screenshot of the output.**
 
