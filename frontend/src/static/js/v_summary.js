@@ -276,14 +276,14 @@ window.vSummary = {
       const { location, branch } = REPOS[repo.repoId];
 
       if (Object.prototype.hasOwnProperty.call(location, 'organization')) {
-        return `https://github.com/${location.organization}/${location.repoName}/tree/${branch}`;
+        return `${window.BASE_URL}/${location.organization}/${location.repoName}/tree/${branch}`;
       }
 
       return repo.location;
     },
 
     getReportIssueGitHubLink(stackTrace) {
-      return `https://github.com/reposense/RepoSense/issues/new?title=${this.getReportIssueTitle()
+      return `${window.BASE_URL}/reposense/RepoSense/issues/new?title=${this.getReportIssueTitle()
       }&body=${this.getReportIssueMessage(stackTrace)}`;
     },
 
