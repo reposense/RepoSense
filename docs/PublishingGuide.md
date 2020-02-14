@@ -1,6 +1,8 @@
-## Using Travis to automate publishing of your report to GitHub Pages
+## Automate publishing of your report to GitHub Pages
 
-[Travis-CI](https://travis-ci.org/) enables you to automate RepoSense report generation and publish the report online to [GitHub Pages](https://pages.github.com/) for free.
+You can use either [Travis-CI](https://travis-ci.org/) or [GitHub Actions](https://github.com/features/actions) to automate RepoSense report generation and publish the report online to [GitHub Pages](https://pages.github.com/) for free.
+
+### Using Travis
 
 1. Fork publish-RepoSense repository using this [link](https://github.com/RepoSense/publish-RepoSense/fork)
 1. Follow this [section](#granting-write-access-to-reposense-for-publishing) to generate a `personal access token` or `deploy key` on GitHub for report publishing 
@@ -22,6 +24,21 @@
 It takes a few minutes for report generation. Meanwhile, you can monitor the progress live at [Travis-CI's Builds](https://travis-ci.org/dashboard/builds). <br/>
 Try accessing your site again when a green tick appears beside your fork.
 
+### Using GitHub Actions
+
+1. Fork publish-RepoSense repository using this [link](https://github.com/RepoSense/publish-RepoSense/fork)
+1. Follow this [section](#granting-write-access-to-reposense-for-publishing) to generate a `personal access token` or `deploy key` on GitHub for report publishing 
+1. Go to the [secrets settings](../../../../publish-RepoSense/settings/secrets) of your publish-RepoSense fork, add a new secret as `ACCESS_TOKEN` or `DEPLOY_KEY` depending on your earlier choice and paste the content that was copied earlier to its value field; then click **Add secret** <br/>
+1. Edit [run.sh](../../../../publish-RepoSense/edit/master/run.sh), [repo-config.csv](../../../../publish-RepoSense/edit/master/configs/repo-config.csv) and [author-config.csv](../../../../publish-RepoSense/edit/master/configs/author-config.csv) to customize the command line parameters or repositories to be analyzed <br/>
+*Read our [User Guide](UserGuide.md#customizing-the-analysis) for more information*
+1. To access your site, go to the settings of your fork in GitHub, under **GitHub Pages** section, look for `Your site is published at [LINK]` <br/>
+*It should look something like `https://[YOUR_GITHUB_ID].github.io/publish-RepoSense`* <br/>
+![GitHub Setting](images/publishingguide-githubsetting.jpg "GitHub Setting")
+
+> The changes made to the configuration files should trigger GitHub Actions to generate your report. Otherwise, follow the [next section](#keeping-your-site-up-to-date-with-your-code-contribution) to manually trigger a build. <br/><br/>
+It takes a few minutes for report generation. Meanwhile, you can monitor the progress live at the [actions page](../../../../publish-RepoSense/actions) of your fork. <br/>
+
+
 ### Granting write-access to RepoSense for publishing
 We recommmend use of [personal access token](https://github.blog/2013-05-16-personal-api-tokens/) for ease of setup and [deploy key](https://developer.github.com/v3/guides/managing-deploy-keys/#deploy-keys) for enhanced security.
 
@@ -40,6 +57,8 @@ i.e. `cat id_reposense | base64 -w 0`
 
 ### Keeping your site up-to-date with your code contribution
 
+#### Using Travis
+
 [Travis-CI](https://travis-ci.org/) offers `Cron Jobs` in intervals of daily, weekly or monthly.
 
 1. Login to [Travis-CI](https://travis-ci.org/)
@@ -52,6 +71,14 @@ Alternatively, you can manually trigger an update.
 
 1. Go to [your fork in Travis-CI](https://travis-ci.org/search/publish-RepoSense/), click on **More options** on the right then **Trigger build**
 1. In the pop up, click **Trigger custom build**
+
+#### Using GitHub Actions
+
+1. Edit [main.yml](../../../../publish-RepoSense/edit/master/.github/workflows/main.yml) and uncomment the `schedule:` section
+1. You may change the expression after `cron:` to a schedule of your choice; read more about cron syntax [here](https://help.github.com/en/actions/reference/events-that-trigger-workflows#scheduled-events-schedule)
+1. Commit your changes
+
+Alternatively, you can trigger an update by pushing an empty commit to your fork. GitHub Actions currently do not support manual triggers.
 
 ### Specifying which version of RepoSense to use
 
