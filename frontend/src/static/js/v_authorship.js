@@ -282,7 +282,7 @@ window.vAuthorship = {
     getFileLink(file, path) {
       const repo = window.REPOS[this.info.repo];
 
-      return `http://github.com/${
+      return `${window.BASE_URL}/${
         repo.location.organization}/${repo.location.repoName}/${path}/${repo.branch}/${file.path}`;
     },
 
