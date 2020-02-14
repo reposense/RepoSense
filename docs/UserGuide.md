@@ -107,6 +107,7 @@ The `Commits Panel` allows users to see the commits attributed to a specific aut
 * The date range for the `Chart Panel` can be updated by clicking on the "Show ramp chart for this period" below the name of the author.
 * The ramp slices displayed in the ramp chart for the `Commits Panel` represents individual commits.
 * The commit messages body can be expanded or collapsed by clicking on the `...` icon beside each commit message title.
+* To promote Git's 50/72 commit message rule, the commit message title shows a dotted border at 50 characters while the commit message body shows a dotted border at 72 characters.
 
 ### Tool Bar
 The `Tool Bar` at the top provides a set of configuration options that control the Chart Panel.
