@@ -306,6 +306,12 @@ header {
 .commit-message {
   padding: 5px;
 
+  &:focus {
+    .tag{
+      border: mui-color('blue', '500') solid;
+    }
+  }
+
   &.active {
     .body {
       background-color: mui-color('white');
