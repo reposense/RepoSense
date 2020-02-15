@@ -306,7 +306,7 @@ Another, more powerful, way to customize the analysis is by using dedicated conf
 * **`--config, -c CONFIG_DIRECTORY`**: The directory in which you have the config files (`-c` as alias).<br>
   Example:`java -jar RepoSense.jar --config  ./my_configs` or `java -jar RepoSense.jar -c  ./my_configs`
 
-The directory used with the `--config` parameter should contain a `repo-config.csv` file and, optionally, an `author-config.csv` file, both of which are described in the sections below.
+The directory used with the `--config` parameter should contain a `repo-config.csv` file and, optionally, an `author-config.csv` file or `group-config.csv` file or both, all of which are described in the sections below.
 
 #### `repo-config.csv`
 
@@ -357,8 +357,6 @@ Author's GitHub ID | GitHub username of the target author e.g., `JohnDoe`
 > Note: the first row consists of config headings, which is ignored by RepoSense.
 
 If `author-config.csv` is not given and the repo has not provide author details in a standalone config file, all the authors of the repositories within the date range specified (if any) will be analyzed.
-
-<hr>
 
 #### `group-config.csv`
 
