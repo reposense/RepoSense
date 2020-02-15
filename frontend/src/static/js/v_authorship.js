@@ -223,17 +223,6 @@ window.vAuthorship = {
           * window.comparator(filesSortDict[this.filesSortType])(a, b);
     },
 
-    selectAll() {
-      if (this.filterType === 'search') {
-        this.indicateCheckBoxes();
-      }
-      if (!this.isSelectAllChecked) {
-        this.selectedFileTypes = this.fileTypes.slice();
-      } else {
-        this.selectedFileTypes = [];
-      }
-    },
-
     updateFilterSearch(evt) {
       if (this.filterType === 'checkboxes') {
         this.indicateSearchBar();
@@ -242,7 +231,6 @@ window.vAuthorship = {
     },
 
     indicateSearchBar() {
-      this.isSelectAllChecked = true;
       this.selectedFileTypes = this.fileTypes.slice();
       this.filterType = 'search';
     },
@@ -276,8 +264,20 @@ window.vAuthorship = {
   },
 
   computed: {
-    isSelectAllChecked() {
-      return this.selectedFileTypes.length === this.fileTypes.length;
+    isSelectAllChecked: {
+      get() {
+        return this.selectedFileTypes.length === this.fileTypes.length;
+      },
+      set(value) {
+        if (this.filterType === 'search') {
+          this.indicateCheckBoxes();
+        }
+        if (value) {
+          this.selectedFileTypes = this.fileTypes.slice();
+        } else {
+          this.selectedFileTypes = [];
+        }
+      },
     },
     selectedFiles() {
       return this.files.filter((file) => this.selectedFileTypes.includes(file.fileType)

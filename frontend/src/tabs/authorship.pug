@@ -38,11 +38,7 @@
         input.radio-button--checkbox(type="radio", value="checkboxes" v-model="filterType")
         div.checkboxes.mui-form--inline(v-if="files.length > 0")
           label
-            input.mui-checkbox--fileType(type="checkbox",
-              v-bind:id="isSelectAllChecked",
-              v-bind:value="isSelectAllChecked",
-              v-on:click="selectAll",
-              v-model="isSelectAllChecked")
+            input.mui-checkbox--fileType(type="checkbox", v-model="isSelectAllChecked")
             span(v-bind:title="getTotalFileBlankLineInfo()")
               span.select.medium-font All:&nbsp;
               span.loc.medium-font {{ totalLineCount }}&nbsp;
