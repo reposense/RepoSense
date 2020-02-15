@@ -708,9 +708,6 @@ window.vSummary = {
         sortingWithinOption, isSortingDsc, isSortingWithinDsc,
       } = this;
 
-      // deep clone so that changes in user within zoom tab won't affect summary
-      user = JSON.parse(JSON.stringify(user));
-
       this.$emit('view-zoom', {
         zRepo: user.repoName,
         zAuthor: user.name,
