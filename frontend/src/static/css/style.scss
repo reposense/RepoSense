@@ -307,6 +307,8 @@ header {
   padding: 5px;
 
   &:focus {
+    outline-color: mui-color('blue', '500');
+
     .tag{
       border: mui-color('blue', '500') solid;
     }
