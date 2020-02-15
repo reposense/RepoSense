@@ -1,8 +1,8 @@
 #authorship
   span.large-font Code Panel
   .toolbar(v-if="hasCommits(info)")
-    a(v-if="activeFilesCount === 0", v-on:click="expandAll(true)") Expand all
-    a(v-else, v-on:click="expandAll(false)") Collapse all
+    a(v-if="activeFilesCount === 0", v-on:click="expandAll(true)") show all file details
+    a(v-else, v-on:click="expandAll(false)") hide all file details
   .title
     a.repoName.large-font(
     v-bind:href="info.location", target="_blank",
