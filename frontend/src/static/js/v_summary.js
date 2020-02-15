@@ -172,8 +172,17 @@ window.vSummary = {
     },
   },
   computed: {
-    checkAllFileTypes() {
-      return this.checkedFileTypes.length === this.fileTypes.length;
+    checkAllFileTypes: {
+      get() {
+        return this.checkedFileTypes.length === this.fileTypes.length;
+      },
+      set(value) {
+        if (value) {
+          this.checkedFileTypes = this.fileTypes.slice();
+        } else {
+          this.checkedFileTypes = [];
+        }
+      },
     },
     avgCommitSize() {
       let totalCommits = 0;
@@ -599,7 +608,7 @@ window.vSummary = {
       // commits, so we are going to check each commit's date and make sure
       // it is within the duration of a week
       while (commits.length > 0
-          && (new Date(commits[0].date)).getTime() <= endOfWeekMs) {
+      && (new Date(commits[0].date)).getTime() <= endOfWeekMs) {
         const commit = commits.shift();
         week.insertions += commit.insertions;
         week.deletions += commit.deletions;
@@ -637,13 +646,6 @@ window.vSummary = {
     getOptionWithOrder() {
       [this.sortingOption, this.isSortingDsc] = this.sortGroupSelection.split(' ');
       [this.sortingWithinOption, this.isSortingWithinDsc] = this.sortWithinGroupSelection.split(' ');
-    },
-    selectAllFileTypes() {
-      if (this.checkAllFileTypes) {
-        this.checkedFileTypes = [];
-      } else {
-        this.checkedFileTypes = this.fileTypes.slice();
-      }
     },
     sortFiltered() {
       this.getOptionWithOrder();
