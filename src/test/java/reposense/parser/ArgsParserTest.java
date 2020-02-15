@@ -427,7 +427,7 @@ public class ArgsParserTest {
     }
 
     @Test
-    public void parse_configOrLocationsSimilar_success() throws ParseException, IOException, HelpScreenException {
+    public void parse_configOrLocationsSimilar_success() throws Exception {
         String input = new InputBuilder().addConfig(CONFIG_FOLDER_ABSOLUTE).build();
         CliArguments configCliArguments = ArgsParser.parse(translateCommandline(input));
         Assert.assertTrue(configCliArguments instanceof ConfigCliArguments);
