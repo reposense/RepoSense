@@ -191,6 +191,7 @@ window.app = new window.Vue({
       window.addHash('tabOpen', this.isTabActive);
       window.removeHash('tabType');
       this.removeZoomHashes();
+      this.removeAuthorshipHashes();
       window.encodeHash();
     },
 
