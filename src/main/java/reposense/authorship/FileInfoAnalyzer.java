@@ -109,7 +109,7 @@ public class FileInfoAnalyzer {
                 commitDateInMs += authorRawOffset - systemRawOffset;
             }
 
-            if (!fileInfo.isFileLineTracked(lineCount / 5) || isAuthorIgnoringFile(author, filePath)
+            if (!fileInfo.isFileLineTracked(lineCount / 5) || author.isIgnoringFile(filePath)
                     || CommitHash.isInsideCommitList(commitHash, config.getIgnoreCommitList())
                     || commitDateInMs < sinceDateInMs || commitDateInMs > untilDateInMs) {
                 author = Author.UNKNOWN_AUTHOR;
@@ -140,13 +140,5 @@ public class FileInfoAnalyzer {
             logger.log(Level.WARNING, ioe.getMessage(), ioe);
         }
         return false;
-    }
-
-    /**
-     * Returns true if the {@code author} is ignoring the {@code filePath} based on its ignore glob list.
-     */
-    private static boolean isAuthorIgnoringFile(Author author, Path filePath) {
-        PathMatcher ignoreGlobMatcher = author.getIgnoreGlobMatcher();
-        return ignoreGlobMatcher.matches(filePath);
     }
 }
