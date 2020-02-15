@@ -82,18 +82,18 @@ window.vZoom = {
         isSortingWithinDsc, zoomAuthor, zoomRepo,
       } = this.info;
 
-      addHash('zoomAuthor', zoomAuthor);
-      addHash('zoomRepo', zoomRepo);
-      addHash('avgCommitSize', avgCommitSize);
-      addHash('zoomSince', zoomSince);
-      addHash('zoomUntil', zoomUntil);
-      addHash('isZoomMergeGroup', isMergeGroup);
-      addHash('zoomFilterTimeFrame', filterTimeFrame);
-      addHash('zoomFilterGroupSelection', filterGroupSelection);
-      addHash('zoomSortingOption', sortingOption);
-      addHash('zoomSortingWithinOption', sortingWithinOption);
-      addHash('isZoomSortingDsc', isSortingDsc);
-      addHash('isZoomSortingWithinDsc', isSortingWithinDsc);
+      addHash('zA', zoomAuthor);
+      addHash('zR', zoomRepo);
+      addHash('zACS', avgCommitSize);
+      addHash('zS', zoomSince);
+      addHash('zU', zoomUntil);
+      addHash('zMG', isMergeGroup);
+      addHash('zFTF', filterTimeFrame);
+      addHash('zFGS', filterGroupSelection);
+      addHash('zSO', sortingOption);
+      addHash('zSWO', sortingWithinOption);
+      addHash('zSD', isSortingDsc);
+      addHash('zSWD', isSortingWithinDsc);
       encodeHash();
     },
 

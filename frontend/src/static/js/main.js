@@ -200,16 +200,16 @@ window.app = new window.Vue({
     },
 
     removeZoomHashes() {
-      window.removeHash('zoomSince');
-      window.removeHash('zoomUntil');
-      window.removeHash('avgCommitSize');
-      window.removeHash('zoomFilterGroupSelection');
-      window.removeHash('zoomFilterTimeFrame');
-      window.removeHash('isZoomMergeGroup');
-      window.removeHash('zoomSortingOption');
-      window.removeHash('zoomSortingWithinOption');
-      window.removeHash('isZoomSortingDsc');
-      window.removeHash('isZoomSortingWithinDsc');
+      window.removeHash('zS');
+      window.removeHash('zU');
+      window.removeHash('zACS');
+      window.removeHash('zFGS');
+      window.removeHash('zFTF');
+      window.removeHash('zMG');
+      window.removeHash('zSO');
+      window.removeHash('zSWO');
+      window.removeHash('zSD');
+      window.removeHash('zSWD');
     },
 
     updateTabAuthorship(obj) {
@@ -247,18 +247,18 @@ window.app = new window.Vue({
     renderZoomTabHash() {
       const hash = window.hashParams;
       const info = {
-        zoomAuthor: hash.zoomAuthor,
-        zoomRepo: hash.zoomRepo,
-        avgCommitSize: hash.avgCommitSize,
-        zoomSince: hash.zoomSince,
-        zoomUntil: hash.zoomUntil,
-        filterGroupSelection: hash.zoomFilterGroupSelection,
-        filterTimeFrame: hash.zoomFilterTimeFrame,
-        isMergeGroup: hash.isZoomMergeGroup === 'true',
-        sortingOption: hash.zoomSortingOption,
-        sortingWithinOption: hash.zoomSortingWithinOption,
-        isSortingDsc: hash.isZoomSortingDsc === 'true',
-        isSortingWithinDsc: hash.isZoomSortingWithinDsc === 'true',
+        zoomAuthor: hash.zA,
+        zoomRepo: hash.zR,
+        avgCommitSize: hash.zACS,
+        zoomSince: hash.zS,
+        zoomUntil: hash.zU,
+        filterGroupSelection: hash.zFGS,
+        filterTimeFrame: hash.zFTF,
+        isMergeGroup: hash.zMG === 'true',
+        sortingOption: hash.zSO,
+        sortingWithinOption: hash.zSWO,
+        isSortingDsc: hash.zSD === 'true',
+        isSortingWithinDsc: hash.zSWD === 'true',
       };
       const tabInfoLength = Object.values(info).filter((x) => x !== null).length;
       if (Object.keys(info).length === tabInfoLength) {
