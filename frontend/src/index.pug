@@ -45,9 +45,9 @@ html
               strong RepoSense
             span &nbsp;(
             a(
-              v-bind:href="getRepoSenseVersionLink()", target ="_blank",
+              v-bind:href="getUserGuideVersionLink()", target ="_blank",
             )
-              strong {{ repoSenseVersion }}
+              strong User Guide - {{ repoSenseVersion }}
             span ) on {{ creationDate }}
 
         #tabs-wrapper(v-if="isTabActive")
@@ -176,6 +176,13 @@ html
               .summary-charts__title--index {{ i+1 }}
               .summary-charts__title--repo {{ repo[0].repoName }}
               .summary-charts__title--contribution.mini-font(title="Total contribution of group") [{{ getGroupTotalContribution(repo) }} lines]
+              template(v-if="isMergeGroup")
+                a(
+                  v-bind:href="getRepoLink(repo[0])", target="_blank",
+                  title="click to view group's repo"
+                )
+                  i.icon-button.fab.fa-github
+              .summary-charts__title--percentile.mini-font {{ getPercentile(i) }} %
             .summary-charts__title(
                 v-if="filterGroupSelection === 'groupByAuthors'",
                 v-bind:class="{ warn: repo[0].name === '-' }"
@@ -183,6 +190,13 @@ html
               .summary-charts__title--index {{ i+1 }}
               .summary-charts__title--repo {{ repo[0].displayName }} ({{ repo[0].name }})
               .summary-charts__title--contribution.mini-font(title="Total contribution of group") [{{ getGroupTotalContribution(repo) }} lines]
+              template(v-if="isMergeGroup")
+                a(
+                  v-bind:href="getAuthorProfileLink(repo[0].name)", target="_blank",
+                  title="click to view author's profile"
+                )
+                  i.icon-button.fab.fa-github
+              .summary-charts__title--percentile.mini-font {{ getPercentile(i) }} %
             .summary-charts__fileType--breakdown(v-if="filterBreakdown")
               template(v-if="filterGroupSelection === 'groupByRepos'")
                 .summary-charts__fileType--breakdown__legend(
@@ -213,18 +227,20 @@ html
                   onclick="deactivateAllOverlays()",
                   v-on:click="openTabAuthorship(user, repo, i)"
                 )
-                  i.summary-chart__title--button.fas.fa-code
+                  i.icon-button.fas.fa-code
                 a(
                   v-bind:href="getRepoLink(repo[i])", target="_blank",
                   title="click to view author's repo"
                 )
-                  i.summary-chart__title--button.fab.fa-github
+                  i.icon-button.fab.fa-github
                 a(
                   title="click to view breakdown of commits",
                   onclick="deactivateAllOverlays()",
                   v-on:click="openTabZoom(user, filterSinceDate, filterUntilDate, repo, i)"
                 )
-                  i.summary-chart__title--button.fas.fa-list-ul
+                  i.icon-button.fas.fa-list-ul
+                .summary-chart__title--percentile.mini-font(v-if="filterGroupSelection === 'groupByNone'") {{ getPercentile(i) }} %
+
               .summary-chart__ramp(
                 onclick="viewClick(event)",
                 v-on:click="openTabZoomSubrange(user, repo, i)"
