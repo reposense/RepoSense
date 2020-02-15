@@ -45,6 +45,7 @@ window.vAuthorship = {
       sortingFunction: (a, b) => -1 * window.comparator(filesSortDict.lineOfCode)(a, b),
       isSearchBar: false,
       isCheckBoxes: true,
+      isBinaryFilesChecked: true,
     };
   },
 
@@ -166,29 +167,34 @@ window.vAuthorship = {
 
       files.forEach((file) => {
         const lineCnt = file.authorContributionMap[this.info.author];
-        if (!lineCnt) {
+
+        // skip if binary file not touched by author
+        if (file.isBinary
+          && !file.binaryFileAuthors.map((author) => author.gitId).includes(this.info.author)) {
           return;
         }
+
+        // skip if non-binary file not touched by author
+        if (!lineCnt && !file.isBinary) {
+          return;
+        }
+
         const out = {
           path: file.path,
           fileType: file.fileType,
-          lineCount: lineCnt,
+          lineCount: lineCnt || 0, // set to 0 for binary files
           isBinary: file.isBinary,
         };
-        if (file.isBinary) {
-          if (!file.binaryFileAuthors.map((author) => author.gitId).includes(this.info.author)) {
-            return;
-          }
-        } else {
+
+        if (!file.isBinary) {
           const segmentInfo = this.splitSegments(file.lines);
           out.segments = segmentInfo.segments;
           totalBlankLineCount += segmentInfo.blankLineCount;
-
-          this.addBlankLineCount(file.fileType, segmentInfo.blankLineCount,
-              fileTypeBlanksInfoObj);
+          this.addBlankLineCount(file.fileType, segmentInfo.blankLineCount, fileTypeBlanksInfoObj);
+          totalLineCount += lineCnt;
         }
+
         res.push(out);
-        totalLineCount += lineCnt;
       });
 
       this.totalLineCount = totalLineCount;
@@ -233,6 +239,10 @@ window.vAuthorship = {
         this.selectedFileTypes = [];
         this.activeFilesCount = 0;
       }
+    },
+
+    selectBinaryFile() {
+      this.isBinaryFilesChecked = !this.isBinaryFilesChecked;
     },
 
     selectFileType(fileType) {
@@ -304,6 +314,10 @@ window.vAuthorship = {
       return `Total: Blank: ${this.totalBlankLineCount}, Non-Blank: ${
         this.totalLineCount - this.totalBlankLineCount}`;
     },
+
+    getFileTypeBinaryFilesInfo() {
+      return `${this.numberOfBinaryFiles} binary files (not included in total line count)`;
+    },
   },
 
   computed: {
@@ -320,6 +334,9 @@ window.vAuthorship = {
             numLinesModified[langType] = value;
           });
       return numLinesModified;
+    },
+    numberOfBinaryFiles() {
+      return this.files.filter((file) => file.isBinary).length;
     },
   },
 

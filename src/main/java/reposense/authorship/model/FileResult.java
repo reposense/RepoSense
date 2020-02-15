@@ -43,9 +43,7 @@ public class FileResult {
      * Creates file result for binary files. Sets each author's contribution to the file equal 1.
      */
     public static FileResult createBinaryFileResult(String path, FileType fileType, Set<Author> binaryFileAuthors) {
-        HashMap<Author, Integer> authorContributionMap = new HashMap<>();
-        binaryFileAuthors.forEach(author -> authorContributionMap.put(author, 1));
-        return new FileResult(path, fileType, new ArrayList<>(), authorContributionMap, true, binaryFileAuthors);
+        return new FileResult(path, fileType, new ArrayList<>(), new HashMap<>(), true, binaryFileAuthors);
     }
 
     public boolean isBinary() {
