@@ -1,6 +1,7 @@
 package reposense.model;
 
 import java.nio.file.FileSystems;
+import java.nio.file.Path;
 import java.nio.file.PathMatcher;
 import java.util.ArrayList;
 import java.util.List;
@@ -146,6 +147,10 @@ public class Author {
             }
         });
         updateIgnoreGlobMatcher();
+    }
+
+    public boolean isIgnoringFile(Path filePath) {
+        return ignoreGlobMatcher.matches(filePath);
     }
 
     @Override
