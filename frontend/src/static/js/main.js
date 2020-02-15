@@ -202,8 +202,6 @@ window.app = new window.Vue({
     removeZoomHashes() {
       window.removeHash('zoomSince');
       window.removeHash('zoomUntil');
-      window.removeHash('repoIndex');
-      window.removeHash('userIndex');
       window.removeHash('avgCommitSize');
       window.removeHash('zoomFilterGroupSelection');
       window.removeHash('zoomFilterTimeFrame');
@@ -249,11 +247,11 @@ window.app = new window.Vue({
     renderZoomTabHash() {
       const hash = window.hashParams;
       const info = {
+        zoomAuthor: hash.zoomAuthor,
+        zoomRepo: hash.zoomRepo,
         avgCommitSize: hash.avgCommitSize,
         zoomSince: hash.zoomSince,
         zoomUntil: hash.zoomUntil,
-        repoIndex: hash.repoIndex,
-        userIndex: hash.userIndex,
         filterGroupSelection: hash.zoomFilterGroupSelection,
         filterTimeFrame: hash.zoomFilterTimeFrame,
         isMergeGroup: hash.isZoomMergeGroup === 'true',

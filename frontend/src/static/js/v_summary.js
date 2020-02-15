@@ -691,18 +691,18 @@ window.vSummary = {
         totalCommits: user.totalCommits,
       });
     },
-    openTabZoomSubrange(user, repoIndex, userIndex) {
+    openTabZoomSubrange(user) {
       // skip if accidentally clicked on ramp chart
       if (drags.length === 2 && drags[1] - drags[0]) {
         const tdiff = new Date(this.filterUntilDate) - new Date(this.filterSinceDate);
         const idxs = drags.map((x) => x * tdiff / 100);
         const tsince = getDateStr(new Date(this.filterSinceDate).getTime() + idxs[0]);
         const tuntil = getDateStr(new Date(this.filterSinceDate).getTime() + idxs[1]);
-        this.openTabZoom(user, repoIndex, userIndex, tsince, tuntil);
+        this.openTabZoom(user, tsince, tuntil);
       }
     },
 
-    openTabZoom(user, repoIndex, userIndex, since, until) {
+    openTabZoom(user, since, until) {
       const {
         avgCommitSize, filterGroupSelection, filterTimeFrame, isMergeGroup, sortingOption,
         sortingWithinOption, isSortingDsc, isSortingWithinDsc,
@@ -712,12 +712,12 @@ window.vSummary = {
       user = JSON.parse(JSON.stringify(user));
 
       this.$emit('view-zoom', {
+        zoomRepo: user.repoName,
+        zoomAuthor: user.name,
         filterGroupSelection,
         filterTimeFrame,
         avgCommitSize,
         user,
-        repoIndex,
-        userIndex,
         location: this.getRepoLink(user),
         zoomSince: since,
         zoomUntil: until,
@@ -822,8 +822,8 @@ window.vSummary = {
 
     restoreZoomFiltered(info) {
       const {
-        repoIndex, userIndex, filterGroupSelection, isMergeGroup, filterTimeFrame, zoomSince,
-        zoomUntil, sortingOption, sortingWithinOption, isSortingDsc, isSortingWithinDsc,
+        filterGroupSelection, isMergeGroup, filterTimeFrame, zoomSince, zoomUntil, sortingOption,
+        sortingWithinOption, isSortingDsc, isSortingWithinDsc, zoomAuthor, zoomRepo,
       } = info;
       let filtered = [];
 
@@ -832,11 +832,14 @@ window.vSummary = {
       groups.forEach((repo) => {
         const res = [];
         repo.users.forEach((user) => {
-          this.getUserCommits(user, zoomSince, zoomUntil);
-          if (filterTimeFrame === 'week') {
-            this.splitCommitsWeek(user, zoomSince, zoomUntil);
+          // only filter users that match with zoom user
+          if (this.matchZoomUser(filterGroupSelection, isMergeGroup, zoomAuthor, zoomRepo, user)) {
+            this.getUserCommits(user, zoomSince, zoomUntil);
+            if (filterTimeFrame === 'week') {
+              this.splitCommitsWeek(user, zoomSince, zoomUntil);
+            }
+            res.push(user);
           }
-          res.push(user);
         });
 
         if (res.length) {
@@ -850,7 +853,15 @@ window.vSummary = {
       if (isMergeGroup) {
         this.mergeGroup(filtered);
       }
-      return filtered[repoIndex][userIndex];
+      return filtered[0][0];
+    },
+    matchZoomUser(filterGroupSelection, isMergeGroup, zoomAuthor, zoomRepo, user) {
+      if (isMergeGroup) {
+        return filterGroupSelection === 'groupByRepos'
+          ? user.repoName === zoomRepo
+          : user.name === zoomAuthor;
+      }
+      return user.repoName === zoomRepo && user.name === zoomAuthor;
     },
   },
   created() {

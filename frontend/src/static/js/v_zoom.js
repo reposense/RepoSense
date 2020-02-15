@@ -78,12 +78,12 @@ window.vZoom = {
       const { addHash, encodeHash } = window;
       const {
         avgCommitSize, zoomSince, zoomUntil, filterGroupSelection, filterTimeFrame,
-        isMergeGroup, repoIndex, userIndex, sortingOption, sortingWithinOption, isSortingDsc,
-        isSortingWithinDsc,
+        isMergeGroup, sortingOption, sortingWithinOption, isSortingDsc,
+        isSortingWithinDsc, zoomAuthor, zoomRepo,
       } = this.info;
 
-      addHash('repoIndex', repoIndex);
-      addHash('userIndex', userIndex);
+      addHash('zoomAuthor', zoomAuthor);
+      addHash('zoomRepo', zoomRepo);
       addHash('avgCommitSize', avgCommitSize);
       addHash('zoomSince', zoomSince);
       addHash('zoomUntil', zoomUntil);
