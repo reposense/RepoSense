@@ -1,7 +1,6 @@
 package reposense.parser;
 
 import java.io.File;
-import java.io.IOException;
 import java.nio.file.Path;
 import java.util.Arrays;
 import java.util.Collections;
@@ -35,7 +34,7 @@ public class GroupConfigParserTest {
             new FileType("Test", Arrays.asList("src/test/**", "src/systest/**")));
 
     @Test
-    public void groupConfig_invalidLocation_success() throws IOException {
+    public void groupConfig_invalidLocation_success() throws Exception {
         GroupConfigCsvParser groupConfigCsvParser = new GroupConfigCsvParser(GROUP_CONFIG_INVALID_LOCATION_FILE);
         List<GroupConfiguration> groupConfigs = groupConfigCsvParser.parse();
 
@@ -46,7 +45,7 @@ public class GroupConfigParserTest {
     }
 
     @Test
-    public void groupConfig_emptyLocation_success() throws IOException {
+    public void groupConfig_emptyLocation_success() throws Exception {
         GroupConfigCsvParser groupConfigCsvParser = new GroupConfigCsvParser(GROUP_CONFIG_EMPTY_LOCATION_FILE);
         List<GroupConfiguration> groupConfigs = groupConfigCsvParser.parse();
 
@@ -60,7 +59,7 @@ public class GroupConfigParserTest {
     }
 
     @Test
-    public void groupConfig_multipleLocations_success() throws IOException {
+    public void groupConfig_multipleLocations_success() throws Exception {
         GroupConfigCsvParser groupConfigCsvParser = new GroupConfigCsvParser(GROUP_CONFIG_MULTI_LOCATION_FILE);
         List<GroupConfiguration> groupConfigs = groupConfigCsvParser.parse();
 
@@ -75,8 +74,8 @@ public class GroupConfigParserTest {
         Assert.assertEquals(TEST_REPO_DELTA_GROUPS, actualDeltaConfig.getGroupsList());
     }
 
-    @Test (expected = IOException.class)
-    public void groupConfig_invalidHeaderSize_throwsIoException() throws IOException {
+    @Test (expected = InvalidCsvException.class)
+    public void groupConfig_invalidHeaderSize_throwsInvalidCsvException() throws Exception {
         GroupConfigCsvParser groupConfigCsvParser = new GroupConfigCsvParser(GROUP_CONFIG_INVALID_HEADER_SIZE_FILE);
         groupConfigCsvParser.parse();
     }

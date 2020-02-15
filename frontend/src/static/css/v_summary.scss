@@ -6,6 +6,12 @@
   text-align: center;
 }
 
+.icon-button {
+  color: mui-color('grey');
+  cursor: pointer;
+  text-decoration: none;
+}
+
 .summary-picker {
   align-items: center;
   display: flex;
@@ -76,14 +82,14 @@
   margin-bottom: 3rem;
 
   &__title {
-    display: block;
+    align-items: center;
+    display: flex;
     font-weight: bold;
     text-align: left;
 
     &--index {
       background: mui-color('black');
       color: mui-color('white');
-      display: inline-block;
       font-size: medium;
       overflow: hidden;
       padding: .1em .25em .1em .25em;
@@ -91,13 +97,18 @@
     }
 
     &--repo {
-      display: inline-block;
       font-size: medium;
       padding: .5rem;
     }
 
+    &--percentile {
+      color: mui-color('grey');
+      margin-left: auto;
+    }
+
     &--contribution {
       display: inline;
+      padding-right: .5rem;
     }
   }
 
@@ -118,10 +129,11 @@
   text-align: left;
 
   &__title {
+    align-items: center;
     clear: left;
+    display: flex;
 
     & > * {
-      display: inline;
       padding-right: .5rem;
     }
 
@@ -132,17 +144,16 @@
 
     &--index::after {
       content: '.';
-      display: inline-block;
     }
 
     &--repo {
       padding-right: .25rem;
     }
 
-    &--button {
+    &--percentile {
       color: mui-color('grey');
-      cursor: pointer;
-      text-decoration: none;
+      margin-left: auto;
+      padding-right: 0;
     }
   }
 
@@ -170,8 +181,9 @@
 
     &--bar {
       background-color: mui-color('red');
-      height: .3rem;
-      margin-top: .1rem;
+      float: left;
+      height: 4px;
+      margin-top: 2px;
     }
   }
 }

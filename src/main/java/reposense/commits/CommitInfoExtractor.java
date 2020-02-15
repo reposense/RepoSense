@@ -59,7 +59,7 @@ public class CommitInfoExtractor {
             Matcher matcher = TRAILING_NEWLINES_PATTERN.matcher(rawCommitInfos[i]);
             String rawCommitInfo = matcher.replaceAll("");
 
-            int statLineSeparatorIndex = rawCommitInfo.lastIndexOf("\n");
+            int statLineSeparatorIndex = rawCommitInfo.lastIndexOf("|");
             String infoLine = rawCommitInfo.substring(0, statLineSeparatorIndex);
             String statLine = rawCommitInfo.substring(statLineSeparatorIndex + 1);
             commitInfos.add(new CommitInfo(infoLine, statLine));
