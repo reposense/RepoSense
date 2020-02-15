@@ -149,6 +149,9 @@ public class Author {
         updateIgnoreGlobMatcher();
     }
 
+    /**
+     * Returns true if this author is ignoring the {@code filePath} based on its ignore glob matcher.
+     */
     public boolean isIgnoringFile(Path filePath) {
         return ignoreGlobMatcher.matches(filePath);
     }
