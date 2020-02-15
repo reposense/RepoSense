@@ -22,6 +22,7 @@ import reposense.model.ViewCliArguments;
 import reposense.parser.ArgsParser;
 import reposense.parser.AuthorConfigCsvParser;
 import reposense.parser.GroupConfigCsvParser;
+import reposense.parser.InvalidCsvException;
 import reposense.parser.InvalidLocationException;
 import reposense.parser.ParseException;
 import reposense.parser.RepoConfigCsvParser;
@@ -84,10 +85,8 @@ public class RepoSense {
             if (cliArguments.isAutomaticallyLaunching()) {
                 ReportServer.startServer(SERVER_PORT_NUMBER, cliArguments.getOutputFilePath().toAbsolutePath());
             }
-        } catch (IOException ioe) {
-            logger.log(Level.WARNING, ioe.getMessage(), ioe);
-        } catch (ParseException pe) {
-            logger.log(Level.WARNING, pe.getMessage(), pe);
+        } catch (IOException | ParseException | InvalidCsvException e) {
+            logger.log(Level.WARNING, e.getMessage(), e);
         } catch (HelpScreenException e) {
             // help message was printed by the ArgumentParser; it is safe to exit.
         }
@@ -97,8 +96,10 @@ public class RepoSense {
      * Constructs a list of {@code RepoConfiguration} if {@code cliArguments} is a {@code ConfigCliArguments}.
      *
      * @throws IOException if user-supplied csv file does not exists or is not readable.
+     * @throws InvalidCsvException if user-supplied repo-config csv is malformed.
      */
-    public static List<RepoConfiguration> getRepoConfigurations(ConfigCliArguments cliArguments) throws IOException {
+    public static List<RepoConfiguration> getRepoConfigurations(ConfigCliArguments cliArguments)
+            throws IOException, InvalidCsvException {
         List<RepoConfiguration> repoConfigs = new RepoConfigCsvParser(cliArguments.getRepoConfigFilePath()).parse();
         List<AuthorConfiguration> authorConfigs;
         List<GroupConfiguration> groupConfigs;
@@ -109,9 +110,9 @@ public class RepoSense {
         } catch (FileNotFoundException fnfe) {
             // FileNotFoundException thrown as author-config.csv is not found.
             // Ignore exception as the file is optional.
-        } catch (IOException ioe) {
-            // for all other IO exceptions, log the error and continue
-            logger.log(Level.WARNING, ioe.getMessage(), ioe);
+        } catch (IOException | InvalidCsvException e) {
+            // for all IO and invalid csv exceptions, log the error and continue
+            logger.log(Level.WARNING, e.getMessage(), e);
         }
 
         try {
@@ -120,9 +121,9 @@ public class RepoSense {
         } catch (FileNotFoundException fnfe) {
             // FileNotFoundException thrown as groups-config.csv is not found.
             // Ignore exception as the file is optional.
-        } catch (IOException ioe) {
-            // for all other IO exceptions, log the error and continue
-            logger.log(Level.WARNING, ioe.getMessage(), ioe);
+        } catch (IOException | InvalidCsvException e) {
+            // for all other IO and invalid csv exceptions, log the error and continue
+            logger.log(Level.WARNING, e.getMessage(), e);
         }
 
         return repoConfigs;

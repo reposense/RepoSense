@@ -4,7 +4,6 @@ import static org.apache.tools.ant.types.Commandline.translateCommandline;
 
 import java.io.File;
 import java.io.IOException;
-import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.nio.file.Path;
 import java.util.ArrayList;
@@ -140,8 +139,7 @@ public class RepoConfigurationTest {
     }
 
     @Test
-    public void repoConfig_ignoresStandaloneConfig_success()
-            throws ParseException, GitCloneException, IOException, HelpScreenException {
+    public void repoConfig_ignoresStandaloneConfig_success() throws Exception {
         List<Author> expectedAuthors = new ArrayList<>();
         Author author = new Author(FIRST_AUTHOR);
         author.setIgnoreGlobList(REPO_LEVEL_GLOB_LIST);
@@ -200,8 +198,7 @@ public class RepoConfigurationTest {
     }
 
     @Test
-    public void repoConfig_ignoreStandaloneConfigInCli_overrideCsv()
-            throws GitCloneException, HelpScreenException, IOException, ParseException {
+    public void repoConfig_ignoreStandaloneConfigInCli_overrideCsv() throws Exception {
 
         RepoConfiguration repoBetaExpectedConfig = new RepoConfiguration(
                 new RepoLocation(TEST_REPO_BETA), "master");
@@ -231,8 +228,7 @@ public class RepoConfigurationTest {
     }
 
     @Test
-    public void repoConfig_withoutIgnoreStandaloneConfigInCli_useCsv()
-            throws GitCloneException, HelpScreenException, IOException, ParseException {
+    public void repoConfig_withoutIgnoreStandaloneConfigInCli_useCsv() throws Exception {
         RepoConfiguration repoBetaExpectedConfig = new RepoConfiguration(
                 new RepoLocation(TEST_REPO_BETA), "master");
         repoBetaExpectedConfig.setFormats(FileType.convertFormatStringsToFileTypes(CLI_FORMATS));
@@ -256,8 +252,7 @@ public class RepoConfigurationTest {
     }
 
     @Test
-    public void repoConfig_wrongKeywordUseStandaloneConfig_success()
-            throws ParseException, GitCloneException, IOException, HelpScreenException {
+    public void repoConfig_wrongKeywordUseStandaloneConfig_success() throws Exception {
         String formats = String.join(" ", CLI_FORMATS);
         String input = new InputBuilder().addConfig(IGNORE_STANDALONE_KEYWORD_TEST_CONFIG_FILES)
                 .addFormats(formats)
@@ -275,7 +270,7 @@ public class RepoConfigurationTest {
     }
 
     @Test
-    public void repoConfig_withFormats_ignoreCliFormats() throws ParseException, IOException, HelpScreenException {
+    public void repoConfig_withFormats_ignoreCliFormats() throws Exception {
         String formats = String.join(" ", CLI_FORMATS);
         String input = new InputBuilder().addConfig(FORMATS_TEST_CONFIG_FILES)
                 .addFormats(formats)
@@ -291,7 +286,7 @@ public class RepoConfigurationTest {
     }
 
     @Test
-    public void repoConfig_withoutFormats_useCliFormats() throws ParseException, IOException, HelpScreenException {
+    public void repoConfig_withoutFormats_useCliFormats() throws Exception {
         String formats = String.join(" ", CLI_FORMATS);
         String input = new InputBuilder().addConfig(WITHOUT_FORMATS_TEST_CONFIG_FILES)
                 .addFormats(formats)
@@ -309,7 +304,7 @@ public class RepoConfigurationTest {
     }
 
     @Test
-    public void repoConfig_withCustomGroups_useCustomGroups() throws ParseException, IOException, HelpScreenException {
+    public void repoConfig_withCustomGroups_useCustomGroups() throws Exception {
         String input = new InputBuilder().addConfig(GROUPS_TEST_CONFIG_FILES).build();
         CliArguments cliArguments = ArgsParser.parse(translateCommandline(input));
 
@@ -326,8 +321,7 @@ public class RepoConfigurationTest {
     }
 
     @Test
-    public void repoConfig_withoutFormatsAndCliFormats_useAllFormats()
-            throws ParseException, IOException, HelpScreenException {
+    public void repoConfig_withoutFormatsAndCliFormats_useAllFormats() throws Exception {
         String input = new InputBuilder().addConfig(WITHOUT_FORMATS_TEST_CONFIG_FILES).build();
         CliArguments cliArguments = ArgsParser.parse(translateCommandline(input));
 
@@ -360,8 +354,7 @@ public class RepoConfigurationTest {
     }
 
     @Test
-    public void repoConfig_overrideStandaloneConfig_success()
-            throws ParseException, GitCloneException, IOException, HelpScreenException {
+    public void repoConfig_overrideStandaloneConfig_success() throws Exception {
         RepoConfiguration expectedConfig = new RepoConfiguration(new RepoLocation(TEST_REPO_DELTA), "master",
                 Collections.emptyList(), Collections.emptyList(), false, Collections.emptyList(),
                 true, true, true);
@@ -424,8 +417,7 @@ public class RepoConfigurationTest {
     }
 
     @Test
-    public void repoConfig_removeIgnoredAuthors_success() throws ParseException, GitCloneException, IOException,
-            HelpScreenException, NoSuchMethodException, InvocationTargetException, IllegalAccessException {
+    public void repoConfig_removeIgnoredAuthors_success() throws Exception {
         List<Author> expectedAuthors = new ArrayList<>();
         Author author = new Author(FIRST_AUTHOR);
         author.setIgnoreGlobList(REPO_LEVEL_GLOB_LIST);
