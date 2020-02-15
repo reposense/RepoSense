@@ -21,12 +21,12 @@ window.vZoom = {
       * window.comparator(commitSortDict[this.commitsSortType])(a, b);
     },
     filteredUser() {
-      const { user } = this.info;
-      const filteredUser = Object.assign({}, user);
+      const { zUser } = this.info;
+      const filteredUser = Object.assign({}, zUser);
 
-      const date = this.info.filterTimeFrame === 'week' ? 'endDate' : 'date';
-      filteredUser.commits = user.commits.filter(
-          (commit) => commit[date] >= this.info.zoomSince && commit[date] <= this.info.zoomUntil,
+      const date = this.info.zTimeFrame === 'week' ? 'endDate' : 'date';
+      filteredUser.commits = zUser.commits.filter(
+          (commit) => commit[date] >= this.info.zSince && commit[date] <= this.info.zUntil,
       ).sort(this.sortingFunction);
 
       return filteredUser;
@@ -46,20 +46,20 @@ window.vZoom = {
   },
   methods: {
     initiate() {
-      if (!this.info.user) { // restoring zoom tab from reloaded page
+      if (!this.info.zUser) { // restoring zoom tab from reloaded page
         this.restoreZoomTab();
       }
       this.setInfoHash();
     },
     openSummary() {
-      this.$emit('view-summary', this.info.zoomSince, this.info.zoomUntil);
+      this.$emit('view-summary', this.info.zSince, this.info.zUntil);
     },
 
     getSliceLink(slice) {
       if (this.info.isMergeGroup) {
         return `${window.getBaseLink(slice.repoId)}/commit/${slice.hash}`;
       }
-      return `${window.getBaseLink(this.info.user.repoId)}/commit/${slice.hash}`;
+      return `${window.getBaseLink(this.info.zUser.repoId)}/commit/${slice.hash}`;
     },
 
     scrollToCommit(commit) {
@@ -77,23 +77,22 @@ window.vZoom = {
     setInfoHash() {
       const { addHash, encodeHash } = window;
       const {
-        avgCommitSize, zoomSince, zoomUntil, filterGroupSelection, filterTimeFrame,
-        isMergeGroup, sortingOption, sortingWithinOption, isSortingDsc,
-        isSortingWithinDsc, zoomAuthor, zoomRepo,
+        zAvgCommitSize, zSince, zUntil, zFilterGroup, zTimeFrame, zIsMerge, zSorting,
+        zSortingWithin, zIsSortingDsc, zIsSortingWithinDsc, zAuthor, zRepo,
       } = this.info;
 
-      addHash('zA', zoomAuthor);
-      addHash('zR', zoomRepo);
-      addHash('zACS', avgCommitSize);
-      addHash('zS', zoomSince);
-      addHash('zU', zoomUntil);
-      addHash('zMG', isMergeGroup);
-      addHash('zFTF', filterTimeFrame);
-      addHash('zFGS', filterGroupSelection);
-      addHash('zSO', sortingOption);
-      addHash('zSWO', sortingWithinOption);
-      addHash('zSD', isSortingDsc);
-      addHash('zSWD', isSortingWithinDsc);
+      addHash('zA', zAuthor);
+      addHash('zR', zRepo);
+      addHash('zACS', zAvgCommitSize);
+      addHash('zS', zSince);
+      addHash('zU', zUntil);
+      addHash('zMG', zIsMerge);
+      addHash('zFTF', zTimeFrame);
+      addHash('zFGS', zFilterGroup);
+      addHash('zSO', zSorting);
+      addHash('zSWO', zSortingWithin);
+      addHash('zSD', zIsSortingDsc);
+      addHash('zSWD', zIsSortingWithinDsc);
       encodeHash();
     },
 

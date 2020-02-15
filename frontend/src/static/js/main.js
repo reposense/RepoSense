@@ -247,18 +247,18 @@ window.app = new window.Vue({
     renderZoomTabHash() {
       const hash = window.hashParams;
       const info = {
-        zoomAuthor: hash.zA,
-        zoomRepo: hash.zR,
-        avgCommitSize: hash.zACS,
-        zoomSince: hash.zS,
-        zoomUntil: hash.zU,
-        filterGroupSelection: hash.zFGS,
-        filterTimeFrame: hash.zFTF,
-        isMergeGroup: hash.zMG === 'true',
-        sortingOption: hash.zSO,
-        sortingWithinOption: hash.zSWO,
-        isSortingDsc: hash.zSD === 'true',
-        isSortingWithinDsc: hash.zSWD === 'true',
+        zAuthor: hash.zA,
+        zRepo: hash.zR,
+        zAvgCommitSize: hash.zACS,
+        zSince: hash.zS,
+        zUntil: hash.zU,
+        zFilterGroup: hash.zFGS,
+        zTimeFrame: hash.zFTF,
+        zIsMerge: hash.zMG === 'true',
+        zSorting: hash.zSO,
+        zSortingWithin: hash.zSWO,
+        zIsSortingDsc: hash.zSD === 'true',
+        zIsSortingWithinDsc: hash.zSWD === 'true',
       };
       const tabInfoLength = Object.values(info).filter((x) => x !== null).length;
       if (Object.keys(info).length === tabInfoLength) {

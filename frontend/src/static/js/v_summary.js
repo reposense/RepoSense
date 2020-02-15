@@ -712,20 +712,20 @@ window.vSummary = {
       user = JSON.parse(JSON.stringify(user));
 
       this.$emit('view-zoom', {
-        zoomRepo: user.repoName,
-        zoomAuthor: user.name,
-        filterGroupSelection,
-        filterTimeFrame,
-        avgCommitSize,
-        user,
-        location: this.getRepoLink(user),
-        zoomSince: since,
-        zoomUntil: until,
-        isMergeGroup,
-        sortingOption,
-        sortingWithinOption,
-        isSortingDsc: isSortingDsc === 'dsc',
-        isSortingWithinDsc: isSortingWithinDsc === 'dsc',
+        zRepo: user.repoName,
+        zAuthor: user.name,
+        zFilterGroup: filterGroupSelection,
+        zTimeFrame: filterTimeFrame,
+        zAvgCommitSize: avgCommitSize,
+        zUser: user,
+        zLocation: this.getRepoLink(user),
+        zSince: since,
+        zUntil: until,
+        zIsMerge: isMergeGroup,
+        zSorting: sortingOption,
+        zSortingWithin: sortingWithinOption,
+        zIsSortingDsc: isSortingDsc === 'dsc',
+        zIsSortingWithinDsc: isSortingWithinDsc === 'dsc',
       });
     },
 
@@ -822,8 +822,8 @@ window.vSummary = {
 
     restoreZoomFiltered(info) {
       const {
-        filterGroupSelection, isMergeGroup, filterTimeFrame, zoomSince, zoomUntil, sortingOption,
-        sortingWithinOption, isSortingDsc, isSortingWithinDsc, zoomAuthor, zoomRepo,
+        zSince, zUntil, zFilterGroup, zTimeFrame, zIsMerge, zSorting, zSortingWithin,
+        zIsSortingDsc, zIsSortingWithinDsc, zAuthor, zRepo,
       } = info;
       let filtered = [];
 
@@ -833,10 +833,10 @@ window.vSummary = {
         const res = [];
         repo.users.forEach((user) => {
           // only filter users that match with zoom user
-          if (this.matchZoomUser(filterGroupSelection, isMergeGroup, zoomAuthor, zoomRepo, user)) {
-            this.getUserCommits(user, zoomSince, zoomUntil);
-            if (filterTimeFrame === 'week') {
-              this.splitCommitsWeek(user, zoomSince, zoomUntil);
+          if (this.matchZoomUser(zFilterGroup, zIsMerge, zAuthor, zRepo, user)) {
+            this.getUserCommits(user, zSince, zUntil);
+            if (zTimeFrame === 'week') {
+              this.splitCommitsWeek(user, zSince, zUntil);
             }
             res.push(user);
           }
@@ -847,21 +847,21 @@ window.vSummary = {
         }
       });
 
-      filtered = this.sortFiltered(filterGroupSelection, filtered, sortingOption,
-          sortingWithinOption, isSortingDsc, isSortingWithinDsc);
+      filtered = this.sortFiltered(zFilterGroup, filtered, zSorting, zSortingWithin, zIsSortingDsc,
+          zIsSortingWithinDsc);
 
-      if (isMergeGroup) {
+      if (zIsMerge) {
         this.mergeGroup(filtered);
       }
       return filtered[0][0];
     },
-    matchZoomUser(filterGroupSelection, isMergeGroup, zoomAuthor, zoomRepo, user) {
-      if (isMergeGroup) {
-        return filterGroupSelection === 'groupByRepos'
-          ? user.repoName === zoomRepo
-          : user.name === zoomAuthor;
+    matchZoomUser(zFilterGroup, zIsMerge, zAuthor, zRepo, user) {
+      if (zIsMerge) {
+        return zFilterGroup === 'groupByRepos'
+          ? user.repoName === zRepo
+          : user.name === zAuthor;
       }
-      return user.repoName === zoomRepo && user.name === zoomAuthor;
+      return user.repoName === zRepo && user.name === zAuthor;
     },
   },
   created() {
@@ -872,7 +872,7 @@ window.vSummary = {
   beforeMount() {
     this.$root.$on('restoreCommits', (info) => {
       const zoomFilteredUser = this.restoreZoomFiltered(info);
-      info.user = zoomFilteredUser;
+      info.zUser = zoomFilteredUser;
     });
   },
   components: {
