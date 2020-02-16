@@ -21,14 +21,14 @@ labels: "c.Bug"
 1. 
 
 
-**If possible, add the actual source code causing the issue.**
-<!-- Paste the source code below: -->
-```html
-
-```
-
 **What did you expect to happen?**
 
 
 **What actually happened? Please include a screenshot of the output.**
 
+
+**If possible, add the actual source code causing the issue.**
+<!-- Paste the source code below: -->
+```js
+
+```
