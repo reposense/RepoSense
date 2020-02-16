@@ -55,6 +55,7 @@
       h3(v-if="filterTimeFrame === 'week'") Week of {{ day.date }}
       h3(v-else) {{ day.date }}
       template
+        //- use tabindex to enable focus property on div
         .commit-message(
             tabindex="-1",
             v-for="slice in day.commitResults",
