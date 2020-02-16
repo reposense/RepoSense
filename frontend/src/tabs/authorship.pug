@@ -55,8 +55,10 @@
 
   .files(v-if="isLoaded")
     .empty(v-if="files.length === 0") nothing to see here :(
-    template(v-for="file in selectedFiles")
-      .file.active(v-bind:key="file.path")
+    template(v-for="file in sortedFiles", v-bind:key="file.path")
+      .file.active(
+        v-bind:style="{ display: `${toDisplay(file)}`}"
+      )
         .title
           span.path(onclick="toggleNext(this.parentNode)", v-on:click="updateCount") {{ file.path }}&nbsp;
           span.loc ({{ file.lineCount }} lines)

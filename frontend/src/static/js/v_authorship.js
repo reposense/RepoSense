@@ -296,6 +296,14 @@ window.vAuthorship = {
       return `Total: Blank: ${this.totalBlankLineCount}, Non-Blank: ${
         this.totalLineCount - this.totalBlankLineCount}`;
     },
+
+    toDisplay(file) {
+      if (this.selectedFiles.includes(file)
+          && minimatch(file.path, this.filterSearch, { matchBase: true })) {
+        return 'block';
+      }
+      return 'none';
+    },
   },
 
   computed: {
@@ -303,6 +311,9 @@ window.vAuthorship = {
       return this.files.filter((file) => this.isSelectedFileTypes(file.fileType)
           && minimatch(file.path, this.filterSearch, { matchBase: true }))
           .sort(this.sortingFunction);
+    },
+    sortedFiles() {
+      return this.files.sort(this.sortingFunction);
     },
     getFileTypeExistingLinesObj() {
       const numLinesModified = {};
