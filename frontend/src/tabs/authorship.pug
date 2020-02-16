@@ -55,7 +55,8 @@
           label(v-if="numberOfBinaryFiles > 0")
             input.mui-checkbox--fileType(type="checkbox" v-bind:checked="isBinaryFilesChecked"
             v-on:change="selectBinaryFile")
-            span.binary-fileType(v-bind:title="getFileTypeBinaryFilesInfo()")
+            span.binary-fileType(v-bind:title="this.numberOfBinaryFiles + \
+            ' binary files (not included in total line count)'")
               span Binary: {{ numberOfBinaryFiles }}&nbsp;
 
   .files(v-if="isLoaded")

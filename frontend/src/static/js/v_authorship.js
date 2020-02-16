@@ -234,9 +234,11 @@ window.vAuthorship = {
       }
       if (!this.isSelectAllChecked) {
         this.selectedFileTypes = this.fileTypes.slice();
+        this.isBinaryFilesChecked = true;
         this.activeFilesCount = this.files.length;
       } else {
         this.selectedFileTypes = [];
+        this.isBinaryFilesChecked = false;
         this.activeFilesCount = 0;
       }
     },
@@ -276,6 +278,7 @@ window.vAuthorship = {
 
     tickAllCheckboxes() {
       this.selectedFileTypes = this.fileTypes.slice();
+      this.isBinaryFilesChecked = true;
       this.isSelectAllChecked = true;
     },
 
@@ -314,15 +317,12 @@ window.vAuthorship = {
       return `Total: Blank: ${this.totalBlankLineCount}, Non-Blank: ${
         this.totalLineCount - this.totalBlankLineCount}`;
     },
-
-    getFileTypeBinaryFilesInfo() {
-      return `${this.numberOfBinaryFiles} binary files (not included in total line count)`;
-    },
   },
 
   computed: {
     selectedFiles() {
-      return this.files.filter((file) => this.isSelectedFileTypes(file.fileType)
+      return this.files.filter((file) => (
+        this.isSelectedFileTypes(file.fileType) || (file.isBinary && this.isBinaryFilesChecked))
           && minimatch(file.path, this.filterSearch, { matchBase: true }))
           .sort(this.sortingFunction);
     },
