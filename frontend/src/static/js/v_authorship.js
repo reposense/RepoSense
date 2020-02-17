@@ -40,7 +40,7 @@ window.vAuthorship = {
       totalBlankLineCount: '',
       filesSortType: 'lineOfCode',
       toReverseSortFiles: true,
-      isActive: true,
+      hasActiveFile: true,
       filterSearch: '*',
       sortingFunction: (a, b) => -1 * window.comparator(filesSortDict.lineOfCode)(a, b),
     };
@@ -109,19 +109,19 @@ window.vAuthorship = {
       encodeHash();
     },
 
-    expandAll(isActive) {
-      const renameValue = isActive ? 'file active' : 'file';
+    expandAll(hasActiveFile) {
+      const renameValue = hasActiveFile ? 'file active' : 'file';
 
       const files = document.getElementsByClassName('file');
       Array.from(files).forEach((file) => {
         file.className = renameValue;
       });
 
-      this.isActive = isActive;
+      this.hasActiveFile = hasActiveFile;
     },
 
     updateCount() {
-      this.isActive = document.getElementsByClassName('file active').length;
+      this.hasActiveFile = document.getElementsByClassName('file active').length > 0;
     },
 
     hasCommits(info) {
