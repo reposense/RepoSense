@@ -25,7 +25,7 @@ labels: "c.Feature"
 **If possible, describe the solution you'd like**
 
 <!--
-  Here would be a good place to talk about the solution or the 
+  Here would be a good place to talk about the solution or the
   approach that can be taken.
 -->
 
