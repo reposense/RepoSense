@@ -134,6 +134,9 @@ window.vSummary = {
     };
   },
   watch: {
+    checkedFileTypes() {
+      this.getFiltered();
+    },
     sortGroupSelection() {
       this.getFiltered();
     },
@@ -751,12 +754,27 @@ window.vSummary = {
       });
     },
 
+    getFileTypeContribution(ele) {
+      let validCommits = 0;
+      Object.keys(ele.fileTypeContribution).forEach((fileType) => {
+        if(this.checkedFileTypes.includes(fileType)) {
+          validCommits += ele.fileTypeContribution[fileType];
+        }
+      });
+      return validCommits;
+    },
+
     groupByRepos(repos) {
       const sortedRepos = [];
       const sortingWithinOption = this.sortingWithinOption === 'title' ? 'displayName' : this.sortingWithinOption;
       const sortingOption = this.sortingOption === 'groupTitle' ? 'searchPath' : this.sortingOption;
       repos.forEach((users) => {
-        users.sort(window.comparator((ele) => ele[sortingWithinOption]));
+        if (this.filterBreakdown && this.sortingOption === 'totalCommits') {
+          users.sort(window.comparator((ele) => this.getFileTypeContribution(ele)));
+        } else {
+          users.sort(window.comparator((ele) => ele[sortingWithinOption]));
+        }
+
         if (this.isSortingWithinDsc) {
           users.reverse();
         }
@@ -785,6 +803,9 @@ window.vSummary = {
         if (isSortingGroupTitle) {
           return repo.searchPath + repo.name;
         }
+        if (this.filterBreakdown && this.sortingOption === 'totalCommits') {
+          return this.getFileTypeContribution(repo);
+        }
         return repo[this.sortingOption];
       }));
       if (this.isSortingDsc) {
@@ -808,7 +829,11 @@ window.vSummary = {
         });
       });
       Object.keys(authorMap).forEach((author) => {
-        authorMap[author].sort(window.comparator((repo) => repo[sortingWithinOption]));
+        if (this.filterBreakdown && this.sortingOption === 'totalCommits') {
+          authorMap[author].sort(window.comparator((repo) => this.getFileTypeContribution(repo)));
+        } else {
+          authorMap[author].sort(window.comparator((repo) => repo[sortingWithinOption]));
+        }
         if (this.isSortingWithinDsc) {
           authorMap[author].reverse();
         }
@@ -835,6 +860,9 @@ window.vSummary = {
     },
 
     getGroupCommitsVariance(total, group) {
+      if (this.filterBreakdown && this.sortingOption === 'totalCommits') {
+        return total + this.getFileTypeContribution(group);
+      }
       return total + group[this.sortingOption];
     },
 
