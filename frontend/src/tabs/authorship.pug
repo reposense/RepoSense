@@ -44,12 +44,12 @@
               span.select.medium-font All:&nbsp;
               span.loc.medium-font {{ totalLineCount }}&nbsp;
               span.bloc.medium-font ({{ totalBlankLineCount }})
-          template(v-for="fileType in Object.keys(getFileTypeExistingLinesObj)")
+          template(v-for="fileType in Object.keys(fileTypeLinesObj)")
             label(v-bind:key="fileType")
               input.mui-checkbox--fileType(type="checkbox", v-bind:id="fileType", v-bind:value="fileType",
                 v-on:click="indicateCheckBoxes", v-model="selectedFileTypes")
               span(v-bind:title="getFileTypeBlankLineInfo(fileType)")
-                span {{ fileType }}: {{ getFileTypeExistingLinesObj[fileType] }}&nbsp;
+                span {{ fileType }}: {{ fileTypeLinesObj[fileType] }}&nbsp;
                 span.bloc ({{ fileTypeBlankLinesObj[fileType] }})
 
   .files(v-if="isLoaded")

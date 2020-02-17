@@ -278,14 +278,14 @@ window.vAuthorship = {
     },
 
     totalLineCount() {
-      return Object.values(this.getFileTypeExistingLinesObj).reduce((acc, val) => acc + val, 0);
+      return Object.values(this.fileTypeLinesObj).reduce((acc, val) => acc + val, 0);
     },
 
     totalBlankLineCount() {
       return Object.values(this.fileTypeBlankLinesObj).reduce((acc, val) => acc + val, 0);
     },
 
-    getFileTypeExistingLinesObj() {
+    fileTypeLinesObj() {
       const numLinesModified = {};
       Object.entries(this.filesLinesObj)
           .filter(([, value]) => value > 0)
