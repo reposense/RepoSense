@@ -18,3 +18,7 @@
   "validateDivTags": true,
   "validateIndentation": 2
 }
+ /**
+  * TODO
+  * Add rule for line wraps when available
+  */
