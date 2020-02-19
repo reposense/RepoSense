@@ -8,11 +8,11 @@ window.comparator = (fn, sortingOption = '') => function compare(a, b) {
   let b1;
   if (sortingOption) {
     a1 = fn(a, sortingOption).toLowerCase
-    ? fn(a, sortingOption).toLowerCase()
-    : fn(a, sortingOption);
+        ? fn(a, sortingOption).toLowerCase()
+        : fn(a, sortingOption);
     b1 = fn(b, sortingOption).toLowerCase
-    ? fn(b, sortingOption).toLowerCase()
-    : fn(b, sortingOption);
+        ? fn(b, sortingOption).toLowerCase()
+        : fn(b, sortingOption);
   } else {
     a1 = fn(a).toLowerCase ? fn(a).toLowerCase() : fn(a);
     b1 = fn(b).toLowerCase ? fn(b).toLowerCase() : fn(b);
@@ -795,10 +795,9 @@ window.vSummary = {
     },
 
     sortingHelper(element, sortingOption) {
-      if (sortingOption === 'totalCommits' || sortingOption === 'variance') {
-        return element.reduce(this.getGroupCommitsVariance, 0);
-      }
-      return element[0][sortingOption];
+      return sortingOption === 'totalCommits' || sortingOption === 'variance'
+          ? element.reduce(this.getGroupCommitsVariance, 0)
+          : element[0][sortingOption];
     },
   },
   created() {
