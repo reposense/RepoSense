@@ -267,19 +267,23 @@ window.vSummary = {
       return res;
     },
 
+    getAuthorProfileLink(userName) {
+      return `https://github.com/${userName}`;
+    },
+
     getRepoLink(repo) {
       const { REPOS } = window;
       const { location, branch } = REPOS[repo.repoId];
 
       if (Object.prototype.hasOwnProperty.call(location, 'organization')) {
-        return `https://github.com/${location.organization}/${location.repoName}/tree/${branch}`;
+        return `${window.BASE_URL}/${location.organization}/${location.repoName}/tree/${branch}`;
       }
 
       return repo.location;
     },
 
     getReportIssueGitHubLink(stackTrace) {
-      return `https://github.com/reposense/RepoSense/issues/new?title=${this.getReportIssueTitle()
+      return `${window.BASE_URL}/reposense/RepoSense/issues/new?title=${this.getReportIssueTitle()
       }&body=${this.getReportIssueMessage(stackTrace)}`;
     },
 
@@ -783,6 +787,13 @@ window.vSummary = {
         filtered.reverse();
       }
       return filtered;
+    },
+
+    getPercentile(index) {
+      if (this.filterGroupSelection === 'groupByNone') {
+        return (Math.round((index + 1) * 1000 / this.filtered[0].length) / 10).toFixed(1);
+      }
+      return (Math.round((index + 1) * 1000 / this.filtered.length) / 10).toFixed(1);
     },
 
     getGroupCommitsVariance(total, group) {
