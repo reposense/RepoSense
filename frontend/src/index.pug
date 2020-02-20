@@ -172,18 +172,18 @@ html
                 span {{ getReportIssueEmailAddress() }}
             div.error-message-box__failed-repo--reason(v-else) {{ errorBlock.errorMessage }}
         .fileTypes(v-if="filterBreakdown")
-          div.checkboxes.mui-form--inline(v-if="Object.keys(contributionBarFileTypeColors).length > 0")
+          div.checkboxes.mui-form--inline(v-if="Object.keys(fileTypeColors).length > 0")
             label(
               v-bind:style="{ 'background-color' : '#000000', 'color' : '#ffffff' }"
             )
               input.mui-checkbox--fileType(type="checkbox" v-model="checkAllFileTypes")
               span
                 span.select.medium-font All:&nbsp;
-            template(v-for="fileType in Object.keys(checkBoxFileTypeFontColors)" )
+            template(v-for="fileType in Object.keys(fileTypeColors)" )
               label(
                 v-bind:key="fileType"
-                v-bind:style="{ 'background-color' : contributionBarFileTypeColors[fileType]," +
-                    "'color' : checkBoxFileTypeFontColors[fileType]}"
+                v-bind:style="{ 'background-color' : fileTypeColors[fileType]," +
+                    "'color' : getFontColor(fileTypeColors[fileType])}"
               )
                 input.mui-checkbox--fileType(
                   type="checkbox"
@@ -225,7 +225,7 @@ html
                   v-for="fileType in getFileTypes(repo)" v-bind:key="fileType"
                 )
                   i.fas.fa-circle(
-                    v-bind:style="{ 'color' : contributionBarFileTypeColors[fileType] }"
+                    v-bind:style="{ 'color' : fileTypeColors[fileType] }"
                   )
                   span &nbsp; {{ fileType }} &nbsp;
             .summary-chart(v-for="(user, i) in repo")
@@ -279,7 +279,7 @@ html
                     .summary-chart__contrib--bar(
                         v-for="width in widths",
                         v-bind:style="{ width: width + '%',\
-                            'background-color': contributionBarFileTypeColors[fileType] }",
+                            'background-color': fileTypeColors[fileType] }",
                         v-bind:title="fileType + ': ' + user.fileTypeContribution[fileType] + ' lines, '\
                             + 'total: ' + user.totalCommits + ' lines ' + '(contribution from ' + minDate + ' to '\
                             + maxDate + ')'"

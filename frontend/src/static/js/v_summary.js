@@ -128,8 +128,7 @@ window.vSummary = {
       filterHash: '',
       minDate: '',
       maxDate: '',
-      contributionBarFileTypeColors: {},
-      checkBoxFileTypeFontColors: {},
+      fileTypeColors: {},
       isSafariBrowser: /.*Version.*Safari.*/.test(navigator.userAgent),
     };
   },
@@ -543,25 +542,24 @@ window.vSummary = {
             }
           });
         });
-        this.contributionBarFileTypeColors = fileTypeColors;
-      });
-
-      Object.keys(this.contributionBarFileTypeColors).forEach((fileType) => {
-        const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(this.contributionBarFileTypeColors[fileType]);
-        const red = parseInt(result[1], 16);
-        const green = parseInt(result[2], 16);
-        const blue = parseInt(result[3], 16);
-
-        const luminosity = 0.2126 * red + 0.7152 * green + 0.0722 * blue; // per ITU-R BT.709
-
-        if (luminosity < 120) {
-          this.checkBoxFileTypeFontColors[fileType] = '#ffffff';
-        } else {
-          this.checkBoxFileTypeFontColors[fileType] = '#000000';
-        }
+        this.fileTypeColors = fileTypeColors;
       });
 
       this.checkedFileTypes = this.fileTypes.slice();
+    },
+    getFontColor(color) {
+      // to convert color from hex code to rgb format
+      const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(color);
+      const red = parseInt(result[1], 16);
+      const green = parseInt(result[2], 16);
+      const blue = parseInt(result[3], 16);
+
+      const luminosity = 0.2126 * red + 0.7152 * green + 0.0722 * blue; // per ITU-R BT.709
+
+      if (luminosity < 120) {
+        return '#ffffff';
+      }
+      return '#000000';
     },
     splitCommitsWeek(user) {
       const { commits } = user;
