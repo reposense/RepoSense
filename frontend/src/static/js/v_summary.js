@@ -556,10 +556,7 @@ window.vSummary = {
 
       const luminosity = 0.2126 * red + 0.7152 * green + 0.0722 * blue; // per ITU-R BT.709
 
-      if (luminosity < 120) {
-        return '#ffffff';
-      }
-      return '#000000';
+      return luminosity < 120 ? '#ffffff' : '#000000';
     },
     splitCommitsWeek(user) {
       const { commits } = user;
@@ -606,7 +603,7 @@ window.vSummary = {
       // commits, so we are going to check each commit's date and make sure
       // it is within the duration of a week
       while (commits.length > 0
-      && (new Date(commits[0].date)).getTime() <= endOfWeekMs) {
+          && (new Date(commits[0].date)).getTime() <= endOfWeekMs) {
         const commit = commits.shift();
         week.insertions += commit.insertions;
         week.deletions += commit.deletions;
