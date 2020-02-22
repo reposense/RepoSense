@@ -36,7 +36,7 @@ window.vZoom = {
       let nonEmptyCommitMessageCount = 0;
       this.filteredUser.commits.forEach((commit) => {
         commit.commitResults.forEach((commitResult) => {
-          if (commitResult.messageBody !== '' && commitResult.insertions > 0) {
+          if (commitResult.messageBody !== '') {
             nonEmptyCommitMessageCount += 1;
           }
         });
