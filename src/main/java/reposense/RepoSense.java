@@ -68,14 +68,10 @@ public class RepoSense {
                     cliArguments.isStandaloneConfigIgnored());
 
             List<Path> reportFoldersAndFiles = ReportGenerator.generateReposReport(configs,
-                    cliArguments.getOutputFilePath().toAbsolutePath().toString());
-
-            reportFoldersAndFiles.addAll(ReportGenerator.generateSummary(configs,
                     cliArguments.getOutputFilePath().toAbsolutePath().toString(),
                     formatter.format(ZonedDateTime.now(cliArguments.getZoneId())),
                     cliArguments.getSinceDate(), cliArguments.getUntilDate(),
-                    cliArguments.isSinceDateProvided(), cliArguments.isUntilDateProvided(),
-                    TimeUtil.getElapsedTime()));
+                    cliArguments.isSinceDateProvided(), cliArguments.isUntilDateProvided());
 
             FileUtil.zipFoldersAndFiles(reportFoldersAndFiles, cliArguments.getOutputFilePath().toAbsolutePath(),
                     ".json");

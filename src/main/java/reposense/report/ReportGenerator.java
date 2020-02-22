@@ -43,6 +43,7 @@ import reposense.report.exception.NoAuthorsWithCommitsFoundException;
 import reposense.system.LogsManager;
 import reposense.util.FileUtil;
 import reposense.util.ProgressTracker;
+import reposense.util.TimeUtil;
 
 /**
  * Contains report generation related functionalities.
@@ -81,12 +82,29 @@ public class ReportGenerator {
     private static ProgressTracker progressTracker = null;
 
     /**
+     * Generates the authorship and commits JSON file for each repo in {@code configs} at {@code outputPath}, as
+     * well as the summary JSON file of all the repos.
+     *
+     * @return the list of file paths that were generated.
+     * @throws IOException if templateZip.zip does not exists in jar file.
+     */
+    public static List<Path> generateReposReport(List<RepoConfiguration> configs, String outputPath,
+            String generationDate, Date cliSinceDate, Date untilDate,
+            boolean isSinceDateProvided, boolean isUntilDateProvided) throws IOException {
+
+        List<Path> reportFiles = generateAuthorshipAndCommitsReports(configs, outputPath);
+        reportFiles.addAll(generateSummary(configs, outputPath, generationDate, cliSinceDate, untilDate,
+                isSinceDateProvided, isUntilDateProvided, TimeUtil.getElapsedTime()));
+        return reportFiles;
+    }
+
+    /**
      * Generates the authorship and commits JSON file for each repo in {@code configs} at {@code outputPath}.
      *
      * @return the list of file paths that were generated.
      * @throws IOException if templateZip.zip does not exists in jar file.
      */
-    public static List<Path> generateReposReport(List<RepoConfiguration> configs, String outputPath)
+    public static List<Path> generateAuthorshipAndCommitsReports(List<RepoConfiguration> configs, String outputPath)
             throws IOException {
         prepareTemplateFile(outputPath);
         earliestSinceDate = null;
