@@ -17,7 +17,6 @@ import reposense.authorship.model.FileResult;
 import reposense.authorship.model.LineInfo;
 import reposense.git.GitCheckout;
 import reposense.git.GitClone;
-import reposense.git.exception.GitCloneException;
 import reposense.model.Author;
 import reposense.model.CommitHash;
 import reposense.model.FileTypeTest;
@@ -67,7 +66,7 @@ public class GitTestTemplate {
     }
 
     @BeforeClass
-    public static void beforeClass() throws GitCloneException, IOException, InvalidLocationException {
+    public static void beforeClass() throws Exception {
         deleteRepos();
         config = new RepoConfiguration(new RepoLocation(TEST_REPO_GIT_LOCATION), "master");
         config.setFormats(FileTypeTest.DEFAULT_TEST_FORMATS);
