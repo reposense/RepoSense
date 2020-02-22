@@ -36,7 +36,7 @@
           button#submit-button.medium-font(type="submit", v-on:click="indicateSearchBar") Filter
       .fileType
         input.radio-button--checkbox(type="radio", value="checkboxes" v-model="filterType")
-        checkboxes.mui-form--inline(v-if="files.length > 0")
+        .checkboxes.mui-form--inline(v-if="files.length > 0")
           label
             input.mui-checkbox--fileType(type="checkbox", v-model="isSelectAllChecked")
             span(v-bind:title="getTotalFileBlankLineInfo()")
