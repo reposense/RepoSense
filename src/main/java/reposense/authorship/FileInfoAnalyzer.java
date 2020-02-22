@@ -121,3 +121,4 @@ public class FileInfoAnalyzer {
     private static String getGitBlameResult(RepoConfiguration config, String filePath) {
         return GitBlame.blame(config.getRepoRoot(), filePath);
     }
+}
