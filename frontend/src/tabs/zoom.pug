@@ -1,17 +1,19 @@
 #zoom
   span.large-font Commits Panel
   .toolbar(v-if="filteredUser.commits.length")
-    a(v-if="expandedCommitMessagesCount === 0" v-on:click="toggleAllCommitMessagesBody(true)") show all commit messages
-    a(v-else v-on:click="toggleAllCommitMessagesBody(false)") hide all commit messages
+    a(v-if="expandedCommitMessagesCount === 0", v-on:click="toggleAllCommitMessagesBody(true)") show all commit messages
+    a(v-else, v-on:click="toggleAllCommitMessagesBody(false)") hide all commit messages
   .zoom__title
     .zoom_title--group.large-font
-      span(v-if="info.filterGroupSelection === 'groupByAuthors'") {{ filteredUser.displayName }} ({{ filteredUser.name }})
+      span(
+        v-if="info.filterGroupSelection === 'groupByAuthors'"
+      ) {{ filteredUser.displayName }} ({{ filteredUser.name }})
       a(
-          v-else,
-          v-bind:href="info.location", target="_blank",
-          v-bind:title="'Click to open the repo'"
-        )
-          span {{ filteredUser.repoName }}
+        v-else,
+        v-bind:href="info.location", target="_blank",
+        v-bind:title="'Click to open the repo'"
+      )
+        span {{ filteredUser.repoName }}
     .zoom__title--chart.medium-font(v-if="!info.isMergeGroup")
       span &#8627; &nbsp;
       span(v-if="info.filterGroupSelection === 'groupByAuthors'") {{ filteredUser.repoName }}
@@ -30,13 +32,13 @@
               span &nbsp;{{ tag }}
 
   v_ramp(
-      v-bind:groupby="info.filterGroupSelection",
-      v-bind:user="filteredUser",
-      v-bind:tframe="filterTimeFrame",
-      v-bind:sdate="info.sinceDate",
-      v-bind:udate="info.untilDate",
-      v-bind:avgsize="info.avgCommitSize",
-      v-bind:mergegroup="info.isMergeGroup")
+    v-bind:groupby="info.filterGroupSelection",
+    v-bind:user="filteredUser",
+    v-bind:tframe="filterTimeFrame",
+    v-bind:sdate="info.sinceDate",
+    v-bind:udate="info.untilDate",
+    v-bind:avgsize="info.avgCommitSize",
+    v-bind:mergegroup="info.isMergeGroup")
 
   .sorting.mui-form--inline
     .mui-select
@@ -50,17 +52,17 @@
         option(v-bind:value='false') Ascending
       label.medium-font order
 
-  .zoom__day(v-for="day in filteredUser.commits" v-bind:key="day.date")
+  .zoom__day(v-for="day in filteredUser.commits", v-bind:key="day.date")
     template(v-if="day.insertions > 0")
       h3(v-if="filterTimeFrame === 'week'") Week of {{ day.date }}
       h3(v-else) {{ day.date }}
       template
         .commit-message(
-            v-for="slice in day.commitResults"
-            v-bind:key="slice.hash"
-            v-bind:class="{ 'message-body active': slice.messageBody !== '' }"
+          v-for="slice in day.commitResults",
+          v-bind:key="slice.hash",
+          v-bind:class="{ 'message-body active': slice.messageBody !== '' }"
           )
-          a.message-title(v-bind:href="getSliceLink(slice)" target="_blank")
+          a.message-title(v-bind:href="getSliceLink(slice)", target="_blank")
             .within-border {{ slice.messageTitle.substr(0, 50) }}
             .not-within-border(v-if="slice.messageTitle.length > 50") {{ slice.messageTitle.substr(50) }}
           span &nbsp; ({{ slice.insertions }} lines) &nbsp;
@@ -78,4 +80,3 @@
           .body(v-if="slice.messageBody !== ''")
             pre {{ slice.messageBody }}
               .dotted-border
-
