@@ -5,8 +5,8 @@
     a(v-else, v-on:click="expandAll(true)") show all file details
   .title
     a.repoName.large-font(
-    v-bind:href="info.location", target="_blank",
-    v-bind:title="'Click to open the repo'"
+      v-bind:href="info.location", target="_blank",
+      v-bind:title="'Click to open the repo'"
     ) {{ info.repo }}
     .author.medium-font
       span &#8627; &nbsp;
@@ -36,7 +36,7 @@
           button#submit-button.medium-font(type="submit", v-on:click="indicateSearchBar") Filter
       .fileType
         input.radio-button--checkbox(type="radio", value="checkboxes" v-model="filterType")
-        div.checkboxes.mui-form--inline(v-if="files.length > 0")
+        checkboxes.mui-form--inline(v-if="files.length > 0")
           label
             input.mui-checkbox--fileType(type="checkbox", v-model="isSelectAllChecked")
             span(v-bind:title="getTotalFileBlankLineInfo()")
@@ -59,17 +59,17 @@
           span.path(onclick="toggleNext(this.parentNode)", v-on:click="updateCount") {{ file.path }}&nbsp;
           span.loc ({{ file.lineCount }} lines)
           a(
-          v-bind:href="getFileLink(file, 'commits')", target="_blank",
-          title="click to view the history view of file"
+            v-bind:href="getFileLink(file, 'commits')", target="_blank",
+            title="click to view the history view of file"
           )
             i.button.fas.fa-history
           a(
-          v-bind:href="getFileLink(file, 'blame')", target="_blank",
-          title="click to view the blame view of file"
+            v-bind:href="getFileLink(file, 'blame')", target="_blank",
+            title="click to view the blame view of file"
           )
             i.button.fas.fa-user-edit
         pre.hljs
-          div(v-for="segment in file.segments")
+          template(v-for="segment in file.segments")
             v_segment(v-bind:segment="segment", v-bind:path="file.path")
 
   .empty(v-else) loading...
