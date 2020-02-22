@@ -6,6 +6,7 @@
   background-color: mui-color('blue', '50');
   font-size: 100%;
   height: $height;
+  overflow: hidden;
   position: relative;
 
   &__slice {
