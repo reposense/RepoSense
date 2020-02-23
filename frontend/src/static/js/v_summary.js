@@ -562,7 +562,9 @@ window.vSummary = {
         };
 
         this.addLineContributionWeek(endOfWeekMsWithinUntilMs, week, commits);
-        res.push(week);
+        if (week.commitResults.length > 0) {
+          res.push(week);
+        }
       }
     },
     addLineContributionWeek(endOfWeekMs, week, commits) {
