@@ -24,7 +24,7 @@ public class RepoLocation {
             Pattern.compile("^.*github.com\\/(?<org>.+?)\\/(?<repoName>.+?).git(\\/(?<branch>.*))?$");
 
     private final String location;
-    private final String branch;
+    private final transient String branch;
     private final String repoName;
     private String organization;
 
@@ -39,7 +39,7 @@ public class RepoLocation {
         if (matcher.matches()) {
             organization = matcher.group("org");
             repoName = matcher.group("repoName");
-            branch = Optional.ofNullable(matcher.group("branch")).filter(s -> !s.isEmpty()).orElse(fallBackBranch);
+            branch = Optional.ofNullable(matcher.group("branch")).orElse(fallBackBranch);
         } else {
             repoName = Paths.get(location).getFileName().toString().replace(GIT_LINK_SUFFIX, "");
             branch = fallBackBranch;
