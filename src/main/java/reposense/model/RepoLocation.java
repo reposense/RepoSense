@@ -74,7 +74,7 @@ public class RepoLocation {
 
         try {
             new URL(location);
-            isValidGitUrl = location.endsWith(GIT_LINK_SUFFIX);
+            isValidGitUrl = location.contains(GIT_LINK_SUFFIX);
         } catch (MalformedURLException mue) {
             // Ignore exception
         }
