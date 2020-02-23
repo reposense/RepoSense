@@ -193,7 +193,7 @@ public class AuthorConfigParserTest {
                 new AuthorConfigCsvParser(AUTHOR_CONFIG_MULTIPLE_REPOS);
         List<AuthorConfiguration> configs = authorConfigCsvParser.parse();
 
-        Assert.assertEquals(3, configs.size());
+        Assert.assertEquals(4, configs.size());
         AuthorConfiguration config = configs.get(0);
         Assert.assertEquals(new RepoLocation(TEST_REPO_BETA_LOCATION), config.getLocation());
         Assert.assertEquals(TEST_REPO_BETA_MASTER_BRANCH, config.getBranch());
@@ -204,6 +204,10 @@ public class AuthorConfigParserTest {
         config = configs.get(2);
         Assert.assertEquals(new RepoLocation(TEST_REPO_DELTA_LOCATION), config.getLocation());
         Assert.assertEquals("gh-pages", config.getBranch());
+
+        config = configs.get(3);
+        Assert.assertEquals(new RepoLocation(TEST_REPO_BETA_LOCATION), config.getLocation());
+        Assert.assertEquals("HEAD", config.getBranch());
 
     }
 
