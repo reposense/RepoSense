@@ -39,9 +39,12 @@ public class AuthorConfigParserTest {
             .getResource("AuthorConfigParserTest/authorconfig_invalidLocation_test.csv").getFile()).toPath();
     private static final Path AUTHOR_CONFIG_INVALID_HEADER_SIZE = new File(AuthorConfigParserTest.class.getClassLoader()
             .getResource("AuthorConfigParserTest/authorconfig_invalidHeaderSize_test.csv").getFile()).toPath();
+    private static final Path AUTHOR_CONFIG_MULTIPLE_REPOS = new File(AuthorConfigParserTest.class.getClassLoader()
+            .getResource("AuthorConfigParserTest/authorconfig_multipleRepos_test.csv").getFile()).toPath();
 
     private static final String TEST_REPO_BETA_LOCATION = "https://github.com/reposense/testrepo-Beta.git";
     private static final String TEST_REPO_BETA_MASTER_BRANCH = "master";
+    private static final String TEST_REPO_DELTA_LOCATION = "https://github.com/reposense/testrepo-Delta.git";
 
     private static final Author FIRST_AUTHOR = new Author("nbriannl");
     private static final Author SECOND_AUTHOR = new Author("zacharytang");
@@ -183,4 +186,25 @@ public class AuthorConfigParserTest {
             Assert.assertEquals(AUTHOR_ALIAS_COMMAS_AND_DOUBLE_QUOTES_MAP.get(author), author.getAuthorAliases());
         });
     }
+
+    @Test
+    public void parse_multipleRepos_success() throws Exception {
+        AuthorConfigCsvParser authorConfigCsvParser =
+                new AuthorConfigCsvParser(AUTHOR_CONFIG_MULTIPLE_REPOS);
+        List<AuthorConfiguration> configs = authorConfigCsvParser.parse();
+
+        Assert.assertEquals(3, configs.size());
+        AuthorConfiguration config = configs.get(0);
+        Assert.assertEquals(new RepoLocation(TEST_REPO_BETA_LOCATION), config.getLocation());
+        Assert.assertEquals(TEST_REPO_BETA_MASTER_BRANCH, config.getBranch());
+
+        config = configs.get(1);
+        Assert.assertEquals("release", config.getBranch());
+
+        config = configs.get(2);
+        Assert.assertEquals(new RepoLocation(TEST_REPO_DELTA_LOCATION), config.getLocation());
+        Assert.assertEquals("gh-pages", config.getBranch());
+
+    }
+
 }
