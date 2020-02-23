@@ -170,6 +170,11 @@ public abstract class CsvParser<T> {
                 .collect(Collectors.toList());
     }
 
+    protected List<String> getAsListOrDefault(final CSVRecord record, int colNum, List<String> defaultList) {
+        List<String> list = getAsList(record, colNum);
+        return list.isEmpty() ? defaultList : list;
+    }
+
     /**
      * Returns the values in {@code record} as a list with the {@link CsvParser#OVERRIDE_KEYWORD} prefix removed.
      * Returns an empty list if {@code record} at {@code colNum} is empty.
