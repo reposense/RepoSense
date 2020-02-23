@@ -273,7 +273,7 @@ window.vAuthorship = {
         }
       },
     },
-      
+    
     selectedFiles() {
       return this.files.filter((file) => this.selectedFileTypes.includes(file.fileType)
           && minimatch(file.path, this.filterSearch, { matchBase: true }))
