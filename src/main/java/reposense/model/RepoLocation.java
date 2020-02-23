@@ -18,36 +18,40 @@ import reposense.parser.InvalidLocationException;
  * Represents a repository location.
  */
 public class RepoLocation {
-    public static final String DEFAULT_BRANCH = "HEAD";
     private static final String GIT_LINK_SUFFIX = ".git";
     protected static final Pattern GIT_REPOSITORY_LOCATION_PATTERN =
             Pattern.compile("^.*github.com\\/(?<org>.+?)\\/(?<repoName>.+?).git(\\/(?<branch>.*))?$");
 
     private final String location;
-    private final transient String branch;
+    private transient Optional<String> parsedBranch = Optional.empty();
     private final String repoName;
     private String organization;
 
     /**
      * @throws InvalidLocationException if {@code location} cannot be represented by a {@code URL} or {@code Path}.
      */
-    public RepoLocation(String location, String fallBackBranch) throws InvalidLocationException {
+    public RepoLocation(String location) throws InvalidLocationException {
         verifyLocation(location);
-        this.location = location;
+
         Matcher matcher = GIT_REPOSITORY_LOCATION_PATTERN.matcher(location);
 
         if (matcher.matches()) {
             organization = matcher.group("org");
             repoName = matcher.group("repoName");
-            branch = Optional.ofNullable(matcher.group("branch")).orElse(fallBackBranch);
-        } else {
-            repoName = Paths.get(location).getFileName().toString().replace(GIT_LINK_SUFFIX, "");
-            branch = fallBackBranch;
-        }
-    }
+            parsedBranch = Optional.ofNullable(matcher.group("branch"));
 
-    public RepoLocation(String location) throws InvalidLocationException {
-        this(location, DEFAULT_BRANCH);
+            if (parsedBranch.isPresent()) {
+                int branchStart = matcher.start("branch") - 1;
+                int branchEnd = matcher.end("branch");
+                this.location = new StringBuilder(location).replace(branchStart, branchEnd, "").toString();
+            } else {
+                this.location = location;
+            }
+
+        } else {
+            this.location = location;
+            repoName = Paths.get(location).getFileName().toString().replace(GIT_LINK_SUFFIX, "");
+        }
     }
 
     public boolean isEmpty() {
@@ -62,8 +66,8 @@ public class RepoLocation {
         return organization;
     }
 
-    public String getBranch() {
-        return branch;
+    public Optional<String> getParsedBranch() {
+        return parsedBranch;
     }
 
     /**
@@ -131,7 +135,7 @@ public class RepoLocation {
 
         List<RepoLocation> convertedLocations = new ArrayList<>();
         for (String location : locations) {
-            convertedLocations.add(new RepoLocation(location, "master"));
+            convertedLocations.add(new RepoLocation(location));
         }
 
         return convertedLocations;
