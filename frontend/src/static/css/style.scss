@@ -268,12 +268,9 @@ header {
 .commit-message {
   padding: 5px;
 
-  &:focus {
-    outline-color: mui-color('blue', '500');
-
-    .tag{
-      border: mui-color('blue', '500') solid;
-    }
+  &:focus,
+  &:focus-within {
+    border: 1px solid mui-color('blue', '500');
   }
 
   &.active {
@@ -290,6 +287,15 @@ header {
 
   .body {
     display: none;
+  }
+
+  .tag {
+    cursor: pointer;
+
+    &:focus {
+      border: 1px solid mui-color('blue', '500');
+      outline: none;
+    }
   }
 
   &--button {

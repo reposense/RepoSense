@@ -60,8 +60,7 @@ window.vZoom = {
     scrollToCommit(commit) {
       const el = this.$el.getElementsByClassName(commit)[0];
       if (el) {
-        const parent = el.parentElement;
-        parent.focus();
+        el.focus();
       }
     },
 
