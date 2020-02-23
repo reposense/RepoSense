@@ -1,9 +1,9 @@
 package reposense.model;
 
+import java.util.regex.Matcher;
+
 import org.junit.Assert;
 import org.junit.Test;
-
-import java.util.regex.Matcher;
 
 public class RepoLocationTest {
 
