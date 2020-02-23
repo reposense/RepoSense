@@ -8,6 +8,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -22,13 +23,14 @@ public class RepoLocation {
             Pattern.compile("^.*github.com\\/(?<org>.+?)\\/(?<repoName>.+?).git(\\/?<branch>.*)$");
 
     private final String location;
+    private final String branch;
     private final String repoName;
     private String organization;
 
     /**
      * @throws InvalidLocationException if {@code location} cannot be represented by a {@code URL} or {@code Path}.
      */
-    public RepoLocation(String location) throws InvalidLocationException {
+    public RepoLocation(String location, String defaultBranch) throws InvalidLocationException {
         verifyLocation(location);
         this.location = location;
         Matcher matcher = GIT_REPOSITORY_LOCATION_PATTERN.matcher(location);
@@ -36,8 +38,10 @@ public class RepoLocation {
         if (matcher.matches()) {
             organization = matcher.group("org");
             repoName = matcher.group("repoName");
+            branch = Optional.ofNullable(matcher.group("branch")).filter(s -> !s.isEmpty()).orElse(defaultBranch);
         } else {
             repoName = Paths.get(location).getFileName().toString().replace(GIT_LINK_SUFFIX, "");
+            branch = defaultBranch;
         }
     }
 
