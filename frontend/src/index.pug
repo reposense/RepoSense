@@ -177,23 +177,23 @@ html
                 span {{ getReportIssueEmailAddress() }}
             .error-message-box__failed-repo--reason(v-else) {{ errorBlock.errorMessage }}
         .fileTypes(v-if="filterBreakdown")
-          div.checkboxes.mui-form--inline(v-if="Object.keys(fileTypeColors).length > 0")
+          .checkboxes.mui-form--inline(v-if="Object.keys(fileTypeColors).length > 0")
             label(
               v-bind:style="{ 'background-color' : '#000000', 'color' : '#ffffff' }"
             )
-              input.mui-checkbox--fileType(type="checkbox" v-model="checkAllFileTypes")
+              input.mui-checkbox--fileType(type="checkbox", v-model="checkAllFileTypes")
               span
                 span.select.medium-font All:&nbsp;
             template(v-for="fileType in Object.keys(fileTypeColors)" )
               label(
-                v-bind:key="fileType"
-                v-bind:style="{ 'background-color' : fileTypeColors[fileType]," +
-                    "'color' : getFontColor(fileTypeColors[fileType])}"
+                v-bind:key="fileType",
+                v-bind:style="{ 'background-color' : fileTypeColors[fileType], \
+                  'color' : getFontColor(fileTypeColors[fileType])}"
               )
                 input.mui-checkbox--fileType(
-                  type="checkbox"
-                  v-bind:id="fileType"
-                  v-bind:value="fileType"
+                  type="checkbox",
+                  v-bind:id="fileType",
+                  v-bind:value="fileType",
                   v-model="checkedFileTypes"
                 )
                 span {{ fileType }}
