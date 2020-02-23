@@ -49,7 +49,7 @@ window.vAuthorship = {
     selectedFiles() {
       setTimeout(this.updateCount, 0);
     },
-    
+
     filterType() {
       if (this.filterType === 'checkboxes') {
         const searchBar = document.getElementById('search');
@@ -273,7 +273,7 @@ window.vAuthorship = {
         }
       },
     },
-    
+
     selectedFiles() {
       return this.files.filter((file) => this.selectedFileTypes.includes(file.fileType)
           && minimatch(file.path, this.filterSearch, { matchBase: true }))
