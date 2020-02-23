@@ -18,6 +18,7 @@ import reposense.parser.InvalidLocationException;
  * Represents a repository location.
  */
 public class RepoLocation {
+    public static final String DEFAULT_BRANCH = "HEAD";
     private static final String GIT_LINK_SUFFIX = ".git";
     private static final Pattern GIT_REPOSITORY_LOCATION_PATTERN =
             Pattern.compile("^.*github.com\\/(?<org>.+?)\\/(?<repoName>.+?).git(\\/?<branch>.*)$");
@@ -30,7 +31,7 @@ public class RepoLocation {
     /**
      * @throws InvalidLocationException if {@code location} cannot be represented by a {@code URL} or {@code Path}.
      */
-    public RepoLocation(String location, String defaultBranch) throws InvalidLocationException {
+    public RepoLocation(String location, String fallBackBranch) throws InvalidLocationException {
         verifyLocation(location);
         this.location = location;
         Matcher matcher = GIT_REPOSITORY_LOCATION_PATTERN.matcher(location);
@@ -38,11 +39,15 @@ public class RepoLocation {
         if (matcher.matches()) {
             organization = matcher.group("org");
             repoName = matcher.group("repoName");
-            branch = Optional.ofNullable(matcher.group("branch")).filter(s -> !s.isEmpty()).orElse(defaultBranch);
+            branch = Optional.ofNullable(matcher.group("branch")).filter(s -> !s.isEmpty()).orElse(fallBackBranch);
         } else {
             repoName = Paths.get(location).getFileName().toString().replace(GIT_LINK_SUFFIX, "");
-            branch = defaultBranch;
+            branch = fallBackBranch;
         }
+    }
+
+    public RepoLocation(String location) throws InvalidLocationException {
+        this(location, DEFAULT_BRANCH);
     }
 
     public boolean isEmpty() {
@@ -55,6 +60,10 @@ public class RepoLocation {
 
     public String getOrganization() {
         return organization;
+    }
+
+    public String getBranch() {
+        return branch;
     }
 
     /**
