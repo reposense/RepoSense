@@ -122,7 +122,7 @@ public class RepoLocation {
 
         List<RepoLocation> convertedLocations = new ArrayList<>();
         for (String location : locations) {
-            convertedLocations.add(new RepoLocation(location));
+            convertedLocations.add(new RepoLocation(location, "master"));
         }
 
         return convertedLocations;
