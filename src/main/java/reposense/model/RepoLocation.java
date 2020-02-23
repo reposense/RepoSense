@@ -20,8 +20,8 @@ import reposense.parser.InvalidLocationException;
 public class RepoLocation {
     public static final String DEFAULT_BRANCH = "HEAD";
     private static final String GIT_LINK_SUFFIX = ".git";
-    private static final Pattern GIT_REPOSITORY_LOCATION_PATTERN =
-            Pattern.compile("^.*github.com\\/(?<org>.+?)\\/(?<repoName>.+?).git(\\/?<branch>.*)$");
+    protected static final Pattern GIT_REPOSITORY_LOCATION_PATTERN =
+            Pattern.compile("^.*github.com\\/(?<org>.+?)\\/(?<repoName>.+?).git(\\/(?<branch>.*))?$");
 
     private final String location;
     private final String branch;
