@@ -90,8 +90,9 @@ public class AuthorConfigCsvParser extends CsvParser<AuthorConfiguration> {
      */
     private static AuthorConfiguration findMatchingAuthorConfiguration(
             List<AuthorConfiguration> results, String location, String branch) throws InvalidLocationException {
-        RepoLocation repoLocation = new RepoLocation(location, branch);
-        AuthorConfiguration config = new AuthorConfiguration(repoLocation, repoLocation.getBranch());
+        RepoLocation repoLocation = new RepoLocation(location);
+        AuthorConfiguration config = new AuthorConfiguration(repoLocation,
+                repoLocation.getParsedBranch().orElse(branch));
 
         for (AuthorConfiguration authorConfig : results) {
             if (authorConfig.getLocation().equals(config.getLocation())
