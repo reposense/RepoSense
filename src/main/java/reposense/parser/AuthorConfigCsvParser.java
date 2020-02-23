@@ -8,6 +8,7 @@ import java.util.List;
 
 import org.apache.commons.csv.CSVRecord;
 
+import org.graalvm.compiler.core.common.calc.FloatConvertCategory;
 import reposense.model.Author;
 import reposense.model.AuthorConfiguration;
 import reposense.model.RepoLocation;
@@ -87,7 +88,8 @@ public class AuthorConfigCsvParser extends CsvParser<AuthorConfiguration> {
      */
     private static AuthorConfiguration findMatchingAuthorConfiguration(
             List<AuthorConfiguration> results, String location, String branch) throws InvalidLocationException {
-        AuthorConfiguration config = new AuthorConfiguration(new RepoLocation(location), branch);
+        RepoLocation repoLocation = new RepoLocation(location, branch);
+        AuthorConfiguration config = new AuthorConfiguration(repoLocation, repoLocation.getBranch());
 
         for (AuthorConfiguration authorConfig : results) {
             if (authorConfig.getLocation().equals(config.getLocation())
