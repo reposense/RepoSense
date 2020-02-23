@@ -230,8 +230,8 @@ html
             .summary-charts__fileType--breakdown(v-if="filterBreakdown")
               template(v-if="filterGroupSelection !== 'groupByNone'")
                 .summary-charts__fileType--breakdown__legend(
-                    v-for="fileType in getFileTypes(repo)",
-                    v-bind:key="fileType"
+                  v-for="fileType in getFileTypes(repo)",
+                  v-bind:key="fileType"
                 )
                   i.fas.fa-circle(
                     v-bind:style="{ 'color' : fileTypeColors[fileType] }"
