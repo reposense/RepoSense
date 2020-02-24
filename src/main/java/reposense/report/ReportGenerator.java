@@ -89,9 +89,9 @@ public class ReportGenerator {
      * @throws IOException if templateZip.zip does not exists in jar file.
      */
     public static List<Path> generateReposReport(List<RepoConfiguration> configs, String outputPath,
-                                                 String generationDate, Date cliSinceDate, Date untilDate,
-                                                 boolean isSinceDateProvided, boolean isUntilDateProvided,
-                                                 Supplier<String> reportGenerationTimeProvider) throws IOException {
+            String generationDate, Date cliSinceDate, Date untilDate,
+            boolean isSinceDateProvided, boolean isUntilDateProvided,
+            Supplier<String> reportGenerationTimeProvider) throws IOException {
         prepareTemplateFile(outputPath);
 
         earliestSinceDate = null;
