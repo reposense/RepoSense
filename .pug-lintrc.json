@@ -1,0 +1,24 @@
+{
+  "disallowAttributeConcatenation": true,
+  "disallowAttributeTemplateString": null,
+  "disallowClassAttributeWithStaticValue": true,
+  "disallowIdAttributeWithStaticValue": true,
+  "disallowHtmlText": null,
+  "disallowMultipleLineBreaks": true,
+  "disallowTemplateString": null,
+  "disallowTrailingSpaces": true,
+  "maximumLineLength": 120,
+  "requireClassLiteralsBeforeAttributes": true,
+  "requireIdLiteralsBeforeAttributes": true,
+  "requireLineFeedAtFileEnd": true,
+  "requireLowerCaseAttributes": true,
+  "requireLowerCaseTags": true,
+  "requireStrictEqualityOperators": true,
+  "validateAttributeSeparator": { "separator": ", ", "multiLineSeparator": ",\n  " },
+  "validateDivTags": true,
+  "validateIndentation": 2
+}
+ /**
+  * TODO
+  * Add rule for line wraps when available
+  */
