@@ -5,7 +5,6 @@ REPO_OWNER=${REPO_SLUG_ARRAY[0]}
 REPO_NAME=${REPO_SLUG_ARRAY[1]}
 DEPLOY_PATH=./reposense-report
 
-
 DEPLOY_SUBDOMAIN_UNFORMATTED_LIST=()
 if [ "$TRAVIS_PULL_REQUEST" != "false" ]
 then
@@ -29,7 +28,6 @@ else
   DEPLOY_SUBDOMAIN_UNFORMATTED_LIST+=(${TRAVIS_BRANCH}-branch)
 fi
 
-
 for DEPLOY_SUBDOMAIN_UNFORMATTED in "${DEPLOY_SUBDOMAIN_UNFORMATTED_LIST[@]}"
 do
   # replaces "/" or "." with "-"
@@ -50,6 +48,5 @@ do
     curl -H "Authorization: token ${GITHUB_API_TOKEN}" -X POST \
     -d "{\"body\": \"Travis automatic deployment: ${DEPLOY_DOMAIN}\"}" \
     ${GITHUB_PR_COMMENTS}
-     
   fi
 done
