@@ -22,7 +22,6 @@ import reposense.model.CommitHash;
 import reposense.model.FileTypeTest;
 import reposense.model.RepoConfiguration;
 import reposense.model.RepoLocation;
-import reposense.parser.InvalidLocationException;
 import reposense.util.FileUtil;
 
 /**
