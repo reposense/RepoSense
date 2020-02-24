@@ -127,10 +127,9 @@ public class ConfigSystemTest {
         RepoConfiguration.setDatesToRepoConfigs(
                 repoConfigs, cliArguments.getSinceDate(), cliArguments.getUntilDate());
 
-        ReportGenerator.generateAuthorshipAndCommitsReports(repoConfigs, FT_TEMP_DIR);
-        ReportGenerator.generateSummary(repoConfigs, FT_TEMP_DIR, TEST_REPORT_GENERATED_TIME,
-                cliArguments.getSinceDate(), cliArguments.getUntilDate(),
-                cliArguments.isSinceDateProvided(), cliArguments.isUntilDateProvided(), TEST_REPORT_GENERATION_TIME);
+        ReportGenerator.generateReposReport(repoConfigs, FT_TEMP_DIR, TEST_REPORT_GENERATED_TIME,
+                cliArguments.getSinceDate(), cliArguments.getUntilDate(), cliArguments.isSinceDateProvided(),
+                cliArguments.isUntilDateProvided(), () -> TEST_REPORT_GENERATION_TIME);
     }
 
     /**

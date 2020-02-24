@@ -15,6 +15,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.function.Supplier;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
@@ -43,7 +44,6 @@ import reposense.report.exception.NoAuthorsWithCommitsFoundException;
 import reposense.system.LogsManager;
 import reposense.util.FileUtil;
 import reposense.util.ProgressTracker;
-import reposense.util.TimeUtil;
 
 /**
  * Contains report generation related functionalities.
@@ -89,50 +89,29 @@ public class ReportGenerator {
      * @throws IOException if templateZip.zip does not exists in jar file.
      */
     public static List<Path> generateReposReport(List<RepoConfiguration> configs, String outputPath,
-            String generationDate, Date cliSinceDate, Date untilDate,
-            boolean isSinceDateProvided, boolean isUntilDateProvided) throws IOException {
-
-        List<Path> reportFiles = generateAuthorshipAndCommitsReports(configs, outputPath);
-        reportFiles.addAll(generateSummary(configs, outputPath, generationDate, cliSinceDate, untilDate,
-                isSinceDateProvided, isUntilDateProvided, TimeUtil.getElapsedTime()));
-        return reportFiles;
-    }
-
-    /**
-     * Generates the authorship and commits JSON file for each repo in {@code configs} at {@code outputPath}.
-     *
-     * @return the list of file paths that were generated.
-     * @throws IOException if templateZip.zip does not exists in jar file.
-     */
-    public static List<Path> generateAuthorshipAndCommitsReports(List<RepoConfiguration> configs, String outputPath)
-            throws IOException {
+                                                 String generationDate, Date cliSinceDate, Date untilDate,
+                                                 boolean isSinceDateProvided, boolean isUntilDateProvided,
+                                                 Supplier<String> reportGenerationTimeProvider) throws IOException {
         prepareTemplateFile(outputPath);
+
         earliestSinceDate = null;
         progressTracker = new ProgressTracker(configs.size());
-        return cloneAndAnalyzeRepos(configs, outputPath);
-    }
 
-    /**
-     * Generates the summary JSON file for all repos in {@code configs} at {@code outputPath}.
-     *
-     * @return the path of the generated file.
-     */
-    public static List<Path> generateSummary(List<RepoConfiguration> configs, String outputPath,
-            String generationDate, Date cliSinceDate, Date untilDate, boolean isSinceDateProvided,
-            boolean isUntilDateProvided, String reportGenerationTime) {
+        List<Path> reportFoldersAndFiles = cloneAndAnalyzeRepos(configs, outputPath);
+
         Date reportSinceDate = (cliSinceDate.equals(SinceDateArgumentType.ARBITRARY_FIRST_COMMIT_DATE))
                 ? earliestSinceDate : cliSinceDate;
 
-        List<Path> reportFiles = new ArrayList<>();
         Optional<Path> summaryPath = FileUtil.writeJsonFile(
                 new SummaryJson(configs, generationDate, reportSinceDate, untilDate, isSinceDateProvided,
                         isUntilDateProvided, RepoSense.getVersion(), ErrorSummary.getInstance().getErrorList(),
-                        reportGenerationTime),
+                        reportGenerationTimeProvider.get()),
                 getSummaryResultPath(outputPath));
-        summaryPath.ifPresent(reportFiles::add);
+        summaryPath.ifPresent(reportFoldersAndFiles::add);
 
         logger.info(String.format(MESSAGE_REPORT_GENERATED, outputPath));
-        return reportFiles;
+
+        return reportFoldersAndFiles;
     }
 
     /**
