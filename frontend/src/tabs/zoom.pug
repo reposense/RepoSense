@@ -27,7 +27,7 @@
       template(v-for="commit in filteredUser.commits")
         template(v-for="commitResult in commit.commitResults")
           template(v-if="commitResult.tags")
-            .tag.mini-font(v-for="tag in commitResult.tags", v-on:click="scrollToCommit(`tag ${commitResult.hash}`)")
+            .tag.mini-font(v-for="tag in commitResult.tags", v-on:click="scrollToCommit(tag, `tag ${commitResult.hash}`)")
               i.fas.fa-tags
               span &nbsp;{{ tag }}
 
@@ -65,8 +65,8 @@
       )
         a(v-bind:href="getSliceLink(slice)", target="_blank") {{ slice.messageTitle }}
         span &nbsp; ({{ slice.insertions }} lines) &nbsp;
-        template(v-if="slice.tags")
-          .tag.mini-font(tabindex="-1", v-for="tag in slice.tags", v-bind:class="[`${slice.hash}`]")
+        template(v-if="slice.tags", v-for="tag in slice.tags")
+          .tag.mini-font(tabindex="-1", v-bind:class="[`${slice.hash}`, tag]")
             i.fas.fa-tags
             span &nbsp;{{ tag }}
         a(
