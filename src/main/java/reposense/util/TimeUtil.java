@@ -25,14 +25,14 @@ public class TimeUtil {
         String formattedElapsedTime = "";
 
         if (elapsedHours > 0) {
-            formattedElapsedTime += String.format("%d hour(s)", elapsedHours);
+            formattedElapsedTime += String.format(" %d hour(s)", elapsedHours);
         }
 
         if (elapsedMinutes > 0) {
-            formattedElapsedTime += String.format("%d minute(s)", elapsedMinutes);
+            formattedElapsedTime += String.format(" %d minute(s)", elapsedMinutes);
         }
 
-        formattedElapsedTime += String.format("%.2f second(s)", elapsedSeconds);
+        formattedElapsedTime += String.format(" %.2f second(s)", elapsedSeconds);
         return formattedElapsedTime;
     }
 
@@ -41,6 +41,6 @@ public class TimeUtil {
      * with an additional explanatory string.
      */
     public static String getElapsedTimeMessage() {
-        return "Elapsed processing time: " + getElapsedTime();
+        return "Elapsed processing time:" + getElapsedTime();
     }
 }
