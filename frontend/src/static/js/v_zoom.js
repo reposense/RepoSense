@@ -57,10 +57,10 @@ window.vZoom = {
       return `${window.getBaseLink(this.info.user.repoId)}/commit/${slice.hash}`;
     },
 
-    scrollToCommit(commit) {
-      const el = this.$el.getElementsByClassName(commit)[0];
+    scrollToCommit(tag, commit) {
+      const el = this.$el.getElementsByClassName(`${commit} ${tag}`)[0];
       if (el) {
-        el.scrollIntoView();
+        el.focus();
       }
     },
 
