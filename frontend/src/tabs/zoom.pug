@@ -27,7 +27,10 @@
       template(v-for="commit in filteredUser.commits")
         template(v-for="commitResult in commit.commitResults")
           template(v-if="commitResult.tags")
-            .tag.mini-font(v-for="tag in commitResult.tags", v-on:click="scrollToCommit(tag, `tag ${commitResult.hash}`)")
+            .tag.mini-font(
+              v-for="tag in commitResult.tags",
+              v-on:click="scrollToCommit(tag, `tag ${commitResult.hash}`)"
+            )
               i.fas.fa-tags
               span &nbsp;{{ tag }}
 
