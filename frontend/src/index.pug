@@ -190,6 +190,12 @@ html
                   title="click to view group's repo"
                 )
                   i.icon-button.fab.fa-github
+                a(
+                  title="click to view breakdown of commits",
+                  onclick="deactivateAllOverlays()",
+                  v-on:click="openTabZoom(repo[0], filterSinceDate, filterUntilDate, repo, 0)"
+                )
+                  i.icon-button.fas.fa-list-ul
               .summary-charts__title--percentile.mini-font {{ getPercentile(i) }} %
             .summary-charts__title(
               v-if="filterGroupSelection === 'groupByAuthors'",
@@ -206,6 +212,12 @@ html
                   title="click to view author's profile"
                 )
                   i.icon-button.fab.fa-github
+                a(
+                  title="click to view breakdown of commits",
+                  onclick="deactivateAllOverlays()",
+                  v-on:click="openTabZoom(repo[0], filterSinceDate, filterUntilDate, repo, 0)"
+                )
+                  i.icon-button.fas.fa-list-ul
               .summary-charts__title--percentile.mini-font {{ getPercentile(i) }} %
             .summary-charts__fileType--breakdown(v-if="filterBreakdown")
               template(v-if="filterGroupSelection === 'groupByRepos'")

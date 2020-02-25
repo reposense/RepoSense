@@ -87,18 +87,20 @@
     font-weight: bold;
     text-align: left;
 
+    & > * {
+      padding-right: .5rem;
+    }
+
     &--index {
       background: mui-color('black');
       color: mui-color('white');
       font-size: medium;
       overflow: hidden;
-      padding: .1em .25em .1em .25em;
       vertical-align: middle;
     }
 
     &--repo {
       font-size: medium;
-      padding: .5rem;
     }
 
     &--percentile {
@@ -108,7 +110,6 @@
 
     &--contribution {
       display: inline;
-      padding-right: .5rem;
     }
   }
 
