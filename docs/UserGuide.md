@@ -104,6 +104,8 @@ The `Commits Panel` allows users to see the commits attributed to a specific aut
 
 * The `Commits Panel` shows the commits that contain author's contributions.
 * The commits can be sorted by the date it was committed or by LoC.
+* The tags of the commits will also be displayed on top, if any.
+* Clicking on a tag will direct you to the commit having that particular tag.
 * The date range for the `Chart Panel` can be updated by clicking on the "Show ramp chart for this period" below the name of the author.
 * The ramp slices displayed in the ramp chart for the `Commits Panel` represents individual commits.
 * The commit messages body can be expanded or collapsed by clicking on the `...` icon beside each commit message title.
