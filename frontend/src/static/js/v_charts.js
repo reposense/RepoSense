@@ -185,7 +185,7 @@ window.vCharts = {
     openTabAuthorship(user, repo, index) {
       const { minDate, maxDate } = this;
 
-      this.$emit('view-authorship', {
+      this.$parent.$emit('view-authorship', {
         minDate,
         maxDate,
         author: user.name,
@@ -210,7 +210,7 @@ window.vCharts = {
     openTabZoom(user, since, until, repo, index) {
       const { avgCommitSize } = this;
 
-      this.$emit('view-zoom', {
+      this.$parent.$emit('view-zoom', {
         filterGroupSelection: this.filterGroupSelection,
         avgCommitSize,
         user,
