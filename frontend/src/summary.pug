@@ -56,14 +56,17 @@
         a(v-on:click="resetDateRange") Reset date range
       .summary-picker__checkboxes.summary-picker__section
         label
-          input(type="checkbox", v-model="filterBreakdown", v-on:change="setSummaryHash()").mui-checkbox.summary-picker__checkbox
+          input.mui-checkbox.summary-picker__checkbox(type="checkbox", v-model="filterBreakdown",
+            v-on:change="setSummaryHash()")
           span breakdown by file type
-        label.merge-group(v-bind:style="filterGroupSelection === 'groupByNone' ? { opacity:0.5 } : { opacity:1.0 }")
-          input(
+        label.merge-group(
+          v-bind:style="filterGroupSelection === 'groupByNone' ? { opacity:0.5 } : { opacity:1.0 }"
+        )
+          input.summary-picker__checkbox.mui-checkbox(
             type="checkbox",
             v-model="isMergeGroup",
             v-bind:disabled="filterGroupSelection === 'groupByNone'"
-          ).mui-checkbox.summary-picker__checkbox
+          )
           span merge group
   .error-message-box(v-if="Object.entries(errorMessages).length")
     .error-message-box__close-button(onclick="dismissTab(this)") &times;
@@ -71,10 +74,12 @@
     .error-message-box__failed-repo(v-for="errorBlock in errorMessages")
       i.fas.fa-exclamation.mini-font
       span.error-message-box__failed-repo--name {{ errorBlock.repoName }}
-      div.error-message-box__failed-repo--reason(v-if="errorBlock.errorMessage.startsWith('Unexpected error stack trace')")
-        span Oops, an unexpected error occurred. If you think this is due to a problem in RepoSense, please report in&nbsp;
+      .error-message-box__failed-repo--reason(
+        v-if="errorBlock.errorMessage.startsWith('Unexpected error stack trace')"
+      )
+        span Oops, an unexpected error occurred. If this is due to a problem in RepoSense, please report in&nbsp;
         a(
-          v-bind:href="getReportIssueGitHubLink(errorBlock.errorMessage)", target="_blank",
+          v-bind:href="getReportIssueGitHubLink(errorBlock.errorMessage)", target="_blank"
         )
           strong our issue tracker&nbsp;
         span or email us at&nbsp;
@@ -82,7 +87,7 @@
           v-bind:href="getReportIssueEmailLink(errorBlock.errorMessage)"
         )
           span {{ getReportIssueEmailAddress() }}
-      div.error-message-box__failed-repo--reason(v-else) {{ errorBlock.errorMessage }}
+      .error-message-box__failed-repo--reason(v-else) {{ errorBlock.errorMessage }}
   v_charts(
     v-bind:filtered="filtered",
     v-bind:contribution-bar-file-type-colors="contributionBarFileTypeColors",

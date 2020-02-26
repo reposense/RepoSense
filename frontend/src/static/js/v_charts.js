@@ -79,8 +79,6 @@ window.vCharts = {
     return {
     };
   },
-  watch: {
-  },
   computed: {
     avgCommitSize() {
       let totalCommits = 0;
@@ -97,14 +95,12 @@ window.vCharts = {
       });
       return totalCommits / totalCount;
     },
+
     filteredRepos() {
       return this.filtered.filter((repo) => repo.length > 0);
     },
   },
   methods: {
-    getGroupTotalContribution(group) {
-      return group.reduce((accContribution, user) => accContribution + user.totalCommits, 0);
-    },
     getFileTypeContributionBars(fileTypeContribution) {
       let currentBarWidth = 0;
       const fullBarWidth = 100;
@@ -140,6 +136,7 @@ window.vCharts = {
 
       return allFileTypesContributionBars;
     },
+
     getFileTypes(repo) {
       const fileTypes = [];
       repo.forEach((user) => {
@@ -151,6 +148,7 @@ window.vCharts = {
       });
       return fileTypes;
     },
+
     getContributionBars(totalContribution) {
       const res = [];
       const contributionLimit = (this.avgContributionSize * 2);
@@ -167,14 +165,27 @@ window.vCharts = {
 
       return res;
     },
+
     getAuthorProfileLink(userName) {
       return `https://github.com/${userName}`;
     },
+
+    getRepoLink(repo) {
+      const { REPOS } = window;
+      const { location, branch } = REPOS[repo.repoId];
+
+      if (Object.prototype.hasOwnProperty.call(location, 'organization')) {
+        return `${window.BASE_URL}/${location.organization}/${location.repoName}/tree/${branch}`;
+      }
+
+      return repo.location;
+    },
+
     // triggering opening of tabs //
     openTabAuthorship(user, repo, index) {
       const { minDate, maxDate } = this;
 
-      this.$parent.$emit('view-authorship', {
+      this.$emit('view-authorship', {
         minDate,
         maxDate,
         author: user.name,
@@ -184,6 +195,7 @@ window.vCharts = {
         totalCommits: user.totalCommits,
       });
     },
+
     openTabZoomSubrange(user, repo, index) {
       // skip if accidentally clicked on ramp chart
       if (drags.length === 2 && drags[1] - drags[0]) {
@@ -194,10 +206,11 @@ window.vCharts = {
         this.openTabZoom(user, tsince, tuntil, repo, index);
       }
     },
+
     openTabZoom(user, since, until, repo, index) {
       const { avgCommitSize } = this;
 
-      this.$parent.$emit('view-zoom', {
+      this.$emit('view-zoom', {
         filterGroupSelection: this.filterGroupSelection,
         avgCommitSize,
         user,
@@ -207,21 +220,16 @@ window.vCharts = {
         isMergeGroup: this.isMergeGroup,
       });
     },
+
     getPercentile(index) {
       if (this.filterGroupSelection === 'groupByNone') {
         return (Math.round((index + 1) * 1000 / this.filtered[0].length) / 10).toFixed(1);
       }
       return (Math.round((index + 1) * 1000 / this.filtered.length) / 10).toFixed(1);
     },
-    getRepoLink(repo) {
-      const { REPOS } = window;
-      const { location, branch } = REPOS[repo.repoId];
 
-      if (Object.prototype.hasOwnProperty.call(location, 'organization')) {
-        return `https://github.com/${location.organization}/${location.repoName}/tree/${branch}`;
-      }
-
-      return repo.location;
+    getGroupTotalContribution(group) {
+      return group.reduce((accContribution, user) => accContribution + user.totalCommits, 0);
     },
   },
   components: {

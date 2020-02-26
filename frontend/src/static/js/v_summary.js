@@ -1,8 +1,8 @@
 // date functions //
-const dateFormatRegex = /([12]\d{3}-(0[1-9]|1[0-2])-(0[1-9]|[12]\d|3[01]))$/;
 const DAY_IN_MS = (1000 * 60 * 60 * 24);
 window.DAY_IN_MS = DAY_IN_MS;
 const WEEK_IN_MS = DAY_IN_MS * 7;
+const dateFormatRegex = /([12]\d{3}-(0[1-9]|1[0-2])-(0[1-9]|[12]\d|3[01]))$/;
 
 window.deactivateAllOverlays = function deactivateAllOverlays() {
   document.querySelectorAll('.summary-chart__ramp .overlay')
@@ -58,9 +58,18 @@ window.vSummary = {
     };
   },
   watch: {
-    isMergeGroup() {
+    sortGroupSelection() {
       this.getFiltered();
     },
+
+    sortWithinGroupSelection() {
+      this.getFiltered();
+    },
+
+    filterTimeFrame() {
+      this.getFiltered();
+    },
+
     filterGroupSelection() {
       // merge group is not allowed when group by none
       if (this.filterGroupSelection === 'groupByNone') {
@@ -69,18 +78,15 @@ window.vSummary = {
 
       this.getFiltered();
     },
+
     filterSearch() {
       this.getFiltered();
     },
-    filterTimeFrame() {
+
+    isMergeGroup() {
       this.getFiltered();
     },
-    sortGroupSelection() {
-      this.getFiltered();
-    },
-    sortWithinGroupSelection() {
-      this.getFiltered();
-    },
+
     tmpFilterSinceDate() {
       if (this.tmpFilterSinceDate && this.tmpFilterSinceDate >= this.minDate) {
         this.filterSinceDate = this.tmpFilterSinceDate;
@@ -89,6 +95,7 @@ window.vSummary = {
       }
       this.getFiltered();
     },
+
     tmpFilterUntilDate() {
       if (this.tmpFilterUntilDate && this.tmpFilterUntilDate <= this.maxDate) {
         this.filterUntilDate = this.tmpFilterUntilDate;
@@ -115,25 +122,59 @@ window.vSummary = {
     },
   },
   methods: {
-    processFileTypes() {
-      const selectedColors = ['#ffe119', '#4363d8', '#3cb44b', '#f58231', '#911eb4', '#46f0f0', '#f032e6',
-          '#bcf60c', '#fabebe', '#008080', '#e6beff', '#9a6324', '#fffac8', '#800000', '#aaffc3', '#808000', '#ffd8b1',
-          '#000075', '#808080'];
-      const fileTypeColors = {};
-      let i = 0;
-
-      this.repos.forEach((repo) => {
-        repo.users.forEach((user) => {
-          Object.keys(user.fileTypeContribution).forEach((fileType) => {
-            if (!Object.prototype.hasOwnProperty.call(fileTypeColors, fileType)) {
-              fileTypeColors[fileType] = selectedColors[i];
-              i = (i + 1) % selectedColors.length;
-            }
-          });
-        });
-        this.contributionBarFileTypeColors = fileTypeColors;
-      });
+    // view functions //
+    getReportIssueGitHubLink(stackTrace) {
+      return `${window.BASE_URL}/reposense/RepoSense/issues/new?title=${this.getReportIssueTitle()
+      }&body=${this.getReportIssueMessage(stackTrace)}`;
     },
+
+    getReportIssueEmailAddress() {
+      return 'seer@comp.nus.edu.sg';
+    },
+
+    getReportIssueEmailLink(stackTrace) {
+      return `mailto:${this.getReportIssueEmailAddress()}?subject=${this.getReportIssueTitle()
+      }&body=${this.getReportIssueMessage(stackTrace)}`;
+    },
+
+    getReportIssueTitle() {
+      return encodeURI('Unexpected error with RepoSense version ') + window.app.repoSenseVersion;
+    },
+
+    getReportIssueMessage(message) {
+      return encodeURI(message);
+    },
+
+    // model functions //
+    resetFilterSearch() {
+      this.filterSearch = '';
+      this.getFiltered();
+    },
+
+    setSummaryHash() {
+      const { addHash, encodeHash } = window;
+
+      addHash('search', this.filterSearch);
+      addHash('sort', this.sortGroupSelection);
+      addHash('sortWithin', this.sortWithinGroupSelection);
+
+      if (this.hasModifiedSinceDate) {
+        addHash('since', this.filterSinceDate);
+      }
+
+      if (this.hasModifiedUntilDate) {
+        addHash('until', this.filterUntilDate);
+      }
+
+      addHash('timeframe', this.filterTimeFrame);
+      addHash('mergegroup', this.isMergeGroup);
+
+      addHash('groupSelect', this.filterGroupSelection);
+      addHash('breakdown', this.filterBreakdown);
+
+      encodeHash();
+    },
+
     renderFilterHash() {
       window.decodeHash();
 
@@ -167,90 +208,7 @@ window.vSummary = {
       }
       window.decodeHash();
     },
-    setSummaryHash() {
-      const { addHash, encodeHash } = window;
 
-      addHash('search', this.filterSearch);
-      addHash('sort', this.sortGroupSelection);
-      addHash('sortWithin', this.sortWithinGroupSelection);
-
-      if (this.hasModifiedSinceDate) {
-        addHash('since', this.filterSinceDate);
-      }
-
-      if (this.hasModifiedUntilDate) {
-        addHash('until', this.filterUntilDate);
-      }
-
-      addHash('timeframe', this.filterTimeFrame);
-      addHash('mergegroup', this.isMergeGroup);
-
-      addHash('groupSelect', this.filterGroupSelection);
-      addHash('breakdown', this.filterBreakdown);
-
-      encodeHash();
-    },
-    // view functions //
-    getFileTypeContributionBars(fileTypeContribution) {
-      let currentBarWidth = 0;
-      const fullBarWidth = 100;
-      const contributionPerFullBar = (this.avgContributionSize * 2);
-      const allFileTypesContributionBars = {};
-
-      Object.keys(fileTypeContribution).forEach((fileType) => {
-        const contribution = fileTypeContribution[fileType];
-        let barWidth = (contribution / contributionPerFullBar) * fullBarWidth;
-        const contributionBars = [];
-
-        // if contribution bar for file type is able to fit on the current line
-        if (currentBarWidth + barWidth < fullBarWidth) {
-          contributionBars.push(barWidth);
-          currentBarWidth += barWidth;
-        } else {
-          // take up all the space left on the current line
-          contributionBars.push(fullBarWidth - currentBarWidth);
-          barWidth -= fullBarWidth - currentBarWidth;
-          // additional bar width will start on a new line
-          const numOfFullBars = Math.floor(barWidth / fullBarWidth);
-          for (let i = 0; i < numOfFullBars; i += 1) {
-            contributionBars.push(fullBarWidth);
-          }
-          const remainingBarWidth = barWidth % fullBarWidth;
-          if (remainingBarWidth !== 0) {
-            contributionBars.push(remainingBarWidth);
-          }
-          currentBarWidth = remainingBarWidth;
-        }
-        allFileTypesContributionBars[fileType] = contributionBars;
-      });
-
-      return allFileTypesContributionBars;
-    },
-    getReportIssueGitHubLink(stackTrace) {
-      return `https://github.com/reposense/RepoSense/issues/new?title=${this.getReportIssueTitle()
-      }&body=${this.getReportIssueMessage(stackTrace)}`;
-    },
-    getReportIssueEmailAddress() {
-      return 'seer@comp.nus.edu.sg';
-    },
-    getReportIssueEmailLink(stackTrace) {
-      return `mailto:${this.getReportIssueEmailAddress()}?subject=${this.getReportIssueTitle()
-      }&body=${this.getReportIssueMessage(stackTrace)}`;
-    },
-    getReportIssueTitle() {
-      return encodeURI('Unexpected error with RepoSense version ') + window.app.repoSenseVersion;
-    },
-    getReportIssueMessage(message) {
-      return encodeURI(message);
-    },
-    resetFilterSearch() {
-      this.filterSearch = '';
-      this.getFiltered();
-    },
-    updateFilterSearch(evt) {
-      this.filterSearch = evt.target.value;
-      this.getFiltered();
-    },
     getDates() {
       if (this.minDate && this.maxDate) {
         return;
@@ -278,46 +236,7 @@ window.vSummary = {
       }
       this.$emit('get-dates', [this.minDate, this.maxDate]);
     },
-    resetDateRange() {
-      this.tmpFilterSinceDate = '';
-      this.tmpFilterUntilDate = '';
-    },
-    updateTmpFilterSinceDate(event) {
-      const since = event.target.value;
-      this.hasModifiedSinceDate = true;
 
-      if (!this.isSafariBrowser) {
-        this.tmpFilterSinceDate = since;
-        event.target.value = this.filterSinceDate;
-        return;
-      }
-
-      if (dateFormatRegex.test(since) && since >= this.minDate) {
-        this.tmpFilterSinceDate = since;
-        event.currentTarget.style.removeProperty('border-bottom-color');
-      } else {
-        // invalid since date detected
-        event.currentTarget.style.borderBottomColor = 'red';
-      }
-    },
-    updateTmpFilterUntilDate(event) {
-      const until = event.target.value;
-      this.hasModifiedUntilDate = true;
-
-      if (!this.isSafariBrowser) {
-        this.tmpFilterUntilDate = until;
-        event.target.value = this.filterUntilDate;
-        return;
-      }
-
-      if (dateFormatRegex.test(until) && until <= this.maxDate) {
-        this.tmpFilterUntilDate = until;
-        event.currentTarget.style.removeProperty('border-bottom-color');
-      } else {
-        // invalid until date detected
-        event.currentTarget.style.borderBottomColor = 'red';
-      }
-    },
     getFiltered() {
       this.setSummaryHash();
       this.getDates();
@@ -361,6 +280,153 @@ window.vSummary = {
         this.mergeGroup();
       }
     },
+
+    mergeGroup() {
+      this.filtered.forEach((group, groupIndex) => {
+        const dateToIndexMap = {};
+        const mergedCommits = [];
+        const mergedFileTypeContribution = {};
+        let mergedVariance = 0;
+        let totalMergedCommits = 0;
+
+        group.forEach((user) => {
+          this.mergeCommits(user, mergedCommits, dateToIndexMap);
+
+          this.mergeFileTypeContribution(user, mergedFileTypeContribution);
+
+          totalMergedCommits += user.totalCommits;
+          mergedVariance += user.variance;
+        });
+
+        mergedCommits.sort(window.comparator((ele) => ele.date));
+        group[0].commits = mergedCommits;
+        group[0].fileTypeContribution = mergedFileTypeContribution;
+        group[0].totalCommits = totalMergedCommits;
+        group[0].variance = mergedVariance;
+
+        // clear all users and add merged group in filtered group
+        this.filtered[groupIndex] = [];
+        this.filtered[groupIndex].push(group[0]);
+      });
+    },
+
+    mergeCommits(user, merged, dateToIndexMap) {
+      // merge commits with the same date
+      user.commits.forEach((commit) => {
+        const {
+          commitResults, date, insertions, deletions,
+        } = commit;
+
+        // bind repoId to each commit
+        commitResults.forEach((commitResult) => {
+          commitResult.repoId = user.repoId;
+        });
+
+        if (Object.prototype.hasOwnProperty.call(dateToIndexMap, date)) {
+          const commitWithSameDate = merged[dateToIndexMap[date]];
+
+          commitResults.forEach((commitResult) => {
+            commitWithSameDate.commitResults.push(commitResult);
+          });
+
+          commitWithSameDate.insertions += insertions;
+          commitWithSameDate.deletions += deletions;
+        } else {
+          dateToIndexMap[date] = Object.keys(dateToIndexMap).length;
+          merged.push(commit);
+        }
+      });
+    },
+
+    mergeFileTypeContribution(user, merged) {
+      Object.entries(user.fileTypeContribution).forEach((fileType) => {
+        const key = fileType[0];
+        const value = fileType[1];
+
+        if (!Object.prototype.hasOwnProperty.call(merged, key)) {
+          merged[key] = 0;
+        }
+        merged[key] += value;
+      });
+    },
+
+    processFileTypes() {
+      const selectedColors = ['#ffe119', '#4363d8', '#3cb44b', '#f58231', '#911eb4', '#46f0f0', '#f032e6',
+          '#bcf60c', '#fabebe', '#008080', '#e6beff', '#9a6324', '#fffac8', '#800000', '#aaffc3', '#808000', '#ffd8b1',
+          '#000075', '#808080'];
+      const fileTypeColors = {};
+      let i = 0;
+
+      this.repos.forEach((repo) => {
+        repo.users.forEach((user) => {
+          Object.keys(user.fileTypeContribution).forEach((fileType) => {
+            if (!Object.prototype.hasOwnProperty.call(fileTypeColors, fileType)) {
+              fileTypeColors[fileType] = selectedColors[i];
+              i = (i + 1) % selectedColors.length;
+            }
+          });
+        });
+        this.contributionBarFileTypeColors = fileTypeColors;
+      });
+    },
+
+    splitCommitsWeek(user) {
+      const { commits } = user;
+
+      const res = [];
+
+      const nextMondayDate = dateRounding(this.filterSinceDate, 0); // round up for the next monday
+      const untilDate = this.filterUntilDate;
+
+      const nextMondayMs = (new Date(nextMondayDate)).getTime();
+      const sinceMs = new Date(this.filterSinceDate).getTime();
+      const untilMs = (new Date(untilDate)).getTime();
+
+      if (nextMondayDate <= untilDate) {
+        this.pushCommitsWeek(sinceMs, nextMondayMs - 1, res, commits);
+        this.pushCommitsWeek(nextMondayMs, untilMs, res, commits);
+      } else {
+        this.pushCommitsWeek(sinceMs, untilMs, res, commits);
+      }
+      user.commits = res;
+    },
+
+    pushCommitsWeek(sinceMs, untilMs, res, commits) {
+      const diff = Math.round(Math.abs((untilMs - sinceMs) / DAY_IN_MS));
+
+      for (let weekId = 0; weekId < diff / 7; weekId += 1) {
+        const startOfWeekMs = sinceMs + (weekId * WEEK_IN_MS);
+        const endOfWeekMs = startOfWeekMs + WEEK_IN_MS - DAY_IN_MS;
+        const endOfWeekMsWithinUntilMs = endOfWeekMs <= untilMs ? endOfWeekMs : untilMs;
+
+        const week = {
+          insertions: 0,
+          deletions: 0,
+          date: window.getDateStr(startOfWeekMs),
+          endDate: window.getDateStr(endOfWeekMsWithinUntilMs),
+          commitResults: [],
+        };
+
+        this.addLineContributionWeek(endOfWeekMsWithinUntilMs, week, commits);
+        if (week.commitResults.length > 0) {
+          res.push(week);
+        }
+      }
+    },
+
+    addLineContributionWeek(endOfWeekMs, week, commits) {
+      // commits are not contiguous, meaning there are gaps of days without
+      // commits, so we are going to check each commit's date and make sure
+      // it is within the duration of a week
+      while (commits.length > 0
+          && (new Date(commits[0].date)).getTime() <= endOfWeekMs) {
+        const commit = commits.shift();
+        week.insertions += commit.insertions;
+        week.deletions += commit.deletions;
+        commit.commitResults.forEach((commitResult) => week.commitResults.push(commitResult));
+      }
+    },
+
     getUserCommits(user) {
       user.commits = [];
       const userFirst = user.dailyCommits[0];
@@ -389,62 +455,12 @@ window.vSummary = {
 
       return null;
     },
-    splitCommitsWeek(user) {
-      const { commits } = user;
 
-      const res = [];
-
-      const nextMondayDate = dateRounding(this.filterSinceDate, 0); // round up for the next monday
-      const untilDate = this.filterUntilDate;
-
-      const nextMondayMs = (new Date(nextMondayDate)).getTime();
-      const sinceMs = new Date(this.filterSinceDate).getTime();
-      const untilMs = (new Date(untilDate)).getTime();
-
-      if (nextMondayDate <= untilDate) {
-        this.pushCommitsWeek(sinceMs, nextMondayMs - 1, res, commits);
-        this.pushCommitsWeek(nextMondayMs, untilMs, res, commits);
-      } else {
-        this.pushCommitsWeek(sinceMs, untilMs, res, commits);
-      }
-      user.commits = res;
-    },
-    pushCommitsWeek(sinceMs, untilMs, res, commits) {
-      const diff = Math.round(Math.abs((untilMs - sinceMs) / DAY_IN_MS));
-
-      for (let weekId = 0; weekId < diff / 7; weekId += 1) {
-        const startOfWeekMs = sinceMs + (weekId * WEEK_IN_MS);
-        const endOfWeekMs = startOfWeekMs + WEEK_IN_MS - DAY_IN_MS;
-        const endOfWeekMsWithinUntilMs = endOfWeekMs <= untilMs ? endOfWeekMs : untilMs;
-
-        const week = {
-          insertions: 0,
-          deletions: 0,
-          date: window.getDateStr(startOfWeekMs),
-          endDate: window.getDateStr(endOfWeekMsWithinUntilMs),
-          commitResults: [],
-        };
-
-        this.addLineContributionWeek(endOfWeekMsWithinUntilMs, week, commits);
-        res.push(week);
-      }
-    },
-    addLineContributionWeek(endOfWeekMs, week, commits) {
-      // commits are not contiguous, meaning there are gaps of days without
-      // commits, so we are going to check each commit's date and make sure
-      // it is within the duration of a week
-      while (commits.length > 0
-          && (new Date(commits[0].date)).getTime() <= endOfWeekMs) {
-        const commit = commits.shift();
-        week.insertions += commit.insertions;
-        week.deletions += commit.deletions;
-        commit.commitResults.forEach((commitResult) => week.commitResults.push(commitResult));
-      }
-    },
     getOptionWithOrder() {
       [this.sortingOption, this.isSortingDsc] = this.sortGroupSelection.split(' ');
       [this.sortingWithinOption, this.isSortingWithinDsc] = this.sortWithinGroupSelection.split(' ');
     },
+
     sortFiltered() {
       this.getOptionWithOrder();
       let full = [];
@@ -459,6 +475,57 @@ window.vSummary = {
 
       this.filtered = full;
     },
+
+    // updating filters programically //
+    resetDateRange() {
+      this.tmpFilterSinceDate = '';
+      this.tmpFilterUntilDate = '';
+    },
+
+    updateDateRange(since, until) {
+      this.tmpFilterSinceDate = since;
+      this.tmpFilterUntilDate = until;
+      window.deactivateAllOverlays();
+    },
+
+    updateTmpFilterSinceDate(event) {
+      const since = event.target.value;
+      this.hasModifiedSinceDate = true;
+
+      if (!this.isSafariBrowser) {
+        this.tmpFilterSinceDate = since;
+        event.target.value = this.filterSinceDate;
+        return;
+      }
+
+      if (dateFormatRegex.test(since) && since >= this.minDate) {
+        this.tmpFilterSinceDate = since;
+        event.currentTarget.style.removeProperty('border-bottom-color');
+      } else {
+        // invalid since date detected
+        event.currentTarget.style.borderBottomColor = 'red';
+      }
+    },
+
+    updateTmpFilterUntilDate(event) {
+      const until = event.target.value;
+      this.hasModifiedUntilDate = true;
+
+      if (!this.isSafariBrowser) {
+        this.tmpFilterUntilDate = until;
+        event.target.value = this.filterUntilDate;
+        return;
+      }
+
+      if (dateFormatRegex.test(until) && until <= this.maxDate) {
+        this.tmpFilterUntilDate = until;
+        event.currentTarget.style.removeProperty('border-bottom-color');
+      } else {
+        // invalid until date detected
+        event.currentTarget.style.borderBottomColor = 'red';
+      }
+    },
+
     groupByRepos(repos) {
       const sortedRepos = [];
       const sortingWithinOption = this.sortingWithinOption === 'title' ? 'displayName' : this.sortingWithinOption;
@@ -481,9 +548,7 @@ window.vSummary = {
       }
       return sortedRepos;
     },
-    getGroupCommitsVariance(total, group) {
-      return total + group[this.sortingOption];
-    },
+
     groupByNone(repos) {
       const sortedRepos = [];
       const isSortingGroupTitle = this.sortingOption === 'groupTitle';
@@ -504,6 +569,7 @@ window.vSummary = {
 
       return sortedRepos;
     },
+
     groupByAuthors(repos) {
       const authorMap = {};
       const filtered = [];
@@ -537,71 +603,9 @@ window.vSummary = {
       }
       return filtered;
     },
-    mergeGroup() {
-      this.filtered.forEach((group, groupIndex) => {
-        const dateToIndexMap = {};
-        const mergedCommits = [];
-        const mergedFileTypeContribution = {};
-        let mergedVariance = 0;
-        let totalMergedCommits = 0;
 
-        group.forEach((user) => {
-          this.mergeCommits(user, mergedCommits, dateToIndexMap);
-          mergedCommits.sort(window.comparator((ele) => ele.date));
-
-          this.mergeFileTypeContribution(user, mergedFileTypeContribution);
-
-          totalMergedCommits += user.totalCommits;
-          mergedVariance += user.variance;
-        });
-
-        group[0].commits = mergedCommits;
-        group[0].fileTypeContribution = mergedFileTypeContribution;
-        group[0].totalCommits = totalMergedCommits;
-        group[0].variance = mergedVariance;
-
-        // clear all users and add merged group in filtered group
-        this.filtered[groupIndex] = [];
-        this.filtered[groupIndex].push(group[0]);
-      });
-    },
-    mergeCommits(user, merged, dateToIndexMap) {
-      // merge commits with the same date
-      user.commits.forEach((commit) => {
-        const {
-          commitResults, date, insertions, deletions,
-        } = commit;
-
-        // bind repoId to each commit
-        commitResults.forEach((commitResult) => {
-          commitResult.repoId = user.repoId;
-        });
-
-        if (Object.prototype.hasOwnProperty.call(dateToIndexMap, date)) {
-          const commitWithSameDate = merged[dateToIndexMap[date]];
-
-          commitResults.forEach((commitResult) => {
-            commitWithSameDate.commitResults.push(commitResult);
-          });
-
-          commitWithSameDate.insertions += insertions;
-          commitWithSameDate.deletions += deletions;
-        } else {
-          dateToIndexMap[date] = Object.keys(dateToIndexMap).length;
-          merged.push(commit);
-        }
-      });
-    },
-    mergeFileTypeContribution(user, merged) {
-      Object.entries(user.fileTypeContribution).forEach((fileType) => {
-        const key = fileType[0];
-        const value = fileType[1];
-
-        if (!Object.prototype.hasOwnProperty.call(merged, key)) {
-          merged[key] = 0;
-        }
-        merged[key] += value;
-      });
+    getGroupCommitsVariance(total, group) {
+      return total + group[this.sortingOption];
     },
   },
   created() {
