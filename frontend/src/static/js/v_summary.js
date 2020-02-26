@@ -452,7 +452,6 @@ window.vSummary = {
 
         group.forEach((user) => {
           this.mergeCommits(user, mergedCommits, dateToIndexMap);
-          mergedCommits.sort(window.comparator((ele) => ele.date));
 
           this.mergeFileTypeContribution(user, mergedFileTypeContribution);
 
@@ -460,6 +459,7 @@ window.vSummary = {
           mergedVariance += user.variance;
         });
 
+        mergedCommits.sort(window.comparator((ele) => ele.date));
         group[0].commits = mergedCommits;
         group[0].fileTypeContribution = mergedFileTypeContribution;
         group[0].totalCommits = totalMergedCommits;
