@@ -189,4 +189,3 @@ String getRepoSenseVersion() {
 }
 
 defaultTasks 'clean', 'build', 'systemtest', 'frontendTest', 'coverage'
-
