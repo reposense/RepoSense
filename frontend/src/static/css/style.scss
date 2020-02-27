@@ -266,6 +266,13 @@ header {
 
 /* Commit Message Body in Zoom Tab */
 .commit-message {
+  padding: 5px;
+
+  &:focus,
+  &:focus-within {
+    border: 1px solid mui-color('blue', '500');
+  }
+
   &.active {
     .body {
       background-color: mui-color('white');
@@ -275,12 +282,20 @@ header {
       overflow-x: auto;
       padding: .4rem;
       resize: none;
-      width: 100%;
     }
   }
 
   .body {
     display: none;
+  }
+
+  .tag {
+    cursor: pointer;
+
+    &:focus {
+      border: 1px solid mui-color('blue', '500');
+      outline: none;
+    }
   }
 
   &--button {
