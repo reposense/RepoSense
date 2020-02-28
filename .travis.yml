@@ -58,7 +58,7 @@ cache:
 after_success:
   - bash <(curl -s https://codecov.io/bash)
   - git fetch --all && git config --global user.email "-" && git config --global user.name "-"
-    && ./gradlew clean build && ./gradlew run -Dargs="--since d1"
+    && ./gradlew run -Dargs="--since d1"
   - chmod ugo+x ./config/travis/deploy-surge.sh
   - npm install -g surge
   - ./config/travis/deploy-surge.sh

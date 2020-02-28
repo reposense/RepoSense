@@ -6,8 +6,8 @@ REPO_NAME=${REPO_SLUG_ARRAY[1]}
 DEPLOY_PATH=./reposense-report
 
 # debugging purposes
-echo ${REPO_OWNER}
-echo ${REPO_NAME}
+echo "Owner: ${REPO_OWNER}"
+echo "Repo: ${REPO_NAME}"
 
 DEPLOY_SUBDOMAIN_UNFORMATTED_LIST=()
 if [ "$TRAVIS_PULL_REQUEST" != "false" ]
@@ -41,7 +41,7 @@ do
   # https://en.wikipedia.org/wiki/Domain_Name_System#Domain_name_syntax
   DEPLOY_SUBDOMAIN=`echo "$DEPLOY_SUBDOMAIN_UNFORMATTED" | sed -r 's/[\/|\.]+/\-/g'`
   DEPLOY_DOMAIN=https://${DEPLOY_SUBDOMAIN}-${REPO_NAME}-${REPO_OWNER}.surge.sh
-  echo ${DEPLOY_DOMAIN}
+  echo "Deploy domain: ${DEPLOY_DOMAIN}"
   surge --project ${DEPLOY_PATH} --domain $DEPLOY_DOMAIN;
   if [ "$TRAVIS_PULL_REQUEST" != "false" ]
   then
