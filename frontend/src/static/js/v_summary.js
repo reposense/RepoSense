@@ -450,7 +450,6 @@ window.vSummary = {
 
         group.forEach((user) => {
           this.mergeCommits(user, mergedCommits, dateToIndexMap);
-          mergedCommits.sort(window.comparator((ele) => ele.date));
 
           this.mergeFileTypeContribution(user, mergedFileTypeContribution);
 
@@ -458,6 +457,7 @@ window.vSummary = {
           mergedVariance += user.variance;
         });
 
+        mergedCommits.sort(window.comparator((ele) => ele.date));
         group[0].commits = mergedCommits;
         group[0].fileTypeContribution = mergedFileTypeContribution;
         group[0].totalCommits = totalMergedCommits;
@@ -562,7 +562,9 @@ window.vSummary = {
         };
 
         this.addLineContributionWeek(endOfWeekMsWithinUntilMs, week, commits);
-        res.push(week);
+        if (week.commitResults.length > 0) {
+          res.push(week);
+        }
       }
     },
     addLineContributionWeek(endOfWeekMs, week, commits) {
