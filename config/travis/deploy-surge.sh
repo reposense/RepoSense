@@ -50,10 +50,13 @@ do
     # while the PR api requires that comments are made to specific files and specific commits
     GITHUB_PR_COMMENTS=https://api.github.com/repos/${TRAVIS_REPO_SLUG}/issues/${TRAVIS_PULL_REQUEST}/comments
 
-    # Check if there's existing comment for deployment link
-    curl ${GITHUB_PR_COMMENTS} -v
+    comments = json_decode(`curl ${GITHUB_PR_COMMENTS}`, true)
 
-    # Post deployment link as comment
+    # get first comment, which is the pr message. This step assumes that pr has message body.
+    pr_message = ${comments[0]['body']}
+    echo ${pr_message}
+
+    # modify pr message body with deployment link
     curl -H "Authorization: token ${GITHUB_API_TOKEN}" -X POST \
     -d "{\"body\": \"Travis automatic deployment: ${DEPLOY_DOMAIN}\"}" \
     ${GITHUB_PR_COMMENTS}
