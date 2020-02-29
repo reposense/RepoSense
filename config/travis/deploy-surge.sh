@@ -42,7 +42,7 @@ do
   DEPLOY_SUBDOMAIN=$(echo "$DEPLOY_SUBDOMAIN_UNFORMATTED" | sed -r 's/[\/|\.]+/\-/g')
 
   # skipping empty deploy subdomains
-  if [ -n "${DEPLOY_SUBDOMAIN// }" ]
+  if [ -z "${DEPLOY_SUBDOMAIN// }" ]
   then
     continue
   fi
