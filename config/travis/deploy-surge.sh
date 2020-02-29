@@ -56,6 +56,6 @@ do
     curl "https://api.github.com/repos/${REPO_OWNER}/${REPO_NAME}/statuses/${TRAVIS_PULL_REQUEST_SHA}?access_token=${GITHUB_API_TOKEN}" \
     -H "Content-Type: application/json" \
     -X POST \
-    -d "{\"state\": \"success\",\"context\": \"continuous-integration/travis\", \"description\": \"Deploy domain: ${DEPLOY_DOMAIN}\", \"target_url\": \"${DEPLOY_DOMAIN}\"}"
+    -d "{\"state\": \"success\",\"context\": \"surge/deploy\", \"description\": \"Deploy domain: ${DEPLOY_DOMAIN}\", \"target_url\": \"${DEPLOY_DOMAIN}\"}"
   fi
 done
