@@ -85,8 +85,7 @@
     "authorContributionMap": {
       "harryggg": 5,
       "-": 6
-    },
-    "binaryFileAuthors": []
+    }
   },
   {
     "path": "blameTest.java",
@@ -125,8 +124,7 @@
     "authorContributionMap": {
       "harryggg": 3,
       "-": 1
-    },
-    "binaryFileAuthors": []
+    }
   },
   {
     "path": "newFile.java",
@@ -150,8 +148,7 @@
     ],
     "authorContributionMap": {
       "harryggg": 2
-    },
-    "binaryFileAuthors": []
+    }
   },
   {
     "path": "newPos/movedFile.java",
@@ -189,7 +186,6 @@
     ],
     "authorContributionMap": {
       "harryggg": 4
-    },
-    "binaryFileAuthors": []
+    }
   }
 ]

@@ -64,8 +64,7 @@
     "authorContributionMap": {
       "-": 7,
       "nbr": 1
-    },
-    "binaryFileAuthors": []
+    }
   },
   {
     "path": "src/main/resources/view/MainWindow.fxml",
@@ -602,8 +601,7 @@
       "April0616": 56,
       "-": 14,
       "nbr": 5
-    },
-    "binaryFileAuthors": []
+    }
   },
   {
     "path": "src/main/resources/view/PersonInfoPanel.fxml",
@@ -1187,8 +1185,7 @@
     ],
     "authorContributionMap": {
       "April0616": 82
-    },
-    "binaryFileAuthors": []
+    }
   },
   {
     "path": "src/main/resources/view/PersonListCard.fxml",
@@ -1486,8 +1483,7 @@
     "authorContributionMap": {
       "-": 29,
       "nbr": 12
-    },
-    "binaryFileAuthors": []
+    }
   },
   {
     "path": "src/main/resources/view/PersonListPanel.fxml",
@@ -1547,8 +1543,7 @@
     "authorContributionMap": {
       "-": 6,
       "nbr": 1
-    },
-    "binaryFileAuthors": []
+    }
   },
   {
     "path": "src/main/resources/view/TagListPanel.fxml",
@@ -1748,8 +1743,7 @@
     "authorContributionMap": {
       "-": 1,
       "nbr": 26
-    },
-    "binaryFileAuthors": []
+    }
   },
   {
     "path": "unused/CombinedTimetableDisplay.fxml",
@@ -2096,8 +2090,7 @@
     "authorContributionMap": {
       "zacharytang": 47,
       "-": 1
-    },
-    "binaryFileAuthors": []
+    }
   },
   {
     "path": "unused/PersonInfoOverview.fxml",
@@ -2565,7 +2558,6 @@
       "April0616": 16,
       "-": 1,
       "nbr": 3
-    },
-    "binaryFileAuthors": []
+    }
   }
 ]

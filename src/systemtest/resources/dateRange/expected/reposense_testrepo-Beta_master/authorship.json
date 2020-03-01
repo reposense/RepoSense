@@ -428,8 +428,7 @@
     "authorContributionMap": {
       "-": 47,
       "nbr": 13
-    },
-    "binaryFileAuthors": []
+    }
   },
   {
     "path": "src/main/resources/view/PersonInfoOverview.fxml",
@@ -818,8 +817,7 @@
     "authorContributionMap": {
       "-": 50,
       "nbr": 4
-    },
-    "binaryFileAuthors": []
+    }
   },
   {
     "path": "src/main/resources/view/PersonListCard.fxml",
@@ -1118,8 +1116,7 @@
       "CindyTsai1": 1,
       "April0616": 3,
       "-": 37
-    },
-    "binaryFileAuthors": []
+    }
   },
   {
     "path": "src/main/resources/view/TagListPanel.fxml",
@@ -1304,7 +1301,6 @@
     ],
     "authorContributionMap": {
       "nbr": 25
-    },
-    "binaryFileAuthors": []
+    }
   }
 ]

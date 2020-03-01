@@ -261,8 +261,7 @@
       "charlesgoh": 3,
       "jeffreygohkw": 7,
       "-": 26
-    },
-    "binaryFileAuthors": []
+    }
   },
   {
     "path": "docs/AboutUs.adoc",
@@ -609,8 +608,7 @@
     "authorContributionMap": {
       "charlesgoh": 19,
       "-": 29
-    },
-    "binaryFileAuthors": []
+    }
   },
   {
     "path": "docs/DeveloperGuide.adoc",
@@ -9387,8 +9385,7 @@
       "jeffreygohkw": 157,
       "Esilocke": 178,
       "-": 847
-    },
-    "binaryFileAuthors": []
+    }
   },
   {
     "path": "docs/UserGuide.adoc",
@@ -14637,8 +14634,7 @@
       "jeffreygohkw": 47,
       "Esilocke": 255,
       "-": 414
-    },
-    "binaryFileAuthors": []
+    }
   },
   {
     "path": "src/main/java/seedu/address/MainApp.java",
@@ -16169,8 +16165,7 @@
       "charlesgoh": 2,
       "jeffreygohkw": 5,
       "-": 210
-    },
-    "binaryFileAuthors": []
+    }
   },
   {
     "path": "src/main/java/seedu/address/commons/core/Messages.java",
@@ -16286,8 +16281,7 @@
     "authorContributionMap": {
       "Esilocke": 2,
       "-": 13
-    },
-    "binaryFileAuthors": []
+    }
   },
   {
     "path": "src/main/java/seedu/address/commons/events/model/AddressBookChangedEvent.java",
@@ -16438,8 +16432,7 @@
     "authorContributionMap": {
       "Esilocke": 2,
       "-": 18
-    },
-    "binaryFileAuthors": []
+    }
   },
   {
     "path": "src/main/java/seedu/address/commons/events/ui/BrowserPanelLocateEvent.java",
@@ -16624,8 +16617,7 @@
     ],
     "authorContributionMap": {
       "jeffreygohkw": 25
-    },
-    "binaryFileAuthors": []
+    }
   },
   {
     "path": "src/main/java/seedu/address/commons/events/ui/OpenRequestEvent.java",
@@ -16733,8 +16725,7 @@
     ],
     "authorContributionMap": {
       "jeffreygohkw": 14
-    },
-    "binaryFileAuthors": []
+    }
   },
   {
     "path": "src/main/java/seedu/address/commons/events/ui/SaveAsRequestEvent.java",
@@ -16842,8 +16833,7 @@
     ],
     "authorContributionMap": {
       "jeffreygohkw": 14
-    },
-    "binaryFileAuthors": []
+    }
   },
   {
     "path": "src/main/java/seedu/address/commons/events/ui/TaskPanelSelectionChangedEvent.java",
@@ -17035,8 +17025,7 @@
     ],
     "authorContributionMap": {
       "Esilocke": 26
-    },
-    "binaryFileAuthors": []
+    }
   },
   {
     "path": "src/main/java/seedu/address/logic/Logic.java",
@@ -17264,8 +17253,7 @@
     "authorContributionMap": {
       "Esilocke": 4,
       "-": 27
-    },
-    "binaryFileAuthors": []
+    }
   },
   {
     "path": "src/main/java/seedu/address/logic/LogicManager.java",
@@ -17816,8 +17804,7 @@
       "charlesgoh": 6,
       "Esilocke": 8,
       "-": 63
-    },
-    "binaryFileAuthors": []
+    }
   },
   {
     "path": "src/main/java/seedu/address/logic/commands/AddCommand.java",
@@ -18691,8 +18678,7 @@
       "Esilocke": 60,
       "wangyiming1019": 1,
       "-": 58
-    },
-    "binaryFileAuthors": []
+    }
   },
   {
     "path": "src/main/java/seedu/address/logic/commands/AddTagCommand.java",
@@ -19585,8 +19571,7 @@
     "authorContributionMap": {
       "Esilocke": 18,
       "wangyiming1019": 108
-    },
-    "binaryFileAuthors": []
+    }
   },
   {
     "path": "src/main/java/seedu/address/logic/commands/BackupCommand.java",
@@ -19932,8 +19917,7 @@
     ],
     "authorContributionMap": {
       "charlesgoh": 48
-    },
-    "binaryFileAuthors": []
+    }
   },
   {
     "path": "src/main/java/seedu/address/logic/commands/ChangePrivacyCommand.java",
@@ -21848,8 +21832,7 @@
     "authorContributionMap": {
       "jeffreygohkw": 270,
       "wangyiming1019": 2
-    },
-    "binaryFileAuthors": []
+    }
   },
   {
     "path": "src/main/java/seedu/address/logic/commands/ClearCommand.java",
@@ -22379,8 +22362,7 @@
       "Esilocke": 60,
       "wangyiming1019": 1,
       "-": 13
-    },
-    "binaryFileAuthors": []
+    }
   },
   {
     "path": "src/main/java/seedu/address/logic/commands/Command.java",
@@ -22819,8 +22801,7 @@
       "charlesgoh": 8,
       "Esilocke": 10,
       "-": 43
-    },
-    "binaryFileAuthors": []
+    }
   },
   {
     "path": "src/main/java/seedu/address/logic/commands/DeleteCommand.java",
@@ -23364,8 +23345,7 @@
       "Esilocke": 28,
       "wangyiming1019": 1,
       "-": 47
-    },
-    "binaryFileAuthors": []
+    }
   },
   {
     "path": "src/main/java/seedu/address/logic/commands/DeleteTagCommand.java",
@@ -24258,8 +24238,7 @@
     "authorContributionMap": {
       "Esilocke": 18,
       "wangyiming1019": 108
-    },
-    "binaryFileAuthors": []
+    }
   },
   {
     "path": "src/main/java/seedu/address/logic/commands/EditCommand.java",
@@ -28256,8 +28235,7 @@
       "Esilocke": 174,
       "wangyiming1019": 15,
       "-": 206
-    },
-    "binaryFileAuthors": []
+    }
   },
   {
     "path": "src/main/java/seedu/address/logic/commands/EditTagCommand.java",
@@ -28953,8 +28931,7 @@
     ],
     "authorContributionMap": {
       "Esilocke": 98
-    },
-    "binaryFileAuthors": []
+    }
   },
   {
     "path": "src/main/java/seedu/address/logic/commands/FavouriteCommand.java",
@@ -29405,8 +29382,7 @@
     ],
     "authorContributionMap": {
       "wangyiming1019": 63
-    },
-    "binaryFileAuthors": []
+    }
   },
   {
     "path": "src/main/java/seedu/address/logic/commands/FavouriteListCommand.java",
@@ -29570,8 +29546,7 @@
     ],
     "authorContributionMap": {
       "wangyiming1019": 22
-    },
-    "binaryFileAuthors": []
+    }
   },
   {
     "path": "src/main/java/seedu/address/logic/commands/FindCommand.java",
@@ -30052,8 +30027,7 @@
       "Esilocke": 36,
       "wangyiming1019": 1,
       "-": 30
-    },
-    "binaryFileAuthors": []
+    }
   },
   {
     "path": "src/main/java/seedu/address/logic/commands/FindTagCommand.java",
@@ -30322,8 +30296,7 @@
     ],
     "authorContributionMap": {
       "wangyiming1019": 37
-    },
-    "binaryFileAuthors": []
+    }
   },
   {
     "path": "src/main/java/seedu/address/logic/commands/HistoryCommand.java",
@@ -30607,8 +30580,7 @@
     "authorContributionMap": {
       "wangyiming1019": 1,
       "-": 38
-    },
-    "binaryFileAuthors": []
+    }
   },
   {
     "path": "src/main/java/seedu/address/logic/commands/ListCommand.java",
@@ -30781,8 +30753,7 @@
       "Esilocke": 3,
       "wangyiming1019": 1,
       "-": 19
-    },
-    "binaryFileAuthors": []
+    }
   },
   {
     "path": "src/main/java/seedu/address/logic/commands/LocateCommand.java",
@@ -31170,8 +31141,7 @@
     ],
     "authorContributionMap": {
       "jeffreygohkw": 54
-    },
-    "binaryFileAuthors": []
+    }
   },
   {
     "path": "src/main/java/seedu/address/logic/commands/RedoCommand.java",
@@ -31441,8 +31411,7 @@
     "authorContributionMap": {
       "wangyiming1019": 1,
       "-": 36
-    },
-    "binaryFileAuthors": []
+    }
   },
   {
     "path": "src/main/java/seedu/address/logic/commands/SelectCommand.java",
@@ -31824,8 +31793,7 @@
     "authorContributionMap": {
       "wangyiming1019": 1,
       "-": 52
-    },
-    "binaryFileAuthors": []
+    }
   },
   {
     "path": "src/main/java/seedu/address/logic/commands/SortCommand.java",
@@ -32228,8 +32196,7 @@
     "authorContributionMap": {
       "charlesgoh": 48,
       "jeffreygohkw": 8
-    },
-    "binaryFileAuthors": []
+    }
   },
   {
     "path": "src/main/java/seedu/address/logic/commands/UndoCommand.java",
@@ -32499,8 +32466,7 @@
     "authorContributionMap": {
       "wangyiming1019": 1,
       "-": 36
-    },
-    "binaryFileAuthors": []
+    }
   },
   {
     "path": "src/main/java/seedu/address/logic/commands/UnfavouriteCommand.java",
@@ -32951,8 +32917,7 @@
     ],
     "authorContributionMap": {
       "wangyiming1019": 63
-    },
-    "binaryFileAuthors": []
+    }
   },
   {
     "path": "src/main/java/seedu/address/logic/parser/AddCommandParser.java",
@@ -34310,8 +34275,7 @@
       "Esilocke": 73,
       "wangyiming1019": 1,
       "-": 52
-    },
-    "binaryFileAuthors": []
+    }
   },
   {
     "path": "src/main/java/seedu/address/logic/parser/AddTagCommandParser.java",
@@ -34805,8 +34769,7 @@
     "authorContributionMap": {
       "Esilocke": 4,
       "wangyiming1019": 65
-    },
-    "binaryFileAuthors": []
+    }
   },
   {
     "path": "src/main/java/seedu/address/logic/parser/AddressBookParser.java",
@@ -35919,8 +35882,7 @@
       "Esilocke": 6,
       "wangyiming1019": 41,
       "-": 91
-    },
-    "binaryFileAuthors": []
+    }
   },
   {
     "path": "src/main/java/seedu/address/logic/parser/BackupCommandParser.java",
@@ -36049,8 +36011,7 @@
     ],
     "authorContributionMap": {
       "charlesgoh": 17
-    },
-    "binaryFileAuthors": []
+    }
   },
   {
     "path": "src/main/java/seedu/address/logic/parser/ChangePrivacyCommandParser.java",
@@ -37117,8 +37078,7 @@
     ],
     "authorContributionMap": {
       "jeffreygohkw": 151
-    },
-    "binaryFileAuthors": []
+    }
   },
   {
     "path": "src/main/java/seedu/address/logic/parser/ClearCommandParser.java",
@@ -37387,8 +37347,7 @@
     ],
     "authorContributionMap": {
       "Esilocke": 37
-    },
-    "binaryFileAuthors": []
+    }
   },
   {
     "path": "src/main/java/seedu/address/logic/parser/CliSyntax.java",
@@ -37597,8 +37556,7 @@
       "jeffreygohkw": 6,
       "Esilocke": 5,
       "-": 15
-    },
-    "binaryFileAuthors": []
+    }
   },
   {
     "path": "src/main/java/seedu/address/logic/parser/DeleteCommandParser.java",
@@ -37889,8 +37847,7 @@
     "authorContributionMap": {
       "Esilocke": 12,
       "-": 28
-    },
-    "binaryFileAuthors": []
+    }
   },
   {
     "path": "src/main/java/seedu/address/logic/parser/DeleteTagCommandParser.java",
@@ -38363,8 +38320,7 @@
     "authorContributionMap": {
       "Esilocke": 4,
       "wangyiming1019": 62
-    },
-    "binaryFileAuthors": []
+    }
   },
   {
     "path": "src/main/java/seedu/address/logic/parser/EditCommandParser.java",
@@ -39279,8 +39235,7 @@
       "charlesgoh": 4,
       "Esilocke": 47,
       "-": 78
-    },
-    "binaryFileAuthors": []
+    }
   },
   {
     "path": "src/main/java/seedu/address/logic/parser/EditTagCommandParser.java",
@@ -39724,8 +39679,7 @@
     ],
     "authorContributionMap": {
       "Esilocke": 62
-    },
-    "binaryFileAuthors": []
+    }
   },
   {
     "path": "src/main/java/seedu/address/logic/parser/FavouriteCommandParser.java",
@@ -39938,8 +39892,7 @@
     ],
     "authorContributionMap": {
       "wangyiming1019": 29
-    },
-    "binaryFileAuthors": []
+    }
   },
   {
     "path": "src/main/java/seedu/address/logic/parser/FindCommandParser.java",
@@ -40265,8 +40218,7 @@
     "authorContributionMap": {
       "Esilocke": 14,
       "-": 31
-    },
-    "binaryFileAuthors": []
+    }
   },
   {
     "path": "src/main/java/seedu/address/logic/parser/FindTagCommandParser.java",
@@ -40528,8 +40480,7 @@
     ],
     "authorContributionMap": {
       "wangyiming1019": 36
-    },
-    "binaryFileAuthors": []
+    }
   },
   {
     "path": "src/main/java/seedu/address/logic/parser/LocateCommandParser.java",
@@ -40742,8 +40693,7 @@
     ],
     "authorContributionMap": {
       "jeffreygohkw": 29
-    },
-    "binaryFileAuthors": []
+    }
   },
   {
     "path": "src/main/java/seedu/address/logic/parser/ParserUtil.java",
@@ -42121,8 +42071,7 @@
       "jeffreygohkw": 29,
       "Esilocke": 39,
       "-": 104
-    },
-    "binaryFileAuthors": []
+    }
   },
   {
     "path": "src/main/java/seedu/address/logic/parser/SortCommandParser.java",
@@ -42469,8 +42418,7 @@
     "authorContributionMap": {
       "charlesgoh": 44,
       "jeffreygohkw": 4
-    },
-    "binaryFileAuthors": []
+    }
   },
   {
     "path": "src/main/java/seedu/address/logic/parser/UnfavouriteCommandParser.java",
@@ -42683,8 +42631,7 @@
     ],
     "authorContributionMap": {
       "wangyiming1019": 29
-    },
-    "binaryFileAuthors": []
+    }
   },
   {
     "path": "src/main/java/seedu/address/model/AddressBook.java",
@@ -44888,8 +44835,7 @@
       "Esilocke": 105,
       "wangyiming1019": 16,
       "-": 182
-    },
-    "binaryFileAuthors": []
+    }
   },
   {
     "path": "src/main/java/seedu/address/model/Model.java",
@@ -45665,8 +45611,7 @@
       "Esilocke": 36,
       "wangyiming1019": 18,
       "-": 49
-    },
-    "binaryFileAuthors": []
+    }
   },
   {
     "path": "src/main/java/seedu/address/model/ModelManager.java",
@@ -47576,8 +47521,7 @@
       "Esilocke": 98,
       "wangyiming1019": 49,
       "-": 118
-    },
-    "binaryFileAuthors": []
+    }
   },
   {
     "path": "src/main/java/seedu/address/model/ReadOnlyAddressBook.java",
@@ -47791,8 +47735,7 @@
     "authorContributionMap": {
       "Esilocke": 5,
       "-": 24
-    },
-    "binaryFileAuthors": []
+    }
   },
   {
     "path": "src/main/java/seedu/address/model/person/Address.java",
@@ -48357,8 +48300,7 @@
       "jeffreygohkw": 14,
       "Esilocke": 6,
       "-": 59
-    },
-    "binaryFileAuthors": []
+    }
   },
   {
     "path": "src/main/java/seedu/address/model/person/Email.java",
@@ -48895,8 +48837,7 @@
       "jeffreygohkw": 14,
       "Esilocke": 6,
       "-": 55
-    },
-    "binaryFileAuthors": []
+    }
   },
   {
     "path": "src/main/java/seedu/address/model/person/Name.java",
@@ -49460,8 +49401,7 @@
     "authorContributionMap": {
       "jeffreygohkw": 14,
       "-": 65
-    },
-    "binaryFileAuthors": []
+    }
   },
   {
     "path": "src/main/java/seedu/address/model/person/NameContainsFavouritePredicate.java",
@@ -49632,8 +49572,7 @@
     ],
     "authorContributionMap": {
       "wangyiming1019": 23
-    },
-    "binaryFileAuthors": []
+    }
   },
   {
     "path": "src/main/java/seedu/address/model/person/NameContainsTagsPredicate.java",
@@ -50287,8 +50226,7 @@
     ],
     "authorContributionMap": {
       "wangyiming1019": 92
-    },
-    "binaryFileAuthors": []
+    }
   },
   {
     "path": "src/main/java/seedu/address/model/person/Person.java",
@@ -51518,8 +51456,7 @@
       "charlesgoh": 16,
       "wangyiming1019": 22,
       "-": 136
-    },
-    "binaryFileAuthors": []
+    }
   },
   {
     "path": "src/main/java/seedu/address/model/person/Phone.java",
@@ -52063,8 +52000,7 @@
       "jeffreygohkw": 15,
       "Esilocke": 6,
       "-": 55
-    },
-    "binaryFileAuthors": []
+    }
   },
   {
     "path": "src/main/java/seedu/address/model/person/ReadOnlyPerson.java",
@@ -52517,8 +52453,7 @@
       "charlesgoh": 5,
       "wangyiming1019": 4,
       "-": 54
-    },
-    "binaryFileAuthors": []
+    }
   },
   {
     "path": "src/main/java/seedu/address/model/person/Remark.java",
@@ -53074,8 +53009,7 @@
     ],
     "authorContributionMap": {
       "charlesgoh": 78
-    },
-    "binaryFileAuthors": []
+    }
   },
   {
     "path": "src/main/java/seedu/address/model/person/UniquePersonList.java",
@@ -54781,8 +54715,7 @@
       "charlesgoh": 88,
       "wangyiming1019": 30,
       "-": 124
-    },
-    "binaryFileAuthors": []
+    }
   },
   {
     "path": "src/main/java/seedu/address/model/tag/Tag.java",
@@ -55227,8 +55160,7 @@
     "authorContributionMap": {
       "charlesgoh": 4,
       "-": 58
-    },
-    "binaryFileAuthors": []
+    }
   },
   {
     "path": "src/main/java/seedu/address/model/task/Deadline.java",
@@ -56155,8 +56087,7 @@
     ],
     "authorContributionMap": {
       "Esilocke": 131
-    },
-    "binaryFileAuthors": []
+    }
   },
   {
     "path": "src/main/java/seedu/address/model/task/Description.java",
@@ -56614,8 +56545,7 @@
     ],
     "authorContributionMap": {
       "Esilocke": 64
-    },
-    "binaryFileAuthors": []
+    }
   },
   {
     "path": "src/main/java/seedu/address/model/task/Priority.java",
@@ -57206,8 +57136,7 @@
     ],
     "authorContributionMap": {
       "Esilocke": 83
-    },
-    "binaryFileAuthors": []
+    }
   },
   {
     "path": "src/main/java/seedu/address/model/task/ReadOnlyTask.java",
@@ -57518,8 +57447,7 @@
     ],
     "authorContributionMap": {
       "Esilocke": 43
-    },
-    "binaryFileAuthors": []
+    }
   },
   {
     "path": "src/main/java/seedu/address/model/task/Task.java",
@@ -58264,8 +58192,7 @@
     ],
     "authorContributionMap": {
       "Esilocke": 105
-    },
-    "binaryFileAuthors": []
+    }
   },
   {
     "path": "src/main/java/seedu/address/model/task/TaskContainsKeywordPredicate.java",
@@ -58541,8 +58468,7 @@
     ],
     "authorContributionMap": {
       "Esilocke": 38
-    },
-    "binaryFileAuthors": []
+    }
   },
   {
     "path": "src/main/java/seedu/address/model/task/TaskName.java",
@@ -58993,8 +58919,7 @@
     ],
     "authorContributionMap": {
       "Esilocke": 63
-    },
-    "binaryFileAuthors": []
+    }
   },
   {
     "path": "src/main/java/seedu/address/model/task/UniqueTaskList.java",
@@ -59872,8 +59797,7 @@
     ],
     "authorContributionMap": {
       "Esilocke": 124
-    },
-    "binaryFileAuthors": []
+    }
   },
   {
     "path": "src/main/java/seedu/address/model/task/exceptions/DuplicateTaskException.java",
@@ -59974,8 +59898,7 @@
     ],
     "authorContributionMap": {
       "Esilocke": 13
-    },
-    "binaryFileAuthors": []
+    }
   },
   {
     "path": "src/main/java/seedu/address/model/task/exceptions/TaskNotFoundException.java",
@@ -60041,8 +59964,7 @@
     ],
     "authorContributionMap": {
       "Esilocke": 8
-    },
-    "binaryFileAuthors": []
+    }
   },
   {
     "path": "src/main/java/seedu/address/model/util/SampleDataUtil.java",
@@ -60607,8 +60529,7 @@
       "charlesgoh": 7,
       "wangyiming1019": 6,
       "-": 66
-    },
-    "binaryFileAuthors": []
+    }
   },
   {
     "path": "src/main/java/seedu/address/storage/AddressBookStorage.java",
@@ -60970,8 +60891,7 @@
       "charlesgoh": 3,
       "jeffreygohkw": 3,
       "-": 44
-    },
-    "binaryFileAuthors": []
+    }
   },
   {
     "path": "src/main/java/seedu/address/storage/StorageManager.java",
@@ -61823,8 +61743,7 @@
       "charlesgoh": 20,
       "jeffreygohkw": 8,
       "-": 92
-    },
-    "binaryFileAuthors": []
+    }
   },
   {
     "path": "src/main/java/seedu/address/storage/XmlAdaptedPerson.java",
@@ -62649,8 +62568,7 @@
       "jeffreygohkw": 27,
       "wangyiming1019": 6,
       "-": 73
-    },
-    "binaryFileAuthors": []
+    }
   },
   {
     "path": "src/main/java/seedu/address/storage/XmlAdaptedTask.java",
@@ -63045,8 +62963,7 @@
     ],
     "authorContributionMap": {
       "Esilocke": 55
-    },
-    "binaryFileAuthors": []
+    }
   },
   {
     "path": "src/main/java/seedu/address/storage/XmlAddressBookStorage.java",
@@ -63807,8 +63724,7 @@
       "charlesgoh": 21,
       "jeffreygohkw": 9,
       "-": 77
-    },
-    "binaryFileAuthors": []
+    }
   },
   {
     "path": "src/main/java/seedu/address/storage/XmlSerializableAddressBook.java",
@@ -64456,8 +64372,7 @@
     "authorContributionMap": {
       "Esilocke": 17,
       "-": 74
-    },
-    "binaryFileAuthors": []
+    }
   },
   {
     "path": "src/main/java/seedu/address/ui/BrowserPanel.java",
@@ -65252,8 +65167,7 @@
     "authorContributionMap": {
       "jeffreygohkw": 37,
       "-": 75
-    },
-    "binaryFileAuthors": []
+    }
   },
   {
     "path": "src/main/java/seedu/address/ui/MainWindow.java",
@@ -67639,8 +67553,7 @@
       "jeffreygohkw": 107,
       "Esilocke": 11,
       "-": 218
-    },
-    "binaryFileAuthors": []
+    }
   },
   {
     "path": "src/main/java/seedu/address/ui/PersonCard.java",
@@ -68527,8 +68440,7 @@
       "charlesgoh": 31,
       "wangyiming1019": 9,
       "-": 85
-    },
-    "binaryFileAuthors": []
+    }
   },
   {
     "path": "src/main/java/seedu/address/ui/StatusBarFooter.java",
@@ -69162,8 +69074,7 @@
     "authorContributionMap": {
       "charlesgoh": 9,
       "-": 80
-    },
-    "binaryFileAuthors": []
+    }
   },
   {
     "path": "src/main/java/seedu/address/ui/TaskCard.java",
@@ -69705,8 +69616,7 @@
     ],
     "authorContributionMap": {
       "Esilocke": 76
-    },
-    "binaryFileAuthors": []
+    }
   },
   {
     "path": "src/main/java/seedu/address/ui/TaskListPanel.java",
@@ -70332,8 +70242,7 @@
     ],
     "authorContributionMap": {
       "Esilocke": 88
-    },
-    "binaryFileAuthors": []
+    }
   },
   {
     "path": "src/main/java/seedu/address/ui/Ui.java",
@@ -70470,8 +70379,7 @@
     "authorContributionMap": {
       "jeffreygohkw": 2,
       "-": 16
-    },
-    "binaryFileAuthors": []
+    }
   },
   {
     "path": "src/main/java/seedu/address/ui/UiManager.java",
@@ -71358,8 +71266,7 @@
       "charlesgoh": 1,
       "jeffreygohkw": 4,
       "-": 120
-    },
-    "binaryFileAuthors": []
+    }
   },
   {
     "path": "src/test/java/seedu/address/commons/util/AppUtilTest.java",
@@ -71699,8 +71606,7 @@
     "authorContributionMap": {
       "charlesgoh": 1,
       "-": 46
-    },
-    "binaryFileAuthors": []
+    }
   },
   {
     "path": "src/test/java/seedu/address/logic/commands/AddCommandTest.java",
@@ -73750,8 +73656,7 @@
       "Esilocke": 102,
       "wangyiming1019": 24,
       "-": 161
-    },
-    "binaryFileAuthors": []
+    }
   },
   {
     "path": "src/test/java/seedu/address/logic/commands/AddTagCommandTest.java",
@@ -74818,8 +74723,7 @@
     ],
     "authorContributionMap": {
       "wangyiming1019": 151
-    },
-    "binaryFileAuthors": []
+    }
   },
   {
     "path": "src/test/java/seedu/address/logic/commands/ChangePrivacyCommandTest.java",
@@ -75725,8 +75629,7 @@
     ],
     "authorContributionMap": {
       "jeffreygohkw": 128
-    },
-    "binaryFileAuthors": []
+    }
   },
   {
     "path": "src/test/java/seedu/address/logic/commands/ClearCommandTest.java",
@@ -76010,8 +75913,7 @@
     "authorContributionMap": {
       "Esilocke": 5,
       "-": 34
-    },
-    "binaryFileAuthors": []
+    }
   },
   {
     "path": "src/test/java/seedu/address/logic/commands/CommandTestUtil.java",
@@ -77404,8 +77306,7 @@
       "Esilocke": 34,
       "wangyiming1019": 15,
       "-": 129
-    },
-    "binaryFileAuthors": []
+    }
   },
   {
     "path": "src/test/java/seedu/address/logic/commands/DeleteCommandTest.java",
@@ -78249,8 +78150,7 @@
     "authorContributionMap": {
       "Esilocke": 10,
       "-": 109
-    },
-    "binaryFileAuthors": []
+    }
   },
   {
     "path": "src/test/java/seedu/address/logic/commands/DeleteTagCommandTest.java",
@@ -79408,8 +79308,7 @@
     ],
     "authorContributionMap": {
       "wangyiming1019": 164
-    },
-    "binaryFileAuthors": []
+    }
   },
   {
     "path": "src/test/java/seedu/address/logic/commands/EditCommandTest.java",
@@ -81030,8 +80929,7 @@
     "authorContributionMap": {
       "jeffreygohkw": 47,
       "-": 183
-    },
-    "binaryFileAuthors": []
+    }
   },
   {
     "path": "src/test/java/seedu/address/logic/commands/EditTagCommandTest.java",
@@ -81825,8 +81723,7 @@
     ],
     "authorContributionMap": {
       "Esilocke": 112
-    },
-    "binaryFileAuthors": []
+    }
   },
   {
     "path": "src/test/java/seedu/address/logic/commands/EditTaskDescriptorTest.java",
@@ -82214,8 +82111,7 @@
     ],
     "authorContributionMap": {
       "Esilocke": 54
-    },
-    "binaryFileAuthors": []
+    }
   },
   {
     "path": "src/test/java/seedu/address/logic/commands/FavouriteCommandTest.java",
@@ -82764,8 +82660,7 @@
     ],
     "authorContributionMap": {
       "wangyiming1019": 77
-    },
-    "binaryFileAuthors": []
+    }
   },
   {
     "path": "src/test/java/seedu/address/logic/commands/FavouriteListCommandTest.java",
@@ -83097,8 +82992,7 @@
     ],
     "authorContributionMap": {
       "wangyiming1019": 46
-    },
-    "binaryFileAuthors": []
+    }
   },
   {
     "path": "src/test/java/seedu/address/logic/commands/FindTagCommandTest.java",
@@ -83878,8 +83772,7 @@
     ],
     "authorContributionMap": {
       "wangyiming1019": 110
-    },
-    "binaryFileAuthors": []
+    }
   },
   {
     "path": "src/test/java/seedu/address/logic/commands/LocateCommandTest.java",
@@ -84883,8 +84776,7 @@
     ],
     "authorContributionMap": {
       "jeffreygohkw": 142
-    },
-    "binaryFileAuthors": []
+    }
   },
   {
     "path": "src/test/java/seedu/address/logic/commands/RedoCommandTest.java",
@@ -85287,8 +85179,7 @@
     "authorContributionMap": {
       "Esilocke": 3,
       "-": 53
-    },
-    "binaryFileAuthors": []
+    }
   },
   {
     "path": "src/test/java/seedu/address/logic/commands/UnFavouriteCommandTest.java",
@@ -85837,8 +85728,7 @@
     ],
     "authorContributionMap": {
       "wangyiming1019": 77
-    },
-    "binaryFileAuthors": []
+    }
   },
   {
     "path": "src/test/java/seedu/address/logic/commands/UndoCommandTest.java",
@@ -86255,8 +86145,7 @@
     "authorContributionMap": {
       "Esilocke": 3,
       "-": 55
-    },
-    "binaryFileAuthors": []
+    }
   },
   {
     "path": "src/test/java/seedu/address/logic/parser/AddCommandParserTest.java",
@@ -87920,8 +87809,7 @@
       "charlesgoh": 33,
       "Esilocke": 89,
       "-": 114
-    },
-    "binaryFileAuthors": []
+    }
   },
   {
     "path": "src/test/java/seedu/address/logic/parser/AddTagCommandParserTest.java",
@@ -88337,8 +88225,7 @@
     ],
     "authorContributionMap": {
       "wangyiming1019": 58
-    },
-    "binaryFileAuthors": []
+    }
   },
   {
     "path": "src/test/java/seedu/address/logic/parser/AddressBookParserTest.java",
@@ -90571,8 +90458,7 @@
       "Esilocke": 3,
       "wangyiming1019": 89,
       "-": 136
-    },
-    "binaryFileAuthors": []
+    }
   },
   {
     "path": "src/test/java/seedu/address/logic/parser/ChangePrivacyCommandParserTest.java",
@@ -91793,8 +91679,7 @@
     ],
     "authorContributionMap": {
       "jeffreygohkw": 173
-    },
-    "binaryFileAuthors": []
+    }
   },
   {
     "path": "src/test/java/seedu/address/logic/parser/DeleteCommandParserTest.java",
@@ -92169,8 +92054,7 @@
     "authorContributionMap": {
       "Esilocke": 23,
       "-": 29
-    },
-    "binaryFileAuthors": []
+    }
   },
   {
     "path": "src/test/java/seedu/address/logic/parser/DeleteTagCommandParserTest.java",
@@ -92635,8 +92519,7 @@
     ],
     "authorContributionMap": {
       "wangyiming1019": 65
-    },
-    "binaryFileAuthors": []
+    }
   },
   {
     "path": "src/test/java/seedu/address/logic/parser/EditTagCommandParserTest.java",
@@ -93017,8 +92900,7 @@
     ],
     "authorContributionMap": {
       "Esilocke": 53
-    },
-    "binaryFileAuthors": []
+    }
   },
   {
     "path": "src/test/java/seedu/address/logic/parser/FavouriteCommandParserTest.java",
@@ -93210,8 +93092,7 @@
     ],
     "authorContributionMap": {
       "wangyiming1019": 26
-    },
-    "binaryFileAuthors": []
+    }
   },
   {
     "path": "src/test/java/seedu/address/logic/parser/FindTagCommandParserTest.java",
@@ -93487,8 +93368,7 @@
     ],
     "authorContributionMap": {
       "wangyiming1019": 38
-    },
-    "binaryFileAuthors": []
+    }
   },
   {
     "path": "src/test/java/seedu/address/logic/parser/LocateCommandParserTest.java",
@@ -93701,8 +93581,7 @@
     ],
     "authorContributionMap": {
       "jeffreygohkw": 29
-    },
-    "binaryFileAuthors": []
+    }
   },
   {
     "path": "src/test/java/seedu/address/logic/parser/SortCommandParserTest.java",
@@ -94412,8 +94291,7 @@
     ],
     "authorContributionMap": {
       "jeffreygohkw": 100
-    },
-    "binaryFileAuthors": []
+    }
   },
   {
     "path": "src/test/java/seedu/address/logic/parser/UnfavouriteCommandParserTest.java",
@@ -94605,8 +94483,7 @@
     ],
     "authorContributionMap": {
       "wangyiming1019": 26
-    },
-    "binaryFileAuthors": []
+    }
   },
   {
     "path": "src/test/java/seedu/address/model/AddressBookTest.java",
@@ -96137,8 +96014,7 @@
       "charlesgoh": 114,
       "Esilocke": 8,
       "-": 95
-    },
-    "binaryFileAuthors": []
+    }
   },
   {
     "path": "src/test/java/seedu/address/model/person/AddressTest.java",
@@ -96359,8 +96235,7 @@
     "authorContributionMap": {
       "jeffreygohkw": 9,
       "-": 21
-    },
-    "binaryFileAuthors": []
+    }
   },
   {
     "path": "src/test/java/seedu/address/model/person/EmailTest.java",
@@ -96714,8 +96589,7 @@
     "authorContributionMap": {
       "jeffreygohkw": 9,
       "-": 40
-    },
-    "binaryFileAuthors": []
+    }
   },
   {
     "path": "src/test/java/seedu/address/model/person/NameTest.java",
@@ -96971,8 +96845,7 @@
     "authorContributionMap": {
       "jeffreygohkw": 9,
       "-": 26
-    },
-    "binaryFileAuthors": []
+    }
   },
   {
     "path": "src/test/java/seedu/address/model/person/PhoneTest.java",
@@ -97221,8 +97094,7 @@
     "authorContributionMap": {
       "jeffreygohkw": 9,
       "-": 25
-    },
-    "binaryFileAuthors": []
+    }
   },
   {
     "path": "src/test/java/seedu/address/model/task/DeadlineTest.java",
@@ -97540,8 +97412,7 @@
     ],
     "authorContributionMap": {
       "Esilocke": 44
-    },
-    "binaryFileAuthors": []
+    }
   },
   {
     "path": "src/test/java/seedu/address/model/task/DescriptionTest.java",
@@ -97691,8 +97562,7 @@
     ],
     "authorContributionMap": {
       "Esilocke": 20
-    },
-    "binaryFileAuthors": []
+    }
   },
   {
     "path": "src/test/java/seedu/address/model/task/PriorityTest.java",
@@ -97863,8 +97733,7 @@
     ],
     "authorContributionMap": {
       "Esilocke": 23
-    },
-    "binaryFileAuthors": []
+    }
   },
   {
     "path": "src/test/java/seedu/address/model/task/TaskNameTest.java",
@@ -98021,8 +97890,7 @@
     ],
     "authorContributionMap": {
       "Esilocke": 21
-    },
-    "binaryFileAuthors": []
+    }
   },
   {
     "path": "src/test/java/seedu/address/testutil/EditPersonDescriptorBuilder.java",
@@ -98895,8 +98763,7 @@
       "charlesgoh": 13,
       "wangyiming1019": 8,
       "-": 102
-    },
-    "binaryFileAuthors": []
+    }
   },
   {
     "path": "src/test/java/seedu/address/testutil/EditTaskDescriptorBuilder.java",
@@ -99522,8 +99389,7 @@
     ],
     "authorContributionMap": {
       "Esilocke": 88
-    },
-    "binaryFileAuthors": []
+    }
   },
   {
     "path": "src/test/java/seedu/address/testutil/PersonBuilder.java",
@@ -100501,8 +100367,7 @@
       "charlesgoh": 13,
       "wangyiming1019": 12,
       "-": 113
-    },
-    "binaryFileAuthors": []
+    }
   },
   {
     "path": "src/test/java/seedu/address/testutil/PersonPrivacySettingsBuilder.java",
@@ -101142,8 +101007,7 @@
     ],
     "authorContributionMap": {
       "jeffreygohkw": 90
-    },
-    "binaryFileAuthors": []
+    }
   },
   {
     "path": "src/test/java/seedu/address/testutil/PersonUtil.java",
@@ -101434,8 +101298,7 @@
     "authorContributionMap": {
       "charlesgoh": 2,
       "-": 38
-    },
-    "binaryFileAuthors": []
+    }
   },
   {
     "path": "src/test/java/seedu/address/testutil/TaskBuilder.java",
@@ -102096,8 +101959,7 @@
     ],
     "authorContributionMap": {
       "Esilocke": 93
-    },
-    "binaryFileAuthors": []
+    }
   },
   {
     "path": "src/test/java/seedu/address/testutil/TypicalPersons.java",
@@ -102817,8 +102679,7 @@
       "Esilocke": 14,
       "wangyiming1019": 15,
       "-": 68
-    },
-    "binaryFileAuthors": []
+    }
   },
   {
     "path": "src/test/java/seedu/address/testutil/TypicalTasks.java",
@@ -103360,8 +103221,7 @@
     ],
     "authorContributionMap": {
       "Esilocke": 76
-    },
-    "binaryFileAuthors": []
+    }
   },
   {
     "path": "src/test/java/seedu/address/ui/BrowserPanelTest.java",
@@ -103820,8 +103680,7 @@
     "authorContributionMap": {
       "jeffreygohkw": 14,
       "-": 50
-    },
-    "binaryFileAuthors": []
+    }
   },
   {
     "path": "src/test/java/seedu/address/ui/StatusBarFooterTest.java",
@@ -104357,8 +104216,7 @@
     "authorContributionMap": {
       "charlesgoh": 3,
       "-": 72
-    },
-    "binaryFileAuthors": []
+    }
   },
   {
     "path": "src/test/java/seedu/address/ui/UiPartTest.java",
@@ -105083,8 +104941,7 @@
     "authorContributionMap": {
       "charlesgoh": 17,
       "-": 85
-    },
-    "binaryFileAuthors": []
+    }
   },
   {
     "path": "src/test/java/systemtests/AddCommandSystemTest.java",
@@ -106915,8 +106772,7 @@
     "authorContributionMap": {
       "charlesgoh": 36,
       "-": 224
-    },
-    "binaryFileAuthors": []
+    }
   },
   {
     "path": "src/test/java/systemtests/ClearCommandSystemTest.java",
@@ -107648,8 +107504,7 @@
     "authorContributionMap": {
       "Esilocke": 6,
       "-": 97
-    },
-    "binaryFileAuthors": []
+    }
   },
   {
     "path": "src/test/java/systemtests/EditCommandSystemTest.java",
@@ -109634,7 +109489,6 @@
     "authorContributionMap": {
       "charlesgoh": 14,
       "-": 268
-    },
-    "binaryFileAuthors": []
+    }
   }
 ]
