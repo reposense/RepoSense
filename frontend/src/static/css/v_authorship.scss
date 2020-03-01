@@ -121,14 +121,14 @@
     }
 
     .title {
-      background-color: #fafbfc;
+      background-color: mui-color('grey', '75');
       border: 1px solid mui-color('grey', '400');
       border-top-left-radius: 4px;
       border-top-right-radius: 4px;
       font-size: 1.25rem;
       font-weight: bold;
       margin-top: 1rem;
-      padding: 0 .5em;
+      padding: .3em .5em;
 
       .path {
         cursor: pointer;
