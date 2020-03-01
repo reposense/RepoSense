@@ -1,0 +1,203 @@
+#summary
+  form.summary-picker.mui-form--inline(onsubmit="return false;")
+    .summary-picker__section
+      .mui-textfield.search_box
+        input.summary-picker__search(type="text", v-on:change="updateFilterSearch", v-model="filterSearch")
+        label search
+        button.mui-btn.mui-btn--raised(type="button", v-on:click.prevent="resetFilterSearch") x
+      .mui-select.grouping
+        select(v-model="filterGroupSelection")
+          option(value="groupByNone") None
+          option(value="groupByRepos") Repo/Branch
+          option(value="groupByAuthors") Author
+        label group by
+      .mui-select.sort-group
+        select(v-model="sortGroupSelection")
+          option(value="groupTitle") &uarr; group title
+          option(value="groupTitle dsc") &darr; group title
+          option(value="totalCommits") &uarr; contribution
+          option(value="totalCommits dsc") &darr; contribution
+          option(value="variance") &uarr; variance
+          option(value="variance dsc") &darr; variance
+        label sort groups by
+      .mui-select.sort-within-group
+        select(
+          v-model="sortWithinGroupSelection",
+          v-bind:disabled="filterGroupSelection === 'groupByNone' || isMergeGroup"
+        )
+          option(value="title") &uarr; title
+          option(value="title dsc") &darr; title
+          option(value="totalCommits") &uarr; contribution
+          option(value="totalCommits dsc") &darr; contribution
+          option(value="variance") &uarr; variance
+          option(value="variance dsc") &darr; variance
+        label sort within groups by
+      .mui-select
+        select(v-model="filterTimeFrame")
+          option(value="commit") Commit
+          option(value="day") Day
+          option(value="week") Week
+        label granularity
+      .mui-textfield.summary-picker__date
+        input(v-if="isSafariBrowser", type="text", placeholder="yyyy-mm-dd",
+          v-bind:value="filterSinceDate", v-on:keyup.enter="updateTmpFilterSinceDate",
+          onkeydown="formatInputDateOnKeyDown(event)", oninput="appendDashInputDate(event)", maxlength=10)
+        input(v-else, type="date", v-bind:value="filterSinceDate", v-on:input="updateTmpFilterSinceDate",
+          onkeydown="return false", v-bind:min="minDate", v-bind:max="filterUntilDate")
+        label since
+      .mui-textfield.summary-picker__date
+        input(v-if="isSafariBrowser", type="text", placeholder="yyyy-mm-dd",
+          v-bind:value="filterUntilDate", v-on:keyup.enter="updateTmpFilterUntilDate",
+          onkeydown="formatInputDateOnKeyDown(event)", oninput="appendDashInputDate(event)", maxlength=10)
+        input(v-else, type="date", v-bind:value="filterUntilDate", v-on:input="updateTmpFilterUntilDate",
+          onkeydown="return false", v-bind:min="filterSinceDate", v-bind:max="maxDate")
+        label until
+      .mui-textfield.summary-picker__date
+        a(v-on:click="resetDateRange") Reset date range
+      .summary-picker__checkboxes.summary-picker__section
+        label
+          input.mui-checkbox.summary-picker__checkbox(type="checkbox", v-model="filterBreakdown",
+            v-on:change="setSummaryHash()")
+          span breakdown by file type
+        label.merge-group(
+          v-bind:style="filterGroupSelection === 'groupByNone' ? { opacity:0.5 } : { opacity:1.0 }"
+        )
+          input.summary-picker__checkbox.mui-checkbox(
+            type="checkbox",
+            v-model="isMergeGroup",
+            v-bind:disabled="filterGroupSelection === 'groupByNone'"
+          )
+          span merge group
+  .error-message-box(v-if="Object.entries(errorMessages).length")
+    .error-message-box__close-button(onclick="dismissTab(this)") &times;
+    .error-message-box__message The following issues occurred when analyzing the following repositories:
+    .error-message-box__failed-repo(v-for="errorBlock in errorMessages")
+      i.fas.fa-exclamation.mini-font
+      span.error-message-box__failed-repo--name {{ errorBlock.repoName }}
+      .error-message-box__failed-repo--reason(
+        v-if="errorBlock.errorMessage.startsWith('Unexpected error stack trace')"
+      )
+        span Oops, an unexpected error occurred. If this is due to a problem in RepoSense, please report in&nbsp;
+        a(
+          v-bind:href="getReportIssueGitHubLink(errorBlock.errorMessage)", target="_blank"
+        )
+          strong our issue tracker&nbsp;
+        span or email us at&nbsp;
+        a(
+          v-bind:href="getReportIssueEmailLink(errorBlock.errorMessage)"
+        )
+          span {{ getReportIssueEmailAddress() }}
+      .error-message-box__failed-repo--reason(v-else) {{ errorBlock.errorMessage }}
+  #summary-charts
+    .summary-charts(v-for="(repo, i) in filteredRepos")
+      .summary-charts__title(v-if="filterGroupSelection === 'groupByRepos'")
+        .summary-charts__title--index {{ i+1 }}
+        .summary-charts__title--repo {{ repo[0].repoName }}
+        .summary-charts__title--contribution.mini-font(
+          title="Total contribution of group"
+        ) [{{ getGroupTotalContribution(repo) }} lines]
+        template(v-if="isMergeGroup")
+          a(
+            v-bind:href="getRepoLink(repo[0])", target="_blank",
+            title="click to view group's repo"
+          )
+            i.icon-button.fab.fa-github
+        .summary-charts__title--percentile.mini-font {{ getPercentile(i) }} %
+      .summary-charts__title(
+        v-if="filterGroupSelection === 'groupByAuthors'",
+        v-bind:class="{ warn: repo[0].name === '-' }"
+      )
+        .summary-charts__title--index {{ i+1 }}
+        .summary-charts__title--repo {{ repo[0].displayName }} ({{ repo[0].name }})
+        .summary-charts__title--contribution.mini-font(
+          title="Total contribution of group"
+        ) [{{ getGroupTotalContribution(repo) }} lines]
+        template(v-if="isMergeGroup")
+          a(
+            v-bind:href="getAuthorProfileLink(repo[0].name)", target="_blank",
+            title="click to view author's profile"
+          )
+            i.icon-button.fab.fa-github
+        .summary-charts__title--percentile.mini-font {{ getPercentile(i) }} %
+      .summary-charts__fileType--breakdown(v-if="filterBreakdown")
+        template(v-if="filterGroupSelection === 'groupByRepos'")
+          .summary-charts__fileType--breakdown__legend(
+            v-for="fileType in getFileTypes(repo)")
+            i.fas.fa-circle(
+              v-bind:style="{ 'color' : contributionBarFileTypeColors[fileType] }"
+            )
+            span &nbsp; {{ fileType }} &nbsp;
+        template(v-else)
+          .summary-charts__fileType--breakdown__legend(
+            v-for="fileType in Object.keys(contributionBarFileTypeColors)")
+            i.fas.fa-circle(
+              v-bind:style="{ 'color' : contributionBarFileTypeColors[fileType] }"
+            )
+            span &nbsp; {{ fileType }} &nbsp;
+      .summary-chart(v-for="(user, i) in repo")
+        .summary-chart__title(v-if="!isMergeGroup")
+          .summary-chart__title--index {{ i+1 }}
+          .summary-chart__title--repo(v-if="filterGroupSelection === 'groupByNone'") {{ user.repoName }}
+          .summary-chart__title--author-repo(v-if="filterGroupSelection === 'groupByAuthors'") {{ user.repoName }}
+          .summary-chart__title--name(
+            v-if="filterGroupSelection !== 'groupByAuthors'",
+            v-bind:class="{ warn: user.name === '-' }"
+          ) {{ user.displayName }} ({{ user.name }})
+          .summary-chart__title--contribution.mini-font [{{ user.totalCommits }} lines]
+          a(
+            title="click to view author's code",
+            onclick="deactivateAllOverlays()",
+            v-on:click="openTabAuthorship(user, repo, i)"
+          )
+            i.icon-button.fas.fa-code
+          a(
+            v-bind:href="getRepoLink(repo[i])", target="_blank",
+            title="click to view author's repo"
+          )
+            i.icon-button.fab.fa-github
+          a(
+            title="click to view breakdown of commits",
+            onclick="deactivateAllOverlays()",
+            v-on:click="openTabZoom(user, filterSinceDate, filterUntilDate, repo, i)"
+          )
+            i.icon-button.fas.fa-list-ul
+          .summary-chart__title--percentile.mini-font(
+            v-if="filterGroupSelection === 'groupByNone'"
+          ) {{ getPercentile(i) }} %
+
+        .summary-chart__ramp(
+          onclick="viewClick(event)",
+          v-on:click="openTabZoomSubrange(user, repo, i)"
+        )
+          v_ramp(
+            v-bind:groupby="filterGroupSelection",
+            v-bind:user="user",
+            v-bind:tframe="filterTimeFrame",
+            v-bind:sdate="filterSinceDate",
+            v-bind:udate="filterUntilDate",
+            v-bind:avgsize="avgCommitSize",
+            v-bind:mergegroup="isMergeGroup")
+          .overlay
+
+        .summary-chart__contribution
+          template(v-if="filterBreakdown")
+            .summary-chart__contrib(
+              v-for="(widths, fileType) in getFileTypeContributionBars(user.fileTypeContribution)"
+            )
+              .summary-chart__contrib--bar(
+                v-for="width in widths",
+                v-bind:style="{ width: width + '%',\
+                  'background-color': contributionBarFileTypeColors[fileType] }",
+                v-bind:title="fileType + ': ' + user.fileTypeContribution[fileType] + ' lines, '\
+                  + 'total: ' + user.totalCommits + ' lines ' + '(contribution from ' + minDate + ' to '\
+                  + maxDate + ')'"
+              )
+          template(v-else)
+            .summary-chart__contrib(
+              v-bind:title="'Total contribution from ' + minDate + ' to ' + maxDate + ': '\
+                + user.totalCommits + ' lines'"
+            )
+              .summary-chart__contrib--bar(
+                v-for="width in getContributionBars(user.totalCommits)",
+                v-bind:style="{ width: width+'%' }"
+              )

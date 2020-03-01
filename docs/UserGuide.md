@@ -104,6 +104,8 @@ The `Commits Panel` allows users to see the commits attributed to a specific aut
 
 * The `Commits Panel` shows the commits that contain author's contributions.
 * The commits can be sorted by the date it was committed or by LoC.
+* The tags of the commits will also be displayed on top, if any.
+* Clicking on a tag will direct you to the commit having that particular tag.
 * The date range for the `Chart Panel` can be updated by clicking on the "Show ramp chart for this period" below the name of the author.
 * The ramp slices displayed in the ramp chart for the `Commits Panel` represents individual commits.
 * The commit messages body can be expanded or collapsed by clicking on the `...` icon beside each commit message title.
@@ -120,14 +122,12 @@ The `Tool Bar` at the top provides a set of configuration options that control t
   * `Author` : results will be grouped by the name of the author. Contributions made to multiple repositories by a particular author will be grouped under the author.
 * `Sort groups by`: sorting criteria for the main group. See note [1] below.
   * `Group title` : groups will be sorted by the title of the group (in bold text) in alphabetical order.
-  * `Repo/branch` : groups will be sorted in alphabetical order by the name of the repo, followed by name of the branch. See note [2] below.
   * `Contribution` : groups will be sorted by the combined contributions within a group, in the order of number of lines added
-  * `Variance` : groups will be sorted by the average of the squared differences from the average number of lines of code contributed per day among all authors involved. Detailed definition of variance is located [here](https://en.wikipedia.org/wiki/Variance).
+  * `Variance` : groups will be sorted by how far the daily contributions are spread out from their average value among all authors involved. Detailed definition of variance is located [here](https://en.wikipedia.org/wiki/Variance).
 * `Sort within groups by`: sorting criteria within each group
-  * `Title` : each sub-group will be sorted by it's title in alphabetical order.
-  * `Repo/branch` : each sub-group will be sorted in alphabetical order by the name of the repo, followed by name of the branch. See note [2] below.
-  * `Contribution` : each sub-group will be sorted by individual contributions in the order of number of lines added
-  * `Variance` : each sub-group will be sorted by the average of the squared differences from the average number of lines of code contributed per day by each author into a particular repo. Detailed definition of variance is located [here](https://en.wikipedia.org/wiki/Variance).
+  * `Title` : each group will be internally sorted by it's title in alphabetical order.
+  * `Contribution` : each group will be internally sorted by individual contributions in the order of number of lines added
+  * `Variance` : each group will be internally sorted by how far the daily contributions are spread out from their average value by each author into a particular repo. Detailed definition of variance is located [here](https://en.wikipedia.org/wiki/Variance).
 * `Granularity` : the period of time for which commits are aggregated in the Ramp Chart.
     * `Commit`: each commit made is shown as one ramp
     * `Day`: commits within a day (commits made within 00:00 to 23:59) are shown as one ramp
@@ -308,7 +308,7 @@ Another, more powerful, way to customize the analysis is by using dedicated conf
 * **`--config, -c CONFIG_DIRECTORY`**: The directory in which you have the config files (`-c` as alias).<br>
   Example:`java -jar RepoSense.jar --config  ./my_configs` or `java -jar RepoSense.jar -c  ./my_configs`
 
-The directory used with the `--config` parameter should contain a `repo-config.csv` file and, optionally, an `author-config.csv` file, both of which are described in the sections below.
+The directory used with the `--config` parameter should contain a `repo-config.csv` file and, optionally, an `author-config.csv` file or `group-config.csv` file or both, all of which are described in the sections below.
 
 #### `repo-config.csv`
 
@@ -320,7 +320,7 @@ The directory used with the `--config` parameter should contain a `repo-config.c
 Here is an example:
 
 Repository's Location|Branch|File formats|Ignore Glob List|Ignore standalone config|Ignore Commits List|Ignore Authors List
----------------------|------|------------|----------------|------------------------|-------------------
+---------------------|------|------------|----------------|------------------------|-------------------|-------------------
 `https://github.com/foo/bar.git`|`master`|`override:java;css`|`test/**`|`yes`|`2fb6b9b2dd9fa40bf0f9815da2cb0ae8731436c7;c5a6dc774e22099cd9ddeb0faff1e75f9cf4f151`|`Alice`
 
 When using standalone config (if it is not ignored), it is possible to override specific values from the standalone config by prepending the entered value with `override:`.
@@ -360,8 +360,6 @@ Author's GitHub ID | GitHub username of the target author e.g., `JohnDoe`
 
 If `author-config.csv` is not given and the repo has not provide author details in a standalone config file, all the authors of the repositories within the date range specified (if any) will be analyzed.
 
-<hr>
-
 #### `group-config.csv`
 
 Optionally, you can provide a `group-config.csv`(which should be in the same directory as `repo-config.csv` file) to provide details on any custom groupings for files in specified repositories ([example](group-config.csv)). It should contain the following columns:
@@ -387,13 +385,14 @@ The simplest way to analyze multiple repos in one go is to use the `--repos` par
 * Format : `java -jar RepoSense.jar --repos REPO_LIST` <br>
 * Example: `java -jar RepoSense.jar --repos https://github.com/reposense/RepoSense.git c:/myRepose/foo/bar` analyzes the two specified repos (one remote, one local) and generates one report containing details of both.
 
-Alternatively, you can use csv config files to customize the analysis as before while specifying multiple repos to analyze.
-* `repo-config.csv`: Add additional rows for the extra repos ([example](repo-config.csv))
-* `author-config.csv`: Add one row for each author in each repo you want to analyze
+Alternatively, you can use csv config files to further customize the analysis:
+* `repo-config.csv`: Add a new row, to analyze a new repo ([example](repo-config.csv)).
+* `author-config.csv`: Add a new row, to specific the authors to analyze for the target repo(s) ([example](author-config.csv)).
+* `group-config.csv`: Add a new row, to customize the grouping of files for the target repo(s) ([example](group-config.csv)).
 
 ## Quickstart RepoSense with Netlify
 
-Using Netlify, and a fork of this repo allow you to quickly get started online and enjoy a real time RepoSense report on your target repository. Further instructions can be found in this [guide](UsingNetlifyGuide.md).
+To enjoy a real time RepoSense report on your target repositories, all you need is Netlify and a fork of this repo. Follow [this guide](UsingNetlifyGuide.md) to get started.
 
 ## Using Travis-CI to automate publishing of the report to GitHub Pages
 
