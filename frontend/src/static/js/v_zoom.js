@@ -1,3 +1,8 @@
+const commitSortDict = {
+  lineOfCode: (commit) => commit.insertions,
+  time: (commit) => commit.date,
+};
+
 window.vZoom = {
   props: ['info'],
   template: window.$('v_zoom').innerHTML,
@@ -6,9 +11,16 @@ window.vZoom = {
       filterTimeFrame: window.hashParams.timeframe,
       showAllCommitMessageBody: true,
       expandedCommitMessagesCount: this.totalCommitMessageBodyCount,
+      commitsSortType: 'time',
+      toReverseSortedCommits: true,
     };
   },
+
   computed: {
+    sortingFunction() {
+      return (a, b) => (this.toReverseSortedCommits ? -1 : 1)
+      * window.comparator(commitSortDict[this.commitsSortType])(a, b);
+    },
     filteredUser() {
       const { user } = this.info;
       const filteredUser = Object.assign({}, user);
@@ -16,7 +28,7 @@ window.vZoom = {
       const date = this.filterTimeFrame === 'week' ? 'endDate' : 'date';
       filteredUser.commits = user.commits.filter(
           (commit) => commit[date] >= this.info.sinceDate && commit[date] <= this.info.untilDate,
-      );
+      ).sort(this.sortingFunction);
 
       return filteredUser;
     },
@@ -24,7 +36,7 @@ window.vZoom = {
       let nonEmptyCommitMessageCount = 0;
       this.filteredUser.commits.forEach((commit) => {
         commit.commitResults.forEach((commitResult) => {
-          if (commitResult.messageBody !== '' && commitResult.insertions > 0) {
+          if (commitResult.messageBody !== '') {
             nonEmptyCommitMessageCount += 1;
           }
         });
@@ -45,10 +57,10 @@ window.vZoom = {
       return `${window.getBaseLink(this.info.user.repoId)}/commit/${slice.hash}`;
     },
 
-    scrollToCommit(commit) {
-      const el = this.$el.getElementsByClassName(commit)[0];
+    scrollToCommit(tag, commit) {
+      const el = this.$el.getElementsByClassName(`${commit} ${tag}`)[0];
       if (el) {
-        el.scrollIntoView();
+        el.focus();
       }
     },
 
