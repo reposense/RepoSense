@@ -193,7 +193,7 @@ header {
       z-index: z-index('center-divider');
 
       svg {
-        background-color: mui-color('grey');
+        background-color: mui-color('grey', '300');
         color: mui-color('black');
         padding: 3rem .25rem;
       }
