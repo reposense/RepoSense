@@ -5,10 +5,6 @@ REPO_OWNER=${REPO_SLUG_ARRAY[0]}
 REPO_NAME=${REPO_SLUG_ARRAY[1]}
 DEPLOY_PATH=./reposense-report
 
-# debugging purposes
-echo "Owner: ${REPO_OWNER}"
-echo "Repo: ${REPO_NAME}"
-
 DEPLOY_SUBDOMAIN_UNFORMATTED_LIST=()
 if [ "$TRAVIS_PULL_REQUEST" != "false" ]
 then
@@ -41,21 +37,21 @@ do
   # https://en.wikipedia.org/wiki/Domain_Name_System#Domain_name_syntax
   DEPLOY_SUBDOMAIN=$(echo "$DEPLOY_SUBDOMAIN_UNFORMATTED" | sed -r 's/[\/|\.]+/\-/g')
 
-  # skipping empty deploy subdomains
-  if [ -z "${DEPLOY_SUBDOMAIN// }" ]
+  if [ -z "${DEPLOY_SUBDOMAIN}" ] # empty deploy subdomains, skip deployment
   then
     continue
   fi
 
   DEPLOY_DOMAIN=https://${DEPLOY_SUBDOMAIN}-${REPO_NAME}-${REPO_OWNER}.surge.sh
-  echo "Deploy domain: ${DEPLOY_DOMAIN}"
+  echo "Deploy domain: ${DEPLOY_DOMAIN}" # debugging purposes
   surge --project ${DEPLOY_PATH} --domain $DEPLOY_DOMAIN;
-  if [ "$TRAVIS_PULL_REQUEST" != "false" ]
+
+  if [ "$TRAVIS_PULL_REQUEST" != "false" ] # only create github statuses when it is a PR
   then
     # Create github statuses that redirects users to the deployed link
     curl "https://api.github.com/repos/${REPO_OWNER}/${REPO_NAME}/statuses/${TRAVIS_PULL_REQUEST_SHA}?access_token=${GITHUB_API_TOKEN}" \
     -H "Content-Type: application/json" \
     -X POST \
-    -d "{\"state\": \"success\",\"context\": \"surge/deploy\", \"description\": \"Deploy domain: ${DEPLOY_DOMAIN}\", \"target_url\": \"${DEPLOY_DOMAIN}\"}"
+    -d "{\"state\": \"success\",\"context\": \"surge/deploy/${DEPLOY_SUBDOMAIN}\", \"description\": \"Deploy domain: ${DEPLOY_DOMAIN}\", \"target_url\": \"${DEPLOY_DOMAIN}\"}"
   fi
 done
