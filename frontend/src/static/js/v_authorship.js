@@ -170,23 +170,17 @@ window.vAuthorship = {
       let totalBlankLineCount = 0;
 
       files.forEach((file) => {
-        const lineCnt = file.authorContributionMap[this.info.author];
-
-        // skip if binary file not touched by author
-        if (file.isBinary
-          && !file.binaryFileAuthors.map((author) => author.gitId).includes(this.info.author)) {
+        // skip file not touched by author
+        if (!(this.info.author in file.authorContributionMap)) {
           return;
         }
 
-        // skip if non-binary file not touched by author
-        if (!lineCnt && !file.isBinary) {
-          return;
-        }
+        const lineCnt = file.authorContributionMap[this.info.author]; // equals 0 for binary files
 
         const out = {
           path: file.path,
           fileType: file.fileType,
-          lineCount: lineCnt || 0, // set to 0 for binary files
+          lineCount: lineCnt,
           isBinary: file.isBinary,
         };
 

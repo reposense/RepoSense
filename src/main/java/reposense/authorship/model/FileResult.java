@@ -2,9 +2,7 @@ package reposense.authorship.model;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 import reposense.model.Author;
 import reposense.model.FileType;
@@ -18,32 +16,24 @@ public class FileResult {
     private boolean isBinary;
     private final ArrayList<LineInfo> lines;
     private final HashMap<Author, Integer> authorContributionMap;
-    private final Set<Author> binaryFileAuthors;
 
     public FileResult(String path, FileType fileType, ArrayList<LineInfo> lines,
-            HashMap<Author, Integer> authorContributionMap, boolean isBinary, Set<Author> binaryFileAuthors) {
+            HashMap<Author, Integer> authorContributionMap, boolean isBinary) {
         this.path = path;
         this.fileType = fileType;
         this.lines = lines;
         this.authorContributionMap = authorContributionMap;
         this.isBinary = isBinary;
-        this.binaryFileAuthors = binaryFileAuthors;
-    }
-
-    public Set<Author> getBinaryFileAuthors() {
-        return binaryFileAuthors;
     }
 
     public static FileResult createNonBinaryFileResult(String path, FileType fileType, ArrayList<LineInfo> lines,
                                                        HashMap<Author, Integer> authorContributionMap) {
-        return new FileResult(path, fileType, lines, authorContributionMap, false, new HashSet<>());
+        return new FileResult(path, fileType, lines, authorContributionMap, false);
     }
 
-    /**
-     * Creates file result for binary files. Sets each author's contribution to the file equal 1.
-     */
-    public static FileResult createBinaryFileResult(String path, FileType fileType, Set<Author> binaryFileAuthors) {
-        return new FileResult(path, fileType, new ArrayList<>(), new HashMap<>(), true, binaryFileAuthors);
+    public static FileResult createBinaryFileResult(String path, FileType fileType, HashMap<Author,
+                                                    Integer> authorContributionMap) {
+        return new FileResult(path, fileType, new ArrayList<>(), authorContributionMap, true);
     }
 
     public boolean isBinary() {

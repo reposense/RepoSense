@@ -111,6 +111,8 @@ public class FileInfoAnalyzer {
     private static FileResult generateBinaryFileResult(RepoConfiguration config, FileInfo fileInfo) {
         String authorsString = GitLog.getBinaryFileAuthors(config, fileInfo.getPath());
         Set<Author> authors = new HashSet<>();
+        HashMap<Author, Integer> authorContributionMap = new HashMap<>();
+
         for (String authorString : authorsString.split("\n")) {
             if (authorString.isEmpty()) { // Empty string, means no author at all
                 return null;
@@ -121,7 +123,11 @@ public class FileInfoAnalyzer {
             authors.add(config.getAuthor(authorName, authorEmail));
         }
 
-        return FileResult.createBinaryFileResult(fileInfo.getPath(), fileInfo.getFileType(), authors);
+        for (Author author : authors) {
+            authorContributionMap.put(author, 0);
+        }
+
+        return FileResult.createBinaryFileResult(fileInfo.getPath(), fileInfo.getFileType(), authorContributionMap);
     }
 
     /**
