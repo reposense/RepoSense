@@ -243,7 +243,7 @@ window.vSummary = {
       const fileTypes = [];
       repo.forEach((user) => {
         Object.keys(user.fileTypeContribution).forEach((fileType) => {
-          if (!fileTypes.includes(fileType)) {
+          if (!fileTypes.includes(fileType) && user.fileTypeContribution[fileType] > 0) {
             fileTypes.push(fileType);
           }
         });
