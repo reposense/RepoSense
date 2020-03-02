@@ -4,10 +4,10 @@
 #tab-authorship {
 
   .file-content {
-    background-color: mui-color('github', 'background-color');
-    border: 1px solid mui-color('github', 'border-color');
+    background-color: mui-color('github', 'title-background');
+    border: solid mui-color('github', 'border');
     border-radius: 0 0 4px 4px;
-    border-top: 0;
+    border-width: 0 1px 1px 1px;
   }
 
   .title {
@@ -120,8 +120,8 @@
     }
 
     .title {
-      background-color: mui-color('github', 'background-color');
-      border: 1px solid mui-color('github', 'border-color');
+      background-color: mui-color('github', 'title-background');
+      border: 1px solid mui-color('github', 'border');
       border-radius: 4px 4px 0 0;
       font-size: 1.25rem;
       font-weight: bold;
@@ -148,7 +148,7 @@
       border-left: .25rem solid mui-color('green');
 
       .code {
-        background-color: mui-color('green', '50');
+        background-color: mui-color('github', 'author-code');
         padding-left: 1rem;
       }
 
