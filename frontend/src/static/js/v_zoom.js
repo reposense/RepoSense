@@ -36,7 +36,7 @@ window.vZoom = {
       let nonEmptyCommitMessageCount = 0;
       this.filteredUser.commits.forEach((commit) => {
         commit.commitResults.forEach((commitResult) => {
-          if (commitResult.messageBody !== '' && commitResult.insertions > 0) {
+          if (commitResult.messageBody !== '') {
             nonEmptyCommitMessageCount += 1;
           }
         });
@@ -57,10 +57,10 @@ window.vZoom = {
       return `${window.getBaseLink(this.info.user.repoId)}/commit/${slice.hash}`;
     },
 
-    scrollToCommit(commit) {
-      const el = this.$el.getElementsByClassName(commit)[0];
+    scrollToCommit(tag, commit) {
+      const el = this.$el.getElementsByClassName(`${commit} ${tag}`)[0];
       if (el) {
-        el.scrollIntoView();
+        el.focus();
       }
     },
 

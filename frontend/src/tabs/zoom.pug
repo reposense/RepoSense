@@ -1,17 +1,19 @@
 #zoom
   span.large-font Commits Panel
   .toolbar(v-if="filteredUser.commits.length")
-    a(v-if="expandedCommitMessagesCount === 0" v-on:click="toggleAllCommitMessagesBody(true)") show all commit messages
-    a(v-else v-on:click="toggleAllCommitMessagesBody(false)") hide all commit messages
+    a(v-if="expandedCommitMessagesCount === 0", v-on:click="toggleAllCommitMessagesBody(true)") show all commit messages
+    a(v-else, v-on:click="toggleAllCommitMessagesBody(false)") hide all commit messages
   .zoom__title
     .zoom_title--group.large-font
-      span(v-if="info.filterGroupSelection === 'groupByAuthors'") {{ filteredUser.displayName }} ({{ filteredUser.name }})
+      span(
+        v-if="info.filterGroupSelection === 'groupByAuthors'"
+      ) {{ filteredUser.displayName }} ({{ filteredUser.name }})
       a(
-          v-else,
-          v-bind:href="info.location", target="_blank",
-          v-bind:title="'Click to open the repo'"
-        )
-          span {{ filteredUser.repoName }}
+        v-else,
+        v-bind:href="info.location", target="_blank",
+        v-bind:title="'Click to open the repo'"
+      )
+        span {{ filteredUser.repoName }}
     .zoom__title--chart.medium-font(v-if="!info.isMergeGroup")
       span &#8627; &nbsp;
       span(v-if="info.filterGroupSelection === 'groupByAuthors'") {{ filteredUser.repoName }}
@@ -25,18 +27,21 @@
       template(v-for="commit in filteredUser.commits")
         template(v-for="commitResult in commit.commitResults")
           template(v-if="commitResult.tags")
-            .tag.mini-font(v-for="tag in commitResult.tags", v-on:click="scrollToCommit(`tag ${commitResult.hash}`)")
+            .tag.mini-font(
+              v-for="tag in commitResult.tags",
+              v-on:click="scrollToCommit(tag, `tag ${commitResult.hash}`)"
+            )
               i.fas.fa-tags
               span &nbsp;{{ tag }}
 
   v_ramp(
-      v-bind:groupby="info.filterGroupSelection",
-      v-bind:user="filteredUser",
-      v-bind:tframe="filterTimeFrame",
-      v-bind:sdate="info.sinceDate",
-      v-bind:udate="info.untilDate",
-      v-bind:avgsize="info.avgCommitSize",
-      v-bind:mergegroup="info.isMergeGroup")
+    v-bind:groupby="info.filterGroupSelection",
+    v-bind:user="filteredUser",
+    v-bind:tframe="filterTimeFrame",
+    v-bind:sdate="info.sinceDate",
+    v-bind:udate="info.untilDate",
+    v-bind:avgsize="info.avgCommitSize",
+    v-bind:mergegroup="info.isMergeGroup")
 
   .sorting.mui-form--inline
     .mui-select
@@ -50,29 +55,29 @@
         option(v-bind:value='false') Ascending
       label.medium-font order
 
-  .zoom__day(v-for="day in filteredUser.commits" v-bind:key="day.date")
-    template(v-if="day.insertions > 0")
-      h3(v-if="filterTimeFrame === 'week'") Week of {{ day.date }}
-      h3(v-else) {{ day.date }}
-      template
-        .commit-message(
-            v-for="slice in day.commitResults"
-            v-bind:key="slice.hash"
-            v-bind:class="{ 'message-body active': slice.messageBody !== '' }"
-          )
-          a(v-bind:href="getSliceLink(slice)" target="_blank") {{ slice.messageTitle }}
-          span &nbsp; ({{ slice.insertions }} lines) &nbsp;
-          template(v-if="slice.tags")
-            .tag.mini-font(v-for="tag in slice.tags", v-bind:class="[`${slice.hash}`]")
-              i.fas.fa-tags
-              span &nbsp;{{ tag }}
-          a(
-            v-if="slice.messageBody !== ''",
-            v-on:click="updateExpandedCommitMessagesCount",
-            onclick="toggleNext(this)",
-            title="Click to show/hide the commit message body"
-          )
-            i.commit-message--button.fas.fa-ellipsis-h
-          .body(v-if="slice.messageBody !== ''")
-            pre {{ slice.messageBody }}
-
+  .zoom__day(v-for="day in filteredUser.commits", v-bind:key="day.date")
+    h3(v-if="filterTimeFrame === 'week'") Week of {{ day.date }}
+    h3(v-else) {{ day.date }}
+    template
+      //- use tabindex to enable focus property on div
+      .commit-message(
+        tabindex="-1",
+        v-for="slice in day.commitResults",
+        v-bind:key="slice.hash",
+        v-bind:class="{ 'message-body active': slice.messageBody !== '' }"
+      )
+        a(v-bind:href="getSliceLink(slice)", target="_blank") {{ slice.messageTitle }}
+        span &nbsp; ({{ slice.insertions }} lines) &nbsp;
+        template(v-if="slice.tags", v-for="tag in slice.tags")
+          .tag.mini-font(tabindex="-1", v-bind:class="[`${slice.hash}`, tag]")
+            i.fas.fa-tags
+            span &nbsp;{{ tag }}
+        a(
+          v-if="slice.messageBody !== ''",
+          v-on:click="updateExpandedCommitMessagesCount",
+          onclick="toggleNext(this)",
+          title="Click to show/hide the commit message body"
+        )
+          i.commit-message--button.fas.fa-ellipsis-h
+        .body(v-if="slice.messageBody !== ''")
+          pre {{ slice.messageBody }}
