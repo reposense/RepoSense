@@ -142,7 +142,7 @@ public class FileInfoExtractorTest extends GitTestTemplate {
     }
 
     @Test
-    public void getFilesList_directoryWithBinaryFiles_success() {
+    public void getFilesList_repoWithBothBinaryAndNonBinaryFiles_success() {
         List<String> nonBinaryFilesList = Arrays.asList(
                 "binaryFileTest/nonBinaryFile.txt", "My Documents/wordToHtml.htm", "My Pictures/notPngPicture.png",
                 "My Documents/wordToHtml_files/colorschememapping.xml", "My Documents/wordToHtml_files/filelist.xml",
