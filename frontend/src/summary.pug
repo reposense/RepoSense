@@ -104,18 +104,17 @@
           title="Total contribution of group"
         ) [{{ getGroupTotalContribution(repo) }} lines]
         template(v-if="isMergeGroup")
-          template(v-if="filterGroupSelection === 'groupByRepos'")
-            a(
-              v-bind:href="getRepoLink(repo[0])", target="_blank",
-              title="click to view group's repo"
-            )
-              i.icon-button.fab.fa-github
-          template(v-else-if="filterGroupSelection === 'groupByAuthors'")
-            a(
-              v-bind:href="getAuthorProfileLink(repo[0].name)", target="_blank",
-              title="click to view author's profile"
-            )
-              i.icon-button.fab.fa-github
+          a(
+            v-if="filterGroupSelection === 'groupByRepos'",
+            v-bind:href="getRepoLink(repo[0])", target="_blank",
+            title="click to view group's repo"
+          )
+          a(
+            v-else-if="filterGroupSelection === 'groupByAuthors'",
+            v-bind:href="getAuthorProfileLink(repo[0].name)", target="_blank",
+            title="click to view author's profile"
+          )
+            i.icon-button.fab.fa-github
         .summary-charts__title--percentile.mini-font {{ getPercentile(i) }} %
       .summary-charts__fileType--breakdown(v-if="filterBreakdown")
         template(v-if="filterGroupSelection === 'groupByRepos'")
