@@ -1,6 +1,8 @@
 {
   "baseUrl": "",
-  "titlePrefix": "",
+  "faviconPath": "frontend/src/favicon.ico",
+  "theme": "dark",
+  "titlePrefix": "RepoSense",
   "ignore": [
     "_markbind/layouts/*",
     "_markbind/logs/*",

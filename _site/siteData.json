@@ -37,44 +37,6 @@
       "headingKeywords": {}
     },
     {
-      "header": "header.md",
-      "siteNav": "site-nav.md",
-      "src": "contents/topic1.md",
-      "title": "",
-      "layout": "default",
-      "headings": {
-        "topic-1": "Topic 1"
-      },
-      "headingKeywords": {}
-    },
-    {
-      "header": "header.md",
-      "siteNav": "site-nav.md",
-      "src": "contents/topic2.md",
-      "title": "",
-      "layout": "default",
-      "headings": {},
-      "headingKeywords": {}
-    },
-    {
-      "header": "header.md",
-      "siteNav": "site-nav.md",
-      "src": "contents/topic3a.md",
-      "title": "",
-      "layout": "default",
-      "headings": {},
-      "headingKeywords": {}
-    },
-    {
-      "header": "header.md",
-      "siteNav": "site-nav.md",
-      "src": "contents/topic3b.md",
-      "title": "",
-      "layout": "default",
-      "headings": {},
-      "headingKeywords": {}
-    },
-    {
       "src": "docs/Build.md",
       "title": "",
       "layout": "default",

@@ -1,7 +1,0 @@
-@function validate-map-key($map, $key) {
-  @if map-has-key($map, $key) == false {
-    @error 'Key `#{$key}` not found';
-    @return false;
-  }
-  @return true;
-}

@@ -1,5 +1,0 @@
-    public static final String MESSAGE_SUCCESS = "New Order added: %1$s";
-    public static final String MESSAGE_DUPLICATE_TASK = "This order already exists in the processing queue.";
-    public static final String MESSAGE_FULL_CAPACITY = "Kitchen is at full capacity. No available chef.";
-    public static final String MESSAGE_ALREADY_PROCESSED = "This order has already being processed.\n"
-            + "WARNING: DO NOT OVERWRTIE EXISTING Processed?, Cooked? TAGS.";
