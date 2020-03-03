@@ -1,0 +1,16 @@
+{
+    "extends": [
+        "../../.eslintrc.json"
+    ],
+    "globals": {
+        "Cypress": false,
+        "cy": false,
+        "describe": false,
+        "expect": false,
+        "it": false,
+        "beforeEach": false
+    },
+    "rules": {
+        "no-unused-expressions": "off"
+    }
+}

@@ -1,0 +1,214 @@
+/* Site navigation */
+
+#site-nav {
+    background: white;
+    display: block;
+    flex: 0 0 auto;
+    max-width: 300px;
+    padding: 0;
+    transition: 0.4s;
+    width: 300px;
+    -webkit-transition: 0.4s;
+}
+
+/*  Standard style order for links, see CSS2§5.11.3:
+    https://www.w3.org/TR/CSS2/selector.html#dynamic-pseudo-classes */
+.site-nav__a:link,
+.site-nav__a:visited,
+.site-nav__a:active {
+    color: #565656;
+    text-decoration: none;
+}
+
+.site-nav__a:hover {
+    color: #0076ff;
+}
+
+#site-nav a.current {
+    color: #0072ec;
+}
+
+#site-nav-btn {
+    background: transparent;
+    cursor: pointer;
+    display: block;
+    margin-top: 20px;
+    top: 0;
+    transition: 0.4s;
+    -webkit-transition: 0.4s;
+}
+
+#site-nav-btn-wrap {
+    background: white;
+    border-right: 1px solid lightgrey;
+    display: inline-block;
+    height: 100%;
+    left: 0;
+    opacity: 0;
+    overflow: hidden;
+    padding: 0 10px;
+    position: fixed;
+    transition: 0.4s;
+    width: 0;
+    z-index: 1;
+    -webkit-transition: 0.4s;
+}
+
+/* Navigation list */
+
+.site-nav-list {
+    list-style-type: none;
+}
+
+/* Navigation dropdown menu */
+
+.dropdown-btn {
+    background: white;
+    border: none;
+    color: #565656;
+    cursor: pointer;
+    display: block;
+    outline: none !important;
+    padding: 0;
+    text-align: left;
+    text-decoration: none;
+}
+
+.dropdown-btn:hover {
+    color: #0076ff;
+}
+
+.dropdown-btn-icon {
+    display: inline-block;
+    transition: 0.4s;
+    transform: rotate(0deg);
+    -webkit-transition: 0.4s;
+    -webkit-transform: rotate(0deg);
+}
+
+.rotate-icon {
+    color: #0076ff;
+    transform: rotate(-180deg);
+    -webkit-transform: rotate(-180deg);
+}
+
+.dropdown-container {
+    background: transparent;
+    max-height: 0;
+    overflow: hidden;
+    padding-left: 8px;
+    transition: max-height 0.15s ease-out;
+    -webkit-transition: max-height 0.15s ease-out;
+}
+
+.dropdown-container-open {
+    max-height: 1000px;
+    transition: max-height 0.25s ease-in;
+    -webkit-transition: max-height 0.25s ease-in;
+}
+
+/* Hamburger button */
+
+.menu-top-bar,
+.menu-middle-bar,
+.menu-bottom-bar {
+    background-color: darkslategrey;
+    height: 4px;
+    margin: 5px 10%;
+    transition: 0.4s;
+    width: 28px;
+    -webkit-transition: 0.4s;
+}
+
+/* Hamburger button shifting to close button */
+
+.shift .menu-top-bar {
+    background-color: white;
+    transform: rotate(45deg) translate(6px, 6px);
+    -webkit-transform: rotate(45deg) translate(6px, 6px);
+}
+
+.shift .menu-middle-bar {
+    opacity: 0;
+}
+
+.shift .menu-bottom-bar {
+    background-color: white;
+    transform: rotate(-45deg) translate(7px, -7px);
+    -webkit-transform: rotate(-45deg) translate(7px, -7px);
+}
+
+/* Responsive site navigation */
+
+/* Bootstrap medium(md) responsive breakpoint */
+@media screen and (max-width: 991.98px) {
+    #site-nav {
+        border: none;
+        opacity: 0;
+        padding-right: 0;
+        width: 0;
+    }
+
+    #site-nav-btn-wrap {
+        max-height: calc(100vh - 50px);
+        opacity: 1;
+        width: 60px;
+    }
+
+    footer {
+        margin-left: 60px;
+    }
+
+    /* Site navigation open button toggle */
+
+    #site-nav.open {
+        border-right: 1px solid lightgrey;
+        height: 100%;
+        max-height: calc(100vh - 50px);
+        opacity: 1;
+        overflow: auto;
+        padding-bottom: 40px;
+        width: 300px;
+    }
+
+    #site-nav-btn-wrap.open {
+        background-color: darkslategrey;
+        border: none;
+        margin-left: 300px;
+    }
+}
+
+/* Bootstrap extra small(xs) responsive breakpoint */
+@media screen and (max-width: 575.98px) {
+    #site-nav {
+        padding-right: 0;
+    }
+
+    #site-nav-btn-wrap {
+        padding: 0;
+        width: 0;
+    }
+
+    footer {
+        margin-left: 0;
+    }
+
+    /* Site navigation open button toggle */
+
+    #site-nav.open {
+        border: none;
+        width: 0;
+    }
+
+    #site-nav-btn-wrap.open {
+        margin-left: 0;
+    }
+}
+
+/* Hide site navigation when printing */
+@media print {
+    #site-nav {
+        border: none;
+        display: none;
+    }
+}

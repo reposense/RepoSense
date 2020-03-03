@@ -1,0 +1,40 @@
+{
+	"ignoreGlobList": ["**.adoc", "collate**"],
+	"formats": ["gradle", "jade", "java", "js", "md", "scss", "yml"],
+	"ignoreCommitList": ["7b96c563eb2d3612aa5275364333664a18f01491",
+		"90018e49f129ce7e0abdc8b18e91c9813588c601",
+		"b8dbc3cf3c7c334665a828cf4236dcb442228c94",
+		"832dd728bbfa203d92e4548325d64d5a151c013f",
+		"503c43ed1c90e8dcb46173c8f7c8e62f9286acbf",
+		"14faede3d27097a74063fd407b210f8a5f7e3de5"],
+	"authors":
+	[
+		{
+			"githubId": "AdityaA1998",
+			"displayName": "Aditya",
+			"authorNames": ["AdityaA1998"]
+		},
+		{
+			"githubId": "eugenepeh",
+			"displayName": "Eugene",
+			"authorNames": ["Eugene Peh"]
+		},
+		{
+			"githubId": "ongspxm",
+			"displayName": "Metta",
+			"authorNames": ["Metta Ong"]
+		},
+		{
+			"githubId": "yamidark",
+			"displayName": "Jun An",
+			"authorNames": ["Jun An"],
+			"ignoreGlobList": ["**.html", "**.jade"]
+		},
+		{
+			"githubId": "yong24s",
+			"displayName": "Yong Hao",
+			"authorNames": ["Yong Hao TENG"],
+			"ignoreGlobList": ["**.css", "**.html", "**.jade", "**.js"]
+		}
+	]
+}

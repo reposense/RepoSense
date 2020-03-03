@@ -28,6 +28,3 @@ We welcome pull requests. Please read the [contribution guidelines](docs/Process
 ## Acknowledgements
 The web previews of RepoSense is powered by Netlify.
 
-<a href="https://www.netlify.com">
-  <img src="https://www.netlify.com/img/global/badges/netlify-color-bg.svg"/>
-</a>

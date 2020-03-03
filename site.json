@@ -1,0 +1,34 @@
+{
+  "baseUrl": "",
+  "titlePrefix": "",
+  "ignore": [
+    "_markbind/layouts/*",
+    "_markbind/logs/*",
+    "_site/*",
+    "site.json",
+    "*.md",
+    "*.mbd",
+    "*.mbdf",
+    "*.njk",
+    ".git/*"
+  ],
+  "pages": [
+    {
+      "src": "index.md",
+      "title": "Landing Page"
+    },
+    {
+      "glob": "**/index.md"
+    },
+    {
+      "glob": "**/*.+(md|mbd)"
+    },
+    {
+      "glob": "**/*.+(md|mbd)",
+      "layout": "default"
+    }
+  ],
+  "deploy": {
+    "message": "Site Update."
+  }
+}

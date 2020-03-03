@@ -1,0 +1,221 @@
+{
+  "enableSearch": true,
+  "pages": [
+    {
+      "src": "index.md",
+      "title": "Landing Page",
+      "layout": "default",
+      "headings": {
+        "reposense": "RepoSense",
+        "documentations": "Documentations",
+        "about-us": "About Us",
+        "contributing": "Contributing",
+        "acknowledgements": "Acknowledgements"
+      },
+      "headingKeywords": {}
+    },
+    {
+      "src": "README.md",
+      "title": "",
+      "layout": "default",
+      "headings": {
+        "reposense": "RepoSense",
+        "documentations": "Documentations",
+        "about-us": "About Us",
+        "contributing": "Contributing",
+        "acknowledgements": "Acknowledgements"
+      },
+      "headingKeywords": {}
+    },
+    {
+      "src": "about.md",
+      "title": "",
+      "layout": "default",
+      "headings": {
+        "about": "About"
+      },
+      "headingKeywords": {}
+    },
+    {
+      "header": "header.md",
+      "siteNav": "site-nav.md",
+      "src": "contents/topic1.md",
+      "title": "",
+      "layout": "default",
+      "headings": {
+        "topic-1": "Topic 1"
+      },
+      "headingKeywords": {}
+    },
+    {
+      "header": "header.md",
+      "siteNav": "site-nav.md",
+      "src": "contents/topic2.md",
+      "title": "",
+      "layout": "default",
+      "headings": {},
+      "headingKeywords": {}
+    },
+    {
+      "header": "header.md",
+      "siteNav": "site-nav.md",
+      "src": "contents/topic3a.md",
+      "title": "",
+      "layout": "default",
+      "headings": {},
+      "headingKeywords": {}
+    },
+    {
+      "header": "header.md",
+      "siteNav": "site-nav.md",
+      "src": "contents/topic3b.md",
+      "title": "",
+      "layout": "default",
+      "headings": {},
+      "headingKeywords": {}
+    },
+    {
+      "src": "docs/Build.md",
+      "title": "",
+      "layout": "default",
+      "headings": {
+        "build-from-source": "Build from Source"
+      },
+      "headingKeywords": {}
+    },
+    {
+      "src": "docs/DeveloperGuide.md",
+      "title": "",
+      "layout": "default",
+      "headings": {
+        "reposense-developer-guide": "RepoSense - Developer Guide",
+        "setting-up": "Setting up",
+        "prerequisites": "Prerequisites",
+        "setting-up-the-project-in-your-computer-using-intellij": "Setting up the project in your computer using IntelliJ",
+        "verifying-the-setup": "Verifying the setup",
+        "configuring-the-java-coding-style": "Configuring the Java coding style",
+        "configuring-the-javascript-and-css-coding-style": "Configuring the JavaScript and CSS coding style",
+        "configuring-cypress-for-automated-front-end-testing": "Configuring Cypress for automated front-end testing",
+        "optional-using-vue-js-devtools-for-frontend-debugging-on-chrome": "(Optional) Using Vue.js devtools for frontend debugging on Chrome",
+        "before-writing-code": "Before writing code",
+        "building-and-running-reposense-from-code": "Building and running RepoSense from code",
+        "architecture": "Architecture",
+        "parser-configparser": "Parser(ConfigParser)",
+        "git": "Git",
+        "commitsreporter": "CommitsReporter",
+        "authorshipreporter": "AuthorshipReporter",
+        "reportgenerator-main": "ReportGenerator(Main)",
+        "system": "System",
+        "model": "Model",
+        "html-report": "HTML Report",
+        "report-architecture": "Report Architecture",
+        "javascript-files": "Javascript Files",
+        "json-report-files": "JSON Report Files",
+        "main-main-js": "Main (main.js)",
+        "data-loader-api-js": "Data loader (api.js)",
+        "summary-view-v-summary-js": "Summary View (v_summary.js)",
+        "authorship-view-v-authorship-js": "Authorship View (v_authorship.js)",
+        "zoom-view-v-zoom-js": "Zoom View (v_zoom.js)",
+        "ramp-view-v-ramp-js": "Ramp View (v_ramp.js)",
+        "segment-view-v-segment-js": "Segment View (v_segment.js)"
+      },
+      "headingKeywords": {}
+    },
+    {
+      "src": "docs/Process.md",
+      "title": "",
+      "layout": "default",
+      "headings": {
+        "process": "Process",
+        "how-to-contribute": "How to contribute"
+      },
+      "headingKeywords": {}
+    },
+    {
+      "src": "docs/PublishingGuide.md",
+      "title": "",
+      "layout": "default",
+      "headings": {
+        "using-travis-to-automate-publishing-of-your-report-to-github-pages": "Using Travis to automate publishing of your report to GitHub Pages",
+        "granting-write-access-to-reposense-for-publishing": "Granting write-access to RepoSense for publishing",
+        "keeping-your-site-up-to-date-with-your-code-contribution": "Keeping your site up-to-date with your code contribution",
+        "specifying-which-version-of-reposense-to-use": "Specifying which version of RepoSense to use",
+        "managing-your-configuration-files-with-the-help-of-collaborators": "Managing your configuration files with the help of collaborators"
+      },
+      "headingKeywords": {}
+    },
+    {
+      "src": "docs/Team.md",
+      "title": "",
+      "layout": "default",
+      "headings": {
+        "reposense-project-team": "RepoSense Project Team",
+        "current-team": "Current Team",
+        "damith-c-rajapakse": "Damith C. Rajapakse",
+        "peh-xian-bin-eugene": "Peh Xian Bin, Eugene",
+        "tan-jun-an": "Tan Jun An",
+        "ong-shu-peng": "Ong Shu Peng",
+        "teng-yong-hao": "Teng Yong Hao",
+        "wang-chao": "Wang Chao",
+        "james-pang-mun-wai": "James Pang Mun Wai",
+        "jin-minjia": "Jin Minjia",
+        "lee-jin-yao": "Lee Jin Yao",
+        "past-members": "Past Members",
+        "ma-tanghao": "Ma Tanghao",
+        "aditya-agarwal": "Aditya Agarwal",
+        "apoorva-ullas": "Apoorva Ullas",
+        "chelsey-ong-hee": "Chelsey Ong Hee",
+        "gilbert-emerson": "Gilbert Emerson",
+        "teo-ming-yi": "Teo Ming Yi"
+      },
+      "headingKeywords": {}
+    },
+    {
+      "src": "docs/UserGuide.md",
+      "title": "",
+      "layout": "default",
+      "headings": {
+        "reposense-user-guide": "RepoSense - User Guide",
+        "getting-started": "Getting Started",
+        "interpreting-the-report": "Interpreting the Report",
+        "chart-panel": "Chart Panel",
+        "code-panel": "Code Panel",
+        "commits-panel": "Commits Panel",
+        "tool-bar": "Tool Bar",
+        "configuring-a-repo-to-provide-additional-data-to-reposense": "Configuring a Repo to Provide Additional Data to RepoSense",
+        "provide-data-using-a-json-config-file": "Provide Data Using a json Config File",
+        "provide-data-using-author-tags": "Provide Data Using @@author Tags",
+        "customizing-the-analysis": "Customizing the Analysis",
+        "customize-using-command-line-parameters": "Customize Using Command Line Parameters",
+        "customize-using-csv-config-files": "Customize Using csv Config Files",
+        "analyzing-multiple-repos": "Analyzing Multiple Repos",
+        "quickstart-reposense-with-netlify": "Quickstart RepoSense with Netlify",
+        "using-travis-ci-to-automate-publishing-of-the-report-to-github-pages": "Using Travis-CI to automate publishing of the report to GitHub Pages",
+        "faq": "FAQ"
+      },
+      "headingKeywords": {}
+    },
+    {
+      "src": "docs/UsingCheckstyle.md",
+      "title": "",
+      "layout": "default",
+      "headings": {
+        "using-checkstyle-idea": "Using Checkstyle-IDEA",
+        "configuring-checkstyle-idea": "Configuring Checkstyle-IDEA",
+        "troubleshooting-checkstyle-idea": "Troubleshooting Checkstyle-IDEA"
+      },
+      "headingKeywords": {}
+    },
+    {
+      "src": "docs/UsingNetlifyGuide.md",
+      "title": "",
+      "layout": "default",
+      "headings": {
+        "using-reposense-with-netlify": "Using RepoSense with Netlify",
+        "continuous-deployment-using-netlify": "Continuous deployment using Netlify",
+        "if-you-wish-to-customize-using-config-files": "If you wish to customize using config files"
+      },
+      "headingKeywords": {}
+    }
+  ]
+}

@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="generator" content="MarkBind 2.11.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title></title>
+  <link rel="stylesheet" href="markbind/css/bootstrap.min.css">
+  <link rel="stylesheet" href="markbind/css/bootstrap-vue.min.css">
+  <link rel="stylesheet" href="markbind/fontawesome/css/all.min.css">
+  <link rel="stylesheet" href="markbind/glyphicons/css/bootstrap-glyphicons.min.css">
+  <link rel="stylesheet" href="markbind/css/octicons.css">
+  <link rel="stylesheet" href="markbind/css/github.min.css">
+  <link rel="stylesheet" href="markbind/css/markbind.css">
+  <link rel="stylesheet" href="markbind/layouts/default/styles.css">
+  <link rel="stylesheet" href="markbind/css/site-nav.css">
+</head>
+
+<body>
+  <div id="app">
+    <header>
+      <navbar placement="top" type="inverse" class="temp-navbar">
+        <a slot="brand" href="/index.html" title="Home" class="navbar-brand"><i class="far fa-file-image"></i></a>
+        <li><a href="/index.html" class="nav-link">HOME</a></li>
+        <li><a href="/about.html" class="nav-link">ABOUT</a></li>
+        <li slot="right">
+          <form class="navbar-form">
+            <searchbar :data="searchData" placeholder="Search" :on-hit="searchCallback" menu-align-right></searchbar>
+          </form>
+        </li>
+      </navbar>
+    </header>
+    <div id="flex-body">
+      <nav id="site-nav" class="navbar navbar-light bg-transparent">
+        <div class="border-right-grey nav-inner position-sticky slim-scroll">
+          <ul class="px-0 site-nav-list">
+            <li class="mt-2"><a href="/index.html" class="site-nav__a">Index</a></li>
+            <li class="mt-2"><a href="/README.html" class="site-nav__a current">README</a></li>
+            <li class="mt-2"><a href="/contents/topic1.html" class="site-nav__a">Topic 1</a></li>
+            <li class="mt-2"><a href="/contents/topic2.html" class="site-nav__a">Topic 2</a></li>
+            <li class="mt-2"><a href="/contents/topic3a.html" class="site-nav__a">Topic 3 A</a></li>
+            <li class="mt-2"><a href="/contents/topic3b.html" class="site-nav__a">Topic 3 B</a></li>
+            <li class="mt-2"><a href="/docs/Build.html" class="site-nav__a">Build</a></li>
+            <li class="mt-2"><a href="/docs/DeveloperGuide.html" class="site-nav__a">Developer Guide</a></li>
+            <li class="mt-2"><a href="/docs/Process.html" class="site-nav__a">Process</a></li>
+            <li class="mt-2"><a href="/docs/PublishingGuide.html" class="site-nav__a">Publishing Guide</a></li>
+            <li class="mt-2"><a href="/docs/Team.html" class="site-nav__a">Team</a></li>
+            <li class="mt-2"><a href="/docs/UserGuide.html" class="site-nav__a">User Guide</a></li>
+            <li class="mt-2"><a href="/docs/UsingCheckstyle.html" class="site-nav__a">Using Checkstyle</a></li>
+            <li class="mt-2"><a href="/docs/UsingNetlifyGuide.html" class="site-nav__a">Using Netlify Guide</a></li>
+          </ul>
+        </div>
+      </nav>
+      <div id="content-wrapper">
+        <h1 id="reposense">RepoSense<a class="fa fa-anchor" href="#reposense"></a></h1>
+        <p><a href="https://travis-ci.org/reposense/RepoSense"><a href="https://travis-ci.org/reposense/RepoSense.svg?branch=master" target="_self"><img src="https://travis-ci.org/reposense/RepoSense.svg?branch=master" alt class="img-fluid"></a></a>
+          <a href="https://ci.appveyor.com/project/eugenepeh/reposense/branch/master"><a href="https://ci.appveyor.com/api/projects/status/gsbkj5qby3pjd6nw/branch/master?svg=true" target="_self"><img src="https://ci.appveyor.com/api/projects/status/gsbkj5qby3pjd6nw/branch/master?svg=true" alt class="img-fluid"></a></a>
+          <a href="https://www.codacy.com/app/reposense/RepoSense?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=reposense/RepoSense&amp;utm_campaign=Badge_Grade"><a href="https://api.codacy.com/project/badge/Grade/08a3527378464ed4a5ad62e27f590d6a" target="_self"><img src="https://api.codacy.com/project/badge/Grade/08a3527378464ed4a5ad62e27f590d6a" alt class="img-fluid"></a></a>
+          <a href="https://reposense.netlify.com/"><a href="https://img.shields.io/badge/deploy-on_netlify-blue.svg" target="_self"><img src="https://img.shields.io/badge/deploy-on_netlify-blue.svg" alt class="img-fluid"></a></a>
+          <a href="http://codecov.io/github/reposense/RepoSense?branch=master"><a href="https://codecov.io/gh/reposense/RepoSense/branch/master/graphs/badge.svg?branch=master" target="_self"><img src="https://codecov.io/gh/reposense/RepoSense/branch/master/graphs/badge.svg?branch=master" alt class="img-fluid"></a></a>
+        </p>
+        <p>RepoSense is a contribution analysis tool for Git repositories. It generates a static HTML report including contribution information for each author in the repository. The features of the report includes:</p>
+        <ul>
+          <li>Visualization for contribution frequency</li>
+          <li>Visualization for contribution amount</li>
+          <li>Code review panel</li>
+          <li>Comparison of contribution between authors</li>
+          <li>Filtering and sorting of authors</li>
+        </ul>
+        <h2 id="documentations">Documentations<a class="fa fa-anchor" href="#documentations"></a></h2>
+        <ul>
+          <li><strong>User Guide</strong> <a href="https://github.com/reposense/RepoSense/blob/master/docs/UserGuide.md">[<strong>Current Build</strong>]</a> <a href="https://github.com/reposense/RepoSense/blob/release/docs/UserGuide.md">[<strong>Latest Release</strong>]</a></li>
+          <li><a href="/docs/DeveloperGuide.md"><strong>Developer Guide</strong></a></li>
+        </ul>
+        <h2 id="about-us">About Us<a class="fa fa-anchor" href="#about-us"></a></h2>
+        <p>RepoSense is a project based in the <a href="http://www.comp.nus.edu.sg/">National University of Singapore, School of Computing</a>, and is funded by a grant from <a href="http://www.cdtl.nus.edu.sg/">NUS Center for Development of Teaching and Learning</a>.</p>
+        <p>Our project team and the list of contributors are <a href="/docs/Team.md">here</a>.</p>
+        <h2 id="contributing">Contributing<a class="fa fa-anchor" href="#contributing"></a></h2>
+        <p>We welcome pull requests. Please read the <a href="/docs/Process.md#how-to-contribute-to-the-reposense-repository">contribution guidelines</a> before starting work on one.</p>
+        <h2 id="acknowledgements">Acknowledgements<a class="fa fa-anchor" href="#acknowledgements"></a></h2>
+        <p>The web previews of RepoSense is powered by Netlify.</p>
+      </div>
+    </div>
+    <footer>
+
+      <div class="text-center">
+        <small>[Generated by <a href="https://markbind.org/">MarkBind 2.11.0</a> on Tue, 03 Mar 2020 18:31:00 GMT]</small></div>
+    </footer>
+  </div>
+</body>
+<script src="markbind/js/vue.min.js"></script>
+<script src="markbind/js/vue-strap.min.js"></script>
+<script src="markbind/js/bootstrap-utility.min.js"></script>
+<script src="markbind/js/polyfill.min.js"></script>
+<script src="markbind/js/bootstrap-vue.min.js"></script>
+<script>
+  const baseUrl = ''
+  const enableSearch = true
+</script>
+<script src="markbind/js/setup.js"></script>
+<script src="markbind/layouts/default/scripts.js"></script>
+
+</html>
