@@ -1,6 +1,5 @@
 package reposense.git;
 
-import java.io.IOException;
 import java.lang.reflect.Method;
 import java.util.Arrays;
 import java.util.List;
@@ -80,9 +79,6 @@ public class GitLsTreeTest extends GitTestTemplate {
     /**
      * Clones a bare repo in {@code config} and verifies that the repo contains only file paths that are
      * compatible in Windows.
-     * @throws IOException if it fails to create/delete the folders.
-     * @throws InvalidFilePathException if the repository contains invalid file paths that are not compatible with
-     * Windows.
      */
     private void validateFilePaths(RepoConfiguration config) throws Exception {
         GitClone.cloneBare(config, FileUtil.getBareRepoFolderName(config));
