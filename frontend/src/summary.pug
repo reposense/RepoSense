@@ -90,9 +90,7 @@
       .error-message-box__failed-repo--reason(v-else) {{ errorBlock.errorMessage }}
   #summary-charts
     .summary-charts(v-for="(repo, i) in filteredRepos")
-      .summary-charts__title(
-        v-if="filterGroupSelection === 'groupByRepos' || filterGroupSelection === 'groupByAuthors'"
-      )
+      .summary-charts__title(v-if="filterGroupSelection !== 'groupByNone'")
         .summary-charts__title--index {{ i+1 }}
         .summary-charts__title--repo
           template(v-if="filterGroupSelection === 'groupByRepos'") {{ repo[0].repoName }}
