@@ -2,7 +2,7 @@
     "env": {
         "browser": true
     },
-    "extends": "airbnb-base",
+    "extends": ["airbnb-base", "plugin:vue/recommended"],
     "rules": {
         "no-param-reassign": "warn",
         "arrow-parens": ["error", "always"],

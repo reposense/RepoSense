@@ -1,3 +1,212 @@
+<template lang="pug">
+#summary
+  form.summary-picker.mui-form--inline(onsubmit="return false;")
+    .summary-picker__section
+      .mui-textfield.search_box
+        input.summary-picker__search(type="text", v-on:change="updateFilterSearch", v-model="filterSearch")
+        label search
+        button.mui-btn.mui-btn--raised(type="button", v-on:click.prevent="resetFilterSearch") x
+      .mui-select.grouping
+        select(v-model="filterGroupSelection")
+          option(value="groupByNone") None
+          option(value="groupByRepos") Repo/Branch
+          option(value="groupByAuthors") Author
+        label group by
+      .mui-select.sort-group
+        select(v-model="sortGroupSelection")
+          option(value="groupTitle") &uarr; group title
+          option(value="groupTitle dsc") &darr; group title
+          option(value="totalCommits") &uarr; contribution
+          option(value="totalCommits dsc") &darr; contribution
+          option(value="variance") &uarr; variance
+          option(value="variance dsc") &darr; variance
+        label sort groups by
+      .mui-select.sort-within-group
+        select(
+          v-model="sortWithinGroupSelection",
+          v-bind:disabled="filterGroupSelection === 'groupByNone' || isMergeGroup"
+        )
+          option(value="title") &uarr; title
+          option(value="title dsc") &darr; title
+          option(value="totalCommits") &uarr; contribution
+          option(value="totalCommits dsc") &darr; contribution
+          option(value="variance") &uarr; variance
+          option(value="variance dsc") &darr; variance
+        label sort within groups by
+      .mui-select
+        select(v-model="filterTimeFrame")
+          option(value="commit") Commit
+          option(value="day") Day
+          option(value="week") Week
+        label granularity
+      .mui-textfield.summary-picker__date
+        input(v-if="isSafariBrowser", type="text", placeholder="yyyy-mm-dd",
+          v-bind:value="filterSinceDate", v-on:keyup.enter="updateTmpFilterSinceDate",
+          onkeydown="formatInputDateOnKeyDown(event)", oninput="appendDashInputDate(event)", maxlength=10)
+        input(v-else, type="date", v-bind:value="filterSinceDate", v-on:input="updateTmpFilterSinceDate",
+          onkeydown="return false", v-bind:min="minDate", v-bind:max="filterUntilDate")
+        label since
+      .mui-textfield.summary-picker__date
+        input(v-if="isSafariBrowser", type="text", placeholder="yyyy-mm-dd",
+          v-bind:value="filterUntilDate", v-on:keyup.enter="updateTmpFilterUntilDate",
+          onkeydown="formatInputDateOnKeyDown(event)", oninput="appendDashInputDate(event)", maxlength=10)
+        input(v-else, type="date", v-bind:value="filterUntilDate", v-on:input="updateTmpFilterUntilDate",
+          onkeydown="return false", v-bind:min="filterSinceDate", v-bind:max="maxDate")
+        label until
+      .mui-textfield.summary-picker__date
+        a(v-on:click="resetDateRange") Reset date range
+      .summary-picker__checkboxes.summary-picker__section
+        label
+          input.mui-checkbox.summary-picker__checkbox(type="checkbox", v-model="filterBreakdown",
+            v-on:change="setSummaryHash()")
+          span breakdown by file type
+        label.merge-group(
+          v-bind:style="filterGroupSelection === 'groupByNone' ? { opacity:0.5 } : { opacity:1.0 }"
+        )
+          input.summary-picker__checkbox.mui-checkbox(
+            type="checkbox",
+            v-model="isMergeGroup",
+            v-bind:disabled="filterGroupSelection === 'groupByNone'"
+          )
+          span merge group
+  .error-message-box(v-if="Object.entries(errorMessages).length")
+    .error-message-box__close-button(onclick="dismissTab(this)") &times;
+    .error-message-box__message The following issues occurred when analyzing the following repositories:
+    .error-message-box__failed-repo(v-for="errorBlock in errorMessages")
+      i.fas.fa-exclamation.mini-font
+      span.error-message-box__failed-repo--name {{ errorBlock.repoName }}
+      .error-message-box__failed-repo--reason(
+        v-if="errorBlock.errorMessage.startsWith('Unexpected error stack trace')"
+      )
+        span Oops, an unexpected error occurred. If this is due to a problem in RepoSense, please report in&nbsp;
+        a(
+          v-bind:href="getReportIssueGitHubLink(errorBlock.errorMessage)", target="_blank"
+        )
+          strong our issue tracker&nbsp;
+        span or email us at&nbsp;
+        a(
+          v-bind:href="getReportIssueEmailLink(errorBlock.errorMessage)"
+        )
+          span {{ getReportIssueEmailAddress() }}
+      .error-message-box__failed-repo--reason(v-else) {{ errorBlock.errorMessage }}
+  #summary-charts
+    .summary-charts(v-for="(repo, i) in filteredRepos")
+      .summary-charts__title(v-if="filterGroupSelection === 'groupByRepos'")
+        .summary-charts__title--index {{ i+1 }}
+        .summary-charts__title--repo {{ repo[0].repoName }}
+        .summary-charts__title--contribution.mini-font(
+          title="Total contribution of group"
+        ) [{{ getGroupTotalContribution(repo) }} lines]
+        template(v-if="isMergeGroup")
+          a(
+            v-bind:href="getRepoLink(repo[0])", target="_blank",
+            title="click to view group's repo"
+          )
+            i.icon-button.fab.fa-github
+        .summary-charts__title--percentile.mini-font {{ getPercentile(i) }} %
+      .summary-charts__title(
+        v-if="filterGroupSelection === 'groupByAuthors'",
+        v-bind:class="{ warn: repo[0].name === '-' }"
+      )
+        .summary-charts__title--index {{ i+1 }}
+        .summary-charts__title--repo {{ repo[0].displayName }} ({{ repo[0].name }})
+        .summary-charts__title--contribution.mini-font(
+          title="Total contribution of group"
+        ) [{{ getGroupTotalContribution(repo) }} lines]
+        template(v-if="isMergeGroup")
+          a(
+            v-bind:href="getAuthorProfileLink(repo[0].name)", target="_blank",
+            title="click to view author's profile"
+          )
+            i.icon-button.fab.fa-github
+        .summary-charts__title--percentile.mini-font {{ getPercentile(i) }} %
+      .summary-charts__fileType--breakdown(v-if="filterBreakdown")
+        template(v-if="filterGroupSelection === 'groupByRepos'")
+          .summary-charts__fileType--breakdown__legend(
+            v-for="fileType in getFileTypes(repo)")
+            i.fas.fa-circle(
+              v-bind:style="{ 'color' : contributionBarFileTypeColors[fileType] }"
+            )
+            span &nbsp; {{ fileType }} &nbsp;
+        template(v-else)
+          .summary-charts__fileType--breakdown__legend(
+            v-for="fileType in Object.keys(contributionBarFileTypeColors)")
+            i.fas.fa-circle(
+              v-bind:style="{ 'color' : contributionBarFileTypeColors[fileType] }"
+            )
+            span &nbsp; {{ fileType }} &nbsp;
+      .summary-chart(v-for="(user, i) in repo")
+        .summary-chart__title(v-if="!isMergeGroup")
+          .summary-chart__title--index {{ i+1 }}
+          .summary-chart__title--repo(v-if="filterGroupSelection === 'groupByNone'") {{ user.repoName }}
+          .summary-chart__title--author-repo(v-if="filterGroupSelection === 'groupByAuthors'") {{ user.repoName }}
+          .summary-chart__title--name(
+            v-if="filterGroupSelection !== 'groupByAuthors'",
+            v-bind:class="{ warn: user.name === '-' }"
+          ) {{ user.displayName }} ({{ user.name }})
+          .summary-chart__title--contribution.mini-font [{{ user.totalCommits }} lines]
+          a(
+            title="click to view author's code",
+            onclick="deactivateAllOverlays()",
+            v-on:click="openTabAuthorship(user, repo, i)"
+          )
+            i.icon-button.fas.fa-code
+          a(
+            v-bind:href="getRepoLink(repo[i])", target="_blank",
+            title="click to view author's repo"
+          )
+            i.icon-button.fab.fa-github
+          a(
+            title="click to view breakdown of commits",
+            onclick="deactivateAllOverlays()",
+            v-on:click="openTabZoom(user, filterSinceDate, filterUntilDate, repo, i)"
+          )
+            i.icon-button.fas.fa-list-ul
+          .summary-chart__title--percentile.mini-font(
+            v-if="filterGroupSelection === 'groupByNone'"
+          ) {{ getPercentile(i) }} %
+
+        .summary-chart__ramp(
+          onclick="viewClick(event)",
+          v-on:click="openTabZoomSubrange(user, repo, i)"
+        )
+          v_ramp(
+            v-bind:groupby="filterGroupSelection",
+            v-bind:user="user",
+            v-bind:tframe="filterTimeFrame",
+            v-bind:sdate="filterSinceDate",
+            v-bind:udate="filterUntilDate",
+            v-bind:avgsize="avgCommitSize",
+            v-bind:mergegroup="isMergeGroup")
+          .overlay
+
+        .summary-chart__contribution
+          template(v-if="filterBreakdown")
+            .summary-chart__contrib(
+              v-for="(widths, fileType) in getFileTypeContributionBars(user.fileTypeContribution)"
+            )
+              .summary-chart__contrib--bar(
+                v-for="width in widths",
+                v-bind:style="{ width: width + '%',\
+                  'background-color': contributionBarFileTypeColors[fileType] }",
+                v-bind:title="fileType + ': ' + user.fileTypeContribution[fileType] + ' lines, '\
+                  + 'total: ' + user.totalCommits + ' lines ' + '(contribution from ' + minDate + ' to '\
+                  + maxDate + ')'"
+              )
+          template(v-else)
+            .summary-chart__contrib(
+              v-bind:title="'Total contribution from ' + minDate + ' to ' + maxDate + ': '\
+                + user.totalCommits + ' lines'"
+            )
+              .summary-chart__contrib--bar(
+                v-for="width in getContributionBars(user.totalCommits)",
+                v-bind:style="{ width: width+'%' }"
+              )
+</template>
+
+<script>
+import ramp from './ramp.vue';
+
 window.dismissTab = function dismissTab(node) {
   const parent = node.parentNode;
   parent.style.display = 'none';
@@ -19,14 +228,14 @@ let drags = [];
 
 function getBaseTarget(target) {
   return (target.className === 'summary-chart__ramp')
-      ? target
-      : getBaseTarget(target.parentElement);
+          ? target
+          : getBaseTarget(target.parentElement);
 }
 
-function deactivateAllOverlays() {
+window.deactivateAllOverlays = function () {
   document.querySelectorAll('.summary-chart__ramp .overlay')
       .forEach((x) => { x.className = 'overlay'; });
-}
+};
 
 function dragViewDown(evt) {
   deactivateAllOverlays();
@@ -69,8 +278,8 @@ window.viewClick = function viewClick(evt) {
 
   if (isKeyPressed) {
     return drags.length === 0
-        ? dragViewDown(evt)
-        : dragViewUp(evt);
+            ? dragViewDown(evt)
+            : dragViewUp(evt);
   }
 
   return null;
@@ -100,9 +309,11 @@ function dateRounding(datestr, roundDown) {
   return getDateStr(datems);
 }
 
-window.vSummary = {
+export default {
+  components: {
+    v_ramp: ramp,
+  },
   props: ['repos', 'errorMessages'],
-  template: window.$('v_summary').innerHTML,
   data() {
     return {
       filtered: [],
@@ -129,6 +340,40 @@ window.vSummary = {
       contributionBarFileTypeColors: {},
       isSafariBrowser: /.*Version.*Safari.*/.test(navigator.userAgent),
     };
+  },
+  computed: {
+    avgCommitSize() {
+      let totalCommits = 0;
+      let totalCount = 0;
+      this.filtered.forEach((repo) => {
+        repo.forEach((user) => {
+          user.commits.forEach((slice) => {
+            if (slice.insertions > 0) {
+              totalCount += 1;
+              totalCommits += slice.insertions;
+            }
+          });
+        });
+      });
+      return totalCommits / totalCount;
+    },
+    avgContributionSize() {
+      let totalLines = 0;
+      let totalCount = 0;
+      this.repos.forEach((repo) => {
+        repo.users.forEach((user) => {
+          if (user.totalCommits > 0) {
+            totalCount += 1;
+            totalLines += user.totalCommits;
+          }
+        });
+      });
+
+      return totalLines / totalCount;
+    },
+    filteredRepos() {
+      return this.filtered.filter((repo) => repo.length > 0);
+    },
   },
   watch: {
     sortGroupSelection() {
@@ -168,39 +413,10 @@ window.vSummary = {
       this.getFiltered();
     },
   },
-  computed: {
-    avgCommitSize() {
-      let totalCommits = 0;
-      let totalCount = 0;
-      this.filtered.forEach((repo) => {
-        repo.forEach((user) => {
-          user.commits.forEach((slice) => {
-            if (slice.insertions > 0) {
-              totalCount += 1;
-              totalCommits += slice.insertions;
-            }
-          });
-        });
-      });
-      return totalCommits / totalCount;
-    },
-    avgContributionSize() {
-      let totalLines = 0;
-      let totalCount = 0;
-      this.repos.forEach((repo) => {
-        repo.users.forEach((user) => {
-          if (user.totalCommits > 0) {
-            totalCount += 1;
-            totalLines += user.totalCommits;
-          }
-        });
-      });
-
-      return totalLines / totalCount;
-    },
-    filteredRepos() {
-      return this.filtered.filter((repo) => repo.length > 0);
-    },
+  created() {
+    this.renderFilterHash();
+    this.getFiltered();
+    this.processFileTypes();
   },
   methods: {
     // view functions //
@@ -572,7 +788,7 @@ window.vSummary = {
       // commits, so we are going to check each commit's date and make sure
       // it is within the duration of a week
       while (commits.length > 0
-          && (new Date(commits[0].date)).getTime() <= endOfWeekMs) {
+      && (new Date(commits[0].date)).getTime() <= endOfWeekMs) {
         const commit = commits.shift();
         week.insertions += commit.insertions;
         week.deletions += commit.deletions;
@@ -810,12 +1026,199 @@ window.vSummary = {
       return group.reduce((accContribution, user) => accContribution + user.totalCommits, 0);
     },
   },
-  created() {
-    this.renderFilterHash();
-    this.getFiltered();
-    this.processFileTypes();
-  },
-  components: {
-    v_ramp: window.vRamp,
-  },
 };
+
+</script>
+
+<style lang="scss" scoped>
+@import './static/css/colors';
+
+/* summary chart */
+#summary,
+.summary-status {
+  text-align: center;
+}
+
+.icon-button {
+  color: mui-color('grey');
+  cursor: pointer;
+  text-decoration: none;
+}
+
+.summary-picker {
+  align-items: center;
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: center;
+  margin-bottom: 2rem;
+
+  &__section {
+    align-items: inherit;
+    display: flex;
+    flex: 0 1 auto;
+    flex-flow: inherit;
+    justify-content: inherit;
+  }
+
+  &__checkboxes {
+    label {
+      margin-left: .5rem;
+    }
+
+    span {
+      margin-left: .25rem;
+    }
+  }
+
+  .mui-textfield,
+  .mui-select {
+    margin: .5rem;
+    padding-right: 10px;
+  }
+
+  .mui-btn {
+    background: transparent;
+    box-shadow: none;
+    color: mui-color('grey');
+    font-size: .75rem;
+    font-weight: bold;
+    left: -8px;
+    margin: 0;
+    padding: 0;
+    vertical-align: middle;
+  }
+
+  .search_box {
+    align-items: center;
+    display: flex;
+  }
+
+  input {
+    font-size: .75rem;
+    padding-right: 10px;
+  }
+
+  label {
+    font-size: .75rem;
+    overflow-y: hidden;
+    text-align: left;
+    width: fit-content;
+  }
+
+  input,
+  select {
+    font-size: .75rem;
+  }
+}
+
+.summary-charts {
+  margin-bottom: 3rem;
+
+  &__title {
+    align-items: center;
+    display: flex;
+    font-weight: bold;
+    text-align: left;
+
+    &--index {
+      background: mui-color('black');
+      color: mui-color('white');
+      font-size: medium;
+      overflow: hidden;
+      padding: .1em .25em .1em .25em;
+      vertical-align: middle;
+    }
+
+    &--repo {
+      font-size: medium;
+      padding: .5rem;
+    }
+
+    &--percentile {
+      color: mui-color('grey');
+      margin-left: auto;
+    }
+
+    &--contribution {
+      display: inline;
+      padding-right: .5rem;
+    }
+  }
+
+  &__fileType--breakdown {
+    overflow-y: hidden;
+
+    &__legend {
+      display: inline;
+      float: left;
+    }
+  }
+}
+
+.summary-chart {
+  margin-bottom: 1rem;
+  overflow: auto;
+  position: relative;
+  text-align: left;
+
+  &__title {
+    align-items: center;
+    clear: left;
+    display: flex;
+
+    & > * {
+      padding-right: .5rem;
+    }
+
+    &--index,
+    &--repo {
+      font-weight: bold;
+    }
+
+    &--index::after {
+      content: '.';
+    }
+
+    &--repo {
+      padding-right: .25rem;
+    }
+
+    &--percentile {
+      color: mui-color('grey');
+      margin-left: auto;
+      padding-right: 0;
+    }
+  }
+
+  &__ramp {
+    position: relative;
+
+    .overlay {
+      height: 100%;
+      position: absolute;
+      top: 0;
+
+      &.show {
+        background-color: rgba(mui-color('white'), .5);
+        border: 1px dashed mui-color('black');
+      }
+
+      &.edge {
+        border-right: 1px dashed mui-color('black');
+      }
+    }
+  }
+
+  &__contrib {
+    text-align: left;
+
+    &--bar {
+      background-color: mui-color('red');
+      float: left;
+      height: 4px;
+      margin-top: 2px;
+    }
+  }
+}
+
+</style>
