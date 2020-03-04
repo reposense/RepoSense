@@ -773,7 +773,7 @@ window.vSummary = {
       const sortingWithinOption = this.sortingWithinOption === 'title' ? 'displayName' : this.sortingWithinOption;
       const sortingOption = this.sortingOption === 'groupTitle' ? 'searchPath' : this.sortingOption;
       repos.forEach((users) => {
-        if (this.filterBreakdown && this.sortingOption === 'totalCommits') {
+        if (this.filterBreakdown && this.sortingWithinOption === 'totalCommits') {
           users.sort(window.comparator((ele) => this.getFileTypeContribution(ele)));
         } else {
           users.sort(window.comparator((ele) => ele[sortingWithinOption]));
@@ -833,7 +833,7 @@ window.vSummary = {
         });
       });
       Object.keys(authorMap).forEach((author) => {
-        if (this.filterBreakdown && this.sortingOption === 'totalCommits') {
+        if (this.filterBreakdown && this.sortingWithinOption === 'totalCommits') {
           authorMap[author].sort(window.comparator((repo) => this.getFileTypeContribution(repo)));
         } else {
           authorMap[author].sort(window.comparator((repo) => repo[sortingWithinOption]));
