@@ -54,16 +54,6 @@
     border: 1px solid mui-color('blue', '500');
   }
 
-  .title {
-    display: inline;
-    font-size: medium;
-    font-weight: bold;
-
-    span.loc {
-      color: mui-color('grey');
-    }
-  }
-
   &.active {
     .body {
       background-color: mui-color('white');
@@ -103,9 +93,7 @@
   }
 
   &--button {
-    color: mui-color('grey');
-    font-size: 1.15rem;
-    padding-left: .5rem;
+    color: mui-color('grey', '700');
 
     &:hover {
       cursor: pointer;
