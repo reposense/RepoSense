@@ -93,7 +93,8 @@
   }
 
   &--button {
-    color: mui-color('grey', '700');
+    color: mui-color('grey');
+    padding-left: .5rem;
 
     &:hover {
       cursor: pointer;
