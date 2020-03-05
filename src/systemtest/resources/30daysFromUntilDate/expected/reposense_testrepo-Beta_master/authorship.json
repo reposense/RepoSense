@@ -265,21 +265,21 @@
       {
         "lineNumber": 38,
         "author": {
-          "gitId": "-"
+          "gitId": "nbr"
         },
         "content": "  \u003c!-- @@author nbriannl --\u003e"
       },
       {
         "lineNumber": 39,
         "author": {
-          "gitId": "-"
+          "gitId": "nbr"
         },
         "content": "  \u003cStackPane fx:id\u003d\"tagListPanelPlaceholder\" maxHeight\u003d\"60\" minHeight\u003d\"60\" prefHeight\u003d\"60\" styleClass\u003d\"pane-with-border\" VBox.vgrow\u003d\"NEVER\"\u003e"
       },
       {
         "lineNumber": 40,
         "author": {
-          "gitId": "-"
+          "gitId": "nbr"
         },
         "content": "    \u003cpadding\u003e"
       },
@@ -293,28 +293,28 @@
       {
         "lineNumber": 42,
         "author": {
-          "gitId": "-"
+          "gitId": "nbr"
         },
         "content": "    \u003c/padding\u003e"
       },
       {
         "lineNumber": 43,
         "author": {
-          "gitId": "-"
+          "gitId": "nbr"
         },
         "content": "  \u003c/StackPane\u003e"
       },
       {
         "lineNumber": 44,
         "author": {
-          "gitId": "-"
+          "gitId": "nbr"
         },
         "content": ""
       },
       {
         "lineNumber": 45,
         "author": {
-          "gitId": "-"
+          "gitId": "nbr"
         },
         "content": "  \u003c!-- @@author --\u003e"
       },
@@ -454,8 +454,8 @@
     ],
     "authorContributionMap": {
       "April0616": 1,
-      "-": 52,
-      "nbr": 11
+      "-": 45,
+      "nbr": 18
     }
   },
   {
@@ -1250,7 +1250,7 @@
       {
         "lineNumber": 3,
         "author": {
-          "gitId": "-"
+          "gitId": "nbr"
         },
         "content": "\u003c!-- @@author nbriannl --\u003e"
       },
@@ -1417,8 +1417,7 @@
       }
     ],
     "authorContributionMap": {
-      "-": 1,
-      "nbr": 25
+      "nbr": 26
     }
   }
 ]
