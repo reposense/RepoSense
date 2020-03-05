@@ -75,10 +75,6 @@ window.vCharts = {
   props: ['filtered', 'contributionBarFileTypeColors', 'avgContributionSize', 'filterBreakdown', 'filterGroupSelection',
       'filterTimeFrame', 'filterSinceDate', 'filterUntilDate', 'isMergeGroup', 'minDate', 'maxDate'],
   template: window.$('v_charts').innerHTML,
-  data() {
-    return {
-    };
-  },
   computed: {
     avgCommitSize() {
       let totalCommits = 0;
