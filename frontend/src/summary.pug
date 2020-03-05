@@ -2,7 +2,7 @@
   form.summary-picker.mui-form--inline(onsubmit="return false;")
     .summary-picker__section
       .mui-textfield.search_box
-        input.summary-picker__search(type="text", v-model="filterSearch")
+        input.summary-picker__search(type="text", v-on:change="updateFilterSearch", v-model="filterSearch")
         label search
         button.mui-btn.mui-btn--raised(type="button", v-on:click.prevent="resetFilterSearch") x
       .mui-select.grouping
