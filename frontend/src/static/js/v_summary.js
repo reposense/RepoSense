@@ -267,19 +267,23 @@ window.vSummary = {
       return res;
     },
 
+    getAuthorProfileLink(userName) {
+      return `https://github.com/${userName}`;
+    },
+
     getRepoLink(repo) {
       const { REPOS } = window;
       const { location, branch } = REPOS[repo.repoId];
 
       if (Object.prototype.hasOwnProperty.call(location, 'organization')) {
-        return `https://github.com/${location.organization}/${location.repoName}/tree/${branch}`;
+        return `${window.BASE_URL}/${location.organization}/${location.repoName}/tree/${branch}`;
       }
 
       return repo.location;
     },
 
     getReportIssueGitHubLink(stackTrace) {
-      return `https://github.com/reposense/RepoSense/issues/new?title=${this.getReportIssueTitle()
+      return `${window.BASE_URL}/reposense/RepoSense/issues/new?title=${this.getReportIssueTitle()
       }&body=${this.getReportIssueMessage(stackTrace)}`;
     },
 
@@ -445,7 +449,6 @@ window.vSummary = {
 
         group.forEach((user) => {
           this.mergeCommits(user, mergedCommits, dateToIndexMap);
-          mergedCommits.sort(window.comparator((ele) => ele.date));
 
           this.mergeFileTypeContribution(user, mergedFileTypeContribution);
 
@@ -453,6 +456,7 @@ window.vSummary = {
           mergedVariance += user.variance;
         });
 
+        mergedCommits.sort(window.comparator((ele) => ele.date));
         group[0].commits = mergedCommits;
         group[0].fileTypeContribution = mergedFileTypeContribution;
         group[0].totalCommits = totalMergedCommits;
@@ -557,7 +561,9 @@ window.vSummary = {
         };
 
         this.addLineContributionWeek(endOfWeekMsWithinUntilMs, week, commits);
-        res.push(week);
+        if (week.commitResults.length > 0) {
+          res.push(week);
+        }
       }
     },
     addLineContributionWeek(endOfWeekMs, week, commits) {
@@ -621,8 +627,12 @@ window.vSummary = {
 
     // updating filters programically //
     resetDateRange() {
+      this.hasModifiedSinceDate = false;
+      this.hasModifiedUntilDate = false;
       this.tmpFilterSinceDate = '';
       this.tmpFilterUntilDate = '';
+      window.removeHash('since');
+      window.removeHash('until');
     },
 
     updateDateRange(since, until) {
@@ -782,6 +792,13 @@ window.vSummary = {
         filtered.reverse();
       }
       return filtered;
+    },
+
+    getPercentile(index) {
+      if (this.filterGroupSelection === 'groupByNone') {
+        return (Math.round((index + 1) * 1000 / this.filtered[0].length) / 10).toFixed(1);
+      }
+      return (Math.round((index + 1) * 1000 / this.filtered.length) / 10).toFixed(1);
     },
 
     getGroupCommitsVariance(total, group) {

@@ -211,6 +211,10 @@ public class FileUtil {
         return true;
     }
 
+    public static boolean isEmptyFile(String directoryPath, String relativeFilePath) {
+        return (new File(directoryPath, relativeFilePath).length() == 0);
+    }
+
     /**
      * Returns a list of {@code Path} of {@code fileTypes} contained in the given {@code directoryPath} directory.
      */
