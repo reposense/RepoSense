@@ -44,7 +44,7 @@ public class RepoConfigurationTest {
     private static final Path WITHOUT_FORMATS_TEST_CONFIG_FILES = new File(RepoConfigurationTest.class.getClassLoader()
             .getResource("RepoConfigurationTest/repoconfig_withoutformats_test").getFile()).toPath();
     private static final Path GROUPS_TEST_CONFIG_FILES = new File(RepoConfigurationTest.class.getClassLoader()
-        .getResource("RepoConfigurationTest/repoconfig_groups_test").getFile()).toPath();
+            .getResource("RepoConfigurationTest/repoconfig_groups_test").getFile()).toPath();
     private static final Path OVERRIDE_STANDALONE_TEST_CONFIG_FILE = new File(RepoConfigurationTest.class
             .getClassLoader().getResource("RepoConfigurationTest/repoconfig_overrideStandAlone_test")
             .getFile()).toPath();
