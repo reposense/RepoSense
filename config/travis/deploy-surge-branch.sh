@@ -16,6 +16,7 @@ then
   echo "Deploy domain: ${DEPLOY_DOMAIN}"
   surge --project ${DEPLOY_PATH} --domain $DEPLOY_DOMAIN;
 else
+  GITHUB_PR_COMMENTS=https://api.github.com/repos/${TRAVIS_REPO_SLUG}/issues/${TRAVIS_PULL_REQUEST}/comments
   # Post deployment link as comment
   curl -H "Authorization: token ${GITHUB_API_TOKEN}" -X POST \
   -d "{\"body\": \"Travis automatic deployment: ${DEPLOY_DOMAIN}\"}" \
