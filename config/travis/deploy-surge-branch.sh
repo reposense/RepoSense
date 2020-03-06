@@ -21,8 +21,8 @@ then
   GITHUB_PR=https://api.github.com/repos/${TRAVIS_REPO_SLUG}/pulls/${TRAVIS_PULL_REQUEST}
   curl -H "Authorization: token ${GITHUB_API_TOKEN}" -X PATCH \
   -d "{\"body\": \"Travis automatic deployment: ${DEPLOY_DOMAIN}\"}" \
-  ${GITHUB_PR_COMMENTS}
-  
+  ${GITHUB_PR}
+
 #  GITHUB_PR_COMMENTS=https://api.github.com/repos/${TRAVIS_REPO_SLUG}/issues/${TRAVIS_PULL_REQUEST}/comments
 #  # Post deployment link as comment
 #  curl -H "Authorization: token ${GITHUB_API_TOKEN}" -X POST \
