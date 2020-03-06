@@ -11,7 +11,7 @@ echo "Repo: ${REPO_NAME}"
 
 DEPLOY_SUBDOMAIN=`echo "${TRAVIS_BRANCH}-branch" | sed -r 's/[\/|\.]+/\-/g'`
 DEPLOY_DOMAIN=https://${DEPLOY_SUBDOMAIN}-${REPO_NAME}-${REPO_OWNER}.surge.sh
-if [ "$TRAVIS_PULL_REQUEST" != "false" ] && [ -z "${TRAVIS_TAG// }" ] # if it is a branch
+if [ "$TRAVIS_PULL_REQUEST" == "false" ] && [ -z "${TRAVIS_TAG// }" ] # if it is a branch
 then
   echo "Deploy domain: ${DEPLOY_DOMAIN}"
   surge --project ${DEPLOY_PATH} --domain $DEPLOY_DOMAIN;
