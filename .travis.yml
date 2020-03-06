@@ -61,4 +61,4 @@ after_success:
     && ./gradlew run -Dargs="--since d1"
   - chmod ugo+x ./config/travis/deploy-surge.sh
   - npm install -g surge
-  - ./config/travis/deploy-surge.sh
+  - ./config/travis/deploy-surge-branch.sh
