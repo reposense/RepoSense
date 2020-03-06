@@ -15,12 +15,19 @@ if [ "$TRAVIS_PULL_REQUEST" == "false" ] && [ -z "${TRAVIS_TAG// }" ] # if it is
 then
   echo "Deploy domain: ${DEPLOY_DOMAIN}"
   surge --project ${DEPLOY_PATH} --domain $DEPLOY_DOMAIN;
-else
-  GITHUB_PR_COMMENTS=https://api.github.com/repos/${TRAVIS_REPO_SLUG}/issues/${TRAVIS_PULL_REQUEST}/comments
-  # Post deployment link as comment
-  curl -H "Authorization: token ${GITHUB_API_TOKEN}" -X POST \
+elif [ "$TRAVIS_PULL_REQUEST" != "false" ]  # if it is a PR, create comment with link on the PR
+then
+  # modify github pr description
+  GITHUB_PR=https://api.github.com/repos/${TRAVIS_REPO_SLUG}/pulls/${TRAVIS_PULL_REQUEST}
+  curl -H "Authorization: token ${GITHUB_API_TOKEN}" -X PATCH \
   -d "{\"body\": \"Travis automatic deployment: ${DEPLOY_DOMAIN}\"}" \
   ${GITHUB_PR_COMMENTS}
+  
+#  GITHUB_PR_COMMENTS=https://api.github.com/repos/${TRAVIS_REPO_SLUG}/issues/${TRAVIS_PULL_REQUEST}/comments
+#  # Post deployment link as comment
+#  curl -H "Authorization: token ${GITHUB_API_TOKEN}" -X POST \
+#  -d "{\"body\": \"Travis automatic deployment: ${DEPLOY_DOMAIN}\"}" \
+#  ${GITHUB_PR_COMMENTS}
 fi
 
 #for DEPLOY_SUBDOMAIN_UNFORMATTED in "${DEPLOY_SUBDOMAIN_UNFORMATTED_LIST[@]}"
