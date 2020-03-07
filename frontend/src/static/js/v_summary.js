@@ -414,9 +414,8 @@ window.vSummary = {
         // filtering
         repo.users.forEach((user) => {
           const toDisplay = this.filterSearch.toLowerCase()
-              .split(' ').filter((param) => param)
-              .map((param) => user.searchPath.search(param) > -1)
-              .reduce((curr, bool) => curr || bool, false);
+              .split(' ').filter(Boolean)
+              .some((param) => user.searchPath.includes(param));
 
           if (!this.filterSearch || toDisplay) {
             this.getUserCommits(user);
