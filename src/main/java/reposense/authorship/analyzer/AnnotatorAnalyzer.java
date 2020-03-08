@@ -32,7 +32,7 @@ public class AnnotatorAnalyzer {
                 if (newAuthor.equals(Author.UNKNOWN_AUTHOR)) {
                     //end of an author tag should belong to this author too.
                     lineInfo.setAuthor(currentAuthor);
-                } else if (newAuthor.getIgnoreGlobMatcher().matches(filePath)) {
+                } else if (newAuthor.isIgnoringFile(filePath)) {
                     newAuthor = Author.UNKNOWN_AUTHOR;
                 }
 
