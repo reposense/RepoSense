@@ -289,7 +289,8 @@ window.vAuthorship = {
     },
 
     selectedFiles() {
-      return this.files.filter((file) => (this.selectedFileTypes.includes(file.fileType)
+      return this.files.filter((file) => (
+        (this.selectedFileTypes.includes(file.fileType) && !file.isBinary)
             || (file.isBinary && this.isBinaryFilesChecked))
           && minimatch(file.path, this.filterSearch, { matchBase: true }))
           .sort(this.sortingFunction);
