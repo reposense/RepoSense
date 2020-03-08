@@ -51,7 +51,7 @@ public class AnnotatorAnalyzer {
      * in {@code authorAliasMap}, and returns this {@code Author} stored in an {@code Optional}.
      * @return {@code Optional.of(Author#UNKNOWN_AUTHOR)} if no matching {@code Author} is found,
      *         {@code Optional.empty()} if an end author tag is used (i.e. "@@author"),
-     *         and {@code Optional.empty()} if the extracted author name is too short.
+     *         or if the extracted author name is too short.
      */
     private static Optional<Author> findAuthorInLine(String line, Map<String, Author> authorAliasMap) {
         try {
