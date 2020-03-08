@@ -20,7 +20,7 @@ public class GitDiff {
      */
     public static String diffCommit(String root, String lastCommitHash) {
         Path rootPath = Paths.get(root);
-        return runCommand(rootPath, "git diff -U0 " + lastCommitHash);
+        return runCommand(rootPath, "git diff -U0 --ignore-submodules=all " + lastCommitHash);
     }
 
     /**
