@@ -38,8 +38,8 @@ public abstract class CsvParser<T> {
             + "Error: %s";
     private static final String MESSAGE_EMPTY_CSV_FORMAT = "The CSV file, %s, is empty.";
     private static final String MESSAGE_WRONG_HEADER_SIZE = "Wrong number of columns in header of CSV file, %s. \n"
-        + "Number of columns in header: %d\n"
-        + "Expected number of columns: %d";
+            + "Number of columns in header: %d\n"
+            + "Expected number of columns: %d";
     private static final String MESSAGE_ZERO_VALID_CONFIGS = "No valid configurations in the %s.";
 
     private Path csvFilePath;

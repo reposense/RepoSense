@@ -109,6 +109,9 @@ The `Commits Panel` allows users to see the commits attributed to a specific aut
 * The date range for the `Chart Panel` can be updated by clicking on the "Show ramp chart for this period" below the name of the author.
 * The ramp slices displayed in the ramp chart for the `Commits Panel` represents individual commits.
 * The commit messages body can be expanded or collapsed by clicking on the `...` icon beside each commit message title.
+* To promote and encourage the 50/72 rule for commit messages, a dotted border will be shown for:
+  * Commit message subject that exceeds 50 characters.
+  * Commit message body after the 72nd character mark.
 
 ### Tool Bar
 The `Tool Bar` at the top provides a set of configuration options that control the Chart Panel.
