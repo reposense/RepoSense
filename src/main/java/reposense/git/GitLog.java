@@ -62,7 +62,6 @@ public class GitLog {
         String command = "git log --pretty=format:\"%an\t%ae\" ";
         command += GitUtil.convertToGitDateRangeArgs(config.getSinceDate(), config.getUntilDate());
         command += " " + addQuote(filePath);
-        System.out.println("Command " + command);
 
         return runCommand(rootPath, command);
     }
