@@ -73,7 +73,7 @@ Alternatively, you can manually trigger an update.
 1. You may change the expression after `cron:` to a schedule of your choice. Read more about cron syntax [here](https://help.github.com/en/actions/reference/events-that-trigger-workflows#scheduled-events-schedule).
 1. Commit your changes.
 
-Alternatively, you can trigger an update by pushing an empty commit to your fork. GitHub Actions currently do not support manual triggers.
+Alternatively, you can trigger an update by pushing an empty commit to your fork. Currently, the GitHub Actions UI does not support the manual execution of workflows.
 
 ### Specifying which version of RepoSense to use
 
