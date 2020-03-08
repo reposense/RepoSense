@@ -35,7 +35,7 @@ public class AnnotatorAnalyzer {
                     // if an end author tag was used without a corresponding starting tag, attribute the
                     // line to UNKNOWN_AUTHOR
                     lineInfo.setAuthor(currentAnnotatedAuthor.orElse(Author.UNKNOWN_AUTHOR));
-                } else if (newAnnotatedAuthor.get().getIgnoreGlobMatcher().matches(filePath)) {
+                } else if (newAnnotatedAuthor.get().isIgnoringFile(filePath)) {
                     newAnnotatedAuthor = Optional.empty();
                 }
 
