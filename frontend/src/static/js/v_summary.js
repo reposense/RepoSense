@@ -859,14 +859,14 @@ window.vSummary = {
     },
     matchZoomUser(info) {
       const {
-        zIsMerge, zFilterGroup, user, zRepo, zAuthor
+        zIsMerge, zFilterGroup, zUser, zRepo, zAuthor,
       } = info;
       if (zIsMerge) {
         return zFilterGroup === 'groupByRepos'
-          ? user.repoName === zRepo
-          : user.name === zAuthor;
+          ? zUser.repoName === zRepo
+          : zUser.name === zAuthor;
       }
-      return user.repoName === zRepo && user.name === zAuthor;
+      return zUser.repoName === zRepo && zUser.name === zAuthor;
     },
   },
   created() {
