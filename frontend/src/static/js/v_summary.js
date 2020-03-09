@@ -825,7 +825,7 @@ window.vSummary = {
     restoreZoomFiltered(info) {
       const {
         zSince, zUntil, zFilterGroup, zTimeFrame, zIsMerge, zSorting, zSortingWithin,
-        zIsSortingDsc, zIsSortingWithinDsc, zAuthor, zRepo,
+        zIsSortingDsc, zIsSortingWithinDsc,
       } = info;
       let filtered = [];
 
@@ -835,7 +835,7 @@ window.vSummary = {
         const res = [];
         repo.users.forEach((user) => {
           // only filter users that match with zoom user
-          if (this.matchZoomUser(zFilterGroup, zIsMerge, zAuthor, zRepo, user)) {
+          if (this.matchZoomUser(info)) {
             this.getUserCommits(user, zSince, zUntil);
             if (zTimeFrame === 'week') {
               this.splitCommitsWeek(user, zSince, zUntil);
@@ -857,7 +857,10 @@ window.vSummary = {
       }
       return filtered[0][0];
     },
-    matchZoomUser(zFilterGroup, zIsMerge, zAuthor, zRepo, user) {
+    matchZoomUser(info) {
+      const {
+        zIsMerge, zFilterGroup, user, zRepo, zAuthor
+      } = info;
       if (zIsMerge) {
         return zFilterGroup === 'groupByRepos'
           ? user.repoName === zRepo
