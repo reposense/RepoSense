@@ -6,24 +6,21 @@ import java.util.Collections;
 import java.util.Date;
 
 import org.junit.Assert;
-import org.junit.BeforeClass;
+import org.junit.Before;
 import org.junit.Test;
 
 import reposense.authorship.model.FileInfo;
 import reposense.authorship.model.FileResult;
 import reposense.authorship.model.LineInfo;
-import reposense.git.GitClone;
 import reposense.model.Author;
-import reposense.model.RepoConfiguration;
-import reposense.model.RepoLocation;
+import reposense.parser.InvalidLocationException;
+import reposense.template.GitTestTemplate;
 import reposense.util.TestUtil;
 
-public class AnnotatorAnalyzerTest {
+public class AnnotatorAnalyzerTest extends GitTestTemplate {
 
-    private static final Author HARRY_AUTHOR = new Author("harryggg");
-    private static final Author FAKE_AUTHOR = new Author("fakeAuthor");
-    private static final String TEST_REPO_GIT_LOCATION = "https://github.com/reposense/testrepo-Alpha.git";
-    private static RepoConfiguration config;
+    private static final Author MAIN_AUTHOR = new Author(MAIN_AUTHOR_NAME);
+    private static final Author FAKE_AUTHOR = new Author(FAKE_AUTHOR_NAME);
     private static final Date SINCE_DATE = TestUtil.getSinceDate(2018, Calendar.FEBRUARY, 8);
     private static final Date UNTIL_DATE = TestUtil.getUntilDate(2018, Calendar.FEBRUARY, 10);
 
@@ -48,11 +45,9 @@ public class AnnotatorAnalyzerTest {
         }
     }
 
-
-    @BeforeClass
-    public static void beforeClass() throws Exception {
-        config = new RepoConfiguration(new RepoLocation(TEST_REPO_GIT_LOCATION), "master");
-        GitClone.clone(config);
+    @Before
+    public void before() throws InvalidLocationException {
+        super.before();
         config.setSinceDate(SINCE_DATE);
         config.setUntilDate(UNTIL_DATE);
     }
@@ -68,9 +63,9 @@ public class AnnotatorAnalyzerTest {
     @Test
     public void applyAnnotationTest() {
         config.setAnnotationOverwrite(true);
-        config.setAuthorList(Arrays.asList(FAKE_AUTHOR, HARRY_AUTHOR));
+        config.setAuthorList(Arrays.asList(FAKE_AUTHOR, MAIN_AUTHOR));
         FileResult fileResult = getFileResult("annotationTest.java");
-        assertAnnotationAnalysisCorrectness(fileResult, FAKE_AUTHOR, HARRY_AUTHOR);
+        assertAnnotationAnalysisCorrectness(fileResult, FAKE_AUTHOR, MAIN_AUTHOR);
     }
 
     @Test
