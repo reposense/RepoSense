@@ -414,9 +414,8 @@ window.vSummary = {
         // filtering
         repo.users.forEach((user) => {
           const toDisplay = this.filterSearch.toLowerCase()
-              .split(' ').filter((param) => param)
-              .map((param) => user.searchPath.search(param) > -1)
-              .reduce((curr, bool) => curr || bool, false);
+              .split(' ').filter(Boolean)
+              .some((param) => user.searchPath.includes(param));
 
           if (!this.filterSearch || toDisplay) {
             this.getUserCommits(user, this.filterSinceDate, this.filterUntilDate);
@@ -630,8 +629,12 @@ window.vSummary = {
 
     // updating filters programically //
     resetDateRange() {
+      this.hasModifiedSinceDate = false;
+      this.hasModifiedUntilDate = false;
       this.tmpFilterSinceDate = '';
       this.tmpFilterUntilDate = '';
+      window.removeHash('since');
+      window.removeHash('until');
     },
 
     updateDateRange(since, until) {
