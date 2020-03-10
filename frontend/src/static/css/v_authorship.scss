@@ -95,6 +95,9 @@
     .file {
       pre {
         display: none;
+        // GitHub's font family and font size
+        font-family: SFMono-Regular, Consolas, Liberation Mono, Menlo, monospace;
+        font-size: 12px;
       }
 
       &.active {
@@ -105,18 +108,20 @@
             // overwrite hljs library
             display: inherit;
             padding: 0;
+            white-space: pre-wrap;
           }
         }
       }
     }
 
     .title {
-      font-size: 1.25rem;
+      font-size: medium;
       font-weight: bold;
       margin-top: 1rem;
 
       .path {
         cursor: pointer;
+        overflow-wrap: break-word;
       }
 
       .loc {
@@ -125,7 +130,6 @@
 
       .button {
         color: mui-color('grey');
-        font-size: 1.15rem;
         margin-left: .5rem;
         text-decoration: none;
       }
@@ -159,6 +163,7 @@
 
       .line-content {
         padding-left: 2rem;
+        word-break: break-word;
       }
 
       &.untouched {
