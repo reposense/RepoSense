@@ -71,10 +71,10 @@ window.viewClick = function viewClick(evt) {
   return null;
 };
 
-window.vCharts = {
+window.vSummaryCharts = {
   props: ['filtered', 'contributionBarFileTypeColors', 'avgContributionSize', 'filterBreakdown', 'filterGroupSelection',
       'filterTimeFrame', 'filterSinceDate', 'filterUntilDate', 'isMergeGroup', 'minDate', 'maxDate'],
-  template: window.$('v_charts').innerHTML,
+  template: window.$('v_summary_charts').innerHTML,
   computed: {
     avgCommitSize() {
       let totalCommits = 0;

@@ -88,7 +88,7 @@
         )
           span {{ getReportIssueEmailAddress() }}
       .error-message-box__failed-repo--reason(v-else) {{ errorBlock.errorMessage }}
-  v_charts(
+  v_summary_charts(
     v-bind:filtered="filtered",
     v-bind:contribution-bar-file-type-colors="contributionBarFileTypeColors",
     v-bind:avg-contribution-size="avgContributionSize",
