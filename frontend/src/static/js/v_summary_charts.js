@@ -79,7 +79,7 @@ window.vSummaryCharts = {
     avgCommitSize() {
       let totalCommits = 0;
       let totalCount = 0;
-      this.filtered.forEach((repo) => {
+      this.filteredRepos.forEach((repo) => {
         repo.forEach((user) => {
           user.commits.forEach((slice) => {
             if (slice.insertions > 0) {
