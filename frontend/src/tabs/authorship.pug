@@ -75,8 +75,8 @@
           )
             i.button.fas.fa-user-edit
         pre.hljs(v-if="!file.isBinary")
-            template(v-for="segment in file.segments")
-              v_segment(v-bind:segment="segment", v-bind:path="file.path")
+          template(v-for="segment in file.segments")
+            v_segment(v-bind:segment="segment", v-bind:path="file.path")
         pre(v-else)
           .binary-segment
             .indicator BIN
