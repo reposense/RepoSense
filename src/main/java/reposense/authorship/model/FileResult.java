@@ -27,12 +27,12 @@ public class FileResult {
     }
 
     public static FileResult createNonBinaryFileResult(String path, FileType fileType, ArrayList<LineInfo> lines,
-                                                       HashMap<Author, Integer> authorContributionMap) {
+            HashMap<Author, Integer> authorContributionMap) {
         return new FileResult(path, fileType, lines, authorContributionMap, false);
     }
 
     public static FileResult createBinaryFileResult(String path, FileType fileType, HashMap<Author,
-                                                    Integer> authorContributionMap) {
+            Integer> authorContributionMap) {
         return new FileResult(path, fileType, new ArrayList<>(), authorContributionMap, true);
     }
 
