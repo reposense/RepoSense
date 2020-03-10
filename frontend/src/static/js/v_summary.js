@@ -435,14 +435,14 @@ window.vSummary = {
 
       this.getOptionWithOrder();
 
-      const filterInfo = {
+      const filterControl = {
         filterGroupSelection: this.filterGroupSelection,
         sortingOption: this.sortingOption,
         sortingWithinOption: this.sortingWithinOption,
         isSortingDsc: this.isSortingDsc,
         isSortingWithinDsc: this.isSortingWithinDsc,
       };
-      this.filtered = this.sortFiltered(this.filtered, filterInfo);
+      this.filtered = this.sortFiltered(this.filtered, filterControl);
 
       if (this.isMergeGroup) {
         this.mergeGroup(this.filtered);
@@ -616,24 +616,18 @@ window.vSummary = {
       [this.sortingOption, this.isSortingDsc] = this.sortGroupSelection.split(' ');
       [this.sortingWithinOption, this.isSortingWithinDsc] = this.sortWithinGroupSelection.split(' ');
     },
-    sortFiltered(filtered, filterInfo) {
-      const {
-        filterGroupSelection, sortingOption, sortingWithinOption, isSortingDsc, isSortingWithinDsc,
-      } = filterInfo;
+    sortFiltered(filtered, filterControl) {
+      const { filterGroupSelection } = filterControl;
       this.getOptionWithOrder();
       let full = [];
 
-      const sortingInfo = {
-        sortingOption, sortingWithinOption, isSortingDsc, isSortingWithinDsc,
-      };
-
       if (filterGroupSelection === 'groupByNone') {
         // push all repos into the same group
-        full[0] = this.groupByNone(filtered, sortingInfo);
+        full[0] = this.groupByNone(filtered, filterControl);
       } else if (filterGroupSelection === 'groupByAuthors') {
-        full = this.groupByAuthors(filtered, sortingInfo);
+        full = this.groupByAuthors(filtered, filterControl);
       } else {
-        full = this.groupByRepos(filtered, sortingInfo);
+        full = this.groupByRepos(filtered, filterControl);
       }
 
       return full;
@@ -743,11 +737,11 @@ window.vSummary = {
       });
     },
 
-    groupByRepos(repos, sortingInfo) {
+    groupByRepos(repos, sortingControl) {
       const sortedRepos = [];
       const {
         sortingWithinOption, sortingOption, isSortingDsc, isSortingWithinDsc,
-      } = sortingInfo;
+      } = sortingControl;
       const sortWithinOption = sortingWithinOption === 'title' ? 'displayName' : sortingWithinOption;
       const sortOption = sortingOption === 'groupTitle' ? 'searchPath' : sortingOption;
       repos.forEach((users) => {
@@ -768,9 +762,9 @@ window.vSummary = {
       }
       return sortedRepos;
     },
-    groupByNone(repos, sortingInfo) {
+    groupByNone(repos, sortingControl) {
       const sortedRepos = [];
-      const { sortingOption, isSortingDsc } = sortingInfo;
+      const { sortingOption, isSortingDsc } = sortingControl;
       const isSortingGroupTitle = sortingOption === 'groupTitle';
       repos.forEach((users) => {
         users.forEach((user) => {
@@ -789,12 +783,12 @@ window.vSummary = {
 
       return sortedRepos;
     },
-    groupByAuthors(repos, sortingInfo) {
+    groupByAuthors(repos, sortingControl) {
       const authorMap = {};
       const filtered = [];
       const {
         sortingWithinOption, sortingOption, isSortingDsc, isSortingWithinDsc,
-      } = sortingInfo;
+      } = sortingControl;
       const sortWithinOption = sortingWithinOption === 'title' ? 'searchPath' : sortingWithinOption;
       const sortOption = sortingOption === 'groupTitle' ? 'displayName' : sortingOption;
       repos.forEach((users) => {
@@ -868,14 +862,14 @@ window.vSummary = {
         }
       });
 
-      const filterInfo = {
+      const filterControl = {
         filterGroupSelection: zFilterGroup,
         sortingOption: zSorting,
         sortingWithinOption: zSortingWithin,
         isSortingDsc: zIsSortingDsc,
         isSortingWithinDsc: zIsSortingWithinDsc,
       };
-      filtered = this.sortFiltered(filtered, filterInfo);
+      filtered = this.sortFiltered(filtered, filterControl);
 
       if (zIsMerge) {
         this.mergeGroup(filtered);

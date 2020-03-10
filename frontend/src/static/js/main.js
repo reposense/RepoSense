@@ -247,7 +247,7 @@ window.app = new window.Vue({
 
     renderZoomTabHash() {
       const hash = window.hashParams;
-      const info = {
+      const zoomInfo = {
         zAuthor: hash.zA,
         zRepo: hash.zR,
         zAvgCommitSize: hash.zACS,
@@ -261,9 +261,9 @@ window.app = new window.Vue({
         zIsSortingDsc: hash.zSD === 'true',
         zIsSortingWithinDsc: hash.zSWD === 'true',
       };
-      const tabInfoLength = Object.values(info).filter((x) => x !== null).length;
-      if (Object.keys(info).length === tabInfoLength) {
-        this.updateTabZoom(info);
+      const tabInfoLength = Object.values(zoomInfo).filter((x) => x !== null).length;
+      if (Object.keys(zoomInfo).length === tabInfoLength) {
+        this.updateTabZoom(zoomInfo);
       } else if (hash.tabOpen === 'false' || tabInfoLength > 2) {
         window.app.isTabActive = false;
       }
