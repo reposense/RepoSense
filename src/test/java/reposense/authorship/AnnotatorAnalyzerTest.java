@@ -24,27 +24,6 @@ public class AnnotatorAnalyzerTest extends GitTestTemplate {
     private static final Date SINCE_DATE = TestUtil.getSinceDate(2018, Calendar.FEBRUARY, 8);
     private static final Date UNTIL_DATE = TestUtil.getUntilDate(2018, Calendar.FEBRUARY, 10);
 
-    public FileResult getFileResult(String relativePath) {
-        FileInfo fileInfo = FileInfoExtractor.generateFileInfo(config.getRepoRoot(), relativePath);
-        return FileInfoAnalyzer.analyzeFile(config, fileInfo);
-    }
-
-    /**
-     * Asserts the correctness of authorship overriding with regards to @@author tags given
-     * in the test file.
-     */
-    public void assertAnnotationAnalysisCorrectness(FileResult fileResult, Author originalAuthor,
-            Author overridingAuthor) {
-        for (LineInfo line : fileResult.getLines()) {
-            Author lineAuthor = line.getAuthor();
-            if (line.getContent().startsWith("fake")) {
-                Assert.assertEquals(originalAuthor, lineAuthor);
-            } else {
-                Assert.assertEquals(overridingAuthor, lineAuthor);
-            }
-        }
-    }
-
     @Before
     public void before() throws InvalidLocationException {
         super.before();
@@ -64,6 +43,27 @@ public class AnnotatorAnalyzerTest extends GitTestTemplate {
         config.setAuthorList(Collections.singletonList(FAKE_AUTHOR));
         FileResult fileResult = getFileResult("annotationTest.java");
         assertAnnotationAnalysisCorrectness(fileResult, FAKE_AUTHOR, Author.UNKNOWN_AUTHOR);
+    }
+
+    public FileResult getFileResult(String relativePath) {
+        FileInfo fileInfo = FileInfoExtractor.generateFileInfo(config.getRepoRoot(), relativePath);
+        return FileInfoAnalyzer.analyzeFile(config, fileInfo);
+    }
+
+    /**
+     * Asserts the correctness of authorship overriding with regards to @@author tags given
+     * in the test file.
+     */
+    public void assertAnnotationAnalysisCorrectness(FileResult fileResult, Author originalAuthor,
+            Author overridingAuthor) {
+        for (LineInfo line : fileResult.getLines()) {
+            Author lineAuthor = line.getAuthor();
+            if (line.getContent().startsWith("fake")) {
+                Assert.assertEquals(originalAuthor, lineAuthor);
+            } else {
+                Assert.assertEquals(overridingAuthor, lineAuthor);
+            }
+        }
     }
 
 }
