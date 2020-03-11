@@ -53,16 +53,7 @@ public class AnnotatorAnalyzerTest extends GitTestTemplate {
     }
 
     @Test
-    public void ignoreAnnotationTest() {
-        config.setAnnotationOverwrite(false);
-        config.setAuthorList(Collections.singletonList(FAKE_AUTHOR));
-        FileResult fileResult = getFileResult("annotationTest.java");
-        assertAnnotationAnalysisCorrectness(fileResult, FAKE_AUTHOR, FAKE_AUTHOR);
-    }
-
-    @Test
     public void applyAnnotationTest() {
-        config.setAnnotationOverwrite(true);
         config.setAuthorList(Arrays.asList(FAKE_AUTHOR, MAIN_AUTHOR));
         FileResult fileResult = getFileResult("annotationTest.java");
         assertAnnotationAnalysisCorrectness(fileResult, FAKE_AUTHOR, MAIN_AUTHOR);
@@ -70,7 +61,6 @@ public class AnnotatorAnalyzerTest extends GitTestTemplate {
 
     @Test
     public void disownCodeTest() {
-        config.setAnnotationOverwrite(true);
         config.setAuthorList(Collections.singletonList(FAKE_AUTHOR));
         FileResult fileResult = getFileResult("annotationTest.java");
         assertAnnotationAnalysisCorrectness(fileResult, FAKE_AUTHOR, Author.UNKNOWN_AUTHOR);
