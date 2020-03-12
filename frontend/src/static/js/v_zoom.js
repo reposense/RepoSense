@@ -4,7 +4,11 @@ const commitSortDict = {
 };
 
 window.vZoom = {
-  props: ['info'],
+  props: {
+    info: {
+      type: Object,
+    },
+  },
   template: window.$('v_zoom').innerHTML,
   data() {
     return {
@@ -43,6 +47,11 @@ window.vZoom = {
       });
 
       return nonEmptyCommitMessageCount;
+    },
+  },
+  watch: {
+    info() {
+      this.updateExpandedCommitMessagesCount();
     },
   },
   methods: {

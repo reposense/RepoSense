@@ -26,7 +26,11 @@ const repoCache = [];
 const minimatch = require('minimatch');
 
 window.vAuthorship = {
-  props: ['info'],
+  props: {
+    info: {
+      type: Object,
+    },
+  },
   template: window.$('v_authorship').innerHTML,
   data() {
     return {
@@ -58,6 +62,11 @@ window.vAuthorship = {
       } else {
         this.selectedFileTypes = this.fileTypes.slice();
       }
+    },
+
+    info() {
+      this.initiate();
+      this.setInfoHash();
     },
   },
 
