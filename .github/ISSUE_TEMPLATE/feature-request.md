@@ -8,7 +8,7 @@ labels: "c.Feature"
   Before opening a new issue, please search existing issues:  https://github.com/reposense/RepoSense/issues
 -->
 
-**What feature do you think would benefit RepoSense users?**
+**What feature(s) would you like to see in RepoSense?**
 <!--
   Provide a clear and concise description of the feature.
 -->

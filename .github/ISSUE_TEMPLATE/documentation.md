@@ -20,10 +20,3 @@ labels: "a-Docs"
     Summarize the suggested addition to or
     modification of existing documentation.
 -->
-
-
-**Why should we document this and who will benefit from it?**
-<!--
-    Here would be a good place to talk about the motivation
-    behind adding this documentation.
--->
