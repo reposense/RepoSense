@@ -1,3 +1,6 @@
+@import "colors";
+@import "z-indices";
+
 .toolbar {
   cursor: pointer;
   float: right;
@@ -24,4 +27,72 @@
   span {
     margin-left: .25rem;
   }
+}
+
+.panel-padding {
+  padding: 2rem 1.5rem 2rem 2.2rem
+}
+
+#app-wrapper {
+  display: flex;
+  height: 100vh;
+  left: 0;
+  position: absolute;
+  top: 0;
+  width: 100%;
+  z-index: z-index('app-wrapper');
+
+  #tabs-wrapper {
+    $tabs-width: 50%;
+
+    background: mui-color('white');
+    flex: 0 0 $tabs-width;
+    overflow-y: scroll;
+    position: relative;
+
+    .tab-close {
+      cursor: pointer;
+      position: fixed;
+      top: calc(50vh - 3rem);
+      z-index: z-index('center-divider');
+
+      svg {
+        background-color: mui-color('grey', '300');
+        color: mui-color('black');
+        padding: 3rem .25rem;
+      }
+    }
+
+    .tab-content {
+      display: flex;
+
+      .tab-panes {
+        text-align: left;
+        width: 100%;
+      }
+    }
+  }
+
+  #tab-resize {
+    background-color: mui-color('black');
+    cursor: col-resize;
+    height: 100%;
+    position: fixed;
+    width: 13.250px;
+    z-index: z-index('center-divider');
+  }
+
+  #tab-resize-guide {
+    $tabs-width: 50%;
+
+    background-color: mui-color('black');
+    cursor: col-resize;
+    display: none;
+    height: 100%;
+    position: fixed;
+    right: $tabs-width;
+    width: 2px;
+    z-index: z-index('center-divider');
+  }
+
 }
