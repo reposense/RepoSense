@@ -2,6 +2,14 @@
 
 /* Authorship */
 #tab-authorship {
+
+  .file-content {
+    background-color: mui-color('github', 'title-background');
+    border: solid mui-color('github', 'border');
+    border-radius: 0 0 4px 4px;
+    border-width: 0 1px 1px 1px;
+  }
+
   .title {
     .repoName {
       cursor: pointer;
@@ -103,6 +111,7 @@
       &.active {
         pre {
           display: grid;
+          margin-top: 0;
 
           .hljs {
             // overwrite hljs library
@@ -115,9 +124,13 @@
     }
 
     .title {
+      background-color: mui-color('github', 'title-background');
+      border: 1px solid mui-color('github', 'border');
+      border-radius: 4px 4px 0 0;
       font-size: medium;
       font-weight: bold;
       margin-top: 1rem;
+      padding: .3em .5em;
 
       .path {
         cursor: pointer;
@@ -139,7 +152,7 @@
       border-left: .25rem solid mui-color('green');
 
       .code {
-        background-color: mui-color('green', '50');
+        background-color: mui-color('github', 'authored-code-background');
         padding-left: 1rem;
       }
 
