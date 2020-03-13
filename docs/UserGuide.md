@@ -33,7 +33,7 @@ The simplest use case for RepoSense is to generate a report for the entire histo
 1. Generate the report for the repo by executing the following command in a terminal:<br/>
    Format : `java -jar RepoSense.jar --repo FULL_REPO_URL` (note the `.git` at the end)<br>
    Example: `java -jar RepoSense.jar --repo https://github.com/reposense/RepoSense.git`
-   > Note: The above command will analyze the commits made within one month from the date of report generation. Append `--since d1` if you wish to analyze from the date of the first commit. 
+   > Note: The above command will analyze the commits made within one month from the date of report generation. Append `--since d1` if you wish to analyze from the date of the first commit.
 1. The previous step analyzes the default branch of the repo and creates the report in a directory named `reposense-report`. Run the following command to view the report (it will open up in your default Browser):<br/>
    `java -jar RepoSense.jar --view reposense-report`
 
@@ -139,7 +139,7 @@ The `Tool Bar` at the top provides a set of configuration options that control t
 * `Reset date range` : resets the date range of the Ramp Chart to the default date range.
 * `Breakdown by file format` : toggles the contribution bar to either display the bar by :
     * the total lines of codes added (if checkbox is left unchecked), or
-    * a breakdown of the number of lines of codes added to each file format (if checkbox is checked). 
+    * a breakdown of the number of lines of codes added to each file format (if checkbox is checked).
 
 Notes:<br>
 [1] **`Sort groups by`**: each main group has its own index and percentile according to its ranking position after sorting (e.g., 
