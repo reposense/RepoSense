@@ -1,0 +1,27 @@
+.toolbar {
+  cursor: pointer;
+  float: right;
+}
+
+.sorting {
+  align-items: center;
+  display: flex;
+  margin-top: 1.0rem;
+
+  .mui-select {
+    cursor: pointer;
+    padding-right: 15px;
+  }
+
+  label {
+    overflow-y: hidden;
+  }
+
+  & > label {
+    margin-left: 10px;
+  }
+
+  span {
+    margin-left: .25rem;
+  }
+}
