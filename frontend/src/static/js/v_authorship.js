@@ -27,9 +27,7 @@ const minimatch = require('minimatch');
 
 window.vAuthorship = {
   props: {
-    info: {
-      type: Object,
-    },
+    info: Object,
   },
   template: window.$('v_authorship').innerHTML,
   data() {

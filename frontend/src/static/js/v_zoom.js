@@ -5,9 +5,7 @@ const commitSortDict = {
 
 window.vZoom = {
   props: {
-    info: {
-      type: Object,
-    },
+    info: Object,
   },
   template: window.$('v_zoom').innerHTML,
   data() {
