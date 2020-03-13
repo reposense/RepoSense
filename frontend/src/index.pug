@@ -57,7 +57,7 @@ html
           #tab-resize(onmousedown="registerMouseMove()")
           .tab-close(v-on:click="deactivateTab")
             i.fas.fa-caret-right
-          .tab-content.tab-padding
+          .tab-content.panel-padding
             .tab-panes
               v_authorship#tab-authorship.tab-pane(
                 v-if="tabType === 'authorship'",

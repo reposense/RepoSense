@@ -65,6 +65,10 @@ a {
   padding: 2rem 1.5rem;
 }
 
+.panel-padding {
+  padding: 2rem 1.5rem 2rem 2.2rem
+}
+
 .warn {
   color: mui-color('red');
 
@@ -181,7 +185,7 @@ header {
   #tabs-wrapper {
     $tabs-width: 50%;
 
-    background: mui-color('grey', '200');
+    background: mui-color('white');
     flex: 0 0 $tabs-width;
     overflow-y: scroll;
     position: relative;
@@ -193,7 +197,7 @@ header {
       z-index: z-index('center-divider');
 
       svg {
-        background-color: mui-color('white');
+        background-color: mui-color('grey', '300');
         color: mui-color('black');
         padding: 3rem .25rem;
       }
