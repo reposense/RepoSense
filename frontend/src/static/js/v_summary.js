@@ -636,6 +636,8 @@ window.vSummary = {
     },
 
     updateDateRange(since, until) {
+      this.hasModifiedSinceDate = true;
+      this.hasModifiedUntilDate = true;
       this.tmpFilterSinceDate = since;
       this.tmpFilterUntilDate = until;
       deactivateAllOverlays();
