@@ -1,6 +1,7 @@
 package reposense.model;
 
 import java.nio.file.FileSystems;
+import java.nio.file.Path;
 import java.nio.file.PathMatcher;
 import java.util.ArrayList;
 import java.util.List;
@@ -130,10 +131,6 @@ public class Author {
         updateIgnoreGlobMatcher();
     }
 
-    public PathMatcher getIgnoreGlobMatcher() {
-        return ignoreGlobMatcher;
-    }
-
     /**
      * Validates and adds a list of ignore glob into the {@code Author} class instance variable without duplicates
      * and updates the ignore glob matcher.
@@ -146,6 +143,13 @@ public class Author {
             }
         });
         updateIgnoreGlobMatcher();
+    }
+
+    /**
+     * Returns true if this author is ignoring the {@code filePath} based on its ignore glob matcher.
+     */
+    public boolean isIgnoringFile(Path filePath) {
+        return ignoreGlobMatcher.matches(filePath);
     }
 
     @Override
