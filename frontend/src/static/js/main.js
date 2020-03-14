@@ -117,10 +117,12 @@ window.app = new window.Vue({
         minDate: '',
         name: '',
         repo: '',
+        totalCommits: '',
       },
       tabZoom: {
         avgCommitSize: 0,
         filterGroupSelection: '',
+        filterTimeFrame: '',
         location: '',
         isMergeGroup: false,
         sinceDate: '',

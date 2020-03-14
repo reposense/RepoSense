@@ -708,6 +708,7 @@ window.vSummary = {
 
       this.$emit('view-zoom', {
         filterGroupSelection: this.filterGroupSelection,
+        filterTimeFrame: this.filterTimeFrame,
         avgCommitSize,
         user,
         location: this.getRepoLink(repo[index]),
