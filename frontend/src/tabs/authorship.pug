@@ -70,6 +70,7 @@
           )
             i.button.fas.fa-history
           a(
+            v-if="!file.isBinary",
             v-bind:href="getFileLink(file, 'blame')", target="_blank",
             title="click to view the blame view of file"
           )

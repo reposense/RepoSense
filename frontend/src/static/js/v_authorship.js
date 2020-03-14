@@ -233,6 +233,7 @@ window.vAuthorship = {
 
     indicateSearchBar() {
       this.selectedFileTypes = this.fileTypes.slice();
+      this.isBinaryFilesChecked = true;
       this.filterType = 'search';
     },
 
