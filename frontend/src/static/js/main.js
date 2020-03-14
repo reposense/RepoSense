@@ -117,7 +117,6 @@ window.app = new window.Vue({
         minDate: '',
         name: '',
         repo: '',
-        totalCommits: '',
       },
       tabZoom: {
         avgCommitSize: 0,
