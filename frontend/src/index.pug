@@ -51,6 +51,8 @@ html
             )
               strong User Guide - {{ repoSenseVersion }}
             span ) on {{ creationDate }}
+          .report-generation-time(style="display: none;")
+            span {{ reportGenerationTime }}
 
         #tabs-wrapper(v-if="isTabActive")
           #tab-resize(onmousedown="registerMouseMove()")
