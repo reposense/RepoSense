@@ -61,6 +61,11 @@ window.vAuthorship = {
         this.selectedFileTypes = this.fileTypes.slice();
       }
     },
+
+    info() {
+      this.initiate();
+      this.setInfoHash();
+    },
   },
 
   methods: {

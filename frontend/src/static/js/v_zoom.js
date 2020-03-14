@@ -48,6 +48,11 @@ window.vZoom = {
       return nonEmptyCommitMessageCount;
     },
   },
+  watch: {
+    info() {
+      this.updateExpandedCommitMessagesCount();
+    },
+  },
   methods: {
     openSummary() {
       this.$emit('view-summary', this.info.sinceDate, this.info.untilDate);
