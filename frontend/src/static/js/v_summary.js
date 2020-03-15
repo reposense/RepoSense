@@ -100,6 +100,8 @@ function dateRounding(datestr, roundDown) {
   return getDateStr(datems);
 }
 
+const hexLetters = '0123456789ABCDEF'.split('');
+
 window.vSummary = {
   props: ['repos', 'errorMessages'],
   template: window.$('v_summary').innerHTML,
@@ -505,6 +507,13 @@ window.vSummary = {
         merged[key] += value;
       });
     },
+    getRandomColor() {
+      let color = '#';
+      while (color.length < 7) {
+        color += hexLetters[Math.round(Math.random() * 15)];
+      }
+      return color;
+    },
     processFileTypes() {
       const selectedColors = ['#ffe119', '#4363d8', '#3cb44b', '#f58231', '#911eb4', '#46f0f0', '#f032e6',
           '#bcf60c', '#fabebe', '#008080', '#e6beff', '#9a6324', '#fffac8', '#800000', '#aaffc3', '#808000', '#ffd8b1',
@@ -516,8 +525,12 @@ window.vSummary = {
         repo.users.forEach((user) => {
           Object.keys(user.fileTypeContribution).forEach((fileType) => {
             if (!Object.prototype.hasOwnProperty.call(fileTypeColors, fileType)) {
-              fileTypeColors[fileType] = selectedColors[i];
-              i = (i + 1) % selectedColors.length;
+              if (i < selectedColors.length) {
+                fileTypeColors[fileType] = selectedColors[i];
+                i += 1;
+              } else {
+                fileTypeColors[fileType] = this.getRandomColor();
+              }
             }
           });
         });
