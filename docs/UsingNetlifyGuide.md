@@ -1,5 +1,5 @@
 ## Using RepoSense with Netlify
-  
+
 Netlify's continuous web deployment platform enables you to deploy RepoSense online, analyzes your target repository(s) and generates the git contribution report in real time for free. The deployment can be synchronized to the updates on your target repository(s) and you can perform everything through the browser without downloading any files.
 
 1. Fork the RepoSense repository using this [link](https://github.com/repoSense/RepoSense/fork).
