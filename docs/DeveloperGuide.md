@@ -150,12 +150,12 @@ gradlew run
 
 Sample usage to generate the report with config files and automatically open the report:
 ```
-gradlew run -Dargs="--config ./configs/ --output output_path/ --since 21/10/2017 --until 21/11/2017 --formats java adoc js --view"
+gradlew run -Dargs="--config ./config/ --output output_path/ --since 21/10/2017 --until 21/11/2019 --formats java adoc js --view"
 ```
 
 Sample usage to generate the report with config files and choose the timezone used to be UTC+8:
 ```
-gradlew run -Dargs="--config ./configs/ --output output_path/ --timezone UTC+08"
+gradlew run -Dargs="--config ./config/ --output output_path/ --timezone UTC+08"
 ```
 
 Sample usage to generate the report with repository locations and automatically open the report:
@@ -175,7 +175,7 @@ gradlew run -Dargs="--view output_path/reposense-report"
 
 Sample usage to generate the report with config files using the alias of argument:
 ```
-gradlew run -Dargs="-c ./configs/ -o output_path/ -s 21/10/2017 -u 21/11/2017 -f java adoc js"
+gradlew run -Dargs="-c ./config/ -o output_path/ -s 21/10/2017 -u 21/11/2017 -f java adoc js"
 ```
 
 `-Dargs="..."` uses the same argument format as mentioned above.
