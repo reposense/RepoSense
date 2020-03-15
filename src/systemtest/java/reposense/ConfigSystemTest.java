@@ -41,6 +41,7 @@ public class ConfigSystemTest {
     private static final String EXPECTED_FOLDER = "expected";
     private static final List<String> TESTING_FILE_FORMATS = Arrays.asList("java", "adoc");
     private static final String TEST_REPORT_GENERATED_TIME = "Tue Jul 24 17:45:15 SGT 2018";
+    private static final String TEST_REPORT_GENERATION_TIME = "15 second(s)";
 
     @Before
     public void setUp() throws IOException {
@@ -127,8 +128,8 @@ public class ConfigSystemTest {
                 repoConfigs, cliArguments.getSinceDate(), cliArguments.getUntilDate());
 
         ReportGenerator.generateReposReport(repoConfigs, FT_TEMP_DIR, TEST_REPORT_GENERATED_TIME,
-                cliArguments.getSinceDate(), cliArguments.getUntilDate(),
-                cliArguments.isSinceDateProvided(), cliArguments.isUntilDateProvided());
+                cliArguments.getSinceDate(), cliArguments.getUntilDate(), cliArguments.isSinceDateProvided(),
+                cliArguments.isUntilDateProvided(), () -> TEST_REPORT_GENERATION_TIME);
     }
 
     /**
