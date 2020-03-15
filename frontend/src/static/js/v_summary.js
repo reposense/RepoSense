@@ -100,8 +100,6 @@ function dateRounding(datestr, roundDown) {
   return getDateStr(datems);
 }
 
-const hexLetters = '0123456789ABCDEF'.split('');
-
 window.vSummary = {
   props: ['repos', 'errorMessages'],
   template: window.$('v_summary').innerHTML,
@@ -508,11 +506,8 @@ window.vSummary = {
       });
     },
     getRandomColor() {
-      let color = '#';
-      while (color.length < 7) {
-        color += hexLetters[Math.round(Math.random() * 15)];
-      }
-      return color;
+      const maxHexColorValue = 16777215;
+      return `#${Math.round(Math.random() * maxHexColorValue).toString(16)}`;
     },
     processFileTypes() {
       const selectedColors = ['#ffe119', '#4363d8', '#3cb44b', '#f58231', '#911eb4', '#46f0f0', '#f032e6',
