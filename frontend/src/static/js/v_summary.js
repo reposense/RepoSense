@@ -506,8 +506,9 @@ window.vSummary = {
       });
     },
     getRandomColor() {
-      const maxHexColorValue = 16777215;
-      return `#${Math.round(Math.random() * maxHexColorValue).toString(16)}`;
+      const maxHexColorValue = 16777213;
+      // excludes #000000 and #FFFFFF as they are reserved
+      return `#${Math.round(Math.random() * maxHexColorValue + 1).toString(16)}`;
     },
     processFileTypes() {
       const selectedColors = ['#ffe119', '#4363d8', '#3cb44b', '#f58231', '#911eb4', '#46f0f0', '#f032e6',
