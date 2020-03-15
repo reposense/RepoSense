@@ -1,6 +1,6 @@
 {
 	"ignoreGlobList": ["**.adoc", "collate**"],
-	"formats": ["gradle", "jade", "java", "js", "md", "scss", "yml"],
+	"formats": ["gradle", "pug", "java", "js", "md", "scss", "yml"],
 	"ignoreCommitList": ["7b96c563eb2d3612aa5275364333664a18f01491",
 		"90018e49f129ce7e0abdc8b18e91c9813588c601",
 		"b8dbc3cf3c7c334665a828cf4236dcb442228c94",
@@ -10,14 +10,14 @@
 	"authors":
 	[
 		{
-			"githubId": "AdityaA1998",
-			"displayName": "Aditya",
-			"authorNames": ["AdityaA1998"]
-		},
-		{
 			"githubId": "eugenepeh",
 			"displayName": "Eugene",
 			"authorNames": ["Eugene Peh"]
+		},
+		{
+			"githubId": "jamessspanggg",
+			"displayName": "James",
+			"authorNames": ["James Pang"]
 		},
 		{
 			"githubId": "ongspxm",
