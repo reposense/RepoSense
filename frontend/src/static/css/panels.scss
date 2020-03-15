@@ -1,34 +1,6 @@
 @import 'colors';
 @import 'z-indices';
 
-.toolbar {
-  cursor: pointer;
-  float: right;
-}
-
-.sorting {
-  align-items: center;
-  display: flex;
-  margin-top: 1.0rem;
-
-  .mui-select {
-    cursor: pointer;
-    padding-right: 15px;
-  }
-
-  label {
-    overflow-y: hidden;
-  }
-
-  & > label {
-    margin-left: 10px;
-  }
-
-  span {
-    margin-left: .25rem;
-  }
-}
-
 .panel-padding {
   padding: 2rem 1.5rem 2rem 2.2rem
 }
@@ -41,6 +13,19 @@
   top: 0;
   width: 100%;
   z-index: z-index('app-wrapper');
+
+  #tab-resize-guide {
+    $tabs-width: 50%;
+
+    background-color: mui-color('black');
+    cursor: col-resize;
+    display: none;
+    height: 100%;
+    position: fixed;
+    right: $tabs-width;
+    width: 2px;
+    z-index: z-index('center-divider');
+  }
 
   #tabs-wrapper {
     $tabs-width: 50%;
@@ -81,18 +66,33 @@
       z-index: z-index('center-divider');
     }
   }
+}
 
-  #tab-resize-guide {
-    $tabs-width: 50%;
+.toolbar {
+  cursor: pointer;
+  float: right;
+}
 
-    background-color: mui-color('black');
-    cursor: col-resize;
-    display: none;
-    height: 100%;
-    position: fixed;
-    right: $tabs-width;
-    width: 2px;
-    z-index: z-index('center-divider');
+.sorting {
+  align-items: center;
+  display: flex;
+  margin-top: 1.0rem;
+
+  .mui-select {
+    cursor: pointer;
+    padding-right: 15px;
   }
 
+  label {
+    overflow-y: hidden;
+  }
+
+  & > label {
+    margin-left: 10px;
+  }
+
+  span {
+    margin-left: .25rem;
+  }
 }
+
