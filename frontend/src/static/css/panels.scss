@@ -71,15 +71,15 @@
         width: 100%;
       }
     }
-  }
 
-  #tab-resize {
-    background-color: mui-color('black');
-    cursor: col-resize;
-    height: 100%;
-    position: fixed;
-    width: 13.250px;
-    z-index: z-index('center-divider');
+    #tab-resize {
+      background-color: mui-color('black');
+      cursor: col-resize;
+      height: 100%;
+      position: fixed;
+      width: 13.250px;
+      z-index: z-index('center-divider');
+    }
   }
 
   #tab-resize-guide {
