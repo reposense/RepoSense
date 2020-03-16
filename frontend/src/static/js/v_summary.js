@@ -722,11 +722,12 @@ window.vSummary = {
 
     // triggering opening of tabs //
     openTabAuthorship(user, repo, index) {
-      const { minDate, maxDate } = this;
+      const { minDate, maxDate, checkedFileTypes } = this;
 
       this.$emit('view-authorship', {
         minDate,
         maxDate,
+        checkedFileTypes,
         author: user.name,
         repo: user.repoName,
         name: user.displayName,

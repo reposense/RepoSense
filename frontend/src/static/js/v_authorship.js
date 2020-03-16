@@ -193,12 +193,13 @@ window.vAuthorship = {
 
       Object.keys(this.filesLinesObj).forEach((file) => {
         if (this.filesLinesObj[file] !== 0) {
-          this.selectedFileTypes.push(file);
           this.fileTypes.push(file);
         }
       });
 
-      this.selectedFileTypes = this.fileTypes.slice();
+      this.selectedFileTypes = this.info.checkedFileTypes
+          ? this.info.checkedFileTypes.filter((e) => this.fileTypes.includes(e))
+          : this.fileTypes.slice();
       this.fileTypeBlankLinesObj = fileTypeBlanksInfoObj;
       this.files = res;
       this.isLoaded = true;
