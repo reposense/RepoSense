@@ -724,7 +724,7 @@ window.vSummary = {
     openTabAuthorship(user, repo, index) {
       const { minDate, maxDate } = this;
 
-      this.$emit('view-authorship', {
+      const info = {
         minDate,
         maxDate,
         author: user.name,
@@ -732,7 +732,9 @@ window.vSummary = {
         name: user.displayName,
         location: this.getRepoLink(repo[index]),
         totalCommits: user.totalCommits,
-      });
+      };
+
+      this.$store.commit('updateAuthorshipTabInfo', info);
     },
     openTabZoomSubrange(user, repo, index) {
       // skip if accidentally clicked on ramp chart
@@ -748,7 +750,7 @@ window.vSummary = {
     openTabZoom(user, since, until, repo, index) {
       const { avgCommitSize } = this;
 
-      this.$emit('view-zoom', {
+      const info = {
         filterGroupSelection: this.filterGroupSelection,
         avgCommitSize,
         user,
@@ -756,7 +758,9 @@ window.vSummary = {
         sinceDate: since,
         untilDate: until,
         isMergeGroup: this.isMergeGroup,
-      });
+      };
+
+      this.$store.commit('updateZoomTabInfo', info);
     },
 
     getFileTypeContribution(ele) {

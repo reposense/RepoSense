@@ -1,3 +1,20 @@
+const store = new Vuex.Store({
+  state: {
+    authorshipInfo: {},
+    zoomTabInfo: {},
+  },
+  mutations: {
+    updateZoomTabInfo(state, info) {
+      state.zoomTabInfo = info;
+    },
+    updateAuthorshipTabInfo(state, info) {
+      state.authorshipInfo = info;
+    },
+  },
+  actions: {
+  },
+});
+
 window.BASE_URL = 'https://github.com';
 window.REPORT_ZIP = null;
 window.REPOS = {};
@@ -98,6 +115,7 @@ Vue.directive('hljs', {
 
 window.app = new window.Vue({
   el: '#app',
+  store,
   data: {
     repos: {},
     users: [],
@@ -114,6 +132,22 @@ window.app = new window.Vue({
     creationDate: '',
 
     errorMessages: {},
+  },
+  computed: {
+    zoomTabInfo() {
+      return this.$store.state.zoomTabInfo;
+    },
+    authorshipInfo() {
+      return this.$store.state.authorshipInfo;
+    },
+  },
+  watch: {
+    zoomTabInfo() {
+      this.updateTabZoom(this.zoomTabInfo);
+    },
+    authorshipInfo() {
+      this.updateTabAuthorship(this.authorshipInfo);
+    },
   },
   methods: {
     // model functions //
