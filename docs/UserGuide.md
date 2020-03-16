@@ -137,9 +137,9 @@ The `Tool Bar` at the top provides a set of configuration options that control t
     * `Week`: commits within a week (from Monday 00:00 to Sunday 23:59) are shown as one ramp
 * `Since`, `Until` : the date range for the Ramp Chart (not applied to the Contribution Bars).
 * `Reset date range` : resets the date range of the Ramp Chart to the default date range.
-* `Breakdown by file format` : toggles the contribution bar to either display the bar by :
+* `Breakdown by file type` : toggles the contribution bar to either display the bar by :
     * the total lines of codes added (if checkbox is left unchecked), or
-    * a breakdown of the number of lines of codes added to each file format (if checkbox is checked). 
+    * a breakdown of the number of lines of codes added to each file type (if checkbox is checked). If sorting criteria is contribution, only lines contributed to selected file types will be taken into account.
 
 Notes:<br>
 [1] **`Sort groups by`**: each main group has its own index and percentile according to its ranking position after sorting (e.g., 
