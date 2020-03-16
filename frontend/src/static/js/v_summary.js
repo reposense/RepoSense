@@ -105,6 +105,8 @@ window.vSummary = {
   template: window.$('v_summary').innerHTML,
   data() {
     return {
+      checkedFileTypes: [],
+      fileTypes: [],
       filtered: [],
       filterSearch: '',
       filterGroupSelection: 'groupByRepos',
@@ -126,11 +128,17 @@ window.vSummary = {
       filterHash: '',
       minDate: '',
       maxDate: '',
-      contributionBarFileTypeColors: {},
+      fileTypeColors: {},
       isSafariBrowser: /.*Version.*Safari.*/.test(navigator.userAgent),
     };
   },
   watch: {
+    checkedFileTypes() {
+      this.getFiltered();
+    },
+    filterBreakdown() {
+      this.getFiltered();
+    },
     sortGroupSelection() {
       this.getFiltered();
     },
@@ -169,6 +177,18 @@ window.vSummary = {
     },
   },
   computed: {
+    checkAllFileTypes: {
+      get() {
+        return this.checkedFileTypes.length === this.fileTypes.length;
+      },
+      set(value) {
+        if (value) {
+          this.checkedFileTypes = this.fileTypes.slice();
+        } else {
+          this.checkedFileTypes = [];
+        }
+      },
+    },
     avgCommitSize() {
       let totalCommits = 0;
       let totalCount = 0;
@@ -210,32 +230,35 @@ window.vSummary = {
       const contributionPerFullBar = (this.avgContributionSize * 2);
       const allFileTypesContributionBars = {};
 
-      Object.keys(fileTypeContribution).forEach((fileType) => {
-        const contribution = fileTypeContribution[fileType];
-        let barWidth = (contribution / contributionPerFullBar) * fullBarWidth;
-        const contributionBars = [];
+      Object.keys(fileTypeContribution)
+          .filter((fileType) => this.checkedFileTypes.includes(fileType))
+          .forEach((fileType) => {
+            const contribution = fileTypeContribution[fileType];
+            let barWidth = (contribution / contributionPerFullBar) * fullBarWidth;
+            const contributionBars = [];
 
-        // if contribution bar for file type is able to fit on the current line
-        if (currentBarWidth + barWidth < fullBarWidth) {
-          contributionBars.push(barWidth);
-          currentBarWidth += barWidth;
-        } else {
-          // take up all the space left on the current line
-          contributionBars.push(fullBarWidth - currentBarWidth);
-          barWidth -= fullBarWidth - currentBarWidth;
-          // additional bar width will start on a new line
-          const numOfFullBars = Math.floor(barWidth / fullBarWidth);
-          for (let i = 0; i < numOfFullBars; i += 1) {
-            contributionBars.push(fullBarWidth);
-          }
-          const remainingBarWidth = barWidth % fullBarWidth;
-          if (remainingBarWidth !== 0) {
-            contributionBars.push(remainingBarWidth);
-          }
-          currentBarWidth = remainingBarWidth;
-        }
-        allFileTypesContributionBars[fileType] = contributionBars;
-      });
+            // if contribution bar for file type is able to fit on the current line
+            if (currentBarWidth + barWidth < fullBarWidth) {
+              contributionBars.push(barWidth);
+              currentBarWidth += barWidth;
+            } else {
+              // take up all the space left on the current line
+              contributionBars.push(fullBarWidth - currentBarWidth);
+              barWidth -= fullBarWidth - currentBarWidth;
+              // additional bar width will start on a new line
+              const numOfFullBars = Math.floor(barWidth / fullBarWidth);
+              for (let i = 0; i < numOfFullBars; i += 1) {
+                contributionBars.push(fullBarWidth);
+              }
+              const remainingBarWidth = barWidth % fullBarWidth;
+              if (remainingBarWidth !== 0) {
+                contributionBars.push(remainingBarWidth);
+              }
+              currentBarWidth = remainingBarWidth;
+            }
+
+            allFileTypesContributionBars[fileType] = contributionBars;
+          });
 
       return allFileTypesContributionBars;
     },
@@ -243,7 +266,7 @@ window.vSummary = {
       const fileTypes = [];
       repo.forEach((user) => {
         Object.keys(user.fileTypeContribution).forEach((fileType) => {
-          if (!fileTypes.includes(fileType)) {
+          if (this.checkedFileTypes.includes(fileType) && !fileTypes.includes(fileType)) {
             fileTypes.push(fileType);
           }
         });
@@ -519,10 +542,26 @@ window.vSummary = {
               fileTypeColors[fileType] = selectedColors[i];
               i = (i + 1) % selectedColors.length;
             }
+            if (!this.fileTypes.includes(fileType)) {
+              this.fileTypes.push(fileType);
+            }
           });
         });
-        this.contributionBarFileTypeColors = fileTypeColors;
+        this.fileTypeColors = fileTypeColors;
       });
+
+      this.checkedFileTypes = this.fileTypes.slice();
+    },
+    getFontColor(color) {
+      // to convert color from hex code to rgb format
+      const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(color);
+      const red = parseInt(result[1], 16);
+      const green = parseInt(result[2], 16);
+      const blue = parseInt(result[3], 16);
+
+      const luminosity = 0.2126 * red + 0.7152 * green + 0.0722 * blue; // per ITU-R BT.709
+
+      return luminosity < 120 ? '#ffffff' : '#000000';
     },
     splitCommitsWeek(user) {
       const { commits } = user;
@@ -636,6 +675,8 @@ window.vSummary = {
     },
 
     updateDateRange(since, until) {
+      this.hasModifiedSinceDate = true;
+      this.hasModifiedUntilDate = true;
       this.tmpFilterSinceDate = since;
       this.tmpFilterUntilDate = until;
       deactivateAllOverlays();
@@ -718,12 +759,27 @@ window.vSummary = {
       });
     },
 
+    getFileTypeContribution(ele) {
+      let validCommits = 0;
+      Object.keys(ele.fileTypeContribution).forEach((fileType) => {
+        if (this.checkedFileTypes.includes(fileType)) {
+          validCommits += ele.fileTypeContribution[fileType];
+        }
+      });
+      return validCommits;
+    },
+
     groupByRepos(repos) {
       const sortedRepos = [];
       const sortingWithinOption = this.sortingWithinOption === 'title' ? 'displayName' : this.sortingWithinOption;
       const sortingOption = this.sortingOption === 'groupTitle' ? 'searchPath' : this.sortingOption;
       repos.forEach((users) => {
-        users.sort(window.comparator((ele) => ele[sortingWithinOption]));
+        if (this.filterBreakdown && this.sortingWithinOption === 'totalCommits') {
+          users.sort(window.comparator((ele) => this.getFileTypeContribution(ele)));
+        } else {
+          users.sort(window.comparator((ele) => ele[sortingWithinOption]));
+        }
+
         if (this.isSortingWithinDsc) {
           users.reverse();
         }
@@ -752,6 +808,9 @@ window.vSummary = {
         if (isSortingGroupTitle) {
           return repo.searchPath + repo.name;
         }
+        if (this.filterBreakdown && this.sortingOption === 'totalCommits') {
+          return this.getFileTypeContribution(repo);
+        }
         return repo[this.sortingOption];
       }));
       if (this.isSortingDsc) {
@@ -775,7 +834,11 @@ window.vSummary = {
         });
       });
       Object.keys(authorMap).forEach((author) => {
-        authorMap[author].sort(window.comparator((repo) => repo[sortingWithinOption]));
+        if (this.filterBreakdown && this.sortingWithinOption === 'totalCommits') {
+          authorMap[author].sort(window.comparator((repo) => this.getFileTypeContribution(repo)));
+        } else {
+          authorMap[author].sort(window.comparator((repo) => repo[sortingWithinOption]));
+        }
         if (this.isSortingWithinDsc) {
           authorMap[author].reverse();
         }
@@ -802,6 +865,9 @@ window.vSummary = {
     },
 
     getGroupCommitsVariance(total, group) {
+      if (this.filterBreakdown && this.sortingOption === 'totalCommits') {
+        return total + this.getFileTypeContribution(group);
+      }
       return total + group[this.sortingOption];
     },
 
