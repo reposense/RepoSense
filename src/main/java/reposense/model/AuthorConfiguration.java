@@ -3,6 +3,7 @@ package reposense.model;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
@@ -44,6 +45,7 @@ public class AuthorConfiguration {
         List<Author> newAuthorList = new ArrayList<>();
         Map<String, Author> newAuthorEmailsAndAliasesMap = new TreeMap<>(String.CASE_INSENSITIVE_ORDER);
         Map<Author, String> newAuthorDisplayNameMap = new HashMap<>();
+        List<String> allAliases = new ArrayList<>();
 
         for (StandaloneAuthor sa : standaloneConfig.getAuthors()) {
             Author author = new Author(sa);
@@ -54,6 +56,14 @@ public class AuthorConfiguration {
             List<String> aliases = new ArrayList<>(author.getAuthorAliases());
             List<String> emails = new ArrayList<>(author.getEmails());
             aliases.add(author.getGitId());
+            allAliases.addAll(aliases);
+
+            HashSet<String> uniqueAliasesSet = new HashSet<>(allAliases);
+            boolean hasDuplicateAliases = uniqueAliasesSet.size() != allAliases.size();
+            if (hasDuplicateAliases) {
+                logger.warning("Has duplicate aliases. The alias will belong to the last author who claims it.");
+            }
+
             aliases.forEach(alias -> newAuthorEmailsAndAliasesMap.put(alias, author));
             emails.forEach(email -> newAuthorEmailsAndAliasesMap.put(email, author));
         }
