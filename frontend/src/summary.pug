@@ -88,9 +88,30 @@
         )
           span {{ getReportIssueEmailAddress() }}
       .error-message-box__failed-repo--reason(v-else) {{ errorBlock.errorMessage }}
+  .fileTypes(v-if="filterBreakdown")
+    .checkboxes.mui-form--inline(v-if="Object.keys(fileTypeColors).length > 0")
+      label(
+        v-bind:style="{ 'background-color' : '#000000', 'color' : '#ffffff' }"
+      )
+        input.mui-checkbox--fileType(type="checkbox", v-model="checkAllFileTypes")
+        span All:&nbsp;
+      template(v-for="fileType in Object.keys(fileTypeColors)" )
+        label(
+          v-bind:key="fileType",
+          v-bind:style="{ 'background-color' : fileTypeColors[fileType], \
+            'color' : getFontColor(fileTypeColors[fileType])}"
+        )
+          input.mui-checkbox--fileType(
+            type="checkbox",
+            v-bind:id="fileType",
+            v-bind:value="fileType",
+            v-model="checkedFileTypes"
+          )
+          span {{ fileType }}
   v_summary_charts(
     v-bind:filtered="filtered",
-    v-bind:contribution-bar-file-type-colors="contributionBarFileTypeColors",
+    v-bind:file-type-colors="fileTypeColors",
+    v-bind:checked-file-types="checkedFileTypes",
     v-bind:avg-contribution-size="avgContributionSize",
     v-bind:filter-group-selection="filterGroupSelection",
     v-bind:filter-breakdown="filterBreakdown",

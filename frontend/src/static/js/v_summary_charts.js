@@ -72,8 +72,9 @@ window.viewClick = function viewClick(evt) {
 };
 
 window.vSummaryCharts = {
-  props: ['filtered', 'contributionBarFileTypeColors', 'avgContributionSize', 'filterBreakdown', 'filterGroupSelection',
-      'filterTimeFrame', 'filterSinceDate', 'filterUntilDate', 'isMergeGroup', 'minDate', 'maxDate'],
+  props: ['checkedFileTypes', 'filtered', 'fileTypeColors', 'avgContributionSize', 'filterBreakdown',
+      'filterGroupSelection', 'filterTimeFrame', 'filterSinceDate', 'filterUntilDate', 'isMergeGroup',
+      'minDate', 'maxDate'],
   template: window.$('v_summary_charts').innerHTML,
   computed: {
     avgCommitSize() {
@@ -103,32 +104,35 @@ window.vSummaryCharts = {
       const contributionPerFullBar = (this.avgContributionSize * 2);
       const allFileTypesContributionBars = {};
 
-      Object.keys(fileTypeContribution).forEach((fileType) => {
-        const contribution = fileTypeContribution[fileType];
-        let barWidth = (contribution / contributionPerFullBar) * fullBarWidth;
-        const contributionBars = [];
+      Object.keys(fileTypeContribution)
+          .filter((fileType) => this.checkedFileTypes.includes(fileType))
+          .forEach((fileType) => {
+            const contribution = fileTypeContribution[fileType];
+            let barWidth = (contribution / contributionPerFullBar) * fullBarWidth;
+            const contributionBars = [];
 
-        // if contribution bar for file type is able to fit on the current line
-        if (currentBarWidth + barWidth < fullBarWidth) {
-          contributionBars.push(barWidth);
-          currentBarWidth += barWidth;
-        } else {
-          // take up all the space left on the current line
-          contributionBars.push(fullBarWidth - currentBarWidth);
-          barWidth -= fullBarWidth - currentBarWidth;
-          // additional bar width will start on a new line
-          const numOfFullBars = Math.floor(barWidth / fullBarWidth);
-          for (let i = 0; i < numOfFullBars; i += 1) {
-            contributionBars.push(fullBarWidth);
-          }
-          const remainingBarWidth = barWidth % fullBarWidth;
-          if (remainingBarWidth !== 0) {
-            contributionBars.push(remainingBarWidth);
-          }
-          currentBarWidth = remainingBarWidth;
-        }
-        allFileTypesContributionBars[fileType] = contributionBars;
-      });
+            // if contribution bar for file type is able to fit on the current line
+            if (currentBarWidth + barWidth < fullBarWidth) {
+              contributionBars.push(barWidth);
+              currentBarWidth += barWidth;
+            } else {
+              // take up all the space left on the current line
+              contributionBars.push(fullBarWidth - currentBarWidth);
+              barWidth -= fullBarWidth - currentBarWidth;
+              // additional bar width will start on a new line
+              const numOfFullBars = Math.floor(barWidth / fullBarWidth);
+              for (let i = 0; i < numOfFullBars; i += 1) {
+                contributionBars.push(fullBarWidth);
+              }
+              const remainingBarWidth = barWidth % fullBarWidth;
+              if (remainingBarWidth !== 0) {
+                contributionBars.push(remainingBarWidth);
+              }
+              currentBarWidth = remainingBarWidth;
+            }
+
+            allFileTypesContributionBars[fileType] = contributionBars;
+          });
 
       return allFileTypesContributionBars;
     },
@@ -137,7 +141,7 @@ window.vSummaryCharts = {
       const fileTypes = [];
       repo.forEach((user) => {
         Object.keys(user.fileTypeContribution).forEach((fileType) => {
-          if (!fileTypes.includes(fileType)) {
+          if (this.checkedFileTypes.includes(fileType) && !fileTypes.includes(fileType)) {
             fileTypes.push(fileType);
           }
         });
@@ -197,8 +201,8 @@ window.vSummaryCharts = {
       if (drags.length === 2 && drags[1] - drags[0]) {
         const tdiff = new Date(this.filterUntilDate) - new Date(this.filterSinceDate);
         const idxs = drags.map((x) => x * tdiff / 100);
-        const tsince = window.getDateStr(new Date(this.filterSinceDate).getTime() + idxs[0]);
-        const tuntil = window.getDateStr(new Date(this.filterSinceDate).getTime() + idxs[1]);
+        const tsince = getDateStr(new Date(this.filterSinceDate).getTime() + idxs[0]);
+        const tuntil = getDateStr(new Date(this.filterSinceDate).getTime() + idxs[1]);
         this.openTabZoom(user, tsince, tuntil, repo, index);
       }
     },
