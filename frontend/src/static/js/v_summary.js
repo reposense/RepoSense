@@ -357,6 +357,10 @@ window.vSummary = {
       addHash('groupSelect', this.filterGroupSelection);
       addHash('breakdown', this.filterBreakdown);
 
+      if (this.filterBreakdown) {
+        addHash('fileSelected', this.checkedFileTypes);
+      }
+
       encodeHash();
     },
     renderFilterHash() {
@@ -390,6 +394,11 @@ window.vSummary = {
       if (hash.breakdown) {
         this.filterBreakdown = convertBool(hash.breakdown);
       }
+
+      if (hash.fileSelected) {
+        this.checkedFileTypes = hash.fileSelected;
+      }
+
       window.decodeHash();
     },
 
