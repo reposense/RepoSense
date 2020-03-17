@@ -110,30 +110,25 @@
           span {{ fileType }}
   #summary-charts
     .summary-charts(v-for="(repo, i) in filteredRepos")
-      .summary-charts__title(v-if="filterGroupSelection === 'groupByRepos'")
+      .summary-charts__title(v-if="filterGroupSelection !== 'groupByNone'")
         .summary-charts__title--index {{ i+1 }}
-        .summary-charts__title--repo {{ repo[0].repoName }}
+        .summary-charts__title--groupname
+          template(v-if="filterGroupSelection === 'groupByRepos'") {{ repo[0].repoName }}
+          template(
+            v-else-if="filterGroupSelection === 'groupByAuthors'",
+            v-bind:class=" { warn: repo[0].name === '-' }"
+          ) {{ repo[0].displayName }} ({{ repo[0].name }})
         .summary-charts__title--contribution.mini-font(
           title="Total contribution of group"
         ) [{{ getGroupTotalContribution(repo) }} lines]
         template(v-if="isMergeGroup")
           a(
+            v-if="filterGroupSelection === 'groupByRepos'",
             v-bind:href="getRepoLink(repo[0])", target="_blank",
             title="click to view group's repo"
           )
-            i.icon-button.fab.fa-github
-        .summary-charts__title--percentile.mini-font {{ getPercentile(i) }} %
-      .summary-charts__title(
-        v-if="filterGroupSelection === 'groupByAuthors'",
-        v-bind:class="{ warn: repo[0].name === '-' }"
-      )
-        .summary-charts__title--index {{ i+1 }}
-        .summary-charts__title--repo {{ repo[0].displayName }} ({{ repo[0].name }})
-        .summary-charts__title--contribution.mini-font(
-          title="Total contribution of group"
-        ) [{{ getGroupTotalContribution(repo) }} lines]
-        template(v-if="isMergeGroup")
           a(
+            v-else-if="filterGroupSelection === 'groupByAuthors'",
             v-bind:href="getAuthorProfileLink(repo[0].name)", target="_blank",
             title="click to view author's profile"
           )
