@@ -11,6 +11,7 @@ html
     link(rel="stylesheet", href="static/css/v_authorship.css")
     link(rel="stylesheet", href="static/css/v_ramp.css")
     link(rel="stylesheet", href="static/css/v_summary.css")
+    link(rel="stylesheet", href="static/css/v_zoom.css")
 
     script(src="https://use.fontawesome.com/releases/v5.0.13/js/all.js", defer=True)
     script(src="https://cdn.jsdelivr.net/npm/vue@2.5/dist/vue.js")
@@ -50,12 +51,14 @@ html
             )
               strong User Guide - {{ repoSenseVersion }}
             span ) on {{ creationDate }}
+          .report-generation-time(style="display: none;")
+            span {{ reportGenerationTime }}
 
         #tabs-wrapper(v-if="isTabActive")
           #tab-resize(onmousedown="registerMouseMove()")
           .tab-close(v-on:click="deactivateTab")
             i.fas.fa-caret-right
-          .tab-content.tab-padding
+          .tab-content.panel-padding
             .tab-panes
               v_authorship#tab-authorship.tab-pane(
                 v-if="tabType === 'authorship'",

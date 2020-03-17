@@ -65,6 +65,10 @@ a {
   padding: 2rem 1.5rem;
 }
 
+.panel-padding {
+  padding: 2rem 1.5rem 2rem 2.2rem
+}
+
 .warn {
   color: mui-color('red');
 
@@ -181,7 +185,7 @@ header {
   #tabs-wrapper {
     $tabs-width: 50%;
 
-    background: mui-color('grey', '200');
+    background: mui-color('white');
     flex: 0 0 $tabs-width;
     overflow-y: scroll;
     position: relative;
@@ -193,7 +197,7 @@ header {
       z-index: z-index('center-divider');
 
       svg {
-        background-color: mui-color('white');
+        background-color: mui-color('grey', '300');
         color: mui-color('black');
         padding: 3rem .25rem;
       }
@@ -216,99 +220,6 @@ header {
       width: 13.250px;
       z-index: z-index('center-divider');
     }
-  }
-}
-
-.zoom {
-  &__title {
-    &--chart {
-      margin-left: .3rem;
-    }
-
-    &--period {
-      margin-left: 2rem;
-    }
-
-    &--granularity {
-      margin-top: .5rem;
-    }
-
-    &--tags {
-      margin: .25rem 0 .25rem 0;
-
-      .tag {
-        cursor: pointer;
-      }
-    }
-  }
-
-  &__toggle-commit-message-body {
-    padding-top: 10px;
-  }
-
-  &__day,
-  &__title {
-    /* Tags in commits */
-    .tag {
-      background: mui-color('grey', '600');
-      border-radius: 5px;
-      color: mui-color('white');
-      display: inline-block;
-      margin: .2rem .2rem .2rem 0;
-      padding: 0 3px 0 3px;
-
-      .fa-tags {
-        width: .65rem;
-      }
-    }
-  }
-}
-
-/* Commit Message Body in Zoom Tab */
-.commit-message {
-  padding: 5px;
-
-  &:focus,
-  &:focus-within {
-    border: 1px solid mui-color('blue', '500');
-  }
-
-  &.active {
-    .body {
-      background-color: mui-color('white');
-      border: 1px solid mui-color('grey', '700');
-      display: grid;
-      margin: .25rem 0 .25rem 0;
-      overflow-x: auto;
-      padding: .4rem;
-      resize: none;
-    }
-  }
-
-  .body {
-    display: none;
-  }
-
-  .tag {
-    cursor: pointer;
-
-    &:focus {
-      border: 1px solid mui-color('blue', '500');
-      outline: none;
-    }
-  }
-
-  &--button {
-    color: mui-color('grey', '700');
-    padding-left: .5rem;
-
-    &:hover {
-      cursor: pointer;
-    }
-  }
-
-  pre {
-    margin: 0;
   }
 }
 

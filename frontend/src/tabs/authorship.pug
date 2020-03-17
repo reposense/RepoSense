@@ -68,7 +68,7 @@
             title="click to view the blame view of file"
           )
             i.button.fas.fa-user-edit
-        pre.hljs
+        pre.hljs.file-content
           template(v-for="segment in file.segments")
             v_segment(v-bind:segment="segment", v-bind:path="file.path")
 
