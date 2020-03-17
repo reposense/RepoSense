@@ -127,6 +127,7 @@
             v-bind:href="getRepoLink(repo[0])", target="_blank",
             title="click to view group's repo"
           )
+            i.icon-button.fab.fa-github
           a(
             v-else-if="filterGroupSelection === 'groupByAuthors'",
             v-bind:href="getAuthorProfileLink(repo[0].name)", target="_blank",
