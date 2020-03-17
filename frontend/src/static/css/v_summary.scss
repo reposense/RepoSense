@@ -1,189 +1,209 @@
 @import 'colors';
 
-/* summary chart */
-#summary,
-.summary-status {
-  text-align: center;
-}
+/* Summary */
+#summary {
+  .fileTypes {
+    align-items: center;
+    text-align: left;
 
-.icon-button {
-  color: mui-color('grey');
-  cursor: pointer;
-  text-decoration: none;
-}
+    .checkboxes {
+      label {
+        align-items: center;
+        border-radius: 5px;
+        display: inline-flex;
+        margin: 0 5px 5px 0;
+        padding: 0 5px;
+      }
 
-.summary-picker {
-  align-items: center;
-  display: flex;
-  flex-flow: row wrap;
-  justify-content: center;
-  margin-bottom: 2rem;
-
-  &__section {
-    align-items: inherit;
-    display: flex;
-    flex: 0 1 auto;
-    flex-flow: inherit;
-    justify-content: inherit;
-  }
-
-  &__checkboxes {
-    label {
-      margin-left: .5rem;
-    }
-
-    span {
-      margin-left: .25rem;
+      span {
+        margin-left: .25rem;
+      }
     }
   }
 
-  .mui-textfield,
-  .mui-select {
-    margin: .5rem;
-    padding-right: 10px;
+  .summary-status {
+    text-align: center;
   }
 
-  .mui-btn {
-    background: transparent;
-    box-shadow: none;
+  .icon-button {
     color: mui-color('grey');
-    font-size: .75rem;
-    font-weight: bold;
-    left: -8px;
-    margin: 0;
-    padding: 0;
-    vertical-align: middle;
+    cursor: pointer;
+    text-decoration: none;
   }
 
-  .search_box {
+  .summary-picker {
     align-items: center;
     display: flex;
-  }
+    flex-flow: row wrap;
+    justify-content: center;
+    margin-bottom: 2rem;
 
-  input {
-    font-size: .75rem;
-    padding-right: 10px;
-  }
+    &__section {
+      align-items: inherit;
+      display: flex;
+      flex: 0 1 auto;
+      flex-flow: inherit;
+      justify-content: inherit;
+    }
 
-  label {
-    font-size: .75rem;
-    overflow-y: hidden;
-    text-align: left;
-    width: fit-content;
-  }
+    &__checkboxes {
+      label {
+        margin-left: .5rem;
+      }
 
-  input,
-  select {
-    font-size: .75rem;
-  }
-}
+      span {
+        margin-left: .25rem;
+      }
+    }
 
-.summary-charts {
-  margin-bottom: 3rem;
+    .mui-textfield,
+    .mui-select {
+      margin: .5rem;
+      padding-right: 10px;
+    }
 
-  &__title {
-    align-items: center;
-    display: flex;
-    font-weight: bold;
-    text-align: left;
-
-    &--index {
-      background: mui-color('black');
-      color: mui-color('white');
-      font-size: medium;
-      overflow: hidden;
-      padding: .1em .25em .1em .25em;
+    .mui-btn {
+      background: transparent;
+      box-shadow: none;
+      color: mui-color('grey');
+      font-size: .75rem;
+      font-weight: bold;
+      left: -8px;
+      margin: 0;
+      padding: 0;
       vertical-align: middle;
     }
 
-    &--repo {
-      font-size: medium;
-      padding: .5rem;
+    .search_box {
+      align-items: center;
+      display: flex;
     }
 
-    &--percentile {
-      color: mui-color('grey');
-      margin-left: auto;
+    input {
+      font-size: .75rem;
+      padding-right: 10px;
     }
 
-    &--contribution {
-      display: inline;
-      padding-right: .5rem;
+    label {
+      font-size: .75rem;
+      overflow-y: hidden;
+      text-align: left;
+      width: fit-content;
     }
-  }
 
-  &__fileType--breakdown {
-    overflow-y: hidden;
-
-    &__legend {
-      display: inline;
-      float: left;
+    input,
+    select {
+      font-size: .75rem;
     }
   }
-}
 
-.summary-chart {
-  margin-bottom: 1rem;
-  overflow: auto;
-  position: relative;
-  text-align: left;
+  .summary-charts {
+    margin-bottom: 3rem;
 
-  &__title {
-    align-items: center;
-    clear: left;
-    display: flex;
-
-    & > * {
-      padding-right: .5rem;
-    }
-
-    &--index,
-    &--repo {
+    &__title {
+      align-items: center;
+      display: flex;
       font-weight: bold;
+      text-align: left;
+
+      &--index {
+        background: mui-color('black');
+        color: mui-color('white');
+        font-size: medium;
+        overflow: hidden;
+        padding: .1em .25em;
+        vertical-align: middle;
+      }
+
+      &--groupname {
+        font-size: medium;
+        padding: .5rem;
+      }
+
+      &--percentile {
+        color: mui-color('grey');
+        margin-left: auto;
+      }
+
+      &--contribution {
+        display: inline;
+        padding-right: .5rem;
+      }
     }
 
-    &--index::after {
-      content: '.';
-    }
+    &__fileType--breakdown {
+      overflow-y: hidden;
 
-    &--repo {
-      padding-right: .25rem;
-    }
-
-    &--percentile {
-      color: mui-color('grey');
-      margin-left: auto;
-      padding-right: 0;
+      &__legend {
+        display: inline;
+        float: left;
+      }
     }
   }
 
-  &__ramp {
+  .summary-chart {
+    margin-bottom: 1rem;
+    overflow: auto;
     position: relative;
-
-    .overlay {
-      height: 100%;
-      position: absolute;
-      top: 0;
-
-      &.show {
-        background-color: rgba(mui-color('white'), .5);
-        border: 1px dashed mui-color('black');
-      }
-
-      &.edge {
-        border-right: 1px dashed mui-color('black');
-      }
-    }
-  }
-
-  &__contrib {
     text-align: left;
 
-    &--bar {
-      background-color: mui-color('red');
-      float: left;
-      height: 4px;
-      margin-top: 2px;
+    &__title {
+      align-items: center;
+      clear: left;
+      display: flex;
+
+      & > * {
+        padding-right: .5rem;
+      }
+
+      &--index,
+      &--repo {
+        font-weight: bold;
+      }
+
+      &--index::after {
+        content: '.';
+      }
+
+      &--repo {
+        padding-right: .25rem;
+      }
+
+      &--percentile {
+        color: mui-color('grey');
+        margin-left: auto;
+        padding-right: 0;
+      }
+    }
+
+    &__ramp {
+      position: relative;
+
+      .overlay {
+        height: 100%;
+        position: absolute;
+        top: 0;
+
+        &.show {
+          background-color: rgba(mui-color('white'), .5);
+          border: 1px dashed mui-color('black');
+        }
+
+        &.edge {
+          border-right: 1px dashed mui-color('black');
+        }
+      }
+    }
+
+    &__contrib {
+      text-align: left;
+
+      &--bar {
+        background-color: mui-color('red');
+        float: left;
+        height: 4px;
+        margin-top: 2px;
+      }
     }
   }
 }
