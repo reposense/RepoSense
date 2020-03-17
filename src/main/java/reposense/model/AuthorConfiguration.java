@@ -58,14 +58,14 @@ public class AuthorConfiguration {
             aliases.add(author.getGitId());
             allAliases.addAll(aliases);
 
-            HashSet<String> uniqueAliasesSet = new HashSet<>(allAliases);
-            boolean hasDuplicateAliases = uniqueAliasesSet.size() != allAliases.size();
-            if (hasDuplicateAliases) {
-                logger.warning("Has duplicate aliases. The alias will belong to the last author who claims it.");
-            }
-
             aliases.forEach(alias -> newAuthorEmailsAndAliasesMap.put(alias, author));
             emails.forEach(email -> newAuthorEmailsAndAliasesMap.put(email, author));
+        }
+
+        HashSet<String> uniqueAliasesSet = new HashSet<>(allAliases);
+        boolean hasDuplicateAliases = uniqueAliasesSet.size() != allAliases.size();
+        if (hasDuplicateAliases) {
+            logger.warning("Has duplicate aliases. The alias will belong to the last author who claims it.");
         }
 
         setAuthorList(newAuthorList);
