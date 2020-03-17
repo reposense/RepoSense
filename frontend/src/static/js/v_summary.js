@@ -731,7 +731,6 @@ window.vSummary = {
         repo: user.repoName,
         name: user.displayName,
         location: this.getRepoLink(repo[index]),
-        totalCommits: user.totalCommits,
       });
     },
     openTabZoomSubrange(user, repo, index) {
@@ -747,11 +746,12 @@ window.vSummary = {
 
     openTabZoom(user, since, until, repo, index) {
       const { avgCommitSize } = this;
-
+      const clonedUser = Object.assign({}, user); // so that changes in summary won't affect zoom
       this.$emit('view-zoom', {
         filterGroupSelection: this.filterGroupSelection,
+        filterTimeFrame: this.filterTimeFrame,
         avgCommitSize,
-        user,
+        user: clonedUser,
         location: this.getRepoLink(repo[index]),
         sinceDate: since,
         untilDate: until,
