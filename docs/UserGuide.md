@@ -83,6 +83,7 @@ The `Chart Panel` (an example is shown above) contains _Ramp Charts_ and _Contri
 
 
 ### Code Panel
+<img src="/docs/images/code-panel.png" alt="code panel" width="468">
 
 The `Code Panel` allows users to see the code attributed to a specific author. Click on the `</>` icon beside the name of the author in the `Chart Panel` to display the `Code Panel` on the right.
 * The Code Panel shows the files that contain author's contributions, sorted by the number of lines written.
