@@ -1,11 +1,12 @@
 package reposense.authorship;
 
+import static org.junit.Assert.assertEquals;
+
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Collections;
 import java.util.Date;
 
-import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -59,9 +60,9 @@ public class AnnotatorAnalyzerTest extends GitTestTemplate {
         for (LineInfo line : fileResult.getLines()) {
             Author lineAuthor = line.getAuthor();
             if (line.getContent().startsWith("fake")) {
-                Assert.assertEquals(originalAuthor, lineAuthor);
+                assertEquals(originalAuthor, lineAuthor);
             } else {
-                Assert.assertEquals(overridingAuthor, lineAuthor);
+                assertEquals(overridingAuthor, lineAuthor);
             }
         }
     }
