@@ -42,7 +42,7 @@ Using `config files` lets you generate a more customised report. Please refer to
 In **Step 5** for **Build Command** use:
 
 ```
-./gradlew run -Dargs="--config ./configs/"
+./gradlew run -Dargs="--config ./config/"
 ```
 
 Alternatively, if you want to customise the location of the config files, use:

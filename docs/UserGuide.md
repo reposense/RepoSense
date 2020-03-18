@@ -309,7 +309,7 @@ Also, there are two _information_ parameters you can use to know more about Repo
 Another, more powerful, way to customize the analysis is by using dedicated config files. In this case you need to use the `--config` parameter instead of the `--repo` parameter when running RepoSense, as follows:
 
 * **`--config, -c CONFIG_DIRECTORY`**: The directory in which you have the config files (`-c` as alias).<br>
-  Example:`java -jar RepoSense.jar --config  ./my_configs` or `java -jar RepoSense.jar -c  ./my_configs`
+  Example:`java -jar RepoSense.jar --config  ./config` or `java -jar RepoSense.jar -c  ./config`
 
 The directory used with the `--config` parameter should contain a `repo-config.csv` file and, optionally, an `author-config.csv` file or `group-config.csv` file or both, all of which are described in the sections below.
 
