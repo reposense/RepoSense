@@ -79,8 +79,7 @@ public class AuthorConfiguration {
             if (uniqueAliasesSet.contains(alias)) {
                 logger.warning(String.format(
                         "Duplicate alias %s found. The alias will belong to the last author who claims it.", alias));
-            }
-            else {
+            } else {
                 uniqueAliasesSet.add(alias);
             }
         }
