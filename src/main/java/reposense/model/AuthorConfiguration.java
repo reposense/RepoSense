@@ -69,13 +69,16 @@ public class AuthorConfiguration {
         setAuthorDisplayNameMap(newAuthorDisplayNameMap);
     }
 
+    /**
+     * Checks for duplicate aliases in {@code allAliases}
+     * @param allAliases
+     */
     private void checkForAliases(List<String> allAliases) {
         HashSet<String> uniqueAliasesSet = new HashSet<>();
-        for(String alias : allAliases) {
-            if(uniqueAliasesSet.contains(alias)) {
-                logger.warning(String.format("Duplicate alias %s found. The alias will belong to the last author "
-                    + "who claims it.", alias));
-
+        for (String alias : allAliases) {
+            if (uniqueAliasesSet.contains(alias)) {
+                logger.warning(String.format(
+                        "Duplicate alias %s found. The alias will belong to the last author who claims it.", alias));
             }
             else {
                 uniqueAliasesSet.add(alias);
