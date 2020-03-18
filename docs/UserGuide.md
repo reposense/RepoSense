@@ -109,6 +109,9 @@ The `Commits Panel` allows users to see the commits attributed to a specific aut
 * The date range for the `Chart Panel` can be updated by clicking on the "Show ramp chart for this period" below the name of the author.
 * The ramp slices displayed in the ramp chart for the `Commits Panel` represents individual commits.
 * The commit messages body can be expanded or collapsed by clicking on the `...` icon beside each commit message title.
+* To promote and encourage the 50/72 rule for commit messages, a dotted border will be shown for:
+  * Commit message subject that exceeds 50 characters.
+  * Commit message body after the 72nd character mark.
 
 ### Tool Bar
 The `Tool Bar` at the top provides a set of configuration options that control the Chart Panel.
@@ -134,9 +137,9 @@ The `Tool Bar` at the top provides a set of configuration options that control t
     * `Week`: commits within a week (from Monday 00:00 to Sunday 23:59) are shown as one ramp
 * `Since`, `Until` : the date range for the Ramp Chart (not applied to the Contribution Bars).
 * `Reset date range` : resets the date range of the Ramp Chart to the default date range.
-* `Breakdown by file format` : toggles the contribution bar to either display the bar by :
+* `Breakdown by file type` : toggles the contribution bar to either display the bar by :
     * the total lines of codes added (if checkbox is left unchecked), or
-    * a breakdown of the number of lines of codes added to each file format (if checkbox is checked). 
+    * a breakdown of the number of lines of codes added to each file type (if checkbox is checked). If sorting criteria is contribution, only lines contributed to selected file types will be taken into account.
 
 Notes:<br>
 [1] **`Sort groups by`**: each main group has its own index and percentile according to its ranking position after sorting (e.g., 

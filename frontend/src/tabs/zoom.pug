@@ -22,7 +22,7 @@
       span &#8627; &nbsp;
       span {{ info.sinceDate }} to {{ info.untilDate }} &nbsp;
       a(v-on:click="openSummary") [Show ramp chart for this period]
-    .zoom__title--granularity.mini-font granularity: one ramp per {{ filterTimeFrame }}
+    .zoom__title--granularity.mini-font granularity: one ramp per {{ info.filterTimeFrame }}
     .zoom__title--tags
       template(v-for="commit in filteredUser.commits")
         template(v-for="commitResult in commit.commitResults")
@@ -37,7 +37,7 @@
   v_ramp(
     v-bind:groupby="info.filterGroupSelection",
     v-bind:user="filteredUser",
-    v-bind:tframe="filterTimeFrame",
+    v-bind:tframe="info.filterTimeFrame",
     v-bind:sdate="info.sinceDate",
     v-bind:udate="info.untilDate",
     v-bind:avgsize="info.avgCommitSize",
@@ -56,7 +56,7 @@
       label.medium-font order
 
   .zoom__day(v-for="day in filteredUser.commits", v-bind:key="day.date")
-    h3(v-if="filterTimeFrame === 'week'") Week of {{ day.date }}
+    h3(v-if="info.filterTimeFrame === 'week'") Week of {{ day.date }}
     h3(v-else) {{ day.date }}
     template
       //- use tabindex to enable focus property on div
@@ -66,7 +66,9 @@
         v-bind:key="slice.hash",
         v-bind:class="{ 'message-body active': slice.messageBody !== '' }"
       )
-        a(v-bind:href="getSliceLink(slice)", target="_blank") {{ slice.messageTitle }}
+        a.message-title(v-bind:href="getSliceLink(slice)", target="_blank")
+          .within-border {{ slice.messageTitle.substr(0, 50) }}
+          .not-within-border(v-if="slice.messageTitle.length > 50") {{ slice.messageTitle.substr(50) }}
         span &nbsp; ({{ slice.insertions }} lines) &nbsp;
         template(v-if="slice.tags", v-for="tag in slice.tags")
           .tag.mini-font(tabindex="-1", v-bind:class="[`${slice.hash}`, tag]")
@@ -81,3 +83,4 @@
           i.commit-message--button.fas.fa-ellipsis-h
         .body(v-if="slice.messageBody !== ''")
           pre {{ slice.messageBody }}
+            .dashed-border

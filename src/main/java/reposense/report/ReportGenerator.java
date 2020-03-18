@@ -15,6 +15,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.function.Supplier;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
@@ -89,7 +90,8 @@ public class ReportGenerator {
      */
     public static List<Path> generateReposReport(List<RepoConfiguration> configs, String outputPath,
             String generationDate, Date cliSinceDate, Date untilDate,
-            boolean isSinceDateProvided, boolean isUntilDateProvided) throws IOException {
+            boolean isSinceDateProvided, boolean isUntilDateProvided,
+            Supplier<String> reportGenerationTimeProvider) throws IOException {
         prepareTemplateFile(outputPath);
 
         earliestSinceDate = null;
@@ -102,7 +104,8 @@ public class ReportGenerator {
 
         Optional<Path> summaryPath = FileUtil.writeJsonFile(
                 new SummaryJson(configs, generationDate, reportSinceDate, untilDate, isSinceDateProvided,
-                        isUntilDateProvided, RepoSense.getVersion(), ErrorSummary.getInstance().getErrorList()),
+                        isUntilDateProvided, RepoSense.getVersion(), ErrorSummary.getInstance().getErrorList(),
+                        reportGenerationTimeProvider.get()),
                 getSummaryResultPath(outputPath));
         summaryPath.ifPresent(reportFoldersAndFiles::add);
 
