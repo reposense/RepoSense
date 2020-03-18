@@ -119,14 +119,20 @@ window.app = new window.Vue({
         repo: '',
       },
       tabZoom: {
-        avgCommitSize: 0,
-        filterGroupSelection: '',
-        filterTimeFrame: '',
-        location: '',
-        isMergeGroup: false,
-        sinceDate: '',
-        untilDate: '',
-        user: null,
+        zAvgCommitSize: 0,
+        zRepo: '',
+        zAuthor: '',
+        zFilterGroup: '',
+        zTimeFrame: '',
+        zLocation: '',
+        zIsMerge: false,
+        zSince: '',
+        zUntil: '',
+        zUser: null,
+        zSorting: '',
+        zSortingWithin: '',
+        zIsSortingDsc: false,
+        zIsSortingWithinDsc: false,
       },
     },
     creationDate: '',
@@ -216,9 +222,11 @@ window.app = new window.Vue({
     },
 
     removeZoomHashes() {
+      window.removeHash('zA');
+      window.removeHash('zR');
+      window.removeHash('zACS');
       window.removeHash('zS');
       window.removeHash('zU');
-      window.removeHash('zACS');
       window.removeHash('zFGS');
       window.removeHash('zFTF');
       window.removeHash('zMG');
