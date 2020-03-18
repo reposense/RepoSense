@@ -32,14 +32,14 @@ public class AnnotatorAnalyzerTest extends GitTestTemplate {
     }
 
     @Test
-    public void applyAnnotationTest() {
+    public void analyzeAnnotation_authorNamePresentInConfig_overrideAuthorship() {
         config.setAuthorList(Arrays.asList(FAKE_AUTHOR, MAIN_AUTHOR));
         FileResult fileResult = getFileResult("annotationTest.java");
         assertAnnotationAnalysisCorrectness(fileResult, FAKE_AUTHOR, MAIN_AUTHOR);
     }
 
     @Test
-    public void disownCodeTest() {
+    public void analyzeAnnotation_authorNameNotInConfig_disownCode() {
         config.setAuthorList(Collections.singletonList(FAKE_AUTHOR));
         FileResult fileResult = getFileResult("annotationTest.java");
         assertAnnotationAnalysisCorrectness(fileResult, FAKE_AUTHOR, Author.UNKNOWN_AUTHOR);
