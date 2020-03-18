@@ -62,15 +62,24 @@ public class AuthorConfiguration {
             emails.forEach(email -> newAuthorEmailsAndAliasesMap.put(email, author));
         }
 
-        HashSet<String> uniqueAliasesSet = new HashSet<>(allAliases);
-        boolean hasDuplicateAliases = uniqueAliasesSet.size() != allAliases.size();
-        if (hasDuplicateAliases) {
-            logger.warning("Has duplicate aliases. The alias will belong to the last author who claims it.");
-        }
+        checkForAliases(allAliases);
 
         setAuthorList(newAuthorList);
         setAuthorEmailsAndAliasesMap(newAuthorEmailsAndAliasesMap);
         setAuthorDisplayNameMap(newAuthorDisplayNameMap);
+    }
+
+    private void checkForAliases(List<String> allAliases) {
+        HashSet<String> uniqueAliasesSet = new HashSet<>();
+        for(int i = 0; i < allAliases.size(); i++) {
+            if(uniqueAliasesSet.contains(allAliases.get(i))) {
+                logger.warning(String.format("Duplicate alias found: %s. The alias belongs to the last author who claims it", allAliases.get(i)));
+
+            }
+            else {
+                uniqueAliasesSet.add(allAliases.get(i));
+            }
+        }
     }
 
     @Override
