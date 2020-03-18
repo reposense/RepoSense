@@ -49,7 +49,6 @@ do
   if [ "$TRAVIS_PULL_REQUEST" != "false" ] # only create github statuses when it is a PR
   then
     # Create github statuses that redirects users to the deployed link
-    echo "https://api.github.com/repos/${REPO_OWNER}/${REPO_NAME}/statuses/${TRAVIS_PULL_REQUEST_SHA}?access_token=${GITHUB_API_TOKEN}"
     curl "https://api.github.com/repos/${REPO_OWNER}/${REPO_NAME}/statuses/${TRAVIS_PULL_REQUEST_SHA}?access_token=${GITHUB_API_TOKEN}" \
     -H "Content-Type: application/json" \
     -X POST \
