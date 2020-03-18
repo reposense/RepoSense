@@ -71,13 +71,14 @@ public class AuthorConfiguration {
 
     private void checkForAliases(List<String> allAliases) {
         HashSet<String> uniqueAliasesSet = new HashSet<>();
-        for(int i = 0; i < allAliases.size(); i++) {
-            if(uniqueAliasesSet.contains(allAliases.get(i))) {
-                logger.warning(String.format("Duplicate alias found: %s. The alias belongs to the last author who claims it", allAliases.get(i)));
+        for(String alias : allAliases) {
+            if(uniqueAliasesSet.contains(alias)) {
+                logger.warning(String.format("Duplicate alias %s found. The alias will belong to the last author "
+                    + "who claims it.", alias));
 
             }
             else {
-                uniqueAliasesSet.add(allAliases.get(i));
+                uniqueAliasesSet.add(alias);
             }
         }
     }
