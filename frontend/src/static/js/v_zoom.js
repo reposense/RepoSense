@@ -51,6 +51,7 @@ window.vZoom = {
   watch: {
     info() {
       this.updateExpandedCommitMessagesCount();
+      this.setInfoHash();
     },
   },
   methods: {
