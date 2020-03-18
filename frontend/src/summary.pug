@@ -88,50 +88,60 @@
         )
           span {{ getReportIssueEmailAddress() }}
       .error-message-box__failed-repo--reason(v-else) {{ errorBlock.errorMessage }}
+  .fileTypes(v-if="filterBreakdown")
+    .checkboxes.mui-form--inline(v-if="Object.keys(fileTypeColors).length > 0")
+      label(
+        v-bind:style="{ 'background-color' : '#000000', 'color' : '#ffffff' }"
+      )
+        input.mui-checkbox--fileType(type="checkbox", v-model="checkAllFileTypes")
+        span All:&nbsp;
+      template(v-for="fileType in Object.keys(fileTypeColors)" )
+        label(
+          v-bind:key="fileType",
+          v-bind:style="{ 'background-color' : fileTypeColors[fileType], \
+                    'color' : getFontColor(fileTypeColors[fileType])}"
+        )
+          input.mui-checkbox--fileType(
+            type="checkbox",
+            v-bind:id="fileType",
+            v-bind:value="fileType",
+            v-model="checkedFileTypes"
+          )
+          span {{ fileType }}
   #summary-charts
     .summary-charts(v-for="(repo, i) in filteredRepos")
-      .summary-charts__title(v-if="filterGroupSelection === 'groupByRepos'")
+      .summary-charts__title(v-if="filterGroupSelection !== 'groupByNone'")
         .summary-charts__title--index {{ i+1 }}
-        .summary-charts__title--repo {{ repo[0].repoName }}
+        .summary-charts__title--groupname
+          template(v-if="filterGroupSelection === 'groupByRepos'") {{ repo[0].repoName }}
+          template(
+            v-else-if="filterGroupSelection === 'groupByAuthors'",
+            v-bind:class=" { warn: repo[0].name === '-' }"
+          ) {{ repo[0].displayName }} ({{ repo[0].name }})
         .summary-charts__title--contribution.mini-font(
           title="Total contribution of group"
         ) [{{ getGroupTotalContribution(repo) }} lines]
         template(v-if="isMergeGroup")
           a(
+            v-if="filterGroupSelection === 'groupByRepos'",
             v-bind:href="getRepoLink(repo[0])", target="_blank",
             title="click to view group's repo"
           )
-            i.icon-button.fab.fa-github
-        .summary-charts__title--percentile.mini-font {{ getPercentile(i) }} %
-      .summary-charts__title(
-        v-if="filterGroupSelection === 'groupByAuthors'",
-        v-bind:class="{ warn: repo[0].name === '-' }"
-      )
-        .summary-charts__title--index {{ i+1 }}
-        .summary-charts__title--repo {{ repo[0].displayName }} ({{ repo[0].name }})
-        .summary-charts__title--contribution.mini-font(
-          title="Total contribution of group"
-        ) [{{ getGroupTotalContribution(repo) }} lines]
-        template(v-if="isMergeGroup")
           a(
+            v-else-if="filterGroupSelection === 'groupByAuthors'",
             v-bind:href="getAuthorProfileLink(repo[0].name)", target="_blank",
             title="click to view author's profile"
           )
             i.icon-button.fab.fa-github
         .summary-charts__title--percentile.mini-font {{ getPercentile(i) }} %
       .summary-charts__fileType--breakdown(v-if="filterBreakdown")
-        template(v-if="filterGroupSelection === 'groupByRepos'")
+        template(v-if="filterGroupSelection !== 'groupByNone'")
           .summary-charts__fileType--breakdown__legend(
-            v-for="fileType in getFileTypes(repo)")
+            v-for="fileType in getFileTypes(repo)",
+            v-bind:key="fileType"
+          )
             i.fas.fa-circle(
-              v-bind:style="{ 'color' : contributionBarFileTypeColors[fileType] }"
-            )
-            span &nbsp; {{ fileType }} &nbsp;
-        template(v-else)
-          .summary-charts__fileType--breakdown__legend(
-            v-for="fileType in Object.keys(contributionBarFileTypeColors)")
-            i.fas.fa-circle(
-              v-bind:style="{ 'color' : contributionBarFileTypeColors[fileType] }"
+              v-bind:style="{ 'color' : fileTypeColors[fileType] }"
             )
             span &nbsp; {{ fileType }} &nbsp;
       .summary-chart(v-for="(user, i) in repo")
@@ -187,7 +197,7 @@
               .summary-chart__contrib--bar(
                 v-for="width in widths",
                 v-bind:style="{ width: width + '%',\
-                  'background-color': contributionBarFileTypeColors[fileType] }",
+                  'background-color': fileTypeColors[fileType] }",
                 v-bind:title="fileType + ': ' + user.fileTypeContribution[fileType] + ' lines, '\
                   + 'total: ' + user.totalCommits + ' lines ' + '(contribution from ' + minDate + ' to '\
                   + maxDate + ')'"
