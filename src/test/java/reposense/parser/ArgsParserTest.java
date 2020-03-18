@@ -462,14 +462,13 @@ public class ArgsParserTest {
         Assert.assertEquals(repoAliasCliArguments, reposAliasCliArguments);
     }
 
-    @Test
+    @Test(expected = IllegalStateException.class)
     public void parse_invalidRepoLocation_emptyRepoConfigurationList()
             throws ParseException, HelpScreenException {
         String input = new InputBuilder().addRepos("https://githubaaaa.com/asdasdasdasd/RepoSense").build();
         CliArguments cliArguments = ArgsParser.parse(translateCommandline(input));
         Assert.assertTrue(cliArguments instanceof LocationsCliArguments);
-        List<RepoConfiguration> repoConfigs = RepoSense.getRepoConfigurations((LocationsCliArguments) cliArguments);
-        Assert.assertTrue(repoConfigs.isEmpty());
+        RepoSense.getRepoConfigurations((LocationsCliArguments) cliArguments);
     }
 
     @Test(expected = ParseException.class)
