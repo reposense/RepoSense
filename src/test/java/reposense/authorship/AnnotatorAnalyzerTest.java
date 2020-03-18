@@ -1,7 +1,7 @@
 package reposense.authorship;
 
-import static reposense.model.Author.UNKNOWN_AUTHOR;
 import static org.junit.Assert.assertEquals;
+import static reposense.model.Author.UNKNOWN_AUTHOR;
 
 import java.util.Arrays;
 import java.util.Calendar;
@@ -75,7 +75,7 @@ public class AnnotatorAnalyzerTest extends GitTestTemplate {
         Iterator<Author> lineAuthorsItr = expectedLineAuthors.iterator();
         Iterator<LineInfo> linesItr = lines.iterator();
 
-        while(linesItr.hasNext() && lineAuthorsItr.hasNext()) {
+        while (linesItr.hasNext() && lineAuthorsItr.hasNext()) {
             assertEquals(lineAuthorsItr.next(), linesItr.next().getAuthor());
         }
     }
