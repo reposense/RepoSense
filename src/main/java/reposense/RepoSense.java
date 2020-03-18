@@ -125,6 +125,7 @@ public class RepoSense {
 
     /**
      * Constructs a list of {@code RepoConfiguration} if {@code cliArguments} is a {@code LocationsCliArguments}.
+     * If no {@code RepoConfiguration} can be constructed, the method throws a {@code IllegalStateException}.
      */
     public static List<RepoConfiguration> getRepoConfigurations(LocationsCliArguments cliArguments) {
         List<RepoConfiguration> configs = new ArrayList<>();
@@ -134,6 +135,10 @@ public class RepoSense {
             } catch (InvalidLocationException ile) {
                 logger.log(Level.WARNING, ile.getMessage(), ile);
             }
+        }
+
+        if (configs.isEmpty()) {
+            throw new IllegalStateException("Must include at least 1 valid location.");
         }
 
         return configs;
