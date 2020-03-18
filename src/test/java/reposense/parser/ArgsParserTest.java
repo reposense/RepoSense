@@ -8,6 +8,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.time.ZoneId;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
@@ -469,6 +470,23 @@ public class ArgsParserTest {
         CliArguments cliArguments = ArgsParser.parse(translateCommandline(input));
         Assert.assertTrue(cliArguments instanceof LocationsCliArguments);
         RepoSense.getRepoConfigurations((LocationsCliArguments) cliArguments);
+    }
+
+    @Test
+    public void parse_invalidRepoLocation_emptyRepoConfigurationList()
+            throws ParseException, HelpScreenException {
+        String input = new InputBuilder().addRepos("https://githubaaaa.com/asdasdasdasd/RepoSense").build();
+        CliArguments cliArguments = ArgsParser.parse(translateCommandline(input));
+        Assert.assertTrue(cliArguments instanceof LocationsCliArguments);
+        List<RepoConfiguration> repoConfigs = new ArrayList<>();
+        try {
+            repoConfigs = RepoSense.getRepoConfigurations((LocationsCliArguments) cliArguments);
+        } catch (InvalidLocationException e) {
+            Assert.assertEquals("All locations are invalid. Please supply at least one valid location.",
+                    e.getMessage());
+        }
+        Assert.assertTrue(repoConfigs.isEmpty());
+
     }
 
     @Test(expected = ParseException.class)
