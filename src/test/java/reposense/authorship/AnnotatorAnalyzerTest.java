@@ -54,7 +54,7 @@ public class AnnotatorAnalyzerTest extends GitTestTemplate {
      * Asserts the correctness of authorship overriding with regards to @@author tags given
      * in the test file.
      */
-    public void assertAnnotationAnalysisCorrectness(FileResult fileResult, Author originalAuthor,
+    private void assertAnnotationAnalysisCorrectness(FileResult fileResult, Author originalAuthor,
             Author overridingAuthor) {
         for (LineInfo line : fileResult.getLines()) {
             Author lineAuthor = line.getAuthor();
