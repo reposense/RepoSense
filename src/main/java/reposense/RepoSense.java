@@ -126,7 +126,8 @@ public class RepoSense {
     /**
      * Constructs a list of {@code RepoConfiguration} if {@code cliArguments} is a {@code LocationsCliArguments}.
      */
-    public static List<RepoConfiguration> getRepoConfigurations(LocationsCliArguments cliArguments) {
+    public static List<RepoConfiguration> getRepoConfigurations(LocationsCliArguments cliArguments)
+            throws InvalidLocationException {
         List<RepoConfiguration> configs = new ArrayList<>();
         for (String locationString : cliArguments.getLocations()) {
             try {
@@ -134,6 +135,10 @@ public class RepoSense {
             } catch (InvalidLocationException ile) {
                 logger.log(Level.WARNING, ile.getMessage(), ile);
             }
+        }
+
+        if (configs.isEmpty()) {
+            throw new InvalidLocationException("All locations are invalid. Please supply at least one valid location.");
         }
 
         return configs;
