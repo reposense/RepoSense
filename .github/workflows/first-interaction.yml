@@ -1,0 +1,16 @@
+name: First-Interaction
+
+on: [pull_request, issues]
+
+jobs:
+  first-interaction:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/first-interaction@v1
+      with:
+        repo-token: ${{ secrets.GITHUB_TOKEN }}
+        # Can also remove `issue-message`. Will just keep it for now.
+        issue-message: 'Thank you for informing. We will look into it.'
+        pr-message: 'Thank you for contributing to RepoSense. Please follow our contribution guidelines and update the commit message of your Pull Request accordingly. Once you are ready, and all the checks pass,do let us know!'
