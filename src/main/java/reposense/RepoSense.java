@@ -140,7 +140,7 @@ public class RepoSense {
         }
 
         if (configs.isEmpty()) {
-            throw new InvalidLocationException("All locations are invalid. Please supply at least one valid location.");
+            throw new InvalidLocationException("All repository locations are invalid.");
         }
 
         return configs;
