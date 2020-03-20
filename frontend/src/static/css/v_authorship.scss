@@ -154,11 +154,13 @@
 
     .binary-segment {
       background-color: mui-color('white');
+
       .indicator {
         float: left;
         font-weight: bold;
         padding-left: 1rem;
       }
+
       .bin-text {
         color: mui-color('grey', '800');
         padding-left: 4rem;
