@@ -13,4 +13,4 @@ jobs:
         repo-token: ${{ secrets.GITHUB_TOKEN }}
         # Can also remove `issue-message`. Will just keep it for now.
         issue-message: 'Thank you for informing. We will look into it.'
-        pr-message: 'Thank you for contributing to RepoSense. Please follow our contribution guidelines and update the commit message of your Pull Request accordingly. Once you are ready, and all the checks pass,do let us know!'
+        pr-message: 'Thank you for contributing to RepoSense. Please follow our contribution guidelines and update the commit message and title of your Pull Request accordingly. Once you are ready, and all the checks pass,do let us know!'
