@@ -430,6 +430,3 @@ It is also possible that another user has overriden the authorship of your lines
 
 #### Q: I am able to run RepoSense on my repository on a Linux/Mac OS, but it fails on a Windows OS?
 **A:** It is possible you may have some file names with [special characters](https://docs.microsoft.com/en-us/windows/desktop/FileIO/naming-a-file#naming-conventions) in them, which is disallowed in Windows OS. As such, *RepoSense* is unable to fully clone your repository, thus failing the analysis.
-
-#### Q: Why are some files not captured by RepoSense?
-**A:** The files may be [binary files](https://en.wikipedia.org/wiki/Binary_file). RepoSense does not analyze binary files. Common binary files include images (`.jpg`, `.png`), applications (`.exe`), zip files (`.zip`, `.rar`) and certain document types (`.docx`, `.pptx`).
