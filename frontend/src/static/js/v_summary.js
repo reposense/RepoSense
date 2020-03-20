@@ -774,8 +774,8 @@ window.vSummary = {
       const sortingWithinOption = this.sortingWithinOption === 'title' ? 'displayName' : this.sortingWithinOption;
       const sortingOption = this.sortingOption === 'groupTitle' ? 'searchPath' : this.sortingOption;
       repos.forEach((users) => {
-        if (this.filterBreakdown && this.sortingWithinOption === 'totalCommits') {
-          users.sort(window.comparator((ele) => this.getFileTypeContribution(ele)));
+        if (this.sortingWithinOption === 'totalCommits') {
+          users.sort(window.comparator((ele) => this.getUserTotalContribution(ele)));
         } else {
           users.sort(window.comparator((ele) => ele[sortingWithinOption]));
         }
@@ -786,8 +786,11 @@ window.vSummary = {
         sortedRepos.push(users);
       });
       sortedRepos.sort(window.comparator((repo) => {
-        if (sortingOption === 'totalCommits' || sortingOption === 'variance') {
-          return repo.reduce(this.getGroupCommitsVariance, 0);
+        if (sortingOption === 'totalCommits') {
+          return this.getGroupTotalContribution(repo);
+        }
+        if (sortingOption === 'variance') {
+          return this.getGroupCommitsVariance(repo);
         }
         return repo[0][sortingOption];
       }));
@@ -808,8 +811,8 @@ window.vSummary = {
         if (isSortingGroupTitle) {
           return repo.searchPath + repo.name;
         }
-        if (this.filterBreakdown && this.sortingOption === 'totalCommits') {
-          return this.getFileTypeContribution(repo);
+        if (this.sortingOption === 'totalCommits') {
+          return this.getUserTotalContribution(repo);
         }
         return repo[this.sortingOption];
       }));
@@ -834,8 +837,8 @@ window.vSummary = {
         });
       });
       Object.keys(authorMap).forEach((author) => {
-        if (this.filterBreakdown && this.sortingWithinOption === 'totalCommits') {
-          authorMap[author].sort(window.comparator((repo) => this.getFileTypeContribution(repo)));
+        if (this.sortingWithinOption === 'totalCommits') {
+          authorMap[author].sort(window.comparator((repo) => this.getUserTotalContribution(repo)));
         } else {
           authorMap[author].sort(window.comparator((repo) => repo[sortingWithinOption]));
         }
@@ -846,8 +849,11 @@ window.vSummary = {
       });
 
       filtered.sort(window.comparator((author) => {
-        if (sortingOption === 'totalCommits' || sortingOption === 'variance') {
-          return author.reduce(this.getGroupCommitsVariance, 0);
+        if (sortingOption === 'totalCommits') {
+          return this.getGroupTotalContribution(author);
+        }
+        if (sortingOption === 'variance') {
+          return this.getGroupCommitsVariance(author);
         }
         return author[0][sortingOption];
       }));
@@ -864,15 +870,16 @@ window.vSummary = {
       return (Math.round((index + 1) * 1000 / this.filtered.length) / 10).toFixed(1);
     },
 
-    getGroupCommitsVariance(total, group) {
-      if (this.filterBreakdown && this.sortingOption === 'totalCommits') {
-        return total + this.getFileTypeContribution(group);
-      }
-      return total + group[this.sortingOption];
+    getGroupCommitsVariance(group) {
+      return group.reduce((acc, user) => acc + user.variance, 0);
     },
 
     getGroupTotalContribution(group) {
-      return group.reduce((accContribution, user) => accContribution + user.totalCommits, 0);
+      return group.reduce((acc, user) => acc + this.getUserTotalContribution(user), 0);
+    },
+
+    getUserTotalContribution(user) {
+      return this.filterBreakdown ? this.getFileTypeContribution(user) : user.totalCommits;
     },
   },
   created() {

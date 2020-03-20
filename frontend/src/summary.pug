@@ -153,7 +153,7 @@
             v-if="filterGroupSelection !== 'groupByAuthors'",
             v-bind:class="{ warn: user.name === '-' }"
           ) {{ user.displayName }} ({{ user.name }})
-          .summary-chart__title--contribution.mini-font [{{ user.totalCommits }} lines]
+          .summary-chart__title--contribution.mini-font [{{ getUserTotalContribution(user) }} lines]
           a(
             title="click to view author's code",
             onclick="deactivateAllOverlays()",
@@ -199,7 +199,7 @@
                 v-bind:style="{ width: width + '%',\
                   'background-color': fileTypeColors[fileType] }",
                 v-bind:title="fileType + ': ' + user.fileTypeContribution[fileType] + ' lines, '\
-                  + 'total: ' + user.totalCommits + ' lines ' + '(contribution from ' + minDate + ' to '\
+                  + 'total: ' + getFileTypeContribution(user) + ' lines ' + '(contribution from ' + minDate + ' to '\
                   + maxDate + ')'"
               )
           template(v-else)
