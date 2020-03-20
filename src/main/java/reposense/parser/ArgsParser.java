@@ -185,7 +185,7 @@ public class ArgsParser {
             verifyDatesRangeIsCorrect(sinceDate, untilDate);
 
             if (reportFolderPath != null && !reportFolderPath.equals(EMPTY_PATH) && configFolderPath.equals(EMPTY_PATH)
-                && locations == null) {
+                    && locations == null) {
                 return new ViewCliArguments(reportFolderPath);
             }
 

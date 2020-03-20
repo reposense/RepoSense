@@ -1,17 +1,12 @@
 package reposense.authorship;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.nio.file.PathMatcher;
 import java.nio.file.Paths;
 import java.time.ZoneId;
 import java.time.ZoneOffset;
 import java.util.HashMap;
 import java.util.TimeZone;
-import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import reposense.authorship.analyzer.AnnotatorAnalyzer;
@@ -23,6 +18,7 @@ import reposense.model.Author;
 import reposense.model.CommitHash;
 import reposense.model.RepoConfiguration;
 import reposense.system.LogsManager;
+import reposense.util.FileUtil;
 
 /**
  * Analyzes the target and information given in the {@code FileInfo}.
@@ -30,7 +26,6 @@ import reposense.system.LogsManager;
 public class FileInfoAnalyzer {
     private static final Logger logger = LogsManager.getLogger(FileInfoAnalyzer.class);
 
-    private static final String REUSED_TAG = "//@reused";
     private static final int AUTHOR_NAME_OFFSET = "author ".length();
     private static final int AUTHOR_EMAIL_OFFSET = "author-mail ".length();
     private static final int AUTHOR_TIME_OFFSET = "author-time ".length();
@@ -43,17 +38,18 @@ public class FileInfoAnalyzer {
     /**
      * Analyzes the lines of the file, given in the {@code fileInfo}, that has changed in the time period provided
      * by {@code config}.
-     * Returns null if the file contains the reused tag, the file is missing from the local system, or none of the
+     * Returns null if the file is missing from the local system, or none of the
      * {@code Author} specified in {@code config} contributed to the file in {@code fileInfo}.
      */
     public static FileResult analyzeFile(RepoConfiguration config, FileInfo fileInfo) {
         String relativePath = fileInfo.getPath();
-        if (isReused(config.getRepoRoot(), relativePath)) {
-            return null;
-        }
 
         if (Files.notExists(Paths.get(config.getRepoRoot(), relativePath))) {
             logger.severe(String.format(MESSAGE_FILE_MISSING, relativePath));
+            return null;
+        }
+
+        if (FileUtil.isEmptyFile(config.getRepoRoot(), relativePath)) {
             return null;
         }
 
@@ -109,7 +105,7 @@ public class FileInfoAnalyzer {
                 commitDateInMs += authorRawOffset - systemRawOffset;
             }
 
-            if (!fileInfo.isFileLineTracked(lineCount / 5) || isAuthorIgnoringFile(author, filePath)
+            if (!fileInfo.isFileLineTracked(lineCount / 5) || author.isIgnoringFile(filePath)
                     || CommitHash.isInsideCommitList(commitHash, config.getIgnoreCommitList())
                     || commitDateInMs < sinceDateInMs || commitDateInMs > untilDateInMs) {
                 author = Author.UNKNOWN_AUTHOR;
@@ -124,29 +120,5 @@ public class FileInfoAnalyzer {
      */
     private static String getGitBlameResult(RepoConfiguration config, String filePath) {
         return GitBlame.blame(config.getRepoRoot(), filePath);
-    }
-
-    /**
-     * Returns true if the first line in the file at {@code repoRoot}'s {@code relativePath} contains the reused tag.
-     */
-    private static boolean isReused(String repoRoot, String relativePath) {
-        Path path = Paths.get(repoRoot, relativePath);
-        try (BufferedReader br = new BufferedReader(new FileReader(path.toFile()))) {
-            String firstLine = br.readLine();
-            if (firstLine == null || firstLine.contains(REUSED_TAG)) {
-                return true;
-            }
-        } catch (IOException ioe) {
-            logger.log(Level.WARNING, ioe.getMessage(), ioe);
-        }
-        return false;
-    }
-
-    /**
-     * Returns true if the {@code author} is ignoring the {@code filePath} based on its ignore glob list.
-     */
-    private static boolean isAuthorIgnoringFile(Author author, Path filePath) {
-        PathMatcher ignoreGlobMatcher = author.getIgnoreGlobMatcher();
-        return ignoreGlobMatcher.matches(filePath);
     }
 }

@@ -31,4 +31,12 @@ public class GitDiffTest extends GitTestTemplate {
     public void diffCommit_nonexistentCommitHash_throwsRunTimeException() {
         GitDiff.diffCommit(config.getRepoRoot(), NONEXISTENT_COMMIT_HASH);
     }
+
+    @Test
+    public void diffCommit_commitContainingSubmodule_ignoresSubmodule() {
+        GitCheckout.checkout(config.getRepoRoot(),
+                "850-GitDiffTest-diffCommit_commitContainingSubmodule_ignoresSubmodule");
+        String diffResult = GitDiff.diffCommit(config.getRepoRoot(), EMPTY_TREE_HASH);
+        Assert.assertFalse(diffResult.contains("Subproject commit"));
+    }
 }
