@@ -106,11 +106,29 @@ window.app = new window.Vue({
     userUpdated: false,
 
     isLoading: false,
-    isCollapsed: false,
     isTabActive: true, // to force tab wrapper to load
 
     tabType: 'empty',
-    tabInfo: {},
+    tabInfo: {
+      tabAuthorship: {
+        author: '',
+        location: '',
+        maxDate: '',
+        minDate: '',
+        name: '',
+        repo: '',
+      },
+      tabZoom: {
+        avgCommitSize: 0,
+        filterGroupSelection: '',
+        filterTimeFrame: '',
+        location: '',
+        isMergeGroup: false,
+        sinceDate: '',
+        untilDate: '',
+        user: null,
+      },
+    },
     creationDate: '',
 
     errorMessages: {},
@@ -171,14 +189,11 @@ window.app = new window.Vue({
 
     // handle opening of sidebar //
     activateTab(tabName) {
-      // changing isTabActive to trigger redrawing of component
-      this.isTabActive = false;
       if (document.getElementById('tabs-wrapper')) {
         document.getElementById('tabs-wrapper').scrollTop = 0;
       }
 
       this.isTabActive = true;
-      this.isCollapsed = false;
       this.tabType = tabName;
 
       window.addHash('tabOpen', this.isTabActive);
@@ -196,11 +211,11 @@ window.app = new window.Vue({
     },
 
     updateTabAuthorship(obj) {
-      this.tabInfo.tabAuthorship = Object.assign({}, obj);
+      this.tabInfo.tabAuthorship = Object.assign({}, this.tabInfo.tabAuthorship, obj);
       this.activateTab('authorship');
     },
     updateTabZoom(obj) {
-      this.tabInfo.tabZoom = Object.assign({}, obj);
+      this.tabInfo.tabZoom = Object.assign({}, this.tabInfo.tabZoom, obj);
       this.activateTab('zoom');
     },
 
@@ -245,10 +260,6 @@ window.app = new window.Vue({
           // handle zoom tab if needed
         }
       }
-    },
-
-    generateKey(dataObj) {
-      return JSON.stringify(dataObj);
     },
 
     getRepoSenseHomeLink() {
