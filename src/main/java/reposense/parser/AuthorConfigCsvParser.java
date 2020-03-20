@@ -59,7 +59,6 @@ public class AuthorConfigCsvParser extends CsvParser<AuthorConfiguration> {
         String displayName = get(record, DISPLAY_NAME_POSITION);
         List<String> aliases = getAsList(record, ALIAS_POSITION);
         List<String> ignoreGlobList = getAsList(record, IGNORE_GLOB_LIST_POSITION);
-
         AuthorConfiguration config = findMatchingAuthorConfiguration(results, location, branch);
 
         Author author = new Author(gitHubId);
@@ -74,6 +73,7 @@ public class AuthorConfigCsvParser extends CsvParser<AuthorConfiguration> {
         config.addAuthor(author);
         setEmails(config, author, emails);
         setDisplayName(config, author, displayName);
+        config.checkAliases(aliases);
         setAliases(config, author, gitHubId, aliases);
         setAuthorIgnoreGlobList(author, ignoreGlobList);
     }

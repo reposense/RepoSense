@@ -56,13 +56,11 @@ public class AuthorConfiguration {
             List<String> aliases = new ArrayList<>(author.getAuthorAliases());
             List<String> emails = new ArrayList<>(author.getEmails());
             aliases.add(author.getGitId());
-            allAliases.addAll(aliases);
 
+            checkAliases(aliases);
             aliases.forEach(alias -> newAuthorEmailsAndAliasesMap.put(alias, author));
             emails.forEach(email -> newAuthorEmailsAndAliasesMap.put(email, author));
         }
-
-        checkForAliases(allAliases);
 
         setAuthorList(newAuthorList);
         setAuthorEmailsAndAliasesMap(newAuthorEmailsAndAliasesMap);
@@ -70,17 +68,14 @@ public class AuthorConfiguration {
     }
 
     /**
-     * Checks for duplicate aliases in {@code allAliases}
-     * @param allAliases
+     * Checks for duplicate aliases in {@code aliases}
+     * @param aliases
      */
-    private void checkForAliases(List<String> allAliases) {
-        HashSet<String> uniqueAliasesSet = new HashSet<>();
-        for (String alias : allAliases) {
-            if (uniqueAliasesSet.contains(alias)) {
+   public void checkAliases(List<String> aliases){
+        for(String alias: aliases){
+            if(this.authorEmailsAndAliasesMap.containsKey(alias)){
                 logger.warning(String.format(
-                        "Duplicate alias %s found. The alias will belong to the last author who claims it.", alias));
-            } else {
-                uniqueAliasesSet.add(alias);
+                    "Duplicate alias %s found. The alias will belong to the last author who claims it.", alias));
             }
         }
     }
