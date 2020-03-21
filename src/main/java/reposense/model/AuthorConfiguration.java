@@ -3,7 +3,6 @@ package reposense.model;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
@@ -70,11 +69,11 @@ public class AuthorConfiguration {
      * Checks for duplicate aliases in {@code aliases}
      * @param aliases
      */
-   public void checkDuplicateAliases(List<String> aliases){
-        for(String alias: aliases){
-            if(this.authorEmailsAndAliasesMap.containsKey(alias)){
+   public void checkDuplicateAliases(List<String> aliases) {
+        for (String alias: aliases) {
+            if (this.authorEmailsAndAliasesMap.containsKey(alias)) {
                 logger.warning(String.format(
-                    "Duplicate alias %s found. The alias will belong to the last author who claims it.", alias));
+                        "Duplicate alias %s found. The alias will belong to the last author who claims it.", alias));
             }
         }
     }
