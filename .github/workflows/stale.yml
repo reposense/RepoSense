@@ -11,11 +11,14 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/stale@v1
-      with:
-        repo-token: ${{ secrets.GITHUB_TOKEN }}
-        stale-pr-message: 'Hi, were are going to mark this PR as stale because it has not had any updates for 30 days. If no further activity occurs within the following 7 days, it will be automatically closed so that others can take up the issue.
-                            If you are still working on this PR, please make a follow-up commit within 7 days (and submit it for review, if applicable). Please also let us know if you are stuck so we can help you!'
-        stale-pr-label: 'Stale'
-        days-before-stale: 30
-        days-before-close: 7
+     - uses: actions/checkout@master
+     - name: stale
+       uses: gatsbyjs/stale@master
+       with:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          DAYS_BEFORE_STALE: 30
+          DAYS_BEFORE_CLOSE: 7
+          STALE_ISSUE_LABEL: 'stale'
+          STALE_PR_LABEL: 'stale'
+          STALE_PR_MESSAGE: 'Hi, were are going to mark this PR as stale because it has not had any updates for 30 days. If no further activity occurs within the following 7 days, it will be automatically closed so that others can take up the issue.If you are still working on this PR, please make a follow-up commit within 7 days and do leave a comment if you are still working on this PR. Please also let us know if you are stuck so we can help you!'
+        
