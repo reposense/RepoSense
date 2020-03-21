@@ -44,7 +44,7 @@ public class FileInfoAnalyzer {
      * Returns null if the file is missing from the local system, or none of the
      * {@code Author} specified in {@code config} contributed to the file in {@code fileInfo}.
      */
-    public static FileResult analyzeFile(RepoConfiguration config, FileInfo fileInfo) {
+    public static FileResult analyzeNonBinaryFile(RepoConfiguration config, FileInfo fileInfo) {
         String relativePath = fileInfo.getPath();
 
         if (Files.notExists(Paths.get(config.getRepoRoot(), relativePath))) {

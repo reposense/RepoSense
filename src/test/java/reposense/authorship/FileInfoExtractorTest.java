@@ -40,7 +40,7 @@ public class FileInfoExtractorTest extends GitTestTemplate {
         config.getAuthorEmailsAndAliasesMap().put(MAIN_AUTHOR_NAME, new Author(MAIN_AUTHOR_NAME));
         config.getAuthorEmailsAndAliasesMap().put(FAKE_AUTHOR_NAME, new Author(FAKE_AUTHOR_NAME));
         GitCheckout.checkout(config.getRepoRoot(), TEST_COMMIT_HASH);
-        List<FileInfo> files = FileInfoExtractor.extractFileInfos(config);
+        List<FileInfo> files = FileInfoExtractor.extractNonBinaryFileInfos(config);
         Assert.assertEquals(6, files.size());
         Assert.assertTrue(isFileExistence(Paths.get("README.md"), files));
         Assert.assertTrue(isFileExistence(Paths.get("annotationTest.java"), files));
@@ -55,7 +55,7 @@ public class FileInfoExtractorTest extends GitTestTemplate {
         Date date = TestUtil.getSinceDate(2018, Calendar.FEBRUARY, 9);
         config.setSinceDate(date);
 
-        List<FileInfo> files = FileInfoExtractor.extractFileInfos(config);
+        List<FileInfo> files = FileInfoExtractor.extractNonBinaryFileInfos(config);
         Assert.assertEquals(4, files.size());
 
         // files edited within commit range
@@ -72,7 +72,7 @@ public class FileInfoExtractorTest extends GitTestTemplate {
     @Test
     public void extractFileInfos_directoryWithValidWhitelistedName_success() {
         GitCheckout.checkout(config.getRepoRoot(), DIRECTORY_WITH_VALID_WHITELISTED_NAME_BRANCH);
-        List<FileInfo> files = FileInfoExtractor.extractFileInfos(config);
+        List<FileInfo> files = FileInfoExtractor.extractNonBinaryFileInfos(config);
 
         Assert.assertEquals(7, files.size());
         Assert.assertTrue(isFileExistence(Paths.get(".gradle/anything.txt"), files));
@@ -81,7 +81,7 @@ public class FileInfoExtractorTest extends GitTestTemplate {
     @Test
     public void extractFileInfos_branchWithValidWhitelistedFileName_success() {
         GitCheckout.checkout(config.getRepoRoot(), BRANCH_WITH_VALID_WHITELISTED_FILE_NAME_BRANCH);
-        List<FileInfo> files = FileInfoExtractor.extractFileInfos(config);
+        List<FileInfo> files = FileInfoExtractor.extractNonBinaryFileInfos(config);
 
         Assert.assertTrue(isFileExistence(Paths.get("whitelisted-format.txt"), files));
     }
@@ -91,7 +91,7 @@ public class FileInfoExtractorTest extends GitTestTemplate {
         Date date = TestUtil.getSinceDate(2050, 12, 31);
         config.setSinceDate(date);
 
-        List<FileInfo> files = FileInfoExtractor.extractFileInfos(config);
+        List<FileInfo> files = FileInfoExtractor.extractNonBinaryFileInfos(config);
         Assert.assertTrue(files.isEmpty());
     }
 
@@ -100,7 +100,7 @@ public class FileInfoExtractorTest extends GitTestTemplate {
         Date date = TestUtil.getUntilDate(2015, 12, 31);
         config.setUntilDate(date);
 
-        List<FileInfo> files = FileInfoExtractor.extractFileInfos(config);
+        List<FileInfo> files = FileInfoExtractor.extractNonBinaryFileInfos(config);
         Assert.assertTrue(files.isEmpty());
     }
 
@@ -179,7 +179,7 @@ public class FileInfoExtractorTest extends GitTestTemplate {
         config.setFormats(FileTypeTest.NO_SPECIFIED_FORMATS);
         GitCheckout.checkoutBranch(config.getRepoRoot(), BRANCH_WITH_RARE_FILE_FORMATS);
 
-        List<FileInfo> files = FileInfoExtractor.extractFileInfos(config);
+        List<FileInfo> files = FileInfoExtractor.extractNonBinaryFileInfos(config);
 
         Assert.assertEquals(nonBinaryFilesList.size(), files.size());
         // Non binary files should be captured

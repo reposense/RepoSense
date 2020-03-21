@@ -51,9 +51,9 @@ public class FileInfoExtractor {
     private static final Pattern FILE_CHANGED_PATTERN = Pattern.compile("\n(\\+){3} b?/(?<filePath>.*)\n");
 
     /**
-     * Extracts a list of relevant files given in {@code config}.
+     * Extracts a list of relevant non-binary files given in {@code config}.
      */
-    public static List<FileInfo> extractFileInfos(RepoConfiguration config) {
+    public static List<FileInfo> extractNonBinaryFileInfos(RepoConfiguration config) {
         logger.info(String.format(MESSAGE_START_EXTRACTING_FILE_INFO, config.getLocation(), config.getBranch()));
 
         List<FileInfo> fileInfos = new ArrayList<>();
@@ -136,8 +136,9 @@ public class FileInfoExtractor {
     }
 
     /**
-     * Returns a {@code Set} of files for the repo {@code repoConfig}, filtering the files depending on whether
-     * binary files {@code isBinaryFiles} are requested.
+     * Returns a {@code Set} of non-binary files for the repo {@code repoConfig}
+     * if {@code isBinaryFiles} is set to `false`.
+     * Otherwise, returns a {@code Set} of binary files for the repo {@code repoConfig}
      */
     public static Set<Path> getFilesList(RepoConfiguration repoConfig, boolean isBinaryFiles) {
         List<String> modifiedFileList = GitDiff.getModifiedFilesList(Paths.get(repoConfig.getRepoRoot()));

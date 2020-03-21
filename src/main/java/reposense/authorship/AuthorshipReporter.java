@@ -18,10 +18,10 @@ public class AuthorshipReporter {
      * Generates and returns the authorship summary for each repo in {@code config}.
      */
     public static AuthorshipSummary generateAuthorshipSummary(RepoConfiguration config) {
-        List<FileInfo> fileInfos = FileInfoExtractor.extractFileInfos(config);
+        List<FileInfo> fileInfos = FileInfoExtractor.extractNonBinaryFileInfos(config);
 
         List<FileResult> fileResults = fileInfos.stream()
-                .map(fileInfo -> FileInfoAnalyzer.analyzeFile(config, fileInfo))
+                .map(fileInfo -> FileInfoAnalyzer.analyzeNonBinaryFile(config, fileInfo))
                 .filter(Objects::nonNull)
                 .collect(Collectors.toList());
 
