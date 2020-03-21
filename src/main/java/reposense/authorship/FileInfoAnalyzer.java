@@ -67,7 +67,7 @@ public class FileInfoAnalyzer {
             return null;
         }
 
-        return generateFileResult(fileInfo);
+        return generateNonBinaryFileResult(fileInfo);
     }
 
     /**
@@ -92,7 +92,7 @@ public class FileInfoAnalyzer {
     /**
      * Generates and returns a {@code FileResult} with the authorship results from {@code fileInfo} consolidated.
      */
-    private static FileResult generateFileResult(FileInfo fileInfo) {
+    private static FileResult generateNonBinaryFileResult(FileInfo fileInfo) {
         HashMap<Author, Integer> authorContributionMap = new HashMap<>();
         for (LineInfo line : fileInfo.getLines()) {
             Author author = line.getAuthor();
@@ -104,18 +104,20 @@ public class FileInfoAnalyzer {
 
     /**
      * Generates and returns a {@code FileResult} with the authorship results from binary {@code fileInfo} consolidated.
-     * Returns null if none of the {@code Author} specified in {@code config} contributed to the file in
+     * Authorship results are indicated in the {@code authorContributionMap} as contributions with zero line counts.
+     * Returns {@code null} if none of the {@code Author} specified in {@code config} contributed to the file in
      * {@code fileInfo}.
      */
     private static FileResult generateBinaryFileResult(RepoConfiguration config, FileInfo fileInfo) {
         String authorsString = GitLog.getBinaryFileAuthors(config, fileInfo.getPath());
+        if (authorsString.isEmpty()) { // Empty string, means no author at all
+            return null;
+        }
+
         Set<Author> authors = new HashSet<>();
         HashMap<Author, Integer> authorContributionMap = new HashMap<>();
 
         for (String authorString : authorsString.split("\n")) {
-            if (authorString.isEmpty()) { // Empty string, means no author at all
-                return null;
-            }
             String[] arr = authorString.split("\t");
             String authorName = arr[0];
             String authorEmail = arr[1];

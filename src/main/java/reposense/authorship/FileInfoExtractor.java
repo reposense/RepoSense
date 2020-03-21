@@ -71,7 +71,7 @@ public class FileInfoExtractor {
         if (!lastCommitHash.isEmpty()) {
             fileInfos = getEditedFileInfos(config, lastCommitHash);
         } else {
-            getAllFileInfo(config, fileInfos, false);
+            fileInfos = getAllFileInfo(config, false);
         }
 
         fileInfos.sort(Comparator.comparing(FileInfo::getPath));
@@ -84,8 +84,7 @@ public class FileInfoExtractor {
     public static List<FileInfo> extractBinaryFileInfos(RepoConfiguration config) {
         logger.info(String.format(MESSAGE_START_EXTRACTING_BINARY_FILE_INFO, config.getLocation(), config.getBranch()));
 
-        List<FileInfo> binaryFileInfos = new ArrayList<>();
-        getAllFileInfo(config, binaryFileInfos, true);
+        List<FileInfo> binaryFileInfos = getAllFileInfo(config, true);
         binaryFileInfos.sort(Comparator.comparing(FileInfo::getPath));
         return binaryFileInfos;
     }
@@ -192,7 +191,8 @@ public class FileInfoExtractor {
      * Traverses each file from the repo root directory, generates the {@code FileInfo} for each relevant file found
      * based on {@code config} and inserts it into {@code fileInfos}.
      */
-    private static void getAllFileInfo(RepoConfiguration config, List<FileInfo> fileInfos, boolean isBinaryFiles) {
+    private static List<FileInfo> getAllFileInfo(RepoConfiguration config, boolean isBinaryFiles) {
+        List<FileInfo> fileInfos = new ArrayList<>();
         Set<Path> filesList = getFilesList(config, isBinaryFiles);
         for (Path relativePath : filesList) {
             if (!config.getFileTypeManager().isInsideWhitelistedFormats(relativePath.toString())) {
@@ -205,6 +205,7 @@ public class FileInfoExtractor {
                 fileInfos.add(generateFileInfo(config.getRepoRoot(), relativePath.toString()));
             }
         }
+        return fileInfos;
     }
 
     /**
