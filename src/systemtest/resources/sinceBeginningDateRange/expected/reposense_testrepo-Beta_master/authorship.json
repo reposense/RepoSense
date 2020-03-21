@@ -352,28 +352,28 @@
       {
         "lineNumber": 41,
         "author": {
-          "gitId": "April0616"
+          "gitId": "-"
         },
         "content": "                        \u003c!-- @@author nbriannl --\u003e"
       },
       {
         "lineNumber": 42,
         "author": {
-          "gitId": "nbr"
+          "gitId": "-"
         },
         "content": "                        \u003cStackPane fx:id\u003d\"tagListPanelPlaceholder\" alignment\u003d\"TOP_CENTER\" styleClass\u003d\"pane-with-border\"\u003e"
       },
       {
         "lineNumber": 43,
         "author": {
-          "gitId": "nbr"
+          "gitId": "-"
         },
         "content": "                     \u003cpadding\u003e"
       },
       {
         "lineNumber": 44,
         "author": {
-          "gitId": "nbr"
+          "gitId": "-"
         },
         "content": "                        \u003cInsets bottom\u003d\"10.0\" left\u003d\"10.0\" right\u003d\"10.0\" /\u003e"
       },
@@ -394,7 +394,7 @@
       {
         "lineNumber": 47,
         "author": {
-          "gitId": "nbr"
+          "gitId": "-"
         },
         "content": "                        \u003cStackPane fx:id\u003d\"personInfoPlaceholder\" VBox.vgrow\u003d\"ALWAYS\" /\u003e"
       },
@@ -408,7 +408,7 @@
       {
         "lineNumber": 49,
         "author": {
-          "gitId": "April0616"
+          "gitId": "-"
         },
         "content": "                    \u003c/VBox\u003e"
       },
@@ -596,9 +596,9 @@
       }
     ],
     "authorContributionMap": {
-      "April0616": 56,
-      "-": 14,
-      "nbr": 5
+      "April0616": 54,
+      "-": 20,
+      "nbr": 1
     }
   },
   {
@@ -1568,175 +1568,175 @@
       {
         "lineNumber": 4,
         "author": {
-          "gitId": "nbr"
+          "gitId": "-"
         },
         "content": ""
       },
       {
         "lineNumber": 5,
         "author": {
-          "gitId": "nbr"
+          "gitId": "-"
         },
         "content": "\u003c?import javafx.geometry.Insets?\u003e"
       },
       {
         "lineNumber": 6,
         "author": {
-          "gitId": "nbr"
+          "gitId": "-"
         },
         "content": "\u003c?import javafx.scene.layout.ColumnConstraints?\u003e"
       },
       {
         "lineNumber": 7,
         "author": {
-          "gitId": "nbr"
+          "gitId": "-"
         },
         "content": "\u003c?import javafx.scene.layout.FlowPane?\u003e"
       },
       {
         "lineNumber": 8,
         "author": {
-          "gitId": "nbr"
+          "gitId": "-"
         },
         "content": "\u003c?import javafx.scene.layout.GridPane?\u003e"
       },
       {
         "lineNumber": 9,
         "author": {
-          "gitId": "nbr"
+          "gitId": "-"
         },
         "content": "\u003c?import javafx.scene.layout.HBox?\u003e"
       },
       {
         "lineNumber": 10,
         "author": {
-          "gitId": "nbr"
+          "gitId": "-"
         },
         "content": "\u003c?import javafx.scene.layout.RowConstraints?\u003e"
       },
       {
         "lineNumber": 11,
         "author": {
-          "gitId": "nbr"
+          "gitId": "-"
         },
         "content": "\u003c?import javafx.scene.layout.VBox?\u003e"
       },
       {
         "lineNumber": 12,
         "author": {
-          "gitId": "nbr"
+          "gitId": "-"
         },
         "content": "\u003cHBox id\u003d\"cardPane\" fx:id\u003d\"cardPane\" xmlns\u003d\"http://javafx.com/javafx/8.0.141\" xmlns:fx\u003d\"http://javafx.com/fxml/1\"\u003e"
       },
       {
         "lineNumber": 13,
         "author": {
-          "gitId": "nbr"
+          "gitId": "-"
         },
         "content": "  \u003cGridPane HBox.hgrow\u003d\"ALWAYS\"\u003e"
       },
       {
         "lineNumber": 14,
         "author": {
-          "gitId": "nbr"
+          "gitId": "-"
         },
         "content": "    \u003ccolumnConstraints\u003e"
       },
       {
         "lineNumber": 15,
         "author": {
-          "gitId": "nbr"
+          "gitId": "-"
         },
         "content": "      \u003cColumnConstraints hgrow\u003d\"SOMETIMES\" minWidth\u003d\"10\" prefWidth\u003d\"150\" /\u003e"
       },
       {
         "lineNumber": 16,
         "author": {
-          "gitId": "nbr"
+          "gitId": "-"
         },
         "content": "    \u003c/columnConstraints\u003e"
       },
       {
         "lineNumber": 17,
         "author": {
-          "gitId": "nbr"
+          "gitId": "-"
         },
         "content": "    \u003cVBox alignment\u003d\"CENTER_LEFT\" GridPane.columnIndex\u003d\"0\"\u003e"
       },
       {
         "lineNumber": 18,
         "author": {
-          "gitId": "nbr"
+          "gitId": "-"
         },
         "content": "      \u003cpadding\u003e"
       },
       {
         "lineNumber": 19,
         "author": {
-          "gitId": "nbr"
+          "gitId": "-"
         },
         "content": "        \u003cInsets bottom\u003d\"5\" left\u003d\"15\" right\u003d\"5\" top\u003d\"5\" /\u003e"
       },
       {
         "lineNumber": 20,
         "author": {
-          "gitId": "nbr"
+          "gitId": "-"
         },
         "content": "      \u003c/padding\u003e"
       },
       {
         "lineNumber": 21,
         "author": {
-          "gitId": "nbr"
+          "gitId": "-"
         },
         "content": "      \u003cFlowPane fx:id\u003d\"tags\" /\u003e"
       },
       {
         "lineNumber": 22,
         "author": {
-          "gitId": "nbr"
+          "gitId": "-"
         },
         "content": "    \u003c/VBox\u003e"
       },
       {
         "lineNumber": 23,
         "author": {
-          "gitId": "nbr"
+          "gitId": "-"
         },
         "content": "      \u003crowConstraints\u003e"
       },
       {
         "lineNumber": 24,
         "author": {
-          "gitId": "nbr"
+          "gitId": "-"
         },
         "content": "         \u003cRowConstraints /\u003e"
       },
       {
         "lineNumber": 25,
         "author": {
-          "gitId": "nbr"
+          "gitId": "-"
         },
         "content": "      \u003c/rowConstraints\u003e"
       },
       {
         "lineNumber": 26,
         "author": {
-          "gitId": "nbr"
+          "gitId": "-"
         },
         "content": "  \u003c/GridPane\u003e"
       },
       {
         "lineNumber": 27,
         "author": {
-          "gitId": "nbr"
+          "gitId": "-"
         },
         "content": "\u003c/HBox\u003e"
       }
     ],
     "authorContributionMap": {
-      "-": 1,
-      "nbr": 26
+      "-": 25,
+      "nbr": 2
     }
   },
   {
@@ -1767,322 +1767,322 @@
       {
         "lineNumber": 4,
         "author": {
-          "gitId": "zacharytang"
+          "gitId": "-"
         },
         "content": ""
       },
       {
         "lineNumber": 5,
         "author": {
-          "gitId": "zacharytang"
+          "gitId": "-"
         },
         "content": "\u003c?import javafx.geometry.Insets?\u003e"
       },
       {
         "lineNumber": 6,
         "author": {
-          "gitId": "zacharytang"
+          "gitId": "-"
         },
         "content": "\u003c?import javafx.scene.control.Label?\u003e"
       },
       {
         "lineNumber": 7,
         "author": {
-          "gitId": "zacharytang"
+          "gitId": "-"
         },
         "content": "\u003c?import javafx.scene.control.SplitPane?\u003e"
       },
       {
         "lineNumber": 8,
         "author": {
-          "gitId": "zacharytang"
+          "gitId": "-"
         },
         "content": "\u003c?import javafx.scene.layout.AnchorPane?\u003e"
       },
       {
         "lineNumber": 9,
         "author": {
-          "gitId": "zacharytang"
+          "gitId": "-"
         },
         "content": "\u003c?import javafx.scene.layout.ColumnConstraints?\u003e"
       },
       {
         "lineNumber": 10,
         "author": {
-          "gitId": "zacharytang"
+          "gitId": "-"
         },
         "content": "\u003c?import javafx.scene.layout.GridPane?\u003e"
       },
       {
         "lineNumber": 11,
         "author": {
-          "gitId": "zacharytang"
+          "gitId": "-"
         },
         "content": "\u003c?import javafx.scene.layout.HBox?\u003e"
       },
       {
         "lineNumber": 12,
         "author": {
-          "gitId": "zacharytang"
+          "gitId": "-"
         },
         "content": "\u003c?import javafx.scene.layout.RowConstraints?\u003e"
       },
       {
         "lineNumber": 13,
         "author": {
-          "gitId": "zacharytang"
+          "gitId": "-"
         },
         "content": "\u003c?import javafx.scene.layout.StackPane?\u003e"
       },
       {
         "lineNumber": 14,
         "author": {
-          "gitId": "zacharytang"
+          "gitId": "-"
         },
         "content": ""
       },
       {
         "lineNumber": 15,
         "author": {
-          "gitId": "zacharytang"
+          "gitId": "-"
         },
         "content": "\u003cStackPane prefHeight\u003d\"400.0\" prefWidth\u003d\"600.0\" xmlns\u003d\"http://javafx.com/javafx/8\""
       },
       {
         "lineNumber": 16,
         "author": {
-          "gitId": "zacharytang"
+          "gitId": "-"
         },
         "content": "           xmlns:fx\u003d\"http://javafx.com/fxml/1\"\u003e"
       },
       {
         "lineNumber": 17,
         "author": {
-          "gitId": "zacharytang"
+          "gitId": "-"
         },
         "content": "    \u003cSplitPane dividerPositions\u003d\"0.2\" orientation\u003d\"VERTICAL\" prefHeight\u003d\"400.0\" prefWidth\u003d\"600.0\""
       },
       {
         "lineNumber": 18,
         "author": {
-          "gitId": "zacharytang"
+          "gitId": "-"
         },
         "content": "               AnchorPane.bottomAnchor\u003d\"0.0\" AnchorPane.leftAnchor\u003d\"0.0\" AnchorPane.rightAnchor\u003d\"0.0\""
       },
       {
         "lineNumber": 19,
         "author": {
-          "gitId": "zacharytang"
+          "gitId": "-"
         },
         "content": "               AnchorPane.topAnchor\u003d\"0.0\"\u003e"
       },
       {
         "lineNumber": 20,
         "author": {
-          "gitId": "zacharytang"
+          "gitId": "-"
         },
         "content": "        \u003cAnchorPane styleClass\u003d\"combined-timetable-label\"\u003e"
       },
       {
         "lineNumber": 21,
         "author": {
-          "gitId": "zacharytang"
+          "gitId": "-"
         },
         "content": "            \u003cGridPane layoutX\u003d\"151.0\" layoutY\u003d\"26.0\" AnchorPane.bottomAnchor\u003d\"0.0\" AnchorPane.leftAnchor\u003d\"0.0\""
       },
       {
         "lineNumber": 22,
         "author": {
-          "gitId": "zacharytang"
+          "gitId": "-"
         },
         "content": "                      AnchorPane.rightAnchor\u003d\"0.0\" AnchorPane.topAnchor\u003d\"0.0\"\u003e"
       },
       {
         "lineNumber": 23,
         "author": {
-          "gitId": "zacharytang"
+          "gitId": "-"
         },
         "content": "                \u003ccolumnConstraints\u003e"
       },
       {
         "lineNumber": 24,
         "author": {
-          "gitId": "zacharytang"
+          "gitId": "-"
         },
         "content": "                    \u003cColumnConstraints hgrow\u003d\"SOMETIMES\" maxWidth\u003d\"300\" minWidth\u003d\"300.0\" prefWidth\u003d\"300\"/\u003e"
       },
       {
         "lineNumber": 25,
         "author": {
-          "gitId": "zacharytang"
+          "gitId": "-"
         },
         "content": "                    \u003cColumnConstraints hgrow\u003d\"SOMETIMES\"/\u003e"
       },
       {
         "lineNumber": 26,
         "author": {
-          "gitId": "zacharytang"
+          "gitId": "-"
         },
         "content": "                \u003c/columnConstraints\u003e"
       },
       {
         "lineNumber": 27,
         "author": {
-          "gitId": "zacharytang"
+          "gitId": "-"
         },
         "content": "                \u003crowConstraints\u003e"
       },
       {
         "lineNumber": 28,
         "author": {
-          "gitId": "zacharytang"
+          "gitId": "-"
         },
         "content": "                    \u003cRowConstraints minHeight\u003d\"10.0\" prefHeight\u003d\"30.0\" vgrow\u003d\"SOMETIMES\"/\u003e"
       },
       {
         "lineNumber": 29,
         "author": {
-          "gitId": "zacharytang"
+          "gitId": "-"
         },
         "content": "                \u003c/rowConstraints\u003e"
       },
       {
         "lineNumber": 30,
         "author": {
-          "gitId": "zacharytang"
+          "gitId": "-"
         },
         "content": "                \u003cHBox alignment\u003d\"CENTER_RIGHT\"\u003e"
       },
       {
         "lineNumber": 31,
         "author": {
-          "gitId": "zacharytang"
+          "gitId": "-"
         },
         "content": "                    \u003cLabel alignment\u003d\"CENTER\" styleClass\u003d\"combined-timetable-main-label\" text\u003d\"Timetables Displayed: \"\u003e"
       },
       {
         "lineNumber": 32,
         "author": {
-          "gitId": "zacharytang"
+          "gitId": "-"
         },
         "content": "                        \u003cHBox.margin\u003e"
       },
       {
         "lineNumber": 33,
         "author": {
-          "gitId": "zacharytang"
+          "gitId": "-"
         },
         "content": "                            \u003cInsets right\u003d\"2.5\"/\u003e"
       },
       {
         "lineNumber": 34,
         "author": {
-          "gitId": "zacharytang"
+          "gitId": "-"
         },
         "content": "                        \u003c/HBox.margin\u003e"
       },
       {
         "lineNumber": 35,
         "author": {
-          "gitId": "zacharytang"
+          "gitId": "-"
         },
         "content": "                    \u003c/Label\u003e"
       },
       {
         "lineNumber": 36,
         "author": {
-          "gitId": "zacharytang"
+          "gitId": "-"
         },
         "content": "                \u003c/HBox\u003e"
       },
       {
         "lineNumber": 37,
         "author": {
-          "gitId": "zacharytang"
+          "gitId": "-"
         },
         "content": "                \u003cHBox alignment\u003d\"CENTER_LEFT\" GridPane.columnIndex\u003d\"1\"\u003e"
       },
       {
         "lineNumber": 38,
         "author": {
-          "gitId": "zacharytang"
+          "gitId": "-"
         },
         "content": "                    \u003cLabel fx:id\u003d\"names\" styleClass\u003d\"combined-timetable-names\" text\u003d\"Label\"\u003e"
       },
       {
         "lineNumber": 39,
         "author": {
-          "gitId": "zacharytang"
+          "gitId": "-"
         },
         "content": "                        \u003cHBox.margin\u003e"
       },
       {
         "lineNumber": 40,
         "author": {
-          "gitId": "zacharytang"
+          "gitId": "-"
         },
         "content": "                            \u003cInsets left\u003d\"2.5\"/\u003e"
       },
       {
         "lineNumber": 41,
         "author": {
-          "gitId": "zacharytang"
+          "gitId": "-"
         },
         "content": "                        \u003c/HBox.margin\u003e"
       },
       {
         "lineNumber": 42,
         "author": {
-          "gitId": "zacharytang"
+          "gitId": "-"
         },
         "content": "                    \u003c/Label\u003e"
       },
       {
         "lineNumber": 43,
         "author": {
-          "gitId": "zacharytang"
+          "gitId": "-"
         },
         "content": "                \u003c/HBox\u003e"
       },
       {
         "lineNumber": 44,
         "author": {
-          "gitId": "zacharytang"
+          "gitId": "-"
         },
         "content": "            \u003c/GridPane\u003e"
       },
       {
         "lineNumber": 45,
         "author": {
-          "gitId": "zacharytang"
+          "gitId": "-"
         },
         "content": "        \u003c/AnchorPane\u003e"
       },
       {
         "lineNumber": 46,
         "author": {
-          "gitId": "zacharytang"
+          "gitId": "-"
         },
         "content": "        \u003cAnchorPane fx:id\u003d\"timetablePlaceholder\" minHeight\u003d\"0.0\" minWidth\u003d\"0.0\" prefHeight\u003d\"100.0\" prefWidth\u003d\"160.0\"/\u003e"
       },
       {
         "lineNumber": 47,
         "author": {
-          "gitId": "zacharytang"
+          "gitId": "-"
         },
         "content": "    \u003c/SplitPane\u003e"
       },
       {
         "lineNumber": 48,
         "author": {
-          "gitId": "zacharytang"
+          "gitId": "-"
         },
         "content": "\u003c/StackPane\u003e"
       }
     ],
     "authorContributionMap": {
-      "zacharytang": 47,
-      "-": 1
+      "zacharytang": 2,
+      "-": 46
     }
   },
   {
@@ -2169,387 +2169,386 @@
       {
         "lineNumber": 12,
         "author": {
-          "gitId": "zacharytang"
+          "gitId": "-"
         },
         "content": "\u003cStackPane styleClass\u003d\"info-panel\" xmlns\u003d\"http://javafx.com/javafx/8\" xmlns:fx\u003d\"http://javafx.com/fxml/1\"\u003e"
       },
       {
         "lineNumber": 13,
         "author": {
-          "gitId": "nbr"
+          "gitId": "-"
         },
         "content": "    \u003c!--Edit dividerPositions below to adjust vertical divider position between the person info and the timetable area --\u003e"
       },
       {
         "lineNumber": 14,
         "author": {
-          "gitId": "nbr"
+          "gitId": "-"
         },
         "content": "    \u003cSplitPane dividerPositions\u003d\"0.3\" orientation\u003d\"VERTICAL\"\u003e"
       },
       {
         "lineNumber": 15,
         "author": {
-          "gitId": "zacharytang"
+          "gitId": "-"
         },
         "content": "        \u003cAnchorPane\u003e"
       },
       {
         "lineNumber": 16,
         "author": {
-          "gitId": "nbr"
+          "gitId": "-"
         },
         "content": "            \u003c!--Edit dividerPositions below to adjust the divider position between the person photo and the person details--\u003e"
       },
       {
         "lineNumber": 17,
         "author": {
-          "gitId": "April0616"
+          "gitId": "-"
         },
         "content": "            \u003cSplitPane dividerPositions\u003d\"0.48333333333333334\" AnchorPane.bottomAnchor\u003d\"0.0\" AnchorPane.leftAnchor\u003d\"0.0\" AnchorPane.rightAnchor\u003d\"0.0\" AnchorPane.topAnchor\u003d\"0.0\"\u003e"
       },
       {
         "lineNumber": 18,
         "author": {
-          "gitId": "April0616"
+          "gitId": "-"
         },
         "content": "                \u003cAnchorPane fx:id\u003d\"contactPhotoPane\" minHeight\u003d\"0.0\" minWidth\u003d\"0.0\" styleClass\u003d\"info-name-cell\"\u003e"
       },
       {
         "lineNumber": 19,
         "author": {
-          "gitId": "April0616"
+          "gitId": "-"
         },
         "content": "               \u003cchildren\u003e"
       },
       {
         "lineNumber": 20,
         "author": {
-          "gitId": "April0616"
+          "gitId": "-"
         },
         "content": "                  \u003cImageView fx:id\u003d\"contactPhoto\" layoutX\u003d\"1.0\" layoutY\u003d\"-1.0\" pickOnBounds\u003d\"true\" preserveRatio\u003d\"true\" AnchorPane.bottomAnchor\u003d\"0.0\" AnchorPane.leftAnchor\u003d\"0.0\" AnchorPane.rightAnchor\u003d\"0.0\" AnchorPane.topAnchor\u003d\"0.0\"\u003e"
       },
       {
         "lineNumber": 21,
         "author": {
-          "gitId": "April0616"
+          "gitId": "-"
         },
         "content": ""
       },
       {
         "lineNumber": 22,
         "author": {
-          "gitId": "April0616"
+          "gitId": "-"
         },
         "content": "                  \u003c/ImageView\u003e"
       },
       {
         "lineNumber": 23,
         "author": {
-          "gitId": "April0616"
+          "gitId": "-"
         },
         "content": "               \u003c/children\u003e\u003c/AnchorPane\u003e"
       },
       {
         "lineNumber": 24,
         "author": {
-          "gitId": "April0616"
+          "gitId": "-"
         },
         "content": ""
       },
       {
         "lineNumber": 25,
         "author": {
-          "gitId": "zacharytang"
+          "gitId": "-"
         },
         "content": "                \u003cAnchorPane minHeight\u003d\"0.0\" minWidth\u003d\"0.0\" styleClass\u003d\"info-cell\"\u003e"
       },
       {
         "lineNumber": 26,
         "author": {
-          "gitId": "zacharytang"
+          "gitId": "-"
         },
         "content": "                    \u003cVBox alignment\u003d\"CENTER_LEFT\" AnchorPane.bottomAnchor\u003d\"0.0\" AnchorPane.leftAnchor\u003d\"20.0\" AnchorPane.rightAnchor\u003d\"0.0\" AnchorPane.topAnchor\u003d\"0.0\"\u003e"
       },
       {
         "lineNumber": 27,
         "author": {
-          "gitId": "April0616"
+          "gitId": "-"
         },
         "content": "                        \u003cHBox alignment\u003d\"CENTER_LEFT\" spacing\u003d\"5\"\u003e"
       },
       {
         "lineNumber": 28,
         "author": {
-          "gitId": "April0616"
+          "gitId": "-"
         },
         "content": "                            \u003cLabel styleClass\u003d\"display_small_label\" text\u003d\"Name:\" /\u003e"
       },
       {
         "lineNumber": 29,
         "author": {
-          "gitId": "April0616"
+          "gitId": "-"
         },
         "content": "                            \u003cLabel fx:id\u003d\"name\" styleClass\u003d\"display_small_value\" text\u003d\"\\$name\" /\u003e"
       },
       {
         "lineNumber": 30,
         "author": {
-          "gitId": "April0616"
+          "gitId": "-"
         },
         "content": "                        \u003c/HBox\u003e"
       },
       {
         "lineNumber": 31,
         "author": {
-          "gitId": "zacharytang"
+          "gitId": "-"
         },
         "content": "                        \u003cHBox alignment\u003d\"CENTER_LEFT\" spacing\u003d\"5\"\u003e"
       },
       {
         "lineNumber": 32,
         "author": {
-          "gitId": "zacharytang"
+          "gitId": "-"
         },
         "content": "                            \u003cLabel styleClass\u003d\"display_small_label\" text\u003d\"Gender:\" /\u003e"
       },
       {
         "lineNumber": 33,
         "author": {
-          "gitId": "zacharytang"
+          "gitId": "-"
         },
         "content": "                            \u003cLabel fx:id\u003d\"gender\" styleClass\u003d\"display_small_value\" text\u003d\"\\$gender\" /\u003e"
       },
       {
         "lineNumber": 34,
         "author": {
-          "gitId": "zacharytang"
+          "gitId": "-"
         },
         "content": "                        \u003c/HBox\u003e"
       },
       {
         "lineNumber": 35,
         "author": {
-          "gitId": "zacharytang"
+          "gitId": "-"
         },
         "content": "                        \u003cHBox alignment\u003d\"CENTER_LEFT\" spacing\u003d\"5\"\u003e"
       },
       {
         "lineNumber": 36,
         "author": {
-          "gitId": "zacharytang"
+          "gitId": "-"
         },
         "content": "                            \u003cLabel styleClass\u003d\"display_small_label\" text\u003d\"Matriculation No:\" /\u003e"
       },
       {
         "lineNumber": 37,
         "author": {
-          "gitId": "zacharytang"
+          "gitId": "-"
         },
         "content": "                            \u003cLabel fx:id\u003d\"matricNo\" styleClass\u003d\"display_small_value\" text\u003d\"\\$matricNo\" /\u003e"
       },
       {
         "lineNumber": 38,
         "author": {
-          "gitId": "zacharytang"
+          "gitId": "-"
         },
         "content": "                        \u003c/HBox\u003e"
       },
       {
         "lineNumber": 39,
         "author": {
-          "gitId": "zacharytang"
+          "gitId": "-"
         },
         "content": "                        \u003cHBox alignment\u003d\"CENTER_LEFT\" spacing\u003d\"5\"\u003e"
       },
       {
         "lineNumber": 40,
         "author": {
-          "gitId": "zacharytang"
+          "gitId": "-"
         },
         "content": "                            \u003cLabel styleClass\u003d\"display_small_label\" text\u003d\"Phone No:\" /\u003e"
       },
       {
         "lineNumber": 41,
         "author": {
-          "gitId": "zacharytang"
+          "gitId": "-"
         },
         "content": "                            \u003cLabel fx:id\u003d\"phone\" styleClass\u003d\"display_small_value\" text\u003d\"\\$phone\" /\u003e"
       },
       {
         "lineNumber": 42,
         "author": {
-          "gitId": "zacharytang"
+          "gitId": "-"
         },
         "content": "                        \u003c/HBox\u003e"
       },
       {
         "lineNumber": 43,
         "author": {
-          "gitId": "zacharytang"
+          "gitId": "-"
         },
         "content": "                        \u003cHBox alignment\u003d\"CENTER_LEFT\" spacing\u003d\"5\"\u003e"
       },
       {
         "lineNumber": 44,
         "author": {
-          "gitId": "zacharytang"
+          "gitId": "-"
         },
         "content": "                            \u003cLabel styleClass\u003d\"display_small_label\" text\u003d\"Address:\" /\u003e"
       },
       {
         "lineNumber": 45,
         "author": {
-          "gitId": "April0616"
+          "gitId": "-"
         },
         "content": "                            \u003cLabel fx:id\u003d\"address\" styleClass\u003d\"display_small_value\" text\u003d\"\\$address\" wrapText\u003d\"true\"/\u003e"
       },
       {
         "lineNumber": 46,
         "author": {
-          "gitId": "zacharytang"
+          "gitId": "-"
         },
         "content": "                        \u003c/HBox\u003e"
       },
       {
         "lineNumber": 47,
         "author": {
-          "gitId": "zacharytang"
+          "gitId": "-"
         },
         "content": "                        \u003cHBox alignment\u003d\"CENTER_LEFT\" spacing\u003d\"5\"\u003e"
       },
       {
         "lineNumber": 48,
         "author": {
-          "gitId": "zacharytang"
+          "gitId": "-"
         },
         "content": "                            \u003cLabel styleClass\u003d\"display_small_label\" text\u003d\"Email:\" /\u003e"
       },
       {
         "lineNumber": 49,
         "author": {
-          "gitId": "zacharytang"
+          "gitId": "-"
         },
         "content": "                            \u003cLabel fx:id\u003d\"email\" styleClass\u003d\"display_small_value\" text\u003d\"\\$email\" /\u003e"
       },
       {
         "lineNumber": 50,
         "author": {
-          "gitId": "zacharytang"
+          "gitId": "-"
         },
         "content": "                        \u003c/HBox\u003e"
       },
       {
         "lineNumber": 51,
         "author": {
-          "gitId": "zacharytang"
+          "gitId": "-"
         },
         "content": "                        \u003cHBox alignment\u003d\"CENTER_LEFT\" spacing\u003d\"5\"\u003e"
       },
       {
         "lineNumber": 52,
         "author": {
-          "gitId": "zacharytang"
+          "gitId": "-"
         },
         "content": "                            \u003cLabel styleClass\u003d\"display_small_label\" text\u003d\"Birthday:\" /\u003e"
       },
       {
         "lineNumber": 53,
         "author": {
-          "gitId": "zacharytang"
+          "gitId": "-"
         },
         "content": "                            \u003cLabel fx:id\u003d\"birthday\" styleClass\u003d\"display_small_value\" text\u003d\"\\$birthday\" /\u003e"
       },
       {
         "lineNumber": 54,
         "author": {
-          "gitId": "zacharytang"
+          "gitId": "-"
         },
         "content": "                        \u003c/HBox\u003e"
       },
       {
         "lineNumber": 55,
         "author": {
-          "gitId": "zacharytang"
+          "gitId": "-"
         },
         "content": "                        \u003cHBox alignment\u003d\"CENTER_LEFT\" spacing\u003d\"5\"\u003e"
       },
       {
         "lineNumber": 56,
         "author": {
-          "gitId": "zacharytang"
+          "gitId": "-"
         },
         "content": "                            \u003cLabel styleClass\u003d\"display_small_label\" text\u003d\"Remark:\" /\u003e"
       },
       {
         "lineNumber": 57,
         "author": {
-          "gitId": "April0616"
+          "gitId": "-"
         },
         "content": "                            \u003cLabel fx:id\u003d\"remark\" styleClass\u003d\"display_small_value\" text\u003d\"\\$remark\" wrapText\u003d\"true\"/\u003e"
       },
       {
         "lineNumber": 58,
         "author": {
-          "gitId": "zacharytang"
+          "gitId": "-"
         },
         "content": "                        \u003c/HBox\u003e"
       },
       {
         "lineNumber": 59,
         "author": {
-          "gitId": "zacharytang"
+          "gitId": "-"
         },
         "content": "                    \u003c/VBox\u003e"
       },
       {
         "lineNumber": 60,
         "author": {
-          "gitId": "zacharytang"
+          "gitId": "-"
         },
         "content": "                \u003c/AnchorPane\u003e"
       },
       {
         "lineNumber": 61,
         "author": {
-          "gitId": "zacharytang"
+          "gitId": "-"
         },
         "content": "            \u003c/SplitPane\u003e"
       },
       {
         "lineNumber": 62,
         "author": {
-          "gitId": "zacharytang"
+          "gitId": "-"
         },
         "content": "        \u003c/AnchorPane\u003e"
       },
       {
         "lineNumber": 63,
         "author": {
-          "gitId": "zacharytang"
+          "gitId": "-"
         },
         "content": "        \u003cAnchorPane fx:id\u003d\"timetablePlaceholder\" /\u003e"
       },
       {
         "lineNumber": 64,
         "author": {
-          "gitId": "zacharytang"
+          "gitId": "-"
         },
         "content": "    \u003c/SplitPane\u003e"
       },
       {
         "lineNumber": 65,
         "author": {
-          "gitId": "zacharytang"
+          "gitId": "-"
         },
         "content": "\u003c/StackPane\u003e"
       }
     ],
     "authorContributionMap": {
-      "zacharytang": 45,
-      "April0616": 16,
-      "-": 1,
-      "nbr": 3
+      "zacharytang": 8,
+      "April0616": 2,
+      "-": 55
     }
   }
 ]
