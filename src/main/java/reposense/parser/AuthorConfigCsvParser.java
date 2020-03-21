@@ -73,7 +73,7 @@ public class AuthorConfigCsvParser extends CsvParser<AuthorConfiguration> {
         config.addAuthor(author);
         setEmails(config, author, emails);
         setDisplayName(config, author, displayName);
-        config.checkAliases(aliases);
+        config.checkDuplicateAliases(aliases);
         setAliases(config, author, gitHubId, aliases);
         setAuthorIgnoreGlobList(author, ignoreGlobList);
     }

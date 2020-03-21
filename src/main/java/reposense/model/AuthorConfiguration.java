@@ -45,7 +45,6 @@ public class AuthorConfiguration {
         List<Author> newAuthorList = new ArrayList<>();
         Map<String, Author> newAuthorEmailsAndAliasesMap = new TreeMap<>(String.CASE_INSENSITIVE_ORDER);
         Map<Author, String> newAuthorDisplayNameMap = new HashMap<>();
-        List<String> allAliases = new ArrayList<>();
 
         for (StandaloneAuthor sa : standaloneConfig.getAuthors()) {
             Author author = new Author(sa);
@@ -57,7 +56,7 @@ public class AuthorConfiguration {
             List<String> emails = new ArrayList<>(author.getEmails());
             aliases.add(author.getGitId());
 
-            checkAliases(aliases);
+            checkDuplicateAliases(aliases);
             aliases.forEach(alias -> newAuthorEmailsAndAliasesMap.put(alias, author));
             emails.forEach(email -> newAuthorEmailsAndAliasesMap.put(email, author));
         }
@@ -71,7 +70,7 @@ public class AuthorConfiguration {
      * Checks for duplicate aliases in {@code aliases}
      * @param aliases
      */
-   public void checkAliases(List<String> aliases){
+   public void checkDuplicateAliases(List<String> aliases){
         for(String alias: aliases){
             if(this.authorEmailsAndAliasesMap.containsKey(alias)){
                 logger.warning(String.format(
