@@ -69,7 +69,7 @@ public class AuthorConfiguration {
      * Checks for duplicate aliases in {@code aliases}
      * @param aliases
      */
-   public void checkDuplicateAliases(List<String> aliases) {
+    public void checkDuplicateAliases(List<String> aliases) {
         for (String alias: aliases) {
             if (this.authorEmailsAndAliasesMap.containsKey(alias)) {
                 logger.warning(String.format(
