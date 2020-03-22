@@ -57,7 +57,10 @@ cache:
 
 after_success:
   - bash <(curl -s https://codecov.io/bash)
-  - git fetch --all && git config --global user.email "-" && git config --global user.name "-"
-    && ./gradlew run -Dargs="--since d1"
-  - npm install -g surge
-  - ./config/travis/deploy-surge.sh
+  - |
+    if [ "$TRAVIS_OS_NAME" = "linux" ];
+    then
+      git fetch --all && git config --global user.email "-" && git config --global user.name "-" && ./gradlew run -Dargs="--since d1"
+      npm install -g surge
+      ./config/travis/deploy-surge.sh
+    fi
