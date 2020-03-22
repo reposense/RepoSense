@@ -31,7 +31,7 @@ html
         #tab-resize-guide
         #summary-wrapper
           .summary-status(v-if="loadedRepo<repoLength") Loading repos ... {{ loadedRepo }} / {{ repoLength }}
-          v_summary.tab-padding(
+          v-summary.tab-padding(
             ref="summary",
             v-bind:repos="users",
             v-bind:error-messages="errorMessages",
@@ -60,10 +60,10 @@ html
             i.fas.fa-caret-right
           .tab-content.panel-padding
             .tab-panes
-              v_authorship#tab-authorship.tab-pane(
+              v-authorship#tab-authorship.tab-pane(
                 v-if="tabType === 'authorship'",
                 v-bind:info="tabInfo.tabAuthorship")
-              v_zoom#tab-zoom.tab-pane(
+              v-zoom#tab-zoom.tab-pane(
                 v-else-if="tabType === 'zoom'",
                 v-bind:info="tabInfo.tabZoom",
                 v-on:view-summary="updateSummaryDates")

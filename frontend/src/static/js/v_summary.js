@@ -682,6 +682,6 @@ window.vSummary = {
     this.processFileTypes();
   },
   components: {
-    v_summary_charts: window.vSummaryCharts,
+    vSummaryCharts: window.vSummaryCharts,
   },
 };

@@ -233,6 +233,6 @@ window.vSummaryCharts = {
     },
   },
   components: {
-    v_ramp: window.vRamp,
+    vRamp: window.vRamp,
   },
 };

@@ -94,6 +94,6 @@ window.vZoom = {
     this.updateExpandedCommitMessagesCount();
   },
   components: {
-    v_ramp: window.vRamp,
+    vRamp: window.vRamp,
   },
 };
