@@ -730,6 +730,7 @@ window.vSummary = {
         author: user.name,
         repo: user.repoName,
         name: user.displayName,
+        isMergeGroup: this.isMergeGroup,
         location: this.getRepoLink(repo[index]),
       });
     },
