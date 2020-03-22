@@ -192,7 +192,6 @@ window.vSummaryCharts = {
         repo: user.repoName,
         name: user.displayName,
         location: this.getRepoLink(repo[index]),
-        totalCommits: user.totalCommits,
       });
     },
 
@@ -201,19 +200,20 @@ window.vSummaryCharts = {
       if (drags.length === 2 && drags[1] - drags[0]) {
         const tdiff = new Date(this.filterUntilDate) - new Date(this.filterSinceDate);
         const idxs = drags.map((x) => x * tdiff / 100);
-        const tsince = window.getDateStr(new Date(this.filterSinceDate).getTime() + idxs[0]);
-        const tuntil = window.getDateStr(new Date(this.filterSinceDate).getTime() + idxs[1]);
+        const tsince = getDateStr(new Date(this.filterSinceDate).getTime() + idxs[0]);
+        const tuntil = getDateStr(new Date(this.filterSinceDate).getTime() + idxs[1]);
         this.openTabZoom(user, tsince, tuntil, repo, index);
       }
     },
 
     openTabZoom(user, since, until, repo, index) {
       const { avgCommitSize } = this;
-
+      const clonedUser = Object.assign({}, user); // so that changes in summary won't affect zoom
       this.$parent.$emit('view-zoom', {
         filterGroupSelection: this.filterGroupSelection,
+        filterTimeFrame: this.filterTimeFrame,
         avgCommitSize,
-        user,
+        user: clonedUser,
         location: this.getRepoLink(repo[index]),
         sinceDate: since,
         untilDate: until,
