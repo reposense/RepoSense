@@ -42,7 +42,6 @@ public class AuthorConfiguration {
      */
     public void update(StandaloneConfig standaloneConfig, List<String> ignoreGlobList) {
         List<Author> newAuthorList = new ArrayList<>();
-        List<String> allAliases = new ArrayList<>();
         Map<String, Author> newAuthorEmailsAndAliasesMap = new TreeMap<>(String.CASE_INSENSITIVE_ORDER);
         Map<Author, String> newAuthorDisplayNameMap = new HashMap<>();
 
@@ -54,29 +53,29 @@ public class AuthorConfiguration {
             newAuthorDisplayNameMap.put(author, author.getDisplayName());
             List<String> aliases = new ArrayList<>(author.getAuthorAliases());
             List<String> emails = new ArrayList<>(author.getEmails());
-            allAliases.addAll(aliases);
             aliases.add(author.getGitId());
-
-            aliases.forEach(alias -> newAuthorEmailsAndAliasesMap.put(alias, author));
+            aliases.forEach(alias -> {
+                checkDuplicateAliases(newAuthorEmailsAndAliasesMap, alias, true);
+                newAuthorEmailsAndAliasesMap.put(alias, author);
+            });
             emails.forEach(email -> newAuthorEmailsAndAliasesMap.put(email, author));
         }
 
         setAuthorList(newAuthorList);
         setAuthorEmailsAndAliasesMap(newAuthorEmailsAndAliasesMap);
-        checkDuplicateAliases(allAliases);
         setAuthorDisplayNameMap(newAuthorDisplayNameMap);
     }
 
     /**
-     * Checks for duplicate aliases in {@code aliases}
-     * @param aliases
+     * Checks for duplicate aliases
      */
-    public void checkDuplicateAliases(List<String> aliases) {
-        for (String alias: aliases) {
-            if (this.authorEmailsAndAliasesMap.containsKey(alias)) {
-                logger.warning(String.format(
-                        "Duplicate alias %s found. The alias will belong to the last author who claims it.", alias));
-            }
+    public void checkDuplicateAliases(Map<String, Author> authorEmailsAndAliasesMap, String alias, boolean isStandaloneConfig) {
+        if (!isStandaloneConfig) {
+            authorEmailsAndAliasesMap = this.authorEmailsAndAliasesMap;
+        }
+        if (authorEmailsAndAliasesMap.containsKey(alias)) {
+            logger.warning(String.format(
+                "Duplicate alias %s found. The alias will belong to the last author who claims it.", alias));
         }
     }
 

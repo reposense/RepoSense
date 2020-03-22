@@ -5,6 +5,7 @@ import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.TreeMap;
 
 import org.apache.commons.csv.CSVRecord;
 
@@ -73,7 +74,9 @@ public class AuthorConfigCsvParser extends CsvParser<AuthorConfiguration> {
         config.addAuthor(author);
         setEmails(config, author, emails);
         setDisplayName(config, author, displayName);
-        config.checkDuplicateAliases(aliases);
+        aliases.forEach(alias -> {
+            config.checkDuplicateAliases(new TreeMap<>(), alias, false);
+        });
         setAliases(config, author, gitHubId, aliases);
         setAuthorIgnoreGlobList(author, ignoreGlobList);
     }
