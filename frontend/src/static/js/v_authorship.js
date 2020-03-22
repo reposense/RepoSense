@@ -5,23 +5,6 @@ const filesSortDict = {
   fileType: (file) => file.fileType,
 };
 
-window.toggleNext = function toggleNext(ele) {
-  // function for toggling unopened code
-  const targetClass = 'active';
-
-  const parent = ele.parentNode;
-  const classes = parent.className.split(' ');
-  const idx = classes.indexOf(targetClass);
-
-  if (idx === -1) {
-    classes.push(targetClass);
-  } else {
-    classes.splice(idx, 1);
-  }
-
-  parent.className = classes.join(' ');
-};
-
 const repoCache = [];
 const minimatch = require('minimatch');
 

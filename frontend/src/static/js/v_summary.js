@@ -1,19 +1,3 @@
-window.dismissTab = function dismissTab(node) {
-  const parent = node.parentNode;
-  parent.style.display = 'none';
-};
-
-window.comparator = (fn) => function compare(a, b) {
-  const a1 = fn(a).toLowerCase ? fn(a).toLowerCase() : fn(a);
-  const b1 = fn(b).toLowerCase ? fn(b).toLowerCase() : fn(b);
-  if (a1 === b1) {
-    return 0;
-  } if (a1 < b1) {
-    return -1;
-  }
-  return 1;
-};
-
 // ui funcs, only allow one ramp to be highlighted //
 let drags = [];
 
@@ -86,6 +70,7 @@ const dateFormatRegex = /([12]\d{3}-(0[1-9]|1[0-2])-(0[1-9]|[12]\d|3[01]))$/;
 function getDateStr(date) {
   return (new Date(date)).toISOString().split('T')[0];
 }
+
 function dateRounding(datestr, roundDown) {
   // rounding up to nearest monday
   const date = new Date(datestr);

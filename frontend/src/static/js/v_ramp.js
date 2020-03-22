@@ -4,13 +4,6 @@ function getBaseLink(repoId) {
     window.REPOS[repoId].location.repoName}`;
 }
 
-window.rampClick = function rampClick(evt) {
-  const isKeyPressed = this.isMacintosh ? evt.metaKey : evt.ctrlKey;
-  if (isKeyPressed) {
-    evt.preventDefault();
-  }
-};
-
 window.vRamp = {
   props: ['groupby', 'user', 'tframe', 'avgsize', 'sdate', 'udate', 'mergegroup'],
   template: window.$('v_ramp').innerHTML,
