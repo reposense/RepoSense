@@ -151,20 +151,13 @@ window.app = new window.Vue({
 
     errorMessages: {},
   },
-  computed: {
-    zoomTabInfo() {
-      return this.$store.state.zoomTabInfo;
-    },
-    authorshipInfo() {
-      return this.$store.state.authorshipInfo;
-    },
-  },
   watch: {
-    zoomTabInfo() {
-      this.updateTabZoom(this.zoomTabInfo);
+    '$store.state.zoomTabInfo': function () {
+      this.tabInfo.tabZoom = Object.assign({}, this.tabInfo.tabZoom, this.$store.state.zoomTabInfo);
+      this.activateTab('zoom');
     },
-    authorshipInfo() {
-      this.updateTabAuthorship(this.authorshipInfo);
+    '$store.state.authorshipInfo': function () {
+      this.updateTabAuthorship(this.$store.state.authorshipInfo);
     },
   },
   methods: {
@@ -247,10 +240,6 @@ window.app = new window.Vue({
     updateTabAuthorship(obj) {
       this.tabInfo.tabAuthorship = Object.assign({}, this.tabInfo.tabAuthorship, obj);
       this.activateTab('authorship');
-    },
-    updateTabZoom(obj) {
-      this.tabInfo.tabZoom = Object.assign({}, this.tabInfo.tabZoom, obj);
-      this.activateTab('zoom');
     },
 
     // updating summary view
