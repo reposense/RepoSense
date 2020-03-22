@@ -1843,8 +1843,8 @@
   },
   "authorFinalContributionMap": {
     "lithiumlkid": 360,
-    "lohtianwei": 2121,
-    "codeeong": 2090,
+    "lohtianwei": 2119,
+    "codeeong": 1138,
     "jordancjq": 0
   },
   "authorFileTypeContributionMap": {
@@ -1854,12 +1854,12 @@
       "md": 0
     },
     "lohtianwei": {
-      "java": 1817,
+      "java": 1815,
       "adoc": 304,
       "md": 0
     },
     "codeeong": {
-      "java": 1685,
+      "java": 733,
       "adoc": 405,
       "md": 0
     },
