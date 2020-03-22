@@ -5092,14 +5092,14 @@
     ]
   },
   "authorFinalContributionMap": {
-    "charlesgoh": 1749,
+    "charlesgoh": 1740,
     "jeffreygohkw": 2537,
     "Esilocke": 4671,
     "wangyiming1019": 2075
   },
   "authorFileTypeContributionMap": {
     "charlesgoh": {
-      "code": 867,
+      "code": 858,
       "test": 657,
       "docs": 225
     },
