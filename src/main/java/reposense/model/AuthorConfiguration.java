@@ -55,7 +55,7 @@ public class AuthorConfiguration {
             List<String> emails = new ArrayList<>(author.getEmails());
             aliases.add(author.getGitId());
             aliases.forEach(alias -> {
-                checkDuplicateAliases(newAuthorEmailsAndAliasesMap, alias, true);
+                checkDuplicateAliases(newAuthorEmailsAndAliasesMap, alias);
                 newAuthorEmailsAndAliasesMap.put(alias, author);
             });
             emails.forEach(email -> newAuthorEmailsAndAliasesMap.put(email, author));
@@ -69,10 +69,7 @@ public class AuthorConfiguration {
     /**
      * Checks for duplicate aliases
      */
-    public void checkDuplicateAliases(Map<String, Author> authorEmailsAndAliasesMap, String alias, boolean isStandaloneConfig) {
-        if (!isStandaloneConfig) {
-            authorEmailsAndAliasesMap = this.authorEmailsAndAliasesMap;
-        }
+    public void checkDuplicateAliases(Map<String, Author> authorEmailsAndAliasesMap, String alias) {
         if (authorEmailsAndAliasesMap.containsKey(alias)) {
             logger.warning(String.format(
                 "Duplicate alias %s found. The alias will belong to the last author who claims it.", alias));
@@ -212,8 +209,11 @@ public class AuthorConfiguration {
         authorDisplayNameMap.put(author, displayName);
     }
 
-    public void addAuthorEmailsAndAliasesMapEntry(Author author, List<String> values) {
-        values.forEach(value -> authorEmailsAndAliasesMap.put(value, author));
+    public void addAuthorEmailsAndAliasesMapEntry(Author author, List<String> aliases) {
+        aliases.forEach(alias -> {
+            checkDuplicateAliases(authorEmailsAndAliasesMap, alias);
+            authorEmailsAndAliasesMap.put(alias, author);
+        });
     }
 
     public RepoLocation getLocation() {

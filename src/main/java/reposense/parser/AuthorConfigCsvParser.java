@@ -61,6 +61,7 @@ public class AuthorConfigCsvParser extends CsvParser<AuthorConfiguration> {
         List<String> aliases = getAsList(record, ALIAS_POSITION);
         List<String> ignoreGlobList = getAsList(record, IGNORE_GLOB_LIST_POSITION);
         AuthorConfiguration config = findMatchingAuthorConfiguration(results, location, branch);
+        aliases.add(gitHubId);
 
         Author author = new Author(gitHubId);
 
@@ -74,10 +75,7 @@ public class AuthorConfigCsvParser extends CsvParser<AuthorConfiguration> {
         config.addAuthor(author);
         setEmails(config, author, emails);
         setDisplayName(config, author, displayName);
-        aliases.forEach(alias -> {
-            config.checkDuplicateAliases(new TreeMap<>(), alias, false);
-        });
-        setAliases(config, author, gitHubId, aliases);
+        setAliases(config, author, aliases);
         setAuthorIgnoreGlobList(author, ignoreGlobList);
     }
 
@@ -123,13 +121,7 @@ public class AuthorConfigCsvParser extends CsvParser<AuthorConfiguration> {
     /**
      * Associates {@code gitHubId} and additional {@code aliases} to {@code author}.
      */
-    private static void setAliases(AuthorConfiguration config, Author author, String gitHubId, List<String> aliases) {
-        config.addAuthorEmailsAndAliasesMapEntry(author, Arrays.asList(gitHubId));
-
-        if (aliases.isEmpty()) {
-            return;
-        }
-
+    private static void setAliases(AuthorConfiguration config, Author author, List<String> aliases) {
         config.addAuthorEmailsAndAliasesMapEntry(author, aliases);
         author.setAuthorAliases(aliases);
     }
