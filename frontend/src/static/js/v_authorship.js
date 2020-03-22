@@ -97,6 +97,7 @@ window.vAuthorship = {
     getRepoProps(repo) {
       if (repo) {
         if (this.info.isMergeGroup) {
+          // sum of all users' file type contribution
           repo.users.forEach((author) => {
             Object.entries(author.fileTypeContribution).forEach(([type, cnt]) => {
               if (this.filesLinesObj[type]) {
