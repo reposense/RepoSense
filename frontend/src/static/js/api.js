@@ -1,36 +1,31 @@
-// utility functions //
-window.$ = (id) => document.getElementById(id);
-window.enquery = (key, val) => `${key}=${encodeURIComponent(val)}`;
 const REPORT_DIR = '.';
 
-// data retrieval functions //
-function loadJSON(fname) {
-  if (window.REPORT_ZIP) {
-    const zipObject = window.REPORT_ZIP.file(fname.slice(2));
-    if (zipObject) {
-      return zipObject.async('text').then((txt) => JSON.parse(txt));
-    }
-    return Promise.reject(new Error('Zip file is invalid.'));
-  }
-  return new Promise((resolve, reject) => {
-    const xhr = new XMLHttpRequest();
-    xhr.open('GET', fname);
-    xhr.onload = function xhrOnload() {
-      if (xhr.status === 200) {
-        resolve(JSON.parse(xhr.responseText));
-      } else {
-        reject(new Error('Unable to get file.'));
-      }
-    };
-    xhr.send(null);
-  });
-}
-
 window.api = {
+  loadJSON(fname) {
+    if (window.REPORT_ZIP) {
+      const zipObject = window.REPORT_ZIP.file(fname.slice(2));
+      if (zipObject) {
+        return zipObject.async('text').then((txt) => JSON.parse(txt));
+      }
+      return Promise.reject(new Error('Zip file is invalid.'));
+    }
+    return new Promise((resolve, reject) => {
+      const xhr = new XMLHttpRequest();
+      xhr.open('GET', fname);
+      xhr.onload = function xhrOnload() {
+        if (xhr.status === 200) {
+          resolve(JSON.parse(xhr.responseText));
+        } else {
+          reject(new Error('Unable to get file.'));
+        }
+      };
+      xhr.send(null);
+    });
+  },
   loadSummary() {
     window.REPOS = {};
 
-    return loadJSON(`${REPORT_DIR}/summary.json`)
+    return this.loadJSON(`${REPORT_DIR}/summary.json`)
         .then((data) => {
           window.app.creationDate = data.reportGeneratedTime;
           window.app.sinceDate = data.sinceDate;
@@ -56,7 +51,7 @@ window.api = {
 
   loadCommits(repoName) {
     const folderName = window.REPOS[repoName].outputFolderName;
-    return loadJSON(`${REPORT_DIR}/${folderName}/commits.json`).then((commits) => {
+    return this.loadJSON(`${REPORT_DIR}/${folderName}/commits.json`).then((commits) => {
       const res = [];
       const repo = window.REPOS[repoName];
 
@@ -94,11 +89,10 @@ window.api = {
 
   loadAuthorship(repoName) {
     const folderName = window.REPOS[repoName].outputFolderName;
-    return loadJSON(`${REPORT_DIR}/${folderName}/authorship.json`)
+    return this.loadJSON(`${REPORT_DIR}/${folderName}/authorship.json`)
         .then((files) => {
           window.REPOS[repoName].files = files;
           return files;
         });
   },
-
 };

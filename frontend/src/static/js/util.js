@@ -1,12 +1,16 @@
+// utility functions //
+window.$ = (id) => document.getElementById(id);
+window.enquery = (key, val) => `${key}=${encodeURIComponent(val)}`;
 window.BASE_URL = 'https://github.com';
 window.REPORT_ZIP = null;
 window.REPOS = {};
 window.isMacintosh = navigator.platform.includes('Mac');
-
 window.hashParams = {};
+
 window.addHash = function addHash(newKey, newVal) {
   window.hashParams[newKey] = newVal;
 };
+
 window.removeHash = function removeHash(key) {
   delete window.hashParams[key];
 };
