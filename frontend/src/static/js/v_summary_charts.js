@@ -200,8 +200,8 @@ window.vSummaryCharts = {
       if (drags.length === 2 && drags[1] - drags[0]) {
         const tdiff = new Date(this.filterUntilDate) - new Date(this.filterSinceDate);
         const idxs = drags.map((x) => x * tdiff / 100);
-        const tsince = getDateStr(new Date(this.filterSinceDate).getTime() + idxs[0]);
-        const tuntil = getDateStr(new Date(this.filterSinceDate).getTime() + idxs[1]);
+        const tsince = window.getDateStr(new Date(this.filterSinceDate).getTime() + idxs[0]);
+        const tuntil = window.getDateStr(new Date(this.filterSinceDate).getTime() + idxs[1]);
         this.openTabZoom(user, tsince, tuntil, repo, index);
       }
     },
