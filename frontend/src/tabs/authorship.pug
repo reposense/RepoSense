@@ -30,13 +30,32 @@
             option(v-bind:value='false') Ascending
           label.medium-font order
       .searchbox
-        input.radio-button--search(type="radio", value="search", v-model="filterType")
-        form.file-picker.mui-form--inline(onsubmit="return false")
-          input#search.medium-font(type="search", placeholder="Filter by glob", v-on:change="updateFilterSearch",
-            v-on:click="indicateSearchBar")
-          button#submit-button.medium-font(type="submit", v-on:click="indicateSearchBar") Filter
+        input.radio-button--search(
+          type="radio",
+          value="search",
+          v-model="filterType",
+          v-on:change="indicateSearchBar(); updateSearchBarValue();"
+        )
+        .file-picker.mui-form--inline
+          input#search.medium-font(
+            type="search",
+            placeholder="Filter by glob",
+            ref="searchBar",
+            v-bind:value="searchBarValue",
+            v-on:focus="indicateSearchBar",
+            v-on:keyup.enter="updateSearchBarValue"
+          )
+          button#submit-button.medium-font(
+            type="button",
+            v-on:click="indicateSearchBar(); updateSearchBarValue();"
+          ) Filter
       .fileType
-        input.radio-button--checkbox(type="radio", value="checkboxes", v-model="filterType")
+        input.radio-button--checkbox(
+          type="radio",
+          value="checkboxes",
+          v-model="filterType",
+          v-on:change="indicateCheckBoxes"
+        )
         .checkboxes.mui-form--inline(v-if="files.length > 0")
           label
             input.mui-checkbox--fileType(type="checkbox", v-model="isSelectAllChecked")
@@ -47,7 +66,7 @@
           template(v-for="fileType in Object.keys(getFileTypeExistingLinesObj)")
             label(v-bind:key="fileType")
               input.mui-checkbox--fileType(type="checkbox", v-bind:id="fileType", v-bind:value="fileType",
-                v-on:click="indicateCheckBoxes", v-model="selectedFileTypes")
+                v-on:change="indicateCheckBoxes", v-model="selectedFileTypes")
               span(v-bind:title="getFileTypeBlankLineInfo(fileType)")
                 span {{ fileType }}: {{ getFileTypeExistingLinesObj[fileType] }}&nbsp;
                 span.bloc ({{ fileTypeBlankLinesObj[fileType] }})
