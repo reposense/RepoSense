@@ -37,54 +37,6 @@ window.decodeHash = function decodeHash() {
   window.hashParams = hashParams;
 };
 
-const DRAG_BAR_WIDTH = 13.25;
-const SCROLL_BAR_WIDTH = 17;
-const GUIDE_BAR_WIDTH = 2;
-
-const throttledEvent = (delay, handler) => {
-  let lastCalled = 0;
-  return (...args) => {
-    if (Date.now() - lastCalled > delay) {
-      lastCalled = Date.now();
-      handler(...args);
-    }
-  };
-};
-
-let guideWidth = (0.5 * window.innerWidth - (GUIDE_BAR_WIDTH / 2))
-    / window.innerWidth;
-let flexWidth = 0.5;
-
-window.mouseMove = () => {};
-window.registerMouseMove = () => {
-  const innerMouseMove = (event) => {
-    guideWidth = (
-      Math.min(
-          Math.max(
-              window.innerWidth - event.clientX,
-              SCROLL_BAR_WIDTH + DRAG_BAR_WIDTH,
-          ),
-          window.innerWidth - SCROLL_BAR_WIDTH,
-      )
-        - (GUIDE_BAR_WIDTH / 2)
-    ) / window.innerWidth;
-    window.$('tab-resize-guide').style.right = `${guideWidth * 100}%`;
-  };
-  window.$('tab-resize-guide').style.display = 'block';
-  window.$('app-wrapper').style['user-select'] = 'none';
-  window.mouseMove = throttledEvent(30, innerMouseMove);
-};
-
-window.deregisterMouseMove = () => {
-  flexWidth = (guideWidth * window.innerWidth + (GUIDE_BAR_WIDTH / 2))
-        / window.innerWidth;
-  window.mouseMove = () => {};
-  if (window.$('tabs-wrapper')) {
-    window.$('tabs-wrapper').style.flex = `0 0 ${flexWidth * 100}%`;
-  }
-  window.$('tab-resize-guide').style.display = 'none';
-  window.$('app-wrapper').style['user-select'] = 'auto';
-};
 
 /* global Vue hljs */
 Vue.directive('hljs', {
@@ -173,8 +125,8 @@ window.app = new window.Vue({
     activateTab(tabName) {
       // changing isTabActive to trigger redrawing of component
       this.isTabActive = false;
-      if (document.getElementById('tabs-wrapper')) {
-        document.getElementById('tabs-wrapper').scrollTop = 0;
+      if (this.$refs.tabWrapper) {
+        this.$refs.tabWrapper.scrollTop = 0;
       }
 
       this.isTabActive = true;
@@ -318,6 +270,7 @@ window.app = new window.Vue({
     },
   },
   components: {
+    vResize: window.vResize,
     vZoom: window.vZoom,
     vSummary: window.vSummary,
     vAuthorship: window.vAuthorship,
@@ -325,12 +278,5 @@ window.app = new window.Vue({
   },
   created() {
     this.updateReportDir();
-  },
-  updated() {
-    this.$nextTick(() => {
-      if (window.$('tabs-wrapper')) {
-        window.$('tabs-wrapper').style.flex = `0 0 ${flexWidth * 100}%`;
-      }
-    });
   },
 });

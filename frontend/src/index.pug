@@ -27,10 +27,12 @@ html
     script(src="https://cdn.jsdelivr.net/npm/vue-loading-spinner@1.0/dist/vue-loading-spinner.js")
   body
     #app
-      #app-wrapper(v-if="userUpdated", onmousemove="mouseMove(event)",
-        onmouseup="deregisterMouseMove()", onmouseleave="deregisterMouseMove()")
-        #tab-resize-guide
-        #summary-wrapper
+      v-resize(
+        v-if="userUpdated",
+        v-bind:is-tab-active="isTabActive",
+        v-on:close-tab="deactivateTab"
+      )
+        #summary-wrapper(slot="left")
           .summary-status(v-if="loadedRepo<repoLength") Loading repos ... {{ loadedRepo }} / {{ repoLength }}
           v-summary.tab-padding(
             ref="summary",
@@ -55,10 +57,7 @@ html
           .report-generation-time(style="display: none;")
             span {{ reportGenerationTime }}
 
-        #tabs-wrapper(v-if="isTabActive")
-          #tab-resize(onmousedown="registerMouseMove()")
-          .tab-close(v-on:click="deactivateTab")
-            i.fas.fa-caret-right
+        #tabs-wrapper(ref="tabWrapper", slot="right")
           .tab-content.panel-padding
             .tab-panes
               v-authorship#tab-authorship.tab-pane(
@@ -89,6 +88,9 @@ html
             circle-spinner
             .loading Loading resources...
 
+    vuetemplate#v_resize
+      include resizer.pug
+
     vuetemplate#v_summary
       include summary.pug
 
@@ -109,6 +111,7 @@ html
 
     script(src="static/js/api.js")
     script(src="static/js/safari_date.js")
+    script(src="static/js/v_resize.js")
     script(src="static/js/v_ramp.js")
     script(src="static/js/v_zoom.js")
     script(src="static/js/v_summary_charts.js")
