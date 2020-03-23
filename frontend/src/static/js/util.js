@@ -5,7 +5,6 @@ window.BASE_URL = 'https://github.com';
 window.REPORT_ZIP = null;
 window.REPOS = {};
 window.flexWidth = 0.5;
-window.flexWidth = 0.5;
 window.hashParams = {};
 window.isMacintosh = navigator.platform.includes('Mac');
 

@@ -17,7 +17,6 @@ window.vRamp = {
     rampClick(evt) {
       const isKeyPressed = window.isMacintosh ? evt.metaKey : evt.ctrlKey;
       if (isKeyPressed) {
-        console.log('e');
         evt.preventDefault();
       }
     },
