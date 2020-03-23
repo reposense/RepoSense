@@ -4,8 +4,27 @@ window.enquery = (key, val) => `${key}=${encodeURIComponent(val)}`;
 window.BASE_URL = 'https://github.com';
 window.REPORT_ZIP = null;
 window.REPOS = {};
-window.isMacintosh = navigator.platform.includes('Mac');
+window.flexWidth = 0.5;
+window.flexWidth = 0.5;
 window.hashParams = {};
+window.isMacintosh = navigator.platform.includes('Mac');
+
+const DRAG_BAR_WIDTH = 13.25;
+const SCROLL_BAR_WIDTH = 17;
+const GUIDE_BAR_WIDTH = 2;
+
+const throttledEvent = (delay, handler) => {
+  let lastCalled = 0;
+  return (...args) => {
+    if (Date.now() - lastCalled > delay) {
+      lastCalled = Date.now();
+      handler(...args);
+    }
+  };
+};
+
+let guideWidth = (0.5 * window.innerWidth - (GUIDE_BAR_WIDTH / 2))
+    / window.innerWidth;
 
 window.addHash = function addHash(newKey, newVal) {
   window.hashParams[newKey] = newVal;
@@ -41,25 +60,8 @@ window.decodeHash = function decodeHash() {
   window.hashParams = hashParams;
 };
 
-const DRAG_BAR_WIDTH = 13.25;
-const SCROLL_BAR_WIDTH = 17;
-const GUIDE_BAR_WIDTH = 2;
-
-const throttledEvent = (delay, handler) => {
-  let lastCalled = 0;
-  return (...args) => {
-    if (Date.now() - lastCalled > delay) {
-      lastCalled = Date.now();
-      handler(...args);
-    }
-  };
-};
-
-let guideWidth = (0.5 * window.innerWidth - (GUIDE_BAR_WIDTH / 2))
-    / window.innerWidth;
-window.flexWidth = 0.5;
-
 window.mouseMove = () => {};
+
 window.registerMouseMove = () => {
   const innerMouseMove = (event) => {
     guideWidth = (
@@ -104,13 +106,6 @@ window.comparator = (fn) => function compare(a, b) {
     return -1;
   }
   return 1;
-};
-
-window.rampClick = function rampClick(evt) {
-  const isKeyPressed = window.isMacintosh ? evt.metaKey : evt.ctrlKey;
-  if (isKeyPressed) {
-    evt.preventDefault();
-  }
 };
 
 window.toggleNext = function toggleNext(ele) {

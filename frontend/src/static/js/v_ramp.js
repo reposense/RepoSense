@@ -14,6 +14,13 @@ window.vRamp = {
   },
 
   methods: {
+    rampClick(evt) {
+      const isKeyPressed = window.isMacintosh ? evt.metaKey : evt.ctrlKey;
+      if (isKeyPressed) {
+        console.log('e');
+        evt.preventDefault();
+      }
+    },
     getLink(user, slice) {
       const { REPOS } = window;
       const untilDate = this.tframe === 'week' ? slice.endDate : slice.date;
