@@ -381,23 +381,23 @@
     ]
   },
   "authorFinalContributionMap": {
-    "zacharytang": 92,
+    "zacharytang": 10,
     "CindyTsai1": 0,
-    "April0616": 154,
-    "nbr": 48
+    "April0616": 138,
+    "nbr": 17
   },
   "authorFileTypeContributionMap": {
     "zacharytang": {
-      "fxml": 92
+      "fxml": 10
     },
     "CindyTsai1": {
       "fxml": 0
     },
     "April0616": {
-      "fxml": 154
+      "fxml": 138
     },
     "nbr": {
-      "fxml": 48
+      "fxml": 17
     }
   },
   "authorContributionVariance": {
