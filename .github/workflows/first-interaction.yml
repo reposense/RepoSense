@@ -11,4 +11,4 @@ jobs:
     - uses: actions/first-interaction@v1
       with:
         repo-token: ${{ secrets.GITHUB_TOKEN }}
-        pr-message: 'Thank you for submitting this PR. Please double-check to ensure that you have followed our [contribution guidelines](https://github.com/reposense/RepoSense/blob/master/docs/Process.md#how-to-contribute-to-the-reposense-repository) and update the commit message and title of your Pull Request accordingly. Once you are ready, and all the checks pass, do let us know!'
+        pr-message: 'Thank you for submitting this PR. Please double-check to ensure that you have followed our contribution guidelines and update the commit message and title of your Pull Request accordingly. Once you are ready, and all the checks pass, do let us know!'
