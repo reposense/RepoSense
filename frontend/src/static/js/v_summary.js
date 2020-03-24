@@ -742,6 +742,7 @@ window.vSummary = {
         repo: user.repoName,
         name: user.displayName,
         location: this.getRepoLink(repo[index]),
+        totalCommits: user.totalCommits,
       });
     },
     openTabZoomSubrange(user, repo, index) {
