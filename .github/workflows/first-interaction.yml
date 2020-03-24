@@ -1,6 +1,6 @@
 name: First-Interaction
 
-on: [pull_request, issues]
+on: [pull_request]
 
 jobs:
   first-interaction:
