@@ -732,6 +732,7 @@ window.vSummary = {
         name: user.displayName,
         isMergeGroup: this.isMergeGroup,
         location: this.getRepoLink(this.isMergeGroup ? repo[0] : repo[index]),
+        totalCommits: user.totalCommits,
       });
     },
     openTabZoomSubrange(user, repo, index) {
