@@ -879,9 +879,13 @@ window.vSummary = {
     },
 
     sortingHelper(element, sortingOption) {
-      return sortingOption === 'totalCommits' || sortingOption === 'variance'
-          ? element.reduce(this.getGroupCommitsVariance, 0)
-          : element[0][sortingOption];
+      if (sortingOption === 'totalCommits') {
+        return this.getGroupTotalContribution(element);
+      }
+      if (sortingOption === 'variance') {
+        return this.getGroupCommitsVariance(element);
+      }
+      return element[0][sortingOption];
     },
   },
   created() {
