@@ -62,9 +62,11 @@ html
             .tab-panes
               v-authorship#tab-authorship.tab-pane(
                 v-if="tabType === 'authorship'",
+                v-bind:key="generateKey(tabInfo.tabAuthorship)",
                 v-bind:info="tabInfo.tabAuthorship")
               v-zoom#tab-zoom.tab-pane(
                 v-else-if="tabType === 'zoom'",
+                v-bind:key="generateKey(tabInfo.tabZoom)",
                 v-bind:info="tabInfo.tabZoom",
                 v-on:view-summary="updateSummaryDates")
               #tab-empty.tab-pane(v-else)

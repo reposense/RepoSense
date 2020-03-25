@@ -595,12 +595,7 @@ window.vSummary = {
         }
         sortedRepos.push(users);
       });
-      sortedRepos.sort(window.comparator((repo) => {
-        if (sortingOption === 'totalCommits' || sortingOption === 'variance') {
-          return repo.reduce(this.getGroupCommitsVariance, 0);
-        }
-        return repo[0][sortingOption];
-      }));
+      sortedRepos.sort(window.comparator(this.sortingHelper, sortingOption));
       if (this.isSortingDsc) {
         sortedRepos.reverse();
       }
@@ -657,12 +652,7 @@ window.vSummary = {
         filtered.push(authorMap[author]);
       });
 
-      filtered.sort(window.comparator((author) => {
-        if (sortingOption === 'totalCommits' || sortingOption === 'variance') {
-          return author.reduce(this.getGroupCommitsVariance, 0);
-        }
-        return author[0][sortingOption];
-      }));
+      filtered.sort(window.comparator(this.sortingHelper, sortingOption));
       if (this.isSortingDsc) {
         filtered.reverse();
       }
@@ -674,6 +664,12 @@ window.vSummary = {
         return total + this.getFileTypeContribution(group);
       }
       return total + group[this.sortingOption];
+    },
+
+    sortingHelper(element, sortingOption) {
+      return sortingOption === 'totalCommits' || sortingOption === 'variance'
+          ? element.reduce(this.getGroupCommitsVariance, 0)
+          : element[0][sortingOption];
     },
   },
   created() {

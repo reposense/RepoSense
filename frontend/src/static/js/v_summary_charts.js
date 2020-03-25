@@ -3,9 +3,20 @@ window.dismissTab = function dismissTab(node) {
   parent.style.display = 'none';
 };
 
-window.comparator = (fn) => function compare(a, b) {
-  const a1 = fn(a).toLowerCase ? fn(a).toLowerCase() : fn(a);
-  const b1 = fn(b).toLowerCase ? fn(b).toLowerCase() : fn(b);
+window.comparator = (fn, sortingOption = '') => function compare(a, b) {
+  let a1;
+  let b1;
+  if (sortingOption) {
+    a1 = fn(a, sortingOption).toLowerCase
+        ? fn(a, sortingOption).toLowerCase()
+        : fn(a, sortingOption);
+    b1 = fn(b, sortingOption).toLowerCase
+        ? fn(b, sortingOption).toLowerCase()
+        : fn(b, sortingOption);
+  } else {
+    a1 = fn(a).toLowerCase ? fn(a).toLowerCase() : fn(a);
+    b1 = fn(b).toLowerCase ? fn(b).toLowerCase() : fn(b);
+  }
   if (a1 === b1) {
     return 0;
   } if (a1 < b1) {
@@ -23,15 +34,20 @@ function getBaseTarget(target) {
       : getBaseTarget(target.parentElement);
 }
 
+function deactivateAllOverlays() {
+  document.querySelectorAll('.summary-chart__ramp .overlay')
+      .forEach((x) => { x.className = 'overlay'; });
+}
+
 function dragViewDown(evt) {
-  window.deactivateAllOverlays();
+  deactivateAllOverlays();
 
   const pos = evt.clientX;
   const ramp = getBaseTarget(evt.target);
   drags = [pos];
 
   const base = ramp.offsetWidth;
-  const offset = ramp.parentElement.parentElement.offsetLeft;
+  const offset = ramp.parentElement.offsetLeft;
 
   const overlay = ramp.getElementsByClassName('overlay')[0];
   overlay.style.marginLeft = '0';
@@ -40,14 +56,14 @@ function dragViewDown(evt) {
 }
 
 function dragViewUp(evt) {
-  window.deactivateAllOverlays();
+  deactivateAllOverlays();
   const ramp = getBaseTarget(evt.target);
 
   const base = ramp.offsetWidth;
   drags.push(evt.clientX);
   drags.sort((a, b) => a - b);
 
-  const offset = ramp.parentElement.parentElement.offsetLeft;
+  const offset = ramp.parentElement.offsetLeft;
   drags = drags.map((x) => (x - offset) * 100 / base);
 
   const overlay = ramp.getElementsByClassName('overlay')[0];
@@ -192,6 +208,7 @@ window.vSummaryCharts = {
         repo: user.repoName,
         name: user.displayName,
         location: this.getRepoLink(repo[index]),
+        totalCommits: user.totalCommits,
       });
     },
 
