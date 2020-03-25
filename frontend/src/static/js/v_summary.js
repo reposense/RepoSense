@@ -3,9 +3,20 @@ window.dismissTab = function dismissTab(node) {
   parent.style.display = 'none';
 };
 
-window.comparator = (fn) => function compare(a, b) {
-  const a1 = fn(a).toLowerCase ? fn(a).toLowerCase() : fn(a);
-  const b1 = fn(b).toLowerCase ? fn(b).toLowerCase() : fn(b);
+window.comparator = (fn, sortingOption = '') => function compare(a, b) {
+  let a1;
+  let b1;
+  if (sortingOption) {
+    a1 = fn(a, sortingOption).toLowerCase
+        ? fn(a, sortingOption).toLowerCase()
+        : fn(a, sortingOption);
+    b1 = fn(b, sortingOption).toLowerCase
+        ? fn(b, sortingOption).toLowerCase()
+        : fn(b, sortingOption);
+  } else {
+    a1 = fn(a).toLowerCase ? fn(a).toLowerCase() : fn(a);
+    b1 = fn(b).toLowerCase ? fn(b).toLowerCase() : fn(b);
+  }
   if (a1 === b1) {
     return 0;
   } if (a1 < b1) {
@@ -786,12 +797,7 @@ window.vSummary = {
         }
         sortedRepos.push(users);
       });
-      sortedRepos.sort(window.comparator((repo) => {
-        if (sortingOption === 'totalCommits' || sortingOption === 'variance') {
-          return repo.reduce(this.getGroupCommitsVariance, 0);
-        }
-        return repo[0][sortingOption];
-      }));
+      sortedRepos.sort(window.comparator(this.sortingHelper, sortingOption));
       if (this.isSortingDsc) {
         sortedRepos.reverse();
       }
@@ -846,12 +852,7 @@ window.vSummary = {
         filtered.push(authorMap[author]);
       });
 
-      filtered.sort(window.comparator((author) => {
-        if (sortingOption === 'totalCommits' || sortingOption === 'variance') {
-          return author.reduce(this.getGroupCommitsVariance, 0);
-        }
-        return author[0][sortingOption];
-      }));
+      filtered.sort(window.comparator(this.sortingHelper, sortingOption));
       if (this.isSortingDsc) {
         filtered.reverse();
       }
@@ -874,6 +875,12 @@ window.vSummary = {
 
     getGroupTotalContribution(group) {
       return group.reduce((accContribution, user) => accContribution + user.totalCommits, 0);
+    },
+
+    sortingHelper(element, sortingOption) {
+      return sortingOption === 'totalCommits' || sortingOption === 'variance'
+          ? element.reduce(this.getGroupCommitsVariance, 0)
+          : element[0][sortingOption];
     },
   },
   created() {
