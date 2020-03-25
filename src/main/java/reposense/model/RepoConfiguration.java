@@ -29,7 +29,6 @@ public class RepoConfiguration {
     private transient Date untilDate;
     private transient String repoFolderName;
 
-    private transient boolean annotationOverwrite = true;
     private transient FileTypeManager fileTypeManager;
     private transient List<String> ignoreGlobList = new ArrayList<>();
     private transient List<String> ignoredAuthorsList = new ArrayList<>();
@@ -322,14 +321,6 @@ public class RepoConfiguration {
 
     public void updateOutputFolderName(String branch) {
         this.outputFolderName = outputFolderName.substring(0, outputFolderName.lastIndexOf('_') + 1) + branch;
-    }
-
-    public boolean isAnnotationOverwrite() {
-        return annotationOverwrite;
-    }
-
-    public void setAnnotationOverwrite(boolean annotationOverwrite) {
-        this.annotationOverwrite = annotationOverwrite;
     }
 
     public List<String> getIgnoreGlobList() {
