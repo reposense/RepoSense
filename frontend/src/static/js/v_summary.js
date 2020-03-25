@@ -819,7 +819,7 @@ window.vSummary = {
         sortedRepos.push(users);
       });
       sortedRepos.sort(window.comparator(this.sortingHelper, sortOption));
-      if (this.isSortingDsc) {
+      if (isSortingDsc) {
         sortedRepos.reverse();
       }
       return sortedRepos;
@@ -878,7 +878,7 @@ window.vSummary = {
       });
 
       filtered.sort(window.comparator(this.sortingHelper, sortOption));
-      if (this.isSortingDsc) {
+      if (isSortingDsc) {
         filtered.reverse();
       }
       return filtered;
