@@ -140,6 +140,7 @@ The `Tool Bar` at the top provides a set of configuration options that control t
 * `Breakdown by file type` : toggles the contribution bar to either display the bar by :
     * the total lines of codes added (if checkbox is left unchecked), or
     * a breakdown of the number of lines of codes added to each file type (if checkbox is checked). If sorting criteria is contribution, only lines contributed to selected file types will be taken into account.
+    * note that the changes in file type checkboxes will not affect the variance. 
 
 Notes:<br>
 [1] **`Sort groups by`**: each main group has its own index and percentile according to its ranking position after sorting (e.g., 
