@@ -742,7 +742,7 @@ window.vSummary = {
         repo: user.repoName,
         name: user.displayName,
         isMergeGroup: this.isMergeGroup,
-        location: this.getRepoLink(this.isMergeGroup ? repo[0] : repo[index]),
+        location: this.getRepoLink(repo[index]),
         totalCommits: user.totalCommits,
       });
     },
