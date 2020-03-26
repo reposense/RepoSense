@@ -95,7 +95,7 @@ window.vAuthorship = {
             this.updateTotalFileTypeContribution(author.fileTypeContribution);
           });
         } else {
-          const author = repo.users.filter((user) => user.name === this.info.author);
+          const author = repo.users.find((user) => user.name === this.info.author);
           if (author.length > 0) {
             this.info.name = author[0].displayName;
             this.filesLinesObj = author[0].fileTypeContribution;
@@ -197,7 +197,7 @@ window.vAuthorship = {
       files.forEach((file) => {
         const contributionMap = file.authorContributionMap;
         const lineCnt = this.info.isMergeGroup
-          ? Object.entries(contributionMap).reduce((acc, [author, cnt]) => (author !== '-' ? acc + cnt : acc), 0)
+          ? this.getContributionFromAllAuthors(contributionMap)
           : contributionMap[this.info.author];
 
         if (lineCnt) {
@@ -232,6 +232,10 @@ window.vAuthorship = {
       this.fileTypeBlankLinesObj = fileTypeBlanksInfoObj;
       this.files = res;
       this.isLoaded = true;
+    },
+
+    getContributionFromAllAuthors(contributionMap) {
+      return Object.entries(contributionMap).reduce((acc, [author, cnt]) => (author !== '-' ? acc + cnt : acc), 0);
     },
 
     addBlankLineCount(fileType, lineCount, filesInfoObj) {
