@@ -96,9 +96,9 @@ window.vAuthorship = {
           });
         } else {
           const author = repo.users.find((user) => user.name === this.info.author);
-          if (author.length > 0) {
-            this.info.name = author[0].displayName;
-            this.filesLinesObj = author[0].fileTypeContribution;
+          if (author) {
+            this.info.name = author.displayName;
+            this.filesLinesObj = author.fileTypeContribution;
           }
         }
       }
