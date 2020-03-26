@@ -66,10 +66,10 @@ public class AuthorConfiguration {
         setAuthorDisplayNameMap(newAuthorDisplayNameMap);
     }
 
-    public void checkDuplicateAliases( Map<String, Author> authorEmailsAndAliasesMap, String alias) {
-        if(authorEmailsAndAliasesMap.containsKey(alias)){
+    public void checkDuplicateAliases(Map<String, Author> authorEmailsAndAliasesMap, String alias) {
+        if (authorEmailsAndAliasesMap.containsKey(alias)) {
             logger.warning(String.format(
-                "Duplicate alias %s found. The alias will belong to the last author who claims it", alias));
+                    "Duplicate alias %s found. The alias will belong to the last author who claims it", alias));
         }
     }
 
@@ -209,7 +209,7 @@ public class AuthorConfiguration {
 
     public void addAuthorEmailsAndAliasesMapEntry(Author author, List<String> values, boolean isCheckAgain) {
         values.forEach(value -> {
-            if(!isCheckAgain) {
+            if (!isCheckAgain) {
                 checkDuplicateAliases(authorEmailsAndAliasesMap, value);
             }
             authorEmailsAndAliasesMap.put(value, author);
