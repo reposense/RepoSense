@@ -66,6 +66,11 @@ public class AuthorConfiguration {
         setAuthorDisplayNameMap(newAuthorDisplayNameMap);
     }
 
+    /**
+     * Checks for duplicate aliases in {@code authorEmailsAndAliasesMap} and generates warnings
+     * @param authorEmailsAndAliasesMap
+     * @param alias
+     */
     public void checkDuplicateAliases(Map<String, Author> authorEmailsAndAliasesMap, String alias) {
         if (authorEmailsAndAliasesMap.containsKey(alias)) {
             logger.warning(String.format(
@@ -207,12 +212,18 @@ public class AuthorConfiguration {
         authorDisplayNameMap.put(author, displayName);
     }
 
-    public void addAuthorEmailsAndAliasesMapEntry(Author author, List<String> values, boolean isCheckAgain) {
-        values.forEach(value -> {
+    /**
+     * Adds {@code aliases} of {@code author} into the map
+     * @param author
+     * @param aliases
+     * @param isCheckAgain
+     */
+    public void addAuthorEmailsAndAliasesMapEntry(Author author, List<String> aliases, boolean isCheckAgain) {
+        aliases.forEach(alias -> {
             if (!isCheckAgain) {
-                checkDuplicateAliases(authorEmailsAndAliasesMap, value);
+                checkDuplicateAliases(authorEmailsAndAliasesMap, alias);
             }
-            authorEmailsAndAliasesMap.put(value, author);
+            authorEmailsAndAliasesMap.put(alias, author);
         });
     }
 
