@@ -396,7 +396,7 @@ public class RepoConfiguration {
      */
     public void setAuthorList(List<Author> authorList) {
         authorConfig.setAuthorList(authorList);
-        authorConfig.resetAuthorInformation();
+        authorConfig.resetAuthorInformation(false);
         authorList.forEach(author -> AuthorConfiguration.propagateIgnoreGlobList(author, this.getIgnoreGlobList()));
     }
 
@@ -456,7 +456,7 @@ public class RepoConfiguration {
     }
 
     public void addAuthorEmailsAndAliasesMapEntry(Author author, List<String> values) {
-        authorConfig.addAuthorEmailsAndAliasesMapEntry(author, values);
+        authorConfig.addAuthorEmailsAndAliasesMapEntry(author, values, false);
     }
 
     public String getDisplayName() {

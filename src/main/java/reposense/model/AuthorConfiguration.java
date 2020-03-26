@@ -54,13 +54,23 @@ public class AuthorConfiguration {
             List<String> aliases = new ArrayList<>(author.getAuthorAliases());
             List<String> emails = new ArrayList<>(author.getEmails());
             aliases.add(author.getGitId());
-            aliases.forEach(alias -> newAuthorEmailsAndAliasesMap.put(alias, author));
+            aliases.forEach(alias -> {
+                checkDuplicateAliases(newAuthorEmailsAndAliasesMap, alias);
+                newAuthorEmailsAndAliasesMap.put(alias, author);
+            });
             emails.forEach(email -> newAuthorEmailsAndAliasesMap.put(email, author));
         }
 
         setAuthorList(newAuthorList);
         setAuthorEmailsAndAliasesMap(newAuthorEmailsAndAliasesMap);
         setAuthorDisplayNameMap(newAuthorDisplayNameMap);
+    }
+
+    public void checkDuplicateAliases( Map<String, Author> authorEmailsAndAliasesMap, String alias) {
+        if(authorEmailsAndAliasesMap.containsKey(alias)){
+            logger.warning(String.format(
+                "Duplicate alias %s found. The alias will belong to the last author who claims it", alias));
+        }
     }
 
     @Override
@@ -106,12 +116,13 @@ public class AuthorConfiguration {
      * Sets the details of {@code author} to {@code AuthorConfiguration} including the default alias, aliases
      * and display name.
      */
-    private void setAuthorDetails(Author author) {
+    private void setAuthorDetails(Author author, boolean isCheckAgain) {
         // Set GitHub Id and its corresponding email as default
-        addAuthorEmailsAndAliasesMapEntry(author, Arrays.asList(author.getGitId()));
 
-        addAuthorEmailsAndAliasesMapEntry(author, author.getAuthorAliases());
-        addAuthorEmailsAndAliasesMapEntry(author, author.getEmails());
+        addAuthorEmailsAndAliasesMapEntry(author, Arrays.asList(author.getGitId()), isCheckAgain);
+
+        addAuthorEmailsAndAliasesMapEntry(author, author.getAuthorAliases(), isCheckAgain);
+        addAuthorEmailsAndAliasesMapEntry(author, author.getEmails(), isCheckAgain);
 
         setAuthorDisplayName(author, author.getDisplayName());
     }
@@ -128,7 +139,7 @@ public class AuthorConfiguration {
      */
     public void addAuthor(Author author) {
         authorList.add(author);
-        setAuthorDetails(author);
+        setAuthorDetails(author, false);
     }
 
     /**
@@ -148,7 +159,7 @@ public class AuthorConfiguration {
                 authorList.remove(authorEmailsAndAliasesMap.get(author));
             }
         }
-        resetAuthorInformation();
+        resetAuthorInformation(true);
     }
 
     /**
@@ -178,10 +189,10 @@ public class AuthorConfiguration {
     /**
      * Clears author mapping information and resets it with the details of current author list.
      */
-    public void resetAuthorInformation() {
+    public void resetAuthorInformation(boolean isCheckAgain) {
         authorEmailsAndAliasesMap.clear();
         authorDisplayNameMap.clear();
-        authorList.forEach(this::setAuthorDetails);
+        authorList.forEach(author -> setAuthorDetails(author, isCheckAgain));
     }
 
     public Map<String, Author> getAuthorEmailsAndAliasesMap() {
@@ -196,8 +207,13 @@ public class AuthorConfiguration {
         authorDisplayNameMap.put(author, displayName);
     }
 
-    public void addAuthorEmailsAndAliasesMapEntry(Author author, List<String> values) {
-        values.forEach(value -> authorEmailsAndAliasesMap.put(value, author));
+    public void addAuthorEmailsAndAliasesMapEntry(Author author, List<String> values, boolean isCheckAgain) {
+        values.forEach(value -> {
+            if(!isCheckAgain) {
+                checkDuplicateAliases(authorEmailsAndAliasesMap, value);
+            }
+            authorEmailsAndAliasesMap.put(value, author);
+        });
     }
 
     public RepoLocation getLocation() {

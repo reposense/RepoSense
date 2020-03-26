@@ -105,7 +105,7 @@ public class AuthorConfigCsvParser extends CsvParser<AuthorConfiguration> {
      */
     private static void setEmails(AuthorConfiguration config, Author author, List<String> emails) {
         author.setEmails(new ArrayList<>(emails));
-        config.addAuthorEmailsAndAliasesMapEntry(author, author.getEmails());
+       // config.addAuthorEmailsAndAliasesMapEntry(author, author.getEmails());
     }
 
     /**
@@ -121,13 +121,13 @@ public class AuthorConfigCsvParser extends CsvParser<AuthorConfiguration> {
      * Associates {@code gitHubId} and additional {@code aliases} to {@code author}.
      */
     private static void setAliases(AuthorConfiguration config, Author author, String gitHubId, List<String> aliases) {
-        config.addAuthorEmailsAndAliasesMapEntry(author, Arrays.asList(gitHubId));
+        //config.addAuthorEmailsAndAliasesMapEntry(author, Arrays.asList(gitHubId));
 
         if (aliases.isEmpty()) {
             return;
         }
 
-        config.addAuthorEmailsAndAliasesMapEntry(author, aliases);
+        //config.addAuthorEmailsAndAliasesMapEntry(author, aliases);
         author.setAuthorAliases(aliases);
     }
 
