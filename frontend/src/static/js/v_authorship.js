@@ -92,13 +92,7 @@ window.vAuthorship = {
         if (this.info.isMergeGroup) {
           // sum of all users' file type contribution
           repo.users.forEach((author) => {
-            Object.entries(author.fileTypeContribution).forEach(([type, cnt]) => {
-              if (this.filesLinesObj[type]) {
-                this.filesLinesObj[type] += cnt;
-              } else {
-                this.filesLinesObj[type] = cnt;
-              }
-            });
+            this.updateTotalFileTypeContribution(author.fileTypeContribution);
           });
         } else {
           const author = repo.users.filter((user) => user.name === this.info.author);
@@ -108,6 +102,16 @@ window.vAuthorship = {
           }
         }
       }
+    },
+
+    updateTotalFileTypeContribution(fileTypeContribution) {
+      Object.entries(fileTypeContribution).forEach(([type, cnt]) => {
+        if (this.filesLinesObj[type]) {
+          this.filesLinesObj[type] += cnt;
+        } else {
+          this.filesLinesObj[type] = cnt;
+        }
+      });
     },
 
     setInfoHash() {
