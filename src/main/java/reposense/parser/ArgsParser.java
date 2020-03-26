@@ -56,8 +56,9 @@ public class ArgsParser {
     private static final String MESSAGE_SINCE_DATE_LATER_THAN_TODAY_DATE =
             "\"Since Date\" must not be later than today's date.";
     private static final String MESSAGE_USING_DEFAULT_CONFIG_PATH =
-            "Config path not provided, using current working directory as default.";
+            "Config path not provided, using the config folder as default.";
     private static final Path EMPTY_PATH = Paths.get("");
+    private static final Path DEFAULT_PATH = Paths.get("./config/");
 
     private static ArgumentParser getArgumentParser() {
         ArgumentParser parser = ArgumentParsers
@@ -132,9 +133,9 @@ public class ArgsParser {
                 .dest(CONFIG_FLAGS[0])
                 .type(new ConfigFolderArgumentType())
                 .metavar("PATH")
-                .setDefault(EMPTY_PATH)
+                .setDefault(DEFAULT_PATH)
                 .help("The directory containing the config files."
-                        + "If not provided, the config files will be obtained from the current working directory.");
+                        + "If not provided, the config files will be obtained from the config folder.");
         mutexParser.addArgument(REPO_FLAGS)
                 .nargs("+")
                 .dest(REPO_FLAGS[0])
