@@ -5,7 +5,7 @@
         draggable="false",
         onclick="rampClick(event);",
         v-for="(commit, k) in slice.commitResults",
-        v-if="commit.insertions>0 && (!filterbreakdown || isCommitFileTypesIncluded(commit))",
+        v-if="commit.insertions>0",
         v-bind:href="getLink(user, commit)", target="_blank",
         v-bind:title="`[${slice.date}] ${commit.messageTitle}: ${commit.insertions} lines`",
         v-bind:class="'ramp__slice--color' + getSliceColor(slice.date)",
@@ -22,7 +22,7 @@
       draggable="false",
       onclick="rampClick(event);",
       v-for="(slice, j) in user.commits",
-      v-if="slice.insertions > 0 && (!filterbreakdown || isSliceFileTypesIncluded(slice))",
+      v-if="slice.insertions > 0",
       v-bind:title="`${tframe === 'day' \
         ? '[' + slice.date + '] Daily' \
         : '[' + slice.date + ' till ' + slice.endDate + '] Weekly'} contribution: ${slice.insertions} lines`",

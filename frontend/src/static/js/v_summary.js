@@ -650,11 +650,27 @@ window.vSummary = {
       user.dailyCommits.forEach((commit) => {
         const { date } = commit;
         if (date >= sinceDate && date <= untilDate) {
-          user.commits.push(commit);
+          const filteredCommit = JSON.parse(JSON.stringify(commit));
+          if (this.filterBreakdown) {
+            this.filterCommitByCheckedFileTypes(filteredCommit);
+          }
+          if (filteredCommit.commitResults.length > 0) {
+            user.commits.push(filteredCommit);
+          }
         }
       });
 
       return null;
+    },
+    filterCommitByCheckedFileTypes(commit) {
+      const commitResults = commit.commitResults
+          .filter((result) => this.isCommitFileTypesIncluded(result));
+      commit.insertions = commitResults.reduce((acc, result) => acc + result.insertions, 0);
+      commit.deletions = commitResults.reduce((acc, result) => acc + result.deletions, 0);
+      commit.commitResults = commitResults;
+    },
+    isCommitFileTypesIncluded(commitResult) {
+      return commitResult.fileTypes.some((fileType) => this.checkedFileTypes.includes(fileType));
     },
     getOptionWithOrder() {
       [this.sortingOption, this.isSortingDsc] = this.sortGroupSelection.split(' ');
