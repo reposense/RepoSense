@@ -186,7 +186,9 @@
             v-bind:sdate="filterSinceDate",
             v-bind:udate="filterUntilDate",
             v-bind:avgsize="avgCommitSize",
-            v-bind:mergegroup="isMergeGroup")
+            v-bind:mergegroup="isMergeGroup",
+            v-bind:filterbreakdown="filterBreakdown",
+            v-bind:checkedfiletypes="checkedFileTypes")
           .overlay
 
         .summary-chart__contribution

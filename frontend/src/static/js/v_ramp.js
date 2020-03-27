@@ -12,7 +12,7 @@ window.rampClick = function rampClick(evt) {
 };
 
 window.vRamp = {
-  props: ['groupby', 'user', 'tframe', 'avgsize', 'sdate', 'udate', 'mergegroup'],
+  props: ['groupby', 'user', 'tframe', 'avgsize', 'sdate', 'udate', 'mergegroup', 'checkedfiletypes', 'filterbreakdown'],
   template: window.$('v_ramp').innerHTML,
   data() {
     return {
@@ -21,6 +21,11 @@ window.vRamp = {
   },
 
   methods: {
+    hasIncludedFileType(commit) {
+      return !this.filterbreakdown
+        || commit.fileTypes.some((fileType) => this.checkedfiletypes.includes(fileType));
+    },
+
     getLink(user, slice) {
       const { REPOS } = window;
       const untilDate = this.tframe === 'week' ? slice.endDate : slice.date;
