@@ -1,9 +1,8 @@
 package reposense.model;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.assertFalse;
 
-import org.apache.tools.ant.types.Assertions;
 import org.junit.Test;
 
 import reposense.parser.InvalidLocationException;
@@ -18,7 +17,7 @@ public class RepoLocationTest {
         assertEquals(gitUrl, repoLocation.toString());
         assertEquals("RepoSense", repoLocation.getRepoName());
         assertEquals("reposense", repoLocation.getOrganization());
-        assertTrue(repoLocation.getParsedBranch().isEmpty());
+        assertFalse(repoLocation.getParsedBranch().isPresent());
 
         String gitUrlWithBranch = "https://github.com/reposense/testrepo-Alpha.git#release";
         repoLocation = new RepoLocation(gitUrlWithBranch);
