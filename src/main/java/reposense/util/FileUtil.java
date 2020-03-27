@@ -216,6 +216,20 @@ public class FileUtil {
     }
 
     /**
+     * Returns true if there a file exists at the path corresponding to the given String.
+     */
+    public static boolean fileExists(String path) {
+        boolean isValidPathLocation;
+        try {
+            Path pathLocation = Paths.get(path);
+            isValidPathLocation = Files.exists(pathLocation);
+        } catch (InvalidPathException ipe) {
+            isValidPathLocation = false;
+        }
+        return isValidPathLocation;
+    }
+
+    /**
      * Returns a list of {@code Path} of {@code fileTypes} contained in the given {@code directoryPath} directory.
      */
     private static List<Path> getFilePaths(Path directoryPath, String... fileTypes) throws IOException {
