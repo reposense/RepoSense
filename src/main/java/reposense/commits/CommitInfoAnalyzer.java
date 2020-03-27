@@ -1,5 +1,7 @@
 package reposense.commits;
 
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -100,16 +102,21 @@ public class CommitInfoAnalyzer {
         }
 
         String[] statInfos = statLine.split(STAT_LINE_SPLITTER);
-        int numOfFilesAffected = statInfos.length - 1;
-        FileType[] affectedFileTypes = Arrays.stream(statInfos)
-                .map(filePath -> config.getFileType(filePath.trim()))
-                .limit(numOfFilesAffected) // do not include the file contribution statistics
-                .distinct()
-                .toArray(FileType[]::new);
-        String contributionStat = statInfos[numOfFilesAffected]; // last index is the file contribution statistics
+        FileType[] fileTypes = getFileTypes(statInfos, config);
+        String contributionStat = statInfos[statInfos.length - 1]; // last index is the file contribution statistics
         int insertion = getInsertion(contributionStat);
         int deletion = getDeletion(contributionStat);
-        return new CommitResult(author, hash, date, messageTitle, messageBody, tags, insertion, deletion, affectedFileTypes);
+        return new CommitResult(author, hash, date, messageTitle, messageBody, tags, insertion, deletion, fileTypes);
+    }
+
+    private static FileType[] getFileTypes(String[] statInfos, RepoConfiguration config) {
+        return Arrays.stream(statInfos)
+                .map(filePath -> filePath.trim())
+                .filter(filePath -> Files.exists(Paths.get(config.getRepoRoot(), filePath))) // only available files
+                .map(filePath -> config.getFileType(filePath))
+                .limit(statInfos.length - 1) // do not include the file contribution statistics
+                .distinct()
+                .toArray(FileType[]::new);
     }
 
     /**

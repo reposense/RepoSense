@@ -17,6 +17,7 @@ import reposense.commits.model.CommitInfo;
 import reposense.commits.model.CommitResult;
 import reposense.model.Author;
 import reposense.model.CommitHash;
+import reposense.model.FileType;
 import reposense.model.FileTypeTest;
 import reposense.parser.InvalidLocationException;
 import reposense.template.GitTestTemplate;
@@ -25,6 +26,8 @@ public class CommitInfoAnalyzerTest extends GitTestTemplate {
     private static final int NUMBER_EUGENE_COMMIT = 1;
     private static final int NUMBER_MINGYI_COMMIT = 1;
     private static final int NUMBER_EMPTY_MESSAGE_COMMIT = 1;
+    private static final FileType JAVA = new FileType("java", Collections.singletonList("**java"));
+    private static final FileType MD = new FileType("md", Collections.singletonList("**md"));
 
     @Before
     public void before() throws InvalidLocationException {
@@ -131,11 +134,13 @@ public class CommitInfoAnalyzerTest extends GitTestTemplate {
         List<CommitResult> expectedCommitResults = new ArrayList<>();
         expectedCommitResults.add(new CommitResult(author, "2eccc111e813e8b2977719b5959e32b674c56afe",
                 parseGitStrictIsoDate("2019-06-19T13:02:01+08:00"), ">>>COMMIT INFO<<<",
-                "Hi there!\n\n>>>COMMIT INFO<<<\n", null, 1, 0));
+                "Hi there!\n\n>>>COMMIT INFO<<<\n", null, 1, 0,
+                new FileType[] {JAVA}));
         expectedCommitResults.add(new CommitResult(author, "8f8359649361f6736c31b87d499a4264f6cf7ed7",
                 parseGitStrictIsoDate("2019-06-19T13:03:39+08:00"), "[#123] Reverted 1st commit",
                 "This is a test to see if the commit message body works. "
-                + "All should be same same.\n>>>COMMIT INFO<<<\n|The end.", null, 0, 1));
+                + "All should be same same.\n>>>COMMIT INFO<<<\n|The end.|\n", null, 0, 1,
+                new FileType[] {JAVA}));
 
         config.setBranch("751-CommitInfoAnalyzerTest-analyzeCommits_multipleCommitsWithCommitMessageBody_success");
         config.setAuthorList(Collections.singletonList(author));
@@ -155,10 +160,11 @@ public class CommitInfoAnalyzerTest extends GitTestTemplate {
         // 1st test: Contains commit message title but no commit message body.
         expectedCommitResults.add(new CommitResult(author, "e54ae8fdb77c6c7d2c39131b816bfc03e6a6dd44",
                 parseGitStrictIsoDate("2019-07-02T12:35:46+08:00"), "Test 1: With message title but no body",
-                "", null, 1, 0));
+                "", null, 1, 0, new FileType[] {JAVA}));
         // 2nd test: Contains no commit message title and no commit message body.
         expectedCommitResults.add(new CommitResult(author, "57fa22fc2550210203c2941692f69ccb0cf18252",
-                parseGitStrictIsoDate("2019-07-02T12:36:14+08:00"), "", "", null, 0, 1));
+                parseGitStrictIsoDate("2019-07-02T12:36:14+08:00"), "", "", null, 0, 1,
+                new FileType[] {JAVA}));
 
         config.setBranch("751-CommitInfoAnalyzerTest-analyzeCommits_commitsWithEmptyCommitMessageTitleOrBody_success");
         config.setAuthorList(Collections.singletonList(author));
@@ -178,10 +184,11 @@ public class CommitInfoAnalyzerTest extends GitTestTemplate {
 
         expectedCommitResults.add(new CommitResult(author, "62c3a50ef9b3580b2070deac1eed2b3e2d701e04",
                 parseGitStrictIsoDate("2019-12-20T22:45:18+08:00"), "Single Tag Commit",
-                "", new String[] {"1st"}, 2, 1));
+                "", new String[] {"1st"}, 2, 1, new FileType[] {MD}));
         expectedCommitResults.add(new CommitResult(author, "c5e36ec059390233ac036db61a84fa6b55952506",
                 parseGitStrictIsoDate("2019-12-20T22:47:21+08:00"), "Double Tag Commit",
-                "", new String[] {"2nd-tag", "1st-tag"}, 1, 0));
+                "", new String[] {"2nd-tag", "1st-tag"}, 1, 0,
+                new FileType[] {MD}));
 
         config.setBranch("879-CommitInfoAnalyzerTest-analyzeCommits_commitsWithMultipleTags_success");
         config.setAuthorList(Collections.singletonList(author));
@@ -201,7 +208,7 @@ public class CommitInfoAnalyzerTest extends GitTestTemplate {
 
         expectedCommitResults.add(new CommitResult(author, "016ab87c4afe89a98225b96c98ff28dd4774410f",
                 parseGitStrictIsoDate("2020-01-27T22:20:51+08:00"), "empty commit",
-                "", null, 0, 0));
+                "", null, 0, 0, null));
 
         config.setBranch("1019-CommitInfoAnalyzerTest-emptyCommits");
         config.setAuthorList(Collections.singletonList(author));

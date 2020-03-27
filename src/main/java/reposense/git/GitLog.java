@@ -26,7 +26,7 @@ public class GitLog {
 
         String command = "git log --no-merges -i ";
         command += GitUtil.convertToGitDateRangeArgs(config.getSinceDate(), config.getUntilDate());
-        command += " --pretty=format:" + PRETTY_FORMAT_STRING + " --short-stat";
+        command += " --pretty=format:" + PRETTY_FORMAT_STRING + " --shortstat";
         command += GitUtil.convertToFilterAuthorArgs(author);
         command += GitUtil.convertToGitFormatsArgs(config.getFileTypeManager().getFormats());
         command += GitUtil.convertToGitExcludeGlobArgs(rootPath.toFile(), author.getIgnoreGlobList());
@@ -43,7 +43,8 @@ public class GitLog {
 
         String command = "git log --no-merges -i ";
         command += GitUtil.convertToGitDateRangeArgs(config.getSinceDate(), config.getUntilDate());
-        command += " --pretty=format:" + PRETTY_FORMAT_STRING + " --stat";
+        // set to 1000 as default max width is 80 characters, exceeding will result to path being truncated with '...'
+        command += " --pretty=format:" + PRETTY_FORMAT_STRING + " --stat-width=1000";
         command += GitUtil.convertToFilterAuthorArgs(author);
         command += GitUtil.convertToGitFormatsArgs(config.getFileTypeManager().getFormats());
         command += GitUtil.convertToGitExcludeGlobArgs(rootPath.toFile(), author.getIgnoreGlobList());

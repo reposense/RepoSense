@@ -88,6 +88,7 @@ public class CommitResult {
                 && messageBody.equals(otherCommitResult.messageBody)
                 && Arrays.equals(tags, otherCommitResult.tags)
                 && insertions == otherCommitResult.insertions
-                && deletions == otherCommitResult.deletions;
+                && deletions == otherCommitResult.deletions
+                && Arrays.equals(fileTypes, otherCommitResult.fileTypes);
     }
 }
