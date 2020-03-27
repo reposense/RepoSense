@@ -58,6 +58,7 @@ public class ArgsParser {
     private static final String MESSAGE_USING_DEFAULT_CONFIG_PATH =
             "Config path not provided, using the config folder as default.";
     private static final Path EMPTY_PATH = Paths.get("");
+    private static final Path DEFAULT_CONFIG_PATH = Paths.get(System.getProperty("user.dir") + "/config/");
 
     private static ArgumentParser getArgumentParser() {
         ArgumentParser parser = ArgumentParsers
@@ -132,7 +133,7 @@ public class ArgsParser {
                 .dest(CONFIG_FLAGS[0])
                 .type(new ConfigFolderArgumentType())
                 .metavar("PATH")
-                .setDefault(EMPTY_PATH)
+                .setDefault(DEFAULT_CONFIG_PATH)
                 .help("The directory containing the config files."
                         + "If not provided, the config files will be obtained from the config folder.");
         mutexParser.addArgument(REPO_FLAGS)

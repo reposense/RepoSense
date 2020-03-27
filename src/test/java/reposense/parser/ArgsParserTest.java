@@ -34,6 +34,7 @@ import reposense.util.TestUtil;
 public class ArgsParserTest {
 
     private static final Path PROJECT_DIRECTORY = Paths.get(System.getProperty("user.dir"));
+    private static final Path CONFIG_DIRECTORY = Paths.get(System.getProperty("user.dir") + "/config/");
     private static final Path CONFIG_FOLDER_ABSOLUTE = new File(ArgsParserTest.class.getClassLoader()
             .getResource("cli_location_test").getFile()).toPath();
     private static final Path OUTPUT_DIRECTORY_ABSOLUTE = new File(ArgsParserTest.class.getClassLoader()
@@ -247,7 +248,7 @@ public class ArgsParserTest {
         CliArguments cliArguments = ArgsParser.parse(translateCommandline(input));
 
         Assert.assertTrue(cliArguments instanceof ConfigCliArguments);
-        Assert.assertEquals(PROJECT_DIRECTORY.toString(), (
+        Assert.assertEquals(CONFIG_DIRECTORY.toString(), (
                 (ConfigCliArguments) cliArguments).getConfigFolderPath().toString());
         Assert.assertTrue(cliArguments.isAutomaticallyLaunching());
     }
@@ -447,7 +448,7 @@ public class ArgsParserTest {
     public void emptyArgs_defaultConfigFolderPath() throws ParseException, HelpScreenException {
         CliArguments cliArguments = ArgsParser.parse(new String[]{});
         Assert.assertTrue(cliArguments instanceof ConfigCliArguments);
-        Assert.assertEquals(PROJECT_DIRECTORY.toString(), (
+        Assert.assertEquals(CONFIG_DIRECTORY.toString(), (
                 (ConfigCliArguments) cliArguments).getConfigFolderPath().toString());
     }
 
