@@ -16,9 +16,12 @@ import reposense.parser.InvalidLocationException;
  * Represents a repository location.
  */
 public class RepoLocation {
+    private static final String GIT_LINK_SUFFIX = ".git";
     private static final Pattern GIT_REPOSITORY_LOCATION_PATTERN =
             Pattern.compile("^.*github.com\\/(?<org>.+?)\\/(?<repoName>.+?)\\.git$");
-    private static final String GIT_LINK_SUFFIX = ".git";
+    private static final Pattern GITHUB_BRANCH_URL_PATTERN =
+            Pattern.compile("(http|https)://github.com/(?<org>.+?)/(?<repoName>.+?)/tree/(?<branch>.+?)");
+
     private final String location;
     private final transient Optional<String> parsedBranch;
     private final String repoName;
@@ -127,8 +130,16 @@ public class RepoLocation {
      *
      * @return null if the given String is an invalid URL
      */
-    private static String[] tryParsingAsBranchUrl(String possibleBranchUrl) {
-        return null;
+    private static String[] tryParsingAsBranchUrl(String branchUrl) {
+        Matcher matcher = GITHUB_BRANCH_URL_PATTERN.matcher(branchUrl);
+        if (!isValidUrl(branchUrl) || !matcher.matches()) {
+            return null;
+        }
+        String org = matcher.group("org");
+        String repoName = matcher.group("repoName");
+        String branch = matcher.group("branch");
+        String location = createRepoUrl(org, repoName);
+        return new String[] { location, repoName, org, branch };
     }
 
     /**
@@ -171,6 +182,10 @@ public class RepoLocation {
     @Override
     public int hashCode() {
         return location.hashCode();
+    }
+
+    private static String createRepoUrl(String org, String repoName) {
+        return "https://github.com/" + org + "/" + repoName + GIT_LINK_SUFFIX;
     }
 
     /**
