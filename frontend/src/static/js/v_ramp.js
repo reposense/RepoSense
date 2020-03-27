@@ -21,9 +21,12 @@ window.vRamp = {
   },
 
   methods: {
-    hasIncludedFileType(commit) {
-      return !this.filterbreakdown
-        || commit.fileTypes.some((fileType) => this.checkedfiletypes.includes(fileType));
+    isCommitFileTypesIncluded(commit) {
+      return commit.fileTypes.some((fileType) => this.checkedfiletypes.includes(fileType));
+    },
+
+    isSliceFileTypesIncluded(slice) {
+      return slice.commitResults.some((commit) => this.isCommitFileTypesIncluded(commit));
     },
 
     getLink(user, slice) {
