@@ -20,7 +20,7 @@ import reposense.system.LogsManager;
 public class CommitInfoExtractor {
     private static final Logger logger = LogsManager.getLogger(CommitInfoExtractor.class);
     private static final String MESSAGE_START_EXTRACTING_COMMIT_INFO = "Extracting commits info for %s (%s)...";
-    private static final String COMMIT_INFO_DELIMITER = "?";
+    private static final String STAT_INFO_DELIMITER = "?";
 
     private static final Pattern TRAILING_NEWLINES_PATTERN = Pattern.compile("\n+$");
 
@@ -35,7 +35,7 @@ public class CommitInfoExtractor {
         List<CommitInfo> repoCommitInfos = new ArrayList<>();
 
         for (Author author : config.getAuthorList()) {
-            String gitLogResult = GitLog.get(config, author);
+            String gitLogResult = GitLog.getWithFiles(config, author);
             List<CommitInfo> authorCommitInfos = parseGitLogResults(gitLogResult);
             repoCommitInfos.addAll(authorCommitInfos);
         }
@@ -60,7 +60,7 @@ public class CommitInfoExtractor {
             Matcher matcher = TRAILING_NEWLINES_PATTERN.matcher(rawCommitInfos[i]);
             String rawCommitInfo = matcher.replaceAll("");
 
-            int statLineSeparatorIndex = rawCommitInfo.lastIndexOf(COMMIT_INFO_DELIMITER);
+            int statLineSeparatorIndex = rawCommitInfo.lastIndexOf(STAT_INFO_DELIMITER);
             String infoLine = rawCommitInfo.substring(0, statLineSeparatorIndex).trim();
             String statLine = rawCommitInfo.substring(statLineSeparatorIndex + 1).trim();
             commitInfos.add(new CommitInfo(infoLine, statLine));

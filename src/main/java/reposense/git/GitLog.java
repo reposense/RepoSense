@@ -16,7 +16,7 @@ public class GitLog {
     public static final String COMMIT_INFO_DELIMITER = "(?m)^>>>COMMIT INFO<<<\\n";
 
     private static final String PRETTY_FORMAT_STRING =
-            "\">>>COMMIT INFO<<<%n?%H?%n?%aN?%n?%aE?%n?%cI?%n?%s?%n?%w(0,4,4)%b%w(0,0,0)?%n?%D?\"";
+            "\">>>COMMIT INFO<<<%n%H?%n?%aN?%n?%aE?%n?%cI?%n?%s?%n?%w(0,4,4)%b%w(0,0,0)?%n?%D?\"";
 
     /**
      * Returns the git commit log info of {@code Author}, in the repository specified in {@code config}.
@@ -26,7 +26,7 @@ public class GitLog {
 
         String command = "git log --no-merges -i ";
         command += GitUtil.convertToGitDateRangeArgs(config.getSinceDate(), config.getUntilDate());
-        command += " --pretty=format:" + PRETTY_FORMAT_STRING + " --stat";
+        command += " --pretty=format:" + PRETTY_FORMAT_STRING + " --short-stat";
         command += GitUtil.convertToFilterAuthorArgs(author);
         command += GitUtil.convertToGitFormatsArgs(config.getFileTypeManager().getFormats());
         command += GitUtil.convertToGitExcludeGlobArgs(rootPath.toFile(), author.getIgnoreGlobList());
