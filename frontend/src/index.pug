@@ -37,8 +37,6 @@ html
             ref="summary",
             v-bind:repos="users",
             v-bind:error-messages="errorMessages",
-            v-on:view-zoom="updateTabZoom",
-            v-on:view-authorship="updateTabAuthorship",
             v-on:get-dates="receiveDates"
           )
           .timestamp-footer

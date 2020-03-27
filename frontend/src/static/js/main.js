@@ -1,6 +1,6 @@
 const store = new Vuex.Store({
   state: {
-    authorshipInfo: {},
+    authorshipTabInfo: {},
     zoomTabInfo: {},
   },
   mutations: {
@@ -8,7 +8,7 @@ const store = new Vuex.Store({
       state.zoomTabInfo = info;
     },
     updateAuthorshipTabInfo(state, info) {
-      state.authorshipInfo = info;
+      state.authorshipTabInfo = info;
     },
   },
   actions: {
@@ -138,8 +138,9 @@ window.app = new window.Vue({
       this.tabInfo.tabZoom = Object.assign({}, this.$store.state.zoomTabInfo);
       this.activateTab('zoom');
     },
-    '$store.state.authorshipInfo': function () {
-      this.updateTabAuthorship(this.$store.state.authorshipInfo);
+    '$store.state.authorshipTabInfo': function () {
+      this.tabInfo.tabAuthorship = Object.assign({}, this.$store.state.authorshipTabInfo);
+      this.activateTab('authorship');
     },
   },
   methods: {
@@ -222,11 +223,6 @@ window.app = new window.Vue({
       window.encodeHash();
     },
 
-    updateTabAuthorship(obj) {
-      this.tabInfo.tabAuthorship = Object.assign({}, obj);
-      this.activateTab('authorship');
-    },
-
     // updating summary view
     updateSummaryDates(since, until) {
       this.$refs.summary.updateDateRange(since, until);
@@ -242,7 +238,7 @@ window.app = new window.Vue({
       };
       const tabInfoLength = Object.values(info).filter((x) => x).length;
       if (Object.keys(info).length === tabInfoLength) {
-        this.updateTabAuthorship(info);
+        this.$store.commit('updateAuthorshipTabInfo', info);
       } else if (hash.tabOpen === 'false' || tabInfoLength > 2) {
         window.app.isTabActive = false;
       }
