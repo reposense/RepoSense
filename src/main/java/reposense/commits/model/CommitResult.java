@@ -4,6 +4,7 @@ import java.util.Arrays;
 import java.util.Date;
 
 import reposense.model.Author;
+import reposense.model.FileType;
 
 /**
  * Stores the result from analyzing a {@code CommitInfo}.
@@ -13,6 +14,7 @@ public class CommitResult {
     private final String messageTitle;
     private final String messageBody;
     private final String[] tags;
+    private final FileType[] fileTypes;
     private final int insertions;
     private final int deletions;
 
@@ -20,7 +22,7 @@ public class CommitResult {
     private final transient Date time;
 
     public CommitResult(Author author, String hash, Date time, String messageTitle,
-            String messageBody, String[] tags, int insertions, int deletions) {
+            String messageBody, String[] tags, int insertions, int deletions, FileType[] fileTypes) {
         this.author = author;
         this.hash = hash;
         this.time = time;
@@ -29,6 +31,7 @@ public class CommitResult {
         this.tags = tags;
         this.insertions = insertions;
         this.deletions = deletions;
+        this.fileTypes = fileTypes;
     }
 
     public String getMessageTitle() {
@@ -61,6 +64,10 @@ public class CommitResult {
 
     public int getDeletions() {
         return deletions;
+    }
+
+    public FileType[] getFileTypes() {
+        return fileTypes;
     }
 
     @Override

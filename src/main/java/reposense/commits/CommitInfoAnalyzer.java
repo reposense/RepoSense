@@ -17,6 +17,7 @@ import reposense.commits.model.CommitInfo;
 import reposense.commits.model.CommitResult;
 import reposense.model.Author;
 import reposense.model.CommitHash;
+import reposense.model.FileType;
 import reposense.model.RepoConfiguration;
 import reposense.system.LogsManager;
 
@@ -29,8 +30,9 @@ public class CommitInfoAnalyzer {
     private static final Logger logger = LogsManager.getLogger(CommitInfoAnalyzer.class);
     private static final String MESSAGE_START_ANALYZING_COMMIT_INFO = "Analyzing commits info for %s (%s)...";
 
-    private static final String LOG_SPLITTER = "\\|\\n\\|";
+    private static final String LOG_SPLITTER = "\\?\\n\\?";
     private static final String REF_SPLITTER = ",\\s";
+    private static final String STAT_LINE_SPLITTER = "\\|.*\\n";
     private static final String TAG_PREFIX = "tag:";
 
     private static final int COMMIT_HASH_INDEX = 0;
@@ -93,9 +95,21 @@ public class CommitInfoAnalyzer {
             extractTagNames(tags);
         }
 
-        int insertion = getInsertion(statLine);
-        int deletion = getDeletion(statLine);
-        return new CommitResult(author, hash, date, messageTitle, messageBody, tags, insertion, deletion);
+        if (statLine.isEmpty()) { // empty commit, no files changed
+            return new CommitResult(author, hash, date, messageTitle, messageBody, tags, 0, 0, null);
+        }
+
+        String[] statInfos = statLine.split(STAT_LINE_SPLITTER);
+        int numOfFilesAffected = statInfos.length - 1;
+        FileType[] affectedFileTypes = Arrays.stream(statInfos)
+                .map(filePath -> config.getFileType(filePath.trim()))
+                .limit(numOfFilesAffected) // do not include the file contribution statistics
+                .distinct()
+                .toArray(FileType[]::new);
+        String contributionStat = statInfos[numOfFilesAffected]; // last index is the file contribution statistics
+        int insertion = getInsertion(contributionStat);
+        int deletion = getDeletion(contributionStat);
+        return new CommitResult(author, hash, date, messageTitle, messageBody, tags, insertion, deletion, affectedFileTypes);
     }
 
     /**
