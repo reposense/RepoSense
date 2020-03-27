@@ -16,8 +16,8 @@ import reposense.parser.InvalidLocationException;
  * Represents a repository location.
  */
 public class RepoLocation {
-    public static final Pattern GIT_REPOSITORY_LOCATION_PATTERN =
-            Pattern.compile("^.*github.com\\/(?<org>.+?)\\/(?<repoName>.+?).git(\\/(?<branch>.*))?$");
+    private static final Pattern GIT_REPOSITORY_LOCATION_PATTERN =
+            Pattern.compile("^.*github.com\\/(?<org>.+?)\\/(?<repoName>.+?)\\.git$");
     private static final String GIT_LINK_SUFFIX = ".git";
     private final String location;
     private final transient Optional<String> parsedBranch;
