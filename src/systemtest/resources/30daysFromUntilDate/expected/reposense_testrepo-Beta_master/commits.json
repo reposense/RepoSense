@@ -11,9 +11,12 @@
             "hash": "f45960b264a6c550d98137cebe7cea9bb78fdfcd",
             "messageTitle": "Birthday feature: update person related files",
             "messageBody": "",
-            "fileTypes": [
-              "fxml"
-            ],
+            "fileTypesAndContributionMap": {
+              "fxml": {
+                "insertions": 1,
+                "deletions": 0
+              }
+            },
             "insertions": 1,
             "deletions": 0
           }
@@ -30,9 +33,12 @@
             "hash": "38c72663ef5e8cca0485d44f7462605c162dea00",
             "messageTitle": "Add a remark Label inside PersonListCard.fxml",
             "messageBody": "",
-            "fileTypes": [
-              "fxml"
-            ],
+            "fileTypesAndContributionMap": {
+              "fxml": {
+                "insertions": 1,
+                "deletions": 0
+              }
+            },
             "insertions": 1,
             "deletions": 0
           }
@@ -47,9 +53,12 @@
             "hash": "a460e24bc1b94d009cb572dc920f35cd73c4ee11",
             "messageTitle": "UI: update PersonListCard.fxml",
             "messageBody": "",
-            "fileTypes": [
-              "fxml"
-            ],
+            "fileTypesAndContributionMap": {
+              "fxml": {
+                "insertions": 2,
+                "deletions": 0
+              }
+            },
             "insertions": 2,
             "deletions": 0
           },
@@ -57,9 +66,12 @@
             "hash": "b4b51938c691351888e0b31646633eed30bebe14",
             "messageTitle": "UI: update PersonCard.java",
             "messageBody": "",
-            "fileTypes": [
-              "fxml"
-            ],
+            "fileTypesAndContributionMap": {
+              "fxml": {
+                "insertions": 1,
+                "deletions": 1
+              }
+            },
             "insertions": 1,
             "deletions": 1
           }
@@ -74,9 +86,12 @@
             "hash": "92c52cb47919fa380702819b1beab5a61487802e",
             "messageTitle": "update ui",
             "messageBody": "",
-            "fileTypes": [
-              "fxml"
-            ],
+            "fileTypesAndContributionMap": {
+              "fxml": {
+                "insertions": 1,
+                "deletions": 0
+              }
+            },
             "insertions": 1,
             "deletions": 0
           },
@@ -84,7 +99,12 @@
             "hash": "502d5209fb64385e737f9c6e3bcb3977a280b1ae",
             "messageTitle": "display contactPhotos",
             "messageBody": "",
-            "fileTypes": [],
+            "fileTypesAndContributionMap": {
+              "fxml": {
+                "insertions": 11,
+                "deletions": 3
+              }
+            },
             "insertions": 11,
             "deletions": 3
           },
@@ -92,9 +112,12 @@
             "hash": "9df7233b80e05dd29b0af9a8635a83797714bce0",
             "messageTitle": "adjust UI settings",
             "messageBody": "",
-            "fileTypes": [
-              "fxml"
-            ],
+            "fileTypesAndContributionMap": {
+              "fxml": {
+                "insertions": 6,
+                "deletions": 4
+              }
+            },
             "insertions": 6,
             "deletions": 4
           }
@@ -111,9 +134,12 @@
             "hash": "e933821b0afb269faf27dd45845976656b622493",
             "messageTitle": "\"UI: Add TagListPanel\"",
             "messageBody": "",
-            "fileTypes": [
-              "fxml"
-            ],
+            "fileTypesAndContributionMap": {
+              "fxml": {
+                "insertions": 40,
+                "deletions": 11
+              }
+            },
             "insertions": 40,
             "deletions": 11
           },
@@ -121,9 +147,12 @@
             "hash": "f5c11947217f64965da86531f9dd67dd3e62f29d",
             "messageTitle": "\"Modified panel dimensions\"",
             "messageBody": "",
-            "fileTypes": [
-              "fxml"
-            ],
+            "fileTypesAndContributionMap": {
+              "fxml": {
+                "insertions": 2,
+                "deletions": 2
+              }
+            },
             "insertions": 2,
             "deletions": 2
           }
@@ -138,7 +167,12 @@
             "hash": "93191db48eb5aa2f97d765cdf736c68c85fc0ae4",
             "messageTitle": "\"Added comments to indicate which values to change to modify UI\"",
             "messageBody": "",
-            "fileTypes": [],
+            "fileTypesAndContributionMap": {
+              "fxml": {
+                "insertions": 4,
+                "deletions": 3
+              }
+            },
             "insertions": 4,
             "deletions": 3
           }
@@ -153,9 +187,12 @@
             "hash": "053319c3d8cd5d26424b6ac69d51f3c03e262215",
             "messageTitle": "Collate code for v1.4",
             "messageBody": "",
-            "fileTypes": [
-              "fxml"
-            ],
+            "fileTypesAndContributionMap": {
+              "fxml": {
+                "insertions": 3,
+                "deletions": 0
+              }
+            },
             "insertions": 3,
             "deletions": 0
           }

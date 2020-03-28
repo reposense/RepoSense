@@ -199,7 +199,7 @@ public class TestUtil {
      * Returns the file changed given a {@code rawFileChangedString}.
      */
     private static String getFileChanged(String rawFileChangedString) {
-        String fileChanged = rawFileChangedString.split("\\| ")[0].trim();
+        String fileChanged = rawFileChangedString.split("\t")[2].trim();
         if (fileChanged.contains("=>")) {
             fileChanged = fileChanged.substring(fileChanged.indexOf("=> ") + 3);
         }

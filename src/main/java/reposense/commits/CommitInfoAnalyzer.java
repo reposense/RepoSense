@@ -1,7 +1,5 @@
 package reposense.commits;
 
-import java.nio.file.Files;
-import java.nio.file.Paths;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -41,6 +39,7 @@ public class CommitInfoAnalyzer {
     private static final String TAG_PREFIX = "tag:";
     private static final String INSERTIONS = "insertions";
     private static final String DELETIONS = "deletions";
+    private static final String MOVED_FILE_INDICATION = "=> ";
 
     private static final int COMMIT_HASH_INDEX = 0;
     private static final int AUTHOR_INDEX = 1;
@@ -103,7 +102,7 @@ public class CommitInfoAnalyzer {
         }
 
         if (statLine.isEmpty()) { // empty commit, no files changed
-            return new CommitResult(author, hash, date, messageTitle, messageBody, tags, 0, 0, null);
+            return new CommitResult(author, hash, date, messageTitle, messageBody, tags, 0, 0, new HashMap<>());
         }
 
         String[] statInfos = statLine.split(NEW_LINE_SPLITTER);
@@ -119,16 +118,6 @@ public class CommitInfoAnalyzer {
                 totalCommitDeletions, fileTypeAndContributionMap);
     }
 
-    private static FileType[] getFileTypes(String[] statInfos, RepoConfiguration config) {
-        return Arrays.stream(statInfos)
-                .map(filePath -> filePath.trim())
-                .filter(filePath -> Files.exists(Paths.get(config.getRepoRoot(), filePath))) // only available files
-                .map(filePath -> config.getFileType(filePath))
-                .limit(statInfos.length - 1) // do not include the file contribution statistics
-                .distinct()
-                .toArray(FileType[]::new);
-    }
-
     /**
      * Extract the additions and deletions of file types that have been modified
      */
@@ -140,8 +129,7 @@ public class CommitInfoAnalyzer {
             String[] infos = filePathContribution.split(TAB_SPLITTER);
             int addition = Integer.parseInt(infos[0]);
             int deletion = Integer.parseInt(infos[1]);
-            String filePath = infos[2];
-
+            String filePath = extractFilePath(infos[2]);
             FileType fileType = config.getFileType(filePath);
 
             if (fileTypesAndContribution.containsKey(fileType)) {
@@ -157,6 +145,19 @@ public class CommitInfoAnalyzer {
             }
         }
         return fileTypesAndContribution;
+    }
+
+    /**
+     * Extracts the correct file path from the pre-processed git log {@code filePath}
+     */
+    private static String extractFilePath(String filePath) {
+        if (filePath.contains(MOVED_FILE_INDICATION)) { // moved file has the format: fileA => newPosition/fileA
+            filePath = filePath.substring(filePath.indexOf(MOVED_FILE_INDICATION) + 3);
+            if (filePath.charAt(filePath.length() - 1) == '}') { // renamed file has ending '}' character
+                filePath = filePath.substring(0, filePath.length() - 1);
+            }
+        }
+        return filePath;
     }
 
     /**
