@@ -151,13 +151,14 @@ public class CommitInfoAnalyzer {
      * Extracts the correct file path from the pre-processed git log {@code filePath}
      */
     private static String extractFilePath(String filePath) {
-        if (filePath.contains(MOVED_FILE_INDICATION)) { // moved file has the format: fileA => newPosition/fileA
-            filePath = filePath.substring(filePath.indexOf(MOVED_FILE_INDICATION) + 3);
-            if (filePath.charAt(filePath.length() - 1) == '}') { // renamed file has ending '}' character
-                filePath = filePath.substring(0, filePath.length() - 1);
+        String filteredFilePath = filePath;
+        if (filteredFilePath.contains(MOVED_FILE_INDICATION)) { // moved file has the format: fileA => newPosition/fileA
+            filteredFilePath = filteredFilePath.substring(filteredFilePath.indexOf(MOVED_FILE_INDICATION) + 3);
+            if (filteredFilePath.charAt(filteredFilePath.length() - 1) == '}') { // renamed file has ending '}' char
+                filteredFilePath = filteredFilePath.substring(0, filteredFilePath.length() - 1);
             }
         }
-        return filePath;
+        return filteredFilePath;
     }
 
     /**
