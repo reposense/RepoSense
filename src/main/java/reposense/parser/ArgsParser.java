@@ -1,5 +1,6 @@
 package reposense.parser;
 
+import java.io.File;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.time.ZoneId;
@@ -58,7 +59,8 @@ public class ArgsParser {
     private static final String MESSAGE_USING_DEFAULT_CONFIG_PATH =
             "Config path not provided, using the config folder as default.";
     private static final Path EMPTY_PATH = Paths.get("");
-    private static final Path DEFAULT_CONFIG_PATH = Paths.get(System.getProperty("user.dir") + "/config/");
+    private static final Path DEFAULT_CONFIG_PATH = Paths.get(System.getProperty("user.dir") +
+        File.separator + "config" + File.separator);
 
     private static ArgumentParser getArgumentParser() {
         ArgumentParser parser = ArgumentParsers
