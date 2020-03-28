@@ -8,7 +8,9 @@ import java.text.SimpleDateFormat;
 import java.util.Arrays;
 import java.util.Comparator;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.regex.Matcher;
@@ -32,10 +34,13 @@ public class CommitInfoAnalyzer {
     private static final Logger logger = LogsManager.getLogger(CommitInfoAnalyzer.class);
     private static final String MESSAGE_START_ANALYZING_COMMIT_INFO = "Analyzing commits info for %s (%s)...";
 
-    private static final String LOG_SPLITTER = "\\?\\n\\?";
+    private static final String LOG_SPLITTER = "\\|\\n\\|";
     private static final String REF_SPLITTER = ",\\s";
-    private static final String STAT_LINE_SPLITTER = "\\|.*\\n";
+    private static final String NEW_LINE_SPLITTER = "\\n";
+    private static final String TAB_SPLITTER = "\t";
     private static final String TAG_PREFIX = "tag:";
+    private static final String INSERTIONS = "insertions";
+    private static final String DELETIONS = "deletions";
 
     private static final int COMMIT_HASH_INDEX = 0;
     private static final int AUTHOR_INDEX = 1;
@@ -101,12 +106,17 @@ public class CommitInfoAnalyzer {
             return new CommitResult(author, hash, date, messageTitle, messageBody, tags, 0, 0, null);
         }
 
-        String[] statInfos = statLine.split(STAT_LINE_SPLITTER);
-        FileType[] fileTypes = getFileTypes(statInfos, config);
+        String[] statInfos = statLine.split(NEW_LINE_SPLITTER);
+        String[] fileTypeContributions = Arrays.copyOfRange(statInfos, 0, statInfos.length - 1);
+        Map<FileType, Map<String, Integer>> fileTypeAndContributionMap =
+                getFileTypesAndContribution(fileTypeContributions, config);
+
         String contributionStat = statInfos[statInfos.length - 1]; // last index is the file contribution statistics
-        int insertion = getInsertion(contributionStat);
-        int deletion = getDeletion(contributionStat);
-        return new CommitResult(author, hash, date, messageTitle, messageBody, tags, insertion, deletion, fileTypes);
+        int totalCommitInsertions = getInsertion(contributionStat);
+        int totalCommitDeletions = getDeletion(contributionStat);
+
+        return new CommitResult(author, hash, date, messageTitle, messageBody, tags, totalCommitInsertions,
+                totalCommitDeletions, fileTypeAndContributionMap);
     }
 
     private static FileType[] getFileTypes(String[] statInfos, RepoConfiguration config) {
@@ -117,6 +127,36 @@ public class CommitInfoAnalyzer {
                 .limit(statInfos.length - 1) // do not include the file contribution statistics
                 .distinct()
                 .toArray(FileType[]::new);
+    }
+
+    /**
+     * Extract the additions and deletions of file types that have been modified
+     */
+    private static Map<FileType, Map<String, Integer>> getFileTypesAndContribution(String[] filePathContributions,
+            RepoConfiguration config) {
+        Map<FileType, Map<String, Integer>> fileTypesAndContribution = new HashMap<>();
+        for (String filePathContribution : filePathContributions) {
+
+            String[] infos = filePathContribution.split(TAB_SPLITTER);
+            int addition = Integer.parseInt(infos[0]);
+            int deletion = Integer.parseInt(infos[1]);
+            String filePath = infos[2];
+
+            FileType fileType = config.getFileType(filePath);
+
+            if (fileTypesAndContribution.containsKey(fileType)) {
+                // update existing file type contribution
+                Map<String, Integer> prevContribution = fileTypesAndContribution.get(fileType);
+                prevContribution.replace(INSERTIONS, prevContribution.get(INSERTIONS) + addition);
+                prevContribution.replace(DELETIONS, prevContribution.get(DELETIONS) + deletion);
+            } else {
+                Map<String, Integer> contributionMap = new HashMap<>();
+                contributionMap.put(INSERTIONS, addition);
+                contributionMap.put(DELETIONS, deletion);
+                fileTypesAndContribution.put(fileType, contributionMap);
+            }
+        }
+        return fileTypesAndContribution;
     }
 
     /**

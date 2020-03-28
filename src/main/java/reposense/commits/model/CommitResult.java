@@ -2,6 +2,7 @@ package reposense.commits.model;
 
 import java.util.Arrays;
 import java.util.Date;
+import java.util.Map;
 
 import reposense.model.Author;
 import reposense.model.FileType;
@@ -14,15 +15,15 @@ public class CommitResult {
     private final String messageTitle;
     private final String messageBody;
     private final String[] tags;
-    private final FileType[] fileTypes;
+    private final Map<FileType, Map<String, Integer>> fileTypesAndContributionMap;
     private final int insertions;
     private final int deletions;
 
     private final transient Author author;
     private final transient Date time;
 
-    public CommitResult(Author author, String hash, Date time, String messageTitle,
-            String messageBody, String[] tags, int insertions, int deletions, FileType[] fileTypes) {
+    public CommitResult(Author author, String hash, Date time, String messageTitle, String messageBody, String[] tags,
+            int insertions, int deletions, Map<FileType, Map<String, Integer>> fileTypesAndContributionMap) {
         this.author = author;
         this.hash = hash;
         this.time = time;
@@ -31,7 +32,7 @@ public class CommitResult {
         this.tags = tags;
         this.insertions = insertions;
         this.deletions = deletions;
-        this.fileTypes = fileTypes;
+        this.fileTypesAndContributionMap = fileTypesAndContributionMap;
     }
 
     public String getMessageTitle() {
@@ -66,8 +67,8 @@ public class CommitResult {
         return deletions;
     }
 
-    public FileType[] getFileTypes() {
-        return fileTypes;
+    public Map<FileType, Map<String, Integer>> getFileTypesAndContributionMap() {
+        return fileTypesAndContributionMap;
     }
 
     @Override
@@ -89,6 +90,6 @@ public class CommitResult {
                 && Arrays.equals(tags, otherCommitResult.tags)
                 && insertions == otherCommitResult.insertions
                 && deletions == otherCommitResult.deletions
-                && Arrays.equals(fileTypes, otherCommitResult.fileTypes);
+                && fileTypesAndContributionMap.equals(otherCommitResult.fileTypesAndContributionMap);
     }
 }

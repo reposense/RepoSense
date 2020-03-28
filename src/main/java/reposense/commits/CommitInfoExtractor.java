@@ -20,7 +20,7 @@ import reposense.system.LogsManager;
 public class CommitInfoExtractor {
     private static final Logger logger = LogsManager.getLogger(CommitInfoExtractor.class);
     private static final String MESSAGE_START_EXTRACTING_COMMIT_INFO = "Extracting commits info for %s (%s)...";
-    private static final String STAT_INFO_DELIMITER = "?";
+    private static final String INFO_STAT_SEPARATOR = "|";
 
     private static final Pattern TRAILING_NEWLINES_PATTERN = Pattern.compile("\n+$");
 
@@ -60,8 +60,8 @@ public class CommitInfoExtractor {
             Matcher matcher = TRAILING_NEWLINES_PATTERN.matcher(rawCommitInfos[i]);
             String rawCommitInfo = matcher.replaceAll("");
 
-            int statLineSeparatorIndex = rawCommitInfo.lastIndexOf(STAT_INFO_DELIMITER);
-            String infoLine = rawCommitInfo.substring(0, statLineSeparatorIndex).trim();
+            int statLineSeparatorIndex = rawCommitInfo.lastIndexOf(INFO_STAT_SEPARATOR);
+            String infoLine = rawCommitInfo.substring(0, statLineSeparatorIndex);
             String statLine = rawCommitInfo.substring(statLineSeparatorIndex + 1).trim();
             commitInfos.add(new CommitInfo(infoLine, statLine));
         }

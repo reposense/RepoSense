@@ -663,14 +663,33 @@ window.vSummary = {
       return null;
     },
     filterCommitByCheckedFileTypes(commit) {
-      const commitResults = commit.commitResults
-          .filter((result) => this.isCommitFileTypesIncluded(result));
-      commit.insertions = commitResults.reduce((acc, result) => acc + result.insertions, 0);
-      commit.deletions = commitResults.reduce((acc, result) => acc + result.deletions, 0);
-      commit.commitResults = commitResults;
+      const filteredCommitResults = commit.commitResults.map((result) => {
+        const filteredFileTypes = this.getFilteredFileTypes(result);
+        this.updateCommitResultWithFileTypes(result, filteredFileTypes);
+        return result;
+      }).filter((result) => Object.values(result.fileTypesAndContributionMap).length > 0);
+
+      commit.insertions = filteredCommitResults.reduce((acc, result) => acc + result.insertions, 0);
+      commit.deletions = filteredCommitResults.reduce((acc, result) => acc + result.deletions, 0);
+      commit.commitResults = filteredCommitResults;
     },
-    isCommitFileTypesIncluded(commitResult) {
-      return commitResult.fileTypes.some((fileType) => this.checkedFileTypes.includes(fileType));
+    getFilteredFileTypes(commitResult) {
+      return Object.keys(commitResult.fileTypesAndContributionMap)
+          .filter((fileType) => this.isFileTypeIncluded(fileType))
+          .reduce((obj, fileType) => {
+            obj[fileType] = commitResult.fileTypesAndContributionMap[fileType];
+            return obj;
+          }, {});
+    },
+    isFileTypeIncluded(fileType) {
+      return this.checkedFileTypes.includes(fileType);
+    },
+    updateCommitResultWithFileTypes(commitResult, filteredFileTypes) {
+      commitResult.insertions = Object.values(filteredFileTypes)
+          .reduce((acc, fileType) => acc + fileType.insertions, 0);
+      commitResult.deletions = Object.values(filteredFileTypes)
+          .reduce((acc, fileType) => acc + fileType.deletions, 0);
+      commitResult.fileTypesAndContributionMap = filteredFileTypes;
     },
     getOptionWithOrder() {
       [this.sortingOption, this.isSortingDsc] = this.sortGroupSelection.split(' ');
