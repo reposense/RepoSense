@@ -154,9 +154,8 @@ public class CommitInfoAnalyzer {
         if (!filePath.contains(MOVED_FILE_INDICATION)) {
             return filePath;
         }
-        String filteredFilePath = filePath;
         // moved file has the format: fileA => newPosition/fileA
-        filteredFilePath = filteredFilePath.substring(filteredFilePath.indexOf(MOVED_FILE_INDICATION) + 3);
+        String filteredFilePath = filePath.substring(filePath.indexOf(MOVED_FILE_INDICATION) + 3);
         if (filteredFilePath.charAt(filteredFilePath.length() - 1) == '}') { // renamed file has ending '}' char
             filteredFilePath = filteredFilePath.substring(0, filteredFilePath.length() - 1);
         }
