@@ -4278,7 +4278,7 @@
             "messageTitle": "[Junit] Renamed class to EditTagCommandParserTest to match naming standards",
             "messageBody": "",
             "fileTypesAndContributionMap": {
-              "other": {
+              "code": {
                 "insertions": 1,
                 "deletions": 1
               }
@@ -4780,7 +4780,7 @@
             "messageTitle": "[Model] Renamed class to distinguish it from person Names, as both of them have different validation methods and cannot be put together yet",
             "messageBody": "",
             "fileTypesAndContributionMap": {
-              "other": {
+              "code": {
                 "insertions": 4,
                 "deletions": 4
               }
@@ -5307,7 +5307,7 @@
             "messageTitle": "[Model] Added setTasks for re-initialization process",
             "messageBody": "",
             "fileTypesAndContributionMap": {
-              "other": {
+              "code": {
                 "insertions": 13,
                 "deletions": 1
               }
@@ -6477,7 +6477,7 @@
             "messageTitle": "Rename AddTagCommentTest.java to AddTagCommandTest.java",
             "messageBody": "",
             "fileTypesAndContributionMap": {
-              "other": {
+              "code": {
                 "insertions": 0,
                 "deletions": 0
               }
