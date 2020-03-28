@@ -25,7 +25,7 @@ function getBaseTarget(target) {
 
 function deactivateAllOverlays() {
   document.querySelectorAll('.summary-chart__ramp .overlay')
-      .forEach((x) => { x.className = 'overlay'; });
+      .forEach((x) => { x.classList.add('overlay'); });
 }
 
 function dragViewDown(evt) {

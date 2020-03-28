@@ -108,7 +108,7 @@ window.vAuthorship = {
 
       const files = document.getElementsByClassName('file');
       Array.from(files).forEach((file) => {
-        file.className = renameValue;
+        file.classList.add(renameValue);
       });
 
       this.hasActiveFile = hasActiveFile;
