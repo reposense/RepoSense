@@ -142,7 +142,7 @@ public class FileInfoExtractorTest extends GitTestTemplate {
     }
 
     @Test
-    public void getFilesList_repoWithBothBinaryAndNonBinaryFiles_success() {
+    public void getFilesList_getNonBinaryFilesFromRepoWithBinaryFiles_success() {
         List<String> nonBinaryFilesList = Arrays.asList(
                 "binaryFileTest/nonBinaryFile.txt", "My Documents/wordToHtml.htm", "My Pictures/notPngPicture.png",
                 "My Documents/wordToHtml_files/colorschememapping.xml", "My Documents/wordToHtml_files/filelist.xml",
@@ -158,8 +158,20 @@ public class FileInfoExtractorTest extends GitTestTemplate {
         nonBinaryFilesList.forEach(nonBinFile -> Assert.assertTrue(nonBinaryFiles.contains(Paths.get(nonBinFile))));
         // Binary files should be ignored
         binaryFilesList.forEach(binFile -> Assert.assertFalse(nonBinaryFiles.contains(Paths.get(binFile))));
+    }
 
+    @Test
+    public void getFilesList_getBinaryFilesFromRepoWithNonBinaryFiles_success() {
+        List<String> nonBinaryFilesList = Arrays.asList(
+                "binaryFileTest/nonBinaryFile.txt", "My Documents/wordToHtml.htm", "My Pictures/notPngPicture.png",
+                "My Documents/wordToHtml_files/colorschememapping.xml", "My Documents/wordToHtml_files/filelist.xml",
+                "My Documents/notPdfDocument.pdf");
+        List<String> binaryFilesList = Arrays.asList(
+                "binaryFileTest/binaryFile.txt", "My Documents/word.docx", "My Documents/pdfDocument.pdf",
+                "My Documents/wordToHtml_files/themedata.thmx", "My Pictures/pngPicture.png");
+        GitCheckout.checkoutBranch(config.getRepoRoot(), BRANCH_WITH_BINARY_FILES);
         Set<Path> binaryFiles = FileInfoExtractor.getFilesList(config, true);
+
         Assert.assertEquals(5, binaryFiles.size());
         // Binary files should be captured
         binaryFilesList.forEach(binFile -> Assert.assertTrue(binaryFiles.contains(Paths.get(binFile))));
