@@ -136,13 +136,13 @@ public class FileInfoExtractor {
      * if {@code isBinaryFiles} is set to `false`.
      * Otherwise, returns a {@code Set} of binary files for the repo {@code repoConfig}
      */
-    public static Set<Path> getFilesList(RepoConfiguration repoConfig, boolean isBinaryFiles) {
+    public static Set<Path> getFilesList(RepoConfiguration repoConfig, boolean isBinaryFile) {
         List<String> modifiedFileList = GitDiff.getModifiedFilesList(Paths.get(repoConfig.getRepoRoot()));
 
         // Gets rid of files with invalid directory name and filters by whether file is binary.
         return modifiedFileList.stream()
-                .filter(file -> isBinaryFiles == file.startsWith(BINARY_FILE_LINE_DIFF_RESULT))
-                .map(rawNonBinaryFile -> rawNonBinaryFile.split("\t")[2])
+                .filter(file -> isBinaryFile == file.startsWith(BINARY_FILE_LINE_DIFF_RESULT))
+                .map(file -> file.split("\t")[2])
                 .filter(FileUtil::isValidPath)
                 .map(filteredFile -> Paths.get(filteredFile))
                 .collect(Collectors.toCollection(HashSet::new));
