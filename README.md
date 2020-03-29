@@ -26,8 +26,11 @@ Our project team and the list of contributors are [here](docs/Team.md).
 We welcome pull requests. Please read the [contribution guidelines](docs/Process.md#how-to-contribute-to-the-reposense-repository) before starting work on one.
 
 ## Acknowledgements
-The web previews of RepoSense is powered by Netlify.
+The web previews of RepoSense is powered by Netlify and Surge.
 
 <a href="https://www.netlify.com">
   <img src="https://www.netlify.com/img/global/badges/netlify-color-bg.svg"/>
+</a>
+<a href="https://surge.sh">
+  <img width="55px" src="https://surge.sh/images/logos/svg/surge-logo.svg">
 </a>
