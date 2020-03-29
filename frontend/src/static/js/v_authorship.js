@@ -53,6 +53,7 @@ window.vAuthorship = {
         this.filterSearch = '*';
       } else {
         this.selectedFileTypes = this.fileTypes.slice();
+        this.isBinaryFilesChecked = true;
       }
     },
   },
