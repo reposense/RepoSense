@@ -46,7 +46,10 @@
               span.bloc.medium-font ({{ totalBlankLineCount }})
           template(v-for="fileType in Object.keys(getFileTypeExistingLinesObj)")
             label(v-bind:key="fileType")
-              input.mui-checkbox--fileType(type="checkbox", v-bind:id="fileType", v-bind:value="fileType",
+              input.mui-checkbox--fileType(
+                type="checkbox",
+                v-bind:id="fileType",
+                v-bind:value="fileType",
                 v-on:click="indicateCheckBoxes", v-model="selectedFileTypes")
               span(v-bind:title="getFileTypeBlankLineInfo(fileType)")
                 span {{ fileType }}: {{ getFileTypeExistingLinesObj[fileType] }}&nbsp;
@@ -54,8 +57,9 @@
           label(v-if="numberOfBinaryFiles > 0")
             input.mui-checkbox--fileType(type="checkbox", v-bind:checked="isBinaryFilesChecked",
               v-on:change="selectBinaryFile")
-            span.binary-fileType(v-bind:title="this.numberOfBinaryFiles + \
-            ' binary files (not included in total line count)'")
+            span.binary-fileType(
+              v-bind:title="this.numberOfBinaryFiles + ' binary files (not included in total line count)'"
+            )
               span Binary: {{ numberOfBinaryFiles }}&nbsp;
 
   .files(v-if="isLoaded")
