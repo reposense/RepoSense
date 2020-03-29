@@ -175,7 +175,7 @@
           a(
             title="click to view breakdown of commits",
             onclick="deactivateAllOverlays()",
-            v-on:click="openTabZoom(user, filterSinceDate, filterUntilDate, repo, i)"
+            v-on:click="openTabZoom(user, filterSinceDate, filterUntilDate)"
           )
             i.icon-button.fas.fa-list-ul
           .summary-chart__title--percentile.mini-font(
@@ -184,7 +184,7 @@
 
         .summary-chart__ramp(
           onclick="viewClick(event)",
-          v-on:click="openTabZoomSubrange(user, repo, i)"
+          v-on:click="openTabZoomSubrange(user)"
         )
           v_ramp(
             v-bind:groupby="filterGroupSelection",
