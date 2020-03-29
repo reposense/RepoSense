@@ -1,0 +1,110 @@
+#summary-charts
+  .summary-charts(v-for="(repo, i) in filteredRepos")
+    .summary-charts__title(v-if="filterGroupSelection !== 'groupByNone'")
+      .summary-charts__title--index {{ i+1 }}
+      .summary-charts__title--groupname
+        template(v-if="filterGroupSelection === 'groupByRepos'") {{ repo[0].repoName }}
+        template(
+          v-else-if="filterGroupSelection === 'groupByAuthors'",
+          v-bind:class=" { warn: repo[0].name === '-' }"
+        ) {{ repo[0].displayName }} ({{ repo[0].name }})
+      .summary-charts__title--contribution.mini-font(
+        title="Total contribution of group"
+      ) [{{ getGroupTotalContribution(repo) }} lines]
+      template(v-if="isMergeGroup")
+        a(
+          v-if="filterGroupSelection === 'groupByRepos'",
+          v-bind:href="getRepoLink(repo[0])", target="_blank",
+          title="click to view group's repo"
+        )
+          i.icon-button.fab.fa-github
+        a(
+          v-else-if="filterGroupSelection === 'groupByAuthors'",
+          v-bind:href="getAuthorProfileLink(repo[0].name)", target="_blank",
+          title="click to view author's profile"
+        )
+          i.icon-button.fab.fa-github
+        a(
+          title="click to view breakdown of commits",
+          onclick="deactivateAllOverlays()",
+          v-on:click="openTabZoom(repo[0], filterSinceDate, filterUntilDate, repo, 0)"
+        )
+          i.icon-button.fas.fa-list-ul
+      .summary-charts__title--percentile.mini-font {{ getPercentile(i) }} %
+    .summary-charts__fileType--breakdown(v-if="filterBreakdown")
+      template(v-if="filterGroupSelection !== 'groupByNone'")
+        .summary-charts__fileType--breakdown__legend(
+          v-for="fileType in getFileTypes(repo)",
+          v-bind:key="fileType"
+        )
+          i.fas.fa-circle(
+            v-bind:style="{ 'color' : fileTypeColors[fileType] }"
+          )
+          span &nbsp; {{ fileType }} &nbsp;
+    .summary-chart(v-for="(user, i) in repo")
+      .summary-chart__title(v-if="!isMergeGroup")
+        .summary-chart__title--index {{ i+1 }}
+        .summary-chart__title--repo(v-if="filterGroupSelection === 'groupByNone'") {{ user.repoName }}
+        .summary-chart__title--author-repo(v-if="filterGroupSelection === 'groupByAuthors'") {{ user.repoName }}
+        .summary-chart__title--name(
+          v-if="filterGroupSelection !== 'groupByAuthors'",
+          v-bind:class="{ warn: user.name === '-' }"
+        ) {{ user.displayName }} ({{ user.name }})
+        .summary-chart__title--contribution.mini-font [{{ user.totalCommits }} lines]
+        a(
+          title="click to view author's code",
+          onclick="deactivateAllOverlays()",
+          v-on:click="openTabAuthorship(user, repo, i)"
+        )
+          i.icon-button.fas.fa-code
+        a(
+          v-bind:href="getRepoLink(repo[i])", target="_blank",
+          title="click to view author's repo"
+        )
+          i.icon-button.fab.fa-github
+        a(
+          title="click to view breakdown of commits",
+          onclick="deactivateAllOverlays()",
+          v-on:click="openTabZoom(user, filterSinceDate, filterUntilDate)"
+        )
+          i.icon-button.fas.fa-list-ul
+        .summary-chart__title--percentile.mini-font(
+          v-if="filterGroupSelection === 'groupByNone'"
+        ) {{ getPercentile(i) }} %
+
+      .summary-chart__ramp(
+        onclick="viewClick(event)",
+        v-on:click="openTabZoomSubrange(user)"
+      )
+        v-ramp(
+          v-bind:groupby="filterGroupSelection",
+          v-bind:user="user",
+          v-bind:tframe="filterTimeFrame",
+          v-bind:sdate="filterSinceDate",
+          v-bind:udate="filterUntilDate",
+          v-bind:avgsize="avgCommitSize",
+          v-bind:mergegroup="isMergeGroup")
+        .overlay
+
+      .summary-chart__contribution
+        template(v-if="filterBreakdown")
+          .summary-chart__contrib(
+            v-for="(widths, fileType) in getFileTypeContributionBars(user.fileTypeContribution)"
+          )
+            .summary-chart__contrib--bar(
+              v-for="width in widths",
+              v-bind:style="{ width: width + '%',\
+                'background-color': fileTypeColors[fileType] }",
+              v-bind:title="fileType + ': ' + user.fileTypeContribution[fileType] + ' lines, '\
+                + 'total: ' + user.totalCommits + ' lines ' + '(contribution from ' + minDate + ' to '\
+                + maxDate + ')'"
+            )
+        template(v-else)
+          .summary-chart__contrib(
+            v-bind:title="'Total contribution from ' + minDate + ' to ' + maxDate + ': '\
+              + user.totalCommits + ' lines'"
+          )
+            .summary-chart__contrib--bar(
+              v-for="width in getContributionBars(user.totalCommits)",
+              v-bind:style="{ width: width+'%' }"
+            )

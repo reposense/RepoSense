@@ -26,9 +26,7 @@ const repoCache = [];
 const minimatch = require('minimatch');
 
 window.vAuthorship = {
-  props: {
-    info: Object,
-  },
+  props: ['info'],
   template: window.$('v_authorship').innerHTML,
   data() {
     return {
@@ -42,17 +40,12 @@ window.vAuthorship = {
       totalBlankLineCount: '',
       filesSortType: 'lineOfCode',
       toReverseSortFiles: true,
-      hasActiveFile: true,
       filterSearch: '*',
       isBinaryFilesChecked: true,
     };
   },
 
   watch: {
-    selectedFiles() {
-      setTimeout(this.updateCount, 0);
-    },
-
     filterType() {
       if (this.filterType === 'checkboxes') {
         const searchBar = document.getElementById('search');
@@ -61,11 +54,6 @@ window.vAuthorship = {
       } else {
         this.selectedFileTypes = this.fileTypes.slice();
       }
-    },
-
-    info() {
-      this.initiate();
-      this.setInfoHash();
     },
   },
 
@@ -111,19 +99,22 @@ window.vAuthorship = {
       encodeHash();
     },
 
-    expandAll(hasActiveFile) {
-      const renameValue = hasActiveFile ? 'file active' : 'file';
-
-      const files = document.getElementsByClassName('file');
-      Array.from(files).forEach((file) => {
-        file.className = renameValue;
+    expandAll() {
+      this.selectedFiles.forEach((file) => {
+        file.active = true;
+        file.wasCodeLoaded = true;
       });
-
-      this.hasActiveFile = hasActiveFile;
     },
 
-    updateCount() {
-      this.hasActiveFile = document.getElementsByClassName('file active').length > 0;
+    collapseAll() {
+      this.selectedFiles.forEach((file) => {
+        file.active = false;
+      });
+    },
+
+    toggleFileActiveProperty(file) {
+      file.active = !file.active;
+      file.wasCodeLoaded = file.wasCodeLoaded || file.active;
     },
 
     hasCommits(info) {
@@ -171,6 +162,7 @@ window.vAuthorship = {
     },
 
     processFiles(files) {
+      const COLLAPSED_VIEW_LINE_COUNT_THRESHOLD = 2000;
       const res = [];
       const fileTypeBlanksInfoObj = {};
       let totalLineCount = 0;
@@ -188,6 +180,8 @@ window.vAuthorship = {
           path: file.path,
           fileType: file.fileType,
           lineCount: lineCnt,
+          active: lineCnt <= COLLAPSED_VIEW_LINE_COUNT_THRESHOLD,
+          wasCodeLoaded: lineCnt <= COLLAPSED_VIEW_LINE_COUNT_THRESHOLD,
           isBinary: file.isBinary,
         };
 
@@ -304,6 +298,10 @@ window.vAuthorship = {
           .sort(this.sortingFunction);
     },
 
+    activeFilesCount() {
+      return this.selectedFiles.filter((file) => file.active).length;
+    },
+
     getFileTypeExistingLinesObj() {
       const numLinesModified = {};
       Object.entries(this.filesLinesObj)
@@ -323,7 +321,8 @@ window.vAuthorship = {
     this.initiate();
     this.setInfoHash();
   },
+
   components: {
-    v_segment: window.vSegment,
+    vSegment: window.vSegment,
   },
 };

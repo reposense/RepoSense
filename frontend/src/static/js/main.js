@@ -106,29 +106,11 @@ window.app = new window.Vue({
     userUpdated: false,
 
     isLoading: false,
+    isCollapsed: false,
     isTabActive: true, // to force tab wrapper to load
 
     tabType: 'empty',
-    tabInfo: {
-      tabAuthorship: {
-        author: '',
-        location: '',
-        maxDate: '',
-        minDate: '',
-        name: '',
-        repo: '',
-      },
-      tabZoom: {
-        avgCommitSize: 0,
-        filterGroupSelection: '',
-        filterTimeFrame: '',
-        location: '',
-        isMergeGroup: false,
-        sinceDate: '',
-        untilDate: '',
-        user: null,
-      },
-    },
+    tabInfo: {},
     creationDate: '',
 
     errorMessages: {},
@@ -189,11 +171,14 @@ window.app = new window.Vue({
 
     // handle opening of sidebar //
     activateTab(tabName) {
+      // changing isTabActive to trigger redrawing of component
+      this.isTabActive = false;
       if (document.getElementById('tabs-wrapper')) {
         document.getElementById('tabs-wrapper').scrollTop = 0;
       }
 
       this.isTabActive = true;
+      this.isCollapsed = false;
       this.tabType = tabName;
 
       window.addHash('tabOpen', this.isTabActive);
@@ -204,18 +189,40 @@ window.app = new window.Vue({
     deactivateTab() {
       this.isTabActive = false;
       window.addHash('tabOpen', this.isTabActive);
-      window.removeHash('tabAuthor');
-      window.removeHash('tabRepo');
       window.removeHash('tabType');
+      this.removeZoomHashes();
+      this.removeAuthorshipHashes();
       window.encodeHash();
     },
 
+    removeAuthorshipHashes() {
+      window.removeHash('tabAuthor');
+      window.removeHash('tabRepo');
+    },
+
+    removeZoomHashes() {
+      window.removeHash('zA');
+      window.removeHash('zR');
+      window.removeHash('zACS');
+      window.removeHash('zS');
+      window.removeHash('zU');
+      window.removeHash('zFGS');
+      window.removeHash('zFTF');
+      window.removeHash('zMG');
+      window.removeHash('zSO');
+      window.removeHash('zSWO');
+      window.removeHash('zSD');
+      window.removeHash('zSWD');
+    },
+
     updateTabAuthorship(obj) {
-      this.tabInfo.tabAuthorship = Object.assign({}, this.tabInfo.tabAuthorship, obj);
+      this.removeZoomHashes();
+      this.tabInfo.tabAuthorship = Object.assign({}, obj);
       this.activateTab('authorship');
     },
     updateTabZoom(obj) {
-      this.tabInfo.tabZoom = Object.assign({}, this.tabInfo.tabZoom, obj);
+      this.removeAuthorshipHashes();
+      this.tabInfo.tabZoom = Object.assign({}, obj);
       this.activateTab('zoom');
     },
 
@@ -240,6 +247,30 @@ window.app = new window.Vue({
       }
     },
 
+    renderZoomTabHash() {
+      const hash = window.hashParams;
+      const zoomInfo = {
+        zAuthor: hash.zA,
+        zRepo: hash.zR,
+        zAvgCommitSize: hash.zACS,
+        zSince: hash.zS,
+        zUntil: hash.zU,
+        zFilterGroup: hash.zFGS,
+        zTimeFrame: hash.zFTF,
+        zIsMerge: hash.zMG === 'true',
+        zSorting: hash.zSO,
+        zSortingWithin: hash.zSWO,
+        zIsSortingDsc: hash.zSD === 'true',
+        zIsSortingWithinDsc: hash.zSWD === 'true',
+      };
+      const tabInfoLength = Object.values(zoomInfo).filter((x) => x !== null).length;
+      if (Object.keys(zoomInfo).length === tabInfoLength) {
+        this.updateTabZoom(zoomInfo);
+      } else if (hash.tabOpen === 'false' || tabInfoLength > 2) {
+        window.app.isTabActive = false;
+      }
+    },
+
     renderTabHash() {
       window.decodeHash();
       const hash = window.hashParams;
@@ -257,9 +288,13 @@ window.app = new window.Vue({
           until = until || window.app.untilDate;
           this.renderAuthorShipTabHash(since, until);
         } else {
-          // handle zoom tab if needed
+          this.renderZoomTabHash();
         }
       }
+    },
+
+    generateKey(dataObj) {
+      return JSON.stringify(dataObj);
     },
 
     getRepoSenseHomeLink() {
@@ -283,9 +318,9 @@ window.app = new window.Vue({
     },
   },
   components: {
-    v_zoom: window.vZoom,
-    v_summary: window.vSummary,
-    v_authorship: window.vAuthorship,
+    vZoom: window.vZoom,
+    vSummary: window.vSummary,
+    vAuthorship: window.vAuthorship,
     CircleSpinner: window.VueLoadingSpinner.Circle,
   },
   created() {
