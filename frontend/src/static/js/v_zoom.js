@@ -22,13 +22,13 @@ window.vZoom = {
     },
     filteredUser() {
       const {
-        user, sinceDate, untilDate, filterTimeFrame,
+        zUser, zSince, zUntil, zTimeFrame,
       } = this.info;
-      const filteredUser = Object.assign({}, user);
+      const filteredUser = Object.assign({}, zUser);
 
-      const date = filterTimeFrame === 'week' ? 'endDate' : 'date';
-      filteredUser.commits = user.commits.filter(
-          (commit) => commit[date] >= sinceDate && commit[date] <= untilDate,
+      const date = zTimeFrame === 'week' ? 'endDate' : 'date';
+      filteredUser.commits = zUser.commits.filter(
+          (commit) => commit[date] >= zSince && commit[date] <= zUntil,
       ).sort(this.sortingFunction);
 
       return filteredUser;
@@ -47,15 +47,21 @@ window.vZoom = {
     },
   },
   methods: {
+    initiate() {
+      if (!this.info.zUser) { // restoring zoom tab from reloaded page
+        this.restoreZoomTab();
+      }
+      this.setInfoHash();
+    },
     openSummary() {
-      this.$emit('view-summary', this.info.sinceDate, this.info.untilDate);
+      this.$emit('view-summary', this.info.zSince, this.info.zUntil);
     },
 
     getSliceLink(slice) {
       if (this.info.isMergeGroup) {
         return `${window.getBaseLink(slice.repoId)}/commit/${slice.hash}`;
       }
-      return `${window.getBaseLink(this.info.user.repoId)}/commit/${slice.hash}`;
+      return `${window.getBaseLink(this.info.zUser.repoId)}/commit/${slice.hash}`;
     },
 
     scrollToCommit(tag, commit) {
@@ -63,6 +69,33 @@ window.vZoom = {
       if (el) {
         el.focus();
       }
+    },
+
+    restoreZoomTab() {
+      // restore selected user's commits from v_summary
+      this.$root.$emit('restoreCommits', this.info);
+    },
+
+    setInfoHash() {
+      const { addHash, encodeHash } = window;
+      const {
+        zAvgCommitSize, zSince, zUntil, zFilterGroup, zTimeFrame, zIsMerge, zSorting,
+        zSortingWithin, zIsSortingDsc, zIsSortingWithinDsc, zAuthor, zRepo,
+      } = this.info;
+
+      addHash('zA', zAuthor);
+      addHash('zR', zRepo);
+      addHash('zACS', zAvgCommitSize);
+      addHash('zS', zSince);
+      addHash('zU', zUntil);
+      addHash('zMG', zIsMerge);
+      addHash('zFTF', zTimeFrame);
+      addHash('zFGS', zFilterGroup);
+      addHash('zSO', zSorting);
+      addHash('zSWO', zSortingWithin);
+      addHash('zSD', zIsSortingDsc);
+      addHash('zSWD', zIsSortingWithinDsc);
+      encodeHash();
     },
 
     toggleAllCommitMessagesBody(isActive) {
@@ -82,6 +115,9 @@ window.vZoom = {
       this.expandedCommitMessagesCount = document.getElementsByClassName('commit-message message-body active')
           .length;
     },
+  },
+  created() {
+    this.initiate();
   },
   mounted() {
     this.updateExpandedCommitMessagesCount();
