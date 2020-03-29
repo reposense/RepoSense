@@ -60,7 +60,7 @@ after_success:
   - |
     if [ "$TRAVIS_JOB_NAME" = "Ubuntu 14.04 JDK 8" ];
     then
-      git fetch --all && git config --global user.email "-" && git config --global user.name "-" && ./gradlew run -Dargs="--since d1 --config ./config/"
+      git fetch --all && git config --global user.email "-" && git config --global user.name "-" && ./gradlew run -Dargs="--since d1"
       npm install -g surge
       ./config/travis/deploy-surge.sh
     fi
