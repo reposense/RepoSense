@@ -45,7 +45,7 @@ public class AuthorTest {
         Assert.assertEquals(2, author.getIgnoreGlobList().size());
         Assert.assertTrue(author.getIgnoreGlobList().containsAll(Arrays.asList(ignoreGlobs)));
         Arrays.stream(testPaths).forEach(value ->
-                Assert.assertTrue(author.getIgnoreGlobMatcher().matches(Paths.get(value))));
+                Assert.assertTrue(author.isIgnoringFile(Paths.get(value))));
     }
 
     @Test(expected = IllegalArgumentException.class)
@@ -84,7 +84,7 @@ public class AuthorTest {
         Assert.assertEquals(4, author.getIgnoreGlobList().size());
         Assert.assertTrue(author.getIgnoreGlobList().containsAll(ignoreGlobList));
         Arrays.stream(testPaths).forEach(value ->
-                Assert.assertTrue(author.getIgnoreGlobMatcher().matches(Paths.get(value))));
+                Assert.assertTrue(author.isIgnoringFile(Paths.get(value))));
     }
 
     @Test(expected = IllegalArgumentException.class)

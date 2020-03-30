@@ -2,6 +2,14 @@
 
 /* Authorship */
 #tab-authorship {
+
+  .file-content {
+    background-color: mui-color('github', 'title-background');
+    border: solid mui-color('github', 'border');
+    border-radius: 0 0 4px 4px;
+    border-width: 0 1px 1px 1px;
+  }
+
   .title {
     .repoName {
       cursor: pointer;
@@ -95,28 +103,38 @@
     .file {
       pre {
         display: none;
+        // GitHub's font family and font size
+        font-family: SFMono-Regular, Consolas, Liberation Mono, Menlo, monospace;
+        font-size: 12px;
       }
 
       &.active {
         pre {
           display: grid;
+          margin-top: 0;
 
           .hljs {
             // overwrite hljs library
             display: inherit;
             padding: 0;
+            white-space: pre-wrap;
           }
         }
       }
     }
 
     .title {
-      font-size: 1.25rem;
+      background-color: mui-color('github', 'title-background');
+      border: 1px solid mui-color('github', 'border');
+      border-radius: 4px 4px 0 0;
+      font-size: medium;
       font-weight: bold;
       margin-top: 1rem;
+      padding: .3em .5em;
 
       .path {
         cursor: pointer;
+        overflow-wrap: break-word;
       }
 
       .loc {
@@ -125,7 +143,6 @@
 
       .button {
         color: mui-color('grey');
-        font-size: 1.15rem;
         margin-left: .5rem;
         text-decoration: none;
       }
@@ -135,7 +152,7 @@
       border-left: .25rem solid mui-color('green');
 
       .code {
-        background-color: mui-color('green', '50');
+        background-color: mui-color('github', 'authored-code-background');
         padding-left: 1rem;
       }
 
@@ -159,6 +176,7 @@
 
       .line-content {
         padding-left: 2rem;
+        word-break: break-word;
       }
 
       &.untouched {

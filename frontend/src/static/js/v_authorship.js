@@ -42,20 +42,14 @@ window.vAuthorship = {
       toReverseSortFiles: true,
       hasActiveFile: true,
       filterSearch: '*',
-      sortingFunction: (a, b) => -1 * window.comparator(filesSortDict.lineOfCode)(a, b),
     };
   },
 
   watch: {
-    filesSortType() {
-      this.sortFiles();
-    },
-    toReverseSortFiles() {
-      this.sortFiles();
-    },
     selectedFiles() {
       setTimeout(this.updateCount, 0);
     },
+
     filterType() {
       if (this.filterType === 'checkboxes') {
         const searchBar = document.getElementById('search');
@@ -218,11 +212,6 @@ window.vAuthorship = {
       filesInfoObj[fileType] += lineCount;
     },
 
-    sortFiles() {
-      this.sortingFunction = (a, b) => (this.toReverseSortFiles ? -1 : 1)
-          * window.comparator(filesSortDict[this.filesSortType])(a, b);
-    },
-
     updateFilterSearch(evt) {
       if (this.filterType === 'checkboxes') {
         this.indicateSearchBar();
@@ -264,6 +253,11 @@ window.vAuthorship = {
   },
 
   computed: {
+    sortingFunction() {
+      return (a, b) => (this.toReverseSortFiles ? -1 : 1)
+        * window.comparator(filesSortDict[this.filesSortType])(a, b);
+    },
+
     isSelectAllChecked: {
       get() {
         return this.selectedFileTypes.length === this.fileTypes.length;
@@ -279,11 +273,13 @@ window.vAuthorship = {
         }
       },
     },
+
     selectedFiles() {
       return this.files.filter((file) => this.selectedFileTypes.includes(file.fileType)
-          && minimatch(file.path, this.filterSearch, { matchBase: true }))
+          && minimatch(file.path, this.filterSearch, { matchBase: true, dot: true }))
           .sort(this.sortingFunction);
     },
+
     getFileTypeExistingLinesObj() {
       const numLinesModified = {};
       Object.entries(this.filesLinesObj)

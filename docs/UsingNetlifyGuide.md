@@ -1,10 +1,10 @@
-## Using RepoSense with Netlify 
-                                 
+## Using RepoSense with Netlify
+
 Netlify's continuous web deployment platform enables you to deploy RepoSense online, analyzes your target repository(s) and generates the git contribution report in real time for free. The deployment can be synchronized to the updates on your target repository(s) and you can perform everything through the browser without downloading any files.
 
 1. Fork the RepoSense repository using this [link](https://github.com/repoSense/RepoSense/fork).
 1. Follow this [guide](https://www.netlify.com/blog/2016/09/29/a-step-by-step-guide-deploying-on-netlify/) to set up Netlify in your forked repository. You will need to use the following in [Step 5](https://www.netlify.com/blog/2016/09/29/a-step-by-step-guide-deploying-on-netlify/#step-5-configure-your-settings):
-   
+
    **Build command**:
    ```
    ./gradlew run -Dargs="--repos YOUR_TARGET_REPO"
@@ -13,8 +13,8 @@ Netlify's continuous web deployment platform enables you to deploy RepoSense onl
    ```
    ./reposense-report
    ```
-   
-These steps will allow you to take the first look at your report. To enable continuous deployment of the report, refer below to [Continuous deployment using Netlify](#continuous-deployment-using-netlify) for further instructions. 
+
+These steps will allow you to take the first look at your report. To enable continuous deployment of the report, refer below to [Continuous deployment using Netlify](#continuous-deployment-using-netlify) for further instructions.
 
 
 ### Continuous deployment using Netlify
@@ -42,7 +42,7 @@ Using `config files` lets you generate a more customised report. Please refer to
 In **Step 5** for **Build Command** use:
 
 ```
-./gradlew run -Dargs="--config ./configs/"
+./gradlew run -Dargs="--config ./config/"
 ```
 
 Alternatively, if you want to customise the location of the config files, use:

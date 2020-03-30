@@ -20,7 +20,7 @@ public class GitDiff {
      */
     public static String diffCommit(String root, String lastCommitHash) {
         Path rootPath = Paths.get(root);
-        return runCommand(rootPath, "git diff -U0 " + lastCommitHash);
+        return runCommand(rootPath, "git diff -U0 --ignore-submodules=all " + lastCommitHash);
     }
 
     /**
@@ -28,7 +28,8 @@ public class GitDiff {
      * {@code repoRoot}.
      */
     public static List<String> getModifiedFilesList(Path repoRoot) {
-        String diffCommand = String.format("git diff --numstat %s %s", EMPTY_TREE_HASH, CHECKED_OUT_COMMIT_REFERENCE);
+        String diffCommand = String.format("git diff --ignore-submodules=all --numstat %s %s",
+                EMPTY_TREE_HASH, CHECKED_OUT_COMMIT_REFERENCE);
         String diffResult = runCommand(repoRoot.toAbsolutePath(), diffCommand);
         return Arrays.asList(diffResult.split("\n"));
     }
