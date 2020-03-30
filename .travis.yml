@@ -47,9 +47,6 @@ before_cache:
   - rm -f  $HOME/.gradle/caches/modules-2/modules-2.lock
   - rm -fr $HOME/.gradle/caches/*/plugin-resolution/
 
-after_success:
-  - git fetch --unshallow && ./gradlew run -Dargs="-V"
-
 cache:
   npm: true,
   directories:
@@ -60,3 +57,10 @@ cache:
 
 after_success:
   - bash <(curl -s https://codecov.io/bash)
+  - |
+    if [ "$TRAVIS_JOB_NAME" = "Ubuntu 14.04 JDK 8" ];
+    then
+      git fetch --all && git config --global user.email "-" && git config --global user.name "-" && ./gradlew run -Dargs="--since d1"
+      npm install -g surge
+      ./config/travis/deploy-surge.sh
+    fi

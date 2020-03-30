@@ -70,7 +70,8 @@ public class RepoSense {
                     cliArguments.getOutputFilePath().toAbsolutePath().toString(),
                     formatter.format(ZonedDateTime.now(cliArguments.getZoneId())),
                     cliArguments.getSinceDate(), cliArguments.getUntilDate(),
-                    cliArguments.isSinceDateProvided(), cliArguments.isUntilDateProvided());
+                    cliArguments.isSinceDateProvided(), cliArguments.isUntilDateProvided(),
+                    TimeUtil::getElapsedTime);
             FileUtil.zipFoldersAndFiles(reportFoldersAndFiles, cliArguments.getOutputFilePath().toAbsolutePath(),
                     ".json");
 
