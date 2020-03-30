@@ -4,7 +4,7 @@
     a(v-if="expandedCommitMessagesCount === 0", v-on:click="toggleAllCommitMessagesBody(true)") show all commit messages
     a(v-else, v-on:click="toggleAllCommitMessagesBody(false)") hide all commit messages
   .panel-heading
-    .repoName.large-font
+    .groupName.large-font
       span(
         v-if="info.filterGroupSelection === 'groupByAuthors'"
       ) {{ filteredUser.displayName }} ({{ filteredUser.name }})

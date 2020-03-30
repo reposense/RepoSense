@@ -4,7 +4,7 @@
     a(v-if="hasActiveFile", v-on:click="expandAll(false)") hide all file details
     a(v-else, v-on:click="expandAll(true)") show all file details
   .panel-heading
-    a.repoName.large-font(
+    a.groupName.large-font(
       v-bind:href="info.location", target="_blank",
       v-bind:title="'Click to open the repo'"
     ) {{ info.repo }}
