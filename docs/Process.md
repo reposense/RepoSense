@@ -1,3 +1,9 @@
+<frontmatter>
+  header: header.md
+  footer: footer.md
+  siteNav: processNavigation.md
+</frontmatter>
+
 # Process
 
 We generally follow the  [The OSS-Generic Reference Process](https://oss-generic.github.io/process/) but with the following deviations.

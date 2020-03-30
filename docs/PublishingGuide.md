@@ -1,3 +1,9 @@
+<frontmatter>
+  header: header.md
+  footer: footer.md
+  sideNav: publishingGuideNavigation.md
+</frontmatter>
+
 ## Automate publishing of your report to GitHub Pages
 
 You can use either [Travis-CI](https://travis-ci.org/) or [GitHub Actions](https://github.com/features/actions) to automate RepoSense report generation and publish the report online to [GitHub Pages](https://pages.github.com/) for free.

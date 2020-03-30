@@ -257,13 +257,13 @@ The summary view acts as the main report which shows the various calculations. <
 The tabbed interface is responsible for loading various modules such as authorship and zoom to display additional information.
 
 ### Javascript Files
-- [**main.js**](#main-mainjs) - main controller that pushes content into different modules
-- [**api.js**](#data-loader-apijs) - loading and parsing of the report content
-- [**v_summary.js**](#summary-view-v_summaryjs) - module that supports the summary view
-- [**v_authorship.js**](#authorship-view-v_authorshipjs) - module that supports the authorship tab view
-- [**v_zoom.js**](#zoom-view-v_zoomjs) - module that supports the zoom tab view
-- [**v_ramp.js**](#ramp-view-v_rampjs) - module that supports the ramp chart view
-- [**v_segment.js**](#segment-view-v_segmentjs) - module that supports the code segment view
+- [**main.js**](#main-main-js) - main controller that pushes content into different modules
+- [**api.js**](#data-loader-api-js) - loading and parsing of the report content
+- [**v_summary.js**](#summary-view-v-summary-js) - module that supports the summary view
+- [**v_authorship.js**](#authorship-view-v-authorshipjs) - module that supports the authorship tab view
+- [**v_zoom.js**](#zoom-view-v-zoom-js) - module that supports the zoom tab view
+- [**v_ramp.js**](#ramp-view-v-ramp-js) - module that supports the ramp chart view
+- [**v_segment.js**](#segment-view-v-segment-js) - module that supports the code segment view
 
 ### JSON Report Files
 - **summary.json** - a list of all the repositories and their respective details

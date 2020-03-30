@@ -1,3 +1,9 @@
+<frontmatter>
+  header: header.md
+  footer: footer.md
+  siteNav: ugNavigation.md
+</frontmatter>
+
 # Build from Source
 
 This guide explains how to compile the executable Jar.

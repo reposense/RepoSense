@@ -1,3 +1,9 @@
+<frontmatter>
+  header: header.md
+  footer: footer.md
+  siteNav: usingCheckstyleNavigation.md
+</frontmatter>
+
 # Using Checkstyle-IDEA
 
 ## Configuring Checkstyle-IDEA

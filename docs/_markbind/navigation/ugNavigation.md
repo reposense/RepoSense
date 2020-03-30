@@ -13,12 +13,12 @@
 * [Customizing the Analysis]({{baseUrl}}/UserGuide.html#customizing-the-analysis)
   * [Customize Using Command Line Parameters]({{baseUrl}}/UserGuide.html#customize-using-command-line-parameters)
   * [Customize Using csv Config Files]({{baseUrl}}/UserGuide.html#customize-using-csv-config-files)
-    * [`repo-config.csv`]({{baseUrl}}/UserGuide.html#repo-configcsv)
-    * [`author-config.csv`]({{baseUrl}}/UserGuide.html#author-configcsv)
-    * [`group-config.csv`]({{baseUrl}}/UserGuide.html#group-configcsv)
+    * [`repo-config.csv`]({{baseUrl}}/UserGuide.html#repo-config-csv)
+    * [`author-config.csv`]({{baseUrl}}/UserGuide.html#author-config-csv)
+    * [`group-config.csv`]({{baseUrl}}/UserGuide.html#group-config-csv)
 * [Analyzing Multiple Repos]({{baseUrl}}/UserGuide.html#analyzing-multiple-repos)
 * [Quickstart RepoSense with Netlify]({{baseUrl}}/UserGuide.html#quickstart-reposense-with-netlify)
-* [Using Travis-CI to automate publishing of the report to GitHub Pages]({{baseUrl}}/UserGuide.html#using-travis-ci-to-automate-publishing-of-the-report-to-github-pages)
+* [Using Travis-CI to automate publishing of the report to GitHub Pages]({{baseUrl}}/UserGuide.html#automating-publishing-of-the-report-to-github-pages)
 * [FAQ]({{baseUrl}}/UserGuide.html#faq)
 
 </navigation>
