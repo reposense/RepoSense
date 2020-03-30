@@ -1,6 +1,6 @@
 {
   "baseUrl": "",
-  "titlePrefix": "",
+  "titlePrefix": "RepoSense",
   "ignore": [
     "_markbind/layouts/*",
     "_markbind/logs/*",
@@ -15,7 +15,7 @@
   "pages": [
     {
       "src": "index.md",
-      "title": "RepoSense"
+      "title": "Home"
     },
     {
       "glob": [

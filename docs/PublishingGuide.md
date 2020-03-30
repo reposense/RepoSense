@@ -1,7 +1,7 @@
 <frontmatter>
   header: header.md
   footer: footer.md
-  sideNav: publishingGuideNavigation.md
+  siteNav: publishingGuideNavigation.md
 </frontmatter>
 
 # Automate publishing of your report to GitHub Pages
