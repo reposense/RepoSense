@@ -49,7 +49,7 @@ do
 
   MARKBIND_DEPLOY_DOMAIN=https://docs-${DEPLOY_SUBDOMAIN}-${REPO_NAME}-${REPO_OWNER}.surge.sh
   echo "Deploy domain: ${MARKBIND_DEPLOY_DOMAIN}"
-  surge --project ${MARKBIND_DEPLOY_PATH} --domain MARKBIND_DEPLOY_DOMAIN;
+  surge --project ${MARKBIND_DEPLOY_PATH} --domain $MARKBIND_DEPLOY_DOMAIN;
 
   if [ "$TRAVIS_PULL_REQUEST" != "false" ] # only create github statuses when it is a PR
   then

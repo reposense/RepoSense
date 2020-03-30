@@ -65,8 +65,6 @@ after_success:
       npm install -g markbind-cli
       cd markbind
       markbind build
-      ls
       cd ..
-      ls
       ./config/travis/deploy-surge.sh
     fi
