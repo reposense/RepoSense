@@ -67,5 +67,6 @@ after_success:
       cd markbind
       markbind build
       cd ..
+      chmod +x /config/travis/deploy-markbind-surge.sh
       ./config/travis/deploy-markbind-surge.sh
     fi
