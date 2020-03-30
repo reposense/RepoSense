@@ -4,11 +4,11 @@
   sideNav: publishingGuideNavigation.md
 </frontmatter>
 
-## Automate publishing of your report to GitHub Pages
+# Automate publishing of your report to GitHub Pages
 
 You can use either [Travis-CI](https://travis-ci.org/) or [GitHub Actions](https://github.com/features/actions) to automate RepoSense report generation and publish the report online to [GitHub Pages](https://pages.github.com/) for free.
 
-### Using Travis
+## Using Travis
 
 1. Fork publish-RepoSense repository using this [link](https://github.com/RepoSense/publish-RepoSense/fork).
 1. Follow this [section](#granting-write-access-to-reposense-for-publishing) to generate a `personal access token` or `deploy key` on GitHub for report publishing. 
@@ -27,7 +27,7 @@ You can use either [Travis-CI](https://travis-ci.org/) or [GitHub Actions](https
 It takes a few minutes for report generation. Meanwhile, you can monitor the progress live at [Travis-CI's Builds](https://travis-ci.org/dashboard/builds). <br/>
 Try accessing your site again when a green tick appears beside your fork.
 
-### Using GitHub Actions
+## Using GitHub Actions
 
 1. Fork publish-RepoSense repository using this [link](https://github.com/RepoSense/publish-RepoSense/fork).
 1. Follow this [section](#granting-write-access-to-reposense-for-publishing) to generate a `personal access token` or `deploy key` on GitHub for report publishing. 
@@ -41,14 +41,14 @@ Try accessing your site again when a green tick appears beside your fork.
 It takes a few minutes for report generation. Meanwhile, you can monitor the progress live at the [actions page](../../../../publish-RepoSense/actions) of your fork. <br/>
 
 
-### Granting write-access to RepoSense for publishing
+## Granting write-access to RepoSense for publishing
 We recommmend use of [personal access token](https://github.blog/2013-05-16-personal-api-tokens/) for ease of setup and [deploy key](https://developer.github.com/v3/guides/managing-deploy-keys/#deploy-keys) for enhanced security.
 
-##### If you wish to use `personal access token`:
+### If you wish to use `personal access token`:
 1. Follow this [guide](https://help.github.com/articles/creating-a-personal-access-token-for-the-command-line/) and give only `public_repo` permission.
 1. **Copy** the token for later use.
 
-##### If you wish to use `deploy key`:
+### If you wish to use `deploy key`:
 > For Windows users, `ssh-keygen` and `base64` are accessible using [`Git Bash`](https://gitforwindows.org/).
 
 1. Use `ssh-keygen` to create a public/private key pair without a passphrase. <br/>
@@ -57,9 +57,9 @@ i.e. `ssh-keygen -t ecdsa -b 521 -f id_reposense -q -N ""`
 1. **Copy** the base64 encoded content of the private key for later use. <br/>
 i.e. `cat id_reposense | base64 -w 0`
 
-### Keeping your site up-to-date with your code contribution
+## Keeping your site up-to-date with your code contribution
 
-#### Using Travis
+### Using Travis
 
 [Travis-CI](https://travis-ci.org/) offers `Cron Jobs` in intervals of daily, weekly or monthly.
 
@@ -73,7 +73,7 @@ Alternatively, you can manually trigger an update.
 1. Go to [your fork in Travis-CI](https://travis-ci.org/search/publish-RepoSense/), click on **More options** on the right then **Trigger build**.
 1. In the pop up, click **Trigger custom build**.
 
-#### Using GitHub Actions
+### Using GitHub Actions
 
 1. Edit [main.yml](../../../../publish-RepoSense/edit/master/.github/workflows/main.yml) and uncomment the `schedule:` section.
 1. You may change the expression after `cron:` to a schedule of your choice. Read more about cron syntax [here](https://help.github.com/en/actions/reference/events-that-trigger-workflows#scheduled-events-schedule).
@@ -81,12 +81,12 @@ Alternatively, you can manually trigger an update.
 
 Alternatively, you can trigger an update by pushing an empty commit to your fork. Currently, the GitHub Actions UI does not support the manual execution of workflows.
 
-### Specifying which version of RepoSense to use
+## Specifying which version of RepoSense to use
 
 As RepoSense is being actively developed, its master branch is frequently updated with new features and fixes. <br/>
 For stablility or familiarity, you may want to use the release. <br/>
 
-#### Use our latest release (Stable)
+### Use our latest release (Stable)
 
 You can find the changelog of latest release [here](https://github.com/reposense/RepoSense/releases/latest).
 
@@ -95,7 +95,7 @@ Edit line 10 of [run.sh](../../../../publish-RepoSense/edit/master/run.sh) to us
 10   ./get-reposense.py --release
 ```
 
-#### Use our master branch (Beta)
+### Use our master branch (Beta)
 
 You can find the list of commits to master branch [here](https://github.com/reposense/RepoSense/commits/master) and planned features/fixes [here](https://github.com/reposense/RepoSense/milestones).
 
@@ -103,7 +103,7 @@ Edit line 10 of [run.sh](../../../../publish-RepoSense/edit/master/run.sh) to us
 ```
 10   ./get-reposense.py --master
 ```
-#### Use a specific version of release
+### Use a specific version of release
 
 Be sure to read and understand [all breaking changes and bugs](https://github.com/reposense/RepoSense/releases) before proceeding.
 
@@ -111,7 +111,7 @@ Edit line 10 of [run.sh](../../../../publish-RepoSense/edit/master/run.sh) to us
 ```
 10   ./get-reposense.py --tag v1.6.1
 ```
-### Managing your configuration files with the help of collaborators
+## Managing your configuration files with the help of collaborators
 
 If you use RepoSense to monitor a large number of collaborators, it may be more systematic to have them update their git configurations into your fork using pull-requests.
 
