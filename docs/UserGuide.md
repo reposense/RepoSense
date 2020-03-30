@@ -1,33 +1,17 @@
+<frontmatter>
+  header: header.md
+  footer: footer.md
+  siteNav: ugNavigation.md
+</frontmatter>
+
 # RepoSense - User Guide
-
-* [Getting Started](#getting-started)
-* [Interpreting the Report](#interpreting-the-report)
-  * [Chart Panel](#chart-panel)
-  * [Code Panel](#code-panel)
-  * [Commits Panel](#commits-panel)
-  * [Tool Bar](#tool-bar)
-* [Configuring a Repo to Provide Additional Data to RepoSense](#configuring-a-repo-to-provide-additional-data-to-reposense)
-  * [Provide Data Using a json Config File](#provide-data-using-a-json-config-file)
-  * [Provide Data Using `@@author` Tags](#provide-data-using-author-tags)
-* [Customizing the Analysis](#customizing-the-analysis)
-  * [Customize Using Command Line Parameters](#customize-using-command-line-parameters)
-  * [Customize Using csv Config Files](#customize-using-csv-config-files)
-    * [`repo-config.csv`](#repo-configcsv)
-    * [`author-config.csv`](#author-configcsv)
-    * [`group-config.csv`](#group-configcsv)
-* [Analyzing Multiple Repos](#analyzing-multiple-repos)
-* [Quickstart RepoSense with Netlify](#quickstart-reposense-with-netlify)
-* [Using Travis-CI to automate publishing of the report to GitHub Pages](#using-travis-ci-to-automate-publishing-of-the-report-to-github-pages)
-* [FAQ](#faq)
-
-
 ## Getting Started
 
 First, ensure that you have the necessary prerequisites:
 * **Java 8** (JRE `1.8.0_60`) or later. You may download Java [here](https://www.java.com/en/).
 * **git `2.14`** or later on the command line (run `git --version` in your OS terminal to confirm). You may download git [here](https://git-scm.com/downloads).
 
-Next, download the latest executable Jar from our [releases](https://github.com/reposense/RepoSense/releases/latest). Alternatively, you can follow this guide on [Using RepoSense with Netlify](UserGuide.md#using-reposense-with-netlify) which will allow you to use the latest version of RepoSense online without having to download any files.
+Next, download the latest executable Jar from our [releases](https://github.com/reposense/RepoSense/releases/latest). Alternatively, you can follow this guide on [Using RepoSense with Netlify]({{baseUrl}}/UserGuide.html#using-reposense-with-netlify) which will allow you to use the latest version of RepoSense online without having to download any files.
 
 The simplest use case for RepoSense is to generate a report for the entire history of a repo. Here are the steps:
 1. Generate the report for the repo by executing the following command in a terminal:<br/>
@@ -96,11 +80,11 @@ The `Code Panel` allows users to see the code attributed to a specific author. C
 * Non-trivial code segments that are not written by the selected author are hidden by default, but you can toggle them by clicking on the :heavy_plus_sign: icon.
 
 ### Commits Panel
-<img src="/docs/images/commits-panel.png" alt="commits panel" width="468">
+<img src="images/commits-panel.png" alt="commits panel" width="468">
 
 The `Commits Panel` allows users to see the commits attributed to a specific author. Hold `Command`&#8984; **(MacOS)** or `Ctrl` **(other OSes)** and click on the ramp chart in the `Chart Panel` to select the time range where you want to display the `Commit Panel` for on the right. <br>
 
-![Opening commits panel](/docs/images/opening-commits-panel.gif)
+![Opening commits panel](images/opening-commits-panel.gif)
 
 * The `Commits Panel` shows the commits that contain author's contributions.
 * The commits can be sorted by the date it was committed or by LoC.
@@ -161,7 +145,7 @@ Repo owners can provide the following additional information to RepoSense using 
 * which git and GitHub usernames belong to which authors
 * the display of an author
 
-To use this feature, add a `_reposense/config.json` to the root of your repo using the format in the example below ([another example](../_reposense/config.json)) and **commit it** (reason: RepoSense can see committed code only):
+To use this feature, add a `_reposense/config.json` to the root of your repo using the format in the example below ([another example](https://github.com/reposense/RepoSense/blob/master/_reposense/config.json)) and **commit it** (reason: RepoSense can see committed code only):
 ```json
 {
   "ignoreGlobList": ["about-us/**", "**index.html"],
@@ -399,7 +383,7 @@ To enjoy a real time RepoSense report on your target repositories, all you need 
 
 ## Using Travis-CI to automate publishing of the report to GitHub Pages
 
-Follow this [guide](PublishingGuide.md) to automate publishing of your report to GitHub Pages.
+Follow this [guide]({{baseUrl}}/PublishingGuide.html) to automate publishing of your report to GitHub Pages.
 
 ## FAQ
 

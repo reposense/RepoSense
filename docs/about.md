@@ -1,3 +1,9 @@
+<frontmatter>
+  header: header.md
+  footer: footer.md
+  siteNav: aboutNavigation.md
+</frontmatter>
+
 # RepoSense Project Team
 
 We are a team based in the [School of Computing, National University of Singapore](http://www.comp.nus.edu.sg/).

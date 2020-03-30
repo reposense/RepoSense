@@ -15,10 +15,17 @@
   "pages": [
     {
       "src": "index.md",
-      "title": "Landing Page"
+      "title": "RepoSense"
     },
     {
-      "glob": ["**/index.md", "**/*.+(md|mbd)"]
+      "glob": [
+        "**/index.md",
+        "**/*.+(md|mbd)"
+      ]
+    },
+    {
+      "glob": "**/*.+(md|mbd)",
+      "layout": "default"
     }
   ],
   "deploy": {
