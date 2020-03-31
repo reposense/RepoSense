@@ -17,7 +17,7 @@
     * [`group-config.csv`](#group-configcsv)
 * [Analyzing Multiple Repos](#analyzing-multiple-repos)
 * [Quickstart RepoSense with Netlify](#quickstart-reposense-with-netlify)
-* [Using Travis-CI to automate publishing of the report to GitHub Pages](#using-travis-ci-to-automate-publishing-of-the-report-to-github-pages)
+* [Automating publishing of the report to GitHub Pages](#automating-publishing-of-the-report-to-github-pages)
 * [FAQ](#faq)
 
 
@@ -399,7 +399,7 @@ Alternatively, you can use csv config files to further customize the analysis:
 
 To enjoy a real time RepoSense report on your target repositories, all you need is Netlify and a fork of this repo. Follow [this guide](UsingNetlifyGuide.md) to get started.
 
-## Using Travis-CI to automate publishing of the report to GitHub Pages
+## Automating publishing of the report to GitHub Pages
 
 Follow this [guide](PublishingGuide.md) to automate publishing of your report to GitHub Pages.
 
