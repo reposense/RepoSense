@@ -38,8 +38,6 @@ public class CommitInfoAnalyzer {
     private static final String NEW_LINE_SPLITTER = "\\n";
     private static final String TAB_SPLITTER = "\t";
     private static final String TAG_PREFIX = "tag:";
-    private static final String INSERTIONS = "insertions";
-    private static final String DELETIONS = "deletions";
     private static final String MOVED_FILE_INDICATION = "=> ";
 
     private static final int COMMIT_HASH_INDEX = 0;
