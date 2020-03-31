@@ -112,7 +112,7 @@ public class CommitInfoAnalyzer {
 
         String[] statInfos = statLine.split(NEW_LINE_SPLITTER);
         String[] fileTypeContributions = Arrays.copyOfRange(statInfos, 0, statInfos.length - 1);
-        Map<FileType, Map<String, Integer>> fileTypeAndContributionMap =
+        Map<FileType, ContributionPair> fileTypeAndContributionMap =
                 getFileTypesAndContribution(fileTypeContributions, config);
 
         String contributionStat = statInfos[statInfos.length - 1]; // last index is the file contribution statistics
@@ -126,9 +126,9 @@ public class CommitInfoAnalyzer {
     /**
      * Extract the additions and deletions of file types that have been modified
      */
-    private static Map<FileType, Map<String, Integer>> getFileTypesAndContribution(String[] filePathContributions,
+    private static Map<FileType, ContributionPair> getFileTypesAndContribution(String[] filePathContributions,
             RepoConfiguration config) {
-        Map<FileType, Map<String, Integer>> fileTypesAndContribution = new HashMap<>();
+        Map<FileType, ContributionPair> fileTypesAndContributionMap = new HashMap<>();
         for (String filePathContribution : filePathContributions) {
 
             String[] infos = filePathContribution.split(TAB_SPLITTER);
@@ -137,19 +137,15 @@ public class CommitInfoAnalyzer {
             String filePath = extractFilePath(infos[STAT_FILE_PATH_INDEX]);
             FileType fileType = config.getFileType(filePath);
 
-            if (fileTypesAndContribution.containsKey(fileType)) {
-                // update existing file type contribution
-                Map<String, Integer> prevContribution = fileTypesAndContribution.get(fileType);
-                prevContribution.replace(INSERTIONS, prevContribution.get(INSERTIONS) + addition);
-                prevContribution.replace(DELETIONS, prevContribution.get(DELETIONS) + deletion);
-            } else {
-                Map<String, Integer> contributionMap = new HashMap<>();
-                contributionMap.put(INSERTIONS, addition);
-                contributionMap.put(DELETIONS, deletion);
-                fileTypesAndContribution.put(fileType, contributionMap);
+            if (!fileTypesAndContributionMap.containsKey(fileType)) {
+                fileTypesAndContributionMap.put(fileType, new ContributionPair());
             }
+
+            ContributionPair contributionPair = fileTypesAndContributionMap.get(fileType);
+            contributionPair.addInsertions(addition);
+            contributionPair.addDeletions(deletion);
         }
-        return fileTypesAndContribution;
+        return fileTypesAndContributionMap;
     }
 
     /**

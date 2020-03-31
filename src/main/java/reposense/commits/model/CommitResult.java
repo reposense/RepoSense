@@ -15,7 +15,7 @@ public class CommitResult {
     private final String messageTitle;
     private final String messageBody;
     private final String[] tags;
-    private final Map<FileType, Map<String, Integer>> fileTypesAndContributionMap;
+    private final Map<FileType, ContributionPair> fileTypesAndContributionMap;
     private final int insertions;
     private final int deletions;
 
@@ -23,7 +23,7 @@ public class CommitResult {
     private final transient Date time;
 
     public CommitResult(Author author, String hash, Date time, String messageTitle, String messageBody, String[] tags,
-            int insertions, int deletions, Map<FileType, Map<String, Integer>> fileTypesAndContributionMap) {
+            int insertions, int deletions, Map<FileType, ContributionPair> fileTypesAndContributionMap) {
         this.author = author;
         this.hash = hash;
         this.time = time;
@@ -67,7 +67,7 @@ public class CommitResult {
         return deletions;
     }
 
-    public Map<FileType, Map<String, Integer>> getFileTypesAndContributionMap() {
+    public Map<FileType, ContributionPair> getFileTypesAndContributionMap() {
         return fileTypesAndContributionMap;
     }
 

@@ -17,6 +17,7 @@ import org.junit.Test;
 
 import reposense.commits.model.CommitInfo;
 import reposense.commits.model.CommitResult;
+import reposense.commits.model.ContributionPair;
 import reposense.model.Author;
 import reposense.model.CommitHash;
 import reposense.model.FileType;
@@ -137,17 +138,11 @@ public class CommitInfoAnalyzerTest extends GitTestTemplate {
         Author author = new Author(JINYAO_AUTHOR_NAME);
         List<CommitResult> expectedCommitResults = new ArrayList<>();
 
-        Map<FileType, Map<String, Integer>> firstFileTypeAndContributionMap = new HashMap<>();
-        Map<String, Integer> firstContributionMap = new HashMap<>();
-        firstContributionMap.put(INSERTIONS, 1);
-        firstContributionMap.put(DELETIONS, 0);
-        firstFileTypeAndContributionMap.put(JAVA, firstContributionMap);
+        Map<FileType, ContributionPair> firstFileTypeAndContributionMap = new HashMap<>();
+        firstFileTypeAndContributionMap.put(JAVA, new ContributionPair(1, 0));
 
-        Map<FileType, Map<String, Integer>> secondFileTypeAndContributionMap = new HashMap<>();
-        Map<String, Integer> secondContributionMap = new HashMap<>();
-        secondContributionMap.put(INSERTIONS, 0);
-        secondContributionMap.put(DELETIONS, 1);
-        secondFileTypeAndContributionMap.put(JAVA, secondContributionMap);
+        Map<FileType, ContributionPair> secondFileTypeAndContributionMap = new HashMap<>();
+        secondFileTypeAndContributionMap.put(JAVA, new ContributionPair(0, 1));
 
         expectedCommitResults.add(new CommitResult(author, "2eccc111e813e8b2977719b5959e32b674c56afe",
                 parseGitStrictIsoDate("2019-06-19T13:02:01+08:00"), ">>>COMMIT INFO<<<",
@@ -175,17 +170,11 @@ public class CommitInfoAnalyzerTest extends GitTestTemplate {
         Author author = new Author(JINYAO_AUTHOR_NAME);
         List<CommitResult> expectedCommitResults = new ArrayList<>();
 
-        Map<FileType, Map<String, Integer>> firstFileTypeAndContributionMap = new HashMap<>();
-        Map<String, Integer> firstContributionMap = new HashMap<>();
-        firstContributionMap.put(INSERTIONS, 1);
-        firstContributionMap.put(DELETIONS, 0);
-        firstFileTypeAndContributionMap.put(JAVA, firstContributionMap);
+        Map<FileType, ContributionPair> firstFileTypeAndContributionMap = new HashMap<>();
+        firstFileTypeAndContributionMap.put(JAVA, new ContributionPair(1, 0));
 
-        Map<FileType, Map<String, Integer>> secondFileTypeAndContributionMap = new HashMap<>();
-        Map<String, Integer> secondContributionMap = new HashMap<>();
-        secondContributionMap.put(INSERTIONS, 0);
-        secondContributionMap.put(DELETIONS, 1);
-        secondFileTypeAndContributionMap.put(JAVA, secondContributionMap);
+        Map<FileType, ContributionPair> secondFileTypeAndContributionMap = new HashMap<>();
+        secondFileTypeAndContributionMap.put(JAVA, new ContributionPair(0, 1));
 
         // 1st test: Contains commit message title but no commit message body.
         expectedCommitResults.add(new CommitResult(author, "e54ae8fdb77c6c7d2c39131b816bfc03e6a6dd44",
@@ -212,17 +201,11 @@ public class CommitInfoAnalyzerTest extends GitTestTemplate {
         Author author = new Author(JAMES_AUTHOR_NAME);
         List<CommitResult> expectedCommitResults = new ArrayList<>();
 
-        Map<FileType, Map<String, Integer>> firstFileTypeAndContributionMap = new HashMap<>();
-        Map<String, Integer> firstContributionMap = new HashMap<>();
-        firstContributionMap.put(INSERTIONS, 2);
-        firstContributionMap.put(DELETIONS, 1);
-        firstFileTypeAndContributionMap.put(MD, firstContributionMap);
+        Map<FileType, ContributionPair> firstFileTypeAndContributionMap = new HashMap<>();
+        firstFileTypeAndContributionMap.put(MD, new ContributionPair(2, 1));
 
-        Map<FileType, Map<String, Integer>> secondFileTypeAndContributionMap = new HashMap<>();
-        Map<String, Integer> secondContributionMap = new HashMap<>();
-        secondContributionMap.put(INSERTIONS, 1);
-        secondContributionMap.put(DELETIONS, 0);
-        secondFileTypeAndContributionMap.put(MD, secondContributionMap);
+        Map<FileType, ContributionPair> secondFileTypeAndContributionMap = new HashMap<>();
+        secondFileTypeAndContributionMap.put(MD, new ContributionPair(1, 0));
 
         expectedCommitResults.add(new CommitResult(author, "62c3a50ef9b3580b2070deac1eed2b3e2d701e04",
                 parseGitStrictIsoDate("2019-12-20T22:45:18+08:00"), "Single Tag Commit",
