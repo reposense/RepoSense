@@ -17,7 +17,7 @@
     * [`group-config.csv`](#group-configcsv)
 * [Analyzing Multiple Repos](#analyzing-multiple-repos)
 * [Quickstart RepoSense with Netlify](#quickstart-reposense-with-netlify)
-* [Using Travis-CI to automate publishing of the report to GitHub Pages](#using-travis-ci-to-automate-publishing-of-the-report-to-github-pages)
+* [Automating publishing of the report to GitHub Pages](#automating-publishing-of-the-report-to-github-pages)
 * [FAQ](#faq)
 
 
@@ -33,7 +33,7 @@ The simplest use case for RepoSense is to generate a report for the entire histo
 1. Generate the report for the repo by executing the following command in a terminal:<br/>
    Format : `java -jar RepoSense.jar --repo FULL_REPO_URL` (note the `.git` at the end)<br>
    Example: `java -jar RepoSense.jar --repo https://github.com/reposense/RepoSense.git`
-   > Note: The above command will analyze the commits made within one month from the date of report generation. Append `--since d1` if you wish to analyze from the date of the first commit. 
+   > Note: The above command will analyze the commits made within one month from the date of report generation. Append `--since d1` if you wish to analyze from the date of the first commit.
 1. The previous step analyzes the default branch of the repo and creates the report in a directory named `reposense-report`. Run the following command to view the report (it will open up in your default Browser):<br/>
    `java -jar RepoSense.jar --view reposense-report`
 
@@ -83,6 +83,7 @@ The `Chart Panel` (an example is shown above) contains _Ramp Charts_ and _Contri
 
 
 ### Code Panel
+<img src="/docs/images/code-panel.png" alt="code panel" width="468">
 
 The `Code Panel` allows users to see the code attributed to a specific author. Click on the `</>` icon beside the name of the author in the `Chart Panel` to display the `Code Panel` on the right.
 * The Code Panel shows the files that contain author's contributions, sorted by the number of lines written.
@@ -140,9 +141,10 @@ The `Tool Bar` at the top provides a set of configuration options that control t
 * `Breakdown by file type` : toggles the contribution bar to either display the bar by :
     * the total lines of codes added (if checkbox is left unchecked), or
     * a breakdown of the number of lines of codes added to each file type (if checkbox is checked). If sorting criteria is contribution, only lines contributed to selected file types will be taken into account.
+* `Merge group` : merges all the ramp charts of each group into a single ramp chart; aggregates the contribution of each group.
 
 Notes:<br>
-[1] **`Sort groups by`**: each main group has its own index and percentile according to its ranking position after sorting (e.g., 
+[1] **`Sort groups by`**: each main group has its own index and percentile according to its ranking position after sorting (e.g.,
 if the groups are sorted by contribution in descending order, a 25% percentile indicates that the group is in the top 25% of the whole cohort in terms of contribution)<br>
 [2] **`Repo/Branch`**: the repo/branch name is constructed as `ORGANIZATION/REPOSITORY[BRANCH]` (e.g., `resposense/reposense[master]`)
 
@@ -309,7 +311,7 @@ Also, there are two _information_ parameters you can use to know more about Repo
 Another, more powerful, way to customize the analysis is by using dedicated config files. In this case you need to use the `--config` parameter instead of the `--repo` parameter when running RepoSense, as follows:
 
 * **`--config, -c CONFIG_DIRECTORY`**: The directory in which you have the config files (`-c` as alias).<br>
-  Example:`java -jar RepoSense.jar --config  ./my_configs` or `java -jar RepoSense.jar -c  ./my_configs`
+  Example:`java -jar RepoSense.jar --config  ./config` or `java -jar RepoSense.jar -c  ./config`
 
 The directory used with the `--config` parameter should contain a `repo-config.csv` file and, optionally, an `author-config.csv` file or `group-config.csv` file or both, all of which are described in the sections below.
 
@@ -340,7 +342,7 @@ Repository's Location | The `GitHub URL` or `Disk Path` to the git repository e.
 [Optional] Ignore Commit List<sup>*+</sup> | The list of commits to ignore during analysis. For accurate results, the commits should be provided with their full hash.
 [Optional] Ignore Authors List<sup>*+</sup> | The list of authors to ignore during analysis. Authors should be specified by their [Git Author Name](#a-note-about-git-author-name).
 
-<sup>* **Multi-value column**: multiple values can be entered in this column using a semicolon `;` as the separator.</sup>  
+<sup>* **Multi-value column**: multiple values can be entered in this column using a semicolon `;` as the separator.</sup>
 <sup>+ **Overrideable column**: prepend with `override:` to use entered value(s) instead of value(s) from standalone config.</sup>
 
 #### `author-config.csv`
@@ -397,7 +399,7 @@ Alternatively, you can use csv config files to further customize the analysis:
 
 To enjoy a real time RepoSense report on your target repositories, all you need is Netlify and a fork of this repo. Follow [this guide](UsingNetlifyGuide.md) to get started.
 
-## Using Travis-CI to automate publishing of the report to GitHub Pages
+## Automating publishing of the report to GitHub Pages
 
 Follow this [guide](PublishingGuide.md) to automate publishing of your report to GitHub Pages.
 
