@@ -29,12 +29,12 @@ public class RepoLocationTest {
 
     @Test
     public void repoLocation_parseInvalidGitUrl_throwsInvalidLocationException() {
-        AssertUtil.assertThrows(InvalidLocationException.class,
-                () -> new RepoLocation("git.com/reposense/RepoSense.git"));
-        AssertUtil.assertThrows(InvalidLocationException.class,
-                () -> new RepoLocation("https://github.com/RepoSense.git"));
-        AssertUtil.assertThrows(InvalidLocationException.class,
-                () -> new RepoLocation("https://github.com/RepoSense.gi"));
+        AssertUtil.assertThrows(InvalidLocationException.class, () ->
+                new RepoLocation("git.com/reposense/RepoSense.git"));
+        AssertUtil.assertThrows(InvalidLocationException.class, () ->
+                new RepoLocation("https://github.com/RepoSense.git"));
+        AssertUtil.assertThrows(InvalidLocationException.class, () ->
+                new RepoLocation("https://github.com/RepoSense.gi"));
     }
 
     @Test
@@ -49,10 +49,10 @@ public class RepoLocationTest {
 
     @Test
     public void repoLocation_parseInvalidBranchUrl_throwsInvalidLocationException() throws Exception {
-        AssertUtil.assertThrows(InvalidLocationException.class,
-                () -> new RepoLocation("ftp://github.com/reposense/RepoSense/tree/feature_branch_issue#1010"));
-        AssertUtil.assertThrows(InvalidLocationException.class,
-                () -> new RepoLocation("https://github.com/reposense/RepoSense/tree/"));
+        AssertUtil.assertThrows(InvalidLocationException.class, () ->
+                new RepoLocation("ftp://github.com/reposense/RepoSense/tree/feature_branch_issue#1010"));
+        AssertUtil.assertThrows(InvalidLocationException.class, () ->
+                new RepoLocation("https://github.com/reposense/RepoSense/tree/"));
     }
 
 }
