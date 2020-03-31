@@ -1,4 +1,5 @@
 <frontmatter>
+  title: "Build from Source"
   header: header.md
   footer: footer.md
 </frontmatter>

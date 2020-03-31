@@ -1,4 +1,5 @@
 <frontmatter>
+  title: "User Guide"
   header: header.md
   footer: footer.md
   siteNav: ugNavigation.md

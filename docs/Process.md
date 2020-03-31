@@ -1,4 +1,5 @@
 <frontmatter>
+  title: "Process"
   header: header.md
   footer: footer.md
   siteNav: processNavigation.md

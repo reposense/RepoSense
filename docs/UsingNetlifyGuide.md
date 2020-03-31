@@ -1,10 +1,11 @@
 <frontmatter>
+  title: "Using Netlify Guide"
   header: header.md
   footer: footer.md
   siteNav: usingNetlifyGuideNavigation.md
 </frontmatter>
 
-## Using RepoSense with Netlify
+# Using RepoSense with Netlify
 
 Netlify's continuous web deployment platform enables you to deploy RepoSense online, analyzes your target repository(s) and generates the git contribution report in real time for free. The deployment can be synchronized to the updates on your target repository(s) and you can perform everything through the browser without downloading any files.
 
@@ -23,7 +24,7 @@ Netlify's continuous web deployment platform enables you to deploy RepoSense onl
 These steps will allow you to take the first look at your report. To enable continuous deployment of the report, refer below to [Continuous deployment using Netlify](#continuous-deployment-using-netlify) for further instructions.
 
 
-### Continuous deployment using Netlify
+## Continuous deployment using Netlify
 
 1. Click on **Settings** in the top, choose **Build & deploy** from the left panel and scroll to **Build hooks**.
    ![Build hooks](images/using-netlify-build-hooks.png)
@@ -41,7 +42,7 @@ These steps will allow you to take the first look at your report. To enable cont
 
 > This should cause Netlify to deploy your site each and every time based on your checked checkboxes. Please make sure your forked repository is **up-to-date** with upstream to enjoy the latest features.
 
-### If you wish to customize using `config files`
+## If you wish to customize using `config files`
 
 Using `config files` lets you generate a more customised report. Please refer to [how to customize using csv config files](UserGuide.md#customize-using-csv-config-files) for a more detailed explanation.
 

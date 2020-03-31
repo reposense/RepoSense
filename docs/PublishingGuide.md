@@ -1,4 +1,5 @@
 <frontmatter>
+  title: "Publishing Guide"
   header: header.md
   footer: footer.md
   siteNav: publishingGuideNavigation.md

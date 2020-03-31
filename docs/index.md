@@ -1,5 +1,5 @@
 <frontmatter>
-  title: "RepoSense"
+  title: "Home"
   header: header.md
   footer: footer.md
 </frontmatter>

@@ -15,7 +15,6 @@
   "pages": [
     {
       "src": "index.md",
-      "title": "Home"
     },
     {
       "glob": [
