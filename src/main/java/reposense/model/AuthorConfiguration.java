@@ -145,16 +145,16 @@ public class AuthorConfiguration {
     public void removeIgnoredAuthors(List<String> ignoredAuthorsList) {
         for (String author : ignoredAuthorsList) {
             if (authorEmailsAndAliasesMap.containsKey(author)) {
-                Author ignoredAuthor = authorEmailsAndAliasesMap.get(author);
-                removeIgnoredAuthorsInformation(author, ignoredAuthor);
+                removeIgnoredAuthorsInformation(author);
             }
         }
     }
 
     /**
-     * Removes information of the {@code author} along with its {@code aliases}
+     * Removes all information of the {@code author} from the configs
      */
-    public void removeIgnoredAuthorsInformation(String author, Author ignoredAuthor) {
+    public void removeIgnoredAuthorsInformation(String author) {
+        Author ignoredAuthor = authorEmailsAndAliasesMap.get(author);
         authorList.remove(ignoredAuthor);
         authorDisplayNameMap.remove(ignoredAuthor);
         authorEmailsAndAliasesMap.remove(author);
