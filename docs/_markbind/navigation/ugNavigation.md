@@ -18,7 +18,7 @@
     * [`group-config.csv`]({{baseUrl}}/UserGuide.html#group-config-csv)
 * [Analyzing Multiple Repos]({{baseUrl}}/UserGuide.html#analyzing-multiple-repos)
 * [Quickstart RepoSense with Netlify]({{baseUrl}}/UserGuide.html#quickstart-reposense-with-netlify)
-* [Using Travis-CI to automate publishing of the report to GitHub Pages]({{baseUrl}}/UserGuide.html#automating-publishing-of-the-report-to-github-pages)
+* [Automate publishing of the report to GitHub Pages]({{baseUrl}}/UserGuide.html#automating-publishing-of-the-report-to-github-pages)
 * [FAQ]({{baseUrl}}/UserGuide.html#faq)
 
 </navigation>
