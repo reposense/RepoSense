@@ -43,7 +43,7 @@ do
     continue
   fi
 
-  DASHBOARD_DEPLOY_DOMAIN=https://${DEPLOY_SUBDOMAIN}-${REPO_NAME}-${REPO_OWNER}.surge.sh
+  DASHBOARD_DEPLOY_DOMAIN=https://dashboard-${DEPLOY_SUBDOMAIN}-${REPO_NAME}-${REPO_OWNER}.surge.sh
   echo "Deploy domain: ${DASHBOARD_DEPLOY_DOMAIN}"
   surge --project ${DASHBOARD_DEPLOY_PATH} --domain $DASHBOARD_DEPLOY_DOMAIN;
 
@@ -57,7 +57,7 @@ do
     curl "https://api.github.com/repos/${REPO_OWNER}/${REPO_NAME}/statuses/${TRAVIS_PULL_REQUEST_SHA}?access_token=${GITHUB_API_TOKEN}" \
     -H "Content-Type: application/json" \
     -X POST \
-    -d "{\"state\": \"success\",\"context\": \"surge/deploy/${DEPLOY_SUBDOMAIN}\", \"description\": \"Deploy domain: ${DASHBOARD_DEPLOY_DOMAIN}\", \"target_url\": \"${DASHBOARD_DEPLOY_DOMAIN}\"}"
+    -d "{\"state\": \"success\",\"context\": \"dashboard/surge/deploy/${DEPLOY_SUBDOMAIN}\", \"description\": \"Deploy domain: ${DASHBOARD_DEPLOY_DOMAIN}\", \"target_url\": \"${DASHBOARD_DEPLOY_DOMAIN}\"}"
 
     curl "https://api.github.com/repos/${REPO_OWNER}/${REPO_NAME}/statuses/${TRAVIS_PULL_REQUEST_SHA}?access_token=${GITHUB_API_TOKEN}" \
     -H "Content-Type: application/json" \
