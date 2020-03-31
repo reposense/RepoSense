@@ -17,6 +17,7 @@ import java.util.stream.Collectors;
 
 import reposense.commits.model.CommitInfo;
 import reposense.commits.model.CommitResult;
+import reposense.commits.model.ContributionPair;
 import reposense.model.Author;
 import reposense.model.CommitHash;
 import reposense.model.FileType;
@@ -48,6 +49,10 @@ public class CommitInfoAnalyzer {
     private static final int MESSAGE_TITLE_INDEX = 4;
     private static final int MESSAGE_BODY_INDEX = 5;
     private static final int REF_NAME_INDEX = 6;
+
+    private static final int STAT_ADDITION_INDEX = 0;
+    private static final int STAT_DELETION_INDEX = 1;
+    private static final int STAT_FILE_PATH_INDEX = 2;
 
     private static final Pattern INSERTION_PATTERN = Pattern.compile("([0-9]+) insertion");
     private static final Pattern DELETION_PATTERN = Pattern.compile("([0-9]+) deletion");
@@ -127,9 +132,9 @@ public class CommitInfoAnalyzer {
         for (String filePathContribution : filePathContributions) {
 
             String[] infos = filePathContribution.split(TAB_SPLITTER);
-            int addition = Integer.parseInt(infos[0]);
-            int deletion = Integer.parseInt(infos[1]);
-            String filePath = extractFilePath(infos[2]);
+            int addition = Integer.parseInt(infos[STAT_ADDITION_INDEX]);
+            int deletion = Integer.parseInt(infos[STAT_DELETION_INDEX]);
+            String filePath = extractFilePath(infos[STAT_FILE_PATH_INDEX]);
             FileType fileType = config.getFileType(filePath);
 
             if (fileTypesAndContribution.containsKey(fileType)) {
@@ -155,7 +160,8 @@ public class CommitInfoAnalyzer {
             return filePath;
         }
         // moved file has the format: fileA => newPosition/fileA
-        String filteredFilePath = filePath.substring(filePath.indexOf(MOVED_FILE_INDICATION) + 3);
+        String filteredFilePath =
+                filePath.substring(filePath.indexOf(MOVED_FILE_INDICATION) + MOVED_FILE_INDICATION.length());
         if (filteredFilePath.charAt(filteredFilePath.length() - 1) == '}') { // renamed file has ending '}' char
             filteredFilePath = filteredFilePath.substring(0, filteredFilePath.length() - 1);
         }
