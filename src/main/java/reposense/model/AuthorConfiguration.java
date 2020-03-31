@@ -152,7 +152,10 @@ public class AuthorConfiguration {
         }
     }
 
-    public void removeIgnoredAuthorsInformation(String author, List<String> aliases, Author ignoredAuthor){
+    /**
+     * Removes information of the {@code author} along with its {@code aliases}
+     */
+    public void removeIgnoredAuthorsInformation(String author, List<String> aliases, Author ignoredAuthor) {
         authorList.remove(ignoredAuthor);
         authorDisplayNameMap.remove(ignoredAuthor);
         authorEmailsAndAliasesMap.remove(author);
