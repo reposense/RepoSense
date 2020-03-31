@@ -1,7 +1,6 @@
 <frontmatter>
   header: header.md
   footer: footer.md
-  siteNav: ugNavigation.md
 </frontmatter>
 
 # Build from Source
