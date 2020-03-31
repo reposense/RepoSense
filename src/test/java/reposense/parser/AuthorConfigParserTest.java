@@ -199,6 +199,7 @@ public class AuthorConfigParserTest {
         Assert.assertEquals(TEST_REPO_BETA_MASTER_BRANCH, config.getBranch());
 
         config = configs.get(1);
+        Assert.assertEquals(new RepoLocation("https://github.com/reposense/RepoSense.git"), config.getLocation());
         Assert.assertEquals("release", config.getBranch());
 
         config = configs.get(2);
