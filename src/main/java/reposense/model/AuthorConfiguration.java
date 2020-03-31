@@ -146,8 +146,7 @@ public class AuthorConfiguration {
         for (String author : ignoredAuthorsList) {
             if (authorEmailsAndAliasesMap.containsKey(author)) {
                 Author ignoredAuthor = authorEmailsAndAliasesMap.get(author);
-                List<String> aliases = new ArrayList<>(ignoredAuthor.getAuthorAliases());
-                removeIgnoredAuthorsInformation(author, aliases, ignoredAuthor);
+                removeIgnoredAuthorsInformation(author, ignoredAuthor);
             }
         }
     }
@@ -155,11 +154,17 @@ public class AuthorConfiguration {
     /**
      * Removes information of the {@code author} along with its {@code aliases}
      */
-    public void removeIgnoredAuthorsInformation(String author, List<String> aliases, Author ignoredAuthor) {
+    public void removeIgnoredAuthorsInformation(String author, Author ignoredAuthor) {
         authorList.remove(ignoredAuthor);
         authorDisplayNameMap.remove(ignoredAuthor);
         authorEmailsAndAliasesMap.remove(author);
-        aliases.forEach(alias -> authorEmailsAndAliasesMap.remove(alias, ignoredAuthor));
+        authorEmailsAndAliasesMap.remove(ignoredAuthor.getGitId());
+
+        List<String> aliases = new ArrayList<>(ignoredAuthor.getAuthorAliases());
+        aliases.forEach(alias -> authorEmailsAndAliasesMap.remove(alias));
+
+        List<String> emails = new ArrayList<>(ignoredAuthor.getEmails());
+        emails.forEach(email -> authorEmailsAndAliasesMap.remove(email));
     }
 
     /**
