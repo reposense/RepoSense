@@ -4,7 +4,7 @@
     a(v-if="expandedCommitMessagesCount === 0", v-on:click="toggleAllCommitMessagesBody(true)") show all commit messages
     a(v-else, v-on:click="toggleAllCommitMessagesBody(false)") hide all commit messages
   .panel-heading
-    .groupName.large-font
+    .group-name
       span(
         v-if="info.filterGroupSelection === 'groupByAuthors'"
       ) {{ filteredUser.displayName }} ({{ filteredUser.name }})
@@ -14,11 +14,11 @@
         v-bind:title="'Click to open the repo'"
       )
         span {{ filteredUser.repoName }}
-    .author.medium-font(v-if="!info.zIsMerge")
+    .author(v-if="!info.zIsMerge")
       span &#8627; &nbsp;
       span(v-if="info.zFilterGroup === 'groupByAuthors'") {{ filteredUser.repoName }}
       span(v-else) {{ filteredUser.displayName }} ({{ filteredUser.name }})
-    .period.medium-font
+    .period
       span &#8627; &nbsp;
       span {{ info.zSince }} to {{ info.zUntil }} &nbsp;
       a(v-on:click="openSummary") [Show ramp chart for this period]

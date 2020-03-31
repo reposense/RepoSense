@@ -4,14 +4,14 @@
     a(v-if="hasActiveFile", v-on:click="expandAll(false)") hide all file details
     a(v-else, v-on:click="expandAll(true)") show all file details
   .panel-heading
-    a.groupName.large-font(
+    a.group-name(
       v-bind:href="info.location", target="_blank",
       v-bind:title="'Click to open the repo'"
     ) {{ info.repo }}
-    .author.medium-font
+    .author
       span &#8627; &nbsp;
       span {{ info.name }} ({{ info.author }})
-    .period.medium-font
+    .period
       span &#8627; &nbsp;
       span {{ info.minDate }} to {{ info.maxDate }}
   .title
