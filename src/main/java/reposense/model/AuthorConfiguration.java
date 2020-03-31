@@ -152,19 +152,19 @@ public class AuthorConfiguration {
 
     /**
      * Removes all information of the {@code author} from the configs
+     * Precondition: {@code author} must be present in {@code authorEmailsAndAliasesMap}
      * @param author Can be an author's git ID, email, or alias
      */
     public void removeAuthor(String author) {
-        Author ignoredAuthor = authorEmailsAndAliasesMap.get(author);
-        authorList.remove(ignoredAuthor);
-        authorDisplayNameMap.remove(ignoredAuthor);
-        authorEmailsAndAliasesMap.remove(author);
-        authorEmailsAndAliasesMap.remove(ignoredAuthor.getGitId());
+        Author authorToRemove = authorEmailsAndAliasesMap.get(author);
+        authorList.remove(authorToRemove);
+        authorDisplayNameMap.remove(authorToRemove);
+        authorEmailsAndAliasesMap.remove(authorToRemove.getGitId());
 
-        List<String> aliases = ignoredAuthor.getAuthorAliases();
+        List<String> aliases = authorToRemove.getAuthorAliases();
         aliases.forEach(alias -> authorEmailsAndAliasesMap.remove(alias));
 
-        List<String> emails = ignoredAuthor.getEmails();
+        List<String> emails = authorToRemove.getEmails();
         emails.forEach(email -> authorEmailsAndAliasesMap.remove(email));
     }
 
