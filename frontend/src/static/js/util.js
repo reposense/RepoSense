@@ -96,9 +96,20 @@ window.dismissTab = function dismissTab(node) {
   parent.style.display = 'none';
 };
 
-window.comparator = (fn) => function compare(a, b) {
-  const a1 = fn(a).toLowerCase ? fn(a).toLowerCase() : fn(a);
-  const b1 = fn(b).toLowerCase ? fn(b).toLowerCase() : fn(b);
+window.comparator = (fn, sortingOption = '') => function compare(a, b) {
+  let a1;
+  let b1;
+  if (sortingOption) {
+    a1 = fn(a, sortingOption).toLowerCase
+        ? fn(a, sortingOption).toLowerCase()
+        : fn(a, sortingOption);
+    b1 = fn(b, sortingOption).toLowerCase
+        ? fn(b, sortingOption).toLowerCase()
+        : fn(b, sortingOption);
+  } else {
+    a1 = fn(a).toLowerCase ? fn(a).toLowerCase() : fn(a);
+    b1 = fn(b).toLowerCase ? fn(b).toLowerCase() : fn(b);
+  }
   if (a1 === b1) {
     return 0;
   } if (a1 < b1) {
