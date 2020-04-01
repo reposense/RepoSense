@@ -10,8 +10,6 @@ import java.util.List;
  * Represents a Git Author.
  */
 public class Author {
-
-    public static final String NAME_FAILED_TO_CLONE_OR_CHECKOUT = "FAILED TO CLONE OR CHECKOUT THIS REPOSITORY";
     public static final String NAME_NO_AUTHOR_WITH_COMMITS_FOUND =
             "NO AUTHOR WITH COMMITS FOUND WITHIN THIS PERIOD OF TIME";
     private static final String UNKNOWN_AUTHOR_GIT_ID = "-";

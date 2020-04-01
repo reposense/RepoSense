@@ -210,33 +210,43 @@ window.vSummaryCharts = {
         repo: user.repoName,
         name: user.displayName,
         location: this.getRepoLink(repo[index]),
+        repoIndex: index,
         totalCommits: user.totalCommits,
       });
     },
 
-    openTabZoomSubrange(user, repo, index) {
+    openTabZoomSubrange(user) {
       // skip if accidentally clicked on ramp chart
       if (drags.length === 2 && drags[1] - drags[0]) {
         const tdiff = new Date(this.filterUntilDate) - new Date(this.filterSinceDate);
         const idxs = drags.map((x) => x * tdiff / 100);
         const tsince = window.getDateStr(new Date(this.filterSinceDate).getTime() + idxs[0]);
         const tuntil = window.getDateStr(new Date(this.filterSinceDate).getTime() + idxs[1]);
-        this.openTabZoom(user, tsince, tuntil, repo, index);
+        this.openTabZoom(user, tsince, tuntil);
       }
     },
 
-    openTabZoom(user, since, until, repo, index) {
-      const { avgCommitSize } = this;
+    openTabZoom(user, since, until) {
+      const {
+        avgCommitSize, filterGroupSelection, filterTimeFrame, isMergeGroup, sortingOption,
+        sortingWithinOption, isSortingDsc, isSortingWithinDsc,
+      } = this;
       const clonedUser = Object.assign({}, user); // so that changes in summary won't affect zoom
       this.$parent.$emit('view-zoom', {
-        filterGroupSelection: this.filterGroupSelection,
-        filterTimeFrame: this.filterTimeFrame,
-        avgCommitSize,
-        user: clonedUser,
-        location: this.getRepoLink(repo[index]),
-        sinceDate: since,
-        untilDate: until,
-        isMergeGroup: this.isMergeGroup,
+        zRepo: user.repoName,
+        zAuthor: user.name,
+        zFilterGroup: filterGroupSelection,
+        zTimeFrame: filterTimeFrame,
+        zAvgCommitSize: avgCommitSize,
+        zUser: clonedUser,
+        zLocation: this.getRepoLink(user),
+        zSince: since,
+        zUntil: until,
+        zIsMerge: isMergeGroup,
+        zSorting: sortingOption,
+        zSortingWithin: sortingWithinOption,
+        zIsSortingDsc: isSortingDsc === 'dsc',
+        zIsSortingWithinDsc: isSortingWithinDsc === 'dsc',
       });
     },
 

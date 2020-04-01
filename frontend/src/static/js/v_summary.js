@@ -279,9 +279,9 @@ window.vSummary = {
               .some((param) => user.searchPath.includes(param));
 
           if (!this.filterSearch || toDisplay) {
-            this.getUserCommits(user);
+            this.getUserCommits(user, this.filterSinceDate, this.filterUntilDate);
             if (this.filterTimeFrame === 'week') {
-              this.splitCommitsWeek(user);
+              this.splitCommitsWeek(user, this.filterSinceDate, this.filterUntilDate);
             }
 
             res.push(user);
@@ -294,15 +294,24 @@ window.vSummary = {
       });
       this.filtered = full;
 
-      this.sortFiltered();
+      this.getOptionWithOrder();
+
+      const filterControl = {
+        filterGroupSelection: this.filterGroupSelection,
+        sortingOption: this.sortingOption,
+        sortingWithinOption: this.sortingWithinOption,
+        isSortingDsc: this.isSortingDsc,
+        isSortingWithinDsc: this.isSortingWithinDsc,
+      };
+      this.filtered = this.sortFiltered(this.filtered, filterControl);
 
       if (this.isMergeGroup) {
-        this.mergeGroup();
+        this.mergeGroup(this.filtered);
       }
     },
 
-    mergeGroup() {
-      this.filtered.forEach((group, groupIndex) => {
+    mergeGroup(filtered) {
+      filtered.forEach((group, groupIndex) => {
         const dateToIndexMap = {};
         const mergedCommits = [];
         const mergedFileTypeContribution = {};
@@ -325,8 +334,8 @@ window.vSummary = {
         group[0].variance = mergedVariance;
 
         // clear all users and add merged group in filtered group
-        this.filtered[groupIndex] = [];
-        this.filtered[groupIndex].push(group[0]);
+        filtered[groupIndex] = [];
+        filtered[groupIndex].push(group[0]);
       });
     },
 
@@ -407,26 +416,15 @@ window.vSummary = {
       return luminosity < 120 ? '#ffffff' : '#000000';
     },
 
-    getFileTypeContribution(ele) {
-      let validCommits = 0;
-      Object.keys(ele.fileTypeContribution).forEach((fileType) => {
-        if (this.checkedFileTypes.includes(fileType)) {
-          validCommits += ele.fileTypeContribution[fileType];
-        }
-      });
-      return validCommits;
-    },
-
-    splitCommitsWeek(user) {
+    splitCommitsWeek(user, sinceDate, untilDate) {
       const { commits } = user;
 
       const res = [];
 
-      const nextMondayDate = dateRounding(this.filterSinceDate, 0); // round up for the next monday
-      const untilDate = this.filterUntilDate;
+      const nextMondayDate = dateRounding(sinceDate, 0); // round up for the next monday
 
       const nextMondayMs = (new Date(nextMondayDate)).getTime();
-      const sinceMs = new Date(this.filterSinceDate).getTime();
+      const sinceMs = new Date(sinceDate).getTime();
       const untilMs = (new Date(untilDate)).getTime();
 
       if (nextMondayDate <= untilDate) {
@@ -474,7 +472,7 @@ window.vSummary = {
       }
     },
 
-    getUserCommits(user) {
+    getUserCommits(user, sinceDate, untilDate) {
       user.commits = [];
       const userFirst = user.dailyCommits[0];
       const userLast = user.dailyCommits[user.dailyCommits.length - 1];
@@ -483,12 +481,10 @@ window.vSummary = {
         return null;
       }
 
-      let sinceDate = this.filterSinceDate;
       if (!sinceDate || sinceDate === 'undefined') {
         sinceDate = userFirst.date;
       }
 
-      let untilDate = this.filterUntilDate;
       if (!untilDate) {
         untilDate = userLast.date;
       }
@@ -508,19 +504,21 @@ window.vSummary = {
       [this.sortingWithinOption, this.isSortingWithinDsc] = this.sortWithinGroupSelection.split(' ');
     },
 
-    sortFiltered() {
+    sortFiltered(filtered, filterControl) {
+      const { filterGroupSelection } = filterControl;
       this.getOptionWithOrder();
       let full = [];
-      if (this.filterGroupSelection === 'groupByNone') {
+
+      if (filterGroupSelection === 'groupByNone') {
         // push all repos into the same group
-        full[0] = this.groupByNone(this.filtered);
-      } else if (this.filterGroupSelection === 'groupByAuthors') {
-        full = this.groupByAuthors(this.filtered);
+        full[0] = this.groupByNone(filtered, filterControl);
+      } else if (filterGroupSelection === 'groupByAuthors') {
+        full = this.groupByAuthors(filtered, filterControl);
       } else {
-        full = this.groupByRepos(this.filtered);
+        full = this.groupByRepos(filtered, filterControl);
       }
 
-      this.filtered = full;
+      return full;
     },
 
     // updating filters programically //
@@ -579,32 +577,46 @@ window.vSummary = {
       }
     },
 
-    groupByRepos(repos) {
+    getFileTypeContribution(ele) {
+      let validCommits = 0;
+      Object.keys(ele.fileTypeContribution).forEach((fileType) => {
+        if (this.checkedFileTypes.includes(fileType)) {
+          validCommits += ele.fileTypeContribution[fileType];
+        }
+      });
+      return validCommits;
+    },
+
+    groupByRepos(repos, sortingControl) {
       const sortedRepos = [];
-      const sortingWithinOption = this.sortingWithinOption === 'title' ? 'displayName' : this.sortingWithinOption;
-      const sortingOption = this.sortingOption === 'groupTitle' ? 'searchPath' : this.sortingOption;
+      const {
+        sortingWithinOption, sortingOption, isSortingDsc, isSortingWithinDsc,
+      } = sortingControl;
+      const sortWithinOption = sortingWithinOption === 'title' ? 'displayName' : sortingWithinOption;
+      const sortOption = sortingOption === 'groupTitle' ? 'searchPath' : sortingOption;
       repos.forEach((users) => {
-        if (this.filterBreakdown && this.sortingWithinOption === 'totalCommits') {
+        if (this.filterBreakdown && sortWithinOption === 'totalCommits') {
           users.sort(window.comparator((ele) => this.getFileTypeContribution(ele)));
         } else {
-          users.sort(window.comparator((ele) => ele[sortingWithinOption]));
+          users.sort(window.comparator((ele) => ele[sortWithinOption]));
         }
 
-        if (this.isSortingWithinDsc) {
+        if (isSortingWithinDsc) {
           users.reverse();
         }
         sortedRepos.push(users);
       });
-      sortedRepos.sort(window.comparator(this.sortingHelper, sortingOption));
-      if (this.isSortingDsc) {
+      sortedRepos.sort(window.comparator(this.sortingHelper, sortOption));
+      if (isSortingDsc) {
         sortedRepos.reverse();
       }
       return sortedRepos;
     },
 
-    groupByNone(repos) {
+    groupByNone(repos, sortingControl) {
       const sortedRepos = [];
-      const isSortingGroupTitle = this.sortingOption === 'groupTitle';
+      const { sortingOption, isSortingDsc } = sortingControl;
+      const isSortingGroupTitle = sortingOption === 'groupTitle';
       repos.forEach((users) => {
         users.forEach((user) => {
           sortedRepos.push(user);
@@ -614,23 +626,26 @@ window.vSummary = {
         if (isSortingGroupTitle) {
           return repo.searchPath + repo.name;
         }
-        if (this.filterBreakdown && this.sortingOption === 'totalCommits') {
+        if (this.filterBreakdown && sortingOption === 'totalCommits') {
           return this.getFileTypeContribution(repo);
         }
-        return repo[this.sortingOption];
+        return repo[sortingOption];
       }));
-      if (this.isSortingDsc) {
+      if (isSortingDsc) {
         sortedRepos.reverse();
       }
 
       return sortedRepos;
     },
 
-    groupByAuthors(repos) {
+    groupByAuthors(repos, sortingControl) {
       const authorMap = {};
       const filtered = [];
-      const sortingWithinOption = this.sortingWithinOption === 'title' ? 'searchPath' : this.sortingWithinOption;
-      const sortingOption = this.sortingOption === 'groupTitle' ? 'displayName' : this.sortingOption;
+      const {
+        sortingWithinOption, sortingOption, isSortingDsc, isSortingWithinDsc,
+      } = sortingControl;
+      const sortWithinOption = sortingWithinOption === 'title' ? 'searchPath' : sortingWithinOption;
+      const sortOption = sortingOption === 'groupTitle' ? 'displayName' : sortingOption;
       repos.forEach((users) => {
         users.forEach((user) => {
           if (Object.keys(authorMap).includes(user.name)) {
@@ -641,19 +656,19 @@ window.vSummary = {
         });
       });
       Object.keys(authorMap).forEach((author) => {
-        if (this.filterBreakdown && this.sortingWithinOption === 'totalCommits') {
+        if (this.filterBreakdown && sortWithinOption === 'totalCommits') {
           authorMap[author].sort(window.comparator((repo) => this.getFileTypeContribution(repo)));
         } else {
-          authorMap[author].sort(window.comparator((repo) => repo[sortingWithinOption]));
+          authorMap[author].sort(window.comparator((repo) => repo[sortWithinOption]));
         }
-        if (this.isSortingWithinDsc) {
+        if (isSortingWithinDsc) {
           authorMap[author].reverse();
         }
         filtered.push(authorMap[author]);
       });
 
-      filtered.sort(window.comparator(this.sortingHelper, sortingOption));
-      if (this.isSortingDsc) {
+      filtered.sort(window.comparator(this.sortingHelper, sortOption));
+      if (isSortingDsc) {
         filtered.reverse();
       }
       return filtered;
@@ -671,11 +686,70 @@ window.vSummary = {
           ? element.reduce(this.getGroupCommitsVariance, 0)
           : element[0][sortingOption];
     },
+
+    restoreZoomFiltered(info) {
+      const {
+        zSince, zUntil, zFilterGroup, zTimeFrame, zIsMerge, zSorting, zSortingWithin,
+        zIsSortingDsc, zIsSortingWithinDsc,
+      } = info;
+      let filtered = [];
+
+      const groups = JSON.parse(JSON.stringify(this.repos));
+
+      groups.forEach((repo) => {
+        const res = [];
+        repo.users.forEach((user) => {
+          // only filter users that match with zoom user
+          if (this.matchZoomUser(info, user)) {
+            this.getUserCommits(user, zSince, zUntil);
+            if (zTimeFrame === 'week') {
+              this.splitCommitsWeek(user, zSince, zUntil);
+            }
+            res.push(user);
+          }
+        });
+
+        if (res.length) {
+          filtered.push(res);
+        }
+      });
+
+      const filterControl = {
+        filterGroupSelection: zFilterGroup,
+        sortingOption: zSorting,
+        sortingWithinOption: zSortingWithin,
+        isSortingDsc: zIsSortingDsc,
+        isSortingWithinDsc: zIsSortingWithinDsc,
+      };
+      filtered = this.sortFiltered(filtered, filterControl);
+
+      if (zIsMerge) {
+        this.mergeGroup(filtered);
+      }
+      return filtered[0][0];
+    },
+    matchZoomUser(info, user) {
+      const {
+        zIsMerge, zFilterGroup, zRepo, zAuthor,
+      } = info;
+      if (zIsMerge) {
+        return zFilterGroup === 'groupByRepos'
+          ? user.repoName === zRepo
+          : user.name === zAuthor;
+      }
+      return user.repoName === zRepo && user.name === zAuthor;
+    },
   },
   created() {
     this.renderFilterHash();
     this.getFiltered();
     this.processFileTypes();
+  },
+  beforeMount() {
+    this.$root.$on('restoreCommits', (info) => {
+      const zoomFilteredUser = this.restoreZoomFiltered(info);
+      info.zUser = zoomFilteredUser;
+    });
   },
   components: {
     vSummaryCharts: window.vSummaryCharts,

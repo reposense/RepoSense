@@ -106,6 +106,10 @@
       font-weight: bold;
       text-align: left;
 
+      & > * {
+        padding-right: .5rem;
+      }
+
       &--index {
         background: mui-color('black');
         color: mui-color('white');
@@ -127,7 +131,6 @@
 
       &--contribution {
         display: inline;
-        padding-right: .5rem;
       }
     }
 
