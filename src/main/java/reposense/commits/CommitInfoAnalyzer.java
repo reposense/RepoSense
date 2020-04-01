@@ -128,7 +128,6 @@ public class CommitInfoAnalyzer {
             RepoConfiguration config) {
         Map<FileType, ContributionPair> fileTypesAndContributionMap = new HashMap<>();
         for (String filePathContribution : filePathContributions) {
-
             String[] infos = filePathContribution.split(TAB_SPLITTER);
             int addition = Integer.parseInt(infos[STAT_ADDITION_INDEX]);
             int deletion = Integer.parseInt(infos[STAT_DELETION_INDEX]);
