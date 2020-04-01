@@ -1,20 +1,3 @@
-const store = new Vuex.Store({
-  state: {
-    authorshipTabInfo: {},
-    zoomTabInfo: {},
-  },
-  mutations: {
-    updateZoomTabInfo(state, info) {
-      state.zoomTabInfo = info;
-    },
-    updateAuthorshipTabInfo(state, info) {
-      state.authorshipTabInfo = info;
-    },
-  },
-  actions: {
-  },
-});
-
 window.BASE_URL = 'https://github.com';
 window.REPORT_ZIP = null;
 window.REPOS = {};
@@ -115,7 +98,7 @@ Vue.directive('hljs', {
 
 window.app = new window.Vue({
   el: '#app',
-  store,
+  store: window.store,
   data: {
     repos: {},
     users: [],
