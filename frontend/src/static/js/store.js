@@ -11,6 +11,4 @@ window.store = new Vuex.Store({
       state.authorshipTabInfo = info;
     },
   },
-  actions: {
-  },
 });
