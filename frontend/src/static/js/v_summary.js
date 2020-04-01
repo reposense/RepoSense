@@ -1,31 +1,7 @@
 // date functions //
-const DAY_IN_MS = (1000 * 60 * 60 * 24);
-window.DAY_IN_MS = DAY_IN_MS;
-const WEEK_IN_MS = DAY_IN_MS * 7;
+window.DAY_IN_MS = (1000 * 60 * 60 * 24);
+const WEEK_IN_MS = window.DAY_IN_MS * 7;
 const dateFormatRegex = /([12]\d{3}-(0[1-9]|1[0-2])-(0[1-9]|[12]\d|3[01]))$/;
-
-window.deactivateAllOverlays = function deactivateAllOverlays() {
-  document.querySelectorAll('.summary-chart__ramp .overlay')
-      .forEach((x) => { x.className = 'overlay'; });
-};
-
-window.getDateStr = function getDateStr(date) {
-  return (new Date(date)).toISOString().split('T')[0];
-};
-
-function dateRounding(datestr, roundDown) {
-  // rounding up to nearest monday
-  const date = new Date(datestr);
-  const day = date.getUTCDay();
-  let datems = date.getTime();
-  if (roundDown) {
-    datems -= ((day + 6) % 7) * DAY_IN_MS;
-  } else {
-    datems += ((8 - day) % 7) * DAY_IN_MS;
-  }
-
-  return window.getDateStr(datems);
-}
 
 window.vSummary = {
   props: ['repos', 'errorMessages'],
@@ -437,11 +413,11 @@ window.vSummary = {
     },
 
     pushCommitsWeek(sinceMs, untilMs, res, commits) {
-      const diff = Math.round(Math.abs((untilMs - sinceMs) / DAY_IN_MS));
+      const diff = Math.round(Math.abs((untilMs - sinceMs) / window.DAY_IN_MS));
 
       for (let weekId = 0; weekId < diff / 7; weekId += 1) {
         const startOfWeekMs = sinceMs + (weekId * WEEK_IN_MS);
-        const endOfWeekMs = startOfWeekMs + WEEK_IN_MS - DAY_IN_MS;
+        const endOfWeekMs = startOfWeekMs + WEEK_IN_MS - window.DAY_IN_MS;
         const endOfWeekMsWithinUntilMs = endOfWeekMs <= untilMs ? endOfWeekMs : untilMs;
 
         const week = {
@@ -739,6 +715,20 @@ window.vSummary = {
       }
       return user.repoName === zRepo && user.name === zAuthor;
     },
+
+    dateRounding(datestr, roundDown) {
+      // rounding up to nearest monday
+      const date = new Date(datestr);
+      const day = date.getUTCDay();
+      let datems = date.getTime();
+      if (roundDown) {
+        datems -= ((day + 6) % 7) * window.DAY_IN_MS;
+      } else {
+        datems += ((8 - day) % 7) * window.DAY_IN_MS;
+      }
+
+      return window.getDateStr(datems);
+    }
   },
   created() {
     this.renderFilterHash();

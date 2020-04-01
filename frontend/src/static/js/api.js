@@ -26,6 +26,15 @@ const throttledEvent = (delay, handler) => {
   };
 };
 
+window.deactivateAllOverlays = function deactivateAllOverlays() {
+  document.querySelectorAll('.summary-chart__ramp .overlay')
+      .forEach((x) => { x.className = 'overlay'; });
+};
+
+window.getDateStr = function getDateStr(date) {
+  return (new Date(date)).toISOString().split('T')[0];
+};
+
 window.addHash = function addHash(newKey, newVal) {
   window.hashParams[newKey] = newVal;
 };
