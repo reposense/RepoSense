@@ -1,5 +1,9 @@
 package reposense.util;
 
+import static reposense.commits.CommitInfoAnalyzer.MOVED_FILE_INDICATION;
+import static reposense.commits.CommitInfoAnalyzer.STAT_FILE_PATH_INDEX;
+import static reposense.commits.CommitInfoAnalyzer.TAB_SPLITTER;
+
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -199,9 +203,9 @@ public class TestUtil {
      * Returns the file changed given a {@code rawFileChangedString}.
      */
     private static String getFileChanged(String rawFileChangedString) {
-        String fileChanged = rawFileChangedString.split("\t")[2].trim();
-        if (fileChanged.contains("=>")) {
-            fileChanged = fileChanged.substring(fileChanged.indexOf("=> ") + 3);
+        String fileChanged = rawFileChangedString.split(TAB_SPLITTER)[STAT_FILE_PATH_INDEX].trim();
+        if (fileChanged.contains(MOVED_FILE_INDICATION)) {
+            fileChanged = fileChanged.substring(fileChanged.indexOf(MOVED_FILE_INDICATION) + 3);
         }
         return fileChanged;
     }

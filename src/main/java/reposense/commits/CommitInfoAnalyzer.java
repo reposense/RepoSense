@@ -30,15 +30,19 @@ import reposense.system.LogsManager;
 public class CommitInfoAnalyzer {
     public static final DateFormat GIT_STRICT_ISO_DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
 
+    public static final String TAB_SPLITTER = "\t";
+    public static final String MOVED_FILE_INDICATION = "=> ";
+    public static final int STAT_ADDITION_INDEX = 0;
+    public static final int STAT_DELETION_INDEX = 1;
+    public static final int STAT_FILE_PATH_INDEX = 2;
+
     private static final Logger logger = LogsManager.getLogger(CommitInfoAnalyzer.class);
     private static final String MESSAGE_START_ANALYZING_COMMIT_INFO = "Analyzing commits info for %s (%s)...";
 
     private static final String LOG_SPLITTER = "\\|\\n\\|";
     private static final String REF_SPLITTER = ",\\s";
     private static final String NEW_LINE_SPLITTER = "\\n";
-    private static final String TAB_SPLITTER = "\t";
     private static final String TAG_PREFIX = "tag:";
-    private static final String MOVED_FILE_INDICATION = "=> ";
 
     private static final int COMMIT_HASH_INDEX = 0;
     private static final int AUTHOR_INDEX = 1;
@@ -47,10 +51,6 @@ public class CommitInfoAnalyzer {
     private static final int MESSAGE_TITLE_INDEX = 4;
     private static final int MESSAGE_BODY_INDEX = 5;
     private static final int REF_NAME_INDEX = 6;
-
-    private static final int STAT_ADDITION_INDEX = 0;
-    private static final int STAT_DELETION_INDEX = 1;
-    private static final int STAT_FILE_PATH_INDEX = 2;
 
     private static final Pattern INSERTION_PATTERN = Pattern.compile("([0-9]+) insertion");
     private static final Pattern DELETION_PATTERN = Pattern.compile("([0-9]+) deletion");
