@@ -14,7 +14,7 @@
   ],
   "pages": [
     {
-      "src": "index.md",
+      "src": "index.md"
     },
     {
       "glob": [
