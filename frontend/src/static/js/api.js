@@ -6,6 +6,7 @@ window.REPOS = {};
 window.flexWidth = 0.5;
 window.hashParams = {};
 window.isMacintosh = navigator.platform.includes('Mac');
+window.drags = [];
 
 const DRAG_BAR_WIDTH = 13.25;
 const SCROLL_BAR_WIDTH = 17;
@@ -26,13 +27,69 @@ const throttledEvent = (delay, handler) => {
   };
 };
 
+const getBaseTarget = (target) => {
+  return (target.className === 'summary-chart__ramp')
+      ? target
+      : getBaseTarget(target.parentElement);
+};
+
+const dragViewDown = (evt) => {
+  window.deactivateAllOverlays();
+
+  const pos = evt.clientX;
+  const ramp = window.getBaseTarget(evt.target);
+  window.drags = [pos];
+
+  const base = ramp.offsetWidth;
+  const offset = ramp.parentElement.offsetLeft;
+
+  const overlay = ramp.getElementsByClassName('overlay')[0];
+  overlay.style.marginLeft = '0';
+  overlay.style.width = `${(pos - offset) * 100 / base}%`;
+  overlay.className += ' edge';
+};
+
+const dragViewUp = (evt) => {
+  window.deactivateAllOverlays();
+  const ramp = getBaseTarget(evt.target);
+
+  const base = ramp.offsetWidth;
+  window.drags.push(evt.clientX);
+  window.drags.sort((a, b) => a - b);
+
+  const offset = ramp.parentElement.offsetLeft;
+  window.drags = window.drags.map((x) => (x - offset) * 100 / base);
+
+  const overlay = ramp.getElementsByClassName('overlay')[0];
+  overlay.style.marginLeft = `${window.drags[0]}%`;
+  overlay.style.width = `${window.drags[1] - window.drags[0]}%`;
+  overlay.className += ' show';
+};
+
 window.deactivateAllOverlays = function deactivateAllOverlays() {
   document.querySelectorAll('.summary-chart__ramp .overlay')
-      .forEach((x) => { x.className = 'overlay'; });
+      .forEach((x) => {
+        x.className = 'overlay';
+      });
 };
 
 window.getDateStr = function getDateStr(date) {
   return (new Date(date)).toISOString().split('T')[0];
+};
+
+window.viewClick = function viewClick(evt) {
+  const isKeyPressed = this.isMacintosh ? evt.metaKey : evt.ctrlKey;
+  if (window.drags.length === 2) {
+    window.drags = [];
+  }
+
+  if (isKeyPressed) {
+    return window.drags.length === 0
+        ? dragViewDown(evt)
+        : dragViewUp(evt);
+  }
+
+  return null;
 };
 
 window.addHash = function addHash(newKey, newVal) {

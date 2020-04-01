@@ -397,7 +397,7 @@ window.vSummary = {
 
       const res = [];
 
-      const nextMondayDate = dateRounding(sinceDate, 0); // round up for the next monday
+      const nextMondayDate = this.dateRounding(sinceDate, 0); // round up for the next monday
 
       const nextMondayMs = (new Date(nextMondayDate)).getTime();
       const sinceMs = new Date(sinceDate).getTime();
@@ -728,7 +728,7 @@ window.vSummary = {
       }
 
       return window.getDateStr(datems);
-    }
+    },
   },
   created() {
     this.renderFilterHash();
