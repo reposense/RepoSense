@@ -58,7 +58,7 @@ window.vZoom = {
     },
 
     getSliceLink(slice) {
-      if (this.info.isMergeGroup) {
+      if (this.info.zIsMerge) {
         return `${window.getBaseLink(slice.repoId)}/commit/${slice.hash}`;
       }
       return `${window.getBaseLink(this.info.zUser.repoId)}/commit/${slice.hash}`;
