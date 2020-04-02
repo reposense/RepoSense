@@ -145,7 +145,7 @@ public class AuthorConfiguration {
     public void removeIgnoredAuthors(List<String> ignoredAuthorsList) {
         for (String author : ignoredAuthorsList) {
             if (authorEmailsAndAliasesMap.containsKey(author)) {
-                removeAuthor(author);
+                removeAuthorInformation(author);
             }
         }
     }
@@ -155,7 +155,7 @@ public class AuthorConfiguration {
      * Precondition: {@code author} must be present in {@code authorEmailsAndAliasesMap}
      * @param author Can be an author's git ID, email, or alias
      */
-    public void removeAuthor(String author) {
+    public void removeAuthorInformation(String author) {
         Author authorToRemove = authorEmailsAndAliasesMap.get(author);
         authorList.remove(authorToRemove);
         authorDisplayNameMap.remove(authorToRemove);
