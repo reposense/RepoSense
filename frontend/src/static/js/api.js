@@ -27,11 +27,9 @@ const throttledEvent = (delay, handler) => {
   };
 };
 
-const getBaseTarget = (target) => {
-  return (target.className === 'summary-chart__ramp')
-      ? target
-      : getBaseTarget(target.parentElement);
-};
+const getBaseTarget = (target) => (target.className === 'summary-chart__ramp'
+    ? target
+    : getBaseTarget(target.parentElement));
 
 const dragViewDown = (evt) => {
   window.deactivateAllOverlays();
