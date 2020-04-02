@@ -31,7 +31,7 @@ html
         #tab-resize-guide
         #summary-wrapper
           .summary-status(v-if="loadedRepo<repoLength") Loading repos ... {{ loadedRepo }} / {{ repoLength }}
-          v_summary.tab-padding(
+          v-summary.tab-padding(
             ref="summary",
             v-bind:repos="users",
             v-bind:error-messages="errorMessages",
@@ -60,11 +60,11 @@ html
             i.fas.fa-caret-right
           .tab-content.panel-padding
             .tab-panes
-              v_authorship#tab-authorship.tab-pane(
+              v-authorship#tab-authorship.tab-pane(
                 v-if="tabType === 'authorship'",
                 v-bind:key="generateKey(tabInfo.tabAuthorship)",
                 v-bind:info="tabInfo.tabAuthorship")
-              v_zoom#tab-zoom.tab-pane(
+              v-zoom#tab-zoom.tab-pane(
                 v-else-if="tabType === 'zoom'",
                 v-bind:key="generateKey(tabInfo.tabZoom)",
                 v-bind:info="tabInfo.tabZoom",
@@ -91,6 +91,9 @@ html
     vuetemplate#v_summary
       include summary.pug
 
+    vuetemplate#v_summary_charts
+      include summary_charts.pug
+
     vuetemplate#v_ramp
       include ramp.pug
 
@@ -107,6 +110,7 @@ html
     script(src="static/js/safari_date.js")
     script(src="static/js/v_ramp.js")
     script(src="static/js/v_zoom.js")
+    script(src="static/js/v_summary_charts.js")
     script(src="static/js/v_segment.js")
     script(src="static/js/v_summary.js")
     script(src="static/js/v_authorship.js")

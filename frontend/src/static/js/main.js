@@ -318,9 +318,9 @@ window.app = new window.Vue({
     },
   },
   components: {
-    v_zoom: window.vZoom,
-    v_summary: window.vSummary,
-    v_authorship: window.vAuthorship,
+    vZoom: window.vZoom,
+    vSummary: window.vSummary,
+    vAuthorship: window.vAuthorship,
     CircleSpinner: window.VueLoadingSpinner.Circle,
   },
   created() {
