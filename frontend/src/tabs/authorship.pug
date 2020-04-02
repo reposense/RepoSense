@@ -70,6 +70,6 @@
             i.button.fas.fa-user-edit
         pre.hljs.file-content
           template(v-for="segment in file.segments")
-            v_segment(v-bind:segment="segment", v-bind:path="file.path")
+            v-segment(v-bind:segment="segment", v-bind:path="file.path")
 
   .empty(v-else) loading...
