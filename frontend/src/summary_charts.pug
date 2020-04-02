@@ -18,28 +18,24 @@
             onclick="deactivateAllOverlays()",
             v-on:click="openTabAuthorship(repo[0], repo, 0)"
           )
-            span
-              i.icon-button.fas.fa-code
+            i.icon-button.fas.fa-code
           a(
             v-bind:href="getRepoLink(repo[0])", target="_blank",
             title="click to view group's repo"
           )
-            span
-              i.icon-button.fab.fa-github
+            i.icon-button.fab.fa-github
         a(
           v-else-if="filterGroupSelection === 'groupByAuthors'",
           v-bind:href="getAuthorProfileLink(repo[0].name)", target="_blank",
           title="click to view author's profile"
         )
-          span
-            i.icon-button.fab.fa-github
+          i.icon-button.fab.fa-github
         a(
           title="click to view breakdown of commits",
           onclick="deactivateAllOverlays()",
           v-on:click="openTabZoom(repo[0], filterSinceDate, filterUntilDate, repo, 0)"
         )
-          span
-            i.icon-button.fas.fa-list-ul
+          i.icon-button.fas.fa-list-ul
       .summary-charts__title--percentile.mini-font {{ getPercentile(i) }} %
     .summary-charts__fileType--breakdown(v-if="filterBreakdown")
       template(v-if="filterGroupSelection !== 'groupByNone'")
