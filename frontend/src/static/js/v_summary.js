@@ -380,7 +380,7 @@ window.vSummary = {
     },
 
     getRandomColor() {
-      const maxHexColorValue = 16777213;
+      const maxHexColorValue = 16777214;
       // excludes #000000 and #FFFFFF as they are reserved
       return `#${Math.round(Math.random() * maxHexColorValue + 1).toString(16)}`;
     },
