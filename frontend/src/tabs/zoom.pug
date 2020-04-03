@@ -10,19 +10,19 @@
       ) {{ filteredUser.displayName }} ({{ filteredUser.name }})
       a(
         v-else,
-        v-bind:href="info.location", target="_blank",
+        v-bind:href="info.zLocation", target="_blank",
         v-bind:title="'Click to open the repo'"
       )
         span {{ filteredUser.repoName }}
-    .zoom__title--chart.medium-font(v-if="!info.isMergeGroup")
+    .zoom__title--chart.medium-font(v-if="!info.zIsMerge")
       span &#8627; &nbsp;
-      span(v-if="info.filterGroupSelection === 'groupByAuthors'") {{ filteredUser.repoName }}
+      span(v-if="info.zFilterGroup === 'groupByAuthors'") {{ filteredUser.repoName }}
       span(v-else) {{ filteredUser.displayName }} ({{ filteredUser.name }})
     .zoom__title--period.medium-font
       span &#8627; &nbsp;
-      span {{ info.sinceDate }} to {{ info.untilDate }} &nbsp;
+      span {{ info.zSince }} to {{ info.zUntil }} &nbsp;
       a(v-on:click="openSummary") [Show ramp chart for this period]
-    .zoom__title--granularity.mini-font granularity: one ramp per {{ info.filterTimeFrame }}
+    .zoom__title--granularity.mini-font granularity: one ramp per {{ info.zTimeFrame }}
     .zoom__title--tags
       template(v-for="commit in filteredUser.commits")
         template(v-for="commitResult in commit.commitResults")
@@ -34,14 +34,14 @@
               i.fas.fa-tags
               span &nbsp;{{ tag }}
 
-  v_ramp(
-    v-bind:groupby="info.filterGroupSelection",
+  v-ramp(
+    v-bind:groupby="info.zFilterGroup",
     v-bind:user="filteredUser",
-    v-bind:tframe="info.filterTimeFrame",
-    v-bind:sdate="info.sinceDate",
-    v-bind:udate="info.untilDate",
-    v-bind:avgsize="info.avgCommitSize",
-    v-bind:mergegroup="info.isMergeGroup")
+    v-bind:tframe="info.zTimeFrame",
+    v-bind:sdate="info.zSince",
+    v-bind:udate="info.zUntil",
+    v-bind:avgsize="info.zAvgCommitSize",
+    v-bind:mergegroup="info.zIsMerge")
 
   .sorting.mui-form--inline
     .mui-select
@@ -56,7 +56,7 @@
       label.medium-font order
 
   .zoom__day(v-for="day in filteredUser.commits", v-bind:key="day.date")
-    h3(v-if="info.filterTimeFrame === 'week'") Week of {{ day.date }}
+    h3(v-if="info.zTimeFrame === 'week'") Week of {{ day.date }}
     h3(v-else) {{ day.date }}
     template
       //- use tabindex to enable focus property on div
