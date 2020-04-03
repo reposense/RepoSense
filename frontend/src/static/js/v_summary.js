@@ -283,7 +283,7 @@ window.vSummary = {
             if (this.filterTimeFrame === 'week') {
               this.splitCommitsWeek(user, this.filterSinceDate, this.filterUntilDate);
             }
-            this.updateUserCheckedFileTypeContribution(user);
+            this.updateCheckedFileTypeContribution(user);
             res.push(user);
           }
         });
@@ -580,7 +580,7 @@ window.vSummary = {
       }
     },
 
-    updateUserCheckedFileTypeContribution(user) {
+    updateCheckedFileTypeContribution(user) {
       let validCommits = 0;
       Object.keys(user.fileTypeContribution).forEach((fileType) => {
         if (this.checkedFileTypes.includes(fileType)) {
@@ -708,7 +708,7 @@ window.vSummary = {
             if (zTimeFrame === 'week') {
               this.splitCommitsWeek(user, zSince, zUntil);
             }
-            this.updateUserCheckedFileTypeContribution(user);
+            this.updateCheckedFileTypeContribution(user);
             res.push(user);
           }
         });
