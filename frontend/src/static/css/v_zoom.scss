@@ -1,5 +1,9 @@
 @import 'colors';
 
+.panel-title {
+  @include large-font;
+}
+
 .zoom {
   &__title {
     &--chart {
@@ -11,6 +15,7 @@
     }
 
     &--granularity {
+      @include mini-font;
       margin-top: .5rem;
     }
 
@@ -18,6 +23,7 @@
       margin: .25rem 0 .25rem 0;
 
       .tag {
+        @include mini-font;
         cursor: pointer;
       }
     }
@@ -31,6 +37,7 @@
   &__title {
     /* Tags in commits */
     .tag {
+      @include mini-font;
       background: mui-color('grey', '600');
       border-radius: 5px;
       color: mui-color('white');
