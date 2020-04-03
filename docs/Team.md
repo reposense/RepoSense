@@ -61,6 +61,18 @@ Contributor [2018 Dec - 2019 May]<br/>
 ![](https://avatars3.githubusercontent.com/u/35756209?s=150&v=4)<br/>
 **Role**: Contributor [2019 May - ]<br/>
 
+### [Liu Yiwen](https://github.com/0blivious)
+**Role**: Contributor [2019 August - ]<br/>
+
+### [Chong Chee Yuan](https://github.com/ccyccyccy)
+**Role**: Contributor [2020 January - ]<br/>
+
+### [Tejas Bhuwania](https://github.com/Tejas2805)
+![](https://avatars2.githubusercontent.com/u/35946746?s=150&v=4)<br/>
+**Role**: Contributor [2019 August - ]<br/>
+
+### [Anubhav](https://github.com/anubh-v)
+**Role**: Contributor [2019 September - ]<br/>
 
 ## Past Members
 
