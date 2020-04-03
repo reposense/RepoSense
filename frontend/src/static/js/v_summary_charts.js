@@ -167,22 +167,12 @@ window.vSummaryCharts = {
       return fileTypes;
     },
 
-    getFileTypeContribution(ele) {
-      let validCommits = 0;
-      Object.keys(ele.fileTypeContribution).forEach((fileType) => {
-        if (this.checkedFileTypes.includes(fileType)) {
-          validCommits += ele.fileTypeContribution[fileType];
-        }
-      });
-      return validCommits;
-    },
-
     getGroupTotalContribution(group) {
-      return group.reduce((acc, user) => acc + this.getUserTotalContribution(user), 0);
+      return group.reduce((acc, ele) => acc + ele.checkedFileTypeContribution, 0);
     },
 
     getUserTotalContribution(user) {
-      return this.filterBreakdown ? this.getFileTypeContribution(user) : user.totalCommits;
+      return this.filterBreakdown ? user.checkedFileTypeContribution : user.totalCommits;
     },
 
     getContributionBars(totalContribution) {

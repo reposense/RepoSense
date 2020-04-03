@@ -96,7 +96,7 @@
               v-bind:style="{ width: width + '%',\
                 'background-color': fileTypeColors[fileType] }",
               v-bind:title="fileType + ': ' + user.fileTypeContribution[fileType] + ' lines, '\
-                + 'total: ' + getFileTypeContribution(user) + ' lines ' + '(contribution from ' + minDate + ' to '\
+                + 'total: ' + user.checkedFileTypeContribution + ' lines ' + '(contribution from ' + minDate + ' to '\
                 + maxDate + ')'"
             )
         template(v-else)
