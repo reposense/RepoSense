@@ -1,5 +1,6 @@
 #authorship
-  span.large-font Code Panel
+  .panel-title
+    span Code Panel
   .toolbar(v-if="hasCommits(info)")
     a(v-if="hasActiveFile", v-on:click="expandAll(false)") hide all file details
     a(v-else, v-on:click="expandAll(true)") show all file details
