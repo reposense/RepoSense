@@ -580,14 +580,14 @@ window.vSummary = {
       }
     },
 
-    updateCheckedFileTypeContribution(user) {
+    updateCheckedFileTypeContribution(ele) {
       let validCommits = 0;
-      Object.keys(user.fileTypeContribution).forEach((fileType) => {
+      Object.keys(ele.fileTypeContribution).forEach((fileType) => {
         if (this.checkedFileTypes.includes(fileType)) {
-          validCommits += user.fileTypeContribution[fileType];
+          validCommits += ele.fileTypeContribution[fileType];
         }
       });
-      user.checkedFileTypeContribution = validCommits;
+      ele.checkedFileTypeContribution = validCommits;
     },
 
     groupByRepos(repos, sortingControl) {
