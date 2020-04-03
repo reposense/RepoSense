@@ -230,8 +230,4 @@ public class FileUtil {
     private static boolean isFileTypeInPath(Path path, String... fileTypes) {
         return Arrays.stream(fileTypes).anyMatch(path.toString()::endsWith);
     }
-
-    private static String attachJsPrefix(String original, String prefix) {
-        return "var " + prefix + " = " + original;
-    }
 }
