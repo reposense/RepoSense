@@ -1,3 +1,4 @@
+/* global Vuex */
 window.store = new Vuex.Store({
   state: {
     authorshipTabInfo: {},
