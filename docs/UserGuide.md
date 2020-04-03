@@ -141,7 +141,7 @@ The `Tool Bar` at the top provides a set of configuration options that control t
 * `Breakdown by file type` : toggles the contribution bar to either display the bar by :
     * the total lines of codes added (if checkbox is left unchecked), or
     * a breakdown of the number of lines of codes added to each file type (if checkbox is checked). If sorting criteria is contribution, only lines contributed to selected file types will be taken into account.
-    * the total contribution of each group will update based on changes in file type checkboxes, while their variance does not.
+    * the total contribution of each group will get updated based on the selected file type checkboxes, while their variance will not.
 * `Merge group` : merges all the ramp charts of each group into a single ramp chart; aggregates the contribution of each group.
 
 Notes:<br>
