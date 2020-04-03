@@ -3,6 +3,10 @@
 /* Authorship */
 #tab-authorship {
 
+  .panel-title {
+    @include large-font
+  }
+
   .file-content {
     background-color: mui-color('github', 'title-background');
     border: solid mui-color('github', 'border');
@@ -45,12 +49,14 @@
       }
 
       #search {
+        @include medium-font;
         margin-top: 1.25rem;
         padding: .5rem 1.0rem .25rem 1.0rem;
         width: 30%;
       }
 
       #submit-button {
+        @include medium-font;
         background-color: mui-color('blue');
         color: mui-color('white');
         margin: 1.0rem 0 0 .25rem;
@@ -84,6 +90,7 @@
       }
 
       .checkboxes {
+        @include medium-font;
         label {
           align-items: center;
           display: inline-flex;

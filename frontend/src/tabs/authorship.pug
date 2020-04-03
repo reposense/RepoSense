@@ -1,5 +1,6 @@
 #authorship
-  span.large-font Code Panel
+  .panel-title
+    span Code Panel
   .toolbar(v-if="hasCommits(info)")
     a(v-if="hasActiveFile", v-on:click="expandAll(false)") hide all file details
     a(v-else, v-on:click="expandAll(true)") show all file details
@@ -17,32 +18,32 @@
     .contribution(v-if="isLoaded && files.length!=0")
       .sorting.mui-form--inline
         .mui-select
-          select.medium-font(v-model="filesSortType")
+          select(v-model="filesSortType")
             option(value="lineOfCode") LoC
             option(value="path") Path
             option(value="fileName") File Name
             option(value="fileType") File Type
-          label.medium-font sort by
+          label sort by
         .mui-select.sort-order
-          select.medium-font(v-model="toReverseSortFiles")
+          select(v-model="toReverseSortFiles")
             option(v-bind:value='true') Descending
             option(v-bind:value='false') Ascending
-          label.medium-font order
+          label order
       .searchbox
         input.radio-button--search(type="radio", value="search", v-model="filterType")
         form.file-picker.mui-form--inline(onsubmit="return false")
-          input#search.medium-font(type="search", placeholder="Filter by glob", v-on:change="updateFilterSearch",
+          input#search(type="search", placeholder="Filter by glob", v-on:change="updateFilterSearch",
             v-on:click="indicateSearchBar")
-          button#submit-button.medium-font(type="submit", v-on:click="indicateSearchBar") Filter
+          button#submit-button(type="submit", v-on:click="indicateSearchBar") Filter
       .fileType
         input.radio-button--checkbox(type="radio", value="checkboxes", v-model="filterType")
         .checkboxes.mui-form--inline(v-if="files.length > 0")
           label
             input.mui-checkbox--fileType(type="checkbox", v-model="isSelectAllChecked")
             span(v-bind:title="getTotalFileBlankLineInfo()")
-              span.select.medium-font All:&nbsp;
-              span.loc.medium-font {{ totalLineCount }}&nbsp;
-              span.bloc.medium-font ({{ totalBlankLineCount }})
+              span.select All:&nbsp;
+              span.loc {{ totalLineCount }}&nbsp;
+              span.bloc ({{ totalBlankLineCount }})
           template(v-for="fileType in Object.keys(getFileTypeExistingLinesObj)")
             label(v-bind:key="fileType")
               input.mui-checkbox--fileType(type="checkbox", v-bind:id="fileType", v-bind:value="fileType",

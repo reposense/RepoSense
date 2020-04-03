@@ -8,7 +8,7 @@
           v-else-if="filterGroupSelection === 'groupByAuthors'",
           v-bind:class=" { warn: repo[0].name === '-' }"
         ) {{ repo[0].displayName }} ({{ repo[0].name }})
-      .summary-charts__title--contribution.mini-font(
+      .summary-charts__title--contribution(
         title="Total contribution of group"
       ) [{{ getGroupTotalContribution(repo) }} lines]
       template(v-if="isMergeGroup")
@@ -30,7 +30,7 @@
           v-on:click="openTabZoom(repo[0], filterSinceDate, filterUntilDate, repo, 0)"
         )
           i.icon-button.fas.fa-list-ul
-      .summary-charts__title--percentile.mini-font {{ getPercentile(i) }} %
+      .summary-charts__title--percentile {{ getPercentile(i) }} %
     .summary-charts__fileType--breakdown(v-if="filterBreakdown")
       template(v-if="filterGroupSelection !== 'groupByNone'")
         .summary-charts__fileType--breakdown__legend(
@@ -50,7 +50,7 @@
           v-if="filterGroupSelection !== 'groupByAuthors'",
           v-bind:class="{ warn: user.name === '-' }"
         ) {{ user.displayName }} ({{ user.name }})
-        .summary-chart__title--contribution.mini-font [{{ user.totalCommits }} lines]
+        .summary-chart__title--contribution [{{ user.totalCommits }} lines]
         a(
           title="click to view author's code",
           onclick="deactivateAllOverlays()",
@@ -68,7 +68,7 @@
           v-on:click="openTabZoom(user, filterSinceDate, filterUntilDate)"
         )
           i.icon-button.fas.fa-list-ul
-        .summary-chart__title--percentile.mini-font(
+        .summary-chart__title--percentile(
           v-if="filterGroupSelection === 'groupByNone'"
         ) {{ getPercentile(i) }} %
 
