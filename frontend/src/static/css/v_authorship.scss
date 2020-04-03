@@ -24,13 +24,25 @@
     }
 
     .contribution {
-      color: mui-color('red');
-
       .fileType {
         align-items: center;
         display: flex;
         margin-left: 3rem;
         margin-top: 1.0rem;
+
+        .checkboxes {
+          label {
+            align-items: center;
+            border-radius: 5px;
+            display: inline-flex;
+            margin: 0 5px 5px 0;
+            padding: 0 5px;
+          }
+
+          span {
+            margin-left: .25rem;
+          }
+        }
       }
 
       .radio-button--search {
@@ -65,10 +77,6 @@
         font-weight: bolder;
       }
 
-      .bloc {
-        color: mui-color('grey');
-      }
-
       span.fileType {
         span.bloc::after {
           content: ', ';
@@ -81,18 +89,6 @@
 
       .mui-checkbox--fileType {
         vertical-align: middle;
-      }
-
-      .checkboxes {
-        label {
-          align-items: center;
-          display: inline-flex;
-          padding-right: 10px;
-        }
-
-        span {
-          margin-left: .25rem;
-        }
       }
     }
   }
@@ -145,6 +141,18 @@
         color: mui-color('grey');
         margin-left: .5rem;
         text-decoration: none;
+      }
+
+      .icons {
+        margin-right: 8px;
+        vertical-align: middle;
+      }
+
+      .fileTypeLabel{
+        border-radius: 5px;
+        display: inline-block;
+        font-size: 15px;
+        padding: 0 5px;
       }
     }
 

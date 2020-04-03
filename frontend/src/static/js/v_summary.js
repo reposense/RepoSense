@@ -13,6 +13,18 @@ window.getDateStr = function getDateStr(date) {
   return (new Date(date)).toISOString().split('T')[0];
 };
 
+window.getFontColor = function getFontColor(color) {
+  // to convert color from hex code to rgb format
+  const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(color);
+  const red = parseInt(result[1], 16);
+  const green = parseInt(result[2], 16);
+  const blue = parseInt(result[3], 16);
+
+  const luminosity = 0.2126 * red + 0.7152 * green + 0.0722 * blue; // per ITU-R BT.709
+
+  return luminosity < 120 ? '#ffffff' : '#000000';
+};
+
 function dateRounding(datestr, roundDown) {
   // rounding up to nearest monday
   const date = new Date(datestr);
@@ -402,18 +414,6 @@ window.vSummary = {
       });
 
       this.checkedFileTypes = this.fileTypes.slice();
-    },
-
-    getFontColor(color) {
-      // to convert color from hex code to rgb format
-      const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(color);
-      const red = parseInt(result[1], 16);
-      const green = parseInt(result[2], 16);
-      const blue = parseInt(result[3], 16);
-
-      const luminosity = 0.2126 * red + 0.7152 * green + 0.0722 * blue; // per ITU-R BT.709
-
-      return luminosity < 120 ? '#ffffff' : '#000000';
     },
 
     splitCommitsWeek(user, sinceDate, untilDate) {

@@ -38,7 +38,7 @@
           v-bind:key="fileType"
         )
           i.fas.fa-circle(
-            v-bind:style="{ 'color' : fileTypeColors[fileType] }"
+            v-bind:style="{ 'color': fileTypeColors[fileType] }"
           )
           span &nbsp; {{ fileType }} &nbsp;
     .summary-chart(v-for="(user, i) in repo")
