@@ -686,8 +686,8 @@ window.vSummary = {
 
     sortingHelper(element, sortingOption) {
       return sortingOption === 'totalCommits' || sortingOption === 'variance'
-        ? element.reduce(this.getGroupCommitsVariance, 0)
-        : element[0][sortingOption];
+          ? element.reduce(this.getGroupCommitsVariance, 0)
+          : element[0][sortingOption];
     },
 
     restoreZoomFiltered(info) {
