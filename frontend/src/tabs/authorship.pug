@@ -1,13 +1,12 @@
 #authorship
-  .panel-title
-    span Code Panel
+  span.large-font Code Panel
   .toolbar(v-if="hasCommits(info)")
     a(v-if="hasActiveFile", v-on:click="expandAll(false)") hide all file details
     a(v-else, v-on:click="expandAll(true)") show all file details
   .title
     a.repoName.large-font(
-    v-bind:href="info.location", target="_blank",
-    v-bind:title="'Click to open the repo'"
+      v-bind:href="info.location", target="_blank",
+      v-bind:title="'Click to open the repo'"
     ) {{ info.repo }}
     .author.medium-font
       span &#8627; &nbsp;
@@ -33,7 +32,7 @@
         input.radio-button--search(type="radio", value="search", v-model="filterType")
         form.file-picker.mui-form--inline(onsubmit="return false")
           input#search(type="search", placeholder="Filter by glob", v-on:change="updateFilterSearch",
-          v-on:click="indicateSearchBar")
+            v-on:click="indicateSearchBar")
           button#submit-button(type="submit", v-on:click="indicateSearchBar") Filter
       .fileType
         input.radio-button--checkbox(type="radio", value="checkboxes", v-model="filterType")
@@ -47,7 +46,7 @@
           template(v-for="fileType in Object.keys(getFileTypeExistingLinesObj)")
             label(v-bind:key="fileType")
               input.mui-checkbox--fileType(type="checkbox", v-bind:id="fileType", v-bind:value="fileType",
-              v-on:click="indicateCheckBoxes", v-model="selectedFileTypes")
+                v-on:click="indicateCheckBoxes", v-model="selectedFileTypes")
               span(v-bind:title="getFileTypeBlankLineInfo(fileType)")
                 span {{ fileType }}: {{ getFileTypeExistingLinesObj[fileType] }}&nbsp;
                 span.bloc ({{ fileTypeBlankLinesObj[fileType] }})
@@ -60,13 +59,13 @@
           span.path(onclick="toggleNext(this.parentNode)", v-on:click="updateCount") {{ file.path }}&nbsp;
           span.loc ({{ file.lineCount }} lines)
           a(
-          v-bind:href="getFileLink(file, 'commits')", target="_blank",
-          title="click to view the history view of file"
+            v-bind:href="getFileLink(file, 'commits')", target="_blank",
+            title="click to view the history view of file"
           )
             i.button.fas.fa-history
           a(
-          v-bind:href="getFileLink(file, 'blame')", target="_blank",
-          title="click to view the blame view of file"
+            v-bind:href="getFileLink(file, 'blame')", target="_blank",
+            title="click to view the blame view of file"
           )
             i.button.fas.fa-user-edit
         pre.hljs.file-content
