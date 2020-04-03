@@ -117,11 +117,11 @@ window.app = new window.Vue({
     errorMessages: {},
   },
   watch: {
-    '$store.state.zoomTabInfo'() {
+    '$store.state.zoomTabInfo': function () {
       this.tabInfo.tabZoom = Object.assign({}, this.$store.state.zoomTabInfo);
       this.activateTab('zoom');
     },
-    '$store.state.authorshipTabInfo'() {
+    '$store.state.authorshipTabInfo': function () {
       this.tabInfo.tabAuthorship = Object.assign({}, this.$store.state.authorshipTabInfo);
       this.activateTab('authorship');
     },
