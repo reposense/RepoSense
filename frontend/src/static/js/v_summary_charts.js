@@ -168,7 +168,8 @@ window.vSummaryCharts = {
     },
 
     getGroupTotalContribution(group) {
-      return group.reduce((acc, ele) => acc + ele.checkedFileTypeContribution, 0);
+      const property = this.filterBreakdown ? 'checkedFileTypeContribution' : 'totalCommits';
+      return group.reduce((acc, ele) => acc + ele[property], 0);
     },
 
     getUserTotalContribution(user) {
