@@ -1,6 +1,6 @@
 #zoom
   .panel-title
-      span Commits Panel
+    span Commits Panel
   .toolbar(v-if="filteredUser.commits.length")
     a(v-if="expandedCommitMessagesCount === 0", v-on:click="toggleAllCommitMessagesBody(true)") show all commit messages
     a(v-else, v-on:click="toggleAllCommitMessagesBody(false)") hide all commit messages
