@@ -1,3 +1,4 @@
+/* global Vuex */
 const store = new Vuex.Store({
   state: {
     tabAuthorshipInfo: {},

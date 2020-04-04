@@ -1,3 +1,4 @@
+// eslint-disable-next-line import/extensions
 import store from './store.js';
 
 window.BASE_URL = 'https://github.com';
