@@ -24,7 +24,7 @@
       )
         font-awesome-icon.icon-button(icon="user")
       a(
-        v-if="isMergeGroup"
+        v-if="isMergeGroup",
         title="click to view breakdown of commits",
         onclick="deactivateAllOverlays()",
         v-on:click="openTabZoom(repo[0], filterSinceDate, filterUntilDate, repo, 0)"
