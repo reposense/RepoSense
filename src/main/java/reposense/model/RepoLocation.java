@@ -95,7 +95,7 @@ public class RepoLocation {
      * Parses a given path to a repo and returns an array containing the following info:
      * { url, repository name, organisation name, branch name (if any) }
      *
-     * @return null if the given String is an invalid path, or no directory exists at the path
+     * @return null if the given String is an invalid path, or no directory exists at the path.
      */
     private static String[] tryParsingAsPath(String location)  {
         String[] split = location.split(BRANCH_DELIMITER);
@@ -112,7 +112,8 @@ public class RepoLocation {
      * Parses a given repo URL and returns an array containing the following info:
      * { url, repository name, organisation name, branch name (if any) }
      *
-     * @return null if the given String is an invalid URL
+     * @return null if the given String is an invalid URL, or does not match the
+     *         format of a GitHub repo URL.
      */
     private static String[] tryParsingAsRepoUrl(String repoUrl) {
         return tryParsingAsUrl(GIT_REPOSITORY_LOCATION_PATTERN, repoUrl);
@@ -122,7 +123,8 @@ public class RepoLocation {
      * Parses a given branch URL and returns an array containing the following info:
      * { url, repository name, organisation name, branch name (if any) }
      *
-     * @return null if the given String is an invalid URL
+     * @return null if the given String is an invalid URL, or does not match the
+     *         format of a branch URL.
      */
     private static String[] tryParsingAsBranchUrl(String branchUrl) {
         return tryParsingAsUrl(GITHUB_BRANCH_URL_PATTERN, branchUrl);
@@ -132,7 +134,11 @@ public class RepoLocation {
      * Parses a given URL and returns an array containing the following info:
      * { url, repository name, organisation name, branch name (if any) }
      *
-     * @return null if the given String is an invalid URL
+     * @param urlPattern a Pattern that matches either the URL of a repo on GitHub,
+     *        or the URL of a repo's branch on GitHub
+     * @param url a String that may contain a url
+     *
+     * @return null if the given String is an invalid URL, or does not match the {@code urlPattern}.
      */
     private static String[] tryParsingAsUrl(Pattern urlPattern, String url) {
         Matcher matcher = urlPattern.matcher(url);
