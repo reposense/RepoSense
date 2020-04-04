@@ -92,7 +92,7 @@ window.viewClick = function viewClick(evt) {
 window.vSummaryCharts = {
   props: ['checkedFileTypes', 'filtered', 'fileTypeColors', 'avgContributionSize', 'filterBreakdown',
       'filterGroupSelection', 'filterTimeFrame', 'filterSinceDate', 'filterUntilDate', 'isMergeGroup',
-      'minDate', 'maxDate'],
+      'minDate', 'maxDate', 'sortingOption', 'sortingWithinOption', 'isSortingDsc', 'isSortingWithinDsc'],
   template: window.$('v_summary_charts').innerHTML,
   computed: {
     avgCommitSize() {
