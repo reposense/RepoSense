@@ -2,7 +2,7 @@
   title: "User Guide"
   header: header.md
   footer: footer.md
-  siteNav: mainNav.md
+  siteNav: ugNav.md
   pageNav: 3
 </frontmatter>
 
