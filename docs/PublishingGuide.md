@@ -11,7 +11,7 @@ You can use either [Travis-CI](https://travis-ci.org/) or [GitHub Actions](https
 ## Using Travis
 
 1. Fork publish-RepoSense repository using this [link](https://github.com/RepoSense/publish-RepoSense/fork).
-1. Follow this [section](#granting-write-access-to-reposense-for-publishing) to generate a `personal access token` or `deploy key` on GitHub for report publishing. 
+1. Follow this [section](#granting-write-access-to-reposense-for-publishing) to generate a `personal access token` or `deploy key` on GitHub for report publishing.
 1. Sign up and login to [Travis-CI](https://travis-ci.org/).
 1. Go to [your account](https://travis-ci.org/account/repositories), click on **Sync account** to fetch all your repositories into Travis-CI.
 1. Go to [your publish-RepoSense fork in Travis-CI](https://travis-ci.org/search/publish-RepoSense/), under **Current** tab click on **Activate repository**.
@@ -30,7 +30,7 @@ Try accessing your site again when a green tick appears beside your fork.
 ## Using GitHub Actions
 
 1. Fork publish-RepoSense repository using this [link](https://github.com/RepoSense/publish-RepoSense/fork).
-1. Follow this [section](#granting-write-access-to-reposense-for-publishing) to generate a `personal access token` or `deploy key` on GitHub for report publishing. 
+1. Follow this [section](#granting-write-access-to-reposense-for-publishing) to generate a `personal access token` or `deploy key` on GitHub for report publishing.
 1. Go to the [secrets settings](https://github.com/reposense/publish-RepoSense/settings/secrets) of your publish-RepoSense fork, add a new secret as `ACCESS_TOKEN` or `DEPLOY_KEY` depending on your earlier choice and paste the content that was copied earlier to its value field; then click **Add secret**:
 ![GitHub Actions Secrets](images/publishingguide-secrets.png "GitHub Actions Secrets")
 1. Edit [run.sh](https://github.com/reposense/publish-RepoSense/edit/master/run.sh), [repo-config.csv](https://github.com/reposense/publish-RepoSense/edit/master/configs/repo-config.csv) and [author-config.csv](https://github.com/reposense/publish-RepoSense/edit/master/configs/author-config.csv) to customize the command line parameters or repositories to be analyzed. You may read our [User Guide](UserGuide.md#customizing-the-analysis) for more information.
