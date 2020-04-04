@@ -92,14 +92,14 @@ public class RepoLocation {
      * @return null if the given String is an invalid path, or no directory exists at the path
      */
     private static String[] tryParsingAsPath(String location)  {
-        String[] split = extractBranch(location);
+        String[] split = location.split("#");
         String filePath = split[0];
         if (!fileExists(filePath)) {
             return null;
         }
         String repoName = Paths.get(location).getFileName().toString().replace(GIT_LINK_SUFFIX, "");
-        String parsedBranch = split[1];
-        return new String[] { filePath, repoName, null, parsedBranch };
+        String branch = split.length == 1 ? null : split[1];
+        return new String[] { filePath, repoName, null, branch };
     }
 
     /**
@@ -138,22 +138,6 @@ public class RepoLocation {
         String branch = matcher.group("branch");
         String location = createRepoUrl(org, repoName);
         return new String[] { location, repoName, org, branch };
-    }
-
-    /**
-     * Given a string of the form 'repoLocation#branchName`, extracts the branch
-     * name and returns an array containing the repoLocation and branchName.
-     *
-     * @returns an array of the form {repoLocation, null } if no branchName was present.
-     */
-    private static String[] extractBranch(String locationWithBranch) {
-        String[] split = locationWithBranch.split("#");
-        String location = split[0];
-        if (split.length == 1) {
-            return new String[] { location, null };
-        }
-        String branch = split[1];
-        return new String[] { location, branch };
     }
 
     @Override
