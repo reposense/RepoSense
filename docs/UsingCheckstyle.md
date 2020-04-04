@@ -2,6 +2,8 @@
   title: "Using Checkstyle-IDEA"
   header: header.md
   footer: footer.md
+  siteNav: emptyNav.md
+  pageNav: 2
 </frontmatter>
 
 # Using Checkstyle-IDEA

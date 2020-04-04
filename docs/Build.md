@@ -2,6 +2,8 @@
   title: "Build from Source"
   header: header.md
   footer: footer.md
+  siteNav: emptyNav.md
+  pageNav: 1
 </frontmatter>
 
 # Build from Source

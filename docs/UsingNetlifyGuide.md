@@ -2,6 +2,8 @@
   title: "Using Netlify Guide"
   header: header.md
   footer: footer.md
+  siteNav: emptyNav.md
+  pageNav: 2
 </frontmatter>
 
 # Using RepoSense with Netlify

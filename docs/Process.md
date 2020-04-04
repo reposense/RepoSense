@@ -2,6 +2,8 @@
   title: "Process"
   header: header.md
   footer: footer.md
+  siteNav: emptyNav.md
+  pageNav: 2
 </frontmatter>
 
 # Process
