@@ -214,7 +214,7 @@ window.vSummaryCharts = {
         totalCommits: user.totalCommits,
       };
 
-      this.$store.commit('updateAuthorshipTabInfo', info);
+      this.$store.commit('updateTabAuthorshipInfo', info);
     },
 
     openTabZoomSubrange(user) {
@@ -251,7 +251,7 @@ window.vSummaryCharts = {
         zIsSortingWithinDsc: isSortingWithinDsc === 'dsc',
       };
 
-      this.$store.commit('updateZoomTabInfo', info);
+      this.$store.commit('updateTabZoomInfo', info);
     },
 
     getPercentile(index) {

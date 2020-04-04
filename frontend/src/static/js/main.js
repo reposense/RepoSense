@@ -1,3 +1,5 @@
+import store from './store.js';
+
 window.BASE_URL = 'https://github.com';
 window.REPORT_ZIP = null;
 window.REPOS = {};
@@ -98,7 +100,7 @@ Vue.directive('hljs', {
 
 window.app = new window.Vue({
   el: '#app',
-  store: window.store,
+  store,
   data: {
     repos: {},
     users: [],
@@ -117,12 +119,14 @@ window.app = new window.Vue({
     errorMessages: {},
   },
   watch: {
-    '$store.state.zoomTabInfo': function () {
-      this.tabInfo.tabZoom = Object.assign({}, this.$store.state.zoomTabInfo);
+    '$store.state.tabZoomInfo': function () {
+      this.removeAuthorshipHashes();
+      this.tabInfo.tabZoom = Object.assign({}, this.$store.state.tabZoomInfo);
       this.activateTab('zoom');
     },
-    '$store.state.authorshipTabInfo': function () {
-      this.tabInfo.tabAuthorship = Object.assign({}, this.$store.state.authorshipTabInfo);
+    '$store.state.tabAuthorshipInfo': function () {
+      this.removeZoomHashes();
+      this.tabInfo.tabAuthorship = Object.assign({}, this.$store.state.tabAuthorshipInfo);
       this.activateTab('authorship');
     },
   },
@@ -226,17 +230,6 @@ window.app = new window.Vue({
       window.removeHash('zSWD');
     },
 
-    updateTabAuthorship(obj) {
-      this.removeZoomHashes();
-      this.tabInfo.tabAuthorship = Object.assign({}, obj);
-      this.activateTab('authorship');
-    },
-    updateTabZoom(obj) {
-      this.removeAuthorshipHashes();
-      this.tabInfo.tabZoom = Object.assign({}, obj);
-      this.activateTab('zoom');
-    },
-
     // updating summary view
     updateSummaryDates(since, until) {
       this.$refs.summary.updateDateRange(since, until);
@@ -252,7 +245,7 @@ window.app = new window.Vue({
       };
       const tabInfoLength = Object.values(info).filter((x) => x).length;
       if (Object.keys(info).length === tabInfoLength) {
-        this.$store.commit('updateAuthorshipTabInfo', info);
+        this.$store.commit('updateTabAuthorshipInfo', info);
       } else if (hash.tabOpen === 'false' || tabInfoLength > 2) {
         window.app.isTabActive = false;
       }

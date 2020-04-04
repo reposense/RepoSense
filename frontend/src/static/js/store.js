@@ -1,15 +1,16 @@
-/* global Vuex */
-window.store = new Vuex.Store({
+const store = new Vuex.Store({
   state: {
-    authorshipTabInfo: {},
-    zoomTabInfo: {},
+    tabAuthorshipInfo: {},
+    tabZoomInfo: {},
   },
   mutations: {
-    updateZoomTabInfo(state, info) {
-      state.zoomTabInfo = info;
+    updateTabZoomInfo(state, info) {
+      state.tabZoomInfo = info;
     },
-    updateAuthorshipTabInfo(state, info) {
-      state.authorshipTabInfo = info;
+    updateTabAuthorshipInfo(state, info) {
+      state.tabAuthorshipInfo = info;
     },
   },
 });
+
+export default store;
