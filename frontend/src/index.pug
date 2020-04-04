@@ -59,7 +59,7 @@ html
         #tabs-wrapper(v-if="isTabActive")
           #tab-resize(onmousedown="registerMouseMove()")
           .tab-close(v-on:click="deactivateTab")
-            i.fas.fa-caret-right
+            font-awesome-icon(icon="caret-right")
           .tab-content.panel-padding
             .tab-panes
               v-authorship#tab-authorship.tab-pane(
@@ -74,11 +74,11 @@ html
               #tab-empty.tab-pane(v-else)
                 .title
                   span To view the code attributed to a specific author, click the &nbsp;
-                  i.fas.fa-code
+                  font-awesome-icon(icon="code")
                   span &nbsp; icon next to that author's name.
                   br
                   span To hide the code view, click the &nbsp;
-                  i.fas.fa-caret-right
+                  font-awesome-icon(icon="caret-right")
                   span &nbsp; icon on the left.
 
       template(v-else)
