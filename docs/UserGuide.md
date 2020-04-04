@@ -2,7 +2,8 @@
   title: "User Guide"
   header: header.md
   footer: footer.md
-  siteNav: ugNavigation.md
+  siteNav: mainNav.md
+  pageNav: 3
 </frontmatter>
 
 # RepoSense - User Guide

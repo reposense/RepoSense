@@ -2,7 +2,8 @@
   title: "Process"
   header: header.md
   footer: footer.md
-  siteNav: processNavigation.md
+  siteNav: mainNav.md
+  pageNav: 2
 </frontmatter>
 
 # Process

@@ -2,7 +2,8 @@
   title: "Developer Guide"
   header: header.md
   footer: footer.md
-  siteNav: dgNavigation.md
+  siteNav: mainNav.md
+  pageNav: 3
 </frontmatter>
 
 # RepoSense - Developer Guide

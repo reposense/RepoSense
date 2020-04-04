@@ -2,7 +2,8 @@
   title: "About Us"
   header: header.md
   footer: footer.md
-  siteNav: aboutNavigation.md
+  siteNav: mainNav.md
+  pageNav: 2
 </frontmatter>
 
 # RepoSense Project Team
