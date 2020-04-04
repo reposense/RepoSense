@@ -22,6 +22,11 @@ public class RepoLocation {
     private static final Pattern GITHUB_BRANCH_URL_PATTERN =
             Pattern.compile("(http|https)://github.com/(?<org>.+?)/(?<repoName>.+?)/tree/(?<branch>.+?)");
 
+    private static final int LOCATION_INDEX = 0;
+    private static final int REPO_NAME_INDEX = 1;
+    private static final int ORG_INDEX = 2;
+    private static final int BRANCH_NAME_INDEX = 3;
+
     private final String location;
     private final transient Optional<String> parsedBranch;
     private final String repoName;
@@ -36,10 +41,10 @@ public class RepoLocation {
 
     private RepoLocation(String[] repoLocationDetails) {
         assert repoLocationDetails.length == 4;
-        location = repoLocationDetails[0];
-        repoName = repoLocationDetails[1];
-        organization = repoLocationDetails[2];
-        parsedBranch = Optional.ofNullable(repoLocationDetails[3]);
+        location = repoLocationDetails[LOCATION_INDEX];
+        repoName = repoLocationDetails[REPO_NAME_INDEX];
+        organization = repoLocationDetails[ORG_INDEX];
+        parsedBranch = Optional.ofNullable(repoLocationDetails[BRANCH_NAME_INDEX]);
     }
 
     public boolean isEmpty() {
