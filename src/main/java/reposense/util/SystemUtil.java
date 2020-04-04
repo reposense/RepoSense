@@ -19,13 +19,11 @@ public class SystemUtil {
      * Returns true if the given String is a valid URL.
      */
     public static boolean isValidUrl(String possibleUrl) {
-        boolean isValidUrl;
         try {
             new URL(possibleUrl);
-            isValidUrl = true;
         } catch (MalformedURLException mue) {
-            isValidUrl = false;
+            return false;
         }
-        return isValidUrl;
+        return true;
     }
 }
