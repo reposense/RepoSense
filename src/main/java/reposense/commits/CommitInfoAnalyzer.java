@@ -122,7 +122,7 @@ public class CommitInfoAnalyzer {
     }
 
     /**
-     * Extract the additions and deletions of file types that have been modified
+     * Returns the number of lines added and deleted for the specified file types in {@code config}.
      */
     private static Map<FileType, ContributionPair> getFileTypesAndContribution(String[] filePathContributions,
             RepoConfiguration config) {
@@ -155,9 +155,8 @@ public class CommitInfoAnalyzer {
         // moved file has the format: fileA => newPosition/fileA
         String filteredFilePath =
                 filePath.substring(filePath.indexOf(MOVED_FILE_INDICATION) + MOVED_FILE_INDICATION.length());
-        if (filteredFilePath.charAt(filteredFilePath.length() - 1) == '}') { // renamed file has ending '}' char
-            filteredFilePath = filteredFilePath.substring(0, filteredFilePath.length() - 1);
-        }
+        // Removes the trailing '}' character from the file name, as renamed file names have ending '}' character.
+        filteredFilePath = filteredFilePath.replaceAll("}$", "");
         return filteredFilePath;
     }
 

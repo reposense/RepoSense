@@ -29,10 +29,8 @@ public class CommitInfoAnalyzerTest extends GitTestTemplate {
     private static final int NUMBER_EUGENE_COMMIT = 1;
     private static final int NUMBER_MINGYI_COMMIT = 1;
     private static final int NUMBER_EMPTY_MESSAGE_COMMIT = 1;
-    private static final String INSERTIONS = "insertions";
-    private static final String DELETIONS = "deletions";
-    private static final FileType JAVA = new FileType("java", Collections.singletonList("**java"));
-    private static final FileType MD = new FileType("md", Collections.singletonList("**md"));
+    private static final FileType FILETYPE_JAVA = new FileType("java", Collections.singletonList("**java"));
+    private static final FileType FILETYPE_MD = new FileType("md", Collections.singletonList("**md"));
 
     @Before
     public void before() throws InvalidLocationException {
@@ -139,10 +137,10 @@ public class CommitInfoAnalyzerTest extends GitTestTemplate {
         List<CommitResult> expectedCommitResults = new ArrayList<>();
 
         Map<FileType, ContributionPair> firstFileTypeAndContributionMap = new HashMap<>();
-        firstFileTypeAndContributionMap.put(JAVA, new ContributionPair(1, 0));
+        firstFileTypeAndContributionMap.put(FILETYPE_JAVA, new ContributionPair(1, 0));
 
         Map<FileType, ContributionPair> secondFileTypeAndContributionMap = new HashMap<>();
-        secondFileTypeAndContributionMap.put(JAVA, new ContributionPair(0, 1));
+        secondFileTypeAndContributionMap.put(FILETYPE_JAVA, new ContributionPair(0, 1));
 
         expectedCommitResults.add(new CommitResult(author, "2eccc111e813e8b2977719b5959e32b674c56afe",
                 parseGitStrictIsoDate("2019-06-19T13:02:01+08:00"), ">>>COMMIT INFO<<<",
@@ -171,10 +169,10 @@ public class CommitInfoAnalyzerTest extends GitTestTemplate {
         List<CommitResult> expectedCommitResults = new ArrayList<>();
 
         Map<FileType, ContributionPair> firstFileTypeAndContributionMap = new HashMap<>();
-        firstFileTypeAndContributionMap.put(JAVA, new ContributionPair(1, 0));
+        firstFileTypeAndContributionMap.put(FILETYPE_JAVA, new ContributionPair(1, 0));
 
         Map<FileType, ContributionPair> secondFileTypeAndContributionMap = new HashMap<>();
-        secondFileTypeAndContributionMap.put(JAVA, new ContributionPair(0, 1));
+        secondFileTypeAndContributionMap.put(FILETYPE_JAVA, new ContributionPair(0, 1));
 
         // 1st test: Contains commit message title but no commit message body.
         expectedCommitResults.add(new CommitResult(author, "e54ae8fdb77c6c7d2c39131b816bfc03e6a6dd44",
@@ -202,10 +200,10 @@ public class CommitInfoAnalyzerTest extends GitTestTemplate {
         List<CommitResult> expectedCommitResults = new ArrayList<>();
 
         Map<FileType, ContributionPair> firstFileTypeAndContributionMap = new HashMap<>();
-        firstFileTypeAndContributionMap.put(MD, new ContributionPair(2, 1));
+        firstFileTypeAndContributionMap.put(FILETYPE_MD, new ContributionPair(2, 1));
 
         Map<FileType, ContributionPair> secondFileTypeAndContributionMap = new HashMap<>();
-        secondFileTypeAndContributionMap.put(MD, new ContributionPair(1, 0));
+        secondFileTypeAndContributionMap.put(FILETYPE_MD, new ContributionPair(1, 0));
 
         expectedCommitResults.add(new CommitResult(author, "62c3a50ef9b3580b2070deac1eed2b3e2d701e04",
                 parseGitStrictIsoDate("2019-12-20T22:45:18+08:00"), "Single Tag Commit",
