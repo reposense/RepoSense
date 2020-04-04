@@ -17,7 +17,7 @@ public class RepoLocation {
     public static final String MESSAGE_INVALID_LOCATION = "The given location is invalid";
     private static final String GIT_LINK_SUFFIX = ".git";
     private static final Pattern GIT_REPOSITORY_LOCATION_PATTERN =
-            Pattern.compile("^.*github.com\\/(?<org>.+?)\\/(?<repoName>.+?)\\.git$");
+            Pattern.compile("^.*github.com\\/(?<org>.+?)\\/(?<repoName>.+?)\\.git(#(?<branch>.+))?$");
     private static final Pattern GITHUB_BRANCH_URL_PATTERN =
             Pattern.compile("(http|https)://github.com/(?<org>.+?)/(?<repoName>.+?)/tree/(?<branch>.+?)");
 
@@ -86,27 +86,6 @@ public class RepoLocation {
     }
 
     /**
-     * Parses a given repo URL and returns an array containing the following info:
-     * { url, repository name, organisation name, branch name (if any }
-     *
-     * @return null if the given String is an invalid URL
-     */
-    private static String[] tryParsingAsRepoUrl(String location) {
-        String[] split = extractBranch(location);
-        String repoUrl = split[0];
-        Matcher matcher = GIT_REPOSITORY_LOCATION_PATTERN.matcher(repoUrl);
-
-        if (!isValidUrl(repoUrl) || !matcher.matches()) {
-            return null;
-        }
-
-        String organization = matcher.group("org");
-        String repoName = matcher.group("repoName");
-        String parsedBranch = split[1];
-        return new String[] { repoUrl, repoName, organization, parsedBranch };
-    }
-
-    /**
      * Parses a given path to a repo and returns an array containing the following info:
      * { url, repository name, organisation name, branch name (if any }
      *
@@ -124,14 +103,34 @@ public class RepoLocation {
     }
 
     /**
+     * Parses a given repo URL and returns an array containing the following info:
+     * { url, repository name, organisation name, branch name (if any }
+     *
+     * @return null if the given String is an invalid URL
+     */
+    private static String[] tryParsingAsRepoUrl(String repoUrl) {
+        return tryParsingAsUrl(GIT_REPOSITORY_LOCATION_PATTERN, repoUrl);
+    }
+
+    /**
      * Parses a given branch URL and returns an array containing the following info:
      * { url, repository name, organisation name, branch name (if any }
      *
      * @return null if the given String is an invalid URL
      */
     private static String[] tryParsingAsBranchUrl(String branchUrl) {
-        Matcher matcher = GITHUB_BRANCH_URL_PATTERN.matcher(branchUrl);
-        if (!isValidUrl(branchUrl) || !matcher.matches()) {
+        return tryParsingAsUrl(GITHUB_BRANCH_URL_PATTERN, branchUrl);
+    }
+
+    /**
+     * Parses a given URL and returns an array containing the following info:
+     * { url, repository name, organisation name, branch name (if any }
+     *
+     * @return null if the given String is an invalid URL
+     */
+    private static String[] tryParsingAsUrl(Pattern urlPattern, String url) {
+        Matcher matcher = urlPattern.matcher(url);
+        if (!isValidUrl(url) || !matcher.matches()) {
             return null;
         }
         String org = matcher.group("org");
