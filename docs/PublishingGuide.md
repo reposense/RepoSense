@@ -19,7 +19,7 @@ You can use either [Travis-CI](https://travis-ci.org/) or [GitHub Actions](https
 ![Travis-CI Dashboard](images/publishingguide-travissetting.jpg "Travis-CI Dashboard")
 1. Under **Environment Variables**, name a variable as `GITHUB_TOKEN` or `GITHUB_DEPLOY_KEY` depending on your earlier choice and paste the content that was copied earlier to its value field; then click **Add**. Ensure that the `Display value in build log` is **switched off** for security reasons:
 ![Travis-CI Environment Variable](images/publishingguide-githubtoken.jpg "Travis-CI Environment Variable")
-1. Edit [run.sh](../../../../publish-RepoSense/edit/master/run.sh), [repo-config.csv](../../../../publish-RepoSense/edit/master/configs/repo-config.csv) and [author-config.csv](../../../../publish-RepoSense/edit/master/configs/author-config.csv) to customize the command line parameters or repositories to be analyzed. You may read our [User Guide](UserGuide.md#customizing-the-analysis) for more information.
+1. Edit [run.sh](https://github.com/reposense/publish-RepoSense/edit/master/run.sh), [repo-config.csv](https://github.com/reposense/publish-RepoSense/edit/master/configs/repo-config.csv) and [author-config.csv](https://github.com/reposense/publish-RepoSense/edit/master/configs/author-config.csv) to customize the command line parameters or repositories to be analyzed. You may read our [User Guide](UserGuide.md#customizing-the-analysis) for more information.
 1. To access your site, go to the settings of your fork in GitHub, under **GitHub Pages** section, look for `Your site is published at [LINK]`. It should look something like `https://[YOUR_GITHUB_ID].github.io/publish-RepoSense`.
 ![GitHub Setting](images/publishingguide-githubsetting.jpg "GitHub Setting")
 
@@ -31,14 +31,14 @@ Try accessing your site again when a green tick appears beside your fork.
 
 1. Fork publish-RepoSense repository using this [link](https://github.com/RepoSense/publish-RepoSense/fork).
 1. Follow this [section](#granting-write-access-to-reposense-for-publishing) to generate a `personal access token` or `deploy key` on GitHub for report publishing. 
-1. Go to the [secrets settings](../../../../publish-RepoSense/settings/secrets) of your publish-RepoSense fork, add a new secret as `ACCESS_TOKEN` or `DEPLOY_KEY` depending on your earlier choice and paste the content that was copied earlier to its value field; then click **Add secret**:
+1. Go to the [secrets settings](https://github.com/reposense/publish-RepoSense/settings/secrets) of your publish-RepoSense fork, add a new secret as `ACCESS_TOKEN` or `DEPLOY_KEY` depending on your earlier choice and paste the content that was copied earlier to its value field; then click **Add secret**:
 ![GitHub Actions Secrets](images/publishingguide-secrets.png "GitHub Actions Secrets")
-1. Edit [run.sh](../../../../publish-RepoSense/edit/master/run.sh), [repo-config.csv](../../../../publish-RepoSense/edit/master/configs/repo-config.csv) and [author-config.csv](../../../../publish-RepoSense/edit/master/configs/author-config.csv) to customize the command line parameters or repositories to be analyzed. You may read our [User Guide](UserGuide.md#customizing-the-analysis) for more information.
+1. Edit [run.sh](https://github.com/reposense/publish-RepoSense/edit/master/run.sh), [repo-config.csv](https://github.com/reposense/publish-RepoSense/edit/master/configs/repo-config.csv) and [author-config.csv](https://github.com/reposense/publish-RepoSense/edit/master/configs/author-config.csv) to customize the command line parameters or repositories to be analyzed. You may read our [User Guide](UserGuide.md#customizing-the-analysis) for more information.
 1. To access your site, go to the settings of your fork in GitHub, under **GitHub Pages** section, look for `Your site is published at [LINK]`. It should look something like `https://[YOUR_GITHUB_ID].github.io/publish-RepoSense`.
 ![GitHub Setting](images/publishingguide-githubsetting.jpg "GitHub Setting")
 
 > The changes made to the configuration files should trigger GitHub Actions to generate your report. Otherwise, follow the [next section](#keeping-your-site-up-to-date-with-your-code-contribution) to manually trigger a build. <br/><br/>
-It takes a few minutes for report generation. Meanwhile, you can monitor the progress live at the [actions page](../../../../publish-RepoSense/actions) of your fork. <br/>
+It takes a few minutes for report generation. Meanwhile, you can monitor the progress live at the [actions page](https://github.com/reposense/publish-RepoSense/actions) of your fork. <br/>
 
 
 ## Granting write-access to RepoSense for publishing
@@ -53,7 +53,7 @@ We recommmend use of [personal access token](https://github.blog/2013-05-16-pers
 
 1. Use `ssh-keygen` to create a public/private key pair without a passphrase. <br/>
 i.e. `ssh-keygen -t ecdsa -b 521 -f id_reposense -q -N ""`
-1. Go to the [deploy key settings](../../../../publish-RepoSense/settings/keys) of your publish-RepoSense fork and create a new deploy key with the contents of `id_reposense.pub`.
+1. Go to the [deploy key settings](https://github.com/reposense/publish-RepoSense/settings/keys) of your publish-RepoSense fork and create a new deploy key with the contents of `id_reposense.pub`.
 1. **Copy** the base64 encoded content of the private key for later use. <br/>
 i.e. `cat id_reposense | base64 -w 0`
 
@@ -75,7 +75,7 @@ Alternatively, you can manually trigger an update.
 
 ### Using GitHub Actions
 
-1. Edit [main.yml](../../../../publish-RepoSense/edit/master/.github/workflows/main.yml) and uncomment the `schedule:` section.
+1. Edit [main.yml](https://github.com/reposense/publish-RepoSense/edit/master/.github/workflows/main.yml) and uncomment the `schedule:` section.
 1. You may change the expression after `cron:` to a schedule of your choice. Read more about cron syntax [here](https://help.github.com/en/actions/reference/events-that-trigger-workflows#scheduled-events-schedule).
 1. Commit your changes.
 
@@ -90,7 +90,7 @@ For stablility or familiarity, you may want to use the release. <br/>
 
 You can find the changelog of latest release [here](https://github.com/reposense/RepoSense/releases/latest).
 
-Edit line 10 of [run.sh](../../../../publish-RepoSense/edit/master/run.sh) to use `--release`. <br />
+Edit line 10 of [run.sh](https://github.com/reposense/publish-RepoSense/edit/master/run.sh) to use `--release`. <br />
 ```
 10   ./get-reposense.py --release
 ```
@@ -99,7 +99,7 @@ Edit line 10 of [run.sh](../../../../publish-RepoSense/edit/master/run.sh) to us
 
 You can find the list of commits to master branch [here](https://github.com/reposense/RepoSense/commits/master) and planned features/fixes [here](https://github.com/reposense/RepoSense/milestones).
 
-Edit line 10 of [run.sh](../../../../publish-RepoSense/edit/master/run.sh) to use `--master`. <br />
+Edit line 10 of [run.sh](https://github.com/reposense/publish-RepoSense/edit/master/run.sh) to use `--master`. <br />
 ```
 10   ./get-reposense.py --master
 ```
@@ -107,7 +107,7 @@ Edit line 10 of [run.sh](../../../../publish-RepoSense/edit/master/run.sh) to us
 
 Be sure to read and understand [all breaking changes and bugs](https://github.com/reposense/RepoSense/releases) before proceeding.
 
-Edit line 10 of [run.sh](../../../../publish-RepoSense/edit/master/run.sh) to use `--tag TAG`, where `TAG` is the [target version of release](https://github.com/reposense/RepoSense/tags). <br />
+Edit line 10 of [run.sh](https://github.com/reposense/publish-RepoSense/edit/master/run.sh) to use `--tag TAG`, where `TAG` is the [target version of release](https://github.com/reposense/RepoSense/tags). <br />
 ```
 10   ./get-reposense.py --tag v1.6.1
 ```
