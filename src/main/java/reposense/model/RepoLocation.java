@@ -93,7 +93,7 @@ public class RepoLocation {
 
     /**
      * Parses a given path to a repo and returns an array containing the following info:
-     * { url, repository name, organisation name, branch name (if any }
+     * { url, repository name, organisation name, branch name (if any) }
      *
      * @return null if the given String is an invalid path, or no directory exists at the path
      */
@@ -110,7 +110,7 @@ public class RepoLocation {
 
     /**
      * Parses a given repo URL and returns an array containing the following info:
-     * { url, repository name, organisation name, branch name (if any }
+     * { url, repository name, organisation name, branch name (if any) }
      *
      * @return null if the given String is an invalid URL
      */
@@ -120,7 +120,7 @@ public class RepoLocation {
 
     /**
      * Parses a given branch URL and returns an array containing the following info:
-     * { url, repository name, organisation name, branch name (if any }
+     * { url, repository name, organisation name, branch name (if any) }
      *
      * @return null if the given String is an invalid URL
      */
@@ -130,7 +130,7 @@ public class RepoLocation {
 
     /**
      * Parses a given URL and returns an array containing the following info:
-     * { url, repository name, organisation name, branch name (if any }
+     * { url, repository name, organisation name, branch name (if any) }
      *
      * @return null if the given String is an invalid URL
      */
