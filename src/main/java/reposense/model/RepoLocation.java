@@ -69,7 +69,7 @@ public class RepoLocation {
      * { location, repository name, organisation name, branch name (if any) }
      *
      * @param location a repository location, which is a file path or URL with the branch
-     *                 name optionally appended
+     *         name optionally appended
      * @throws InvalidLocationException if the repo location is an invalid path or an invalid URL
      */
     private static String[] parse(String location) throws InvalidLocationException {
