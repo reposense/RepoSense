@@ -96,6 +96,8 @@ Vue.directive('hljs', {
   },
 });
 
+Vue.component('font-awesome-icon', window['vue-fontawesome'].FontAwesomeIcon);
+
 window.app = new window.Vue({
   el: '#app',
   data: {
