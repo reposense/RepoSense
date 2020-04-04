@@ -16,6 +16,7 @@ import reposense.parser.InvalidLocationException;
 public class RepoLocation {
     public static final String MESSAGE_INVALID_LOCATION = "The given location is invalid";
     private static final String GIT_LINK_SUFFIX = ".git";
+    private static final String BRANCH_DELIMITER = "#";
     private static final Pattern GIT_REPOSITORY_LOCATION_PATTERN =
             Pattern.compile("^.*github.com\\/(?<org>.+?)\\/(?<repoName>.+?)\\.git(#(?<branch>.+))?$");
     private static final Pattern GITHUB_BRANCH_URL_PATTERN =
@@ -92,7 +93,7 @@ public class RepoLocation {
      * @return null if the given String is an invalid path, or no directory exists at the path
      */
     private static String[] tryParsingAsPath(String location)  {
-        String[] split = location.split("#");
+        String[] split = location.split(BRANCH_DELIMITER);
         String filePath = split[0];
         if (!fileExists(filePath)) {
             return null;
