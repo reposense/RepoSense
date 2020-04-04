@@ -4,8 +4,6 @@ import static reposense.util.FileUtil.fileExists;
 import static reposense.util.SystemUtil.isValidUrl;
 
 import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Optional;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -16,6 +14,7 @@ import reposense.parser.InvalidLocationException;
  * Represents a repository location.
  */
 public class RepoLocation {
+    public static final String MESSAGE_INVALID_LOCATION = "The given location is invalid";
     private static final String GIT_LINK_SUFFIX = ".git";
     private static final Pattern GIT_REPOSITORY_LOCATION_PATTERN =
             Pattern.compile("^.*github.com\\/(?<org>.+?)\\/(?<repoName>.+?)\\.git$");
@@ -83,7 +82,7 @@ public class RepoLocation {
             return parsedInfo;
         }
 
-        throw new InvalidLocationException("The given location is invalid");
+        throw new InvalidLocationException(MESSAGE_INVALID_LOCATION);
     }
 
     /**
@@ -186,23 +185,5 @@ public class RepoLocation {
 
     private static String createRepoUrl(String org, String repoName) {
         return "https://github.com/" + org + "/" + repoName + GIT_LINK_SUFFIX;
-    }
-
-    /**
-     * Converts all the strings in {@code locations} into {@code RepoLocation} objects.
-     * Returns null if {@code locations} is null.
-     * @throws InvalidLocationException if any of the strings are in invalid formats.
-     */
-    public static List<RepoLocation> convertStringsToLocations(List<String> locations) throws InvalidLocationException {
-        if (locations == null) {
-            return null;
-        }
-
-        List<RepoLocation> convertedLocations = new ArrayList<>();
-        for (String location : locations) {
-            convertedLocations.add(new RepoLocation(location));
-        }
-
-        return convertedLocations;
     }
 }
