@@ -30,14 +30,11 @@ public class RepoLocationTest {
     @Test
     public void repoLocation_parseInvalidGitUrl_throwsInvalidLocationException() {
         // non GitHub url should rejected
-        AssertUtil.assertThrows(InvalidLocationException.class, () ->
-                new RepoLocation("git.com/reposense/RepoSense.git"));
+        assertInvalidLocation("git.com/reposense/RepoSense.git");
         // url without organisation name should be rejected
-        AssertUtil.assertThrows(InvalidLocationException.class, () ->
-                new RepoLocation("https://github.com/RepoSense.git"));
+        assertInvalidLocation("https://github.com/RepoSense.git");
         // url with a typo should be rejected
-        AssertUtil.assertThrows(InvalidLocationException.class, () ->
-                new RepoLocation("https://github.com/RepoSense.gi"));
+        assertInvalidLocation("https://github.com/RepoSense.gi");
     }
 
     @Test
@@ -53,11 +50,14 @@ public class RepoLocationTest {
     @Test
     public void repoLocation_parseInvalidBranchUrl_throwsInvalidLocationException() throws Exception {
         // ftp url should be rejected
-        AssertUtil.assertThrows(InvalidLocationException.class, () ->
-                new RepoLocation("ftp://github.com/reposense/RepoSense/tree/feature_branch_issue#1010"));
+        assertInvalidLocation("ftp://github.com/reposense/RepoSense/tree/feature_branch_issue#1010");
         // url without branch name should be rejected
-        AssertUtil.assertThrows(InvalidLocationException.class, () ->
-                new RepoLocation("https://github.com/reposense/RepoSense/tree/"));
+        assertInvalidLocation("https://github.com/reposense/RepoSense/tree/");
+    }
+
+    private void assertInvalidLocation(String rawLocation) {
+        AssertUtil.assertThrows(InvalidLocationException.class,
+                RepoLocation.MESSAGE_INVALID_LOCATION, () -> new RepoLocation(rawLocation));
     }
 
 }
