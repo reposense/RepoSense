@@ -106,6 +106,10 @@
       font-weight: bold;
       text-align: left;
 
+      & > * {
+        padding-right: .5rem;
+      }
+
       &--index {
         background: mui-color('black');
         color: mui-color('white');
@@ -115,7 +119,7 @@
         vertical-align: middle;
       }
 
-      &--repo {
+      &--groupname {
         font-size: medium;
         padding: .5rem;
       }
@@ -127,7 +131,6 @@
 
       &--contribution {
         display: inline;
-        padding-right: .5rem;
       }
     }
 

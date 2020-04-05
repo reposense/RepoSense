@@ -277,7 +277,7 @@ window.vAuthorship = {
 
     selectedFiles() {
       return this.files.filter((file) => this.selectedFileTypes.includes(file.fileType)
-          && minimatch(file.path, this.filterSearch, { matchBase: true }))
+          && minimatch(file.path, this.filterSearch, { matchBase: true, dot: true }))
           .sort(this.sortingFunction);
     },
 
@@ -297,6 +297,6 @@ window.vAuthorship = {
     this.setInfoHash();
   },
   components: {
-    v_segment: window.vSegment,
+    vSegment: window.vSegment,
   },
 };
