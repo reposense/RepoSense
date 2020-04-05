@@ -2,7 +2,7 @@
   title: "Process"
   header: header.md
   footer: footer.md
-  siteNav: emptyNav.md
+  siteNav: mainNav.md
   pageNav: 2
 </frontmatter>
 

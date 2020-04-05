@@ -2,7 +2,7 @@
   title: "Developer Guide"
   header: header.md
   footer: footer.md
-  siteNav: dgNav.md
+  siteNav: mainNav.md
   pageNav: 3
 </frontmatter>
 
