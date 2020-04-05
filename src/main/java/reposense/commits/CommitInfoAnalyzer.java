@@ -32,6 +32,7 @@ public class CommitInfoAnalyzer {
 
     public static final String TAB_SPLITTER = "\t";
     public static final String MOVED_FILE_INDICATION = "=> ";
+    public static final String BINARY_FILE_CONTRIBUTION = "-";
     public static final int STAT_ADDITION_INDEX = 0;
     public static final int STAT_DELETION_INDEX = 1;
     public static final int STAT_FILE_PATH_INDEX = 2;
@@ -129,6 +130,11 @@ public class CommitInfoAnalyzer {
         Map<FileType, ContributionPair> fileTypesAndContributionMap = new HashMap<>();
         for (String filePathContribution : filePathContributions) {
             String[] infos = filePathContribution.split(TAB_SPLITTER);
+
+            if (isBinaryContribution(infos[STAT_ADDITION_INDEX], infos[STAT_DELETION_INDEX])) {
+                continue; // skip binary file contributions
+            }
+
             int addition = Integer.parseInt(infos[STAT_ADDITION_INDEX]);
             int deletion = Integer.parseInt(infos[STAT_DELETION_INDEX]);
             String filePath = extractFilePath(infos[STAT_FILE_PATH_INDEX]);
@@ -158,6 +164,14 @@ public class CommitInfoAnalyzer {
         // Removes the trailing '}' character from the file name, as renamed file names have ending '}' character.
         filteredFilePath = filteredFilePath.replaceAll("}$", "");
         return filteredFilePath;
+    }
+
+    /**
+     * Detects binary file contribution based on the git log {@code addition} and {@code deletion}.
+     */
+    private static boolean isBinaryContribution(String addition, String deletion) {
+        // git log returns "-" for binary file additions and deletions
+        return addition.equals(BINARY_FILE_CONTRIBUTION) && deletion.equals(BINARY_FILE_CONTRIBUTION);
     }
 
     /**
