@@ -16,7 +16,7 @@
     * [Setting up]({{baseUrl}}/DeveloperGuide.html#setting-up)
     * [Architecture]({{baseUrl}}/DeveloperGuide.html#architecture)
     * [HTML Report]({{baseUrl}}/DeveloperGuide.html#html-report)
-      
+
 * <span class="lead">**About**</span>
     * [Current Team]({{baseUrl}}/about.html#current-team)
     * [Past Members]({{baseUrl}}/about.html#past-members)
