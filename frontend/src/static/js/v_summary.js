@@ -519,14 +519,14 @@ window.vSummary = {
 
     getFilteredFileTypes(commitResult) {
       return Object.keys(commitResult.fileTypesAndContributionMap)
-          .filter((fileType) => this.isFileTypeIncluded(fileType))
+          .filter(this.isFileTypeChecked)
           .reduce((obj, fileType) => {
             obj[fileType] = commitResult.fileTypesAndContributionMap[fileType];
             return obj;
           }, {});
     },
 
-    isFileTypeIncluded(fileType) {
+    isFileTypeChecked(fileType) {
       return this.checkedFileTypes.includes(fileType);
     },
 
