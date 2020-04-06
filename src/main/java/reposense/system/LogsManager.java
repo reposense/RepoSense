@@ -132,14 +132,5 @@ public class LogsManager {
         logFolderLocation = location;
         LOGGER_LIST.stream().forEach(logger -> addFileHandler(logger));
     }
-
-    public static void setConsoleHandlerLevel(Level level) {
-        currentConsoleLogLevel = level;
-    }
-
-    public static void setFileConsoleHandlerLevel(Level level) {
-        currentFileLogLevel = level;
-    }
-
 }
 

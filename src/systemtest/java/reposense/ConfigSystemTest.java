@@ -26,6 +26,7 @@ import reposense.model.RepoConfiguration;
 import reposense.parser.ArgsParser;
 import reposense.parser.AuthorConfigCsvParser;
 import reposense.parser.GroupConfigCsvParser;
+import reposense.parser.InvalidCsvException;
 import reposense.parser.ParseException;
 import reposense.parser.RepoConfigCsvParser;
 import reposense.parser.SinceDateArgumentType;
@@ -40,6 +41,7 @@ public class ConfigSystemTest {
     private static final String EXPECTED_FOLDER = "expected";
     private static final List<String> TESTING_FILE_FORMATS = Arrays.asList("java", "adoc");
     private static final String TEST_REPORT_GENERATED_TIME = "Tue Jul 24 17:45:15 SGT 2018";
+    private static final String TEST_REPORT_GENERATION_TIME = "15 second(s)";
 
     @Before
     public void setUp() throws IOException {
@@ -57,8 +59,7 @@ public class ConfigSystemTest {
      * since date to capture from the first commit.
      */
     @Test
-    public void testSinceBeginningDateRange() throws IOException, URISyntaxException, ParseException,
-            HelpScreenException {
+    public void testSinceBeginningDateRange() throws Exception {
         generateReport(getInputWithDates(SinceDateArgumentType.FIRST_COMMIT_DATE_SHORTHAND, "2/3/2019"));
         Path actualFiles = Paths.get(getClass().getClassLoader()
                 .getResource("sinceBeginningDateRange/expected").toURI());
@@ -66,7 +67,7 @@ public class ConfigSystemTest {
     }
 
     @Test
-    public void test30DaysFromUntilDate() throws URISyntaxException, HelpScreenException, ParseException, IOException {
+    public void test30DaysFromUntilDate() throws Exception {
         generateReport(getInputWithUntilDate("1/11/2017"));
         Path actualFiles = Paths.get(getClass().getClassLoader()
                 .getResource("30daysFromUntilDate/expected").toURI());
@@ -77,7 +78,7 @@ public class ConfigSystemTest {
      * System test with a specified since date and until date.
      */
     @Test
-    public void testDateRange() throws IOException, URISyntaxException, ParseException, HelpScreenException {
+    public void testDateRange() throws Exception {
         generateReport(getInputWithDates("1/9/2017", "30/10/2017"));
         Path actualFiles = Paths.get(getClass().getClassLoader().getResource("dateRange/expected").toURI());
         verifyAllJson(actualFiles, FT_TEMP_DIR);
@@ -94,13 +95,14 @@ public class ConfigSystemTest {
     /**
      * Generates the testing report to be compared with expected report.
      * @throws IOException if there is error in parsing csv file.
+     * @throws InvalidCsvException if the csv file is malformed.
      * @throws URISyntaxException if the path fo config folder cannot be converted to URI.
      * @throws ParseException if the string argument fails to parse to a {@code CliArguments} object.
      * @throws HelpScreenException if given args contain the --help flag. Help message will be printed out
      * by the {@code ArgumentParser} hence this is to signal to the caller that the program is safe to exit.
      */
     private void generateReport(String inputDates)
-            throws IOException, URISyntaxException, ParseException, HelpScreenException {
+            throws IOException, InvalidCsvException, URISyntaxException, ParseException, HelpScreenException {
         Path configFolder = Paths.get(getClass().getClassLoader().getResource("repo-config.csv").toURI()).getParent();
 
         String formats = String.join(" ", TESTING_FILE_FORMATS);
@@ -126,8 +128,8 @@ public class ConfigSystemTest {
                 repoConfigs, cliArguments.getSinceDate(), cliArguments.getUntilDate());
 
         ReportGenerator.generateReposReport(repoConfigs, FT_TEMP_DIR, TEST_REPORT_GENERATED_TIME,
-                cliArguments.getSinceDate(), cliArguments.getUntilDate(),
-                cliArguments.isSinceDateProvided(), cliArguments.isUntilDateProvided());
+                cliArguments.getSinceDate(), cliArguments.getUntilDate(), cliArguments.isSinceDateProvided(),
+                cliArguments.isUntilDateProvided(), () -> TEST_REPORT_GENERATION_TIME);
     }
 
     /**

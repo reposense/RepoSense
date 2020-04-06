@@ -36,6 +36,7 @@ window.api = {
           window.app.sinceDate = data.sinceDate;
           window.app.untilDate = data.untilDate;
           window.app.repoSenseVersion = data.repoSenseVersion;
+          window.app.reportGenerationTime = data.reportGenerationTime;
           window.app.isSinceDateProvided = data.isSinceDateProvided;
           window.app.isUntilDateProvided = data.isUntilDateProvided;
 
