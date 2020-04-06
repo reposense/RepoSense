@@ -205,7 +205,8 @@ public class TestUtil {
     private static String getFileChanged(String rawFileChangedString) {
         String fileChanged = rawFileChangedString.split(TAB_SPLITTER)[STAT_FILE_PATH_INDEX].trim();
         if (fileChanged.contains(MOVED_FILE_INDICATION)) {
-            fileChanged = fileChanged.substring(fileChanged.indexOf(MOVED_FILE_INDICATION) + 3);
+            fileChanged = fileChanged.substring(fileChanged.indexOf(MOVED_FILE_INDICATION)
+                    + MOVED_FILE_INDICATION.length());
         }
         return fileChanged;
     }
