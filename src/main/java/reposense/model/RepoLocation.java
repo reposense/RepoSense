@@ -6,8 +6,6 @@ import java.nio.file.Files;
 import java.nio.file.InvalidPathException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -104,23 +102,5 @@ public class RepoLocation {
     @Override
     public int hashCode() {
         return location.hashCode();
-    }
-
-    /**
-     * Converts all the strings in {@code locations} into {@code RepoLocation} objects.
-     * Returns null if {@code locations} is null.
-     * @throws InvalidLocationException if any of the strings are in invalid formats.
-     */
-    public static List<RepoLocation> convertStringsToLocations(List<String> locations) throws InvalidLocationException {
-        if (locations == null) {
-            return null;
-        }
-
-        List<RepoLocation> convertedLocations = new ArrayList<>();
-        for (String location : locations) {
-            convertedLocations.add(new RepoLocation(location));
-        }
-
-        return convertedLocations;
     }
 }
