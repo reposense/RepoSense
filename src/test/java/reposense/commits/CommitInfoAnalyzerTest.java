@@ -245,6 +245,28 @@ public class CommitInfoAnalyzerTest extends GitTestTemplate {
         Assert.assertEquals(expectedCommitResults, actualCommitResults);
     }
 
+    @Test
+    public void analyzeCommits_commitsWithBinaryFileContribution_success() throws ParseException {
+        Author author = new Author(JAMES_AUTHOR_NAME);
+        List<CommitResult> expectedCommitResults = new ArrayList<>();
+
+        // binary file contribution will have 0 contribution and won't be added to fileTypesAndContributionMap
+        expectedCommitResults.add(new CommitResult(author, "a00c51138cbf5ab7d14f52b52abb182c8a369169",
+                parseGitStrictIsoDate("2020-04-06T16:41:10+08:00"), "Add binary file",
+                "", null, 0, 0, new HashMap<>()));
+
+        config.setBranch("1192-CommitInfoAnalyzerTest-analyzeCommits_commitsWithBinaryContribution_success");
+        config.setAuthorList(Collections.singletonList(author));
+        config.setFormats(FileTypeTest.NO_SPECIFIED_FORMATS);
+        config.setSinceDate(new GregorianCalendar(2020, Calendar.APRIL, 6).getTime());
+        config.setUntilDate(new GregorianCalendar(2020, Calendar.APRIL, 7).getTime());
+
+        List<CommitInfo> actualCommitInfos = CommitInfoExtractor.extractCommitInfos(config);
+        List<CommitResult> actualCommitResults = CommitInfoAnalyzer.analyzeCommits(actualCommitInfos, config);
+
+        Assert.assertEquals(expectedCommitResults, actualCommitResults);
+    }
+
     /**
      * Returns a {@code Date} from a string {@code gitStrictIsoDate}.
      */
