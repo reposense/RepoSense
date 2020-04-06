@@ -52,37 +52,52 @@ Contributor [2018 Dec - 2019 May]<br/>
 
 ---
 
-### [Jin Minjia](https://github.com/bluein-green)
-**Role**: Contributor [2019 May - ]<br/>
-
----
-
 ### [Lee Jin Yao](https://github.com/jylee-git)
 ![](https://avatars3.githubusercontent.com/u/35756209?s=150&v=4)<br/>
 **Role**: Contributor [2019 May - ]<br/>
 
+--
+
 ### [Liu Yiwen](https://github.com/0blivious)
 **Role**: Contributor [2019 August - ]<br/>
 
-### [Chong Chee Yuan](https://github.com/ccyccyccy)
-**Role**: Contributor [2020 January - ]<br/>
+--
 
 ### [Tejas Bhuwania](https://github.com/Tejas2805)
 ![](https://avatars2.githubusercontent.com/u/35946746?s=150&v=4)<br/>
 **Role**: Contributor [2019 August - ]<br/>
 
+--
+
 ### [Anubhav](https://github.com/anubh-v)
 **Role**: Contributor [2019 September - ]<br/>
 
+--
+
 ### [Ang Ze Yu](https://github.com/ang-zeyu)
 **Role**: Contributor [2020 January - ]<br/>
+
+--
+
+### [Chong Chee Yuan](https://github.com/ccyccyccy)
+**Role**: Contributor [2020 January - ]<br/>
+
+--
+
+### [Ni Tianzhen](https://github.com/niqiukun)
+**Role**: Contributor [2020 January - ]<br/>
+
+--
+
+### [Ni Tianzhen](https://github.com/niqiukun)
+**Role**: Contributor [2020 January - ]<br/>
+
+--
 
 ### [Yash Chowdhary](https://github.com/yash-chowdhary)
 ![](https://avatars2.githubusercontent.com/u/21968718?s=150&v=4)<br/>
 **Role**: Contributor [2020 January - ]<br/>
 
-### [Ni Tianzhen](https://github.com/niqiukun)
-**Role**: Contributor [2020 January - ]<br/>
 
 ## Past Members
 
@@ -113,3 +128,8 @@ Contributor [2018 Dec - 2019 May]
 
 ### [Teo Ming Yi](https://github.com/myteo)
 Contributor [2018 Dec - 2019 May]
+
+--
+
+### [Jin Minjia](https://github.com/bluein-green)
+**Role**: Contributor [2019 May - 2019 Aug]<br/>
