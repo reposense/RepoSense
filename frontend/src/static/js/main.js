@@ -231,11 +231,6 @@ window.app = new window.Vue({
       window.removeHash('zSWD');
     },
 
-    // updating summary view
-    updateSummaryDates(since, until) {
-      this.$refs.summary.updateDateRange(since, until);
-    },
-
     renderAuthorShipTabHash(minDate, maxDate) {
       const hash = window.hashParams;
       const info = {

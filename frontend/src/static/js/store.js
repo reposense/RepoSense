@@ -3,6 +3,7 @@ const store = new Vuex.Store({
   state: {
     tabAuthorshipInfo: {},
     tabZoomInfo: {},
+    summaryDates: {},
   },
   mutations: {
     updateTabZoomInfo(state, info) {
@@ -10,6 +11,9 @@ const store = new Vuex.Store({
     },
     updateTabAuthorshipInfo(state, info) {
       state.tabAuthorshipInfo = info;
+    },
+    updateSummaryDates(state, info) {
+      state.summaryDates = info;
     },
   },
 });

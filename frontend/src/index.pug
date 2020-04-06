@@ -67,8 +67,7 @@ html
               v-zoom#tab-zoom.tab-pane(
                 v-else-if="tabType === 'zoom'",
                 v-bind:key="generateKey(tabInfo.tabZoom)",
-                v-bind:info="tabInfo.tabZoom",
-                v-on:view-summary="updateSummaryDates")
+                v-bind:info="tabInfo.tabZoom")
               #tab-empty.tab-pane(v-else)
                 .title
                   span To view the code attributed to a specific author, click the &nbsp;

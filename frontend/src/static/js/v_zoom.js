@@ -53,8 +53,10 @@ window.vZoom = {
       }
       this.setInfoHash();
     },
+
     openSummary() {
-      this.$emit('view-summary', this.info.zSince, this.info.zUntil);
+      const info = { since: this.info.zSince, until: this.info.zUntil };
+      this.$store.commit('updateSummaryDates', info);
     },
 
     getSliceLink(slice) {
