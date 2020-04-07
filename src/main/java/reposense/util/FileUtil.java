@@ -216,7 +216,7 @@ public class FileUtil {
     }
 
     /**
-     * Returns true if there a file exists at the path corresponding to the given String.
+     * Returns true if a file exists at the path corresponding to the given String.
      */
     public static boolean fileExists(String path) {
         boolean isValidPathLocation;
