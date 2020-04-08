@@ -6,14 +6,6 @@
 
 .zoom {
   &__title {
-    &--chart {
-      margin-left: .3rem;
-    }
-
-    &--period {
-      margin-left: 2rem;
-    }
-
     &--granularity {
       @include mini-font;
       margin-top: .5rem;
