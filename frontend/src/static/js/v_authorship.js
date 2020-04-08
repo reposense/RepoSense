@@ -157,8 +157,8 @@ window.vAuthorship = {
 
       lines.forEach((line, lineCount) => {
         const isAuthorMatched = this.info.isMergeGroup
-          ? line.author.gitId !== '-'
-          : line.author.gitId === this.info.author;
+            ? line.author.gitId !== '-'
+            : line.author.gitId === this.info.author;
         const authored = (line.author && isAuthorMatched);
 
         if (authored !== lastState || lastId === -1) {
