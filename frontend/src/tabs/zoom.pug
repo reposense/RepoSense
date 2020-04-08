@@ -7,7 +7,7 @@
   .panel-heading
     .group-name
       span(
-        v-if="info.filterGroupSelection === 'groupByAuthors'"
+        v-if="info.zFilterGroup === 'groupByAuthors'"
       ) {{ filteredUser.displayName }} ({{ filteredUser.name }})
       a(
         v-else,
