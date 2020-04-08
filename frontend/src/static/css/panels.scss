@@ -108,8 +108,7 @@
   }
 
   .period {
-    font-size: .875rem;
-    font-weight: normal;
+    @include medium-font;
     margin-left: 2rem;
   }
 }
