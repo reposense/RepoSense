@@ -142,8 +142,8 @@ window.vAuthorship = {
       const repo = window.REPOS[info.repo];
       if (repo) {
         return isMergeGroup
-          ? Object.entries(repo.commits.authorFinalContributionMap).some(([name, cnt]) => name !== '-' && cnt > 0)
-          : repo.commits.authorFinalContributionMap[author] > 0;
+            ? Object.entries(repo.commits.authorFinalContributionMap).some(([name, cnt]) => name !== '-' && cnt > 0)
+            : repo.commits.authorFinalContributionMap[author] > 0;
       }
       return false;
     },
@@ -197,8 +197,8 @@ window.vAuthorship = {
       files.forEach((file) => {
         const contributionMap = file.authorContributionMap;
         const lineCnt = this.info.isMergeGroup
-          ? this.getContributionFromAllAuthors(contributionMap)
-          : contributionMap[this.info.author];
+            ? this.getContributionFromAllAuthors(contributionMap)
+            : contributionMap[this.info.author];
 
         if (lineCnt) {
           totalLineCount += lineCnt;
