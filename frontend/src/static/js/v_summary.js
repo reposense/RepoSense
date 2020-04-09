@@ -115,9 +115,8 @@ window.vSummary = {
     },
   },
   methods: {
-    dismissTab(node) {
-      const parent = node.parentNode;
-      parent.style.display = 'none';
+    dismissTab(event) {
+      event.target.parentNode.style.display = 'none';
     },
 
     // view functions //
