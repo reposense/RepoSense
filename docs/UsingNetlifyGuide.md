@@ -14,11 +14,11 @@ Netlify's continuous web deployment platform enables you to deploy RepoSense onl
 1. Follow this [guide](https://www.netlify.com/blog/2016/09/29/a-step-by-step-guide-deploying-on-netlify/) to set up Netlify in your forked repository. You will need to use the following in [Step 5](https://www.netlify.com/blog/2016/09/29/a-step-by-step-guide-deploying-on-netlify/#step-5-configure-your-settings):
 
    **Build command**:
-   ```
+   ``` {.no-line-numbers}
    ./gradlew run -Dargs="--repos YOUR_TARGET_REPO"
    ```
    **Publish directory**:
-   ```
+   ``` {.no-line-numbers}
    ./reposense-report
    ```
 
@@ -49,11 +49,11 @@ Using `config files` lets you generate a more customised report. Please refer to
 
 In **Step 5** for **Build Command** use:
 
-```
+``` {.no-line-numbers}
 ./gradlew run -Dargs="--config ./config/"
 ```
 
 Alternatively, if you want to customise the location of the config files, use:
-```
+``` {.no-line-numbers}
 ./gradlew run -Dargs="--config YOUR_CONFIG_FILE_LOCATION"
 ```

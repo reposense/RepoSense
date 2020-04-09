@@ -93,8 +93,8 @@ For stablility or familiarity, you may want to use the release. <br/>
 You can find the changelog of latest release [here](https://github.com/reposense/RepoSense/releases/latest).
 
 Edit line 10 of [run.sh](https://github.com/reposense/publish-RepoSense/edit/master/run.sh) to use `--release`. <br />
-```
-10   ./get-reposense.py --release
+``` {start-from=10}
+./get-reposense.py --release
 ```
 
 ### Use our master branch (Beta)
@@ -102,16 +102,16 @@ Edit line 10 of [run.sh](https://github.com/reposense/publish-RepoSense/edit/mas
 You can find the list of commits to master branch [here](https://github.com/reposense/RepoSense/commits/master) and planned features/fixes [here](https://github.com/reposense/RepoSense/milestones).
 
 Edit line 10 of [run.sh](https://github.com/reposense/publish-RepoSense/edit/master/run.sh) to use `--master`. <br />
-```
-10   ./get-reposense.py --master
+``` {start-from=10}
+./get-reposense.py --master
 ```
 ### Use a specific version of release
 
 Be sure to read and understand [all breaking changes and bugs](https://github.com/reposense/RepoSense/releases) before proceeding.
 
 Edit line 10 of [run.sh](https://github.com/reposense/publish-RepoSense/edit/master/run.sh) to use `--tag TAG`, where `TAG` is the [target version of release](https://github.com/reposense/RepoSense/tags). <br />
-```
-10   ./get-reposense.py --tag v1.6.1
+``` {start-from=10}
+./get-reposense.py --tag v1.6.1
 ```
 ## Managing your configuration files with the help of collaborators
 

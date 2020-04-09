@@ -150,7 +150,7 @@ Repo owners can provide the following additional information to RepoSense using 
 * the display of an author
 
 To use this feature, add a `_reposense/config.json` to the root of your repo using the format in the example below ([another example](https://github.com/reposense/RepoSense/blob/master/_reposense/config.json)) and **commit it** (reason: RepoSense can see committed code only):
-```json
+```json {.no-line-numbers}
 {
   "ignoreGlobList": ["about-us/**", "**index.html"],
   "formats": ["html", "css"],
@@ -196,7 +196,7 @@ After that, view the report to see if the configuration you specified in the con
 ##### **A Note About Git Author Name**
 
 `Git Author Name` refers to the customizable author's display name set in the local `.gitconfig` file. For example, in the Git Log's display:
-```
+``` {.no-line-numbers}
 ...
 commit cd7f610e0becbdf331d5231887d8010a689f87c7
 Author: ConfiguredAuthorName <author@example.com>

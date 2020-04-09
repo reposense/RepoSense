@@ -84,7 +84,7 @@ We use [Cypress](https://www.cypress.io/) for automated end-to-end front-end tes
 1. Execute the following command on the OS terminal inside the project directory. <br/>
 Usage: `gradlew run -Dargs="([--config CONFIG_FOLDER] | [--repos REPO_PATH_OR_URL...]) [--view [REPORT_FOLDER]] [--output OUTPUT_DIRECTORY] [--since DD/MM/YYYY] [--until DD/MM/YYYY] [--formats FORMAT...] [--ignore-standalone-config] [--timezone ZONE_ID[±hh[mm]]]"` <br/>
 Named Arguments:
-```
+``` {.no-line-numbers}
 --help, -h           Show help message.
 --version, -V        Show the version of RepoSense.
 --view [PATH], -v [PATH]
@@ -123,37 +123,37 @@ Named Arguments:
 ```
 
 Sample usage to generate the report with no specify arguments: (find and use config files in current working directory)
-```
+``` {.no-line-numbers}
 gradlew run
 ```
 
 Sample usage to generate the report with config files and automatically open the report:
-```
+``` {.no-line-numbers}
 gradlew run -Dargs="--config ./config/ --output output_path/ --since 21/10/2017 --until 21/11/2019 --formats java adoc js --view"
 ```
 
 Sample usage to generate the report with config files and choose the timezone used to be UTC+8:
-```
+``` {.no-line-numbers}
 gradlew run -Dargs="--config ./config/ --output output_path/ --timezone UTC+08"
 ```
 
 Sample usage to generate the report with repository locations and automatically open the report:
-```
+``` {.no-line-numbers}
 gradlew run -Dargs="--repos https://github.com/reposense/RepoSense.git https://github.com/se-edu/collate.git --output output_path/ --since 21/10/2017 --until 21/11/2017 --formats java adoc js --view"
 ```
 
 Sample usage to generate the report with repository locations but ignore the standalone config file:
-```
+``` {.no-line-numbers}
 gradlew run -Dargs="--repos https://github.com/reposense/RepoSense.git https://github.com/se-edu/collate.git --ignore-standalone-config"
 ```
 
 Sample usage to view the report:
-```
+``` {.no-line-numbers}
 gradlew run -Dargs="--view output_path/reposense-report"
 ```
 
 Sample usage to generate the report with config files using the alias of argument:
-```
+``` {.no-line-numbers}
 gradlew run -Dargs="-c ./config/ -o output_path/ -s 21/10/2017 -u 21/11/2017 -f java adoc js"
 ```
 
