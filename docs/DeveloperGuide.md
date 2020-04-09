@@ -159,6 +159,28 @@ gradlew run -Dargs="-c ./config/ -o output_path/ -s 21/10/2017 -u 21/11/2017 -f 
 
 `-Dargs="..."` uses the same argument format as mentioned above.
 
+## Documentation
+
+Our documentation is powered by [MarkBind](https://markbind.org/).
+
+### Downloading MarkBind
+
+Run the following command to install MarkBind.
+``` {.no-line-numbers}
+$ npm install -g markbind-cli
+```
+
+### Previewing the documentation site
+
+Run the following command while in the `docs` directory. It will generate a website from your documentation files, start a web server, and open a live preview of your site in your default Browser.
+``` {.no-line-numbers}
+$ markbind serve
+```
+
+### MarkBind features
+
+MarkBind's list of comprehensive features is available [here](https://markbind.org/userGuide/index.html).
+
 ## Architecture
 
  ![architecture](images/architecture.png)

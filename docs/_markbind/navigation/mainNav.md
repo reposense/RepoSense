@@ -14,6 +14,7 @@
 
 * <span class="lead">**Developer Guide**</span>
     * [Setting up]({{baseUrl}}/DeveloperGuide.html#setting-up)
+    * [Documentation]({{baseUrl}}/DeveloperGuide.html#documentation)
     * [Architecture]({{baseUrl}}/DeveloperGuide.html#architecture)
     * [HTML Report]({{baseUrl}}/DeveloperGuide.html#html-report)
 
