@@ -1,3 +1,11 @@
+<frontmatter>
+  title: "Build from Source"
+  header: header.md
+  footer: footer.md
+  siteNav: mainNav.md
+  pageNav: 1
+</frontmatter>
+
 # Build from Source
 
 This guide explains how to compile the executable Jar.

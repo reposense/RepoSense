@@ -1,33 +1,19 @@
+<frontmatter>
+  title: "User Guide"
+  header: header.md
+  footer: footer.md
+  siteNav: mainNav.md
+  pageNav: 3
+</frontmatter>
+
 # RepoSense - User Guide
-
-* [Getting Started](#getting-started)
-* [Interpreting the Report](#interpreting-the-report)
-  * [Chart Panel](#chart-panel)
-  * [Code Panel](#code-panel)
-  * [Commits Panel](#commits-panel)
-  * [Tool Bar](#tool-bar)
-* [Configuring a Repo to Provide Additional Data to RepoSense](#configuring-a-repo-to-provide-additional-data-to-reposense)
-  * [Provide Data Using a json Config File](#provide-data-using-a-json-config-file)
-  * [Provide Data Using `@@author` Tags](#provide-data-using-author-tags)
-* [Customizing the Analysis](#customizing-the-analysis)
-  * [Customize Using Command Line Parameters](#customize-using-command-line-parameters)
-  * [Customize Using csv Config Files](#customize-using-csv-config-files)
-    * [`repo-config.csv`](#repo-configcsv)
-    * [`author-config.csv`](#author-configcsv)
-    * [`group-config.csv`](#group-configcsv)
-* [Analyzing Multiple Repos](#analyzing-multiple-repos)
-* [Quickstart RepoSense with Netlify](#quickstart-reposense-with-netlify)
-* [Automating publishing of the report to GitHub Pages](#automating-publishing-of-the-report-to-github-pages)
-* [FAQ](#faq)
-
-
 ## Getting Started
 
 First, ensure that you have the necessary prerequisites:
 * **Java 8** (JRE `1.8.0_60`) or later. You may download Java [here](https://www.java.com/en/).
 * **git `2.14`** or later on the command line (run `git --version` in your OS terminal to confirm). You may download git [here](https://git-scm.com/downloads).
 
-Next, download the latest executable Jar from our [releases](https://github.com/reposense/RepoSense/releases/latest). Alternatively, you can follow this guide on [Using RepoSense with Netlify](UserGuide.md#using-reposense-with-netlify) which will allow you to use the latest version of RepoSense online without having to download any files.
+Next, download the latest executable Jar from our [releases](https://github.com/reposense/RepoSense/releases/latest). Alternatively, you can follow this guide on [Using RepoSense with Netlify]({{baseUrl}}/UserGuide.html#quickstart-reposense-with-netlify) which will allow you to use the latest version of RepoSense online without having to download any files.
 
 The simplest use case for RepoSense is to generate a report for the entire history of a repo. Here are the steps:
 1. Generate the report for the repo by executing the following command in a terminal:<br/>
@@ -83,7 +69,7 @@ The `Chart Panel` (an example is shown above) contains _Ramp Charts_ and _Contri
 
 
 ### Code Panel
-<img src="/docs/images/code-panel.png" alt="code panel" width="468">
+<img src="images/code-panel.png" alt="code panel" width="468">
 
 The `Code Panel` allows users to see the code attributed to a specific author. Click on the `</>` icon beside the name of the author in the `Chart Panel` to display the `Code Panel` on the right.
 * The Code Panel shows the files that contain author's contributions, sorted by the number of lines written.
@@ -97,11 +83,11 @@ The `Code Panel` allows users to see the code attributed to a specific author. C
 * Non-trivial code segments that are not written by the selected author are hidden by default, but you can toggle them by clicking on the :heavy_plus_sign: icon.
 
 ### Commits Panel
-<img src="/docs/images/commits-panel.png" alt="commits panel" width="468">
+<img src="images/commits-panel.png" alt="commits panel" width="468">
 
 The `Commits Panel` allows users to see the commits attributed to a specific author. Hold `Command`&#8984; **(MacOS)** or `Ctrl` **(other OSes)** and click on the ramp chart in the `Chart Panel` to select the time range where you want to display the `Commit Panel` for on the right. <br>
 
-![Opening commits panel](/docs/images/opening-commits-panel.gif)
+![Opening commits panel](images/opening-commits-panel.gif)
 
 * The `Commits Panel` shows the commits that contain author's contributions.
 * The commits can be sorted by the date it was committed or by LoC.
@@ -163,8 +149,8 @@ Repo owners can provide the following additional information to RepoSense using 
 * which git and GitHub usernames belong to which authors
 * the display of an author
 
-To use this feature, add a `_reposense/config.json` to the root of your repo using the format in the example below ([another example](../_reposense/config.json)) and **commit it** (reason: RepoSense can see committed code only):
-```json
+To use this feature, add a `_reposense/config.json` to the root of your repo using the format in the example below ([another example](https://github.com/reposense/RepoSense/blob/master/_reposense/config.json)) and **commit it** (reason: RepoSense can see committed code only):
+```json {.no-line-numbers}
 {
   "ignoreGlobList": ["about-us/**", "**index.html"],
   "formats": ["html", "css"],
@@ -210,7 +196,7 @@ After that, view the report to see if the configuration you specified in the con
 ##### **A Note About Git Author Name**
 
 `Git Author Name` refers to the customizable author's display name set in the local `.gitconfig` file. For example, in the Git Log's display:
-```
+``` {.no-line-numbers}
 ...
 commit cd7f610e0becbdf331d5231887d8010a689f87c7
 Author: ConfiguredAuthorName <author@example.com>
@@ -227,15 +213,15 @@ Date:   Fri Feb 9 19:13:13 2018 +0800
 ```
 `ActualGitHubId` and `ConfiguredAuthorName` are both `Git Author Name` of the same author.<br>
 To find the author name that you are currently using for your current git repository, run the following command within your git repository:
-```
+``` {.no-line-numbers}
 git config user.name
 ```
 To set the author name to the value you want (e.g., to set it to your GitHub username) for your current git repository, you can use the following command ([more info](https://www.git-tower.com/learn/git/faq/change-author-name-email)):
-```
+``` {.no-line-numbers}
 git config user.name "YOUR_AUTHOR_NAME”
 ```
 To set the author name to use a default value you want for future git repositories, you can use the following command:
-```
+``` {.no-line-numbers}
 git config --global user.name "YOUR_AUTHOR_NAME”
 ```
 RepoSense expects the Git Author Name to be the same as author's GitHub username. If an author's `Git Author Name` is different from her `GitHub ID`, the `Git Author Name` needs to be specified in the standalone config file. If the author has more than one `Git Author Name`, multiple values can be entered too.
@@ -397,11 +383,11 @@ Alternatively, you can use csv config files to further customize the analysis:
 
 ## Quickstart RepoSense with Netlify
 
-To enjoy a real time RepoSense report on your target repositories, all you need is Netlify and a fork of this repo. Follow [this guide](UsingNetlifyGuide.md) to get started.
+To enjoy a real time RepoSense report on your target repositories, all you need is Netlify and a fork of this repo. Follow [this guide]({{baseUrl}}/UsingNetlifyGuide.html) to get started.
 
 ## Automating publishing of the report to GitHub Pages
 
-Follow this [guide](PublishingGuide.md) to automate publishing of your report to GitHub Pages.
+Follow this [guide]({{baseUrl}}/PublishingGuide.html) to automate publishing of your report to GitHub Pages.
 
 ## FAQ
 
@@ -415,13 +401,13 @@ The formats/file extensions to be analyzed by *RepoSense* can be specified throu
 
 #### Q: How does ignore glob list work?
 **A:** [Glob](https://en.wikipedia.org/wiki/Glob_(programming)) is the pattern to specify a set of filenames with [wildcard characters](https://www.computerhope.com/jargon/w/wildcard.htm). **Ignore glob list** is the list of patterns to specify all the files in the repository which should be ignored from analysis.<br>
-The ignore glob list can be specified through the [standalone config file](#provide-data-using-a-json-config-file), [repo-config file](#repo-configcsv) and [author-config file](#author-configcsv).
+The ignore glob list can be specified through the [standalone config file](#provide-data-using-a-json-config-file), [repo-config file](#repo-config-csv) and [author-config file](#author-config-csv).
 
 #### Q: My commit contributions does not appear in the ramp chart (despite appearing in the contribution bar and code panel)?
-**A:** This is probably a case of giving an incorrect author name alias (or github ID) in your [author-config file](#author-configcsv).<br>
+**A:** This is probably a case of giving an incorrect author name alias (or github ID) in your [author-config file](#author-config-csv).<br>
 Please refer to [A Note About Git Author Name](#a-note-about-git-author-name) above on how to find out the correct author name you are using, and how to change it.<br>
 Also ensure that you have added all author name aliases that you may be using (if you are using multiple computers or have previously changed your author name).<br>
-Alternatively, you may choose to configure RepoSense to track using your GitHub email instead in your [standalone config file](#provide-data-using-a-json-config-file) or [author-config file](#author-configcsv), which is more accurate compared to author name aliases. The associated GitHub email you are using can be found in your [GitHub settings](https://github.com/settings/emails).
+Alternatively, you may choose to configure RepoSense to track using your GitHub email instead in your [standalone config file](#provide-data-using-a-json-config-file) or [author-config file](#author-config-csv), which is more accurate compared to author name aliases. The associated GitHub email you are using can be found in your [GitHub settings](https://github.com/settings/emails).
 
 #### Q: My contribution bar and code panel is empty (despite having lots of commit contributions in the ramp chart)?
 **A:** The contribution bar and code panel records the lines you have authored to the **latest** commit of the repository and branch you are analyzing. As such, it is possible that while you have lots of commit contributions, your final authorship contribution is low if you have only deleted lines, someone else have overwritten your code and taken authorship for it (currently, *RepoSense* does not have functionality to track overwritten lines).<br>
