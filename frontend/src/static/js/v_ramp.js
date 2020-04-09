@@ -13,12 +13,6 @@ window.vRamp = {
         window.REPOS[repoId].location.organization}/${
         window.REPOS[repoId].location.repoName}`;
     },
-    rampClick(evt) {
-      const isKeyPressed = window.isMacintosh ? evt.metaKey : evt.ctrlKey;
-      if (isKeyPressed) {
-        evt.preventDefault();
-      }
-    },
     getLink(user, slice) {
       const { REPOS } = window;
       const untilDate = this.tframe === 'week' ? slice.endDate : slice.date;
