@@ -75,5 +75,13 @@ window.vRamp = {
       const timeMs = (new Date(date)).getTime();
       return (timeMs / window.DAY_IN_MS) % 5;
     },
+
+    // Prevent browser from switching to new tab when clicking ramp
+    rampClick(evt) {
+      const isKeyPressed = window.isMacintosh ? evt.metaKey : evt.ctrlKey;
+      if (isKeyPressed) {
+        evt.preventDefault();
+      }
+    },
   },
 };
