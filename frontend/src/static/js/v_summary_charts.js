@@ -3,6 +3,11 @@ window.vSummaryCharts = {
       'filterGroupSelection', 'filterTimeFrame', 'filterSinceDate', 'filterUntilDate', 'isMergeGroup',
       'minDate', 'maxDate'],
   template: window.$('v_summary_charts').innerHTML,
+  data() {
+    return {
+      drags: [],
+    };
+  },
   computed: {
     avgCommitSize() {
       let totalCommits = 0;
@@ -124,13 +129,24 @@ window.vSummaryCharts = {
       });
     },
 
-    openTabZoomSubrange(user) {
+    openTabZoomSubrange(user, evt) {
+      const isKeyPressed = this.isMacintosh ? evt.metaKey : evt.ctrlKey;
+
+      if (isKeyPressed) {
+        if (this.drags.length === 0) {
+          this.dragViewDown(evt);
+        } else {
+          this.dragViewUp(evt);
+        }
+      }
+
       // skip if accidentally clicked on ramp chart
-      if (window.drags.length === 2 && window.drags[1] - window.drags[0]) {
+      if (this.drags.length === 2 && this.drags[1] - this.drags[0]) {
         const tdiff = new Date(this.filterUntilDate) - new Date(this.filterSinceDate);
-        const idxs = window.drags.map((x) => x * tdiff / 100);
+        const idxs = this.drags.map((x) => x * tdiff / 100);
         const tsince = window.getDateStr(new Date(this.filterSinceDate).getTime() + idxs[0]);
         const tuntil = window.getDateStr(new Date(this.filterSinceDate).getTime() + idxs[1]);
+        this.drags = [];
         this.openTabZoom(user, tsince, tuntil);
       }
     },
@@ -157,6 +173,45 @@ window.vSummaryCharts = {
         zIsSortingDsc: isSortingDsc === 'dsc',
         zIsSortingWithinDsc: isSortingWithinDsc === 'dsc',
       });
+    },
+
+    getBaseTarget(target) {
+      return target.className === 'summary-chart__ramp'
+          ? target
+          : this.getBaseTarget(target.parentElement);
+    },
+
+    dragViewDown(evt) {
+      window.deactivateAllOverlays();
+
+      const pos = evt.clientX;
+      const ramp = this.getBaseTarget(evt.target);
+      this.drags = [pos];
+
+      const base = ramp.offsetWidth;
+      const offset = ramp.parentElement.offsetLeft;
+
+      const overlay = ramp.getElementsByClassName('overlay')[0];
+      overlay.style.marginLeft = '0';
+      overlay.style.width = `${(pos - offset) * 100 / base}%`;
+      overlay.className += ' edge';
+    },
+
+    dragViewUp(evt) {
+      window.deactivateAllOverlays();
+      const ramp = this.getBaseTarget(evt.target);
+
+      const base = ramp.offsetWidth;
+      this.drags.push(evt.clientX);
+      this.drags.sort((a, b) => a - b);
+
+      const offset = ramp.parentElement.offsetLeft;
+      this.drags = this.drags.map((x) => (x - offset) * 100 / base);
+
+      const overlay = ramp.getElementsByClassName('overlay')[0];
+      overlay.style.marginLeft = `${this.drags[0]}%`;
+      overlay.style.width = `${this.drags[1] - this.drags[0]}%`;
+      overlay.className += ' show';
     },
 
     getPercentile(index) {

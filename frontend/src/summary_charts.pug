@@ -73,8 +73,7 @@
         ) {{ getPercentile(i) }} %
 
       .summary-chart__ramp(
-        onclick="viewClick(event)",
-        v-on:click="openTabZoomSubrange(user)"
+        v-on:click="openTabZoomSubrange(user, $event)"
       )
         v-ramp(
           v-bind:groupby="filterGroupSelection",
