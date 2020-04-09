@@ -290,7 +290,7 @@ window.app = new window.Vue({
   updated() {
     this.$nextTick(() => {
       if (window.$('tabs-wrapper')) {
-        window.$('tabs-wrapper').style.flex = `0 0 ${window.flexWidth * 100}%`;
+        window.$('tabs-wrapper').style.flex = `0 0 ${flexWidth * 100}%`;
       }
     });
   },
