@@ -115,6 +115,11 @@ window.vSummary = {
     },
   },
   methods: {
+    dismissTab(node) {
+      const parent = node.parentNode;
+      parent.style.display = 'none';
+    },
+
     // view functions //
     getReportIssueGitHubLink(stackTrace) {
       return `${window.BASE_URL}/reposense/RepoSense/issues/new?title=${this.getReportIssueTitle()

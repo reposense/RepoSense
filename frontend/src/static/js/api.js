@@ -107,11 +107,6 @@ window.decodeHash = function decodeHash() {
   window.hashParams = hashParams;
 };
 
-window.dismissTab = function dismissTab(node) {
-  const parent = node.parentNode;
-  parent.style.display = 'none';
-};
-
 window.comparator = (fn, sortingOption = '') => function compare(a, b) {
   let a1;
   let b1;
