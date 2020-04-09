@@ -219,7 +219,7 @@ git config user.name
 To set the author name to the value you want (e.g., to set it to your GitHub username) for your current git repository, you can use the following command ([more info](https://www.git-tower.com/learn/git/faq/change-author-name-email)):
 ``` {.no-line-numbers}
 git config user.name "YOUR_AUTHOR_NAME”
-``` 
+```
 To set the author name to use a default value you want for future git repositories, you can use the following command:
 ``` {.no-line-numbers}
 git config --global user.name "YOUR_AUTHOR_NAME”
