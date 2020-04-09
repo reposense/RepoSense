@@ -3,10 +3,10 @@
   .toolbar(v-if="filteredUser.commits.length")
     a(v-if="expandedCommitMessagesCount === 0", v-on:click="toggleAllCommitMessagesBody(true)") show all commit messages
     a(v-else, v-on:click="toggleAllCommitMessagesBody(false)") hide all commit messages
-  .zoom__title
-    .zoom_title--group.large-font
+  .panel-heading
+    .group-name
       span(
-        v-if="info.filterGroupSelection === 'groupByAuthors'"
+        v-if="info.zFilterGroup === 'groupByAuthors'"
       ) {{ filteredUser.displayName }} ({{ filteredUser.name }})
       a(
         v-else,
@@ -14,14 +14,15 @@
         v-bind:title="'Click to open the repo'"
       )
         span {{ filteredUser.repoName }}
-    .zoom__title--chart.medium-font(v-if="!info.zIsMerge")
+    .author(v-if="!info.zIsMerge")
       span &#8627; &nbsp;
       span(v-if="info.zFilterGroup === 'groupByAuthors'") {{ filteredUser.repoName }}
       span(v-else) {{ filteredUser.displayName }} ({{ filteredUser.name }})
-    .zoom__title--period.medium-font
+    .period
       span &#8627; &nbsp;
       span {{ info.zSince }} to {{ info.zUntil }} &nbsp;
       a(v-on:click="openSummary") [Show ramp chart for this period]
+  .zoom__title
     .zoom__title--granularity.mini-font granularity: one ramp per {{ info.zTimeFrame }}
     .zoom__title--tags
       template(v-for="commit in filteredUser.commits")
