@@ -8,11 +8,6 @@ window.vRamp = {
   },
 
   methods: {
-    getBaseLink(repoId) {
-      return `${window.BASE_URL}/${
-        window.REPOS[repoId].location.organization}/${
-        window.REPOS[repoId].location.repoName}`;
-    },
     getLink(user, slice) {
       const { REPOS } = window;
       const untilDate = this.tframe === 'week' ? slice.endDate : slice.date;
@@ -22,10 +17,10 @@ window.vRamp = {
       }
 
       if (this.tframe === 'commit') {
-        return `${this.getBaseLink(user.repoId)}/commit/${slice.hash}`;
+        return `${window.getBaseLink(user.repoId)}/commit/${slice.hash}`;
       }
 
-      return `${this.getBaseLink(user.repoId)}/commits/${REPOS[user.repoId].branch}?`
+      return `${window.getBaseLink(user.repoId)}/commits/${REPOS[user.repoId].branch}?`
           + `author=${user.name}&`
           + `since=${slice.date}'T'00:00:00+08:00&`
           + `until=${untilDate}'T'23:59:59+08:00`;
@@ -34,10 +29,10 @@ window.vRamp = {
       const { REPOS } = window;
 
       if (this.tframe === 'commit') {
-        return `${this.getBaseLink(slice.repoId)}/commit/${slice.hash}`;
+        return `${window.getBaseLink(slice.repoId)}/commit/${slice.hash}`;
       }
 
-      return `${this.getBaseLink(user.repoId)}/commits/${REPOS[user.repoId].branch}?`
+      return `${window.getBaseLink(user.repoId)}/commits/${REPOS[user.repoId].branch}?`
           + `since=${slice.date}'T'00:00:00+08:00&`
           + `until=${untilDate}'T'23:59:59+08:00`;
     },
