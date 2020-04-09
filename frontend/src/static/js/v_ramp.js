@@ -4,12 +4,6 @@ function getBaseLink(repoId) {
     window.REPOS[repoId].location.repoName}`;
 }
 
-window.rampClick = function rampClick(evt) {
-  const isKeyPressed = this.isMacintosh ? evt.metaKey : evt.ctrlKey;
-  if (isKeyPressed) {
-    evt.preventDefault();
-  }
-};
 
 window.vRamp = {
   props: ['groupby', 'user', 'tframe', 'avgsize', 'sdate', 'udate', 'mergegroup'],
@@ -76,6 +70,14 @@ window.vRamp = {
     getSliceColor(date) {
       const timeMs = (new Date(date)).getTime();
       return (timeMs / window.DAY_IN_MS) % 5;
+    },
+
+    // Prevent browser from switching to new tab when clicking ramp
+    rampClick(evt) {
+      const isKeyPressed = window.isMacintosh ? evt.metaKey : evt.ctrlKey;
+      if (isKeyPressed) {
+        evt.preventDefault();
+      }
     },
   },
 };
