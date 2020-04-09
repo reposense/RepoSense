@@ -1,4 +1,12 @@
-## Using RepoSense with Netlify
+<frontmatter>
+  title: "Using Netlify Guide"
+  header: header.md
+  footer: footer.md
+  siteNav: mainNav.md
+  pageNav: 2
+</frontmatter>
+
+# Using RepoSense with Netlify
 
 Netlify's continuous web deployment platform enables you to deploy RepoSense online, analyzes your target repository(s) and generates the git contribution report in real time for free. The deployment can be synchronized to the updates on your target repository(s) and you can perform everything through the browser without downloading any files.
 
@@ -6,18 +14,18 @@ Netlify's continuous web deployment platform enables you to deploy RepoSense onl
 1. Follow this [guide](https://www.netlify.com/blog/2016/09/29/a-step-by-step-guide-deploying-on-netlify/) to set up Netlify in your forked repository. You will need to use the following in [Step 5](https://www.netlify.com/blog/2016/09/29/a-step-by-step-guide-deploying-on-netlify/#step-5-configure-your-settings):
 
    **Build command**:
-   ```
+   ``` {.no-line-numbers}
    ./gradlew run -Dargs="--repos YOUR_TARGET_REPO"
    ```
    **Publish directory**:
-   ```
+   ``` {.no-line-numbers}
    ./reposense-report
    ```
 
 These steps will allow you to take the first look at your report. To enable continuous deployment of the report, refer below to [Continuous deployment using Netlify](#continuous-deployment-using-netlify) for further instructions.
 
 
-### Continuous deployment using Netlify
+## Continuous deployment using Netlify
 
 1. Click on **Settings** in the top, choose **Build & deploy** from the left panel and scroll to **Build hooks**.
    ![Build hooks](images/using-netlify-build-hooks.png)
@@ -35,17 +43,17 @@ These steps will allow you to take the first look at your report. To enable cont
 
 > This should cause Netlify to deploy your site each and every time based on your checked checkboxes. Please make sure your forked repository is **up-to-date** with upstream to enjoy the latest features.
 
-### If you wish to customize using `config files`
+## If you wish to customize using `config files`
 
 Using `config files` lets you generate a more customised report. Please refer to [how to customize using csv config files](UserGuide.md#customize-using-csv-config-files) for a more detailed explanation.
 
 In **Step 5** for **Build Command** use:
 
-```
+``` {.no-line-numbers}
 ./gradlew run -Dargs="--config ./config/"
 ```
 
 Alternatively, if you want to customise the location of the config files, use:
-```
+``` {.no-line-numbers}
 ./gradlew run -Dargs="--config YOUR_CONFIG_FILE_LOCATION"
 ```
