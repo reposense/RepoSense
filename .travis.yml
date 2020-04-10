@@ -14,7 +14,7 @@ matrix:
       deploy:
         provider: pages
         skip_cleanup: true
-        github_token: $GITHUB_TOKEN
+        github_token: ${{ secrets.GITHUB_TOKEN }}
         keep_history: true
         local_dir: _site
         on:
