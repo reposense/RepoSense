@@ -1,8 +1,8 @@
 #authorship
   span.large-font Code Panel
   .toolbar(v-if="hasCommits(info)")
-    a(v-if="hasActiveFile", v-on:click="expandAll(false)") hide all file details
-    a(v-else, v-on:click="expandAll(true)") show all file details
+    a(v-if="activeFilesCount < this.selectedFiles.length", v-on:click="expandAll()") show all file details
+    a(v-if="activeFilesCount > 0", v-on:click="collapseAll()") hide all file details
   .panel-heading
     a.group-name(
       v-bind:href="info.location", target="_blank",
@@ -55,9 +55,9 @@
   .files(v-if="isLoaded")
     .empty(v-if="files.length === 0") nothing to see here :(
     template(v-for="file in selectedFiles")
-      .file.active(v-bind:key="file.path")
+      .file(v-bind:key="file.path")
         .title
-          span.path(onclick="toggleNext(this.parentNode)", v-on:click="updateCount") {{ file.path }}&nbsp;
+          span.path(v-on:click="toggleFileActiveProperty(file)") {{ file.path }}&nbsp;
           span.loc ({{ file.lineCount }} lines)
           a(
             v-bind:href="getFileLink(file, 'commits')", target="_blank",
@@ -69,7 +69,7 @@
             title="click to view the blame view of file"
           )
             i.button.fas.fa-user-edit
-        pre.hljs.file-content
+        pre.hljs.file-content(v-if="file.wasCodeLoaded", v-show="file.active")
           template(v-for="segment in file.segments")
             v-segment(v-bind:segment="segment", v-bind:path="file.path")
 
