@@ -209,10 +209,6 @@ window.app = new window.Vue({
       window.removeHash('zFGS');
       window.removeHash('zFTF');
       window.removeHash('zMG');
-      window.removeHash('zSO');
-      window.removeHash('zSWO');
-      window.removeHash('zSD');
-      window.removeHash('zSWD');
     },
 
     updateTabAuthorship(obj) {
@@ -258,10 +254,6 @@ window.app = new window.Vue({
         zFilterGroup: hash.zFGS,
         zTimeFrame: hash.zFTF,
         zIsMerge: hash.zMG === 'true',
-        zSorting: hash.zSO,
-        zSortingWithin: hash.zSWO,
-        zIsSortingDsc: hash.zSD === 'true',
-        zIsSortingWithinDsc: hash.zSWD === 'true',
       };
       const tabInfoLength = Object.values(zoomInfo).filter((x) => x !== null).length;
       if (Object.keys(zoomInfo).length === tabInfoLength) {
