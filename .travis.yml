@@ -3,10 +3,13 @@ matrix:
     - name: deploy markbind
       language: node
       node_js:
-      - '8'
+        - '8'
       install:
-      - npm i -g markbind-cli
-      script: markbind build
+        - npm i -g markbind-cli
+      script:
+        - cd docs
+        - markbind build
+        - markbind deploy
       branches:
         only:
         - master
