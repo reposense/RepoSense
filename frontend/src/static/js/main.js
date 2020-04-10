@@ -270,7 +270,7 @@ window.app = new window.Vue({
     },
   },
   components: {
-    vResize: window.vResize,
+    vResizer: window.vResizer,
     vZoom: window.vZoom,
     vSummary: window.vSummary,
     vAuthorship: window.vAuthorship,

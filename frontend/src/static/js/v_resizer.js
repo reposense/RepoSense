@@ -12,8 +12,8 @@ const throttledEvent = (delay, handler) => {
   };
 };
 
-window.vResize = {
-  template: window.$('v_resize').innerHTML,
+window.vResizer = {
+  template: window.$('v_resizer').innerHTML,
   props: {
     isTabActive: true,
   },

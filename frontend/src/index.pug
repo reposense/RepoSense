@@ -27,7 +27,7 @@ html
     script(src="https://cdn.jsdelivr.net/npm/vue-loading-spinner@1.0/dist/vue-loading-spinner.js")
   body
     #app
-      v-resize(
+      v-resizer(
         v-if="userUpdated",
         v-bind:is-tab-active="isTabActive",
         v-on:close-tab="deactivateTab"
@@ -88,7 +88,7 @@ html
             circle-spinner
             .loading Loading resources...
 
-    vuetemplate#v_resize
+    vuetemplate#v_resizer
       include resizer.pug
 
     vuetemplate#v_summary
