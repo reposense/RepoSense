@@ -62,5 +62,7 @@ after_success:
     then
       git fetch --all && git config --global user.email "-" && git config --global user.name "-" && ./gradlew run -Dargs="--since d1"
       npm install -g surge
+      npm install -g markbind-cli
+      (cd docs && markbind build)
       ./config/travis/deploy-surge.sh
     fi
