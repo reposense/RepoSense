@@ -6,10 +6,8 @@ matrix:
         - '8'
       install:
         - npm i -g markbind-cli
-      script:
-        - cd docs
-        - markbind build
-        - markbind deploy
+      before_script: cd docs
+      script: markbind build && markbind deploy --travis
       branches:
         only:
         - master
