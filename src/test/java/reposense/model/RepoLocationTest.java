@@ -13,18 +13,11 @@ public class RepoLocationTest {
     @Test
     public void repoLocation_parseRepoUrl_success() throws Exception {
         String repoUrl = "https://github.com/reposense/RepoSense.git";
-        RepoLocation repoLocation = new RepoLocation(repoUrl);
-        assertEquals(repoUrl, repoLocation.toString());
-        assertEquals("RepoSense", repoLocation.getRepoName());
-        assertEquals("reposense", repoLocation.getOrganization());
-        assertFalse(repoLocation.getParsedBranch().isPresent());
+        assertValidLocation(repoUrl, repoUrl, "RepoSense", "reposense", null);
 
         String repoUrlWithBranch = "https://github.com/reposense/testrepo-Alpha.git#release";
-        repoLocation = new RepoLocation(repoUrlWithBranch);
-        assertEquals("https://github.com/reposense/testrepo-Alpha.git", repoLocation.toString());
-        assertEquals("testrepo-Alpha", repoLocation.getRepoName());
-        assertEquals("reposense", repoLocation.getOrganization());
-        assertEquals("release", repoLocation.getParsedBranch().get());
+        assertValidLocation(repoUrlWithBranch, "https://github.com/reposense/testrepo-Alpha.git",
+                "testrepo-Alpha", "reposense", "release");
     }
 
     @Test
@@ -46,11 +39,8 @@ public class RepoLocationTest {
     @Test
     public void repoLocation_parseBranchUrl_success() throws Exception {
         String branchUrl = "https://github.com/reposense/RepoSense/tree/feature_branch_issue#1010";
-        RepoLocation repoLocation = new RepoLocation(branchUrl);
-        assertEquals("https://github.com/reposense/RepoSense.git", repoLocation.toString());
-        assertEquals("RepoSense", repoLocation.getRepoName());
-        assertEquals("reposense", repoLocation.getOrganization());
-        assertEquals("feature_branch_issue#1010", repoLocation.getParsedBranch().get());
+        assertValidLocation(branchUrl, "https://github.com/reposense/RepoSense.git",
+                 "RepoSense", "reposense", "feature_branch_issue#1010");
     }
 
     @Test
@@ -71,6 +61,23 @@ public class RepoLocationTest {
     private static void assertInvalidLocation(String rawLocation) {
         AssertUtil.assertThrows(InvalidLocationException.class,
                 RepoLocation.MESSAGE_INVALID_LOCATION, () -> new RepoLocation(rawLocation));
+    }
+
+    /**
+     * Creates a RepoLocation object using the {@code rawLocation} and checks whether the location, repoName,
+     * organization and parsedBranch fields of the RepoLocation object are correctly set.
+     */
+    private static void assertValidLocation(String rawLocation, String expectedLocation, String expectedRepoName,
+            String expectedOrg, String expectedBranch) throws Exception {
+        RepoLocation actualRepoLocation = new RepoLocation(rawLocation);
+        assertEquals(expectedLocation, actualRepoLocation.toString());
+        assertEquals(expectedRepoName, actualRepoLocation.getRepoName());
+        assertEquals(expectedOrg, actualRepoLocation.getOrganization());
+        if (expectedBranch != null) {
+            assertEquals(expectedBranch, actualRepoLocation.getParsedBranch().get());
+        } else {
+            assertFalse(actualRepoLocation.getParsedBranch().isPresent());
+        }
     }
 
 }
