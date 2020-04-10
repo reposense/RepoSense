@@ -3,7 +3,8 @@
 REPO_SLUG_ARRAY=(${TRAVIS_REPO_SLUG//\// })
 REPO_OWNER=${REPO_SLUG_ARRAY[0]}
 REPO_NAME=${REPO_SLUG_ARRAY[1]}
-DEPLOY_PATH=./reposense-report
+DASHBOARD_DEPLOY_PATH=./reposense-report
+MARKBIND_DEPLOY_PATH=./docs/_site
 
 DEPLOY_SUBDOMAIN_UNFORMATTED_LIST=()
 if [ "$TRAVIS_PULL_REQUEST" != "false" ]
@@ -42,16 +43,25 @@ do
     continue
   fi
 
-  DEPLOY_DOMAIN=https://${DEPLOY_SUBDOMAIN}-${REPO_NAME}-${REPO_OWNER}.surge.sh
-  echo "Deploy domain: ${DEPLOY_DOMAIN}" # debugging purposes
-  surge --project ${DEPLOY_PATH} --domain $DEPLOY_DOMAIN;
+  DASHBOARD_DEPLOY_DOMAIN=https://dashboard-${DEPLOY_SUBDOMAIN}-${REPO_NAME}-${REPO_OWNER}.surge.sh
+  echo "Deploy domain: ${DASHBOARD_DEPLOY_DOMAIN}"
+  surge --project ${DASHBOARD_DEPLOY_PATH} --domain $DASHBOARD_DEPLOY_DOMAIN;
+
+  MARKBIND_DEPLOY_DOMAIN=https://docs-${DEPLOY_SUBDOMAIN}-${REPO_NAME}-${REPO_OWNER}.surge.sh
+  echo "Deploy domain: ${MARKBIND_DEPLOY_DOMAIN}"
+  surge --project ${MARKBIND_DEPLOY_PATH} --domain $MARKBIND_DEPLOY_DOMAIN;
 
   if [ "$TRAVIS_PULL_REQUEST" != "false" ] # only create github statuses when it is a PR
   then
-    # Create github statuses that redirects users to the deployed link
+    # Create github statuses that redirects users to the deployed dashboard and markbind docs
     curl "https://api.github.com/repos/${REPO_OWNER}/${REPO_NAME}/statuses/${TRAVIS_PULL_REQUEST_SHA}?access_token=${GITHUB_API_TOKEN}" \
     -H "Content-Type: application/json" \
     -X POST \
-    -d "{\"state\": \"success\",\"context\": \"surge/deploy/${DEPLOY_SUBDOMAIN}\", \"description\": \"Deploy domain: ${DEPLOY_DOMAIN}\", \"target_url\": \"${DEPLOY_DOMAIN}\"}"
+    -d "{\"state\": \"success\",\"context\": \"dashboard/surge/deploy/${DEPLOY_SUBDOMAIN}\", \"description\": \"Deploy domain: ${DASHBOARD_DEPLOY_DOMAIN}\", \"target_url\": \"${DASHBOARD_DEPLOY_DOMAIN}\"}"
+
+    curl "https://api.github.com/repos/${REPO_OWNER}/${REPO_NAME}/statuses/${TRAVIS_PULL_REQUEST_SHA}?access_token=${GITHUB_API_TOKEN}" \
+    -H "Content-Type: application/json" \
+    -X POST \
+    -d "{\"state\": \"success\",\"context\": \"docs/surge/deploy/${DEPLOY_SUBDOMAIN}\", \"description\": \"Deploy domain: ${MARKBIND_DEPLOY_DOMAIN}\", \"target_url\": \"${MARKBIND_DEPLOY_DOMAIN}\"}"
   fi
 done
