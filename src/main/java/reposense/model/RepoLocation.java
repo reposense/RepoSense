@@ -64,8 +64,9 @@ public class RepoLocation {
     }
 
     /**
-     * Given a String representing a repo location, returns
-     * an array containing the following details of the repository (in order):
+     * Parses a String representing a repo location (which could be a repo URL, branch URL
+     * or a filepath), and returns an array containing the following details
+     * of the repository (in order):
      * { location, repository name, organisation name, branch name (if any) }
      *
      * @param location a repository location, which is a file path or URL with the branch
@@ -98,12 +99,22 @@ public class RepoLocation {
      * @return null if the given String is an invalid path, or no directory exists at the path.
      */
     private static String[] tryParsingAsPath(String location)  {
-        String[] split = location.split(BRANCH_DELIMITER);
-        String filePath = split[0];
-        if (!fileExists(filePath)) {
+        String[] repoLocationDetails = parsePath(location);
+        if (!fileExists(repoLocationDetails[LOCATION_INDEX])) {
             return null;
         }
-        String repoName = Paths.get(location).getFileName().toString().replace(GIT_LINK_SUFFIX, "");
+        return repoLocationDetails;
+    }
+
+    /**
+     * Parses a given path to a repo and returns an array containing the following info:
+     * { url, repository name, organisation name, branch name (if any) }
+     * Does not validate whether a file exists at the given path.
+     */
+    private static String[] parsePath(String location) {
+        String[] split = location.split(BRANCH_DELIMITER);
+        String filePath = split[0];
+        String repoName = Paths.get(filePath).getFileName().toString().replace(GIT_LINK_SUFFIX, "");
         String branch = split.length == 1 ? null : split[1];
         return new String[] { filePath, repoName, null, branch };
     }

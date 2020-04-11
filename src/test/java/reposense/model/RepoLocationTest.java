@@ -1,7 +1,10 @@
 package reposense.model;
 
+import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
+
+import java.lang.reflect.Method;
 
 import org.junit.Test;
 
@@ -9,6 +12,8 @@ import reposense.parser.InvalidLocationException;
 import reposense.util.AssertUtil;
 
 public class RepoLocationTest {
+
+    private static Method parsePath;
 
     @Test
     public void repoLocation_parseRepoUrl_success() throws Exception {
@@ -56,6 +61,31 @@ public class RepoLocationTest {
         assertInvalidLocation("https://github.com/reposense/RepoSense/tre/feature_branch_issue#1010");
         // non GitHub url should be rejected
         assertInvalidLocation("https://gitlab.com/reposense/RepoSense/tree/feature_branch_issue#1010");
+    }
+
+    @Test
+    public void repoLocation_parsePath_success() throws Exception {
+        parsePath = RepoLocation.class.getDeclaredMethod("parsePath", String.class);
+        parsePath.setAccessible(true);
+
+        String pathToGitDirectory = "/home/tom/Desktop/reposense.git";
+        String[] repoLocationDetails = (String []) parsePath.invoke(null, pathToGitDirectory);
+        assertArrayEquals(new String[] { pathToGitDirectory, "reposense", null, null }, repoLocationDetails);
+
+        String pathToGitDirectoryWithBranch = "/home/tom/Desktop/reposense.git#feature-1035_branch";
+        repoLocationDetails = (String[]) parsePath.invoke(null, pathToGitDirectoryWithBranch);
+        assertArrayEquals(new String[] { pathToGitDirectory, "reposense", null, "feature-1035_branch" },
+                repoLocationDetails);
+
+        String pathToRepo = "/test-repo_with$special&chars";
+        repoLocationDetails = (String[]) parsePath.invoke(null, pathToRepo);
+        assertArrayEquals(new String[] { pathToRepo, "test-repo_with$special&chars", null, null },
+                repoLocationDetails);
+    }
+
+    @Test
+    public void repoLocation_parseEmptyString_noInvalidLocationException() throws Exception {
+        RepoLocation repoLocation = new RepoLocation("");
     }
 
     private static void assertInvalidLocation(String rawLocation) {
