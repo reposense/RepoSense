@@ -18,8 +18,9 @@ public class PathLocationParserTest {
                 "Desktop", "reposense.git#feature-1035_branch").toString();
         assertValidLocation(pathToGitDirectoryWithBranch, pathToGitDirectory, "reposense", "feature-1035_branch");
 
-        String pathToRepo = "test-repo_with$special&chars";
-        assertValidLocation(pathToRepo, pathToRepo, "test-repo_with$special&chars", null);
+        String pathToRepo = "test-repo#with#multiple#hash#symbols#hotfix_branch";
+        assertValidLocation(pathToRepo, "test-repo#with#multiple#hash#symbols",
+            "test-repo#with#multiple#hash#symbols", "hotfix_branch");
     }
 
     private static void assertValidLocation(String path, String expectedLocation, String expectedRepoName,
