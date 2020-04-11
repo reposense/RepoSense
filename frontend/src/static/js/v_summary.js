@@ -223,7 +223,8 @@ window.vSummary = {
 
       if (hash.timeframe) { this.filterTimeFrame = hash.timeframe; }
       if (hash.mergegroup) {
-        this.mergedGroups = hash.mergegroup;
+        // make a copy to prevent custom merged groups from overwritten
+        this.customMergedGroups = hash.mergegroup;
       }
       if (hash.since && dateFormatRegex.test(hash.since)) {
         this.tmpFilterSinceDate = hash.since;
@@ -239,6 +240,12 @@ window.vSummary = {
         this.filterBreakdown = convertBool(hash.breakdown);
       }
       window.decodeHash();
+    },
+
+    restoreMergedGroups() {
+      if (this.customMergedGroups) {
+        this.mergedGroups = this.customMergedGroups;
+      }
     },
 
     getDates() {
@@ -807,6 +814,12 @@ window.vSummary = {
       const zoomFilteredUser = this.restoreZoomFiltered(info);
       info.zUser = zoomFilteredUser;
     });
+  },
+  mounted() {
+    // restoring custom merged groups after watchers finish their job
+    setTimeout(() => {
+      this.restoreMergedGroups();
+    }, 50);
   },
   components: {
     vSummaryCharts: window.vSummaryCharts,
