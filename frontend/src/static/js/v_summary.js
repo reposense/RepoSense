@@ -61,6 +61,11 @@ window.vSummary = {
   },
   watch: {
     checkedFileTypes() {
+      // reset merged groups since indices of merged groups change
+      if (this.mergedGroups !== 'all') {
+        this.mergedGroups = 'none';
+      }
+
       this.getFiltered();
     },
     filterBreakdown() {
