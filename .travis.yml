@@ -7,7 +7,7 @@ matrix:
       install:
         - npm i -g markbind-cli
       before_script: cd docs
-      script: markbind build && markbind deploy --travis
+      script: markbind build
       branches:
         only:
         - master
