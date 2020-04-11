@@ -11,7 +11,12 @@
       .summary-charts__title--contribution.mini-font(
         title="Total contribution of group"
       ) [{{ getGroupTotalContribution(repo) }} lines]
-      template(v-if="isMergeGroup")
+      .summary-charts__title--mergebtn
+        template(v-if="!isGroupMerged(i)")
+          a(
+            v-on:click="handleMergeGroup(i)"
+          ) merge
+      template(v-if="isGroupMerged(i)")
         a(
           v-if="filterGroupSelection === 'groupByRepos'",
           v-bind:href="getRepoLink(repo[0])", target="_blank",
@@ -27,9 +32,12 @@
         a(
           title="click to view breakdown of commits",
           onclick="deactivateAllOverlays()",
-          v-on:click="openTabZoom(repo[0], filterSinceDate, filterUntilDate, repo, 0)"
+          v-on:click="openTabZoom(repo[0], filterSinceDate, filterUntilDate, true)"
         )
           i.icon-button.fas.fa-list-ul
+        a(
+          v-on:click="handleExpandGroup(i)"
+        ) expand
       .summary-charts__title--percentile.mini-font {{ getPercentile(i) }} %
     .summary-charts__fileType--breakdown(v-if="filterBreakdown")
       template(v-if="filterGroupSelection !== 'groupByNone'")
@@ -41,9 +49,9 @@
             v-bind:style="{ 'color' : fileTypeColors[fileType] }"
           )
           span &nbsp; {{ fileType }} &nbsp;
-    .summary-chart(v-for="(user, i) in repo")
-      .summary-chart__title(v-if="!isMergeGroup")
-        .summary-chart__title--index {{ i+1 }}
+    .summary-chart(v-for="(user, j) in repo")
+      .summary-chart__title(v-if="!isGroupMerged(i)")
+        .summary-chart__title--index {{ j+1 }}
         .summary-chart__title--repo(v-if="filterGroupSelection === 'groupByNone'") {{ user.repoName }}
         .summary-chart__title--author-repo(v-if="filterGroupSelection === 'groupByAuthors'") {{ user.repoName }}
         .summary-chart__title--name(
@@ -54,27 +62,27 @@
         a(
           title="click to view author's code",
           onclick="deactivateAllOverlays()",
-          v-on:click="openTabAuthorship(user, repo, i)"
+          v-on:click="openTabAuthorship(user, repo, j)"
         )
           i.icon-button.fas.fa-code
         a(
-          v-bind:href="getRepoLink(repo[i])", target="_blank",
+          v-bind:href="getRepoLink(repo[j])", target="_blank",
           title="click to view author's repo"
         )
           i.icon-button.fab.fa-github
         a(
           title="click to view breakdown of commits",
           onclick="deactivateAllOverlays()",
-          v-on:click="openTabZoom(user, filterSinceDate, filterUntilDate)"
+          v-on:click="openTabZoom(user, filterSinceDate, filterUntilDate, false)"
         )
           i.icon-button.fas.fa-list-ul
         .summary-chart__title--percentile.mini-font(
           v-if="filterGroupSelection === 'groupByNone'"
-        ) {{ getPercentile(i) }} %
+        ) {{ getPercentile(j) }} %
 
       .summary-chart__ramp(
         onclick="viewClick(event)",
-        v-on:click="openTabZoomSubrange(user)"
+        v-on:click="openTabZoomSubrange(user, isGroupMerged(i))"
       )
         v-ramp(
           v-bind:groupby="filterGroupSelection",
@@ -83,7 +91,7 @@
           v-bind:sdate="filterSinceDate",
           v-bind:udate="filterUntilDate",
           v-bind:avgsize="avgCommitSize",
-          v-bind:mergegroup="isMergeGroup")
+          v-bind:mergegroup="isGroupMerged(i)")
         .overlay
 
       .summary-chart__contribution

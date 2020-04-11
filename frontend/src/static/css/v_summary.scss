@@ -132,6 +132,10 @@
       &--contribution {
         display: inline;
       }
+
+      &--mergebtn {
+        padding-right: 0;
+      }
     }
 
     &__fileType--breakdown {

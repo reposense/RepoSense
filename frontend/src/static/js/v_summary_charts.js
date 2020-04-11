@@ -91,7 +91,7 @@ window.viewClick = function viewClick(evt) {
 
 window.vSummaryCharts = {
   props: ['checkedFileTypes', 'filtered', 'fileTypeColors', 'avgContributionSize', 'filterBreakdown',
-      'filterGroupSelection', 'filterTimeFrame', 'filterSinceDate', 'filterUntilDate', 'isMergeGroup',
+      'filterGroupSelection', 'filterTimeFrame', 'filterSinceDate', 'filterUntilDate', 'mergedGroups',
       'minDate', 'maxDate'],
   template: window.$('v_summary_charts').innerHTML,
   computed: {
@@ -215,20 +215,20 @@ window.vSummaryCharts = {
       });
     },
 
-    openTabZoomSubrange(user) {
+    openTabZoomSubrange(user, isMerge) {
       // skip if accidentally clicked on ramp chart
       if (drags.length === 2 && drags[1] - drags[0]) {
         const tdiff = new Date(this.filterUntilDate) - new Date(this.filterSinceDate);
         const idxs = drags.map((x) => x * tdiff / 100);
         const tsince = window.getDateStr(new Date(this.filterSinceDate).getTime() + idxs[0]);
         const tuntil = window.getDateStr(new Date(this.filterSinceDate).getTime() + idxs[1]);
-        this.openTabZoom(user, tsince, tuntil);
+        this.openTabZoom(user, tsince, tuntil, isMerge);
       }
     },
 
-    openTabZoom(user, since, until) {
+    openTabZoom(user, since, until, isMerge) {
       const {
-        avgCommitSize, filterGroupSelection, filterTimeFrame, isMergeGroup, sortingOption,
+        avgCommitSize, filterGroupSelection, filterTimeFrame, sortingOption,
         sortingWithinOption, isSortingDsc, isSortingWithinDsc,
       } = this;
       const clonedUser = Object.assign({}, user); // so that changes in summary won't affect zoom
@@ -242,7 +242,7 @@ window.vSummaryCharts = {
         zLocation: this.getRepoLink(user),
         zSince: since,
         zUntil: until,
-        zIsMerge: isMergeGroup,
+        zIsMerge: isMerge,
         zSorting: sortingOption,
         zSortingWithin: sortingWithinOption,
         zIsSortingDsc: isSortingDsc === 'dsc',
@@ -259,6 +259,24 @@ window.vSummaryCharts = {
 
     getGroupTotalContribution(group) {
       return group.reduce((accContribution, user) => accContribution + user.totalCommits, 0);
+    },
+
+    isGroupMerged(index) {
+      if (this.mergedGroups === 'all') {
+        return true;
+      }
+      if (this.mergedGroups === 'none') {
+        return false;
+      }
+      return this.mergedGroups.split(',').map((x) => parseInt(x, 10)).includes(index);
+    },
+
+    handleMergeGroup(index) {
+      this.$emit('handle-merge-group', index);
+    },
+
+    handleExpandGroup(index) {
+      this.$emit('handle-expand-group', index);
     },
   },
   components: {

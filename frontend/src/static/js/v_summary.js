@@ -45,7 +45,7 @@ window.vSummary = {
       isSortingWithinDsc: '',
       filterTimeFrame: 'commit',
       filterBreakdown: false,
-      isMergeGroup: false,
+      mergedGroups: 'none',
       tmpFilterSinceDate: '',
       tmpFilterUntilDate: '',
       hasModifiedSinceDate: window.app.isSinceDateProvided,
@@ -67,6 +67,11 @@ window.vSummary = {
       this.getFiltered();
     },
     sortGroupSelection() {
+      // reset merged groups since indices of merged groups change
+      if (this.mergedGroups !== 'all') {
+        this.mergedGroups = 'none';
+      }
+
       this.getFiltered();
     },
 
@@ -80,14 +85,15 @@ window.vSummary = {
 
     filterGroupSelection() {
       // merge group is not allowed when group by none
-      if (this.filterGroupSelection === 'groupByNone') {
-        this.isMergeGroup = false;
+      // also reset merged groups
+      if (this.filterGroupSelection === 'groupByNone' || this.mergedGroups !== 'all') {
+        this.mergedGroups = 'none';
       }
 
       this.getFiltered();
     },
 
-    isMergeGroup() {
+    mergedGroups() {
       this.getFiltered();
     },
 
@@ -188,7 +194,7 @@ window.vSummary = {
       }
 
       addHash('timeframe', this.filterTimeFrame);
-      addHash('mergegroup', this.isMergeGroup);
+      addHash('mergegroup', this.mergedGroups);
 
       addHash('groupSelect', this.filterGroupSelection);
       addHash('breakdown', this.filterBreakdown);
@@ -212,7 +218,7 @@ window.vSummary = {
 
       if (hash.timeframe) { this.filterTimeFrame = hash.timeframe; }
       if (hash.mergegroup) {
-        this.isMergeGroup = convertBool(hash.mergegroup);
+        this.mergedGroups = hash.mergegroup;
       }
       if (hash.since && dateFormatRegex.test(hash.since)) {
         this.tmpFilterSinceDate = hash.since;
@@ -268,7 +274,7 @@ window.vSummary = {
 
       // create deep clone of this.repos to not modify the original content of this.repos
       // when merging groups
-      const groups = this.isMergeGroup ? JSON.parse(JSON.stringify(this.repos)) : this.repos;
+      const groups = this.mergedGroups !== 'none' ? JSON.parse(JSON.stringify(this.repos)) : this.repos;
       groups.forEach((repo) => {
         const res = [];
 
@@ -305,38 +311,84 @@ window.vSummary = {
       };
       this.filtered = this.sortFiltered(this.filtered, filterControl);
 
-      if (this.isMergeGroup) {
-        this.mergeGroup(this.filtered);
+      const mergeGroupStatus = [];
+      if (this.mergedGroups === 'all' || this.mergedGroups === 'none') {
+        for (let i = 0; i < this.filtered.length; i += 1) {
+          mergeGroupStatus.push(this.mergedGroups === 'all');
+        }
+      } else {
+        const mergedGroups = this.mergedGroups.split(',').map((x) => parseInt(x, 10));
+        for (let i = 0; i < this.filtered.length; i += 1) {
+          mergeGroupStatus.push(mergedGroups.includes(i));
+        }
       }
+
+      mergeGroupStatus.forEach((isMergeGroup, groupIndex) => {
+        if (isMergeGroup) {
+          this.mergeGroupByIndex(this.filtered, groupIndex);
+        }
+      });
     },
 
     mergeGroup(filtered) {
       filtered.forEach((group, groupIndex) => {
-        const dateToIndexMap = {};
-        const mergedCommits = [];
-        const mergedFileTypeContribution = {};
-        let mergedVariance = 0;
-        let totalMergedCommits = 0;
-
-        group.forEach((user) => {
-          this.mergeCommits(user, mergedCommits, dateToIndexMap);
-
-          this.mergeFileTypeContribution(user, mergedFileTypeContribution);
-
-          totalMergedCommits += user.totalCommits;
-          mergedVariance += user.variance;
-        });
-
-        mergedCommits.sort(window.comparator((ele) => ele.date));
-        group[0].commits = mergedCommits;
-        group[0].fileTypeContribution = mergedFileTypeContribution;
-        group[0].totalCommits = totalMergedCommits;
-        group[0].variance = mergedVariance;
-
-        // clear all users and add merged group in filtered group
-        filtered[groupIndex] = [];
-        filtered[groupIndex].push(group[0]);
+        this.mergeGroupByIndex(filtered, groupIndex);
       });
+    },
+
+    mergeGroupByIndex(filtered, groupIndex) {
+      const dateToIndexMap = {};
+      const mergedCommits = [];
+      const mergedFileTypeContribution = {};
+      let mergedVariance = 0;
+      let totalMergedCommits = 0;
+
+      filtered[groupIndex].forEach((user) => {
+        this.mergeCommits(user, mergedCommits, dateToIndexMap);
+
+        this.mergeFileTypeContribution(user, mergedFileTypeContribution);
+
+        totalMergedCommits += user.totalCommits;
+        mergedVariance += user.variance;
+      });
+
+      mergedCommits.sort(window.comparator((ele) => ele.date));
+      filtered[groupIndex][0].commits = mergedCommits;
+      filtered[groupIndex][0].fileTypeContribution = mergedFileTypeContribution;
+      filtered[groupIndex][0].totalCommits = totalMergedCommits;
+      filtered[groupIndex][0].variance = mergedVariance;
+
+      filtered[groupIndex] = filtered[groupIndex].slice(0, 1);
+    },
+
+    handleMergeGroup(index) {
+      if (this.mergedGroups === 'none') {
+        this.mergedGroups = index.toString();
+      } else {
+        this.mergedGroups = `${this.mergedGroups}, ${index.toString()}`;
+      }
+      if (this.mergedGroups.split(',').length === this.filtered.length) {
+        this.mergedGroups = 'all';
+      }
+    },
+
+    handleExpandGroup(index) {
+      if (this.mergedGroups === 'all') {
+        const mergedGroups = Array
+            .from(Array(this.filtered.length).keys())
+            .filter((x) => x !== index);
+        this.mergedGroups = mergedGroups.map((x) => x.toString()).join(',');
+      } else {
+        const mergedGroups = this.mergedGroups
+            .split(',')
+            .map((x) => parseInt(x, 10))
+            .filter((x) => x !== index);
+        if (mergedGroups.length === 0) {
+          this.mergedGroups = 'none';
+        } else {
+          this.mergedGroups = mergedGroups.map((x) => x.toString()).join(',');
+        }
+      }
     },
 
     mergeCommits(user, merged, dateToIndexMap) {
