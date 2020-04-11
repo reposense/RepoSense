@@ -35,7 +35,7 @@
           input#search.medium-font(type="search", placeholder="Filter by glob", v-on:change="updateFilterSearch",
             v-on:click="indicateSearchBar")
           button#submit-button.medium-font(type="submit", v-on:click="indicateSearchBar") Filter
-      .fileType
+      .fileTypes
         input.radio-button--checkbox(type="radio", value="checkboxes", v-model="filterType")
         .checkboxes.mui-form--inline(v-if="files.length > 0")
           label(style='background-color: #000000; color: #ffffff')
