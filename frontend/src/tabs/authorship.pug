@@ -83,7 +83,7 @@
         pre.hljs.file-content(v-if="file.wasCodeLoaded && !file.isBinary", v-show="file.active")
           template(v-for="segment in file.segments")
             v-segment(v-bind:segment="segment", v-bind:path="file.path")
-        pre.file-content(v-if="file.isBinary")
+        pre.file-content(v-if="file.isBinary", v-show="file.active")
           .binary-segment
             .indicator BIN
             .bin-text Binary file not shown.
