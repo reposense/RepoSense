@@ -85,7 +85,7 @@ public class RepoLocationTest {
 
     @Test
     public void repoLocation_parseEmptyString_noInvalidLocationException() throws Exception {
-        RepoLocation repoLocation = new RepoLocation("");
+        new RepoLocation("");
     }
 
     private static void assertInvalidLocation(String rawLocation) {
