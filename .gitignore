@@ -15,5 +15,3 @@ frontend/build
 node_modules
 package-lock.json
 reposense-report/
-
-docs/_site/
