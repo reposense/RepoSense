@@ -32,7 +32,7 @@
         a(
           title="click to view breakdown of commits",
           onclick="deactivateAllOverlays()",
-          v-on:click="openTabZoom(repo[0], filterSinceDate, filterUntilDate, true)"
+          v-on:click="openTabZoom(repo[0], filterSinceDate, filterUntilDate, isGroupMerged(i))"
         )
           i.icon-button.fas.fa-list-ul
         a(
@@ -73,7 +73,7 @@
         a(
           title="click to view breakdown of commits",
           onclick="deactivateAllOverlays()",
-          v-on:click="openTabZoom(user, filterSinceDate, filterUntilDate, false)"
+          v-on:click="openTabZoom(user, filterSinceDate, filterUntilDate, isGroupMerged(i))"
         )
           i.icon-button.fas.fa-list-ul
         .summary-chart__title--percentile.mini-font(
