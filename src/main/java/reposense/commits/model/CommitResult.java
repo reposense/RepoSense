@@ -1,6 +1,7 @@
 package reposense.commits.model;
 
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.Date;
 import java.util.Map;
 
@@ -33,6 +34,19 @@ public class CommitResult {
         this.insertions = insertions;
         this.deletions = deletions;
         this.fileTypesAndContributionMap = fileTypesAndContributionMap;
+    }
+
+    public CommitResult(Author author, String hash, Date time, String messageTitle, String messageBody, String[] tags,
+            int insertions, int deletions) {
+        this.author = author;
+        this.hash = hash;
+        this.time = time;
+        this.messageTitle = messageTitle;
+        this.messageBody = messageBody;
+        this.tags = tags;
+        this.insertions = insertions;
+        this.deletions = deletions;
+        this.fileTypesAndContributionMap = Collections.emptyMap();
     }
 
     public String getMessageTitle() {

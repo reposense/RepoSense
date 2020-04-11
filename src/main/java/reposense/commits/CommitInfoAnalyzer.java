@@ -106,7 +106,7 @@ public class CommitInfoAnalyzer {
         }
 
         if (statLine.isEmpty()) { // empty commit, no files changed
-            return new CommitResult(author, hash, date, messageTitle, messageBody, tags, 0, 0, new HashMap<>());
+            return new CommitResult(author, hash, date, messageTitle, messageBody, tags, 0, 0);
         }
 
         String[] statInfos = statLine.split(NEW_LINE_SPLITTER);

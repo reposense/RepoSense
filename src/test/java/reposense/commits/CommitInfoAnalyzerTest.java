@@ -231,7 +231,7 @@ public class CommitInfoAnalyzerTest extends GitTestTemplate {
 
         expectedCommitResults.add(new CommitResult(author, "016ab87c4afe89a98225b96c98ff28dd4774410f",
                 parseGitStrictIsoDate("2020-01-27T22:20:51+08:00"), "empty commit",
-                "", null, 0, 0, Collections.emptyMap()));
+                "", null, 0, 0));
 
         config.setBranch("1019-CommitInfoAnalyzerTest-emptyCommits");
         config.setAuthorList(Collections.singletonList(author));
@@ -253,7 +253,7 @@ public class CommitInfoAnalyzerTest extends GitTestTemplate {
         // binary file contribution will have 0 contribution and won't be added to fileTypesAndContributionMap
         expectedCommitResults.add(new CommitResult(author, "a00c51138cbf5ab7d14f52b52abb182c8a369169",
                 parseGitStrictIsoDate("2020-04-06T16:41:10+08:00"), "Add binary file",
-                "", null, 0, 0, Collections.emptyMap()));
+                "", null, 0, 0));
 
         config.setBranch("1192-CommitInfoAnalyzerTest-analyzeCommits_commitsWithBinaryContribution_success");
         config.setAuthorList(Collections.singletonList(author));
