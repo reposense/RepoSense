@@ -106,7 +106,7 @@ public class CommitInfoAnalyzer {
         }
 
         if (statLine.isEmpty()) { // empty commit, no files changed
-            return new CommitResult(author, hash, date, messageTitle, messageBody, tags, 0, 0);
+            return new CommitResult(author, hash, date, messageTitle, messageBody, tags);
         }
 
         String[] statInfos = statLine.split(NEW_LINE_SPLITTER);
@@ -114,12 +114,7 @@ public class CommitInfoAnalyzer {
         Map<FileType, ContributionPair> fileTypeAndContributionMap =
                 getFileTypesAndContribution(fileTypeContributions, config);
 
-        String contributionStat = statInfos[statInfos.length - 1]; // last index is the file contribution statistics
-        int totalCommitInsertions = getInsertion(contributionStat);
-        int totalCommitDeletions = getDeletion(contributionStat);
-
-        return new CommitResult(author, hash, date, messageTitle, messageBody, tags, totalCommitInsertions,
-                totalCommitDeletions, fileTypeAndContributionMap);
+        return new CommitResult(author, hash, date, messageTitle, messageBody, tags, fileTypeAndContributionMap);
     }
 
     /**
@@ -186,18 +181,5 @@ public class CommitInfoAnalyzer {
     private static String getCommitMessageBody(String raw) {
         Matcher matcher = MESSAGEBODY_LEADING_PATTERN.matcher(raw);
         return matcher.replaceAll("");
-    }
-
-    private static int getInsertion(String raw) {
-        return getNumberWithPattern(raw, INSERTION_PATTERN);
-    }
-
-    private static int getDeletion(String raw) {
-        return getNumberWithPattern(raw, DELETION_PATTERN);
-    }
-
-    private static int getNumberWithPattern(String raw, Pattern p) {
-        Matcher m = p.matcher(raw);
-        return m.find() ? Integer.parseInt(m.group(1)) : 0;
     }
 }

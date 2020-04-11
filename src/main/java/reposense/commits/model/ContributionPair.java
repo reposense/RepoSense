@@ -15,6 +15,14 @@ public class ContributionPair {
         this.deletions = deletions;
     }
 
+    public int getInsertions() {
+        return insertions;
+    }
+
+    public int getDeletions() {
+        return deletions;
+    }
+
     public void addInsertions(int insertions) {
         this.insertions += insertions;
     }
