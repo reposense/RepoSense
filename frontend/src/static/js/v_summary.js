@@ -776,7 +776,7 @@ window.vSummary = {
       filtered = this.sortFiltered(filtered, filterControl);
 
       if (zIsMerge) {
-        this.mergeGroup(filtered);
+        this.mergeGroupByIndex(filtered, 0);
       }
       return filtered[0][0];
     },
