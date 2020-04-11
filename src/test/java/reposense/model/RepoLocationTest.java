@@ -5,6 +5,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 
 import java.lang.reflect.Method;
+import java.nio.file.Paths;
 
 import org.junit.Test;
 
@@ -12,8 +13,6 @@ import reposense.parser.InvalidLocationException;
 import reposense.util.AssertUtil;
 
 public class RepoLocationTest {
-
-    private static Method parsePath;
 
     @Test
     public void repoLocation_parseRepoUrl_success() throws Exception {
@@ -65,20 +64,23 @@ public class RepoLocationTest {
 
     @Test
     public void repoLocation_parsePath_success() throws Exception {
-        parsePath = RepoLocation.class.getDeclaredMethod("parsePath", String.class);
-        parsePath.setAccessible(true);
+        Method tryParsingAsPath = RepoLocation.class.getDeclaredMethod("tryParsingAsPath", String.class,
+                boolean.class);
+        tryParsingAsPath.setAccessible(true);
 
-        String pathToGitDirectory = "/home/tom/Desktop/reposense.git";
-        String[] repoLocationDetails = (String []) parsePath.invoke(null, pathToGitDirectory);
+        String pathToGitDirectory = Paths.get("home", "users", "tom", "Desktop",
+                "reposense.git").toString();
+        String[] repoLocationDetails = (String []) tryParsingAsPath.invoke(null, pathToGitDirectory, false);
         assertArrayEquals(new String[] { pathToGitDirectory, "reposense", null, null }, repoLocationDetails);
 
-        String pathToGitDirectoryWithBranch = "/home/tom/Desktop/reposense.git#feature-1035_branch";
-        repoLocationDetails = (String[]) parsePath.invoke(null, pathToGitDirectoryWithBranch);
+        String pathToGitDirectoryWithBranch = Paths.get("home", "users", "tom",
+                "Desktop", "reposense.git#feature-1035_branch").toString();
+        repoLocationDetails = (String[]) tryParsingAsPath.invoke(null, pathToGitDirectoryWithBranch, false);
         assertArrayEquals(new String[] { pathToGitDirectory, "reposense", null, "feature-1035_branch" },
                 repoLocationDetails);
 
-        String pathToRepo = "/test-repo_with$special&chars";
-        repoLocationDetails = (String[]) parsePath.invoke(null, pathToRepo);
+        String pathToRepo = "test-repo_with$special&chars";
+        repoLocationDetails = (String[]) tryParsingAsPath.invoke(null, pathToRepo, false);
         assertArrayEquals(new String[] { pathToRepo, "test-repo_with$special&chars", null, null },
                 repoLocationDetails);
     }

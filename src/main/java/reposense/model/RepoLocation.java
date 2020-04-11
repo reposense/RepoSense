@@ -79,7 +79,7 @@ public class RepoLocation {
             return parsedInfo;
         }
 
-        parsedInfo = tryParsingAsPath(location);
+        parsedInfo = tryParsingAsPath(location, true);
         if (parsedInfo != null) {
             return parsedInfo;
         }
@@ -96,24 +96,20 @@ public class RepoLocation {
      * Parses a given path to a repo and returns an array containing the following info:
      * { url, repository name, organisation name, branch name (if any) }
      *
-     * @return null if the given String is an invalid path, or no directory exists at the path.
+     * @param path A path to a repository
+     * @param isPathValidationNeeded If this flag is set to true, then the method will check
+     *         verify that {@code path} is a valid path and refers to an actual directory on the
+     *         filesystem.
+     *
+     * @return null if the given String is an invalid path, or no directory exists at the path,
+     *         and {@code isPathValidationNeeded} was set to true.
      */
-    private static String[] tryParsingAsPath(String location)  {
-        String[] repoLocationDetails = parsePath(location);
-        if (!fileExists(repoLocationDetails[LOCATION_INDEX])) {
+    private static String[] tryParsingAsPath(String path, boolean isPathValidationNeeded)  {
+        String[] split = path.split(BRANCH_DELIMITER);
+        String filePath = split[0];
+        if (isPathValidationNeeded && !fileExists(filePath)) {
             return null;
         }
-        return repoLocationDetails;
-    }
-
-    /**
-     * Parses a given path to a repo and returns an array containing the following info:
-     * { url, repository name, organisation name, branch name (if any) }
-     * Does not validate whether a file exists at the given path.
-     */
-    private static String[] parsePath(String location) {
-        String[] split = location.split(BRANCH_DELIMITER);
-        String filePath = split[0];
         String repoName = Paths.get(filePath).getFileName().toString().replace(GIT_LINK_SUFFIX, "");
         String branch = split.length == 1 ? null : split[1];
         return new String[] { filePath, repoName, null, branch };
