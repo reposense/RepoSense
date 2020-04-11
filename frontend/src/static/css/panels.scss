@@ -83,7 +83,12 @@
     padding-right: 15px;
   }
 
+  select {
+    @include medium-font;
+  }
+
   label {
+    @include medium-font;
     overflow-y: hidden;
   }
 
