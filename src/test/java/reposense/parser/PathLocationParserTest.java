@@ -20,7 +20,7 @@ public class PathLocationParserTest {
 
         String pathToRepo = "test-repo#with#multiple#hash#symbols#hotfix_branch";
         assertValidLocation(pathToRepo, "test-repo#with#multiple#hash#symbols",
-            "test-repo#with#multiple#hash#symbols", "hotfix_branch");
+                "test-repo#with#multiple#hash#symbols", "hotfix_branch");
     }
 
     private static void assertValidLocation(String path, String expectedLocation, String expectedRepoName,
