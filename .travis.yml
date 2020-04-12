@@ -8,16 +8,13 @@ matrix:
         - npm i -g markbind-cli
       before_script: cd docs
       script: markbind build
-      branches:
-        only:
-        - master
       deploy:
         provider: pages
         skip_cleanup: true
         github_token: $GITHUB_TOKEN
         keep_history: true
         local_dir: _site
-
+         
     - name: Ubuntu 14.04 JDK 8
       language: java
       os: linux
