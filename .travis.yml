@@ -17,8 +17,6 @@ matrix:
         github_token: $GITHUB_TOKEN
         keep_history: true
         local_dir: _site
-        on:
-          branch: master
 
     - name: Ubuntu 14.04 JDK 8
       language: java
