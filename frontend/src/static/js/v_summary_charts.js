@@ -268,7 +268,7 @@ window.vSummaryCharts = {
       case 'groupByAuthors':
         return group[0].name;
       default:
-        return undefined;
+        return '';
       }
     },
 
