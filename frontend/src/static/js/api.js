@@ -72,7 +72,7 @@ window.api = {
             fileTypeContribution: commits.authorFileTypeContributionMap[author],
           };
 
-          this.updateContributionOfCommitResults(obj.dailyCommits);
+          this.setContributionOfCommitResults(obj.dailyCommits);
 
           const searchParams = [
               repo.displayName,
@@ -103,8 +103,8 @@ window.api = {
         });
   },
 
-  // update insertions and deletions in all commitResults, since not provided in json file
-  updateContributionOfCommitResults(dailyCommits) {
+  // calculate and set the contribution of each commitResult, since not provided in json file
+  setContributionOfCommitResults(dailyCommits) {
     dailyCommits.forEach((commit) => {
       commit.commitResults.forEach((result) => {
         result.insertions = Object.values(result.fileTypesAndContributionMap)
