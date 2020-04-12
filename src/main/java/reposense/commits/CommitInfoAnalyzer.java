@@ -30,12 +30,12 @@ import reposense.system.LogsManager;
 public class CommitInfoAnalyzer {
     public static final DateFormat GIT_STRICT_ISO_DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
 
-    public static final String TAB_SPLITTER = "\t";
-    public static final String MOVED_FILE_INDICATION = "=> ";
-    public static final String BINARY_FILE_CONTRIBUTION = "-";
-    public static final int STAT_ADDITION_INDEX = 0;
-    public static final int STAT_DELETION_INDEX = 1;
-    public static final int STAT_FILE_PATH_INDEX = 2;
+    private static final String TAB_SPLITTER = "\t";
+    private static final String MOVED_FILE_INDICATION = "=> ";
+    private static final String BINARY_FILE_CONTRIBUTION = "-";
+    private static final int STAT_ADDITION_INDEX = 0;
+    private static final int STAT_DELETION_INDEX = 1;
+    private static final int STAT_FILE_PATH_INDEX = 2;
 
     private static final Logger logger = LogsManager.getLogger(CommitInfoAnalyzer.class);
     private static final String MESSAGE_START_ANALYZING_COMMIT_INFO = "Analyzing commits info for %s (%s)...";

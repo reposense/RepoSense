@@ -1,9 +1,5 @@
 package reposense.util;
 
-import static reposense.commits.CommitInfoAnalyzer.MOVED_FILE_INDICATION;
-import static reposense.commits.CommitInfoAnalyzer.STAT_FILE_PATH_INDEX;
-import static reposense.commits.CommitInfoAnalyzer.TAB_SPLITTER;
-
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -33,6 +29,9 @@ public class TestUtil {
             + ">> %s\n";
 
     private static final String MESSAGE_LINES_LENGTH_DIFFERENT = "The files' lines count do not match.";
+    private static final String TAB_SPLITTER = "\t";
+    private static final String MOVED_FILE_INDICATION = "=> ";
+    private static final int STAT_FILE_PATH_INDEX = 2;
 
     /**
      * Returns true if the files' contents are the same.
