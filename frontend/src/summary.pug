@@ -32,7 +32,7 @@
           option(value="variance") &uarr; variance
           option(value="variance dsc") &darr; variance
         label sort within groups by
-      .mui-select
+      .mui-select.granularity
         select(v-model="filterTimeFrame")
           option(value="commit") Commit
           option(value="day") Day
@@ -42,20 +42,20 @@
         input(v-if="isSafariBrowser", type="text", placeholder="yyyy-mm-dd",
           v-bind:value="filterSinceDate", v-on:keyup.enter="updateTmpFilterSinceDate",
           onkeydown="formatInputDateOnKeyDown(event)", oninput="appendDashInputDate(event)", maxlength=10)
-        input(v-else, type="date", v-bind:value="filterSinceDate", v-on:input="updateTmpFilterSinceDate",
-          onkeydown="return false", v-bind:min="minDate", v-bind:max="filterUntilDate")
+        input(v-else, type="date", name="since", v-bind:value="filterSinceDate", v-on:input="updateTmpFilterSinceDate",
+          v-bind:min="minDate", v-bind:max="filterUntilDate")
         label since
       .mui-textfield.summary-picker__date
         input(v-if="isSafariBrowser", type="text", placeholder="yyyy-mm-dd",
           v-bind:value="filterUntilDate", v-on:keyup.enter="updateTmpFilterUntilDate",
           onkeydown="formatInputDateOnKeyDown(event)", oninput="appendDashInputDate(event)", maxlength=10)
-        input(v-else, type="date", v-bind:value="filterUntilDate", v-on:input="updateTmpFilterUntilDate",
-          onkeydown="return false", v-bind:min="filterSinceDate", v-bind:max="maxDate")
+        input(v-else, type="date", name="until", v-bind:value="filterUntilDate", v-on:input="updateTmpFilterUntilDate",
+          v-bind:min="filterSinceDate", v-bind:max="maxDate")
         label until
       .mui-textfield.summary-picker__date
         a(v-on:click="resetDateRange") Reset date range
       .summary-picker__checkboxes.summary-picker__section
-        label
+        label.filter-breakdown
           input.mui-checkbox.summary-picker__checkbox(type="checkbox", v-model="filterBreakdown",
             v-on:change="setSummaryHash()")
           span breakdown by file type
