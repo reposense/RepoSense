@@ -261,22 +261,33 @@ window.vSummaryCharts = {
       return group.reduce((accContribution, user) => accContribution + user.totalCommits, 0);
     },
 
-    isGroupMerged(index) {
+    getGroupName(group) {
+      switch (this.filterGroupSelection) {
+      case 'groupByRepos':
+        return group[0].repoName;
+      case 'groupByAuthors':
+        return group[0].name;
+      default:
+        return undefined;
+      }
+    },
+
+    isGroupMerged(groupName) {
       if (this.mergedGroups === 'all') {
         return true;
       }
       if (this.mergedGroups === 'none') {
         return false;
       }
-      return this.mergedGroups.split(',').map((x) => parseInt(x, 10)).includes(index);
+      return this.mergedGroups.split(',').includes(groupName);
     },
 
-    handleMergeGroup(index) {
-      this.$emit('handle-merge-group', index);
+    handleMergeGroup(groupName) {
+      this.$emit('handle-merge-group', groupName);
     },
 
-    handleExpandGroup(index) {
-      this.$emit('handle-expand-group', index);
+    handleExpandGroup(groupName) {
+      this.$emit('handle-expand-group', groupName);
     },
   },
   components: {

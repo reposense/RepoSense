@@ -61,22 +61,12 @@ window.vSummary = {
   },
   watch: {
     checkedFileTypes() {
-      // reset merged groups since indices of merged groups change
-      if (this.mergedGroups !== 'all') {
-        this.mergedGroups = 'none';
-      }
-
       this.getFiltered();
     },
     filterBreakdown() {
       this.getFiltered();
     },
     sortGroupSelection() {
-      // reset merged groups since indices of merged groups change
-      if (this.mergedGroups !== 'all') {
-        this.mergedGroups = 'none';
-      }
-
       this.getFiltered();
     },
 
@@ -276,6 +266,17 @@ window.vSummary = {
       this.$emit('get-dates', [this.minDate, this.maxDate]);
     },
 
+    getGroupName(group) {
+      switch (this.filterGroupSelection) {
+      case 'groupByRepos':
+        return group[0].repoName;
+      case 'groupByAuthors':
+        return group[0].name;
+      default:
+        return undefined;
+      }
+    },
+
     getFiltered() {
       this.setSummaryHash();
       this.getDates();
@@ -329,9 +330,9 @@ window.vSummary = {
           mergeGroupStatus.push(this.mergedGroups === 'all');
         }
       } else {
-        const mergedGroups = this.mergedGroups.split(',').map((x) => parseInt(x, 10));
+        const mergedGroups = this.mergedGroups.split(',');
         for (let i = 0; i < this.filtered.length; i += 1) {
-          mergeGroupStatus.push(mergedGroups.includes(i));
+          mergeGroupStatus.push(mergedGroups.includes(this.getGroupName(this.filtered[i])));
         }
       }
 
@@ -373,28 +374,27 @@ window.vSummary = {
       filtered[groupIndex] = filtered[groupIndex].slice(0, 1);
     },
 
-    handleMergeGroup(index) {
+    handleMergeGroup(groupName) {
       if (this.mergedGroups === 'none') {
-        this.mergedGroups = index.toString();
+        this.mergedGroups = groupName;
       } else {
-        this.mergedGroups = `${this.mergedGroups}, ${index.toString()}`;
+        this.mergedGroups = `${this.mergedGroups},${groupName}`;
       }
       if (this.mergedGroups.split(',').length === this.filtered.length) {
         this.mergedGroups = 'all';
       }
     },
 
-    handleExpandGroup(index) {
+    handleExpandGroup(groupName) {
       if (this.mergedGroups === 'all') {
-        const mergedGroups = Array
-            .from(Array(this.filtered.length).keys())
-            .filter((x) => x !== index);
+        const mergedGroups = this.filtered
+            .map((x) => this.getGroupName(x))
+            .filter((x) => x !== groupName);
         this.mergedGroups = mergedGroups.map((x) => x.toString()).join(',');
       } else {
         const mergedGroups = this.mergedGroups
             .split(',')
-            .map((x) => parseInt(x, 10))
-            .filter((x) => x !== index);
+            .filter((x) => x !== groupName);
         if (mergedGroups.length === 0) {
           this.mergedGroups = 'none';
         } else {
