@@ -1,4 +1,5 @@
 describe('zoom features in code view', () => {
+  const zoomKey = Cypress.platform === 'darwin' ? '{meta}' : '{ctrl}';
   it('click on view commits button', () => {
     Cypress.wait();
 
@@ -11,11 +12,11 @@ describe('zoom features in code view', () => {
         .should('be.visible');
   });
 
-  it('ctrl-clicking zoom range', () => {
+  it('zoom into ramp', () => {
     Cypress.wait();
 
-    // ctrl clicking from the 10th px to the 50th px in the ramp
-    cy.get('body').type('{meta}', { release: false })
+    // clicking from the 10th px to the 50th px in the ramp
+    cy.get('body').type(zoomKey, { release: false })
         .get('#summary-charts .summary-chart__ramp .ramp')
         .first()
         .click(10, 20)
@@ -25,7 +26,7 @@ describe('zoom features in code view', () => {
         .should('be.visible');
   });
 
-  it('ctrl-clicking zoom range when merge group', () => {
+  it('zoom into ramp when merge group', () => {
     Cypress.wait();
 
     cy.get('#summary label.merge-group > input:visible')
@@ -33,8 +34,8 @@ describe('zoom features in code view', () => {
         .check()
         .should('be.checked');
 
-    // ctrl clicking from the 10th px to the 50th px in the ramp
-    cy.get('body').type('{meta}', { release: false })
+    // clicking from the 10th px to the 50th px in the ramp
+    cy.get('body').type(zoomKey, { release: false })
         .get('#summary-charts .summary-chart__ramp .ramp')
         .first()
         .click(10, 20)
