@@ -15,8 +15,15 @@
         template(v-if="!isGroupMerged(i)")
           a(
             v-on:click="handleMergeGroup(i)"
-          ) merge
+            title="click to merge group"
+          )
+            i.icon-button.fas.fa-chevron-up
       template(v-if="isGroupMerged(i)")
+        a(
+          v-on:click="handleExpandGroup(i)"
+          title="click to expand group"
+        )
+          i.icon-button.fas.fa-chevron-down
         a(
           v-if="filterGroupSelection === 'groupByRepos'",
           v-bind:href="getRepoLink(repo[0])", target="_blank",
@@ -35,9 +42,6 @@
           v-on:click="openTabZoom(repo[0], filterSinceDate, filterUntilDate, isGroupMerged(i))"
         )
           i.icon-button.fas.fa-list-ul
-        a(
-          v-on:click="handleExpandGroup(i)"
-        ) expand
       .summary-charts__title--percentile.mini-font {{ getPercentile(i) }} %
     .summary-charts__fileType--breakdown(v-if="filterBreakdown")
       template(v-if="filterGroupSelection !== 'groupByNone'")
