@@ -90,8 +90,11 @@ window.vSummary = {
       }
     },
 
-    mergedGroupsMap() {
-      this.getFiltered();
+    mergedGroupsMap: {
+      handler() {
+        this.getFiltered();
+      },
+      deep: true,
     },
 
     tmpFilterSinceDate() {
@@ -243,12 +246,9 @@ window.vSummary = {
 
     restoreMergedGroups() {
       if (this.customMergedGroups) {
-        const groupNames = this.customMergedGroups.split(',');
-        const mergedGroupsMap = {};
-        this.filtered.forEach((x) => {
-          mergedGroupsMap[this.getGroupName(x)] = groupNames.includes(this.getGroupName(x));
+        this.customMergedGroups.split(',').forEach((x) => {
+          this.mergedGroupsMap[x] = true;
         });
-        this.mergedGroupsMap = mergedGroupsMap;
       }
     },
 
@@ -397,38 +397,22 @@ window.vSummary = {
     },
 
     handleMergeGroup(groupName) {
-      const mergedGroupsMap = {};
-      this.filtered.forEach((x) => {
-        if (this.getGroupName(x) === groupName) {
-          mergedGroupsMap[this.getGroupName(x)] = true;
-        } else {
-          mergedGroupsMap[this.getGroupName(x)] = this.mergedGroupsMap[this.getGroupName(x)];
-        }
-      });
-      this.mergedGroupsMap = mergedGroupsMap;
+      this.mergedGroupsMap[groupName] = true;
     },
 
     handleExpandGroup(groupName) {
-      const mergedGroupsMap = {};
-      this.filtered.forEach((x) => {
-        if (this.getGroupName(x) === groupName) {
-          mergedGroupsMap[this.getGroupName(x)] = false;
-        } else {
-          mergedGroupsMap[this.getGroupName(x)] = this.mergedGroupsMap[this.getGroupName(x)];
-        }
-      });
-      this.mergedGroupsMap = mergedGroupsMap;
+      this.mergedGroupsMap[groupName] = false;
     },
 
     handleMergeGroupCheckboxClicked() {
       if (!this.isAllGroupsMerged()) {
-        const mergedGroupsMap = {};
-        this.filtered.forEach((x) => {
-          mergedGroupsMap[this.getGroupName(x)] = true;
+        Object.keys(this.mergedGroupsMap).forEach((x) => {
+          this.mergedGroupsMap[x] = true;
         });
-        this.mergedGroupsMap = mergedGroupsMap;
       } else {
-        this.resetMergedGroupsMap();
+        Object.keys(this.mergedGroupsMap).forEach((x) => {
+          this.mergedGroupsMap[x] = false;
+        });
       }
     },
 
