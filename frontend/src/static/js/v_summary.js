@@ -87,6 +87,11 @@ window.vSummary = {
         this.mergedGroupsMap = {};
       } else if (!this.isAllGroupsMerged()) {
         this.resetMergedGroupsMap();
+      } else {
+        this.resetMergedGroupsMap();
+        Object.keys(this.mergedGroupsMap).forEach((x) => {
+          this.mergedGroupsMap[x] = true;
+        });
       }
     },
 
