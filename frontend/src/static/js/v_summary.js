@@ -242,8 +242,8 @@ window.vSummary = {
     },
 
     restoreMergedGroups() {
-      const groupNames = this.customMergedGroups.split(',');
       if (this.customMergedGroups) {
+        const groupNames = this.customMergedGroups.split(',');
         const mergedGroupsMap = {};
         this.filtered.forEach((x) => {
           mergedGroupsMap[this.getGroupName(x)] = groupNames.includes(this.getGroupName(x));
@@ -338,36 +338,36 @@ window.vSummary = {
       };
       this.filtered = this.sortFiltered(this.filtered, filterControl);
 
-      this.filtered.forEach((group, groupIndex) => {
-        if (this.mergedGroupsMap[this.getGroupName(group)]) {
-          this.mergeGroupByIndex(this.filtered, groupIndex);
-        }
-      });
+      this.mergeGroup(this.filtered);
     },
 
-    mergeGroupByIndex(filtered, groupIndex) {
-      const dateToIndexMap = {};
-      const mergedCommits = [];
-      const mergedFileTypeContribution = {};
-      let mergedVariance = 0;
-      let totalMergedCommits = 0;
+    mergeGroup(filtered) {
+      filtered.forEach((group, groupIndex) => {
+        if (this.mergedGroupsMap[this.getGroupName(group)]) {
+          const dateToIndexMap = {};
+          const mergedCommits = [];
+          const mergedFileTypeContribution = {};
+          let mergedVariance = 0;
+          let totalMergedCommits = 0;
 
-      filtered[groupIndex].forEach((user) => {
-        this.mergeCommits(user, mergedCommits, dateToIndexMap);
+          filtered[groupIndex].forEach((user) => {
+            this.mergeCommits(user, mergedCommits, dateToIndexMap);
 
-        this.mergeFileTypeContribution(user, mergedFileTypeContribution);
+            this.mergeFileTypeContribution(user, mergedFileTypeContribution);
 
-        totalMergedCommits += user.totalCommits;
-        mergedVariance += user.variance;
+            totalMergedCommits += user.totalCommits;
+            mergedVariance += user.variance;
+          });
+
+          mergedCommits.sort(window.comparator((ele) => ele.date));
+          filtered[groupIndex][0].commits = mergedCommits;
+          filtered[groupIndex][0].fileTypeContribution = mergedFileTypeContribution;
+          filtered[groupIndex][0].totalCommits = totalMergedCommits;
+          filtered[groupIndex][0].variance = mergedVariance;
+
+          filtered[groupIndex] = filtered[groupIndex].slice(0, 1);
+        }
       });
-
-      mergedCommits.sort(window.comparator((ele) => ele.date));
-      filtered[groupIndex][0].commits = mergedCommits;
-      filtered[groupIndex][0].fileTypeContribution = mergedFileTypeContribution;
-      filtered[groupIndex][0].totalCommits = totalMergedCommits;
-      filtered[groupIndex][0].variance = mergedVariance;
-
-      filtered[groupIndex] = filtered[groupIndex].slice(0, 1);
     },
 
     isNoGroupMerged() {
