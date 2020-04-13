@@ -44,7 +44,6 @@ public class AuthorConfigParserTest {
 
     private static final String TEST_REPO_BETA_LOCATION = "https://github.com/reposense/testrepo-Beta.git";
     private static final String TEST_REPO_BETA_MASTER_BRANCH = "master";
-    private static final String TEST_REPO_DELTA_LOCATION = "https://github.com/reposense/testrepo-Delta.git";
 
     private static final Author FIRST_AUTHOR = new Author("nbriannl");
     private static final Author SECOND_AUTHOR = new Author("zacharytang");
@@ -199,11 +198,13 @@ public class AuthorConfigParserTest {
         Assert.assertEquals(TEST_REPO_BETA_MASTER_BRANCH, config.getBranch());
 
         config = configs.get(1);
-        Assert.assertEquals(new RepoLocation("https://github.com/reposense/RepoSense.git"), config.getLocation());
+        Assert.assertEquals(new RepoLocation("https://github.com/reposense/RepoSense.git#release"),
+                config.getLocation());
         Assert.assertEquals("release", config.getBranch());
 
         config = configs.get(2);
-        Assert.assertEquals(new RepoLocation(TEST_REPO_DELTA_LOCATION), config.getLocation());
+        Assert.assertEquals(new RepoLocation("https://github.com/reposense/testrepo-Delta.git#gh-pages"),
+                config.getLocation());
         Assert.assertEquals("gh-pages", config.getBranch());
 
         config = configs.get(3);
