@@ -23,7 +23,7 @@
       .mui-select.sort-within-group
         select(
           v-model="sortWithinGroupSelection",
-          v-bind:disabled="filterGroupSelection === 'groupByNone' || mergedGroups === 'all'"
+          v-bind:disabled="filterGroupSelection === 'groupByNone' || isAllGroupsMerged()"
         )
           option(value="title") &uarr; title
           option(value="title dsc") &darr; title
@@ -64,10 +64,9 @@
         )
           input.summary-picker__checkbox.mui-checkbox(
             type="checkbox",
-            v-model="mergedGroups",
-            true-value="all",
-            false-value="none",
-            v-bind:disabled="filterGroupSelection === 'groupByNone'"
+            v-bind:checked="isAllGroupsMerged()",
+            v-bind:disabled="filterGroupSelection === 'groupByNone'",
+            v-on:click="handleMergeGroupCheckboxClicked()"
           )
           span merge all groups
   .error-message-box(v-if="Object.entries(errorMessages).length")
@@ -120,7 +119,7 @@
     v-bind:filter-time-frame="filterTimeFrame",
     v-bind:filter-since-date="filterSinceDate",
     v-bind:filter-until-date="filterUntilDate",
-    v-bind:merged-groups="mergedGroups",
+    v-bind:merged-groups-map="mergedGroupsMap",
     v-bind:min-date="minDate",
     v-bind:max-date="maxDate",
     v-on:handle-merge-group="handleMergeGroup",

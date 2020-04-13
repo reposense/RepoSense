@@ -45,7 +45,7 @@ window.vSummary = {
       isSortingWithinDsc: '',
       filterTimeFrame: 'commit',
       filterBreakdown: false,
-      mergedGroups: 'none',
+      mergedGroupsMap: {},
       tmpFilterSinceDate: '',
       tmpFilterUntilDate: '',
       hasModifiedSinceDate: window.app.isSinceDateProvided,
@@ -79,16 +79,18 @@ window.vSummary = {
     },
 
     filterGroupSelection() {
+      this.getFiltered();
+
       // merge group is not allowed when group by none
       // also reset merged groups
-      if (this.filterGroupSelection === 'groupByNone' || this.mergedGroups !== 'all') {
-        this.mergedGroups = 'none';
+      if (this.filterGroupSelection === 'groupByNone') {
+        this.mergedGroupsMap = {};
+      } else if (!this.isAllGroupsMerged()) {
+        this.resetMergedGroupsMap();
       }
-
-      this.getFiltered();
     },
 
-    mergedGroups() {
+    mergedGroupsMap() {
       this.getFiltered();
     },
 
@@ -189,7 +191,14 @@ window.vSummary = {
       }
 
       addHash('timeframe', this.filterTimeFrame);
-      addHash('mergegroup', this.mergedGroups);
+
+      let mergedGroupsMapHash = Object.keys(this.mergedGroupsMap)
+          .filter((x) => this.mergedGroupsMap[x])
+          .join(',');
+      if (mergedGroupsMapHash.length === 0) {
+        mergedGroupsMapHash = 'none';
+      }
+      addHash('mergegroup', mergedGroupsMapHash);
 
       addHash('groupSelect', this.filterGroupSelection);
       addHash('breakdown', this.filterBreakdown);
@@ -233,8 +242,13 @@ window.vSummary = {
     },
 
     restoreMergedGroups() {
+      const groupNames = this.customMergedGroups.split(',');
       if (this.customMergedGroups) {
-        this.mergedGroups = this.customMergedGroups;
+        const mergedGroupsMap = {};
+        this.filtered.forEach((x) => {
+          mergedGroupsMap[this.getGroupName(x)] = groupNames.includes(this.getGroupName(x));
+        });
+        this.mergedGroupsMap = mergedGroupsMap;
       }
     },
 
@@ -287,7 +301,7 @@ window.vSummary = {
 
       // create deep clone of this.repos to not modify the original content of this.repos
       // when merging groups
-      const groups = this.mergedGroups !== 'none' ? JSON.parse(JSON.stringify(this.repos)) : this.repos;
+      const groups = !this.isNoGroupMerged() ? JSON.parse(JSON.stringify(this.repos)) : this.repos;
       groups.forEach((repo) => {
         const res = [];
 
@@ -324,28 +338,10 @@ window.vSummary = {
       };
       this.filtered = this.sortFiltered(this.filtered, filterControl);
 
-      const mergeGroupStatus = [];
-      if (this.mergedGroups === 'all' || this.mergedGroups === 'none') {
-        for (let i = 0; i < this.filtered.length; i += 1) {
-          mergeGroupStatus.push(this.mergedGroups === 'all');
-        }
-      } else {
-        const mergedGroups = this.mergedGroups.split(',');
-        for (let i = 0; i < this.filtered.length; i += 1) {
-          mergeGroupStatus.push(mergedGroups.includes(this.getGroupName(this.filtered[i])));
-        }
-      }
-
-      mergeGroupStatus.forEach((isMergeGroup, groupIndex) => {
-        if (isMergeGroup) {
+      this.filtered.forEach((group, groupIndex) => {
+        if (this.mergedGroupsMap[this.getGroupName(group)]) {
           this.mergeGroupByIndex(this.filtered, groupIndex);
         }
-      });
-    },
-
-    mergeGroup(filtered) {
-      filtered.forEach((group, groupIndex) => {
-        this.mergeGroupByIndex(filtered, groupIndex);
       });
     },
 
@@ -374,32 +370,65 @@ window.vSummary = {
       filtered[groupIndex] = filtered[groupIndex].slice(0, 1);
     },
 
+    isNoGroupMerged() {
+      if (Object.keys(this.mergedGroupsMap).length === 0) {
+        return true;
+      }
+      return !Object.keys(this.mergedGroupsMap)
+          .map((x) => this.mergedGroupsMap[x])
+          .includes(true);
+    },
+
+    isAllGroupsMerged() {
+      if (Object.keys(this.mergedGroupsMap).length === 0) {
+        return false;
+      }
+      return !Object.keys(this.mergedGroupsMap)
+          .map((x) => this.mergedGroupsMap[x])
+          .includes(false);
+    },
+
+    resetMergedGroupsMap() {
+      const mergedGroupsMap = {};
+      this.filtered.forEach((x) => {
+        mergedGroupsMap[this.getGroupName(x)] = false;
+      });
+      this.mergedGroupsMap = mergedGroupsMap;
+    },
+
     handleMergeGroup(groupName) {
-      if (this.mergedGroups === 'none') {
-        this.mergedGroups = groupName;
-      } else {
-        this.mergedGroups = `${this.mergedGroups},${groupName}`;
-      }
-      if (this.mergedGroups.split(',').length === this.filtered.length) {
-        this.mergedGroups = 'all';
-      }
+      const mergedGroupsMap = {};
+      this.filtered.forEach((x) => {
+        if (this.getGroupName(x) === groupName) {
+          mergedGroupsMap[this.getGroupName(x)] = true;
+        } else {
+          mergedGroupsMap[this.getGroupName(x)] = this.mergedGroupsMap[this.getGroupName(x)];
+        }
+      });
+      this.mergedGroupsMap = mergedGroupsMap;
     },
 
     handleExpandGroup(groupName) {
-      if (this.mergedGroups === 'all') {
-        const mergedGroups = this.filtered
-            .map((x) => this.getGroupName(x))
-            .filter((x) => x !== groupName);
-        this.mergedGroups = mergedGroups.map((x) => x.toString()).join(',');
-      } else {
-        const mergedGroups = this.mergedGroups
-            .split(',')
-            .filter((x) => x !== groupName);
-        if (mergedGroups.length === 0) {
-          this.mergedGroups = 'none';
+      const mergedGroupsMap = {};
+      this.filtered.forEach((x) => {
+        if (this.getGroupName(x) === groupName) {
+          mergedGroupsMap[this.getGroupName(x)] = false;
         } else {
-          this.mergedGroups = mergedGroups.map((x) => x.toString()).join(',');
+          mergedGroupsMap[this.getGroupName(x)] = this.mergedGroupsMap[this.getGroupName(x)];
         }
+      });
+      this.mergedGroupsMap = mergedGroupsMap;
+    },
+
+    handleMergeGroupCheckboxClicked() {
+      if (!this.isAllGroupsMerged()) {
+        const mergedGroupsMap = {};
+        this.filtered.forEach((x) => {
+          mergedGroupsMap[this.getGroupName(x)] = true;
+        });
+        this.mergedGroupsMap = mergedGroupsMap;
+      } else {
+        this.resetMergedGroupsMap();
       }
     },
 
@@ -816,6 +845,8 @@ window.vSummary = {
     });
   },
   mounted() {
+    this.resetMergedGroupsMap();
+
     // restoring custom merged groups after watchers finish their job
     setTimeout(() => {
       this.restoreMergedGroups();

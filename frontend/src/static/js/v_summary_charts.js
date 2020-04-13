@@ -91,7 +91,7 @@ window.viewClick = function viewClick(evt) {
 
 window.vSummaryCharts = {
   props: ['checkedFileTypes', 'filtered', 'fileTypeColors', 'avgContributionSize', 'filterBreakdown',
-      'filterGroupSelection', 'filterTimeFrame', 'filterSinceDate', 'filterUntilDate', 'mergedGroups',
+      'filterGroupSelection', 'filterTimeFrame', 'filterSinceDate', 'filterUntilDate', 'mergedGroupsMap',
       'minDate', 'maxDate'],
   template: window.$('v_summary_charts').innerHTML,
   computed: {
@@ -270,16 +270,6 @@ window.vSummaryCharts = {
       default:
         return '';
       }
-    },
-
-    isGroupMerged(groupName) {
-      if (this.mergedGroups === 'all') {
-        return true;
-      }
-      if (this.mergedGroups === 'none') {
-        return false;
-      }
-      return this.mergedGroups.split(',').includes(groupName);
     },
 
     handleMergeGroup(groupName) {

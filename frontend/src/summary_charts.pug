@@ -12,13 +12,13 @@
         title="Total contribution of group"
       ) [{{ getGroupTotalContribution(repo) }} lines]
       .summary-charts__title--mergebtn
-        template(v-if="!isGroupMerged(getGroupName(repo))")
+        template(v-if="!mergedGroupsMap[getGroupName(repo)]")
           a(
             v-on:click="handleMergeGroup(getGroupName(repo))"
             title="click to merge group"
           )
             i.icon-button.fas.fa-chevron-up
-      template(v-if="isGroupMerged(getGroupName(repo))")
+      template(v-if="mergedGroupsMap[getGroupName(repo)]")
         a(
           v-on:click="handleExpandGroup(getGroupName(repo))"
           title="click to expand group"
@@ -39,7 +39,7 @@
         a(
           title="click to view breakdown of commits",
           onclick="deactivateAllOverlays()",
-          v-on:click="openTabZoom(repo[0], filterSinceDate, filterUntilDate, isGroupMerged(getGroupName(repo)))"
+          v-on:click="openTabZoom(repo[0], filterSinceDate, filterUntilDate, mergedGroupsMap[getGroupName(repo)])"
         )
           i.icon-button.fas.fa-list-ul
       .summary-charts__title--percentile.mini-font {{ getPercentile(i) }} %
@@ -54,7 +54,7 @@
           )
           span &nbsp; {{ fileType }} &nbsp;
     .summary-chart(v-for="(user, j) in repo")
-      .summary-chart__title(v-if="!isGroupMerged(getGroupName(repo))")
+      .summary-chart__title(v-if="!mergedGroupsMap[getGroupName(repo)]")
         .summary-chart__title--index {{ j+1 }}
         .summary-chart__title--repo(v-if="filterGroupSelection === 'groupByNone'") {{ user.repoName }}
         .summary-chart__title--author-repo(v-if="filterGroupSelection === 'groupByAuthors'") {{ user.repoName }}
@@ -77,7 +77,7 @@
         a(
           title="click to view breakdown of commits",
           onclick="deactivateAllOverlays()",
-          v-on:click="openTabZoom(user, filterSinceDate, filterUntilDate, isGroupMerged(getGroupName(repo)))"
+          v-on:click="openTabZoom(user, filterSinceDate, filterUntilDate, mergedGroupsMap[getGroupName(repo)])"
         )
           i.icon-button.fas.fa-list-ul
         .summary-chart__title--percentile.mini-font(
@@ -86,7 +86,7 @@
 
       .summary-chart__ramp(
         onclick="viewClick(event)",
-        v-on:click="openTabZoomSubrange(user, isGroupMerged(getGroupName(repo)))"
+        v-on:click="openTabZoomSubrange(user, mergedGroupsMap[getGroupName(repo)])"
       )
         v-ramp(
           v-bind:groupby="filterGroupSelection",
@@ -95,7 +95,7 @@
           v-bind:sdate="filterSinceDate",
           v-bind:udate="filterUntilDate",
           v-bind:avgsize="avgCommitSize",
-          v-bind:mergegroup="isGroupMerged(getGroupName(repo))")
+          v-bind:mergegroup="mergedGroupsMap[getGroupName(repo)]")
         .overlay
 
       .summary-chart__contribution
