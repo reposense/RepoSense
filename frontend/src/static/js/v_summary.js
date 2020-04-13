@@ -343,36 +343,36 @@ window.vSummary = {
       };
       this.filtered = this.sortFiltered(this.filtered, filterControl);
 
-      this.mergeGroup(this.filtered);
-    },
-
-    mergeGroup(filtered) {
-      filtered.forEach((group, groupIndex) => {
+      this.filtered.forEach((group, groupIndex) => {
         if (this.mergedGroupsMap[this.getGroupName(group)]) {
-          const dateToIndexMap = {};
-          const mergedCommits = [];
-          const mergedFileTypeContribution = {};
-          let mergedVariance = 0;
-          let totalMergedCommits = 0;
-
-          filtered[groupIndex].forEach((user) => {
-            this.mergeCommits(user, mergedCommits, dateToIndexMap);
-
-            this.mergeFileTypeContribution(user, mergedFileTypeContribution);
-
-            totalMergedCommits += user.totalCommits;
-            mergedVariance += user.variance;
-          });
-
-          mergedCommits.sort(window.comparator((ele) => ele.date));
-          filtered[groupIndex][0].commits = mergedCommits;
-          filtered[groupIndex][0].fileTypeContribution = mergedFileTypeContribution;
-          filtered[groupIndex][0].totalCommits = totalMergedCommits;
-          filtered[groupIndex][0].variance = mergedVariance;
-
-          filtered[groupIndex] = filtered[groupIndex].slice(0, 1);
+          this.mergeGroupByIndex(this.filtered, groupIndex);
         }
       });
+    },
+
+    mergeGroupByIndex(filtered, groupIndex) {
+      const dateToIndexMap = {};
+      const mergedCommits = [];
+      const mergedFileTypeContribution = {};
+      let mergedVariance = 0;
+      let totalMergedCommits = 0;
+
+      filtered[groupIndex].forEach((user) => {
+        this.mergeCommits(user, mergedCommits, dateToIndexMap);
+
+        this.mergeFileTypeContribution(user, mergedFileTypeContribution);
+
+        totalMergedCommits += user.totalCommits;
+        mergedVariance += user.variance;
+      });
+
+      mergedCommits.sort(window.comparator((ele) => ele.date));
+      filtered[groupIndex][0].commits = mergedCommits;
+      filtered[groupIndex][0].fileTypeContribution = mergedFileTypeContribution;
+      filtered[groupIndex][0].totalCommits = totalMergedCommits;
+      filtered[groupIndex][0].variance = mergedVariance;
+
+      filtered[groupIndex] = filtered[groupIndex].slice(0, 1);
     },
 
     isNoGroupMerged() {
