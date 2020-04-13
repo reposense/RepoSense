@@ -63,7 +63,11 @@ public class RepoLocation {
         }
 
         RepoLocation otherLocation = (RepoLocation) other;
-        return this.location.equals(otherLocation.location);
+        return location.equals(otherLocation.location)
+                && repoName.equals(otherLocation.repoName)
+                && (organization == null ? otherLocation.organization == null
+                        : organization.equals(otherLocation.organization))
+                && parsedBranch.equals(otherLocation.parsedBranch);
     }
 
     @Override
