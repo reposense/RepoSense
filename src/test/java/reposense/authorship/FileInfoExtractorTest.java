@@ -40,7 +40,7 @@ public class FileInfoExtractorTest extends GitTestTemplate {
         config.getAuthorEmailsAndAliasesMap().put(MAIN_AUTHOR_NAME, new Author(MAIN_AUTHOR_NAME));
         config.getAuthorEmailsAndAliasesMap().put(FAKE_AUTHOR_NAME, new Author(FAKE_AUTHOR_NAME));
         GitCheckout.checkout(config.getRepoRoot(), TEST_COMMIT_HASH);
-        List<FileInfo> files = FileInfoExtractor.extractNonBinaryFileInfos(config);
+        List<FileInfo> files = FileInfoExtractor.extractTextFileInfos(config);
         Assert.assertEquals(6, files.size());
         Assert.assertTrue(isFileExistence(Paths.get("README.md"), files));
         Assert.assertTrue(isFileExistence(Paths.get("annotationTest.java"), files));
@@ -55,7 +55,7 @@ public class FileInfoExtractorTest extends GitTestTemplate {
         Date date = TestUtil.getSinceDate(2018, Calendar.FEBRUARY, 9);
         config.setSinceDate(date);
 
-        List<FileInfo> files = FileInfoExtractor.extractNonBinaryFileInfos(config);
+        List<FileInfo> files = FileInfoExtractor.extractTextFileInfos(config);
         Assert.assertEquals(4, files.size());
 
         // files edited within commit range
@@ -72,7 +72,7 @@ public class FileInfoExtractorTest extends GitTestTemplate {
     @Test
     public void extractFileInfos_directoryWithValidWhitelistedName_success() {
         GitCheckout.checkout(config.getRepoRoot(), DIRECTORY_WITH_VALID_WHITELISTED_NAME_BRANCH);
-        List<FileInfo> files = FileInfoExtractor.extractNonBinaryFileInfos(config);
+        List<FileInfo> files = FileInfoExtractor.extractTextFileInfos(config);
 
         Assert.assertEquals(7, files.size());
         Assert.assertTrue(isFileExistence(Paths.get(".gradle/anything.txt"), files));
@@ -81,7 +81,7 @@ public class FileInfoExtractorTest extends GitTestTemplate {
     @Test
     public void extractFileInfos_branchWithValidWhitelistedFileName_success() {
         GitCheckout.checkout(config.getRepoRoot(), BRANCH_WITH_VALID_WHITELISTED_FILE_NAME_BRANCH);
-        List<FileInfo> files = FileInfoExtractor.extractNonBinaryFileInfos(config);
+        List<FileInfo> files = FileInfoExtractor.extractTextFileInfos(config);
 
         Assert.assertTrue(isFileExistence(Paths.get("whitelisted-format.txt"), files));
     }
@@ -91,7 +91,7 @@ public class FileInfoExtractorTest extends GitTestTemplate {
         Date date = TestUtil.getSinceDate(2050, 12, 31);
         config.setSinceDate(date);
 
-        List<FileInfo> files = FileInfoExtractor.extractNonBinaryFileInfos(config);
+        List<FileInfo> files = FileInfoExtractor.extractTextFileInfos(config);
         Assert.assertTrue(files.isEmpty());
     }
 
@@ -100,7 +100,7 @@ public class FileInfoExtractorTest extends GitTestTemplate {
         Date date = TestUtil.getUntilDate(2015, 12, 31);
         config.setUntilDate(date);
 
-        List<FileInfo> files = FileInfoExtractor.extractNonBinaryFileInfos(config);
+        List<FileInfo> files = FileInfoExtractor.extractTextFileInfos(config);
         Assert.assertTrue(files.isEmpty());
     }
 
@@ -142,8 +142,8 @@ public class FileInfoExtractorTest extends GitTestTemplate {
     }
 
     @Test
-    public void getFilesList_getNonBinaryFilesFromRepoWithBinaryFiles_success() {
-        List<String> nonBinaryFilesList = Arrays.asList(
+    public void getFilesList_getTextFilesFromRepoWithBinaryFiles_success() {
+        List<String> textFilesList = Arrays.asList(
                 "binaryFileTest/nonBinaryFile.txt", "My Documents/wordToHtml.htm", "My Pictures/notPngPicture.png",
                 "My Documents/wordToHtml_files/colorschememapping.xml", "My Documents/wordToHtml_files/filelist.xml",
                 "My Documents/notPdfDocument.pdf");
@@ -151,18 +151,18 @@ public class FileInfoExtractorTest extends GitTestTemplate {
                 "binaryFileTest/binaryFile.txt", "My Documents/word.docx", "My Documents/pdfDocument.pdf",
                 "My Documents/wordToHtml_files/themedata.thmx", "My Pictures/pngPicture.png");
         GitCheckout.checkoutBranch(config.getRepoRoot(), BRANCH_WITH_BINARY_FILES);
-        Set<Path> nonBinaryFiles = FileInfoExtractor.getFilesList(config, false);
+        Set<Path> textFiles = FileInfoExtractor.getFilesList(config, false);
 
-        Assert.assertEquals(6, nonBinaryFiles.size());
+        Assert.assertEquals(6, textFiles.size());
         // Non binary files should be captured
-        nonBinaryFilesList.forEach(nonBinFile -> Assert.assertTrue(nonBinaryFiles.contains(Paths.get(nonBinFile))));
+        textFilesList.forEach(textFile -> Assert.assertTrue(textFiles.contains(Paths.get(textFile))));
         // Binary files should be ignored
-        binaryFilesList.forEach(binFile -> Assert.assertFalse(nonBinaryFiles.contains(Paths.get(binFile))));
+        binaryFilesList.forEach(binFile -> Assert.assertFalse(textFiles.contains(Paths.get(binFile))));
     }
 
     @Test
-    public void getFilesList_getBinaryFilesFromRepoWithNonBinaryFiles_success() {
-        List<String> nonBinaryFilesList = Arrays.asList(
+    public void getFilesList_getBinaryFilesFromRepoWithTextFiles_success() {
+        List<String> textFilesList = Arrays.asList(
                 "binaryFileTest/nonBinaryFile.txt", "My Documents/wordToHtml.htm", "My Pictures/notPngPicture.png",
                 "My Documents/wordToHtml_files/colorschememapping.xml", "My Documents/wordToHtml_files/filelist.xml",
                 "My Documents/notPdfDocument.pdf");
@@ -176,12 +176,12 @@ public class FileInfoExtractorTest extends GitTestTemplate {
         // Binary files should be captured
         binaryFilesList.forEach(binFile -> Assert.assertTrue(binaryFiles.contains(Paths.get(binFile))));
         // Non binary files should be ignored
-        nonBinaryFilesList.forEach(nonBinFile -> Assert.assertFalse(binaryFiles.contains(Paths.get(nonBinFile))));
+        textFilesList.forEach(textFile -> Assert.assertFalse(binaryFiles.contains(Paths.get(textFile))));
     }
 
     @Test
     public void extractFileInfos_withoutSpecifiedFormats_success() {
-        List<String> nonBinaryFilesList = Arrays.asList(
+        List<String> textFilesList = Arrays.asList(
                 "binaryFileTest/nonBinaryFile.ARBIFORMAT", "My Documents/wordToHtml.htm",
                 "My Pictures/notPngPicture.png", "My Documents/wordToHtml_files/colorschememapping.xml",
                 "My Documents/wordToHtml_files/filelist.xml", "My Documents/notPdfDocument.fdp");
@@ -191,11 +191,11 @@ public class FileInfoExtractorTest extends GitTestTemplate {
         config.setFormats(FileTypeTest.NO_SPECIFIED_FORMATS);
         GitCheckout.checkoutBranch(config.getRepoRoot(), BRANCH_WITH_RARE_FILE_FORMATS);
 
-        List<FileInfo> files = FileInfoExtractor.extractNonBinaryFileInfos(config);
+        List<FileInfo> files = FileInfoExtractor.extractTextFileInfos(config);
 
-        Assert.assertEquals(nonBinaryFilesList.size(), files.size());
+        Assert.assertEquals(textFilesList.size(), files.size());
         // Non binary files should be captured
-        nonBinaryFilesList.forEach(nonBinFile -> Assert.assertTrue(isFileExistence(Paths.get(nonBinFile), files)));
+        textFilesList.forEach(textFile -> Assert.assertTrue(isFileExistence(Paths.get(textFile), files)));
         // Binary files should be ignored
         binaryFilesList.forEach(binFile -> Assert.assertFalse(isFileExistence(Paths.get(binFile), files)));
     }

@@ -44,7 +44,7 @@ public class FileInfoAnalyzer {
      * Returns null if the file is missing from the local system, or none of the
      * {@code Author} specified in {@code config} contributed to the file in {@code fileInfo}.
      */
-    public static FileResult analyzeNonBinaryFile(RepoConfiguration config, FileInfo fileInfo) {
+    public static FileResult analyzeTextFile(RepoConfiguration config, FileInfo fileInfo) {
         String relativePath = fileInfo.getPath();
 
         if (Files.notExists(Paths.get(config.getRepoRoot(), relativePath))) {
@@ -65,7 +65,7 @@ public class FileInfoAnalyzer {
             return null;
         }
 
-        return generateNonBinaryFileResult(fileInfo);
+        return generateTextFileResult(fileInfo);
     }
 
     /**
@@ -90,13 +90,13 @@ public class FileInfoAnalyzer {
     /**
      * Generates and returns a {@code FileResult} with the authorship results from {@code fileInfo} consolidated.
      */
-    private static FileResult generateNonBinaryFileResult(FileInfo fileInfo) {
+    private static FileResult generateTextFileResult(FileInfo fileInfo) {
         HashMap<Author, Integer> authorContributionMap = new HashMap<>();
         for (LineInfo line : fileInfo.getLines()) {
             Author author = line.getAuthor();
             authorContributionMap.put(author, authorContributionMap.getOrDefault(author, 0) + 1);
         }
-        return FileResult.createNonBinaryFileResult(
+        return FileResult.createTextFileResult(
             fileInfo.getPath(), fileInfo.getFileType(), fileInfo.getLines(), authorContributionMap);
     }
 

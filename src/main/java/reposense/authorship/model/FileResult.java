@@ -28,7 +28,7 @@ public class FileResult {
         }
     }
 
-    public static FileResult createNonBinaryFileResult(String path, FileType fileType, ArrayList<LineInfo> lines,
+    public static FileResult createTextFileResult(String path, FileType fileType, ArrayList<LineInfo> lines,
             HashMap<Author, Integer> authorContributionMap) {
         return new FileResult(path, fileType, lines, authorContributionMap, false);
     }

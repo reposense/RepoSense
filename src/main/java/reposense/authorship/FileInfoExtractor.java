@@ -51,7 +51,7 @@ public class FileInfoExtractor {
     /**
      * Extracts a list of relevant non-binary files given in {@code config}.
      */
-    public static List<FileInfo> extractNonBinaryFileInfos(RepoConfiguration config) {
+    public static List<FileInfo> extractTextFileInfos(RepoConfiguration config) {
         logger.info(String.format(MESSAGE_START_EXTRACTING_FILE_INFO, config.getLocation(), config.getBranch()));
 
         List<FileInfo> fileInfos = new ArrayList<>();
@@ -100,7 +100,7 @@ public class FileInfoExtractor {
         }
 
         String[] fileDiffResultList = fullDiffResult.split(DIFF_FILE_CHUNK_SEPARATOR);
-        Set<Path> nonBinaryFilesSet = getFilesList(config, false);
+        Set<Path> textFilesSet = getFilesList(config, false);
 
         for (String fileDiffResult : fileDiffResultList) {
             Matcher filePathMatcher = FILE_CHANGED_PATTERN.matcher(fileDiffResult);
@@ -117,7 +117,7 @@ public class FileInfoExtractor {
                 continue;
             }
 
-            if (!isValidAndNonBinaryFile(filePath, nonBinaryFilesSet)) {
+            if (!isValidAndTextFile(filePath, textFilesSet)) {
                 continue;
             }
 
@@ -243,7 +243,7 @@ public class FileInfoExtractor {
     /**
      * Returns true if {@code filePath} is valid and the file is not in binary.
      */
-    private static boolean isValidAndNonBinaryFile(String filePath, Set<Path> nonBinaryFilesSet) {
-        return FileUtil.isValidPath(filePath) && nonBinaryFilesSet.contains(Paths.get(filePath));
+    private static boolean isValidAndTextFile(String filePath, Set<Path> textFilesSet) {
+        return FileUtil.isValidPath(filePath) && textFilesSet.contains(Paths.get(filePath));
     }
 }
