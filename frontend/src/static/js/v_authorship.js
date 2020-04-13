@@ -183,7 +183,7 @@ window.vAuthorship = {
           lineCount: lineCnt,
           active: lineCnt <= COLLAPSED_VIEW_LINE_COUNT_THRESHOLD,
           wasCodeLoaded: lineCnt <= COLLAPSED_VIEW_LINE_COUNT_THRESHOLD,
-          isBinary: file.isBinary,
+          isBinary: file.isBinary, // either undefined or true
         };
 
         if (!file.isBinary) {

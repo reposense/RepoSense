@@ -13,7 +13,7 @@ import reposense.model.FileType;
 public class FileResult {
     private final String path;
     private FileType fileType;
-    private boolean isBinary;
+    private Boolean isBinary = null; // Should only be true or null to prevent it from being serialized
     private final ArrayList<LineInfo> lines;
     private final HashMap<Author, Integer> authorContributionMap;
 
@@ -23,7 +23,9 @@ public class FileResult {
         this.fileType = fileType;
         this.lines = lines;
         this.authorContributionMap = authorContributionMap;
-        this.isBinary = isBinary;
+        if (isBinary) {
+            this.isBinary = true;
+        }
     }
 
     public static FileResult createNonBinaryFileResult(String path, FileType fileType, ArrayList<LineInfo> lines,
@@ -37,7 +39,7 @@ public class FileResult {
     }
 
     public boolean isBinary() {
-        return isBinary;
+        return isBinary != null;
     }
 
     public void setBinary(boolean binary) {
