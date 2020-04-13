@@ -2,7 +2,6 @@
   {
     "path": "annotationTest.java",
     "fileType": "code",
-    "isBinary": false,
     "lines": [
       {
         "lineNumber": 1,
@@ -90,7 +89,6 @@
   {
     "path": "blameTest.java",
     "fileType": "code",
-    "isBinary": false,
     "lines": [
       {
         "lineNumber": 1,
@@ -129,7 +127,6 @@
   {
     "path": "newFile.java",
     "fileType": "code",
-    "isBinary": false,
     "lines": [
       {
         "lineNumber": 1,
@@ -153,7 +150,6 @@
   {
     "path": "newPos/movedFile.java",
     "fileType": "code",
-    "isBinary": false,
     "lines": [
       {
         "lineNumber": 1,

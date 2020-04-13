@@ -2,7 +2,6 @@
   {
     "path": "README.adoc",
     "fileType": "adoc",
-    "isBinary": false,
     "lines": [
       {
         "lineNumber": 1,
@@ -448,7 +447,6 @@
   {
     "path": "docs/DeveloperGuide.adoc",
     "fileType": "adoc",
-    "isBinary": false,
     "lines": [
       {
         "lineNumber": 1,
@@ -15532,7 +15530,6 @@
   {
     "path": "docs/UserGuide.adoc",
     "fileType": "adoc",
-    "isBinary": false,
     "lines": [
       {
         "lineNumber": 1,
@@ -23336,7 +23333,6 @@
   {
     "path": "docs/team/ahmadsyafiq.adoc",
     "fileType": "adoc",
-    "isBinary": false,
     "lines": [
       {
         "lineNumber": 1,
@@ -23774,7 +23770,6 @@
   {
     "path": "docs/team/codeeong.adoc",
     "fileType": "adoc",
-    "isBinary": false,
     "lines": [
       {
         "lineNumber": 1,
@@ -24288,7 +24283,6 @@
   {
     "path": "docs/team/lohtianwei.adoc",
     "fileType": "adoc",
-    "isBinary": false,
     "lines": [
       {
         "lineNumber": 1,
@@ -24782,7 +24776,6 @@
   {
     "path": "src/main/java/seedu/address/MainApp.java",
     "fileType": "java",
-    "isBinary": false,
     "lines": [
       {
         "lineNumber": 1,
@@ -26277,7 +26270,6 @@
   {
     "path": "src/main/java/seedu/address/commons/core/Config.java",
     "fileType": "java",
-    "isBinary": false,
     "lines": [
       {
         "lineNumber": 1,
@@ -26792,7 +26784,6 @@
   {
     "path": "src/main/java/seedu/address/commons/core/Messages.java",
     "fileType": "java",
-    "isBinary": false,
     "lines": [
       {
         "lineNumber": 1,
@@ -26915,7 +26906,6 @@
   {
     "path": "src/main/java/seedu/address/commons/events/ui/ChangeTagColourEvent.java",
     "fileType": "java",
-    "isBinary": false,
     "lines": [
       {
         "lineNumber": 1,
@@ -27087,7 +27077,6 @@
   {
     "path": "src/main/java/seedu/address/commons/events/ui/ChangeThemeEvent.java",
     "fileType": "java",
-    "isBinary": false,
     "lines": [
       {
         "lineNumber": 1,
@@ -27245,7 +27234,6 @@
   {
     "path": "src/main/java/seedu/address/commons/events/ui/ClearTeamsEvent.java",
     "fileType": "java",
-    "isBinary": false,
     "lines": [
       {
         "lineNumber": 1,
@@ -27396,7 +27384,6 @@
   {
     "path": "src/main/java/seedu/address/commons/events/ui/DeselectTeamEvent.java",
     "fileType": "java",
-    "isBinary": false,
     "lines": [
       {
         "lineNumber": 1,
@@ -27525,7 +27512,6 @@
   {
     "path": "src/main/java/seedu/address/commons/events/ui/HighlightSelectedTeamEvent.java",
     "fileType": "java",
-    "isBinary": false,
     "lines": [
       {
         "lineNumber": 1,
@@ -27683,7 +27669,6 @@
   {
     "path": "src/main/java/seedu/address/commons/events/ui/PersonDetailsChangedEvent.java",
     "fileType": "java",
-    "isBinary": false,
     "lines": [
       {
         "lineNumber": 1,
@@ -27932,7 +27917,6 @@
   {
     "path": "src/main/java/seedu/address/commons/events/ui/PersonDetailsChangedNoParamEvent.java",
     "fileType": "java",
-    "isBinary": false,
     "lines": [
       {
         "lineNumber": 1,
@@ -28062,7 +28046,6 @@
   {
     "path": "src/main/java/seedu/address/commons/events/ui/ShowNewTeamNameEvent.java",
     "fileType": "java",
-    "isBinary": false,
     "lines": [
       {
         "lineNumber": 1,
@@ -28227,7 +28210,6 @@
   {
     "path": "src/main/java/seedu/address/commons/events/ui/UndoTeamsEvent.java",
     "fileType": "java",
-    "isBinary": false,
     "lines": [
       {
         "lineNumber": 1,
@@ -28364,7 +28346,6 @@
   {
     "path": "src/main/java/seedu/address/logic/Logic.java",
     "fileType": "java",
-    "isBinary": false,
     "lines": [
       {
         "lineNumber": 1,
@@ -28627,7 +28608,6 @@
   {
     "path": "src/main/java/seedu/address/logic/LogicManager.java",
     "fileType": "java",
-    "isBinary": false,
     "lines": [
       {
         "lineNumber": 1,
@@ -29136,7 +29116,6 @@
   {
     "path": "src/main/java/seedu/address/logic/commands/AddCommand.java",
     "fileType": "java",
-    "isBinary": false,
     "lines": [
       {
         "lineNumber": 1,
@@ -30016,7 +29995,6 @@
   {
     "path": "src/main/java/seedu/address/logic/commands/ChangeThemeCommand.java",
     "fileType": "java",
-    "isBinary": false,
     "lines": [
       {
         "lineNumber": 1,
@@ -30405,7 +30383,6 @@
   {
     "path": "src/main/java/seedu/address/logic/commands/ClearCommand.java",
     "fileType": "java",
-    "isBinary": false,
     "lines": [
       {
         "lineNumber": 1,
@@ -30613,7 +30590,6 @@
   {
     "path": "src/main/java/seedu/address/logic/commands/CreateCommand.java",
     "fileType": "java",
-    "isBinary": false,
     "lines": [
       {
         "lineNumber": 1,
@@ -31044,7 +31020,6 @@
   {
     "path": "src/main/java/seedu/address/logic/commands/DeleteCommand.java",
     "fileType": "java",
-    "isBinary": false,
     "lines": [
       {
         "lineNumber": 1,
@@ -31545,7 +31520,6 @@
   {
     "path": "src/main/java/seedu/address/logic/commands/EditCommand.java",
     "fileType": "java",
-    "isBinary": false,
     "lines": [
       {
         "lineNumber": 1,
@@ -33916,7 +33890,6 @@
   {
     "path": "src/main/java/seedu/address/logic/commands/FindCommand.java",
     "fileType": "java",
-    "isBinary": false,
     "lines": [
       {
         "lineNumber": 1,
@@ -34200,7 +34173,6 @@
   {
     "path": "src/main/java/seedu/address/logic/commands/HistoryCommand.java",
     "fileType": "java",
-    "isBinary": false,
     "lines": [
       {
         "lineNumber": 1,
@@ -34484,7 +34456,6 @@
   {
     "path": "src/main/java/seedu/address/logic/commands/KeyCommand.java",
     "fileType": "java",
-    "isBinary": false,
     "lines": [
       {
         "lineNumber": 1,
@@ -35012,7 +34983,6 @@
   {
     "path": "src/main/java/seedu/address/logic/commands/ListCommand.java",
     "fileType": "java",
-    "isBinary": false,
     "lines": [
       {
         "lineNumber": 1,
@@ -35199,7 +35169,6 @@
   {
     "path": "src/main/java/seedu/address/logic/commands/RedoCommand.java",
     "fileType": "java",
-    "isBinary": false,
     "lines": [
       {
         "lineNumber": 1,
@@ -35519,7 +35488,6 @@
   {
     "path": "src/main/java/seedu/address/logic/commands/RemarkCommand.java",
     "fileType": "java",
-    "isBinary": false,
     "lines": [
       {
         "lineNumber": 1,
@@ -36307,7 +36275,6 @@
   {
     "path": "src/main/java/seedu/address/logic/commands/SelectCommand.java",
     "fileType": "java",
-    "isBinary": false,
     "lines": [
       {
         "lineNumber": 1,
@@ -36703,7 +36670,6 @@
   {
     "path": "src/main/java/seedu/address/logic/commands/SetCommand.java",
     "fileType": "java",
-    "isBinary": false,
     "lines": [
       {
         "lineNumber": 1,
@@ -37197,7 +37163,6 @@
   {
     "path": "src/main/java/seedu/address/logic/commands/SortCommand.java",
     "fileType": "java",
-    "isBinary": false,
     "lines": [
       {
         "lineNumber": 1,
@@ -37641,7 +37606,6 @@
   {
     "path": "src/main/java/seedu/address/logic/commands/TogglePrivacyCommand.java",
     "fileType": "java",
-    "isBinary": false,
     "lines": [
       {
         "lineNumber": 1,
@@ -40424,7 +40388,6 @@
   {
     "path": "src/main/java/seedu/address/logic/commands/UndoCommand.java",
     "fileType": "java",
-    "isBinary": false,
     "lines": [
       {
         "lineNumber": 1,
@@ -40744,7 +40707,6 @@
   {
     "path": "src/main/java/seedu/address/logic/commands/ViewCommand.java",
     "fileType": "java",
-    "isBinary": false,
     "lines": [
       {
         "lineNumber": 1,
@@ -41126,7 +41088,6 @@
   {
     "path": "src/main/java/seedu/address/logic/parser/AddressBookParser.java",
     "fileType": "java",
-    "isBinary": false,
     "lines": [
       {
         "lineNumber": 1,
@@ -42419,7 +42380,6 @@
   {
     "path": "src/main/java/seedu/address/logic/parser/ChangeThemeCommandParser.java",
     "fileType": "java",
-    "isBinary": false,
     "lines": [
       {
         "lineNumber": 1,
@@ -42612,7 +42572,6 @@
   {
     "path": "src/main/java/seedu/address/logic/parser/CliSyntax.java",
     "fileType": "java",
-    "isBinary": false,
     "lines": [
       {
         "lineNumber": 1,
@@ -42785,7 +42744,6 @@
   {
     "path": "src/main/java/seedu/address/logic/parser/KeyCommandParser.java",
     "fileType": "java",
-    "isBinary": false,
     "lines": [
       {
         "lineNumber": 1,
@@ -43012,7 +42970,6 @@
   {
     "path": "src/main/java/seedu/address/logic/parser/ParserUtil.java",
     "fileType": "java",
-    "isBinary": false,
     "lines": [
       {
         "lineNumber": 1,
@@ -45480,7 +45437,6 @@
   {
     "path": "src/main/java/seedu/address/logic/parser/SetCommandParser.java",
     "fileType": "java",
-    "isBinary": false,
     "lines": [
       {
         "lineNumber": 1,
@@ -45883,7 +45839,6 @@
   {
     "path": "src/main/java/seedu/address/logic/parser/SortCommandParser.java",
     "fileType": "java",
-    "isBinary": false,
     "lines": [
       {
         "lineNumber": 1,
@@ -46250,7 +46205,6 @@
   {
     "path": "src/main/java/seedu/address/logic/parser/TogglePrivacyCommandParser.java",
     "fileType": "java",
-    "isBinary": false,
     "lines": [
       {
         "lineNumber": 1,
@@ -46744,7 +46698,6 @@
   {
     "path": "src/main/java/seedu/address/model/AddressBook.java",
     "fileType": "java",
-    "isBinary": false,
     "lines": [
       {
         "lineNumber": 1,
@@ -49913,7 +49866,6 @@
   {
     "path": "src/main/java/seedu/address/model/Model.java",
     "fileType": "java",
-    "isBinary": false,
     "lines": [
       {
         "lineNumber": 1,
@@ -50632,7 +50584,6 @@
   {
     "path": "src/main/java/seedu/address/model/ModelManager.java",
     "fileType": "java",
-    "isBinary": false,
     "lines": [
       {
         "lineNumber": 1,
@@ -52268,7 +52219,6 @@
   {
     "path": "src/main/java/seedu/address/model/UserPrefs.java",
     "fileType": "java",
-    "isBinary": false,
     "lines": [
       {
         "lineNumber": 1,
@@ -53099,7 +53049,6 @@
   {
     "path": "src/main/java/seedu/address/model/person/Address.java",
     "fileType": "java",
-    "isBinary": false,
     "lines": [
       {
         "lineNumber": 1,
@@ -53677,7 +53626,6 @@
   {
     "path": "src/main/java/seedu/address/model/person/Avatar.java",
     "fileType": "java",
-    "isBinary": false,
     "lines": [
       {
         "lineNumber": 1,
@@ -54458,7 +54406,6 @@
   {
     "path": "src/main/java/seedu/address/model/person/Email.java",
     "fileType": "java",
-    "isBinary": false,
     "lines": [
       {
         "lineNumber": 1,
@@ -55092,7 +55039,6 @@
   {
     "path": "src/main/java/seedu/address/model/person/Phone.java",
     "fileType": "java",
-    "isBinary": false,
     "lines": [
       {
         "lineNumber": 1,
@@ -55635,7 +55581,6 @@
   {
     "path": "src/main/java/seedu/address/model/person/Rating.java",
     "fileType": "java",
-    "isBinary": false,
     "lines": [
       {
         "lineNumber": 1,
@@ -56185,7 +56130,6 @@
   {
     "path": "src/main/java/seedu/address/model/person/Remark.java",
     "fileType": "java",
-    "isBinary": false,
     "lines": [
       {
         "lineNumber": 1,
@@ -56651,7 +56595,6 @@
   {
     "path": "src/main/java/seedu/address/model/person/UniquePersonList.java",
     "fileType": "java",
-    "isBinary": false,
     "lines": [
       {
         "lineNumber": 1,
@@ -58223,7 +58166,6 @@
   {
     "path": "src/main/java/seedu/address/model/person/exceptions/NoPlayerException.java",
     "fileType": "java",
-    "isBinary": false,
     "lines": [
       {
         "lineNumber": 1,
@@ -58282,7 +58224,6 @@
   {
     "path": "src/main/java/seedu/address/model/tag/Tag.java",
     "fileType": "java",
-    "isBinary": false,
     "lines": [
       {
         "lineNumber": 1,
@@ -59014,7 +58955,6 @@
   {
     "path": "src/main/java/seedu/address/model/util/SampleDataUtil.java",
     "fileType": "java",
-    "isBinary": false,
     "lines": [
       {
         "lineNumber": 1,
@@ -60208,7 +60148,6 @@
   {
     "path": "src/main/java/seedu/address/storage/XmlAdaptedPerson.java",
     "fileType": "java",
-    "isBinary": false,
     "lines": [
       {
         "lineNumber": 1,
@@ -61920,7 +61859,6 @@
   {
     "path": "src/main/java/seedu/address/storage/XmlAdaptedTag.java",
     "fileType": "java",
-    "isBinary": false,
     "lines": [
       {
         "lineNumber": 1,
@@ -62498,7 +62436,6 @@
   {
     "path": "src/main/java/seedu/address/storage/XmlAdaptedTeam.java",
     "fileType": "java",
-    "isBinary": false,
     "lines": [
       {
         "lineNumber": 1,
@@ -63160,7 +63097,6 @@
   {
     "path": "src/main/java/seedu/address/storage/XmlSerializableAddressBook.java",
     "fileType": "java",
-    "isBinary": false,
     "lines": [
       {
         "lineNumber": 1,
@@ -63766,7 +63702,6 @@
   {
     "path": "src/main/java/seedu/address/ui/MainWindow.java",
     "fileType": "java",
-    "isBinary": false,
     "lines": [
       {
         "lineNumber": 1,
@@ -65429,7 +65364,6 @@
   {
     "path": "src/main/java/seedu/address/ui/PersonCard.java",
     "fileType": "java",
-    "isBinary": false,
     "lines": [
       {
         "lineNumber": 1,
@@ -66449,7 +66383,6 @@
   {
     "path": "src/main/java/seedu/address/ui/PersonListPanel.java",
     "fileType": "java",
-    "isBinary": false,
     "lines": [
       {
         "lineNumber": 1,
@@ -67230,7 +67163,6 @@
   {
     "path": "src/main/java/seedu/address/ui/PlayerDetails.java",
     "fileType": "java",
-    "isBinary": false,
     "lines": [
       {
         "lineNumber": 1,
@@ -67900,7 +67832,6 @@
   {
     "path": "src/main/java/seedu/address/ui/TeamDisplay.java",
     "fileType": "java",
-    "isBinary": false,
     "lines": [
       {
         "lineNumber": 1,
@@ -68779,7 +68710,6 @@
   {
     "path": "src/main/java/seedu/address/ui/UiManager.java",
     "fileType": "java",
-    "isBinary": false,
     "lines": [
       {
         "lineNumber": 1,
@@ -69623,7 +69553,6 @@
   {
     "path": "src/test/java/guitests/guihandles/MainWindowHandle.java",
     "fileType": "java",
-    "isBinary": false,
     "lines": [
       {
         "lineNumber": 1,
@@ -69970,7 +69899,6 @@
   {
     "path": "src/test/java/guitests/guihandles/PersonCardHandle.java",
     "fileType": "java",
-    "isBinary": false,
     "lines": [
       {
         "lineNumber": 1,
@@ -70548,7 +70476,6 @@
   {
     "path": "src/test/java/guitests/guihandles/PlayerDetailsHandle.java",
     "fileType": "java",
-    "isBinary": false,
     "lines": [
       {
         "lineNumber": 1,
@@ -71007,7 +70934,6 @@
   {
     "path": "src/test/java/guitests/guihandles/TeamDisplayHandle.java",
     "fileType": "java",
-    "isBinary": false,
     "lines": [
       {
         "lineNumber": 1,
@@ -71277,7 +71203,6 @@
   {
     "path": "src/test/java/seedu/address/commons/core/ConfigTest.java",
     "fileType": "java",
-    "isBinary": false,
     "lines": [
       {
         "lineNumber": 1,
@@ -71512,7 +71437,6 @@
   {
     "path": "src/test/java/seedu/address/commons/util/XmlUtilTest.java",
     "fileType": "java",
-    "isBinary": false,
     "lines": [
       {
         "lineNumber": 1,
@@ -72545,7 +72469,6 @@
   {
     "path": "src/test/java/seedu/address/logic/commands/AddCommandTest.java",
     "fileType": "java",
-    "isBinary": false,
     "lines": [
       {
         "lineNumber": 1,
@@ -74356,7 +74279,6 @@
   {
     "path": "src/test/java/seedu/address/logic/commands/ChangeThemeCommandTest.java",
     "fileType": "java",
-    "isBinary": false,
     "lines": [
       {
         "lineNumber": 1,
@@ -74990,7 +74912,6 @@
   {
     "path": "src/test/java/seedu/address/logic/commands/KeyCommandTest.java",
     "fileType": "java",
-    "isBinary": false,
     "lines": [
       {
         "lineNumber": 1,
@@ -75308,7 +75229,6 @@
   {
     "path": "src/test/java/seedu/address/logic/commands/RemarkCommandTest.java",
     "fileType": "java",
-    "isBinary": false,
     "lines": [
       {
         "lineNumber": 1,
@@ -76859,7 +76779,6 @@
   {
     "path": "src/test/java/seedu/address/logic/commands/SetCommandTest.java",
     "fileType": "java",
-    "isBinary": false,
     "lines": [
       {
         "lineNumber": 1,
@@ -77570,7 +77489,6 @@
   {
     "path": "src/test/java/seedu/address/logic/commands/SortCommandTest.java",
     "fileType": "java",
-    "isBinary": false,
     "lines": [
       {
         "lineNumber": 1,
@@ -78336,7 +78254,6 @@
   {
     "path": "src/test/java/seedu/address/logic/commands/TogglePrivacyCommandTest.java",
     "fileType": "java",
-    "isBinary": false,
     "lines": [
       {
         "lineNumber": 1,
@@ -78815,7 +78732,6 @@
   {
     "path": "src/test/java/seedu/address/logic/parser/AddressBookParserTest.java",
     "fileType": "java",
-    "isBinary": false,
     "lines": [
       {
         "lineNumber": 1,
@@ -81074,7 +80990,6 @@
   {
     "path": "src/test/java/seedu/address/logic/parser/ChangeThemeCommandParserTest.java",
     "fileType": "java",
-    "isBinary": false,
     "lines": [
       {
         "lineNumber": 1,
@@ -81295,7 +81210,6 @@
   {
     "path": "src/test/java/seedu/address/logic/parser/SetCommandParserTest.java",
     "fileType": "java",
-    "isBinary": false,
     "lines": [
       {
         "lineNumber": 1,
@@ -81467,7 +81381,6 @@
   {
     "path": "src/test/java/seedu/address/logic/parser/SortCommandParserTest.java",
     "fileType": "java",
-    "isBinary": false,
     "lines": [
       {
         "lineNumber": 1,
@@ -82051,7 +81964,6 @@
   {
     "path": "src/test/java/seedu/address/logic/parser/TogglePrivacyCommandParserTest.java",
     "fileType": "java",
-    "isBinary": false,
     "lines": [
       {
         "lineNumber": 1,
@@ -82726,7 +82638,6 @@
   {
     "path": "src/test/java/seedu/address/model/tag/TagTest.java",
     "fileType": "java",
-    "isBinary": false,
     "lines": [
       {
         "lineNumber": 1,
@@ -83003,7 +82914,6 @@
   {
     "path": "src/test/java/seedu/address/storage/JsonUserPrefsStorageTest.java",
     "fileType": "java",
-    "isBinary": false,
     "lines": [
       {
         "lineNumber": 1,
@@ -83959,7 +83869,6 @@
   {
     "path": "src/test/java/seedu/address/testutil/EditPersonPrivacyBuilder.java",
     "fileType": "java",
-    "isBinary": false,
     "lines": [
       {
         "lineNumber": 1,
@@ -84607,7 +84516,6 @@
   {
     "path": "src/test/java/seedu/address/testutil/TeamBuilder.java",
     "fileType": "java",
-    "isBinary": false,
     "lines": [
       {
         "lineNumber": 1,
@@ -84891,7 +84799,6 @@
   {
     "path": "src/test/java/seedu/address/testutil/TypicalPersons.java",
     "fileType": "java",
-    "isBinary": false,
     "lines": [
       {
         "lineNumber": 1,
@@ -85952,7 +85859,6 @@
   {
     "path": "src/test/java/seedu/address/testutil/TypicalTags.java",
     "fileType": "java",
-    "isBinary": false,
     "lines": [
       {
         "lineNumber": 1,
@@ -86264,7 +86170,6 @@
   {
     "path": "src/test/java/seedu/address/ui/PlayerDetailsTest.java",
     "fileType": "java",
-    "isBinary": false,
     "lines": [
       {
         "lineNumber": 1,
@@ -86674,7 +86579,6 @@
   {
     "path": "src/test/java/seedu/address/ui/TeamDisplayTest.java",
     "fileType": "java",
-    "isBinary": false,
     "lines": [
       {
         "lineNumber": 1,
@@ -87168,7 +87072,6 @@
   {
     "path": "src/test/java/seedu/address/ui/UiPartTest.java",
     "fileType": "java",
-    "isBinary": false,
     "lines": [
       {
         "lineNumber": 1,
@@ -88012,7 +87915,6 @@
   {
     "path": "src/test/java/seedu/address/ui/testutil/GuiTestAssert.java",
     "fileType": "java",
-    "isBinary": false,
     "lines": [
       {
         "lineNumber": 1,
@@ -89080,7 +88982,6 @@
   {
     "path": "src/test/java/systemtests/AddCommandSystemTest.java",
     "fileType": "java",
-    "isBinary": false,
     "lines": [
       {
         "lineNumber": 1,
@@ -91639,7 +91540,6 @@
   {
     "path": "src/test/java/systemtests/AddressBookSystemTest.java",
     "fileType": "java",
-    "isBinary": false,
     "lines": [
       {
         "lineNumber": 1,
@@ -93512,7 +93412,6 @@
   {
     "path": "src/test/java/systemtests/EditCommandSystemTest.java",
     "fileType": "java",
-    "isBinary": false,
     "lines": [
       {
         "lineNumber": 1,
@@ -95679,7 +95578,6 @@
   {
     "path": "src/test/java/systemtests/HelpCommandSystemTest.java",
     "fileType": "java",
-    "isBinary": false,
     "lines": [
       {
         "lineNumber": 1,

@@ -2,7 +2,6 @@
   {
     "path": "src/main/resources/view/InfoPanel.fxml",
     "fileType": "fxml",
-    "isBinary": false,
     "lines": [
       {
         "lineNumber": 1,
@@ -69,7 +68,6 @@
   {
     "path": "src/main/resources/view/MainWindow.fxml",
     "fileType": "fxml",
-    "isBinary": false,
     "lines": [
       {
         "lineNumber": 1,
@@ -606,7 +604,6 @@
   {
     "path": "src/main/resources/view/PersonInfoPanel.fxml",
     "fileType": "fxml",
-    "isBinary": false,
     "lines": [
       {
         "lineNumber": 1,
@@ -1190,7 +1187,6 @@
   {
     "path": "src/main/resources/view/PersonListCard.fxml",
     "fileType": "fxml",
-    "isBinary": false,
     "lines": [
       {
         "lineNumber": 1,
@@ -1488,7 +1484,6 @@
   {
     "path": "src/main/resources/view/PersonListPanel.fxml",
     "fileType": "fxml",
-    "isBinary": false,
     "lines": [
       {
         "lineNumber": 1,
@@ -1548,7 +1543,6 @@
   {
     "path": "src/main/resources/view/TagListPanel.fxml",
     "fileType": "fxml",
-    "isBinary": false,
     "lines": [
       {
         "lineNumber": 1,
@@ -1748,7 +1742,6 @@
   {
     "path": "unused/CombinedTimetableDisplay.fxml",
     "fileType": "fxml",
-    "isBinary": false,
     "lines": [
       {
         "lineNumber": 1,
@@ -2095,7 +2088,6 @@
   {
     "path": "unused/PersonInfoOverview.fxml",
     "fileType": "fxml",
-    "isBinary": false,
     "lines": [
       {
         "lineNumber": 1,
