@@ -82,11 +82,6 @@ Contributor [2018 Dec - 2019 May]<br/>
 
 ---
 
-### [Ni Tianzhen](https://github.com/niqiukun)
-**Role**: Contributor [2020 January - ]<br/>
-
----
-
 ### [Yash Chowdhary](https://github.com/yash-chowdhary)
 ![](https://avatars2.githubusercontent.com/u/21968718?s=150&v=4)<br/>
 **Role**: Contributor [2020 January - ]<br/>
