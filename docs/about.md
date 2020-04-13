@@ -24,21 +24,6 @@ We are a team based in the [School of Computing, National University of Singapor
 
 ---
 
-### [Tan Jun An](https://github.com/yamidark)
-![](https://avatars3.githubusercontent.com/u/18352498?s=150&v=4)<br/>
-**Role**: Area Lead for Code Quality [2018 Aug - ]<br/>
-Committer [2018 May - 2018 Aug]<br/>
-
----
-
-### [Ong Shu Peng](https://github.com/ongspxm)
-![](https://avatars0.githubusercontent.com/u/1430854?s=150&v=4)<br/>
-**Role**: Area Lead for UI [2018 Dec - ]<br/>
-Committer [2018 Aug - 2018 Dec]<br/>
-Contributor [2018 May - 2018 Aug]<br/>
-
----
-
 ### [Teng Yong Hao](https://github.com/yong24s)
 ![](https://avatars2.githubusercontent.com/u/2003406?s=150&v=4)<br/>
 **Role**: Mentor [2018 Dec - ]<br/>
@@ -111,6 +96,21 @@ Contributor [2018 Dec - 2019 May]<br/>
 
 ### [Ma Tanghao](https://github.com/harryggg)
 Main developer for the initial version [2017 May - 2018 May]
+
+---
+
+### [Ong Shu Peng](https://github.com/ongspxm)
+![](https://avatars0.githubusercontent.com/u/1430854?s=150&v=4)<br/>
+**Role**: Area Lead for UI [2018 Dec - 2019 May]<br/>
+Committer [2018 Aug - 2018 Dec]<br/>
+Contributor [2018 May - 2018 Aug]<br/>
+
+---
+
+### [Tan Jun An](https://github.com/yamidark)
+![](https://avatars3.githubusercontent.com/u/18352498?s=150&v=4)<br/>
+**Role**: Area Lead for Code Quality [2018 Aug - 2019 April]<br/>
+Committer [2018 May - 2018 Aug]<br/>
 
 ---
 
