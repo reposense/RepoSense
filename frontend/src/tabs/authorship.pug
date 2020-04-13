@@ -1,19 +1,20 @@
 #authorship
   span.large-font Code Panel
   .toolbar(v-if="hasCommits(info)")
-    a(v-if="hasActiveFile", v-on:click="expandAll(false)") hide all file details
-    a(v-else, v-on:click="expandAll(true)") show all file details
-  .title
-    a.repoName.large-font(
+    a(v-if="activeFilesCount < this.selectedFiles.length", v-on:click="expandAll()") show all file details
+    a(v-if="activeFilesCount > 0", v-on:click="collapseAll()") hide all file details
+  .panel-heading
+    a.group-name(
       v-bind:href="info.location", target="_blank",
       v-bind:title="'Click to open the repo'"
     ) {{ info.repo }}
-    .author.medium-font
+    .author
       span &#8627; &nbsp;
       span {{ info.name }} ({{ info.author }})
-    .period.medium-font
+    .period
       span &#8627; &nbsp;
       span {{ info.minDate }} to {{ info.maxDate }}
+  .title
     .contribution(v-if="isLoaded && files.length!=0")
       .sorting.mui-form--inline
         .mui-select
@@ -54,9 +55,9 @@
   .files(v-if="isLoaded")
     .empty(v-if="files.length === 0") nothing to see here :(
     template(v-for="file in selectedFiles")
-      .file.active(v-bind:key="file.path")
+      .file(v-bind:key="file.path")
         .title
-          span.path(onclick="toggleNext(this.parentNode)", v-on:click="updateCount") {{ file.path }}&nbsp;
+          span.path(v-on:click="toggleFileActiveProperty(file)") {{ file.path }}&nbsp;
           span.loc ({{ file.lineCount }} lines)
           a(
             v-bind:href="getFileLink(file, 'commits')", target="_blank",
@@ -68,7 +69,7 @@
             title="click to view the blame view of file"
           )
             i.button.fas.fa-user-edit
-        pre.hljs.file-content
+        pre.hljs.file-content(v-if="file.wasCodeLoaded", v-show="file.active")
           template(v-for="segment in file.segments")
             v-segment(v-bind:segment="segment", v-bind:path="file.path")
 

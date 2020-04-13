@@ -1,8 +1,3 @@
-const commitSortDict = {
-  lineOfCode: (commit) => commit.insertions,
-  time: (commit) => commit.date,
-};
-
 window.vZoom = {
   props: ['info'],
   template: window.$('v_zoom').innerHTML,
@@ -17,8 +12,12 @@ window.vZoom = {
 
   computed: {
     sortingFunction() {
+      const commitSortFunction = this.commitsSortType === 'time'
+        ? (commit) => commit.date
+        : (commit) => commit.insertions;
+
       return (a, b) => (this.toReverseSortedCommits ? -1 : 1)
-      * window.comparator(commitSortDict[this.commitsSortType])(a, b);
+        * window.comparator(commitSortFunction)(a, b);
     },
     filteredUser() {
       const {
@@ -58,7 +57,7 @@ window.vZoom = {
     },
 
     getSliceLink(slice) {
-      if (this.info.isMergeGroup) {
+      if (this.info.zIsMerge) {
         return `${window.getBaseLink(slice.repoId)}/commit/${slice.hash}`;
       }
       return `${window.getBaseLink(this.info.zUser.repoId)}/commit/${slice.hash}`;
