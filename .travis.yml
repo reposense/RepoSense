@@ -1,6 +1,6 @@
 matrix:
   include:
-    - name: deploy markbind
+    - name: Deploy MarkBind to gh pages
       language: node
       node_js:
         - '8'
