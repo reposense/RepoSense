@@ -3,20 +3,32 @@ window.vZoom = {
   template: window.$('v_zoom').innerHTML,
   data() {
     return {
-      filterTimeFrame: window.hashParams.timeframe,
       showAllCommitMessageBody: true,
       expandedCommitMessagesCount: this.totalCommitMessageBodyCount,
+      commitsSortType: 'time',
+      toReverseSortedCommits: true,
     };
   },
-  computed: {
-    filteredUser() {
-      const { user } = this.info;
-      const filteredUser = Object.assign({}, user);
 
-      const date = this.filterTimeFrame === 'week' ? 'endDate' : 'date';
-      filteredUser.commits = user.commits.filter(
-          (commit) => commit[date] >= this.info.sinceDate && commit[date] <= this.info.untilDate,
-      );
+  computed: {
+    sortingFunction() {
+      const commitSortFunction = this.commitsSortType === 'time'
+        ? (commit) => commit.date
+        : (commit) => commit.insertions;
+
+      return (a, b) => (this.toReverseSortedCommits ? -1 : 1)
+        * window.comparator(commitSortFunction)(a, b);
+    },
+    filteredUser() {
+      const {
+        zUser, zSince, zUntil, zTimeFrame,
+      } = this.info;
+      const filteredUser = Object.assign({}, zUser);
+
+      const date = zTimeFrame === 'week' ? 'endDate' : 'date';
+      filteredUser.commits = zUser.commits.filter(
+          (commit) => commit[date] >= zSince && commit[date] <= zUntil,
+      ).sort(this.sortingFunction);
 
       return filteredUser;
     },
@@ -24,7 +36,7 @@ window.vZoom = {
       let nonEmptyCommitMessageCount = 0;
       this.filteredUser.commits.forEach((commit) => {
         commit.commitResults.forEach((commitResult) => {
-          if (commitResult.messageBody !== '' && commitResult.insertions > 0) {
+          if (commitResult.messageBody !== '') {
             nonEmptyCommitMessageCount += 1;
           }
         });
@@ -34,22 +46,55 @@ window.vZoom = {
     },
   },
   methods: {
+    initiate() {
+      if (!this.info.zUser) { // restoring zoom tab from reloaded page
+        this.restoreZoomTab();
+      }
+      this.setInfoHash();
+    },
     openSummary() {
-      this.$emit('view-summary', this.info.sinceDate, this.info.untilDate);
+      this.$emit('view-summary', this.info.zSince, this.info.zUntil);
     },
 
     getSliceLink(slice) {
-      if (this.info.isMergeGroup) {
+      if (this.info.zIsMerge) {
         return `${window.getBaseLink(slice.repoId)}/commit/${slice.hash}`;
       }
-      return `${window.getBaseLink(this.info.user.repoId)}/commit/${slice.hash}`;
+      return `${window.getBaseLink(this.info.zUser.repoId)}/commit/${slice.hash}`;
     },
 
-    scrollToCommit(commit) {
-      const el = this.$el.getElementsByClassName(commit)[0];
+    scrollToCommit(tag, commit) {
+      const el = this.$el.getElementsByClassName(`${commit} ${tag}`)[0];
       if (el) {
-        el.scrollIntoView();
+        el.focus();
       }
+    },
+
+    restoreZoomTab() {
+      // restore selected user's commits from v_summary
+      this.$root.$emit('restoreCommits', this.info);
+    },
+
+    setInfoHash() {
+      const { addHash, encodeHash } = window;
+      const {
+        zAvgCommitSize, zSince, zUntil, zFilterGroup, zTimeFrame, zIsMerge, zSorting,
+        zSortingWithin, zIsSortingDsc, zIsSortingWithinDsc, zAuthor, zRepo,
+      } = this.info;
+
+      addHash('zA', zAuthor);
+      addHash('zR', zRepo);
+      addHash('zACS', zAvgCommitSize);
+      addHash('zS', zSince);
+      addHash('zU', zUntil);
+      addHash('zMG', zIsMerge);
+      addHash('zFTF', zTimeFrame);
+      addHash('zFGS', zFilterGroup);
+      addHash('zSO', zSorting);
+      addHash('zSWO', zSortingWithin);
+      addHash('zSD', zIsSortingDsc);
+      addHash('zSWD', zIsSortingWithinDsc);
+      encodeHash();
     },
 
     toggleAllCommitMessagesBody(isActive) {
@@ -70,10 +115,13 @@ window.vZoom = {
           .length;
     },
   },
+  created() {
+    this.initiate();
+  },
   mounted() {
     this.updateExpandedCommitMessagesCount();
   },
   components: {
-    v_ramp: window.vRamp,
+    vRamp: window.vRamp,
   },
 };

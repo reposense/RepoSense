@@ -1,3 +1,4 @@
+window.BASE_URL = 'https://github.com';
 window.REPORT_ZIP = null;
 window.REPOS = {};
 window.isMacintosh = navigator.platform.includes('Mac');
@@ -188,17 +189,39 @@ window.app = new window.Vue({
     deactivateTab() {
       this.isTabActive = false;
       window.addHash('tabOpen', this.isTabActive);
-      window.removeHash('tabAuthor');
-      window.removeHash('tabRepo');
       window.removeHash('tabType');
+      this.removeZoomHashes();
+      this.removeAuthorshipHashes();
       window.encodeHash();
     },
 
+    removeAuthorshipHashes() {
+      window.removeHash('tabAuthor');
+      window.removeHash('tabRepo');
+    },
+
+    removeZoomHashes() {
+      window.removeHash('zA');
+      window.removeHash('zR');
+      window.removeHash('zACS');
+      window.removeHash('zS');
+      window.removeHash('zU');
+      window.removeHash('zFGS');
+      window.removeHash('zFTF');
+      window.removeHash('zMG');
+      window.removeHash('zSO');
+      window.removeHash('zSWO');
+      window.removeHash('zSD');
+      window.removeHash('zSWD');
+    },
+
     updateTabAuthorship(obj) {
+      this.removeZoomHashes();
       this.tabInfo.tabAuthorship = Object.assign({}, obj);
       this.activateTab('authorship');
     },
     updateTabZoom(obj) {
+      this.removeAuthorshipHashes();
       this.tabInfo.tabZoom = Object.assign({}, obj);
       this.activateTab('zoom');
     },
@@ -224,6 +247,30 @@ window.app = new window.Vue({
       }
     },
 
+    renderZoomTabHash() {
+      const hash = window.hashParams;
+      const zoomInfo = {
+        zAuthor: hash.zA,
+        zRepo: hash.zR,
+        zAvgCommitSize: hash.zACS,
+        zSince: hash.zS,
+        zUntil: hash.zU,
+        zFilterGroup: hash.zFGS,
+        zTimeFrame: hash.zFTF,
+        zIsMerge: hash.zMG === 'true',
+        zSorting: hash.zSO,
+        zSortingWithin: hash.zSWO,
+        zIsSortingDsc: hash.zSD === 'true',
+        zIsSortingWithinDsc: hash.zSWD === 'true',
+      };
+      const tabInfoLength = Object.values(zoomInfo).filter((x) => x !== null).length;
+      if (Object.keys(zoomInfo).length === tabInfoLength) {
+        this.updateTabZoom(zoomInfo);
+      } else if (hash.tabOpen === 'false' || tabInfoLength > 2) {
+        window.app.isTabActive = false;
+      }
+    },
+
     renderTabHash() {
       window.decodeHash();
       const hash = window.hashParams;
@@ -241,7 +288,7 @@ window.app = new window.Vue({
           until = until || window.app.untilDate;
           this.renderAuthorShipTabHash(since, until);
         } else {
-          // handle zoom tab if needed
+          this.renderZoomTabHash();
         }
       }
     },
@@ -257,9 +304,9 @@ window.app = new window.Vue({
     getUserGuideVersionLink() {
       const version = window.app.repoSenseVersion;
       if (!version) {
-        return 'https://github.com/reposense/RepoSense';
+        return `${window.BASE_URL}/reposense/RepoSense`;
       }
-      return `https://github.com/reposense/RepoSense/blob/${version}/docs/UserGuide.md`;
+      return `${window.BASE_URL}/reposense/RepoSense/blob/${version}/docs/UserGuide.md`;
     },
 
     receiveDates(dates) {
@@ -271,9 +318,9 @@ window.app = new window.Vue({
     },
   },
   components: {
-    v_zoom: window.vZoom,
-    v_summary: window.vSummary,
-    v_authorship: window.vAuthorship,
+    vZoom: window.vZoom,
+    vSummary: window.vSummary,
+    vAuthorship: window.vAuthorship,
     CircleSpinner: window.VueLoadingSpinner.Circle,
   },
   created() {

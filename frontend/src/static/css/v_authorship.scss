@@ -2,24 +2,23 @@
 
 /* Authorship */
 #tab-authorship {
+
+  .file-content {
+    background-color: mui-color('github', 'title-background');
+    border: solid mui-color('github', 'border');
+    border-radius: 0 0 4px 4px;
+    border-width: 0 1px 1px 1px;
+  }
+
   .toolbar {
-    cursor: pointer;
-    float: right;
+    > a {
+      display: block;
+      margin: 1px 0;
+      text-align: end;
+    }
   }
 
   .title {
-    .repoName {
-      cursor: pointer;
-    }
-
-    .author {
-      margin-left: .3rem;
-    }
-
-    .period {
-      margin-left: 2rem;
-    }
-
     .contribution {
       color: mui-color('red');
 
@@ -91,29 +90,6 @@
           margin-left: .25rem;
         }
       }
-
-      .sorting {
-        align-items: center;
-        display: flex;
-        margin-top: 1.0rem;
-
-        .mui-select {
-          cursor: pointer;
-          padding-right: 15px;
-        }
-
-        label {
-          overflow-y: hidden;
-        }
-
-        & > label {
-          margin-left: 10px;
-        }
-
-        span {
-          margin-left: .25rem;
-        }
-      }
     }
   }
 
@@ -122,29 +98,33 @@
 
     .file {
       pre {
-        display: none;
-      }
+        display: grid;
+        // GitHub's font family and font size
+        font-family: SFMono-Regular, Consolas, Liberation Mono, Menlo, monospace;
+        font-size: 12px;
+        margin-top: 0;
 
-      &.active {
-        pre {
-          display: grid;
-
-          .hljs {
-            // overwrite hljs library
-            display: inherit;
-            padding: 0;
-          }
+        .hljs {
+          // overwrite hljs library
+          display: inherit;
+          padding: 0;
+          white-space: pre-wrap;
         }
       }
     }
 
     .title {
-      font-size: 1.25rem;
+      background-color: mui-color('github', 'title-background');
+      border: 1px solid mui-color('github', 'border');
+      border-radius: 4px 4px 0 0;
+      font-size: medium;
       font-weight: bold;
       margin-top: 1rem;
+      padding: .3em .5em;
 
       .path {
         cursor: pointer;
+        overflow-wrap: break-word;
       }
 
       .loc {
@@ -153,7 +133,6 @@
 
       .button {
         color: mui-color('grey');
-        font-size: 1.15rem;
         margin-left: .5rem;
         text-decoration: none;
       }
@@ -163,7 +142,7 @@
       border-left: .25rem solid mui-color('green');
 
       .code {
-        background-color: mui-color('green', '50');
+        background-color: mui-color('github', 'authored-code-background');
         padding-left: 1rem;
       }
 
@@ -187,6 +166,7 @@
 
       .line-content {
         padding-left: 2rem;
+        word-break: break-word;
       }
 
       &.untouched {

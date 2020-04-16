@@ -211,6 +211,10 @@ public class FileUtil {
         return true;
     }
 
+    public static boolean isEmptyFile(String directoryPath, String relativeFilePath) {
+        return (new File(directoryPath, relativeFilePath).length() == 0);
+    }
+
     /**
      * Returns a list of {@code Path} of {@code fileTypes} contained in the given {@code directoryPath} directory.
      */
@@ -225,9 +229,5 @@ public class FileUtil {
      */
     private static boolean isFileTypeInPath(Path path, String... fileTypes) {
         return Arrays.stream(fileTypes).anyMatch(path.toString()::endsWith);
-    }
-
-    private static String attachJsPrefix(String original, String prefix) {
-        return "var " + prefix + " = " + original;
     }
 }

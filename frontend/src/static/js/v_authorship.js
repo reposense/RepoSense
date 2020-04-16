@@ -32,7 +32,7 @@ window.vAuthorship = {
     return {
       isLoaded: false,
       files: [],
-      isSelectAllChecked: true,
+      filterType: 'checkboxes',
       selectedFileTypes: [],
       fileTypes: [],
       fileTypeBlankLinesObj: {},
@@ -40,20 +40,19 @@ window.vAuthorship = {
       totalBlankLineCount: '',
       filesSortType: 'lineOfCode',
       toReverseSortFiles: true,
-      activeFilesCount: 0,
       filterSearch: '*',
-      sortingFunction: (a, b) => -1 * window.comparator(filesSortDict.lineOfCode)(a, b),
-      isSearchBar: false,
-      isCheckBoxes: true,
     };
   },
 
   watch: {
-    filesSortType() {
-      this.sortFiles();
-    },
-    toReverseSortFiles() {
-      this.sortFiles();
+    filterType() {
+      if (this.filterType === 'checkboxes') {
+        const searchBar = document.getElementById('search');
+        searchBar.value = '';
+        this.filterSearch = '*';
+      } else {
+        this.selectedFileTypes = this.fileTypes.slice();
+      }
     },
   },
 
@@ -99,19 +98,22 @@ window.vAuthorship = {
       encodeHash();
     },
 
-    expandAll(isActive) {
-      const renameValue = isActive ? 'file active' : 'file';
-
-      const files = document.getElementsByClassName('file');
-      Array.from(files).forEach((file) => {
-        file.className = renameValue;
+    expandAll() {
+      this.selectedFiles.forEach((file) => {
+        file.active = true;
+        file.wasCodeLoaded = true;
       });
-
-      this.activeFilesCount = isActive ? this.selectedFiles.length : 0;
     },
 
-    updateCount() {
-      this.activeFilesCount = document.getElementsByClassName('file active').length;
+    collapseAll() {
+      this.selectedFiles.forEach((file) => {
+        file.active = false;
+      });
+    },
+
+    toggleFileActiveProperty(file) {
+      file.active = !file.active;
+      file.wasCodeLoaded = file.wasCodeLoaded || file.active;
     },
 
     hasCommits(info) {
@@ -159,6 +161,7 @@ window.vAuthorship = {
     },
 
     processFiles(files) {
+      const COLLAPSED_VIEW_LINE_COUNT_THRESHOLD = 2000;
       const res = [];
       const fileTypeBlanksInfoObj = {};
       let totalLineCount = 0;
@@ -171,6 +174,8 @@ window.vAuthorship = {
           const out = {};
           out.path = file.path;
           out.lineCount = lineCnt;
+          out.active = lineCnt <= COLLAPSED_VIEW_LINE_COUNT_THRESHOLD;
+          out.wasCodeLoaded = lineCnt <= COLLAPSED_VIEW_LINE_COUNT_THRESHOLD;
           out.fileType = file.fileType;
 
           const segmentInfo = this.splitSegments(file.lines);
@@ -194,11 +199,10 @@ window.vAuthorship = {
         }
       });
 
+      this.selectedFileTypes = this.fileTypes.slice();
       this.fileTypeBlankLinesObj = fileTypeBlanksInfoObj;
       this.files = res;
       this.isLoaded = true;
-
-      this.activeFilesCount = this.selectedFiles.length;
     },
 
     addBlankLineCount(fileType, lineCount, filesInfoObj) {
@@ -209,80 +213,31 @@ window.vAuthorship = {
       filesInfoObj[fileType] += lineCount;
     },
 
-    sortFiles() {
-      this.sortingFunction = (a, b) => (this.toReverseSortFiles ? -1 : 1)
-          * window.comparator(filesSortDict[this.filesSortType])(a, b);
-    },
-
-    selectAll() {
-      if (this.isSearchBar) {
-        this.indicateCheckBoxes();
-      }
-      if (!this.isSelectAllChecked) {
-        this.selectedFileTypes = this.fileTypes.slice();
-        this.activeFilesCount = this.files.length;
-      } else {
-        this.selectedFileTypes = [];
-        this.activeFilesCount = 0;
-      }
-    },
-
-    selectFileType(fileType) {
-      if (this.isSearchBar) {
-        this.indicateCheckBoxes();
-      }
-      if (this.selectedFileTypes.includes(fileType)) {
-        const index = this.selectedFileTypes.indexOf(fileType);
-        this.selectedFileTypes.splice(index, 1);
-      } else {
-        this.selectedFileTypes.push(fileType);
-      }
-    },
-
-    getSelectedFiles() {
-      if (this.fileTypes.length === this.selectedFileTypes.length) {
-        this.isSelectAllChecked = true;
-      } else {
-        this.isSelectAllChecked = false;
-      }
-
-      setTimeout(this.updateCount, 0);
-    },
-
     updateFilterSearch(evt) {
-      if (this.isCheckBoxes) {
+      if (this.filterType === 'checkboxes') {
         this.indicateSearchBar();
       }
       this.filterSearch = (evt.target.value.length !== 0) ? evt.target.value : '*';
     },
 
-    tickAllCheckboxes() {
-      this.selectedFileTypes = this.fileTypes.slice();
-      this.isSelectAllChecked = true;
-    },
-
     indicateSearchBar() {
-      this.isSearchBar = true;
-      this.isCheckBoxes = false;
-      this.tickAllCheckboxes();
+      this.selectedFileTypes = this.fileTypes.slice();
+      this.filterType = 'search';
     },
 
     indicateCheckBoxes() {
-      const searchBar = document.getElementById('search');
-      searchBar.value = '';
-      this.filterSearch = '*';
-      this.isSearchBar = false;
-      this.isCheckBoxes = true;
-    },
-
-    isSelectedFileTypes(fileType) {
-      return this.selectedFileTypes.includes(fileType);
+      if (this.filterType === 'search') {
+        const searchBar = document.getElementById('search');
+        searchBar.value = '';
+        this.filterSearch = '*';
+        this.filterType = 'checkboxes';
+      }
     },
 
     getFileLink(file, path) {
       const repo = window.REPOS[this.info.repo];
 
-      return `http://github.com/${
+      return `${window.BASE_URL}/${
         repo.location.organization}/${repo.location.repoName}/${path}/${repo.branch}/${file.path}`;
     },
 
@@ -299,11 +254,37 @@ window.vAuthorship = {
   },
 
   computed: {
+    sortingFunction() {
+      return (a, b) => (this.toReverseSortFiles ? -1 : 1)
+        * window.comparator(filesSortDict[this.filesSortType])(a, b);
+    },
+
+    isSelectAllChecked: {
+      get() {
+        return this.selectedFileTypes.length === this.fileTypes.length;
+      },
+      set(value) {
+        if (this.filterType === 'search') {
+          this.indicateCheckBoxes();
+        }
+        if (value) {
+          this.selectedFileTypes = this.fileTypes.slice();
+        } else {
+          this.selectedFileTypes = [];
+        }
+      },
+    },
+
     selectedFiles() {
-      return this.files.filter((file) => this.isSelectedFileTypes(file.fileType)
-          && minimatch(file.path, this.filterSearch, { matchBase: true }))
+      return this.files.filter((file) => this.selectedFileTypes.includes(file.fileType)
+          && minimatch(file.path, this.filterSearch, { matchBase: true, dot: true }))
           .sort(this.sortingFunction);
     },
+
+    activeFilesCount() {
+      return this.selectedFiles.filter((file) => file.active).length;
+    },
+
     getFileTypeExistingLinesObj() {
       const numLinesModified = {};
       Object.entries(this.filesLinesObj)
@@ -319,7 +300,8 @@ window.vAuthorship = {
     this.initiate();
     this.setInfoHash();
   },
+
   components: {
-    v_segment: window.vSegment,
+    vSegment: window.vSegment,
   },
 };
