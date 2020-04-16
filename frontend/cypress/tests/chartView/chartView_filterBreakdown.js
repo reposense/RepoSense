@@ -33,10 +33,6 @@ describe('filter breakdown', () => {
     // should not show file type legends
     cy.get('#summary-charts div.summary-charts__fileType--breakdown')
         .should('not.be.visible');
-
-    // should not show any contribution bar
-    cy.get('#summary-charts div.summary-chart__contribution')
-        .should('be.empty');
   });
 
   it('uncheck file type should uncheck all option and not show legend', () => {
