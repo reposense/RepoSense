@@ -52,16 +52,6 @@
         font-weight: bolder;
       }
 
-      span.fileType {
-        span.bloc::after {
-          content: ', ';
-        }
-
-        span.bloc:last-child::after {
-          content: '';
-        }
-      }
-
       .mui-checkbox--fileType {
         vertical-align: middle;
       }
@@ -120,7 +110,7 @@
       .fileTypeLabel {
         border-radius: 5px;
         display: inline-block;
-        font-size: medium;
+        font-weight: bold;
         padding: 0 5px;
       }
     }

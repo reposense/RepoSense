@@ -41,9 +41,9 @@
           label(style='background-color: #000000; color: #ffffff')
             input.mui-checkbox--fileType(type="checkbox", v-model="isSelectAllChecked")
             span(v-bind:title="getTotalFileBlankLineInfo()")
-              span All:&nbsp;
+              span All&nbsp;
               span {{ totalLineCount }}&nbsp;
-              span.bloc ({{ totalBlankLineCount }})
+              span ({{ totalBlankLineCount }})&nbsp;
           template(v-for="fileType in Object.keys(getFileTypeExistingLinesObj)")
             label(
               v-bind:key="fileType",
@@ -55,8 +55,8 @@
               input.mui-checkbox--fileType(type="checkbox", v-bind:id="fileType", v-bind:value="fileType",
                 v-on:click="indicateCheckBoxes", v-model="selectedFileTypes")
               span(v-bind:title="getFileTypeBlankLineInfo(fileType)")
-                span {{ fileType }}: {{ getFileTypeExistingLinesObj[fileType] }}&nbsp;
-                span.bloc ({{ fileTypeBlankLinesObj[fileType] }})
+                span {{ fileType }}&nbsp;{{ getFileTypeExistingLinesObj[fileType] }}&nbsp;
+                span ({{ fileTypeBlankLinesObj[fileType] }})&nbsp;
 
   .files(v-if="isLoaded")
     .empty(v-if="files.length === 0") nothing to see here :(
@@ -75,12 +75,12 @@
               title="click to view the blame view of file"
             )
               i.button.fas.fa-user-edit
-          span.fileTypeLabel(
+          span.fileTypeLabel.medium-font(
             v-bind:style="{\
               'background-color': info.fileTypeColors[file.fileType],\
               'color': this.getFontColor(info.fileTypeColors[file.fileType])\
               }"
-          ) {{ file.fileType }}: {{ file.lineCount }} lines
+          ) {{ file.fileType }}&nbsp;{{ file.lineCount }}&nbsp;({{ file.blankLineCount }})
         pre.hljs.file-content(v-if="file.wasCodeLoaded", v-show="file.active")
           template(v-for="segment in file.segments")
             v-segment(v-bind:segment="segment", v-bind:path="file.path")
