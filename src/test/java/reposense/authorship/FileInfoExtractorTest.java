@@ -151,7 +151,7 @@ public class FileInfoExtractorTest extends GitTestTemplate {
                 "binaryFileTest/binaryFile.txt", "My Documents/word.docx", "My Documents/pdfDocument.pdf",
                 "My Documents/wordToHtml_files/themedata.thmx", "My Pictures/pngPicture.png");
         GitCheckout.checkoutBranch(config.getRepoRoot(), BRANCH_WITH_BINARY_FILES);
-        Set<Path> textFiles = FileInfoExtractor.getFilesList(config, false);
+        Set<Path> textFiles = FileInfoExtractor.getFiles(config, false);
 
         Assert.assertEquals(6, textFiles.size());
         // Non binary files should be captured
@@ -170,7 +170,7 @@ public class FileInfoExtractorTest extends GitTestTemplate {
                 "binaryFileTest/binaryFile.txt", "My Documents/word.docx", "My Documents/pdfDocument.pdf",
                 "My Documents/wordToHtml_files/themedata.thmx", "My Pictures/pngPicture.png");
         GitCheckout.checkoutBranch(config.getRepoRoot(), BRANCH_WITH_BINARY_FILES);
-        Set<Path> binaryFiles = FileInfoExtractor.getFilesList(config, true);
+        Set<Path> binaryFiles = FileInfoExtractor.getFiles(config, true);
 
         Assert.assertEquals(5, binaryFiles.size());
         // Binary files should be captured

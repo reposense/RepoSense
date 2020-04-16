@@ -100,7 +100,7 @@ public class FileInfoExtractor {
         }
 
         String[] fileDiffResultList = fullDiffResult.split(DIFF_FILE_CHUNK_SEPARATOR);
-        Set<Path> textFilesSet = getFilesList(config, false);
+        Set<Path> textFilesSet = getFiles(config, false);
 
         for (String fileDiffResult : fileDiffResultList) {
             Matcher filePathMatcher = FILE_CHANGED_PATTERN.matcher(fileDiffResult);
@@ -117,7 +117,7 @@ public class FileInfoExtractor {
                 continue;
             }
 
-            if (!isValidAndTextFile(filePath, textFilesSet)) {
+            if (!isValidTextFile(filePath, textFilesSet)) {
                 continue;
             }
 
@@ -136,7 +136,7 @@ public class FileInfoExtractor {
      * if {@code isBinaryFiles} is set to `false`.
      * Otherwise, returns a {@code Set} of binary files for the repo {@code repoConfig}
      */
-    public static Set<Path> getFilesList(RepoConfiguration repoConfig, boolean isBinaryFile) {
+    public static Set<Path> getFiles(RepoConfiguration repoConfig, boolean isBinaryFile) {
         List<String> modifiedFileList = GitDiff.getModifiedFilesList(Paths.get(repoConfig.getRepoRoot()));
 
         // Gets rid of files with invalid directory name and filters by whether file is binary.
@@ -190,8 +190,8 @@ public class FileInfoExtractor {
      */
     private static List<FileInfo> getAllFileInfo(RepoConfiguration config, boolean isBinaryFiles) {
         List<FileInfo> fileInfos = new ArrayList<>();
-        Set<Path> filesList = getFilesList(config, isBinaryFiles);
-        for (Path relativePath : filesList) {
+        Set<Path> files = getFiles(config, isBinaryFiles);
+        for (Path relativePath : files) {
             if (!config.getFileTypeManager().isInsideWhitelistedFormats(relativePath.toString())) {
                 continue;
             }
@@ -243,7 +243,7 @@ public class FileInfoExtractor {
     /**
      * Returns true if {@code filePath} is valid and the file is not in binary.
      */
-    private static boolean isValidAndTextFile(String filePath, Set<Path> textFilesSet) {
+    private static boolean isValidTextFile(String filePath, Set<Path> textFilesSet) {
         return FileUtil.isValidPath(filePath) && textFilesSet.contains(Paths.get(filePath));
     }
 }
