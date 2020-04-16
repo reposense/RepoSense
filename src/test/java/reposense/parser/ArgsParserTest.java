@@ -462,8 +462,8 @@ public class ArgsParserTest {
         Assert.assertEquals(repoAliasCliArguments, reposAliasCliArguments);
     }
 
-    @Test (expected = InvalidLocationException.class)
-    public void parse_noValidRepoLocation_throwsInvalidLocationException()
+    @Test (expected = ParseException.class)
+    public void parse_noValidRepoLocation_throwsParseException()
             throws ParseException, HelpScreenException {
         String input = new InputBuilder().addRepos("https://githubaaaa.com/asdasdasdasd/RepoSense").build();
         CliArguments cliArguments = ArgsParser.parse(translateCommandline(input));
