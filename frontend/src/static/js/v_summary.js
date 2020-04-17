@@ -567,11 +567,50 @@ window.vSummary = {
       user.dailyCommits.forEach((commit) => {
         const { date } = commit;
         if (date >= sinceDate && date <= untilDate) {
-          user.commits.push(commit);
+          const filteredCommit = JSON.parse(JSON.stringify(commit));
+          if (this.filterBreakdown) {
+            this.filterCommitByCheckedFileTypes(filteredCommit);
+          }
+          if (filteredCommit.commitResults.length > 0) {
+            user.commits.push(filteredCommit);
+          }
         }
       });
 
       return null;
+    },
+
+    filterCommitByCheckedFileTypes(commit) {
+      const filteredCommitResults = commit.commitResults.map((result) => {
+        const filteredFileTypes = this.getFilteredFileTypes(result);
+        this.updateCommitResultWithFileTypes(result, filteredFileTypes);
+        return result;
+      }).filter((result) => Object.values(result.fileTypesAndContributionMap).length > 0);
+
+      commit.insertions = filteredCommitResults.reduce((acc, result) => acc + result.insertions, 0);
+      commit.deletions = filteredCommitResults.reduce((acc, result) => acc + result.deletions, 0);
+      commit.commitResults = filteredCommitResults;
+    },
+
+    getFilteredFileTypes(commitResult) {
+      return Object.keys(commitResult.fileTypesAndContributionMap)
+          .filter(this.isFileTypeChecked)
+          .reduce((obj, fileType) => {
+            obj[fileType] = commitResult.fileTypesAndContributionMap[fileType];
+            return obj;
+          }, {});
+    },
+
+    isFileTypeChecked(fileType) {
+      return this.checkedFileTypes.includes(fileType);
+    },
+
+    updateCommitResultWithFileTypes(commitResult, filteredFileTypes) {
+      commitResult.insertions = Object.values(filteredFileTypes)
+          .reduce((acc, fileType) => acc + fileType.insertions, 0);
+      commitResult.deletions = Object.values(filteredFileTypes)
+          .reduce((acc, fileType) => acc + fileType.deletions, 0);
+      commitResult.fileTypesAndContributionMap = filteredFileTypes;
     },
 
     getOptionWithOrder() {
