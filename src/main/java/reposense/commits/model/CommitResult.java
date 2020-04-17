@@ -105,4 +105,9 @@ public class CommitResult {
                 && Arrays.equals(tags, otherCommitResult.tags)
                 && fileTypesAndContributionMap.equals(otherCommitResult.fileTypesAndContributionMap);
     }
+
+    @Override
+    public int hashCode() {
+        return hash.hashCode();
+    }
 }
