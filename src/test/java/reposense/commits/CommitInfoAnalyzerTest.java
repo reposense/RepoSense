@@ -31,6 +31,7 @@ public class CommitInfoAnalyzerTest extends GitTestTemplate {
     private static final int NUMBER_EMPTY_MESSAGE_COMMIT = 1;
     private static final FileType FILETYPE_JAVA = new FileType("java", Collections.singletonList("**java"));
     private static final FileType FILETYPE_MD = new FileType("md", Collections.singletonList("**md"));
+    private static final FileType FILETYPE_JSON = new FileType("json", Collections.singletonList("**json"));
 
     @Before
     public void before() throws InvalidLocationException {
@@ -135,10 +136,12 @@ public class CommitInfoAnalyzerTest extends GitTestTemplate {
     public void analyzeCommits_duplicateAuthorsDuplicateCommits_success() throws ParseException {
         Author author = new Author(EUGENE_AUTHOR_NAME);
         List<CommitResult> expectedCommitResults = new ArrayList<>();
+        Map<FileType, ContributionPair> fileTypeAndContributionMap = new HashMap<>();
+        fileTypeAndContributionMap.put(FILETYPE_JSON, new ContributionPair(17, 0));
         expectedCommitResults.add(new CommitResult(author, LATEST_COMMIT_HASH,
                 parseGitStrictIsoDate("2018-11-08T13:50:40+08:00"),
                 "Add config.json with invalid fields (#2)",
-                "", null, 17, 0));
+                "", null, fileTypeAndContributionMap));
 
         config.setAuthorList(Arrays.asList(author, author));
         config.setSinceDate(new GregorianCalendar(2018, Calendar.NOVEMBER, 7).getTime());
