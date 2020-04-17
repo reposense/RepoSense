@@ -17,6 +17,7 @@
         ]
       }
     ],
+    "nbrduplicate": [],
     "April0616": [
       {
         "insertions": 1,
@@ -95,6 +96,7 @@
   "authorFinalContributionMap": {
     "zacharytang": 0,
     "CindyTsai1": 1,
+    "nbrduplicate": 0,
     "April0616": 3,
     "nbr": 42
   },
@@ -104,6 +106,9 @@
     },
     "CindyTsai1": {
       "fxml": 1
+    },
+    "nbrduplicate": {
+      "fxml": 0
     },
     "April0616": {
       "fxml": 3
@@ -115,12 +120,14 @@
   "authorContributionVariance": {
     "zacharytang": 0.0,
     "CindyTsai1": 0.016388886,
+    "nbrduplicate": 0.0,
     "April0616": 0.27638897,
     "nbr": 50.165554
   },
   "authorDisplayNameMap": {
     "zacharytang": "Yagami Rukei Polland",
     "CindyTsai1": "Ravind s/o Ramesh",
+    "nbrduplicate": "nbrduplicate",
     "April0616": "2805Tagoe",
     "nbr": "Ashwin Mukadaan Singhania, Rathod"
   }

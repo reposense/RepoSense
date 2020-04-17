@@ -126,6 +126,26 @@ public class CommitInfoAnalyzerTest extends GitTestTemplate {
     }
 
     @Test
+    public void analyzeCommits_duplicateAuthorsDuplicateCommits_success() throws ParseException {
+        Author author = new Author(EUGENE_AUTHOR_NAME);
+        List<CommitResult> expectedCommitResults = new ArrayList<>();
+        expectedCommitResults.add(new CommitResult(author, LATEST_COMMIT_HASH,
+                parseGitStrictIsoDate("2018-11-08T13:50:40+08:00"),
+                "Add config.json with invalid fields (#2)",
+                "", null, 17, 0));
+
+        config.setAuthorList(Arrays.asList(author, author));
+        config.setSinceDate(new GregorianCalendar(2018, Calendar.NOVEMBER, 7).getTime());
+        config.setUntilDate(new GregorianCalendar(2018, Calendar.NOVEMBER, 9).getTime());
+
+        List<CommitInfo> actualCommitInfos = CommitInfoExtractor.extractCommitInfos(config);
+        List<CommitResult> actualCommitResults = CommitInfoAnalyzer.analyzeCommits(actualCommitInfos, config);
+
+        Assert.assertEquals(actualCommitInfos.size(), 2);
+        Assert.assertEquals(expectedCommitResults, actualCommitResults);
+    }
+
+    @Test
     public void analyzeCommits_multipleCommitsWithCommitMessageBody_success() throws ParseException {
         Author author = new Author(JINYAO_AUTHOR_NAME);
         List<CommitResult> expectedCommitResults = new ArrayList<>();
