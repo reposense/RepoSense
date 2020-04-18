@@ -29,6 +29,9 @@ public class TestUtil {
             + ">> %s\n";
 
     private static final String MESSAGE_LINES_LENGTH_DIFFERENT = "The files' lines count do not match.";
+    private static final String TAB_SPLITTER = "\t";
+    private static final String MOVED_FILE_INDICATION = "=> ";
+    private static final int STAT_FILE_PATH_INDEX = 2;
 
     /**
      * Returns true if the files' contents are the same.
@@ -199,9 +202,10 @@ public class TestUtil {
      * Returns the file changed given a {@code rawFileChangedString}.
      */
     private static String getFileChanged(String rawFileChangedString) {
-        String fileChanged = rawFileChangedString.split("\\| ")[0].trim();
-        if (fileChanged.contains("=>")) {
-            fileChanged = fileChanged.substring(fileChanged.indexOf("=> ") + 3);
+        String fileChanged = rawFileChangedString.split(TAB_SPLITTER)[STAT_FILE_PATH_INDEX].trim();
+        if (fileChanged.contains(MOVED_FILE_INDICATION)) {
+            fileChanged = fileChanged.substring(fileChanged.indexOf(MOVED_FILE_INDICATION)
+                    + MOVED_FILE_INDICATION.length());
         }
         return fileChanged;
     }

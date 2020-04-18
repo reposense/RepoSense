@@ -17,6 +17,8 @@ html
     script(src="https://use.fontawesome.com/releases/v5.0.13/js/all.js", defer=True)
     script(src="https://cdn.jsdelivr.net/npm/vue@2.5/dist/vue.js")
     script(src="https://cdn.jsdelivr.net/npm/jszip@3.1/dist/jszip.min.js")
+    script(src="https://cdn.jsdelivr.net/npm/seedrandom@3.0.5/seedrandom.min.js")
+    script(src="https://cdn.jsdelivr.net/npm/vue-loading-spinner@1.0/dist/vue-loading-spinner.js")
 
     script(src="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.14/build/highlight.min.js")
     script(src="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.14/build/languages/asciidoc.min.js")
@@ -24,7 +26,6 @@ html
     script(src="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.14/build/languages/plaintext.min.js")
     script(src="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.14/build/languages/scss.min.js")
     script(src="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.14/build/languages/yaml.min.js")
-    script(src="https://cdn.jsdelivr.net/npm/vue-loading-spinner@1.0/dist/vue-loading-spinner.js")
   body
     #app
       #app-wrapper(v-if="userUpdated", onmousemove="mouseMove(event)",
