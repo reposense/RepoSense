@@ -1,6 +1,5 @@
 package reposense.commits;
 
-import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
@@ -22,7 +21,6 @@ import reposense.model.Author;
 import reposense.model.CommitHash;
 import reposense.model.FileType;
 import reposense.model.FileTypeTest;
-import reposense.parser.InvalidLocationException;
 import reposense.template.GitTestTemplate;
 
 public class CommitInfoAnalyzerTest extends GitTestTemplate {
@@ -34,7 +32,7 @@ public class CommitInfoAnalyzerTest extends GitTestTemplate {
     private static final FileType FILETYPE_JSON = new FileType("json", Collections.singletonList("**json"));
 
     @Before
-    public void before() throws InvalidLocationException {
+    public void before() throws Exception {
         super.before();
         config.getAuthorEmailsAndAliasesMap().clear();
     }
@@ -133,7 +131,7 @@ public class CommitInfoAnalyzerTest extends GitTestTemplate {
     }
 
     @Test
-    public void analyzeCommits_duplicateAuthorsDuplicateCommits_success() throws ParseException {
+    public void analyzeCommits_duplicateAuthorsDuplicateCommits_success() throws Exception {
         Author author = new Author(EUGENE_AUTHOR_NAME);
         List<CommitResult> expectedCommitResults = new ArrayList<>();
         Map<FileType, ContributionPair> fileTypeAndContributionMap = new HashMap<>();
@@ -155,7 +153,7 @@ public class CommitInfoAnalyzerTest extends GitTestTemplate {
     }
 
     @Test
-    public void analyzeCommits_multipleCommitsWithCommitMessageBody_success() throws ParseException {
+    public void analyzeCommits_multipleCommitsWithCommitMessageBody_success() throws Exception {
         Author author = new Author(JINYAO_AUTHOR_NAME);
         List<CommitResult> expectedCommitResults = new ArrayList<>();
 
@@ -187,7 +185,7 @@ public class CommitInfoAnalyzerTest extends GitTestTemplate {
     }
 
     @Test
-    public void analyzeCommits_commitsWithEmptyCommitMessageTitleOrBody_success() throws ParseException {
+    public void analyzeCommits_commitsWithEmptyCommitMessageTitleOrBody_success() throws Exception {
         Author author = new Author(JINYAO_AUTHOR_NAME);
         List<CommitResult> expectedCommitResults = new ArrayList<>();
 
@@ -218,7 +216,7 @@ public class CommitInfoAnalyzerTest extends GitTestTemplate {
     }
 
     @Test
-    public void analyzeCommits_commitsWithMultipleTags_success() throws ParseException {
+    public void analyzeCommits_commitsWithMultipleTags_success() throws Exception {
         Author author = new Author(JAMES_AUTHOR_NAME);
         List<CommitResult> expectedCommitResults = new ArrayList<>();
 
@@ -247,7 +245,7 @@ public class CommitInfoAnalyzerTest extends GitTestTemplate {
     }
 
     @Test
-    public void analyzeCommits_emptyCommits_success() throws ParseException {
+    public void analyzeCommits_emptyCommits_success() throws Exception {
         Author author = new Author(JAMES_AUTHOR_NAME);
         List<CommitResult> expectedCommitResults = new ArrayList<>();
 
@@ -267,7 +265,7 @@ public class CommitInfoAnalyzerTest extends GitTestTemplate {
     }
 
     @Test
-    public void analyzeCommits_commitsWithBinaryFileContribution_success() throws ParseException {
+    public void analyzeCommits_commitsWithBinaryFileContribution_success() throws Exception {
         Author author = new Author(JAMES_AUTHOR_NAME);
         List<CommitResult> expectedCommitResults = new ArrayList<>();
 
@@ -290,7 +288,7 @@ public class CommitInfoAnalyzerTest extends GitTestTemplate {
     /**
      * Returns a {@code Date} from a string {@code gitStrictIsoDate}.
      */
-    private Date parseGitStrictIsoDate(String gitStrictIsoDate) throws ParseException {
+    private Date parseGitStrictIsoDate(String gitStrictIsoDate) throws Exception {
         return CommitInfoAnalyzer.GIT_STRICT_ISO_DATE_FORMAT.parse(gitStrictIsoDate);
     }
 }
