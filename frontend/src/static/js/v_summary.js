@@ -4,26 +4,11 @@ window.DAY_IN_MS = DAY_IN_MS;
 const WEEK_IN_MS = DAY_IN_MS * 7;
 const dateFormatRegex = /([12]\d{3}-(0[1-9]|1[0-2])-(0[1-9]|[12]\d|3[01]))$/;
 
-window.deactivateAllOverlays = function deactivateAllOverlays() {
-  document.querySelectorAll('.summary-chart__ramp .overlay')
-      .forEach((x) => { x.className = 'overlay'; });
-};
-
-window.getDateStr = function getDateStr(date) {
-  return (new Date(date)).toISOString().split('T')[0];
-};
-
-window.getFontColor = function getFontColor(color) {
+function getHexToRGB(color) {
   // to convert color from hex code to rgb format
-  const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(color);
-  const red = parseInt(result[1], 16);
-  const green = parseInt(result[2], 16);
-  const blue = parseInt(result[3], 16);
-
-  const luminosity = 0.2126 * red + 0.7152 * green + 0.0722 * blue; // per ITU-R BT.709
-
-  return luminosity < 120 ? '#ffffff' : '#000000';
-};
+  const arr = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(color);
+  return arr.slice(1).map((val) => parseInt(val, 16));
+}
 
 function dateRounding(datestr, roundDown) {
   // rounding up to nearest monday
@@ -38,6 +23,26 @@ function dateRounding(datestr, roundDown) {
 
   return window.getDateStr(datems);
 }
+
+window.deactivateAllOverlays = function deactivateAllOverlays() {
+  document.querySelectorAll('.summary-chart__ramp .overlay')
+      .forEach((x) => { x.className = 'overlay'; });
+};
+
+window.getDateStr = function getDateStr(date) {
+  return (new Date(date)).toISOString().split('T')[0];
+};
+
+window.getFontColor = function getFontColor(color) {
+  const result = getHexToRGB(color);
+  const red = result[0];
+  const green = result[1];
+  const blue = result[2];
+
+  const luminosity = 0.2126 * red + 0.7152 * green + 0.0722 * blue; // per ITU-R BT.709
+
+  return luminosity < 120 ? '#ffffff' : '#000000';
+};
 
 window.vSummary = {
   props: ['repos', 'errorMessages'],
@@ -410,8 +415,8 @@ window.vSummary = {
     hasSimilarExistingColors(existingColors, newHex) {
       const deltaEThreshold = 11; // the lower limit of delta E to be similar, more info at http://zschuessler.github.io/DeltaE/learn/
       return existingColors.some((existingHex) => {
-        const existingRGB = this.getHexToRGB(existingHex);
-        const newRGB = this.getHexToRGB(newHex);
+        const existingRGB = getHexToRGB(existingHex);
+        const newRGB = getHexToRGB(newHex);
         return this.deltaE(existingRGB, newRGB) < deltaEThreshold;
       });
     },
@@ -484,23 +489,6 @@ window.vSummary = {
       });
 
       this.checkedFileTypes = this.fileTypes.slice();
-    },
-
-    getHexToRGB(color) {
-      // to convert color from hex code to rgb format
-      const arr = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(color);
-      return arr.slice(1).map((val) => parseInt(val, 16));
-    },
-
-    getFontColor(color) {
-      const result = this.getHexToRGB(color);
-      const red = result[0];
-      const green = result[1];
-      const blue = result[2];
-
-      const luminosity = 0.2126 * red + 0.7152 * green + 0.0722 * blue; // per ITU-R BT.709
-
-      return luminosity < 120 ? '#ffffff' : '#000000';
     },
 
     splitCommitsWeek(user, sinceDate, untilDate) {
