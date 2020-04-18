@@ -3,7 +3,6 @@ package reposense;
 import static org.apache.tools.ant.types.Commandline.translateCommandline;
 
 import java.io.IOException;
-import java.net.URISyntaxException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -17,7 +16,6 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
-import net.sourceforge.argparse4j.helper.HelpScreenException;
 import reposense.model.AuthorConfiguration;
 import reposense.model.CliArguments;
 import reposense.model.ConfigCliArguments;
@@ -26,8 +24,6 @@ import reposense.model.RepoConfiguration;
 import reposense.parser.ArgsParser;
 import reposense.parser.AuthorConfigCsvParser;
 import reposense.parser.GroupConfigCsvParser;
-import reposense.parser.InvalidCsvException;
-import reposense.parser.ParseException;
 import reposense.parser.RepoConfigCsvParser;
 import reposense.parser.SinceDateArgumentType;
 import reposense.report.ErrorSummary;
@@ -44,13 +40,13 @@ public class ConfigSystemTest {
     private static final String TEST_REPORT_GENERATION_TIME = "15 second(s)";
 
     @Before
-    public void setUp() throws IOException {
+    public void setUp() throws Exception {
         FileUtil.deleteDirectory(FT_TEMP_DIR);
         ErrorSummary.getInstance().clearErrorList();
     }
 
     @After
-    public void tearDown() throws IOException {
+    public void tearDown() throws Exception {
         FileUtil.deleteDirectory(FT_TEMP_DIR);
     }
 
@@ -94,15 +90,8 @@ public class ConfigSystemTest {
 
     /**
      * Generates the testing report to be compared with expected report.
-     * @throws IOException if there is error in parsing csv file.
-     * @throws InvalidCsvException if the csv file is malformed.
-     * @throws URISyntaxException if the path fo config folder cannot be converted to URI.
-     * @throws ParseException if the string argument fails to parse to a {@code CliArguments} object.
-     * @throws HelpScreenException if given args contain the --help flag. Help message will be printed out
-     * by the {@code ArgumentParser} hence this is to signal to the caller that the program is safe to exit.
      */
-    private void generateReport(String inputDates)
-            throws IOException, InvalidCsvException, URISyntaxException, ParseException, HelpScreenException {
+    private void generateReport(String inputDates) throws Exception {
         Path configFolder = Paths.get(getClass().getClassLoader().getResource("repo-config.csv").toURI()).getParent();
 
         String formats = String.join(" ", TESTING_FILE_FORMATS);

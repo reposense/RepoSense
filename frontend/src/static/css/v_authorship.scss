@@ -10,19 +10,15 @@
     border-width: 0 1px 1px 1px;
   }
 
+  .toolbar {
+    > a {
+      display: block;
+      margin: 1px 0;
+      text-align: end;
+    }
+  }
+
   .title {
-    .repoName {
-      cursor: pointer;
-    }
-
-    .author {
-      margin-left: .3rem;
-    }
-
-    .period {
-      margin-left: 2rem;
-    }
-
     .contribution {
       color: mui-color('red');
 
@@ -102,23 +98,17 @@
 
     .file {
       pre {
-        display: none;
+        display: grid;
         // GitHub's font family and font size
         font-family: SFMono-Regular, Consolas, Liberation Mono, Menlo, monospace;
         font-size: 12px;
-      }
+        margin-top: 0;
 
-      &.active {
-        pre {
-          display: grid;
-          margin-top: 0;
-
-          .hljs {
-            // overwrite hljs library
-            display: inherit;
-            padding: 0;
-            white-space: pre-wrap;
-          }
+        .hljs {
+          // overwrite hljs library
+          display: inherit;
+          padding: 0;
+          white-space: pre-wrap;
         }
       }
     }

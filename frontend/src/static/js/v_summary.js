@@ -1,102 +1,18 @@
-window.dismissTab = function dismissTab(node) {
-  const parent = node.parentNode;
-  parent.style.display = 'none';
-};
-
-window.comparator = (fn, sortingOption = '') => function compare(a, b) {
-  let a1;
-  let b1;
-  if (sortingOption) {
-    a1 = fn(a, sortingOption).toLowerCase
-        ? fn(a, sortingOption).toLowerCase()
-        : fn(a, sortingOption);
-    b1 = fn(b, sortingOption).toLowerCase
-        ? fn(b, sortingOption).toLowerCase()
-        : fn(b, sortingOption);
-  } else {
-    a1 = fn(a).toLowerCase ? fn(a).toLowerCase() : fn(a);
-    b1 = fn(b).toLowerCase ? fn(b).toLowerCase() : fn(b);
-  }
-  if (a1 === b1) {
-    return 0;
-  } if (a1 < b1) {
-    return -1;
-  }
-  return 1;
-};
-
-// ui funcs, only allow one ramp to be highlighted //
-let drags = [];
-
-function getBaseTarget(target) {
-  return (target.className === 'summary-chart__ramp')
-      ? target
-      : getBaseTarget(target.parentElement);
-}
-
-function deactivateAllOverlays() {
-  document.querySelectorAll('.summary-chart__ramp .overlay')
-      .forEach((x) => { x.className = 'overlay'; });
-}
-
-function dragViewDown(evt) {
-  deactivateAllOverlays();
-
-  const pos = evt.clientX;
-  const ramp = getBaseTarget(evt.target);
-  drags = [pos];
-
-  const base = ramp.offsetWidth;
-  const offset = ramp.parentElement.offsetLeft;
-
-  const overlay = ramp.getElementsByClassName('overlay')[0];
-  overlay.style.marginLeft = '0';
-  overlay.style.width = `${(pos - offset) * 100 / base}%`;
-  overlay.className += ' edge';
-}
-
-function dragViewUp(evt) {
-  deactivateAllOverlays();
-  const ramp = getBaseTarget(evt.target);
-
-  const base = ramp.offsetWidth;
-  drags.push(evt.clientX);
-  drags.sort((a, b) => a - b);
-
-  const offset = ramp.parentElement.offsetLeft;
-  drags = drags.map((x) => (x - offset) * 100 / base);
-
-  const overlay = ramp.getElementsByClassName('overlay')[0];
-  overlay.style.marginLeft = `${drags[0]}%`;
-  overlay.style.width = `${drags[1] - drags[0]}%`;
-  overlay.className += ' show';
-}
-
-window.viewClick = function viewClick(evt) {
-  const isKeyPressed = this.isMacintosh ? evt.metaKey : evt.ctrlKey;
-  if (drags.length === 2) {
-    drags = [];
-  }
-
-  if (isKeyPressed) {
-    return drags.length === 0
-        ? dragViewDown(evt)
-        : dragViewUp(evt);
-  }
-
-  return null;
-};
-
 // date functions //
 const DAY_IN_MS = (1000 * 60 * 60 * 24);
 window.DAY_IN_MS = DAY_IN_MS;
 const WEEK_IN_MS = DAY_IN_MS * 7;
 const dateFormatRegex = /([12]\d{3}-(0[1-9]|1[0-2])-(0[1-9]|[12]\d|3[01]))$/;
 
+window.deactivateAllOverlays = function deactivateAllOverlays() {
+  document.querySelectorAll('.summary-chart__ramp .overlay')
+      .forEach((x) => { x.className = 'overlay'; });
+};
 
-function getDateStr(date) {
+window.getDateStr = function getDateStr(date) {
   return (new Date(date)).toISOString().split('T')[0];
-}
+};
+
 function dateRounding(datestr, roundDown) {
   // rounding up to nearest monday
   const date = new Date(datestr);
@@ -108,7 +24,7 @@ function dateRounding(datestr, roundDown) {
     datems += ((8 - day) % 7) * DAY_IN_MS;
   }
 
-  return getDateStr(datems);
+  return window.getDateStr(datems);
 }
 
 window.vSummary = {
@@ -141,6 +57,8 @@ window.vSummary = {
       maxDate: '',
       fileTypeColors: {},
       isSafariBrowser: /.*Version.*Safari.*/.test(navigator.userAgent),
+      // eslint-disable-next-line new-cap
+      randomGenerator: new Math.seedrandom('Seeded Random Generator'),
     };
   },
   watch: {
@@ -153,12 +71,15 @@ window.vSummary = {
     sortGroupSelection() {
       this.getFiltered();
     },
+
     sortWithinGroupSelection() {
       this.getFiltered();
     },
+
     filterTimeFrame() {
       this.getFiltered();
     },
+
     filterGroupSelection() {
       // merge group is not allowed when group by none
       if (this.filterGroupSelection === 'groupByNone') {
@@ -167,9 +88,11 @@ window.vSummary = {
 
       this.getFiltered();
     },
+
     isMergeGroup() {
       this.getFiltered();
     },
+
     tmpFilterSinceDate() {
       if (this.tmpFilterSinceDate && this.tmpFilterSinceDate >= this.minDate) {
         this.filterSinceDate = this.tmpFilterSinceDate;
@@ -178,6 +101,7 @@ window.vSummary = {
       }
       this.getFiltered();
     },
+
     tmpFilterUntilDate() {
       if (this.tmpFilterUntilDate && this.tmpFilterUntilDate <= this.maxDate) {
         this.filterUntilDate = this.tmpFilterUntilDate;
@@ -200,21 +124,7 @@ window.vSummary = {
         }
       },
     },
-    avgCommitSize() {
-      let totalCommits = 0;
-      let totalCount = 0;
-      this.filtered.forEach((repo) => {
-        repo.forEach((user) => {
-          user.commits.forEach((slice) => {
-            if (slice.insertions > 0) {
-              totalCount += 1;
-              totalCommits += slice.insertions;
-            }
-          });
-        });
-      });
-      return totalCommits / totalCount;
-    },
+
     avgContributionSize() {
       let totalLines = 0;
       let totalCount = 0;
@@ -229,93 +139,9 @@ window.vSummary = {
 
       return totalLines / totalCount;
     },
-    filteredRepos() {
-      return this.filtered.filter((repo) => repo.length > 0);
-    },
   },
   methods: {
     // view functions //
-    getFileTypeContributionBars(fileTypeContribution) {
-      let currentBarWidth = 0;
-      const fullBarWidth = 100;
-      const contributionPerFullBar = (this.avgContributionSize * 2);
-      const allFileTypesContributionBars = {};
-
-      Object.keys(fileTypeContribution)
-          .filter((fileType) => this.checkedFileTypes.includes(fileType))
-          .forEach((fileType) => {
-            const contribution = fileTypeContribution[fileType];
-            let barWidth = (contribution / contributionPerFullBar) * fullBarWidth;
-            const contributionBars = [];
-
-            // if contribution bar for file type is able to fit on the current line
-            if (currentBarWidth + barWidth < fullBarWidth) {
-              contributionBars.push(barWidth);
-              currentBarWidth += barWidth;
-            } else {
-              // take up all the space left on the current line
-              contributionBars.push(fullBarWidth - currentBarWidth);
-              barWidth -= fullBarWidth - currentBarWidth;
-              // additional bar width will start on a new line
-              const numOfFullBars = Math.floor(barWidth / fullBarWidth);
-              for (let i = 0; i < numOfFullBars; i += 1) {
-                contributionBars.push(fullBarWidth);
-              }
-              const remainingBarWidth = barWidth % fullBarWidth;
-              if (remainingBarWidth !== 0) {
-                contributionBars.push(remainingBarWidth);
-              }
-              currentBarWidth = remainingBarWidth;
-            }
-
-            allFileTypesContributionBars[fileType] = contributionBars;
-          });
-
-      return allFileTypesContributionBars;
-    },
-    getFileTypes(repo) {
-      const fileTypes = [];
-      repo.forEach((user) => {
-        Object.keys(user.fileTypeContribution).forEach((fileType) => {
-          if (this.checkedFileTypes.includes(fileType) && !fileTypes.includes(fileType)) {
-            fileTypes.push(fileType);
-          }
-        });
-      });
-      return fileTypes;
-    },
-    getContributionBars(totalContribution) {
-      const res = [];
-      const contributionLimit = (this.avgContributionSize * 2);
-
-      const cnt = parseInt(totalContribution / contributionLimit, 10);
-      for (let cntId = 0; cntId < cnt; cntId += 1) {
-        res.push(100);
-      }
-
-      const last = (totalContribution % contributionLimit) / contributionLimit;
-      if (last !== 0) {
-        res.push(last * 100);
-      }
-
-      return res;
-    },
-
-    getAuthorProfileLink(userName) {
-      return `https://github.com/${userName}`;
-    },
-
-    getRepoLink(repo) {
-      const { REPOS } = window;
-      const { location, branch } = REPOS[repo.repoId];
-
-      if (Object.prototype.hasOwnProperty.call(location, 'organization')) {
-        return `${window.BASE_URL}/${location.organization}/${location.repoName}/tree/${branch}`;
-      }
-
-      return repo.location;
-    },
-
     getReportIssueGitHubLink(stackTrace) {
       return `${window.BASE_URL}/reposense/RepoSense/issues/new?title=${this.getReportIssueTitle()
       }&body=${this.getReportIssueMessage(stackTrace)}`;
@@ -347,6 +173,7 @@ window.vSummary = {
       this.filterSearch = evt.target.value;
       this.getFiltered();
     },
+
     setSummaryHash() {
       const { addHash, encodeHash } = window;
 
@@ -370,6 +197,7 @@ window.vSummary = {
 
       encodeHash();
     },
+
     renderFilterHash() {
       window.decodeHash();
 
@@ -431,10 +259,11 @@ window.vSummary = {
       }
       this.$emit('get-dates', [this.minDate, this.maxDate]);
     },
+
     getFiltered() {
       this.setSummaryHash();
       this.getDates();
-      deactivateAllOverlays();
+      window.deactivateAllOverlays();
 
       // array of array, sorted by repo
       const full = [];
@@ -482,6 +311,7 @@ window.vSummary = {
         this.mergeGroup(this.filtered);
       }
     },
+
     mergeGroup(filtered) {
       filtered.forEach((group, groupIndex) => {
         const dateToIndexMap = {};
@@ -510,6 +340,7 @@ window.vSummary = {
         filtered[groupIndex].push(group[0]);
       });
     },
+
     mergeCommits(user, merged, dateToIndexMap) {
       // merge commits with the same date
       user.commits.forEach((commit) => {
@@ -537,6 +368,7 @@ window.vSummary = {
         }
       });
     },
+
     mergeFileTypeContribution(user, merged) {
       Object.entries(user.fileTypeContribution).forEach((fileType) => {
         const key = fileType[0];
@@ -548,6 +380,71 @@ window.vSummary = {
         merged[key] += value;
       });
     },
+
+    getRandomHex() {
+      const maxHexColorValue = 16777214;
+      // excludes #000000 and #FFFFFF as they are reserved
+      return `#${Math.round(this.randomGenerator() * maxHexColorValue + 1).toString(16).padStart(6, '0')}`;
+    },
+
+    getNonRepeatingColor(existingColors) {
+      let generatedHex = this.getRandomHex();
+      while (this.hasSimilarExistingColors(existingColors, generatedHex)) {
+        generatedHex = this.getRandomHex();
+      }
+      return generatedHex;
+    },
+
+    hasSimilarExistingColors(existingColors, newHex) {
+      const deltaEThreshold = 11; // the lower limit of delta E to be similar, more info at http://zschuessler.github.io/DeltaE/learn/
+      return existingColors.some((existingHex) => {
+        const existingRGB = this.getHexToRGB(existingHex);
+        const newRGB = this.getHexToRGB(newHex);
+        return this.deltaE(existingRGB, newRGB) < deltaEThreshold;
+      });
+    },
+
+    // this delta E (perceptual color distance) implementation taken from @antimatter15 from
+    // github: https://github.com/antimatter15/rgb-lab
+    deltaE(rgbA, rgbB) {
+      const labA = this.rgb2lab(rgbA);
+      const labB = this.rgb2lab(rgbB);
+      const deltaL = labA[0] - labB[0];
+      const deltaA = labA[1] - labB[1];
+      const deltaB = labA[2] - labB[2];
+      const c1 = Math.sqrt(labA[1] * labA[1] + labA[2] * labA[2]);
+      const c2 = Math.sqrt(labB[1] * labB[1] + labB[2] * labB[2]);
+      const deltaC = c1 - c2;
+      let deltaH = deltaA * deltaA + deltaB * deltaB - deltaC * deltaC;
+      deltaH = deltaH < 0 ? 0 : Math.sqrt(deltaH);
+      const sc = 1.0 + 0.045 * c1;
+      const sh = 1.0 + 0.015 * c1;
+      const deltaLKLSL = deltaL / (1.0);
+      const deltaCKCSC = deltaC / (sc);
+      const deltaHKSHS = deltaH / (sh);
+      const distance = deltaLKLSL * deltaLKLSL + deltaCKCSC * deltaCKCSC + deltaHKSHS * deltaHKSHS;
+      return distance < 0 ? 0 : Math.sqrt(distance);
+    },
+
+    rgb2lab(rgb) {
+      let r = rgb[0] / 255;
+      let g = rgb[1] / 255;
+      let b = rgb[2] / 255;
+      let x;
+      let y;
+      let z;
+      r = (r > 0.04045) ? ((r + 0.055) / 1.055) ** 2.4 : r / 12.92;
+      g = (g > 0.04045) ? ((g + 0.055) / 1.055) ** 2.4 : g / 12.92;
+      b = (b > 0.04045) ? ((b + 0.055) / 1.055) ** 2.4 : b / 12.92;
+      x = (r * 0.4124 + g * 0.3576 + b * 0.1805) / 0.95047;
+      y = (r * 0.2126 + g * 0.7152 + b * 0.0722) / 1.00000;
+      z = (r * 0.0193 + g * 0.1192 + b * 0.9505) / 1.08883;
+      x = (x > 0.008856) ? (x ** (1 / 3)) : (7.787 * x) + 16 / 116;
+      y = (y > 0.008856) ? (y ** (1 / 3)) : (7.787 * y) + 16 / 116;
+      z = (z > 0.008856) ? (z ** (1 / 3)) : (7.787 * z) + 16 / 116;
+      return [(116 * y) - 16, 500 * (x - y), 200 * (y - z)];
+    },
+
     processFileTypes() {
       const selectedColors = ['#ffe119', '#4363d8', '#3cb44b', '#f58231', '#911eb4', '#46f0f0', '#f032e6',
           '#bcf60c', '#fabebe', '#008080', '#e6beff', '#9a6324', '#fffac8', '#800000', '#aaffc3', '#808000', '#ffd8b1',
@@ -559,8 +456,12 @@ window.vSummary = {
         repo.users.forEach((user) => {
           Object.keys(user.fileTypeContribution).forEach((fileType) => {
             if (!Object.prototype.hasOwnProperty.call(fileTypeColors, fileType)) {
-              fileTypeColors[fileType] = selectedColors[i];
-              i = (i + 1) % selectedColors.length;
+              if (i < selectedColors.length) {
+                fileTypeColors[fileType] = selectedColors[i];
+                i += 1;
+              } else {
+                fileTypeColors[fileType] = this.getNonRepeatingColor(Object.values(fileTypeColors));
+              }
             }
             if (!this.fileTypes.includes(fileType)) {
               this.fileTypes.push(fileType);
@@ -572,17 +473,24 @@ window.vSummary = {
 
       this.checkedFileTypes = this.fileTypes.slice();
     },
-    getFontColor(color) {
+
+    getHexToRGB(color) {
       // to convert color from hex code to rgb format
-      const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(color);
-      const red = parseInt(result[1], 16);
-      const green = parseInt(result[2], 16);
-      const blue = parseInt(result[3], 16);
+      const arr = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(color);
+      return arr.slice(1).map((val) => parseInt(val, 16));
+    },
+
+    getFontColor(color) {
+      const result = this.getHexToRGB(color);
+      const red = result[0];
+      const green = result[1];
+      const blue = result[2];
 
       const luminosity = 0.2126 * red + 0.7152 * green + 0.0722 * blue; // per ITU-R BT.709
 
       return luminosity < 120 ? '#ffffff' : '#000000';
     },
+
     splitCommitsWeek(user, sinceDate, untilDate) {
       const { commits } = user;
 
@@ -602,6 +510,7 @@ window.vSummary = {
       }
       user.commits = res;
     },
+
     pushCommitsWeek(sinceMs, untilMs, res, commits) {
       const diff = Math.round(Math.abs((untilMs - sinceMs) / DAY_IN_MS));
 
@@ -613,8 +522,8 @@ window.vSummary = {
         const week = {
           insertions: 0,
           deletions: 0,
-          date: getDateStr(startOfWeekMs),
-          endDate: getDateStr(endOfWeekMsWithinUntilMs),
+          date: window.getDateStr(startOfWeekMs),
+          endDate: window.getDateStr(endOfWeekMsWithinUntilMs),
           commitResults: [],
         };
 
@@ -624,6 +533,7 @@ window.vSummary = {
         }
       }
     },
+
     addLineContributionWeek(endOfWeekMs, week, commits) {
       // commits are not contiguous, meaning there are gaps of days without
       // commits, so we are going to check each commit's date and make sure
@@ -636,6 +546,7 @@ window.vSummary = {
         commit.commitResults.forEach((commitResult) => week.commitResults.push(commitResult));
       }
     },
+
     getUserCommits(user, sinceDate, untilDate) {
       user.commits = [];
       const userFirst = user.dailyCommits[0];
@@ -656,16 +567,57 @@ window.vSummary = {
       user.dailyCommits.forEach((commit) => {
         const { date } = commit;
         if (date >= sinceDate && date <= untilDate) {
-          user.commits.push(commit);
+          const filteredCommit = JSON.parse(JSON.stringify(commit));
+          if (this.filterBreakdown) {
+            this.filterCommitByCheckedFileTypes(filteredCommit);
+          }
+          if (filteredCommit.commitResults.length > 0) {
+            user.commits.push(filteredCommit);
+          }
         }
       });
 
       return null;
     },
+
+    filterCommitByCheckedFileTypes(commit) {
+      const filteredCommitResults = commit.commitResults.map((result) => {
+        const filteredFileTypes = this.getFilteredFileTypes(result);
+        this.updateCommitResultWithFileTypes(result, filteredFileTypes);
+        return result;
+      }).filter((result) => Object.values(result.fileTypesAndContributionMap).length > 0);
+
+      commit.insertions = filteredCommitResults.reduce((acc, result) => acc + result.insertions, 0);
+      commit.deletions = filteredCommitResults.reduce((acc, result) => acc + result.deletions, 0);
+      commit.commitResults = filteredCommitResults;
+    },
+
+    getFilteredFileTypes(commitResult) {
+      return Object.keys(commitResult.fileTypesAndContributionMap)
+          .filter(this.isFileTypeChecked)
+          .reduce((obj, fileType) => {
+            obj[fileType] = commitResult.fileTypesAndContributionMap[fileType];
+            return obj;
+          }, {});
+    },
+
+    isFileTypeChecked(fileType) {
+      return this.checkedFileTypes.includes(fileType);
+    },
+
+    updateCommitResultWithFileTypes(commitResult, filteredFileTypes) {
+      commitResult.insertions = Object.values(filteredFileTypes)
+          .reduce((acc, fileType) => acc + fileType.insertions, 0);
+      commitResult.deletions = Object.values(filteredFileTypes)
+          .reduce((acc, fileType) => acc + fileType.deletions, 0);
+      commitResult.fileTypesAndContributionMap = filteredFileTypes;
+    },
+
     getOptionWithOrder() {
       [this.sortingOption, this.isSortingDsc] = this.sortGroupSelection.split(' ');
       [this.sortingWithinOption, this.isSortingWithinDsc] = this.sortWithinGroupSelection.split(' ');
     },
+
     sortFiltered(filtered, filterControl) {
       const { filterGroupSelection } = filterControl;
       this.getOptionWithOrder();
@@ -698,7 +650,7 @@ window.vSummary = {
       this.hasModifiedUntilDate = true;
       this.tmpFilterSinceDate = since;
       this.tmpFilterUntilDate = until;
-      deactivateAllOverlays();
+      window.deactivateAllOverlays();
     },
 
     updateTmpFilterSinceDate(event) {
@@ -739,56 +691,6 @@ window.vSummary = {
       }
     },
 
-    // triggering opening of tabs //
-    openTabAuthorship(user, repo, index) {
-      const { minDate, maxDate } = this;
-
-      this.$emit('view-authorship', {
-        minDate,
-        maxDate,
-        author: user.name,
-        repo: user.repoName,
-        name: user.displayName,
-        location: this.getRepoLink(repo[index]),
-        repoIndex: index,
-        totalCommits: user.totalCommits,
-      });
-    },
-    openTabZoomSubrange(user) {
-      // skip if accidentally clicked on ramp chart
-      if (drags.length === 2 && drags[1] - drags[0]) {
-        const tdiff = new Date(this.filterUntilDate) - new Date(this.filterSinceDate);
-        const idxs = drags.map((x) => x * tdiff / 100);
-        const tsince = getDateStr(new Date(this.filterSinceDate).getTime() + idxs[0]);
-        const tuntil = getDateStr(new Date(this.filterSinceDate).getTime() + idxs[1]);
-        this.openTabZoom(user, tsince, tuntil);
-      }
-    },
-
-    openTabZoom(user, since, until) {
-      const {
-        avgCommitSize, filterGroupSelection, filterTimeFrame, isMergeGroup, sortingOption,
-        sortingWithinOption, isSortingDsc, isSortingWithinDsc,
-      } = this;
-      const clonedUser = Object.assign({}, user); // so that changes in summary won't affect zoom
-      this.$emit('view-zoom', {
-        zRepo: user.repoName,
-        zAuthor: user.name,
-        zFilterGroup: filterGroupSelection,
-        zTimeFrame: filterTimeFrame,
-        zAvgCommitSize: avgCommitSize,
-        zUser: clonedUser,
-        zLocation: this.getRepoLink(user),
-        zSince: since,
-        zUntil: until,
-        zIsMerge: isMergeGroup,
-        zSorting: sortingOption,
-        zSortingWithin: sortingWithinOption,
-        zIsSortingDsc: isSortingDsc === 'dsc',
-        zIsSortingWithinDsc: isSortingWithinDsc === 'dsc',
-      });
-    },
-
     getFileTypeContribution(ele) {
       let validCommits = 0;
       Object.keys(ele.fileTypeContribution).forEach((fileType) => {
@@ -824,6 +726,7 @@ window.vSummary = {
       }
       return sortedRepos;
     },
+
     groupByNone(repos, sortingControl) {
       const sortedRepos = [];
       const { sortingOption, isSortingDsc } = sortingControl;
@@ -848,6 +751,7 @@ window.vSummary = {
 
       return sortedRepos;
     },
+
     groupByAuthors(repos, sortingControl) {
       const authorMap = {};
       const filtered = [];
@@ -884,22 +788,11 @@ window.vSummary = {
       return filtered;
     },
 
-    getPercentile(index) {
-      if (this.filterGroupSelection === 'groupByNone') {
-        return (Math.round((index + 1) * 1000 / this.filtered[0].length) / 10).toFixed(1);
-      }
-      return (Math.round((index + 1) * 1000 / this.filtered.length) / 10).toFixed(1);
-    },
-
     getGroupCommitsVariance(total, group) {
       if (this.filterBreakdown && this.sortingOption === 'totalCommits') {
         return total + this.getFileTypeContribution(group);
       }
       return total + group[this.sortingOption];
-    },
-
-    getGroupTotalContribution(group) {
-      return group.reduce((accContribution, user) => accContribution + user.totalCommits, 0);
     },
 
     sortingHelper(element, sortingOption) {
@@ -973,6 +866,6 @@ window.vSummary = {
     });
   },
   components: {
-    v_ramp: window.vRamp,
+    vSummaryCharts: window.vSummaryCharts,
   },
 };

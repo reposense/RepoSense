@@ -11,15 +11,23 @@
             "hash": "7d7584fc204922cc5ff3bd5ca073cad6bed2c46a",
             "messageTitle": "k",
             "messageBody": "",
-            "insertions": 0,
-            "deletions": 0
+            "fileTypesAndContributionMap": {
+              "code": {
+                "insertions": 0,
+                "deletions": 0
+              }
+            }
           },
           {
             "hash": "8d0ac2ee20f04dce8df0591caed460bffacb65a4",
             "messageTitle": "java",
             "messageBody": "",
-            "insertions": 3,
-            "deletions": 0
+            "fileTypesAndContributionMap": {
+              "code": {
+                "insertions": 3,
+                "deletions": 0
+              }
+            }
           }
         ]
       },
@@ -32,8 +40,12 @@
             "hash": "8e4ca1da5d413e9ab84a1e8d1474918afa97f7a1",
             "messageTitle": "yo",
             "messageBody": "",
-            "insertions": 2,
-            "deletions": 0
+            "fileTypesAndContributionMap": {
+              "code": {
+                "insertions": 2,
+                "deletions": 0
+              }
+            }
           }
         ]
       },
@@ -46,8 +58,12 @@
             "hash": "e3f699fd4ef128eebce98d5b4e5b3bb06a512f49",
             "messageTitle": "new",
             "messageBody": "",
-            "insertions": 4,
-            "deletions": 0
+            "fileTypesAndContributionMap": {
+              "code": {
+                "insertions": 4,
+                "deletions": 0
+              }
+            }
           }
         ]
       }
