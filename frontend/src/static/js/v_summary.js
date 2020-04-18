@@ -4,6 +4,15 @@ window.DAY_IN_MS = DAY_IN_MS;
 const WEEK_IN_MS = DAY_IN_MS * 7;
 const dateFormatRegex = /([12]\d{3}-(0[1-9]|1[0-2])-(0[1-9]|[12]\d|3[01]))$/;
 
+window.deactivateAllOverlays = function deactivateAllOverlays() {
+  document.querySelectorAll('.summary-chart__ramp .overlay')
+      .forEach((x) => { x.className = 'overlay'; });
+};
+
+window.getDateStr = function getDateStr(date) {
+  return (new Date(date)).toISOString().split('T')[0];
+};
+
 function getHexToRGB(color) {
   // to convert color from hex code to rgb format
   const arr = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(color);
@@ -23,15 +32,6 @@ function dateRounding(datestr, roundDown) {
 
   return window.getDateStr(datems);
 }
-
-window.deactivateAllOverlays = function deactivateAllOverlays() {
-  document.querySelectorAll('.summary-chart__ramp .overlay')
-      .forEach((x) => { x.className = 'overlay'; });
-};
-
-window.getDateStr = function getDateStr(date) {
-  return (new Date(date)).toISOString().split('T')[0];
-};
 
 window.getFontColor = function getFontColor(color) {
   const result = getHexToRGB(color);
