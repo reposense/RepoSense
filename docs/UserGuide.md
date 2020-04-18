@@ -128,6 +128,7 @@ The `Tool Bar` at the top provides a set of configuration options that control t
     * the total lines of codes added (if checkbox is left unchecked), or
     * a breakdown of the number of lines of codes added to each file type (if checkbox is checked). If sorting criteria is contribution, only lines contributed to selected file types will be taken into account.
 * `Merge group` : merges all the ramp charts of each group into a single ramp chart; aggregates the contribution of each group.
+    * viewing of authored code of the group as a whole is available when `group by repos`.
 
 Notes:<br>
 [1] **`Sort groups by`**: each main group has its own index and percentile according to its ranking position after sorting (e.g.,

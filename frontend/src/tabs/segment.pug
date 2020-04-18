@@ -1,10 +1,10 @@
 .segment(v-bind:class="{ untouched: !segment.authored, active: segment.lines.length < 5 }")
-  .closer(v-if="!segment.authored && segment.lines.length > 4", v-on:click="loadCode()")
+  .closer(v-if="!segment.authored && segment.lines.length > 4", v-on:click="loadCode()", ref="topButton")
     i.fas.fa-plus-circle.icon.open(v-bind:title="'Click to open code'")
     i.fas.fa-chevron-circle-down.icon.hide(v-bind:title="'Click to hide code'")
   div(v-if="loaded", v-hljs="path")
     .code(v-for="(line, index) in segment.lines")
       .line-number {{ segment.lineNumbers[index] + "\n" }}
       .line-content {{ line + "\n" }}
-  .closer.bottom(v-if="!segment.authored && segment.lines.length > 4", v-on:click="loadCode()")
+  .closer.bottom(v-if="!segment.authored && segment.lines.length > 4", v-on:click="collapseCode")
     i.fas.fa-chevron-circle-up.icon.hide(v-bind:title="'Click to hide code'")

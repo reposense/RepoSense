@@ -11,12 +11,17 @@
             "hash": "f45960b264a6c550d98137cebe7cea9bb78fdfcd",
             "messageTitle": "Birthday feature: update person related files",
             "messageBody": "",
-            "insertions": 1,
-            "deletions": 0
+            "fileTypesAndContributionMap": {
+              "fxml": {
+                "insertions": 1,
+                "deletions": 0
+              }
+            }
           }
         ]
       }
     ],
+    "nbrduplicate": [],
     "April0616": [
       {
         "insertions": 1,
@@ -27,8 +32,12 @@
             "hash": "38c72663ef5e8cca0485d44f7462605c162dea00",
             "messageTitle": "Add a remark Label inside PersonListCard.fxml",
             "messageBody": "",
-            "insertions": 1,
-            "deletions": 0
+            "fileTypesAndContributionMap": {
+              "fxml": {
+                "insertions": 1,
+                "deletions": 0
+              }
+            }
           }
         ]
       },
@@ -41,15 +50,23 @@
             "hash": "a460e24bc1b94d009cb572dc920f35cd73c4ee11",
             "messageTitle": "UI: update PersonListCard.fxml",
             "messageBody": "",
-            "insertions": 2,
-            "deletions": 0
+            "fileTypesAndContributionMap": {
+              "fxml": {
+                "insertions": 2,
+                "deletions": 0
+              }
+            }
           },
           {
             "hash": "b4b51938c691351888e0b31646633eed30bebe14",
             "messageTitle": "UI: update PersonCard.java",
             "messageBody": "",
-            "insertions": 1,
-            "deletions": 1
+            "fileTypesAndContributionMap": {
+              "fxml": {
+                "insertions": 1,
+                "deletions": 1
+              }
+            }
           }
         ]
       }
@@ -64,15 +81,23 @@
             "hash": "e933821b0afb269faf27dd45845976656b622493",
             "messageTitle": "\"UI: Add TagListPanel\"",
             "messageBody": "",
-            "insertions": 40,
-            "deletions": 11
+            "fileTypesAndContributionMap": {
+              "fxml": {
+                "insertions": 40,
+                "deletions": 11
+              }
+            }
           },
           {
             "hash": "f5c11947217f64965da86531f9dd67dd3e62f29d",
             "messageTitle": "\"Modified panel dimensions\"",
             "messageBody": "",
-            "insertions": 2,
-            "deletions": 2
+            "fileTypesAndContributionMap": {
+              "fxml": {
+                "insertions": 2,
+                "deletions": 2
+              }
+            }
           }
         ]
       },
@@ -85,8 +110,12 @@
             "hash": "93191db48eb5aa2f97d765cdf736c68c85fc0ae4",
             "messageTitle": "\"Added comments to indicate which values to change to modify UI\"",
             "messageBody": "",
-            "insertions": 4,
-            "deletions": 3
+            "fileTypesAndContributionMap": {
+              "fxml": {
+                "insertions": 4,
+                "deletions": 3
+              }
+            }
           }
         ]
       }
@@ -95,6 +124,7 @@
   "authorFinalContributionMap": {
     "zacharytang": 0,
     "CindyTsai1": 1,
+    "nbrduplicate": 0,
     "April0616": 3,
     "nbr": 42
   },
@@ -104,6 +134,9 @@
     },
     "CindyTsai1": {
       "fxml": 1
+    },
+    "nbrduplicate": {
+      "fxml": 0
     },
     "April0616": {
       "fxml": 3
@@ -115,12 +148,14 @@
   "authorContributionVariance": {
     "zacharytang": 0.0,
     "CindyTsai1": 0.016388886,
+    "nbrduplicate": 0.0,
     "April0616": 0.27638897,
     "nbr": 50.165554
   },
   "authorDisplayNameMap": {
     "zacharytang": "Yagami Rukei Polland",
     "CindyTsai1": "Ravind s/o Ramesh",
+    "nbrduplicate": "nbrduplicate",
     "April0616": "2805Tagoe",
     "nbr": "Ashwin Mukadaan Singhania, Rathod"
   }
