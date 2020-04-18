@@ -59,6 +59,7 @@ window.vAuthorship = {
     isLoaded() {
       if (this.isLoaded) {
         this.retrieveHashes();
+        this.setInfoHash();
       }
     },
   },
@@ -78,17 +79,35 @@ window.vAuthorship = {
         // Invalid value, use the default value of 'lineOfCode'
       }
 
-      if (hash.reverseAuthorshipOrder === 'false') {
-        this.toReverseSortFiles = false;
-      }
+      this.toReverseSortFiles = hash.reverseAuthorshipOrder !== 'false';
 
       if ('authorshipFilesGlob' in hash) {
         this.indicateSearchBar();
         this.searchBarValue = hash.authorshipFilesGlob;
       } else if ('authorshipFileTypes' in hash) {
-        const parsedFileTypes = hash.authorshipFileTypes.split('~');
+        const parsedFileTypes = hash.authorshipFileTypes.split(window.HASH_FILETYPE_DELIMITER);
         this.selectedFileTypes = parsedFileTypes.filter((type) => this.fileTypes.includes(type));
       }
+    },
+
+    setInfoHash() {
+      const { addHash, encodeHash } = window;
+      // We only set these hashes as they are propagated from summary_charts
+      addHash('tabAuthor', this.info.author);
+      addHash('tabRepo', this.info.repo);
+      addHash('authorshipIsMergeGroup', this.info.isMergeGroup);
+      encodeHash();
+    },
+
+    removeAuthorshipHashes() {
+      window.removeHash('authorshipFileTypes');
+      window.removeHash('authorshipFilesGlob');
+      window.removeHash('authorshipSortBy');
+      window.removeHash('reverseAuthorshipOrder');
+      window.removeHash('tabAuthor');
+      window.removeHash('tabRepo');
+      window.removeHash('authorshipIsMergeGroup');
+      window.encodeHash();
     },
 
     initiate() {
@@ -140,14 +159,6 @@ window.vAuthorship = {
           this.filesLinesObj[type] = cnt;
         }
       });
-    },
-
-    setInfoHash() {
-      const { addHash, encodeHash } = window;
-      addHash('tabAuthor', this.info.author);
-      addHash('tabRepo', this.info.repo);
-      addHash('authorshipIsMergeGroup', this.info.isMergeGroup);
-      encodeHash();
     },
 
     expandAll() {
@@ -257,7 +268,6 @@ window.vAuthorship = {
 
       Object.keys(this.filesLinesObj).forEach((file) => {
         if (this.filesLinesObj[file] !== 0) {
-          this.selectedFileTypes.push(file);
           this.fileTypes.push(file);
         }
       });
@@ -372,15 +382,10 @@ window.vAuthorship = {
 
   created() {
     this.initiate();
-    this.setInfoHash();
   },
 
   beforeDestroy() {
-    window.removeHash('authorshipFileTypes');
-    window.removeHash('authorshipFilesGlob');
-    window.removeHash('authorshipSortBy');
-    window.removeHash('reverseAuthorshipOrder');
-    window.encodeHash();
+    this.removeAuthorshipHashes();
   },
 
   components: {
