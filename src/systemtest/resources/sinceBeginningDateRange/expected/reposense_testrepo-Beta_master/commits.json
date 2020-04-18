@@ -10,8 +10,12 @@
             "hash": "76a4ddb9f4d139620361a1a8de613b3e46d8a269",
             "messageTitle": "Updated collated code",
             "messageBody": "",
-            "insertions": 113,
-            "deletions": 0
+            "fileTypesAndContributionMap": {
+              "fxml": {
+                "insertions": 113,
+                "deletions": 0
+              }
+            }
           }
         ]
       }
@@ -26,12 +30,17 @@
             "hash": "f45960b264a6c550d98137cebe7cea9bb78fdfcd",
             "messageTitle": "Birthday feature: update person related files",
             "messageBody": "",
-            "insertions": 1,
-            "deletions": 0
+            "fileTypesAndContributionMap": {
+              "fxml": {
+                "insertions": 1,
+                "deletions": 0
+              }
+            }
           }
         ]
       }
     ],
+    "nbrduplicate": [],
     "April0616": [
       {
         "insertions": 1,
@@ -42,8 +51,12 @@
             "hash": "38c72663ef5e8cca0485d44f7462605c162dea00",
             "messageTitle": "Add a remark Label inside PersonListCard.fxml",
             "messageBody": "",
-            "insertions": 1,
-            "deletions": 0
+            "fileTypesAndContributionMap": {
+              "fxml": {
+                "insertions": 1,
+                "deletions": 0
+              }
+            }
           }
         ]
       },
@@ -56,15 +69,23 @@
             "hash": "a460e24bc1b94d009cb572dc920f35cd73c4ee11",
             "messageTitle": "UI: update PersonListCard.fxml",
             "messageBody": "",
-            "insertions": 2,
-            "deletions": 0
+            "fileTypesAndContributionMap": {
+              "fxml": {
+                "insertions": 2,
+                "deletions": 0
+              }
+            }
           },
           {
             "hash": "b4b51938c691351888e0b31646633eed30bebe14",
             "messageTitle": "UI: update PersonCard.java",
             "messageBody": "",
-            "insertions": 1,
-            "deletions": 1
+            "fileTypesAndContributionMap": {
+              "fxml": {
+                "insertions": 1,
+                "deletions": 1
+              }
+            }
           }
         ]
       },
@@ -77,22 +98,34 @@
             "hash": "92c52cb47919fa380702819b1beab5a61487802e",
             "messageTitle": "update ui",
             "messageBody": "",
-            "insertions": 1,
-            "deletions": 0
+            "fileTypesAndContributionMap": {
+              "fxml": {
+                "insertions": 1,
+                "deletions": 0
+              }
+            }
           },
           {
             "hash": "502d5209fb64385e737f9c6e3bcb3977a280b1ae",
             "messageTitle": "display contactPhotos",
             "messageBody": "",
-            "insertions": 11,
-            "deletions": 3
+            "fileTypesAndContributionMap": {
+              "fxml": {
+                "insertions": 11,
+                "deletions": 3
+              }
+            }
           },
           {
             "hash": "9df7233b80e05dd29b0af9a8635a83797714bce0",
             "messageTitle": "adjust UI settings",
             "messageBody": "",
-            "insertions": 6,
-            "deletions": 4
+            "fileTypesAndContributionMap": {
+              "fxml": {
+                "insertions": 6,
+                "deletions": 4
+              }
+            }
           }
         ]
       },
@@ -105,8 +138,12 @@
             "hash": "54ac0478a202a29b8bfc267d8a082f853ac4c5ae",
             "messageTitle": "change fxml format",
             "messageBody": "",
-            "insertions": 64,
-            "deletions": 35
+            "fileTypesAndContributionMap": {
+              "fxml": {
+                "insertions": 64,
+                "deletions": 35
+              }
+            }
           }
         ]
       },
@@ -119,43 +156,67 @@
             "hash": "85f717ffd3de04abe764d0df529dda4bc0fe6d17",
             "messageTitle": "update personInfoPanel",
             "messageBody": "",
-            "insertions": 81,
-            "deletions": 0
+            "fileTypesAndContributionMap": {
+              "fxml": {
+                "insertions": 81,
+                "deletions": 0
+              }
+            }
           },
           {
             "hash": "51e7dbf6f2d72be0a3fb166a03cdcbf8fa49743d",
             "messageTitle": "update format",
             "messageBody": "",
-            "insertions": 55,
-            "deletions": 48
+            "fileTypesAndContributionMap": {
+              "fxml": {
+                "insertions": 55,
+                "deletions": 48
+              }
+            }
           },
           {
             "hash": "7948859cec2dd3f1b1749f56144ffeb32eff7be8",
             "messageTitle": "update tags",
             "messageBody": "",
-            "insertions": 3,
-            "deletions": 3
+            "fileTypesAndContributionMap": {
+              "fxml": {
+                "insertions": 3,
+                "deletions": 3
+              }
+            }
           },
           {
             "hash": "600e13b9eca72354c7f83b047826af4c8b3d33e2",
             "messageTitle": "update tag center",
             "messageBody": "",
-            "insertions": 9,
-            "deletions": 6
+            "fileTypesAndContributionMap": {
+              "fxml": {
+                "insertions": 9,
+                "deletions": 6
+              }
+            }
           },
           {
             "hash": "d4231120b703481514abc705db6d9b408c9abe08",
             "messageTitle": "update collocate headers",
             "messageBody": "",
-            "insertions": 1,
-            "deletions": 1
+            "fileTypesAndContributionMap": {
+              "fxml": {
+                "insertions": 1,
+                "deletions": 1
+              }
+            }
           },
           {
             "hash": "fd3ea8062bd62066c57b7ce85183714b201a14f4",
             "messageTitle": "wrap text",
             "messageBody": "",
-            "insertions": 2,
-            "deletions": 2
+            "fileTypesAndContributionMap": {
+              "fxml": {
+                "insertions": 2,
+                "deletions": 2
+              }
+            }
           }
         ]
       },
@@ -168,8 +229,12 @@
             "hash": "83072636f6d2e3a860f2be996396dc78f9fe98a0",
             "messageTitle": "collate codes",
             "messageBody": "",
-            "insertions": 1,
-            "deletions": 1
+            "fileTypesAndContributionMap": {
+              "fxml": {
+                "insertions": 1,
+                "deletions": 1
+              }
+            }
           }
         ]
       },
@@ -182,8 +247,12 @@
             "hash": "a5c9b3443ec0f1d2f03d8857627e4d03c0f21221",
             "messageTitle": "some change",
             "messageBody": "",
-            "insertions": 9,
-            "deletions": 6
+            "fileTypesAndContributionMap": {
+              "fxml": {
+                "insertions": 9,
+                "deletions": 6
+              }
+            }
           }
         ]
       },
@@ -196,8 +265,12 @@
             "hash": "c02d02475f877f4a52c49d7d2a4549bdb58a3149",
             "messageTitle": "update UI",
             "messageBody": "",
-            "insertions": 1,
-            "deletions": 1
+            "fileTypesAndContributionMap": {
+              "fxml": {
+                "insertions": 1,
+                "deletions": 1
+              }
+            }
           }
         ]
       }
@@ -212,15 +285,23 @@
             "hash": "e933821b0afb269faf27dd45845976656b622493",
             "messageTitle": "\"UI: Add TagListPanel\"",
             "messageBody": "",
-            "insertions": 40,
-            "deletions": 11
+            "fileTypesAndContributionMap": {
+              "fxml": {
+                "insertions": 40,
+                "deletions": 11
+              }
+            }
           },
           {
             "hash": "f5c11947217f64965da86531f9dd67dd3e62f29d",
             "messageTitle": "\"Modified panel dimensions\"",
             "messageBody": "",
-            "insertions": 2,
-            "deletions": 2
+            "fileTypesAndContributionMap": {
+              "fxml": {
+                "insertions": 2,
+                "deletions": 2
+              }
+            }
           }
         ]
       },
@@ -233,8 +314,12 @@
             "hash": "93191db48eb5aa2f97d765cdf736c68c85fc0ae4",
             "messageTitle": "\"Added comments to indicate which values to change to modify UI\"",
             "messageBody": "",
-            "insertions": 4,
-            "deletions": 3
+            "fileTypesAndContributionMap": {
+              "fxml": {
+                "insertions": 4,
+                "deletions": 3
+              }
+            }
           }
         ]
       },
@@ -247,8 +332,12 @@
             "hash": "053319c3d8cd5d26424b6ac69d51f3c03e262215",
             "messageTitle": "Collate code for v1.4",
             "messageBody": "",
-            "insertions": 3,
-            "deletions": 0
+            "fileTypesAndContributionMap": {
+              "fxml": {
+                "insertions": 3,
+                "deletions": 0
+              }
+            }
           }
         ]
       },
@@ -261,15 +350,23 @@
             "hash": "3f12f5d82f214b3a64f9709b0a06982a6751929c",
             "messageTitle": "Merge branch \u0027master\u0027 into ThemeSwitch",
             "messageBody": "# Conflicts:\n#\tsrc/main/java/seedu/address/logic/parser/AddressBookParser.java\n",
-            "insertions": 2,
-            "deletions": 5
+            "fileTypesAndContributionMap": {
+              "fxml": {
+                "insertions": 2,
+                "deletions": 5
+              }
+            }
           },
           {
             "hash": "07c3d30af4b3700b2b2118646d84bf58029a5cc1",
             "messageTitle": "Fix bug: Remove default theme in the app. An empty user pref now dictates the default stylesheet.",
             "messageBody": "",
-            "insertions": 0,
-            "deletions": 1
+            "fileTypesAndContributionMap": {
+              "fxml": {
+                "insertions": 0,
+                "deletions": 1
+              }
+            }
           }
         ]
       },
@@ -282,8 +379,12 @@
             "hash": "850273a65b83b567b1d7ea6cb6ba20a029c8eeaf",
             "messageTitle": "Merge master to ThemeSwitchForMerge",
             "messageBody": "",
-            "insertions": 2,
-            "deletions": 4
+            "fileTypesAndContributionMap": {
+              "fxml": {
+                "insertions": 2,
+                "deletions": 4
+              }
+            }
           }
         ]
       },
@@ -296,8 +397,12 @@
             "hash": "3a5d01cefeb7d546b4d662f3057d46994e6fdaa8",
             "messageTitle": "Adjust Person Info Panel to show full address",
             "messageBody": "",
-            "insertions": 31,
-            "deletions": 42
+            "fileTypesAndContributionMap": {
+              "fxml": {
+                "insertions": 31,
+                "deletions": 42
+              }
+            }
           }
         ]
       },
@@ -310,43 +415,67 @@
             "hash": "851523a1b0de2a1f55896bd4cde92f55ccf77fd7",
             "messageTitle": "PersonListPanel fix size. Added Color borders",
             "messageBody": "",
-            "insertions": 22,
-            "deletions": 28
+            "fileTypesAndContributionMap": {
+              "fxml": {
+                "insertions": 22,
+                "deletions": 28
+              }
+            }
           },
           {
             "hash": "dc58462947e8e03e3b627f1d49cac01e08fcc18f",
             "messageTitle": "Checkpoint",
             "messageBody": "",
-            "insertions": 10,
-            "deletions": 13
+            "fileTypesAndContributionMap": {
+              "fxml": {
+                "insertions": 10,
+                "deletions": 13
+              }
+            }
           },
           {
             "hash": "57b8bc8fe014c960d24e9ac064ac453e750dde24",
             "messageTitle": "Checkpoint2",
             "messageBody": "",
-            "insertions": 1,
-            "deletions": 1
+            "fileTypesAndContributionMap": {
+              "fxml": {
+                "insertions": 1,
+                "deletions": 1
+              }
+            }
           },
           {
             "hash": "e1400bba9cb3107c97b755ae90ea09df352757b5",
             "messageTitle": "Elements dynamically shift with tags",
             "messageBody": "",
-            "insertions": 17,
-            "deletions": 10
+            "fileTypesAndContributionMap": {
+              "fxml": {
+                "insertions": 17,
+                "deletions": 10
+              }
+            }
           },
           {
             "hash": "96666b7a79a8a66fa8096e77f79103f92695e384",
             "messageTitle": "Person Card Looks like a card and added a divider",
             "messageBody": "",
-            "insertions": 1,
-            "deletions": 1
+            "fileTypesAndContributionMap": {
+              "fxml": {
+                "insertions": 1,
+                "deletions": 1
+              }
+            }
           },
           {
             "hash": "6ad945335710f32195f6d5b5bbd0aff049c239b0",
             "messageTitle": "Remark now can dynamically render",
             "messageBody": "",
-            "insertions": 1,
-            "deletions": 1
+            "fileTypesAndContributionMap": {
+              "fxml": {
+                "insertions": 1,
+                "deletions": 1
+              }
+            }
           }
         ]
       },
@@ -359,22 +488,34 @@
             "hash": "a0a1db047c8badbc69b55cb2472c806a856488bd",
             "messageTitle": "Person info panel details no shift",
             "messageBody": "",
-            "insertions": 1,
-            "deletions": 1
+            "fileTypesAndContributionMap": {
+              "fxml": {
+                "insertions": 1,
+                "deletions": 1
+              }
+            }
           },
           {
             "hash": "6d063a6095d85db37b74956a98de886fa4ae6535",
             "messageTitle": "Horizontal boundaries settled",
             "messageBody": "",
-            "insertions": 2,
-            "deletions": 2
+            "fileTypesAndContributionMap": {
+              "fxml": {
+                "insertions": 2,
+                "deletions": 2
+              }
+            }
           },
           {
             "hash": "2d9292764c7813c6c11ed9e19acd7971725054d9",
             "messageTitle": "All boundaries settled",
             "messageBody": "",
-            "insertions": 2,
-            "deletions": 2
+            "fileTypesAndContributionMap": {
+              "fxml": {
+                "insertions": 2,
+                "deletions": 2
+              }
+            }
           }
         ]
       }
@@ -383,6 +524,7 @@
   "authorFinalContributionMap": {
     "zacharytang": 10,
     "CindyTsai1": 0,
+    "nbrduplicate": 0,
     "April0616": 138,
     "nbr": 17
   },
@@ -391,6 +533,9 @@
       "fxml": 10
     },
     "CindyTsai1": {
+      "fxml": 0
+    },
+    "nbrduplicate": {
       "fxml": 0
     },
     "April0616": {
@@ -403,12 +548,14 @@
   "authorContributionVariance": {
     "zacharytang": 344.84183,
     "CindyTsai1": 0.027006157,
+    "nbrduplicate": 0.0,
     "April0616": 1433.8046,
     "nbr": 495.91364
   },
   "authorDisplayNameMap": {
     "zacharytang": "Yagami Rukei Polland",
     "CindyTsai1": "Ravind s/o Ramesh",
+    "nbrduplicate": "nbrduplicate",
     "April0616": "2805Tagoe",
     "nbr": "Ashwin Mukadaan Singhania, Rathod"
   }

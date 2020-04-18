@@ -1,9 +1,12 @@
 package reposense.commits.model;
 
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.Date;
+import java.util.Map;
 
 import reposense.model.Author;
+import reposense.model.FileType;
 
 /**
  * Stores the result from analyzing a {@code CommitInfo}.
@@ -13,22 +16,30 @@ public class CommitResult {
     private final String messageTitle;
     private final String messageBody;
     private final String[] tags;
-    private final int insertions;
-    private final int deletions;
+    private final Map<FileType, ContributionPair> fileTypesAndContributionMap;
 
     private final transient Author author;
     private final transient Date time;
 
-    public CommitResult(Author author, String hash, Date time, String messageTitle,
-            String messageBody, String[] tags, int insertions, int deletions) {
+    public CommitResult(Author author, String hash, Date time, String messageTitle, String messageBody, String[] tags,
+            Map<FileType, ContributionPair> fileTypesAndContributionMap) {
         this.author = author;
         this.hash = hash;
         this.time = time;
         this.messageTitle = messageTitle;
         this.messageBody = messageBody;
         this.tags = tags;
-        this.insertions = insertions;
-        this.deletions = deletions;
+        this.fileTypesAndContributionMap = fileTypesAndContributionMap;
+    }
+
+    public CommitResult(Author author, String hash, Date time, String messageTitle, String messageBody, String[] tags) {
+        this.author = author;
+        this.hash = hash;
+        this.time = time;
+        this.messageTitle = messageTitle;
+        this.messageBody = messageBody;
+        this.tags = tags;
+        this.fileTypesAndContributionMap = Collections.emptyMap();
     }
 
     public String getMessageTitle() {
@@ -56,11 +67,23 @@ public class CommitResult {
     }
 
     public int getInsertions() {
+        int insertions = 0;
+        for (ContributionPair contributionPair : fileTypesAndContributionMap.values()) {
+            insertions += contributionPair.getInsertions();
+        }
         return insertions;
     }
 
     public int getDeletions() {
+        int deletions = 0;
+        for (ContributionPair contributionPair : fileTypesAndContributionMap.values()) {
+            deletions += contributionPair.getDeletions();
+        }
         return deletions;
+    }
+
+    public Map<FileType, ContributionPair> getFileTypesAndContributionMap() {
+        return fileTypesAndContributionMap;
     }
 
     @Override
@@ -80,7 +103,11 @@ public class CommitResult {
                 && messageTitle.equals(otherCommitResult.messageTitle)
                 && messageBody.equals(otherCommitResult.messageBody)
                 && Arrays.equals(tags, otherCommitResult.tags)
-                && insertions == otherCommitResult.insertions
-                && deletions == otherCommitResult.deletions;
+                && fileTypesAndContributionMap.equals(otherCommitResult.fileTypesAndContributionMap);
+    }
+
+    @Override
+    public int hashCode() {
+        return hash.hashCode();
     }
 }
