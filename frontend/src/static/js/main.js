@@ -198,6 +198,7 @@ window.app = new window.Vue({
     removeAuthorshipHashes() {
       window.removeHash('tabAuthor');
       window.removeHash('tabRepo');
+      window.removeHash('authorshipIsMergeGroup');
     },
 
     removeZoomHashes() {
@@ -236,10 +237,11 @@ window.app = new window.Vue({
       const info = {
         author: hash.tabAuthor,
         repo: hash.tabRepo,
+        isMergeGroup: hash.authorshipIsMergeGroup === 'true',
         minDate,
         maxDate,
       };
-      const tabInfoLength = Object.values(info).filter((x) => x).length;
+      const tabInfoLength = Object.values(info).filter((x) => x !== null).length;
       if (Object.keys(info).length === tabInfoLength) {
         this.updateTabAuthorship(info);
       } else if (hash.tabOpen === 'false' || tabInfoLength > 2) {
