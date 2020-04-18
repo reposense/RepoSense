@@ -1,0 +1,33 @@
+{
+  "baseUrl": "",
+  "titlePrefix": "RepoSense",
+  "ignore": [
+    "_markbind/layouts/*",
+    "_markbind/logs/*",
+    "_site/*",
+    "site.json",
+    "*.md",
+    "*.mbd",
+    "*.mbdf",
+    "*.njk",
+    ".git/*"
+  ],
+  "pages": [
+    {
+      "src": "index.md"
+    },
+    {
+      "glob": [
+        "**/index.md",
+        "**/*.+(md|mbd)"
+      ]
+    },
+    {
+      "glob": "**/*.+(md|mbd)",
+      "layout": "default"
+    }
+  ],
+  "deploy": {
+    "message": "Site Update."
+  }
+}
