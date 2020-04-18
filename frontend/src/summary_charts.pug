@@ -12,12 +12,18 @@
         title="Total contribution of group"
       ) [{{ getGroupTotalContribution(repo) }} lines]
       template(v-if="isMergeGroup")
-        a(
-          v-if="filterGroupSelection === 'groupByRepos'",
-          v-bind:href="getRepoLink(repo[0])", target="_blank",
-          title="click to view group's repo"
-        )
-          i.icon-button.fab.fa-github
+        template(v-if="filterGroupSelection === 'groupByRepos'")
+          a(
+            title="click to view group's code",
+            onclick="deactivateAllOverlays()",
+            v-on:click="openTabAuthorship(repo[0], repo, 0)"
+          )
+            i.icon-button.fas.fa-code
+          a(
+            v-bind:href="getRepoLink(repo[0])", target="_blank",
+            title="click to view group's repo"
+          )
+            i.icon-button.fab.fa-github
         a(
           v-else-if="filterGroupSelection === 'groupByAuthors'",
           v-bind:href="getAuthorProfileLink(repo[0].name)", target="_blank",
