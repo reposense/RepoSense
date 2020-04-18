@@ -121,13 +121,13 @@ public class AuthorConfiguration {
      * Sets the details of {@code author} to {@code AuthorConfiguration} including the default alias, aliases
      * and display name.
      */
-    private void setAuthorDetails(Author author, boolean isCheckAgain) {
+    private void setAuthorDetails(Author author) {
         // Set GitHub Id and its corresponding email as default
 
-        addAuthorEmailsAndAliasesMapEntry(author, Arrays.asList(author.getGitId()), isCheckAgain);
+        addAuthorEmailsAndAliasesMapEntry(author, Arrays.asList(author.getGitId()));
 
-        addAuthorEmailsAndAliasesMapEntry(author, author.getAuthorAliases(), isCheckAgain);
-        addAuthorEmailsAndAliasesMapEntry(author, author.getEmails(), isCheckAgain);
+        addAuthorEmailsAndAliasesMapEntry(author, author.getAuthorAliases());
+        addAuthorEmailsAndAliasesMapEntry(author, author.getEmails());
 
         setAuthorDisplayName(author, author.getDisplayName());
     }
@@ -144,7 +144,7 @@ public class AuthorConfiguration {
      */
     public void addAuthor(Author author) {
         authorList.add(author);
-        setAuthorDetails(author, false);
+        setAuthorDetails(author);
     }
 
     /**
@@ -211,10 +211,10 @@ public class AuthorConfiguration {
     /**
      * Clears author mapping information and resets it with the details of current author list.
      */
-    public void resetAuthorInformation(boolean isCheckAgain) {
+    public void resetAuthorInformation() {
         authorEmailsAndAliasesMap.clear();
         authorDisplayNameMap.clear();
-        authorList.forEach(author -> setAuthorDetails(author, isCheckAgain));
+        authorList.forEach(author -> setAuthorDetails(author));
     }
 
     public Map<String, Author> getAuthorEmailsAndAliasesMap() {
@@ -233,13 +233,10 @@ public class AuthorConfiguration {
      * Adds {@code aliases} of {@code author} into the map
      * @param author
      * @param aliases
-     * @param isCheckAgain
      */
-    public void addAuthorEmailsAndAliasesMapEntry(Author author, List<String> aliases, boolean isCheckAgain) {
+    public void addAuthorEmailsAndAliasesMapEntry(Author author, List<String> aliases) {
         aliases.forEach(alias -> {
-            if (!isCheckAgain) {
-                checkDuplicateAliases(authorEmailsAndAliasesMap, alias);
-            }
+            checkDuplicateAliases(authorEmailsAndAliasesMap, alias);
             authorEmailsAndAliasesMap.put(alias, author);
         });
     }

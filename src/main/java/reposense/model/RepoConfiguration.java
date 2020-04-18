@@ -387,7 +387,7 @@ public class RepoConfiguration {
      */
     public void setAuthorList(List<Author> authorList) {
         authorConfig.setAuthorList(authorList);
-        authorConfig.resetAuthorInformation(false);
+        authorConfig.resetAuthorInformation();
         authorList.forEach(author -> AuthorConfiguration.propagateIgnoreGlobList(author, this.getIgnoreGlobList()));
     }
 
