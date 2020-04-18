@@ -8,7 +8,7 @@
       v-bind:href="info.location", target="_blank",
       v-bind:title="'Click to open the repo'"
     ) {{ info.repo }}
-    .author
+    .author(v-if="!info.isMergeGroup")
       span &#8627; &nbsp;
       span {{ info.name }} ({{ info.author }})
     .period
