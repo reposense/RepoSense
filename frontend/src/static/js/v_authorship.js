@@ -35,6 +35,7 @@ window.vAuthorship = {
       filterType: 'checkboxes',
       selectedFileTypes: [],
       fileTypes: [],
+      filesLinesObj: {},
       fileTypeBlankLinesObj: {},
       totalLineCount: '',
       totalBlankLineCount: '',
@@ -83,18 +84,36 @@ window.vAuthorship = {
 
     getRepoProps(repo) {
       if (repo) {
-        const author = repo.users.filter((user) => user.name === this.info.author);
-        if (author.length > 0) {
-          this.info.name = author[0].displayName;
-          this.filesLinesObj = author[0].fileTypeContribution;
+        if (this.info.isMergeGroup) {
+          // sum of all users' file type contribution
+          repo.users.forEach((author) => {
+            this.updateTotalFileTypeContribution(author.fileTypeContribution);
+          });
+        } else {
+          const author = repo.users.find((user) => user.name === this.info.author);
+          if (author) {
+            this.info.name = author.displayName;
+            this.filesLinesObj = author.fileTypeContribution;
+          }
         }
       }
+    },
+
+    updateTotalFileTypeContribution(fileTypeContribution) {
+      Object.entries(fileTypeContribution).forEach(([type, cnt]) => {
+        if (this.filesLinesObj[type]) {
+          this.filesLinesObj[type] += cnt;
+        } else {
+          this.filesLinesObj[type] = cnt;
+        }
+      });
     },
 
     setInfoHash() {
       const { addHash, encodeHash } = window;
       addHash('tabAuthor', this.info.author);
       addHash('tabRepo', this.info.repo);
+      addHash('authorshipIsMergeGroup', this.info.isMergeGroup);
       encodeHash();
     },
 
@@ -117,8 +136,12 @@ window.vAuthorship = {
     },
 
     hasCommits(info) {
-      if (window.REPOS[info.repo]) {
-        return window.REPOS[info.repo].commits.authorFinalContributionMap[info.author] > 0;
+      const { isMergeGroup, author } = info;
+      const repo = window.REPOS[info.repo];
+      if (repo) {
+        return isMergeGroup
+            ? Object.entries(repo.commits.authorFinalContributionMap).some(([name, cnt]) => name !== '-' && cnt > 0)
+            : repo.commits.authorFinalContributionMap[author] > 0;
       }
       return false;
     },
@@ -131,7 +154,10 @@ window.vAuthorship = {
       let blankLineCount = 0;
 
       lines.forEach((line, lineCount) => {
-        const authored = (line.author && line.author.gitId === this.info.author);
+        const isAuthorMatched = this.info.isMergeGroup
+            ? line.author.gitId !== '-'
+            : line.author.gitId === this.info.author;
+        const authored = (line.author && isAuthorMatched);
 
         if (authored !== lastState || lastId === -1) {
           segments.push({
@@ -168,7 +194,11 @@ window.vAuthorship = {
       let totalBlankLineCount = 0;
 
       files.forEach((file) => {
-        const lineCnt = file.authorContributionMap[this.info.author];
+        const contributionMap = file.authorContributionMap;
+        const lineCnt = this.info.isMergeGroup
+            ? this.getContributionFromAllAuthors(contributionMap)
+            : contributionMap[this.info.author];
+
         if (lineCnt) {
           totalLineCount += lineCnt;
           const out = {};
@@ -203,6 +233,10 @@ window.vAuthorship = {
       this.fileTypeBlankLinesObj = fileTypeBlanksInfoObj;
       this.files = res;
       this.isLoaded = true;
+    },
+
+    getContributionFromAllAuthors(contributionMap) {
+      return Object.entries(contributionMap).reduce((acc, [author, cnt]) => (author !== '-' ? acc + cnt : acc), 0);
     },
 
     addBlankLineCount(fileType, lineCount, filesInfoObj) {
