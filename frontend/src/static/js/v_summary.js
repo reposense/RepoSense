@@ -803,10 +803,9 @@ window.vSummary = {
 
     restoreZoomFiltered(info) {
       const {
-        zSince, zUntil, zFilterGroup, zTimeFrame, zIsMerge, zSorting, zSortingWithin,
-        zIsSortingDsc, zIsSortingWithinDsc,
+        zSince, zUntil, zTimeFrame, zIsMerge,
       } = info;
-      let filtered = [];
+      const filtered = [];
 
       const groups = JSON.parse(JSON.stringify(this.repos));
 
@@ -827,15 +826,6 @@ window.vSummary = {
           filtered.push(res);
         }
       });
-
-      const filterControl = {
-        filterGroupSelection: zFilterGroup,
-        sortingOption: zSorting,
-        sortingWithinOption: zSortingWithin,
-        isSortingDsc: zIsSortingDsc,
-        isSortingWithinDsc: zIsSortingWithinDsc,
-      };
-      filtered = this.sortFiltered(filtered, filterControl);
 
       if (zIsMerge) {
         this.mergeGroup(filtered);
