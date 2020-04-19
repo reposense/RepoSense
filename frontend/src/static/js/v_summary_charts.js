@@ -229,8 +229,7 @@ window.vSummaryCharts = {
 
     openTabZoom(user, since, until) {
       const {
-        avgCommitSize, filterGroupSelection, filterTimeFrame, isMergeGroup, sortingOption,
-        sortingWithinOption, isSortingDsc, isSortingWithinDsc,
+        avgCommitSize, filterGroupSelection, filterTimeFrame, isMergeGroup,
       } = this;
       const clonedUser = Object.assign({}, user); // so that changes in summary won't affect zoom
       this.$parent.$emit('view-zoom', {
@@ -244,10 +243,6 @@ window.vSummaryCharts = {
         zSince: since,
         zUntil: until,
         zIsMerge: isMergeGroup,
-        zSorting: sortingOption,
-        zSortingWithin: sortingWithinOption,
-        zIsSortingDsc: isSortingDsc === 'dsc',
-        zIsSortingWithinDsc: isSortingWithinDsc === 'dsc',
       });
     },
 
