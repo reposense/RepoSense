@@ -125,7 +125,7 @@ window.vZoom = {
   created() {
     this.initiate();
   },
-  mounted() {
+  beforeMount() {
     this.setInfoHash();
     this.updateExpandedCommitMessagesCount();
   },
