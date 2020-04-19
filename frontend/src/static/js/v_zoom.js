@@ -50,7 +50,6 @@ window.vZoom = {
       if (!this.info.zUser) { // restoring zoom tab from reloaded page
         this.restoreZoomTab();
       }
-      this.setInfoHash();
     },
     openSummary() {
       this.$emit('view-summary', this.info.zSince, this.info.zUntil);
@@ -127,6 +126,7 @@ window.vZoom = {
     this.initiate();
   },
   mounted() {
+    this.setInfoHash();
     this.updateExpandedCommitMessagesCount();
   },
   beforeDestroy() {
