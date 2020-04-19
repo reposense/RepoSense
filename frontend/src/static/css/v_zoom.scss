@@ -23,6 +23,14 @@
 
     &__day,
     &__title {
+      .file-type {
+        border-radius: 5px;
+        display: inline-block;
+        font-weight: bold;
+        margin: .2rem .2rem .2rem 0;
+        padding: 0 5px;
+      }
+
       /* Tags in commits */
       .tag {
         @include mini-font;

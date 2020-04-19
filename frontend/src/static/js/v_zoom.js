@@ -72,7 +72,7 @@ window.vZoom = {
     },
 
     restoreZoomTab() {
-      // restore selected user's commits from v_summary
+      // restore selected user's commits and file type colors from v_summary
       this.$root.$emit('restoreCommits', this.info);
     },
 
