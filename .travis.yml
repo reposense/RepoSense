@@ -6,7 +6,7 @@ matrix:
         - '8'
       install:
         - npm i -g markbind-cli
-      script: cd docs && markbind build
+      script: cd docs && markbind build --baseUrl /RepoSense
       deploy:
         provider: pages
         skip_cleanup: true
