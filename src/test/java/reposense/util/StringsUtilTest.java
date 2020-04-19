@@ -1,7 +1,6 @@
 package reposense.util;
 
 import java.io.File;
-import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -16,7 +15,7 @@ public class StringsUtilTest {
             .getResource("StringsUtilTest").getFile()).toPath().toAbsolutePath();
 
     @Test
-    public void filterText_standardInput_success() throws IOException {
+    public void filterText_standardInput_success() throws Exception {
         Path gitBlameStandardOutputFile =
                 Paths.get(STRINGS_UTIL_TEST_DIRECTORY.toString(), "standardBlameOutput.txt");
         List<String> lines = Files.readAllLines(gitBlameStandardOutputFile);
