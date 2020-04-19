@@ -190,7 +190,6 @@ window.app = new window.Vue({
       this.isTabActive = false;
       window.addHash('tabOpen', this.isTabActive);
       window.removeHash('tabType');
-      this.removeZoomHashes();
       this.removeAuthorshipHashes();
       window.encodeHash();
     },
@@ -201,19 +200,7 @@ window.app = new window.Vue({
       window.removeHash('authorshipIsMergeGroup');
     },
 
-    removeZoomHashes() {
-      window.removeHash('zA');
-      window.removeHash('zR');
-      window.removeHash('zACS');
-      window.removeHash('zS');
-      window.removeHash('zU');
-      window.removeHash('zFGS');
-      window.removeHash('zFTF');
-      window.removeHash('zMG');
-    },
-
     updateTabAuthorship(obj) {
-      this.removeZoomHashes();
       this.tabInfo.tabAuthorship = Object.assign({}, obj);
       this.activateTab('authorship');
     },

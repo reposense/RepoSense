@@ -110,12 +110,27 @@ window.vZoom = {
       this.expandedCommitMessagesCount = document.getElementsByClassName('commit-message message-body active')
           .length;
     },
+
+    removeZoomHashes() {
+      window.removeHash('zA');
+      window.removeHash('zR');
+      window.removeHash('zACS');
+      window.removeHash('zS');
+      window.removeHash('zU');
+      window.removeHash('zFGS');
+      window.removeHash('zFTF');
+      window.removeHash('zMG');
+      window.encodeHash();
+    },
   },
   created() {
     this.initiate();
   },
   mounted() {
     this.updateExpandedCommitMessagesCount();
+  },
+  beforeDestroy() {
+    this.removeZoomHashes();
   },
   components: {
     vRamp: window.vRamp,
