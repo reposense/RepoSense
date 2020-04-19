@@ -3,7 +3,7 @@ matrix:
     - name: Deploy MarkBind to gh pages
       language: node
       node_js:
-        - '8'
+        - lts/*
       install:
         - npm i -g markbind-cli
       script: cd docs && markbind build --baseUrl /RepoSense
