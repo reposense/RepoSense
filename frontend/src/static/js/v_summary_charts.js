@@ -243,6 +243,7 @@ window.vSummaryCharts = {
         zSince: since,
         zUntil: until,
         zIsMerge: isMergeGroup,
+        zFileTypeColors: this.fileTypeColors,
       });
     },
 
