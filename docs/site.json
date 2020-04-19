@@ -1,5 +1,5 @@
 {
-  "baseUrl": "",
+  "baseUrl": "/RepoSense",
   "titlePrefix": "RepoSense",
   "ignore": [
     "_markbind/layouts/*",
