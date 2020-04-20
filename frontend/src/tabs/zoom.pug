@@ -55,8 +55,8 @@
         option(v-bind:value='true') Descending
         option(v-bind:value='false') Ascending
       label.medium-font order
-    .mui-checkbox
-      input.medium-font(type="checkbox", v-model="shouldShowFileTypes")
+    label
+      input.mui-checkbox.medium-font(type="checkbox", v-model="shouldShowFileTypes")
       span.medium-font show file type in commits
 
   .zoom__day(v-for="day in filteredUser.commits", v-bind:key="day.date")
