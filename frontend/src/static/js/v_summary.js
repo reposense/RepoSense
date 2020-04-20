@@ -855,6 +855,10 @@ window.vSummary = {
       info.zUser = zoomFilteredUser;
       info.zFileTypeColors = this.fileTypeColors;
     });
+
+    this.$root.$on('restoreFileTypeColors', (info) => {
+      info.fileTypeColors = this.fileTypeColors;
+    });
   },
   components: {
     vSummaryCharts: window.vSummaryCharts,
