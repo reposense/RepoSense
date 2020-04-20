@@ -30,6 +30,7 @@ public class CommitInfoExtractor {
     public static List<CommitInfo> extractCommitInfos(RepoConfiguration config) {
         logger.info(String.format(MESSAGE_START_EXTRACTING_COMMIT_INFO, config.getLocation(), config.getBranch()));
 
+        System.out.println("before checkout");
         GitCheckout.checkoutBranch(config.getRepoRoot(), config.getBranch());
         System.out.println("after checkout");
         List<CommitInfo> repoCommitInfos = new ArrayList<>();
