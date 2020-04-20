@@ -30,6 +30,7 @@ public class CommitInfoAnalyzerTest extends GitTestTemplate {
     private static final FileType FILETYPE_JAVA = new FileType("java", Collections.singletonList("**java"));
     private static final FileType FILETYPE_MD = new FileType("md", Collections.singletonList("**md"));
     private static final FileType FILETYPE_JSON = new FileType("json", Collections.singletonList("**json"));
+    private static final FileType FILETYPE_TXT = new FileType("txt", Collections.singletonList("**txt"));
 
     @Before
     public void before() throws Exception {
@@ -282,6 +283,35 @@ public class CommitInfoAnalyzerTest extends GitTestTemplate {
         List<CommitInfo> actualCommitInfos = CommitInfoExtractor.extractCommitInfos(config);
         List<CommitResult> actualCommitResults = CommitInfoAnalyzer.analyzeCommits(actualCommitInfos, config);
 
+        Assert.assertEquals(expectedCommitResults, actualCommitResults);
+    }
+
+    @Test
+    public void analyzeCommits_fileNameWithSpecialChars_success() throws Exception {
+        Author author = new Author(JAMES_ALTERNATIVE_AUTHOR_NAME);
+        List<CommitResult> expectedCommitResults = new ArrayList<>();
+        Map<FileType, ContributionPair> firstFileTypeAndContributionMap = new HashMap<>();
+        firstFileTypeAndContributionMap.put(FILETYPE_TXT, new ContributionPair(1, 0));
+        expectedCommitResults.add(new CommitResult(author, "cfb3c8dc477cb0af19fce8bead4d278f35afa396",
+                parseGitStrictIsoDate("2020-04-20T12:09:39+08:00"),
+                "Create file name without special chars",
+                "", null, firstFileTypeAndContributionMap));
+        Map<FileType, ContributionPair> secondFileTypeAndContributionMap = new HashMap<>();
+        secondFileTypeAndContributionMap.put(FILETYPE_TXT, new ContributionPair(0, 0));
+        expectedCommitResults.add(new CommitResult(author, "17bde492e9a80d8699ad193cf87e677341f936cc",
+                parseGitStrictIsoDate("2020-04-20T12:17:40+08:00"),
+                "Rename to file name with special chars",
+                "", null, secondFileTypeAndContributionMap));
+
+        config.setBranch("1244-CommitInfoAnalyzerTest-analyzeCommits_fileNameWithSpecialChars_success");
+        config.setAuthorList(Collections.singletonList(author));
+        config.setSinceDate(new GregorianCalendar(2020, Calendar.APRIL, 20).getTime());
+        config.setUntilDate(new GregorianCalendar(2020, Calendar.APRIL, 21).getTime());
+
+        List<CommitInfo> actualCommitInfos = CommitInfoExtractor.extractCommitInfos(config);
+        List<CommitResult> actualCommitResults = CommitInfoAnalyzer.analyzeCommits(actualCommitInfos, config);
+
+        Assert.assertEquals(2, actualCommitInfos.size());
         Assert.assertEquals(expectedCommitResults, actualCommitResults);
     }
 
