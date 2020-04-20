@@ -246,17 +246,9 @@ window.vSummaryCharts = {
         zSince: since,
         zUntil: until,
         zIsMerge: isMergeGroup,
-<<<<<<< HEAD
-        zSorting: sortingOption,
-        zSortingWithin: sortingWithinOption,
-        zIsSortingDsc: isSortingDsc === 'dsc',
-        zIsSortingWithinDsc: isSortingWithinDsc === 'dsc',
       };
 
       this.$store.commit('updateTabZoomInfo', info);
-=======
-      });
->>>>>>> f040ad94dcf9b4e2b18ae6ea808b03286c8ba224
     },
 
     getPercentile(index) {
