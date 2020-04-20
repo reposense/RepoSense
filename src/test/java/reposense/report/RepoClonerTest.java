@@ -1,14 +1,11 @@
 package reposense.report;
 
-import java.io.IOException;
-
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Test;
 
 import reposense.model.RepoConfiguration;
 import reposense.model.RepoLocation;
-import reposense.parser.InvalidLocationException;
 import reposense.util.FileUtil;
 
 public class RepoClonerTest {
@@ -17,13 +14,13 @@ public class RepoClonerTest {
     private static final String OUTPUT_PATH = "repocloner_test";
 
     @After
-    public void after() throws IOException {
+    public void after() throws Exception {
         FileUtil.deleteDirectory(FileUtil.REPOS_ADDRESS);
         FileUtil.deleteDirectory(OUTPUT_PATH);
     }
 
     @Test
-    public void repoCloner_emptyRepo_failsGracefully() throws InvalidLocationException {
+    public void repoCloner_emptyRepo_failsGracefully() throws Exception {
         RepoConfiguration emptyRepositoryRepoConfig =
                 new RepoConfiguration(new RepoLocation(TEST_REPO_EMPTY_GIT_LOCATION));
 
