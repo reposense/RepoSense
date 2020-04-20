@@ -30,13 +30,10 @@ public class CommitInfoExtractor {
     public static List<CommitInfo> extractCommitInfos(RepoConfiguration config) {
         logger.info(String.format(MESSAGE_START_EXTRACTING_COMMIT_INFO, config.getLocation(), config.getBranch()));
 
-        System.out.println("before checkout");
         GitCheckout.checkoutBranch(config.getRepoRoot(), config.getBranch());
-        System.out.println("after checkout");
         List<CommitInfo> repoCommitInfos = new ArrayList<>();
 
         for (Author author : config.getAuthorList()) {
-            System.out.println("before git log of author " + author.getDisplayName());
             String gitLogResult = GitLog.getWithFiles(config, author);
             List<CommitInfo> authorCommitInfos = parseGitLogResults(gitLogResult);
             repoCommitInfos.addAll(authorCommitInfos);

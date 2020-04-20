@@ -11,6 +11,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.junit.Assert;
+import org.junit.Assume;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -22,6 +23,7 @@ import reposense.model.CommitHash;
 import reposense.model.FileType;
 import reposense.model.FileTypeTest;
 import reposense.template.GitTestTemplate;
+import reposense.util.SystemUtil;
 
 public class CommitInfoAnalyzerTest extends GitTestTemplate {
     private static final int NUMBER_EUGENE_COMMIT = 1;
@@ -288,6 +290,9 @@ public class CommitInfoAnalyzerTest extends GitTestTemplate {
 
     @Test
     public void analyzeCommits_fileNameWithSpecialChars_success() throws Exception {
+        // Runs test only on non Windows (Unix) operating systems as the file names are invalid in windows
+        Assume.assumeTrue(!SystemUtil.isWindows());
+
         Author author = new Author(JAMES_ALTERNATIVE_AUTHOR_NAME);
         List<CommitResult> expectedCommitResults = new ArrayList<>();
         Map<FileType, ContributionPair> firstFileTypeAndContributionMap = new HashMap<>();

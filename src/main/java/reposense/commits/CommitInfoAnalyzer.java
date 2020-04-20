@@ -158,7 +158,6 @@ public class CommitInfoAnalyzer {
             // moved file has the format: fileA => newPosition/fileA
             filteredFilePath = filteredFilePath.substring(filePath.indexOf(MOVED_FILE_INDICATION)
                     + MOVED_FILE_INDICATION.length());
-
             // Removes the trailing '}' character from the file name, as renamed file names have ending '}' character.
             filteredFilePath = filteredFilePath.replaceAll("}$", "");
         }
