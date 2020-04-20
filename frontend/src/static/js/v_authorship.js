@@ -313,7 +313,7 @@ window.vAuthorship = {
       return numLinesModified;
     },
 
-    numberOfBinaryFiles() {
+    binaryFilesCount() {
       return this.files.filter((file) => file.isBinary).length;
     },
   },

@@ -51,13 +51,13 @@
               span(v-bind:title="getFileTypeBlankLineInfo(fileType)")
                 span {{ fileType }}: {{ getFileTypeExistingLinesObj[fileType] }}&nbsp;
                 span.bloc ({{ fileTypeBlankLinesObj[fileType] }})
-          label(v-if="numberOfBinaryFiles > 0")
+          label(v-if="binaryFilesCount > 0")
             input.mui-checkbox--fileType(type="checkbox", v-bind:checked="isBinaryFilesChecked",
               v-on:change="selectBinaryFile")
             span.binary-fileType(
-              v-bind:title="this.numberOfBinaryFiles + ' binary files (not included in total line count)'"
+              v-bind:title="this.binaryFilesCount + ' binary files (not included in total line count)'"
             )
-              span Binary: {{ numberOfBinaryFiles }}&nbsp;
+              span Binary: {{ binaryFilesCount }}&nbsp;
 
   .files(v-if="isLoaded")
     .empty(v-if="files.length === 0") nothing to see here :(

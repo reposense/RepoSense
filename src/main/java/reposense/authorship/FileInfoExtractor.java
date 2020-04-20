@@ -93,7 +93,6 @@ public class FileInfoExtractor {
     public static List<FileInfo> getEditedFileInfos(RepoConfiguration config, String lastCommitHash) {
         List<FileInfo> fileInfos = new ArrayList<>();
         String fullDiffResult = GitDiff.diffCommit(config.getRepoRoot(), lastCommitHash);
-
         // no diff between the 2 commits, return an empty list
         if (fullDiffResult.isEmpty()) {
             return fileInfos;
@@ -139,7 +138,7 @@ public class FileInfoExtractor {
     public static Set<Path> getFiles(RepoConfiguration repoConfig, boolean isBinaryFile) {
         List<String> modifiedFileList = GitDiff.getModifiedFilesList(Paths.get(repoConfig.getRepoRoot()));
 
-        // Gets rid of files with invalid directory name and filters by whether file is binary.
+        // Gets rid of files with invalid directory name and filters by the {@code isBinaryFile} flag
         return modifiedFileList.stream()
                 .filter(file -> isBinaryFile == file.startsWith(BINARY_FILE_LINE_DIFF_RESULT))
                 .map(file -> file.split("\t")[2])
