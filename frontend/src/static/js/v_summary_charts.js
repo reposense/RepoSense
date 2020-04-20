@@ -201,7 +201,7 @@ window.vSummaryCharts = {
 
     // triggering opening of tabs //
     openTabAuthorship(user, repo, index) {
-      const { minDate, maxDate } = this;
+      const { minDate, maxDate, fileTypeColors } = this;
 
       this.$parent.$emit('view-authorship', {
         minDate,
@@ -213,6 +213,7 @@ window.vSummaryCharts = {
         location: this.getRepoLink(repo[index]),
         repoIndex: index,
         totalCommits: user.totalCommits,
+        fileTypeColors,
       });
     },
 
@@ -229,8 +230,7 @@ window.vSummaryCharts = {
 
     openTabZoom(user, since, until) {
       const {
-        avgCommitSize, filterGroupSelection, filterTimeFrame, isMergeGroup, sortingOption,
-        sortingWithinOption, isSortingDsc, isSortingWithinDsc,
+        avgCommitSize, filterGroupSelection, filterTimeFrame, isMergeGroup,
       } = this;
       const clonedUser = Object.assign({}, user); // so that changes in summary won't affect zoom
       this.$parent.$emit('view-zoom', {
@@ -244,10 +244,6 @@ window.vSummaryCharts = {
         zSince: since,
         zUntil: until,
         zIsMerge: isMergeGroup,
-        zSorting: sortingOption,
-        zSortingWithin: sortingWithinOption,
-        zIsSortingDsc: isSortingDsc === 'dsc',
-        zIsSortingWithinDsc: isSortingWithinDsc === 'dsc',
       });
     },
 
