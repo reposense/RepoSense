@@ -1,7 +1,6 @@
 package reposense.model;
 
 import java.io.File;
-import java.io.IOException;
 import java.nio.file.Path;
 import java.util.Arrays;
 import java.util.List;
@@ -41,18 +40,18 @@ public class StandaloneConfigTest extends GitTestTemplate {
     private static StandaloneConfig validStandaloneConfig;
 
     @BeforeClass
-    public static void setUp() throws IOException {
+    public static void setUp() throws Exception {
         validStandaloneConfig = new StandaloneConfigJsonParser().parse(VALID_CONFIG);
     }
 
     @Test
-    public void standaloneConfig_validJson_success() throws IOException {
+    public void standaloneConfig_validJson_success() throws Exception {
         StandaloneConfig standaloneConfig = new StandaloneConfigJsonParser().parse(VALID_CONFIG);
         config.update(standaloneConfig);
     }
 
     @Test
-    public void standaloneConfig_specialCharacterAuthor_success() throws IOException {
+    public void standaloneConfig_specialCharacterAuthor_success() throws Exception {
         StandaloneConfig standaloneConfig = new StandaloneConfigJsonParser().parse(SPECIAL_CHARACTER_AUTHOR_CONFIG);
         config.update(standaloneConfig);
 
@@ -60,7 +59,7 @@ public class StandaloneConfigTest extends GitTestTemplate {
     }
 
     @Test
-    public void standaloneConfig_trailingCommasInList_success() throws IOException {
+    public void standaloneConfig_trailingCommasInList_success() throws Exception {
         StandaloneConfig standaloneConfig = new StandaloneConfigJsonParser().parse(AUTHORS_TRAILING_COMMAS_CONFIG);
         config.update(standaloneConfig);
 
@@ -68,24 +67,24 @@ public class StandaloneConfigTest extends GitTestTemplate {
     }
 
     @Test(expected = JsonSyntaxException.class)
-    public void standaloneConfig_trailingCommasInMaps_throwsJsonSyntaxException() throws IOException {
+    public void standaloneConfig_trailingCommasInMaps_throwsJsonSyntaxException() throws Exception {
         new StandaloneConfigJsonParser().parse(LITHIUMLKID_TRAILING_COMMAS_CONFIG);
     }
 
     @Test(expected = IllegalArgumentException.class)
-    public void standaloneConfig_invalidIgnoreGlob_throwIllegalArgumentException() throws IOException {
+    public void standaloneConfig_invalidIgnoreGlob_throwIllegalArgumentException() throws Exception {
         StandaloneConfig standaloneConfig = new StandaloneConfigJsonParser().parse(INVALID_IGNOREGLOB_CONFIG);
         config.update(standaloneConfig);
     }
 
     @Test(expected = IllegalArgumentException.class)
-    public void standaloneConfig_invalidFormats_throwIllegalArgumentException() throws IOException {
+    public void standaloneConfig_invalidFormats_throwIllegalArgumentException() throws Exception {
         StandaloneConfig standaloneConfig = new StandaloneConfigJsonParser().parse(INVALID_FORMATS_CONFIG);
         config.update(standaloneConfig);
     }
 
     @Test(expected = IllegalArgumentException.class)
-    public void standaloneConfig_invalidIgnoreCommit_throwIllegalArgumentException() throws IOException {
+    public void standaloneConfig_invalidIgnoreCommit_throwIllegalArgumentException() throws Exception {
         StandaloneConfig standaloneConfig = new StandaloneConfigJsonParser().parse(INVALID_IGNORECOMMIT_CONFIG);
         config.update(standaloneConfig);
     }

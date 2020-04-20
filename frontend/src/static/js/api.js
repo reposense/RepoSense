@@ -2,6 +2,7 @@
 window.$ = (id) => document.getElementById(id);
 window.enquery = (key, val) => `${key}=${encodeURIComponent(val)}`;
 window.BASE_URL = 'https://github.com';
+window.DAY_IN_MS = (1000 * 60 * 60 * 24);
 window.REPOS = {};
 window.hashParams = {};
 window.isMacintosh = navigator.platform.includes('Mac');
@@ -18,6 +19,23 @@ window.deactivateAllOverlays = function deactivateAllOverlays() {
 
 window.getDateStr = function getDateStr(date) {
   return (new Date(date)).toISOString().split('T')[0];
+};
+
+window.getHexToRGB = function getHexToRGB(color) {
+  // to convert color from hex code to rgb format
+  const arr = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(color);
+  return arr.slice(1).map((val) => parseInt(val, 16));
+};
+
+window.getFontColor = function getFontColor(color) {
+  const result = window.getHexToRGB(color);
+  const red = result[0];
+  const green = result[1];
+  const blue = result[2];
+
+  const luminosity = 0.2126 * red + 0.7152 * green + 0.0722 * blue; // per ITU-R BT.709
+
+  return luminosity < 120 ? '#ffffff' : '#000000';
 };
 
 window.addHash = function addHash(newKey, newVal) {
@@ -166,6 +184,8 @@ window.api = {
             fileTypeContribution: commits.authorFileTypeContributionMap[author],
           };
 
+          this.setContributionOfCommitResults(obj.dailyCommits);
+
           const searchParams = [
               repo.displayName,
               obj.displayName, author,
@@ -193,5 +213,17 @@ window.api = {
           window.REPOS[repoName].files = files;
           return files;
         });
+  },
+
+  // calculate and set the contribution of each commitResult, since not provided in json file
+  setContributionOfCommitResults(dailyCommits) {
+    dailyCommits.forEach((commit) => {
+      commit.commitResults.forEach((result) => {
+        result.insertions = Object.values(result.fileTypesAndContributionMap)
+            .reduce((acc, fileType) => acc + fileType.insertions, 0);
+        result.deletions = Object.values(result.fileTypesAndContributionMap)
+            .reduce((acc, fileType) => acc + fileType.deletions, 0);
+      });
+    });
   },
 };

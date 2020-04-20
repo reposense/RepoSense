@@ -1,7 +1,6 @@
 package reposense.parser;
 
 import java.io.File;
-import java.io.IOException;
 import java.nio.file.Path;
 import java.util.Arrays;
 
@@ -51,7 +50,7 @@ public class StandaloneConfigJsonParserTest {
     private static RepoConfiguration expectedFullRepoConfig;
 
     @BeforeClass
-    public static void setUp() throws InvalidLocationException {
+    public static void setUp() throws Exception {
         Author author = new Author("yong24s");
         author.setAuthorAliases(Arrays.asList("Yong Hao TENG"));
         author.setIgnoreGlobList(Arrays.asList("**.css", "**.html", "**.jade", "**.js"));
@@ -76,39 +75,39 @@ public class StandaloneConfigJsonParserTest {
     }
 
     @Test
-    public void standaloneConfig_parseEmptyTextFile_success() throws IOException {
+    public void standaloneConfig_parseEmptyTextFile_success() throws Exception {
         new StandaloneConfigJsonParser().parse(STANDALONE_CONFIG_EMPTY_TEXT_FILE);
     }
 
     @Test
-    public void standaloneConfig_parseEmptyJsonFile_success() throws IOException {
+    public void standaloneConfig_parseEmptyJsonFile_success() throws Exception {
         new StandaloneConfigJsonParser().parse(STANDALONE_CONFIG_EMPTY_JSON_FILE);
     }
 
     @Test
-    public void standaloneConfig_ignoresUnknownProperty_success() throws IOException {
+    public void standaloneConfig_ignoresUnknownProperty_success() throws Exception {
         new StandaloneConfigJsonParser().parse(STANDALONE_UNKNOWN_PROPERTY_CONFIG);
     }
 
     @Test
-    public void standaloneConfig_correctConfig_success() throws IOException, InvalidLocationException {
+    public void standaloneConfig_correctConfig_success() throws Exception {
         StandaloneConfig config = new StandaloneConfigJsonParser().parse(STANDALONE_CONFIG_FULL);
         assertSameConfig(expectedFullRepoConfig, config);
     }
 
     @Test
-    public void standaloneConfig_githubIdOnlyConfig_success() throws IOException, InvalidLocationException {
+    public void standaloneConfig_githubIdOnlyConfig_success() throws Exception {
         StandaloneConfig config = new StandaloneConfigJsonParser().parse(STANDALONE_CONFIG_GITHUBID_ONLY);
         assertSameConfig(expectedGithubIdOnlyRepoconfig, config);
     }
 
     @Test(expected = JsonSyntaxException.class)
-    public void standaloneConfig_malformedJsonFile_throwsJsonSyntaxException() throws IOException {
+    public void standaloneConfig_malformedJsonFile_throwsJsonSyntaxException() throws Exception {
         new StandaloneConfigJsonParser().parse(STANDALONE_MALFORMED_CONFIG);
     }
 
     private void assertSameConfig(RepoConfiguration expectedRepoConfig, StandaloneConfig actualStandaloneConfig)
-            throws InvalidLocationException {
+            throws Exception {
         RepoConfiguration actualRepoConfig = new RepoConfiguration(new RepoLocation(TEST_DUMMY_LOCATION));
         actualRepoConfig.update(actualStandaloneConfig);
         TestUtil.compareRepoConfig(expectedRepoConfig, actualRepoConfig);
