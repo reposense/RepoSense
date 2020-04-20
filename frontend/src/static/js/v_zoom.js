@@ -7,6 +7,7 @@ window.vZoom = {
       expandedCommitMessagesCount: this.totalCommitMessageBodyCount,
       commitsSortType: 'time',
       toReverseSortedCommits: true,
+      shouldShowFileTypes: false,
     };
   },
 

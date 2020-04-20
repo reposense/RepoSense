@@ -96,6 +96,14 @@
   }
 }
 
+.fileTypeLabel {
+  border-radius: 5px;
+  display: inline-block;
+  font-weight: bold;
+  margin: 0 5px 5px 0;
+  padding: 0 5px;
+}
+
 .toolbar {
   cursor: pointer;
   float: right;
