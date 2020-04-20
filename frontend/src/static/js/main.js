@@ -190,14 +190,7 @@ window.app = new window.Vue({
       this.isTabActive = false;
       window.addHash('tabOpen', this.isTabActive);
       window.removeHash('tabType');
-      this.removeAuthorshipHashes();
       window.encodeHash();
-    },
-
-    removeAuthorshipHashes() {
-      window.removeHash('tabAuthor');
-      window.removeHash('tabRepo');
-      window.removeHash('authorshipIsMergeGroup');
     },
 
     updateTabAuthorship(obj) {
@@ -205,7 +198,6 @@ window.app = new window.Vue({
       this.activateTab('authorship');
     },
     updateTabZoom(obj) {
-      this.removeAuthorshipHashes();
       this.tabInfo.tabZoom = Object.assign({}, obj);
       this.activateTab('zoom');
     },
