@@ -8,7 +8,7 @@
       v-bind:href="info.location", target="_blank",
       v-bind:title="'Click to open the repo'"
     ) {{ info.repo }}
-    .author
+    .author(v-if="!info.isMergeGroup")
       span &#8627; &nbsp;
       span {{ info.name }} ({{ info.author }})
     .period
@@ -35,22 +35,28 @@
           input#search.medium-font(type="search", placeholder="Filter by glob", v-on:change="updateFilterSearch",
             v-on:click="indicateSearchBar")
           button#submit-button.medium-font(type="submit", v-on:click="indicateSearchBar") Filter
-      .fileType
+      .fileTypes
         input.radio-button--checkbox(type="radio", value="checkboxes", v-model="filterType")
         .checkboxes.mui-form--inline(v-if="files.length > 0")
-          label
+          label(style='background-color: #000000; color: #ffffff')
             input.mui-checkbox--fileType(type="checkbox", v-model="isSelectAllChecked")
             span(v-bind:title="getTotalFileBlankLineInfo()")
-              span.select.medium-font All:&nbsp;
-              span.loc.medium-font {{ totalLineCount }}&nbsp;
-              span.bloc.medium-font ({{ totalBlankLineCount }})
+              span All&nbsp;
+              span {{ totalLineCount }}&nbsp;
+              span ({{ totalBlankLineCount }})&nbsp;
           template(v-for="fileType in Object.keys(getFileTypeExistingLinesObj)")
-            label(v-bind:key="fileType")
+            label(
+              v-bind:key="fileType",
+              v-bind:style="{\
+                'background-color': info.fileTypeColors[fileType],\
+                'color': this.getFontColor(info.fileTypeColors[fileType])\
+                }"
+            )
               input.mui-checkbox--fileType(type="checkbox", v-bind:id="fileType", v-bind:value="fileType",
                 v-on:click="indicateCheckBoxes", v-model="selectedFileTypes")
               span(v-bind:title="getFileTypeBlankLineInfo(fileType)")
-                span {{ fileType }}: {{ getFileTypeExistingLinesObj[fileType] }}&nbsp;
-                span.bloc ({{ fileTypeBlankLinesObj[fileType] }})
+                span {{ fileType }}&nbsp;{{ getFileTypeExistingLinesObj[fileType] }}&nbsp;
+                span ({{ fileTypeBlankLinesObj[fileType] }})&nbsp;
 
   .files(v-if="isLoaded")
     .empty(v-if="files.length === 0") nothing to see here :(
@@ -58,17 +64,23 @@
       .file(v-bind:key="file.path")
         .title
           span.path(v-on:click="toggleFileActiveProperty(file)") {{ file.path }}&nbsp;
-          span.loc ({{ file.lineCount }} lines)
-          a(
-            v-bind:href="getFileLink(file, 'commits')", target="_blank",
-            title="click to view the history view of file"
-          )
-            i.button.fas.fa-history
-          a(
-            v-bind:href="getFileLink(file, 'blame')", target="_blank",
-            title="click to view the blame view of file"
-          )
-            i.button.fas.fa-user-edit
+          span.icons
+            a(
+              v-bind:href="getFileLink(file, 'commits')", target="_blank",
+              title="click to view the history view of file"
+            )
+              i.button.fas.fa-history
+            a(
+              v-bind:href="getFileLink(file, 'blame')", target="_blank",
+              title="click to view the blame view of file"
+            )
+              i.button.fas.fa-user-edit
+          span.fileTypeLabel.medium-font(
+            v-bind:style="{\
+              'background-color': info.fileTypeColors[file.fileType],\
+              'color': this.getFontColor(info.fileTypeColors[file.fileType])\
+              }"
+          ) {{ file.fileType }}&nbsp;{{ file.lineCount }}&nbsp;({{ file.blankLineCount }})
         pre.hljs.file-content(v-if="file.wasCodeLoaded", v-show="file.active")
           template(v-for="segment in file.segments")
             v-segment(v-bind:segment="segment", v-bind:path="file.path")

@@ -3,7 +3,6 @@ package reposense.model;
 import static org.apache.tools.ant.types.Commandline.translateCommandline;
 
 import java.io.File;
-import java.io.IOException;
 import java.lang.reflect.Method;
 import java.nio.file.Path;
 import java.util.ArrayList;
@@ -16,15 +15,11 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import net.sourceforge.argparse4j.helper.HelpScreenException;
 import reposense.RepoSense;
 import reposense.git.GitClone;
-import reposense.git.exception.GitCloneException;
 import reposense.parser.ArgsParser;
 import reposense.parser.AuthorConfigCsvParser;
 import reposense.parser.GroupConfigCsvParser;
-import reposense.parser.InvalidLocationException;
-import reposense.parser.ParseException;
 import reposense.parser.RepoConfigCsvParser;
 import reposense.report.ReportGenerator;
 import reposense.util.FileUtil;
@@ -89,7 +84,7 @@ public class RepoConfigurationTest {
     private static RepoConfiguration repoDeltaStandaloneConfig;
 
     @BeforeClass
-    public static void setUp() throws InvalidLocationException {
+    public static void setUp() throws Exception {
         FIRST_AUTHOR.setAuthorAliases(FIRST_AUTHOR_ALIASES);
         SECOND_AUTHOR.setAuthorAliases(SECOND_AUTHOR_ALIASES);
         THIRD_AUTHOR.setAuthorAliases(THIRD_AUTHOR_ALIASES);
@@ -125,12 +120,12 @@ public class RepoConfigurationTest {
     }
 
     @Before
-    public void cleanRepoDirectory() throws IOException {
+    public void cleanRepoDirectory() throws Exception {
         FileUtil.deleteDirectory(FileUtil.REPOS_ADDRESS);
     }
 
     @Test
-    public void repoConfig_usesStandaloneConfig_success() throws GitCloneException, InvalidLocationException {
+    public void repoConfig_usesStandaloneConfig_success() throws Exception {
         RepoConfiguration actualConfig = new RepoConfiguration(new RepoLocation(TEST_REPO_DELTA), "master");
         GitClone.clone(actualConfig);
         ReportGenerator.updateRepoConfig(actualConfig);
@@ -174,8 +169,7 @@ public class RepoConfigurationTest {
     }
 
     @Test
-    public void repoConfig_ignoresStandaloneConfigInCli_success()
-            throws ParseException, GitCloneException, HelpScreenException {
+    public void repoConfig_ignoresStandaloneConfigInCli_success() throws Exception {
         RepoConfiguration expectedConfig = new RepoConfiguration(new RepoLocation(TEST_REPO_DELTA), "master");
         expectedConfig.setFormats(FileType.convertFormatStringsToFileTypes(CLI_FORMATS));
         expectedConfig.setStandaloneConfigIgnored(true);
@@ -334,7 +328,7 @@ public class RepoConfigurationTest {
     }
 
     @Test
-    public void repoConfig_emptyLocationDifferentBranch_equal() throws InvalidLocationException {
+    public void repoConfig_emptyLocationDifferentBranch_equal() throws Exception {
         RepoConfiguration emptyLocationEmptyBranchRepoConfig = new RepoConfiguration(new RepoLocation(""), "");
         RepoConfiguration emptyLocationDefaultBranchRepoConfig = new RepoConfiguration(new RepoLocation(""));
         RepoConfiguration emptyLocationWithBranchRepoConfig = new RepoConfiguration(new RepoLocation(""), "master");
@@ -344,7 +338,7 @@ public class RepoConfigurationTest {
     }
 
     @Test
-    public void repoConfig_sameLocationDifferentBranch_notEqual() throws InvalidLocationException {
+    public void repoConfig_sameLocationDifferentBranch_notEqual() throws Exception {
         RepoConfiguration validLocationValidBranchRepoConfig =
                 new RepoConfiguration(new RepoLocation(TEST_REPO_DELTA), "master");
         RepoConfiguration validLocationDefaultBranchRepoConfig =
@@ -394,8 +388,7 @@ public class RepoConfigurationTest {
     }
 
     @Test
-    public void repoConfig_minimalStandaloneConfig_fieldsAssignedDefaultValues() throws GitCloneException,
-            InvalidLocationException {
+    public void repoConfig_minimalStandaloneConfig_fieldsAssignedDefaultValues() throws Exception {
         RepoConfiguration expectedConfig = new RepoConfiguration(new RepoLocation(TEST_REPO_MINIMAL_STANDALONE_CONFIG),
                 "master");
 

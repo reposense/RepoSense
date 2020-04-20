@@ -22,7 +22,6 @@ import reposense.model.CommitHash;
 import reposense.model.FileTypeTest;
 import reposense.model.RepoConfiguration;
 import reposense.model.RepoLocation;
-import reposense.parser.InvalidLocationException;
 import reposense.util.FileUtil;
 
 /**
@@ -60,7 +59,7 @@ public class GitTestTemplate {
     protected static RepoConfiguration config;
 
     @Before
-    public void before() throws InvalidLocationException {
+    public void before() throws Exception {
         config = new RepoConfiguration(new RepoLocation(TEST_REPO_GIT_LOCATION), "master");
         config.setAuthorList(Collections.singletonList(getAlphaAllAliasAuthor()));
         config.setFormats(FileTypeTest.DEFAULT_TEST_FORMATS);
