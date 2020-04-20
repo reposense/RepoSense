@@ -201,7 +201,7 @@ window.vSummaryCharts = {
 
     // triggering opening of tabs //
     openTabAuthorship(user, repo, index) {
-      const { minDate, maxDate } = this;
+      const { minDate, maxDate, fileTypeColors } = this;
 
       const info = {
         minDate,
@@ -213,6 +213,7 @@ window.vSummaryCharts = {
         location: this.getRepoLink(repo[index]),
         repoIndex: index,
         totalCommits: user.totalCommits,
+        fileTypeColors,
       };
 
       this.$store.commit('updateTabAuthorshipInfo', info);
