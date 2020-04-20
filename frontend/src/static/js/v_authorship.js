@@ -210,8 +210,6 @@ window.vAuthorship = {
           return;
         }
 
-        totalLineCount += lineCnt;
-
         const out = {
           path: file.path,
           lineCount: lineCnt,
