@@ -13,6 +13,12 @@ window.getDateStr = function getDateStr(date) {
   return (new Date(date)).toISOString().split('T')[0];
 };
 
+function getHexToRGB(color) {
+  // to convert color from hex code to rgb format
+  const arr = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(color);
+  return arr.slice(1).map((val) => parseInt(val, 16));
+}
+
 function dateRounding(datestr, roundDown) {
   // rounding up to nearest monday
   const date = new Date(datestr);
@@ -26,6 +32,17 @@ function dateRounding(datestr, roundDown) {
 
   return window.getDateStr(datems);
 }
+
+window.getFontColor = function getFontColor(color) {
+  const result = getHexToRGB(color);
+  const red = result[0];
+  const green = result[1];
+  const blue = result[2];
+
+  const luminosity = 0.2126 * red + 0.7152 * green + 0.0722 * blue; // per ITU-R BT.709
+
+  return luminosity < 120 ? '#ffffff' : '#000000';
+};
 
 window.vSummary = {
   props: ['repos', 'errorMessages'],
@@ -398,8 +415,8 @@ window.vSummary = {
     hasSimilarExistingColors(existingColors, newHex) {
       const deltaEThreshold = 11; // the lower limit of delta E to be similar, more info at http://zschuessler.github.io/DeltaE/learn/
       return existingColors.some((existingHex) => {
-        const existingRGB = this.getHexToRGB(existingHex);
-        const newRGB = this.getHexToRGB(newHex);
+        const existingRGB = getHexToRGB(existingHex);
+        const newRGB = getHexToRGB(newHex);
         return this.deltaE(existingRGB, newRGB) < deltaEThreshold;
       });
     },
@@ -472,23 +489,6 @@ window.vSummary = {
       });
 
       this.checkedFileTypes = this.fileTypes.slice();
-    },
-
-    getHexToRGB(color) {
-      // to convert color from hex code to rgb format
-      const arr = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(color);
-      return arr.slice(1).map((val) => parseInt(val, 16));
-    },
-
-    getFontColor(color) {
-      const result = this.getHexToRGB(color);
-      const red = result[0];
-      const green = result[1];
-      const blue = result[2];
-
-      const luminosity = 0.2126 * red + 0.7152 * green + 0.0722 * blue; // per ITU-R BT.709
-
-      return luminosity < 120 ? '#ffffff' : '#000000';
     },
 
     splitCommitsWeek(user, sinceDate, untilDate) {
@@ -853,6 +853,10 @@ window.vSummary = {
     this.$root.$on('restoreCommits', (info) => {
       const zoomFilteredUser = this.restoreZoomFiltered(info);
       info.zUser = zoomFilteredUser;
+    });
+
+    this.$root.$on('restoreFileTypeColors', (info) => {
+      info.fileTypeColors = this.fileTypeColors;
     });
   },
   components: {

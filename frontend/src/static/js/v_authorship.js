@@ -132,6 +132,10 @@ window.vAuthorship = {
         window.api.loadAuthorship(this.info.repo)
             .then((files) => this.processFiles(files));
       }
+
+      if (!this.info.fileTypeColors) {
+        this.$root.$emit('restoreFileTypeColors', this.info);
+      }
     },
 
     getRepoProps(repo) {
@@ -254,6 +258,7 @@ window.vAuthorship = {
 
           const segmentInfo = this.splitSegments(file.lines);
           out.segments = segmentInfo.segments;
+          out.blankLineCount = segmentInfo.blankLineCount;
           totalBlankLineCount += segmentInfo.blankLineCount;
 
           this.addBlankLineCount(file.fileType, segmentInfo.blankLineCount,
