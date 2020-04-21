@@ -72,7 +72,7 @@
     .error-message-box__close-button(onclick="dismissTab(this)") &times;
     .error-message-box__message The following issues occurred when analyzing the following repositories:
     .error-message-box__failed-repo(v-for="errorBlock in errorMessages")
-      i.fas.fa-exclamation.mini-font
+      font-awesome-icon.mini-font(icon="exclamation")
       span.error-message-box__failed-repo--name {{ errorBlock.repoName }}
       .error-message-box__failed-repo--reason(
         v-if="errorBlock.errorMessage.startsWith('Unexpected error stack trace')"
