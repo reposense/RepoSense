@@ -167,6 +167,17 @@ window.vSummary = {
 
       return totalLines / totalCount;
     },
+
+    allGroupsMerged: {
+      get() {
+        return this.isAllGroupsMerged();
+      },
+      set(value) {
+        Object.keys(this.mergedGroupsMap).forEach((key) => {
+          this.mergedGroupsMap[key] = value;
+        });
+      },
+    },
   },
   methods: {
     // view functions //
@@ -436,18 +447,6 @@ window.vSummary = {
 
     handleExpandGroup(groupName) {
       this.mergedGroupsMap[groupName] = false;
-    },
-
-    handleMergeGroupCheckboxClicked() {
-      if (!this.isAllGroupsMerged()) {
-        Object.keys(this.mergedGroupsMap).forEach((key) => {
-          this.mergedGroupsMap[key] = true;
-        });
-      } else {
-        Object.keys(this.mergedGroupsMap).forEach((key) => {
-          this.mergedGroupsMap[key] = false;
-        });
-      }
     },
 
     mergeCommits(user, merged, dateToIndexMap) {

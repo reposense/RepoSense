@@ -64,9 +64,8 @@
         )
           input.summary-picker__checkbox.mui-checkbox(
             type="checkbox",
-            v-bind:checked="isAllGroupsMerged()",
-            v-bind:disabled="filterGroupSelection === 'groupByNone'",
-            v-on:click="handleMergeGroupCheckboxClicked()"
+            v-model="allGroupsMerged",
+            v-bind:disabled="filterGroupSelection === 'groupByNone'"
           )
           span merge all groups
   .error-message-box(v-if="Object.entries(errorMessages).length")
