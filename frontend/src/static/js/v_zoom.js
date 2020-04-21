@@ -78,8 +78,8 @@ window.vZoom = {
     setInfoHash() {
       const { addHash, encodeHash } = window;
       const {
-        zAvgCommitSize, zSince, zUntil, zFilterGroup, zTimeFrame, zIsMerge, zSorting,
-        zSortingWithin, zIsSortingDsc, zIsSortingWithinDsc, zAuthor, zRepo,
+        zAvgCommitSize, zSince, zUntil, zFilterGroup,
+        zTimeFrame, zIsMerge, zAuthor, zRepo,
       } = this.info;
 
       addHash('zA', zAuthor);
@@ -90,10 +90,6 @@ window.vZoom = {
       addHash('zMG', zIsMerge);
       addHash('zFTF', zTimeFrame);
       addHash('zFGS', zFilterGroup);
-      addHash('zSO', zSorting);
-      addHash('zSWO', zSortingWithin);
-      addHash('zSD', zIsSortingDsc);
-      addHash('zSWD', zIsSortingWithinDsc);
       encodeHash();
     },
 
