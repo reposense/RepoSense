@@ -53,7 +53,7 @@ describe('filter breakdown', () => {
         .should('not.contain.text', 'gradle');
 
     // all option should be unchecked
-    cy.get('#summary div.fileTypes input[id="gradle"]')
+    cy.get('#summary div.fileTypes input[id="all"]')
         .should('not.be.checked');
   });
 });
