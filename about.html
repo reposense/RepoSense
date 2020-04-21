@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="generator" content="MarkBind 2.14.1">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>RepoSense - About Us</title>
+  <link rel="stylesheet" href="markbind/css/bootstrap.min.css">
+  <link rel="stylesheet" href="markbind/css/bootstrap-vue.min.css">
+  <link rel="stylesheet" href="markbind/fontawesome/css/all.min.css">
+  <link rel="stylesheet" href="markbind/glyphicons/css/bootstrap-glyphicons.min.css">
+  <link rel="stylesheet" href="markbind/css/octicons.css">
+  <link rel="stylesheet" href="markbind/css/github.min.css">
+  <link rel="stylesheet" href="markbind/css/markbind.css">
+  <link rel="stylesheet" href="/RepoSense/plugins/markbind-plugin-anchors/markbind-plugin-anchors.css">
+  <link rel="stylesheet" href="markbind/layouts/default/styles.css">
+  <link rel="stylesheet" href="markbind/css/site-nav.css">
+  <link rel="stylesheet" href="markbind/css/page-nav.css">
+  <link rel="icon" href="/RepoSense/favicon.ico">
+</head>
+
+<body data-spy="scroll" data-target="#page-nav" data-offset="100">
+  <div id="app">
+    <header>
+      <navbar type="dark" placement="top" class="temp-navbar">
+        <a slot="brand" href="/RepoSense/index.html" title="Home" class="navbar-brand"><img width="30px" src="/RepoSense/favicon.ico"></a>
+        <li><a href="/RepoSense/index.html" class="nav-link">HOME</a></li>
+        <li><a href="/RepoSense/UserGuide.html" class="nav-link">USER GUIDE</a></li>
+        <li><a href="/RepoSense/DeveloperGuide.html" class="nav-link">DEVELOPER GUIDE</a></li>
+        <li><a href="/RepoSense/about.html" class="nav-link">ABOUT</a></li>
+        <li>
+          <a href="https://github.com/RepoSense/reposense" target="_blank" class="nav-link"><span><span aria-hidden="true" class="fab fa-github"></span></span></a></li>
+        <li slot="right">
+          <form class="navbar-form">
+            <searchbar :data="searchData" placeholder="Search" :on-hit="searchCallback" menu-align-right></searchbar>
+          </form>
+        </li>
+      </navbar>
+    </header>
+    <div id="flex-body">
+      <nav id="site-nav" class="navbar navbar-light bg-transparent">
+        <div class="border-right-grey nav-inner position-sticky slim-scroll">
+          <ul class="px-0 site-nav-list">
+            <li class="mt-2"><span class="lead"><strong><a href="/RepoSense/index.html" class="site-nav__a">Home</a></strong></span></li>
+            <li class="mt-2"><button class="dropdown-btn"><span class="lead"><strong>User Guide</strong></span>
+                <i class="dropdown-btn-icon">
+                  <span class="glyphicon glyphicon-menu-down" aria-hidden="true"></span></i></button>
+              <div class="dropdown-container">
+                <ul class="pl-3 site-nav-list">
+                  <li class="mt-2"><a href="/RepoSense/UserGuide.html#getting-started" class="site-nav__a">Getting Started</a></li>
+                  <li class="mt-2"><a href="/RepoSense/UserGuide.html#interpreting-the-report" class="site-nav__a">Interpreting the Report</a></li>
+                  <li class="mt-2"><a href="/RepoSense/UserGuide.html#configuring-a-repo-to-provide-additional-data-to-reposense" class="site-nav__a">Configuring a Repo to Provide Additional Data to RepoSense</a></li>
+                  <li class="mt-2"><a href="/RepoSense/UserGuide.html#customizing-the-analysis" class="site-nav__a">Customizing the Analysis</a></li>
+                  <li class="mt-2"><a href="/RepoSense/UserGuide.html#analyzing-multiple-repos" class="site-nav__a">Analyzing Multiple Repos</a></li>
+                  <li class="mt-2"><a href="/RepoSense/UserGuide.html#quickstart-reposense-with-netlify" class="site-nav__a">Quickstart RepoSense with Netlify</a></li>
+                  <li class="mt-2"><a href="/RepoSense/UserGuide.html#automating-publishing-of-the-report-to-github-pages" class="site-nav__a">Automate publishing of the report to GitHub Pages</a></li>
+                  <li class="mt-2"><a href="/RepoSense/UserGuide.html#faq" class="site-nav__a">FAQ</a></li>
+                </ul>
+              </div>
+            </li>
+            <li class="mt-2"><button class="dropdown-btn"><span class="lead"><strong>Developer Guide</strong></span>
+                <i class="dropdown-btn-icon">
+                  <span class="glyphicon glyphicon-menu-down" aria-hidden="true"></span></i></button>
+              <div class="dropdown-container">
+                <ul class="pl-3 site-nav-list">
+                  <li class="mt-2"><a href="/RepoSense/DeveloperGuide.html#setting-up" class="site-nav__a">Setting up</a></li>
+                  <li class="mt-2"><a href="/RepoSense/DeveloperGuide.html#documentation" class="site-nav__a">Documentation</a></li>
+                  <li class="mt-2"><a href="/RepoSense/DeveloperGuide.html#architecture" class="site-nav__a">Architecture</a></li>
+                  <li class="mt-2"><a href="/RepoSense/DeveloperGuide.html#html-report" class="site-nav__a">HTML Report</a></li>
+                </ul>
+              </div>
+            </li>
+            <li class="mt-2"><button class="dropdown-btn"><span class="lead"><strong>About</strong></span>
+                <i class="dropdown-btn-icon">
+                  <span class="glyphicon glyphicon-menu-down" aria-hidden="true"></span></i></button>
+              <div class="dropdown-container">
+                <ul class="pl-3 site-nav-list">
+                  <li class="mt-2"><a href="/RepoSense/about.html#current-team" class="site-nav__a">Current Team</a></li>
+                  <li class="mt-2"><a href="/RepoSense/about.html#past-members" class="site-nav__a">Past Members</a></li>
+                </ul>
+              </div>
+            </li>
+          </ul>
+        </div>
+      </nav>
+
+      <div id="content-wrapper">
+        <h1 id="reposense-project-team">RepoSense Project Team<a class="fa fa-anchor" href="#reposense-project-team" onclick="event.stopPropagation()"></a></h1>
+        <p>We are a team based in the <a href="http://www.comp.nus.edu.sg/">School of Computing, National University of Singapore</a>.</p>
+        <h2 id="current-team">Current Team<a class="fa fa-anchor" href="#current-team" onclick="event.stopPropagation()"></a></h2>
+        <h3 id="damith-c-rajapakse"><a href="http://www.comp.nus.edu.sg/~damithch">Damith C. Rajapakse</a><a class="fa fa-anchor" href="#damith-c-rajapakse" onclick="event.stopPropagation()"></a></h3>
+        <p><a href="https://avatars.githubusercontent.com/u/1673303?s=150&v=4" target="_self"><img src="https://avatars.githubusercontent.com/u/1673303?s=150&v=4" alt class="img-fluid"></a><br>
+          <strong>Role</strong>: Project Advisor</p>
+        <hr>
+        <h3 id="peh-xian-bin-eugene"><a href="https://github.com/eugenepeh">Peh Xian Bin, Eugene</a><a class="fa fa-anchor" href="#peh-xian-bin-eugene" onclick="event.stopPropagation()"></a></h3>
+        <p><a href="https://avatars.githubusercontent.com/u/19277206?s=150&v=4" target="_self"><img src="https://avatars.githubusercontent.com/u/19277206?s=150&v=4" alt class="img-fluid"></a><br>
+          <strong>Role</strong>: Project Lead [2018 May - ]<br></p>
+        <hr>
+        <h3 id="teng-yong-hao"><a href="https://github.com/yong24s">Teng Yong Hao</a><a class="fa fa-anchor" href="#teng-yong-hao" onclick="event.stopPropagation()"></a></h3>
+        <p><a href="https://avatars2.githubusercontent.com/u/2003406?s=150&v=4" target="_self"><img src="https://avatars2.githubusercontent.com/u/2003406?s=150&v=4" alt class="img-fluid"></a><br>
+          <strong>Role</strong>: Mentor [2018 Dec - ]<br>
+          Committer [2018 Aug - 2018 Dec]<br>
+          Contributor [2018 May - 2018 Aug]<br></p>
+        <hr>
+        <h3 id="wang-chao"><a href="https://github.com/fzdy1914">Wang Chao</a><a class="fa fa-anchor" href="#wang-chao" onclick="event.stopPropagation()"></a></h3>
+        <p><a href="https://avatars3.githubusercontent.com/u/35621726?s=150&v=4" target="_self"><img src="https://avatars3.githubusercontent.com/u/35621726?s=150&v=4" alt class="img-fluid"></a><br>
+          <strong>Role</strong>: Committer [2019 May - ]<br>
+          Contributor [2018 Dec - 2019 May]<br></p>
+        <hr>
+        <h3 id="james-pang-mun-wai"><a href="https://github.com/jamessspanggg">James Pang Mun Wai</a><a class="fa fa-anchor" href="#james-pang-mun-wai" onclick="event.stopPropagation()"></a></h3>
+        <p><a href="https://avatars1.githubusercontent.com/u/32864116?s=150&v=4" target="_self"><img src="https://avatars1.githubusercontent.com/u/32864116?s=150&v=4" alt class="img-fluid"></a><br>
+          <strong>Role</strong>: Contributor [2019 May - ]<br></p>
+        <hr>
+        <h3 id="lee-jin-yao"><a href="https://github.com/jylee-git">Lee Jin Yao</a><a class="fa fa-anchor" href="#lee-jin-yao" onclick="event.stopPropagation()"></a></h3>
+        <p><a href="https://avatars3.githubusercontent.com/u/35756209?s=150&v=4" target="_self"><img src="https://avatars3.githubusercontent.com/u/35756209?s=150&v=4" alt class="img-fluid"></a><br>
+          <strong>Role</strong>: Contributor [2019 May - ]<br></p>
+        <hr>
+        <h3 id="liu-yiwen"><a href="https://github.com/0blivious">Liu Yiwen</a><a class="fa fa-anchor" href="#liu-yiwen" onclick="event.stopPropagation()"></a></h3>
+        <p><strong>Role</strong>: Contributor [2019 August - ]<br></p>
+        <hr>
+        <h3 id="tejas-bhuwania"><a href="https://github.com/Tejas2805">Tejas Bhuwania</a><a class="fa fa-anchor" href="#tejas-bhuwania" onclick="event.stopPropagation()"></a></h3>
+        <p><a href="https://avatars2.githubusercontent.com/u/35946746?s=150&v=4" target="_self"><img src="https://avatars2.githubusercontent.com/u/35946746?s=150&v=4" alt class="img-fluid"></a><br>
+          <strong>Role</strong>: Contributor [2019 August - ]<br></p>
+        <hr>
+        <h3 id="anubhav"><a href="https://github.com/anubh-v">Anubhav</a><a class="fa fa-anchor" href="#anubhav" onclick="event.stopPropagation()"></a></h3>
+        <p><strong>Role</strong>: Contributor [2019 September - ]<br></p>
+        <hr>
+        <h3 id="ang-ze-yu"><a href="https://github.com/ang-zeyu">Ang Ze Yu</a><a class="fa fa-anchor" href="#ang-ze-yu" onclick="event.stopPropagation()"></a></h3>
+        <p><strong>Role</strong>: Contributor [2020 January - ]<br></p>
+        <hr>
+        <h3 id="chong-chee-yuan"><a href="https://github.com/ccyccyccy">Chong Chee Yuan</a><a class="fa fa-anchor" href="#chong-chee-yuan" onclick="event.stopPropagation()"></a></h3>
+        <p><strong>Role</strong>: Contributor [2020 January - ]<br></p>
+        <hr>
+        <h3 id="ni-tianzhen"><a href="https://github.com/niqiukun">Ni Tianzhen</a><a class="fa fa-anchor" href="#ni-tianzhen" onclick="event.stopPropagation()"></a></h3>
+        <p><strong>Role</strong>: Contributor [2020 January - ]<br></p>
+        <hr>
+        <h3 id="yash-chowdhary"><a href="https://github.com/yash-chowdhary">Yash Chowdhary</a><a class="fa fa-anchor" href="#yash-chowdhary" onclick="event.stopPropagation()"></a></h3>
+        <p><a href="https://avatars2.githubusercontent.com/u/21968718?s=150&v=4" target="_self"><img src="https://avatars2.githubusercontent.com/u/21968718?s=150&v=4" alt class="img-fluid"></a><br>
+          <strong>Role</strong>: Contributor [2020 January - ]<br></p>
+        <h2 id="past-members">Past Members<a class="fa fa-anchor" href="#past-members" onclick="event.stopPropagation()"></a></h2>
+        <h3 id="ma-tanghao"><a href="https://github.com/harryggg">Ma Tanghao</a><a class="fa fa-anchor" href="#ma-tanghao" onclick="event.stopPropagation()"></a></h3>
+        <p>Main developer for the initial version [2017 May - 2018 May]</p>
+        <hr>
+        <h3 id="ong-shu-peng"><a href="https://github.com/ongspxm">Ong Shu Peng</a><a class="fa fa-anchor" href="#ong-shu-peng" onclick="event.stopPropagation()"></a></h3>
+        <p><a href="https://avatars0.githubusercontent.com/u/1430854?s=150&v=4" target="_self"><img src="https://avatars0.githubusercontent.com/u/1430854?s=150&v=4" alt class="img-fluid"></a><br>
+          <strong>Role</strong>: Area Lead for UI [2018 Dec - 2019 May]<br>
+          Committer [2018 Aug - 2018 Dec]<br>
+          Contributor [2018 May - 2018 Aug]<br></p>
+        <hr>
+        <h3 id="tan-jun-an"><a href="https://github.com/yamidark">Tan Jun An</a><a class="fa fa-anchor" href="#tan-jun-an" onclick="event.stopPropagation()"></a></h3>
+        <p><a href="https://avatars3.githubusercontent.com/u/18352498?s=150&v=4" target="_self"><img src="https://avatars3.githubusercontent.com/u/18352498?s=150&v=4" alt class="img-fluid"></a><br>
+          <strong>Role</strong>: Area Lead for Code Quality [2018 Aug - 2019 April]<br>
+          Committer [2018 May - 2018 Aug]<br></p>
+        <hr>
+        <h3 id="aditya-agarwal"><a href="https://github.com/adityaa1998">Aditya Agarwal</a><a class="fa fa-anchor" href="#aditya-agarwal" onclick="event.stopPropagation()"></a></h3>
+        <p>Contributor [2018 May - 2018 Aug]</p>
+        <hr>
+        <h3 id="apoorva-ullas"><a href="https://github.com/apoorva17">Apoorva Ullas</a><a class="fa fa-anchor" href="#apoorva-ullas" onclick="event.stopPropagation()"></a></h3>
+        <p>Contributor [2018 Aug - 2019 May]</p>
+        <hr>
+        <h3 id="chelsey-ong-hee"><a href="https://github.com/chelseyong">Chelsey Ong Hee</a><a class="fa fa-anchor" href="#chelsey-ong-hee" onclick="event.stopPropagation()"></a></h3>
+        <p>Contributor [2018 Dec - 2019 May]</p>
+        <hr>
+        <h3 id="gilbert-emerson"><a href="https://github.com/emer7">Gilbert Emerson</a><a class="fa fa-anchor" href="#gilbert-emerson" onclick="event.stopPropagation()"></a></h3>
+        <p>Contributor [2018 Dec - 2019 May]</p>
+        <hr>
+        <h3 id="teo-ming-yi"><a href="https://github.com/myteo">Teo Ming Yi</a><a class="fa fa-anchor" href="#teo-ming-yi" onclick="event.stopPropagation()"></a></h3>
+        <p>Contributor [2018 Dec - 2019 May]</p>
+        <hr>
+        <h3 id="jin-minjia"><a href="https://github.com/bluein-green">Jin Minjia</a><a class="fa fa-anchor" href="#jin-minjia" onclick="event.stopPropagation()"></a></h3>
+        <p><strong>Role</strong>: Contributor [2019 May - 2019 Aug]<br></p>
+      </div>
+
+
+      <nav id="page-nav" class="navbar navbar-light bg-transparent">
+        <div class="border-left-grey nav-inner position-sticky slim-scroll">
+
+          <nav class="nav nav-pills flex-column my-0 small no-flex-wrap">
+            <a class="nav-link py-1" href="#reposense-project-team">RepoSense Project Team&#x200E;</a>
+            <nav class="nav nav-pills flex-column my-0 nested no-flex-wrap">
+              <a class="nav-link py-1" href="#current-team">Current Team&#x200E;</a>
+              <a class="nav-link py-1" href="#past-members">Past Members&#x200E;</a>
+            </nav>
+
+          </nav>
+        </div>
+      </nav>
+    </div>
+    <footer>
+
+      <div class="text-center">
+        <small>[Generated by <a href="https://markbind.org/">MarkBind 2.14.1</a>]</small></div>
+    </footer>
+  </div>
+</body>
+<script src="markbind/js/vue.min.js"></script>
+<script src="markbind/js/vue-strap.min.js"></script>
+<script src="markbind/js/bootstrap-utility.min.js"></script>
+<script src="markbind/js/polyfill.min.js"></script>
+<script src="markbind/js/bootstrap-vue.min.js"></script>
+<script>
+  const baseUrl = '/RepoSense'
+  const enableSearch = true
+</script>
+<script src="markbind/js/setup.js"></script>
+<script src="markbind/layouts/default/scripts.js"></script>
+
+</html>

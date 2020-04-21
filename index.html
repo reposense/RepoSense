@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="generator" content="MarkBind 2.14.1">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>RepoSense - Home</title>
+  <link rel="stylesheet" href="markbind/css/bootstrap.min.css">
+  <link rel="stylesheet" href="markbind/css/bootstrap-vue.min.css">
+  <link rel="stylesheet" href="markbind/fontawesome/css/all.min.css">
+  <link rel="stylesheet" href="markbind/glyphicons/css/bootstrap-glyphicons.min.css">
+  <link rel="stylesheet" href="markbind/css/octicons.css">
+  <link rel="stylesheet" href="markbind/css/github.min.css">
+  <link rel="stylesheet" href="markbind/css/markbind.css">
+  <link rel="stylesheet" href="/RepoSense/plugins/markbind-plugin-anchors/markbind-plugin-anchors.css">
+  <link rel="stylesheet" href="markbind/layouts/default/styles.css">
+  <link rel="icon" href="/RepoSense/favicon.ico">
+</head>
+
+<body>
+  <div id="app">
+    <header>
+      <navbar type="dark" placement="top" class="temp-navbar">
+        <a slot="brand" href="/RepoSense/index.html" title="Home" class="navbar-brand"><img width="30px" src="/RepoSense/favicon.ico"></a>
+        <li><a href="/RepoSense/index.html" class="nav-link">HOME</a></li>
+        <li><a href="/RepoSense/UserGuide.html" class="nav-link">USER GUIDE</a></li>
+        <li><a href="/RepoSense/DeveloperGuide.html" class="nav-link">DEVELOPER GUIDE</a></li>
+        <li><a href="/RepoSense/about.html" class="nav-link">ABOUT</a></li>
+        <li>
+          <a href="https://github.com/RepoSense/reposense" target="_blank" class="nav-link"><span><span aria-hidden="true" class="fab fa-github"></span></span></a></li>
+        <li slot="right">
+          <form class="navbar-form">
+            <searchbar :data="searchData" placeholder="Search" :on-hit="searchCallback" menu-align-right></searchbar>
+          </form>
+        </li>
+      </navbar>
+    </header>
+    <div id="flex-body">
+
+      <div id="content-wrapper">
+        <h1 id="reposense">RepoSense<a class="fa fa-anchor" href="#reposense" onclick="event.stopPropagation()"></a></h1>
+        <p><a href="https://travis-ci.org/reposense/RepoSense"><a href="https://travis-ci.org/reposense/RepoSense.svg?branch=master" target="_self"><img src="https://travis-ci.org/reposense/RepoSense.svg?branch=master" alt class="img-fluid"></a></a>
+          <a href="https://ci.appveyor.com/project/eugenepeh/reposense/branch/master"><a href="https://ci.appveyor.com/api/projects/status/gsbkj5qby3pjd6nw/branch/master?svg=true" target="_self"><img src="https://ci.appveyor.com/api/projects/status/gsbkj5qby3pjd6nw/branch/master?svg=true" alt class="img-fluid"></a></a>
+          <a href="https://www.codacy.com/app/reposense/RepoSense?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=reposense/RepoSense&amp;utm_campaign=Badge_Grade"><a href="https://api.codacy.com/project/badge/Grade/08a3527378464ed4a5ad62e27f590d6a" target="_self"><img src="https://api.codacy.com/project/badge/Grade/08a3527378464ed4a5ad62e27f590d6a" alt class="img-fluid"></a></a>
+          <a href="http://codecov.io/github/reposense/RepoSense?branch=master"><a href="https://codecov.io/gh/reposense/RepoSense/branch/master/graphs/badge.svg?branch=master" target="_self"><img src="https://codecov.io/gh/reposense/RepoSense/branch/master/graphs/badge.svg?branch=master" alt class="img-fluid"></a></a>
+          <a href="https://app.netlify.com/sites/reposense/deploys"><a href="https://api.netlify.com/api/v1/badges/260983b3-589e-4619-a2e8-0bfb7a2b4422/deploy-status" target="_self"><img src="https://api.netlify.com/api/v1/badges/260983b3-589e-4619-a2e8-0bfb7a2b4422/deploy-status" alt class="img-fluid"></a></a></p>
+        <p>RepoSense is a contribution analysis tool for Git repositories. It generates a static HTML report including contribution information for each author in the repository.
+          The features of the report includes:</p>
+        <ul>
+          <li>Visualization for contribution frequency</li>
+          <li>Visualization for contribution amount</li>
+          <li>Code review panel</li>
+          <li>Comparison of contribution between authors</li>
+          <li>Filtering and sorting of authors</li>
+        </ul>
+        <h2 id="documentations">Documentations<a class="fa fa-anchor" href="#documentations" onclick="event.stopPropagation()"></a></h2>
+        <ul>
+          <li><strong>User Guide</strong> <a href="https://github.com/reposense/RepoSense/blob/master/docs/UserGuide.md">[<strong>Current Build</strong>]</a> <a href="https://github.com/reposense/RepoSense/blob/release/docs/UserGuide.md">[<strong>Latest Release</strong>]</a></li>
+          <li><a href="/RepoSense/DeveloperGuide.html"><strong>Developer Guide</strong></a></li>
+        </ul>
+        <h2 id="about-us">About Us<a class="fa fa-anchor" href="#about-us" onclick="event.stopPropagation()"></a></h2>
+        <p>RepoSense is a project based in the <a href="http://www.comp.nus.edu.sg/">National University of Singapore, School of Computing</a>, and is funded by a grant from <a href="http://www.cdtl.nus.edu.sg/">NUS Center for Development of Teaching and Learning</a>.</p>
+        <p>Our project team and the list of contributors are <a href="/RepoSense/about.html">here</a>.</p>
+        <h2 id="contributing">Contributing<a class="fa fa-anchor" href="#contributing" onclick="event.stopPropagation()"></a></h2>
+        <p>We welcome pull requests. Please read the <a href="/RepoSense/Process.html#how-to-contribute-to-the-reposense-repository">contribution guidelines</a> before starting work on one.</p>
+        <h2 id="acknowledgements">Acknowledgements<a class="fa fa-anchor" href="#acknowledgements" onclick="event.stopPropagation()"></a></h2>
+        <p>The web previews of RepoSense is powered by Netlify and Surge.</p>
+        <a href="https://www.netlify.com">
+          <img src="https://www.netlify.com/img/global/badges/netlify-color-bg.svg"></a>
+        <a href="https://surge.sh">
+          <img width="55px" src="https://surge.sh/images/logos/svg/surge-logo.svg"></a>
+      </div>
+
+
+    </div>
+    <footer>
+
+      <div class="text-center">
+        <small>[Generated by <a href="https://markbind.org/">MarkBind 2.14.1</a>]</small></div>
+    </footer>
+  </div>
+</body>
+<script src="markbind/js/vue.min.js"></script>
+<script src="markbind/js/vue-strap.min.js"></script>
+<script src="markbind/js/bootstrap-utility.min.js"></script>
+<script src="markbind/js/polyfill.min.js"></script>
+<script src="markbind/js/bootstrap-vue.min.js"></script>
+<script>
+  const baseUrl = '/RepoSense'
+  const enableSearch = true
+</script>
+<script src="markbind/js/setup.js"></script>
+<script src="markbind/layouts/default/scripts.js"></script>
+
+</html>

@@ -1,0 +1,5 @@
+Repository's Location,Branch,Author's GitHub ID,Author's Emails,Author's Display Name,Author's Git Author Name,Ignore Glob List
+https://github.com/reposense/testrepo-Beta.git,master,nbriannl,nbriannl@example.com;nbr@example.com,Nbr,,
+https://github.com/reposense/testrepo-Beta.git,master,zacharytang,zacharytang@example.com;zac@example.com,Zac,Zachary Tang,src/main**
+https://github.com/reposense/testrepo-Beta.git,master,April0616,april@example.com,Fan,LAPTOP-7KFM2KSP\User;Fan Yuting,
+https://github.com/reposense/testrepo-Beta.git,master,CindyTsai1,cindy@example.com,Cin,YuHsuan,src/test**
