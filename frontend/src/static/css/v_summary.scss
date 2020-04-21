@@ -113,14 +113,6 @@
       &--contribution {
         display: inline;
       }
-
-      &--mergebtn {
-        padding-right: 0;
-
-        & > * {
-          padding-right: .5rem;
-        }
-      }
     }
 
     &__fileType--breakdown {
