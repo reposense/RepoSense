@@ -11,31 +11,32 @@
       .summary-charts__title--contribution(
         title="Total contribution of group"
       ) [{{ getGroupTotalContribution(repo) }} lines]
+      a(
+        v-if="filterGroupSelection === 'groupByRepos'",
+        v-bind:href="getRepoLink(repo[0])", target="_blank",
+        title="click to view group's repo"
+      )
+        font-awesome-icon.icon-button(:icon="['fab', 'github']")
+      a(
+        v-else-if="filterGroupSelection === 'groupByAuthors'",
+        v-bind:href="getAuthorProfileLink(repo[0].name)", target="_blank",
+        title="click to view author's profile"
+      )
+        font-awesome-icon.icon-button(icon="user")
       template(v-if="isMergeGroup")
-        template(v-if="filterGroupSelection === 'groupByRepos'")
-          a(
-            title="click to view group's code",
-            onclick="deactivateAllOverlays()",
-            v-on:click="openTabAuthorship(repo[0], repo, 0)"
-          )
-            i.icon-button.fas.fa-code
-          a(
-            v-bind:href="getRepoLink(repo[0])", target="_blank",
-            title="click to view group's repo"
-          )
-            i.icon-button.fab.fa-github
         a(
-          v-else-if="filterGroupSelection === 'groupByAuthors'",
-          v-bind:href="getAuthorProfileLink(repo[0].name)", target="_blank",
-          title="click to view author's profile"
+          v-if="filterGroupSelection !== 'groupByAuthors'"
+          title="click to view group's code",
+          onclick="deactivateAllOverlays()",
+          v-on:click="openTabAuthorship(repo[0], repo, 0)"
         )
-          i.icon-button.fab.fa-github
+          font-awesome-icon.icon-button(icon="code")
         a(
           title="click to view breakdown of commits",
           onclick="deactivateAllOverlays()",
           v-on:click="openTabZoom(repo[0], filterSinceDate, filterUntilDate, repo, 0)"
         )
-          i.icon-button.fas.fa-list-ul
+          font-awesome-icon.icon-button(icon="list-ul")
       .summary-charts__title--percentile {{ getPercentile(i) }} %
     .summary-charts__fileType--breakdown(v-if="filterBreakdown")
       template(v-if="filterGroupSelection !== 'groupByNone'")
@@ -43,8 +44,9 @@
           v-for="fileType in getFileTypes(repo)",
           v-bind:key="fileType"
         )
-          i.fas.fa-circle(
-            v-bind:style="{ 'color' : fileTypeColors[fileType] }"
+          font-awesome-icon(
+            icon="circle",
+            v-bind:style="{ 'color': fileTypeColors[fileType] }"
           )
           span &nbsp; {{ fileType }} &nbsp;
     .summary-chart(v-for="(user, i) in repo")
@@ -56,24 +58,31 @@
           v-if="filterGroupSelection !== 'groupByAuthors'",
           v-bind:class="{ warn: user.name === '-' }"
         ) {{ user.displayName }} ({{ user.name }})
-        .summary-chart__title--contribution [{{ user.totalCommits }} lines]
+        .summary-chart__title--contribution [{{ getUserTotalContribution(user) }} lines]
+        a(
+          v-if="filterGroupSelection !== 'groupByRepos'",
+          v-bind:href="getRepoLink(repo[i])", target="_blank",
+          title="click to view repo"
+        )
+          font-awesome-icon.icon-button(:icon="['fab', 'github']")
+        a(
+          v-if="filterGroupSelection !== 'groupByAuthors'",
+          v-bind:href="getAuthorProfileLink(repo[i].name)", target="_blank",
+          title="click to view author's profile"
+        )
+          font-awesome-icon.icon-button(icon="user")
         a(
           title="click to view author's code",
           onclick="deactivateAllOverlays()",
           v-on:click="openTabAuthorship(user, repo, i)"
         )
-          i.icon-button.fas.fa-code
-        a(
-          v-bind:href="getRepoLink(repo[i])", target="_blank",
-          title="click to view author's repo"
-        )
-          i.icon-button.fab.fa-github
+          font-awesome-icon.icon-button(icon="code")
         a(
           title="click to view breakdown of commits",
           onclick="deactivateAllOverlays()",
           v-on:click="openTabZoom(user, filterSinceDate, filterUntilDate)"
         )
-          i.icon-button.fas.fa-list-ul
+          font-awesome-icon.icon-button(icon="list-ul")
         .summary-chart__title--percentile(
           v-if="filterGroupSelection === 'groupByNone'"
         ) {{ getPercentile(i) }} %
@@ -102,7 +111,7 @@
               v-bind:style="{ width: width + '%',\
                 'background-color': fileTypeColors[fileType] }",
               v-bind:title="fileType + ': ' + user.fileTypeContribution[fileType] + ' lines, '\
-                + 'total: ' + user.totalCommits + ' lines ' + '(contribution from ' + minDate + ' to '\
+                + 'total: ' + user.checkedFileTypeContribution + ' lines ' + '(contribution from ' + minDate + ' to '\
                 + maxDate + ')'"
             )
         template(v-else)

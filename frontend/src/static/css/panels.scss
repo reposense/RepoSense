@@ -68,6 +68,25 @@
   }
 }
 
+.fileTypes {
+  align-items: center;
+  text-align: left;
+
+  .checkboxes {
+    label {
+      align-items: center;
+      border-radius: 5px;
+      display: inline-flex;
+      margin: 0 5px 5px 0;
+      padding: 0 5px;
+    }
+
+    span {
+      margin-left: .25rem;
+    }
+  }
+}
+
 .toolbar {
   cursor: pointer;
   float: right;
