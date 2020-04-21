@@ -82,7 +82,7 @@
     template(v-for="file in selectedFiles")
       .file(v-bind:key="file.path")
         .title
-          span.collapsable(v-on:click="toggleFileActiveProperty(file)")
+          span.collapsible(v-on:click="toggleFileActiveProperty(file)")
             font-awesome-icon(icon="caret-down", fixed-width, v-show="file.active")
             font-awesome-icon(icon="caret-right", fixed-width, v-show="!file.active")
             span.path {{ file.path }} &nbsp;
