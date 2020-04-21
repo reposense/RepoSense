@@ -15,6 +15,7 @@ html
     link(rel="stylesheet", href="static/css/v_zoom.css")
 
     script(src="https://use.fontawesome.com/releases/v5.0.13/js/all.js", defer=True)
+    script(src="https://cdn.jsdelivr.net/npm/@fortawesome/vue-fontawesome@0.1.9/index.min.js")
     script(src="https://cdn.jsdelivr.net/npm/vue@2.5/dist/vue.js")
     script(src="https://cdn.jsdelivr.net/npm/jszip@3.1/dist/jszip.min.js")
     script(src="https://cdn.jsdelivr.net/npm/seedrandom@3.0.5/seedrandom.min.js")
@@ -59,7 +60,7 @@ html
         #tabs-wrapper(v-if="isTabActive")
           #tab-resize(onmousedown="registerMouseMove()")
           .tab-close(v-on:click="deactivateTab")
-            i.fas.fa-caret-right
+            font-awesome-icon(icon="caret-right")
           .tab-content.panel-padding
             .tab-panes
               v-authorship#tab-authorship.tab-pane(
@@ -74,11 +75,11 @@ html
               #tab-empty.tab-pane(v-else)
                 .title
                   span To view the code attributed to a specific author, click the &nbsp;
-                  i.fas.fa-code
+                  font-awesome-icon(icon="code")
                   span &nbsp; icon next to that author's name.
                   br
                   span To hide the code view, click the &nbsp;
-                  i.fas.fa-caret-right
+                  font-awesome-icon(icon="caret-right")
                   span &nbsp; icon on the left.
 
       template(v-else)
