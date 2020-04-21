@@ -104,13 +104,13 @@ window.vSummary = {
       // also reset merged groups
       if (this.filterGroupSelection === 'groupByNone') {
         this.mergedGroupsMap = {};
+      } else if (!this.isAllGroupsMerged()) {
+        this.resetMergedGroupsMap();
       } else {
         this.resetMergedGroupsMap();
-        if (this.isAllGroupsMerged()) {
-          Object.keys(this.mergedGroupsMap).forEach((key) => {
-            this.mergedGroupsMap[key] = true;
-          });
-        }
+        Object.keys(this.mergedGroupsMap).forEach((x) => {
+          this.mergedGroupsMap[x] = true;
+        });
       }
     },
 
