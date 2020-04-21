@@ -31,6 +31,7 @@ public class CommitInfoExtractor {
         logger.info(String.format(MESSAGE_START_EXTRACTING_COMMIT_INFO, config.getLocation(), config.getBranch()));
 
         GitCheckout.checkoutBranch(config.getRepoRoot(), config.getBranch());
+
         List<CommitInfo> repoCommitInfos = new ArrayList<>();
 
         for (Author author : config.getAuthorList()) {
