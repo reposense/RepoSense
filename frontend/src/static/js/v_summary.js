@@ -107,8 +107,8 @@ window.vSummary = {
       } else {
         this.resetMergedGroupsMap();
         if (this.isAllGroupsMerged()) {
-          Object.keys(this.mergedGroupsMap).forEach((x) => {
-            this.mergedGroupsMap[x] = true;
+          Object.keys(this.mergedGroupsMap).forEach((key) => {
+            this.mergedGroupsMap[key] = true;
           });
         }
       }
@@ -220,7 +220,7 @@ window.vSummary = {
       addHash('timeframe', this.filterTimeFrame);
 
       let mergedGroupsMapHash = Object.keys(this.mergedGroupsMap)
-          .filter((x) => this.mergedGroupsMap[x])
+          .filter((key) => this.mergedGroupsMap[key])
           .join(window.HASH_DELIMITER);
       if (mergedGroupsMapHash.length === 0) {
         mergedGroupsMapHash = 'none';
@@ -270,8 +270,8 @@ window.vSummary = {
 
     restoreMergedGroups() {
       if (this.customMergedGroups) {
-        this.customMergedGroups.split(window.HASH_DELIMITER).forEach((x) => {
-          this.mergedGroupsMap[x] = true;
+        this.customMergedGroups.split(window.HASH_DELIMITER).forEach((key) => {
+          this.mergedGroupsMap[key] = true;
         });
       }
     },
@@ -402,7 +402,7 @@ window.vSummary = {
         return true;
       }
       return !Object.keys(this.mergedGroupsMap)
-          .map((x) => this.mergedGroupsMap[x])
+          .map((key) => this.mergedGroupsMap[key])
           .includes(true);
     },
 
@@ -411,14 +411,14 @@ window.vSummary = {
         return false;
       }
       return !Object.keys(this.mergedGroupsMap)
-          .map((x) => this.mergedGroupsMap[x])
+          .map((key) => this.mergedGroupsMap[key])
           .includes(false);
     },
 
     resetMergedGroupsMap() {
       const mergedGroupsMap = {};
-      this.filtered.forEach((x) => {
-        mergedGroupsMap[this.getGroupName(x)] = false;
+      this.filtered.forEach((group) => {
+        mergedGroupsMap[this.getGroupName(group)] = false;
       });
       this.mergedGroupsMap = mergedGroupsMap;
     },
@@ -433,12 +433,12 @@ window.vSummary = {
 
     handleMergeGroupCheckboxClicked() {
       if (!this.isAllGroupsMerged()) {
-        Object.keys(this.mergedGroupsMap).forEach((x) => {
-          this.mergedGroupsMap[x] = true;
+        Object.keys(this.mergedGroupsMap).forEach((key) => {
+          this.mergedGroupsMap[key] = true;
         });
       } else {
-        Object.keys(this.mergedGroupsMap).forEach((x) => {
-          this.mergedGroupsMap[x] = false;
+        Object.keys(this.mergedGroupsMap).forEach((key) => {
+          this.mergedGroupsMap[key] = false;
         });
       }
     },
