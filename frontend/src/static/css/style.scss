@@ -130,9 +130,6 @@ header {
       }
 
       &__failed-repo {
-        .fa-exclamation {
-          @include mini-font;
-        }
 
         &--name {
           font-weight: bolder;
