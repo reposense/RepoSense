@@ -55,7 +55,7 @@ public class AuthorConfiguration {
             List<String> emails = new ArrayList<>(author.getEmails());
             aliases.add(author.getGitId());
             aliases.forEach(alias -> {
-                checkDuplicateAliases(newAuthorEmailsAndAliasesMap, alias);
+                checkDuplicateAliases(newAuthorEmailsAndAliasesMap, alias, author.getGitId());
                 newAuthorEmailsAndAliasesMap.put(alias, author);
             });
             emails.forEach(email -> newAuthorEmailsAndAliasesMap.put(email, author));
@@ -71,10 +71,10 @@ public class AuthorConfiguration {
      * @param authorEmailsAndAliasesMap
      * @param alias
      */
-    public void checkDuplicateAliases(Map<String, Author> authorEmailsAndAliasesMap, String alias) {
+    public void checkDuplicateAliases(Map<String, Author> authorEmailsAndAliasesMap, String alias, String gitId) {
         if (authorEmailsAndAliasesMap.containsKey(alias)) {
             logger.warning(String.format(
-                    "Duplicate alias %s found. The alias will belong to the last author who claims it", alias));
+                    "Duplicate alias %s found. The alias will belong to the last author - %s", alias, gitId));
         }
     }
 
@@ -213,7 +213,7 @@ public class AuthorConfiguration {
     public void resetAuthorInformation() {
         authorEmailsAndAliasesMap.clear();
         authorDisplayNameMap.clear();
-        authorList.forEach(author -> setAuthorDetails(author));
+        authorList.forEach(this::setAuthorDetails);
     }
 
     public Map<String, Author> getAuthorEmailsAndAliasesMap() {
@@ -235,7 +235,7 @@ public class AuthorConfiguration {
      */
     public void addAuthorEmailsAndAliasesMapEntry(Author author, List<String> aliases) {
         aliases.forEach(alias -> {
-            checkDuplicateAliases(authorEmailsAndAliasesMap, alias);
+            checkDuplicateAliases(authorEmailsAndAliasesMap, alias, author.getGitId());
             authorEmailsAndAliasesMap.put(alias, author);
         });
     }
