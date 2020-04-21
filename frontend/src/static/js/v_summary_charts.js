@@ -141,7 +141,7 @@ window.vSummaryCharts = {
     },
 
     openTabZoomSubrange(user, evt) {
-      const isKeyPressed = this.isMacintosh ? evt.metaKey : evt.ctrlKey;
+      const isKeyPressed = window.isMacintosh ? evt.metaKey : evt.ctrlKey;
 
       if (isKeyPressed) {
         if (this.drags.length === 0) {
