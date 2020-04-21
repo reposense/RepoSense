@@ -43,7 +43,7 @@ describe('filter breakdown', () => {
         .check()
         .should('be.checked');
 
-    // uncheck all gradle file type
+    // uncheck gradle file type
     cy.get('#summary div.fileTypes input[id="gradle"]')
         .uncheck()
         .should('not.be.checked');
