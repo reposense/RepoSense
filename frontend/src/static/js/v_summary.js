@@ -98,7 +98,7 @@ window.vSummary = {
     },
 
     filterGroupSelection() {
-      this.getFiltered();
+      this.getFilteredRepos();
 
       // merge group is not allowed when group by none
       // also reset merged groups
@@ -320,6 +320,11 @@ window.vSummary = {
       this.getDates();
       window.deactivateAllOverlays();
 
+      this.getFilteredRepos();
+      this.getMergedRepos();
+    },
+
+    getFilteredRepos() {
       // array of array, sorted by repo
       const full = [];
 
@@ -361,7 +366,9 @@ window.vSummary = {
         isSortingWithinDsc: this.isSortingWithinDsc,
       };
       this.filtered = this.sortFiltered(this.filtered, filterControl);
+    },
 
+    getMergedRepos() {
       this.filtered.forEach((group, groupIndex) => {
         if (this.mergedGroupsMap[this.getGroupName(group)]) {
           this.mergeGroupByIndex(this.filtered, groupIndex);
