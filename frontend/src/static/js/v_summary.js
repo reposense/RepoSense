@@ -1,4 +1,3 @@
-const WEEK_IN_MS = window.DAY_IN_MS * 7;
 const dateFormatRegex = /([12]\d{3}-(0[1-9]|1[0-2])-(0[1-9]|[12]\d|3[01]))$/;
 
 window.vSummary = {
@@ -477,10 +476,11 @@ window.vSummary = {
 
     pushCommitsWeek(sinceMs, untilMs, res, commits) {
       const diff = Math.round(Math.abs((untilMs - sinceMs) / window.DAY_IN_MS));
+      const weekInMS = window.DAY_IN_MS * 7;
 
       for (let weekId = 0; weekId < diff / 7; weekId += 1) {
-        const startOfWeekMs = sinceMs + (weekId * WEEK_IN_MS);
-        const endOfWeekMs = startOfWeekMs + WEEK_IN_MS - window.DAY_IN_MS;
+        const startOfWeekMs = sinceMs + (weekId * weekInMS);
+        const endOfWeekMs = startOfWeekMs + weekInMS - window.DAY_IN_MS;
         const endOfWeekMsWithinUntilMs = endOfWeekMs <= untilMs ? endOfWeekMs : untilMs;
 
         const week = {
