@@ -262,10 +262,6 @@ window.vSummaryCharts = {
       }
       return (Math.round((index + 1) * 1000 / this.filtered.length) / 10).toFixed(1);
     },
-    
-    getGroupTotalContribution(group) {
-      return group.reduce((accContribution, user) => accContribution + user.totalCommits, 0);
-    },
 
     getGroupName(group) {
       switch (this.filterGroupSelection) {
