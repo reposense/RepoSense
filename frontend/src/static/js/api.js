@@ -3,6 +3,7 @@ window.$ = (id) => document.getElementById(id);
 window.enquery = (key, val) => `${key}=${encodeURIComponent(val)}`;
 window.BASE_URL = 'https://github.com';
 window.DAY_IN_MS = (1000 * 60 * 60 * 24);
+window.HASH_FILETYPE_DELIMITER = '~';
 window.REPOS = {};
 window.hashParams = {};
 window.isMacintosh = navigator.platform.includes('Mac');
