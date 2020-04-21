@@ -88,12 +88,12 @@
               v-bind:href="getFileLink(file, 'commits')", target="_blank",
               title="click to view the history view of file"
             )
-              i.button.fas.fa-history
+              font-awesome-icon.button(icon="history")
             a(
               v-bind:href="getFileLink(file, 'blame')", target="_blank",
               title="click to view the blame view of file"
             )
-              i.button.fas.fa-user-edit
+              font-awesome-icon.button(icon="user-edit")
           span.fileTypeLabel.medium-font(
             v-bind:style="{\
               'background-color': info.fileTypeColors[file.fileType],\
