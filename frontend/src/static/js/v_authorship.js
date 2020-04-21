@@ -85,7 +85,7 @@ window.vAuthorship = {
         this.indicateSearchBar();
         this.searchBarValue = hash.authorshipFilesGlob;
       } else if ('authorshipFileTypes' in hash) {
-        const parsedFileTypes = hash.authorshipFileTypes.split(window.HASH_FILETYPE_DELIMITER);
+        const parsedFileTypes = hash.authorshipFileTypes.split(window.HASH_DELIMITER);
         this.selectedFileTypes = parsedFileTypes.filter((type) => this.fileTypes.includes(type));
       }
     },

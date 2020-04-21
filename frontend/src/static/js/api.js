@@ -1,7 +1,7 @@
 // utility functions //
 window.$ = (id) => document.getElementById(id);
 window.enquery = (key, val) => `${key}=${encodeURIComponent(val)}`;
-window.HASH_FILETYPE_DELIMITER = '~';
+window.HASH_DELIMITER = '~';
 const REPORT_DIR = '.';
 
 // data retrieval functions //

@@ -221,7 +221,7 @@ window.vSummary = {
 
       let mergedGroupsMapHash = Object.keys(this.mergedGroupsMap)
           .filter((x) => this.mergedGroupsMap[x])
-          .join(',');
+          .join(window.HASH_DELIMITER);
       if (mergedGroupsMapHash.length === 0) {
         mergedGroupsMapHash = 'none';
       }
@@ -270,7 +270,7 @@ window.vSummary = {
 
     restoreMergedGroups() {
       if (this.customMergedGroups) {
-        this.customMergedGroups.split(',').forEach((x) => {
+        this.customMergedGroups.split(window.HASH_DELIMITER).forEach((x) => {
           this.mergedGroupsMap[x] = true;
         });
       }
