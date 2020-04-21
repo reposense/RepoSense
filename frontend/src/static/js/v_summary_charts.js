@@ -210,7 +210,9 @@ window.vSummaryCharts = {
 
     // triggering opening of tabs //
     openTabAuthorship(user, repo, index) {
-      const { minDate, maxDate, fileTypeColors, checkedFileTypes } = this;
+      const {
+        minDate, maxDate, fileTypeColors, checkedFileTypes,
+      } = this;
 
       this.$parent.$emit('view-authorship', {
         minDate,
