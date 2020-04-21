@@ -82,18 +82,21 @@
     template(v-for="file in selectedFiles")
       .file(v-bind:key="file.path")
         .title
-          span.path(v-on:click="toggleFileActiveProperty(file)") {{ file.path }}&nbsp;
+          span.path(v-on:click="toggleFileActiveProperty(file)")
+            font-awesome-icon(icon="caret-down", fixed-width, v-show="file.active")
+            font-awesome-icon(icon="caret-right", fixed-width, v-show="!file.active")
+            span {{ file.path }} &nbsp;
           span.icons
             a(
               v-bind:href="getFileLink(file, 'commits')", target="_blank",
               title="click to view the history view of file"
             )
-              i.button.fas.fa-history
+              font-awesome-icon.button(icon="history")
             a(
               v-bind:href="getFileLink(file, 'blame')", target="_blank",
               title="click to view the blame view of file"
             )
-              i.button.fas.fa-user-edit
+              font-awesome-icon.button(icon="user-edit")
           span.fileTypeLabel.medium-font(
             v-bind:style="{\
               'background-color': info.fileTypeColors[file.fileType],\

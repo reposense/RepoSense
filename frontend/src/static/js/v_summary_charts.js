@@ -167,6 +167,15 @@ window.vSummaryCharts = {
       return fileTypes;
     },
 
+    getGroupTotalContribution(group) {
+      const property = this.filterBreakdown ? 'checkedFileTypeContribution' : 'totalCommits';
+      return group.reduce((acc, ele) => acc + ele[property], 0);
+    },
+
+    getUserTotalContribution(user) {
+      return this.filterBreakdown ? user.checkedFileTypeContribution : user.totalCommits;
+    },
+
     getContributionBars(totalContribution) {
       const res = [];
       const contributionLimit = (this.avgContributionSize * 2);
@@ -252,10 +261,6 @@ window.vSummaryCharts = {
         return (Math.round((index + 1) * 1000 / this.filtered[0].length) / 10).toFixed(1);
       }
       return (Math.round((index + 1) * 1000 / this.filtered.length) / 10).toFixed(1);
-    },
-
-    getGroupTotalContribution(group) {
-      return group.reduce((accContribution, user) => accContribution + user.totalCommits, 0);
     },
   },
   components: {
