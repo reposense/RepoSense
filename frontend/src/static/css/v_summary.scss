@@ -116,6 +116,10 @@
 
       &--mergebtn {
         padding-right: 0;
+
+        & > * {
+          padding-right: .5rem;
+        }
       }
     }
 

@@ -17,7 +17,7 @@
             v-on:click="handleMergeGroup(getGroupName(repo))"
             title="click to merge group"
           )
-            i.icon-button.fas.fa-chevron-up
+            font-awesome-icon.icon-button(:icon="['fas', 'chevron-up']")
           a(
             v-if="filterGroupSelection === 'groupByRepos'",
             v-bind:href="getRepoLink(repo[0])", target="_blank",
@@ -35,12 +35,25 @@
           v-on:click="handleExpandGroup(getGroupName(repo))"
           title="click to expand group"
         )
-          i.icon-button.fas.fa-chevron-down
+          font-awesome-icon.icon-button(:icon="['fas', 'chevron-down']")
+        a(
+          v-if="filterGroupSelection === 'groupByRepos'",
+          v-bind:href="getRepoLink(repo[0])", target="_blank",
+          title="click to view group's repo"
+        )
+
+          font-awesome-icon.icon-button(:icon="['fab', 'github']")
+        a(
+          v-else-if="filterGroupSelection === 'groupByAuthors'",
+          v-bind:href="getAuthorProfileLink(repo[0].name)", target="_blank",
+          title="click to view author's profile"
+        )
+          font-awesome-icon.icon-button(icon="user")
         a(
           v-if="filterGroupSelection !== 'groupByAuthors'"
           title="click to view group's code",
           onclick="deactivateAllOverlays()",
-          v-on:click="openTabAuthorship(repo[0], repo, 0)"
+          v-on:click="openTabAuthorship(repo[0], repo, 0, mergedGroupsMap[getGroupName(repo)])"
         )
           font-awesome-icon.icon-button(icon="code")
         a(
@@ -73,20 +86,20 @@
         .summary-chart__title--contribution.mini-font [{{ getUserTotalContribution(user) }} lines]
         a(
           v-if="filterGroupSelection !== 'groupByRepos'",
-          v-bind:href="getRepoLink(repo[i])", target="_blank",
+          v-bind:href="getRepoLink(repo[j])", target="_blank",
           title="click to view repo"
         )
           font-awesome-icon.icon-button(:icon="['fab', 'github']")
         a(
           v-if="filterGroupSelection !== 'groupByAuthors'",
-          v-bind:href="getAuthorProfileLink(repo[i].name)", target="_blank",
+          v-bind:href="getAuthorProfileLink(repo[j].name)", target="_blank",
           title="click to view author's profile"
         )
           font-awesome-icon.icon-button(icon="user")
         a(
           title="click to view author's code",
           onclick="deactivateAllOverlays()",
-          v-on:click="openTabAuthorship(user, repo, j)"
+          v-on:click="openTabAuthorship(user, repo, j, mergedGroupsMap[getGroupName(repo)])"
         )
           font-awesome-icon.icon-button(icon="code")
         a(
