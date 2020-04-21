@@ -7,6 +7,7 @@ html
     link(rel="stylesheet", href="https://cdn.jsdelivr.net/npm/muicss@0.9/dist/css/mui.min.css")
     link(rel="stylesheet", href="https://cdn.jsdelivr.net/npm/highlight.js@9.14/styles/color-brewer.min.css")
     link(rel="stylesheet", href="https://cdn.jsdelivr.net/npm/vue-loading-spinner@1.0/dist/vue-loading-spinner.css")
+    link(rel="stylesheet", href="static/css/panels.css")
     link(rel="stylesheet", href="static/css/style.css")
     link(rel="stylesheet", href="static/css/v_authorship.css")
     link(rel="stylesheet", href="static/css/v_ramp.css")
@@ -14,8 +15,11 @@ html
     link(rel="stylesheet", href="static/css/v_zoom.css")
 
     script(src="https://use.fontawesome.com/releases/v5.0.13/js/all.js", defer=True)
+    script(src="https://cdn.jsdelivr.net/npm/@fortawesome/vue-fontawesome@0.1.9/index.min.js")
     script(src="https://cdn.jsdelivr.net/npm/vue@2.5/dist/vue.js")
     script(src="https://cdn.jsdelivr.net/npm/jszip@3.1/dist/jszip.min.js")
+    script(src="https://cdn.jsdelivr.net/npm/seedrandom@3.0.5/seedrandom.min.js")
+    script(src="https://cdn.jsdelivr.net/npm/vue-loading-spinner@1.0/dist/vue-loading-spinner.js")
 
     script(src="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.14/build/highlight.min.js")
     script(src="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.14/build/languages/asciidoc.min.js")
@@ -23,7 +27,6 @@ html
     script(src="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.14/build/languages/plaintext.min.js")
     script(src="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.14/build/languages/scss.min.js")
     script(src="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.14/build/languages/yaml.min.js")
-    script(src="https://cdn.jsdelivr.net/npm/vue-loading-spinner@1.0/dist/vue-loading-spinner.js")
   body
     #app
       #app-wrapper(v-if="userUpdated", onmousemove="mouseMove(event)",
@@ -57,7 +60,7 @@ html
         #tabs-wrapper(v-if="isTabActive")
           #tab-resize(onmousedown="registerMouseMove()")
           .tab-close(v-on:click="deactivateTab")
-            i.fas.fa-caret-right
+            font-awesome-icon(icon="caret-right")
           .tab-content.panel-padding
             .tab-panes
               v-authorship#tab-authorship.tab-pane(
@@ -72,11 +75,11 @@ html
               #tab-empty.tab-pane(v-else)
                 .title
                   span To view the code attributed to a specific author, click the &nbsp;
-                  i.fas.fa-code
+                  font-awesome-icon(icon="code")
                   span &nbsp; icon next to that author's name.
                   br
                   span To hide the code view, click the &nbsp;
-                  i.fas.fa-caret-right
+                  font-awesome-icon(icon="caret-right")
                   span &nbsp; icon on the left.
 
       template(v-else)
