@@ -123,7 +123,6 @@ window.app = new window.Vue({
   },
   watch: {
     '$store.state.tabZoomInfo': function () {
-      this.removeAuthorshipHashes();
       this.tabInfo.tabZoom = Object.assign({}, this.$store.state.tabZoomInfo);
       this.activateTab('zoom');
     },
