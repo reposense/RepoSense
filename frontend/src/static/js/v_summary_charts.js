@@ -167,6 +167,15 @@ window.vSummaryCharts = {
       return fileTypes;
     },
 
+    getGroupTotalContribution(group) {
+      const property = this.filterBreakdown ? 'checkedFileTypeContribution' : 'totalCommits';
+      return group.reduce((acc, ele) => acc + ele[property], 0);
+    },
+
+    getUserTotalContribution(user) {
+      return this.filterBreakdown ? user.checkedFileTypeContribution : user.totalCommits;
+    },
+
     getContributionBars(totalContribution) {
       const res = [];
       const contributionLimit = (this.avgContributionSize * 2);
@@ -201,7 +210,7 @@ window.vSummaryCharts = {
 
     // triggering opening of tabs //
     openTabAuthorship(user, repo, index) {
-      const { minDate, maxDate } = this;
+      const { minDate, maxDate, fileTypeColors } = this;
 
       this.$parent.$emit('view-authorship', {
         minDate,
@@ -209,9 +218,11 @@ window.vSummaryCharts = {
         author: user.name,
         repo: user.repoName,
         name: user.displayName,
+        isMergeGroup: this.isMergeGroup,
         location: this.getRepoLink(repo[index]),
         repoIndex: index,
         totalCommits: user.totalCommits,
+        fileTypeColors,
       });
     },
 
@@ -228,8 +239,7 @@ window.vSummaryCharts = {
 
     openTabZoom(user, since, until, isMerge) {
       const {
-        avgCommitSize, filterGroupSelection, filterTimeFrame, sortingOption,
-        sortingWithinOption, isSortingDsc, isSortingWithinDsc,
+        avgCommitSize, filterGroupSelection, filterTimeFrame, isMergeGroup,
       } = this;
       const clonedUser = Object.assign({}, user); // so that changes in summary won't affect zoom
       this.$parent.$emit('view-zoom', {
@@ -242,11 +252,7 @@ window.vSummaryCharts = {
         zLocation: this.getRepoLink(user),
         zSince: since,
         zUntil: until,
-        zIsMerge: isMerge,
-        zSorting: sortingOption,
-        zSortingWithin: sortingWithinOption,
-        zIsSortingDsc: isSortingDsc === 'dsc',
-        zIsSortingWithinDsc: isSortingWithinDsc === 'dsc',
+        zIsMerge: isMergeGroup,
       });
     },
 
@@ -256,7 +262,7 @@ window.vSummaryCharts = {
       }
       return (Math.round((index + 1) * 1000 / this.filtered.length) / 10).toFixed(1);
     },
-
+    
     getGroupTotalContribution(group) {
       return group.reduce((accContribution, user) => accContribution + user.totalCommits, 0);
     },
