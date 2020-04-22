@@ -17,8 +17,8 @@ labels: "c.Bug"
 
 **Please include the steps to reproduce the bug.**
 
-1.
-1.
+1. 
+1. 
 
 
 **What was expected to happen?**

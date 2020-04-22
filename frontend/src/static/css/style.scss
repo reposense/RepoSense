@@ -133,6 +133,7 @@ header {
         .fa-exclamation {
           @include mini-font;
         }
+
         &--name {
           font-weight: bolder;
           padding-left: .2rem;
