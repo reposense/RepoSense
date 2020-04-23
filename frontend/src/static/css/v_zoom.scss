@@ -1,5 +1,13 @@
 @import 'colors';
 
+.toolbar {
+  > a {
+    display: block;
+    margin: 1px 0;
+    text-align: end;
+  }
+}
+
 .zoom {
   &__title {
     &--granularity {
