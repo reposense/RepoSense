@@ -1,6 +1,6 @@
 #zoom
   span.large-font Commits Panel
-  .toolbar(v-if="filteredUser.commits.length && totalCommitMessageBodyCount")
+  .toolbar--multiline(v-if="filteredUser.commits.length && totalCommitMessageBodyCount")
     a(
       v-if="expandedCommitMessagesCount < totalCommitMessageBodyCount",
       v-on:click="toggleAllCommitMessagesBody(true)"
