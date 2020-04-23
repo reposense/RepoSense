@@ -20,7 +20,7 @@ The features of the report includes:
 ## About Us
 RepoSense is a project based in the [National University of Singapore, School of Computing](http://www.comp.nus.edu.sg/), and is funded by a grant from [NUS Center for Development of Teaching and Learning](http://www.cdtl.nus.edu.sg/).
 
-Our project team and the list of contributors are [here](docs/Team.md).
+Our project team and the list of contributors are [here](docs/about.md).
 
 ## Contributing
 We welcome pull requests. Please read the [contribution guidelines](docs/Process.md#how-to-contribute-to-the-reposense-repository) before starting work on one.

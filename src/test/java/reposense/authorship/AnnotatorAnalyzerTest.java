@@ -17,7 +17,6 @@ import reposense.authorship.model.FileInfo;
 import reposense.authorship.model.FileResult;
 import reposense.authorship.model.LineInfo;
 import reposense.model.Author;
-import reposense.parser.InvalidLocationException;
 import reposense.template.GitTestTemplate;
 import reposense.util.TestUtil;
 
@@ -40,7 +39,7 @@ public class AnnotatorAnalyzerTest extends GitTestTemplate {
 
 
     @Before
-    public void before() throws InvalidLocationException {
+    public void before() throws Exception {
         super.before();
         config.setSinceDate(SINCE_DATE);
         config.setUntilDate(UNTIL_DATE);

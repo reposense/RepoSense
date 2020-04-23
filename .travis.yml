@@ -1,8 +1,23 @@
-language: java
-
 matrix:
   include:
+    - name: Deploy MarkBind to gh pages
+      language: node
+      node_js:
+        - lts/*
+      install:
+        - npm i -g markbind-cli
+      script: cd docs && markbind build --baseUrl /RepoSense
+      deploy:
+        provider: pages
+        skip_cleanup: true
+        github_token: $GITHUB_TOKEN
+        keep_history: true
+        local_dir: docs/_site
+        on:
+          branch: master
+
     - name: Ubuntu 14.04 JDK 8
+      language: java
       os: linux
       jdk: openjdk8
       before_install:
@@ -11,6 +26,7 @@ matrix:
         - echo -e "Actual JDK in use -- "; java -version
 
     - name: macOS 10.13.6 JDK 8
+      language: java
       os: osx
       osx_image: xcode10.1
       env:
@@ -62,5 +78,7 @@ after_success:
     then
       git fetch --all && git config --global user.email "-" && git config --global user.name "-" && ./gradlew run -Dargs="--since d1"
       npm install -g surge
+      npm install -g markbind-cli
+      (cd docs && markbind build)
       ./config/travis/deploy-surge.sh
     fi
