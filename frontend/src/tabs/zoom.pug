@@ -1,14 +1,15 @@
 #zoom
   span.large-font Commits Panel
   .toolbar(v-if="filteredUser.commits.length")
-    a(
-      v-if="totalCommitMessageBodyCount !== 0 && expandedCommitMessagesCount === 0",
-      v-on:click="toggleAllCommitMessagesBody(true)"
-    ) show all commit messages
-    a(
-      v-if="totalCommitMessageBodyCount !== 0 && expandedCommitMessagesCount !== 0",
-      v-on:click="toggleAllCommitMessagesBody(false)"
-    ) hide all commit messages
+    template(v-if="totalCommitMessageBodyCount !== 0")
+      a(
+        v-if="expandedCommitMessagesCount === 0",
+        v-on:click="toggleAllCommitMessagesBody(true)"
+      ) show all commit messages
+      a(
+        v-else,
+        v-on:click="toggleAllCommitMessagesBody(false)"
+      ) hide all commit messages
   .panel-heading
     .group-name
       span(
@@ -38,6 +39,7 @@
               v-for="tag in commitResult.tags",
               v-on:click="scrollToCommit(tag, `tag ${commitResult.hash}`)"
             )
+
               font-awesome-icon(icon="tags")
               span &nbsp;{{ tag }}
 
