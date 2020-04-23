@@ -579,7 +579,8 @@ window.vSummary = {
       }
     },
     getUserCommits(user) {
-      user.commits = [];
+      const copyUser = user;
+      copyUser.commits = [];
       const userFirst = user.dailyCommits[0];
       const userLast = user.dailyCommits[user.dailyCommits.length - 1];
 
