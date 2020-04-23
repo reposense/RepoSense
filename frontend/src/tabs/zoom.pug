@@ -38,7 +38,6 @@
               v-for="tag in commitResult.tags",
               v-on:click="scrollToCommit(tag, `tag ${commitResult.hash}`)"
             )
-
               font-awesome-icon(icon="tags")
               span &nbsp;{{ tag }}
 
