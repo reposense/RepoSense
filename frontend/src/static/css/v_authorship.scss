@@ -118,6 +118,7 @@
       }
 
       .fileTypeLabel {
+        @include medium-font;
         border-radius: 5px;
         display: inline-block;
         font-weight: bold;

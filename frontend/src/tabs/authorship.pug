@@ -38,7 +38,7 @@
           v-on:change="indicateSearchBar(); updateSearchBarValue();"
         )
         .file-picker.mui-form--inline
-          input#search.medium-font(
+          input#search(
             type="search",
             placeholder="Filter by glob",
             ref="searchBar",
@@ -46,7 +46,7 @@
             v-on:focus="indicateSearchBar",
             v-on:keyup.enter="updateSearchBarValue"
           )
-          button#submit-button.medium-font(
+          button#submit-button(
             type="button",
             v-on:click="indicateSearchBar(); updateSearchBarValue();"
           ) Filter
@@ -98,7 +98,7 @@
               title="click to view the blame view of file"
             )
               font-awesome-icon.button(icon="user-edit")
-          span.fileTypeLabel.medium-font(
+          span.fileTypeLabel(
             v-bind:style="{\
               'background-color': info.fileTypeColors[file.fileType],\
               'color': this.getFontColor(info.fileTypeColors[file.fileType])\
