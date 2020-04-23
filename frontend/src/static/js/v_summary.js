@@ -377,8 +377,8 @@ window.vSummary = {
           copyCommitResult.repoId = user.repoId;
         });
 
-        if (Object.prototype.hasOwnProperty.call(dateToIndexMap, date)) {
-          const commitWithSameDate = merged[dateToIndexMap[date]];
+        if (Object.prototype.hasOwnProperty.call(copyDateToIndexMap, date)) {
+          const commitWithSameDate = merged[copyDateToIndexMap[date]];
 
           commitResults.forEach((commitResult) => {
             commitWithSameDate.commitResults.push(commitResult);
@@ -387,7 +387,7 @@ window.vSummary = {
           commitWithSameDate.insertions += insertions;
           commitWithSameDate.deletions += deletions;
         } else {
-          copyDateToIndexMap[date] = Object.keys(dateToIndexMap).length;
+          copyDateToIndexMap[date] = Object.keys(copyDateToIndexMap).length;
           merged.push(commit);
         }
       });
@@ -399,7 +399,7 @@ window.vSummary = {
         const key = fileType[0];
         const value = fileType[1];
 
-        if (!Object.prototype.hasOwnProperty.call(merged, key)) {
+        if (!Object.prototype.hasOwnProperty.call(copyMerged, key)) {
           copyMerged[key] = 0;
         }
         copyMerged[key] += value;
@@ -553,7 +553,7 @@ window.vSummary = {
         const commit = commits.shift();
         copyWeek.insertions += commit.insertions;
         copyWeek.deletions += commit.deletions;
-        commit.commitResults.forEach((commitResult) => week.commitResults.push(commitResult));
+        commit.commitResults.forEach((commitResult) => copyWeek.commitResults.push(commitResult));
       }
     },
 
@@ -569,11 +569,11 @@ window.vSummary = {
         return null;
       }
 
-      if (!sinceDate || sinceDate === 'undefined') {
+      if (!copySinceDate || copySinceDate === 'undefined') {
         copySinceDate = userFirst.date;
       }
 
-      if (!untilDate) {
+      if (!copyUntilDate) {
         copyUntilDate = userLast.date;
       }
 
@@ -595,7 +595,7 @@ window.vSummary = {
 
     filterCommitByCheckedFileTypes(commit) {
       const copyCommit = commit;
-      const filteredCommitResults = commit.commitResults.map((result) => {
+      const filteredCommitResults = copyCommit.commitResults.map((result) => {
         const filteredFileTypes = this.getFilteredFileTypes(result);
         this.updateCommitResultWithFileTypes(result, filteredFileTypes);
         return result;
@@ -614,7 +614,7 @@ window.vSummary = {
           .reduce((obj, fileType) => {
             const copyObj = obj;
             copyObj[fileType] = commitResult.fileTypesAndContributionMap[fileType];
-            return obj;
+            return copyObj;
           }, {});
     },
 
@@ -673,7 +673,7 @@ window.vSummary = {
 
     updateTmpFilterSinceDate(event) {
       const copyEvent = event;
-      const since = event.target.value;
+      const since = copyEvent.target.value;
       this.hasModifiedSinceDate = true;
 
       if (!this.isSafariBrowser) {
@@ -693,7 +693,7 @@ window.vSummary = {
 
     updateTmpFilterUntilDate(event) {
       const copyEvent = event;
-      const until = event.target.value;
+      const until = copyEvent.target.value;
       this.hasModifiedUntilDate = true;
 
       if (!this.isSafariBrowser) {
@@ -714,9 +714,9 @@ window.vSummary = {
     updateCheckedFileTypeContribution(ele) {
       const copyEle = ele;
       let validCommits = 0;
-      Object.keys(ele.fileTypeContribution).forEach((fileType) => {
+      Object.keys(copyEle.fileTypeContribution).forEach((fileType) => {
         if (this.checkedFileTypes.includes(fileType)) {
-          validCommits += ele.fileTypeContribution[fileType];
+          validCommits += copyEle.fileTypeContribution[fileType];
         }
       });
       copyEle.checkedFileTypeContribution = validCommits;
@@ -874,7 +874,7 @@ window.vSummary = {
   beforeMount() {
     this.$root.$on('restoreCommits', (info) => {
       const copyInfo = info;
-      const zoomFilteredUser = this.restoreZoomFiltered(info);
+      const zoomFilteredUser = this.restoreZoomFiltered(copyInfo);
       copyInfo.zUser = zoomFilteredUser;
     });
 

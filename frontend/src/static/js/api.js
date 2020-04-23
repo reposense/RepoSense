@@ -109,9 +109,9 @@ window.api = {
     dailyCommits.forEach((commit) => {
       commit.commitResults.forEach((result) => {
         const copyResult = result;
-        copyResult.insertions = Object.values(result.fileTypesAndContributionMap)
+        copyResult.insertions = Object.values(copyResult.fileTypesAndContributionMap)
             .reduce((acc, fileType) => acc + fileType.insertions, 0);
-        copyResult.deletions = Object.values(result.fileTypesAndContributionMap)
+        copyResult.deletions = Object.values(copyResult.fileTypesAndContributionMap)
             .reduce((acc, fileType) => acc + fileType.deletions, 0);
       });
     });

@@ -182,8 +182,8 @@ window.vAuthorship = {
 
     toggleFileActiveProperty(file) {
       const copyFile = file;
-      copyFile.active = !file.active;
-      copyFile.wasCodeLoaded = file.wasCodeLoaded || file.active;
+      copyFile.active = !copyFile.active;
+      copyFile.wasCodeLoaded = copyFile.wasCodeLoaded || copyFile.active;
     },
 
     hasCommits(info) {
