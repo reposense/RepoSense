@@ -167,20 +167,23 @@ window.vAuthorship = {
 
     expandAll() {
       this.selectedFiles.forEach((file) => {
-        file.active = true;
-        file.wasCodeLoaded = true;
+        const copyFile = file;
+        copyFile.active = true;
+        copyFile.wasCodeLoaded = true;
       });
     },
 
     collapseAll() {
       this.selectedFiles.forEach((file) => {
-        file.active = false;
+        const copyFile = file;
+        copyFile.active = false;
       });
     },
 
     toggleFileActiveProperty(file) {
-      file.active = !file.active;
-      file.wasCodeLoaded = file.wasCodeLoaded || file.active;
+      const copyFile = file;
+      copyFile.active = !file.active;
+      copyFile.wasCodeLoaded = file.wasCodeLoaded || file.active;
     },
 
     hasCommits(info) {
@@ -288,11 +291,12 @@ window.vAuthorship = {
     },
 
     addBlankLineCount(fileType, lineCount, filesInfoObj) {
-      if (!filesInfoObj[fileType]) {
-        filesInfoObj[fileType] = 0;
+      const copyFilesInfoObj = filesInfoObj;
+      if (!copyFilesInfoObj[fileType]) {
+        copyFilesInfoObj[fileType] = 0;
       }
 
-      filesInfoObj[fileType] += lineCount;
+      copyFilesInfoObj[fileType] += lineCount;
     },
 
     updateSearchBarValue() {

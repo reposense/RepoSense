@@ -108,9 +108,10 @@ window.api = {
   setContributionOfCommitResults(dailyCommits) {
     dailyCommits.forEach((commit) => {
       commit.commitResults.forEach((result) => {
-        result.insertions = Object.values(result.fileTypesAndContributionMap)
+        const copyResult = result;
+        copyResult.insertions = Object.values(result.fileTypesAndContributionMap)
             .reduce((acc, fileType) => acc + fileType.insertions, 0);
-        result.deletions = Object.values(result.fileTypesAndContributionMap)
+        copyResult.deletions = Object.values(result.fileTypesAndContributionMap)
             .reduce((acc, fileType) => acc + fileType.deletions, 0);
       });
     });

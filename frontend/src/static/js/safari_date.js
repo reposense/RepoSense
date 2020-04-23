@@ -20,13 +20,14 @@ function validateInputDate(event) {
 }
 
 function deleteDashInputDate(event) {
+  const copyEvent = event;
   const key = event.keyCode;
   const date = event.target.value;
   // remove two chars before the cursor's position if deleting dash character
   if (isBackSpaceOrDeleteKey(key)) {
     const cursorPosition = event.target.selectionStart;
     if (date[cursorPosition - 1] === '-') {
-      event.target.value = date.slice(0, cursorPosition - 1);
+      copyEvent.target.value = date.slice(0, cursorPosition - 1);
     }
   }
 }
@@ -37,11 +38,12 @@ window.formatInputDateOnKeyDown = function (event) {
 };
 
 window.appendDashInputDate = function (event) {
+  const copyEvent = event;
   const date = event.target.value;
   // append dash to date with format yyyy-mm-dd
   if (date.match(/^\d{4}$/) !== null) {
-    event.target.value += '-';
+    copyEvent.target.value += '-';
   } else if (date.match(/^\d{4}-\d{2}$/) !== null) {
-    event.target.value += '-';
+    copyEvent.target.value += '-';
   }
 };
