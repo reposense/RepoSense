@@ -27,6 +27,17 @@ function loadJSON(fname) {
   });
 }
 
+window.getGroupName = function getGroupName(group, filterGroupSelection) {
+  switch (filterGroupSelection) {
+  case 'groupByRepos':
+    return group[0].repoName;
+  case 'groupByAuthors':
+    return group[0].name;
+  default:
+    return '';
+  }
+};
+
 window.api = {
   loadSummary() {
     window.REPOS = {};

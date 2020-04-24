@@ -23,7 +23,7 @@
       .mui-select.sort-within-group
         select(
           v-model="sortWithinGroupSelection",
-          v-bind:disabled="filterGroupSelection === 'groupByNone' || isAllGroupsMerged()"
+          v-bind:disabled="filterGroupSelection === 'groupByNone' || allGroupsMerged"
         )
           option(value="title") &uarr; title
           option(value="title dsc") &darr; title

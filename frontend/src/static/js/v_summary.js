@@ -234,7 +234,7 @@ window.vSummary = {
           .filter((key) => this.mergedGroupsMap[key])
           .join(window.HASH_DELIMITER);
       if (mergedGroupsMapHash.length === 0) {
-        mergedGroupsMapHash = 'none';
+        mergedGroupsMapHash = '';
       }
       addHash('mergegroup', mergedGroupsMapHash);
 
@@ -316,14 +316,7 @@ window.vSummary = {
     },
 
     getGroupName(group) {
-      switch (this.filterGroupSelection) {
-      case 'groupByRepos':
-        return group[0].repoName;
-      case 'groupByAuthors':
-        return group[0].name;
-      default:
-        return '';
-      }
+      return window.getGroupName(group, this.filterGroupSelection);
     },
 
     getFiltered() {
@@ -417,20 +410,16 @@ window.vSummary = {
 
     hasGroupMerged() {
       if (Object.keys(this.mergedGroupsMap).length === 0) {
-        return true;
+        return false;
       }
-      return Object.keys(this.mergedGroupsMap)
-          .map((key) => this.mergedGroupsMap[key])
-          .includes(true);
+      return Object.keys(this.mergedGroupsMap).some((key) => this.mergedGroupsMap[key]);
     },
 
     isAllGroupsMerged() {
       if (Object.keys(this.mergedGroupsMap).length === 0) {
         return false;
       }
-      return !Object.keys(this.mergedGroupsMap)
-          .map((key) => this.mergedGroupsMap[key])
-          .includes(false);
+      return Object.keys(this.mergedGroupsMap).every((key) => this.mergedGroupsMap[key]);
     },
 
     resetMergedGroupsMap() {
@@ -957,7 +946,7 @@ window.vSummary = {
     // restoring custom merged groups after watchers finish their job
     setTimeout(() => {
       this.restoreMergedGroups();
-    }, 50);
+    }, 0);
   },
   components: {
     vSummaryCharts: window.vSummaryCharts,

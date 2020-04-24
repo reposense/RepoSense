@@ -264,14 +264,7 @@ window.vSummaryCharts = {
     },
 
     getGroupName(group) {
-      switch (this.filterGroupSelection) {
-      case 'groupByRepos':
-        return group[0].repoName;
-      case 'groupByAuthors':
-        return group[0].name;
-      default:
-        return '';
-      }
+      return window.getGroupName(group, this.filterGroupSelection);
     },
 
     handleMergeGroup(groupName) {
