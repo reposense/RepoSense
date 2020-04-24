@@ -231,12 +231,12 @@ public class AuthorConfiguration {
     /**
      * Adds {@code aliases} of {@code author} into the map
      * @param author
-     * @param aliases
+     * @param values
      */
-    public void addAuthorEmailsAndAliasesMapEntry(Author author, List<String> aliases) {
-        aliases.forEach(alias -> {
-            checkDuplicateAliases(authorEmailsAndAliasesMap, alias, author.getGitId());
-            authorEmailsAndAliasesMap.put(alias, author);
+    public void addAuthorEmailsAndAliasesMapEntry(Author author, List<String> values) {
+        values.forEach(value -> {
+            checkDuplicateAliases(authorEmailsAndAliasesMap, value, author.getGitId());
+            authorEmailsAndAliasesMap.put(value, author);
         });
     }
 
