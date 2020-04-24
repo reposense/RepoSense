@@ -502,8 +502,9 @@ window.vSummary = {
           });
         });
         this.fileTypeColors = fileTypeColors;
-        this.checkedFileTypes = this.fileTypes.slice();
       });
+
+      this.checkedFileTypes = this.fileTypes.slice();
     },
 
     splitCommitsWeek(user, sinceDate, untilDate) {
