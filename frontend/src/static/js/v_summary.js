@@ -405,6 +405,7 @@ window.vSummary = {
       filtered[groupIndex][0].variance = mergedVariance;
       filtered[groupIndex][0].checkedFileTypeContribution = totalMergedCheckedFileTypeCommits;
 
+      // only take the merged group
       filtered[groupIndex] = filtered[groupIndex].slice(0, 1);
     },
 
