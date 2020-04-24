@@ -104,7 +104,7 @@ window.vSummary = {
       // also reset merged groups
       if (this.filterGroupSelection === 'groupByNone') {
         this.mergedGroupsMap = {};
-      } else if (!this.isAllGroupsMerged()) {
+      } else if (!this.allGroupsMerged) {
         this.resetMergedGroupsMap();
       } else {
         this.resetMergedGroupsMap();
@@ -170,7 +170,10 @@ window.vSummary = {
 
     allGroupsMerged: {
       get() {
-        return this.isAllGroupsMerged();
+        if (Object.keys(this.mergedGroupsMap).length === 0) {
+          return false;
+        }
+        return Object.keys(this.mergedGroupsMap).every((key) => this.mergedGroupsMap[key]);
       },
       set(value) {
         Object.keys(this.mergedGroupsMap).forEach((key) => {
@@ -414,13 +417,6 @@ window.vSummary = {
         return false;
       }
       return Object.keys(this.mergedGroupsMap).some((key) => this.mergedGroupsMap[key]);
-    },
-
-    isAllGroupsMerged() {
-      if (Object.keys(this.mergedGroupsMap).length === 0) {
-        return false;
-      }
-      return Object.keys(this.mergedGroupsMap).every((key) => this.mergedGroupsMap[key]);
     },
 
     resetMergedGroupsMap() {
