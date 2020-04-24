@@ -214,7 +214,7 @@ window.vSummary = {
 
       if (this.filterBreakdown) {
         const checkedFileTypesHash = this.checkedFileTypes.length > 0
-          ? this.checkedFileTypes.reduce((a, b) => `${a}${window.HASH_FILETYPE_DELIMITER}${b}`)
+          ? this.checkedFileTypes.join(window.HASH_FILETYPE_DELIMITER)
           : '';
         addHash('checkedFileTypes', checkedFileTypesHash);
       } else {
@@ -502,6 +502,7 @@ window.vSummary = {
           });
         });
         this.fileTypeColors = fileTypeColors;
+        this.checkedFileTypes = this.fileTypes.slice();
       });
     },
 
