@@ -100,7 +100,8 @@ window.vZoom = {
 
       const commitMessageClasses = document.getElementsByClassName('commit-message message-body');
       Array.from(commitMessageClasses).forEach((commitMessageClass) => {
-        commitMessageClass.classList.add(toRename);
+        const copyCommitMessageClass = commitMessageClass;
+        copyCommitMessageClass.className = (toRename);
       });
 
       this.expandedCommitMessagesCount = isActive ? this.totalCommitMessageBodyCount : 0;
