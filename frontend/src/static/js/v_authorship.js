@@ -81,12 +81,18 @@ window.vAuthorship = {
 
       this.toReverseSortFiles = hash.reverseAuthorshipOrder !== 'false';
 
+      this.selectedFileTypes = this.info.checkedFileTypes
+        ? this.info.checkedFileTypes
+        : [];
+      if (hash.authorshipFileTypes) {
+        this.selectedFileTypes = hash.authorshipFileTypes
+            .split(window.HASH_FILETYPE_DELIMITER)
+            .filter((type) => this.fileTypes.includes(type));
+      }
+
       if ('authorshipFilesGlob' in hash) {
         this.indicateSearchBar();
         this.searchBarValue = hash.authorshipFilesGlob;
-      } else if ('authorshipFileTypes' in hash) {
-        const parsedFileTypes = hash.authorshipFileTypes.split(window.HASH_FILETYPE_DELIMITER);
-        this.selectedFileTypes = parsedFileTypes.filter((type) => this.fileTypes.includes(type));
       }
     },
 
@@ -96,6 +102,12 @@ window.vAuthorship = {
       addHash('tabAuthor', this.info.author);
       addHash('tabRepo', this.info.repo);
       addHash('authorshipIsMergeGroup', this.info.isMergeGroup);
+      if (this.info.checkedFileTypes) {
+        const checkedFileTypeHash = this.info.checkedFileTypes.length > 0
+          ? this.info.checkedFileTypes.reduce((a, b) => `${a}~${b}`)
+          : '';
+        addHash('authorshipFileTypes', checkedFileTypeHash);
+      }
       encodeHash();
     },
 
@@ -277,9 +289,6 @@ window.vAuthorship = {
         }
       });
 
-      this.selectedFileTypes = this.info.checkedFileTypes
-          ? this.info.checkedFileTypes.filter((e) => this.fileTypes.includes(e))
-          : this.fileTypes.slice();
       this.fileTypeBlankLinesObj = fileTypeBlanksInfoObj;
       this.files = res;
       this.isLoaded = true;
