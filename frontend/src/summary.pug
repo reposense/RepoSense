@@ -72,7 +72,7 @@
     .error-message-box__close-button(onclick="dismissTab(this)") &times;
     .error-message-box__message The following issues occurred when analyzing the following repositories:
     .error-message-box__failed-repo(v-for="errorBlock in errorMessages")
-      i.fas.fa-exclamation.mini-font
+      font-awesome-icon.mini-font(icon="exclamation")
       span.error-message-box__failed-repo--name {{ errorBlock.repoName }}
       .error-message-box__failed-repo--reason(
         v-if="errorBlock.errorMessage.startsWith('Unexpected error stack trace')"
@@ -90,16 +90,14 @@
       .error-message-box__failed-repo--reason(v-else) {{ errorBlock.errorMessage }}
   .fileTypes(v-if="filterBreakdown")
     .checkboxes.mui-form--inline(v-if="Object.keys(fileTypeColors).length > 0")
-      label(
-        v-bind:style="{ 'background-color' : '#000000', 'color' : '#ffffff' }"
-      )
+      label(style='background-color: #000000; color: #ffffff')
         input.mui-checkbox--fileType(type="checkbox", v-model="checkAllFileTypes")
         span All:&nbsp;
       template(v-for="fileType in Object.keys(fileTypeColors)" )
         label(
           v-bind:key="fileType",
-          v-bind:style="{ 'background-color' : fileTypeColors[fileType], \
-            'color' : getFontColor(fileTypeColors[fileType])}"
+          v-bind:style="{ 'background-color': fileTypeColors[fileType], \
+            'color': this.getFontColor(fileTypeColors[fileType])}"
         )
           input.mui-checkbox--fileType(
             type="checkbox",
