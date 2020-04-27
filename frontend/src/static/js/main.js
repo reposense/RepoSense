@@ -96,6 +96,8 @@ Vue.directive('hljs', {
   },
 });
 
+Vue.component('font-awesome-icon', window['vue-fontawesome'].FontAwesomeIcon);
+
 window.app = new window.Vue({
   el: '#app',
   data: {
@@ -189,13 +191,24 @@ window.app = new window.Vue({
     deactivateTab() {
       this.isTabActive = false;
       window.addHash('tabOpen', this.isTabActive);
-      window.removeHash('tabAuthor');
-      window.removeHash('tabRepo');
       window.removeHash('tabType');
+      this.removeZoomHashes();
       window.encodeHash();
     },
 
+    removeZoomHashes() {
+      window.removeHash('zA');
+      window.removeHash('zR');
+      window.removeHash('zACS');
+      window.removeHash('zS');
+      window.removeHash('zU');
+      window.removeHash('zFGS');
+      window.removeHash('zFTF');
+      window.removeHash('zMG');
+    },
+
     updateTabAuthorship(obj) {
+      this.removeZoomHashes();
       this.tabInfo.tabAuthorship = Object.assign({}, obj);
       this.activateTab('authorship');
     },
@@ -214,12 +227,33 @@ window.app = new window.Vue({
       const info = {
         author: hash.tabAuthor,
         repo: hash.tabRepo,
+        isMergeGroup: hash.authorshipIsMergeGroup === 'true',
         minDate,
         maxDate,
       };
-      const tabInfoLength = Object.values(info).filter((x) => x).length;
+      const tabInfoLength = Object.values(info).filter((x) => x !== null).length;
       if (Object.keys(info).length === tabInfoLength) {
         this.updateTabAuthorship(info);
+      } else if (hash.tabOpen === 'false' || tabInfoLength > 2) {
+        window.app.isTabActive = false;
+      }
+    },
+
+    renderZoomTabHash() {
+      const hash = window.hashParams;
+      const zoomInfo = {
+        zAuthor: hash.zA,
+        zRepo: hash.zR,
+        zAvgCommitSize: hash.zACS,
+        zSince: hash.zS,
+        zUntil: hash.zU,
+        zFilterGroup: hash.zFGS,
+        zTimeFrame: hash.zFTF,
+        zIsMerge: hash.zMG === 'true',
+      };
+      const tabInfoLength = Object.values(zoomInfo).filter((x) => x !== null).length;
+      if (Object.keys(zoomInfo).length === tabInfoLength) {
+        this.updateTabZoom(zoomInfo);
       } else if (hash.tabOpen === 'false' || tabInfoLength > 2) {
         window.app.isTabActive = false;
       }
@@ -242,7 +276,7 @@ window.app = new window.Vue({
           until = until || window.app.untilDate;
           this.renderAuthorShipTabHash(since, until);
         } else {
-          // handle zoom tab if needed
+          this.renderZoomTabHash();
         }
       }
     },
@@ -272,9 +306,9 @@ window.app = new window.Vue({
     },
   },
   components: {
-    v_zoom: window.vZoom,
-    v_summary: window.vSummary,
-    v_authorship: window.vAuthorship,
+    vZoom: window.vZoom,
+    vSummary: window.vSummary,
+    vAuthorship: window.vAuthorship,
     CircleSpinner: window.VueLoadingSpinner.Circle,
   },
   created() {

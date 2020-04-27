@@ -1,6 +1,7 @@
 // utility functions //
 window.$ = (id) => document.getElementById(id);
 window.enquery = (key, val) => `${key}=${encodeURIComponent(val)}`;
+window.HASH_FILETYPE_DELIMITER = '~';
 const REPORT_DIR = '.';
 
 // data retrieval functions //
@@ -36,6 +37,7 @@ window.api = {
           window.app.sinceDate = data.sinceDate;
           window.app.untilDate = data.untilDate;
           window.app.repoSenseVersion = data.repoSenseVersion;
+          window.app.reportGenerationTime = data.reportGenerationTime;
           window.app.isSinceDateProvided = data.isSinceDateProvided;
           window.app.isUntilDateProvided = data.isUntilDateProvided;
 
@@ -71,6 +73,8 @@ window.api = {
             fileTypeContribution: commits.authorFileTypeContributionMap[author],
           };
 
+          this.setContributionOfCommitResults(obj.dailyCommits);
+
           const searchParams = [
               repo.displayName,
               obj.displayName, author,
@@ -98,6 +102,18 @@ window.api = {
           window.REPOS[repoName].files = files;
           return files;
         });
+  },
+
+  // calculate and set the contribution of each commitResult, since not provided in json file
+  setContributionOfCommitResults(dailyCommits) {
+    dailyCommits.forEach((commit) => {
+      commit.commitResults.forEach((result) => {
+        result.insertions = Object.values(result.fileTypesAndContributionMap)
+            .reduce((acc, fileType) => acc + fileType.insertions, 0);
+        result.deletions = Object.values(result.fileTypesAndContributionMap)
+            .reduce((acc, fileType) => acc + fileType.deletions, 0);
+      });
+    });
   },
 
 };

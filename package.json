@@ -7,7 +7,9 @@
     "doc": "docs"
   },
   "scripts": {
-    "lint": "eslint -- --fix frontend/src/**/*js frontend/cypress/**.js && stylelint frontend/src/**/*.scss && pug-lint frontend/src/*.pug frontend/src/tabs/*.pug",
+    "lint": "eslint frontend/src/**/*js frontend/cypress/**.js && stylelint frontend/src/**/*.scss && npm run puglint",
+    "puglint": "pug-lint frontend/src/index.pug frontend/src/ramp.pug frontend/src/summary.pug frontend/src/tabs/authorship.pug frontend/src/tabs/segment.pug frontend/src/tabs/zoom.pug",
+    "lintfix": "eslint --fix frontend/src/**/*js frontend/cypress/**.js && stylelint --fix frontend/src/**/*.scss",
     "browserify": "browserify -t vueify -e frontend/src/static/js/v_authorship.js -o frontend/build/static/js/v_authorship.js",
     "spuild": "spuild frontend"
   },

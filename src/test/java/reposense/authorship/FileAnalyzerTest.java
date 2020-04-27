@@ -11,7 +11,6 @@ import org.junit.Test;
 import reposense.authorship.model.FileInfo;
 import reposense.authorship.model.FileResult;
 import reposense.git.GitCheckout;
-import reposense.git.exception.CommitNotFoundException;
 import reposense.model.Author;
 import reposense.model.CommitHash;
 import reposense.template.GitTestTemplate;
@@ -45,7 +44,7 @@ public class FileAnalyzerTest extends GitTestTemplate {
     }
 
     @Test
-    public void blameTestDateRange() throws CommitNotFoundException {
+    public void blameTestDateRange() throws Exception {
         GitCheckout.checkoutDate(config.getRepoRoot(), config.getBranch(), BLAME_TEST_UNTIL_DATE);
         config.setSinceDate(BLAME_TEST_SINCE_DATE);
         config.setUntilDate(BLAME_TEST_UNTIL_DATE);
@@ -55,7 +54,7 @@ public class FileAnalyzerTest extends GitTestTemplate {
     }
 
     @Test
-    public void movedFileBlameTestDateRange() throws CommitNotFoundException {
+    public void movedFileBlameTestDateRange() throws Exception {
         GitCheckout.checkoutDate(config.getRepoRoot(), config.getBranch(), MOVED_FILE_UNTIL_DATE);
         config.setSinceDate(MOVED_FILE_SINCE_DATE);
         config.setUntilDate(MOVED_FILE_UNTIL_DATE);

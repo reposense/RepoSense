@@ -1,3 +1,11 @@
+<frontmatter>
+  title: "Using Checkstyle-IDEA"
+  header: header.md
+  footer: footer.md
+  siteNav: mainNav.md
+  pageNav: 2
+</frontmatter>
+
 # Using Checkstyle-IDEA
 
 ## Configuring Checkstyle-IDEA

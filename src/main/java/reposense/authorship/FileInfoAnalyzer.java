@@ -2,7 +2,6 @@ package reposense.authorship;
 
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.nio.file.PathMatcher;
 import java.nio.file.Paths;
 import java.time.ZoneId;
 import java.time.ZoneOffset;
@@ -57,9 +56,7 @@ public class FileInfoAnalyzer {
         aggregateBlameAuthorInfo(config, fileInfo);
         fileInfo.setFileType(config.getFileType(fileInfo.getPath()));
 
-        if (config.isAnnotationOverwrite()) {
-            AnnotatorAnalyzer.aggregateAnnotationAuthorInfo(fileInfo, config.getAuthorEmailsAndAliasesMap());
-        }
+        AnnotatorAnalyzer.aggregateAnnotationAuthorInfo(fileInfo, config.getAuthorEmailsAndAliasesMap());
 
         if (!config.getAuthorList().isEmpty() && fileInfo.isAllAuthorsIgnored(config.getAuthorList())) {
             return null;
@@ -106,7 +103,7 @@ public class FileInfoAnalyzer {
                 commitDateInMs += authorRawOffset - systemRawOffset;
             }
 
-            if (!fileInfo.isFileLineTracked(lineCount / 5) || isAuthorIgnoringFile(author, filePath)
+            if (!fileInfo.isFileLineTracked(lineCount / 5) || author.isIgnoringFile(filePath)
                     || CommitHash.isInsideCommitList(commitHash, config.getIgnoreCommitList())
                     || commitDateInMs < sinceDateInMs || commitDateInMs > untilDateInMs) {
                 author = Author.UNKNOWN_AUTHOR;
@@ -121,13 +118,5 @@ public class FileInfoAnalyzer {
      */
     private static String getGitBlameResult(RepoConfiguration config, String filePath) {
         return GitBlame.blame(config.getRepoRoot(), filePath);
-    }
-
-    /**
-     * Returns true if the {@code author} is ignoring the {@code filePath} based on its ignore glob list.
-     */
-    private static boolean isAuthorIgnoringFile(Author author, Path filePath) {
-        PathMatcher ignoreGlobMatcher = author.getIgnoreGlobMatcher();
-        return ignoreGlobMatcher.matches(filePath);
     }
 }
