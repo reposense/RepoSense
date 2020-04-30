@@ -82,12 +82,12 @@ window.vAuthorship = {
       this.toReverseSortFiles = hash.reverseAuthorshipOrder !== 'false';
 
       this.selectedFileTypes = this.info.checkedFileTypes
-        ? this.info.checkedFileTypes
+        ? this.info.checkedFileTypes.filter((fileType) => this.fileTypes.includes(fileType))
         : [];
       if (hash.authorshipFileTypes) {
         this.selectedFileTypes = hash.authorshipFileTypes
             .split(window.HASH_FILETYPE_DELIMITER)
-            .filter((type) => this.fileTypes.includes(type));
+            .filter((fileType) => this.fileTypes.includes(fileType));
       }
 
       if ('authorshipFilesGlob' in hash) {
