@@ -2,25 +2,6 @@
 
 /* Summary */
 #summary {
-  .fileTypes {
-    align-items: center;
-    text-align: left;
-
-    .checkboxes {
-      label {
-        align-items: center;
-        border-radius: 5px;
-        display: inline-flex;
-        margin: 0 5px 5px 0;
-        padding: 0 5px;
-      }
-
-      span {
-        margin-left: .25rem;
-      }
-    }
-  }
-
   .summary-status {
     text-align: center;
   }
@@ -106,6 +87,10 @@
       font-weight: bold;
       text-align: left;
 
+      & > * {
+        padding-right: .5rem;
+      }
+
       &--index {
         background: mui-color('black');
         color: mui-color('white');
@@ -127,7 +112,6 @@
 
       &--contribution {
         display: inline;
-        padding-right: .5rem;
       }
     }
 
