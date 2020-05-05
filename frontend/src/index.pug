@@ -60,9 +60,6 @@ html
             span {{ reportGenerationTime }}
 
         #tabs-wrapper(ref="tabWrapper", slot="right")
-          #tab-resize(onmousedown="registerMouseMove()")
-          .tab-close(v-on:click="deactivateTab")
-            font-awesome-icon(icon="caret-right")
           .tab-content.panel-padding
             .tab-panes
               v-authorship#tab-authorship.tab-pane(
