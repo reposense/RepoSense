@@ -15,11 +15,16 @@ RepoSense is a contribution analysis tool for Git repositories. It is particular
 
 RepoSense generates a static HTML report that includes contribution information for each author in each target repository.
 The features of the report include:
+* Visualization for contribution frequency
+* Visualization for contribution amount
+* Code review panel
+* Comparison of contribution between authors
+* Filtering and sorting of authors
+
+Here is a look at some of these features:
 
 <tabs>
-  <tab header="Chronological visualisation of contributions">
-  The report shows the contribution frequency and amount of each author in the repository.
-  <br/> Authors can also be sorted / filtered according to various criteria.
+  <tab header="Visualisation of contributions">
 
   ![Overview](images/rampchart.png)
   </tab>
