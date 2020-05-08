@@ -286,7 +286,9 @@ window.vSummary = {
     },
 
     restoreMergedGroups() {
-      this.mergedGroups = this.customMergedGroups.split(window.HASH_DELIMITER);
+      if (this.customMergedGroups) {
+        this.mergedGroups = this.customMergedGroups.split(window.HASH_DELIMITER);
+      }
     },
 
     getDates() {
