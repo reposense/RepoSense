@@ -207,19 +207,7 @@ window.app = new window.Vue({
       this.isTabActive = false;
       window.addHash('tabOpen', this.isTabActive);
       window.removeHash('tabType');
-      this.removeZoomHashes();
       window.encodeHash();
-    },
-
-    removeZoomHashes() {
-      window.removeHash('zA');
-      window.removeHash('zR');
-      window.removeHash('zACS');
-      window.removeHash('zS');
-      window.removeHash('zU');
-      window.removeHash('zFGS');
-      window.removeHash('zFTF');
-      window.removeHash('zMG');
     },
 
     renderAuthorShipTabHash(minDate, maxDate) {
