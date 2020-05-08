@@ -47,8 +47,9 @@
           <a href="https://www.codacy.com/app/reposense/RepoSense?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=reposense/RepoSense&amp;utm_campaign=Badge_Grade"><a href="https://api.codacy.com/project/badge/Grade/08a3527378464ed4a5ad62e27f590d6a" target="_self"><img src="https://api.codacy.com/project/badge/Grade/08a3527378464ed4a5ad62e27f590d6a" alt class="img-fluid"></a></a>
           <a href="http://codecov.io/github/reposense/RepoSense?branch=master"><a href="https://codecov.io/gh/reposense/RepoSense/branch/master/graphs/badge.svg?branch=master" target="_self"><img src="https://codecov.io/gh/reposense/RepoSense/branch/master/graphs/badge.svg?branch=master" alt class="img-fluid"></a></a>
           <a href="https://app.netlify.com/sites/reposense/deploys"><a href="https://api.netlify.com/api/v1/badges/260983b3-589e-4619-a2e8-0bfb7a2b4422/deploy-status" target="_self"><img src="https://api.netlify.com/api/v1/badges/260983b3-589e-4619-a2e8-0bfb7a2b4422/deploy-status" alt class="img-fluid"></a></a></p>
-        <p>RepoSense is a contribution analysis tool for Git repositories. It generates a static HTML report including contribution information for each author in the repository.
-          The features of the report includes:</p>
+        <p>RepoSense is a contribution analysis tool for Git repositories. It is particularly useful for those who want a chronological visualisation of the code contributions and commits made to a group of repositories. Educators can use RepoSense to track the work done in class projects, while team leads may use it to oversee their project teams.</p>
+        <p>RepoSense generates a static HTML report that includes contribution information for each author in each target repository.
+          The features of the report include:</p>
         <ul>
           <li>Visualization for contribution frequency</li>
           <li>Visualization for contribution amount</li>
@@ -56,6 +57,22 @@
           <li>Comparison of contribution between authors</li>
           <li>Filtering and sorting of authors</li>
         </ul>
+        <p>Here is a look at some of these features:</p>
+        <tabs>
+          <tab><template slot="_header">Visualisation of contributions</template>
+            <p><a href="/RepoSense/images/rampchart.png" target="_self"><img src="/RepoSense/images/rampchart.png" alt class="img-fluid"></a></p>
+          </tab>
+          <tab><template slot="_header">Collation of all contributed code</template>
+            The report's Code Panel captures all the code written by each author.
+            <p>
+              <pic src="/RepoSense/images/code-panel.png" width="450"></pic>
+            </p>
+          </tab>
+          <tab><template slot="_header">Collation of all commits</template>
+            The report's Commit Panel captures all the commits made by each author.
+            <p><a href="/RepoSense/images/opening-commits-panel.gif" target="_self"><img src="/RepoSense/images/opening-commits-panel.gif" alt class="img-fluid"></a></p>
+          </tab>
+        </tabs>
         <h2 id="documentations">Documentations<a class="fa fa-anchor" href="#documentations" onclick="event.stopPropagation()"></a></h2>
         <ul>
           <li><strong>User Guide</strong> <a href="https://github.com/reposense/RepoSense/blob/master/docs/UserGuide.md">[<strong>Current Build</strong>]</a> <a href="https://github.com/reposense/RepoSense/blob/release/docs/UserGuide.md">[<strong>Latest Release</strong>]</a></li>
