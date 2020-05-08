@@ -62,7 +62,7 @@ window.vSummary = {
       isSortingWithinDsc: '',
       filterTimeFrame: 'commit',
       filterBreakdown: false,
-      mergedGroupsMap: {},
+      mergedGroups: [],
       tmpFilterSinceDate: '',
       tmpFilterUntilDate: '',
       hasModifiedSinceDate: window.app.isSinceDateProvided,
@@ -102,19 +102,18 @@ window.vSummary = {
 
       // merge group is not allowed when group by none
       // also reset merged groups
-      if (this.filterGroupSelection === 'groupByNone') {
-        this.mergedGroupsMap = {};
-      } else if (!this.allGroupsMerged) {
-        this.resetMergedGroupsMap();
+      if (this.filterGroupSelection === 'groupByNone' || !this.allGroupsMerged) {
+        this.mergedGroups = [];
       } else {
-        this.resetMergedGroupsMap();
-        Object.keys(this.mergedGroupsMap).forEach((x) => {
-          this.mergedGroupsMap[x] = true;
+        const mergedGroups = [];
+        this.filtered.forEach((group) => {
+          mergedGroups.push(this.getGroupName(group));
         });
+        this.mergedGroups = mergedGroups;
       }
     },
 
-    mergedGroupsMap: {
+    mergedGroups: {
       handler() {
         this.getFiltered();
       },
@@ -170,15 +169,21 @@ window.vSummary = {
 
     allGroupsMerged: {
       get() {
-        if (Object.keys(this.mergedGroupsMap).length === 0) {
+        if (this.mergedGroups.length === 0) {
           return false;
         }
-        return Object.keys(this.mergedGroupsMap).every((key) => this.mergedGroupsMap[key]);
+        return this.mergedGroups.length === this.filtered.length;
       },
       set(value) {
-        Object.keys(this.mergedGroupsMap).forEach((key) => {
-          this.mergedGroupsMap[key] = value;
-        });
+        if (value) {
+          const mergedGroups = [];
+          this.filtered.forEach((group) => {
+            mergedGroups.push(this.getGroupName(group));
+          });
+          this.mergedGroups = mergedGroups;
+        } else {
+          this.mergedGroups = [];
+        }
       },
     },
   },
@@ -233,13 +238,11 @@ window.vSummary = {
 
       addHash('timeframe', this.filterTimeFrame);
 
-      let mergedGroupsMapHash = Object.keys(this.mergedGroupsMap)
-          .filter((key) => this.mergedGroupsMap[key])
-          .join(window.HASH_DELIMITER);
-      if (mergedGroupsMapHash.length === 0) {
-        mergedGroupsMapHash = '';
+      let mergedGroupsHash = this.mergedGroups.join(window.HASH_DELIMITER);
+      if (mergedGroupsHash.length === 0) {
+        mergedGroupsHash = '';
       }
-      addHash('mergegroup', mergedGroupsMapHash);
+      addHash('mergegroup', mergedGroupsHash);
 
       addHash('groupSelect', this.filterGroupSelection);
       addHash('breakdown', this.filterBreakdown);
@@ -283,11 +286,7 @@ window.vSummary = {
     },
 
     restoreMergedGroups() {
-      if (this.customMergedGroups) {
-        this.customMergedGroups.split(window.HASH_DELIMITER).forEach((key) => {
-          this.mergedGroupsMap[key] = true;
-        });
-      }
+      this.mergedGroups = this.customMergedGroups.split(window.HASH_DELIMITER);
     },
 
     getDates() {
@@ -377,7 +376,7 @@ window.vSummary = {
 
     getMergedRepos() {
       this.filtered.forEach((group, groupIndex) => {
-        if (this.mergedGroupsMap[this.getGroupName(group)]) {
+        if (this.mergedGroups.includes(this.getGroupName(group))) {
           this.mergeGroupByIndex(this.filtered, groupIndex);
         }
       });
@@ -413,26 +412,15 @@ window.vSummary = {
     },
 
     hasGroupMerged() {
-      if (Object.keys(this.mergedGroupsMap).length === 0) {
-        return false;
-      }
-      return Object.keys(this.mergedGroupsMap).some((key) => this.mergedGroupsMap[key]);
-    },
-
-    resetMergedGroupsMap() {
-      const mergedGroupsMap = {};
-      this.filtered.forEach((group) => {
-        mergedGroupsMap[this.getGroupName(group)] = false;
-      });
-      this.mergedGroupsMap = mergedGroupsMap;
+      return this.mergedGroups.length > 0;
     },
 
     handleMergeGroup(groupName) {
-      this.mergedGroupsMap[groupName] = true;
+      this.mergedGroups.push(groupName);
     },
 
     handleExpandGroup(groupName) {
-      this.mergedGroupsMap[groupName] = false;
+      this.mergedGroups = this.mergedGroups.filter((x) => x !== groupName);
     },
 
     mergeCommits(user, merged, dateToIndexMap) {
@@ -938,7 +926,7 @@ window.vSummary = {
     });
   },
   mounted() {
-    this.resetMergedGroupsMap();
+    this.mergedGroups = [];
 
     // restoring custom merged groups after watchers finish their job
     setTimeout(() => {

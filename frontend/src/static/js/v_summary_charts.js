@@ -91,7 +91,7 @@ window.viewClick = function viewClick(evt) {
 
 window.vSummaryCharts = {
   props: ['checkedFileTypes', 'filtered', 'fileTypeColors', 'avgContributionSize', 'filterBreakdown',
-      'filterGroupSelection', 'filterTimeFrame', 'filterSinceDate', 'filterUntilDate', 'mergedGroupsMap',
+      'filterGroupSelection', 'filterTimeFrame', 'filterSinceDate', 'filterUntilDate', 'mergedGroups',
       'minDate', 'maxDate'],
   template: window.$('v_summary_charts').innerHTML,
   computed: {
@@ -265,6 +265,10 @@ window.vSummaryCharts = {
 
     getGroupName(group) {
       return window.getGroupName(group, this.filterGroupSelection);
+    },
+
+    isGroupMerged(groupName) {
+      return this.mergedGroups.includes(groupName);
     },
 
     handleMergeGroup(groupName) {
