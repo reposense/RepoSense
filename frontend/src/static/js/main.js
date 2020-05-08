@@ -127,7 +127,6 @@ window.app = new window.Vue({
       this.activateTab('zoom');
     },
     '$store.state.tabAuthorshipInfo': function () {
-      this.removeZoomHashes();
       this.tabInfo.tabAuthorship = Object.assign({}, this.$store.state.tabAuthorshipInfo);
       this.activateTab('authorship');
     },
