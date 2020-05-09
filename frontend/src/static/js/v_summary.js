@@ -812,8 +812,8 @@ window.vSummary = {
 
       const groups = JSON.parse(JSON.stringify(this.repos));
 
+      const res = [];
       groups.forEach((repo) => {
-        const res = [];
         repo.users.forEach((user) => {
           // only filter users that match with zoom user
           if (this.matchZoomUser(info, user)) {
@@ -825,11 +825,11 @@ window.vSummary = {
             res.push(user);
           }
         });
-
-        if (res.length) {
-          filtered.push(res);
-        }
       });
+
+      if (res.length) {
+        filtered.push(res);
+      }
 
       if (zIsMerge) {
         this.mergeGroup(filtered);
