@@ -92,7 +92,7 @@ window.viewClick = function viewClick(evt) {
 window.vSummaryCharts = {
   props: ['checkedFileTypes', 'filtered', 'fileTypeColors', 'avgContributionSize', 'filterBreakdown',
       'filterGroupSelection', 'filterTimeFrame', 'filterSinceDate', 'filterUntilDate', 'isMergeGroup',
-      'minDate', 'maxDate'],
+      'minDate', 'maxDate', 'filterSearch'],
   template: window.$('v_summary_charts').innerHTML,
   computed: {
     avgCommitSize() {
@@ -241,7 +241,7 @@ window.vSummaryCharts = {
 
     openTabZoom(user, since, until) {
       const {
-        avgCommitSize, filterGroupSelection, filterTimeFrame, isMergeGroup,
+        avgCommitSize, filterGroupSelection, filterTimeFrame, isMergeGroup, filterSearch,
       } = this;
       const clonedUser = Object.assign({}, user); // so that changes in summary won't affect zoom
       const info = {
@@ -255,6 +255,7 @@ window.vSummaryCharts = {
         zSince: since,
         zUntil: until,
         zIsMerge: isMergeGroup,
+        zFilterSearch: filterSearch,
       };
 
       this.$store.commit('updateTabZoomInfo', info);
