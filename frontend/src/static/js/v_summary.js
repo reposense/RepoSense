@@ -98,11 +98,12 @@ window.vSummary = {
     },
 
     filterGroupSelection() {
+      const { allGroupsMerged } = this;
       this.getFilteredRepos();
 
       // merge group is not allowed when group by none
       // also reset merged groups
-      if (this.filterGroupSelection === 'groupByNone' || !this.allGroupsMerged) {
+      if (this.filterGroupSelection === 'groupByNone' || !allGroupsMerged) {
         this.mergedGroups = [];
       } else {
         const mergedGroups = [];
