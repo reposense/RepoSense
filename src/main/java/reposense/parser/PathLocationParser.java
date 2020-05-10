@@ -48,11 +48,12 @@ public class PathLocationParser {
     }
 
     /**
-     * Given a string of the form stringA#stringB, breaks the string at the # character
-     * and returns a 2-element array of the form { stringA, stringB }
-     * Note that stringA can contain several # characters as well.
-     * The string is broken at the last # character.
-     * Example: stringA#stringB#stringC is parsed to give { stringA#strinB, stringC }
+     * Given a string {@code pathAndBranch}, extracts the path to the repo and the branch name
+     * into a 2-element array of the form {path, branch}. The last '#' character is used as
+     * the delimiter for the branch name.
+     *
+     * The path to the repo can contain several # characters as well.
+     * Example: home#Desktop#RepoSense#master is parsed to give { home#Desktop#RepoSense, master }
      */
     private static String[] splitPathAndBranch(String pathAndBranch) {
         String[] split = pathAndBranch.split(BRANCH_DELIMITER);
