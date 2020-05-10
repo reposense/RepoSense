@@ -97,18 +97,12 @@ window.vAuthorship = {
     },
 
     setInfoHash() {
-      const { addHash, encodeHash } = window;
+      const { addHash } = window;
       // We only set these hashes as they are propagated from summary_charts
       addHash('tabAuthor', this.info.author);
       addHash('tabRepo', this.info.repo);
       addHash('authorshipIsMergeGroup', this.info.isMergeGroup);
-      if (this.info.checkedFileTypes) {
-        const checkedFileTypeHash = this.info.checkedFileTypes.length > 0
-          ? this.info.checkedFileTypes.reduce((a, b) => `${a}~${b}`)
-          : '';
-        addHash('authorshipFileTypes', checkedFileTypeHash);
-      }
-      encodeHash();
+      this.updateFileTypeHash();
     },
 
     removeAuthorshipHashes() {
