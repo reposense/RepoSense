@@ -1,3 +1,6 @@
+// eslint-disable-next-line import/extensions
+import store from './store.js';
+
 const DRAG_BAR_WIDTH = 13.25;
 const SCROLL_BAR_WIDTH = 17;
 const GUIDE_BAR_WIDTH = 2;
@@ -61,6 +64,7 @@ Vue.component('font-awesome-icon', window['vue-fontawesome'].FontAwesomeIcon);
 
 window.app = new window.Vue({
   el: '#app',
+  store,
   data: {
     repos: {},
     users: [],
@@ -77,6 +81,16 @@ window.app = new window.Vue({
     creationDate: '',
 
     errorMessages: {},
+  },
+  watch: {
+    '$store.state.tabZoomInfo': function () {
+      this.tabInfo.tabZoom = Object.assign({}, this.$store.state.tabZoomInfo);
+      this.activateTab('zoom');
+    },
+    '$store.state.tabAuthorshipInfo': function () {
+      this.tabInfo.tabAuthorship = Object.assign({}, this.$store.state.tabAuthorshipInfo);
+      this.activateTab('authorship');
+    },
   },
   methods: {
     // model functions //
@@ -156,20 +170,6 @@ window.app = new window.Vue({
       window.encodeHash();
     },
 
-    updateTabAuthorship(obj) {
-      this.tabInfo.tabAuthorship = Object.assign({}, obj);
-      this.activateTab('authorship');
-    },
-    updateTabZoom(obj) {
-      this.tabInfo.tabZoom = Object.assign({}, obj);
-      this.activateTab('zoom');
-    },
-
-    // updating summary view
-    updateSummaryDates(since, until) {
-      this.$refs.summary.updateDateRange(since, until);
-    },
-
     renderAuthorShipTabHash(minDate, maxDate) {
       const hash = window.hashParams;
       const info = {
@@ -181,7 +181,7 @@ window.app = new window.Vue({
       };
       const tabInfoLength = Object.values(info).filter((x) => x !== null).length;
       if (Object.keys(info).length === tabInfoLength) {
-        this.updateTabAuthorship(info);
+        this.$store.commit('updateTabAuthorshipInfo', info);
       } else if (hash.tabOpen === 'false' || tabInfoLength > 2) {
         window.app.isTabActive = false;
       }
@@ -201,7 +201,7 @@ window.app = new window.Vue({
       };
       const tabInfoLength = Object.values(zoomInfo).filter((x) => x !== null).length;
       if (Object.keys(zoomInfo).length === tabInfoLength) {
-        this.updateTabZoom(zoomInfo);
+        this.$store.commit('updateTabZoomInfo', zoomInfo);
       } else if (hash.tabOpen === 'false' || tabInfoLength > 2) {
         window.app.isTabActive = false;
       }

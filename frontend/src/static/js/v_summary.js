@@ -83,6 +83,14 @@ window.vSummary = {
       }
       this.getFiltered();
     },
+
+    '$store.state.summaryDates': function () {
+      this.hasModifiedSinceDate = true;
+      this.hasModifiedUntilDate = true;
+      this.tmpFilterSinceDate = this.$store.state.summaryDates.since;
+      this.tmpFilterUntilDate = this.$store.state.summaryDates.until;
+      window.deactivateAllOverlays();
+    },
   },
   computed: {
     checkAllFileTypes: {
@@ -607,14 +615,6 @@ window.vSummary = {
       this.tmpFilterUntilDate = '';
       window.removeHash('since');
       window.removeHash('until');
-    },
-
-    updateDateRange(since, until) {
-      this.hasModifiedSinceDate = true;
-      this.hasModifiedUntilDate = true;
-      this.tmpFilterSinceDate = since;
-      this.tmpFilterUntilDate = until;
-      window.deactivateAllOverlays();
     },
 
     updateTmpFilterSinceDate(event) {
