@@ -212,7 +212,7 @@ window.vSummaryCharts = {
     openTabAuthorship(user, repo, index) {
       const { minDate, maxDate, fileTypeColors } = this;
 
-      this.$parent.$emit('view-authorship', {
+      const info = {
         minDate,
         maxDate,
         author: user.name,
@@ -223,7 +223,9 @@ window.vSummaryCharts = {
         repoIndex: index,
         totalCommits: user.totalCommits,
         fileTypeColors,
-      });
+      };
+
+      this.$store.commit('updateTabAuthorshipInfo', info);
     },
 
     openTabZoomSubrange(user) {
@@ -242,7 +244,7 @@ window.vSummaryCharts = {
         avgCommitSize, filterGroupSelection, filterTimeFrame, isMergeGroup,
       } = this;
       const clonedUser = Object.assign({}, user); // so that changes in summary won't affect zoom
-      this.$parent.$emit('view-zoom', {
+      const info = {
         zRepo: user.repoName,
         zAuthor: user.name,
         zFilterGroup: filterGroupSelection,
@@ -253,7 +255,9 @@ window.vSummaryCharts = {
         zSince: since,
         zUntil: until,
         zIsMerge: isMergeGroup,
-      });
+      };
+
+      this.$store.commit('updateTabZoomInfo', info);
     },
 
     getPercentile(index) {
