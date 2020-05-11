@@ -349,7 +349,7 @@ window.vSummary = {
 
       // create deep clone of this.repos to not modify the original content of this.repos
       // when merging groups
-      const groups = this.hasGroupMerged() ? JSON.parse(JSON.stringify(this.repos)) : this.repos;
+      const groups = this.hasMergedGroups() ? JSON.parse(JSON.stringify(this.repos)) : this.repos;
       groups.forEach((repo) => {
         const res = [];
 
@@ -424,7 +424,7 @@ window.vSummary = {
       filtered[groupIndex] = filtered[groupIndex].slice(0, 1);
     },
 
-    hasGroupMerged() {
+    hasMergedGroups() {
       return this.mergedGroups.length > 0;
     },
 
