@@ -140,6 +140,12 @@ window.vSummary = {
       this.tmpFilterUntilDate = this.$store.state.summaryDates.until;
       window.deactivateAllOverlays();
     },
+
+    '$store.state.mergedGroups': function () {
+      // assign manually since mapState has not updated this.mergedGroups yet
+      this.mergedGroups = this.$store.state.mergedGroups;
+      this.getFiltered();
+    },
   },
   computed: {
     checkAllFileTypes: {
@@ -153,7 +159,6 @@ window.vSummary = {
           this.checkedFileTypes = [];
         }
       },
-      ...Vuex.mapState(['mergedGroups']),
     },
 
     avgContributionSize() {
@@ -190,6 +195,8 @@ window.vSummary = {
         }
       },
     },
+
+    ...Vuex.mapState(['mergedGroups']),
   },
   methods: {
     // view functions //
@@ -904,14 +911,6 @@ window.vSummary = {
     },
   },
   created() {
-    this.$store.watch(
-        (state) => state.mergedGroups,
-        () => {
-          // assign manually since mapState has not updated this.mergedGroups yet
-          this.mergedGroups = this.$store.state.mergedGroups;
-          this.getFiltered();
-        },
-    );
     this.renderFilterHash();
     this.getFiltered();
     this.processFileTypes();
