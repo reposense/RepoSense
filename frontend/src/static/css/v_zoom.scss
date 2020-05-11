@@ -1,9 +1,5 @@
 @import 'colors';
 
-.panel-title {
-  @include large-font;
-}
-
 .zoom {
   &__title {
     &--granularity {

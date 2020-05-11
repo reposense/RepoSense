@@ -120,6 +120,11 @@
   }
 }
 
+.panel-title {
+  @include large-font;
+  display: inline;
+}
+
 .panel-heading {
   .group-name {
     @include large-font;
