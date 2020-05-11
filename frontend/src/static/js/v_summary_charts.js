@@ -281,7 +281,6 @@ window.vSummaryCharts = {
     handleMergeGroup(groupName) {
       const info = this.mergedGroups;
       info.push(groupName);
-      console.log(info);
       this.$store.commit('updateMergedGroup', info);
     },
 
