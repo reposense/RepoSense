@@ -140,7 +140,7 @@ window.vSummary = {
       window.deactivateAllOverlays();
     },
 
-    '$store.state.mergedGroups': function () {
+    mergedGroups() {
       this.getFiltered();
     },
   },
