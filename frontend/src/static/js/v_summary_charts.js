@@ -212,7 +212,7 @@ window.vSummaryCharts = {
     },
 
     // triggering opening of tabs //
-    openTabAuthorship(user, repo, index, isMerge) {
+    openTabAuthorship(user, repo, index, isMerged) {
       const { minDate, maxDate, fileTypeColors } = this;
 
       const info = {
@@ -221,7 +221,7 @@ window.vSummaryCharts = {
         author: user.name,
         repo: user.repoName,
         name: user.displayName,
-        isMergeGroup: isMerge,
+        isMergeGroup: isMerged,
         location: this.getRepoLink(repo[index]),
         repoIndex: index,
         totalCommits: user.totalCommits,
