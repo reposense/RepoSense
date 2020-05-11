@@ -63,7 +63,6 @@ window.vSummary = {
       isSortingWithinDsc: '',
       filterTimeFrame: 'commit',
       filterBreakdown: false,
-      mergedGroups: [],
       tmpFilterSinceDate: '',
       tmpFilterUntilDate: '',
       hasModifiedSinceDate: window.app.isSinceDateProvided,
@@ -142,8 +141,6 @@ window.vSummary = {
     },
 
     '$store.state.mergedGroups': function () {
-      // assign manually since mapState has not updated this.mergedGroups yet
-      this.mergedGroups = this.$store.state.mergedGroups;
       this.getFiltered();
     },
   },
