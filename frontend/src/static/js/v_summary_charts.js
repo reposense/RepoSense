@@ -1,3 +1,4 @@
+/* global Vuex */
 window.dismissTab = function dismissTab(node) {
   const parent = node.parentNode;
   parent.style.display = 'none';
@@ -91,7 +92,7 @@ window.viewClick = function viewClick(evt) {
 
 window.vSummaryCharts = {
   props: ['checkedFileTypes', 'filtered', 'fileTypeColors', 'avgContributionSize', 'filterBreakdown',
-      'filterGroupSelection', 'filterTimeFrame', 'filterSinceDate', 'filterUntilDate', 'mergedGroups',
+      'filterGroupSelection', 'filterTimeFrame', 'filterSinceDate', 'filterUntilDate',
       'minDate', 'maxDate'],
   template: window.$('v_summary_charts').innerHTML,
   computed: {
@@ -114,6 +115,8 @@ window.vSummaryCharts = {
     filteredRepos() {
       return this.filtered.filter((repo) => repo.length > 0);
     },
+
+    ...Vuex.mapState(['mergedGroups']),
   },
   methods: {
     getFileTypeContributionBars(fileTypeContribution) {
@@ -276,11 +279,15 @@ window.vSummaryCharts = {
     },
 
     handleMergeGroup(groupName) {
-      this.$emit('handle-merge-group', groupName);
+      const info = this.mergedGroups;
+      info.push(groupName);
+      console.log(info);
+      this.$store.commit('updateMergedGroup', info);
     },
 
     handleExpandGroup(groupName) {
-      this.$emit('handle-expand-group', groupName);
+      const info = this.mergedGroups.filter((x) => x !== groupName);
+      this.$store.commit('updateMergedGroup', info);
     },
   },
   components: {

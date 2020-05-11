@@ -1,3 +1,4 @@
+/* global Vuex */
 // date functions //
 const DAY_IN_MS = (1000 * 60 * 60 * 24);
 window.DAY_IN_MS = DAY_IN_MS;
@@ -104,21 +105,14 @@ window.vSummary = {
       // merge group is not allowed when group by none
       // also reset merged groups
       if (this.filterGroupSelection === 'groupByNone' || !allGroupsMerged) {
-        this.mergedGroups = [];
+        this.$store.commit('updateMergedGroup', []);
       } else {
         const mergedGroups = [];
         this.filtered.forEach((group) => {
           mergedGroups.push(this.getGroupName(group));
         });
-        this.mergedGroups = mergedGroups;
+        this.$store.commit('updateMergedGroup', mergedGroups);
       }
-    },
-
-    mergedGroups: {
-      handler() {
-        this.getFiltered();
-      },
-      deep: true,
     },
 
     tmpFilterSinceDate() {
@@ -159,6 +153,7 @@ window.vSummary = {
           this.checkedFileTypes = [];
         }
       },
+      ...Vuex.mapState(['mergedGroups']),
     },
 
     avgContributionSize() {
@@ -189,9 +184,9 @@ window.vSummary = {
           this.filtered.forEach((group) => {
             mergedGroups.push(this.getGroupName(group));
           });
-          this.mergedGroups = mergedGroups;
+          this.$store.commit('updateMergedGroup', mergedGroups);
         } else {
-          this.mergedGroups = [];
+          this.$store.commit('updateMergedGroup', []);
         }
       },
     },
@@ -296,7 +291,10 @@ window.vSummary = {
 
     restoreMergedGroups() {
       if (this.customMergedGroups) {
-        this.mergedGroups = this.customMergedGroups.split(window.HASH_DELIMITER);
+        this.$store.commit(
+            'updateMergedGroup',
+            this.customMergedGroups.split(window.HASH_DELIMITER),
+        );
       }
     },
 
@@ -424,14 +422,6 @@ window.vSummary = {
 
     hasGroupMerged() {
       return this.mergedGroups.length > 0;
-    },
-
-    handleMergeGroup(groupName) {
-      this.mergedGroups.push(groupName);
-    },
-
-    handleExpandGroup(groupName) {
-      this.mergedGroups = this.mergedGroups.filter((x) => x !== groupName);
     },
 
     mergeCommits(user, merged, dateToIndexMap) {
@@ -914,6 +904,14 @@ window.vSummary = {
     },
   },
   created() {
+    this.$store.watch(
+        (state) => state.mergedGroups,
+        () => {
+          // assign manually since mapState has not updated this.mergedGroups yet
+          this.mergedGroups = this.$store.state.mergedGroups;
+          this.getFiltered();
+        },
+    );
     this.renderFilterHash();
     this.getFiltered();
     this.processFileTypes();
@@ -929,7 +927,7 @@ window.vSummary = {
     });
   },
   mounted() {
-    this.mergedGroups = [];
+    this.$store.commit('updateMergedGroup', []);
 
     // restoring custom merged groups after watchers finish their job
     setTimeout(() => {
