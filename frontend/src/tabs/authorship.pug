@@ -1,6 +1,6 @@
 #authorship
   span.large-font Code Panel
-  .toolbar(v-if="hasCommits(info)")
+  .toolbar--multiline(v-if="hasCommits(info)")
     a(v-if="activeFilesCount < this.selectedFiles.length", v-on:click="expandAll()") show all file details
     a(v-if="activeFilesCount > 0", v-on:click="collapseAll()") hide all file details
   .panel-heading

@@ -1,5 +1,7 @@
 package reposense.commits;
 
+import static reposense.util.StringsUtil.removeQuote;
+
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -151,14 +153,18 @@ public class CommitInfoAnalyzer {
      * Extracts the correct file path from the unprocessed git log {@code filePath}
      */
     private static String extractFilePath(String filePath) {
-        if (!filePath.contains(MOVED_FILE_INDICATION)) {
-            return filePath;
+        String filteredFilePath = filePath;
+        if (filteredFilePath.contains(MOVED_FILE_INDICATION)) {
+            // moved file has the format: fileA => newPosition/fileA
+            filteredFilePath = filteredFilePath.substring(filePath.indexOf(MOVED_FILE_INDICATION)
+                    + MOVED_FILE_INDICATION.length());
+            // Removes the trailing '}' character from the file name, as renamed file names have ending '}' character.
+            filteredFilePath = filteredFilePath.replaceAll("}$", "");
         }
-        // moved file has the format: fileA => newPosition/fileA
-        String filteredFilePath =
-                filePath.substring(filePath.indexOf(MOVED_FILE_INDICATION) + MOVED_FILE_INDICATION.length());
-        // Removes the trailing '}' character from the file name, as renamed file names have ending '}' character.
-        filteredFilePath = filteredFilePath.replaceAll("}$", "");
+
+        // Removes the trailing double quotes from the file name, as filenames that have special characters
+        // will be escaped and surrounded by double quotes automatically. e.g. READ\ME.md -> "READ\\ME.md"
+        filteredFilePath = removeQuote(filteredFilePath);
         return filteredFilePath;
     }
 
