@@ -38,6 +38,7 @@ public class GitTestTemplate {
     protected static final String YONG_AUTHOR_NAME = "Yong Hao TENG";
     protected static final String MINGYI_AUTHOR_NAME = "myteo";
     protected static final String JAMES_AUTHOR_NAME = "jamessspanggg";
+    protected static final String JAMES_ALTERNATIVE_AUTHOR_NAME = "James Pang";
     protected static final String JINYAO_AUTHOR_NAME = "jylee-git";
     protected static final String LATEST_COMMIT_HASH = "136c6713fc00cfe79a1598e8ce83c6ef3b878660";
     protected static final String EMPTY_TREE_HASH = "4b825dc642cb6eb9a060e54bf8d69288fbee4904";
