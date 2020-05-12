@@ -1,99 +1,13 @@
-window.dismissTab = function dismissTab(node) {
-  const parent = node.parentNode;
-  parent.style.display = 'none';
-};
-
-window.comparator = (fn, sortingOption = '') => function compare(a, b) {
-  let a1;
-  let b1;
-  if (sortingOption) {
-    a1 = fn(a, sortingOption).toLowerCase
-        ? fn(a, sortingOption).toLowerCase()
-        : fn(a, sortingOption);
-    b1 = fn(b, sortingOption).toLowerCase
-        ? fn(b, sortingOption).toLowerCase()
-        : fn(b, sortingOption);
-  } else {
-    a1 = fn(a).toLowerCase ? fn(a).toLowerCase() : fn(a);
-    b1 = fn(b).toLowerCase ? fn(b).toLowerCase() : fn(b);
-  }
-  if (a1 === b1) {
-    return 0;
-  } if (a1 < b1) {
-    return -1;
-  }
-  return 1;
-};
-
-// ui funcs, only allow one ramp to be highlighted //
-let drags = [];
-
-function getBaseTarget(target) {
-  return (target.className === 'summary-chart__ramp')
-      ? target
-      : getBaseTarget(target.parentElement);
-}
-
-function deactivateAllOverlays() {
-  document.querySelectorAll('.summary-chart__ramp .overlay')
-      .forEach((x) => {
-        x.className = 'overlay';
-      });
-}
-
-function dragViewDown(evt) {
-  deactivateAllOverlays();
-
-  const pos = evt.clientX;
-  const ramp = getBaseTarget(evt.target);
-  drags = [pos];
-
-  const base = ramp.offsetWidth;
-  const offset = ramp.parentElement.offsetLeft;
-
-  const overlay = ramp.getElementsByClassName('overlay')[0];
-  overlay.style.marginLeft = '0';
-  overlay.style.width = `${(pos - offset) * 100 / base}%`;
-  overlay.className += ' edge';
-}
-
-function dragViewUp(evt) {
-  deactivateAllOverlays();
-  const ramp = getBaseTarget(evt.target);
-
-  const base = ramp.offsetWidth;
-  drags.push(evt.clientX);
-  drags.sort((a, b) => a - b);
-
-  const offset = ramp.parentElement.offsetLeft;
-  drags = drags.map((x) => (x - offset) * 100 / base);
-
-  const overlay = ramp.getElementsByClassName('overlay')[0];
-  overlay.style.marginLeft = `${drags[0]}%`;
-  overlay.style.width = `${drags[1] - drags[0]}%`;
-  overlay.className += ' show';
-}
-
-window.viewClick = function viewClick(evt) {
-  const isKeyPressed = this.isMacintosh ? evt.metaKey : evt.ctrlKey;
-  if (drags.length === 2) {
-    drags = [];
-  }
-
-  if (isKeyPressed) {
-    return drags.length === 0
-        ? dragViewDown(evt)
-        : dragViewUp(evt);
-  }
-
-  return null;
-};
-
 window.vSummaryCharts = {
   props: ['checkedFileTypes', 'filtered', 'fileTypeColors', 'avgContributionSize', 'filterBreakdown',
       'filterGroupSelection', 'filterTimeFrame', 'filterSinceDate', 'filterUntilDate', 'isMergeGroup',
       'minDate', 'maxDate'],
   template: window.$('v_summary_charts').innerHTML,
+  data() {
+    return {
+      drags: [],
+    };
+  },
   computed: {
     avgCommitSize() {
       let totalCommits = 0;
@@ -228,13 +142,24 @@ window.vSummaryCharts = {
       this.$store.commit('updateTabAuthorshipInfo', info);
     },
 
-    openTabZoomSubrange(user) {
+    openTabZoomSubrange(user, evt) {
+      const isKeyPressed = window.isMacintosh ? evt.metaKey : evt.ctrlKey;
+
+      if (isKeyPressed) {
+        if (this.drags.length === 0) {
+          this.dragViewDown(evt);
+        } else {
+          this.dragViewUp(evt);
+        }
+      }
+
       // skip if accidentally clicked on ramp chart
-      if (drags.length === 2 && drags[1] - drags[0]) {
+      if (this.drags.length === 2 && this.drags[1] - this.drags[0]) {
         const tdiff = new Date(this.filterUntilDate) - new Date(this.filterSinceDate);
-        const idxs = drags.map((x) => x * tdiff / 100);
+        const idxs = this.drags.map((x) => x * tdiff / 100);
         const tsince = window.getDateStr(new Date(this.filterSinceDate).getTime() + idxs[0]);
         const tuntil = window.getDateStr(new Date(this.filterSinceDate).getTime() + idxs[1]);
+        this.drags = [];
         this.openTabZoom(user, tsince, tuntil);
       }
     },
@@ -258,6 +183,45 @@ window.vSummaryCharts = {
       };
 
       this.$store.commit('updateTabZoomInfo', info);
+    },
+
+    getBaseTarget(target) {
+      return target.className === 'summary-chart__ramp'
+          ? target
+          : this.getBaseTarget(target.parentElement);
+    },
+
+    dragViewDown(evt) {
+      window.deactivateAllOverlays();
+
+      const pos = evt.clientX;
+      const ramp = this.getBaseTarget(evt.target);
+      this.drags = [pos];
+
+      const base = ramp.offsetWidth;
+      const offset = ramp.parentElement.offsetLeft;
+
+      const overlay = ramp.getElementsByClassName('overlay')[0];
+      overlay.style.marginLeft = '0';
+      overlay.style.width = `${(pos - offset) * 100 / base}%`;
+      overlay.className += ' edge';
+    },
+
+    dragViewUp(evt) {
+      window.deactivateAllOverlays();
+      const ramp = this.getBaseTarget(evt.target);
+
+      const base = ramp.offsetWidth;
+      this.drags.push(evt.clientX);
+      this.drags.sort((a, b) => a - b);
+
+      const offset = ramp.parentElement.offsetLeft;
+      this.drags = this.drags.map((x) => (x - offset) * 100 / base);
+
+      const overlay = ramp.getElementsByClassName('overlay')[0];
+      overlay.style.marginLeft = `${this.drags[0]}%`;
+      overlay.style.width = `${this.drags[1] - this.drags[0]}%`;
+      overlay.className += ' show';
     },
 
     getPercentile(index) {

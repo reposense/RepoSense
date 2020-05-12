@@ -69,7 +69,7 @@
           )
           span merge group
   .error-message-box(v-if="Object.entries(errorMessages).length")
-    .error-message-box__close-button(onclick="dismissTab(this)") &times;
+    .error-message-box__close-button(v-on:click="dismissTab($event)") &times;
     .error-message-box__message The following issues occurred when analyzing the following repositories:
     .error-message-box__failed-repo(v-for="errorBlock in errorMessages")
       font-awesome-icon(icon="exclamation")
