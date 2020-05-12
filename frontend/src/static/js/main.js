@@ -1,45 +1,6 @@
 // eslint-disable-next-line import/extensions
 import store from './store.js';
 
-window.BASE_URL = 'https://github.com';
-window.REPORT_ZIP = null;
-window.REPOS = {};
-window.isMacintosh = navigator.platform.includes('Mac');
-
-window.hashParams = {};
-window.addHash = function addHash(newKey, newVal) {
-  window.hashParams[newKey] = newVal;
-};
-window.removeHash = function removeHash(key) {
-  delete window.hashParams[key];
-};
-
-window.encodeHash = function encodeHash() {
-  const { hashParams } = window;
-
-  window.location.hash = Object.keys(hashParams)
-      .map((key) => `${key}=${encodeURIComponent(hashParams[key])}`)
-      .join('&');
-};
-
-window.decodeHash = function decodeHash() {
-  const hashParams = {};
-
-  window.location.hash.slice(1).split('&')
-      .forEach((param) => {
-        const [key, val] = param.split('=');
-        if (key) {
-          try {
-            hashParams[key] = decodeURIComponent(val);
-          } catch (error) {
-            this.userUpdated = false;
-            this.isLoading = false;
-          }
-        }
-      });
-  window.hashParams = hashParams;
-};
-
 const DRAG_BAR_WIDTH = 13.25;
 const SCROLL_BAR_WIDTH = 17;
 const GUIDE_BAR_WIDTH = 2;
