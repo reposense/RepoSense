@@ -100,8 +100,7 @@
         ) {{ getPercentile(j) }} %
 
       .summary-chart__ramp(
-        onclick="viewClick(event)",
-        v-on:click="openTabZoomSubrange(user, isGroupMerged(getGroupName(repo)))"
+        v-on:click="openTabZoomSubrange(user, $event, isGroupMerged(getGroupName(repo)))"
       )
         v-ramp(
           v-bind:groupby="filterGroupSelection",
