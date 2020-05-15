@@ -111,9 +111,9 @@ window.vSummary = {
       let totalCount = 0;
       this.repos.forEach((repo) => {
         repo.users.forEach((user) => {
-          if (user.totalCommits > 0) {
+          if (user.checkedFileTypeContribution > 0) {
             totalCount += 1;
-            totalLines += user.totalCommits;
+            totalLines += user.checkedFileTypeContribution;
           }
         });
       });
@@ -303,7 +303,6 @@ window.vSummary = {
         const mergedCommits = [];
         const mergedFileTypeContribution = {};
         let mergedVariance = 0;
-        let totalMergedCommits = 0;
         let totalMergedCheckedFileTypeCommits = 0;
 
         group.forEach((user) => {
@@ -311,7 +310,6 @@ window.vSummary = {
 
           this.mergeFileTypeContribution(user, mergedFileTypeContribution);
 
-          totalMergedCommits += user.totalCommits;
           totalMergedCheckedFileTypeCommits += user.checkedFileTypeContribution;
           mergedVariance += user.variance;
         });
@@ -319,7 +317,6 @@ window.vSummary = {
         mergedCommits.sort(window.comparator((ele) => ele.date));
         group[0].commits = mergedCommits;
         group[0].fileTypeContribution = mergedFileTypeContribution;
-        group[0].totalCommits = totalMergedCommits;
         group[0].variance = mergedVariance;
         group[0].checkedFileTypeContribution = totalMergedCheckedFileTypeCommits;
 
@@ -673,7 +670,7 @@ window.vSummary = {
       const sortWithinOption = sortingWithinOption === 'title' ? 'displayName' : sortingWithinOption;
       const sortOption = sortingOption === 'groupTitle' ? 'searchPath' : sortingOption;
       repos.forEach((users) => {
-        if (this.filterBreakdown && sortWithinOption === 'totalCommits') {
+        if (sortWithinOption === 'totalCommits') {
           users.sort(window.comparator((ele) => ele.checkedFileTypeContribution));
         } else {
           users.sort(window.comparator((ele) => ele[sortWithinOption]));
@@ -704,7 +701,7 @@ window.vSummary = {
         if (isSortingGroupTitle) {
           return repo.searchPath + repo.name;
         }
-        if (this.filterBreakdown && sortingOption === 'totalCommits') {
+        if (sortingOption === 'totalCommits') {
           return repo.checkedFileTypeContribution;
         }
         return repo[sortingOption];
@@ -734,7 +731,7 @@ window.vSummary = {
         });
       });
       Object.keys(authorMap).forEach((author) => {
-        if (this.filterBreakdown && sortWithinOption === 'totalCommits') {
+        if (sortWithinOption === 'totalCommits') {
           authorMap[author].sort(window.comparator((repo) => repo.checkedFileTypeContribution));
         } else {
           authorMap[author].sort(window.comparator((repo) => repo[sortWithinOption]));
@@ -753,7 +750,7 @@ window.vSummary = {
     },
 
     getGroupCommitsVariance(total, group) {
-      if (this.filterBreakdown && this.sortingOption === 'totalCommits') {
+      if (this.sortingOption === 'totalCommits') {
         return total + group.checkedFileTypeContribution;
       }
       return total + group[this.sortingOption];

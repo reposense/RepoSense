@@ -116,9 +116,9 @@
         template(v-else)
           .summary-chart__contrib(
             v-bind:title="'Total contribution from ' + minDate + ' to ' + maxDate + ': '\
-              + user.totalCommits + ' lines'"
+              + user.checkedFileTypeContribution + ' lines'"
           )
             .summary-chart__contrib--bar(
-              v-for="width in getContributionBars(user.totalCommits)",
+              v-for="width in getContributionBars(user.checkedFileTypeContribution)",
               v-bind:style="{ width: width+'%' }"
             )
