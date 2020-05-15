@@ -85,10 +85,6 @@ window.vSummaryCharts = {
       return group.reduce((acc, ele) => acc + ele.checkedFileTypeContribution, 0);
     },
 
-    getUserTotalContribution(user) {
-      return user.checkedFileTypeContribution;
-    },
-
     getContributionBars(totalContribution) {
       const res = [];
       const contributionLimit = (this.avgContributionSize * 2);

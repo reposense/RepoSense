@@ -166,17 +166,6 @@ window.vAuthorship = {
       file.wasCodeLoaded = file.wasCodeLoaded || file.active;
     },
 
-    hasCommits(info) {
-      const { isMergeGroup, author } = info;
-      const repo = window.REPOS[info.repo];
-      if (repo) {
-        return isMergeGroup
-            ? Object.entries(repo.commits.authorFinalContributionMap).some(([name, cnt]) => name !== '-' && cnt > 0)
-            : repo.commits.authorFinalContributionMap[author] > 0;
-      }
-      return false;
-    },
-
     splitSegments(lines) {
       // split into segments separated by authored
       let lastState;

@@ -58,7 +58,7 @@
           v-if="filterGroupSelection !== 'groupByAuthors'",
           v-bind:class="{ warn: user.name === '-' }"
         ) {{ user.displayName }} ({{ user.name }})
-        .summary-chart__title--contribution.mini-font [{{ getUserTotalContribution(user) }} lines]
+        .summary-chart__title--contribution.mini-font [{{ user.checkedFileTypeContribution }} lines]
         a(
           v-if="filterGroupSelection !== 'groupByRepos'",
           v-bind:href="getRepoLink(repo[i])", target="_blank",
