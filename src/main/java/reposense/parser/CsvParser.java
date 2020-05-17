@@ -170,9 +170,14 @@ public abstract class CsvParser<T> {
                 .collect(Collectors.toList());
     }
 
-    protected List<String> getAsListOrDefault(final CSVRecord record, int colNum, List<String> defaultList) {
+    /**
+     * Returns the value of {@code record} at {@code colNum} as a {@code List},
+     * delimited by {@code COLUMN_VALUES_SEPARATOR} if it is in {@code record} and not empty, or
+     * returns a single element List containing the empty string otherwise.
+     */
+    protected List<String> getAsListOrDefault(final CSVRecord record, int colNum) {
         List<String> list = getAsList(record, colNum);
-        return list.isEmpty() ? defaultList : list;
+        return list.isEmpty() ? Collections.singletonList("") : list;
     }
 
     /**

@@ -53,7 +53,7 @@ public class AuthorConfigCsvParser extends CsvParser<AuthorConfiguration> {
     @Override
     protected void processLine(List<AuthorConfiguration> results, CSVRecord record)
             throws ParseException {
-        List<String> locations = getAsListOrDefault(record, LOCATION_POSITION, Collections.singletonList(""));
+        List<String> locations = getAsListOrDefault(record, LOCATION_POSITION);
         String branch = getOrDefault(record, BRANCH_POSITION, AuthorConfiguration.DEFAULT_BRANCH);
         String gitHubId = get(record, GITHUB_ID_POSITION);
         List<String> emails = getAsList(record, EMAIL_POSITION);
