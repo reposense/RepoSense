@@ -50,10 +50,11 @@ window.vZoom = {
       if (!this.info.zUser) { // restoring zoom tab from reloaded page
         this.restoreZoomTab();
       }
-      this.setInfoHash();
     },
+
     openSummary() {
-      this.$emit('view-summary', this.info.zSince, this.info.zUntil);
+      const info = { since: this.info.zSince, until: this.info.zUntil };
+      this.$store.commit('updateSummaryDates', info);
     },
 
     getSliceLink(slice) {
@@ -110,12 +111,28 @@ window.vZoom = {
       this.expandedCommitMessagesCount = document.getElementsByClassName('commit-message message-body active')
           .length;
     },
+
+    removeZoomHashes() {
+      window.removeHash('zA');
+      window.removeHash('zR');
+      window.removeHash('zACS');
+      window.removeHash('zS');
+      window.removeHash('zU');
+      window.removeHash('zFGS');
+      window.removeHash('zFTF');
+      window.removeHash('zMG');
+      window.encodeHash();
+    },
   },
   created() {
     this.initiate();
   },
   mounted() {
+    this.setInfoHash();
     this.updateExpandedCommitMessagesCount();
+  },
+  beforeDestroy() {
+    this.removeZoomHashes();
   },
   components: {
     vRamp: window.vRamp,
