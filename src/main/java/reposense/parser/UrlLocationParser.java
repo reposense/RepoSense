@@ -23,7 +23,7 @@ public class UrlLocationParser {
      *         format of a GitHub repo URL.
      */
     public static String[] parseAsRepoUrl(String repoUrl) {
-        return tryParsingAsUrl(GIT_REPOSITORY_LOCATION_PATTERN, repoUrl);
+        return parseAsUrl(GIT_REPOSITORY_LOCATION_PATTERN, repoUrl);
     }
 
     /**
@@ -34,7 +34,7 @@ public class UrlLocationParser {
      *         format of a branch URL.
      */
     public static String[] parseAsBranchUrl(String branchUrl) {
-        return tryParsingAsUrl(GITHUB_BRANCH_URL_PATTERN, branchUrl);
+        return parseAsUrl(GITHUB_BRANCH_URL_PATTERN, branchUrl);
     }
 
     /**
@@ -47,7 +47,7 @@ public class UrlLocationParser {
      *
      * @return null if the given String is an invalid URL, or does not match the {@code urlPattern}.
      */
-    private static String[] tryParsingAsUrl(Pattern urlPattern, String url) {
+    private static String[] parseAsUrl(Pattern urlPattern, String url) {
         Matcher matcher = urlPattern.matcher(url);
         if (!isValidUrl(url) || !matcher.matches()) {
             return null;
