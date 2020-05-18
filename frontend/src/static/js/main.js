@@ -1,41 +1,5 @@
-window.BASE_URL = 'https://github.com';
-window.REPORT_ZIP = null;
-window.REPOS = {};
-window.isMacintosh = navigator.platform.includes('Mac');
-
-window.hashParams = {};
-window.addHash = function addHash(newKey, newVal) {
-  window.hashParams[newKey] = newVal;
-};
-window.removeHash = function removeHash(key) {
-  delete window.hashParams[key];
-};
-
-window.encodeHash = function encodeHash() {
-  const { hashParams } = window;
-
-  window.location.hash = Object.keys(hashParams)
-      .map((key) => `${key}=${encodeURIComponent(hashParams[key])}`)
-      .join('&');
-};
-
-window.decodeHash = function decodeHash() {
-  const hashParams = {};
-
-  window.location.hash.slice(1).split('&')
-      .forEach((param) => {
-        const [key, val] = param.split('=');
-        if (key) {
-          try {
-            hashParams[key] = decodeURIComponent(val);
-          } catch (error) {
-            this.userUpdated = false;
-            this.isLoading = false;
-          }
-        }
-      });
-  window.hashParams = hashParams;
-};
+// eslint-disable-next-line import/extensions
+import store from './store.js';
 
 
 /* global Vue hljs */
@@ -52,6 +16,7 @@ Vue.component('font-awesome-icon', window['vue-fontawesome'].FontAwesomeIcon);
 
 window.app = new window.Vue({
   el: '#app',
+  store,
   data: {
     repos: {},
     users: [],
@@ -68,6 +33,16 @@ window.app = new window.Vue({
     creationDate: '',
 
     errorMessages: {},
+  },
+  watch: {
+    '$store.state.tabZoomInfo': function () {
+      this.tabInfo.tabZoom = Object.assign({}, this.$store.state.tabZoomInfo);
+      this.activateTab('zoom');
+    },
+    '$store.state.tabAuthorshipInfo': function () {
+      this.tabInfo.tabAuthorship = Object.assign({}, this.$store.state.tabAuthorshipInfo);
+      this.activateTab('authorship');
+    },
   },
   methods: {
     // model functions //
@@ -144,34 +119,7 @@ window.app = new window.Vue({
       this.isTabActive = false;
       window.addHash('tabOpen', this.isTabActive);
       window.removeHash('tabType');
-      this.removeZoomHashes();
       window.encodeHash();
-    },
-
-    removeZoomHashes() {
-      window.removeHash('zA');
-      window.removeHash('zR');
-      window.removeHash('zACS');
-      window.removeHash('zS');
-      window.removeHash('zU');
-      window.removeHash('zFGS');
-      window.removeHash('zFTF');
-      window.removeHash('zMG');
-    },
-
-    updateTabAuthorship(obj) {
-      this.removeZoomHashes();
-      this.tabInfo.tabAuthorship = Object.assign({}, obj);
-      this.activateTab('authorship');
-    },
-    updateTabZoom(obj) {
-      this.tabInfo.tabZoom = Object.assign({}, obj);
-      this.activateTab('zoom');
-    },
-
-    // updating summary view
-    updateSummaryDates(since, until) {
-      this.$refs.summary.updateDateRange(since, until);
     },
 
     renderAuthorShipTabHash(minDate, maxDate) {
@@ -185,7 +133,7 @@ window.app = new window.Vue({
       };
       const tabInfoLength = Object.values(info).filter((x) => x !== null).length;
       if (Object.keys(info).length === tabInfoLength) {
-        this.updateTabAuthorship(info);
+        this.$store.commit('updateTabAuthorshipInfo', info);
       } else if (hash.tabOpen === 'false' || tabInfoLength > 2) {
         window.app.isTabActive = false;
       }
@@ -205,7 +153,7 @@ window.app = new window.Vue({
       };
       const tabInfoLength = Object.values(zoomInfo).filter((x) => x !== null).length;
       if (Object.keys(zoomInfo).length === tabInfoLength) {
-        this.updateTabZoom(zoomInfo);
+        this.$store.commit('updateTabZoomInfo', zoomInfo);
       } else if (hash.tabOpen === 'false' || tabInfoLength > 2) {
         window.app.isTabActive = false;
       }

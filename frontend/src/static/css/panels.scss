@@ -98,6 +98,16 @@
 .toolbar {
   cursor: pointer;
   float: right;
+
+  &--multiline {
+    float: right;
+
+    > a {
+      display: block;
+      margin: 1px 0;
+      text-align: end;
+    }
+  }
 }
 
 .sorting {
