@@ -71,9 +71,9 @@ public class AuthorConfigCsvParser extends CsvParser<AuthorConfiguration> {
             return;
         }
 
-        setEmails(config, author, emails);
-        setDisplayName(config, author, displayName);
-        setAliases(config, author, gitHubId, aliases);
+        setEmails(author, emails);
+        setDisplayName(author, displayName);
+        setAliases(author, aliases);
         setAuthorIgnoreGlobList(author, ignoreGlobList);
         config.addAuthor(author);
     }
@@ -103,31 +103,25 @@ public class AuthorConfigCsvParser extends CsvParser<AuthorConfiguration> {
     /**
      * Associates {@code emails} to {@code author}, if provided and not empty.
      */
-    private static void setEmails(AuthorConfiguration config, Author author, List<String> emails) {
+    private static void setEmails(Author author, List<String> emails) {
         author.setEmails(new ArrayList<>(emails));
-        config.addAuthorEmailsAndAliasesMapEntry(author, author.getEmails());
     }
 
     /**
      * Associates {@code displayName} to {@code author}, if provided and not empty.
      * Otherwise, use github id from {@code author}.
      */
-    private static void setDisplayName(AuthorConfiguration config, Author author, String displayName) {
+    private static void setDisplayName(Author author, String displayName) {
         author.setDisplayName(!displayName.isEmpty() ? displayName : author.getGitId());
-        config.setAuthorDisplayName(author, !displayName.isEmpty() ? displayName : author.getGitId());
     }
 
     /**
      * Associates {@code gitHubId} and additional {@code aliases} to {@code author}.
      */
-    private static void setAliases(AuthorConfiguration config, Author author, String gitHubId, List<String> aliases) {
-        config.addAuthorEmailsAndAliasesMapEntry(author, Arrays.asList(gitHubId));
-
+    private static void setAliases(Author author, List<String> aliases) {
         if (aliases.isEmpty()) {
             return;
         }
-
-        config.addAuthorEmailsAndAliasesMapEntry(author, aliases);
         author.setAuthorAliases(aliases);
     }
 
