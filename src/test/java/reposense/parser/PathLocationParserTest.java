@@ -25,7 +25,7 @@ public class PathLocationParserTest {
 
     private static void assertValidLocation(String path, String expectedLocation, String expectedRepoName,
             String expectedBranch) {
-        String[] actualRepoLocationDetails = PathLocationParser.tryParsingAsPath(path, false);
+        String[] actualRepoLocationDetails = PathLocationParser.parseAsPath(path, false);
         assertArrayEquals(new String[] {expectedLocation, expectedRepoName, null, expectedBranch },
                 actualRepoLocationDetails);
     }

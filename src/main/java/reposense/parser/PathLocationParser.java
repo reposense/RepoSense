@@ -25,7 +25,7 @@ public class PathLocationParser {
      * @return null if the given String is an invalid path, or no directory exists at the path,
      *         and {@code isPathValidationNeeded} was set to true.
      */
-    public static String[] tryParsingAsPath(String pathAndBranch, boolean isPathValidationNeeded)  {
+    public static String[] parseAsPath(String pathAndBranch, boolean isPathValidationNeeded)  {
         String pathToRepo;
         String branch;
 

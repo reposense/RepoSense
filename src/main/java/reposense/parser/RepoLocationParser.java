@@ -23,17 +23,17 @@ public class RepoLocationParser {
      * @throws InvalidLocationException if the repo location is an invalid path or an invalid URL
      */
     public static String[] parse(String locationToParse) throws InvalidLocationException {
-        String[] parsedInfo = UrlLocationParser.tryParsingAsRepoUrl(locationToParse);
+        String[] parsedInfo = UrlLocationParser.parseAsRepoUrl(locationToParse);
         if (parsedInfo != null) {
             return parsedInfo;
         }
 
-        parsedInfo = PathLocationParser.tryParsingAsPath(locationToParse, true);
+        parsedInfo = PathLocationParser.parseAsPath(locationToParse, true);
         if (parsedInfo != null) {
             return parsedInfo;
         }
 
-        parsedInfo = UrlLocationParser.tryParsingAsBranchUrl(locationToParse);
+        parsedInfo = UrlLocationParser.parseAsBranchUrl(locationToParse);
         if (parsedInfo != null) {
             return parsedInfo;
         }

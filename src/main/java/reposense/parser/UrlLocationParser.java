@@ -22,7 +22,7 @@ public class UrlLocationParser {
      * @return null if the given String is an invalid URL, or does not match the
      *         format of a GitHub repo URL.
      */
-    public static String[] tryParsingAsRepoUrl(String repoUrl) {
+    public static String[] parseAsRepoUrl(String repoUrl) {
         return tryParsingAsUrl(GIT_REPOSITORY_LOCATION_PATTERN, repoUrl);
     }
 
@@ -33,7 +33,7 @@ public class UrlLocationParser {
      * @return null if the given String is an invalid URL, or does not match the
      *         format of a branch URL.
      */
-    public static String[] tryParsingAsBranchUrl(String branchUrl) {
+    public static String[] parseAsBranchUrl(String branchUrl) {
         return tryParsingAsUrl(GITHUB_BRANCH_URL_PATTERN, branchUrl);
     }
 
