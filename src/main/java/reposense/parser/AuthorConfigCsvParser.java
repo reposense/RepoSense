@@ -115,7 +115,7 @@ public class AuthorConfigCsvParser extends CsvParser<AuthorConfiguration> {
     }
 
     /**
-     * Associates {@code gitHubId} and additional {@code aliases} to {@code author}.
+     * Associates {@code aliases} to {@code author}.
      */
     private static void setAliases(Author author, List<String> aliases) {
         if (aliases.isEmpty()) {
