@@ -71,11 +71,11 @@ public class AuthorConfigCsvParser extends CsvParser<AuthorConfiguration> {
             return;
         }
 
-        config.addAuthor(author);
         setEmails(config, author, emails);
         setDisplayName(config, author, displayName);
         setAliases(config, author, gitHubId, aliases);
         setAuthorIgnoreGlobList(author, ignoreGlobList);
+        config.addAuthor(author);
     }
 
 
