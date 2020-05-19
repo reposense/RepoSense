@@ -1,48 +1,4 @@
-// date functions //
-const DAY_IN_MS = (1000 * 60 * 60 * 24);
-window.DAY_IN_MS = DAY_IN_MS;
-const WEEK_IN_MS = DAY_IN_MS * 7;
 const dateFormatRegex = /([12]\d{3}-(0[1-9]|1[0-2])-(0[1-9]|[12]\d|3[01]))$/;
-
-window.deactivateAllOverlays = function deactivateAllOverlays() {
-  document.querySelectorAll('.summary-chart__ramp .overlay')
-      .forEach((x) => { x.className = 'overlay'; });
-};
-
-window.getDateStr = function getDateStr(date) {
-  return (new Date(date)).toISOString().split('T')[0];
-};
-
-function getHexToRGB(color) {
-  // to convert color from hex code to rgb format
-  const arr = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(color);
-  return arr.slice(1).map((val) => parseInt(val, 16));
-}
-
-function dateRounding(datestr, roundDown) {
-  // rounding up to nearest monday
-  const date = new Date(datestr);
-  const day = date.getUTCDay();
-  let datems = date.getTime();
-  if (roundDown) {
-    datems -= ((day + 6) % 7) * DAY_IN_MS;
-  } else {
-    datems += ((8 - day) % 7) * DAY_IN_MS;
-  }
-
-  return window.getDateStr(datems);
-}
-
-window.getFontColor = function getFontColor(color) {
-  const result = getHexToRGB(color);
-  const red = result[0];
-  const green = result[1];
-  const blue = result[2];
-
-  const luminosity = 0.2126 * red + 0.7152 * green + 0.0722 * blue; // per ITU-R BT.709
-
-  return luminosity < 120 ? '#ffffff' : '#000000';
-};
 
 window.vSummary = {
   props: ['repos', 'errorMessages'],
@@ -166,6 +122,10 @@ window.vSummary = {
     },
   },
   methods: {
+    dismissTab(event) {
+      event.target.parentNode.style.display = 'none';
+    },
+
     // view functions //
     getReportIssueGitHubLink(stackTrace) {
       return `${window.BASE_URL}/reposense/RepoSense/issues/new?title=${this.getReportIssueTitle()
@@ -298,6 +258,13 @@ window.vSummary = {
       this.$emit('get-dates', [this.minDate, this.maxDate]);
     },
 
+    isMatchSearchedUser(filterSearch, user) {
+      return !filterSearch || filterSearch.toLowerCase()
+          .split(' ')
+          .filter(Boolean)
+          .some((param) => user.searchPath.includes(param));
+    },
+
     getFiltered() {
       this.setSummaryHash();
       this.getDates();
@@ -314,11 +281,7 @@ window.vSummary = {
 
         // filtering
         repo.users.forEach((user) => {
-          const toDisplay = this.filterSearch.toLowerCase()
-              .split(' ').filter(Boolean)
-              .some((param) => user.searchPath.includes(param));
-
-          if (!this.filterSearch || toDisplay) {
+          if (this.isMatchSearchedUser(this.filterSearch, user)) {
             this.getUserCommits(user, this.filterSinceDate, this.filterUntilDate);
             if (this.filterTimeFrame === 'week') {
               this.splitCommitsWeek(user, this.filterSinceDate, this.filterUntilDate);
@@ -439,8 +402,8 @@ window.vSummary = {
     hasSimilarExistingColors(existingColors, newHex) {
       const deltaEThreshold = 11; // the lower limit of delta E to be similar, more info at http://zschuessler.github.io/DeltaE/learn/
       return existingColors.some((existingHex) => {
-        const existingRGB = getHexToRGB(existingHex);
-        const newRGB = getHexToRGB(newHex);
+        const existingRGB = window.getHexToRGB(existingHex);
+        const newRGB = window.getHexToRGB(newHex);
         return this.deltaE(existingRGB, newRGB) < deltaEThreshold;
       });
     },
@@ -520,7 +483,7 @@ window.vSummary = {
 
       const res = [];
 
-      const nextMondayDate = dateRounding(sinceDate, 0); // round up for the next monday
+      const nextMondayDate = this.dateRounding(sinceDate, 0); // round up for the next monday
 
       const nextMondayMs = (new Date(nextMondayDate)).getTime();
       const sinceMs = new Date(sinceDate).getTime();
@@ -536,11 +499,12 @@ window.vSummary = {
     },
 
     pushCommitsWeek(sinceMs, untilMs, res, commits) {
-      const diff = Math.round(Math.abs((untilMs - sinceMs) / DAY_IN_MS));
+      const diff = Math.round(Math.abs((untilMs - sinceMs) / window.DAY_IN_MS));
+      const weekInMS = window.DAY_IN_MS * 7;
 
       for (let weekId = 0; weekId < diff / 7; weekId += 1) {
-        const startOfWeekMs = sinceMs + (weekId * WEEK_IN_MS);
-        const endOfWeekMs = startOfWeekMs + WEEK_IN_MS - DAY_IN_MS;
+        const startOfWeekMs = sinceMs + (weekId * weekInMS);
+        const endOfWeekMs = startOfWeekMs + weekInMS - window.DAY_IN_MS;
         const endOfWeekMsWithinUntilMs = endOfWeekMs <= untilMs ? endOfWeekMs : untilMs;
 
         const week = {
@@ -819,17 +783,17 @@ window.vSummary = {
 
     restoreZoomFiltered(info) {
       const {
-        zSince, zUntil, zTimeFrame, zIsMerge,
+        zSince, zUntil, zTimeFrame, zIsMerge, zFilterSearch,
       } = info;
       const filtered = [];
 
       const groups = JSON.parse(JSON.stringify(this.repos));
 
+      const res = [];
       groups.forEach((repo) => {
-        const res = [];
         repo.users.forEach((user) => {
-          // only filter users that match with zoom user
-          if (this.matchZoomUser(info, user)) {
+          // only filter users that match with zoom user and previous searched user
+          if (this.matchZoomUser(info, user) && this.isMatchSearchedUser(zFilterSearch, user)) {
             this.getUserCommits(user, zSince, zUntil);
             if (zTimeFrame === 'week') {
               this.splitCommitsWeek(user, zSince, zUntil);
@@ -838,11 +802,11 @@ window.vSummary = {
             res.push(user);
           }
         });
-
-        if (res.length) {
-          filtered.push(res);
-        }
       });
+
+      if (res.length) {
+        filtered.push(res);
+      }
 
       if (zIsMerge) {
         this.mergeGroup(filtered);
@@ -859,6 +823,20 @@ window.vSummary = {
           : user.name === zAuthor;
       }
       return user.repoName === zRepo && user.name === zAuthor;
+    },
+
+    dateRounding(datestr, roundDown) {
+      // rounding up to nearest monday
+      const date = new Date(datestr);
+      const day = date.getUTCDay();
+      let datems = date.getTime();
+      if (roundDown) {
+        datems -= ((day + 6) % 7) * window.DAY_IN_MS;
+      } else {
+        datems += ((8 - day) % 7) * window.DAY_IN_MS;
+      }
+
+      return window.getDateStr(datems);
     },
   },
   created() {
