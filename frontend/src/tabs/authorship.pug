@@ -63,7 +63,7 @@
               span All&nbsp;
               span {{ totalLineCount }}&nbsp;
               span ({{ totalBlankLineCount }})&nbsp;
-          template(v-for="fileType in Object.keys(getFileTypeExistingLinesObj)")
+          template(v-for="fileType in Object.keys(fileTypeLinesObj)")
             label(
               v-bind:key="fileType",
               v-bind:style="{\
@@ -74,7 +74,7 @@
               input.mui-checkbox--fileType(type="checkbox", v-bind:id="fileType", v-bind:value="fileType",
                 v-on:change="indicateCheckBoxes", v-model="selectedFileTypes")
               span(v-bind:title="getFileTypeBlankLineInfo(fileType)")
-                span {{ fileType }}&nbsp;{{ getFileTypeExistingLinesObj[fileType] }}&nbsp;
+                span {{ fileType }}&nbsp;{{ fileTypeLinesObj[fileType] }}&nbsp;
                 span ({{ fileTypeBlankLinesObj[fileType] }})&nbsp;
 
   .files(v-if="isLoaded")
