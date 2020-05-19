@@ -537,9 +537,8 @@ window.vSummary = {
         const { date } = commit;
         if (date >= sinceDate && date <= untilDate) {
           const filteredCommit = JSON.parse(JSON.stringify(commit));
-          if (this.filterBreakdown) {
-            this.filterCommitByCheckedFileTypes(filteredCommit);
-          }
+          this.filterCommitByCheckedFileTypes(filteredCommit);
+
           if (filteredCommit.commitResults.length > 0) {
             user.commits.push(filteredCommit);
           }
