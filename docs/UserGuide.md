@@ -126,14 +126,15 @@ The `Tool Bar` at the top provides a set of configuration options that control t
 * `Reset date range` : resets the date range of the Ramp Chart to the default date range.
 * `Breakdown by file type` : toggles the contribution bar to either display the bar by :
     * the total lines of codes added (if checkbox is left unchecked), or
-    * a breakdown of the number of lines of codes added to each file type (if checkbox is checked). If sorting criteria is contribution, only lines contributed to selected file types will be taken into account.
+    * a breakdown of the number of lines of codes added to each file type (if checkbox is checked). More info on note [3] below.
 * `Merge group` : merges all the ramp charts of each group into a single ramp chart; aggregates the contribution of each group.
     * viewing of authored code of the group as a whole is available when `group by repos`.
 
 Notes:<br>
 [1] **`Sort groups by`**: each main group has its own index and percentile according to its ranking position after sorting (e.g.,
 if the groups are sorted by contribution in descending order, a 25% percentile indicates that the group is in the top 25% of the whole cohort in terms of contribution)<br>
-[2] **`Repo/Branch`**: the repo/branch name is constructed as `ORGANIZATION/REPOSITORY[BRANCH]` (e.g., `resposense/reposense[master]`)
+[2] **`Repo/Branch`**: the repo/branch name is constructed as `ORGANIZATION/REPOSITORY[BRANCH]` (e.g., `resposense/reposense[master]`)<br>
+[3] The total contribution of each group will get updated based on the checked file types and will be taken into account when sorting criteria is contribution.
 
 **Bookmarking a specific toolbar setting and the opened code panel**: The URL changes according to the toolbar configuration and opened code panel viewed. You can save a specific configuration of the report by bookmarking the url (using browser functionality).
 

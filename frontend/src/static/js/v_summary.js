@@ -1,48 +1,4 @@
-// date functions //
-const DAY_IN_MS = (1000 * 60 * 60 * 24);
-window.DAY_IN_MS = DAY_IN_MS;
-const WEEK_IN_MS = DAY_IN_MS * 7;
 const dateFormatRegex = /([12]\d{3}-(0[1-9]|1[0-2])-(0[1-9]|[12]\d|3[01]))$/;
-
-window.deactivateAllOverlays = function deactivateAllOverlays() {
-  document.querySelectorAll('.summary-chart__ramp .overlay')
-      .forEach((x) => { x.className = 'overlay'; });
-};
-
-window.getDateStr = function getDateStr(date) {
-  return (new Date(date)).toISOString().split('T')[0];
-};
-
-function getHexToRGB(color) {
-  // to convert color from hex code to rgb format
-  const arr = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(color);
-  return arr.slice(1).map((val) => parseInt(val, 16));
-}
-
-function dateRounding(datestr, roundDown) {
-  // rounding up to nearest monday
-  const date = new Date(datestr);
-  const day = date.getUTCDay();
-  let datems = date.getTime();
-  if (roundDown) {
-    datems -= ((day + 6) % 7) * DAY_IN_MS;
-  } else {
-    datems += ((8 - day) % 7) * DAY_IN_MS;
-  }
-
-  return window.getDateStr(datems);
-}
-
-window.getFontColor = function getFontColor(color) {
-  const result = getHexToRGB(color);
-  const red = result[0];
-  const green = result[1];
-  const blue = result[2];
-
-  const luminosity = 0.2126 * red + 0.7152 * green + 0.0722 * blue; // per ITU-R BT.709
-
-  return luminosity < 120 ? '#ffffff' : '#000000';
-};
 
 window.vSummary = {
   props: ['repos', 'errorMessages'],
@@ -127,6 +83,14 @@ window.vSummary = {
       }
       this.getFiltered();
     },
+
+    '$store.state.summaryDates': function () {
+      this.hasModifiedSinceDate = true;
+      this.hasModifiedUntilDate = true;
+      this.tmpFilterSinceDate = this.$store.state.summaryDates.since;
+      this.tmpFilterUntilDate = this.$store.state.summaryDates.until;
+      window.deactivateAllOverlays();
+    },
   },
   computed: {
     checkAllFileTypes: {
@@ -158,6 +122,10 @@ window.vSummary = {
     },
   },
   methods: {
+    dismissTab(event) {
+      event.target.parentNode.style.display = 'none';
+    },
+
     // view functions //
     getReportIssueGitHubLink(stackTrace) {
       return `${window.BASE_URL}/reposense/RepoSense/issues/new?title=${this.getReportIssueTitle()
@@ -277,6 +245,13 @@ window.vSummary = {
       this.$emit('get-dates', [this.minDate, this.maxDate]);
     },
 
+    isMatchSearchedUser(filterSearch, user) {
+      return !filterSearch || filterSearch.toLowerCase()
+          .split(' ')
+          .filter(Boolean)
+          .some((param) => user.searchPath.includes(param));
+    },
+
     getFiltered() {
       this.setSummaryHash();
       this.getDates();
@@ -293,16 +268,12 @@ window.vSummary = {
 
         // filtering
         repo.users.forEach((user) => {
-          const toDisplay = this.filterSearch.toLowerCase()
-              .split(' ').filter(Boolean)
-              .some((param) => user.searchPath.includes(param));
-
-          if (!this.filterSearch || toDisplay) {
+          if (this.isMatchSearchedUser(this.filterSearch, user)) {
             this.getUserCommits(user, this.filterSinceDate, this.filterUntilDate);
             if (this.filterTimeFrame === 'week') {
               this.splitCommitsWeek(user, this.filterSinceDate, this.filterUntilDate);
             }
-
+            this.updateCheckedFileTypeContribution(user);
             res.push(user);
           }
         });
@@ -336,6 +307,7 @@ window.vSummary = {
         const mergedFileTypeContribution = {};
         let mergedVariance = 0;
         let totalMergedCommits = 0;
+        let totalMergedCheckedFileTypeCommits = 0;
 
         group.forEach((user) => {
           this.mergeCommits(user, mergedCommits, dateToIndexMap);
@@ -343,6 +315,7 @@ window.vSummary = {
           this.mergeFileTypeContribution(user, mergedFileTypeContribution);
 
           totalMergedCommits += user.totalCommits;
+          totalMergedCheckedFileTypeCommits += user.checkedFileTypeContribution;
           mergedVariance += user.variance;
         });
 
@@ -351,6 +324,7 @@ window.vSummary = {
         group[0].fileTypeContribution = mergedFileTypeContribution;
         group[0].totalCommits = totalMergedCommits;
         group[0].variance = mergedVariance;
+        group[0].checkedFileTypeContribution = totalMergedCheckedFileTypeCommits;
 
         // clear all users and add merged group in filtered group
         filtered[groupIndex] = [];
@@ -415,8 +389,8 @@ window.vSummary = {
     hasSimilarExistingColors(existingColors, newHex) {
       const deltaEThreshold = 11; // the lower limit of delta E to be similar, more info at http://zschuessler.github.io/DeltaE/learn/
       return existingColors.some((existingHex) => {
-        const existingRGB = getHexToRGB(existingHex);
-        const newRGB = getHexToRGB(newHex);
+        const existingRGB = window.getHexToRGB(existingHex);
+        const newRGB = window.getHexToRGB(newHex);
         return this.deltaE(existingRGB, newRGB) < deltaEThreshold;
       });
     },
@@ -496,7 +470,7 @@ window.vSummary = {
 
       const res = [];
 
-      const nextMondayDate = dateRounding(sinceDate, 0); // round up for the next monday
+      const nextMondayDate = this.dateRounding(sinceDate, 0); // round up for the next monday
 
       const nextMondayMs = (new Date(nextMondayDate)).getTime();
       const sinceMs = new Date(sinceDate).getTime();
@@ -512,11 +486,12 @@ window.vSummary = {
     },
 
     pushCommitsWeek(sinceMs, untilMs, res, commits) {
-      const diff = Math.round(Math.abs((untilMs - sinceMs) / DAY_IN_MS));
+      const diff = Math.round(Math.abs((untilMs - sinceMs) / window.DAY_IN_MS));
+      const weekInMS = window.DAY_IN_MS * 7;
 
       for (let weekId = 0; weekId < diff / 7; weekId += 1) {
-        const startOfWeekMs = sinceMs + (weekId * WEEK_IN_MS);
-        const endOfWeekMs = startOfWeekMs + WEEK_IN_MS - DAY_IN_MS;
+        const startOfWeekMs = sinceMs + (weekId * weekInMS);
+        const endOfWeekMs = startOfWeekMs + weekInMS - window.DAY_IN_MS;
         const endOfWeekMsWithinUntilMs = endOfWeekMs <= untilMs ? endOfWeekMs : untilMs;
 
         const week = {
@@ -645,14 +620,6 @@ window.vSummary = {
       window.removeHash('until');
     },
 
-    updateDateRange(since, until) {
-      this.hasModifiedSinceDate = true;
-      this.hasModifiedUntilDate = true;
-      this.tmpFilterSinceDate = since;
-      this.tmpFilterUntilDate = until;
-      window.deactivateAllOverlays();
-    },
-
     updateTmpFilterSinceDate(event) {
       const since = event.target.value;
       this.hasModifiedSinceDate = true;
@@ -691,14 +658,14 @@ window.vSummary = {
       }
     },
 
-    getFileTypeContribution(ele) {
+    updateCheckedFileTypeContribution(ele) {
       let validCommits = 0;
       Object.keys(ele.fileTypeContribution).forEach((fileType) => {
         if (this.checkedFileTypes.includes(fileType)) {
           validCommits += ele.fileTypeContribution[fileType];
         }
       });
-      return validCommits;
+      ele.checkedFileTypeContribution = validCommits;
     },
 
     groupByRepos(repos, sortingControl) {
@@ -710,7 +677,7 @@ window.vSummary = {
       const sortOption = sortingOption === 'groupTitle' ? 'searchPath' : sortingOption;
       repos.forEach((users) => {
         if (this.filterBreakdown && sortWithinOption === 'totalCommits') {
-          users.sort(window.comparator((ele) => this.getFileTypeContribution(ele)));
+          users.sort(window.comparator((ele) => ele.checkedFileTypeContribution));
         } else {
           users.sort(window.comparator((ele) => ele[sortWithinOption]));
         }
@@ -741,7 +708,7 @@ window.vSummary = {
           return repo.searchPath + repo.name;
         }
         if (this.filterBreakdown && sortingOption === 'totalCommits') {
-          return this.getFileTypeContribution(repo);
+          return repo.checkedFileTypeContribution;
         }
         return repo[sortingOption];
       }));
@@ -771,7 +738,7 @@ window.vSummary = {
       });
       Object.keys(authorMap).forEach((author) => {
         if (this.filterBreakdown && sortWithinOption === 'totalCommits') {
-          authorMap[author].sort(window.comparator((repo) => this.getFileTypeContribution(repo)));
+          authorMap[author].sort(window.comparator((repo) => repo.checkedFileTypeContribution));
         } else {
           authorMap[author].sort(window.comparator((repo) => repo[sortWithinOption]));
         }
@@ -790,7 +757,7 @@ window.vSummary = {
 
     getGroupCommitsVariance(total, group) {
       if (this.filterBreakdown && this.sortingOption === 'totalCommits') {
-        return total + this.getFileTypeContribution(group);
+        return total + group.checkedFileTypeContribution;
       }
       return total + group[this.sortingOption];
     },
@@ -803,29 +770,30 @@ window.vSummary = {
 
     restoreZoomFiltered(info) {
       const {
-        zSince, zUntil, zTimeFrame, zIsMerge,
+        zSince, zUntil, zTimeFrame, zIsMerge, zFilterSearch,
       } = info;
       const filtered = [];
 
       const groups = JSON.parse(JSON.stringify(this.repos));
 
+      const res = [];
       groups.forEach((repo) => {
-        const res = [];
         repo.users.forEach((user) => {
-          // only filter users that match with zoom user
-          if (this.matchZoomUser(info, user)) {
+          // only filter users that match with zoom user and previous searched user
+          if (this.matchZoomUser(info, user) && this.isMatchSearchedUser(zFilterSearch, user)) {
             this.getUserCommits(user, zSince, zUntil);
             if (zTimeFrame === 'week') {
               this.splitCommitsWeek(user, zSince, zUntil);
             }
+            this.updateCheckedFileTypeContribution(user);
             res.push(user);
           }
         });
-
-        if (res.length) {
-          filtered.push(res);
-        }
       });
+
+      if (res.length) {
+        filtered.push(res);
+      }
 
       if (zIsMerge) {
         this.mergeGroup(filtered);
@@ -842,6 +810,20 @@ window.vSummary = {
           : user.name === zAuthor;
       }
       return user.repoName === zRepo && user.name === zAuthor;
+    },
+
+    dateRounding(datestr, roundDown) {
+      // rounding up to nearest monday
+      const date = new Date(datestr);
+      const day = date.getUTCDay();
+      let datems = date.getTime();
+      if (roundDown) {
+        datems -= ((day + 6) % 7) * window.DAY_IN_MS;
+      } else {
+        datems += ((8 - day) % 7) * window.DAY_IN_MS;
+      }
+
+      return window.getDateStr(datems);
     },
   },
   created() {

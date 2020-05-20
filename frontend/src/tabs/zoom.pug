@@ -1,8 +1,14 @@
 #zoom
   span.large-font Commits Panel
-  .toolbar(v-if="filteredUser.commits.length")
-    a(v-if="expandedCommitMessagesCount === 0", v-on:click="toggleAllCommitMessagesBody(true)") show all commit messages
-    a(v-else, v-on:click="toggleAllCommitMessagesBody(false)") hide all commit messages
+  .toolbar--multiline(v-if="filteredUser.commits.length && totalCommitMessageBodyCount")
+    a(
+      v-if="expandedCommitMessagesCount < totalCommitMessageBodyCount",
+      v-on:click="toggleAllCommitMessagesBody(true)"
+    ) show all commit messages
+    a(
+      v-if="expandedCommitMessagesCount > 0",
+      v-on:click="toggleAllCommitMessagesBody(false)"
+    ) hide all commit messages
   .panel-heading
     .group-name
       span(
@@ -32,7 +38,7 @@
               v-for="tag in commitResult.tags",
               v-on:click="scrollToCommit(tag, `tag ${commitResult.hash}`)"
             )
-              i.fas.fa-tags
+              font-awesome-icon(icon="tags")
               span &nbsp;{{ tag }}
 
   v-ramp(
@@ -73,7 +79,7 @@
         span &nbsp; ({{ slice.insertions }} lines) &nbsp;
         template(v-if="slice.tags", v-for="tag in slice.tags")
           .tag.mini-font(tabindex="-1", v-bind:class="[`${slice.hash}`, tag]")
-            i.fas.fa-tags
+            font-awesome-icon(icon="tags")
             span &nbsp;{{ tag }}
         a(
           v-if="slice.messageBody !== ''",
@@ -81,7 +87,7 @@
           onclick="toggleNext(this)",
           title="Click to show/hide the commit message body"
         )
-          i.commit-message--button.fas.fa-ellipsis-h
+          font-awesome-icon.commit-message--button(icon="ellipsis-h")
         .body(v-if="slice.messageBody !== ''")
           pre {{ slice.messageBody }}
             .dashed-border

@@ -1,6 +1,6 @@
 #authorship
   span.large-font Code Panel
-  .toolbar(v-if="hasCommits(info)")
+  .toolbar--multiline(v-if="hasCommits(info)")
     a(v-if="activeFilesCount < this.selectedFiles.length", v-on:click="expandAll()") show all file details
     a(v-if="activeFilesCount > 0", v-on:click="collapseAll()") hide all file details
   .panel-heading
@@ -30,13 +30,32 @@
             option(v-bind:value='false') Ascending
           label.medium-font order
       .searchbox
-        input.radio-button--search(type="radio", value="search", v-model="filterType")
-        form.file-picker.mui-form--inline(onsubmit="return false")
-          input#search.medium-font(type="search", placeholder="Filter by glob", v-on:change="updateFilterSearch",
-            v-on:click="indicateSearchBar")
-          button#submit-button.medium-font(type="submit", v-on:click="indicateSearchBar") Filter
+        input.radio-button--search(
+          type="radio",
+          value="search",
+          v-model="filterType",
+          v-on:change="indicateSearchBar(); updateSearchBarValue();"
+        )
+        .file-picker.mui-form--inline
+          input#search.medium-font(
+            type="search",
+            placeholder="Filter by glob",
+            ref="searchBar",
+            v-bind:value="searchBarValue",
+            v-on:focus="indicateSearchBar",
+            v-on:keyup.enter="updateSearchBarValue"
+          )
+          button#submit-button.medium-font(
+            type="button",
+            v-on:click="indicateSearchBar(); updateSearchBarValue();"
+          ) Filter
       .fileTypes
-        input.radio-button--checkbox(type="radio", value="checkboxes", v-model="filterType")
+        input.radio-button--checkbox(
+          type="radio",
+          value="checkboxes",
+          v-model="filterType",
+          v-on:change="indicateCheckBoxes"
+        )
         .checkboxes.mui-form--inline(v-if="files.length > 0")
           label(style='background-color: #000000; color: #ffffff')
             input.mui-checkbox--fileType(type="checkbox", v-model="isSelectAllChecked")
@@ -44,7 +63,7 @@
               span All&nbsp;
               span {{ totalLineCount }}&nbsp;
               span ({{ totalBlankLineCount }})&nbsp;
-          template(v-for="fileType in Object.keys(getFileTypeExistingLinesObj)")
+          template(v-for="fileType in Object.keys(fileTypeLinesObj)")
             label(
               v-bind:key="fileType",
               v-bind:style="{\
@@ -53,9 +72,9 @@
                 }"
             )
               input.mui-checkbox--fileType(type="checkbox", v-bind:id="fileType", v-bind:value="fileType",
-                v-on:click="indicateCheckBoxes", v-model="selectedFileTypes")
+                v-on:change="indicateCheckBoxes", v-model="selectedFileTypes")
               span(v-bind:title="getFileTypeBlankLineInfo(fileType)")
-                span {{ fileType }}&nbsp;{{ getFileTypeExistingLinesObj[fileType] }}&nbsp;
+                span {{ fileType }}&nbsp;{{ fileTypeLinesObj[fileType] }}&nbsp;
                 span ({{ fileTypeBlankLinesObj[fileType] }})&nbsp;
           label.binary-fileType(v-if="binaryFilesCount > 0")
             input.mui-checkbox--fileType(type="checkbox", v-bind:checked="isBinaryFilesChecked",
@@ -70,19 +89,22 @@
     template(v-for="file in selectedFiles")
       .file(v-bind:key="file.path")
         .title
-          span.path(v-on:click="toggleFileActiveProperty(file)") {{ file.path }}&nbsp;
+          span.path(v-on:click="toggleFileActiveProperty(file)")
+            font-awesome-icon(icon="caret-down", fixed-width, v-show="file.active")
+            font-awesome-icon(icon="caret-right", fixed-width, v-show="!file.active")
+            span {{ file.path }} &nbsp;
           span.icons
             a(
               v-bind:href="getFileLink(file, 'commits')", target="_blank",
               title="click to view the history view of file"
             )
-              i.button.fas.fa-history
+              font-awesome-icon.button(icon="history")
             a(
               v-if='!file.isBinary',
               v-bind:href="getFileLink(file, 'blame')", target="_blank",
               title="click to view the blame view of file"
             )
-              i.button.fas.fa-user-edit
+              font-awesome-icon.button(icon="user-edit")
           span.fileTypeLabel.medium-font(
             v-if='!file.isBinary',
             v-bind:style="{\
