@@ -570,7 +570,10 @@ window.vSummary = {
     },
 
     isFileTypeChecked(fileType) {
-      return this.checkedFileTypes.includes(fileType);
+      if (this.filterBreakdown) {
+        return this.checkedFileTypes.includes(fileType);
+      }
+      return true;
     },
 
     updateCommitResultWithFileTypes(commitResult, filteredFileTypes) {
@@ -654,7 +657,9 @@ window.vSummary = {
     updateCheckedFileTypeContribution(ele) {
       let validCommits = 0;
       Object.keys(ele.fileTypeContribution).forEach((fileType) => {
-        if (this.checkedFileTypes.includes(fileType)) {
+        if (!this.filterBreakdown) {
+          validCommits += ele.fileTypeContribution[fileType];
+        } else if (this.checkedFileTypes.includes(fileType)) {
           validCommits += ele.fileTypeContribution[fileType];
         }
       });
