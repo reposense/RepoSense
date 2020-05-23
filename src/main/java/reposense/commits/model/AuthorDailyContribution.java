@@ -5,7 +5,7 @@ import java.util.Date;
 import java.util.List;
 
 /**
- * Holds the commits made and line contribution count of an {@code Author} for a single day.
+ * Holds the commits made by an {@code Author} for a single day.
  */
 public class AuthorDailyContribution {
     private Date date;
@@ -25,8 +25,7 @@ public class AuthorDailyContribution {
     }
 
     /**
-     * Adds the {@code commitResult} line contribution count into the {@code Author}'s total line contribution count
-     * for the day.
+     * Adds the {@code commitResult} into the {@code Author}'s daily contribution.
      */
     public void addCommitContribution(CommitResult commitResult) {
         commitResults.add(commitResult);

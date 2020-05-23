@@ -28,11 +28,9 @@ public class AuthorshipSummary {
     }
 
     /**
-     * Increments the contribution count of {@code author} and the corresponding file type specified by
-     * {@code filePath} by one.
+     * Increments the corresponding {@code fileType} contribution count of {@code author} by one.
      */
     public void addAuthorContributionCount(Author author, FileType fileType) {
-        // Add file type contribution count
         Map<FileType, Integer> fileTypeContributionMap = authorFileTypeContributionMap.get(author);
         fileTypeContributionMap.put(fileType, fileTypeContributionMap.getOrDefault(fileType, 0) + 1);
     }
