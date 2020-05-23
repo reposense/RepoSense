@@ -5,23 +5,6 @@ const filesSortDict = {
   fileType: (file) => file.fileType,
 };
 
-window.toggleNext = function toggleNext(ele) {
-  // function for toggling unopened code
-  const targetClass = 'active';
-
-  const parent = ele.parentNode;
-  const classes = parent.className.split(' ');
-  const idx = classes.indexOf(targetClass);
-
-  if (idx === -1) {
-    classes.push(targetClass);
-  } else {
-    classes.splice(idx, 1);
-  }
-
-  parent.className = classes.join(' ');
-};
-
 const repoCache = [];
 const minimatch = require('minimatch');
 
@@ -37,8 +20,6 @@ window.vAuthorship = {
       fileTypes: [],
       filesLinesObj: {},
       fileTypeBlankLinesObj: {},
-      totalLineCount: '',
-      totalBlankLineCount: '',
       filesSortType: 'lineOfCode',
       toReverseSortFiles: true,
       searchBarValue: '',
@@ -238,8 +219,6 @@ window.vAuthorship = {
       const COLLAPSED_VIEW_LINE_COUNT_THRESHOLD = 2000;
       const res = [];
       const fileTypeBlanksInfoObj = {};
-      let totalLineCount = 0;
-      let totalBlankLineCount = 0;
 
       files.forEach((file) => {
         const contributionMap = file.authorContributionMap;
@@ -248,7 +227,6 @@ window.vAuthorship = {
             : contributionMap[this.info.author];
 
         if (lineCnt) {
-          totalLineCount += lineCnt;
           const out = {};
           out.path = file.path;
           out.lineCount = lineCnt;
@@ -259,7 +237,6 @@ window.vAuthorship = {
           const segmentInfo = this.splitSegments(file.lines);
           out.segments = segmentInfo.segments;
           out.blankLineCount = segmentInfo.blankLineCount;
-          totalBlankLineCount += segmentInfo.blankLineCount;
 
           this.addBlankLineCount(file.fileType, segmentInfo.blankLineCount,
               fileTypeBlanksInfoObj);
@@ -267,8 +244,6 @@ window.vAuthorship = {
         }
       });
 
-      this.totalLineCount = totalLineCount;
-      this.totalBlankLineCount = totalBlankLineCount;
       res.sort((a, b) => b.lineCount - a.lineCount);
 
       Object.keys(this.filesLinesObj).forEach((file) => {
@@ -374,7 +349,15 @@ window.vAuthorship = {
       return this.selectedFiles.filter((file) => file.active).length;
     },
 
-    getFileTypeExistingLinesObj() {
+    totalLineCount() {
+      return Object.values(this.fileTypeLinesObj).reduce((acc, val) => acc + val, 0);
+    },
+
+    totalBlankLineCount() {
+      return Object.values(this.fileTypeBlankLinesObj).reduce((acc, val) => acc + val, 0);
+    },
+
+    fileTypeLinesObj() {
       const numLinesModified = {};
       Object.entries(this.filesLinesObj)
           .filter(([, value]) => value > 0)
