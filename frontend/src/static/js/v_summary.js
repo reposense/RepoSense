@@ -180,6 +180,15 @@ window.vSummary = {
       addHash('groupSelect', this.filterGroupSelection);
       addHash('breakdown', this.filterBreakdown);
 
+      if (this.filterBreakdown) {
+        const checkedFileTypesHash = this.checkedFileTypes.length > 0
+          ? this.checkedFileTypes.join(window.HASH_FILETYPE_DELIMITER)
+          : '';
+        addHash('checkedFileTypes', checkedFileTypesHash);
+      } else {
+        window.removeHash('checkedFileTypes');
+      }
+
       encodeHash();
     },
 
@@ -213,6 +222,10 @@ window.vSummary = {
       }
       if (hash.breakdown) {
         this.filterBreakdown = convertBool(hash.breakdown);
+      }
+      if (hash.checkedFileTypes !== null) {
+        const parsedFileTypes = hash.checkedFileTypes.split(window.HASH_FILETYPE_DELIMITER);
+        this.checkedFileTypes = parsedFileTypes.filter((type) => this.fileTypes.includes(type));
       }
       window.decodeHash();
     },
@@ -827,9 +840,9 @@ window.vSummary = {
     },
   },
   created() {
+    this.processFileTypes();
     this.renderFilterHash();
     this.getFiltered();
-    this.processFileTypes();
   },
   beforeMount() {
     this.$root.$on('restoreCommits', (info) => {
