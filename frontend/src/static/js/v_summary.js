@@ -306,7 +306,7 @@ window.vSummary = {
     getGroupName(group) {
       return window.getGroupName(group, this.filterGroupSelection);
     },
-    
+
     isMatchSearchedUser(filterSearch, user) {
       return !filterSearch || filterSearch.toLowerCase()
           .split(' ')
