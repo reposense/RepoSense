@@ -1,8 +1,8 @@
 /* global Vuex */
 window.vSummaryCharts = {
   props: ['checkedFileTypes', 'filtered', 'fileTypeColors', 'avgContributionSize', 'filterBreakdown',
-      'filterGroupSelection', 'filterTimeFrame', 'filterSinceDate', 'filterUntilDate',
-      'minDate', 'maxDate'],
+      'filterGroupSelection', 'filterTimeFrame', 'filterSinceDate', 'filterUntilDate', 'isMergeGroup',
+      'minDate', 'maxDate', 'filterSearch'],
   template: window.$('v_summary_charts').innerHTML,
   data() {
     return {
@@ -169,7 +169,7 @@ window.vSummaryCharts = {
 
     openTabZoom(user, since, until, isMerge) {
       const {
-        avgCommitSize, filterGroupSelection, filterTimeFrame,
+        avgCommitSize, filterGroupSelection, filterTimeFrame, filterSearch,
       } = this;
       const clonedUser = Object.assign({}, user); // so that changes in summary won't affect zoom
       const info = {
@@ -183,6 +183,7 @@ window.vSummaryCharts = {
         zSince: since,
         zUntil: until,
         zIsMerge: isMerge,
+        zFilterSearch: filterSearch,
       };
 
       this.$store.commit('updateTabZoomInfo', info);
