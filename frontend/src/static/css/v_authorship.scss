@@ -12,6 +12,10 @@
 
   .title {
     .contribution {
+      .checkboxes {
+        margin: 0 0 0 2.75rem;
+      }
+
       .radio-button--search {
         float: left;
         margin: 1.75rem 2.0rem 0 0;
@@ -19,7 +23,7 @@
 
       .radio-button--checkbox {
         float: left;
-        margin: 0 2.0rem 0 -3rem;
+        margin: 0 2.0rem 0 0;
         vertical-align: middle;
       }
 
