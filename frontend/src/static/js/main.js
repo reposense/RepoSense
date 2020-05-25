@@ -148,6 +148,7 @@ window.app = new window.Vue({
         zSince: hash.zS,
         zUntil: hash.zU,
         zFilterGroup: hash.zFGS,
+        zFilterSearch: hash.zFS,
         zTimeFrame: hash.zFTF,
         zIsMerge: hash.zMG === 'true',
       };

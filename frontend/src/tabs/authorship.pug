@@ -13,7 +13,7 @@
       span {{ info.name }} ({{ info.author }})
     .period
       span &#8627; &nbsp;
-      span {{ info.minDate }} to {{ info.maxDate }}
+      span {{ info.minDate }} to {{ info.maxDate }} &nbsp;&nbsp; ({{ selectedFiles.length }} files changed)
   .title
     .contribution(v-if="isLoaded && files.length!=0")
       .sorting.mui-form--inline
@@ -63,7 +63,7 @@
               span All&nbsp;
               span {{ totalLineCount }}&nbsp;
               span ({{ totalBlankLineCount }})&nbsp;
-          template(v-for="fileType in Object.keys(getFileTypeExistingLinesObj)")
+          template(v-for="fileType in Object.keys(fileTypeLinesObj)")
             label(
               v-bind:key="fileType",
               v-bind:style="{\
@@ -74,18 +74,18 @@
               input.mui-checkbox--fileType(type="checkbox", v-bind:id="fileType", v-bind:value="fileType",
                 v-on:change="indicateCheckBoxes", v-model="selectedFileTypes")
               span(v-bind:title="getFileTypeBlankLineInfo(fileType)")
-                span {{ fileType }}&nbsp;{{ getFileTypeExistingLinesObj[fileType] }}&nbsp;
+                span {{ fileType }}&nbsp;{{ fileTypeLinesObj[fileType] }}&nbsp;
                 span ({{ fileTypeBlankLinesObj[fileType] }})&nbsp;
 
   .files(v-if="isLoaded")
     .empty(v-if="files.length === 0") nothing to see here :(
-    template(v-for="file in selectedFiles")
+    template(v-for="(file, i) in selectedFiles")
       .file(v-bind:key="file.path")
         .title
           span.path(v-on:click="toggleFileActiveProperty(file)")
             font-awesome-icon(icon="caret-down", fixed-width, v-show="file.active")
             font-awesome-icon(icon="caret-right", fixed-width, v-show="!file.active")
-            span {{ file.path }} &nbsp;
+            span {{ i + 1 }}. &nbsp;&nbsp; {{ file.path }} &nbsp;
           span.icons
             a(
               v-bind:href="getFileLink(file, 'commits')", target="_blank",
