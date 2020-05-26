@@ -46,21 +46,6 @@ a {
   }
 }
 
-.mini-font {
-  font-size: .65rem;
-  font-weight: normal;
-}
-
-.medium-font {
-  font-size: .875rem;
-  font-weight: normal;
-}
-
-.large-font {
-  font-size: 1.5rem;
-  font-weight: bold;
-}
-
 .tab-padding {
   padding: 2rem 1.5rem;
 }
@@ -145,6 +130,10 @@ header {
       }
 
       &__failed-repo {
+        .fa-exclamation {
+          @include mini-font;
+        }
+
         &--name {
           font-weight: bolder;
           padding-left: .2rem;
