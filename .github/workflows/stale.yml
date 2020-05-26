@@ -10,15 +10,13 @@ jobs:
     runs-on: ubuntu-18.04
 
     steps:
-     - uses: actions/checkout@v2.0.0
-     - name: stale
-       uses: gatsbyjs/stale@v1.1.0
+     - uses: actions/stale@v3.0.3
        with:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          DAYS_BEFORE_STALE: 30
-          DAYS_BEFORE_CLOSE: 7
-          STALE_PR_LABEL: 'Stale'
-          STALE_PR_MESSAGE: |
+          repo-token: ${{ secrets.GITHUB_TOKEN }}
+          days-before-stale: 30
+          days-before-close: 7
+          stale-pr-label: 'Stale'
+          stale-pr-message: |
             Hi,
 
             We are going to mark this PR as stale because it has been inactive for the past 30 days.
