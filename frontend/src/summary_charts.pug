@@ -8,7 +8,7 @@
           v-else-if="filterGroupSelection === 'groupByAuthors'",
           v-bind:class=" { warn: repo[0].name === '-' }"
         ) {{ repo[0].displayName }} ({{ repo[0].name }})
-      .summary-charts__title--contribution.mini-font(
+      .summary-charts__title--contribution(
         title="Total contribution of group"
       ) [{{ getGroupTotalContribution(repo) }} lines]
       a(
@@ -37,7 +37,7 @@
           v-on:click="openTabZoom(repo[0], filterSinceDate, filterUntilDate, repo, 0)"
         )
           font-awesome-icon.icon-button(icon="list-ul")
-      .summary-charts__title--percentile.mini-font {{ getPercentile(i) }} %
+      .summary-charts__title--percentile {{ getPercentile(i) }} %
     .summary-charts__fileType--breakdown(v-if="filterBreakdown")
       template(v-if="filterGroupSelection !== 'groupByNone'")
         .summary-charts__fileType--breakdown__legend(
@@ -58,7 +58,7 @@
           v-if="filterGroupSelection !== 'groupByAuthors'",
           v-bind:class="{ warn: user.name === '-' }"
         ) {{ user.displayName }} ({{ user.name }})
-        .summary-chart__title--contribution.mini-font [{{ getUserTotalContribution(user) }} lines]
+        .summary-chart__title--contribution [{{ getUserTotalContribution(user) }} lines]
         a(
           v-if="filterGroupSelection !== 'groupByRepos'",
           v-bind:href="getRepoLink(repo[i])", target="_blank",
@@ -83,7 +83,7 @@
           v-on:click="openTabZoom(user, filterSinceDate, filterUntilDate)"
         )
           font-awesome-icon.icon-button(icon="list-ul")
-        .summary-chart__title--percentile.mini-font(
+        .summary-chart__title--percentile(
           v-if="filterGroupSelection === 'groupByNone'"
         ) {{ getPercentile(i) }} %
 
