@@ -217,7 +217,7 @@ window.vSummary = {
 
       if (this.filterBreakdown) {
         const checkedFileTypesHash = this.checkedFileTypes.length > 0
-          ? this.checkedFileTypes.join(window.HASH_FILETYPE_DELIMITER)
+          ? this.checkedFileTypes.join(window.HASH_DELIMITER)
           : '';
         addHash('checkedFileTypes', checkedFileTypesHash);
       } else {
@@ -260,7 +260,7 @@ window.vSummary = {
         this.filterBreakdown = convertBool(hash.breakdown);
       }
       if (hash.checkedFileTypes !== null) {
-        const parsedFileTypes = hash.checkedFileTypes.split(window.HASH_FILETYPE_DELIMITER);
+        const parsedFileTypes = hash.checkedFileTypes.split(window.HASH_DELIMITER);
         this.checkedFileTypes = parsedFileTypes.filter((type) => this.fileTypes.includes(type));
       }
       window.decodeHash();
