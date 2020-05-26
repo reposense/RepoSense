@@ -23,7 +23,7 @@
       .mui-select.sort-within-group
         select(
           v-model="sortWithinGroupSelection",
-          v-bind:disabled="filterGroupSelection === 'groupByNone' || isMergeGroup"
+          v-bind:disabled="filterGroupSelection === 'groupByNone' || allGroupsMerged"
         )
           option(value="title") &uarr; title
           option(value="title dsc") &darr; title
@@ -64,10 +64,10 @@
         )
           input.summary-picker__checkbox.mui-checkbox(
             type="checkbox",
-            v-model="isMergeGroup",
+            v-model="allGroupsMerged",
             v-bind:disabled="filterGroupSelection === 'groupByNone'"
           )
-          span merge group
+          span merge all groups
   .error-message-box(v-if="Object.entries(errorMessages).length")
     .error-message-box__close-button(v-on:click="dismissTab($event)") &times;
     .error-message-box__message The following issues occurred when analyzing the following repositories:
@@ -117,7 +117,6 @@
     v-bind:filter-since-date="filterSinceDate",
     v-bind:filter-until-date="filterUntilDate",
     v-bind:filter-search="filterSearch",
-    v-bind:is-merge-group="isMergeGroup",
     v-bind:min-date="minDate",
     v-bind:max-date="maxDate"
   )
