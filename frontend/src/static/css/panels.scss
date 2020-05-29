@@ -78,6 +78,7 @@
 
 .fileTypes {
   align-items: center;
+  display: flex;
   text-align: left;
 
   .checkboxes {
@@ -120,7 +121,12 @@
     padding-right: 15px;
   }
 
+  select {
+    @include medium-font;
+  }
+
   label {
+    @include medium-font;
     overflow-y: hidden;
   }
 
@@ -133,22 +139,24 @@
   }
 }
 
+.panel-title {
+  @include large-font;
+  display: inline;
+}
+
 .panel-heading {
   .group-name {
+    @include large-font;
     cursor: pointer;
-    font-size: 1.5rem;
-    font-weight: bold;
   }
 
   .author {
-    font-size: .875rem;
-    font-weight: normal;
+    @include medium-font;
     margin-left: .3rem;
   }
 
   .period {
-    font-size: .875rem;
-    font-weight: normal;
+    @include medium-font;
     margin-left: 2rem;
   }
 }

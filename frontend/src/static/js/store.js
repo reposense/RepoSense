@@ -4,6 +4,7 @@ const store = new Vuex.Store({
     tabAuthorshipInfo: {},
     tabZoomInfo: {},
     summaryDates: {},
+    mergedGroups: [],
   },
   mutations: {
     updateTabZoomInfo(state, info) {
@@ -14,6 +15,9 @@ const store = new Vuex.Store({
     },
     updateSummaryDates(state, info) {
       state.summaryDates = info;
+    },
+    updateMergedGroup(state, info) {
+      state.mergedGroups = info;
     },
   },
 });

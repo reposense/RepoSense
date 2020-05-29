@@ -1,3 +1,4 @@
+/* global Vuex */
 const dateFormatRegex = /([12]\d{3}-(0[1-9]|1[0-2])-(0[1-9]|[12]\d|3[01]))$/;
 
 window.vSummary = {
@@ -18,7 +19,6 @@ window.vSummary = {
       isSortingWithinDsc: '',
       filterTimeFrame: 'commit',
       filterBreakdown: false,
-      isMergeGroup: false,
       tmpFilterSinceDate: '',
       tmpFilterUntilDate: '',
       hasModifiedSinceDate: window.app.isSinceDateProvided,
@@ -54,16 +54,20 @@ window.vSummary = {
     },
 
     filterGroupSelection() {
+      const { allGroupsMerged } = this;
+      this.getFilteredRepos();
+
       // merge group is not allowed when group by none
-      if (this.filterGroupSelection === 'groupByNone') {
-        this.isMergeGroup = false;
+      // also reset merged groups
+      if (this.filterGroupSelection === 'groupByNone' || !allGroupsMerged) {
+        this.$store.commit('updateMergedGroup', []);
+      } else {
+        const mergedGroups = [];
+        this.filtered.forEach((group) => {
+          mergedGroups.push(this.getGroupName(group));
+        });
+        this.$store.commit('updateMergedGroup', mergedGroups);
       }
-
-      this.getFiltered();
-    },
-
-    isMergeGroup() {
-      this.getFiltered();
     },
 
     tmpFilterSinceDate() {
@@ -90,6 +94,10 @@ window.vSummary = {
       this.tmpFilterSinceDate = this.$store.state.summaryDates.since;
       this.tmpFilterUntilDate = this.$store.state.summaryDates.until;
       window.deactivateAllOverlays();
+    },
+
+    mergedGroups() {
+      this.getFiltered();
     },
   },
   computed: {
@@ -120,6 +128,28 @@ window.vSummary = {
 
       return totalLines / totalCount;
     },
+
+    allGroupsMerged: {
+      get() {
+        if (this.mergedGroups.length === 0) {
+          return false;
+        }
+        return this.mergedGroups.length === this.filtered.length;
+      },
+      set(value) {
+        if (value) {
+          const mergedGroups = [];
+          this.filtered.forEach((group) => {
+            mergedGroups.push(this.getGroupName(group));
+          });
+          this.$store.commit('updateMergedGroup', mergedGroups);
+        } else {
+          this.$store.commit('updateMergedGroup', []);
+        }
+      },
+    },
+
+    ...Vuex.mapState(['mergedGroups']),
   },
   methods: {
     dismissTab(event) {
@@ -175,14 +205,19 @@ window.vSummary = {
       }
 
       addHash('timeframe', this.filterTimeFrame);
-      addHash('mergegroup', this.isMergeGroup);
+
+      let mergedGroupsHash = this.mergedGroups.join(window.HASH_DELIMITER);
+      if (mergedGroupsHash.length === 0) {
+        mergedGroupsHash = '';
+      }
+      addHash('mergegroup', mergedGroupsHash);
 
       addHash('groupSelect', this.filterGroupSelection);
       addHash('breakdown', this.filterBreakdown);
 
       if (this.filterBreakdown) {
         const checkedFileTypesHash = this.checkedFileTypes.length > 0
-          ? this.checkedFileTypes.join(window.HASH_FILETYPE_DELIMITER)
+          ? this.checkedFileTypes.join(window.HASH_DELIMITER)
           : '';
         addHash('checkedFileTypes', checkedFileTypesHash);
       } else {
@@ -208,7 +243,8 @@ window.vSummary = {
 
       if (hash.timeframe) { this.filterTimeFrame = hash.timeframe; }
       if (hash.mergegroup) {
-        this.isMergeGroup = convertBool(hash.mergegroup);
+        // make a copy to prevent custom merged groups from overwritten
+        this.customMergedGroups = hash.mergegroup;
       }
       if (hash.since && dateFormatRegex.test(hash.since)) {
         this.tmpFilterSinceDate = hash.since;
@@ -224,10 +260,19 @@ window.vSummary = {
         this.filterBreakdown = convertBool(hash.breakdown);
       }
       if (hash.checkedFileTypes !== null) {
-        const parsedFileTypes = hash.checkedFileTypes.split(window.HASH_FILETYPE_DELIMITER);
+        const parsedFileTypes = hash.checkedFileTypes.split(window.HASH_DELIMITER);
         this.checkedFileTypes = parsedFileTypes.filter((type) => this.fileTypes.includes(type));
       }
       window.decodeHash();
+    },
+
+    restoreMergedGroups() {
+      if (this.customMergedGroups) {
+        this.$store.commit(
+            'updateMergedGroup',
+            this.customMergedGroups.split(window.HASH_DELIMITER),
+        );
+      }
     },
 
     getDates() {
@@ -258,6 +303,10 @@ window.vSummary = {
       this.$emit('get-dates', [this.minDate, this.maxDate]);
     },
 
+    getGroupName(group) {
+      return window.getGroupName(group, this.filterGroupSelection);
+    },
+
     isMatchSearchedUser(filterSearch, user) {
       return !filterSearch || filterSearch.toLowerCase()
           .split(' ')
@@ -270,12 +319,17 @@ window.vSummary = {
       this.getDates();
       window.deactivateAllOverlays();
 
+      this.getFilteredRepos();
+      this.getMergedRepos();
+    },
+
+    getFilteredRepos() {
       // array of array, sorted by repo
       const full = [];
 
       // create deep clone of this.repos to not modify the original content of this.repos
       // when merging groups
-      const groups = this.isMergeGroup ? JSON.parse(JSON.stringify(this.repos)) : this.repos;
+      const groups = this.hasMergedGroups() ? JSON.parse(JSON.stringify(this.repos)) : this.repos;
       groups.forEach((repo) => {
         const res = [];
 
@@ -307,42 +361,47 @@ window.vSummary = {
         isSortingWithinDsc: this.isSortingWithinDsc,
       };
       this.filtered = this.sortFiltered(this.filtered, filterControl);
-
-      if (this.isMergeGroup) {
-        this.mergeGroup(this.filtered);
-      }
     },
 
-    mergeGroup(filtered) {
-      filtered.forEach((group, groupIndex) => {
-        const dateToIndexMap = {};
-        const mergedCommits = [];
-        const mergedFileTypeContribution = {};
-        let mergedVariance = 0;
-        let totalMergedCommits = 0;
-        let totalMergedCheckedFileTypeCommits = 0;
-
-        group.forEach((user) => {
-          this.mergeCommits(user, mergedCommits, dateToIndexMap);
-
-          this.mergeFileTypeContribution(user, mergedFileTypeContribution);
-
-          totalMergedCommits += user.totalCommits;
-          totalMergedCheckedFileTypeCommits += user.checkedFileTypeContribution;
-          mergedVariance += user.variance;
-        });
-
-        mergedCommits.sort(window.comparator((ele) => ele.date));
-        group[0].commits = mergedCommits;
-        group[0].fileTypeContribution = mergedFileTypeContribution;
-        group[0].totalCommits = totalMergedCommits;
-        group[0].variance = mergedVariance;
-        group[0].checkedFileTypeContribution = totalMergedCheckedFileTypeCommits;
-
-        // clear all users and add merged group in filtered group
-        filtered[groupIndex] = [];
-        filtered[groupIndex].push(group[0]);
+    getMergedRepos() {
+      this.filtered.forEach((group, groupIndex) => {
+        if (this.mergedGroups.includes(this.getGroupName(group))) {
+          this.mergeGroupByIndex(this.filtered, groupIndex);
+        }
       });
+    },
+
+    mergeGroupByIndex(filtered, groupIndex) {
+      const dateToIndexMap = {};
+      const mergedCommits = [];
+      const mergedFileTypeContribution = {};
+      let mergedVariance = 0;
+      let totalMergedCommits = 0;
+      let totalMergedCheckedFileTypeCommits = 0;
+
+      filtered[groupIndex].forEach((user) => {
+        this.mergeCommits(user, mergedCommits, dateToIndexMap);
+
+        this.mergeFileTypeContribution(user, mergedFileTypeContribution);
+
+        totalMergedCommits += user.totalCommits;
+        totalMergedCheckedFileTypeCommits += user.checkedFileTypeContribution;
+        mergedVariance += user.variance;
+      });
+
+      mergedCommits.sort(window.comparator((ele) => ele.date));
+      filtered[groupIndex][0].commits = mergedCommits;
+      filtered[groupIndex][0].fileTypeContribution = mergedFileTypeContribution;
+      filtered[groupIndex][0].totalCommits = totalMergedCommits;
+      filtered[groupIndex][0].variance = mergedVariance;
+      filtered[groupIndex][0].checkedFileTypeContribution = totalMergedCheckedFileTypeCommits;
+
+      // only take the merged group
+      filtered[groupIndex] = filtered[groupIndex].slice(0, 1);
+    },
+
+    hasMergedGroups() {
+      return this.mergedGroups.length > 0;
     },
 
     mergeCommits(user, merged, dateToIndexMap) {
@@ -809,7 +868,7 @@ window.vSummary = {
       }
 
       if (zIsMerge) {
-        this.mergeGroup(filtered);
+        this.mergeGroupByIndex(filtered, 0);
       }
       return filtered[0][0];
     },
@@ -853,6 +912,14 @@ window.vSummary = {
     this.$root.$on('restoreFileTypeColors', (info) => {
       info.fileTypeColors = this.fileTypeColors;
     });
+  },
+  mounted() {
+    this.$store.commit('updateMergedGroup', []);
+
+    // restoring custom merged groups after watchers finish their job
+    setTimeout(() => {
+      this.restoreMergedGroups();
+    }, 0);
   },
   components: {
     vSummaryCharts: window.vSummaryCharts,
