@@ -37,7 +37,7 @@
         font-awesome-icon.icon-button(icon="user")
       template(v-if="isGroupMerged(getGroupName(repo))")
         a(
-          v-if="filterGroupSelection !== 'groupByAuthors'"
+          v-if="filterGroupSelection !== 'groupByAuthors'",
           title="click to view group's code",
           onclick="deactivateAllOverlays()",
           v-on:click="openTabAuthorship(repo[0], repo, 0, isGroupMerged(getGroupName(repo)))"
