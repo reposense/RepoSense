@@ -17,7 +17,7 @@ describe('code view', () => {
 
     Cypress.wait();
 
-    cy.get('div.tab-close')
+    cy.get('#app #tab-resize .tab-close')
         .click();
 
     Cypress.wait();
