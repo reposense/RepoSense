@@ -187,7 +187,7 @@ public class AuthorConfigParserTest {
     }
 
     @Test
-    public void parse_multipleRepos_success() throws Exception {
+    public void parse_multipleReposInOneRow_success() throws Exception {
         AuthorConfigCsvParser authorConfigCsvParser =
                 new AuthorConfigCsvParser(AUTHOR_CONFIG_MULTIPLE_REPOS);
         List<AuthorConfiguration> configs = authorConfigCsvParser.parse();
