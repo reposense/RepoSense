@@ -3,7 +3,7 @@ window.$ = (id) => document.getElementById(id);
 window.enquery = (key, val) => `${key}=${encodeURIComponent(val)}`;
 window.BASE_URL = 'https://github.com';
 window.DAY_IN_MS = (1000 * 60 * 60 * 24);
-window.HASH_FILETYPE_DELIMITER = '~';
+window.HASH_DELIMITER = '~';
 window.REPOS = {};
 window.hashParams = {};
 window.isMacintosh = navigator.platform.includes('Mac');
@@ -116,6 +116,17 @@ window.getBaseLink = function getBaseLink(repoId) {
   return `${window.BASE_URL}/${
     window.REPOS[repoId].location.organization}/${
     window.REPOS[repoId].location.repoName}`;
+};
+
+window.getGroupName = function getGroupName(group, filterGroupSelection) {
+  switch (filterGroupSelection) {
+  case 'groupByRepos':
+    return group[0].repoName;
+  case 'groupByAuthors':
+    return group[0].name;
+  default:
+    return '';
+  }
 };
 
 window.api = {
