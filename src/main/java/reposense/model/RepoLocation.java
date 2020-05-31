@@ -22,7 +22,7 @@ public class RepoLocation {
     }
 
     private RepoLocation(String[] repoLocationDetails) {
-        assert repoLocationDetails.length == 4;
+        assert repoLocationDetails.length == RepoLocationParser.NUM_OF_PARSED_DETAILS;
         location = repoLocationDetails[RepoLocationParser.LOCATION_INDEX];
         repoName = repoLocationDetails[RepoLocationParser.REPO_NAME_INDEX];
         organization = repoLocationDetails[RepoLocationParser.ORG_INDEX];

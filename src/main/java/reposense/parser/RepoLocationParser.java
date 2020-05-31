@@ -12,6 +12,7 @@ public class RepoLocationParser {
     public static final int REPO_NAME_INDEX = 1;
     public static final int ORG_INDEX = 2;
     public static final int BRANCH_NAME_INDEX = 3;
+    public static final int NUM_OF_PARSED_DETAILS = 4;
 
     /**
      * Parses a String representing a repo location (which could be a repo URL, branch URL
