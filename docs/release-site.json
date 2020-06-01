@@ -10,8 +10,7 @@
     "*.mbd",
     "*.mbdf",
     "*.njk",
-    ".git/*",
-    "CNAME"
+    ".git/*"
   ],
   "pages": [
     {
@@ -19,6 +18,8 @@
     }
   ],
   "deploy": {
-    "message": "Site Update."
+    "message": "Site Update.",
+    "repo": "https://github.com/RepoSense/reposense.github.io.git",
+    "branch": "master"
   }
 }
