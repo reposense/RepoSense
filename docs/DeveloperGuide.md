@@ -3,6 +3,17 @@
   pageNav: 3
 </frontmatter>
 
+<span tags="public">
+<p/>
+<box type="important" light background-color="yellow">
+<span class="text-danger">
+
+You are looking at the Developer Documentation corresponding to the most recent _public release_ of RepoSense.<br>
+**Please go [here](https://reposense.github.io/RepoSense/DeveloperGuide.html) for the version matching the latest `master` branch.**
+</span>
+</box>
+</span>
+
 # RepoSense - Developer Guide
 Thank you for your interest in contributing to RepoSense!
 

@@ -20,5 +20,11 @@
   ],
   "deploy": {
     "message": "Site Update."
+  },
+  "plugins": ["filterTags"],
+  "pluginsContext": {
+    "filterTags" : {
+      "tags": ["-public"]
+    }
   }
 }
