@@ -14,17 +14,7 @@
   ],
   "pages": [
     {
-      "src": "index.md"
-    },
-    {
-      "glob": [
-        "**/index.md",
-        "**/*.+(md|mbd)"
-      ]
-    },
-    {
-      "glob": "**/*.+(md|mbd)",
-      "layout": "default"
+      "glob": ["**/*.+(md|mbd)"]
     }
   ],
   "deploy": {

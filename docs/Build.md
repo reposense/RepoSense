@@ -1,8 +1,5 @@
 <frontmatter>
   title: "Build from Source"
-  header: header.md
-  footer: footer.md
-  siteNav: mainNav.md
   pageNav: 1
 </frontmatter>
 

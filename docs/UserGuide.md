@@ -1,8 +1,5 @@
 <frontmatter>
   title: "User Guide"
-  header: header.md
-  footer: footer.md
-  siteNav: mainNav.md
   pageNav: 3
 </frontmatter>
 

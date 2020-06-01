@@ -1,7 +1,6 @@
 <frontmatter>
   title: "Home"
-  header: header.md
-  footer: footer.md
+  siteNav: "empty.md"
 </frontmatter>
 
 # RepoSense
