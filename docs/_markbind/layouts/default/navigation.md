@@ -13,10 +13,10 @@
     * [FAQ]({{baseUrl}}/UserGuide.html#faq)
 
 * <span class="lead">**Developer Guide**</span>
-    * [Setting up]({{baseUrl}}/DeveloperGuide.html#setting-up)
-    * [Documentation]({{baseUrl}}/DeveloperGuide.html#documentation)
-    * [Architecture]({{baseUrl}}/DeveloperGuide.html#architecture)
-    * [HTML Report]({{baseUrl}}/DeveloperGuide.html#html-report)
+    * [Setting up]({{baseUrl}}/dg/index.html#setting-up)
+    * [Documentation]({{baseUrl}}/dg/index.html#documentation)
+    * [Architecture]({{baseUrl}}/dg/index.html#architecture)
+    * [HTML Report]({{baseUrl}}/dg/index.html#html-report)
 
 * <span class="lead">**About**</span>
     * [Current Team]({{baseUrl}}/about.html#current-team)

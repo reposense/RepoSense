@@ -41,7 +41,7 @@ Here is a look at some of these features:
 
 ## Documentations
 * **User Guide** [[**Current Build**]](https://github.com/reposense/RepoSense/blob/master/docs/UserGuide.md) [[**Latest Release**]](https://github.com/reposense/RepoSense/blob/release/docs/UserGuide.md)
-* [**Developer Guide**]({{baseUrl}}/DeveloperGuide.html)
+* [**Developer Guide**]({{baseUrl}}/dg/index.html)
 
 ## About Us
 RepoSense is a project based in the [National University of Singapore, School of Computing](http://www.comp.nus.edu.sg/), and is funded by a grant from [NUS Center for Development of Teaching and Learning](http://www.cdtl.nus.edu.sg/).
@@ -49,7 +49,7 @@ RepoSense is a project based in the [National University of Singapore, School of
 Our project team and the list of contributors are [here]({{baseUrl}}/about.html).
 
 ## Contributing
-We welcome pull requests. Please read the [contribution guidelines]({{baseUrl}}/Process.html#how-to-contribute-to-the-reposense-repository) before starting work on one.
+We welcome pull requests. Please read the [contribution guidelines]({{baseUrl}}/dg/process.html#how-to-contribute-to-the-reposense-repository) before starting work on one.
 
 ## Acknowledgements
 The web previews of RepoSense is powered by Netlify and Surge.
