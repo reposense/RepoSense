@@ -333,6 +333,8 @@ Repository's Location | The `GitHub URL` or `Disk Path` to the git repository e.
 <sup>* **Multi-value column**: multiple values can be entered in this column using a semicolon `;` as the separator.</sup>
 <sup>+ **Overrideable column**: prepend with `override:` to use entered value(s) instead of value(s) from standalone config.</sup>
 
+> Note: the first row consists of config headings, which is ignored by RepoSense.
+
 #### `author-config.csv`
 
 Optionally, you can use a `author-config.csv` (which should be in the same directory as `repo-config.csv` file) to provide more details about the authors to analyze ([example](author-config.csv)). It should contain the following columns:
@@ -349,9 +351,15 @@ Author's GitHub ID | GitHub username of the target author e.g., `JohnDoe`
 
 <sup>* **Multi-value column**: multiple values can be entered in this column using a semicolon `;` as the separator.</sup>
 
-> Note: the first row consists of config headings, which is ignored by RepoSense.
-
 If `author-config.csv` is not given and the repo has not provide author details in a standalone config file, all the authors of the repositories within the date range specified (if any) will be analyzed.
+
+<panel header="The Repository Location field can accept any number of values" no-close type="info">
+Feel free to provide a list of repository locations in a single row of the author-config csv.
+The configuration of that row (author emails, display name, etc) will be applied to all the repositories.
+
+
+
+</panel>
 
 #### `group-config.csv`
 
