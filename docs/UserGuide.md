@@ -275,6 +275,9 @@ In addition, there are some _optional_ extra parameters you can use to customize
 * **`--until, -u END_DATE`**: The end date of analysis (`-u` as alias). The analysis includes the end date. Format: `DD/MM/YYYY`<br>
   Example:`--until 21/10/2017` or `-u 21/10/2017` <br>
   > Note: If the end date is not specified, the date of generating the report will be taken as the end date.
+* **`--period, -p PERIOD`**: The period of analysis window (`-p` as alias). It is used to calculate end date if only start date is specified, or calculate end date if only start date is specified. Format: `nd` (for n days) or `nw` (for n weeks)<br>
+  Example:`--period 30d` or `-p 4w`
+  > Note: If both start date and end date are not specified, the date of generating the report will be taken as the end date.
 * **`--formats, -f LIST_OF_FORMATS`**: A space-separated list of file extensions that should be included in the analysis (`-f` as alias). Default: all file formats<br>
   Example:`--formats css fxml gradle` or `-f css fxml gradle`
 * **`--ignore-standalone-config, -i`**: A flag to ignore the standalone config file in the repo (`-i` as alias). This flag will overwrite the `Ignore standalone config` field in the csv config file. Default: the standalone config file is not ignored.<br>
