@@ -11,7 +11,7 @@ RepoSense is a contribution analysis tool for Git repositories. It is particular
   * [**User Guide**](https://reposense.org)
   * [**About us**](https://reposense.org/about.html)
 * **Developer documentation** i.e., if you are interested in contributing code to RepoSense
-  * [Developer Guide](https://reposense.github.io/RepoSense/dg/index.html)
+  * [Developer guide](https://reposense.github.io/RepoSense/dg/index.html)
   * [User Guide for the latest `master` (not yet released to users)](https://reposense.github.io/RepoSense)
 
 ---------------------------------------
