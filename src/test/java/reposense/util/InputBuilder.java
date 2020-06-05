@@ -113,6 +113,17 @@ public class InputBuilder {
     }
 
     /**
+     * Adds the period flag with the {@code period} as argument to the input.
+     * This method should only be called once in one build.
+     *
+     * @param period The period.
+     */
+    public InputBuilder addPeriod(String period) {
+        input.append(ArgsParser.PERIOD_FLAGS[0] + WHITESPACE + period + WHITESPACE);
+        return this;
+    }
+
+    /**
      * Adds the format flag with the {@code formats} as argument to the input.
      * This method should only be called once in one build.
      *

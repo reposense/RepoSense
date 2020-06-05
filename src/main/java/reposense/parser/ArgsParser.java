@@ -41,6 +41,7 @@ public class ArgsParser {
     public static final String[] OUTPUT_FLAGS = new String[]{"--output", "-o"};
     public static final String[] SINCE_FLAGS = new String[]{"--since", "-s"};
     public static final String[] UNTIL_FLAGS = new String[]{"--until", "-u"};
+    public static final String[] PERIOD_FLAGS = new String[]{"--period", "-p"};
     public static final String[] FORMAT_FLAGS = new String[]{"--formats", "-f"};
     public static final String[] IGNORE_FLAGS = new String[]{"--ignore-standalone-config", "-i"};
     public static final String[] TIMEZONE_FLAGS = new String[]{"--timezone", "-t"};
@@ -53,9 +54,11 @@ public class ArgsParser {
             "RepoSense is a contribution analysis tool for Git repositories.";
     private static final String MESSAGE_HEADER_MUTEX = "mutual exclusive arguments";
     private static final String MESSAGE_SINCE_DATE_LATER_THAN_UNTIL_DATE =
-            "\"Since Date\" cannot be later than \"Until Date\"";
+            "\"Since Date\" cannot be later than \"Until Date\".";
     private static final String MESSAGE_SINCE_DATE_LATER_THAN_TODAY_DATE =
             "\"Since Date\" must not be later than today's date.";
+    private static final String MESSAGE_HAVE_SINCE_DATE_UNTIL_DATE_AND_PERIOD =
+            "\"Since Date\", \"Until Date\", and \"Period\" cannot be applied together.";
     private static final String MESSAGE_USING_DEFAULT_CONFIG_PATH =
             "Config path not provided, using the config folder as default.";
     private static final Path EMPTY_PATH = Paths.get("");
@@ -120,6 +123,13 @@ public class ArgsParser {
                 .setDefault(Optional.empty())
                 .help("The date to stop filtering.");
 
+        parser.addArgument(PERIOD_FLAGS)
+                .dest(PERIOD_FLAGS[0])
+                .metavar("PERIOD")
+                .type(new PeriodArgumentType())
+                .setDefault(Optional.empty())
+                .help("The number of days of the filtering window.");
+
         parser.addArgument(FORMAT_FLAGS)
                 .dest(FORMAT_FLAGS[0])
                 .nargs("*")
@@ -175,8 +185,17 @@ public class ArgsParser {
             Optional<Date> cliUntilDate = results.get(UNTIL_FLAGS[0]);
             boolean isSinceDateProvided = cliSinceDate.isPresent();
             boolean isUntilDateProvided = cliUntilDate.isPresent();
-            Date sinceDate = cliSinceDate.orElse(getDateMinusAMonth(cliUntilDate));
-            Date untilDate = cliUntilDate.orElse(getCurrentDate());
+            Optional<Integer> cliPeriod = results.get(PERIOD_FLAGS[0]);
+            boolean isPeriodProvided = cliPeriod.isPresent();
+            if (isSinceDateProvided && isUntilDateProvided && isPeriodProvided) {
+                throw new ParseException(MESSAGE_HAVE_SINCE_DATE_UNTIL_DATE_AND_PERIOD);
+            }
+            Date sinceDate = cliSinceDate.orElse(isPeriodProvided
+                    ? getDateMinusNDays(cliUntilDate, cliPeriod.get())
+                    : getDateMinusAMonth(cliUntilDate));
+            Date untilDate = cliUntilDate.orElse((isSinceDateProvided && isPeriodProvided)
+                    ? getDatePlusNDays(cliSinceDate, cliPeriod.get())
+                    : getCurrentDate());
             List<String> locations = results.get(REPO_FLAGS[0]);
             List<FileType> formats = FileType.convertFormatStringsToFileTypes(results.get(FORMAT_FLAGS[0]));
             boolean isStandaloneConfigIgnored = results.get(IGNORE_FLAGS[0]);
@@ -227,6 +246,35 @@ public class ArgsParser {
         cal.set(Calendar.SECOND, 0);
         cal.set(Calendar.MILLISECOND, 0);
         cal.add(Calendar.MONTH, -1);
+        return cal.getTime();
+    }
+
+    /**
+     * Returns a {@code Date} that is {@code numOfDays} before {@code cliUntilDate} (if present) or one month before
+     * report generation date otherwise.
+     */
+    private static Date getDateMinusNDays(Optional<Date> cliUntilDate, int numOfDays) {
+        Calendar cal = Calendar.getInstance();
+        cliUntilDate.ifPresent(cal::setTime);
+        cal.set(Calendar.HOUR_OF_DAY, 0);
+        cal.set(Calendar.MINUTE, 0);
+        cal.set(Calendar.SECOND, 0);
+        cal.set(Calendar.MILLISECOND, 0);
+        cal.add(Calendar.DATE, -numOfDays + 1);
+        return cal.getTime();
+    }
+
+    /**
+     * Returns a {@code Date} that is {@code numOfDays} after {@code cliSinceDate} (if present).
+     */
+    private static Date getDatePlusNDays(Optional<Date> cliSinceDate, int numOfDays) {
+        Calendar cal = Calendar.getInstance();
+        cliSinceDate.ifPresent(cal::setTime);
+        cal.set(Calendar.HOUR_OF_DAY, 23);
+        cal.set(Calendar.MINUTE, 59);
+        cal.set(Calendar.SECOND, 59);
+        cal.set(Calendar.MILLISECOND, 0);
+        cal.add(Calendar.DATE, numOfDays - 1);
         return cal.getTime();
     }
 
