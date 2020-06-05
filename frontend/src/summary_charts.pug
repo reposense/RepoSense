@@ -12,14 +12,14 @@
         title="Total contribution of group"
       ) [{{ getGroupTotalContribution(repo) }} lines]
       a(
-        v-if="!isGroupMerged(getGroupName(repo))"
-        v-on:click="handleMergeGroup(getGroupName(repo))"
+        v-if="!isGroupMerged(getGroupName(repo))",
+        v-on:click="handleMergeGroup(getGroupName(repo))",
         title="click to merge group"
       )
         font-awesome-icon.icon-button(:icon="['fas', 'chevron-up']")
       a(
-        v-if="isGroupMerged(getGroupName(repo))"
-        v-on:click="handleExpandGroup(getGroupName(repo))"
+        v-if="isGroupMerged(getGroupName(repo))",
+        v-on:click="handleExpandGroup(getGroupName(repo))",
         title="click to expand group"
       )
         font-awesome-icon.icon-button(:icon="['fas', 'chevron-down']")
