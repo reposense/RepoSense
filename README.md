@@ -8,7 +8,8 @@
 RepoSense is a contribution analysis tool for Git repositories. It is particularly useful for those who want a chronological visualisation of the code contributions and commits made to a group of repositories. Educators can use RepoSense to track the work done in class projects, while team leads may use it to oversee their project teams.
 
 * **User documentation** i.e., if you are interested in using RepoSense
-  * [**User Guide**](https://reposense.org)
+  * [**Product website**](https://reposense.org)
+  * [**User guide**](https://reposense.org/ug/index.html)
   * [**About us**](https://reposense.org/about.html)
 * **Developer documentation** i.e., if you are interested in contributing code to RepoSense
   * [Developer guide](https://reposense.github.io/RepoSense/dg/index.html)
