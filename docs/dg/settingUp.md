@@ -50,7 +50,7 @@ This project is already configured to use Gradle for build automation. If you ar
 1. Run the tests using the `gradlew test systemtest` command and ensure it succeeds too.
 1. You can also try running the app using code, as given in the panel below.
 
-{{ embed('Developer guide → **Workflow → Running the app from code**', 'workflow.md#section-running-from-code') }}
+{{ embed('Developer guide → **Workflow → Running the app from code**', 'workflow.md#section-running-from-code', level=2) }}
 
 ## Before you start coding
 
