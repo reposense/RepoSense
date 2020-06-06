@@ -11,7 +11,7 @@
 
 <box type="warning" seamless>
 
-Note that Netlify has a low limit for free tier users (only 300 _build minutes_ per month as at June 2020 -- a single report generation can take 2-3 build minutes).
+Note that Netlify has a low limit for free tier users (only 300 _build minutes_ per month as at June 2020 -- a single report generation can take 2-3 build minutes, longer if your report includes many/big repositories).
 </box>
 
 <!-- ==================================================================================================== -->
