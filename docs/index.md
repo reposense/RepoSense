@@ -24,13 +24,13 @@
 Some example insights RepoSense can provide:
 
 
-{{ heading(":fas-code:", "Insights about code") }}
+{{ heading(":fas-code:", "Insights about the code") }}
 
 * Which part of the code was written by Tom? How many lines? How many files?
 * Which test cases were written by Kim?
 * Which commit messages were written by Serene?
 
-{{ heading(":fas-chart-pie:", "Insights about the work breakdown") }}
+{{ heading(":fas-chart-pie:", "Insights about the type of work") }}
 
 * Which portion of Jacob's code was documentation?
 * Who hasn't written any test code yet?
