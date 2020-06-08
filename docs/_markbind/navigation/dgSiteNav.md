@@ -6,7 +6,7 @@
 * [**Setting up**]({{baseUrl}}/dg/settingUp.html)
 * [**Workflow**]({{baseUrl}}/dg/workflow.html)
 <br><br>
-**Design & implementation**
+**Design and implementation**
 * [&nbsp;&nbsp;Architecture]({{baseUrl}}/dg/architecture.html)
 * [&nbsp;&nbsp;HTML report]({{baseUrl}}/dg/report.html)
 <br><br>

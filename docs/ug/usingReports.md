@@ -36,7 +36,7 @@ Here is an example of how a typical report looks like:
 
 ![report](../images/report-features.png)
 
-The report is divided into two sections: [_**Chart Panel**_](#chart-panel) and the [_**Code Panel**_](#code-panel). In some situations, the [_**Commits Panel**_](#commits-panel) will appear in place of the _code panel_. All three are explained in the sections below.
+The report is divided into two sections: [_**Chart panel**_](#chart-panel) and the [_**Code panel**_](#code-panel). In some situations, the [_**Commits Panel**_](#commits-panel) will appear in place of the _code panel_. All three are explained in the sections below.
 
 <!-- ==================================================================================================== -->
 
@@ -83,7 +83,7 @@ We allow contribution bars to overflow into multiple lines (rather than adjust t
 
 #### Tool bar
 
-The `Tool Bar` at the top of the Chart Panel provides a set of configuration options that control the Chart Panel.
+The `Tool Bar` at the top of the Chart panel provides a set of configuration options that control the Chart panel.
 * `Search` : filters the author and repository by keywords.
   * Multiple keywords/terms can be used, separated by spaces.
   * Entries that contain _any_ (not necessarily _all_) of the search terms will be displayed.
@@ -124,11 +124,11 @@ Notes:<br>
 
 <!-- ==================================================================================================== -->
 
-## Code Panel
+## Code panel
 <img src="../images/code-panel.png" alt="code panel" width="468">
 
-The `Code Panel` allows users to see the code attributed to a specific author. Click on the `</>` icon beside the name of the author in the `Chart Panel` to display the `Code Panel` on the right.
-* The Code Panel shows the files that contain author's contributions, sorted by the number of lines written.
+The `Code panel` allows users to see the code attributed to a specific author. Click on the `</>` icon beside the name of the author in the `Chart panel` to display the `Code panel` on the right.
+* The Code panel shows the files that contain author's contributions, sorted by the number of lines written.
 * Select the radio button to enable one of the following 2 filters. Note that only 1 of the 2 filters is active at any time.
     * Type file path glob in glob filter to include files matching the glob expression.
     * Select the checkboxes to include files of preferred file extensions.
@@ -151,7 +151,7 @@ The `Commits Panel` allows users to see the commits attributed to a specific aut
 
 * The commits can be sorted by the date it was committed or by LoC.
 * The tags of the commits will also be displayed on top, if any. Clicking on a tag will direct you to the commit having that particular tag.
-* The date range for the `Chart Panel` can be updated by clicking on the "Show ramp chart for this period" below the name of the author.
+* The date range for the `Chart panel` can be updated by clicking on the "Show ramp chart for this period" below the name of the author.
 * The ramp chart at the top of the `Commits Panel` represents individual commits (not weekly or daily contributions).
 * The commit messages body can be expanded or collapsed by clicking on the %%:fas-ellipsis-h:%% icon beside each commit message title.
 * To promote and encourage the 50/72 rule for commit messages, a dotted vertical line will be shown for:
