@@ -1,4 +1,4 @@
-{% macro navbar() %}
+<header>
 <navbar type="dark" placement="top" type="inverse">
   <a slot="brand" href="{{baseUrl}}/index.html" title="Home" class="navbar-brand"><img width="30px" src="{{baseUrl}}/favicon.ico"></img></a>
   <li><a href="{{baseUrl}}/index.html" class="nav-link">HOME</a></li>
@@ -14,8 +14,4 @@
     </form>
   </li>
 </navbar>
-{% endmacro %}
-
-<header>
-{{ navbar() }}
 </header>

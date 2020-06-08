@@ -1,9 +1,19 @@
 <frontmatter>
   title: "Home"
-  header: landingPageHeader.md
 </frontmatter>
 
 {% from 'scripts/macros.njk' import thumbnail with context %}
+
+<header>
+<div class="jumbotron jumbotron-fluid text-center">
+  <div class="container">
+  <h1 class="display-3">RepoSense</h1>
+  <div class="lead">
+  Visualize programmer activities across git repositories...
+  </div>
+  </div>
+</div>
+</header>
 
 <span id="overview">
 
