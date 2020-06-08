@@ -8,7 +8,7 @@ RepoSense is a project based in the [National University of Singapore, School of
 
 <!-- ==================================================================================================== -->
 
-## Current Team
+## Current team
 
 ### [Damith C. Rajapakse](http://www.comp.nus.edu.sg/~damithch)
 ![](https://avatars.githubusercontent.com/u/1673303?s=150&v=4)<br/>
