@@ -70,3 +70,10 @@ h3 {
 .bigger-level4 {
   font-size: 1.4em;
 }
+
+mark {
+    background-color: #ff0;
+    border-radius: 5px;
+    padding-top: 0;
+    padding-bottom: 0;
+}
