@@ -11,14 +11,16 @@
 
 Given below are the details of the various config files used by RepoSense.
 </div>
+
+<box type="info" seamless>
+
+**RepoSense ignores the first row (i.e., column headings) of CSV config files.** It is used simply to provide more information to human readers. This also means the ==columns in your config files should be in the exact order specified here==.
+</box>
 <!-- ==================================================================================================== -->
 
 ## `repo-config.csv`
 
-**`repo-config.csv` file contains repo-level config data.**
-
-* First row: column headings, ignored by RepoSense
-* Second row onwards: each row represents a repository's configuration
+**`repo-config.csv` file contains repo-level config data.** Each row represents a repository's configuration.
 
 Here is an example:
 
@@ -61,8 +63,6 @@ Ignore Glob List<sup>*</sup> | Files to ignore for this author, in addition to f
 
 <sup>* **Multi-value column**: multiple values can be entered in this column using a semicolon `;` as the separator.</sup>
 
-> Note: the first row consists of config headings, which is ignored by RepoSense.
-
 If `author-config.csv` is not given and the repo has not provide author details in a standalone config file, all the authors of the repositories within the date range specified (if any) will be analyzed.
 
 <!-- ==================================================================================================== -->
@@ -81,11 +81,6 @@ Globs * {{ mandatory }}| The list of file path globs to include for specified gr
 
 Note that a file in a given repository should only be tagged to one group. <br>
 e.g.: `example.java` in `example-repo` can either be in `test` group or in `code` group, but not in both `test` and `code` group. If multiple groups are specified for a given file, the latter group (i.e.: `code` group) is set for the file.
-
-<box type="info" seamless>
-
-Note: the first row (i.e., column headings) is ignored by RepoSense.
-</box>
 
 <!-- ==================================================================================================== -->
 
