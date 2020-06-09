@@ -1,0 +1,25 @@
+{
+  "baseUrl": "",
+  "titlePrefix": "RepoSense",
+  "ignore": [
+    "_markbind/layouts/*",
+    "_markbind/logs/*",
+    "_site/*",
+    "site.json",
+    "*.md",
+    "*.mbd",
+    "*.mbdf",
+    "*.njk",
+    ".git/*"
+  ],
+  "pages": [
+    {
+      "glob": ["**/*.+(md|mbd)"]
+    }
+  ],
+  "deploy": {
+    "message": "Site Update.",
+    "repo": "https://github.com/RepoSense/reposense.github.io.git",
+    "branch": "master"
+  }
+}
