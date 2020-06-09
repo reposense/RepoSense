@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="generator" content="MarkBind 2.14.1">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>RepoSense - Workflow</title>
+  <link rel="stylesheet" href="../markbind/css/bootstrap.min.css">
+  <link rel="stylesheet" href="../markbind/css/bootstrap-vue.min.css">
+  <link rel="stylesheet" href="../markbind/fontawesome/css/all.min.css">
+  <link rel="stylesheet" href="../markbind/glyphicons/css/bootstrap-glyphicons.min.css">
+  <link rel="stylesheet" href="../markbind/css/octicons.css">
+  <link rel="stylesheet" href="../markbind/css/github.min.css">
+  <link rel="stylesheet" href="../markbind/css/markbind.css">
+  <link rel="stylesheet" href="/RepoSense/plugins/markbind-plugin-anchors/markbind-plugin-anchors.css">
+  <link rel="stylesheet" href="../markbind/layouts/default/styles.css">
+  <link rel="stylesheet" href="../markbind/css/site-nav.css">
+  <link rel="stylesheet" href="../markbind/css/page-nav.css">
+  <link rel="icon" href="/RepoSense/favicon.ico">
+</head>
+
+<body data-spy="scroll" data-target="#page-nav" data-offset="100">
+  <div id="app">
+    <header>
+      <navbar type="dark" placement="top" class="temp-navbar">
+        <a slot="brand" href="/RepoSense/index.html" title="Home" class="navbar-brand"><img width="30px" src="/RepoSense/favicon.ico"></a>
+        <li><a href="/RepoSense/index.html" class="nav-link">HOME</a></li>
+        <li><a href="/RepoSense/showcase.html" class="nav-link">SHOWCASE</a></li>
+        <li><a href="/RepoSense/ug/index.html" class="nav-link">USER GUIDE</a></li>
+        <li><a href="/RepoSense/dg/index.html" class="nav-link">DEVELOPER GUIDE</a></li>
+        <li><a href="/RepoSense/about.html" class="nav-link">ABOUT</a></li>
+        <li><a href="/RepoSense/contact.html" class="nav-link">CONTACT</a></li>
+        <li><a href="https://github.com/RepoSense/reposense" target="_blank" class="nav-link"><span><span aria-hidden="true" class="fab fa-github"></span></span></a></li>
+        <li slot="right">
+          <form class="navbar-form">
+            <searchbar :data="searchData" placeholder="Search" :on-hit="searchCallback" menu-align-right></searchbar>
+          </form>
+        </li>
+      </navbar>
+    </header>
+    <div id="flex-body">
+      <nav id="site-nav" class="navbar navbar-light bg-transparent">
+        <div class="border-right-grey nav-inner position-sticky slim-scroll">
+          <p><span class="lead"><strong><strong>DEVELOPER GUIDE</strong></strong></span></p>
+          <ul class="px-0 site-nav-list">
+            <li class="mt-2"><a href="/RepoSense/dg/index.html" class="site-nav__a"><strong>Contributing</strong></a></li>
+            <li class="mt-2"><a href="/RepoSense/dg/settingUp.html" class="site-nav__a"><strong>Setting up</strong></a></li>
+            <li class="mt-2"><a href="/RepoSense/dg/workflow.html" class="site-nav__a current"><strong>Workflow</strong></a>
+              <br><br>
+              <strong>Design and implementation</strong></li>
+            <li class="mt-2"><a href="/RepoSense/dg/architecture.html" class="site-nav__a">  Architecture</a></li>
+            <li class="mt-2"><a href="/RepoSense/dg/report.html" class="site-nav__a">  HTML report</a>
+              <br><br>
+              <strong>Appendices</strong></li>
+            <li class="mt-2"><a href="/RepoSense/dg/styleGuides.html" class="site-nav__a">  Style guides</a>
+              <br><br><br><br></li>
+          </ul>
+        </div>
+      </nav>
+
+      <div id="content-wrapper">
+        <div>
+        </div>
+        <h1 class="display-4" id="workflow">Workflow<a class="fa fa-anchor" href="#workflow" onclick="event.stopPropagation()"></a></h1>
+        <div class="lead">
+          <p>Our workflow is mostly based on the guidelines given at <a href="http://se-education.org/guides">se-education.org/guides</a>.</p>
+        </div>
+        <p><strong>To submit a PR</strong>, follow <a href="https://se-education.org/guides/guidelines/PRs.html">this guide</a>, but note the following:</p>
+        <ul>
+          <li>As we squash the commits when merging a PR, there is <mark>no need to follow a strict commit organization or write elaborate commit messages for each commit</mark>.<br>
+            However, when pushing new commits to your PR branch, do clean up <em>new</em> commits (i.e., commits not yet pushed) e.g., delete temporary print statements added for debugging purposes.</li>
+          <li>You can refer to the <a href="/RepoSense/dg/architecture.html">Architecture</a> and the <a href="/RepoSense/dg/report.html">HTML Report</a> to learn about the design and implementation of RepoSense.</li>
+          <li>The sections below has more information about various stages of submitting a PR.</li>
+        </ul>
+
+        <h2 id="following-the-code-style">Following the code style<a class="fa fa-anchor" href="#following-the-code-style" onclick="event.stopPropagation()"></a></h2>
+        <ul>
+          <li>Make sure you know our coding standards.</li>
+        </ul>
+        <div class="indented-level2">
+          <panel minimized><template slot="_header">
+              <p><span><span aria-hidden="true" class="glyphicon glyphicon-log-in"></span></span> Appendix: Coding Standards</p>
+            </template>
+            <div>
+              <div>
+              </div>
+              <h1 class="display-4" id="appendix-style-guides">Appendix: Style guides<a class="fa fa-anchor" href="#appendix-style-guides" onclick="event.stopPropagation()"></a></h1>
+              <div class="lead">
+                <p>Our coding standards are mostly based on those at <a href="https://se-education.org/guides">se-education.org/guides</a>.</p>
+              </div>
+              <ul>
+                <li><a href="https://se-education.org/guides/conventions/css.html"><strong>CSS</strong> coding standard</a></li>
+                <li><a href="https://se-education.org/guides/conventions/files.html"><strong>Files/folders</strong> naming conventions</a></li>
+                <li><a href="https://se-education.org/guides/conventions/html.html"><strong>HTML</strong> coding standard</a></li>
+                <li><a href="https://se-education.org/guides/conventions/markdown.html"><strong>Markdown/MarkBind</strong> coding standard</a></li>
+                <li><a href="https://se-education.org/guides/conventions/java/index.html"><strong>Java</strong> coding standard</a></li>
+                <li><a href="https://se-education.org/guides/conventions/javascript.html"><strong>JavaScript</strong> coding standard</a></li>
+                <li><strong>Documentation</strong>: Follow the <a href="https://developers.google.com/style"><strong>Google developer documentation style guide</strong></a>.</li>
+              </ul>
+            </div>
+          </panel>
+        </div>
+        <p></p>
+        <ul>
+          <li><strong>Follow <a href="https://se-education.org/guides/tutorials/intellijCodeStyle.html">this</a> to configure Intellij to follow our coding style</strong>.</li>
+          <li><strong>This project uses Checkstyle</strong> to check the compliance of Java code. You can use <a href="https://se-education.org/guides/tutorials/checkstyleTutorial.html">this document</a> to find how to use it.</li>
+          <li><strong>To check Pug files for style errors</strong>, run <code>npm run lint</code> from the project root directory. You can use the <code>npm run lintfix</code> to automatically fix some of the javascript and css lint errors.</li>
+        </ul>
+
+        <h2 id="running-the-app-from-code">Running the app from code<a class="fa fa-anchor" href="#running-the-app-from-code" onclick="event.stopPropagation()"></a></h2>
+        <div id="section-running-from-code">
+          <ul>
+            <li>To run the app from code, run <code>gradlew run</code> from the project root. By default, it will run based on the config files in the <code>[project root]/config</code> folder.</li>
+            <li>To supply flags, you can use the <code>-Dargs=&quot;[FLAGS]&quot;</code> format.<br>
+              e.g., <code>gradlew run -Dargs=&quot;--since 31/12/2019 --formats java adoc xml&quot;</code></li>
+          </ul>
+        </div>
+
+        <h2 id="debugging-front-end">Debugging (front-end)<a class="fa fa-anchor" href="#debugging-front-end" onclick="event.stopPropagation()"></a></h2>
+        <p><strong>You can use Vue.js devtools for frontend debugging on Chrome.</strong> Here are the steps:</p>
+        <ol>
+          <li>On your Chrome, visit the website of <a href="https://chrome.google.com/webstore/detail/vuejs-devtools/nhdogjmejiglipccpnnnanhbledajbpd">Vue.js devtools</a> and add the extension.</li>
+          <li>Go the detail page of this extension in Chrome's extension management panel and select <code>Allow access to file URLs</code>. If you are unable to locate it, copy the link: <code>chrome://extensions/?id=nhdogjmejiglipccpnnnanhbledajbpd</code> and visit it on your Chrome.</li>
+          <li>Open any report generated by RepoSense.</li>
+          <li>Press <code>F12</code> or right click and choose <code>inspect</code> at the report page.</li>
+          <li>Choose <code>Vue</code> at the navigation bar.<br>
+            <a href="/RepoSense/images/choose-vue.png" target="_self"><img src="/RepoSense/images/choose-vue.png" alt class="img-fluid"></a></li>
+          <li>Debug using the tool.<br>
+            <a href="/RepoSense/images/use-vue.png" target="_self"><img src="/RepoSense/images/use-vue.png" alt class="img-fluid"></a></li>
+        </ol>
+        <box type="info" seamless>
+          <p>See <a href="https://github.com/vuejs/vue-devtools">vue-devtools project home</a> page for more details.
+          </p>
+        </box>
+
+        <h2 id="testing-front-end">Testing (front-end)<a class="fa fa-anchor" href="#testing-front-end" onclick="event.stopPropagation()"></a></h2>
+        <p><strong>We use <a href="https://www.cypress.io/">Cypress</a> for automated end-to-end front-end testing.</strong></p>
+        <h3 id="writing-tests">Writing tests<a class="fa fa-anchor" href="#writing-tests" onclick="event.stopPropagation()"></a></h3>
+        <ol>
+          <li>Create a new test file in <code>frontend/cypress/tests</code></li>
+          <li>At project root start <em>Cypress Test Runner</em> by running <code>gradlew cypress</code></li>
+          <li>On the top right hand corner, set <code>Chrome</code> as the default browser</li>
+          <li>Under <strong>Integration Tests</strong>, click on the newly created test file to run it
+            <a href="/RepoSense/images/cypress-test-runner.jpg" target="_self"><img src="/RepoSense/images/cypress-test-runner.jpg" alt class="img-fluid" title="Cypress Test Runner"></a></li>
+        </ol>
+        <box type="info" seamless>
+          <p>Read <a href="https://docs.cypress.io/api/commands/document.html#Syntax">Cypress's Documentation</a> to familiarize yourself with its syntax and <a href="https://docs.cypress.io/guides/guides/debugging.html#Log-Cypress-events">Cypress's debugging guide</a> to tackle problems with your tests.
+          </p>
+        </box>
+
+        <h3 id="running-tests">Running tests<a class="fa fa-anchor" href="#running-tests" onclick="event.stopPropagation()"></a></h3>
+        <p>To run all tests locally, run <code>gradlew frontendTest</code>.</p>
+        <box type="info" seamless>
+          <p>If you encountered an invalid browser error, ensure that you have <code>Chrome</code> installed in the default installation directory. Otherwise, follow the instructions <a href="https://docs.cypress.io/guides/guides/debugging.html#Launching-browsers">here</a> to create symbolic links so Cypress can locate <code>Chrome</code> in your system.
+          </p>
+        </box>
+
+        <h2 id="writing-documentation">Writing documentation<a class="fa fa-anchor" href="#writing-documentation" onclick="event.stopPropagation()"></a></h2>
+        <p>This project uses <a href="https://markbind.org/">MarkBind</a> for documentation. Follow <a href="https://se-education.org/guides/tutorials/markbind.html">this tutorial</a> to learn how to use MarkBind for updating project documentation.</p>
+      </div>
+
+
+      <nav id="page-nav" class="navbar navbar-light bg-transparent">
+        <div class="border-left-grey nav-inner position-sticky slim-scroll">
+
+          <nav class="nav nav-pills flex-column my-0 small no-flex-wrap">
+            <a class="nav-link py-1" href="#workflow">Workflow&#x200E;</a>
+            <nav class="nav nav-pills flex-column my-0 nested no-flex-wrap">
+              <a class="nav-link py-1" href="#following-the-code-style">Following the code style&#x200E;</a>
+              <a class="nav-link py-1" href="#running-the-app-from-code">Running the app from code&#x200E;</a>
+              <a class="nav-link py-1" href="#debugging-front-end">Debugging (front-end)&#x200E;</a>
+              <a class="nav-link py-1" href="#testing-front-end">Testing (front-end)&#x200E;</a>
+              <nav class="nav nav-pills flex-column my-0 nested no-flex-wrap">
+                <a class="nav-link py-1" href="#writing-tests">Writing tests&#x200E;</a>
+                <a class="nav-link py-1" href="#running-tests">Running tests&#x200E;</a>
+              </nav>
+              <a class="nav-link py-1" href="#writing-documentation">Writing documentation&#x200E;</a>
+            </nav>
+
+          </nav>
+        </div>
+      </nav>
+    </div>
+    <footer>
+
+      <div class="text-center">
+        <small>[<span><strong>Powered by</strong></span> <img src="https://markbind.org/favicon.ico" width="30"> <a href="https://markbind.org/">MarkBind 2.14.1</a>, generated on Tue, Jun 9, 2020, 4:23:44 AM UTC]</small></div>
+    </footer>
+  </div>
+</body>
+<script src="../markbind/js/vue.min.js"></script>
+<script src="../markbind/js/vue-strap.min.js"></script>
+<script src="../markbind/js/bootstrap-utility.min.js"></script>
+<script src="../markbind/js/polyfill.min.js"></script>
+<script src="../markbind/js/bootstrap-vue.min.js"></script>
+<script>
+  const baseUrl = '/RepoSense'
+  const enableSearch = true
+</script>
+<script src="../markbind/js/setup.js"></script>
+<script src="../markbind/layouts/default/scripts.js"></script>
+
+</html>

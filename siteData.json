@@ -2,174 +2,12 @@
   "enableSearch": true,
   "pages": [
     {
-      "title": "Build from Source",
-      "header": "header.md",
-      "footer": "footer.md",
-      "siteNav": "mainNav.md",
-      "pageNav": 1,
-      "src": "Build.md",
-      "layout": "default",
-      "headings": {
-        "build-from-source": "Build from Source"
-      },
-      "headingKeywords": {}
-    },
-    {
-      "title": "Developer Guide",
-      "header": "header.md",
-      "footer": "footer.md",
-      "siteNav": "mainNav.md",
-      "pageNav": 3,
-      "src": "DeveloperGuide.md",
-      "layout": "default",
-      "headings": {
-        "reposense-developer-guide": "RepoSense - Developer Guide",
-        "setting-up": "Setting up",
-        "prerequisites": "Prerequisites",
-        "setting-up-the-project-in-your-computer-using-intellij": "Setting up the project in your computer using IntelliJ",
-        "verifying-the-setup": "Verifying the setup",
-        "configuring-the-java-coding-style": "Configuring the Java coding style",
-        "configuring-the-javascript-and-css-coding-style": "Configuring the JavaScript and CSS coding style",
-        "configuring-cypress-for-automated-front-end-testing": "Configuring Cypress for automated front-end testing",
-        "optional-using-vue-js-devtools-for-frontend-debugging-on-chrome": "(Optional) Using Vue.js devtools for frontend debugging on Chrome",
-        "before-writing-code": "Before writing code",
-        "building-and-running-reposense-from-code": "Building and running RepoSense from code",
-        "documentation": "Documentation",
-        "downloading-markbind": "Downloading MarkBind",
-        "previewing-the-documentation-site": "Previewing the documentation site",
-        "markbind-features": "MarkBind features",
-        "architecture": "Architecture",
-        "parser-configparser": "Parser(ConfigParser)",
-        "git": "Git",
-        "commitsreporter": "CommitsReporter",
-        "authorshipreporter": "AuthorshipReporter",
-        "reportgenerator-main": "ReportGenerator(Main)",
-        "system": "System",
-        "model": "Model",
-        "html-report": "HTML Report",
-        "report-architecture": "Report Architecture",
-        "javascript-files": "Javascript Files",
-        "json-report-files": "JSON Report Files",
-        "main-main-js": "Main (main.js)",
-        "data-loader-api-js": "Data loader (api.js)",
-        "summary-view-v-summary-js": "Summary View (v_summary.js)",
-        "authorship-view-v-authorship-js": "Authorship View (v_authorship.js)",
-        "zoom-view-v-zoom-js": "Zoom View (v_zoom.js)",
-        "ramp-view-v-ramp-js": "Ramp View (v_ramp.js)",
-        "segment-view-v-segment-js": "Segment View (v_segment.js)"
-      },
-      "headingKeywords": {}
-    },
-    {
-      "title": "Process",
-      "header": "header.md",
-      "footer": "footer.md",
-      "siteNav": "mainNav.md",
-      "pageNav": 2,
-      "src": "Process.md",
-      "layout": "default",
-      "headings": {
-        "process": "Process",
-        "how-to-contribute": "How to contribute"
-      },
-      "headingKeywords": {}
-    },
-    {
-      "title": "Publishing Guide",
-      "header": "header.md",
-      "footer": "footer.md",
-      "siteNav": "mainNav.md",
-      "pageNav": 3,
-      "src": "PublishingGuide.md",
-      "layout": "default",
-      "headings": {
-        "automate-publishing-of-your-report-to-github-pages": "Automate publishing of your report to GitHub Pages",
-        "using-travis": "Using Travis",
-        "using-github-actions": "Using GitHub Actions",
-        "granting-write-access-to-reposense-for-publishing": "Granting write-access to RepoSense for publishing",
-        "if-you-wish-to-use-personal-access-token": "If you wish to use personal access token:",
-        "if-you-wish-to-use-deploy-key": "If you wish to use deploy key:",
-        "keeping-your-site-up-to-date-with-your-code-contribution": "Keeping your site up-to-date with your code contribution",
-        "using-travis-2": "Using Travis",
-        "using-github-actions-2": "Using GitHub Actions",
-        "specifying-which-version-of-reposense-to-use": "Specifying which version of RepoSense to use",
-        "use-our-latest-release-stable": "Use our latest release (Stable)",
-        "use-our-master-branch-beta": "Use our master branch (Beta)",
-        "use-a-specific-version-of-release": "Use a specific version of release",
-        "managing-your-configuration-files-with-the-help-of-collaborators": "Managing your configuration files with the help of collaborators"
-      },
-      "headingKeywords": {}
-    },
-    {
-      "title": "User Guide",
-      "header": "header.md",
-      "footer": "footer.md",
-      "siteNav": "mainNav.md",
-      "pageNav": 3,
-      "src": "UserGuide.md",
-      "layout": "default",
-      "headings": {
-        "reposense-user-guide": "RepoSense - User Guide",
-        "getting-started": "Getting Started",
-        "interpreting-the-report": "Interpreting the Report",
-        "chart-panel": "Chart Panel",
-        "code-panel": "Code Panel",
-        "commits-panel": "Commits Panel",
-        "tool-bar": "Tool Bar",
-        "configuring-a-repo-to-provide-additional-data-to-reposense": "Configuring a Repo to Provide Additional Data to RepoSense",
-        "provide-data-using-a-json-config-file": "Provide Data Using a json Config File",
-        "provide-data-using-author-tags": "Provide Data Using @@author Tags",
-        "customizing-the-analysis": "Customizing the Analysis",
-        "customize-using-command-line-parameters": "Customize Using Command Line Parameters",
-        "customize-using-csv-config-files": "Customize Using csv Config Files",
-        "analyzing-multiple-repos": "Analyzing Multiple Repos",
-        "quickstart-reposense-with-netlify": "Quickstart RepoSense with Netlify",
-        "automating-publishing-of-the-report-to-github-pages": "Automating publishing of the report to GitHub Pages",
-        "faq": "FAQ"
-      },
-      "headingKeywords": {}
-    },
-    {
-      "title": "Using Checkstyle-IDEA",
-      "header": "header.md",
-      "footer": "footer.md",
-      "siteNav": "mainNav.md",
-      "pageNav": 2,
-      "src": "UsingCheckstyle.md",
-      "layout": "default",
-      "headings": {
-        "using-checkstyle-idea": "Using Checkstyle-IDEA",
-        "configuring-checkstyle-idea": "Configuring Checkstyle-IDEA",
-        "troubleshooting-checkstyle-idea": "Troubleshooting Checkstyle-IDEA"
-      },
-      "headingKeywords": {}
-    },
-    {
-      "title": "Using Netlify Guide",
-      "header": "header.md",
-      "footer": "footer.md",
-      "siteNav": "mainNav.md",
-      "pageNav": 2,
-      "src": "UsingNetlifyGuide.md",
-      "layout": "default",
-      "headings": {
-        "using-reposense-with-netlify": "Using RepoSense with Netlify",
-        "continuous-deployment-using-netlify": "Continuous deployment using Netlify",
-        "if-you-wish-to-customize-using-config-files": "If you wish to customize using config files"
-      },
-      "headingKeywords": {}
-    },
-    {
-      "title": "About Us",
-      "header": "header.md",
-      "footer": "footer.md",
-      "siteNav": "mainNav.md",
-      "pageNav": 2,
+      "title": "About us",
       "src": "about.md",
       "layout": "default",
       "headings": {
-        "reposense-project-team": "RepoSense Project Team",
-        "current-team": "Current Team",
+        "about-us": "About us",
+        "current-team": "Current team",
         "damith-c-rajapakse": "Damith C. Rajapakse",
         "peh-xian-bin-eugene": "Peh Xian Bin, Eugene",
         "teng-yong-hao": "Teng Yong Hao",
@@ -197,17 +35,331 @@
       "headingKeywords": {}
     },
     {
-      "title": "Home",
-      "header": "header.md",
-      "footer": "footer.md",
-      "src": "index.md",
+      "title": "Contact us",
+      "src": "contact.md",
       "layout": "default",
       "headings": {
-        "reposense": "RepoSense",
-        "documentations": "Documentations",
-        "about-us": "About Us",
-        "contributing": "Contributing",
-        "acknowledgements": "Acknowledgements"
+        "contact-us": "Contact us"
+      },
+      "headingKeywords": {}
+    },
+    {
+      "title": "Architecture",
+      "pageNav": 3,
+      "src": "dg/architecture.md",
+      "layout": "default",
+      "siteNav": "dgSiteNav.md",
+      "headings": {
+        "architecture": "Architecture",
+        "parser-configparser": "Parser(ConfigParser)",
+        "git": "Git",
+        "commitsreporter": "CommitsReporter",
+        "authorshipreporter": "AuthorshipReporter",
+        "reportgenerator-main": "ReportGenerator(Main)",
+        "system": "System",
+        "model": "Model"
+      },
+      "headingKeywords": {}
+    },
+    {
+      "title": "Developer guide",
+      "src": "dg/index.md",
+      "layout": "default",
+      "siteNav": "dgSiteNav.md",
+      "headings": {
+        "developer-guide": "Developer guide",
+        "contributing": "Contributing"
+      },
+      "headingKeywords": {}
+    },
+    {
+      "title": "HTML Report",
+      "pageNav": 3,
+      "src": "dg/report.md",
+      "layout": "default",
+      "siteNav": "dgSiteNav.md",
+      "headings": {
+        "html-report": "HTML report",
+        "report-architecture": "Report architecture",
+        "javascript-files": "Javascript files",
+        "json-report-files": "JSON Report files",
+        "main-main-js": "Main (main.js)",
+        "loading-of-report-information": "Loading of report information",
+        "activating-additional-view-modules": "Activating additional view modules",
+        "hash-link": "Hash link",
+        "data-loader-api-js": "Data loader (api.js)",
+        "loading-from-zip-file": "Loading from ZIP file",
+        "retrieving-and-parsing-information": "Retrieving and parsing information",
+        "summary-view-v-summary-js": "Summary view (v_summary.js)",
+        "initializing-the-data-for-the-ramp-charts": "Initializing the data for the ramp charts",
+        "filtering-users-and-repositories": "Filtering users and repositories",
+        "authorship-view-v-authorship-js": "Authorship view (v_authorship.js)",
+        "showing-relevant-information-by-authors": "Showing relevant information by authors",
+        "zoom-view-v-zoom-js": "Zoom view (v_zoom.js)",
+        "ramp-view-v-ramp-js": "Ramp view (v_ramp.js)",
+        "padding-for-dates": "Padding for dates",
+        "segment-view-v-segment-js": "Segment view (v_segment.js)"
+      },
+      "headingKeywords": {}
+    },
+    {
+      "title": "Setting up",
+      "pageNav": 3,
+      "src": "dg/settingUp.md",
+      "layout": "default",
+      "siteNav": "dgSiteNav.md",
+      "headings": {
+        "setting-up": "Setting up",
+        "getting-the-code": "Getting the code",
+        "setting-up-the-ide": "Setting up the IDE",
+        "verifying-the-setup": "Verifying the setup",
+        "before-you-start-coding": "Before you start coding"
+      },
+      "headingKeywords": {}
+    },
+    {
+      "title": "Appendix: Style Guides",
+      "src": "dg/styleGuides.md",
+      "layout": "default",
+      "siteNav": "dgSiteNav.md",
+      "headings": {
+        "appendix-style-guides": "Appendix: Style guides"
+      },
+      "headingKeywords": {}
+    },
+    {
+      "title": "Workflow",
+      "pageNav": 3,
+      "src": "dg/workflow.md",
+      "layout": "default",
+      "siteNav": "dgSiteNav.md",
+      "headings": {
+        "workflow": "Workflow",
+        "following-the-code-style": "Following the code style",
+        "running-the-app-from-code": "Running the app from code",
+        "debugging-front-end": "Debugging (front-end)",
+        "testing-front-end": "Testing (front-end)",
+        "writing-tests": "Writing tests",
+        "running-tests": "Running tests",
+        "writing-documentation": "Writing documentation"
+      },
+      "headingKeywords": {}
+    },
+    {
+      "title": "Home",
+      "src": "index.md",
+      "layout": "default",
+      "headings": {},
+      "headingKeywords": {}
+    },
+    {
+      "title": "Showcase of use cases",
+      "src": "showcase.md",
+      "layout": "default",
+      "headings": {
+        "showcase-of-use-cases": "Showcase of use cases",
+        "case-1-monitoring-student-programmers-individual-projects": "Case 1: Monitoring student programmers (individual projects)",
+        "case-2-monitoring-student-programmers-team-projects": "Case 2: Monitoring student programmers (team projects)",
+        "case-3-monitoring-student-programmers-multiple-external-projects": "Case 3: Monitoring student programmers (multiple external projects)"
+      },
+      "headingKeywords": {}
+    },
+    {
+      "title": "Appendix: CLI syntax reference",
+      "pageNav": 3,
+      "src": "ug/cli.md",
+      "layout": "default",
+      "siteNav": "ugSiteNav.md",
+      "headings": {
+        "appendix-cli-syntax-reference": "Appendix: CLI syntax reference",
+        "config-c": "--config, -c",
+        "formats-f": "--formats, -f",
+        "help-h": "--help, -h",
+        "ignore-standalone-config-i": "--ignore-standalone-config, -i",
+        "output-o": "--output, -o",
+        "repos-r": "--repos, -r",
+        "since-s": "--since, -s",
+        "timezone-t": "--timezone, -t",
+        "until-u": "--until, -u",
+        "version-v": "--version, -V",
+        "view-v": "--view, -v"
+      },
+      "headingKeywords": {}
+    },
+    {
+      "title": "Appendix: Config files format",
+      "pageNav": 3,
+      "src": "ug/configFiles.md",
+      "layout": "default",
+      "siteNav": "ugSiteNav.md",
+      "headings": {
+        "appendix-config-files-format": "Appendix: Config files format",
+        "repo-config-csv": "repo-config.csv",
+        "author-config-csv": "author-config.csv",
+        "group-config-csv": "group-config.csv",
+        "config-json-standalone-config-file": "config.json (standalone config file)",
+        "a-note-about-git-author-name": "A note about git author name"
+      },
+      "headingKeywords": {}
+    },
+    {
+      "title": "Customizing reports",
+      "pageNav": 3,
+      "src": "ug/customizingReports.md",
+      "layout": "default",
+      "siteNav": "ugSiteNav.md",
+      "headings": {
+        "customizing-reports": "Customizing reports",
+        "customize-using-cli-flags": "Customize using CLI flags",
+        "customize-using-csv-config-files": "Customize using CSV config files",
+        "get-target-repos-to-provide-more-info": "Get target repos to provide more info"
+      },
+      "headingKeywords": {}
+    },
+    {
+      "title": "FAQ",
+      "pageNav": 3,
+      "src": "ug/faq.md",
+      "layout": "default",
+      "siteNav": "ugSiteNav.md",
+      "headings": {
+        "appendix-faq": "Appendix: FAQ",
+        "q-does-reposense-work-on-private-repositories": "Q: Does RepoSense work on private repositories?",
+        "q-how-does-formats-work": "Q: How does formats work?",
+        "q-how-does-ignore-glob-list-work": "Q: How does ignore glob list work?"
+      },
+      "headingKeywords": {}
+    },
+    {
+      "title": "Generating a report",
+      "pageNav": 3,
+      "src": "ug/generatingReports.md",
+      "layout": "default",
+      "siteNav": "ugSiteNav.md",
+      "headings": {
+        "generating-reports": "Generating reports",
+        "generating-reports-locally": "Generating reports locally",
+        "generating-reports-remotely": "Generating reports remotely"
+      },
+      "headingKeywords": {}
+    },
+    {
+      "title": "User guide",
+      "src": "ug/index.md",
+      "layout": "default",
+      "siteNav": "ugSiteNav.md",
+      "headings": {
+        "user-guide": "User guide",
+        "explore-real-life-examples": "\n          1 Explore real-life examples\n        ",
+        "generate-your-own-reports": "\n          2 Generate your own reports\n        ",
+        "share-your-reports": "\n          3 Share your reports\n        "
+      },
+      "headingKeywords": {}
+    },
+    {
+      "title": "run.sh format",
+      "src": "ug/runSh.md",
+      "layout": "default",
+      "siteNav": "ugSiteNav.md",
+      "headings": {
+        "appendix-run-sh-format": "Appendix: run.sh format",
+        "customizing-the-reposense-command": "Customizing the RepoSense command",
+        "specifying-which-version-of-reposense-to-use": "Specifying which version of RepoSense to use"
+      },
+      "headingKeywords": {}
+    },
+    {
+      "title": "Sharing reports",
+      "pageNav": 3,
+      "src": "ug/sharingReports.md",
+      "layout": "default",
+      "siteNav": "ugSiteNav.md",
+      "headings": {
+        "sharing-reports": "Sharing reports",
+        "share-privately": "Share privately",
+        "publish-on-the-web": "Publish on the web"
+      },
+      "headingKeywords": {}
+    },
+    {
+      "title": "Troubleshooting",
+      "pageNav": 3,
+      "src": "ug/troubleshooting.md",
+      "layout": "default",
+      "siteNav": "ugSiteNav.md",
+      "headings": {
+        "appendix-troubleshooting": "Appendix: Troubleshooting",
+        "contributions-missing-in-the-ramp-chart-but-appear-in-the-contribution-bar-and-code-panel": "Contributions missing in the ramp chart (but appear in the contribution bar and code panel)",
+        "contribution-bar-and-code-panel-is-empty-despite-a-non-empty-ramp-chart": "Contribution bar and code panel is empty (despite a non-empty ramp chart)",
+        "reposense-is-not-using-the-standalone-config-file-in-my-local-repository": "RepoSense is not using the standalone config file in my local repository",
+        "reposense-fails-on-windows-but-works-on-linux-mac-os": "RepoSense fails on Windows (but works on Linux/Mac OS)",
+        "some-files-are-not-captured-by-reposense": "Some files are not captured by RepoSense"
+      },
+      "headingKeywords": {}
+    },
+    {
+      "title": "Using `@@author` tags",
+      "src": "ug/usingAuthorTags.md",
+      "layout": "default",
+      "siteNav": "ugSiteNav.md",
+      "headings": {
+        "appendix-using-author-tags": "Appendix: Using @@author tags"
+      },
+      "headingKeywords": {}
+    },
+    {
+      "title": "Using reports",
+      "pageNav": 3,
+      "src": "ug/usingReports.md",
+      "layout": "default",
+      "siteNav": "ugSiteNav.md",
+      "headings": {
+        "using-reports": "Using reports",
+        "viewing-the-report": "Viewing the report",
+        "report-structure": "Report structure",
+        "chart-panel": "Chart panel",
+        "code-panel": "Code panel",
+        "commits-panel": "Commits Panel"
+      },
+      "headingKeywords": {}
+    },
+    {
+      "title": "Using RepoSense with GitHub Actions",
+      "pageNav": 3,
+      "src": "ug/withGithubActions.md",
+      "layout": "default",
+      "siteNav": "ugSiteNav.md",
+      "headings": {
+        "appendix-using-reposense-with-github-actions": "Appendix: Using RepoSense with GitHub Actions",
+        "setting-up": "Setting up",
+        "updating-the-report": "Updating the report"
+      },
+      "headingKeywords": {}
+    },
+    {
+      "title": "Publishing the dashboard - with Netlify",
+      "pageNav": 3,
+      "src": "ug/withNetlify.md",
+      "layout": "default",
+      "siteNav": "ugSiteNav.md",
+      "headings": {
+        "appendix-using-reposense-with-netlify": "Appendix: Using RepoSense with Netlify",
+        "setting-up": "Setting up",
+        "pr-previews": "PR previews",
+        "updating-the-report": "Updating the report"
+      },
+      "headingKeywords": {}
+    },
+    {
+      "title": "Using RepoSense with Travis",
+      "pageNav": 3,
+      "src": "ug/withTravis.md",
+      "layout": "default",
+      "siteNav": "ugSiteNav.md",
+      "headings": {
+        "appendix-using-reposense-with-travis": "Appendix: Using RepoSense with Travis",
+        "setting-up": "Setting up",
+        "updating-the-report": "Updating the report"
       },
       "headingKeywords": {}
     }

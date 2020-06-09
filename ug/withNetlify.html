@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="generator" content="MarkBind 2.14.1">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>RepoSense - Publishing the dashboard - with Netlify</title>
+  <link rel="stylesheet" href="../markbind/css/bootstrap.min.css">
+  <link rel="stylesheet" href="../markbind/css/bootstrap-vue.min.css">
+  <link rel="stylesheet" href="../markbind/fontawesome/css/all.min.css">
+  <link rel="stylesheet" href="../markbind/glyphicons/css/bootstrap-glyphicons.min.css">
+  <link rel="stylesheet" href="../markbind/css/octicons.css">
+  <link rel="stylesheet" href="../markbind/css/github.min.css">
+  <link rel="stylesheet" href="../markbind/css/markbind.css">
+  <link rel="stylesheet" href="/RepoSense/plugins/markbind-plugin-anchors/markbind-plugin-anchors.css">
+  <link rel="stylesheet" href="../markbind/layouts/default/styles.css">
+  <link rel="stylesheet" href="../markbind/css/site-nav.css">
+  <link rel="stylesheet" href="../markbind/css/page-nav.css">
+  <link rel="icon" href="/RepoSense/favicon.ico">
+</head>
+
+<body data-spy="scroll" data-target="#page-nav" data-offset="100">
+  <div id="app">
+    <header>
+      <navbar type="dark" placement="top" class="temp-navbar">
+        <a slot="brand" href="/RepoSense/index.html" title="Home" class="navbar-brand"><img width="30px" src="/RepoSense/favicon.ico"></a>
+        <li><a href="/RepoSense/index.html" class="nav-link">HOME</a></li>
+        <li><a href="/RepoSense/showcase.html" class="nav-link">SHOWCASE</a></li>
+        <li><a href="/RepoSense/ug/index.html" class="nav-link">USER GUIDE</a></li>
+        <li><a href="/RepoSense/dg/index.html" class="nav-link">DEVELOPER GUIDE</a></li>
+        <li><a href="/RepoSense/about.html" class="nav-link">ABOUT</a></li>
+        <li><a href="/RepoSense/contact.html" class="nav-link">CONTACT</a></li>
+        <li><a href="https://github.com/RepoSense/reposense" target="_blank" class="nav-link"><span><span aria-hidden="true" class="fab fa-github"></span></span></a></li>
+        <li slot="right">
+          <form class="navbar-form">
+            <searchbar :data="searchData" placeholder="Search" :on-hit="searchCallback" menu-align-right></searchbar>
+          </form>
+        </li>
+      </navbar>
+    </header>
+    <div id="flex-body">
+      <nav id="site-nav" class="navbar navbar-light bg-transparent">
+        <div class="border-right-grey nav-inner position-sticky slim-scroll">
+          <p><span class="lead"><strong><strong>USER GUIDE</strong></strong></span></p>
+          <ul class="px-0 site-nav-list">
+            <li class="mt-2"><a href="/RepoSense/ug/index.html" class="site-nav__a"><strong>Overview</strong></a></li>
+            <li class="mt-2"><a href="/RepoSense/ug/usingReports.html" class="site-nav__a"><strong>Using reports</strong></a></li>
+            <li class="mt-2"><a href="/RepoSense/ug/generatingReports.html" class="site-nav__a"><strong>Generating reports</strong></a></li>
+            <li class="mt-2"><a href="/RepoSense/ug/customizingReports.html" class="site-nav__a"><strong>Customizing reports</strong></a></li>
+            <li class="mt-2"><a href="/RepoSense/ug/sharingReports.html" class="site-nav__a"><strong>Sharing reports</strong></a>
+              <br><br>
+              <strong>Appendices</strong><br></li>
+            <li class="mt-2"><a href="/RepoSense/ug/cli.html" class="site-nav__a">  CLI syntax reference</a></li>
+            <li class="mt-2"><a href="/RepoSense/ug/configFiles.html" class="site-nav__a">  Config files format</a></li>
+            <li class="mt-2"><a href="/RepoSense/ug/usingAuthorTags.html" class="site-nav__a">  Using <code>@@author</code> tags</a></li>
+            <li class="mt-2"><a href="/RepoSense/ug/withNetlify.html" class="site-nav__a current">  RepoSense with Netlify</a></li>
+            <li class="mt-2"><a href="/RepoSense/ug/withGithubActions.html" class="site-nav__a">  RepoSense with GitHub Actions</a></li>
+            <li class="mt-2"><a href="/RepoSense/ug/withTravis.html" class="site-nav__a">  RepoSense with Travis</a></li>
+            <li class="mt-2"><a href="/RepoSense/ug/runSh.html" class="site-nav__a">  <code>run.sh</code> format</a></li>
+            <li class="mt-2"><a href="/RepoSense/ug/faq.html" class="site-nav__a">  FAQ</a></li>
+            <li class="mt-2"><a href="/RepoSense/ug/troubleshooting.html" class="site-nav__a">  Troubleshooting</a>
+              <br><br><br></li>
+          </ul>
+        </div>
+      </nav>
+
+      <div id="content-wrapper">
+        <h1 class="display-4" id="appendix-using-reposense-with-netlify">Appendix: Using RepoSense with Netlify<a class="fa fa-anchor" href="#appendix-using-reposense-with-netlify" onclick="event.stopPropagation()"></a></h1>
+        <div id="section-setting-up">
+          <box type="warning" seamless>
+            <p>Note that Netlify has a low limit for free tier users (only 300 <em>build minutes</em> per month as at June 2020 -- a single report generation can take 2-3 build minutes, longer if your report includes many/big repositories).
+            </p>
+          </box>
+
+          <h2 id="setting-up">Setting up<a class="fa fa-anchor" href="#setting-up" onclick="event.stopPropagation()"></a></h2>
+          <ol>
+            <li>
+              <p><strong>Fork the <em>publish-RepoSense</em> repository</strong> using this <a href="https://github.com/RepoSense/publish-RepoSense/fork">link</a>. Optionally, you can rename the fork to match your RepoSense report e.g., <code>project-code-dashboard</code>.</p>
+            </li>
+            <li>
+              <p><strong>Set up Netlify for your fork</strong> as described in this <a href="https://www.netlify.com/blog/2016/09/29/a-step-by-step-guide-deploying-on-netlify/">guide</a>.<br>
+                <mark>You will need to use the following in step 5</mark>:</p>
+              <ul>
+                <li>build command: <code>pip install requests &amp;&amp; ./run.sh</code><br></li>
+                <li>publish directory: <code>./reposense-report</code></li>
+              </ul>
+              <p>After Netlify finishes building the site, you should be able to see a dummy report at the URL of your Netlify site.</p>
+            </li>
+            <li>
+              <p><strong>Generate the report you want</strong> by updating the settings in your fork.</p>
+              <ol>
+                <li>Go to the <code>run.sh</code> file of your fork (on GitHub).</li>
+                <li>Update the last line (i.e., the command for running RepoSense) to match the report you want to generate:<br>
+                  <code>java -jar RepoSense.jar --repos FULL_REPO_URL</code> (assuming you want to generate a default report for just one repo)<br>
+                  e.g., <code>java -jar RepoSense.jar --repos https://github.com/reposense/RepoSense.git</code> (<mark>note the .git at the end of the repo URL</mark>)</li>
+                <li>Commit the file. This will trigger Netlify to rebuild the report.</li>
+                <li>Go to the URL of your Netlify site to see the updated RepoSense report (it might take about 2-5 minutes for Netlify to generate the report).</li>
+              </ol>
+            </li>
+          </ol>
+        </div>
+
+        <div id="section-pr-previews">
+          <h2 id="pr-previews">PR previews<a class="fa fa-anchor" href="#pr-previews" onclick="event.stopPropagation()"></a></h2>
+          <p>After setting up Netlify for your repo containing RepoSense settings, when a PR comes in to that repo to update any setting, you can scroll down the PR page and in <code>All checks have passed</code>, click on the <code>Details</code> beside <code>deploy/netlify — Deploy preview ready!</code> to see a preview of the report as per the changes in the PR.
+            <a href="/RepoSense/images/publishingguide-netlifypreview.png" target="_self"><img src="/RepoSense/images/publishingguide-netlifypreview.png" alt class="img-fluid" title="Netlify Preview"></a></p>
+        </div>
+
+        <h2 id="updating-the-report">Updating the report<a class="fa fa-anchor" href="#updating-the-report" onclick="event.stopPropagation()"></a></h2>
+        <p><strong>Manual:</strong> Netlify UI has a way for you to trigger a build, using which you can cause the report to be updated.</p>
+        <p><strong>Automated:</strong> Netlify's can be set up to update the report whenever a target repo of your report is updated, provided you are able to update the target repos in a certain way.</p>
+        <ol>
+          <li>
+            <p>Click on <strong>Settings</strong> in the top, choose <strong>Build &amp; deploy</strong> from the left panel and scroll to <strong>Build hooks</strong>.
+              <a href="/RepoSense/images/using-netlify-build-hooks.png" target="_self"><img src="/RepoSense/images/using-netlify-build-hooks.png" alt class="img-fluid"></a></p>
+          </li>
+          <li>
+            <p>Click <strong>Add build hook</strong>, give your webhook a name, and choose the <code>master</code> branch to build. A Netlify URL will be generated.</p>
+          </li>
+          <li>
+            <p>Go to your target repository (the repository you want to analyze) and click on <strong>Settings</strong>.</p>
+          </li>
+          <li>
+            <p>Select <strong>Webhooks</strong> on left panel and click on <strong>Add webhook</strong>.
+              <a href="/RepoSense/images/using-netlify-add-hook.png" target="_self"><img src="/RepoSense/images/using-netlify-add-hook.png" alt class="img-fluid"></a></p>
+          </li>
+          <li>
+            <p>Copy the Netlify URL and paste it in the URL form field.
+              <a href="/RepoSense/images/using-netlify-url.png" target="_self"><img src="/RepoSense/images/using-netlify-url.png" alt class="img-fluid"></a></p>
+            <box type="info" seamless>
+              <p>Note: Although the build url is not that secretive, it should be kept safe to prevent any misuse.
+              </p>
+            </box>
+          </li>
+          <li>
+            <p>Select <strong>application.json</strong> as content type.</p>
+          </li>
+          <li>
+            <p>Select <strong>Let me select individual events</strong> and based on your requirements check the checkboxes.</p>
+          </li>
+          <li>
+            <p>Leave the <strong>Active</strong> checkbox checked.</p>
+          </li>
+          <li>
+            <p>Click on <strong>Add webhook</strong> to save the webhook and add it.</p>
+          </li>
+        </ol>
+      </div>
+
+
+      <nav id="page-nav" class="navbar navbar-light bg-transparent">
+        <div class="border-left-grey nav-inner position-sticky slim-scroll">
+
+          <nav class="nav nav-pills flex-column my-0 small no-flex-wrap">
+            <a class="nav-link py-1" href="#appendix-using-reposense-with-netlify">Appendix: Using RepoSense with Netlify&#x200E;</a>
+            <nav class="nav nav-pills flex-column my-0 nested no-flex-wrap">
+              <a class="nav-link py-1" href="#setting-up">Setting up&#x200E;</a>
+              <a class="nav-link py-1" href="#pr-previews">PR previews&#x200E;</a>
+              <a class="nav-link py-1" href="#updating-the-report">Updating the report&#x200E;</a>
+            </nav>
+
+          </nav>
+        </div>
+      </nav>
+    </div>
+    <footer>
+
+      <div class="text-center">
+        <small>[<span><strong>Powered by</strong></span> <img src="https://markbind.org/favicon.ico" width="30"> <a href="https://markbind.org/">MarkBind 2.14.1</a>, generated on Tue, Jun 9, 2020, 4:23:44 AM UTC]</small></div>
+    </footer>
+  </div>
+</body>
+<script src="../markbind/js/vue.min.js"></script>
+<script src="../markbind/js/vue-strap.min.js"></script>
+<script src="../markbind/js/bootstrap-utility.min.js"></script>
+<script src="../markbind/js/polyfill.min.js"></script>
+<script src="../markbind/js/bootstrap-vue.min.js"></script>
+<script>
+  const baseUrl = '/RepoSense'
+  const enableSearch = true
+</script>
+<script src="../markbind/js/setup.js"></script>
+<script src="../markbind/layouts/default/scripts.js"></script>
+
+</html>

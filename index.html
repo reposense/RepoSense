@@ -26,11 +26,12 @@
       <navbar type="dark" placement="top" class="temp-navbar">
         <a slot="brand" href="/RepoSense/index.html" title="Home" class="navbar-brand"><img width="30px" src="/RepoSense/favicon.ico"></a>
         <li><a href="/RepoSense/index.html" class="nav-link">HOME</a></li>
-        <li><a href="/RepoSense/UserGuide.html" class="nav-link">USER GUIDE</a></li>
-        <li><a href="/RepoSense/DeveloperGuide.html" class="nav-link">DEVELOPER GUIDE</a></li>
+        <li><a href="/RepoSense/showcase.html" class="nav-link">SHOWCASE</a></li>
+        <li><a href="/RepoSense/ug/index.html" class="nav-link">USER GUIDE</a></li>
+        <li><a href="/RepoSense/dg/index.html" class="nav-link">DEVELOPER GUIDE</a></li>
         <li><a href="/RepoSense/about.html" class="nav-link">ABOUT</a></li>
-        <li>
-          <a href="https://github.com/RepoSense/reposense" target="_blank" class="nav-link"><span><span aria-hidden="true" class="fab fa-github"></span></span></a></li>
+        <li><a href="/RepoSense/contact.html" class="nav-link">CONTACT</a></li>
+        <li><a href="https://github.com/RepoSense/reposense" target="_blank" class="nav-link"><span><span aria-hidden="true" class="fab fa-github"></span></span></a></li>
         <li slot="right">
           <form class="navbar-form">
             <searchbar :data="searchData" placeholder="Search" :on-hit="searchCallback" menu-align-right></searchbar>
@@ -38,57 +39,126 @@
         </li>
       </navbar>
     </header>
+    <header>
+      <div class="jumbotron jumbotron-fluid text-center">
+        <div class="container">
+          <h1 class="display-3" id="reposense">RepoSense<a class="fa fa-anchor" href="#reposense" onclick="event.stopPropagation()"></a></h1>
+          <div class="lead">
+            Visualize programmer activities across git repositories...
+          </div>
+        </div>
+      </div>
+    </header>
     <div id="flex-body">
 
       <div id="content-wrapper">
-        <h1 id="reposense">RepoSense<a class="fa fa-anchor" href="#reposense" onclick="event.stopPropagation()"></a></h1>
-        <p><a href="https://travis-ci.org/reposense/RepoSense"><a href="https://travis-ci.org/reposense/RepoSense.svg?branch=master" target="_self"><img src="https://travis-ci.org/reposense/RepoSense.svg?branch=master" alt class="img-fluid"></a></a>
-          <a href="https://ci.appveyor.com/project/eugenepeh/reposense/branch/master"><a href="https://ci.appveyor.com/api/projects/status/gsbkj5qby3pjd6nw/branch/master?svg=true" target="_self"><img src="https://ci.appveyor.com/api/projects/status/gsbkj5qby3pjd6nw/branch/master?svg=true" alt class="img-fluid"></a></a>
-          <a href="https://www.codacy.com/app/reposense/RepoSense?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=reposense/RepoSense&amp;utm_campaign=Badge_Grade"><a href="https://api.codacy.com/project/badge/Grade/08a3527378464ed4a5ad62e27f590d6a" target="_self"><img src="https://api.codacy.com/project/badge/Grade/08a3527378464ed4a5ad62e27f590d6a" alt class="img-fluid"></a></a>
-          <a href="http://codecov.io/github/reposense/RepoSense?branch=master"><a href="https://codecov.io/gh/reposense/RepoSense/branch/master/graphs/badge.svg?branch=master" target="_self"><img src="https://codecov.io/gh/reposense/RepoSense/branch/master/graphs/badge.svg?branch=master" alt class="img-fluid"></a></a>
-          <a href="https://app.netlify.com/sites/reposense/deploys"><a href="https://api.netlify.com/api/v1/badges/260983b3-589e-4619-a2e8-0bfb7a2b4422/deploy-status" target="_self"><img src="https://api.netlify.com/api/v1/badges/260983b3-589e-4619-a2e8-0bfb7a2b4422/deploy-status" alt class="img-fluid"></a></a></p>
-        <p>RepoSense is a contribution analysis tool for Git repositories. It is particularly useful for those who want a chronological visualisation of the code contributions and commits made to a group of repositories. Educators can use RepoSense to track the work done in class projects, while team leads may use it to oversee their project teams.</p>
-        <p>RepoSense generates a static HTML report that includes contribution information for each author in each target repository.
-          The features of the report include:</p>
-        <ul>
-          <li>Visualization for contribution frequency</li>
-          <li>Visualization for contribution amount</li>
-          <li>Code review panel</li>
-          <li>Comparison of contribution between authors</li>
-          <li>Filtering and sorting of authors</li>
-        </ul>
-        <p>Here is a look at some of these features:</p>
-        <tabs>
-          <tab><template slot="_header">Visualisation of contributions</template>
-            <p><a href="/RepoSense/images/rampchart.png" target="_self"><img src="/RepoSense/images/rampchart.png" alt class="img-fluid"></a></p>
-          </tab>
-          <tab><template slot="_header">Collation of all contributed code</template>
-            The report's Code Panel captures all the code written by each author.
+
+        <span id="overview">
+          <p><strong>RepoSense can generate interactive visualizations of programmer activities, even across multiple repositories.</strong> It's ideal for educators and managers to get insights on programming activities of their mentees. The visualizations can be <strong>easily shared</strong> with others (e.g., as an online dashboard) and updating of the visualizations periodically <strong>can be automated</strong>.</p>
+          <p>Some example insights RepoSense can provide:</p>
+          <h4 id="insights-about-the-code">
+            <thumbnail circle background="#006600" font-color="white" size="50"><span aria-hidden="true" class="fas fa-code"></span></thumbnail> <span class="lead font-weight-bold text-green">Insights about the code</span><a class="fa fa-anchor" href="#insights-about-the-code" onclick="event.stopPropagation()"></a>
+          </h4>
+          <ul>
+            <li>Which part of the code was written by Tom? How many lines? How many files?</li>
+            <li>Which test cases were written by Kim?</li>
+            <li>Which commit messages were written by Serene?</li>
+          </ul>
+          <h4 id="insights-about-the-type-of-work">
+            <thumbnail circle background="#006600" font-color="white" size="50"><span aria-hidden="true" class="fas fa-chart-pie"></span></thumbnail> <span class="lead font-weight-bold text-green">Insights about the type of work</span><a class="fa fa-anchor" href="#insights-about-the-type-of-work" onclick="event.stopPropagation()"></a>
+          </h4>
+          <ul>
+            <li>Which portion of Jacob's code was documentation?</li>
+            <li>Who hasn't written any test code yet?</li>
+            <li>Which project did Jolene contribute to in the last month?</li>
+          </ul>
+          <h4 id="insights-about-the-timing-of-work">
+            <thumbnail circle background="#006600" font-color="white" size="50"><span aria-hidden="true" class="fas fa-business-time"></span></thumbnail> <span class="lead font-weight-bold text-green">Insights about the timing of work</span><a class="fa fa-anchor" href="#insights-about-the-timing-of-work" onclick="event.stopPropagation()"></a>
+          </h4>
+          <ul>
+            <li>Who are putting in a consistent effort?</li>
+            <li>Who waits till the deadline to do the work?</li>
+            <li>Who hasn't started any work yet?</li>
+          </ul>
+          <h4 id="insights-based-on-comparisons">
+            <thumbnail circle background="#006600" font-color="white" size="50"><span aria-hidden="true" class="fas fa-list-ol"></span></thumbnail> <span class="lead font-weight-bold text-green">Insights based on comparisons</span><a class="fa fa-anchor" href="#insights-based-on-comparisons" onclick="event.stopPropagation()"></a>
+          </h4>
+          <ul>
+            <li>Which programmers/teams are falling behind?</li>
+            <li>How does everyone compare in their front-end coding work over the past two weeks?</li>
+            <li>Who are the the top 10 code contributors?</li>
+          </ul>
+        </span>
+        <div class="jumbotron jumbotron-fluid pt-2">
+          <div class="container">
             <p>
-              <pic src="/RepoSense/images/code-panel.png" width="450"></pic>
-            </p>
-          </tab>
-          <tab><template slot="_header">Collation of all commits</template>
-            The report's Commit Panel captures all the commits made by each author.
-            <p><a href="/RepoSense/images/opening-commits-panel.gif" target="_self"><img src="/RepoSense/images/opening-commits-panel.gif" alt class="img-fluid"></a></p>
-          </tab>
-        </tabs>
-        <h2 id="documentations">Documentations<a class="fa fa-anchor" href="#documentations" onclick="event.stopPropagation()"></a></h2>
-        <ul>
-          <li><strong>User Guide</strong> <a href="https://github.com/reposense/RepoSense/blob/master/docs/UserGuide.md">[<strong>Current Build</strong>]</a> <a href="https://github.com/reposense/RepoSense/blob/release/docs/UserGuide.md">[<strong>Latest Release</strong>]</a></li>
-          <li><a href="/RepoSense/DeveloperGuide.html"><strong>Developer Guide</strong></a></li>
-        </ul>
-        <h2 id="about-us">About Us<a class="fa fa-anchor" href="#about-us" onclick="event.stopPropagation()"></a></h2>
-        <p>RepoSense is a project based in the <a href="http://www.comp.nus.edu.sg/">National University of Singapore, School of Computing</a>, and is funded by a grant from <a href="http://www.cdtl.nus.edu.sg/">NUS Center for Development of Teaching and Learning</a>.</p>
-        <p>Our project team and the list of contributors are <a href="/RepoSense/about.html">here</a>.</p>
-        <h2 id="contributing">Contributing<a class="fa fa-anchor" href="#contributing" onclick="event.stopPropagation()"></a></h2>
-        <p>We welcome pull requests. Please read the <a href="/RepoSense/Process.html#how-to-contribute-to-the-reposense-repository">contribution guidelines</a> before starting work on one.</p>
-        <h2 id="acknowledgements">Acknowledgements<a class="fa fa-anchor" href="#acknowledgements" onclick="event.stopPropagation()"></a></h2>
-        <p>The web previews of RepoSense is powered by Netlify and Surge.</p>
-        <a href="https://www.netlify.com">
-          <img src="https://www.netlify.com/img/global/badges/netlify-color-bg.svg"></a>
-        <a href="https://surge.sh">
-          <img width="55px" src="https://surge.sh/images/logos/svg/surge-logo.svg"></a>
+              <br>
+              <br></p>
+            <div class="container">
+              <div class="row"></div>
+              <div class="row">
+                <div class="col-sm">
+                  <p><a href="/RepoSense/showcase.html"><strong>SHOWCASE</strong> of use cases</a></p>
+                  <p><a href="/RepoSense/about.html"><strong>ABOUT</strong> us</a></p>
+                  <p><a href="/RepoSense/contact.html"><strong>CONTACT</strong> us</a></p>
+                  <p><a href="https://github.com/reposense/RepoSense"><strong><span aria-hidden="true" class="fab fa-github"></span> GitHub</strong></a></p>
+                  <hr>
+                  <small>
+                    <p>This website was built using MarkBind.</p>
+                    <p><a href="http://markbind.org"><img src="https://markbind.org/images/logo-lightbackground.png" width="150"></a></p>
+                    <p>Deploy previews are powered by Netlify and Surge.</p>
+                    <p><a href="https://www.netlify.com"><img src="https://www.netlify.com/img/global/badges/netlify-color-bg.svg"></a>
+                      <a href="https://surge.sh"><img width="55px" src="https://surge.sh/images/logos/svg/surge-logo.svg"></a></p>
+                  </small>
+                </div>
+                <div class="col-sm">
+                  <div>
+                    <navigation>
+                      <p><span class="lead"><strong><strong>USER GUIDE</strong></strong></span></p>
+                      <ul>
+                        <li><a href="/RepoSense/ug/index.html"><strong>Overview</strong></a></li>
+                        <li><a href="/RepoSense/ug/usingReports.html"><strong>Using reports</strong></a></li>
+                        <li><a href="/RepoSense/ug/generatingReports.html"><strong>Generating reports</strong></a></li>
+                        <li><a href="/RepoSense/ug/customizingReports.html"><strong>Customizing reports</strong></a></li>
+                        <li><a href="/RepoSense/ug/sharingReports.html"><strong>Sharing reports</strong></a>
+                          <br><br>
+                          <strong>Appendices</strong><br></li>
+                        <li><a href="/RepoSense/ug/cli.html">  CLI syntax reference</a></li>
+                        <li><a href="/RepoSense/ug/configFiles.html">  Config files format</a></li>
+                        <li><a href="/RepoSense/ug/usingAuthorTags.html">  Using <code>@@author</code> tags</a></li>
+                        <li><a href="/RepoSense/ug/withNetlify.html">  RepoSense with Netlify</a></li>
+                        <li><a href="/RepoSense/ug/withGithubActions.html">  RepoSense with GitHub Actions</a></li>
+                        <li><a href="/RepoSense/ug/withTravis.html">  RepoSense with Travis</a></li>
+                        <li><a href="/RepoSense/ug/runSh.html">  <code>run.sh</code> format</a></li>
+                        <li><a href="/RepoSense/ug/faq.html">  FAQ</a></li>
+                        <li><a href="/RepoSense/ug/troubleshooting.html">  Troubleshooting</a></li>
+                      </ul>
+                    </navigation>
+                  </div>
+                </div>
+                <div class="col-sm">
+                  <div>
+                    <navigation>
+                      <p><span class="lead"><strong><strong>DEVELOPER GUIDE</strong></strong></span></p>
+                      <ul>
+                        <li><a href="/RepoSense/dg/index.html"><strong>Contributing</strong></a></li>
+                        <li><a href="/RepoSense/dg/settingUp.html"><strong>Setting up</strong></a></li>
+                        <li><a href="/RepoSense/dg/workflow.html"><strong>Workflow</strong></a>
+                          <br><br>
+                          <strong>Design and implementation</strong></li>
+                        <li><a href="/RepoSense/dg/architecture.html">  Architecture</a></li>
+                        <li><a href="/RepoSense/dg/report.html">  HTML report</a>
+                          <br><br>
+                          <strong>Appendices</strong></li>
+                        <li><a href="/RepoSense/dg/styleGuides.html">  Style guides</a></li>
+                      </ul>
+                    </navigation>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
 
 
@@ -96,7 +166,7 @@
     <footer>
 
       <div class="text-center">
-        <small>[Generated by <a href="https://markbind.org/">MarkBind 2.14.1</a>]</small></div>
+        <small>[<span><strong>Powered by</strong></span> <img src="https://markbind.org/favicon.ico" width="30"> <a href="https://markbind.org/">MarkBind 2.14.1</a>, generated on Tue, Jun 9, 2020, 4:23:44 AM UTC]</small></div>
     </footer>
   </div>
 </body>

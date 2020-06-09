@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="generator" content="MarkBind 2.14.1">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>RepoSense - Showcase of use cases</title>
+  <link rel="stylesheet" href="markbind/css/bootstrap.min.css">
+  <link rel="stylesheet" href="markbind/css/bootstrap-vue.min.css">
+  <link rel="stylesheet" href="markbind/fontawesome/css/all.min.css">
+  <link rel="stylesheet" href="markbind/glyphicons/css/bootstrap-glyphicons.min.css">
+  <link rel="stylesheet" href="markbind/css/octicons.css">
+  <link rel="stylesheet" href="markbind/css/github.min.css">
+  <link rel="stylesheet" href="markbind/css/markbind.css">
+  <link rel="stylesheet" href="/RepoSense/plugins/markbind-plugin-anchors/markbind-plugin-anchors.css">
+  <link rel="stylesheet" href="markbind/layouts/default/styles.css">
+  <link rel="icon" href="/RepoSense/favicon.ico">
+</head>
+
+<body>
+  <div id="app">
+    <header>
+      <navbar type="dark" placement="top" class="temp-navbar">
+        <a slot="brand" href="/RepoSense/index.html" title="Home" class="navbar-brand"><img width="30px" src="/RepoSense/favicon.ico"></a>
+        <li><a href="/RepoSense/index.html" class="nav-link">HOME</a></li>
+        <li><a href="/RepoSense/showcase.html" class="nav-link">SHOWCASE</a></li>
+        <li><a href="/RepoSense/ug/index.html" class="nav-link">USER GUIDE</a></li>
+        <li><a href="/RepoSense/dg/index.html" class="nav-link">DEVELOPER GUIDE</a></li>
+        <li><a href="/RepoSense/about.html" class="nav-link">ABOUT</a></li>
+        <li><a href="/RepoSense/contact.html" class="nav-link">CONTACT</a></li>
+        <li><a href="https://github.com/RepoSense/reposense" target="_blank" class="nav-link"><span><span aria-hidden="true" class="fab fa-github"></span></span></a></li>
+        <li slot="right">
+          <form class="navbar-form">
+            <searchbar :data="searchData" placeholder="Search" :on-hit="searchCallback" menu-align-right></searchbar>
+          </form>
+        </li>
+      </navbar>
+    </header>
+    <div id="flex-body">
+
+      <div id="content-wrapper">
+        <h1 class="display-3" id="showcase-of-use-cases">Showcase of use cases<a class="fa fa-anchor" href="#showcase-of-use-cases" onclick="event.stopPropagation()"></a></h1>
+        <h3 id="case-1-monitoring-student-programmers-individual-projects">Case 1: Monitoring student programmers (<strong>individual</strong> projects)<a class="fa fa-anchor" href="#case-1-monitoring-student-programmers-individual-projects" onclick="event.stopPropagation()"></a></h3>
+        <ul>
+          <li>
+            <p><strong>Scenario:</strong> RepoSense is used to monitor a Software Engineering course in which students build a project over 8 weeks.</p>
+          </li>
+          <li>
+            <p><strong>Links:</strong> <a href="https://nus-cs2113-ay1920s2.github.io/ip-dashboard/#sort=groupTitle&amp;groupSelect=groupByAuthors&amp;search=&amp;sortWithin=title&amp;since=2020-01-13&amp;timeframe=commit&amp;mergegroup=false&amp;breakdown=false">report</a> | <a href="https://github.com/nus-cs2113-AY1920S2/ip-dashboard">repo containing the settings</a></p>
+          </li>
+          <li>
+            <p><strong>Example usages:</strong></p>
+            <ul>
+              <li>To compare students based on the amount of code written, we can sort by contribution, as done in <a href="https://nus-cs2113-ay1920s2.github.io/ip-dashboard/#sort=totalCommits%20dsc&amp;groupSelect=groupByAuthors&amp;search=&amp;sortWithin=title&amp;since=2020-01-13&amp;timeframe=day&amp;mergegroup=false&amp;breakdown=false">this view</a>.</li>
+              <li><a href="https://nus-cs2113-ay1920s2.github.io/ip-dashboard/#sort=totalCommits%20dsc&amp;groupSelect=groupByAuthors&amp;search=andy&amp;sortWithin=title&amp;since=2020-01-13&amp;timeframe=day&amp;mergegroup=false&amp;breakdown=false&amp;tabOpen=true&amp;tabType=authorship&amp;tabAuthor=andy-aw-why&amp;tabRepo=andy-aw-why%2Fduke%5Bmaster%5D">This view</a> shows us code written by a specific student.</li>
+            </ul>
+          </li>
+        </ul>
+
+        <h3 id="case-2-monitoring-student-programmers-team-projects">Case 2: Monitoring student programmers (<strong>team</strong> projects)<a class="fa fa-anchor" href="#case-2-monitoring-student-programmers-team-projects" onclick="event.stopPropagation()"></a></h3>
+        <ul>
+          <li>
+            <p><strong>Scenario:</strong> Similar to case 1 above but this time students are doing team projects.</p>
+          </li>
+          <li>
+            <p><strong>Links:</strong> <a href="https://nus-cs2113-ay1920s2.github.io/tp-dashboard/">report</a> | <a href="https://github.com/nus-cs2113-AY1920S2/tp-dashboard">settings</a></p>
+          </li>
+          <li>
+            <p><strong>Example usages:</strong></p>
+            <ul>
+              <li>To find the breakdown of the work done, we can tick the <code>breakdown by file type</code> checkbox, as shown in <a href="https://nus-cs2113-ay1920s2.github.io/tp-dashboard/#search=&amp;sort=groupTitle&amp;sortWithin=title&amp;since=2020-03-01&amp;timeframe=commit&amp;mergegroup=false&amp;groupSelect=groupByRepos&amp;breakdown=true">this view</a>. After that, we can filter out certain file types by un-ticking the file type.</li>
+              <li>To find how teams compare in terms of total work done, we can tick the <code>merge group</code> check-box and sort groups by <code>Contribution</code>, as seen in <a href="https://nus-cs2113-ay1920s2.github.io/tp-dashboard/#search=&amp;sort=totalCommits&amp;sortWithin=title&amp;since=2020-03-01&amp;timeframe=week&amp;mergegroup=true&amp;groupSelect=groupByRepos&amp;breakdown=false">this view</a>. Also note how <span data-mb-component-type="tooltip" v-b-tooltip.hover.top.html="tooltipInnerContentGetter" class="trigger"><span data-mb-html-for="_content">i.e., each ramp represents the work done by the entire team in the whole week</span>the <code>granularity</code> of the ramps is set to <code>Week</code></span> to reduce clutter.</li>
+              <li><a href="https://nus-cs2113-ay1920s2.github.io/tp-dashboard/#search=&amp;sort=groupTitle&amp;sortWithin=title&amp;since=2020-04-06&amp;timeframe=commit&amp;mergegroup=false&amp;groupSelect=groupByRepos&amp;breakdown=true">This view</a> shows the activities near the submission deadline (note how some have overshot the deadline and some others show a frenzy of activities very near to the deadline).</li>
+            </ul>
+          </li>
+        </ul>
+
+        <h3 id="case-3-monitoring-student-programmers-multiple-external-projects">Case 3: Monitoring student programmers (<strong>multiple</strong> external projects)<a class="fa fa-anchor" href="#case-3-monitoring-student-programmers-multiple-external-projects" onclick="event.stopPropagation()"></a></h3>
+        <ul>
+          <li>
+            <p><strong>Scenario:</strong> Similar to case 1 and 2 above but this time each student works on multiple projects. Furthermore, most projects are external OSS projects not within the control of the teacher.</p>
+          </li>
+          <li>
+            <p><strong>Links:</strong> <a href="https://nus-cs3281.github.io/2020-dashboard/#search=&amp;sort=groupTitle&amp;sortWithin=title&amp;timeframe=commit&amp;mergegroup=false&amp;groupSelect=groupByAuthors&amp;breakdown=false&amp;since=2019-12-01">report</a> | <a href="https://github.com/nus-cs2113-AY1920S2/tp-dashboard">settings</a></p>
+          </li>
+          <li>
+            <p><strong>Example usages:</strong></p>
+            <ul>
+              <li><a href="https://nus-cs3281.github.io/2020-dashboard/#search=&amp;sort=groupTitle&amp;sortWithin=title&amp;since=2019-12-01&amp;timeframe=commit&amp;mergegroup=&amp;groupSelect=groupByRepos&amp;breakdown=false&amp;tabOpen=true&amp;tabType=zoom&amp;zA=anubh-v&amp;zR=CATcher-org%2FCATcher%5Bmaster%5D&amp;zACS=118.09969788519638&amp;zS=2019-12-01&amp;zFS=&amp;zU=2020-06-05&amp;zMG=false&amp;zFTF=commit&amp;zFGS=groupByRepos">This view</a> shows the commit messages written by a specific student.</li>
+              <li>Note how we can use the <code>group by</code> drop-down to organize activities around projects or individual authors.</li>
+              <li>Similarly, we can use the <code>merge all groups</code> check-box to see the sum of activities in a specific project or by a specific student.</li>
+            </ul>
+          </li>
+        </ul>
+      </div>
+
+
+    </div>
+    <footer>
+
+      <div class="text-center">
+        <small>[<span><strong>Powered by</strong></span> <img src="https://markbind.org/favicon.ico" width="30"> <a href="https://markbind.org/">MarkBind 2.14.1</a>, generated on Tue, Jun 9, 2020, 4:23:44 AM UTC]</small></div>
+    </footer>
+  </div>
+</body>
+<script src="markbind/js/vue.min.js"></script>
+<script src="markbind/js/vue-strap.min.js"></script>
+<script src="markbind/js/bootstrap-utility.min.js"></script>
+<script src="markbind/js/polyfill.min.js"></script>
+<script src="markbind/js/bootstrap-vue.min.js"></script>
+<script>
+  const baseUrl = '/RepoSense'
+  const enableSearch = true
+</script>
+<script src="markbind/js/setup.js"></script>
+<script src="markbind/layouts/default/scripts.js"></script>
+
+</html>
