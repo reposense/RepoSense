@@ -10,6 +10,8 @@
 * [&nbsp;&nbsp;Architecture]({{baseUrl}}/dg/architecture.html)
 * [&nbsp;&nbsp;HTML report]({{baseUrl}}/dg/report.html)
 
+* [**Project management**]({{baseUrl}}/dg/projectManagement.html)
+
 * **Appendices**
 * [&nbsp;&nbsp;Style guides]({{baseUrl}}/dg/styleGuides.html)
 
