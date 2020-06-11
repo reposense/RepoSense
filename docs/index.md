@@ -5,7 +5,7 @@
 {% from 'scripts/macros.njk' import thumbnail with context %}
 
 <header>
-<div class="jumbotron jumbotron-fluid text-center">
+<div class="jumbotron jumbotron-fluid text-center" style="padding-top: inherit">
   <div class="container">
   <h1 class="display-3">RepoSense</h1>
   <div class="lead">
@@ -14,6 +14,8 @@
   </div>
 </div>
 </header>
+
+![RepoSense overview](images/reposenseOverview.png)
 
 <span id="overview">
 
