@@ -5,12 +5,12 @@
 * [**Contributing**]({{baseUrl}}/dg/index.html)
 * [**Setting up**]({{baseUrl}}/dg/settingUp.html)
 * [**Workflow**]({{baseUrl}}/dg/workflow.html)
-<br><br>
-**Design and implementation**
+
+* **Design and implementation**
 * [&nbsp;&nbsp;Architecture]({{baseUrl}}/dg/architecture.html)
 * [&nbsp;&nbsp;HTML report]({{baseUrl}}/dg/report.html)
-<br><br>
-**Appendices**
+
+* **Appendices**
 * [&nbsp;&nbsp;Style guides]({{baseUrl}}/dg/styleGuides.html)
 
 </navigation>
