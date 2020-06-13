@@ -5,17 +5,19 @@
 {% from 'scripts/macros.njk' import thumbnail with context %}
 
 <header>
-<div class="jumbotron jumbotron-fluid text-center" style="padding-top: inherit">
+<div class="jumbotron jumbotron-fluid text-center" style="padding-top: inherit; padding-bottom: inherit">
   <div class="container">
   <h1 class="display-3">RepoSense</h1>
   <div class="lead">
-  Visualize programmer activities across git repositories...
+
+Visualize programmer activities across git repositories...
+<br><br>
+<img src="images/reposenseOverview.png" width="909" alt="RepoSense overview"/>
+<br><br>
   </div>
   </div>
 </div>
 </header>
-
-![RepoSense overview](images/reposenseOverview.png)
 
 <span id="overview">
 
