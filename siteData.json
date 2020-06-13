@@ -73,6 +73,19 @@
       "headingKeywords": {}
     },
     {
+      "title": "Project Management",
+      "pageNav": 3,
+      "src": "dg/projectManagement.md",
+      "layout": "default",
+      "siteNav": "dgSiteNav.md",
+      "headings": {
+        "project-maintenance": "Project Maintenance",
+        "merging-prs": "Merging PRs",
+        "deploying-the-production-website": "Deploying the production website"
+      },
+      "headingKeywords": {}
+    },
+    {
       "title": "HTML Report",
       "pageNav": 3,
       "src": "dg/report.md",

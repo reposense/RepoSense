@@ -7,7 +7,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="generator" content="MarkBind 2.14.1">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>RepoSense - Developer guide</title>
+  <title>RepoSense - Project Management</title>
   <link rel="stylesheet" href="../markbind/css/bootstrap.min.css">
   <link rel="stylesheet" href="../markbind/css/bootstrap-vue.min.css">
   <link rel="stylesheet" href="../markbind/fontawesome/css/all.min.css">
@@ -18,10 +18,11 @@
   <link rel="stylesheet" href="/RepoSense/plugins/markbind-plugin-anchors/markbind-plugin-anchors.css">
   <link rel="stylesheet" href="../markbind/layouts/default/styles.css">
   <link rel="stylesheet" href="../markbind/css/site-nav.css">
+  <link rel="stylesheet" href="../markbind/css/page-nav.css">
   <link rel="icon" href="/RepoSense/favicon.ico">
 </head>
 
-<body>
+<body data-spy="scroll" data-target="#page-nav" data-offset="100">
   <div id="app">
     <header>
       <navbar type="dark" placement="top" class="temp-navbar">
@@ -45,13 +46,13 @@
         <div class="border-right-grey nav-inner position-sticky slim-scroll">
           <p><span class="lead"><strong><strong>DEVELOPER GUIDE</strong></strong></span></p>
           <ul class="px-0 site-nav-list">
-            <li class="mt-2"><a href="/RepoSense/dg/index.html" class="site-nav__a current"><strong>Contributing</strong></a></li>
+            <li class="mt-2"><a href="/RepoSense/dg/index.html" class="site-nav__a"><strong>Contributing</strong></a></li>
             <li class="mt-2"><a href="/RepoSense/dg/settingUp.html" class="site-nav__a"><strong>Setting up</strong></a></li>
             <li class="mt-2"><a href="/RepoSense/dg/workflow.html" class="site-nav__a"><strong>Workflow</strong></a></li>
             <li class="mt-2"><strong>Design and implementation</strong></li>
             <li class="mt-2"><a href="/RepoSense/dg/architecture.html" class="site-nav__a">  Architecture</a></li>
             <li class="mt-2"><a href="/RepoSense/dg/report.html" class="site-nav__a">  HTML report</a></li>
-            <li class="mt-2"><a href="/RepoSense/dg/projectManagement.html" class="site-nav__a"><strong>Project management</strong></a></li>
+            <li class="mt-2"><a href="/RepoSense/dg/projectManagement.html" class="site-nav__a current"><strong>Project management</strong></a></li>
             <li class="mt-2"><strong>Appendices</strong></li>
             <li class="mt-2"><a href="/RepoSense/dg/styleGuides.html" class="site-nav__a">  Style guides</a></li>
           </ul>
@@ -61,21 +62,63 @@
       <div id="content-wrapper">
         <div>
         </div>
-        <h1 class="display-3" id="developer-guide">Developer guide<a class="fa fa-anchor" href="#developer-guide" onclick="event.stopPropagation()"></a></h1>
-        <h2 id="contributing">Contributing<a class="fa fa-anchor" href="#contributing" onclick="event.stopPropagation()"></a></h2>
+        <h1 class="display-4" id="project-maintenance">Project Maintenance<a class="fa fa-anchor" href="#project-maintenance" onclick="event.stopPropagation()"></a></h1>
         <div class="lead">
-          <p><strong>Thank you for your interest in contributing to RepoSense!</strong> We welcome PRs, especially from students.</p>
+          <p>This page contains information about project management tasks. The target audience is senior developers (and above).</p>
         </div>
-        <p>Here is a quick overview of how to get started.</p>
+
+        <h2 id="merging-prs">Merging PRs<a class="fa fa-anchor" href="#merging-prs" onclick="event.stopPropagation()"></a></h2>
+        <ul>
+          <li><strong>Use the 'squash and merge' option</strong> unless the situation warrants a different option.</li>
+          <li><strong>For the merge commit</strong>, follow conventions at <a href="https://se-education.org/guides/conventions/github.html"><em>GitHub conventions</em> @SE-EDU</a>.</li>
+        </ul>
+
+        <h2 id="deploying-the-production-website">Deploying the production website<a class="fa fa-anchor" href="#deploying-the-production-website" onclick="event.stopPropagation()"></a></h2>
+        <p>We have two versions of the website:</p>
         <ol>
-          <li><strong>Set up the project</strong> in your computer (see <a href="/RepoSense/dg/settingUp.html">the <em>Setting up</em> page</a>)</li>
-          <li><strong>Learn our workflow</strong> (see <a href="/RepoSense/dg/workflow.html">the <em>Workflow</em> page</a>)</li>
-          <li><strong>Submit PRs</strong> as per the workflow. If you encounter any problems, post in <a href="https://github.com/reposense/RepoSense/issues">our issue tracker</a>.</li>
+          <li><strong>Production website</strong> at <a href="https://reposense.org">https://reposense.org</a>
+            <ul>
+              <li>matches the latest released version</li>
+              <li>deployed manually after each new release</li>
+            </ul>
+          </li>
+          <li><strong>Dev website</strong> at <a href="https://reposense.org/RepoSense">https://reposense.org/RepoSense</a>
+            <ul>
+              <li>matches the latest <code>master</code> branch</li>
+              <li>deployed automatically by Travis whenever the <code>master</code> branch is updated</li>
+            </ul>
+          </li>
         </ol>
-        <p>We look forward to your PR. Happy coding!</p>
+        <p>The production website differs from the dev website in some ways e.g.,</p>
+        <ul>
+          <li>It has a <code>CNAME</code> file (to indicate that it is the target destination for the <code>reposense.org</code> domain name)</li>
+          <li>Its DG pages show a warning that it is not the latest version of the DG.</li>
+        </ul>
+        <p>These variations are mainly managed by MarkBind via the <code>site.config</code> file. That is why the <code>site.config</code> file in the <code>release</code> branch is slightly different from the one in the <code>master</code> branch.</p>
+        <p>After each release, do the following steps to deploy the production website:</p>
+        <ol>
+          <li>Switch to the <code>release</code> branch</li>
+          <li><code>cd docs</code></li>
+          <li><code>markbind build</code></li>
+          <li><code>markbind deploy</code></li>
+          <li>After a few minutes, check <a href="https://markbind.org">https://markbind.org</a> to ensure it has been updated as intended.</li>
+        </ol>
       </div>
 
 
+      <nav id="page-nav" class="navbar navbar-light bg-transparent">
+        <div class="border-left-grey nav-inner position-sticky slim-scroll">
+
+          <nav class="nav nav-pills flex-column my-0 small no-flex-wrap">
+            <a class="nav-link py-1" href="#project-maintenance">Project Maintenance&#x200E;</a>
+            <nav class="nav nav-pills flex-column my-0 nested no-flex-wrap">
+              <a class="nav-link py-1" href="#merging-prs">Merging PRs&#x200E;</a>
+              <a class="nav-link py-1" href="#deploying-the-production-website">Deploying the production website&#x200E;</a>
+            </nav>
+
+          </nav>
+        </div>
+      </nav>
     </div>
     <footer>
 
