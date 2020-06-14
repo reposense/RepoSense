@@ -2,8 +2,6 @@
   title: "Developer guide"
 </frontmatter>
 
-<include src="versionWarning.mbdf" />
-
 <h1 class="display-3">Developer guide</h1>
 
 ## Contributing

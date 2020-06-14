@@ -5,8 +5,6 @@
 
 {% from 'scripts/macros.njk' import embed with context %}
 
-<include src="versionWarning.mbdf" />
-
 <h1 class="display-4">Setting up</h1>
 
 **Prerequisites:**

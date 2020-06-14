@@ -2,8 +2,6 @@
   title: "Appendix: Style Guides"
 </frontmatter>
 
-<include src="versionWarning.mbdf" />
-
 <h1 class="display-4">Appendix: Style guides</h1>
 
 <div class="lead">

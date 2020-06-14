@@ -3,8 +3,6 @@
   pageNav: 3
 </frontmatter>
 
-<include src="versionWarning.mbdf" />
-
 <h1 class="display-4">Project Maintenance</h1>
 
 <div class="lead">

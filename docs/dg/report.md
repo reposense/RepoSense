@@ -3,8 +3,6 @@
   pageNav: 3
 </frontmatter>
 
-<include src="versionWarning.mbdf" />
-
 <h1 class="display-4">HTML report</h1>
 
 The source files for the report is located in [`frontend/src`](https://github.com/reposense/RepoSense/blob/master/frontend/src) and is built by [spuild](https://github.com/ongspxm/spuild2) before being packaged into the JAR file to be extracted as part of the report.
