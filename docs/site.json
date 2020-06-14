@@ -11,6 +11,7 @@
     "*.mbdf",
     "*.njk",
     ".git/*",
+    "diagrams/*",
     "CNAME"
   ],
   "pages": [

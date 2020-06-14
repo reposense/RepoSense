@@ -7,8 +7,8 @@
 * [**Generating reports**]({{baseUrl}}/ug/generatingReports.html)
 * [**Customizing reports**]({{baseUrl}}/ug/customizingReports.html)
 * [**Sharing reports**]({{baseUrl}}/ug/sharingReports.html)
-<br><br>
-**Appendices**<br>
+
+* **Appendices**
 * [&nbsp;&nbsp;CLI syntax reference]({{baseUrl}}/ug/cli.html)
 * [&nbsp;&nbsp;Config files format]({{baseUrl}}/ug/configFiles.html)
 * [&nbsp;&nbsp;Using `@@author` tags]({{baseUrl}}/ug/usingAuthorTags.html)
