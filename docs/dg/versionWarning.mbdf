@@ -1,0 +1,10 @@
+<span tags="public">
+<p/>
+<box type="important" light background-color="yellow">
+<span class="text-danger">
+
+You are looking at the _developer documentation_ corresponding to the most recent _public release_ of RepoSense.<br>
+**Please go [here](https://reposense.github.io/RepoSense/dg/index.html) for the version matching the latest `master` branch.**
+</span>
+</box>
+</span>
