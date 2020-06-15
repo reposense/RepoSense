@@ -88,6 +88,20 @@ This flag overrides the `Ignore standalone config` field in the CSV config file.
 
 <!-- ------------------------------------------------------------------------------------------------------ -->
 
+### `--period`, `-r`
+
+**`--period, -p PERIOD`**: Specifies the period of analysis window.
+* Parameter `PERIOD`: The period of analysis window, in the format `nd` (for n days) or `nw` (for n weeks). It is used to calculate end date if only start date is specified, or calculate end date if only start date is specified.
+* Alias: `-p`
+* Example: `--period 30d` or `--period 4w`
+
+<box type="info" seamless>
+
+* If both start date and end date are not specified, the date of generating the report will be taken as the end date. 
+* Cannot be used with both `--since` and `--until`.
+</box>
+<!-- ------------------------------------------------------------------------------------------------------ -->
+
 ### `--repos`, `-r`
 
 **`--repos REPO_LOCATION`**: Specifies which repositories to analyze.
