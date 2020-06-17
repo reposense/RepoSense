@@ -1,63 +1,107 @@
 <frontmatter>
   title: "Home"
-  header: header.md
-  footer: footer.md
 </frontmatter>
 
-# RepoSense
-[![Build Status](https://travis-ci.org/reposense/RepoSense.svg?branch=master)](https://travis-ci.org/reposense/RepoSense)
-[![Build status](https://ci.appveyor.com/api/projects/status/gsbkj5qby3pjd6nw/branch/master?svg=true)](https://ci.appveyor.com/project/eugenepeh/reposense/branch/master)
-[![Codacy Badge](https://api.codacy.com/project/badge/Grade/08a3527378464ed4a5ad62e27f590d6a)](https://www.codacy.com/app/reposense/RepoSense?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=reposense/RepoSense&amp;utm_campaign=Badge_Grade)
-[![codecov.io](https://codecov.io/gh/reposense/RepoSense/branch/master/graphs/badge.svg?branch=master)](http://codecov.io/github/reposense/RepoSense?branch=master)
-[![Netlify Status](https://api.netlify.com/api/v1/badges/260983b3-589e-4619-a2e8-0bfb7a2b4422/deploy-status)](https://app.netlify.com/sites/reposense/deploys)
+{% from 'scripts/macros.njk' import thumbnail with context %}
 
-RepoSense is a contribution analysis tool for Git repositories. It is particularly useful for those who want a chronological visualisation of the code contributions and commits made to a group of repositories. Educators can use RepoSense to track the work done in class projects, while team leads may use it to oversee their project teams.
+<header>
+<div class="jumbotron jumbotron-fluid text-center" style="padding-top: inherit; padding-bottom: inherit">
+  <div class="container">
+  <h1 class="display-3">RepoSense</h1>
+  <div class="lead">
 
-RepoSense generates a static HTML report that includes contribution information for each author in each target repository.
-The features of the report include:
-* Visualization for contribution frequency
-* Visualization for contribution amount
-* Code review panel
-* Comparison of contribution between authors
-* Filtering and sorting of authors
+Visualize programmer activities across git repositories...
+<br><br>
+<img src="images/reposenseOverview.png" width="909" alt="RepoSense overview"/>
+<br><br>
+  </div>
+  </div>
+</div>
+</header>
 
-Here is a look at some of these features:
+<span id="overview">
 
-<tabs>
-  <tab header="Visualisation of contributions">
+**RepoSense can generate interactive visualizations of programmer activities, even across multiple repositories.** It's ideal for educators and managers to get insights on programming activities of their mentees. The visualizations can be **easily shared** with others (e.g., as an online dashboard) and updating of the visualizations periodically **can be automated**.
 
-  ![Overview](images/rampchart.png)
-  </tab>
-  <tab header="Collation of all contributed code">
-  The report's Code Panel captures all the code written by each author.
+{% macro heading(icon, text) %}<h4>{{ thumbnail(icon) }} <span class="lead font-weight-bold text-green">{{ text }}</span></h4>{% endmacro %}
 
-  <pic src="images/code-panel.png" width="450"/>
-  </tab>
-  <tab header="Collation of all commits">
-  The report's Commit Panel captures all the commits made by each author.
+Some example insights RepoSense can provide:
 
-  ![Commit Panel](images/opening-commits-panel.gif)
-  </tab>
-</tabs>
 
-## Documentations
-* **User Guide** [[**Current Build**]](https://github.com/reposense/RepoSense/blob/master/docs/UserGuide.md) [[**Latest Release**]](https://github.com/reposense/RepoSense/blob/release/docs/UserGuide.md)
-* [**Developer Guide**]({{baseUrl}}/DeveloperGuide.html)
+{{ heading(":fas-code:", "Insights about the code") }}
 
-## About Us
-RepoSense is a project based in the [National University of Singapore, School of Computing](http://www.comp.nus.edu.sg/), and is funded by a grant from [NUS Center for Development of Teaching and Learning](http://www.cdtl.nus.edu.sg/).
+* Which part of the code was written by Tom? How many lines? How many files?
+* Which test cases were written by Kim?
+* Which commit messages were written by Serene?
 
-Our project team and the list of contributors are [here]({{baseUrl}}/about.html).
+{{ heading(":fas-chart-pie:", "Insights about the type of work") }}
 
-## Contributing
-We welcome pull requests. Please read the [contribution guidelines]({{baseUrl}}/Process.html#how-to-contribute-to-the-reposense-repository) before starting work on one.
+* Which portion of Jacob's code was documentation?
+* Who hasn't written any test code yet?
+* Which project did Jolene contribute to in the last month?
 
-## Acknowledgements
-The web previews of RepoSense is powered by Netlify and Surge.
+{{ heading(":fas-business-time:", "Insights about the timing of work") }}
 
-<a href="https://www.netlify.com">
-  <img src="https://www.netlify.com/img/global/badges/netlify-color-bg.svg"/>
-</a>
-<a href="https://surge.sh">
-  <img width="55px" src="https://surge.sh/images/logos/svg/surge-logo.svg">
-</a>
+* Who are putting in a consistent effort?
+* Who waits till the deadline to do the work?
+* Who hasn't started any work yet?
+
+{{ heading(":fas-list-ol:", "Insights based on comparisons") }}
+
+* Which programmers/teams are falling behind?
+* How does everyone compare in their front-end coding work over the past two weeks?
+* Who are the the top 10 code contributors?
+
+</span>
+
+<div class="jumbotron jumbotron-fluid pt-2">
+<div class="container">
+
+<small tags="public">Below links are for the **latest _released_ version** of RepoSense. See [here](http://reposense.org/RepoSense/) for the website of the _developer_ version (not yet released).</small>
+<br>
+<br>
+<div class="container">
+  <div class="row">
+  </div>
+  <div class="row">
+  <div class="col-sm">
+
+[**SHOWCASE** of use cases](showcase.html)
+
+[**ABOUT** us](about.html)
+
+[**CONTACT** us](contact.html)
+
+[**:fab-github: GitHub**](https://github.com/reposense/RepoSense)
+
+----
+<small>
+
+This website was built using MarkBind.
+
+[<img src="https://markbind.org/images/logo-lightbackground.png" width="150">](http://markbind.org)
+
+Deploy previews are powered by Netlify and Surge.
+
+[<img src="https://www.netlify.com/img/global/badges/netlify-color-bg.svg"/>](https://www.netlify.com)
+[<img width="55px" src="https://surge.sh/images/logos/svg/surge-logo.svg">](https://surge.sh)
+</small>
+
+  </div>
+  <div class="col-sm">
+
+<include src="_markbind\navigation\ugSiteNav.md" />
+
+
+  </div>
+  <div class="col-sm">
+
+<include src="_markbind\navigation\dgSiteNav.md" />
+
+
+  </div>
+  </div>
+</div>
+</div>
+</div>
+

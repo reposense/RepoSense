@@ -23,7 +23,7 @@
       .mui-select.sort-within-group
         select(
           v-model="sortWithinGroupSelection",
-          v-bind:disabled="filterGroupSelection === 'groupByNone' || isMergeGroup"
+          v-bind:disabled="filterGroupSelection === 'groupByNone' || allGroupsMerged"
         )
           option(value="title") &uarr; title
           option(value="title dsc") &darr; title
@@ -64,15 +64,15 @@
         )
           input.summary-picker__checkbox.mui-checkbox(
             type="checkbox",
-            v-model="isMergeGroup",
+            v-model="allGroupsMerged",
             v-bind:disabled="filterGroupSelection === 'groupByNone'"
           )
-          span merge group
+          span merge all groups
   .error-message-box(v-if="Object.entries(errorMessages).length")
     .error-message-box__close-button(v-on:click="dismissTab($event)") &times;
     .error-message-box__message The following issues occurred when analyzing the following repositories:
     .error-message-box__failed-repo(v-for="errorBlock in errorMessages")
-      font-awesome-icon.mini-font(icon="exclamation")
+      font-awesome-icon(icon="exclamation")
       span.error-message-box__failed-repo--name {{ errorBlock.repoName }}
       .error-message-box__failed-repo--reason(
         v-if="errorBlock.errorMessage.startsWith('Unexpected error stack trace')"
@@ -116,7 +116,7 @@
     v-bind:filter-time-frame="filterTimeFrame",
     v-bind:filter-since-date="filterSinceDate",
     v-bind:filter-until-date="filterUntilDate",
-    v-bind:is-merge-group="isMergeGroup",
+    v-bind:filter-search="filterSearch",
     v-bind:min-date="minDate",
     v-bind:max-date="maxDate"
   )

@@ -1,7 +1,8 @@
+/* global Vuex */
 window.vSummaryCharts = {
   props: ['checkedFileTypes', 'filtered', 'fileTypeColors', 'avgContributionSize', 'filterBreakdown',
       'filterGroupSelection', 'filterTimeFrame', 'filterSinceDate', 'filterUntilDate', 'isMergeGroup',
-      'minDate', 'maxDate'],
+      'minDate', 'maxDate', 'filterSearch'],
   template: window.$('v_summary_charts').innerHTML,
   data() {
     return {
@@ -28,6 +29,8 @@ window.vSummaryCharts = {
     filteredRepos() {
       return this.filtered.filter((repo) => repo.length > 0);
     },
+
+    ...Vuex.mapState(['mergedGroups']),
   },
   methods: {
     getFileTypeContributionBars(fileTypeContribution) {
@@ -118,7 +121,7 @@ window.vSummaryCharts = {
     },
 
     // triggering opening of tabs //
-    openTabAuthorship(user, repo, index) {
+    openTabAuthorship(user, repo, index, isMerged) {
       const { minDate, maxDate, fileTypeColors } = this;
 
       const info = {
@@ -127,7 +130,7 @@ window.vSummaryCharts = {
         author: user.name,
         repo: user.repoName,
         name: user.displayName,
-        isMergeGroup: this.isMergeGroup,
+        isMergeGroup: isMerged,
         location: this.getRepoLink(repo[index]),
         repoIndex: index,
         fileTypeColors,
@@ -136,7 +139,7 @@ window.vSummaryCharts = {
       this.$store.commit('updateTabAuthorshipInfo', info);
     },
 
-    openTabZoomSubrange(user, evt) {
+    openTabZoomSubrange(user, evt, isMerge) {
       const isKeyPressed = window.isMacintosh ? evt.metaKey : evt.ctrlKey;
 
       if (isKeyPressed) {
@@ -154,13 +157,13 @@ window.vSummaryCharts = {
         const tsince = window.getDateStr(new Date(this.filterSinceDate).getTime() + idxs[0]);
         const tuntil = window.getDateStr(new Date(this.filterSinceDate).getTime() + idxs[1]);
         this.drags = [];
-        this.openTabZoom(user, tsince, tuntil);
+        this.openTabZoom(user, tsince, tuntil, isMerge);
       }
     },
 
-    openTabZoom(user, since, until) {
+    openTabZoom(user, since, until, isMerge) {
       const {
-        avgCommitSize, filterGroupSelection, filterTimeFrame, isMergeGroup,
+        avgCommitSize, filterGroupSelection, filterTimeFrame, filterSearch,
       } = this;
       const clonedUser = Object.assign({}, user); // so that changes in summary won't affect zoom
       const info = {
@@ -173,7 +176,8 @@ window.vSummaryCharts = {
         zLocation: this.getRepoLink(user),
         zSince: since,
         zUntil: until,
-        zIsMerge: isMergeGroup,
+        zIsMerge: isMerge,
+        zFilterSearch: filterSearch,
       };
 
       this.$store.commit('updateTabZoomInfo', info);
@@ -223,6 +227,25 @@ window.vSummaryCharts = {
         return (Math.round((index + 1) * 1000 / this.filtered[0].length) / 10).toFixed(1);
       }
       return (Math.round((index + 1) * 1000 / this.filtered.length) / 10).toFixed(1);
+    },
+
+    getGroupName(group) {
+      return window.getGroupName(group, this.filterGroupSelection);
+    },
+
+    isGroupMerged(groupName) {
+      return this.mergedGroups.includes(groupName);
+    },
+
+    handleMergeGroup(groupName) {
+      const info = this.mergedGroups;
+      info.push(groupName);
+      this.$store.commit('updateMergedGroup', info);
+    },
+
+    handleExpandGroup(groupName) {
+      const info = this.mergedGroups.filter((x) => x !== groupName);
+      this.$store.commit('updateMergedGroup', info);
     },
   },
   components: {
