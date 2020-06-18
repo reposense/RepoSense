@@ -57,10 +57,7 @@ Some example insights RepoSense can provide:
 <div class="jumbotron jumbotron-fluid pt-2">
 <div class="container">
 
-<small tags="public">Below links are for the **latest _released_ version** of RepoSense. See [here](http://reposense.org/RepoSense/) for the website of the _developer_ version (not yet released).</small>
-<br>
-<br>
-<div class="container">
+<div class="container pt-2">
   <div class="row">
   </div>
   <div class="row">
