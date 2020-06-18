@@ -182,6 +182,7 @@
       "pageNav": 3,
       "src": "ug/cli.md",
       "layout": "default",
+      "header": "devSiteHeader.md",
       "siteNav": "ugSiteNav.md",
       "headings": {
         "appendix-cli-syntax-reference": "Appendix: CLI syntax reference",
@@ -204,6 +205,7 @@
       "pageNav": 3,
       "src": "ug/configFiles.md",
       "layout": "default",
+      "header": "devSiteHeader.md",
       "siteNav": "ugSiteNav.md",
       "headings": {
         "appendix-config-files-format": "Appendix: Config files format",
@@ -220,6 +222,7 @@
       "pageNav": 3,
       "src": "ug/customizingReports.md",
       "layout": "default",
+      "header": "devSiteHeader.md",
       "siteNav": "ugSiteNav.md",
       "headings": {
         "customizing-reports": "Customizing reports",
@@ -234,6 +237,7 @@
       "pageNav": 3,
       "src": "ug/faq.md",
       "layout": "default",
+      "header": "devSiteHeader.md",
       "siteNav": "ugSiteNav.md",
       "headings": {
         "appendix-faq": "Appendix: FAQ",
@@ -248,6 +252,7 @@
       "pageNav": 3,
       "src": "ug/generatingReports.md",
       "layout": "default",
+      "header": "devSiteHeader.md",
       "siteNav": "ugSiteNav.md",
       "headings": {
         "generating-reports": "Generating reports",
@@ -260,6 +265,7 @@
       "title": "User guide",
       "src": "ug/index.md",
       "layout": "default",
+      "header": "devSiteHeader.md",
       "siteNav": "ugSiteNav.md",
       "headings": {
         "user-guide": "User guide",
@@ -273,6 +279,7 @@
       "title": "run.sh format",
       "src": "ug/runSh.md",
       "layout": "default",
+      "header": "devSiteHeader.md",
       "siteNav": "ugSiteNav.md",
       "headings": {
         "appendix-run-sh-format": "Appendix: run.sh format",
@@ -286,6 +293,7 @@
       "pageNav": 3,
       "src": "ug/sharingReports.md",
       "layout": "default",
+      "header": "devSiteHeader.md",
       "siteNav": "ugSiteNav.md",
       "headings": {
         "sharing-reports": "Sharing reports",
@@ -299,6 +307,7 @@
       "pageNav": 3,
       "src": "ug/troubleshooting.md",
       "layout": "default",
+      "header": "devSiteHeader.md",
       "siteNav": "ugSiteNav.md",
       "headings": {
         "appendix-troubleshooting": "Appendix: Troubleshooting",
@@ -314,6 +323,7 @@
       "title": "Using `@@author` tags",
       "src": "ug/usingAuthorTags.md",
       "layout": "default",
+      "header": "devSiteHeader.md",
       "siteNav": "ugSiteNav.md",
       "headings": {
         "appendix-using-author-tags": "Appendix: Using @@author tags"
@@ -325,6 +335,7 @@
       "pageNav": 3,
       "src": "ug/usingReports.md",
       "layout": "default",
+      "header": "devSiteHeader.md",
       "siteNav": "ugSiteNav.md",
       "headings": {
         "using-reports": "Using reports",
@@ -341,6 +352,7 @@
       "pageNav": 3,
       "src": "ug/withGithubActions.md",
       "layout": "default",
+      "header": "devSiteHeader.md",
       "siteNav": "ugSiteNav.md",
       "headings": {
         "appendix-using-reposense-with-github-actions": "Appendix: Using RepoSense with GitHub Actions",
@@ -354,6 +366,7 @@
       "pageNav": 3,
       "src": "ug/withNetlify.md",
       "layout": "default",
+      "header": "devSiteHeader.md",
       "siteNav": "ugSiteNav.md",
       "headings": {
         "appendix-using-reposense-with-netlify": "Appendix: Using RepoSense with Netlify",
@@ -368,6 +381,7 @@
       "pageNav": 3,
       "src": "ug/withTravis.md",
       "layout": "default",
+      "header": "devSiteHeader.md",
       "siteNav": "ugSiteNav.md",
       "headings": {
         "appendix-using-reposense-with-travis": "Appendix: Using RepoSense with Travis",

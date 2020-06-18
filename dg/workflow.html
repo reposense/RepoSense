@@ -33,6 +33,7 @@
         <li><a href="/RepoSense/dg/index.html" class="nav-link">DEVELOPER GUIDE</a></li>
         <li><a href="/RepoSense/about.html" class="nav-link">ABOUT</a></li>
         <li><a href="/RepoSense/contact.html" class="nav-link">CONTACT</a></li>
+        <li tags="dev"><a href="https://reposense.org" class="nav-link" target="_blank"><span><span aria-hidden="true" class="fas fa-external-link-alt"></span> PRODUCTION SITE</span></a></li>
         <li><a href="https://github.com/RepoSense/reposense" target="_blank" class="nav-link"><span><span aria-hidden="true" class="fab fa-github"></span></span></a></li>
         <li slot="right">
           <form class="navbar-form">
@@ -60,8 +61,6 @@
       </nav>
 
       <div id="content-wrapper">
-        <div>
-        </div>
         <h1 class="display-4" id="workflow">Workflow<a class="fa fa-anchor" href="#workflow" onclick="event.stopPropagation()"></a></h1>
         <div class="lead">
           <p>Our workflow is mostly based on the guidelines given at <a href="http://se-education.org/guides">se-education.org/guides</a>.</p>
@@ -83,8 +82,6 @@
               <p><span><span aria-hidden="true" class="glyphicon glyphicon-log-in"></span></span> Appendix: Coding Standards</p>
             </template>
             <div>
-              <div>
-              </div>
               <h1 class="display-4" id="appendix-style-guides">Appendix: Style guides<a class="fa fa-anchor" href="#appendix-style-guides" onclick="event.stopPropagation()"></a></h1>
               <div class="lead">
                 <p>Our coding standards are mostly based on those at <a href="https://se-education.org/guides">se-education.org/guides</a>.</p>
@@ -157,7 +154,9 @@
         </box>
 
         <h2 id="writing-documentation">Writing documentation<a class="fa fa-anchor" href="#writing-documentation" onclick="event.stopPropagation()"></a></h2>
-        <p>This project uses <a href="https://markbind.org/">MarkBind</a> for documentation. Follow <a href="https://se-education.org/guides/tutorials/markbind.html">this tutorial</a> to learn how to use MarkBind for updating project documentation.</p>
+        <p><strong>This project uses <a href="https://markbind.org/">MarkBind</a></strong> for documentation. Follow <a href="https://se-education.org/guides/tutorials/markbind.html">this tutorial</a> to learn how to use MarkBind for updating project documentation.</p>
+        <p><strong>To show some content only in the <span data-mb-component-type="tooltip" v-b-tooltip.hover.top.html="tooltipInnerContentGetter" class="trigger"><span data-mb-html-for="_content">i.e., <a href="https://reposense.org">https://reposense.org</a></span>production website</span></strong>, add the <code>tags=&quot;production&quot;</code> attribute to the HTML element enclosing the content. Similarly, <code>tags=&quot;dev&quot;</code> will make the content appear only in the <span data-mb-component-type="tooltip" v-b-tooltip.hover.top.html="tooltipInnerContentGetter" class="trigger"><span data-mb-html-for="_content">i.e., <a href="https://reposense.org/RepoSense">https://reposense.org/RepoSense</a></span>dev website</span>.</p>
+        <pre><code class="hljs html"><span><span class="hljs-tag">&lt;<span class="hljs-name">span</span> <span class="hljs-attr">tags</span>=<span class="hljs-string">"production"</span>&gt;</span>This will appear in the production website only.<span class="hljs-tag">&lt;/<span class="hljs-name">span</span>&gt;</span><br></span><span><span class="hljs-tag">&lt;<span class="hljs-name">span</span> <span class="hljs-attr">tags</span>=<span class="hljs-string">"dev"</span>&gt;</span>This will appear in the dev website only.<span class="hljs-tag">&lt;/<span class="hljs-name">span</span>&gt;</span><br></span><span>This will appear in both sites.<br></span></code></pre>
       </div>
 
 
@@ -185,7 +184,7 @@
     <footer>
 
       <div class="text-center">
-        <small>[<span><strong>Powered by</strong></span> <img src="https://markbind.org/favicon.ico" width="30"> <a href="https://markbind.org/">MarkBind 2.14.1</a>, generated on Wed, Jun 17, 2020, 7:05:27 PM UTC]</small></div>
+        <small>[<span><strong>Powered by</strong></span> <img src="https://markbind.org/favicon.ico" width="30"> <a href="https://markbind.org/">MarkBind 2.14.1</a>, generated on Thu, Jun 18, 2020, 12:49:50 PM UTC]</small></div>
     </footer>
   </div>
 </body>

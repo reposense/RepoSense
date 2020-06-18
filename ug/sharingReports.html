@@ -26,13 +26,14 @@
   <div id="app">
     <header>
       <navbar type="dark" placement="top" class="temp-navbar">
-        <a slot="brand" href="/RepoSense/index.html" title="Home" class="navbar-brand"><img width="30px" src="/RepoSense/favicon.ico"></a>
-        <li><a href="/RepoSense/index.html" class="nav-link">HOME</a></li>
-        <li><a href="/RepoSense/showcase.html" class="nav-link">SHOWCASE</a></li>
-        <li><a href="/RepoSense/ug/index.html" class="nav-link">USER GUIDE</a></li>
-        <li><a href="/RepoSense/dg/index.html" class="nav-link">DEVELOPER GUIDE</a></li>
-        <li><a href="/RepoSense/about.html" class="nav-link">ABOUT</a></li>
-        <li><a href="/RepoSense/contact.html" class="nav-link">CONTACT</a></li>
+        <a slot="brand" href="/index.html" title="Home" class="navbar-brand"><img width="30px" src="/favicon.ico"></a>
+        <li><a href="/index.html" class="nav-link">HOME</a></li>
+        <li><a href="/showcase.html" class="nav-link">SHOWCASE</a></li>
+        <li><a href="/ug/index.html" class="nav-link">USER GUIDE</a></li>
+        <li><a href="/dg/index.html" class="nav-link">DEVELOPER GUIDE</a></li>
+        <li><a href="/about.html" class="nav-link">ABOUT</a></li>
+        <li><a href="/contact.html" class="nav-link">CONTACT</a></li>
+        <li tags="dev"><a href="https://reposense.org" class="nav-link" target="_blank"><span><span aria-hidden="true" class="fas fa-external-link-alt"></span> PRODUCTION SITE</span></a></li>
         <li><a href="https://github.com/RepoSense/reposense" target="_blank" class="nav-link"><span><span aria-hidden="true" class="fab fa-github"></span></span></a></li>
         <li slot="right">
           <form class="navbar-form">
@@ -40,6 +41,12 @@
           </form>
         </li>
       </navbar>
+    </header>
+    <header>
+      <div class="text-center bg-warning p-2">
+        <p>You are looking at the user documentation for the most recent <code>master</code> branch of RepoSense (not released to the public yet).
+          <strong>The documentation for the latest public release is <a href="https://reposense.org/ug">here</a>.</strong></p>
+      </div>
     </header>
     <div id="flex-body">
       <nav id="site-nav" class="navbar navbar-light bg-transparent">
@@ -64,6 +71,7 @@
           </ul>
         </div>
       </nav>
+
 
       <div id="content-wrapper">
         <h1 class="display-4" id="sharing-reports">Sharing reports<a class="fa fa-anchor" href="#sharing-reports" onclick="event.stopPropagation()"></a></h1>
@@ -1133,7 +1141,7 @@
     <footer>
 
       <div class="text-center">
-        <small>[<span><strong>Powered by</strong></span> <img src="https://markbind.org/favicon.ico" width="30"> <a href="https://markbind.org/">MarkBind 2.14.1</a>, generated on Wed, Jun 17, 2020, 7:05:27 PM UTC]</small></div>
+        <small>[<span><strong>Powered by</strong></span> <img src="https://markbind.org/favicon.ico" width="30"> <a href="https://markbind.org/">MarkBind 2.14.1</a>, generated on Thu, Jun 18, 2020, 12:49:50 PM UTC]</small></div>
     </footer>
   </div>
 </body>
