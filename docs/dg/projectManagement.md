@@ -1,9 +1,10 @@
+<variable name="title">Project management</variable>
 <frontmatter>
-  title: "Project Management"
+  title: "{{ title | safe }}"
   pageNav: 3
 </frontmatter>
 
-<h1 class="display-4">Project Maintenance</h1>
+<h1 class="display-4"><md>{{ title }}</md></h1>
 
 <div class="lead">
 

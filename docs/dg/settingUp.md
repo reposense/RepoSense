@@ -1,11 +1,12 @@
+<variable name="title">Setting up</variable>
 <frontmatter>
-  title: "Setting up"
+  title: "{{ title | safe }}"
   pageNav: 3
 </frontmatter>
 
 {% from 'scripts/macros.njk' import embed with context %}
 
-<h1 class="display-4">Setting up</h1>
+<h1 class="display-4"><md>{{ title }}</md></h1>
 
 **Prerequisites:**
 * **JDK `1.8.0_60`** or later ([download :fas-download:](https://www.oracle.com/technetwork/java/javase/downloads/index.html)).

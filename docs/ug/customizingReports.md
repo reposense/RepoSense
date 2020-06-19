@@ -1,11 +1,12 @@
+<variable name="title">Customizing reports</variable>
 <frontmatter>
-  title: "Customizing reports"
+  title: "{{ title | safe }}"
   pageNav: 3
 </frontmatter>
 
 {% from 'scripts/macros.njk' import embed, step with context %}
 
-<h1 class="display-4">Customizing reports</h1>
+<h1 class="display-4"><md>{{ title }}</md></h1>
 
 <div class="lead">
 

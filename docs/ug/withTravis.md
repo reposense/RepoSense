@@ -1,11 +1,12 @@
+<variable name="title">RepoSense with Travis</variable>
 <frontmatter>
-  title: "Using RepoSense with Travis"
+  title: "{{ title | safe }}"
   pageNav: 3
 </frontmatter>
 
 {% from 'scripts/macros.njk' import embed, step with context %}
 
-<h1 class="display-4">Appendix: Using RepoSense with Travis</h1>
+<h1 class="display-4"><md>{{ title }}</md></h1>
 
 <div id="section-setting-up">
 

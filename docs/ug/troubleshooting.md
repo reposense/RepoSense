@@ -1,9 +1,10 @@
+<variable name="title">Troubleshooting</variable>
 <frontmatter>
-  title: "Troubleshooting"
+  title: "{{ title | safe }}"
   pageNav: 3
 </frontmatter>
 
-<h1 class="display-4">Appendix: Troubleshooting</h1>
+<h1 class="display-4"><md>{{ title }}</md></h1>
 
 <!-- ------------------------------------------------------------------------------------------------------ -->
 

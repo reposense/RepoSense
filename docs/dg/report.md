@@ -1,9 +1,10 @@
+<variable name="title">HTML report</variable>
 <frontmatter>
-  title: "HTML Report"
+  title: "{{ title | safe }}"
   pageNav: 3
 </frontmatter>
 
-<h1 class="display-4">HTML report</h1>
+<h1 class="display-4"><md>{{ title }}</md></h1>
 
 The source files for the report is located in [`frontend/src`](https://github.com/reposense/RepoSense/blob/master/frontend/src) and is built by [spuild](https://github.com/ongspxm/spuild2) before being packaged into the JAR file to be extracted as part of the report.
 
