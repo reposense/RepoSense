@@ -1,4 +1,4 @@
-<variable name="title">RepoSense with Netlify</variable>
+<variable name="title">Appendix: RepoSense with Netlify</variable>
 <frontmatter>
   title: "{{ title | safe }}"
   pageNav: 3

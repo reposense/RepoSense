@@ -1,4 +1,4 @@
-<variable name="title">RepoSense with GitHub Actions</variable>
+<variable name="title">Appendix: RepoSense with GitHub Actions</variable>
 <frontmatter>
   title: "{{ title | safe }}"
   pageNav: 3

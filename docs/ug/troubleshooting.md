@@ -1,4 +1,4 @@
-<variable name="title">Troubleshooting</variable>
+<variable name="title">Appendix: Troubleshooting</variable>
 <frontmatter>
   title: "{{ title | safe }}"
   pageNav: 3

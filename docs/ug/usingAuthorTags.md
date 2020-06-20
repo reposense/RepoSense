@@ -1,6 +1,6 @@
-<variable name="title">Using `@@author` tags</variable>
+<variable name="title">Appendix: Using `@@author` tags</variable>
 <frontmatter>
-  title: "Using `@@author` tags"
+  title: "Appendix: Using `@@author` tags"
 </frontmatter>
 
 {% from 'scripts/macros.njk' import embed, step with context %}
