@@ -1,8 +1,9 @@
+<variable name="title">Developer guide</variable>
 <frontmatter>
-  title: "Developer guide"
+  title: "{{ title | safe }}"
 </frontmatter>
 
-<h1 class="display-3">Developer guide</h1>
+<h1 class="display-3"><md>{{ title }}</md></h1>
 
 ## Contributing
 <div class="lead">

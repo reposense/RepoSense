@@ -1,9 +1,10 @@
+<variable name="title">Architecture</variable>
 <frontmatter>
-  title: "Architecture"
+  title: "{{ title | safe }}"
   pageNav: 3
 </frontmatter>
 
-<h1 class="display-4">Architecture</h1>
+<h1 class="display-4"><md>{{ title }}</md></h1>
 
  ![architecture](../images/architecture.png)
 *Figure 1. Overall architecture of RepoSense*

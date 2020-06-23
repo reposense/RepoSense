@@ -1,11 +1,12 @@
+<variable name="title">Appendix: Config files format</variable>
 <frontmatter>
-  title: "Appendix: Config files format"
+  title: "{{ title | safe }}"
   pageNav: 3
 </frontmatter>
 
 <variable name="mandatory"><span class="badge badge-danger">mandatory</span></variable>
 
-<h1 class="display-4">Appendix: Config files format</h1>
+<h1 class="display-4"><md>{{ title }}</md></h1>
 
 <div class="lead">
 

@@ -1,9 +1,10 @@
+<variable name="title">Appendix: FAQ</variable>
 <frontmatter>
-  title: "FAQ"
+  title: "{{ title | safe }}"
   pageNav: 3
 </frontmatter>
 
-<h1 class="display-4">Appendix: FAQ</h1>
+<h1 class="display-4"><md>{{ title }}</md></h1>
 
 <!-- ------------------------------------------------------------------------------------------------------ -->
 
