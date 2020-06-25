@@ -1,11 +1,12 @@
+<variable name="title">Appendix: RepoSense with Netlify</variable>
 <frontmatter>
-  title: "Publishing the dashboard - with Netlify"
+  title: "{{ title | safe }}"
   pageNav: 3
 </frontmatter>
 
 {% from 'scripts/macros.njk' import embed, step with context %}
 
-<h1 class="display-4">Appendix: Using RepoSense with Netlify</h1>
+<h1 class="display-4"><md>{{ title }}</md></h1>
 
 <div id="section-setting-up">
 

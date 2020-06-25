@@ -1,8 +1,9 @@
+<variable name="title">Appendix: Style guides</variable>
 <frontmatter>
-  title: "Appendix: Style Guides"
+  title: "{{ title | safe }}"
 </frontmatter>
 
-<h1 class="display-4">Appendix: Style guides</h1>
+<h1 class="display-4"><md>{{ title }}</md></h1>
 
 <div class="lead">
 

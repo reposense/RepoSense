@@ -1,11 +1,12 @@
+<variable name="title">Appendix: RepoSense with GitHub Actions</variable>
 <frontmatter>
-  title: "Using RepoSense with GitHub Actions"
+  title: "{{ title | safe }}"
   pageNav: 3
 </frontmatter>
 
 {% from 'scripts/macros.njk' import embed, step with context %}
 
-<h1 class="display-4">Appendix: Using RepoSense with GitHub Actions</h1>
+<h1 class="display-4"><md>{{ title }}</md></h1>
 
 <div id="section-setting-up">
 

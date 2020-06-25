@@ -1,5 +1,6 @@
+<variable name="title">Home</variable>
 <frontmatter>
-  title: "Home"
+  title: "{{ title | safe }}"
 </frontmatter>
 
 {% from 'scripts/macros.njk' import show_sitenav_items, thumbnail with context %}
