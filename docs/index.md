@@ -3,7 +3,7 @@
   title: "{{ title | safe }}"
 </frontmatter>
 
-{% from 'scripts/macros.njk' import thumbnail with context %}
+{% from 'scripts/macros.njk' import show_sitenav_items, thumbnail with context %}
 
 <header>
 <div class="jumbotron jumbotron-fluid text-center" style="padding-top: inherit; padding-bottom: inherit">
@@ -88,13 +88,20 @@ Deploy previews are powered by Netlify and Surge.
   </div>
   <div class="col-sm">
 
-<include src="_markbind\navigation\ugSiteNav.md" />
+****USER GUIDE****
+
+{% from "_markbind/navigation/ugSiteNav.md" import ug_sitenav_items %}
+{{ show_sitenav_items(ug_sitenav_items, is_flat=true) }}
 
 
   </div>
   <div class="col-sm">
 
-<include src="_markbind\navigation\dgSiteNav.md" />
+
+****DEVELOPER GUIDE****
+
+{% from "_markbind/navigation/dgSiteNav.md" import dg_sitenav_items %}
+{{ show_sitenav_items(dg_sitenav_items, is_flat=true) }}
 
 
   </div>
