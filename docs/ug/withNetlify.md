@@ -19,14 +19,17 @@ Note that Netlify has a low limit for free tier users (only 300 _build minutes_ 
 
 ## Setting up
 
-1. **Fork the _publish-RepoSense_ repository** using this [link](https://github.com/RepoSense/publish-RepoSense/fork). Optionally, you can rename the fork to match your RepoSense report e.g., `project-code-dashboard`.
-1. **Set up Netlify for your fork** as described in this [guide](https://www.netlify.com/blog/2016/09/29/a-step-by-step-guide-deploying-on-netlify/).<br>
-   ==You will need to use the following in step 5==:
+{{ step(1) }} **Fork the _publish-RepoSense_ repository** using this [link](https://github.com/RepoSense/publish-RepoSense/fork). Optionally, you can rename the fork to match your RepoSense report e.g., `project-code-dashboard`.
+
+{{ step(2) }} **Set up Netlify for your fork** as described in this [guide](https://www.netlify.com/blog/2016/09/29/a-step-by-step-guide-deploying-on-netlify/).<br>
+   ==You will need to use the following in `Step 5: Configure Your Settings` of that guide==:
    * build command: `pip install requests && ./run.sh`<br>
    * publish directory: `./reposense-report`
 
    After Netlify finishes building the site, you should be able to see a dummy report at the URL of your Netlify site.
-1. **Generate the report you want** by updating the settings in your fork.
+
+{{ step(3)}} **Generate the report you want** by updating the settings in your fork.
+
    1. Go to the `run.sh` file of your fork (on GitHub).
    1. Update the last line (i.e., the command for running RepoSense) to match the report you want to generate:<br>
       `java -jar RepoSense.jar --repos FULL_REPO_URL` (assuming you want to generate a default report for just one repo)<br>
