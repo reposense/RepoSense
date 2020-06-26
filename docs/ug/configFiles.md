@@ -17,21 +17,17 @@ Given below are the details of the various config files used by RepoSense.
 
 **RepoSense ignores the first row (i.e., column headings) of CSV config files.** It is used simply to provide more information to human readers. This also means the ==columns in your config files should be in the exact order specified here==.
 </box>
+
+<box type="info" seamless>
+
+**A value in a config file is optional to provide unless it specified as {{ mandatory }}**.
+</box>
 <!-- ==================================================================================================== -->
 
 ## `repo-config.csv`
 
-**`repo-config.csv` file contains repo-level config data.** Each row represents a repository's configuration.
+**`repo-config.csv` file contains repo-level config data.** Each row represents a repository's configuration ([example](repo-config.csv)).
 
-Here is an example:
-
-Repository's Location|Branch|File formats|Ignore Glob List|Ignore standalone config|Ignore Commits List|Ignore Authors List
----------------------|------|------------|----------------|------------------------|-------------------|-------------------
-`https://github.com/foo/bar.git`|`master`|`override:java;css`|`test/**`|`yes`|`2fb6b9b2dd9fa40bf0f9815da2cb0ae8731436c7;c5a6dc774e22099cd9ddeb0faff1e75f9cf4f151`|`Alice`
-
-When using standalone config (if it is not ignored), it is possible to override specific values from the standalone config by prepending the entered value with `override:`.
-
-<br>
 
 Column Name | Explanation
 ----------- | -----------
@@ -45,6 +41,11 @@ Ignore Authors List<sup>*+</sup> | The list of authors to ignore during analysis
 
 <sup>* **Multi-value column**: multiple values can be entered in this column using a semicolon `;` as the separator.</sup>
 <sup>+ **Overrideable column**: prepend with `override:` to use entered value(s) instead of value(s) from standalone config.</sup>
+
+<box type="info" seamless>
+
+When using [standalone config](#config-json-standalone-config-file) (if it is not ignored), it is possible to override specific values from the standalone config by prepending the entered value with `override:`.
+</box>
 
 <!-- ==================================================================================================== -->
 
