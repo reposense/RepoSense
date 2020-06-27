@@ -412,38 +412,13 @@
                         <p><strong>RepoSense ignores the first row (i.e., column headings) of CSV config files.</strong> It is used simply to provide more information to human readers. This also means the <mark>columns in your config files should be in the exact order specified here</mark>.
                         </p>
                       </box>
+                      <box type="info" seamless>
+                        <p><strong>A value in a config file is optional to provide unless it specified as <span class="badge badge-danger">mandatory</span></strong>.
+                        </p>
+                      </box>
 
                       <h2 id="repo-config-csv"><code>repo-config.csv</code><a class="fa fa-anchor" href="#repo-config-csv" onclick="event.stopPropagation()"></a></h2>
-                      <p><strong><code>repo-config.csv</code> file contains repo-level config data.</strong> Each row represents a repository's configuration.</p>
-                      <p>Here is an example:</p>
-                      <div class="table-responsive">
-                        <table class="markbind-table table table-bordered table-striped">
-                          <thead>
-                            <tr>
-                              <th>Repository's Location</th>
-                              <th>Branch</th>
-                              <th>File formats</th>
-                              <th>Ignore Glob List</th>
-                              <th>Ignore standalone config</th>
-                              <th>Ignore Commits List</th>
-                              <th>Ignore Authors List</th>
-                            </tr>
-                          </thead>
-                          <tbody>
-                            <tr>
-                              <td><code>https://github.com/foo/bar.git</code></td>
-                              <td><code>master</code></td>
-                              <td><code>override:java;css</code></td>
-                              <td><code>test/**</code></td>
-                              <td><code>yes</code></td>
-                              <td><code>2fb6b9b2dd9fa40bf0f9815da2cb0ae8731436c7;c5a6dc774e22099cd9ddeb0faff1e75f9cf4f151</code></td>
-                              <td><code>Alice</code></td>
-                            </tr>
-                          </tbody>
-                        </table>
-                      </div>
-                      <p>When using standalone config (if it is not ignored), it is possible to override specific values from the standalone config by prepending the entered value with <code>override:</code>.</p>
-                      <br>
+                      <p><strong><code>repo-config.csv</code> file contains repo-level config data.</strong> Each row represents a repository's configuration (<a href="/RepoSense/ug/repo-config.csv">example</a>).</p>
                       <div class="table-responsive">
                         <table class="markbind-table table table-bordered table-striped">
                           <thead>
@@ -486,6 +461,10 @@
                       </div>
                       <p><sup>* <strong>Multi-value column</strong>: multiple values can be entered in this column using a semicolon <code>;</code> as the separator.</sup>
                         <sup>+ <strong>Overrideable column</strong>: prepend with <code>override:</code> to use entered value(s) instead of value(s) from standalone config.</sup></p>
+                      <box type="info" seamless>
+                        <p>When using <a href="#config-json-standalone-config-file">standalone config</a> (if it is not ignored), it is possible to override specific values from the standalone config by prepending the entered value with <code>override:</code>.
+                        </p>
+                      </box>
 
                       <h2 id="author-config-csv"><code>author-config.csv</code><a class="fa fa-anchor" href="#author-config-csv" onclick="event.stopPropagation()"></a></h2>
                       <p>Optionally, you can use a <code>author-config.csv</code> (which should be in the same directory as <code>repo-config.csv</code> file) to provide more details about the authors to analyze (<a href="/RepoSense/ug/author-config.csv">example</a>). It should contain the following columns:</p>
@@ -891,38 +870,13 @@
                         <p><strong>RepoSense ignores the first row (i.e., column headings) of CSV config files.</strong> It is used simply to provide more information to human readers. This also means the <mark>columns in your config files should be in the exact order specified here</mark>.
                         </p>
                       </box>
+                      <box type="info" seamless>
+                        <p><strong>A value in a config file is optional to provide unless it specified as <span class="badge badge-danger">mandatory</span></strong>.
+                        </p>
+                      </box>
 
                       <h2 id="repo-config-csv-2"><code>repo-config.csv</code><a class="fa fa-anchor" href="#repo-config-csv-2" onclick="event.stopPropagation()"></a></h2>
-                      <p><strong><code>repo-config.csv</code> file contains repo-level config data.</strong> Each row represents a repository's configuration.</p>
-                      <p>Here is an example:</p>
-                      <div class="table-responsive">
-                        <table class="markbind-table table table-bordered table-striped">
-                          <thead>
-                            <tr>
-                              <th>Repository's Location</th>
-                              <th>Branch</th>
-                              <th>File formats</th>
-                              <th>Ignore Glob List</th>
-                              <th>Ignore standalone config</th>
-                              <th>Ignore Commits List</th>
-                              <th>Ignore Authors List</th>
-                            </tr>
-                          </thead>
-                          <tbody>
-                            <tr>
-                              <td><code>https://github.com/foo/bar.git</code></td>
-                              <td><code>master</code></td>
-                              <td><code>override:java;css</code></td>
-                              <td><code>test/**</code></td>
-                              <td><code>yes</code></td>
-                              <td><code>2fb6b9b2dd9fa40bf0f9815da2cb0ae8731436c7;c5a6dc774e22099cd9ddeb0faff1e75f9cf4f151</code></td>
-                              <td><code>Alice</code></td>
-                            </tr>
-                          </tbody>
-                        </table>
-                      </div>
-                      <p>When using standalone config (if it is not ignored), it is possible to override specific values from the standalone config by prepending the entered value with <code>override:</code>.</p>
-                      <br>
+                      <p><strong><code>repo-config.csv</code> file contains repo-level config data.</strong> Each row represents a repository's configuration (<a href="/RepoSense/ug/repo-config.csv">example</a>).</p>
                       <div class="table-responsive">
                         <table class="markbind-table table table-bordered table-striped">
                           <thead>
@@ -965,6 +919,10 @@
                       </div>
                       <p><sup>* <strong>Multi-value column</strong>: multiple values can be entered in this column using a semicolon <code>;</code> as the separator.</sup>
                         <sup>+ <strong>Overrideable column</strong>: prepend with <code>override:</code> to use entered value(s) instead of value(s) from standalone config.</sup></p>
+                      <box type="info" seamless>
+                        <p>When using <a href="#config-json-standalone-config-file">standalone config</a> (if it is not ignored), it is possible to override specific values from the standalone config by prepending the entered value with <code>override:</code>.
+                        </p>
+                      </box>
 
                       <h2 id="author-config-csv-2"><code>author-config.csv</code><a class="fa fa-anchor" href="#author-config-csv-2" onclick="event.stopPropagation()"></a></h2>
                       <p>Optionally, you can use a <code>author-config.csv</code> (which should be in the same directory as <code>repo-config.csv</code> file) to provide more details about the authors to analyze (<a href="/RepoSense/ug/author-config.csv">example</a>). It should contain the following columns:</p>
@@ -1129,7 +1087,7 @@
     <footer>
 
       <div class="text-center">
-        <small>[<span><strong>Powered by</strong></span> <img src="https://markbind.org/favicon.ico" width="30"> <a href="https://markbind.org/">MarkBind 2.14.1</a>, generated on Sat, Jun 27, 2020, 4:28:35 PM UTC]</small></div>
+        <small>[<span><strong>Powered by</strong></span> <img src="https://markbind.org/favicon.ico" width="30"> <a href="https://markbind.org/">MarkBind 2.14.1</a>, generated on Sat, Jun 27, 2020, 5:26:58 PM UTC]</small></div>
     </footer>
   </div>
 </body>
