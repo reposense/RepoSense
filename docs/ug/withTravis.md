@@ -35,19 +35,28 @@ The instructions below assume you are using GitHub pages to host your report.
   {{ embed("Granting write access on GitHub", "grantingWriteAccess.mbdf") }}
 </div>
 
-{{ step(3) }} Sign up and login to [Travis-CI](https://travis-ci.org/).
+{{ step(3) }} **Login to [Travis-CI](https://travis-ci.org/).** You may have to sign up first.
 
-{{ step(4) }} Go to [your account](https://travis-ci.org/account/repositories), click on `Sync account` to fetch all your repositories into Travis-CI.
+{{ step(4) }} **Syncy your Travis account with GitHub:**
 
-{{ step(5) }} Go to your [publish-RepoSense fork in Travis-CI](https://travis-ci.org/search/publish-RepoSense/), under `Current` tab click on `Activate repository`.
+1. Go to [your account](https://travis-ci.org/account/repositories).
+1. Click on `Sync account` to fetch all your repositories into Travis-CI.
 
-{{ step(6) }} In the same page, click on `More options` on the right then access `Settings`:
-![Travis-CI Dashboard](../images/publishingguide-travissetting.jpg "Travis-CI Dashboard")
+{{ step(5) }} **Activate the repository:**
 
-{{ step(7) }} Under `Environment Variables`, name a variable as `GITHUB_TOKEN` or `GITHUB_DEPLOY_KEY` depending on your earlier choice and paste the token/key into its value field; then click `Add`. Ensure that the `Display value in build log` is `switched off` for security reasons:
-![Travis-CI Environment Variable](../images/publishingguide-githubtoken.jpg "Travis-CI Environment Variable")
+1. Go to your [publish-RepoSense fork in Travis-CI](https://travis-ci.org/search/publish-RepoSense/)
+1. Under `Current` tab, click on `Activate repository`.
 
-{{ step(8) }}
+{{ step(6) }} **Set the token/key:**
+
+1. In the same page, click on `More options` on the right.
+1. Then, click on the `Settings` option:<br>
+   ![Travis-CI Dashboard](../images/publishingguide-travissetting.jpg "Travis-CI Dashboard")
+1. Under `Environment Variables`, name a variable as `GITHUB_TOKEN` or `GITHUB_DEPLOY_KEY` depending on your earlier choice and paste the token/key into its value field; then click `Add`.
+1. Ensure that the `Display value in build log` is `switched off` for security reasons:<br>
+   ![Travis-CI Environment Variable](../images/publishingguide-githubtoken.jpg "Travis-CI Environment Variable")
+
+{{ step(7) }} **Update the report configuration:**
 
 <span id="section-edit-configs">
 
@@ -57,7 +66,10 @@ In your fork, edit `run.sh` (and if applicable, `repo-config.csv`, `author-confi
   {{ embed("Appendix: **Config files format**", 'configFiles.md') }}
 </span>
 
-{{ step(9) }} To access your site, go to the settings of your fork in GitHub, under **GitHub Pages** section, look for `Your site is published at [LINK]`. It should look something like `https://[YOUR_GITHUB_ID].github.io/publish-RepoSense`.
+{{ step(8) }} **View the generated report:**
+
+1. Go to the `Settings` page of your fork in GitHub.
+1. Under the `GitHub Pages` section, look for `Your site is published at [LINK]`. It should look something like `https://[YOUR_GITHUB_ID].github.io/publish-RepoSense`.
 ![GitHub Setting](../images/publishingguide-githubsetting.jpg "GitHub Setting")
 
 <box type="info" seamless>
