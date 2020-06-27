@@ -105,8 +105,8 @@
                   <p>We recommend using a <a href="https://github.blog/2013-05-16-personal-api-tokens/">personal access token</a> if aiming for the ease of setup and <a href="https://developer.github.com/v3/guides/managing-deploy-keys/#deploy-keys">deploy key</a> if aiming for enhanced security.</p>
                   <h3 id="if-you-wish-to-use-personal-access-token">If you wish to use <em>personal access token</em>:<a class="fa fa-anchor" href="#if-you-wish-to-use-personal-access-token" onclick="event.stopPropagation()"></a></h3>
                   <ol>
-                    <li>Follow this <a href="https://help.github.com/articles/creating-a-personal-access-token-for-the-command-line/">guide</a> and give only <code>public_repo</code> permission.</li>
-                    <li><strong>Copy</strong> the token for later use.</li>
+                    <li><strong>Create a <em>personal access token</em></strong> by following this <a href="https://help.github.com/articles/creating-a-personal-access-token-for-the-command-line/">guide</a> and give only <code>public_repo</code> permission.</li>
+                    <li><strong>Copy the token</strong> for later use.</li>
                   </ol>
                   <h3 id="if-you-wish-to-use-deploy-key">If you wish to use <em>deploy key</em>:<a class="fa fa-anchor" href="#if-you-wish-to-use-deploy-key" onclick="event.stopPropagation()"></a></h3>
                   <box type="info"><template slot="icon"><span aria-hidden="true" class="fab fa-windows"></span></template>
@@ -114,25 +114,44 @@
                     </p>
                   </box>
                   <ol>
-                    <li>Use <code>ssh-keygen</code> to create a public/private key pair without a passphrase. <br>
-                      i.e. <code>ssh-keygen -t ecdsa -b 521 -f id_reposense -q -N &quot;&quot;</code></li>
-                    <li>Go to the <a href="https://github.com/reposense/publish-RepoSense/settings/keys">deploy key settings</a> of your publish-RepoSense fork and create a new deploy key with the contents of <code>id_reposense.pub</code>.</li>
-                    <li><strong>Copy</strong> the base64 encoded content of the private key for later use. <br>
-                      i.e. <code>cat id_reposense | base64 -w 0</code></li>
+                    <li><strong>Create a public-private key pair</strong> (without a passphrase) using the <code>ssh-keygen</code>. <br>
+                      i.e., <code>ssh-keygen -t ecdsa -b 521 -f id_reposense -q -N &quot;&quot;</code></li>
+                    <li><strong>Create a deploy key</strong> as follows:
+                      <ol>
+                        <li>Go to the <code>settings</code> page of your publish-RepoSense fork</li>
+                        <li>Click on the <code>Deploy keys</code> item in the navigation menu in that page</li>
+                        <li>Click on the <code>Add deploy key</code> button and create a new deploy key with the contents of <code>id_reposense.pub</code>.</li>
+                      </ol>
+                    </li>
+                    <li><strong>Copy the private key</strong> in base64 encoded format for later use. <br>
+                      i.e., <code>cat id_reposense | base64 -w 0</code></li>
                   </ol>
                 </div>
               </panel>
             </div>
             <p></p>
           </div>
-          <p><span class="badge badge-dark bigger-level0">Step 3</span> Sign up and login to <a href="https://travis-ci.org/">Travis-CI</a>.</p>
-          <p><span class="badge badge-dark bigger-level0">Step 4</span> Go to <a href="https://travis-ci.org/account/repositories">your account</a>, click on <code>Sync account</code> to fetch all your repositories into Travis-CI.</p>
-          <p><span class="badge badge-dark bigger-level0">Step 5</span> Go to your <a href="https://travis-ci.org/search/publish-RepoSense/">publish-RepoSense fork in Travis-CI</a>, under <code>Current</code> tab click on <code>Activate repository</code>.</p>
-          <p><span class="badge badge-dark bigger-level0">Step 6</span> In the same page, click on <code>More options</code> on the right then access <code>Settings</code>:
-            <a href="/RepoSense/images/publishingguide-travissetting.jpg" target="_self"><img src="/RepoSense/images/publishingguide-travissetting.jpg" alt class="img-fluid" title="Travis-CI Dashboard"></a></p>
-          <p><span class="badge badge-dark bigger-level0">Step 7</span> Under <code>Environment Variables</code>, name a variable as <code>GITHUB_TOKEN</code> or <code>GITHUB_DEPLOY_KEY</code> depending on your earlier choice and paste the token/key into its value field; then click <code>Add</code>. Ensure that the <code>Display value in build log</code> is <code>switched off</code> for security reasons:
-            <a href="/RepoSense/images/publishingguide-githubtoken.jpg" target="_self"><img src="/RepoSense/images/publishingguide-githubtoken.jpg" alt class="img-fluid" title="Travis-CI Environment Variable"></a></p>
-          <p><span class="badge badge-dark bigger-level0">Step 8</span></p>
+          <p><span class="badge badge-dark bigger-level0">Step 3</span> <strong>Login to <a href="https://travis-ci.org/">Travis-CI</a>.</strong> You may have to sign up first.</p>
+          <p><span class="badge badge-dark bigger-level0">Step 4</span> <strong>Syncy your Travis account with GitHub:</strong></p>
+          <ol>
+            <li>Go to <a href="https://travis-ci.org/account/repositories">your account</a>.</li>
+            <li>Click on <code>Sync account</code> to fetch all your repositories into Travis-CI.</li>
+          </ol>
+          <p><span class="badge badge-dark bigger-level0">Step 5</span> <strong>Activate the repository:</strong></p>
+          <ol>
+            <li>Go to your <a href="https://travis-ci.org/search/publish-RepoSense/">publish-RepoSense fork in Travis-CI</a></li>
+            <li>Under <code>Current</code> tab, click on <code>Activate repository</code>.</li>
+          </ol>
+          <p><span class="badge badge-dark bigger-level0">Step 6</span> <strong>Set the token/key:</strong></p>
+          <ol>
+            <li>In the same page, click on <code>More options</code> on the right.</li>
+            <li>Then, click on the <code>Settings</code> option:<br>
+              <a href="/RepoSense/images/publishingguide-travissetting.jpg" target="_self"><img src="/RepoSense/images/publishingguide-travissetting.jpg" alt class="img-fluid" title="Travis-CI Dashboard"></a></li>
+            <li>Under <code>Environment Variables</code>, name a variable as <code>GITHUB_TOKEN</code> or <code>GITHUB_DEPLOY_KEY</code> depending on your earlier choice and paste the token/key into its value field; then click <code>Add</code>.</li>
+            <li>Ensure that the <code>Display value in build log</code> is <code>switched off</code> for security reasons:<br>
+              <a href="/RepoSense/images/publishingguide-githubtoken.jpg" target="_self"><img src="/RepoSense/images/publishingguide-githubtoken.jpg" alt class="img-fluid" title="Travis-CI Environment Variable"></a></li>
+          </ol>
+          <p><span class="badge badge-dark bigger-level0">Step 7</span> <strong>Update the report configuration:</strong></p>
           <span id="section-edit-configs">
             <p>In your fork, edit <code>run.sh</code> (and if applicable, <code>repo-config.csv</code>, <code>author-config.csv</code>, <code>group-config.csv</code>) to customize the command line parameters or repositories to be analyzed.</p>
             <div class="indented-level0">
@@ -532,8 +551,12 @@
             </div>
             <p></p>
           </span>
-          <p><span class="badge badge-dark bigger-level0">Step 9</span> To access your site, go to the settings of your fork in GitHub, under <strong>GitHub Pages</strong> section, look for <code>Your site is published at [LINK]</code>. It should look something like <code>https://[YOUR_GITHUB_ID].github.io/publish-RepoSense</code>.
-            <a href="/RepoSense/images/publishingguide-githubsetting.jpg" target="_self"><img src="/RepoSense/images/publishingguide-githubsetting.jpg" alt class="img-fluid" title="GitHub Setting"></a></p>
+          <p><span class="badge badge-dark bigger-level0">Step 8</span> <strong>View the generated report:</strong></p>
+          <ol>
+            <li>Go to the <code>Settings</code> page of your fork in GitHub.</li>
+            <li>Under the <code>GitHub Pages</code> section, look for <code>Your site is published at [LINK]</code>. It should look something like <code>https://[YOUR_GITHUB_ID].github.io/publish-RepoSense</code>.
+              <a href="/RepoSense/images/publishingguide-githubsetting.jpg" target="_self"><img src="/RepoSense/images/publishingguide-githubsetting.jpg" alt class="img-fluid" title="GitHub Setting"></a></li>
+          </ol>
           <box type="info" seamless>
             <p>It takes a few minutes for report generation. Meanwhile, you can monitor the progress live at <a href="https://travis-ci.org/dashboard/builds">Travis-CI's Builds</a>.
             </p>
@@ -573,7 +596,7 @@
     <footer>
 
       <div class="text-center">
-        <small>[<span><strong>Powered by</strong></span> <img src="https://markbind.org/favicon.ico" width="30"> <a href="https://markbind.org/">MarkBind 2.14.1</a>, generated on Sat, Jun 27, 2020, 6:17:30 AM UTC]</small></div>
+        <small>[<span><strong>Powered by</strong></span> <img src="https://markbind.org/favicon.ico" width="30"> <a href="https://markbind.org/">MarkBind 2.14.1</a>, generated on Sat, Jun 27, 2020, 4:28:35 PM UTC]</small></div>
     </footer>
   </div>
 </body>

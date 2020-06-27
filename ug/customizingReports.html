@@ -281,30 +281,22 @@
                 </box>
 
                 <h2 id="setting-up">Setting up<a class="fa fa-anchor" href="#setting-up" onclick="event.stopPropagation()"></a></h2>
+                <p><span class="badge badge-dark bigger-level0">Step 1</span> <strong>Fork the <em>publish-RepoSense</em> repository</strong> using this <a href="https://github.com/RepoSense/publish-RepoSense/fork">link</a>. Optionally, you can rename the fork to match your RepoSense report e.g., <code>project-code-dashboard</code>.</p>
+                <p><span class="badge badge-dark bigger-level0">Step 2</span> <strong>Set up Netlify for your fork</strong> as described in this <a href="https://www.netlify.com/blog/2016/09/29/a-step-by-step-guide-deploying-on-netlify/">guide</a>.<br>
+                  <mark>You will need to use the following in <code>Step 5: Configure Your Settings</code> of that guide</mark>:</p>
+                <ul>
+                  <li>build command: <code>pip install requests &amp;&amp; ./run.sh</code><br></li>
+                  <li>publish directory: <code>./reposense-report</code></li>
+                </ul>
+                <p>After Netlify finishes building the site, you should be able to see a dummy report at the URL of your Netlify site.</p>
+                <p><span class="badge badge-dark bigger-level0">Step 3</span> <strong>Generate the report you want</strong> by updating the settings in your fork.</p>
                 <ol>
-                  <li>
-                    <p><strong>Fork the <em>publish-RepoSense</em> repository</strong> using this <a href="https://github.com/RepoSense/publish-RepoSense/fork">link</a>. Optionally, you can rename the fork to match your RepoSense report e.g., <code>project-code-dashboard</code>.</p>
-                  </li>
-                  <li>
-                    <p><strong>Set up Netlify for your fork</strong> as described in this <a href="https://www.netlify.com/blog/2016/09/29/a-step-by-step-guide-deploying-on-netlify/">guide</a>.<br>
-                      <mark>You will need to use the following in step 5</mark>:</p>
-                    <ul>
-                      <li>build command: <code>pip install requests &amp;&amp; ./run.sh</code><br></li>
-                      <li>publish directory: <code>./reposense-report</code></li>
-                    </ul>
-                    <p>After Netlify finishes building the site, you should be able to see a dummy report at the URL of your Netlify site.</p>
-                  </li>
-                  <li>
-                    <p><strong>Generate the report you want</strong> by updating the settings in your fork.</p>
-                    <ol>
-                      <li>Go to the <code>run.sh</code> file of your fork (on GitHub).</li>
-                      <li>Update the last line (i.e., the command for running RepoSense) to match the report you want to generate:<br>
-                        <code>java -jar RepoSense.jar --repos FULL_REPO_URL</code> (assuming you want to generate a default report for just one repo)<br>
-                        e.g., <code>java -jar RepoSense.jar --repos https://github.com/reposense/RepoSense.git</code> (<mark>note the .git at the end of the repo URL</mark>)</li>
-                      <li>Commit the file. This will trigger Netlify to rebuild the report.</li>
-                      <li>Go to the URL of your Netlify site to see the updated RepoSense report (it might take about 2-5 minutes for Netlify to generate the report).</li>
-                    </ol>
-                  </li>
+                  <li>Go to the <code>run.sh</code> file of your fork (on GitHub).</li>
+                  <li>Update the last line (i.e., the command for running RepoSense) to match the report you want to generate:<br>
+                    <code>java -jar RepoSense.jar --repos FULL_REPO_URL</code> (assuming you want to generate a default report for just one repo)<br>
+                    e.g., <code>java -jar RepoSense.jar --repos https://github.com/reposense/RepoSense.git</code> (<mark>note the .git at the end of the repo URL</mark>)</li>
+                  <li>Commit the file. This will trigger Netlify to rebuild the report.</li>
+                  <li>Go to the URL of your Netlify site to see the updated RepoSense report (it might take about 2-5 minutes for Netlify to generate the report).</li>
                 </ol>
               </div>
             </panel>
@@ -433,7 +425,7 @@
     <footer>
 
       <div class="text-center">
-        <small>[<span><strong>Powered by</strong></span> <img src="https://markbind.org/favicon.ico" width="30"> <a href="https://markbind.org/">MarkBind 2.14.1</a>, generated on Sat, Jun 27, 2020, 6:17:30 AM UTC]</small></div>
+        <small>[<span><strong>Powered by</strong></span> <img src="https://markbind.org/favicon.ico" width="30"> <a href="https://markbind.org/">MarkBind 2.14.1</a>, generated on Sat, Jun 27, 2020, 4:28:35 PM UTC]</small></div>
     </footer>
   </div>
 </body>
