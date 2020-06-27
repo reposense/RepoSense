@@ -15,7 +15,7 @@
 
 <navigation>
 
-{% from "scripts/macros.njk" import show_sitenav_items %}
+{% from "scripts/macros.njk" import show_sitenav_items with context %}
 
 {{ show_sitenav_items(dg_sitenav_items) }}
 

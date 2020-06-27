@@ -1,7 +1,7 @@
 {% set ug_sitenav_items = [
   {name: "Overview", link: "ug/index.html"},
-  {name: "Generating reports", link: "ug/usingReports.html"},
-  {name: "Using reports", link: "ug/generatingReports.html"},
+  {name: "Generating reports", link: "ug/generatingReports.html"},
+  {name: "Using reports", link: "ug/usingReports.html"},
   {name: "Customizing reports", link: "ug/customizingReports.html"},
   {name: "Sharing reports", link: "ug/sharingReports.html"},
   {name: "Appendices"},
@@ -21,7 +21,7 @@
 
 <navigation>
 
-{% from "scripts/macros.njk" import show_sitenav_items %}
+{% from "scripts/macros.njk" import show_sitenav_items with context %}
 
 {{ show_sitenav_items(ug_sitenav_items) }}
 </navigation>

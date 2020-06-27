@@ -41,7 +41,7 @@ The recommended IDE is **Intellij IDEA**. While it is not compulsory to use it, 
 
 <box type="info" seamless>
 
-This project is already configured to use Gradle for build automation. If you are new to Gradle, see [this tutorial](https://se-education.org/guides/tutorials/gradleTutorial.html) to learn how to use it.
+This project is already configured to use Gradle for build automation. If you are new to Gradle, see [this tutorial](https://se-education.org/guides/tutorials/gradle.html) to learn how to use it.
 </box>
 
 1. Open a command prompt and navigate to the project root.
