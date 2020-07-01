@@ -193,17 +193,13 @@ public class ArgsParser {
             Date sinceDate = cliSinceDate.orElse(isPeriodProvided
                     ? getDateMinusNDays(cliUntilDate, cliPeriod.get())
                     : getDateMinusAMonth(cliUntilDate));
-            Date untilDate;
             Date currentDate = getCurrentDate();
-            if (cliUntilDate.isPresent()) {
-                untilDate = cliUntilDate.get().compareTo(currentDate) < 0
-                        ? cliUntilDate.get()
-                        : currentDate;
-            } else {
-                untilDate = (isSinceDateProvided && isPeriodProvided)
-                        ? getDatePlusNDays(cliSinceDate, cliPeriod.get())
-                        : currentDate;
-            }
+            Date untilDate = cliUntilDate.orElse((isSinceDateProvided && isPeriodProvided)
+                    ? getDatePlusNDays(cliSinceDate, cliPeriod.get())
+                    : currentDate);
+            untilDate = untilDate.compareTo(currentDate) < 0
+                    ? untilDate
+                    : currentDate;
             List<String> locations = results.get(REPO_FLAGS[0]);
             List<FileType> formats = FileType.convertFormatStringsToFileTypes(results.get(FORMAT_FLAGS[0]));
             boolean isStandaloneConfigIgnored = results.get(IGNORE_FLAGS[0]);
