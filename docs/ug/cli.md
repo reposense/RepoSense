@@ -88,9 +88,9 @@ This flag overrides the `Ignore standalone config` field in the CSV config file.
 
 <!-- ------------------------------------------------------------------------------------------------------ -->
 
-### `--period`, `-r`
+### `--period`, `-p`
 
-**`--period, -p PERIOD`**: Specifies the period of analysis window.
+**`--period PERIOD`**: Specifies the period of analysis window.
 * Parameter `PERIOD`: The period of analysis window, in the format `nd` (for n days) or `nw` (for n weeks). It is used to calculate end date if only start date is specified, or calculate end date if only start date is specified.
 * Alias: `-p`
 * Example: `--period 30d` or `--period 4w`
