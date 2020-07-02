@@ -1,5 +1,6 @@
 #zoom
-  span.large-font Commits Panel
+  .panel-title
+    span Commits Panel
   .toolbar--multiline(v-if="filteredUser.commits.length && totalCommitMessageBodyCount")
     a(
       v-if="expandedCommitMessagesCount < totalCommitMessageBodyCount",
@@ -29,12 +30,12 @@
       span {{ info.zSince }} to {{ info.zUntil }} &nbsp;
       a(v-on:click="openSummary") [Show ramp chart for this period]
   .zoom__title
-    .zoom__title--granularity.mini-font granularity: one ramp per {{ info.zTimeFrame }}
+    .zoom__title--granularity granularity: one ramp per {{ info.zTimeFrame }}
     .zoom__title--tags
       template(v-for="commit in filteredUser.commits")
         template(v-for="commitResult in commit.commitResults")
           template(v-if="commitResult.tags")
-            .tag.mini-font(
+            .tag(
               v-for="tag in commitResult.tags",
               v-on:click="scrollToCommit(tag, `tag ${commitResult.hash}`)"
             )
@@ -52,15 +53,15 @@
 
   .sorting.mui-form--inline
     .mui-select
-      select.medium-font(v-model="commitsSortType")
+      select(v-model="commitsSortType")
         option(value="time") Time
         option(value="lineOfCode") LoC
-      label.medium-font sort by
+      label sort by
     .mui-select
-      select.medium-font(v-model="toReverseSortedCommits")
+      select(v-model="toReverseSortedCommits")
         option(v-bind:value='true') Descending
         option(v-bind:value='false') Ascending
-      label.medium-font order
+      label order
 
   .zoom__day(v-for="day in filteredUser.commits", v-bind:key="day.date")
     h3(v-if="info.zTimeFrame === 'week'") Week of {{ day.date }}
@@ -78,7 +79,7 @@
           .not-within-border(v-if="slice.messageTitle.length > 50") {{ slice.messageTitle.substr(50) }}
         span &nbsp; ({{ slice.insertions }} lines) &nbsp;
         template(v-if="slice.tags", v-for="tag in slice.tags")
-          .tag.mini-font(tabindex="-1", v-bind:class="[`${slice.hash}`, tag]")
+          .tag(tabindex="-1", v-bind:class="[`${slice.hash}`, tag]")
             font-awesome-icon(icon="tags")
             span &nbsp;{{ tag }}
         a(

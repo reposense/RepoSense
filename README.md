@@ -7,28 +7,17 @@
 
 RepoSense is a contribution analysis tool for Git repositories. It is particularly useful for those who want a chronological visualisation of the code contributions and commits made to a group of repositories. Educators can use RepoSense to track the work done in class projects, while team leads may use it to oversee their project teams.
 
-RepoSense generates a static HTML report that includes contribution information for each author in each target repository.
-The features of the report include:
-* Visualization for contribution frequency
-* Visualization for contribution amount
-* Code review panel
-* Comparison of contribution between authors
-* Filtering and sorting of authors
+* **User documentation** i.e., if you are interested in using RepoSense
+  * [**Product website**](https://reposense.org)
+  * [**User guide**](https://reposense.org/ug/index.html)
+  * [**About us**](https://reposense.org/about.html)
+* **Developer documentation** i.e., if you are interested in contributing code to RepoSense
+  * [Developer guide](https://reposense.github.io/RepoSense/dg/index.html)
+  * [User Guide for the latest `master` (not yet released to users)](https://reposense.github.io/RepoSense)
 
-## Documentations
-* **User Guide** [[**Current Build**]](https://github.com/reposense/RepoSense/blob/master/docs/UserGuide.md) [[**Latest Release**]](https://github.com/reposense/RepoSense/blob/release/docs/UserGuide.md)
-* [**Developer Guide**](docs/DeveloperGuide.md)
+---------------------------------------
 
-## About Us
-RepoSense is a project based in the [National University of Singapore, School of Computing](http://www.comp.nus.edu.sg/), and is funded by a grant from [NUS Center for Development of Teaching and Learning](http://www.cdtl.nus.edu.sg/).
-
-Our project team and the list of contributors are [here](docs/about.md).
-
-## Contributing
-We welcome pull requests. Please read the [contribution guidelines](docs/Process.md#how-to-contribute-to-the-reposense-repository) before starting work on one.
-
-## Acknowledgements
-The web previews of RepoSense is powered by Netlify and Surge.
+**Acknowledgements**: The web previews of RepoSense is powered by Netlify and Surge.
 
 <a href="https://www.netlify.com">
   <img src="https://www.netlify.com/img/global/badges/netlify-color-bg.svg"/>
