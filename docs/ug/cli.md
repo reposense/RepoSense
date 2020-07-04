@@ -97,7 +97,7 @@ This flag overrides the `Ignore standalone config` field in the CSV config file.
 
 <box type="info" seamless>
 
-* If both start date and end date are not specified, the date of generating the report will be taken as the end date. 
+* If both start date and end date are not specified, the date of generating the report will be taken as the end date.
 * Cannot be used with both `--since` and `--until`.
 </box>
 <!-- ------------------------------------------------------------------------------------------------------ -->
