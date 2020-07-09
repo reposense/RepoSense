@@ -5,12 +5,14 @@ plugins {
     id 'jacoco'
     id 'java'
     id 'com.github.johnrengelman.shadow' version '2.0.4'
-    id 'com.github.node-gradle.node' version '2.2.4'
+    id 'com.liferay.node' version '7.1.0'
     id 'com.github.psxpaul.execfork' version '0.1.8'
     id 'com.palantir.git-version' version '0.11.0'
 }
 
 mainClassName = 'reposense.RepoSense'
+
+node.nodeVersion = '10.16.0'
 
 sourceCompatibility = JavaVersion.VERSION_1_8
 targetCompatibility = JavaVersion.VERSION_1_8
