@@ -12,8 +12,6 @@ plugins {
 
 mainClassName = 'reposense.RepoSense'
 
-node.nodeVersion = '10.16.0'
-
 sourceCompatibility = JavaVersion.VERSION_1_8
 targetCompatibility = JavaVersion.VERSION_1_8
 
