@@ -4,8 +4,8 @@ plugins {
     id 'idea'
     id 'jacoco'
     id 'java'
-    id 'com.github.johnrengelman.shadow' version '2.0.4'
-    id 'com.liferay.node' version '7.1.0'
+    id 'com.github.johnrengelman.shadow' version '5.2.0'
+    id 'com.liferay.node' version '4.4.0'
     id 'com.github.psxpaul.execfork' version '0.1.8'
     id 'com.palantir.git-version' version '0.11.0'
 }
@@ -47,7 +47,7 @@ sourceSets {
 }
 
 wrapper {
-    gradleVersion = '4.9'
+    gradleVersion = '6.5'
 }
 
 run {
