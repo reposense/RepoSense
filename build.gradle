@@ -47,7 +47,7 @@ sourceSets {
 }
 
 wrapper {
-    gradleVersion = '6.5'
+    gradleVersion = '5.2.1'
 }
 
 run {
