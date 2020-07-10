@@ -30,10 +30,10 @@
     "stylelint-config-standard": "^18.3.0"
   },
   "devDependencies": {
-    "browserify": "^16.2.3",
+    "browserify": "^16.5.1",
     "eslint": "^4.19.1",
     "eslint-config-airbnb-base": "^13.0.0",
-    "eslint-plugin-import": "^2.13.0",
+    "eslint-plugin-import": "^2.22.0",
     "stylelint": "^10.1.0",
     "stylelint-order": "^3.0.1",
     "vueify": "^9.4.1"

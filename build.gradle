@@ -107,6 +107,7 @@ task zipReport(dependsOn: 'npmRunBrowserify', type: Zip) {
     destinationDir = file('src/main/resources')
 }
 
+tasks.npmRunBrowserify.dependsOn('npmRunSpuild');
 tasks.shadowJar.dependsOn('zipReport');
 tasks.compileJava.dependsOn('zipReport');
 tasks.run.dependsOn('compileJava');
