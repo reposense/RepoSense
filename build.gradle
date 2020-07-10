@@ -164,12 +164,12 @@ tasks.withType(Copy) {
 }
 
 task coverage(type: JacocoReport) {
-    sourceDirectories = files(sourceSets.main.allSource.srcDirs)
-    classDirectories = files(sourceSets.main.output)
-    executionData = files(jacocoTestReport.executionData)
+    sourceDirectories.from files(sourceSets.main.allSource.srcDirs)
+    classDirectories.from files(sourceSets.main.output)
+    executionData.from files(jacocoTestReport.executionData)
 
     afterEvaluate {
-        classDirectories = files(classDirectories.files.collect {
+        classDirectories.from files(classDirectories.files.collect {
             fileTree(dir: it, exclude: ['**/*.jar'])
         })
     }
