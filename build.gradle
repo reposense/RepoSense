@@ -119,8 +119,8 @@ task systemtest(dependsOn: 'zipReport', type: Test) {
     classpath = sourceSets.systemtest.runtimeClasspath
 
     jacoco {
-        append = true
-        destinationFile = new File("${buildDir}/jacoco/test.exec")
+       //append = true
+       //destinationFile = new File("${buildDir}/jacoco/test.exec")
     }
 
     testLogging {
