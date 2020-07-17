@@ -82,8 +82,10 @@ jacocoTestReport {
 
 test {
     jacoco {
-        append = true
-        destinationFile = new File("${buildDir}/jacoco/test.exec")
+//        append = true
+//        destinationFile = new File("${buildDir}/jacoco/test.exec")
+//        jacocoTestReport.executionData(systemtest)
+//        jacocoTestReport.executionData(frontendTest)
     }
 
     testLogging {
@@ -187,5 +189,8 @@ String getRepoSenseVersion() {
     }
     return repoSenseVersion
 }
+
+jacocoTestReport.executionData(systemtest)
+jacocoTestReport.executionData(frontendTest)
 
 defaultTasks 'clean', 'build', 'systemtest', 'frontendTest', 'coverage'
