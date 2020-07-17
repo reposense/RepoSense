@@ -81,13 +81,6 @@ jacocoTestReport {
 }
 
 test {
-    jacoco {
-//        append = true
-//        destinationFile = new File("${buildDir}/jacoco/test.exec")
-//        jacocoTestReport.executionData(systemtest)
-//        jacocoTestReport.executionData(frontendTest)
-    }
-
     testLogging {
         events 'passed', 'skipped', 'failed'
         showStandardStreams = true
@@ -117,11 +110,6 @@ tasks.run.dependsOn('compileJava');
 task systemtest(dependsOn: 'zipReport', type: Test) {
     testClassesDirs = sourceSets.systemtest.output.classesDirs
     classpath = sourceSets.systemtest.runtimeClasspath
-
-    jacoco {
-       //append = true
-       //destinationFile = new File("${buildDir}/jacoco/test.exec")
-    }
 
     testLogging {
         events 'passed', 'skipped', 'failed'
