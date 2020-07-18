@@ -2,8 +2,8 @@ name: Close Stale Pull Requests
 
 on:
   schedule:
-  # Runs every minute
-  - cron: '* * * * *'
+  # Runs every day at 00:00 UTC
+  - cron: '0 0 * * *'
 
 jobs:
   stale:
