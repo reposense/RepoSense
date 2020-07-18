@@ -1,3 +1,16 @@
+{% macro show_sitenav_items(items, is_flat=false) %}
+  {% for i in items %}
+    {% if i.level == 2 %}
+  * [{{ i.name }}]({{baseUrl}}/{{ i.link }})
+    {% elseif i.link %}
+* [**{{ i.name }}**]({{baseUrl}}/{{ i.link }})
+    {% else %}
+* **{{ i.name }}**{% if not is_flat%} :expanded:{% endif %}
+    {% endif %}
+  {% endfor %}
+{% endmacro %}
+
+
 {% macro embed(header, src, level="0") %}
 <div class="indented-level{{ level }}">
 
@@ -8,6 +21,7 @@
 </div>
 <p/>
 {% endmacro %}
+
 
 {% macro thumbnail(icon, size=50) %}<thumbnail circle text="{{ icon }}" background="#006600" font-color="white" size="{{ size }}" />{% endmacro %}
 

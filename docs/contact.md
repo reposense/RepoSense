@@ -1,8 +1,9 @@
+<variable name="title">Contact us</variable>
 <frontmatter>
-  title: "Contact us"
+  title: "{{ title | safe }}"
 </frontmatter>
 
-<h1 class="display-3">Contact us</h1>
+<h1 class="display-3"><md>{{ title }}</md></h1>
 
 :fas-comment-alt: You can post your questions, suggestions, and bug reports in our [issue tracker](https://github.com/RepoSense/reposense/issues).
 

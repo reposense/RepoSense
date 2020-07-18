@@ -1,10 +1,11 @@
+<variable name="title">Appendix: Using `@@author` tags</variable>
 <frontmatter>
-  title: "Using `@@author` tags"
+  title: "Appendix: Using `@@author` tags"
 </frontmatter>
 
 {% from 'scripts/macros.njk' import embed, step with context %}
 
-<h1 class="display-4"><md>Appendix: Using `@@author` tags</md></h1>
+<h1 class="display-4"><md>{{ title }}</md></h1>
 
 <div class="lead">
 
