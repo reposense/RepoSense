@@ -187,6 +187,7 @@ window.app = new window.Vue({
     },
 
     getRepoSenseHomeLink() {
+      const version = window.app.repoSenseVersion;
       if (!version) {
         return 'https://reposense.org/RepoSense/';
       }
