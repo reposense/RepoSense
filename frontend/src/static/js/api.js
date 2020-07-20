@@ -11,7 +11,6 @@ window.isMacintosh = navigator.platform.includes('Mac');
 
 const REPORT_DIR = '.';
 const REPORT_ZIP = null;
-const VERSION = window.app.repoSenseVersion;
 
 window.deactivateAllOverlays = function deactivateAllOverlays() {
   document.querySelectorAll('.summary-chart__ramp .overlay')
