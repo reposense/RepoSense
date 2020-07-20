@@ -187,19 +187,18 @@ window.app = new window.Vue({
     },
 
     getRepoSenseHomeLink() {
-      const version = window.app.repoSenseVersion;
-      if (!version) {
-        return 'https://reposense.org/RepoSense/';
+      if (VERSION.startsWith('v')) {
+        return `${window.HOME_URL}`;
       }
-      return 'http://reposense.org';
+      return `${window.HOME_URL}/RepoSense/`;
     },
 
     getUserGuideVersionLink() {
-      const version = window.app.repoSenseVersion;
-      if (!version) {
-        return 'https://reposense.org/RepoSense/ug/index.html';
+      if (VERSION.startsWith('v')) {
+        return `${window.HOME_URL}/ug/index.html`;
+
       }
-      return 'https://reposense.org/ug/index.html';
+      return `${window.HOME_URL}/RepoSense/ug/index.html`;
     },
 
     receiveDates(dates) {
