@@ -23,7 +23,7 @@
       .mui-select.sort-within-group
         select(
           v-model="sortWithinGroupSelection",
-          v-bind:disabled="filterGroupSelection === 'groupByNone' || isMergeGroup"
+          v-bind:disabled="filterGroupSelection === 'groupByNone' || allGroupsMerged"
         )
           option(value="title") &uarr; title
           option(value="title dsc") &darr; title
@@ -32,7 +32,7 @@
           option(value="variance") &uarr; variance
           option(value="variance dsc") &darr; variance
         label sort within groups by
-      .mui-select
+      .mui-select.granularity
         select(v-model="filterTimeFrame")
           option(value="commit") Commit
           option(value="day") Day
@@ -42,20 +42,20 @@
         input(v-if="isSafariBrowser", type="text", placeholder="yyyy-mm-dd",
           v-bind:value="filterSinceDate", v-on:keyup.enter="updateTmpFilterSinceDate",
           onkeydown="formatInputDateOnKeyDown(event)", oninput="appendDashInputDate(event)", maxlength=10)
-        input(v-else, type="date", v-bind:value="filterSinceDate", v-on:input="updateTmpFilterSinceDate",
-          onkeydown="return false", v-bind:min="minDate", v-bind:max="filterUntilDate")
+        input(v-else, type="date", name="since", v-bind:value="filterSinceDate", v-on:input="updateTmpFilterSinceDate",
+          v-bind:min="minDate", v-bind:max="filterUntilDate")
         label since
       .mui-textfield.summary-picker__date
         input(v-if="isSafariBrowser", type="text", placeholder="yyyy-mm-dd",
           v-bind:value="filterUntilDate", v-on:keyup.enter="updateTmpFilterUntilDate",
           onkeydown="formatInputDateOnKeyDown(event)", oninput="appendDashInputDate(event)", maxlength=10)
-        input(v-else, type="date", v-bind:value="filterUntilDate", v-on:input="updateTmpFilterUntilDate",
-          onkeydown="return false", v-bind:min="filterSinceDate", v-bind:max="maxDate")
+        input(v-else, type="date", name="until", v-bind:value="filterUntilDate", v-on:input="updateTmpFilterUntilDate",
+          v-bind:min="filterSinceDate", v-bind:max="maxDate")
         label until
       .mui-textfield.summary-picker__date
         a(v-on:click="resetDateRange") Reset date range
       .summary-picker__checkboxes.summary-picker__section
-        label
+        label.filter-breakdown
           input.mui-checkbox.summary-picker__checkbox(type="checkbox", v-model="filterBreakdown",
             v-on:change="setSummaryHash()")
           span breakdown by file type
@@ -64,15 +64,15 @@
         )
           input.summary-picker__checkbox.mui-checkbox(
             type="checkbox",
-            v-model="isMergeGroup",
+            v-model="allGroupsMerged",
             v-bind:disabled="filterGroupSelection === 'groupByNone'"
           )
-          span merge group
+          span merge all groups
   .error-message-box(v-if="Object.entries(errorMessages).length")
-    .error-message-box__close-button(onclick="dismissTab(this)") &times;
+    .error-message-box__close-button(v-on:click="dismissTab($event)") &times;
     .error-message-box__message The following issues occurred when analyzing the following repositories:
     .error-message-box__failed-repo(v-for="errorBlock in errorMessages")
-      font-awesome-icon.mini-font(icon="exclamation")
+      font-awesome-icon(icon="exclamation")
       span.error-message-box__failed-repo--name {{ errorBlock.repoName }}
       .error-message-box__failed-repo--reason(
         v-if="errorBlock.errorMessage.startsWith('Unexpected error stack trace')"
@@ -91,7 +91,7 @@
   .fileTypes(v-if="filterBreakdown")
     .checkboxes.mui-form--inline(v-if="Object.keys(fileTypeColors).length > 0")
       label(style='background-color: #000000; color: #ffffff')
-        input.mui-checkbox--fileType(type="checkbox", v-model="checkAllFileTypes")
+        input.mui-checkbox--fileType#all(type="checkbox", v-model="checkAllFileTypes")
         span All:&nbsp;
       template(v-for="fileType in Object.keys(fileTypeColors)" )
         label(
@@ -116,7 +116,7 @@
     v-bind:filter-time-frame="filterTimeFrame",
     v-bind:filter-since-date="filterSinceDate",
     v-bind:filter-until-date="filterUntilDate",
-    v-bind:is-merge-group="isMergeGroup",
+    v-bind:filter-search="filterSearch",
     v-bind:min-date="minDate",
     v-bind:max-date="maxDate"
   )

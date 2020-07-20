@@ -1,48 +1,5 @@
-// date functions //
-const DAY_IN_MS = (1000 * 60 * 60 * 24);
-window.DAY_IN_MS = DAY_IN_MS;
-const WEEK_IN_MS = DAY_IN_MS * 7;
+/* global Vuex */
 const dateFormatRegex = /([12]\d{3}-(0[1-9]|1[0-2])-(0[1-9]|[12]\d|3[01]))$/;
-
-window.deactivateAllOverlays = function deactivateAllOverlays() {
-  document.querySelectorAll('.summary-chart__ramp .overlay')
-      .forEach((x) => { x.className = 'overlay'; });
-};
-
-window.getDateStr = function getDateStr(date) {
-  return (new Date(date)).toISOString().split('T')[0];
-};
-
-function getHexToRGB(color) {
-  // to convert color from hex code to rgb format
-  const arr = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(color);
-  return arr.slice(1).map((val) => parseInt(val, 16));
-}
-
-function dateRounding(datestr, roundDown) {
-  // rounding up to nearest monday
-  const date = new Date(datestr);
-  const day = date.getUTCDay();
-  let datems = date.getTime();
-  if (roundDown) {
-    datems -= ((day + 6) % 7) * DAY_IN_MS;
-  } else {
-    datems += ((8 - day) % 7) * DAY_IN_MS;
-  }
-
-  return window.getDateStr(datems);
-}
-
-window.getFontColor = function getFontColor(color) {
-  const result = getHexToRGB(color);
-  const red = result[0];
-  const green = result[1];
-  const blue = result[2];
-
-  const luminosity = 0.2126 * red + 0.7152 * green + 0.0722 * blue; // per ITU-R BT.709
-
-  return luminosity < 120 ? '#ffffff' : '#000000';
-};
 
 window.vSummary = {
   props: ['repos', 'errorMessages'],
@@ -62,7 +19,6 @@ window.vSummary = {
       isSortingWithinDsc: '',
       filterTimeFrame: 'commit',
       filterBreakdown: false,
-      isMergeGroup: false,
       tmpFilterSinceDate: '',
       tmpFilterUntilDate: '',
       hasModifiedSinceDate: window.app.isSinceDateProvided,
@@ -98,16 +54,20 @@ window.vSummary = {
     },
 
     filterGroupSelection() {
+      const { allGroupsMerged } = this;
+      this.getFilteredRepos();
+
       // merge group is not allowed when group by none
-      if (this.filterGroupSelection === 'groupByNone') {
-        this.isMergeGroup = false;
+      // also reset merged groups
+      if (this.filterGroupSelection === 'groupByNone' || !allGroupsMerged) {
+        this.$store.commit('updateMergedGroup', []);
+      } else {
+        const mergedGroups = [];
+        this.filtered.forEach((group) => {
+          mergedGroups.push(this.getGroupName(group));
+        });
+        this.$store.commit('updateMergedGroup', mergedGroups);
       }
-
-      this.getFiltered();
-    },
-
-    isMergeGroup() {
-      this.getFiltered();
     },
 
     tmpFilterSinceDate() {
@@ -134,6 +94,10 @@ window.vSummary = {
       this.tmpFilterSinceDate = this.$store.state.summaryDates.since;
       this.tmpFilterUntilDate = this.$store.state.summaryDates.until;
       window.deactivateAllOverlays();
+    },
+
+    mergedGroups() {
+      this.getFiltered();
     },
   },
   computed: {
@@ -164,8 +128,34 @@ window.vSummary = {
 
       return totalLines / totalCount;
     },
+
+    allGroupsMerged: {
+      get() {
+        if (this.mergedGroups.length === 0) {
+          return false;
+        }
+        return this.mergedGroups.length === this.filtered.length;
+      },
+      set(value) {
+        if (value) {
+          const mergedGroups = [];
+          this.filtered.forEach((group) => {
+            mergedGroups.push(this.getGroupName(group));
+          });
+          this.$store.commit('updateMergedGroup', mergedGroups);
+        } else {
+          this.$store.commit('updateMergedGroup', []);
+        }
+      },
+    },
+
+    ...Vuex.mapState(['mergedGroups']),
   },
   methods: {
+    dismissTab(event) {
+      event.target.parentNode.style.display = 'none';
+    },
+
     // view functions //
     getReportIssueGitHubLink(stackTrace) {
       return `${window.BASE_URL}/reposense/RepoSense/issues/new?title=${this.getReportIssueTitle()
@@ -215,10 +205,24 @@ window.vSummary = {
       }
 
       addHash('timeframe', this.filterTimeFrame);
-      addHash('mergegroup', this.isMergeGroup);
+
+      let mergedGroupsHash = this.mergedGroups.join(window.HASH_DELIMITER);
+      if (mergedGroupsHash.length === 0) {
+        mergedGroupsHash = '';
+      }
+      addHash('mergegroup', mergedGroupsHash);
 
       addHash('groupSelect', this.filterGroupSelection);
       addHash('breakdown', this.filterBreakdown);
+
+      if (this.filterBreakdown) {
+        const checkedFileTypesHash = this.checkedFileTypes.length > 0
+          ? this.checkedFileTypes.join(window.HASH_DELIMITER)
+          : '';
+        addHash('checkedFileTypes', checkedFileTypesHash);
+      } else {
+        window.removeHash('checkedFileTypes');
+      }
 
       encodeHash();
     },
@@ -239,7 +243,8 @@ window.vSummary = {
 
       if (hash.timeframe) { this.filterTimeFrame = hash.timeframe; }
       if (hash.mergegroup) {
-        this.isMergeGroup = convertBool(hash.mergegroup);
+        // make a copy to prevent custom merged groups from overwritten
+        this.customMergedGroups = hash.mergegroup;
       }
       if (hash.since && dateFormatRegex.test(hash.since)) {
         this.tmpFilterSinceDate = hash.since;
@@ -254,7 +259,20 @@ window.vSummary = {
       if (hash.breakdown) {
         this.filterBreakdown = convertBool(hash.breakdown);
       }
+      if (hash.checkedFileTypes !== null) {
+        const parsedFileTypes = hash.checkedFileTypes.split(window.HASH_DELIMITER);
+        this.checkedFileTypes = parsedFileTypes.filter((type) => this.fileTypes.includes(type));
+      }
       window.decodeHash();
+    },
+
+    restoreMergedGroups() {
+      if (this.customMergedGroups) {
+        this.$store.commit(
+            'updateMergedGroup',
+            this.customMergedGroups.split(window.HASH_DELIMITER),
+        );
+      }
     },
 
     getDates() {
@@ -285,27 +303,39 @@ window.vSummary = {
       this.$emit('get-dates', [this.minDate, this.maxDate]);
     },
 
+    getGroupName(group) {
+      return window.getGroupName(group, this.filterGroupSelection);
+    },
+
+    isMatchSearchedUser(filterSearch, user) {
+      return !filterSearch || filterSearch.toLowerCase()
+          .split(' ')
+          .filter(Boolean)
+          .some((param) => user.searchPath.includes(param));
+    },
+
     getFiltered() {
       this.setSummaryHash();
       this.getDates();
       window.deactivateAllOverlays();
 
+      this.getFilteredRepos();
+      this.getMergedRepos();
+    },
+
+    getFilteredRepos() {
       // array of array, sorted by repo
       const full = [];
 
       // create deep clone of this.repos to not modify the original content of this.repos
       // when merging groups
-      const groups = this.isMergeGroup ? JSON.parse(JSON.stringify(this.repos)) : this.repos;
+      const groups = this.hasMergedGroups() ? JSON.parse(JSON.stringify(this.repos)) : this.repos;
       groups.forEach((repo) => {
         const res = [];
 
         // filtering
         repo.users.forEach((user) => {
-          const toDisplay = this.filterSearch.toLowerCase()
-              .split(' ').filter(Boolean)
-              .some((param) => user.searchPath.includes(param));
-
-          if (!this.filterSearch || toDisplay) {
+          if (this.isMatchSearchedUser(this.filterSearch, user)) {
             this.getUserCommits(user, this.filterSinceDate, this.filterUntilDate);
             if (this.filterTimeFrame === 'week') {
               this.splitCommitsWeek(user, this.filterSinceDate, this.filterUntilDate);
@@ -331,42 +361,47 @@ window.vSummary = {
         isSortingWithinDsc: this.isSortingWithinDsc,
       };
       this.filtered = this.sortFiltered(this.filtered, filterControl);
-
-      if (this.isMergeGroup) {
-        this.mergeGroup(this.filtered);
-      }
     },
 
-    mergeGroup(filtered) {
-      filtered.forEach((group, groupIndex) => {
-        const dateToIndexMap = {};
-        const mergedCommits = [];
-        const mergedFileTypeContribution = {};
-        let mergedVariance = 0;
-        let totalMergedCommits = 0;
-        let totalMergedCheckedFileTypeCommits = 0;
-
-        group.forEach((user) => {
-          this.mergeCommits(user, mergedCommits, dateToIndexMap);
-
-          this.mergeFileTypeContribution(user, mergedFileTypeContribution);
-
-          totalMergedCommits += user.totalCommits;
-          totalMergedCheckedFileTypeCommits += user.checkedFileTypeContribution;
-          mergedVariance += user.variance;
-        });
-
-        mergedCommits.sort(window.comparator((ele) => ele.date));
-        group[0].commits = mergedCommits;
-        group[0].fileTypeContribution = mergedFileTypeContribution;
-        group[0].totalCommits = totalMergedCommits;
-        group[0].variance = mergedVariance;
-        group[0].checkedFileTypeContribution = totalMergedCheckedFileTypeCommits;
-
-        // clear all users and add merged group in filtered group
-        filtered[groupIndex] = [];
-        filtered[groupIndex].push(group[0]);
+    getMergedRepos() {
+      this.filtered.forEach((group, groupIndex) => {
+        if (this.mergedGroups.includes(this.getGroupName(group))) {
+          this.mergeGroupByIndex(this.filtered, groupIndex);
+        }
       });
+    },
+
+    mergeGroupByIndex(filtered, groupIndex) {
+      const dateToIndexMap = {};
+      const mergedCommits = [];
+      const mergedFileTypeContribution = {};
+      let mergedVariance = 0;
+      let totalMergedCommits = 0;
+      let totalMergedCheckedFileTypeCommits = 0;
+
+      filtered[groupIndex].forEach((user) => {
+        this.mergeCommits(user, mergedCommits, dateToIndexMap);
+
+        this.mergeFileTypeContribution(user, mergedFileTypeContribution);
+
+        totalMergedCommits += user.totalCommits;
+        totalMergedCheckedFileTypeCommits += user.checkedFileTypeContribution;
+        mergedVariance += user.variance;
+      });
+
+      mergedCommits.sort(window.comparator((ele) => ele.date));
+      filtered[groupIndex][0].commits = mergedCommits;
+      filtered[groupIndex][0].fileTypeContribution = mergedFileTypeContribution;
+      filtered[groupIndex][0].totalCommits = totalMergedCommits;
+      filtered[groupIndex][0].variance = mergedVariance;
+      filtered[groupIndex][0].checkedFileTypeContribution = totalMergedCheckedFileTypeCommits;
+
+      // only take the merged group
+      filtered[groupIndex] = filtered[groupIndex].slice(0, 1);
+    },
+
+    hasMergedGroups() {
+      return this.mergedGroups.length > 0;
     },
 
     mergeCommits(user, merged, dateToIndexMap) {
@@ -426,8 +461,8 @@ window.vSummary = {
     hasSimilarExistingColors(existingColors, newHex) {
       const deltaEThreshold = 11; // the lower limit of delta E to be similar, more info at http://zschuessler.github.io/DeltaE/learn/
       return existingColors.some((existingHex) => {
-        const existingRGB = getHexToRGB(existingHex);
-        const newRGB = getHexToRGB(newHex);
+        const existingRGB = window.getHexToRGB(existingHex);
+        const newRGB = window.getHexToRGB(newHex);
         return this.deltaE(existingRGB, newRGB) < deltaEThreshold;
       });
     },
@@ -507,7 +542,7 @@ window.vSummary = {
 
       const res = [];
 
-      const nextMondayDate = dateRounding(sinceDate, 0); // round up for the next monday
+      const nextMondayDate = this.dateRounding(sinceDate, 0); // round up for the next monday
 
       const nextMondayMs = (new Date(nextMondayDate)).getTime();
       const sinceMs = new Date(sinceDate).getTime();
@@ -523,11 +558,12 @@ window.vSummary = {
     },
 
     pushCommitsWeek(sinceMs, untilMs, res, commits) {
-      const diff = Math.round(Math.abs((untilMs - sinceMs) / DAY_IN_MS));
+      const diff = Math.round(Math.abs((untilMs - sinceMs) / window.DAY_IN_MS));
+      const weekInMS = window.DAY_IN_MS * 7;
 
       for (let weekId = 0; weekId < diff / 7; weekId += 1) {
-        const startOfWeekMs = sinceMs + (weekId * WEEK_IN_MS);
-        const endOfWeekMs = startOfWeekMs + WEEK_IN_MS - DAY_IN_MS;
+        const startOfWeekMs = sinceMs + (weekId * weekInMS);
+        const endOfWeekMs = startOfWeekMs + weekInMS - window.DAY_IN_MS;
         const endOfWeekMsWithinUntilMs = endOfWeekMs <= untilMs ? endOfWeekMs : untilMs;
 
         const week = {
@@ -806,17 +842,17 @@ window.vSummary = {
 
     restoreZoomFiltered(info) {
       const {
-        zSince, zUntil, zTimeFrame, zIsMerge,
+        zSince, zUntil, zTimeFrame, zIsMerge, zFilterSearch,
       } = info;
       const filtered = [];
 
       const groups = JSON.parse(JSON.stringify(this.repos));
 
+      const res = [];
       groups.forEach((repo) => {
-        const res = [];
         repo.users.forEach((user) => {
-          // only filter users that match with zoom user
-          if (this.matchZoomUser(info, user)) {
+          // only filter users that match with zoom user and previous searched user
+          if (this.matchZoomUser(info, user) && this.isMatchSearchedUser(zFilterSearch, user)) {
             this.getUserCommits(user, zSince, zUntil);
             if (zTimeFrame === 'week') {
               this.splitCommitsWeek(user, zSince, zUntil);
@@ -825,14 +861,14 @@ window.vSummary = {
             res.push(user);
           }
         });
-
-        if (res.length) {
-          filtered.push(res);
-        }
       });
 
+      if (res.length) {
+        filtered.push(res);
+      }
+
       if (zIsMerge) {
-        this.mergeGroup(filtered);
+        this.mergeGroupByIndex(filtered, 0);
       }
       return filtered[0][0];
     },
@@ -847,11 +883,25 @@ window.vSummary = {
       }
       return user.repoName === zRepo && user.name === zAuthor;
     },
+
+    dateRounding(datestr, roundDown) {
+      // rounding up to nearest monday
+      const date = new Date(datestr);
+      const day = date.getUTCDay();
+      let datems = date.getTime();
+      if (roundDown) {
+        datems -= ((day + 6) % 7) * window.DAY_IN_MS;
+      } else {
+        datems += ((8 - day) % 7) * window.DAY_IN_MS;
+      }
+
+      return window.getDateStr(datems);
+    },
   },
   created() {
+    this.processFileTypes();
     this.renderFilterHash();
     this.getFiltered();
-    this.processFileTypes();
   },
   beforeMount() {
     this.$root.$on('restoreCommits', (info) => {
@@ -862,6 +912,14 @@ window.vSummary = {
     this.$root.$on('restoreFileTypeColors', (info) => {
       info.fileTypeColors = this.fileTypeColors;
     });
+  },
+  mounted() {
+    this.$store.commit('updateMergedGroup', []);
+
+    // restoring custom merged groups after watchers finish their job
+    setTimeout(() => {
+      this.restoreMergedGroups();
+    }, 0);
   },
   components: {
     vSummaryCharts: window.vSummaryCharts,
