@@ -1,6 +1,8 @@
 // eslint-disable-next-line import/extensions
 import store from './store.js';
 
+const version = window.app.repoSenseVersion;
+
 /* global Vue hljs */
 Vue.directive('hljs', {
   inserted(ele, binding) {
@@ -186,7 +188,6 @@ window.app = new window.Vue({
     },
 
     getRepoSenseHomeLink() {
-      const version = window.app.repoSenseVersion;
       if (version.startsWith('v')) {
         return 'https://reposense.org';
       }
@@ -194,7 +195,6 @@ window.app = new window.Vue({
     },
 
     getUserGuideVersionLink() {
-      const version = window.app.repoSenseVersion;
       if (version.startsWith('v')) {
         return 'https://reposense.org/ug/index.html';
       }
