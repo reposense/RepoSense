@@ -54,7 +54,8 @@ describe('hide all commit messages ', () => {
         // open message of the first commit
         cy.get('#tab-zoom .commit-message--button.fa-ellipsis-h')
             .should('be.visible')
-            .click({multiple: true});
+            .first()
+            .click();
 
         // should show both 'show/hide all commit messages'
         cy.get('#tab-zoom .toolbar--multiline a')
