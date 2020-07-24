@@ -52,12 +52,12 @@
     v-bind:mergegroup="info.zIsMerge")
 
   .sorting.mui-form--inline
-    .mui-select
+    .mui-select.sort-by
       select(v-model="commitsSortType")
         option(value="time") Time
         option(value="lineOfCode") LoC
       label sort by
-    .mui-select
+    .mui-select.sort-order
       select(v-model="toReverseSortedCommits")
         option(v-bind:value='true') Descending
         option(v-bind:value='false') Ascending
