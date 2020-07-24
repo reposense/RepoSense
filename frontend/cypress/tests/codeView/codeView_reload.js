@@ -34,7 +34,7 @@ describe('reload page', () => {
 
         cy.reload();
 
-        cy.get('#tab-authorship > .title > .contribution > .sorting > :nth-child(1) > select:visible')
+        cy.get('#tab-authorship > .title > .contribution > .sorting > .sort-by > select:visible')
             .should('have.value', 'lineOfCode');
 
         cy.get('#tab-authorship > .title > .contribution > .sorting > .sort-order > select')

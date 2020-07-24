@@ -8,18 +8,18 @@ describe('reload page', () => {
             .first()
             .click();
 
-        cy.get('#tab-zoom > .sorting > :nth-child(1) > select:visible')
+        cy.get('#tab-zoom > .sorting > .sort-by > select:visible')
             .select('Time');
 
-        cy.get('#tab-zoom > .sorting > :nth-child(2) > select:visible')
+        cy.get('#tab-zoom > .sorting > .sort-order > select:visible')
             .select('Descending');
 
         cy.reload();
 
-        cy.get('#tab-zoom > .sorting > :nth-child(1) > select:visible')
+        cy.get('#tab-zoom > .sorting > .sort-by > select:visible')
             .should('have.value', 'time');
 
-        cy.get('#tab-zoom > .sorting > :nth-child(2) > select:visible')
+        cy.get('#tab-zoom > .sorting > .sort-order > select:visible')
             .should('have.value','true');
     });
 });
