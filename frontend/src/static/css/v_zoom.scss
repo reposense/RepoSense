@@ -2,15 +2,8 @@
 
 .zoom {
   &__title {
-    &--chart {
-      margin-left: .3rem;
-    }
-
-    &--period {
-      margin-left: 2rem;
-    }
-
     &--granularity {
+      @include mini-font;
       margin-top: .5rem;
     }
 
@@ -31,6 +24,7 @@
   &__title {
     /* Tags in commits */
     .tag {
+      @include mini-font;
       background: mui-color('grey', '600');
       border-radius: 5px;
       color: mui-color('white');

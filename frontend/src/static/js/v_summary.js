@@ -1,104 +1,5 @@
-window.dismissTab = function dismissTab(node) {
-  const parent = node.parentNode;
-  parent.style.display = 'none';
-};
-
-window.comparator = (fn) => function compare(a, b) {
-  const a1 = fn(a).toLowerCase ? fn(a).toLowerCase() : fn(a);
-  const b1 = fn(b).toLowerCase ? fn(b).toLowerCase() : fn(b);
-  if (a1 === b1) {
-    return 0;
-  } if (a1 < b1) {
-    return -1;
-  }
-  return 1;
-};
-
-// ui funcs, only allow one ramp to be highlighted //
-let drags = [];
-
-function getBaseTarget(target) {
-  return (target.className === 'summary-chart__ramp')
-      ? target
-      : getBaseTarget(target.parentElement);
-}
-
-function deactivateAllOverlays() {
-  document.querySelectorAll('.summary-chart__ramp .overlay')
-      .forEach((x) => { x.className = 'overlay'; });
-}
-
-function dragViewDown(evt) {
-  deactivateAllOverlays();
-
-  const pos = evt.clientX;
-  const ramp = getBaseTarget(evt.target);
-  drags = [pos];
-
-  const base = ramp.offsetWidth;
-  const offset = ramp.parentElement.offsetLeft;
-
-  const overlay = ramp.getElementsByClassName('overlay')[0];
-  overlay.style.marginLeft = '0';
-  overlay.style.width = `${(pos - offset) * 100 / base}%`;
-  overlay.className += ' edge';
-}
-
-function dragViewUp(evt) {
-  deactivateAllOverlays();
-  const ramp = getBaseTarget(evt.target);
-
-  const base = ramp.offsetWidth;
-  drags.push(evt.clientX);
-  drags.sort((a, b) => a - b);
-
-  const offset = ramp.parentElement.offsetLeft;
-  drags = drags.map((x) => (x - offset) * 100 / base);
-
-  const overlay = ramp.getElementsByClassName('overlay')[0];
-  overlay.style.marginLeft = `${drags[0]}%`;
-  overlay.style.width = `${drags[1] - drags[0]}%`;
-  overlay.className += ' show';
-}
-
-window.viewClick = function viewClick(evt) {
-  const isKeyPressed = this.isMacintosh ? evt.metaKey : evt.ctrlKey;
-  if (drags.length === 2) {
-    drags = [];
-  }
-
-  if (isKeyPressed) {
-    return drags.length === 0
-        ? dragViewDown(evt)
-        : dragViewUp(evt);
-  }
-
-  return null;
-};
-
-// date functions //
-const DAY_IN_MS = (1000 * 60 * 60 * 24);
-window.DAY_IN_MS = DAY_IN_MS;
-const WEEK_IN_MS = DAY_IN_MS * 7;
+/* global Vuex */
 const dateFormatRegex = /([12]\d{3}-(0[1-9]|1[0-2])-(0[1-9]|[12]\d|3[01]))$/;
-
-
-function getDateStr(date) {
-  return (new Date(date)).toISOString().split('T')[0];
-}
-function dateRounding(datestr, roundDown) {
-  // rounding up to nearest monday
-  const date = new Date(datestr);
-  const day = date.getUTCDay();
-  let datems = date.getTime();
-  if (roundDown) {
-    datems -= ((day + 6) % 7) * DAY_IN_MS;
-  } else {
-    datems += ((8 - day) % 7) * DAY_IN_MS;
-  }
-
-  return getDateStr(datems);
-}
 
 window.vSummary = {
   props: ['repos', 'errorMessages'],
@@ -118,7 +19,6 @@ window.vSummary = {
       isSortingWithinDsc: '',
       filterTimeFrame: 'commit',
       filterBreakdown: false,
-      isMergeGroup: false,
       tmpFilterSinceDate: '',
       tmpFilterUntilDate: '',
       hasModifiedSinceDate: window.app.isSinceDateProvided,
@@ -130,6 +30,8 @@ window.vSummary = {
       maxDate: '',
       fileTypeColors: {},
       isSafariBrowser: /.*Version.*Safari.*/.test(navigator.userAgent),
+      // eslint-disable-next-line new-cap
+      randomGenerator: new Math.seedrandom('Seeded Random Generator'),
     };
   },
   watch: {
@@ -142,23 +44,32 @@ window.vSummary = {
     sortGroupSelection() {
       this.getFiltered();
     },
+
     sortWithinGroupSelection() {
       this.getFiltered();
     },
+
     filterTimeFrame() {
       this.getFiltered();
     },
-    filterGroupSelection() {
-      // merge group is not allowed when group by none
-      if (this.filterGroupSelection === 'groupByNone') {
-        this.isMergeGroup = false;
-      }
 
-      this.getFiltered();
+    filterGroupSelection() {
+      const { allGroupsMerged } = this;
+      this.getFilteredRepos();
+
+      // merge group is not allowed when group by none
+      // also reset merged groups
+      if (this.filterGroupSelection === 'groupByNone' || !allGroupsMerged) {
+        this.$store.commit('updateMergedGroup', []);
+      } else {
+        const mergedGroups = [];
+        this.filtered.forEach((group) => {
+          mergedGroups.push(this.getGroupName(group));
+        });
+        this.$store.commit('updateMergedGroup', mergedGroups);
+      }
     },
-    isMergeGroup() {
-      this.getFiltered();
-    },
+
     tmpFilterSinceDate() {
       if (this.tmpFilterSinceDate && this.tmpFilterSinceDate >= this.minDate) {
         this.filterSinceDate = this.tmpFilterSinceDate;
@@ -167,12 +78,25 @@ window.vSummary = {
       }
       this.getFiltered();
     },
+
     tmpFilterUntilDate() {
       if (this.tmpFilterUntilDate && this.tmpFilterUntilDate <= this.maxDate) {
         this.filterUntilDate = this.tmpFilterUntilDate;
       } else if (!this.tmpFilterUntilDate) { // If user clears the until date field
         this.filterUntilDate = this.maxDate;
       }
+      this.getFiltered();
+    },
+
+    '$store.state.summaryDates': function () {
+      this.hasModifiedSinceDate = true;
+      this.hasModifiedUntilDate = true;
+      this.tmpFilterSinceDate = this.$store.state.summaryDates.since;
+      this.tmpFilterUntilDate = this.$store.state.summaryDates.until;
+      window.deactivateAllOverlays();
+    },
+
+    mergedGroups() {
       this.getFiltered();
     },
   },
@@ -189,21 +113,7 @@ window.vSummary = {
         }
       },
     },
-    avgCommitSize() {
-      let totalCommits = 0;
-      let totalCount = 0;
-      this.filtered.forEach((repo) => {
-        repo.forEach((user) => {
-          user.commits.forEach((slice) => {
-            if (slice.insertions > 0) {
-              totalCount += 1;
-              totalCommits += slice.insertions;
-            }
-          });
-        });
-      });
-      return totalCommits / totalCount;
-    },
+
     avgContributionSize() {
       let totalLines = 0;
       let totalCount = 0;
@@ -218,93 +128,35 @@ window.vSummary = {
 
       return totalLines / totalCount;
     },
-    filteredRepos() {
-      return this.filtered.filter((repo) => repo.length > 0);
+
+    allGroupsMerged: {
+      get() {
+        if (this.mergedGroups.length === 0) {
+          return false;
+        }
+        return this.mergedGroups.length === this.filtered.length;
+      },
+      set(value) {
+        if (value) {
+          const mergedGroups = [];
+          this.filtered.forEach((group) => {
+            mergedGroups.push(this.getGroupName(group));
+          });
+          this.$store.commit('updateMergedGroup', mergedGroups);
+        } else {
+          this.$store.commit('updateMergedGroup', []);
+        }
+      },
     },
+
+    ...Vuex.mapState(['mergedGroups']),
   },
   methods: {
+    dismissTab(event) {
+      event.target.parentNode.style.display = 'none';
+    },
+
     // view functions //
-    getFileTypeContributionBars(fileTypeContribution) {
-      let currentBarWidth = 0;
-      const fullBarWidth = 100;
-      const contributionPerFullBar = (this.avgContributionSize * 2);
-      const allFileTypesContributionBars = {};
-
-      Object.keys(fileTypeContribution)
-          .filter((fileType) => this.checkedFileTypes.includes(fileType))
-          .forEach((fileType) => {
-            const contribution = fileTypeContribution[fileType];
-            let barWidth = (contribution / contributionPerFullBar) * fullBarWidth;
-            const contributionBars = [];
-
-            // if contribution bar for file type is able to fit on the current line
-            if (currentBarWidth + barWidth < fullBarWidth) {
-              contributionBars.push(barWidth);
-              currentBarWidth += barWidth;
-            } else {
-              // take up all the space left on the current line
-              contributionBars.push(fullBarWidth - currentBarWidth);
-              barWidth -= fullBarWidth - currentBarWidth;
-              // additional bar width will start on a new line
-              const numOfFullBars = Math.floor(barWidth / fullBarWidth);
-              for (let i = 0; i < numOfFullBars; i += 1) {
-                contributionBars.push(fullBarWidth);
-              }
-              const remainingBarWidth = barWidth % fullBarWidth;
-              if (remainingBarWidth !== 0) {
-                contributionBars.push(remainingBarWidth);
-              }
-              currentBarWidth = remainingBarWidth;
-            }
-
-            allFileTypesContributionBars[fileType] = contributionBars;
-          });
-
-      return allFileTypesContributionBars;
-    },
-    getFileTypes(repo) {
-      const fileTypes = [];
-      repo.forEach((user) => {
-        Object.keys(user.fileTypeContribution).forEach((fileType) => {
-          if (this.checkedFileTypes.includes(fileType) && !fileTypes.includes(fileType)) {
-            fileTypes.push(fileType);
-          }
-        });
-      });
-      return fileTypes;
-    },
-    getContributionBars(totalContribution) {
-      const res = [];
-      const contributionLimit = (this.avgContributionSize * 2);
-
-      const cnt = parseInt(totalContribution / contributionLimit, 10);
-      for (let cntId = 0; cntId < cnt; cntId += 1) {
-        res.push(100);
-      }
-
-      const last = (totalContribution % contributionLimit) / contributionLimit;
-      if (last !== 0) {
-        res.push(last * 100);
-      }
-
-      return res;
-    },
-
-    getAuthorProfileLink(userName) {
-      return `https://github.com/${userName}`;
-    },
-
-    getRepoLink(repo) {
-      const { REPOS } = window;
-      const { location, branch } = REPOS[repo.repoId];
-
-      if (Object.prototype.hasOwnProperty.call(location, 'organization')) {
-        return `${window.BASE_URL}/${location.organization}/${location.repoName}/tree/${branch}`;
-      }
-
-      return repo.location;
-    },
-
     getReportIssueGitHubLink(stackTrace) {
       return `${window.BASE_URL}/reposense/RepoSense/issues/new?title=${this.getReportIssueTitle()
       }&body=${this.getReportIssueMessage(stackTrace)}`;
@@ -336,6 +188,7 @@ window.vSummary = {
       this.filterSearch = evt.target.value;
       this.getFiltered();
     },
+
     setSummaryHash() {
       const { addHash, encodeHash } = window;
 
@@ -352,13 +205,28 @@ window.vSummary = {
       }
 
       addHash('timeframe', this.filterTimeFrame);
-      addHash('mergegroup', this.isMergeGroup);
+
+      let mergedGroupsHash = this.mergedGroups.join(window.HASH_DELIMITER);
+      if (mergedGroupsHash.length === 0) {
+        mergedGroupsHash = '';
+      }
+      addHash('mergegroup', mergedGroupsHash);
 
       addHash('groupSelect', this.filterGroupSelection);
       addHash('breakdown', this.filterBreakdown);
 
+      if (this.filterBreakdown) {
+        const checkedFileTypesHash = this.checkedFileTypes.length > 0
+          ? this.checkedFileTypes.join(window.HASH_DELIMITER)
+          : '';
+        addHash('checkedFileTypes', checkedFileTypesHash);
+      } else {
+        window.removeHash('checkedFileTypes');
+      }
+
       encodeHash();
     },
+
     renderFilterHash() {
       window.decodeHash();
 
@@ -375,7 +243,8 @@ window.vSummary = {
 
       if (hash.timeframe) { this.filterTimeFrame = hash.timeframe; }
       if (hash.mergegroup) {
-        this.isMergeGroup = convertBool(hash.mergegroup);
+        // make a copy to prevent custom merged groups from overwritten
+        this.customMergedGroups = hash.mergegroup;
       }
       if (hash.since && dateFormatRegex.test(hash.since)) {
         this.tmpFilterSinceDate = hash.since;
@@ -390,7 +259,20 @@ window.vSummary = {
       if (hash.breakdown) {
         this.filterBreakdown = convertBool(hash.breakdown);
       }
+      if (hash.checkedFileTypes !== null) {
+        const parsedFileTypes = hash.checkedFileTypes.split(window.HASH_DELIMITER);
+        this.checkedFileTypes = parsedFileTypes.filter((type) => this.fileTypes.includes(type));
+      }
       window.decodeHash();
+    },
+
+    restoreMergedGroups() {
+      if (this.customMergedGroups) {
+        this.$store.commit(
+            'updateMergedGroup',
+            this.customMergedGroups.split(window.HASH_DELIMITER),
+        );
+      }
     },
 
     getDates() {
@@ -420,32 +302,45 @@ window.vSummary = {
       }
       this.$emit('get-dates', [this.minDate, this.maxDate]);
     },
+
+    getGroupName(group) {
+      return window.getGroupName(group, this.filterGroupSelection);
+    },
+
+    isMatchSearchedUser(filterSearch, user) {
+      return !filterSearch || filterSearch.toLowerCase()
+          .split(' ')
+          .filter(Boolean)
+          .some((param) => user.searchPath.includes(param));
+    },
+
     getFiltered() {
       this.setSummaryHash();
       this.getDates();
-      deactivateAllOverlays();
+      window.deactivateAllOverlays();
 
+      this.getFilteredRepos();
+      this.getMergedRepos();
+    },
+
+    getFilteredRepos() {
       // array of array, sorted by repo
       const full = [];
 
       // create deep clone of this.repos to not modify the original content of this.repos
       // when merging groups
-      const groups = this.isMergeGroup ? JSON.parse(JSON.stringify(this.repos)) : this.repos;
+      const groups = this.hasMergedGroups() ? JSON.parse(JSON.stringify(this.repos)) : this.repos;
       groups.forEach((repo) => {
         const res = [];
 
         // filtering
         repo.users.forEach((user) => {
-          const toDisplay = this.filterSearch.toLowerCase()
-              .split(' ').filter(Boolean)
-              .some((param) => user.searchPath.includes(param));
-
-          if (!this.filterSearch || toDisplay) {
-            this.getUserCommits(user);
+          if (this.isMatchSearchedUser(this.filterSearch, user)) {
+            this.getUserCommits(user, this.filterSinceDate, this.filterUntilDate);
             if (this.filterTimeFrame === 'week') {
-              this.splitCommitsWeek(user);
+              this.splitCommitsWeek(user, this.filterSinceDate, this.filterUntilDate);
             }
-
+            this.updateCheckedFileTypeContribution(user);
             res.push(user);
           }
         });
@@ -456,40 +351,59 @@ window.vSummary = {
       });
       this.filtered = full;
 
-      this.sortFiltered();
+      this.getOptionWithOrder();
 
-      if (this.isMergeGroup) {
-        this.mergeGroup();
-      }
+      const filterControl = {
+        filterGroupSelection: this.filterGroupSelection,
+        sortingOption: this.sortingOption,
+        sortingWithinOption: this.sortingWithinOption,
+        isSortingDsc: this.isSortingDsc,
+        isSortingWithinDsc: this.isSortingWithinDsc,
+      };
+      this.filtered = this.sortFiltered(this.filtered, filterControl);
     },
-    mergeGroup() {
+
+    getMergedRepos() {
       this.filtered.forEach((group, groupIndex) => {
-        const dateToIndexMap = {};
-        const mergedCommits = [];
-        const mergedFileTypeContribution = {};
-        let mergedVariance = 0;
-        let totalMergedCommits = 0;
-
-        group.forEach((user) => {
-          this.mergeCommits(user, mergedCommits, dateToIndexMap);
-
-          this.mergeFileTypeContribution(user, mergedFileTypeContribution);
-
-          totalMergedCommits += user.totalCommits;
-          mergedVariance += user.variance;
-        });
-
-        mergedCommits.sort(window.comparator((ele) => ele.date));
-        group[0].commits = mergedCommits;
-        group[0].fileTypeContribution = mergedFileTypeContribution;
-        group[0].totalCommits = totalMergedCommits;
-        group[0].variance = mergedVariance;
-
-        // clear all users and add merged group in filtered group
-        this.filtered[groupIndex] = [];
-        this.filtered[groupIndex].push(group[0]);
+        if (this.mergedGroups.includes(this.getGroupName(group))) {
+          this.mergeGroupByIndex(this.filtered, groupIndex);
+        }
       });
     },
+
+    mergeGroupByIndex(filtered, groupIndex) {
+      const dateToIndexMap = {};
+      const mergedCommits = [];
+      const mergedFileTypeContribution = {};
+      let mergedVariance = 0;
+      let totalMergedCommits = 0;
+      let totalMergedCheckedFileTypeCommits = 0;
+
+      filtered[groupIndex].forEach((user) => {
+        this.mergeCommits(user, mergedCommits, dateToIndexMap);
+
+        this.mergeFileTypeContribution(user, mergedFileTypeContribution);
+
+        totalMergedCommits += user.totalCommits;
+        totalMergedCheckedFileTypeCommits += user.checkedFileTypeContribution;
+        mergedVariance += user.variance;
+      });
+
+      mergedCommits.sort(window.comparator((ele) => ele.date));
+      filtered[groupIndex][0].commits = mergedCommits;
+      filtered[groupIndex][0].fileTypeContribution = mergedFileTypeContribution;
+      filtered[groupIndex][0].totalCommits = totalMergedCommits;
+      filtered[groupIndex][0].variance = mergedVariance;
+      filtered[groupIndex][0].checkedFileTypeContribution = totalMergedCheckedFileTypeCommits;
+
+      // only take the merged group
+      filtered[groupIndex] = filtered[groupIndex].slice(0, 1);
+    },
+
+    hasMergedGroups() {
+      return this.mergedGroups.length > 0;
+    },
+
     mergeCommits(user, merged, dateToIndexMap) {
       // merge commits with the same date
       user.commits.forEach((commit) => {
@@ -517,6 +431,7 @@ window.vSummary = {
         }
       });
     },
+
     mergeFileTypeContribution(user, merged) {
       Object.entries(user.fileTypeContribution).forEach((fileType) => {
         const key = fileType[0];
@@ -528,6 +443,71 @@ window.vSummary = {
         merged[key] += value;
       });
     },
+
+    getRandomHex() {
+      const maxHexColorValue = 16777214;
+      // excludes #000000 and #FFFFFF as they are reserved
+      return `#${Math.round(this.randomGenerator() * maxHexColorValue + 1).toString(16).padStart(6, '0')}`;
+    },
+
+    getNonRepeatingColor(existingColors) {
+      let generatedHex = this.getRandomHex();
+      while (this.hasSimilarExistingColors(existingColors, generatedHex)) {
+        generatedHex = this.getRandomHex();
+      }
+      return generatedHex;
+    },
+
+    hasSimilarExistingColors(existingColors, newHex) {
+      const deltaEThreshold = 11; // the lower limit of delta E to be similar, more info at http://zschuessler.github.io/DeltaE/learn/
+      return existingColors.some((existingHex) => {
+        const existingRGB = window.getHexToRGB(existingHex);
+        const newRGB = window.getHexToRGB(newHex);
+        return this.deltaE(existingRGB, newRGB) < deltaEThreshold;
+      });
+    },
+
+    // this delta E (perceptual color distance) implementation taken from @antimatter15 from
+    // github: https://github.com/antimatter15/rgb-lab
+    deltaE(rgbA, rgbB) {
+      const labA = this.rgb2lab(rgbA);
+      const labB = this.rgb2lab(rgbB);
+      const deltaL = labA[0] - labB[0];
+      const deltaA = labA[1] - labB[1];
+      const deltaB = labA[2] - labB[2];
+      const c1 = Math.sqrt(labA[1] * labA[1] + labA[2] * labA[2]);
+      const c2 = Math.sqrt(labB[1] * labB[1] + labB[2] * labB[2]);
+      const deltaC = c1 - c2;
+      let deltaH = deltaA * deltaA + deltaB * deltaB - deltaC * deltaC;
+      deltaH = deltaH < 0 ? 0 : Math.sqrt(deltaH);
+      const sc = 1.0 + 0.045 * c1;
+      const sh = 1.0 + 0.015 * c1;
+      const deltaLKLSL = deltaL / (1.0);
+      const deltaCKCSC = deltaC / (sc);
+      const deltaHKSHS = deltaH / (sh);
+      const distance = deltaLKLSL * deltaLKLSL + deltaCKCSC * deltaCKCSC + deltaHKSHS * deltaHKSHS;
+      return distance < 0 ? 0 : Math.sqrt(distance);
+    },
+
+    rgb2lab(rgb) {
+      let r = rgb[0] / 255;
+      let g = rgb[1] / 255;
+      let b = rgb[2] / 255;
+      let x;
+      let y;
+      let z;
+      r = (r > 0.04045) ? ((r + 0.055) / 1.055) ** 2.4 : r / 12.92;
+      g = (g > 0.04045) ? ((g + 0.055) / 1.055) ** 2.4 : g / 12.92;
+      b = (b > 0.04045) ? ((b + 0.055) / 1.055) ** 2.4 : b / 12.92;
+      x = (r * 0.4124 + g * 0.3576 + b * 0.1805) / 0.95047;
+      y = (r * 0.2126 + g * 0.7152 + b * 0.0722) / 1.00000;
+      z = (r * 0.0193 + g * 0.1192 + b * 0.9505) / 1.08883;
+      x = (x > 0.008856) ? (x ** (1 / 3)) : (7.787 * x) + 16 / 116;
+      y = (y > 0.008856) ? (y ** (1 / 3)) : (7.787 * y) + 16 / 116;
+      z = (z > 0.008856) ? (z ** (1 / 3)) : (7.787 * z) + 16 / 116;
+      return [(116 * y) - 16, 500 * (x - y), 200 * (y - z)];
+    },
+
     processFileTypes() {
       const selectedColors = ['#ffe119', '#4363d8', '#3cb44b', '#f58231', '#911eb4', '#46f0f0', '#f032e6',
           '#bcf60c', '#fabebe', '#008080', '#e6beff', '#9a6324', '#fffac8', '#800000', '#aaffc3', '#808000', '#ffd8b1',
@@ -539,8 +519,12 @@ window.vSummary = {
         repo.users.forEach((user) => {
           Object.keys(user.fileTypeContribution).forEach((fileType) => {
             if (!Object.prototype.hasOwnProperty.call(fileTypeColors, fileType)) {
-              fileTypeColors[fileType] = selectedColors[i];
-              i = (i + 1) % selectedColors.length;
+              if (i < selectedColors.length) {
+                fileTypeColors[fileType] = selectedColors[i];
+                i += 1;
+              } else {
+                fileTypeColors[fileType] = this.getNonRepeatingColor(Object.values(fileTypeColors));
+              }
             }
             if (!this.fileTypes.includes(fileType)) {
               this.fileTypes.push(fileType);
@@ -552,27 +536,16 @@ window.vSummary = {
 
       this.checkedFileTypes = this.fileTypes.slice();
     },
-    getFontColor(color) {
-      // to convert color from hex code to rgb format
-      const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(color);
-      const red = parseInt(result[1], 16);
-      const green = parseInt(result[2], 16);
-      const blue = parseInt(result[3], 16);
 
-      const luminosity = 0.2126 * red + 0.7152 * green + 0.0722 * blue; // per ITU-R BT.709
-
-      return luminosity < 120 ? '#ffffff' : '#000000';
-    },
-    splitCommitsWeek(user) {
+    splitCommitsWeek(user, sinceDate, untilDate) {
       const { commits } = user;
 
       const res = [];
 
-      const nextMondayDate = dateRounding(this.filterSinceDate, 0); // round up for the next monday
-      const untilDate = this.filterUntilDate;
+      const nextMondayDate = this.dateRounding(sinceDate, 0); // round up for the next monday
 
       const nextMondayMs = (new Date(nextMondayDate)).getTime();
-      const sinceMs = new Date(this.filterSinceDate).getTime();
+      const sinceMs = new Date(sinceDate).getTime();
       const untilMs = (new Date(untilDate)).getTime();
 
       if (nextMondayDate <= untilDate) {
@@ -583,19 +556,21 @@ window.vSummary = {
       }
       user.commits = res;
     },
+
     pushCommitsWeek(sinceMs, untilMs, res, commits) {
-      const diff = Math.round(Math.abs((untilMs - sinceMs) / DAY_IN_MS));
+      const diff = Math.round(Math.abs((untilMs - sinceMs) / window.DAY_IN_MS));
+      const weekInMS = window.DAY_IN_MS * 7;
 
       for (let weekId = 0; weekId < diff / 7; weekId += 1) {
-        const startOfWeekMs = sinceMs + (weekId * WEEK_IN_MS);
-        const endOfWeekMs = startOfWeekMs + WEEK_IN_MS - DAY_IN_MS;
+        const startOfWeekMs = sinceMs + (weekId * weekInMS);
+        const endOfWeekMs = startOfWeekMs + weekInMS - window.DAY_IN_MS;
         const endOfWeekMsWithinUntilMs = endOfWeekMs <= untilMs ? endOfWeekMs : untilMs;
 
         const week = {
           insertions: 0,
           deletions: 0,
-          date: getDateStr(startOfWeekMs),
-          endDate: getDateStr(endOfWeekMsWithinUntilMs),
+          date: window.getDateStr(startOfWeekMs),
+          endDate: window.getDateStr(endOfWeekMsWithinUntilMs),
           commitResults: [],
         };
 
@@ -605,6 +580,7 @@ window.vSummary = {
         }
       }
     },
+
     addLineContributionWeek(endOfWeekMs, week, commits) {
       // commits are not contiguous, meaning there are gaps of days without
       // commits, so we are going to check each commit's date and make sure
@@ -617,7 +593,8 @@ window.vSummary = {
         commit.commitResults.forEach((commitResult) => week.commitResults.push(commitResult));
       }
     },
-    getUserCommits(user) {
+
+    getUserCommits(user, sinceDate, untilDate) {
       user.commits = [];
       const userFirst = user.dailyCommits[0];
       const userLast = user.dailyCommits[user.dailyCommits.length - 1];
@@ -626,12 +603,10 @@ window.vSummary = {
         return null;
       }
 
-      let sinceDate = this.filterSinceDate;
       if (!sinceDate || sinceDate === 'undefined') {
         sinceDate = userFirst.date;
       }
 
-      let untilDate = this.filterUntilDate;
       if (!untilDate) {
         untilDate = userLast.date;
       }
@@ -639,29 +614,72 @@ window.vSummary = {
       user.dailyCommits.forEach((commit) => {
         const { date } = commit;
         if (date >= sinceDate && date <= untilDate) {
-          user.commits.push(commit);
+          const filteredCommit = JSON.parse(JSON.stringify(commit));
+          if (this.filterBreakdown) {
+            this.filterCommitByCheckedFileTypes(filteredCommit);
+          }
+          if (filteredCommit.commitResults.length > 0) {
+            user.commits.push(filteredCommit);
+          }
         }
       });
 
       return null;
     },
+
+    filterCommitByCheckedFileTypes(commit) {
+      const filteredCommitResults = commit.commitResults.map((result) => {
+        const filteredFileTypes = this.getFilteredFileTypes(result);
+        this.updateCommitResultWithFileTypes(result, filteredFileTypes);
+        return result;
+      }).filter((result) => Object.values(result.fileTypesAndContributionMap).length > 0);
+
+      commit.insertions = filteredCommitResults.reduce((acc, result) => acc + result.insertions, 0);
+      commit.deletions = filteredCommitResults.reduce((acc, result) => acc + result.deletions, 0);
+      commit.commitResults = filteredCommitResults;
+    },
+
+    getFilteredFileTypes(commitResult) {
+      return Object.keys(commitResult.fileTypesAndContributionMap)
+          .filter(this.isFileTypeChecked)
+          .reduce((obj, fileType) => {
+            obj[fileType] = commitResult.fileTypesAndContributionMap[fileType];
+            return obj;
+          }, {});
+    },
+
+    isFileTypeChecked(fileType) {
+      return this.checkedFileTypes.includes(fileType);
+    },
+
+    updateCommitResultWithFileTypes(commitResult, filteredFileTypes) {
+      commitResult.insertions = Object.values(filteredFileTypes)
+          .reduce((acc, fileType) => acc + fileType.insertions, 0);
+      commitResult.deletions = Object.values(filteredFileTypes)
+          .reduce((acc, fileType) => acc + fileType.deletions, 0);
+      commitResult.fileTypesAndContributionMap = filteredFileTypes;
+    },
+
     getOptionWithOrder() {
       [this.sortingOption, this.isSortingDsc] = this.sortGroupSelection.split(' ');
       [this.sortingWithinOption, this.isSortingWithinDsc] = this.sortWithinGroupSelection.split(' ');
     },
-    sortFiltered() {
+
+    sortFiltered(filtered, filterControl) {
+      const { filterGroupSelection } = filterControl;
       this.getOptionWithOrder();
       let full = [];
-      if (this.filterGroupSelection === 'groupByNone') {
+
+      if (filterGroupSelection === 'groupByNone') {
         // push all repos into the same group
-        full[0] = this.groupByNone(this.filtered);
-      } else if (this.filterGroupSelection === 'groupByAuthors') {
-        full = this.groupByAuthors(this.filtered);
+        full[0] = this.groupByNone(filtered, filterControl);
+      } else if (filterGroupSelection === 'groupByAuthors') {
+        full = this.groupByAuthors(filtered, filterControl);
       } else {
-        full = this.groupByRepos(this.filtered);
+        full = this.groupByRepos(filtered, filterControl);
       }
 
-      this.filtered = full;
+      return full;
     },
 
     // updating filters programically //
@@ -672,14 +690,6 @@ window.vSummary = {
       this.tmpFilterUntilDate = '';
       window.removeHash('since');
       window.removeHash('until');
-    },
-
-    updateDateRange(since, until) {
-      this.hasModifiedSinceDate = true;
-      this.hasModifiedUntilDate = true;
-      this.tmpFilterSinceDate = since;
-      this.tmpFilterUntilDate = until;
-      deactivateAllOverlays();
     },
 
     updateTmpFilterSinceDate(event) {
@@ -720,85 +730,46 @@ window.vSummary = {
       }
     },
 
-    // triggering opening of tabs //
-    openTabAuthorship(user, repo, index) {
-      const { minDate, maxDate } = this;
-
-      this.$emit('view-authorship', {
-        minDate,
-        maxDate,
-        author: user.name,
-        repo: user.repoName,
-        name: user.displayName,
-        location: this.getRepoLink(repo[index]),
-      });
-    },
-    openTabZoomSubrange(user, repo, index) {
-      // skip if accidentally clicked on ramp chart
-      if (drags.length === 2 && drags[1] - drags[0]) {
-        const tdiff = new Date(this.filterUntilDate) - new Date(this.filterSinceDate);
-        const idxs = drags.map((x) => x * tdiff / 100);
-        const tsince = getDateStr(new Date(this.filterSinceDate).getTime() + idxs[0]);
-        const tuntil = getDateStr(new Date(this.filterSinceDate).getTime() + idxs[1]);
-        this.openTabZoom(user, tsince, tuntil, repo, index);
-      }
-    },
-
-    openTabZoom(user, since, until, repo, index) {
-      const { avgCommitSize } = this;
-      const clonedUser = Object.assign({}, user); // so that changes in summary won't affect zoom
-      this.$emit('view-zoom', {
-        filterGroupSelection: this.filterGroupSelection,
-        filterTimeFrame: this.filterTimeFrame,
-        avgCommitSize,
-        user: clonedUser,
-        location: this.getRepoLink(repo[index]),
-        sinceDate: since,
-        untilDate: until,
-        isMergeGroup: this.isMergeGroup,
-      });
-    },
-
-    getFileTypeContribution(ele) {
+    updateCheckedFileTypeContribution(ele) {
       let validCommits = 0;
       Object.keys(ele.fileTypeContribution).forEach((fileType) => {
         if (this.checkedFileTypes.includes(fileType)) {
           validCommits += ele.fileTypeContribution[fileType];
         }
       });
-      return validCommits;
+      ele.checkedFileTypeContribution = validCommits;
     },
 
-    groupByRepos(repos) {
+    groupByRepos(repos, sortingControl) {
       const sortedRepos = [];
-      const sortingWithinOption = this.sortingWithinOption === 'title' ? 'displayName' : this.sortingWithinOption;
-      const sortingOption = this.sortingOption === 'groupTitle' ? 'searchPath' : this.sortingOption;
+      const {
+        sortingWithinOption, sortingOption, isSortingDsc, isSortingWithinDsc,
+      } = sortingControl;
+      const sortWithinOption = sortingWithinOption === 'title' ? 'displayName' : sortingWithinOption;
+      const sortOption = sortingOption === 'groupTitle' ? 'searchPath' : sortingOption;
       repos.forEach((users) => {
-        if (this.filterBreakdown && this.sortingWithinOption === 'totalCommits') {
-          users.sort(window.comparator((ele) => this.getFileTypeContribution(ele)));
+        if (this.filterBreakdown && sortWithinOption === 'totalCommits') {
+          users.sort(window.comparator((ele) => ele.checkedFileTypeContribution));
         } else {
-          users.sort(window.comparator((ele) => ele[sortingWithinOption]));
+          users.sort(window.comparator((ele) => ele[sortWithinOption]));
         }
 
-        if (this.isSortingWithinDsc) {
+        if (isSortingWithinDsc) {
           users.reverse();
         }
         sortedRepos.push(users);
       });
-      sortedRepos.sort(window.comparator((repo) => {
-        if (sortingOption === 'totalCommits' || sortingOption === 'variance') {
-          return repo.reduce(this.getGroupCommitsVariance, 0);
-        }
-        return repo[0][sortingOption];
-      }));
-      if (this.isSortingDsc) {
+      sortedRepos.sort(window.comparator(this.sortingHelper, sortOption));
+      if (isSortingDsc) {
         sortedRepos.reverse();
       }
       return sortedRepos;
     },
-    groupByNone(repos) {
+
+    groupByNone(repos, sortingControl) {
       const sortedRepos = [];
-      const isSortingGroupTitle = this.sortingOption === 'groupTitle';
+      const { sortingOption, isSortingDsc } = sortingControl;
+      const isSortingGroupTitle = sortingOption === 'groupTitle';
       repos.forEach((users) => {
         users.forEach((user) => {
           sortedRepos.push(user);
@@ -808,22 +779,26 @@ window.vSummary = {
         if (isSortingGroupTitle) {
           return repo.searchPath + repo.name;
         }
-        if (this.filterBreakdown && this.sortingOption === 'totalCommits') {
-          return this.getFileTypeContribution(repo);
+        if (this.filterBreakdown && sortingOption === 'totalCommits') {
+          return repo.checkedFileTypeContribution;
         }
-        return repo[this.sortingOption];
+        return repo[sortingOption];
       }));
-      if (this.isSortingDsc) {
+      if (isSortingDsc) {
         sortedRepos.reverse();
       }
 
       return sortedRepos;
     },
-    groupByAuthors(repos) {
+
+    groupByAuthors(repos, sortingControl) {
       const authorMap = {};
       const filtered = [];
-      const sortingWithinOption = this.sortingWithinOption === 'title' ? 'searchPath' : this.sortingWithinOption;
-      const sortingOption = this.sortingOption === 'groupTitle' ? 'displayName' : this.sortingOption;
+      const {
+        sortingWithinOption, sortingOption, isSortingDsc, isSortingWithinDsc,
+      } = sortingControl;
+      const sortWithinOption = sortingWithinOption === 'title' ? 'searchPath' : sortingWithinOption;
+      const sortOption = sortingOption === 'groupTitle' ? 'displayName' : sortingOption;
       repos.forEach((users) => {
         users.forEach((user) => {
           if (Object.keys(authorMap).includes(user.name)) {
@@ -834,53 +809,119 @@ window.vSummary = {
         });
       });
       Object.keys(authorMap).forEach((author) => {
-        if (this.filterBreakdown && this.sortingWithinOption === 'totalCommits') {
-          authorMap[author].sort(window.comparator((repo) => this.getFileTypeContribution(repo)));
+        if (this.filterBreakdown && sortWithinOption === 'totalCommits') {
+          authorMap[author].sort(window.comparator((repo) => repo.checkedFileTypeContribution));
         } else {
-          authorMap[author].sort(window.comparator((repo) => repo[sortingWithinOption]));
+          authorMap[author].sort(window.comparator((repo) => repo[sortWithinOption]));
         }
-        if (this.isSortingWithinDsc) {
+        if (isSortingWithinDsc) {
           authorMap[author].reverse();
         }
         filtered.push(authorMap[author]);
       });
 
-      filtered.sort(window.comparator((author) => {
-        if (sortingOption === 'totalCommits' || sortingOption === 'variance') {
-          return author.reduce(this.getGroupCommitsVariance, 0);
-        }
-        return author[0][sortingOption];
-      }));
-      if (this.isSortingDsc) {
+      filtered.sort(window.comparator(this.sortingHelper, sortOption));
+      if (isSortingDsc) {
         filtered.reverse();
       }
       return filtered;
     },
 
-    getPercentile(index) {
-      if (this.filterGroupSelection === 'groupByNone') {
-        return (Math.round((index + 1) * 1000 / this.filtered[0].length) / 10).toFixed(1);
-      }
-      return (Math.round((index + 1) * 1000 / this.filtered.length) / 10).toFixed(1);
-    },
-
     getGroupCommitsVariance(total, group) {
       if (this.filterBreakdown && this.sortingOption === 'totalCommits') {
-        return total + this.getFileTypeContribution(group);
+        return total + group.checkedFileTypeContribution;
       }
       return total + group[this.sortingOption];
     },
 
-    getGroupTotalContribution(group) {
-      return group.reduce((accContribution, user) => accContribution + user.totalCommits, 0);
+    sortingHelper(element, sortingOption) {
+      return sortingOption === 'totalCommits' || sortingOption === 'variance'
+          ? element.reduce(this.getGroupCommitsVariance, 0)
+          : element[0][sortingOption];
+    },
+
+    restoreZoomFiltered(info) {
+      const {
+        zSince, zUntil, zTimeFrame, zIsMerge, zFilterSearch,
+      } = info;
+      const filtered = [];
+
+      const groups = JSON.parse(JSON.stringify(this.repos));
+
+      const res = [];
+      groups.forEach((repo) => {
+        repo.users.forEach((user) => {
+          // only filter users that match with zoom user and previous searched user
+          if (this.matchZoomUser(info, user) && this.isMatchSearchedUser(zFilterSearch, user)) {
+            this.getUserCommits(user, zSince, zUntil);
+            if (zTimeFrame === 'week') {
+              this.splitCommitsWeek(user, zSince, zUntil);
+            }
+            this.updateCheckedFileTypeContribution(user);
+            res.push(user);
+          }
+        });
+      });
+
+      if (res.length) {
+        filtered.push(res);
+      }
+
+      if (zIsMerge) {
+        this.mergeGroupByIndex(filtered, 0);
+      }
+      return filtered[0][0];
+    },
+    matchZoomUser(info, user) {
+      const {
+        zIsMerge, zFilterGroup, zRepo, zAuthor,
+      } = info;
+      if (zIsMerge) {
+        return zFilterGroup === 'groupByRepos'
+          ? user.repoName === zRepo
+          : user.name === zAuthor;
+      }
+      return user.repoName === zRepo && user.name === zAuthor;
+    },
+
+    dateRounding(datestr, roundDown) {
+      // rounding up to nearest monday
+      const date = new Date(datestr);
+      const day = date.getUTCDay();
+      let datems = date.getTime();
+      if (roundDown) {
+        datems -= ((day + 6) % 7) * window.DAY_IN_MS;
+      } else {
+        datems += ((8 - day) % 7) * window.DAY_IN_MS;
+      }
+
+      return window.getDateStr(datems);
     },
   },
   created() {
+    this.processFileTypes();
     this.renderFilterHash();
     this.getFiltered();
-    this.processFileTypes();
+  },
+  beforeMount() {
+    this.$root.$on('restoreCommits', (info) => {
+      const zoomFilteredUser = this.restoreZoomFiltered(info);
+      info.zUser = zoomFilteredUser;
+    });
+
+    this.$root.$on('restoreFileTypeColors', (info) => {
+      info.fileTypeColors = this.fileTypeColors;
+    });
+  },
+  mounted() {
+    this.$store.commit('updateMergedGroup', []);
+
+    // restoring custom merged groups after watchers finish their job
+    setTimeout(() => {
+      this.restoreMergedGroups();
+    }, 0);
   },
   components: {
-    v_ramp: window.vRamp,
+    vSummaryCharts: window.vSummaryCharts,
   },
 };

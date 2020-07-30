@@ -11,28 +11,7 @@
   }
 
   .title {
-    .repoName {
-      cursor: pointer;
-    }
-
-    .author {
-      margin-left: .3rem;
-    }
-
-    .period {
-      margin-left: 2rem;
-    }
-
     .contribution {
-      color: mui-color('red');
-
-      .fileType {
-        align-items: center;
-        display: flex;
-        margin-left: 3rem;
-        margin-top: 1.0rem;
-      }
-
       .radio-button--search {
         float: left;
         margin: 1.75rem 2.0rem 0 0;
@@ -40,21 +19,27 @@
 
       .radio-button--checkbox {
         float: left;
-        margin: 0 2.0rem 0 -3rem;
+        margin: 0 2.0rem 0 0;
         vertical-align: middle;
       }
 
       #search {
+        @include medium-font;
         margin-top: 1.25rem;
         padding: .5rem 1.0rem .25rem 1.0rem;
         width: 30%;
       }
 
       #submit-button {
+        @include medium-font;
         background-color: mui-color('blue');
         color: mui-color('white');
         margin: 1.0rem 0 0 .25rem;
         padding: .5rem 1.0rem .25rem 1.0rem;
+      }
+
+      .searchbox {
+        margin-bottom: 1em;
       }
 
       .select {
@@ -65,34 +50,8 @@
         font-weight: bolder;
       }
 
-      .bloc {
-        color: mui-color('grey');
-      }
-
-      span.fileType {
-        span.bloc::after {
-          content: ', ';
-        }
-
-        span.bloc:last-child::after {
-          content: '';
-        }
-      }
-
       .mui-checkbox--fileType {
         vertical-align: middle;
-      }
-
-      .checkboxes {
-        label {
-          align-items: center;
-          display: inline-flex;
-          padding-right: 10px;
-        }
-
-        span {
-          margin-left: .25rem;
-        }
       }
     }
   }
@@ -102,23 +61,17 @@
 
     .file {
       pre {
-        display: none;
+        display: grid;
         // GitHub's font family and font size
         font-family: SFMono-Regular, Consolas, Liberation Mono, Menlo, monospace;
         font-size: 12px;
-      }
+        margin-top: 0;
 
-      &.active {
-        pre {
-          display: grid;
-          margin-top: 0;
-
-          .hljs {
-            // overwrite hljs library
-            display: inherit;
-            padding: 0;
-            white-space: pre-wrap;
-          }
+        .hljs {
+          // overwrite hljs library
+          display: inherit;
+          padding: 0;
+          white-space: pre-wrap;
         }
       }
     }
@@ -145,6 +98,19 @@
         color: mui-color('grey');
         margin-left: .5rem;
         text-decoration: none;
+      }
+
+      .icons {
+        margin-right: 8px;
+        vertical-align: middle;
+      }
+
+      .fileTypeLabel {
+        @include medium-font;
+        border-radius: 5px;
+        display: inline-block;
+        font-weight: bold;
+        padding: 0 5px;
       }
     }
 
