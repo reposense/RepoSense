@@ -27,7 +27,7 @@
         ? `[${slice.date}] Daily` \
         : `[${slice.date} till ${slice.endDate}] Weekly`} contribution: ${slice.insertions} lines`",
       v-bind:href="getLink(user, slice)", target="_blank",
-      v-bind:class="`ramp__slice--color${getSliceColor(slice.date)}`"
+      v-bind:class="`ramp__slice--color${getSliceColor(slice.date)}`",
       v-bind:style="[\
           {\
             zIndex: user.commits.length - j,\
