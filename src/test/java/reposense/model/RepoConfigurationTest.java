@@ -2,7 +2,8 @@ package reposense.model;
 
 import static org.apache.tools.ant.types.Commandline.translateCommandline;
 
-import java.io.File;
+import static reposense.util.TestUtil.loadResource;
+
 import java.lang.reflect.Method;
 import java.nio.file.Path;
 import java.util.ArrayList;
@@ -28,26 +29,21 @@ import reposense.util.TestUtil;
 
 public class RepoConfigurationTest {
     private static final Path IGNORE_STANDALONE_TEST_CONFIG_FILES =
-            new File(RepoConfigurationTest.class.getClassLoader()
-                    .getResource("RepoConfigurationTest/repoconfig_ignoreStandAlone_test").getFile()).toPath();
+            loadResource(RepoConfigurationTest.class, "RepoConfigurationTest/repoconfig_ignoreStandAlone_test");
     private static final Path IGNORE_STANDALONE_KEYWORD_TEST_CONFIG_FILES =
-            new File(RepoConfigurationTest.class.getClassLoader()
-                    .getResource("RepoConfigurationTest/repoconfig_ignoreStandAloneKeyword_test")
-                    .getFile()).toPath();
-    private static final Path FORMATS_TEST_CONFIG_FILES = new File(RepoConfigurationTest.class.getClassLoader()
-            .getResource("RepoConfigurationTest/repoconfig_formats_test").getFile()).toPath();
-    private static final Path WITHOUT_FORMATS_TEST_CONFIG_FILES = new File(RepoConfigurationTest.class.getClassLoader()
-            .getResource("RepoConfigurationTest/repoconfig_withoutformats_test").getFile()).toPath();
-    private static final Path GROUPS_TEST_CONFIG_FILES = new File(RepoConfigurationTest.class.getClassLoader()
-            .getResource("RepoConfigurationTest/repoconfig_groups_test").getFile()).toPath();
-    private static final Path OVERRIDE_STANDALONE_TEST_CONFIG_FILE = new File(RepoConfigurationTest.class
-            .getClassLoader().getResource("RepoConfigurationTest/repoconfig_overrideStandAlone_test")
-            .getFile()).toPath();
-    private static final Path IGNORE_AUTHORS_TEST_CONFIG_FILE = new File(RepoConfigurationTest.class.getClassLoader()
-            .getResource("RepoConfigurationTest/repoconfig_ignoreAuthors_test").getFile()).toPath();
-    private static final Path IGNORE_STANDALONE_FLAG_OVERRIDE_CSV_TEST = new File(RepoConfigurationTest.class
-            .getClassLoader().getResource("RepoConfigurationTest/repoconfig_ignoreStandaloneOverrideCsv_test")
-            .getFile()).toPath();
+            loadResource(RepoConfigurationTest.class, "RepoConfigurationTest/repoconfig_ignoreStandAloneKeyword_test");
+    private static final Path FORMATS_TEST_CONFIG_FILES = loadResource(RepoConfigurationTest.class,
+            "RepoConfigurationTest/repoconfig_formats_test");
+    private static final Path WITHOUT_FORMATS_TEST_CONFIG_FILES = loadResource(RepoConfigurationTest.class,
+            "RepoConfigurationTest/repoconfig_withoutformats_test");
+    private static final Path GROUPS_TEST_CONFIG_FILES = loadResource(RepoConfigurationTest.class,
+            "RepoConfigurationTest/repoconfig_groups_test");
+    private static final Path OVERRIDE_STANDALONE_TEST_CONFIG_FILE = loadResource(RepoConfigurationTest.class,
+            "RepoConfigurationTest/repoconfig_overrideStandAlone_test");
+    private static final Path IGNORE_AUTHORS_TEST_CONFIG_FILE = loadResource(RepoConfigurationTest.class,
+            "RepoConfigurationTest/repoconfig_ignoreAuthors_test");
+    private static final Path IGNORE_STANDALONE_FLAG_OVERRIDE_CSV_TEST = loadResource(RepoConfigurationTest.class,
+            "RepoConfigurationTest/repoconfig_ignoreStandaloneOverrideCsv_test");
 
     private static final String TEST_REPO_BETA = "https://github.com/reposense/testrepo-Beta.git";
     private static final String TEST_REPO_DELTA = "https://github.com/reposense/testrepo-Delta.git";

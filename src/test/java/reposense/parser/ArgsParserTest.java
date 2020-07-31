@@ -2,6 +2,8 @@ package reposense.parser;
 
 import static org.apache.tools.ant.types.Commandline.translateCommandline;
 
+import static reposense.util.TestUtil.loadResource;
+
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -36,10 +38,8 @@ public class ArgsParserTest {
     private static final Path PROJECT_DIRECTORY = Paths.get(System.getProperty("user.dir"));
     private static final Path CONFIG_DIRECTORY = Paths.get(System.getProperty("user.dir")
             + File.separator + "config" + File.separator);
-    private static final Path CONFIG_FOLDER_ABSOLUTE = new File(ArgsParserTest.class.getClassLoader()
-            .getResource("cli_location_test").getFile()).toPath();
-    private static final Path OUTPUT_DIRECTORY_ABSOLUTE = new File(ArgsParserTest.class.getClassLoader()
-            .getResource("output").getFile()).toPath();
+    private static final Path CONFIG_FOLDER_ABSOLUTE = loadResource(ArgsParserTest.class, "cli_location_test");
+    private static final Path OUTPUT_DIRECTORY_ABSOLUTE = loadResource(ArgsParserTest.class, "output");
     private static final Path CONFIG_FOLDER_RELATIVE = PROJECT_DIRECTORY.relativize(CONFIG_FOLDER_ABSOLUTE);
     private static final Path OUTPUT_DIRECTORY_RELATIVE = PROJECT_DIRECTORY.relativize(OUTPUT_DIRECTORY_ABSOLUTE);
     private static final Path REPO_CONFIG_CSV_FILE =
