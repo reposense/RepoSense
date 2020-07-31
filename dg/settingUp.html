@@ -5,7 +5,7 @@
 
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="generator" content="MarkBind 2.14.1">
+  <meta name="generator" content="MarkBind 2.15.2">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>RepoSense - Setting up</title>
   <link rel="stylesheet" href="../markbind/css/bootstrap.min.css">
@@ -46,29 +46,41 @@
       <nav id="site-nav" class="navbar navbar-light bg-transparent">
         <div class="border-right-grey nav-inner position-sticky slim-scroll">
           <p><span class="lead"><strong><strong>DEVELOPER GUIDE</strong></strong></span></p>
-          <ul class="px-0 site-nav-list">
-            <li class="mt-2"><a href="/RepoSense/dg/index.html" class="site-nav__a"><strong>Contributing</strong></a></li>
-            <li class="mt-2"><a href="/RepoSense/dg/settingUp.html" class="site-nav__a current"><strong>Setting up</strong></a></li>
-            <li class="mt-2"><a href="/RepoSense/dg/workflow.html" class="site-nav__a"><strong>Workflow</strong></a></li>
-            <li class="mt-2"><button class="dropdown-btn dropdown-btn-open"><strong>Design and implementation</strong>
-                <i class="dropdown-btn-icon rotate-icon">
-                  <span class="glyphicon glyphicon-menu-down" aria-hidden="true"></span></i></button>
-              <div class="dropdown-container dropdown-container-open">
-                <ul class="pl-3 site-nav-list">
-                  <li class="mt-2"><a href="/RepoSense/dg/architecture.html" class="site-nav__a">Architecture</a></li>
-                  <li class="mt-2"><a href="/RepoSense/dg/report.html" class="site-nav__a">HTML report</a></li>
-                </ul>
-              </div>
+          <ul class="site-nav-list site-nav-list-root">
+            <li>
+              <div class="site-nav-default-list-item site-nav-list-item-0" onclick="handleSiteNavClick(this)"><a href="/RepoSense/dg/index.html"><strong>Contributing</strong></a></div>
             </li>
-            <li class="mt-2"><a href="/RepoSense/dg/projectManagement.html" class="site-nav__a"><strong>Project management</strong></a></li>
-            <li class="mt-2"><button class="dropdown-btn dropdown-btn-open"><strong>Appendices</strong>
-                <i class="dropdown-btn-icon rotate-icon">
-                  <span class="glyphicon glyphicon-menu-down" aria-hidden="true"></span></i></button>
-              <div class="dropdown-container dropdown-container-open">
-                <ul class="pl-3 site-nav-list">
-                  <li class="mt-2"><a href="/RepoSense/dg/styleGuides.html" class="site-nav__a">Style guides</a></li>
-                </ul>
-              </div>
+            <li>
+              <div class="site-nav-default-list-item site-nav-list-item-0" onclick="handleSiteNavClick(this)"><a href="/RepoSense/dg/settingUp.html" class="current"><strong>Setting up</strong></a></div>
+            </li>
+            <li>
+              <div class="site-nav-default-list-item site-nav-list-item-0" onclick="handleSiteNavClick(this)"><a href="/RepoSense/dg/workflow.html"><strong>Workflow</strong></a></div>
+            </li>
+            <li>
+              <div class="site-nav-default-list-item site-nav-list-item-0" onclick="handleSiteNavClick(this)"><strong>Design and implementation</strong>
+                <i class="site-nav-dropdown-btn-icon site-nav-rotate-icon" onclick="handleSiteNavClick(this.parentNode, false); event.stopPropagation();">
+                  <span class="glyphicon glyphicon-menu-down" aria-hidden="true"></span></i></div>
+              <ul class="site-nav-dropdown-container site-nav-dropdown-container-open site-nav-list">
+                <li>
+                  <div class="site-nav-default-list-item site-nav-list-item-1" onclick="handleSiteNavClick(this)"><a href="/RepoSense/dg/architecture.html">Architecture</a></div>
+                </li>
+                <li>
+                  <div class="site-nav-default-list-item site-nav-list-item-1" onclick="handleSiteNavClick(this)"><a href="/RepoSense/dg/report.html">HTML report</a></div>
+                </li>
+              </ul>
+            </li>
+            <li>
+              <div class="site-nav-default-list-item site-nav-list-item-0" onclick="handleSiteNavClick(this)"><a href="/RepoSense/dg/projectManagement.html"><strong>Project management</strong></a></div>
+            </li>
+            <li>
+              <div class="site-nav-default-list-item site-nav-list-item-0" onclick="handleSiteNavClick(this)"><strong>Appendices</strong>
+                <i class="site-nav-dropdown-btn-icon site-nav-rotate-icon" onclick="handleSiteNavClick(this.parentNode, false); event.stopPropagation();">
+                  <span class="glyphicon glyphicon-menu-down" aria-hidden="true"></span></i></div>
+              <ul class="site-nav-dropdown-container site-nav-dropdown-container-open site-nav-list">
+                <li>
+                  <div class="site-nav-default-list-item site-nav-list-item-1" onclick="handleSiteNavClick(this)"><a href="/RepoSense/dg/styleGuides.html">Style guides</a></div>
+                </li>
+              </ul>
             </li>
           </ul>
         </div>
@@ -80,17 +92,18 @@
         <p><strong>Prerequisites:</strong></p>
         <ul>
           <li>
-            <p><strong>JDK <code>1.8.0_60</code></strong> or later (<a href="https://www.oracle.com/technetwork/java/javase/downloads/index.html">download <span aria-hidden="true" class="fas fa-download"></span></a>).</p>
+            <p><strong>JDK <code v-pre>1.8.0_60</code></strong> or later (<a href="https://www.oracle.com/technetwork/java/javase/downloads/index.html">download <span aria-hidden="true" class="fas fa-download"></span></a>).</p>
           </li>
           <li>
-            <p><strong>npm</strong> <code>6.0</code> or later (<a href="https://www.npmjs.com/get-npm">download <span aria-hidden="true" class="fas fa-download"></span></a>).</p>
+            <p><strong>npm</strong> <code v-pre>6.0</code> or later (<a href="https://www.npmjs.com/get-npm">download <span aria-hidden="true" class="fas fa-download"></span></a>).</p>
           </li>
           <li>
-            <p><strong>git <code>2.14</code></strong> or later (<a href="https://git-scm.com/downloads">download <span aria-hidden="true" class="fas fa-download"></span></a>).</p>
+            <p><strong>git <code v-pre>2.14</code></strong> or later (<a href="https://git-scm.com/downloads">download <span aria-hidden="true" class="fas fa-download"></span></a>).</p>
             <box type="info" seamless>
-              <p>Type <code>git --version</code> on your OS terminal and ensure that you have the correct version of <strong>git</strong>.
+              <p>Type <code v-pre>git --version</code> on your OS terminal and ensure that you have the correct version of <strong>git</strong>.
               </p>
             </box>
+            <p></p>
           </li>
         </ul>
 
@@ -104,6 +117,7 @@
           <p>The recommended IDE is <strong>Intellij IDEA</strong>. While it is not compulsory to use it, note that we will not be able to help you troubleshoot IDE problems if you use any other IDE.
           </p>
         </box>
+        <p></p>
         <ol>
           <li><strong>Ensure you have configured IDEA for the correct JDK</strong>, as explained in <a href="https://se-education.org/guides/tutorials/intellijJdk.html">this tutorial</a>.</li>
           <li><strong>Import the project as a Gradle project</strong>, as explained in <a href="https://se-education.org/guides/tutorials/intellijImportGradleProject.html">this tutorial</a>.</li>
@@ -114,10 +128,11 @@
           <p>This project is already configured to use Gradle for build automation. If you are new to Gradle, see <a href="https://se-education.org/guides/tutorials/gradle.html">this tutorial</a> to learn how to use it.
           </p>
         </box>
+        <p></p>
         <ol>
           <li>Open a command prompt and navigate to the project root.</li>
-          <li>Run <code>gradlew clean build</code> (<code>./gradlew clean build</code> if you on a Unix-like OS), and ensure that it finishes with a <code>BUILD SUCCESSFUL</code> message.</li>
-          <li>Run the tests using the <code>gradlew test systemtest</code> command and ensure it succeeds too.</li>
+          <li>Run <code v-pre>gradlew clean build</code> (<code v-pre>./gradlew clean build</code> if you on a Unix-like OS), and ensure that it finishes with a <code v-pre>BUILD SUCCESSFUL</code> message.</li>
+          <li>Run the tests using the <code v-pre>gradlew test systemtest</code> command and ensure it succeeds too.</li>
           <li>You can also try running the app using code, as given in the panel below.</li>
         </ol>
         <div class="indented-level2">
@@ -126,9 +141,9 @@
             </template>
             <div>
               <ul>
-                <li>To run the app from code, run <code>gradlew run</code> from the project root. By default, it will run based on the config files in the <code>[project root]/config</code> folder.</li>
-                <li>To supply flags, you can use the <code>-Dargs=&quot;[FLAGS]&quot;</code> format.<br>
-                  e.g., <code>gradlew run -Dargs=&quot;--since 31/12/2019 --formats java adoc xml&quot;</code></li>
+                <li>To run the app from code, run <code v-pre>gradlew run</code> from the project root. By default, it will run based on the config files in the <code v-pre>[project root]/config</code> folder.</li>
+                <li>To supply flags, you can use the <code v-pre>-Dargs=&quot;[FLAGS]&quot;</code> format.<br>
+                  e.g., <code v-pre>gradlew run -Dargs=&quot;--since 31/12/2019 --formats java adoc xml&quot;</code></li>
               </ul>
             </div>
           </panel>
@@ -158,12 +173,12 @@
     <footer>
 
       <div class="text-center">
-        <small>[<span><strong>Powered by</strong></span> <img src="https://markbind.org/favicon.ico" width="30"> <a href="https://markbind.org/">MarkBind 2.14.1</a>, generated on Thu, Jul 30, 2020, 7:23:51 PM UTC]</small></div>
+        <small>[<span><strong>Powered by</strong></span> <img src="https://markbind.org/favicon.ico" width="30"> <a href="https://markbind.org/">MarkBind 2.15.2</a>, generated on Fri, Jul 31, 2020, 7:24:02 PM UTC]</small></div>
     </footer>
   </div>
 </body>
 <script src="../markbind/js/vue.min.js"></script>
-<script src="../markbind/js/vue-strap.min.js"></script>
+<script src="../markbind/js/components.min.js"></script>
 <script src="../markbind/js/bootstrap-utility.min.js"></script>
 <script src="../markbind/js/polyfill.min.js"></script>
 <script src="../markbind/js/bootstrap-vue.min.js"></script>

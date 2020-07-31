@@ -10,6 +10,10 @@
     -webkit-transition: 0.4s;
 }
 
+#page-nav .nav-inner {
+    max-height: 90vh;
+}
+
 #page-nav a:link,
 #page-nav a:visited {
     color: #9b9b9b;

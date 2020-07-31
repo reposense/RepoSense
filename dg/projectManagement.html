@@ -5,7 +5,7 @@
 
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="generator" content="MarkBind 2.14.1">
+  <meta name="generator" content="MarkBind 2.15.2">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>RepoSense - Project management</title>
   <link rel="stylesheet" href="../markbind/css/bootstrap.min.css">
@@ -46,29 +46,41 @@
       <nav id="site-nav" class="navbar navbar-light bg-transparent">
         <div class="border-right-grey nav-inner position-sticky slim-scroll">
           <p><span class="lead"><strong><strong>DEVELOPER GUIDE</strong></strong></span></p>
-          <ul class="px-0 site-nav-list">
-            <li class="mt-2"><a href="/RepoSense/dg/index.html" class="site-nav__a"><strong>Contributing</strong></a></li>
-            <li class="mt-2"><a href="/RepoSense/dg/settingUp.html" class="site-nav__a"><strong>Setting up</strong></a></li>
-            <li class="mt-2"><a href="/RepoSense/dg/workflow.html" class="site-nav__a"><strong>Workflow</strong></a></li>
-            <li class="mt-2"><button class="dropdown-btn dropdown-btn-open"><strong>Design and implementation</strong>
-                <i class="dropdown-btn-icon rotate-icon">
-                  <span class="glyphicon glyphicon-menu-down" aria-hidden="true"></span></i></button>
-              <div class="dropdown-container dropdown-container-open">
-                <ul class="pl-3 site-nav-list">
-                  <li class="mt-2"><a href="/RepoSense/dg/architecture.html" class="site-nav__a">Architecture</a></li>
-                  <li class="mt-2"><a href="/RepoSense/dg/report.html" class="site-nav__a">HTML report</a></li>
-                </ul>
-              </div>
+          <ul class="site-nav-list site-nav-list-root">
+            <li>
+              <div class="site-nav-default-list-item site-nav-list-item-0" onclick="handleSiteNavClick(this)"><a href="/RepoSense/dg/index.html"><strong>Contributing</strong></a></div>
             </li>
-            <li class="mt-2"><a href="/RepoSense/dg/projectManagement.html" class="site-nav__a current"><strong>Project management</strong></a></li>
-            <li class="mt-2"><button class="dropdown-btn dropdown-btn-open"><strong>Appendices</strong>
-                <i class="dropdown-btn-icon rotate-icon">
-                  <span class="glyphicon glyphicon-menu-down" aria-hidden="true"></span></i></button>
-              <div class="dropdown-container dropdown-container-open">
-                <ul class="pl-3 site-nav-list">
-                  <li class="mt-2"><a href="/RepoSense/dg/styleGuides.html" class="site-nav__a">Style guides</a></li>
-                </ul>
-              </div>
+            <li>
+              <div class="site-nav-default-list-item site-nav-list-item-0" onclick="handleSiteNavClick(this)"><a href="/RepoSense/dg/settingUp.html"><strong>Setting up</strong></a></div>
+            </li>
+            <li>
+              <div class="site-nav-default-list-item site-nav-list-item-0" onclick="handleSiteNavClick(this)"><a href="/RepoSense/dg/workflow.html"><strong>Workflow</strong></a></div>
+            </li>
+            <li>
+              <div class="site-nav-default-list-item site-nav-list-item-0" onclick="handleSiteNavClick(this)"><strong>Design and implementation</strong>
+                <i class="site-nav-dropdown-btn-icon site-nav-rotate-icon" onclick="handleSiteNavClick(this.parentNode, false); event.stopPropagation();">
+                  <span class="glyphicon glyphicon-menu-down" aria-hidden="true"></span></i></div>
+              <ul class="site-nav-dropdown-container site-nav-dropdown-container-open site-nav-list">
+                <li>
+                  <div class="site-nav-default-list-item site-nav-list-item-1" onclick="handleSiteNavClick(this)"><a href="/RepoSense/dg/architecture.html">Architecture</a></div>
+                </li>
+                <li>
+                  <div class="site-nav-default-list-item site-nav-list-item-1" onclick="handleSiteNavClick(this)"><a href="/RepoSense/dg/report.html">HTML report</a></div>
+                </li>
+              </ul>
+            </li>
+            <li>
+              <div class="site-nav-default-list-item site-nav-list-item-0" onclick="handleSiteNavClick(this)"><a href="/RepoSense/dg/projectManagement.html" class="current"><strong>Project management</strong></a></div>
+            </li>
+            <li>
+              <div class="site-nav-default-list-item site-nav-list-item-0" onclick="handleSiteNavClick(this)"><strong>Appendices</strong>
+                <i class="site-nav-dropdown-btn-icon site-nav-rotate-icon" onclick="handleSiteNavClick(this.parentNode, false); event.stopPropagation();">
+                  <span class="glyphicon glyphicon-menu-down" aria-hidden="true"></span></i></div>
+              <ul class="site-nav-dropdown-container site-nav-dropdown-container-open site-nav-list">
+                <li>
+                  <div class="site-nav-default-list-item site-nav-list-item-1" onclick="handleSiteNavClick(this)"><a href="/RepoSense/dg/styleGuides.html">Style guides</a></div>
+                </li>
+              </ul>
             </li>
           </ul>
         </div>
@@ -98,23 +110,23 @@
           </li>
           <li><strong>Dev website</strong> at <a href="https://reposense.org/RepoSense">https://reposense.org/RepoSense</a>
             <ul>
-              <li>matches the latest <code>master</code> branch</li>
-              <li>deployed automatically by Travis whenever the <code>master</code> branch is updated</li>
+              <li>matches the latest <code v-pre>master</code> branch</li>
+              <li>deployed automatically by Travis whenever the <code v-pre>master</code> branch is updated</li>
             </ul>
           </li>
         </ol>
         <p>The production website differs from the dev website in some ways e.g.,</p>
         <ul>
-          <li>It has a <code>CNAME</code> file (to indicate that it is the target destination for the <code>reposense.org</code> domain name)</li>
+          <li>It has a <code v-pre>CNAME</code> file (to indicate that it is the target destination for the <code v-pre>reposense.org</code> domain name)</li>
           <li>Its DG pages show a warning that it is not the latest version of the DG.</li>
         </ul>
-        <p>These variations are mainly managed by MarkBind via the <code>site.config</code> file. That is why the <code>site.config</code> file in the <code>release</code> branch is slightly different from the one in the <code>master</code> branch.</p>
+        <p>These variations are mainly managed by MarkBind via the <code v-pre>site.config</code> file. That is why the <code v-pre>site.config</code> file in the <code v-pre>release</code> branch is slightly different from the one in the <code v-pre>master</code> branch.</p>
         <p>After each release, do the following steps to deploy the production website:</p>
         <ol>
-          <li>Switch to the <code>release</code> branch</li>
-          <li><code>cd docs</code></li>
-          <li><code>markbind build</code></li>
-          <li><code>markbind deploy</code></li>
+          <li>Switch to the <code v-pre>release</code> branch</li>
+          <li><code v-pre>cd docs</code></li>
+          <li><code v-pre>markbind build</code></li>
+          <li><code v-pre>markbind deploy</code></li>
           <li>After a few minutes, check <a href="https://markbind.org">https://markbind.org</a> to ensure it has been updated as intended.</li>
         </ol>
       </div>
@@ -137,12 +149,12 @@
     <footer>
 
       <div class="text-center">
-        <small>[<span><strong>Powered by</strong></span> <img src="https://markbind.org/favicon.ico" width="30"> <a href="https://markbind.org/">MarkBind 2.14.1</a>, generated on Thu, Jul 30, 2020, 7:23:51 PM UTC]</small></div>
+        <small>[<span><strong>Powered by</strong></span> <img src="https://markbind.org/favicon.ico" width="30"> <a href="https://markbind.org/">MarkBind 2.15.2</a>, generated on Fri, Jul 31, 2020, 7:24:02 PM UTC]</small></div>
     </footer>
   </div>
 </body>
 <script src="../markbind/js/vue.min.js"></script>
-<script src="../markbind/js/vue-strap.min.js"></script>
+<script src="../markbind/js/components.min.js"></script>
 <script src="../markbind/js/bootstrap-utility.min.js"></script>
 <script src="../markbind/js/polyfill.min.js"></script>
 <script src="../markbind/js/bootstrap-vue.min.js"></script>

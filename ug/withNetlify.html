@@ -5,7 +5,7 @@
 
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="generator" content="MarkBind 2.14.1">
+  <meta name="generator" content="MarkBind 2.15.2">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>RepoSense - Appendix: RepoSense with Netlify</title>
   <link rel="stylesheet" href="../markbind/css/bootstrap.min.css">
@@ -44,7 +44,7 @@
     </header>
     <header>
       <div class="text-center bg-warning p-2">
-        <p>You are looking at the user documentation for the most recent <code>master</code> branch of RepoSense (not released to the public yet).
+        <p>You are looking at the user documentation for the most recent <code v-pre>master</code> branch of RepoSense (not released to the public yet).
           <strong>The documentation for the latest public release is <a href="https://reposense.org/ug">here</a>.</strong></p>
       </div>
     </header>
@@ -52,28 +52,55 @@
       <nav id="site-nav" class="navbar navbar-light bg-transparent">
         <div class="border-right-grey nav-inner position-sticky slim-scroll">
           <p><span class="lead"><strong><strong>USER GUIDE</strong></strong></span></p>
-          <ul class="px-0 site-nav-list">
-            <li class="mt-2"><a href="/RepoSense/ug/index.html" class="site-nav__a"><strong>Overview</strong></a></li>
-            <li class="mt-2"><a href="/RepoSense/ug/generatingReports.html" class="site-nav__a"><strong>Generating reports</strong></a></li>
-            <li class="mt-2"><a href="/RepoSense/ug/usingReports.html" class="site-nav__a"><strong>Using reports</strong></a></li>
-            <li class="mt-2"><a href="/RepoSense/ug/customizingReports.html" class="site-nav__a"><strong>Customizing reports</strong></a></li>
-            <li class="mt-2"><a href="/RepoSense/ug/sharingReports.html" class="site-nav__a"><strong>Sharing reports</strong></a></li>
-            <li class="mt-2"><button class="dropdown-btn dropdown-btn-open"><strong>Appendices</strong>
-                <i class="dropdown-btn-icon rotate-icon">
-                  <span class="glyphicon glyphicon-menu-down" aria-hidden="true"></span></i></button>
-              <div class="dropdown-container dropdown-container-open">
-                <ul class="pl-3 site-nav-list">
-                  <li class="mt-2"><a href="/RepoSense/ug/cli.html" class="site-nav__a">CLI syntax reference</a></li>
-                  <li class="mt-2"><a href="/RepoSense/ug/configFiles.html" class="site-nav__a">Config files format</a></li>
-                  <li class="mt-2"><a href="/RepoSense/ug/usingAuthorTags.html" class="site-nav__a">Using <code>@@author</code> tags</a></li>
-                  <li class="mt-2"><a href="/RepoSense/ug/withNetlify.html" class="site-nav__a current">RepoSense with Netlify</a></li>
-                  <li class="mt-2"><a href="/RepoSense/ug/withGithubActions.html" class="site-nav__a">RepoSense with GitHub Actions</a></li>
-                  <li class="mt-2"><a href="/RepoSense/ug/withTravis.html" class="site-nav__a">RepoSense with Travis</a></li>
-                  <li class="mt-2"><a href="/RepoSense/ug/runSh.html" class="site-nav__a"><code>run.sh</code> format</a></li>
-                  <li class="mt-2"><a href="/RepoSense/ug/faq.html" class="site-nav__a">FAQ</a></li>
-                  <li class="mt-2"><a href="/RepoSense/ug/troubleshooting.html" class="site-nav__a">Troubleshooting</a></li>
-                </ul>
-              </div>
+          <ul class="site-nav-list site-nav-list-root">
+            <li>
+              <div class="site-nav-default-list-item site-nav-list-item-0" onclick="handleSiteNavClick(this)"><a href="/RepoSense/ug/index.html"><strong>Overview</strong></a></div>
+            </li>
+            <li>
+              <div class="site-nav-default-list-item site-nav-list-item-0" onclick="handleSiteNavClick(this)"><a href="/RepoSense/ug/generatingReports.html"><strong>Generating reports</strong></a></div>
+            </li>
+            <li>
+              <div class="site-nav-default-list-item site-nav-list-item-0" onclick="handleSiteNavClick(this)"><a href="/RepoSense/ug/usingReports.html"><strong>Using reports</strong></a></div>
+            </li>
+            <li>
+              <div class="site-nav-default-list-item site-nav-list-item-0" onclick="handleSiteNavClick(this)"><a href="/RepoSense/ug/customizingReports.html"><strong>Customizing reports</strong></a></div>
+            </li>
+            <li>
+              <div class="site-nav-default-list-item site-nav-list-item-0" onclick="handleSiteNavClick(this)"><a href="/RepoSense/ug/sharingReports.html"><strong>Sharing reports</strong></a></div>
+            </li>
+            <li>
+              <div class="site-nav-default-list-item site-nav-list-item-0" onclick="handleSiteNavClick(this)"><strong>Appendices</strong>
+                <i class="site-nav-dropdown-btn-icon site-nav-rotate-icon" onclick="handleSiteNavClick(this.parentNode, false); event.stopPropagation();">
+                  <span class="glyphicon glyphicon-menu-down" aria-hidden="true"></span></i></div>
+              <ul class="site-nav-dropdown-container site-nav-dropdown-container-open site-nav-list">
+                <li>
+                  <div class="site-nav-default-list-item site-nav-list-item-1" onclick="handleSiteNavClick(this)"><a href="/RepoSense/ug/cli.html">CLI syntax reference</a></div>
+                </li>
+                <li>
+                  <div class="site-nav-default-list-item site-nav-list-item-1" onclick="handleSiteNavClick(this)"><a href="/RepoSense/ug/configFiles.html">Config files format</a></div>
+                </li>
+                <li>
+                  <div class="site-nav-default-list-item site-nav-list-item-1" onclick="handleSiteNavClick(this)"><a href="/RepoSense/ug/usingAuthorTags.html">Using <code v-pre>@@author</code> tags</a></div>
+                </li>
+                <li>
+                  <div class="site-nav-default-list-item site-nav-list-item-1" onclick="handleSiteNavClick(this)"><a href="/RepoSense/ug/withNetlify.html" class="current">RepoSense with Netlify</a></div>
+                </li>
+                <li>
+                  <div class="site-nav-default-list-item site-nav-list-item-1" onclick="handleSiteNavClick(this)"><a href="/RepoSense/ug/withGithubActions.html">RepoSense with GitHub Actions</a></div>
+                </li>
+                <li>
+                  <div class="site-nav-default-list-item site-nav-list-item-1" onclick="handleSiteNavClick(this)"><a href="/RepoSense/ug/withTravis.html">RepoSense with Travis</a></div>
+                </li>
+                <li>
+                  <div class="site-nav-default-list-item site-nav-list-item-1" onclick="handleSiteNavClick(this)"><a href="/RepoSense/ug/runSh.html"><code v-pre>run.sh</code> format</a></div>
+                </li>
+                <li>
+                  <div class="site-nav-default-list-item site-nav-list-item-1" onclick="handleSiteNavClick(this)"><a href="/RepoSense/ug/faq.html">FAQ</a></div>
+                </li>
+                <li>
+                  <div class="site-nav-default-list-item site-nav-list-item-1" onclick="handleSiteNavClick(this)"><a href="/RepoSense/ug/troubleshooting.html">Troubleshooting</a></div>
+                </li>
+              </ul>
             </li>
           </ul>
         </div>
@@ -88,22 +115,23 @@
             <p>Note that Netlify has a low limit for free tier users (only 300 <em>build minutes</em> per month as at June 2020 -- a single report generation can take 2-3 build minutes, longer if your report includes many/big repositories).
             </p>
           </box>
+          <p></p>
 
           <h2 id="setting-up">Setting up<a class="fa fa-anchor" href="#setting-up" onclick="event.stopPropagation()"></a></h2>
-          <p><span class="badge badge-dark bigger-level0">Step 1</span> <strong>Fork the <em>publish-RepoSense</em> repository</strong> using this <a href="https://github.com/RepoSense/publish-RepoSense/fork">link</a>. Optionally, you can rename the fork to match your RepoSense report e.g., <code>project-code-dashboard</code>.</p>
+          <p><span class="badge badge-dark bigger-level0">Step 1</span> <strong>Fork the <em>publish-RepoSense</em> repository</strong> using this <a href="https://github.com/RepoSense/publish-RepoSense/fork">link</a>. Optionally, you can rename the fork to match your RepoSense report e.g., <code v-pre>project-code-dashboard</code>.</p>
           <p><span class="badge badge-dark bigger-level0">Step 2</span> <strong>Set up Netlify for your fork</strong> as described in this <a href="https://www.netlify.com/blog/2016/09/29/a-step-by-step-guide-deploying-on-netlify/">guide</a>.<br>
-            <mark>You will need to use the following in <code>Step 5: Configure Your Settings</code> of that guide</mark>:</p>
+            <mark>You will need to use the following in <code v-pre>Step 5: Configure Your Settings</code> of that guide</mark>:</p>
           <ul>
-            <li>build command: <code>pip install requests &amp;&amp; ./run.sh</code><br></li>
-            <li>publish directory: <code>./reposense-report</code></li>
+            <li>build command: <code v-pre>pip install requests &amp;&amp; ./run.sh</code><br></li>
+            <li>publish directory: <code v-pre>./reposense-report</code></li>
           </ul>
           <p>After Netlify finishes building the site, you should be able to see a dummy report at the URL of your Netlify site.</p>
           <p><span class="badge badge-dark bigger-level0">Step 3</span> <strong>Generate the report you want</strong> by updating the settings in your fork.</p>
           <ol>
-            <li>Go to the <code>run.sh</code> file of your fork (on GitHub).</li>
+            <li>Go to the <code v-pre>run.sh</code> file of your fork (on GitHub).</li>
             <li>Update the last line (i.e., the command for running RepoSense) to match the report you want to generate:<br>
-              <code>java -jar RepoSense.jar --repos FULL_REPO_URL</code> (assuming you want to generate a default report for just one repo)<br>
-              e.g., <code>java -jar RepoSense.jar --repos https://github.com/reposense/RepoSense.git</code> (<mark>note the .git at the end of the repo URL</mark>)</li>
+              <code v-pre>java -jar RepoSense.jar --repos FULL_REPO_URL</code> (assuming you want to generate a default report for just one repo)<br>
+              e.g., <code v-pre>java -jar RepoSense.jar --repos https://github.com/reposense/RepoSense.git</code> (<mark>note the .git at the end of the repo URL</mark>)</li>
             <li>Commit the file. This will trigger Netlify to rebuild the report.</li>
             <li>Go to the URL of your Netlify site to see the updated RepoSense report (it might take about 2-5 minutes for Netlify to generate the report).</li>
           </ol>
@@ -111,7 +139,7 @@
 
         <div id="section-pr-previews">
           <h2 id="pr-previews">PR previews<a class="fa fa-anchor" href="#pr-previews" onclick="event.stopPropagation()"></a></h2>
-          <p>After setting up Netlify for your repo containing RepoSense settings, when a PR comes in to that repo to update any setting, you can scroll down the PR page and in <code>All checks have passed</code>, click on the <code>Details</code> beside <code>deploy/netlify — Deploy preview ready!</code> to see a preview of the report as per the changes in the PR.
+          <p>After setting up Netlify for your repo containing RepoSense settings, when a PR comes in to that repo to update any setting, you can scroll down the PR page and in <code v-pre>All checks have passed</code>, click on the <code v-pre>Details</code> beside <code v-pre>deploy/netlify — Deploy preview ready!</code> to see a preview of the report as per the changes in the PR.
             <a href="/RepoSense/images/publishingguide-netlifypreview.png" target="_self"><img src="/RepoSense/images/publishingguide-netlifypreview.png" alt class="img-fluid" title="Netlify Preview"></a></p>
         </div>
 
@@ -124,7 +152,7 @@
               <a href="/RepoSense/images/using-netlify-build-hooks.png" target="_self"><img src="/RepoSense/images/using-netlify-build-hooks.png" alt class="img-fluid"></a></p>
           </li>
           <li>
-            <p>Click <strong>Add build hook</strong>, give your webhook a name, and choose the <code>master</code> branch to build. A Netlify URL will be generated.</p>
+            <p>Click <strong>Add build hook</strong>, give your webhook a name, and choose the <code v-pre>master</code> branch to build. A Netlify URL will be generated.</p>
           </li>
           <li>
             <p>Go to your target repository (the repository you want to analyze) and click on <strong>Settings</strong>.</p>
@@ -140,6 +168,7 @@
               <p>Note: Although the build url is not that secretive, it should be kept safe to prevent any misuse.
               </p>
             </box>
+            <p></p>
           </li>
           <li>
             <p>Select <strong>application.json</strong> as content type.</p>
@@ -175,12 +204,12 @@
     <footer>
 
       <div class="text-center">
-        <small>[<span><strong>Powered by</strong></span> <img src="https://markbind.org/favicon.ico" width="30"> <a href="https://markbind.org/">MarkBind 2.14.1</a>, generated on Thu, Jul 30, 2020, 7:23:51 PM UTC]</small></div>
+        <small>[<span><strong>Powered by</strong></span> <img src="https://markbind.org/favicon.ico" width="30"> <a href="https://markbind.org/">MarkBind 2.15.2</a>, generated on Fri, Jul 31, 2020, 7:24:02 PM UTC]</small></div>
     </footer>
   </div>
 </body>
 <script src="../markbind/js/vue.min.js"></script>
-<script src="../markbind/js/vue-strap.min.js"></script>
+<script src="../markbind/js/components.min.js"></script>
 <script src="../markbind/js/bootstrap-utility.min.js"></script>
 <script src="../markbind/js/polyfill.min.js"></script>
 <script src="../markbind/js/bootstrap-vue.min.js"></script>

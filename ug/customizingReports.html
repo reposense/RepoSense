@@ -5,7 +5,7 @@
 
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="generator" content="MarkBind 2.14.1">
+  <meta name="generator" content="MarkBind 2.15.2">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>RepoSense - Customizing reports</title>
   <link rel="stylesheet" href="../markbind/css/bootstrap.min.css">
@@ -44,7 +44,7 @@
     </header>
     <header>
       <div class="text-center bg-warning p-2">
-        <p>You are looking at the user documentation for the most recent <code>master</code> branch of RepoSense (not released to the public yet).
+        <p>You are looking at the user documentation for the most recent <code v-pre>master</code> branch of RepoSense (not released to the public yet).
           <strong>The documentation for the latest public release is <a href="https://reposense.org/ug">here</a>.</strong></p>
       </div>
     </header>
@@ -52,28 +52,55 @@
       <nav id="site-nav" class="navbar navbar-light bg-transparent">
         <div class="border-right-grey nav-inner position-sticky slim-scroll">
           <p><span class="lead"><strong><strong>USER GUIDE</strong></strong></span></p>
-          <ul class="px-0 site-nav-list">
-            <li class="mt-2"><a href="/RepoSense/ug/index.html" class="site-nav__a"><strong>Overview</strong></a></li>
-            <li class="mt-2"><a href="/RepoSense/ug/generatingReports.html" class="site-nav__a"><strong>Generating reports</strong></a></li>
-            <li class="mt-2"><a href="/RepoSense/ug/usingReports.html" class="site-nav__a"><strong>Using reports</strong></a></li>
-            <li class="mt-2"><a href="/RepoSense/ug/customizingReports.html" class="site-nav__a current"><strong>Customizing reports</strong></a></li>
-            <li class="mt-2"><a href="/RepoSense/ug/sharingReports.html" class="site-nav__a"><strong>Sharing reports</strong></a></li>
-            <li class="mt-2"><button class="dropdown-btn dropdown-btn-open"><strong>Appendices</strong>
-                <i class="dropdown-btn-icon rotate-icon">
-                  <span class="glyphicon glyphicon-menu-down" aria-hidden="true"></span></i></button>
-              <div class="dropdown-container dropdown-container-open">
-                <ul class="pl-3 site-nav-list">
-                  <li class="mt-2"><a href="/RepoSense/ug/cli.html" class="site-nav__a">CLI syntax reference</a></li>
-                  <li class="mt-2"><a href="/RepoSense/ug/configFiles.html" class="site-nav__a">Config files format</a></li>
-                  <li class="mt-2"><a href="/RepoSense/ug/usingAuthorTags.html" class="site-nav__a">Using <code>@@author</code> tags</a></li>
-                  <li class="mt-2"><a href="/RepoSense/ug/withNetlify.html" class="site-nav__a">RepoSense with Netlify</a></li>
-                  <li class="mt-2"><a href="/RepoSense/ug/withGithubActions.html" class="site-nav__a">RepoSense with GitHub Actions</a></li>
-                  <li class="mt-2"><a href="/RepoSense/ug/withTravis.html" class="site-nav__a">RepoSense with Travis</a></li>
-                  <li class="mt-2"><a href="/RepoSense/ug/runSh.html" class="site-nav__a"><code>run.sh</code> format</a></li>
-                  <li class="mt-2"><a href="/RepoSense/ug/faq.html" class="site-nav__a">FAQ</a></li>
-                  <li class="mt-2"><a href="/RepoSense/ug/troubleshooting.html" class="site-nav__a">Troubleshooting</a></li>
-                </ul>
-              </div>
+          <ul class="site-nav-list site-nav-list-root">
+            <li>
+              <div class="site-nav-default-list-item site-nav-list-item-0" onclick="handleSiteNavClick(this)"><a href="/RepoSense/ug/index.html"><strong>Overview</strong></a></div>
+            </li>
+            <li>
+              <div class="site-nav-default-list-item site-nav-list-item-0" onclick="handleSiteNavClick(this)"><a href="/RepoSense/ug/generatingReports.html"><strong>Generating reports</strong></a></div>
+            </li>
+            <li>
+              <div class="site-nav-default-list-item site-nav-list-item-0" onclick="handleSiteNavClick(this)"><a href="/RepoSense/ug/usingReports.html"><strong>Using reports</strong></a></div>
+            </li>
+            <li>
+              <div class="site-nav-default-list-item site-nav-list-item-0" onclick="handleSiteNavClick(this)"><a href="/RepoSense/ug/customizingReports.html" class="current"><strong>Customizing reports</strong></a></div>
+            </li>
+            <li>
+              <div class="site-nav-default-list-item site-nav-list-item-0" onclick="handleSiteNavClick(this)"><a href="/RepoSense/ug/sharingReports.html"><strong>Sharing reports</strong></a></div>
+            </li>
+            <li>
+              <div class="site-nav-default-list-item site-nav-list-item-0" onclick="handleSiteNavClick(this)"><strong>Appendices</strong>
+                <i class="site-nav-dropdown-btn-icon site-nav-rotate-icon" onclick="handleSiteNavClick(this.parentNode, false); event.stopPropagation();">
+                  <span class="glyphicon glyphicon-menu-down" aria-hidden="true"></span></i></div>
+              <ul class="site-nav-dropdown-container site-nav-dropdown-container-open site-nav-list">
+                <li>
+                  <div class="site-nav-default-list-item site-nav-list-item-1" onclick="handleSiteNavClick(this)"><a href="/RepoSense/ug/cli.html">CLI syntax reference</a></div>
+                </li>
+                <li>
+                  <div class="site-nav-default-list-item site-nav-list-item-1" onclick="handleSiteNavClick(this)"><a href="/RepoSense/ug/configFiles.html">Config files format</a></div>
+                </li>
+                <li>
+                  <div class="site-nav-default-list-item site-nav-list-item-1" onclick="handleSiteNavClick(this)"><a href="/RepoSense/ug/usingAuthorTags.html">Using <code v-pre>@@author</code> tags</a></div>
+                </li>
+                <li>
+                  <div class="site-nav-default-list-item site-nav-list-item-1" onclick="handleSiteNavClick(this)"><a href="/RepoSense/ug/withNetlify.html">RepoSense with Netlify</a></div>
+                </li>
+                <li>
+                  <div class="site-nav-default-list-item site-nav-list-item-1" onclick="handleSiteNavClick(this)"><a href="/RepoSense/ug/withGithubActions.html">RepoSense with GitHub Actions</a></div>
+                </li>
+                <li>
+                  <div class="site-nav-default-list-item site-nav-list-item-1" onclick="handleSiteNavClick(this)"><a href="/RepoSense/ug/withTravis.html">RepoSense with Travis</a></div>
+                </li>
+                <li>
+                  <div class="site-nav-default-list-item site-nav-list-item-1" onclick="handleSiteNavClick(this)"><a href="/RepoSense/ug/runSh.html"><code v-pre>run.sh</code> format</a></div>
+                </li>
+                <li>
+                  <div class="site-nav-default-list-item site-nav-list-item-1" onclick="handleSiteNavClick(this)"><a href="/RepoSense/ug/faq.html">FAQ</a></div>
+                </li>
+                <li>
+                  <div class="site-nav-default-list-item site-nav-list-item-1" onclick="handleSiteNavClick(this)"><a href="/RepoSense/ug/troubleshooting.html">Troubleshooting</a></div>
+                </li>
+              </ul>
             </li>
           </ul>
         </div>
@@ -97,146 +124,152 @@
               <div></div>
               <h1 class="display-4" id="appendix-cli-syntax-reference"><span>Appendix: CLI syntax reference</span><a class="fa fa-anchor" href="#appendix-cli-syntax-reference" onclick="event.stopPropagation()"></a></h1>
               <div class="lead">
-                <p>The command <code>java -jar RepoSense.jar</code> takes several flags.</p>
+                <p>The command <code v-pre>java -jar RepoSense.jar</code> takes several flags.</p>
               </div>
               <box>
                 <p><strong>Examples</strong>:</p>
                 <p>An example of a command using most parameters:<br>
-                  <code>java -jar RepoSense.jar --repo https://github.com/reposense/RepoSense.git --output ./report_folder --since 31/1/2017 --until 31/12/2018 --formats java adoc xml --view --ignore-standalone-config --timezone UTC+08</code></p>
+                  <code v-pre>java -jar RepoSense.jar --repo https://github.com/reposense/RepoSense.git --output ./report_folder --since 31/1/2017 --until 31/12/2018 --formats java adoc xml --view --ignore-standalone-config --timezone UTC+08</code></p>
                 <p>Same command as above but using most parameters in alias format:<br>
-                  <code>java -jar RepoSense.jar -r https://github.com/reposense/RepoSense.git -o ./report_folder -s 31/1/2017 -u 31/12/2018 -f java adoc xml -v -i</code></p>
+                  <code v-pre>java -jar RepoSense.jar -r https://github.com/reposense/RepoSense.git -o ./report_folder -s 31/1/2017 -u 31/12/2018 -f java adoc xml -v -i</code></p>
               </box>
+              <p></p>
               <p>The sections below explains each flag.</p>
 
-              <h3 id="config-c"><code>--config</code>, <code>-c</code><a class="fa fa-anchor" href="#config-c" onclick="event.stopPropagation()"></a></h3>
+              <h3 id="config-c"><code v-pre>--config</code>, <code v-pre>-c</code><a class="fa fa-anchor" href="#config-c" onclick="event.stopPropagation()"></a></h3>
               <div id="section-config">
-                <p><strong><code>--config CONFIG_DIRECTORY</code></strong>: Specifies that config files located in <code>CONFIG_DIRECTORY</code> should be used to customize the report.</p>
+                <p><strong><code v-pre>--config CONFIG_DIRECTORY</code></strong>: Specifies that config files located in <code v-pre>CONFIG_DIRECTORY</code> should be used to customize the report.</p>
                 <ul>
-                  <li>Parameter: <code>CONFIG_DIRECTORY</code> The directory containing the config files. Should contain a <code>repo-config.csv</code> file. Optionally, can contain an <code>author-config.csv</code> file or/and a <code>group-config.csv</code> file.</li>
-                  <li>Alias: <code>-c</code></li>
-                  <li>Example: <code>java -jar RepoSense.jar --config ./config</code></li>
+                  <li>Parameter: <code v-pre>CONFIG_DIRECTORY</code> The directory containing the config files. Should contain a <code v-pre>repo-config.csv</code> file. Optionally, can contain an <code v-pre>author-config.csv</code> file or/and a <code v-pre>group-config.csv</code> file.</li>
+                  <li>Alias: <code v-pre>-c</code></li>
+                  <li>Example: <code v-pre>java -jar RepoSense.jar --config ./config</code></li>
                 </ul>
                 <box type="info" seamless>
                   <ul>
-                    <li>Cannot be used with <code>--repos</code></li>
-                    <li>If both <code>--repos</code> and <code>--config</code> are not specified, RepoSense looks for config files in the <code>./config</code> directory.
+                    <li>Cannot be used with <code v-pre>--repos</code></li>
+                    <li>If both <code v-pre>--repos</code> and <code v-pre>--config</code> are not specified, RepoSense looks for config files in the <code v-pre>./config</code> directory.
                     </li>
                   </ul>
                 </box>
               </div>
 
-              <h3 id="formats-f"><code>--formats</code>, <code>-f</code><a class="fa fa-anchor" href="#formats-f" onclick="event.stopPropagation()"></a></h3>
-              <p><strong><code>--formats LIST_OF_FORMATS</code></strong>: specifies which file extensions to be included in the analysis</p>
+              <h3 id="formats-f"><code v-pre>--formats</code>, <code v-pre>-f</code><a class="fa fa-anchor" href="#formats-f" onclick="event.stopPropagation()"></a></h3>
+              <p><strong><code v-pre>--formats LIST_OF_FORMATS</code></strong>: specifies which file extensions to be included in the analysis</p>
               <ul>
-                <li>Parameter: <code>LIST_OF_FORMATS</code> a space-separated list of file extensions that should be included in the analysis<br>
+                <li>Parameter: <code v-pre>LIST_OF_FORMATS</code> a space-separated list of file extensions that should be included in the analysis<br>
                   Default: all file formats</li>
-                <li>Alias: <code>-f</code></li>
-                <li>Example:<code>--formats css fxml gradle</code> or <code>-f css fxml gradle</code></li>
+                <li>Alias: <code v-pre>-f</code></li>
+                <li>Example:<code v-pre>--formats css fxml gradle</code> or <code v-pre>-f css fxml gradle</code></li>
               </ul>
 
-              <h3 id="help-h"><code>--help</code>, <code>-h</code><a class="fa fa-anchor" href="#help-h" onclick="event.stopPropagation()"></a></h3>
-              <p><strong><code>--help</code></strong>: Shows the help message.</p>
+              <h3 id="help-h"><code v-pre>--help</code>, <code v-pre>-h</code><a class="fa fa-anchor" href="#help-h" onclick="event.stopPropagation()"></a></h3>
+              <p><strong><code v-pre>--help</code></strong>: Shows the help message.</p>
               <ul>
-                <li>Alias: <code>-h</code></li>
+                <li>Alias: <code v-pre>-h</code></li>
               </ul>
               <box type="info" seamless>
                 <p>Cannot be used with any other flags
                 </p>
               </box>
+              <p></p>
 
-              <h3 id="ignore-standalone-config-i"><code>--ignore-standalone-config</code>, <code>-i</code><a class="fa fa-anchor" href="#ignore-standalone-config-i" onclick="event.stopPropagation()"></a></h3>
-              <p><strong><code>--ignore-standalone-config</code></strong>: Specifies that the standalone config file in the repo should be ignored.</p>
+              <h3 id="ignore-standalone-config-i"><code v-pre>--ignore-standalone-config</code>, <code v-pre>-i</code><a class="fa fa-anchor" href="#ignore-standalone-config-i" onclick="event.stopPropagation()"></a></h3>
+              <p><strong><code v-pre>--ignore-standalone-config</code></strong>: Specifies that the standalone config file in the repo should be ignored.</p>
               <ul>
                 <li>Default: the standalone config file is not ignored</li>
-                <li>Alias: <code>-i</code></li>
-                <li>Example:<code>--ignore-standalone-config</code> or <code>-i</code></li>
+                <li>Alias: <code v-pre>-i</code></li>
+                <li>Example:<code v-pre>--ignore-standalone-config</code> or <code v-pre>-i</code></li>
               </ul>
               <box type="info" seamless>
-                <p>This flag overrides the <code>Ignore standalone config</code> field in the CSV config file.
+                <p>This flag overrides the <code v-pre>Ignore standalone config</code> field in the CSV config file.
                 </p>
               </box>
+              <p></p>
 
-              <h3 id="output-o"><code>--output</code>, <code>-o</code><a class="fa fa-anchor" href="#output-o" onclick="event.stopPropagation()"></a></h3>
-              <p><strong><code>--output OUTPUT_DIRECTORY</code></strong>: Indicates where to save the report generated.</p>
+              <h3 id="output-o"><code v-pre>--output</code>, <code v-pre>-o</code><a class="fa fa-anchor" href="#output-o" onclick="event.stopPropagation()"></a></h3>
+              <p><strong><code v-pre>--output OUTPUT_DIRECTORY</code></strong>: Indicates where to save the report generated.</p>
               <ul>
-                <li>Parameter: <code>OUTPUT_DIRECTORY</code> location for the generated <code>reposense-report</code> folder<br>
+                <li>Parameter: <code v-pre>OUTPUT_DIRECTORY</code> location for the generated <code v-pre>reposense-report</code> folder<br>
                   Default: current directory</li>
-                <li>Alias: <code>-o</code></li>
-                <li>Example: <code>--output ./foo</code> or <code>-o ./foo</code> (the report will be in the <code>./foo/reposense-report</code> folder)</li>
+                <li>Alias: <code v-pre>-o</code></li>
+                <li>Example: <code v-pre>--output ./foo</code> or <code v-pre>-o ./foo</code> (the report will be in the <code v-pre>./foo/reposense-report</code> folder)</li>
               </ul>
 
-              <h3 id="repos-r"><code>--repos</code>, <code>-r</code><a class="fa fa-anchor" href="#repos-r" onclick="event.stopPropagation()"></a></h3>
-              <p><strong><code>--repos REPO_LOCATION</code></strong>: Specifies which repositories to analyze.</p>
+              <h3 id="repos-r"><code v-pre>--repos</code>, <code v-pre>-r</code><a class="fa fa-anchor" href="#repos-r" onclick="event.stopPropagation()"></a></h3>
+              <p><strong><code v-pre>--repos REPO_LOCATION</code></strong>: Specifies which repositories to analyze.</p>
               <ul>
-                <li>Parameter <code>REPO_LOCATION</code>: A list of URLs or the disk location of the git repositories to analyze, separated by spaces.</li>
-                <li>Alias: <code>-r</code></li>
+                <li>Parameter <code v-pre>REPO_LOCATION</code>: A list of URLs or the disk location of the git repositories to analyze, separated by spaces.</li>
+                <li>Alias: <code v-pre>-r</code></li>
                 <li>Examples:
                   <ul>
-                    <li><code>--repos https://github.com/reposense/RepoSense.git</code></li>
-                    <li><code>--repos https://github.com/reposense/RepoSense.git c:/myRepose/foo/bar</code>: analyzes the two specified repos (one remote, one local) and generates one report containing details of both</li>
+                    <li><code v-pre>--repos https://github.com/reposense/RepoSense.git</code></li>
+                    <li><code v-pre>--repos https://github.com/reposense/RepoSense.git c:/myRepose/foo/bar</code>: analyzes the two specified repos (one remote, one local) and generates one report containing details of both</li>
                   </ul>
                 </li>
               </ul>
               <box type="info" seamless>
-                <p>Cannot be used with <code>--repos</code></p>
+                <p>Cannot be used with <code v-pre>--repos</code></p>
               </box>
+              <p></p>
 
-              <h3 id="since-s"><code>--since</code>, <code>-s</code><a class="fa fa-anchor" href="#since-s" onclick="event.stopPropagation()"></a></h3>
-              <p><code>--since START_DATE</code>**: Specifies the start date for the period to be analyzed.</p>
+              <h3 id="since-s"><code v-pre>--since</code>, <code v-pre>-s</code><a class="fa fa-anchor" href="#since-s" onclick="event.stopPropagation()"></a></h3>
+              <p><code v-pre>--since START_DATE</code>**: Specifies the start date for the period to be analyzed.</p>
               <ul>
-                <li>Parameter: <code>START_DATE</code> the first day of the period to be analyzed, in the format <code>DD/MM/YYYY</code><br>
+                <li>Parameter: <code v-pre>START_DATE</code> the first day of the period to be analyzed, in the format <code v-pre>DD/MM/YYYY</code><br>
                   Default: one month before the current date</li>
-                <li>Alias: <code>-s</code></li>
-                <li>Example:<code>--since 21/10/2017</code> or <code>-s 21/10/2017</code></li>
+                <li>Alias: <code v-pre>-s</code></li>
+                <li>Example:<code v-pre>--since 21/10/2017</code> or <code v-pre>-s 21/10/2017</code></li>
               </ul>
               <box type="info" seamless>
                 <ul>
                   <li>If the start date is not specified, only commits made one month before the end date (if specified) or the date of generating the report, will be captured and analyzed.</li>
-                  <li>If <code>d1</code> is specified as the start date (<code>--since d1</code> or <code>-s d1</code>), then the earliest commit date of all repositories will be taken as the since date.
+                  <li>If <code v-pre>d1</code> is specified as the start date (<code v-pre>--since d1</code> or <code v-pre>-s d1</code>), then the earliest commit date of all repositories will be taken as the since date.
                   </li>
                 </ul>
               </box>
 
 
-              <h3 id="timezone-t"><code>--timezone</code>, <code>-t</code><a class="fa fa-anchor" href="#timezone-t" onclick="event.stopPropagation()"></a></h3>
-              <p><strong><code>--timezone ZONE_ID</code></strong>: Indicates the timezone to be used for the analysis.</p>
+              <h3 id="timezone-t"><code v-pre>--timezone</code>, <code v-pre>-t</code><a class="fa fa-anchor" href="#timezone-t" onclick="event.stopPropagation()"></a></h3>
+              <p><strong><code v-pre>--timezone ZONE_ID</code></strong>: Indicates the timezone to be used for the analysis.</p>
               <ul>
-                <li>Parameter: <code>ZONE_ID</code> timezones in the format <code>ZONE_ID[±hh[mm]]</code><br>
+                <li>Parameter: <code v-pre>ZONE_ID</code> timezones in the format <code v-pre>ZONE_ID[±hh[mm]]</code><br>
                   Default: system's default timezone</li>
-                <li>Alias: <code>-t</code></li>
-                <li>Example:<code>--timezone UTC+08</code> or <code>-t UTC-1030</code></li>
+                <li>Alias: <code v-pre>-t</code></li>
+                <li>Example:<code v-pre>--timezone UTC+08</code> or <code v-pre>-t UTC-1030</code></li>
               </ul>
 
-              <h3 id="until-u"><code>--until</code>, <code>-u</code><a class="fa fa-anchor" href="#until-u" onclick="event.stopPropagation()"></a></h3>
-              <p><strong><code>--until END_DATE</code></strong>: Specifies the end date of the analysis period.</p>
+              <h3 id="until-u"><code v-pre>--until</code>, <code v-pre>-u</code><a class="fa fa-anchor" href="#until-u" onclick="event.stopPropagation()"></a></h3>
+              <p><strong><code v-pre>--until END_DATE</code></strong>: Specifies the end date of the analysis period.</p>
               <ul>
-                <li>Parameter: <code>END_DATE</code> The last date of the period to be analyzed, in the format <code>DD/MM/YYYY</code><br>
+                <li>Parameter: <code v-pre>END_DATE</code> The last date of the period to be analyzed, in the format <code v-pre>DD/MM/YYYY</code><br>
                   Default: current date</li>
-                <li>Alias: <code>-u</code></li>
-                <li>Example:<code>--until 21/10/2017</code> or <code>-u 21/10/2017</code></li>
+                <li>Alias: <code v-pre>-u</code></li>
+                <li>Example:<code v-pre>--until 21/10/2017</code> or <code v-pre>-u 21/10/2017</code></li>
               </ul>
               <box type="info" seamless>
                 <p>Note: If the end date is not specified, the date of generating the report will be taken as the end date.
                 </p>
               </box>
+              <p></p>
 
-              <h3 id="version-v"><code>--version</code>, <code>-V</code><a class="fa fa-anchor" href="#version-v" onclick="event.stopPropagation()"></a></h3>
-              <p><strong><code>--version</code></strong>: Shows the version of RepoSense.</p>
+              <h3 id="version-v"><code v-pre>--version</code>, <code v-pre>-V</code><a class="fa fa-anchor" href="#version-v" onclick="event.stopPropagation()"></a></h3>
+              <p><strong><code v-pre>--version</code></strong>: Shows the version of RepoSense.</p>
               <ul>
-                <li>Alias: <code>-V</code> (upper case)</li>
+                <li>Alias: <code v-pre>-V</code> (upper case)</li>
               </ul>
               <box type="info" seamless>
                 <p>Cannot be used with any other flags
                 </p>
               </box>
+              <p></p>
 
-              <h3 id="view-v"><code>--view</code>, <code>-v</code><a class="fa fa-anchor" href="#view-v" onclick="event.stopPropagation()"></a></h3>
-              <p><strong><code>--view [REPORT_FOLDER]</code></strong>: Specifies the report should be opened in the default browser.</p>
+              <h3 id="view-v"><code v-pre>--view</code>, <code v-pre>-v</code><a class="fa fa-anchor" href="#view-v" onclick="event.stopPropagation()"></a></h3>
+              <p><strong><code v-pre>--view [REPORT_FOLDER]</code></strong>: Specifies the report should be opened in the default browser.</p>
               <ul>
-                <li>Parameter: <code>REPORT_FOLDER</code> Optional. If specified, no analysis will be performed and the report specified by the argument will be opened.<br>
-                  Default: <code>./reposense-report</code></li>
-                <li>Alias: <code>-v</code></li>
-                <li>Example:<code>--view</code> or <code>-v</code></li>
+                <li>Parameter: <code v-pre>REPORT_FOLDER</code> Optional. If specified, no analysis will be performed and the report specified by the argument will be opened.<br>
+                  Default: <code v-pre>./reposense-report</code></li>
+                <li>Alias: <code v-pre>-v</code></li>
+                <li>Example:<code v-pre>--view</code> or <code v-pre>-v</code></li>
               </ul>
             </div>
           </panel>
@@ -244,22 +277,22 @@
         <p></p>
 
         <h3 id="customize-using-csv-config-files">Customize using CSV config files<a class="fa fa-anchor" href="#customize-using-csv-config-files" onclick="event.stopPropagation()"></a></h3>
-        <p><strong>Another, more powerful, way to customize the report is by using dedicated config files.</strong> In this case you need to use the <code>--config</code> flag instead of the <code>--repo</code> flag when running RepoSense, as follows:</p>
+        <p><strong>Another, more powerful, way to customize the report is by using dedicated config files.</strong> In this case you need to use the <code v-pre>--config</code> flag instead of the <code v-pre>--repo</code> flag when running RepoSense, as follows:</p>
         <div class="indented-level0">
           <panel minimized><template slot="_header">
-              <p><span><span aria-hidden="true" class="glyphicon glyphicon-log-in"></span></span> Appendx: <strong>CLI syntax reference → <code>config</code> flag</strong></p>
+              <p><span><span aria-hidden="true" class="glyphicon glyphicon-log-in"></span></span> Appendx: <strong>CLI syntax reference → <code v-pre>config</code> flag</strong></p>
             </template>
             <div>
-              <p><strong><code>--config CONFIG_DIRECTORY</code></strong>: Specifies that config files located in <code>CONFIG_DIRECTORY</code> should be used to customize the report.</p>
+              <p><strong><code v-pre>--config CONFIG_DIRECTORY</code></strong>: Specifies that config files located in <code v-pre>CONFIG_DIRECTORY</code> should be used to customize the report.</p>
               <ul>
-                <li>Parameter: <code>CONFIG_DIRECTORY</code> The directory containing the config files. Should contain a <code>repo-config.csv</code> file. Optionally, can contain an <code>author-config.csv</code> file or/and a <code>group-config.csv</code> file.</li>
-                <li>Alias: <code>-c</code></li>
-                <li>Example: <code>java -jar RepoSense.jar --config ./config</code></li>
+                <li>Parameter: <code v-pre>CONFIG_DIRECTORY</code> The directory containing the config files. Should contain a <code v-pre>repo-config.csv</code> file. Optionally, can contain an <code v-pre>author-config.csv</code> file or/and a <code v-pre>group-config.csv</code> file.</li>
+                <li>Alias: <code v-pre>-c</code></li>
+                <li>Example: <code v-pre>java -jar RepoSense.jar --config ./config</code></li>
               </ul>
               <box type="info" seamless>
                 <ul>
-                  <li>Cannot be used with <code>--repos</code></li>
-                  <li>If both <code>--repos</code> and <code>--config</code> are not specified, RepoSense looks for config files in the <code>./config</code> directory.
+                  <li>Cannot be used with <code v-pre>--repos</code></li>
+                  <li>If both <code v-pre>--repos</code> and <code v-pre>--config</code> are not specified, RepoSense looks for config files in the <code v-pre>./config</code> directory.
                   </li>
                 </ul>
               </box>
@@ -279,22 +312,23 @@
                   <p>Note that Netlify has a low limit for free tier users (only 300 <em>build minutes</em> per month as at June 2020 -- a single report generation can take 2-3 build minutes, longer if your report includes many/big repositories).
                   </p>
                 </box>
+                <p></p>
 
                 <h2 id="setting-up">Setting up<a class="fa fa-anchor" href="#setting-up" onclick="event.stopPropagation()"></a></h2>
-                <p><span class="badge badge-dark bigger-level0">Step 1</span> <strong>Fork the <em>publish-RepoSense</em> repository</strong> using this <a href="https://github.com/RepoSense/publish-RepoSense/fork">link</a>. Optionally, you can rename the fork to match your RepoSense report e.g., <code>project-code-dashboard</code>.</p>
+                <p><span class="badge badge-dark bigger-level0">Step 1</span> <strong>Fork the <em>publish-RepoSense</em> repository</strong> using this <a href="https://github.com/RepoSense/publish-RepoSense/fork">link</a>. Optionally, you can rename the fork to match your RepoSense report e.g., <code v-pre>project-code-dashboard</code>.</p>
                 <p><span class="badge badge-dark bigger-level0">Step 2</span> <strong>Set up Netlify for your fork</strong> as described in this <a href="https://www.netlify.com/blog/2016/09/29/a-step-by-step-guide-deploying-on-netlify/">guide</a>.<br>
-                  <mark>You will need to use the following in <code>Step 5: Configure Your Settings</code> of that guide</mark>:</p>
+                  <mark>You will need to use the following in <code v-pre>Step 5: Configure Your Settings</code> of that guide</mark>:</p>
                 <ul>
-                  <li>build command: <code>pip install requests &amp;&amp; ./run.sh</code><br></li>
-                  <li>publish directory: <code>./reposense-report</code></li>
+                  <li>build command: <code v-pre>pip install requests &amp;&amp; ./run.sh</code><br></li>
+                  <li>publish directory: <code v-pre>./reposense-report</code></li>
                 </ul>
                 <p>After Netlify finishes building the site, you should be able to see a dummy report at the URL of your Netlify site.</p>
                 <p><span class="badge badge-dark bigger-level0">Step 3</span> <strong>Generate the report you want</strong> by updating the settings in your fork.</p>
                 <ol>
-                  <li>Go to the <code>run.sh</code> file of your fork (on GitHub).</li>
+                  <li>Go to the <code v-pre>run.sh</code> file of your fork (on GitHub).</li>
                   <li>Update the last line (i.e., the command for running RepoSense) to match the report you want to generate:<br>
-                    <code>java -jar RepoSense.jar --repos FULL_REPO_URL</code> (assuming you want to generate a default report for just one repo)<br>
-                    e.g., <code>java -jar RepoSense.jar --repos https://github.com/reposense/RepoSense.git</code> (<mark>note the .git at the end of the repo URL</mark>)</li>
+                    <code v-pre>java -jar RepoSense.jar --repos FULL_REPO_URL</code> (assuming you want to generate a default report for just one repo)<br>
+                    e.g., <code v-pre>java -jar RepoSense.jar --repos https://github.com/reposense/RepoSense.git</code> (<mark>note the .git at the end of the repo URL</mark>)</li>
                   <li>Commit the file. This will trigger Netlify to rebuild the report.</li>
                   <li>Go to the URL of your Netlify site to see the updated RepoSense report (it might take about 2-5 minutes for Netlify to generate the report).</li>
                 </ol>
@@ -308,7 +342,7 @@
               </template>
               <div>
                 <h2 id="pr-previews">PR previews<a class="fa fa-anchor" href="#pr-previews" onclick="event.stopPropagation()"></a></h2>
-                <p>After setting up Netlify for your repo containing RepoSense settings, when a PR comes in to that repo to update any setting, you can scroll down the PR page and in <code>All checks have passed</code>, click on the <code>Details</code> beside <code>deploy/netlify — Deploy preview ready!</code> to see a preview of the report as per the changes in the PR.
+                <p>After setting up Netlify for your repo containing RepoSense settings, when a PR comes in to that repo to update any setting, you can scroll down the PR page and in <code v-pre>All checks have passed</code>, click on the <code v-pre>Details</code> beside <code v-pre>deploy/netlify — Deploy preview ready!</code> to see a preview of the report as per the changes in the PR.
                   <a href="/RepoSense/images/publishingguide-netlifypreview.png" target="_self"><img src="/RepoSense/images/publishingguide-netlifypreview.png" alt class="img-fluid" title="Netlify Preview"></a></p>
               </div>
             </panel>
@@ -324,79 +358,81 @@
               <p><span><span aria-hidden="true" class="glyphicon glyphicon-log-in"></span></span> Appendx: <strong>Standalone config file format</strong></p>
             </template>
             <div>
-              <h2 id="config-json-standalone-config-file"><code>config.json</code> (standalone config file)<a class="fa fa-anchor" href="#config-json-standalone-config-file" onclick="event.stopPropagation()"></a></h2>
+              <h2 id="config-json-standalone-config-file"><code v-pre>config.json</code> (standalone config file)<a class="fa fa-anchor" href="#config-json-standalone-config-file" onclick="event.stopPropagation()"></a></h2>
               <p>Repo owners can provide the following additional information to RepoSense using a config file that we call the <strong><em>standalone config file</em></strong>:</p>
               <ul>
                 <li>which files/authors/commits to analyze/omit</li>
                 <li>which git and GitHub usernames belong to which authors</li>
                 <li>the display of an author</li>
               </ul>
-              <p>To use this feature, add a <code>_reposense/config.json</code> to the root of your repo using the format in the example below (<a href="https://github.com/reposense/RepoSense/blob/master/_reposense/config.json">another example</a>) and <strong>commit it</strong> (reason: RepoSense can see committed code only):</p>
-              <pre><code class="no-line-numbers hljs json"><span>{<br></span><span>  <span class="hljs-attr">"ignoreGlobList"</span>: [<span class="hljs-string">"about-us/**"</span>, <span class="hljs-string">"**index.html"</span>],<br></span><span>  <span class="hljs-attr">"formats"</span>: [<span class="hljs-string">"html"</span>, <span class="hljs-string">"css"</span>],<br></span><span>  <span class="hljs-attr">"ignoreCommitList"</span>: [<span class="hljs-string">"90018e49f129ce7e0abdc8b18e91c9813588c601"</span>, <span class="hljs-string">"67890def"</span>],<br></span><span>  <span class="hljs-attr">"ignoreAuthorList"</span>: [<span class="hljs-string">"charlie"</span>],<br></span><span>  <span class="hljs-attr">"authors"</span>:<br></span><span>  [<br></span><span>    {<br></span><span>      <span class="hljs-attr">"githubId"</span>: <span class="hljs-string">"alice"</span>,<br></span><span>      <span class="hljs-attr">"emails"</span>: [<span class="hljs-string">"alice@example.com"</span>, <span class="hljs-string">"alicet@example.com"</span>],<br></span><span>      <span class="hljs-attr">"displayName"</span>: <span class="hljs-string">"Alice T."</span>,<br></span><span>      <span class="hljs-attr">"authorNames"</span>: [<span class="hljs-string">"AT"</span>, <span class="hljs-string">"A"</span>],<br></span><span>      <span class="hljs-attr">"ignoreGlobList"</span>: [<span class="hljs-string">"**.css"</span>]<br></span><span>    },<br></span><span>    {<br></span><span>      <span class="hljs-attr">"githubId"</span>: <span class="hljs-string">"bob"</span><br></span><span>    }<br></span><span>  ]<br></span><span>}<br></span></code></pre>
+              <p>To use this feature, add a <code v-pre>_reposense/config.json</code> to the root of your repo using the format in the example below (<a href="https://github.com/reposense/RepoSense/blob/master/_reposense/config.json">another example</a>) and <strong>commit it</strong> (reason: RepoSense can see committed code only):</p>
+              <pre><code class="no-line-numbers hljs json" v-pre><span>{<br></span><span>  <span class="hljs-attr">"ignoreGlobList"</span>: [<span class="hljs-string">"about-us/**"</span>, <span class="hljs-string">"**index.html"</span>],<br></span><span>  <span class="hljs-attr">"formats"</span>: [<span class="hljs-string">"html"</span>, <span class="hljs-string">"css"</span>],<br></span><span>  <span class="hljs-attr">"ignoreCommitList"</span>: [<span class="hljs-string">"90018e49f129ce7e0abdc8b18e91c9813588c601"</span>, <span class="hljs-string">"67890def"</span>],<br></span><span>  <span class="hljs-attr">"ignoreAuthorList"</span>: [<span class="hljs-string">"charlie"</span>],<br></span><span>  <span class="hljs-attr">"authors"</span>:<br></span><span>  [<br></span><span>    {<br></span><span>      <span class="hljs-attr">"githubId"</span>: <span class="hljs-string">"alice"</span>,<br></span><span>      <span class="hljs-attr">"emails"</span>: [<span class="hljs-string">"alice@example.com"</span>, <span class="hljs-string">"alicet@example.com"</span>],<br></span><span>      <span class="hljs-attr">"displayName"</span>: <span class="hljs-string">"Alice T."</span>,<br></span><span>      <span class="hljs-attr">"authorNames"</span>: [<span class="hljs-string">"AT"</span>, <span class="hljs-string">"A"</span>],<br></span><span>      <span class="hljs-attr">"ignoreGlobList"</span>: [<span class="hljs-string">"**.css"</span>]<br></span><span>    },<br></span><span>    {<br></span><span>      <span class="hljs-attr">"githubId"</span>: <span class="hljs-string">"bob"</span><br></span><span>    }<br></span><span>  ]<br></span><span>}<br></span></code></pre>
               <p>Note: all fields are optional unless specified otherwise.</p>
               <p><strong>Fields to provide <em>repository-level</em> info</strong>:</p>
               <ul>
-                <li><code>ignoreGlobList</code>: Folders/files to ignore, specified using the <a href="https://docs.oracle.com/javase/tutorial/essential/io/fileOps.html#glob"><em>glob format</em></a>.</li>
-                <li><code>formats</code>: File formats to analyze. Default: all file formats</li>
-                <li><code>ignoreCommitList</code>: The list of commits to ignore during analysis. For accurate results, the commits should be provided with their full hash.</li>
-                <li><code>ignoreAuthorList</code>: The list of authors to ignore during analysis. Authors specified in <code>authors</code> field or <code>author-config.csv</code> will be also be omitted if they are in this list. Authors should be specified by their <a href="#a-note-about-git-author-name">Git Author Name</a>.</li>
+                <li><code v-pre>ignoreGlobList</code>: Folders/files to ignore, specified using the <a href="https://docs.oracle.com/javase/tutorial/essential/io/fileOps.html#glob"><em>glob format</em></a>.</li>
+                <li><code v-pre>formats</code>: File formats to analyze. Default: all file formats</li>
+                <li><code v-pre>ignoreCommitList</code>: The list of commits to ignore during analysis. For accurate results, the commits should be provided with their full hash.</li>
+                <li><code v-pre>ignoreAuthorList</code>: The list of authors to ignore during analysis. Authors specified in <code v-pre>authors</code> field or <code v-pre>author-config.csv</code> will be also be omitted if they are in this list. Authors should be specified by their <a href="#a-note-about-git-author-name">Git Author Name</a>.</li>
               </ul>
               <p><strong>Fields to provide <em>author-level</em> info</strong>:<br>
-                Note: <code>authors</code> field should contain <em>all</em> authors that should be captured in the analysis.</p>
+                Note: <code v-pre>authors</code> field should contain <em>all</em> authors that should be captured in the analysis.</p>
               <ul>
-                <li><code>githubId</code>: GitHub username of the author. <span class="badge badge-danger">mandatory</span> field.</li>
-                <li><code>emails</code>: Associated GitHub emails of the author. This can be found in your <a href="https://github.com/settings/emails">GitHub settings</a>.</li>
-                <li><code>displayName</code>: Name to display on the report for this author.</li>
-                <li><code>authorNames</code>: Git Author Name(s) used in the author's commits. By default RepoSense assumes an author would use her GitHub username as the Git username too. The meaning of <em>Git Author Name</em> is explained in <a href="#a-note-about-git-author-name"><em>A note about git author name</em></a>.</li>
-                <li><code>ignoreGlobList</code>: <em>Additional</em> (i.e. on top of the repo-level <code>ignoreGlobList</code>) folders/files to ignore for a specific author . In the example above, the actual <code>ignoreGlobList</code> for <code>alice</code> would be <code>[&quot;about-us/**&quot;, &quot;**index.html&quot;, &quot;**.css&quot;]</code></li>
+                <li><code v-pre>githubId</code>: GitHub username of the author. <span class="badge badge-danger">mandatory</span> field.</li>
+                <li><code v-pre>emails</code>: Associated GitHub emails of the author. This can be found in your <a href="https://github.com/settings/emails">GitHub settings</a>.</li>
+                <li><code v-pre>displayName</code>: Name to display on the report for this author.</li>
+                <li><code v-pre>authorNames</code>: Git Author Name(s) used in the author's commits. By default RepoSense assumes an author would use her GitHub username as the Git username too. The meaning of <em>Git Author Name</em> is explained in <a href="#a-note-about-git-author-name"><em>A note about git author name</em></a>.</li>
+                <li><code v-pre>ignoreGlobList</code>: <em>Additional</em> (i.e. on top of the repo-level <code v-pre>ignoreGlobList</code>) folders/files to ignore for a specific author . In the example above, the actual <code v-pre>ignoreGlobList</code> for <code v-pre>alice</code> would be <code v-pre>[&quot;about-us/**&quot;, &quot;**index.html&quot;, &quot;**.css&quot;]</code></li>
               </ul>
-              <p>To verify your standalone configuration is as intended, add the <code>_reposense/config.json</code> to your local copy of repo and run RepoSense against it as follows:<br></p>
+              <p>To verify your standalone configuration is as intended, add the <code v-pre>_reposense/config.json</code> to your local copy of repo and run RepoSense against it as follows:<br></p>
               <ul>
-                <li>Format : <code>java -jar RepoSense.jar --repo LOCAL_REPO_LOCATION</code> <br></li>
-                <li>Example: <code>java -jar RepoSense.jar --repo c:/myRepose/foo/bar</code><br>
+                <li>Format : <code v-pre>java -jar RepoSense.jar --repo LOCAL_REPO_LOCATION</code> <br></li>
+                <li>Example: <code v-pre>java -jar RepoSense.jar --repo c:/myRepose/foo/bar</code><br>
                   After that, view the report to see if the configuration you specified in the config file is being reflected correctly in the report.</li>
               </ul>
               <h2 id="a-note-about-git-author-name">A note about git author name<a class="fa fa-anchor" href="#a-note-about-git-author-name" onclick="event.stopPropagation()"></a></h2>
-              <p><code>Git Author Name</code> refers to the customizable author's display name set in the local <code>.gitconfig</code> file. For example, in the Git Log's display:</p>
-              <pre><code class="no-line-numbers hljs"><span>...<br></span><span>commit cd7f610e0becbdf331d5231887d8010a689f87c7<br></span><span>Author: ConfiguredAuthorName &lt;author@example.com&gt;<br></span><span>Date:   Fri Feb 9 19:14:41 2018 +0800<br></span><span><br></span><span>    Make some changes to show my new author's name<br></span><span><br></span><span>commit e3f699fd4ef128eebce98d5b4e5b3bb06a512f49<br></span><span>Author: ActualGitHubId &lt;author@example.com&gt;<br></span><span>Date:   Fri Feb 9 19:13:13 2018 +0800<br></span><span><br></span><span>    Initial commit<br></span><span> ...<br></span></code></pre>
-              <p><code>ActualGitHubId</code> and <code>ConfiguredAuthorName</code> are both <code>Git Author Name</code> of the same author.<br>
+              <p><code v-pre>Git Author Name</code> refers to the customizable author's display name set in the local <code v-pre>.gitconfig</code> file. For example, in the Git Log's display:</p>
+              <pre><code class="no-line-numbers hljs" v-pre><span>...<br></span><span>commit cd7f610e0becbdf331d5231887d8010a689f87c7<br></span><span>Author: ConfiguredAuthorName &lt;author@example.com&gt;<br></span><span>Date:   Fri Feb 9 19:14:41 2018 +0800<br></span><span><br></span><span>    Make some changes to show my new author's name<br></span><span><br></span><span>commit e3f699fd4ef128eebce98d5b4e5b3bb06a512f49<br></span><span>Author: ActualGitHubId &lt;author@example.com&gt;<br></span><span>Date:   Fri Feb 9 19:13:13 2018 +0800<br></span><span><br></span><span>    Initial commit<br></span><span> ...<br></span></code></pre>
+              <p><code v-pre>ActualGitHubId</code> and <code v-pre>ConfiguredAuthorName</code> are both <code v-pre>Git Author Name</code> of the same author.<br>
                 To find the author name that you are currently using for your current git repository, run the following command within your git repository:</p>
-              <pre><code class="no-line-numbers hljs"><span>git config user.name<br></span></code></pre>
+              <pre><code class="no-line-numbers hljs" v-pre><span>git config user.name<br></span></code></pre>
               <p>To set the author name to the value you want (e.g., to set it to your GitHub username) for your current git repository, you can use the following command (<a href="https://www.git-tower.com/learn/git/faq/change-author-name-email">more info</a>):</p>
-              <pre><code class="no-line-numbers hljs"><span>git config user.name &quot;YOUR_AUTHOR_NAME”<br></span></code></pre>
+              <pre><code class="no-line-numbers hljs" v-pre><span>git config user.name &quot;YOUR_AUTHOR_NAME”<br></span></code></pre>
               <p>To set the author name to use a default value you want for future git repositories, you can use the following command:</p>
-              <pre><code class="no-line-numbers hljs"><span>git config --global user.name &quot;YOUR_AUTHOR_NAME”<br></span></code></pre>
-              <p>RepoSense expects the Git Author Name to be the same as author's GitHub username. If an author's <code>Git Author Name</code> is different from her <code>GitHub ID</code>, the <code>Git Author Name</code> needs to be specified in the standalone config file. If the author has more than one <code>Git Author Name</code>, multiple values can be entered too.</p>
+              <pre><code class="no-line-numbers hljs" v-pre><span>git config --global user.name &quot;YOUR_AUTHOR_NAME”<br></span></code></pre>
+              <p>RepoSense expects the Git Author Name to be the same as author's GitHub username. If an author's <code v-pre>Git Author Name</code> is different from her <code v-pre>GitHub ID</code>, the <code v-pre>Git Author Name</code> needs to be specified in the standalone config file. If the author has more than one <code v-pre>Git Author Name</code>, multiple values can be entered too.</p>
               <box type="warning" seamless>
-                <p>Note: Symbols such as <code>&quot;</code>, <code>!</code>, <code>/</code> etc. in your author name will be omitted, which may reduce the accuracy of the analysis if 2 names in the repository are approximately similar.
+                <p>Note: Symbols such as <code v-pre>&quot;</code>, <code v-pre>!</code>, <code v-pre>/</code> etc. in your author name will be omitted, which may reduce the accuracy of the analysis if 2 names in the repository are approximately similar.
                 </p>
               </box>
+              <p></p>
             </div>
           </panel>
         </div>
         <p></p>
-        <p>2. To have more precise control over which code segment is attributed to which author, authors can annotate their code using <code>@@author</code> tags, as explained below.</p>
+        <p>2. To have more precise control over which code segment is attributed to which author, authors can annotate their code using <code v-pre>@@author</code> tags, as explained below.</p>
         <div class="indented-level0">
           <panel minimized><template slot="_header">
-              <p><span><span aria-hidden="true" class="glyphicon glyphicon-log-in"></span></span> Appendx: <strong>Using <code>@@author</code> tags</strong></p>
+              <p><span><span aria-hidden="true" class="glyphicon glyphicon-log-in"></span></span> Appendx: <strong>Using <code v-pre>@@author</code> tags</strong></p>
             </template>
             <div>
               <div></div>
-              <h1 class="display-4" id="appendix-using-author-tags"><span>Appendix: Using <code>@@author</code> tags</span><a class="fa fa-anchor" href="#appendix-using-author-tags" onclick="event.stopPropagation()"></a></h1>
+              <h1 class="display-4" id="appendix-using-author-tags"><span>Appendix: Using <code v-pre>@@author</code> tags</span><a class="fa fa-anchor" href="#appendix-using-author-tags" onclick="event.stopPropagation()"></a></h1>
               <div class="lead">
-                <p><code>@@author</code> tags is a rather invasive but sometimes necessary way to provide more information to RepoSense, by annotating the code being analyzed.</p>
+                <p><code v-pre>@@author</code> tags is a rather invasive but sometimes necessary way to provide more information to RepoSense, by annotating the code being analyzed.</p>
               </div>
-              <p>If you want to override the code authorship deduced by RepoSense (which is based on Git blame/log data), you can use <code>@@author</code> tags to specify certain code segments should be credited to a certain author irrespective of git history. An example scenario where this is useful is when a method was originally written by one author but a second author did some minor refactoring to it; in this case RepoSense might attribute the code to the second author while you may want to attribute the code to the first author.</p>
-              <p>There are 2 types of <code>@@author</code> tags:</p>
+              <p>If you want to override the code authorship deduced by RepoSense (which is based on Git blame/log data), you can use <code v-pre>@@author</code> tags to specify certain code segments should be credited to a certain author irrespective of git history. An example scenario where this is useful is when a method was originally written by one author but a second author did some minor refactoring to it; in this case RepoSense might attribute the code to the second author while you may want to attribute the code to the first author.</p>
+              <p>There are 2 types of <code v-pre>@@author</code> tags:</p>
               <ul>
-                <li>Start Tags (format: <code>@@author AUTHOR_GITHUB_ID</code>): A start tag indicates the start of a code segment written by the author identified by the <code>AUTHOR_GITHUB_ID</code>.</li>
-                <li>End Tags (format: <code>@@author</code>): Optional. An end tag indicates the end of a code segment written by the author identified by the <code>AUTHOR_GITHUB_ID</code> of the start tag.</li>
+                <li>Start Tags (format: <code v-pre>@@author AUTHOR_GITHUB_ID</code>): A start tag indicates the start of a code segment written by the author identified by the <code v-pre>AUTHOR_GITHUB_ID</code>.</li>
+                <li>End Tags (format: <code v-pre>@@author</code>): Optional. An end tag indicates the end of a code segment written by the author identified by the <code v-pre>AUTHOR_GITHUB_ID</code> of the start tag.</li>
               </ul>
               <box type="info" seamless>
                 <p>If an end tag is not provided, the code till the next start tag (or the end of the file) will be attributed to the author specified in the start tag above. Use only when necessary to minimize polluting your code with these extra tags.
                 </p>
               </box>
-              <p>The <code>@@author</code> tags should be enclosed within a comment, using the comment syntax of the file in concern. Below are some examples:</p>
+              <p></p>
+              <p>The <code v-pre>@@author</code> tags should be enclosed within a comment, using the comment syntax of the file in concern. Below are some examples:</p>
               <p><a href="/RepoSense/images/add-author-tags.png" target="_self"><img src="/RepoSense/images/add-author-tags.png" alt class="img-fluid"></a></p>
               <p>Note: Remember to <strong>commit</strong> the files after the changes. (reason: RepoSense can see committed code only)</p>
               <p>Special thanks to <a href="https://github.com/se-edu/collate">Collate project</a> for providing the inspiration for this functionality.</p>
@@ -425,12 +461,12 @@
     <footer>
 
       <div class="text-center">
-        <small>[<span><strong>Powered by</strong></span> <img src="https://markbind.org/favicon.ico" width="30"> <a href="https://markbind.org/">MarkBind 2.14.1</a>, generated on Thu, Jul 30, 2020, 7:23:51 PM UTC]</small></div>
+        <small>[<span><strong>Powered by</strong></span> <img src="https://markbind.org/favicon.ico" width="30"> <a href="https://markbind.org/">MarkBind 2.15.2</a>, generated on Fri, Jul 31, 2020, 7:24:02 PM UTC]</small></div>
     </footer>
   </div>
 </body>
 <script src="../markbind/js/vue.min.js"></script>
-<script src="../markbind/js/vue-strap.min.js"></script>
+<script src="../markbind/js/components.min.js"></script>
 <script src="../markbind/js/bootstrap-utility.min.js"></script>
 <script src="../markbind/js/polyfill.min.js"></script>
 <script src="../markbind/js/bootstrap-vue.min.js"></script>

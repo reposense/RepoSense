@@ -5,7 +5,7 @@
 
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="generator" content="MarkBind 2.14.1">
+  <meta name="generator" content="MarkBind 2.15.2">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>RepoSense - Showcase</title>
   <link rel="stylesheet" href="markbind/css/bootstrap.min.css">
@@ -73,8 +73,8 @@
           <li>
             <p><strong>Example usages:</strong></p>
             <ul>
-              <li>To find the breakdown of the work done, we can tick the <code>breakdown by file type</code> checkbox, as shown in <a href="https://nus-cs2113-ay1920s2.github.io/tp-dashboard/#search=&amp;sort=groupTitle&amp;sortWithin=title&amp;since=2020-03-01&amp;timeframe=commit&amp;mergegroup=false&amp;groupSelect=groupByRepos&amp;breakdown=true">this view</a>. After that, we can filter out certain file types by un-ticking the file type.</li>
-              <li>To find how teams compare in terms of total work done, we can tick the <code>merge group</code> check-box and sort groups by <code>Contribution</code>, as seen in <a href="https://nus-cs2113-ay1920s2.github.io/tp-dashboard/#search=&amp;sort=totalCommits&amp;sortWithin=title&amp;since=2020-03-01&amp;timeframe=week&amp;mergegroup=true&amp;groupSelect=groupByRepos&amp;breakdown=false">this view</a>. Also note how <span data-mb-component-type="tooltip" v-b-tooltip.hover.top.html="tooltipInnerContentGetter" class="trigger"><span data-mb-html-for="_content">i.e., each ramp represents the work done by the entire team in the whole week</span>the <code>granularity</code> of the ramps is set to <code>Week</code></span> to reduce clutter.</li>
+              <li>To find the breakdown of the work done, we can tick the <code v-pre>breakdown by file type</code> checkbox, as shown in <a href="https://nus-cs2113-ay1920s2.github.io/tp-dashboard/#search=&amp;sort=groupTitle&amp;sortWithin=title&amp;since=2020-03-01&amp;timeframe=commit&amp;mergegroup=false&amp;groupSelect=groupByRepos&amp;breakdown=true">this view</a>. After that, we can filter out certain file types by un-ticking the file type.</li>
+              <li>To find how teams compare in terms of total work done, we can tick the <code v-pre>merge group</code> check-box and sort groups by <code v-pre>Contribution</code>, as seen in <a href="https://nus-cs2113-ay1920s2.github.io/tp-dashboard/#search=&amp;sort=totalCommits&amp;sortWithin=title&amp;since=2020-03-01&amp;timeframe=week&amp;mergegroup=true&amp;groupSelect=groupByRepos&amp;breakdown=false">this view</a>. Also note how <span data-mb-component-type="tooltip" v-b-tooltip.hover.top.html="tooltipInnerContentGetter" class="trigger"><span data-mb-html-for="_content">i.e., each ramp represents the work done by the entire team in the whole week</span>the <code v-pre>granularity</code> of the ramps is set to <code v-pre>Week</code></span> to reduce clutter.</li>
               <li><a href="https://nus-cs2113-ay1920s2.github.io/tp-dashboard/#search=&amp;sort=groupTitle&amp;sortWithin=title&amp;since=2020-04-06&amp;timeframe=commit&amp;mergegroup=false&amp;groupSelect=groupByRepos&amp;breakdown=true">This view</a> shows the activities near the submission deadline (note how some have overshot the deadline and some others show a frenzy of activities very near to the deadline).</li>
             </ul>
           </li>
@@ -92,8 +92,8 @@
             <p><strong>Example usages:</strong></p>
             <ul>
               <li><a href="https://nus-cs3281.github.io/2020-dashboard/#search=&amp;sort=groupTitle&amp;sortWithin=title&amp;since=2019-12-01&amp;timeframe=commit&amp;mergegroup=&amp;groupSelect=groupByRepos&amp;breakdown=false&amp;tabOpen=true&amp;tabType=zoom&amp;zA=anubh-v&amp;zR=CATcher-org%2FCATcher%5Bmaster%5D&amp;zACS=118.09969788519638&amp;zS=2019-12-01&amp;zFS=&amp;zU=2020-06-05&amp;zMG=false&amp;zFTF=commit&amp;zFGS=groupByRepos">This view</a> shows the commit messages written by a specific student.</li>
-              <li>Note how we can use the <code>group by</code> drop-down to organize activities around projects or individual authors.</li>
-              <li>Similarly, we can use the <code>merge all groups</code> check-box to see the sum of activities in a specific project or by a specific student.</li>
+              <li>Note how we can use the <code v-pre>group by</code> drop-down to organize activities around projects or individual authors.</li>
+              <li>Similarly, we can use the <code v-pre>merge all groups</code> check-box to see the sum of activities in a specific project or by a specific student.</li>
             </ul>
           </li>
         </ul>
@@ -104,12 +104,12 @@
     <footer>
 
       <div class="text-center">
-        <small>[<span><strong>Powered by</strong></span> <img src="https://markbind.org/favicon.ico" width="30"> <a href="https://markbind.org/">MarkBind 2.14.1</a>, generated on Thu, Jul 30, 2020, 7:23:51 PM UTC]</small></div>
+        <small>[<span><strong>Powered by</strong></span> <img src="https://markbind.org/favicon.ico" width="30"> <a href="https://markbind.org/">MarkBind 2.15.2</a>, generated on Fri, Jul 31, 2020, 7:24:02 PM UTC]</small></div>
     </footer>
   </div>
 </body>
 <script src="markbind/js/vue.min.js"></script>
-<script src="markbind/js/vue-strap.min.js"></script>
+<script src="markbind/js/components.min.js"></script>
 <script src="markbind/js/bootstrap-utility.min.js"></script>
 <script src="markbind/js/polyfill.min.js"></script>
 <script src="markbind/js/bootstrap-vue.min.js"></script>

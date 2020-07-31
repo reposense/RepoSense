@@ -5,7 +5,7 @@
 
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="generator" content="MarkBind 2.14.1">
+  <meta name="generator" content="MarkBind 2.15.2">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>RepoSense - Appendix: Using `@@author` tags</title>
   <link rel="stylesheet" href="../markbind/css/bootstrap.min.css">
@@ -43,7 +43,7 @@
     </header>
     <header>
       <div class="text-center bg-warning p-2">
-        <p>You are looking at the user documentation for the most recent <code>master</code> branch of RepoSense (not released to the public yet).
+        <p>You are looking at the user documentation for the most recent <code v-pre>master</code> branch of RepoSense (not released to the public yet).
           <strong>The documentation for the latest public release is <a href="https://reposense.org/ug">here</a>.</strong></p>
       </div>
     </header>
@@ -51,28 +51,55 @@
       <nav id="site-nav" class="navbar navbar-light bg-transparent">
         <div class="border-right-grey nav-inner position-sticky slim-scroll">
           <p><span class="lead"><strong><strong>USER GUIDE</strong></strong></span></p>
-          <ul class="px-0 site-nav-list">
-            <li class="mt-2"><a href="/RepoSense/ug/index.html" class="site-nav__a"><strong>Overview</strong></a></li>
-            <li class="mt-2"><a href="/RepoSense/ug/generatingReports.html" class="site-nav__a"><strong>Generating reports</strong></a></li>
-            <li class="mt-2"><a href="/RepoSense/ug/usingReports.html" class="site-nav__a"><strong>Using reports</strong></a></li>
-            <li class="mt-2"><a href="/RepoSense/ug/customizingReports.html" class="site-nav__a"><strong>Customizing reports</strong></a></li>
-            <li class="mt-2"><a href="/RepoSense/ug/sharingReports.html" class="site-nav__a"><strong>Sharing reports</strong></a></li>
-            <li class="mt-2"><button class="dropdown-btn dropdown-btn-open"><strong>Appendices</strong>
-                <i class="dropdown-btn-icon rotate-icon">
-                  <span class="glyphicon glyphicon-menu-down" aria-hidden="true"></span></i></button>
-              <div class="dropdown-container dropdown-container-open">
-                <ul class="pl-3 site-nav-list">
-                  <li class="mt-2"><a href="/RepoSense/ug/cli.html" class="site-nav__a">CLI syntax reference</a></li>
-                  <li class="mt-2"><a href="/RepoSense/ug/configFiles.html" class="site-nav__a">Config files format</a></li>
-                  <li class="mt-2"><a href="/RepoSense/ug/usingAuthorTags.html" class="site-nav__a current">Using <code>@@author</code> tags</a></li>
-                  <li class="mt-2"><a href="/RepoSense/ug/withNetlify.html" class="site-nav__a">RepoSense with Netlify</a></li>
-                  <li class="mt-2"><a href="/RepoSense/ug/withGithubActions.html" class="site-nav__a">RepoSense with GitHub Actions</a></li>
-                  <li class="mt-2"><a href="/RepoSense/ug/withTravis.html" class="site-nav__a">RepoSense with Travis</a></li>
-                  <li class="mt-2"><a href="/RepoSense/ug/runSh.html" class="site-nav__a"><code>run.sh</code> format</a></li>
-                  <li class="mt-2"><a href="/RepoSense/ug/faq.html" class="site-nav__a">FAQ</a></li>
-                  <li class="mt-2"><a href="/RepoSense/ug/troubleshooting.html" class="site-nav__a">Troubleshooting</a></li>
-                </ul>
-              </div>
+          <ul class="site-nav-list site-nav-list-root">
+            <li>
+              <div class="site-nav-default-list-item site-nav-list-item-0" onclick="handleSiteNavClick(this)"><a href="/RepoSense/ug/index.html"><strong>Overview</strong></a></div>
+            </li>
+            <li>
+              <div class="site-nav-default-list-item site-nav-list-item-0" onclick="handleSiteNavClick(this)"><a href="/RepoSense/ug/generatingReports.html"><strong>Generating reports</strong></a></div>
+            </li>
+            <li>
+              <div class="site-nav-default-list-item site-nav-list-item-0" onclick="handleSiteNavClick(this)"><a href="/RepoSense/ug/usingReports.html"><strong>Using reports</strong></a></div>
+            </li>
+            <li>
+              <div class="site-nav-default-list-item site-nav-list-item-0" onclick="handleSiteNavClick(this)"><a href="/RepoSense/ug/customizingReports.html"><strong>Customizing reports</strong></a></div>
+            </li>
+            <li>
+              <div class="site-nav-default-list-item site-nav-list-item-0" onclick="handleSiteNavClick(this)"><a href="/RepoSense/ug/sharingReports.html"><strong>Sharing reports</strong></a></div>
+            </li>
+            <li>
+              <div class="site-nav-default-list-item site-nav-list-item-0" onclick="handleSiteNavClick(this)"><strong>Appendices</strong>
+                <i class="site-nav-dropdown-btn-icon site-nav-rotate-icon" onclick="handleSiteNavClick(this.parentNode, false); event.stopPropagation();">
+                  <span class="glyphicon glyphicon-menu-down" aria-hidden="true"></span></i></div>
+              <ul class="site-nav-dropdown-container site-nav-dropdown-container-open site-nav-list">
+                <li>
+                  <div class="site-nav-default-list-item site-nav-list-item-1" onclick="handleSiteNavClick(this)"><a href="/RepoSense/ug/cli.html">CLI syntax reference</a></div>
+                </li>
+                <li>
+                  <div class="site-nav-default-list-item site-nav-list-item-1" onclick="handleSiteNavClick(this)"><a href="/RepoSense/ug/configFiles.html">Config files format</a></div>
+                </li>
+                <li>
+                  <div class="site-nav-default-list-item site-nav-list-item-1" onclick="handleSiteNavClick(this)"><a href="/RepoSense/ug/usingAuthorTags.html" class="current">Using <code v-pre>@@author</code> tags</a></div>
+                </li>
+                <li>
+                  <div class="site-nav-default-list-item site-nav-list-item-1" onclick="handleSiteNavClick(this)"><a href="/RepoSense/ug/withNetlify.html">RepoSense with Netlify</a></div>
+                </li>
+                <li>
+                  <div class="site-nav-default-list-item site-nav-list-item-1" onclick="handleSiteNavClick(this)"><a href="/RepoSense/ug/withGithubActions.html">RepoSense with GitHub Actions</a></div>
+                </li>
+                <li>
+                  <div class="site-nav-default-list-item site-nav-list-item-1" onclick="handleSiteNavClick(this)"><a href="/RepoSense/ug/withTravis.html">RepoSense with Travis</a></div>
+                </li>
+                <li>
+                  <div class="site-nav-default-list-item site-nav-list-item-1" onclick="handleSiteNavClick(this)"><a href="/RepoSense/ug/runSh.html"><code v-pre>run.sh</code> format</a></div>
+                </li>
+                <li>
+                  <div class="site-nav-default-list-item site-nav-list-item-1" onclick="handleSiteNavClick(this)"><a href="/RepoSense/ug/faq.html">FAQ</a></div>
+                </li>
+                <li>
+                  <div class="site-nav-default-list-item site-nav-list-item-1" onclick="handleSiteNavClick(this)"><a href="/RepoSense/ug/troubleshooting.html">Troubleshooting</a></div>
+                </li>
+              </ul>
             </li>
           </ul>
         </div>
@@ -81,21 +108,22 @@
 
       <div id="content-wrapper">
         <div></div>
-        <h1 class="display-4" id="appendix-using-author-tags"><span>Appendix: Using <code>@@author</code> tags</span><a class="fa fa-anchor" href="#appendix-using-author-tags" onclick="event.stopPropagation()"></a></h1>
+        <h1 class="display-4" id="appendix-using-author-tags"><span>Appendix: Using <code v-pre>@@author</code> tags</span><a class="fa fa-anchor" href="#appendix-using-author-tags" onclick="event.stopPropagation()"></a></h1>
         <div class="lead">
-          <p><code>@@author</code> tags is a rather invasive but sometimes necessary way to provide more information to RepoSense, by annotating the code being analyzed.</p>
+          <p><code v-pre>@@author</code> tags is a rather invasive but sometimes necessary way to provide more information to RepoSense, by annotating the code being analyzed.</p>
         </div>
-        <p>If you want to override the code authorship deduced by RepoSense (which is based on Git blame/log data), you can use <code>@@author</code> tags to specify certain code segments should be credited to a certain author irrespective of git history. An example scenario where this is useful is when a method was originally written by one author but a second author did some minor refactoring to it; in this case RepoSense might attribute the code to the second author while you may want to attribute the code to the first author.</p>
-        <p>There are 2 types of <code>@@author</code> tags:</p>
+        <p>If you want to override the code authorship deduced by RepoSense (which is based on Git blame/log data), you can use <code v-pre>@@author</code> tags to specify certain code segments should be credited to a certain author irrespective of git history. An example scenario where this is useful is when a method was originally written by one author but a second author did some minor refactoring to it; in this case RepoSense might attribute the code to the second author while you may want to attribute the code to the first author.</p>
+        <p>There are 2 types of <code v-pre>@@author</code> tags:</p>
         <ul>
-          <li>Start Tags (format: <code>@@author AUTHOR_GITHUB_ID</code>): A start tag indicates the start of a code segment written by the author identified by the <code>AUTHOR_GITHUB_ID</code>.</li>
-          <li>End Tags (format: <code>@@author</code>): Optional. An end tag indicates the end of a code segment written by the author identified by the <code>AUTHOR_GITHUB_ID</code> of the start tag.</li>
+          <li>Start Tags (format: <code v-pre>@@author AUTHOR_GITHUB_ID</code>): A start tag indicates the start of a code segment written by the author identified by the <code v-pre>AUTHOR_GITHUB_ID</code>.</li>
+          <li>End Tags (format: <code v-pre>@@author</code>): Optional. An end tag indicates the end of a code segment written by the author identified by the <code v-pre>AUTHOR_GITHUB_ID</code> of the start tag.</li>
         </ul>
         <box type="info" seamless>
           <p>If an end tag is not provided, the code till the next start tag (or the end of the file) will be attributed to the author specified in the start tag above. Use only when necessary to minimize polluting your code with these extra tags.
           </p>
         </box>
-        <p>The <code>@@author</code> tags should be enclosed within a comment, using the comment syntax of the file in concern. Below are some examples:</p>
+        <p></p>
+        <p>The <code v-pre>@@author</code> tags should be enclosed within a comment, using the comment syntax of the file in concern. Below are some examples:</p>
         <p><a href="/RepoSense/images/add-author-tags.png" target="_self"><img src="/RepoSense/images/add-author-tags.png" alt class="img-fluid"></a></p>
         <p>Note: Remember to <strong>commit</strong> the files after the changes. (reason: RepoSense can see committed code only)</p>
         <p>Special thanks to <a href="https://github.com/se-edu/collate">Collate project</a> for providing the inspiration for this functionality.</p>
@@ -106,12 +134,12 @@
     <footer>
 
       <div class="text-center">
-        <small>[<span><strong>Powered by</strong></span> <img src="https://markbind.org/favicon.ico" width="30"> <a href="https://markbind.org/">MarkBind 2.14.1</a>, generated on Thu, Jul 30, 2020, 7:23:51 PM UTC]</small></div>
+        <small>[<span><strong>Powered by</strong></span> <img src="https://markbind.org/favicon.ico" width="30"> <a href="https://markbind.org/">MarkBind 2.15.2</a>, generated on Fri, Jul 31, 2020, 7:24:02 PM UTC]</small></div>
     </footer>
   </div>
 </body>
 <script src="../markbind/js/vue.min.js"></script>
-<script src="../markbind/js/vue-strap.min.js"></script>
+<script src="../markbind/js/components.min.js"></script>
 <script src="../markbind/js/bootstrap-utility.min.js"></script>
 <script src="../markbind/js/polyfill.min.js"></script>
 <script src="../markbind/js/bootstrap-vue.min.js"></script>

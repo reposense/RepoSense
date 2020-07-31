@@ -11,97 +11,108 @@
     -webkit-transition: 0.4s;
 }
 
-/*  Standard style order for links, see CSS2§5.11.3:
-    https://www.w3.org/TR/CSS2/selector.html#dynamic-pseudo-classes */
-.site-nav__a:link,
-.site-nav__a:visited,
-.site-nav__a:active {
-    color: #565656;
-    text-decoration: none;
-}
-
-.site-nav__a:hover {
-    color: #0076ff;
+#site-nav .nav-inner {
+    max-height: 100vh;
 }
 
 #site-nav a.current {
     color: #0072ec;
 }
 
-#site-nav-btn {
-    background: transparent;
-    cursor: pointer;
-    display: block;
-    margin-top: 20px;
-    top: 0;
-    transition: 0.4s;
-    -webkit-transition: 0.4s;
-}
-
-#site-nav-btn-wrap {
-    background: white;
-    border-right: 1px solid lightgrey;
-    display: inline-block;
-    height: 100%;
-    left: 0;
-    opacity: 0;
-    overflow: hidden;
-    padding: 0 10px;
-    position: fixed;
-    transition: 0.4s;
-    width: 0;
-    z-index: 1;
-    -webkit-transition: 0.4s;
-}
-
 /* Navigation list */
 
 .site-nav-list {
     list-style-type: none;
+    padding-left: 0;
+}
+
+.site-nav-list-root {
+    margin: 0 -12px;
+}
+
+.site-nav-default-list-item {
+    display: flex;
+    padding: 0.5rem 0 0 2.8rem;
+    transition: background-color 0.08s;
+    color: #454545;
+    cursor: pointer;
+}
+
+.site-nav-custom-list-item {
+    padding: 0.5rem 0 0 2.8rem;
+    color: #454545;
+}
+
+.site-nav-list-item-0 {
+    padding: 0.8rem 0 0.4rem 0.8rem;
+    font-weight: 600;
+    font-size: 1.05em;
+}
+
+.site-nav-list-item-1 {
+    padding: 0.5rem 0 0.3rem 1.3rem;
+}
+
+.site-nav-list-item-2 {
+    padding: 0.5rem 0 0.2rem 1.8rem;
+    font-size: 0.95em;
+}
+
+.site-nav-list-item-3 {
+    padding: 0.5rem 0 0.2rem 2.4rem;
+    font-size: 0.87em;
+}
+
+.site-nav-default-list-item:hover {
+    background-color: rgba(214, 233, 255, 0.35);
+}
+
+.site-nav-default-list-item a {
+    display: inline-block;
+    height: 100%;
+    color: #454545;
+}
+
+.site-nav-default-list-item:hover a {
+    color: black;
+    text-decoration: none;
 }
 
 /* Navigation dropdown menu */
 
-.dropdown-btn {
-    background: white;
-    border: none;
-    color: #565656;
-    cursor: pointer;
-    display: block;
-    outline: none !important;
-    padding: 0;
-    text-align: left;
-    text-decoration: none;
-}
-
-.dropdown-btn:hover {
-    color: #0076ff;
-}
-
-.dropdown-btn-icon {
+.site-nav-dropdown-btn-icon {
     display: inline-block;
+    align-self: center;
+    width: 1.5em;
+    height: 1.5em;
+    text-align: center;
+    border-radius: 1rem;
+    margin: 0 0.5rem 0 auto;
     transition: 0.4s;
     transform: rotate(0deg);
     -webkit-transition: 0.4s;
     -webkit-transform: rotate(0deg);
 }
 
-.rotate-icon {
-    color: #0076ff;
+.site-nav-dropdown-btn-icon:hover {
+    background-color: #d8e3fb;
+}
+
+.site-nav-rotate-icon {
+    color: #4c7ff1;
     transform: rotate(-180deg);
     -webkit-transform: rotate(-180deg);
 }
 
-.dropdown-container {
+.site-nav-dropdown-container {
     background: transparent;
     max-height: 0;
     overflow: hidden;
-    padding-left: 8px;
     transition: max-height 0.15s ease-out;
     -webkit-transition: max-height 0.15s ease-out;
 }
 
-.dropdown-container-open {
+.site-nav-dropdown-container-open {
     max-height: 1000px;
     transition: max-height 0.25s ease-in;
     -webkit-transition: max-height 0.25s ease-in;

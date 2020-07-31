@@ -5,7 +5,7 @@
 
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="generator" content="MarkBind 2.14.1">
+  <meta name="generator" content="MarkBind 2.15.2">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>RepoSense - Architecture</title>
   <link rel="stylesheet" href="../markbind/css/bootstrap.min.css">
@@ -46,29 +46,41 @@
       <nav id="site-nav" class="navbar navbar-light bg-transparent">
         <div class="border-right-grey nav-inner position-sticky slim-scroll">
           <p><span class="lead"><strong><strong>DEVELOPER GUIDE</strong></strong></span></p>
-          <ul class="px-0 site-nav-list">
-            <li class="mt-2"><a href="/RepoSense/dg/index.html" class="site-nav__a"><strong>Contributing</strong></a></li>
-            <li class="mt-2"><a href="/RepoSense/dg/settingUp.html" class="site-nav__a"><strong>Setting up</strong></a></li>
-            <li class="mt-2"><a href="/RepoSense/dg/workflow.html" class="site-nav__a"><strong>Workflow</strong></a></li>
-            <li class="mt-2"><button class="dropdown-btn dropdown-btn-open"><strong>Design and implementation</strong>
-                <i class="dropdown-btn-icon rotate-icon">
-                  <span class="glyphicon glyphicon-menu-down" aria-hidden="true"></span></i></button>
-              <div class="dropdown-container dropdown-container-open">
-                <ul class="pl-3 site-nav-list">
-                  <li class="mt-2"><a href="/RepoSense/dg/architecture.html" class="site-nav__a current">Architecture</a></li>
-                  <li class="mt-2"><a href="/RepoSense/dg/report.html" class="site-nav__a">HTML report</a></li>
-                </ul>
-              </div>
+          <ul class="site-nav-list site-nav-list-root">
+            <li>
+              <div class="site-nav-default-list-item site-nav-list-item-0" onclick="handleSiteNavClick(this)"><a href="/RepoSense/dg/index.html"><strong>Contributing</strong></a></div>
             </li>
-            <li class="mt-2"><a href="/RepoSense/dg/projectManagement.html" class="site-nav__a"><strong>Project management</strong></a></li>
-            <li class="mt-2"><button class="dropdown-btn dropdown-btn-open"><strong>Appendices</strong>
-                <i class="dropdown-btn-icon rotate-icon">
-                  <span class="glyphicon glyphicon-menu-down" aria-hidden="true"></span></i></button>
-              <div class="dropdown-container dropdown-container-open">
-                <ul class="pl-3 site-nav-list">
-                  <li class="mt-2"><a href="/RepoSense/dg/styleGuides.html" class="site-nav__a">Style guides</a></li>
-                </ul>
-              </div>
+            <li>
+              <div class="site-nav-default-list-item site-nav-list-item-0" onclick="handleSiteNavClick(this)"><a href="/RepoSense/dg/settingUp.html"><strong>Setting up</strong></a></div>
+            </li>
+            <li>
+              <div class="site-nav-default-list-item site-nav-list-item-0" onclick="handleSiteNavClick(this)"><a href="/RepoSense/dg/workflow.html"><strong>Workflow</strong></a></div>
+            </li>
+            <li>
+              <div class="site-nav-default-list-item site-nav-list-item-0" onclick="handleSiteNavClick(this)"><strong>Design and implementation</strong>
+                <i class="site-nav-dropdown-btn-icon site-nav-rotate-icon" onclick="handleSiteNavClick(this.parentNode, false); event.stopPropagation();">
+                  <span class="glyphicon glyphicon-menu-down" aria-hidden="true"></span></i></div>
+              <ul class="site-nav-dropdown-container site-nav-dropdown-container-open site-nav-list">
+                <li>
+                  <div class="site-nav-default-list-item site-nav-list-item-1" onclick="handleSiteNavClick(this)"><a href="/RepoSense/dg/architecture.html" class="current">Architecture</a></div>
+                </li>
+                <li>
+                  <div class="site-nav-default-list-item site-nav-list-item-1" onclick="handleSiteNavClick(this)"><a href="/RepoSense/dg/report.html">HTML report</a></div>
+                </li>
+              </ul>
+            </li>
+            <li>
+              <div class="site-nav-default-list-item site-nav-list-item-0" onclick="handleSiteNavClick(this)"><a href="/RepoSense/dg/projectManagement.html"><strong>Project management</strong></a></div>
+            </li>
+            <li>
+              <div class="site-nav-default-list-item site-nav-list-item-0" onclick="handleSiteNavClick(this)"><strong>Appendices</strong>
+                <i class="site-nav-dropdown-btn-icon site-nav-rotate-icon" onclick="handleSiteNavClick(this.parentNode, false); event.stopPropagation();">
+                  <span class="glyphicon glyphicon-menu-down" aria-hidden="true"></span></i></div>
+              <ul class="site-nav-dropdown-container site-nav-dropdown-container-open site-nav-list">
+                <li>
+                  <div class="site-nav-default-list-item site-nav-list-item-1" onclick="handleSiteNavClick(this)"><a href="/RepoSense/dg/styleGuides.html">Style guides</a></div>
+                </li>
+              </ul>
             </li>
           </ul>
         </div>
@@ -81,87 +93,87 @@
           <em>Figure 1. Overall architecture of RepoSense</em></p>
 
         <h2 id="parser-configparser">Parser(ConfigParser)<a class="fa fa-anchor" href="#parser-configparser" onclick="event.stopPropagation()"></a></h2>
-        <p><a href="https://github.com/reposense/RepoSense/blob/master/src/main/java/reposense/parser"><code>Parser</code></a> contains three components:</p>
+        <p><a href="https://github.com/reposense/RepoSense/blob/master/src/main/java/reposense/parser"><code v-pre>Parser</code></a> contains three components:</p>
         <ul>
-          <li><a href="https://github.com/reposense/RepoSense/blob/master/src/main/java/reposense/parser/ArgsParser.java"><code>ArgsParser</code></a>: Parses the user-supplied command line arguments into a <code>CliArguments</code> object.</li>
-          <li><a href="https://github.com/reposense/RepoSense/blob/master/src/main/java/reposense/parser/CsvParser.java"><code>CsvParser</code></a>: Abstract generic class for CSV parsing functionality. The following three classes extend <code>CsvParser</code>.
+          <li><a href="https://github.com/reposense/RepoSense/blob/master/src/main/java/reposense/parser/ArgsParser.java"><code v-pre>ArgsParser</code></a>: Parses the user-supplied command line arguments into a <code v-pre>CliArguments</code> object.</li>
+          <li><a href="https://github.com/reposense/RepoSense/blob/master/src/main/java/reposense/parser/CsvParser.java"><code v-pre>CsvParser</code></a>: Abstract generic class for CSV parsing functionality. The following three classes extend <code v-pre>CsvParser</code>.
             <ul>
-              <li><a href="https://github.com/reposense/RepoSense/blob/master/src/main/java/reposense/parser/AuthorConfigCsvParser.java"><code>AuthorConfigCsvParser</code></a>: Parses the <code>author-config.csv</code> config file into a list of <code>AuthorConfiguration</code> for each repository to analyze.</li>
-              <li><a href="https://github.com/reposense/RepoSense/blob/master/src/main/java/reposense/parser/GroupConfigCsvParser.java"><code>GroupConfigCsvParser</code></a> Parses the <code>group-config.csv</code> config file into a list of <code>GroupConfiguration</code> for each repository to analyze.</li>
-              <li><a href="https://github.com/reposense/RepoSense/blob/master/src/main/java/reposense/parser/RepoConfigCsvParser.java"><code>RepoConfigCsvParser</code></a>: Parses the <code>repo-config.csv</code> config file into a list of <code>RepoConfiguration</code> for each repository to analyze.</li>
+              <li><a href="https://github.com/reposense/RepoSense/blob/master/src/main/java/reposense/parser/AuthorConfigCsvParser.java"><code v-pre>AuthorConfigCsvParser</code></a>: Parses the <code v-pre>author-config.csv</code> config file into a list of <code v-pre>AuthorConfiguration</code> for each repository to analyze.</li>
+              <li><a href="https://github.com/reposense/RepoSense/blob/master/src/main/java/reposense/parser/GroupConfigCsvParser.java"><code v-pre>GroupConfigCsvParser</code></a> Parses the <code v-pre>group-config.csv</code> config file into a list of <code v-pre>GroupConfiguration</code> for each repository to analyze.</li>
+              <li><a href="https://github.com/reposense/RepoSense/blob/master/src/main/java/reposense/parser/RepoConfigCsvParser.java"><code v-pre>RepoConfigCsvParser</code></a>: Parses the <code v-pre>repo-config.csv</code> config file into a list of <code v-pre>RepoConfiguration</code> for each repository to analyze.</li>
             </ul>
           </li>
-          <li><a href="https://github.com/reposense/RepoSense/blob/master/src/main/java/reposense/parser/JsonParser.java"><code>JsonParser</code></a>: Abstract generic class for JSON parsing functionality. The following class extends <code>JsonParser</code> class:
+          <li><a href="https://github.com/reposense/RepoSense/blob/master/src/main/java/reposense/parser/JsonParser.java"><code v-pre>JsonParser</code></a>: Abstract generic class for JSON parsing functionality. The following class extends <code v-pre>JsonParser</code> class:
             <ul>
-              <li><a href="https://github.com/reposense/RepoSense/blob/master/src/main/java/reposense/parser/StandaloneConfigJsonParser.java"><code>StandaloneConfigJsonParser</code></a>: Parses the <code>_reposense/config.json</code> config file into a <code>StandaloneConfig</code>.</li>
+              <li><a href="https://github.com/reposense/RepoSense/blob/master/src/main/java/reposense/parser/StandaloneConfigJsonParser.java"><code v-pre>StandaloneConfigJsonParser</code></a>: Parses the <code v-pre>_reposense/config.json</code> config file into a <code v-pre>StandaloneConfig</code>.</li>
             </ul>
           </li>
         </ul>
 
         <h2 id="git">Git<a class="fa fa-anchor" href="#git" onclick="event.stopPropagation()"></a></h2>
-        <p><a href="https://github.com/reposense/RepoSense/blob/master/src/main/java/reposense/git"><code>Git</code></a> package contains the wrapper classes for respective <em>git</em> commands.</p>
+        <p><a href="https://github.com/reposense/RepoSense/blob/master/src/main/java/reposense/git"><code v-pre>Git</code></a> package contains the wrapper classes for respective <em>git</em> commands.</p>
         <ul>
-          <li><a href="https://github.com/reposense/RepoSense/blob/master/src/main/java/reposense/git/GitBlame.java"><code>GitBlame</code></a>: Wrapper class for <code>git blame</code> functionality. Traces the revision and author last modified each line of a file.</li>
-          <li><a href="https://github.com/reposense/RepoSense/blob/master/src/main/java/reposense/git/GitBranch.java"><code>GitBranch</code></a>: Wrapper class for <code>git branch</code> functionality. Gets the name of the working branch of the target repo.</li>
-          <li><a href="https://github.com/reposense/RepoSense/blob/master/src/main/java/reposense/git/GitCheckout.java"><code>GitCheckout</code></a>: Wrapper class for <code>git checkout</code> functionality. Checks out the repository by branch name or commit hash.</li>
-          <li><a href="https://github.com/reposense/RepoSense/blob/master/src/main/java/reposense/git/GitClone.java"><code>GitClone</code></a>: Wrapper class for <code>git clone</code> functionality. Clones the repository from <em>GitHub</em> into a temporary folder in order to run the analysis.</li>
-          <li><a href="https://github.com/reposense/RepoSense/blob/master/src/main/java/reposense/git/GitDiff.java"><code>GitDiff</code></a>: Wrapper class for <code>git diff</code> functionality. Obtains the changes between commits.</li>
-          <li><a href="https://github.com/reposense/RepoSense/blob/master/src/main/java/reposense/git/GitLog.java"><code>GitLog</code></a>: Wrapper class for <code>git log</code> functionality. Obtains the commit logs and the authors' info.</li>
-          <li><a href="https://github.com/reposense/RepoSense/blob/master/src/main/java/reposense/git/GitLsTree.java"><code>GitLsTree</code></a>: Wrapper class for <code>git ls-tree</code> functionality. Ensures that the tracked files do not contain any paths with illegal characters for Windows users.</li>
-          <li><a href="https://github.com/reposense/RepoSense/blob/master/src/main/java/reposense/git/GitRevList.java"><code>GitRevList</code></a>: Wrapper class for <code>git rev-list</code> functionality. Retrieves the commit objects in reverse chronological order.</li>
-          <li><a href="https://github.com/reposense/RepoSense/blob/master/src/main/java/reposense/git/GitRevParse.java"><code>GitRevParse</code></a>: Wrapper class for <code>git rev-parse</code> functionality. Ensures that the branch of the repo is to be analyzed exists.</li>
-          <li><a href="https://github.com/reposense/RepoSense/blob/master/src/main/java/reposense/git/GitShortlog.java"><code>GitShortlog</code></a>: Wrapper class for <code>git shortlog</code> functionality. Obtains the list of authors who have contributed to the target repo.</li>
-          <li><a href="https://github.com/reposense/RepoSense/blob/master/src/main/java/reposense/git/GitUtil.java"><code>GitUtil</code></a>: Contains helper functions used by the other Git classes above.</li>
+          <li><a href="https://github.com/reposense/RepoSense/blob/master/src/main/java/reposense/git/GitBlame.java"><code v-pre>GitBlame</code></a>: Wrapper class for <code v-pre>git blame</code> functionality. Traces the revision and author last modified each line of a file.</li>
+          <li><a href="https://github.com/reposense/RepoSense/blob/master/src/main/java/reposense/git/GitBranch.java"><code v-pre>GitBranch</code></a>: Wrapper class for <code v-pre>git branch</code> functionality. Gets the name of the working branch of the target repo.</li>
+          <li><a href="https://github.com/reposense/RepoSense/blob/master/src/main/java/reposense/git/GitCheckout.java"><code v-pre>GitCheckout</code></a>: Wrapper class for <code v-pre>git checkout</code> functionality. Checks out the repository by branch name or commit hash.</li>
+          <li><a href="https://github.com/reposense/RepoSense/blob/master/src/main/java/reposense/git/GitClone.java"><code v-pre>GitClone</code></a>: Wrapper class for <code v-pre>git clone</code> functionality. Clones the repository from <em>GitHub</em> into a temporary folder in order to run the analysis.</li>
+          <li><a href="https://github.com/reposense/RepoSense/blob/master/src/main/java/reposense/git/GitDiff.java"><code v-pre>GitDiff</code></a>: Wrapper class for <code v-pre>git diff</code> functionality. Obtains the changes between commits.</li>
+          <li><a href="https://github.com/reposense/RepoSense/blob/master/src/main/java/reposense/git/GitLog.java"><code v-pre>GitLog</code></a>: Wrapper class for <code v-pre>git log</code> functionality. Obtains the commit logs and the authors' info.</li>
+          <li><a href="https://github.com/reposense/RepoSense/blob/master/src/main/java/reposense/git/GitLsTree.java"><code v-pre>GitLsTree</code></a>: Wrapper class for <code v-pre>git ls-tree</code> functionality. Ensures that the tracked files do not contain any paths with illegal characters for Windows users.</li>
+          <li><a href="https://github.com/reposense/RepoSense/blob/master/src/main/java/reposense/git/GitRevList.java"><code v-pre>GitRevList</code></a>: Wrapper class for <code v-pre>git rev-list</code> functionality. Retrieves the commit objects in reverse chronological order.</li>
+          <li><a href="https://github.com/reposense/RepoSense/blob/master/src/main/java/reposense/git/GitRevParse.java"><code v-pre>GitRevParse</code></a>: Wrapper class for <code v-pre>git rev-parse</code> functionality. Ensures that the branch of the repo is to be analyzed exists.</li>
+          <li><a href="https://github.com/reposense/RepoSense/blob/master/src/main/java/reposense/git/GitShortlog.java"><code v-pre>GitShortlog</code></a>: Wrapper class for <code v-pre>git shortlog</code> functionality. Obtains the list of authors who have contributed to the target repo.</li>
+          <li><a href="https://github.com/reposense/RepoSense/blob/master/src/main/java/reposense/git/GitUtil.java"><code v-pre>GitUtil</code></a>: Contains helper functions used by the other Git classes above.</li>
         </ul>
 
         <h2 id="commitsreporter">CommitsReporter<a class="fa fa-anchor" href="#commitsreporter" onclick="event.stopPropagation()"></a></h2>
-        <p><a href="https://github.com/reposense/RepoSense/blob/master/src/main/java/reposense/commits/CommitsReporter.java"><code>CommitsReporter</code></a> is responsible for analyzing the <strong>commit</strong> history and generating a <a href="https://github.com/reposense/RepoSense/blob/master/src/main/java/reposense/commits/model/CommitContributionSummary.java"><code>CommitContributionSummary</code></a> for each repository. <code>CommitContributionSummary</code> contains information such as each author's daily and weekly contribution and the variance of their contribution. <code>CommitsReporter</code>,</p>
+        <p><a href="https://github.com/reposense/RepoSense/blob/master/src/main/java/reposense/commits/CommitsReporter.java"><code v-pre>CommitsReporter</code></a> is responsible for analyzing the <strong>commit</strong> history and generating a <a href="https://github.com/reposense/RepoSense/blob/master/src/main/java/reposense/commits/model/CommitContributionSummary.java"><code v-pre>CommitContributionSummary</code></a> for each repository. <code v-pre>CommitContributionSummary</code> contains information such as each author's daily and weekly contribution and the variance of their contribution. <code v-pre>CommitsReporter</code>,</p>
         <ol>
-          <li>uses <a href="https://github.com/reposense/RepoSense/blob/master/src/main/java/reposense/commits/CommitInfoExtractor.java"><code>CommitInfoExtractor</code></a> to run the <code>git log</code> command, which generates the statistics of each commit made within date range.</li>
-          <li>generates a <a href="https://github.com/reposense/RepoSense/blob/master/src/main/java/reposense/commits/model/CommitInfo.java"><code>CommitInfo</code></a> for each commit, which contains the <code>infoLine</code> and <code>statLine</code>.</li>
-          <li>uses <a href="https://github.com/reposense/RepoSense/blob/master/src/main/java/reposense/commits/CommitInfoAnalyzer.java"><code>CommitInfoAnalyzer</code></a> to extract the relevant data from <code>CommitInfo</code> into a <a href="https://github.com/reposense/RepoSense/blob/master/src/main/java/reposense/commits/model/CommitResult.java"><code>CommitResult</code></a>, such as the number of line insertions and deletions in the commit and the author of the commit.</li>
-          <li>uses <a href="https://github.com/reposense/RepoSense/blob/master/src/main/java/reposense/commits/CommitResultAggregator.java"><code>CommitResultAggregator</code></a> to aggregate all <code>CommitResult</code> into a <a href="https://github.com/reposense/RepoSense/blob/master/src/main/java/reposense/commits/model/CommitContributionSummary.java"><code>CommitContributionSummary</code></a>.</li>
+          <li>uses <a href="https://github.com/reposense/RepoSense/blob/master/src/main/java/reposense/commits/CommitInfoExtractor.java"><code v-pre>CommitInfoExtractor</code></a> to run the <code v-pre>git log</code> command, which generates the statistics of each commit made within date range.</li>
+          <li>generates a <a href="https://github.com/reposense/RepoSense/blob/master/src/main/java/reposense/commits/model/CommitInfo.java"><code v-pre>CommitInfo</code></a> for each commit, which contains the <code v-pre>infoLine</code> and <code v-pre>statLine</code>.</li>
+          <li>uses <a href="https://github.com/reposense/RepoSense/blob/master/src/main/java/reposense/commits/CommitInfoAnalyzer.java"><code v-pre>CommitInfoAnalyzer</code></a> to extract the relevant data from <code v-pre>CommitInfo</code> into a <a href="https://github.com/reposense/RepoSense/blob/master/src/main/java/reposense/commits/model/CommitResult.java"><code v-pre>CommitResult</code></a>, such as the number of line insertions and deletions in the commit and the author of the commit.</li>
+          <li>uses <a href="https://github.com/reposense/RepoSense/blob/master/src/main/java/reposense/commits/CommitResultAggregator.java"><code v-pre>CommitResultAggregator</code></a> to aggregate all <code v-pre>CommitResult</code> into a <a href="https://github.com/reposense/RepoSense/blob/master/src/main/java/reposense/commits/model/CommitContributionSummary.java"><code v-pre>CommitContributionSummary</code></a>.</li>
         </ol>
 
         <h2 id="authorshipreporter">AuthorshipReporter<a class="fa fa-anchor" href="#authorshipreporter" onclick="event.stopPropagation()"></a></h2>
-        <p><a href="https://github.com/reposense/RepoSense/blob/master/src/main/java/reposense/authorship/AuthorshipReporter.java"><code>AuthorshipReporter</code></a> is responsible for analyzing the white listed <strong>files</strong>, traces the original author for each line of text/code, and generating an <a href="https://github.com/reposense/RepoSense/blob/master/src/main/java/reposense/authorship/model/AuthorshipSummary.java"><code>AuthorshipSummary</code></a> for each repository. <code>AuthorshipSummary</code> contains the analysis results of the white listed files and the amount of line contributions each author made. <code>AuthorshipReporter</code>,</p>
+        <p><a href="https://github.com/reposense/RepoSense/blob/master/src/main/java/reposense/authorship/AuthorshipReporter.java"><code v-pre>AuthorshipReporter</code></a> is responsible for analyzing the white listed <strong>files</strong>, traces the original author for each line of text/code, and generating an <a href="https://github.com/reposense/RepoSense/blob/master/src/main/java/reposense/authorship/model/AuthorshipSummary.java"><code v-pre>AuthorshipSummary</code></a> for each repository. <code v-pre>AuthorshipSummary</code> contains the analysis results of the white listed files and the amount of line contributions each author made. <code v-pre>AuthorshipReporter</code>,</p>
         <ol>
-          <li>uses <a href="https://github.com/reposense/RepoSense/blob/master/src/main/java/reposense/authorship/FileInfoExtractor.java"><code>FileInfoExtractor</code></a> to traverse the repository to find all relevant files.</li>
-          <li>generates a <a href="https://github.com/reposense/RepoSense/blob/master/src/main/java/reposense/authorship/model/FileInfo.java"><code>FileInfo</code></a> for each relevant file, which contains the path to the file and a list of <a href="https://github.com/reposense/RepoSense/blob/master/src/main/java/reposense/authorship/model/LineInfo.java"><code>LineInfo</code></a> representing each line of the file.</li>
-          <li>uses <a href="https://github.com/reposense/RepoSense/blob/master/src/main/java/reposense/authorship/FileInfoAnalyzer.java"><code>FileInfoAnalyzer</code></a> to analyze each file, using <code>git blame</code> or annotations, and finds the <code>Author</code> for each <code>LineInfo</code>.</li>
-          <li>generates a <a href="https://github.com/reposense/RepoSense/blob/master/src/main/java/reposense/authorship/model/FileResult.java"><code>FileResult</code></a> for each file, which consolidates the authorship results into a <em>Map</em> of each author's line contribution to the file.</li>
-          <li>uses <a href="https://github.com/reposense/RepoSense/blob/master/src/main/java/reposense/authorship/FileResultAggregator.java"><code>FileResultAggregator</code></a> to aggregate all <code>FileResult</code> into an <code>AuthorshipSummary</code>.</li>
+          <li>uses <a href="https://github.com/reposense/RepoSense/blob/master/src/main/java/reposense/authorship/FileInfoExtractor.java"><code v-pre>FileInfoExtractor</code></a> to traverse the repository to find all relevant files.</li>
+          <li>generates a <a href="https://github.com/reposense/RepoSense/blob/master/src/main/java/reposense/authorship/model/FileInfo.java"><code v-pre>FileInfo</code></a> for each relevant file, which contains the path to the file and a list of <a href="https://github.com/reposense/RepoSense/blob/master/src/main/java/reposense/authorship/model/LineInfo.java"><code v-pre>LineInfo</code></a> representing each line of the file.</li>
+          <li>uses <a href="https://github.com/reposense/RepoSense/blob/master/src/main/java/reposense/authorship/FileInfoAnalyzer.java"><code v-pre>FileInfoAnalyzer</code></a> to analyze each file, using <code v-pre>git blame</code> or annotations, and finds the <code v-pre>Author</code> for each <code v-pre>LineInfo</code>.</li>
+          <li>generates a <a href="https://github.com/reposense/RepoSense/blob/master/src/main/java/reposense/authorship/model/FileResult.java"><code v-pre>FileResult</code></a> for each file, which consolidates the authorship results into a <em>Map</em> of each author's line contribution to the file.</li>
+          <li>uses <a href="https://github.com/reposense/RepoSense/blob/master/src/main/java/reposense/authorship/FileResultAggregator.java"><code v-pre>FileResultAggregator</code></a> to aggregate all <code v-pre>FileResult</code> into an <code v-pre>AuthorshipSummary</code>.</li>
         </ol>
 
         <h2 id="reportgenerator-main">ReportGenerator(Main)<a class="fa fa-anchor" href="#reportgenerator-main" onclick="event.stopPropagation()"></a></h2>
-        <p><a href="https://github.com/reposense/RepoSense/blob/master/src/main/java/reposense/report/ReportGenerator.java"><code>ReportGenerator</code></a>,</p>
+        <p><a href="https://github.com/reposense/RepoSense/blob/master/src/main/java/reposense/report/ReportGenerator.java"><code v-pre>ReportGenerator</code></a>,</p>
         <ol>
-          <li>uses <code>GitClone</code> API to clone the repository from <em>GitHub</em>.</li>
+          <li>uses <code v-pre>GitClone</code> API to clone the repository from <em>GitHub</em>.</li>
           <li>copies the template files into the designated output directory.</li>
-          <li>uses <code>CommitReporter</code> and <code>AuthorshipReporter</code> to produce the commit and authorship summary respectively.</li>
-          <li>generates the <code>JSON</code> files needed to generate the <code>HTML</code> report.</li>
+          <li>uses <code v-pre>CommitReporter</code> and <code v-pre>AuthorshipReporter</code> to produce the commit and authorship summary respectively.</li>
+          <li>generates the <code v-pre>JSON</code> files needed to generate the <code v-pre>HTML</code> report.</li>
         </ol>
 
         <h2 id="system">System<a class="fa fa-anchor" href="#system" onclick="event.stopPropagation()"></a></h2>
-        <p><a href="https://github.com/reposense/RepoSense/blob/master/src/main/java/reposense/system"><code>System</code></a> contains the classes that interact with the Operating System and external processes.</p>
+        <p><a href="https://github.com/reposense/RepoSense/blob/master/src/main/java/reposense/system"><code v-pre>System</code></a> contains the classes that interact with the Operating System and external processes.</p>
         <ul>
-          <li><a href="https://github.com/reposense/RepoSense/blob/master/src/main/java/reposense/system/CommandRunner.java"><code>CommandRunner</code></a> creates processes that executes commands on the terminal. It consists of many <em>git</em> commands.</li>
-          <li><a href="https://github.com/reposense/RepoSense/blob/master/src/main/java/reposense/system/LogsManager.java"><code>LogsManager</code></a> uses the <code>java.util.logging</code> package for logging. The <code>LogsManager</code> class is used to manage the logging levels and logging destinations. Log messages are output through: <code>Console</code> and to a <code>.log</code> file.</li>
-          <li><a href="https://github.com/reposense/RepoSense/blob/master/src/main/java/reposense/system/ReportServer.java"><code>ReportServer</code></a> starts a server to display the report on the browser. It depends on the <code>net.freeutils.httpserver</code> package.</li>
+          <li><a href="https://github.com/reposense/RepoSense/blob/master/src/main/java/reposense/system/CommandRunner.java"><code v-pre>CommandRunner</code></a> creates processes that executes commands on the terminal. It consists of many <em>git</em> commands.</li>
+          <li><a href="https://github.com/reposense/RepoSense/blob/master/src/main/java/reposense/system/LogsManager.java"><code v-pre>LogsManager</code></a> uses the <code v-pre>java.util.logging</code> package for logging. The <code v-pre>LogsManager</code> class is used to manage the logging levels and logging destinations. Log messages are output through: <code v-pre>Console</code> and to a <code v-pre>.log</code> file.</li>
+          <li><a href="https://github.com/reposense/RepoSense/blob/master/src/main/java/reposense/system/ReportServer.java"><code v-pre>ReportServer</code></a> starts a server to display the report on the browser. It depends on the <code v-pre>net.freeutils.httpserver</code> package.</li>
         </ul>
 
         <h2 id="model">Model<a class="fa fa-anchor" href="#model" onclick="event.stopPropagation()"></a></h2>
-        <p><a href="https://github.com/reposense/RepoSense/blob/master/src/main/java/reposense/model"><code>Model</code></a> holds the data structures that are commonly used by the different aspects of <em>RepoSense</em>.</p>
+        <p><a href="https://github.com/reposense/RepoSense/blob/master/src/main/java/reposense/model"><code v-pre>Model</code></a> holds the data structures that are commonly used by the different aspects of <em>RepoSense</em>.</p>
         <ul>
-          <li><a href="https://github.com/reposense/RepoSense/blob/master/src/main/java/reposense/model/Author.java"><code>Author</code></a> stores the <code>GitHub ID</code> of an author. Any contributions or commits made by the author, using his/her <code>GitHub ID</code> or aliases, will be attributed to the same <code>Author</code> object. It is used by <code>AuthorshipReporter</code> and <code>CommitsReporter</code> to attribute the commit and file contributions to the respective authors.</li>
-          <li><a href="https://github.com/reposense/RepoSense/blob/master/src/main/java/reposense/model/CliArguments.java"><code>CliArguments</code></a> stores the parsed command line arguments supplied by the user. It contains the configuration settings such as the CSV config file to read from, the directory to output the report to, and date range of commits to analyze. These configuration settings are passed into <code>RepoConfiguration</code>.</li>
-          <li><a href="https://github.com/reposense/RepoSense/blob/master/src/main/java/reposense/model/FileTypeManager.java"><code>FileTypeManager</code></a> stores the file format to be analyzed and the custom groups specified by the user for any repository.</li>
-          <li><a href="https://github.com/reposense/RepoSense/blob/master/src/main/java/reposense/model/RepoConfiguration.java"><code>RepoConfiguration</code></a> stores the configuration information from the CSV config file for a single repository, which are the repository's orgarization, name, branch, list of authors to analyse, date range to analyze commits and files from <code>CliArguments</code>.
+          <li><a href="https://github.com/reposense/RepoSense/blob/master/src/main/java/reposense/model/Author.java"><code v-pre>Author</code></a> stores the <code v-pre>GitHub ID</code> of an author. Any contributions or commits made by the author, using his/her <code v-pre>GitHub ID</code> or aliases, will be attributed to the same <code v-pre>Author</code> object. It is used by <code v-pre>AuthorshipReporter</code> and <code v-pre>CommitsReporter</code> to attribute the commit and file contributions to the respective authors.</li>
+          <li><a href="https://github.com/reposense/RepoSense/blob/master/src/main/java/reposense/model/CliArguments.java"><code v-pre>CliArguments</code></a> stores the parsed command line arguments supplied by the user. It contains the configuration settings such as the CSV config file to read from, the directory to output the report to, and date range of commits to analyze. These configuration settings are passed into <code v-pre>RepoConfiguration</code>.</li>
+          <li><a href="https://github.com/reposense/RepoSense/blob/master/src/main/java/reposense/model/FileTypeManager.java"><code v-pre>FileTypeManager</code></a> stores the file format to be analyzed and the custom groups specified by the user for any repository.</li>
+          <li><a href="https://github.com/reposense/RepoSense/blob/master/src/main/java/reposense/model/RepoConfiguration.java"><code v-pre>RepoConfiguration</code></a> stores the configuration information from the CSV config file for a single repository, which are the repository's orgarization, name, branch, list of authors to analyse, date range to analyze commits and files from <code v-pre>CliArguments</code>.
             These configuration information are used by:
             <ul>
-              <li><code>GitClone</code> to determine the location to clone the repository from and which branch to check out to.</li>
-              <li><code>AuthorshipReporter</code> and <code>CommitsReporter</code> to determine the range of commits and files to analyze.</li>
-              <li><code>ReportGenerator</code> to determine the directory to output the report.</li>
+              <li><code v-pre>GitClone</code> to determine the location to clone the repository from and which branch to check out to.</li>
+              <li><code v-pre>AuthorshipReporter</code> and <code v-pre>CommitsReporter</code> to determine the range of commits and files to analyze.</li>
+              <li><code v-pre>ReportGenerator</code> to determine the directory to output the report.</li>
             </ul>
           </li>
         </ul>
@@ -190,12 +202,12 @@
     <footer>
 
       <div class="text-center">
-        <small>[<span><strong>Powered by</strong></span> <img src="https://markbind.org/favicon.ico" width="30"> <a href="https://markbind.org/">MarkBind 2.14.1</a>, generated on Thu, Jul 30, 2020, 7:23:51 PM UTC]</small></div>
+        <small>[<span><strong>Powered by</strong></span> <img src="https://markbind.org/favicon.ico" width="30"> <a href="https://markbind.org/">MarkBind 2.15.2</a>, generated on Fri, Jul 31, 2020, 7:24:02 PM UTC]</small></div>
     </footer>
   </div>
 </body>
 <script src="../markbind/js/vue.min.js"></script>
-<script src="../markbind/js/vue-strap.min.js"></script>
+<script src="../markbind/js/components.min.js"></script>
 <script src="../markbind/js/bootstrap-utility.min.js"></script>
 <script src="../markbind/js/polyfill.min.js"></script>
 <script src="../markbind/js/bootstrap-vue.min.js"></script>

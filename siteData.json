@@ -269,9 +269,9 @@
       "siteNav": "ugSiteNav.md",
       "headings": {
         "user-guide": "User guide",
-        "explore-real-life-examples": "\n          1 Explore real-life examples\n        ",
-        "generate-your-own-reports": "\n          2 Generate your own reports\n        ",
-        "share-your-reports": "\n          3 Share your reports\n        "
+        "explore-real-life-examples": "\r\n          1 Explore real-life examples\r\n        ",
+        "generate-your-own-reports": "\r\n          2 Generate your own reports\r\n        ",
+        "share-your-reports": "\r\n          3 Share your reports\r\n        "
       },
       "headingKeywords": {}
     },
