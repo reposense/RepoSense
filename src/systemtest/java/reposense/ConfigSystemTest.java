@@ -24,7 +24,6 @@ import reposense.model.ConfigCliArguments;
 import reposense.model.GroupConfiguration;
 import reposense.model.RepoConfiguration;
 import reposense.parser.ArgsParser;
-import reposense.parser.ArgsParserTest;
 import reposense.parser.AuthorConfigCsvParser;
 import reposense.parser.GroupConfigCsvParser;
 import reposense.parser.RepoConfigCsvParser;
@@ -60,14 +59,14 @@ public class ConfigSystemTest {
     @Test
     public void testSinceBeginningDateRange() throws Exception {
         generateReport(getInputWithDates(SinceDateArgumentType.FIRST_COMMIT_DATE_SHORTHAND, "2/3/2019"));
-        Path actualFiles = loadResource(getClass(),"sinceBeginningDateRange/expected");
+        Path actualFiles = loadResource(getClass(), "sinceBeginningDateRange/expected");
         verifyAllJson(actualFiles, FT_TEMP_DIR);
     }
 
     @Test
     public void test30DaysFromUntilDate() throws Exception {
         generateReport(getInputWithUntilDate("1/11/2017"));
-        Path actualFiles = loadResource(getClass(),"30daysFromUntilDate/expected");
+        Path actualFiles = loadResource(getClass(), "30daysFromUntilDate/expected");
         verifyAllJson(actualFiles, FT_TEMP_DIR);
     }
 
@@ -77,7 +76,7 @@ public class ConfigSystemTest {
     @Test
     public void testDateRange() throws Exception {
         generateReport(getInputWithDates("1/9/2017", "30/10/2017"));
-        Path actualFiles = loadResource(getClass(),"dateRange/expected");
+        Path actualFiles = loadResource(getClass(), "dateRange/expected");
         verifyAllJson(actualFiles, FT_TEMP_DIR);
     }
 
@@ -93,7 +92,7 @@ public class ConfigSystemTest {
      * Generates the testing report to be compared with expected report.
      */
     private void generateReport(String inputDates) throws Exception {
-        Path configFolder = loadResource(ArgsParser.class,"repo-config.csv").getParent();
+        Path configFolder = loadResource(getClass(), "repo-config.csv").getParent();
 
         String formats = String.join(" ", TESTING_FILE_FORMATS);
         String input = new InputBuilder().addConfig(configFolder)
