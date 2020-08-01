@@ -1,10 +1,11 @@
+<variable name="title">Appendix: `run.sh` format</variable>
 <frontmatter>
-  title: "run.sh format"
+  title: "Appendix: `run.sh` format"
 </frontmatter>
 
 {% from 'scripts/macros.njk' import embed, step with context %}
 
-<h1 class="display-4"><md>Appendix: `run.sh` format</md></h1>
+<h1 class="display-4"><md>{{ title }}</md></h1>
 
 <div class="lead">
 

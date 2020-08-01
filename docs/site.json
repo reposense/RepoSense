@@ -27,6 +27,7 @@
     {
       "glob": ["ug/*.+(md|mbd)"],
       "frontmatter": {
+        "header": "devSiteHeader.md",
         "siteNav": "ugSiteNav.md"
       }
     }
@@ -37,7 +38,7 @@
   "plugins": ["filterTags"],
   "pluginsContext": {
     "filterTags" : {
-      "tags": ["-public"]
+      "tags": ["-production", "dev"]
     }
   }
 }

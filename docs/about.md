@@ -1,8 +1,9 @@
+<variable name="title">About us</variable>
 <frontmatter>
-  title: "About us"
+  title: "{{ title | safe }}"
 </frontmatter>
 
-<h1 class="display-3">About us</h1>
+<h1 class="display-3"><md>{{ title }}</md></h1>
 
 RepoSense is a project based in the [National University of Singapore, School of Computing](http://www.comp.nus.edu.sg/), and is funded by a _Teaching Enhancement Grant_ from [NUS Center for Development of Teaching and Learning](http://www.cdtl.nus.edu.sg/).
 

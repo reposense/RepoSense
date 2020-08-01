@@ -122,11 +122,14 @@ window.vSummaryCharts = {
 
     // triggering opening of tabs //
     openTabAuthorship(user, repo, index, isMerged) {
-      const { minDate, maxDate, fileTypeColors } = this;
+      const {
+        minDate, maxDate, fileTypeColors, checkedFileTypes,
+      } = this;
 
       const info = {
         minDate,
         maxDate,
+        checkedFileTypes,
         author: user.name,
         repo: user.repoName,
         name: user.displayName,

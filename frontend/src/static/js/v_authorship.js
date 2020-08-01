@@ -62,22 +62,28 @@ window.vAuthorship = {
 
       this.toReverseSortFiles = hash.reverseAuthorshipOrder !== 'false';
 
+      this.selectedFileTypes = this.info.checkedFileTypes
+        ? this.info.checkedFileTypes.filter((fileType) => this.fileTypes.includes(fileType))
+        : [];
+      if (hash.authorshipFileTypes) {
+        this.selectedFileTypes = hash.authorshipFileTypes
+            .split(window.HASH_FILETYPE_DELIMITER)
+            .filter((fileType) => this.fileTypes.includes(fileType));
+      }
+
       if ('authorshipFilesGlob' in hash) {
         this.indicateSearchBar();
         this.searchBarValue = hash.authorshipFilesGlob;
-      } else if ('authorshipFileTypes' in hash) {
-        const parsedFileTypes = hash.authorshipFileTypes.split(window.HASH_DELIMITER);
-        this.selectedFileTypes = parsedFileTypes.filter((type) => this.fileTypes.includes(type));
       }
     },
 
     setInfoHash() {
-      const { addHash, encodeHash } = window;
+      const { addHash } = window;
       // We only set these hashes as they are propagated from summary_charts
       addHash('tabAuthor', this.info.author);
       addHash('tabRepo', this.info.repo);
       addHash('authorshipIsMergeGroup', this.info.isMergeGroup);
-      encodeHash();
+      this.updateFileTypeHash();
     },
 
     removeAuthorshipHashes() {
@@ -241,7 +247,6 @@ window.vAuthorship = {
         }
       });
 
-      this.selectedFileTypes = this.fileTypes.slice();
       this.fileTypeBlankLinesObj = fileTypeBlanksInfoObj;
       this.files = res;
       this.isLoaded = true;
