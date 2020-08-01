@@ -180,7 +180,7 @@ window.vAuthorship = {
       if (repo) {
         return isMergeGroup
             ? Object.entries(repo.commits.authorFinalContributionMap).some(([name, cnt]) => { 
-              !this.isUnknownAuthor(name) && cnt > 0
+              !this.isUnknownAuthor(name) && cnt > 0;
             })
             : repo.commits.authorFinalContributionMap[author] > 0;
       }
@@ -270,7 +270,9 @@ window.vAuthorship = {
     },
 
     getContributionFromAllAuthors(contributionMap) {
-      return Object.entries(contributionMap).reduce((acc, [author, cnt]) => (!this.isUnknownAuthor(author) ? acc + cnt : acc), 0);
+      return Object.entries(contributionMap).reduce((acc, [author, cnt]) => {
+        (!this.isUnknownAuthor(author) ? acc + cnt : acc), 0
+      });
     },
 
     addBlankLineCount(fileType, lineCount, filesInfoObj) {
