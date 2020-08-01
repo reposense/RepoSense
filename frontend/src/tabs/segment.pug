@@ -4,7 +4,7 @@
     font-awesome-icon.icon.hide(icon="chevron-circle-down", v-bind:title="'Click to hide code'")
   div(v-if="loaded", v-hljs="path")
     .code(v-for="(line, index) in segment.lines")
-      .line-number {{ segment.lineNumbers[index] + "\n" }}
-      .line-content {{ line + "\n" }}
+      .line-number {{ `${segment.lineNumbers[index]}\n` }}
+      .line-content {{ `${line}\n` }}
   .closer.bottom(v-if="!segment.authored && segment.lines.length > 4", v-on:click="collapseCode")
     font-awesome-icon.icon.hide(icon="chevron-circle-up", v-bind:title="'Click to hide code'")
