@@ -271,7 +271,7 @@ window.vAuthorship = {
 
     getContributionFromAllAuthors(contributionMap) {
       return Object.entries(contributionMap).reduce((acc, [author, cnt]) => {
-        (!this.isUnknownAuthor(author) ? acc + cnt : acc), 0
+        (!this.isUnknownAuthor(author) ? acc + cnt : acc), 0;
       });
     },
 
