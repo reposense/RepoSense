@@ -70,10 +70,15 @@ public class AuthorConfigCsvParser extends CsvParser<AuthorConfiguration> {
             return;
         }
 
-        setEmails(author, emails);
-        setDisplayName(author, displayName);
-        setAliases(author, aliases);
-        setAuthorIgnoreGlobList(author, ignoreGlobList);
+        author.setEmails(new ArrayList<>(emails));
+        author.setDisplayName(!displayName.isEmpty() ? displayName : author.getGitId());
+        if (!aliases.isEmpty()) {
+            author.setAuthorAliases(aliases);
+        }
+        if (!ignoreGlobList.isEmpty()) {
+            author.setIgnoreGlobList(ignoreGlobList);
+        }
+
         config.addAuthor(author);
     }
 
@@ -97,41 +102,5 @@ public class AuthorConfigCsvParser extends CsvParser<AuthorConfiguration> {
 
         results.add(config);
         return config;
-    }
-
-    /**
-     * Associates {@code emails} to {@code author}, if provided and not empty.
-     */
-    private static void setEmails(Author author, List<String> emails) {
-        author.setEmails(new ArrayList<>(emails));
-    }
-
-    /**
-     * Associates {@code displayName} to {@code author}, if provided and not empty.
-     * Otherwise, use github id from {@code author}.
-     */
-    private static void setDisplayName(Author author, String displayName) {
-        author.setDisplayName(!displayName.isEmpty() ? displayName : author.getGitId());
-    }
-
-    /**
-     * Associates {@code aliases} to {@code author}.
-     */
-    private static void setAliases(Author author, List<String> aliases) {
-        if (aliases.isEmpty()) {
-            return;
-        }
-        author.setAuthorAliases(aliases);
-    }
-
-    /**
-     * Sets the list of globs to ignore for the {@code author} for file analysis.
-     */
-    private static void setAuthorIgnoreGlobList(Author author, List<String> ignoreGlobList) {
-        if (ignoreGlobList.isEmpty()) {
-            return;
-        }
-
-        author.setIgnoreGlobList(ignoreGlobList);
     }
 }
