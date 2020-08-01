@@ -218,6 +218,9 @@ public class TestUtil {
         return System.getProperty("os.name").toLowerCase().contains("win");
     }
 
+    /**
+     * Returns the path to a resource
+     */
     public static Path loadResource(Class classForLoading, String pathToResource) {
         return new File(classForLoading.getClassLoader().getResource(pathToResource).getFile()).toPath();
     }

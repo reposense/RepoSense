@@ -24,6 +24,7 @@ import reposense.model.ConfigCliArguments;
 import reposense.model.GroupConfiguration;
 import reposense.model.RepoConfiguration;
 import reposense.parser.ArgsParser;
+import reposense.parser.ArgsParserTest;
 import reposense.parser.AuthorConfigCsvParser;
 import reposense.parser.GroupConfigCsvParser;
 import reposense.parser.RepoConfigCsvParser;
@@ -92,7 +93,7 @@ public class ConfigSystemTest {
      * Generates the testing report to be compared with expected report.
      */
     private void generateReport(String inputDates) throws Exception {
-        Path configFolder = loadResource(getClass(),"repo-config.csv");
+        Path configFolder = loadResource(ArgsParser.class,"repo-config.csv").getParent();
 
         String formats = String.join(" ", TESTING_FILE_FORMATS);
         String input = new InputBuilder().addConfig(configFolder)
