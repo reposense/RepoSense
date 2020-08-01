@@ -170,6 +170,23 @@ window.vAuthorship = {
       file.wasCodeLoaded = file.wasCodeLoaded || file.active;
     },
 
+    isUnknownAuthor(name) {
+      return name === '-';
+    },
+
+    hasCommits(info) {
+      const { isMergeGroup, author } = info;
+      const repo = window.REPOS[info.repo];
+      if (repo) {
+        return isMergeGroup
+            ? Object.entries(repo.commits.authorFinalContributionMap).some(([name, cnt]) => (
+              !this.isUnknownAuthor(name) && cnt > 0
+            ))
+            : repo.commits.authorFinalContributionMap[author] > 0;
+      }
+      return false;
+    },
+
     splitSegments(lines) {
       // split into segments separated by authored
       let lastState;
@@ -179,7 +196,7 @@ window.vAuthorship = {
 
       lines.forEach((line, lineCount) => {
         const isAuthorMatched = this.info.isMergeGroup
-            ? line.author.gitId !== '-'
+            ? !this.isUnknownAuthor(line.author.gitId)
             : line.author.gitId === this.info.author;
         const authored = (line.author && isAuthorMatched);
 
@@ -253,7 +270,9 @@ window.vAuthorship = {
     },
 
     getContributionFromAllAuthors(contributionMap) {
-      return Object.entries(contributionMap).reduce((acc, [author, cnt]) => (author !== '-' ? acc + cnt : acc), 0);
+      return Object.entries(contributionMap).reduce((acc, [author, cnt]) => (
+        (!this.isUnknownAuthor(author) ? acc + cnt : acc)
+      ), 0);
     },
 
     addBlankLineCount(fileType, lineCount, filesInfoObj) {
