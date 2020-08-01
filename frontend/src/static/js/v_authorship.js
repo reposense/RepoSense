@@ -179,8 +179,8 @@ window.vAuthorship = {
       const repo = window.REPOS[info.repo];
       if (repo) {
         return isMergeGroup
-            ? Object.entries(repo.commits.authorFinalContributionMap).some(([name, cnt]) => { 
-              !this.isUnknownAuthor(name) && cnt > 0;
+            ? Object.entries(repo.commits.authorFinalContributionMap).some(([name, cnt]) => {
+              return !this.isUnknownAuthor(name) && cnt > 0;
             })
             : repo.commits.authorFinalContributionMap[author] > 0;
       }
@@ -271,7 +271,7 @@ window.vAuthorship = {
 
     getContributionFromAllAuthors(contributionMap) {
       return Object.entries(contributionMap).reduce((acc, [author, cnt]) => {
-        (!this.isUnknownAuthor(author) ? acc + cnt : acc), 0;
+        return (!this.isUnknownAuthor(author) ? acc + cnt : acc), 0;
       });
     },
 
