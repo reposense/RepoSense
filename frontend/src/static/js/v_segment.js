@@ -14,5 +14,13 @@ window.vSegment = {
         window.toggleNext(this.$el.childNodes[0]);
       });
     },
+    collapseCode() {
+      const segmentTop = this.$refs.topButton.getBoundingClientRect().top;
+      if (segmentTop < 0) {
+        this.$refs.topButton.scrollIntoView();
+      }
+
+      window.toggleNext(this.$el.childNodes[0]);
+    },
   },
 };

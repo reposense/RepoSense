@@ -2,15 +2,8 @@
 
 .zoom {
   &__title {
-    &--chart {
-      margin-left: .3rem;
-    }
-
-    &--period {
-      margin-left: 2rem;
-    }
-
     &--granularity {
+      @include mini-font;
       margin-top: .5rem;
     }
 
@@ -31,6 +24,7 @@
   &__title {
     /* Tags in commits */
     .tag {
+      @include mini-font;
       background: mui-color('grey', '600');
       border-radius: 5px;
       color: mui-color('white');
@@ -63,6 +57,19 @@
       overflow-x: auto;
       padding: .4rem;
       resize: none;
+
+      pre {
+        position: relative;
+
+        .dashed-border {
+          border-right: 1px dashed mui-color('grey', '500'); // 72nd character line
+          height: 100%;
+          pointer-events: none;
+          position: absolute;
+          top: 0;
+          width: 72ch;
+        }
+      }
     }
   }
 
@@ -80,7 +87,7 @@
   }
 
   &--button {
-    color: mui-color('grey', '700');
+    color: mui-color('grey');
     padding-left: .5rem;
 
     &:hover {
@@ -90,5 +97,23 @@
 
   pre {
     margin: 0;
+  }
+
+  span.loc {
+    color: mui-color('grey');
+  }
+
+  .message-title {
+    display: inline;
+    font-family: monospace;
+
+    .within-border {
+      display: inline;
+    }
+
+    .not-within-border {
+      border-left: 1px dashed mui-color('grey', '500'); // 50th character line
+      display: inline;
+    }
   }
 }

@@ -4,7 +4,7 @@ plugins {
     id 'idea'
     id 'jacoco'
     id 'java'
-    id 'com.github.johnrengelman.shadow' version '2.0.4'
+    id 'com.github.johnrengelman.shadow' version '5.2.0'
     id 'com.liferay.node' version '4.4.0'
     id 'com.github.psxpaul.execfork' version '0.1.8'
     id 'com.palantir.git-version' version '0.11.0'
@@ -48,7 +48,7 @@ sourceSets {
 }
 
 wrapper {
-    gradleVersion = '4.9'
+    gradleVersion = '5.2.1'
 }
 
 run {
@@ -82,11 +82,6 @@ jacocoTestReport {
 }
 
 test {
-    jacoco {
-        append = true
-        destinationFile = new File("${buildDir}/jacoco/test.exec")
-    }
-
     testLogging {
         events 'passed', 'skipped', 'failed'
         showStandardStreams = true
@@ -120,11 +115,6 @@ tasks.run.dependsOn('compileJava');
 task systemtest(dependsOn: 'zipReport', type: Test) {
     testClassesDirs = sourceSets.systemtest.output.classesDirs
     classpath = sourceSets.systemtest.runtimeClasspath
-
-    jacoco {
-        append = true
-        destinationFile = new File("${buildDir}/jacoco/test.exec")
-    }
 
     testLogging {
         events 'passed', 'skipped', 'failed'
@@ -169,12 +159,12 @@ tasks.withType(Copy) {
 }
 
 task coverage(type: JacocoReport) {
-    sourceDirectories = files(sourceSets.main.allSource.srcDirs)
-    classDirectories = files(sourceSets.main.output)
-    executionData = files(jacocoTestReport.executionData)
+    sourceDirectories.from files(sourceSets.main.allSource.srcDirs)
+    classDirectories.from files(sourceSets.main.output)
+    executionData.from files(jacocoTestReport.executionData)
 
     afterEvaluate {
-        classDirectories = files(classDirectories.files.collect {
+        classDirectories.from files(classDirectories.files.collect {
             fileTree(dir: it, exclude: ['**/*.jar'])
         })
     }
@@ -192,5 +182,8 @@ String getRepoSenseVersion() {
     }
     return repoSenseVersion
 }
+
+jacocoTestReport.executionData(systemtest)
+jacocoTestReport.executionData(frontendTest)
 
 defaultTasks 'clean', 'build', 'systemtest', 'frontendTest', 'coverage'
