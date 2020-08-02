@@ -195,6 +195,22 @@
                 <li>Example: <code v-pre>--output ./foo</code> or <code v-pre>-o ./foo</code> (the report will be in the <code v-pre>./foo/reposense-report</code> folder)</li>
               </ul>
 
+              <h3 id="period-p"><code v-pre>--period</code>, <code v-pre>-p</code><a class="fa fa-anchor" href="#period-p" onclick="event.stopPropagation()"></a></h3>
+              <p><strong><code v-pre>--period PERIOD</code></strong>: Specifies the period of analysis window.</p>
+              <ul>
+                <li>Parameter <code v-pre>PERIOD</code>: The period of analysis window, in the format <code v-pre>nd</code> (for n days) or <code v-pre>nw</code> (for n weeks). It is used to calculate end date if only start date is specified, or calculate end date if only start date is specified.</li>
+                <li>Alias: <code v-pre>-p</code></li>
+                <li>Example: <code v-pre>--period 30d</code> or <code v-pre>--period 4w</code></li>
+              </ul>
+              <box type="info" seamless>
+                <ul>
+                  <li>If both start date and end date are not specified, the date of generating the report will be taken as the end date.</li>
+                  <li>Cannot be used with both <code v-pre>--since</code> and <code v-pre>--until</code>.
+                  </li>
+                </ul>
+              </box>
+
+
               <h3 id="repos-r"><code v-pre>--repos</code>, <code v-pre>-r</code><a class="fa fa-anchor" href="#repos-r" onclick="event.stopPropagation()"></a></h3>
               <p><strong><code v-pre>--repos REPO_LOCATION</code></strong>: Specifies which repositories to analyze.</p>
               <ul>
@@ -461,7 +477,7 @@
     <footer>
 
       <div class="text-center">
-        <small>[<span><strong>Powered by</strong></span> <img src="https://markbind.org/favicon.ico" width="30"> <a href="https://markbind.org/">MarkBind 2.15.2</a>, generated on Sat, Aug 1, 2020, 7:24:47 PM UTC]</small></div>
+        <small>[<span><strong>Powered by</strong></span> <img src="https://markbind.org/favicon.ico" width="30"> <a href="https://markbind.org/">MarkBind 2.15.2</a>, generated on Sun, Aug 2, 2020, 2:05:23 AM UTC]</small></div>
     </footer>
   </div>
 </body>
