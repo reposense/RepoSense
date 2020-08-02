@@ -17,7 +17,6 @@ import reposense.model.FileType;
  */
 public class CommitReportJson {
     private final Map<Author, List<AuthorDailyContribution>> authorDailyContributionsMap;
-    private final Map<Author, Integer> authorFinalContributionMap;
     private final Map<Author, LinkedHashMap<FileType, Integer>> authorFileTypeContributionMap;
     private final Map<Author, Float> authorContributionVariance;
     private final Map<Author, String> authorDisplayNameMap;
@@ -31,9 +30,6 @@ public class CommitReportJson {
         authorDailyContributionsMap = new HashMap<>();
         authorDailyContributionsMap.put(emptyAuthor, Collections.emptyList());
 
-        authorFinalContributionMap = new HashMap<>();
-        authorFinalContributionMap.put(emptyAuthor, 0);
-
         authorFileTypeContributionMap = new HashMap<>();
         authorFileTypeContributionMap.put(emptyAuthor, new LinkedHashMap<>());
 
@@ -46,7 +42,6 @@ public class CommitReportJson {
 
     public CommitReportJson(CommitContributionSummary commitSummary, AuthorshipSummary authorshipSummary) {
         authorDailyContributionsMap = commitSummary.getAuthorDailyContributionsMap();
-        authorFinalContributionMap = authorshipSummary.getAuthorFinalContributionMap();
         authorFileTypeContributionMap = authorshipSummary.getAuthorFileTypeContributionMap();
         authorContributionVariance = commitSummary.getAuthorContributionVariance();
         authorDisplayNameMap = commitSummary.getAuthorDisplayNameMap();
