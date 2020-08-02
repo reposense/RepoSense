@@ -3,8 +3,6 @@
     "zacharytang": [],
     "CindyTsai1": [
       {
-        "insertions": 1,
-        "deletions": 0,
         "date": "2017-10-19",
         "commitResults": [
           {
@@ -24,8 +22,6 @@
     "nbrduplicate": [],
     "April0616": [
       {
-        "insertions": 1,
-        "deletions": 0,
         "date": "2017-10-09",
         "commitResults": [
           {
@@ -42,8 +38,6 @@
         ]
       },
       {
-        "insertions": 3,
-        "deletions": 1,
         "date": "2017-10-16",
         "commitResults": [
           {
@@ -71,8 +65,6 @@
         ]
       },
       {
-        "insertions": 18,
-        "deletions": 7,
         "date": "2017-10-31",
         "commitResults": [
           {
@@ -113,8 +105,6 @@
     ],
     "nbr": [
       {
-        "insertions": 42,
-        "deletions": 13,
         "date": "2017-10-29",
         "commitResults": [
           {
@@ -142,8 +132,6 @@
         ]
       },
       {
-        "insertions": 4,
-        "deletions": 3,
         "date": "2017-10-30",
         "commitResults": [
           {
@@ -160,8 +148,6 @@
         ]
       },
       {
-        "insertions": 3,
-        "deletions": 0,
         "date": "2017-10-31",
         "commitResults": [
           {
@@ -178,13 +164,6 @@
         ]
       }
     ]
-  },
-  "authorFinalContributionMap": {
-    "zacharytang": 0,
-    "CindyTsai1": 1,
-    "nbrduplicate": 0,
-    "April0616": 19,
-    "nbr": 15
   },
   "authorFileTypeContributionMap": {
     "zacharytang": {

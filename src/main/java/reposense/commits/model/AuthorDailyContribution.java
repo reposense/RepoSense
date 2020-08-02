@@ -5,19 +5,14 @@ import java.util.Date;
 import java.util.List;
 
 /**
- * Holds the commits made and line contribution count of an {@code Author} for a single day.
+ * Holds the commits made by an {@code Author} for a single day.
  */
 public class AuthorDailyContribution {
-    private int insertions;
-    private int deletions;
     private Date date;
     private List<CommitResult> commitResults;
 
     public AuthorDailyContribution(Date date) {
         this.date = date;
-
-        insertions = 0;
-        deletions = 0;
         commitResults = new ArrayList<>();
     }
 
@@ -29,29 +24,10 @@ public class AuthorDailyContribution {
         this.date = date;
     }
 
-    public int getInsertions() {
-        return insertions;
-    }
-
-    public void setInsertions(int insertions) {
-        this.insertions = insertions;
-    }
-
-    public int getDeletions() {
-        return deletions;
-    }
-
-    public void setDeletions(int deletions) {
-        this.deletions = deletions;
-    }
-
     /**
-     * Adds the {@code commitResult} line contribution count into the {@code Author}'s total line contribution count
-     * for the day.
+     * Adds the {@code commitResult} into the {@code Author}'s daily contribution.
      */
     public void addCommitContribution(CommitResult commitResult) {
-        insertions += commitResult.getInsertions();
-        deletions += commitResult.getDeletions();
         commitResults.add(commitResult);
     }
 
@@ -59,6 +35,11 @@ public class AuthorDailyContribution {
      * Returns the total line contribution made by the {@code Author} for the day.
      */
     public int getTotalContribution() {
-        return insertions + deletions;
+        int totalContribution = 0;
+        for (CommitResult commitResult : commitResults) {
+            totalContribution += commitResult.getDeletions();
+            totalContribution += commitResult.getInsertions();
+        }
+        return totalContribution;
     }
 }

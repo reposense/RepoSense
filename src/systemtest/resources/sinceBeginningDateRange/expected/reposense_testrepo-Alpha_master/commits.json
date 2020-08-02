@@ -3,8 +3,6 @@
     "fakeAuthor": [],
     "harryggg": [
       {
-        "insertions": 3,
-        "deletions": 0,
         "date": "2018-02-06",
         "commitResults": [
           {
@@ -32,8 +30,6 @@
         ]
       },
       {
-        "insertions": 2,
-        "deletions": 0,
         "date": "2018-02-07",
         "commitResults": [
           {
@@ -50,8 +46,6 @@
         ]
       },
       {
-        "insertions": 4,
-        "deletions": 0,
         "date": "2018-02-09",
         "commitResults": [
           {
@@ -70,12 +64,6 @@
     ],
     "Eugene Peh": [],
     "eugenepeh": []
-  },
-  "authorFinalContributionMap": {
-    "fakeAuthor": 0,
-    "harryggg": 14,
-    "Eugene Peh": 0,
-    "eugenepeh": 0
   },
   "authorFileTypeContributionMap": {
     "fakeAuthor": {
