@@ -361,6 +361,30 @@ public class ArgsParserTest {
     }
 
     @Test
+    public void period_inDaysWithSinceDate_success() throws Exception {
+        String input = DEFAULT_INPUT_BUILDER
+                .addSinceDate("01/07/2017")
+                .addPeriod("2d")
+                .build();
+        CliArguments cliArguments = ArgsParser.parse(translateCommandline(input));
+        Assert.assertTrue(cliArguments instanceof ConfigCliArguments);
+        Date expectedUntilDate = TestUtil.getUntilDate(2017, Calendar.JULY, 2);
+        Assert.assertEquals(expectedUntilDate, cliArguments.getUntilDate());
+    }
+
+    @Test
+    public void period_inWeeksWithUntilDate_success() throws Exception {
+        String input = DEFAULT_INPUT_BUILDER
+                .addUntilDate("14/07/2017")
+                .addPeriod("2w")
+                .build();
+        CliArguments cliArguments = ArgsParser.parse(translateCommandline(input));
+        Assert.assertTrue(cliArguments instanceof ConfigCliArguments);
+        Date expectedSinceDate = TestUtil.getSinceDate(2017, Calendar.JULY, 1);
+        Assert.assertEquals(expectedSinceDate, cliArguments.getSinceDate());
+    }
+
+    @Test
     public void formats_inAlphanumeric_success() throws Exception {
         String input = DEFAULT_INPUT_BUILDER.addFormats("java js css 7z").build();
         CliArguments cliArguments = ArgsParser.parse(translateCommandline(input));
@@ -530,6 +554,27 @@ public class ArgsParserTest {
         String input = DEFAULT_INPUT_BUILDER.addSinceDate("01/12/2017")
                 .addUntilDate("30/11/2017")
                 .build();
+        ArgsParser.parse(translateCommandline(input));
+    }
+
+    @Test(expected = ParseException.class)
+    public void period_withBothSinceDateAndUntilDate_throwsParseException() throws Exception {
+        String input = DEFAULT_INPUT_BUILDER.addPeriod("18d")
+                .addSinceDate("30/11/2017")
+                .addUntilDate("01/12/2017")
+                .build();
+        ArgsParser.parse(translateCommandline(input));
+    }
+
+    @Test(expected = ParseException.class)
+    public void period_notNumeric_throwsParseExcpetion() throws Exception {
+        String input = DEFAULT_INPUT_BUILDER.addPeriod("abcd").build();
+        ArgsParser.parse(translateCommandline(input));
+    }
+
+    @Test(expected = ParseException.class)
+    public void period_isZero_throwsParseExcpetion() throws Exception {
+        String input = DEFAULT_INPUT_BUILDER.addPeriod("0w").build();
         ArgsParser.parse(translateCommandline(input));
     }
 
