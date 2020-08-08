@@ -193,11 +193,17 @@ public class AuthorConfiguration {
     }
 
     /**
-     * Clears author mapping information and resets it with the details of current author list.
+     * Clears author mapping information.
      */
-    public void resetAuthorInformation() {
+    public void clear() {
         authorEmailsAndAliasesMap.clear();
         authorDisplayNameMap.clear();
+    }
+
+    /**
+     * Resets author mapping information with the details of current author list.
+     */
+    public void buildFromAuthorList() {
         authorList.forEach(this::setAuthorDetails);
     }
 
