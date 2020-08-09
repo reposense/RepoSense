@@ -1,6 +1,7 @@
 package reposense.parser;
 
-import java.io.File;
+import static reposense.util.TestUtil.loadResource;
+
 import java.nio.file.Path;
 import java.util.Arrays;
 
@@ -20,29 +21,28 @@ import reposense.util.TestUtil;
 
 public class StandaloneConfigJsonParserTest {
 
-    private static final Path STANDALONE_MALFORMED_CONFIG = new File(
-            StandaloneConfigJsonParserTest.class.getClassLoader()
-            .getResource("StandaloneConfigJsonParserTest/standaloneConfig_malformedJson.json").getFile()).toPath();
+    private static final Path STANDALONE_MALFORMED_CONFIG = loadResource(
+            StandaloneConfigJsonParserTest.class, "StandaloneConfigJsonParserTest/standaloneConfig_malformedJson.json");
 
-    private static final Path STANDALONE_UNKNOWN_PROPERTY_CONFIG = new File(
-            StandaloneConfigJsonParserTest.class.getClassLoader().getResource(
-                    "StandaloneConfigJsonParserTest/standaloneConfig_unknownPropertyInJson.json").getFile()).toPath();
+    private static final Path STANDALONE_UNKNOWN_PROPERTY_CONFIG = loadResource(
+            StandaloneConfigJsonParserTest.class,
+            "StandaloneConfigJsonParserTest/standaloneConfig_unknownPropertyInJson.json");
 
-    private static final Path STANDALONE_CONFIG_FULL = new File(
-            StandaloneConfigJsonParserTest.class.getClassLoader().getResource(
-                    "StandaloneConfigJsonParserTest/standaloneConfig_full.json").getFile()).toPath();
+    private static final Path STANDALONE_CONFIG_FULL = loadResource(
+            StandaloneConfigJsonParserTest.class,
+            "StandaloneConfigJsonParserTest/standaloneConfig_full.json");
 
-    private static final Path STANDALONE_CONFIG_EMPTY_TEXT_FILE = new File(
-            StandaloneConfigJsonParserTest.class.getClassLoader().getResource(
-                    "StandaloneConfigJsonParserTest/standaloneConfig_emptyText.json").getFile()).toPath();
+    private static final Path STANDALONE_CONFIG_EMPTY_TEXT_FILE = loadResource(
+            StandaloneConfigJsonParserTest.class,
+            "StandaloneConfigJsonParserTest/standaloneConfig_emptyText.json");
 
-    private static final Path STANDALONE_CONFIG_EMPTY_JSON_FILE = new File(
-            StandaloneConfigJsonParserTest.class.getClassLoader().getResource(
-                    "StandaloneConfigJsonParserTest/standaloneConfig_emptyJson.json").getFile()).toPath();
+    private static final Path STANDALONE_CONFIG_EMPTY_JSON_FILE = loadResource(
+            StandaloneConfigJsonParserTest.class,
+            "StandaloneConfigJsonParserTest/standaloneConfig_emptyJson.json");
 
-    private static final Path STANDALONE_CONFIG_GITHUBID_ONLY = new File(
-            StandaloneConfigJsonParserTest.class.getClassLoader().getResource(
-                    "StandaloneConfigJsonParserTest/standaloneConfig_githubId_only.json").getFile()).toPath();
+    private static final Path STANDALONE_CONFIG_GITHUBID_ONLY = loadResource(
+            StandaloneConfigJsonParserTest.class,
+            "StandaloneConfigJsonParserTest/standaloneConfig_githubId_only.json");
 
     private static final String TEST_DUMMY_LOCATION = "https://github.com/reposense/RepoSense.git";
 
