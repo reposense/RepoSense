@@ -1,6 +1,7 @@
 package reposense.util;
 
-import java.io.File;
+import static reposense.util.TestUtil.loadResource;
+
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -16,8 +17,7 @@ import reposense.report.SummaryJson;
 
 public class FileUtilTest {
 
-    private static final Path FILE_UTIL_TEST_DIRECTORY = new File(FileUtilTest.class.getClassLoader()
-            .getResource("FileUtilTest").getFile()).toPath().toAbsolutePath();
+    private static final Path FILE_UTIL_TEST_DIRECTORY = loadResource(FileUtilTest.class, "FileUtilTest");
     private static final Path REPO_REPORT_DIRECTORY_PATH = Paths.get(FILE_UTIL_TEST_DIRECTORY.toString(),
             "reposense-report-test");
     private static final Path ARCHIVE_ZIP_PATH = Paths.get(FILE_UTIL_TEST_DIRECTORY.toString(), FileUtil.ZIP_FILE);

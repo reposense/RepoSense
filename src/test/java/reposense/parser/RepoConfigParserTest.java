@@ -2,7 +2,8 @@ package reposense.parser;
 
 import static org.apache.tools.ant.types.Commandline.translateCommandline;
 
-import java.io.File;
+import static reposense.util.TestUtil.loadResource;
+
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -23,25 +24,21 @@ import reposense.util.InputBuilder;
 import reposense.util.TestUtil;
 
 public class RepoConfigParserTest {
-    private static final Path TEST_CONFIG_FOLDER = new File(RepoConfigParserTest.class.getClassLoader()
-            .getResource("repoconfig_merge_test").getFile()).toPath();
-    private static final Path TEST_EMPTY_BRANCH_CONFIG_FOLDER = new File(RepoConfigParserTest.class.getClassLoader()
-            .getResource("repoconfig_empty_branch_test").getFile()).toPath();
-    private static final Path REPO_CONFIG_NO_SPECIAL_CHARACTER_FILE = new File(RepoConfigParserTest.class
-            .getClassLoader().getResource("RepoConfigParserTest/repoconfig_noSpecialCharacter_test.csv")
-            .getFile()).toPath();
-    private static final Path REPO_CONFIG_OVERRIDE_KEYWORD_FILE = new File(RepoConfigParserTest.class.getClassLoader()
-            .getResource("RepoConfigParserTest/repoconfig_overrideKeyword_test.csv").getFile()).toPath();
-    private static final Path REPO_CONFIG_REDUNDANT_LINES_FILE = new File(RepoConfigParserTest.class.getClassLoader()
-            .getResource("RepoConfigParserTest/require_trailing_whitespaces/repoconfig_redundantLines_test.csv")
-            .getFile()).toPath();
-    private static final Path REPO_CONFIG_INVALID_HEADER_SIZE_FILE = new File(RepoConfigParserTest.class
-            .getClassLoader().getResource("RepoConfigParserTest/repoconfig_invalidHeaderSize_test.csv")
-            .getFile()).toPath();
-    private static final Path MERGE_EMPTY_LOCATION_FOLDER = new File(RepoConfigParserTest.class.getClassLoader()
-            .getResource("RepoConfigParserTest/repoconfig_merge_empty_location_test").getFile()).toPath();
-    private static final Path REPO_CONFIG_ZERO_VALID_RECORDS = new File(RepoConfigParserTest.class.getClassLoader()
-            .getResource("CsvParserTest/repoconfig_zeroValidRecords_test.csv").getFile()).toPath();
+    private static final Path TEST_CONFIG_FOLDER = loadResource(RepoConfigParserTest.class, "repoconfig_merge_test");
+    private static final Path TEST_EMPTY_BRANCH_CONFIG_FOLDER = loadResource(RepoConfigParserTest.class,
+            "repoconfig_empty_branch_test");
+    private static final Path REPO_CONFIG_NO_SPECIAL_CHARACTER_FILE = loadResource(RepoConfigParserTest.class,
+            "RepoConfigParserTest/repoconfig_noSpecialCharacter_test.csv");
+    private static final Path REPO_CONFIG_OVERRIDE_KEYWORD_FILE = loadResource(RepoConfigParserTest.class,
+            "RepoConfigParserTest/repoconfig_overrideKeyword_test.csv");
+    private static final Path REPO_CONFIG_REDUNDANT_LINES_FILE = loadResource(RepoConfigParserTest.class,
+            "RepoConfigParserTest/require_trailing_whitespaces/repoconfig_redundantLines_test.csv");
+    private static final Path REPO_CONFIG_INVALID_HEADER_SIZE_FILE = loadResource(RepoConfigParserTest.class,
+            "RepoConfigParserTest/repoconfig_invalidHeaderSize_test.csv");
+    private static final Path MERGE_EMPTY_LOCATION_FOLDER = loadResource(RepoConfigParserTest.class,
+            "RepoConfigParserTest/repoconfig_merge_empty_location_test");
+    private static final Path REPO_CONFIG_ZERO_VALID_RECORDS = loadResource(RepoConfigParserTest.class,
+            "CsvParserTest/repoconfig_zeroValidRecords_test.csv");
 
     private static final String TEST_REPO_BETA_LOCATION = "https://github.com/reposense/testrepo-Beta.git";
     private static final String TEST_REPO_BETA_MASTER_BRANCH = "master";
