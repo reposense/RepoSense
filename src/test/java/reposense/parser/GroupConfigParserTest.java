@@ -1,6 +1,7 @@
 package reposense.parser;
 
-import java.io.File;
+import static reposense.util.TestUtil.loadResource;
+
 import java.nio.file.Path;
 import java.util.Arrays;
 import java.util.Collections;
@@ -13,15 +14,14 @@ import reposense.model.FileType;
 import reposense.model.GroupConfiguration;
 
 public class GroupConfigParserTest {
-    private static final Path GROUP_CONFIG_MULTI_LOCATION_FILE = new File(GroupConfigParserTest.class.getClassLoader()
-            .getResource("GroupConfigParserTest/groupconfig_multipleLocation_test.csv").getFile()).toPath();
-    private static final Path GROUP_CONFIG_EMPTY_LOCATION_FILE = new File(GroupConfigParserTest.class.getClassLoader()
-            .getResource("GroupConfigParserTest/groupconfig_emptyLocation_test.csv").getFile()).toPath();
-    private static final Path GROUP_CONFIG_INVALID_LOCATION_FILE = new File(GroupConfigParserTest.class.getClassLoader()
-            .getResource("GroupConfigParserTest/groupconfig_invalidLocation_test.csv").getFile()).toPath();
-    private static final Path GROUP_CONFIG_INVALID_HEADER_SIZE_FILE = new File(GroupConfigParserTest.class
-            .getClassLoader().getResource("GroupConfigParserTest/groupconfig_invalidHeaderSize_test.csv")
-            .getFile()).toPath();
+    private static final Path GROUP_CONFIG_MULTI_LOCATION_FILE = loadResource(GroupConfigParserTest.class,
+            "GroupConfigParserTest/groupconfig_multipleLocation_test.csv");
+    private static final Path GROUP_CONFIG_EMPTY_LOCATION_FILE = loadResource(GroupConfigParserTest.class,
+            "GroupConfigParserTest/groupconfig_emptyLocation_test.csv");
+    private static final Path GROUP_CONFIG_INVALID_LOCATION_FILE = loadResource(GroupConfigParserTest.class,
+            "GroupConfigParserTest/groupconfig_invalidLocation_test.csv");
+    private static final Path GROUP_CONFIG_INVALID_HEADER_SIZE_FILE = loadResource(GroupConfigParserTest.class,
+            "GroupConfigParserTest/groupconfig_invalidHeaderSize_test.csv");
 
     private static final String TEST_REPO_BETA_LOCATION = "https://github.com/reposense/testrepo-Beta.git";
     private static final List<FileType> TEST_REPO_BETA_GROUPS = Arrays.asList(

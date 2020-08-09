@@ -1,5 +1,6 @@
 package reposense.util;
 
+import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -217,4 +218,10 @@ public class TestUtil {
         return System.getProperty("os.name").toLowerCase().contains("win");
     }
 
+    /**
+     * Returns the path to a resource
+     */
+    public static Path loadResource(Class classForLoading, String pathToResource) {
+        return new File(classForLoading.getClassLoader().getResource(pathToResource).getFile()).toPath();
+    }
 }
