@@ -192,7 +192,6 @@ window.api = {
             variance: commits.authorContributionVariance[author],
             displayName: commits.authorDisplayNameMap[author],
             dailyCommits: commits.authorDailyContributionsMap[author],
-            totalCommits: commits.authorFinalContributionMap[author],
             fileTypeContribution: commits.authorFileTypeContributionMap[author],
           };
 
