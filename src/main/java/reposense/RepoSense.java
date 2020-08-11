@@ -127,7 +127,7 @@ public class RepoSense {
     /**
      * Constructs a list of {@code RepoConfiguration} if {@code cliArguments} is a {@code LocationsCliArguments}.
      *
-     * @throws InvalidLocationException if all repo locations are invalid.
+     * @throws ParseException if all repo locations are invalid.
      */
     public static List<RepoConfiguration> getRepoConfigurations(LocationsCliArguments cliArguments)
             throws ParseException {
