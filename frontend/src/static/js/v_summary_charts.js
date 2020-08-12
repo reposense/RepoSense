@@ -85,12 +85,7 @@ window.vSummaryCharts = {
     },
 
     getGroupTotalContribution(group) {
-      const property = this.filterBreakdown ? 'checkedFileTypeContribution' : 'totalCommits';
-      return group.reduce((acc, ele) => acc + ele[property], 0);
-    },
-
-    getUserTotalContribution(user) {
-      return this.filterBreakdown ? user.checkedFileTypeContribution : user.totalCommits;
+      return group.reduce((acc, ele) => acc + ele.checkedFileTypeContribution, 0);
     },
 
     getContributionBars(totalContribution) {
@@ -141,7 +136,6 @@ window.vSummaryCharts = {
         isMergeGroup: isMerged,
         location: this.getRepoLink(repo[index]),
         repoIndex: index,
-        totalCommits: user.totalCommits,
         fileTypeColors,
       };
 

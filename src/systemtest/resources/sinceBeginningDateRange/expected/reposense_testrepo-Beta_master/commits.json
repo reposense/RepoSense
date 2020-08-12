@@ -2,8 +2,6 @@
   "authorDailyContributionsMap": {
     "zacharytang": [
       {
-        "insertions": 113,
-        "deletions": 0,
         "date": "2017-11-09",
         "commitResults": [
           {
@@ -22,8 +20,6 @@
     ],
     "CindyTsai1": [
       {
-        "insertions": 1,
-        "deletions": 0,
         "date": "2017-10-19",
         "commitResults": [
           {
@@ -43,8 +39,6 @@
     "nbrduplicate": [],
     "April0616": [
       {
-        "insertions": 1,
-        "deletions": 0,
         "date": "2017-10-09",
         "commitResults": [
           {
@@ -61,8 +55,6 @@
         ]
       },
       {
-        "insertions": 3,
-        "deletions": 1,
         "date": "2017-10-16",
         "commitResults": [
           {
@@ -90,8 +82,6 @@
         ]
       },
       {
-        "insertions": 18,
-        "deletions": 7,
         "date": "2017-10-31",
         "commitResults": [
           {
@@ -130,8 +120,6 @@
         ]
       },
       {
-        "insertions": 64,
-        "deletions": 35,
         "date": "2017-11-04",
         "commitResults": [
           {
@@ -148,8 +136,6 @@
         ]
       },
       {
-        "insertions": 151,
-        "deletions": 60,
         "date": "2017-11-05",
         "commitResults": [
           {
@@ -221,8 +207,6 @@
         ]
       },
       {
-        "insertions": 1,
-        "deletions": 1,
         "date": "2017-11-07",
         "commitResults": [
           {
@@ -239,8 +223,6 @@
         ]
       },
       {
-        "insertions": 9,
-        "deletions": 6,
         "date": "2017-11-11",
         "commitResults": [
           {
@@ -257,8 +239,6 @@
         ]
       },
       {
-        "insertions": 1,
-        "deletions": 1,
         "date": "2017-11-13",
         "commitResults": [
           {
@@ -277,8 +257,6 @@
     ],
     "nbr": [
       {
-        "insertions": 42,
-        "deletions": 13,
         "date": "2017-10-29",
         "commitResults": [
           {
@@ -306,8 +284,6 @@
         ]
       },
       {
-        "insertions": 4,
-        "deletions": 3,
         "date": "2017-10-30",
         "commitResults": [
           {
@@ -324,8 +300,6 @@
         ]
       },
       {
-        "insertions": 3,
-        "deletions": 0,
         "date": "2017-10-31",
         "commitResults": [
           {
@@ -342,8 +316,6 @@
         ]
       },
       {
-        "insertions": 2,
-        "deletions": 6,
         "date": "2017-11-04",
         "commitResults": [
           {
@@ -371,8 +343,6 @@
         ]
       },
       {
-        "insertions": 2,
-        "deletions": 4,
         "date": "2017-11-05",
         "commitResults": [
           {
@@ -389,8 +359,6 @@
         ]
       },
       {
-        "insertions": 31,
-        "deletions": 42,
         "date": "2017-11-10",
         "commitResults": [
           {
@@ -407,8 +375,6 @@
         ]
       },
       {
-        "insertions": 52,
-        "deletions": 54,
         "date": "2017-11-11",
         "commitResults": [
           {
@@ -480,8 +446,6 @@
         ]
       },
       {
-        "insertions": 5,
-        "deletions": 5,
         "date": "2017-11-12",
         "commitResults": [
           {
@@ -520,13 +484,6 @@
         ]
       }
     ]
-  },
-  "authorFinalContributionMap": {
-    "zacharytang": 10,
-    "CindyTsai1": 0,
-    "nbrduplicate": 0,
-    "April0616": 138,
-    "nbr": 17
   },
   "authorFileTypeContributionMap": {
     "zacharytang": {
