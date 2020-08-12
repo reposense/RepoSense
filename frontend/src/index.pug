@@ -54,10 +54,10 @@ html
               strong RepoSense
             span &nbsp;(
             a(
-              v-bind:href="getUserGuideVersionLink()", target ="_blank"
+              v-bind:href="getUserGuideLink()", target ="_blank"
             )
-              strong User Guide - {{ repoSenseVersion }}
-            span ) on {{ creationDate }}
+              strong User Guide
+            span ) - {{ repoSenseVersion }} on {{ creationDate }}
           .report-generation-time(style="display: none;")
             span {{ reportGenerationTime }}
 

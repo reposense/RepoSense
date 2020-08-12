@@ -193,7 +193,7 @@ window.app = new window.Vue({
       return `${window.HOME_PAGE_URL}/RepoSense/`;
     },
 
-    getUserGuideVersionLink() {
+    getUserGuideLink() {
       const version = window.app.repoSenseVersion;
       if (version.startsWith('v')) {
         return `${window.HOME_PAGE_URL}/ug/index.html`;
