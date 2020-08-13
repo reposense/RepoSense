@@ -44,7 +44,8 @@
     <header>
       <div class="text-center bg-warning p-2">
         <p>You are looking at the user documentation for the most recent <code v-pre>master</code> branch of RepoSense (not released to the public yet).
-          <strong>The documentation for the latest public release is <a href="https://reposense.org/ug">here</a>.</strong></p>
+          <strong>The documentation for the latest public release is <a href="https://reposense.org/ug">here</a>.</strong>
+        </p>
       </div>
     </header>
     <div id="flex-body">
@@ -70,7 +71,8 @@
             <li>
               <div class="site-nav-default-list-item site-nav-list-item-0" onclick="handleSiteNavClick(this)"><strong>Appendices</strong>
                 <i class="site-nav-dropdown-btn-icon site-nav-rotate-icon" onclick="handleSiteNavClick(this.parentNode, false); event.stopPropagation();">
-                  <span class="glyphicon glyphicon-menu-down" aria-hidden="true"></span></i></div>
+                  <span class="glyphicon glyphicon-menu-down" aria-hidden="true"></span></i>
+              </div>
               <ul class="site-nav-dropdown-container site-nav-dropdown-container-open site-nav-list">
                 <li>
                   <div class="site-nav-default-list-item site-nav-list-item-1" onclick="handleSiteNavClick(this)"><a href="/RepoSense/ug/cli.html">CLI syntax reference</a></div>
@@ -128,9 +130,11 @@
               <box>
                 <p><strong>Examples</strong>:</p>
                 <p>An example of a command using most parameters:<br>
-                  <code v-pre>java -jar RepoSense.jar --repo https://github.com/reposense/RepoSense.git --output ./report_folder --since 31/1/2017 --until 31/12/2018 --formats java adoc xml --view --ignore-standalone-config --timezone UTC+08</code></p>
+                  <code v-pre>java -jar RepoSense.jar --repo https://github.com/reposense/RepoSense.git --output ./report_folder --since 31/1/2017 --until 31/12/2018 --formats java adoc xml --view --ignore-standalone-config --timezone UTC+08</code>
+                </p>
                 <p>Same command as above but using most parameters in alias format:<br>
-                  <code v-pre>java -jar RepoSense.jar -r https://github.com/reposense/RepoSense.git -o ./report_folder -s 31/1/2017 -u 31/12/2018 -f java adoc xml -v -i</code></p>
+                  <code v-pre>java -jar RepoSense.jar -r https://github.com/reposense/RepoSense.git -o ./report_folder -s 31/1/2017 -u 31/12/2018 -f java adoc xml -v -i</code>
+                </p>
               </box>
               <p></p>
               <p>The sections below explains each flag.</p>
@@ -305,7 +309,8 @@
     <footer>
 
       <div class="text-center">
-        <small>[<span><strong>Powered by</strong></span> <img src="https://markbind.org/favicon.ico" width="30"> <a href="https://markbind.org/">MarkBind 2.15.2</a>, generated on Wed, Aug 12, 2020, 7:40:11 PM UTC]</small></div>
+        <small>[<span><strong>Powered by</strong></span> <img src="https://markbind.org/favicon.ico" width="30"> <a href="https://markbind.org/">MarkBind 2.15.2</a>, generated on Thu, Aug 13, 2020, 7:29:45 PM UTC]</small>
+      </div>
     </footer>
   </div>
 </body>

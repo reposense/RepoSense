@@ -45,7 +45,8 @@
     <header>
       <div class="text-center bg-warning p-2">
         <p>You are looking at the user documentation for the most recent <code v-pre>master</code> branch of RepoSense (not released to the public yet).
-          <strong>The documentation for the latest public release is <a href="https://reposense.org/ug">here</a>.</strong></p>
+          <strong>The documentation for the latest public release is <a href="https://reposense.org/ug">here</a>.</strong>
+        </p>
       </div>
     </header>
     <div id="flex-body">
@@ -71,7 +72,8 @@
             <li>
               <div class="site-nav-default-list-item site-nav-list-item-0" onclick="handleSiteNavClick(this)"><strong>Appendices</strong>
                 <i class="site-nav-dropdown-btn-icon site-nav-rotate-icon" onclick="handleSiteNavClick(this.parentNode, false); event.stopPropagation();">
-                  <span class="glyphicon glyphicon-menu-down" aria-hidden="true"></span></i></div>
+                  <span class="glyphicon glyphicon-menu-down" aria-hidden="true"></span></i>
+              </div>
               <ul class="site-nav-dropdown-container site-nav-dropdown-container-open site-nav-list">
                 <li>
                   <div class="site-nav-default-list-item site-nav-list-item-1" onclick="handleSiteNavClick(this)"><a href="/RepoSense/ug/cli.html">CLI syntax reference</a></div>
@@ -184,7 +186,8 @@
                   <li>Click on the <code v-pre>Secrets</code> menu item on the left of that page.</li>
                   <li>Click on <code v-pre>Add secret</code>.</li>
                   <li>Add a new secret with the name <code v-pre>ACCESS_TOKEN</code> or <code v-pre>DEPLOY_KEY</code> (depending on your earlier choice) and the value of the token/key you copied earlier.<br>
-                    <a href="/RepoSense/images/publishingguide-secrets.png" target="_self"><img src="/RepoSense/images/publishingguide-secrets.png" alt class="img-fluid" title="GitHub Actions Secrets"></a></li>
+                    <a href="/RepoSense/images/publishingguide-secrets.png" target="_self"><img src="/RepoSense/images/publishingguide-secrets.png" alt class="img-fluid" title="GitHub Actions Secrets"></a>
+                  </li>
                 </ol>
                 <p><span class="badge badge-dark bigger-level0">Step 4</span> <strong>Update report configuration:</strong></p>
                 <div>
@@ -215,9 +218,11 @@
                               <box>
                                 <p><strong>Examples</strong>:</p>
                                 <p>An example of a command using most parameters:<br>
-                                  <code v-pre>java -jar RepoSense.jar --repo https://github.com/reposense/RepoSense.git --output ./report_folder --since 31/1/2017 --until 31/12/2018 --formats java adoc xml --view --ignore-standalone-config --timezone UTC+08</code></p>
+                                  <code v-pre>java -jar RepoSense.jar --repo https://github.com/reposense/RepoSense.git --output ./report_folder --since 31/1/2017 --until 31/12/2018 --formats java adoc xml --view --ignore-standalone-config --timezone UTC+08</code>
+                                </p>
                                 <p>Same command as above but using most parameters in alias format:<br>
-                                  <code v-pre>java -jar RepoSense.jar -r https://github.com/reposense/RepoSense.git -o ./report_folder -s 31/1/2017 -u 31/12/2018 -f java adoc xml -v -i</code></p>
+                                  <code v-pre>java -jar RepoSense.jar -r https://github.com/reposense/RepoSense.git -o ./report_folder -s 31/1/2017 -u 31/12/2018 -f java adoc xml -v -i</code>
+                                </p>
                               </box>
                               <p></p>
                               <p>The sections below explains each flag.</p>
@@ -454,7 +459,8 @@
                           </table>
                         </div>
                         <p><sup>* <strong>Multi-value column</strong>: multiple values can be entered in this column using a semicolon <code v-pre>;</code> as the separator.</sup>
-                          <sup>+ <strong>Overrideable column</strong>: prepend with <code v-pre>override:</code> to use entered value(s) instead of value(s) from standalone config.</sup></p>
+                          <sup>+ <strong>Overrideable column</strong>: prepend with <code v-pre>override:</code> to use entered value(s) instead of value(s) from standalone config.</sup>
+                        </p>
                         <box type="info" seamless>
                           <p>When using <a href="#config-json-standalone-config-file">standalone config</a> (if it is not ignored), it is possible to override specific values from the standalone config by prepending the entered value with <code v-pre>override:</code>.
                           </p>
@@ -593,7 +599,8 @@
                 </div>
                 <p><span class="badge badge-dark bigger-level0">Step 5</span> <strong>View the generated report:</strong></p>
                 <p>To access your regenerated RepoSense report, go to the settings of your fork in GitHub, under <strong>GitHub Pages</strong> section, look for <code v-pre>Your site is published at [LINK]</code>. It should look something like <code v-pre>https://[YOUR_GITHUB_ID].github.io/publish-RepoSense</code>.
-                  <a href="/RepoSense/images/publishingguide-githubsetting.jpg" target="_self"><img src="/RepoSense/images/publishingguide-githubsetting.jpg" alt class="img-fluid" title="GitHub Setting"></a></p>
+                  <a href="/RepoSense/images/publishingguide-githubsetting.jpg" target="_self"><img src="/RepoSense/images/publishingguide-githubsetting.jpg" alt class="img-fluid" title="GitHub Setting"></a>
+                </p>
               </div>
 
               <div id="section-updating-the-report">
@@ -686,10 +693,12 @@
                 <ol>
                   <li>In the same page, click on <code v-pre>More options</code> on the right.</li>
                   <li>Then, click on the <code v-pre>Settings</code> option:<br>
-                    <a href="/RepoSense/images/publishingguide-travissetting.jpg" target="_self"><img src="/RepoSense/images/publishingguide-travissetting.jpg" alt class="img-fluid" title="Travis-CI Dashboard"></a></li>
+                    <a href="/RepoSense/images/publishingguide-travissetting.jpg" target="_self"><img src="/RepoSense/images/publishingguide-travissetting.jpg" alt class="img-fluid" title="Travis-CI Dashboard"></a>
+                  </li>
                   <li>Under <code v-pre>Environment Variables</code>, name a variable as <code v-pre>GITHUB_TOKEN</code> or <code v-pre>GITHUB_DEPLOY_KEY</code> depending on your earlier choice and paste the token/key into its value field; then click <code v-pre>Add</code>.</li>
                   <li>Ensure that the <code v-pre>Display value in build log</code> is <code v-pre>switched off</code> for security reasons:<br>
-                    <a href="/RepoSense/images/publishingguide-githubtoken.jpg" target="_self"><img src="/RepoSense/images/publishingguide-githubtoken.jpg" alt class="img-fluid" title="Travis-CI Environment Variable"></a></li>
+                    <a href="/RepoSense/images/publishingguide-githubtoken.jpg" target="_self"><img src="/RepoSense/images/publishingguide-githubtoken.jpg" alt class="img-fluid" title="Travis-CI Environment Variable"></a>
+                  </li>
                 </ol>
                 <p><span class="badge badge-dark bigger-level0">Step 7</span> <strong>Update the report configuration:</strong></p>
                 <span id="section-edit-configs">
@@ -720,9 +729,11 @@
                               <box>
                                 <p><strong>Examples</strong>:</p>
                                 <p>An example of a command using most parameters:<br>
-                                  <code v-pre>java -jar RepoSense.jar --repo https://github.com/reposense/RepoSense.git --output ./report_folder --since 31/1/2017 --until 31/12/2018 --formats java adoc xml --view --ignore-standalone-config --timezone UTC+08</code></p>
+                                  <code v-pre>java -jar RepoSense.jar --repo https://github.com/reposense/RepoSense.git --output ./report_folder --since 31/1/2017 --until 31/12/2018 --formats java adoc xml --view --ignore-standalone-config --timezone UTC+08</code>
+                                </p>
                                 <p>Same command as above but using most parameters in alias format:<br>
-                                  <code v-pre>java -jar RepoSense.jar -r https://github.com/reposense/RepoSense.git -o ./report_folder -s 31/1/2017 -u 31/12/2018 -f java adoc xml -v -i</code></p>
+                                  <code v-pre>java -jar RepoSense.jar -r https://github.com/reposense/RepoSense.git -o ./report_folder -s 31/1/2017 -u 31/12/2018 -f java adoc xml -v -i</code>
+                                </p>
                               </box>
                               <p></p>
                               <p>The sections below explains each flag.</p>
@@ -959,7 +970,8 @@
                           </table>
                         </div>
                         <p><sup>* <strong>Multi-value column</strong>: multiple values can be entered in this column using a semicolon <code v-pre>;</code> as the separator.</sup>
-                          <sup>+ <strong>Overrideable column</strong>: prepend with <code v-pre>override:</code> to use entered value(s) instead of value(s) from standalone config.</sup></p>
+                          <sup>+ <strong>Overrideable column</strong>: prepend with <code v-pre>override:</code> to use entered value(s) instead of value(s) from standalone config.</sup>
+                        </p>
                         <box type="info" seamless>
                           <p>When using <a href="#config-json-standalone-config-file">standalone config</a> (if it is not ignored), it is possible to override specific values from the standalone config by prepending the entered value with <code v-pre>override:</code>.
                           </p>
@@ -1100,7 +1112,8 @@
                 <ol>
                   <li>Go to the <code v-pre>Settings</code> page of your fork in GitHub.</li>
                   <li>Under the <code v-pre>GitHub Pages</code> section, look for <code v-pre>Your site is published at [LINK]</code>. It should look something like <code v-pre>https://[YOUR_GITHUB_ID].github.io/publish-RepoSense</code>.
-                    <a href="/RepoSense/images/publishingguide-githubsetting.jpg" target="_self"><img src="/RepoSense/images/publishingguide-githubsetting.jpg" alt class="img-fluid" title="GitHub Setting"></a></li>
+                    <a href="/RepoSense/images/publishingguide-githubsetting.jpg" target="_self"><img src="/RepoSense/images/publishingguide-githubsetting.jpg" alt class="img-fluid" title="GitHub Setting"></a>
+                  </li>
                 </ol>
                 <box type="info" seamless>
                   <p>It takes a few minutes for report generation. Meanwhile, you can monitor the progress live at <a href="https://travis-ci.org/dashboard/builds">Travis-CI's Builds</a>.
@@ -1120,7 +1133,8 @@
                 <li>Login to <a href="https://travis-ci.org/">Travis-CI</a>.</li>
                 <li>Go to <a href="https://travis-ci.org/search/publish-RepoSense/">your fork in Travis-CI</a>, click on <code v-pre>More options</code> on the right then access <code v-pre>Settings</code>.</li>
                 <li>Under <code v-pre>Cron Jobs</code>, choose <code v-pre>master</code> for <code v-pre>Branch</code>, <code v-pre>Always run</code> for <code v-pre>Options</code> and pick an <code v-pre>Interval</code> of your choice; then click <code v-pre>Add</code>.
-                  <a href="/RepoSense/images/publishingguide-cronsetting.jpg" target="_self"><img src="/RepoSense/images/publishingguide-cronsetting.jpg" alt class="img-fluid" title="Travis-CI Cron"></a></li>
+                  <a href="/RepoSense/images/publishingguide-cronsetting.jpg" target="_self"><img src="/RepoSense/images/publishingguide-cronsetting.jpg" alt class="img-fluid" title="Travis-CI Cron"></a>
+                </li>
               </ol>
             </div>
           </panel>
@@ -1143,7 +1157,8 @@
                 <h2 id="setting-up-3">Setting up<a class="fa fa-anchor" href="#setting-up-3" onclick="event.stopPropagation()"></a></h2>
                 <p><span class="badge badge-dark bigger-level0">Step 1</span> <strong>Fork the <em>publish-RepoSense</em> repository</strong> using this <a href="https://github.com/RepoSense/publish-RepoSense/fork">link</a>. Optionally, you can rename the fork to match your RepoSense report e.g., <code v-pre>project-code-dashboard</code>.</p>
                 <p><span class="badge badge-dark bigger-level0">Step 2</span> <strong>Set up Netlify for your fork</strong> as described in this <a href="https://www.netlify.com/blog/2016/09/29/a-step-by-step-guide-deploying-on-netlify/">guide</a>.<br>
-                  <mark>You will need to use the following in <code v-pre>Step 5: Configure Your Settings</code> of that guide</mark>:</p>
+                  <mark>You will need to use the following in <code v-pre>Step 5: Configure Your Settings</code> of that guide</mark>:
+                </p>
                 <ul>
                   <li>build command: <code v-pre>pip install requests &amp;&amp; ./run.sh</code><br></li>
                   <li>publish directory: <code v-pre>./reposense-report</code></li>
@@ -1154,7 +1169,8 @@
                   <li>Go to the <code v-pre>run.sh</code> file of your fork (on GitHub).</li>
                   <li>Update the last line (i.e., the command for running RepoSense) to match the report you want to generate:<br>
                     <code v-pre>java -jar RepoSense.jar --repos FULL_REPO_URL</code> (assuming you want to generate a default report for just one repo)<br>
-                    e.g., <code v-pre>java -jar RepoSense.jar --repos https://github.com/reposense/RepoSense.git</code> (<mark>note the .git at the end of the repo URL</mark>)</li>
+                    e.g., <code v-pre>java -jar RepoSense.jar --repos https://github.com/reposense/RepoSense.git</code> (<mark>note the .git at the end of the repo URL</mark>)
+                  </li>
                   <li>Commit the file. This will trigger Netlify to rebuild the report.</li>
                   <li>Go to the URL of your Netlify site to see the updated RepoSense report (it might take about 2-5 minutes for Netlify to generate the report).</li>
                 </ol>
@@ -1163,7 +1179,8 @@
               <div id="section-pr-previews">
                 <h2 id="pr-previews">PR previews<a class="fa fa-anchor" href="#pr-previews" onclick="event.stopPropagation()"></a></h2>
                 <p>After setting up Netlify for your repo containing RepoSense settings, when a PR comes in to that repo to update any setting, you can scroll down the PR page and in <code v-pre>All checks have passed</code>, click on the <code v-pre>Details</code> beside <code v-pre>deploy/netlify — Deploy preview ready!</code> to see a preview of the report as per the changes in the PR.
-                  <a href="/RepoSense/images/publishingguide-netlifypreview.png" target="_self"><img src="/RepoSense/images/publishingguide-netlifypreview.png" alt class="img-fluid" title="Netlify Preview"></a></p>
+                  <a href="/RepoSense/images/publishingguide-netlifypreview.png" target="_self"><img src="/RepoSense/images/publishingguide-netlifypreview.png" alt class="img-fluid" title="Netlify Preview"></a>
+                </p>
               </div>
 
               <h2 id="updating-the-report-3">Updating the report<a class="fa fa-anchor" href="#updating-the-report-3" onclick="event.stopPropagation()"></a></h2>
@@ -1172,7 +1189,8 @@
               <ol>
                 <li>
                   <p>Click on <strong>Settings</strong> in the top, choose <strong>Build &amp; deploy</strong> from the left panel and scroll to <strong>Build hooks</strong>.
-                    <a href="/RepoSense/images/using-netlify-build-hooks.png" target="_self"><img src="/RepoSense/images/using-netlify-build-hooks.png" alt class="img-fluid"></a></p>
+                    <a href="/RepoSense/images/using-netlify-build-hooks.png" target="_self"><img src="/RepoSense/images/using-netlify-build-hooks.png" alt class="img-fluid"></a>
+                  </p>
                 </li>
                 <li>
                   <p>Click <strong>Add build hook</strong>, give your webhook a name, and choose the <code v-pre>master</code> branch to build. A Netlify URL will be generated.</p>
@@ -1182,11 +1200,13 @@
                 </li>
                 <li>
                   <p>Select <strong>Webhooks</strong> on left panel and click on <strong>Add webhook</strong>.
-                    <a href="/RepoSense/images/using-netlify-add-hook.png" target="_self"><img src="/RepoSense/images/using-netlify-add-hook.png" alt class="img-fluid"></a></p>
+                    <a href="/RepoSense/images/using-netlify-add-hook.png" target="_self"><img src="/RepoSense/images/using-netlify-add-hook.png" alt class="img-fluid"></a>
+                  </p>
                 </li>
                 <li>
                   <p>Copy the Netlify URL and paste it in the URL form field.
-                    <a href="/RepoSense/images/using-netlify-url.png" target="_self"><img src="/RepoSense/images/using-netlify-url.png" alt class="img-fluid"></a></p>
+                    <a href="/RepoSense/images/using-netlify-url.png" target="_self"><img src="/RepoSense/images/using-netlify-url.png" alt class="img-fluid"></a>
+                  </p>
                   <box type="info" seamless>
                     <p>Note: Although the build url is not that secretive, it should be kept safe to prevent any misuse.
                     </p>
@@ -1230,7 +1250,8 @@
     <footer>
 
       <div class="text-center">
-        <small>[<span><strong>Powered by</strong></span> <img src="https://markbind.org/favicon.ico" width="30"> <a href="https://markbind.org/">MarkBind 2.15.2</a>, generated on Wed, Aug 12, 2020, 7:40:11 PM UTC]</small></div>
+        <small>[<span><strong>Powered by</strong></span> <img src="https://markbind.org/favicon.ico" width="30"> <a href="https://markbind.org/">MarkBind 2.15.2</a>, generated on Thu, Aug 13, 2020, 7:29:45 PM UTC]</small>
+      </div>
     </footer>
   </div>
 </body>

@@ -45,7 +45,8 @@
     <header>
       <div class="text-center bg-warning p-2">
         <p>You are looking at the user documentation for the most recent <code v-pre>master</code> branch of RepoSense (not released to the public yet).
-          <strong>The documentation for the latest public release is <a href="https://reposense.org/ug">here</a>.</strong></p>
+          <strong>The documentation for the latest public release is <a href="https://reposense.org/ug">here</a>.</strong>
+        </p>
       </div>
     </header>
     <div id="flex-body">
@@ -71,7 +72,8 @@
             <li>
               <div class="site-nav-default-list-item site-nav-list-item-0" onclick="handleSiteNavClick(this)"><strong>Appendices</strong>
                 <i class="site-nav-dropdown-btn-icon site-nav-rotate-icon" onclick="handleSiteNavClick(this.parentNode, false); event.stopPropagation();">
-                  <span class="glyphicon glyphicon-menu-down" aria-hidden="true"></span></i></div>
+                  <span class="glyphicon glyphicon-menu-down" aria-hidden="true"></span></i>
+              </div>
               <ul class="site-nav-dropdown-container site-nav-dropdown-container-open site-nav-list">
                 <li>
                   <div class="site-nav-default-list-item site-nav-list-item-1" onclick="handleSiteNavClick(this)"><a href="/RepoSense/ug/cli.html">CLI syntax reference</a></div>
@@ -166,7 +168,8 @@
             <li>Click on the <code v-pre>Secrets</code> menu item on the left of that page.</li>
             <li>Click on <code v-pre>Add secret</code>.</li>
             <li>Add a new secret with the name <code v-pre>ACCESS_TOKEN</code> or <code v-pre>DEPLOY_KEY</code> (depending on your earlier choice) and the value of the token/key you copied earlier.<br>
-              <a href="/RepoSense/images/publishingguide-secrets.png" target="_self"><img src="/RepoSense/images/publishingguide-secrets.png" alt class="img-fluid" title="GitHub Actions Secrets"></a></li>
+              <a href="/RepoSense/images/publishingguide-secrets.png" target="_self"><img src="/RepoSense/images/publishingguide-secrets.png" alt class="img-fluid" title="GitHub Actions Secrets"></a>
+            </li>
           </ol>
           <p><span class="badge badge-dark bigger-level0">Step 4</span> <strong>Update report configuration:</strong></p>
           <div>
@@ -197,9 +200,11 @@
                         <box>
                           <p><strong>Examples</strong>:</p>
                           <p>An example of a command using most parameters:<br>
-                            <code v-pre>java -jar RepoSense.jar --repo https://github.com/reposense/RepoSense.git --output ./report_folder --since 31/1/2017 --until 31/12/2018 --formats java adoc xml --view --ignore-standalone-config --timezone UTC+08</code></p>
+                            <code v-pre>java -jar RepoSense.jar --repo https://github.com/reposense/RepoSense.git --output ./report_folder --since 31/1/2017 --until 31/12/2018 --formats java adoc xml --view --ignore-standalone-config --timezone UTC+08</code>
+                          </p>
                           <p>Same command as above but using most parameters in alias format:<br>
-                            <code v-pre>java -jar RepoSense.jar -r https://github.com/reposense/RepoSense.git -o ./report_folder -s 31/1/2017 -u 31/12/2018 -f java adoc xml -v -i</code></p>
+                            <code v-pre>java -jar RepoSense.jar -r https://github.com/reposense/RepoSense.git -o ./report_folder -s 31/1/2017 -u 31/12/2018 -f java adoc xml -v -i</code>
+                          </p>
                         </box>
                         <p></p>
                         <p>The sections below explains each flag.</p>
@@ -436,7 +441,8 @@
                     </table>
                   </div>
                   <p><sup>* <strong>Multi-value column</strong>: multiple values can be entered in this column using a semicolon <code v-pre>;</code> as the separator.</sup>
-                    <sup>+ <strong>Overrideable column</strong>: prepend with <code v-pre>override:</code> to use entered value(s) instead of value(s) from standalone config.</sup></p>
+                    <sup>+ <strong>Overrideable column</strong>: prepend with <code v-pre>override:</code> to use entered value(s) instead of value(s) from standalone config.</sup>
+                  </p>
                   <box type="info" seamless>
                     <p>When using <a href="#config-json-standalone-config-file">standalone config</a> (if it is not ignored), it is possible to override specific values from the standalone config by prepending the entered value with <code v-pre>override:</code>.
                     </p>
@@ -575,7 +581,8 @@
           </div>
           <p><span class="badge badge-dark bigger-level0">Step 5</span> <strong>View the generated report:</strong></p>
           <p>To access your regenerated RepoSense report, go to the settings of your fork in GitHub, under <strong>GitHub Pages</strong> section, look for <code v-pre>Your site is published at [LINK]</code>. It should look something like <code v-pre>https://[YOUR_GITHUB_ID].github.io/publish-RepoSense</code>.
-            <a href="/RepoSense/images/publishingguide-githubsetting.jpg" target="_self"><img src="/RepoSense/images/publishingguide-githubsetting.jpg" alt class="img-fluid" title="GitHub Setting"></a></p>
+            <a href="/RepoSense/images/publishingguide-githubsetting.jpg" target="_self"><img src="/RepoSense/images/publishingguide-githubsetting.jpg" alt class="img-fluid" title="GitHub Setting"></a>
+          </p>
         </div>
 
         <div id="section-updating-the-report">
@@ -612,7 +619,8 @@
     <footer>
 
       <div class="text-center">
-        <small>[<span><strong>Powered by</strong></span> <img src="https://markbind.org/favicon.ico" width="30"> <a href="https://markbind.org/">MarkBind 2.15.2</a>, generated on Wed, Aug 12, 2020, 7:40:11 PM UTC]</small></div>
+        <small>[<span><strong>Powered by</strong></span> <img src="https://markbind.org/favicon.ico" width="30"> <a href="https://markbind.org/">MarkBind 2.15.2</a>, generated on Thu, Aug 13, 2020, 7:29:45 PM UTC]</small>
+      </div>
     </footer>
   </div>
 </body>
