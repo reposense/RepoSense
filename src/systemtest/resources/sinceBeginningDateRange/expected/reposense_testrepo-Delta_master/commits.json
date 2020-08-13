@@ -2,8 +2,6 @@
   "authorDailyContributionsMap": {
     "lithiumlkid": [
       {
-        "insertions": 2,
-        "deletions": 2,
         "date": "2018-03-01",
         "commitResults": [
           {
@@ -20,8 +18,6 @@
         ]
       },
       {
-        "insertions": 3,
-        "deletions": 4,
         "date": "2018-03-02",
         "commitResults": [
           {
@@ -60,8 +56,6 @@
         ]
       },
       {
-        "insertions": 68,
-        "deletions": 2,
         "date": "2018-03-09",
         "commitResults": [
           {
@@ -78,8 +72,6 @@
         ]
       },
       {
-        "insertions": 46,
-        "deletions": 2,
         "date": "2018-03-15",
         "commitResults": [
           {
@@ -107,8 +99,6 @@
         ]
       },
       {
-        "insertions": 10,
-        "deletions": 9,
         "date": "2018-03-23",
         "commitResults": [
           {
@@ -136,8 +126,6 @@
         ]
       },
       {
-        "insertions": 2,
-        "deletions": 2,
         "date": "2018-03-30",
         "commitResults": [
           {
@@ -154,8 +142,6 @@
         ]
       },
       {
-        "insertions": 1,
-        "deletions": 1,
         "date": "2018-04-09",
         "commitResults": [
           {
@@ -172,8 +158,6 @@
         ]
       },
       {
-        "insertions": 56,
-        "deletions": 5,
         "date": "2018-04-10",
         "commitResults": [
           {
@@ -201,8 +185,6 @@
         ]
       },
       {
-        "insertions": 60,
-        "deletions": 46,
         "date": "2018-04-11",
         "commitResults": [
           {
@@ -252,8 +234,6 @@
         ]
       },
       {
-        "insertions": 73,
-        "deletions": 16,
         "date": "2018-04-12",
         "commitResults": [
           {
@@ -281,8 +261,6 @@
         ]
       },
       {
-        "insertions": 76,
-        "deletions": 64,
         "date": "2018-04-13",
         "commitResults": [
           {
@@ -324,8 +302,6 @@
         ]
       },
       {
-        "insertions": 2,
-        "deletions": 0,
         "date": "2018-04-14",
         "commitResults": [
           {
@@ -342,8 +318,6 @@
         ]
       },
       {
-        "insertions": 154,
-        "deletions": 15,
         "date": "2018-04-15",
         "commitResults": [
           {
@@ -431,8 +405,6 @@
     ],
     "lohtianwei": [
       {
-        "insertions": 102,
-        "deletions": 1,
         "date": "2018-03-09",
         "commitResults": [
           {
@@ -570,8 +542,6 @@
         ]
       },
       {
-        "insertions": 196,
-        "deletions": 13,
         "date": "2018-03-15",
         "commitResults": [
           {
@@ -588,8 +558,6 @@
         ]
       },
       {
-        "insertions": 7,
-        "deletions": 7,
         "date": "2018-03-16",
         "commitResults": [
           {
@@ -606,8 +574,6 @@
         ]
       },
       {
-        "insertions": 51,
-        "deletions": 7,
         "date": "2018-03-19",
         "commitResults": [
           {
@@ -657,8 +623,6 @@
         ]
       },
       {
-        "insertions": 9,
-        "deletions": 4,
         "date": "2018-03-20",
         "commitResults": [
           {
@@ -686,8 +650,6 @@
         ]
       },
       {
-        "insertions": 258,
-        "deletions": 0,
         "date": "2018-03-21",
         "commitResults": [
           {
@@ -704,8 +666,6 @@
         ]
       },
       {
-        "insertions": 134,
-        "deletions": 97,
         "date": "2018-03-22",
         "commitResults": [
           {
@@ -810,8 +770,6 @@
         ]
       },
       {
-        "insertions": 107,
-        "deletions": 0,
         "date": "2018-03-23",
         "commitResults": [
           {
@@ -828,8 +786,6 @@
         ]
       },
       {
-        "insertions": 65,
-        "deletions": 82,
         "date": "2018-03-30",
         "commitResults": [
           {
@@ -857,8 +813,6 @@
         ]
       },
       {
-        "insertions": 43,
-        "deletions": 8,
         "date": "2018-03-31",
         "commitResults": [
           {
@@ -886,8 +840,6 @@
         ]
       },
       {
-        "insertions": 212,
-        "deletions": 61,
         "date": "2018-04-05",
         "commitResults": [
           {
@@ -1025,8 +977,6 @@
         ]
       },
       {
-        "insertions": 330,
-        "deletions": 80,
         "date": "2018-04-10",
         "commitResults": [
           {
@@ -1087,8 +1037,6 @@
         ]
       },
       {
-        "insertions": 48,
-        "deletions": 3,
         "date": "2018-04-11",
         "commitResults": [
           {
@@ -1105,8 +1053,6 @@
         ]
       },
       {
-        "insertions": 419,
-        "deletions": 85,
         "date": "2018-04-12",
         "commitResults": [
           {
@@ -1138,8 +1084,6 @@
         ]
       },
       {
-        "insertions": 357,
-        "deletions": 55,
         "date": "2018-04-14",
         "commitResults": [
           {
@@ -1244,8 +1188,6 @@
         ]
       },
       {
-        "insertions": 6,
-        "deletions": 63,
         "date": "2018-04-15",
         "commitResults": [
           {
@@ -1286,8 +1228,6 @@
     ],
     "codeeong": [
       {
-        "insertions": 99,
-        "deletions": 15,
         "date": "2018-03-06",
         "commitResults": [
           {
@@ -1326,8 +1266,6 @@
         ]
       },
       {
-        "insertions": 14,
-        "deletions": 3,
         "date": "2018-03-08",
         "commitResults": [
           {
@@ -1344,8 +1282,6 @@
         ]
       },
       {
-        "insertions": 24,
-        "deletions": 23,
         "date": "2018-03-09",
         "commitResults": [
           {
@@ -1406,8 +1342,6 @@
         ]
       },
       {
-        "insertions": 205,
-        "deletions": 25,
         "date": "2018-03-14",
         "commitResults": [
           {
@@ -1424,8 +1358,6 @@
         ]
       },
       {
-        "insertions": 23,
-        "deletions": 13,
         "date": "2018-03-15",
         "commitResults": [
           {
@@ -1453,8 +1385,6 @@
         ]
       },
       {
-        "insertions": 224,
-        "deletions": 70,
         "date": "2018-03-16",
         "commitResults": [
           {
@@ -1537,8 +1467,6 @@
         ]
       },
       {
-        "insertions": 16,
-        "deletions": 3,
         "date": "2018-03-18",
         "commitResults": [
           {
@@ -1555,8 +1483,6 @@
         ]
       },
       {
-        "insertions": 35,
-        "deletions": 3,
         "date": "2018-03-19",
         "commitResults": [
           {
@@ -1584,8 +1510,6 @@
         ]
       },
       {
-        "insertions": 0,
-        "deletions": 1,
         "date": "2018-03-20",
         "commitResults": [
           {
@@ -1602,8 +1526,6 @@
         ]
       },
       {
-        "insertions": 128,
-        "deletions": 93,
         "date": "2018-03-21",
         "commitResults": [
           {
@@ -1653,8 +1575,6 @@
         ]
       },
       {
-        "insertions": 91,
-        "deletions": 192,
         "date": "2018-03-22",
         "commitResults": [
           {
@@ -1715,8 +1635,6 @@
         ]
       },
       {
-        "insertions": 3,
-        "deletions": 16,
         "date": "2018-03-23",
         "commitResults": [
           {
@@ -1744,8 +1662,6 @@
         ]
       },
       {
-        "insertions": 133,
-        "deletions": 24,
         "date": "2018-03-28",
         "commitResults": [
           {
@@ -1806,8 +1722,6 @@
         ]
       },
       {
-        "insertions": 3,
-        "deletions": 4,
         "date": "2018-03-30",
         "commitResults": [
           {
@@ -1835,8 +1749,6 @@
         ]
       },
       {
-        "insertions": 178,
-        "deletions": 41,
         "date": "2018-03-31",
         "commitResults": [
           {
@@ -1919,8 +1831,6 @@
         ]
       },
       {
-        "insertions": 173,
-        "deletions": 29,
         "date": "2018-04-01",
         "commitResults": [
           {
@@ -1937,8 +1847,6 @@
         ]
       },
       {
-        "insertions": 52,
-        "deletions": 11,
         "date": "2018-04-02",
         "commitResults": [
           {
@@ -1966,8 +1874,6 @@
         ]
       },
       {
-        "insertions": 227,
-        "deletions": 72,
         "date": "2018-04-05",
         "commitResults": [
           {
@@ -2072,8 +1978,6 @@
         ]
       },
       {
-        "insertions": 358,
-        "deletions": 35,
         "date": "2018-04-06",
         "commitResults": [
           {
@@ -2123,8 +2027,6 @@
         ]
       },
       {
-        "insertions": 31,
-        "deletions": 25,
         "date": "2018-04-07",
         "commitResults": [
           {
@@ -2167,8 +2069,6 @@
         ]
       },
       {
-        "insertions": 25,
-        "deletions": 0,
         "date": "2018-04-08",
         "commitResults": [
           {
@@ -2207,8 +2107,6 @@
         ]
       },
       {
-        "insertions": 77,
-        "deletions": 14,
         "date": "2018-04-09",
         "commitResults": [
           {
@@ -2236,8 +2134,6 @@
         ]
       },
       {
-        "insertions": 258,
-        "deletions": 17,
         "date": "2018-04-10",
         "commitResults": [
           {
@@ -2339,8 +2235,6 @@
         ]
       },
       {
-        "insertions": 218,
-        "deletions": 155,
         "date": "2018-04-11",
         "commitResults": [
           {
@@ -2379,8 +2273,6 @@
         ]
       },
       {
-        "insertions": 15,
-        "deletions": 4,
         "date": "2018-04-12",
         "commitResults": [
           {
@@ -2397,8 +2289,6 @@
         ]
       },
       {
-        "insertions": 182,
-        "deletions": 27,
         "date": "2018-04-13",
         "commitResults": [
           {
@@ -2474,8 +2364,6 @@
         ]
       },
       {
-        "insertions": 97,
-        "deletions": 48,
         "date": "2018-04-15",
         "commitResults": [
           {
@@ -2688,12 +2576,6 @@
       }
     ],
     "jordancjq": []
-  },
-  "authorFinalContributionMap": {
-    "lithiumlkid": 360,
-    "lohtianwei": 2119,
-    "codeeong": 1138,
-    "jordancjq": 0
   },
   "authorFileTypeContributionMap": {
     "lithiumlkid": {
