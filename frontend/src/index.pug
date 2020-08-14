@@ -52,12 +52,12 @@ html
               v-bind:href="getUserGuideLink()", target="_blank"
             )
               strong this version
-            span &nbsp;of
+            span &nbsp;of&nbsp;
             a(
               v-bind:href="getRepoSenseHomeLink()", target ="_blank"
             )
               strong RepoSense
-            span on {{ creationDate }}
+            span &nbsp;on {{ creationDate }}
           .report-generation-time(style="display: none;")
             span {{ reportGenerationTime }}
 
