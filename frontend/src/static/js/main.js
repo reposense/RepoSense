@@ -193,6 +193,15 @@ window.app = new window.Vue({
       return `${window.HOME_PAGE_URL}/RepoSense/`;
     },
 
+    getSpecificCommitLink() {
+      const version = window.app.repoSenseVersion;
+      if (version.startsWith('v')) {
+        return `${window.BASE_URL}/reposense/RepoSense/releases/tag/${version}`
+
+      }
+      return `${window.BASE_URL}/reposense/RepoSense/commit/${version}`;
+    },
+
     getUserGuideLink() {
       const version = window.app.repoSenseVersion;
       if (version.startsWith('v')) {
