@@ -197,7 +197,6 @@ window.app = new window.Vue({
       const version = window.app.repoSenseVersion;
       if (version.startsWith('v')) {
         return `${window.BASE_URL}/reposense/RepoSense/releases/tag/${version}`;
-
       }
       return `${window.BASE_URL}/reposense/RepoSense/commit/${version}`;
     },
