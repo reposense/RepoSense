@@ -2,6 +2,7 @@
 window.$ = (id) => document.getElementById(id);
 window.enquery = (key, val) => `${key}=${encodeURIComponent(val)}`;
 window.BASE_URL = 'https://github.com';
+window.HOME_PAGE_URL = 'https://reposense.org';
 window.DAY_IN_MS = (1000 * 60 * 60 * 24);
 window.HASH_DELIMITER = '~';
 window.REPOS = {};
