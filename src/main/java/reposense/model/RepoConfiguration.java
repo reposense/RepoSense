@@ -386,8 +386,9 @@ public class RepoConfiguration {
      * Clears authors information and sets the {@code authorList} to {@code RepoConfiguration}.
      */
     public void setAuthorList(List<Author> authorList) {
+        authorConfig.clear();
         authorConfig.setAuthorList(authorList);
-        authorConfig.resetAuthorInformation();
+        authorConfig.buildFromAuthorList();
         authorList.forEach(author -> AuthorConfiguration.propagateIgnoreGlobList(author, this.getIgnoreGlobList()));
     }
 

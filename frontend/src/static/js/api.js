@@ -2,6 +2,7 @@
 window.$ = (id) => document.getElementById(id);
 window.enquery = (key, val) => `${key}=${encodeURIComponent(val)}`;
 window.BASE_URL = 'https://github.com';
+window.HOME_PAGE_URL = 'https://reposense.org';
 window.DAY_IN_MS = (1000 * 60 * 60 * 24);
 window.HASH_DELIMITER = '~';
 window.REPOS = {};
@@ -192,7 +193,6 @@ window.api = {
             variance: commits.authorContributionVariance[author],
             displayName: commits.authorDisplayNameMap[author],
             dailyCommits: commits.authorDailyContributionsMap[author],
-            totalCommits: commits.authorFinalContributionMap[author],
             fileTypeContribution: commits.authorFileTypeContributionMap[author],
           };
 
