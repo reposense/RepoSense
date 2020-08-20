@@ -243,12 +243,20 @@ window.vSummaryCharts = {
     handleMergeGroup(groupName) {
       const info = this.mergedGroups;
       info.push(groupName);
-      this.$store.commit('updateMergedGroup', info);
+      this.$store.commit('updateMergedGroup',
+                         {
+                           group: this.filterGroupSelection,
+                           info: info
+                         });
     },
 
     handleExpandGroup(groupName) {
       const info = this.mergedGroups.filter((x) => x !== groupName);
-      this.$store.commit('updateMergedGroup', info);
+      this.$store.commit('updateMergedGroup',
+                         {
+                           group: this.filterGroupSelection,
+                           info: info
+                         });
     },
   },
   components: {

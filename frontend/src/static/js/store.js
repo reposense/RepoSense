@@ -16,7 +16,7 @@ const store = new Vuex.Store({
     updateSummaryDates(state, info) {
       state.summaryDates = info;
     },
-    updateMergedGroup(state, info) {
+    updateMergedGroup(state, {group, info}) {
       state.mergedGroups = info;
     },
   },

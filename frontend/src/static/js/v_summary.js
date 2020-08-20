@@ -60,13 +60,21 @@ window.vSummary = {
       // merge group is not allowed when group by none
       // also reset merged groups
       if (this.filterGroupSelection === 'groupByNone' || !allGroupsMerged) {
-        this.$store.commit('updateMergedGroup', []);
+        this.$store.commit('updateMergedGroup',
+                           {
+                             group: this.filterGroupSelection,
+                             info: []
+                           });
       } else {
         const mergedGroups = [];
         this.filtered.forEach((group) => {
           mergedGroups.push(this.getGroupName(group));
         });
-        this.$store.commit('updateMergedGroup', mergedGroups);
+        this.$store.commit('updateMergedGroup',
+                           {
+                             group: this.filterGroupSelection,
+                             info: mergedGroup
+                           });
       }
     },
 
@@ -142,9 +150,17 @@ window.vSummary = {
           this.filtered.forEach((group) => {
             mergedGroups.push(this.getGroupName(group));
           });
-          this.$store.commit('updateMergedGroup', mergedGroups);
+          this.$store.commit('updateMergedGroup',
+                             {
+                               group: this.filterGroupSelection,
+                               info: mergedGroups
+                             });
         } else {
-          this.$store.commit('updateMergedGroup', []);
+          this.$store.commit('updateMergedGroup',
+                             {
+                               group: this.filterGroupSelection,
+                               info: []
+                             });
         }
       },
     },
@@ -270,7 +286,10 @@ window.vSummary = {
       if (this.customMergedGroups) {
         this.$store.commit(
             'updateMergedGroup',
-            this.customMergedGroups.split(window.HASH_DELIMITER),
+            {
+              group: this.filterGroupSelection,
+              info: this.customMergedGroups.split(window.HASH_DELIMITER)
+            }
         );
       }
     },
@@ -915,7 +934,11 @@ window.vSummary = {
     });
   },
   mounted() {
-    this.$store.commit('updateMergedGroup', []);
+    this.$store.commit('updateMergedGroup',
+                       {
+                         group: this.filterGroupSelection,
+                         info: []
+                       });
 
     // restoring custom merged groups after watchers finish their job
     setTimeout(() => {
