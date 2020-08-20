@@ -139,10 +139,11 @@ window.vSummary = {
 
     allGroupsMerged: {
       get() {
-        if (this.mergedGroups.length === 0) {
+        if (this.mergedGroups[this.filterGroupSelection].length === 0) {
           return false;
         }
-        return this.mergedGroups.length === this.filtered.length;
+        return this.mergedGroups[this.filterGroupSelection].length ===
+               this.filtered.length;
       },
       set(value) {
         if (value) {
@@ -222,7 +223,8 @@ window.vSummary = {
 
       addHash('timeframe', this.filterTimeFrame);
 
-      let mergedGroupsHash = this.mergedGroups.join(window.HASH_DELIMITER);
+      let mergedGroupsHash = this.mergedGroups[this.filterGroupSelection].
+                             join(window.HASH_DELIMITER);
       if (mergedGroupsHash.length === 0) {
         mergedGroupsHash = '';
       }
@@ -384,7 +386,8 @@ window.vSummary = {
 
     getMergedRepos() {
       this.filtered.forEach((group, groupIndex) => {
-        if (this.mergedGroups.includes(this.getGroupName(group))) {
+        if (this.mergedGroups[this.filterGroupSelection].
+            includes(this.getGroupName(group))) {
           this.mergeGroupByIndex(this.filtered, groupIndex);
         }
       });
@@ -417,7 +420,7 @@ window.vSummary = {
     },
 
     hasMergedGroups() {
-      return this.mergedGroups.length > 0;
+      return this.mergedGroups[this.filterGroupSelection].length > 0;
     },
 
     mergeCommits(user, merged, dateToIndexMap) {

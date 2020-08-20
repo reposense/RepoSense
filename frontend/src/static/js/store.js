@@ -4,7 +4,7 @@ const store = new Vuex.Store({
     tabAuthorshipInfo: {},
     tabZoomInfo: {},
     summaryDates: {},
-    mergedGroups: [],
+    mergedGroups: {},
   },
   mutations: {
     updateTabZoomInfo(state, info) {
@@ -17,9 +17,29 @@ const store = new Vuex.Store({
       state.summaryDates = info;
     },
     updateMergedGroup(state, {group, info}) {
-      state.mergedGroups = info;
+      state.mergedGroups[group] = info;
+      state.mergedGroups = { ...state.mergedGroups };
     },
   },
+  actions: {
+    initialize(context) {
+      context.commit('updateMergedGroup',
+                     {
+                        group: 'groupByNone',
+                        info: []
+                     });
+      context.commit('updateMergedGroup',
+                     {
+                       group: 'groupByRepos',
+                       info: []
+                     });
+      context.commit('updateMergedGroup',
+                     {
+                       group: 'groupByAuthors',
+                       info: []
+                     });
+    }
+  }
 });
 
 export default store;

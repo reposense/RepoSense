@@ -237,11 +237,11 @@ window.vSummaryCharts = {
     },
 
     isGroupMerged(groupName) {
-      return this.mergedGroups.includes(groupName);
+      return this.mergedGroups[this.filterGroupSelection].includes(groupName);
     },
 
     handleMergeGroup(groupName) {
-      const info = this.mergedGroups;
+      const info = this.mergedGroups[this.filterGroupSelection];
       info.push(groupName);
       this.$store.commit('updateMergedGroup',
                          {
@@ -251,7 +251,8 @@ window.vSummaryCharts = {
     },
 
     handleExpandGroup(groupName) {
-      const info = this.mergedGroups.filter((x) => x !== groupName);
+      const info = this.mergedGroups[this.filterGroupSelection].filter((x) =>
+                                                                        x !== groupName);
       this.$store.commit('updateMergedGroup',
                          {
                            group: this.filterGroupSelection,

@@ -226,5 +226,6 @@ window.app = new window.Vue({
   },
   created() {
     this.updateReportDir();
+    this.$store.dispatch('initialize');
   },
 });
