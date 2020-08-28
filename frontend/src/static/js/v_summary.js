@@ -32,6 +32,7 @@ window.vSummary = {
       isSafariBrowser: /.*Version.*Safari.*/.test(navigator.userAgent),
       // eslint-disable-next-line new-cap
       randomGenerator: new Math.seedrandom('Seeded Random Generator'),
+      filterGroupSelectionWatcherFlag: false,
     };
   },
   watch: {
@@ -54,6 +55,10 @@ window.vSummary = {
     },
 
     filterGroupSelection() {
+      // Deactivates watcher
+      if (!this.filterGroupSelectionWatcherFlag) {
+        return;
+      }
       const { allGroupsMerged } = this;
       this.getFilteredRepos();
 
@@ -923,6 +928,7 @@ window.vSummary = {
 
     // restoring custom merged groups after watchers finish their job
     setTimeout(() => {
+      this.filterGroupSelectionWatcherFlag = true;
       this.restoreMergedGroups();
     }, 0);
   },
