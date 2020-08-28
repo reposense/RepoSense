@@ -248,8 +248,6 @@ window.vSummary = {
 
       if (hash.timeframe) { this.filterTimeFrame = hash.timeframe; }
       if (hash.mergegroup) {
-        // make a copy to prevent custom merged groups from overwritten
-        this.customMergedGroups = hash.mergegroup;
         this.$store.commit(
             'updateMergedGroup',
             hash.mergegroup.split(window.HASH_DELIMITER),
@@ -273,15 +271,6 @@ window.vSummary = {
         this.checkedFileTypes = parsedFileTypes.filter((type) => this.fileTypes.includes(type));
       }
       window.decodeHash();
-    },
-
-    restoreMergedGroups() {
-      if (this.customMergedGroups) {
-        this.$store.commit(
-            'updateMergedGroup',
-            this.customMergedGroups.split(window.HASH_DELIMITER),
-        );
-      }
     },
 
     getDates() {
@@ -924,12 +913,9 @@ window.vSummary = {
     });
   },
   mounted() {
-    this.$store.commit('updateMergedGroup', []);
-
     // restoring custom merged groups after watchers finish their job
     setTimeout(() => {
       this.filterGroupSelectionWatcherFlag = true;
-      this.restoreMergedGroups();
     }, 0);
   },
   components: {
