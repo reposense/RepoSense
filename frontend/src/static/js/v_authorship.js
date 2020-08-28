@@ -121,7 +121,7 @@ window.vAuthorship = {
       }
 
       if (!this.info.fileTypeColors) {
-        this.$root.$emit('restoreFileTypeColors', this.info);
+        this.info.fileTypeColors = this.$store.state.fileTypeColors;
       }
     },
 

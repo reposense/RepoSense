@@ -532,6 +532,7 @@ window.vSummary = {
       });
 
       this.checkedFileTypes = this.fileTypes.slice();
+      this.$store.commit('updateFileTypeColors', this.fileTypeColors);
     },
 
     splitCommitsWeek(user, sinceDate, untilDate) {

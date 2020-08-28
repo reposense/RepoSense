@@ -1,6 +1,6 @@
 /* global Vuex */
 window.vSummaryCharts = {
-  props: ['checkedFileTypes', 'filtered', 'fileTypeColors', 'avgContributionSize', 'filterBreakdown',
+  props: ['checkedFileTypes', 'filtered', 'avgContributionSize', 'filterBreakdown',
       'filterGroupSelection', 'filterTimeFrame', 'filterSinceDate', 'filterUntilDate', 'isMergeGroup',
       'minDate', 'maxDate', 'filterSearch'],
   template: window.$('v_summary_charts').innerHTML,
@@ -31,6 +31,7 @@ window.vSummaryCharts = {
     },
 
     ...Vuex.mapState(['mergedGroups']),
+    ...Vuex.mapState(['fileTypeColors']),
   },
   methods: {
     getFileTypeContributionBars(fileTypeContribution) {
