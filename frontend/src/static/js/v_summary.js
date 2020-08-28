@@ -913,7 +913,8 @@ window.vSummary = {
     });
   },
   mounted() {
-    // restoring custom merged groups after watchers finish their job
+    // Delay execution of filterGroupSelection watcher
+    // to prevent clearing of merged groups
     setTimeout(() => {
       this.filterGroupSelectionWatcherFlag = true;
     }, 0);
