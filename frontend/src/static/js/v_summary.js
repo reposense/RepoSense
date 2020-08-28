@@ -245,6 +245,10 @@ window.vSummary = {
       if (hash.mergegroup) {
         // make a copy to prevent custom merged groups from overwritten
         this.customMergedGroups = hash.mergegroup;
+        this.$store.commit(
+            'updateMergedGroup',
+            hash.mergegroup.split(window.HASH_DELIMITER),
+        );
       }
       if (hash.since && dateFormatRegex.test(hash.since)) {
         this.tmpFilterSinceDate = hash.since;
