@@ -2,7 +2,7 @@
 window.vSummaryCharts = {
   props: ['checkedFileTypes', 'filtered', 'fileTypeColors', 'avgContributionSize', 'filterBreakdown',
       'filterGroupSelection', 'filterTimeFrame', 'filterSinceDate', 'filterUntilDate', 'isMergeGroup',
-      'minDate', 'maxDate', 'filterSearch'],
+      'filterSearch'],
   template: window.$('v_summary_charts').innerHTML,
   data() {
     return {
@@ -30,7 +30,15 @@ window.vSummaryCharts = {
       return this.filtered.filter((repo) => repo.length > 0);
     },
 
-    ...Vuex.mapState(['mergedGroups']),
+    ...Vuex.mapState(['mergedGroups', 'minMaxDate']),
+
+    minDate() {
+      return this.minMaxDate.minDate;
+    },
+
+    maxDate() {
+      return this.minMaxDate.maxDate;
+    },
   },
   methods: {
     getFileTypeContributionBars(fileTypeContribution) {

@@ -42,6 +42,12 @@ window.app = new window.Vue({
       this.tabInfo.tabAuthorship = Object.assign({}, this.$store.state.tabAuthorshipInfo);
       this.activateTab('authorship');
     },
+    '$store.state.minMaxDate': function () {
+      const { minDate, maxDate } = this.$store.state.minMaxDate;
+      if (this.tabType === 'authorship') {
+        this.renderAuthorShipTabHash(minDate, maxDate);
+      }
+    },
   },
   methods: {
     // model functions //
@@ -207,14 +213,6 @@ window.app = new window.Vue({
         return `${window.HOME_PAGE_URL}/ug/index.html`;
       }
       return `${window.HOME_PAGE_URL}/RepoSense/ug/index.html`;
-    },
-
-    receiveDates(dates) {
-      const [minDate, maxDate] = dates;
-
-      if (this.tabType === 'authorship') {
-        this.renderAuthorShipTabHash(minDate, maxDate);
-      }
     },
   },
   components: {

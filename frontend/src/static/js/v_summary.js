@@ -300,7 +300,7 @@ window.vSummary = {
         this.filterUntilDate = maxDate;
         this.maxDate = maxDate;
       }
-      this.$emit('get-dates', [this.minDate, this.maxDate]);
+      this.$store.commit('updateMinMaxDate', { minDate: this.minDate, maxDate: this.maxDate });
     },
 
     getGroupName(group) {
@@ -532,6 +532,7 @@ window.vSummary = {
       });
 
       this.checkedFileTypes = this.fileTypes.slice();
+      this.$store.commit('updateFileTypeColors', this.fileTypeColors);
     },
 
     splitCommitsWeek(user, sinceDate, untilDate) {
