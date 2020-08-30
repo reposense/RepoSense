@@ -49,6 +49,7 @@ window.app = new window.Vue({
       }
     },
     '$store.state.maxDate': function () {
+      const { minDate, maxDate } = this.$store.state;
       if (this.tabType === 'authorship') {
         this.renderAuthorShipTabHash(minDate, maxDate);
       }
