@@ -201,7 +201,8 @@ public class RepoConfiguration {
     }
 
     /**
-     * Clears authors information and use the information provided from {@code standaloneConfig}.
+     * Clears existing information related to this repository and its authors, and replaces it with information from the
+     * {@code standaloneConfig}.
      */
     public void update(StandaloneConfig standaloneConfig) {
         // only assign the new values when all the fields in {@code standaloneConfig} pass the validations.
