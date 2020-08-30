@@ -21,7 +21,7 @@ const store = new Vuex.Store({
     updateMergedGroup(state, info) {
       state.mergedGroups = info;
     },
-    updateMinDAte(state, newDate) {
+    updateMinDate(state, newDate) {
       state.minDate = newDate;
     },
     updateMaxDate(state, newDate) {
