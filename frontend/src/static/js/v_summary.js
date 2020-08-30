@@ -124,6 +124,9 @@ window.vSummary = {
       let totalCount = 0;
       this.repos.forEach((repo) => {
         repo.users.forEach((user) => {
+          if (user.checkedFileTypeContribution === undefined) {
+            this.updateCheckedFileTypeContribution(user);
+          }
           if (user.checkedFileTypeContribution > 0) {
             totalCount += 1;
             totalLines += user.checkedFileTypeContribution;
