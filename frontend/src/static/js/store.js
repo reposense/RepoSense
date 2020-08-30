@@ -5,7 +5,8 @@ const store = new Vuex.Store({
     tabZoomInfo: {},
     summaryDates: {},
     mergedGroups: [],
-    minMaxDate: {},
+    minDate: '',
+    maxDate: '',
   },
   mutations: {
     updateTabZoomInfo(state, info) {
@@ -20,8 +21,11 @@ const store = new Vuex.Store({
     updateMergedGroup(state, info) {
       state.mergedGroups = info;
     },
-    updateMinMaxDate(state, info) {
-      state.minMaxDate = info;
+    updateMinDAte(state, newDate) {
+      state.minDate = newDate;
+    },
+    updateMaxDate(state, newDate) {
+      state.maxDate = newDate;
     },
   },
 });

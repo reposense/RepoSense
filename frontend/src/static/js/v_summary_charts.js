@@ -30,15 +30,7 @@ window.vSummaryCharts = {
       return this.filtered.filter((repo) => repo.length > 0);
     },
 
-    ...Vuex.mapState(['mergedGroups', 'minMaxDate']),
-
-    minDate() {
-      return this.minMaxDate.minDate;
-    },
-
-    maxDate() {
-      return this.minMaxDate.maxDate;
-    },
+    ...Vuex.mapState(['mergedGroups', 'minDate', 'maxDate']),
   },
   methods: {
     getFileTypeContributionBars(fileTypeContribution) {

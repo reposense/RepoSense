@@ -42,8 +42,13 @@ window.app = new window.Vue({
       this.tabInfo.tabAuthorship = Object.assign({}, this.$store.state.tabAuthorshipInfo);
       this.activateTab('authorship');
     },
-    '$store.state.minMaxDate': function () {
-      const { minDate, maxDate } = this.$store.state.minMaxDate;
+    '$store.state.minDate': function () {
+      const { minDate, maxDate } = this.$store.state;
+      if (this.tabType === 'authorship') {
+        this.renderAuthorShipTabHash(minDate, maxDate);
+      }
+    },
+    '$store.state.maxDate': function () {
       if (this.tabType === 'authorship') {
         this.renderAuthorShipTabHash(minDate, maxDate);
       }
