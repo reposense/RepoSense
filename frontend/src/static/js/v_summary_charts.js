@@ -30,8 +30,7 @@ window.vSummaryCharts = {
       return this.filtered.filter((repo) => repo.length > 0);
     },
 
-    ...Vuex.mapState(['mergedGroups']),
-    ...Vuex.mapState(['fileTypeColors']),
+    ...Vuex.mapState(['mergedGroups', 'fileTypeColors']),
   },
   methods: {
     getFileTypeContributionBars(fileTypeContribution) {
