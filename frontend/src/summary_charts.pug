@@ -109,7 +109,8 @@
           v-bind:sdate="filterSinceDate",
           v-bind:udate="filterUntilDate",
           v-bind:avgsize="avgCommitSize",
-          v-bind:mergegroup="isGroupMerged(getGroupName(repo))")
+          v-bind:mergegroup="isGroupMerged(getGroupName(repo))",
+          v-bind:filtersearch="filterSearch")
         .overlay
 
       .summary-chart__contribution
