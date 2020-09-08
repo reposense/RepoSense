@@ -209,7 +209,7 @@ window.app = new window.Vue({
       return `${window.HOME_PAGE_URL}/RepoSense/ug/index.html`;
     },
 
-    getReportUserGuideLink() {
+    getUsingReportsUserGuideLink() {
       const version = window.app.repoSenseVersion;
       if (version.startsWith('v')) {
         return `${window.HOME_PAGE_URL}/ug/usingReports.html`;
