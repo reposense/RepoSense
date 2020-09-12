@@ -910,10 +910,6 @@ window.vSummary = {
       const zoomFilteredUser = this.restoreZoomFiltered(info);
       info.zUser = zoomFilteredUser;
     });
-
-    this.$root.$on('restoreFileTypeColors', (info) => {
-      info.fileTypeColors = this.fileTypeColors;
-    });
   },
   mounted() {
     this.$store.commit('updateMergedGroup', []);

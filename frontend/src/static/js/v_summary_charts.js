@@ -123,7 +123,7 @@ window.vSummaryCharts = {
     // triggering opening of tabs //
     openTabAuthorship(user, repo, index, isMerged) {
       const {
-        minDate, maxDate, fileTypeColors, checkedFileTypes,
+        minDate, maxDate, checkedFileTypes,
       } = this;
 
       const info = {
@@ -136,7 +136,6 @@ window.vSummaryCharts = {
         isMergeGroup: isMerged,
         location: this.getRepoLink(repo[index]),
         repoIndex: index,
-        fileTypeColors,
       };
 
       this.$store.commit('updateTabAuthorshipInfo', info);
