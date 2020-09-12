@@ -1,3 +1,4 @@
+/* global Vuex */
 const filesSortDict = {
   lineOfCode: (file) => file.lineCount,
   path: (file) => file.path,
