@@ -8,6 +8,8 @@ window.vZoom = {
       commitsSortType: 'time',
       toReverseSortedCommits: true,
       shouldShowFileTypes: false,
+      selectedFileTypes: [],
+      fileTypes: [],
     };
   },
 
@@ -30,8 +32,28 @@ window.vZoom = {
       filteredUser.commits = zUser.commits.filter(
           (commit) => commit[date] >= zSince && commit[date] <= zUntil,
       ).sort(this.sortingFunction);
+      this.selectedCommits = filteredUser.commits;
+      this.updateFileTypes(filteredUser.commits);
 
       return filteredUser;
+    },
+    selectedCommits() {
+      const commits = [];
+      this.filteredUser.commits.forEach((commitDay) => {
+        const filteredDay = { ...commitDay };
+        filteredDay.commitResults = [];
+        commitDay.commitResults.forEach((slice) => {
+          if (Object.keys(slice.fileTypesAndContributionMap).some(
+              (fileType) => this.selectedFileTypes.indexOf(fileType) !== -1,
+          )) {
+            filteredDay.commitResults.push(slice);
+          }
+        });
+        if (filteredDay.commitResults.length > 0) {
+          commits.push(filteredDay);
+        }
+      });
+      return commits;
     },
     totalCommitMessageBodyCount() {
       let nonEmptyCommitMessageCount = 0;
@@ -45,7 +67,20 @@ window.vZoom = {
 
       return nonEmptyCommitMessageCount;
     },
+    isSelectAllChecked: {
+      get() {
+        return this.selectedFileTypes.length === this.fileTypes.length;
+      },
+      set(value) {
+        if (value) {
+          this.selectedFileTypes = this.fileTypes.slice();
+        } else {
+          this.selectedFileTypes = [];
+        }
+      },
+    },
   },
+
   methods: {
     initiate() {
       if (!this.info.zUser) { // restoring zoom tab from reloaded page
@@ -75,6 +110,21 @@ window.vZoom = {
     restoreZoomTab() {
       // restore selected user's commits and file type colors from v_summary
       this.$root.$emit('restoreCommits', this.info);
+    },
+
+    updateFileTypes(commits) {
+      this.fileTypes = [];
+      commits.forEach((day) => {
+        day.commitResults.forEach((slice) => {
+          Object.keys(slice.fileTypesAndContributionMap).forEach((fileType) => {
+            if (this.fileTypes.indexOf(fileType) === -1) {
+              this.fileTypes.push(fileType);
+            }
+          });
+        });
+      });
+      this.fileTypes.sort();
+      this.selectedFileTypes = this.fileTypes.slice();
     },
 
     setInfoHash() {
@@ -126,6 +176,10 @@ window.vZoom = {
       window.removeHash('zFTF');
       window.removeHash('zMG');
       window.encodeHash();
+    },
+
+    filterSelectedFileTypes(fileTypes) {
+      return fileTypes.filter((fileType) => this.selectedFileTypes.includes(fileType));
     },
   },
   created() {
